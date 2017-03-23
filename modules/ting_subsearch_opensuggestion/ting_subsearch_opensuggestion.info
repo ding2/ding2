@@ -1,0 +1,8 @@
+name = Ting Subsearch - Open Suggestion Service
+description = Extend Ting Search with secondary search
+package = Ding!
+core = 7.x
+version = 0.1
+configure = admin/config/ting/settings
+dependencies[] = ting_search
+dependencies[] = xautoload

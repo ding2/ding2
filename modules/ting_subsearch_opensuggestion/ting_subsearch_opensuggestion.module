@@ -1,0 +1,175 @@
+<?php
+
+/**
+ * @file
+ * Ting subsearch using Open Suggestion service.
+ */
+
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+
+// Load admin configuration.
+module_load_include('inc', 'subsearch_opensuggestion', 'subsearch_opensuggestion.admin');
+
+/**
+ * Implements hook_ting_search_results().
+ */
+function subsearch_opensuggestion_ting_search_results($keys, $conditions, $results) {
+
+  $messages = array();
+
+  if (!isset($results->numTotalObjects)) {
+    return $messages;
+  }
+
+  // When a zero-hit search is executed and we're able to match "correct"
+  // keys, a new search is done with the "correct" keys.
+  // Then use the query-parameter original-keys to display what was done to
+  // the visitor.
+  $parameters = drupal_get_query_parameters();
+  if (isset($parameters['original-search'])) {
+    $msg = t('The search for "!original-keys" returned 0 hits. Showing results for "!keys" instead, which returned !num-results hits.', array(
+      '!original-keys' => $parameters['original-search'],
+      '!keys' => $keys,
+      '!num-results' => $results->numTotalObjects,
+    ));
+
+    $messages[] = '<div class="messages warning">' . $msg . '</div>';
+  }
+
+  if ($results->numTotalObjects == 0) {
+    // The search result returned zero-hits so we need to see if "correct" keys
+    // can yield a better result.
+    $search_result = drupal_static('ting_search_results');
+    // Find suggestions for "correct" search phrase.
+    $suggestion = subsearch_opensuggestion_suggest_keys($keys);
+
+    if (!empty($suggestion)) {
+      // Do secondary search for "correct" keys.
+      $secondary_result = ting_search_do_secondary_search($suggestion);
+      // Only redirect to "correct" keys search if it has a positive result.
+      if ($secondary_result->numTotalObjects > 0) {
+        $params['query'] = array(
+          'original-search' => $search_result->search_key,
+        );
+        drupal_goto('search/ting/' . strtolower($suggestion), $params);
+      }
+    }
+  }
+
+  if ($results->numTotalObjects <= variable_get('subsearch_os_trigger_limit', 5)) {
+    $suggestion = subsearch_opensuggestion_suggest_keys($keys);
+    if ($suggestion) {
+      // Do additional search.
+      $suggested_result = ting_search_do_secondary_search($suggestion);
+      if ($suggested_result->numTotalObjects >= variable_get('subsearch_os_message_limit', 10)) {
+
+        // Set message!
+        $msg = t('The search for "!keys" returned !num-results hits. Did you mean "<a href="/search/ting/!suggested-keys">!suggested-keys</a>?" which will return !suggested-num-results hits.', array(
+          '!suggested-keys' => strtolower($suggestion),
+          '!suggested-num-results' => $suggested_result->numTotalObjects,
+          '!keys' => $keys,
+          '!num-results' => $results->numTotalObjects,
+        ));
+        $messages[] = '<div class="messages warning">' . $msg . '</div>';
+      }
+    }
+  }
+  return $messages;
+}
+
+/**
+ * Find the first suggestion for given keys.
+ *
+ * @param string $keys
+ *   The original keys that you want to find suggestion for.
+ *
+ * @return string
+ *   The suggestion.
+ */
+function subsearch_opensuggestion_suggest_keys($keys) {
+
+  if (!variable_get('ting_search_autocomplete_suggestion_url', FALSE)) {
+    return FALSE;
+  }
+
+  $settings = ting_search_autocomplete_settings();
+  $url = variable_get('ting_search_autocomplete_suggestion_url', FALSE) . 'rest/facetSpell';
+
+  $params = $options['query'] = array('query' => check_plain($keys)) + $settings;
+  $options['maxTime'] = 300;
+
+  try {
+    $client = new HttpClient();
+    $response = $client->get(
+      $url,
+      array(
+        'query' => $params,
+        'headers' => array(
+          'Accept' => 'application/json',
+        ),
+      )
+    );
+    $result = json_decode($response->getBody());
+  }
+  catch (GuzzleClientException $e) {
+    throw new Exception($e->getMessage(), $e->getCode(), $e);
+  }
+
+  $items = array();
+  // First child of $result changes name from suggestions to suggestion when
+  // switching between version 3.0 and 3.5.
+  if (!empty(current($result))) {
+    foreach (current($result) as $suggestion) {
+      return $suggestion->phrase;
+    }
+  }
+  if (empty($items)) {
+    return FALSE;
+  }
+}
+
+
+/**
+ * Implements hook_libraries_info().
+ */
+function subsearch_opensuggestion_libraries_info() {
+  return array(
+    'guzzle' => array(
+      'name' => 'Guzzle',
+      'vendor url' => 'https://github.com/guzzle/guzzle',
+      'download url' => 'https://github.com/guzzle/guzzle',
+      'version' => '6.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'promises' => array(
+      'name' => 'Guzzle promises library',
+      'vendor url' => 'https://github.com/guzzle/promises',
+      'download url' => 'https://github.com/guzzle/promises',
+      'version' => '1.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'http-message' => array(
+      'name' => 'Common interface for HTTP messages',
+      'vendor url' => 'https://github.com/php-fig/http-message',
+      'download url' => 'https://github.com/php-fig/http-message',
+      'version' => '1.0',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'psr7' => array(
+      'name' => 'PSR-7 message implementation',
+      'vendor url' => 'https://github.com/guzzle/psr7',
+      'download url' => 'https://github.com/guzzle/psr7',
+      'version' => '1.3',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+  );
+}
