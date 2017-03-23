@@ -10,6 +10,7 @@ use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 
 // Load admin configuration.
 module_load_include('inc', 'ting_subsearch_secondary', 'ting_subsearch_secondary.admin');
+include_once 'ting_subsearch_secondary.features.inc';
 
 /**
  * Implements hook_ting_search_results().
