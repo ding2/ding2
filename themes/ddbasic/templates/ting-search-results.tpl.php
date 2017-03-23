@@ -11,7 +11,7 @@
  */
 ?>
 <?php if ($search_results) : ?>
-  <div class="search-results">
+  <div <?php print drupal_attributes($attribs) ?>>
     <ul class="list floated">
       <?php print $search_results; ?>
     </ul>
