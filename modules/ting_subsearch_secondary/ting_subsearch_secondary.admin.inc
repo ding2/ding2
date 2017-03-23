@@ -7,7 +7,7 @@
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function subsearch_secondary_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
+function ting_subsearch_secondary_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
   $form['subsearch_settings']['#type'] = 'fieldset';
   $form['subsearch_settings']['#title'] = t('Ting Subsearch');
   $form['subsearch_settings']['#description'] = t('Feature modules allow additional searches to be made based on predefined conditions.');
