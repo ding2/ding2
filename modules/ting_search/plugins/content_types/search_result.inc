@@ -59,12 +59,27 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
     return;
   }
 
+  // Check if the search should be built with another view mode.
+  $params = drupal_get_query_parameters();
+  if (!empty($params['view'])) {
+    $allowed_modes = array('result_list');
+    if (in_array($params['view'], $allowed_modes)) {
+      $conditions['view_mode'] = $params['view'];
+    }
+  }
+
   // Build the content type block.
   $block = new stdClass();
   $block->module = 'search';
   $block->delta = 'result';
 
+  $classes = array(
+    'search-results',
+  );
+
   $results = '';
+  $prefix = '';
+
   // Only search if there are keywords or non-empty conditions.
   if ($keys || !empty($conditions)) {
     // Collect the search results.
@@ -83,6 +98,7 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
 
     // Set message.
     $message = '';
+    $view_toggle_button = '';
 
     $frequency_rank = array(
       'rank_main_title' => t('Title'),
@@ -103,8 +119,49 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
       $message .= '<div class="messages search-field-in-content--message">' . $msg . '</div>';
     }
 
+    // Display result list view mode toggle button if enabled.
+    if (variable_get('ting_search_result_view_mode_toggle', FALSE)) {
+
+      if (empty($conditions['view_mode'])) {
+        $params += array('view' => 'result_list');
+        $list = l('', $_GET['q'], array(
+          'attributes' => array(
+            'class' => array('icon-list'),
+            'title' => t('Click to switch to a more compact results list.'),
+          ),
+          'html' => 0,
+          'query' => $params,
+        ));
+        $teaser = '<i class="icon-th-list"></i>';
+      }
+      else {
+        $classes[] = 'search-results-list-results';
+        $list = '<i class="icon-list"></i>';
+        unset($params['view']);
+        $teaser = l('', $_GET['q'], array(
+          'attributes' => array(
+            'class' => array('icon-th-list'),
+            'title' => t('Click to switch to the default results list.'),
+          ),
+          'html' => 0,
+          'query' => $params,
+        ));
+      }
+      // Put toggle first in prefix.
+      $prefix = theme('item_list', array('attributes' => array('class' => array('search-results-toggle-buttons')),'items' => array($list, $teaser))) . $prefix;
+    }
+
+    $prefix .= $message;
+
     $block->title = t('Search results');
-    $block->content = $message . theme('ting_search_results', array('results' => $results['#results'], 'module' => $conf['type']));;
+    $block->content = $prefix . theme('ting_search_results', array(
+      'results' => $results['#results'],
+      'module' => $conf['type'],
+      // Property should be attributes but it's intercepted later on.
+      'attribs' => array(
+        'class' => $classes,
+      ),
+    ));
   }
   else {
     if (empty($conf['override_empty'])) {

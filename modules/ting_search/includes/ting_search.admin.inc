@@ -12,7 +12,7 @@
  */
 function ting_search_admin_settings($form_state) {
   $form = array();
-  
+
   $display_message = 'Your search gave more than %s results. Try to search more specific or use the facets to filter the result.';
 
   $form['ting_search'] = array(
@@ -63,7 +63,7 @@ function ting_search_admin_settings($form_state) {
     '#markup' => t($display_message),
     '#description' => t('Message to display when search has more than x results. The token %s will be substituted by the number choosen.'),
   );
-  
+
   if ( t($display_message) != $display_message ) {
     $form['ting_search']['ting_search_result_message']['#description'] .= '<br/>' . t('Translated from: %n.', array('%n' => $display_message));
   }
@@ -73,6 +73,14 @@ function ting_search_admin_settings($form_state) {
     '#title' => t('Display message at'),
     '#default_value' => variable_get('ting_search_result_message_limit', 100),
     '#description' => t('The limit at wich the message is to be displayed.'),
+  );
+
+  $form['ting_search']['ting_search_result_view_mode_toggle'] = array(
+    '#type' => 'radios',
+    '#title' => t('Search results view mode toggle button'),
+    '#options' => array(t('Disabled'), t('Enabled')),
+    '#default_value' => variable_get('ting_search_result_view_mode_toggle', 0),
+    '#description' => t('Enable this to display a button in Ting search results which switch to a more compact listing.'),
   );
 
   return system_settings_form($form);
