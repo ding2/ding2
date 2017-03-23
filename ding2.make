@@ -86,6 +86,9 @@ projects[expire][version] = "2.0-rc4"
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
 
+projects[features_override][subdir] = "contrib"
+projects[features_override][version] = "2.0-rc2"
+
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
 

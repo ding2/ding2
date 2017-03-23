@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Configuration of module.
