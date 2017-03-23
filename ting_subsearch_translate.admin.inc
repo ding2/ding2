@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Configuration of module.
@@ -7,7 +8,7 @@
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function subsearch_translate_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
+function ting_subsearch_translate_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
 
   $facets = array();
   foreach (variable_get('ding_facetbrowser_facets', array()) as $facet) {
