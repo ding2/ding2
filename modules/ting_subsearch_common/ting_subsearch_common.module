@@ -32,7 +32,6 @@ function ting_subsearch_common_do_secondary_search($keys, $options = array()) {
     variable_set('ting_agency', $options['agency']);
   }
 
-
   // Search for the secondary keys.
   ting_search_search_execute($keys, array('sort' => ''));
 
