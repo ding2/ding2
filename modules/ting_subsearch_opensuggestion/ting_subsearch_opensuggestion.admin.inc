@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Configuration of module.
@@ -7,7 +8,7 @@
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function subsearch_opensuggestion_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
+function ting_subsearch_opensuggestion_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
   $form['subsearch_settings']['#type'] = 'fieldset';
   $form['subsearch_settings']['#title'] = t('Ting subsearch settings');
   $form['subsearch_settings']['#tree'] = FALSE;

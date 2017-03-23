@@ -9,12 +9,12 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 
 // Load admin configuration.
-module_load_include('inc', 'subsearch_opensuggestion', 'subsearch_opensuggestion.admin');
+module_load_include('inc', 'ting_subsearch_opensuggestion', 'ting_subsearch_opensuggestion.admin');
 
 /**
  * Implements hook_ting_search_results().
  */
-function subsearch_opensuggestion_ting_search_results($keys, $conditions, $results) {
+function ting_subsearch_opensuggestion_ting_search_results($keys, $conditions, $results) {
 
   $messages = array();
 
@@ -42,11 +42,11 @@ function subsearch_opensuggestion_ting_search_results($keys, $conditions, $resul
     // can yield a better result.
     $search_result = drupal_static('ting_search_results');
     // Find suggestions for "correct" search phrase.
-    $suggestion = subsearch_opensuggestion_suggest_keys($keys);
+    $suggestion = ting_subsearch_opensuggestion_suggest_keys($keys);
 
     if (!empty($suggestion)) {
       // Do secondary search for "correct" keys.
-      $secondary_result = ting_search_do_secondary_search($suggestion);
+      $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
       // Only redirect to "correct" keys search if it has a positive result.
       if ($secondary_result->numTotalObjects > 0) {
         $params['query'] = array(
@@ -58,11 +58,11 @@ function subsearch_opensuggestion_ting_search_results($keys, $conditions, $resul
   }
 
   if ($results->numTotalObjects <= variable_get('subsearch_os_trigger_limit', 5)) {
-    $suggestion = subsearch_opensuggestion_suggest_keys($keys);
+    $suggestion = ting_subsearch_opensuggestion_suggest_keys($keys);
     if ($suggestion) {
       // Do additional search.
-      $suggested_result = ting_search_do_secondary_search($suggestion);
       if ($suggested_result->numTotalObjects >= variable_get('subsearch_os_message_limit', 10)) {
+      $suggested_result = ting_subsearch_common_do_secondary_search($suggestion);
 
         // Set message!
         $msg = t('The search for "!keys" returned !num-results hits. Did you mean "<a href="/search/ting/!suggested-keys">!suggested-keys</a>?" which will return !suggested-num-results hits.', array(
@@ -87,7 +87,7 @@ function subsearch_opensuggestion_ting_search_results($keys, $conditions, $resul
  * @return string
  *   The suggestion.
  */
-function subsearch_opensuggestion_suggest_keys($keys) {
+function ting_subsearch_opensuggestion_suggest_keys($keys) {
 
   if (!variable_get('ting_search_autocomplete_suggestion_url', FALSE)) {
     return FALSE;
@@ -133,7 +133,7 @@ function subsearch_opensuggestion_suggest_keys($keys) {
 /**
  * Implements hook_libraries_info().
  */
-function subsearch_opensuggestion_libraries_info() {
+function ting_subsearch_opensuggestion_libraries_info() {
   return array(
     'guzzle' => array(
       'name' => 'Guzzle',
