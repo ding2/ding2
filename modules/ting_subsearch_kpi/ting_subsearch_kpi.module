@@ -1,0 +1,227 @@
+<?php
+
+/**
+ * @file
+ * Ting subsearch using KPI service.
+ */
+
+use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+
+// Load admin configuration.
+module_load_include('inc', 'ting_subsearch_kpi', 'ting_subsearch_kpi.admin');
+
+/**
+ * Implements hook_ting_search_results().
+ */
+function ting_subsearch_kpi_ting_search_results($keys, $conditions, $results) {
+
+  $messages = array();
+
+  if (!isset($results->numTotalObjects)) {
+    return $messages;
+  }
+
+  // When a zero-hit search is executed and we're able to match "correct"
+  // keys, a new search is done with the "correct" keys.
+  // Then use the query-parameter original-keys to display what was done to
+  // the visitor.
+  $parameters = drupal_get_query_parameters();
+  if (isset($parameters['original-search'])) {
+    $msg = t('The search for "!original-keys" returned 0 hits. Showing results for "!keys" instead, which returned !num-results hits.', array(
+      '!original-keys' => $parameters['original-search'],
+      '!keys' => $keys,
+      '!num-results' => $results->numTotalObjects,
+    ));
+
+    $messages[] = '<div class="messages warning">' . $msg . '</div>';
+  }
+
+  if ($results->numTotalObjects == 0) {
+    // The search result returned zero-hits so we need to see if "correct" keys
+    // can yield a better result.
+    $search_result = drupal_static('ting_search_results');
+    // Find suggestions for a corrected search phrase.
+    $suggestion = ting_subsearch_kpi_suggest_keys($keys);
+
+    if (!empty($suggestion)) {
+      // Do secondary search for "correct" keys.
+      $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
+      // Only redirect to "correct" keys search if it has a positive result.
+      if ($secondary_result->numTotalObjects > 0) {
+        $params['query'] = array(
+          'original-search' => $search_result->search_key,
+        );
+        drupal_goto('search/ting/' . strtolower($suggestion), $params);
+      }
+    }
+  }
+
+  if ($results->numTotalObjects <= variable_get('subsearch_kpi_trigger_limit', 5)) {
+    $suggestion = ting_subsearch_kpi_suggest_keys($keys);
+    if ($suggestion) {
+      // Do additional search.
+      $suggested_result = ting_subsearch_common_do_secondary_search($suggestion);
+      if ($suggested_result->numTotalObjects >= variable_get('subsearch_kpi_message_limit', 10)) {
+
+        // Set message!
+        $msg = t('The search for "!keys" returned !num-results hits. Did you mean "<a href="/search/ting/!suggested-keys">!suggested-keys</a>?" which will return !suggested-num-results hits.', array(
+          '!suggested-keys' => strtolower($suggestion),
+          '!suggested-num-results' => $suggested_result->numTotalObjects,
+          '!keys' => $keys,
+          '!num-results' => $results->numTotalObjects,
+        ));
+        $messages[] = '<div class="messages warning">' . $msg . '</div>';
+      }
+    }
+  }
+  return $messages;
+}
+
+/**
+ * Find the first suggestion for given keys.
+ *
+ * @param string $keys
+ *   The original keys that you want to find suggestion for.
+ *
+ * @return string
+ *   The suggestion.
+ */
+function ting_subsearch_kpi_suggest_keys($keys) {
+
+  $kpi_index = db_select('ting_subsearch_kpi_index_popular_keys', 'k')
+    ->fields('k')
+    ->condition('numtotalsearches', variable_get('do_you_mean_minimum_searches', 10), '>')
+    ->orderBy('numtotalsearches', 'DESC')
+    ->execute();
+
+  while ($record = $kpi_index->fetchAssoc()) {
+    $distance = levenshtein(strtolower($keys), strtolower($record['popular_keys']));
+
+    if ($distance > 0 && $distance < variable_get('do_you_mean_kpi_distance', 0)) {
+      return $record['popular_keys'];
+    }
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ting_subsearch_kpi_cron() {
+
+  // Ensure that local data is only renewed once a day.
+  if (!(variable_get('subsearch_kpi_cron_run', 0) < time())) {
+    return;
+  }
+
+  $url = variable_get('subsearch_kpi_webservice_endpoint', NULL);
+  $params['start_period'] = variable_get('subsearch_kpi_start_period', NULL);
+  $params['end_period'] = variable_get('subsearch_kpi_end_period', NULL);
+  $params['format'] = variable_get('subsearch_kpi_format', NULL);
+  $params['language'] = variable_get('subsearch_kpi_language', NULL);
+
+  $account = variable_get('subsearch_kpi_account', NULL);
+  $password = variable_get('subsearch_kpi_password', NULL);
+
+  if (empty($url) || empty($account) || empty($password)) {
+    watchdog('ting_subsearch_kpi', 'Module not configured properly', array(), WATCHDOG_WARNING);
+    return;
+  }
+
+  try {
+    $client = new HttpClient();
+    $response = $client->get(
+      $url,
+      array(
+        'query' => $params,
+        'headers' => array(
+          'Accept' => 'application/json',
+        ),
+        'auth' => array(
+          $account,
+          $password,
+        ),
+      )
+    );
+    $result = json_decode($response->getBody());
+  }
+  catch (GuzzleClientException $e) {
+    throw new Exception($e->getMessage(), $e->getCode(), $e);
+  }
+
+  if (!empty($result)) {
+    ting_subsearch_kpi_insert_records($result);
+    variable_set('subsearch_kpi_cron_run', time() + (60 * 60 * 24));
+    watchdog('ting_subsearch_kpi', 'Data fetched from KPI. Will re-run in a day.', array(), WATCHDOG_INFO);
+  }
+  else {
+    watchdog('ting_subsearch_kpi', 'No data fetched from feed', array(), WATCHDOG_WARNING);
+  }
+}
+
+/**
+ * Insert kpi keys into table.
+ */
+function ting_subsearch_kpi_insert_records($json) {
+
+  db_truncate('ting_subsearch_kpi_index_popular_keys')->execute();
+
+  foreach ($json->data[0]->SubRows[0] as $keys => $data) {
+    // Avoid keys that didn't have successful searches, are longer than 255
+    // chars and have an equalsign as part of it.
+    if ($data->measures->SuccessfulSearches > 0 && strlen($keys) < 255 && !strpos('=', $keys)) {
+      $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields(
+        array(
+          'id' => md5($keys),
+          'popular_keys' => $keys,
+          'numtotalsearches' => (int) $data->measures->SuccessfulSearches,
+        )
+      );
+      $query->execute();
+    }
+  }
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function ting_subsearch_kpi_libraries_info() {
+  return array(
+    'guzzle' => array(
+      'name' => 'Guzzle',
+      'vendor url' => 'https://github.com/guzzle/guzzle',
+      'download url' => 'https://github.com/guzzle/guzzle',
+      'version' => '6.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'promises' => array(
+      'name' => 'Guzzle promises library',
+      'vendor url' => 'https://github.com/guzzle/promises',
+      'download url' => 'https://github.com/guzzle/promises',
+      'version' => '1.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'http-message' => array(
+      'name' => 'Common interface for HTTP messages',
+      'vendor url' => 'https://github.com/php-fig/http-message',
+      'download url' => 'https://github.com/php-fig/http-message',
+      'version' => '1.0',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'psr7' => array(
+      'name' => 'PSR-7 message implementation',
+      'vendor url' => 'https://github.com/guzzle/psr7',
+      'download url' => 'https://github.com/guzzle/psr7',
+      'version' => '1.3',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+  );
+}

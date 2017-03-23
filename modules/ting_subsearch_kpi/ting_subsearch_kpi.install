@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Installation of KPI-index sub search module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ting_subsearch_kpi_schema() {
+
+  $schema['ting_subsearch_kpi_index_popular_keys'] = array(
+    'fields' => array(
+      'id' => array(
+        'description' => 'The keys MD5',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'popular_keys' => array(
+        'description' => 'The keys',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'numtotalsearches' => array(
+        'description' => 'The number of times the keys were searched',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'unique keys' => array(
+      'id' => array(
+        'id',
+      ),
+    ),
+    'primary key' => array(
+      'id',
+    ),
+  );
+  return $schema;
+}

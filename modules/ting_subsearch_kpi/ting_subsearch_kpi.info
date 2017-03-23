@@ -1,0 +1,10 @@
+name = Ting Subsearch - KPI Webtrends suggestions from imported keys
+description = Extend Ting Search with secondary search
+package = Ding!
+core = 7.x
+version = 0.1
+configure = admin/config/ting/settings
+dependencies[] = ting_search
+dependencies[] = ting_subsearch_common
+dependencies[] = xautoload
+
