@@ -109,5 +109,3 @@ function ting_subsearch_secondary_form_ting_admin_ting_settings_alter(&$form, &$
     '#description' => t('How many results should be shown from secondary well provider.'),
   );
 }
-
-
