@@ -99,7 +99,7 @@ function ting_subsearch_secondary_entity_info_alter(&$entity_info) {
 function ting_subsearch_secondary_field_formatter_info() {
   return array(
     'ting_title_minimal' => array(
-      'label' => t('Link to subsearch'),
+      'label' => t('Minimal Title'),
       'field types' => array(
         'ting_title',
       ),
@@ -110,7 +110,7 @@ function ting_subsearch_secondary_field_formatter_info() {
     ),
 
     'ting_author_minimal' => array(
-      'label' => t('Link to subsearch'),
+      'label' => t('Minimal author'),
       'field types' => array(
         'ting_author',
       ),
