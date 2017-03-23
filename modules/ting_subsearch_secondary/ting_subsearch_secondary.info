@@ -7,6 +7,7 @@ configure = admin/config/ting/settings
 dependencies[] = features
 dependencies[] = features_override
 dependencies[] = ting_search
+dependencies[] = ting_subsearch_common
 features[features_api][] = api:2
 features[features_overrides][] = field_instance.ting_collection-ting_collection-ting_primary_object.display|minimal
 features[features_overrides][] = field_instance.ting_object-ting_object-ting_author.display|minimal
