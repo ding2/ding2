@@ -5,4 +5,5 @@ core = 7.x
 version = 0.1
 configure = admin/config/ting/settings
 dependencies[] = ting_search
+dependencies[] = ting_subsearch_common
 dependencies[] = xautoload
