@@ -57,12 +57,12 @@ function ting_subsearch_kpi_ting_search_results($keys, $conditions, $results) {
     }
   }
 
-  if ($results->numTotalObjects <= variable_get('subsearch_kpi_trigger_limit', 5)) {
+  if ($results->numTotalObjects <= variable_get('ting_subsearch_kpi_trigger_limit', 5)) {
     $suggestion = ting_subsearch_kpi_suggest_keys($keys);
     if ($suggestion) {
       // Do additional search.
       $suggested_result = ting_subsearch_common_do_secondary_search($suggestion);
-      if ($suggested_result->numTotalObjects >= variable_get('subsearch_kpi_message_limit', 10)) {
+      if ($suggested_result->numTotalObjects >= variable_get('ting_subsearch_kpi_message_limit', 10)) {
 
         // Set message!
         $msg = t('The search for "!keys" returned !num-results hits. Did you mean "<a href="/search/ting/!suggested-keys">!suggested-keys</a>?" which will return !suggested-num-results hits.', array(
@@ -91,14 +91,14 @@ function ting_subsearch_kpi_suggest_keys($keys) {
 
   $kpi_index = db_select('ting_subsearch_kpi_index_popular_keys', 'k')
     ->fields('k')
-    ->condition('numtotalsearches', variable_get('do_you_mean_minimum_searches', 10), '>')
+    ->condition('numtotalsearches', variable_get('ting_subsearch_kpi_minimum_searches', 10), '>')
     ->orderBy('numtotalsearches', 'DESC')
     ->execute();
 
   while ($record = $kpi_index->fetchAssoc()) {
     $distance = levenshtein(strtolower($keys), strtolower($record['popular_keys']));
 
-    if ($distance > 0 && $distance < variable_get('do_you_mean_kpi_distance', 0)) {
+    if ($distance > 0 && $distance < variable_get('ting_subsearch_kpi_distance', 0)) {
       return $record['popular_keys'];
     }
   }
@@ -114,14 +114,14 @@ function ting_subsearch_kpi_cron() {
     return;
   }
 
-  $url = variable_get('subsearch_kpi_webservice_endpoint', NULL);
-  $params['start_period'] = variable_get('subsearch_kpi_start_period', NULL);
-  $params['end_period'] = variable_get('subsearch_kpi_end_period', NULL);
+  $url = variable_get('ting_subsearch_kpi_webservice_endpoint', NULL);
+  $params['start_period'] = variable_get('ting_subsearch_kpi_start_period', NULL);
+  $params['end_period'] = variable_get('ting_subsearch_kpi_end_period', NULL);
   $params['format'] = variable_get('subsearch_kpi_format', NULL);
   $params['language'] = variable_get('subsearch_kpi_language', NULL);
 
-  $account = variable_get('subsearch_kpi_account', NULL);
-  $password = variable_get('subsearch_kpi_password', NULL);
+  $account = variable_get('ting_subsearch_kpi_account', NULL);
+  $password = variable_get('ting_subsearch_kpi_password', NULL);
 
   if (empty($url) || empty($account) || empty($password)) {
     watchdog('ting_subsearch_kpi', 'Module not configured properly', array(), WATCHDOG_WARNING);
