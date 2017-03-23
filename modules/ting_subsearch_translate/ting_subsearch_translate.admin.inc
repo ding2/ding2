@@ -40,7 +40,7 @@ function ting_subsearch_translate_form_ting_admin_ting_settings_alter(&$form, &$
     '#type' => 'textfield',
     '#title' => t('Google Cloud Translation API key'),
     '#default_value' => variable_get('ting_subsearch_translate_google_key', ''),
-    '#description' => t('You need to have an API key configured with billing for this to work. take a look at <a href="https://cloud.google.com/translate/pricing">Pricing</a>')
+    '#description' => t('You need to have an API key configured with billing for this to work. take a look at <a href="https://cloud.google.com/translate/pricing">Pricing</a>'),
   );
 
   $form['subsearch_settings']['subsearch_translate']['ting_subsearch_translate_factor'] = array(
