@@ -14,7 +14,7 @@ module_load_include('inc', 'ting_subsearch_secondary', 'ting_subsearch_secondary
 /**
  * Implements hook_ting_search_results().
  */
-function subsearch_secondary_ting_search_results($keys, $conditions, $results) {
+function ting_subsearch_secondary_ting_search_results($keys, $conditions, $results) {
 
   $messages = array();
 
@@ -43,7 +43,7 @@ function subsearch_secondary_ting_search_results($keys, $conditions, $results) {
     // Less than half fiction of nonfiction.
     if (($nonfiction / variable_get('secondary_factor', 2)) > $fiction) {
 
-      $secondary_result = ting_search_do_secondary_search($keys, array(
+      $secondary_result = ting_subsearch_common_do_secondary_search($keys, array(
         'agency' => variable_get('secondary_agency', ''),
         'profile' => variable_get('secondary_profile', ''),
       ));
@@ -82,7 +82,7 @@ function subsearch_secondary_ting_search_results($keys, $conditions, $results) {
 /**
  * Implements hook_entity_info_alter().
  */
-function subsearch_secondary_entity_info_alter(&$entity_info) {
+function ting_subsearch_secondary_entity_info_alter(&$entity_info) {
   $entity_info['ting_object']['view modes']['minimal'] = array(
     'label' => t('Minimal'),
     'custom settings' => TRUE,
@@ -93,12 +93,10 @@ function subsearch_secondary_entity_info_alter(&$entity_info) {
   );
 }
 
-
-
 /**
  * Implements hook_field_formatter_info().
  */
-function subsearch_secondary_field_formatter_info() {
+function ting_subsearch_secondary_field_formatter_info() {
   return array(
     'ting_title_minimal' => array(
       'label' => t('Link to subsearch'),
@@ -124,9 +122,8 @@ function subsearch_secondary_field_formatter_info() {
 /**
  * Implements hook_field_formatter_view().
  */
-function subsearch_secondary_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+function ting_subsearch_secondary_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-
 
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
