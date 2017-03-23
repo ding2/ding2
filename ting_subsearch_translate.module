@@ -23,7 +23,7 @@ function ting_subsearch_translate_ting_search_results($keys, $conditions, $resul
   }
 
   // If no google api key is set we cannot translate.
-  if (empty(variable_get('translation_google_key', ''))) {
+  if (empty(variable_get('ting_subsearch_translate_google_key', ''))) {
     return $messages;
   }
 
@@ -38,7 +38,7 @@ function ting_subsearch_translate_ting_search_results($keys, $conditions, $resul
   $fiction = $results->facets['facet.genreCategory']->terms['fiktion'];
 
   // Less than half fiction of nonfiction.
-  if (($nonfiction / variable_get('google_translate_factor', 2)) > $fiction) {
+  if (($nonfiction / variable_get('ting_subsearch_translate_factor', 2)) > $fiction) {
 
     // Do translation.
     $translated_keys = ting_subsearch_translate_suggest_translated_keys($keys);
@@ -68,7 +68,7 @@ function ting_subsearch_translate_suggest_translated_keys($keys) {
 
   $params = [];
   $params['q'] = $keys;
-  $params['key'] = variable_get('translation_google_key', '');
+  $params['key'] = variable_get('ting_subsearch_translate_google_key', '');
   $params['source'] = 'da';
   $params['target'] = 'en';
 
