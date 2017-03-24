@@ -44,6 +44,17 @@ function ding_ting_frontend_entity_info_alter(&$entity_info) {
       'label' => t('Search result'),
       'custom settings' => TRUE,
     ),
+    'search_result_list' => array(
+      'label' => t('Search result list'),
+      'custom settings' => TRUE,
+    ),
+  );
+
+  $entity_info['ting_collection']['view modes'] += array(
+    'result_list' => array(
+      'label' => t('Search result list'),
+      'custom settings' => TRUE,
+    ),
   );
 
 }

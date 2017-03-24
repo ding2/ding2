@@ -2,16 +2,16 @@ name = Ting material details
 description = collection of fields holding material details (type,format language etc)
 core = 7.x
 package = Ding!
-php = 5.2.4
 project = ting_material_details
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = ting
+dependencies[] = ting_search
 dependencies[] = virtual_field
-explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
+explanation = Anvendte felttyper - se <a href="/admin/reports/fields">feltliste</a>
 features[ctools][] = field_group:field_group:1
-features[features_api][] = api:1
+features[features_api][] = api:2
 features[field_base][] = ting_details_age
 features[field_base][] = ting_details_audience
 features[field_base][] = ting_details_classification
