@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Panels render to display search results.
@@ -104,14 +105,13 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
       'rank_main_title' => t('Title'),
       'rank_title' => t('Title'),
       'rank_creator' => t('Creator'),
-      'rank_subject' => t('Subject')
+      'rank_subject' => t('Subject'),
     );
 
     if (isset($search_result) && empty($conditions['sort']) && in_array($search_result->sortUsed, array_keys($frequency_rank))) {
       $msg = t('Records are sorted by %sortUsed . Select another sort if it is not suited', array('%sortUsed' => $frequency_rank[$search_result->sortUsed]));
       $message .= '<div class="messages status">' . $msg . '</div>';
     }
-
 
     if (isset($search_result) && $limit < $search_result->numTotalObjects) {
       $msg = t('Your search gave more than %s results. Try to search more specific or use the facets to filter the result.');
@@ -148,7 +148,16 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
         ));
       }
       // Put toggle first in prefix.
-      $prefix = theme('item_list', array('attributes' => array('class' => array('search-results-toggle-buttons')),'items' => array($list, $teaser))) . $prefix;
+      $prefix = theme(
+        'item_list', array(
+          'attributes' => array(
+            'class' => array(
+              'search-results-toggle-buttons',
+            ),
+          ),
+          'items' => array($list, $teaser),
+        )
+      ) . $prefix;
     }
 
     $prefix .= $message;

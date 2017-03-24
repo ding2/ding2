@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Enables search integration with Ting.
@@ -113,7 +114,11 @@ function ting_search_ding_facetbrowser() {
 function ting_search_theme($existing, $type, $theme, $path) {
   return array(
     'ting_search_results' => array(
-      'variables' => array('results' => NULL, 'module' => NULL, 'attribs' => array()),
+      'variables' => array(
+        'results' => NULL,
+        'module' => NULL,
+        'attribs' => array(),
+      ),
       'file'      => 'ting_search.pages.inc',
       'template'  => 'templates/ting-search-results',
     ),
@@ -134,7 +139,7 @@ function ting_search_theme($existing, $type, $theme, $path) {
       ),
     ),
     'ting_search_display_extended_query' => array(
-      'variables' => array('query_label' => NULL,'query_string' => NULL),
+      'variables' => array('query_label' => NULL, 'query_string' => NULL),
       'template' => 'ting-search-display-extended-query',
       'path' => $path . '/templates',
     ),
@@ -146,24 +151,24 @@ function ting_search_theme($existing, $type, $theme, $path) {
 }
 
 /**
-  * Implements hook_field_formatter_info().
-  */
- function ting_search_field_formatter_info() {
-   return array(
-     'ting_author_plain' => array(
-       'label' => t('Plain'),
-       'field types' => array(
-         'ting_author',
-       ),
-     ),
-     'ting_version_year' => array(
-       'label' => t('Year'),
-       'field types' => array(
-         'ting_details_version',
-       ),
-     ),
-   );
- }
+ * Implements hook_field_formatter_info().
+ */
+function ting_search_field_formatter_info() {
+  return array(
+    'ting_author_plain' => array(
+      'label' => t('Plain'),
+      'field types' => array(
+        'ting_author',
+      ),
+    ),
+    'ting_version_year' => array(
+      'label' => t('Year'),
+      'field types' => array(
+        'ting_details_version',
+      ),
+    ),
+  );
+}
 
 /**
  * Implements hook_field_formatter_view().
