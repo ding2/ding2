@@ -329,7 +329,9 @@ function ding_user_frontend_default_page_manager_handlers() {
       'override_title_heading' => 'h2',
     );
     $pane->cache = array();
-    $pane->style = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
@@ -353,7 +355,10 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
@@ -487,7 +492,10 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'pane-userlists-and-specials',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();

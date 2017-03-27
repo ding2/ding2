@@ -153,6 +153,7 @@ function theme_ding_list_lists($variables) {
   foreach ($variables['groups'] as $group_name => $group) {
     $out .= "<a name='" . $group_name . "'></a>";
     $rows = array();
+    $group_name_class = drupal_html_class($group_name);
 
     foreach ($group['lists'] as $lists) {
       foreach ($lists as $list) {
@@ -167,7 +168,7 @@ function theme_ding_list_lists($variables) {
       'items' => $rows,
       'title' => $group['title'],
       'type' => 'ul',
-      'attributes' => array('class' => array('list-links')),
+      'attributes' => array('class' => array('list-links', $group_name_class)),
     ));
   }
 
