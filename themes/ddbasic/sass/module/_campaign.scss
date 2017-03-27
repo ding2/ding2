@@ -17,6 +17,14 @@
 
 .ding-campaign-wrapper {
   @include small() {
+    .ding-campaign {
+      display: none;
+    }
+
+    .ding-campaign-mobile-display {
+      display: block !important;
+    }
+
     .ding-campaign--image {
       width: 100%;
     }

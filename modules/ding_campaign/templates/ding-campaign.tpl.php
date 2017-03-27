@@ -13,7 +13,7 @@
  *  - $text: Campaign text.
  */
 ?>
-<div class="ding-campaign ding-campaign--content">
+<div class="<?php print $classes; ?> ding-campaign--content">
   <?php if (isset($link)) : ?>
     <?php print drupal_render($link); ?>
   <?php endif; ?>
