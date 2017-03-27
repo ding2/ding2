@@ -54,8 +54,11 @@ function ddbasic_preprocess_html(&$vars) {
     $vars['classes_array'][] = 'has-dynamic-background';
   }
 
-  // Include the slick library.
+  // Include the libraries.
   libraries_load('slick');
+  libraries_load('jquery.imagesloaded');
+  libraries_load('html5shiv');
+  libraries_load('masonry');
 }
 
 /**
@@ -1185,6 +1188,30 @@ function ddbasic_libraries_info() {
       'files' => array(
         'css' => array('slick/slick.css'),
         'js' => array('slick/slick.min.js'),
+      ),
+    ),
+    'html5shiv' => array(
+      'name' => 'HTML5 Shiv',
+      'vendor url' => 'https://github.com/aFarkas/html5shiv',
+      'download url' => 'https://github.com/aFarkas/html5shiv/archive/3.7.3.zip',
+      'version arguments' => array(
+        'file' => 'dist/html5shiv.min.js',
+        'pattern' => '/\*.*HTML5 Shiv ([0-9a-zA-Z\.-]+)/',
+      ),
+      'files' => array(
+        'js' => array('dist/html5shiv.min.js'),
+      ),
+    ),
+    'masonry' => array(
+      'name' => 'Masonry',
+      'vendor url' => 'https://github.com/desandro/masonry',
+      'download url' => 'https://github.com/desandro/masonry/archive/v4.1.1.zip',
+      'version arguments' => array(
+        'file' => 'dist/masonry.pkgd.min.js',
+        'pattern' => '/\*.*Masonry PACKAGED v([0-9a-zA-Z\.-]+)/',
+      ),
+      'files' => array(
+        'js' => array('dist/masonry.pkgd.min.js'),
       ),
     ),
   );
