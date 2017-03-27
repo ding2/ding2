@@ -14,7 +14,7 @@
  */
 ?>
 <?php if (isset($image)) : ?>
-  <div class="ding-campaign ding-campaign--image">
+  <div class="<?php print $classes; ?> ding-campaign--image">
     <?php print drupal_render($image); ?>
   </div>
 <?php endif; ?>
