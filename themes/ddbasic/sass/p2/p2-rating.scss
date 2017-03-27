@@ -34,16 +34,16 @@
         color: $color-primary;
       }
     }
+    // On material-item odd
+    .material-item.odd & {
+      &::after {
+        color: $grey-dark;
+      }
+    }
     // On ting teaser
     .ting-object.view-mode-teaser & {
       &::after {
         color: $color-standard-text;
-      }
-      &.active,
-      &.submitted {
-        &::after {
-          color: $color-primary;
-        }
       }
     }
     // On ting search result
@@ -51,6 +51,10 @@
       &::after {
         color: $grey-medium;
       }
+    }
+    .material-item.odd &,
+    .ting-object.view-mode-teaser &,
+    .ting-object.view-mode-search-result & {
       &.active,
       &.submitted {
         &::after {
