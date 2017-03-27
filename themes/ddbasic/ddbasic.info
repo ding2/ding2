@@ -79,15 +79,6 @@
   stylesheets[print][] = sass_css/print.css
 
 ;----------// JavaScripts
-  scripts[] = scripts/contrib/imagesloaded.pkgd.min.js
-  scripts[] = scripts/contrib/masonry.pkgd.min.js
-
-  scripts[] = scripts/contrib/jquery.cookie.js
-  scripts[] = scripts/contrib/respond.min.js
-  scripts[] = scripts/contrib/jquery.scrollto.js
-  scripts[] = scripts/contrib/html5shiv.js
-  scripts[] = scripts/contrib/selectivizr-min.js
-
   scripts[] = scripts/flexmenu.js
   scripts[] = scripts/site.js
   scripts[] = scripts/ddbasic.common.js
