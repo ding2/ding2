@@ -27,7 +27,7 @@ function ding_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 9,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -105,7 +105,7 @@ function ding_page_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -162,7 +162,7 @@ function ding_page_field_default_field_instances() {
         'module' => 'file',
         'settings' => array(),
         'type' => 'file_default',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -223,7 +223,7 @@ function ding_page_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -282,7 +282,7 @@ function ding_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 8,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -408,12 +408,9 @@ function ding_page_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'hidden',
-        'module' => 'ting_reference',
-        'settings' => array(
-          'view_mode' => 'teaser',
-        ),
-        'type' => 'ting_reference_default',
-        'weight' => 5,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -468,7 +465,7 @@ function ding_page_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'search_result' => array(
         'label' => 'hidden',
