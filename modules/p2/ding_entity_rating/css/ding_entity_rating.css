@@ -20,3 +20,10 @@
 .ding-entity-rating-avg {
   margin-left: 10px;
 }
+.ding-entity-rating-clear {
+  margin-left: 1em;
+  display: none;
+}
+.ding-entity-rating.has-submission .ding-entity-rating-clear {
+  display: inline;
+}

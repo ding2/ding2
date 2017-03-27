@@ -89,13 +89,24 @@ function ding_entity_rating_add_to_list_callback($entity, $rating) {
     $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only provider users can rate materials.') . '</p>');
   }
   else {
-    ding_entity_rating_add_to_list($entity, $user, $rating);
+    if ($rating > 0) {
+      ding_entity_rating_add_to_list($entity, $user, $rating);
 
-    $message = array(
-      '#theme' => 'ding_entity_rating_thank_you',
-      '#prefix' => '<p>',
-      '#suffix' => '</p>',
-    );
+      $message = array(
+        '#theme' => 'ding_entity_rating_thank_you',
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+      );
+    }
+    else {
+      ding_entity_rating_remove_from_list($entity, $user);
+      $message = array(
+        '#theme' => 'ding_entity_rating_thank_you',
+        '#response' => t('Rating cleared'),
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+      );
+    }
 
     $commands[] = ajax_command_ding_popup(
       'ding_reservation',
@@ -243,7 +254,9 @@ function ding_entity_rating_theme($existing, $type, $theme, $path) {
       'variables' => array('rating' => NULL),
     ),
     'ding_entity_rating_thank_you' => array(
-      'variables' => array(),
+      'variables' => array(
+        'response' => t('Thank you for your input'),
+      ),
     ),
     'ding_entity_rating_promote_ratings' => array(
       'variables' => array('history_list' => NULL, 'account' => NULL),
@@ -256,7 +269,7 @@ function ding_entity_rating_theme($existing, $type, $theme, $path) {
  * Theme function for theme_ding_entity_rating_thank_you.
  */
 function theme_ding_entity_rating_thank_you($variables) {
-  return '<div class="ding-entity-rating-respons">' . t('Thank you for your input') . '</div>';
+  return '<div class="ding-entity-rating-respons">' . $variables['response'] . '</div>';
 }
 
 /**
@@ -291,6 +304,7 @@ function theme_ding_entity_rating_display($variables) {
   $output = '<div class="' . implode(' ', $variables['classes_array']) . '" data-ding-entity-rating-id="' . $variables['entity']->ding_entity_id . '" data-ding-entity-rating-path="' . $variables['path'] . '">';
 
   $output .= ding_entity_rating_build_theme_list($variables['rating']);
+  $output .= '<a href="#" class="ding-entity-rating-clear" data-ding-entity-rating-value="0">' . t('Clear') . '</a>';
 
   return $output . '</div>';
 }
