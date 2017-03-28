@@ -42,7 +42,7 @@ function ting_subsearch_opensuggestion_ting_search_results($keys, $conditions, $
     // can yield a better result.
     $search_result = drupal_static('ting_search_results');
     // Find suggestions for "correct" search phrase.
-    $suggestion = ting_subsearch_opensuggestion_suggest_keys($keys);
+    $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_opensuggestion_suggest_keys');
 
     if (!empty($suggestion)) {
       // Do secondary search for "correct" keys.
@@ -58,7 +58,7 @@ function ting_subsearch_opensuggestion_ting_search_results($keys, $conditions, $
   }
 
   if ($results->numTotalObjects <= variable_get('ting_subsearch_os_trigger_limit', 5)) {
-    $suggestion = ting_subsearch_opensuggestion_suggest_keys($keys);
+    $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_opensuggestion_suggest_keys');
     if ($suggestion) {
       // Do additional search.
       $suggested_result = ting_subsearch_common_do_secondary_search($suggestion);

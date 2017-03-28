@@ -52,6 +52,25 @@ function ting_subsearch_common_do_secondary_search($keys, $options = array()) {
 }
 
 /**
+ * Callback handler for suggested keys.
+ *
+ * Find suggested keys based on keys and callback.
+ */
+function ting_subsearch_common_suggested_keys($keys, $callback) {
+
+  if (function_exists($callback)) {
+    $suggestion = $callback($keys);
+    if ($suggestion == FALSE || $suggestion == $keys) {
+      return FALSE;
+    }
+    else {
+      return $suggestion;
+    }
+  }
+  return FALSE;
+}
+
+/**
  * Implements hook_libraries_info().
  */
 function ting_subsearch_common_libraries_info() {
