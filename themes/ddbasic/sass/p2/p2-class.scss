@@ -22,9 +22,6 @@
 // ==========================================================================
 // Notifications
 // ==========================================================================
-.pane-notifications-top-menu {
-  display: none;
-}
 
 .topbar-link-user-account {
   .topbar-link-user-account {
@@ -65,5 +62,15 @@
         background-color: $white;
       }
     }
+  }
+}
+
+// ==========================================================================
+// Ding type ding list
+// ==========================================================================
+
+.ding-type-ding-list {
+  .ding-list-title {
+    @include font('display-large');
   }
 }

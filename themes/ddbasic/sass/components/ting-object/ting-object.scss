@@ -209,13 +209,13 @@
   }
 
   // ==========================================================================
-  // Ting reference preview
+  // Reference teaser
   // ==========================================================================
 
-  &.view-mode-ting-reference-preview {
+  &.view-mode-reference-teaser {
     padding: 15px 0;
     background-color: $grey;
-    > a.cover {
+    .cover {
       @include span-columns(2 of 7);
       padding-left: 15px;
       min-height: 1px;
@@ -230,7 +230,7 @@
         @include span-columns(4);
       }
     }
-    > .group-text {
+    .group-text {
       @include span-columns(3 of 7);
 
       // Tablet
@@ -246,7 +246,7 @@
         margin-right: 0;
       }
     }
-    > .buttons {
+    .buttons {
       @include span-columns(2 of 7);
       padding-right: 15px;
 
@@ -294,6 +294,34 @@
     }
     .field-name-ting-author {
       margin-bottom: 10px;
+    }
+  }
+
+  // ==========================================================================
+  // Ting reference preview
+  // ==========================================================================
+
+  &.view-mode-ting-reference-preview {
+    @include span-columns(5 of 7);
+    padding: 0;
+    background-color: transparent;
+    .cover {
+      @include span-columns(1 of 5);
+      padding-left: 0;
+      min-height: 1px;
+    }
+    .group-text {
+      @include span-columns(4 of 5);
+      @include omega();
+    }
+    h2 {
+      @include font('display-small');
+      margin-bottom: 0;
+    }
+    .field-name-ting-title {
+      a {
+        color: $black;
+      }
     }
   }
 

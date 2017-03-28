@@ -739,8 +739,8 @@ function ddbasic_preprocess_ting_object(&$vars) {
 
           break;
 
-        // Ting reference preview.
-        case 'ting_reference_preview':
+        // Reference teaser.
+        case 'reference_teaser':
           $vars['content']['buttons'] = array(
             '#prefix' => '<div class="buttons">',
             '#suffix' => '</div>',

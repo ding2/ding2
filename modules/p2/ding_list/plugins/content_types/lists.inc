@@ -78,7 +78,8 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
               $notifications = ding_message_get_ding_list_notification($list);
               $notout = '';
               if (!empty($notifications)) {
-                $notout = l($notifications, 'list/' . $list->id, array('html' => TRUE, 'attributes' => array('class' => array('label'))));
+                $text = '<span class="notification-label">' . t('New:', array(), array('context' => 'Ding list')) . '</span>' . $notifications;
+                $notout =  l($text, 'list/' . $list->id, array('html' => TRUE, 'attributes' => array('class' => array('notification-link'))));
               }
 
               $groups[$group_name]['lists'][$list_type][] = array(

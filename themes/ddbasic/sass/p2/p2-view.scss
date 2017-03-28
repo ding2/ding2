@@ -53,35 +53,11 @@ tr.draggable {
   .views-field-rendered-entity {
     @include omega();
     width: getColumn(7 of 8);
-    .ting-object.view-mode-ting-reference-preview,
     .ding-message-link,
-    > .entity-ding-type > .content > a,
     .ding-type-ding-list {
       @include span-columns(5 of 7);
     }
-    .ting-object.view-mode-ting-reference-preview {
-      padding: 0;
-      background-color: transparent;
-      .cover {
-        @include span-columns(1 of 5);
-        padding-left: 0;
-      }
-      .group-text {
-        @include span-columns(4 of 5);
-        @include omega();
-        .field-name-ting-abstract {
-          display: none;
-        }
-      }
-      .buttons {
-        display: none;
-      }
-      h2 {
-        @include font('display-small');
-      }
-    }
-    .ding-message-link,
-    > .entity-ding-type > .content > a {
+    .ding-message-link {
       @include font('display-small');
     }
     .ding-type-ding-list {
@@ -92,13 +68,15 @@ tr.draggable {
     }
     .ding-message {
       @include span-columns(5 of 7);
-      a {
-        display: block;
+      .ding-message-label {
         float: left;
-        .text {
-          margin-top: 10px;
-          color: $charcoal-opacity-dark;
-        }
+        margin-top: 10px;
+        padding-right: 5px;
+        color: $charcoal-opacity-dark;
+      }
+      .entity-message {
+        float: left;
+        margin-top: 10px;
       }
     }
     form {
@@ -109,17 +87,12 @@ tr.draggable {
       &:last-child {
         margin-right: 15px;
       }
-    }
-  }
-}
 
-// ==========================================================================
-// View public lists
-// ==========================================================================
-.view-public-lists.view-id-public_lists {
-  .ding-type-ding-list {
-    > h2 {
-      @include font('display-large');
+      // Mobile
+      @include media($mobile) {
+        width: auto;
+        margin-top: 10px;
+      }
     }
   }
 }

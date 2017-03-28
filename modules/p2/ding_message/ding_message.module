@@ -588,10 +588,10 @@ function ding_message_preprocess_entity(&$vars) {
         // Add message to content.
         $vars['content']['message'] = array(
           '#type' => 'container',
-          '#attributes' => array('class' => array('ding-message', 'label')),
+          '#attributes' => array('class' => array('ding-message')),
           'link' => array(
             '#theme' => 'link',
-            '#text' => '<div class="text">' . t('New', array(), array('context' => 'Ding list')) . '</div>' . $rendered_message,
+            '#text' => '<div class="ding-message-label">' . t('New:', array(), array('context' => 'Ding list')) . '</div>' . $rendered_message,
             '#path' => $url,
             '#options' => array(
               'attributes' => array('data-item-id' => $values->mid),
