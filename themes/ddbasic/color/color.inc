@@ -39,9 +39,7 @@ $info = array(
   'copy' => array(),
 
   // CSS files (excluding @import) to rewrite with new color scheme.
-  'css' => array(
-    'sass_css/ddbasic.styles.min.css',
-  ),
+  'css' => array(),
 
   // Gradient definitions.
   'gradients' => array(),
