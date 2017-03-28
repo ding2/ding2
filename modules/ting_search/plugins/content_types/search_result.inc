@@ -64,14 +64,19 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
   $block->module = 'search';
   $block->delta = 'result';
 
-  $results = '';
-  $prefix = '';
+  $suffix = $prefix = $results = '';
+
   // Only search if there are keywords or non-empty conditions.
   if ($keys || !empty($conditions)) {
     // Collect the search results.
     $results = search_data($keys, $info['module'], $conditions);
     $search_result = drupal_static('ting_search_results');
-    $prefix = implode(module_invoke_all('ting_search_results', $keys, $conditions, $search_result));
+    $response = module_invoke_all('ting_search_results', $keys, $conditions, $search_result);
+    // Default value for feedback_position in case it's not set.
+    $response['feedback_position'] = empty($response['feedback_position']) ? 'prefix' : $response['feedback_position'];
+    // $response['feedback_position'] can either be prefix or suffix,
+    // setting either variable.
+    $$response['feedback_position'] = $response['feedback'];
   }
 
   if (!empty($conf['log'])) {
@@ -108,7 +113,7 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
     $prefix .= $message;
 
     $block->title = t('Search results');
-    $block->content = $prefix . theme('ting_search_results', array('results' => $results['#results'], 'module' => $conf['type']));;
+    $block->content = $prefix . theme('ting_search_results', array('results' => $results['#results'], 'module' => $conf['type'])) . $suffix;
   }
   else {
     if (empty($conf['override_empty'])) {
