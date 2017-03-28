@@ -243,8 +243,9 @@ function ding_user_frontend_default_page_manager_handlers() {
         0 => 'argument_user_edit_1',
         1 => 'context_profile2_1',
       ),
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
+      'override_title_heading' => 'h2',
     );
     $pane->cache = array();
     $pane->style = array(
