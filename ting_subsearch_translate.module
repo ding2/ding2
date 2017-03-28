@@ -41,7 +41,7 @@ function ting_subsearch_translate_ting_search_results($keys, $conditions, $resul
   if (($nonfiction / variable_get('ting_subsearch_translate_factor', 2)) > $fiction) {
 
     // Do translation.
-    $translated_keys = ting_subsearch_translate_suggest_translated_keys($keys);
+    $translated_keys = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
     $suggested_result = ting_subsearch_common_do_secondary_search($translated_keys);
 
     if ($suggested_result->numTotalObjects > $results->numTotalObjects) {
