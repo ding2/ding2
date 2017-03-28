@@ -16,15 +16,15 @@ module_load_include('inc', 'ting_subsearch_translate', 'ting_subsearch_translate
  */
 function ting_subsearch_translate_ting_search_results($keys, $conditions, $results) {
 
-  $messages = array();
+  $feedback = array();
 
   if (!isset($results->numTotalObjects)) {
-    return $messages;
+    return $feedback;
   }
 
   // If no google api key is set we cannot translate.
   if (empty(variable_get('ting_subsearch_translate_google_key', ''))) {
-    return $messages;
+    return $feedback;
   }
 
   // If any of fiction or non fiction is empty we cannot do the calculation.
@@ -32,7 +32,7 @@ function ting_subsearch_translate_ting_search_results($keys, $conditions, $resul
   if (empty($results->facets['facet.genreCategory']->terms['nonfiktion'])
   || empty($results->facets['facet.genreCategory']->terms['fiktion'])) {
     watchdog('subsearch_translate', 'You need to enable facet.genreCategory in order for this to work.', array(), WATCHDOG_WARNING);
-    return $messages;
+    return $feedback;
   }
   $nonfiction = $results->facets['facet.genreCategory']->terms['nonfiktion'];
   $fiction = $results->facets['facet.genreCategory']->terms['fiktion'];
@@ -52,11 +52,11 @@ function ting_subsearch_translate_ting_search_results($keys, $conditions, $resul
         '!keys' => $keys,
         '!num-results' => $results->numTotalObjects,
       ));
-      $messages[] = '<div class="messages warning">' . $msg . '</div>';
+      $feedback['feedback'] = '<div class="messages warning">' . $msg . '</div>';
     }
 
   }
-  return $messages;
+  return $feedback;
 }
 
 /**
