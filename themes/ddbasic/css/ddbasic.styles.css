@@ -5205,7 +5205,8 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
     width: 100%; } }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  .ding-campaign-wrapper .ding-campaign--image {
+  .ding-campaign-wrapper .ding-campaign--image,
+  .ding-campaign-wrapper .ding-campaign--content {
     width: 85%;
     margin: 0 auto; } }
 

@@ -31,7 +31,8 @@
   }
 
   @include medium() {
-    .ding-campaign--image {
+    .ding-campaign--image,
+    .ding-campaign--content {
       width: 85%;
       margin: 0 auto;
     }
