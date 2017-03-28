@@ -215,8 +215,14 @@
         background-color: $grey;
       }
     }
-    .label {
+    .notification-link {
       clear: left;
+      float: left;
+      margin-top: 10px;
+    }
+    .notification-label {
+      padding-right: 5px;
+      color: $charcoal-opacity-dark;
     }
   }
   ul.bottom-links {
@@ -253,4 +259,11 @@
   form {
     float: left;
   }
+}
+
+// ==========================================================================
+// Pane notifications top menu
+// ==========================================================================
+.pane-notifications-top-menu {
+  display: none;
 }

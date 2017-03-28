@@ -318,12 +318,11 @@ function ding_ting_frontend_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Text',
-    'weight' => '1',
+    'weight' => '2',
     'children' => array(
       0 => 'ting_details_type',
       1 => 'ting_title',
-      2 => 'ting_abstract',
-      3 => 'ting_author',
+      2 => 'ting_author',
     ),
     'format_type' => 'div',
     'format_settings' => array(

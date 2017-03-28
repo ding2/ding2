@@ -609,6 +609,7 @@ function ding_list_preprocess_entity(&$variables) {
   if ($variables['entity_type'] == 'ding_type') {
     switch ($variables['ding_type']->type) {
       case 'ding_list':
+        $variables['title_attributes_array']['class'][] = 'ding-list-title';
         if (!ding_list_user_has_access($variables['ding_type'])) {
           $variables['classes_array'][] = 'no-access';
           $variables['content'][] = array(
