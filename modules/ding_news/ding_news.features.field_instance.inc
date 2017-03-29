@@ -521,7 +521,7 @@ function ding_news_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting_reference',
         'settings' => array(
-          'view_mode' => 'ting_reference_preview',
+          'view_mode' => 'reference_teaser',
         ),
         'type' => 'ting_reference_default',
         'weight' => 12,

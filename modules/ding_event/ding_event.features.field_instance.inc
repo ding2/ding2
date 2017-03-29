@@ -656,8 +656,7 @@ function ding_event_field_default_field_instances() {
     'bundle' => 'ding_event',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Events show the value ”Free” if text field is set to 0.
-Tip: Indicate different ticket prices for more than one audience group by entering a lowest – highest price in text field fx. “30 - 50”',
+    'description' => 'Arrangementer viser værdien "Gratis" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. "30 - 50"',
     'display' => array(
       'alternative_layout_full' => array(
         'label' => 'above',
@@ -670,7 +669,7 @@ Tip: Indicate different ticket prices for more than one audience group by enteri
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 11,
+        'weight' => 3,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -1089,13 +1088,12 @@ Tip: Indicate different ticket prices for more than one audience group by enteri
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Arrangementer viser værdien "Gratis" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. "30 - 50"');
   t('Body');
   t('Book ticket/Participate in event');
   t('Category');
   t('Date');
   t('Display this event in the selected group (temapage).');
-  t('Events show the value ”Free” if text field is set to 0.
-Tip: Indicate different ticket prices for more than one audience group by entering a lowest – highest price in text field fx. “30 - 50”');
   t('Files');
   t('Groups');
   t('Lead');
