@@ -108,4 +108,14 @@ function ting_subsearch_secondary_form_ting_admin_ting_settings_alter(&$form, &$
     '#default_value' => variable_get('ting_subsearch_secondary_number_of_results', 4),
     '#description' => t('How many results should be shown from secondary well provider.'),
   );
+  $form['subsearch_settings']['secondary_settings']['ting_subsearch_secondary_position'] = array(
+    '#type' => 'radios',
+    '#title' => t('Position of message'),
+    '#options' => array(
+      'before' => t('Before'),
+      'after' => t('After'),
+    ),
+    '#default_value' => variable_get('ting_subsearch_secondary_position', 'before'),
+    '#description' => t('Should the message be positioned before or after the search result?'),
+  );
 }
