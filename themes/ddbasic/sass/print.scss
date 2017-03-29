@@ -2,20 +2,30 @@
 // Styling for printing
 
 @media print {
-  body {
+  body,
+  body.has-second-level-menu {
     padding-top: 0;
   }
 
+  .panel-pane.pane-ding-news-ding-news-list {
+    margin-top: 0;
+  }
+
+  .ding-news-list-image,
+  .event-list-image,
+  .background,
+  .separator-title {
+    -webkit-print-color-adjust: exact;
+  }
+
   .site-header,
-  .footer {
+  .footer,
+  ul.pager,
+  .panel-pane .pane-content .default-panel-layout .left-and-main-content .layout-wrapper .secondary-content {
     display: none;
   }
 
-  .secondary-content {
-    display: none;
-  }
-
-  .primary-content {
+  .panel-pane .pane-content .default-panel-layout .left-and-main-content .layout-wrapper .primary-content {
     width: 100%;
   }
 
