@@ -123,7 +123,7 @@
       <?php print render($content['field_ding_event_category']); ?>
       <h1><?php print $title; ?></h1>
       <?php print render($content['group_right']['field_ding_event_date']);?>
-      <?php print $share_button; ?>
+      <?php print render($share_button); ?>
       <?php print render($content['group_right']);?>
 
     </div>
