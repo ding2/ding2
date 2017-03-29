@@ -146,6 +146,12 @@ function ding_news_strongarm() {
             'visible' => FALSE,
           ),
         ),
+        'ding_serendipity_info' => array(
+          'alternative_layout_full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
       ),
     ),
   );
