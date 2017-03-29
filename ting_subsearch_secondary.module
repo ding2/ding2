@@ -10,14 +10,32 @@ module_load_include('inc', 'ting_subsearch_secondary', 'ting_subsearch_secondary
 include_once 'ting_subsearch_secondary.features.inc';
 
 /**
- * Implements hook_ting_search_results().
+ * Implements hook_ting_search_results_prefix().
  */
-function ting_subsearch_secondary_ting_search_results($keys, $conditions, $results) {
+function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions, $results) {
+  if (variable_get('ting_subsearch_secondary_position', 'before') == 'before') {
+    return ting_subsearch_secondary_search($keys, $results);
+  }
+}
 
-  $feedback = array();
+/**
+ * Implements hook_ting_search_results_suffix().
+ */
+function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions, $results) {
+  if (variable_get('ting_subsearch_secondary_position', 'before') == 'after') {
+    return ting_subsearch_secondary_search($keys, $results);
+  }
+}
+
+/**
+ * Implements hook_ting_search_results_suffix().
+ */
+function ting_subsearch_secondary_search($keys, $results) {
+
+  $message = '';
 
   if (!isset($results->numTotalObjects)) {
-    return $feedback;
+    return $message;
   }
 
   if ($results->numTotalObjects > variable_get('ting_subsearch_secondary_min', 10) && $results->numTotalObjects < variable_get('ting_subsearch_secondary_max', 100)) {
@@ -27,12 +45,12 @@ function ting_subsearch_secondary_ting_search_results($keys, $conditions, $resul
     if (empty($results->facets['facet.genreCategory']->terms['nonfiktion'])
       || empty($results->facets['facet.genreCategory']->terms['fiktion'])) {
       watchdog('subsearch_subsearch', 'You need to enable facet.genreCategory in order for this to work.', array(), WATCHDOG_WARNING);
-      return $feedback;
+      return $message;
     }
 
     if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
       watchdog('subsearch_subsearch', 'Missing secondary agency or profile.', array(), WATCHDOG_WARNING);
-      return $feedback;
+      return $message;
     }
 
     $nonfiction = $results->facets['facet.genreCategory']->terms['nonfiktion'];
@@ -80,14 +98,12 @@ function ting_subsearch_secondary_ting_search_results($keys, $conditions, $resul
             $options
           );
         }
-        $feedback['feedback'] = '<div class="messages warning">' . $msg . '</div>';
+        $message = '<div class="messages warning">' . $msg . '</div>';
         drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/ting_subsearch_secondary.css');
-
-        $feedback['feedback_position'] = variable_get('ting_subsearch_secondary_feedback_position', 'prefix');
       }
     }
   }
-  return $feedback;
+  return $message;
 }
 
 /**
