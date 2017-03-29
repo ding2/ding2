@@ -71,12 +71,8 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
     // Collect the search results.
     $results = search_data($keys, $info['module'], $conditions);
     $search_result = drupal_static('ting_search_results');
-    $response = module_invoke_all('ting_search_results', $keys, $conditions, $search_result);
-    // Default value for feedback_position in case it's not set.
-    $response['feedback_position'] = empty($response['feedback_position']) ? 'prefix' : $response['feedback_position'];
-    // $response['feedback_position'] can either be prefix or suffix,
-    // setting either variable.
-    $$response['feedback_position'] = $response['feedback'];
+    $prefix = implode(module_invoke_all('ting_search_results_prefix', $keys, $conditions, $search_result));
+    $suffix = implode(module_invoke_all('ting_search_results_suffix', $keys, $conditions, $search_result));
   }
 
   if (!empty($conf['log'])) {
