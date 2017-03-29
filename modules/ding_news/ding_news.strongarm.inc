@@ -126,7 +126,7 @@ function ding_news_strongarm() {
             'visible' => TRUE,
           ),
           'default' => array(
-            'weight' => '8',
+            'weight' => '12',
             'visible' => TRUE,
           ),
           'search_result' => array(
@@ -148,6 +148,10 @@ function ding_news_strongarm() {
         ),
         'ding_serendipity_info' => array(
           'alternative_layout_full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'default' => array(
             'weight' => '0',
             'visible' => TRUE,
           ),

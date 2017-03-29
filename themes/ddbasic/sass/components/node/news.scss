@@ -256,6 +256,17 @@
       @include font('display-small');
       margin: 20px 0 5px;
     }
+    .field-name-og-group-ref {
+      position: relative;
+      float: left;
+      padding-right: 20px;
+      &::after {
+        content: '-';
+        position: absolute;
+        top: 0;
+        right: 7px;
+      }
+    }
     .meta,
     .field-name-field-ding-news-tags {
       padding: 10px 0;
@@ -336,11 +347,6 @@
           margin-right: 0;
         }
       }
-    }
-    h1 {
-      padding-bottom: 20px;
-      border-bottom: 1px solid $grey-medium;
-      margin-bottom: 30px;
     }
     .field-name-field-ding-news-title-image {
       margin-bottom: 30px;
