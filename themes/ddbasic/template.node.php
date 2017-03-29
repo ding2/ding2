@@ -276,8 +276,9 @@ function ddbasic_preprocess__node__ding_group(&$variables) {
 function ddbasic_preprocess__node__ding_eresource(&$variables) {
   switch ($variables['view_mode']) {
     case 'teaser':
-      $variables['link_url'] = $variables['field_ding_eresource_link'][0]['url'];
+      if (!empty($variables['field_ding_eresource_link'][0]['url'])) {
+        $variables['link_url'] = $variables['field_ding_eresource_link'][0]['url'];
+      }
       break;
-
   }
 }
