@@ -12,14 +12,14 @@ use GuzzleHttp\Exception\ClientException as GuzzleClientException;
 module_load_include('inc', 'ting_subsearch_opensuggestion', 'ting_subsearch_opensuggestion.admin');
 
 /**
- * Implements hook_ting_search_results().
+ * Implements hook_ting_search_results_prefix().
  */
-function ting_subsearch_opensuggestion_ting_search_results($keys, $conditions, $results) {
+function ting_subsearch_opensuggestion_ting_search_results_prefix($keys, $conditions, $results) {
 
-  $feedback = array();
+  $message = '';
 
   if (!isset($results->numTotalObjects)) {
-    return $feedback;
+    return $message;
   }
 
   // When a zero-hit search is executed and we're able to match "correct"
@@ -34,7 +34,7 @@ function ting_subsearch_opensuggestion_ting_search_results($keys, $conditions, $
       '!num-results' => $results->numTotalObjects,
     ));
 
-    $feedback['feedback'] = '<div class="messages warning">' . $msg . '</div>';
+    $message = '<div class="messages warning">' . $msg . '</div>';
   }
 
   if ($results->numTotalObjects == 0) {
@@ -71,11 +71,11 @@ function ting_subsearch_opensuggestion_ting_search_results($keys, $conditions, $
           '!keys' => $keys,
           '!num-results' => $results->numTotalObjects,
         ));
-        $feedback['feedback'] = '<div class="messages warning">' . $msg . '</div>';
+        $message = '<div class="messages warning">' . $msg . '</div>';
       }
     }
   }
-  return $feedback;
+  return $message;
 }
 
 /**
