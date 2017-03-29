@@ -111,7 +111,7 @@ function ding_news_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 11,
+        'weight' => 6,
       ),
       'block_feature' => array(
         'label' => 'hidden',
@@ -125,7 +125,7 @@ function ding_news_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 5,
+        'weight' => 9,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -183,8 +183,8 @@ function ding_news_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'taxonomy_term_reference_plain',
-        'weight' => 9,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 4,
       ),
       'block_feature' => array(
         'label' => 'hidden',
@@ -197,8 +197,8 @@ function ding_news_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'taxonomy_term_reference_plain',
-        'weight' => 3,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 7,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -269,7 +269,7 @@ function ding_news_field_default_field_instances() {
         'module' => 'file',
         'settings' => array(),
         'type' => 'file_default',
-        'weight' => 6,
+        'weight' => 10,
       ),
       'full' => array(
         'label' => 'above',
@@ -331,7 +331,7 @@ function ding_news_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 10,
+        'weight' => 5,
       ),
       'block_feature' => array(
         'label' => 'hidden',
@@ -345,7 +345,7 @@ function ding_news_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 8,
       ),
       'full' => array(
         'label' => 'hidden',
@@ -524,7 +524,7 @@ function ding_news_field_default_field_instances() {
           'view_mode' => 'reference_teaser',
         ),
         'type' => 'ting_reference_default',
-        'weight' => 12,
+        'weight' => 7,
       ),
       'block_feature' => array(
         'label' => 'above',
@@ -686,7 +686,7 @@ function ding_news_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 7,
+        'weight' => 11,
       ),
       'full' => array(
         'label' => 'above',
@@ -891,9 +891,12 @@ function ding_news_field_default_field_instances() {
     'description' => 'Select the libraries this content should be associated with.',
     'display' => array(
       'alternative_layout_full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'hidden',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
         'weight' => 3,
       ),
       'block_feature' => array(
@@ -903,9 +906,12 @@ function ding_news_field_default_field_instances() {
         'weight' => 6,
       ),
       'default' => array(
-        'label' => 'inline',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'hidden',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
         'weight' => 6,
       ),
       'full' => array(

@@ -321,6 +321,7 @@ function ding_news_field_group_info() {
       1 => 'field_ding_news_category',
       2 => 'field_ding_news_lead',
       3 => 'field_ding_news_materials',
+      4 => 'og_group_ref',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -356,7 +357,8 @@ function ding_news_field_group_info() {
       2 => 'field_ding_news_files',
       3 => 'field_ding_news_lead',
       4 => 'field_ding_news_tags',
-      5 => 'webform',
+      5 => 'og_group_ref',
+      6 => 'webform',
     ),
     'format_type' => 'div',
     'format_settings' => array(
