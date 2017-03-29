@@ -115,7 +115,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     $count = count(ding_provider_invoke('debt', 'list', $account));
     $groups['specials']['lists']['special_depts'][] = array(
       'data' =>
-      '<a href="' . url($uri['path'] . '/status/debts') . '" class="signature-label"><span class="icon"></span>' . t('Fines') . '</a>' . '<span class="label warn">' . $count . '</span>',
+      '<a href="' . url($uri['path'] . '/status-debts') . '" class="signature-label"><span class="icon"></span>' . t('Fines') . '</a>' . '<span class="label warn">' . $count . '</span>',
       'class' => array('fines'),
     );
 
@@ -133,7 +133,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     if ($overdues > 0) {
       $groups['specials']['lists']['special_loans_overdue'][] = array(
         'data' =>
-        '<a href="' . url($uri['path'] . '/status') . '" class="signature-label"><span class="icon"></span>' . t('Loans overdue') . '</a>' . '<span class="label warn">' . $overdues . '</span>',
+        '<a href="' . url($uri['path'] . '/status-loans') . '" class="signature-label"><span class="icon"></span>' . t('Loans overdue') . '</a>' . '<span class="label warn">' . $overdues . '</span>',
         'class' => array('warn'),
       );
     }
@@ -167,7 +167,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     $count = count(ding_provider_invoke('loan', 'list', $account));
     $groups['specials']['lists']['special_loans'][] = array(
       'data' =>
-      '<a href="' . url($uri['path'] . '/status') . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
+      '<a href="' . url($uri['path'] . '/status-loans') . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
       'class' => array('loan'),
     );
   }
