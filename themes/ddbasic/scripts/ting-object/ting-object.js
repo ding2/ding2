@@ -45,7 +45,6 @@
   }
   Drupal.behaviors.ding_ting_teaser_hover = {
     attach: function(context, settings) {
-      console.log(context);
       ting_teaser_hover($('.ting-object.view-mode-teaser > .inner', context));
     }
   };
