@@ -110,8 +110,6 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
     }
   }
 
-  unset($variables['categories'][NULL]);
-
   // Sort the categories by key (weight).
   ksort($categories);
 
