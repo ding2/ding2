@@ -62,39 +62,17 @@
   // previous or next.
   @include animation(opening-hours-in 1s $ease-out-sine);
 
-  table,
-  thead,
-  tbody,
   th,
-  td,
-  tr {
-    display: block;
+  td {
+    vertical-align: top;
   }
   // The default Drupal theme_table() doesn't support adding attributes to the
   // thead or thead > tr element, so we need to style these directly on their
   // element selectors.
   thead {
     width: 100%;
-    float: left;
   }
   th {
-    @include span-columns(3);
-    // In library teaser and primary content
-    .node-ding-library.node-teaser &,
-    .left-and-main-content .primary-content & {
-      @include span-columns(2 of 8);
-
-      // Tablet
-      @include media($tablet) {
-        display: none;
-        &:first-child {
-          @include font('base-bold');
-          display: block;
-          width: 100%;
-        }
-      }
-    }
-
     // Tablet
     @include media($tablet) {
       display: none;
@@ -107,10 +85,10 @@
   }
   tr {
     width: 100%;
-    float: left;
 
     // Tablet
     @include media($tablet) {
+      float: left;
       &.even {
         background: $grey;
         padding: 20px;
@@ -122,20 +100,9 @@
     }
   }
   td {
-    @include span-columns(3);
     .notice {
       display: block;
       color: $charcoal-opacity-dark;
-    }
-    // In library teaser and primary content
-    .node-ding-library.node-teaser &,
-    .left-and-main-content .primary-content & {
-      @include span-columns(2 of 8);
-
-      // Tablet
-      @include media($tablet) {
-        @include span-columns(8 of 8);
-      }
     }
 
     // Tablet
