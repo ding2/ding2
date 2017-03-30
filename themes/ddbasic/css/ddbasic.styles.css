@@ -5213,11 +5213,13 @@ input#edit-search-block-form--2.spinner {
     margin-left: 10px;
     padding-bottom: 20px; }
     .pane-search-result .search-results-toggle-buttons li i, .view-node-search-result .search-results-toggle-buttons li i, .ting-reference-reverse-list .search-results-toggle-buttons li i {
-      width: auto; }
+      width: auto;
+      color: #00caff; }
     .pane-search-result .search-results-toggle-buttons li i:before, .view-node-search-result .search-results-toggle-buttons li i:before, .ting-reference-reverse-list .search-results-toggle-buttons li i:before {
       font-size: 200%; }
     .pane-search-result .search-results-toggle-buttons li a, .view-node-search-result .search-results-toggle-buttons li a, .ting-reference-reverse-list .search-results-toggle-buttons li a {
-      width: auto; }
+      width: auto;
+      color: #959595; }
       .pane-search-result .search-results-toggle-buttons li a:hover, .view-node-search-result .search-results-toggle-buttons li a:hover, .ting-reference-reverse-list .search-results-toggle-buttons li a:hover {
         text-decoration: none; }
       .pane-search-result .search-results-toggle-buttons li a:before, .view-node-search-result .search-results-toggle-buttons li a:before, .ting-reference-reverse-list .search-results-toggle-buttons li a:before {

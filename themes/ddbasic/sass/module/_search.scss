@@ -765,6 +765,7 @@ input#edit-search-block-form--2.spinner {
     padding-bottom: 20px;
     i {
       width: auto;
+      color: $blue;
     }
     i:before {
       font-size: 200%;
@@ -772,6 +773,7 @@ input#edit-search-block-form--2.spinner {
     }
     a {
       width: auto;
+      color: $gray-darker;
       &:hover {
         text-decoration: none;
       }
