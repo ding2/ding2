@@ -8,7 +8,9 @@
  * - links: The availability links.
  */
 ?>
-<?php print $label ?>:
+<?php if ($label): ?>
+  <?php print $label ?>:
+<?php endif; ?>
 <?php foreach ($links as $link) : ?>
   <?php print render($link['link']); ?>
 <?php endforeach; ?>

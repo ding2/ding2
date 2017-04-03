@@ -46,7 +46,10 @@
                 update_availability(id, entity_ids);
               }
             });
-            update_availability_remove_pending();
+            if (!settings.ding_availability_skip_labels) {
+              update_availability_remove_pending();
+            }
+
           },
           error: function () {
             $('div.loader').remove();
@@ -55,7 +58,7 @@
       }
       else {
         // Apply already fetched availability, if any.
-        if (settings.hasOwnProperty('ding_availability')) {
+        if (settings.hasOwnProperty('ding_availability') && !settings.ding_availability_skip_labels) {
           $.each(settings.ding_availability, function(id, entity_ids) {
             update_availability(id, entity_ids);
           });
@@ -201,7 +204,9 @@
           }
         }
 
-        update_availability_type(element, status);
+        if (!settings.ding_availability_skip_labels) {
+          update_availability_type(element, status);
+        }
       }
     }
   };
