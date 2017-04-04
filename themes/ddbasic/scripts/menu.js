@@ -43,7 +43,7 @@
           search_extended_btn = $('a.search-extended-button', context),
           first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a', context),
           second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a', context),
-          body = $('body', context);
+          body = $('body');
 
       mobile_menu_btn.on('click', function(evt){
         evt.preventDefault();

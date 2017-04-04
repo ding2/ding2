@@ -496,7 +496,14 @@ search/node',
       'override_title' => 1,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'lazy',
+      'settings' => array(
+        'load_strategy' => 'page-loaded',
+        'show_spinner' => 1,
+        'load_text' => '',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
       'style' => 'naked',
@@ -522,9 +529,17 @@ search/node',
       'override_title_text' => 'Du er logget ind som',
       'override_title_heading' => 'h2',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'lazy',
+      'settings' => array(
+        'load_strategy' => 'page-loaded',
+        'show_spinner' => 0,
+        'load_text' => '',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'default',
     );
     $pane->css = array();
     $pane->extras = array();
@@ -533,40 +548,6 @@ search/node',
     $pane->uuid = '4b76f9e9-c425-4420-b18d-1b2168580aac';
     $display->content['new-4b76f9e9-c425-4420-b18d-1b2168580aac'] = $pane;
     $display->panels['branding'][3] = 'new-4b76f9e9-c425-4420-b18d-1b2168580aac';
-    $pane = new stdClass();
-    $pane->pid = 'new-2a6f27cc-f492-403b-9d92-ce4808dc013a';
-    $pane->panel = 'branding';
-    $pane->type = 'notifications_top_menu';
-    $pane->subtype = 'notifications_top_menu';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'top_menu_items' => array(
-        'ready_to_pickup' => 'ready_to_pickup',
-        'dept' => 'dept',
-      ),
-      'override_title' => 1,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array(
-      'method' => 'lazy',
-      'settings' => array(
-        'load_strategy' => 'pane-visible',
-        'show_spinner' => 0,
-        'load_text' => '',
-      ),
-    );
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 4;
-    $pane->locks = array();
-    $pane->uuid = '2a6f27cc-f492-403b-9d92-ce4808dc013a';
-    $display->content['new-2a6f27cc-f492-403b-9d92-ce4808dc013a'] = $pane;
-    $display->panels['branding'][4] = 'new-2a6f27cc-f492-403b-9d92-ce4808dc013a';
     $pane = new stdClass();
     $pane->pid = 'new-1769a64d-2cbe-490d-87aa-a2c3ee082997';
     $pane->panel = 'content';
@@ -813,7 +794,10 @@ search/node',
       'override_title' => 1,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => '0',
+      'settings' => array(),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
