@@ -209,27 +209,25 @@ function ding_list_menu() {
 }
 
 /**
- * Handle list attachment for anonuymous users.
+ * Handle list attachment for anonymous users.
  */
 function ding_list_login_attach($type, $value) {
   $commands = array();
 
   if (!user_is_logged_in()) {
     $commands[] = ajax_command_ding_user_authenticate('');
-  }
-  else {
-    module_load_include('inc', 'ding_list', 'include/menu_callbacks');
-
-    // Use the specific list type from the get parameter.
-    // The list type and element type doesn't always match, which is why we need
-    // the extra parameter.
-    $list_type = !empty($_GET['list_type']) ? $_GET['list_type'] : $type;
-
-    $list = ding_list_get_list($list_type);
-    return ding_list_attach_element_callback($type, $list->id, $value);
+    return array('#type' => 'ajax', '#commands' => $commands);
   }
 
-  return array('#type' => 'ajax', '#commands' => $commands);
+  module_load_include('inc', 'ding_list', 'include/menu_callbacks');
+
+  // Use the specific list type from the get parameter.
+  // The list type and element type doesn't always match, which is why we need
+  // the extra parameter.
+  $list_type = !empty($_GET['list_type']) ? $_GET['list_type'] : $type;
+
+  $list = ding_list_get_list($list_type);
+  return ding_list_attach_element_callback($type, $list->id, $value);
 }
 
 /**
@@ -240,17 +238,17 @@ function ding_list_login_create() {
 
   if (!user_is_logged_in()) {
     $commands[] = ajax_command_ding_user_authenticate('');
+    return array('#type' => 'ajax', '#commands' => $commands);
   }
-  else {
-    module_load_include('inc', 'ctools', 'includes/ajax');
-    $commands[] = ctools_ajax_command_redirect(
-      'list/create',
-      0,
-      array(
-        'query' => drupal_get_query_parameters(),
-      )
-    );
-  }
+
+  module_load_include('inc', 'ctools', 'includes/ajax');
+  $commands[] = ctools_ajax_command_redirect(
+    'list/create',
+    0,
+    array(
+      'query' => drupal_get_query_parameters(),
+    )
+  );
 
   return array('#type' => 'ajax', '#commands' => $commands);
 }
