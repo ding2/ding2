@@ -2,17 +2,23 @@
 (function($) {
   'use strict';
 
+  function dropdown() {
+    return $('.js-mobile-user-menu .navigation-inner > .main-menu-third-level');
+  }
+
   // Profile dropdown
   Drupal.behaviors.profile_dropdown = {
     attach: function(context, settings) {
-      var dropdown = $('.js-mobile-user-menu .navigation-inner > .main-menu-third-level', context),
-          my_account = $('a.topbar-link-user-account', context),
-          body = $('body', context),
-          second_menu_block = $('.pane-menu-block-main-menu-second-level', context);
+      var my_account = $('a.topbar-link-user-account', context),
+        body = $('body');
 
-      //Open/close mobile menu on click
-      my_account.on('click', function(event){
-        if($('.is-tablet', context).is(':visible')) {
+      if (my_account.length === 0) {
+        return;
+      }
+
+      // Open/close mobile menu on click.
+      my_account.on('click', function(event) {
+        if ($('.is-tablet', context).is(':visible')) {
           event.preventDefault();
           body.toggleClass('mobile-usermenu-is-open');
           body.removeClass('mobile-menu-is-open pane-login-is-open mobile-search-is-open');
@@ -24,42 +30,43 @@
         }
       });
 
-      //Open dropdown when mouse enters my account menu-link
-      my_account.on('mouseenter', function(){
-        if(!$('.is-tablet', context).is(':visible')) {
-          console.log(second_menu_block.height());
-          dropdown.css({
-            'left': my_account.position().left - (dropdown.width() - my_account.width()),
+      // Open dropdown when mouse enters my account menu-link.
+      my_account.on('mouseenter', function() {
+        if (!$('.is-tablet', context).is(':visible')) {
+          dropdown().css({
+            'left': my_account.position().left - (dropdown().width() - my_account.width()),
           });
           body.addClass('mobile-usermenu-is-open');
           my_account.addClass('js-active active');
-        }
-      });
 
-      //Close dropdown when mouse leaves the dropdown
-      dropdown.on('mouseleave', function(){
-        if(!$('.is-tablet', context).is(':visible')) {
-          dropdown.css({
-            'left': 0,
+          // Close dropdown when mouse leaves the dropdown.
+          dropdown().on('mouseleave.profiledropdown', function() {
+            if (!$('.is-tablet', context).is(':visible')) {
+              dropdown().css({
+                'left': 0,
+              });
+              body.removeClass('mobile-usermenu-is-open');
+              my_account.removeClass('js-active active');
+
+              dropdown().off('mouseleave.profiledropdown');
+            }
           });
-          body.removeClass('mobile-usermenu-is-open');
-          my_account.removeClass('js-active active');
         }
       });
 
-      //Close dropdown when mouse leaves my-account menu-link from the sides
-      my_account.on('mouseleave', function(event){
+      // Close dropdown when mouse leaves my-account menu-link from the sides.
+      my_account.on('mouseleave', function(event) {
         if(!$('.is-tablet', context).is(':visible')) {
           if (event.offsetX < 0 || event.offsetX > $(this).width()) {
-            dropdown.css({
+            dropdown().css({
               'left': 0,
             });
             body.removeClass('mobile-usermenu-is-open');
             my_account.removeClass('js-active active');
+            dropdown().off('mouseleave.profiledropdown');
           }
         }
       });
-
     }
   };
 

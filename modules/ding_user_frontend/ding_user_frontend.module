@@ -233,7 +233,7 @@ function ding_user_frontend_build_menu($path = NULL) {
 
     // Default menu item render array.
     $menu_item_defaults = array(
-      '#theme' => 'menu_link',
+      '#theme' => 'menu_link__user_menu',
       '#below' => array(),
       '#localized_options' => array(
         'attributes' => array(

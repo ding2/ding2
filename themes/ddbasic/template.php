@@ -114,6 +114,15 @@ function ddbasic_process_html(&$vars) {
  * Implements hook_preprocess_panels_pane().
  */
 function ddbasic_preprocess_panels_pane(&$vars) {
+  // If using lazy pane caching method, and lazy pane is returniing the rendered
+  // content, set the lazy_pane_render variable, so the template can take action
+  // accordingly.
+  $vars['is_lazy_pane_render'] = !empty($vars['pane']->cache['method'])
+    && $vars['pane']->cache['method'] === 'lazy'
+    && !empty($vars['display']->skip_cache);
+  if ($vars['is_lazy_pane_render']) {
+    $vars['theme_hook_suggestions'][] = 'panels_pane__lazy_pane_render';
+  }
 
   // Suggestions base on sub-type.
   $vars['theme_hook_suggestions'][] = 'panels_pane__' . str_replace('-', '__', $vars['pane']->subtype);
@@ -152,7 +161,6 @@ function ddbasic_preprocess_panels_pane(&$vars) {
   if ($vars['pane']->subtype == 'menu_block-main_menu_second_level') {
     ddbasic_body_class('has-second-level-menu');
   }
-
 }
 
 /**
@@ -384,6 +392,37 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_menu_links().
+ */
+function ddbasic_preprocess_menu_link(&$variables) {
+  if ($variables['theme_hook_original'] === 'menu_link__user_menu') {
+    $path = explode('/', $variables['element']['#href']);
+    switch (end($path)) {
+      case 'status-loans':
+        $loans = ddbasic_account_count_loans();
+        if (!empty($loans)) {
+          $variables['element']['#title'] .= ' (' . $loans . ')';
+        }
+        break;
+
+      case 'status-reservations':
+        $ready = ddbasic_account_count_reservation_ready();
+        if (!empty($ready)) {
+          $variables['element']['#title'] .= ' (' . $ready . ')';
+        }
+        break;
+
+      case 'status-debts':
+        $depts = ddbasic_account_count_depts();
+        if (!empty($depts)) {
+          $variables['element']['#title'] .= ' (' . $depts . ')';
+        }
+        break;
+    }
+  }
+}
+
+/**
  * Implements theme_menu_link().
  */
 function ddbasic_menu_link($vars) {
@@ -411,12 +450,16 @@ function ddbasic_menu_link($vars) {
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . $sub_menu . "</li>\n";
 }
 
+
+
 /**
  * Implements theme_menu_link().
  *
  * Add specific markup for top-bar menu exposed as menu_block_4.
  */
 function ddbasic_menu_link__menu_tabs_menu($vars) {
+  global $user;
+
   // Run classes array through our custom stripper.
   $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
 
@@ -463,6 +506,43 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
         $element['#title'] = 'My Account';
         $element['#attributes']['class'][] = 'topbar-link-user-account';
         $element['#localized_options']['attributes']['class'][] = 'topbar-link-user-account';
+
+        if (ding_user_is_provider_user($user)) {
+          // Fill the notification icon, in following priority.
+          // Depts, overdue, ready reservations, notifications.
+          $notification = array();
+          $depts = ddbasic_account_count_depts();
+          if (!empty($depts)) {
+            $notification = array(
+              'count' => $depts,
+              'type' => 'depts',
+            );
+          }
+
+          if (empty($notification)) {
+            $overdues = ddbasic_account_count_overdue_loans();
+            if (!empty($overdues)) {
+              $notification = array(
+                'count' => $overdues,
+                'type' => 'overdue',
+              );
+            }
+          }
+
+          if (empty($notification)) {
+            $ready = ddbasic_account_count_reservation_ready();
+            if (!empty($ready)) {
+              $notification = array(
+                'count' => $ready,
+                'type' => 'ready',
+              );
+            }
+          }
+
+          if (!empty($notification)) {
+            $element['#title'] .= '<div class="notification-count notification-count-type-' . $notification['type'] . '">' . $notification['count'] . '</div>';
+          }
+        }
       }
       else {
         $element['#attributes']['class'][] = 'topbar-link-user';
