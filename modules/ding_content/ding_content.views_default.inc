@@ -543,8 +543,6 @@ function ding_content_views_default_views() {
     t('Language'),
     t('Actions'),
     t('edit'),
-    t('Title'),
-    t('Published'),
     t('Author: Forename'),
     t('Forename (field_ding_staff_forename)'),
     t('Author: Surname'),

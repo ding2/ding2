@@ -93,10 +93,23 @@ function ding_campaign_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '4',
+          'weight' => '5',
+        ),
+        'metatags' => array(
+          'weight' => '9',
+        ),
+        'redirect' => array(
+          'weight' => '8',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'ding_serendipity_info' => array(
+          'full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__ding_campaign'] = $strongarm;

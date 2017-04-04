@@ -37,6 +37,17 @@ $weight-normal: 400;
     font-family: $font-family-bold;
   }
 
+  @if $name == 'display-large-bold' {
+    font-family: $font-family-bold;
+    font-size: 40px;
+    line-height: 44px;
+    // Mobile
+    @include media($mobile) {
+      font-size: 30px;
+      line-height: 36px;
+    }
+  }
+
   @if $name == 'display-large' {
     font-family: $font-family-light;
     font-size: 40px;

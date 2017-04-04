@@ -233,6 +233,38 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 }
 
 /**
+ * Ding Campaign.
+ */
+function ddbasic_preprocess__node__ding_campaign(&$variables) {
+  $type = ding_base_get_value('node', $variables['node'], 'field_camp_settings', 'value');
+  $image_uri = ding_base_get_value('node', $variables['node'], 'field_camp_image', 'uri');
+  $image_style = "crop_22_9";
+  $image_url = image_style_url($image_style, $image_uri);
+  $attributes = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'attributes');
+  $variables['type'] = drupal_html_class($type);
+  $variables['image'] = '<img src="' . $image_url . '">';
+  $variables['background'] = ($type == 'text_on_image' ? 'style="background-image: url(' . $image_url . ');"' : " ");
+  $variables['link'] = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'url');
+  $variables['link_attr'] = isset($attributes['target']) ? $variables['link_attr'] = $attributes['target'] : "";
+  $variables['panel_style'] = drupal_html_class($variables['elements']['#style']);
+
+  if (isset($type)) {
+    switch ($type) {
+      case 'image_and_text':
+        $image_style = "crop_16_9";
+        $image_url = image_style_url($image_style, $image_uri);
+        $variables['image'] = '<div class="ding-campaign-image" style="background-image: url(' . $image_url . '"></div>';
+      break;
+      case 'image':
+        $image_style = "crop_22_9";
+        $image_url = image_style_url($image_style, $image_uri);
+        $variables['image'] = '<img class="ding-campaign-image" src="' . $image_url . '">';
+      break;
+    }
+  }
+}
+
+/**
  * Ding Library.
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
