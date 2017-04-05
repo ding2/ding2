@@ -117,12 +117,12 @@ $carousel-tab-color:                       $white;
   ul {
     li {
       list-style: none;
+      width: $carousel-image-width;
     }
   }
   li {
     margin-right: 20px;
     position: relative;
-    width: $carousel-image-width;
 
     img {
       min-width: 100%;
