@@ -31,7 +31,11 @@ function theme_ding_list_create_info($variables) {
     '!help' => l(t('Here'), 'help/lists'),
   ));
 
-  $out .= theme('item_list', array('items' => $items));
+  $list = array(
+    '#theme' => 'item_list',
+    '#items' => $items,
+  );
+  $out .= drupal_render($list);;
 
   return '<div class="ding-list-create-info">' . $out . '</div>';
 }

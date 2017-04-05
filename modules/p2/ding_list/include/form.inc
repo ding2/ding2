@@ -347,7 +347,11 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       return;
     }
 
-    drupal_set_message(theme('ding_list_create_info', array('list' => $list)));
+    $out = array(
+      '#theme' => 'ding_list_create_info',
+      '#list' => $list,
+    );
+    drupal_set_message(drupal_render($out));
   }
   else {
     $list = ding_list_get_list($form_state['existing']);
