@@ -500,8 +500,6 @@ function ding_serendipity_user_audience($account = NULL) {
     cache_set($cache_id, $result, 'cache', REQUEST_TIME + $expire);
   }
 
-  dpm($result);
-
   return $result;
 }
 
