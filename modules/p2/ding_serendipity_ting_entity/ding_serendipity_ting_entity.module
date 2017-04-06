@@ -70,7 +70,7 @@ function ding_serendipity_ting_entity_adhl_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-  
+
   $types = variable_get('ting_well_types', array());
   $form['ding_serendipity_ting_entity_adhl_accepted_types'] = array(
     '#type' => 'checkboxes',
@@ -78,7 +78,7 @@ function ding_serendipity_ting_entity_adhl_settings() {
     '#options' => drupal_map_assoc(array_keys($types)),
     '#default_value' => variable_get('ding_serendipity_ting_entity_adhl_accepted_types', array()),
   );
-  
+
   return system_settings_form($form);
 }
 
@@ -86,7 +86,7 @@ function ding_serendipity_ting_entity_adhl_settings() {
  * Implements hook_PLUGIN_NAME_serendipity_add().
  */
 function ding_serendipity_ting_entity_ting_object_author_serendipity_add($context) {
-  
+
   $results = array();
 
   // Ensure that the active page is a ting_object
@@ -98,27 +98,27 @@ function ding_serendipity_ting_entity_ting_object_author_serendipity_add($contex
 
   // Get the creator if such entry exists.
   $creators = $obj->getCreators();
-    
+
   if (empty($creators)) {
     return $results;
   }
-  
+
   foreach ($creators as & $creator) {
     $creator = 'facet.creator="' . $creator . '"';
   }
-  
+
   // Find related content from any of the creators.
   $query = implode(' OR ', $creators);
-  
+
   // Limit to same language to reduce signal to noise.
   $lang = $obj->getLanguage();
   if (!empty($lang)) {
     $query = "(" . $query . ") AND facet.language=" . $obj->getLanguage();
   }
-  
+
   $results = ding_serendipity_do_search($query, array());
   ding_serendipity_exclude($results, $context['ting_object_id']);
-    
+
   foreach ($results as &$item) {
     $item['info'] = array(
       'description' => t('This material has been selected based on the authors of the material you are viewing.'),
@@ -147,7 +147,7 @@ function ding_serendipity_ting_entity_ting_object_subject_serendipity_add($conte
   foreach ($subject as & $facet) {
     $facet = 'facet.subject="' . $facet . '"';
   }
-  
+
   // Search with only subjects.
   $query = implode(' OR ', $subject);
   if (!empty($query)) {
@@ -160,7 +160,7 @@ function ding_serendipity_ting_entity_ting_object_subject_serendipity_add($conte
       );
     }
   }
-  
+
   return $results;
 }
 
@@ -186,7 +186,7 @@ function ding_serendipity_ting_entity_ting_object_type_serendipity_add($context)
   if (empty($type) || $type == 'Bog' || $type == 'Avisartikel' || $type == 'Tidsskriftsartikel') {
     return $results;
   }
-  
+
   if ($type) {
     $query = 'dc.type="' . $type . '"';
     $query = ding_list_convert_cql($query);
@@ -199,7 +199,7 @@ function ding_serendipity_ting_entity_ting_object_type_serendipity_add($context)
       );
     }
   }
-  
+
   return $results;
 }
 
@@ -215,10 +215,10 @@ function ding_serendipity_ting_entity_ting_object_adhl_serendipity_add($context)
   }
 
   $obj = ding_entity_load($context['ting_object_id'], 'ting_object');
-  
+
   // Get accepted ting types.
   $accepted_types = variable_get('ding_serendipity_ting_entity_adhl_accepted_types', array());
-  
+
   $type = strtolower($obj->getType());
   if (!empty($obj) && isset($accepted_types[$type]) && $accepted_types[$type]) {
     $record = $obj->getRecord();
@@ -227,7 +227,7 @@ function ding_serendipity_ting_entity_ting_object_adhl_serendipity_add($context)
       if (($agency = variable_get('ting_agency', '')) != '') {
         $agency .= ':';
       }
-      
+
       $recommendations = ting_get_object_recommendations($obj->getIsbn());
       ding_serendipity_exclude($recommendations, $context['ting_object_id']);
 
@@ -258,7 +258,7 @@ function ding_serendipity_ting_entity_ting_object_adhr_serendipity_add($context)
   }
 
   $obj = ding_entity_load($context['ting_object_id'], 'ting_object');
-  
+
   try {
     $results = ding_provider_invoke('openlist', 'call_module', 'TingObjectRating', 'getSuggestion', array($obj->ding_entity_id, ding_provider_invoke('openlist', 'user_identifier')));
     ding_serendipity_exclude($results, $context['ting_object_id']);
@@ -266,11 +266,11 @@ function ding_serendipity_ting_entity_ting_object_adhr_serendipity_add($context)
   catch (Exception $e) {
     watchdog_exception('ding_serendipity_ting_entity', $e);
   }
-  
+
   foreach ($results as &$item) {
     $item = array(
       'type' => 'ting_object',
-      'id' => $item['object_id'],
+      'id' => isset($item['object_id']) ? $item['object_id'] : $item,
       'info' => array(
         'description' => t('Because other people who also liked !title liked this.', array('!title' => $obj->title)),
       ),
@@ -292,14 +292,14 @@ function ding_serendipity_ting_entity_ting_object_openlist_adhl_serendipity_add(
   }
 
   $obj = ding_entity_load($context['ting_object_id'], 'ting_object');
-  
+
   try {
     $results = ding_provider_invoke('openlist', 'call_module', 'LoanHistory', 'getSuggestion', array($obj->ding_entity_id, ding_provider_invoke('openlist', 'user_identifier')));
   }
   catch (Exception $e) {
     watchdog_exception('ding_serendipity_ting_entity', $e);
   }
-  
+
   foreach ($results as &$item) {
     $item = array(
       'type' => 'ting_object',
