@@ -35,7 +35,7 @@ define('DING_SERENDIPITY_DEFAULT_FALLBACK_STRING', 'facet.type=bog');
 /**
  * Percentage of books that needs to be a specific audience to "guess" it.
  */
-define('DING_SERENDIPITY_AUDIENCE_LIMIT', 0.95);
+define('DING_SERENDIPITY_AUDIENCE_LIMIT', 0.9);
 
 /**
  * Implements hook_menu().
@@ -450,21 +450,31 @@ function ding_serendipity_user_audience($account = NULL) {
   }
 
   $audiences = array();
+  $ids = array();
   $result = FALSE;
 
-  $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $account);
+  if (FALSE && ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)) {
+    $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $account);
 
-  if (!empty($list)) {
-    $items = ding_base_get_items('ding_type', $list, 'field_list_objects');
-    foreach ($items as &$item) {
-      $item = $item['target_id'];
+    if (!empty($list)) {
+      $items = ding_base_get_items('ding_type', $list, 'field_list_objects');
+      $items = array_slice($items, -10);
+      foreach ($items as &$item) {
+        $item = $item['target_id'];
+      }
+
+      foreach (entity_load('ding_type', $items) as $item) {
+        $ids[] = ding_base_get_value('ding_type', $item, 'field_value');
+      }
     }
-
-    $ids = array();
-    foreach (entity_load('ding_type', $items) as $item) {
-      $ids[] = ding_base_get_value('ding_type', $item, 'field_value');
+  }
+  else {
+    foreach (ding_provider_invoke('loan', 'list', $account) as $loan) {
+      $ids[] = $loan->ding_entity_id;
     }
+  }
 
+  if (!empty($ids)) {
     foreach (ding_serendipity_do_search(implode(" OR ", $ids), array('limit' => count($ids))) as $collection) {
       $entity = $collection['object']->getPrimary_object();
       $audience = !empty($entity->reply->record['dcterms:audience'][''][0]) ? $entity->reply->record['dcterms:audience'][''][0] : FALSE;
@@ -489,6 +499,8 @@ function ding_serendipity_user_audience($account = NULL) {
     $expire = variable_get('ding_serendipity_cache_lifetime', 600);
     cache_set($cache_id, $result, 'cache', REQUEST_TIME + $expire);
   }
+
+  dpm($result);
 
   return $result;
 }
@@ -535,8 +547,8 @@ function ding_serendipity_get_existing_list_materials($account = NULL) {
   }
   // Flatten the array.
   $elements = call_user_func_array('array_merge', $elements);
-  foreach ($items as &$item) {
-    $item = $item['target_id'];
+  foreach ($elements as &$element) {
+    $element = $element['target_id'];
   }
 
   // Load all the elements and their ids.
