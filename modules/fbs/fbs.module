@@ -396,7 +396,7 @@ function fbs_form_ding_availability_admin_holdings_settings_alter(&$form, &$form
   $form['holdings']['fbs_show_material_group'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show material group description'),
-    '#default_value' => variable_get('show_material_group', 0),
+    '#default_value' => variable_get('fbs_show_material_group', 0),
   );
   $form['holdings']['fbs_holdings_suffix_type'] = array(
     '#type' => 'radios',
