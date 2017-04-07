@@ -124,7 +124,9 @@
         return this;
       }
 
-      $('body').removeClass(POPUPBAR_CLASS_OPEN);
+      $('body')
+        .removeClass(POPUPBAR_CLASS_OPEN)
+        .unbind('click.popupbar');
 
       return this;
     },
@@ -133,7 +135,15 @@
      * Open the popupbar.
      */
     open: function () {
-      $('body').addClass(POPUPBAR_CLASS_OPEN);
+      var self = this;
+
+      $('body')
+        .addClass(POPUPBAR_CLASS_OPEN)
+        .bind('click.popupbar', function (evt) {
+          if ($(evt.target).closest('#popupbar').length === 0) {
+            self.close();
+          }
+        });
 
       return this;
     },
