@@ -447,3 +447,28 @@ function ding2_update_7031() {
 function ding2_update_7032() {
   module_enable(array('ding_campaign'));
 }
+
+/**
+ * Disable flag module or disable "bookmark" view.
+ */
+function ding2_update_7033() {
+  // Only disable the flag module if no other module is using it.
+  // This is done to get rid of the user/bookmarks url.
+  $modules = system_rebuild_module_data();
+  $remove_flag = TRUE;
+  foreach ($modules['flag']->required_by as $module_name => $module) {
+    if (module_exists($module_name)) {
+      $remove_flag = FALSE;
+      break;
+    }
+  }
+
+  if ($remove_flag) {
+    module_disable(array('flag'));
+  }
+  else {
+    $status = variable_get('views_defaults', array());
+    $status['flag_bookmarks_tab'] = TRUE;
+    variable_set('views_defaults', $status);
+  }
+}
