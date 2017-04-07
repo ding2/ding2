@@ -1150,3 +1150,35 @@ function ding_serendipity_exclude(&$list, $excludes) {
   }
 
 }
+
+/**
+ * Callback for testing cql.
+ */
+function ding_serendipity_test_cql_callback($form, &$form_state) {
+  $cql = $form_state['values'][$form_state['triggering_element']['#cql_element']];
+  $list = array(
+    '#theme' => 'item_list',
+    '#items' => array(),
+  );
+
+  $results = ting_do_search($cql);
+
+  if ($results) {
+    $list['#items'][] = t('Total results: @count', array('@count' => $results->numTotalObjects));
+
+    if (!empty($results->collections)) {
+      foreach ($results->collections as $id => $result) {
+        $list['#items'][] = '[' . $id . '] ' . $result->getTitle();
+      }
+
+      if (!empty($results->more)) {
+        $list['#items'][] = '...';
+      }
+    }
+  }
+  else {
+    $list['#items'][] = t('Total results: @count', array('@count' => 0));
+  }
+
+  return '<div id="test-cql-container">' . drupal_render($list) . '</div>';
+}
