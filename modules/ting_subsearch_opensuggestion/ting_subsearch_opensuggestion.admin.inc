@@ -31,4 +31,17 @@ function ting_subsearch_opensuggestion_form_ting_admin_ting_settings_alter(&$for
     '#default_value' => variable_get('ting_subsearch_os_message_limit', 10),
     '#description' => t('Minimum number of hits on secondary search to display suggested search message. Given that the trigger above is hit.'),
   );
+  $form['subsearch_settings']['kpi_settings']['ting_subsearch_os_additional_url_params_0_hit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Additional URL parameters for redirect link'),
+    '#default_value' => variable_get('ting_subsearch_os_additional_url_params_0_hit', ''),
+    '#description' => t('Parameters goes like this param1=value1&amp;param2=value2. Do not assume that the first parameter is the first actual. The system will figure it out.'),
+  );
+
+  $form['subsearch_settings']['kpi_settings']['ting_subsearch_os_additional_url_params_inlimit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Additional URL parameters for link in message'),
+    '#default_value' => variable_get('ting_subsearch_os_additional_url_params_inlimit', ''),
+    '#description' => t('Parameters goes like this param1=value1&amp;param2=value2. Do not assume that the first parameter is the first actual. The system will figure it out.'),
+  );
 }

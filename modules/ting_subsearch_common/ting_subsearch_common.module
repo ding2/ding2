@@ -71,6 +71,14 @@ function ting_subsearch_common_suggested_keys($keys, $callback) {
 }
 
 /**
+ * Split query string.
+ */
+function ting_subsearch_common_query_params($query, $original_query = array()) {
+  $result = array_merge($original_query, drupal_get_query_array($query));
+  return $result;
+}
+
+/**
  * Implements hook_libraries_info().
  */
 function ting_subsearch_common_libraries_info() {

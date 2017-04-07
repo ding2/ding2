@@ -49,9 +49,10 @@ function ting_subsearch_opensuggestion_ting_search_results_prefix($keys, $condit
       $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
       // Only redirect to "correct" keys search if it has a positive result.
       if ($secondary_result->numTotalObjects > 0) {
-        $params['query'] = array(
+        $additional_query = array(
           'original-search' => $search_result->search_key,
         );
+        $params['query'] = ting_subsearch_common_query_params(variable_get('ting_subsearch_os_additional_url_params_0_hit', ''), $additional_query);
         drupal_goto('search/ting/' . strtolower($suggestion), $params);
       }
     }
@@ -65,8 +66,8 @@ function ting_subsearch_opensuggestion_ting_search_results_prefix($keys, $condit
       if ($suggested_result->numTotalObjects >= variable_get('ting_subsearch_os_message_limit', 10)) {
 
         // Set message!
-        $msg = t('The search for "!keys" returned !num-results hits. Did you mean "<a href="/search/ting/!suggested-keys">!suggested-keys</a>?" which will return !suggested-num-results hits.', array(
-          '!suggested-keys' => strtolower($suggestion),
+        $msg = t('The search for "!keys" returned !num-results hits. Did you mean "!suggested-keys-link?" which will return !suggested-num-results hits.', array(
+          '!suggested-keys-link' => l(strtolower($suggestion), '/search/ting/' . strtolower($suggestion), array('query' => ting_subsearch_common_query_params(variable_get('ting_subsearch_os_additional_url_params_inlimit', '')))),
           '!suggested-num-results' => $suggested_result->numTotalObjects,
           '!keys' => $keys,
           '!num-results' => $results->numTotalObjects,
