@@ -356,13 +356,28 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
       $items = field_get_items('node', $node, 'field_ding_event_date');
       if (is_array($items) && !empty($items)) {
         $item = reset($items);
+
+        $field_field = field_info_field('field_ding_event_date');
+        $field_instance = field_info_instance('node', 'field_ding_event_date', 'ding_event');
+
+        $tz = date_default_timezone(FALSE);
+        $from_object = new DateObject($item['value'], 'UTC', date_type_format($field_field['type']));
+        $from_object->setTimezone(new DateTimeZone($tz));
+        $to_object = new DateObject($item['value2'], 'UTC', date_type_format($field_field['type']));
+        $to_object->setTimezone(new DateTimeZone($tz));
+
+        $all_day = date_all_day_field($field_field, $field_instance, $from_object, $to_object);
+
         $mapping['fields']['field_ding_event_date'] = array(
           'name' => 'Event date',
           'value' => array(
             'from' => $item['value'],
             'to' => $item['value2'],
           ),
-          'attr' => array(),
+          'attr' => array(
+            'timezone' => $tz,
+            'all_day' => $all_day,
+          ),
         );
       }
       $tag_field = 'field_ding_event_tags';
