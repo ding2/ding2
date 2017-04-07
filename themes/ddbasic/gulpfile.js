@@ -74,7 +74,7 @@ gulp.task('sass', 'Process SCSS using libsass',
       .pipe(sass({outputStyle: 'nested'})
         .on('error', sass.logError))
       // Save verbose output for testing purposes.
-      .pipe(gulp.dest('./sass_css/verbose_output'))
+      .pipe(gulp.dest('./sass_css_verbose_output'))
       // Minify the css and save it.
       .pipe(cleanCSS())
       .pipe(gulp.dest('./sass_css'));
