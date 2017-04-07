@@ -37,22 +37,26 @@ function fbs_field_default_field_instances() {
       'module' => 'virtual_field',
       'settings' => array(),
       'type' => 'hidden',
-      'weight' => 15,
+      'weight' => 8,
     ),
   );
 
   // Exported field_instance: 'profile2-provider_fbs-field_fbs_interest_period'
   $field_instances['profile2-provider_fbs-field_fbs_interest_period'] = array(
     'bundle' => 'provider_fbs',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'value' => 90,
+      ),
+    ),
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'fbs',
+        'module' => 'list',
         'settings' => array(),
-        'type' => 'fbs_interest_period',
+        'type' => 'list_default',
         'weight' => 6,
       ),
     ),
@@ -65,10 +69,10 @@ function fbs_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'fbs',
+      'module' => 'options',
       'settings' => array(),
-      'type' => 'fbs_options_select',
-      'weight' => 6,
+      'type' => 'options_select',
+      'weight' => 5,
     ),
   );
 
@@ -102,7 +106,7 @@ function fbs_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 4,
+      'weight' => 3,
     ),
   );
 
@@ -135,7 +139,7 @@ function fbs_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'fbs_options_onoff',
-      'weight' => 5,
+      'weight' => 4,
     ),
   );
 
@@ -166,7 +170,7 @@ function fbs_field_default_field_instances() {
       'module' => 'virtual_field',
       'settings' => array(),
       'type' => 'hidden',
-      'weight' => 1,
+      'weight' => 0,
     ),
   );
 
@@ -197,7 +201,7 @@ function fbs_field_default_field_instances() {
       'module' => 'fbs',
       'settings' => array(),
       'type' => 'fbs_period',
-      'weight' => 11,
+      'weight' => 7,
     ),
   );
 
@@ -231,7 +235,7 @@ function fbs_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 2,
+      'weight' => 1,
     ),
   );
 
@@ -264,7 +268,7 @@ function fbs_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'fbs_options_onoff',
-      'weight' => 3,
+      'weight' => 2,
     ),
   );
 
@@ -295,7 +299,7 @@ function fbs_field_default_field_instances() {
       'module' => 'fbs',
       'settings' => array(),
       'type' => 'fbs_options_select',
-      'weight' => 7,
+      'weight' => 6,
     ),
   );
 
