@@ -1,78 +1,78 @@
 p.p_infomedia {
-  margin-bottom:0.5em;
-  padding:0;
+  margin-bottom: 0.5em;
+  padding: 0;
 }
 
 h4 {
-  font-size:1.2em;
+  font-size: 1.2em;
 }
 
 div.infomedia_HeadLine {
-  font-size:1.5em;
+  font-size: 1.5em;
   font-weight: bold;
   padding-bottom: 0.25em;
 }
 
 div.infomedia_SubHeadLine {
-  font-weight:bold;
-  margin-bottom:5px;
-  margin-top:5px;
-  font-size:1.1em;
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  font-size: 1.1em;
 }
 
 div.infomedia_ByLine {
-  float:left;
+  float: left;
 }
 
 div.infomedia_paper {
-  float:right;
-  margin-right:1em;
+  float: right;
+  margin-right: 1em;
 }
 
 div.infomedia_DateLine {
-  float:right;
+  float: right;
 }
 
 div#infomedia_wrap {
-  float:left;
-  margin:0.5em;
+  float: left;
+  margin: 0.5em;
 }
 
 div.infomedia_hedline {
-  clear:both;
-  padding-top:5px;
-  font-weight:bold;
-  font-size:1.1em;
-  border-top:1px dotted #CCCCCC;
-  margin-bottom:10px;
+  clear: both;
+  padding-top: 5px;
+  font-weight: bold;
+  font-size: 1.1em;
+  border-top: 1px dotted #cccccc;
+  margin-bottom: 10px;
 }
 
 div.infomedia_tabs {
-  float:right;
-  margin-right:0.5em;
+  float: right;
+  margin-right: 0.5em;
 }
 
 div.infomedia_tab {
-  border-bottom:1px solid #000000;
-  border-left:1px solid #000000;
-  float:left;
-  padding:5px;
-  cursor:pointer;
-  max-width:150px;
-  height:13px;
-  overflow:hidden;
+  border-bottom: 1px solid #000000;
+  border-left: 1px solid #000000;
+  float: left;
+  padding: 5px;
+  cursor: pointer;
+  max-width: 150px;
+  height: 13px;
+  overflow: hidden;
 }
 
 
 div.tab_active {
-  background:none;
-  background-color:#FFFFFF;
-  border-top:1px solid #000000;
-  border-bottom:none;
+  background: none;
+  background-color: #ffffff;
+  border-top: 1px solid #000000;
+  border-bottom: none;
 }
 
 div.select {
-  float:left;
+  float: left;
 }
 
 div.infomedia-image {
@@ -83,17 +83,16 @@ div.infomedia-image {
 
 div.infomedia_print {
   float: left;
-  margin-left:0.5em;
-  margin-top:0.5em;
+  margin-left: 0.5em;
+  margin-top: 0.5em;
 }
 
 div.infomedia_error {
-  border:1px #CCCCCC solid;
-  margin:1px;
-  padding:5px;
+  border: 1px #cccccc solid;
+  margin: 1px;
+  padding: 5px;
 }
 
 div.infomedia_logo {
-  display:none;
+  display: none;
 }
-
