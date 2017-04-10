@@ -206,7 +206,7 @@ function ting_openlist_handler_get_user_elements($user_identifier, $from) {
  * @return mixed
  *   The return of the module.
  */
-function ting_openlist_handler_call_module($module, $method, array $arguments) {
+function ting_openlist_handler_call_module($module, $method, array $arguments = array()) {
   $method = 'callModule';
   return ting_openlist_request($method, func_get_args());
 }
