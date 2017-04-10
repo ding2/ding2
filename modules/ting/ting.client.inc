@@ -151,7 +151,7 @@ function ting_get_objects($ids) {
     if ($object === FALSE) {
       // So if the agency match lets search theme as that's faster then fetching
       // them one by one.
-      if (preg_match('/^(890790-basis|' . $agency . '-katalog|' . $agency . ')/', $id)) {
+      if (preg_match('/^(870970-basis|' . $agency . '-katalog|' . $agency . ')/', $id)) {
         $query[] = 'rec.id=' . $id;
       }
       else {
