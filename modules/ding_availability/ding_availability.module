@@ -64,6 +64,9 @@ function ding_availability_theme($existing, $type, $theme, $path) {
         'total_count' => NULL,
         'reserved_count' => NULL,
         'total_plus_ordered_count' => NULL,
+        'reserved_text' => NULL,
+        'acquisition_text' => NULL,
+        'total_text' => NULL,
       ),
       'path' => $path . '/templates',
     ),
@@ -211,20 +214,39 @@ function ding_availability_holdings($provider_ids) {
         $rows[] = ding_availability_holdings_row($holding, array_keys($header));
       }
 
-      // Theme the output.
-      $item['html'] = theme('ding_holdings', array(
+      $total_count = (int) $item['total_count'];
+      $reserved_count = (int) $item['reserved_count'];
+      $ordered_count = (int) $item['ordered_count'];
+      $total_and_ordered_count = $total_count + $ordered_count;
+      $variables = array(
         'holdings' => array(
           '#theme' => 'table',
           '#header' => $header,
           '#rows' => $rows,
           '#attributes' => $attributes,
         ),
-        'total_count' => (int) $item['total_count'],
-        'reserved_count' => (int) $item['reserved_count'],
+        'total_count' => $total_count,
+        'reserved_count' => $reserved_count,
         'closest_loan' => (count($item['holdings']) == $copies) ? ding_availability_holding_format_time($closest_loan) : NULL,
-        'ordered_count' => (int) $item['ordered_count'],
-        'total_plus_ordered_count' => (int) $item['total_count'] + (int) $item['ordered_count'],
-      ));
+        'ordered_count' => $ordered_count,
+        'total_plus_ordered_count' => $total_and_ordered_count,
+        'reserved_text' => format_plural($reserved_count,
+                         'There is 1 user in queue to loan the material.',
+                         'There are @count users in queue to loan the material.'),
+        'acquisition_text' => '',
+        'total_text' => format_plural($total_count + $ordered_count,
+                      'We have 1 copy.',
+                      'We have @count copies.',
+                      array('@count' => $total_and_ordered_count)),
+      );
+      if ($ordered_count) {
+        $variables['acquisition_text'] = format_plural($ordered_count,
+                                         '1 copy in acquisition.',
+                                         '@count copies are in acquisition.',
+                                         array('@count' => $ordered_count));
+      }
+      // Theme the output.
+      $item['html'] = theme('ding_holdings', $variables);
     }
   }
 
