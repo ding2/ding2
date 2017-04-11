@@ -317,8 +317,8 @@ function _ding2_remove_form_requirements(&$value, $key) {
 function ding2_module_selection_form($form, &$form_state) {
   // Available providers.
   $providers = array(
-    'alma' => 'Alma',
-    'openruth' => 'Openruth',
+    'fbs' => 'FBS',
+    'connie' => 'Connie (for testing without a library system)',
   );
 
   $form['providers'] = array(
@@ -332,7 +332,7 @@ function ding2_module_selection_form($form, &$form_state) {
     '#title' => '',
     '#type' => 'radios',
     '#options' => $providers,
-    '#default_value' => 'alma',
+    '#default_value' => 'fbs',
   );
 
   //
