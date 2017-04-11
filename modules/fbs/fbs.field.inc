@@ -123,7 +123,7 @@ function fbs_field_info() {
       'property_type' => 'struct',
       'property_callbacks' => array('fbs_field_property_callback'),
     ),
-);
+  );
 }
 
 /**
@@ -464,24 +464,18 @@ function fbs_field_formatter_view($entity_type, $entity, $field, $instance, $lan
           return;
         }
         elseif (empty($item['from'])) {
-          $markup = t('To !end-date', array(
-                      '!end-date' => format_date($item['to'],
-                                   'ding_material_lists_date'),
-          ));
+          $end_date = format_date($item['to'], 'ding_material_lists_date');
+          $markup = t('To !end-date', array('!end-date' => $end_date));
         }
         elseif (empty($item['to'])) {
-          $markup = t('From !start-date', array(
-                      '!start-date' => format_date($item['from'],
-                                     'ding_material_lists_date'),
-                    ));
+          $start_date = format_date($item['from'], 'ding_material_lists_date');
+          $markup = t('From !start-date', array('!start-date' => $start_date));
         }
         else {
-          $markup = t('From !start-date to !end-date', array(
-                      '!start-date' => format_date($item['from'],
-                                     'ding_material_lists_date'),
-                      '!end-date' => format_date($item['to'],
-                                   'ding_material_lists_date'),
-                    ));
+          $start_date = format_date($item['from'], 'ding_material_lists_date');
+          $end_date = format_date($item['to'], 'ding_material_lists_date');
+          $placeholders = array('!start-date' => $start_date, '!end-date' => $end_date);
+          $markup = t('From !start-date to !end-date', $placeholders);
         }
 
         $element[$delta] = array(

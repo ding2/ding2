@@ -5,6 +5,13 @@
  * FBS provider module.
  */
 
+use FBS\Model\Patron;
+use FBS\Model\PatronSettings;
+use FBS\Model\Period;
+use FBS\Model\Periodical;
+use FBS\Model\PeriodicalReservation;
+use FBS\Model\UpdatePatronRequest;
+
 include_once 'fbs.features.inc';
 
 // Load Field module hooks. Wrapping in function exists, so we'll still be
@@ -34,10 +41,10 @@ function fbs_libraries_info() {
       'download url' => 'https://github.com/cweiske/jsonmapper',
       'version' => 'v0.4.4',
       'xautoload' => function ($adapter) {
-        // Would like to:
-        // $adapter->composerJson('composer.json');
-        // But xautoload can't figure it out.
         $adapter->addClassMap(
+          // Would like to:
+          // $adapter->composerJson('composer.json');
+          // But xautoload can't figure it out.
           array(
             'JsonMapper' => 'src/JsonMapper.php',
             'JsonMapper_Exception' => 'src/JsonMapper/Exception.php',
@@ -133,7 +140,6 @@ function fbs_get_patron_info($account = NULL) {
   $creds = ding_user_get_creds($user);
   return $creds;
 }
-
 
 /**
  * Return patron id for user.
@@ -293,7 +299,6 @@ function fbs_settings_form() {
     '#description' => t('Choose which branches to blacklist from user profile.'),
   );
 
-
   $fbs_user_branches_blacklist = variable_get('fbs_user_branches_blacklist', array());
 
   foreach ($fbs_branches as $bid => $user_branch) {
@@ -412,12 +417,12 @@ function fbs_profile2_presave($entity) {
   );
 
   if (array_diff_assoc($current, $existing) || array_diff_assoc($current_on_hold, $existing_on_hold)) {
-    $period = new FBS\Model\Period();
+    $period = new Period();
     $period->from = $current_on_hold['from'];
     $period->to = $current_on_hold['to'];
 
-    $update = new FBS\Model\UpdatePatronRequest();
-    $patron_settings = new FBS\Model\PatronSettings();
+    $update = new UpdatePatronRequest();
+    $patron_settings = new PatronSettings();
     foreach ($current as $key => $val) {
       $patron_settings->{$key} = $val;
     }
@@ -540,7 +545,6 @@ function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state)
   }
 }
 
-
 /**
  * Pack patron info in an array.
  *
@@ -553,7 +557,7 @@ function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state)
  * @return array
  *   Data to save.
  */
-function _fbs_patron_info(FBS\Model\Patron $patron) {
+function _fbs_patron_info(Patron $patron) {
   $creds = array(
     'patronId' => $patron->patronId,
     'name' => $patron->name,
@@ -599,7 +603,7 @@ function _fbs_patron_info(FBS\Model\Patron $patron) {
  * @return string
  *   The pseudo id.
  */
-function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodical) {
+function _fbs_periodical_get_local_id($record_id, Periodical $periodical) {
   // We're using - as a placeholder for empty values, it ensures that there'll
   // be something between the colons, which in turn means we don't have to
   // deal with the possibility of two colons in a row.
@@ -610,7 +614,7 @@ function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodic
     $record_id,
   );
 
-  $parts = array_map(function($part) {
+  $parts = array_map(function ($part) {
     // "Escape" the colons, so we can split on ":" later.
     return strtr($part, array(':' => '::'));
   }, $parts);
@@ -644,12 +648,12 @@ function _fbs_periodical_parse_local_id($local_id) {
     $parts = preg_split('/(?<!:):(?!:)/', $matches[1]);
 
     // Replace '-' with NULL and reverse the "escaping" of colon.
-    $parts = array_map(function($part) {
+    $parts = array_map(function ($part) {
       return $part === '-' ? NULL : strtr($part, array('::' => ':'));
     }, $parts);
   }
 
-  $periodical = new FBS\Model\PeriodicalReservation();
+  $periodical = new PeriodicalReservation();
   list(
     $periodical->volume,
     $periodical->volumeYear,
