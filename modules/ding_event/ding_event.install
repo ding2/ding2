@@ -157,3 +157,23 @@ function ding_event_update_7008() {
       ->execute();
   }
 }
+
+/**
+ * Change "field_ding_event_price" module and type.
+ */
+function ding_event_update_7009() {
+  $field = field_info_field('field_ding_event_price');
+
+  if ($field['type'] == 'text' && $field['module'] == 'text') {
+    $field['type'] = 'number_integer';
+    $field['module'] = 'number';
+
+    db_update('field_config')
+      ->fields(array(
+        'type' => 'number_integer',
+        'module' => 'number',
+      ))
+      ->condition('field_name', 'field_ding_event_price')
+      ->execute();
+  }
+}
