@@ -260,7 +260,7 @@ function ding2_render_og_menus(&$install_state) {
   }
 
   $batch = array(
-    'title' => t('Updating Default link'),
+    'title' => st('Updating Default link'),
     'operations' => array(
       array('og_menu_default_links_batch_default_links_process', array($menus)),
     ),
@@ -347,21 +347,21 @@ function ding2_module_selection_form($form, &$form_state) {
   $form['proxy']['sslproxy_enable'] = array(
     '#type' => 'checkbox',
     '#title' => 'Enable SSL proxy',
-    '#description' => 'Enable the SSL proxy module.',
+    '#description' => st('Enable the SSL proxy module.'),
     '#default_value' => TRUE,
   );
 
   $form['proxy']['sslproxy_var'] = array(
     '#type' => 'textfield',
-    '#title' => t('SSL Proxy Variable'),
-    '#description' => t('The variable being set by the SSL proxy server.'),
+    '#title' => st('SSL Proxy Variable'),
+    '#description' => st('The variable being set by the SSL proxy server.'),
     '#default_value' => 'X-FORWARDED-PROTO',
   );
 
   $form['proxy']['sslproxy_var_value'] = array(
     '#type' => 'textfield',
-    '#title' => t('SSL Proxy Variable Value'),
-    '#description' => t('The value of the variable being set by the SSL proxy server.'),
+    '#title' => st('SSL Proxy Variable Value'),
+    '#description' => st('The value of the variable being set by the SSL proxy server.'),
     '#default_value' => 'https',
   );
 
@@ -545,7 +545,7 @@ function ding2_module_selection_form_validate($form, &$form_state) {
     }
     else {
       // File upload failed.
-      form_set_error('iosicon_upload', t('The iOS icon could not be uploaded.'));
+      form_set_error('iosicon_upload', st('The iOS icon could not be uploaded.'));
     }
   }
 
@@ -554,7 +554,7 @@ function ding2_module_selection_form_validate($form, &$form_state) {
   if ($form_state['values']['iosicon_path']) {
     $path = _system_theme_settings_validate_path($form_state['values']['iosicon_path']);
     if (!$path) {
-      form_set_error('iosicon_path', t('The custom iOS icon path is invalid.'));
+      form_set_error('iosicon_path', st('The custom iOS icon path is invalid.'));
     }
   }
 }
