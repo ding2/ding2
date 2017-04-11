@@ -124,7 +124,7 @@ function ding2_install_tasks(&$install_state) {
       'type' => 'batch',
     ),
 
-    // Configure and revert features.
+    // Set up menu.
     'ding2_render_og_menus' => array(
       'display_name' => st('OG Menus'),
       'display' => module_exists('ding_example_content'),
@@ -145,7 +145,6 @@ function ding2_install_tasks(&$install_state) {
 
   return $ret;
 }
-
 
 /**
  * Translation callback.
