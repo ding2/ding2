@@ -259,39 +259,19 @@ function fbs_settings_form() {
     '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
   );
 
-  // Update list of branches.
-  $form['update'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Update from library system'),
-  );
-
-  $form['update']['fbs_branches_last_updated'] = array(
-    '#markup' => '<label>Last updated:</label>' . (variable_get('fbs_branches_last_updated', 0) ? date('Y-m-d H:i:s', variable_get('fbs_branches_last_updated')) : '<em>' . t('Never') . '</em>'),
-  );
-
-  $form['update']['fbs_update'] = array(
-    '#type' => 'actions',
-    'submit' => array(
-      '#type' => 'submit',
-      '#value' => t('Update list'),
-    ),
-  );
-
   // Branches and blacklisted branches.
   $form['branches'] = array(
     '#type' => 'fieldset',
     '#title' => t('Holdings Branches Blacklist'),
     '#description' => t('Choose which branches to blacklist from searches'),
   );
-  $fbs_branches = variable_get('fbs_branches', array());
-  $fbs_branches_blacklist = variable_get('fbs_branches_blacklist', array());
-  foreach ($fbs_branches as $id => $branch) {
-    $form['branches']['fbs_branch_' . $id] = array(
-      '#type' => 'checkbox',
-      '#title' => check_plain($branch),
-      '#default_value' => isset($fbs_branches_blacklist[$id]) ? TRUE : FALSE,
-    );
-  }
+
+  $form['branches']['fbs_branches_blacklist'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Branches blacklist'),
+    '#options' => fbs_branches(),
+    '#default_value' => variable_get('fbs_branches_blacklist', array()),
+  );
 
   $form['user_branches'] = array(
     '#type' => 'fieldset',
@@ -299,71 +279,14 @@ function fbs_settings_form() {
     '#description' => t('Choose which branches to blacklist from user profile.'),
   );
 
-  $fbs_user_branches_blacklist = variable_get('fbs_user_branches_blacklist', array());
-
-  foreach ($fbs_branches as $bid => $user_branch) {
-    $form['user_branches']['fbs_user_branch_' . $bid] = array(
-      '#type' => 'checkbox',
-      '#title' => check_plain($user_branch),
-      '#default_value' => isset($fbs_user_branches_blacklist[$bid]) ? TRUE : FALSE,
-    );
-  }
-
-  $a = 1;
-
-  $form['#submit'][] = 'fbs_settings_form_submit';
+  $form['user_branches']['fbs_user_branches_blacklist'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('User branch blacklist'),
+    '#options' => fbs_branches(),
+    '#default_value' => variable_get('fbs_user_branches_blacklist', array()),
+  );
 
   return system_settings_form($form);
-}
-
-/**
- * Submit function. Trim values.
- */
-function fbs_settings_form_submit($form, &$form_state) {
-  foreach ($form_state['values'] as $name => $value) {
-    $form_state['values'][$name] = trim($value);
-  }
-
-  // If update button has been chosen, get a fresh list of branches.
-  if (in_array('fbs_update', array_values($form_state['triggering_element']['#array_parents']))) {
-    // Update fbs.
-    $branches = fbs_branches();
-    variable_set('fbs_branches', $branches);
-    variable_set('fbs_branches_last_updated', time());
-  }
-
-  // Blacklisted branches for holdings/availability.
-  $fbs_branches = variable_get('fbs_branches', array());
-  $fbs_branches_blacklist = array();
-  foreach ($form_state['values'] as $key => $value) {
-    $matches = array();
-    if (preg_match('/^fbs_branch_(\w+-\d+)$/', $key, $matches)) {
-      $branch_id = $matches[1];
-      if (isset($fbs_branches[$branch_id]) && $value) {
-        if ($value) {
-          $fbs_branches_blacklist[$branch_id] = $branch_id;
-        }
-      }
-    }
-  }
-  variable_set('fbs_branches_blacklist', $fbs_branches_blacklist);
-
-  // Blacklisted branches for user/reservation/loans.
-  $fbs_user_branches_blacklist = array();
-  foreach ($form_state['values'] as $k => $v) {
-    $matches = array();
-    if (preg_match('/^fbs_user_branch_(\w+-\d+)$/', $k, $matches)) {
-      $bid = $matches[1];
-      if (isset($fbs_branches[$bid]) && $v) {
-        if ($v) {
-          $fbs_user_branches_blacklist[$bid] = $bid;
-        }
-      }
-    }
-  }
-  variable_set('fbs_user_branches_blacklist', $fbs_user_branches_blacklist);
-
-  system_settings_form_submit($form, $form_state);
 }
 
 /**
@@ -496,16 +419,31 @@ function fbs_branches() {
     }
 
     asort($branches);
+  }
 
-    // Filtering blacklisted branch if such exists.
-    $blacklisted = variable_get('fbs_user_branches_blacklist', array());
-    if (!empty($blacklisted)) {
-      foreach ($blacklisted as $item) {
-        unset($branches[$item]);
-      }
+  return $branches;
+}
+
+/**
+ * Get user select-able branches.
+ */
+function fbs_user_branches($account) {
+  $branches = fbs_branches();
+  $blacklist = array_filter(variable_get('fbs_user_branches_blacklist', array()));
+
+  if (ding_user_is_provider_user($account)) {
+    $patron_info = fbs_get_patron_info($account);
+
+    $preferred_branch = $patron_info['preferred_branch'];
+
+    // If users preferred branch is blacklisted, remove it from the blacklist to
+    // allow the user to keep their old preference.
+    if ($preferred_branch && isset($blacklist[$preferred_branch])) {
+      unset($blacklist[$preferred_branch]);
     }
   }
-  return $branches;
+
+  return array_diff_key($branches, $blacklist);
 }
 
 /**
@@ -690,14 +628,25 @@ function _fbs_wayf_login($name, $value = NULL) {
  */
 function fbs_ting_pre_execute($request) {
   // We only want to modify searches.
-  if (gettype($request) != 'TingClientSearchRequest') {
-    return;
+  if ($request instanceof TingClientSearchRequest) {
+    $branches_blacklist = array_filter(variable_get('fbs_branches_blacklist', array()));
+    $blacklist_names = array_values(array_intersect_key(fbs_branches(), $branches_blacklist));
+    $blacklist_names = array_map('_fbs_cql_quote_string', $blacklist_names);
+
+    $query = $request->getQuery();
+    if (!empty($branches_blacklist)) {
+      $query .= ' AND (holdingsitem.branch = (* not ' . implode(' not ',
+                $branches_blacklist) . '))';
+      $request->setQuery($query);
+    }
   }
-  $fbs_branches_blacklist = variable_get('fbs_branches_blacklist', array());
-  $query = $request->getQuery();
-  if (!empty($fbs_branches_blacklist)) {
-    $query .= ' AND (holdingsitem.branch = (* not ' . implode(' not ',
-        $fbs_branches_blacklist) . '))';
-    $request->setQuery($query);
-  }
+}
+
+/**
+ * Quote string for use in CQL.
+ *
+ * Adds " around the string and escapes inline ".
+ */
+function _fbs_cql_quote_string($name) {
+  return '"' . preg_replace('/"/', '//"', $name) . '"';
 }

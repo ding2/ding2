@@ -299,7 +299,7 @@ function fbs_reservation_options($account, $default_branch = NULL) {
   }
 
   $form = array();
-  $form += ding_reservation_default_options_branch('fbs_preferred_branch', $preferred_branch, fbs_branches());
+  $form += ding_reservation_default_options_branch('fbs_preferred_branch', $preferred_branch, fbs_user_branches($account));
   $form += ding_reservation_interest_period_selector('interest_period', variable_get('fbs_default_interest_period', 180), fbs_interest_periods());
 
   return $form;

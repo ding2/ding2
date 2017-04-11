@@ -25,10 +25,6 @@ class ExternalCatalogApi extends SwaggerApi
         $request->addParameter("query", "recordid", $recordid);
         $request->addParameter("query", "exclude", $exclude);
 
-        // Filter out blacklisted branches.
-        $fbs_branches_blacklist = variable_get('fbs_branches_blacklist', array());
-        $request->addParameter("query", "exclude", array_keys($fbs_branches_blacklist));
-
         $request->defineResponse(200, "", array('\\FBS\\Model\\Availability'));
         $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
@@ -56,10 +52,6 @@ class ExternalCatalogApi extends SwaggerApi
         $request->addParameter("query", "recordid", $recordid);
         $request->addParameter("query", "exclude", $exclude);
 
-        // Filter out blacklisted branches.
-        $fbs_branches_blacklist = variable_get('fbs_branches_blacklist', array());
-        $request->addParameter("query", "exclude", array_keys($fbs_branches_blacklist));
-
         $request->defineResponse(200, "", array('\\FBS\\Model\\HoldingsForBibliographicalRecord'));
         $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
@@ -69,4 +61,3 @@ class ExternalCatalogApi extends SwaggerApi
 
 
 }
-
