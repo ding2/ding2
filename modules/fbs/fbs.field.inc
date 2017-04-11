@@ -361,7 +361,8 @@ function fbs_options_list($field, $instance, $entity_type, $entity) {
     );
   }
   elseif ($field['type'] == 'fbs_preferred_branch') {
-    return fbs_branches();
+    global $user;
+    return fbs_user_branches($user);
   }
 }
 
@@ -447,7 +448,8 @@ function fbs_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         break;
 
       case 'fbs_preferred_branch':
-        $branches = fbs_branches();
+        global $user;
+        $branches = fbs_user_branches($user);
         if (isset($branches[$item['value']])) {
           $title = $branches[$item['value']];
         }
