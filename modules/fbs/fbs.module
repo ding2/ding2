@@ -301,6 +301,16 @@ function fbs_profile2_presave($entity) {
     'preferredPickupBranch' => $wrapper->field_fbs_preferred_branch->value(),
   );
 
+  // Opt out of messages if unsetting phone number.
+  if (empty($current['phoneNumber'])) {
+    $current['receiveSms'] = FALSE;
+  }
+
+  // Same for emails.
+  if (empty($current['emailAddress'])) {
+    $current['receiveEmail'] = FALSE;
+  }
+
   if ($patron['on_hold']) {
     $existing_on_hold = $patron['on_hold'];
   }
