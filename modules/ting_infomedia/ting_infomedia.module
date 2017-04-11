@@ -23,6 +23,16 @@ function ting_infomedia_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['ting/object/infomedia/%/ajax'] = array(
+    'title' => 'Infomedia',
+    'page callback' => 'ting_infomedia_ajax',
+    'page arguments' => array(3),
+    // Access for all, we do our own access handling.
+    'access callback' => TRUE,
+    'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -34,6 +44,7 @@ function ting_infomedia_menu() {
  */
 function ting_infomedia_view($id) {
   global $user;
+
   if (!ding_user_is_provider_user($user)) {
     // It's a requirement that the user is a user in the library system (the
     // credentials will be checked in the Infomedia webservice).
@@ -56,6 +67,26 @@ function ting_infomedia_view($id) {
 }
 
 /**
+ * Ajax callback function.
+ *
+ * Checks if user is logged in, shows login if not, or redirects to the article
+ * view page.
+ */
+function ting_infomedia_ajax($id) {
+  global $user;
+  if (!ding_user_is_provider_user($user)) {
+    $commands[] = ajax_command_ding_user_authenticate('');
+  }
+  else {
+    ctools_include('ajax');
+    $commands[] = ctools_ajax_command_redirect('ting/object/infomedia/' . $id);
+  }
+
+  // Return the ajax commands as an render array.
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
  * Implements hook_theme().
  *
  * Set template for viewing ting_infomedia articles.
@@ -74,13 +105,39 @@ function ting_infomedia_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_ting_online_url().
+ * Implements hook_ding_entity_is().
  *
- * @see ting.entities.inc::getOnline_url
+ * Check the object online_url for our magic token. We really could use a more
+ * robust detection.
  */
-function ting_infomedia_ting_online_url_alter(&$url, $entity) {
-  if (strpos($url, '[useraccessinfomedia]') === 0) {
-    $url = ting_infomedia_parse_url($url);
+function ting_infomedia_ding_entity_is($object, $class) {
+  switch ($class) {
+    case 'infomedia':
+      return (strpos($object->online_url, '[useraccessinfomedia]') === 0);
+
+    case 'online':
+      // Suppress standard handling of online materials for ours. Else don't
+      // influence.
+      return $object->is('infomedia') ? FALSE : NULL;
+  }
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ting_infomedia_ding_entity_buttons($type, $entity) {
+  if ($entity->is('infomedia')) {
+    $build = array();
+    $options = array(
+      'attributes' => array(
+        'class' => 'button-see-online use-ajax',
+      ),
+    );
+    $build[] = array(
+      '#type' => 'markup',
+      '#markup' => l(t('Read article'), ting_infomedia_parse_url($entity->online_url), $options),
+    );
+    return $build;
   }
 }
 
@@ -94,39 +151,11 @@ function ting_infomedia_ting_online_url_alter(&$url, $entity) {
  *   The modified url.
  */
 function ting_infomedia_parse_url($url) {
-  global $user;
-
   $parts = array();
   $url = parse_url($url, PHP_URL_QUERY);
   parse_str($url, $parts);
 
-  if (!ding_user_is_provider_user($user)) {
-    // IF user is not logged in the login-box should be shown.
-    return url('ting/object/infomedia/' . $parts['faust'], array('fragment' => 'login', 'absolute' => TRUE));
-  }
-
-  return url('ting/object/infomedia/' . $parts['faust'], array('absolute' => TRUE));
-}
-
-/**
- * Return stripped path.
- *
- * E.g /ting/infomedia/33514212 -> /ting/infomedia.
- *
- * @param string $path
- *   The path to strip.
- *
- * @return mixed
- *   The strip path or FALSE.
- */
-function ting_infomedia_strip_path($path) {
-  $parts = explode('/', $path);
-
-  if (isset($parts[0]) && isset($parts[1])) {
-    return $parts[0] . '/' . $parts[1];
-  }
-
-  return FALSE;
+  return url('ting/object/infomedia/' . $parts['faust'] . '/nojs', array('absolute' => TRUE));
 }
 
 /**
