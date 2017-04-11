@@ -178,7 +178,6 @@ function ding_availability_holdings($provider_ids) {
     if (!isset($item['html'])) {
       $header = array(
         'placement' => t('Placement'),
-        'copies' => t('Copies'),
         'available' => t('At home'),
       );
 
