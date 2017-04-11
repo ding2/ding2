@@ -452,10 +452,12 @@ function ding_mobilesearch_flag_default_flags() {
       'flag' => array(
         0 => 3,
         1 => 4,
+        2 => 6,
       ),
       'unflag' => array(
         0 => 3,
         1 => 4,
+        2 => 6,
       ),
     ),
     'weight' => 0,
