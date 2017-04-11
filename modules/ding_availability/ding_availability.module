@@ -230,21 +230,27 @@ function ding_availability_holdings($provider_ids) {
         'closest_loan' => (count($item['holdings']) == $copies) ? ding_availability_holding_format_time($closest_loan) : NULL,
         'ordered_count' => $ordered_count,
         'total_plus_ordered_count' => $total_and_ordered_count,
-        'reserved_text' => format_plural($reserved_count,
-                         'There is 1 user in queue to loan the material.',
-                         'There are @count users in queue to loan the material.'),
+        'reserved_text' => t('Cannot be reserved.'),
         'acquisition_text' => '',
-        'total_text' => format_plural($total_count + $ordered_count,
+        'total_text' => format_plural($total_and_ordered_count,
                       'We have 1 copy.',
                       'We have @count copies.',
                       array('@count' => $total_and_ordered_count)),
       );
+
       if ($ordered_count) {
         $variables['acquisition_text'] = format_plural($ordered_count,
                                          '1 copy in acquisition.',
                                          '@count copies are in acquisition.',
                                          array('@count' => $ordered_count));
       }
+
+      if ($item['reservable']) {
+        $variables['reserved_text'] = format_plural($reserved_count,
+                                      'There is 1 user in queue to loan the material.',
+                                      'There are @count users in queue to loan the material.');
+      }
+
       // Theme the output.
       $item['html'] = theme('ding_holdings', $variables);
     }
