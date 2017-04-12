@@ -267,13 +267,26 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         }
 
         if ($info['type'] == 'entityreference') {
+          $target = $info['settings']['target_type'];
+
           $mapping['fields'][$machine_name] = array(
             'name' => $field['label'],
             'value' => array(),
             'attr' => array(),
           );
+
           foreach ($items as $item) {
-            $mapping['fields'][$machine_name]['value'][] = $item['target_id'];
+            $entity = entity_load_single($target, $item['target_id']);
+            if ($entity) {
+              // TODO: Consider taxonomies as well.
+              if ($target == 'node') {
+                $value = $entity->title;
+              }
+
+              if (!empty($value)) {
+                $mapping['fields'][$machine_name]['value'][] = $value;
+              }
+            }
           }
         }
         break;
@@ -285,11 +298,25 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
           'value' => array(),
           'attr' => array(),
         );
+
         foreach ($items as $item) {
-          $mapping['fields'][$machine_name]['value'][] = $item['ting_object_id'];
+          $mapping['fields'][$machine_name]['value']['materials'] = $item;
         }
-        if (count($mapping['fields'][$machine_name]['value']) == 1) {
-          $mapping['fields'][$machine_name]['value'] = reset($mapping['fields'][$machine_name]['value']);
+
+        $relations = ting_reference_get_relations($field['entity_type'], $node);
+        if (!empty($mapping['fields'][$machine_name]['value']['materials'])) {
+          if (!empty($relations)) {
+            $eids = array();
+
+            foreach ($relations as $relation) {
+              $eids[] = $relation->endpoints['und'][1]['entity_id'];
+            }
+            $ting_objects = entity_load('ting_object', $eids);
+            foreach ($ting_objects as $ting_object) {
+              $materials[] = $ting_object->ding_entity_id;
+            }
+            $mapping['fields'][$machine_name]['value']['materials'] = $materials;
+          }
         }
         break;
 
