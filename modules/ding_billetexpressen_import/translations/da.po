@@ -1,0 +1,126 @@
+# $Id$
+#
+# Danish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_billetexpressen_import.admin.inc: n/a
+#  ding_billetexpressen_import.module: n/a
+#  ding_billetexpressen_import.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2017-04-04 10:04+0300\n"
+"PO-Revision-Date: 2017-04-04 10:04+0300\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Danish <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: ding_billetexpressen_import.admin.inc:17
+msgid "Billetexpressen XML source"
+msgstr ""
+
+#: ding_billetexpressen_import.admin.inc:50;86
+msgid "Add"
+msgstr "Tilføj"
+
+#: ding_billetexpressen_import.admin.inc:98
+msgid "Unpublished"
+msgstr "Ikke udgivet"
+
+#: ding_billetexpressen_import.admin.inc:98
+msgid "Published"
+msgstr "Udgivet"
+
+#: ding_billetexpressen_import.admin.inc:99
+msgid "Imported nodes status"
+msgstr ""
+
+#: ding_billetexpressen_import.admin.inc:105
+msgid "Save"
+msgstr "Gem"
+
+#: ding_billetexpressen_import.admin.inc:129
+msgid "Invalid URI to Billetexpressen XML."
+msgstr ""
+
+#: ding_billetexpressen_import.admin.inc:202;233
+msgid "Mapping"
+msgstr "Kobling"
+
+#: ding_billetexpressen_import.admin.inc:202
+msgid "Library"
+msgstr "Bibliotek"
+
+#: ding_billetexpressen_import.admin.inc:202;233
+msgid "Operation"
+msgstr "Handling"
+
+#: ding_billetexpressen_import.admin.inc:210;241
+msgid "Delete"
+msgstr "Slet"
+
+#: ding_billetexpressen_import.admin.inc:233
+msgid "Category"
+msgstr "Kategori"
+
+#: ding_billetexpressen_import.admin.inc:354;393
+msgid "Library mapping was deleted."
+msgstr ""
+
+#: ding_billetexpressen_import.module:144
+msgid "Tickets available"
+msgstr ""
+
+#: ding_billetexpressen_import.module:151
+msgid "kr."
+msgstr ""
+
+#: ding_billetexpressen_import.module:151
+msgid "available tickets"
+msgstr ""
+
+#: ding_billetexpressen_import.module:156
+msgid "Book a ticket"
+msgstr "Bestil billet(ter)"
+
+#: ding_billetexpressen_import.module:159
+msgid "Sold out"
+msgstr "Udsolgt"
+
+#: ding_billetexpressen_import.module:18
+msgid "Billetexpressen import settings"
+msgstr ""
+
+#: ding_billetexpressen_import.module:19 ding_billetexpressen_import.info:0
+msgid "Import events from Billetexpressen"
+msgstr ""
+
+#: ding_billetexpressen_import.module:26
+msgid "Delete library from mapping"
+msgstr ""
+
+#: ding_billetexpressen_import.module:27
+msgid "Delete callback for a mapped library"
+msgstr ""
+
+#: ding_billetexpressen_import.module:36
+msgid "Delete category from mapping"
+msgstr ""
+
+#: ding_billetexpressen_import.module:37
+msgid "Delete callback for a mapped category"
+msgstr ""
+
+#: ding_billetexpressen_import.info:0
+msgid "Ding Billetexpressen Import"
+msgstr ""
+
+#: ding_billetexpressen_import.info:0
+msgid "Ding!"
+msgstr "Ding!"
+

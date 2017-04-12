@@ -1,0 +1,13 @@
+name = Ding Billetexpressen Import
+description = Import events from Billetexpressen
+core = 7.x
+package = Ding!
+dependencies[] = ctools
+dependencies[] = feeds
+dependencies[] = feeds_ex
+configure = admin/config/ding/billetexpressen
+features[ctools][] = feeds:feeds_importer_default:1
+features[features_api][] = api:2
+features[feeds_importer][] = billetexpressen_events
+files[] = ding_billetexpressen_import.admin.inc
+mtime = 1489586677

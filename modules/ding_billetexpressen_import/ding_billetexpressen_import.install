@@ -1,0 +1,69 @@
+<?php
+/**
+ * @file
+ * Define module tables and perform install/uninstall functionality.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_billetexpressen_import_schema() {
+  $schema['ding_billetexpressen_import_tickets'] = array(
+    'description' => 'Save tickets info for each node.',
+    'fields' => array(
+      'tid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'Id of event (reference to nid field form node table).',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'ticketsalelink' => array(
+        'description' => 'Ticket sale link.',
+        'type' => 'varchar',
+        'length' => 2047,
+        'default' => NULL,
+      ),
+      'eventwithticketsale' => array(
+        'description' => 'Bool value of the ticket info.',
+        'type' => 'int',
+        'size' => 'tiny',
+        'default' => 0,
+        'unsigned' => TRUE,
+      ),
+      'soldout' => array(
+        'description' => 'Sold out.',
+        'type' => 'int',
+        'size' => 'tiny',
+        'default' => 0,
+        'unsigned' => TRUE,
+      ),
+      'tickets' => array(
+        'description' => 'Serialized array of the info of the tickets.',
+        'type' => 'blob',
+      ),
+    ),
+    'primary key' => array('tid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Add soldout field to the ding_billetexpressen_import_tickets table.
+ */
+function ding_billetexpressen_import_update_7001() {
+  $spec = array(
+    'description' => 'Sold out.',
+    'type' => 'int',
+    'size' => 'tiny',
+    'default' => 0,
+    'unsigned' => TRUE,
+  );
+  db_add_field('ding_billetexpressen_import_tickets', 'soldout', $spec);
+}
