@@ -7,7 +7,7 @@
 /**
  * Form renders mapped organizer.
  *
- * @see ding_billetexpressen_import_menu().
+ * @see ding_billetexpressen_import_menu()
  */
 function ding_billetexpressen_import_admin_form($form, &$form_state) {
   $form['#tree'] = TRUE;
@@ -27,7 +27,7 @@ function ding_billetexpressen_import_admin_form($form, &$form_state) {
   $form['ding_billetexpressen_import_libraries'] = array(
     '#theme' => 'ding_billetexpressen_libraries_table',
     '#prefix' => '<div id="ding-billetexpressen-libraries-mapping">',
-    '#suffix' => '</div>'
+    '#suffix' => '</div>',
   );
   $form['ding_billetexpressen_import_libraries']['mapping'] = array(
     '#type' => 'invisible',
@@ -63,7 +63,7 @@ function ding_billetexpressen_import_admin_form($form, &$form_state) {
   $form['ding_billetexpressen_import_categories'] = array(
     '#theme' => 'ding_billetexpressen_categories_table',
     '#prefix' => '<div id="ding-billetexpressen-categories-mapping">',
-    '#suffix' => '</div>'
+    '#suffix' => '</div>',
   );
   $form['ding_billetexpressen_import_categories']['mapping'] = array(
     '#type' => 'invisible',
@@ -122,7 +122,7 @@ function ding_billetexpressen_import_admin_form_submit($form, &$form_state) {
 /**
  * Validate function for Billetexpressen source url.
  *
- * @see ding_billetexpressen_import_admin_form().
+ * @see ding_billetexpressen_import_admin_form()
  */
 function _ding_billetexpressen_import_add_mapping_validate($element, &$form_state) {
   if (!valid_url($element['#value'], TRUE)) {
@@ -149,7 +149,7 @@ function ding_billetexpressen_import_get_libraries() {
  * Get not mapped libraries.
  *
  * @return array $not_mapped
- *  key = id of library CT, value = library name.
+ *   key = id of library CT, value = library name.
  */
 function ding_billetexpressen_import_get_not_mapped_libraries() {
   $all_libraries = ding_billetexpressen_import_get_libraries();
@@ -326,7 +326,7 @@ function ding_billetexpressen_import_category_ajax_callback($form, &$form_state)
  * @param string $ajax
  *   Request type.
  *
- * @return
+ * @return array $commands
  *    Ajax commands or page refresh.
  */
 function ding_billetexpressen_library_mapping_delete($library, $ajax) {
@@ -365,7 +365,7 @@ function ding_billetexpressen_library_mapping_delete($library, $ajax) {
  * @param string $ajax
  *   Request type.
  *
- * @return
+ * @return array $commands
  *    Ajax commands or page refresh.
  */
 function ding_billetexpressen_category_mapping_delete($category, $ajax) {
