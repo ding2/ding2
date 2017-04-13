@@ -1035,3 +1035,14 @@ function ding_permissions_secure_permissions($role) {
     return $permissions[$role];
   }
 }
+
+/**
+ * Implements hook_page_alter().
+ */
+function ding_permissions_page_alter(&$page) {
+  global $user;
+
+  if ($user->uid == '1' && in_array('administrators', array_values($user->roles))) {
+    unset($page['page_top']['toolbar']);
+  }
+}
