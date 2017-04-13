@@ -176,7 +176,7 @@ projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "1.0"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.11"
+projects[i18n][version] = "1.15"
 
 projects[manualcrop][subdir] = "contrib"
 projects[manualcrop][version] = "1.5"
@@ -227,7 +227,7 @@ projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.10"
+projects[metatag][version] = "1.21"
 
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
