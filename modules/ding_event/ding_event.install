@@ -161,7 +161,7 @@ function ding_event_update_7008() {
 /**
  * Change "field_ding_event_price" module and type.
  */
-function ding_event_update_7009() {
+function ding_event_update_7010() {
   $field = field_info_field('field_ding_event_price');
 
   if ($field['type'] == 'text' && $field['module'] == 'text') {
