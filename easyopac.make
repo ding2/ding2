@@ -383,6 +383,12 @@ projects[ting_titles_decoration][download][type] = "git"
 projects[ting_titles_decoration][download][url]  = "git@github.com:easySuite/ting_titles_decoration.git"
 projects[ting_titles_decoration][download][branch]  = "development"
 
+projects[thisted_event_import][type]              = "module"
+projects[thisted_event_import][subdir]            = ""
+projects[thisted_event_import][download][type]    = "git"
+projects[thisted_event_import][download][url]     = "git@github.com:easySuite/thisted_event_import.git"
+projects[thisted_event_import][download][branch]  = "develop"
+
 projects[vejlebib_fbs][type]             = "module"
 projects[vejlebib_fbs][download][type]   = "git"
 projects[vejlebib_fbs][subdir]           = ""
