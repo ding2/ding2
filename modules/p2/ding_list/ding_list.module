@@ -57,6 +57,17 @@ require_once __DIR__ . '/include/form.inc';
 require_once __DIR__ . '/include/functions.inc';
 
 /**
+ * Implements hook_init().
+ */
+function ding_list_init() {
+  $path = drupal_get_path('module', 'ding_list');
+  drupal_add_css($path . '/css/ding-list-add-button.css', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js($path . '/js/ding-list-add-button.js', array('type' => 'file', 'scope' => 'footer'));
+
+  drupal_add_library('system', 'drupal.ajax');
+}
+
+/**
  * Implements hook_entity_info_alter().
  *
  * We need to change the default uri callback, so it will use the list.
