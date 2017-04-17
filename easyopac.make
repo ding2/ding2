@@ -251,6 +251,12 @@ projects[easyddb_disable_type][download][type] = "git"
 projects[easyddb_disable_type][download][url]  = "git@github.com:easySuite/easyddb_disable_typeheading.git"
 projects[easyddb_disable_type][download][branch]  = "development"
 
+projects[easyddb_hide_librarydropdown][type]           = "module"
+projects[easyddb_hide_librarydropdown][subdir]         = ""
+projects[easyddb_hide_librarydropdown][download][type] = "git"
+projects[easyddb_hide_librarydropdown][download][url]  = "git@github.com:easySuite/easyddb_hide_librarydropdown.git"
+projects[easyddb_hide_librarydropdown][download][branch]  = "development"
+
 projects[easyddb_ipe_filter][type]           = "module"
 projects[easyddb_ipe_filter][subdir]         = ""
 projects[easyddb_ipe_filter][download][type] = "git"
