@@ -11,7 +11,8 @@
       // Pull out the content of each ding-list-add-button, and place it in an
       // element, that will be positioned absolute under the add-button when
       // hovered.
-      $('.ding-list-add-button', context).each(function (delta, dlab) {
+      $('.ding-list-add-button').each(function (delta, dlab) {
+        $(this).removeClass('hidden');
         var $buttons = $('.buttons', dlab)
           .css({
             position: 'absolute',

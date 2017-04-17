@@ -34,18 +34,12 @@ function template_preprocess_ding_list_add_button(&$variables) {
   if (empty($variables['title'])) {
     $variables['title'] = t('More...');
   }
-
-  $path = drupal_get_path('module', 'ding_list');
+  $variables['classes_array'][] = 'hidden';
   $variables['buttons'] = array(
     '#theme' => 'links',
     '#links' => array(),
     '#attributes' => array(
       'class' => array('buttons'),
-    ),
-    '#attached' => array(
-      'library' => array(array('system', 'drupal.ajax')),
-      'css' => array($path . '/css/ding-list-add-button.css'),
-      'js' => array($path . '/js/ding-list-add-button.js'),
     ),
   );
 
