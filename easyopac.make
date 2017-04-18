@@ -147,7 +147,7 @@ projects[ding_menu_alt][type]           = "module"
 projects[ding_menu_alt][subdir]         = ""
 projects[ding_menu_alt][download][type] = "git"
 projects[ding_menu_alt][download][url]  = "git@github.com:easySuite/ding_menu_alt.git"
-projects[ding_menu_alt][download][branch]  = "master"
+projects[ding_menu_alt][download][branch]  = "development"
 
 projects[ding_nodelist][type]           = "module"
 projects[ding_nodelist][subdir]         = ""
