@@ -646,5 +646,5 @@ function fbs_ting_pre_execute($request) {
  * Adds " around the string and escapes inline ".
  */
 function _fbs_cql_quote_string($name) {
-  return '"' . preg_replace('/"/', '//"', $name) . '"';
+  return '"' . preg_replace('/"/', '\\"', $name) . '"';
 }
