@@ -231,7 +231,7 @@ projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
 
 projects[module_filter][subdir] = "contrib"
-projects[module_filter][version] = "1.8"
+projects[module_filter][version] = "2.0"
 
 ; NanoSOAP is currently not placed in contrib at this was not the case
 ; when using recursive make files.
