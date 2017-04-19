@@ -25,12 +25,7 @@ function template_preprocess_ting_object_cover(&$variables) {
   );
   $variables['image'] = '';
 
-  if (cache_get('ting_covers:' . $object->id)) {
-    // We know that there is no cover available for this object so avoid
-    // further javascript processing.
-    $variables['classes'][] = 'ting-cover-processed';
-  }
-  else {
+  if (!cache_get('ting_covers:' . $object->id)) {
     $path = ting_covers_object_path($object->id);
     if (file_exists($path)) {
       // Generate an alt tag.
@@ -38,10 +33,10 @@ function template_preprocess_ting_object_cover(&$variables) {
 
       // Render the img element.
       $variables['image'] = theme('image_style', array(
-                              'style_name' => $variables['image_style'],
-                              'path' => $path,
-                              'alt' => $alt,
-                            ));
+        'style_name' => $variables['image_style'],
+        'path' => $path,
+        'alt' => $alt,
+      ));
 
       // Avoid further javascript processing. Just load the image.
       $variables['classes'][] = 'ting-cover-processed';
