@@ -129,11 +129,12 @@
    *   Entity id for which to update availability holdings information.
    */
   function ding_availability_update_holdings(id, entity_ids) {
-    var entity_id = entity_ids.pop();
-    if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'])) {
-      // Show status for material.
-      $('#' + id).html(Drupal.DADB[entity_id].html);
-    }
+    $.each(entity_ids, function (i, entity_id) {
+      if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'])) {
+        // Insert/update holding information for material.
+        $('#' + id).html(Drupal.DADB[entity_id].html);
+      }
+    });
   }
 
 })(jQuery);
