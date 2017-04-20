@@ -91,7 +91,7 @@
 
     $.each(entity_ids, function(index, entity_id) {
       // Reserve button
-      var reserver_btn = element.parents('.ting-object:first, .material-item:first').find('a[id$=' + entity_id + '].reserve-button');
+      var reserve_button = element.parents('.ting-object:first, .material-item:first').find('a[id$=' + entity_id + '].reserve-button');
 
       if (Drupal.DADB[entity_id]) {
         available = available || Drupal.DADB[entity_id]['available'];
@@ -102,16 +102,16 @@
           element.addClass('available');
 
           // Add class to reserve button
-          if (reserver_btn.length) {
-            reserver_btn.addClass('available');
+          if (reserve_button.length) {
+            reserve_button.addClass('available');
           }
         }
         else {
           element.addClass('unavailable');
 
           // Add class to reserve button
-          if (reserver_btn.length) {
-            reserver_btn.addClass('unavailable');
+          if (reserve_button.length) {
+            reserve_button.addClass('unavailable');
           }
         }
 
@@ -119,22 +119,22 @@
           element.addClass('reservable');
 
           // Add class to reserve button
-          if (reserver_btn.length) {
-            reserver_btn.addClass('reservable');
+          if (reserve_button.length) {
+            reserve_button.addClass('reservable');
           }
         }
         else {
           element.addClass('not-reservable');
 
           // Add class to reserve button
-          if (reserver_btn.length) {
-            reserver_btn.addClass('not-reservable');
+          if (reserve_button.length) {
+            reserve_button.addClass('not-reservable');
           }
         }
       }
 
       else {
-        reserver_btn.addClass('not-reservable');
+        reserve_button.addClass('not-reservable');
       }
     });
   }
