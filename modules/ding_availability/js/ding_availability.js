@@ -93,43 +93,23 @@
       var reserve_button = element.parents('.ting-object:first, .material-item:first').find('a[id$=' + entity_id + '].reserve-button');
 
       if (Drupal.DADB[entity_id]) {
-        available = available || Drupal.DADB[entity_id]['available'];
-        reservable = reservable || Drupal.DADB[entity_id]['reservable'];
-        is_internet = is_internet || Drupal.DADB[entity_id]['is_internet'];
+        var available = available || Drupal.DADB[entity_id]['available'];
+        var reservable = reservable || Drupal.DADB[entity_id]['reservable'];
+        var is_internet = is_internet || Drupal.DADB[entity_id]['is_internet'];
 
-        if (available) {
-          element.addClass('available');
+        var classes = [];
 
-          // Add class to reserve button.
-          if (reserve_button.length) {
-            reserve_button.addClass('available');
-          }
-        }
-        else {
-          element.addClass('unavailable');
+        classes.push(available ? 'available' : 'unavailable');
+        classes.push(reservable ? 'reservable' : 'not-reservable');
+
+        $.each(classes, function (i, class_name) {
+          element.addClass(class_name);
 
           // Add class to reserve button.
           if (reserve_button.length) {
-            reserve_button.addClass('unavailable');
+            reserve_button.addClass(class_name);
           }
-        }
-
-        if (reservable) {
-          element.addClass('reservable');
-
-          // Add class to reserve button.
-          if (reserve_button.length) {
-            reserve_button.addClass('reservable');
-          }
-        }
-        else {
-          element.addClass('not-reservable');
-
-          // Add class to reserve button.
-          if (reserve_button.length) {
-            reserve_button.addClass('not-reservable');
-          }
-        }
+        })
       }
 
       else {
