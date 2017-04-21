@@ -84,7 +84,6 @@
   function ding_availability_update_availability(id, entity_ids) {
     var available = false;
     var reservable = false;
-    var is_internet = false;
     var element = $('#' + id);
     element.removeClass('pending').addClass('processed');
 
@@ -95,7 +94,6 @@
       if (Drupal.DADB[entity_id]) {
         var available = available || Drupal.DADB[entity_id]['available'];
         var reservable = reservable || Drupal.DADB[entity_id]['reservable'];
-        var is_internet = is_internet || Drupal.DADB[entity_id]['is_internet'];
 
         var classes = [];
 
