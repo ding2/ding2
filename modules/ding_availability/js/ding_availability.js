@@ -14,7 +14,8 @@
     var ids = [];
     var html_ids = [];
 
-    // Extract entity ids and add them to the settings array.
+    // Loop through the materials given in the settings and collect
+    // HTML ids and entity_ids.
     if (settings.hasOwnProperty('ding_availability')) {
       $.each(settings.ding_availability, function (id, entity_ids) {
         $.each(entity_ids, function (index, entity_id) {
@@ -25,6 +26,18 @@
           }
         });
       });
+    }
+
+    // If there's any reservation buttons, switch to holdings. We have
+    // periodicals that's a bit off an odd one in that they can both
+    // have issues, which means that the reservation button for the
+    // main object should be disabled, or not have any issues, which
+    // means that it should be left alone. So we need to fetch full
+    // holdings in order to determine whether the material is a
+    // periodical. This is a bit of a hack, but it's the quickest way
+    // of fixing the problem right now.
+    if ($('.reserve-button').size() > 0) {
+      settings.ding_availability_mode = 'holdings';
     }
 
     $.each(html_ids, function (index, id) {
@@ -95,6 +108,13 @@
         var available = available || Drupal.DADB[entity_id]['available'];
         var reservable = reservable || Drupal.DADB[entity_id]['reservable'];
 
+        // Special handling for periodicals.
+        if (typeof Drupal.DADB[entity_id]['is_periodical'] !== 'undefined' &&
+            Drupal.DADB[entity_id]['is_periodical']) {
+          // The main object of a periodical is neither available nor
+          // reservable, the individual issues is.
+          available = reservable = false;
+        }
         var classes = [];
 
         classes.push(available ? 'available' : 'unavailable');
@@ -109,7 +129,6 @@
           }
         })
       }
-
       else {
         reserve_button.addClass('not-reservable');
       }
