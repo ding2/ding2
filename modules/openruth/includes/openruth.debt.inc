@@ -8,7 +8,7 @@
  * Get list of unpayed fees.
  */
 function openruth_debt_list($account) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   $result = array();
   $status = _openruth_user_status($creds);
 

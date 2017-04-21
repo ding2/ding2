@@ -107,7 +107,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
 
   // Add specials.
   try {
-    ding_user_get_creds($account);
+    ding_user_get_creds();
     $uri = entity_uri('user', $account);
 
     // Fines.

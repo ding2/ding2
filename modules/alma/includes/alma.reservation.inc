@@ -234,7 +234,7 @@ function alma_reservation_list($account, $type = NULL) {
  * @throws DingProviderReservationNotAvailable
  */
 function alma_reservation_create($account, $id, $options = array(), $expiry = NULL) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   // Check if the users has this reservation and throw exception.
   if (alma_reservation_exists($account, $id)) {
@@ -325,7 +325,7 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
  *   Reservation update status.
  */
 function alma_reservation_update($account, $ids, $options) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   $reservations = alma_reservation_get_reservations($account);
   $updated = FALSE;
 
@@ -364,7 +364,7 @@ function alma_reservation_update($account, $ids, $options) {
  *   Reservation deletion.
  */
 function alma_reservation_delete($account, $id) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   $reservations = alma_reservation_get_reservations($account);
 
   alma_reservation_clear_cache();
@@ -448,7 +448,7 @@ function alma_reservation_branch_name($branch_id) {
  *   Alma reservations.
  */
 function alma_reservation_get_reservations($account, $reset = FALSE) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   $reservations = &drupal_static(__FUNCTION__, FALSE);
   if (!$reservations || $reset) {
