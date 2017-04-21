@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function bpi_features_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -30,13 +30,17 @@ function bpi_features_field_group_info() {
       'label' => 'BPI',
       'instance_settings' => array(
         'required_fields' => 0,
-        'classes' => '',
+        'classes' => ' group-workflow field-group-tab',
         'description' => 'Data in this group will only be saved when "Save and push" is used.',
       ),
       'formatter' => 'closed',
     ),
   );
-  $export['group_workflow|node|ding_news|form'] = $field_group;
+  $field_groups['group_workflow|node|ding_news|form'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('BPI');
+
+  return $field_groups;
 }
