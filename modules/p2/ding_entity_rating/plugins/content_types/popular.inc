@@ -33,8 +33,11 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
   }
 
   $libcode = $conf['libcode'];
-  if ($libcode !== FALSE) {
+  if (!empty($libcode)) {
     $libcode = variable_get('ting_library_code', '');
+  }
+  else {
+    $libcode = FALSE;
   }
 
   $openlist_items = array();
