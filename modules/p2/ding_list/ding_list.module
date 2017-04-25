@@ -557,7 +557,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
     ),
     'ding_list_lists' => array(
       'file' => 'theme/theme.inc',
-      'variables' => array('groups' => NULL),
+      'variables' => array('groups' => NULL, 'uid' => 0),
     ),
     'ding_list_promote_lists' => array(
       'variables' => array(),
@@ -569,7 +569,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
  * Implements hook_ding_entity_buttons().
  */
 function ding_list_ding_entity_buttons($type, $entity) {
-  if ($type == 'ding_entity' && user_is_logged_in()) {
+  if ($type == 'ding_entity' && user_access('use personalisation')) {
     $return = array();
     $return[] = array(
       '#theme' => 'ding_list_add_button',

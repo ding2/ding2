@@ -51,13 +51,16 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     ),
   );
 
-  if (variable_get('user_consent_activate')) {
+  if (variable_get('user_consent_activate') && ding_user_consent_has_consent('loan_history_store')) {
     $groups['specials']['lists'][DING_LIST_TYPE_LOAN_HISTORY] = array();
   }
 
   $lists = ding_list_get_lists(NULL, $account);
   if ($lists !== FALSE) {
     foreach ($lists as $list) {
+      if (!ding_list_user_has_access($list, 'view')) {
+        continue;
+      }
       $list_type = ding_base_get_value('ding_type', $list, 'field_list_type');
       $list_label = check_plain(entity_label('ding_type', $list));
 
@@ -187,7 +190,11 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
 
   reset($groups);
 
-  $block->content = array('#theme' => 'ding_list_lists', '#groups' => $groups);
+  $block->content = array(
+    '#theme' => 'ding_list_lists',
+    '#groups' => $groups,
+    '#uid' => $account->uid,
+  );
   return $block;
 }
 

@@ -149,6 +149,7 @@ function theme_ding_list_info($variables) {
  * Ding list lists theme.
  */
 function theme_ding_list_lists($variables) {
+  global $user;
   $out = '';
 
   foreach ($variables['groups'] as $group_name => $group) {
@@ -164,24 +165,28 @@ function theme_ding_list_lists($variables) {
       }
     }
 
-    $out .= theme('item_list', array(
-      'items' => $rows,
-      'title' => $group['title'],
-      'type' => 'ul',
-      'attributes' => array(),
-    ));
+    if (!empty($rows)) {
+      $out .= theme('item_list', array(
+        'items' => $rows,
+        'title' => $group['title'],
+        'type' => 'ul',
+        'attributes' => array(),
+      ));
+    }
   }
 
   // Footer links.
-  $out .= theme('item_list', array(
-    'items' => array(
-      l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button')))),
-      l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button')))),
-    ),
-    'title' => "",
-    'type' => 'ul',
-    'attributes' => array('class' => array('bottom-links')),
-  ));
+  if ($variables['uid'] == $user->uid) {
+    $out .= theme('item_list', array(
+      'items' => array(
+        l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button')))),
+        l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button')))),
+      ),
+      'title' => "",
+      'type' => 'ul',
+      'attributes' => array('class' => array('bottom-links')),
+    ));
+  }
 
   return '<div class="ding-user-lists">' . $out . '</div>';
 }

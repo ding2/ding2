@@ -19,6 +19,7 @@ function ding_list_installer_views_default_views() {
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'List';
@@ -92,7 +93,6 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['arguments']['id']['field'] = 'id';
   $handler->display->display_options['arguments']['id']['relationship'] = 'reverse_field_list_objects_ding_type';
   $handler->display->display_options['arguments']['id']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['id']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['id']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['id']['default_argument_options']['index'] = '1';
   $handler->display->display_options['arguments']['id']['summary']['number_of_records'] = '0';
@@ -107,6 +107,7 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_list_element' => 'ding_list_element',
   );
+
   /* Display: Content pane: Default list */
   $handler = $view->new_display('panel_pane', 'Content pane: Default list', 'panel_pane_1');
   $handler->display->display_options['allow']['use_pager'] = 'use_pager';
@@ -118,6 +119,7 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['allow']['title_override'] = 'title_override';
   $handler->display->display_options['allow']['exposed_form'] = 0;
   $handler->display->display_options['allow']['fields_override'] = 0;
+
   /* Display: Content pane: With state */
   $handler = $view->new_display('panel_pane', 'Content pane: With state', 'panel_pane_2');
   $handler->display->display_options['defaults']['title'] = FALSE;
@@ -224,6 +226,7 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['allow']['title_override'] = 'title_override';
   $handler->display->display_options['allow']['exposed_form'] = 0;
   $handler->display->display_options['allow']['fields_override'] = 0;
+
   /* Display: Content pane: With weight */
   $handler = $view->new_display('panel_pane', 'Content pane: With weight', 'panel_pane_3');
   $handler->display->display_options['defaults']['title'] = FALSE;
@@ -322,13 +325,6 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'carousel';
@@ -359,6 +355,45 @@ function ding_list_installer_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'public-lists';
+
+  /* Display: User lists */
+  $handler = $view->new_display('panel_pane', 'User lists', 'user');
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Ding_type: Author */
+  $handler->display->display_options['arguments']['uid']['id'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['table'] = 'eck_ding_type';
+  $handler->display->display_options['arguments']['uid']['field'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Ding_type: ding_type type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'eck_ding_type';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ding_list' => 'ding_list',
+  );
+  /* Filter criterion: ding_type: Ding List Status (field_ding_list_status) */
+  $handler->display->display_options['filters']['field_ding_list_status_value']['id'] = 'field_ding_list_status_value';
+  $handler->display->display_options['filters']['field_ding_list_status_value']['table'] = 'field_data_field_ding_list_status';
+  $handler->display->display_options['filters']['field_ding_list_status_value']['field'] = 'field_ding_list_status_value';
+  $handler->display->display_options['filters']['field_ding_list_status_value']['value'] = array(
+    'public' => 'public',
+  );
+  $handler->display->display_options['argument_input'] = array(
+    'uid' => array(
+      'type' => 'context',
+      'context' => 'entity:user.uid',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Ding_type: Author',
+    ),
+  );
   $translatables['public_lists'] = array(
     t('Master'),
     t('Public lists'),
@@ -379,6 +414,9 @@ function ding_list_installer_views_default_views() {
     t('.'),
     t(','),
     t('Page'),
+    t('User lists'),
+    t('All'),
+    t('View panes'),
   );
   $export['public_lists'] = $view;
 
