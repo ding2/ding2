@@ -61,30 +61,32 @@ function ding_contact_default_page_manager_handlers() {
   $display->cache = array();
   $display->title = '';
   $display->uuid = '8b885c3b-2860-42ce-b2bc-6552b14c5ebe';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'contact_site_panel_context';
   $display->content = array();
   $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-171476c7-96e5-4336-9fa5-4ee911445302';
-    $pane->panel = 'main_content';
-    $pane->type = 'block';
-    $pane->subtype = 'formblock-contact_site';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '171476c7-96e5-4336-9fa5-4ee911445302';
-    $display->content['new-171476c7-96e5-4336-9fa5-4ee911445302'] = $pane;
-    $display->panels['main_content'][0] = 'new-171476c7-96e5-4336-9fa5-4ee911445302';
+  $pane = new stdClass();
+  $pane->pid = 'new-171476c7-96e5-4336-9fa5-4ee911445302';
+  $pane->panel = 'main_content';
+  $pane->type = 'block';
+  $pane->subtype = 'formblock-contact_site';
+  $pane->shown = TRUE;
+  $pane->access = array();
+  $pane->configuration = array(
+    'override_title' => 0,
+    'override_title_text' => '',
+  );
+  $pane->cache = array();
+  $pane->style = array(
+    'settings' => NULL,
+  );
+  $pane->css = array();
+  $pane->extras = array();
+  $pane->position = 0;
+  $pane->locks = array();
+  $pane->uuid = '171476c7-96e5-4336-9fa5-4ee911445302';
+  $display->content['new-171476c7-96e5-4336-9fa5-4ee911445302'] = $pane;
+  $display->panels['main_content'][0] = 'new-171476c7-96e5-4336-9fa5-4ee911445302';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
