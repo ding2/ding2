@@ -113,10 +113,15 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
 
     // Fines.
     $count = count(ding_provider_invoke('debt', 'list', $account));
+    if($count > 0) {
+      $class = 'fines';
+    } else {
+      $class = 'default';
+    }
     $groups['specials']['lists']['special_depts'][] = array(
       'data' =>
       '<a href="' . url($uri['path'] . '/status-debts') . '" class="signature-label"><span class="icon"></span>' . t('Fines') . '</a>' . '<span class="label warn">' . $count . '</span>',
-      'class' => array('fines'),
+      'class' => array($class),
     );
 
     // Loans overdue.
