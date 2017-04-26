@@ -305,6 +305,10 @@ function ding_event_views_default_views() {
   $handler->display->display_options['relationships']['field_ding_event_category_tid']['id'] = 'field_ding_event_category_tid';
   $handler->display->display_options['relationships']['field_ding_event_category_tid']['table'] = 'field_data_field_ding_event_category';
   $handler->display->display_options['relationships']['field_ding_event_category_tid']['field'] = 'field_ding_event_category_tid';
+  /* Relationship: Content: Tags (field_ding_event_tags) */
+  $handler->display->display_options['relationships']['field_ding_event_tags_tid']['id'] = 'field_ding_event_tags_tid';
+  $handler->display->display_options['relationships']['field_ding_event_tags_tid']['table'] = 'field_data_field_ding_event_tags';
+  $handler->display->display_options['relationships']['field_ding_event_tags_tid']['field'] = 'field_ding_event_tags_tid';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Date (for group header) */
   $handler->display->display_options['fields']['field_ding_event_date_1']['id'] = 'field_ding_event_date_1';
@@ -342,6 +346,19 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['name']['relationship'] = 'field_ding_event_category_tid';
   $handler->display->display_options['fields']['name']['label'] = '';
   $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
+  /* Field: Content: Lead */
+  $handler->display->display_options['fields']['field_ding_event_lead']['id'] = 'field_ding_event_lead';
+  $handler->display->display_options['fields']['field_ding_event_lead']['table'] = 'field_data_field_ding_event_lead';
+  $handler->display->display_options['fields']['field_ding_event_lead']['field'] = 'field_ding_event_lead';
+  $handler->display->display_options['fields']['field_ding_event_lead']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_lead']['element_label_colon'] = FALSE;
+  /* Field: Taxonomy term: Name */
+  $handler->display->display_options['fields']['name_1']['id'] = 'name_1';
+  $handler->display->display_options['fields']['name_1']['table'] = 'taxonomy_term_data';
+  $handler->display->display_options['fields']['name_1']['field'] = 'name';
+  $handler->display->display_options['fields']['name_1']['relationship'] = 'field_ding_event_tags_tid';
+  $handler->display->display_options['fields']['name_1']['label'] = '';
+  $handler->display->display_options['fields']['name_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Has taxonomy term ID */
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
@@ -416,11 +433,14 @@ function ding_event_views_default_views() {
     7 => 0,
     8 => 0,
     9 => 0,
+    10 => 0,
   );
   $handler->display->display_options['filters']['combine']['fields'] = array(
     'field_ding_event_body' => 'field_ding_event_body',
     'title' => 'title',
     'name' => 'name',
+    'field_ding_event_lead' => 'field_ding_event_lead',
+    'name_1' => 'name_1',
   );
   /* Filter criterion: Content: Date -  start date (field_ding_event_date) */
   $handler->display->display_options['filters']['field_ding_event_date_value']['id'] = 'field_ding_event_date_value';
@@ -1562,6 +1582,7 @@ function ding_event_views_default_views() {
     t('Last »'),
     t('OG node group'),
     t('term from field_ding_event_category'),
+    t('term from field_ding_event_tags'),
     t('From'),
     t('To'),
     t('Event panes'),
