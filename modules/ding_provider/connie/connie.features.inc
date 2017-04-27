@@ -10,7 +10,7 @@
 function connie_default_profile2_type() {
   $items = array();
   $items['provider_connie'] = entity_import('profile2_type', '{
-    "userCategory" : false,
+    "userCategory" : true,
     "userView" : true,
     "type" : "provider_connie",
     "label" : "Connie",
@@ -19,4 +19,3 @@ function connie_default_profile2_type() {
   }');
   return $items;
 }
-

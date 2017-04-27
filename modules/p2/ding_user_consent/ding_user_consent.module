@@ -1,0 +1,469 @@
+<?php
+
+/**
+ * @file
+ * Ding user consent handles the consent of the user.
+ *
+ * To store loan history exceeding 30 days. This is a legal requirement. Since
+ * the storage of the consent is under heavy development this is messy.
+ *
+ * Once the dispute has settled on CULR, OpenList or something else this should
+ * be rewritten and cleaned up.
+ */
+
+include_once 'ding_user_consent.features.inc';
+
+define('DING_USER_CONSENT_LOAN_HISTORY_STORE', 'loan_history_store');
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ding_user_consent_ding_provider_user() {
+  return array(
+    'user_consent' => array(
+      'required' => TRUE,
+      'install time setup' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_user_consent_menu() {
+  $items = array();
+
+  // User consent admin page.
+  $items['admin/config/ding/consent'] = array(
+    'title' => 'Ding consent',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_user_consent_admin_form'),
+    'access arguments' => array('administer ding provider'),
+    'file' => 'ding_user_consent.admin.inc',
+  );
+
+  // User consent form page.
+  $items['user/%user/consent'] = array(
+    'title' => 'Give consent',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_user_consent_form'),
+    'access callback' => 'ding_user_access',
+    'access arguments' => array(1),
+    'file' => 'ding_user_consent.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['ding/consent/%ctools_js/%/%'] = array(
+    'title' => 'Ding user consent set consent',
+    'page callback' => 'ding_user_consent_callback',
+    'page arguments' => array(2, 3, 4),
+    'access arguments' => array('use personalisation'),
+  );
+
+  return $items;
+}
+
+/**
+ * Menu item implementation.
+ */
+function ding_user_consent_callback($ajax, $id, $set) {
+  global $user;
+
+  $commands = array();
+
+  ding_user_consent_set(array($id => $set), $user);
+
+  if ($set == '1') {
+    $output = t('You said yes');
+  }
+  else {
+    $output = t('You said no');
+  }
+
+  if ($ajax) {
+    $commands[] = ajax_command_replace('.ding-user-consent-set .choice', $output);
+    ajax_deliver($commands);
+  }
+  else {
+    return $output;
+  }
+}
+
+/**
+ * Check if the users has given consent or not.
+ *
+ * @param int $consent_id
+ *   The id of the consent to check for,
+ *   if null the complete list of consents will be returned.
+ * @param object $account
+ *   The account to check consent for, if null current user is used.
+ *
+ * @return bool
+ *   Returns TRUE is the user has given consent and FALSE if not,
+ *   or is the consent is revoked.
+ */
+function ding_user_consent_has_consent($consent_id = NULL, $account = FALSE) {
+  if (!$account) {
+    global $user;
+    $account = $user;
+  }
+
+  // Check if the user is a user with valid credentials.
+  if (ding_user_is_provider_user($account)) {
+    try {
+      // Get consent info.
+      $consents = ding_provider_invoke('user_consent', 'info');
+      if (!is_null($consent_id)) {
+        // Search for a specific consent type.
+        // Get the user specific consent.
+        $consent = ding_provider_invoke('user_consent', 'get_consent', $account);
+
+        // Return true if the consent id is set.
+        if (!empty($consent[$consent_id]) && $consent[$consent_id]) {
+          return TRUE;
+        }
+
+        // Return false if the user has not given consent yet,
+        // or if consent is required and the user has denied consent.
+        if (isset($consent[$consent_id]) && $consents[$consent_id]['required'] && !$consent[$consent_id]) {
+          return FALSE;
+        }
+      }
+      else {
+        // Return false if the user has not received a consent notice yet.
+        if (empty($consent_id) && empty($account->data['consent'])) {
+          return FALSE;
+        }
+
+        // Get user specific consent.
+        $consent = ding_provider_invoke('user_consent', 'get_consent', $account);
+
+        // Return false if any of the consent types is missing.
+        foreach ($consents as $id => $values) {
+          if (!isset($consent[$id])) {
+            return FALSE;
+          }
+        }
+
+        // Return true.
+        return TRUE;
+      }
+    }
+    catch (Exception $e) {
+      // In case of an exception return false.
+      return FALSE;
+    }
+  }
+
+  return FALSE;
+}
+
+function ding_user_consent_form_profile2_form_alter(&$form, &$form_state) {
+  // If consent longer than 30 days is disabled, ignore the form below.
+  if (!variable_get('user_consent_activate')) {
+    return;
+  }
+
+  $account = user_load($form['profile_provider_alma']['#entity']->uid);
+  if (ding_user_is_provider_user($account)) {
+    $profile_type = ding_user_get_provider_profile_type();
+    if ($form_state['profile2']->type == $profile_type->type) {
+      $consents = ding_provider_invoke('user_consent', 'info');
+      if ($consents) {
+        $form['user_consent'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Legal consent'),
+          '#collapsible' => FALSE,
+          '#collapsed' => FALSE,
+        );
+        $consent = ding_provider_invoke('user_consent', 'get_consent', $account);
+        foreach ($consents as $id => $values) {
+          if (!isset($values['title'])) {
+            $values['title'] = t('Legal consent');
+          }
+          $form['user_consent'][$id] = array(
+            '#type' => 'checkbox',
+            '#title' => check_plain($values['title']),
+            '#default_value' => !empty($consent[$id]) ? $consent[$id] : 0,
+          );
+          $form['user_consent'][$id]['#description'] = (!empty($values['description'])) ? check_plain($values['description']) : '';
+          if (variable_get('ding_user_consent_' . $id . '_description_link', '')) {
+            $form['user_consent'][$id]['#description'] = format_string(
+              $form['user_consent'][$id]['#description'] . ' !br !url',
+              array(
+                '!br' => '<br/>',
+                '!url' => l(t('Read more'), variable_get('ding_user_consent_' . $id . '_description_link', '')),
+              )
+            );
+          }
+        }
+
+        $form['#validate'][] = 'ding_user_consent_form_profile2_form_validate';
+        $form['#submit'][] = 'ding_user_consent_form_profile2_form_submit';
+      }
+    }
+  }
+}
+
+/**
+ * Validate user consent before submitting profile edit data.
+ */
+function ding_user_consent_form_profile2_form_validate($form, &$form_state) {
+  $profile = $form_state['profile2'];
+  $user = user_load($profile->uid);
+  if (empty($user->data['consent'])) {
+    // If it's the first time the user is presented with the consent form,
+    // no data is stored in the data['consent'] and we therefore ensure that
+    // data['consent'] is set to prevent the consent form from reappearing,
+    // when the user performs actions that would impacted consent,
+    // unless the functionality requires consent.
+    $form_state['input']['data']['consent'] = 1;
+    $form_state['values']['data']['consent'] = 1;
+  }
+}
+
+/**
+ * Submit user consent on profile edit save.
+ */
+function ding_user_consent_form_profile2_form_submit($form_id, &$form_state) {
+  $profile = $form_state['profile2'];
+  $account = user_load($profile->uid);
+  ding_user_consent_set($form_state['values'], $account);
+}
+
+/**
+ * Set consents.
+ *
+ * @param array $values
+ *   A mapped array setting consents, where the consent to set is the key.
+ * @param object $account
+ *   The account to set consent for, if null current user is used.
+ */
+function ding_user_consent_set(array $values, $account = NULL) {
+  if ($account === NULL) {
+    global $user;
+    $account = $user;
+  }
+  $all_consents = ding_provider_invoke('user_consent', 'info');
+  $user_consent = ding_provider_invoke('user_consent', 'get_consent', $account);
+
+  $changes = array();
+  $consents = array_intersect_key($values, $all_consents);
+
+  foreach ($consents as $consent_key => $consent_value) {
+    $consent_value = (bool) $consent_value;
+    if ($consent_value !== $user_consent[$consent_key]) {
+      if ($consent_value === TRUE) {
+        ding_provider_invoke('user_consent', 'add', $account, $consent_key, $user_consent);
+      }
+      else {
+        ding_provider_invoke('user_consent', 'remove', $account, $consent_key, $user_consent);
+      }
+      $changes[$consent_key] = $consent_value;
+    }
+  }
+
+  if (!empty($changes)) {
+    user_save($account, array('data' => array('consent' => time())));
+    module_invoke_all('ding_user_consent_changed', $changes);
+  }
+
+  return $changes;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_user_consent_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'ding_user_consent_form':
+      if (isset($form_state['ajaxify'])) {
+        $form['actions']['submit']['#ajax'] = array(
+          'callback' => 'ding_user_consent_form_callback',
+          'wrapper' => drupal_html_id($form_id),
+        );
+      }
+      break;
+  }
+}
+
+/**
+ * Check is consent has been displayed previously.
+ *
+ * @param object $account
+ *   The user asked.
+ *
+ * @return bool
+ *   TRUE if the consent has been previously displayed.
+ */
+function ding_user_consent_previously_displayed($account) {
+  // Show the consent again after 128 days, if the user previously declined.
+  $next_time = REQUEST_TIME - 11059200;
+  return isset($account->data['consent']) && ($account->data['consent'] > $next_time);
+}
+
+/**
+ * Ajax command to authenticate. Used by ding_provider.
+ *
+ * @param array $extra_data
+ *   The extra_data argument is passed on to the ajax_command_ding_popup
+ *   $options parameter.
+ *
+ * @return array
+ *   An ajax popup command.
+ */
+function ajax_command_ding_user_consent($extra_data = array()) {
+  module_load_include('inc', 'ding_user_consent', 'ding_user_consent.pages');
+  $title = t('Give consent');
+
+  $form_id = 'ding_user_consent_form';
+  $form_state = array(
+    'ajaxify' => TRUE,
+  );
+
+  $form = drupal_build_form($form_id, $form_state);
+  $consent_form = drupal_render($form);
+
+  return ajax_command_ding_popup('ding_user_consent', $title, $consent_form, array('resubmit' => TRUE, 'extra_data' => $extra_data));
+}
+
+/**
+ * Ajax callback.
+ */
+function ding_user_consent_form_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  // Close dialog if successful.
+  $response['#commands'][] = ajax_command_ding_popup_close('ding_user_consent');
+  return $response;
+}
+
+/**
+ * Implements hook_user_presave().
+ */
+function ding_user_consent_user_presave(&$edit, $account, $category) {
+  if (ding_user_is_provider_user($account)) {
+    if (!isset($account->data['consent'])) {
+      $consent = ding_provider_invoke('user_consent', 'get_consent', $account);
+      if (isset($consent[DING_USER_CONSENT_LOAN_HISTORY_STORE]) && $consent[DING_USER_CONSENT_LOAN_HISTORY_STORE]) {
+        $edit['data']['consent'] = 1;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_user_consent_theme($existing, $type, $theme, $path) {
+  $theme = array(
+    'ding_user_consent_set' => array(
+      'variables' => array('id' => DING_USER_CONSENT_LOAN_HISTORY_STORE),
+    ),
+  );
+  return $theme;
+}
+
+/**
+ * Theming user_consent.
+ */
+function theme_ding_user_consent_set($variables) {
+  ctools_include('ajax');
+  drupal_add_css(drupal_get_path('module', 'ding_user_consent') . '/css/ding-user-consent.css');
+
+  $consents = ding_provider_invoke('user_consent', 'info');
+  $description = '';
+  $translatables = ding_user_consent_translatables();
+
+  foreach ($consents as $id => $values) {
+    $title = check_plain(variable_get('ding_user_consent_' . $id . '_title', $values['title']));
+    $description = variable_get('ding_user_consent_' . $id . '_description', $values['description']);
+  }
+
+  if (isset($description['value'])) {
+    $description = $description['value'];
+  }
+
+  return '<div class="ding-user-consent-set">' . '<div class="description">' . $description . '</div>' . '<div class="choice">' . ctools_ajax_text_button($translatables['reject'], 'ding/consent/nojs/' . $variables['id'] . '/0', t('No'), "transparent-button negative") . ctools_ajax_text_button($translatables['accept'], 'ding/consent/nojs/' . $variables['id'] . '/1', $title, "transparent-button positive") . ding_user_consent_get_description_link() . '</div>' . '</div>';
+}
+
+/**
+ * Implements hook_ding_interaction_view().
+ */
+function ding_user_consent_ding_interaction_view() {
+  if (user_is_logged_in() && variable_get('user_consent_activate')) {
+    module_load_include('inc', 'ding_user_consent', 'ding_user_consent.pages');
+    return theme('ding_user_consent_set');
+  }
+
+  return '';
+}
+
+/**
+ * Get array of translatables.
+ *
+ * @return array
+ *   An array of strings that can be translated for this module.
+ */
+function ding_user_consent_translatables() {
+  return array(
+    'title' => t('Storage of your loan history'),
+    'accept' => t('Yes please, the library can store my previous loans'),
+    'reject' => t('No thanks, not interested'),
+  );
+}
+
+/**
+ * Fetch a link to the consent description page.
+ *
+ * @return string
+ *   A valid link to the consent description page.
+ */
+function ding_user_consent_get_description_link() {
+  $url = variable_get('ding_user_consent_loan_history_store_description_link', ''); 
+  if (empty($url)) {
+    
+    // Create a new page describing consent.
+    $values = array(
+      'type' => 'ding_page',
+      'uid' => 1,
+      'status' => 1,
+      'promote' => 0,
+    );
+    $entity = entity_create('node', $values);
+    entity_save('node', $entity);
+    $n = entity_metadata_wrapper('node', $entity);
+    $n->title->set(t("About consent and storage of previous loans"));
+    $n->field_ding_page_lead = t("The library will only store your previous loans in 30 days, unless you give us permission to keep them longer for you.");
+    $n->field_ding_page_body->set(array('value' => t("Log in and edit your account to give permission to store your personal loan history extending the default 30 days. You can edit this permission at any time. Once you retract your permission previous loans older than 30 days will be permanently deleted.")));
+    $n->save();
+    $url = "node/" . $n->getIdentifier();
+    variable_set('ding_user_consent_loan_history_store_description_link', $url); 
+
+  }
+  return l(t("Read about storage of loan history"), $url, array('attributes' => array('target' => '_blank', 'class' => 'transparent-button positive')));
+}
+
+/**
+ * Implements hook_ding_interaction_info().
+ */
+function ding_user_consent_ding_interaction_info() {
+  global $user;
+
+  $active = user_is_logged_in()
+    && !ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)
+    && !ding_user_consent_previously_displayed($user);
+
+  $translatables = ding_user_consent_translatables();
+  
+  return array(
+    'title' => $translatables['title'],
+    'translatables' => $translatables,
+    'description' => t("Promote the load history 30+ storage to users not already using the feature.") . "<br/>" . ding_user_consent_get_description_link() .
+    "<br/>" . l(t('Loan history configuration.'), "/admin/config/ding/consent"),
+    'active' => $active,
+  );
+}

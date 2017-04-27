@@ -37,6 +37,9 @@ class FBSDrupalHttpClient implements HttpClient {
     );
     $res = drupal_http_request($url, $options);
 
+    if (abs($res->code) != $res->code) {
+      throw new \RuntimeException('Fatal error communicating with server: ' . $res->error);
+    }
     $response = (new Response(new Stream('php://memory', 'w')))
               ->withStatus($res->code, $res->status_message);
     $response->getBody()->write($res->data);

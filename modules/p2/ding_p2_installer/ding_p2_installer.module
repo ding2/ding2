@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Handles the installation process and enabling of the P2 modules.
+ */
+
+/**
+ * Implements hook_permission().
+ *
+ * Set up the two main permissions for P2.
+ */
+function ding_p2_installer_permission() {
+  return array(
+    'use personalisation' => array(
+      'title' => t('Use personalisation'),
+    ),
+    'administer personalisation' => array(
+      'title' => t('Administer personalisation'),
+    ),
+  );
+}

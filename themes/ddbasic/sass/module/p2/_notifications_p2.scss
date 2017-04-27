@@ -1,0 +1,476 @@
+/* Notifications top menu
+   ========================================================================== */
+
+.pane-notifications-top-menu {
+  @include zen-grid-item(5, 5, right);
+  margin-right: 350px;
+  margin-top: 45px;
+  text-align: right;
+  @include large() {
+    @include zen-grid-item(5, 6, right);
+    margin-right: 350px;
+  }
+  @include small-medium() {
+    //@include zen-grid-item(5, 7, right);
+    margin-right: 220px;
+    padding: 0;
+    margin-top: 10px;
+  }
+  @include small() {
+    margin-right: 180px;
+    margin-left: 0;
+    margin-top: 15px;
+  }
+  .pane-notifications-top-menu {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  //@include respond-to('small-medium') {
+  //  margin-top: 16px;
+  //  float: left;
+  //  margin-left: 0;
+  //  margin-right: 0;
+  //}
+
+  .pane-title {
+    display: none;
+  }
+  .item-list {
+    ul {
+      margin: 0;
+    }
+    li {
+      display: inline-block;
+      @include small-medium() {
+        margin: 0 0 0.25em 1em;
+      }
+    }
+  }
+  a {
+
+    color: $white;
+    display: inline-block;
+    outline: 0;
+
+    &:hover {
+      color: $white;
+      text-decoration: none;
+    }
+
+    &.active {
+      color: $white;
+      text-decoration: none;
+    }
+    .notifications-count {
+      display: inline-block;
+    }
+  }
+}
+
+/* Lists
+   ========================================================================== */
+
+.page-user .pane-lists {
+  h2 {
+    @include zen-clear(both);
+    padding-left: 10px;
+  }
+  table {
+    &:before {
+      @include zen-clear(both);
+    }
+    @include small-medium {
+      @include zen-grid-item(12, 1);
+    }
+    @include medium-large {
+      @include zen-grid-item(9, 1);
+    }
+    @include zen-grid-item(8, 1);
+    margin-bottom: 2em;
+    border: none;
+
+    tr.fines .label {
+      background-color: $notification-style-red;
+    }
+    tr.reservations .label {
+      background-color: $notification-style-green;
+    }
+    tr.user-loan-history .label,
+    tr.loan .label {
+      background-color: $gray-dark;
+    }
+    tbody, tr, td {
+      border: none;
+    }
+    td.notifications {
+      text-align: right;
+    }
+  }
+}
+
+/* Ding Interests Overview Page
+   ========================================================================== */
+
+.page-ding-interests-overview {
+
+  .pane-page-content {
+    overflow: hidden;
+    @include zen-clear();
+    @include zen-grid-container();
+    padding-bottom: 2em;
+
+    .item {
+      @include zen-grid-item(6, 1);
+      margin: 0 0px $medium-spacing 0;
+
+      h2 {
+        border-top: 1px solid $gray;
+        padding-top: 1em;
+        font-size: $font-size-large;
+        margin-bottom: 0;
+        a:visited {
+          color: $link-color;
+        }
+        a {
+          color: $link-color;
+
+          &:hover {
+            color: darken($link-color, 25%);
+            text-decoration: underline;
+          }
+        }
+      }
+
+      ul {
+        padding: 0 0 .5em 0;
+        li {
+          display: inline;
+          margin-right: 2%;
+          a:visited {
+            color: $link-color;
+          }
+          &.last {
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+/* Ding List Table
+   ========================================================================== */
+
+#ding-list {
+  .ding-type-ding-list-element {
+    form {
+      float: right;
+    }
+    .ting-cover .undercover .undercover-title {
+      font-size: $font-size-small;
+    }
+    .ting-cover .undercover .undercover-author {
+      font-size: $font-size-small;
+    }
+    .field-name-ting-author,
+    .field-name-ting-series {
+      margin-bottom: 5px;
+    }
+
+  }
+}
+
+/* Ding List Elements
+   ========================================================================== */
+
+.ding-type-ding-list-element .content {
+  position: relative;
+  form {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    text-align: right;
+    @include small() {
+      top: auto;
+      bottom: 0;
+    }
+  }
+  @include small() {
+    width: 100%;
+    float: left;
+    padding-bottom: 50px;
+  }
+}
+
+
+/* Ding Interests Term Tree
+   ========================================================================== */
+
+.pane-term-tree {
+
+  .item {
+    margin: 0 0px $medium-spacing 0;
+
+    h2 {
+      font-size: $font-size-large;
+      margin-bottom: 0;
+      a:visited {
+        color: $link-color;
+      }
+      a {
+        color: $link-color;
+        &:hover {
+          color: darken($link-color, 25%);
+          text-decoration: underline;
+        }
+      }
+    }
+
+    ul {
+      padding: 0 0 .5em 0;
+      padding-bottom: 1em;
+      li {
+        display: inline;
+        margin-right: 2%;
+        &.last {
+          margin-right: 0;
+        }
+        a:visited {
+          color: $link-color;
+        }
+      }
+    }
+  }
+
+}
+
+
+/* Action buttons Interactives
+   ========================================================================== */
+
+ul.actions {
+  margin: 1.5em 0 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-block;
+    a {
+      @include transparent-button;
+      margin-right: 20px;
+      margin-bottom: .5em;
+      &:hover {
+        background: $white;
+        color: $interests-blue;
+      }
+    }
+  }
+  li:last,
+  li.last {
+    a {
+      margin-right: 0;
+    }
+  }
+
+}
+
+
+/* Ting Carousel
+   ========================================================================== */
+
+.ting-carousel {
+  a {
+    color: $gray-darkest;
+  }
+  .ting-cover {
+    overflow: hidden;
+  }
+  .field-name-ting-title {
+    h2 {
+      @include box-sizing(border-box);
+      font-family: $font-regular;
+      font-size:inherit;
+      padding: 10px 15px;
+      color: $white;
+      &:hover {
+        background-color: $black;
+      }
+    }
+  }
+  .field-name-ding-entity-rating {
+    margin-top: 10px;
+  }
+}
+
+
+/* This part should be moved. Ding Interactives
+   ========================================================================== */
+
+.ding-interaction-true-pane.complete-info {
+  background: $interests-blue;
+  color: $white;
+  padding: 30px;
+
+  .pane-title {
+    font-size: $font-size-large;
+    margin-bottom: 1em;
+  }
+
+  .user-barometer-tip {
+    font-family: $font-light;
+    font-size: $font-size-large;
+    a {
+      @include transparent-button;
+      display: inline-block;
+      margin-right: 20px;
+      color: $white;
+      &:hover {
+        background: $white;
+        color: $interests-blue;
+      }
+    }
+  }
+}
+
+/* Ding Interactives Default On Terms: Yes No
+   ========================================================================== */
+
+.page-taxonomy-term .panel-col-last .pane-taxonomy-term .vocabulary-ding-content-tags {
+  background: $interests-blue;
+  color: $white;
+  padding: 30px;
+  margin-bottom: 30px;
+  h2 {
+    display: none;
+  }
+
+  .pane-title {
+    font-size: $font-size-large;
+    margin-bottom: 1em;
+  }
+
+  a {
+    color: $white;
+  }
+
+  a.transparent-button {
+    @include transparent-button;
+    display: inline-block;
+    margin-right: 10px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  .term-link {
+    font-family: $font-bold;
+    margin-bottom: 30px;
+    a:visited {
+      color: $white;
+    }
+    a {
+      color: $white;
+    }
+  }
+
+  .teaser-text {
+    font-family: $font-light;
+  }
+
+  .teaser-text, .term-link {
+    font-size: $font-size-large;
+  }
+
+  .all-interests {
+    margin-top: 5px;
+  }
+
+  a.transparent-button.yes:hover {
+    background: $interests-green;
+    border-color: $interests-green;
+  }
+  a.transparent-button.no:hover {
+    background: $interests-red;
+    border-color: $interests-red;
+  }
+
+}
+
+
+/* Ding Interactives Default: Yes No
+   ========================================================================== */
+
+.pane-interaction-pane.default-interaction {
+
+  .terms {
+    @include zen-grid-container;
+    margin-bottom: 10px;
+
+    a.transparent-button {
+      @include transparent-button;
+      display: inline-block;
+      margin-right: 20px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    a.transparent-button.yes:hover {
+      background: $interests-green;
+      border-color: $interests-green;
+    }
+    a.transparent-button.no:hover {
+      background: $interests-red;
+      border-color: $interests-red;
+    }
+
+    h2 {
+      display: none;
+    }
+
+    .term-link {
+      font-family: $font-bold;
+      margin-bottom: 30px;
+      a:visited {
+        color: $white;
+      }
+      a {
+        color: $white;
+      }
+    }
+
+    .teaser-text {
+      font-family: $font-light;
+    }
+
+    .teaser-text, .term-link {
+      font-size: $font-size-large;
+    }
+
+    .all-interests {
+      margin-top: 5px;
+    }
+
+    .term > div:nth-child(1) {
+      @include zen-grid-item(6, 1);
+      padding-left: 0;
+      > div {
+        background: $interests-blue;
+        color: $white;
+        padding: 30px;
+      }
+    }
+    .term > div:nth-child(2) {
+      @include zen-grid-item(6, 7);
+      padding-right: 0;
+      > div {
+        background: $interests-blue;
+        color: $white;
+        padding: 30px;
+      }
+    }
+  }
+}

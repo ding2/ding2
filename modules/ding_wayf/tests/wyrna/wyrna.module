@@ -15,7 +15,7 @@ function wyrna_ding_provider() {
     'provides' => array(
       'wayf' => array(
         'prefix' => 'wayf',
-        'file' => drupal_get_path('module', 'wyrna') . '/wyrna.wayf.inc',
+        'file' => 'wyrna.wayf.inc',
       ),
     ),
   );

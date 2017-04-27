@@ -92,117 +92,6 @@ function ting_schema() {
 }
 
 /**
- * Implements hook_ding_entity_fields().
- */
-function ting_ding_entity_fields() {
-  return array(
-    'ting_title' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'label' => t('Ting object title'),
-      ),
-    ),
-    'ting_type' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'label' => t('Ting object type'),
-      ),
-    ),
-    'ting_series' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'label' => t('Ting object series'),
-      ),
-    ),
-    'ting_abstract' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'label' => t('Ting object abstract'),
-      ),
-    ),
-    'ting_author' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'label' => t('Ting object author'),
-      ),
-    ),
-    'ting_subjects' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'label' => t('Ting object subjects'),
-      ),
-    ),
-
-    'ting_primary_object' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'ding_entity_type' => 'ding_entity_collection',
-        'label' => t('Ting collection primary object'),
-      ),
-    ),
-    'ting_entities' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'ding_entity_type' => 'ding_entity_collection',
-        'label' => t('Ting collection objects'),
-      ),
-    ),
-    'ting_collection_types' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'ding_entity_type' => 'ding_entity_collection',
-        'label' => t('Ting collection object types'),
-      ),
-    ),
-  );
-}
-
-/**
  * Convert blackhole field storage to virtual field.
  */
 function ting_update_7000() {
@@ -353,4 +242,23 @@ function ting_update_7009() {
     'default' => NULL,
   ));
   db_add_unique_key('ting_object', 'vid', array('vid'));
+}
+
+/**
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
+ */
+function ting_update_7010() {
+  ding_entity_unlock_fields('ting', array(
+    'ting_title',
+    'ting_type',
+    'ting_series',
+    'ting_abstract',
+    'ting_author',
+    'ting_subjects',
+    'ting_primary_object',
+    'ting_entities',
+    'ting_collection_types',
+  ));
 }

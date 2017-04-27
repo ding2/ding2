@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Define context for the ting collection pane.
+ */
 
 $plugin = array(
   'title' => t('Ting collection: ID'),

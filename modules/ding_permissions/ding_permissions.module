@@ -123,6 +123,7 @@ function ding_permissions_secure_permissions_roles() {
     'provider',
     'staff',
     'administrators',
+    'user administrator',
   );
 }
 
@@ -169,9 +170,12 @@ function ding_permissions_secure_permissions($role) {
       'view own ding_staff_profile profile',
       'view own files',
       'view own private files',
+      'use personalisation',
     ),
     'administrators' => array(
       'access administration pages',
+      'access administration menu',
+      'flush caches',
       'access all views',
       'access all webform results',
       'access broken links report',
@@ -181,6 +185,11 @@ function ding_permissions_secure_permissions($role) {
       'access content',
       'access content overview',
       'access contextual links',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access overlay',
       'access own broken links report',
       'access own webform content',
@@ -212,7 +221,9 @@ function ding_permissions_secure_permissions($role) {
       'administer dibs transactions',
       'administer ding provider',
       'administer EU Cookie Compliance popup',
+      'administer environment indicator settings',
       'administer event settings',
+      'administer fe promote',
       'administer features',
       'administer fieldgroups',
       'administer file types',
@@ -227,6 +238,7 @@ function ding_permissions_secure_permissions($role) {
       'administer media browser',
       'administer menu',
       'administer menu positions',
+      'administer meta tags',
       'administer module filter',
       'administer modules',
       'administer nodequeue',
@@ -318,7 +330,6 @@ function ding_permissions_secure_permissions($role) {
       'create ding_page content',
       'create ding_rolltab content',
       'create files',
-      'create new_materials content',
       'create panel content',
       'create panel-nodes',
       'create relations',
@@ -338,7 +349,6 @@ function ding_permissions_secure_permissions($role) {
       'delete any ding_rolltab content',
       'delete any document files',
       'delete any image files',
-      'delete any new_materials content',
       'delete any panel content',
       'delete any panel-nodes',
       'delete any video files',
@@ -354,7 +364,6 @@ function ding_permissions_secure_permissions($role) {
       'delete own ding_rolltab content',
       'delete own document files',
       'delete own image files',
-      'delete own new_materials content',
       'delete own panel content',
       'delete own panel-nodes',
       'delete own video files',
@@ -395,12 +404,12 @@ function ding_permissions_secure_permissions($role) {
       'edit any ding_staff_profile profile',
       'edit any document files',
       'edit any image files',
-      'edit any new_materials content',
       'edit any panel content',
       'edit any panel-nodes',
       'edit any provider_alma profile',
       'edit any video files',
       'edit any webform content',
+      'edit meta tags',
       'edit link settings',
       'edit opening hours for content',
       'edit own audio files',
@@ -414,7 +423,6 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_rolltab content',
       'edit own document files',
       'edit own image files',
-      'edit own new_materials content',
       'edit own panel content',
       'edit own panel-nodes',
       'edit own video files',
@@ -502,11 +510,22 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'editor' => array(
+      'eck add ding_type ding_interaction entities',
+      'eck edit ding_type ding_interaction entities',
+      'eck delete ding_type ding_interaction entities',
+      'eck list ding_type ding_interaction entities',
+      'eck view ding_type ding_interaction entities',
+      'access administration menu',
       'access all webform results',
       'access campaign rules',
       'access ckeditor link',
       'access content overview',
       'access contextual links',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access site-wide contact form',
       'access overlay',
       'access own webform results',
@@ -521,9 +540,6 @@ function ding_permissions_secure_permissions($role) {
       'administer place2book settings',
       'administer shortcuts',
       'administer url aliases',
-      'administer user role 4',
-      'administer user role 5',
-      'administer user role 7',
       'assign editor role',
       'assign guest blogger role',
       'assign local editor role',
@@ -541,7 +557,6 @@ function ding_permissions_secure_permissions($role) {
       'create ding_page content',
       'create ding_rolltab content',
       'create files',
-      'create new_materials content',
       'create url aliases',
       'create webform content',
       'customize shortcut links',
@@ -555,7 +570,6 @@ function ding_permissions_secure_permissions($role) {
       'delete any ding_rolltab content',
       'delete any document files',
       'delete any image files',
-      'delete any new_materials content',
       'delete any video files',
       'delete any webform content',
       'delete bpi content',
@@ -569,7 +583,6 @@ function ding_permissions_secure_permissions($role) {
       'delete own ding_rolltab content',
       'delete own document files',
       'delete own image files',
-      'delete own new_materials content',
       'delete own video files',
       'delete own webform content',
       'delete own webform submissions',
@@ -603,7 +616,6 @@ function ding_permissions_secure_permissions($role) {
       'edit any ding_rolltab content',
       'edit any document files',
       'edit any image files',
-      'edit any new_materials content',
       'edit any video files',
       'edit any webform content',
       'edit opening hours for content',
@@ -617,7 +629,6 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_rolltab content',
       'edit own document files',
       'edit own image files',
-      'edit own new_materials content',
       'edit own video files',
       'edit webform components',
       'edit own webform content',
@@ -650,6 +661,12 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'guest blogger' => array(
+      'access administration menu',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access ckeditor link',
       'access overlay',
       'access site-wide contact form',
@@ -680,12 +697,24 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'local administrator' => array(
+      'eck add ding_type ding_interaction entities',
+      'eck edit ding_type ding_interaction entities',
+      'eck delete ding_type ding_interaction entities',
+      'eck list ding_type ding_interaction entities',
+      'eck view ding_type ding_interaction entities',
       'access administration pages',
+      'access administration menu',
+      'flush caches',
       'access all webform results',
       'access broken links report',
       'access campaign rules',
       'access ckeditor link',
       'access content overview',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access site-wide contact form',
       'access contextual links',
       'access overlay',
@@ -706,10 +735,12 @@ function ding_permissions_secure_permissions($role) {
       'administer ding provider',
       'administer EU Cookie Compliance popup',
       'administer event settings',
+      'administer fe promote',
       'administer files',
       'administer frontpage settings',
       'administer linkchecker',
       'administer menu',
+      'administer meta tags',
       'administer nodes',
       'administer opening hours configuration',
       'administer redirects',
@@ -749,7 +780,6 @@ function ding_permissions_secure_permissions($role) {
       'create ding_rolltab content',
       'create files',
       'configure gatewayf',
-      'create new_materials content',
       'create url aliases',
       'create webform content',
       'customize shortcut links',
@@ -764,7 +794,6 @@ function ding_permissions_secure_permissions($role) {
       'delete any ding_rolltab content',
       'delete any document files',
       'delete any image files',
-      'delete any new_materials content',
       'delete any video files',
       'delete any webform content',
       'delete bpi content',
@@ -778,7 +807,6 @@ function ding_permissions_secure_permissions($role) {
       'delete own ding_rolltab content',
       'delete own document files',
       'delete own image files',
-      'delete own new_materials content',
       'delete own video files',
       'delete own webform content',
       'delete own webform submissions',
@@ -814,9 +842,9 @@ function ding_permissions_secure_permissions($role) {
       'edit any ding_staff_profile profile',
       'edit any document files',
       'edit any image files',
-      'edit any new_materials content',
       'edit any video files',
       'edit any webform content',
+      'edit meta tags',
       'edit link settings',
       'edit opening hours for content',
       'edit own audio files',
@@ -829,7 +857,6 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_rolltab content',
       'edit own document files',
       'edit own image files',
-      'edit own new_materials content',
       'edit own video files',
       'edit webform components',
       'edit own webform content',
@@ -867,13 +894,25 @@ function ding_permissions_secure_permissions($role) {
       'view private files',
       'view revisions',
       'view the administration theme',
+      'administer personalisation',
     ),
     'local editor' => array(
+      'eck add ding_type ding_interaction entities',
+      'eck edit ding_type ding_interaction entities',
+      'eck delete ding_type ding_interaction entities',
+      'eck list ding_type ding_interaction entities',
+      'eck view ding_type ding_interaction entities',
+      'access administration menu',
       'access all webform results',
       'access campaign rules',
       'access ckeditor link',
       'access content overview',
       'access contextual links',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access site-wide contact form',
       'access overlay',
       'access own webform results',
@@ -951,10 +990,59 @@ function ding_permissions_secure_permissions($role) {
       'view own provider_openruth profile',
     ),
     'staff' => array(
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'edit own ding_staff_profile profile',
     ),
+    'user administrator' => array(
+      'administer users',
+      'administer user role 4',
+      'administer user role 5',
+      'administer user role 7',
+      'administer user role 9',
+      'edit any ding_staff_profile profile',
+    ),
   );
+
+  // Add editor specific permissions by node type,
+  // using override node options module permissions.
+  $node_types = node_permissions_get_configured_types();
+  foreach ($node_types as $node_type) {
+    if (in_array('create ' . $node_type . ' content', $permissions['editor'])) {
+      $permissions['editor'][] = 'override ' . $node_type . ' promote to front page option';
+    }
+  }
+
+  // Ensure that administrative users only have access to one navigation system.
+  foreach ($permissions as &$role_permissions) {
+    if (in_array('access administration pages', $role_permissions)) {
+      // Roles with this permission should have access to Admin menu.
+      $role_permissions = array_unique(array_merge($role_permissions, array('access administration menu')));
+      $role_permissions = array_diff($role_permissions, array('access toolbar'));
+    }
+    else {
+      // If the role doesn't have 'access administration pages', Admin menu is
+      // useless so we can safely remove any access to it. If they role has
+      // access to Toolbar it will fallback to that.
+      $role_permissions = array_diff($role_permissions, array('access administration menu'));
+    }
+  }
+
   if (isset($permissions[$role])) {
     return $permissions[$role];
+  }
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function ding_permissions_page_alter(&$page) {
+  global $user;
+
+  if ($user->uid == '1' && in_array('administrators', array_values($user->roles))) {
+    unset($page['page_top']['toolbar']);
   }
 }

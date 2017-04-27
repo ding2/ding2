@@ -16,27 +16,31 @@ function openruth_ding_provider() {
     'provides' => array(
       'availability' => array(
         'prefix' => 'availability',
-        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.availability.inc',
+        'file' => 'includes/openruth.availability.inc',
       ),
       'user' => array(
         'prefix' => 'user',
-        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.user.inc',
+        'file' => 'includes/openruth.user.inc',
       ),
       'reservation' => array(
         'prefix' => 'reservation',
-        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.reservation.inc',
+        'file' => 'includes/openruth.reservation.inc',
       ),
       'loan' => array(
         'prefix' => 'loan',
-        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.loan.inc',
+        'file' => 'includes/openruth.loan.inc',
       ),
       'debt' => array(
         'prefix' => 'debt',
-        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.debt.inc',
+        'file' => 'includes/openruth.debt.inc',
       ),
       'wayf' => array(
         'prefix' => 'wayf',
-        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.wayf.inc',
+        'file' => 'includes/openruth.wayf.inc',
+      ),
+      'user_consent' => array(
+        'prefix' => 'user_consent',
+        'file' => 'includes/openruth.user_consent.inc',
       ),
     ),
   );
@@ -45,7 +49,7 @@ function openruth_ding_provider() {
 /**
  * Implements hook_form_FORM_ID_alter (ding_debts_form)
  *
- * Integra only suppurt payment of FULL amount. 
+ * Integra only suppurt payment of FULL amount.
  */
 function openruth_form_ding_debt_debts_form_alter(&$form, &$form_stats) {
   unset($form['pay_selected']);

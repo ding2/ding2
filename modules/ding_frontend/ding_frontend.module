@@ -7,6 +7,65 @@
 include_once 'ding_frontend.features.inc';
 
 /**
+ * Implements hook_permission().
+ */
+function ding_frontend_permission() {
+  return array(
+    'administer fe promote' => array(
+      'title' => t('Administer promoting to frontpage'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_search_api_alter_callback_info().
+ */
+function ding_frontend_search_api_alter_callback_info() {
+  return array(
+    'ding_frontend_published_filter' => array(
+      'name' => t('Exclude unpublished users and content'),
+      'description' => t('Exclude unpublished user or content from the index. <strong>Caution:</strong> This only affects the indexed nodes themselves. If an enabled node has references to disabled nodes, those will still be indexed (or displayed) normally.'),
+      'class' => 'DingFrontendPublishedStateFilter',
+      // Filters should be executed first.
+      'weight' => -10,
+    ),
+    'ding_frontend_role_filter' => array(
+      'name' => t('Role filter'),
+      'description' => t('Exclude users from indexing based on their role.'),
+      'class' => 'DingFrontendUserRoleFilter',
+      // Filters should be executed first.
+      'weight' => -10,
+    ),
+    'ding_frontend_bundle_filter' => array(
+      'name' => t('Bundle filter (not users)'),
+      'description' => t('Exclude items from indexing based on their bundle (content type, vocabulary, …).'),
+      'class' => 'DingFrontendBundleFilter',
+      // Filters should be executed first.
+      'weight' => -10,
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_frontend_menu() {
+  $items = array();
+
+  $items['admin/config/ding/fe-promote'] = array(
+    'title' => 'Promote content types to frontpage',
+    'description' => 'Administer promotion of content types to the frontpage.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_frontend_settings'),
+    'access arguments' => array('administer fe promote'),
+    'file' => 'ding_frontend.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_theme().
  *
  * Field formatter theme function mainly used in event views to create the nice
@@ -137,6 +196,23 @@ function ding_frontend_change_maintenance_mode($maintenance_mode) {
   cache_clear_all();
 }
 
+/**
+ * Implements hook_views_pre_render().
+ */
+function ding_frontend_views_pre_render(&$view) {
+  if ($view->name == 'ding_multiple_search') {
+    foreach ($view->result as $result) {
+      $res = explode('/', $result->entity);
+      if ($res[0] == 'user') {
+        $current_user = user_load($res[1]);
+        if (!in_array('staff', $current_user->roles)) {
+          unset($view->result);
+        }
+      }
+    }
+  }
+}
+  
 /**
  * Implements hook_entity_view().
  */

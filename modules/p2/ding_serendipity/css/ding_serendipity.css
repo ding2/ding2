@@ -1,0 +1,26 @@
+.serendipity-admin-fieldset .fieldset-wrapper > div {
+  width: 20%;
+  float: left;
+  display: block;
+}
+
+.pane-serendipity-ting-object {
+  background-color: #ffffff;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+.pane-serendipity-ting-object .pane-title {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-weight: normal;
+  color: rgba(0,0,0,0.7);
+  font-size: 160%;
+  margin-bottom: 20px;
+}
+.pane-serendipity-ting-object .ting-object {
+  margin-bottom: 20px;
+}

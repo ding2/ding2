@@ -1,1 +1,6 @@
-.pane-ding-facetbrowser input.form-checkbox{vertical-align:bottom}.hours .day-notice-star{visibility:visible}
+.pane-ding-facetbrowser input.form-checkbox {
+  vertical-align: bottom; }
+
+/* Ding Opening Hours */
+.hours .day-notice-star {
+  visibility: visible; }

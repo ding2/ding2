@@ -66,7 +66,7 @@ function ding_content_wysiwyg_default_profiles() {
       'acf_mode' => 0,
       'acf_allowed_content' => '',
       'css_setting' => 'self',
-      'css_path' => '/profiles/ding2/themes/ddbasic/css/ddbasic.wysiwyg.css',
+      'css_path' => '/profiles/ding2/themes/ddbasic/css/ddbasic.wysiwyg.min.css',
       'stylesSet' => '',
       'block_formats' => 'p,address,pre,h2,h3,h4,h5,h6,div',
       'advanced__active_tab' => 'edit-paste',

@@ -5,27 +5,6 @@
  */
 
 /**
- * Implements hook_requirements().
- *
- * Display build version on the status report page.
- */
-function ding2_requirements($phase) {
-  $t = get_t();
-
-  // Get version form the profiles info file.
-  $info = install_profile_info('ding2');
-  if ($phase == 'runtime') {
-    return array(
-      'ddb_version' => array(
-        'title' => $t('DDB Version'),
-        'value' => !empty($info['version']) ? $info['version'] : 'development',
-        'severity' => REQUIREMENT_INFO,
-      ),
-    );
-  }
-}
-
-/**
  * Implements hook_install().
  *
  * Perform actions to set up the site for this profile.
@@ -93,12 +72,17 @@ function ding2_install() {
   //
   // Enable ting search as default.
   //
-  variable_set('search_active_modules', array(
-      'node' => 'node',
-      'ting_search' => 'ting_search',
-      'user' => 0,
-      'mkdru' => 'mkdru',
-    ));
+
+  $active_search = variable_get('search_active_modules', array());
+  $search_defaults = array(
+    'node' => 'node',
+    'ting_search' => 'ting_search',
+    'user' => 0,
+    'mkdru' => 'mkdru',
+  );
+  // Avoid overwriting other modules search settings.
+  // Search default has precedence
+  variable_set('search_active_modules', $search_defaults + $active_search);
   variable_set('search_default_module', 'ting_search');
 
   //
@@ -116,6 +100,11 @@ function ding2_install() {
   // Submit theme settings.
   variable_set('theme_' . $default_theme . '_settings', ding2_theme_settings());
   ding_base_rewrite_color_stylesheet();
+
+  // Disable overlay.
+  if (module_exists('overlay')) {
+    module_disable(array('overlay'));
+  }
 
   // Ignore any rebuild messages.
   node_access_needs_rebuild(FALSE);
@@ -173,6 +162,12 @@ function ding2_translation_update() {
   $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/fields_da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'field');
+
+  // Update metatag translation group.
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/metatags_da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'metatag');
 }
 
 /**
@@ -322,6 +317,13 @@ function ding2_update_7014() {
 }
 
 /**
+ * Enable search_api modules.
+ */
+function ding2_update_7015() {
+  module_enable(array('search_api', 'search_api_multi', 'search_api_db', 'search_api_views'));
+}
+
+/**
  * Update our own translations.
  */
 function ding2_update_7016() {
@@ -340,4 +342,133 @@ function ding2_update_7017() {
  */
 function ding2_update_7018() {
   ding2_translation_update();
+}
+
+/**
+ * Disable overlay.
+ */
+function ding2_update_7019() {
+  if (module_exists('overlay')) {
+    module_disable(array('overlay'));
+  }
+}
+
+/**
+ * Enable metatag and metatag_panels modules.
+ */
+function ding2_update_7020() {
+  module_enable(array('metatag', 'metatag_panels'));
+}
+
+/**
+ * Disable ding_bookmark module.
+ */
+function ding2_update_7021() {
+  module_disable(array('ding_bookmark'));
+}
+
+/**
+ * Enable P2 installer module.
+ */
+function ding2_update_7022() {
+  module_enable(array('ding_p2_installer'));
+}
+
+/**
+ * Enable admin_menu modules.
+ */
+function ding2_update_7023() {
+  module_enable(array('admin_menu', 'admin_menu_toolbar'));
+
+  ding2_admin_menu_shortcuts();
+}
+
+/**
+ * Enable htmlmail module.
+ */
+function ding2_update_7024() {
+  module_enable(array('htmlmail'));
+}
+
+/**
+ * Enable environment indicator panel modules.
+ */
+function ding2_update_7025() {
+  if (module_exists('ddb_cp')) {
+    module_enable(array('environment_indicator'));
+  }
+}
+
+/**
+ * Enable mmeu module.
+ */
+function ding2_update_7026() {
+  module_enable(array('mmeu'));
+}
+
+/**
+ * Enable lazy_pane module.
+ */
+function ding2_update_7027() {
+  module_enable(array('lazy_pane'));
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7028() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7029() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7030() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7031() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable Campaign module.
+ */
+function ding2_update_7032() {
+  module_enable(array('ding_campaign'));
+}
+
+/**
+ * Disable flag module or disable "bookmark" view.
+ */
+function ding2_update_7033() {
+  // Only disable the flag module if no other module is using it.
+  // This is done to get rid of the user/bookmarks url.
+  $modules = system_rebuild_module_data();
+  $remove_flag = TRUE;
+  foreach ($modules['flag']->required_by as $module_name => $module) {
+    if (module_exists($module_name)) {
+      $remove_flag = FALSE;
+      break;
+    }
+  }
+
+  if ($remove_flag) {
+    module_disable(array('flag'));
+  }
+  else {
+    $status = variable_get('views_defaults', array());
+    $status['flag_bookmarks_tab'] = TRUE;
+    variable_set('views_defaults', $status);
+  }
 }

@@ -143,8 +143,9 @@ function ding_event_field_group_info() {
     'weight' => '3',
     'children' => array(
       0 => 'field_ding_event_category',
-      1 => 'field_ding_event_target',
-      2 => 'field_ding_event_tags',
+      1 => 'field_ding_event_tags',
+      2 => 'field_ding_event_target',
+      3 => 'field_ding_event_rooms',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -198,7 +199,7 @@ function ding_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Left column',
-    'weight' => '0',
+    'weight' => '1',
     'children' => array(
       0 => 'field_ding_event_list_image',
     ),
@@ -229,7 +230,7 @@ function ding_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Right column',
-    'weight' => '1',
+    'weight' => '2',
     'children' => array(
       0 => 'field_ding_event_date',
       1 => 'field_ding_event_lead',

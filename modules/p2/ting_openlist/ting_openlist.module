@@ -1,0 +1,476 @@
+<?php
+/**
+ * @file
+ * Provider and configuration layer for connection with the OpenList service.
+ */
+
+/**
+ * Implements hook_ding_provider().
+ */
+function ting_openlist_ding_provider() {
+  return array(
+    'title' => 'Ting Openlist provider',
+    // Notice we set the file path in hook_menu_alter()
+    'file' => 'ting_openlist.admin.inc',
+    'settings' => 'ting_openlist_settings_form',
+    'provides' => array(
+      'openlist' => array(
+        'prefix' => 'handler',
+        'file' => 'ting_openlist.handler.inc',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ting_openlist_menu() {
+  $items = array();
+
+  // Callback for the openlist search widget.
+  $items['ting-openlist/autocomplete/list'] = array(
+    'page callback' => 'ting_openlist_autocomplete_list',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function ting_openlist_field_widget_info() {
+  return array(
+    'ting_oppenlist_importer' => array(
+      'label' => t('Ting openlist importer'),
+      'field types' => array('ting_reference'),
+      'description' => t('Only works if you set unlimited amount.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function ting_openlist_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  switch ($instance['widget']['type']) {
+    case 'ting_oppenlist_importer':
+      if ($delta === 0) {
+        $wrapper_id = drupal_html_class($element['#field_name'] . '-add-more-wrapper');
+
+        $element['ting_openlist_id'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Openlist'),
+          '#autocomplete_path' => 'ting-openlist/autocomplete/list',
+          '#description' => t('Search for a public openlist list.'),
+          '#element_validate' => array('ting_openlist_field_validate'),
+        );
+
+        $element['ting_openlist_add'] = array(
+          '#type' => 'submit',
+          '#value' => t('Add openlist elements'),
+          '#name' => 'ting_openlist_add',
+          '#submit' => array('ting_openlist_field_add_elements_submit'),
+          '#ajax' => array(
+            'callback' => 'ting_openlist_field_add_elements_js',
+            // The wrapper is set in the form alter, so it uses the same
+            // wrapper as the Add more button.
+            'wrapper' => $wrapper_id,
+            'effect' => 'fade',
+          ),
+        );
+
+        $form['#ting_oppenlist_importer_widget'][] = $element['#field_name'];
+      }
+
+      $instance['widget']['type'] = 'ting_reference_advanced';
+      $element = ting_reference_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+      break;
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ *
+ * Add properties to openlist entities.
+ */
+function ting_openlist_entity_property_info_alter(&$info) {
+  $properties = &$info['user']['properties'];
+
+  $properties['openlist_uid'] = array(
+    'label' => t("Openlist User ID"),
+    'description' => t("Openlist user id"),
+    'type' => 'text',
+    'schema field' => 'openlist_uid',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+}
+
+/**
+ * Implements hook_schema_alter().
+ */
+function ting_openlist_schema_alter(&$schema) {
+  $schema['users']['fields']['openlist_uid'] = array(
+    'type' => 'char',
+    'not null' => TRUE,
+    'default' => 0,
+    'length' => 255,
+    'description' => 'The openlist user id',
+  );
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Alter importer widgets.
+ */
+function ting_openlist_form_alter(&$form, &$form_state, $form_id) {
+  if (!empty($form['#ting_oppenlist_importer_widget'])) {
+    foreach ($form['#ting_oppenlist_importer_widget'] as $field_name) {
+      $langcode = $form[$field_name]['#language'];
+      $form[$field_name][$langcode][0]['ting_openlist_add']['#ajax']['wrapper'] = $form[$field_name][$langcode]['add_more']['#ajax']['wrapper'];
+    }
+  }
+}
+
+/**
+ * Auto-complete callback for searching after a list directly in openlist.
+ */
+function ting_openlist_autocomplete_list($string) {
+  $buffer = array();
+
+  $lists = ding_provider_invoke('openlist', 'request', 'callModule', array(
+      'ListPermission',
+      'getPublicLists',
+      array($string),
+    ));
+
+  foreach ($lists as $list) {
+    $buffer[$list['title'] . ' [' . $list['list_id'] . ']'] = $list['title'];
+  }
+
+  drupal_json_output($buffer);
+}
+
+/**
+ * Adds the list elements to the reference field.
+ *
+ * Draw heavy inspiration from the field_add_more_submit in the field.form.inc
+ * file, from the field module.
+ */
+function ting_openlist_field_add_elements_submit($form, &$form_state) {
+  $button = $form_state['triggering_element'];
+
+  // Go one level up in the form, to the widgets container.
+  $element = drupal_array_get_nested_value($form, array_slice($button['#array_parents'], 0, -1));
+  $field_name = $element['#field_name'];
+  $langcode = $element['#language'];
+  $parents = $element['#field_parents'];
+
+  $field_state = field_form_get_state($parents, $field_name, $langcode, $form_state);
+
+  $list = $form_state['input'][$field_name][$langcode][0]['ting_openlist_id'];
+  $list_id = substr($list, strrpos($list, '[') + 1, -1);
+  $objects = ding_provider_invoke('openlist', 'request', 'getElements', array($list_id));
+
+  $buffer = array();
+
+  foreach ($objects as $object) {
+    if ($object['data']['type'] == 'ting_object') {
+      $buffer[] = $object['data']['value'];
+    }
+  }
+
+  foreach ($buffer as $delta => $object) {
+    $form_state['input'][$field_name][$langcode][$field_state['items_count'] + $delta] = array(
+      'ting_object_id' => $object,
+    );
+  }
+
+  $field_state['items_count'] += count($buffer);
+
+  field_form_set_state($parents, $field_name, $langcode, $form_state, $field_state);
+
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Ajax update the reference field.
+ *
+ * This is stolen from the field.form.inc module, it's basically the
+ * field_add_more_js
+ */
+function ting_openlist_field_add_elements_js($form, &$form_state) {
+  $button = $form_state['triggering_element'];
+
+  // Go two level up in the form, to the widgets container.
+  $element = drupal_array_get_nested_value($form, array_slice($button['#array_parents'], 0, -2));
+  $field_name = $element['#field_name'];
+  $langcode = $element['#language'];
+  $parents = $element['#field_parents'];
+
+  $field_state = field_form_get_state($parents, $field_name, $langcode, $form_state);
+
+  $field = $field_state['field'];
+  if ($field['cardinality'] != FIELD_CARDINALITY_UNLIMITED) {
+    return;
+  }
+
+  // Add a DIV around the delta receiving the Ajax effect.
+  $delta = $element['#max_delta'];
+  $element[$delta]['#prefix'] = '<div class="ajax-new-content">' . (isset($element[$delta]['#prefix']) ? $element[$delta]['#prefix'] : '');
+  $element[$delta]['#suffix'] = (isset($element[$delta]['#suffix']) ? $element[$delta]['#suffix'] : '') . '</div>';
+
+  return $element;
+}
+
+/**
+ * Validate function for the ting_openlist_id textfield.
+ */
+function ting_openlist_field_validate($element, &$form_state, $form) {
+  // The format of a valid openlist id input is "ANYTHING SPACE [DIGIT]"
+  if (!empty($element['#value']) && !preg_match('/^.+\s\[\d*\]$/', $element['#value'], $matches)) {
+    form_error($element, t('Invalid openlist list'));
+  }
+}
+
+/**
+ * Get a SoapClient.
+ *
+ * @param string $wsdl
+ *   The wsdl file to use.
+ * @param bool $trace
+ *   When debugging this allows the SoapClient to trace out complete data.
+ *
+ * @return object
+ *   The PHP SoapClient.
+ */
+function ting_openlist_get_soap($wsdl = NULL, $trace = FALSE) {
+  $clients = &drupal_static(__FUNCTION__, array());
+
+  if (!isset($clients[$wsdl])) {
+    if ($wsdl === NULL) {
+      $wsdl = variable_get('ting_openlist_wsdl', '');
+    }
+
+    // Create the client, catch any error and log it.
+    try {
+      $clients[$wsdl] = @new SoapClient(
+        $wsdl, array(
+          'trace' => $trace,
+          'cache_wsdl' => variable_get('ting_openlist_wsdl_cache', TRUE) && !$trace ? WSDL_CACHE_DISK : WSDL_CACHE_NONE,
+        )
+      );
+
+      $clients[$wsdl]->__setCookie('library_code', variable_get('ting_library_code', ''));
+
+      // Enable the developer cookie if specified.
+      if (variable_get('ting_openlist_developer', FALSE)) {
+        $clients[$wsdl]->__setCookie('developer', 'on');
+      }
+    }
+    catch (Exception $e) {
+      watchdog(
+        'openlist',
+        'Unable to create SoapClient(@wsdl). Exception:<br />@exception',
+        array('@wsdl' => $wsdl, '@exception' => $e->getMessage()),
+        WATCHDOG_ERROR
+      );
+
+      $clients[$wsdl] = FALSE;
+    }
+  }
+
+  return $clients[$wsdl];
+}
+
+/**
+ * Call the openlist service.
+ *
+ * @param string $function
+ *   Function name of the function to call on the service.
+ * @param array $arguments
+ *   Numerical array with the arguments, in their respectable order.
+ * @param bool $detailed_log
+ *   If set to true, the arguments send is logged by watchdog, if logging is
+ *   active.
+ *
+ * @return mixed
+ *   Response from Openlist.
+ */
+function ting_openlist_request($function, $arguments = array(), $detailed_log = FALSE) {
+  $response = FALSE;
+  $start_time = microtime(TRUE);
+
+  if ($soap_client = ting_openlist_get_soap()) {
+    try {
+      $response = call_user_func_array(
+        array(
+          $soap_client,
+          $function,
+        ),
+        $arguments
+      );
+
+      // If logging is enabled, log the function name and execution time.
+      if (variable_get('ting_openlist_log', FALSE)) {
+        $execution_time = microtime(TRUE) - $start_time;
+
+        $details = '';
+        if ($detailed_log || variable_get('ting_openlist_log_details', FALSE)) {
+          $details = "<pre>" . var_export($arguments, TRUE) . '</pre>';
+        }
+
+        watchdog(
+          'openlist',
+          '@function (@execution_time s)!details',
+          array(
+            '@function' => $function,
+            '@execution_time' => $execution_time,
+            '!details' => $details,
+          ),
+          WATCHDOG_INFO
+        );
+      }
+    }
+    catch (Exception $e) {
+      $execution_time = microtime(TRUE) - $start_time;
+      watchdog(
+        'openlist',
+        'Error (@execution_time s).<br /><strong>Function:</strong> @function.<br /><strong>Exception:</strong>@exception<hr /><pre>!details</pre>',
+        array(
+          '@function' => $function,
+          '@execution_time' => $execution_time,
+          '@exception' => $e->getMessage(),
+          '!details' => var_export($arguments, TRUE),
+        ),
+        WATCHDOG_ERROR
+      );
+
+      throw $e;
+    }
+  }
+  else {
+    throw new Exception('No soap client available.');
+  }
+
+  return $response;
+}
+
+/**
+ * Update the user account with the openlist_uid.
+ *
+ * @param object $account
+ *   The user account to update.
+ */
+function ting_openlist_update_user($account = NULL) {
+  if ($account === NULL) {
+    global $user;
+    $account = $user;
+  }
+
+  if (empty($account->openlist_uid)) {
+    $account->openlist_uid = ting_openlist_user_identifier($account);
+    user_save($account);
+  }
+}
+
+/**
+ * Get a user depending on the openlist_uid.
+ *
+ * @param string $openlist_uid
+ *   The openlist user id.
+ *
+ * @return object
+ *   The user account.
+ */
+function ting_openlist_get_user($openlist_uid) {
+  $result = db_select('users', 'u')
+    ->fields('u', array('uid'))
+    ->condition('u.openlist_uid', $openlist_uid)
+    ->range(0, 1)
+    ->execute()
+    ->fetchAssoc();
+
+  if (isset($result['uid'])) {
+    $account = user_load($result['uid']);
+  }
+  else {
+    $account = new stdClass();
+    $account->name = $account->mail = t('User missing');
+  }
+
+  return $account;
+}
+
+/**
+ * Get a user identifier.
+ *
+ * @param object $account
+ *   The user account.
+ *
+ * @return mixed
+ *   The identifier or FALSE otherwise.
+ */
+function ting_openlist_user_identifier($account = NULL) {
+  $ids = &drupal_static(__FUNCTION__, array());
+
+  // Use the current user account, if no account is specified.
+  if ($account === NULL) {
+    global $user;
+    $account = $user;
+  }
+
+  if (!isset($ids[$account->uid])) {
+    if (!empty($account->openlist_uid)) {
+      $ids[$account->uid] = $account->openlist_uid;
+    }
+    else {
+      try {
+        $creds = ding_user_get_creds($account);
+
+        if (!empty($creds['name'])) {
+          $ids[$account->uid] = ting_openlist_create_identifier($creds['name']);
+        }
+        else {
+          // Standard drupal users (not loaners) will get the drupal private key
+          // prepended so they're unique across sites.
+          $ids[$account->uid] = ting_openlist_create_identifier(drupal_get_private_key() . $account->name);
+        }
+      }
+      catch (Exception $e) {
+        // Standard drupal users (not loaners) will get the drupal private key
+        // prepended so they're unique across sites.
+        $ids[$account->uid] = ting_openlist_create_identifier(drupal_get_private_key() . $account->name);
+      }
+    }
+  }
+
+  return $ids[$account->uid];
+}
+
+/**
+ * Calculate the user identifier.
+ *
+ * @param string $name
+ *   Name of the user.
+ *
+ * @return string
+ *   The identifier (sha512 hash).
+ */
+function ting_openlist_create_identifier($name) {
+  // To avoid collisions of provider users by loaner id, we need to prefix the
+  // primary key.
+  // See the GUID project, for more information.
+  $prefix = variable_get('ting_openlist_prefix', FALSE);
+  if ($prefix === FALSE) {
+    $prefix = uniqid();
+    variable_set('ting_openlist_prefix', $prefix);
+  }
+  return hash('sha512', $prefix . $name);
+}

@@ -126,10 +126,18 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         $title = l($entity->getTitle(), $uri['path']);
       }
 
+      // Add creator(s).
+      $creators = $entity->creators;
+
+      // Add type.
+      $mat_type = $entity->type;
 
       $item = array(
         '#type' => 'material_item',
+        '#loan' => $loan,
         '#id' => $loan->id,
+        '#creators' => $creators,
+        '#material_type' => $mat_type,
         '#title' => $title,
         '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
         '#information' => array(
@@ -170,13 +178,6 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
           '#weight' => -4,
         );
       }
-
-      $bookmark_button = ding_bookmark_ding_entity_buttons('ding_entity', $entity, 'ajax');
-      $item['#information']['bookmark'] = array(
-        'class' => 'bookmark',
-        'data' => drupal_render($bookmark_button),
-        '#weight' => 10,
-      );
 
       // If not renewable set message.
       if (empty($loan->renewable)) {

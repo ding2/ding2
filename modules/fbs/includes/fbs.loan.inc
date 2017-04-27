@@ -15,19 +15,15 @@
  *   Loan information.
  */
 function fbs_loan_list($account) {
-  $result = array();
   $res = array();
-  
-  $service = fbs_service();
-  if ($service) {
-    try {
-      $res = $service->MaterialLoans->getLoans($service->agencyId, fbs_patron_id($account));
-    }
-    catch (Exception $e) {
-      watchdog_exception('fbs', $e);
-    }
+  try {
+    $res = fbs_service()->MaterialLoans->getLoans(fbs_service()->agencyId, fbs_patron_id($account));
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
   }
 
+  $result = array();
   foreach ($res as $loan) {
     $id = $loan->loanDetails->loanId;
 
@@ -55,8 +51,8 @@ function fbs_loan_list($account) {
     }
 
     // Handle inter library loans.
-    if (!empty($loan->ilBibliographicRecord)) {
-      $loan_data['display_name'] = $loan->ilBibliographicRecord->title;
+    if (!empty($loan->loanDetails->ilBibliographicRecord)) {
+      $loan_data['display_name'] = $loan->loanDetails->ilBibliographicRecord->title;
     }
 
     $result[$id] = new DingProviderLoan($id, $loan_data);
@@ -77,19 +73,15 @@ function fbs_loan_list($account) {
  *   Result of revewals.
  */
 function fbs_loan_renew($account, $loans) {
-  $result = array();
   $res = array();
-
-  $service = fbs_service();
-  if ($service) {
-    try {
-      $res = $service->MaterialLoans->renewLoans($service->agencyId, fbs_patron_id($account), $loans);
-    }
-    catch (Exception $e) {
-      watchdog_exception($e);
-    }
+  try {
+    $res = fbs_service()->MaterialLoans->renewLoans(fbs_service()->agencyId, fbs_patron_id($account), $loans);
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
   }
 
+  $result = array();
   foreach ($res as $loan) {
     // Using an array for renewalStatus is an odd choice, but we'll only
     // consider the loan renewed if 'renewed' is the only status.

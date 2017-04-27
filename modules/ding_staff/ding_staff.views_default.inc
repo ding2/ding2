@@ -725,12 +725,12 @@ function ding_staff_views_default_views() {
       'override_label' => 1,
       'label' => 'Send e-mail',
     ),
-    'action::views_bulk_operations_delete_item' => array(
+    'action::views_bulk_operations_user_cancel_action' => array(
       'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,
-      'override_label' => 1,
-      'label' => 'Slet',
+      'override_label' => 0,
+      'label' => '',
     ),
     'action::flag_user_action' => array(
       'selected' => 0,
@@ -1009,7 +1009,6 @@ function ding_staff_views_default_views() {
     t('Change user roles'),
     t('Ret brugerindstillinger'),
     t('Send e-mail'),
-    t('Slet'),
     t('Name'),
     t('Roles'),
     t('Name (in Staff)'),

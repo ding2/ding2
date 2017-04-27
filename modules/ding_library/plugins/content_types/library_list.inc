@@ -55,6 +55,19 @@ function ding_library_library_list_content_type_render($subtype, $conf, $panel_a
 
   // Generate link for each library.
   if (!empty($nodes)) {
+    // Filter out the nodes that are "owned" by the active domain.
+    if (module_exists('domain')) {
+      $domain = domain_get_domain();
+
+      foreach ($nodes as $k => $node) {
+        $node_domain = domain_get_node_match($node->nid);
+
+        if ($node_domain['domain_id'] != $domain['domain_id']) {
+          unset($nodes[$k]);
+        }
+      }
+    }
+
     uasort($nodes, 'ding_library_library_list_sort_title');
 
     $items = array();
@@ -113,12 +126,12 @@ function ding_library_library_list_select_library($form, &$form_state, $items, $
   $form['submit'] = array(
     '#type' => 'submit',
     '#attributes' => array(
-      'class' => array(
-        'button',
-      ),
+      'class' => array('button'),
+      'style' => array('display: none;'),
     ),
     '#value' => t('Show'),
   );
+  
   return $form;
 }
 

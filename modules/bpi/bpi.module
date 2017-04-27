@@ -805,3 +805,73 @@ function bpi_validate_material($id) {
   }
   return $object ? $object->id : FALSE;
 }
+
+/**
+ * Implements hook_libraries_info().
+ *
+ * For defining external libraries.
+ */
+function bpi_libraries_info() {
+  return array(
+    'chosen' => array(
+      'name' => 'Chosen',
+      'vendor url' => 'https://github.com/harvesthq/chosen',
+      'download url' => 'https://github.com/harvesthq/chosen/releases',
+      'version arguments' => array(
+        'file' => 'chosen.jquery.min.js',
+        'pattern' => '@(?:Chosen v|Version\s+)([0-9a-zA-Z\.-]+)@',
+      ),
+      'files' => array(
+        'css' => array('chosen.min.css'),
+        'js' => array('chosen.jquery.min.js'),
+      ),
+    ),
+    'guzzle' => array(
+      'name' => 'Guzzle',
+      'vendor url' => 'https://github.com/guzzle/guzzle',
+      'download url' => 'https://github.com/guzzle/guzzle',
+      'version' => '6.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'promises' => array(
+      'name' => 'Guzzle promises library',
+      'vendor url' => 'https://github.com/guzzle/promises',
+      'download url' => 'https://github.com/guzzle/promises',
+      'version' => '1.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'http-message' => array(
+      'name' => 'Common interface for HTTP messages',
+      'vendor url' => 'https://github.com/php-fig/http-message',
+      'download url' => 'https://github.com/php-fig/http-message',
+      'version' => '1.0',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'psr7' => array(
+      'name' => 'PSR-7 message implementation',
+      'vendor url' => 'https://github.com/guzzle/psr7',
+      'download url' => 'https://github.com/guzzle/psr7',
+      'version' => '1.3',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+  );
+}
+
+/**
+ * Implements hook_xautoload().
+ */
+function bpi_xautoload($adapter) {
+  // PSR-4 paths for bpi-client.
+  $adapter->absolute()->addPsr4(
+    'Bpi\Sdk\\',
+    drupal_get_path('module', 'bpi') . '/lib/bpi-client/Bpi/Sdk/'
+  );
+}

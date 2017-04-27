@@ -5,7 +5,7 @@
  */
 
 /**
- * Implements of hook_dibsapi().
+ * Implements hook_dibsapi().
  */
 function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a3 = NULL, $a4 = NULL) {
   global $user;
@@ -123,14 +123,12 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
  * Implements hook_ding_provider().
  */
 function ding_dibs_ding_provider() {
-  $path = drupal_get_path('module', 'ding_dibs');
-
   return array(
     'title' => 'DIBS payment provider',
     'provides' => array(
       'payment' => array(
         'prefix' => 'payment',
-        'file' => $path . '/includes/dibs.payment.inc',
+        'file' => 'includes/dibs.payment.inc',
       ),
     ),
   );
@@ -386,6 +384,28 @@ function ding_dibs_menu() {
     'file' => 'ding_dibs.reports.inc',
   );
 
+  $items['admin/config/payment/ding_dibs/emails'] = array(
+    'title' => 'Ding DIBS setting emails',
+    'description' => 'Ding DIBS setting emails.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_dibs_setting_emails'),
+    'access arguments' => array('administer dibs settings'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 5,
+    'file' => 'ding_dibs.email_reports.inc',
+  );
+
+  $items['admin/reports/ding_dibs'] = array(
+    'title' => 'Ding DIBS cron report',
+    'description' => 'Ding DIBS cron report.',
+    'page callback' => 'ding_dibs_cron_report',
+    'access arguments' => array('administer dibs settings'),
+    'weight' => 6,
+    'tab_parent' => 'admin/config/payment/ding_dibs',
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ding_dibs.email_reports.inc',
+  );
+
   return $items;
 }
 
@@ -394,29 +414,168 @@ function ding_dibs_menu() {
  */
 function ding_dibs_cards() {
   $cards = array();
-  $cards['Dankort'] = 'dan53-35_01.gif';
-  $cards['eDankort'] = 'edk_large.gif';
-  $cards['VISA'] = 'visa_stor.gif';
-  $cards['VISA Electron'] = 'elec_stor.gif';
-  $cards['Mastercard'] = 'card6_l_03.gif';
-  $cards['JCB'] = 'jcb-large_01.gif';
-  $cards['Diners Club'] = 'card8_l_03.gif';
-  $cards['American Express'] = 'amex_large.gif';
-  $cards['Maestro'] = 'mstro_01.gif';
-  $cards['Forbrugforeningen'] = 'ffk_large.gif';
-  $cards['Danske Netbetaling'] = 'ddb.gif';
-  $cards['Nordea Sol-E'] = 'nordea_large.gif';
-  $cards['SEB'] = 'seb_02.gif';
-  $cards['SHB direktbetaling'] = 'handelsbanken_01.gif';
-  $cards['Swedbank direktbetaling'] = 'swedbank.gif';
-  $cards['PayPal'] = 'PayPal_large.gif';
-  $cards['Bank Einzug'] = 'eolv.gif';
-  $cards['iDEAL'] = 'ideal_large.jpg';
-  $cards['Aktia'] = 'aktia_large.gif';
-  $cards['OKO'] = 'oko_large.gif';
-  $cards['Sampo'] = 'sampo_large.gif';
-  $cards['BankAxess'] = 'BankAxess_03.gif';
-  $cards['Getitcard'] = 'getitcard2_53x33.gif';
+  $cards['Dankort'] = 'card_Dankort_53x33.png';
+  $cards['eDankort'] = 'card_E_Dankort_53x33.png';
+  $cards['VISA'] = 'card_Visa_53x33.png';
+  $cards['VISA Electron'] = 'card_Visa_Electron_53x33.png';
+  $cards['Mastercard'] = 'card_Mastercard_53x33.png';
+  $cards['JCB'] = 'card_JCB_53x33.png';
+  $cards['Diners Club'] = 'card_Diners_Club_53x33.png';
+  $cards['American Express'] = 'card_AMEX_53x33.png';
+  $cards['Maestro'] = 'card_Maestro_53x33.png';
+  $cards['Forbrugforeningen'] = 'card_Forbrugerforening_53x33.png';
+  $cards['Danske Netbetaling'] = 'card_Danske_53x33.png';
+  $cards['Nordea Sol-E'] = 'card_Nordea_53x33.png';
+  $cards['SEB'] = 'card_SEB_53x33.png';
+  $cards['SHB direktbetaling'] = 'card_Handelsbanken_53x33.png';
+  $cards['Swedbank direktbetaling'] = 'card_Swedbank_53x33.png';
+  $cards['PayPal'] = 'card_Paypal_53x33.png';
+  $cards['Bank Einzug'] = 'card_eOLV_53x33.png';
+  $cards['iDEAL'] = 'card_iDEAL_53x33.png';
+  $cards['Aktia'] = 'card_Aktia_53x33.png';
+  $cards['OKO'] = 'card_OKO_53x33.png';
+  $cards['Sampo'] = 'card_Sampo_53x33.png';
+  $cards['BankAxess'] = 'card_Bank_axess_53x33.png';
+  $cards['Getitcard'] = 'card_Getitcard_53x33.png';
+  $cards['MobilePay'] = 'MobilePay_55x33.jpg';
 
   return $cards;
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * This is done by sending written reports and email adresses result cron
+ * launches in the database.
+ */
+function ding_dibs_cron() {
+  $start_cron = FALSE;
+  $cron_start_hour = variable_get('ding_dibs_start_cron_hour', NULL);
+  $cron_start_minute = variable_get('ding_dibs_start_cron_minute', 0);
+  if (!empty($cron_start_hour)) {
+    $request_time = new DateTime('NOW');
+    $today_cron_start_time = new DateTime('NOW');
+    $today_cron_start_time->setTime($cron_start_hour, $cron_start_minute);
+    $cron_time = variable_get('ding_dibs_last_cron', REQUEST_TIME - 86400);
+    $last_cron_time = new DateTime(format_date($cron_time, 'custom', 'Y-m-d H:i'));
+    if ($today_cron_start_time > $last_cron_time
+      && $request_time >= $today_cron_start_time) {
+      $start_cron = TRUE;
+    }
+  }
+  if ($start_cron) {
+    // Moving ding_dibs_emails into variable.
+    $ding_dibs_email = variable_get('ding_dibs_emails', '');
+    if (!empty($ding_dibs_email)) {
+      $emails_array = preg_split("/\,|\r\n|\n/", $ding_dibs_email);
+      if (count($emails_array) >= 1) {
+        variable_set('ding_dibs_last_cron', REQUEST_TIME);
+        $id = _ding_dibs_insert_table(variable_get('ding_dibs_last_cron', REQUEST_TIME));
+        for ($count = 0; $count < count($emails_array); $count++) {
+          if (!empty($emails_array[$count])) {
+            $params = array('subject' => t('Recent unusual DIBS reports'));
+            drupal_mail('ding_dibs', 'ding_dibs_report', $emails_array[$count], language_default(), $params);
+          }
+        }
+        if (!empty($id)) {
+          _ding_dibs_update_table($id);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function ding_dibs_theme_registry_alter(&$theme_registry) {
+  // Defined path to the current module.
+  $module_path = drupal_get_path('module', 'ding_dibs');
+  // Find all .tpl.php files in this module's folder recursively.
+  $template_file_objects = drupal_find_theme_templates($theme_registry, '.tpl.php', $module_path);
+  // Iterate through all found template file objects.
+  foreach ($template_file_objects as $key => $template_file_object) {
+    // Alter the theme path and template elements.
+    $theme_registry[$key]['theme path'] = $module_path;
+    $theme_registry[$key] = array_merge($theme_registry[$key], $template_file_object);
+    $theme_registry[$key]['type'] = 'module';
+  }
+}
+
+/**
+ * Implements hook_mail().
+ *
+ * Generate custom reports mailing message.
+ */
+function ding_dibs_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'ding_dibs_report':
+      module_load_include('inc', 'ding_dibs', 'ding_dibs.email_reports');
+      $text_message = ding_dibs_email_reports();
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $text_message;
+      break;
+  }
+}
+
+/**
+ * Insert information in a table ding_dibs_report_cron.
+ *
+ * @param string $start
+ *   The start time is in Unicode.
+ *
+ * @return int
+ *   Id outcome writing new values to the table ding_dibs_report_cron.
+ */
+function _ding_dibs_insert_table($start) {
+  $query = db_insert('ding_dibs_report_cron');
+  $query->fields(array('time_start' => $start));
+  $id = $query->execute();
+  return $id;
+}
+
+/**
+ * Updating information in a DB table "ding_dibs_report_cron".
+ *
+ * @param int $id
+ *   Id database table "ding_dibs_report_cron".
+ */
+function _ding_dibs_update_table($id) {
+  $query = db_update('ding_dibs_report_cron');
+  $query->fields(
+    array(
+      'status' => 1,
+    )
+  );
+  $query->condition('id', $id);
+  $query->execute();
+}
+
+/**
+ * Select info from the table ding_dibs_report_cron.
+ *
+ * @param mixed $id
+ *   ID database table ding_dibs_report_cron.
+ * @param mixed $status
+ *   Status database table ding_dibs_report_cron.
+ * @param mixed $id_report
+ *   ID report which will be started sample database.
+ *
+ * @return array
+ *   The result of the database query.
+ */
+function _ding_dibs_select_report_cron_table($id = FALSE, $status = FALSE, $id_report = FALSE) {
+  $query = db_select('ding_dibs_report_cron', 'r');
+  $query->fields('r', array('status', 'time_start'));
+  if ($id && empty($id_report)) {
+    $query->condition('r.id', $id, '<');
+  }
+  elseif ($id && !empty($id_report)) {
+    $query->condition('r.id', --$id, '=');
+  }
+  if ($status) {
+    $query->condition('r.status', $status);
+  }
+  $result = $query->execute()->fetchAll();
+  return !empty($result) ? $result : '';
 }

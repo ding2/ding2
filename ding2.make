@@ -7,8 +7,11 @@ defaults[projects][subdir] = "contrib"
 projects[addressfield][subdir] = "contrib"
 projects[addressfield][version] = "1.0-beta5"
 
+projects[admin_menu][subdir] = "contrib"
+projects[admin_menu][version] = "3.0-rc5"
+
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.4"
+projects[admin_views][version] = "1.6"
 
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
@@ -24,9 +27,6 @@ projects[block_access][version] = "1.5"
 
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
-
-projects[ckeditor_link][subdir] = "contrib"
-projects[ckeditor_link][version] = "2.4"
 
 projects[conditional_styles][subdir] = "contrib"
 projects[conditional_styles][version] = "2.2"
@@ -50,24 +50,15 @@ projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
-projects[domain][subdir] = "contrib"
-projects[domain][version] = "3.12"
-
-projects[domain_ctools][subdir] = "contrib"
-projects[domain_ctools][version] = "1.3"
-
-projects[domain_menu_access][subdir] = "contrib"
-projects[domain_menu_access][version] = "1.2"
-
-projects[domain_variable][subdir] = "contrib"
-projects[domain_variable][version] = "1.1"
-
 ; The patch ensures that file upload patch is created on file upload. It normally
 ; created on settings form save, but as we use feature this do not work.
 ; See https://www.drupal.org/node/2410241
 projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"
 projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/create_file_path-2410241-1.patch"
+
+projects[eck][subdir] = "contrib"
+projects[eck][version] = "2.0-rc7"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -86,6 +77,9 @@ projects[entityreference][version] = "1.1"
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
+projects[environment_indicator][subdir] = "contrib"
+projects[environment_indicator][version] = "2.8"
+
 projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
@@ -97,6 +91,12 @@ projects[features_extra][version] = "1.0-beta1"
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-alpha8"
+
+projects[feeds_ex][subdir] = "contrib"
+projects[feeds_ex][version] = "1.0-beta2"
+
+projects[feeds_xpathparser][subdir] = "contrib"
+projects[feeds_xpathparser][version] = "1.1"
 
 projects[fences][type] = "module"
 projects[fences][subdir] = "contrib"
@@ -137,8 +137,8 @@ projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_v
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
-projects[imagemagick][subdir] = "contrib"
-projects[imagemagick][version] = "1.0"
+projects[htmlmail][subdir] = "contrib"
+projects[htmlmail][version] = "2.65"
 
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.21"
@@ -154,6 +154,9 @@ projects[jquery_update][version] = "2.6"
 
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
+
+projects[lazy_pane][subdir] = "contrib"
+projects[lazy_pane][version] = "1.2"
 
 projects[leaflet][subdir] = "contrib"
 projects[leaflet][version] = "1.1"
@@ -173,10 +176,13 @@ projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "1.0"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.11"
+projects[i18n][version] = "1.15"
 
 projects[manualcrop][subdir] = "contrib"
 projects[manualcrop][version] = "1.5"
+
+projects[mailsystem][subdir] = "contrib"
+projects[mailsystem][version] = "2.34"
 
 projects[maintenance_mode_api][subdir] = "contrib"
 projects[maintenance_mode_api][version] = "1.0-beta1"
@@ -217,6 +223,15 @@ projects[menu_breadcrumb][version] = "1.5"
 projects[menu_position][subdir] = "contrib"
 projects[menu_position][version] = "1.1"
 
+projects[message][subdir] = "contrib"
+projects[message][version] = "1.10"
+
+projects[metatag][subdir] = "contrib"
+projects[metatag][version] = "1.21"
+
+projects[mmeu][subdir] = "contrib"
+projects[mmeu][version] = "1.0"
+
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"
 
@@ -241,6 +256,8 @@ projects[oembed][subdir] = "contrib"
 projects[oembed][version] = "1.0-rc2"
 ; Remove hook_system_info_alter() to allow installing modules depending on oembed, after oembed is installed.
 projects[oembed][patch][] = "http://www.drupal.org/files/issues/oembed-remove_hook_sytem_info_alter-2502817-1.patch"
+; Fix fatal error on install: Unsupported operand types
+projects[oembed][patch][] = "https://www.drupal.org/files/oembed-2021015-1.patch"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.7"
@@ -254,16 +271,20 @@ projects[og_menu][version] = "3.0-rc5"
 ; Fixes JavaScript menu selection in edit node forms.
 projects[og_menu][patch][0] = "http://drupal.org/files/issues/selector_not_found-2276951-2.patch"
 
-; This version is patch to make the next/prev links work.
-projects[opening_hours][type] = "module"
 projects[opening_hours][subdir] = "contrib"
-projects[opening_hours][download][type] = "git"
-projects[opening_hours][download][url] = "http://git.drupal.org/project/opening_hours.git"
-projects[opening_hours][download][revision] = "81146d1e8ab63ca70976596d928e4ec46dfdfd57"
-projects[opening_hours][patch][] = "http://drupal.org/files/issues/is-string-check-2260505-2.patch"
-projects[opening_hours][patch][] = "http://drupal.org/files/issues/change-path-2270935-2.patch"
+projects[opening_hours][version] = "1.6"
+; Adjust granularity to one minte.
+; https://www.drupal.org/node/2381127
 projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-single-minute-opening-hours.patch"
+; Support series longer than a year.
+; https://www.drupal.org/node/2194867
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_hours-2194867-D7.patch"
+; Add "hide if empty" option to field settings.
+; https://www.drupal.org/node/2820005
+projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-hours-2820005-hide-field-if-empty.patch"
+
+projects[override_node_options][subdir] = "contrib"
+projects[override_node_options][version] = "1.13"
 
 projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
@@ -294,7 +315,7 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.2"
 
 projects[redirect][subdir] = "contrib"
-projects[redirect][version] = "1.0-rc1"
+projects[redirect][version] = "1.0-rc3"
 
 projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0"
@@ -319,6 +340,26 @@ projects[secure_permissions][download][revision] = "ef5eec5"
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-features-multilingual-2.patch"
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_permissions-dont_disable_all_permissions-2499607-3.patch"
 
+projects[services][subdir] = "contrib"
+projects[services][version] = "3.14"
+
+projects[services_views][subdir] = "contrib"
+projects[services_views][version] = "1.1"
+
+projects[search_api][subdir] = "contrib"
+projects[search_api][version] = "1.16"
+; Fix search_api warnings and notices. should be removed when upgrading to 1.17.
+projects[search_api][patch][] = "https://www.drupal.org/files/issues/2563793-9--multiple_types_issues.patch"
+
+projects[search_api_multi][subdir] = "contrib"
+projects[search_api_multi][version] = "1.3"
+; Fix incompatibility with Multiple types indexes
+; https://www.drupal.org/node/2580975
+projects[search_api_multi][patch][] = "https://www.drupal.org/files/issues/2580975-2--fix_multi_type_index_incompatibilities.patch"
+
+projects[search_api_db][subdir] = "contrib"
+projects[search_api_db][version] = "1.5"
+
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
 
@@ -332,7 +373,7 @@ projects[tipsy][subdir] = "contrib"
 projects[tipsy][version] = "1.0-rc1"
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.5"
+projects[token][version] = "1.6"
 
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
@@ -394,14 +435,17 @@ projects[wysiwyg][download][revision] = "7981731f4f3db2f932419499d2ec13a073e9b88
 projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
 projects[ask_vopros][download][type] = "git"
-projects[ask_vopros][download][url] = "git@github.com:Biblioteksvagten/ask_vopros.git"
-projects[ask_vopros][download][tag] = "1.1"
+projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
+projects[ask_vopros][download][tag] = "1.5"
+
+projects[xautoload][subdir] = "contrib"
+projects[xautoload][version] = "5.7"
 
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][branch] = "master"
+libraries[bpi-client][download][tag] = "7.x-3.0.1"
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
@@ -412,10 +456,30 @@ libraries[chosen][download][type] = "get"
 libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip"
 libraries[chosen][destination] = "libraries"
 
+libraries[guzzle][download][type] = "git"
+libraries[guzzle][download][url] = "https://github.com/guzzle/guzzle.git"
+libraries[guzzle][download][tag] = "6.2.2"
+libraries[guzzle][destination] = "libraries"
+
+libraries[http-message][download][type] = "git"
+libraries[http-message][download][url] = "https://github.com/php-fig/http-message.git"
+libraries[http-message][download][tag] = "1.0.1"
+libraries[http-message][destination] = "libraries"
+
+libraries[jsonmapper][download][type] = "git"
+libraries[jsonmapper][download][url] = "https://github.com/cweiske/jsonmapper"
+libraries[jsonmapper][download][tag] = "v0.4.4"
+libraries[jsonmapper][destination] = "libraries"
+
 libraries[leaflet][download][type] = "get"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][destination] = "libraries"
+
+libraries[phly-http][download][type] = "git"
+libraries[phly-http][download][url] = "https://github.com/phly/http"
+libraries[phly-http][download][tag] = "0.14.1"
+libraries[phly-http][destination] = "libraries"
 
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
@@ -423,9 +487,25 @@ libraries[profiler][download][branch] = "7.x-2.0-beta1"
 ; https://drupal.org/node/1328796, keep dependency order of base profile.
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
+libraries[promises][download][type] = "git"
+libraries[promises][download][url] = "https://github.com/guzzle/promises.git"
+libraries[promises][download][tag] = "1.2.0"
+libraries[promises][destination] = "libraries"
+
+libraries[psr7][download][type] = "git"
+libraries[psr7][download][url] = "https://github.com/guzzle/psr7.git"
+libraries[psr7][download][tag] = "1.3.1"
+libraries[psr7][destination] = "libraries"
+
+libraries[slick][download][type] = "git"
+libraries[slick][download][url] = "git@github.com:kenwheeler/slick.git"
+libraries[slick][download][branch] = "master"
+libraries[slick][directory_name] = "slick"
+libraries[slick][destination] = "libraries"
+
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][branch] = "master"
+libraries[ting-client][download][tag] = "7.x-3.0.1"
 libraries[ting-client][destination] = "modules/ting/lib"
 
 libraries[zen-grids][download][type] = "git"
@@ -446,6 +526,9 @@ libraries[jquery.imagesloaded][destination] = "libraries"
 ; easyDDB contribution modules
 projects[extlink][version]                  = "1.18"
 projects[extlink][subdir]                   = "contrib"
+
+projects[ckeditor_link][subdir]             = "contrib"
+projects[ckeditor_link][version]            = "2.4"
 
 projects[opengraph_meta][version]           = "1.3"
 projects[opengraph_meta][subdir]            = "contrib"
@@ -477,3 +560,22 @@ projects[linkchecker][subdir]               = "contrib"
 
 projects[httprl][version]                   = "1.14"
 projects[httprl][subdir]                    = "contrib"
+
+projects[imagemagick][subdir]               = "contrib"
+projects[imagemagick][version]              = "1.0"
+
+projects[domain][subdir]                    = "contrib"
+projects[domain][version]                   = "3.12"
+
+projects[domain_ctools][subdir]             = "contrib"
+projects[domain_ctools][version]            = "1.3"
+
+projects[domain_menu_access][subdir]        = "contrib"
+projects[domain_menu_access][version]       = "1.2"
+
+projects[domain_variable][subdir]           = "contrib"
+projects[domain_variable][version]          = "1.1"
+
+projects[domain_views][subdir]              = "contrib"
+projects[domain_views][version]             = "1.5"
+

@@ -18,14 +18,11 @@ function fbs_debt_list($account) {
   $result = array();
   $res = array();
 
-  $service = fbs_service();
-  if ($service) {
-    try {
-      $res = $service->Payment->getFees($service->agencyId, fbs_patron_id($account), FALSE, FALSE);
-    }
-    catch (Exception $e) {
-      watchdog_exception('fbs', $e);
-    }
+  try {
+    $res = fbs_service()->Payment->getFees(fbs_service()->agencyId, fbs_patron_id($account), FALSE, FALSE);
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
   }
 
   foreach ($res as $fee) {
@@ -64,7 +61,6 @@ function fbs_debt_list($account) {
     }
 
     $result[$id] = new DingProviderDebt($id, $data);
-
   }
 
   return $result;
@@ -87,18 +83,17 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
   $payment_order = new FBS\Model\PaymentOrder();
   $payment_order->orderId = $order_id;
   $payment_order->feeIds = array();
+
   foreach ($debt_ids as $debt_id) {
     $payment_order->feeIds[] = $debt_id;
   }
+
   $res = array();
-  $service = fbs_service();
-  if ($service) {
-    try {
-      $res = $service->Payment->payFees($service->agencyId, fbs_patron_id($account), $payment_order);
-    }
-    catch (Exception $e) {
-      watchdog_exception('fbs', $e);
-    }
+  try {
+    $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, fbs_patron_id($account), $payment_order);
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
   }
 
   foreach ($res as $confirmation) {

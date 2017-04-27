@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * @file
+ * Code for the Ding Message p2 Installer feature.
+ */
+
+include_once 'ding_message_p2_installer.features.inc';

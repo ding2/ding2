@@ -7,16 +7,6 @@
 require_once 'includes/TingSearchCqlDoctor.class.inc';
 
 /**
- * Implements hook_init().
- *
- * Make the ting search overlay available for all other JavaScripts around the
- * site.
- */
-function ting_search_init() {
-  drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_overlay.js');
-}
-
-/**
  * Implements hook_ctools_plugin_directory().
  *
  * It simply tells panels where to find the .inc files that define various
@@ -53,8 +43,8 @@ function ting_search_menu() {
   );
 
   $items['search-blank'] = array(
-    'callback' => '_blank_page',
-    'access' => TRUE,
+    'page callback' => '_blank_page',
+    'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
 
@@ -62,16 +52,17 @@ function ting_search_menu() {
 }
 
 /**
- * Menu callback to fix the twice search issue.
+ * Menu callback for search blank.
  *
- * When the search form is submitted back to Drupal it's submitted back to the
- * same page. So a search performed on the search page will trigger the first
- * search and the new search (twice search).
- *
- * @see http://platform.dandigbib.org/issues/372
+ * Improve performance of the search block form redirect, by posting to a blank
+ * page and doing nothing but form related stuff.
  */
 function _blank_page() {
-  return '';
+  // This will call the submit handlers if a valid form build id was posted.
+  drupal_get_form('search_block_form');
+
+  // If no form; redirect to front to ensure no blank pages.
+  drupal_goto();
 }
 
 /**
@@ -281,7 +272,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   // This submits the form to a blank page and prevents the search to be
   // executed twice. See http://platform.dandigbib.org/issues/372 for more
   // information.
-  $form['#action'] = '?q=search-blank';
+  $form['#action'] = url('search-blank');
 
   return $form;
 }
@@ -925,15 +916,31 @@ function ting_search_submit($form, &$form_state) {
   $fields = array();
 
   $extended_fields = array(
-    'creator' => 'term.creator',
-    'title' => 'term.title',
-    'subject' => 'term.subject',
+    'creator' => array(
+      'index' => 'term.creator',
+      'parents' => array('creator'),
+    ),
+    'title' => array(
+      'index' => 'term.title',
+      'parents' => array('title'),
+    ),
+    'subject' => array(
+      'index' => 'term.subject',
+      'parents' => array('subject'),
+    ),
   );
+  // Allow other modules change fields.
+  drupal_alter('ting_search_fields', $extended_fields);
 
-  foreach ($extended_fields as $name => $index) {
-    if (!empty($form_state['values'][$name])) {
-      $value = $form_state['values'][$name];
-      $fields[] = $index . '=' . (strpos($value, ' ') ? '"' . $value . '"' : $value);
+  foreach ($extended_fields as $name => $data) {
+    if (isset($data['value'])) {
+      $fields[] = $data['value'];
+    }
+    else {
+      $value = drupal_array_get_nested_value($form_state['values'], $data['parents']);
+      if (!empty($value)) {
+        $fields[] = $data['index'] . '=' . (strpos($value, ' ') ? '"' . $value . '"' : $value);
+      }
     }
   }
 

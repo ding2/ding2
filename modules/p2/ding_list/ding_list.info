@@ -1,0 +1,16 @@
+name = Ding list module
+description = Base and API for personal lists
+package = Ding!
+core = 7.x
+php = 5.3
+files[] = ding_list.module
+
+dependencies[] = ding_user_consent
+dependencies[] = ding_base
+dependencies[] = ding_popup
+dependencies[] = ding_provider
+dependencies[] = ding_user
+dependencies[] = eck
+dependencies[] = simplevar
+dependencies[] = ding_message
+dependencies[] = ding_list_installer

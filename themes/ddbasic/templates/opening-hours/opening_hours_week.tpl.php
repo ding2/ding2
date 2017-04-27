@@ -9,9 +9,7 @@ if (!empty($preface)):
 endif;
 ?>
 
-<?php
-  if (isset($ding_library_overview)):
-?>
+<?php if (isset($ding_library_overview)): ?>
 <div class="opening-hours-week placeholder" data-nid="<?php print $node->nid; ?>">
   <div class="header">
     <a class="prev" href="#prev"><i class="icon-arrow-left"></i></a>
@@ -23,4 +21,4 @@ endif;
   </div>
   <div class="days"></div>
 </div>
-<?php endif ?>
+<?php endif; ?>

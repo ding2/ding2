@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * P2 installation.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * @see ding_p2_installer_modules_enabled().
+ */
+function ding_p2_installer_install() {
+  // Make sure the installer is called after all other ding modules.
+  // This is needed to make sure P2 page variants override those defined in
+  // ding core.
+  db_update('system')
+    ->fields(array('weight' => 1001))
+    ->condition('name', 'ding_p2_installer', '=')
+    ->execute();
+}

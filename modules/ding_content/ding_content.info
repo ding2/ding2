@@ -31,7 +31,6 @@ dependencies[] = translation
 dependencies[] = uuid
 dependencies[] = views
 dependencies[] = views_content
-dependencies[] = views_ui
 dependencies[] = workbench
 dependencies[] = wysiwyg
 dependencies[] = ckeditor_link

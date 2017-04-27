@@ -1,6 +1,6 @@
 name = Ding 2
 description = Install a Ding based library site.
-version = 7.x-2.5.1+easy
+version = 7.x-3.0.2+easy
 core = 7.x
 distribution_name = "Ding 2"
 exclusive = TRUE
@@ -11,7 +11,6 @@ dependencies[] = contextual
 dependencies[] = menu
 dependencies[] = dblog
 dependencies[] = shortcut
-dependencies[] = toolbar
 dependencies[] = overlay
 dependencies[] = color
 dependencies[] = translation
@@ -26,6 +25,9 @@ dependencies[] = eu_cookie_compliance
 dependencies[] = view_unpublished
 dependencies[] = redirect
 dependencies[] = pagepreview
+dependencies[] = admin_menu
+dependencies[] = admin_menu_toolbar
+dependencies[] = toolbar
 
 ; Ding modules.
 dependencies[] = ding_base
@@ -33,9 +35,10 @@ dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
 dependencies[] = ding_frontpage
 dependencies[] = ding_session_cache
-dependencies[] = ding_bookmark
 dependencies[] = ding_staff
 dependencies[] = bpi
+dependencies[] = ding_p2_installer
+dependencies[] = ding_campaign
 
 ; Cache/performance modules
 dependencies[] = entitycache

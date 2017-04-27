@@ -18,7 +18,7 @@ function ding_staff_field_group_info() {
   $field_group->entity_type = 'profile2';
   $field_group->bundle = 'ding_staff_profile';
   $field_group->mode = 'default';
-  $field_group->parent_name = '';
+  $field_group->parent_name = 'group_right_col_search';
   $field_group->data = array(
     'label' => 'contact info',
     'weight' => '4',
@@ -26,8 +26,8 @@ function ding_staff_field_group_info() {
       0 => 'field_ding_staff_department',
       1 => 'field_ding_staff_email',
       2 => 'field_ding_staff_phone',
-      3 => 'og_group_ref',
-      4 => 'field_ding_staff_work_areas',
+      3 => 'field_ding_staff_work_areas',
+      4 => 'og_group_ref',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -130,6 +130,39 @@ function ding_staff_field_group_info() {
     ),
   );
   $export['group_ding_staff_organisation|profile2|staff|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_right_col_search|profile2|ding_staff_profile|default';
+  $field_group->group_name = 'group_right_col_search';
+  $field_group->entity_type = 'profile2';
+  $field_group->bundle = 'ding_staff_profile';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Right column',
+    'weight' => '1',
+    'children' => array(
+      0 => 'field_ding_staff_description',
+      1 => 'field_ding_staff_position',
+      2 => 'group_contactinfo',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Right column',
+      'instance_settings' => array(
+        'classes' => 'search-right',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_right_col_search|profile2|ding_staff_profile|default'] = $field_group;
 
   return $export;
 }

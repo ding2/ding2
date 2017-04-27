@@ -1,0 +1,28 @@
+<?php
+/**
+ * @file
+ * Module installation and updates routine.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Migrates settings from ting_covers.
+ */
+function ting_covers_addi_install() {
+  $migrate_variables = array(
+    'addi_wsdl_url',
+    'addi_username',
+    'addi_group',
+    'addi_password',
+    'addi_enable_logging',
+  );
+
+  foreach ($migrate_variables as $variable) {
+    $value = variable_get($variable, NULL);
+    if ($value) {
+      // The 'addi' part is part of the existing name.
+      variable_set('ting_covers_' . $variable, $value);
+    }
+  }
+}

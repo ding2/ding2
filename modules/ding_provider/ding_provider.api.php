@@ -23,6 +23,7 @@
  *   - "settings": Form id for a form of settings common to all providers
  *      of this module. Optional.
  *   - "file": File to include for the global settings form. Optional.
+ *      The path should be relative to the provider module root directory.
  *   - "provides": An array of providers. The key is the name and the value
  *      is an array with the following attributes:
  *      - "prefix": An optional prefix for the methods in this provider.
@@ -31,6 +32,7 @@
  *         ding_provider will attempt to call the
  *         <module name>_user_is_logged_in function.
  *      - "file": File to be included before calling this function. Optional.
+ *         The path should be relative to the provider module root directory.
  *
  * @see connie.module
  */
@@ -41,7 +43,7 @@ function hook_ding_provider() {
     'provides' => array(
       'availability' => array(
         'prefix' => 'availability',
-        'file' => drupal_get_path('module', 'my_module') . '/mymodule.availability.inc',
+        'file' => 'mymodule.availability.inc',
       ),
     ),
   );

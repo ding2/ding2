@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Simplevar install.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function simplevar_schema() {
+  $schema['simplevar'] = array(
+    'description' => 'Simplevar table',
+    'fields' => array(
+      'category' => array(
+        'description' => 'Variable category',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'name' => array(
+        'description' => 'Variable name',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'value' => array(
+        'description' => 'Variable value',
+        'type' => 'blob',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('category', 'name'),
+  );
+
+  return $schema;
+}

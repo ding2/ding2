@@ -110,8 +110,30 @@ html.js .search input.form-autocomplete {
     }
   }
 
-  .news-link {
+  .news-link,
+  .event-link,
+  .page-link {
     float: right;
+  }
+  .search-results {
+    .list {
+      .field-name-field-ding-staff-forename,
+      .field-name-field-ding-staff-surname {
+        display: inline-block;
+        float: left;
+        margin-right: 6px;
+        font-family: "SourceSansProSemibold";
+        font-weight: normal;
+        line-height: 1.2;
+        margin-top: 0;
+        margin-bottom: 10px;
+        text-rendering: optimizeLegibility;
+        font-size: 180%;
+      }
+      .field-name-field-ding-staff-surname {
+        float: none;
+      }
+    }
   }
 }
 

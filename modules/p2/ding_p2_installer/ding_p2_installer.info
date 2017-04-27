@@ -1,0 +1,25 @@
+; $Id$
+name = Personalisation / P2
+description = Enable this module to install the entire personalisation package for the library.
+package = Ding!
+core = 7.x
+
+dependencies[] = ding_entity_rating
+dependencies[] = ding_entity_rating_loan_history
+dependencies[] = ding_interaction
+dependencies[] = ding_interaction_manual
+dependencies[] = ding_list
+dependencies[] = ding_message
+dependencies[] = ding_notifications
+dependencies[] = ding_serendipity
+dependencies[] = ding_serendipity_fallback
+dependencies[] = ding_serendipity_lists
+dependencies[] = ding_serendipity_site
+dependencies[] = ding_serendipity_taxonomy_term
+dependencies[] = ding_serendipity_ting_entity
+dependencies[] = ding_sharer
+dependencies[] = ding_user_consent
+dependencies[] = ting_carousel
+dependencies[] = ting_openlist
+dependencies[] = ding_list_installer
+dependencies[] = ding_message_p2_installer

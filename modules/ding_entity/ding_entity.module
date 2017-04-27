@@ -31,53 +31,30 @@ function ding_entity_uri($type, $object) {
 }
 
 /**
- * Implements hook_modules_enabled().
+ * Unlock fields.
+ *
+ * Previously, ding_entity invoked hook_ding_entity_fields() and created
+ * fields on ding_entities on behalf of field providing modules. These days
+ * it's handled by virtual_field and features, so provide a function for
+ * modules to call in their update hooks to unlock old fields and make them
+ * editable.
+ *
+ * @param string $module
+ *   The module providing the field.
+ * @param array $fields
+ *   Field names to unlock.
+ *
+ * @return int
+ *   Number of fields unlocked
  */
-function ding_entity_modules_enabled($modules) {
-  if (!ding_entity_info()) {
-    return;
-  }
-
-  // Ensure that Field API has discovered any new fields.
-  field_info_cache_clear();
-  foreach ($modules as $module) {
-    if (module_hook($module, 'ding_entity_fields')) {
-      $fields = module_invoke($module, 'ding_entity_fields');
-      foreach ($fields as $field_name => $field) {
-        $field['field'] += array(
-          'field_name' => $field_name,
-          'type' => $field_name,
-        );
-        field_create_field($field['field']);
-        $field['instance'] += array(
-          'field_name' => $field_name,
-          'ding_entity_type' => 'ding_entity',
-        );
-        // Let modules that know what they're doing (I hope), define the
-        // entity_type themselves.
-        if (!isset($field['instance']['entity_type'])) {
-          $info = ding_entity_info($field['instance']['ding_entity_type']);
-          // Different bundles are currently not supported.
-          $field['instance']['entity_type'] = $field['instance']['bundle'] = $info['entity_type'];
-        }
-        field_create_instance($field['instance']);
-      }
-    }
-  }
-}
-
-/**
- * Implements hook_modules_disabled().
- */
-function ding_entity_modules_disabled($modules) {
-  foreach ($modules as $module) {
-    if (module_hook($module, 'ding_entity_fields')) {
-      $fields = module_invoke($module, 'ding_entity_fields');
-      foreach ($fields as $field_name => $field) {
-        field_delete_field($field_name);
-      }
-    }
-  }
+function ding_entity_unlock_fields($module, array $fields) {
+  return db_update('field_config')
+    ->fields(array(
+      'locked' => 0,
+    ))
+    ->condition('module', $module)
+    ->condition('field_name', $fields, 'IN')
+    ->execute();
 }
 
 /**
@@ -202,7 +179,10 @@ function ding_entity_field_info() {
     'description' => t('Action buttons.'),
     'default_widget' => 'hidden',
     'default_formatter' => 'ding_entity_buttons_default',
-    'no_ui' => TRUE,
+    'virtual_field' => array(
+      'entity_types' => array('ting_object'),
+      'add_widget' => TRUE,
+    ),
   );
 
   return $fields;
@@ -380,6 +360,9 @@ abstract class DingEntity extends DingEntityBase {
    */
   public $abstract = DingEntityBase::NULL;
 
+  /**
+   * Get ID of this object.
+   */
   public function getId() {
     return $this->id = $this->ding_entity_id;
   }
@@ -429,6 +412,9 @@ abstract class DingEntityCollection extends DingEntityBase {
    */
   public $entities = DingEntityBase::NULL;
 
+  /**
+   * Get ID of this object.
+   */
   public function getId() {
     return $this->id = $this->ding_entity_id;
   }

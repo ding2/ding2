@@ -26,6 +26,14 @@ function ding_campaign_single_campaign_content_type_edit_form($form, &$form_stat
     '#default_value' => reset($available_campaigns),
   );
 
+  $form['ding_campaign_image_style'] = array(
+    '#type' => 'select',
+    '#title' => t('Campaign image width'),
+    '#description' => t('Applicable for image campaigns. Image will be resized to selected width, height will be selected automatically.'),
+    '#options' => _ding_campaign_image_styles(),
+    '#default_value' => (isset($form_state['conf']['ding_campaign_image_style'])) ? $form_state['conf']['ding_campaign_image_style'] : 'ding_campaign_p_25',
+  );
+  
   return $form;
 }
 
@@ -36,6 +44,7 @@ function ding_campaign_single_campaign_content_type_edit_form($form, &$form_stat
  */
 function ding_campaign_single_campaign_content_type_edit_form_submit($form, &$form_state) {
   $form_state['conf']['single_campaign'] = $form_state['values']['single_campaign'];
+  $form_state['conf']['ding_campaign_image_style'] = $form_state['values']['ding_campaign_image_style'];
 }
 
 /**
@@ -43,10 +52,12 @@ function ding_campaign_single_campaign_content_type_edit_form_submit($form, &$fo
  */
 function ding_campaign_single_campaign_content_type_render($subtype, $conf, $panel_args, $context) {
   $campaign = entity_load('node', array($conf['single_campaign']));
+  $style = (!empty($conf['ding_campaign_image_style'])) ? $conf['ding_campaign_image_style'] : 'medium';
+
   $content = array(
     '#theme' => 'ding_campaign_wrapper',
     '#content' => array(
-      0 => ding_campaign_prepare_display(reset($campaign), 'medium')
+      0 => ding_campaign_prepare_display(reset($campaign), $style)
     ),
   );
   $block = new stdClass();

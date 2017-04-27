@@ -1,0 +1,8 @@
+; $Id$
+name = Ding serendipity fallback
+description = Provides fallback serendipity content.
+package = Ding!
+core = 7.x
+files[] = ding_serendipity_fallback.module
+dependencies[] = ding_base
+dependencies[] = ding_serendipity

@@ -1,0 +1,5 @@
+name = Ting Carousel
+description = Ting Carousel, and themer module.
+package = Ding!
+core = 7.x
+dependencies[] = ting_search_carousel

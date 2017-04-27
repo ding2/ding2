@@ -11,9 +11,31 @@
 /* Wrapper, load and inner
    ========================================================================== */
 
+.pane-campaign {
+  margin-top: 25px;
+}
+
 .ding-campaign-wrapper {
-  @include small-medium() {
-    display: none;
+  @include small() {
+    .ding-campaign {
+      display: none;
+    }
+
+    .ding-campaign-mobile-display {
+      display: block !important;
+    }
+
+    .ding-campaign--image {
+      width: 100%;
+    }
+  }
+
+  @include medium() {
+    .ding-campaign--image,
+    .ding-campaign--content {
+      width: 85%;
+      margin: 0 auto;
+    }
   }
 
   .ding-campaign {

@@ -56,3 +56,14 @@
     background-color: $list-item-background-color-even;
   }
 }
+
+.ding_nodelist-minimal-items  {
+  .minimal-item {
+    &.odd {
+      background-color: $list-item-background-color-odd;
+    }
+    &.even {
+      background-color: $list-item-background-color-even;
+    }
+  }
+}

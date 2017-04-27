@@ -1,1 +1,163 @@
-.topbar{background-color:#000001}.header-wrapper{background-color:#00caff}.navigation-wrapper{background-color:#fffffc}a{font-weight:normal}a:link{color:#00b7e7;text-decoration:none}a:visited{color:#007a9b;text-decoration:none}a:hover{color:#006681;text-decoration:underline}a:hover i[class^="icon-"]{text-decoration:none}a:focus{color:#006681}.layout-wrapper{background-color:#fffffe}.footer{background-color:#262626}.bottom{background-color:#191919}img{width:auto}.search input[type="text"]{min-height:0;padding-top:16px;padding-bottom:16px}.topbar .search input[type="text"]{min-height:0;padding-top:12px;padding-bottom:12px}.not-logged-in .topbar .search{margin-right:111px}.header-wrapper .user input[type="text"],.header-wrapper .user input[type="password"]{min-height:0;padding-top:20px;padding-bottom:19px}.topbar .user input[type="submit"]{padding-left:20px}.pane-ding-facetbrowser .expand{margin-left:2px}.lt-ie9 .search-field-in-content .form-submit{margin-top:0}.lt-ie9 .search-field-in-content .form-text{height:62px;padding-top:0;padding-bottom:0}.lt-ie9 .pane-search-result .search-results .list .view-mode-teaser,.lt-ie9 .view-node-search-result .search-results .list .view-mode-teaser,.lt-ie9 .ting-reference-reverse-list .search-results .list .view-mode-teaser,.lt-ie9 .pane-new-materials .search-results .list .view-mode-teaser{background-color:#fff}.rs-carousel-action-prev,.rs-carousel-action-next{background-color:transparent;border:0}.hours .day-notice-star{visibility:visible}
+/**
+ * Variables
+ *
+ * @author magnify
+ */
+/* Spacing variables
+   ========================================================================== */
+/* Zen Grid variables
+   ========================================================================== */
+/* Breakpoints
+   ========================================================================== */
+/* Standard color definitions
+   ========================================================================== */
+/* Font library
+   ========================================================================== */
+/* Typography
+   ========================================================================== */
+/* Font variables
+   ========================================================================== */
+/* Font sizes
+   ========================================================================== */
+/* Labels
+   ========================================================================== */
+/* Navigation
+   ========================================================================== */
+/* Availability
+   ========================================================================== */
+/**
+ * Colors that can be configured through theme settings.
+ *
+ * Every color settings MUST be in HEX format..
+ * @author magnify
+ */
+/* Body */
+/* Topbar */
+/* Header */
+/* Navigation */
+/* Tabroll */
+/* Links */
+/* Labels */
+/* Content */
+/* List */
+/* Footer */
+/* Buttons */
+/* Dialog box */
+/* Funny facts */
+/**
+ * Rules that can be configured is located in this file.
+ *
+ * @author magnify
+ */
+/* Topbar background color */
+.topbar {
+  background-color: #000001; }
+
+/* Header background color */
+.header-wrapper {
+  background-color: #00caff; }
+
+/* Navigation background color */
+.navigation-wrapper {
+  background-color: #fffffc; }
+
+/* Links */
+a {
+  font-weight: normal; }
+  a:link {
+    color: #00b7e7;
+    text-decoration: none; }
+  a:visited {
+    color: #007a9b;
+    text-decoration: none; }
+  a:hover {
+    color: #006681;
+    text-decoration: underline; }
+    a:hover i[class^="icon-"] {
+      text-decoration: none; }
+  a:focus {
+    color: #006681; }
+
+/* Layout background color */
+.layout-wrapper {
+  background-color: #fffffe; }
+
+/* Article background extends */
+/* Footer background color */
+.footer {
+  background-color: #262626; }
+
+/* Bottom background color */
+.bottom {
+  background-color: #191919; }
+
+/**
+ * Mixins
+ *
+ * @author magnify
+ */
+/* Media query
+   ========================================================================== */
+/* Breakpoints
+   ========================================================================== */
+/* Typography mixins
+ *
+ * These are mixins to allow for use in media queries
+   ========================================================================== */
+/* Availability
+   ========================================================================== */
+/* Pseudo arrow
+ *
+ * Usage example: pseudo-arrow(10px, #000, top, center, $offset: 20px)
+   ========================================================================== */
+img {
+  width: auto; }
+
+.search input[type="text"] {
+  min-height: 0;
+  padding-top: 16px;
+  padding-bottom: 16px; }
+
+.topbar .search input[type="text"] {
+  min-height: 0;
+  padding-top: 12px;
+  padding-bottom: 12px; }
+
+.not-logged-in .topbar .search {
+  margin-right: 111px; }
+
+.header-wrapper .user input[type="text"],
+.header-wrapper .user input[type="password"] {
+  min-height: 0;
+  padding-top: 20px;
+  padding-bottom: 19px; }
+
+.topbar .user input[type="submit"] {
+  padding-left: 20px; }
+
+.pane-ding-facetbrowser .expand {
+  margin-left: 2px; }
+
+.lt-ie9 .search-field-in-content .form-submit {
+  margin-top: 0; }
+
+.lt-ie9 .search-field-in-content .form-text {
+  height: 62px;
+  padding-top: 0;
+  padding-bottom: 0; }
+
+.lt-ie9 .pane-search-result .search-results .list .view-mode-teaser,
+.lt-ie9 .view-node-search-result .search-results .list .view-mode-teaser,
+.lt-ie9 .ting-reference-reverse-list .search-results .list .view-mode-teaser,
+.lt-ie9 .pane-new-materials .search-results .list .view-mode-teaser {
+  background-color: #fff; }
+
+/* Ting Search Carousel */
+.rs-carousel-action-prev,
+.rs-carousel-action-next {
+  background-color: transparent;
+  border: 0; }
+
+/* Ding Opening Hours */
+.hours .day-notice-star {
+  visibility: visible; }

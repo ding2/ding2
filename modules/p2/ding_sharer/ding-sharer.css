@@ -1,0 +1,15 @@
+.sharer {
+  margin-top: 10px;
+}
+.sharer .sharer-button {
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 0 1px #595959 inset;
+  padding: 8px 14px;
+  display: inline-block;
+  line-height: normal;
+  background-color: #444444;
+  background-image: linear-gradient(#444444, #1E1E1E);
+  margin-right: 10px;
+}

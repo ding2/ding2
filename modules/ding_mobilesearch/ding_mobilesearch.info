@@ -1,0 +1,11 @@
+name = Ding Mobilesearch
+description = Integrates content exporting to a remote storage.
+package = Ding!
+core = 7.x
+version = 7.x-1.0
+configure = admin/config/ding/mobilesearch/content-export
+
+dependencies[] = "ding_event"
+dependencies[] = "ding_library"
+dependencies[] = "ding_news"
+dependencies[] = "flag"

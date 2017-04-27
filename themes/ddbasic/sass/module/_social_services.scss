@@ -1,0 +1,26 @@
+/**
+ * Social services styles
+ *
+ * @author ac
+ */
+
+
+.page-ting-object .field.field-name-field-ss-comment .field-label:before,
+.page-ting-collection .field.field-name-field-ss-comment .field-label:before,
+.page-ting-collection .ss-tags-outer-wrapper .ss-tags-inner-wrapper h2:before,
+.page-ting-object .ss-tags-outer-wrapper .ss-tags-inner-wrapper h2:before {
+  color: $link-color;
+}
+
+.page-ting-collection .ss-tag,
+.page-ting-object .ss-tag {
+  background-color: $label-bg-color;
+  color: $label-text-color;
+  padding: $label-padding;
+
+  @include border-radius($label-border-radius);
+
+  &:hover {
+    background-color: $label-bg-color-hover;
+  }
+}

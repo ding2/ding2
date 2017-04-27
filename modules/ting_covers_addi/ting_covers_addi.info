@@ -1,0 +1,10 @@
+name = Ting covers Addi
+description = Implementing getting covers from Addi
+package = Ding!
+version = "7.x-1.0"
+core = "7.x"
+dependencies[] = ting
+dependencies[] = ting_covers
+files[] = lib/addi-client/AdditionalInformation.php
+files[] = lib/addi-client/AdditionalInformationException.php
+files[] = lib/addi-client/AdditionalInformationService.php

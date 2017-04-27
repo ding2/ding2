@@ -11,6 +11,100 @@ function ding_frontend_views_default_views() {
   $export = array();
 
   $view = new view();
+  $view->name = 'ding_multiple_search';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'search_api_index_default_multiple_index';
+  $view->human_name = 'Ding multiple search';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['css_class'] = 'view-node-search-result';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['style_plugin'] = 'list';
+  $handler->display->display_options['style_options']['row_class'] = 'list-item search-result';
+  $handler->display->display_options['style_options']['class'] = 'list';
+  $handler->display->display_options['style_options']['wrapper_class'] = 'search-results';
+  $handler->display->display_options['row_plugin'] = 'fields';
+  /* No results behavior: Global: Unfiltered text */
+  $handler->display->display_options['empty']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['empty']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area_text_custom']['content'] = '<span>No items found in your search.</span>';
+  /* Field: Indexed Multiple types: Node */
+  $handler->display->display_options['fields']['node']['id'] = 'node';
+  $handler->display->display_options['fields']['node']['table'] = 'search_api_index_default_multiple_index';
+  $handler->display->display_options['fields']['node']['field'] = 'node';
+  $handler->display->display_options['fields']['node']['label'] = '';
+  $handler->display->display_options['fields']['node']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['node']['link_to_entity'] = 1;
+  $handler->display->display_options['fields']['node']['display'] = 'view';
+  $handler->display->display_options['fields']['node']['view_mode'] = 'search_result';
+  $handler->display->display_options['fields']['node']['bypass_access'] = 0;
+  /* Field: Indexed Multiple types: User */
+  $handler->display->display_options['fields']['user']['id'] = 'user';
+  $handler->display->display_options['fields']['user']['table'] = 'search_api_index_default_multiple_index';
+  $handler->display->display_options['fields']['user']['field'] = 'user';
+  $handler->display->display_options['fields']['user']['label'] = '';
+  $handler->display->display_options['fields']['user']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['user']['link_to_entity'] = 1;
+  $handler->display->display_options['fields']['user']['display'] = 'view';
+  $handler->display->display_options['fields']['user']['view_mode'] = 'full';
+  $handler->display->display_options['fields']['user']['bypass_access'] = 0;
+  /* Contextual filter: Search: Fulltext search */
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['table'] = 'search_api_index_default_multiple_index';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['not'] = 0;
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['conjunction'] = 'OR';
+
+  /* Display: Content pane */
+  $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  $handler->display->display_options['argument_input'] = array(
+    'search_api_views_fulltext' => array(
+      'type' => 'panel',
+      'context' => 'entity:comment.author',
+      'context_optional' => 0,
+      'panel' => '2',
+      'fixed' => '',
+      'label' => 'Search: Fulltext search',
+    ),
+  );
+  $translatables['ding_multiple_search'] = array(
+    t('Master'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('<span>No items found in your search.</span>'),
+    t('All'),
+    t('Content pane'),
+    t('View panes'),
+  );
+  $export['ding_multiple_search'] = $view;
+
+  $view = new view();
   $view->name = 'ding_node_search';
   $view->description = '';
   $view->tag = 'default';
@@ -39,6 +133,9 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['text_input_required_format'] = 'ding_wysiwyg';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Antal elementer';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
@@ -91,7 +188,6 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['filters']['type']['operator'] = 'not in';
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_campaign' => 'ding_campaign',
-    'new_materials' => 'new_materials',
     'panel' => 'panel',
     'ding_rolltab' => 'ding_rolltab',
   );

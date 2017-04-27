@@ -1,0 +1,87 @@
+<?php
+/**
+ * @file
+ * Provide covers from the ADDI service.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ting_covers_addi_menu() {
+  $items = array();
+
+  $items['admin/config/ting/covers/addi'] = array(
+    'title' => 'ADDI service',
+    'description' => 'Configure integration with the ADDI service.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_covers_addi_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_covers_addi.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_ding_install_tasks().
+ */
+function ting_covers_addi_ding_install_tasks() {
+  module_load_include('inc', 'ting_covers_addi', 'ting_covers_addi.admin');
+  return array(
+    'ting_covers_addi_admin_settings_form' => array(
+      'display_name' => st('ADDI service settings'),
+      'type' => 'form',
+      'file' => drupal_get_path('module', 'ting_covers_addi') . '/ting_covers_addi.admin.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_ting_covers().
+ *
+ * Fetch covers from AdditionalInformation service.
+ */
+function ting_covers_addi_ting_covers($request) {
+  $covers = array();
+
+  // Exceptions should only be thrown if something is so wrong,
+  // that no images can be fetched whatsoever.
+  try {
+    $service = new AdditionalInformationService(variable_get('ting_covers_addi_wsdl_url'), variable_get('ting_covers_addi_username'), variable_get('ting_covers_addi_group'), variable_get('ting_covers_addi_password'));
+
+    // We're working by localId, so create a look-up table.
+    $id_map = array();
+    foreach ($request as $id => $entity) {
+      $id_map[$entity->localId] = $id;
+    }
+
+    // Local ids = Faust numbers. Library object identifiers can be confusing.
+    $retrieved = $service->getByFaustNumber(array_keys($id_map));
+
+    foreach ($retrieved as $local_id => $cover) {
+      // Try to extract the image url from the result.
+      $source_url = FALSE;
+      if ($cover->detailUrl) {
+        $source_url = $cover->detailUrl;
+      }
+      elseif ($cover->thumbnailUrl) {
+        $source_url = $cover->thumbnailUrl;
+      }
+
+      if ($source_url) {
+        // Return the path to the cover.
+        $covers[$id_map[$local_id]] = $source_url;
+      }
+    }
+  }
+  catch (Exception $e) {
+    watchdog('ting_covers_addi', 'Unable to retrieve covers from ADDI: %message', array('%message' => $e->getMessage()), WATCHDOG_ERROR);
+
+    // Error in fetching, return no covers.
+    return array();
+  }
+
+  // Return all image information.
+  return $covers;
+}

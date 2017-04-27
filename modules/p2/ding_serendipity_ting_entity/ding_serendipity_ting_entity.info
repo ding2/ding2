@@ -1,0 +1,6 @@
+name = Ding serendipity ting entity
+description = Serendipity based on ting entities
+package = Ding!
+core = 7.x
+files[] = ding_serendipity_ting_entity.module
+dependencies[] = ding_serendipity

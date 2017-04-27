@@ -1,0 +1,100 @@
+<?php
+
+/**
+ * @file
+ * Ding Interaction Manual implements manual editable entities via ECK.
+ *
+ * So editors of the website can enter text and links to be displayed
+ * in rotation with all the other available ding_interactions
+ * Overview: /admin/structure/entity-type/ding_type/ding_interaction
+ */
+
+include_once 'ding_interaction_manual.features.inc';
+
+
+/**
+ * Implements template_preprocess_entity().
+ *
+ * Removes the link from the ding_interaction entity.
+ * To avoid having links to the entity when it's rendered.
+ */
+function ding_interaction_manual_preprocess_entity(&$variables) {
+  if ($variables['elements']['#entity_type'] === 'ding_type' && $variables['elements']['#entity']->type === 'ding_interaction') {
+    $variables['url'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_ding_interaction_view().
+ */
+function ding_interaction_manual_ding_interaction_view() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'ding_type')
+    ->entityCondition('bundle', 'ding_interaction')
+    ->fieldCondition('field_ding_interaction_status', 'value', '1', '=')
+    ->addTag('random')
+    ->range(0, 1);
+
+  $result = $query->execute();
+  if (isset($result['ding_type'])) {
+    $id = array_keys($result['ding_type']);
+    $entity = entity_load_single('ding_type', $id[0]);
+
+    $render = current(current(entity_view('ding_type', array($entity), 'teaser')));
+    return array('data' => render($render));
+  }
+
+  return '';
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function ding_interaction_manual_query_random_alter($query) {
+  $query->orderRandom();
+}
+
+/**
+ * Implements hook_ding_interaction_info().
+ */
+function ding_interaction_manual_ding_interaction_info() {
+  return array(
+    'title' => t('Manual Ding Interactions'),
+    'description' => t('Manual Ding Interactions are banners with static text ' .
+      'and optional link buttons created by local editors. Use this for nice tips ' .
+      'and tricks for the visitors, or non critical information you would like ' .
+      ' to rotate into the frontpage.'),
+    'css_class' => 'ding-interaction-manual complete-info',
+    'active' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Adds manual interaction help description to config page.
+ */
+function ding_interaction_manual_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'ding_interaction_admin_overview') {
+    $form['ding_interaction_help'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Ding interaction help'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+
+    $form['ding_interaction_help']['markup'] = array(
+      '#type' => 'markup',
+      '#markup' => t('Ding Interactions are all sorts of information and interaction with the user which we want to present in rotation. In order not to overload the user with information, just one Ding Interaction is shown per page view. This way the user can casually be informed with deeper features of the website, occasionally be asked to interact (Like when asking the user to rate previous loans) and have an area which changes relevant content with no need for manual editing or administration.<br /><br />
+       Insert a "Ding interaction pane" on any page to display the Ding Interactions in rotation.') . '<br /><br />' .
+      l(t('> Overview of all manual Ding Interactions'), 'admin/structure/entity-type/ding_type/ding_interaction') .
+      '<br />' .
+      l(
+        t('> Create new manual Ding Interaction'),
+        'admin/structure/entity-type/ding_type/ding_interaction/add',
+        array('query' => array('destination' => 'admin/structure/entity-type/ding_type/ding_interaction'))
+      ) .
+      '<br /><br />' . 'Developers can use the API hooks to create new Ding Interactions.',
+    );
+  }
+}

@@ -1,0 +1,138 @@
+<?php
+/**
+ * @file
+ * Ding Serendipity plugin.
+ *
+ * Collecting serendipity based on node reference or ting reference field on the
+ * current node.
+ *
+ * This enables editors to add manual suggestions into the DS pool on individual
+ * nodes.
+ *
+ * Example:
+ *   On a certain page node/xyz the editor would like to add specific materials
+ *   to the serendipity pane. These materials are added via node/xyz/edit and
+ *   the field_materials field.
+ */
+
+/**
+ * Implements hook_serendipity_info().
+ */
+function ding_serendipity_site_serendipity_info() {
+  return array(
+    'field_related_material' => array(
+      'title' => 'Node related material',
+      'description' => 'Returns nodes linked to through the node reference field "field_related_content"',
+      'keys' => array('node', 'material'),
+    ),
+
+    'field_related_content' => array(
+      'title' => 'Node related content',
+      'description' => 'Returns ting objects linked to nodes through the ting reference field "field_materials"',
+      'keys' => array('node_nid', 'content'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_PLUGIN_NAME_serendipity_add().
+ *
+ * Fetch objects via field_materials
+ */
+function ding_serendipity_site_field_related_material_serendipity_add($context) {
+  $results = array();
+  // Ensure that the context is set.
+  if (empty($context['node'])) {
+    return array();
+  }
+
+  // Load the node to access relevant fields and resolve endpoints of
+  // ting_objects.
+  $node = $context['node'];
+
+  // Get relations to ting_objects through ting_reference.
+  if (!empty($node->field_materials)) {
+    $relations = ting_reference_get_relations('node', $node);
+    if (!empty($relations)) {
+      $etids = array();
+
+      // Get all id's for processing.
+      foreach ($relations as $relation) {
+        $etids[] = $relation->endpoints['und'][1]['entity_id'];
+      }
+      
+      // Load ting_objects related to the entity id's.
+      $ting_objects = entity_load('ting_object', $etids);
+      $count = 0;
+      foreach ($ting_objects as $obj) {
+        $count++;
+        $results[] = array(
+          'type' => 'ting_object',
+          'id' => $obj->ding_entity_id,
+          'weight' => 50 + $count,
+          'info' => array(
+            // Descriptions for nodes are usually not displayed.
+            'description' => t('This material is related to this page.'),
+          ),
+        );
+      }
+    }
+  }
+  
+  return $results;
+}
+
+/**
+ * Implements hook_PLUGIN_NAME_serendipity_add().
+ *
+ * Adds nodes via field_related_content
+ */
+function ding_serendipity_site_field_related_content_serendipity_add($context) {
+  $results = array();
+  // Ensure that the context is set.
+  if (empty($context['node'])) {
+    return array();
+  }
+
+  // Load node.
+  $node = $context['node'];
+
+  if (!$node) {
+    return array();
+  }
+
+  $content = field_get_items('node', $node, 'field_related_content');
+  if (!empty($content)) {
+    foreach ($content as $key => $item) {
+      $results[] = array(
+        'type' => 'node',
+        'id' => $item['target_id'],
+        'weight' => 50 + $key,
+      );
+    }
+  }
+
+  if (!empty($node->field_use_serendipity)) {
+    $val = $node->field_use_serendipity[field_language('node', $node, 'field_use_serendipity')][0]['value'];
+    if ($val) {
+      return $results;
+    }
+  }
+
+  $view = views_get_view('similarterms');
+  $view->set_arguments(array($node->nid));
+  $view->set_display('block');
+  $view->pre_execute();
+  $view->execute();
+  $similar_nodes = $view->result;
+  foreach ($similar_nodes as $snode) {
+    $results[] = array(
+      'type' => 'node',
+      'id' => $snode->nid,
+      'info' => array(
+        'description' => t('These items match terms on the item you are viewing.'),
+      ),
+    );
+  }
+  return $results;
+}

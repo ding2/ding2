@@ -1,0 +1,7 @@
+name = Ding notifications
+description = Notification module.
+package = Ding!
+version = "7.x-1.x-dev"
+core = 7.x
+
+dependencies[] = ding_message

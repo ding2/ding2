@@ -1,0 +1,188 @@
+<?php
+
+/**
+ * @file
+ * Ding Interaction implements the proxy ding interaction pane.
+ *
+ * Which is a place to display all sorts of information or suggested interaction
+ * for the visitor.
+ * The DI shuffles all available DI plugins and displays just one in random.
+ * The idea is that the system contains alot of things we would like the user to
+ * try out or to do, but we want it to be suggested in a not overwhelming way
+ *
+ * Example 1: (Full interaction)
+ * The user logs in
+ * DI shuffles all DI plugins and selects the "ding_entity_rating_loan_history"
+ * The user is presented with a selection of previous loans and is encouraged
+ * to rate them
+ */
+
+include_once 'ding_interaction.features.inc';
+
+define('DING_INTERACTION_DEFAULT_COUNT', 5);
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_interaction_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_interaction_menu() {
+  $items = array();
+
+  $items['admin/config/ding/interaction'] = array(
+    'title' => 'Ding interaction overview',
+    'description' => 'Get an overview of the interaction elements',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_interaction_admin_overview'),
+    'access arguments' => array('administer personalisation'),
+    'file' => 'ding_interaction.admin.inc',
+  );
+  $items['admin/config/ding/interaction/key_overview/%'] = array(
+    'title' => 'Settings',
+    'description' => 'Set the settings for an interaction function',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array(5),
+    'access arguments' => array('administer personalisation'),
+  );
+
+  return $items;
+}
+
+/**
+ * Find modules which provide content for the interaction pane.
+ *
+ * @param bool $ignore_settings
+ *   If set to true every content provider will be included.
+ *
+ * @return array
+ *   An array of module info.
+ */
+function ding_interaction_available_content($ignore_settings = FALSE) {
+  $modules = module_implements('ding_interaction_info');
+  $content_providers = array();
+  $active_modules = variable_get('ding_interaction_callbacks', array());
+  foreach ($modules as $module) {
+    $info = module_invoke($module, 'ding_interaction_info');
+    if ($ignore_settings || isset($info['active']) && $info['active'] !== FALSE && !empty($active_modules[$module])) {
+      $content_providers[$module] = $info;
+    }
+  }
+  return $content_providers;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_interaction_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_interaction_pane_content' => array(
+      'variables' => array(
+        'title' => NULL,
+        'data' => NULL,
+        'close_btn' => NULL,
+        'help_text' => NULL,
+      ),
+    ),
+  );
+}
+
+/**
+ * Theme function for ding_interaction_pane_content.
+ */
+function theme_ding_interaction_pane_content($variables) {
+  $output = '<h2>' . $variables['title'] . '</h2><div class="ding-interaction-pane">' . $variables['data'] . $variables['close_btn'] . $variables['help_text'] . '</div>';
+  return $output;
+}
+
+/**
+ * Fetch ding interaction pane content.
+ *
+ * @param array $module_list
+ *   Array of modules that provide content for ding_interaction.
+ * @param int $count
+ *   The amount of page views between each interaction.
+ *
+ * @return array
+ *   A render array for output.
+ */
+function ding_interaction_content(array $module_list = NULL, $count = DING_INTERACTION_DEFAULT_COUNT) {
+  global $user;
+  $data = NULL;
+
+  // Prepare edit array for user_save.
+  $edit = array();
+  if (isset($user->data)) {
+    $edit['data'] = $user->data;
+  }
+  else {
+    $edit['data'] = array();
+  }
+  if (empty($edit['data']['ding_interaction'])) {
+    $edit['data']['ding_interaction'] = array();
+    $edit['data']['ding_interaction']['count'] = 0;
+  }
+  $output = array();
+
+  // Show interaction pane on n'th page view.
+  if (empty($edit['data']['ding_interaction']['count']) || $edit['data']['ding_interaction']['count'] == 0) {
+    if (!$module_list) {
+      $module_list = ding_interaction_available_content();
+    }
+    if (count($module_list)) {
+      $random = array_rand($module_list);
+      $data = module_invoke($random, 'ding_interaction_view', $count);
+
+      if (!$data) {
+        return FALSE;
+      }
+
+      $output = array_merge($output, $module_list[$random]);
+      if (!is_array($data)) {
+        $output['data'] = $data;
+      }
+      else {
+        $output['data'] = $data['data'];
+        $output['title'] = isset($data['title']) ? $data['title'] : '';
+      }
+    }
+  }
+
+  // Update the user page count.
+  if (user_is_logged_in()) {
+    $edit['data']['ding_interaction']['count'] += 1;
+    if ($edit['data']['ding_interaction']['count'] >= variable_get('ding_interaction_page_count', 5)) {
+      $edit['data']['ding_interaction']['count'] = 0;
+    }
+    user_save($user, $edit);
+  }
+
+  return $output;
+}
+
+/**
+ * Create a list of translateable strings to display in config page.
+ *
+ * @param array $strings
+ *   Array of translatable strings.
+ *
+ * @return array
+ *   A formated output of translable strings.
+ */
+function ding_interaction_translatables(array $strings) {
+  if (empty($strings)) {
+    return "";
+  }
+  return theme('item_list', array(
+    'items' => $strings,
+    'type' => 'ul',
+    'title' => l(t('Translatable strings'), 'admin/config/regional/translate/translate'),
+  ));
+}

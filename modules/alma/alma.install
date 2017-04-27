@@ -98,3 +98,11 @@ function alma_update_7004() {
   db_drop_table('field_data_field_alma_reservation_pause');
   db_drop_table('field_revision_field_alma_reservation_pause');
 }
+
+/**
+ * Set SSL version to TLS for ALMA.
+ */
+function alma_update_7005() {
+  // Set TLS as SSL version.
+  variable_set('alma_ssl_version', 'tls');
+}

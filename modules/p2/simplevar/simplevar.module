@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ * Simplevar
+ */
+
+define('SIMPLEVAR_SPLITTER', '__');
+
+/**
+ * Get a variable.
+ */
+function simplevar_get($category, $name, $default = NULL) {
+  $simplevars = &drupal_static('simplevars', array());
+
+  if (!isset($simplevars[$category . SIMPLEVAR_SPLITTER . $name])) {
+    $dbresult = db_select('simplevar', 's')
+      ->fields('s', array('value'))
+      ->condition('category', $category)
+      ->condition('name', $name)
+      ->execute()->fetchField();
+
+    if ($dbresult !== FALSE) {
+      $simplevars[$category . SIMPLEVAR_SPLITTER . $name] = unserialize($dbresult);
+    }
+    else {
+      $simplevars[$category . SIMPLEVAR_SPLITTER . $name] = $default;
+    }
+  }
+
+  return $simplevars[$category . SIMPLEVAR_SPLITTER . $name];
+}
+
+/**
+ * Set a variable.
+ */
+function simplevar_set($category, $name, $value) {
+  $simplevars = &drupal_static('simplevars', array());
+
+  db_merge('simplevar')
+    ->key(array(
+      'category' => $category,
+      'name' => $name,
+    ))
+    ->fields(array('value' => serialize($value)))
+    ->execute();
+
+  $simplevars[$category . SIMPLEVAR_SPLITTER . $name] = $value;
+
+  return $value;
+}
+
+/**
+ * Delete a variable.
+ */
+function simplevar_delete($category, $name) {
+  $simplevars = &drupal_static('simplevars', array());
+
+  db_delete('simplevar')
+    ->condition('category', $category)
+    ->condition('name', $name)
+    ->execute();
+
+  if (isset($simplevars[$category . SIMPLEVAR_SPLITTER . $name])) {
+    unset($simplevars[$category . SIMPLEVAR_SPLITTER . $name]);
+  }
+}

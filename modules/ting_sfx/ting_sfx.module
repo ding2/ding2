@@ -17,7 +17,10 @@ function ting_sfx_field_info() {
       'default_formatter' => 'ting_sfx_default',
       'settings' => array('max_length' => 255),
       'default_widget' => 'hidden',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
   );
   return $ret;

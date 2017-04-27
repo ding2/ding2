@@ -19,7 +19,7 @@ The reset of this document explains how to download Drupal and patch the core
 to run a Ding2 based site.
 
 ## Dependencies
-* [Drupal 7.38](https://drupal.org/drupal-7.38-release-notes) - latest stable
+* [Drupal 7.43](https://drupal.org/drupal-7.43-release-notes) - latest stable
   version of Drupal Core that ding2 have been tested on and the last stable
   release when this was written.
 * [Drush 6.1.0](https://github.com/drush-ops/drush) - latest release when this
@@ -27,13 +27,13 @@ to run a Ding2 based site.
 
 ## Drupal
 Go into your web-root (from now on named DRUPAL) and execute this drush command
-to download a fresh copy of Drupal version 7.38. If you omit the version number
+to download a fresh copy of Drupal version 7.43. If you omit the version number
 the newest version of Drupal will be downloaded.
 ```sh
-  ~$ drush dl drupal-7.38
-  ~$ mv drupal-7.38/* .
-  ~$ mv drupal-7.38/.* .
-  ~$ rm -r drupal-7.38
+  ~$ drush dl drupal-7.43
+  ~$ mv drupal-7.43/* .
+  ~$ mv drupal-7.43/.* .
+  ~$ rm -r drupal-7.43
 ```
 
 ### Patches

@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Enable ding_ekurser and ting_oembed modules
+ */
+function ding_ting_frontend_update_7001() {
+  module_enable(array('ding_ekurser', 'ting_oembed_features'));
+}
+
+/**
  * Enable Ting infomedia module.
  */
 function ding_ting_frontend_update_7000(&$sandbox) {

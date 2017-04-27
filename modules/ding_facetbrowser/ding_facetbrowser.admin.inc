@@ -32,7 +32,7 @@ function ding_facetbrowser_settings($form_state) {
   $form['ding_facetbrowser_number_of_terms'] = array(
     '#type' => 'select',
     '#title' => t('Number of terms'),
-    '#description' => t('The number of facts terms to display in each facet group.'),
+    '#description' => t('The number of facets terms to display in each facet group.'),
     '#options' => drupal_map_assoc(range(1, 15)),
     '#default_value' => $number_of_terms,
   );

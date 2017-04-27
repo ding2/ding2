@@ -43,7 +43,10 @@ function ding_provider_menu() {
         'type' => MENU_LOCAL_TASK,
       );
       if ($provider['global settings file']) {
-        $items['admin/config/ding/provider/' . $provider['module']]['file'] = $provider['global settings file'];
+        $items['admin/config/ding/provider/' . $provider['module']] += array(
+          'file path' => drupal_get_path('module', $provider['module']),
+          'file' => $provider['global settings file'],
+        );
       }
     }
   }
@@ -138,7 +141,7 @@ function ding_provider_error_page() {
  */
 function ding_provider_implements($type, $hook) {
   try {
-    return (bool) _ding_provider_function($type, $hook, TRUE);
+    return (bool) ding_provider_function($type, $hook, TRUE);
   }
   catch (Exception $e) {
     return FALSE;
@@ -161,7 +164,7 @@ function ding_provider_invoke($type, $hook) {
   array_shift($args);
   array_shift($args);
 
-  $function = _ding_provider_function($type, $hook);
+  $function = ding_provider_function($type, $hook);
   if (is_callable($function)) {
     return call_user_func_array($function, $args);
   }
@@ -178,7 +181,7 @@ function ding_provider_form($type, $form_id) {
   array_shift($args);
   array_shift($args);
 
-  $function = _ding_provider_function($type, $form_id);
+  $function = ding_provider_function($type, $form_id);
   if ($function) {
     return drupal_get_form($function, $args);
   }
@@ -200,7 +203,7 @@ function ding_provider_invoke_page($type, $hook) {
   array_shift($args);
 
   try {
-    $function = _ding_provider_function($type, $hook);
+    $function = ding_provider_function($type, $hook);
     if ($function) {
       return call_user_func_array($function, $args);
     }
@@ -516,23 +519,30 @@ function _ding_provider_get_provider_users($type = NULL) {
 }
 
 /**
- * Returns the provider function for a hook, loading files if necessary. Logs
- * an error if the provider or hook isn't implemented, unless $quiet has been
- * specified.
+ * Returns the provider function for a hook.
  *
- * @param $type Provider name.
- * @param $hook Hook name.
- * @param $quiet Whether to suppress errors.
- * @return
- *  String or NULL.
+ * Loads files if necessary. Logs an error if the provider or hook isn't
+ * implemented, unless $quiet has been specified.
+ *
+ * @param string $type
+ *   Provider name.
+ * @param string $hook
+ *   Hook name.
+ * @param bool $quiet
+ *   Whether to suppress errors.
+ *
+ * @return string|null
+ *   Function name or null if not implemented by the provider.
  */
-function _ding_provider_function($type, $hook, $quiet = FALSE) {
+function ding_provider_function($type, $hook, $quiet = FALSE) {
   $provider = _ding_provider_get_provider($type);
   if ($provider) {
-    $function = $provider['module'] . '_' . (isset($provider['prefix']) ? $provider['prefix'] . '_' : '') . $hook;
+    $function = $provider['module'] . '_' .
+              (isset($provider['prefix']) ? $provider['prefix'] . '_' : '') .
+              $hook;
 
     if (isset($provider['file'])) {
-      require_once DRUPAL_ROOT . '/' . $provider['file'];
+      require_once drupal_get_path('module', $provider['module']) . '/' . $provider['file'];
     }
 
     if (function_exists($function)) {
@@ -542,7 +552,11 @@ function _ding_provider_function($type, $hook, $quiet = FALSE) {
       // Trigger an error. This might be a module attempting to use a wrong
       // hook, or an improperly implemented plugin. In either case, it's
       // programmer error.
-      throw new DingProviderDoesntImplement(t('Ding @type provider (@module module) does not implement @function', array('@type' => $type, '@function' => $hook, '@module' => $provider['module'])), E_USER_ERROR);
+      throw new DingProviderDoesntImplement(t('Ding @type provider (@module module) does not implement @function', array(
+        '@type' => $type,
+        '@function' => $hook,
+        '@module' => $provider['module'],
+      )), E_USER_ERROR);
     }
   }
   elseif (!$quiet) {

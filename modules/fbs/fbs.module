@@ -14,47 +14,94 @@ if (function_exists('module_load_include')) {
 }
 
 /**
- * Implements hook_init().
- *
- * Register autoloader for our (non-Drupal) classes.
+ * Implements hook_xautoload().
  */
-function fbs_init() {
-  require_once dirname(__FILE__) . "/vendor/autoload.php";
+function fbs_xautoload($adapter) {
+  $adapter->absolute()->addPsr4('FBS\\', drupal_get_path('module', 'fbs') . '/src');
+  $adapter->absolute()->addPsr4('Reload\\Prancer\\', drupal_get_path('module', 'fbs') . '/prancer');
+}
+
+/**
+ * Implements hook_libraries_info().
+ *
+ * For defining external libraries.
+ */
+function fbs_libraries_info() {
+  return array(
+    'jsonmapper' => array(
+      'name' => 'JsonMapper',
+      'vendor url' => 'https://github.com/cweiske/jsonmapper',
+      'download url' => 'https://github.com/cweiske/jsonmapper',
+      'version' => 'v0.4.4',
+      'xautoload' => function ($adapter) {
+        // Would like to:
+        // $adapter->composerJson('composer.json');
+        // But xautoload can't figure it out.
+        $adapter->addClassMap(
+          array(
+            'JsonMapper' => 'src/JsonMapper.php',
+            'JsonMapper_Exception' => 'src/JsonMapper/Exception.php',
+          )
+        );
+
+      },
+    ),
+    'http-message' => array(
+      'name' => 'Common interface for HTTP messages',
+      'vendor url' => 'https://github.com/php-fig/http-message',
+      'download url' => 'https://github.com/php-fig/http-message',
+      'version' => '1.0',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'phly-http' => array(
+      'name' => 'PSR-7 message implementation',
+      'vendor url' => 'https://github.com/phly/http',
+      'download url' => 'https://github.com/phly/http',
+      'version' => '0.11.1',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+  );
 }
 
 /**
  * Implements hook_ding_provider().
  */
 function fbs_ding_provider() {
-  $path = drupal_get_path('module', 'fbs');
-
   return array(
     'title' => 'FBS provider',
     'settings' => 'fbs_settings_form',
     'provides' => array(
       'availability' => array(
         'prefix' => 'availability',
-        'file' => $path . '/includes/fbs.availability.inc',
+        'file' => 'includes/fbs.availability.inc',
       ),
       'debt' => array(
         'prefix' => 'debt',
-        'file' => $path . '/includes/fbs.debt.inc',
+        'file' => 'includes/fbs.debt.inc',
       ),
       'loan' => array(
         'prefix' => 'loan',
-        'file' => $path . '/includes/fbs.loan.inc',
+        'file' => 'includes/fbs.loan.inc',
       ),
       'reservation' => array(
         'prefix' => 'reservation',
-        'file' => $path . '/includes/fbs.reservation.inc',
+        'file' => 'includes/fbs.reservation.inc',
       ),
       'user' => array(
         'prefix' => 'user',
-        'file' => $path . '/includes/fbs.user.inc',
+        'file' => 'includes/fbs.user.inc',
       ),
       'wayf' => array(
         'prefix' => 'wayf',
-        'file' => $path . '/includes/fbs.wayf.inc',
+        'file' => 'includes/fbs.wayf.inc',
+      ),
+      'user_consent' => array(
+        'prefix' => 'user_consent',
+        'file' => 'includes/fbs.user_consent.inc',
       ),
     ),
   );
@@ -126,6 +173,16 @@ function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $seria
   // No drupal_static. We want to be callable from tests.
   static $service;
   if (!$service || $reset) {
+    // Check that libraries are properly loaded. Just throwing an exception is a
+    // bit harsh, but we're in a hurry here.
+    foreach (array('jsonmapper', 'http-message', 'phly-http') as $lib) {
+      // Checking for FALSE, as it's actually a count of how many files was
+      // included, and none is included for our libraries.
+      if (!($library = libraries_load($lib)) || $library['loaded'] === FALSE) {
+        throw new Exception($lib . ' library not installed');
+      }
+    }
+
     $agency_id = !empty($agency_id) ? $agency_id : variable_get('fbs_agency', '');
     $endpoint = !empty($endpoint) ? $endpoint : variable_get('fbs_endpoint', '');
 
@@ -144,6 +201,7 @@ function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $seria
       return FALSE;
     }
   }
+
   return $service;
 }
 
@@ -276,23 +334,22 @@ function fbs_profile2_presave($entity) {
       $patron_settings->{$key} = $val;
     }
     $patron_settings->onHold = $period;
-
     $update->patron = $patron_settings;
 
-    $service = fbs_service();
-    if ($service) {
-      $res = NULL;
-      try {
-        $res = $service->Patron->update($service->agencyId, $patron['patronId'], $update);
-      }
-      catch (Exception $e) {
-        watchdog_exception('FBS', $e);
-      }
-      if ($res) {
-        $result['creds'] = _fbs_patron_info($res->patron);
-        ding_user_save_creds($result);
-      }
+    $res = NULL;
+    try {
+      $res = fbs_service()->Patron->update(fbs_service()->agencyId, $patron['patronId'], $update);
     }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
+
+    $result = array();
+    if ($res) {
+      $result['creds'] = _fbs_patron_info($res->patron);
+    }
+
+    ding_user_save_creds($result);
   }
 }
 
@@ -331,24 +388,21 @@ function fbs_update_preferred_branch($account, $branch_id) {
 function fbs_branches() {
   $branches = &drupal_static(__FUNCTION__, NULL);
   if (is_null($branches)) {
-    $service = fbs_service();
 
-    if ($service) {
-      $res = array();
-      $branches = array();
-      try {
-        $res = $service->Placement->getBranches($service->agencyId);
-      }
-      catch (Exception $e) {
-        watchdog_exception('fbs', $e);
-      }
-
-      foreach ($res as $branch) {
-        $branches[$branch->branchId] = $branch->title;
-      }
-
-      asort($branches);
+    $res = array();
+    try {
+      $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
     }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
+
+    $branches = array();
+    foreach ($res as $branch) {
+      $branches[$branch->branchId] = $branch->title;
+    }
+
+    asort($branches);
   }
   return $branches;
 }
@@ -390,6 +444,33 @@ function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state)
   }
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Access options for the attributes in the holdings field.
+ */
+function fbs_form_ding_availability_admin_holdings_settings_alter(&$form, &$form_state, $form_id) {
+  $form['holdings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Holdings levels display'),
+    '#description' => t('Configure holdings display modes.'),
+  );
+  $form['holdings']['show_material_group'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show material group description'),
+    '#default_value' => variable_get('show_material_group', 0),
+  );
+  $form['holdings']['show_dk5_classification'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show dk5 classification'),
+    '#default_value' => variable_get('show_dk5_classification', 0),
+  );
+  $form['holdings']['show_inverted_creator'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show inverted author'),
+    '#default_value' => variable_get('show_inverted_creator', 0),
+  );
+}
 
 /**
  * Pack patron info in an array.

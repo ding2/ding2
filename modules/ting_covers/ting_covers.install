@@ -5,6 +5,14 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function ting_covers_install() {
+  // Ensure that a cover provider is active on a fresh install.
+  module_enable(array('ting_covers_addi'));
+}
+
+/**
  * Changed fetched covers from managed to unmanaged files.
  */
 function ting_covers_update_7100(&$sandbox) {
@@ -18,3 +26,24 @@ function ting_covers_update_7100(&$sandbox) {
   $query->execute();
 }
 
+/**
+ * Migrate to using the ting_covers_addi module.
+ */
+function ting_covers_update_7101() {
+  // ting_covers_addi will migrate the settings.
+  if (variable_get('addi_wsdl_url', NULL)) {
+    module_enable(array('ting_covers_addi'));
+  }
+
+  $delete_variables = array(
+    'addi_wsdl_url',
+    'addi_username',
+    'addi_group',
+    'addi_password',
+    'addi_enable_logging',
+  );
+
+  foreach ($delete_variables as $variable) {
+    variable_del($variable);
+  }
+}

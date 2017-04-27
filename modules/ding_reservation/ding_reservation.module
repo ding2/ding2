@@ -392,12 +392,25 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
   if ($form_state['values']['reservable']) {
     $reservable = $form_state['values']['reservable'];
     try {
-      $reservation_result = ding_provider_invoke('reservation', 'create', $user, $reservable->getProviderId(), $form_state['values']['provider_options']);
+      // If no provider id is set, it is supposed to be an encoded periodical data.
+      $provider_id = $reservable->getProviderId() ? $reservable->getProviderId() : base64_decode($reservable->getEntity());
+      $reservation_result = ding_provider_invoke('reservation', 'create', $user, $provider_id, $form_state['values']['provider_options']);
       $form_state['reserved'] = TRUE;
       // @todo use profile
       if (!empty($reservation_result['branch']) && ding_provider_implements('reservation', 'branch_name')) {
         $branch_name = ding_provider_invoke('reservation', 'branch_name', $reservation_result['branch']);
-        $reservable_title = htmlspecialchars_decode($reservable->getTitle());
+
+        // Decoded periodical data is composed from several parts, divided
+        // by ":", so I had to clear and explode this.
+        $clear = preg_replace('/(-)/i', '', $provider_id);
+        $exploded = explode(':', $clear);
+        if (count($exploded) > 1 && isset($exploded[3]) && is_numeric($exploded[3])) {
+          $ting_object = ding_entity_load(ding_provider_build_entity_id($exploded[3]));
+          $reservable_title = htmlspecialchars_decode($ting_object->getTitle());
+        }
+        else {
+          $reservable_title = htmlspecialchars_decode($reservable->getTitle());
+        }
         drupal_set_message(t('"@title" reserved and will be available for pickup at @branch.', array('@title' => $reservable_title, '@branch' => $branch_name)));
       }
       else {
@@ -465,6 +478,8 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
  * Show a reservation list form.
  */
 function ding_reservation_reservations_form($form, &$form_state, $reservations, $type = DING_RESERVATION_NOT_READY, $conf = array()) {
+  $int_per = variable_get('ding_reservation_disable_interest_date', '');
+
   $form = array(
     '#tree' => TRUE,
   );
@@ -503,13 +518,21 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
       $title = l($entity->getTitle(), $uri['path']);
     }
 
+    // Add creator(s).
+    $creators = $entity->creators;
+
+    // Add type.
+    $mat_type = $entity->type;
+
     $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $reservation->pickup_branch_id);
-    $bookmark_button = ding_bookmark_ding_entity_buttons('ding_entity', $entity, 'ajax');
     switch ($reservation->reservation_type) {
       case DING_RESERVATION_READY:
         $item = array(
           '#type' => 'material_item',
+          '#reservation' => $reservation,
           '#id' => $reservation->id,
+          '#creators' => $creators,
+          '#material_type' => $mat_type,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
@@ -537,11 +560,6 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
               'class' => 'created-date',
               '#weight' => 16,
             ),
-            'bookmark' => array(
-              'class' => 'bookmark',
-              'data' => drupal_render($bookmark_button),
-              '#weight' => 33,
-            ),
           ),
         );
         break;
@@ -549,7 +567,10 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
       case DING_RESERVATION_NOT_READY:
         $item = array(
           '#type' => 'material_item',
+          '#reservation' => $reservation,
           '#id' => $reservation->id,
+          '#creators' => $creators,
+          '#material_type' => $mat_type,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
@@ -583,19 +604,21 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
               'class' => 'pickup-id',
               '#weight' => 32,
             ),
-            'bookmark' => array(
-              'class' => 'bookmark',
-              'data' => drupal_render($bookmark_button),
-              '#weight' => 33,
-            ),
           ),
         );
+
+        if (!empty($int_per)) {
+          $item['#information']['expiry'] = '';
+        }
         break;
 
       case DING_RESERVATION_INTERLIBRARY_LOANS:
         $item = array(
           '#type' => 'material_item',
+          '#reservation' => $reservation,
           '#id' => $reservation->id,
+          '#creators' => $creators,
+          '#material_type' => $mat_type,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
@@ -629,25 +652,24 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
               'class' => 'pickup-id',
               '#weight' => 32,
             ),
-            'bookmark' => array(
-              'class' => 'bookmark',
-              'data' => drupal_render($bookmark_button),
-              '#weight' => 33,
-            ),
           ),
         );
         break;
     }
 
-    if (in_array($type, array(DING_RESERVATION_NOT_READY, DING_RESERVATION_INTERLIBRARY_LOANS))) {
-      // Set reservation expire message.
-      $expire = strtotime(check_plain($reservation->expiry));
-      if ($expire - variable_get('reservation_expire', 604800) <= time()) {
-        $item['#material_message'] = array(
-          'message' => t('This reservation is about to expire.'),
-          'class' => 'messages warning',
-        );
-        $item['#weight'] = -30;
+    $reservation_eligibility = in_array($type, array(DING_RESERVATION_NOT_READY, DING_RESERVATION_INTERLIBRARY_LOANS));
+
+    if (empty($int_per)) {
+      if ($reservation_eligibility) {
+        // Set reservation expire message.
+        $expire = strtotime(check_plain($reservation->expiry));
+        if ($expire - variable_get('reservation_expire', 604800) <= time()) {
+          $item['#material_message'] = array(
+            'message' => t('This reservation is about to expire.'),
+            'class'   => 'messages warning',
+          );
+          $item['#weight'] = -30;
+        }
       }
     }
 
@@ -1077,4 +1099,34 @@ function ding_reservation_ding_session_cache_defaults() {
     'enabled' => TRUE,
     'expire' => 3600,
   );
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_reservation_form_alter(&$form, &$form_state, $form_id) {
+  $provider = _ding_provider_get_provider('user');
+
+  if ($form_id == $provider['module'] . '_settings_form') {
+    $form[$provider['module']]['ding_reservation_disable_interest_date'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Disable interests period'),
+      '#description' => t('This will disable "Interest date" functionality.'),
+      '#default_value' => variable_get('ding_reservation_disable_interest_date', FALSE),
+    );
+  }
+}
+
+/**
+ * Preprocess materials_item.
+ */
+function ding_reservation_preprocess_material_item(&$variables) {
+  if (isset($variables['element']['#reservation']) && module_exists('ding_list')) {
+    $bookmark_button = ding_list_ding_entity_buttons('ding_entity', $variables['element']['#reservation']);
+    $variables['information']['reservation_bookmark'] = array(
+      'data' => drupal_render($bookmark_button),
+      'class' => 'bookmark',
+      '#weight' => 99,
+    );
+  }
 }

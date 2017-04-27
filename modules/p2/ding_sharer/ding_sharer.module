@@ -1,0 +1,65 @@
+<?php
+/**
+ * @file
+ * Ding sharer
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_sharer_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
+ * Implements hook_html_head_alter().
+ */
+function ding_sharer_html_head_alter(&$head_elements) {
+  if ($ting_object = menu_get_object('ting_object', 2)) {
+    $cover_path = ting_covers_object_path($ting_object->localId);
+    $image_url = image_style_url('ding_sharer', $cover_path);
+    if (file_exists($cover_path)) {
+      $head_elements['ogurl'] = array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'property' => 'og:image',
+          'content' => $image_url,
+        ),
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function ding_sharer_image_default_styles() {
+  $styles = array();
+  
+  $styles['ding_sharer'] = array(
+    'name' => 'ding_sharer',
+    'effects' => array(
+      5 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 380,
+          'height' => '',
+          'upscale' => 1,
+        ),
+        'weight' => 1,
+      ),
+    ),
+    'label' => 'ding_sharer',
+  );
+  return $styles;
+}

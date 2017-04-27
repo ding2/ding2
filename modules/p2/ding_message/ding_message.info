@@ -1,0 +1,9 @@
+name = Ding message
+description = Extend the message module with ding functionality
+package = Ding!
+version = "7.x-1.x-dev"
+core = 7.x
+
+dependencies[] = message
+dependencies[] = ding_list
+dependencies[] = ding_message_p2_installer

@@ -1,0 +1,10 @@
+name = Ding entity rating by loan history
+description = Suggest entities to rate based on the uses loan history.
+package = Ding!
+core = 7.x
+
+dependencies[] = ding_entity_rating
+dependencies[] = ding_user_consent
+dependencies[] = ding_loan
+dependencies[] = ting
+dependencies[] = ting_carousel

@@ -43,7 +43,10 @@ function ting_infomedia_field_info() {
       ),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_infomedia_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
   );
   return $ret;
@@ -148,4 +151,3 @@ function ting_infomedia_field_formatter_prepare_view($entity_type, $entities, $f
     );
   }
 }
-

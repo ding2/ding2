@@ -156,3 +156,23 @@ function ding_staff_preprocess_username(&$vars) {
   // the original username.
   $vars['name'] = check_plain($vars['name_raw']);
 }
+
+/**
+ * Implements hook_profile2_view().
+ *
+ * @TODO: Move this to pre-process or theme function.
+ */
+function ding_staff_profile2_view($profile, $view_mode, $langcode) {
+  if (arg(0) == 'search') {
+    $forename = field_get_items('profile2', $profile, 'field_ding_staff_forename');
+    $surname = field_get_items('profile2', $profile, 'field_ding_staff_surname');
+    $full_name = $forename[0]['value'] . ' ' . $surname[0]['value'];
+
+    $output = '<h2>';
+    $output .= l($full_name, 'user/' . $profile->uid, array('attributes' => array('title' => $full_name)));
+    $output .= '</h2>';
+
+    $profile->content['field_ding_staff_forename']['#access'] = FALSE;
+    $profile->content['field_ding_staff_surname'][0]['#markup'] = $output;
+  }
+}

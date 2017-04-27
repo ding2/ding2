@@ -122,8 +122,8 @@ background-attachment: fixed;',
     'formula' => '($n!=1)',
     'domain' => '',
     'prefix' => 'da',
-    'weight' => '-10',
-    'javascript' => 'Fkh0QkvBEWWnm6g_nWkpAH5TKkKGcMpP0hLf4ArCiYs',
+    'weight' => '0',
+    'javascript' => 'MCHIQJ7ZJ9LKx7dqsQAD4mx7uk7AMRr7-_F3jAKnZ3k',
   );
   $export['language_default'] = $strongarm;
 

@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @file
+ * Ding serendipity content.
+ *
+ * This module collects serendipity based on very general criteria
+ * Set this module to lowest weight in order to work as a fallback plugin.
+ */
+
+/**
+ * Implements hook_serendipity_info().
+ */
+function ding_serendipity_fallback_serendipity_info() {
+  return array(
+    'ting_object' => array(
+      'title' => 'Fallback materials',
+      'description' => 'Returns fallback content.',
+      'keys' => array('ting_object'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_PLUGIN_NAME_serendipity_add().
+ *
+ * Ding Serendipity function for nodes related content.
+ */
+function ding_serendipity_fallback_ting_object_serendipity_add($context) {
+  $results = array();
+
+  // Ensure that the context is set.
+  if (!isset($context['ting_object'])) {
+    return array();
+  }
+
+  // TODO: This seems to be the only module where
+  // ding_serendipity_search_string_final and
+  // ding_serendipity_search_string_final_description is used. Configuration
+  // of such values such be set (and prefixed) with this module and not
+  // ding_serendipity.
+  $query = variable_get('ding_serendipity_search_string_final', DING_SERENDIPITY_DEFAULT_FALLBACK_STRING);
+
+  if (!empty($query)) {
+    try {
+      $results = ding_serendipity_do_search($query, array('limit' => 8));
+    }
+    catch (Exception $e) {
+      watchdog_exception('ding_serendipity_fallback', $e);
+    }
+
+    foreach ($results as & $item) {
+      $item['info']['description'] = variable_get('ding_serendipity_search_string_final_description', t('The library recommends this'));
+    }
+  }
+
+  return $results;
+}

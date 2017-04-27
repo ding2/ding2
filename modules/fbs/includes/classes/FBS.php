@@ -95,8 +95,9 @@ class FBS {
    */
   public function __construct($agency_id, $endpoint, HttpClient $client = NULL, Serializer $serializer = NULL) {
     if (empty($agency_id) || empty($endpoint)) {
-      throw new FBSException('Provider agency id or endpoint are not set.');
+      throw new RuntimeException('Provider agency id or endpoint are not set.');
     }
+
     $this->agencyId = $agency_id;
     $this->endpoint = $endpoint;
 

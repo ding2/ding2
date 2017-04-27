@@ -1,0 +1,7 @@
+name = Ting Openlist
+description = Handle the communication with the openlist service.
+core = 7.x
+package = Ding!
+dependencies[] = ding_provider
+dependencies[] = ding_user
+dependencies[] = ting_reference

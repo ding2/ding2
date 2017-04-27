@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * @file
+ * Code for the Ding special user feature.
+ */
+
+/**
+ * Create tables.
+ */
+function ding_message_schema() {
+  // TODO ding_message and ding_list now shows three different approaches to
+  // adding key/value storage for users
+  // 1 Updating the existing users table with a new field
+  // 2 Adding a new table referencing the existing users table
+  // 3 Using simplevar (or similar)
+  // I do not see any argumentation for using one approach over the other
+  // and I would think we could drop at least one. I would prefer to keep
+  // 2 and 3. @MSD
+  $schema['ding_message_check'] = array(
+    'description' => 'Record when users where updated with messages',
+    'fields' => array(
+      // Why do we need a separate id field here? It seems as if uid would
+      // do fine?
+      'id' => array(
+        'description' => 'The primary identifier for an entry',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'description' => 'The user checked.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'time' => array(
+        'description' => 'Time of the check.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'indexes' => array(
+      'time' => array('time'),
+    ),
+    'unique keys' => array(
+      'uid' => array('uid'),
+    ),
+    'foreign keys' => array(
+      'uid' => array(
+        'table' => 'users',
+        'columns' => array('uid' => 'uid'),
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  return $schema;
+}

@@ -52,8 +52,8 @@ function ding_campaign_menu() {
  * Used to define access to ding campaign rules. Limits the menu item only for
  * ding_campaign node types.
  *
- * @param entity $node
- *   The node loaded in the menu callback.
+ * @param string $nid
+ *   The node id loaded in the menu callback.
  *
  * @return bool
  *   TRUE or FALSE value.
@@ -61,7 +61,7 @@ function ding_campaign_menu() {
 function ding_campaign_rules_access($nid) {
   $node = node_load($nid);
 
-  return is_object($node) && $node->type == 'ding_campaign';
+  return is_object($node) && $node->type == 'ding_campaign' && user_access('access campaign rules');
 }
 
 /**
@@ -105,6 +105,7 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
         'link' => NULL,
         'image' => NULL,
         'text' => NULL,
+        'show_on_mobiles' => NULL,
       ),
       'template' => 'ding-campaign',
       'path' => $path . '/templates',
@@ -177,6 +178,8 @@ function ding_campaign_prepare_display($campaign, $style = 'medium') {
   // User entity wrapper to access fields.
   $wrapper = entity_metadata_wrapper('node', $campaign);
 
+  $show_on_mobiles = $wrapper->field_show_on_mobiles->value();
+
   // Get campaign type.
   $type = $wrapper->field_camp_settings->value();
 
@@ -184,6 +187,8 @@ function ding_campaign_prepare_display($campaign, $style = 'medium') {
   $current = array(
     '#theme' => 'ding_campaign',
     '#type' => $type,
+    '#wrapper' => $wrapper,
+    '#show_on_mobiles' => $show_on_mobiles,
   );
 
   // Get link value.
@@ -242,6 +247,15 @@ function ding_campaign_prepare_display($campaign, $style = 'medium') {
   }
 
   return $current;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_campaign_preprocess_ding_campaign(&$variables) {
+  if (!empty($variables['show_on_mobiles'])) {
+    $variables['classes_array'][] = 'ding-campaign-mobile-display';
+  }
 }
 
 /**
@@ -446,24 +460,6 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
 
     $form['#validate'] = array('ding_campaign_campaign_node_form_validate');
   }
-  else {
-    $enabled_types = variable_get('ding_campaign_node_types', array());
-
-    // Alter the specific node form, mentioned in Campaign settings.
-    if (isset($form['#node']) && isset($enabled_types[$form['#form_id']]) && ($enabled_types[$form['#form_id']] === $form['#form_id'])) {
-      $form['ding_campaigns_wrap'] = array(
-        '#type' => 'fieldset',
-        '#title' => 'Available campaigns',
-      );
-
-      $form['ding_campaigns_wrap']['ding_campaigns'] = array(
-        '#type' => 'checkboxes',
-        '#default_value' => isset($form['#node']->ding_campaigns) ? $form['#node']->ding_campaigns : array(),
-        '#options' => ding_campaign_get_list(),
-        '#description' => 'Select campaigns asociated with this node.',
-      );
-    }
-  }
 }
 
 /**
@@ -486,6 +482,11 @@ function ding_campaign_form_ding_campaign_node_form_alter(&$form, &$form_state) 
       ':input[name="field_camp_settings[und]"]' => array('value' => 'image'),
     ),
   );
+  $form['field_camp_link']['#states'] = array(
+    'visible' => array(
+      ':input[name"field_camp_settings[und]"]' => array('value' => 'image'),
+    ),
+  );
   array_unshift($form['actions']['submit']['#submit'], 'ding_campaign_form_ding_campaign_node_form_submit');
 }
 
@@ -496,11 +497,13 @@ function ding_campaign_form_ding_campaign_node_form_submit(&$form, &$form_state)
       $form_state['values']['field_camp_text_plain'][LANGUAGE_NONE][0]['value'] = '';
       $form_state['values']['field_camp_image'][LANGUAGE_NONE][0]['fid'] = '';
       break;
+
     case 'plain':
       $form_state['values']['field_camp_text_full'][LANGUAGE_NONE][0]['value'] = '';
       $form_state['values']['field_camp_image'][LANGUAGE_NONE][0]['fid'] = '';
       break;
-   case 'image':
+
+    case 'image':
       $form_state['values']['field_camp_text_full'][LANGUAGE_NONE][0]['value'] = '';
       $form_state['values']['field_camp_text_plain'][LANGUAGE_NONE][0]['value'] = '';
       break;
@@ -708,9 +711,9 @@ function ding_campaign_ctools_plugin_directory($module, $plugin) {
 }
 
 function ding_campaign_campaign_node_form_validate($form, &$form_state) {
-  if ($form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'plain' || $form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'image') {
+  if ($form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'image') {
     if (empty($form_state['input']['field_camp_link'][$form['field_camp_link']['#language']][0]['value'])) {
-      form_set_error('field_camp_link', 'Empty links are not allowed for plain text and image type campaigns.');
+      form_set_error('field_camp_link', 'Empty links are not allowed for image type campaigns.');
     }
   }
 }
@@ -746,3 +749,21 @@ function _ding_campaign_rule_by_type($node_type) {
   return $type;
 }
 
+/**
+ * Get list of ding campaign image styles.
+ *
+ * @return array
+ *   List machine names with human readable names.
+ */
+function _ding_campaign_image_styles() {
+  $image_styles = image_styles();
+  $styles = array();
+
+  foreach ($image_styles as $style) {
+    if ($style['module'] == 'ding_campaign' && strpos($style['name'], 'ding_campaign_p') !== FALSE) {
+      $styles[$style['name']] = t($style['label']);
+    }
+  }
+
+  return $styles;
+}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * DDBasic's theme implementation to display event nodes.
@@ -112,6 +111,10 @@
         <p itemprop="location"><i class="icon-home"></i> <?php print render($ddbasic_event_location); ?></p>
     <?php endif; ?>
 
+    <?php if (isset($content['field_ding_event_rooms'])): ?>
+        <div class="event-room"><i class="icon-location-arrow"></i> <?php print render($content['field_ding_event_rooms']); ?></div>
+    <?php endif; ?>
+
     <?php if (isset($content['field_ding_event_target'])): ?>
         <p itemprop="attendee"><i class="icon-user"></i> <?php print render($content['field_ding_event_target']); ?></p>
     <?php endif; ?>
@@ -122,6 +125,10 @@
 
     <?php if (isset($content['field_place2book_tickets'])): ?>
       <div><?php print render($content['field_place2book_tickets']); ?></div>
+    <?php endif; ?>
+
+    <?php if (isset($content['field_ding_event_subscriptions'])): ?>
+        <div><?php print render($content['field_ding_event_subscriptions']); ?></div>
     <?php endif; ?>
   </div>
   <div class="event-content">
