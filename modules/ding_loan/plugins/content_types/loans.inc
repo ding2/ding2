@@ -128,7 +128,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       // Add creator(s).
       $creators = $entity->creators;
- 
+
       // Add type.
       $mat_type = $entity->type;
 

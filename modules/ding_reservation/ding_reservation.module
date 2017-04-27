@@ -1116,3 +1116,17 @@ function ding_reservation_form_alter(&$form, &$form_state, $form_id) {
     );
   }
 }
+
+/**
+ * Preprocess materials_item.
+ */
+function ding_reservation_preprocess_material_item(&$variables) {
+  if (isset($variables['element']['#reservation']) && module_exists('ding_list')) {
+    $bookmark_button = ding_list_ding_entity_buttons('ding_entity', $variables['element']['#reservation']);
+    $variables['information']['reservation_bookmark'] = array(
+      'data' => drupal_render($bookmark_button),
+      'class' => 'bookmark',
+      '#weight' => 99,
+    );
+  }
+}
