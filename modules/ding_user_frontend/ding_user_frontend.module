@@ -138,7 +138,7 @@ function ding_user_frontend_block_view($delta) {
             'class' => 'user-status-debt',
             'label' => format_plural($count, 'Debt', 'Debts'),
             'count' => $count,
-            'link' => url($uri['path'] . '/status/debts'),
+            'link' => url($uri['path'] . '/status-debts'),
           ),
         );
       }
