@@ -31,6 +31,7 @@
  * Every color settings MUST be in HEX format..
  * @author magnify
  */
+/* Body */
 /* Topbar */
 /* Header */
 /* Navigation */
@@ -83,14 +84,14 @@ a {
   background-color: #fffffe; }
 
 /* Article background extends */
-.field-name-field-ding-news-materials .field-item, .field-name-field-ding-event-materials .field-item, .library-list .views-row, .field-name-field-ding-page-materials .field-item, .news-list .news-list-item, #ding-library-front .opening-hours-week .header, .groups-list .groups-list-item {
+.field-name-field-ding-news-materials .field-item, .field-name-field-ding-event-materials .field-item, .library-list .views-row, .field-name-field-ding-page-materials .field-item, .node-type-newsletter .newsletter-materials .field-item, .news-list .news-list-item, #ding-library-front .opening-hours-week .header, .groups-list .groups-list-item {
   background-color: #ebebeb; }
 
-.field-name-field-ding-news-materials .field-item:nth-child(odd), .field-name-field-ding-event-materials .field-item:nth-child(odd), .library-list .views-row:nth-child(odd), .field-name-field-ding-page-materials .field-item:nth-child(odd), .news-list .news-list-item:nth-child(odd), .event-list .event-list-item:nth-child(odd), .opening-hours-week .days .odd, .staff-list .staff-list-item:nth-child(odd),
+.field-name-field-ding-news-materials .field-item:nth-child(odd), .field-name-field-ding-event-materials .field-item:nth-child(odd), .library-list .views-row:nth-child(odd), .field-name-field-ding-page-materials .field-item:nth-child(odd), .node-type-newsletter .newsletter-materials .field-item:nth-child(odd), .news-list .news-list-item:nth-child(odd), .event-list .event-list-item:nth-child(odd), .opening-hours-week .days .odd, .staff-list .staff-list-item:nth-child(odd),
 .staff-list-all .staff-list-item:nth-child(odd), .groups-list .groups-list-item:nth-child(odd) {
   background-color: #e8e8e8; }
 
-.field-name-field-ding-news-materials .field-item:nth-child(even), .field-name-field-ding-event-materials .field-item:nth-child(even), .library-list .views-row:nth-child(even), .field-name-field-ding-page-materials .field-item:nth-child(even), .news-list .news-list-item:nth-child(even), .event-list .event-list-item:nth-child(even), .opening-hours-week .days .even, .staff-list .staff-list-item:nth-child(even),
+.field-name-field-ding-news-materials .field-item:nth-child(even), .field-name-field-ding-event-materials .field-item:nth-child(even), .library-list .views-row:nth-child(even), .field-name-field-ding-page-materials .field-item:nth-child(even), .node-type-newsletter .newsletter-materials .field-item:nth-child(even), .news-list .news-list-item:nth-child(even), .event-list .event-list-item:nth-child(even), .opening-hours-week .days .even, .staff-list .staff-list-item:nth-child(even),
 .staff-list-all .staff-list-item:nth-child(even), .groups-list .groups-list-item:nth-child(even) {
   background-color: #f2f2f2; }
 
@@ -883,32 +884,40 @@ tr.odd {
    ========================================================================== */
 /* Extends
    ========================================================================== */
-.material-item .action-button.reserve-button.available,
-.field-name-ding-entity-buttons .reserve-button.available,
-.ding-periodical-issues .reserve-button.available, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
+.form-submit,
+#edit-cancel,
+#edit-delete, .search .form-submit, .search-field-in-content .form-submit, .user .form-submit, .field-name-ding-entity-buttons .action-button, .bookmark-button, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
 .pane-loans .renew-loan-button .renewable,
 .pane-debts .renew-loan-button .renewable,
-.pane-bookmarks .renew-loan-button .renewable, .pane-reservations .reserve-button,
+.pane-bookmarks .renew-loan-button .renewable,
+.pane-social-services-lists .renew-loan-button .renewable, .pane-reservations .reserve-button,
 .pane-loans .reserve-button,
 .pane-debts .reserve-button,
-.pane-bookmarks .reserve-button, .pane-reservations .update-reservations .form-submit,
+.pane-bookmarks .reserve-button,
+.pane-social-services-lists .reserve-button, .pane-reservations .update-reservations .form-submit,
 .pane-reservations .renew-loan-button .form-submit,
 .pane-loans .update-reservations .form-submit,
 .pane-loans .renew-loan-button .form-submit,
 .pane-debts .update-reservations .form-submit,
 .pane-debts .renew-loan-button .form-submit,
 .pane-bookmarks .update-reservations .form-submit,
-.pane-bookmarks .renew-loan-button .form-submit, .pane-debts .pay-button .form-submit, .ticket-info, .pane-reservations .renew-loan-button .not-renewable,
+.pane-bookmarks .renew-loan-button .form-submit,
+.pane-social-services-lists .update-reservations .form-submit,
+.pane-social-services-lists .renew-loan-button .form-submit, .pane-debts .pay-button .form-submit, .alma-item-list .reserve-button,
+.ding-item-list-item .reserve-button, .ticket-info, .pane-reservations .renew-loan-button .not-renewable,
 .pane-loans .renew-loan-button .not-renewable,
 .pane-debts .renew-loan-button .not-renewable,
-.pane-bookmarks .renew-loan-button .not-renewable, .pane-reservations .delete-reservation .form-submit,
+.pane-bookmarks .renew-loan-button .not-renewable,
+.pane-social-services-lists .renew-loan-button .not-renewable, .pane-reservations .delete-reservation .form-submit,
 .pane-reservations .delete-reservations .form-submit,
 .pane-loans .delete-reservation .form-submit,
 .pane-loans .delete-reservations .form-submit,
 .pane-debts .delete-reservation .form-submit,
 .pane-debts .delete-reservations .form-submit,
 .pane-bookmarks .delete-reservation .form-submit,
-.pane-bookmarks .delete-reservations .form-submit, #ding-bookmark-remove-form .form-submit, .material-item .action-button.reserve-button.unavailable.reservable,
+.pane-bookmarks .delete-reservations .form-submit,
+.pane-social-services-lists .delete-reservation .form-submit,
+.pane-social-services-lists .delete-reservations .form-submit, #ding-bookmark-remove-form .form-submit, .material-item .action-button.reserve-button.unavailable.reservable,
 .field-name-ding-entity-buttons .reserve-button.unavailable.reservable,
 .ding-periodical-issues .reserve-button.unavailable.reservable, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
 .pane-ting-collection .ding-entity-button, .pane-ting-object .ding-entity-button {
@@ -926,143 +935,188 @@ tr.odd {
   text-align: center;
   vertical-align: middle;
   line-height: 100%; }
-  .material-item .action-button.reserve-button.available:focus,
-  .ding-periodical-issues .reserve-button.available:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
+  .form-submit:focus,
+  #edit-cancel:focus,
+  #edit-delete:focus, .field-name-ding-entity-buttons .action-button:focus, .bookmark-button:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
   .pane-loans .renew-loan-button .renewable:focus,
   .pane-debts .renew-loan-button .renewable:focus,
-  .pane-bookmarks .renew-loan-button .renewable:focus, .pane-reservations .reserve-button:focus,
+  .pane-bookmarks .renew-loan-button .renewable:focus,
+  .pane-social-services-lists .renew-loan-button .renewable:focus, .pane-reservations .reserve-button:focus,
   .pane-loans .reserve-button:focus,
   .pane-debts .reserve-button:focus,
-  .pane-bookmarks .reserve-button:focus, .pane-reservations .update-reservations .form-submit:focus,
+  .pane-bookmarks .reserve-button:focus,
+  .pane-social-services-lists .reserve-button:focus, .pane-reservations .update-reservations .form-submit:focus,
   .pane-reservations .renew-loan-button .form-submit:focus,
   .pane-loans .update-reservations .form-submit:focus,
   .pane-loans .renew-loan-button .form-submit:focus,
   .pane-debts .update-reservations .form-submit:focus,
   .pane-debts .renew-loan-button .form-submit:focus,
   .pane-bookmarks .update-reservations .form-submit:focus,
-  .pane-bookmarks .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .ticket-info:focus, .pane-reservations .renew-loan-button .not-renewable:focus,
+  .pane-bookmarks .renew-loan-button .form-submit:focus,
+  .pane-social-services-lists .update-reservations .form-submit:focus,
+  .pane-social-services-lists .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .alma-item-list .reserve-button:focus,
+  .ding-item-list-item .reserve-button:focus, .ticket-info:focus, .pane-reservations .renew-loan-button .not-renewable:focus,
   .pane-loans .renew-loan-button .not-renewable:focus,
   .pane-debts .renew-loan-button .not-renewable:focus,
-  .pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-reservations .delete-reservation .form-submit:focus,
+  .pane-bookmarks .renew-loan-button .not-renewable:focus,
+  .pane-social-services-lists .renew-loan-button .not-renewable:focus, .pane-reservations .delete-reservation .form-submit:focus,
   .pane-reservations .delete-reservations .form-submit:focus,
   .pane-loans .delete-reservation .form-submit:focus,
   .pane-loans .delete-reservations .form-submit:focus,
   .pane-debts .delete-reservation .form-submit:focus,
   .pane-debts .delete-reservations .form-submit:focus,
   .pane-bookmarks .delete-reservation .form-submit:focus,
-  .pane-bookmarks .delete-reservations .form-submit:focus, #ding-bookmark-remove-form .form-submit:focus, .material-item .action-button.reserve-button.unavailable.reservable:focus,
+  .pane-bookmarks .delete-reservations .form-submit:focus,
+  .pane-social-services-lists .delete-reservation .form-submit:focus,
+  .pane-social-services-lists .delete-reservations .form-submit:focus, #ding-bookmark-remove-form .form-submit:focus, .material-item .action-button.reserve-button.unavailable.reservable:focus,
   .field-name-ding-entity-buttons .reserve-button.unavailable.reservable:focus,
-  .ding-periodical-issues .reserve-button.unavailable.reservable:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
-  .pane-ting-collection .ding-entity-button:focus, .pane-ting-object .ding-entity-button:focus, .material-item .action-button.reserve-button.available:hover,
-  .ding-periodical-issues .reserve-button.available:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
+  .ding-periodical-issues .reserve-button.unavailable.reservable:focus,
+  .pane-ting-collection .ding-entity-button:focus, .pane-ting-object .ding-entity-button:focus, .form-submit:hover,
+  #edit-cancel:hover,
+  #edit-delete:hover, .field-name-ding-entity-buttons .action-button:hover, .bookmark-button:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
   .pane-loans .renew-loan-button .renewable:hover,
   .pane-debts .renew-loan-button .renewable:hover,
-  .pane-bookmarks .renew-loan-button .renewable:hover, .pane-reservations .reserve-button:hover,
+  .pane-bookmarks .renew-loan-button .renewable:hover,
+  .pane-social-services-lists .renew-loan-button .renewable:hover, .pane-reservations .reserve-button:hover,
   .pane-loans .reserve-button:hover,
   .pane-debts .reserve-button:hover,
-  .pane-bookmarks .reserve-button:hover, .pane-reservations .update-reservations .form-submit:hover,
+  .pane-bookmarks .reserve-button:hover,
+  .pane-social-services-lists .reserve-button:hover, .pane-reservations .update-reservations .form-submit:hover,
   .pane-reservations .renew-loan-button .form-submit:hover,
   .pane-loans .update-reservations .form-submit:hover,
   .pane-loans .renew-loan-button .form-submit:hover,
   .pane-debts .update-reservations .form-submit:hover,
   .pane-debts .renew-loan-button .form-submit:hover,
   .pane-bookmarks .update-reservations .form-submit:hover,
-  .pane-bookmarks .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .ticket-info:hover, .pane-reservations .renew-loan-button .not-renewable:hover,
+  .pane-bookmarks .renew-loan-button .form-submit:hover,
+  .pane-social-services-lists .update-reservations .form-submit:hover,
+  .pane-social-services-lists .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .alma-item-list .reserve-button:hover,
+  .ding-item-list-item .reserve-button:hover, .ticket-info:hover, .pane-reservations .renew-loan-button .not-renewable:hover,
   .pane-loans .renew-loan-button .not-renewable:hover,
   .pane-debts .renew-loan-button .not-renewable:hover,
-  .pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-reservations .delete-reservation .form-submit:hover,
+  .pane-bookmarks .renew-loan-button .not-renewable:hover,
+  .pane-social-services-lists .renew-loan-button .not-renewable:hover, .pane-reservations .delete-reservation .form-submit:hover,
   .pane-reservations .delete-reservations .form-submit:hover,
   .pane-loans .delete-reservation .form-submit:hover,
   .pane-loans .delete-reservations .form-submit:hover,
   .pane-debts .delete-reservation .form-submit:hover,
   .pane-debts .delete-reservations .form-submit:hover,
   .pane-bookmarks .delete-reservation .form-submit:hover,
-  .pane-bookmarks .delete-reservations .form-submit:hover, #ding-bookmark-remove-form .form-submit:hover, .material-item .action-button.reserve-button.unavailable.reservable:hover,
+  .pane-bookmarks .delete-reservations .form-submit:hover,
+  .pane-social-services-lists .delete-reservation .form-submit:hover,
+  .pane-social-services-lists .delete-reservations .form-submit:hover, #ding-bookmark-remove-form .form-submit:hover, .material-item .action-button.reserve-button.unavailable.reservable:hover,
   .field-name-ding-entity-buttons .reserve-button.unavailable.reservable:hover,
-  .ding-periodical-issues .reserve-button.unavailable.reservable:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
-  .pane-ting-collection .ding-entity-button:hover, .pane-ting-object .ding-entity-button:hover, .material-item .action-button.reserve-button.available:active,
-  .ding-periodical-issues .reserve-button.available:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
+  .ding-periodical-issues .reserve-button.unavailable.reservable:hover,
+  .pane-ting-collection .ding-entity-button:hover, .pane-ting-object .ding-entity-button:hover, .form-submit:active,
+  #edit-cancel:active,
+  #edit-delete:active, .field-name-ding-entity-buttons .action-button:active, .bookmark-button:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
   .pane-loans .renew-loan-button .renewable:active,
   .pane-debts .renew-loan-button .renewable:active,
-  .pane-bookmarks .renew-loan-button .renewable:active, .pane-reservations .reserve-button:active,
+  .pane-bookmarks .renew-loan-button .renewable:active,
+  .pane-social-services-lists .renew-loan-button .renewable:active, .pane-reservations .reserve-button:active,
   .pane-loans .reserve-button:active,
   .pane-debts .reserve-button:active,
-  .pane-bookmarks .reserve-button:active, .pane-reservations .update-reservations .form-submit:active,
+  .pane-bookmarks .reserve-button:active,
+  .pane-social-services-lists .reserve-button:active, .pane-reservations .update-reservations .form-submit:active,
   .pane-reservations .renew-loan-button .form-submit:active,
   .pane-loans .update-reservations .form-submit:active,
   .pane-loans .renew-loan-button .form-submit:active,
   .pane-debts .update-reservations .form-submit:active,
   .pane-debts .renew-loan-button .form-submit:active,
   .pane-bookmarks .update-reservations .form-submit:active,
-  .pane-bookmarks .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active, .ticket-info:active, .pane-reservations .renew-loan-button .not-renewable:active,
+  .pane-bookmarks .renew-loan-button .form-submit:active,
+  .pane-social-services-lists .update-reservations .form-submit:active,
+  .pane-social-services-lists .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active, .alma-item-list .reserve-button:active,
+  .ding-item-list-item .reserve-button:active, .ticket-info:active, .pane-reservations .renew-loan-button .not-renewable:active,
   .pane-loans .renew-loan-button .not-renewable:active,
   .pane-debts .renew-loan-button .not-renewable:active,
-  .pane-bookmarks .renew-loan-button .not-renewable:active, .pane-reservations .delete-reservation .form-submit:active,
+  .pane-bookmarks .renew-loan-button .not-renewable:active,
+  .pane-social-services-lists .renew-loan-button .not-renewable:active, .pane-reservations .delete-reservation .form-submit:active,
   .pane-reservations .delete-reservations .form-submit:active,
   .pane-loans .delete-reservation .form-submit:active,
   .pane-loans .delete-reservations .form-submit:active,
   .pane-debts .delete-reservation .form-submit:active,
   .pane-debts .delete-reservations .form-submit:active,
   .pane-bookmarks .delete-reservation .form-submit:active,
-  .pane-bookmarks .delete-reservations .form-submit:active, #ding-bookmark-remove-form .form-submit:active, .material-item .action-button.reserve-button.unavailable.reservable:active,
+  .pane-bookmarks .delete-reservations .form-submit:active,
+  .pane-social-services-lists .delete-reservation .form-submit:active,
+  .pane-social-services-lists .delete-reservations .form-submit:active, #ding-bookmark-remove-form .form-submit:active, .material-item .action-button.reserve-button.unavailable.reservable:active,
   .field-name-ding-entity-buttons .reserve-button.unavailable.reservable:active,
-  .ding-periodical-issues .reserve-button.unavailable.reservable:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
+  .ding-periodical-issues .reserve-button.unavailable.reservable:active,
   .pane-ting-collection .ding-entity-button:active, .pane-ting-object .ding-entity-button:active {
     text-decoration: none; }
-  .material-item .disabled.action-button.reserve-button.available,
-  .ding-periodical-issues .disabled.reserve-button.available, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-reservations .renew-loan-button .disabled.renewable,
+  .disabled.form-submit,
+  .disabled#edit-cancel,
+  .disabled#edit-delete, .field-name-ding-entity-buttons .disabled.action-button, .disabled.bookmark-button, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-reservations .renew-loan-button .disabled.renewable,
   .pane-loans .renew-loan-button .disabled.renewable,
   .pane-debts .renew-loan-button .disabled.renewable,
-  .pane-bookmarks .renew-loan-button .disabled.renewable, .pane-reservations .disabled.reserve-button,
+  .pane-bookmarks .renew-loan-button .disabled.renewable,
+  .pane-social-services-lists .renew-loan-button .disabled.renewable, .pane-reservations .disabled.reserve-button,
   .pane-loans .disabled.reserve-button,
   .pane-debts .disabled.reserve-button,
-  .pane-bookmarks .disabled.reserve-button, .pane-reservations .update-reservations .disabled.form-submit,
+  .pane-bookmarks .disabled.reserve-button,
+  .pane-social-services-lists .disabled.reserve-button, .pane-reservations .update-reservations .disabled.form-submit,
   .pane-reservations .renew-loan-button .disabled.form-submit,
   .pane-loans .update-reservations .disabled.form-submit,
   .pane-loans .renew-loan-button .disabled.form-submit,
   .pane-debts .update-reservations .disabled.form-submit,
   .pane-debts .renew-loan-button .disabled.form-submit,
   .pane-bookmarks .update-reservations .disabled.form-submit,
-  .pane-bookmarks .renew-loan-button .disabled.form-submit, .pane-debts .pay-button .disabled.form-submit, .disabled.ticket-info, .pane-reservations .renew-loan-button .disabled.not-renewable,
+  .pane-bookmarks .renew-loan-button .disabled.form-submit,
+  .pane-social-services-lists .update-reservations .disabled.form-submit,
+  .pane-social-services-lists .renew-loan-button .disabled.form-submit, .pane-debts .pay-button .disabled.form-submit, .alma-item-list .disabled.reserve-button,
+  .ding-item-list-item .disabled.reserve-button, .disabled.ticket-info, .pane-reservations .renew-loan-button .disabled.not-renewable,
   .pane-loans .renew-loan-button .disabled.not-renewable,
   .pane-debts .renew-loan-button .disabled.not-renewable,
-  .pane-bookmarks .renew-loan-button .disabled.not-renewable, .pane-reservations .delete-reservation .disabled.form-submit,
+  .pane-bookmarks .renew-loan-button .disabled.not-renewable,
+  .pane-social-services-lists .renew-loan-button .disabled.not-renewable, .pane-reservations .delete-reservation .disabled.form-submit,
   .pane-reservations .delete-reservations .disabled.form-submit,
   .pane-loans .delete-reservation .disabled.form-submit,
   .pane-loans .delete-reservations .disabled.form-submit,
   .pane-debts .delete-reservation .disabled.form-submit,
   .pane-debts .delete-reservations .disabled.form-submit,
   .pane-bookmarks .delete-reservation .disabled.form-submit,
-  .pane-bookmarks .delete-reservations .disabled.form-submit, #ding-bookmark-remove-form .disabled.form-submit, .material-item .disabled.action-button.reserve-button.unavailable.reservable,
+  .pane-bookmarks .delete-reservations .disabled.form-submit,
+  .pane-social-services-lists .delete-reservation .disabled.form-submit,
+  .pane-social-services-lists .delete-reservations .disabled.form-submit, #ding-bookmark-remove-form .disabled.form-submit, .material-item .disabled.action-button.reserve-button.unavailable.reservable,
   .field-name-ding-entity-buttons .disabled.reserve-button.unavailable.reservable,
-  .ding-periodical-issues .disabled.reserve-button.unavailable.reservable, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
-  .pane-ting-collection .disabled.ding-entity-button, .pane-ting-object .disabled.ding-entity-button, .material-item [disabled].action-button.reserve-button.available,
-  .ding-periodical-issues [disabled].reserve-button.available, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-reservations .renew-loan-button [disabled].renewable,
+  .ding-periodical-issues .disabled.reserve-button.unavailable.reservable,
+  .pane-ting-collection .disabled.ding-entity-button, .pane-ting-object .disabled.ding-entity-button, [disabled].form-submit,
+  [disabled]#edit-cancel,
+  [disabled]#edit-delete, .field-name-ding-entity-buttons [disabled].action-button, [disabled].bookmark-button, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-reservations .renew-loan-button [disabled].renewable,
   .pane-loans .renew-loan-button [disabled].renewable,
   .pane-debts .renew-loan-button [disabled].renewable,
-  .pane-bookmarks .renew-loan-button [disabled].renewable, .pane-reservations [disabled].reserve-button,
+  .pane-bookmarks .renew-loan-button [disabled].renewable,
+  .pane-social-services-lists .renew-loan-button [disabled].renewable, .pane-reservations [disabled].reserve-button,
   .pane-loans [disabled].reserve-button,
   .pane-debts [disabled].reserve-button,
-  .pane-bookmarks [disabled].reserve-button, .pane-reservations .update-reservations [disabled].form-submit,
+  .pane-bookmarks [disabled].reserve-button,
+  .pane-social-services-lists [disabled].reserve-button, .pane-reservations .update-reservations [disabled].form-submit,
   .pane-reservations .renew-loan-button [disabled].form-submit,
   .pane-loans .update-reservations [disabled].form-submit,
   .pane-loans .renew-loan-button [disabled].form-submit,
   .pane-debts .update-reservations [disabled].form-submit,
   .pane-debts .renew-loan-button [disabled].form-submit,
   .pane-bookmarks .update-reservations [disabled].form-submit,
-  .pane-bookmarks .renew-loan-button [disabled].form-submit, .pane-debts .pay-button [disabled].form-submit, [disabled].ticket-info, .pane-reservations .renew-loan-button [disabled].not-renewable,
+  .pane-bookmarks .renew-loan-button [disabled].form-submit,
+  .pane-social-services-lists .update-reservations [disabled].form-submit,
+  .pane-social-services-lists .renew-loan-button [disabled].form-submit, .pane-debts .pay-button [disabled].form-submit, .alma-item-list [disabled].reserve-button,
+  .ding-item-list-item [disabled].reserve-button, [disabled].ticket-info, .pane-reservations .renew-loan-button [disabled].not-renewable,
   .pane-loans .renew-loan-button [disabled].not-renewable,
   .pane-debts .renew-loan-button [disabled].not-renewable,
-  .pane-bookmarks .renew-loan-button [disabled].not-renewable, .pane-reservations .delete-reservation [disabled].form-submit,
+  .pane-bookmarks .renew-loan-button [disabled].not-renewable,
+  .pane-social-services-lists .renew-loan-button [disabled].not-renewable, .pane-reservations .delete-reservation [disabled].form-submit,
   .pane-reservations .delete-reservations [disabled].form-submit,
   .pane-loans .delete-reservation [disabled].form-submit,
   .pane-loans .delete-reservations [disabled].form-submit,
   .pane-debts .delete-reservation [disabled].form-submit,
   .pane-debts .delete-reservations [disabled].form-submit,
   .pane-bookmarks .delete-reservation [disabled].form-submit,
-  .pane-bookmarks .delete-reservations [disabled].form-submit, #ding-bookmark-remove-form [disabled].form-submit, .material-item [disabled].action-button.reserve-button.unavailable.reservable,
+  .pane-bookmarks .delete-reservations [disabled].form-submit,
+  .pane-social-services-lists .delete-reservation [disabled].form-submit,
+  .pane-social-services-lists .delete-reservations [disabled].form-submit, #ding-bookmark-remove-form [disabled].form-submit, .material-item [disabled].action-button.reserve-button.unavailable.reservable,
   .field-name-ding-entity-buttons [disabled].reserve-button.unavailable.reservable,
-  .ding-periodical-issues [disabled].reserve-button.unavailable.reservable, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
+  .ding-periodical-issues [disabled].reserve-button.unavailable.reservable,
   .pane-ting-collection [disabled].ding-entity-button, .pane-ting-object [disabled].ding-entity-button {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
     opacity: 0.65;
@@ -1082,6 +1136,7 @@ a.button,
 .search .form-submit,
 .search-field-in-content .form-submit,
 .user .form-submit,
+.field-name-ding-entity-buttons .action-button,
 .bookmark-button {
   background-color: #444443;
   border: 1px;
@@ -1107,18 +1162,22 @@ a.button,
   .form-submit:link,
   #edit-cancel:link,
   #edit-delete:link,
+  .field-name-ding-entity-buttons .action-button:link,
   .bookmark-button:link,
   .form-submit:visited,
   #edit-cancel:visited,
   #edit-delete:visited,
+  .field-name-ding-entity-buttons .action-button:visited,
   .bookmark-button:visited,
   .form-submit:focus,
   #edit-cancel:focus,
   #edit-delete:focus,
+  .field-name-ding-entity-buttons .action-button:focus,
   .bookmark-button:focus,
   .form-submit:active,
   #edit-cancel:active,
   #edit-delete:active,
+  .field-name-ding-entity-buttons .action-button:active,
   .bookmark-button:active {
     color: #fffff8;
     text-decoration: none;
@@ -1129,28 +1188,71 @@ a.button,
   .form-submit:hover,
   #edit-cancel:hover,
   #edit-delete:hover,
+  .field-name-ding-entity-buttons .action-button:hover,
   .bookmark-button:hover {
     background-color: #1e1e1e;
     background-image: none; }
 
+/* Default button */
+.form-submit,
+#edit-cancel,
+#edit-delete, .search .form-submit, .search-field-in-content .form-submit, .user .form-submit, .field-name-ding-entity-buttons .action-button, .bookmark-button {
+  background: -owg-linear-gradient(#444, #1e1e1e);
+  background: -webkit-linear-gradient(#444, #1e1e1e);
+  background: -moz-linear-gradient(#444, #1e1e1e);
+  background: -o-linear-gradient(#444, #1e1e1e);
+  -pie-background: -pie-linear-gradient(#444, #1e1e1e);
+  background: linear-gradient(#444, #1e1e1e);
+  /* Make sure buttons get a background color in IE */
+  background-color: #444;
+  border: 0;
+  color: #fff; }
+  .form-submit:link,
+  #edit-cancel:link,
+  #edit-delete:link, .field-name-ding-entity-buttons .action-button:link, .bookmark-button:link, .form-submit:visited,
+  #edit-cancel:visited,
+  #edit-delete:visited, .field-name-ding-entity-buttons .action-button:visited, .bookmark-button:visited {
+    color: #fff; }
+  .form-submit:link,
+  #edit-cancel:link,
+  #edit-delete:link, .field-name-ding-entity-buttons .action-button:link, .bookmark-button:link, .form-submit:visited,
+  #edit-cancel:visited,
+  #edit-delete:visited, .field-name-ding-entity-buttons .action-button:visited, .bookmark-button:visited, .form-submit:focus,
+  #edit-cancel:focus,
+  #edit-delete:focus, .field-name-ding-entity-buttons .action-button:focus, .bookmark-button:focus, .form-submit:hover,
+  #edit-cancel:hover,
+  #edit-delete:hover, .field-name-ding-entity-buttons .action-button:hover, .bookmark-button:hover, .form-submit:active,
+  #edit-cancel:active,
+  #edit-delete:active, .field-name-ding-entity-buttons .action-button:active, .bookmark-button:active {
+    background: -owg-linear-gradient(#373737, #111111);
+    background: -webkit-linear-gradient(#373737, #111111);
+    background: -moz-linear-gradient(#373737, #111111);
+    background: -o-linear-gradient(#373737, #111111);
+    -pie-background: -pie-linear-gradient(#373737, #111111);
+    background: linear-gradient(#373737, #111111);
+    background-color: #1e1e1e; }
+
 /* Theme button */
 /* Action button */
-.material-item .action-button.reserve-button.available,
-.field-name-ding-entity-buttons .reserve-button.available,
-.ding-periodical-issues .reserve-button.available, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
+.field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
 .pane-loans .renew-loan-button .renewable,
 .pane-debts .renew-loan-button .renewable,
-.pane-bookmarks .renew-loan-button .renewable, .pane-reservations .reserve-button,
+.pane-bookmarks .renew-loan-button .renewable,
+.pane-social-services-lists .renew-loan-button .renewable, .pane-reservations .reserve-button,
 .pane-loans .reserve-button,
 .pane-debts .reserve-button,
-.pane-bookmarks .reserve-button, .pane-reservations .update-reservations .form-submit,
+.pane-bookmarks .reserve-button,
+.pane-social-services-lists .reserve-button, .pane-reservations .update-reservations .form-submit,
 .pane-reservations .renew-loan-button .form-submit,
 .pane-loans .update-reservations .form-submit,
 .pane-loans .renew-loan-button .form-submit,
 .pane-debts .update-reservations .form-submit,
 .pane-debts .renew-loan-button .form-submit,
 .pane-bookmarks .update-reservations .form-submit,
-.pane-bookmarks .renew-loan-button .form-submit, .pane-debts .pay-button .form-submit {
+.pane-bookmarks .renew-loan-button .form-submit,
+.pane-social-services-lists .update-reservations .form-submit,
+.pane-social-services-lists .renew-loan-button .form-submit, .pane-debts .pay-button .form-submit, .alma-item-list .reserve-button,
+.ding-item-list-item .reserve-button {
   background: -owg-linear-gradient(#60a500, #335900);
   background: -webkit-linear-gradient(#60a500, #335900);
   background: -moz-linear-gradient(#60a500, #335900);
@@ -1161,107 +1263,135 @@ a.button,
   background-color: #60a500;
   border: 0;
   color: #fff; }
-  .material-item .action-button.reserve-button.available:link,
-  .ding-periodical-issues .reserve-button.available:link, .field-name-ding-entity-buttons .reserve-button:link, .button-see-online:link, .ticket-available:link, .pane-reservations .renew-loan-button .renewable:link,
+  .field-name-ding-entity-buttons .reserve-button:link, .button-see-online:link, .ticket-available:link, .pane-reservations .renew-loan-button .renewable:link,
   .pane-loans .renew-loan-button .renewable:link,
   .pane-debts .renew-loan-button .renewable:link,
-  .pane-bookmarks .renew-loan-button .renewable:link, .pane-reservations .reserve-button:link,
+  .pane-bookmarks .renew-loan-button .renewable:link,
+  .pane-social-services-lists .renew-loan-button .renewable:link, .pane-reservations .reserve-button:link,
   .pane-loans .reserve-button:link,
   .pane-debts .reserve-button:link,
-  .pane-bookmarks .reserve-button:link, .pane-reservations .update-reservations .form-submit:link,
+  .pane-bookmarks .reserve-button:link,
+  .pane-social-services-lists .reserve-button:link, .pane-reservations .update-reservations .form-submit:link,
   .pane-reservations .renew-loan-button .form-submit:link,
   .pane-loans .update-reservations .form-submit:link,
   .pane-loans .renew-loan-button .form-submit:link,
   .pane-debts .update-reservations .form-submit:link,
   .pane-debts .renew-loan-button .form-submit:link,
   .pane-bookmarks .update-reservations .form-submit:link,
-  .pane-bookmarks .renew-loan-button .form-submit:link, .pane-debts .pay-button .form-submit:link, .material-item .action-button.reserve-button.available:visited,
-  .ding-periodical-issues .reserve-button.available:visited, .field-name-ding-entity-buttons .reserve-button:visited, .button-see-online:visited, .ticket-available:visited, .pane-reservations .renew-loan-button .renewable:visited,
+  .pane-bookmarks .renew-loan-button .form-submit:link,
+  .pane-social-services-lists .update-reservations .form-submit:link,
+  .pane-social-services-lists .renew-loan-button .form-submit:link, .pane-debts .pay-button .form-submit:link, .alma-item-list .reserve-button:link,
+  .ding-item-list-item .reserve-button:link, .field-name-ding-entity-buttons .reserve-button:visited, .button-see-online:visited, .ticket-available:visited, .pane-reservations .renew-loan-button .renewable:visited,
   .pane-loans .renew-loan-button .renewable:visited,
   .pane-debts .renew-loan-button .renewable:visited,
-  .pane-bookmarks .renew-loan-button .renewable:visited, .pane-reservations .reserve-button:visited,
+  .pane-bookmarks .renew-loan-button .renewable:visited,
+  .pane-social-services-lists .renew-loan-button .renewable:visited, .pane-reservations .reserve-button:visited,
   .pane-loans .reserve-button:visited,
   .pane-debts .reserve-button:visited,
-  .pane-bookmarks .reserve-button:visited, .pane-reservations .update-reservations .form-submit:visited,
+  .pane-bookmarks .reserve-button:visited,
+  .pane-social-services-lists .reserve-button:visited, .pane-reservations .update-reservations .form-submit:visited,
   .pane-reservations .renew-loan-button .form-submit:visited,
   .pane-loans .update-reservations .form-submit:visited,
   .pane-loans .renew-loan-button .form-submit:visited,
   .pane-debts .update-reservations .form-submit:visited,
   .pane-debts .renew-loan-button .form-submit:visited,
   .pane-bookmarks .update-reservations .form-submit:visited,
-  .pane-bookmarks .renew-loan-button .form-submit:visited, .pane-debts .pay-button .form-submit:visited {
+  .pane-bookmarks .renew-loan-button .form-submit:visited,
+  .pane-social-services-lists .update-reservations .form-submit:visited,
+  .pane-social-services-lists .renew-loan-button .form-submit:visited, .pane-debts .pay-button .form-submit:visited, .alma-item-list .reserve-button:visited,
+  .ding-item-list-item .reserve-button:visited {
     color: #fff; }
-  .material-item .action-button.reserve-button.available:link,
-  .ding-periodical-issues .reserve-button.available:link, .field-name-ding-entity-buttons .reserve-button:link, .button-see-online:link, .ticket-available:link, .pane-reservations .renew-loan-button .renewable:link,
+  .field-name-ding-entity-buttons .reserve-button:link, .button-see-online:link, .ticket-available:link, .pane-reservations .renew-loan-button .renewable:link,
   .pane-loans .renew-loan-button .renewable:link,
   .pane-debts .renew-loan-button .renewable:link,
-  .pane-bookmarks .renew-loan-button .renewable:link, .pane-reservations .reserve-button:link,
+  .pane-bookmarks .renew-loan-button .renewable:link,
+  .pane-social-services-lists .renew-loan-button .renewable:link, .pane-reservations .reserve-button:link,
   .pane-loans .reserve-button:link,
   .pane-debts .reserve-button:link,
-  .pane-bookmarks .reserve-button:link, .pane-reservations .update-reservations .form-submit:link,
+  .pane-bookmarks .reserve-button:link,
+  .pane-social-services-lists .reserve-button:link, .pane-reservations .update-reservations .form-submit:link,
   .pane-reservations .renew-loan-button .form-submit:link,
   .pane-loans .update-reservations .form-submit:link,
   .pane-loans .renew-loan-button .form-submit:link,
   .pane-debts .update-reservations .form-submit:link,
   .pane-debts .renew-loan-button .form-submit:link,
   .pane-bookmarks .update-reservations .form-submit:link,
-  .pane-bookmarks .renew-loan-button .form-submit:link, .pane-debts .pay-button .form-submit:link, .material-item .action-button.reserve-button.available:visited,
-  .ding-periodical-issues .reserve-button.available:visited, .field-name-ding-entity-buttons .reserve-button:visited, .button-see-online:visited, .ticket-available:visited, .pane-reservations .renew-loan-button .renewable:visited,
+  .pane-bookmarks .renew-loan-button .form-submit:link,
+  .pane-social-services-lists .update-reservations .form-submit:link,
+  .pane-social-services-lists .renew-loan-button .form-submit:link, .pane-debts .pay-button .form-submit:link, .alma-item-list .reserve-button:link,
+  .ding-item-list-item .reserve-button:link, .field-name-ding-entity-buttons .reserve-button:visited, .button-see-online:visited, .ticket-available:visited, .pane-reservations .renew-loan-button .renewable:visited,
   .pane-loans .renew-loan-button .renewable:visited,
   .pane-debts .renew-loan-button .renewable:visited,
-  .pane-bookmarks .renew-loan-button .renewable:visited, .pane-reservations .reserve-button:visited,
+  .pane-bookmarks .renew-loan-button .renewable:visited,
+  .pane-social-services-lists .renew-loan-button .renewable:visited, .pane-reservations .reserve-button:visited,
   .pane-loans .reserve-button:visited,
   .pane-debts .reserve-button:visited,
-  .pane-bookmarks .reserve-button:visited, .pane-reservations .update-reservations .form-submit:visited,
+  .pane-bookmarks .reserve-button:visited,
+  .pane-social-services-lists .reserve-button:visited, .pane-reservations .update-reservations .form-submit:visited,
   .pane-reservations .renew-loan-button .form-submit:visited,
   .pane-loans .update-reservations .form-submit:visited,
   .pane-loans .renew-loan-button .form-submit:visited,
   .pane-debts .update-reservations .form-submit:visited,
   .pane-debts .renew-loan-button .form-submit:visited,
   .pane-bookmarks .update-reservations .form-submit:visited,
-  .pane-bookmarks .renew-loan-button .form-submit:visited, .pane-debts .pay-button .form-submit:visited, .material-item .action-button.reserve-button.available:focus,
-  .ding-periodical-issues .reserve-button.available:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
+  .pane-bookmarks .renew-loan-button .form-submit:visited,
+  .pane-social-services-lists .update-reservations .form-submit:visited,
+  .pane-social-services-lists .renew-loan-button .form-submit:visited, .pane-debts .pay-button .form-submit:visited, .alma-item-list .reserve-button:visited,
+  .ding-item-list-item .reserve-button:visited, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
   .pane-loans .renew-loan-button .renewable:focus,
   .pane-debts .renew-loan-button .renewable:focus,
-  .pane-bookmarks .renew-loan-button .renewable:focus, .pane-reservations .reserve-button:focus,
+  .pane-bookmarks .renew-loan-button .renewable:focus,
+  .pane-social-services-lists .renew-loan-button .renewable:focus, .pane-reservations .reserve-button:focus,
   .pane-loans .reserve-button:focus,
   .pane-debts .reserve-button:focus,
-  .pane-bookmarks .reserve-button:focus, .pane-reservations .update-reservations .form-submit:focus,
+  .pane-bookmarks .reserve-button:focus,
+  .pane-social-services-lists .reserve-button:focus, .pane-reservations .update-reservations .form-submit:focus,
   .pane-reservations .renew-loan-button .form-submit:focus,
   .pane-loans .update-reservations .form-submit:focus,
   .pane-loans .renew-loan-button .form-submit:focus,
   .pane-debts .update-reservations .form-submit:focus,
   .pane-debts .renew-loan-button .form-submit:focus,
   .pane-bookmarks .update-reservations .form-submit:focus,
-  .pane-bookmarks .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .material-item .action-button.reserve-button.available:hover,
-  .ding-periodical-issues .reserve-button.available:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
+  .pane-bookmarks .renew-loan-button .form-submit:focus,
+  .pane-social-services-lists .update-reservations .form-submit:focus,
+  .pane-social-services-lists .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .alma-item-list .reserve-button:focus,
+  .ding-item-list-item .reserve-button:focus, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
   .pane-loans .renew-loan-button .renewable:hover,
   .pane-debts .renew-loan-button .renewable:hover,
-  .pane-bookmarks .renew-loan-button .renewable:hover, .pane-reservations .reserve-button:hover,
+  .pane-bookmarks .renew-loan-button .renewable:hover,
+  .pane-social-services-lists .renew-loan-button .renewable:hover, .pane-reservations .reserve-button:hover,
   .pane-loans .reserve-button:hover,
   .pane-debts .reserve-button:hover,
-  .pane-bookmarks .reserve-button:hover, .pane-reservations .update-reservations .form-submit:hover,
+  .pane-bookmarks .reserve-button:hover,
+  .pane-social-services-lists .reserve-button:hover, .pane-reservations .update-reservations .form-submit:hover,
   .pane-reservations .renew-loan-button .form-submit:hover,
   .pane-loans .update-reservations .form-submit:hover,
   .pane-loans .renew-loan-button .form-submit:hover,
   .pane-debts .update-reservations .form-submit:hover,
   .pane-debts .renew-loan-button .form-submit:hover,
   .pane-bookmarks .update-reservations .form-submit:hover,
-  .pane-bookmarks .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .material-item .action-button.reserve-button.available:active,
-  .ding-periodical-issues .reserve-button.available:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
+  .pane-bookmarks .renew-loan-button .form-submit:hover,
+  .pane-social-services-lists .update-reservations .form-submit:hover,
+  .pane-social-services-lists .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .alma-item-list .reserve-button:hover,
+  .ding-item-list-item .reserve-button:hover, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
   .pane-loans .renew-loan-button .renewable:active,
   .pane-debts .renew-loan-button .renewable:active,
-  .pane-bookmarks .renew-loan-button .renewable:active, .pane-reservations .reserve-button:active,
+  .pane-bookmarks .renew-loan-button .renewable:active,
+  .pane-social-services-lists .renew-loan-button .renewable:active, .pane-reservations .reserve-button:active,
   .pane-loans .reserve-button:active,
   .pane-debts .reserve-button:active,
-  .pane-bookmarks .reserve-button:active, .pane-reservations .update-reservations .form-submit:active,
+  .pane-bookmarks .reserve-button:active,
+  .pane-social-services-lists .reserve-button:active, .pane-reservations .update-reservations .form-submit:active,
   .pane-reservations .renew-loan-button .form-submit:active,
   .pane-loans .update-reservations .form-submit:active,
   .pane-loans .renew-loan-button .form-submit:active,
   .pane-debts .update-reservations .form-submit:active,
   .pane-debts .renew-loan-button .form-submit:active,
   .pane-bookmarks .update-reservations .form-submit:active,
-  .pane-bookmarks .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active {
+  .pane-bookmarks .renew-loan-button .form-submit:active,
+  .pane-social-services-lists .update-reservations .form-submit:active,
+  .pane-social-services-lists .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active, .alma-item-list .reserve-button:active,
+  .ding-item-list-item .reserve-button:active {
     background: -owg-linear-gradient(#518c00, #253f00);
     background: -webkit-linear-gradient(#518c00, #253f00);
     background: -moz-linear-gradient(#518c00, #253f00);
@@ -1297,14 +1427,17 @@ a.button,
 .pane-reservations .renew-loan-button .not-renewable,
 .pane-loans .renew-loan-button .not-renewable,
 .pane-debts .renew-loan-button .not-renewable,
-.pane-bookmarks .renew-loan-button .not-renewable, .pane-reservations .delete-reservation .form-submit,
+.pane-bookmarks .renew-loan-button .not-renewable,
+.pane-social-services-lists .renew-loan-button .not-renewable, .pane-reservations .delete-reservation .form-submit,
 .pane-reservations .delete-reservations .form-submit,
 .pane-loans .delete-reservation .form-submit,
 .pane-loans .delete-reservations .form-submit,
 .pane-debts .delete-reservation .form-submit,
 .pane-debts .delete-reservations .form-submit,
 .pane-bookmarks .delete-reservation .form-submit,
-.pane-bookmarks .delete-reservations .form-submit, #ding-bookmark-remove-form .form-submit {
+.pane-bookmarks .delete-reservations .form-submit,
+.pane-social-services-lists .delete-reservation .form-submit,
+.pane-social-services-lists .delete-reservations .form-submit, #ding-bookmark-remove-form .form-submit {
   background: -owg-linear-gradient(#bf3600, #732000);
   background: -webkit-linear-gradient(#bf3600, #732000);
   background: -moz-linear-gradient(#bf3600, #732000);
@@ -1318,76 +1451,97 @@ a.button,
   .pane-reservations .renew-loan-button .not-renewable:link,
   .pane-loans .renew-loan-button .not-renewable:link,
   .pane-debts .renew-loan-button .not-renewable:link,
-  .pane-bookmarks .renew-loan-button .not-renewable:link, .pane-reservations .delete-reservation .form-submit:link,
+  .pane-bookmarks .renew-loan-button .not-renewable:link,
+  .pane-social-services-lists .renew-loan-button .not-renewable:link, .pane-reservations .delete-reservation .form-submit:link,
   .pane-reservations .delete-reservations .form-submit:link,
   .pane-loans .delete-reservation .form-submit:link,
   .pane-loans .delete-reservations .form-submit:link,
   .pane-debts .delete-reservation .form-submit:link,
   .pane-debts .delete-reservations .form-submit:link,
   .pane-bookmarks .delete-reservation .form-submit:link,
-  .pane-bookmarks .delete-reservations .form-submit:link, #ding-bookmark-remove-form .form-submit:link, .pane-reservations .renew-loan-button .not-renewable:visited,
+  .pane-bookmarks .delete-reservations .form-submit:link,
+  .pane-social-services-lists .delete-reservation .form-submit:link,
+  .pane-social-services-lists .delete-reservations .form-submit:link, #ding-bookmark-remove-form .form-submit:link, .pane-reservations .renew-loan-button .not-renewable:visited,
   .pane-loans .renew-loan-button .not-renewable:visited,
   .pane-debts .renew-loan-button .not-renewable:visited,
-  .pane-bookmarks .renew-loan-button .not-renewable:visited, .pane-reservations .delete-reservation .form-submit:visited,
+  .pane-bookmarks .renew-loan-button .not-renewable:visited,
+  .pane-social-services-lists .renew-loan-button .not-renewable:visited, .pane-reservations .delete-reservation .form-submit:visited,
   .pane-reservations .delete-reservations .form-submit:visited,
   .pane-loans .delete-reservation .form-submit:visited,
   .pane-loans .delete-reservations .form-submit:visited,
   .pane-debts .delete-reservation .form-submit:visited,
   .pane-debts .delete-reservations .form-submit:visited,
   .pane-bookmarks .delete-reservation .form-submit:visited,
-  .pane-bookmarks .delete-reservations .form-submit:visited, #ding-bookmark-remove-form .form-submit:visited {
+  .pane-bookmarks .delete-reservations .form-submit:visited,
+  .pane-social-services-lists .delete-reservation .form-submit:visited,
+  .pane-social-services-lists .delete-reservations .form-submit:visited, #ding-bookmark-remove-form .form-submit:visited {
     color: #fff; }
   .pane-reservations .renew-loan-button .not-renewable:link,
   .pane-loans .renew-loan-button .not-renewable:link,
   .pane-debts .renew-loan-button .not-renewable:link,
-  .pane-bookmarks .renew-loan-button .not-renewable:link, .pane-reservations .delete-reservation .form-submit:link,
+  .pane-bookmarks .renew-loan-button .not-renewable:link,
+  .pane-social-services-lists .renew-loan-button .not-renewable:link, .pane-reservations .delete-reservation .form-submit:link,
   .pane-reservations .delete-reservations .form-submit:link,
   .pane-loans .delete-reservation .form-submit:link,
   .pane-loans .delete-reservations .form-submit:link,
   .pane-debts .delete-reservation .form-submit:link,
   .pane-debts .delete-reservations .form-submit:link,
   .pane-bookmarks .delete-reservation .form-submit:link,
-  .pane-bookmarks .delete-reservations .form-submit:link, #ding-bookmark-remove-form .form-submit:link, .pane-reservations .renew-loan-button .not-renewable:visited,
+  .pane-bookmarks .delete-reservations .form-submit:link,
+  .pane-social-services-lists .delete-reservation .form-submit:link,
+  .pane-social-services-lists .delete-reservations .form-submit:link, #ding-bookmark-remove-form .form-submit:link, .pane-reservations .renew-loan-button .not-renewable:visited,
   .pane-loans .renew-loan-button .not-renewable:visited,
   .pane-debts .renew-loan-button .not-renewable:visited,
-  .pane-bookmarks .renew-loan-button .not-renewable:visited, .pane-reservations .delete-reservation .form-submit:visited,
+  .pane-bookmarks .renew-loan-button .not-renewable:visited,
+  .pane-social-services-lists .renew-loan-button .not-renewable:visited, .pane-reservations .delete-reservation .form-submit:visited,
   .pane-reservations .delete-reservations .form-submit:visited,
   .pane-loans .delete-reservation .form-submit:visited,
   .pane-loans .delete-reservations .form-submit:visited,
   .pane-debts .delete-reservation .form-submit:visited,
   .pane-debts .delete-reservations .form-submit:visited,
   .pane-bookmarks .delete-reservation .form-submit:visited,
-  .pane-bookmarks .delete-reservations .form-submit:visited, #ding-bookmark-remove-form .form-submit:visited, .pane-reservations .renew-loan-button .not-renewable:focus,
+  .pane-bookmarks .delete-reservations .form-submit:visited,
+  .pane-social-services-lists .delete-reservation .form-submit:visited,
+  .pane-social-services-lists .delete-reservations .form-submit:visited, #ding-bookmark-remove-form .form-submit:visited, .pane-reservations .renew-loan-button .not-renewable:focus,
   .pane-loans .renew-loan-button .not-renewable:focus,
   .pane-debts .renew-loan-button .not-renewable:focus,
-  .pane-bookmarks .renew-loan-button .not-renewable:focus, .pane-reservations .delete-reservation .form-submit:focus,
+  .pane-bookmarks .renew-loan-button .not-renewable:focus,
+  .pane-social-services-lists .renew-loan-button .not-renewable:focus, .pane-reservations .delete-reservation .form-submit:focus,
   .pane-reservations .delete-reservations .form-submit:focus,
   .pane-loans .delete-reservation .form-submit:focus,
   .pane-loans .delete-reservations .form-submit:focus,
   .pane-debts .delete-reservation .form-submit:focus,
   .pane-debts .delete-reservations .form-submit:focus,
   .pane-bookmarks .delete-reservation .form-submit:focus,
-  .pane-bookmarks .delete-reservations .form-submit:focus, #ding-bookmark-remove-form .form-submit:focus, .pane-reservations .renew-loan-button .not-renewable:hover,
+  .pane-bookmarks .delete-reservations .form-submit:focus,
+  .pane-social-services-lists .delete-reservation .form-submit:focus,
+  .pane-social-services-lists .delete-reservations .form-submit:focus, #ding-bookmark-remove-form .form-submit:focus, .pane-reservations .renew-loan-button .not-renewable:hover,
   .pane-loans .renew-loan-button .not-renewable:hover,
   .pane-debts .renew-loan-button .not-renewable:hover,
-  .pane-bookmarks .renew-loan-button .not-renewable:hover, .pane-reservations .delete-reservation .form-submit:hover,
+  .pane-bookmarks .renew-loan-button .not-renewable:hover,
+  .pane-social-services-lists .renew-loan-button .not-renewable:hover, .pane-reservations .delete-reservation .form-submit:hover,
   .pane-reservations .delete-reservations .form-submit:hover,
   .pane-loans .delete-reservation .form-submit:hover,
   .pane-loans .delete-reservations .form-submit:hover,
   .pane-debts .delete-reservation .form-submit:hover,
   .pane-debts .delete-reservations .form-submit:hover,
   .pane-bookmarks .delete-reservation .form-submit:hover,
-  .pane-bookmarks .delete-reservations .form-submit:hover, #ding-bookmark-remove-form .form-submit:hover, .pane-reservations .renew-loan-button .not-renewable:active,
+  .pane-bookmarks .delete-reservations .form-submit:hover,
+  .pane-social-services-lists .delete-reservation .form-submit:hover,
+  .pane-social-services-lists .delete-reservations .form-submit:hover, #ding-bookmark-remove-form .form-submit:hover, .pane-reservations .renew-loan-button .not-renewable:active,
   .pane-loans .renew-loan-button .not-renewable:active,
   .pane-debts .renew-loan-button .not-renewable:active,
-  .pane-bookmarks .renew-loan-button .not-renewable:active, .pane-reservations .delete-reservation .form-submit:active,
+  .pane-bookmarks .renew-loan-button .not-renewable:active,
+  .pane-social-services-lists .renew-loan-button .not-renewable:active, .pane-reservations .delete-reservation .form-submit:active,
   .pane-reservations .delete-reservations .form-submit:active,
   .pane-loans .delete-reservation .form-submit:active,
   .pane-loans .delete-reservations .form-submit:active,
   .pane-debts .delete-reservation .form-submit:active,
   .pane-debts .delete-reservations .form-submit:active,
   .pane-bookmarks .delete-reservation .form-submit:active,
-  .pane-bookmarks .delete-reservations .form-submit:active, #ding-bookmark-remove-form .form-submit:active {
+  .pane-bookmarks .delete-reservations .form-submit:active,
+  .pane-social-services-lists .delete-reservation .form-submit:active,
+  .pane-social-services-lists .delete-reservations .form-submit:active, #ding-bookmark-remove-form .form-submit:active {
     background: -owg-linear-gradient(#a62f00, #591900);
     background: -webkit-linear-gradient(#a62f00, #591900);
     background: -moz-linear-gradient(#a62f00, #591900);
@@ -1966,7 +2120,7 @@ button.button {
   border-radius: 8px;
   background: #00cafd;
   min-width: 450px;
-  max-width: 450px;
+  max-width: 800px;
   /* Media queries */ }
   @media only screen and (max-width: 768px) {
     .ui-dialog {
@@ -1974,7 +2128,8 @@ button.button {
       max-width: 100% !important; } }
 
 .ui-dialog-title {
-  color: #000003; }
+  color: #000003;
+  padding-bottom: 20px; }
 
 .ui-widget-content {
   color: #000003;
@@ -1991,6 +2146,12 @@ button.button {
   padding: 20px; }
   .ui-dialog:focus {
     outline: none; }
+  .ui-dialog .ui-dialog-title {
+    width: 100%; }
+  .ui-dialog .ui-dialog-titlebar-close, .ui-dialog .ui-dialog-titlebar-close:hover {
+    width: 21px;
+    border: 0;
+    background-color: transparent; }
   .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
     float: right;
     right: 5px;
@@ -2005,6 +2166,7 @@ button.button {
       color: #000003;
       background: none;
       height: 24px;
+      background: none;
       text-indent: 0;
       text-transform: capitalize; }
       .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close .ui-icon:hover {
@@ -2032,6 +2194,18 @@ button.button {
     display: none; }
   .ui-dialog .form-text {
     width: 100%; }
+  .ui-dialog .field-name-ding-entity-buttons {
+    float: left; }
+  .ui-dialog .field-item > h2 {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #000; }
+  .ui-dialog .ting-cover {
+    visibility: hidden; }
+  .ui-dialog .field-item .ting-object:first-of-type .ting-cover {
+    visibility: visible; }
+  .ui-dialog .ting-object.view-mode-objects-in-popup {
+    padding-bottom: 10px; }
 
 .ui-state-hover,
 .ui-widget-content .ui-state-hover,
@@ -2653,7 +2827,7 @@ ul.icons {
 .icon-chevron-up:before {
   content: "\f077"; }
 
-.icon-chevron-down:before, .footer .pane-title:before, .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item:before {
+.icon-chevron-down:before, .footer .pane-title:before, .ting-search-carousel-tabs .ting-search-carousel-list-tabs .ting-search-carousel-item:before {
   content: "\f078"; }
 
 .icon-retweet:before {
@@ -3114,6 +3288,9 @@ body {
     margin-left: auto;
     margin-right: auto;
     max-width: 1200px; }
+    .header-wrapper .header-inner > section {
+      padding-top: 10px;
+      padding-bottom: 10px; }
   @media only screen and (max-width: 768px) {
     .header-wrapper {
       padding: 0; } }
@@ -3122,6 +3299,14 @@ body {
    ========================================================================== */
 /* Site name, slogan and logo
    ========================================================================== */
+@media only screen and (max-width: 768px) {
+  .topbar-menu {
+    padding: 0; } }
+
+@media only screen and (max-width: 768px) {
+  .topbar-menu .menu-item {
+    padding: 9px 8px; } }
+
 .topbar-inner {
   margin-left: auto;
   margin-right: auto;
@@ -3129,9 +3314,69 @@ body {
   overflow: hidden;
   position: relative; }
 
-.logo img {
-  margin-top: 10px;
-  max-height: 70px; }
+@media only screen and (max-width: 768px) {
+  .topbar-menu {
+    bottom: 0;
+    padding: 0;
+    position: absolute;
+    right: 0; } }
+
+@media only screen and (max-width: 480px) {
+  .topbar-menu {
+    margin-top: 18px;
+    position: relative; } }
+
+@media only screen and (max-width: 768px) {
+  .topbar-menu .menu-item {
+    padding: 9px 8px; } }
+
+.logo {
+  float: left;
+  width: 41.66667%;
+  margin-left: 0%;
+  margin-right: -41.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  margin-bottom: 0; }
+  @media only screen and (max-width: 768px) {
+    .logo {
+      float: left;
+      width: 41.6667%;
+      margin-left: 0%;
+      margin-right: -41.6667%;
+      padding-left: 10px;
+      padding-right: 10px;
+      box-sizing: border-box;
+      word-wrap: break-word; } }
+  .logo a {
+    display: inline-block; }
+    @media only screen and (max-width: 768px) {
+      .logo a {
+        display: block; } }
+  .logo img {
+    margin-top: 10px;
+    max-height: 70px; }
+    @media only screen and (max-width: 768px) {
+      .logo img {
+        height: 70px;
+        max-height: 70px;
+        max-width: 100%;
+        width: auto; } }
+    @media only screen and (max-width: 480px) {
+      .logo img {
+        max-width: 100%;
+        max-height: 40px;
+        height: auto;
+        width: auto; } }
 
 .site-name-wrapper {
   float: left;
@@ -3211,33 +3456,17 @@ body {
   margin-top: 10px;
   margin-left: 2px; }
 
-.logo {
-  float: left;
-  width: 41.66667%;
-  margin-left: 0%;
-  margin-right: -41.66667%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible; }
-
 /* Content
    ========================================================================== */
 .content-wrapper {
   margin-top: 20px; }
-
-.content-inner {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1200px;
-  overflow: visible; }
+  .content-wrapper .content-inner {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+    overflow: visible; }
+    .content-wrapper .content-inner .pane-content .panel-pane {
+      margin-bottom: 20px; }
 
 /* Layouts
    ========================================================================== */
@@ -3266,19 +3495,285 @@ body {
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible; }
+  .frontpage-layout .col12 {
+    clear: left;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
   .frontpage-layout .layout-wrapper {
     clear: left;
     margin-right: 10px;
     margin-left: 10px;
+    margin-bottom: 20px;
     overflow: hidden;
     padding-top: 20px;
     padding-right: 10px;
     padding-left: 10px; }
-  .frontpage-layout .secondary-content {
+  .frontpage-layout .col12 {
+    padding-left: 0;
+    padding-right: 0; }
+  .frontpage-layout .col12 .col12 {
+    padding-left: 10px;
+    padding-right: 10px; }
+  .frontpage-layout .col3 {
+    float: left;
+    width: 25%;
+    margin-left: 0%;
+    margin-right: -25%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col3.right {
+    float: right;
+    width: 25%;
+    margin-right: 0%;
+    margin-left: -25%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col3.pre3 {
+    float: left;
+    width: 25%;
+    margin-left: 25%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col3.pre6 {
+    float: left;
+    width: 25%;
+    margin-left: 50%;
+    margin-right: -75%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col4 {
+    float: left;
+    width: 33.33333%;
+    margin-left: 0%;
+    margin-right: -33.33333%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col4.right {
+    float: right;
+    width: 33.33333%;
+    margin-right: 0%;
+    margin-left: -33.33333%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col4.pre4 {
+    float: left;
+    width: 33.33333%;
+    margin-left: 33.33333%;
+    margin-right: -66.66667%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col6 {
+    float: left;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col6.right {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col6.pre3 {
+    float: left;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: -75%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col7 {
+    float: left;
+    width: 58.33333%;
+    margin-left: 0%;
+    margin-right: -58.33333%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col7.right {
+    float: right;
+    width: 58.33333%;
+    margin-right: 0%;
+    margin-left: -58.33333%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .secondary-content,
+  .frontpage-layout .col8 {
     float: left;
     width: 66.66667%;
     margin-left: 0%;
     margin-right: -66.66667%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .secondary-content-right,
+  .frontpage-layout .col8.right {
+    float: right;
+    width: 66.66667%;
+    margin-right: 0%;
+    margin-left: -66.66667%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col9 {
+    float: left;
+    width: 75%;
+    margin-left: 0%;
+    margin-right: -75%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .frontpage-layout .col9.right {
+    float: right;
+    width: 75%;
+    margin-right: 0%;
+    margin-left: -75%;
     padding-left: 10px;
     padding-right: 10px;
     -moz-box-sizing: border-box;
@@ -3319,7 +3814,24 @@ body {
   @media only screen and (max-width: 768px) {
     .frontpage-layout .primary-content,
     .frontpage-layout .secondary-content,
-    .frontpage-layout .tertiary-content {
+    .frontpage-layout .tertiary-content,
+    .frontpage-layout .inner-front-wrapper,
+    .frontpage-layout .layout-wrapper,
+    .frontpage-layout .col12,
+    .frontpage-layout .col9,
+    .frontpage-layout .col9.right,
+    .frontpage-layout .col8,
+    .frontpage-layout .col8.right,
+    .frontpage-layout .col6,
+    .frontpage-layout .col6.right,
+    .frontpage-layout .col4,
+    .frontpage-layout .col4.right,
+    .frontpage-layout .col3,
+    .frontpage-layout .col3.right,
+    .frontpage-layout .col3.pre3,
+    .frontpage-layout .col3.pre6,
+    .frontpage-layout .col4.pre4,
+    .frontpage-layout .col6.pre3 {
       float: left;
       width: 100%;
       margin-left: 0%;
@@ -3336,6 +3848,35 @@ body {
       _overflow: hidden;
       _overflow-y: visible;
       clear: left; } }
+
+.attachments-wrapper {
+  *position: relative;
+  *zoom: 1;
+  clear: both;
+  margin-bottom: 20px; }
+  .attachments-wrapper:before, .attachments-wrapper:after {
+    content: "";
+    display: table; }
+  .attachments-wrapper:after {
+    clear: both; }
+
+@media only screen and (min-width: 769px) {
+  .empty-sidebars .primary-content .pane-fulltext {
+    float: left;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: -75%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; } }
 
 .default-layout {
   margin-top: 20px;
@@ -3577,7 +4118,7 @@ body {
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible; }
-  @media only screen and (min-width: 769px) and (max-width: 940px) {
+  @media only screen and (min-width: 769px) {
     .default-layout.left-sidebar .primary-content {
       float: left;
       width: 75%;
@@ -3610,7 +4151,7 @@ body {
       _display: inline;
       _overflow: hidden;
       _overflow-y: visible; } }
-  @media only screen and (min-width: 481px) and (max-width: 940px) {
+  @media only screen and (min-width: 769px) {
     .default-layout.right-sidebar .primary-content {
       float: left;
       width: 66.66667%;
@@ -3626,7 +4167,8 @@ body {
       *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
       _display: inline;
       _overflow: hidden;
-      _overflow-y: visible; }
+      _overflow-y: visible;
+      clear: none; }
     .default-layout.right-sidebar .tertiary-content {
       float: right;
       width: 33.33333%;
@@ -3642,7 +4184,8 @@ body {
       *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
       _display: inline;
       _overflow: hidden;
-      _overflow-y: visible; } }
+      _overflow-y: visible;
+      clear: none; } }
 
 /* Attachments (aka. blocks/panes)
    ========================================================================== */
@@ -3883,6 +4426,7 @@ body {
 /* Footer
    ========================================================================== */
 .footer {
+  clear: both;
   overflow: hidden;
   padding-top: 30px; }
   .footer .pane-title {
@@ -3905,6 +4449,32 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
   text-align: center; }
+
+.primary-content table img {
+  max-width: inherit; }
+
+/* Dibs accept/cancel/redirect page
+   ========================================================================== */
+.dibs-accept-page,
+.dibs-cancel-page,
+.dibs-redirect-page {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0 auto 20px;
+  padding: 10px;
+  max-width: 1180px;
+  background-color: #fff; }
+  @media only screen and (max-width: 1210px) {
+    .dibs-accept-page,
+    .dibs-cancel-page,
+    .dibs-redirect-page {
+      margin-left: 10px;
+      margin-right: 10px; } }
+  .dibs-accept-page > p:first-of-type,
+  .dibs-cancel-page > p:first-of-type,
+  .dibs-redirect-page > p:first-of-type {
+    margin-top: 0; }
 
 /**
  * Typography
@@ -4168,10 +4738,10 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
  */
 /* Extends for page elements
    ========================================================================== */
-.field-name-field-ding-news-materials .field-item, .field-name-field-ding-event-materials .field-item, .library-list .views-row, .field-name-field-ding-page-materials .field-item, .news-list .news-list-item, .groups-list .groups-list-item {
+.field-name-field-ding-news-materials .field-item, .field-name-field-ding-event-materials .field-item, .library-list .views-row, .field-name-field-ding-page-materials .field-item, .node-type-newsletter .newsletter-materials .field-item, .news-list .news-list-item, .groups-list .groups-list-item {
   margin-bottom: 10px; }
 
-.field-name-field-ding-news-materials .field-item, .field-name-field-ding-event-materials .field-item, .library-list .views-row, .field-name-field-ding-page-materials .field-item, .news-list .news-list-item, .groups-list .groups-list-item {
+.field-name-field-ding-news-materials .field-item, .field-name-field-ding-event-materials .field-item, .library-list .views-row, .field-name-field-ding-page-materials .field-item, .node-type-newsletter .newsletter-materials .field-item, .news-list .news-list-item, .groups-list .groups-list-item {
   padding: 20px; }
 
 .news-list .news-heading, .groups-list .groups-heading {
@@ -4187,7 +4757,7 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   color: rgba(76, 76, 76, 0.5); }
 
 /* Styling for material list items (example use: search results, related materials on news etc.) */
-.field-name-field-ding-news-materials .field-item, .field-name-field-ding-event-materials .field-item, .library-list .views-row, .field-name-field-ding-page-materials .field-item {
+.field-name-field-ding-news-materials .field-item, .field-name-field-ding-event-materials .field-item, .library-list .views-row, .field-name-field-ding-page-materials .field-item, .node-type-newsletter .newsletter-materials .field-item {
   overflow: hidden;
   position: relative; }
 
@@ -4237,7 +4807,7 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
     -moz-border-radius: 12px;
     border-radius: 12px;
     font-size: 160%;
-    margin-top: 31px;
+    margin-top: 2px;
     padding-bottom: 1px;
     min-width: 110px; }
   .search input[class^="form-"], .search-field-in-content input[class^="form-"], .user input[class^="form-"] {
@@ -4405,12 +4975,12 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
 .material-item .action-button.reserve-button,
 .field-name-ding-entity-buttons .reserve-button,
 .ding-periodical-issues .reserve-button {
-  display: none; }
+  display: none;
+  margin-left: 10px; }
   .material-item .action-button.reserve-button.reservable,
   .field-name-ding-entity-buttons .reserve-button.reservable,
   .ding-periodical-issues .reserve-button.reservable {
-    display: inline-block;
-    margin-left: 10px; }
+    display: inline-block; }
   .material-item .action-button.reserve-button.unavailable.reservable,
   .field-name-ding-entity-buttons .reserve-button.unavailable.reservable,
   .ding-periodical-issues .reserve-button.unavailable.reservable {
@@ -4456,9 +5026,13 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   .availability.content {
     float: right; }
   .availability li {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
     display: inline-block;
-    margin-bottom: 5px;
-    padding: 0; }
+    margin: 0 0 5px 8px;
+    padding: 5px;
+    color: #fff; }
     .availability li.pending {
       background-color: #959595;
       color: #fff;
@@ -4559,6 +5133,57 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
       content: " - ";
       margin-left: 5px; }
 
+/* Search results availability
+   ========================================================================== */
+.page-search .availability.pending {
+  background-color: #959595; }
+
+.page-search .availability.availability.processed {
+  background-color: #f0cb28; }
+
+.page-search .availability.availability.available {
+  background-color: #528c10; }
+
+.page-search .availability.availability.reservable {
+  background-color: #f0cb28; }
+
+.page-search .availability.availability.available.reservable {
+  background-color: #528c10; }
+
+.page-search .availability.availability.available.not-reservable {
+  background-color: #f0cb28; }
+
+.page-search .availability.availability.unavailable.reservable {
+  background-color: #f0cb28; }
+
+.page-search .availability.availability.unavailable.not-reservable {
+  background-color: #a32e10; }
+
+/* Availability legend
+   ========================================================================== */
+.availability-legend .availability-label {
+  color: #fff; }
+
+.availability-legend .available {
+  background-color: #528c10; }
+
+.availability-legend .on-loan {
+  background-color: #f0cb28; }
+
+.availability-legend .unavailable {
+  background-color: #a32e10; }
+
+.availability-legend .unreservable {
+  background-color: #f0cb28; }
+
+/* Availability legend for object page
+   ========================================================================== */
+.page-ting-object .pane-ting-object {
+  clear: both; }
+
+.pane-ting-collection, .pane-ting-object {
+  clear: both; }
+
 /**
  * Ding campaigns
  *
@@ -4571,11 +5196,22 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
 .pane-campaign {
   margin-top: 25px; }
 
-@media only screen and (max-width: 768px) {
-  .ding-campaign-wrapper {
-    display: none; } }
+@media only screen and (max-width: 480px) {
+  .ding-campaign-wrapper .ding-campaign {
+    display: none; }
+  .ding-campaign-wrapper .ding-campaign-mobile-display {
+    display: block !important; }
+  .ding-campaign-wrapper .ding-campaign--image {
+    width: 100%; } }
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .ding-campaign-wrapper .ding-campaign--image,
+  .ding-campaign-wrapper .ding-campaign--content {
+    width: 85%;
+    margin: 0 auto; } }
 
 .ding-campaign-wrapper .ding-campaign {
+  background-color: #fff;
   margin-bottom: 20px; }
 
 .ding-campaign-wrapper .ding-campaign.ding-campaign--content {
@@ -4653,28 +5289,31 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
     padding-bottom: 30px;
     padding-left: 10px; }
 
-.search .search-field-wrapper, .search-field-in-content .search-field-wrapper {
-  position: relative; }
-
-.search [class^="icon-"], .search-field-in-content [class^="icon-"] {
-  bottom: 14px;
-  left: 14px; }
-
-.search .spinner i[class^="icon-"], .search-field-in-content .spinner i[class^="icon-"] {
-  height: auto; }
-
-.search .form-item, .search-field-in-content .form-item {
-  width: 100%; }
-
-.search .form-text, .search-field-in-content .form-text {
-  padding-left: 49px; }
-
-@media only screen and (max-width: 768px) {
-  .search, .search-field-in-content {
-    width: auto; } }
+.search, .search-field-in-content {
+  clear: both; }
+  @media only screen and (max-width: 768px) {
+    .search, .search-field-in-content {
+      width: auto; } }
+  .search .search-field-wrapper, .search-field-in-content .search-field-wrapper {
+    position: relative; }
+  .search [class^="icon-"], .search-field-in-content [class^="icon-"] {
+    bottom: 14px;
+    left: 14px; }
+  .search .spinner i[class^="icon-"], .search-field-in-content .spinner i[class^="icon-"] {
+    height: auto; }
+  .search .form-item, .search-field-in-content .form-item {
+    width: 100%; }
+  .search .form-text, .search-field-in-content .form-text {
+    padding-left: 49px; }
+  @media only screen and (max-width: 768px) {
+    .search, .search-field-in-content {
+      width: auto; } }
 
 /* Search in content
    ========================================================================== */
+.pane-search-result-count {
+  float: left; }
+
 @media only screen and (min-width: 769px) {
   .search-field-in-content .form-submit {
     margin-top: 0; } }
@@ -4787,6 +5426,21 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
 input#edit-search-block-form--2.spinner {
   background-image: none; }
 
+header .search .form-actions, header .search-field-in-content .form-actions {
+  top: 29px; }
+  @media only screen and (max-width: 768px) {
+    header .search .form-actions, header .search-field-in-content .form-actions {
+      top: 0; } }
+
+.field-name-ding-entity-buttons {
+  clear: both;
+  text-align: right; }
+  .field-name-ding-entity-buttons .reserve-button {
+    float: right; }
+
+.pane-search-result .field-name-ding-entity-buttons, .view-node-search-result .field-name-ding-entity-buttons, .ting-reference-reverse-list .field-name-ding-entity-buttons {
+  overflow: hidden; }
+
 .button-see-online {
   margin-left: 10px;
   line-height: 125%; }
@@ -4832,7 +5486,8 @@ input#edit-search-block-form--2.spinner {
 .ding-format-short .ting-object-left, .ding-format-short .view-node-search-result .list-item .search-left, .view-node-search-result .list-item .ding-format-short .search-left, .ding-format-short .ting-reference-reverse-list .list-item .search-left, .ting-reference-reverse-list .list-item .ding-format-short .search-left {
   display: none; }
 
-.ting-object-right, .view-node-search-result .list-item .search-right, .ting-reference-reverse-list .list-item .search-right, .pane-search-result .search-results .list .search-result--availability, .view-node-search-result .search-results .list .search-result--availability, .ting-reference-reverse-list .search-results .list .search-result--availability {
+.ting-object-right, .view-node-search-result .list-item .search-right, .ting-reference-reverse-list .list-item .search-right, .pane-search-result .search-results .list .search-result--availability, .view-node-search-result .search-results .list .search-result--availability, .ting-reference-reverse-list .search-results .list .search-result--availability,
+.group-ting-right-col-collection {
   float: right;
   width: 83.33333%;
   margin-right: 0%;
@@ -4850,7 +5505,8 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   padding-right: 0; }
   @media only screen and (max-width: 480px) {
-    .ting-object-right, .view-node-search-result .list-item .search-right, .ting-reference-reverse-list .list-item .search-right, .pane-search-result .search-results .list .search-result--availability, .view-node-search-result .search-results .list .search-result--availability, .ting-reference-reverse-list .search-results .list .search-result--availability {
+    .ting-object-right, .view-node-search-result .list-item .search-right, .ting-reference-reverse-list .list-item .search-right, .pane-search-result .search-results .list .search-result--availability, .view-node-search-result .search-results .list .search-result--availability, .ting-reference-reverse-list .search-results .list .search-result--availability,
+    .group-ting-right-col-collection {
       float: right;
       width: 66.66667%;
       margin-right: 0%;
@@ -4867,22 +5523,61 @@ input#edit-search-block-form--2.spinner {
       _overflow: hidden;
       _overflow-y: visible; } }
 
-.ding-format-short .ting-object-right, .ding-format-short .view-node-search-result .list-item .search-right, .view-node-search-result .list-item .ding-format-short .search-right, .ding-format-short .ting-reference-reverse-list .list-item .search-right, .ting-reference-reverse-list .list-item .ding-format-short .search-right, .ding-format-short .pane-search-result .search-results .list .search-result--availability, .pane-search-result .search-results .list .ding-format-short .search-result--availability, .ding-format-short .view-node-search-result .search-results .list .search-result--availability, .view-node-search-result .search-results .list .ding-format-short .search-result--availability, .ding-format-short .ting-reference-reverse-list .search-results .list .search-result--availability, .ting-reference-reverse-list .search-results .list .ding-format-short .search-result--availability {
-  float: right;
+div.ding-format-short .ting-object-right, div.ding-format-short .view-node-search-result .list-item .search-right, .view-node-search-result .list-item div.ding-format-short .search-right, div.ding-format-short .ting-reference-reverse-list .list-item .search-right, .ting-reference-reverse-list .list-item div.ding-format-short .search-right, div.ding-format-short .pane-search-result .search-results .list .search-result--availability, .pane-search-result .search-results .list div.ding-format-short .search-result--availability, div.ding-format-short .view-node-search-result .search-results .list .search-result--availability, .view-node-search-result .search-results .list div.ding-format-short .search-result--availability, div.ding-format-short .ting-reference-reverse-list .search-results .list .search-result--availability, .ting-reference-reverse-list .search-results .list div.ding-format-short .search-result--availability {
   width: 100%;
-  margin-right: 0%;
-  margin-left: -100%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible; }
+  margin-right: 0;
+  padding-right: 0; }
+  @media only screen and (max-width: 480px) {
+    div.ding-format-short .ting-object-right, div.ding-format-short .view-node-search-result .list-item .search-right, .view-node-search-result .list-item div.ding-format-short .search-right, div.ding-format-short .ting-reference-reverse-list .list-item .search-right, .ting-reference-reverse-list .list-item div.ding-format-short .search-right, div.ding-format-short .pane-search-result .search-results .list .search-result--availability, .pane-search-result .search-results .list div.ding-format-short .search-result--availability, div.ding-format-short .view-node-search-result .search-results .list .search-result--availability, .view-node-search-result .search-results .list div.ding-format-short .search-result--availability, div.ding-format-short .ting-reference-reverse-list .search-results .list .search-result--availability, .ting-reference-reverse-list .search-results .list div.ding-format-short .search-result--availability {
+      float: right;
+      width: 100%;
+      margin-right: 0%;
+      margin-left: -100%;
+      padding-left: 10px;
+      padding-right: 10px;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+      box-sizing: border-box;
+      word-wrap: break-word;
+      *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+      _display: inline;
+      _overflow: hidden;
+      _overflow-y: visible; } }
+
+div.ding-format-short .ting-object-left, div.ding-format-short .view-node-search-result .list-item .search-left, .view-node-search-result .list-item div.ding-format-short .search-left, div.ding-format-short .ting-reference-reverse-list .list-item .search-left, .ting-reference-reverse-list .list-item div.ding-format-short .search-left {
+  min-height: initial;
+  width: 80px;
+  margin-right: -80px; }
+  @media only screen and (max-width: 480px) {
+    div.ding-format-short .ting-object-left, div.ding-format-short .view-node-search-result .list-item .search-left, .view-node-search-result .list-item div.ding-format-short .search-left, div.ding-format-short .ting-reference-reverse-list .list-item .search-left, .ting-reference-reverse-list .list-item div.ding-format-short .search-left {
+      float: left;
+      width: 0%;
+      margin-left: 0%;
+      margin-right: 0%;
+      padding-left: 10px;
+      padding-right: 10px;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+      box-sizing: border-box;
+      word-wrap: break-word;
+      *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+      _display: inline;
+      _overflow: hidden;
+      _overflow-y: visible; } }
+
+@media only screen and (max-width: 480px) {
+  div.ding-format-short .ting-cover {
+    display: none; } }
+
+div.ding-format-short .ting-cover:before {
+  top: 20%;
+  left: 20%;
+  font-size: 160%; }
+
+div.ding-format-short .ting-cover img {
+  max-width: 60px; }
 
 /* Facet browser styling
    ========================================================================== */
@@ -5078,15 +5773,13 @@ input#edit-search-block-form--2.spinner {
     .pane-ting-search-records-per-page a:last-child, .pane-ding-toggle-format-toggle a:last-child {
       border-right: none; }
 
-.pane-ding-toggle-format-toggle {
-  float: right; }
-  .pane-ding-toggle-format-toggle #ding-toggle-format-image {
-    height: 0; }
-
 /* Availability explaination legend */
 .pane-ding-availability-legend {
   clear: both;
   overflow: hidden; }
+  @media only screen and (max-width: 1210px) {
+    .pane-ding-availability-legend {
+      margin-bottom: 10px; } }
   .pane-ding-availability-legend .availability-legend {
     float: right;
     border: none;
@@ -5096,23 +5789,37 @@ input#edit-search-block-form--2.spinner {
       margin-left: 10px;
       line-height: normal; }
       .pane-ding-availability-legend .availability-legend .availability-legend-item img {
-        vertical-align: middle; }
+        display: none; }
       .pane-ding-availability-legend .availability-legend .availability-legend-item .availability-label {
         font-weight: normal;
+        font-size: 100%;
         color: #959595; }
 
 /* Search results list
    ========================================================================== */
 .pane-search-result, .view-node-search-result, .ting-reference-reverse-list {
   clear: both;
-  overflow: hidden;
   padding-top: 20px; }
+  @media only screen and (max-width: 480px) {
+    .pane-search-result .search-results .list .heading, .view-node-search-result .search-results .list .heading, .ting-reference-reverse-list .search-results .list .heading {
+      font-size: 75%; } }
   .pane-search-result .search-results .list, .view-node-search-result .search-results .list, .ting-reference-reverse-list .search-results .list {
     padding-left: 0;
     /* Compact search result display */ }
     .pane-search-result .search-results .list .list-item, .view-node-search-result .search-results .list .list-item, .ting-reference-reverse-list .search-results .list .list-item {
-      background: url("../images/pw_maze_white.png");
+      background-image: url("../images/pw_maze_white.png");
       padding: 15px; }
+      .pane-search-result .search-results .list .list-item.ding-search-collection, .view-node-search-result .search-results .list .list-item.ding-search-collection, .ting-reference-reverse-list .search-results .list .list-item.ding-search-collection {
+        margin-top: 30px;
+        margin-right: 10px;
+        padding: 0;
+        background-image: none; }
+        .pane-search-result .search-results .list .list-item.ding-search-collection .ting-collection-wrapper, .view-node-search-result .search-results .list .list-item.ding-search-collection .ting-collection-wrapper, .ting-reference-reverse-list .search-results .list .list-item.ding-search-collection .ting-collection-wrapper {
+          position: relative;
+          padding: 15px;
+          background-image: url("../images/pw_maze_white.png");
+          box-shadow: 1px -1px 2px #888;
+          -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=35, Color='#7c7c7c')"; }
     .pane-search-result .search-results .list .view-mode-teaser, .view-node-search-result .search-results .list .view-mode-teaser, .ting-reference-reverse-list .search-results .list .view-mode-teaser {
       padding: 20px;
       background-color: rgba(255, 255, 255, 0.9); }
@@ -5132,9 +5839,13 @@ input#edit-search-block-form--2.spinner {
       margin-top: 20px;
       padding-top: 20px; }
     .pane-search-result .search-results .list .search-result--availability-link, .view-node-search-result .search-results .list .search-result--availability-link, .ting-reference-reverse-list .search-results .list .search-result--availability-link {
-      margin-right: 8px;
-      padding-right: 11px;
-      right: 1px solid #d5d5d5; }
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      display: inline-block;
+      margin: 0 8px 8px 0;
+      padding: 5px;
+      color: #fff; }
     .pane-search-result .search-results .list .search-result--availability-link:last-child, .view-node-search-result .search-results .list .search-result--availability-link:last-child, .ting-reference-reverse-list .search-results .list .search-result--availability-link:last-child {
       border-right: 0; }
     .pane-search-result .search-results .list .meta, .view-node-search-result .search-results .list .meta, .ting-reference-reverse-list .search-results .list .meta {
@@ -5158,8 +5869,9 @@ input#edit-search-block-form--2.spinner {
       .pane-search-result .search-results .list .ding-format-short .field, .view-node-search-result .search-results .list .ding-format-short .field, .ting-reference-reverse-list .search-results .list .ding-format-short .field {
         display: none; }
       .pane-search-result .search-results .list .ding-format-short .heading + div.content, .view-node-search-result .search-results .list .ding-format-short .heading + div.content, .ting-reference-reverse-list .search-results .list .ding-format-short .heading + div.content {
-        display: inline;
-        margin-left: 5px; }
+        display: block; }
+      .pane-search-result .search-results .list .ding-format-short div.field-type-ding-entity-buttons, .view-node-search-result .search-results .list .ding-format-short div.field-type-ding-entity-buttons, .ting-reference-reverse-list .search-results .list .ding-format-short div.field-type-ding-entity-buttons {
+        display: block; }
       .pane-search-result .search-results .list .ding-format-short .heading, .view-node-search-result .search-results .list .ding-format-short .heading, .ting-reference-reverse-list .search-results .list .ding-format-short .heading,
       .pane-search-result .search-results .list .ding-format-short .content, .view-node-search-result .search-results .list .ding-format-short .content, .ting-reference-reverse-list .search-results .list .ding-format-short .content,
       .pane-search-result .search-results .list .ding-format-short .field, .view-node-search-result .search-results .list .ding-format-short .field, .ting-reference-reverse-list .search-results .list .ding-format-short .field {
@@ -5356,6 +6068,19 @@ input#edit-search-block-form--2.spinner {
     .pane-ting-object .group-material-details .field-group-format-wrapper {
       margin-left: 34px;
       padding-top: 10px; }
+      @media only screen and (max-width: 480px) {
+        .pane-ting-object .group-material-details .field-group-format-wrapper > .field {
+          display: block; }
+        .pane-ting-object .group-material-details .field-group-format-wrapper > .field > div {
+          display: block;
+          float: none; } }
+      @media only screen and (min-width: 481px) {
+        .pane-ting-object .group-material-details .field-group-format-wrapper > .field {
+          display: table;
+          width: 100%; }
+        .pane-ting-object .group-material-details .field-group-format-wrapper > .field > div {
+          display: table-cell;
+          float: none; } }
     .pane-ting-object .group-material-details h2 {
       margin-bottom: 0; }
     .pane-ting-object .group-material-details .field-label {
@@ -5366,6 +6091,22 @@ input#edit-search-block-form--2.spinner {
       max-width: 72%; }
     .pane-ting-object .group-material-details .ting-material-detail {
       display: block; }
+    .pane-ting-object .group-material-details .field-name-ting-details-genre .ting-material-detail,
+    .pane-ting-object .group-material-details .field-name-ting-details-subtitles .ting-material-detail,
+    .pane-ting-object .group-material-details .field-name-ting-details-tracks .ting-material-detail,
+    .pane-ting-object .group-material-details .field-name-ting-details-contributor .ting-material-detail {
+      display: inline-block;
+      margin-right: 5px; }
+      .pane-ting-object .group-material-details .field-name-ting-details-genre .ting-material-detail:after,
+      .pane-ting-object .group-material-details .field-name-ting-details-subtitles .ting-material-detail:after,
+      .pane-ting-object .group-material-details .field-name-ting-details-tracks .ting-material-detail:after,
+      .pane-ting-object .group-material-details .field-name-ting-details-contributor .ting-material-detail:after {
+        content: ','; }
+      .pane-ting-object .group-material-details .field-name-ting-details-genre .ting-material-detail:last-of-type:after,
+      .pane-ting-object .group-material-details .field-name-ting-details-subtitles .ting-material-detail:last-of-type:after,
+      .pane-ting-object .group-material-details .field-name-ting-details-tracks .ting-material-detail:last-of-type:after,
+      .pane-ting-object .group-material-details .field-name-ting-details-contributor .ting-material-detail:last-of-type:after {
+        content: ''; }
   .pane-ting-object .group-holdings-available {
     clear: both; }
     .pane-ting-object .group-holdings-available h2 {
@@ -5457,6 +6198,167 @@ input#edit-search-block-form--2.spinner {
     #autocomplete li a:hover {
       background-color: #efefef; }
 
+/* Collection popup
+   ========================================================================== */
+div[class^="collection-bg"] {
+  background-image: url("../images/pw_maze_white.png"); }
+
+/* Reservations popup
+   ========================================================================== */
+.ding-popup-content .ting-object.view-mode-collection-popup.clearfix:after {
+  height: auto !important; }
+
+.ding-popup-content .field-name-ting-title h2 {
+  font-size: 140%; }
+
+.ding-popup-content .view-mode-collection-list {
+  padding: 10px 0;
+  border-top: 1px dotted #000; }
+  .ding-popup-content .view-mode-collection-list:first-of-type {
+    border: none; }
+  .ding-popup-content .view-mode-collection-list h2 {
+    font-size: 130%; }
+
+.page-ting-object .pane-ting-object,
+.page-ting-object .pane-ting-collection,
+.page-ting-object .pane-ting-object,
+.page-ting-collection .pane-ting-object,
+.page-ting-collection .pane-ting-collection,
+.page-ting-collection .pane-ting-object {
+  /* Compact search result display */ }
+  .page-ting-object .pane-ting-object .ding-format-short,
+  .page-ting-object .pane-ting-collection .ding-format-short,
+  .page-ting-object .pane-ting-object .ding-format-short,
+  .page-ting-collection .pane-ting-object .ding-format-short,
+  .page-ting-collection .pane-ting-collection .ding-format-short,
+  .page-ting-collection .pane-ting-object .ding-format-short {
+    /* Display the author */ }
+    .page-ting-object .pane-ting-object .ding-format-short .ting-collection-inner-wrapper h2,
+    .page-ting-object .pane-ting-collection .ding-format-short .ting-collection-inner-wrapper h2,
+    .page-ting-object .pane-ting-object .ding-format-short .ting-collection-inner-wrapper h2,
+    .page-ting-collection .pane-ting-object .ding-format-short .ting-collection-inner-wrapper h2,
+    .page-ting-collection .pane-ting-collection .ding-format-short .ting-collection-inner-wrapper h2,
+    .page-ting-collection .pane-ting-object .ding-format-short .ting-collection-inner-wrapper h2 {
+      display: none; }
+    .page-ting-object .pane-ting-object .ding-format-short .ting-cover,
+    .page-ting-object .pane-ting-object .ding-format-short .content,
+    .page-ting-object .pane-ting-object .ding-format-short .field-type-ting-abstract,
+    .page-ting-object .pane-ting-collection .ding-format-short .ting-cover,
+    .page-ting-object .pane-ting-object .ding-format-short .ting-cover,
+    .page-ting-object .pane-ting-collection .ding-format-short .content,
+    .page-ting-object .pane-ting-object .ding-format-short .content,
+    .page-ting-object .pane-ting-collection .ding-format-short .field-type-ting-abstract,
+    .page-ting-object .pane-ting-object .ding-format-short .field-type-ting-abstract,
+    .page-ting-collection .pane-ting-object .ding-format-short .ting-cover,
+    .page-ting-collection .pane-ting-object .ding-format-short .content,
+    .page-ting-collection .pane-ting-object .ding-format-short .field-type-ting-abstract,
+    .page-ting-collection .pane-ting-collection .ding-format-short .ting-cover,
+    .page-ting-collection .pane-ting-object .ding-format-short .ting-cover,
+    .page-ting-collection .pane-ting-collection .ding-format-short .content,
+    .page-ting-collection .pane-ting-object .ding-format-short .content,
+    .page-ting-collection .pane-ting-collection .ding-format-short .field-type-ting-abstract,
+    .page-ting-collection .pane-ting-object .ding-format-short .field-type-ting-abstract {
+      display: none; }
+    .page-ting-object .pane-ting-object .ding-format-short .field-type-ting-type,
+    .page-ting-object .pane-ting-collection .ding-format-short .field-type-ting-type,
+    .page-ting-object .pane-ting-object .ding-format-short .field-type-ting-type,
+    .page-ting-collection .pane-ting-object .ding-format-short .field-type-ting-type,
+    .page-ting-collection .pane-ting-collection .ding-format-short .field-type-ting-type,
+    .page-ting-collection .pane-ting-object .ding-format-short .field-type-ting-type {
+      float: left;
+      width: inherit; }
+      .page-ting-object .pane-ting-object .ding-format-short .field-type-ting-type .availability,
+      .page-ting-object .pane-ting-collection .ding-format-short .field-type-ting-type .availability,
+      .page-ting-object .pane-ting-object .ding-format-short .field-type-ting-type .availability,
+      .page-ting-collection .pane-ting-object .ding-format-short .field-type-ting-type .availability,
+      .page-ting-collection .pane-ting-collection .ding-format-short .field-type-ting-type .availability,
+      .page-ting-collection .pane-ting-object .ding-format-short .field-type-ting-type .availability {
+        margin: 0;
+        padding: 0; }
+        .page-ting-object .pane-ting-object .ding-format-short .field-type-ting-type .availability li.availability,
+        .page-ting-object .pane-ting-collection .ding-format-short .field-type-ting-type .availability li.availability,
+        .page-ting-object .pane-ting-object .ding-format-short .field-type-ting-type .availability li.availability,
+        .page-ting-collection .pane-ting-object .ding-format-short .field-type-ting-type .availability li.availability,
+        .page-ting-collection .pane-ting-collection .ding-format-short .field-type-ting-type .availability li.availability,
+        .page-ting-collection .pane-ting-object .ding-format-short .field-type-ting-type .availability li.availability {
+          color: #959595;
+          display: inline;
+          background: none;
+          padding: 0;
+          margin: 0;
+          line-height: 20px; }
+          .page-ting-object .pane-ting-object .ding-format-short .field-type-ting-type .availability li.availability:after,
+          .page-ting-object .pane-ting-collection .ding-format-short .field-type-ting-type .availability li.availability:after,
+          .page-ting-object .pane-ting-object .ding-format-short .field-type-ting-type .availability li.availability:after,
+          .page-ting-collection .pane-ting-object .ding-format-short .field-type-ting-type .availability li.availability:after,
+          .page-ting-collection .pane-ting-collection .ding-format-short .field-type-ting-type .availability li.availability:after,
+          .page-ting-collection .pane-ting-object .ding-format-short .field-type-ting-type .availability li.availability:after {
+            content: ":"; }
+    .page-ting-object .pane-ting-object .ding-format-short .heading + div.content,
+    .page-ting-object .pane-ting-collection .ding-format-short .heading + div.content,
+    .page-ting-object .pane-ting-object .ding-format-short .heading + div.content,
+    .page-ting-collection .pane-ting-object .ding-format-short .heading + div.content,
+    .page-ting-collection .pane-ting-collection .ding-format-short .heading + div.content,
+    .page-ting-collection .pane-ting-object .ding-format-short .heading + div.content {
+      display: block; }
+    .page-ting-object .pane-ting-object .ding-format-short div.field-type-ding-entity-buttons,
+    .page-ting-object .pane-ting-collection .ding-format-short div.field-type-ding-entity-buttons,
+    .page-ting-object .pane-ting-object .ding-format-short div.field-type-ding-entity-buttons,
+    .page-ting-collection .pane-ting-object .ding-format-short div.field-type-ding-entity-buttons,
+    .page-ting-collection .pane-ting-collection .ding-format-short div.field-type-ding-entity-buttons,
+    .page-ting-collection .pane-ting-object .ding-format-short div.field-type-ding-entity-buttons {
+      display: block; }
+    .page-ting-object .pane-ting-object .ding-format-short .heading,
+    .page-ting-object .pane-ting-object .ding-format-short .content,
+    .page-ting-object .pane-ting-object .ding-format-short .field,
+    .page-ting-object .pane-ting-collection .ding-format-short .heading,
+    .page-ting-object .pane-ting-object .ding-format-short .heading,
+    .page-ting-object .pane-ting-collection .ding-format-short .content,
+    .page-ting-object .pane-ting-object .ding-format-short .content,
+    .page-ting-object .pane-ting-collection .ding-format-short .field,
+    .page-ting-object .pane-ting-object .ding-format-short .field,
+    .page-ting-collection .pane-ting-object .ding-format-short .heading,
+    .page-ting-collection .pane-ting-object .ding-format-short .content,
+    .page-ting-collection .pane-ting-object .ding-format-short .field,
+    .page-ting-collection .pane-ting-collection .ding-format-short .heading,
+    .page-ting-collection .pane-ting-object .ding-format-short .heading,
+    .page-ting-collection .pane-ting-collection .ding-format-short .content,
+    .page-ting-collection .pane-ting-object .ding-format-short .content,
+    .page-ting-collection .pane-ting-collection .ding-format-short .field,
+    .page-ting-collection .pane-ting-object .ding-format-short .field {
+      margin-left: 0;
+      padding-left: 0; }
+    .page-ting-object .pane-ting-object .ding-format-short .field-name-ting-title,
+    .page-ting-object .pane-ting-collection .ding-format-short .field-name-ting-title,
+    .page-ting-object .pane-ting-object .ding-format-short .field-name-ting-title,
+    .page-ting-collection .pane-ting-object .ding-format-short .field-name-ting-title,
+    .page-ting-collection .pane-ting-collection .ding-format-short .field-name-ting-title,
+    .page-ting-collection .pane-ting-object .ding-format-short .field-name-ting-title {
+      display: inline; }
+      .page-ting-object .pane-ting-object .ding-format-short .field-name-ting-title h2,
+      .page-ting-object .pane-ting-collection .ding-format-short .field-name-ting-title h2,
+      .page-ting-object .pane-ting-object .ding-format-short .field-name-ting-title h2,
+      .page-ting-collection .pane-ting-object .ding-format-short .field-name-ting-title h2,
+      .page-ting-collection .pane-ting-collection .ding-format-short .field-name-ting-title h2,
+      .page-ting-collection .pane-ting-object .ding-format-short .field-name-ting-title h2 {
+        display: inline;
+        font-size: 130%; }
+    .page-ting-object .pane-ting-object .ding-format-short .subjects,
+    .page-ting-object .pane-ting-collection .ding-format-short .subjects,
+    .page-ting-object .pane-ting-object .ding-format-short .subjects,
+    .page-ting-collection .pane-ting-object .ding-format-short .subjects,
+    .page-ting-collection .pane-ting-collection .ding-format-short .subjects,
+    .page-ting-collection .pane-ting-object .ding-format-short .subjects {
+      display: none; }
+    .page-ting-object .pane-ting-object .ding-format-short div.availability,
+    .page-ting-object .pane-ting-collection .ding-format-short div.availability,
+    .page-ting-object .pane-ting-object .ding-format-short div.availability,
+    .page-ting-collection .pane-ting-object .ding-format-short div.availability,
+    .page-ting-collection .pane-ting-collection .ding-format-short div.availability,
+    .page-ting-collection .pane-ting-object .ding-format-short div.availability {
+      display: inline-block;
+      margin-top: 20px; }
+
 /**
  * Carousel
  *
@@ -5466,16 +6368,7 @@ input#edit-search-block-form--2.spinner {
    ========================================================================== */
 /* Wrapper, load and inner
    ========================================================================== */
-.rs-carousel-wrapper {
-  *position: relative;
-  *zoom: 1; }
-  .rs-carousel-wrapper:before, .rs-carousel-wrapper:after {
-    content: "";
-    display: table; }
-  .rs-carousel-wrapper:after {
-    clear: both; }
-
-.rs-carousel {
+.ting-search-carousel {
   float: left;
   width: 100%;
   margin-left: 0%;
@@ -5491,26 +6384,31 @@ input#edit-search-block-form--2.spinner {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  clear: both;
+  margin-bottom: 20px;
+  margin-right: 0;
   padding: 0; }
-  .rs-carousel .ajax-loader {
+  .ting-search-carousel .ajax-loader {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
     border: 1px solid rgba(0, 0, 0, 0.5);
     padding: 5px;
     top: 100px; }
-  .rs-carousel .rs-carousel-items {
-    background-color: transparent; }
+  @media only screen and (max-width: 768px) {
+    .ting-search-carousel {
+      background-color: #d5d5d5; } }
 
-.rs-carousel-inner {
+.ting-search-carousel .slick-slider {
   background-color: #fff;
   min-height: 225px;
   padding-top: 20px;
   padding-right: 20px;
   padding-bottom: 30px;
-  padding-left: 20px; }
+  padding-left: 20px;
+  margin-bottom: 0; }
   @media only screen and (max-width: 768px) {
-    .rs-carousel-inner {
+    .ting-search-carousel .slick-slider {
       background-color: transparent;
       min-height: 150px;
       padding-top: 20px;
@@ -5523,24 +6421,40 @@ input#edit-search-block-form--2.spinner {
 .rs-carousel-pagination {
   display: none; }
 
-.rs-carousel-action-prev,
-.rs-carousel-action-next {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
-  opacity: 0.25; }
-  .rs-carousel-action-prev.rs-carousel-action-active,
-  .rs-carousel-action-next.rs-carousel-action-active {
-    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
-    opacity: 1; }
+.ting-search-carousel .slick-prev,
+.ting-search-carousel .slick-next {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+  background-color: #00caff;
+  border: 2px solid #fffffc;
+  background-image: url("../images/arrows-carousel.png");
+  border-radius: 40px;
+  height: 50px;
+  width: 50px;
+  z-index: 50; }
+  .ting-search-carousel .slick-prev:before,
+  .ting-search-carousel .slick-next:before {
+    display: none; }
   @media only screen and (max-width: 768px) {
-    .rs-carousel-action-prev,
-    .rs-carousel-action-next {
+    .ting-search-carousel .slick-prev,
+    .ting-search-carousel .slick-next {
       display: none; } }
 
-.rs-carousel-action-prev {
-  left: 20px; }
+.ting-search-carousel .slick-prev {
+  background-position: -3px -4px; }
 
-.rs-carousel-action-next {
-  right: 20px; }
+.ting-search-carousel .slick-next {
+  background-position: -60px -4px; }
+
+.ting-search-carousel .slick-prev {
+  left: 40px; }
+  .ting-search-carousel .slick-prev:focus {
+    outline: none; }
+
+.ting-search-carousel .slick-next {
+  right: 40px; }
+  .ting-search-carousel .slick-next:focus {
+    outline: none; }
 
 /* Carousel content, mask, title etc.
    ========================================================================== */
@@ -5560,25 +6474,29 @@ input#edit-search-block-form--2.spinner {
     .rs-carousel-title {
       color: #fff; } }
 
-.rs-carousel-items ul li {
-  list-style: none; }
-
-.rs-carousel-items li {
+.slick-track .ting-search-carousel-item {
   margin-right: 20px;
   position: relative;
-  width: 200px; }
-  .rs-carousel-items li img {
+  width: 135px !important; }
+  .slick-track .ting-search-carousel-item img {
     min-width: 100%;
-    padding: 0; }
-  .rs-carousel-items li:hover .rs-carousel-item-title {
+    padding: 0;
+    width: 135px;
+    height: 196px; }
+    @media only screen and (max-width: 480px) {
+      .slick-track .ting-search-carousel-item img {
+        width: 68px;
+        height: 96px;
+        margin-bottom: 20px; } }
+  .slick-track .ting-search-carousel-item:hover .field-type-ting-title {
     background-color: #000;
     text-decoration: none; }
-  .rs-carousel-items li a {
+  .slick-track .ting-search-carousel-item .a {
     max-height: 250px;
-    width: 200px; }
-    .rs-carousel-items li a:hover {
+    width: 135px; }
+    .slick-track .ting-search-carousel-item .a:hover {
       text-decoration: none; }
-  .rs-carousel-items li .rs-carousel-item-title {
+  .slick-track .ting-search-carousel-item .field-type-ting-title {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -5587,74 +6505,72 @@ input#edit-search-block-form--2.spinner {
     color: #fff;
     left: 0;
     padding-top: 10px;
-    padding-right: 15px;
     padding-bottom: 10px;
-    padding-left: 15px;
-    position: absolute; }
-
-@media only screen and (max-width: 480px) {
-  .rs-carousel-items li {
-    width: 200px; }
-    .rs-carousel-items li a {
-      max-height: 125px;
-      width: 100px; }
-    .rs-carousel-items li .rs-carousel-item-title {
-      display: none; } }
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 100; }
+    .slick-track .ting-search-carousel-item .field-type-ting-title h2 {
+      font-size: 100%;
+      font-family: "SourceSansProRegular";
+      margin: 0 15px; }
+      .slick-track .ting-search-carousel-item .field-type-ting-title h2 a {
+        color: #fff; }
+  .slick-track .ting-search-carousel-item .field-type-ting-type {
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    line-height: 1.2em;
+    padding: 0px 4px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: auto;
+    z-index: 100; }
+    .slick-track .ting-search-carousel-item .field-type-ting-type .field-label {
+      display: none; }
+    .slick-track .ting-search-carousel-item .field-type-ting-type ul,
+    .slick-track .ting-search-carousel-item .field-type-ting-type li {
+      margin: 0;
+      padding: 0; }
+    @media only screen and (max-width: 480px) {
+      .slick-track .ting-search-carousel-item .field-type-ting-type {
+        font-size: 80%;
+        max-width: 50px; } }
+  @media only screen and (max-width: 480px) {
+    .slick-track .ting-search-carousel-item {
+      width: 67.5px !important; }
+      .slick-track .ting-search-carousel-item a {
+        max-height: 125px;
+        width: 67.5px; }
+      .slick-track .ting-search-carousel-item .field-type-ting-title {
+        background: none;
+        height: 100%;
+        padding: 0;
+        position: absolute;
+        width: 100%;
+        z-index: 100; }
+        .slick-track .ting-search-carousel-item .field-type-ting-title a, .slick-track .ting-search-carousel-item .field-type-ting-title h2 {
+          display: block;
+          height: 100%;
+          margin: 0;
+          position: absolute;
+          text-indent: -9000px;
+          width: 100%; }
+        .slick-track .ting-search-carousel-item .field-type-ting-title:hover {
+          background: none; } }
 
 .rs-carousel-runner {
   padding-left: 0; }
 
 /* Carousel tabs
    ========================================================================== */
-.rs-carousel-tabs .rs-carousel-list-tabs {
-  margin: 0;
-  padding: 0;
-  position: relative;
-  text-align: center; }
-  .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    display: block;
-    margin-right: 1px;
-    padding-top: 15px;
-    padding-bottom: 15px; }
-    .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a:hover {
-      background-color: #000;
-      text-decoration: none; }
-  .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a {
-    font-family: "SourceSansProSemibold";
-    font-weight: normal;
-    background-color: #000; }
-    .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a:before {
-      border: 10px solid transparent;
-      content: "";
-      height: 0;
-      position: absolute;
-      width: 0;
-      top: -20px;
-      border-bottom-color: #000;
-      margin-left: -10px;
-      left: 50%; }
-  .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item:before {
-    display: none; }
-
-.rs-carousel-tabs .rs-carousel-select-tabs {
+.ting-search-carousel-select-tabs {
   display: none; }
-
-@media only screen and (max-width: 768px) {
-  .rs-carousel-tabs {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px; }
-    .rs-carousel-tabs .rs-carousel-list-tabs {
-      display: none; }
-    .rs-carousel-tabs .rs-carousel-select-tabs {
+  @media only screen and (max-width: 768px) {
+    .ting-search-carousel-select-tabs {
       display: block;
       width: 100%; }
-      .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item {
+      .ting-search-carousel-select-tabs .rs-carousel-item {
         -webkit-border-radius: 12px;
         -moz-border-radius: 12px;
         border-radius: 12px;
@@ -5663,7 +6579,7 @@ input#edit-search-block-form--2.spinner {
         color: #000;
         padding-left: 20px;
         text-align: left; }
-        .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item:before {
+        .ting-search-carousel-select-tabs .rs-carousel-item:before {
           -webkit-border-radius: 12px;
           -moz-border-radius: 12px;
           border-radius: 12px;
@@ -5679,10 +6595,49 @@ input#edit-search-block-form--2.spinner {
           position: absolute;
           right: 0;
           z-index: 99; }
-        .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-hidden {
+        .ting-search-carousel-select-tabs .rs-carousel-item.js-tab-hidden {
           display: none; }
-        .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-visible {
+        .ting-search-carousel-select-tabs .rs-carousel-item.js-tab-visible {
           display: block; } }
+
+.ting-search-carousel-tabs .ting-search-carousel-list-tabs {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  text-align: center; }
+  .ting-search-carousel-tabs .ting-search-carousel-list-tabs .ting-search-carousel-item {
+    float: left; }
+    .ting-search-carousel-tabs .ting-search-carousel-list-tabs .ting-search-carousel-item a {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      display: block;
+      margin-right: 1px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      position: relative; }
+      .ting-search-carousel-tabs .ting-search-carousel-list-tabs .ting-search-carousel-item a:hover {
+        background-color: #000;
+        text-decoration: none; }
+    .ting-search-carousel-tabs .ting-search-carousel-list-tabs .ting-search-carousel-item.active a {
+      font-family: "SourceSansProSemibold";
+      font-weight: normal;
+      background-color: #000; }
+      .ting-search-carousel-tabs .ting-search-carousel-list-tabs .ting-search-carousel-item.active a:before {
+        border: 10px solid transparent;
+        content: "";
+        height: 0;
+        position: absolute;
+        width: 0;
+        top: -20px;
+        border-bottom-color: #000;
+        margin-left: -10px;
+        left: 50%; }
+    .ting-search-carousel-tabs .ting-search-carousel-list-tabs .ting-search-carousel-item:before {
+      display: none; }
+
+@media only screen and (max-width: 768px) {
+  .ting-search-carousel-tabs {
+    display: none; } }
 
 /**
  * News
@@ -5991,6 +6946,26 @@ input#edit-search-block-form--2.spinner {
       margin-bottom: 0;
       padding-bottom: 10px;
       padding-left: 36px; }
+      .event .event-info p[itemprop="attendee"] {
+        float: left; }
+    .event .event-info .event-room {
+      display: inline-block;
+      border-left: 5px solid #efefef;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-bottom: 10px;
+      padding-left: 36px;
+      position: relative; }
+      .event .event-info .event-room .icon-location-arrow {
+        display: inline-block;
+        left: 15px;
+        margin: 0;
+        position: absolute;
+        top: 3px; }
+        .event .event-info .event-room .icon-location-arrow:before {
+          content: "\f041"; }
+      .event .event-info .event-room .field-name-field-rooms {
+        display: inline-block; }
     .event .event-info i[class^="icon-"] {
       display: inline-block;
       margin-left: -24px;
@@ -6047,13 +7022,18 @@ input#edit-search-block-form--2.spinner {
       border-top: 1px solid #d5d5d5;
       padding-right: 0;
       padding-left: 0; }
-      .event .event-info p {
+      .event .event-info p,
+      .event .event-info .event-room {
         background-color: #efefef;
         border-left: 0;
         border-bottom: 1px solid #d5d5d5;
         padding-top: 12px;
         padding-right: 20px;
         padding-bottom: 10px; }
+      .event .event-info .event-room {
+        display: block; }
+        .event .event-info .event-room .icon-location-arrow {
+          top: 15px; }
     .event .event-content {
       clear: left;
       width: 100%; } }
@@ -6306,18 +7286,20 @@ input#edit-search-block-form--2.spinner {
   _display: inline;
   _overflow: hidden;
   _overflow-y: visible;
+  min-height: 120px;
   position: relative;
   padding: 0; }
   .libraries:before {
     color: #bcbcbc;
     font-family: "FontAwesome";
     font-size: 74px;
-    left: 0;
+    left: 5%;
     position: absolute;
-    text-align: center;
-    top: 1em;
-    width: 25%;
-    z-index: 25; }
+    top: 50%;
+    margin-right: -5%;
+    transform: translate(-5%, -50%);
+    -webkit-transform: translate(-5%, -50%);
+    -ms-transform: translate(-5%, -50%); }
   .libraries .ding-library-left {
     float: left;
     width: 25%;
@@ -6334,7 +7316,14 @@ input#edit-search-block-form--2.spinner {
     _display: inline;
     _overflow: hidden;
     _overflow-y: visible;
-    padding: 0; }
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%); }
+  .libraries.library-cover-exist:before {
+    display: none; }
   .libraries .ding-library-right {
     float: left;
     width: 75%;
@@ -6643,7 +7632,7 @@ input#edit-search-block-form--2.spinner {
 /**
  * Opening hours
  *
- * @author magnify, zorp
+ * @author magnify, zorp, ac
  */
 /* Toggle opening hours
    ========================================================================== */
@@ -6706,17 +7695,60 @@ input#edit-search-block-form--2.spinner {
       visibility: visible;
       font-family: "FontAwesome"; }
 
+.pane-ding-library-opening-hours-ding-library-opened-today {
+  background-color: #fffffe; }
+
 /**
  * User
  *
  * @author magnify
  */
+/* /user/$uid/edit/*
+   ========================================================================== */
+.page-user-edit .pane-profile2-form {
+  line-height: 1.1; }
+  .page-user-edit .pane-profile2-form label,
+  .page-user-edit .pane-profile2-form .form-item {
+    margin-bottom: 5px; }
+  .page-user-edit .pane-profile2-form fieldset,
+  .page-user-edit .pane-profile2-form div[class^="field-type-"] {
+    margin-bottom: 10px; }
+  .page-user-edit .pane-profile2-form .form-submit {
+    margin-top: 10px; }
+
+@media only screen and (min-width: 769px) {
+  .page-user-edit .field-name-field-alma-reservation-pause label {
+    display: none; }
+  .page-user-edit .field-name-field-alma-reservation-pause .start-date-wrapper:after {
+    position: absolute;
+    top: 10px;
+    right: -11%;
+    content: '-';
+    font-weight: 700; }
+  .page-user-edit .field-name-field-alma-reservation-pause .start-date-wrapper,
+  .page-user-edit .field-name-field-alma-reservation-pause .end-date-wrapper {
+    position: relative; }
+    .page-user-edit .field-name-field-alma-reservation-pause .start-date-wrapper .form-type-textfield:after,
+    .page-user-edit .field-name-field-alma-reservation-pause .end-date-wrapper .form-type-textfield:after {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: #333;
+      content: '\f073';
+      font-weight: 700;
+      font-family: 'FontAwesome';
+      pointer-events: none; }
+    .page-user-edit .field-name-field-alma-reservation-pause .start-date-wrapper input[type="text"],
+    .page-user-edit .field-name-field-alma-reservation-pause .end-date-wrapper input[type="text"] {
+      padding-left: 30px; } }
+
 /* /user/$uid/status/*
    ========================================================================== */
 .pane-reservations,
 .pane-loans,
 .pane-debts,
-.pane-bookmarks {
+.pane-bookmarks,
+.pane-social-services-lists {
   padding-bottom: 30px;
   border-bottom: 1px solid #d5d5d5;
   margin-bottom: 30px;
@@ -6726,7 +7758,8 @@ input#edit-search-block-form--2.spinner {
   .pane-reservations .left-column,
   .pane-loans .left-column,
   .pane-debts .left-column,
-  .pane-bookmarks .left-column {
+  .pane-bookmarks .left-column,
+  .pane-social-services-lists .left-column {
     float: left;
     width: 16.66667%;
     margin-left: 0%;
@@ -6745,7 +7778,8 @@ input#edit-search-block-form--2.spinner {
   .pane-reservations .right-column,
   .pane-loans .right-column,
   .pane-debts .right-column,
-  .pane-bookmarks .right-column {
+  .pane-bookmarks .right-column,
+  .pane-social-services-lists .right-column {
     float: right;
     width: 83.33333%;
     margin-right: 0%;
@@ -6768,7 +7802,9 @@ input#edit-search-block-form--2.spinner {
   .pane-debts .material-item,
   .pane-debts .total-amount,
   .pane-bookmarks .material-item,
-  .pane-bookmarks .total-amount {
+  .pane-bookmarks .total-amount,
+  .pane-social-services-lists .material-item,
+  .pane-social-services-lists .total-amount {
     overflow: hidden;
     padding: 10px;
     padding-top: 20px;
@@ -6781,7 +7817,9 @@ input#edit-search-block-form--2.spinner {
     .pane-debts .material-item.odd,
     .pane-debts .total-amount.odd,
     .pane-bookmarks .material-item.odd,
-    .pane-bookmarks .total-amount.odd {
+    .pane-bookmarks .total-amount.odd,
+    .pane-social-services-lists .material-item.odd,
+    .pane-social-services-lists .total-amount.odd {
       background-color: #efefef; }
     .pane-reservations .material-item.even,
     .pane-reservations .total-amount.even,
@@ -6790,61 +7828,72 @@ input#edit-search-block-form--2.spinner {
     .pane-debts .material-item.even,
     .pane-debts .total-amount.even,
     .pane-bookmarks .material-item.even,
-    .pane-bookmarks .total-amount.even {
+    .pane-bookmarks .total-amount.even,
+    .pane-social-services-lists .material-item.even,
+    .pane-social-services-lists .total-amount.even {
       background-color: #fbfbfb; }
   .pane-reservations .item-material-type,
   .pane-loans .item-material-type,
   .pane-debts .item-material-type,
-  .pane-bookmarks .item-material-type {
+  .pane-bookmarks .item-material-type,
+  .pane-social-services-lists .item-material-type {
     line-height: 1.6em;
     text-align: left; }
   .pane-reservations .total-amount,
   .pane-loans .total-amount,
   .pane-debts .total-amount,
-  .pane-bookmarks .total-amount {
+  .pane-bookmarks .total-amount,
+  .pane-social-services-lists .total-amount {
     background-color: #d5d5d5;
     font-size: 130%;
     margin-bottom: 20px; }
   .pane-reservations .item-checkbox,
   .pane-loans .item-checkbox,
   .pane-debts .item-checkbox,
-  .pane-bookmarks .item-checkbox {
+  .pane-bookmarks .item-checkbox,
+  .pane-social-services-lists .item-checkbox {
     float: left;
     width: 25%; }
     .pane-reservations .item-checkbox .form-item,
     .pane-loans .item-checkbox .form-item,
     .pane-debts .item-checkbox .form-item,
-    .pane-bookmarks .item-checkbox .form-item {
+    .pane-bookmarks .item-checkbox .form-item,
+    .pane-social-services-lists .item-checkbox .form-item {
       text-align: left; }
   .pane-reservations .ting-cover,
   .pane-loans .ting-cover,
   .pane-debts .ting-cover,
-  .pane-bookmarks .ting-cover {
+  .pane-bookmarks .ting-cover,
+  .pane-social-services-lists .ting-cover {
     float: left;
     max-width: 75%; }
     .pane-reservations .ting-cover:before,
     .pane-loans .ting-cover:before,
     .pane-debts .ting-cover:before,
-    .pane-bookmarks .ting-cover:before {
+    .pane-bookmarks .ting-cover:before,
+    .pane-social-services-lists .ting-cover:before {
       font-size: 200%;
       left: 50%;
       top: 40%; }
   .pane-reservations .item-information-list,
   .pane-loans .item-information-list,
   .pane-debts .item-information-list,
-  .pane-bookmarks .item-information-list {
+  .pane-bookmarks .item-information-list,
+  .pane-social-services-lists .item-information-list {
     overflow: hidden;
     padding-left: 0; }
     .pane-reservations .item-information-list .item-information,
     .pane-loans .item-information-list .item-information,
     .pane-debts .item-information-list .item-information,
-    .pane-bookmarks .item-information-list .item-information {
+    .pane-bookmarks .item-information-list .item-information,
+    .pane-social-services-lists .item-information-list .item-information {
       overflow: hidden;
       clear: left; }
   .pane-reservations .item-information-label,
   .pane-loans .item-information-label,
   .pane-debts .item-information-label,
-  .pane-bookmarks .item-information-label {
+  .pane-bookmarks .item-information-label,
+  .pane-social-services-lists .item-information-label {
     float: left;
     width: 58.33333%;
     margin-left: 0%;
@@ -6865,7 +7914,8 @@ input#edit-search-block-form--2.spinner {
   .pane-reservations .item-information-data,
   .pane-loans .item-information-data,
   .pane-debts .item-information-data,
-  .pane-bookmarks .item-information-data {
+  .pane-bookmarks .item-information-data,
+  .pane-social-services-lists .item-information-data {
     float: right;
     width: 41.66667%;
     margin-right: 0%;
@@ -6886,7 +7936,8 @@ input#edit-search-block-form--2.spinner {
   .pane-reservations .select-all,
   .pane-loans .select-all,
   .pane-debts .select-all,
-  .pane-bookmarks .select-all {
+  .pane-bookmarks .select-all,
+  .pane-social-services-lists .select-all {
     margin-top: 10px;
     margin-bottom: 0;
     padding: 10px;
@@ -6895,22 +7946,54 @@ input#edit-search-block-form--2.spinner {
     .pane-reservations .select-all .form-checkbox,
     .pane-loans .select-all .form-checkbox,
     .pane-debts .select-all .form-checkbox,
-    .pane-bookmarks .select-all .form-checkbox {
+    .pane-bookmarks .select-all .form-checkbox,
+    .pane-social-services-lists .select-all .form-checkbox {
       margin-right: 5px; }
     .pane-reservations .select-all label,
     .pane-loans .select-all label,
     .pane-debts .select-all label,
-    .pane-bookmarks .select-all label {
+    .pane-bookmarks .select-all label,
+    .pane-social-services-lists .select-all label {
       vertical-align: middle; }
+  .pane-reservations .social-service-lists-buttons,
+  .pane-loans .social-service-lists-buttons,
+  .pane-debts .social-service-lists-buttons,
+  .pane-bookmarks .social-service-lists-buttons,
+  .pane-social-services-lists .social-service-lists-buttons {
+    display: inline-flex;
+    float: right;
+    margin-bottom: 15px; }
+  .pane-reservations .social-services-lists-fieldset .material-item,
+  .pane-loans .social-services-lists-fieldset .material-item,
+  .pane-debts .social-services-lists-fieldset .material-item,
+  .pane-bookmarks .social-services-lists-fieldset .material-item,
+  .pane-social-services-lists .social-services-lists-fieldset .material-item {
+    float: right;
+    width: 100%; }
   .pane-reservations .form-item,
   .pane-loans .form-item,
   .pane-debts .form-item,
-  .pane-bookmarks .form-item {
+  .pane-bookmarks .form-item,
+  .pane-social-services-lists .form-item {
     margin-bottom: 0; }
+    .pane-reservations .form-item .social-services-lists-update,
+    .pane-loans .form-item .social-services-lists-update,
+    .pane-debts .form-item .social-services-lists-update,
+    .pane-bookmarks .form-item .social-services-lists-update,
+    .pane-social-services-lists .form-item .social-services-lists-update {
+      float: left;
+      margin: 0; }
+  .pane-reservations .social-services-delete-item a,
+  .pane-loans .social-services-delete-item a,
+  .pane-debts .social-services-delete-item a,
+  .pane-bookmarks .social-services-delete-item a,
+  .pane-social-services-lists .social-services-delete-item a {
+    text-decoration: underline; }
   .pane-reservations .messages,
   .pane-loans .messages,
   .pane-debts .messages,
-  .pane-bookmarks .messages {
+  .pane-bookmarks .messages,
+  .pane-social-services-lists .messages {
     padding-top: 5px;
     padding-right: 5px;
     padding-bottom: 5px;
@@ -6919,20 +8002,74 @@ input#edit-search-block-form--2.spinner {
     .pane-reservations .messages:before,
     .pane-loans .messages:before,
     .pane-debts .messages:before,
-    .pane-bookmarks .messages:before {
+    .pane-bookmarks .messages:before,
+    .pane-social-services-lists .messages:before {
       left: 7px;
       font-size: 16px; }
   .pane-reservations .form-checkbox[disabled^="disabled"],
   .pane-loans .form-checkbox[disabled^="disabled"],
   .pane-debts .form-checkbox[disabled^="disabled"],
-  .pane-bookmarks .form-checkbox[disabled^="disabled"] {
+  .pane-bookmarks .form-checkbox[disabled^="disabled"],
+  .pane-social-services-lists .form-checkbox[disabled^="disabled"] {
     display: none; }
   .pane-reservations .action-button,
   .pane-loans .action-button,
   .pane-debts .action-button,
-  .pane-bookmarks .action-button {
+  .pane-bookmarks .action-button,
+  .pane-social-services-lists .action-button {
     display: inline-block;
     margin-right: 20px; }
+  .pane-reservations .ding-format-short .left-column,
+  .pane-loans .ding-format-short .left-column,
+  .pane-debts .ding-format-short .left-column,
+  .pane-bookmarks .ding-format-short .left-column,
+  .pane-social-services-lists .ding-format-short .left-column {
+    float: left;
+    width: 8.33333%;
+    margin-left: 0%;
+    margin-right: -8.33333%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .pane-reservations .ding-format-short .right-column,
+  .pane-loans .ding-format-short .right-column,
+  .pane-debts .ding-format-short .right-column,
+  .pane-bookmarks .ding-format-short .right-column,
+  .pane-social-services-lists .ding-format-short .right-column {
+    float: right;
+    width: 91.66667%;
+    margin-right: 0%;
+    margin-left: -91.66667%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible; }
+  .pane-reservations .ding-format-short .ting-cover,
+  .pane-reservations .ding-format-short .item-information-list,
+  .pane-loans .ding-format-short .ting-cover,
+  .pane-loans .ding-format-short .item-information-list,
+  .pane-debts .ding-format-short .ting-cover,
+  .pane-debts .ding-format-short .item-information-list,
+  .pane-bookmarks .ding-format-short .ting-cover,
+  .pane-bookmarks .ding-format-short .item-information-list,
+  .pane-social-services-lists .ding-format-short .ting-cover,
+  .pane-social-services-lists .ding-format-short .item-information-list {
+    display: none; }
 
 .pane-loans .select-all {
   background-color: #528c10;
@@ -6941,6 +8078,13 @@ input#edit-search-block-form--2.spinner {
     background-color: #a32e10; }
   .pane-loans .select-all.due {
     background-color: #f0cb28; }
+
+.page-user .primary-content {
+  position: relative; }
+
+.page-user .pane-ding-toggle-format-toggle {
+  position: absolute;
+  right: 0; }
 
 /* User debts specific
    ========================================================================== */
@@ -6953,6 +8097,13 @@ input#edit-search-block-form--2.spinner {
   .pane-ding-dibs-dibs-cards-supported #dibs-cards-supported .card-name {
     font-weight: normal;
     font-family: "SourceSansProSemibold"; }
+
+#dibs-terms-of-sale {
+  font-size: 100%; }
+
+#dibs-cards-supported .card-logo,
+.form-item-cards-supported .card-logo {
+  margin-bottom: 15px; }
 
 .pane-debts .left-column {
   float: left;
@@ -6998,11 +8149,13 @@ input#edit-search-block-form--2.spinner {
 @media only screen and (max-width: 480px) {
   .pane-reservations h3,
   .pane-loans h3,
-  .pane-bookmarks h3 {
+  .pane-bookmarks h3,
+  .pane-social-services-lists h3 {
     font-size: 130%; }
   .pane-reservations .left-column,
   .pane-loans .left-column,
-  .pane-bookmarks .left-column {
+  .pane-bookmarks .left-column,
+  .pane-social-services-lists .left-column {
     float: left;
     width: 8.33333%;
     margin-left: 0%;
@@ -7020,7 +8173,8 @@ input#edit-search-block-form--2.spinner {
     _overflow-y: visible; }
   .pane-reservations .right-column,
   .pane-loans .right-column,
-  .pane-bookmarks .right-column {
+  .pane-bookmarks .right-column,
+  .pane-social-services-lists .right-column {
     float: right;
     width: 91.66667%;
     margin-right: 0%;
@@ -7038,7 +8192,8 @@ input#edit-search-block-form--2.spinner {
     _overflow-y: visible; }
   .pane-reservations .item-checkbox,
   .pane-loans .item-checkbox,
-  .pane-bookmarks .item-checkbox {
+  .pane-bookmarks .item-checkbox,
+  .pane-social-services-lists .item-checkbox {
     width: 100%;
     clear: both;
     display: block;
@@ -7046,7 +8201,8 @@ input#edit-search-block-form--2.spinner {
     margin-right: 10px; }
   .pane-reservations .ting-cover,
   .pane-loans .ting-cover,
-  .pane-bookmarks .ting-cover {
+  .pane-bookmarks .ting-cover,
+  .pane-social-services-lists .ting-cover {
     display: none;
     /*clear: both;
       float: none;
@@ -7054,27 +8210,34 @@ input#edit-search-block-form--2.spinner {
       margin-top: 15px;*/ }
   .pane-reservations .item-information-label,
   .pane-loans .item-information-label,
-  .pane-bookmarks .item-information-label {
+  .pane-bookmarks .item-information-label,
+  .pane-social-services-lists .item-information-label {
     padding: 0;
     font-weight: bold; }
   .pane-reservations .item-information-data,
   .pane-loans .item-information-data,
-  .pane-bookmarks .item-information-data {
+  .pane-bookmarks .item-information-data,
+  .pane-social-services-lists .item-information-data {
     padding: 0;
     margin-bottom: 10px; }
   .pane-reservations .action-buttons .action-button,
   .pane-loans .action-buttons .action-button,
-  .pane-bookmarks .action-buttons .action-button {
+  .pane-bookmarks .action-buttons .action-button,
+  .pane-social-services-lists .action-buttons .action-button {
     margin-top: 10px; }
     .pane-reservations .action-buttons .action-button:nth-of-type(1),
     .pane-loans .action-buttons .action-button:nth-of-type(1),
-    .pane-bookmarks .action-buttons .action-button:nth-of-type(1) {
-      margin-top: 0; } }
+    .pane-bookmarks .action-buttons .action-button:nth-of-type(1),
+    .pane-social-services-lists .action-buttons .action-button:nth-of-type(1) {
+      margin-top: 0; }
+  .pane-ding-toggle-format-toggle .ding-toggle-format-label {
+    display: none; } }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
   .pane-reservations .left-column,
   .pane-loans .left-column,
-  .pane-bookmarks .left-column {
+  .pane-bookmarks .left-column,
+  .pane-social-services-lists .left-column {
     float: left;
     width: 25%;
     margin-left: 0%;
@@ -7092,7 +8255,8 @@ input#edit-search-block-form--2.spinner {
     _overflow-y: visible; }
   .pane-reservations .right-column,
   .pane-loans .right-column,
-  .pane-bookmarks .right-column {
+  .pane-bookmarks .right-column,
+  .pane-social-services-lists .right-column {
     float: right;
     width: 75%;
     margin-right: 0%;
@@ -7110,15 +8274,18 @@ input#edit-search-block-form--2.spinner {
     _overflow-y: visible; }
   .pane-reservations .item-checkbox,
   .pane-loans .item-checkbox,
-  .pane-bookmarks .item-checkbox {
+  .pane-bookmarks .item-checkbox,
+  .pane-social-services-lists .item-checkbox {
     width: 30%; }
   .pane-reservations .ting-cover,
   .pane-loans .ting-cover,
-  .pane-bookmarks .ting-cover {
+  .pane-bookmarks .ting-cover,
+  .pane-social-services-lists .ting-cover {
     max-width: 70%; }
   .pane-reservations .item-information-label,
   .pane-loans .item-information-label,
-  .pane-bookmarks .item-information-label {
+  .pane-bookmarks .item-information-label,
+  .pane-social-services-lists .item-information-label {
     float: left;
     width: 50%;
     margin-left: 0%;
@@ -7138,7 +8305,8 @@ input#edit-search-block-form--2.spinner {
     padding-right: 10px; }
   .pane-reservations .item-information-data,
   .pane-loans .item-information-data,
-  .pane-bookmarks .item-information-data {
+  .pane-bookmarks .item-information-data,
+  .pane-social-services-lists .item-information-data {
     float: right;
     width: 50%;
     margin-right: 0%;
@@ -7159,15 +8327,18 @@ input#edit-search-block-form--2.spinner {
 @media only screen and (min-width: 769px) and (max-width: 940px) {
   .pane-reservations .item-checkbox,
   .pane-loans .item-checkbox,
-  .pane-bookmarks .item-checkbox {
+  .pane-bookmarks .item-checkbox,
+  .pane-social-services-lists .item-checkbox {
     width: 35%; }
   .pane-reservations .ting-cover,
   .pane-loans .ting-cover,
-  .pane-bookmarks .ting-cover {
+  .pane-bookmarks .ting-cover,
+  .pane-social-services-lists .ting-cover {
     max-width: 65%; }
   .pane-reservations .item-information-label,
   .pane-loans .item-information-label,
-  .pane-bookmarks .item-information-label {
+  .pane-bookmarks .item-information-label,
+  .pane-social-services-lists .item-information-label {
     float: left;
     width: 50%;
     margin-left: 0%;
@@ -7187,7 +8358,8 @@ input#edit-search-block-form--2.spinner {
     padding-right: 10px; }
   .pane-reservations .item-information-data,
   .pane-loans .item-information-data,
-  .pane-bookmarks .item-information-data {
+  .pane-bookmarks .item-information-data,
+  .pane-social-services-lists .item-information-data {
     float: right;
     width: 50%;
     margin-right: 0%;
@@ -7209,12 +8381,19 @@ input#edit-search-block-form--2.spinner {
 .header-wrapper {
   /* Add padding if the search is in the header */ }
   .header-wrapper .user {
-    padding-top: 30px;
-    padding-right: 20px;
-    padding-bottom: 60px;
-    padding-left: 20px; }
+    padding-right: 10px; }
+    @media only screen and (max-width: 768px) {
+      .header-wrapper .user {
+        padding-left: 10px; } }
+
+.pane-user-login .form-actions {
+  top: 29px; }
+  @media only screen and (max-width: 768px) {
+    .pane-user-login .form-actions {
+      top: 0; } }
 
 .user {
+  overflow: hidden;
   overflow: hidden; }
   .user .user-field-wrapper {
     position: relative; }
@@ -7275,6 +8454,9 @@ input#edit-search-block-form--2.spinner {
       _overflow: hidden;
       _overflow-y: visible;
       clear: left; }
+    .user div .form-item-name,
+    .user div .form-item-pass {
+      width: 100%; }
     .user .form-actions {
       margin-bottom: 0; }
     .user .form-submit {
@@ -7294,6 +8476,48 @@ input#edit-search-block-form--2.spinner {
   @media only screen and (max-width: 768px) {
     .user {
       width: auto; } }
+  .user .user-field-wrapper {
+    position: relative; }
+  .user .form-item-name {
+    float: left;
+    width: 50%;
+    margin-left: 0%;
+    margin-right: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    margin-bottom: 0; }
+    .user .form-item-name .form-text {
+      padding-left: 45px; }
+  .user .form-item-pass {
+    float: right;
+    width: 50%;
+    margin-right: 0%;
+    margin-left: -50%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+    margin-bottom: 0; }
+    .user .form-item-pass .form-text {
+      padding-left: 42px; }
+  .user .block-title {
+    display: none; }
 
 .user-name {
   color: #fff; }
@@ -7371,6 +8595,30 @@ input#edit-search-block-form--2.spinner {
 
 .ding-gatewayf--link-wrapper {
   margin-top: 10px; }
+
+.header-wrapper .header-inner > section.user {
+  padding-bottom: 60px; }
+  @media only screen and (max-width: 480px) {
+    .header-wrapper .header-inner > section.user {
+      padding-bottom: 100px; }
+      .header-wrapper .header-inner > section.user .pane-ding-gatewayf-registration-registration {
+        margin-bottom: 10px; } }
+
+.header-wrapper .header-inner > section.wayf-wrapper {
+  bottom: 5px;
+  right: 10px; }
+  @media only screen and (max-width: 480px) {
+    .header-wrapper .header-inner > section.wayf-wrapper {
+      left: 5%;
+      width: 90%; }
+      .header-wrapper .header-inner > section.wayf-wrapper .pane-ding-gatewayf-registration-registration {
+        margin-bottom: 10px;
+        display: block;
+        text-align: center; }
+      .header-wrapper .header-inner > section.wayf-wrapper .pane-ding-gatewayf-login {
+        display: block;
+        text-align: center;
+        margin-left: 0; } }
 
 /* User profile
    ========================================================================== */
@@ -7458,13 +8706,15 @@ input#edit-search-block-form--2.spinner {
    ========================================================================== */
 .pane-loans ul,
 .pane-reservations ul,
-.pane-bookmarks ul {
+.pane-bookmarks ul,
+.pane-social-services-lists ul {
   margin: 0;
   padding: 0; }
 
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
-.pane-bookmarks .form-checkbox {
+.pane-bookmarks .form-checkbox,
+.pane-social-services-lists .form-checkbox {
   margin-top: 0;
   margin-right: 1px;
   margin-bottom: 0;
@@ -7472,14 +8722,37 @@ input#edit-search-block-form--2.spinner {
 
 .pane-loans .order-id,
 .pane-reservations .order-id,
-.pane-bookmarks .order-id {
+.pane-bookmarks .order-id,
+.pane-social-services-lists .order-id {
   margin-top: 0;
   margin-bottom: 0;
   margin-left: 47px; }
 
-.pane-bookmarks .action-button {
+.pane-bookmarks .action-button,
+.pane-social-services-lists .action-button {
   margin-top: 10px;
   margin-right: 0; }
+
+.page-user-scheduler #tabs {
+  margin-bottom: 0; }
+
+@media only screen and (max-width: 1210px) {
+  .page-user-scheduler .pane-page-content {
+    padding-right: 10px;
+    padding-left: 10px; } }
+
+.page-user-roles #tabs {
+  margin-bottom: 0; }
+
+.page-user-roles #role-delegation-roles-form {
+  clear: both;
+  overflow: hidden;
+  padding: 10px;
+  background-color: #fff; }
+  @media only screen and (max-width: 1210px) {
+    .page-user-roles #role-delegation-roles-form {
+      margin-right: 10px;
+      margin-left: 10px; } }
 
 /**
  * Comments
@@ -8365,6 +9638,19 @@ input#edit-search-block-form--2.spinner {
       _display: inline;
       _overflow: hidden;
       _overflow-y: visible; } }
+
+/**
+ * Media
+ *
+ */
+.content-wrapper .file-audio {
+  margin: 40px 0 0 10px; }
+
+.media-image-right {
+  float: right; }
+
+.media-image-left {
+  float: left; }
 
 /**
  * Webforms
@@ -9553,7 +10839,9 @@ ul.actions {
   .pane-debts .material-item,
   .pane-debts .total-amount,
   .pane-bookmarks .material-item,
-  .pane-bookmarks .total-amount {
+  .pane-social-services-lists .material-item,
+  .pane-bookmarks .total-amount,
+  .pane-social-services-lists .total-amount {
     page-break-inside: avoid;
     padding: 5px 0; }
   #ding-loan-loans-form .item-information-list .item-information {
@@ -9577,10 +10865,338 @@ ul.actions {
   .pane-reservations .ting-cover,
   .pane-loans .ting-cover,
   .pane-debts .ting-cover,
-  .pane-bookmarks .ting-cover {
+  .pane-bookmarks .ting-cover,
+  .pane-social-services-lists .ting-cover {
     max-width: 70%; }
   .pane-reservations .messages,
   .pane-loans .messages,
   .pane-debts .messages,
-  .pane-bookmarks .messages {
+  .pane-bookmarks .messages,
+  .pane-social-services-lists .messages {
     margin-bottom: 5px; } }
+
+@media only screen and (min-width: 769px) {
+  .search .form-actions > a, .search-field-in-content .form-actions > a {
+    color: #959595; } }
+
+.search .collapsible input, .search-field-in-content .collapsible input {
+  background: -owg-linear-gradient(#efefef, #fbfbfb);
+  background: -webkit-linear-gradient(#efefef, #fbfbfb);
+  background: -moz-linear-gradient(#efefef, #fbfbfb);
+  background: -o-linear-gradient(#efefef, #fbfbfb);
+  -pie-background: -pie-linear-gradient(#efefef, #fbfbfb);
+  background: linear-gradient(#efefef, #fbfbfb);
+  border: 1px solid #d5d5d5; }
+
+.pane-easyddb-search-ext-search-ext {
+  background-color: #fffffe; }
+
+.pane-bibdk-subject-hierarchy-bibdk-subject-hierarchy {
+  background-color: #fffffe; }
+  .pane-bibdk-subject-hierarchy-bibdk-subject-hierarchy .themes__sublists {
+    background-color: #fffffe; }
+
+.form-item-search-hierarchy-input {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+/**
+ * Alma item list
+ *
+ * @author ac
+ */
+.pane-alma-item-list {
+  background-color: #fffffe; }
+
+.ding-item-viewer .ui-tabs-nav {
+  background: #191919; }
+
+.ding-item-viewer .view-mode-ding-item-viewer-small .image-wrapper {
+  background: #191919; }
+
+.pane-ding-item-list {
+  background-color: #fffffe; }
+
+/**
+ * Ding nodelist module
+ *
+ * @author ac
+ */
+.ding_nodelist .event-time .event-day {
+  background-color: #00cafe; }
+
+.ding_nodelist-horizontal_accordion .expand, .ding_nodelist-horizontal_accordion .pane-ding-facetbrowser .selected-checkbox-group .unselect, .pane-ding-facetbrowser .selected-checkbox-group .ding_nodelist-horizontal_accordion .unselect, .ding_nodelist-horizontal_accordion .pane-search-backends .selected-checkbox-group .unselect, .pane-search-backends .selected-checkbox-group .ding_nodelist-horizontal_accordion .unselect, .ding_nodelist-horizontal_accordion .pane-ding-facetbrowser .expand-facets, .pane-ding-facetbrowser .ding_nodelist-horizontal_accordion .expand-facets, .ding_nodelist-horizontal_accordion .pane-search-backends .expand-facets, .pane-search-backends .ding_nodelist-horizontal_accordion .expand-facets {
+  background-color: #00cafe; }
+
+.ding_nodelist-horizontal_accordion .expand:hover, .ding_nodelist-horizontal_accordion .pane-ding-facetbrowser .selected-checkbox-group .unselect:hover, .pane-ding-facetbrowser .selected-checkbox-group .ding_nodelist-horizontal_accordion .unselect:hover, .ding_nodelist-horizontal_accordion .pane-search-backends .selected-checkbox-group .unselect:hover, .pane-search-backends .selected-checkbox-group .ding_nodelist-horizontal_accordion .unselect:hover, .ding_nodelist-horizontal_accordion .pane-ding-facetbrowser .expand-facets:hover, .pane-ding-facetbrowser .ding_nodelist-horizontal_accordion .expand-facets:hover, .ding_nodelist-horizontal_accordion .pane-search-backends .expand-facets:hover, .pane-search-backends .ding_nodelist-horizontal_accordion .expand-facets:hover {
+  background-color: #00a7d2; }
+
+.ding_nodelist-carousel .pagination .selected {
+  background-color: #00cafe; }
+
+.ding_nodelist-taxonomy .item {
+  background-color: #ebebeb;
+  color: #4c4c4c; }
+  .ding_nodelist-taxonomy .item .item-title {
+    font-size: 130%; }
+    .ding_nodelist-taxonomy .item .item-title a {
+      font-weight: normal; }
+
+.ding_nodelist-taxonomy .item-details .item-date,
+.ding_nodelist-taxonomy .item-details .item-price,
+.ding_nodelist-taxonomy .item-details .item-library {
+  font-size: 100%; }
+
+.ding_nodelist-taxonomy .item:nth-child(odd) {
+  background-color: #e8e8e8; }
+
+.ding_nodelist-taxonomy .item:nth-child(even) {
+  background-color: #f2f2f2; }
+
+.ding_nodelist-minimal-items .minimal-item.odd {
+  background-color: #e8e8e8; }
+
+.ding_nodelist-minimal-items .minimal-item.even {
+  background-color: #f2f2f2; }
+
+/**
+ * Ding search related
+ *
+ * @author ac
+ */
+.view-ting-search-related-content {
+  background-color: #e8e8e8; }
+  .view-ting-search-related-content .views-field-title {
+    font-size: 130%;
+    font-weight: 700; }
+    .view-ting-search-related-content .views-field-title a:link,
+    .view-ting-search-related-content .views-field-title a:hover,
+    .view-ting-search-related-content .views-field-title a:visited {
+      color: rgba(0, 0, 0, 0.7); }
+
+/**
+ * Newsletter styles
+ *
+ * Uses shared %article @extends
+ *
+ * @author ac
+ */
+.node-type-newsletter {
+  /* List of related materials */ }
+  .node-type-newsletter .pane-node-title {
+    font-size: 180%;
+    font-weight: normal; }
+  .node-type-newsletter .newsletter-footer {
+    background: #262626;
+    color: #fffff9; }
+
+/**
+ * Search
+ *
+ *
+ * @author ac
+ */
+.pane-ding-toggle-format-toggle {
+  float: right; }
+  .pane-ding-toggle-format-toggle .ding-toggle-format-label {
+    position: relative;
+    top: -2px; }
+  .pane-ding-toggle-format-toggle #ding-toggle-format {
+    background: none;
+    text-decoration: none; }
+    .pane-ding-toggle-format-toggle #ding-toggle-format:before, .pane-ding-toggle-format-toggle #ding-toggle-format:after {
+      color: #bcbcbc;
+      display: inline-block;
+      font-family: "FontAwesome";
+      font-size: 100%;
+      height: 20px;
+      margin-top: 5px;
+      text-decoration: none;
+      width: 20px; }
+    .pane-ding-toggle-format-toggle #ding-toggle-format:before {
+      content: "\f039"; }
+    .pane-ding-toggle-format-toggle #ding-toggle-format:after {
+      content: "\f03a"; }
+  .pane-ding-toggle-format-toggle #ding-toggle-format-image {
+    display: none;
+    height: 20px; }
+  .pane-ding-toggle-format-toggle #ding-toggle-format.ding-toggle-format-short:before, .pane-ding-toggle-format-toggle #ding-toggle-format.ding-toggle-format-long:after {
+    color: #00b7e7; }
+
+/**
+ * Module
+ *
+ * Styles for front covers and back covers
+ *
+ * @author ac
+ */
+.reveal-modal-bg {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: #000;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  display: none;
+  top: 0;
+  left: 0; }
+
+.reveal-modal {
+  visibility: hidden;
+  top: 100px;
+  left: 50%;
+  margin-left: -300px;
+  width: 590px;
+  background: #eee url("../images/modal-gloss.png") no-repeat -200px -80px;
+  position: absolute;
+  z-index: 101;
+  padding: 30px 40px 34px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  -box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); }
+
+.reveal-modal.small {
+  width: 200px;
+  margin-left: -140px; }
+
+.reveal-modal.medium {
+  width: 400px;
+  margin-left: -240px; }
+
+.reveal-modal.large {
+  width: 600px;
+  margin-left: -340px; }
+
+.reveal-modal.xlarge {
+  width: 800px;
+  margin-left: -440px; }
+
+.reveal-modal .close-reveal-modal {
+  font-size: 22px;
+  line-height: .5;
+  position: absolute;
+  top: 8px;
+  right: 11px;
+  color: #aaa;
+  text-shadow: 0 -1px 1px rbga(0, 0, 0, 0.6);
+  font-weight: bold;
+  cursor: pointer; }
+
+.ting-object .work-cover-selector {
+  padding-top: 20px; }
+  .ting-object .work-cover-selector a {
+    color: #bcbcbc;
+    background-color: inherit; }
+    .ting-object .work-cover-selector a.active {
+      color: #00b7e7; }
+  .ting-object .work-cover-selector .cover-front {
+    display: inline-block;
+    height: 30px;
+    margin-right: 10px;
+    width: 30px; }
+    .ting-object .work-cover-selector .cover-front:before {
+      content: "\f030";
+      display: inline-block;
+      font-family: FontAwesome;
+      font-size: 30px;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale; }
+  .ting-object .work-cover-selector .cover-back {
+    display: inline-block;
+    height: 30px;
+    width: 30px; }
+    .ting-object .work-cover-selector .cover-back:before {
+      content: "\f02d";
+      display: inline-block;
+      font-family: FontAwesome;
+      font-size: 30px;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale; }
+  @media only screen and (max-width: 768px) {
+    .ting-object .work-cover-selector .cover-front:before {
+      font-size: 20px; }
+    .ting-object .work-cover-selector .cover-back:before {
+      font-size: 20px; } }
+
+.reveal-cover-large-image {
+  text-align: center;
+  height: 100%; }
+  .reveal-cover-large-image img {
+    height: 100%;
+    width: auto;
+    max-height: 100%; }
+
+.reveal-modal.reveal-cover-back,
+.reveal-modal.reveal-cover-large {
+  top: 10% !important;
+  position: fixed;
+  height: 80%;
+  overflow: hidden; }
+  @media only screen and (max-width: 768px) {
+    .reveal-modal.reveal-cover-back,
+    .reveal-modal.reveal-cover-large {
+      left: 0 !important;
+      margin-left: 5% !important;
+      width: calc(90% - 40px) !important;
+      height: 80% !important;
+      padding: 20px; } }
+
+.reveal-modal.reveal-cover-back {
+  height: 80%; }
+  .reveal-modal.reveal-cover-back .reveal-cover-back-image {
+    height: 100%; }
+    .reveal-modal.reveal-cover-back .reveal-cover-back-image object {
+      height: 100%; }
+      @media only screen and (max-width: 768px) {
+        .reveal-modal.reveal-cover-back .reveal-cover-back-image object {
+          width: 100%; } }
+
+.page-search-ting .ting-object .work-cover-selector a.cover-back,
+.page-search-ting .ting-object .work-cover-selector a.cover-front {
+  height: 20px;
+  width: 20px; }
+  .page-search-ting .ting-object .work-cover-selector a.cover-back:before,
+  .page-search-ting .ting-object .work-cover-selector a.cover-front:before {
+    font-size: 20px; }
+
+/**
+ * CK editor styles
+ *
+ * @author magnify
+ */
+@media only screen and (max-width: 480px) {
+  .page-bibliotek .pane-content img,
+  .page-node .field-type-text-long img {
+    height: auto !important;
+    max-width: 100%;
+    padding: 0;
+    width: 100% !important; } }
+
+/**
+ * Social services styles
+ *
+ * @author ac
+ */
+.page-ting-object .field.field-name-field-ss-comment .field-label:before,
+.page-ting-collection .field.field-name-field-ss-comment .field-label:before,
+.page-ting-collection .ss-tags-outer-wrapper .ss-tags-inner-wrapper h2:before,
+.page-ting-object .ss-tags-outer-wrapper .ss-tags-inner-wrapper h2:before {
+  color: #00b7e7; }
+
+.page-ting-collection .ss-tag,
+.page-ting-object .ss-tag {
+  background-color: #00cafe;
+  color: #fffffd;
+  padding: 3px 10px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px; }
+  .page-ting-collection .ss-tag:hover,
+  .page-ting-object .ss-tag:hover {
+    background-color: #00a7d2; }

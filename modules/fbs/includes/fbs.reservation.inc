@@ -107,6 +107,7 @@ function fbs_reservation_create($account, $record_id, $options) {
   $batch->reservations = array();
 
   $reservation = new FBS\Model\CreateReservation();
+
   // We use our own custom ids prefixed with "fbs-" for periodicals.
   if (preg_match('/^fbs-/', $record_id)) {
     list($record_id, $periodical) = _fbs_periodical_parse_local_id($record_id);
@@ -325,4 +326,16 @@ function fbs_reservation_options_submit($account, $values) {
  */
 function fbs_reservation_default_interest_period() {
   return variable_get('fbs_default_interest_period', 180);
+}
+
+/**
+ * Get list of pickup branches.
+ *
+ * @return array
+ *   FBS pickup branches.
+ */
+function fbs_reservation_pickup_branches() {
+  $branches = fbs_branches();
+
+  return $branches;
 }

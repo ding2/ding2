@@ -95,6 +95,12 @@ function ding_library_strongarm() {
         'path' => array(
           'weight' => '7',
         ),
+        'og_menu' => array(
+          'weight' => '0',
+        ),
+        'redirect' => array(
+          'weight' => '30',
+        ),
       ),
       'display' => array(),
     ),

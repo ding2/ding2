@@ -33,7 +33,7 @@
   #ding-library-library-list-select-library .form-submit {
     display: none;
   }
-  
+
   .default-layout .primary-content {
     margin-left: 0;
     margin-right: 0;
@@ -43,12 +43,12 @@
 
   .logo {
     padding-bottom: 10px;
-  } 
-  
+  }
+
   h3 {
     font-size: 120%;
   }
-  
+
   .pane-search-result .search-results .list .search-result--availability,
   .view-node-search-result .search-results .list .search-result--availability,
   .ting-reference-reverse-list .search-results .list .search-result--availability,
@@ -61,7 +61,7 @@
     margin-top: 0px;
     padding-top: 0px;
   }
-  
+
   .pane-search-result .search-results .list .list-item,
   .view-node-search-result .search-results .list .list-item,
   .ting-reference-reverse-list .search-results .list .list-item,
@@ -69,7 +69,7 @@
     page-break-inside: avoid;
     padding: 0px;
   }
-  
+
   .pane-search-result .search-results .list .view-mode-teaser,
   .view-node-search-result .search-results .list .view-mode-teaser,
   .ting-reference-reverse-list .search-results .list .view-mode-teaser,
@@ -77,16 +77,16 @@
     padding: 5pt 0;
     border-top: 1px solid #efefef;
   }
-  
+
   .search-results li {
     margin-bottom: 0;
   }
-  
-  
+
+
   .search-results p {
     margin-bottom: 0;
   }
-  
+
   .pane-search-result .search-results .list .content,
   .view-node-search-result .search-results .list .content,
   .ting-reference-reverse-list .search-results .list .content,
@@ -97,12 +97,12 @@
   .pane-new-materials .search-results .list .field {
     margin-bottom: 2pt;
   }
-  
+
   .pane-ting-collection .field-name-ding-entity-buttons,
   .pane-ting-object .field-name-ding-entity-buttons {
     display: none;
   }
-  
+
   .pane-reservations .material-item,
   .pane-reservations .total-amount,
   .pane-loans .material-item,
@@ -110,7 +110,9 @@
   .pane-debts .material-item,
   .pane-debts .total-amount,
   .pane-bookmarks .material-item,
-  .pane-bookmarks .total-amount {
+  .pane-social-services-lists .material-item,
+  .pane-bookmarks .total-amount,
+  .pane-social-services-lists .total-amount {
     page-break-inside: avoid;
     padding: 5px 0;
   }
@@ -129,16 +131,16 @@
   .pane-reservations .ting-cover,
   .pane-loans .ting-cover,
   .pane-debts .ting-cover,
-  .pane-bookmarks .ting-cover {
+  .pane-bookmarks .ting-cover,
+  .pane-social-services-lists .ting-cover {
     max-width: 70%;
   }
 
   .pane-reservations .messages,
   .pane-loans .messages,
   .pane-debts .messages,
-  .pane-bookmarks .messages {
+  .pane-bookmarks .messages,
+  .pane-social-services-lists .messages {
     margin-bottom: 5px;
   }
 }
-
-

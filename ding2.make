@@ -92,6 +92,9 @@ projects[features_extra][version] = "1.0-beta1"
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-alpha8"
 
+projects[feeds_ex][subdir] = "contrib"
+projects[feeds_ex][version] = "1.0-beta2"
+
 projects[fences][type] = "module"
 projects[fences][subdir] = "contrib"
 projects[fences][version] = "1.0"
@@ -221,7 +224,7 @@ projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] "1.10"
+projects[metatag][version] = "1.10"
 
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
@@ -250,6 +253,8 @@ projects[oembed][subdir] = "contrib"
 projects[oembed][version] = "1.0-rc2"
 ; Remove hook_system_info_alter() to allow installing modules depending on oembed, after oembed is installed.
 projects[oembed][patch][] = "http://www.drupal.org/files/issues/oembed-remove_hook_sytem_info_alter-2502817-1.patch"
+; Fix fatal error on install: Unsupported operand types
+projects[oembed][patch][] = "https://www.drupal.org/files/oembed-2021015-1.patch"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.7"
@@ -437,7 +442,7 @@ projects[xautoload][version] = "5.7"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][branch] = "master"
+libraries[bpi-client][download][tag] = "7.x-3.0.1"
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
@@ -489,9 +494,15 @@ libraries[psr7][download][url] = "https://github.com/guzzle/psr7.git"
 libraries[psr7][download][tag] = "1.3.1"
 libraries[psr7][destination] = "libraries"
 
+libraries[slick][download][type] = "git"
+libraries[slick][download][url] = "git@github.com:kenwheeler/slick.git"
+libraries[slick][download][branch] = "master"
+libraries[slick][directory_name] = "slick"
+libraries[slick][destination] = "libraries"
+
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][branch] = "master"
+libraries[ting-client][download][tag] = "7.x-3.0.1"
 libraries[ting-client][destination] = "modules/ting/lib"
 
 libraries[zen-grids][download][type] = "git"
@@ -508,3 +519,60 @@ libraries[jquery.imagesloaded][download][type] = "get"
 libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
+
+; easyDDB contribution modules
+projects[extlink][version]                  = "1.18"
+projects[extlink][subdir]                   = "contrib"
+
+projects[ckeditor_link][subdir]             = "contrib"
+projects[ckeditor_link][version]            = "2.4"
+
+projects[opengraph_meta][version]           = "1.3"
+projects[opengraph_meta][subdir]            = "contrib"
+
+projects[features_override][version]        = "2.0-rc1"
+projects[features_override][subdir]         = "contrib"
+
+projects[field_reference_delete][version]   = "1.0-beta1"
+projects[field_reference_delete][subdir]    = "contrib"
+
+projects[memcache_storage][version]         = "1.4"
+projects[memcache_storage][subdir]          = "contrib"
+
+projects[search404][version]                = "1.3"
+projects[search404][subdir]                 = "contrib"
+
+projects[xmlsitemap][version]               = "2.0"
+projects[xmlsitemap][subdir]                = "contrib"
+
+projects[references][version]               = "2.1"
+projects[references][subdir]                = "contrib"
+
+projects[taxonomy_menu][version]            = "1.4"
+projects[taxonomy_menu][subdir]             = "contrib"
+projects[taxonomy_menu][patch][]            = "http://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
+
+projects[linkchecker][version]              = "1.2"
+projects[linkchecker][subdir]               = "contrib"
+
+projects[httprl][version]                   = "1.14"
+projects[httprl][subdir]                    = "contrib"
+
+projects[imagemagick][subdir]               = "contrib"
+projects[imagemagick][version]              = "1.0"
+
+projects[domain][subdir]                    = "contrib"
+projects[domain][version]                   = "3.12"
+
+projects[domain_ctools][subdir]             = "contrib"
+projects[domain_ctools][version]            = "1.3"
+
+projects[domain_menu_access][subdir]        = "contrib"
+projects[domain_menu_access][version]       = "1.2"
+
+projects[domain_variable][subdir]           = "contrib"
+projects[domain_variable][version]          = "1.1"
+
+projects[domain_views][subdir]              = "contrib"
+projects[domain_views][version]             = "1.5"
+

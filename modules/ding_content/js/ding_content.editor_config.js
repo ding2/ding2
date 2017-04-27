@@ -26,15 +26,9 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
       var infoTab = dialogDefinition.getContents( 'info' );
 
       // Remove fields.
-      infoTab.remove( 'ratioLock' );
-      infoTab.remove( 'txtHeight' );
-      infoTab.remove( 'txtWidth' );
       infoTab.remove( 'txtBorder');
       infoTab.remove( 'txtHSpace');
       infoTab.remove( 'txtVSpace');
-      infoTab.remove( 'cmbAlign' );
-      infoTab.remove( 'txtAlt' );
-      infoTab.remove( 'cke_dialog_ui_hbox_first' );
       break;
 
     case 'table' :

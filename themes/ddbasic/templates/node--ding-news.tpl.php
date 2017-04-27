@@ -103,8 +103,13 @@
       <?php endif; ?>
       <?php if (isset($content['field_ding_news_tags'])) : ?>
         <span class="news-tags label">
-            <?php print render($content['field_ding_news_tags']); ?>
-          </span>
+          <?php print render($content['field_ding_news_tags']); ?>
+        </span>
+      <?php endif; ?>
+      <?php if (isset($content['field_editorial_base'])) : ?>
+        <span class="news-section label">
+          <?php print render($content['field_editorial_base']); ?>
+        </span>
       <?php endif; ?>
     </div>
     <h1 class="page-title"><?php print $title; ?></h1>

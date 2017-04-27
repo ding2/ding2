@@ -212,3 +212,13 @@ function ding_frontend_views_pre_render(&$view) {
     }
   }
 }
+  
+/**
+ * Implements hook_entity_view().
+ */
+function ding_frontend_entity_view($entity, $entity_type, $view_mode, $langcode) {
+  // Hide all webform elements from search result display.
+  if ($entity_type == 'node' && $view_mode == 'search_result') {
+    unset($entity->content['webform']);
+  }
+}
