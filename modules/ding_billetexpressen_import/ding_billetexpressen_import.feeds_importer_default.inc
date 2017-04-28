@@ -340,7 +340,7 @@ function ding_billetexpressen_import_feeds_importer_default() {
         ),
         'update_existing' => '2',
         'input_format' => 'ding_wysiwyg',
-        'skip_hash_check' => 0,
+        'skip_hash_check' => 1,
         'bundle' => 'ding_event',
       ),
     ),

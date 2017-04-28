@@ -84,9 +84,11 @@ function ding_billetexpressen_import_feeds_presave(FeedsSource $source, $entity,
     }
   }
 
-  // Map node status.
-  $status = variable_get('ding_billetexpressen_import_status', 0);
-  $entity->status = $status;
+  // Map node status only for new nodes.
+  if (!$entity->nid) {
+    $status = variable_get('ding_billetexpressen_import_status', 0);
+    $entity->status = $status;
+  }
 
   // Convert date to UTC.
   $date_start = new DateTime($item['date_start']);
