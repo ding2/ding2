@@ -57,4 +57,5 @@ features[variable][] = scheduler_publish_enable_quiz_page
 features[variable][] = scheduler_unpublish_enable_quiz_page
 features[views_view][] = export_xmas_calendar_results
 files[] = ding_christmas_calendar.pages.inc
+files[] = includes/ding_christmas_calendar_views_handler_field_quiz_question_result_answer.inc
 mtime = 1477041549

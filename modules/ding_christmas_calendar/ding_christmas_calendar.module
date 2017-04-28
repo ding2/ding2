@@ -218,7 +218,7 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
 /**
  * Support function for generating content of Christmas calendar.
  *
- * @param object $quiz_id
+ * @param object $quiz
  *   Object of quiz.
  * @param DateTime $current
  *   Represents current date.
@@ -379,6 +379,18 @@ function ding_christmas_calendar_form_alter(&$form, &$form_state, $form_id) {
       $form['navigation']['submit']['#value'] = t('Save');
       $form['navigation']['skip']['#value'] = t('Back to calendar');
       $form['navigation']['skip']['#submit'] = array('ding_christmas_calendar_back_submit');
+
+      // If user already answered to question, disable changing.
+      foreach ($form['question'] as &$item) {
+        $answer = &$item['answer'];
+        $condition1 = isset($answer['#theme']) && $answer['#theme'] == 'multichoice_alternative';
+        $condition2 = isset($answer['user_answer']) && $answer['user_answer']['#default_value'] != NULL;
+        if ($condition1 && $condition2) {
+          $answer['user_answer']['#attributes']['disabled'] = 'disabled';
+          $form['navigation']['submit']['#access'] = FALSE;
+          $form['#validate'][] = 'ding_christmas_calendar_validate_question';
+        }
+      }
       break;
 
     case 'quiz_take_question_feedback_form':
@@ -397,6 +409,23 @@ function ding_christmas_calendar_form_alter(&$form, &$form_state, $form_id) {
  */
 function ding_christmas_calendar_back_submit($form, &$form_state) {
   $form_state['redirect'] = 'ding-christmas-calendar';
+}
+
+/**
+ * Validate handler for preventing changing already answered question.
+ */
+function ding_christmas_calendar_validate_question($form, &$form_state) {
+  $element = $form_state['triggering_element'];
+  if ($element['#id'] == 'edit-navigation-submit') {
+    foreach ($form['question'] as &$item) {
+      $answer = &$item['answer'];
+      $condition1 = isset($answer['#theme']) && $answer['#theme'] == 'multichoice_alternative';
+      $condition2 = isset($answer['user_answer']) && $answer['user_answer']['#default_value'] != NULL;
+      if ($condition1 && $condition2) {
+        drupal_set_message(t('Sorry you already answered to question.'), 'warning');
+      }
+    }
+  }
 }
 
 /**
@@ -423,9 +452,9 @@ function ding_christmas_get_question_id($input) {
  * Implements hook_menu_alter().
  */
 function ding_christmas_calendar_menu_alter(&$items) {
-  $items['node/%/take']['access arguments'][] = $items['node/%quiz_menu/take']['access callback'];
-  $items['node/%/take']['access callback'] = 'ding_christmas_calendar_access_callback';
-  $items['node/%/quiz']['access arguments'][] = $items['node/%quiz_menu/quiz']['access callback'];
+  $items['node/%quiz_menu/take']['access arguments'][] = $items['node/%quiz_menu/take']['access callback'];
+  $items['node/%quiz_menu/take']['access callback'] = 'ding_christmas_calendar_access_callback';
+  $items['node/%/quiz']['access arguments'][] = $items['node/%/quiz']['access callback'];
   $items['node/%/quiz']['access callback'] = 'ding_christmas_calendar_access_callback';
 }
 
@@ -452,5 +481,30 @@ function ding_christmas_calendar_node_access($node, $op, $account) {
   $quiz_id = variable_get('ding_christmas_calendar_quiz_id', NULL);
   if (is_object($node) && $node->nid == $quiz_id && $op == 'view' && in_array('provider', $user->roles)) {
     return NODE_ACCESS_DENY;
+  }
+}
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function ding_christmas_calendar_views_data_alter(&$data) {
+  $data['quiz_node_results']['answer'] = array(
+    'title' => t('Answer'),
+    'help' => t('When rendered, this field will be replaced by a requested answer.'),
+    'field' => array(
+      'title' => 'Answer',
+      'handler' => 'ding_christmas_calendar_views_handler_field_quiz_question_result_answer',
+    ),
+  );
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function ding_christmas_calendar_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'views_data_alter') {
+    $data = $implementations['ding_christmas_calendar'];
+    unset($implementations['ding_christmas_calendar']);
+    $implementations['ding_christmas_calendar'] = $data;
   }
 }
