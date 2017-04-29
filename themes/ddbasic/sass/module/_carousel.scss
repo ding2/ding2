@@ -71,7 +71,8 @@ $carousel-tab-color:                       $white;
 }
 
 .ting-search-carousel .slick-prev,
-.ting-search-carousel .slick-next {
+.ting-search-carousel .slick-next,
+.ting-carousel .rs-carousel-action {
   @include opacity(1);
   background-color: $header-background-color;
   border: 2px solid $navigation-background-color;
@@ -79,7 +80,7 @@ $carousel-tab-color:                       $white;
   border-radius: 40px;
   height: 50px;
   width: 50px;
-  z-index: 50;
+  z-index: 101;
   
   &:before {
     display: none;
@@ -90,16 +91,20 @@ $carousel-tab-color:                       $white;
   }
 }
 
-.ting-search-carousel .slick-prev {
+.ting-search-carousel .slick-prev,
+.ting-carousel .rs-carousel-action-prev {
   background-position: -3px -4px;
 }
 
-.ting-search-carousel .slick-next {
+.ting-search-carousel .slick-next,
+.ting-carousel .rs-carousel-action-next {
   background-position: -60px -4px;
 }
 
-.ting-search-carousel {
-  .slick-prev {
+.ting-search-carousel,
+.ting-carousel {
+  .slick-prev,
+  .rs-carousel-action-prev {
     left: 40px;
 
     &:focus {
@@ -107,7 +112,8 @@ $carousel-tab-color:                       $white;
     }
   }
 
-  .slick-next {
+  .slick-next,
+  .rs-carousel-action-next {
     right: 40px;
 
     &:focus {
@@ -138,21 +144,46 @@ $carousel-tab-color:                       $white;
   }
 }
 
-.slick-track .ting-search-carousel-item {
+.slick-track .ting-search-carousel-item,
+.pane-serendipity-ting-object-related .ting-object,
+.ting-carousel .rs-carousel-item {
   margin-right: 20px;
   position: relative;
   width: $carousel-image-width !important;
+  float: left;
+
+  .ting-cover,
+  .ting-object {
+    height: 196px;
+  }
 
   img {
     min-width: 100%;
     padding: 0;
     width: 135px;
     height: 196px;
+  }
 
+  .ting-cover,
+  .ting-object,
+  img {
     @include small() {
       width: 68px;
       height: 96px;
       margin-bottom: 20px;
+    }
+  }
+
+  .ting-object.view-mode-compact {
+    @include small() {
+      .search-result--heading-type {
+        background-color: $black;
+        padding: 0 2px;
+      }
+
+      .field-name-ting-author {
+        display: none;
+      }
     }
   }
 
