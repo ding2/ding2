@@ -14,9 +14,6 @@
   background-color: #eee;
 }
 
-.ting-object.view-mode-compact .ting-cover {
-  height: 250px;
-}
 .ting-object.view-mode-compact .item-link:hover .search-result--heading-type,
 .ting-object.view-mode-compact .item-link:hover h2 {
   text-decoration: underline;
@@ -25,8 +22,6 @@
   color: #fff;
 }
 .ting-object.view-mode-compact .field-name-ting-title h2 {
-  font-weight: bold;
-  display: inline;
   padding: 0 0 0 10px;
 }
 .ting-object.view-mode-compact .field-name-ting-title h2:hover {
@@ -76,4 +71,3 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', e
 .ting-object.view-mode-compact .field-name-ting-author a:hover {
   text-decoration: underline;
 }
-

@@ -6422,7 +6422,8 @@ div[class^="collection-bg"] {
   display: none; }
 
 .ting-search-carousel .slick-prev,
-.ting-search-carousel .slick-next {
+.ting-search-carousel .slick-next,
+.ting-carousel .rs-carousel-action {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
   background-color: #00caff;
@@ -6431,29 +6432,45 @@ div[class^="collection-bg"] {
   border-radius: 40px;
   height: 50px;
   width: 50px;
-  z-index: 50; }
+  z-index: 101; }
   .ting-search-carousel .slick-prev:before,
-  .ting-search-carousel .slick-next:before {
+  .ting-search-carousel .slick-next:before,
+  .ting-carousel .rs-carousel-action:before {
     display: none; }
   @media only screen and (max-width: 768px) {
     .ting-search-carousel .slick-prev,
-    .ting-search-carousel .slick-next {
+    .ting-search-carousel .slick-next,
+    .ting-carousel .rs-carousel-action {
       display: none; } }
 
-.ting-search-carousel .slick-prev {
+.ting-search-carousel .slick-prev,
+.ting-carousel .rs-carousel-action-prev {
   background-position: -3px -4px; }
 
-.ting-search-carousel .slick-next {
+.ting-search-carousel .slick-next,
+.ting-carousel .rs-carousel-action-next {
   background-position: -60px -4px; }
 
-.ting-search-carousel .slick-prev {
+.ting-search-carousel .slick-prev,
+.ting-search-carousel .rs-carousel-action-prev,
+.ting-carousel .slick-prev,
+.ting-carousel .rs-carousel-action-prev {
   left: 40px; }
-  .ting-search-carousel .slick-prev:focus {
+  .ting-search-carousel .slick-prev:focus,
+  .ting-search-carousel .rs-carousel-action-prev:focus,
+  .ting-carousel .slick-prev:focus,
+  .ting-carousel .rs-carousel-action-prev:focus {
     outline: none; }
 
-.ting-search-carousel .slick-next {
+.ting-search-carousel .slick-next,
+.ting-search-carousel .rs-carousel-action-next,
+.ting-carousel .slick-next,
+.ting-carousel .rs-carousel-action-next {
   right: 40px; }
-  .ting-search-carousel .slick-next:focus {
+  .ting-search-carousel .slick-next:focus,
+  .ting-search-carousel .rs-carousel-action-next:focus,
+  .ting-carousel .slick-next:focus,
+  .ting-carousel .rs-carousel-action-next:focus {
     outline: none; }
 
 /* Carousel content, mask, title etc.
@@ -6474,29 +6491,67 @@ div[class^="collection-bg"] {
     .rs-carousel-title {
       color: #fff; } }
 
-.slick-track .ting-search-carousel-item {
+.slick-track .ting-search-carousel-item,
+.pane-serendipity-ting-object-related .ting-object,
+.ting-carousel .rs-carousel-item {
   margin-right: 20px;
   position: relative;
-  width: 135px !important; }
-  .slick-track .ting-search-carousel-item img {
+  width: 135px !important;
+  float: left; }
+  .slick-track .ting-search-carousel-item .ting-cover,
+  .slick-track .ting-search-carousel-item .ting-object,
+  .pane-serendipity-ting-object-related .ting-object .ting-cover,
+  .pane-serendipity-ting-object-related .ting-object .ting-object,
+  .ting-carousel .rs-carousel-item .ting-cover,
+  .ting-carousel .rs-carousel-item .ting-object {
+    height: 196px; }
+  .slick-track .ting-search-carousel-item img,
+  .pane-serendipity-ting-object-related .ting-object img,
+  .ting-carousel .rs-carousel-item img {
     min-width: 100%;
     padding: 0;
     width: 135px;
     height: 196px; }
-    @media only screen and (max-width: 480px) {
-      .slick-track .ting-search-carousel-item img {
-        width: 68px;
-        height: 96px;
-        margin-bottom: 20px; } }
-  .slick-track .ting-search-carousel-item:hover .field-type-ting-title {
+  @media only screen and (max-width: 480px) {
+    .slick-track .ting-search-carousel-item .ting-cover,
+    .slick-track .ting-search-carousel-item .ting-object,
+    .slick-track .ting-search-carousel-item img,
+    .pane-serendipity-ting-object-related .ting-object .ting-cover,
+    .pane-serendipity-ting-object-related .ting-object .ting-object,
+    .pane-serendipity-ting-object-related .ting-object img,
+    .ting-carousel .rs-carousel-item .ting-cover,
+    .ting-carousel .rs-carousel-item .ting-object,
+    .ting-carousel .rs-carousel-item img {
+      width: 68px;
+      height: 96px;
+      margin-bottom: 20px; } }
+  @media only screen and (max-width: 480px) {
+    .slick-track .ting-search-carousel-item .ting-object.view-mode-compact .search-result--heading-type,
+    .pane-serendipity-ting-object-related .ting-object .ting-object.view-mode-compact .search-result--heading-type,
+    .ting-carousel .rs-carousel-item .ting-object.view-mode-compact .search-result--heading-type {
+      background-color: #000;
+      padding: 0 2px; }
+    .slick-track .ting-search-carousel-item .ting-object.view-mode-compact .field-name-ting-author,
+    .pane-serendipity-ting-object-related .ting-object .ting-object.view-mode-compact .field-name-ting-author,
+    .ting-carousel .rs-carousel-item .ting-object.view-mode-compact .field-name-ting-author {
+      display: none; } }
+  .slick-track .ting-search-carousel-item:hover .field-type-ting-title,
+  .pane-serendipity-ting-object-related .ting-object:hover .field-type-ting-title,
+  .ting-carousel .rs-carousel-item:hover .field-type-ting-title {
     background-color: #000;
     text-decoration: none; }
-  .slick-track .ting-search-carousel-item .a {
+  .slick-track .ting-search-carousel-item .a,
+  .pane-serendipity-ting-object-related .ting-object .a,
+  .ting-carousel .rs-carousel-item .a {
     max-height: 250px;
     width: 135px; }
-    .slick-track .ting-search-carousel-item .a:hover {
+    .slick-track .ting-search-carousel-item .a:hover,
+    .pane-serendipity-ting-object-related .ting-object .a:hover,
+    .ting-carousel .rs-carousel-item .a:hover {
       text-decoration: none; }
-  .slick-track .ting-search-carousel-item .field-type-ting-title {
+  .slick-track .ting-search-carousel-item .field-type-ting-title,
+  .pane-serendipity-ting-object-related .ting-object .field-type-ting-title,
+  .ting-carousel .rs-carousel-item .field-type-ting-title {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -6510,13 +6565,19 @@ div[class^="collection-bg"] {
     text-align: center;
     width: 100%;
     z-index: 100; }
-    .slick-track .ting-search-carousel-item .field-type-ting-title h2 {
+    .slick-track .ting-search-carousel-item .field-type-ting-title h2,
+    .pane-serendipity-ting-object-related .ting-object .field-type-ting-title h2,
+    .ting-carousel .rs-carousel-item .field-type-ting-title h2 {
       font-size: 100%;
       font-family: "SourceSansProRegular";
       margin: 0 15px; }
-      .slick-track .ting-search-carousel-item .field-type-ting-title h2 a {
+      .slick-track .ting-search-carousel-item .field-type-ting-title h2 a,
+      .pane-serendipity-ting-object-related .ting-object .field-type-ting-title h2 a,
+      .ting-carousel .rs-carousel-item .field-type-ting-title h2 a {
         color: #fff; }
-  .slick-track .ting-search-carousel-item .field-type-ting-type {
+  .slick-track .ting-search-carousel-item .field-type-ting-type,
+  .pane-serendipity-ting-object-related .ting-object .field-type-ting-type,
+  .ting-carousel .rs-carousel-item .field-type-ting-type {
     background-color: rgba(0, 0, 0, 0.75);
     color: #fff;
     line-height: 1.2em;
@@ -6526,37 +6587,57 @@ div[class^="collection-bg"] {
     top: 5px;
     width: auto;
     z-index: 100; }
-    .slick-track .ting-search-carousel-item .field-type-ting-type .field-label {
+    .slick-track .ting-search-carousel-item .field-type-ting-type .field-label,
+    .pane-serendipity-ting-object-related .ting-object .field-type-ting-type .field-label,
+    .ting-carousel .rs-carousel-item .field-type-ting-type .field-label {
       display: none; }
     .slick-track .ting-search-carousel-item .field-type-ting-type ul,
-    .slick-track .ting-search-carousel-item .field-type-ting-type li {
+    .slick-track .ting-search-carousel-item .field-type-ting-type li,
+    .pane-serendipity-ting-object-related .ting-object .field-type-ting-type ul,
+    .pane-serendipity-ting-object-related .ting-object .field-type-ting-type li,
+    .ting-carousel .rs-carousel-item .field-type-ting-type ul,
+    .ting-carousel .rs-carousel-item .field-type-ting-type li {
       margin: 0;
       padding: 0; }
     @media only screen and (max-width: 480px) {
-      .slick-track .ting-search-carousel-item .field-type-ting-type {
+      .slick-track .ting-search-carousel-item .field-type-ting-type,
+      .pane-serendipity-ting-object-related .ting-object .field-type-ting-type,
+      .ting-carousel .rs-carousel-item .field-type-ting-type {
         font-size: 80%;
         max-width: 50px; } }
   @media only screen and (max-width: 480px) {
-    .slick-track .ting-search-carousel-item {
+    .slick-track .ting-search-carousel-item,
+    .pane-serendipity-ting-object-related .ting-object,
+    .ting-carousel .rs-carousel-item {
       width: 67.5px !important; }
-      .slick-track .ting-search-carousel-item a {
+      .slick-track .ting-search-carousel-item a,
+      .pane-serendipity-ting-object-related .ting-object a,
+      .ting-carousel .rs-carousel-item a {
         max-height: 125px;
         width: 67.5px; }
-      .slick-track .ting-search-carousel-item .field-type-ting-title {
+      .slick-track .ting-search-carousel-item .field-type-ting-title,
+      .pane-serendipity-ting-object-related .ting-object .field-type-ting-title,
+      .ting-carousel .rs-carousel-item .field-type-ting-title {
         background: none;
         height: 100%;
         padding: 0;
         position: absolute;
         width: 100%;
         z-index: 100; }
-        .slick-track .ting-search-carousel-item .field-type-ting-title a, .slick-track .ting-search-carousel-item .field-type-ting-title h2 {
+        .slick-track .ting-search-carousel-item .field-type-ting-title a, .slick-track .ting-search-carousel-item .field-type-ting-title h2,
+        .pane-serendipity-ting-object-related .ting-object .field-type-ting-title a,
+        .pane-serendipity-ting-object-related .ting-object .field-type-ting-title h2,
+        .ting-carousel .rs-carousel-item .field-type-ting-title a,
+        .ting-carousel .rs-carousel-item .field-type-ting-title h2 {
           display: block;
           height: 100%;
           margin: 0;
           position: absolute;
           text-indent: -9000px;
           width: 100%; }
-        .slick-track .ting-search-carousel-item .field-type-ting-title:hover {
+        .slick-track .ting-search-carousel-item .field-type-ting-title:hover,
+        .pane-serendipity-ting-object-related .ting-object .field-type-ting-title:hover,
+        .ting-carousel .rs-carousel-item .field-type-ting-title:hover {
           background: none; } }
 
 .rs-carousel-runner {
