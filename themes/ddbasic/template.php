@@ -1027,9 +1027,18 @@ function ddbasic_process_ting_object(&$vars) {
           unset($content['ting_relations']);
         }
 
-        // Move the reset over if any have been defined in the UI.
+        // Move the rest over if any have been defined in the UI.
         if (!empty($content)) {
-          $vars['content'] += $content;
+          // Move the remaining content one level down in the array structure.
+          // The reason for this is that drupal_render passes it to
+          // element_children, which will sort the array by #weight if any
+          // element has the key, or keep the array order if they doesn't. This
+          // will seriously mess up the display, as the groups above doesn't
+          // have a weight and can sink to the bottom, depending on the #weights
+          // defined.
+          $vars['content'] += array(
+            'content' => $content,
+          );
         }
         break;
 
