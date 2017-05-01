@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Installation of Secondary sub search module.
+ */
+
+/**
+ * Install translations.
+ */
+function ting_subsearch_secondary_install() {
+  // Install translations.
+  $file = new stdClass();
+  $file->uri = drupal_get_path('module', 'ting_subsearch_secondary') . '/translations/da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+}
