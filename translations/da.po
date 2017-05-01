@@ -66656,6 +66656,7 @@ msgstr ""
 
 #: ding_christmas_calendar.admin.inc:17
 msgid "For !ph1 or !ph2 Christmas calendar page"
+msgstr ""
 
 #: quiz.admin.inc:19
 msgid "Global configuration"
