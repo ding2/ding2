@@ -1,0 +1,154 @@
+# $Id$
+#
+# Danish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2017-03-16 14:56+0000\n"
+"PO-Revision-Date: 2017-03-16 14:56+0000\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Danish <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: ting_search.info:0 modules/subsearch_kpi/subsearch_kpi.info:0 modules/subsearch_opensuggestion/subsearch_opensuggestion.info:0 modules/subsearch_secondary/subsearch_secondary.info:0 modules/subsearch_translate/subsearch_translate.info:0
+msgid "Ding!"
+msgstr "Ding!"
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:12 modules/subsearch_secondary/subsearch_secondary.admin.inc:12
+msgid "Ting Subsearch"
+msgstr ""
+
+#: modules/subsearch_kpi/subsearch_kpi.admin.inc:13 modules/subsearch_secondary/subsearch_secondary.admin.inc:13
+msgid "Feature modules allow additional searches to be made based on predefined conditions."
+msgstr "Subsearch moduler muliggør, at supplerende søgninger sker automatisk ud fra nærmere definerede kriterier"
+
+#: modules/subsearch_kpi/subsearch_kpi.info:0 modules/subsearch_opensuggestion/subsearch_opensuggestion.info:0 modules/subsearch_secondary/subsearch_secondary.info:0
+msgid "Extend Ting Search with secondary search"
+msgstr "Suppler Ting søgning med sekundær søgning"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:18
+msgid "Secondary Ting Search settings"
+msgstr "Indstillinger for Sekundær Ting Søgning"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:23
+msgid "Trigger"
+msgstr "Trigger"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:28
+msgid "Minimum number of results"
+msgstr "Mindste antal resultater"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:30
+msgid "How few is minimum in order to trigger secondary search."
+msgstr "For at udløse en Open Suggestion subsearch, der kan give brugeren et alternativt søgeforslag, skal brugerens søgeterm(er) højst generere dette antal resultater. BEMÆRK: 0-hits-søgninger udløser altid en subsearch."
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:36
+msgid "Maximum number of results"
+msgstr "Maksimum antal resultater"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:38
+msgid "How many is maximum in order to trigger secondary search."
+msgstr "Hvor mange resultater skal der max være, for at en sekundær søgning iværksættes."
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:43 modules/subsearch_translate/subsearch_translate.admin.inc:47
+msgid "Challenge: Factor for calculating ratio between nonfiction and fiction"
+msgstr "Faktoren for ratioen mellem fiktion og non-fiktion."
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:45 modules/subsearch_translate/subsearch_translate.admin.inc:49
+msgid "The condition is as following (nonfiction / factor) > fiction"
+msgstr "Antal gange mere nonfiktion end fiktion, der skal være i søgeresultaterne, for at udløse funktionen"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:50
+msgid "Minimum number of results for secondary search"
+msgstr "Laveste antal resultater fra den sekundære søgning"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:56
+msgid "Secondary Agency"
+msgstr "Sekundært Agency"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:58
+msgid "The agency for the secondary well configuration"
+msgstr "Agency for den sekundære brønd-konfiguration"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:63
+msgid "Secondary Search profile"
+msgstr "Sekundær søgeprofil"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:65
+msgid "The Search profile for the secondary well configuration"
+msgstr "Søgeprofil for den sekundære brønd-konfiguration"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:70
+msgid "Secondary link"
+msgstr "Sekundært link"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:71
+msgid "Could be something link https://bibliotek.dk/da/search/work?search_block_form=[keys] where [keys] are substituted with the searchphrase."
+msgstr "Kunne f.eks. være https://bibliotek.dk/da/search/work?search_block_form=[keys], hvor [keys] erstattes med søgetermen."
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:77
+msgid "Secondary link text"
+msgstr "Sekundær link-tekst"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:79
+msgid "Name of the secondary provider. Could be bibliotek.dk"
+msgstr "Navnet på den kilde, den sekundære søgning foretages i. F.eks. bibliotek.dk"
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:84
+msgid "Number of results to show"
+msgstr "Antal resultater, der vises."
+
+#: modules/subsearch_secondary/subsearch_secondary.admin.inc:86
+msgid "How many results should be shown from secondary well provider."
+msgstr "Hvor mange resultater skal der vises fra den sekundære søgning."
+
+
+#: modules/subsearch_secondary/subsearch_secondary.module:92
+msgid "If you search for \"!keys\" on <a href=\"!link\">!link-text</a> instead you will get !bibdk-num-results hits"
+msgstr "Hvis du søger efter \"!keys\" på <a href=\"!link\">!link-text</a> i stedet, får du !bibdk-num-results resultater."
+
+#: modules/subsearch_secondary/subsearch_secondary.module:67
+msgid "If you search for \"!keys\" on <a href=\"!link\">!link-text</a> instead you will get !bibdk-num-results hits where some of them is the following: !examples"
+msgstr "Hvis du søger efter \"!keys\" på <a href=\"!link\">!link-text</a> i stedet, får du !bibdk-num-results resultater. Se nogle af dem her: !examples"
+
+#: modules/subsearch_secondary/subsearch_secondary.module:88;92
+msgid "Minimal"
+msgstr "Minimal"
+
+#: modules/subsearch_secondary/subsearch_secondary.module:105;116
+msgid "Link to subsearch"
+msgstr "Link til subsearch"
+
+#: modules/subsearch_secondary/subsearch_secondary.module:165
+msgid "By !author_link (@year)"
+msgstr "Af !author_link (@year)"
+
+#: modules/subsearch_secondary/subsearch_secondary.module:172
+msgid "By !author_link"
+msgstr "Af !author_link "
+
+#: modules/subsearch_secondary/subsearch_secondary.module:178
+msgid "(@year)"
+msgstr "(@year)"
+
+#: modules/subsearch_secondary/subsearch_secondary.module:31;36
+msgid "subsearch_subsearch"
+msgstr ""
+
+#: modules/subsearch_secondary/subsearch_secondary.module:31 modules/subsearch_translate/subsearch_translate.module:34
+msgid "You need to enable facet.genreCategory in order for this to work."
+msgstr "Det er nødvendigt at aktivere facetten genreCategory for at denne funktion kan virke"
+
+#: modules/subsearch_secondary/subsearch_secondary.module:36
+msgid "Missing secondary agency or profile."
+msgstr "Sekundært agency eller profile mangler"
+
+#: modules/subsearch_secondary/subsearch_secondary.info:0
+msgid "Ting Subsearch - Secondary ting search"
+msgstr "Ting Subsearch – Sekundær ting søgning"
