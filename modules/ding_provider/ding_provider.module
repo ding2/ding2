@@ -619,7 +619,8 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
 function ding_provider_build_entity_id($ids) {
   if (is_array($ids) && !empty($ids)) {
     $query = 'rec.id any "' . implode(" ", $ids) . '" AND facet.acSource=bibliotekskatalog';
-    $res = ting_do_search($query);
+    $res = ting_do_search($query, 1, count($ids));
+
     foreach ($res->collections as $pid => $collection) {
       $faust = explode(':', $pid)[1];
       if (isset($ids[$faust])) {
