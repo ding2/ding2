@@ -174,6 +174,9 @@ projects[i18n][version] = "1.11"
 
 projects[manualcrop][subdir] = "contrib"
 projects[manualcrop][version] = "1.5"
+; Fix horizontal alignment of preview and buttons.
+; https://www.drupal.org/node/2874825
+projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop_media-widget-alignment-2874825-2.patch"
 
 projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
