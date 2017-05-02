@@ -25,6 +25,16 @@ function fbs_debt_list($account) {
     watchdog_exception('fbs', $e);
   }
 
+  $ids = array();
+  foreach ($res as $fee) {
+    // The entity is only fetched in this case.
+    if (!empty($fee->materials) && count($fee->materials) == 1) {
+      $material = reset($fee->materials);
+      $ids[$material->recordId] = $material->recordId;
+    }
+  }
+  $ids = ding_provider_build_entity_id($ids);
+
   foreach ($res as $fee) {
     $id = $fee->feeId;
 
@@ -51,7 +61,8 @@ function fbs_debt_list($account) {
 
       // If there's only one material, use its title as display_name;
       if (count($record_ids) == 1) {
-        $entity = ding_entity_load(ding_provider_build_entity_id(reset($record_ids)));
+        $record_id = reset($record_ids);
+        $entity = ding_entity_load($ids[$record_id]);
         $data['display_name'] = $entity->getTitle();
       }
       elseif (count($record_ids) > 1) {

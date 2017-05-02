@@ -23,12 +23,18 @@ function fbs_loan_list($account) {
     watchdog_exception('fbs', $e);
   }
 
+  $ids = array();
+  foreach ($res as $loan) {
+    $ids[$loan->loanDetails->recordId] = $loan->loanDetails->recordId;
+  }
+  $ids = ding_provider_build_entity_id($ids);
+
   $result = array();
   foreach ($res as $loan) {
     $id = $loan->loanDetails->loanId;
 
     $loan_data = array(
-      'ding_entity_id' => ding_provider_build_entity_id($loan->loanDetails->recordId),
+      'ding_entity_id' => $ids[$loan->loanDetails->recordId],
       'loan_date' => $loan->loanDetails->loanDate,
       'expiry' => $loan->loanDetails->dueDate,
       'renewable' => $loan->isRenewable,
