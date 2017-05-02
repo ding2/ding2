@@ -616,11 +616,25 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
  * @return string
  *   The PID for the faust in the data well.
  */
-function ding_provider_build_entity_id($id) {
-  $obj = ting_do_search('rec.id=' . $id . ' AND facet.acSource=bibliotekskatalog');
-  $entity_id = ($obj) ? key($obj->collections) : FALSE;
+function ding_provider_build_entity_id($ids) {
+  if (is_array($ids)) {
+    $query = 'rec.id any "' . implode(" ", $ids) . '" AND facet.acSource=bibliotekskatalog';
+    $res = ting_do_search($query);
+    foreach ($res->collections as $pid => $collection) {
+      $faust = explode(':', $pid)[1];
+      if (isset($ids[$faust])) {
+        $ids[$faust] = $pid;
+      }
+    }
 
-  return $entity_id;
+    return $ids;
+  }
+  else {
+    $obj = ting_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
+    $entity_id = ($obj) ? key($obj->collections) : FALSE;
+
+    return $entity_id;
+  }
 }
 
 /**
