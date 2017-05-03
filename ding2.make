@@ -173,7 +173,13 @@ projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.11"
 
 projects[manualcrop][subdir] = "contrib"
-projects[manualcrop][version] = "1.5"
+projects[manualcrop][version] = "1.6"
+; Fix loading of updated JavaScript library.
+; https://www.drupal.org/node/2836970
+projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-imgareaselect_library_version_arguments-2836970-14-d7.patch"
+; Fix crop display when the same file is used in multiple fields
+; https://www.drupal.org/node/2503175
+projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-duplicatepreview-2503175-30.patch"
 ; Fix horizontal alignment of preview and buttons.
 ; https://www.drupal.org/node/2874825
 projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop_media-widget-alignment-2874825-2.patch"
@@ -497,7 +503,7 @@ libraries[zen-grids][download][tag] = "1.4"
 libraries[zen-grids][destination] = "libraries"
 
 libraries[jquery.imgareaselect][download][type] = "get"
-libraries[jquery.imgareaselect][download][url] =  http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
+libraries[jquery.imgareaselect][download][url] =  https://github.com/odyniec/imgareaselect/archive/v0.9.11-rc.1.tar.gz
 libraries[jquery.imgareaselect][directory_name] = "jquery.imgareaselect"
 libraries[jquery.imgareaselect][destination] = "libraries"
 
