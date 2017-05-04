@@ -27,7 +27,7 @@
     });
 
     // Handle delete all button.
-    $('.delete-all').click(function(evt) {
+    $('.js-delete-all').click(function(evt) {
       var form = $(this).closest('form');
       evt.preventDefault();
 

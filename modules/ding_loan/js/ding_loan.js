@@ -45,7 +45,7 @@
     });
 
     // Handle renew all button.
-    $('.renew-all').click(function(evt) {
+    $('.js-renew-all').click(function(evt) {
       evt.preventDefault();
 
       var actions_container = $(this).closest('.actions-container');
