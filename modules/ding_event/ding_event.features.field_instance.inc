@@ -656,7 +656,7 @@ function ding_event_field_default_field_instances() {
     'bundle' => 'ding_event',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Arrangementer viser værdien "Gratis" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. "30 - 50"',
+    'description' => 'Events show the value "Gratis", if the field is set to 0. If there\'s multiple ticket types, you can set the value as lowest - highest price in the field, like "30 - 50"',
     'display' => array(
       'alternative_layout_full' => array(
         'label' => 'above',
@@ -1088,7 +1088,7 @@ function ding_event_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Arrangementer viser værdien "Gratis" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. "30 - 50"');
+  t('Events show the value "Gratis", if the field is set to 0. If there\'s multiple ticket types, you can set the value as lowest - highest price in the field, like "30 - 50"');
   t('Body');
   t('Book ticket/Participate in event');
   t('Category');
