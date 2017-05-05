@@ -18,7 +18,7 @@
 
       // Open/close mobile menu on click.
       my_account.on('click', function(event) {
-        if ($('.is-tablet', context).is(':visible')) {
+        if (ddbasic.breakpoint.is('tablet')) {
           event.preventDefault();
           body.toggleClass('mobile-usermenu-is-open');
           body.removeClass('mobile-menu-is-open pane-login-is-open mobile-search-is-open');
@@ -30,9 +30,9 @@
         }
       });
 
-      // Open dropdown when mouse enters my account menu-link.
+      // Open dropdown when mouse enters my account menu-link.gla
       my_account.on('mouseenter', function() {
-        if (!$('.is-tablet', context).is(':visible')) {
+        if (!ddbasic.breakpoint.is('tablet')) {
           dropdown().css({
             'left': my_account.position().left - (dropdown().width() - my_account.width()),
           });
@@ -41,10 +41,8 @@
 
           // Close dropdown when mouse leaves the dropdown.
           dropdown().on('mouseleave.profiledropdown', function() {
-            if (!$('.is-tablet', context).is(':visible')) {
-              dropdown().css({
-                'left': 0,
-              });
+            if (!ddbasic.breakpoint.is('tablet')) {
+              dropdown().css('left', '');
               body.removeClass('mobile-usermenu-is-open');
               my_account.removeClass('js-active active');
 
@@ -56,11 +54,9 @@
 
       // Close dropdown when mouse leaves my-account menu-link from the sides.
       my_account.on('mouseleave', function(event) {
-        if(!$('.is-tablet', context).is(':visible')) {
+        if(!ddbasic.breakpoint.is('tablet')) {
           if (event.offsetX < 0 || event.offsetX > $(this).width()) {
-            dropdown().css({
-              'left': 0,
-            });
+            dropdown().css('left', '');
             body.removeClass('mobile-usermenu-is-open');
             my_account.removeClass('js-active active');
             dropdown().off('mouseleave.profiledropdown');
