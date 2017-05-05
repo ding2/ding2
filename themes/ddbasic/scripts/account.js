@@ -11,11 +11,11 @@
 
     $(window)
       .bind('resize.actions_container', function (evt) {
-        offset = $('.content-wrapper').offset().top;
+        offset = $('.js-content-wrapper').offset().top;
         is_mobile = ddbasic.breakpoint.is('mobile');
 
         // Set the width of the container, so it matches the form.
-        $('.actions-container').each(function() {
+        $('.js-actions-container-fixed').each(function() {
           var container = $(this),
             form = container.closest('form');
 
@@ -48,7 +48,7 @@
         // The mark where the container starts sticking.
         var mark = $(window).scrollTop() + offset;
 
-        $('.actions-container').each(function() {
+        $('.js-actions-container-fixed').each(function() {
           var container = $(this),
             form = container.closest('form'),
             form_top = form.offset().top;

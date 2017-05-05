@@ -34,7 +34,7 @@
     </header>
   <?php endif; ?>
 
-  <div class="content-wrapper">
+  <div class="content-wrapper js-content-wrapper">
     <div class="content-inner">
       <?php print render($content['content']); ?>
     </div>

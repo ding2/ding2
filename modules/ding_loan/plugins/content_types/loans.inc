@@ -83,7 +83,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   $form['actions_container'] = array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('actions-container'),
+      'class' => array('actions-container', 'js-actions-container-fixed'),
     ),
   );
 
