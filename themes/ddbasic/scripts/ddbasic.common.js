@@ -13,7 +13,7 @@
         text = [];
 
       if ($this.attr('data-extended-title')) {
-        $('th:not(:first)', this).each(function () {
+        $('th', this).slice(1).each(function () {
           text.push($(this).text());
         });
       } else {
