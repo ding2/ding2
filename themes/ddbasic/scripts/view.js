@@ -178,9 +178,11 @@
             var rows = $(this).children('.views-row'),
                 row_total = 0,
                 row_order = 0,
-                has_image;
+                has_image,
+                doc_style = document.documentElement.style;
 
-            if (rows.length < 4) {
+            // Check if number of rows is less than 4 and if flex wrap is supportet
+            if (rows.length < 4 || !('flexWrap' in doc_style)) {
               $(this).addClass('no-flex');
             }
             else {
@@ -294,7 +296,9 @@
           $('.view-ding-event.max-two-rows .view-elements-inner.slick-initialized').slick('unslick');
           $('.two-slides .views-row').unwrap();
 
-          if (event_view_rows.length > 3) {
+          var doc_style = document.documentElement.style;
+
+          if (event_view_rows.length > 3 || ('flexWrap' in doc_style)) {
             $('.view-ding-event.max-two-rows').removeClass('no-flex');
             $('.view-ding-event.max-two-rows').addClass('flex');
           }
