@@ -73,12 +73,10 @@
 				numToRemove,
 				allInPopup = false,
 				$menu,
-				$moreMenu,
 				i,
 				// B14 variables
-				more_link,
-        flex_container,
-        popup_heigh;
+				$moreMenu,
+				more_link;
 
 			function needsMenu($itemOfInterest) {
 				var result = (Math.ceil($itemOfInterest.offset().top) >= (firstItemTop + firstItemHeight)) ? true : false;
@@ -128,9 +126,9 @@
 
 
 				//
-				// Lines below commentet out by B14
-
-				//$moreLink.click(function (e) {
+				// Lines below commentet out by B14, so we can use our own hover
+				// functionality, uses classes and expands the hitbox.
+				// $moreLink.click(function (e) {
 				//	// Collapsing any other open flexMenu
 				//	collapseAllExcept($moreItem);
 				//	//Open and Set active the one being interacted with.
@@ -150,11 +148,8 @@
 				//		});
 				//}
 
-				//
 				// B14 changes below - hover function
 				more_link = $('.flexMenu-viewMore'),
-
-        // Hover
         more_link.bind('mouseenter', function(evt) {
           $(this).addClass('active');
           $(this).removeClass('in-active');
