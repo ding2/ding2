@@ -86,11 +86,11 @@
  */
 ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <div class="inner">
-      <div class="left">
+  <div class="ding-news-inner">
+      <div class="ding-news-left">
           <?php print render($content['group_left']); ?>
       </div>
-      <div class="right">
+      <div class="ding-news-right">
           <h1><?php print $title; ?></h1>
           <?php print render($content['group_right']['og_group_ref']); ?>
           <?php print render($content['group_right']['field_ding_news_category']); ?>

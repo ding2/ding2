@@ -113,7 +113,7 @@
   float: left;
 
   // When placed directly after .inner in node ding news
-  .node-ding-news .inner > & {
+  .node-ding-news .ding-news-inner > & {
     padding-top: 20px;
     > .field-label {
       @include font('display-large');

@@ -24,34 +24,12 @@
         height: 100%;
         background-color: transparent;
       }
-      // First child large
-      .view-ding-news.first-child-large .views-row:first-child & {
-        @include aspect-ratio-background-image(22, 9);
-        overflow: hidden;
-        background-size: cover;
-        &::after {
-          @include transition(background-color $speed $ease);
-          opacity: 1;
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-        }
-      }
+
       // Mobile
       @include media($mobile) {
-        // Make all rows like first child large in slide-on-mobile views
-        .view-ding-news.slide-on-mobile .views-row &,
-        .view-ding-news.slide-on-mobile .views-row:first-child & {
+        .slide-on-mobile & {
           @include aspect-ratio-background-image(16, 9);
           overflow: hidden;
-          background-size: cover;
-        }
-        // Make first child like other teaser in views without slide-on-mobile class
-        .view-ding-news.first-child-large .views-row:first-child & {
-          @include aspect-ratio-background-image(16, 9);
           background-size: cover;
         }
       }
@@ -63,9 +41,9 @@
       float: left;
       width: 100%;
       color: $charcoal-opacity-dark;
-      > div {
-        float: left;
-      }
+    }
+    .field-name-field-ding-news-category {
+      float: left;
     }
     .field-name-field-ding-news-lead {
       @include transition(opacity $speed $ease);
@@ -79,72 +57,10 @@
       overflow: hidden;
     }
 
-    // First child large
-    .view-ding-news.first-child-large .views-row:first-child & {
-      .news-text {
-        @include linear-gradient(
-          transparent 0%,
-          $charcoal-opacity-extra-dark 100%
-        );
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        padding: 25px 15px 5px;
-      }
-      h3.title {
-        @include font('display');
-        margin-top: 0;
-        color: $white;
-      }
-      .category-and-submitted {
-        margin-bottom: 20px;
-        color: $white-opacity-dark;
-      }
-      .field-name-field-ding-news-lead {
-        @include span-columns(6 of 8);
-        @include font('display-small');
-        @include transition(
-          height $speed $ease,
-          opacity $speed $ease
-        );
-        position: static;
-        height: 0;
-        padding: 0;
-      }
-    }
-
     // Mobile
     @include media($mobile) {
-      // Make first child like other teaser in views without slide-on-mobile class
-      .view-ding-news.first-child-large .views-row:first-child & {
-        .news-text {
-          @include linear-gradient(
-            transparent 0%,
-            transparent 100%
-          );
-          position: static;
-          padding: 0;
-        }
-        h3.title {
-          margin: 10px 0 5px;
-          color: $charcoal;
-        }
-        .category-and-submitted {
-          float: left;
-          width: 100%;
-          margin-bottom: 0;
-          color: $charcoal-opacity-dark;
-          > div {
-            float: left;
-          }
-        }
-        .field-name-field-ding-news-lead {
-          display: none;
-        }
-      }
-      // Make all rows like first child large in slide-on-mobile views
-      .view-ding-news.slide-on-mobile .views-row:first-child &,
-      .view-ding-news.slide-on-mobile .views-row & {
+      // Slide on mobile
+      .slide-on-mobile & {
         .news-text {
           @include linear-gradient(
             transparent 0%,
@@ -188,16 +104,102 @@
           &::after {
             background-color: $black-overlay;
           }
-          // First child large
-          .view-ding-news.first-child-large .views-row:first-child & {
-            &::after {
-              background-color: $black-overlay;
-            }
-          }
         }
-        .news-text {
-          .field-name-field-ding-news-lead {
-            opacity: 1;
+        .field-name-field-ding-news-lead {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  // ==========================================================================
+  // Highlighted
+  // ==========================================================================
+  &.ding-news-highlighted {
+    .ding-news-list-image {
+      @include aspect-ratio-background-image(22, 9);
+      overflow: hidden;
+      background-size: cover;
+      &::after {
+        @include transition(background-color $speed $ease);
+        opacity: 1;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      // Mobile
+      @include media($mobile) {
+        @include aspect-ratio-background-image(16, 9);
+        background-size: cover;
+      }
+    }
+    .news-text {
+      @include linear-gradient(
+        transparent 0%,
+        $charcoal-opacity-extra-dark 100%
+      );
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 25px 15px 5px;
+    }
+    h3.title {
+      @include font('display');
+      margin-top: 0;
+      color: $white;
+    }
+    .category-and-submitted {
+      margin-bottom: 20px;
+      color: $white-opacity-dark;
+    }
+    .field-name-field-ding-news-lead {
+      @include span-columns(6 of 8);
+      @include font('display-small');
+      @include transition(
+        height $speed $ease,
+        opacity $speed $ease
+      );
+      position: static;
+      height: 0;
+      padding: 0;
+    }
+
+    // Mobile
+    @include media($mobile) {
+      .news-text {
+        @include linear-gradient(
+          transparent 0%,
+          transparent 100%
+        );
+        position: static;
+        padding: 0;
+      }
+      h3.title {
+        margin: 10px 0 5px;
+        color: $charcoal;
+      }
+      .category-and-submitted {
+        float: left;
+        width: 100%;
+        margin-bottom: 0;
+        color: $charcoal-opacity-dark;
+      }
+      .field-name-field-ding-news-category {
+        float: left;
+      }
+      .field-name-field-ding-news-lead {
+        display: none;
+      }
+    }
+
+    // Hover for non touch devices
+    .no-touch & {
+      &:hover {
+        .ding-news-list-image {
+          &::after {
+            background-color: $black-overlay;
           }
         }
       }
@@ -214,37 +216,37 @@
       max-width: $dynamic-background-width;
       margin: 0 auto;
     }
-    > .inner {
-      @include wrapper;
-      > .left {
-        @include span-columns(5);
-        min-height: 1px;
+    .ding-news-inner {
+      @include wrapper();
+    }
+    .ding-news-left {
+      @include span-columns(5);
+      min-height: 1px;
 
-        // Tablet
-        @include media($tablet) {
-          @include span-columns(6);
-        }
-
-        // Mobile
-        @include media($mobile) {
-          @include span-columns(12);
-          margin-bottom: 20px;
-        }
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(6);
       }
-      > .right {
-        @include span-columns(5);
 
-        // Tablet
-        @include media($tablet) {
-          @include span-columns(6);
-          margin-right: 0;
-        }
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(12);
+        margin-bottom: 20px;
+      }
+    }
+    .ding-news-right {
+      @include span-columns(5);
 
-        // Mobile
-        @include media($mobile) {
-          @include span-columns(12);
-          margin-right: 0;
-        }
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(6);
+        margin-right: 0;
+      }
+
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(12);
+        margin-right: 0;
       }
     }
     h1 {
@@ -337,15 +339,13 @@
   // Alternative layout full
   // ==========================================================================
   &.alternative-layout-full {
-    > .inner {
-      > .right {
-        float: right;
-        margin-right: getColumn(2) + getGutter(12);
+    .ding-news-right {
+      float: right;
+      margin-right: getColumn(2) + getGutter(12);
 
-        // Tablet
-        @include media($tablet) {
-          margin-right: 0;
-        }
+      // Tablet
+      @include media($tablet) {
+        margin-right: 0;
       }
     }
     .field-name-field-ding-news-title-image {

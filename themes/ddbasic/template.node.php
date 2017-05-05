@@ -100,9 +100,10 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
 
         // If in view with large first teaser and first in view.
         $current_view = $variables['view']->current_display;
-        $views_with_large_first = array('ding_news_frontpage_list', 'ding_news_list');
+        $views_with_large_first = array('ding_news_frontpage_list');
         if (in_array($current_view, $views_with_large_first) && $variables['view']->result[0]->nid == $variables['nid']) {
           $img_url = image_style_url('ding_panorama_list_large_wide', $uri);
+          $variables['classes_array'][] = 'ding-news-highlighted';
         }
         else {
           $img_url = image_style_url('ding_panorama_list_large', $uri);
