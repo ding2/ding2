@@ -1088,12 +1088,12 @@ function ding_event_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Events show the value "Gratis", if the field is set to 0. If there\'s multiple ticket types, you can set the value as lowest - highest price in the field, like "30 - 50"');
   t('Body');
   t('Book ticket/Participate in event');
   t('Category');
   t('Date');
   t('Display this event in the selected group (temapage).');
+  t('Events show the value "Gratis", if the field is set to 0. If there\'s multiple ticket types, you can set the value as lowest - highest price in the field, like "30 - 50"');
   t('Files');
   t('Groups');
   t('Lead');
