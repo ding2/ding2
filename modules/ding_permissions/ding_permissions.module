@@ -975,6 +975,7 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_staff_profile profile',
     ),
     'user administrator' => array(
+      'access toolbar',
       'administer users',
       'administer user role 4',
       'administer user role 5',
