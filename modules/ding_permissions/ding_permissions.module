@@ -506,6 +506,7 @@ function ding_permissions_secure_permissions($role) {
       'view private files',
       'view revisions',
       'view the administration theme',
+      'administer personalisation',
     ),
     'editor' => array(
       'eck add ding_type ding_interaction entities',
