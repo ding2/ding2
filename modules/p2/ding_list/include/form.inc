@@ -347,13 +347,11 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       return;
     }
 
-    drupal_set_message(t(
-        "You've create the list !list.<br/>Read more about how you use the lists !help",
-        array(
-          '!list' => l($list->title, 'list/' . $list->id),
-          '!help' => l(t('Here'), 'help/lists'),
-        )
-      ));
+    $out = array(
+      '#theme' => 'ding_list_create_info',
+      '#list' => $list,
+    );
+    drupal_set_message(drupal_render($out));
   }
   else {
     $list = ding_list_get_list($form_state['existing']);
