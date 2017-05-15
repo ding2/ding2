@@ -286,6 +286,9 @@ projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-
 projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
 
+projects[quiz][subdir] = "contrib"
+projects[quiz][version] = "5.0-rc4"
+
 projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
 
@@ -404,6 +407,9 @@ projects[views][version] = "3.8"
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"
 
+projects[views_data_export][subdir] = "contrib"
+projects[views_data_export][version] = "3.1"
+
 projects[views_responsive_grid][subdir] = "contrib"
 projects[views_responsive_grid][version] = "1.3"
 
@@ -480,6 +486,12 @@ libraries[phly-http][download][type] = "git"
 libraries[phly-http][download][url] = "https://github.com/phly/http"
 libraries[phly-http][download][tag] = "0.14.1"
 libraries[phly-http][destination] = "libraries"
+
+libraries[notify][download][type] = "git"
+libraries[notify][download][url] = "git@github.com:notifyjs/notifyjs.git"
+libraries[notify][download][branch] = "master"
+libraries[notify][directory_name] = "notify"
+libraries[notify][destination] = "libraries"
 
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"

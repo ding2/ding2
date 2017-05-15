@@ -9,6 +9,7 @@
  * Provides an overview of used provides, and setting pages.
  */
 function ding_provider_admin_overview() {
+
   $build = array();
   $providers = _ding_provider_get_provider();
 
