@@ -11408,15 +11408,13 @@ ul.actions {
  *
  * @author ac
  */
-.view-ting-search-related-content {
-  background-color: #e8e8e8; }
-  .view-ting-search-related-content .views-field-title {
-    font-size: 130%;
-    font-weight: 700; }
-    .view-ting-search-related-content .views-field-title a:link,
-    .view-ting-search-related-content .views-field-title a:hover,
-    .view-ting-search-related-content .views-field-title a:visited {
-      color: rgba(0, 0, 0, 0.7); }
+.view-ting-search-related-content .views-field-title {
+  font-size: 130%;
+  font-weight: 700; }
+  .view-ting-search-related-content .views-field-title a:link,
+  .view-ting-search-related-content .views-field-title a:hover,
+  .view-ting-search-related-content .views-field-title a:visited {
+    color: rgba(0, 0, 0, 0.7); }
 
 /**
  * Newsletter styles
