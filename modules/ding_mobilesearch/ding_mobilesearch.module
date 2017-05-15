@@ -257,8 +257,18 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         if (is_array($items)) {
           foreach ($items as $row) {
             if (!empty($row['tid'])) {
-              $term = taxonomy_term_load($row['tid']);
-              $mapping['taxonomy'][$machine_name]['terms'][] = $term->name;
+              $terms = taxonomy_get_parents_all($row['tid']);
+
+              $mapping['taxonomy'][$machine_name]['terms'] = array();
+              if (!empty($terms)) {
+                $parents = array();
+                $parents[$terms[0]->name] = array();
+                for ($i = 1; $i < count($terms); $i++) {
+                  $parents[$terms[$i]->name] = $parents;
+                  unset($parents[$terms[$i - 1]->name]);
+                }
+                $mapping['taxonomy'][$machine_name]['terms'] = $parents;
+              }
             }
           }
         }
@@ -267,13 +277,25 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         }
 
         if ($info['type'] == 'entityreference') {
+          $target = $info['settings']['target_type'];
+
           $mapping['fields'][$machine_name] = array(
             'name' => $field['label'],
             'value' => array(),
             'attr' => array(),
           );
+
           foreach ($items as $item) {
-            $mapping['fields'][$machine_name]['value'][] = $item['target_id'];
+            $entity = entity_load_single($target, $item['target_id']);
+            if ($entity) {
+              if ($target == 'node') {
+                $value = $entity->title;
+              }
+
+              if (!empty($value)) {
+                $mapping['fields'][$machine_name]['value'][] = $value;
+              }
+            }
           }
         }
         break;
@@ -285,11 +307,25 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
           'value' => array(),
           'attr' => array(),
         );
+
         foreach ($items as $item) {
-          $mapping['fields'][$machine_name]['value'][] = $item['ting_object_id'];
+          $mapping['fields'][$machine_name]['value']['materials'] = $item;
         }
-        if (count($mapping['fields'][$machine_name]['value']) == 1) {
-          $mapping['fields'][$machine_name]['value'] = reset($mapping['fields'][$machine_name]['value']);
+
+        $relations = ting_reference_get_relations($field['entity_type'], $node);
+        if (!empty($mapping['fields'][$machine_name]['value']['materials'])) {
+          if (!empty($relations)) {
+            $eids = array();
+
+            foreach ($relations as $relation) {
+              $eids[] = $relation->endpoints['und'][1]['entity_id'];
+            }
+            $ting_objects = entity_load('ting_object', $eids);
+            foreach ($ting_objects as $ting_object) {
+              $materials[] = $ting_object->ding_entity_id;
+            }
+            $mapping['fields'][$machine_name]['value']['materials'] = $materials;
+          }
         }
         break;
 
@@ -329,13 +365,28 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
       $items = field_get_items('node', $node, 'field_ding_event_date');
       if (is_array($items) && !empty($items)) {
         $item = reset($items);
+
+        $field_field = field_info_field('field_ding_event_date');
+        $field_instance = field_info_instance('node', 'field_ding_event_date', 'ding_event');
+
+        $tz = date_default_timezone(FALSE);
+        $from_object = new DateObject($item['value'], 'UTC', date_type_format($field_field['type']));
+        $from_object->setTimezone(new DateTimeZone($tz));
+        $to_object = new DateObject($item['value2'], 'UTC', date_type_format($field_field['type']));
+        $to_object->setTimezone(new DateTimeZone($tz));
+
+        $all_day = date_all_day_field($field_field, $field_instance, $from_object, $to_object);
+
         $mapping['fields']['field_ding_event_date'] = array(
           'name' => 'Event date',
           'value' => array(
             'from' => $item['value'],
             'to' => $item['value2'],
           ),
-          'attr' => array(),
+          'attr' => array(
+            'timezone' => $tz,
+            'all_day' => $all_day,
+          ),
         );
       }
       $tag_field = 'field_ding_event_tags';
@@ -425,10 +476,12 @@ function ding_mobilesearch_flag_default_flags() {
       'flag' => array(
         0 => 3,
         1 => 4,
+        2 => 6,
       ),
       'unflag' => array(
         0 => 3,
         1 => 4,
+        2 => 6,
       ),
     ),
     'weight' => 0,
