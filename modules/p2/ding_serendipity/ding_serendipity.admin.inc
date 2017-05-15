@@ -39,6 +39,17 @@ function ding_serendipity_admin_form($form, &$form_state) {
     '#maxlength' => 300,
   );
 
+  $form['test_cql'] = array(
+    '#type' => 'button',
+    '#value' => t('Test CQL'),
+    '#ajax' => array(
+      'wrapper' => 'test-cql-container',
+      'callback' => 'ding_serendipity_test_cql_callback',
+    ),
+    '#suffix' => '<div id="test-cql-container"></div>',
+    '#cql_element' => 'ding_serendipity_search_string_final',
+  );
+
   $form['ding_serendipity_search_string_final_description'] = array(
     '#type' => 'textfield',
     '#title' => t('Serendipity final fallback description'),
