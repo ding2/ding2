@@ -257,8 +257,18 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         if (is_array($items)) {
           foreach ($items as $row) {
             if (!empty($row['tid'])) {
-              $term = taxonomy_term_load($row['tid']);
-              $mapping['taxonomy'][$machine_name]['terms'][] = $term->name;
+              $terms = taxonomy_get_parents_all($row['tid']);
+
+              $mapping['taxonomy'][$machine_name]['terms'] = array();
+              if (!empty($terms)) {
+                $parents = array();
+                $parents[$terms[0]->name] = array();
+                for ($i = 1; $i < count($terms); $i++) {
+                  $parents[$terms[$i]->name] = $parents;
+                  unset($parents[$terms[$i - 1]->name]);
+                }
+                $mapping['taxonomy'][$machine_name]['terms'] = $parents;
+              }
             }
           }
         }
