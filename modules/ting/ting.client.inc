@@ -227,13 +227,6 @@ function ting_get_objects($ids) {
 function ting_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
   $request = ting_get_request_factory()->getSearchRequest();
 
-  $agency = variable_get('ting_agency', FALSE);
-  if ($agency && variable_get('ting_filter_by_local_holdings', 0)) {
-    // Limit the search to materials from the local library. From well 3.5 each
-    // library is no longer isolated.
-    $query = '(' . $query . ') and holdingsitem.agencyid="' . $agency . '"';
-  }
-
   $request->setQuery($query);
   if ($agency = variable_get('ting_agency', FALSE)) {
     $request->setAgency($agency);
