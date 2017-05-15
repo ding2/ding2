@@ -199,12 +199,8 @@ projects[media][patch][] = "https://www.drupal.org/files/issues/media_popup_trig
 projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.0-rc1"
 
-projects[media_youtube][type] = "module"
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][download][type] = "git"
-projects[media_youtube][download][url] = "http://git.drupal.org/project/media_youtube.git"
-projects[media_youtube][download][revision] = "ca46aba"
-projects[media_youtube][patch][] = "http://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
+projects[media_youtube][version] = "3.0"
 
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.5"
