@@ -457,6 +457,29 @@ function ding_library_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
+    $pane->pid = 'new-ab37493b-0fe8-4929-a8ac-41e91a3825ed';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'block';
+    $pane->subtype = 'menu_block-3';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'ab37493b-0fe8-4929-a8ac-41e91a3825ed';
+    $display->content['new-ab37493b-0fe8-4929-a8ac-41e91a3825ed'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-ab37493b-0fe8-4929-a8ac-41e91a3825ed';
+    $pane = new stdClass();
     $pane->pid = 'new-d62be472-164d-4035-8ac5-a92a0ca855ae';
     $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
@@ -487,11 +510,11 @@ function ding_library_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = '';
     $pane->uuid = 'd62be472-164d-4035-8ac5-a92a0ca855ae';
     $display->content['new-d62be472-164d-4035-8ac5-a92a0ca855ae'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-d62be472-164d-4035-8ac5-a92a0ca855ae';
+    $display->panels['left_sidebar'][1] = 'new-d62be472-164d-4035-8ac5-a92a0ca855ae';
     $pane = new stdClass();
     $pane->pid = 'new-265108a0-31ea-47f3-9b44-376a47724f4a';
     $pane->panel = 'main_content';
@@ -859,7 +882,7 @@ function ding_library_default_page_manager_pages() {
     $pane->locks = '';
     $pane->uuid = 'c05787bc-8016-4669-8c82-10c349af2dea';
     $display->content['new-c05787bc-8016-4669-8c82-10c349af2dea'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-c05787bc-8016-4669-8c82-10c349af2dea';
+    $display->panels['left_sidebar'][2] = 'new-c05787bc-8016-4669-8c82-10c349af2dea';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
