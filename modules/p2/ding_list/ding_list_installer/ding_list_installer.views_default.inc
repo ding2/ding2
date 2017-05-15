@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_list_installer.views_default.inc
@@ -19,6 +20,7 @@ function ding_list_installer_views_default_views() {
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'List';
@@ -92,7 +94,6 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['arguments']['id']['field'] = 'id';
   $handler->display->display_options['arguments']['id']['relationship'] = 'reverse_field_list_objects_ding_type';
   $handler->display->display_options['arguments']['id']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['id']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['id']['default_argument_type'] = 'raw';
   $handler->display->display_options['arguments']['id']['default_argument_options']['index'] = '1';
   $handler->display->display_options['arguments']['id']['summary']['number_of_records'] = '0';
@@ -107,8 +108,9 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_list_element' => 'ding_list_element',
   );
+
   /* Display: Content pane: Default list */
-  $handler = $view->new_display('panel_pane', 'Content pane: Default list', 'panel_pane_1');
+  $handler = $view->new_display('panel_pane', 'Content pane: Default list', 'default_list');
   $handler->display->display_options['allow']['use_pager'] = 'use_pager';
   $handler->display->display_options['allow']['items_per_page'] = 'items_per_page';
   $handler->display->display_options['allow']['offset'] = 'offset';
@@ -118,8 +120,9 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['allow']['title_override'] = 'title_override';
   $handler->display->display_options['allow']['exposed_form'] = 0;
   $handler->display->display_options['allow']['fields_override'] = 0;
+
   /* Display: Content pane: With state */
-  $handler = $view->new_display('panel_pane', 'Content pane: With state', 'panel_pane_2');
+  $handler = $view->new_display('panel_pane', 'Content pane: With state', 'with_states');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'List with state';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
@@ -224,8 +227,9 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['allow']['title_override'] = 'title_override';
   $handler->display->display_options['allow']['exposed_form'] = 0;
   $handler->display->display_options['allow']['fields_override'] = 0;
+
   /* Display: Content pane: With weight */
-  $handler = $view->new_display('panel_pane', 'Content pane: With weight', 'panel_pane_3');
+  $handler = $view->new_display('panel_pane', 'Content pane: With weight', 'with_weight');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'List with weight';
   $handler->display->display_options['defaults']['fields'] = FALSE;
@@ -322,13 +326,6 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'carousel';
@@ -361,9 +358,9 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['filters']['field_list_type_value']['field'] = 'field_list_type_value';
   $handler->display->display_options['filters']['field_list_type_value']['value'] = 'user_list';
 
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'public-lists';
+  /* Display: Public lists */
+  $handler = $view->new_display('panel_pane', 'Public lists', 'panel_pane_public_lists');
+  $handler->display->display_options['defaults']['title'] = FALSE;
   $translatables['public_lists'] = array(
     t('Master'),
     t('Public lists'),
@@ -383,7 +380,7 @@ function ding_list_installer_views_default_views() {
     t('Id'),
     t('.'),
     t(','),
-    t('Page'),
+    t('View panes'),
   );
   $export['public_lists'] = $view;
 

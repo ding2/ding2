@@ -1,0 +1,253 @@
+//
+// Class specific styling for p2 panels
+
+@import '../base.scss';
+
+// ==========================================================================
+// Pane system user menu
+// ==========================================================================
+.pane-system-user-menu {
+  .block-title {
+    border-bottom: 1px solid $charcoal-opacity-light;
+    padding-bottom: 25px;
+  }
+  ul.system-user-menu {
+    padding: 0;
+    margin-bottom: 0;
+
+    li {
+      margin-bottom: 20px;
+      list-style: none;
+    }
+  }
+}
+
+// ==========================================================================
+// Panel list create
+// ==========================================================================
+.pane-list-create {
+  form {
+    margin-top: 25px;
+    input[type="submit"] {
+      float: left;
+      width: auto;
+      margin-top: 10px;
+      margin-right: 20px;
+    }
+  }
+}
+
+// ==========================================================================
+// Pane list menu
+// ==========================================================================
+.pane-list-menu {
+  ul.sub-menu {
+    li a {
+      display: inline;
+      padding: 0;
+      &::before,
+      &::after {
+        display: none;
+      }
+      &.active {
+        @include place-icon('arrow-right-small', $color-text, 8px);
+        color: $color-text;
+        position: relative;
+        padding-left: 20px;
+        &::after {
+          top: 3px;
+          left: 0;
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Pane share list
+// ==========================================================================
+.pane-share-list {
+  form {
+    @include span-columns(4 of 8);
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(6);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+      margin-right: 0;
+    }
+    .description {
+      margin-top: 5px;
+    }
+  }
+}
+
+// ==========================================================================
+// Pane user lists and specials
+// ==========================================================================
+.pane-userlists-and-specials {
+  .ding-user-lists {
+    h3 {
+      @include font('display-large');
+      color: $color-text;
+      margin-bottom: 20px;
+
+      // Mobile
+      @include media($mobile) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+  .list-links {
+    width: 100%;
+    float: left;
+    list-style: none;
+    margin-bottom: 60px;
+    li {
+      width: 100%;
+      float: left;
+      position: relative;
+    }
+    a {
+      display: block;
+      float: left;
+      &::after {
+        @include transition(color $speed $ease);
+      }
+      &:hover {
+        &::after {
+          color: $color-text;
+        }
+      }
+    }
+  }
+  .signature-label {
+    @include font('display-small');
+    @include place-icon('arrow-right', $charcoal-opacity-dark, 54px);
+    position: static;
+    padding-right: 40px;
+
+    //Right arrow
+    &::after {
+      @include transform(translateY(-50%));
+      right: 10px;
+      top: 50%;
+    }
+  }
+  .specials {
+    .signature-label {
+      display: block;
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      padding: 30px 20px 30px 50px;
+      border-radius: $round-corner;
+      margin-bottom: 10px;
+      background-color: $grey-dark;
+      color: $white;
+
+      @include media($notebook) {
+        @include font('base');
+        font-family: $font-family-bold;
+      }
+
+      // Hover
+      .no-touch & {
+        &:hover {
+          @include transition(
+            background-color $speed $ease
+          );
+          background-color: $grey-medium;
+          color: $white;
+        }
+      }
+    }
+    .label {
+      @include font('display-small');
+      position: absolute;
+      top: 30px;
+      left: 20px;
+      color: $white;
+      &::before {
+        display: none;
+      }
+    }
+    .fines {
+      .signature-label {
+        background-color: $red;
+      }
+    }
+    .warn {
+      .signature-label {
+        background-color: $yellow;
+      }
+    }
+    .ready {
+      .signature-label {
+        background-color: $green;
+      }
+    }
+  }
+  .userlists {
+    li {
+      padding: 20px;
+      &:nth-child(2n +1) {
+        background-color: $grey;
+      }
+    }
+    .notification-link {
+      clear: left;
+      float: left;
+      margin-top: 10px;
+    }
+    .notification-label {
+      padding-right: 5px;
+      color: $charcoal-opacity-dark;
+    }
+  }
+  ul.bottom-links {
+    list-style: none;
+    li {
+      a {
+        float: left;
+        margin-right: 20px;
+        margin-bottom: 10px;
+      }
+      &:last-child {
+        a {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Pane lists followers
+// ==========================================================================
+.pane-list-followers {
+  margin-bottom: 60px;
+}
+
+// ==========================================================================
+// Pane add list
+// ==========================================================================
+.pane-add-list {
+  width: 100%;
+  float: left;
+  margin: 40px 0;
+  form {
+    float: left;
+  }
+}
+
+// ==========================================================================
+// Pane notifications top menu
+// ==========================================================================
+.pane-notifications-top-menu {
+  display: none;
+}

@@ -1,0 +1,92 @@
+//
+// Styling of User login panel
+
+@import '../../base.scss';
+
+// ==========================================================================
+// User login panel
+// ==========================================================================
+
+.pane-user-login {
+  @include transition(
+    transform $speed $ease,
+    box-shadow $speed $ease
+  );
+  @include transform(translateY(-100%));
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $grey-light;
+  z-index: $z-header + 1;
+  overflow: hidden;
+
+  // Tablet
+  @include media($tablet) {
+    z-index: 1;
+  }
+
+  .pane-login-is-open & {
+    @include transition(
+      transform $speed $ease,
+      height $speed $ease
+    );
+    @include transform(translateY(0));
+    box-shadow: $box-shadow;
+
+    // Tablet
+    @include media($tablet) {
+      @include transform(translateY(148px));
+    }
+  }
+  .user-field-wrapper {
+    @include wrapper;
+    padding: 20px 0;
+  }
+  .intro-text {
+    @include span-columns(5);
+    margin-top: 55px;
+    .lead {
+      @include font('display-small');
+      margin-bottom: 20px;
+    }
+    // Mobile
+    @include media($mobile) {
+      display: none;
+    }
+  }
+  .user-login-container {
+    @include span-columns(4);
+    @include omega;
+    float: right;
+    .form-actions {
+      @include span-columns(2 of 4);
+      @include omega;
+      float: right;
+    }
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(6);
+      @include omega;
+      float: right;
+      .form-actions {
+        @include span-columns(3 of 6);
+        @include omega;
+        float: right;
+      }
+    }
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+      float: left;
+    }
+  }
+  // When form has Nemid button
+  .has-nemid-login {
+    .user-login-container {
+      .form-actions {
+        min-width: 190px;
+      }
+    }
+  }
+}

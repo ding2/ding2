@@ -1,0 +1,72 @@
+//
+// Styling of p2 rating
+
+@import '../base.scss';
+
+.ding-entity-rating-avg {
+  float: left;
+  margin-top: 5px;
+}
+
+// Overwrites for font-awsome
+.ding-entity-rating {
+  width: 100%;
+  float: left;
+  .fa-star-o {
+    @include place-icon('star', $grey-medium, 25px);
+    position: relative;
+    display: block;
+    float: left;
+    width: 25px;
+    height: 25px;
+    &:first-child {
+      margin-left: -2px;
+    }
+    &:last-child {
+      margin-right: 10px;
+    }
+    &::before {
+      display: none;
+    }
+    &.active,
+    &.submitted {
+      &::after {
+        color: $color-primary;
+      }
+    }
+    // On material-item odd
+    .material-item.odd & {
+      &::after {
+        color: $grey-dark;
+      }
+    }
+    // On ting teaser
+    .ting-object.view-mode-teaser & {
+      &::after {
+        color: $color-standard-text;
+      }
+    }
+    // On ting search result
+    .ting-object.view-mode-search-result & {
+      &::after {
+        color: $grey-medium;
+      }
+    }
+    .material-item.odd &,
+    .ting-object.view-mode-teaser &,
+    .ting-object.view-mode-search-result & {
+      &.active,
+      &.submitted {
+        &::after {
+          color: $color-primary;
+        }
+      }
+    }
+    // Hover
+    .no-touch & {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

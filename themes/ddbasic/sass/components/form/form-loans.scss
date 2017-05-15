@@ -1,0 +1,35 @@
+//
+// Styling of loan form
+
+@import '../../base.scss';
+
+// ==========================================================================
+// User loans
+// ==========================================================================
+
+#ding-loan-loans-form {
+  > div {
+    > .select-all {
+      position: relative;
+      float: left;
+      width: 100%;
+      float: left;
+      padding: 23px 20px;
+      margin: 10px 0;
+      background-color: $grey-dark;
+
+      @include media($mobile) {
+        padding: 10px;
+      }
+      .form-item {
+        margin: 0;
+        color: $white;
+        &.form-disabled {
+          label::before {
+            visibility: hidden;
+          }
+        }
+      }
+    }
+  }
+}

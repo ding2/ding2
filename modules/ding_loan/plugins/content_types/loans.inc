@@ -80,6 +80,13 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   // Split the loans into groups based on the expiry date.
   $groups = _ding_loan_loans_group_loans_by_date($loans);
 
+  $form['actions_container'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('actions-container', 'js-actions-container-fixed'),
+    ),
+  );
+
   // Store account information in the form (on server site).
   $form['account'] = array(
     '#type' => 'value',
@@ -92,26 +99,26 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     '#value' => $loans,
   );
 
+  $any_renewable = FALSE;
   foreach ($groups as $gid => $group) {
     // Counter to ensure that the "select all" checkbox is disabled if all loans
     // in group are disabled.
     $disabled_count = 0;
 
-    foreach ($group['loans'] as $loan) {
-
-      // Add title item (grouping by due dates).
-      $form['loans'][$gid]['title'] = array(
-        '#type' => 'checkbox',
-        '#title' => $group['title'],
-        '#prefix' => '<div class="select-all ' . $gid . '">',
-        '#suffix' => '</div>',
-        '#attached' => array(
-          'js' => array(
-            drupal_get_path('module', 'ding_loan') . '/js/ding_loan.js',
-          ),
+    // Add title item (grouping by due dates).
+    $form['loans'][$gid]['title'] = array(
+      '#type' => 'checkbox',
+      '#title' => $group['title'],
+      '#prefix' => '<div class="select-all ' . $gid . '">',
+      '#suffix' => '</div>',
+      '#attached' => array(
+        'js' => array(
+          drupal_get_path('module', 'ding_loan') . '/js/ding_loan.js',
         ),
-      );
+      ),
+    );
 
+    foreach ($group['loans'] as $loan) {
       // Try to get entity for the loan.
       $entity = $loan->entity;
       if (!is_object($entity) || $entity->reply == FALSE) {
@@ -128,7 +135,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       // Add creator(s).
       $creators = $entity->creators;
- 
+
       // Add type.
       $mat_type = $entity->type;
 
@@ -196,19 +203,41 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     if (count($group['loans']) == $disabled_count) {
       $form['loans'][$gid]['title']['#disabled'] = TRUE;
     }
+    else {
+      $any_renewable = TRUE;
+    }
   }
 
-  // Add the renew buttons to top and bottom of the form.
-  $form['actions_top'] = array(
+  if ($any_renewable === TRUE) {
+    $form['actions_container']['select_all'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Renew all'),
+      '#attached' => array(
+        'js' => array(
+          drupal_get_path('module', 'ding_loan') . '/js/ding_loan.js',
+        ),
+      ),
+    );
+  }
+
+  // Add the renew buttons.
+  $form['actions_container']['actions_top'] = array(
     '#prefix' => '<div class="action-buttons">',
     '#suffix' => '</div>',
     '#weight' => 0,
   );
 
-  $form['actions_top']['submit_first'] = array(
+  $form['actions_container']['actions_top']['submit_first'] = array(
     '#type' => 'submit',
     '#prefix' => '<div class="renew-loan-button action-button">',
     '#value' => t('Renew selected (@count)', array('@count' => 0)),
+    '#suffix' => '</div>',
+  );
+
+  $form['actions_container']['actions_top']['renew_all'] = array(
+    '#type' => 'markup',
+    '#prefix' => '<div class="renew-all action-all action-button js-renew-all">',
+    '#markup' => '<a href="#">' . t('Renew all') . '</a>',
     '#suffix' => '</div>',
   );
 

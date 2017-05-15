@@ -1,0 +1,613 @@
+//
+// General styling for all panels and class specific styling for panels
+
+@import '../../base.scss';
+
+// ==========================================================================
+// General
+// ==========================================================================
+
+.pane-content {
+  .pane-title {
+    @include font('display-large');
+    color: $color-text;
+    margin-bottom: 20px;
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.panel-pane {
+  // Sub menu
+  ul.sub-menu {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+
+    li {
+      margin-bottom: 15px;
+      width: 100%;
+      a {
+        display: block;
+        padding: 7px 0 1px 42px;
+        position: relative;
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 28px;
+          height: 28px;
+          margin: 0 10px 5px 0;
+          border-radius: $round-corner;
+          background-color: $grey;
+        }
+        &.active {
+          @include place-icon(check, $color-text-on-primary, 28px);
+          &::after {
+            left: 0;
+          }
+          &::before {
+            background-color: $color-primary;
+          }
+        }
+      }
+    }
+  }
+  // More link
+  .more-link {
+    min-width: getColumn(3);
+    float: left;
+  }
+  // Grid small
+  &.grid-small {
+    .pane-content {
+      > ul li,
+      > .field > .field-items > .field-item {
+        @include span-columns(3);
+        @include omega(4n);
+        margin-bottom: getGutter();
+        // Tablet
+        @include media($tablet) {
+          @include omega-reset(4n, 12);
+          @include span-columns(4);
+          @include omega(3n);
+        }
+        // Mobile
+        @include media($mobile) {
+          width: 100%;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Ding labrary address & ding library contact
+// ==========================================================================
+.panel-pane {
+  &.ding-library-address,
+  &.ding-library-contact {
+    margin-bottom: 40px;
+    .pane-title {
+      @include font('display-small');
+      padding-bottom: 20px;
+      border-bottom: 1px solid $charcoal-opacity-light;
+      margin-bottom: 25px;
+      color: $charcoal;
+    }
+    // When placed in primary content of default panel layout
+    .default-panel-layout .primary-content & {
+      @include span-columns(4 of 8);
+    }
+  }
+  .library-address-postal-code {
+    &::after {
+      content: " ";
+    }
+  }
+  &.ding-library-contact {
+    // When placed in primary content of default panel layout
+    .default-panel-layout .primary-content & {
+      @include omega();
+    }
+  }
+  .library-contact-phone-label {
+    width: 100px;
+    float: left;
+  }
+  .library-contact-fax-label {
+    width: 100px;
+    float: left;
+  }
+  .library-contact-email-label {
+    width: 100px;
+    float: left;
+  }
+}
+
+// ==========================================================================
+// Openening hours
+// ==========================================================================
+.panel-pane.pane-weekly-opening-hours {
+  width: 100%;
+  float: left;
+}
+
+.panel-pane.pane-all-opening-hours {
+  table.opening-hours-table {
+    margin-bottom: 30px;
+  }
+  // Collapse opening hours on mobile
+  .pane-title {
+    @include arrow-button(arrow-down);
+    position: relative;
+    &::after {
+      display: none; // hide arrow on desktop
+    }
+  }
+  // Mobile
+  @include media($mobile) {
+    .pane-title {
+      cursor: pointer;
+      &::after {
+        display: block;
+        top: -10px;
+        right: 0;
+        background-color: $grey;
+        color: $charcoal-opacity-dark;
+      }
+    }
+    .pane-content {
+      display: none;
+    }
+  }
+}
+
+// ==========================================================================
+// Menu title
+// ==========================================================================
+
+.panel-pane.pane-menu-title,
+.panel-pane.pane-page-title {
+  h2 {
+    @include font('display-large');
+    color: $color-text;
+    .secondary-content & {
+      margin-top: 15px;
+      margin-bottom: 46px;
+    }
+  }
+}
+
+// ==========================================================================
+// Ding news list & Ding news list library
+// ==========================================================================
+
+.panel-pane.pane-ding-news-ding-news-list,
+.panel-pane.pane-ding-news-ding-news-list-library {
+  margin-top: 105px;
+
+  @include media($tablet) {
+    margin-top: 0;
+  }
+}
+
+// ==========================================================================
+// Search result count
+// ==========================================================================
+
+.panel-pane.pane-search-result-count {
+  .pane-content {
+    margin-bottom: 20px;
+  }
+  .page-title {
+    margin-bottom: 5px;
+  }
+  .search-string,
+  .count {
+    @include font('display-small');
+  }
+
+  .count {
+    color: $charcoal-opacity-dark;
+  }
+}
+
+// ==========================================================================
+// Ting collection title and count
+// ==========================================================================
+
+.panel-pane.pane-ting-collection-count {
+  border-bottom: 1px solid $charcoal-opacity-light;
+  .pane-content {
+    margin-bottom: 20px;
+  }
+  .page-title {
+    margin-bottom: 5px;
+  }
+  .material-title,
+  .count {
+    @include font('display-small');
+  }
+
+  .count {
+    color: $charcoal-opacity-dark;
+  }
+}
+
+// ==========================================================================
+// Search backends
+// ==========================================================================
+
+.panel-pane.pane-search-backends {
+  fieldset {
+    border-top: 1px solid $charcoal-opacity-light;
+  }
+}
+
+// ==========================================================================
+// Search help
+// ==========================================================================
+
+.panel-pane.search-help {
+  width: 100%;
+  float: left;
+  padding: 40px 0;
+  border-top: 1px solid $charcoal-opacity-light;
+  .pane-title {
+    @include font('display-small');
+    color: $charcoal;
+    margin-bottom: 0;
+  }
+  .pane-content {
+    @include span-columns(5 of 8);
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(8);
+    }
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+    }
+    .button {
+      float: left;
+    }
+  }
+}
+
+// ==========================================================================
+// Ding facetbrowser
+// ==========================================================================
+
+.panel-pane.pane-ding-facetbrowser {
+  fieldset {
+    border-top: 1px solid $charcoal-opacity-light;
+    &:last-child {
+      border-bottom: 1px solid $charcoal-opacity-light;
+    }
+  }
+  form {
+    // Hide expand link
+    > div > a.expand {
+      display: none;
+    }
+  }
+}
+
+// ==========================================================================
+// User debts
+// ==========================================================================
+
+.panel-pane.pane-debts {
+  margin-bottom: 25px;
+
+  @include clearfix();
+  .total-amount {
+    width: 100%;
+    float: left;
+    margin: 10px 0;
+  }
+  .pay-button {
+    float: left;
+    margin-right: getGutter(8);
+
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 10px;
+    }
+    input {
+      padding-right: 80px;
+    }
+  }
+  .pay-button + .pay-button {
+    margin-right: 0;
+  }
+}
+
+#dibs-cards-supported {
+  .card-name {
+    font-weight: normal;
+  }
+}
+
+// ==========================================================================
+// Username pane in topbar
+// ==========================================================================
+
+.panel-pane.pane-user-name {
+  display: none;
+  padding-top: 12px;
+
+  .logged-in & {
+    display: block;
+
+    // Tablet
+    @include media($tablet) {
+      display: none;
+    }
+  }
+  h2 {
+    @include font('base');
+    margin: 0;
+    text-align: right;
+    color: $color-standard-text;
+  }
+  .pane-content {
+    @include font('display-small');
+    text-align: right;
+    color: $color-text;
+  }
+}
+
+.panel-pane.pane-import {
+  input[type=text] {
+    background-color: $grey-medium;
+    color: $charcoal;
+    border-radius: 0;
+  }
+}
+
+// ==========================================================================
+// Staff profile
+// ==========================================================================
+
+.panel-pane.pane-staff-profile,
+.pane-ding-news-ding-news-list-user {
+  .pane-title {
+    margin-top: 15px;
+  }
+}
+
+// ==========================================================================
+// Page tabs
+// ==========================================================================
+
+.pane-page-tabs {
+  @include wrapper;
+  ul.tabs.primary {
+    padding-left: 0;
+    margin: 20px 0 0;
+    li {
+      a {
+        padding: 5px 10px;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Node panes
+// ==========================================================================
+
+.pane-node-title {
+  h2 {
+    @include font('display-large');
+    color: $color-text;
+  }
+}
+
+.pane-node-field-ding-library-lead,
+.pane-node-field-ding-library-body {
+  @include span-columns(5 of 8);
+  margin-bottom: 30px;
+  p:last-child {
+    margin-bottom: 0;
+  }
+  // Tablet
+  @include media($tablet) {
+    @include span-columns(8);
+  }
+  // Mobile
+  @include media($mobile) {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+
+// ==========================================================================
+// Eresource index
+// ==========================================================================
+
+.pane-ding-eresource-index {
+  width: 100%;
+  float: left;
+  ul.eresource-index {
+    list-style: none;
+    > li {
+      float: left;
+      margin-right: 10px;
+      a {
+        @include font('base-bold');
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// E-resource category
+// ==========================================================================
+
+.pane-ding-eresource-ding-eresource-category {
+  @include span-columns(6 of 8);
+
+  // Tablet
+  @include media($tablet) {
+    @include span-columns(8);
+  }
+
+  // Mobile
+  @include media($mobile) {
+    width: 100%;
+  }
+}
+
+// ==========================================================================
+// Pane bibliotek info
+// ==========================================================================
+
+.pane-bibliotek-info {
+  width: 100%;
+  float: left;
+  padding: 40px 0;
+  border-top: 1px solid $charcoal-opacity-light;
+  background-image: none;
+  .pane-content {
+    padding: 0;
+    strong {
+      @include font('display-small');
+    }
+  }
+}
+
+// ==========================================================================
+// Pane print button
+// ==========================================================================
+
+.pane-print-button {
+  position: relative;
+  z-index: $z-content;
+  display: block;
+  float: right;
+  width: 164px;
+  margin-bottom: -50px;
+
+  // Mobile
+  @include media($mobile) {
+    display: none;
+  }
+  .print-button {
+    margin: 0;
+  }
+}
+
+// ==========================================================================
+// User loan status panel
+// ==========================================================================
+
+.pane-ding-user-frontend-ding-user-loan-number {
+  margin-bottom: 40px;
+}
+
+// ==========================================================================
+// Pane-views-exp-ding-event-ding-event-list
+// ==========================================================================
+
+.pane-views-exp-ding-event-ding-event-list {
+  .views-exposed-form {
+    border-top: 1px solid $charcoal-opacity-light;
+    padding-top: 25px;
+    .form-submit {
+      margin-top: 0;
+      padding-right: 40px;
+      margin-right: getGutter(4);
+    }
+  }
+  .views-exposed-widget {
+    padding: 0;
+    margin-bottom: 30px;
+
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 20px;
+    }
+  }
+  .views-widget-filter-combine {
+    width: 100%;
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(4);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+  .views-widget-filter-field_ding_event_date_value,
+  .views-widget-filter-field_ding_event_date_value_1 {
+    @include span-columns(2 of 4);
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(4);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+  .views-widget-filter-field_ding_event_date_value_1 {
+    @include omega();
+  }
+  label {
+    @include font('display-small');
+    font-weight: normal;
+    margin-bottom: 20px;
+
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 10px;
+    }
+  }
+  .form-item {
+    display: block;
+    margin-right: 0;
+    .date-padding,
+    .form-item {
+      float: none;
+    }
+    input {
+      width: 100%;
+      margin-right: 0;
+      background-color: $grey;
+
+      @include placeholder {
+        color: $charcoal-opacity-dark;
+      }
+    }
+  }
+  .description {
+    display: none;
+  }
+  .views-submit-button {
+    margin-right: 20px;
+  }
+  .views-submit-button {
+    padding: 0;
+  }
+  .views-reset-button {
+    padding: 0;
+    .form-submit {
+      margin-top: 0;
+    }
+  }
+}

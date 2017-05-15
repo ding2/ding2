@@ -168,6 +168,9 @@ function ding_user_consent_has_consent($consent_id = NULL, $account = FALSE) {
   return FALSE;
 }
 
+/**
+ * Implments hook_form_FORM_ID_alter().
+ */
 function ding_user_consent_form_profile2_form_alter(&$form, &$form_state) {
   // If consent longer than 30 days is disabled, ignore the form below.
   if (!variable_get('user_consent_activate')) {
@@ -322,7 +325,7 @@ function ding_user_consent_previously_displayed($account) {
  * @return array
  *   An ajax popup command.
  */
-function ajax_command_ding_user_consent($extra_data = array()) {
+function ajax_command_ding_user_consent(array $extra_data = array()) {
   module_load_include('inc', 'ding_user_consent', 'ding_user_consent.pages');
   $title = t('Give consent');
 
@@ -435,7 +438,6 @@ function ding_user_consent_translatables() {
 function ding_user_consent_get_description_link() {
   $url = variable_get('ding_user_consent_loan_history_store_description_link', '');
   if (empty($url)) {
-
     // Create a new page describing consent.
     $values = array(
       'type' => 'ding_page',

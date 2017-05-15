@@ -243,8 +243,52 @@ function ding_event_permission() {
  * Implements hook_views_pre_build().
  */
 function ding_event_views_pre_build(&$view) {
-  if ($view->name == "ding_event" && $view->current_display == 'ding_event_list_frontpage') {
-    $view_items_per_page = $view->display['ding_event_list_frontpage']->display_options['pager']['options']['items_per_page'];
-    $view->items_per_page = variable_get('ding_event_frontpage_items_per_page', $view_items_per_page);
+  switch ($view->name . ' ' . $view->current_display) {
+    case 'ding_event ding_event_list_frontpage':
+      if (variable_get('ding_event_frontpage_promoted', TRUE) == FALSE) {
+        unset($view->filter['promote']);
+      }
+
+      $view->items_per_page = variable_get('ding_event_frontpage_items_per_page', 6);
+      break;
+
+    case 'ding_event ding_event_list':
+      $view->items_per_page = variable_get('ding_event_list_items_per_page', 10);
+
+      if (variable_get('ding_event_list_group_by_date', FALSE)) {
+        $view->field['field_ding_event_date_1']->options['settings']['format_type'] = 'ding_date_only_version2';
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_event_form_views_exposed_form_alter(&$form, &$form_state) {
+  if ($form_state['view']->name == 'ding_event' && $form_state['view']->current_display == 'ding_event_list') {
+
+    // Add placeholder to title field.
+    if (!empty($form['title'])) {
+      $form['title']['#attributes']['placeholder'] = t('Search for an event');
+    }
+
+    // Hide reset button if there's nothing to reset.
+    foreach ($form_state['view']->exposed_input as $exposed_input) {
+      $input = $exposed_input;
+    }
+    if (empty($input)) {
+      $form['reset']['#access'] = FALSE;
+    }
+  }
+}
+
+/**
+ * Implements hook date_popup_process_alter().
+ */
+function ding_event_date_popup_process_alter(&$element, &$form_state, $context) {
+  // Add placeholder in event view.
+  if (isset($form_state['view']) && $form_state['view']->name == 'ding_event' && $form_state['view']->current_display == 'ding_event_list') {
+    $element['date']['#attributes']['placeholder'] = t('Select a date');
   }
 }

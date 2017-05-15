@@ -1,36 +1,107 @@
 ;----------// Theme Information
-  name        = DDBasic
+  name        = DDBasic V2.0
   description = The default theme for the danish library distribution
   core        = 7.x
   release     = 7.x-1.x
 
 
 ;----------// Stylesheets
-  stylesheets[all][] = css/ddbasic.styles.min.css
+  stylesheets[all][] = sass_css/base/addfont.css
+  stylesheets[all][] = sass_css/base/form.css
+  stylesheets[all][] = sass_css/base/icomoon.css
+  stylesheets[all][] = sass_css/base/standard.css
+  stylesheets[all][] = sass_css/base/table.css
 
-  ; Override stylesheets
-  stylesheets[all][] = css/system.menus.css
-  stylesheets[all][] = css/system.messages.css
-  stylesheets[all][] = css/addressfield.css
-  stylesheets[all][] = css/date.css
-  stylesheets[all][] = css/jquery.ui.theme.css
-  stylesheets[all][] = css/jquery.ui.theme.min.css
-  stylesheets[all][] = css/jquery.ui.dialog.css
-  stylesheets[all][] = css/jquery.ui.dialog.min.css
+  stylesheets[all][] = sass_css/components/class.css
+  stylesheets[all][] = sass_css/components/field.css
+  stylesheets[all][] = sass_css/components/footer.css
+  stylesheets[all][] = sass_css/components/header.css
+  stylesheets[all][] = sass_css/components/kss.css
+  stylesheets[all][] = sass_css/components/menu.css
+  stylesheets[all][] = sass_css/components/opening-hours.css
+  stylesheets[all][] = sass_css/components/search.css
+  stylesheets[all][] = sass_css/components/select-list.css
+  stylesheets[all][] = sass_css/components/popupbar.css
+  stylesheets[all][] = sass_css/components/cookie.css
+  stylesheets[all][] = sass_css/components/ui-datepicker.css
+  stylesheets[all][] = sass_css/components/entity-profile2.css
+  stylesheets[all][] = sass_css/components/messages.css
+  stylesheets[all][] = sass_css/components/webform.css
+  stylesheets[all][] = sass_css/components/rs-carousel.css
+  stylesheets[all][] = sass_css/components/ding-tabroll.css
+  stylesheets[all][] = sass_css/components/user.css
 
+  stylesheets[all][] = sass_css/components/form/form-user-login.css
+  stylesheets[all][] = sass_css/components/form/form-user-profile.css
+  stylesheets[all][] = sass_css/components/form/form-loans.css
+  stylesheets[all][] = sass_css/components/form/form-class.css
+
+  stylesheets[all][] = sass_css/components/node/eresource.css
+  stylesheets[all][] = sass_css/components/node/event.css
+  stylesheets[all][] = sass_css/components/node/faq-question.css
+  stylesheets[all][] = sass_css/components/node/group.css
+  stylesheets[all][] = sass_css/components/node/library.css
+  stylesheets[all][] = sass_css/components/node/news.css
+  stylesheets[all][] = sass_css/components/node/node.css
+  stylesheets[all][] = sass_css/components/node/page.css
+
+  stylesheets[all][] = sass_css/components/panel/account.css
+  stylesheets[all][] = sass_css/components/panel/class-panel.css
+  stylesheets[all][] = sass_css/components/panel/pane-ding-facetbrowser.css
+  stylesheets[all][] = sass_css/components/panel/pane-menu.css
+  stylesheets[all][] = sass_css/components/panel/pane-profile2.css
+  stylesheets[all][] = sass_css/components/panel/pane-user-login.css
+
+  stylesheets[all][] = sass_css/components/ting-object/ting-object.css
+  stylesheets[all][] = sass_css/components/ting-object/material-item.css
+
+  stylesheets[all][] = sass_css/components/view/view.css
+
+  stylesheets[all][] = sass_css/layout/panel.css
+
+  stylesheets[all][] = sass_css/p2/p2-ding-interaction.css
+  stylesheets[all][] = sass_css/p2/p2-class.css
+  stylesheets[all][] = sass_css/p2/p2-class-panel.css
+  stylesheets[all][] = sass_css/p2/p2-entity-buttons.css
+  stylesheets[all][] = sass_css/p2/p2-rating.css
+  stylesheets[all][] = sass_css/p2/p2-view.css
+  stylesheets[all][] = sass_css/p2/p2-serendipity.css
+  stylesheets[all][] = sass_css/p2/p2-user-consent.css
+
+  stylesheets[all][] = sass_css/add-ons/factbox.css
+  stylesheets[all][] = sass_css/add-ons/frontpage-header.css
+  stylesheets[all][] = sass_css/add-ons/genre-list.css
+  stylesheets[all][] = sass_css/add-ons/material-list.css
+  stylesheets[all][] = sass_css/add-ons/panel-pane-ding-node.css
+  stylesheets[all][] = sass_css/add-ons/related-content.css
+  stylesheets[all][] = sass_css/add-ons/servicemeddelelse-list.css
+
+  stylesheets[print][] = sass_css/print.css
 
 ;----------// JavaScripts
-  scripts[] = scripts/jquery.cookie.js
-  scripts[] = scripts/respond.min.js
-  scripts[] = scripts/jquery.scrollto.js
-  scripts[] = scripts/html5shiv.js
-  scripts[] = scripts/equalize.min.js
-  scripts[] = scripts/scalefix.js
-  scripts[] = scripts/selectivizr-min.js
-  scripts[] = scripts/ddbasic.topbar.menu.min.js
-  scripts[] = scripts/ddbasic.common.min.js
-  scripts[] = scripts/ddbasic.facet.min.js
-  scripts[] = scripts/ddbasic.search.min.js
+  scripts[] = scripts/flexmenu.js
+  scripts[] = scripts/site.js
+  scripts[] = scripts/ddbasic.common.js
+
+  scripts[] = scripts/account.js
+  scripts[] = scripts/utils.js
+  scripts[] = scripts/menu.js
+  scripts[] = scripts/profile-dropdown.js
+  scripts[] = scripts/footer.js
+  scripts[] = scripts/misc.js
+
+
+  scripts[] = scripts/node/event.js
+  scripts[] = scripts/node/news.js
+
+  scripts[] = scripts/ting-object/ting-object.js
+
+  scripts[] = scripts/rs-carousel/rs-carousel.js
+
+  scripts[] = scripts/view.js
+
+  scripts[] = scripts/p2/p2-notification.js
+  scripts[] = scripts/p2/p2-lists.js
 
 
 ;----------// Regions

@@ -1,0 +1,117 @@
+//
+// Styling of ding interaction
+
+@import '../base.scss';
+
+.pane-interaction-pane {
+  h2 {
+    @include font('display-large');
+    width: 100%;
+    padding-right: 40px;
+    color: $color-text;
+    margin-bottom: 20px;
+
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.ding-interaction-pane {
+  .description {
+    @include span-columns(5);
+    margin-bottom: 30px;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(6);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+    }
+  }
+  ul {
+    list-style-position: outside;
+    padding-left: 15px;
+
+  }
+  ul.actions {
+    width: 100%;
+    float: left;
+    clear: left;
+    padding-left: 0;
+    margin: 0 0 -10px;
+    list-style: none;
+    a {
+      @include button(arrow-right);
+      width: auto;
+      margin-right: 20px;
+      margin-bottom: 10px;
+      &::after {
+        color: $charcoal-opacity-dark;
+      }
+    }
+  }
+  .close-btn {
+    @include place-icon(close);
+    position: absolute;
+    top: 40px;
+    right: 0;
+    padding: 0;
+    text-indent: -9999px;
+    width: 24px;
+    height: 24px;
+    background-color: transparent;
+    &::after {
+      @include transform(translate(-50%, -50%));
+      @include transition(color $speed $ease);
+      top: 50%;
+      left: 50%;
+      text-indent: 0;
+    }
+    &:hover {
+      background-color: transparent;
+      &::after {
+        color: $color-text;
+      }
+    }
+  }
+}
+
+.ding-type-ding-interaction {
+  h2 {
+    margin-top: -20px;
+  }
+  .field-name-field-ding-interaction-body {
+    @include span-columns(5);
+    margin-bottom: 20px;
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(6);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+    }
+  }
+  .field-name-field-ding-interaction-links {
+    clear: left;
+    a {
+      @include button(arrow-right);
+      width: auto;
+      margin-right: 20px;
+      &::after {
+        color: $charcoal-opacity-dark;
+      }
+    }
+  }
+}

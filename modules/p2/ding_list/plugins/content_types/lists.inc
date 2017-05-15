@@ -78,7 +78,8 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
               $notifications = ding_message_get_ding_list_notification($list);
               $notout = '';
               if (!empty($notifications)) {
-                $notout = l($notifications, 'list/' . $list->id, array('html' => TRUE, 'attributes' => array('class' => array('label'))));
+                $text = '<span class="notification-label">' . t('New:', array(), array('context' => 'Ding list')) . '</span>' . $notifications;
+                $notout =  l($text, 'list/' . $list->id, array('html' => TRUE, 'attributes' => array('class' => array('notification-link'))));
               }
 
               $groups[$group_name]['lists'][$list_type][] = array(
@@ -112,10 +113,15 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
 
     // Fines.
     $count = count(ding_provider_invoke('debt', 'list', $account));
+    if($count > 0) {
+      $class = 'fines';
+    } else {
+      $class = 'default';
+    }
     $groups['specials']['lists']['special_depts'][] = array(
       'data' =>
-      '<a href="' . url($uri['path'] . '/status/debts') . '" class="signature-label"><span class="icon"></span>' . t('Fines') . '</a>' . '<span class="label warn">' . $count . '</span>',
-      'class' => array('fines'),
+      '<a href="' . url($uri['path'] . '/status-debts') . '" class="signature-label"><span class="icon"></span>' . t('Fines') . '</a>' . '<span class="label warn">' . $count . '</span>',
+      'class' => array($class),
     );
 
     // Loans overdue.
@@ -132,7 +138,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     if ($overdues > 0) {
       $groups['specials']['lists']['special_loans_overdue'][] = array(
         'data' =>
-        '<a href="' . url($uri['path'] . '/status') . '" class="signature-label"><span class="icon"></span>' . t('Loans overdue') . '</a>' . '<span class="label warn">' . $overdues . '</span>',
+        '<a href="' . url($uri['path'] . '/status-loans') . '" class="signature-label"><span class="icon"></span>' . t('Loans overdue') . '</a>' . '<span class="label warn">' . $overdues . '</span>',
         'class' => array('warn'),
       );
     }
@@ -145,7 +151,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     if ($readys > 0) {
       $groups['specials']['lists']['special_reservations_ready'][] = array(
         'data' =>
-        '<a href="' . url($uri['path'] . '/status/reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations ready for pick-up') . '</a>' . '<span class="label ready">' . $readys . '</span>',
+        '<a href="' . url($uri['path'] . '/status-reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations ready for pick-up') . '</a>' . '<span class="label ready">' . $readys . '</span>',
         'class' => array('ready'),
       );
     }
@@ -157,7 +163,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     $count = $readys + count(ding_provider_invoke('reservation', 'list', $account, DING_RESERVATION_NOT_READY));
     $groups['specials']['lists']['special_reservations'][] = array(
       'data' =>
-      '<a href="' . url($uri['path'] . '/status/reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations') . '</a>' . '<span class="label">' . $count . '</span>',
+      '<a href="' . url($uri['path'] . '/status-reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations') . '</a>' . '<span class="label">' . $count . '</span>',
       'class' => array('reservations'),
     );
 
@@ -166,7 +172,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     $count = count(ding_provider_invoke('loan', 'list', $account));
     $groups['specials']['lists']['special_loans'][] = array(
       'data' =>
-      '<a href="' . url($uri['path'] . '/status') . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
+      '<a href="' . url($uri['path'] . '/status-loans') . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
       'class' => array('loan'),
     );
   }

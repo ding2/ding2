@@ -1,0 +1,210 @@
+//
+// Styling of Ding Tabroll
+
+@import '../base.scss';
+
+.ding-tabroll {
+  @include clearfix;
+  padding: 0;
+  border-radius: 0;
+  border: 0;
+  background-color: transparent;
+
+  //Mobile
+  @include media($mobile) {
+    position: relative;
+    padding-bottom: 30px;
+  }
+  .ui-tabs-nav {
+    padding: 0;
+    border-radius: 0;
+    border: 0;
+    background: none;
+    text-align: left;
+    margin-bottom: 10px;
+
+    // Tablet
+    @include media($tablet) {
+      text-align: left;
+    }
+
+    //Mobile
+    @include media($mobile) {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      margin-bottom: 0;
+    }
+    .ui-tabs-nav-item {
+      position: relative;
+      display: inline-block;
+      margin: 0 20px 0 0;
+      padding-bottom: 5px;
+      border-radius: 0;
+      border: 0;
+      background: none;
+
+      // Tablet
+      @include media($tablet) {
+        margin: 0 10px 2px 0;
+        padding-bottom: 3px;
+      }
+
+      //Mobile
+      @include media($mobile) {
+        margin: 0 10px 0 0;
+        padding-bottom: 0;
+      }
+      a {
+        @include transition(color $speed-fast $ease);
+        @include font('base');
+        padding: 0;
+        color: $charcoal-opacity-dark;
+        &::after {
+          @include transition(height $speed-fast $ease);
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 0;
+          background-color: $color-text;
+        }
+        .no-touch & {
+          &:hover {
+            color: $color-standard-text;
+            &::after {
+              height: 3px;
+            }
+          }
+        }
+
+        //Mobile
+        @include media($mobile) {
+          text-indent: -9999px;
+          overflow: hidden;
+          width: 10px;
+          height: 10px;
+          &::before {
+            @include transition(background-color $speed-fast $ease);
+            content: '';
+            display: block;
+            text-indent: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: $grey;
+          }
+          &::after {
+            display: none;
+          }
+        }
+      }
+      &.ui-state-active {
+        padding-bottom: 5px;
+        margin-bottom: 0;
+
+        // Tablet
+        @include media($tablet) {
+          padding-bottom: 3px;
+          margin-bottom: 2px;
+        }
+
+        // Mobile
+        @include media($mobile) {
+          padding-bottom: 0;
+          margin-bottom: 0;
+        }
+        a {
+          color: $color-standard-text;
+          &::after {
+            height: 3px;
+          }
+
+          //Mobile
+          @include media($mobile) {
+            &::before {
+              background-color: $charcoal;
+            }
+          }
+        }
+      }
+    }
+  }
+  .ui-tabs-panel {
+    position: relative;
+    padding: 0;
+    .info {
+      @include linear-gradient(
+        transparent 0%,
+        $charcoal-opacity-extra-dark 100%
+      );
+      @include font('display-small');
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      color: $white;
+      padding-bottom: 25px;
+      h3 {
+        @include font('display');
+        @include span-columns(6);
+        margin-bottom: 0;
+
+        // Tablet
+        @include media($tablet) {
+          @include span-columns(10);
+        }
+
+        // Mobile
+        @include media($mobile) {
+          width: 100%;
+          margin-right: 0;
+        }
+        a {
+          display: block;
+          padding: 40px $box-padding $box-padding;
+          margin: 0;
+          color: $white;
+        }
+      }
+      p {
+        @include span-columns(6);
+        margin-bottom: 0;
+        padding: 0 $box-padding;
+
+        // Tablet
+        @include media($tablet) {
+          @include span-columns(10);
+        }
+
+        // Mobile
+        @include media($mobile) {
+          width: 100%;
+          margin-right: 0;
+        }
+      }
+
+      // Mobile
+      @include media($mobile) {
+        @include font('base');
+        position: static;
+        background-image: none;
+        color: $color-standard-text;
+        h3 {
+          a {
+            padding: 10px 0 0;
+            color: $charcoal;
+          }
+        }
+        p {
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+select.ding-tabroll-select-tabs {
+  display: none;
+}

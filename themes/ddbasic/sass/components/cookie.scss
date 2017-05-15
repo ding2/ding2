@@ -1,0 +1,86 @@
+//
+// Styling of cookie popup bar
+
+@import '../base.scss';
+
+#sliding-popup {
+  &.sliding-popup-bottom {
+    background: $black;
+    .popup-content {
+      @include wrapper;
+      position: relative;
+      height: 180px;
+    }
+    #popup-text {
+      @include font('base');
+      max-width: none;
+      float: none;
+      padding-top: 20px;
+      padding-bottom: 10px;
+      p {
+        margin: 0;
+        &:nth-child(1) {
+          @include font('display-small');
+        }
+        a {
+          color: $white;
+          &:hover {
+            color: $white;
+          }
+        }
+      }
+
+      // Mobile
+      @include media($mobile) {
+        float: left;
+        padding-bottom: 10px;
+      }
+    }
+    #popup-buttons {
+      max-width: none;
+      float: left;
+      .agree-button,
+      .find-more-button {
+        @extend %button;
+        @include font('base');
+        background: $color-secondary;
+        color: $color-text-on-secondary;
+        float: left;
+        margin-right: 20px;
+        text-shadow: none;
+        border: none;
+        box-shadow: none;
+        .no-touch & {
+          &:hover {
+            background: none;
+            background-color: $grey-dark;
+            color: $white;
+          }
+        }
+
+        // Mobile
+        @include media($mobile) {
+          width: 100%;
+          margin: 0 0 15px;
+          text-align: left;
+        }
+      }
+    }
+    .close {
+      @include place-icon('close', $white, 60px);
+      position: absolute;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      line-height: 60px;
+      top: 50%;
+      margin-top: -20px;
+      cursor: pointer;
+
+      // Mobile
+      @include media($mobile) {
+        top: 25px;
+      }
+    }
+  }
+}

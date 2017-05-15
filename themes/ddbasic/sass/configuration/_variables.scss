@@ -1,124 +1,82 @@
-/**
- * Variables
- *
- * @author magnify
- */
+//
+// Set variables
 
+// ==========================================================================
+// Color
+// ==========================================================================
 
+$black: #000;
+$black-overlay: rgba(0, 0, 0, 0.8);
+$black-overlay-dark: rgba(0, 0, 0, 0.9);
 
-/* Spacing variables
-   ========================================================================== */
+$color-standard-text: #474747;
 
-$large-spacing:                   20px;
-$medium-spacing:                  10px;
-$small-spacing:                   5px;
+$charcoal: #262626;
+$charcoal-opacity-extra-dark: rgba(38, 38, 38, 0.8);
+$charcoal-opacity-dark: rgba(38, 38, 38, 0.54);
+$charcoal-opacity-light: rgba(38, 38, 38, 0.2);
+$white: #fff;
+$white-opacity-dark: rgba(255, 255, 255, 0.54);
+$white-opacity-light: rgba(255, 255, 255, 0.2);
 
+$grey-light: #f1f2f2;
+$grey: #e5e5e5;
+$grey-medium: #ccc;
+$grey-dark: #808285;
 
+$green: #24d273;
+$green-text: darken($green, 10);
+$red: #e22045;
+$red-text: $red;
+$yellow: #ffca5f;
+$yellow-text: darken($yellow, 15);
 
-/* Zen Grid variables
-   ========================================================================== */
+// The color-module is dependent on the following five variables and their specific values. Therefore they may not be altered.
 
-$zen-column-count: 12;
-$zen-gutter-width: 20px;
-$box-sizing-polyfill-path: "/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc";
+$color-primary: #4d898e;
+$color-secondary: #f66d70;
 
+$color-text: #01ff01;
+$color-text-on-primary: #02ff02;
+$color-text-on-secondary: #03ff03;
 
+// ==========================================================================
+// Distance
+// ==========================================================================
+$header-height: 148px;
+$topbar-height: 64px;
+$second-level-menu-height: 61px;
+$distance-paragraph: 30px;
+$element-height: 54px;
+$wrapper-width: 90%;
+$search-form-extended-height: 84px;
+$toolbar-height: 65px;
+$admin-menu-height: 29px;
 
-/* Breakpoints
-   ========================================================================== */
+$dynamic-background-width: 1250px;
 
-$breakpoint-low:                  580px;
-$breakpoint-small:                480px;
-$breakpoint-medium:               768px;
-$breakpoint-large:                940px;
-$breakpoint-x-large:              1210px;
+// ==========================================================================
+// Misc
+// ==========================================================================
+$round-corner: 5px;
+$box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.3);
+$box-padding: 15px;
+$disabled: 0.3;
 
+// ==========================================================================
+// Transition
+// ==========================================================================
+$speed: 300ms;
+$speed-fast: 150ms;
+$hover-delay: 400ms;
+$ease: $ease-out-quart;
 
-
-/* Standard color definitions
-   ========================================================================== */
-
-$white:                          #fff !default;
-$black:                          #000 !default;
-$gray:                           #d5d5d5 !default;
-$gray-light:                     lighten($gray, 10%) !default;
-$gray-lighter:                   lighten($gray, 15%) !default;
-$gray-dark:                      darken($gray, 10%) !default;
-$gray-darker:                    darken($gray, 25%) !default;
-$gray-darkest:                   darken($gray, 35%) !default;
-$red:                            #a32e10;
-$green:                          #528c10;
-$yellow:                         #f0cb28;
-$blue:                           #00caff;
-
-
-/* Font library
-   ========================================================================== */
-
-$base-icon-library-font:         "FontAwesome";
-
-
-/* Typography
-   ========================================================================== */
-
-$font-light:                      "SourceSansProLight";
-$font-light-italic:               "SourceSansProLightItalic";
-$font-regular:                    "SourceSansProRegular";
-$font-regular-italic:             "SourceSansProItalic";
-$font-bold:                       "SourceSansProSemibold";
-$font-bold-italic:                "SourceSansProSemiboldItalic";
-$font-color-primary:              transparentize($black, .3);
-
-
-
-/* Font variables
-   ========================================================================== */
-
-$base-font-size:                  16px;
-$base-line-height:                24px;
-$base-font-family:                $font-regular, "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
-$base-font-weight-normal:         normal;
-$base-font-weight-bold:           normal;
-
-
-/* Font sizes
-   ========================================================================== */
-
-
-$font-size-giga:                  200%;
-$font-size-largest:               180%;
-$font-size-larger:                160%;
-$font-size-large:                 130%;
-$font-size-medium:                110%;
-$font-size-reset:                 100%;
-$font-size-small:                 85%;
-$font-size-tiny:                  75%;
-
-
-/* Labels
-   ========================================================================== */
-
-$label-border-radius:             8px;
-$label-shadow:                    0 -1px 0 rgba(0,0,0,.25);
-$label-padding:                   3px 10px;
-
-
-/* Navigation
-   ========================================================================== */
-
-$navbar-bg-color:                 transparentize($white, .95);
-$navbar-bg-active-color:          transparentize($white, .95);
-$navbar-text-color:               lighten($black, 30%);
-$navbar-text-color-active:        lighten($black, 30%);
-
-
-/* Availability
-   ========================================================================== */
-
-$availability-pending:                      $gray-darker;
-$availability-processed:                    $yellow;
-$availability-available:                    $green;
-$availability-available-reservable:         $green;
-$availability-available-not-reservable:     $yellow;
-$availability-not-available-reservable:     $yellow;
-$availability-not-available-not-reservable: $red;
+// ==========================================================================
+// z-index
+// ==========================================================================
+$z-below: 50;
+$z-content: 100;
+$z-above: 150;
+$z-header: 300;
+$z-overlay: 900;
+$z-debug: 999;

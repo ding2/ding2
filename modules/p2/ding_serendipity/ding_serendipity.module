@@ -146,7 +146,10 @@ function ding_serendipity_ajax_callback() {
     $tmp[] = $item;
   }
 
-  $rendered_content = theme('ting_carousel', array('objects' => $tmp));
+  $rendered_content = theme('ting_carousel', array(
+    'items' => $tmp,
+    'item_type' => 'items',
+  ));
   $commands = array();
   $commands[] = ajax_command_html('.pane-serendipity-ting-object .pane-content', $rendered_content);
 
@@ -379,7 +382,6 @@ function ding_serendipity_fetch(array $context = NULL) {
   return $results;
 }
 
-
 /**
  * Remove invalid materials from keys.
  *
@@ -593,7 +595,7 @@ function ding_serendipity_entity_presave($entity, $type) {
  * @return bool
  *   Return TRUE if all the values in the keys array are present in the array.
  */
-function ding_serendipity_access($context = array(), $keys = array()) {
+function ding_serendipity_access(array $context = array(), array $keys = array()) {
   $result = array_intersect(array_keys($context), $keys);
   return (!empty($result) && count($result) == count($keys));
 }
@@ -948,7 +950,7 @@ function ding_serendipity_entity_view($entity, $type, $view_mode, $langcode) {
  *    - limit: Max number of items.
  *    - shuffle: Randomize the items.
  */
-function ding_serendipity_do_search($query, $options = array()) {
+function ding_serendipity_do_search($query, array $options = array()) {
   $results = array();
   // Fill in the default options.
   $options += array(
@@ -1131,7 +1133,7 @@ function ding_serendipity_form_base_submit(&$form_state) {
  * @param mixed $excludes
  *   Array or id of material(s) to exclude.
  */
-function ding_serendipity_exclude(&$list, $excludes) {
+function ding_serendipity_exclude(array &$list, $excludes) {
   if (empty($excludes)) {
     return;
   }

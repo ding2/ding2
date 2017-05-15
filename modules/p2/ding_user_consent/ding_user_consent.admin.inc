@@ -28,8 +28,8 @@ function ding_user_consent_admin_form($form, &$form_state) {
 
     $form[$form_key][$form_key . '_description_markup'] = array(
       '#markup' => t('Notice the settings below will only take effect if user consent is enabled in the checkbox above.'),
-    );    
-    
+    );
+
     // Consent description link.
     $form[$form_key][$form_key . '_description_link'] = array(
       '#type' => 'textfield',
@@ -37,7 +37,7 @@ function ding_user_consent_admin_form($form, &$form_state) {
       '#description' => t('Write a link to the page containing a description of user consent. Use whether the format node/!nid or a path alias.') . "<br/>" . ding_user_consent_get_description_link(),
       '#default_value' => variable_get($form_key . '_description_link', ''),
     );
-    
+
     // First time message.
     $form[$form_key]['first_time'] = array(
       '#type' => 'fieldset',
@@ -45,14 +45,14 @@ function ding_user_consent_admin_form($form, &$form_state) {
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
     );
-    
+
     $form[$form_key]['first_time'][$form_key . '_title_first_time'] = array(
       '#type' => 'textfield',
       '#title' => t('First login message title'),
       '#description' => t('Write a title for the message a first time user will receive'),
       '#default_value' => variable_get($form_key . '_title_first_time', ''),
     );
-    
+
     $description = variable_get($form_key . '_description_first_time', '');
     $description = (is_array($description)) ? $description['value'] : $description;
     $form[$form_key]['first_time'][$form_key . '_description_first_time'] = array(
@@ -70,14 +70,14 @@ function ding_user_consent_admin_form($form, &$form_state) {
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
     );
-    
+
     $form[$form_key]['request'][$form_key . '_title'] = array(
       '#type' => 'textfield',
       '#title' => t('Consent title'),
       '#description' => t('Write a title for the message which the user will see when requested to give consent'),
       '#default_value' => variable_get($form_key . '_title', $values['title']),
     );
-    
+
     $description = variable_get($form_key . '_description', $values['description']);
     $description = (is_array($description)) ? $description['value'] : $description;
     $form[$form_key]['request'][$form_key . '_description'] = array(

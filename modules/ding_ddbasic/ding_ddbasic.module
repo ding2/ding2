@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file
+ * Ding DDBasic.
+ */
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function ding_ddbasic_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['alternative_layout_full'] = array(
+    'label' => t('Alternative layout full'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    // Make changes to the theme_settings.
+    // This alter is placed in the ding_ddbasic module to make sure it's run
+    // after the color module (see ding_ddbasic_module_implements_alter).
+    case 'system_theme_settings':
+      if (isset($form_state['build_info']['args'][0]) && $form_state['build_info']['args'][0] === 'ddbasic') {
+        $form['color']['palette']['primary']['#description'] = t('Is used e.g. as background-color for the main menu, checkboxes and radio-buttons');
+        $form['color']['palette']['secondary']['#description'] = t('Is used e.g. as background-color for the log-in button, read-more buttons');
+
+        // Limit the choices on text colors.
+        $default_value = '#000000';
+        switch ($form['color']['palette']['text']['#default_value']) {
+          case $form['color']['palette']['primary']['#default_value']:
+            $default_value = 'primary';
+            break;
+
+          case $form['color']['palette']['secondary']['#default_value']:
+            $default_value = 'secondary';
+            break;
+        }
+
+        $form['color']['palette']['text'] = array(
+          '#description' => t('Choose a color that is legible on a white background<br />Is used e.g. for text-links and panel headers'),
+          '#type' => 'select',
+          '#options' => array(
+            // The primary and secondary value is handled in the theme_settings
+            // submit callback, in the ddbasic theme.
+            'primary' => t('Primary'),
+            'secondary' => t('Secondary'),
+            '#000000' => t('Black'),
+          ),
+          '#size' => '1',
+          '#default_value' => $default_value,
+        ) + $form['color']['palette']['text'];
+
+        $form['color']['palette']['text_on_primary'] = array(
+          '#description' => t('Choose a color that is legible on the primary color'),
+          '#type' => 'select',
+          '#options' => array(
+            '#ffffff' => t('White'),
+            '#00000' => t('Black'),
+          ),
+          '#size' => '1',
+        ) + $form['color']['palette']['text_on_primary'];
+
+        $form['color']['palette']['text_on_secondary'] = array(
+          '#description' => t('Choose a color that is legible on the secondary color'),
+          '#type' => 'select',
+          '#options' => array(
+            '#ffffff' => t('White'),
+            '#00000' => t('Black'),
+          ),
+          '#size' => '1',
+        ) + $form['color']['palette']['text_on_secondary'];
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function ding_ddbasic_module_implements_alter(&$implementations, $hook) {
+  // Make sure the ding_ddbasic_form_alter comes after the color module's
+  // form_alter, so it can modify the color fields.
+  if ($hook === 'form_alter') {
+    $group = $implementations['ding_ddbasic'];
+    unset($implementations['ding_ddbasic']);
+    $implementations['ding_ddbasic'] = $group;
+  }
+}

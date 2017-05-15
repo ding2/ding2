@@ -8,7 +8,7 @@
  * for the visitor.
  * The DI shuffles all available DI plugins and displays just one in random.
  * The idea is that the system contains alot of things we would like the user to
- * try out or to do, but we want it to be suggested in a not overwhelming way
+ * try out or to do, but we want it to be suggested in a not overwhelming way.
  *
  * Example 1: (Full interaction)
  * The user logs in

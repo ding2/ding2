@@ -1,0 +1,564 @@
+//
+// Styling of menus
+
+@import '../base.scss';
+
+// ==========================================================================
+// Menu
+// ==========================================================================
+ul {
+  &.menu,
+  &.main-menu,
+  &.main-menu-second-level,
+  &.main-menu-third-level,
+  &.secondary-menu,
+  &.topbar-menu {
+    padding: 0;
+    margin-bottom: 0;
+    li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
+
+// ==========================================================================
+// Main menu & Main menu second level
+// ==========================================================================
+ul {
+  &.main-menu,
+  &.main-menu-second-level {
+    > li {
+      position: relative;
+      float: left;
+      margin-right: 40px;
+      &:last-child {
+        margin-right: 0;
+      }
+      a {
+        &::after {
+          @include transition(height $speed-fast $ease);
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 0;
+        }
+        &:hover {
+          &::after {
+            height: 5px;
+          }
+        }
+      }
+      &.active-trail {
+        a {
+          &::after {
+            height: 5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Main menu
+// ==========================================================================
+.main-menu-wrapper {
+  > ul.main-menu {
+    @include font('display-small');
+
+    // Notebook
+    @include media($notebook) {
+      @include font('base');
+      font-family: $font-family-bold;
+    }
+    > li {
+      padding: 30px 0;
+
+      // Tablet
+      @include media($tablet) {
+        width: 100%;
+        padding: 0;
+        > a {
+          display: block;
+          padding: 30px 5%;
+          border-bottom: 1px solid $charcoal-opacity-light;
+        }
+      }
+      a {
+        color: $color-text-on-primary;
+        &::after {
+          background-color: $color-text-on-primary;
+
+          // Tablet
+          @include media($tablet) {
+            display: none;
+          }
+        }
+      }
+    }
+    // Expanded
+    > li.expanded {
+      // 2nd level men
+      > ul.main-menu {
+        @include font('base');
+        color: $white;
+        background-color: $charcoal;
+        display: none; // Hide 2 level menu. Displayed on tablet and mobile width jQuery
+        li {
+          width: 100%;
+          padding: 0;
+          a {
+            display: block;
+          }
+        }
+        > li {
+          > a {
+            padding: 30px 5%;
+            border-bottom: 1px solid $white-opacity-light;
+            &.open {
+              position: relative;
+              box-shadow: $box-shadow;
+            }
+          }
+          // 3rd level men
+          .main-menu {
+            background-color: $white;
+            display: none; // Hide 2nd level menu. Displayed on tablet and mobile width jQuery
+            li {
+              a {
+                padding: 10px 5%;
+                color: $charcoal;
+              }
+              &:first-child {
+                padding-top: 20px;
+              }
+              &:last-child {
+                padding-bottom: 20px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Main menu second level
+// ==========================================================================
+ul.main-menu-second-level {
+  li.leaf {
+    padding: 20px 0;
+    a {
+      color: $white;
+      &::after {
+        background-color: $color-text-on-primary;
+      }
+    }
+  }
+  // Flexmenu
+  li.flexMenu-viewMore {
+    position: static;
+    float: left;
+    padding: 20px 0;
+    > a {
+      color: $white;
+      cursor: default;
+    }
+    .flex-container {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      width: 100%;
+      background-color: $charcoal;
+      box-shadow: $box-shadow;
+      border-top: 1px solid $black;
+    }
+    .flexMenu-popup {
+      @include wrapper;
+      margin-bottom: 0;
+      display: none;
+      li {
+        position: relative;
+        float: left;
+        padding: 20px 0;
+        margin-right: 20px;
+      }
+    }
+    // Active
+    &.active {
+      .flexMenu-popup {
+        display: block;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Main menu third level
+// ==========================================================================
+ul.main-menu-third-level {
+  li {
+    margin-bottom: 20px;
+    a {
+      @include transition(color $speed $ease);
+      color: $color-text;
+      &.active-trail,
+      &.active {
+        @include place-icon('arrow-right-small', $color-text, 8px);
+        position: relative;
+        padding-left: 20px;
+        &::after {
+          top: 3px;
+          left: 0;
+        }
+      }
+      &:hover {
+        color: $charcoal;
+      }
+    }
+    &.expanded {
+      &.active-trail,
+      &.active {
+        > a {
+          color: $charcoal;
+          &::after {
+            color: $charcoal;
+          }
+        }
+      }
+      ul.menu {
+        margin-top: 20px;
+        padding-left: 20px;
+      }
+    }
+    ul.main-menu-third-level {
+      margin-top: 20px;
+      padding-left: 20px;
+    }
+  }
+}
+
+// ==========================================================================
+// Secondary menu
+// ==========================================================================
+ul.secondary-menu {
+  text-align: right;
+  li {
+    position: relative;
+    display: inline-block;
+    padding: 34px 0 30px;
+    margin-right: 15px;
+    &:last-child {
+      margin-right: 0;
+    }
+    a {
+      color: $color-text-on-primary;
+      &::after {
+        @include transition(height $speed-fast $ease);
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background-color: $color-text-on-primary;
+      }
+      &:hover {
+        &::after {
+          height: 5px;
+        }
+      }
+    }
+    &.active-trail {
+      a {
+        &::after {
+          height: 5px;
+        }
+      }
+    }
+  }
+
+  // Tablet
+  @include media($tablet) {
+    padding: 10px 0;
+    text-align: left;
+    li {
+      display: block;
+      padding: 5px 5%;
+      a {
+        color: $charcoal;
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Top menu
+// ==========================================================================
+ul.topbar-menu {
+  @include span-columns(4);
+  @include omega;
+  float: right;
+  // Notebook
+  @include media($notebook) {
+    @include span-columns(5);
+    @include omega;
+    float: right;
+  }
+  li {
+    // @TODO we hide several menu-links here
+    // Should some of these be removed elsewhere
+    &.topbar-link-user .default-override,
+    &.topbar-link-user-account .default-override {
+      display: none;
+    }
+    &.topbar-link-search {
+      display: none;
+      margin-left: getGutter(4) / 2;
+      a {
+        margin: 5px 0;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        display: block;
+        float: right;
+        a {
+          background-color: $charcoal;
+        }
+      }
+    }
+    &.topbar-link-menu {
+      display: none;
+      a {
+        margin: 5px 0;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        display: block;
+        float: right;
+        a {
+          background-color: $white;
+        }
+      }
+    }
+    &.topbar-link-user {
+      @include span-columns(2 of 4);
+      @include omega;
+      float: right;
+      a {
+        margin: 5px 0;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        min-width: 0;
+        float: left;
+        a {
+          background-color: $grey-medium;
+        }
+      }
+    }
+    //Common styles used in mobile view
+    &.topbar-link-user,
+    &.topbar-link-search,
+    &.topbar-link-menu {
+
+      // Tablet
+      @include media($tablet) {
+        width: 54px;
+        a {
+          width: 100%;
+          height: 54px;
+          padding: 0;
+          text-indent: -9999px;
+          &::after {
+            text-indent: 0;
+            right: 0;
+          }
+        }
+      }
+    }
+
+    &.topbar-link-user-account,
+    &.topbar-link-signout,
+    &.topbar-link-opening-hours {
+      @include span-columns(2 of 4);
+      a {
+        margin: 5px 0;
+      }
+    }
+    &.topbar-link-user-account {
+      margin-right: getGutter(4) / 2;
+      margin-left: getGutter(4) / 2;
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(3);
+        margin-left: 0;
+      }
+
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(5);
+      }
+    }
+    &.topbar-link-opening-hours {
+      margin-right: getGutter(4) / 2;
+      margin-left: getGutter(4) / 2;
+      .logged-in & {
+        display: none;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        display: none;
+      }
+    }
+    &.topbar-link-user-account + .topbar-link-user-account {
+      display: none;
+    }
+    &.topbar-link-signout {
+
+      // Tablet
+      @include media($tablet) {
+        display: none;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// User menu in Header wrapper
+// ==========================================================================
+.header-wrapper .navigation-inner {
+  > ul.main-menu-third-level {
+    //Mouseover style
+    display: none;
+    width: 292px;
+    position: relative;
+    border-radius: $round-corner;
+    background-color: $white;
+    box-shadow: $box-shadow;
+    top: 71px;
+    margin-top: 8px;
+    padding: 10px 20px;
+    .toolbar & {
+      top: 71px + $toolbar-height;
+    }
+    &::before {
+      @include transform(rotate(-45deg));
+      width: 18px;
+      height: 18px;
+      content: "";
+      display: block;
+      background-color: $white;
+      position: absolute;
+      right: 20px;
+      top: -8px;
+    }
+    &::after {
+      position: absolute;
+      top: -4px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      content: "";
+    }
+    .mobile-usermenu-is-open & {
+      display: block;
+    }
+
+    // Tablet
+    @include media($tablet) {
+      @include font('display-small');
+      //Reset desktop styles
+      display: block;
+      width: auto;
+      top: 0;
+      border-radius: 0;
+      background-color: $grey-dark;
+      padding: 0;
+      margin: 0;
+      box-shadow: none;
+      left: 0;
+      &::before {
+        display: none;
+      }
+      // Create log-out link for tablet/mobile
+      &::after {
+        content: 'Log ud';
+        position: static;
+        display: block;
+        height: 20px;
+        color: #fff;
+        padding: 30px 5%;
+        border-bottom: 1px solid $charcoal-opacity-light;
+      }
+    }
+
+    // Notebook
+    @include media($notebook) {
+      @include font('base');
+      font-family: $font-family-bold;
+    }
+    li {
+      text-align: right;
+      margin: 0;
+      a {
+        display: block;
+        padding: 10px 0;
+        &::after {
+          display: none;
+        }
+      }
+
+      // Tablet
+      @include media($tablet) {
+        width: 100%;
+        padding: 0;
+        text-align: left;
+        > a {
+          display: block;
+          color: $white;
+          padding: 30px 5%;
+          border-bottom: 1px solid $charcoal-opacity-light;
+        }
+      }
+      > ul {
+        display: none;
+
+        // Tablet
+        @include media($tablet) {
+          @include font('base');
+          display: block;
+          color: $white;
+          background-color: $charcoal;
+          margin: 0;
+          padding: 0;
+          li {
+            width: 100%;
+            padding: 0;
+            a {
+              display: block;
+              padding: 30px 5%;
+              border-bottom: 1px solid $white-opacity-light;
+              &::after {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

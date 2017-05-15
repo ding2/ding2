@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Theme and preprocess files
+ * Theme and preprocess files.
  */
 
 /**
@@ -61,7 +62,7 @@ function template_preprocess_ding_list_list(&$variables) {
  */
 function template_preprocess_ding_list_add_button(&$variables) {
   if (empty($variables['title'])) {
-    $variables['title'] = t('More...');
+    $variables['title'] = t('Add to list');
   }
 
   $path = drupal_get_path('module', 'ding_list');
@@ -73,8 +74,6 @@ function template_preprocess_ding_list_add_button(&$variables) {
     ),
     '#attached' => array(
       'library' => array(array('system', 'drupal.ajax')),
-      'css' => array($path . '/css/ding-list-add-button.css'),
-      'js' => array($path . '/js/ding-list-add-button.js'),
     ),
   );
 
@@ -165,7 +164,7 @@ function theme_ding_list_followers($variables) {
 }
 
 /**
- * Ding list info theme
+ * Ding list info theme.
  */
 function theme_ding_list_info($variables) {
   $out = '';
@@ -190,6 +189,7 @@ function theme_ding_list_lists($variables) {
   foreach ($variables['groups'] as $group_name => $group) {
     $out .= "<a name='" . $group_name . "'></a>";
     $rows = array();
+    $group_name_class = drupal_html_class($group_name);
 
     foreach ($group['lists'] as $lists) {
       foreach ($lists as $list) {
@@ -204,7 +204,7 @@ function theme_ding_list_lists($variables) {
       'items' => $rows,
       'title' => $group['title'],
       'type' => 'ul',
-      'attributes' => array(),
+      'attributes' => array('class' => array('list-links', $group_name_class)),
     ));
   }
 

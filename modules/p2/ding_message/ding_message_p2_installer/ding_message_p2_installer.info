@@ -1,6 +1,7 @@
 name = Ding Message p2 Installer
 core = 7.x
 package = p2
+description = Install the complete Ding Message framework
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = entity

@@ -1,13 +1,13 @@
 /**
  * @file
- * Ding serendipity 
+ * Ding serendipity
  *
  * Add serendipity GA tracking to links provided by serendipity module
  */
 
 (function ($) {
   "use strict";
-  
+
   /**
    * AJAX command to update the content of a serendipity pane.
    */
@@ -16,12 +16,12 @@
     var
       $serendipitypane = $('.pane-serendipity-ting-object .pane-content'),
       $context = Drupal.settings.ding_serendipity.context;
-      
+
     if(response.data) {
       var _data = JSON.parse(response.data);
       $.extend($context, _data);
     }
-    
+
     if(!Drupal.ajax['.pane-serendipity-ting-object']) {
       Drupal.ajax['.pane-serendipity-ting-object'] = new Drupal.ajax('.pane-serendipity-ting-object .pane-content', $serendipitypane, {
         url: 'ding/serendipity/ajax',
@@ -43,7 +43,7 @@
       if (this._gaq === undefined) {
         return;
       }
-      
+
       // Add analytics tracking
       $('div[class*="pane-serendipity"] .ting-object, .ding-serendipity-analytics .ting-object', context).each(function() {
         var _source = $('.ding-serendipity-source', this).text();

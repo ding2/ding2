@@ -7,7 +7,7 @@
  * Example:
  *  On a certain material landing page /ting/object/870970-basis%3A22629344
  *  We would like to present related materials from same author, same type or
- *  via ADHL or ADHR
+ *  via ADHL or ADHR.
  */
 
 /**
@@ -89,7 +89,7 @@ function ding_serendipity_ting_entity_ting_object_author_serendipity_add($contex
 
   $results = array();
 
-  // Ensure that the active page is a ting_object
+  // Ensure that the active page is a ting_object.
   if (!isset($context['ting_object_id'])) {
     return $results;
   }
@@ -133,7 +133,7 @@ function ding_serendipity_ting_entity_ting_object_author_serendipity_add($contex
 function ding_serendipity_ting_entity_ting_object_subject_serendipity_add($context) {
   $results = array();
 
-  // Ensure that the active page is a ting_object
+  // Ensure that the active page is a ting_object.
   if (!isset($context['ting_object_id'])) {
     return $results;
   }
@@ -260,7 +260,10 @@ function ding_serendipity_ting_entity_ting_object_adhr_serendipity_add($context)
   $obj = ding_entity_load($context['ting_object_id'], 'ting_object');
 
   try {
-    $results = ding_provider_invoke('openlist', 'call_module', 'TingObjectRating', 'getSuggestion', array($obj->ding_entity_id, ding_provider_invoke('openlist', 'user_identifier')));
+    $results = ding_provider_invoke('openlist', 'call_module', 'TingObjectRating', 'getSuggestion', array(
+      $obj->ding_entity_id,
+      ding_provider_invoke('openlist', 'user_identifier'),
+    ));
     ding_serendipity_exclude($results, $context['ting_object_id']);
   }
   catch (Exception $e) {
@@ -294,7 +297,10 @@ function ding_serendipity_ting_entity_ting_object_openlist_adhl_serendipity_add(
   $obj = ding_entity_load($context['ting_object_id'], 'ting_object');
 
   try {
-    $results = ding_provider_invoke('openlist', 'call_module', 'LoanHistory', 'getSuggestion', array($obj->ding_entity_id, ding_provider_invoke('openlist', 'user_identifier')));
+    $results = ding_provider_invoke('openlist', 'call_module', 'LoanHistory', 'getSuggestion', array(
+      $obj->ding_entity_id,
+      ding_provider_invoke('openlist', 'user_identifier'),
+    ));
   }
   catch (Exception $e) {
     watchdog_exception('ding_serendipity_ting_entity', $e);

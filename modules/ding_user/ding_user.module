@@ -88,7 +88,27 @@ function ding_user_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['admin/config/ding/user'] = array(
+    'title' => 'Ding user settings',
+    'description' => 'Administer user settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_user_admin_setting_form'),
+    'access arguments' => array('administer user settings'),
+    'file' => 'ding_user.admin.inc',
+  );
+
   return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_user_permission() {
+  return array(
+    'administer user settings' => array(
+      'title' => t('Administer user settings'),
+    ),
+  );
 }
 
 /**
@@ -105,8 +125,8 @@ function ding_user_menu_alter(&$items) {
     }
   }
 
-  $items['user/%user/view']['title'] = t('User profile');
-  $items['user/%user/edit']['title'] = t('Edit user profile');
+  $items['user/%user/view']['title'] = t('My account');
+  $items['user/%user/edit']['title'] = t('User profile');
   $items['user/%pm_arg/status']['title'] = t('User status');
 
   // Limit access to provider users page.
@@ -222,6 +242,8 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
   switch ($form_id) {
     case 'user_login':
     case 'user_login_block':
+      $form['#attributes']['class'][] = 'user-login-form';
+
       // Change input type on name field to password as the user may enter CPR.
       $form['name']['#type'] = 'password';
 
@@ -230,6 +252,12 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       // message.
       $form['name']['#required'] = FALSE;
       $form['pass']['#required'] = FALSE;
+
+      // Hide titles, and add display as placeholders.
+      $form['name']['#attributes']['placeholder'] = t('Loan/social security number (without dash)');
+      $form['name']['#title_display'] = 'invisible';
+      $form['pass']['#attributes']['placeholder'] = t('Pincode (4 digits)');
+      $form['pass']['#title_display'] = 'invisible';
 
       // Add our own validation handler, after the default Drupal login
       // validator.
@@ -243,6 +271,77 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
         $pos += 1;
       }
       array_splice($form['#validate'], $pos, 0, 'ding_user_user_login_validate');
+
+      // Add introduction text to the form.
+      $form['intro_text'] = array(
+        '#type' => 'container',
+        '#attributes' => array('class' => array('intro-text')),
+        'lead' => array(
+          '#type' => 'container',
+          '#attributes' => array('class' => array('lead')),
+          array('#markup' => t('If you want to see what you have borrowed, reserve books or edit your user profile, you must be logged in.')),
+        ),
+        'text' => array(
+          '#type' => 'container',
+          '#attributes' => array('class' => array('text')),
+        ),
+      );
+
+      $user_signup_link = variable_get('ding_user_signup_link', '');
+      if (!empty($user_signup_link)) {
+        $form['intro_text']['text'] = array(
+          '#markup' => t('If you are not a registered user, you can register !link, or you can sign up in person at your local library.', array(
+            '!link' => l(t('here'), $user_signup_link, array('external' => TRUE)),
+          )),
+        );
+      }
+      else {
+        $form['intro_text']['text'] = array(
+          '#markup' => t('If you are not a registered user, you can sign up in person at your local library.'),
+        );
+      }
+
+      // The container holds the form elements and actions.
+      $form['user_login_container'] = array(
+        '#type' => 'container',
+        '#attributes' => array('class' => array('user-login-container')),
+      );
+
+      // Only add a close button to the block form.
+      if ($form_id === 'user_login_block') {
+        $form['user_login_container']['close']['#markup'] = '<div class="close-user-login"></div>';
+      }
+
+      $form['user_login_container']['name'] = $form['name'];
+      $form['user_login_container']['pass'] = $form['pass'];
+
+      if (!empty($user_signup_link)) {
+        $form['user_login_container']['sign_up_link'] = array(
+          '#markup' => l(t('Register as a user'), $user_signup_link, array('external' => TRUE)),
+          '#weight' => 9999,
+          '#prefix' => '<div class="sign-up-link">',
+          '#suffix' => '</div>',
+        );
+      }
+
+      // Wrap the submit button so it can get an icon.
+      $form['actions']['submit']['#prefix'] = '<div class="submit-button-with-icon"><div class="color-and-icon"></div>';
+      $form['actions']['submit']['#suffix'] = '</div>';
+
+      // Add NemID if the gatewayf module exists.
+      if (module_exists('ding_gatewayf')) {
+        $form['#attributes']['class'][] = 'has-nemid-login';
+        $block = module_invoke('ding_gatewayf', 'block_view', 'login');
+        $block->content['#link']['#text'] = t('Login with');
+        $form['actions']['nemid'] = array('#markup' => render($block->content));
+      }
+
+      $form['user_login_container']['actions'] = $form['actions'];
+
+      // Remove links and all the elements that are now in the elements
+      // container.
+      unset($form['links'], $form['name'], $form['pass'], $form['actions']);
+
     // Falling through on purpose (if not reservation and login via ajax will
     // fail.).
 
@@ -716,7 +815,7 @@ function ding_user_user_login_validate($form, &$form_state) {
       // form. If the provider defines its own authnames, this wont match the
       // username that the user would have, but we can't expect the provider
       // to supply it for invalid logins.
-      form_set_value($form['name'], ding_user_default_authname($form_state['values']['name']), $form_state);
+      form_set_value($form['user_login_container']['name'], ding_user_default_authname($form_state['values']['name']), $form_state);
     }
   }
   catch (Exception $exception) {

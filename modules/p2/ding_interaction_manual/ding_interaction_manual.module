@@ -6,11 +6,10 @@
  *
  * So editors of the website can enter text and links to be displayed
  * in rotation with all the other available ding_interactions
- * Overview: /admin/structure/entity-type/ding_type/ding_interaction
+ * Overview: /admin/structure/entity-type/ding_type/ding_interaction.
  */
 
 include_once 'ding_interaction_manual.features.inc';
-
 
 /**
  * Implements template_preprocess_entity().
@@ -87,10 +86,7 @@ function ding_interaction_manual_ding_interaction_view($count, $extra) {
 function ding_interaction_manual_ding_interaction_info() {
   return array(
     'title' => t('Manual Ding Interactions'),
-    'description' => t('Manual Ding Interactions are banners with static text ' .
-      'and optional link buttons created by local editors. Use this for nice tips ' .
-      'and tricks for the visitors, or non critical information you would like ' .
-      ' to rotate into the frontpage.'),
+    'description' => t('Manual Ding Interactions are banners with static text and optional link buttons created by local editors. Use this for nice tips and tricks for the visitors, or non critical information you would like to rotate into the frontpage.'),
     'css_class' => 'ding-interaction-manual complete-info',
     'active' => TRUE,
   );

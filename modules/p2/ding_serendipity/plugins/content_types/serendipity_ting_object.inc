@@ -63,7 +63,7 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
   }
 
   $context_data += array(
-    'view_mode' => isset($conf['view_mode']) ? $conf['view_mode'] : 'compact',
+    'view_mode' => isset($conf['view_mode']) ? $conf['view_mode'] : 'teaser',
     'sort_weight' => isset($conf['sort_weight']) ? $conf['sort_weight'] : FALSE,
     'max' => isset($conf['max']) ? $conf['max'] : 0,
     'min' => isset($conf['min']) ? $conf['min'] : 0,
@@ -88,15 +88,10 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
       'type' => 'setting',
     );
 
-    $tmp = array();
-    foreach ($content as $key => $item) {
-      $item['#weight'] = $key;
-      $tmp[] = $item;
-    }
-
     $output['content'][] = array(
       '#theme' => 'ting_carousel',
-      '#objects' => $tmp,
+      '#items' => $content,
+      '#item_type' => 'items',
     );
   }
 

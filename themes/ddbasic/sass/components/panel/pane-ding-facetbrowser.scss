@@ -1,0 +1,68 @@
+//
+// Styling of Ding Facetbrowser
+
+@import '../../base.scss';
+
+// ==========================================================================
+// Pane ding facetbrowser
+// ==========================================================================
+
+.pane-ding-facetbrowser {
+  .pane-title {
+    @include font('display-small');
+    color: $color-standard-text;
+    // Tablet
+    @include media($tablet) {
+      display: none;
+    }
+  }
+  fieldset {
+    > .expand {
+      @include place-icon(plus, $size: 8px);
+      display: block;
+      float: left;
+      margin-top: 10px;
+      padding-left: 42px;
+      color: $charcoal-opacity-dark;
+      &::after {
+        @include transition(color $speed $ease);
+        top: 4px;
+        left: 10px;
+      }
+      &:hover {
+        color: $color-text;
+        &::after {
+          color: $color-text;
+        }
+      }
+      // Hide show less link
+      &.expand-less {
+        display: none;
+      }
+    }
+    &.collapsed {
+      > .expand {
+        display: none;
+      }
+    }
+  }
+  .selected-checkbox-group {
+    margin-bottom: 20px;
+    .unselect {
+      @include place-icon(minus, $size: 8px);
+      padding-left: 42px;
+      color: $charcoal-opacity-dark;
+      &::after {
+        @include transition(color $speed $ease);
+        top: 4px;
+        left: 10px;
+      }
+      &:hover {
+        color: $color-text;
+        &::after {
+          color: $color-text;
+        }
+      }
+    }
+  }
+}

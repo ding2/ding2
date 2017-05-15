@@ -1,0 +1,70 @@
+//
+// Styling for printing
+
+@media print {
+  body,
+  body.has-second-level-menu {
+    padding-top: 0;
+  }
+
+  .panel-pane.pane-ding-news-ding-news-list {
+    margin-top: 0;
+  }
+
+  .ding-news-list-image,
+  .event-list-image,
+  .background,
+  .separator-title {
+    -webkit-print-color-adjust: exact;
+  }
+
+  .site-header,
+  .footer,
+  ul.pager,
+  .panel-pane .pane-content .default-panel-layout .left-and-main-content .layout-wrapper .secondary-content {
+    display: none;
+  }
+
+  .panel-pane .pane-content .default-panel-layout .left-and-main-content .layout-wrapper .primary-content {
+    width: 100%;
+  }
+
+  //Hide specific elements
+  a.print-button,
+  .actions-container,
+  .ask-vopros-tab,
+  .pane-page-messages {
+    display: none;
+  }
+
+  .pane-title {
+    width: 100%;
+  }
+
+  //User
+  .material-item {
+    .left-column {
+      min-width: 0;
+      .item-checkbox {
+        display: none;
+      }
+      .ting-cover {
+        margin-left: 0;
+      }
+    }
+    &.odd {
+      background-color: #ccc;
+      -webkit-print-color-adjust: exact;
+    }
+  }
+
+  .select-all {
+    -webkit-print-color-adjust: exact;
+    label.option {
+      padding-left: 0;
+      &::before {
+        display: none;
+      }
+    }
+  }
+}

@@ -158,8 +158,8 @@ function ding_serendipity_process_options($element) {
           $title = '';
           if (!empty($element['#options'][$key]['title']['data']['#title'])) {
             $title = t('Update @title', array(
-                '@title' => $element['#options'][$key]['title']['data']['#title'],
-              ));
+              '@title' => $element['#options'][$key]['title']['data']['#title'],
+            ));
           }
           $element[$key] = array(
             '#type' => 'checkbox',

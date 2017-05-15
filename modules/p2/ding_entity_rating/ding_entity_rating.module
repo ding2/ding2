@@ -61,6 +61,9 @@ function ding_entity_rating_get_user_rating_callback() {
   drupal_exit();
 }
 
+/**
+ * Check access.
+ */
 function ding_entity_rating_access($account) {
   global $user;
   return $user->uid == $account->uid && user_access('use personalisation');
@@ -310,7 +313,7 @@ function theme_ding_entity_rating_display($variables) {
 }
 
 /**
- * Preprocessor for ding_entity_rating_average
+ * Preprocessor for ding_entity_rating_average.
  */
 function template_preprocess_ding_entity_rating_average(&$variables) {
   drupal_add_css(drupal_get_path('module', 'ding_entity_rating') . '/css/ding_entity_rating.css');
@@ -414,7 +417,7 @@ function ding_entity_rating_average($entity, $value = NULL) {
  * @param int $rating
  *   The rating given to the ting object entity.
  *
- * @return object $entity
+ * @return object
  *   Return the added ding list element entity.
  */
 function ding_entity_rating_add_to_list($entity, $account, $rating) {
@@ -460,6 +463,9 @@ function ding_entity_rating_remove_from_list($entity, $account) {
   }
 }
 
+/**
+ * Implements hook_ding_interaction_info().
+ */
 function ding_entity_rating_ding_interaction_info() {
   global $user;
 
@@ -481,8 +487,7 @@ function ding_entity_rating_ding_interaction_info() {
   return array(
     'title' => $translatables['title'],
     'translatables' => $translatables,
-    'description' => t('If the user has not rated any materials yet, ' .
-    'suggest this can be done for instance in the loan history.'),
+    'description' => t('If the user has not rated any materials yet, suggest this can be done for instance in the loan history.'),
     'active' => $activity,
     'css_class' => 'complete-info',
   );
@@ -501,7 +506,6 @@ function ding_entity_rating_translatables() {
     'previous_loans' => t("Rate previous loans"),
   );
 }
-
 
 /**
  * Implements hook_ding_interaction_view().
@@ -534,7 +538,6 @@ function theme_ding_entity_rating_promote_ratings($variables) {
     t('You could rate materials to give us an idea of your preferences.') .
     "</div><ul class='actions'>" . $loan_button . $history_button . "</ul>";
 }
-
 
 /**
  * Return a list of loans not yet rated.

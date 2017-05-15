@@ -1,0 +1,931 @@
+//
+// Styling of elements difened by a class that are formattet the same way,
+// no matter what context they appear in.
+
+@import '../base.scss';
+
+// Components
+//
+//Styleguide 2.
+
+// Class
+//
+// Elements difened by a class that are formattet the same way,
+// no matter what context they appear in.
+//
+// Styleguide 2.1
+
+body {
+  &::after {
+    @include transition(
+      opacity $speed $ease,
+      height 0s $ease $speed
+    );
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: $z-above;
+    width: 100%;
+    height: 0;
+    background-color: $charcoal;
+    opacity: 0;
+  }
+  &.topbar-is-open,
+  &.overlay-is-active,
+  &.popupbar-is-open {
+    overflow: hidden;
+    &::after {
+      @include transition(
+        opacity $speed $ease,
+        height 0s $ease
+      );
+      height: 100%;
+      opacity: 0.5;
+    }
+  }
+  // Maintenance mode
+  &.in-maintenance {
+    @include wrapper;
+    padding-top: 100px;
+  }
+}
+
+body > .ding2-site-template {
+  overflow-x: hidden; // Prevent horisontal scroll
+}
+
+// ==========================================================================
+// Responsive step indicators for check in jQuery
+// ==========================================================================
+
+.is-tablet {
+  display: none;
+
+  // Tablet
+  @include media($tablet) {
+    display: block;
+  }
+}
+
+.is-mobile {
+  display: none;
+
+  // Mobile
+  @include media($mobile) {
+    display: block;
+  }
+}
+
+// ==========================================================================
+// Buttons
+// ==========================================================================
+
+// More link button
+//
+// A link button used to link to more content of same type as in the context of the link button
+//
+// :hover  - hover
+//
+// Markup:
+// <div class="more-link">
+//  <a class="{{modifier_class}}">More link</a>
+// </div>
+//
+//Styleguide 2.1.1
+
+.more-link {
+  clear: left;
+  text-align: left;
+  a {
+    @include button(arrow-right);
+    &::after {
+      color: $charcoal-opacity-dark;
+    }
+
+    // Mobile
+    @include media($mobile) {
+      padding: 20px 20px 14px 15px; //@TODO padding should be like this for all buttons, mobile
+      width: 120px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &::after {
+        display: none; // hide arrow on mobile
+      }
+    }
+  }
+}
+
+// Button
+//
+// Place button class on any element to style it as a button
+//
+// :hover  - hover
+//
+// Markup:
+// <div class="button {{modifier_class}}">Button</div>
+//
+// Styleguide 2.1.2
+
+.button {
+  @extend %button;
+}
+
+// Action Button
+//
+// :hover   - hover
+// .reserve-button       - button for reserving material
+//
+// Markup:
+// <div class="action-button {{modifier_class}}">Button</div>
+//
+// Styleguide 2.1.3
+
+.action-button {
+  @include transition(
+    background-color $speed $ease,
+    color $speed $ease
+  );
+  color: $charcoal-opacity-dark;
+  background-color: $grey;
+  padding: 20px 80px 14px 15px;
+  border-radius: $round-corner;
+  &.reserve-button,
+  &.button-see-online {
+    color: $white;
+    background-color: $black;
+  }
+  &:hover {
+    background-color: $grey-dark;
+    color: $white;
+  }
+}
+
+.button-see-online {
+  @extend .action-button;
+}
+
+// Submit-button with icon
+//
+// In order to place icon on submit-button we wrap it in a div with the class "submit-button-with-icon"
+// and place an empty div before it with the class "color-and-icon".
+// Specific icons and hover styles are placed on specific classes in scss
+//
+// .example-icon        - example icon
+// .example-icon:hover  - example-icon hover
+//
+// Markup:
+// <div class="submit-button-with-icon {{modifier_class}}">
+//  <div class="color-and-icon"></div>
+//  <input type="submit" value="Submit button with icon">
+// </div>
+//
+// Styleguide 2.1.4
+
+.submit-button-with-icon {
+  position: relative;
+  .color-and-icon {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: $round-corner;
+    background-color: $charcoal;
+  }
+  input[type="submit"] {
+    position: relative;
+    z-index: 2;
+    background-color: transparent;
+  }
+  // Example icon
+  &.example-icon {
+    .color-and-icon {
+      @include button(profile, $white);
+      position: absolute;
+    }
+    // Hover for non touch devices
+    .no-touch & {
+      &:hover {
+        .color-and-icon {
+          background-color: $grey-dark;
+        }
+      }
+    }
+  }
+}
+
+// Topbar link user (Log-in)
+a.topbar-link-user {
+  @include button(profile);
+  .pane-login-is-open & {
+    &::after {
+      content: "\e907";
+    }
+  }
+}
+
+//Topbar mobile menu
+a.topbar-link-menu {
+  @include button(menu, $charcoal);
+  &:hover {
+    &::after {
+      color: $charcoal;
+    }
+  }
+  .mobile-menu-is-open & {
+    &::after {
+      content: "\e907";
+    }
+  }
+}
+
+//Topbar mobile search
+a.topbar-link-search {
+  @include button(search, $white);
+  .mobile-search-is-open & {
+    &::after {
+      content: "\e907";
+    }
+  }
+}
+
+// Topbar opening hours
+a.topbar-link-opening-hours {
+  @include button(clock, $charcoal-opacity-dark, $white, $white, $color-primary);
+  &::after {
+    color: $color-text;
+  }
+}
+
+// Topbar link signout
+a.topbar-link-signout {
+  @include button(close, $charcoal-opacity-dark, $grey-medium);
+}
+
+// Topbar link user account
+a.topbar-link-user-account {
+  @extend .button;
+  padding-right: 14px;
+  background-color: $white;
+  &.active {
+    @extend .button:hover;
+  }
+}
+
+// Search extended open button
+a.search-extended-button {
+  @include button(search, $white, $charcoal);
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  text-indent: -9999px;
+  &::after {
+    text-indent: 0;
+    right: 0;
+  }
+  .extended-search-is-open & {
+    &::after {
+      content: "\e907";
+    }
+  }
+  .front & {
+    display: none;
+  }
+}
+
+a.print-button {
+  @include button(print, $charcoal-opacity-dark, $grey-medium);
+
+  // Overwrite module styling
+  border: none;
+  background-image: none;
+  font-size: 14px;
+  line-height: 20px;
+  text-shadow: none;
+  img {
+    display: none;
+  }
+  &:hover {
+    background-image: none;
+  }
+}
+
+// ==========================================================================
+// Image styles
+// ==========================================================================
+
+// Image styling 16:9
+//
+// The class image-styling-16-9 keeps a 16:9 format for images even if the image is another format.
+// This is done by adding a box around the image.
+// The class can also be used on an element with a background-image
+//
+// Markup:
+// <div class="image-styling-16-9">
+//  <img src="" />
+// </div>
+//
+// Styleguide 2.1.5
+
+.image-styling-16-9 {
+  @include aspect-ratio-image(16, 9);
+}
+
+
+// Background image styling 16:9
+//
+// The class image-styling-16-9 keeps a 16:9 format for images even if the image is another format.
+// This is done by adding a box around the image.
+// The class can also be used on an element with a background-image
+//
+// Markup:
+// <div class="background-image-styling-16-9"></div>
+//
+// Styleguide 2.1.6
+
+.background-image-styling-16-9 {
+  @include aspect-ratio-background-image(16, 9);
+}
+
+// ==========================================================================
+// Pager
+// ==========================================================================
+
+// Pager
+//
+// Markup:
+// <ul class="pager">
+//  <li class="pager-previous"><a>previous</a></li>
+//  <li class="pager-item"><a>1</a></li>
+//  <li class="pager-current">2</li>
+//  <li class="pager-item"><a>3</a></li>
+//  <li class="pager-next"><a>next</a></li>
+// </ul>
+//
+// Styleguide 2.1.7
+
+ul.pager {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-top: 30px;
+  text-align: center;
+  li {
+    display: inline-block;
+    padding: 0;
+    margin: 17px 5px;
+    a {
+      color: $charcoal;
+    }
+    &.pager-current {
+      color: $color-text;
+      font-weight: $weight-normal;
+    }
+    &.pager-previous,
+    &.pager-next {
+      margin: 0;
+      text-indent: -9999px;
+      a {
+        position: relative;
+        display: block;
+      }
+    }
+    &.pager-previous {
+      float: left;
+      a {
+        @include arrow-button(arrow-left);
+        &::after {
+          top: 0;
+          left: 0;
+          text-indent: 0;
+        }
+      }
+    }
+    &.pager-next {
+      float: right;
+      a {
+        @include arrow-button(arrow-right);
+        &::after {
+          top: 0;
+          right: 0;
+          text-indent: 0;
+        }
+      }
+    }
+    // Mobile
+    @include media($mobile) {
+      &.pager-first {
+        display: none;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Opening hours collapsible
+// ==========================================================================
+
+a.opening-hours-toggle {
+  @include arrow-button(arrow-up);
+  position: relative;
+  float: left;
+  width: 100%;
+  &::after {
+    right: 0;
+    top: 0;
+    background-color: $grey-dark;
+    color: $white-opacity-dark;
+  }
+  &.collapsed {
+    &::after {
+      content: "\e901";
+      background-color: $grey;
+      color: $charcoal-opacity-dark;
+    }
+    &:hover {
+      &::after {
+        background-color: $grey-dark;
+        color: $white-opacity-dark;
+      }
+    }
+  }
+  // When placed in primary content of default panel layout
+  .default-panel-layout .primary-content & {
+    padding: 27px 0;
+    border-top: 1px solid $charcoal-opacity-light;
+    &::after {
+      top: 10px;
+    }
+  }
+}
+
+// ==========================================================================
+// Collapsible field groups
+// ==========================================================================
+
+.field-group-format.collapsible {
+  position: relative;
+  width: 100%;
+  padding: 28px 0 26px;
+  border-top: 1px solid $charcoal-opacity-light;
+  > h2 {
+    @include font('base');
+    margin-bottom: 0;
+    .field-group-format-toggler a {
+      @include arrow-button(arrow-up);
+      &::after {
+        right: 0;
+        top: 10px;
+        background-color: $grey-dark;
+        color: $white-opacity-dark;
+      }
+    }
+  }
+  .field-group-format-wrapper {
+    width: 100% !important; // field_group module uses toggle to show and hide content. We use !important here to avoid the width to animate
+    margin-top: 40px;
+  }
+  &.collapsed {
+    > h2 {
+      .field-group-format-toggler a {
+        &::after {
+          content: "\e901";
+          background-color: $grey;
+          color: $charcoal-opacity-dark;
+        }
+        &:hover {
+          &::after {
+            background-color: $grey-dark;
+            color: $white-opacity-dark;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Ting object related items
+// ==========================================================================
+
+.ting-object-related-item {
+  margin-bottom: 30px;
+  h4 {
+    margin-bottom: 5px;
+  }
+
+}
+
+// ==========================================================================
+// Ding availability
+// ==========================================================================
+
+.availability.reservable {
+  color: $yellow-text;
+}
+
+.availability.available,
+.availability.available.reservable {
+  color: $green-text;
+}
+
+.availability.available.not-reservable {
+  color: $red-text;
+}
+
+.availability:hover {
+  color: $charcoal;
+}
+
+// ==========================================================================
+// Menu titles
+// ==========================================================================
+
+.sub-menu-title {
+  @include font('display-small');
+  margin-top: 10px;
+  margin-bottom: 20px;
+  a {
+    color: $charcoal;
+  }
+}
+
+// ==========================================================================
+// Primary tabs
+// ==========================================================================
+
+ul.tabs.primary {
+  // Hide on search page
+  // @TODO can we hide these in a better way
+  .page-search & {
+    display: none;
+  }
+}
+
+// ==========================================================================
+// Search overlay
+// ==========================================================================
+
+.search-overlay--wrapper {
+  position: fixed;
+  z-index: $z-overlay;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $charcoal-opacity-dark;
+  .search-overlay--inner {
+    @include transform(translate(-167px, -105px));
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    padding: 30px 100px 20px;
+    background-color: $color-primary;
+    text-align: center;
+
+    // Mobile
+    @include media($mobile) {
+      @include transform(translate(-122px, -105px));
+      padding: 30px 80px 20px;
+    }
+  }
+  .icon-spinner {
+    position: relative;
+    display: block;
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 20px;
+    &::after {
+      @include animation(spin 1s linear infinite);
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('../../images/spinner.png');
+      background-size: 100% auto;
+    }
+
+    // Hidpi
+    @include hidpi() {
+      &::after {
+        background-image: url('../../images/spinner@x2.png');
+        background-size: 100% auto;
+      }
+    }
+  }
+  .search-overlay--text {
+    color: $white;
+    margin-bottom: 15px;
+  }
+  .cancel {
+    margin-bottom: 0;
+    a {
+      color: $charcoal-opacity-dark;
+    }
+  }
+}
+
+// ==========================================================================
+// User status
+// ==========================================================================
+.user-status {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 30px 20px;
+  border-radius: $round-corner;
+  margin-bottom: 10px;
+
+  @include font('display-small');
+  background-color: $grey-dark;
+  color: $white;
+
+  @include media($notebook) {
+    @include font('base');
+    font-family: $font-family-bold;
+  }
+
+  //Right arrow
+  &::after {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+
+    @include transform(translateY(-50%));
+    font-family: 'icomoon';
+    content: "\e904";
+    font-size: 54px;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+  }
+
+  .user-status-amount {
+    margin-right: 20px;
+  }
+
+  &.user-status-debt {
+    background-color: $red;
+  }
+
+  &.user-status-reservation {
+    background-color: $green;
+  }
+
+  //Hover
+  &:hover {
+    @include transition(
+      background-color $speed $ease
+    );
+    background-color: $grey-medium;
+    color: $white;
+  }
+}
+
+// ==========================================================================
+// Share Buttons
+// ==========================================================================
+
+// Share Button
+//
+// Markup:
+// <div class="social-share-container">
+//  <div class="inner">
+//    <div class="label">Share this</div>
+//    <div class="share-buttons">
+//      <a href="#" class="fb-share">Facebook</a>
+//      <a href="#" class="twitter-share">Twitter</a>
+//      <a href="#" class="mail-share">E-mail</a>
+//    </div>
+//  </div>
+// </div>
+//
+// Styleguide 2.1.8
+
+.social-share-container {
+  width: 100%;
+  float: left;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $grey-medium;
+  margin-bottom: 30px;
+  .label {
+    @include font('base-bold');
+  }
+  a {
+    display: block;
+    float: left;
+    margin-right: 16px;
+  }
+}
+
+// ==========================================================================
+// Video
+// ==========================================================================
+.media-youtube-video,
+.media-vimeo-video {
+  position: relative;
+  width: 100%;
+  padding-top: 60.93%;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// ==========================================================================
+// Misc
+// ==========================================================================
+
+// Info dash is used between information elements on fx. news and events
+.info-dash {
+  margin: 0 5px;
+}
+
+.page-lead {
+  margin-bottom: 20px;
+}
+
+// Hide ajax progress throbber
+.ajax-progress-throbber {
+  display: none;
+}
+
+// Slick slider
+.slick-slider {
+  .slick-list {
+    padding-bottom: 80px;
+    // In event view
+    .view-ding-event & {
+      padding-bottom: 70px;
+    }
+    // On Ting carousel
+    @at-root .ting-carousel#{&} {
+      margin: 0 -13px;
+    }
+  }
+  // On Ting carousel
+  @at-root .ting-carousel#{&} {
+    .slick-slide {
+      margin: 0 13px;
+    }
+  }
+  .slick-arrow {
+    @include transition(
+      opacity $speed $ease
+    );
+    position: absolute;
+    bottom: 0;
+    text-indent: -9999px;
+    width: 68px;
+    height: 54px;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
+    cursor: pointer;
+    border: 0;
+    background: none;
+
+    // Mobile
+    @include media($mobile) {
+      width: 54px;
+    }
+    &::after {
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      text-indent: 0;
+    }
+    &:focus {
+      outline: 0;
+    }
+    &.slick-prev {
+      @include arrow-button(arrow-left, $color-secondary);
+      right: 80px;
+
+      // Mobile
+      @include media($mobile) {
+        right: 66px;
+      }
+    }
+    &.slick-next {
+      @include arrow-button(arrow-right, $color-secondary);
+      right: 0;
+    }
+    &.slick-prev,
+    &.slick-next {
+      &.slick-disabled {
+        opacity: $disabled;
+        // Hover
+        &:hover {
+          cursor: default;
+          &::after {
+            background-color: $grey;
+            color: $charcoal-opacity-dark;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Ask vopros tab
+body {
+  .ask-vopros-tab {
+    z-index: $z-overlay;
+    right: 0;
+    margin-left: 0;
+    .ask-vopros-icon {
+      img {
+        display: inline-block;
+        width: 36px;
+        height: auto;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Colors
+// ==========================================================================
+
+// Color classes
+//
+// Use these classes to apply theme colors to elements
+//
+// Markup:
+// <div class="color-text">Color text</div>
+// <div class="color-text-on-primary background-color-primary">Color text on primary and Background color primary</div>
+// <div class="color-text-on-secondary background-color-secondary">Color text on primary and Background color primary</div>
+//
+//Styleguide 2.1.9
+
+.color-text {
+  color: $color-text;
+}
+
+.color-text-on-primary {
+  color: $color-text-on-primary;
+}
+
+.color-text-on-secondary {
+  color: $color-text-on-secondary;
+}
+
+.background-color-primary {
+  background-color: $color-primary;
+}
+
+.background-color-secondary {
+  background-color: $color-secondary;
+}
+
+// ==========================================================================
+// Fonts
+// ==========================================================================
+
+// Font classes
+//
+// Use these classes to apply font style elements
+//
+// Markup:
+// <div class="font-base">Font base</div>
+// <div class="font-base-bold">Font base bold</div>
+// <div class="font-display-large">Font display large</div>
+// <div class="font-display">Font display</div>
+// <div class="font-display-small">Font display small</div>
+//
+//Styleguide 2.1.10
+
+.font-base {
+  @include font('base');
+}
+
+.font-base-bold {
+  @include font('base-bold');
+}
+
+.font-display-large {
+  @include font('display-large');
+}
+
+.font-display {
+  @include font('display');
+}
+
+.font-display-small {
+  @include font('display-small');
+}

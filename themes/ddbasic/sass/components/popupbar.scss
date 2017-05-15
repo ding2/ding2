@@ -1,0 +1,131 @@
+//
+// Styling of popupbar and content when popupbar is open
+
+@import '../base.scss';
+
+.popupbar {
+  @include transition(
+    transform $speed $ease,
+    box-shadow $speed $ease
+  );
+  @include transform(translateY(-100%));
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $grey-light;
+  z-index: $z-header + 1;
+  overflow: hidden;
+  .popupbar-is-open & {
+    @include transition(
+      transform $speed $ease,
+      height $speed $ease
+    );
+    @include transform(translateY(0));
+    box-shadow: $box-shadow;
+  }
+  .popupbar-container {
+    @include wrapper;
+    position: relative;
+  }
+  .popupbar-close {
+    @include place-icon(close);
+    position: absolute;
+    top: 20px;
+    right: 0;
+    z-index: 20;
+    width: 24px;
+    height: 24px;
+    text-indent: -9999px;
+    &::after {
+      @include transform(translate(-50%, -50%));
+      @include transition(color $speed $ease);
+      top: 50%;
+      left: 50%;
+      text-indent: 0;
+    }
+    &:hover {
+      &::after {
+        color: $color-text;
+      }
+    }
+  }
+  .popupbar-content {
+    @include transition(opacity $speed $ease);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 70px 0 20px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+    &.selected {
+      opacity: 1;
+      pointer-events: auto;
+      z-index: 10;
+    }
+  }
+  // User login
+  .user-login-form {
+    .intro-text {
+      @include span-columns(5);
+      .lead {
+        @include font('display-small');
+        margin-bottom: 20px;
+      }
+
+      // Mobile
+      @include media($mobile) {
+        display: none;
+      }
+    }
+    .user-login-container {
+      @include span-columns(4);
+      @include omega;
+      float: right;
+      .form-actions {
+        @include span-columns(2 of 4);
+        @include omega;
+        float: right;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(6);
+        @include omega;
+        float: right;
+        .form-actions {
+          @include span-columns(3 of 6);
+          @include omega;
+          float: right;
+        }
+      }
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        float: left;
+      }
+    }
+    // When form has Nemid button
+    &.has-nemid-login {
+      .user-login-container {
+        .form-actions {
+          min-width: 190px;
+        }
+      }
+    }
+  }
+  form {
+    a {
+      display: inline-block;
+      margin: 10px 10px 0 0;
+    }
+    &.user-login-form {
+      a {
+        margin: 0;
+      }
+    }
+  }
+}

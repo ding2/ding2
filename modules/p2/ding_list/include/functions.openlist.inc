@@ -101,7 +101,7 @@ function ding_list_sync_openlist($account = NULL) {
     $list_map[] = $list['list_id'];
     $from = max($list['modified'], $from);
   }
-  
+
   foreach ($openlist_elements as $element) {
     $list_map[] = $element['list_id'];
     $element_map[] = $element['element_id'];
@@ -173,7 +173,7 @@ function ding_list_sync_openlist($account = NULL) {
         $local_list = &$list_map[$openlist_element['list_id']];
 
         $values = array();
-        
+
         // Old version openlist saved object used id instead of value.
         if (isset($openlist_element['data']['id'])) {
           $values = array(
@@ -239,7 +239,7 @@ function ding_list_sync_openlist($account = NULL) {
     // The element is not present in the local database, so we need to create
     // it.
     else {
-      // We only create the element, if it has the status of 1
+      // We only create the element, if it has the status of 1.
       if ($openlist_element['status'] == 1) {
         // Update the save_list, so we can save all the lists changed.
         $save_list[$openlist_element['list_id']] = $openlist_element['modified'];
@@ -261,7 +261,7 @@ function ding_list_sync_openlist($account = NULL) {
           $openlist_element['data']['type'],
           $values,
           $account,
-          // save_list
+          // save_list.
           FALSE,
           $openlist_element['element_id']
         );
@@ -275,6 +275,6 @@ function ding_list_sync_openlist($account = NULL) {
     $list = $list_map[$openlist_id];
     $list->save();
   }
-  
+
   return TRUE;
 }

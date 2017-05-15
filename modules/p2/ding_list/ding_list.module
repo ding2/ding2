@@ -673,6 +673,7 @@ function ding_list_preprocess_entity(&$variables) {
   if ($variables['entity_type'] == 'ding_type') {
     switch ($variables['ding_type']->type) {
       case 'ding_list':
+        $variables['title_attributes_array']['class'][] = 'ding-list-title';
         if (!ding_list_user_has_access($variables['ding_type'])) {
           $variables['classes_array'][] = 'no-access';
           $variables['content'][] = array(
@@ -712,12 +713,13 @@ function ding_list_preprocess_entity(&$variables) {
             if ($objects !== FALSE) {
               $items = array();
               foreach ($objects as $object) {
-                $items[] = ting_object_view($object, 'compact');
+                $items[] = ting_object_view($object, 'teaser');
               }
 
               $variables['content']['carousel'] = array(
                 '#theme' => 'ting_carousel',
-                '#objects' => $items,
+                '#items' => $items,
+                '#item_type' => 'item',
               );
             }
             break;
@@ -756,7 +758,7 @@ function ding_list_preprocess_entity(&$variables) {
             $ting_id = ding_list_get_list_element_value($element);
             $ting_id = ding_list_convert_cql($ting_id);
             $ting_object = ting_object_load($ting_id);
-            $variables['content']['item'] = ting_object_view($ting_object, 'teaser');
+            $variables['content']['item'] = ting_object_view($ting_object, 'ting_reference_preview');
             break;
 
           // Display link to the search query.
@@ -887,6 +889,16 @@ function ding_list_mail($key, &$message, $params) {
         }
       }
 
+      $list = $params['list'];
+      $message['subject'] = t('@user has shared a personal list with you at @library', array(
+        '@user' => $username,
+        '@library' => variable_get('site_name', ''),
+      ));
+      $message['body'][] = t('Please use the following link to access this list.
+The link is active for 7 days from today, after which it will be disabled for security reasons.
+
+!link', array('!link' => $params['link']));
+
       if (!empty($user->mail)) {
         $message['headers']['reply-to'] = $user->mail;
       }
@@ -897,39 +909,18 @@ function ding_list_mail($key, &$message, $params) {
   }
 }
 
-
 /**
  * Implements hook_ding_interaction_info().
  */
 function ding_list_ding_interaction_info() {
   $active = user_is_logged_in();
-
-  $translatables = ding_list_rating_translatables();
-
   return array(
-    'title' => $translatables['title'],
-    'translatables' => $translatables,
     'title' => t('Create your own lists'),
     'description' => t('Promote creating your own lists to users with no personal lists yet.'),
     'css_class' => 'complete-info',
     'active' => $active,
   );
 }
-
-/**
- * Get array of translatables.
- *
- * @return array
- *   An array of strings that can be translated for this module.
- */
-function ding_list_rating_translatables() {
-  return array(
-    'title' => t('Create your own lists'),
-    'info' => t("Did you know you can create your own lists and add objects to them?"),
-    'create_title' => t('> Create my own list'),
-  );
-}
-
 
 /**
  * Implements hook_ding_interaction_view().
@@ -945,11 +936,13 @@ function ding_list_ding_interaction_view() {
   return '';
 }
 
+/**
+ * Theme function for ding_list_promote_lists.
+ */
 function theme_ding_list_promote_lists() {
-  $translatables = ding_list_rating_translatables();
   return "<div class='description'>" .
-    $translatables['info'] .
-    "</div><ul class='actions'><li>" . l($translatables['create_title'], 'list/create') . "</li></ul>";
+    t("Did you know you can create your own lists and add objects to them?") .
+    "</div><ul class='actions'><li>" . l(t('Create my own list'), 'list/create') . "</li></ul>";
 }
 
 /**
@@ -993,7 +986,6 @@ function ding_list_preprocess_views_view_table(&$vars) {
       drupal_add_tabledrag($table_id, 'order', 'sibling', 'views-field-delta');
       drupal_add_js($path . '/js/ding_list_tabledrag.js');
       drupal_add_css($path . '/css/ding-list-tabledrag.css');
-      drupal_add_css($path . '/css/ding-list-view.css');
     }
     // Hide dragging fields if dragging is not enabled.
     else {

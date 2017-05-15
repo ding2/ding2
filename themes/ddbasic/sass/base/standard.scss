@@ -1,0 +1,153 @@
+//
+// Styling of standard HTML elements
+
+@import '../base.scss';
+
+// Base
+//
+// Styleguide 1.
+
+// Standard elements
+//
+// Styleguide 1.1
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  @include font('base');
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $color-standard-text;
+}
+
+body {
+  @include transition(background-color $speed $ease);
+  padding-top: $header-height; // Compensate for fixed header
+  background-color: $white;
+  // When topbar is open
+  &.topbar-is-open,
+  &.overlay-is-active {
+    @include transition(background-color 0 $ease);
+    background-color: $charcoal;
+    overflow: hidden;
+  }
+  // When second level menu is visible
+  &.has-second-level-menu {
+    padding-top: $header-height + $second-level-menu-height; // Compensate for fixed header
+    // Tablet
+    @include media($tablet) {
+      padding-top: $header-height; // Compensate for fixed header
+    }
+  }
+  // When search form is extended
+  &.search-form-extended.page-search,
+  &.search-form-extended.front {
+    padding-top: $header-height + $search-form-extended-height; // Compensate for fixed header
+    // Tablet
+    @include media($tablet) {
+      padding-top: $header-height; // Compensate for fixed header
+    }
+    // When second level menu is visible & search form is extended
+    &.has-second-level-menu {
+      padding-top: $header-height + $search-form-extended-height + $second-level-menu-height; // Compensate for fixed header
+      // Tablet
+      @include media($tablet) {
+        padding-top: $header-height; // Compensate for fixed header
+      }
+    }
+  }
+}
+
+// Headers
+//
+// Markup:
+// <h1>Header h1</h1>
+// <h2>Header h2</h2>
+// <h3>Header h3</h3>
+//
+// Styleguide 1.1.1
+
+h1,
+h2,
+h3,
+h4 {
+  margin-top: 0;
+  font-weight: $weight-normal;
+}
+
+h1 {
+  @include font('display-large');
+  color: $color-primary;
+  margin-bottom: 30px;
+}
+
+h2 {
+  @include font('display');
+  margin-bottom: 30px;
+}
+
+h3 {
+  @include font('display-small');
+  margin-bottom: 20px;
+}
+
+h4 {
+  @include font('base-bold');
+  margin-bottom: 20px;
+}
+
+// Paragraph
+p {
+  margin: 0 0 $distance-paragraph;
+}
+
+// Images
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+img.file-icon {
+  display: none;
+}
+
+// Links
+//
+// :hover   - hover
+//
+// Markup:
+// <a class="{{modifier_class}}">Link</a>
+//
+// Styleguide 1.1.2
+
+a {
+  @include transition(color $speed $ease);
+  text-decoration: none;
+  color: $color-text;
+  &:hover {
+    color: $charcoal;
+  }
+}
+
+// Strong and bold
+strong,
+b {
+  @include font('base-bold');
+  font-weight: normal;
+}
+
+// Lists
+ul,
+ol {
+  margin: 0 0 $distance-paragraph;
+  padding: 0;
+  list-style-position: inside;
+}
+
+// Label
+label {
+  font-weight: normal;
+}

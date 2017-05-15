@@ -1,0 +1,695 @@
+//
+// Styling of site header
+
+@import '../base.scss';
+
+// In order to make the theme backwards compatible we are styling the existing markup.
+// This makes the code in this file a bit messy.
+.site-header {
+  // ==========================================================================
+  // Topbar
+  // ==========================================================================
+  .topbar {
+    @include transition(transform $speed $ease);
+    @include transform(translateY(0%));
+    position: fixed;
+    z-index: $z-header;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: $grey-light;
+    box-shadow: $box-shadow;
+
+    // Tablet
+    @include media($tablet) {
+      box-shadow: none;
+    }
+    // Admin menu
+    .admin-menu & {
+      top: $admin-menu-height;
+    }
+    // Admin menu
+    .admin-menu-with-shortcuts & {
+      top: $toolbar-height;
+    }
+  }
+  .topbar-inner {
+    @include wrapper;
+    @include transition(height $speed $ease);
+    position: relative;
+    height: 64px;
+
+    // Tablet
+    @include media($tablet) {
+      width: 100%;
+    }
+
+    .logo {
+      @include span-columns(3);
+      height: 44px;
+      margin-top: 10px;
+
+      // Tablet
+      @include media($tablet) {
+        position: relative;
+        width: 100%;
+        height: 64px;
+        margin-top: 0;
+        padding: 10px 5%;
+        box-shadow: $box-shadow;
+        background-color: $grey-light;
+        z-index: 5;
+      }
+    }
+    .site-name-container {
+      height: 44px;
+
+      // Tablet
+      @include media($tablet) {
+        width: 100%;
+      }
+      .site-name {
+        @include font('display-small');
+        line-height: 44px;
+        color: $charcoal;
+      }
+      &.logo-container {
+        .site-name {
+          display: none;
+        }
+        .vertical-helper {
+          display: inline-block;
+          height: 100%;
+          vertical-align: middle;
+        }
+        img {
+          display: inline-block;
+          vertical-align: middle;
+          max-height: 100%;
+          max-width: 95%;
+          width: auto;
+          height: auto;
+        }
+
+        // Mobile
+        @include media($mobile) {
+          .site-name {
+            display: block;
+          }
+          .vertical-helper,
+          img {
+            display: none;
+          }
+        }
+      }
+    }
+    .topbar-menu {
+
+      // Tablet
+      @include media($tablet) {
+        width: 100%;
+        position: relative;
+        z-index: 4;
+        float: left;
+        padding: 10px 5%;
+        background-color: $color-primary;
+        box-shadow: $box-shadow;
+      }
+
+    }
+    .pane-user-name {
+      float: right;
+      width: getColumn(4);
+      margin-right: getGutter(12) / 2;
+    }
+  }
+  // ==========================================================================
+  // Header wrapper
+  // ==========================================================================
+  .header-wrapper {
+    position: fixed;
+    z-index: $z-header - 1;
+    top: $topbar-height;
+    width: 100%;
+
+    // Tablet
+    @include media($tablet) {
+      z-index: $z-header - 1;
+    }
+    // Search form extended
+    .search-form-extended & {
+      position: static;
+    }
+  }
+  .header-inner {
+    @include wrapper;
+    position: relative;
+    .pane-user-menu {
+      position: fixed;
+      z-index: $z-header + 1;
+      top: 0;
+
+      // Tablet
+      @include media($tablet) {
+        @include transition(
+          transform $speed $ease,
+          top 0ms $ease $speed
+        );
+        @include transform(translateY(-100%));
+        z-index: $z-header - 1;
+        width: 100%;
+        top: $header-height;
+        left: 0;
+        max-height: 100%;
+        display: block;
+        overflow: scroll;
+        .navigation-inner {
+          box-shadow: $box-shadow;
+          background-color: $grey-dark;
+        }
+        .mobile-usermenu-is-open & {
+          padding-bottom: $header-height;
+          @include transform(translateY(0%));
+        }
+      }
+    }
+    .pane-search-form {
+      @include transition(
+        transform $speed $ease,
+        top 0ms $ease $speed
+      );
+      @include span-columns(3);
+      @include omega;
+      position: absolute;
+      z-index: 2;
+      right: 0;
+      padding: 15px 0;
+
+      // Tablet
+      @include media($tablet) {
+        @include transform(translateY(-100%));
+        position: fixed;
+        top: $header-height;
+        width: 100%;
+        background-color: $color-primary;
+        padding: 15px 5%;
+        .mobile-search-is-open & {
+          @include transform(translateY(0%));
+          box-shadow: $box-shadow;
+        }
+      }
+      .form-item-search-block-form {
+        width: getColumn(2 of 3) + getGutter(3);
+        float: left;
+        input[type="text"] {
+          @include transition(width $speed $ease);
+          border-radius: $round-corner 0 0 $round-corner;
+          width: 100%;
+          float: right;
+          &:focus {
+            width: getColumn(4 of 2);
+            box-shadow: none;
+          }
+        }
+
+        // Tablet
+        @include media($tablet) {
+          width: getColumn(10) + getGutter();
+          input[type="text"] {
+            width: 100%;
+            &:focus {
+              width: 100%;
+            }
+          }
+        }
+
+        // Mobile
+        @include media($mobile) {
+          width: getColumn(9) + getGutter();
+        }
+      }
+      .form-actions {
+        width: getColumn(1 of 3);
+        float: left;
+        input[type="submit"] {
+          border-radius: 0 $round-corner $round-corner 0;
+        }
+
+        // Tablet
+        @include media($tablet) {
+          width: getColumn(2);
+        }
+
+        // Mobile
+        @include media($mobile) {
+          width: getColumn(3);
+        }
+      }
+      // Search form extended
+      .search-form-extended & {
+        @include clearfix;
+        @include transition(
+          transform $speed $ease,
+          top $speed $ease,
+          box-shadow $speed $ease
+        );
+        position: fixed;
+        z-index: $z-header - 1;
+        top: -20px;
+        width: 100%;
+        background-color: $charcoal;
+
+        // Tablet
+        @include media($tablet) {
+          position: fixed;
+          width: 100%;
+          margin-left: 0;
+          margin-right: 0;
+        }
+        .search-field-wrapper {
+          @include wrapper;
+          position: relative;
+          // Tablet
+          @include media($tablet) {
+            position: relative;
+            width: 100%;
+          }
+        }
+        .search-extended-button {
+          position: absolute;
+          right: 0;
+          top: $search-form-extended-height;
+
+          // Tablet
+          @include media($tablet) {
+            display: none;
+          }
+        }
+        .search-field {
+          width: 100%;
+          .form-item-search-block-form {
+            width: getColumn(8) + getGutter();
+            input[type="text"] {
+              &:focus {
+                width: 100%;
+              }
+            }
+
+            // Tablet
+            @include media($tablet) {
+              width: 100%;
+              padding-right: 270px;
+            }
+            // Mobile
+            @include media($mobile) {
+              padding-right: 170px;
+            }
+          }
+          .form-actions {
+            width: getColumn(1);
+            float: right;
+            input[type="submit"] {
+              @include transition(
+                background-color $speed $ease,
+                color $speed $ease
+              );
+              background-color: $grey;
+              color: $charcoal;
+              &:hover {
+                background-color: $grey-dark;
+                color: $white;
+              }
+            }
+
+            // Tablet
+            @include media($tablet) {
+              position: absolute;
+              top: 0;
+              right: 0;
+              width: 70px;
+            }
+          }
+        }
+        .form-item-material-type {
+          position: absolute;
+          right: getColumn(1);
+          width: getColumn(3) + getGutter();
+          margin-right: 0;
+          margin-bottom: 0;
+          .select-wrapper {
+            border-radius: 0;
+            border: 1px solid $white;
+            border-left: 1px solid $grey;
+            &::before {
+              background-color: $white;
+            }
+          }
+
+          // Tablet
+          @include media($tablet) {
+            width: 200px;
+            right: 70px;
+          }
+
+          // Mobile
+          @include media($mobile) {
+            width: 100px;
+          }
+        }
+      }
+      // Admin menu
+      .admin-menu & {
+        top: $admin-menu-height;
+      }
+      // Admin menu
+      .admin-menu-with-shortcuts & {
+        top: $toolbar-height;
+      }
+      // Search Form Extended & admin menu
+      .search-form-extended.admin-menu & {
+        top: $admin-menu-height - 20px;
+      }
+      // Search Form Extended & admin menu
+      .search-form-extended.admin-menu-with-shortcuts & {
+        top: $toolbar-height - 20px;
+      }
+      // Search Form Extended on frontpage
+      .search-form-extended.page-search &,
+      .search-form-extended.front & {
+        top: $topbar-height;
+
+        // Tablet
+        @include media($tablet) {
+          top: $header-height;
+        }
+      }
+      // Search Form Extended on frontpage with admin-menu
+      .search-form-extended.page-search.admin-menu &,
+      .search-form-extended.front.admin-menu & {
+        top: $topbar-height + $admin-menu-height;
+      }
+      // Search Form Extended on frontpage with admin menu
+      .search-form-extended.page-search.admin-menu-with-shortcuts &,
+      .search-form-extended.front.admin-menu-with-shortcuts & {
+        top: $topbar-height + $toolbar-height;
+      }
+      // Extended search open
+      .extended-search-is-open & {
+        top: $topbar-height;
+        box-shadow: $box-shadow;
+      }
+      // Extended search open with admin menu
+      .extended-search-is-open.admin-menu & {
+        top: $topbar-height + $admin-menu-height;
+      }
+      // Extended search open with admin menu
+      .extended-search-is-open.admin-menu-with-shortcuts & {
+        top: $topbar-height + $toolbar-height;
+      }
+      // Search form extended front
+      .search-form-extended.page-search &,
+      .search-form-extended.front & {
+        box-shadow: $box-shadow;
+        .search-extended-button {
+          display: none;
+        }
+
+        // Tablet
+        @include media($tablet) {
+          box-shadow: none;
+        }
+      }
+      // Search form extended front when mobile search is open
+      .search-form-extended.page-search.mobile-search-is-open &,
+      .search-form-extended.front.mobile-search-is-open & {
+        // Tablet
+        @include media($tablet) {
+          box-shadow: $box-shadow;
+        }
+      }
+      // Mobile search open
+      .mobile-search-is-open & {
+        top: $header-height;
+      }
+      .search-form-extended.search-form-no-materials & {
+        .search-field {
+          width: 100%;
+          .form-item-search-block-form {
+            width: getColumn(11 of 12) + getGutter(12);
+          }
+          .form-actions {
+            width: getColumn(1 of 12);
+          }
+
+          // Mobile
+          @include media($mobile) {
+            .form-item-search-block-form {
+              width: getColumn(9 of 12) + getGutter(12);
+            }
+            .form-actions {
+              width: getColumn(3 of 12);
+            }
+          }
+        }
+      }
+    }
+  }
+  // ==========================================================================
+  // Navigation
+  // ==========================================================================
+  > .navigation-wrapper {
+    @include transition(
+      transform $speed $ease,
+      box-shadow $speed $ease
+    );
+    position: fixed;
+    z-index: $z-header - 2;
+    top: $topbar-height;
+    left: 0;
+    width: 100%;
+    background-color: $color-primary;
+    box-shadow: $box-shadow;
+
+    // Tablet
+    @include media($tablet) {
+      @include transition(
+        transform $speed $ease,
+        top 0ms $ease $speed
+      );
+      @include transform(translateY(-100%));
+      top: $header-height;
+      display: block;
+      overflow: scroll;
+      max-height: 100%;
+      background-color: transparent;
+      box-shadow: none;
+      .mobile-menu-is-open & {
+        @include transform(translateY(0%));
+        padding-bottom: $header-height;
+      }
+    }
+    // Admin menu
+    .admin-menu & {
+      top: $topbar-height + $admin-menu-height;
+    }
+    // Admin menu
+    .admin-menu-with-shortcuts & {
+      top: $topbar-height + $toolbar-height;
+    }
+    // Search Form Extended
+    .search-form-extended & {
+      @include transition(
+        top $speed $ease,
+        transform $speed $ease,
+        box-shadow $speed $ease
+      );
+      top: $topbar-height;
+      // Tablet
+      @include media($tablet) {
+        top: $header-height;
+      }
+    }
+    // Search Form Extended with admin-menu
+    .search-form-extended.admin-menu & {
+      top: $topbar-height + $admin-menu-height;
+    }
+    // Search Form Extended with admin menu
+    .search-form-extended.admin-menu-with-shortcuts & {
+      top: $topbar-height + $toolbar-height;
+    }
+    // Search Form Extended on frontpage
+    .search-form-extended.page-search &,
+    .search-form-extended.front & {
+      top: $topbar-height + $search-form-extended-height;
+    }
+
+    // Search Form Extended on frontpage with admin-menu
+    .search-form-extended.page-search.admin-menu &,
+    .search-form-extended.front.admin-menu & {
+      top: $topbar-height + $search-form-extended-height + $admin-menu-height;
+    }
+    // Search Form Extended on frontpage with admin menu
+    .search-form-extended.page-search.admin-menu-with-shortcuts &,
+    .search-form-extended.front.admin-menu-with-shortcuts & {
+      top: $topbar-height + $search-form-extended-height + $toolbar-height;
+    }
+    // Extended search open
+    .extended-search-is-open & {
+      top: $topbar-height + $search-form-extended-height;
+    }
+    // Extended search open with admin-menu
+    .extended-search-is-open.admin-menu & {
+      top: $topbar-height + $search-form-extended-height + $admin-menu-height;
+    }
+    // Extended search open with admin menu
+    .extended-search-is-open.admin-menu-with-shortcuts & {
+      top: $topbar-height + $search-form-extended-height + $toolbar-height;
+    }
+
+    .navigation-inner {
+      @include wrapper;
+      position: relative;
+
+      // Tablet
+      @include media($tablet) {
+        width: 100%;
+        display: block;
+        box-shadow: none;
+        background-color: $color-primary;
+        .mobile-menu-is-open & {
+          box-shadow: $box-shadow;
+        }
+      }
+      .main-menu-wrapper {
+        @include transition(
+          transform $speed $ease,
+          top 0ms $ease $speed
+        );
+        @include span-columns(9);
+        // Tablet
+        @include media($tablet) {
+          width: 100%;
+        }
+        // Search form extended
+        .search-form-extended & {
+          width: auto;
+          // Tablet
+          @include media($tablet) {
+            width: 100%;
+          }
+        }
+      }
+      .secondary-menu-wrapper {
+        display: none;
+        // Search Form Extended
+        .show-secondary-menu & {
+          display: block;
+          float: right;
+          padding-right: 69px;
+
+          // Tablet
+          @include media($tablet) {
+            width: 100%;
+            background-color: $grey;
+          }
+        }
+        // Search Form Extended
+        .search-form-extended.page-search &,
+        .search-form-extended.front & {
+          padding-right: 0;
+        }
+      }
+      .pane-menu-block-main-menu-second-level {
+        @include transition(top $speed $ease);
+        position: fixed;
+        z-index: $z-header - 1;
+        top: $header-height;
+        left: 0;
+        width: 100%;
+        background-color: $charcoal;
+        box-shadow: $box-shadow;
+
+        // Tablet
+        @include media($tablet) {
+          display: none;
+        }
+        // Admin menu
+        .admin-menu & {
+          top: $header-height + $admin-menu-height;
+        }
+        // Admin menu
+        .admin-menu-with-shortcut & {
+          top: $header-height + $toolbar-height;
+        }
+
+        .search-form-extended.page-search &,
+        .search-form-extended.front & {
+          top: $header-height + $search-form-extended-height;
+        }
+        .search-form-extended.extended-search-is-open & {
+          top: $header-height + $search-form-extended-height;
+        }
+        &::before {
+          content: '';
+          display: block;
+          height: 1px;
+          width: 100%;
+          background-color: $black;
+          box-shadow: 0 5px 10px 0 $black;
+        }
+        > .panel-pane-inner {
+          @include wrapper;
+        }
+      }
+    }
+  }
+  // Hide and show on mobile
+  &.topbar-up {
+    .topbar {
+      @include transition(transform 600ms $ease);
+      @include transform(translateY(-64px));
+      .topbar-inner {
+        .logo {
+          box-shadow: none;
+        }
+      }
+    }
+    > .header-wrapper {
+      > .header-inner {
+        .pane-user-menu,
+        .pane-search-form {
+          // Mobile
+          @include media($mobile) {
+            @include transition(
+              transform $speed $ease,
+              top 0ms $ease
+            );
+            top: $header-height - $topbar-height;
+            .mobile-usermenu-is-open & {
+              padding-bottom: $header-height - $topbar-height;
+            }
+          }
+        }
+      }
+    }
+    > .navigation-wrapper {
+      // Mobile
+      @include media($mobile) {
+        @include transition(
+          transform $speed $ease,
+          top 0ms $ease
+        );
+        top: $header-height - $topbar-height;
+
+        .mobile-menu-is-open & {
+          padding-bottom: $header-height - $topbar-height;
+        }
+
+        .search-form-extended.page-search &,
+        .search-form-extended.front & {
+          top: $header-height - $topbar-height;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,85 @@
+//
+// Styling of user login form
+
+@import '../../base.scss';
+
+// ==========================================================================
+// User login form
+// ==========================================================================
+
+.user-login-form {
+  @include transition(margin-bottom $speed $ease);
+  width: 100%;
+  float: left;
+  // When topbar is open
+  .topbar-is-open & {
+    margin-bottom: 45px;
+  }
+  .close-user-login {
+    @include place-icon(close);
+    width: 24px;
+    height: 24px;
+    float: right;
+    margin-bottom: 30px;
+    cursor: pointer;
+    &::after {
+      @include transform(translate(-50%, -50%));
+      @include transition(color $speed $ease);
+      top: 50%;
+      left: 50%;
+    }
+    &:hover {
+      &::after {
+        color: $color-text;
+      }
+    }
+
+    @include media($mobile) {
+      display: none;
+    }
+  }
+  .form-item {
+    width: 100%;
+    float: left;
+    margin: 0 0 15px;
+    > label {
+      display: none;
+    }
+    .description {
+      display: none;
+    }
+  }
+  .form-actions {
+    margin-bottom: 20px;
+  }
+  .submit-button-with-icon {
+    .color-and-icon {
+      @include button(profile, $white);
+      position: absolute;
+    }
+    // Hover for non touch devices
+    .no-touch & {
+      &:hover {
+        .color-and-icon {
+          background-color: $grey-dark;
+        }
+      }
+    }
+  }
+  .ding-gatewayf--login-block {
+    margin-top: 10px;
+    a {
+      @include button(nemid, $charcoal-opacity-dark, $grey-medium);
+    }
+  }
+  .sign-up-link {
+    clear: both;
+    a {
+      float: right;
+      color: $charcoal-opacity-dark;
+      &:hover {
+        color: $color-text;
+      }
+    }
+  }
+}
