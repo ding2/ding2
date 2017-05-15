@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function ting_material_details_field_group_info() {
-  $field_groups = array();
+  $export = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -55,18 +55,17 @@ function ting_material_details_field_group_info() {
     'format_settings' => array(
       'label' => 'Material details',
       'instance_settings' => array(
-        'classes' => ' group-material-details field-group-div',
+        'classes' => '',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
         'effect' => 'none',
         'speed' => 'fast',
-        'id' => 'ting_object_ting_object_full_group_material_details',
       ),
       'formatter' => 'collapsed',
     ),
   );
-  $field_groups['group_material_details|ting_object|ting_object|default'] = $field_group;
+  $export['group_material_details|ting_object|ting_object|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -114,16 +113,12 @@ function ting_material_details_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'classes' => ' group-material-details field-group-fieldset',
+        'classes' => '',
         'required_fields' => 1,
       ),
     ),
   );
-  $field_groups['group_material_details|ting_object|ting_object|form'] = $field_group;
+  $export['group_material_details|ting_object|ting_object|form'] = $field_group;
 
-  // Translatables
-  // Included for use with string extractors like potx.
-  t('Material details');
-
-  return $field_groups;
+  return $export;
 }
