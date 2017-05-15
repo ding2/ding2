@@ -5561,12 +5561,12 @@ input#edit-search-block-form--2.spinner {
       color: #fff; } }
 
 .rs-carousel-items ul li {
-  list-style: none; }
+  list-style: none;
+  width: 200px; }
 
 .rs-carousel-items li {
   margin-right: 20px;
-  position: relative;
-  width: 200px; }
+  position: relative; }
   .rs-carousel-items li img {
     min-width: 100%;
     padding: 0; }
