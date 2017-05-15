@@ -178,7 +178,7 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
           '#options' => array(
             'attributes' => array(
               'class' => array(
-                'ding-campaing--link',
+                'ding-campaign--link',
               ),
             ),
             'html' => FALSE,
