@@ -1,27 +1,33 @@
 <?php
 /**
  * @file
- * bpi_features.features.field_instance.inc
+ * ding_place2book.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function bpi_features_field_default_field_instances() {
+function ding_place2book_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-ding_news-field_bpi_workflow'
-  $field_instances['node-ding_news-field_bpi_workflow'] = array(
-    'bundle' => 'ding_news',
-    'default_value' => NULL,
+  // Exported field_instance: 'node-ding_event-field_place2book'
+  $field_instances['node-ding_event-field_place2book'] = array(
+    'bundle' => 'ding_event',
+    'default_value' => array(),
     'deleted' => 0,
     'description' => '',
     'display' => array(
-      'default' => array(
+      'alternative_layout_full' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -43,27 +49,87 @@ function bpi_features_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_bpi_workflow',
-    'label' => 'BPI workflow',
-    'required' => 1,
+    'field_name' => 'field_place2book',
+    'label' => 'Place2book',
+    'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'workflowfield',
-      'settings' => array(
-        'comment' => 1,
-        'name_as_title' => 1,
+      'active' => 0,
+      'module' => 'ding_place2book',
+      'settings' => array(),
+      'type' => 'ding_p2b_widget_default',
+      'weight' => 31,
+    ),
+  );
+
+  // Exported field_instance: 'node-ding_event-field_place2book_tickets'
+  $field_instances['node-ding_event-field_place2book_tickets'] = array(
+    'bundle' => 'ding_event',
+    'default_value' => array(
+      0 => array(
+        'value' => 'placeholder',
       ),
-      'type' => 'workflow_default',
-      'weight' => 35,
+    ),
+    'deleted' => 0,
+    'description' => 'Placeholder for Place2book ticket information and/or order link',
+    'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 6,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_place2book_tickets',
+    'label' => 'Place2book Tickets',
+    'required' => TRUE,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 14,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('BPI workflow');
+  t('Place2book');
+  t('Place2book Tickets');
+  t('Placeholder for Place2book ticket information and/or order link');
 
   return $field_instances;
 }
