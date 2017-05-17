@@ -618,13 +618,17 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
  */
 function ding_provider_build_entity_id($ids) {
   if (is_array($ids) && !empty($ids)) {
-    $query = 'rec.id any "' . implode(" ", $ids) . '" AND facet.acSource=bibliotekskatalog';
-    $res = ting_do_search($query, 1, count($ids));
+    // Open search is limited to 50 results per call, so split up in chunks to
+    // ensure we get PIDs for all passed local IDs.
+    foreach (array_chunk($ids, 50) as $chunk) {
+      $query = 'rec.id any "' . implode(" ", $chunk) . '" AND facet.acSource=bibliotekskatalog';
+      $res = ting_do_search($query, 1, count($chunk), $options);
 
-    foreach ($res->collections as $pid => $collection) {
-      $faust = explode(':', $pid)[1];
-      if (isset($ids[$faust])) {
-        $ids[$faust] = $pid;
+      foreach ($res->collections as $pid => $collection) {
+        $faust = explode(':', $pid)[1];
+        if (isset($ids[$faust])) {
+          $ids[$faust] = $pid;
+        }
       }
     }
 
