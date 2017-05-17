@@ -4450,6 +4450,9 @@ body {
   padding-bottom: 20px;
   text-align: center; }
 
+.primary-content table img {
+  max-width: inherit; }
+
 /* Dibs accept/cancel/redirect page
    ========================================================================== */
 .dibs-accept-page,
@@ -4472,6 +4475,9 @@ body {
   .dibs-cancel-page > p:first-of-type,
   .dibs-redirect-page > p:first-of-type {
     margin-top: 0; }
+
+table .views-field-rendered-entity img {
+  max-width: 100%; }
 
 /**
  * Typography
@@ -6429,7 +6435,7 @@ div[class^="collection-bg"] {
   border-radius: 40px;
   height: 50px;
   width: 50px;
-  z-index: 1; }
+  z-index: 99; }
   .ting-search-carousel .slick-prev:before,
   .ting-search-carousel .slick-next:before,
   .ting-carousel .rs-carousel-action:before {
@@ -6552,6 +6558,12 @@ div[class^="collection-bg"] {
       width: 68px;
       height: 96px;
       margin-bottom: 20px; } }
+  .slick-track .ting-search-carousel-item .ting-object.view-mode-compact .search-result--heading-type,
+  .pane-serendipity-ting-object-related .ting-object .ting-object.view-mode-compact .search-result--heading-type,
+  .pane-popular .ting-object .ting-object.view-mode-compact .search-result--heading-type,
+  .view-public-lists .ting-object .ting-object.view-mode-compact .search-result--heading-type,
+  .ting-carousel .rs-carousel-item .ting-object.view-mode-compact .search-result--heading-type {
+    display: none; }
   @media only screen and (max-width: 480px) {
     .slick-track .ting-search-carousel-item .ting-object.view-mode-compact .search-result--heading-type,
     .pane-serendipity-ting-object-related .ting-object .ting-object.view-mode-compact .search-result--heading-type,
@@ -6834,18 +6846,21 @@ div[class^="collection-bg"] {
 .pane-popular .ting-carousel,
 .view-public-lists .ting-carousel {
   background-color: #ffffff;
-  padding-top: 20px;
-  padding-right: 20px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  margin-bottom: 20px; }
-
-.contentbox .field-name-ting-title .search-result--heading-type {
-  display: none; }
+  padding: 20px 10px 20px 20px; }
 
 .contentbox .field-name-ting-author,
 .contentbox .field-name-ding-serendipity-info {
   font-size: 80%; }
+
+.pane-serendipity-ting-object {
+  padding-right: 10px;
+  padding-left: 10px; }
+  .pane-serendipity-ting-object .ting-object {
+    margin-bottom: 0 !important; }
+
+.ting-object.view-mode-compact .field-name-ding-serendipity-info {
+  margin-top: 5px;
+  margin-bottom: 0; }
 
 /**
  * News
