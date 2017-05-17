@@ -2,20 +2,6 @@
  * @file
  * Styles for the menu block.
  */
-
-/**
- * Override styles for the IPE blocks,
- * in order to display properly the filter menu.
- */
-div.panels-ipe-newblock {
-  z-index: 0;
-}
-div.panels-ipe-newblock a.active {
-  z-index: 1;
-}
-div.panels-ipe-placeholder {
-  position: relative;
-}
 div.ipe-popup {
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -30,13 +16,10 @@ div.ipe-popup ul {
   padding-left: 0;
   width: 100%;
 }
-.hide {
-  display: none;
-}
-.left {
+.ding-ipe-popup-left {
   left: 245px;
 }
-.top {
+.ding-ipe-popup-top {
   top: -157px !important;
 }
 div.ipe-popup .item-list ul li {
