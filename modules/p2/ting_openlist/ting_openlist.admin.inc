@@ -34,7 +34,6 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#title' => t('Openlist prefix'),
     '#description' => t('The prefix used for creating a unique hashed user id.'),
     '#default_value' => variable_get('ting_openlist_prefix', uniqid()),
-    '#disabled' => TRUE,
   );
 
   // Caching settings.
@@ -79,7 +78,7 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#description' => t('Send the developer cookie to the service.'),
     '#default_value' => variable_get('ting_openlist_developer', FALSE),
   );
-  
+
   $form['debugging']['ting_openlist_no_wsdl_cache'] = array(
     '#type' => 'checkbox',
     '#title' => t('Disable WSDL caching'),
