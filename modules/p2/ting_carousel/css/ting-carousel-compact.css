@@ -52,7 +52,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', e
   font-size: 0.9em;
   line-height: 1.25em;
   text-align: left;
-  margin: 5px 0;
+  margin-top: 5px;
 }
 .ting-object.view-mode-compact .field-name-ding-serendipity-info a {
   text-decoration: underline;
