@@ -573,6 +573,10 @@ body {
   text-align: center;
 }
 
+.primary-content table img {
+  max-width: inherit;
+}
+
 /* Dibs accept/cancel/redirect page
    ========================================================================== */
 
@@ -595,4 +599,8 @@ body {
   > p:first-of-type {
     margin-top: 0;
   }
+}
+
+table .views-field-rendered-entity img {
+  max-width: 100%;
 }
