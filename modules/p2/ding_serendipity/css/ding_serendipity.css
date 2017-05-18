@@ -1,4 +1,6 @@
-.serendipity-admin-fieldset .fieldset-wrapper > div {
+.pane-serendipity-ting-object .ting-object {
+  
+  }.serendipity-admin-fieldset .fieldset-wrapper > div {
   width: 20%;
   float: left;
   display: block;
@@ -19,5 +21,8 @@
   font-weight: normal;
   color: rgba(0,0,0,0.7);
   font-size: 160%;
+  margin-bottom: 20px;
+}
+.pane-serendipity-ting-object .ting-object {
   margin-bottom: 20px;
 }
