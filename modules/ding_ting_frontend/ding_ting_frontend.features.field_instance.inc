@@ -216,10 +216,11 @@ function ding_ting_frontend_field_default_field_instances() {
         'weight' => 8,
       ),
       'collection_primary' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'ding_entity',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 28,
+        'type' => 'ding_entity_buttons_ajax',
+        'weight' => 8,
       ),
       'compact' => array(
         'label' => 'above',
@@ -235,9 +236,10 @@ function ding_ting_frontend_field_default_field_instances() {
         'weight' => 11,
       ),
       'search_result' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'ding_entity',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'ding_entity_buttons_ajax',
         'weight' => 37,
       ),
       'teaser' => array(
@@ -595,6 +597,81 @@ function ding_ting_frontend_field_default_field_instances() {
       'settings' => array(),
       'type' => 'hidden',
       'weight' => 0,
+    ),
+  );
+
+  // Exported field_instance: 'ting_object-ting_object-ting_literary_form'
+  $field_instances['ting_object-ting_object-ting_literary_form'] = array(
+    'bundle' => 'ting_object',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'ding_entity_type' => 'ding_entity',
+    'display' => array(
+      'collection_list' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
+      'collection_primary' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
+      'compact' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 8,
+      ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'module' => 'ting',
+        'settings' => array(),
+        'type' => 'ting_literary_form_default',
+        'weight' => 20,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'module' => 'ting',
+        'settings' => array(),
+        'type' => 'ting_literary_form_default',
+        'weight' => 7,
+      ),
+      'ting_reference_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
+      'user_list' => array(
+        'label' => 'inline',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 10,
+      ),
+    ),
+    'entity_type' => 'ting_object',
+    'field_name' => 'ting_literary_form',
+    'label' => 'Literary form',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'hidden',
+      'weight' => 5,
     ),
   );
 
@@ -1087,6 +1164,7 @@ function ding_ting_frontend_field_default_field_instances() {
   t('Cover');
   t('Holdings information');
   t('Issues');
+  t('Literary form');
   t('On this site');
   t('Series');
   t('Subjects');
