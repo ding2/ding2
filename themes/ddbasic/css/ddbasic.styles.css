@@ -5251,7 +5251,7 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   top: 0px;
   bottom: 0px;
   position: fixed;
-  z-index: 99;
+  z-index: 110;
   color: white;
   text-align: center; }
 
