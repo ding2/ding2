@@ -5251,7 +5251,7 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   top: 0px;
   bottom: 0px;
   position: fixed;
-  z-index: 110;
+  z-index: 99;
   color: white;
   text-align: center; }
 
@@ -6435,7 +6435,7 @@ div[class^="collection-bg"] {
   border-radius: 40px;
   height: 50px;
   width: 50px;
-  z-index: 99; }
+  z-index: 95; }
   .ting-search-carousel .slick-prev:before,
   .ting-search-carousel .slick-next:before,
   .ting-carousel .rs-carousel-action:before {
@@ -6831,7 +6831,8 @@ div[class^="collection-bg"] {
 .view-public-lists .field-group-div.group-overlay,
 .pane-serendipity-ting-object .field-group-div.group-overlay,
 .pane-serendipity-ting-object-related .field-group-div.group-overlay {
-  padding-top: 5px; }
+  padding-top: 5px;
+  z-index: 90; }
 
 @media only screen and (max-width: 768px) {
   .pane-popular .field-name-ding-serendipity-info,
