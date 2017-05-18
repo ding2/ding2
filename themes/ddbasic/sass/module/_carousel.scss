@@ -441,10 +441,6 @@ $carousel-tab-color:                       $white;
   }
 }
 
-.panel-pane.pane-serendipity-ting-object-related {
-  margin-bottom: 0;
-}
-
 .pane-popular .ting-carousel,
 .view-public-lists .ting-carousel {
   background-color: #ffffff;
@@ -458,12 +454,22 @@ $carousel-tab-color:                       $white;
   }
 }
 
-.pane-serendipity-ting-object {
-  padding-right: 10px ;
-  padding-left: 10px;
+.content-wrapper {
+  .content-inner {
+    .pane-content {
+      .pane-serendipity-ting-object {
+        margin-bottom: 10px;
 
-  .ting-object {
-    margin-bottom: 0 !important;
+        padding-right: 10px;
+        padding-left: 10px;
+
+        .rs-carousel-item {
+          .ting-object {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
   }
 }
 
