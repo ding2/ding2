@@ -6840,9 +6840,6 @@ div[class^="collection-bg"] {
   .pane-serendipity-ting-object-related .field-name-ding-serendipity-info {
     display: none; } }
 
-.panel-pane.pane-serendipity-ting-object-related {
-  margin-bottom: 0; }
-
 .pane-popular .ting-carousel,
 .view-public-lists .ting-carousel {
   background-color: #ffffff;
@@ -6852,11 +6849,12 @@ div[class^="collection-bg"] {
 .contentbox .field-name-ding-serendipity-info {
   font-size: 80%; }
 
-.pane-serendipity-ting-object {
+.content-wrapper .content-inner .pane-content .pane-serendipity-ting-object {
+  margin-bottom: 10px;
   padding-right: 10px;
   padding-left: 10px; }
-  .pane-serendipity-ting-object .ting-object {
-    margin-bottom: 0 !important; }
+  .content-wrapper .content-inner .pane-content .pane-serendipity-ting-object .rs-carousel-item .ting-object {
+    margin-bottom: 0; }
 
 .ting-object.view-mode-compact .field-name-ding-serendipity-info {
   margin-top: 5px;
