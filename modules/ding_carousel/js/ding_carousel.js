@@ -119,6 +119,10 @@
      * Change tab.
      */
     this.changeTab = function (target) {
+      // Ignore clicks on the active tab.
+      if (target == this.tabs.find('.active').data('target')) {
+        return;
+      }
       // De-activate current tab.
       this.tabs.find('.active').removeClass('active');
       this.select.find(':selected').removeAttr('selected');
