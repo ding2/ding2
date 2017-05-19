@@ -85,7 +85,7 @@
       // Switch tabs on click by it.
       $(carousel_tabs).find('li').on('click', function(event) {
         event.preventDefault();
-        update_carousel(false, $(this).attr('tab-index'));
+        update_carousel(false, parseInt($(this).attr('tab-index')));
       });
 
       $(carousel_select_tabs).on('change', function() {
