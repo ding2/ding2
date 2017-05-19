@@ -1,0 +1,128 @@
+<?php
+
+/**
+ * @file
+ * Shows materials and other content in carousels.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function ding_carousel_theme() {
+  return array(
+    'ding_carousel' => array(
+      'template' => 'templates/ding_carousel',
+      'file' => 'ding_carousel.theme.inc',
+      'render element' => 'carousel',
+    ),
+    'ding_tabbed_carousel' => array(
+      'template' => 'templates/ding_tabbed_carousel',
+      'file' => 'ding_carousel.theme.inc',
+      'render element' => 'tabbed_carousel',
+    ),
+    'ding_carousel_item' => array(
+      'template' => 'templates/ding_carousel_item',
+      'file' => 'ding_carousel.theme.inc',
+      'render element' => 'item',
+    ),
+  );
+}
+
+/**
+ * Implements hook_element_info().
+ */
+function ding_carousel_element_info() {
+  $path = drupal_get_path('module', 'ding_carousel');
+
+  $types['ding_carousel'] = array(
+    '#theme' => 'ding_carousel',
+    '#items' => array(),
+    '#title' => '',
+    '#offset' => -1,
+    '#path' => '',
+    '#placeholders' => 0,
+    '#placeholder' => array(
+      '#type' => '#markup',
+      '#markup' => 'Loading...',
+    ),
+    '#hidden' => FALSE,
+    '#attached' => array(
+      'js' => array($path . '/js/ding_carousel.js'),
+      'css' => array($path . '/css/ding_carousel.css'),
+    ),
+  );
+
+  $types['ding_tabbed_carousel'] = array(
+    '#theme' => 'ding_tabbed_carousel',
+    '#tabs' => array(),
+    '#transition' => 'fade',
+    '#attached' => array(
+      'js' => array($path . '/js/ding_carousel.js'),
+      'css' => array($path . '/css/ding_carousel.css'),
+    ),
+  );
+
+  $types['ding_carousel_item'] = array(
+    '#theme' => 'ding_carousel_item',
+    '#content' => '',
+    '#placeholder' => FALSE,
+  );
+
+  return $types;
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function ding_carousel_libraries_info() {
+  $libraries = array();
+
+  $libraries['slick'] = array(
+    'name' => 'Slick.js carousel library',
+    'path' => 'slick',
+    'vendor url' => 'https://github.com/kenwheeler/slick',
+    'download url' => 'https://github.com/kenwheeler/slick/archive/1.6.0.zip',
+    'version arguments' => array(
+      'file' => 'slick/slick.js',
+      'pattern' => '@Version:\s+([0-9a-zA-Z\.-]+)@',
+    ),
+    'files' => array(
+      'js' => array('slick.min.js'),
+      'css' => array('slick.css'),
+    ),
+    'variants' => array(
+      'non-minified' => array(
+        'files' => array(
+          'js' => array('slick.js'),
+          'css' => array('slick.css'),
+        ),
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Implements hook_ding_carousel_transitions().
+ */
+function ding_carousel_ding_carousel_transitions() {
+  return array(
+    'none' => array(
+      'name' => t('No transition'),
+    ),
+    'fade' => array(
+      'name' => t('Fade out-in'),
+    ),
+    'crossFade' => array(
+      'name' => t('Cross fade (beta)'),
+    ),
+  );
+}
+
+/**
+ * Get defined carousel JS transitions.
+ */
+function ding_carousel_transitions() {
+  return module_invoke_all('ding_carousel_transitions');
+}

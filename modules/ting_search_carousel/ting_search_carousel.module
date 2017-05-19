@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ting search carousel module main file.
@@ -58,40 +59,6 @@ function ting_search_carousel_menu() {
 }
 
 /**
- * Implements hook_libraries_info().
- *
- * @todo Should be defined in another module, to facilitate re-use.
- */
-function ting_search_carousel_libraries_info() {
-  $libraries = array();
-
-  $libraries['slick'] = array(
-    'name' => 'Slick.js carousel library',
-    'path' => 'slick',
-    'vendor url' => 'https://github.com/kenwheeler/slick',
-    'download url' => 'https://github.com/kenwheeler/slick/archive/1.6.0.zip',
-    'version arguments' => array(
-      'file' => 'slick/slick.js',
-      'pattern' => '@Version:\s+([0-9a-zA-Z\.-]+)@',
-    ),
-    'files' => array(
-      'js' => array('slick.min.js'),
-      'css' => array('slick.css'),
-    ),
-    'variants' => array(
-      'non-minified' => array(
-        'files' => array(
-          'js' => array('slick.js'),
-          'css' => array('slick.css'),
-        ),
-      ),
-    ),
-  );
-
-  return $libraries;
-}
-
-/**
  * Implements hook_permission().
  */
 function ting_search_carousel_permission() {
@@ -108,24 +75,33 @@ function ting_search_carousel_permission() {
  */
 function ting_search_carousel_theme($existing, $type, $theme, $path) {
   return array(
-    'ting_search_carousel' => array(
-      'variables' => array(
-        'tabs' => NULL,
-        'transition' => NULL,
-        'show_desciption' => NULL,
-      ),
-      'template' => 'templates/ting_search_carousel',
-      'file' => 'ting_search_carousel.theme.inc',
-    ),
-    'ting_search_carousel_collection' => array(
-      'variables' => array('collection' => NULL),
-      'file' => 'ting_search_carousel.theme.inc',
-      'template' => 'templates/ting_search_carousel_collection',
-    ),
     'ting_search_carousel_admin_form' => array(
       'render element' => 'form',
     ),
+    'ting_search_carousel_cover' => array(
+      'render element' => 'cover',
+      'file' => 'ting_search_carousel.theme.inc',
+      'template' => 'templates/ting_search_carousel_cover',
+    ),
   );
+}
+
+/**
+ * Implements hook_element_info().
+ */
+function ting_search_carousel_element_info() {
+  $path = drupal_get_path('module', 'ting_search_carousel');
+
+  $types['ting_search_carousel_cover'] = array(
+    '#theme' => 'ting_search_carousel_cover',
+    '#cover' => NULL,
+    '#attached' => array(
+      'css' => array($path . '/css/ting_search_carousel.css'),
+    ),
+  );
+
+  return $types;
+
 }
 
 /**
@@ -167,30 +143,6 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implements hook_ting_search_carousel_transitions().
- */
-function ting_search_carousel_ting_search_carousel_transitions() {
-  return array(
-    'none' => array(
-      'name' => t('No transition'),
-    ),
-    'fade' => array(
-      'name' => t('Fade out-in'),
-    ),
-    'crossFade' => array(
-      'name' => t('Cross fade (beta)'),
-    ),
-  );
-}
-
-/**
- * Get defined carousel JS transitions.
- */
-function ting_search_carousel_transitions() {
-  return module_invoke_all('ting_search_carousel_transitions');
-}
-
-/**
  * Get front page covers.
  *
  * @param int $index
@@ -203,7 +155,7 @@ function ting_search_carousel_transitions() {
  *   Whether to only consult the already cached data.
  *
  * @return array
- *   Array with the keys 'collections', and array of covers, and 'next_offset',
+ *   Array with the keys 'collections', an array of covers, and 'next_offset',
  *   which is the next offset to use or -1.
  */
 function _ting_search_carousel_get_frontpage_covers($index, $start, $count, $query_only = FALSE) {
@@ -233,7 +185,7 @@ function _ting_search_carousel_get_frontpage_covers($index, $start, $count, $que
  *   Whether to only consult the already cached data.
  *
  * @return array
- *   Array with the keys 'collections', and array of covers, and 'next_offset',
+ *   Array with the keys 'collections', an array of covers, and 'next_offset',
  *   which is the next offset to use or -1.
  */
 function ting_search_carousel_get_covers($query, $start, $count, $query_only = FALSE) {
@@ -420,8 +372,6 @@ function ting_search_carousel_collection_placeholder() {
   $item->title = '';
   $item->creator = '';
   $item->path = TING_SEARCH_CAROUSEL_PLACEHOLDER_IMAGE;
-  // Legacy.
-  $item->image = image_style_url('ting_search_carousel', $item->path);
   $item->placeholder = TRUE;
   return $item;
 }

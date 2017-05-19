@@ -2,104 +2,15 @@
    ting search carousel styling
    ========================================================================== */
 
-/* Go away on really small screens. */
-@media (max-width: 300px) {
-  .ting-search-carousel,
-  .carousel-tabs {
-    display: none;
-  }
-}
-
-
-.ting-search-carousel .additional-tab {
-  /* Hide all but the first tab. */
-  display: none;
-}
-
-/* Pagination and previous and next buttons
-   ========================================================================== */
-.ting-search-carousel .slick-arrow {
-  color: transparent;
-  border: none;
-  outline: none;
-  background: transparent;
-  background-image: url('../images/arrows.png');
-  height: 55px;
-  overflow: hidden;
-  margin-top: -27px;
-  position: absolute;
-  direction: ltr;
-  text-indent: -1000px;
-  top: 50%;
-  width: 55px;
-  z-index: 1;
-}
-
-.ting-search-carousel .slick-prev {
-  left: 20px;
-}
-
-.ting-search-carousel .slick-next {
-  background-position: right 0;
-  right: 20px;
-}
-
-/* Carousel content, mask, title etc.
-   ========================================================================== */
-.ting-search-carousel.no-description .description {
-  display: none;
-}
-
-.carousel-tab {
-  /* Hide the overflow of the extra wide ul below. */
-  overflow: hidden;
-}
-
-.carousel-tab ul {
-  display: inline-block;
-  vertical-align: top;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  /* Set the width to ensure (within reason) that all covers are rendered on one
-   * line, let the parent clip. It is restored to 100% by the JS before
-   * activating the carousel. */
-  width: 3000px;
-}
-
-.carousel-tab li {
-  float: left;
-  width: 200px;
-  text-align: center;
-  overflow: hidden;
-}
-
 /* Image loading placeholder. */
-.carousel-tab .carousel-item-image {
+.search-carousel-cover-image {
   background-image: url(../images/placeholder.png);
   background-size: cover;
   background-position: center;
-}
-
-.carousel-item-image {
   display: block;
 }
 
-.carousel-item-image img {
+.search-carousel-cover-image img {
   display: block;
   width: 100%;
-}
-
-/* Carousel tabs
-   ========================================================================== */
-.carousel-tabs ul {
-  margin: 0;
-  position: relative;
-  text-align: center;
-}
-
-.carousel-tabs ul li {
-  display: table-cell;
-  vertical-align: top;
-  text-align: center;
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Admin related backend.
@@ -38,7 +39,7 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
   );
 
   $transitions = array();
-  foreach (ting_search_carousel_transitions() as $name => $transition) {
+  foreach (ding_carousel_transitions() as $name => $transition) {
     $transitions[$name] = $transition['name'];
   }
 
