@@ -17,7 +17,7 @@ $carousel-tab-color:                       $white;
 /* Wrapper
    ========================================================================== */
 
-.ting-search-carousel {
+.ding-tabbed-carousel {
   background-color: $carousel-background-color;
   min-height: 225px;
   padding-top: 20px;
@@ -35,7 +35,7 @@ $carousel-tab-color:                       $white;
   }
 }
 
-.carousel-tabs {
+.ding-carousel {
   background-color: $carousel-background-color;
 
   @include small-medium() {
@@ -47,19 +47,19 @@ $carousel-tab-color:                       $white;
 /* Previous and next buttons
    ========================================================================== */
 
-.ting-search-carousel .slick-arrow {
+.ding-carousel .slick-arrow {
   @include opacity(1);
 }
 
-.ting-search-carousel .slick-arrow.slick-disabled {
+.ding-carousel .slick-arrow.slick-disabled {
   @include opacity(.25);
 }
 
-.ting-search-carousel .slick-prev {
+.ding-carousel .slick-prev {
   left: 20px;
 }
 
-.ting-search-carousel .slick-next {
+.ding-carousel .slick-next {
   right: 20px;
 }
 
@@ -68,24 +68,7 @@ $carousel-tab-color:                       $white;
 /* Carousel content, mask, title etc.
    ========================================================================== */
 
-.ting-search-carousel .description {
-  @include box-sizing(border-box);
-  @include font-bold();
-
-  color: transparentize($black, .3);
-  font-size: $font-size-larger;
-  margin-bottom: 20px;
-
-  @include small() {
-    font-size: $font-size-largest;
-  }
-
-  @include small-medium() {
-    color: $white;
-  }
-}
-
-.ting-search-carousel .carousel-tab {
+.ding-carousel {
   ul {
     overflow: hidden;
 
@@ -105,13 +88,13 @@ $carousel-tab-color:                       $white;
     }
 
     &:hover {
-      .carousel-item-title {
+      .search-carousel-cover-title {
         background-color: $black;
         text-decoration: none;
       }
     }
 
-    .carousel-item-title {
+    .search-carousel-cover-title {
       width: 100%;
 
       &:hover {
@@ -119,7 +102,7 @@ $carousel-tab-color:                       $white;
       }
     }
 
-    .carousel-item-title {
+    .search-carousel-cover-title {
       @include box-sizing(border-box);
 
       background-color: transparentize($black, .25);
@@ -131,6 +114,7 @@ $carousel-tab-color:                       $white;
       padding-bottom: 10px;
       padding-left: 15px;
       position: absolute;
+      width: 100%;
     }
   }
 
@@ -138,14 +122,14 @@ $carousel-tab-color:                       $white;
     li {
       width: $carousel-image-width;
 
-      .carousel-item-title {
+      .search-carousel-cover-title {
         display: none;
       }
     }
   }
 }
 
-/* Carousel tabs
+/* Carousel
    ========================================================================== */
 
 .carousel-tabs {
@@ -209,41 +193,6 @@ $carousel-tab-color:                       $white;
     select {
       display: block;
       width: 100%;
-
-      .rs-carousel-item {
-        @include border-radius(12px);
-
-        display: block;
-        background-color: $white;
-        color: $black;
-        padding-left: 20px;
-        text-align: left;
-
-        &:before {
-          @include border-radius(12px);
-
-          background-color: $black;
-          color: $white;
-          cursor: pointer;
-          display: block;
-          font-family: $base-icon-library-font;
-          padding-top: 15px;
-          padding-right: 20px;
-          padding-bottom: 15px;
-          padding-left: 20px;
-          position: absolute;
-          right: 0;
-          z-index: 99;
-        }
-
-        &.js-tab-hidden {
-          display: none;
-        }
-
-        &.js-tab-visible {
-          display: block;
-        }
-      }
     }
   }
 }

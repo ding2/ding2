@@ -5465,7 +5465,7 @@ input#edit-search-block-form--2.spinner {
    ========================================================================== */
 /* Wrapper
    ========================================================================== */
-.ting-search-carousel {
+.ding-tabbed-carousel {
   background-color: #fff;
   min-height: 225px;
   padding-top: 20px;
@@ -5473,7 +5473,7 @@ input#edit-search-block-form--2.spinner {
   padding-bottom: 30px;
   padding-left: 10px; }
   @media only screen and (max-width: 768px) {
-    .ting-search-carousel {
+    .ding-tabbed-carousel {
       background-color: #a32e10;
       min-height: 150px;
       padding-top: 20px;
@@ -5481,67 +5481,51 @@ input#edit-search-block-form--2.spinner {
       padding-bottom: 20px;
       padding-left: 10px; } }
 
-.carousel-tabs {
+.ding-carousel {
   background-color: #fff; }
   @media only screen and (max-width: 768px) {
-    .carousel-tabs {
+    .ding-carousel {
       background-color: #a32e10; } }
 
 /* Previous and next buttons
    ========================================================================== */
-.ting-search-carousel .slick-arrow {
+.ding-carousel .slick-arrow {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1; }
 
-.ting-search-carousel .slick-arrow.slick-disabled {
+.ding-carousel .slick-arrow.slick-disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25; }
 
-.ting-search-carousel .slick-prev {
+.ding-carousel .slick-prev {
   left: 20px; }
 
-.ting-search-carousel .slick-next {
+.ding-carousel .slick-next {
   right: 20px; }
 
 /* Carousel content, mask, title etc.
    ========================================================================== */
-.ting-search-carousel .description {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-family: "SourceSansProSemibold";
-  font-weight: normal;
-  color: rgba(0, 0, 0, 0.7);
-  font-size: 160%;
-  margin-bottom: 20px; }
-  @media only screen and (max-width: 480px) {
-    .ting-search-carousel .description {
-      font-size: 180%; } }
-  @media only screen and (max-width: 768px) {
-    .ting-search-carousel .description {
-      color: #fff; } }
-
-.ting-search-carousel .carousel-tab ul {
+.ding-carousel ul {
   overflow: hidden; }
-  .ting-search-carousel .carousel-tab ul li {
+  .ding-carousel ul li {
     list-style: none;
     width: 200px; }
 
-.ting-search-carousel .carousel-tab li {
+.ding-carousel li {
   margin-left: 10px;
   margin-right: 10px;
   position: relative; }
-  .ting-search-carousel .carousel-tab li img {
+  .ding-carousel li img {
     min-width: 100%;
     padding: 0; }
-  .ting-search-carousel .carousel-tab li:hover .carousel-item-title {
+  .ding-carousel li:hover .search-carousel-cover-title {
     background-color: #000;
     text-decoration: none; }
-  .ting-search-carousel .carousel-tab li .carousel-item-title {
+  .ding-carousel li .search-carousel-cover-title {
     width: 100%; }
-    .ting-search-carousel .carousel-tab li .carousel-item-title:hover {
+    .ding-carousel li .search-carousel-cover-title:hover {
       text-decoration: none; }
-  .ting-search-carousel .carousel-tab li .carousel-item-title {
+  .ding-carousel li .search-carousel-cover-title {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -5553,15 +5537,16 @@ input#edit-search-block-form--2.spinner {
     padding-right: 15px;
     padding-bottom: 10px;
     padding-left: 15px;
-    position: absolute; }
+    position: absolute;
+    width: 100%; }
 
 @media only screen and (max-width: 480px) {
-  .ting-search-carousel .carousel-tab li {
+  .ding-carousel li {
     width: 200px; }
-    .ting-search-carousel .carousel-tab li .carousel-item-title {
+    .ding-carousel li .search-carousel-cover-title {
       display: none; } }
 
-/* Carousel tabs
+/* Carousel
    ========================================================================== */
 .carousel-tabs ul {
   margin: 0;
@@ -5612,36 +5597,7 @@ input#edit-search-block-form--2.spinner {
       display: none; }
     .carousel-tabs select {
       display: block;
-      width: 100%; }
-      .carousel-tabs select .rs-carousel-item {
-        -webkit-border-radius: 12px;
-        -moz-border-radius: 12px;
-        border-radius: 12px;
-        display: block;
-        background-color: #fff;
-        color: #000;
-        padding-left: 20px;
-        text-align: left; }
-        .carousel-tabs select .rs-carousel-item:before {
-          -webkit-border-radius: 12px;
-          -moz-border-radius: 12px;
-          border-radius: 12px;
-          background-color: #000;
-          color: #fff;
-          cursor: pointer;
-          display: block;
-          font-family: "FontAwesome";
-          padding-top: 15px;
-          padding-right: 20px;
-          padding-bottom: 15px;
-          padding-left: 20px;
-          position: absolute;
-          right: 0;
-          z-index: 99; }
-        .carousel-tabs select .rs-carousel-item.js-tab-hidden {
-          display: none; }
-        .carousel-tabs select .rs-carousel-item.js-tab-visible {
-          display: block; } }
+      width: 100%; } }
 
 /**
  * News

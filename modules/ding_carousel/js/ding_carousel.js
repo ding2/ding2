@@ -12,37 +12,37 @@
 (function ($) {
   "use strict";
 
-  Drupal.tingSearchCarouselTransitions = Drupal.tingSearchCarouselTransitions || {};
+  Drupal.dingCarouselTransitions = Drupal.dingCarouselTransitions || {};
 
   /*
    * Transition definitions.
    */
 
   // Shorthand for the following code.
-  var transitions = Drupal.tingSearchCarouselTransitions;
+  var transitions = Drupal.dingCarouselTransitions;
 
-  transitions.none = function() {
+  transitions.none = function () {
   };
 
   transitions.none.prototype.switchTo = function (to, element) {
-    element.find('.carousel-tab:visible').hide();
+    element.find('.ding-carousel:visible').hide();
     to.show();
   };
 
-  transitions.fade = function() {
+  transitions.fade = function () {
   };
 
   transitions.fade.prototype.switchTo = function (to, element) {
     // Freeze height so it wont collapse in the instant that both tabs
     // are invisible. Avoids odd scrolling.
     element.height(element.height());
-    element.find('.carousel-tab:visible').fadeOut(200, function() {
+    element.find('.ding-carousel:visible').fadeOut(200, function () {
       to.fadeIn(200);
       element.height('auto');
     });
   };
 
-  transitions.crossFade = function() {
+  transitions.crossFade = function () {
   };
 
   transitions.crossFade.prototype.init = function (element) {
@@ -50,10 +50,10 @@
     window.setTimeout(function () {
       // Add a wrapper and set position/width height, so we can
       // cross-fade between carousels.
-      element.find('.carousel-tab').wrapAll($('<div class=fade-container>'));
+      element.find('.ding-carousel').wrapAll($('<div class=fade-container>'));
       var container = element.find('.fade-container');
       container.css('position', 'relative').height(container.height());
-      container.find('.carousel-tab').css({
+      container.find('.ding-carousel').css({
         'position': 'absolute',
         'width': '100%',
         'box-sizing': 'border-box'
@@ -62,7 +62,7 @@
   };
 
   transitions.crossFade.prototype.switchTo = function (to, element) {
-    element.find('.carousel-tab').fadeOut(200);
+    element.find('.ding-carousel').fadeOut(200);
     to.fadeIn(200);
   };
 
@@ -73,9 +73,9 @@
   /**
    * Object handling tabs.
    */
-  var Tabset = function(tingCarousel, transition, beforeChange) {
+  var Tabset = function (dingCarousel, transition, beforeChange) {
     var self = this;
-    this.tingCarousel = tingCarousel;
+    this.dingCarousel = dingCarousel;
     this.beforeChange = beforeChange;
     this.transition = transition;
     this.element = $('<div>').addClass('carousel-tabs');
@@ -87,7 +87,7 @@
 
     // Initialize transition.
     if (typeof this.transition.init === 'function') {
-        this.transition.init(this.tingCarousel);
+      this.transition.init(this.dingCarousel);
     }
 
     // Add event handler for changing tabs when clicked.
@@ -98,14 +98,14 @@
     });
 
     // Add event handler for the select for mobile users.
-    this.select.on('change', function() {
-        self.changeTab($(this).find(':selected').data('target'));
+    this.select.on('change', function () {
+      self.changeTab($(this).find(':selected').data('target'));
     });
 
     /**
      * Add a tab.
      */
-    this.addTab = function(title, element) {
+    this.addTab = function (title, element) {
       // Without the href, the styling suffers.
       var tab = $('<li>').append($('<a>').text(title).attr('href', '#')).data('target', element);
       element.data('tabset-tab', tab);
@@ -118,15 +118,15 @@
     /**
      * Change tab.
      */
-    this.changeTab = function(target) {
+    this.changeTab = function (target) {
       // De-activate current tab.
       this.tabs.find('.active').removeClass('active');
       this.select.find(':selected').removeAttr('selected');
 
       if (typeof this.beforeChange === 'function') {
-        this.beforeChange(target, this.tingCarousel);
+        this.beforeChange(target, this.dingCarousel);
       }
-      this.transition.switchTo(target, this.tingCarousel);
+      this.transition.switchTo(target, this.dingCarousel);
 
       // Activate the current tab.
       $(target).data('tabset-tab').addClass('active');
@@ -164,7 +164,7 @@
     /**
      * Insert the tabs into the page.
      */
-    this.insert = function(element) {
+    this.insert = function (element) {
       $(element).after(this.element);
 
       // Make the tabs equal size.
@@ -190,7 +190,7 @@
    *
    * Runs the queue if not already running.
    */
-  var update = function() {
+  var update = function () {
     if (running || queue.length < 1) {
       return;
     }
@@ -201,9 +201,9 @@
       type: 'get',
       url : Drupal.settings.basePath + item.tab.data('path') + '/' + item.tab.data('offset'),
       dataType : 'json',
-      success : function(data) {
+      success : function (data) {
         // Remove placeholders.
-        item.target.find('.carousel-item.placeholder').remove();
+        item.target.find('.ding-carousel-item.placeholder').remove();
         item.target.slick('slickAdd', data.content);
         item.tab.data('offset', data.offset);
         item.tab.data('updating', false);
@@ -217,14 +217,14 @@
   /**
    * Event handler for progressively loading more covers.
    */
-  var update_handler = function(e, slick) {
+  var update_handler = function (e, slick) {
     var tab = e.data;
     if (!tab.data('updating')) {
       // If its the first batch or we're near the end.
       if (tab.data('offset') === 0 ||
-           (tab.data('offset') > -1 &&
-            (slick.slideCount - slick.currentSlide) <
-            (slick.options.slidesToShow * 2))) {
+          (tab.data('offset') > -1 &&
+           (slick.slideCount - slick.currentSlide) <
+           (slick.options.slidesToShow * 2))) {
         // Disable updates while updating.
         tab.data('updating', true);
         // Add to queue.
@@ -238,18 +238,18 @@
   /**
    * Start the carousel when the document is ready.
    */
-  Drupal.behaviors.ting_search_carousel = {
+  Drupal.behaviors.ding_carousel = {
     attach: function (context) {
 
-      $('.ting-search-carousel', context).once('ting-search-carousel', function() {
+      $('.ding-tabbed-carousel', context).once('ding-tabbed-carousel', function () {
 
         var transition;
         if (typeof $(this).data('transition') === 'string' &&
-            typeof Drupal.tingSearchCarouselTransitions[$(this).data('transition')] === 'function') {
-          transition = new Drupal.tingSearchCarouselTransitions[$(this).data('transition')]();
+            typeof Drupal.dingCarouselTransitions[$(this).data('transition')] === 'function') {
+          transition = new Drupal.dingCarouselTransitions[$(this).data('transition')]();
         }
         else {
-          transition = new Drupal.tingSearchCarouselTransitions.fade();
+          transition = new Drupal.dingCarouselTransitions.fade();
         }
 
         var settings = {};
@@ -257,7 +257,7 @@
           settings = $(this).data('settings');
         }
 
-        $('.carousel-tab', this).each(function () {
+        $('.ding-carousel', this).each(function () {
           var tab = $(this);
           // Reset ul to 100% width before we start Slick. See the CSS.
           tab.find('ul').css('width', '100%');
@@ -270,7 +270,7 @@
 
         // Add tabs.
         var tabs = new Tabset($(this), transition, function (tab) {
-          if (tab.hasClass('additional-tab')) {
+          if (tab.hasClass('hidden')) {
             // Silck cannot find the proper width when the parent is hidden, so
             // show the tab, reinit slick and immediately hide it again, before
             // running the real transition.
@@ -279,7 +279,7 @@
             tab.hide();
           }
         });
-        $('.carousel-tab', this).each(function () {
+        $('.ding-carousel', this).each(function () {
           tabs.addTab($(this).data('title'), $(this));
         });
         tabs.insert($(this));

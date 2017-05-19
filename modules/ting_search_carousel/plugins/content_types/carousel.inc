@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Provides search results as a Panels content type.
@@ -18,25 +19,38 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
   $block = new stdClass();
 
   if ($searches = variable_get('ting_carousel_search_queries', array())) {
-    $tabs = array();
+    $carousels = array();
     foreach ($searches as $index => $search) {
       $chunk = _ting_search_carousel_get_frontpage_covers($index, 0, TING_SEARCH_CAROUSEL_CHUNK_SIZE, TRUE);
-      $tabs[$index] = array(
-        'title' => $search['title'],
-        'subtitle' => $search['subtitle'],
-        'path' => 'ting_search_carousel/results/ajax/' . $index,
-        'content' => $chunk['collections'],
-        'offset' => $chunk['next_offset'],
-        'placeholders' => TING_SEARCH_CAROUSEL_CHUNK_SIZE,
+
+      $covers = array();
+      foreach ($chunk['collections'] as $collection) {
+        $covers[] = array(
+          '#type' => 'ting_search_carousel_cover',
+          '#cover' => $collection,
+        );
+      }
+
+      $carousels[] = array(
+        '#type' => 'ding_carousel',
+        '#title' => $search['title'],
+        '#path' => 'ting_search_carousel/results/ajax/' . $index,
+        '#items' => $covers,
+        '#offset' => $chunk['next_offset'],
+        '#placeholders' => TING_SEARCH_CAROUSEL_CHUNK_SIZE,
+        '#placeholder' => array(
+          '#type' => 'ting_search_carousel_cover',
+          '#cover' => ting_search_carousel_collection_placeholder(),
+        ),
+
       );
     }
 
-    $vars = array(
-      'tabs' => $tabs,
-      'transition' => variable_get('ting_search_carousel_transition', 'fade'),
-      'show_description' => variable_get('ting_search_carousel_description_toggle', FALSE),
+    $block->content = array(
+      '#type' => 'ding_tabbed_carousel',
+      '#tabs' => $carousels,
+      '#transition' => variable_get('ting_search_carousel_transition', 'fade'),
     );
-    $block->content = theme('ting_search_carousel', $vars);
   }
 
   return $block;
