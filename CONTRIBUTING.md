@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing. It is greatly appreciated.
 
-# Pull requests
+# Pull requests!
 
 Code contributions to this project follow this process and set of requirements:
 
