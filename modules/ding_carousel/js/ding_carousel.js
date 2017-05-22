@@ -223,12 +223,13 @@
    */
   var update_handler = function (e, slick) {
     var tab = e.data;
+
     if (!tab.data('updating')) {
       // If its the first batch or we're near the end.
       if (tab.data('offset') === 0 ||
           (tab.data('offset') > -1 &&
            (slick.slideCount - slick.currentSlide) <
-           (slick.options.slidesToShow * 2))) {
+           (slick.options.slidesToScroll * 2))) {
         // Disable updates while updating.
         tab.data('updating', true);
         // Add to queue.
@@ -240,11 +241,45 @@
   };
 
   /**
+   * Fudge slidesToScroll for slick.
+   *
+   * In variableWith mode, we don't know how many slides are shown, so
+   * we can't set slidesToScroll to any sane value apart from 1, which
+   * isn't cool. So we calculate it here.
+   *
+   * Obviously this can more or less fail if the first slide has an
+   * odd width, but we expect all slides to be pretty similar.
+   */
+  var update_slides_to_scroll = function (e, slick) {
+    var slidesToScroll = Math.floor(slick.$slider.width() / slick.$slides.eq(0).outerWidth(true)) - 1;
+    slick.options.slidesToScroll = Math.max(slidesToScroll, 1);
+  };
+
+  /**
    * Start the carousel when the document is ready.
    */
   Drupal.behaviors.ding_carousel = {
     attach: function (context) {
+      // Start all carousels, tabbed or standalone.
+      $('.ding-carousel', context).each(function () {
+        var carousel = $(this);
 
+        var settings = {};
+        if (typeof $(this).data('settings') === 'object') {
+          settings = $(this).data('settings');
+        }
+
+        // Reset ul to 100% width before we start Slick. See the CSS.
+        carousel.find('ul').css('width', '100%');
+        // Init carousels. In order to react to the init event, the
+        // event handler needs to be defined before triggering Slick
+        // (obviously in hindsight).
+        $('.carousel', this).on('init reInit afterChange', carousel, update_handler)
+          .on('setPosition', carousel, update_slides_to_scroll)
+          .slick(settings);
+      });
+
+      // Initialize tab behavior on tabbed carousels.
       $('.ding-tabbed-carousel', context).once('ding-tabbed-carousel', function () {
 
         var transition;
@@ -255,22 +290,6 @@
         else {
           transition = new Drupal.dingCarouselTransitions.fade();
         }
-
-        var settings = {};
-        if (typeof $(this).data('settings') === 'object') {
-          settings = $(this).data('settings');
-        }
-
-        $('.ding-carousel', this).each(function () {
-          var tab = $(this);
-          // Reset ul to 100% width before we start Slick. See the CSS.
-          tab.find('ul').css('width', '100%');
-          // Init carousels. In order to react to the init event, the
-          // event handler needs to be defined before triggering Slick
-          // (obviously in hindsight).
-          $('.carousel', this).on('init reInit afterChange', tab, update_handler)
-            .slick(settings);
-        });
 
         // Add tabs.
         var tabs = new Tabset($(this), transition, function (tab) {
@@ -283,9 +302,11 @@
             tab.hide();
           }
         });
+
         $('.ding-carousel', this).each(function () {
           tabs.addTab($(this).data('title'), $(this));
         });
+
         tabs.insert($(this));
       });
     }
