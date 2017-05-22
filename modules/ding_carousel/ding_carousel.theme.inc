@@ -32,6 +32,14 @@ function template_preprocess_ding_carousel(&$vars) {
     }
   }
 
+  // Default Slick settings.
+  $vars['slick_settings'] = array(
+    'arrows' => TRUE,
+    'infinite' => FALSE,
+    // Use variableWidth to allow the theme to control cover sizes.
+    'variableWidth' => TRUE,
+  );
+
   if ($carousel['#hidden']) {
     $vars['classes_array'][] = 'hidden';
   }
@@ -45,7 +53,6 @@ function template_preprocess_ding_carousel(&$vars) {
  * Preprocess variables for ding_tabbed_carousel.tpl.php.
  */
 function template_preprocess_ding_tabbed_carousel(&$vars) {
-  libraries_load('slick', 'non-minified');
   $tabbed_carousel = $vars['tabbed_carousel'];
 
   $vars['tabs'] = array();
@@ -59,36 +66,6 @@ function template_preprocess_ding_tabbed_carousel(&$vars) {
   }
 
   $vars['transition'] = $tabbed_carousel['#transition'];
-
-  // Default Slick settings.
-  $vars['slick_settings'] = array(
-    'arrows' => TRUE,
-    'infinite' => FALSE,
-    'slidesToShow' => 5,
-    'slidesToScroll' => 4,
-    'responsive' => array(
-      array(
-        'breakpoint' => 1024,
-        'settings' => array(
-          'slidesToShow' => 4,
-          'slidesToScroll' => 4,
-        ),
-      ),
-      array(
-        'breakpoint' => 600,
-        'settings' => array(
-          'slidesToShow' => 2,
-          'slidesToScroll' => 2,
-          'arrows' => FALSE,
-        ),
-      ),
-      array(
-        'breakpoint' => 300,
-        // No carousel.
-        'settings' => "unslick",
-      ),
-    ),
-  );
 }
 
 /**

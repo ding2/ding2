@@ -49,6 +49,12 @@ $carousel-tab-color:                       $white;
 
 .ding-carousel .slick-arrow {
   @include opacity(1);
+
+  @include small-medium() {
+    // !important to override the same style that Slick sets on the element
+    // itself.
+    display: none !important;
+  }
 }
 
 .ding-carousel .slick-arrow.slick-disabled {
@@ -120,7 +126,7 @@ $carousel-tab-color:                       $white;
 
   @include small() {
     li {
-      width: $carousel-image-width;
+      width: $carousel-image-width/2;
 
       .search-carousel-cover-title {
         display: none;

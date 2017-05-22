@@ -11,8 +11,6 @@
  */
 ?>
 <div class="<?php print $classes; ?>"
-  data-transition="<?php print $transition; ?>"
-  data-settings="<?php print htmlentities(json_encode($slick_settings)); ?>"
-  >
+  data-transition="<?php print $transition; ?>">
   <?php print render($tabs); ?>
 </div>

@@ -5492,6 +5492,9 @@ input#edit-search-block-form--2.spinner {
 .ding-carousel .slick-arrow {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1; }
+  @media only screen and (max-width: 768px) {
+    .ding-carousel .slick-arrow {
+      display: none !important; } }
 
 .ding-carousel .slick-arrow.slick-disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
@@ -5542,7 +5545,7 @@ input#edit-search-block-form--2.spinner {
 
 @media only screen and (max-width: 480px) {
   .ding-carousel li {
-    width: 200px; }
+    width: 100px; }
     .ding-carousel li .search-carousel-cover-title {
       display: none; } }
 
