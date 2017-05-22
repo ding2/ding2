@@ -45,7 +45,7 @@
     }
 
     .logo {
-      @include span-columns(3);
+      @include span-columns(4);
       height: 44px;
       margin-top: 10px;
 
@@ -119,7 +119,7 @@
     }
     .pane-user-name {
       float: right;
-      width: getColumn(4);
+      width: getColumn(3);
       margin-right: getGutter(12) / 2;
     }
   }

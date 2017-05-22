@@ -360,6 +360,9 @@
     @include font('display-small');
     text-align: right;
     color: $color-text;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
