@@ -29,7 +29,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
         $form['color']['palette']['secondary']['#description'] = t('Is used e.g. as background-color for the log-in button, read-more buttons');
 
         // Limit the choices on text colors.
-        $default_value = '#000000';
+        $default_value = '#262626';
         switch ($form['color']['palette']['text']['#default_value']) {
           case $form['color']['palette']['primary']['#default_value']:
             $default_value = 'primary';
@@ -48,7 +48,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
             // submit callback, in the ddbasic theme.
             'primary' => t('Primary'),
             'secondary' => t('Secondary'),
-            '#000000' => t('Black'),
+            '#262626' => t('Black'),
           ),
           '#size' => '1',
           '#default_value' => $default_value,
@@ -59,7 +59,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
           '#type' => 'select',
           '#options' => array(
             '#ffffff' => t('White'),
-            '#00000' => t('Black'),
+            '#262626' => t('Black'),
           ),
           '#size' => '1',
         ) + $form['color']['palette']['text_on_primary'];
@@ -69,7 +69,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
           '#type' => 'select',
           '#options' => array(
             '#ffffff' => t('White'),
-            '#00000' => t('Black'),
+            '#262626' => t('Black'),
           ),
           '#size' => '1',
         ) + $form['color']['palette']['text_on_secondary'];
