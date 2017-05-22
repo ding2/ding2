@@ -72,10 +72,10 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
     $result[] = ting_object_view($obj, 'teaser');
   }
 
-  $block->content = theme('ting_carousel', array(
-    'items' => $result,
-    'item_type' => 'items',
-  ));
+  $block->content = array(
+    '#type' => 'ding_carousel',
+    '#items' => $result,
+  );
 
   return $block;
 }

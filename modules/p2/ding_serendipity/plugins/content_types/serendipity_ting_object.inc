@@ -83,9 +83,8 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
     );
 
     $output['content'][] = array(
-      '#theme' => 'ting_carousel',
-      '#items' => $content,
-      '#item_type' => 'items',
+      '#type' => 'ding_carousel',
+      '#items' => $tmp,
     );
   }
 
