@@ -28,7 +28,7 @@ $info = array(
 
         'primary' => '#4d898e',
         'secondary' => '#f66d70',
-        'text' => '#262626',
+        'text' => '#262627',
         'text_on_primary' => '#fffff1',
         'text_on_secondary' => '#fffff2',
       ),
