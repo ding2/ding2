@@ -266,11 +266,11 @@ function ding_serendipity_ting_entity_ting_object_adhr_serendipity_add($context)
   catch (Exception $e) {
     watchdog_exception('ding_serendipity_ting_entity', $e);
   }
-  
+
   foreach ($results as &$item) {
     $item = array(
       'type' => 'ting_object',
-      'id' => $item['object_id'],
+      'id' => $item,
       'info' => array(
         'description' => t('Because other people who also liked !title liked this.', array('!title' => $obj->title)),
       ),
