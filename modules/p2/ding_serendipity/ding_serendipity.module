@@ -146,7 +146,11 @@ function ding_serendipity_ajax_callback() {
     $tmp[] = $item;
   }
 
-  $rendered_content = theme('ting_carousel', array('objects' => $tmp));
+  $carousel = array(
+    '#type' => 'ding_carousel',
+    '#items' => $tmp,
+  );
+  $rendered_content = drupal_render($carousel);
   $commands = array();
   $commands[] = ajax_command_html('.pane-serendipity-ting-object .pane-content', $rendered_content);
 

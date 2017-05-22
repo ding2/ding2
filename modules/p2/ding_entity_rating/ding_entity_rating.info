@@ -2,6 +2,7 @@ name = Ding entity rating
 description = Allow users to rate ting objects
 core = 7.x
 package = Ding!
+dependencies[] = ding_carousel
 dependencies[] = ding_entity
 dependencies[] = ding_entity_rating
 dependencies[] = ding_list
