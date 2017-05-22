@@ -75,7 +75,9 @@ function ding_page_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 7,
     ),
@@ -372,11 +374,11 @@ function ding_page_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
-        'module' => 'ting_reference',
+        'module' => 'ting_reference_advanced',
         'settings' => array(
           'view_mode' => 'teaser',
         ),
-        'type' => 'ting_reference_default',
+        'type' => 'ting_reference_advanced',
         'weight' => 5,
       ),
       'search_result' => array(

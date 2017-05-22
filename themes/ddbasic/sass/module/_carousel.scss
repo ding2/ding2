@@ -80,7 +80,7 @@ $carousel-tab-color:                       $white;
   border-radius: 40px;
   height: 50px;
   width: 50px;
-  z-index: 101;
+  z-index: 95;
   
   &:before {
     display: none;
@@ -106,6 +106,8 @@ $carousel-tab-color:                       $white;
   .slick-prev,
   .rs-carousel-action-prev {
     left: 40px;
+    position: absolute;
+    top: 100px;
 
     &:focus {
       outline: none;
@@ -115,6 +117,8 @@ $carousel-tab-color:                       $white;
   .slick-next,
   .rs-carousel-action-next {
     right: 40px;
+    position: absolute;
+    top: 100px;
 
     &:focus {
       outline: none;
@@ -146,15 +150,21 @@ $carousel-tab-color:                       $white;
 
 .slick-track .ting-search-carousel-item,
 .pane-serendipity-ting-object-related .ting-object,
+.pane-popular .ting-object,
+.view-public-lists .ting-object,
 .ting-carousel .rs-carousel-item {
-  margin-right: 20px;
+  margin-right: 15px;
   position: relative;
-  width: $carousel-image-width !important;
+  width: 130px !important;
   float: left;
 
   .ting-cover,
   .ting-object {
-    height: 196px;
+    min-height: 190px;
+
+     @include small-medium() {
+      min-height: 100%;
+    }
   }
 
   img {
@@ -175,6 +185,10 @@ $carousel-tab-color:                       $white;
   }
 
   .ting-object.view-mode-compact {
+    .search-result--heading-type {
+      display: none;
+    }
+
     @include small() {
       .search-result--heading-type {
         background-color: $black;
@@ -215,11 +229,26 @@ $carousel-tab-color:                       $white;
     text-align: center;
     width: 100%;
     z-index: 100;
+    overflow: hidden;
 
     h2 {
       font-size: 100%;
-      font-family: $font-regular;
       margin: 0 15px;
+      padding: 0;
+      font-family: $font-regular;
+      position: relative;
+      max-height: 90px;
+      min-height: 50px;
+
+      &:after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      right: -15px;
+      width: calc(100% + 30px);
+      height: calc(100% + 10px);
+      box-shadow: inset 0px -20px 27px -5px rgba(0,0,0,1);
+      }
 
       a {
         color: $white;
@@ -383,9 +412,69 @@ $carousel-tab-color:                       $white;
     }
   }
 
-  
-
   @include small-medium() {
     display: none;
   }
+}
+
+.pane-popular,
+.view-public-lists,
+.pane-serendipity-ting-object,
+.pane-serendipity-ting-object-related {
+  .work-cover-selector {
+    display: none;
+  }
+
+  .field-name-ting-author {
+    line-height: 18px;
+    max-height: 55px;
+  }
+
+  .field-group-div.group-overlay {
+    padding-top: 5px;
+    z-index: 90;
+  }
+
+  .field-name-ding-serendipity-info {
+    @include small-medium() {
+      display: none;
+    }
+  }
+}
+
+.pane-popular .ting-carousel,
+.view-public-lists .ting-carousel {
+  background-color: #ffffff;
+  padding: 20px 10px 20px 20px;
+}
+
+.contentbox {
+  .field-name-ting-author,
+  .field-name-ding-serendipity-info {
+    font-size: 80%;
+  }
+}
+
+.content-wrapper {
+  .content-inner {
+    .pane-content {
+      .pane-serendipity-ting-object {
+        margin-bottom: 10px;
+
+        padding-right: 10px;
+        padding-left: 10px;
+
+        .rs-carousel-item {
+          .ting-object {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ting-object.view-mode-compact .field-name-ding-serendipity-info {
+  margin-top: 5px;
+  margin-bottom: 0;
 }

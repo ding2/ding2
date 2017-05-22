@@ -191,6 +191,9 @@ function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
   }
 
   $items = field_get_items('ding_type', $list, 'field_list_objects');
+  if (!$items) {
+    return $results;
+  }
   $items = array_reverse($items);
   $items = entity_load('ding_type', array_slice($items, 0, 4));
 

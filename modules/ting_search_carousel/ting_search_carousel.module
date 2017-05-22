@@ -18,6 +18,7 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
         'searches' => NULL,
         'index' => NULL,
         'autoplay' => NULL,
+        'toggle_description' => NULL,
       ),
       'template' => 'templates/ting_search_carousel',
       'file' => 'ting_search_carousel.theme.inc',
@@ -177,6 +178,7 @@ function ting_search_carousel_content_type_render($subtype, $conf, $panel_args, 
       'searches' => $searches,
       'hash' => $conf['cache_id'],
       'autoplay' => $searches_configuration['ting_search_carousel_animate'],
+      'toggle_description' => $searches_configuration['ting_search_carousel_description_toggle'],
     ));
 
   $block = new stdClass();
