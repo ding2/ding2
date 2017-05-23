@@ -74,7 +74,17 @@ function ding_user_consent_callback($ajax, $id, $set) {
   ding_user_consent_set(array($id => $set), $user);
 
   if ($set == '1') {
-    $output = t('You said yes');
+    $link = variable_get('ding_user_consent_' . $id . '_description_link', '');
+    if (!empty($link)) {
+      $output .= l(t('You said yes. Read more about the user consent'), $link, array(
+        'attributes' => array(
+          'class' => array('transparent-button', 'positive'),
+        ),
+      ));
+    }
+    else {
+      $output = t('You said yes');
+    }
   }
   else {
     $output = t('You said no');
@@ -82,7 +92,7 @@ function ding_user_consent_callback($ajax, $id, $set) {
 
   if ($ajax) {
     $commands[] = ajax_command_replace('.ding-user-consent-set .choice', $output);
-    ajax_deliver($commands);
+    ajax_deliver(array('#type' => 'ajax', '#commands' => $commands));
   }
   else {
     return $output;
@@ -455,7 +465,7 @@ function ding_user_consent_get_description_link() {
 function ding_user_consent_ding_interaction_info() {
   global $user;
 
-  $active = user_is_logged_in()
+  $active = ding_user_is_provider_user($user)
     && !ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)
     && !ding_user_consent_previously_displayed($user);
 

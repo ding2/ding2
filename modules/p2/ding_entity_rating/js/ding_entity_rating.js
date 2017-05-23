@@ -18,14 +18,45 @@
      * Constructor.
      */
     _create: function() {
+      var self = this;
+
       this.element
         // Add a class for theming.
         .addClass('ding-rating')
         // Prevent double click to select text.
         .disableSelection();
       if(this.options.submitted === false) {
-        var _star = $('.star', this.element).hover(this.starMouseIn, this.starMouseOut);
-        _star.click(this.starClick);
+        $('.star', this.element)
+          .hover(this.starMouseIn, this.starMouseOut)
+          .bind('click', function (evt) {
+            evt.preventDefault();
+
+            var $this = $(this);
+            self.sendRating(
+              $this.parent().attr('data-ding-entity-rating-path'),
+              $this.index() + 1,
+              function () {
+                $this.addClass('submitted').parent().addClass('has-submission');
+                $this.prevAll('.fa').addClass('submitted');
+                $this.nextAll('.fa').removeClass('submitted has-sub');
+              }
+            );
+          });
+
+        $('.ding-entity-rating-clear', this.element).bind('click', function (evt) {
+          evt.preventDefault();
+
+          var $this = $(this);
+          self.sendRating(
+            $this.parent().attr('data-ding-entity-rating-path'),
+            0,
+            function () {
+              $this.parent()
+                .removeClass('has-submission')
+                .children('.fa').removeClass('submitted has-sub');
+            }
+          );
+        });
       }
       this._refresh();
     },
@@ -58,19 +89,8 @@
       $this.siblings().removeClass('active');
     },
 
-    /**
-     * On click.
-     *
-     * @param Event evt
-     *   Click event
-     */
-    starClick: function(evt) {
-      evt.preventDefault();
-
-      var $this = $(this),
-        _path = $this.parent().attr('data-ding-entity-rating-path'),
-        _index = $this.index() + 1,
-        url = Drupal.settings.basePath + 'ding_entity_rating/' + _path + '/' + _index,
+    sendRating: function (path, index, callback) {
+      var url = Drupal.settings.basePath + 'ding_entity_rating/' + path + '/' + index,
         $dummy = $('<a href="' + url + '"></a>'),
         drupal_ajax = new Drupal.ajax('fake', $dummy, {
           url: url,
@@ -79,20 +99,14 @@
         }),
         ofunc_complete = drupal_ajax.options.complete;
 
-
       drupal_ajax.options.complete = function (xmlhttprequest, status) {
-        $this.addClass('submitted');
-        $this.prevAll().addClass('submitted');
-        $this.nextAll().removeClass('submitted');
-
+        callback();
         return ofunc_complete(xmlhttprequest, status);
       };
 
       drupal_ajax.beforeSerialize(drupal_ajax.element, drupal_ajax.options);
 
       $.ajax(drupal_ajax.options);
-
-      return;
     },
 
     /**
@@ -148,7 +162,8 @@
                   .removeClass('submitted')
                   .prevAll().addClass('submitted')
                   .end().nextAll().removeClass('submitted')
-                  .end().parent().find('.ding-entity-rating-avg').remove();
+                  .end().parent().addClass('has-submission')
+                  .find('.ding-entity-rating-avg').remove();
               }
             }
           }

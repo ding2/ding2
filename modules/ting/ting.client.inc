@@ -151,7 +151,7 @@ function ting_get_objects($ids) {
     if ($object === FALSE) {
       // So if the agency match lets search theme as that's faster then fetching
       // them one by one.
-      if (preg_match('/^(890790-basis|' . $agency . '-katalog|' . $agency . ')/', $id)) {
+      if (preg_match('/^(870970-basis|' . $agency . '-katalog|' . $agency . ')/', $id)) {
         $query[] = 'rec.id=' . $id;
       }
       else {
@@ -226,13 +226,6 @@ function ting_get_objects($ids) {
  */
 function ting_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
   $request = ting_get_request_factory()->getSearchRequest();
-
-  $agency = variable_get('ting_agency', FALSE);
-  if ($agency && variable_get('ting_filter_by_local_holdings', 0)) {
-    // Limit the search to materials from the local library. From well 3.5 each
-    // library is no longer isolated.
-    $query = '(' . $query . ') and holdingsitem.agencyid="' . $agency . '"';
-  }
 
   $request->setQuery($query);
   if ($agency = variable_get('ting_agency', FALSE)) {
@@ -337,6 +330,36 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
   }
 
   return $search_result;
+}
+
+/**
+ * Get a ting object from the well in marcxchange format.
+ *
+ * @param string $object_id
+ *   Object identifier.
+ */
+function ting_get_object_marcxchange($object_id) {
+  $cache_key = 'marcxchange:' . $object_id;
+  $object = ting_cache_get($cache_key, TING_CACHE_TING_OBJECT, FALSE);
+
+  if ($object != TING_CACHE_EMPTY_ENTRY && !$object) {
+    ting_cache_set($cache_key, TING_CACHE_EMPTY_ENTRY, TING_CACHE_TING_OBJECT);
+
+    $request = ting_get_request_factory()->getMarcXchangeRequest();
+
+    $request->setAgency(variable_get('ting_agency'));
+    $request->setProfile(variable_get('ting_search_profile'));
+    $request->setIdentifier($object_id);
+
+    // Have to use ting_execute directly since marc objects might collide with
+    // normal dkabm objects in the cache.
+    $object = ting_execute($request);
+    if ($object) {
+      ting_cache_set($cache_key, $object, TING_CACHE_TING_OBJECT);
+    }
+  }
+
+  return $object;
 }
 
 /**

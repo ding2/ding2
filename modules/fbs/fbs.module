@@ -437,6 +437,33 @@ function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state)
   }
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Access options for the attributes in the holdings field.
+ */
+function fbs_form_ding_availability_admin_holdings_settings_alter(&$form, &$form_state, $form_id) {
+  $form['holdings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Holdings levels display'),
+    '#description' => t('Configure holdings display modes.'),
+  );
+  $form['holdings']['fbs_show_material_group'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show material group description'),
+    '#default_value' => variable_get('fbs_show_material_group', 0),
+  );
+  $form['holdings']['fbs_holdings_suffix_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Holdings suffix'),
+    '#description' => t('Select which type of suffix to use for holdings. Simple shows a mix between DK5 and inverted creator, while Shelf mark simulates the shelf mark from ALMA using marc-data from the well.'),
+    '#default_value' => variable_get('fbs_holdings_suffix_type', 'simple'),
+    '#options' => array(
+      'simple' => t('Simple'),
+      'shelf_mark' => t('Shelf mark'),
+    ),
+  );
+}
 
 /**
  * Pack patron info in an array.
@@ -574,4 +601,15 @@ function _fbs_wayf_login($name, $value = NULL) {
   }
 
   return NULL;
+}
+
+/**
+ * Implements hook_ting_pre_execute().
+ */
+function fbs_ting_pre_execute($request) {
+  // Since FBS is using data-well 3.5 we need to filter local holdings for
+  // search requests.
+  if ($request instanceof TingClientSearchRequest) {
+    $request->setFilterLocalHoldings(TRUE);
+  }
 }

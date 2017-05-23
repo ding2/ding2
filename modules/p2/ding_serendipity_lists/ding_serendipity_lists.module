@@ -25,6 +25,17 @@ function ding_serendipity_lists_form_ding_frontpage_admin_settings_alter(&$form,
     '#size' => 160,
     '#maxlength' => 300,
   );
+
+  $form['ding_serendipity_lists']['test_cql'] = array(
+    '#type' => 'button',
+    '#value' => t('Test CQL'),
+    '#ajax' => array(
+      'wrapper' => 'test-cql-container',
+      'callback' => 'ding_serendipity_test_cql_callback',
+    ),
+    '#suffix' => '<div id="test-cql-container"></div>',
+    '#cql_element' => 'ding_frontpage_serendipity_search_string',
+  );
 }
 
 /**

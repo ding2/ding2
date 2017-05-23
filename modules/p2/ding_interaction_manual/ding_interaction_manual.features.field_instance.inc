@@ -11,7 +11,50 @@
 function ding_interaction_manual_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_body'.
+  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_access'
+  $field_instances['ding_type-ding_interaction-field_ding_interaction_access'] = array(
+    'bundle' => 'ding_interaction',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'carousel' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 3,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'ding_type',
+    'field_name' => 'field_ding_interaction_access',
+    'label' => 'Ding Interaction Access',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_body'
   $field_instances['ding_type-ding_interaction-field_ding_interaction_body'] = array(
     'bundle' => 'ding_interaction',
     'default_value' => NULL,
@@ -54,7 +97,7 @@ function ding_interaction_manual_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 1,
+      'weight' => 0,
     ),
   );
 
@@ -115,7 +158,7 @@ function ding_interaction_manual_field_default_field_instances() {
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 2,
+      'weight' => 1,
     ),
   );
 
@@ -170,6 +213,7 @@ function ding_interaction_manual_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Ding Interaction Access');
   t('Ding Interaction Body');
   t('Ding Interaction Links');
   t('Enabled');

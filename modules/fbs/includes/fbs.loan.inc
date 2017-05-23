@@ -51,8 +51,8 @@ function fbs_loan_list($account) {
     }
 
     // Handle inter library loans.
-    if (!empty($loan->ilBibliographicRecord)) {
-      $loan_data['display_name'] = $loan->ilBibliographicRecord->title;
+    if (!empty($loan->loanDetails->ilBibliographicRecord)) {
+      $loan_data['display_name'] = $loan->loanDetails->ilBibliographicRecord->title;
     }
 
     $result[$id] = new DingProviderLoan($id, $loan_data);
@@ -86,10 +86,19 @@ function fbs_loan_renew($account, $loans) {
     // Using an array for renewalStatus is an odd choice, but we'll only
     // consider the loan renewed if 'renewed' is the only status.
     if ($loan->renewalStatus == array('renewed')) {
-      $result[$loan->loanDetails->loanId] = DingProviderLoan::STATUS_RENEWED;
+      $result[$loan->loanDetails->loanId] =
+        $loan->loanDetails->loanType == 'interLibraryLoan' ?
+        DingProviderLoan::STATUS_RENEWAL_REQUESTED :
+        DingProviderLoan::STATUS_RENEWED;
     }
     else {
       $result[$loan->loanDetails->loanId] = DingProviderLoan::STATUS_NOT_RENEWED;
+      if (in_array('deniedMaxRenewalsReached', $loan->renewalStatus)) {
+        $result[$loan->loanDetails->loanId] = DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED;
+      }
+      if (in_array('deniedReserved', $loan->renewalStatus)) {
+        $result[$loan->loanDetails->loanId] = DingProviderLoan::STATUS_RENEWAL_RESERVED;
+      }
     }
   }
 

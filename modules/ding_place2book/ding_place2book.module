@@ -1,10 +1,4 @@
 <?php
-/**
- * @file
- * Code for the Ding Place2book feature.
- */
-
-include_once 'ding_place2book.features.inc';
 require_once 'includes/ding_place2book.event_validate.inc';
 
 /**

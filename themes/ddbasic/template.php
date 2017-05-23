@@ -332,7 +332,7 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
       $vars['classes_array'][$id] = '';
     }
   }
-}
+  }
 
 /**
  * Implements theme_link().
@@ -527,7 +527,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
                 'count' => $overdues,
                 'type' => 'overdue',
               );
-            }
+      }
           }
 
           if (empty($notification)) {
@@ -571,7 +571,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       break;
   }
 
-  // For some unknown issue translation fails.
+   // For some unknown issue translation fails.
   $element['#title'] = t($element['#title']);
 
   $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
@@ -747,7 +747,7 @@ function ddbasic_process_page(&$vars) {
  *
  * Adds wrapper classes to the different groups on the ting object.
  */
-function ddbasic_preprocess_ting_object(&$vars) {
+function ddbasic_process_ting_object(&$vars) {
   //
   // Add tpl suggestions for node view modes.
   if (isset($vars['elements']['#view_mode'])) {
@@ -973,9 +973,9 @@ function ddbasic_preprocess_ting_object(&$vars) {
           unset($content['ting_relations']);
         }
 
-        // Move the reset over if any have been defined in the UI.
+        // Move the rest over if any have been defined in the UI.
         if (!empty($content)) {
-          $vars['content'] += $content;
+          // Move the remaining content one level down in the array structure.
         }
 
         break;
@@ -1230,7 +1230,7 @@ function ddbasic_ting_search_pager($variables) {
         'class' => array('pager-last'),
         'data' => $li_last,
       );
-    }
+        }
     return theme('item_list', array(
       'items' => $items,
       'type' => 'ul',
@@ -1238,8 +1238,8 @@ function ddbasic_ting_search_pager($variables) {
         'class' => array('pager'),
       ),
     ));
+    }
   }
-}
 
 /**
  * Overrides theme_select().

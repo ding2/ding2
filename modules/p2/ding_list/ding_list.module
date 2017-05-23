@@ -190,7 +190,67 @@ function ding_list_menu() {
     'page arguments' => array(2),
   ));
 
+  $items['ding-list/login-create'] = array(
+    'title' => 'Login create',
+    'page callback' => array('ding_list_login_create'),
+    'delivery callback' => 'ajax_deliver',
+    'access callback' => TRUE,
+  );
+
+  $items['ding-list/login-attach/%/%'] = array(
+    'title' => 'Login create',
+    'page callback' => array('ding_list_login_attach'),
+    'page arguments' => array(2, 3),
+    'delivery callback' => 'ajax_deliver',
+    'access callback' => TRUE,
+  );
+
   return $items;
+}
+
+/**
+ * Handle list attachment for anonymous users.
+ */
+function ding_list_login_attach($type, $value) {
+  $commands = array();
+
+  if (!user_is_logged_in()) {
+    $commands[] = ajax_command_ding_user_authenticate('');
+    return array('#type' => 'ajax', '#commands' => $commands);
+  }
+
+  module_load_include('inc', 'ding_list', 'include/menu_callbacks');
+
+  // Use the specific list type from the get parameter.
+  // The list type and element type doesn't always match, which is why we need
+  // the extra parameter.
+  $list_type = !empty($_GET['list_type']) ? $_GET['list_type'] : $type;
+
+  $list = ding_list_get_list($list_type);
+  return ding_list_attach_element_callback($type, $list->id, $value);
+}
+
+/**
+ * Handle list creation for anonymous users.
+ */
+function ding_list_login_create() {
+  $commands = array();
+
+  if (!user_is_logged_in()) {
+    $commands[] = ajax_command_ding_user_authenticate('');
+    return array('#type' => 'ajax', '#commands' => $commands);
+  }
+
+  module_load_include('inc', 'ctools', 'includes/ajax');
+  $commands[] = ctools_ajax_command_redirect(
+    'list/create',
+    0,
+    array(
+      'query' => drupal_get_query_parameters(),
+    )
+  );
+
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 /**
@@ -555,6 +615,10 @@ function ding_list_theme($existing, $type, $theme, $path) {
       'file' => 'theme/theme.inc',
       'variables' => array('list' => NULL),
     ),
+    'ding_list_create_info' => array(
+      'file' => 'theme/theme.inc',
+      'variables' => array('list' => NULL),
+    ),
     'ding_list_lists' => array(
       'file' => 'theme/theme.inc',
       'variables' => array('groups' => NULL),
@@ -569,7 +633,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
  * Implements hook_ding_entity_buttons().
  */
 function ding_list_ding_entity_buttons($type, $entity) {
-  if ($type == 'ding_entity' && user_is_logged_in()) {
+  if ($type == 'ding_entity') {
     $return = array();
     $return[] = array(
       '#theme' => 'ding_list_add_button',
@@ -838,6 +902,9 @@ The link is active for 7 days from today, after which it will be disabled for se
       if (!empty($user->mail)) {
         $message['headers']['reply-to'] = $user->mail;
       }
+
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['text'];
       break;
   }
 }
@@ -1025,4 +1092,75 @@ function ding_list_convert_cql_replace_callback($matches) {
   }
 
   return $pre . $dc . '.' . $facet . '="' . $value . '"' . $post . $next;
+}
+
+/**
+ * Implements hook_ding_list_add_to_list_data().
+ */
+function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
+  switch ($context['type']) {
+    case 'ting_object':
+      $ting_object = ting_object_load($context['value']);
+
+      // Add a follow action for authors.
+      $data = array_merge(
+        $data,
+        ding_list_get_add_to_list_ting_object_creators($ting_object)
+      );
+      break;
+
+    case 'search_query':
+      $list_info = ding_list_ding_list_operations()[DING_LIST_TYPE_SEARCHES];
+      if (!user_is_logged_in()) {
+        $data[] = array(
+          'custom' => array(
+            'title' => t(
+              'Add to @list',
+              array('@list' => $list_info['_data']['default_title'])
+            ),
+            'href' => 'ding-list/login-attach/' . $context['type'] . '/' . $context['value'],
+            'attributes' => array(
+              'class' => array('use-ajax'),
+            ),
+            'query' => array(
+              'title' => $context['value_title'],
+              'list_type' => DING_LIST_TYPE_SEARCHES,
+            ),
+            'html' => TRUE,
+          ),
+        );
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_views_post_execute().
+ */
+function ding_list_views_post_execute(&$view) {
+  if ($view->name == 'public_lists') {
+    // Collect the list ids.
+    $list_ids = [];
+    foreach ($view->result as $result) {
+      $list_ids[] = $result->id;
+    }
+
+    if ($list_ids) {
+      // Dig out ting ids referenced in list items.
+      $query = db_select('field_data_field_list_objects', 'o')
+        ->condition('o.entity_id', $list_ids, 'IN');
+      // Need the type field to limit to items of ting_object type.
+      $query->join('field_data_field_element_type', 't', "o.field_list_objects_target_id  = t.entity_id AND t.entity_type = 'ding_type' AND t.bundle = 'ding_list_element'");
+      // And apparently the object id is stored in field_value, not
+      // field_ting_object. Someone forgot to delete unused fields.
+      $query->join('field_data_field_value', 'v', "o.field_list_objects_target_id  = v.entity_id AND v.entity_type = 'ding_type' AND v.bundle = 'ding_list_element'");
+      $query->condition('t.field_element_type_value', 'ting_object')
+        ->fields('v', array('field_value_value'));
+
+      $ting_ids = array_unique(array_filter($query->execute()->fetchCol()));
+      if ($ting_ids) {
+        ding_entity_load_multiple($ting_ids, 'ting_object');
+      }
+    }
+  }
 }
