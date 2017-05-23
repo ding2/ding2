@@ -120,7 +120,7 @@
      */
     this.changeTab = function (target) {
       // Ignore clicks on the active tab.
-      if (target == this.tabs.find('.active').data('target')) {
+      if (target === this.tabs.find('.active').data('target')) {
         return;
       }
       // De-activate current tab.
