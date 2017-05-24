@@ -148,6 +148,16 @@ $carousel-tab-color:                       $white;
   }
 }
 
+.slick-track .ting-search-carousel-item {
+  .ting-object {
+    .field-type-ting-title {
+      h2:after {
+        box-shadow: none;
+      }
+    }
+  }
+}
+
 .slick-track .ting-search-carousel-item,
 .pane-serendipity-ting-object-related .ting-object,
 .pane-popular .ting-object,
@@ -433,6 +443,7 @@ $carousel-tab-color:                       $white;
   .field-group-div.group-overlay {
     padding-top: 5px;
     z-index: 90;
+    height: 196px;
   }
 
   .field-name-ding-serendipity-info {
