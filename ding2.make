@@ -38,6 +38,8 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.9"
 ; Fix regression. See https://www.drupal.org/node/2209775
 projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-readd_access_callback_params-2209775-24.patch"
+; Fix PHP7 errors - PHP 4 style constructors - https://www.drupal.org/node/2528736
+projects[ctools][patch][] = "https://www.drupal.org/files/issues/deprecating_php4_style-2528736-23.patch"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
@@ -51,7 +53,7 @@ projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
 projects[dibs][patch][] = "https://www.drupal.org/files/issues/mysql_5.7_compatibility-2812891-2.patch"
 
 projects[diff][subdir] = "contrib"
-projects[diff][version] = "3.2"
+projects[diff][version] = "3.3"
 
 ; The patch ensures that file upload patch is created on file upload. It normally
 ; created on settings form save, but as we use feature this do not work.
@@ -247,7 +249,7 @@ projects[nanosoap][version] = "1.0"
 projects[nanosoap][patch][] = "http://drupal.org/files/nanosoap-curloptions-1943732.patch"
 
 projects[nodequeue][subdir] = "contrib"
-projects[nodequeue][version] = "2.0-beta1"
+projects[nodequeue][version] = "2.1"
 
 projects[node_clone][subdir] = "contrib"
 projects[node_clone][version] = "1.0-rc2"
@@ -288,6 +290,9 @@ projects[pagepreview][version] = "1.0-alpha1"
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.4"
+; Fix PHP7 errors - PHP 4 style constructors - (https://www.drupal.org/node/2557061)
+projects[panels][patch][] = "https://www.drupal.org/files/issues/deprecated-constructor-in-php-7-2557061-3.patch"
+
 
 projects[panels_breadcrumbs][subdir] = "contrib"
 projects[panels_breadcrumbs][version] = "2.1"
