@@ -1068,8 +1068,6 @@ function ding_user_get_creds($user = NULL) {
     return $_SESSION['ding_user']['creds'];
   }
 
-  dpm(debug_backtrace());
-
   throw new DingProviderAuthException();
 }
 
