@@ -11,7 +11,7 @@ projects[drupal][patch][] = "http://drupal.org/files/ssl-socket-transports-18799
 projects[drupal][patch][] = "http://www.drupal.org/files/issues/autocomplete-1232416-205-7x.patch"
 projects[drupal][patch][] = "http://drupal.org/files/issues/translate_role_names-2205581-1.patch"
 ; PHP7 fix (https://www.drupal.org/node/2877243)
-projects[drupal][patch][] = "https://www.drupal.org/files/issues/DATERFC7231-2877243-1.patch"
+projects[drupal][patch][] = "https://www.drupal.org/files/issues/DATE_RFC7231-2877243-26.patch"
 
 ; Get the profile, which will contain the next makefile.
 projects[ding2][type] = "profile"
