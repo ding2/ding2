@@ -408,8 +408,9 @@ function ddbasic_preprocess_menu_link(&$variables) {
 
       case 'status-reservations':
         $ready = ddbasic_account_count_reservation_ready();
-        if (!empty($ready)) {
-          $variables['element']['#title'] .= ' (' . $ready . ')';
+        $total = $ready + ddbasic_account_count_reservation_not_ready();
+        if (!empty($total)) {
+          $variables['element']['#title'] .= ' (' . $ready . '/' . $total . ')';
         }
         break;
 

@@ -106,3 +106,23 @@ function ddbasic_account_count_reservation_ready($account = NULL) {
 
   return $reservations[$account->uid];
 }
+
+/**
+ * Get the total amount of ready not reservations the user has.
+ */
+function ddbasic_account_count_reservation_not_ready($account = NULL) {
+  // Prepare the static cache.
+  $reservations = &drupal_static(__FUNCTION__, array());
+
+  // Default the $account to the currently logged in user.
+  if (empty($account)) {
+    $account = $GLOBALS['user'];
+  }
+
+  // If the user have no hits in the static cache, count the ready reservations.
+  if (!isset($sc[$account->uid])) {
+    $reservations[$account->uid] = count(ding_provider_invoke('reservation', 'list', $account, DING_RESERVATION_NOT_READY));
+  }
+
+  return $reservations[$account->uid];
+}
