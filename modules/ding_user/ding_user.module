@@ -347,7 +347,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
 
     case 'ding_user_authenticate_form':
       if (isset($form_state['ajaxify'])) {
-        $form['actions']['submit']['#ajax'] = array(
+        $form['user_login_container']['actions']['submit']['#ajax'] = array(
           'callback' => 'ding_user_authenticate_form_callback',
           'wrapper' => drupal_html_id($form_id),
         );
