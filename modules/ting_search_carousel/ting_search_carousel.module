@@ -139,22 +139,24 @@ function _ting_search_carousel_add_css() {
  * Return the pane contents.
  */
 function ting_search_carousel_content_type_render($subtype, $conf, $panel_args, $context) {
-  $search_results_cache = cache_get($conf['cache_id']);
+  $search_results_cache = (!empty($conf['cache_id'])) ? cache_get($conf['cache_id']) : '';
   $searches = array();
   $searches_configuration = array();
 
-  if ($conf['searches']) {
+  if (!empty($conf['searches'])) {
     $searches = $conf['searches'];
   }
   elseif (variable_get('ting_carousel_search_queries', array())) {
     $searches = variable_get('ting_carousel_search_queries', array());
+    $searches = $searches['searches'];
   }
 
-  if ($conf['ting_search_carousel_settings']) {
+  if (!empty($conf['ting_search_carousel_settings'])) {
     $searches_configuration = $conf['ting_search_carousel_settings'];
   }
-  elseif (variable_get('ting_search_carousel_settings', array())) {
-    $searches_configuration = variable_get('ting_search_carousel_settings', array());
+  else {
+    $searches_configuration = variable_get('ting_carousel_search_queries', array());
+    $searches_configuration = $searches_configuration['ting_search_carousel_settings'];
   }
 
   if (empty($search_results_cache)) {
@@ -176,7 +178,7 @@ function ting_search_carousel_content_type_render($subtype, $conf, $panel_args, 
   $carousel_content = theme('ting_search_carousel',
     array(
       'searches' => $searches,
-      'hash' => $conf['cache_id'],
+      'hash' => (!empty($conf['cache_id'])) ? $conf['cache_id'] : $cache_id,
       'autoplay' => $searches_configuration['ting_search_carousel_animate'],
       'toggle_description' => $searches_configuration['ting_search_carousel_description_toggle'],
     ));
