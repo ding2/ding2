@@ -754,7 +754,7 @@ function ding_serendipity_field_extra_fields() {
       'ding_serendipity_info' => array(
         'label' => t('Serendipity info'),
         'description' => t('Returned serendipity info'),
-        'weight' => 0,
+        'weight' => 1,
         'visible' => FALSE,
       ),
     ),
