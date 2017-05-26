@@ -119,3 +119,11 @@ rs-carousel-runner {
 .rs-carousel-tabs .ting-search-carousel-tabs ul li.active a {
   position: relative;
 }
+
+/* Carousel tab description
+   ========================================================================== */
+.ting-search-carousel-description h3 {
+  background: #ffffff;
+  margin-bottom: 0px;
+  padding: 15px 0 0 15px;
+}

@@ -80,7 +80,7 @@ $carousel-tab-color:                       $white;
   border-radius: 40px;
   height: 50px;
   width: 50px;
-  z-index: 99;
+  z-index: 95;
   
   &:before {
     display: none;
@@ -145,6 +145,16 @@ $carousel-tab-color:                       $white;
 
   @include small-medium() {
     color: $white;
+  }
+}
+
+.slick-track .ting-search-carousel-item {
+  .ting-object {
+    .field-type-ting-title {
+      h2:after {
+        box-shadow: none;
+      }
+    }
   }
 }
 
@@ -432,6 +442,8 @@ $carousel-tab-color:                       $white;
 
   .field-group-div.group-overlay {
     padding-top: 5px;
+    z-index: 90;
+    height: 196px;
   }
 
   .field-name-ding-serendipity-info {

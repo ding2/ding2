@@ -11,6 +11,16 @@
 ?>
 
 <div class="ting-search-carousel">
+  <?php if ($toggle_description): ?>
+    <div class="ting-search-carousel-descriptions">
+    <?php foreach ($searches as $i => $search): ?>
+      <div class="ting-search-carousel-description index-<?php echo $i; ?>" tab-index="<?php echo $i; ?>">
+        <h3><?php print $search['subtitle']; ?></h3>
+      </div>
+    <?php endforeach; ?>
+    </div>
+  <?php endif; ?>
+
   <div id="ting-search-carousel-<?php echo $hash; ?>"
        ting-search-carousel-hash="<?php echo $hash; ?>"
        ting-search-carousel-autoplay="<?php echo $autoplay; ?>"

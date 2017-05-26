@@ -6435,7 +6435,7 @@ div[class^="collection-bg"] {
   border-radius: 40px;
   height: 50px;
   width: 50px;
-  z-index: 99; }
+  z-index: 95; }
   .ting-search-carousel .slick-prev:before,
   .ting-search-carousel .slick-next:before,
   .ting-carousel .rs-carousel-action:before {
@@ -6497,6 +6497,9 @@ div[class^="collection-bg"] {
   @media only screen and (max-width: 768px) {
     .rs-carousel-title {
       color: #fff; } }
+
+.slick-track .ting-search-carousel-item .ting-object .field-type-ting-title h2:after {
+  box-shadow: none; }
 
 .slick-track .ting-search-carousel-item,
 .pane-serendipity-ting-object-related .ting-object,
@@ -6831,7 +6834,9 @@ div[class^="collection-bg"] {
 .view-public-lists .field-group-div.group-overlay,
 .pane-serendipity-ting-object .field-group-div.group-overlay,
 .pane-serendipity-ting-object-related .field-group-div.group-overlay {
-  padding-top: 5px; }
+  padding-top: 5px;
+  z-index: 90;
+  height: 196px; }
 
 @media only screen and (max-width: 768px) {
   .pane-popular .field-name-ding-serendipity-info,

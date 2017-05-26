@@ -17,6 +17,7 @@
    */
   $(document).ready(function() {
     $('.ting-search-carousel').each(function(i, e) {
+      var carousel_descriptions = $(e).find('.ting-search-carousel-descriptions');
       var carousel_wrapper = $(e).children('div[id^="ting-search-carousel-"]');
       var carousel_tabs = $(e).find('ul.ting-search-carousel-list-tabs');
       var carousel_select_tabs = $(e).find('select.ting-search-carousel-select-tabs');
@@ -65,11 +66,11 @@
         is_active = true;
       });
 
-      if (autoplay != 0 && carousel_tabs.length > 1) {
+      if (autoplay !== 0 && carousel_tabs.length >= 1) {
         // Switch tabs by timer.
         setInterval(function() {
           if (is_active) {
-            if (index == tabs_index) {
+            if (index === tabs_index) {
               update_carousel(false, false);
             }
             else {
@@ -79,10 +80,12 @@
         }, autoplay);
       }
 
+      $(carousel_descriptions).find('.ting-search-carousel-description:not(.active)').hide();
+
       // Switch tabs on click by it.
       $(carousel_tabs).find('li').on('click', function(event) {
         event.preventDefault();
-        update_carousel(false, $(this).attr('tab-index'));
+        update_carousel(false, parseInt($(this).attr('tab-index')));
       });
 
       $(carousel_select_tabs).on('change', function() {
@@ -136,6 +139,12 @@
 
         $(carousel_tabs).find('li.index-' + prev_index).removeClass('active');
         $(carousel_tabs).find('li.index-' + index).addClass('active');
+
+        $(carousel_descriptions).find('div.index-' + prev_index).removeClass('active');
+        $(carousel_descriptions).find('div.index-' + index).addClass('active');
+
+        $(carousel_descriptions).find('div.index-' + prev_index).not('.active').hide();
+        $(carousel_descriptions).find('div.index-' + index + '.active').show();
 
         $(carousel_select_tabs).find(':selected').removeAttr('selected');
         $(carousel_select_tabs.find('option')[index]).attr('selected', true);
