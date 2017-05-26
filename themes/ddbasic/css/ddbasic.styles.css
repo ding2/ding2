@@ -6498,6 +6498,9 @@ div[class^="collection-bg"] {
     .rs-carousel-title {
       color: #fff; } }
 
+.slick-track .ting-search-carousel-item .ting-object .field-type-ting-title h2:after {
+  box-shadow: none; }
+
 .slick-track .ting-search-carousel-item,
 .pane-serendipity-ting-object-related .ting-object,
 .pane-popular .ting-object,
@@ -6832,7 +6835,8 @@ div[class^="collection-bg"] {
 .pane-serendipity-ting-object .field-group-div.group-overlay,
 .pane-serendipity-ting-object-related .field-group-div.group-overlay {
   padding-top: 5px;
-  z-index: 90; }
+  z-index: 90;
+  height: 196px; }
 
 @media only screen and (max-width: 768px) {
   .pane-popular .field-name-ding-serendipity-info,
