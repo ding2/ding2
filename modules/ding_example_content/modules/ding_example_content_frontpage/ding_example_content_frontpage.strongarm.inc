@@ -15,16 +15,28 @@ function ding_example_content_frontpage_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'ting_carousel_search_queries';
   $strongarm->value = array(
-    0 => array(
-      'title' => 'Unge',
-      'subtitle' => 'Nye bøger til unge',
-      'query' => '870970-basis:29983739 OR 870970-basis:29983585 OR 870970-basis:29989702 OR 870970-basis:29997829 OR  870970-basis:29997918 OR 870970-basis:29986215 OR 870970-basis:50532615 OR 870970-basis:50613038 OR 870970-basis:50618374',
+    'ting_search_carousel_settings' => array(
+      'ting_search_carousel_tabs_position' => 'bottom',
+      'ting_search_carousel_item_limit' => '24',
+      'ting_search_carousel_description_toggle' => 1,
+      'ting_search_carousel_item_sorting' => 'date_descending',
+      'ting_search_carousel_animate' => '5',
     ),
-    1 => array(
-      'title' => 'Til de små',
-      'subtitle' => 'Bøger til de små',
-      'query' => '870970-basis:50612910  OR 870970-basis:29981299 OR  870970-basis:29967326  OR 870970-basis:50561488 OR 870970-basis:29618518 OR 870970-basis:50530671 OR 870970-basis:50577384  OR 870970-basis:50561445 OR 870970-basis:50587177 OR  870970-basis:50618404  ',
+    'searches' => array(
+      0 => array(
+        'sort' => '0',
+        'title' => 'Unge',
+        'subtitle' => 'Nye bøger til unge',
+        'query' => '870970-basis:29983739 OR 870970-basis:29983585 OR 870970-basis:29989702 OR 870970-basis:29997829 OR 870970-basis:29997918 OR 870970-basis:29986215 OR 870970-basis:50532615 OR 870970-basis:50613038 OR 870970-basis:50618374',
+      ),
+      1 => array(
+        'sort' => '1',
+        'title' => 'Til de små',
+        'subtitle' => 'Bøger til de små',
+        'query' => '870970-basis:50612910 OR 870970-basis:29981299 OR 870970-basis:29967326 OR 870970-basis:50561488 OR 870970-basis:29618518 OR 870970-basis:50530671 OR 870970-basis:50577384 OR 870970-basis:50561445 OR 870970-basis:50587177 OR 870970-basis:50618404',
+      ),
     ),
+    'cache_id' => '',
   );
   $export['ting_carousel_search_queries'] = $strongarm;
 
