@@ -11666,8 +11666,10 @@ ul.actions {
   font-weight: bold;
   cursor: pointer; }
 
-.ting-object .work-cover-image a {
-  display: block; }
+.ting-object .work-cover-image {
+  min-height: 196px; }
+  .ting-object .work-cover-image a {
+    display: block; }
 
 .ting-object .work-cover-selector {
   padding-top: 20px; }

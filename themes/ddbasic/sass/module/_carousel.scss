@@ -81,7 +81,7 @@ $carousel-tab-color:                       $white;
   height: 50px;
   width: 50px;
   z-index: 95;
-  
+
   &:before {
     display: none;
   }
@@ -157,7 +157,6 @@ $carousel-tab-color:                       $white;
     }
   }
 }
-
 .slick-track .ting-search-carousel-item,
 .pane-serendipity-ting-object-related .ting-object,
 .pane-popular .ting-object,
@@ -336,11 +335,11 @@ $carousel-tab-color:                       $white;
 
 .ting-search-carousel-select-tabs {
   display: none;
-  
+
   @include small-medium() {
     display: block;
     width: 100%;
-    
+
     .rs-carousel-item {
       @include border-radius(12px);
 
@@ -376,7 +375,7 @@ $carousel-tab-color:                       $white;
       }
     }
   }
-}   
+}
 
 .ting-search-carousel-tabs {
   .ting-search-carousel-list-tabs {
