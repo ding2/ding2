@@ -54,6 +54,30 @@ function ddbasic_preprocess_html(&$vars) {
     $vars['classes_array'][] = 'has-dynamic-background';
   }
 
+  // Store the menu item since it has some useful information.
+  $vars['menu_item'] = menu_get_item();
+
+  if ($vars['menu_item']) {
+    switch ($vars['menu_item']['page_callback']) {
+      case 'views_page':
+        // Is this a Views page?
+        $vars['classes_array'][] = 'page-views';
+        break;
+
+      case 'page_manager_page_execute':
+      case 'page_manager_node_view':
+      case 'page_manager_contact_site':
+        // Is this a Panels page?
+        $vars['classes_array'][] = 'page-panels';
+        break;
+
+      default:
+        // If this is not a Panels page
+        $vars['classes_array'][] = 'page-no-panels';
+        break;
+    }
+  }
+
   // Include the libraries.
   libraries_load('slick');
   libraries_load('jquery.imagesloaded');
@@ -68,42 +92,6 @@ function ddbasic_preprocess_html(&$vars) {
  * Process variables for html.tpl.php.
  */
 function ddbasic_process_html(&$vars) {
-  // Classes for body element. Allows advanced theming based on context
-  // (home page, node of certain type, etc.).
-  if (!$vars['is_front']) {
-    // Add unique class for each page.
-    $path = drupal_get_path_alias($_GET['q']);
-    // Add unique class for each website section.
-    $section = explode('/', $path);
-    $section = array_shift($section);
-    $arg = explode('/', $_GET['q']);
-    if ($arg[0] == 'node' && isset($arg[1])) {
-      if ($arg[1] == 'add') {
-        $section = 'node-add';
-      }
-      elseif (isset($arg[2]) && is_numeric($arg[1]) && ($arg[2] == 'edit' || $arg[2] == 'delete')) {
-        $section = 'node-' . $arg[2];
-      }
-    }
-    $vars['classes_array'][] = drupal_html_class('section-' . $section);
-  }
-  // Store the menu item since it has some useful information.
-  $vars['menu_item'] = menu_get_item();
-  if ($vars['menu_item']) {
-    switch ($vars['menu_item']['page_callback']) {
-      case 'views_page':
-        // Is this a Views page?
-        $vars['classes_array'][] = 'page-views';
-        break;
-
-      case 'page_manager_page_execute':
-      case 'page_manager_node_view':
-      case 'page_manager_contact_site':
-        // Is this a Panels page?
-        $vars['classes_array'][] = 'page-panels';
-        break;
-    }
-  }
 
   // Hook into color.module.
   if (module_exists('color')) {
