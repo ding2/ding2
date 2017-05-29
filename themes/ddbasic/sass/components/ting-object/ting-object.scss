@@ -596,6 +596,80 @@
           }
         }
       }
+      .group-periodical-issues {
+        li {
+          list-style: none;
+          margin: 0;
+        }
+        .ding-periodical-fold {
+          @include font('display');
+          @include place-icon(arrow-down);
+          width: 100%;
+          float: left;
+          color: $color-text;
+          padding-bottom: 5px;
+          border-bottom: 1px solid $charcoal-opacity-light;
+          margin-bottom: 15px;
+          cursor: pointer;
+          &::after {
+            font-size: 40px;
+            right: 0;
+
+            // Mobile
+            @include media($mobile) {
+              top: -10px;
+            }
+          }
+          &:hover {
+            color: $charcoal;
+          }
+        }
+        .ding-periodical-container {
+          width: 100%;
+          float: left;
+          .ding-periodical-fold {
+            @include font('base');
+            display: block;
+            width: 100%;
+            &::after {
+              @extend %icon-arrow-down;
+              top: -10px;
+
+            }
+          }
+          &.last {
+            margin-bottom: 40px;
+          }
+        }
+        .expanded-periodicals-parent {
+          .ding-periodical-fold {
+            &::after {
+              @extend %icon-arrow-up;
+            }
+          }
+          .ding-periodical-container {
+            .ding-periodical-fold {
+              &::after {
+                @extend %icon-arrow-down;
+              }
+            }
+          }
+        }
+        .ding-periodical-container {
+          &.expanded-periodicals-parent {
+            .ding-periodical-fold {
+              &::after {
+                @extend %icon-arrow-up;
+              }
+            }
+          }
+        }
+        .reserve-button {
+          float: left;
+          padding-right: 80px;
+          margin-top: 10px;
+        }
+      }
       .group-oembed {
         .ekursus {
           @include span-columns(6 of 8);
