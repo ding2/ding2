@@ -256,8 +256,8 @@ $carousel-tab-color:                       $white;
       bottom: -10px;
       right: -15px;
       width: calc(100% + 30px);
-      height: calc(100% + 10px);
-      box-shadow: inset 0px -20px 27px -5px rgba(0,0,0,1);
+      height: 20px;
+      box-shadow: inset 0px -16px 18px -8px rgba(0,0,0,1);
       }
 
       a {
@@ -431,10 +431,6 @@ $carousel-tab-color:                       $white;
 .view-public-lists,
 .pane-serendipity-ting-object,
 .pane-serendipity-ting-object-related {
-  .work-cover-selector {
-    display: none;
-  }
-
   .field-name-ting-author {
     line-height: 18px;
     max-height: 55px;
