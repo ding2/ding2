@@ -306,7 +306,7 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
       $vars['classes_array'][$id] = '';
     }
   }
-  }
+}
 
 /**
  * Implements theme_link().
@@ -415,9 +415,6 @@ function ddbasic_menu_link($vars) {
     'menu-item',
   );
 
-  // Filter classes.
-  $element['#attributes']['class'] = ddbasic_remove_default_link_classes($element['#attributes']['class']);
-
   // Make sure text string is treated as html by l function.
   $element['#localized_options']['html'] = TRUE;
 
@@ -426,8 +423,6 @@ function ddbasic_menu_link($vars) {
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . $sub_menu . "</li>\n";
 }
 
-
-
 /**
  * Implements theme_menu_link().
  *
@@ -435,9 +430,6 @@ function ddbasic_menu_link($vars) {
  */
 function ddbasic_menu_link__menu_tabs_menu($vars) {
   global $user;
-
-  // Run classes array through our custom stripper.
-  $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
 
   // Check if the class array is empty.
   if (empty($vars['element']['#attributes']['class'])) {
@@ -502,7 +494,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
                 'count' => $overdues,
                 'type' => 'overdue',
               );
-      }
+            }
           }
 
           if (empty($notification)) {
@@ -546,58 +538,11 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       break;
   }
 
-   // For some unknown issue translation fails.
+  // For some unknown issue translation fails.
   $element['#title'] = t($element['#title']);
 
   $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
-}
-
-/**
- * Used to strip default class names from menu links.
- *
- * @param array $classes
- *   An array of class attributes.
- *
- * @return array
- *   Classes that are left.
- */
-function ddbasic_remove_default_link_classes($classes) {
-  if (!isset($classes)) {
-    return FALSE;
-  }
-
-  // Remove classes.
-  $remove = array();
-
-  // Remove .leaf.
-  if (theme_get_setting('ddbasic_classes_menu_leaf')) {
-    $remove[] .= "leaf";
-  }
-
-  // Remove .has-children.
-  if (theme_get_setting('ddbasic_classes_menu_has_children')) {
-    $remove[] .= "has-children";
-  }
-
-  // Remove .collapsed, .expanded and expandable.
-  if (theme_get_setting('ddbasic_classes_menu_collapsed')) {
-    $remove[] .= "collapsed";
-    $remove[] .= "expanded";
-    $remove[] .= "expandable";
-  }
-
-  // Remove the classes.
-  if ($remove) {
-    $classes = array_diff($classes, $remove);
-  }
-
-  // Remove menu-mlid-[NUMBER].
-  if (theme_get_setting('ddbasic_classes_menu_items_mlid')) {
-    $classes = preg_grep('/^menu-mlid-/', $classes, PREG_GREP_INVERT);
-  }
-
-  return $classes;
 }
 
 /**
@@ -1205,7 +1150,7 @@ function ddbasic_ting_search_pager($variables) {
         'class' => array('pager-last'),
         'data' => $li_last,
       );
-        }
+    }
     return theme('item_list', array(
       'items' => $items,
       'type' => 'ul',
@@ -1213,8 +1158,8 @@ function ddbasic_ting_search_pager($variables) {
         'class' => array('pager'),
       ),
     ));
-    }
   }
+}
 
 /**
  * Overrides theme_select().
