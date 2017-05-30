@@ -995,7 +995,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'module' => 'ting',
         'settings' => array(
-          'link_type' => 'none',
+          'link_type' => 'object',
           'prefix_type' => 'yes',
         ),
         'type' => 'ting_title_default',

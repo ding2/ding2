@@ -389,6 +389,18 @@ function ding_serendipity_validate_materials(array $keys) {
     return $keys;
   }
 
+  $inlined_keys = array();
+  foreach ($keys as $id => $object_id) {
+    if (is_array($object_id)) {
+      $inlined_keys[$id] = $keys[$id]['object_id'];
+    }
+    else {
+      $inlined_keys[$id] = $object_id;
+    }
+  }
+
+  $keys = $inlined_keys;
+
   // Lookup the materials in Broenden to filter out local missing materials.
   $query = implode(" OR ", $keys);
   try {
@@ -754,7 +766,7 @@ function ding_serendipity_field_extra_fields() {
       'ding_serendipity_info' => array(
         'label' => t('Serendipity info'),
         'description' => t('Returned serendipity info'),
-        'weight' => 0,
+        'weight' => 1,
         'visible' => FALSE,
       ),
     ),

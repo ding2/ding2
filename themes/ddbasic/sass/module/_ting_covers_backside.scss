@@ -6,8 +6,8 @@
  * @author ac
  */
 
-.reveal-modal-bg { 
-  position: fixed; 
+.reveal-modal-bg {
+  position: fixed;
   height: 100%;
   width: 100%;
   background: #000;
@@ -15,12 +15,12 @@
   z-index: 100;
   display: none;
   top: 0;
-  left: 0; 
+  left: 0;
 }
 
 .reveal-modal {
   visibility: hidden;
-  top: 100px; 
+  top: 100px;
   left: 50%;
   margin-left: -300px;
   width: 590px;
@@ -40,7 +40,7 @@
 .reveal-modal.medium         { width: 400px; margin-left: -240px;}
 .reveal-modal.large         { width: 600px; margin-left: -340px;}
 .reveal-modal.xlarge         { width: 800px; margin-left: -440px;}
-    
+
 .reveal-modal .close-reveal-modal {
   font-size: 22px;
   line-height: .5;
@@ -51,10 +51,11 @@
   text-shadow: 0 -1px 1px rbga(0,0,0,.6);
   font-weight: bold;
   cursor: pointer;
-} 
+}
 
 .ting-object {
   .work-cover-image {
+    min-height: 196px;
     a {
       display: block;
     }
