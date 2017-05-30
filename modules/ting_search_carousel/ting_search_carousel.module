@@ -142,21 +142,20 @@ function ting_search_carousel_content_type_render($subtype, $conf, $panel_args, 
   $search_results_cache = (!empty($conf['cache_id'])) ? cache_get($conf['cache_id']) : '';
   $searches = array();
   $searches_configuration = array();
+  $searches_queries = variable_get('ting_carousel_search_queries', array());
 
   if (!empty($conf['searches'])) {
     $searches = $conf['searches'];
   }
-  elseif (!empty(variable_get('ting_carousel_search_queries', array()))) {
-    $searches = variable_get('ting_carousel_search_queries', array());
-    $searches = $searches['searches'];
+  elseif (!empty($searches_queries)) {
+    $searches = $searches_queries['searches'];
   }
 
   if (!empty($conf['ting_search_carousel_settings'])) {
     $searches_configuration = $conf['ting_search_carousel_settings'];
   }
-  elseif (!empty(variable_get('ting_carousel_search_queries', array()))) {
-    $searches_configuration = variable_get('ting_carousel_search_queries', array());
-    $searches_configuration = $searches_configuration['ting_search_carousel_settings'];
+  elseif (!empty($searches_queries)) {
+    $searches_configuration = $searches_queries['ting_search_carousel_settings'];
   }
 
   $carousel_content = '';
