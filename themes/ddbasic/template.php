@@ -57,25 +57,11 @@ function ddbasic_preprocess_html(&$vars) {
   // Store the menu item since it has some useful information.
   $vars['menu_item'] = menu_get_item();
 
-  if ($vars['menu_item']) {
-    switch ($vars['menu_item']['page_callback']) {
-      case 'views_page':
-        // Is this a Views page?
-        $vars['classes_array'][] = 'page-views';
-        break;
-
-      case 'page_manager_page_execute':
-      case 'page_manager_node_view':
-      case 'page_manager_contact_site':
-        // Is this a Panels page?
-        $vars['classes_array'][] = 'page-panels';
-        break;
-
-      default:
-        // If this is not a Panels page
-        $vars['classes_array'][] = 'page-no-panels';
-        break;
-    }
+  if ($vars['menu_item'] && strpos($vars['menu_item']['page_callback'], 'page_manager_') === 0) {
+    $vars['classes_array'][] = 'page-panels';
+  }
+  else {
+    $vars['classes_array'][] = 'page-no-panels';
   }
 
   // Include the libraries.
