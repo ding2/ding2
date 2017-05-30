@@ -3,27 +3,6 @@
 (function ($) {
   'use strict';
 
-  /**
-   * Add a keypress handler on text and password fields that catches
-   * return and submits the form by triggering the first submit
-   * button. Otherwise the browser standard handler is used, and it
-   * doesn't post by AJAX.
-   *
-   * @todo possibly support more input types.
-   */
-  Drupal.behaviors.ding_popup_form_submit = {
-    attach: function (context, settings) {
-      $('.popupbar-content input[type=text]:not(.ding-popup-processed), .popupbar-content input[type=password]:not(.ding-popup-processed)').addClass('ding-popup-processed').each(function () {
-        $(this).keypress(function (event) {
-          if (event.which == 13) {
-            $($(this.form).find('input[type=submit]').get(0)).trigger('mousedown');
-            return false;
-          }
-        });
-      });
-    }
-  };
-
   var
     states = {},
     refresh = false;
@@ -59,16 +38,25 @@
    */
   Drupal.ajax.prototype.commands.ding_popup_close = function (ajax, response, status) {
     var state;
-    while (state = states[response.name].pop()) {
-      // User login have been performed, so page needs to be reloaded.
-      if (state.name === 'ding_user') {
-        refresh = true;
-      }
+    if (states[response.name] !== undefined) {
+      while (state = states[response.name].pop()) {
+        // User login have been performed, so page needs to be reloaded.
+        if (state.name === 'ding_user') {
+          refresh = true;
+        }
 
-      // Add in extra post vars.
-      $.extend(state.orig_ajax.options.data, state.extra_data);
-      // Call original ajax callback.
-      state.orig_ajax.eventResponse(state.orig_ajax, null);
+        // Add in extra post vars.
+        $.extend(state.orig_ajax.options.data, state.extra_data);
+        // Call original ajax callback.
+        state.orig_ajax.eventResponse(state.orig_ajax, null);
+      }
+    }
+
+    // If the global refresh is true the ajax will reload after the popup is
+    // closed. This allows for responses before refreshing.
+    if (refresh === false && response.refresh === true) {
+      location.reload(true);
+      return;
     }
 
     ddbasic.popupbar.close();
