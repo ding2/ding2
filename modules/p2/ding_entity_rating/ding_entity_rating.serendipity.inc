@@ -11,8 +11,8 @@
 function ding_entity_rating_serendipity_info() {
   return array(
     'materials_by_rating' => array(
-      'title' => 'Materials by ratings',
-      'description' => 'Get materials based on users ratings',
+      'title' => t('Materials by ratings'),
+      'description' => t('Get materials based on author or subject from users top rated materials'),
       'keys' => array('ting_object', 'frontpage'),
     ),
   );

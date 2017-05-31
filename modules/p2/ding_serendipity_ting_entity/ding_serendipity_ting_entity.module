@@ -25,34 +25,34 @@ function ding_serendipity_ting_entity_ctools_plugin_directory($owner, $plugin_ty
 function ding_serendipity_ting_entity_serendipity_info() {
   $items = array(
     'ting_object_author' => array(
-      'title' => 'Ting Objects related by same author',
-      'description' => 'Search for Ting objects with same author',
+      'title' => t('Ting Objects related by same author'),
+      'description' => t('Search for Ting objects with same author'),
       'keys' => array('ting_object_id'),
     ),
     'ting_object_subject' => array(
-      'title' => 'Ting Objects related by same subject',
-      'description' => 'Search for Ting  objects with same subject',
+      'title' => t('Ting Objects related by same subject'),
+      'description' => t('Search for Ting  objects with same subject'),
       'keys' => array('ting_object_id'),
     ),
     'ting_object_type' => array(
-      'title' => 'Ting Objects related by same type',
-      'description' => 'Search for Ting objects with same type',
+      'title' => t('Ting Objects related by same type'),
+      'description' => t('Search for Ting objects with same type'),
       'keys' => array('ting_object_id'),
     ),
     'ting_object_adhl' => array(
-      'title' => 'Ting objects via ADHL service on current object',
-      'description' => 'Call ADHL service on the current object',
+      'title' => t('Ting objects via ADHL service on current object'),
+      'description' => t('Call ADHL service on the current object'),
       'keys' => array('ting_object_id'),
-      'settings' => 'ding_serendipity_ting_entity_adhl_settings',
+      'settings' => l(t("Settings"),'/admin/config/ding/serendipity/key_overview/ding_serendipity_ting_entity_adhl_settings'),
     ),
     'ting_object_adhr' => array(
-      'title' => 'Ting objects via openlist ADHR service.',
-      'description' => 'Call Openlist ADHR service on the current object',
+      'title' => t('Ting objects via openlist ADHR service.'),
+      'description' => t('Call Openlist ADHR service on the current object'),
       'keys' => array('ting_object_id'),
     ),
     'ting_object_openlist_adhl' => array(
-      'title' => 'Ting objects via openlist ADHL service.',
-      'description' => 'Call Openlist ADHL service on the current object',
+      'title' => t('Ting objects via openlist ADHL service.'),
+      'description' => t('Call Openlist ADHL service on the current object'),
       'keys' => array('ting_object_id'),
     ),
   );
@@ -74,7 +74,7 @@ function ding_serendipity_ting_entity_adhl_settings() {
   $types = variable_get('ting_well_types', array());
   $form['ding_serendipity_ting_entity_adhl_accepted_types'] = array(
     '#type' => 'checkboxes',
-    '#title' => t('Accepted adhl types'),
+    '#title' => t('Select which types are looked up for ADHL'),
     '#options' => drupal_map_assoc(array_keys($types)),
     '#default_value' => variable_get('ding_serendipity_ting_entity_adhl_accepted_types', array()),
   );
