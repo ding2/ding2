@@ -376,7 +376,7 @@
     .search-result--heading-type {
       @include arrow-button(arrow-down);
 
-      &.toggled {
+      &.is-open {
         @include arrow-button(arrow-up); //arrow turns up on click
         &::after {
           display: none; //hide arrow up button on desktop
@@ -395,7 +395,7 @@
           cursor: pointer;
         }
 
-        &.toggled {
+        &.is-open {
           &::after {
             display: block; //show arrow up button on mobile
           }
@@ -447,7 +447,7 @@
         padding-top: 0;
         border-top: 0;
       }
-      .hide-wrap {
+      .group-info {
         position: relative;
         display: none;
         margin-top: 20px;

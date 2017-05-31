@@ -169,7 +169,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 23,
       ),
       'teaser' => array(
         'label' => 'above',

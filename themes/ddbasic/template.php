@@ -790,23 +790,26 @@ function ddbasic_process_ting_object(&$vars) {
   if ($vars['elements']['#entity_type'] == 'ting_object' && isset($vars['object']->in_collection)
       && isset($vars['elements']['#view_mode'])
       && in_array($vars['elements']['#view_mode'], array('search_result', 'collection_list'))) {
-    if (isset($vars['content']['group_ting_right_col_search'])) {
-      $right_col = 'group_ting_right_col_search';
-    }
-    else {
-      $right_col = 'group_ting_right_col_collection';
-    }
-    $vars['content'][$right_col]['availability'] = field_view_field(
+    $availability = field_view_field(
       'ting_collection',
       $vars['object']->in_collection,
       'ting_collection_types',
       array(
         'type' => 'ding_availability_with_labels',
-        // 'label' => 'hidden',.
         'weight' => 9999,
       )
     );
-    $vars['content'][$right_col]['availability']['#title'] = t('Borrowing options');
+    $availability['#title'] = t('Borrowing options');
+
+    if (isset($vars['content']['group_ting_right_col_search'])) {
+      if (isset($vars['content']['group_ting_right_col_search']['group_info']['group_rating']['#weight'])) {
+        $availability['#weight'] = $vars['content']['group_ting_right_col_search']['group_info']['group_rating']['#weight'] - 0.5;
+      }
+      $vars['content']['group_ting_right_col_search']['group_info']['availability'] = $availability;
+    }
+    else {
+      $vars['content']['group_ting_right_col_collection']['availability'] = $availability;
+    }
   }
 
   if (isset($vars['elements']['#view_mode']) && $vars['elements']['#view_mode'] == 'full') {
