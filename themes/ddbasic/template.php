@@ -381,10 +381,16 @@ function ddbasic_preprocess_menu_link(&$variables) {
         break;
 
       case 'status-reservations':
-        $ready = ddbasic_account_count_reservation_ready();
-        $total = $ready + ddbasic_account_count_reservation_not_ready();
-        if (!empty($total)) {
-          $variables['element']['#title'] .= ' (' . $ready . '/' . $total . ')';
+        $reservations = ddbasic_account_count_reservation_not_ready();
+        if (!empty($reservations)) {
+          $variables['element']['#title'] .= ' (' . $reservations . ')';
+        }
+        break;
+
+      case 'status-reservations-ready':
+        $reservations = ddbasic_account_count_reservation_ready();
+        if (!empty($reservations)) {
+          $variables['element']['#title'] .= ' (' . $reservations . ')';
         }
         break;
 

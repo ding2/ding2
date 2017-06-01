@@ -963,7 +963,7 @@ function ding_user_frontend_default_page_manager_pages() {
   );
   $page->menu = array(
     'type' => 'tab',
-    'title' => 'Mine reserveringer',
+    'title' => 'Reservations',
     'name' => 'navigation',
     'weight' => '4',
     'parent' => array(
@@ -1067,6 +1067,190 @@ function ding_user_frontend_default_page_manager_pages() {
     $display->content['new-c142c84d-4448-41f1-b980-bf06bf2e0d38'] = $pane;
     $display->panels['left_sidebar'][0] = 'new-c142c84d-4448-41f1-b980-bf06bf2e0d38';
     $pane = new stdClass();
+    $pane->pid = 'new-8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3';
+    $pane->panel = 'main_content';
+    $pane->type = 'reservations';
+    $pane->subtype = 'reservations';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'reservation_type_list' => array(
+        'not_ready_for_pickup' => 'not_ready_for_pickup',
+        'interlibrary_loans' => 'interlibrary_loans',
+        'ready_for_pickup' => 0,
+      ),
+      'form_build_id' => 'form-YjzqJCj7L0VlsFICUhBPU4plnz6GmBW4_ygeTOAg23o',
+      'form_token' => '58yM0Lyy1WXessO9Qx3vSM6g4JQYaG8E8ITfEpyCkEM',
+      'form_id' => 'ding_reservation_reservations_content_type_edit_form',
+      'override_title' => 1,
+      'override_title_text' => 'Reservations',
+      'reservation_title' => 'Select all',
+      'reservation_empty_text' => 'There are no reservations.',
+      'reservation_form_id' => 'ding_reservation_reservations_notready_form',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'default-account-panel-layout',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = '';
+    $pane->uuid = '8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3';
+    $display->content['new-8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3'] = $pane;
+    $display->panels['main_content'][0] = 'new-8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['user_reservations'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'user_reservations_ready';
+  $page->task = 'page';
+  $page->admin_title = 'User reservations ready for pick-up';
+  $page->admin_description = '';
+  $page->path = 'user/%user/status-reservations-ready';
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'external_user',
+        'settings' => NULL,
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+        ),
+        'not' => FALSE,
+      ),
+      1 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
+  );
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'Reservations ready for pick-up',
+    'name' => 'navigation',
+    'weight' => '4',
+    'parent' => array(
+      'type' => 'tab',
+      'title' => 'Min side',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'user' => array(
+      'id' => 1,
+      'identifier' => 'User: ID',
+      'name' => 'entity_id:user',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_user_reservations_ready__panel_context_f0f7c0f4-630a-4389-a7b5-2537a3654bc1';
+  $handler->task = 'page';
+  $handler->subtask = 'user_reservations_ready';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(),
+      'logic' => 'and',
+    ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Reservations | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
+    'name' => '',
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+      'left' => NULL,
+      'right' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'ccd85251-4afb-4bd6-b41a-da31a734086c';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-c142c84d-4448-41f1-b980-bf06bf2e0d38';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'c142c84d-4448-41f1-b980-bf06bf2e0d38';
+    $display->content['new-c142c84d-4448-41f1-b980-bf06bf2e0d38'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-c142c84d-4448-41f1-b980-bf06bf2e0d38';
+    $pane = new stdClass();
     $pane->pid = 'new-422dddfe-35fd-4a5b-824a-cbcc7c68a86e';
     $pane->panel = 'main_content';
     $pane->type = 'reservations';
@@ -1104,49 +1288,11 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->uuid = '422dddfe-35fd-4a5b-824a-cbcc7c68a86e';
     $display->content['new-422dddfe-35fd-4a5b-824a-cbcc7c68a86e'] = $pane;
     $display->panels['main_content'][0] = 'new-422dddfe-35fd-4a5b-824a-cbcc7c68a86e';
-    $pane = new stdClass();
-    $pane->pid = 'new-8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3';
-    $pane->panel = 'main_content';
-    $pane->type = 'reservations';
-    $pane->subtype = 'reservations';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_entity_id:user_1',
-      'reservation_type_list' => array(
-        'not_ready_for_pickup' => 'not_ready_for_pickup',
-        'interlibrary_loans' => 'interlibrary_loans',
-        'ready_for_pickup' => 0,
-      ),
-      'form_build_id' => 'form-YjzqJCj7L0VlsFICUhBPU4plnz6GmBW4_ygeTOAg23o',
-      'form_token' => '58yM0Lyy1WXessO9Qx3vSM6g4JQYaG8E8ITfEpyCkEM',
-      'form_id' => 'ding_reservation_reservations_content_type_edit_form',
-      'override_title' => 1,
-      'override_title_text' => 'Reservations',
-      'reservation_title' => 'Select all',
-      'reservation_empty_text' => 'There are no reservations.',
-      'reservation_form_id' => 'ding_reservation_reservations_notready_form',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'default-account-panel-layout',
-    );
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = '';
-    $pane->uuid = '8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3';
-    $display->content['new-8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3'] = $pane;
-    $display->panels['main_content'][1] = 'new-8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-422dddfe-35fd-4a5b-824a-cbcc7c68a86e';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['user_reservations'] = $page;
+  $pages['user_reservations_ready'] = $page;
 
   return $pages;
 
