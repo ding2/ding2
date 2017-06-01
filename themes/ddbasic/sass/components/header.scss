@@ -13,7 +13,7 @@
     @include transition(transform $speed $ease);
     @include transform(translateY(0%));
     position: fixed;
-    z-index: $z-header;
+    z-index: $z-overlay + 1;
     top: 0;
     left: 0;
     width: 100%;
