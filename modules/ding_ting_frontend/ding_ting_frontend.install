@@ -11,7 +11,7 @@ function ding_ting_frontend_update_7001() {
  * Enable Ting infomedia module.
  */
 function ding_ting_frontend_update_7000(&$sandbox) {
-    module_enable(array('ting_infomedia'));
+  module_enable(array('ting_infomedia'));
 }
 
 /**
@@ -19,4 +19,11 @@ function ding_ting_frontend_update_7000(&$sandbox) {
  */
 function ding_ting_frontend_uninstall() {
   variable_del('ding_ting_frontend_group_holdings_available');
+}
+
+/**
+ * Lock field_group component.
+ */
+function ding_ting_frontend_update_7002() {
+  features_feature_lock('ding_ting_frontend', 'field_group');
 }
