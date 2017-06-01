@@ -552,7 +552,8 @@ function ding_base_rewrite_color_stylesheet() {
  */
 function ding_base_file_presave($file) {
   // Check if uploaded file is image.
-  if (empty(file_validate_is_image($file))) {
+  $file_dir = file_validate_is_image($file);
+  if (empty($file_dir)) {
     $toolkit = image_get_toolkit();
 
     // Check if gd2 library available.
