@@ -21,13 +21,6 @@ function ting_carousel_entity_info_alter(&$entity_info) {
 }
 
 /**
- * Implements hook_preprocess_ting_carousel().
- */
-function ting_carousel_preprocess_ding_carousel(&$vars, $hook) {
-  drupal_add_js(drupal_get_path('module', 'ting_carousel') . '/js/ting_carousel.js');
-}
-
-/**
  * Implements hook_preprocess_ting_object().
  */
 function ting_carousel_preprocess_ting_object(&$variables, $hook) {
