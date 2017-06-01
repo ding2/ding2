@@ -516,19 +516,26 @@ search/node',
     $display->content['new-10bf5aa9-f209-42b0-bba4-cc6ba8aee079'] = $pane;
     $display->panels['branding'][2] = 'new-10bf5aa9-f209-42b0-bba4-cc6ba8aee079';
     $pane = new stdClass();
-    $pane->pid = 'new-4b76f9e9-c425-4420-b18d-1b2168580aac';
+    $pane->pid = 'new-4d207b4e-7863-4263-afc0-31805e58a306';
     $pane->panel = 'branding';
-    $pane->type = 'token';
-    $pane->subtype = 'user:name';
+    $pane->type = 'current_user_name';
+    $pane->subtype = 'current_user_name';
     $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'sanitize' => 1,
-      'context' => 'logged-in-user',
-      'override_title' => 1,
-      'override_title_text' => 'Du er logget ind som',
-      'override_title_heading' => 'h2',
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 1,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => TRUE,
+        ),
+      ),
     );
+    $pane->configuration = array();
     $pane->cache = array(
       'method' => 'lazy',
       'settings' => array(
@@ -539,15 +546,14 @@ search/node',
     );
     $pane->style = array(
       'settings' => NULL,
-      'style' => 'default',
     );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $pane->uuid = '4b76f9e9-c425-4420-b18d-1b2168580aac';
-    $display->content['new-4b76f9e9-c425-4420-b18d-1b2168580aac'] = $pane;
-    $display->panels['branding'][3] = 'new-4b76f9e9-c425-4420-b18d-1b2168580aac';
+    $pane->uuid = '4d207b4e-7863-4263-afc0-31805e58a306';
+    $display->content['new-4d207b4e-7863-4263-afc0-31805e58a306'] = $pane;
+    $display->panels['branding'][3] = 'new-4d207b4e-7863-4263-afc0-31805e58a306';
     $pane = new stdClass();
     $pane->pid = 'new-1769a64d-2cbe-490d-87aa-a2c3ee082997';
     $pane->panel = 'content';
