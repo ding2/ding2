@@ -919,7 +919,9 @@ function ddbasic_preprocess_material_item(&$variables) {
   // Render the checkbox.
   $variables['checkbox'] = drupal_render($element[$element['#id']]);
 
-  $variables['information']['expiry']['#weight'] = 1;
+  if (!empty($variables['information']['expiry'])) {
+    $variables['information']['expiry']['#weight'] = 1;
+  }
 }
 
 /**
