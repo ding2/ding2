@@ -477,7 +477,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       // If a user is logged in we change the menu item title.
       if (user_is_logged_in()) {
         $element['#href'] = 'user/me/view';
-        $element['#title'] = 'My Account';
+        $element['#title'] = t('My Account');
         $element['#attributes']['class'][] = 'topbar-link-user-account';
         $element['#localized_options']['attributes']['class'][] = 'topbar-link-user-account';
 
