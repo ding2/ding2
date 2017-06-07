@@ -155,7 +155,7 @@
           transform $speed $ease,
           top 0ms $ease $speed
         );
-        @include transform(translateY(-100%));
+        @include transform(translateY(-400%));
         z-index: $z-header - 1;
         width: 100%;
         top: $header-height;
@@ -187,7 +187,7 @@
 
       // Tablet
       @include media($tablet) {
-        @include transform(translateY(-100%));
+        @include transform(translateY(-300%));
         position: fixed;
         top: $header-height;
         width: 100%;
@@ -476,7 +476,7 @@
         transform $speed $ease,
         top 0ms $ease $speed
       );
-      @include transform(translateY(-100%));
+      @include transform(translateY(-300%));
       top: $header-height;
       display: block;
       overflow: scroll;

@@ -495,15 +495,6 @@ ul.topbar-menu {
         display: none;
       }
       // Create log-out link for tablet/mobile
-      &::after {
-        content: 'Log ud';
-        position: static;
-        display: block;
-        height: 20px;
-        color: #fff;
-        padding: 30px 5%;
-        border-bottom: 1px solid $charcoal-opacity-light;
-      }
     }
 
     // Notebook
@@ -511,9 +502,18 @@ ul.topbar-menu {
       @include font('base');
       font-family: $font-family-bold;
     }
+    
     li {
       text-align: right;
       margin: 0;
+      
+      &.user-log-out {
+        display: none;
+        @include media($tablet) {
+          display: block;
+        }
+      }
+      
       a {
         display: block;
         padding: 10px 0;
