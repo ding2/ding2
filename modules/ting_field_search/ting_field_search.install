@@ -7,15 +7,6 @@
  */
 
 /**
- * Implements hook_enable().
- */
-function ting_field_search_enable() {
-  // We'll do this in hook_modules_enabled() in the module file.
-  // See comments there for more details.
-  // ting_field_search_install_backend();
-}
-
-/**
  * Implements hook_disable().
  */
 function ting_field_search_disable() {

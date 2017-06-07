@@ -6,5 +6,3 @@ core = 7.x
 dependencies[] = ting_search
 
 files[] = ting_field_search.cache.inc
-;files[] = cache/database.inc
-;files[] = cache/memcache.inc

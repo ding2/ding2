@@ -63,32 +63,6 @@ function ting_field_search_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implements hook_forms().
- */
-function ting_field_search_forms() {
-  $forms = array();
-  $forms['ting_field_search_profile_form_add'] = array(
-    'callback' => 'ting_field_search_profile_form',
-  );
-  $forms['ting_field_search_profile_form_edit'] = array(
-    'callback' => 'ting_field_search_profile_form',
-  );
-  return $forms;
-}
-
-/**
- * Implements hook_theme().
- */
-function ting_field_search_theme() {
-  return array(
-    'ting_field_search_profile_form' => array(
-      'render element' => 'form',
-      'file' => 'ting_field_search.admin.inc',
-    ),
-  );
-}
-
-/**
  * Implements hook_modules_enabled().
  *
  * If the Memcache module is enabled, we'll check if we can upgrade to the much
