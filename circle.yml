@@ -1,7 +1,7 @@
 machine:
   php:
     # We support PHP 7.0.x so choose the latest version supported by Circle.
-    version: 7.0.11
+    version: 7.0.17
   node:
     # Our frontend asset pipeline requires 6.10.0 or greater.
     version: 6.10.0
