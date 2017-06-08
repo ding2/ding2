@@ -488,6 +488,27 @@
 }
 
 // ==========================================================================
+// Pane search result
+// ==========================================================================
+
+.pane-search-result {
+  width: 100%;
+  float: left;
+  padding: 40px 0;
+  border-top: 1px solid $charcoal-opacity-light;
+  background-image: none;
+  .pane-content {
+    padding: 0;
+    ul {
+      margin-bottom: 0;
+    }
+    strong {
+      @include font('display-small');
+    }
+  }
+}
+
+// ==========================================================================
 // Pane print button
 // ==========================================================================
 
