@@ -338,6 +338,8 @@ function ding_user_frontend_build_menu($path = NULL) {
     $logout_item['#weight'] = 100;
     $logout_item['#attributes']['class'] = 'user-log-out';
     $menu[] = $logout_item;
+
+    drupal_alter('ding_user_frontend_build_menu', $menu, $menu_item_defaults);
   }
 
   return $menu;
