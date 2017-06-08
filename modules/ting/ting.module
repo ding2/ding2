@@ -325,8 +325,8 @@ function ting_block_view($delta = '') {
           $items[] = render($item);
         }
 
-        // Only display block if there are more than on item.
-        if (!empty($items)) {
+        // Only display block if there are more than one item.
+        if (count($items) > 1) {
           $block->subject = t('Other materialtypes');
           $block->content = array(
             '#theme' => 'item_list',
