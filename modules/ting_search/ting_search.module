@@ -310,7 +310,11 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       break;
   }
 
-  $form['#submit'] = array('ting_search_submit');
+  // Completely take over the search form submit flow, by removing the default
+  // search_box_form_submit handler replacing it with our own as the first.
+  // This prevents overriding other handlers and gives other modules a chance
+  // to alter what we do.
+  $form['#submit'][0] = 'ting_search_submit';
 
   // This submits the form to a blank page and prevents the search to be
   // executed twice. See http://platform.dandigbib.org/issues/372 for more
@@ -1047,9 +1051,12 @@ function ting_search_submit($form, &$form_state) {
     }
   }
   if (!empty($search_info['path']) && in_array($search_info['module'], variable_get('search_active_modules', array()))) {
-    $form_state['redirect'] = FALSE;
-    $url = 'search/' . $search_info['path'] . '/' . trim($q);
-    drupal_goto($url, array('query' => $controls));
+    $form_state['redirect'] = array(
+      'search/' . $search_info['path'] . '/' . trim($q),
+      array(
+        'query' => $controls,
+      ),
+    );
   }
   else {
     form_set_error(NULL, t('Search is currently disabled.'), 'error');
