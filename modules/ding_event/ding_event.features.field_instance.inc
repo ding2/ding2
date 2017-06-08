@@ -546,9 +546,15 @@ function ding_event_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'inline',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 7,
+        'module' => 'addressfield',
+        'settings' => array(
+          'format_handlers' => array(
+            0 => 'address',
+          ),
+          'use_widget_handlers' => 1,
+        ),
+        'type' => 'addressfield_default',
+        'weight' => 4,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -793,7 +799,7 @@ function ding_event_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_plain',
-        'weight' => 5,
+        'weight' => 6,
       ),
       'rss' => array(
         'label' => 'hidden',
@@ -1029,7 +1035,7 @@ function ding_event_field_default_field_instances() {
           'link' => 1,
         ),
         'type' => 'entityreference_label',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -1094,12 +1100,12 @@ function ding_event_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Events show the value "Gratis", if the field is set to 0. If there\'s multiple ticket types, you can set the value as lowest - highest price in the field, like "30 - 50"');
   t('Body');
   t('Book ticket/Participate in event');
   t('Category');
   t('Date');
   t('Display this event in the selected group (temapage).');
+  t('Events show the value "Gratis", if the field is set to 0. If there\'s multiple ticket types, you can set the value as lowest - highest price in the field, like "30 - 50"');
   t('Files');
   t('Groups');
   t('Lead');
