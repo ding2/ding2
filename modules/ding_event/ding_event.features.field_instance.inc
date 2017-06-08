@@ -39,7 +39,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 10,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -117,7 +117,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 14,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -184,7 +184,7 @@ function ding_event_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_plain',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -244,7 +244,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 5,
+        'weight' => 9,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -317,7 +317,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 15,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -382,7 +382,7 @@ function ding_event_field_default_field_instances() {
           'body_snippet_length' => 100,
         ),
         'type' => 'body_snippet',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -450,7 +450,7 @@ function ding_event_field_default_field_instances() {
           ),
         ),
         'type' => 'cs_adaptive_image',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -564,9 +564,15 @@ function ding_event_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 7,
+        'module' => 'addressfield',
+        'settings' => array(
+          'format_handlers' => array(
+            0 => 'address',
+          ),
+          'use_widget_handlers' => 1,
+        ),
+        'type' => 'addressfield_default',
+        'weight' => 4,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -631,7 +637,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 11,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -692,7 +698,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 7,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -752,7 +758,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -817,7 +823,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 16,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -872,7 +878,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 8,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -946,7 +952,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 13,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -1050,7 +1056,7 @@ function ding_event_field_default_field_instances() {
           'link' => 0,
         ),
         'type' => 'entityreference_label',
-        'weight' => 3,
+        'weight' => 5,
       ),
       'teaser_highlight' => array(
         'label' => 'above',

@@ -122,7 +122,7 @@ function ding_event_strongarm() {
       'display' => array(
         'webform' => array(
           'teaser' => array(
-            'weight' => '4',
+            'weight' => '6',
             'visible' => TRUE,
           ),
           'default' => array(
@@ -136,6 +136,10 @@ function ding_event_strongarm() {
         ),
         'ding_serendipity_info' => array(
           'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
             'weight' => '0',
             'visible' => TRUE,
           ),
