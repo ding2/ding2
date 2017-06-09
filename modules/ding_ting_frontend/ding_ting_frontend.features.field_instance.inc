@@ -833,7 +833,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'weight' => 4,
       ),
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'above',
         'module' => 'ting',
         'settings' => array(),
         'type' => 'ting_series_default',
