@@ -8,6 +8,15 @@
   margin-top: 5px;
 }
 
+.ding-entity-rating-clear {
+  @include transition(color $speed $ease);
+  display: inline-block;
+  margin: 5px 0 0 6px;
+  &:hover {
+    color: $color-primary;
+  }
+}
+
 // Overwrites for font-awsome
 .ding-entity-rating {
   width: 100%;
@@ -34,6 +43,7 @@
         color: $color-primary;
       }
     }
+    
     // On material-item odd
     .material-item.odd & {
       &::after {
