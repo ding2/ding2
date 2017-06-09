@@ -600,7 +600,8 @@ function ting_object_page_view($object) {
  */
 function ting_collection_page_view($object) {
   if (count($object->entities) < 2) {
-    drupal_goto('ting/object/' . $object->id);
+    $uri = entity_uri('ting_object', $object);
+    drupal_goto($uri['path'], $uri['options']);
   }
   return ting_collection_view($object);
 }
