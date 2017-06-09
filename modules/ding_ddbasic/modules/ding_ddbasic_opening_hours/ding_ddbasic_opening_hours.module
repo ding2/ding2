@@ -181,6 +181,10 @@ function ding_ddbasic_opening_hours_sort($a, $b) {
     return -1;
   }
 
+  if ($a->category_tid == $b->category_tid) {
+    return ($a->start_time < $b->start_time) ? -1 : 1;
+  }
+
   return ding_ddbasic_opening_hours_get_category_weight($a->category_tid) > ding_ddbasic_opening_hours_get_category_weight($b->category_tid) ?
     1 : -1;
 }

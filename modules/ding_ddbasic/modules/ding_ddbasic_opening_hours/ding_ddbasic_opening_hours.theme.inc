@@ -95,11 +95,15 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
       $notice = '';
     }
 
+    if (empty($structured[$day]['cols'][$category_weight])) {
+      $structured[$day]['cols'][$category_weight] = '';
+    }
+
     if (empty($instance->closed)) {
-      $structured[$day]['cols'][$category_weight] = t('@from - @to', array(
+      $structured[$day]['cols'][$category_weight] .= '<div>' . t('@from - @to', array(
         '@from' => $instance->start_time,
         '@to' => $instance->end_time,
-      )) . $notice;
+      )) . $notice . '</div>';
     }
     else {
       $structured[$day]['cols'][$category_weight] = $notice;
@@ -238,11 +242,15 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
       $notice = '';
     }
 
+    if (empty($structured[$library]['cols'][$category_weight])) {
+      $structured[$library]['cols'][$category_weight] = '';
+    }
+
     if (empty($instance->closed)) {
-      $structured[$library]['cols'][$category_weight] = t('@from - @to', array(
+      $structured[$library]['cols'][$category_weight] .= '<div>' . t('@from - @to', array(
         '@from' => $instance->start_time,
         '@to' => $instance->end_time,
-      )) . $notice;
+      )) . $notice . '</div>';
     }
     else {
       $structured[$library]['cols'][$category_weight] = $notice;
