@@ -398,30 +398,6 @@ function ting_field_search_append_query(&$query, $profile) {
 }
 
 /**
- * Stores the current outbund profile parameter.
- *
- * NOTE: This is currently used in our goto_alter implementation, as a fast way
- * to detect if a profile parameter should be appended to the redirect URI.
- *
- * @param string $profile
- *   The name of the profile.
- */
-function ting_field_search_set_selected_profile($profile) {
-  $static = &drupal_static(__FUNCTION__);
-  $static = $profile;
-}
-
-/**
- * Get the current outbound profile if any.
- *
- * @return string $profile
- *   The name of the profile.
- */
-function ting_field_search_get_selected_profile() {
-  return drupal_static('ting_field_search_set_selected_profile', NULL);
-}
-
-/**
  * Implements hook_entity_info_alter().
  *
  * By extending the entity_uri callback for ting objects and collections, we
@@ -466,16 +442,6 @@ function _ting_field_search_alter_entity_uri($path) {
  * Implements hook_drupal_goto_alter().
  */
 function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_code) {
-  if ($profile = ting_field_search_get_selected_profile()) {
-    // The search form is submitted and the user has selected a profile; Add
-    // the profile parameter when the submit callback redirects.
-    if (preg_match('/^search\/ting/', $path)) {
-      // It is unclear at this point whether webtrends parametets should be
-      // added here, so just add the profile directly for now.
-      $options['query']['profile'] = $profile;
-    }
-  }
-
   // NOTE: Unfortunately this is the only work around the hard-coded redirect
   // from ting_collection to ting_object, when there's only one object in the
   // collection.
@@ -681,46 +647,38 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     '#default_value' => $profile ? $profile : '',
   );
 
-  // Use a validate handler for its timing before ting_search_submit() which is
-  // a submit handler. This makes us independent of a specific module weight.
+  // Perform som alterations before ting_search_submit in a validate handler.
   $form['#validate'][] = 'ting_field_search_search_block_validate';
+  // Redirect if an exposed profile was selected.
+  $form['#submit'][] = 'ting_field_search_search_block_submit';
 }
 
 /**
  * Validate handler for the search block form.
  */
 function ting_field_search_search_block_validate($form, &$form_state) {
-  $previous_profile = $form_state['values']['ting_field_search_profile'];
-  // TODO: Se note in form_alter above.
-  $selected_profile = $form_state['values']['material_type'];
+  // Prevents ting_search from setting facet. (since we're using material_type)
+  // TODO: Remove. See note in form_alter above.
+  $form_state['values']['ting_field_search'] = $form_state['values']['material_type'];
+  $form_state['values']['material_type'] = FALSE;
 
   // Reset the sort if the user is changing profile. This is the most intuitive
-  // and fixes several issues when the different profiles is using different
-  // default sort settings.
+  // and fixes several issues when the profiles is using differentdefault sort
+  // settings.
+  $previous_profile = $form_state['values']['ting_field_search_profile'];
+  $selected_profile = $form_state['values']['ting_field_search'];
   if ($previous_profile != $selected_profile) {
     $form_state['values']['sort'] = '';
   }
+}
 
-  if ($selected_profile) {
-    // Flag that a profile was selected for later in the redirect.
-    // See: ting_field_search_goto_alter().
-    ting_field_search_set_selected_profile($selected_profile);
-
-    // Prevents ting_search from setting default facet (material type search).
-    // TODO: Remove. Se note todo note above.
-    form_set_value($form['material_type'], FALSE, $form_state);
-
-    // To support the allow empty feature, we may have to load a profile to
-    // see its config.
-    $form_id = $form['form_id']['#value'];
-    $keys = &$form_state['values'][$form_id];
-    if (empty($keys)) {
-      $profile = ting_field_search_profiles_load($selected_profile);
-      if ($profile && $profile->config['search_request']['allow_empty']) {
-        // TODO: This needs rework.
-        $keys = '*';
-      }
-    }
+/**
+ * Submit handler for search block form.
+ */
+function ting_field_search_search_block_submit($form, &$form_state) {
+  if ($selected_profile = $form_state['values']['ting_field_search']) {
+    // Add profile machine name query to redirect URL.
+    $form_state['redirect'][1]['query']['profile'] = $selected_profile;
   }
 }
 
