@@ -709,6 +709,7 @@ function ding_ting_frontend_field_group_info() {
       3 => 'ting_abstract',
       4 => 'ting_author',
       5 => 'ting_subjects',
+      6 => 'ding_entity_buttons',
     ),
     'format_type' => 'div',
     'format_settings' => array(

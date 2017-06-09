@@ -418,10 +418,39 @@
     .field-name-ting-abstract {
       margin: 20px 0;
     }
+    .field-name-ding-entity-buttons {
+      float: left;
+      width: 100%;
+      margin: 20px 0 5px 0;
+      padding-top: 20px;
+      border-top: 1px solid $charcoal-opacity-light;
+      .ding-list-add-button {
+        float: left;
+        margin-right: 15px;
+        a {
+          color: $white;
+          background-color: $black;
+        }
+      }
+      .action-button {
+        display: inline-block;
+        margin: 0 15px 15px 0;
+        color: $white;
+        background-color: $black;
+        .no-touch & {
+          &:hover {
+            color: $white;
+            background-color: $grey-dark;
+          }
+        }
+      }
+    }
     .field-name-ting-series {
       margin-bottom: 20px;
     }
     .search-result--availability {
+      float: left;
+      width: 100%;
       padding-top: 20px;
       border-top: 1px solid $charcoal-opacity-light;
       p {
@@ -465,6 +494,9 @@
 
   &.view-mode-collection-list {
     margin-bottom: 10px;
+    .action-button.other-formats {
+      display: none;
+    }
   }
 
   // ==========================================================================
