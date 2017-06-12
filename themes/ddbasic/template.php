@@ -669,7 +669,29 @@ function ddbasic_process_page(&$vars) {
 }
 
 /**
- * Implements hook_preprocess_ting_object().
+ * Preprocess function for ting_object theme function.
+ */
+function ddbasic_preprocess_ting_object(&$vars) {
+
+  switch ($vars['elements']['#entity_type']) {
+    case 'ting_object':
+
+      switch ($vars['elements']['#view_mode']) {
+        // Teaser.
+        case 'teaser':
+
+          // Check if overlay is disabled and set class.
+          if (theme_get_setting('ting_object_disable_overlay') == TRUE) {
+            $vars['classes_array'][] = 'no-overlay';
+          }
+          break;
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_process_ting_object().
  *
  * Adds wrapper classes to the different groups on the ting object.
  */
@@ -732,11 +754,6 @@ function ddbasic_process_ting_object(&$vars) {
               'ding_entity',
               $vars['object']
             ), 0, 1);
-          }
-
-          // Check if overlay is disabled and set class.
-          if (theme_get_setting('ting_object_disable_overlay') == TRUE) {
-            $vars['classes_array'][] = 'no-overlay';
           }
 
           // Check if teaser has rating function and remove abstract.
