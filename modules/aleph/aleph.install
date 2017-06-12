@@ -1,0 +1,37 @@
+<?php
+/**
+ * @file
+ * Handles requirements, installation and uninstall for the module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function aleph_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  if (!function_exists('simplexml_load_string')) {
+    $requirements['simplexml'] = array(
+      'title' => 'SimpleXML',
+      'description' => $t('The Aleph module requires SimpleXML to function. Please install and/or enable SimpleXML in your PHP configuration.'),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+
+  if ($phase == 'runtime') {
+    $requirements['aleph'] = array(
+      'title' => $t('Aleph'),
+      'value' => $t('Aleph configured'),
+      'severity' => REQUIREMENT_OK,
+    );
+    if (!variable_get('aleph_base_url', FALSE) || !variable_get('ting_agency', FALSE)) {
+      $requirements['aleph']['value'] = $t('Aleph not configured');
+      $requirements['aleph']['description'] = $t('Aleph is not properly configured, please visit <a href="@link">the settings page</a>.', array('@link' => url('admin/config/ding/provider/aleph')));
+      $requirements['aleph']['severity'] = REQUIREMENT_ERROR;
+    }
+  }
+
+  return $requirements;
+}

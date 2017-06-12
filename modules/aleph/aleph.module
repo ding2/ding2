@@ -1,0 +1,80 @@
+<?php
+/**
+ * @file
+ * Code for the Aleph feature.
+ */
+
+include_once 'aleph.features.inc';
+
+/**
+ * Implements hook_ding_provider().
+ */
+function aleph_ding_provider() {
+  return array(
+    'title' => 'Aleph provider',
+    'settings' => 'aleph_settings_form',
+    'provides' => array(
+      'user_consent' => array(
+        'prefix' => 'user_consent',
+        'file' => 'includes/aleph.user_consent.inc',
+      ),
+      'user' => array(
+        'prefix' => 'user',
+        'file' => 'includes/aleph.user.inc',
+      ),
+    ),
+  );
+}
+
+/**
+ * Form callback for provider module settings.
+ *
+ * This is a regular form callback.
+ */
+function aleph_settings_form() {
+  $form = array();
+
+  $form['aleph'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Aleph service settings'),
+    '#tree' => FALSE,
+  );
+
+  $form['aleph']['aleph_base_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Aleph base URL'),
+    '#description' => t('Base URL for Aleph service.'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('aleph_base_url', ''),
+  );
+
+  $form['aleph']['aleph_enable_logging'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable logging'),
+    '#default_value' => variable_get('aleph_enable_logging', FALSE),
+    '#description' => t('Logs requests to the Aleph webservice. Sensitive information such as CPR number and PIN code is stripped from the requests.'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Return a fully instantiated AlephClient instance.
+ */
+function aleph_client() {
+  // This is basically a singleton. We also wait until right before
+  // instantiating to include our required classes. That seems like a
+  // decent performance trade-off instead of loading everything on every
+  // page load.
+  static $client;
+  if (!isset($client)) {
+    try {
+      $client = new AlephClient(variable_get('aleph_base_url', ''));
+    }
+    catch (Exception $e) {
+      watchdog('aleph', 'Constructor error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
+      return NULL;
+    }
+  }
+  return $client;
+}
