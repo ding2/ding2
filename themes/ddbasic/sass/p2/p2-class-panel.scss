@@ -87,6 +87,24 @@
 }
 
 // ==========================================================================
+// Pane edit list
+// ==========================================================================
+.pane-edit-list {
+  input[type=submit] {
+    width: auto;
+    float: left;
+    padding-right: 80px;
+    margin-top: 20px;
+    margin-right: getGutter(8);
+
+    // Mobile
+    @include media($mobile) {
+      //padding-right: 30px;
+    }
+  }
+}
+
+// ==========================================================================
 // Pane user lists and specials
 // ==========================================================================
 .pane-userlists-and-specials {
