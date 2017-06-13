@@ -6520,7 +6520,7 @@ div[class^="collection-bg"] {
   .view-public-lists .ting-object .ting-object,
   .ting-carousel .rs-carousel-item .ting-cover,
   .ting-carousel .rs-carousel-item .ting-object {
-    min-height: 190px; }
+    min-height: 196px; }
     @media only screen and (max-width: 768px) {
       .slick-track .ting-search-carousel-item .ting-cover,
       .slick-track .ting-search-carousel-item .ting-object,
@@ -6858,6 +6858,9 @@ div[class^="collection-bg"] {
 .ting-object.view-mode-compact .field-name-ding-serendipity-info {
   margin-top: 5px;
   margin-bottom: 0; }
+
+.rs-carousel .rs-carousel-items {
+  padding: 15px; }
 
 /**
  * News
@@ -8599,6 +8602,11 @@ div[class^="collection-bg"] {
 /* User login in header
    ========================================================================== */
 .header-wrapper {
+  float: left;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+  min-height: 80px;
   /* Add padding if the search is in the header */ }
   .header-wrapper .user {
     padding-right: 10px; }
@@ -8816,17 +8824,32 @@ div[class^="collection-bg"] {
 .ding-gatewayf--link-wrapper {
   margin-top: 10px; }
 
-.header-wrapper .header-inner > section.user {
-  padding-bottom: 60px; }
+section.wayf-wrapper {
+  position: relative;
+  float: right;
+  width: 27.5%;
+  margin-right: 0%;
+  margin-left: -27.5%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible; }
   @media only screen and (max-width: 480px) {
-    .header-wrapper .header-inner > section.user {
+    section.wayf-wrapper {
       padding-bottom: 100px; }
-      .header-wrapper .header-inner > section.user .pane-ding-gatewayf-registration-registration {
+      section.wayf-wrapper .pane-ding-gatewayf-registration-registration {
         margin-bottom: 10px; } }
 
 .header-wrapper .header-inner > section.wayf-wrapper {
   bottom: 5px;
-  right: 10px; }
+  right: 0; }
   @media only screen and (max-width: 480px) {
     .header-wrapper .header-inner > section.wayf-wrapper {
       left: 5%;
