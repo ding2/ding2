@@ -43,7 +43,7 @@ root path and execute the commands below.
 
 This [patch](https://drupal.org/node/1232346) fixes a problem with recursive menu rebuilds.
 ```sh
-  ~$ wget -qO- http://drupal.org/files/menu-get-item-rebuild-1232346-22_0.patch | patch -p1
+  ~$ wget -qO- http://drupal.org/files/issues/menu-get-item-rebuild-1232346-45.patch | patch -p1
 ```
 
 This [patch](https://drupal.org/node/2205581) fixes issue with permissions and
@@ -58,12 +58,18 @@ web-services that runs OpenSSL v1.0.x or newer works.
   ~$ wget -qO- http://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
 ```
 
+This [patch](https://www.drupal.org/node/2877243) ensure that core is PHP 7.0 compliant.
+web-services that runs OpenSSL v1.0.x or newer works.
+```sh
+  ~$ wget -qO- https://www.drupal.org/files/issues/DATE_RFC7231-2877243-26.patch | patch -p1
+```
+
 __Optional__,but recommended patch that ensures that Ajax errors only are
 displayed when not in readystate 4. So when the user presses enter to perform a
 search before auto-complete Ajax is call is completed an error will not be
 displayed.
 ```sh
-  ~$ wget -qO- https://drupal.org/files/issues/autocomplete-1232416-17-7x.patch | patch -p1
+  ~$ wget -qO- http://www.drupal.org/files/issues/autocomplete-1232416-205-7x.patch | patch -p1
 ```
 
 ## Build Ding2 installation profile
