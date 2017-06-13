@@ -76,9 +76,10 @@
           $('.wayf-wrapper').css("display", "block");
           $('.user.js-topbar-user').css("padding-bottom", "60px");
           $('.header-wrapper').addClass('small-header');
-        }
-        else
+        } 
+        else {
           $('.wayf-wrapper').css("display", "none");
+        }
       }
     }
     else {
