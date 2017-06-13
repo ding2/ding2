@@ -6520,7 +6520,7 @@ div[class^="collection-bg"] {
   .view-public-lists .ting-object .ting-object,
   .ting-carousel .rs-carousel-item .ting-cover,
   .ting-carousel .rs-carousel-item .ting-object {
-    min-height: 190px; }
+    min-height: 196px; }
     @media only screen and (max-width: 768px) {
       .slick-track .ting-search-carousel-item .ting-cover,
       .slick-track .ting-search-carousel-item .ting-object,
@@ -6858,6 +6858,9 @@ div[class^="collection-bg"] {
 .ting-object.view-mode-compact .field-name-ding-serendipity-info {
   margin-top: 5px;
   margin-bottom: 0; }
+
+.rs-carousel .rs-carousel-items {
+  padding: 15px; }
 
 /**
  * News
