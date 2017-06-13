@@ -169,7 +169,7 @@ $carousel-tab-color:                       $white;
 
   .ting-cover,
   .ting-object {
-    min-height: 190px;
+    min-height: 196px;
 
      @include small-medium() {
       min-height: 100%;
@@ -483,4 +483,8 @@ $carousel-tab-color:                       $white;
 .ting-object.view-mode-compact .field-name-ding-serendipity-info {
   margin-top: 5px;
   margin-bottom: 0;
+}
+
+.rs-carousel .rs-carousel-items {
+  padding: 15px;
 }
