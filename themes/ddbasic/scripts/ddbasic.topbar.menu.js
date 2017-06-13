@@ -65,16 +65,26 @@
       if ( $('.topbar-menu .leaf .topbar-link-user').hasClass('active') ) {
         $('.topbar-menu .leaf .topbar-link-user').toggleClass('active');
         $('.js-topbar-user').css("display", "none");
+        $('.wayf-wrapper').css("display", "none");
       }
       else {
         // Display the element.
         $('.topbar-menu .leaf .topbar-link-user').toggleClass('active');
         $('.js-topbar-user').css("display", "block");
+
+        if ($('.wayf-wrapper .pane-ding-gatewayf-login').length) {
+          $('.wayf-wrapper').css("display", "block");
+          $('.user.js-topbar-user').css("padding-bottom", "60px");
+          $('.header-wrapper').addClass('small-header');
+        }
+        else
+          $('.wayf-wrapper').css("display", "none");
       }
     }
     else {
       $('.topbar-menu .leaf .topbar-link-user').removeClass('active');
       $('.js-topbar-user').css("display", "none");
+      $('.wayf-wrapper').css("display", "none");
     }
   }
 
