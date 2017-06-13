@@ -96,10 +96,13 @@
     padding-right: 80px;
     margin-top: 20px;
     margin-right: getGutter(8);
-
-    // Mobile
-    @include media($mobile) {
-      //padding-right: 30px;
+  }
+  .form-actions {
+    a {
+      display: block;
+      float: left;
+      clear: left;
+      margin-top: 20px;
     }
   }
 }
