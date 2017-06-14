@@ -745,7 +745,7 @@ function ding_list_preprocess_entity(&$variables) {
               '#path' => 'search/ting/' . $parsed['path'],
               '#options' => array(
                 'query' => $parsed['query'],
-                'attributes' => array(),
+                'attributes' => array('class' => array('list-element-title')),
                 'html' => TRUE,
               ),
             );
@@ -778,7 +778,7 @@ function ding_list_preprocess_entity(&$variables) {
               '#path' => 'search/ting/' . $parsed['path'],
               '#options' => array(
                 'query' => $parsed['query'],
-                'attributes' => array(),
+                'attributes' => array('class' => array('list-element-title')),
                 'html' => TRUE,
               ),
             );
