@@ -50,8 +50,8 @@
         display: none;
       }
       &.active {
-        @include place-icon('arrow-right-small', $color-text, 8px);
-        color: $color-text;
+        @include place-icon('arrow-right-small', $color-text-link, 8px);
+        color: $color-text-link;
         position: relative;
         padding-left: 20px;
         &::after {
@@ -141,7 +141,7 @@
       }
       &:hover {
         &::after {
-          color: $color-text;
+          color: $color-text-link;
         }
       }
     }

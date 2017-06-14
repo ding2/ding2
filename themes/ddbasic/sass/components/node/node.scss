@@ -26,7 +26,7 @@
       color: $charcoal;
       font-weight: normal;
       &:hover {
-        color: $color-text;
+        color: $color-text-link;
       }
       // Tablet
       @include media($tablet) {

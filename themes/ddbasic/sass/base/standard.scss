@@ -126,7 +126,7 @@ img.file-icon {
 a {
   @include transition(color $speed $ease);
   text-decoration: none;
-  color: $color-text;
+  color: $color-text-link;
   &:hover {
     color: $charcoal;
   }

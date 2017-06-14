@@ -410,7 +410,7 @@
         a {
           color: $charcoal;
           &:hover {
-            color: $color-text;
+            color: $color-text-link;
           }
         }
       }
@@ -457,7 +457,7 @@
         margin-bottom: 0;
         a {
           margin: 0 10px 0 5px;
-          color: $color-text;
+          color: $color-text-link;
         }
       }
     }

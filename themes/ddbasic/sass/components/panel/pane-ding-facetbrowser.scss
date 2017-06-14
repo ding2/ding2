@@ -30,9 +30,9 @@
         left: 10px;
       }
       &:hover {
-        color: $color-text;
+        color: $color-text-link;
         &::after {
-          color: $color-text;
+          color: $color-text-link;
         }
       }
       // Hide show less link
@@ -58,9 +58,9 @@
         left: 10px;
       }
       &:hover {
-        color: $color-text;
+        color: $color-text-link;
         &::after {
-          color: $color-text;
+          color: $color-text-link;
         }
       }
     }

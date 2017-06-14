@@ -206,10 +206,10 @@ ul.main-menu-third-level {
     margin-bottom: 20px;
     a {
       @include transition(color $speed $ease);
-      color: $color-text;
+      color: $color-text-link;
       &.active-trail,
       &.active {
-        @include place-icon('arrow-right-small', $color-text, 8px);
+        @include place-icon('arrow-right-small', $color-text-link, 8px);
         position: relative;
         padding-left: 20px;
         &::after {
@@ -502,18 +502,18 @@ ul.topbar-menu {
       @include font('base');
       font-family: $font-family-bold;
     }
-    
+
     li {
       text-align: right;
       margin: 0;
-      
+
       &.user-log-out {
         display: none;
         @include media($tablet) {
           display: block;
         }
       }
-      
+
       a {
         display: block;
         padding: 10px 0;
