@@ -2,14 +2,13 @@
 (function($) {
   'use strict';
 
-  $(function () {
-    // Set height for event teasers.
-    var ding_event_teaser_height;
-    $(window).bind('resize.ding_event_teaser', function (evt) {
-      $('.node-ding-event.node-teaser').each(function (delta, view) {
-        ding_event_teaser_height = $(this).find('.inner').outerHeight();
-        $(this).height(ding_event_teaser_height);
-      });
+  // Set height for event teasers.
+  $(window).bind('resize.ding_event_teaser', function (evt) {
+    var ding_event_teaser_height = 0;
+
+    $('.node-ding-event.node-teaser').each(function (delta, view) {
+      ding_event_teaser_height = $(this).find('.inner').outerHeight();
+      $(this).height(ding_event_teaser_height);
     });
   });
 
