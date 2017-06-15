@@ -94,13 +94,11 @@ function fbs_availability_holdings($provider_ids) {
         $result_holding['placement'][] = $material_description[0]->materialGroupName;
       }
 
+      module_load_include('client.inc', 'ting');
       $entity_id = ding_provider_build_entity_id($provider_ids[0]);
       $suffix_type = variable_get('fbs_holdings_suffix_type', 'simple');
 
-      if ($suffix_type == 'simple') {
-        // Load entity by the provider id.
-        $entity = ding_entity_load($entity_id);
-
+      if ($suffix_type == 'simple' && $entity = ding_entity_load($entity_id)) {
         // Get DK5 classification.
         if ($classification = $entity->getClassification()) {
           $result_holding['placement'][] = $classification;
@@ -111,9 +109,7 @@ function fbs_availability_holdings($provider_ids) {
           $result_holding['placement'][] = $creator[0];
         }
       }
-      elseif ($suffix_type == 'shelf_mark') {
-        module_load_include('client.inc', 'ting');
-        $entity = ting_get_object_marcxchange($entity_id);
+      elseif ($suffix_type == 'shelf_mark' && $entity = ting_get_object_marcxchange($entity_id)) {
         $suffix = '';
         $field652m = fbs_get_marc_field($entity, '652', 'm');
         $field652o = fbs_get_marc_field($entity, '652', 'o');
