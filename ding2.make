@@ -222,6 +222,9 @@ projects[menu_position][version] = "1.1"
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
+; Patch messages to make message id a NOT NULL database field.
+; https://www.drupal.org/node/2051751
+projects[message][patch][0] = "https://www.drupal.org/files/message-primary_nullable-2051751-7.patch"
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] "1.10"
