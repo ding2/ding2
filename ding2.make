@@ -42,10 +42,13 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-readd_ac
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 
-; Patch to fix empty order_id. See https://drupal.org/node/2107389
 projects[dibs][subdir] = "contrib"
 projects[dibs][version] = "1.0"
+; Patch to fix empty order_id. See https://drupal.org/node/2107389
 projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
+; Patch make dibs_split_payments payment_transaction_id a NOT NULL database field.
+; https://www.drupal.org/node/2812891
+projects[dibs][patch][] = "https://www.drupal.org/files/issues/mysql_5.7_compatibility-2812891-2.patch"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
