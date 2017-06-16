@@ -15,6 +15,7 @@ function bpi_schema() {
     'fields' => array(
       'id' => array(
         'type' => 'serial',
+        'not null' => TRUE
       ),
       'nid' => array(
         'type' => 'int',
