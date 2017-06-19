@@ -5252,8 +5252,7 @@ input#edit-search-block-form--2.spinner {
   width: 100%;
   /* Media queries */ }
   .ting-cover img {
-    position: relative;
-    z-index: 90; }
+    position: relative; }
   .ting-cover:before {
     color: #bcbcbc;
     font-family: "FontAwesome";

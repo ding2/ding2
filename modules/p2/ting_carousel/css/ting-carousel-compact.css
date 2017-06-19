@@ -5,10 +5,6 @@
   float: right;
 }
 
-.ting-carousel .rs-carousel-action {
-  z-index:1000;
-}
-
 .ting-object.view-mode-compact .contentbox {
   position: relative;
   background-color: #eee;
@@ -39,17 +35,14 @@
   top: 0;
   left: 0;
   height: 100%;
-  /*background-color: rgba(0, 0, 0, 0.5);*/
-  z-index: 99;
   text-align: left;
   padding: 10px 15px;
   box-sizing: border-box;
-
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+0&0.65+10,0+95 */
-background: -moz-linear-gradient(top,  rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.65) 10%, rgba(0,0,0,0) 95%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.65) 10%,rgba(0,0,0,0) 95%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.65) 10%,rgba(0,0,0,0) 95%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+  background: -moz-linear-gradient(top,  rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.65) 10%, rgba(0,0,0,0) 95%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.65) 10%,rgba(0,0,0,0) 95%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.65) 10%,rgba(0,0,0,0) 95%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
 }
 
 
@@ -76,4 +69,3 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', e
 .ting-object.view-mode-compact .field-name-ting-author a:hover {
   text-decoration: underline;
 }
-
