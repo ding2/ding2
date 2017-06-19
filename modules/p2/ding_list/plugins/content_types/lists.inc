@@ -129,7 +129,6 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     $overdues = 0;
     $today = date('Y-m-d', REQUEST_TIME);
     foreach ($loans as $loan) {
-
       if ($loan->expiry < $today) {
         $overdues++;
       }
@@ -160,7 +159,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     }
 
     // All Reservations.
-    $count = $readys + count(ding_provider_invoke('reservation', 'list', $account, DING_RESERVATION_NOT_READY));
+    $count = count(ding_provider_invoke('reservation', 'list', $account, DING_RESERVATION_NOT_READY));
     $groups['specials']['lists']['special_reservations'][] = array(
       'data' =>
       '<a href="' . url($uri['path'] . '/status-reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations') . '</a>' . '<span class="label">' . $count . '</span>',
@@ -168,8 +167,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     );
 
     // Loans.
-    $loans = ding_provider_invoke('loan', 'list', $account);
-    $count = count(ding_provider_invoke('loan', 'list', $account));
+    $count = count($loans) - $overdues;
     $groups['specials']['lists']['special_loans'][] = array(
       'data' =>
       '<a href="' . url($uri['path'] . '/status-loans') . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',

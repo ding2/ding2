@@ -232,34 +232,40 @@
     }
   };
 
-  // Add masonry to event views.
-  $(function () {
-    var masonry_is_active = false;
-    $(window).bind('resize.ding_event_masonry', function (evt) {
-      switch (ddbasic.breakpoint.is('mobile', 'event_masonry')) {
-        case ddbasic.breakpoint.IN:
-          if (masonry_is_active === true) {
-            $('.view-ding-event .group-separator .view-elements, .view-tags-list .group-separator.ding-event .view-elements').masonry('destroy');
-          }
-          break;
-        case ddbasic.breakpoint.OUT:
-          $('.view-ding-event .group-separator .view-elements, .view-tags-list .group-separator.ding-event .view-elements').masonry({
-            itemSelector: '.views-row',
-            columnWidth: '.grid-sizer',
-            gutter: '.grid-gutter',
-            percentPosition: true,
-          });
-          masonry_is_active = true;
-          break;
-      }
-    });
+  // Update masonry on resize.
+  $(window).bind('resize.ding_event_masonry', function (evt) {
+    handle_ding_event_masonry();
   });
+
+  // Add masonry to event views.
+  function handle_ding_event_masonry(force) {
+    if (force === true) {
+      ddbasic.breakpoint.reset('event_masonry');
+    }
+
+    switch (ddbasic.breakpoint.is('mobile', 'event_masonry')) {
+      case ddbasic.breakpoint.IN:
+        var element = $('.view-ding-event .group-separator .view-elements, .view-tags-list .group-separator.ding-event .view-elements');
+        if (element.data('masonry')) {
+          element.masonry('destroy');
+        }
+        break;
+      case ddbasic.breakpoint.OUT:
+        $('.view-ding-event .group-separator .view-elements, .view-tags-list .group-separator.ding-event .view-elements').masonry({
+          itemSelector: '.views-row',
+          columnWidth: '.grid-sizer',
+          gutter: '.grid-gutter',
+          percentPosition: true,
+        });
+        break;
+    }
+  }
 
   // Call masonry resize when images are loaded.
   Drupal.behaviors.ding_event_teaser_masonry = {
     attach: function(context, settings) {
       $('.view-ding-event .group-separator .view-elements', context).imagesLoaded( function() {
-        $(window).triggerHandler('resize.ding_event_masonry');
+        handle_ding_event_masonry(true);
       });
     }
   };

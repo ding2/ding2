@@ -70,15 +70,27 @@ function ding_ting_frontend_field_group_info() {
   $field_group->entity_type = 'ting_object';
   $field_group->bundle = 'ting_object';
   $field_group->mode = 'search_result';
-  $field_group->parent_name = '';
+  $field_group->parent_name = 'group_ting_right_col_search';
   $field_group->data = array(
     'label' => 'Info',
-    'weight' => '7',
-    'children' => array(),
-    'format_type' => 'hidden',
+    'weight' => '23',
+    'children' => array(
+      0 => 'ting_series',
+      1 => 'ting_abstract',
+      2 => 'group_rating',
+    ),
+    'format_type' => 'div',
     'format_settings' => array(
-      'formatter' => '',
-      'instance_settings' => array(),
+      'label' => 'Info',
+      'instance_settings' => array(
+        'classes' => 'info-container',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
     ),
   );
   $export['group_info|ting_object|ting_object|search_result'] = $field_group;
@@ -218,7 +230,7 @@ function ding_ting_frontend_field_group_info() {
   $field_group->entity_type = 'ting_object';
   $field_group->bundle = 'ting_object';
   $field_group->mode = 'search_result';
-  $field_group->parent_name = 'group_ting_right_col_search';
+  $field_group->parent_name = 'group_info';
   $field_group->data = array(
     'label' => 'Rating',
     'weight' => '23',
@@ -577,14 +589,14 @@ function ding_ting_frontend_field_group_info() {
     'children' => array(
       0 => 'ting_relations',
       1 => 'ting_infomedia',
-      2 => 'group_holdings_available',
-      3 => 'group_on_this_site',
-      4 => 'group_periodical_issues',
-      5 => 'group_material_details',
-      6 => 'group_oembed',
-      7 => 'group_ting_object_right_c',
-      8 => 'group_ting_object_right_a',
-      9 => 'group_ting_object_meta',
+      2 => 'group_material_details',
+      3 => 'group_holdings_available',
+      4 => 'group_on_this_site',
+      5 => 'group_periodical_issues',
+      6 => 'group_ting_object_meta',
+      7 => 'group_ting_object_right_a',
+      8 => 'group_ting_object_right_c',
+      9 => 'group_oembed',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -697,6 +709,7 @@ function ding_ting_frontend_field_group_info() {
       3 => 'ting_abstract',
       4 => 'ting_author',
       5 => 'ting_subjects',
+      6 => 'ding_entity_buttons',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -764,10 +777,8 @@ function ding_ting_frontend_field_group_info() {
     'weight' => '1',
     'children' => array(
       0 => 'ting_title',
-      1 => 'ting_series',
-      2 => 'ting_abstract',
-      3 => 'ting_author',
-      4 => 'group_rating',
+      1 => 'ting_author',
+      2 => 'group_info',
     ),
     'format_type' => 'div',
     'format_settings' => array(

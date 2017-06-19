@@ -376,7 +376,7 @@
     .search-result--heading-type {
       @include arrow-button(arrow-down);
 
-      &.toggled {
+      &.is-open {
         @include arrow-button(arrow-up); //arrow turns up on click
         &::after {
           display: none; //hide arrow up button on desktop
@@ -395,7 +395,7 @@
           cursor: pointer;
         }
 
-        &.toggled {
+        &.is-open {
           &::after {
             display: block; //show arrow up button on mobile
           }
@@ -410,7 +410,7 @@
         a {
           color: $charcoal;
           &:hover {
-            color: $color-text;
+            color: $color-text-link;
           }
         }
       }
@@ -418,17 +418,46 @@
     .field-name-ting-abstract {
       margin: 20px 0;
     }
+    .field-name-ding-entity-buttons {
+      float: left;
+      width: 100%;
+      margin: 20px 0 5px 0;
+      padding-top: 20px;
+      border-top: 1px solid $charcoal-opacity-light;
+      .ding-list-add-button {
+        float: left;
+        margin-right: 15px;
+        a {
+          color: $white;
+          background-color: $black;
+        }
+      }
+      .action-button {
+        display: inline-block;
+        margin: 0 15px 15px 0;
+        color: $white;
+        background-color: $black;
+        .no-touch & {
+          &:hover {
+            color: $white;
+            background-color: $grey-dark;
+          }
+        }
+      }
+    }
     .field-name-ting-series {
       margin-bottom: 20px;
     }
     .search-result--availability {
+      float: left;
+      width: 100%;
       padding-top: 20px;
       border-top: 1px solid $charcoal-opacity-light;
       p {
         margin-bottom: 0;
         a {
           margin: 0 10px 0 5px;
-          color: $color-text;
+          color: $color-text-link;
         }
       }
     }
@@ -447,7 +476,7 @@
         padding-top: 0;
         border-top: 0;
       }
-      .hide-wrap {
+      .group-info {
         position: relative;
         display: none;
         margin-top: 20px;
@@ -465,6 +494,9 @@
 
   &.view-mode-collection-list {
     margin-bottom: 10px;
+    .action-button.other-formats {
+      display: none;
+    }
   }
 
   // ==========================================================================
@@ -592,8 +624,85 @@
             }
             > .field-items {
               padding-left: 100px;
+              .ting-material-detail {
+                display: block;
+              }
             }
           }
+        }
+      }
+      .group-periodical-issues {
+        li {
+          list-style: none;
+          margin: 0;
+        }
+        .ding-periodical-fold {
+          @include font('display');
+          @include place-icon(arrow-down);
+          width: 100%;
+          float: left;
+          color: $color-text;
+          padding-bottom: 5px;
+          border-bottom: 1px solid $charcoal-opacity-light;
+          margin-bottom: 15px;
+          cursor: pointer;
+          &::after {
+            font-size: 40px;
+            right: 0;
+
+            // Mobile
+            @include media($mobile) {
+              top: -10px;
+            }
+          }
+          &:hover {
+            color: $charcoal;
+          }
+        }
+        .ding-periodical-container {
+          width: 100%;
+          float: left;
+          .ding-periodical-fold {
+            @include font('base');
+            display: block;
+            width: 100%;
+            &::after {
+              @extend %icon-arrow-down;
+              top: -10px;
+
+            }
+          }
+          &.last {
+            margin-bottom: 40px;
+          }
+        }
+        .expanded-periodicals-parent {
+          .ding-periodical-fold {
+            &::after {
+              @extend %icon-arrow-up;
+            }
+          }
+          .ding-periodical-container {
+            .ding-periodical-fold {
+              &::after {
+                @extend %icon-arrow-down;
+              }
+            }
+          }
+        }
+        .ding-periodical-container {
+          &.expanded-periodicals-parent {
+            .ding-periodical-fold {
+              &::after {
+                @extend %icon-arrow-up;
+              }
+            }
+          }
+        }
+        .reserve-button {
+          float: left;
+          padding-right: 80px;
+          margin-top: 10px;
         }
       }
       .group-oembed {

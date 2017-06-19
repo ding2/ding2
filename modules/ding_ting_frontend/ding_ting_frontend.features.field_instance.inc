@@ -169,7 +169,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 23,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -215,9 +215,10 @@ function ding_ting_frontend_field_default_field_instances() {
     'display' => array(
       'collection_list' => array(
         'label' => 'hidden',
+        'module' => 'ding_entity',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 4,
+        'type' => 'ding_entity_buttons_ajax',
+        'weight' => 8,
       ),
       'collection_primary' => array(
         'label' => 'above',
@@ -248,7 +249,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 41,
+        'weight' => 24,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -377,7 +378,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'module' => 'ting',
         'settings' => array(),
         'type' => 'ting_abstract_default',
-        'weight' => 6,
+        'weight' => 5,
       ),
       'collection_primary' => array(
         'label' => 'hidden',
@@ -816,7 +817,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'module' => 'ting',
         'settings' => array(),
         'type' => 'ting_series_default',
-        'weight' => 7,
+        'weight' => 6,
       ),
       'collection_primary' => array(
         'label' => 'inline',
@@ -832,7 +833,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'weight' => 4,
       ),
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'above',
         'module' => 'ting',
         'settings' => array(),
         'type' => 'ting_series_default',
@@ -899,7 +900,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'module' => 'ting',
         'settings' => array(),
         'type' => 'ting_subjects_default',
-        'weight' => 8,
+        'weight' => 7,
       ),
       'collection_primary' => array(
         'label' => 'hidden',

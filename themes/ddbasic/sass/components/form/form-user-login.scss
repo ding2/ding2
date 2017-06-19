@@ -30,7 +30,7 @@
     }
     &:hover {
       &::after {
-        color: $color-text;
+        color: $color-text-link;
       }
     }
 
@@ -78,7 +78,7 @@
       float: right;
       color: $charcoal-opacity-dark;
       &:hover {
-        color: $color-text;
+        color: $color-text-link;
       }
     }
   }

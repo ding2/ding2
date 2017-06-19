@@ -329,6 +329,17 @@ function ding_user_frontend_build_menu($path = NULL) {
         }
       }
     }
+
+    // Add logout to menu.
+    $logout_item = array();
+    $logout_item = $menu_item_defaults;
+    $logout_item['#title'] = t('Log out');
+    $logout_item['#href'] = '/user/logout';
+    $logout_item['#weight'] = 100;
+    $logout_item['#attributes']['class'] = 'user-log-out';
+    $menu[] = $logout_item;
+
+    drupal_alter('ding_user_frontend_build_menu', $menu, $menu_item_defaults);
   }
 
   return $menu;

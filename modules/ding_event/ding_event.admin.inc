@@ -35,7 +35,7 @@ function ding_event_admin_setting_form(array $form, array &$form_state) {
     '#options' => array(
       '6' => '3 - 6',
       '12' => '6 - 12',
-      '18' => '12 - 18',
+      '18' => '9 - 18',
     ),
     '#default_value' => variable_get('ding_event_frontpage_items_per_page', 6),
   );

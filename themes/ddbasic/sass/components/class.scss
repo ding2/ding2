@@ -256,7 +256,7 @@ a.topbar-link-search {
 a.topbar-link-opening-hours {
   @include button(clock, $charcoal-opacity-dark, $white, $white, $color-primary);
   &::after {
-    color: $color-text;
+    color: $color-text-link;
   }
 }
 
@@ -381,7 +381,7 @@ ul.pager {
       color: $charcoal;
     }
     &.pager-current {
-      color: $color-text;
+      color: $color-text-link;
       font-weight: $weight-normal;
     }
     &.pager-previous,
@@ -858,6 +858,11 @@ body {
   }
 }
 
+// Ask vopros tab
+.ui-dialog {
+  max-width: 90%;
+}
+
 // ==========================================================================
 // Colors
 // ==========================================================================
@@ -875,6 +880,10 @@ body {
 
 .color-text {
   color: $color-text;
+}
+
+.color-text-link {
+  color: $color-text-link;
 }
 
 .color-text-on-primary {

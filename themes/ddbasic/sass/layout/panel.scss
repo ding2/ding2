@@ -19,7 +19,7 @@
 // Panel Layouts
 // ==========================================================================
 
-.panel-pane {
+.content-wrapper {
   .pane-content {
 
     // Ding frontpage layout
@@ -201,6 +201,24 @@
         }
       }
     }
+
+    // Pages that's not at panel page
+    .page-no-panels & {
+      .layout-wrapper {
+        @include linear-gradient(to top, $white 30px, $grey-light 100%);
+      }
+      .pane-content {
+        @include wrapper;
+        position: relative; // Is set to relative to position absolute elements inside panels correct
+        padding: 40px 0 30px;
+      }
+    }
+    // Has dynamic background
+    .page-no-panels.has-dynamic-background & {
+      .layout-wrapper {
+        max-width: $dynamic-background-width;
+        margin: 0 auto;
+      }
+    }
   }
 }
-

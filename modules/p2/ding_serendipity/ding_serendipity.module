@@ -455,7 +455,7 @@ function ding_serendipity_user_audience($account = NULL) {
   $ids = array();
   $result = FALSE;
 
-  if (FALSE && ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)) {
+  if (ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)) {
     $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $account);
 
     if (!empty($list)) {
@@ -470,7 +470,7 @@ function ding_serendipity_user_audience($account = NULL) {
       }
     }
   }
-  else {
+  elseif (ding_user_is_provider_user($account)) {
     foreach (ding_provider_invoke('loan', 'list', $account) as $loan) {
       $ids[] = $loan->ding_entity_id;
     }
@@ -541,19 +541,24 @@ function ding_serendipity_get_existing_list_materials($account = NULL) {
   // Exclude the remember list, so the user can be reminded.
   $list_types = array_diff($list_types, array(DING_LIST_TYPE_REMEMBER));
 
-  $elements = array();
-  foreach (ding_list_get_lists($list_types, $account) as $list) {
-    $elements[] = ding_base_get_items('ding_type', $list, 'field_list_objects');
-  }
-  // Flatten the array.
-  $elements = call_user_func_array('array_merge', $elements);
-  foreach ($elements as &$element) {
-    $element = $element['target_id'];
-  }
+  $lists = ding_list_get_lists($list_types, $account);
+  if ($lists !== FALSE) {
+    $elements = array();
 
-  // Load all the elements and their ids.
-  foreach (entity_load('ding_type', $elements) as $element) {
-    $ids[] = ding_base_get_value('ding_type', $element, 'field_value');
+    foreach ($lists as $list) {
+      $elements[] = ding_base_get_items('ding_type', $list, 'field_list_objects');
+    }
+
+    // Flatten the array.
+    $elements = call_user_func_array('array_merge', $elements);
+    foreach ($elements as &$element) {
+      $element = $element['target_id'];
+    }
+
+    // Load all the elements and their ids.
+    foreach (entity_load('ding_type', $elements) as $element) {
+      $ids[] = ding_base_get_value('ding_type', $element, 'field_value');
+    }
   }
 
   if (variable_get('ding_serendipity_enable_cache', FALSE)) {

@@ -54,6 +54,16 @@ function ddbasic_preprocess_html(&$vars) {
     $vars['classes_array'][] = 'has-dynamic-background';
   }
 
+  // Store the menu item since it has some useful information.
+  $vars['menu_item'] = menu_get_item();
+
+  if ($vars['menu_item'] && strpos($vars['menu_item']['page_callback'], 'page_manager_') === 0) {
+    $vars['classes_array'][] = 'page-panels';
+  }
+  else {
+    $vars['classes_array'][] = 'page-no-panels';
+  }
+
   // Include the libraries.
   libraries_load('slick');
   libraries_load('jquery.imagesloaded');
@@ -68,42 +78,6 @@ function ddbasic_preprocess_html(&$vars) {
  * Process variables for html.tpl.php.
  */
 function ddbasic_process_html(&$vars) {
-  // Classes for body element. Allows advanced theming based on context
-  // (home page, node of certain type, etc.).
-  if (!$vars['is_front']) {
-    // Add unique class for each page.
-    $path = drupal_get_path_alias($_GET['q']);
-    // Add unique class for each website section.
-    $section = explode('/', $path);
-    $section = array_shift($section);
-    $arg = explode('/', $_GET['q']);
-    if ($arg[0] == 'node' && isset($arg[1])) {
-      if ($arg[1] == 'add') {
-        $section = 'node-add';
-      }
-      elseif (isset($arg[2]) && is_numeric($arg[1]) && ($arg[2] == 'edit' || $arg[2] == 'delete')) {
-        $section = 'node-' . $arg[2];
-      }
-    }
-    $vars['classes_array'][] = drupal_html_class('section-' . $section);
-  }
-  // Store the menu item since it has some useful information.
-  $vars['menu_item'] = menu_get_item();
-  if ($vars['menu_item']) {
-    switch ($vars['menu_item']['page_callback']) {
-      case 'views_page':
-        // Is this a Views page?
-        $vars['classes_array'][] = 'page-views';
-        break;
-
-      case 'page_manager_page_execute':
-      case 'page_manager_node_view':
-      case 'page_manager_contact_site':
-        // Is this a Panels page?
-        $vars['classes_array'][] = 'page-panels';
-        break;
-    }
-  }
 
   // Hook into color.module.
   if (module_exists('color')) {
@@ -332,7 +306,7 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
       $vars['classes_array'][$id] = '';
     }
   }
-  }
+}
 
 /**
  * Implements theme_link().
@@ -407,9 +381,16 @@ function ddbasic_preprocess_menu_link(&$variables) {
         break;
 
       case 'status-reservations':
-        $ready = ddbasic_account_count_reservation_ready();
-        if (!empty($ready)) {
-          $variables['element']['#title'] .= ' (' . $ready . ')';
+        $reservations = ddbasic_account_count_reservation_not_ready();
+        if (!empty($reservations)) {
+          $variables['element']['#title'] .= ' (' . $reservations . ')';
+        }
+        break;
+
+      case 'status-reservations-ready':
+        $reservations = ddbasic_account_count_reservation_ready();
+        if (!empty($reservations)) {
+          $variables['element']['#title'] .= ' (' . $reservations . ')';
         }
         break;
 
@@ -440,9 +421,6 @@ function ddbasic_menu_link($vars) {
     'menu-item',
   );
 
-  // Filter classes.
-  $element['#attributes']['class'] = ddbasic_remove_default_link_classes($element['#attributes']['class']);
-
   // Make sure text string is treated as html by l function.
   $element['#localized_options']['html'] = TRUE;
 
@@ -451,8 +429,6 @@ function ddbasic_menu_link($vars) {
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . $sub_menu . "</li>\n";
 }
 
-
-
 /**
  * Implements theme_menu_link().
  *
@@ -460,9 +436,6 @@ function ddbasic_menu_link($vars) {
  */
 function ddbasic_menu_link__menu_tabs_menu($vars) {
   global $user;
-
-  // Run classes array through our custom stripper.
-  $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
 
   // Check if the class array is empty.
   if (empty($vars['element']['#attributes']['class'])) {
@@ -504,7 +477,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       // If a user is logged in we change the menu item title.
       if (user_is_logged_in()) {
         $element['#href'] = 'user/me/view';
-        $element['#title'] = 'My Account';
+        $element['#title'] = t('My Account');
         $element['#attributes']['class'][] = 'topbar-link-user-account';
         $element['#localized_options']['attributes']['class'][] = 'topbar-link-user-account';
 
@@ -527,7 +500,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
                 'count' => $overdues,
                 'type' => 'overdue',
               );
-      }
+            }
           }
 
           if (empty($notification)) {
@@ -571,58 +544,11 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       break;
   }
 
-   // For some unknown issue translation fails.
+  // For some unknown issue translation fails.
   $element['#title'] = t($element['#title']);
 
   $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
-}
-
-/**
- * Used to strip default class names from menu links.
- *
- * @param array $classes
- *   An array of class attributes.
- *
- * @return array
- *   Classes that are left.
- */
-function ddbasic_remove_default_link_classes($classes) {
-  if (!isset($classes)) {
-    return FALSE;
-  }
-
-  // Remove classes.
-  $remove = array();
-
-  // Remove .leaf.
-  if (theme_get_setting('ddbasic_classes_menu_leaf')) {
-    $remove[] .= "leaf";
-  }
-
-  // Remove .has-children.
-  if (theme_get_setting('ddbasic_classes_menu_has_children')) {
-    $remove[] .= "has-children";
-  }
-
-  // Remove .collapsed, .expanded and expandable.
-  if (theme_get_setting('ddbasic_classes_menu_collapsed')) {
-    $remove[] .= "collapsed";
-    $remove[] .= "expanded";
-    $remove[] .= "expandable";
-  }
-
-  // Remove the classes.
-  if ($remove) {
-    $classes = array_diff($classes, $remove);
-  }
-
-  // Remove menu-mlid-[NUMBER].
-  if (theme_get_setting('ddbasic_classes_menu_items_mlid')) {
-    $classes = preg_grep('/^menu-mlid-/', $classes, PREG_GREP_INVERT);
-  }
-
-  return $classes;
 }
 
 /**
@@ -743,7 +669,29 @@ function ddbasic_process_page(&$vars) {
 }
 
 /**
- * Implements hook_preprocess_ting_object().
+ * Preprocess function for ting_object theme function.
+ */
+function ddbasic_preprocess_ting_object(&$vars) {
+
+  switch ($vars['elements']['#entity_type']) {
+    case 'ting_object':
+
+      switch ($vars['elements']['#view_mode']) {
+        // Teaser.
+        case 'teaser':
+
+          // Check if overlay is disabled and set class.
+          if (theme_get_setting('ting_object_disable_overlay') == TRUE) {
+            $vars['classes_array'][] = 'no-overlay';
+          }
+          break;
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_process_ting_object().
  *
  * Adds wrapper classes to the different groups on the ting object.
  */
@@ -808,11 +756,6 @@ function ddbasic_process_ting_object(&$vars) {
             ), 0, 1);
           }
 
-          // Check if overlay is disabled and set class.
-          if (theme_get_setting('ting_object_disable_overlay') == TRUE) {
-            $vars['classes_array'][] = 'no-overlay';
-          }
-
           // Check if teaser has rating function and remove abstract.
           if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
             unset($vars['content']['group_text']['ting_abstract']);
@@ -870,23 +813,26 @@ function ddbasic_process_ting_object(&$vars) {
   if ($vars['elements']['#entity_type'] == 'ting_object' && isset($vars['object']->in_collection)
       && isset($vars['elements']['#view_mode'])
       && in_array($vars['elements']['#view_mode'], array('search_result', 'collection_list'))) {
-    if (isset($vars['content']['group_ting_right_col_search'])) {
-      $right_col = 'group_ting_right_col_search';
-    }
-    else {
-      $right_col = 'group_ting_right_col_collection';
-    }
-    $vars['content'][$right_col]['availability'] = field_view_field(
+    $availability = field_view_field(
       'ting_collection',
       $vars['object']->in_collection,
       'ting_collection_types',
       array(
         'type' => 'ding_availability_with_labels',
-        // 'label' => 'hidden',.
         'weight' => 9999,
       )
     );
-    $vars['content'][$right_col]['availability']['#title'] = t('Borrowing options');
+    $availability['#title'] = t('Borrowing options');
+
+    if (isset($vars['content']['group_ting_right_col_search'])) {
+      if (isset($vars['content']['group_ting_right_col_search']['group_info']['group_rating']['#weight'])) {
+        $availability['#weight'] = $vars['content']['group_ting_right_col_search']['group_info']['group_rating']['#weight'] - 0.5;
+      }
+      $vars['content']['group_ting_right_col_search']['group_info']['availability'] = $availability;
+    }
+    else {
+      $vars['content']['group_ting_right_col_collection']['availability'] = $availability;
+    }
   }
 
   if (isset($vars['elements']['#view_mode']) && $vars['elements']['#view_mode'] == 'full') {
@@ -996,7 +942,9 @@ function ddbasic_preprocess_material_item(&$variables) {
   // Render the checkbox.
   $variables['checkbox'] = drupal_render($element[$element['#id']]);
 
-  $variables['information']['expiry']['#weight'] = 1;
+  if (!empty($variables['information']['expiry'])) {
+    $variables['information']['expiry']['#weight'] = 1;
+  }
 }
 
 /**
@@ -1230,7 +1178,7 @@ function ddbasic_ting_search_pager($variables) {
         'class' => array('pager-last'),
         'data' => $li_last,
       );
-        }
+    }
     return theme('item_list', array(
       'items' => $items,
       'type' => 'ul',
@@ -1238,8 +1186,8 @@ function ddbasic_ting_search_pager($variables) {
         'class' => array('pager'),
       ),
     ));
-    }
   }
+}
 
 /**
  * Overrides theme_select().
@@ -1297,4 +1245,51 @@ function ddbasic_libraries_info() {
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_metatag_metatags_view_alter().
+ */
+function ddbasic_metatag_metatags_view_alter(&$output, $instance, $options) {
+  if($instance == 'panels:ding_event_node_view') {
+    $node = menu_get_object();
+    $node_view = node_view($node);
+    $metatag = '';
+    
+    //Metatag elements
+    $lead_out = $node->title; 
+    $location_out = '';
+    $date_out = '';
+    $price_out = ', gratis';
+    
+    //Lead
+    $lead = field_get_items('node', $node, 'field_ding_event_lead');
+    if(!empty($lead)) {
+      $lead_out = $lead[0]['value'];
+    } 
+    
+    //Location
+    $library_gid = field_get_items('node', $node, 'og_group_ref', 'target_id');
+    $location = field_get_items('node', $node, 'field_ding_event_location');
+    if(isset($library_gid) && empty($location[0]['name_line'])) {
+      $library_node = node_load($library_gid[0]['target_id']);
+      $location_out = ', ' . $library_node->title;
+    }
+    
+    if(!empty($location[0]['name_line'])) {
+      $location_out = ', ' . $location[0]['name_line'];
+    }
+    
+    //Date
+    $date = field_get_items('node', $node, 'field_ding_event_date');
+    $date_out = ', ' . format_date(strtotime($date[0]['value']), 'ding_date_and_time');
+    
+    //Price
+    $price = field_get_items('node', $node, 'field_ding_event_price', 'value');
+    if(!empty($price)) {
+      $price_out = ', ' . $price[0]['value'] . ' kr.';
+    }
+    
+    $output['description']['#attached']['drupal_add_html_head'][0][0]['#value'] = $lead_out . $location_out . $date_out . $price_out;
+  }
 }

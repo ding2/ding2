@@ -14,7 +14,7 @@
   left: 0;
   width: 100%;
   background-color: $grey-light;
-  z-index: $z-header + 1;
+  z-index: $z-overlay + 1;
   overflow: hidden;
   .popupbar-is-open & {
     @include transition(
@@ -46,7 +46,7 @@
     }
     &:hover {
       &::after {
-        color: $color-text;
+        color: $color-text-link;
       }
     }
   }

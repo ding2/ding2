@@ -128,6 +128,8 @@
         .removeClass(POPUPBAR_CLASS_OPEN)
         .unbind('click.popupbar');
 
+      $(window).trigger('dingpopup-close');
+
       return this;
     },
 

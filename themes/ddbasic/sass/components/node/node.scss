@@ -26,7 +26,7 @@
       color: $charcoal;
       font-weight: normal;
       &:hover {
-        color: $color-text;
+        color: $color-text-link;
       }
       // Tablet
       @include media($tablet) {
@@ -35,6 +35,14 @@
       // Mobil
       @include media($mobile) {
         width: 100%;
+      }
+    }
+    .field-type-taxonomy-term-reference {
+      width: 100%;
+      float: left;
+      .field-item {
+        float: left;
+        margin-right: 6px;
       }
     }
     .field-type-text-long {
@@ -48,6 +56,16 @@
       @include media($mobile) {
         width: 100%;
       }
+    }
+  }
+  .button {
+    float: left;
+    margin-top: 15px;
+    clear: both;
+    background-color: $grey-medium;
+    &:hover {
+      color: $white;
+      background-color: $color-secondary;
     }
   }
 }

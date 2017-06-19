@@ -89,7 +89,7 @@
   .item-title {
     width: 100%;
     float: left;
-    margin: 10px 0;
+    margin: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -147,8 +147,9 @@
   .item-information-list {
     width: 100%;
     float: left;
-    margin: 0;
+    margin: 10px 0 0;
     padding: 0;
+
     #ding-bookmark-remove-form & {
       padding-right: 170px;
 
@@ -178,8 +179,7 @@
         clear: left;
       }
 
-      &.url,
-      &.created-date {
+      &.url {
         display: none;
       }
       &.reserve {

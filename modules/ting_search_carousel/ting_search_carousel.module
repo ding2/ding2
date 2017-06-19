@@ -229,7 +229,7 @@ function ting_search_carousel_get_covers($query, $start, $count, $query_only = F
       return _ting_search_carousel_get_slice($cache_data, $start, $count);
     }
 
-    while (count($cache_data['pool'] < $start + $count) &&
+    while (count($cache_data['pool']) < $start + $count &&
       !$cache_data['finished']) {
       $ignore_ids = $cache_data['all_ids'];
 

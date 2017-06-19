@@ -90,14 +90,18 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
+
  ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="inner">
     <div class="left">
       <?php print render($content['group_left']['field_ding_event_title_image']); ?>
       <h2><?php print t('Information about the event'); ?></h2>
-      <?php print render($content['group_left']['og_group_ref']); ?>
-
+      <?php if($alt_location_is_set) : ?>
+        <?php print render($content['group_left']['field_ding_event_location']); ?>
+      <?php else : ?>
+        <?php print render($content['group_left']['og_group_ref']); ?>
+      <?php endif; ?>
       <!-- insert time-field markup -->
       <div class="field field-name-field-ding-event-target field-label-inline clearfix">
         <div class="field-label"><?php print t('Time'); ?></div>

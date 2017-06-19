@@ -50,8 +50,8 @@
         display: none;
       }
       &.active {
-        @include place-icon('arrow-right-small', $color-text, 8px);
-        color: $color-text;
+        @include place-icon('arrow-right-small', $color-text-link, 8px);
+        color: $color-text-link;
         position: relative;
         padding-left: 20px;
         &::after {
@@ -82,6 +82,27 @@
     }
     .description {
       margin-top: 5px;
+    }
+  }
+}
+
+// ==========================================================================
+// Pane edit list
+// ==========================================================================
+.pane-edit-list {
+  input[type=submit] {
+    width: auto;
+    float: left;
+    padding-right: 80px;
+    margin-top: 20px;
+    margin-right: getGutter(8);
+  }
+  .form-actions {
+    a {
+      display: block;
+      float: left;
+      clear: left;
+      margin-top: 20px;
     }
   }
 }
@@ -120,7 +141,7 @@
       }
       &:hover {
         &::after {
-          color: $color-text;
+          color: $color-text-link;
         }
       }
     }

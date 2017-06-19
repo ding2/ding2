@@ -1,0 +1,30 @@
+<?php
+/**
+ * @file
+ * Handles update tasks for the module. 
+ */
+
+/**
+ * Update path aliases for terms.
+ */
+function ding_eresource_update_7000() {
+  // Set the pathauto pattern for the term manually in case Strongarm does not
+  // kick in before hook_update().
+  variable_set(
+    'pathauto_taxonomy_term_e_resource_category_pattern',
+    'e-materialer/[term:tid]'
+  );
+
+  // Load all the terms in the vocabulary based on the vocabulary machine name.
+  $taxonomy = taxonomy_vocabulary_machine_name_load('e_resource_category');
+  $terms = taxonomy_get_tree($taxonomy->vid);
+  $tids = array_map(
+    function ($term) {
+      return $term->tid;
+    },
+    $terms
+  );
+
+  // Finally we can update term aliases.
+  pathauto_taxonomy_term_update_alias_multiple($tids, 'bulkupdate');
+}

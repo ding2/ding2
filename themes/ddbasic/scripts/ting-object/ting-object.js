@@ -92,15 +92,12 @@
   // Ting teaser mobile
   Drupal.behaviors.ding_ting_object_list_mobile = {
     attach: function(context, settings) {
-      $('.ting-object.view-mode-search-result .inner', context).each(function(){
-        $(this).find('.field-name-ting-details-genre, .field-name-ting-abstract, .field-name-ting-series, .search-result--availability').addClass("hidden");
-        $(this).find('.hidden').wrapAll("<div class='hide-wrap'></div>");
-      });
-
-      $('.search-result--heading-type', context).click(function(){
+      $('.js-toggle-info-container', context).click(function(){
         if(ddbasic.breakpoint.is('mobile')) {
-          $(this).toggleClass('js-toggled toggled');
-          $(this).parent().parent().find('.hide-wrap').slideToggle("fast");
+          $(this)
+            .toggleClass('is-open')
+            .closest('.ting-object-right').find('.info-container')
+              .slideToggle('fast');
         }
       });
     }

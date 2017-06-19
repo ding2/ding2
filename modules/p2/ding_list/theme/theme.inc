@@ -89,7 +89,7 @@ function template_preprocess_ding_list_add_button(&$variables) {
   if ($variables['type'] == 'ting_object') {
     $new_list = array(
       'custom' => array(
-        'title' => t('Add to new list'),
+        'title' => '<div class="list-title">' . t('New list') . '</div><div class="add-to-list-button button">' . t('Add to new list') . '</div>',
         'href' => 'list/create',
         'attributes' => array(
           'class' => array(),

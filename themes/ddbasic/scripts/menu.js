@@ -31,6 +31,10 @@
     }
   });
 
+  $(window).on('dingpopup-close', function () {
+    $('body').removeClass('pane-login-is-open overlay-is-active');
+  });
+
   /**
    * Menu functionality.
    */

@@ -53,10 +53,12 @@ tr.draggable {
   .views-field-rendered-entity {
     @include omega();
     width: getColumn(7 of 8);
+    .list-element-title,
     .ding-message-link,
     .ding-type-ding-list {
       @include span-columns(5 of 7);
     }
+    .list-element-title,
     .ding-message-link {
       @include font('display-small');
     }
@@ -68,6 +70,12 @@ tr.draggable {
     }
     .ding-message {
       @include span-columns(5 of 7);
+
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(5);
+      }
+
       .ding-message-label {
         float: left;
         margin-top: 10px;

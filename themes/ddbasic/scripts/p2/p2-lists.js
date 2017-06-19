@@ -16,4 +16,9 @@
     }
   };
 
+  // Close all open add overlays when the popup is closed.
+  $(window).on('dingpopup-close', function () {
+    $('.ding-list-add-button').removeClass('open-overlay');
+  });
+
 })(jQuery);

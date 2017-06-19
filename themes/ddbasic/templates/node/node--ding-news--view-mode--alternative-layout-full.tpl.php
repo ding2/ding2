@@ -86,12 +86,12 @@
  */
 ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <div class="inner">
-    <div class="right">
+  <div class="ding-news-inner">
+    <div class="ding-news-right">
           <h1><?php print $title; ?></h1>
           <?php print render($content['group_right']); ?>
       </div>
-      <div class="left">
+      <div class="ding-news-left">
         <?php print render($content['group_left']['field_ding_news_title_image']); ?>
         <div class="section meta">
               <div class="author"><?php print t("By"); ?> <?php print $name; ?></div>

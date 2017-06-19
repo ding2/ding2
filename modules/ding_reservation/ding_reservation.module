@@ -202,7 +202,7 @@ function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
         drupal_form_submit('ding_reservation_reserve_form', $form_state, $reservable);
 
         // Return any status messages set by the form.
-        $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'));
+        $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'), array('refresh' => !empty($form_state['reserved'])));
       }
     }
     catch (DingProviderAuthException $exception) {

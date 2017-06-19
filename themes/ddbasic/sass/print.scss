@@ -6,6 +6,10 @@
   body.has-second-level-menu {
     padding-top: 0;
   }
+  
+  body::after {
+    display: none;
+  }
 
   .panel-pane.pane-ding-news-ding-news-list {
     margin-top: 0;

@@ -231,7 +231,10 @@ function fbs_field_property_callback(&$info, $entity_type, $field, $instance, $f
   else {
     $property['getter callback'] = 'fbs_field_metadata_get';
   }
-  unset($property['setter callback']);
+
+  if ($name !== 'field_fbs_preferred_branch') {
+    unset($property['setter callback']);
+  }
   unset($property['query callback']);
 }
 

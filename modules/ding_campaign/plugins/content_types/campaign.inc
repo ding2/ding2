@@ -36,7 +36,7 @@ function ding_campaign_campaign_content_type_render($subtype, $conf, $panel_args
   $count = $conf['ding_campaign_count'];
   $offset = $conf['ding_campaign_offset'];
   // Set default value if it was not set in panel settings.
-  $style = (!empty($conf['ding_campaign_image_style'])) ? $conf['ding_campaign_image_style'] : 'medium';
+  $style = (!empty($conf['ding_campaign_style'])) ? $conf['ding_campaign_style'] : 'ding_campaign_full_width';
 
   $block->content = ding_campaign_display($context_data, $count, $offset, $style);
 
@@ -66,20 +66,15 @@ function ding_campaign_campaign_content_type_edit_form($form, &$form_state) {
     '#maxlength' => 3,
   );
 
-  $form['ding_campaign_image_style'] = array(
+  $form['ding_campaign_style'] = array(
     '#type' => 'select',
-    '#title' => t('Campaign image width'),
-    '#description' => t('Applicable for image campaigns. Image will be resized to selected width, height will be selected automatically.'),
+    '#title' => t('Campaign width'),
+    '#description' => t('Applicable for campaigns. Content will be resized to selected width.'),
     '#options' => array(
-      'ding_campaign_p_25' => t('25% (280px)'),
-      'ding_campaign_p_33' => t('33% (380px)'),
-      'ding_campaign_p_50' => t('50% (580px)'),
-      'ding_campaign_p_66' => t('66% (780px)'),
-      'ding_campaign_p_75' => t('75% (880px)'),
-      'ding_campaign_p_100' => t('100% (1200px)'),
-
+      'ding_campaign_medium_width' => t('Medium width'),
+      'ding_campaign_full_width' => t('Full width'),
     ),
-    '#default_value' => (isset($form_state['conf']['ding_campaign_image_style'])) ? $form_state['conf']['ding_campaign_image_style'] : 'ding_campaign_p_25',
+    '#default_value' => (isset($form_state['conf']['ding_campaign_style'])) ? $form_state['conf']['ding_campaign_style'] : 'ding_campaign_full_width',
   );
 
   drupal_add_css(drupal_get_path('module', 'ding_campaign') . '/css/ding_campaign.admin.css');
@@ -120,5 +115,5 @@ function ding_campaign_campaign_content_type_edit_form_validate($form, &$form_st
 function ding_campaign_campaign_content_type_edit_form_submit($form, &$form_state) {
   $form_state['conf']['ding_campaign_count'] = $form_state['values']['ding_campaign_count'];
   $form_state['conf']['ding_campaign_offset'] = $form_state['values']['ding_campaign_offset'];
-  $form_state['conf']['ding_campaign_image_style'] = $form_state['values']['ding_campaign_image_style'];
+  $form_state['conf']['ding_campaign_style'] = $form_state['values']['ding_campaign_style'];
 }

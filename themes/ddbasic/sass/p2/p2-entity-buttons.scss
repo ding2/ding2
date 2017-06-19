@@ -43,7 +43,7 @@
       }
       .inner {
         @include transform(translateX(-50%));
-        @include span-columns(6);
+        @include span-columns(8);
         @include omega();
         position: absolute;
         top: 100px;
@@ -88,14 +88,42 @@
         float: left;
         list-style: none;
         li {
+          width: 100%;
+          float: left;
           padding: 20px;
           background-color: $white;
           &:nth-child(2n + 1) {
             background-color: $grey;
           }
           > span,
-          a {
+          .list-title {
             @include font('display-small');
+          }
+          .list-title {
+            float: left;
+            color: $color-text;
+          }
+          .add-to-list-button {
+            float: right;
+            padding-right: 15px;
+            min-width: 170px;
+            background-color: $grey-medium;
+            .no-touch & {
+              &:hover {
+                background-color: $grey-dark;
+              }
+            }
+          }
+
+          // Mobile
+          @include media($mobile) {
+            .list-title {
+              width: 100%;
+              margin-bottom: 20px;
+            }
+            .add-to-list-button {
+              float: left;
+            }
           }
         }
       }
