@@ -140,15 +140,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           $element_name = end($facet_name);
           $facets_string = $facet->name . ':' . $term_name;
           $term_name_title = $term_name;
-          // Check if term name is longer than 14 chars,
-          // if so, short it down to fit facet browser.
-          $substr_length = 19
-            + substr_count(drupal_substr($term_name, 0, 20), 'l')
-            + substr_count(drupal_substr($term_name, 0, 20), 'i')
-            - drupal_strlen((string)$term_count);
-          if (drupal_strlen($term_name) > $substr_length + 3) {
-            $term_name_title = drupal_substr($term_name, 0, $substr_length) . '...';
-          }
+          ding_facetbrowser_format_term_name($term_name, $term_count);
 
           if (_ding_facetbrowser_is_facet_set($facet->name, $term_name) === TRUE) {
             $default_values[] = $term_name;
@@ -235,6 +227,23 @@ function ding_facetbrowser_sort_terms_options() {
     'numeric' => t('Numeric'),
     'numeric_reverse' => t('Numeric (reverse)'),
   );
+}
+
+/**
+ * Helper function to format term name title, if it's too long to display in
+ * the facetbrowser window.
+ *
+ * @See: ding_facetbrowser_form()
+ */
+function ding_facetbrowser_format_term_name($term_name, $term_count) {
+  $substr_length = 19
+    + substr_count(drupal_substr($term_name, 0, 20), 'l')
+    + substr_count(drupal_substr($term_name, 0, 20), 'i')
+    - drupal_strlen((string)$term_count);
+  if (drupal_strlen($term_name) > $substr_length) {
+    return drupal_substr($term_name, 0, $substr_length) . '...';
+  }
+  return $term_name;
 }
 
 /**
