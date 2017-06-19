@@ -439,21 +439,6 @@ function _ting_field_search_alter_entity_uri($path) {
 }
 
 /**
- * Implements hook_drupal_goto_alter().
- */
-function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_code) {
-  // NOTE: Unfortunately this is the only work around the hard-coded redirect
-  // from ting_collection to ting_object, when there's only one object in the
-  // collection.
-  // See: ting_collection_page_view()
-  if ($profile = ting_field_search_get_active_profile()) {
-    if (drupal_match_path(current_path(), 'ting/collection/*') && preg_match('/^ting\/object/', $path)) {
-      ting_field_search_append_query($options['query'], $profile);
-    }
-  }
-}
-
-/**
  * Implements hook_url_outbund_alter().
  *
  * Alter outbound links based on active profile settings.
