@@ -83,7 +83,7 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
           ),
         );
 
-        _ting_field_search_sort_terms($facet->terms, $profile_facet['sorting']);
+        ding_facetbrowser_sort_terms($facet->terms, $profile_facet['sorting']);
 
         $selected = array();
         $not_selected = array();
@@ -169,27 +169,4 @@ function _ting_field_search_format_term_name($term_name, $term_count) {
     return drupal_substr($term_name, 0, $substr_length) . '...';
   }
   return $term_name;
-}
-
-/**
- * Helper function to sort facet terms based on profile sorting setting.
- * Code copied from Ding facetbrowser module.
- */
-function _ting_field_search_sort_terms(&$terms, $sorting) {
-  switch ($sorting) {
-    case 'default':
-      // Uses the default ranking sorting from the well.
-      break;
-    case 'alphabetical':
-      ksort($terms);
-      break;
-    case 'alphabetical_reverse':
-      krsort($terms);
-      break;
-    case 'numeric':
-      ksort($terms, SORT_NUMERIC);
-      break;
-    case 'numeric_reverse':
-      krsort($terms, SORT_NUMERIC);
-  }
 }
