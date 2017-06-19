@@ -132,26 +132,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
         );
 
         if (!empty($configured_facet['sorting'])) {
-          switch ($configured_facet['sorting']) {
-            case 'alphabetical':
-              ksort($facet->terms);
-              break;
-
-            case 'alphabetical_reverse':
-              krsort($facet->terms);
-              break;
-
-            case 'numeric':
-              ksort($facet->terms, SORT_NUMERIC);
-              break;
-
-            case 'numeric_reverse':
-              krsort($facet->terms, SORT_NUMERIC);
-              break;
-
-            default:
-              break;
-          }
+          ding_facetbrowser_sort_terms($facet->terms, $configured_facet['sorting']);
         }
 
         foreach ($facet->terms as $term_name => $term_count) {
@@ -215,6 +196,45 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
   }
 
   return $form;
+}
+
+/**
+ * Sorts facet terms with the specified sorting.
+ */
+function ding_facetbrowser_sort_terms(&$terms, $sorting) {
+  switch ($sorting) {
+    case 'alphabetical':
+      ksort($terms);
+      break;
+
+    case 'alphabetical_reverse':
+      krsort($terms);
+      break;
+
+    case 'numeric':
+      ksort($terms, SORT_NUMERIC);
+      break;
+
+    case 'numeric_reverse':
+      krsort($terms, SORT_NUMERIC);
+      break;
+
+    default:
+      break;
+  }
+}
+
+/**
+ * The sort options we support for facet terms.
+ */
+function ding_facetbrowser_sort_terms_options() {
+  return array(
+    'default' => t('Ranking (default)'),
+    'alphabetical' => t('Alphabetic'),
+    'aphabetical_reverse' => t('Alphabetic (reverse)'),
+    'numeric' => t('Numeric'),
+    'numeric_reverse' => t('Numeric (reverse)'),
+  );
 }
 
 /**
