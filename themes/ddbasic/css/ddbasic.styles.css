@@ -622,8 +622,8 @@ select {
 
 select {
   -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear false;
+  -o-transition: all 0.15s linear false;
   transition: all 0.15s linear;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -637,6 +637,7 @@ select {
   background: -webkit-linear-gradient(#efefef, #fbfbfb);
   background: -moz-linear-gradient(#efefef, #fbfbfb);
   background: -o-linear-gradient(#efefef, #fbfbfb);
+  -pie-background: -pie-linear-gradient(#efefef, #fbfbfb);
   background: linear-gradient(#efefef, #fbfbfb);
   /* Required for setting height in webkit browsers on mac */
   -webkit-appearance: menulist-button;
@@ -657,8 +658,8 @@ input[type="time"],
 input[type="url"],
 textarea {
   -webkit-transition: all 0.15s linear;
-  -moz-transition: all 0.15s linear;
-  -o-transition: all 0.15s linear;
+  -moz-transition: all 0.15s linear false;
+  -o-transition: all 0.15s linear false;
   transition: all 0.15s linear;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -1096,6 +1097,7 @@ a.button,
   background: -webkit-linear-gradient(#444443, #1e1e1f);
   background: -moz-linear-gradient(#444443, #1e1e1f);
   background: -o-linear-gradient(#444443, #1e1e1f);
+  -pie-background: -pie-linear-gradient(#444443, #1e1e1f);
   background: linear-gradient(#444443, #1e1e1f); }
   .button:link, .button:visited, .button:focus, .button:active,
   a.button:link,
@@ -1153,6 +1155,7 @@ a.button,
   background: -webkit-linear-gradient(#60a500, #335900);
   background: -moz-linear-gradient(#60a500, #335900);
   background: -o-linear-gradient(#60a500, #335900);
+  -pie-background: -pie-linear-gradient(#60a500, #335900);
   background: linear-gradient(#60a500, #335900);
   /* Make sure buttons get a background color in IE */
   background-color: #60a500;
@@ -1263,6 +1266,7 @@ a.button,
     background: -webkit-linear-gradient(#518c00, #253f00);
     background: -moz-linear-gradient(#518c00, #253f00);
     background: -o-linear-gradient(#518c00, #253f00);
+    -pie-background: -pie-linear-gradient(#518c00, #253f00);
     background: linear-gradient(#518c00, #253f00);
     background-color: #335900; }
 
@@ -1272,6 +1276,7 @@ a.button,
   background: -webkit-linear-gradient(#f6d346, #e4b90b);
   background: -moz-linear-gradient(#f6d346, #e4b90b);
   background: -o-linear-gradient(#f6d346, #e4b90b);
+  -pie-background: -pie-linear-gradient(#f6d346, #e4b90b);
   background: linear-gradient(#f6d346, #e4b90b);
   /* Make sure buttons get a background color in IE */
   background-color: #f6d346;
@@ -1284,6 +1289,7 @@ a.button,
     background: -webkit-linear-gradient(#f5cd2e, #cca50a);
     background: -moz-linear-gradient(#f5cd2e, #cca50a);
     background: -o-linear-gradient(#f5cd2e, #cca50a);
+    -pie-background: -pie-linear-gradient(#f5cd2e, #cca50a);
     background: linear-gradient(#f5cd2e, #cca50a);
     background-color: #e4b90b; }
 
@@ -1303,6 +1309,7 @@ a.button,
   background: -webkit-linear-gradient(#bf3600, #732000);
   background: -moz-linear-gradient(#bf3600, #732000);
   background: -o-linear-gradient(#bf3600, #732000);
+  -pie-background: -pie-linear-gradient(#bf3600, #732000);
   background: linear-gradient(#bf3600, #732000);
   /* Make sure buttons get a background color in IE */
   background-color: #bf3600;
@@ -1385,6 +1392,7 @@ a.button,
     background: -webkit-linear-gradient(#a62f00, #591900);
     background: -moz-linear-gradient(#a62f00, #591900);
     background: -o-linear-gradient(#a62f00, #591900);
+    -pie-background: -pie-linear-gradient(#a62f00, #591900);
     background: linear-gradient(#a62f00, #591900);
     background-color: #732000; }
 
@@ -4410,6 +4418,7 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
     background: -webkit-linear-gradient(#f0cb28, #be9d0d);
     background: -moz-linear-gradient(#f0cb28, #be9d0d);
     background: -o-linear-gradient(#f0cb28, #be9d0d);
+    -pie-background: -pie-linear-gradient(#f0cb28, #be9d0d);
     background: linear-gradient(#f0cb28, #be9d0d);
     /* Make sure buttons get a background color in IE */
     background-color: #f0cb28;
@@ -4436,6 +4445,7 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
       background: -webkit-linear-gradient(#eec511, #a68a0c);
       background: -moz-linear-gradient(#eec511, #a68a0c);
       background: -o-linear-gradient(#eec511, #a68a0c);
+      -pie-background: -pie-linear-gradient(#eec511, #a68a0c);
       background: linear-gradient(#eec511, #a68a0c);
       background-color: #be9d0d; }
 
