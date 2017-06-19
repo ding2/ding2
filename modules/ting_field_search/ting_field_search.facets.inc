@@ -108,7 +108,7 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
             'query' => $term_parameters,
             'attributes' => array('title' => $term_name),
           );
-          $term_title = _ting_field_search_format_term_name($term_name, $term_count);
+          $term_title = ding_facetbrowser_format_term_name($term_name, $term_count);
           $term_title .= '<span class="count">(' . $term_count . ')</span>';
           if ($is_selected) {
             $selected[$term_name] = l($term_title, $base_term_uri, $options);
@@ -147,26 +147,4 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
       'type' => 'setting',
     );
   }
-}
-
-/**
- * Helper function to format term name title, if it's too long to display in
- * the facetbrowser window.
- *
- * Note: This code is copied from the form builder in Ding facetbrowser, and it
- * tries to estimate the length of the string while accounting for 'short'
- * letters such as 'l' and 'i'. It seems to do an OK job, and we use it here to
- * be consistent with the default look. Otherwise, a solution with CSS would
- * probably be preferred.
- * See: ding_facetbrowser_form()
- */
-function _ting_field_search_format_term_name($term_name, $term_count) {
-  $substr_length = 22
-    + substr_count(drupal_substr($term_name, 0, 20), 'l')
-    + substr_count(drupal_substr($term_name, 0, 20), 'i')
-    - drupal_strlen((string)$term_count);
-  if (drupal_strlen($term_name) > $substr_length) {
-    return drupal_substr($term_name, 0, $substr_length) . '...';
-  }
-  return $term_name;
 }
