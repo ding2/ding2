@@ -8,6 +8,7 @@ dependencies[] = ctools
 dependencies[] = ding_event
 dependencies[] = ding_groups
 dependencies[] = lazy_pane
+dependencies[] = ding_ipe_filter
 dependencies[] = ding_news
 dependencies[] = ding_tabroll
 dependencies[] = metatag

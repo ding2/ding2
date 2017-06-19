@@ -1,0 +1,193 @@
+<?php
+/**
+ * @file
+ * Provide IPE Filter menu functionality.
+ */
+
+include_once 'ding_ipe_filter.features.inc';
+
+
+/**
+ * Implements hook_menu().
+ */
+function ding_ipe_filter_menu() {
+  $items['admin/config/user-interface/ipe-filter'] = array(
+    'title' => 'IPE pane filter settings',
+    'description' => 'Configure IPE filter default options.',
+    'weight' => 1,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_ipe_filter_admin_panes_form'),
+    'access arguments' => array('access administration pages'),
+    'file' => 'ding_ipe_filter.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_ipe_filter_permission() {
+  return array(
+    'use IPE filter menu' => array(
+      'title' => t('Use IPE filter menu'),
+      'description' => t('Replace default administration modal window with filtered menu.'),
+    ),
+  );
+}
+
+/**
+ * Check if user has necessary permissions to access the IPE filter menu.
+ *
+ * @return array
+ *   If empty array, then user has all the necessary permissions.
+ */
+function ding_ipe_filter_use_menu() {
+  $permissions = array(
+    'use IPE filter menu',
+    'use panels in place editing',
+    'use ipe with page manager',
+  );
+
+  return array_filter($permissions, function ($permission) {
+    if (!user_access($permission)) {
+      return TRUE;
+    }
+    return FALSE;
+  });
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_ipe_filter_theme() {
+  return array(
+    'ding_ipe_filter_table' => array(
+      'render element' => 'form',
+    ),
+  );
+}
+
+/**
+ * Implements theme_hook().
+ */
+function theme_ding_ipe_filter_table($variables) {
+  $form = $variables['form'];
+  $header = $form['#header'];
+
+  $content = array(
+    'header' => $header,
+    'rows' => array(),
+    'attributes' => array('id' => 'ipe-filter-table'),
+  );
+  foreach (element_children($form) as $row_index) {
+    if (isset($form[$row_index]['title'])) {
+      $form[$row_index]['weight']['#attributes']['class'] = array('ipe-filter-order-weight');
+      $content['rows'][] = array(
+        'data' => array(
+          array('class' => array('slide-cross')),
+          drupal_render($form[$row_index]['delta']),
+          drupal_render($form[$row_index]['value']),
+          drupal_render($form[$row_index]['weight']),
+        ),
+        'class' => array('draggable'),
+      );
+    }
+  }
+  $output = theme('table', $content);
+  $output .= drupal_render_children($form);
+
+  drupal_add_tabledrag('ipe-filter-table', 'order', 'sibling', 'ipe-filter-order-weight');
+
+  return $output;
+}
+
+/**
+ * Add pane buttons on IPE filter menu based on settings and enabled modules.
+ *
+ * @param array $registry
+ *   Theme registry variables.
+ */
+function ding_ipe_filter_theme_registry_alter(&$registry = array()) {
+  $registry['panels_ipe_add_pane_button']['function'] = '_ding_ipe_filter_callback';
+}
+
+/**
+ * Filter panes callback.
+ *
+ * @param array $variables
+ *   Theme registry variables.
+ *
+ * @return string
+ *   Output IPE menu.
+ */
+function _ding_ipe_filter_callback($variables = array()) {
+  ctools_include('content');
+  $content_types = ctools_content_get_available_types();
+  $panel_editor = new panels_renderer_editor();
+  $categories = $panel_editor->get_categories($content_types);
+
+  $assets_loaded = &drupal_static('ipe_assets_loaded', FALSE);
+  $settings = variable_get('ding_ipe_filter_table', array());
+  $region_id  = $variables['region_id'];
+  $renderer = $variables['renderer'];
+
+  $buttons = array();
+  $attributes = array(
+    'class' => 'ctools-use-modal ding-ipe-menu-item',
+  );
+
+  foreach ($settings as $subtype_name => $setting) {
+    $enabled_category = isset($categories[$setting['category']]['content'][$setting['title']]);
+    if ($setting['value'] == 1 && $enabled_category) {
+      $buttons[] = l($setting['title'], $renderer->get_url('add-pane', $region_id, $setting['type'], $setting['subtype']), array('attributes' => $attributes));
+    }
+  }
+
+  $buttons = '<div id="ipe-add-' . $region_id . '" class="panels-ipe-newblock ipe-popup hide">' . theme('item_list', array('items' => $buttons)) . '</div>';
+
+  if (!$assets_loaded) {
+    $path = drupal_get_path('module', 'ding_ipe_filter');
+    drupal_add_js($path . '/js/ipe.js', 'file');
+    drupal_add_css($path . '/css/ipe.css', 'file');
+
+    $assets_loaded = TRUE;
+  }
+
+  $links = l(t('Add'), NULL, array(
+    'attributes' => array(
+      'class' => 'ipe-trigger',
+      'target_region' => $region_id,
+    ),
+  ));
+
+  // If user roles are not set then display default ipe modal window.
+  $permissions = ding_ipe_filter_use_menu();
+  if (_ding_ipe_filter_show_for_admin() || !empty($permissions)) {
+    $attributes = array(
+      'class' => array('panels-ipe-linkbar', 'inline'),
+    );
+    $links = theme('links', array('links' => $variables['links'], 'attributes' => $attributes));
+    $buttons = '';
+  }
+
+  return '<div class="panels-ipe-newblock panels-ipe-on">' . $links . '</div>' . $buttons;
+}
+
+/**
+ * Helper function to check availability of the IPE menu for super admin.
+ *
+ * @return bool
+ *   Show ipe menu for the super admin.
+ */
+function _ding_ipe_filter_show_for_admin() {
+  global $user;
+
+  $show_for_admin = FALSE;
+  if ($user->uid == 1) {
+    $configs = variable_get('ding_ipe_filter_settings', array());
+    $show_for_admin = !empty($configs['admin_display']) ? $configs['admin_display'] : FALSE;
+  }
+
+  return $show_for_admin;
+}
