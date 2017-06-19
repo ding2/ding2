@@ -188,8 +188,9 @@ function ding_place2book_menu() {
 function ding_place2book_node_view($node, $view_mode, $langcode) {
   // We only handle event nodes.
   if ($node->type == "ding_event") {
-
-    if (isset($node->nid) && $node->nid) {
+    // Check that node is not new and check that the place2book
+    // field should be shown this view mode.
+    if (isset($node->nid) && isset($node->content['field_place2book_tickets'])) {
 
       //modify the existing placeholder field_place2book_tickets
       // @todo: Do not fiddle with field weight. We should respect the
@@ -616,9 +617,9 @@ function ding_place2book_build_xml($node, $service_settings) {
 
   // Set short description.
   $field_ding_event_lead = field_get_items('node', $node, 'field_ding_event_lead');
-  $xml->event->description_short = $field_ding_event_lead[0]['value'];  
-  
-  // Set long description. We use field_view_value to make sure the field value 
+  $xml->event->description_short = $field_ding_event_lead[0]['value'];
+
+  // Set long description. We use field_view_value to make sure the field value
   // is taken through the media_filter to convert special media tags to markup.
   $field_ding_event_body = field_get_items('node', $node, 'field_ding_event_body');
   $render_array = field_view_value('node', $node, 'field_ding_event_body', $field_ding_event_body[0]);
