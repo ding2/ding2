@@ -67,7 +67,7 @@ function template_preprocess_ting_carousel(&$vars, $hook) {
 /**
  * Implements hook_preprocess_ting_object().
  */
-function ting_carousel_preprocess_ting_object(&$variables, $hook) {
+function ting_carousel_process_ting_object(&$variables, $hook) {
   if ($variables['elements']['#view_mode'] !== 'compact') {
     return;
   }
