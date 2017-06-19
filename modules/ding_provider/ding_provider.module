@@ -612,144 +612,36 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
  *
  * @param string $id
  *   The materials local id number (faust).
- * @param string $agency
- *   Agency ID to which the entity belongs.
  *
  * @return string
  *   The PID for the faust in the data well.
  */
-function ding_provider_build_entity_id($id, $agency = -1) {
-  $ting_entity_id = FALSE;
+function ding_provider_build_entity_id($ids) {
+  if (is_array($ids) && !empty($ids)) {
+    // Open search is limited to 50 results per call, so split up in chunks to
+    // ensure we get PIDs for all passed local IDs.
+    foreach (array_chunk($ids, 50) as $chunk) {
+      $query = 'rec.id any "' . implode(" ", $chunk) . '" AND facet.acSource=bibliotekskatalog';
+      // Ensure that the work match in opensearch doesn't hide ids for us.
+      $options['collectionType'] = 'manifestation';
+      $res = ting_do_search($query, 1, count($chunk), $options);
 
-  // Get local library faust ID range.
-  $local_range = '9';
-
-  // Get agency ID.
-  $local_agency = variable_get('ting_agency', '');
-
-  switch ($agency) {
-    case $local_agency:
-    case -1:
-      if (preg_match('/^' . $local_range . '/', $id)) {
-        // If agency is not given fallback to local agency.
-        if (empty($agency) || $agency == -1) {
-          $agency = $local_agency;
+      foreach ($res->collections as $pid => $collection) {
+        $faust = explode(':', $pid)[1];
+        if (isset($ids[$faust])) {
+          $ids[$faust] = $pid;
         }
-
-        // Local posts.
-        $ting_entity_id = $agency . '-katalog:' . $id;
       }
-      else {
-        // Global posts.
-        $ting_entity_id = '870970-basis:' . $id;
-      }
-      break;
+    }
 
-    case '150021':
-      $ting_entity_id = '150021-bibliotek:' . $id;
-      break;
-
-    case '150027':
-      $ting_entity_id = '150021-fjern:' . $id;
-      break;
-
-    case '150030':
-      $ting_entity_id = '870970-spilmedier:' . $id;
-      break;
-
-    case '870973':
-      $ting_entity_id = '870973-anmeld:' . $id;
-      break;
-
-    case '150039':
-      $ting_entity_id = '150015-forlag:' . $id;
-      break;
-
-    case '870976':
-      $ting_entity_id = '870976-anmeld:' . $id;
-      break;
-
-    case '150048':
-      $ting_entity_id = '870970-basis:' . $id;
-      break;
-
-    case '150028':
-      $ting_entity_id = '870970-basis:' . $id;
-      break;
-
-    case '150015':
-      $ting_entity_id = '870970-basis:' . $id;
-      break;
-
-    case '150033':
-      $ting_entity_id = '150033-dandyr:' . $id;
-      break;
-
-    case '150040':
-      $ting_entity_id = '150040-verdyr:' . $id;
-      break;
-
-    case '150018':
-      $ting_entity_id = '150018-danhist:' . $id;
-      break;
-
-    case '150032':
-      $ting_entity_id = '150018-samfund:' . $id;
-      break;
-
-    case '150034':
-      $ting_entity_id = '150018-religion:' . $id;
-      break;
-
-    case '150054':
-      $ting_entity_id = '150018-biologi:' . $id;
-      break;
-
-    case '150055':
-      $ting_entity_id = '150018-fysikkemi:' . $id;
-      break;
-
-    case '150056':
-      $ting_entity_id = '150056-geografi:' . $id;
-      break;
-
-    case '150008':
-      $ting_entity_id = '150008-academic:' . $id;
-      break;
-
-    case '150043':
-      $ting_entity_id = '150043-atlas:' . $id;
-      break;
-
-    case '150023':
-      $ting_entity_id = '150023-sicref:' . $id;
-      break;
-
-    case '150025':
-      $ting_entity_id = '150008-public:' . $id;
-      break;
-
-    case '150052':
-      $ting_entity_id = '870970-basis:' . $id;
-      break;
-
-    case '159002':
-      $ting_entity_id = '159002-lokalbibl:' . $id;
-      break;
-
-    case '150012':
-      $ting_entity_id = '150012-leksikon:' . $id;
-      break;
-
-    default:
-      // The agency ID was not translatable, do to one-to-may match from old pid
-      // to new pid. Or the agency ID is not known. So simply log it under a
-      // filterable type.
-      watchdog('ding_provider_pid', 'PID creation failed with agency (%agency) and ID (%id)', array('%agency' => $agency, '%id' => $id), WATCHDOG_ERROR);
-      break;
+    return $ids;
   }
+  elseif (is_numeric($ids)) {
+    $obj = ting_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
+    $entity_id = ($obj) ? key($obj->collections) : FALSE;
 
-  return $ting_entity_id;
+    return $entity_id;
+  }
 }
 
 /**
