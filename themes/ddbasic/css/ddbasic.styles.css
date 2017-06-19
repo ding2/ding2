@@ -5525,7 +5525,11 @@ input#edit-search-block-form--2.spinner {
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
-  opacity: 0.25; }
+  opacity: 0.25;
+  display: block !important; }
+  .rs-carousel-action-prev.rs-carousel-action-disabled,
+  .rs-carousel-action-next.rs-carousel-action-disabled {
+    display: none !important; }
   .rs-carousel-action-prev.rs-carousel-action-active,
   .rs-carousel-action-next.rs-carousel-action-active {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);

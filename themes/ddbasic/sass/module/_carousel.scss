@@ -73,6 +73,11 @@ $carousel-tab-color:                       $white;
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
   @include opacity(.25);
+  display: block !important;
+
+  &.rs-carousel-action-disabled {
+    display: none !important;
+  }
 
   &.rs-carousel-action-active {
     @include opacity(1);
