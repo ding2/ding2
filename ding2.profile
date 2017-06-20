@@ -221,7 +221,6 @@ function ding2_add_settings(&$install_state) {
     'ting_material_details',
     'ding_base',
     'ding_user_frontend',
-    'ding_path_alias',
     'ding_content',
     'ding_page',
     'ding_frontend',
