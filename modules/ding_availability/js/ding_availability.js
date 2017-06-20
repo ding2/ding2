@@ -128,6 +128,10 @@
             reserve_button.addClass(class_name);
           }
         })
+
+        if (available && !reservable) {
+          reserver_btn.removeClass('available').addClass('unavailable');
+        }
       }
       else {
         reserve_button.addClass('not-reservable');
