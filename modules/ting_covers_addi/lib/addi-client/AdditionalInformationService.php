@@ -100,6 +100,7 @@ class AdditionalInformationService {
    * Send request to the addi server, returning the data response.
    */
   protected function sendRequest($identifiers) {
+    $filteredIds = array();
     foreach ($identifiers as $identifier) {
       $type = key($identifier);
       $value = $identifier[$type];
@@ -108,13 +109,13 @@ class AdditionalInformationService {
       // Assume that unusual item id's should be treated as localIdentifiers.
       // This wraps both v2.1 and v2.6 of moreinfo.
       if (preg_match('/[a-z]+/i', $value)) {
-        $ids[] = array(
+        $filteredIds[] = array(
           'localIdentifier' => $value,
           'libraryCode' => $this->group,
         );
       }
       else {
-        $ids[] = array(
+        $filteredIds[] = array(
           $type => $value,
         );
       }
@@ -128,7 +129,6 @@ class AdditionalInformationService {
 
     // New moreinfo service.
     $client = new SoapClient($this->wsdlUrl . '/moreinfo.wsdl');
-
     // Record the start time, so we can calculate the difference, once
     // the addi service responds.
     $start_time = explode(' ', microtime());
@@ -140,7 +140,7 @@ class AdditionalInformationService {
     // Try to get covers 40 at the time as the service has a limit.
     try {
       $offset = 0;
-      $ids = array_slice($identifiers, $offset, 40);
+      $ids = array_slice($filteredIds, $offset, 40);
       while (!empty($ids)) {
         $data = $client->moreInfo(array(
           'authentication' => $auth_info,
