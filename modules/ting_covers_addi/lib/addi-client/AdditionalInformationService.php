@@ -100,6 +100,7 @@ class AdditionalInformationService {
    * Send request to the addi server, returning the data response.
    */
   protected function sendRequest($identifiers) {
+    $filteredIds = array();
     foreach ($identifiers as $identifier) {
       $type = key($identifier);
       $value = $identifier[$type];
@@ -107,7 +108,6 @@ class AdditionalInformationService {
       // Override material type.
       // Assume that unusual item id's should be treated as localIdentifiers.
       // This wraps both v2.1 and v2.6 of moreinfo.
-      $filteredIds = array();
       if (preg_match('/[a-z]+/i', $value)) {
         $filteredIds[] = array(
           'localIdentifier' => $value,
