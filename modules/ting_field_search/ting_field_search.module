@@ -173,82 +173,78 @@ function ting_field_search_ting_cache_key(&$cid) {
  * Implements hook_ting_pre_execute().
  */
 function ting_field_search_ting_pre_execute($request) {
-  //$status = ting_field_search_get_request_status();
-  $context = ting_field_search_get_context();
-  $profile = ting_field_search_get_active_profile();
+  if (!$context = ting_field_search_get_context()) {
+    return;
+  }
 
-  if ($profile && $context) {
-    // Initialize some often used variables.
-    $config = $profile->config;
-    $search_well_profile = $config['search_request']['search_well_profile'];
-    $result_well_profile = $config['search_request']['result_well_profile'];
+  // Do we support the class of this request?
+  $class = get_class($request);
+  $supported_classes = array(
+    'TingClientObjectRequest',
+    'TingClientCollectionRequest',
+    'TingClientSearchRequest',
+  );
+  if (!in_array($class, $supported_classes)) {
+    return;
+  }
 
-    // Alter the request based on the profile settings and request class.
-    switch (get_class($request)) {
-      case 'TingClientObjectRequest':
-      case 'TingClientCollectionRequest':
-        // Use an alternative well profile for results if set. Hopefully the
-        // administrator knows what they are doing.
-        if ($result_well_profile) {
-          $request->setProfile($result_well_profile);
-        }
-        // Otherwise remeber to use the search well profile to ensure results
-        // can be shown.
-        else if ($search_well_profile) {
-          $request->setProfile($search_well_profile);
-        }
-        break;
-      case 'TingClientSearchRequest':
-        // Always use the search well profile on search requests if set.
-        // Otherwise this profile wants to use the default from ting module.
-        if ($search_well_profile) {
-          $request->setProfile($search_well_profile);
-        }
+  // This is potentially the most resource intensive.
+  if (!$profile = ting_field_search_get_active_profile()) {
+    return;
+  }
 
-        // Additional CQL setting.
-        if ($cql = $config['search_request']['query']) {
-          _ting_field_search_append_cql($request, $cql);
-        }
+  // Initialize some often used variables.
+  $config = $profile->config;
+  $well_profile = $config['search_request']['well_profile'];
 
-        // Default sort.
-        if ($sort = _ting_field_search_detect_sort($profile)) {
-          $request->setSort($sort);
-        }
+  // Always apply the well profile to ensure that results can be shown.
+  if ($well_profile) {
+    $request->setProfile($well_profile);
+  }
 
-        // Default size (results per page).
-        if ($size = $config['search_result']['results_per_page']) {
-          if (empty($_REQUEST['size'])) {
-            // Override the start posision set by Ting search.
-            $page = pager_find_page();
-            $request->setStart(($size * $page) + 1);
-            $request->setNumResults($size);
-          }
-        }
+  // Following modification should only be made on search requests.
+  if ($class == 'TingClientSearchRequest') {
+    // Additional CQL.
+    if ($cql = $config['search_request']['query']) {
+      _ting_field_search_append_cql($request, $cql);
+    }
 
-        // New materials.
-        if ($days = $config['search_request']['new_materials']) {
-          $expression = _ting_field_search_new_materials_cql($days);
-          _ting_field_search_append_cql($request, $expression);
-        }
+    // Default sort.
+    if ($sort = _ting_field_search_detect_sort($profile)) {
+      $request->setSort($sort);
+    }
 
-        // Handle facets.
-        if ($config['facets']['use_facets']) {
-          // Ensure that the profile's facets is returned from the well.
-          $profile_facets = ting_field_search_facets_load($profile->pid);
-          $request_facets = array_flip($request->getFacets()) + $profile_facets;
-          // Need the keys as values for the request object.
-          $request_facets = array_keys($request_facets);
-          $request->setFacets($request_facets);
+    // Default size (results per page).
+    if (($size = $config['search_result']['results_per_page']) && empty($_REQUEST['size'])) {
+      // Override the start posision set by Ting search.
+      $page = pager_find_page();
+      $request->setStart(($size * $page) + 1);
+      $request->setNumResults($size);
+    }
 
-          $request->setNumFacets($config['facets']['number_of_facets']);
-        }
-        break;
+    // New materials.
+    if ($days = $config['search_request']['new_materials']) {
+      $expression = _ting_field_search_new_materials_cql($days);
+      _ting_field_search_append_cql($request, $expression);
+    }
+
+    // Handle facets.
+    if ($config['facets']['use_facets']) {
+      // Ensure that the profile's facets is returned from the well.
+      $profile_facets = ting_field_search_facets_load($profile->pid);
+      $request_facets = array_flip($request->getFacets()) + $profile_facets;
+      // Need the keys as values for the request object.
+      $request_facets = array_keys($request_facets);
+      $request->setFacets($request_facets);
+
+      $request->setNumFacets($config['facets']['number_of_facets']);
     }
   }
 }
 
 /**
- * Helper function to append cql to a request.
+ * Priveat helper function to append cql to a request. Used in
+ * hook_ting_pre_execute implementation.
  */
 function _ting_field_search_append_cql($request, $cql) {
   $query = '(' . $request->getQuery() . ') and (' . $cql . ')';
