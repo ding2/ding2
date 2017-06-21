@@ -418,4 +418,3 @@ libraries[SocialServices][download][type]   = "git"
 libraries[SocialServices][download][url]    = "git@github.com:inleadmedia/SocialServices.git"
 libraries[SocialServices][download][branch] = "development"
 libraries[SocialServices][destination]      = "modules/social_services/lib"
-
