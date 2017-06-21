@@ -88,10 +88,18 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#collapsed' => TRUE,
     '#weight' => -15,
   );
+  $form['config']['search_request']['agency'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Library code'),
+    '#description' => t('Use an alternative library code. Leave empty to use the <strong>%standard</strong> code configured at <a href="!url"> Ting search settings</a>.', array(
+      '%standard' => variable_get('ting_agency', ''),
+      '!url' => url('admin/config/ting/settings')
+    )),
+  );
   $form['config']['search_request']['well_profile'] = array(
     '#type' => 'textfield',
     '#title' => t('Well profile'),
-    '#description' => t('Enter the name of the well profile from VIP to use with this profile. Leave empty to use the <strong>%standard</strong> profile configured in the <a href="!url">standard search settings</a>.', array(
+    '#description' => t('Enter the name of the well profile from VIP to use with this profile. Leave empty to use the <strong>%standard</strong> profile configured at <a href="!url">Ting search settings</a>.', array(
         '%standard' => variable_get('ting_search_profile', ''),
         '!url' => url('admin/config/ting/settings'),
     )),

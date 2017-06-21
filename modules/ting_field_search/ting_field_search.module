@@ -197,6 +197,10 @@ function ting_field_search_ting_pre_execute($request) {
   $config = $profile->config;
   $well_profile = $config['search_request']['well_profile'];
 
+  if ($agency = $config['search_request']['agency']) {
+    $request->setAgency($agency);
+  }
+
   // Always apply the well profile to ensure that results can be shown.
   if ($well_profile) {
     $request->setProfile($well_profile);
@@ -906,6 +910,7 @@ function ting_field_search_config_default() {
       'alter_links' => 1,
     ),
     'search_request' => array(
+      'agency' => '',
       'well_profile' => '',
       'query' => '',
       'new_materials' => '',
