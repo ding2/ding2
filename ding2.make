@@ -46,6 +46,7 @@ projects[date][version] = "2.8"
 projects[dibs][subdir] = "contrib"
 projects[dibs][version] = "1.0"
 projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
+projects[dibs][patch][] = https://www.drupal.org/files/issues/mysql_5.7_compatibility-2812891-2.patch
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
@@ -220,7 +221,7 @@ projects[menu_position][subdir] = "contrib"
 projects[menu_position][version] = "1.1"
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.10"
+projects[message][version] = "1.12"
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.21"
