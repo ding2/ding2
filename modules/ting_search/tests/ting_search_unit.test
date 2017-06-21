@@ -1,0 +1,37 @@
+<?php
+
+use Drupal\ting_search\ReplyBase;
+use Drupal\xautoload\ClassLoader\ClassLoaderInterface;
+
+class DingSearchUnitTest extends DrupalUnitTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ting search Unittests',
+      'description' => '',
+      'group' => 'Ding! - Ting search unittest',
+    );
+  }
+
+  public function setUp() {
+    // We depend on xautoload, so it has already been loaded by core as we have
+    // a dependency on it.
+    // It is not registered as the first classloader though, so we have to go
+    // in, remove it, and re-register a new instance.
+    foreach (spl_autoload_functions() as $callback) {
+      if (is_array($callback)
+        && ($loader = $callback[0])
+        && $loader instanceof ClassLoaderInterface
+      ) {
+        $loader->unregister();
+      }
+    }
+    xautoload()->finder->register(TRUE);
+    parent::setUp();
+  }
+
+  // Initial test-case for testing tests.
+  public function testOk() {
+    $reply = new ReplyBase();
+    $this->pass("OK");
+  }
+}
