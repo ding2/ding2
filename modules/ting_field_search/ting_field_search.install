@@ -326,12 +326,25 @@ function ting_field_search_update_7001() {
 
 /**
  * Remove any trace of the now unused Ting field search cache backends.
+ * Remove Webtrends related settings.
  */
 function ting_field_search_update_7002() {
   $backend = variable_get('cache_class_cache_ting');
-  // If one of our backends is in use, remove it. Ting cache will fall back to
-  // the default backend set by the cache_class_cache_default variable.
+  // If one of our backends is in use, remove it. Ting cache will then fall back
+  // to the default backend set by the cache_class_cache_default variable.
   if ($backend == 'TingFieldSearchMemCache' || $backend == 'TingFieldSearchDatabaseCache') {
     variable_del('cache_class_cache_ting');
+  }
+
+  // Clean up in database after removing Webtrends related settings.
+  $profiles = _ting_field_search_load_profiles_7000();
+  foreach ($profiles as $name => $profile) {
+    $config = unserialize($profile->config);
+    unset($config['webtrends']);
+
+    db_update('ting_field_search_profile')
+      ->condition('name', $name)
+      ->fields(array('config' => serialize($config)))
+      ->execute();
   }
 }

@@ -189,33 +189,6 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#default_value' => $profile ? $profile->config['search_result']['ranking'] : 'rank_frequency',
   );
 
-  // Webtrends fieldset.
-  $form['config']['webtrends'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Webtrends Analytics'),
-    '#description' => '<strong>'. t('Settings for webtrends integration') . '</strong>',
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    '#weight' => -11,
-  );
-  $form['config']['webtrends']['onsite_ad'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Onsite ads reports'),
-    '#description' => t('Track the use of this profile as an onsite ad in Webtrends.'),
-    '#default_value' => $profile->config['webtrends']['onsite_ad'],
-  );
-  $form['config']['webtrends']['onsite_ad_id'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Onsite ad identificator'),
-    '#description' => t('Enter an identificator for the ad which will be shown in the Webtrends UI. Capital letters and spaces are allowed. If left empty the profile title will be used.'),
-    '#default_value' => $profile->config['webtrends']['onsite_ad_id'],
-    '#states' => array(
-      'disabled' => array(
-        ':input[name="webtrends[onsite_ad]"]' => array('checked' => FALSE),
-      ),
-    ),
-  );
-
   // Facet settings.
   $form['config']['facets'] = array(
     '#type' => 'fieldset',

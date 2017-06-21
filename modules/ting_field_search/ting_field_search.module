@@ -319,14 +319,6 @@ function _ting_field_search_new_materials_cql($days) {
  */
 function ting_field_search_append_query(&$query, $profile) {
   $query['profile'] = $profile->name;
-
-  $webtrends = $profile->config['webtrends'];
-  // Onsite adds tracking.
-  if ($webtrends['onsite_ad']) {
-    // Default to profile title.
-    $ad_id = empty($webtrends['onsite_ad_id']) ? $profile->title : $webtrends['onsite_ad_id'];
-    $query['WT.ac'] = $ad_id;
-  }
 }
 
 /**
@@ -379,7 +371,6 @@ function ting_field_search_url_outbound_alter(&$path, &$options, $original_path)
   if ($profile = ting_field_search_get_active_profile()) {
     // Alter search links.
     if ($profile->config['user_interaction']['alter_links'] && preg_match('/^search\/ting/', $path)) {
-      // Possibly add the Webtrends parameter here too, so use the helper.
       ting_field_search_append_query($options['query'], $profile);
     }
   }
@@ -428,40 +419,12 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
       // replace that path with one with our profile parameter.
       $pattern = '/href="(\/ting\/object\/.+)"/';
       if (preg_match('/href="(\/ting\/object\/.+)"/', $link)) {
-        // We'll cheat a bit here and pass an empty array through the helper.
-        $query = array();
-        ting_field_search_append_query($query, $profile);
         $replace = 'href="$1?profile=' . rawurlencode($profile->name);
-        if (isset($query['WT.ac'])) {
-          $replace .= '&WT.ac=' . rawurlencode($query['WT.ac']) . '"';
-        }
         $replace .= '"';
         $links[$key]['link']['#markup'] = preg_replace($pattern, $replace, $link);
       }
     }
 
-  }
-}
-
-/**
- * Implements hook_preprocess_html().
- */
-function ting_field_search_preprocess_html(&$variables) {
-  if ($profile = ting_field_search_get_active_profile()) {
-    // Add the Webtrends WT.ad meta tag. This is the onsite ad view query
-    // paranmeter and it works together with the WT.ac click parameter which
-    // we add to some of the links.
-    if ($profile->config['webtrends']['onsite_ad']) {
-      $ad_id = $profile->config['webtrends']['onsite_ad_id'];
-      drupal_add_html_head(array(
-        '#type' => 'html_tag',
-        '#tag' => 'meta',
-        '#attributes' => array(
-          'name' => 'WT.ad',
-          'content' => empty($ad_id) ? check_plain($profile->title) : $ad_id,
-        ),
-      ), 'ting_field_search_onsite_ad');
-    }
   }
 }
 
@@ -963,10 +926,6 @@ function ting_field_search_config_default() {
       'number_of_facets' => 25,
       'facet_count' => 5,
       'term_count' => 5,
-    ),
-    'webtrends' => array(
-      'onsite_ad' => 0,
-      'onsite_ad_id' => '',
     ),
   );
 }
