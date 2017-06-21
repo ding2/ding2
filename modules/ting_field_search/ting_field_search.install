@@ -323,3 +323,15 @@ function ting_field_search_update_7001() {
       ->execute();
   }
 }
+
+/**
+ * Remove any trace of the now unused Ting field search cache backends.
+ */
+function ting_field_search_update_7002() {
+  $backend = variable_get('cache_class_cache_ting');
+  // If one of our backends is in use, remove it. Ting cache will fall back to
+  // the default backend set by the cache_class_cache_default variable.
+  if ($backend == 'TingFieldSearchMemCache' || $backend == 'TingFieldSearchDatabaseCache') {
+    variable_del('cache_class_cache_ting');
+  }
+}
