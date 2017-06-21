@@ -262,10 +262,21 @@ function _ting_field_search_append_cql($request, $cql) {
 
 /**
  * Helper function used in hook_ting_pre_request(), to determine if the current
- * request sort should be overriden. This has gotten quite complex, and is
- * thereofore moved to seperate helper function.
- * Implements a modifier which bypasses the broken sort behavior in the Ting
- * search module.
+ * request sort should be overriden.
+ *
+ * Uses a modifier to bypass ting_search's handling of the default sort. This is
+ * needed because of the way ting_search and ting modules handle the default
+ * sort settings. The default search is used when sort query parameter is empty
+ * and therefore, by convenience presumably, empty string was used to denote
+ * default search 'rank_frequency'. And this is applied to the request in ting
+ * module client file, after ting_search has passed empty string. Since ting
+ * cache key is generated from parameters on the request. before we get a chance
+ * to add a modifier, the sorting of results in ting_cache will get mixed up if
+ * a profile is using another default sort than ting_search.
+ *
+ * @see ting_search_conditions_callback()
+ * @see ting_search_search_execute()
+ * @see ting_do_search()
  */
 function _ting_field_search_detect_sort($profile) {
   $sort = FALSE;
@@ -284,9 +295,9 @@ function _ting_field_search_detect_sort($profile) {
     $sort = $profile->config['search_result']['default_sort'];
   }
 
-  // Empty string is a special case indicating the best_match sort.
-  // Regardless of how the sort was determined, use the profile's ranking.
-  // This should only be called in the context of an active profile.
+  // Empty string is a special case indicating the best_match sort. This means
+  // that ting module has applied it's ranking and we can safely use the
+  // profile's ranking.
   if ($sort === '') {
     $sort = $profile->config['search_result']['ranking'];
   }
@@ -590,9 +601,8 @@ function ting_field_search_form_ting_search_sort_form_alter(&$form, &$form_state
 
     $options = &$form['sort']['#options'];
 
-    // If the profile is using any other default sort than 'best_match', we
+    // If the profile is using any other default sort than rank_frequency, we
     // need to bypass ting_search with our modifier.
-    // See: _ting_field_search_detect_sort().
     if (!empty($profile_default_sort)) {
       $options[':'. $profile->name] = $options[''];
       unset($options['']);
@@ -600,8 +610,8 @@ function ting_field_search_form_ting_search_sort_form_alter(&$form, &$form_state
 
     // If this profile has another default sort setting than ting_search we
     // also need to bypass ting_search with the modifier. No need to do
-    // anything if ting_searh is using best_match, because we just added a fix
-    // for that above.
+    // anything if ting_searh is using rank_frequency, because that's dealt
+    // with above.
     if ($ting_search_default_sort !== $profile_default_sort && !empty($ting_search_default_sort)) {
       $bypass_key = $ting_search_default_sort . ':' . $profile->name;
       $options[$bypass_key] = $options[$ting_search_default_sort];
