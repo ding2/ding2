@@ -88,19 +88,14 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#collapsed' => TRUE,
     '#weight' => -15,
   );
-  $form['config']['search_request']['search_well_profile'] = array(
+  $form['config']['search_request']['well_profile'] = array(
     '#type' => 'textfield',
-    '#title' => t('Search well profile'),
-    '#description' => t('Enter the name of the well profile to use when searching. Leave empty to use the <strong>%standard</strong> profile configured in the standard search settings.', array(
-      '%standard' => variable_get('ting_search_profile', ''),
+    '#title' => t('Well profile'),
+    '#description' => t('Enter the name of the well profile from VIP to use with this profile. Leave empty to use the <strong>%standard</strong> profile configured in the <a href="!url">standard search settings</a>.', array(
+        '%standard' => variable_get('ting_search_profile', ''),
+        '!url' => url('admin/config/ting/settings'),
     )),
-    '#default_value' => $profile->config['search_request']['search_well_profile'],
-  );
-  $form['config']['search_request']['result_well_profile'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Result well profile'),
-    '#description' => t('Enter name of an alternative well profile to use when displaying search results with this profile. Leave empty to use the same for all requests.'),
-    '#default_value' => $profile->config['search_request']['result_well_profile'],
+    '#default_value' => $profile->config['search_request']['well_profile'],
   );
   $form['config']['search_request']['query'] = array(
     '#type' => 'textfield',

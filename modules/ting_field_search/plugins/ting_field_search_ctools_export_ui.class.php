@@ -95,7 +95,7 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
     // again later when we're done.
     $operations = array_pop($row_data);
 
-    $row_data[]['data'] = check_plain($profile->config['search_request']['search_well_profile']);
+    $row_data[]['data'] = check_plain($profile->config['search_request']['well_profile']);
     $row_data[]['data'] = check_plain($profile->config['search_request']['query']);
     $row_data[]['data'] = $profile->config['user_interaction']['exposed'] ? t('Yes') : t('No');
     $row_data[]['data'] = $profile->weight;
@@ -120,7 +120,7 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
 
     $operations = array_pop($header);
 
-    $header[]['data'] = t('Search well profile');
+    $header[]['data'] = t('Well profile');
     $header[]['data'] = t('Query');
     $header[]['data'] = t('Exposed');
     $header[] = t('Weight');

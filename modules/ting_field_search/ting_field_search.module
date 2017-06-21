@@ -910,8 +910,7 @@ function ting_field_search_config_default() {
       'alter_links' => 1,
     ),
     'search_request' => array(
-      'search_well_profile' => '',
-      'result_well_profile' => '',
+      'well_profile' => '',
       'query' => '',
       'new_materials' => '',
       'allow_empty' => 0,

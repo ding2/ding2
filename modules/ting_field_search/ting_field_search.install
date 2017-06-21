@@ -326,7 +326,7 @@ function ting_field_search_update_7001() {
 
 /**
  * Remove any trace of the now unused Ting field search cache backends.
- * Remove Webtrends related settings.
+ * Remove settings no longer used from profile config.
  */
 function ting_field_search_update_7002() {
   $backend = variable_get('cache_class_cache_ting');
@@ -336,11 +336,15 @@ function ting_field_search_update_7002() {
     variable_del('cache_class_cache_ting');
   }
 
-  // Clean up in database after removing Webtrends related settings.
+  // Clean up in database after removing settings in config.
   $profiles = _ting_field_search_load_profiles_7000();
   foreach ($profiles as $name => $profile) {
     $config = unserialize($profile->config);
+
     unset($config['webtrends']);
+    $config['search_request']['well_profile'] = $config['search_request']['search_well_profile'];
+    unset($config['search_request']['search_well_profile']);
+    unset($config['search_request']['result_well_profile']);
 
     db_update('ting_field_search_profile')
       ->condition('name', $name)
