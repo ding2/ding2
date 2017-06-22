@@ -15,12 +15,13 @@ div.ipe-popup {
 div.ipe-popup ul {
   padding-left: 0;
   width: 100%;
+  list-style-position: outside;
 }
 .ding-ipe-popup-left {
   left: 245px;
 }
 .ding-ipe-popup-top {
-  top: -157px !important;
+  top: -48px !important;
 }
 div.ipe-popup .item-list ul li {
   margin: 0;
