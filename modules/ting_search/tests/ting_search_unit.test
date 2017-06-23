@@ -1,37 +1,39 @@
 <?php
 
-use Drupal\ting_search\ReplyBase;
-use Drupal\xautoload\ClassLoader\ClassLoaderInterface;
+use Drupal\ding_test\DingUnitTestBase;
+use Prophecy\Argument;
 
-class DingSearchUnitTest extends DrupalUnitTestCase {
+class DingSearchUnitTest extends DingUnitTestBase {
   public static function getInfo() {
     return array(
       'name' => 'Ting search Unittests',
-      'description' => '',
+      'description' => 'Unit-tests that tests the ting search module.',
       'group' => 'Ding! - Ting search unittest',
+      'dependencies' => array('ding_test'),
     );
   }
 
   public function setUp() {
-    // We depend on xautoload, so it has already been loaded by core as we have
-    // a dependency on it.
-    // It is not registered as the first classloader though, so we have to go
-    // in, remove it, and re-register a new instance.
-    foreach (spl_autoload_functions() as $callback) {
-      if (is_array($callback)
-        && ($loader = $callback[0])
-        && $loader instanceof ClassLoaderInterface
-      ) {
-        $loader->unregister();
-      }
-    }
-    xautoload()->finder->register(TRUE);
+    // Parent sets up autoloading and our test-dependencies so get it in the
+    // loop as quickly as possible.
     parent::setUp();
+
+    // Any subsequent setup goes here.
   }
 
   // Initial test-case for testing tests.
   public function testOk() {
-    $reply = new ReplyBase();
-    $this->pass("OK");
+    // Set up the response we're going to return in a moment.
+    $response = $this->prophet->prophesize("Psr\Http\Message\ResponseInterface");
+    $response->getBody()->willReturn("Hello World");
+
+    // Setup a client that will return our double.
+    $clientDouble = $this->prophet->prophesize('GuzzleHttp\Client');
+    $clientDouble->request(Argument::type('string'), Argument::type('string'))->willReturn($response->reveal());
+
+    /** @var \GuzzleHttp\Client $clientInstance */
+    $clientInstance = $clientDouble->reveal();
+    $response = $clientInstance->request("GET", "http://example.com");
+    $this->assertEqual($response->getBody(), "Hello World");
   }
 }
