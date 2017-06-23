@@ -12,6 +12,7 @@ projects[drupal][patch][] = http://drupal.org/files/issues/menu-get-item-rebuild
 projects[drupal][patch][] = http://drupal.org/files/ssl-socket-transports-1879970-13.patch
 projects[drupal][patch][] = http://www.drupal.org/files/issues/autocomplete-1232416-205-7x.patch
 projects[drupal][patch][] = http://drupal.org/files/issues/translate_role_names-2205581-1.patch
+projects[drupal][patch][] = http://drupal.org/files/issues/drupal-1823504-13-unittests-break-when-nonenglish.patch
 
 ; Get the profile, which will contain the next makefile.
 projects[ding2][type] = "profile"
