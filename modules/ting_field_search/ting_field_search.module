@@ -240,7 +240,10 @@ function ting_field_search_ting_pre_execute($request) {
     // Handle facets.
     if ($config['facets']['use_facets']) {
       // Ensure that the profile's facets is returned from the well.
-      $profile_facets = ting_field_search_facets_load($profile->pid);
+      $profile_facets = array();
+      foreach ($profile->facets as $facet) {
+        $profile_facets[$facet['name']] = $facet;
+      }
       $request_facets = array_flip($request->getFacets()) + $profile_facets;
       // Need the keys as values for the request object.
       $request_facets = array_keys($request_facets);
@@ -729,19 +732,26 @@ function ting_field_search_subrecords_callback(&$profiles) {
     return;
   }
 
-  // Need the profiles keyed by pids.
-  $profiles_pids = array();
+  // Collect ids of profiles that needs their facet loaded from db.
+  $profiles_ids = array();
   foreach ($profiles as $profile) {
-    $profile->facets = array();
-    $profiles_pids[$profile->pid] = $profile;
+    // Subrecords only apply to profiles which is represented in the database,
+    // since facets has their own table there. Profiles purely in code will
+    // always have facets attached, so we need not do anything here.
+    if ($profile->export_type & EXPORT_IN_DATABASE) {
+      $profiles_pids[$profile->pid] = $profile;
+      $profile->facets = array();
+    }
   }
 
-  // Load and attach facets to each profile object.
-  $facets = ting_field_search_facets_load(array_keys($profiles_pids));
+  if ($profiles_pids) {
+    // Load and attach facets to each profile object.
+    $facets = ting_field_search_facets_load(array_keys($profiles_pids));
 
-  foreach ($facets as $key => $facet) {
-    $profile = $profiles_pids[$facet->pid];
-    $profiles[$profile->name]->facets[] = (array) $facet;
+    foreach ($facets as $key => $facet) {
+      $profile = $profiles_pids[$facet->pid];
+      $profiles[$profile->name]->facets[] = (array) $facet;
+    }
   }
 }
 
