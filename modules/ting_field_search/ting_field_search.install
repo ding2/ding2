@@ -7,16 +7,6 @@
  */
 
 /**
- * Implements hook_disable().
- */
-function ting_field_search_disable() {
-  // We need to do this on disable, since our class wont be available anymore.
-  if (ting_field_search_get_status()) {
-    variable_del('cache_class_cache_ting');
-  }
-}
-
-/**
  * Implements hook_schema().
  */
 function ting_field_search_schema() {
