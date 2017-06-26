@@ -75,6 +75,8 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
           '#type' => 'fieldset',
           '#title' => check_plain($profile_facet['title']),
           '#weight' => $profile_facet['weight'],
+          '#collapsible' => TRUE,
+          '#collapsed' => $count > $facet_count,
           '#attributes'  => array(
             'id' => str_replace('.', '-', $name),
             'data' => array($name),
