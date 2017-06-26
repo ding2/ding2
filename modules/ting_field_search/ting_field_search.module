@@ -126,9 +126,9 @@ function ting_field_search_get_active_profile() {
 
     // Look for the profile query parameter.
     if (!empty($_GET['profile'])) {
-      // Check to see if it is defined in the system.
+      // Check to see if it is defined in the system and activated.
       $result = ting_field_search_profiles_load($_GET['profile']);
-      if ($result) {
+      if ($result && empty($result->disabled)) {
         $profile = $result;
       }
     }
@@ -497,8 +497,8 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   $exposed_profiles = array();
   $profiles = ting_field_search_profiles_load_all();
   foreach (ting_field_search_profiles_sort($profiles) as $name => $profile) {
-    // Only exposed profiles will be shown to the user.
-    if ($profile->config['user_interaction']['exposed']) {
+    // Only exposed and activated profiles should be shown to the user.
+    if ($profile->config['user_interaction']['exposed'] && empty($profile->disabled)) {
       $exposed_profiles[$name] = t('Search in @profile', array(
        '@profile'  => check_plain($profile->title),
       ));
