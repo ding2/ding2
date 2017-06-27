@@ -732,24 +732,24 @@ function ting_field_search_subrecords_callback(&$profiles) {
     return;
   }
 
-  // Collect ids of profiles that needs their facet loaded from db.
+  // Collect ids of profiles that needs their facets loaded from db.
   $profiles_ids = array();
   foreach ($profiles as $profile) {
     // Subrecords only apply to profiles which is represented in the database,
     // since facets has their own table there. Profiles purely in code will
-    // always have facets attached, so we need not do anything here.
+    // always have facets attached, so we need not do anything in this case.
     if ($profile->export_type & EXPORT_IN_DATABASE) {
-      $profiles_pids[$profile->pid] = $profile;
+      $profiles_ids[$profile->pid] = $profile;
       $profile->facets = array();
     }
   }
 
-  if ($profiles_pids) {
+  if ($profiles_ids) {
     // Load and attach facets to each profile object.
-    $facets = ting_field_search_facets_load(array_keys($profiles_pids));
+    $facets = ting_field_search_facets_load(array_keys($profiles_ids));
 
     foreach ($facets as $key => $facet) {
-      $profile = $profiles_pids[$facet->pid];
+      $profile = $profiles_ids[$facet->pid];
       $profiles[$profile->name]->facets[] = (array) $facet;
     }
   }
