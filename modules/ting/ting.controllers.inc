@@ -208,10 +208,18 @@ class TingCollectionController implements DrupalEntityControllerInterface {
   protected $entityCache;
 
   /**
+   * Static cache of ting_collection replies.
+   *
+   * @var array
+   */
+  public $replyCache;
+
+  /**
    * Constructor: sets basic variables.
    */
   public function __construct($entityType) {
     $this->entityCache = array();
+    $this->replyCache = array();
   }
 
   protected function cacheSet($entities) {
@@ -245,7 +253,12 @@ class TingCollectionController implements DrupalEntityControllerInterface {
           $entities[$ding_entity_id] = $this->entityCache[$ding_entity_id];
         }
         else {
-          $reply = ting_get_object($ding_entity_id, TRUE);
+          if (isset($this->replyCache[$ding_entity_id])) {
+            $reply = $this->replyCache[$ding_entity_id];
+          }
+          else {
+            $reply = ting_get_object($ding_entity_id, TRUE);
+          }
           $object = NULL;
           if ($reply) {
             $object = new TingCollection($ding_entity_id);

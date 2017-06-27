@@ -428,7 +428,11 @@ function ting_execute_cache($request) {
             }
             ting_cache_set($object->id, $object, $type);
           }
-          ting_cache_set(ting_cache_collection_key($collection->objects[0]->id), $collection, TING_CACHE_COLLECTION);
+          // Caching collections here the normal way can cause problems later
+          // on when the types of a collections is listed. Instead we set a
+          // special static cache, which ensures the correct version of
+          // collection is used later in the request.
+          entity_get_controller('ting_collection')->replyCache[$collection->objects[0]->id] = $collection;
         }
       }
     }
