@@ -132,32 +132,6 @@ function ting_field_search_schema() {
 }
 
 /**
- * Implements hook_requirements().
- */
-function ting_field_search_requirements($phase) {
-  $requirements = array();
-
-  if ($phase != 'runtime') {
-    return $requirements;
-  }
-
-  if (!ting_field_search_get_status()) {
-    $requirements['ting_field_search'] = array(
-      'title' => t('Ting field search'),
-      'value' => t('Ting field search is NOT installed correctly and will not work proberly. Please go to <a href="@install">Installation</a> to correct this.', array(
-          '@install' => url('admin/config/ting-field-search/install', array(
-            'query' => drupal_get_destination()
-          )),
-        )
-      ),
-      'severity' => REQUIREMENT_ERROR,
-    );
-  }
-
-  return $requirements;
-}
-
-/**
  * Helper function to load profiles in update functions.
  * For schema version 7000 -> ...
  */
