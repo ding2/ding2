@@ -15,27 +15,6 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
   }
 
   /**
-   * Modify the default ctools export-ui hook_menu implementation.
-   */
-  function hook_menu(&$items) {
-    parent::hook_menu($items);
-
-    // Ensure the profiles tab is displayed correctly in the contexts of Ting
-    // field search tabs.
-    unset($items['admin/config/ting/ting-field-search/profiles/list']);
-    $items['admin/config/ting/ting-field-search/profiles']['type'] = MENU_LOCAL_TASK;
-
-    // Try to fix the display of the nested profile editing tabs.
-    unset($items['admin/config/ting/ting-field-search/profiles/list/%ctools_export_ui/edit']['page callback']);
-    unset($items['admin/config/ting/ting-field-search/profiles/list/%ctools_export_ui/edit']['page arguments']);
-    unset($items['admin/config/ting/ting-field-search/profiles/list/%ctools_export_ui/edit']['load arguments']);
-    unset($items['admin/config/ting/ting-field-search/profiles/list/%ctools_export_ui/edit']['access callback']);
-    unset($items['admin/config/ting/ting-field-search/profiles/list/%ctools_export_ui/edit']['access arguments']);
-    $items['admin/config/ting/ting-field-search/profiles/list/%ctools_export_ui']['type'] = MENU_NORMAL_ITEM;
-    $items['admin/config/ting/ting-field-search/profiles/list/%ctools_export_ui']['title'] = 'Edit';
-  }
-
-  /**
    * Modify the profile list form.
    */
   function list_form(&$form, &$form_state) {

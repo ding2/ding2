@@ -8,9 +8,9 @@ $plugin = array(
   'access' => 'administer site configuration',
 
   'menu' => array(
-    'menu prefix' => 'admin/config/ting/ting-field-search',
-    'menu item' => 'profiles',
-    'menu title' => 'Profiles',
+    'menu prefix' => 'admin/config/ting',
+    'menu item' => 'ting-field-search-profiles',
+    'menu title' => 'Ting Field Search Profiles',
     'menu description' => 'Manage Ting field search profiles',
   ),
 

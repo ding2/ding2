@@ -15,45 +15,6 @@ define('TING_FIELD_SEARCH_COLLECTION', 2);
 define('TING_FIELD_SEARCH_OBJECT', 3);
 
 /**
- * Implements hook_menu().
- */
-function ting_field_search_menu() {
-  $items = array();
-
-  // The profile list is attached to this tab root with ctools export ui plugin.
-  $items['admin/config/ting/ting-field-search'] = array(
-    'title' => 'Ting field search',
-    'description' => 'Manage settings and profiles.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_field_search_settings_form'),
-    'access arguments' => array('administer site configuration'),
-    'file' => 'ting_field_search.admin.inc',
-    'type' => MENU_NORMAL_ITEM,
-  );
-  $items['admin/config/ting/ting-field-search/settings'] = array(
-    'title' => 'Settings',
-    'description' => 'Manage settings for Ting field search.',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -10,
-  );
-
-  // Give administrators a chance to install a compatible cache backend, if
-  // hook_enable() for some reason failed. This is critical for the module to
-  // function proberly.
-  $items['admin/config/ting-field-search/install'] = array(
-    'title' => 'Install backend',
-    'description' => 'Install the cache_ting backend proberly',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_field_search_install_confirm_form'),
-    'access arguments' => array('administer site configuration'),
-    'file' => 'ting_field_search.admin.inc',
-    'type' => MENU_CALLBACK,
-  );
-
-  return $items;
-}
-
-/**
  * Implements hook_ctools_plugin_directory().
  */
 function ting_field_search_ctools_plugin_directory($module, $plugin) {
