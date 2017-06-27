@@ -286,15 +286,10 @@
 .panel-pane.pane-ding-facetbrowser {
   fieldset {
     border-top: 1px solid $charcoal-opacity-light;
-    &:last-child {
-      border-bottom: 1px solid $charcoal-opacity-light;
-    }
   }
-  form {
-    // Hide expand link
-    > div > a.expand {
-      display: none;
-    }
+
+  .hidden-facets-group {
+    display: none;
   }
 }
 

@@ -26,7 +26,7 @@
         // Prevent double click to select text.
         .disableSelection();
       if(this.options.submitted === false) {
-        $('.star', this.element)
+        $('.js-rating-symbol', this.element)
           .hover(this.starMouseIn, this.starMouseOut)
           .bind('click', function (evt) {
             evt.preventDefault();
@@ -36,9 +36,9 @@
               $this.parent().attr('data-ding-entity-rating-path'),
               $this.index() + 1,
               function () {
-                $this.addClass('submitted').parent().addClass('has-submission');
-                $this.prevAll('.fa').addClass('submitted');
-                $this.nextAll('.fa').removeClass('submitted has-sub');
+                $this.addClass('submitted').parent('.ding-entity-rating').addClass('has-submission');
+                $this.prevAll('.js-rating-symbol').addClass('submitted');
+                $this.nextAll('.js-rating-symbol').removeClass('submitted has-sub');
               }
             );
           });
@@ -51,9 +51,9 @@
             $this.parent().attr('data-ding-entity-rating-path'),
             0,
             function () {
-              $this.parent()
+              $this.parent('.ding-entity-rating')
                 .removeClass('has-submission')
-                .children('.fa').removeClass('submitted has-sub');
+                .children('.js-rating-symbol').removeClass('submitted has-sub');
             }
           );
         });
@@ -157,7 +157,7 @@
           success: function (data) {
             for (var i in data) {
               if (data[i] !== false) {
-                $('.ding-entity-rating[data-ding-entity-rating-id="' + i + '"] .star')
+                $('.ding-entity-rating[data-ding-entity-rating-id="' + i + '"] .js-rating-symbol')
                   .eq(data[i])
                   .removeClass('submitted')
                   .prevAll().addClass('submitted')

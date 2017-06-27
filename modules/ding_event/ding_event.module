@@ -292,3 +292,47 @@ function ding_event_date_popup_process_alter(&$element, &$form_state, $context) 
     $element['date']['#attributes']['placeholder'] = t('Select a date');
   }
 }
+
+function ding_event_metatag_metatags_view_alter(&$output, $instance, $options) {
+  if ($instance == 'panels:ding_event_node_view') {
+    $node = menu_get_object();
+    $node_view = node_view($node);
+    $metatag = '';
+
+    // Metatag elements.
+    $lead_out = $node->title;
+    $location_out = '';
+    $date_out = '';
+    $price_out = ', ' . t('free', array(), array('context' => 'Price'));
+
+    // Lead.
+    $lead = field_get_items('node', $node, 'field_ding_event_lead');
+    if (!empty($lead)) {
+      $lead_out = $lead[0]['value'];
+    }
+
+    // Location.
+    $library_gid = field_get_items('node', $node, 'og_group_ref', 'target_id');
+    $location = field_get_items('node', $node, 'field_ding_event_location');
+    if (isset($library_gid) && empty($location[0]['name_line'])) {
+      $library_node = node_load($library_gid[0]['target_id']);
+      $location_out = ', ' . $library_node->title;
+    }
+
+    if (!empty($location[0]['name_line'])) {
+      $location_out = ', ' . $location[0]['name_line'];
+    }
+
+    // Date.
+    $date = field_get_items('node', $node, 'field_ding_event_date');
+    $date_out = ', ' . format_date(strtotime($date[0]['value']), 'ding_date_and_time');
+
+    // Price.
+    $price = field_get_items('node', $node, 'field_ding_event_price', 'value');
+    if (!empty($price)) {
+      $price_out = ', ' . $price[0]['value'] . ' ' . variable_get('ding_event_currency_type', 'Kr');
+    }
+
+    $output['description']['#attached']['drupal_add_html_head'][0][0]['#value'] = $lead_out . $location_out . $date_out . $price_out;
+  }
+}

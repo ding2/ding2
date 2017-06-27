@@ -111,14 +111,11 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
 
       // Decide if the facet is to have the hidden class or not.
       $facet_class = ($i >= $facet_show_count) ? 'js-hidden' : 'js-visible';
-      $collapsed = ($i >= $facet_show_count) ? TRUE : FALSE;
-      
+
       if (count($facet->terms) > 0) {
         $form[$facet->name] = array(
           '#type' => 'fieldset',
           '#title' => check_plain($configured_facet['title']),
-          '#collapsible' => TRUE,
-          '#collapsed' => $collapsed,
           '#attributes'  => array(
             'id' => str_replace('.', '-', $facet->name),
             'data' => array(
