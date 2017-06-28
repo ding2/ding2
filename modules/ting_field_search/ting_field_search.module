@@ -9,11 +9,6 @@
 // Separate handling of facets.
 include_once 'ting_field_search.facets.inc';
 
-// Ting field search context.
-define('TING_FIELD_SEARCH_SEARCH', 1);
-define('TING_FIELD_SEARCH_COLLECTION', 2);
-define('TING_FIELD_SEARCH_OBJECT', 3);
-
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -31,16 +26,10 @@ function ting_field_search_ctools_plugin_directory($module, $plugin) {
  * timing while also being invoked for cached panes.
  */
 function ting_field_search_panels_pane_prerender($pane) {
-  $context = NULL;
+  $supported = array('search_result', 'ting_collection', 'ting_object');
 
-  if ($pane->type == 'search_result') {
-    $context = TING_FIELD_SEARCH_SEARCH;
-  }
-  elseif ($pane->type == 'ting_collection') {
-    $context =  TING_FIELD_SEARCH_COLLECTION;
-  }
-  elseif ($pane->type == 'ting_object') {
-    $context = TING_FIELD_SEARCH_OBJECT;
+  if (in_array($pane->type, $supported)) {
+    $context = $pane->type;
   }
 
   // If we have a supported context, attempt to activate a profile.
