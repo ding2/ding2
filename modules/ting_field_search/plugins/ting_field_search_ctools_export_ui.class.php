@@ -74,7 +74,15 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
     // again later when we're done.
     $operations = array_pop($row_data);
 
-    $row_data[]['data'] = check_plain($profile->config['search_request']['well_profile']);
+    // Show standard ting well profile if nothing is set for the profile:
+    if ($profile->config['search_request']['well_profile']) {
+      $well_profile = $profile->config['search_request']['well_profile'];
+    }
+    else {
+      $well_profile = variable_get('ting_search_profile', '');
+    }
+
+    $row_data[]['data'] = check_plain($well_profile);
     $row_data[]['data'] = check_plain($profile->config['search_request']['query']);
     $row_data[]['data'] = $profile->config['user_interaction']['exposed'] ? t('Yes') : t('No');
     $row_data[]['data'] = $profile->weight;
