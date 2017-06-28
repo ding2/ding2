@@ -105,11 +105,12 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
   function list_table_header() {
     $header = parent::list_table_header();
 
+    // Like in list_build_row() above we want the operations last in the row.
     $operations = array_pop($header);
 
-    $header[]['data'] = t('Well profile');
-    $header[]['data'] = t('Query');
-    $header[]['data'] = t('Exposed');
+    $header[] = t('Well profile');
+    $header[] = t('Query');
+    $header[] = t('Exposed');
     $header[] = t('Weight');
 
     $header[] = $operations;
