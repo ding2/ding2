@@ -302,22 +302,31 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
 }
 
 function ting_field_search_profile_export_form_submit($form, &$form_state) {
+  $profile = $form_state['item'];
+
   // Mark any input facet with an empty name to be deleted.
-  $form_state['item']->facets = array();
+  $profile->facets = array();
   if ($facets = $form_state['values']['facets']) {
     foreach ($facets as $key => $facet) {
       $current = $facets[$key];
       if ($current['name']) {
-        $form_state['item']->facets[] = $current;
+        $profile->facets[] = $current;
       }
     }
   }
 
-  // Save the active tab for later in the redirect. (TODO)
-  $active_tab = &drupal_static(__FUNCTION__);
+  // There's a 'redirect' option in the export plugin definition, but we need
+  // to dynamically insert a fragment so the current tab will be open after
+  // redirect. So here we construct the path and set the active tab as fragment
+  // manually.
   $active_tab = $form_state['values']['config']['config__active_tab'];
   // Remove it so it doesn't get saved in the DB.
   unset($form_state['values']['config']['config__active_tab']);
+  $path ='admin/config/ting/ting-field-search-profiles/list/' . $profile->name;
+  // Setup the parameters for drupal_goto().
+  $form_state['object']->plugin['redirect']['edit'] = array();
+  $form_state['object']->plugin['redirect']['edit'][0] = $path;
+  $form_state['object']->plugin['redirect']['edit'][1] = array('fragment' => $active_tab);
 }
 
 /**
