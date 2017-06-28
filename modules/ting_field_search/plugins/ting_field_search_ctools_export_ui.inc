@@ -31,6 +31,9 @@ $plugin = array(
   ),
 );
 
+/**
+ * Form builder for the profile edit form.
+ */
 function ting_field_search_profile_export_form(&$form, &$form_state) {
   $profile = $form_state['item'];
 
@@ -259,7 +262,6 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
         'weight' => &$row['data'][3]['data'],
       );
       $rows[$index] = $row;
-      //_ting_field_search_prepare_facet_row($form['facets']['table'], $index, $facet);
       $index++;
       $last_facet = $facet;
     }

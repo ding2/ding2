@@ -10,6 +10,8 @@
  * Implements hook_schema().
  */
 function ting_field_search_schema() {
+  $schema = array();
+
   $schema['ting_field_search_profile'] = array(
     'description' => 'Holds the definitions of the installed search profiles.',
     'export' => array(

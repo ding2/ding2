@@ -64,6 +64,10 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
     );
   }
 
+  /**
+   * Add additional data to the rows in the profile table. Also, if one of our
+   * module specific sort options above is selected, prepare for sorting.
+   */
   function list_build_row($profile, &$form_state, $operations) {
     parent::list_build_row($profile, $form_state, $operations);
 
@@ -102,6 +106,9 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
     }
   }
 
+  /**
+   * Modify the captions in profile table header.
+   */
   function list_table_header() {
     $header = parent::list_table_header();
 
