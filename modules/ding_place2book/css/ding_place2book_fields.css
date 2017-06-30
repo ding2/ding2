@@ -1,0 +1,3 @@
+#p2b-prices-table input:not([type="submit"]) {
+    width: 60%;
+}
