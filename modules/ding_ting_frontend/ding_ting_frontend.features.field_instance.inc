@@ -241,11 +241,10 @@ function ding_ting_frontend_field_default_field_instances() {
         'weight' => 11,
       ),
       'search_result' => array(
-        'label' => 'hidden',
-        'module' => 'ding_entity',
+        'label' => 'above',
         'settings' => array(),
-        'type' => 'ding_entity_buttons_ajax',
-        'weight' => 20,
+        'type' => 'hidden',
+        'weight' => 37,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -331,7 +330,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 31,
+        'weight' => 16,
       ),
       'ting_reference_preview' => array(
         'label' => 'above',
