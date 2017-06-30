@@ -247,10 +247,11 @@ function ding_ting_frontend_field_default_field_instances() {
         'weight' => 37,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'ding_entity',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 27,
+        'type' => 'ding_entity_buttons_ajax',
+        'weight' => 7,
       ),
       'ting_reference_preview' => array(
         'label' => 'above',
@@ -413,7 +414,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'module' => 'ting',
         'settings' => array(),
         'type' => 'ting_abstract_default',
-        'weight' => 5,
+        'weight' => 4,
       ),
       'ting_reference_preview' => array(
         'label' => 'hidden',
@@ -680,7 +681,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 28,
+        'weight' => 33,
       ),
       'ting_reference_preview' => array(
         'label' => 'above',
@@ -760,7 +761,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 26,
+        'weight' => 32,
       ),
       'ting_reference_preview' => array(
         'label' => 'above',
@@ -840,10 +841,9 @@ function ding_ting_frontend_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'inline',
-        'module' => 'ting',
         'settings' => array(),
-        'type' => 'ting_series_default',
-        'weight' => 4,
+        'type' => 'hidden',
+        'weight' => 3,
       ),
       'ting_reference_preview' => array(
         'label' => 'above',
@@ -923,10 +923,9 @@ function ding_ting_frontend_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'ting',
         'settings' => array(),
-        'type' => 'ting_subjects_default',
-        'weight' => 6,
+        'type' => 'hidden',
+        'weight' => 4,
       ),
       'ting_reference_preview' => array(
         'label' => 'above',
@@ -1122,7 +1121,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 38,
+        'weight' => 34,
       ),
       'ting_reference_preview' => array(
         'label' => 'above',
