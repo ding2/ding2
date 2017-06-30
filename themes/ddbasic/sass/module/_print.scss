@@ -103,6 +103,10 @@
     display: none;
   }
   
+  .pane-ting-object .group-material-details.collapsed .field-group-format-wrapper {
+    display: block !important;
+  }
+ 
   .pane-reservations .material-item,
   .pane-reservations .total-amount,
   .pane-loans .material-item,
@@ -138,6 +142,10 @@
   .pane-debts .messages,
   .pane-bookmarks .messages {
     margin-bottom: 5px;
+  }
+
+  article {
+    display: inline-block;
   }
 }
 
