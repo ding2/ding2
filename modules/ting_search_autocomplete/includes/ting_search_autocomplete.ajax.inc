@@ -49,7 +49,7 @@ function ting_search_autocomplete_callback($query = '', $reset = FALSE) {
 
 
 /**
- * SuggestionService - retrieve suggestions with drupal_http_request() 
+ * SuggestionService - retrieve suggestions with drupal_http_request()
  *
  * @param string $query
  * @return array
@@ -67,13 +67,17 @@ function ting_search_autocomplete_get_suggestions($query) {
   $settings['query'] = $query;
   $url = url($rest_url, array('query' => $settings));
 
-  $result = drupal_http_request($url, array());
+  $result = drupal_http_request($url, array(
+    'headers' => array(
+      'Accept' => 'application/json',
+    ),
+  ));
 
   if (!empty($result->data)) {
     $result_data = drupal_json_decode($result->data);
     if (empty($result->error)) {
-      if (!empty($result_data['suggestions'])) {
-        foreach ($result_data['suggestions'] as $suggestion) {
+      if (!empty($result_data['suggestion'])) {
+        foreach ($result_data['suggestion'] as $suggestion) {
           if ($method == 'facetSpell') {
             $items[truncate_utf8(strip_tags($suggestion['phrase']), 256, TRUE, FALSE, 1)] = $suggestion['phrase'];
           }
