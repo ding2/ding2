@@ -544,9 +544,6 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       break;
   }
 
-  // For some unknown issue translation fails.
-  $element['#title'] = t($element['#title']);
-
   $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
