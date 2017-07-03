@@ -104,6 +104,7 @@ function ddbasic_process_html(&$vars) {
 function ddbasic_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'search_block_form':
+      $form['search_block_form']['#attributes']['autofocus'] = true;
       $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
       $form['search_block_form']['#field_prefix'] = '<i class="icon-search"></i>';
       $form['search_block_form']['#title'] = t('Search the library database and the website');
@@ -115,16 +116,13 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
     case 'user_login_block':
       $form['name']['#title'] = t('Loan or social security number');
       $form['name']['#field_prefix'] = '<i class="icon-user"></i>';
+      $form['name']['#attributes']['autofocus'] = true;
       $form['name']['#attributes']['placeholder'] = t('The number is 10 digits');
       $form['name']['#type'] = 'password';
 
       $form['pass']['#title'] = t('Pincode');
       $form['pass']['#field_prefix'] = '<i class="icon-lock"></i>';
       $form['pass']['#attributes']['placeholder'] = t('Pincode is 4 digits');
-
-      // Add JavaScript that will place focus in the login box, when the Login
-      // is clicked.
-      drupal_add_js(drupal_get_path('theme', 'ddbasic') . '/scripts/ddbasic.login.js', 'file');
 
       unset($form['links']);
 
