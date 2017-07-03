@@ -114,6 +114,7 @@ function ding_periodical_field_formatter_view($entity_type, $entity, $field, $in
           krsort($issues);
 
           if ($issues) {
+            drupal_add_js(array('dingPeriodical' => array('disableReserve' => TRUE)), 'setting');
             $element[$delta] = array(
               '#theme' => 'ding_periodical_issues',
               '#entity' => $entity,
