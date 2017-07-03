@@ -89,7 +89,7 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
     }
 
     if (!empty($instance->notice)) {
-      $notice = '<span class="notice">' . $instance->notice . '</span>';
+      $notice = '<span class="opening-hours-table-notice">' . $instance->notice . '</span>';
     }
     else {
       $notice = '';
@@ -136,7 +136,7 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   }
   $variables['table']['#suffix'] = '<div class="opening-hours-title">' . $title . '</div>'
   . l(
-    t('Next'),
+    t('next ›'),
     'ding-ddbasic/opening-hours/week/' . $variables['node']->nid
     . '/' . strtotime('next monday', $timespan[1])
     . '/' . strtotime('next sunday', $timespan[1])
@@ -145,7 +145,7 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
       'attributes' => array('class' => array('use-ajax', 'button-next')),
     )
   ) . l(
-    t('Previous'),
+    t('‹ previous'),
     'ding-ddbasic/opening-hours/week/' . $variables['node']->nid
     . '/' . strtotime('last monday', $timespan[0])
     . '/' . strtotime('last sunday', $timespan[0])
