@@ -99,9 +99,7 @@ ul {
           }
         }
       }
-    }
-    // Expanded
-    > li.expanded {
+
       // 2nd level men
       > ul.main-menu {
         @include font('base');
