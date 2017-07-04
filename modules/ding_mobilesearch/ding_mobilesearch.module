@@ -556,7 +556,7 @@ function ding_mobilesearch_cron() {
   $last_cron = variable_get('ms_update_oh', 0);
 
   if ($last_cron + 604800 <= REQUEST_TIME) {
-    //variable_set('ms_update_oh', REQUEST_TIME);
+    variable_set('ms_update_oh', REQUEST_TIME);
 
     $flag_items = flag_get_flagged_content('push_to_mongo');
 
