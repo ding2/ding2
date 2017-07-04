@@ -128,7 +128,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       // Add creator(s).
       $creators = $entity->creators;
- 
+
       // Add type.
       $mat_type = $entity->type;
 
@@ -320,7 +320,7 @@ function _ding_loan_loans_group_loans_by_date($loans) {
       if (!isset($groups[$loan->expiry])) {
         $time = strtotime($loan->expiry);
         $due_in = t('Due in @count, @date', array(
-          '@count' => format_interval($time - strtotime("-1 Day"), 1),
+          '@count' => format_interval($time - strtotime("-1 Day"), 2),
           '@date' => date('d/m/y', $time),
         ));
         $groups[$loan->expiry] = array(
