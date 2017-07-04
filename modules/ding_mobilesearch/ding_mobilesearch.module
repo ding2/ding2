@@ -595,7 +595,5 @@ function _ding_mobilesearch_ms_update_oh_worker($nid) {
 
   if ($node) {
     ding_mobilesearch_rest_exec('hook_node_update', 'node', $node);
-
-    watchdog('ding_mobilesearch', $node->title);
   }
 }
