@@ -353,8 +353,18 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
       ->fields('oh')
       ->condition('oh.nid', $node->nid)
       ->execute();
+
+    // Push only opening hours from now till 10 weeks ahead.
+    $now = strtotime(date('Y-m-d', REQUEST_TIME));
+    // 10 weeks.
+    $threshold = 6048000;
+
     foreach ($result as $row) {
-      $mapping['fields']['opening_hours'][] = (array) $row;
+      $row = (array) $row;
+      $date_stamp = strtotime($row['date']);
+      if ($date_stamp >= $now && $date_stamp <= $now + $threshold) {
+        $mapping['fields']['opening_hours'][] = $row;
+      }
     }
   }
 
@@ -537,4 +547,53 @@ function theme_ding_mobilesearch_types_table(array $variables) {
   $output .= drupal_render_children($form);
 
   return $output;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_mobilesearch_cron() {
+  $last_cron = variable_get('ms_update_oh', 0);
+
+  if ($last_cron + 604800 <= REQUEST_TIME) {
+    variable_set('ms_update_oh', REQUEST_TIME);
+
+    $flag_items = flag_get_flagged_content('push_to_mongo');
+
+    foreach ($flag_items as $item) {
+      if ($item->content_type == 'node') {
+        DrupalQueue::get('ms_update_oh')->createItem($item->content_id);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function ding_mobilesearch_cron_queue_info() {
+  // Mobilesearch update opening hours.
+  $queue['ms_update_oh'] = array(
+    'worker callback' => '_ding_mobilesearch_ms_update_oh_worker',
+    'time'            => 30,
+    'skip on cron'    => FALSE,
+  );
+
+  return $queue;
+}
+
+/**
+ * Custom queue worker, loads and pushes content to mobilesearch.
+ *
+ * @param int $nid
+ *   Node id.
+ *
+ * @see ding_mobilesearch_cron_queue_info()
+ */
+function _ding_mobilesearch_ms_update_oh_worker($nid) {
+  $node = node_load($nid);
+
+  if ($node) {
+    ding_mobilesearch_rest_exec('hook_node_update', 'node', $node);
+  }
 }
