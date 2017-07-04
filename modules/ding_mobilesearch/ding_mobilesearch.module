@@ -357,7 +357,8 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
 
     // Push only opening hours from now till 10 weeks ahead.
     $now = strtotime(date('Y-m-d', REQUEST_TIME));
-    $threshold = 6048000; // 10 weeks.
+    // 10 weeks.
+    $threshold = 6048000;
 
     foreach ($result as $row) {
       $row = (array) $row;
@@ -585,10 +586,10 @@ function ding_mobilesearch_cron_queue_info() {
 /**
  * Custom queue worker, loads and pushes content to mobilesearch.
  *
- * @see ding_mobilesearch_queue_info()
- *
  * @param int $nid
  *   Node id.
+ *
+ * @see ding_mobilesearch_queue_info()
  */
 function _ding_mobilesearch_ms_update_oh_worker($nid) {
   $node = node_load($nid);
