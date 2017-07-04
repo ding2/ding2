@@ -589,7 +589,7 @@ function ding_mobilesearch_cron_queue_info() {
  * @param int $nid
  *   Node id.
  *
- * @see ding_mobilesearch_queue_info()
+ * @see ding_mobilesearch_cron_queue_info()
  */
 function _ding_mobilesearch_ms_update_oh_worker($nid) {
   $node = node_load($nid);
