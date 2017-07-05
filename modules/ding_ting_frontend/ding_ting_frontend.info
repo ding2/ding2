@@ -66,7 +66,6 @@ features[field_group][] = group_ting_object_left_column|ting_object|ting_object|
 features[field_group][] = group_ting_object_meta|ting_object|ting_object|default
 features[field_group][] = group_ting_object_right_a|ting_object|ting_object|default
 features[field_group][] = group_ting_object_right_column|ting_object|ting_object|default
-features[field_group][] = group_ting_object_right_c|ting_object|ting_object|default
 features[field_group][] = group_ting_object_teaser_left|ting_object|ting_object|teaser
 features[field_group][] = group_ting_object_teaser_right|ting_object|ting_object|teaser
 features[field_group][] = group_ting_right_col_collection|ting_object|ting_object|collection_list

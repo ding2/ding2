@@ -37,7 +37,7 @@ function ding_frontpage_default_page_manager_pages() {
   $handler->conf = array(
     'title' => 'Ding frontpage',
     'no_blocks' => 0,
-    'pipeline' => 'standard',
+    'pipeline' => 'ipe',
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
@@ -83,17 +83,7 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_tabroll-ding_frontpage_tabroll';
     $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'frontpage_promoter',
-          'settings' => array(
-            'promoter' => 'ding_tabroll',
-          ),
-          'not' => FALSE,
-        ),
-      ),
-    );
+    $pane->access = array();
     $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
@@ -112,17 +102,7 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->type = 'carousel';
     $pane->subtype = 'carousel';
     $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'frontpage_promoter',
-          'settings' => array(
-            'promoter' => 'ting_search_carousel',
-          ),
-          'not' => FALSE,
-        ),
-      ),
-    );
+    $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
       'override_title_text' => '',

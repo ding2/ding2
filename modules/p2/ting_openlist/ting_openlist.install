@@ -41,7 +41,7 @@ function ting_openlist_install() {
   db_add_field('users', 'openlist_uid', $schema['users']['fields']['openlist_uid']);
 
   // Set default configuration (so site install will work).
-  variable_set('ting_openlist_wsdl', 'http://v2_test.openlist.server003.b14cms.dk/?wsdl');
+  variable_set('ting_openlist_wsdl', 'https://test.openlist.ddbcms.dk/?wsdl');
   variable_set('ting_openlist_prefix', uniqid());
   variable_set('ting_library_code', variable_get('ting_agency', ''));
 }
