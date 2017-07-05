@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Handles user authentication with the alma provider.
@@ -123,7 +124,7 @@ function alma_user_update_pincode($account, $new_pincode) {
  *
  * This hook is only called from ding_dibs after a payment have been accepted.
  *
- * @param stdClass $account
+ * @param object $account
  *   Drupal user account object.
  */
 function alma_user_clear_cache($account) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ding user handling module.
@@ -23,8 +24,9 @@ function ding_user_preprocess_html(&$variables) {
     }
     elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
       // Redirect anonymous user to front page login. This is to prevent the
-      // library user from seeing /user, login and password page.
-      // Unless in maintenance_mode: There's no front page login when in maintenance_mode, and a redirect prevent login.
+      // library user from seeing /user, login and password page. Unless in
+      // maintenance_mode, there's no front page login when in maintenance_mode,
+      // and a redirect prevent login.
       if (!variable_get('maintenance_mode', 0)) {
         drupal_goto('', array('fragment' => 'login'));
       }
@@ -64,7 +66,7 @@ function ding_user_ctools_plugin_directory($owner, $plugin_type) {
  * Implements hook_ctools_plugin_api().
  *
  * If you do this, CTools will pick up default panels pages in
- * ding_user.pages_default.inc
+ * ding_user.pages_default.inc.
  */
 function ding_user_ctools_plugin_api($module, $api) {
   if ($module == 'page_manager' && $api == 'pages_default') {
@@ -138,7 +140,6 @@ function ding_user_menu_alter(&$items) {
   $items['user']['delivery callback'] = 'ding_user_deliver_html_page';
 }
 
-
 /**
  * Implements hook_page_manager_contexts_alter().
  *
@@ -159,7 +160,7 @@ function ding_user_menu_alter(&$items) {
  * @See function panels_render_display()
  */
 function ding_user_page_manager_contexts_alter(&$contexts, $placeholders) {
-  foreach ($contexts as $id => $context) {
+  foreach ($contexts as $context) {
     if (!empty($context->form_id)) {
       unset($context->form_id);
     }
@@ -343,8 +344,8 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       // container.
       unset($form['links'], $form['name'], $form['pass'], $form['actions']);
 
-    // Falling through on purpose (if not reservation and login via ajax will
-    // fail.).
+      // Falling through on purpose (if not reservation and login via ajax will
+      // fail.).
 
     case 'ding_user_authenticate_form':
       $form['user_login_container']['actions']['submit']['#ajax'] = array(
@@ -843,7 +844,7 @@ function ding_user_user_login_validate($form, &$form_state) {
  * Create a provider account for drupal.
  *
  * The username will be a hash value of authname. This account will be coupled
- * with the provider user via the authmap table
+ * with the provider user via the authmap table.
  *
  * @param string $auth_name
  *   Name used to authenticate the user.
@@ -853,7 +854,7 @@ function ding_user_user_login_validate($form, &$form_state) {
  * @return entity
  *   Drupal user object.
  */
-function _ding_user_create_account($auth_name, $auth_res) {
+function _ding_user_create_account($auth_name, array $auth_res) {
   // We'd like to use user_external_login_register(), but it saves the user
   // and invokes hook_user_login before we have a chance to mess with it. So
   // we do what it would do.
@@ -861,7 +862,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
 
   $mail = NULL;
   $display_name = '';
-  $blocked = FALSE;
+  $blocks = FALSE;
   if (isset($auth_res['user'])) {
     if (isset($auth_res['user']['mail'])) {
       $mail = $auth_res['user']['mail'];
@@ -934,14 +935,13 @@ function _ding_user_create_account($auth_name, $auth_res) {
   return $account;
 }
 
-
 /**
  * Create a profile2 provider profile for the account, if one do not exists.
  *
- * @param entity $account
+ * @param object $account
  *   Drupal user account object.
  *
- * @return entity
+ * @return object
  *   The newly create profile entity or the existing one.
  */
 function _ding_user_create_profile2($account) {
@@ -1095,7 +1095,7 @@ function ding_user_get_creds() {
  *   Array with authentication information used to communicate with the
  *   provider.
  */
-function ding_user_save_creds($auth_res) {
+function ding_user_save_creds(array $auth_res) {
   if (isset($auth_res['creds'])) {
     $_SESSION['ding_user'] = $auth_res;
   }

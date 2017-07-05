@@ -109,7 +109,7 @@ function fbs_user_authenticate($name, $pincode) {
  * to in the absence of this function.
  */
 function fbs_user_get_name($account) {
-  if ($patron_info = fbs_get_patron_info($account)
+  if (($patron_info = fbs_get_patron_info($account))
       && isset($patron_info['name'])) {
     return $patron_info['name'];
   }
@@ -133,7 +133,7 @@ function fbs_user_get_provider_id($account) {
 /**
  * Implements provider user, update_pincode.
  *
- * @param string $name
+ * @param string $account
  *   User name.
  * @param string $new_pincode
  *   New pincode.

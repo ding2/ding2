@@ -9,6 +9,7 @@
   * Exception for trying to create existing user.
   */
 class DingProviderUserExistsError extends DingProviderEnduserException {
+
   /**
    * Construct new exception.
    */
@@ -18,4 +19,5 @@ class DingProviderUserExistsError extends DingProviderEnduserException {
     }
     parent::__construct($message);
   }
+
 }
