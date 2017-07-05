@@ -400,6 +400,13 @@ function fbs_update_preferred_branch($account, $branch_id) {
 
   if (!$wrapper->field_fbs_preferred_branch->value()) {
     $wrapper->field_fbs_preferred_branch->set($branch_id);
+    $current_on_hold = $wrapper->field_fbs_on_hold->value();
+    if (!empty($current_on_hold['from'])) {
+      $wrapper->field_fbs_on_hold->set(array(
+        'from' => date('Y-m-d', $current_on_hold['from']),
+        'to' => date('Y-m-d', $current_on_hold['to']),
+      ));
+    }
 
     $profile->save();
   }
