@@ -22,22 +22,21 @@ class DingProviderNoProvider extends Exception { }
 class DingProviderDoesntImplement extends Exception { }
 
 /**
- * Exception class that can provide a translated and substituted
- * message. Exceptions that is instanceof DingProviderUserException is
- * errors appropriate for displaying to the end user. Internal errors
- * not suitable for end users should not be implemented as as subclass
- * of this class.
+ * Exception class that can provide a translated and substituted message.
+ * Exceptions that is instanceof DingProviderEnduserException is errors
+ * appropriate for displaying to the end user. Internal errors not suitable for
+ * end users should not be implemented as as subclass of this class.
  *
  * When instantiating this class or subclasses, you should give a
  * translated string as message, like so:
  * @code
- *   throw new DingProviderUserException(t('Internal error on @title'));
+ *   throw new DingProviderEnduserException(t('Internal error on @title'));
  * @endcode
  *
  * Which replacements are available should be documented in the
  * Exception or one of it's parents.
  */
-class DingProviderUserException extends Exception {
+class DingProviderEnduserException extends Exception {
   /**
    * Return the error message with replacements substituted just like
    * t(). NOTE: The message returned by getMessage is already

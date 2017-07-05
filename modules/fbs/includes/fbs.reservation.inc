@@ -202,7 +202,7 @@ function fbs_reservation_create($account, $record_id, $options) {
       case 'success':
       default:
         watchdog('fbs', 'Unexpected state "@state" on failed reservaiton', array('@state' => $result->result), WATCHDOG_WARNING);
-        throw new DingProviderUserException(t('Unknown error from library system while attempting to reserve.'));
+        throw new DingProviderEnduserException(t('Unknown error from library system while attempting to reserve.'));
     };
   }
 }

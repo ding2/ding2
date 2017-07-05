@@ -11,7 +11,7 @@
   * Basename should be DingProviderUser, but that confuses things with
   * DingProviderUserException, so we use DingProviderAuth.
   */
-class DingProviderAuthUserExistsError extends DingProviderUserException {
+class DingProviderAuthUserExistsError extends DingProviderEnduserException {
   /**
    * Construct new exception.
    */

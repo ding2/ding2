@@ -402,7 +402,7 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
       // Clear reservation session cache.
       ding_reservation_cache_clear();
     }
-    catch (DingProviderUserException $e) {
+    catch (DingProviderEnduserException $e) {
       drupal_set_message($e->getMessageT(array('@title' => $reservable->getTitle())), 'error');
     }
     catch (DingProviderAuthException $e) {
