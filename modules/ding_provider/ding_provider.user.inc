@@ -10,9 +10,9 @@
  */
 class DingProviderUserAuthFailure extends Exception {}
 
- /**
-  * Exception for trying to create existing user.
-  */
+/**
+ * Exception for trying to create existing user.
+ */
 class DingProviderUserExistsError extends DingProviderEnduserException {
 
   /**
