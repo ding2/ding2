@@ -801,6 +801,12 @@ function ding_user_user_login_validate($form, &$form_state) {
       // Check that a profile exists for the user and if not create one.
       _ding_user_create_profile2($account);
 
+      if ($account->data['blocks']) {
+        foreach ($account->data['blocks'] as $block_code) {
+          drupal_set_message(ding_user_block_reason($block_code), 'warning');
+        }
+      }
+
       // Log user in.
       $form_state['uid'] = $account->uid;
       // We're not calling user_login_submit like user_external_login_register
@@ -865,8 +871,8 @@ function _ding_user_create_account($auth_name, $auth_res) {
       $display_name = $auth_res['user']['data']['display_name'];
     }
 
-    if (isset($auth_res['user']['blocked'])) {
-      $blocked = $auth_res['user']['blocked'];
+    if (!empty($auth_res['user']['blocks'])) {
+      $blocks = array_unique($auth_res['user']['blocks']);
     }
   }
 
@@ -888,7 +894,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
     }
     $fields['data'] = array(
       'display_name' => $display_name,
-      'blocked' => $blocked,
+      'blocks' => $blocks,
     );
 
     // Set provider role.
@@ -917,7 +923,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
     }
     $edit['data'] = array(
       'display_name' => $display_name,
-      'blocked' => $blocked,
+      'blocks' => $blocks,
     );
     user_save($account, $edit);
   }
@@ -1286,4 +1292,33 @@ function _ding_user_roles_form_validate(array $form, array &$form_state) {
   if (!array_filter($form_state['values']['roles_change'])) {
     form_set_error('roles', t('Roles field is required.'));
   }
+}
+
+/**
+ * Returns the message for the block type.
+ */
+function ding_user_block_reason($type) {
+  $reasons = &drupal_static(__FUNCTION__);
+  if (empty($reasons)) {
+    $reasons = module_invoke_all('ding_user_block_reasons');
+    // Fallback message.
+    $reasons['default'] = t('Your account is limited. Please contact your library for more information.');
+  }
+
+  if (!isset($reasons[$type])) {
+    $type = 'default';
+  }
+
+  return $reasons[$type];
+}
+
+/**
+ * Implements hook_ding_user_block_reasons().
+ */
+function ding_user_ding_user_block_reasons() {
+  return array(
+    'ding_user_blocked_debt' => t('Your account is limited due to outstanding debt. Please contact your library for more information.'),
+    'ding_user_blocked_self_created' => t('Your self created account is limited. Please contact your library to get full access.'),
+    'ding_user_blocked_excluded' => t('You have been excluded. Please contact your library for more information.'),
+  );
 }

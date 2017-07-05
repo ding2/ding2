@@ -71,19 +71,26 @@ function fbs_user_authenticate($name, $pincode) {
       'private' => array(
         'branch' => $res->patron->preferredPickupBranch,
       ),
-      'blocked' => !empty($res->patron->blockStatus),
     );
 
     if ($res->patron->blockStatus) {
+      $block_resons = array(
+        'F' => 'ding_user_blocked_excluded',
+        'E' => 'ding_user_blocked_debt',
+        'W' => 'ding_user_blocked_self_created',
+        'U' => 'ding_user_blocked_excluded',
+      );
       $denied = FALSE;
       $result['user']['blocks'] = array();
       foreach ($res->patron->blockStatus as $block) {
-        $result['user']['blocked'] = TRUE;
         $result['user']['blocks'][] = $block->message;
         // Don't allow users blocked by "O" (library card stolen),"S" (blocked
         // by self service automation) or "D" (deceased) statusses log in.
         if (in_array($block->blockedReason, array('O', 'S', 'D'))) {
           $denied = TRUE;
+        }
+        else {
+          $result['user']['blocks'][] = isset($block_resons[$block->blockedReason]) ? $block_resons[$block->blockedReason] : 'default';
         }
       }
       if ($denied) {

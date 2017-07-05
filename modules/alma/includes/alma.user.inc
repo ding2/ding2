@@ -60,11 +60,9 @@ function alma_user_authenticate($uid, $pass) {
     $return['user']['category'] = $res['category'];
   }
 
-  $return['user']['blocked'] = FALSE;
   if (!empty($res['blocks'])) {
-    // Send block codes back with the user.
-    $return['user']['blocks'] = $res['blocks'];
-    $return['user']['blocked'] = TRUE;
+    // Just use the default warning.
+    $return['user']['blocks'] = ['default'];
   }
 
   return $return;
