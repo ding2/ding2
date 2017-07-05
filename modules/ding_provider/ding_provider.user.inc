@@ -5,6 +5,11 @@
  * Ding user related classes.
  */
 
+/**
+ * Exception thrown for authentication error.
+ */
+class DingProviderUserAuthFailure extends Exception {}
+
  /**
   * Exception for trying to create existing user.
   */

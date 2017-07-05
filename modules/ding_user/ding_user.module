@@ -781,62 +781,60 @@ function ding_user_user_login_validate($form, &$form_state) {
       drupal_set_message($exception->getMessage(), 'warning');
       return;
     }
-    if (!is_array($auth_res) || !isset($auth_res['success'])) {
+    if (!is_array($auth_res)) {
       watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
       return;
     }
 
-    if ($auth_res['success']) {
-      if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
-        // If provider supplied an authname, use it.
-        $auth_name = $auth_res['authname'];
-      }
-      else {
-        // Else use a standard authname.
-        $auth_name = ding_user_default_authname($form_state['values']['name']);
-      }
-
-      // Create new account in Drupal and if one exists update it.
-      $account = _ding_user_create_account($auth_name, $auth_res);
-
-      // Check that a profile exists for the user and if not create one.
-      _ding_user_create_profile2($account);
-
-      if ($account->data['blocks']) {
-        foreach ($account->data['blocks'] as $block_code) {
-          drupal_set_message(ding_user_block_reason($block_code), 'warning');
-        }
-      }
-
-      // Log user in.
-      $form_state['uid'] = $account->uid;
-      // We're not calling user_login_submit like user_external_login_register
-      // does, it's already the submit handler.
+    if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
+      // If provider supplied an authname, use it.
+      $auth_name = $auth_res['authname'];
     }
     else {
-      // Check if name and pass where filled out. These fields are not required
-      // in the form to prevent the default form validation from displaying the
-      // reset password link, which would not make sens for provider users.
-      foreach (array('name', 'pass') as $field) {
-        if (empty($form_state['values'][$field])) {
-          form_set_error($field, t('!name field is required.', array('!name' => $form['user_login_container'][$field]['#title'])));
-        }
-      }
-
-      // If we reach this code the login have failed and we always want to
-      // display this message.
-      form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new password. Contact information can be found on the <a href="@url">library</a> page.', array('@url' => url('biblioteker'))));
-      // Obfuscate the user name. We just set the form value to the obfuscated
-      // version as user.module will log the failure with the name from the
-      // form. If the provider defines its own authnames, this wont match the
-      // username that the user would have, but we can't expect the provider
-      // to supply it for invalid logins.
-      form_set_value($form['user_login_container']['name'], ding_user_default_authname($form_state['values']['name']), $form_state);
+      // Else use a standard authname.
+      $auth_name = ding_user_default_authname($form_state['values']['name']);
     }
+
+    // Create new account in Drupal and if one exists update it.
+    $account = _ding_user_create_account($auth_name, $auth_res);
+
+    // Check that a profile exists for the user and if not create one.
+    _ding_user_create_profile2($account);
+
+    if ($account->data['blocks']) {
+      foreach ($account->data['blocks'] as $block_code) {
+        drupal_set_message(ding_user_block_reason($block_code), 'warning');
+      }
+    }
+
+    // Log user in.
+    $form_state['uid'] = $account->uid;
+    // We're not calling user_login_submit like user_external_login_register
+    // does, it's already the submit handler.
   }
-  catch (Exception $exception) {
+  catch (DingProviderUserAuthFailure $e) {
+    // Check if name and pass where filled out. These fields are not required
+    // in the form to prevent the default form validation from displaying the
+    // reset password link, which would not make sens for provider users.
+    foreach (array('name', 'pass') as $field) {
+      if (empty($form_state['user_login_container']['values'][$field])) {
+        form_set_error($field, t('!name field is required.', array('!name' => $form[$field]['#title'])));
+      }
+    }
+
+    // If we reach this code the login have failed and we always want to
+    // display this message.
+    form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new password. Contact information can be found on the <a href="@url">library</a> page.', array('@url' => url('biblioteker'))));
+    // Obfuscate the user name. We just set the form value to the obfuscated
+    // version as user.module will log the failure with the name from the
+    // form. If the provider defines its own authnames, this wont match the
+    // username that the user would have, but we can't expect the provider
+    // to supply it for invalid logins.
+    form_set_value($form['name'], ding_user_default_authname($form_state['values']['name']), $form_state);
+  }
+  catch (Exception $e) {
     // Exception thrown, log error and carry on.
-    watchdog_exception('ding_user', $exception);
+    watchdog_exception('ding_user', $e);
   }
 }
 

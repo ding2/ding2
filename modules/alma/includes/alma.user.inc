@@ -9,19 +9,17 @@
  * Implements hook_user_authenticate().
  */
 function alma_user_authenticate($uid, $pass) {
-  $return = array(
-    'success' => FALSE,
-  );
-
   try {
     $res = alma_client_invoke('get_patron_info', $uid, $pass, TRUE);
-    if ($res) {
-      $return['success'] = TRUE;
+    if (!$res) {
+      throw new DingProviderUserAuthFailure();
     }
   }
   catch (Exception $e) {
-    return $return;
+    throw new DingProviderUserAuthFailure();
   }
+
+  $return = array();
 
   // Set creds.
   $return['creds'] = array(

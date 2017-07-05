@@ -24,9 +24,7 @@ function fbs_user_authenticate($name, $pincode) {
     if ($pass !== $pincode) {
       // Die if we didn't get the same pincode as we generated in
       // wayf_login_credentials.
-      return array(
-        'success' => FALSE,
-      );
+      throw new DingProviderUserAuthFailure();
     }
 
     try {
@@ -50,51 +48,46 @@ function fbs_user_authenticate($name, $pincode) {
     }
   }
 
-  $result = array(
-    'success' => FALSE,
+  if (empty($res->authenticated)) {
+    throw new DingProviderUserAuthFailure();
+  }
+
+  $result = array();
+
+  // Save patron info in creds.
+  $result['creds'] = _fbs_patron_info($res->patron);
+
+  // We have to save the library card number/CPR number, as the pincode
+  // change call uses it.
+  $result['creds']['library_card_number'] = $name;
+
+  $result['user'] = array(
+    'mail' => $res->patron->emailAddress,
+    'data' => array(
+      'display_name' => $res->patron->name,
+    ),
+    'private' => array(
+      'branch' => $res->patron->preferredPickupBranch,
+    ),
   );
-  if (!empty($res->authenticated)) {
-    $result['success'] = TRUE;
 
-    // Save patron info in creds.
-    $result['creds'] = _fbs_patron_info($res->patron);
-
-    // We have to save the library card number/CPR number, as the pincode
-    // change call uses it.
-    $result['creds']['library_card_number'] = $name;
-
-    $result['user'] = array(
-      'mail' => $res->patron->emailAddress,
-      'data' => array(
-        'display_name' => $res->patron->name,
-      ),
-      'private' => array(
-        'branch' => $res->patron->preferredPickupBranch,
-      ),
+  if ($res->patron->blockStatus) {
+    $block_resons = array(
+      'F' => 'ding_user_blocked_excluded',
+      'E' => 'ding_user_blocked_debt',
+      'W' => 'ding_user_blocked_self_created',
+      'U' => 'ding_user_blocked_excluded',
     );
-
-    if ($res->patron->blockStatus) {
-      $block_resons = array(
-        'F' => 'ding_user_blocked_excluded',
-        'E' => 'ding_user_blocked_debt',
-        'W' => 'ding_user_blocked_self_created',
-        'U' => 'ding_user_blocked_excluded',
-      );
-      $denied = FALSE;
-      $result['user']['blocks'] = array();
-      foreach ($res->patron->blockStatus as $block) {
-        $result['user']['blocks'][] = $block->message;
-        // Don't allow users blocked by "O" (library card stolen),"S" (blocked
-        // by self service automation) or "D" (deceased) statusses log in.
-        if (in_array($block->blockedReason, array('O', 'S', 'D'))) {
-          $denied = TRUE;
-        }
-        else {
-          $result['user']['blocks'][] = isset($block_resons[$block->blockedReason]) ? $block_resons[$block->blockedReason] : 'default';
-        }
+    $result['user']['blocks'] = array();
+    foreach ($res->patron->blockStatus as $block) {
+      $result['user']['blocks'][] = $block->message;
+      // Don't allow users blocked by "O" (library card stolen),"S" (blocked
+      // by self service automation) or "D" (deceased) statusses log in.
+      if (in_array($block->blockedReason, array('O', 'S', 'D'))) {
+        throw new DingProviderUserAuthFailure();
       }
-      if ($denied) {
-        $result['success'] = FALSE;
+      else {
+        $result['user']['blocks'][] = isset($block_resons[$block->blockedReason]) ? $block_resons[$block->blockedReason] : 'default';
       }
     }
   }
