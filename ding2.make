@@ -525,8 +525,9 @@ libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.gi
 libraries[zen-grids][download][tag] = "1.4"
 libraries[zen-grids][destination] = "libraries"
 
-libraries[jquery.imgareaselect][download][type] = "get"
-libraries[jquery.imgareaselect][download][url] =  http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
+libraries[jquery.imgareaselect][download][type] = "git"
+libraries[jquery.imgareaselect][download][url] =  "git@github.com:easySuite/imgareaselect.git"
+libraries[jquery.imgareaselect][download][branch] = "master"
 libraries[jquery.imgareaselect][directory_name] = "jquery.imgareaselect"
 libraries[jquery.imgareaselect][destination] = "libraries"
 
