@@ -354,8 +354,11 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
       ->condition('oh.nid', $node->nid)
       ->execute();
 
-    // Push only opening hours from now till 10 weeks ahead.
-    $now = strtotime(date('Y-m-d', REQUEST_TIME));
+    // Push only opening hours from current week till 10 weeks ahead.
+    $current_date = date('Y-m-d', REQUEST_TIME);
+    // Align with start of the week.
+    $current_day = date('N', REQUEST_TIME) - 1;
+    $now = strtotime($current_date) - $current_day * 86400;
     // 10 weeks.
     $threshold = 6048000;
 
