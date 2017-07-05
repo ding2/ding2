@@ -813,17 +813,6 @@ function ding_user_user_login_validate($form, &$form_state) {
       }
     }
     else {
-      // Check if any messages was returned from the provider.
-      if (isset($auth_res['messages'])) {
-        foreach ($auth_res['messages'] as $message) {
-          $type = 'warning';
-          if (is_array($message)) {
-            list($message, $type) = $message;
-          }
-          drupal_set_message(check_plain($message), $type);
-        }
-      }
-
       // Check if name and pass where filled out. These fields are not required
       // in the form to prevent the default form validation from displaying the
       // reset password link, which would not make sens for provider users.

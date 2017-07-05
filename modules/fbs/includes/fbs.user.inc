@@ -87,7 +87,6 @@ function fbs_user_authenticate($name, $pincode) {
         }
       }
       if ($denied) {
-        $result['messages'] = $result['user']['blocks'];
         $result['success'] = FALSE;
       }
     }
