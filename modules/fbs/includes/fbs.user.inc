@@ -80,9 +80,9 @@ function fbs_user_authenticate($name, $pincode) {
       foreach ($res->patron->blockStatus as $block) {
         $result['user']['blocked'] = TRUE;
         $result['user']['blocks'][] = $block->message;
-        // Don't allow users blocked by "O" (library card stolen) or "S"
-        // (blocked by self service automation) statusses log in.
-        if (in_array($block->blockedReason, array('O', 'S'))) {
+        // Don't allow users blocked by "O" (library card stolen),"S" (blocked
+        // by self service automation) or "D" (deceased) statusses log in.
+        if (in_array($block->blockedReason, array('O', 'S', 'D'))) {
           $denied = TRUE;
         }
       }
