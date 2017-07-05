@@ -805,12 +805,6 @@ function ding_user_user_login_validate($form, &$form_state) {
       $form_state['uid'] = $account->uid;
       // We're not calling user_login_submit like user_external_login_register
       // does, it's already the submit handler.
-      //
-      //  @TODO: Do we still need this ?
-      //
-      if (ding_provider_implements('user', 'authenticate_finalize')) {
-        ding_provider_invoke('user', 'authenticate_finalize', $account);
-      }
     }
     else {
       // Check if name and pass where filled out. These fields are not required
