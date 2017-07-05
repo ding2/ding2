@@ -7,11 +7,8 @@
 
  /**
   * Exception for trying to create existing user.
-  *
-  * Basename should be DingProviderUser, but that confuses things with
-  * DingProviderUserException, so we use DingProviderAuth.
   */
-class DingProviderAuthUserExistsError extends DingProviderEnduserException {
+class DingProviderUserExistsError extends DingProviderEnduserException {
   /**
    * Construct new exception.
    */

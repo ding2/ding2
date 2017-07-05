@@ -199,7 +199,7 @@ function fbs_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
   }
   catch (\Reload\Prancer\SwaggerApiExtendedError $exception) {
     if ($exception->payload->errorCode == 'CPR_NUMBER_EXISTS') {
-      throw new DingProviderAuthUserExistsError('User account already exists');
+      throw new DingProviderUserExistsError('User account already exists');
     }
     // Re-throw other errors.
     throw $exception;
