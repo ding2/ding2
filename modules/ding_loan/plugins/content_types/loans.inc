@@ -121,17 +121,26 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     foreach ($group['loans'] as $loan) {
       // Try to get entity for the loan.
       $entity = $loan->entity;
+      $raw_title = $entity->getTitle();
+
       if (!is_object($entity) || $entity->reply == FALSE) {
-        $entity = ding_provider_get_pseudo_entity($loan->ding_entity_id);
-        // Don't link the title as the data well do not known this title. It may
-        // be a inter library loan.
-        $title = $entity->getTitle() ? $entity->getTitle() : $loan->display_name;
+        // Patron have this item in loans list, but opensearch can't find this
+        // record for current agencyId, so we load it separately.
+        // Here we are loading TingClientObject.
+        $checked_entity = ting_get_object($loan->ding_entity_id);
+
+        // But we need TingEntity instance, so here we are populating this.
+        $ting_entity = new TingEntity();
+        $ting_entity->ding_entity_id = $entity->ding_entity_id;
+        $ting_entity->reply = $checked_entity;
+
+        // Fetching raw title of the loaded item.
+        $raw_title = $ting_entity->getTitle();
       }
-      else {
-        // Create title that links to the object.
-        $uri = entity_uri('ting_object', $entity);
-        $title = l($entity->getTitle(), $uri['path']);
-      }
+
+      // Add title link.
+      $uri = entity_uri('ting_object', $entity);
+      $title = l($raw_title, $uri['path']);
 
       // Add creator(s).
       $creators = $entity->creators;
