@@ -1,0 +1,6 @@
+name = Ting field search
+description = Extends the search functionallity of Ting search
+package = Ding!
+core = 7.x
+
+dependencies[] = ting_search

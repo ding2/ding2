@@ -492,6 +492,7 @@ function ting_execute_cache($request) {
  */
 function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT, $with_relations = FALSE) {
   $cid = $type . ':' . $id;
+  ting_cache_invoke_cache_key_hook($cid);
 
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
     $cache = cache_get($cid, 'cache_ting');
@@ -535,6 +536,7 @@ function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT, $with_relations = F
 function ting_cache_set($id, $value, $type = TING_CACHE_TING_OBJECT) {
   // Define the cache id.
   $cid = $type . ':' . $id;
+  ting_cache_invoke_cache_key_hook($cid);
 
   if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
     cache_set($cid, $value, 'cache_ting', REQUEST_TIME + $ttl);
@@ -547,6 +549,23 @@ function ting_cache_set($id, $value, $type = TING_CACHE_TING_OBJECT) {
       $cache = array();
     }
     $cache[$cid] = $value;
+  }
+}
+
+/**
+ * Wrapper for invoking our cache_key hook, since we need to do this two places.
+ *
+ * @see ting_cache_get()
+ * @see ting_cache_set()
+ *
+ * @param string $cid
+ *   The cache_key that other modules can modify.
+ */
+function ting_cache_invoke_cache_key_hook(&$cid) {
+  // We need to pass by reference, so no module_invoke_all().
+  foreach (module_implements('ting_cache_key') as $module) {
+    $function = $module . '_ting_cache_key';
+    $function($cid);
   }
 }
 
