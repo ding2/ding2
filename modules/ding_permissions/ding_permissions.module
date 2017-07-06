@@ -231,6 +231,7 @@ function ding_permissions_secure_permissions($role) {
       'administer fe promote',
       'administer features',
       'administer fieldgroups',
+      'administer fields',
       'administer file types',
       'administer files',
       'administer filters',
