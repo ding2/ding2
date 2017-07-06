@@ -1,0 +1,242 @@
+//
+// Styling of user profile form
+
+@import '../../base.scss';
+
+// ==========================================================================
+// User profile form
+// ==========================================================================
+
+#user-profile-form {
+  input[type=text],
+  input[type=password] {
+    border-radius: 0;
+    background-color: $grey;
+    color: $charcoal;
+    &:focus {
+      box-shadow: 0 0 10px $grey-dark;
+    }
+    &.date-clear {
+      border-radius: $round-corner;
+      background-color: transparent;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+  label {
+    color: $color-text;
+  }
+  .form-wrapper {
+    padding: 0;
+  }
+  .form-submit {
+    width: auto;
+    padding-right: 40px;
+  }
+
+  .pane-content {
+    > div {
+      > .form-wrapper {
+        margin-bottom: 20px;
+      }
+
+      .field-name-field-alma-preferred-branch,
+      .field-name-field-alma-sms,
+      .field-name-field-fbs-phone,
+      .field-name-field-fbs-mail,
+      .field-name-field-fbs-preferred-branch {
+        @include span-columns(6);
+        clear: left;
+
+        @include media($mobile) {
+          width: 100%;
+        }
+      }
+
+      .field-name-field-alma-interest-period,
+      .field-name-field-alma-mobile-phone,
+      .field-name-field-fbs-phone-notification,
+      .field-name-field-fbs-mail-notification {
+        @include span-columns(6);
+        margin-right: 0;
+
+        @include media($mobile) {
+          width: 100%;
+        }
+      }
+
+      .field-name-field-fbs-phone-notification,
+      .field-name-field-fbs-mail-notification {
+        margin-top: 20px;
+
+        @include media($mobile) {
+          margin-top: 0;
+        }
+      }
+
+      .form-actions {
+        clear: left;
+      }
+
+      #edit-pass--2 {
+        width: 100%;
+        float: left;
+        padding: 20px 0;
+        margin: 20px 0;
+        border-top: 1px solid $grey;
+        border-bottom: 1px solid $grey;
+        .fieldset-wrapper {
+          width: 100%;
+          float: left;
+        }
+        .form-type-password {
+          @include span-columns(6);
+          @include omega(2n);
+
+          @include media($mobile) {
+            width: 100%;
+          }
+        }
+      }
+
+      #edit-profile-provider-alma-field-alma-reservation-pause,
+      #edit-profile-provider-fbs-field-fbs-on-hold {
+        width: 100%;
+        float: left;
+        padding: 20px 0;
+        .fieldset-wrapper {
+          width: 100%;
+        }
+        .fieldset-description {
+          margin-bottom: 10px;
+        }
+        .form-type-date-popup {
+          width: 100%;
+          margin: 0;
+          .date-padding {
+            width: 100%;
+            padding: 0;
+
+            .form-item {
+              width: 100%;
+              position: relative;
+              height: $element-height;
+              background-color: $white;
+              border: 1px solid $grey;
+              border-radius: $round-corner;
+
+              @include place-icon(arrow-down-small, $charcoal-opacity-dark);
+
+              &::after {
+                right: 0;
+                pointer-events: none;
+              }
+              &::before {
+                content: '';
+                display: block;
+                background-color: $grey;
+                background-repeat: no-repeat;
+                background-position: right 4px center;
+                width: $element-height;
+                height: 52px;
+                position: absolute;
+                right: 0;
+                top: 0;
+                pointer-events: none;
+              }
+              input {
+                width: 100%;
+                background-color: transparent;
+                cursor: pointer;
+                &:focus {
+                  box-shadow: none;
+                }
+              }
+              > label {
+                position: absolute;
+                top: -20px;
+              }
+              .description {
+                font-size: 1em;
+                margin-top: 5px;
+              }
+            }
+          }
+        }
+      }
+      #edit-profile-provider-alma-field-alma-reservation-pause {
+        border-top: 1px solid $grey;
+        border-bottom: 1px solid $grey;
+        margin: 20px 0;
+        .date-no-float {
+          @include span-columns(6);
+          clear: none;
+          margin-bottom: 20px;
+
+          @include media($mobile) {
+            width: 100%;
+          }
+        }
+        .form-type-date-popup {
+          .date-padding {
+            .form-item {
+              margin: 20px 0;
+            }
+          }
+        }
+      }
+      #edit-profile-provider-fbs-field-fbs-on-hold {
+        border-top: 1px solid $grey;
+        margin: 20px 0 0;
+        .container-inline-date {
+          @include span-columns(6);
+          clear: none;
+          margin-bottom: 20px;
+
+          @include media($mobile) {
+            width: 100%;
+          }
+
+          .element-invisible {
+            display: none;
+          }
+        }
+        .form-type-date-popup {
+          .date-padding {
+            .form-item {
+              margin: 0 0 20px;
+            }
+          }
+        }
+      }
+
+      #edit-ding-user-fee-sms {
+        width: 100%;
+        float: left;
+      }
+
+      #edit-profile-provider-alma-field-alma-mail {
+        width: 100%;
+        float: left;
+        margin-bottom: 20px;
+        input {
+          @include span-columns(6);
+
+          @include media($mobile) {
+            width: 100%;
+            margin-bottom: 10px;
+          }
+        }
+        .description {
+          @include span-columns(6);
+          margin-right: 0;
+
+          @include media($mobile) {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

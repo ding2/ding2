@@ -123,7 +123,7 @@ function fbs_field_info() {
       'property_type' => 'struct',
       'property_callbacks' => array('fbs_field_property_callback'),
     ),
-);
+  );
 }
 
 /**
@@ -178,7 +178,7 @@ function fbs_field_widget_form(&$form, &$form_state, $field, $instance, $langcod
       foreach ($fields as $key => $title) {
         $default_value = '';
         if (!empty($items[$delta][$key])) {
-          $date = new DateObject("@" + $items[$delta][$key]);
+          $date = new DateObject("@" . $items[$delta][$key]);
           $default_value = $date->format(DATE_FORMAT_DATETIME);
         }
         $element[$key] = array(
@@ -231,7 +231,21 @@ function fbs_field_property_callback(&$info, $entity_type, $field, $instance, $f
   else {
     $property['getter callback'] = 'fbs_field_metadata_get';
   }
-  unset($property['setter callback']);
+
+  switch ($name) {
+    case 'field_fbs_preferred_branch':
+      $property['setter callback'] = 'fbs_field_metadata_set';
+      break;
+
+    case 'field_fbs_on_hold':
+      $property['setter callback'] = 'entity_metadata_field_verbatim_set';
+      break;
+
+    default:
+      unset($property['setter callback']);
+      break;
+  }
+  
   unset($property['query callback']);
 }
 
@@ -245,6 +259,16 @@ function fbs_field_metadata_get($entity, array $options, $name, $entity_type, &$
     return $val['value'];
   }
   return NULL;
+}
+
+/**
+ * Callback to set the value of a field.
+ */
+function fbs_field_metadata_set($entity, $name, $items, $langcode, $entity_type) {
+  if (!isset($items['value'])) {
+    $items = array('value' => $items);
+  }
+  entity_metadata_field_verbatim_set($entity, $name, $items, $langcode, $entity_type);
 }
 
 /**
@@ -361,7 +385,8 @@ function fbs_options_list($field, $instance, $entity_type, $entity) {
     );
   }
   elseif ($field['type'] == 'fbs_preferred_branch') {
-    return fbs_branches();
+    global $user;
+    return fbs_user_branches($user);
   }
 }
 
@@ -447,7 +472,8 @@ function fbs_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         break;
 
       case 'fbs_preferred_branch':
-        $branches = fbs_branches();
+        global $user;
+        $branches = fbs_user_branches($user);
         if (isset($branches[$item['value']])) {
           $title = $branches[$item['value']];
         }
@@ -464,24 +490,18 @@ function fbs_field_formatter_view($entity_type, $entity, $field, $instance, $lan
           return;
         }
         elseif (empty($item['from'])) {
-          $markup = t('To !end-date', array(
-                      '!end-date' => format_date($item['to'],
-                                   'ding_material_lists_date'),
-          ));
+          $end_date = format_date($item['to'], 'ding_material_lists_date');
+          $markup = t('To !end-date', array('!end-date' => $end_date));
         }
         elseif (empty($item['to'])) {
-          $markup = t('From !start-date', array(
-                      '!start-date' => format_date($item['from'],
-                                     'ding_material_lists_date'),
-                    ));
+          $start_date = format_date($item['from'], 'ding_material_lists_date');
+          $markup = t('From !start-date', array('!start-date' => $start_date));
         }
         else {
-          $markup = t('From !start-date to !end-date', array(
-                      '!start-date' => format_date($item['from'],
-                                     'ding_material_lists_date'),
-                      '!end-date' => format_date($item['to'],
-                                   'ding_material_lists_date'),
-                    ));
+          $start_date = format_date($item['from'], 'ding_material_lists_date');
+          $end_date = format_date($item['to'], 'ding_material_lists_date');
+          $placeholders = array('!start-date' => $start_date, '!end-date' => $end_date);
+          $markup = t('From !start-date to !end-date', $placeholders);
         }
 
         $element[$delta] = array(

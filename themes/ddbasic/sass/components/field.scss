@@ -1,0 +1,242 @@
+//
+// Styling of fields
+// Styling in this file should not be context-sensitive.
+
+@import '../base.scss';
+
+.field-type-text-long {
+  img {
+    &[align="right"] {
+      padding: 20px 0 20px 20px;
+    }
+    &[align="left"] {
+      padding: 20px 20px 20px 0;
+    }
+  }
+}
+
+// ==========================================================================
+// Ting fields
+// ==========================================================================
+.field-name-ting-author {
+  color: $charcoal-opacity-dark;
+}
+
+.field-name-ting-subjects {
+  strong {
+    display: block;
+  }
+  a {
+    margin-right: 15px;
+  }
+}
+
+.field-name-ting-series {
+  .field-label {
+    @include font('base-bold');
+  }
+}
+
+.field-name-ding-availability-holdings {
+  p {
+    margin-bottom: 0;
+  }
+  table.availability-holdings-table {
+    margin-top: 20px;
+  }
+}
+
+.field-name-ting-type {
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+.field-name-ting-details-subjects,
+.field-name-ting-details-contributor,
+.field-name-ting-details-tracks,
+.field-name-ting-details-genre {
+  .ting-material-detail {
+    &::after {
+      content: ', ';
+    }
+    &:last-child {
+      &::after {
+        content: '';
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Ding fields
+// ==========================================================================
+.field-name-field-ding-library-title-image {
+  margin-bottom: 20px;
+}
+
+.field-name-field-ding-news-title-image,
+.field-name-field-ding-event-title-image {
+  .field-item {
+    margin-bottom: 10px;
+  }
+}
+
+.field-name-field-ding-event-materials {
+  > .field-items {
+    > .field-item {
+      // In grid small
+      .grid-small & {
+        @include span-columns(3);
+        @include omega(4n);
+        margin-bottom: getGutter();
+        // Tablet
+        @include media($tablet) {
+          @include omega-reset(4n, 12);
+          @include span-columns(4);
+          @include omega(3n);
+        }
+        // Mobile
+        @include media($mobile) {
+          width: 100%;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+.field-name-field-ding-news-materials {
+  width: 100%;
+  float: left;
+
+  // When placed directly after .inner in node ding news
+  .node-ding-news .ding-news-inner > & {
+    padding-top: 20px;
+    > .field-label {
+      @include font('display-large');
+      color: $color-text;
+      margin-bottom: 20px;
+      // Mobile
+      @include media($mobile) {
+        margin-bottom: 10px;
+      }
+    }
+    > .field-items {
+      > .field-item {
+        @include span-columns(3);
+        @include omega(4n);
+        margin-bottom: getGutter();
+        // Tablet
+        @include media($tablet) {
+          @include omega-reset(4n, 12);
+          @include span-columns(4);
+          @include omega(3n);
+        }
+        // Mobile
+        @include media($mobile) {
+          width: 100%;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  // When placed in group-right in node ding news
+  .group-right & {
+    @include span-columns(7 of 5);
+
+    // Tablet
+    @include media($tablet) {
+      width: 100%;
+    }
+    > .field-items {
+      > .field-item {
+        width: 100%;
+        float: left;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+}
+
+// ==========================================================================
+// Ting Carousel field
+// ==========================================================================
+.ting-carousel-field {
+  margin-left: -2.5%;
+  > .field-items {
+    .slick-track {
+      > .field-item {
+        .ting-object {
+          padding-left: 10%; // We can't use getGutter because of the positioning of the itmes
+          padding-left: getGutter(3);
+        }
+      }
+    }
+  }
+
+  // Notebook
+  @include media($notebook) {
+    > .field-items {
+      .slick-track {
+        > .field-item {
+          .ting-object {
+            padding-left: 7.5%;
+          }
+        }
+      }
+    }
+  }
+
+  // Mobile
+  @include media($mobile) {
+    margin-left: 0;
+    > .field-items {
+      .slick-track {
+        > .field-item {
+          .ting-object {
+            padding-left: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Search fields
+// ==========================================================================
+div.search-field-in-content--message {
+  width: 100%;
+  float: left;
+  border: none;
+  padding: 20px 15px;
+  margin-bottom: 30px;
+  background-color: $color-primary;
+  color: $color-text-on-primary;
+}
+
+// ==========================================================================
+// Ting reference reverse
+// ==========================================================================
+.field-name-ting-reference-reverse {
+  .search-results {
+    ul {
+      margin: 0;
+      li.search-result {
+        width: 100%;
+        float: left;
+        margin-bottom: 10px;
+        list-style: none;
+        .view-mode-search-result {
+          width: 100%;
+          float: left;
+        }
+      }
+    }
+  }
+}

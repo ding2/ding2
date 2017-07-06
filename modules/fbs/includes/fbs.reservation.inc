@@ -30,11 +30,19 @@ function fbs_reservation_list($account, $requested_type = NULL) {
     DING_RESERVATION_NOT_READY => array(),
     DING_RESERVATION_INTERLIBRARY_LOANS => array(),
   );
+
+  $ids = array();
+  foreach ($res as $reservation) {
+    $ids[$reservation->recordId] = $reservation->recordId;
+  }
+  $ids = ding_provider_build_entity_id($ids);
+
   foreach ($res as $reservation) {
     $type = $reservation->state == 'readyForPickup' ? DING_RESERVATION_READY : DING_RESERVATION_NOT_READY;
     $type = $reservation->state == 'interLibraryReservation' ? DING_RESERVATION_INTERLIBRARY_LOANS : $type;
+
     $ding_reservation = array(
-      'ding_entity_id' => ding_provider_build_entity_id($reservation->recordId),
+      'ding_entity_id' => $ids[$reservation->recordId],
       'id' => $reservation->reservationId,
       'pickup_branch_id' => $reservation->pickupBranch,
       'created' => $reservation->dateOfReservation,
@@ -61,7 +69,11 @@ function fbs_reservation_list($account, $requested_type = NULL) {
       if (!empty($periodical->volumeNumber)) {
         $vol .= '.' . $periodical->volumeNumber;
       }
-      if (!empty($periodical->volumeYear)) {
+
+      if (!empty($periodical->displayText)) {
+        $ding_reservation['notes'] = check_plain($periodical->displayText);
+      }
+      elseif (!empty($periodical->volumeYear)) {
         $ding_reservation['notes'] = t('Issue @vol, @year', array('@vol' => $vol, '@year' => $periodical->volumeYear));
       }
       else {
@@ -299,7 +311,7 @@ function fbs_reservation_options($account, $default_branch = NULL) {
   }
 
   $form = array();
-  $form += ding_reservation_default_options_branch('fbs_preferred_branch', $preferred_branch, fbs_branches());
+  $form += ding_reservation_default_options_branch('fbs_preferred_branch', $preferred_branch, fbs_user_branches($account));
   $form += ding_reservation_interest_period_selector('interest_period', variable_get('fbs_default_interest_period', 180), fbs_interest_periods());
 
   return $form;

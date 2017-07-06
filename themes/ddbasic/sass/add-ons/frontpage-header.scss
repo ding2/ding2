@@ -1,0 +1,58 @@
+//
+// Styling of frontpage header
+
+@import '../base.scss';
+
+.frontpage-header {
+  .big-frontpage-image-wrapper {
+    @include span-columns(8);
+  }
+  .frontpage-header-navigation {
+    @include span-columns(4);
+    @include omega();
+    .frontpage-links {
+      h2 {
+        float: left;
+        width: 100%;
+        margin-bottom: 8px;
+        a {
+          @include button(arrow-right, $charcoal-opacity-dark, $grey);
+          &::after {
+            color: $charcoal-opacity-dark;
+          }
+
+          @include font('base');
+        }
+      }
+    }
+  }
+  // Tablet
+  @include media($tablet) {
+    .big-frontpage-image-wrapper {
+      width: 100%;
+      margin-right: 0;
+      img {
+        width: 100%;
+      }
+    }
+    .frontpage-header-navigation {
+      width: 100%;
+      .frontpage-links {
+        h2 {
+          width: auto;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+  // Mobile
+  @include media($mobile) {
+    .frontpage-header-navigation {
+      .frontpage-links {
+        h2 {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

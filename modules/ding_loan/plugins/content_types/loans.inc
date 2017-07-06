@@ -80,6 +80,13 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   // Split the loans into groups based on the expiry date.
   $groups = _ding_loan_loans_group_loans_by_date($loans);
 
+  $form['actions_container'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('actions-container', 'js-actions-container-fixed'),
+    ),
+  );
+
   // Store account information in the form (on server site).
   $form['account'] = array(
     '#type' => 'value',
@@ -92,43 +99,52 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     '#value' => $loans,
   );
 
+  $any_renewable = FALSE;
   foreach ($groups as $gid => $group) {
     // Counter to ensure that the "select all" checkbox is disabled if all loans
     // in group are disabled.
     $disabled_count = 0;
 
-    foreach ($group['loans'] as $loan) {
-
-      // Add title item (grouping by due dates).
-      $form['loans'][$gid]['title'] = array(
-        '#type' => 'checkbox',
-        '#title' => $group['title'],
-        '#prefix' => '<div class="select-all ' . $gid . '">',
-        '#suffix' => '</div>',
-        '#attached' => array(
-          'js' => array(
-            drupal_get_path('module', 'ding_loan') . '/js/ding_loan.js',
-          ),
+    // Add title item (grouping by due dates).
+    $form['loans'][$gid]['title'] = array(
+      '#type' => 'checkbox',
+      '#title' => $group['title'],
+      '#prefix' => '<div class="select-all ' . $gid . '">',
+      '#suffix' => '</div>',
+      '#attached' => array(
+        'js' => array(
+          drupal_get_path('module', 'ding_loan') . '/js/ding_loan.js',
         ),
-      );
+      ),
+    );
 
+    foreach ($group['loans'] as $loan) {
       // Try to get entity for the loan.
       $entity = $loan->entity;
+      $raw_title = $entity->getTitle();
+
       if (!is_object($entity) || $entity->reply == FALSE) {
-        $entity = ding_provider_get_pseudo_entity($loan->ding_entity_id);
-        // Don't link the title as the data well do not known this title. It may
-        // be a inter library loan.
-        $title = $entity->getTitle() ? $entity->getTitle() : $loan->display_name;
+        // Patron have this item in loans list, but opensearch can't find this
+        // record for current agencyId, so we load it separately.
+        // Here we are loading TingClientObject.
+        $checked_entity = ting_get_object($loan->ding_entity_id);
+
+        // But we need TingEntity instance, so here we are populating this.
+        $ting_entity = new TingEntity();
+        $ting_entity->ding_entity_id = $entity->ding_entity_id;
+        $ting_entity->reply = $checked_entity;
+
+        // Fetching raw title of the loaded item.
+        $raw_title = $ting_entity->getTitle();
       }
-      else {
-        // Create title that links to the object.
-        $uri = entity_uri('ting_object', $entity);
-        $title = l($entity->getTitle(), $uri['path']);
-      }
+
+      // Add title link.
+      $uri = entity_uri('ting_object', $entity);
+      $title = l($raw_title, $uri['path']);
 
       // Add creator(s).
       $creators = $entity->creators;
- 
+
       // Add type.
       $mat_type = $entity->type;
 
@@ -196,19 +212,41 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     if (count($group['loans']) == $disabled_count) {
       $form['loans'][$gid]['title']['#disabled'] = TRUE;
     }
+    else {
+      $any_renewable = TRUE;
+    }
   }
 
-  // Add the renew buttons to top and bottom of the form.
-  $form['actions_top'] = array(
+  if ($any_renewable === TRUE) {
+    $form['actions_container']['select_all'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Renew all'),
+      '#attached' => array(
+        'js' => array(
+          drupal_get_path('module', 'ding_loan') . '/js/ding_loan.js',
+        ),
+      ),
+    );
+  }
+
+  // Add the renew buttons.
+  $form['actions_container']['actions_top'] = array(
     '#prefix' => '<div class="action-buttons">',
     '#suffix' => '</div>',
     '#weight' => 0,
   );
 
-  $form['actions_top']['submit_first'] = array(
+  $form['actions_container']['actions_top']['submit_first'] = array(
     '#type' => 'submit',
     '#prefix' => '<div class="renew-loan-button action-button">',
     '#value' => t('Renew selected (@count)', array('@count' => 0)),
+    '#suffix' => '</div>',
+  );
+
+  $form['actions_container']['actions_top']['renew_all'] = array(
+    '#type' => 'markup',
+    '#prefix' => '<div class="renew-all action-all action-button js-renew-all">',
+    '#markup' => '<a href="#">' . t('Renew all') . '</a>',
     '#suffix' => '</div>',
   );
 
@@ -225,52 +263,57 @@ function ding_loan_loans_form_submit($form, &$form_state) {
       $ids[] = $item->id;
     }
   }
+  if (empty($ids)) {
+    return;
+  }
+
+  $error_messages = array(
+    DingProviderLoan::STATUS_NOT_RENEWED => t('Unable to renew material'),
+    DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED => t('Maximum number of renewals reached'),
+    DingProviderLoan::STATUS_RENEWAL_RESERVED => t('The material is reserved by another loaner'),
+  );
 
   $clear_cache = FALSE;
-  if (!empty($ids)) {
-    $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
-    foreach ($result as $id => $status) {
-      // Try to get entity for the item.
-      $entity = $form_state['values']['items'][$id]->entity;
-      if (!is_object($entity) || $entity->reply == FALSE) {
-        // Build pseudo entity based on provider information.
-        $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
-        $title = $entity->getTitle() ? $entity->getTitle() : $item->display_name;
-      }
-      else {
-        // Create title from entity object.
-        $title = $entity->getTitle();
-      }
 
-      // @todo Better feedback.
-      switch ($status) {
-        case DingProviderLoan::STATUS_RENEWED:
-          drupal_set_message(t('"@title renewed"', array('@title' => $title)));
-          $clear_cache = TRUE;
-          break;
-
-        case DingProviderLoan::STATUS_NOT_RENEWED:
-          if ($status['message'] == 'maxNofRenewals') {
-            $message = t('Maximum number of renewals reached');
-          }
-          elseif ($status['message'] == 'copyIsReserved') {
-            $message = t('The material is reserved by another loaner');
-          }
-          else {
-            $message = t('Unable to renew material');
-          }
-          drupal_set_message(t('"@title: @message"', array('@title' => $title, '@message' => $message)), 'warning');
-          break;
-
-        default:
-          watchdog('ding_loan', 'Unknown renewal status code @code.', array('@code' => $status), WATCHDOG_ERROR);
-      }
+  $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
+  foreach ($result as $id => $status) {
+    // Try to get entity for the item.
+    $entity = $form_state['values']['items'][$id]->entity;
+    if (!is_object($entity) || $entity->reply == FALSE) {
+      // Build pseudo entity based on provider information.
+      $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
+      $title = $entity->getTitle() ? $entity->getTitle() : $item->display_name;
+    }
+    else {
+      // Create title from entity object.
+      $title = $entity->getTitle();
     }
 
-    // Clear session cache.
-    if ($clear_cache && module_exists('ding_session_cache')) {
-      ding_session_cache_clear('ding_loan', 'list');
+    // @todo Better feedback.
+    switch ($status) {
+      case DingProviderLoan::STATUS_RENEWED:
+      case DingProviderLoan::STATUS_RENEWAL_REQUESTED:
+        drupal_set_message(t('"@title renewed"', array('@title' => $title)));
+        $clear_cache = TRUE;
+        break;
+
+      case DingProviderLoan::STATUS_NOT_RENEWED:
+      case DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED:
+      case DingProviderLoan::STATUS_RENEWAL_RESERVED:
+        drupal_set_message(t('"@title: @message"', array(
+          '@title' => $title,
+          '@message' => $error_messages[$status],
+        )), 'warning');
+        break;
+
+      default:
+        watchdog('ding_loan', 'Unknown renewal status code @code.', array('@code' => $status), WATCHDOG_ERROR);
     }
+  }
+
+  // Clear session cache.
+  if ($clear_cache && module_exists('ding_session_cache')) {
+    ding_session_cache_clear('ding_loan', 'list');
   }
 }
 

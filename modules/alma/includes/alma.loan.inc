@@ -61,6 +61,12 @@ function alma_loan_list($account, $reset = FALSE) {
  * Tries to renew the loans with the id's passed as parameter.
  */
 function alma_loan_renew($account, $ids) {
+  $error_mapping = array(
+    'requested' => DingProviderLoan::STATUS_RENEWAL_REQUESTED,
+    'maxnum' => DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED,
+    'reserved' => DingProviderLoan::STATUS_RENEWAL_RESERVED,
+  );
+
   $creds = ding_user_get_creds($account);
   $result = array();
   $res = alma_client_invoke('renew_loan', $creds['name'], $creds['pass'], $ids);
@@ -73,6 +79,9 @@ function alma_loan_renew($account, $ids) {
       if (module_exists('ding_session_cache')) {
         ding_session_cache_clear('alma', 'loans');
       }
+    }
+    elseif (isset($error_mapping[$res[$id]])) {
+      $result[$id] = $error_mapping[$res[$id]];
     }
     else {
       $result[$id] = DingProviderLoan::STATUS_NOT_RENEWED;

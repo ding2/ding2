@@ -1,0 +1,213 @@
+//
+// Styling of content type Ding Faq Question
+
+@import '../../base.scss';
+
+.node-ding-faq-question {
+  // ==========================================================================
+  // Teaser
+  // ==========================================================================
+  &.node-teaser {
+    float: left;
+    width: 100%;
+    padding: $box-padding 0;
+    margin-bottom: 20px;
+    background-color: $grey;
+    .field-name-field-ding-faq-list-image {
+      @include span-columns(2 of 8);
+      padding-left: $box-padding;
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(3);
+      }
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(5);
+        margin-bottom: 20px;
+      }
+      .field-item {
+        position: relative;
+        background-color: $white;
+        padding-top: 77.78%; // Creates a 16:9 format
+        img {
+          @include transform(translate(-50%, -50%));
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          max-height: 100%;
+          max-width: 100%;
+          height: auto;
+          width: auto;
+        }
+      }
+    }
+    .text {
+      @include span-columns(4 of 8);
+      margin-top: 5px;
+      color: $charcoal;
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(5);
+      }
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(7);
+        @include omega();
+        padding-right: $box-padding;
+        margin-bottom: 20px;
+      }
+      h3 {
+        margin-bottom: 10px;
+      }
+    }
+    .buttons {
+      @include span-columns(2 of 8);
+      @include omega();
+      padding-right: $box-padding;
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(4);
+      }
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        padding-left: $box-padding;
+      }
+      .read-more {
+        @include button(arrow-right, $background-color: $grey-dark);
+        padding-right: 45px;
+        &::after {
+          color: $charcoal-opacity-dark;
+        }
+        // Mobile
+        @include media($mobile) {
+          @include span-columns(6);
+        }
+      }
+    }
+  }
+  // ==========================================================================
+  // Full
+  // ==========================================================================
+  &.node-full {
+    @include linear-gradient(to top, $white 30px, $grey-light 100%);
+    padding: 40px 0 30px;
+    // Has dynamic background
+    .has-dynamic-background & {
+      max-width: $dynamic-background-width;
+      margin: 0 auto;
+    }
+    > .inner {
+      @include wrapper;
+      > .left {
+        @include span-columns(5);
+        min-height: 1px;
+
+        // Tablet
+        @include media($tablet) {
+          @include span-columns(6);
+        }
+
+        // Mobile
+        @include media($mobile) {
+          @include span-columns(12);
+          margin-bottom: 20px;
+        }
+      }
+      > .right {
+        @include span-columns(5);
+
+        // Tablet
+        @include media($tablet) {
+          @include span-columns(6);
+          @include omega();
+        }
+
+        // Mobile
+        @include media($mobile) {
+          @include span-columns(12);
+        }
+      }
+      > .buttons {
+        @include span-columns(2);
+        @include omega();
+
+        // Tablet
+        @include media($tablet) {
+          @include shift(6);
+          width: auto;
+          margin-top: 30px;
+        }
+
+        // Mobile
+        @include media($mobile) {
+          margin-left: 0;
+        }
+        a {
+          @include button('arrow-right', $background-color: $grey-dark);
+          padding-right: 45px;
+        }
+      }
+    }
+    h1 {
+      @include font('display');
+      margin-bottom: 0;
+      color: $charcoal;
+    }
+    .field-name-field-ding-faq-category {
+      margin-bottom: 30px;
+    }
+    .field-name-field-ding-faq-lead,
+    .field-name-field-ding-faq-body {
+      margin-bottom: 20px;
+    }
+    .field-name-field-ding-faq-files {
+      @include span-columns(6 of 8);
+      margin: 0 0 30px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(8 of 8);
+      }
+
+      // Mobile
+      @include media($mobile) {
+        margin: 15px 0 30px;
+      }
+      .field-label {
+        @include font('base-bold');
+      }
+      .file-type {
+        margin-left: 6px;
+      }
+    }
+    .field-name-field-ding-faq-tags.field-type-taxonomy-term-reference {
+      @include span-columns(6 of 8);
+      padding: 10px 0;
+      border-top: 1px solid $grey-medium;
+      border-bottom: 1px solid $grey-medium;
+      margin: 0 0 30px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(8 of 8);
+      }
+      .field-label {
+        @include font('base-bold');
+      }
+      .field-items .field-item {
+        display: inline;
+        margin-right: 15px;
+      }
+    }
+  }
+}

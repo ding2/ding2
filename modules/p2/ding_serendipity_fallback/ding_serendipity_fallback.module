@@ -14,9 +14,10 @@
 function ding_serendipity_fallback_serendipity_info() {
   return array(
     'ting_object' => array(
-      'title' => 'Fallback materials',
-      'description' => 'Returns fallback content.',
+      'title' => t('Fallback materials'),
+      'description' => t('If other plugins fails to find serendipity, this plugin will return a simple CQL. Keep the weight of this plugin higher than all other plugins.'),
       'keys' => array('ting_object'),
+      'settings' => l(t("Set fallback CQL"),"admin/config/ding/serendipity"),
     ),
   );
 }

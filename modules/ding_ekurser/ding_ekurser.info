@@ -9,4 +9,5 @@ features[ctools][] = oembed:oembed_provider:1
 features[ctools][] = page_manager:pages_default:1
 features[features_api][] = api:2
 features[page_manager_pages][] = ding_ekurser
+mtime = 1493903629
 project path = profiles/ding2/modules

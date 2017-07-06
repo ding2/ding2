@@ -1,0 +1,100 @@
+//
+// Styling of search elements
+
+@import '../base.scss';
+
+// ==========================================================================
+// Search filters
+// ==========================================================================
+.page-search-ting,
+.page-ekurser {
+  .secondary-content {
+    .expand-search {
+      @include button(arrow-down);
+      display: none;
+
+      // Mobile
+      @include media($tablet) {
+        display: block;
+        background: $black;
+        cursor: pointer;
+        &:hover {
+          display: block;
+          background: $black;
+        }
+      }
+      &.expanded {
+        background: $grey;
+        margin-bottom: 15px;
+        color: $charcoal-opacity-dark;
+        &::after {
+          @include arrow-button(arrow-up);
+          color: $charcoal-opacity-dark;
+        }
+      }
+    }
+    .hide-wrap {
+      // Tablet
+      @include media($tablet) {
+        @include transition(
+          max-height $speed ease-out,
+          opacity $speed-fast ease-out
+        );
+        @include span-columns(12);
+        display: none;
+        &.open {
+          @include transition(
+            max-height $speed ease-in,
+            opacity $speed ease-in
+          );
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Search options
+// ==========================================================================
+
+.pane-search-per-page {
+  @include span-columns(4 of 8);
+  clear: both;
+
+  // Tablet
+  @include media($tablet) {
+    @include span-columns(12);
+  }
+}
+
+.pane-ting-search-sort-form {
+  @include span-columns(4 of 8);
+  @include omega();
+
+  // Tablet
+  @include media($tablet) {
+    @include span-columns(12);
+    padding-bottom: 40px;
+  }
+}
+
+// ==========================================================================
+// Search results
+// ==========================================================================
+
+ol.search-results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  .search-result {
+    float: left;
+    width: 100%;
+    margin-bottom: 10px;
+
+    // Mobile
+    @include media($mobile) {
+      margin: 0;
+    }
+  }
+}

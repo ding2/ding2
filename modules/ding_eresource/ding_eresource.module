@@ -1,0 +1,32 @@
+<?php
+/**
+ * @file
+ * Code for the Ding! E-resource feature.
+ */
+
+include_once 'ding_eresource.features.inc';
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_eresource_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_eresource_form_alter(&$form, &$form_state, $form_id) {
+  // Change all-text in select list in exposed filter for e-resources.
+  if ($form['#id'] == 'views-exposed-form-ding-eresource-ding-eresource-list') {
+    if (!empty($form['access']['#options']['All'])) {
+      $form['access']['#options']['All'] = t('Access: All e-materials');
+    }
+  }
+}

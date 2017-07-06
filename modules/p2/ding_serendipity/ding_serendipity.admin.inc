@@ -39,6 +39,17 @@ function ding_serendipity_admin_form($form, &$form_state) {
     '#maxlength' => 300,
   );
 
+  $form['test_cql'] = array(
+    '#type' => 'button',
+    '#value' => t('Test CQL'),
+    '#ajax' => array(
+      'wrapper' => 'test-cql-container',
+      'callback' => 'ding_serendipity_test_cql_callback',
+    ),
+    '#suffix' => '<div id="test-cql-container"></div>',
+    '#cql_element' => 'ding_serendipity_search_string_final',
+  );
+
   $form['ding_serendipity_search_string_final_description'] = array(
     '#type' => 'textfield',
     '#title' => t('Serendipity final fallback description'),
@@ -102,11 +113,7 @@ function ding_serendipity_admin_overview($form, &$form_state) {
     if (isset($value['settings']) && $value['settings']) {
       $settings = $value['settings'];
       $form['ding_serendipity_callbacks']['#options'][$key]['settings'] = array(
-        'data' => l(
-          t('Settings'),
-          'admin/config/ding/serendipity/key_overview/' . $settings,
-          array('query' => array('destination' => 'admin/config/ding/serendipity/key_overview'))
-        ),
+        'data' => $settings,
       );
     }
   }
@@ -114,24 +121,6 @@ function ding_serendipity_admin_overview($form, &$form_state) {
   $form['ding_serendipity_weights'] = array(
     '#type' => 'value',
   );
-
-  $form['context'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('keys'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-  foreach ($info as $key => $value) {
-    foreach ($value['keys'] as $context) {
-      if (empty($form['context'][$context])) {
-        $form['context'][$context] = array(
-          '#type' => 'checkbox',
-          '#title' => check_plain($context),
-          '#default_value' => (!empty($form_state[$context])) ? $form_state[$context] : 1,
-        );
-      }
-    }
-  }
 
   return system_settings_form($form);
 }
@@ -165,8 +154,8 @@ function ding_serendipity_process_options($element) {
           $title = '';
           if (!empty($element['#options'][$key]['title']['data']['#title'])) {
             $title = t('Update @title', array(
-                '@title' => $element['#options'][$key]['title']['data']['#title'],
-              ));
+              '@title' => $element['#options'][$key]['title']['data']['#title'],
+            ));
           }
           $element[$key] = array(
             '#type' => 'checkbox',

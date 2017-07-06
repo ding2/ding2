@@ -368,7 +368,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           }
           // @todo: this could be moved into a theme function to be more
           // generic.
-          $prefix = '<span class="search-result--heading-type">' . $ting_type . ':</span>';
+          $prefix = '<span class="search-result--heading-type js-toggle-info-container">' . $ting_type . ':</span>';
         }
 
         if ($link) {

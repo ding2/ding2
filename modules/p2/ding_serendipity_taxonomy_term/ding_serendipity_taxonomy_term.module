@@ -4,7 +4,7 @@
  * @file
  * Ding serendipity taxonomy term plugin.
  *
- * This module provides serendipity content based on taxonomy terms
+ * This module provides serendipity content based on taxonomy terms.
  */
 
 /**
@@ -22,23 +22,23 @@ function ding_serendipity_taxonomy_term_ctools_plugin_directory($owner, $plugin_
 function ding_serendipity_taxonomy_term_serendipity_info() {
   return array(
     'recent' => array(
-      'title' => 'Recent content of current term',
-      'description' => 'Fetch objects from this year matching term.',
+      'title' => t('Recent content of current term'),
+      'description' => t('Fetch objects from this year matching term.'),
       'keys' => array('taxonomy_tid', 'recent'),
     ),
     'related_by_term' => array(
-      'title' => 'Content with similar term',
-      'description' => 'Fetch nodes or materials with similar term.',
+      'title' => t('Content with similar term'),
+      'description' => t('Fetch nodes or materials with similar term.'),
       'keys' => array('taxonomy_tid', 'related'),
     ),
     'recommended_objects' => array(
-      'title' => 'Objects in taxonomy term recommended field',
-      'description' => 'On each taxonomy term a list of recommended objects may be suggested.',
+      'title' => t('Objects in taxonomy term recommended field'),
+      'description' => t('On each taxonomy term a list of recommended objects may be suggested.'),
       'keys' => array('taxonomy_tid', 'recommended'),
     ),
     'popular_objects' => array(
-      'title' => 'Objects in taxonomy term popular field',
-      'description' => 'On each taxonomy term a list of popular objects may be suggested.',
+      'title' => t('Objects in taxonomy term popular field'),
+      'description' => t('On each taxonomy term a list of popular objects may be suggested.'),
       'keys' => array('taxonomy_tid', 'popular'),
     ),
   );
@@ -67,7 +67,7 @@ function ding_serendipity_taxonomy_term_recommended_objects_serendipity_add($con
  */
 function ding_serendipity_taxonomy_term_recent_serendipity_add($context) {
   $term_arr = ding_serendipity_taxonomy_get_term($context);
-  
+
   // Validate context.
   if ($term_arr === FALSE || !isset($context['recent'])) {
     return array();
@@ -181,7 +181,7 @@ function ding_serendipity_taxonomy_term_related_by_term_serendipity_add($context
 /**
  * Implements hook_serendipity_PLUG_IN_serendipity_add().
  *
- * Fetch content referenced in field_popular_ting_objects of the tem in context
+ * Fetch content referenced in field_popular_ting_objects of the tem in context.
  */
 function ding_serendipity_taxonomy_term_popular_objects_serendipity_add($context) {
   $term = taxonomy_term_load($context['taxonomy_tid']);
@@ -205,7 +205,7 @@ function ding_serendipity_taxonomy_term_popular_objects_serendipity_add($context
 function ding_serendipity_taxonomy_term_fetch_ting_objects($field, $term) {
   $result = array();
 
-  // Extract id's from field_taxonomy_ting_objects
+  // Extract id's from field_taxonomy_ting_objects.
   $items = field_get_items('taxonomy_term', $term, $field);
   if (!empty($items)) {
     foreach ($items as $item) {
