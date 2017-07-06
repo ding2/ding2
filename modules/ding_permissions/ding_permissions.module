@@ -511,6 +511,7 @@ function ding_permissions_secure_permissions($role) {
       'view revisions',
       'view scheduled content',
       'view the administration theme',
+      'administer personalisation',
     ),
     'editor' => array(
       'eck add ding_type ding_interaction entities',
@@ -986,6 +987,7 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_staff_profile profile',
     ),
     'user administrator' => array(
+      'access toolbar',
       'administer users',
       'administer user role 4',
       'administer user role 5',
