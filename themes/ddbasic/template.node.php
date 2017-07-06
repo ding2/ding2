@@ -137,11 +137,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
   }
 
   $location = field_get_items('node', $variables['node'], 'field_ding_event_location');
-  if(!empty($location[0]['name_line']) || !empty($location[0]['thoroughfare'])) {
-    $variables['alt_location_is_set'] = TRUE;
-  } else {
-    $variables['alt_location_is_set'] = FALSE;
-  }
+  $variables['alt_location_is_set'] = !empty($location[0]['name_line']) || !empty($location[0]['thoroughfare']);
 
   switch ($variables['view_mode']) {
     case 'teaser':

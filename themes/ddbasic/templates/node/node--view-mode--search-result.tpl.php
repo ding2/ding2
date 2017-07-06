@@ -82,6 +82,6 @@
   <div class="content"<?php print $content_attributes; ?>>
     <a href="<?php print $node_url; ?>"><h3 class="title"><?php print $title; ?></h3></a>
     <?php print render($content); ?>
-    <a href="<?php print $node_url; ?>"><div class="button"><?php print t('Read more'); ?></div></a>  
+    <?php print l('<div class="button">' . t('Read more') . '</div>', $node_url, array('html' => TRUE)); ?>
   </div>
 </div>

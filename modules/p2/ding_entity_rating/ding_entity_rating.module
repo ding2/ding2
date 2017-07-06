@@ -337,7 +337,7 @@ function theme_ding_entity_rating_average($variables) {
 function ding_entity_rating_build_theme_list($rating) {
   $output = '';
   for ($i = 1; $i < 6; $i++) {
-    $classes = array('fa', 'fa-star-o', 'star');
+    $classes = array('fa', 'fa-star-o', 'star', 'js-rating-symbol');
     if ($i <= $rating) {
       $classes[] = 'submitted';
     }

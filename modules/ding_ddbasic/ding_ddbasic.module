@@ -5,6 +5,9 @@
  * Ding DDBasic.
  */
 
+define('DING_DDBASIC_COLOR_WHITE', '#ffffff');
+define('DING_DDBASIC_COLOR_BLACK', '#262626');
+
 /**
  * Implements hook_entity_info_alter().
  */
@@ -29,7 +32,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
         $form['color']['palette']['secondary']['#description'] = t('Is used e.g. as background-color for the log-in button, read-more buttons');
 
         // Limit the choices on text colors.
-        $default_value = '#262626';
+        $default_value = DING_DDBASIC_COLOR_BLACK;
         switch ($form['color']['palette']['text']['#default_value']) {
           case $form['color']['palette']['primary']['#default_value']:
             $default_value = 'primary';
@@ -48,7 +51,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
             // submit callback, in the ddbasic theme.
             'primary' => t('Primary'),
             'secondary' => t('Secondary'),
-            '#262626' => t('Black'),
+            DING_DDBASIC_COLOR_BLACK => t('Black'),
           ),
           '#size' => '1',
           '#default_value' => $default_value,
@@ -82,8 +85,8 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
           '#description' => t('Choose a color that is legible on the primary color'),
           '#type' => 'select',
           '#options' => array(
-            '#ffffff' => t('White'),
-            '#262626' => t('Black'),
+            DING_DDBASIC_COLOR_WHITE => t('White'),
+            DING_DDBASIC_COLOR_BLACK => t('Black'),
           ),
           '#size' => '1',
         ) + $form['color']['palette']['text_on_primary'];
@@ -92,8 +95,8 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
           '#description' => t('Choose a color that is legible on the secondary color'),
           '#type' => 'select',
           '#options' => array(
-            '#ffffff' => t('White'),
-            '#262626' => t('Black'),
+            DING_DDBASIC_COLOR_WHITE => t('White'),
+            DING_DDBASIC_COLOR_BLACK => t('Black'),
           ),
           '#size' => '1',
         ) + $form['color']['palette']['text_on_secondary'];

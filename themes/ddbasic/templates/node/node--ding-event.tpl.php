@@ -97,9 +97,9 @@
     <div class="left">
       <?php print render($content['group_left']['field_ding_event_title_image']); ?>
       <h2><?php print t('Information about the event'); ?></h2>
-      <?php if($alt_location_is_set) : ?>
+      <?php if ($alt_location_is_set): ?>
         <?php print render($content['group_left']['field_ding_event_location']); ?>
-      <?php else : ?>
+      <?php else: ?>
         <?php print render($content['group_left']['og_group_ref']); ?>
       <?php endif; ?>
       <!-- insert time-field markup -->

@@ -245,13 +245,13 @@
 
     switch (ddbasic.breakpoint.is('mobile', 'event_masonry')) {
       case ddbasic.breakpoint.IN:
-        var element = $('.view-ding-event .group-separator .view-elements, .view-tags-list .group-separator.ding-event .view-elements');
+        var element = $('.js-masonry-view');
         if (element.data('masonry')) {
           element.masonry('destroy');
         }
         break;
       case ddbasic.breakpoint.OUT:
-        $('.view-ding-event .group-separator .view-elements, .view-tags-list .group-separator.ding-event .view-elements').masonry({
+        $('.js-masonry-view').masonry({
           itemSelector: '.views-row',
           columnWidth: '.grid-sizer',
           gutter: '.grid-gutter',
@@ -264,7 +264,7 @@
   // Call masonry resize when images are loaded.
   Drupal.behaviors.ding_event_teaser_masonry = {
     attach: function(context, settings) {
-      $('.view-ding-event .group-separator .view-elements', context).imagesLoaded( function() {
+      $('.js-masonry-view', context).imagesLoaded( function() {
         handle_ding_event_masonry(true);
       });
     }
