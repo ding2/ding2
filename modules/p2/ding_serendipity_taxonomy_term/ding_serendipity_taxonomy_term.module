@@ -22,23 +22,23 @@ function ding_serendipity_taxonomy_term_ctools_plugin_directory($owner, $plugin_
 function ding_serendipity_taxonomy_term_serendipity_info() {
   return array(
     'recent' => array(
-      'title' => 'Recent content of current term',
-      'description' => 'Fetch objects from this year matching term.',
+      'title' => t('Recent content of current term'),
+      'description' => t('Fetch objects from this year matching term.'),
       'keys' => array('taxonomy_tid', 'recent'),
     ),
     'related_by_term' => array(
-      'title' => 'Content with similar term',
-      'description' => 'Fetch nodes or materials with similar term.',
+      'title' => t('Content with similar term'),
+      'description' => t('Fetch nodes or materials with similar term.'),
       'keys' => array('taxonomy_tid', 'related'),
     ),
     'recommended_objects' => array(
-      'title' => 'Objects in taxonomy term recommended field',
-      'description' => 'On each taxonomy term a list of recommended objects may be suggested.',
+      'title' => t('Objects in taxonomy term recommended field'),
+      'description' => t('On each taxonomy term a list of recommended objects may be suggested.'),
       'keys' => array('taxonomy_tid', 'recommended'),
     ),
     'popular_objects' => array(
-      'title' => 'Objects in taxonomy term popular field',
-      'description' => 'On each taxonomy term a list of popular objects may be suggested.',
+      'title' => t('Objects in taxonomy term popular field'),
+      'description' => t('On each taxonomy term a list of popular objects may be suggested.'),
       'keys' => array('taxonomy_tid', 'popular'),
     ),
   );

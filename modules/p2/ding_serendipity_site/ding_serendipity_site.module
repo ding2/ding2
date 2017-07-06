@@ -22,14 +22,14 @@
 function ding_serendipity_site_serendipity_info() {
   return array(
     'field_related_material' => array(
-      'title' => 'Node related material',
-      'description' => 'Returns nodes linked to through the node reference field "field_related_content"',
+      'title' => t('Node related material'),
+      'description' => t('Returns nodes linked to through the node reference field "field_related_content"'),
       'keys' => array('node', 'material'),
     ),
 
     'field_related_content' => array(
-      'title' => 'Node related content',
-      'description' => 'Returns ting objects linked to nodes through the ting reference field "field_materials"',
+      'title' => t('Node related content'),
+      'description' => t('Returns ting objects linked to nodes through the ting reference field "field_materials"'),
       'keys' => array('node_nid', 'content'),
     ),
   );
