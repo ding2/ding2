@@ -112,8 +112,8 @@ function ding_serendipity_ting_entity_ting_object_author_serendipity_add($contex
 
   // Limit to same language to reduce signal to noise.
   $lang = $obj->getLanguage();
-  if (!empty($lang)) {
-    $query = "(" . $query . ") AND facet.language=" . $obj->getLanguage();
+  if (!empty($lang) && $lang != "Flere sprog") {
+    $query = '(' . $query . ') AND facet.language="' . $ting_entity->getLanguage() . '"';
   }
 
   $results = ding_serendipity_do_search($query, array());
