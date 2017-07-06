@@ -1,7 +1,7 @@
 machine:
   php:
-    # We support PHP 5.4 so choose the latest version supported by Circle.
-    version: 5.4.37
+    # We support PHP 5.6 so choose the latest version supported by Circle.
+    version: 5.6.22
   node:
     # Our frontend asset pipeline requires 6.10.0 or greater.
     version: 6.10.0
@@ -12,9 +12,9 @@ machine:
 dependencies:
   post:
     # Increase memory limit to 512M. This is required by ding2.
-    - echo "memory_limit = 512M" > ~/.phpenv/versions/$(phpenv global)/etc/conf.d/memory.ini
+    - echo "memory_limit = 512M" > /opt/circleci/.phpenv/versions/$(phpenv global)/etc/conf.d/memory.ini
     # Disable mail sending. Sendmail is not working on Circle.
-    - echo "sendmail_path = /bin/true" > ~/.phpenv/versions/$(phpenv global)/etc/conf.d/sendmail.ini
+    - echo "sendmail_path = /bin/true" > /opt/circleci/.phpenv/versions/$(phpenv global)/etc/conf.d/sendmail.ini
     # Clean up existing global composer installation. It contains dependencies
     # which do not match the PHP version we use. This prevents installation of
     # other packages.
