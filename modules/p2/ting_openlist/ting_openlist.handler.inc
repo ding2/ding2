@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * The provider functions.
@@ -76,7 +77,7 @@ function ting_openlist_handler_update_user($account) {
  * @return mixed
  *   Openlist id or NULL.
  */
-function ting_openlist_handler_create_list($user_identifier, $title, $type, $data) {
+function ting_openlist_handler_create_list($user_identifier, $title, $type, array $data) {
   $method = 'createList';
   return ting_openlist_request($method, func_get_args());
 }
@@ -91,7 +92,7 @@ function ting_openlist_handler_create_list($user_identifier, $title, $type, $dat
  * @param array $data
  *   Extra data.
  */
-function ting_openlist_handler_edit_list($id, $title, $data) {
+function ting_openlist_handler_edit_list($id, $title, array $data) {
   $method = 'editList';
   ting_openlist_request($method, func_get_args());
 }
@@ -99,10 +100,10 @@ function ting_openlist_handler_edit_list($id, $title, $data) {
 /**
  * Delete an element.
  *
- * @param array $id
+ * @param array $ids
  *   List of ids to delete.
  */
-function ting_openlist_handler_delete_element($ids) {
+function ting_openlist_handler_delete_element(array $ids) {
   $method = 'deleteElement';
   ting_openlist_request($method, func_get_args());
 }
@@ -118,7 +119,7 @@ function ting_openlist_handler_delete_element($ids) {
  * @return mixed
  *   openlist id of the elemnet or false.
  */
-function ting_openlist_handler_create_element($id, $data) {
+function ting_openlist_handler_create_element($id, array $data) {
   $method = 'createElement';
   return ting_openlist_request($method, func_get_args());
 }
@@ -131,7 +132,7 @@ function ting_openlist_handler_create_element($id, $data) {
  * @param array $data
  *   Element data.
  */
-function ting_openlist_handler_edit_element($id, $data) {
+function ting_openlist_handler_edit_element($id, array $data) {
   $method = 'editElement';
   ting_openlist_request($method, func_get_args());
 }
@@ -139,7 +140,7 @@ function ting_openlist_handler_edit_element($id, $data) {
 /**
  * Delete a list.
  *
- * @param int $id
+ * @param int $ids
  *   Openlist id.
  */
 function ting_openlist_handler_delete_list($ids) {
@@ -164,7 +165,7 @@ function ting_openlist_handler_set_element_after($id, $previous_id) {
  * Get the user's lists.
  *
  * @param string $user_identifier
- *   The user
+ *   The user.
  * @param int $from
  *   Only get lists with changes from this timestamp.
  *
@@ -180,7 +181,7 @@ function ting_openlist_handler_get_lists($user_identifier, $from) {
  * Get all the user's elements.
  *
  * @param string $user_identifier
- *   The user
+ *   The user.
  * @param int $from
  *   Only get elements with changes from this timestamp.
  *
@@ -205,7 +206,7 @@ function ting_openlist_handler_get_user_elements($user_identifier, $from) {
  * @return mixed
  *   The return of the module.
  */
-function ting_openlist_handler_call_module($module, $method, $arguments) {
+function ting_openlist_handler_call_module($module, $method, array $arguments = array()) {
   $method = 'callModule';
   return ting_openlist_request($method, func_get_args());
 }

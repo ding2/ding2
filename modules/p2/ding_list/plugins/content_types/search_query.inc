@@ -9,7 +9,7 @@ $plugin = array(
   'title' => t('Add search to list'),
   'description' => t('Add search query to list.'),
   'single' => TRUE,
-  // 'content_types' => array('list'),
+  // 'content_types' => array('list'),.
   'content_types' => array('ting_search'),
   'required context' => new ctools_context_required(t('Keywords'), 'string'),
   'category' => t('Dinglist'),
@@ -36,7 +36,7 @@ function ding_list_search_query_content_type_render($subtype, $conf, $panel_args
     }
     $title .= ', ' . implode(', ', $query['facets']);
   }
-  
+
   $block = new stdClass();
   $block->content = array(
     '#theme' => 'ding_list_add_button',

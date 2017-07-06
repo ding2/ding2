@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file field--ting-title--ting-object.tpl.php
+ * @file
  * Removed Default field wrapper.
  *
  * Available variables:
@@ -38,7 +38,6 @@
  * @see template_preprocess_field()
  * @see
  */
-
 ?>
 <?php foreach ($items as $delta => $item): ?>
   <div class="<?php print $classes; ?>"><?php print render($item); ?></div>

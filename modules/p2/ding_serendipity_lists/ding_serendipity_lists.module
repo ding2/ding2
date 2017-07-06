@@ -46,14 +46,14 @@ function ding_serendipity_lists_serendipity_info() {
 
   if (ding_provider_implements('openlist', 'call_module')) {
     $items['ting_objects_adhr'] = array(
-      'title' => 'Ting objects via openlist ADHR service',
-      'description' => 'Call ADHR service on the current object',
+      'title' => t('Ting objects via openlist ADHR service.'),
+      'description' => t('Call ADHR service on the current object to find related high rated materials.'),
       'keys' => array('ting_object', 'frontpage'),
     );
 
     $items['ting_objects_adhl'] = array(
-      'title' => 'Ting objects via openlist ADHL service',
-      'description' => 'Call ADHL service on the current object',
+      'title' => t('Ting objects via openlist ADHL service.'),
+      'description' => t('Call ADHL service on the current object to find related materials others have loaned.'),
       'keys' => array('ting_object', 'frontpage'),
     );
   }
@@ -61,8 +61,9 @@ function ding_serendipity_lists_serendipity_info() {
   $items += array(
     'frontpage_search' => array(
       'title' => t('Front page fallback content'),
-      'description' => t('Allow the library admin to enter a search string which pulls materials to be pushed to the front page.'),
+      'description' => t('Allow the library admin to enter a search string which pulls materials to be pushed to the serendipity box on the front page.'),
       'keys' => array('ting_object', 'frontpage'),
+      'settings' => l(t("Set the frontpage serendipity CQL"),"/admin/config/ding/frontend"),
     ),
     'loan_adhl' => array(
       'title' => t('ADHL on random loan items'),
@@ -71,7 +72,7 @@ function ding_serendipity_lists_serendipity_info() {
     ),
     'author_from_lists' => array(
       'title' => t('Objects matching random author from lists'),
-      'description' => t('Objects matching random author from lists.'),
+      'description' => t('Find materials with same author as a random recent material from the user lists.'),
       'keys' => array('ting_object', 'frontpage'),
     ),
   );
@@ -383,8 +384,8 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
 
     // Limit to same language to reduce signal to noise.
     $lang = $ting_entity->getLanguage();
-    if (!empty($lang)) {
-      $query = "(" . $query . ") AND facet.language=" . $ting_entity->getLanguage();
+    if (!empty($lang) && $lang != "Flere sprog") {
+      $query = '(' . $query . ') AND facet.language="' . $ting_entity->getLanguage() . '"';
     }
 
     // Fetch search results.

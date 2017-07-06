@@ -105,13 +105,7 @@ function ding_facetbrowser_settings($form_state) {
   $form['ding_facetbrowser_facets'][$i]['sorting'] = array(
     '#type' => 'select',
     '#title' => t('Facet name sorting'),
-    '#options' => array(
-      'default' => t('Ranking (default)'),
-      'alphabetical' => t('Alphabetic'),
-      'aphabetical_reverse' => t('Alphabetic (reverse)'),
-      'numeric' => t('Numeric'),
-      'numeric_reverse' => t('Numeric (reverse)'),
-    ),
+    '#options' => ding_facetbrowser_sort_terms_options(),
     '#default_value' => 'default',
   );
 

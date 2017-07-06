@@ -19,7 +19,7 @@ function ding_page_menu_block_defaults() {
   $menu_block->depth = 0;
   $menu_block->expanded = 0;
   $menu_block->follow = '';
-  $menu_block->level = 2;
+  $menu_block->level = 3;
   $menu_block->parent = 'main-menu:0';
   $menu_block->sort = 0;
   $menu_block->title_link = 1;

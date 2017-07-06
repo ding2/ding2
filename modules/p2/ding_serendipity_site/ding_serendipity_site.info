@@ -3,7 +3,6 @@ name = Ding serendipity site
 description = Provides serendipity content specific for this site.
 package = Ding!
 core = 7.x
-files[] = ding_serendipity_site.module
 dependencies[] = ding_base
 dependencies[] = ding_serendipity
 dependencies[] = similarterms

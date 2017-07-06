@@ -1,4 +1,6 @@
-# DDBasic theme for Ding2
+# DDBasic theme for Ding2 V2.0
+#
+#
 
 ## Maintenance pages
 

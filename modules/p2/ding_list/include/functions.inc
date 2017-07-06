@@ -63,7 +63,7 @@ function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
 
       $data[] = array(
         'list_id' => $list->id,
-        'title' => t('Add to @list', array('@list' => $list_title)),
+        'title' => '<div class="list-title">' . $list_title . '</div><div class="add-to-list-button button">' . t('Add to list') . '</div>',
         'value' => $value,
         'type' => $type,
         'value_title' => $value_title,
@@ -88,9 +88,7 @@ function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
  */
 function ding_list_get_add_to_list_ting_object_creators($ting_object) {
   global $user;
-
   $data = array();
-
   $creators = $ting_object->getCreators();
   $pretty_author = implode(', ', $creators);
   foreach ($creators as & $creator) {
@@ -99,17 +97,15 @@ function ding_list_get_add_to_list_ting_object_creators($ting_object) {
   if (isset($creator)) {
     if (user_is_logged_in()) {
       $lists = ding_list_get_lists(DING_LIST_TYPE_FOLLOW_AUTHOR);
-
       foreach ($lists as $list) {
         if (!ding_list_has_ding_list_element($list, DING_LIST_TYPE_FOLLOW_AUTHOR, $creator)) {
-          $list_title = t('Follow the author @author', array('@author' => $pretty_author));
+          $list_title = '<div class="list-title">' . $pretty_author . '</div><div class="add-to-list-button button">' . t('Follow the author') . '</div>';
           if ($list->uid != $user->uid) {
             $username = ding_list_list_username($list);
             if ($username) {
               $list_title .= '(' . $username . ')';
             }
           }
-
           $data[] = array(
             'list_id' => $list->id,
             'title' => $list_title,
@@ -142,7 +138,6 @@ function ding_list_get_add_to_list_ting_object_creators($ting_object) {
       );
     }
   }
-
   return $data;
 }
 

@@ -245,7 +245,7 @@ function fbs_field_property_callback(&$info, $entity_type, $field, $instance, $f
       unset($property['setter callback']);
       break;
   }
-
+  
   unset($property['query callback']);
 }
 

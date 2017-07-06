@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function ding_library_field_group_info() {
-  $field_groups = array();
+  $export = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -21,7 +21,7 @@ function ding_library_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Links',
-    'weight' => '5',
+    'weight' => '6',
     'children' => array(
       0 => 'field_ding_library_geocode',
       1 => 'field_ding_library_links',
@@ -31,13 +31,13 @@ function ding_library_field_group_info() {
       'label' => 'Links',
       'instance_settings' => array(
         'required_fields' => 1,
-        'classes' => ' group-ding-library-attachments field-group-fieldset',
+        'classes' => '',
         'description' => '',
       ),
       'formatter' => 'collapsed',
     ),
   );
-  $field_groups['group_ding_library_attachments|node|ding_library|form'] = $field_group;
+  $export['group_ding_library_attachments|node|ding_library|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -50,7 +50,7 @@ function ding_library_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Contact',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'field_ding_library_addresse',
       1 => 'field_ding_library_fax_number',
@@ -62,13 +62,13 @@ function ding_library_field_group_info() {
       'label' => 'Contact',
       'instance_settings' => array(
         'required_fields' => 1,
-        'classes' => ' group-ding-library-contact field-group-fieldset',
+        'classes' => '',
         'description' => '',
       ),
       'formatter' => 'collapsed',
     ),
   );
-  $field_groups['group_ding_library_contact|node|ding_library|form'] = $field_group;
+  $export['group_ding_library_contact|node|ding_library|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -81,7 +81,7 @@ function ding_library_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Content',
-    'weight' => '3',
+    'weight' => '4',
     'children' => array(
       0 => 'field_ding_library_body',
       1 => 'field_ding_library_lead',
@@ -91,13 +91,13 @@ function ding_library_field_group_info() {
       'label' => 'Content',
       'instance_settings' => array(
         'required_fields' => 1,
-        'classes' => ' group-ding-library-content field-group-fieldset',
+        'classes' => '',
         'description' => '',
       ),
       'formatter' => 'collapsed',
     ),
   );
-  $field_groups['group_ding_library_content|node|ding_library|form'] = $field_group;
+  $export['group_ding_library_content|node|ding_library|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -110,23 +110,22 @@ function ding_library_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Images',
-    'weight' => '2',
+    'weight' => '3',
     'children' => array(
-      0 => 'field_ding_library_list_image',
-      1 => 'field_ding_library_title_image',
+      0 => 'field_ding_library_title_image',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
       'label' => 'Images',
       'instance_settings' => array(
         'required_fields' => 1,
-        'classes' => ' group-ding-library-images field-group-fieldset',
+        'classes' => '',
         'description' => '',
       ),
       'formatter' => 'collapsed',
     ),
   );
-  $field_groups['group_ding_library_images|node|ding_library|form'] = $field_group;
+  $export['group_ding_library_images|node|ding_library|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -141,24 +140,23 @@ function ding_library_field_group_info() {
     'label' => 'Left column',
     'weight' => '0',
     'children' => array(
-      0 => 'field_ding_library_list_image',
+      0 => 'field_ding_library_title_image',
     ),
     'format_type' => 'div',
     'format_settings' => array(
       'label' => 'Left column',
       'instance_settings' => array(
-        'classes' => 'ding-library-left group-ding-library-left-column field-group-div',
+        'classes' => 'ding-library-left',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
-        'id' => 'node_ding_library_teaser_group_ding_library_left_column',
       ),
       'formatter' => 'open',
     ),
   );
-  $field_groups['group_ding_library_left_column|node|ding_library|teaser'] = $field_group;
+  $export['group_ding_library_left_column|node|ding_library|teaser'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -183,18 +181,17 @@ function ding_library_field_group_info() {
     'format_settings' => array(
       'label' => 'Right column',
       'instance_settings' => array(
-        'classes' => 'ding-library-right group-ding-library-right-column field-group-div',
+        'classes' => 'ding-library-right',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
-        'id' => 'node_ding_library_teaser_group_ding_library_right_column',
       ),
       'formatter' => 'open',
     ),
   );
-  $field_groups['group_ding_library_right_column|node|ding_library|teaser'] = $field_group;
+  $export['group_ding_library_right_column|node|ding_library|teaser'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -215,18 +212,17 @@ function ding_library_field_group_info() {
     'format_settings' => array(
       'label' => 'Left column',
       'instance_settings' => array(
-        'classes' => 'search-left group-left-col-search field-group-div',
+        'classes' => 'search-left',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
-        'id' => 'node_ding_library_search_result_group_left_col_search',
       ),
       'formatter' => 'open',
     ),
   );
-  $field_groups['group_left_col_search|node|ding_library|search_result'] = $field_group;
+  $export['group_left_col_search|node|ding_library|search_result'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -249,27 +245,17 @@ function ding_library_field_group_info() {
     'format_settings' => array(
       'label' => 'Right column',
       'instance_settings' => array(
-        'classes' => 'search-right group-right-col-search field-group-div',
+        'classes' => 'search-right',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
-        'id' => 'node_ding_library_search_result_group_right_col_search',
       ),
       'formatter' => 'open',
     ),
   );
-  $field_groups['group_right_col_search|node|ding_library|search_result'] = $field_group;
+  $export['group_right_col_search|node|ding_library|search_result'] = $field_group;
 
-  // Translatables
-  // Included for use with string extractors like potx.
-  t('Contact');
-  t('Content');
-  t('Images');
-  t('Left column');
-  t('Links');
-  t('Right column');
-
-  return $field_groups;
+  return $export;
 }

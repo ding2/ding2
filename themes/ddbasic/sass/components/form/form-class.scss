@@ -1,0 +1,86 @@
+//
+// Context-specific form styles to overwrite base form styles
+
+@import '../../base.scss';
+
+.page-user {
+  input[type="checkbox"],
+  input[type="radio"] {
+    @include media($mobile) {
+      & + label {
+        padding: 12px 0 8px 54px;
+        &::before {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+  }
+  input[type="checkbox"] {
+    &:checked {
+      & + label {
+        &::after {
+          @include media($mobile) {
+            font-size: 40px;
+          }
+        }
+      }
+    }
+  }
+}
+
+#ding-reservation-delete-reservations-form {
+  > div {
+    input {
+      width: auto;
+      padding-right: 80px;
+      margin: 10px 0;
+    }
+  }
+}
+
+#ding-reservation-update-reservations-form {
+  > div {
+    > .form-item {
+      @include span-columns(6);
+      clear: left;
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+    input {
+      float: left;
+      clear: left;
+      width: auto;
+      padding-right: 80px;
+      margin-top: 10px;
+    }
+  }
+}
+
+.node-ding-event {
+  .webform-client-form {
+    margin-bottom: 30px;
+  }
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    background-color: $grey-light;
+  }
+}
+
+.form-item-search-block-form {
+  margin: 0;
+  > label {
+    display: none;
+  }
+  input[type="text"].form-autocomplete {
+    background-image: none;
+    &::-ms-clear {
+      display: none;
+    }
+  }
+}

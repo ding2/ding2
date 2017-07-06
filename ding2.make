@@ -100,7 +100,7 @@ projects[fences][version] = "1.0"
 projects[fences][patch][0] = "http://drupal.org/files/field_for_wrapper_css_class-1679684-3.patch"
 
 projects[field_group][subdir] = "contrib"
-projects[field_group][version] = "1.5"
+projects[field_group][version] = "1.1"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha3"
@@ -500,3 +500,18 @@ libraries[jquery.imagesloaded][download][type] = "get"
 libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
+
+libraries[slick][download][type] = "get"
+libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.6.0.zip
+libraries[slick][directory_name] = "slick"
+libraries[slick][destination] = "libraries"
+
+libraries[html5shiv][download][type] = "get"
+libraries[html5shiv][download][url] = https://github.com/aFarkas/html5shiv/archive/3.7.3.zip
+libraries[html5shiv][directory_name] = "html5shiv"
+libraries[html5shiv][destination] = "libraries"
+
+libraries[masonry][download][type] = "get"
+libraries[masonry][download][url] = https://github.com/desandro/masonry/archive/v4.1.1.zip
+libraries[masonry][directory_name] = "masonry"
+libraries[masonry][destination] = "libraries"

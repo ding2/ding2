@@ -130,3 +130,11 @@ function ding_campaign_update_7004() {
   db_change_field('ding_campaign_rules', 'rule', 'rule', $new_def);
 }
 
+/**
+ * Remove plain text field.
+ */
+function ding_campaign_update_7005() {
+  field_delete_field('field_camp_text_plain');
+  field_delete_field('field_camp_behavior');
+  field_purge_batch(1000);
+}

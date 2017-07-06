@@ -115,24 +115,7 @@ function ding_frontend_image_default_styles() {
     'name' => 'ding_list_large',
     'label' => 'ding_list_large',
     'effects' => array(
-      28 => array(
-        'label' => 'Manual Crop: Custom crop',
-        'help' => 'Crop a freely user-selected area.',
-        'effect callback' => 'manualcrop_crop_effect',
-        'form callback' => 'manualcrop_crop_form',
-        'summary theme' => 'manualcrop_crop_summary',
-        'module' => 'manualcrop',
-        'name' => 'manualcrop_crop',
-        'data' => array(
-          'width' => 300,
-          'height' => '',
-          'keepproportions' => 0,
-          'reuse_crop_style' => '',
-          'style_name' => 'ding_list_large',
-        ),
-        'weight' => 0,
-      ),
-      27 => array(
+      1 => array(
         'label' => 'Scale',
         'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
         'effect callback' => 'image_scale_effect',
@@ -142,7 +125,7 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => 300,
+          'width' => 740,
           'height' => '',
           'upscale' => 1,
         ),
@@ -156,21 +139,7 @@ function ding_frontend_image_default_styles() {
     'name' => 'ding_list_medium',
     'label' => 'ding_list_medium',
     'effects' => array(
-      30 => array(
-        'label' => 'Manual Crop: Reuse cropped style',
-        'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
-        'effect callback' => 'manualcrop_reuse_effect',
-        'form callback' => 'manualcrop_reuse_form',
-        'summary theme' => 'manualcrop_reuse_summary',
-        'module' => 'manualcrop',
-        'name' => 'manualcrop_reuse',
-        'data' => array(
-          'reuse_crop_style' => 'ding_list_large',
-          'apply_all_effects' => 0,
-        ),
-        'weight' => 0,
-      ),
-      29 => array(
+      27 => array(
         'label' => 'Scale',
         'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
         'effect callback' => 'image_scale_effect',
@@ -180,7 +149,7 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => 300,
+          'width' => 334,
           'height' => '',
           'upscale' => 1,
         ),
@@ -194,21 +163,7 @@ function ding_frontend_image_default_styles() {
     'name' => 'ding_list_small',
     'label' => 'ding_list_small',
     'effects' => array(
-      32 => array(
-        'label' => 'Manual Crop: Reuse cropped style',
-        'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
-        'effect callback' => 'manualcrop_reuse_effect',
-        'form callback' => 'manualcrop_reuse_form',
-        'summary theme' => 'manualcrop_reuse_summary',
-        'module' => 'manualcrop',
-        'name' => 'manualcrop_reuse',
-        'data' => array(
-          'reuse_crop_style' => 'ding_list_large',
-          'apply_all_effects' => 1,
-        ),
-        'weight' => 0,
-      ),
-      31 => array(
+      3 => array(
         'label' => 'Scale',
         'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
         'effect callback' => 'image_scale_effect',
@@ -218,7 +173,7 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => 200,
+          'width' => 260,
           'height' => '',
           'upscale' => 1,
         ),
@@ -299,70 +254,115 @@ function ding_frontend_image_default_styles() {
   // Exported image style: ding_panorama_list_large.
   $styles['ding_panorama_list_large'] = array(
     'name' => 'ding_panorama_list_large',
+    'label' => 'ding_panorama_list_large',
     'effects' => array(
-      14 => array(
-        'label' => 'Skalér og beskær',
-        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
-        'effect callback' => 'image_scale_and_crop_effect',
-        'dimensions callback' => 'image_resize_dimensions',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
-        'module' => 'image',
-        'name' => 'image_scale_and_crop',
+      10 => array(
+        'label' => 'Manual Crop: Reuse cropped style',
+        'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
+        'effect callback' => 'manualcrop_reuse_effect',
+        'form callback' => 'manualcrop_reuse_form',
+        'summary theme' => 'manualcrop_reuse_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_reuse',
         'data' => array(
-          'width' => 300,
-          'height' => 75,
+          'reuse_crop_style' => 'crop_16_9',
+          'apply_all_effects' => 0,
+        ),
+        'weight' => 0,
+      ),
+      5 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 548,
+          'height' => 308,
+          'upscale' => 1,
         ),
         'weight' => 1,
       ),
     ),
-    'label' => 'ding_panorama_list_large',
   );
 
   // Exported image style: ding_panorama_list_medium.
   $styles['ding_panorama_list_medium'] = array(
     'name' => 'ding_panorama_list_medium',
+    'label' => 'ding_panorama_list_medium',
     'effects' => array(
-      15 => array(
-        'label' => 'Skalér og beskær',
-        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
-        'effect callback' => 'image_scale_and_crop_effect',
-        'dimensions callback' => 'image_resize_dimensions',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
-        'module' => 'image',
-        'name' => 'image_scale_and_crop',
+      18 => array(
+        'label' => 'Manual Crop: Reuse cropped style',
+        'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
+        'effect callback' => 'manualcrop_reuse_effect',
+        'form callback' => 'manualcrop_reuse_form',
+        'summary theme' => 'manualcrop_reuse_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_reuse',
         'data' => array(
-          'width' => 300,
-          'height' => 75,
+          'reuse_crop_style' => 'crop_16_9',
+          'apply_all_effects' => 0,
         ),
-        'weight' => 1,
+        'weight' => 0,
+      ),
+      19 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 356,
+          'height' => 200,
+          'upscale' => 0,
+        ),
+        'weight' => 2,
       ),
     ),
-    'label' => 'ding_panorama_list_medium',
   );
 
   // Exported image style: ding_panorama_list_small.
   $styles['ding_panorama_list_small'] = array(
     'name' => 'ding_panorama_list_small',
+    'label' => 'ding_panorama_list_small',
     'effects' => array(
-      16 => array(
-        'label' => 'Skalér og beskær',
-        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
-        'effect callback' => 'image_scale_and_crop_effect',
-        'dimensions callback' => 'image_resize_dimensions',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
-        'module' => 'image',
-        'name' => 'image_scale_and_crop',
+      11 => array(
+        'label' => 'Manual Crop: Reuse cropped style',
+        'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
+        'effect callback' => 'manualcrop_reuse_effect',
+        'form callback' => 'manualcrop_reuse_form',
+        'summary theme' => 'manualcrop_reuse_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_reuse',
         'data' => array(
-          'width' => 200,
-          'height' => 50,
+          'reuse_crop_style' => 'crop_16_9',
+          'apply_all_effects' => 0,
+        ),
+        'weight' => 0,
+      ),
+      7 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 260,
+          'height' => 146,
+          'upscale' => 1,
         ),
         'weight' => 1,
       ),
     ),
-    'label' => 'ding_panorama_list_small',
   );
 
   // Exported image style: ding_panorama_primary_large.
@@ -622,24 +622,21 @@ function ding_frontend_image_default_styles() {
     'name' => 'ding_primary_large',
     'label' => 'ding_primary_large',
     'effects' => array(
-      34 => array(
-        'label' => 'Manual Crop: Custom crop',
-        'help' => 'Crop a freely user-selected area.',
-        'effect callback' => 'manualcrop_crop_effect',
-        'form callback' => 'manualcrop_crop_form',
-        'summary theme' => 'manualcrop_crop_summary',
+      28 => array(
+        'label' => 'Manual Crop: Reuse cropped style',
+        'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
+        'effect callback' => 'manualcrop_reuse_effect',
+        'form callback' => 'manualcrop_reuse_form',
+        'summary theme' => 'manualcrop_reuse_summary',
         'module' => 'manualcrop',
-        'name' => 'manualcrop_crop',
+        'name' => 'manualcrop_reuse',
         'data' => array(
-          'width' => 1200,
-          'height' => '',
-          'keepproportions' => 0,
-          'reuse_crop_style' => '',
-          'style_name' => 'ding_primary_large',
+          'reuse_crop_style' => 'crop_22_9',
+          'apply_all_effects' => 0,
         ),
         'weight' => 0,
       ),
-      33 => array(
+      8 => array(
         'label' => 'Scale',
         'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
         'effect callback' => 'image_scale_effect',
@@ -649,7 +646,7 @@ function ding_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => 1200,
+          'width' => 855,
           'height' => '',
           'upscale' => 1,
         ),
@@ -914,6 +911,9 @@ function ding_frontend_default_search_api_index() {
         "node:field_ding_library_mail" : { "type" : "text" },
         "node:field_ding_library_phone_number" : { "type" : "text" },
         "node:field_ding_news_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
+        "node:field_ding_news_lead" : { "type" : "text" },
+        "node:field_ding_news_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "node:field_ding_page_lead" : { "type" : "text" },
         "node:field_ding_page_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "node:nid" : { "type" : "integer" },
         "node:title" : { "type" : "text", "boost" : "2.0" },
@@ -931,7 +931,8 @@ function ding_frontend_default_search_api_index() {
         "user:profile_ding_staff_profile:field_ding_staff_work_areas" : { "type" : "text" },
         "user:relation_ting_reference_ting_object" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "ting_object" },
         "user:roles" : { "type" : "list\\u003Cinteger\\u003E" },
-        "user:status" : { "type" : "integer" }
+        "user:status" : { "type" : "integer" },
+        "user:uid" : { "type" : "integer" }
       },
       "data_alter_callbacks" : {
         "ding_frontend_published_filter" : { "status" : 1, "weight" : "-10", "settings" : [] },
@@ -1580,6 +1581,18 @@ function ding_frontend_default_search_api_server() {
             "type" : "text",
             "boost" : "1.0"
           },
+          "node:field_ding_page_tags" : {
+            "table" : "search_api_db_default_multiple_index_node_field_ding_page_tags",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "node:field_ding_event_category" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_field_ding_event_category",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
           "node:field_ding_event_lead" : {
             "table" : "search_api_db_default_multiple_index_text",
             "type" : "text",
@@ -1624,7 +1637,7 @@ function ding_frontend_default_search_api_server() {
           },
           "user:uid" : {
             "table" : "search_api_db_default_multiple_index",
-            "column" : "user_profile_ding_staff_profile",
+            "column" : "user_uid",
             "type" : "integer",
             "boost" : "1.0"
           },

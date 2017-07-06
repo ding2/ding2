@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * P2 installation.
@@ -7,7 +8,7 @@
 /**
  * Implements hook_install().
  *
- * @see ding_p2_installer_modules_enabled().
+ * @see ding_p2_installer_modules_enabled()
  */
 function ding_p2_installer_install() {
   // Make sure the installer is called after all other ding modules.

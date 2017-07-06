@@ -1,0 +1,153 @@
+//
+// Styling of content type Ding Library
+
+@import '../../base.scss';
+
+// ==========================================================================
+// Teaser
+// ==========================================================================
+
+.node-ding-library.node-teaser {
+  position: relative;
+
+  .libraries {
+    float: left;
+    width: 100%;
+  }
+  .group-ding-library-left-column {
+    @include span-columns(3);
+
+    // Tablet
+    @include media($tablet) {
+      display: none;
+    }
+  }
+  .group-ding-library-right-column {
+    @include span-columns(9);
+    @include omega();
+    margin-bottom: 40px;
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(10);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+      margin-right: 0;
+    }
+
+    .country {
+      display: none;
+    }
+
+    a.maps-link {
+      float: left;
+
+      // Mobile
+      @include media($mobile) {
+        margin-top: 20px;
+      }
+    }
+  }
+  a.opening-hours-toggle {
+    position: static;
+    width: getColumn(9);
+    margin-top: -20px;
+    margin-left: getColumn(3) + getGutter(12);
+
+    // Tablet
+    @include media($tablet) {
+      margin-top: -20px;
+      margin-left: 0;
+    }
+  }
+  .libraries-opening-hours {
+    @include span-columns(9);
+    @include omega();
+    margin: 20px 0 30px getColumn(3) + getGutter(12);
+    display: none;
+    .day {
+      .name {
+        @include span-columns(2 of 9);
+      }
+      .times {
+        @include span-columns(6 of 9);
+        @include omega();
+        .instance {
+          @include span-columns(2 of 6);
+          @include omega(3n);
+        }
+      }
+    }
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(10 of 10);
+      display: none;
+      margin: 0;
+    }
+  }
+  .page-title {
+    @include font('display-small');
+    margin: 5px 0 15px;
+    a {
+      color: $charcoal;
+    }
+
+    // Mobile
+    @include media($mobile) {
+      @include span-columns(9);
+    }
+  }
+  .field-name-field-ding-library-addresse {
+    @include span-columns(3 of 9);
+
+    // Mobile
+    @include media($mobile) {
+      @include span-columns(9);
+      margin-bottom: 20px;
+    }
+  }
+  .field-name-field-ding-library-phone-number,
+  .field-name-field-ding-library-fax-number,
+  .field-name-field-ding-library-mail,
+  .field-name-field-ding-library-links {
+    position: relative;
+    @include span-columns(4 of 9);
+    float: right;
+    margin-right: getColumn(2 of 9);
+
+    // Mobile
+    @include media($mobile) {
+      @include span-columns(9 of 9);
+      margin-right: 0;
+    }
+    .field-label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+    }
+    .field-items {
+      padding-left: 100px;
+    }
+  }
+  .field-name-field-ding-library-mail:last-child {
+    margin-right: getColumn(2 of 9);
+  }
+  .field-name-field-ding-library-links {
+    .field-item {
+      display: inline-block;
+      &::after {
+        content: ',';
+      }
+      &:last-child {
+        &::after {
+          content: none;
+        }
+      }
+    }
+  }
+}
