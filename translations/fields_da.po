@@ -1038,7 +1038,7 @@ msgstr "Place2book Billetter"
 #: field:field_place2book_tickets:ding_event:description
 msgctxt "field_place2book_tickets:ding_event:description"
 msgid "Placeholder for Place2book ticket information and/or order link"
-msgstr "Pladsholder for Place2book billetinformation og/eller ordre link. VÆRDIEN \"PLACEHOLDER\" BØR IKKE ÆNDRES!"
+msgstr "Pladsholder for Place2book billetinformation og/eller ordre link. VÆRDIEN "PLACEHOLDER" BØR IKKE ÆNDRES!"
 
 #: field:field_place2book_tickets:ding_event:default_value
 msgctxt "field_place2book_tickets:ding_event:default_value"
@@ -1154,21 +1154,6 @@ msgstr ""
 msgctxt "field_ding_list_permission:#allowed_values:edit"
 msgid "Edit"
 msgstr ""
-
-#: field:field_ding_list_status:#allowed_values:private
-msgctxt "field_ding_list_status:#allowed_values:private"
-msgid "Private - The list is only accessible to you"
-msgstr "Privat - Listen kan kun ses af dig"
-
-#: field:field_ding_list_status:#allowed_values:shared
-msgctxt "field_ding_list_status:#allowed_values:shared"
-msgid "Shared - Users with the secret link can view or edit your list"
-msgstr "Delt liste  - Brugere med et link til listen kan se og redigere den "
-
-#: field:field_ding_list_status:#allowed_values:public
-msgctxt "field_ding_list_status:#allowed_values:public"
-msgid "Public - Anybody can view your list from the public link"
-msgstr "Offentlig liste - Alle kan se din liste"
 
 #: field:field_content_status:ding_list:label
 msgctxt "field_content_status:ding_list:label"
@@ -1471,4 +1456,44 @@ msgid ""
 "Events show the value ”Free” if text field is set to 0.\n"
 "Tip: Indicate different ticket prices for more than one audience group "
 "by entering a lowest – highest price in text field fx. “30 - 50”"
-msgstr "Arrangementer viser værdien \"Gratis\" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. \"30 - 50\""
+msgstr "Arrangementer viser værdien "Gratis" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. "30 - 50""
+
+#: field:field_ding_eresource_access:ding_eresource:label
+msgctxt "field_ding_eresource_access:ding_eresource:label"
+msgid "Access"
+msgstr "Adgang"
+
+#: field:field_ding_eresource_link:ding_eresource:label
+msgctxt "field_ding_eresource_link:ding_eresource:label"
+msgid "Link"
+msgstr "Se online"
+
+#: field:field_ding_interaction_access:#allowed_values:provider
+msgctxt "field_ding_interaction_access:#allowed_values:provider"
+msgid "Is provider"
+msgstr "Indloggede brugere"
+
+#: field:field_ding_interaction_access:#allowed_values:anonymous
+msgctxt "field_ding_interaction_access:#allowed_values:anonymous"
+msgid "Is Anonymous"
+msgstr "Ikke-indloggede brugere"
+
+#: field:field_ding_interaction_access:ding_interaction:label
+msgctxt "field_ding_interaction_access:ding_interaction:label"
+msgid "Ding Interaction Access"
+msgstr "Interaktionsboksen vises for:"
+
+#: field:field_ding_list_status:#allowed_values:private
+msgctxt "field_ding_list_status:#allowed_values:private"
+msgid "Private - The list is only accessible to you"
+msgstr "Privat - Kun du kan se listen"
+
+#: field:field_ding_list_status:#allowed_values:shared
+msgctxt "field_ding_list_status:#allowed_values:shared"
+msgid "Shared - Users with the secret link can view or edit your list"
+msgstr "Delt - Andre kan se eller redigere"
+
+#: field:field_ding_list_status:#allowed_values:public
+msgctxt "field_ding_list_status:#allowed_values:public"
+msgid "Public - Anybody can view your list from the public link"
+msgstr "Offentlig - Alle kan se listen"

@@ -447,3 +447,10 @@ function ding2_update_7031() {
 function ding2_update_7032() {
   module_enable(array('ding_campaign'));
 }
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7033() {
+  ding2_translation_update();
+}
