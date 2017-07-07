@@ -265,6 +265,9 @@ projects[og][patch][] = "https://www.drupal.org/files/issues/entityreference_fie
 ; Fix using organic groups for relationships in views
 ; https://www.drupal.org/node/1890370
 projects[og][patch][] = "https://www.drupal.org/files/issues/add-gid-to-relationship-field-1890370-34.patch"
+; Keep OG membership on user save
+; https://www.drupal.org/node/1502916
+projects[og][patch][] = "https://www.drupal.org/files/membership-data-loss-user-save-1502916.patch"
 
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][version] = "3.0-rc5"
