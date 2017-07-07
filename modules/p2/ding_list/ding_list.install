@@ -12,6 +12,37 @@ function ding_list_install() {
   $schema = array();
   ding_list_schema_alter($schema);
   db_add_field('users', 'openlist_modified', $schema['users']['fields']['openlist_modified']);
+
+  if (module_exists('ding_bookmark')) {
+    module_disable(array('ding_bookmark'));
+
+    // Also remove the flag module, if there's no other module requiring it.
+    $modules = system_rebuild_module_data();
+    $remove_flag = TRUE;
+    foreach ($modules['flag']->required_by as $module_name => $module) {
+      if ($module_name == 'ding2') {
+        continue;
+      }
+      elseif (module_exists($module_name)) {
+        $remove_flag = FALSE;
+        break;
+      }
+    }
+
+    if ($remove_flag) {
+      module_disable(array('flag'));
+    }
+  }
+
+  $mail_settings = variable_get('mail_system', array());
+  $mail_settings['ding_list_share'] = "HTMLMailSystem";
+  variable_set('mail_system', $mail_settings);
+
+  module_load_include('inc', 'page_manager', 'plugins/tasks/page');
+  $page = page_manager_page_load('user_bookmarks');
+  if (!empty($page)) {
+    page_manager_page_delete($page);
+  }
 }
 
 /**
@@ -19,4 +50,24 @@ function ding_list_install() {
  */
 function ding_list_uninstall() {
   db_drop_field('users', 'openlist_modified');
+}
+
+/**
+ * Add ding list share to HTMLMailSystem.
+ */
+function ding_list_update_7001() {
+  $mail_settings = variable_get('mail_system', array());
+  $mail_settings['ding_list_share'] = "HTMLMailSystem";
+  variable_set('mail_system', $mail_settings);
+}
+
+/**
+ * Remove the bookmarks page, if it's been overridden.
+ */
+function ding_list_update_7002() {
+  module_load_include('inc', 'page_manager', 'plugins/tasks/page');
+  $page = page_manager_page_load('user_bookmarks');
+  if (!empty($page)) {
+    page_manager_page_delete($page);
+  }
 }

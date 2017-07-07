@@ -6,15 +6,9 @@
 
 require_once 'includes/TingSearchCqlDoctor.class.inc';
 
-/**
- * Implements hook_init().
- *
- * Make the ting search overlay available for all other JavaScripts around the
- * site.
- */
-function ting_search_init() {
-  drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_overlay.js');
-}
+define('TING_SEARCH_FORM_STYLE_NORMAL', 'normal');
+define('TING_SEARCH_FORM_STYLE_EXTENDED', 'extended');
+define('TING_SEARCH_FORM_STYLE_EXTENDED_WITH_TYPES', 'extended_with_types');
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -166,6 +160,13 @@ function ting_search_get_extended_actions() {
 }
 
 /**
+ * Should the search form show the material types selection.
+ */
+function ting_search_form_show_types() {
+  return menu_get_item()['path'] !== 'search/ting/%';
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * For the form search_block_form.
@@ -236,6 +237,9 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     drupal_get_path('module', 'ting_search') . '/js/ting_search.js',
   );
 
+  // Set the placeholder.
+  $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
+
   $form['sort'] = array(
     '#type' => 'hidden',
     '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : FALSE,
@@ -277,7 +281,40 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       );
     }
   }
-  $form['#submit'] = array('ting_search_submit');
+
+  switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
+    case TING_SEARCH_FORM_STYLE_EXTENDED_WITH_TYPES:
+      if (ting_search_form_show_types()) {
+        $form['material_type'] = array(
+          '#type' => 'select',
+          '#empty_option' => t('All material types'),
+          '#options' => drupal_map_assoc(array_keys(_ting_fetch_well_types())),
+          '#weight' => 10,
+          '#default_value' => 'bog',
+      );
+    }
+
+    case TING_SEARCH_FORM_STYLE_EXTENDED:
+      $form['search_field'] = array(
+        '#type' => 'container',
+        '#weight' => 5,
+        '#attributes' => array('class' => array('search-field')),
+        'search_block_form' => $form['search_block_form'],
+        'actions' => $form['actions'],
+      );
+      unset($form['search_block_form'], $form['actions']);
+
+      $form['search_extended_open_button'] = array(
+        '#markup' => '<a href="#" class="search-extended-button">Search extended button</a>',
+      );
+      break;
+  }
+
+  // Completely take over the search form submit flow, by removing the default
+  // search_box_form_submit handler replacing it with our own as the first.
+  // This prevents overriding other handlers and gives other modules a chance
+  // to alter what we do.
+  $form['#submit'][0] = 'ting_search_submit';
 
   // This submits the form to a blank page and prevents the search to be
   // executed twice. See http://platform.dandigbib.org/issues/372 for more
@@ -925,16 +962,45 @@ function ting_search_submit($form, &$form_state) {
   $keys = $form_state['values'][$form_id];
   $fields = array();
 
-  $extended_fields = array(
-    'creator' => 'term.creator',
-    'title' => 'term.title',
-    'subject' => 'term.subject',
-  );
+  if (!empty($form_state['values']['material_type'])) {
+    if (!empty($keys)) {
+      $controls['facets'] = array('facet.type:' . $form_state['values']['material_type']);
+    }
+    // If there's no search string, add the facet.type search to the actual
+    // string, or the search would return no results.
+    else {
+      $keys = 'facet.type="' . $form_state['values']['material_type'] . '"';
+      $controls['sort'] = 'date_descending';
+    }
 
-  foreach ($extended_fields as $name => $index) {
-    if (!empty($form_state['values'][$name])) {
-      $value = $form_state['values'][$name];
-      $fields[] = $index . '=' . (strpos($value, ' ') ? '"' . $value . '"' : $value);
+  }
+
+  $extended_fields = array(
+    'creator' => array(
+      'index' => 'term.creator',
+      'parents' => array('creator'),
+    ),
+    'title' => array(
+      'index' => 'term.title',
+      'parents' => array('title'),
+    ),
+    'subject' => array(
+      'index' => 'term.subject',
+      'parents' => array('subject'),
+    ),
+  );
+  // Allow other modules change fields.
+  drupal_alter('ting_search_fields', $extended_fields);
+
+  foreach ($extended_fields as $name => $data) {
+    if (isset($data['value'])) {
+      $fields[] = $data['value'];
+    }
+    else {
+      $value = drupal_array_get_nested_value($form_state['values'], $data['parents']);
+      if (!empty($value)) {
+        $fields[] = $data['index'] . '=' . (strpos($value, ' ') ? '"' . $value . '"' : $value);
+      }
     }
   }
 
@@ -955,6 +1021,10 @@ function ting_search_submit($form, &$form_state) {
   $s = $form_state['values']['size'];
   if ($s != "") {
     $controls['size'] = $s;
+  }
+
+  if (!empty($form_state['extra_query_parameters'])) {
+    $controls += $form_state['extra_query_parameters'];
   }
 
   // Check to see if the form was submitted empty.
@@ -981,9 +1051,12 @@ function ting_search_submit($form, &$form_state) {
     }
   }
   if (!empty($search_info['path']) && in_array($search_info['module'], variable_get('search_active_modules', array()))) {
-    $form_state['redirect'] = FALSE;
-    $url = 'search/' . $search_info['path'] . '/' . trim($q);
-    drupal_goto($url, array('query' => $controls));
+    $form_state['redirect'] = array(
+      'search/' . $search_info['path'] . '/' . trim($q),
+      array(
+        'query' => $controls,
+      ),
+    );
   }
   else {
     form_set_error(NULL, t('Search is currently disabled.'), 'error');

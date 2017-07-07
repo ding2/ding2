@@ -319,22 +319,14 @@ function ting_block_view($delta = '') {
       $object = menu_get_object('ting_object', 2);
       if ($object && $collection = ting_collection_load($object->id)) {
         $items = array();
-        foreach ($collection->types as $k => $type) {
-          if ($collection->types_count[$type] == 1) {
-            $uri = entity_uri('ting_object', $collection);
-            $uri['path'] = urldecode(url('ting/object/' . $uri['options']['entity']->entities[$k]->ding_entity_id));
-          }
-          else {
-            $uri = entity_uri('ting_collection', $collection);
-            $uri['options']['fragment'] = $type;
-            $uri['options']['attributes'] = array('class' => array('js-search-overlay'));
-          }
 
-          $items[] = l($type . ' (' . $collection->types_count[$type] . ')', $uri['path'], $uri['options']);
+        foreach ($collection->entities as $entity) {
+          $item = ting_object_view($entity, 'teaser');
+          $items[] = render($item);
         }
 
-        // Only display block if there are more than on item.
-        if ($items > 1) {
+        // Only display block if there are more than one item.
+        if (count($items) > 1) {
           $block->subject = t('Other materialtypes');
           $block->content = array(
             '#theme' => 'item_list',
@@ -535,19 +527,41 @@ function ting_ding_entity_is($object, $class) {
  * Implements hook_ding_entity_buttons().
  */
 function ting_ding_entity_buttons($type, $entity) {
-  if ($entity instanceof TingEntity && $entity->online_url) {
-    $settings = variable_get('ting_url_labels', _ting_default_url_labels());
-    $type = drupal_strtolower($entity->type);
-    $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
-    return array(
-      // The link can't use l() as it will encode the url from ting_proxy. Use
-      // get online as the dc:identifier in $entity->online is not always the
-      // correct url.
-      array(
-        '#type' => 'markup',
-        '#markup' => '<a class="button-see-online" target="_new" href="' . $entity->getOnline_url() . '">' . $label . '</a>',
-      ),
-    );
+  if ($entity instanceof TingEntity) {
+    $buttons = array();
+
+    if ($entity->online_url) {
+      $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+      $type = drupal_strtolower($entity->type);
+      $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+      $buttons[] = array(
+        // The link can't use l() as it will encode the url from ting_proxy. Use
+        // get online as the dc:identifier in $entity->online is not always the
+        // correct url.
+        array(
+          '#type' => 'markup',
+          '#markup' => '<a class="button-see-online action-button" target="_new" href="' . $entity->getOnline_url() . '">' . $label . '</a>',
+        ),
+      );
+    }
+
+    $collection = ting_collection_load($entity->id);
+    if (count($collection->types) > 1) {
+      $buttons[] = array(
+        '#theme' => 'link',
+        '#text' => t('Other formats'),
+        '#path' => '#',
+        '#options' => array(
+          'attributes' => array(
+            'class' => array('action-button', 'other-formats'),
+          ),
+          'html' => FALSE,
+          'external' => TRUE,
+        ),
+      );
+    }
+
+    return $buttons;
   }
 }
 
@@ -586,7 +600,8 @@ function ting_object_page_view($object) {
  */
 function ting_collection_page_view($object) {
   if (count($object->entities) < 2) {
-    drupal_goto('ting/object/' . $object->id);
+    $uri = entity_uri('ting_object', $object);
+    drupal_goto($uri['path'], $uri['options']);
   }
   return ting_collection_view($object);
 }
@@ -632,49 +647,15 @@ function ting_ting_object_load($objects) {
  * Don't use this, use ding_entity_load(). Default menu callback load of ting
  * object.
  *
- * Handles redirect from data well version 2 to version 3.
+ * @param string $id
+ *   Ting entity id.
+ *
+ * @return TingEntity|bool
+ *   Ting object or FALSE on failure.
  */
 function ting_object_load($id) {
-  $agency = variable_get('ting_agency', FALSE);
-  if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
-    // Matched to data well version 2, to redirect to version 3.
-    $new_id = ding_provider_build_entity_id($matches[2], $matches[1]);
-    if ($new_id === FALSE) {
-      $id = ting_lookup_and_translate($id);
-    }
-    else {
-      $id = $new_id;
-    }
-    drupal_goto('ting/object/' . $id, array(), 301);
-  }
-
   return ding_entity_load($id, 'ting_object');
 }
-
-
-/**
- * Try to lookup well3 pid via a search on the old pid.
- * Search query is constructed from old pid eg. 870971:72966643 -> '870971 and 72966643'
- *
- * This is NOT foolproof - if more than one result is found the first is returned, and that might not
- * be the correct one
- *
- * @param $old_pid ( eg 870971:72966643)
- * @return bool|mixed; new pid (eg  870971-tsart:72966643 ) if found; else FALSE
- */
-function ting_lookup_and_translate($old_pid) {
-  $query_elements = explode(':', $old_pid);
-  $query = implode(' and ', $query_elements);
-
-  module_load_include('client.inc', 'ting');
-  $result = ting_do_search($query, 1, 1, array('facets' => array()));
-  if (!empty($result->collections)) {
-    $id = key($result->collections);
-    return $id;
-  }
-  return FALSE;
-}
-
 
 /**
  * Load multiple ting objects.
@@ -691,22 +672,13 @@ function ting_object_load_multiple($ids) {
  * Don't use this, use ding_collection_load(). Default menu callback load of
  * ting collections.
  *
- * Handles redirect from data well version 2 to version 3.
+ * @param string $id
+ *   Ting entity id.
+ *
+ * @return TingCollection|bool
+ *   Collection object or FALSE on failure.
  */
 function ting_collection_load($id) {
-  $agency = variable_get('ting_agency', FALSE);
-  if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
-    // Matched to data well version 2, to redirect to version 3.
-    $new_id = ding_provider_build_entity_id($matches[2], $matches[1]);
-    if ($new_id === FALSE) {
-      $id = ting_lookup_and_translate($id);
-    }
-    else {
-      $id = $new_id;
-    }
-    drupal_goto('ting/collection/' . $id, array(), 301);
-  }
-
   return ding_entity_load($id, 'ting_collection');
 }
 

@@ -11,7 +11,7 @@
 function ding_message_p2_installer_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_first_element'
+  // Exported field_base: 'field_first_element'.
   $field_bases['field_first_element'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -41,7 +41,7 @@ function ding_message_p2_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_last_check'
+  // Exported field_base: 'field_last_check'.
   $field_bases['field_last_check'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -72,7 +72,7 @@ function ding_message_p2_installer_field_default_field_bases() {
     'type' => 'datestamp',
   );
 
-  // Exported field_base: 'field_last_element'
+  // Exported field_base: 'field_last_element'.
   $field_bases['field_last_element'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -102,7 +102,7 @@ function ding_message_p2_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_list_id'
+  // Exported field_base: 'field_list_id'.
   $field_bases['field_list_id'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -147,7 +147,7 @@ function ding_message_p2_installer_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_new_count'
+  // Exported field_base: 'field_new_count'.
   $field_bases['field_new_count'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -177,7 +177,7 @@ function ding_message_p2_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_state'
+  // Exported field_base: 'field_state'.
   $field_bases['field_state'] = array(
     'active' => 1,
     'cardinality' => 1,

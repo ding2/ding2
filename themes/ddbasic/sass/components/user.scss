@@ -1,0 +1,80 @@
+//
+// Styling of user displays
+
+@import '../base.scss';
+
+// ==========================================================================
+// Staff profile
+// ==========================================================================
+.profile2-ding-staff-profile {
+  .left {
+    @include span-columns(5);
+    min-height: 1px;
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(6);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      @include span-columns(12);
+      margin-bottom: 20px;
+    }
+  }
+  .right {
+    @include span-columns(5);
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(6);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      @include span-columns(12);
+    }
+    h1 {
+      @include font('display');
+      margin-bottom: 0;
+      color: $charcoal;
+      .field-name-field-ding-staff-forename,
+      .field-name-field-ding-staff-surname {
+        float: left;
+      }
+      .field-name-field-ding-staff-forename {
+        .field-item {
+          &::after {
+            content: '\00a0';
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+  .group-right {
+    clear: left;
+    .field-name-field-ding-staff-position {
+      color: $color-text;
+    }
+  }
+}
+
+// ==========================================================================
+// Staff list item
+// ==========================================================================
+.staff-list-item {
+  .staff-name {
+    margin: 10px 0 5px;
+    a {
+      @include font('display-small');
+      color: $charcoal;
+    }
+  }
+  .staff-position {
+    color: $charcoal-opacity-dark;
+  }
+  .staff-contact {
+    color: $charcoal-opacity-dark;
+  }
+}

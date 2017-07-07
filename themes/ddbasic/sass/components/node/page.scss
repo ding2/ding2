@@ -1,0 +1,84 @@
+//
+// Styling of content type Ding Page
+
+@import '../../base.scss';
+
+.node-ding-page {
+  .field-name-field-ding-page-title-image {
+    margin-bottom: 25px;
+  }
+  .field-name-field-ding-page-lead,
+  .field-name-field-ding-page-body {
+    @include span-columns(5 of 8);
+    margin-bottom: 30px;
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(8);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+  .field-name-field-ding-page-files {
+    @include span-columns(6 of 8);
+    margin: 0 0 30px;
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(8 of 8);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      margin: 15px 0 30px;
+    }
+
+    .field-label {
+      @include font('base-bold');
+    }
+    .file-type {
+      margin-left: 6px;
+    }
+  }
+  .field-name-field-ding-page-tags {
+    @include span-columns(6 of 8);
+    padding: 10px 0;
+    border-top: 1px solid $grey-medium;
+    border-bottom: 1px solid $grey-medium;
+    margin-bottom: 30px;
+
+    // Mobile
+    @include media($mobile) {
+      @include span-columns(8 of 8);
+    }
+    .field-label {
+      @include font('base-bold');
+    }
+    .field-items .field-item {
+      display: inline;
+      margin-right: 15px;
+    }
+  }
+  .webform-client-form {
+    @include span-columns(5 of 8);
+    clear: left;
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(8);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+}

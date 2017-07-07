@@ -6,39 +6,10 @@
  *
  * So editors of the website can enter text and links to be displayed
  * in rotation with all the other available ding_interactions
- * Overview: /admin/structure/entity-type/ding_type/ding_interaction
+ * Overview: /admin/structure/entity-type/ding_type/ding_interaction.
  */
 
 include_once 'ding_interaction_manual.features.inc';
-
-/**
- * Implements hook_secure_permissions().
- *
- * @TODO: Please move permission into ding_permission so they are all defined in
- *        the same module. This makes it easier to override permission in the
- *        different installations.
- */
-function ding_interaction_manual_secure_permissions($role) {
-  $permissions = array(
-    'editor' => array(
-      'eck add ding_type ding_interaction entities',
-      'eck edit ding_type ding_interaction entities',
-      'eck delete ding_type ding_interaction entities',
-      'eck list ding_type ding_interaction entities',
-      'eck view ding_type ding_interaction entities',
-    ),
-    'local editor' => array(
-      'eck add ding_type ding_interaction entities',
-      'eck edit ding_type ding_interaction entities',
-      'eck delete ding_type ding_interaction entities',
-      'eck list ding_type ding_interaction entities',
-      'eck view ding_type ding_interaction entities',
-    ),
-  );
-  if (isset($permissions[$role])) {
-    return $permissions[$role];
-  }
-}
 
 /**
  * Implements template_preprocess_entity().
@@ -55,31 +26,58 @@ function ding_interaction_manual_preprocess_entity(&$variables) {
 /**
  * Implements hook_ding_interaction_view().
  */
-function ding_interaction_manual_ding_interaction_view() {
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'ding_type')
-    ->entityCondition('bundle', 'ding_interaction')
-    ->fieldCondition('field_ding_interaction_status', 'value', '1', '=')
-    ->addTag('random')
-    ->range(0, 1);
+function ding_interaction_manual_ding_interaction_view($count, $extra) {
+  global $user;
 
-  $result = $query->execute();
-  if (isset($result['ding_type'])) {
-    $id = array_keys($result['ding_type']);
-    $entity = entity_load_single('ding_type', $id[0]);
-
+  if (!empty($extra) && user_access('administer personalisation')) {
+    $entity = entity_load_single('ding_type', $extra);
     $render = current(current(entity_view('ding_type', array($entity), 'teaser')));
     return array('data' => render($render));
   }
 
-  return '';
-}
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'ding_type')
+    ->entityCondition('bundle', 'ding_interaction')
+    ->fieldCondition('field_ding_interaction_status', 'value', '1', '=');
 
-/**
- * Implements hook_query_TAG_alter().
- */
-function ding_interaction_manual_query_random_alter($query) {
-  $query->orderRandom();
+  $result = $query->execute();
+  if (!empty($result['ding_type'])) {
+    $valid = array();
+
+    // Populate the $valid array, with all the interactions the user has access
+    // to.
+    foreach (entity_load('ding_type', array_keys($result['ding_type'])) as $entity) {
+      $is_valid = TRUE;
+
+      foreach (ding_base_get_items('ding_type', $entity, 'field_ding_interaction_access') as $access) {
+        switch ($access['value']) {
+          case 'provider':
+            if (!ding_user_is_provider_user($user)) {
+              $is_valid = FALSE;
+            }
+            break;
+
+          case 'anonymous':
+            if (user_is_logged_in()) {
+              $is_valid = FALSE;
+            }
+            break;
+        }
+      }
+
+      if ($is_valid) {
+        $valid[] = $entity;
+      }
+    }
+
+    if (!empty($valid)) {
+      $entity = $valid[array_rand($valid)];
+      $render = current(current(entity_view('ding_type', array($entity), 'teaser')));
+      return array('data' => render($render));
+    }
+  }
+
+  return '';
 }
 
 /**
@@ -87,7 +85,8 @@ function ding_interaction_manual_query_random_alter($query) {
  */
 function ding_interaction_manual_ding_interaction_info() {
   return array(
-    'title' => t('Ding interaction manual single random'),
+    'title' => t('Manual Ding Interactions'),
+    'description' => t('Manual Ding Interactions are banners with static text and optional link buttons created by local editors. Use this for nice tips and tricks for the visitors, or non critical information you would like to rotate into the frontpage.'),
     'css_class' => 'ding-interaction-manual complete-info',
     'active' => TRUE,
   );
@@ -106,15 +105,44 @@ function ding_interaction_manual_form_alter(&$form, &$form_state, $form_id) {
       '#collapsible' => TRUE,
       '#collapsed' => FALSE,
     );
-  
+
     $form['ding_interaction_help']['markup'] = array(
       '#type' => 'markup',
       '#markup' => t('Ding Interactions are all sorts of information and interaction with the user which we want to present in rotation. In order not to overload the user with information, just one Ding Interaction is shown per page view. This way the user can casually be informed with deeper features of the website, occasionally be asked to interact (Like when asking the user to rate previous loans) and have an area which changes relevant content with no need for manual editing or administration.<br /><br />
        Insert a "Ding interaction pane" on any page to display the Ding Interactions in rotation.') . '<br /><br />' .
       l(t('> Overview of all manual Ding Interactions'), 'admin/structure/entity-type/ding_type/ding_interaction') .
       '<br />' .
-      l(t('> Create new manual Ding Interaction'), 'admin/structure/entity-type/ding_type/ding_interaction/add') .
+      l(
+        t('> Create new manual Ding Interaction'),
+        'admin/structure/entity-type/ding_type/ding_interaction/add',
+        array('query' => array('destination' => 'admin/structure/entity-type/ding_type/ding_interaction'))
+      ) .
       '<br /><br />' . 'Developers can use the API hooks to create new Ding Interactions.',
+    );
+  }
+
+  if ($form_id === 'eck__entity__form_edit_ding_type_ding_interaction') {
+    $form['actions']['preview'] = array(
+      '#type' => 'link',
+      '#weight' => 99999,
+      '#title' => t('Preview'),
+      '#description' => 'test',
+      '#href' => '',
+      '#attributes' => array(
+        'target' => '_blank',
+      ),
+      '#options' => array(
+        'query' => array(
+          'interaction' => 'ding_interaction_manual',
+          'interaction_extra' => $form['#entity']->id,
+        ),
+      ),
+    );
+  }
+  elseif ($form_id === 'eck__entity__form_add_ding_type_ding_interaction') {
+    $form['actions']['preview'] = array(
+      '#markup' => t('Save the interaction to preview it.'),
+      '#weight' => 99999,
     );
   }
 }

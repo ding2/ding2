@@ -20,6 +20,21 @@ class DingProviderLoan extends DingEntityBase {
   const STATUS_NOT_RENEWED = 2;
 
   /**
+   * Renewal requested.
+   */
+  const STATUS_RENEWAL_REQUESTED = 3;
+
+  /**
+   * Renewal denied, maximum number of renewals reached.
+   */
+  const STATUS_RENEWAL_NUM_EXCEEDED = 4;
+
+  /**
+   * Renewal denied, reserved by other user.
+   */
+  const STATUS_RENEWAL_RESERVED = 5;
+
+  /**
    * Id of the reservation. Used as identifier. No assumptions are made about
    * it, however it should be a sting value suitable for values in forms and
    * the like.
@@ -157,4 +172,3 @@ class DingProviderLoan extends DingEntityBase {
  * Parent class for loan errors.
  */
 class DingProviderLoanUserError extends DingProviderUserException {}
-

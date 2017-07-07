@@ -13,10 +13,15 @@ function connie_user_authenticate($name, $pass) {
     'success' => FALSE,
   );
 
+  // Default password is the four last letters in the name.
+  $password = drupal_substr($name, -4);
+  $passes = variable_get('connie_user_passes', array());
+  if (isset($passes[$name])) {
+    $password = $passes[$name];
+  }
   // We log in users if the four last letters in the name matches the password
   // or if the username matched our list of created users.
-  if (drupal_substr($name, -4) == $pass ||
-      !empty($_SESSION['connie_created_users'][$name])) {
+  if ($password == $pass) {
     $res['success'] = TRUE;
     if (preg_match('/blocked/', $name)) {
       $res['success'] = FALSE;
@@ -41,6 +46,19 @@ function connie_user_authenticate($name, $pass) {
   }
 
   return $res;
+}
+
+/**
+ * Get the name of the current user.
+ *
+ * This is actually just an implementation of what ding_user_name() falls back
+ * to in the absence of this function.
+ */
+function connie_user_get_name($account) {
+  if (($creds = ding_user_get_creds($account)) && isset($creds['name'])) {
+    return $creds['name'];
+  }
+  return NULL;
 }
 
 /**
@@ -108,11 +126,34 @@ function connie_user_account_update($account, array $changes) {
  *   The id for the branch which should be the users preferred branch.
  */
 function connie_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
-  if (empty($_SESSION['connie_created_users'])) {
-    $_SESSION['connie_created_users'] = array();
-  }
-  // Remember which users that have created so they can be logged in afterwards.
-  $_SESSION['connie_created_users'][$cpr] = func_get_args();
+  $passes = variable_get('connie_user_passes', array());
+  $passes[$cpr] = $pin_code;
+}
+
+/**
+ * Update pin code.
+ *
+ * @param object $account
+ *   User account object or the user provider profile2.
+ * @param string $new_pincode
+ *   The users new pin-code.
+ *
+ * @return array
+ *   Updated credential array.
+ */
+function connie_user_update_pincode($account, $new_pincode) {
+  $passes = variable_get('connie_user_passes', array());
+  $creds = ding_user_get_creds($account);
+  $passes[$creds['name']] = $new_pincode;
+  variable_set('connie_user_passes', $passes);
+
+  // Set new password.
+  $creds['pass'] = $new_pincode;
+
+  // Update creds.
+  $result = array();
+  $result['creds'] = $creds;
+  return $result;
 }
 
 /**

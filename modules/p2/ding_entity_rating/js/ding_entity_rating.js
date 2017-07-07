@@ -18,14 +18,45 @@
      * Constructor.
      */
     _create: function() {
+      var self = this;
+
       this.element
         // Add a class for theming.
         .addClass('ding-rating')
         // Prevent double click to select text.
         .disableSelection();
       if(this.options.submitted === false) {
-        var _star = $('.star', this.element).hover(this.starMouseIn, this.starMouseOut);
-        _star.click(this.starClick);
+        $('.js-rating-symbol', this.element)
+          .hover(this.starMouseIn, this.starMouseOut)
+          .bind('click', function (evt) {
+            evt.preventDefault();
+
+            var $this = $(this);
+            self.sendRating(
+              $this.parent().attr('data-ding-entity-rating-path'),
+              $this.index() + 1,
+              function () {
+                $this.addClass('submitted').parent('.ding-entity-rating').addClass('has-submission');
+                $this.prevAll('.js-rating-symbol').addClass('submitted');
+                $this.nextAll('.js-rating-symbol').removeClass('submitted has-sub');
+              }
+            );
+          });
+
+        $('.ding-entity-rating-clear', this.element).bind('click', function (evt) {
+          evt.preventDefault();
+
+          var $this = $(this);
+          self.sendRating(
+            $this.parent().attr('data-ding-entity-rating-path'),
+            0,
+            function () {
+              $this.parent('.ding-entity-rating')
+                .removeClass('has-submission')
+                .children('.js-rating-symbol').removeClass('submitted has-sub');
+            }
+          );
+        });
       }
       this._refresh();
     },
@@ -58,33 +89,24 @@
       $this.siblings().removeClass('active');
     },
 
-    /**
-     * On click.
-     *
-     * @param Event evt
-     *   Click event
-     */
-    starClick: function(evt) {
-      var $this = $(this);
-      evt.preventDefault();
+    sendRating: function (path, index, callback) {
+      var url = Drupal.settings.basePath + 'ding_entity_rating/' + path + '/' + index,
+        $dummy = $('<a href="' + url + '"></a>'),
+        drupal_ajax = new Drupal.ajax('fake', $dummy, {
+          url: url,
+          event: 'click',
+          progress: { type: 'custom' },
+        }),
+        ofunc_complete = drupal_ajax.options.complete;
 
-      if (!$this.closest('.ding-rating').hasClass('rateable')) {
-        location.href = '/user?destination=' + location.pathname;
-        return;
-      }
+      drupal_ajax.options.complete = function (xmlhttprequest, status) {
+        callback();
+        return ofunc_complete(xmlhttprequest, status);
+      };
 
-      $this.parent().children('.has-sub').removeClass('has-sub');
-      $this.addClass('submitted');
-      $this.prevAll().addClass('submitted');
-      $this.nextAll().removeClass('submitted');
-      // TODO Why not put the entire path as the data attribute? This
-      // avoids spreading paths acrosss JS and Drupal code.
-      var _path = $this.parent().attr('data-ding-entity-rating-path'),
-        _index = $this.index() + 1;
-      $.get('/ding_entity_rating/ajax/' + _path + '/' + _index, function(responseText) {
-        $this.parent().append(responseText);
-        $('.ding-entity-rating-respons', $this.parent()).delay(5000).fadeOut();
-      });
+      drupal_ajax.beforeSerialize(drupal_ajax.element, drupal_ajax.options);
+
+      $.ajax(drupal_ajax.options);
     },
 
     /**
@@ -127,23 +149,26 @@
         rating_ids.push($(this).attr('data-ding-entity-rating-id'));
       });
 
-      $.ajax('/ding_entity_rating/get', {
-        data: {ids: rating_ids},
-        dataType: 'json',
-        method: 'get',
-        success: function (data) {
-          for (var i in data) {
-            if (data[i] !== false) {
-              $('.ding-entity-rating[data-ding-entity-rating-id="' + i + '"] .star')
-                .eq(data[i])
-                .removeClass('submitted')
-                .prevAll().addClass('submitted')
-                .end().nextAll().removeClass('submitted')
-                .end().parent().find('.ding-entity-rating-avg').remove();
+      if (rating_ids.length > 0) {
+        $.ajax('/ding_entity_rating/get', {
+          data: {ids: rating_ids},
+          dataType: 'json',
+          method: 'get',
+          success: function (data) {
+            for (var i in data) {
+              if (data[i] !== false) {
+                $('.ding-entity-rating[data-ding-entity-rating-id="' + i + '"] .js-rating-symbol')
+                  .eq(data[i])
+                  .removeClass('submitted')
+                  .prevAll().addClass('submitted')
+                  .end().nextAll().removeClass('submitted')
+                  .end().parent().addClass('has-submission')
+                  .find('.ding-entity-rating-avg').remove();
+              }
             }
           }
-        }
-      });
+        });
+      }
     }
   };
 })(jQuery);

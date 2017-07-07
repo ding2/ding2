@@ -16,7 +16,7 @@ $plugin = array(
   'render callback' => 'ding_frontend_taxonomy_menu_content_type_render',
   'category' => t('Ding!'),
   'required context' => array(
-    new ctools_context_required(t('Taxonomy term id'), array('term', 'taxonomy_term')),
+    new ctools_context_optional(t('Taxonomy term id'), array('term', 'taxonomy_term')),
     new ctools_context_optional(t('Group'), 'node'),
   ),
   'defaults' => array(
@@ -150,9 +150,8 @@ function ding_frontend_taxonomy_menu_select_dropdown($form, &$form_state, $items
   $form['submit'] = array(
     '#type' => 'submit',
     '#attributes' => array(
-      'class' => array(
-        'button',
-      ),
+      'class' => array('button'),
+      'style' => array('display: none;'),
     ),
     '#value' => t('Show'),
   );

@@ -8,7 +8,7 @@
  * for the visitor.
  * The DI shuffles all available DI plugins and displays just one in random.
  * The idea is that the system contains alot of things we would like the user to
- * try out or to do, but we want it to be suggested in a not overwhelming way
+ * try out or to do, but we want it to be suggested in a not overwhelming way.
  *
  * Example 1: (Full interaction)
  * The user logs in
@@ -16,6 +16,8 @@
  * The user is presented with a selection of previous loans and is encouraged
  * to rate them
  */
+
+include_once 'ding_interaction.features.inc';
 
 define('DING_INTERACTION_DEFAULT_COUNT', 5);
 
@@ -111,7 +113,7 @@ function theme_ding_interaction_pane_content($variables) {
  * @return array
  *   A render array for output.
  */
-function ding_interaction_content(array $module_list = NULL, $count = DING_INTERACTION_DEFAULT_COUNT) {
+function ding_interaction_content(array $module_list = array(), $count = DING_INTERACTION_DEFAULT_COUNT, $extra = array()) {
   global $user;
   $data = NULL;
 
@@ -131,12 +133,13 @@ function ding_interaction_content(array $module_list = NULL, $count = DING_INTER
 
   // Show interaction pane on n'th page view.
   if (empty($edit['data']['ding_interaction']['count']) || $edit['data']['ding_interaction']['count'] == 0) {
-    if (!$module_list) {
+    if (empty($module_list)) {
       $module_list = ding_interaction_available_content();
     }
+
     if (count($module_list)) {
       $random = array_rand($module_list);
-      $data = module_invoke($random, 'ding_interaction_view', $count);
+      $data = module_invoke($random, 'ding_interaction_view', $count, $extra);
 
       if (!$data) {
         return FALSE;
@@ -163,4 +166,24 @@ function ding_interaction_content(array $module_list = NULL, $count = DING_INTER
   }
 
   return $output;
+}
+
+/**
+ * Create a list of translateable strings to display in config page.
+ *
+ * @param array $strings
+ *   Array of translatable strings.
+ *
+ * @return array
+ *   A formated output of translable strings.
+ */
+function ding_interaction_translatables(array $strings) {
+  if (empty($strings)) {
+    return "";
+  }
+  return theme('item_list', array(
+    'items' => $strings,
+    'type' => 'ul',
+    'title' => l(t('Translatable strings'), 'admin/config/regional/translate/translate'),
+  ));
 }

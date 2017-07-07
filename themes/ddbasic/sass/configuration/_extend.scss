@@ -1,0 +1,145 @@
+//
+// Extends
+
+// ==========================================================================
+// Button
+// ==========================================================================
+%button {
+  @include transition(
+    background-color $speed $ease,
+    color $speed $ease
+  );
+  display: block;
+  border-radius: $round-corner;
+  padding: 20px 80px 14px 15px;
+  background-color: $grey;
+  color: $charcoal;
+  // Hover for non touch devices
+  .no-touch & {
+    &:hover {
+      background-color: $color-secondary;
+      color: $color-text-on-secondary;
+    }
+  }
+
+  @include media($mobile) {
+    padding: 20px 20px 14px 15px;
+  }
+}
+
+// ==========================================================================
+// Icon extentions
+// ==========================================================================
+
+// Icomoon
+%icomoon-base {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Icons
+%icon-arrow-down-small {
+  content: "\e900";
+}
+
+%icon-arrow-down {
+  content: "\e901";
+}
+
+%icon-arrow-left {
+  content: "\e902";
+}
+
+%icon-arrow-right {
+  content: "\e904";
+}
+
+%icon-arrow-up {
+  content: "\e905";
+}
+
+%icon-close {
+  content: "\e907";
+}
+
+%icon-menu {
+  content: "\e908";
+}
+
+%icon-print {
+  content: "\e90a";
+}
+
+%icon-profile {
+  content: "\e90b";
+}
+
+%icon-search {
+  content: "\e90c";
+}
+
+%icon-arrow-right-small {
+  content: "\e903";
+}
+
+%icon-plus {
+  content: "\e909";
+}
+
+%icon-minus {
+  content: "\e90d";
+}
+
+%icon-check {
+  content: "\e906";
+}
+
+%icon-clock {
+  content: "\e90e";
+}
+
+%icon-spinner {
+  content: "\e90f";
+}
+
+%icon-facebook-with-circle {
+  content: "\e910";
+}
+
+%icon-facebook {
+  content: "\e911";
+}
+
+%icon-instagram-with-circle {
+  content: "\e912";
+}
+
+%icon-instagram {
+  content: "\e913";
+}
+
+%icon-twitter-with-circle {
+  content: "\e914";
+}
+
+%icon-twitter {
+  content: "\e915";
+}
+
+%icon-nemid {
+  content: "\e916";
+}
+
+%icon-dragndrop {
+  content: "\e917";
+}
+
+%icon-star {
+  content: "\e918";
+}

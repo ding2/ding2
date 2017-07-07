@@ -43,8 +43,19 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
   // @TODO Change $output to render array and use #attached for files.
   drupal_add_js(drupal_get_path('module', 'ding_interaction') . '/js/ding_interaction.js');
   drupal_add_css(drupal_get_path('module', 'ding_interaction') . '/css/ding_interaction.css');
-  $data = ding_interaction_content(NULL, $conf['count']);
-  
+
+  $extra = $module_list = array();
+
+  // Force select an interaction depending on get parameters.
+  if (!empty($_GET['interaction']) && user_access('administer personalisation')) {
+    $module_list[$_GET['interaction']] = module_invoke($_GET['interaction'], 'ding_interaction_info');
+    if (!empty($_GET['interaction_extra'])) {
+      $extra = $_GET['interaction_extra'];
+    }
+  }
+
+  $data = ding_interaction_content($module_list, $conf['count'], $extra);
+
   $output = new stdClass();
   if ($data) {
     $close_btn = l(t('Close'), '', array('attributes' => array('class' => array('close-btn'))));
@@ -67,6 +78,11 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
       'help_text' => $help_text,
     ));
     $output->css_class = isset($data['css_class']) ? $data['css_class'] : "default-interaction";
+
+    // The lazy_pane module adds a pane placeholder, with the default pane
+    // classes. This extra class is used to style the pane, only if it's
+    // actually adding content.
+    $output->css_class .= ' ding-interaction-true-pane';
   }
   return $output;
 }

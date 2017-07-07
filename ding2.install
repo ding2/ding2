@@ -5,27 +5,6 @@
  */
 
 /**
- * Implements hook_requirements().
- *
- * Display build version on the status report page.
- */
-function ding2_requirements($phase) {
-  $t = get_t();
-
-  // Get version form the profiles info file.
-  $info = install_profile_info('ding2');
-  if ($phase == 'runtime') {
-    return array(
-      'ddb_version' => array(
-        'title' => $t('DDB Version'),
-        'value' => !empty($info['version']) ? $info['version'] : 'development',
-        'severity' => REQUIREMENT_INFO,
-      ),
-    );
-  }
-}
-
-/**
  * Implements hook_install().
  *
  * Perform actions to set up the site for this profile.
@@ -93,12 +72,17 @@ function ding2_install() {
   //
   // Enable ting search as default.
   //
-  variable_set('search_active_modules', array(
-      'node' => 'node',
-      'ting_search' => 'ting_search',
-      'user' => 0,
-      'mkdru' => 'mkdru',
-    ));
+
+  $active_search = variable_get('search_active_modules', array());
+  $search_defaults = array(
+    'node' => 'node',
+    'ting_search' => 'ting_search',
+    'user' => 0,
+    'mkdru' => 'mkdru',
+  );
+  // Avoid overwriting other modules search settings.
+  // Search default has precedence
+  variable_set('search_active_modules', $search_defaults + $active_search);
   variable_set('search_default_module', 'ting_search');
 
   //
@@ -141,7 +125,7 @@ function ding2_install() {
 function ding2_theme_settings() {
   return array(
     'toggle_logo' => 1,
-    'toggle_name' => 0,
+    'toggle_name' => 1,
     'toggle_slogan' => 0,
     'toggle_node_user_picture' => 0,
     'toggle_comment_user_picture' => 0,
@@ -178,6 +162,12 @@ function ding2_translation_update() {
   $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/fields_da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'field');
+
+  // Update metatag translation group.
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/metatags_da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'metatag');
 }
 
 /**
@@ -382,4 +372,78 @@ function ding2_update_7021() {
  */
 function ding2_update_7022() {
   module_enable(array('ding_p2_installer'));
+}
+
+/**
+ * Enable admin_menu modules.
+ */
+function ding2_update_7023() {
+  module_enable(array('admin_menu', 'admin_menu_toolbar'));
+
+  ding2_admin_menu_shortcuts();
+}
+
+/**
+ * Enable htmlmail module.
+ */
+function ding2_update_7024() {
+  module_enable(array('htmlmail'));
+}
+
+/**
+ * Enable environment indicator panel modules.
+ */
+function ding2_update_7025() {
+  if (module_exists('ddb_cp')) {
+    module_enable(array('environment_indicator'));
+  }
+}
+
+/**
+ * Enable mmeu module.
+ */
+function ding2_update_7026() {
+  module_enable(array('mmeu'));
+}
+
+/**
+ * Enable lazy_pane module.
+ */
+function ding2_update_7027() {
+  module_enable(array('lazy_pane'));
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7028() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7029() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7030() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7031() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable Campaign module.
+ */
+function ding2_update_7032() {
+  module_enable(array('ding_campaign'));
 }

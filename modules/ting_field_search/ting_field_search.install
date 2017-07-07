@@ -1,0 +1,320 @@
+  <?php
+
+/**
+ * @file
+ *
+ * Install file for Ting field search.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ting_field_search_schema() {
+  $schema = array();
+
+  $schema['ting_field_search_profile'] = array(
+    'description' => 'Holds the definitions of the installed search profiles.',
+    'export' => array(
+      'key' => 'name',
+      'key name' => 'Name',
+      'admin_title' => 'title',
+      'primary key' => 'pid',
+      'identifier' => 'profile',
+      'default hook' => 'ting_field_search_default_profiles',
+      'api' => array(
+        'owner' => 'ting_field_search',
+        'api' => 'ting_field_search_default_profiles',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+      // Take full control of the export workflow.
+      'subrecords callback' => 'ting_field_search_subrecords_callback',
+      'load callback' => 'ting_field_search_profiles_load',
+      'load multiple callback' => 'ting_field_search_profiles_load_mutliple',
+      'load all callback' => 'ting_field_search_profiles_load_all',
+      'create callback' => 'ting_field_search_profile_create',
+      'save callback' => 'ting_field_search_profile_save',
+      'delete callback' => 'ting_field_search_profile_delete',
+      'export callback' => 'ting_field_search_profile_export',
+    ),
+    'fields' => array(
+      'pid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'The primary identifier for a profile.',
+        'no export' => TRUE,
+      ),
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'The machine name of the profile.',
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Profile title: Displayed to users of the site.',
+      ),
+      'config' => array(
+        'type' => 'blob',
+        'size' => 'big',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'description' => 'Serialized profile configuration that do not warrant a single column.',
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Profile weight: Used to order profiles in UI.',
+      ),
+    ),
+    'primary key' => array('pid'),
+    'unique keys' => array(
+      'name' => array('name'),
+    ),
+  );
+
+  // For performance reasons keep facet settings in a seperate table.
+  // TODO: Consider moving these settings to the new config field.
+  $schema['ting_field_search_facet'] = array(
+    'description' => 'Holds facet settings for each profile.',
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Facet name: Name of the facet (e.g. facet.type).',
+      ),
+      'pid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'description' => 'Foreign key: ID of the associated profile.',
+        'default' => 0,
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Facet title: The title of the facet, as shown to users in UI',
+      ),
+      'sorting' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => 'default',
+        'description' => 'Facet sorting. Sorting of the terms in the facet.',
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'not null' => TRUE,
+        'default' => 1,
+        'description' => 'Facet weight: Used to order facets in the UI.'
+      ),
+    ),
+    'primary key' => array('name', 'pid'),
+    'foreign keys' => array(
+      'profile' => array(
+        'table' => 'ting_field_search_profile',
+        'columns' => array('profile' => 'pid'),
+      ),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Helper function to load profiles in update functions.
+ * For schema version 7000 -> ...
+ */
+function _ting_field_search_load_profiles_7000() {
+  return db_select('ting_field_search_profile', 'tp')
+    ->fields('tp')
+    ->execute()
+    ->fetchAllAssoc('name');
+}
+
+/**
+ * Adds the new config field to the profile table.
+ * Adds new serial primary key to profile table.
+ * Update foreign key in facet table to point to the new profile primary key.
+ */
+function ting_field_search_update_7000() {
+  // We need to migrate existing data, so fetch the profiles now.
+  $profiles = _ting_field_search_load_profiles_7000();
+
+  // The fields to be migrated to the new config field.
+  $migrate_fields = array(
+    'active',
+    'exposed',
+    'alter_links',
+    'use_facets',
+    'term_count',
+    'facet_count',
+  );
+  $migrate_data = array();
+  foreach ($profiles as $name => $profile) {
+    $profile = (array) $profile;
+    $config = array_intersect_key($profile , array_flip($migrate_fields));
+    $migrate_data[$name] = $config;
+  }
+
+  // Now that we got the data; drop the fields.
+  foreach ($migrate_fields as $field) {
+    db_drop_field('ting_field_search_profile', $field);
+  }
+
+  // Add the config field and migrate existing data, if any.
+  $config_field = array(
+    'type' => 'blob',
+    'size' => 'big',
+    'serialize' => TRUE,
+    'not null' => FALSE,
+    'description' => 'Serialized profile configuration that do not warrant a single column.',
+  );
+  db_add_field('ting_field_search_profile', 'config', $config_field);
+  foreach ($migrate_data as $name => $config) {
+    db_merge('ting_field_search_profile')
+      ->key(array(
+        'name' => $name,
+      ))
+      ->fields(array(
+        'config' => serialize($config),
+      ))
+      ->execute();
+  }
+  $config_field['not null'] = TRUE;
+  db_change_field('ting_field_search_profile', 'config', 'config', $config_field);
+
+  // Add new serial primary key (Profile ID).
+  db_drop_primary_key('ting_field_search_profile');
+  $pid = array(
+    'type' => 'serial',
+    'not null' => TRUE,
+    'unsigned' => TRUE,
+    'description' => 'The primary identifier for a profile.'
+  );
+  db_add_field('ting_field_search_profile', 'pid', $pid, array(
+    'primary key' => array('pid'),
+  ));
+
+  // We'll still keep the machine-name as unique key, because we use it as
+  // parameter in the URL and it will be necesarry for adding exportability.
+  db_add_unique_key('ting_field_search_profile', 'name', array('name'));
+
+  // By using the new profile ID as link between profiles and facet settings
+  // we allow for updating of profile machine-name without too much hassle.
+  db_add_field('ting_field_search_facet', 'pid', array(
+    'type' => 'int',
+    'not null' => TRUE,
+    'unsigned' => TRUE,
+    'default' => 0,
+    'description' => 'Foreign key: ID of the associated profile.',
+  ));
+  // Load the profiles a new, so that we get the newly generated ID's.
+  $profiles = _ting_field_search_load_profiles_7000();
+  foreach ($profiles as $name => $profile) {
+    db_update('ting_field_search_facet')
+      ->fields(array('pid' => $profile->pid))
+      ->condition('profile', $name)
+      ->execute();
+  }
+  db_drop_primary_key('ting_field_search_facet');
+  db_drop_field('ting_field_search_facet', 'profile');
+  db_add_primary_key('ting_field_search_facet', array('name', 'pid'));
+}
+
+/**
+ * Move the query and profile fields to the config array.
+ * Migrate existing config values to the new array structure.
+ */
+function ting_field_search_update_7001() {
+  // We need to migrate existing data, so fetch the profiles now.
+  $profiles = _ting_field_search_load_profiles_7000();
+
+  $migrate_map = array(
+    'exposed' => 'user_interaction',
+    'sticky' => 'user_interaction',
+    'alter_links' => 'user_interaction',
+    'query' => 'search_request',
+    'new_materials' => 'search_request',
+    'use_facets' => 'facets',
+    'facet_count' => 'facets',
+    'term_count' => 'facets',
+  );
+
+  $new_configs = array();
+  foreach ($profiles as $name => $profile) {
+    $old_config = unserialize($profile->config);
+    $old_config['query'] = $profile->query;
+
+    $new_config = array();
+    $new_config['search_result'] = $old_config['search_result'];
+    $new_config['webtrends'] = $old_config['webtrends'];
+
+    foreach ($migrate_map as $setting => $destination) {
+      if (isset($old_config[$setting])) {
+        $new_config[$destination][$setting] = $old_config[$setting];
+      }
+    }
+
+    // The VIP profile is being split up and needs special handling.
+    $new_config['search_request']['search_well_profile'] = $profile->profile;
+
+    $new_configs[$name] = $new_config;
+  }
+
+  // Drop the fields and save the new config arrays.
+  db_drop_field('ting_field_search_profile', 'profile');
+  db_drop_field('ting_field_search_profile', 'query');
+
+  foreach ($new_configs as $name => $new_config) {
+    db_merge('ting_field_search_profile')
+      ->key(array(
+        'name' => $name,
+      ))
+      ->fields(array(
+        'config' => serialize($new_config),
+      ))
+      ->execute();
+  }
+}
+
+/**
+ * Remove any trace of the now unused Ting field search cache backends.
+ * Remove settings no longer used from profile config.
+ */
+function ting_field_search_update_7002() {
+  $backend = variable_get('cache_class_cache_ting');
+  // If one of our backends is in use, remove it. Ting cache will then fall back
+  // to the default backend set by the cache_class_cache_default variable.
+  if ($backend == 'TingFieldSearchMemCache' || $backend == 'TingFieldSearchDatabaseCache') {
+    variable_del('cache_class_cache_ting');
+  }
+
+  // Clean up in database after removing settings in config.
+  $profiles = _ting_field_search_load_profiles_7000();
+  foreach ($profiles as $name => $profile) {
+    $config = unserialize($profile->config);
+
+    unset($config['webtrends']);
+    $config['search_request']['well_profile'] = $config['search_request']['search_well_profile'];
+    unset($config['search_request']['search_well_profile']);
+    unset($config['search_request']['result_well_profile']);
+
+    db_update('ting_field_search_profile')
+      ->condition('name', $name)
+      ->fields(array('config' => serialize($config)))
+      ->execute();
+  }
+}

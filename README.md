@@ -9,7 +9,7 @@ of the [TING concept](http://ting.dk).
 
 # Installation
 This README assumes that you have install a configured your server with a
-working Apache/Nginx, APC, Memcached, PHP 5.4 and Varnish 3.x (optional). The
+working Apache/Nginx, APC, Memcached, PHP 5.6 and Varnish 3.x (optional). The
 stack should be optimized to run a Drupal site.
 
 If you want to try out Ding2 you can download [the latest release](https://github.com/ding2/ding2/releases/latest). The `ding2-7.x-[version].tar.gz` file contain a full Drupal installation including Drupal Core, third party modules and Ding2 code needed to run the site.
@@ -19,7 +19,7 @@ The reset of this document explains how to download Drupal and patch the core
 to run a Ding2 based site.
 
 ## Dependencies
-* [Drupal 7.43](https://drupal.org/drupal-7.43-release-notes) - latest stable
+* [Drupal 7.54](https://www.drupal.org/project/drupal/releases/7.54) - latest stable
   version of Drupal Core that ding2 have been tested on and the last stable
   release when this was written.
 * [Drush 6.1.0](https://github.com/drush-ops/drush) - latest release when this
@@ -27,13 +27,13 @@ to run a Ding2 based site.
 
 ## Drupal
 Go into your web-root (from now on named DRUPAL) and execute this drush command
-to download a fresh copy of Drupal version 7.43. If you omit the version number
+to download a fresh copy of Drupal version 7.54. If you omit the version number
 the newest version of Drupal will be downloaded.
 ```sh
-  ~$ drush dl drupal-7.43
-  ~$ mv drupal-7.43/* .
-  ~$ mv drupal-7.43/.* .
-  ~$ rm -r drupal-7.43
+  ~$ drush dl drupal-7.54
+  ~$ mv drupal-7.54/* .
+  ~$ mv drupal-7.54/.* .
+  ~$ rm -r drupal-7.54
 ```
 
 ### Patches

@@ -269,6 +269,7 @@ function ding_base_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+
   $strongarm->name = 'ding_varnish_content_types';
   $strongarm->value = array(
     'ding_event' => 'ding_event',
@@ -685,6 +686,13 @@ temaer/*';
   $strongarm->name = 'metatag_tag_admin_pages';
   $strongarm->value = 1;
   $export['metatag_tag_admin_pages'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'mmeu_urls';
+  $strongarm->value = 'varnish/roles';
+  $export['mmeu_urls'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

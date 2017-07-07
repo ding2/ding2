@@ -11,3 +11,23 @@ function uninstall() {
   // Remove configuration settings.
   variable_del('ding_gatewayf');
 }
+
+/**
+ * Add new translation string and Danish translation of it.
+ */
+function ding_gatewayf_update_7101(&$sandbox) {
+  require_once DRUPAL_ROOT . '/includes/locale.inc';
+
+  $report = &drupal_static(__FUNCTION__, array(
+    'additions' => 0,
+    'updates' => 0,
+    'deletes' => 0,
+    'skips' => 0,
+  ));
+
+  $source = 'You do not have an user account at the public library. If you wish you can create an user account below. You are still logged in at WAYF, so you can !logout to logout of WAYF.';
+  $translation = "<p>Du er ikke låner ved biblioteket. Hvis du ønsker at oprette dig som låner kan du gøre det nedenfor.</p>\n<p>Du er stadig logget ind ved NemID, så du kan !logout for at logge ud.</p>";
+
+  _locale_import_one_string_db($report, 'da', '', $source, $translation, 'default', 'Import via helper ' . __FUNCTION__ . '().', LOCALE_IMPORT_KEEP);
+  cache_clear_all('locale:', 'cache', TRUE);
+}

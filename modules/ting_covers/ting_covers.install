@@ -5,6 +5,14 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function ting_covers_install() {
+  // Ensure that a cover provider is active on a fresh install.
+  module_enable(array('ting_covers_addi'));
+}
+
+/**
  * Changed fetched covers from managed to unmanaged files.
  */
 function ting_covers_update_7100(&$sandbox) {

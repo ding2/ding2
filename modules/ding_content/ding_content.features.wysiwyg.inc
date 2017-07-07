@@ -20,7 +20,7 @@ function ding_content_wysiwyg_default_profiles() {
       'show_toggle' => 1,
       'add_to_summaries' => 1,
       'theme' => 'advanced',
-      'language' => 'en',
+      'language' => 'da',
       'buttons' => array(
         'default' => array(
           'Bold' => 1,
@@ -61,7 +61,7 @@ function ding_content_wysiwyg_default_profiles() {
       'acf_mode' => 0,
       'acf_allowed_content' => '',
       'css_setting' => 'self',
-      'css_path' => '/profiles/ding2/themes/ddbasic/css/ddbasic.wysiwyg.css',
+      'css_path' => '/profiles/ding2/themes/ddbasic/css/ddbasic.wysiwyg.min.css',
       'stylesSet' => '',
       'block_formats' => 'p,h2,h3,div',
       'advanced__active_tab' => 'edit-basic',

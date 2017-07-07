@@ -2,7 +2,6 @@
 
 /**
  * @file
- *
  * Admin forms.
  */
 
@@ -14,6 +13,7 @@ function ding_interaction_admin_overview($form, &$form_state) {
     '#type' => 'tableselect',
     '#header' => array(
       'title' => t('Title'),
+      'description' => t('Description'),
       'settings' => t('Settings'),
     ),
     '#options' => array(),
@@ -25,6 +25,8 @@ function ding_interaction_admin_overview($form, &$form_state) {
   foreach ($info as $key => $value) {
     $form['ding_interaction_callbacks']['#options'][$key] = array(
       'title' => $value['title'],
+      'description' => $value['description'] .
+      ding_interaction_translatables(empty($value['translatables']) ? array() : $value['translatables']),
       'settings' => '',
     );
     if (!empty($value['settings'])) {
@@ -47,12 +49,12 @@ function ding_interaction_admin_overview($form, &$form_state) {
   $form['ding_interaction_settings']['ding_interaction_page_count'] = array(
     '#type' => 'select',
     '#title' => t('Page count'),
-    '#description' => t('Set the amount of page views between ding interaction displays'),
+    '#description' => t('When the Ding Interaction pane is displayed, a single random plugin above is rendered for the user. Set the number of page views between Ding Interaction pane displays'),
     '#options' => range(1, 20),
     '#default_value' => variable_get('ding_interaction_page_count', 5),
     '#required' => TRUE,
-  );  
-  
+  );
+
   return system_settings_form($form);
 }
 
@@ -85,8 +87,8 @@ function ding_interaction_process_options($element) {
           $title = '';
           if (!empty($element['#options'][$key]['title']['data']['#title'])) {
             $title = t('Update @title', array(
-                '@title' => $element['#options'][$key]['title']['data']['#title'],
-              ));
+              '@title' => $element['#options'][$key]['title']['data']['#title'],
+            ));
           }
           $element[$key] = array(
             '#type' => 'checkbox',

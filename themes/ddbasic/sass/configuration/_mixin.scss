@@ -1,0 +1,229 @@
+//
+// Create mixins
+
+// Configuration
+//
+// Styleguide 3
+
+// Mixins
+//
+// Styleguide 3.1
+
+// ==========================================================================
+// Add-ons for Bourbon Neat
+// ==========================================================================
+
+// Adds an actual width the the Bourbon Neat outer-container mixin.
+//
+@mixin wrapper() {
+  @include outer-container;
+  width: $wrapper-width;
+  //width: $outer_width;
+}
+
+// Omega reset
+@mixin omega-reset($nth, $columns) {
+  &:nth-child(#{$nth}) { margin-right: flex-gutter($columns); }
+  &:nth-child(#{$nth}+1) { clear: none; }
+}
+
+// ==========================================================================
+// Mixins for placing icon and button with icon
+// ==========================================================================
+
+// Place-icon
+//
+// Mixin for placing icon on element
+//
+// place-icon($icon, $color, $size)
+//
+// $icon  - Name of icon to be placed - is a string, see _extend.scss for icon names
+// $color - Color of icon - default is $charcoal-opacity-dark
+// $size  - Size of icon - default is 54px
+//
+// Styleguide 3.1.2
+
+@mixin place-icon(
+  $icon,
+  $color: $charcoal-opacity-dark,
+  $size: 54px) {
+  position: relative;
+  &::after {
+    @extend %icon-#{$icon};
+    @extend %icomoon-base;
+    font-size: $size;
+    line-height: 1;
+    color: $color;
+    display: block;
+    position: absolute;
+    top: 0;
+  }
+}
+
+@mixin place-icon-before(
+  $icon,
+  $color: #fff,
+  $size: 20px) {
+  position: relative;
+  &::before {
+    @extend %icon-#{$icon};
+    @extend %icomoon-base;
+    font-size: $size;
+    color: $color;
+    line-height: 15px;
+    display: block;
+    position: absolute;
+    top: 0;
+  }
+}
+
+// Button
+//
+// Mixin for making button with icon
+//
+// button($icon, $color, $background-color, $color-hover, $background-color-hover)
+//
+// $icon                    - Name of icon to be placed - is a string, see _mixin.scss for icon names
+// $color                   - Color of text and icon - default is $color-text-on-secondary
+// $background-color        - Background-color of button - default is $color-secondary
+// $color-hover             - Color of text and icon on hover - default is $white
+// $background-color-hover  - Background-color of button on hover - default is $grey-dark
+//
+// Styleguide 3.1.3
+
+@mixin button(
+  $icon,
+  $color: $color-text-on-secondary,
+  $background-color: $color-secondary,
+  $color-hover: $white,
+  $background-color-hover: $grey-dark
+) {
+  @include place-icon($icon, $color);
+  @include transition(
+    background-color $speed $ease,
+    color $speed $ease
+  );
+  width: 100%;
+  float: left;
+  border-radius: $round-corner;
+  padding: 20px 80px 14px 15px;
+  background-color: $background-color;
+  color: $color;
+  &::after {
+    @include transition(color $speed $ease);
+    right: 7px;
+  }
+  // Hover for non touch devices
+  .no-touch & {
+    &:hover {
+      background-color: $background-color-hover;
+      color: $color-hover;
+      &::after {
+        color: $color-hover;
+      }
+    }
+  }
+}
+
+// Arrow button
+//
+// Mixin for making arrow button
+//
+// arrow-button($icon, $background-color-hover)
+//
+// $icon  - Name of icon to be placed - is a string, see _mixin.scss for icon names
+// $background-color-hover  - Background-color of button on hover - default is $grey
+//
+// Styleguide 3.1.4
+
+@mixin arrow-button(
+  $icon,
+  $background-color: $grey
+) {
+  &::after {
+    @extend %icon-#{$icon};
+    @extend %icomoon-base;
+    @include transition(
+      background-color $speed $ease,
+      color $speed $ease
+    );
+    position: absolute;
+    display: block;
+    width: 68px;
+    height: 54px;
+    font-size: 54px;
+    line-height: 1;
+    text-align: center;
+    background-color: $background-color;
+    color: $charcoal-opacity-dark;
+    border-radius: $round-corner;
+
+    @include media($mobile) {
+      width: 54px;
+    }
+  }
+  // Hover for non touch devices
+  .no-touch & {
+    &:hover {
+      &::after {
+        background-color: $grey-dark;
+        color: $white;
+      }
+    }
+  }
+}
+
+// Aspect ratio image
+//
+// Mixin for making image container a certain aspect ratio and centering the image in the conatainer
+//
+// aspect-ratio-image($width, $height)
+//
+// $width  - the width of the aspect ratio
+// $height - the height of the aspect ratio
+//
+// Styleguide 3.1.5
+
+@mixin aspect-ratio-image(
+  $width,
+  $height
+) {
+  display: block;
+  position: relative;
+  background-color: $grey;
+  padding-top: ($height / $width) * 100%;
+  img {
+    @include transform(translate(-50%, -50%));
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+  }
+}
+
+// Aspect ratio background image
+//
+// Mixin for making an element with background image a certain aspect ratio
+//
+// aspect-ratio-background-image($width, $height)
+//
+// $width  - the width of the aspect ratio
+// $height - the height of the aspect ratio
+//
+// Styleguide 3.1.6
+
+@mixin aspect-ratio-background-image(
+  $width,
+  $height
+) {
+  display: block;
+  position: relative;
+  background-color: $grey;
+  padding-top: ($height / $width) * 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}

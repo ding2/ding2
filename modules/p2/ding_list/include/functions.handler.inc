@@ -49,8 +49,14 @@ function ding_list_get_list_by_element($element) {
  * @return mixed
  *   An array of ding_list entities. FALSE otherwise.
  */
-function ding_list_get_lists($list_type = NULL, $account = NULL, $range = array(), $order_by = array('changed', 'DESC')) {
+function ding_list_get_lists($list_type = NULL, $account = NULL, array $range = array(), array $order_by = array('changed', 'DESC')) {
   if ($account === NULL) {
+
+    // Only authenticated users can have lists.
+    if (!user_is_logged_in()) {
+      return FALSE;
+    }
+
     global $user;
     $account = $user;
   }
@@ -105,7 +111,7 @@ function ding_list_get_lists($list_type = NULL, $account = NULL, $range = array(
   if (!empty($lists)) {
     return $lists;
   }
-  
+
   return FALSE;
 }
 
@@ -178,7 +184,7 @@ function ding_list_create_ding_list_element(&$list, $type, array $values, $accou
   $list->field_list_objects[LANGUAGE_NONE][] = array(
     'target_id' => $element->id,
   );
-  
+
   if ($save_list === TRUE) {
     $list->save();
   }
@@ -209,11 +215,11 @@ function ding_list_create_ding_list_element(&$list, $type, array $values, $accou
  * @return bool|object
  *   Newly created list element, or FALSE if not created.
  */
-function ding_list_create_ding_list($title, $type = DING_LIST_TYPE_USER_LIST, $account = NULL, $more = NULL, $openlist_id = NULL, $fields = array()) {
+function ding_list_create_ding_list($title, $type = DING_LIST_TYPE_USER_LIST, $account = NULL, $more = NULL, $openlist_id = NULL, array $fields = array()) {
   $list = entity_create('ding_type', array(
-      'type' => 'ding_list',
-      'title' => check_plain($title),
-    ));
+    'type' => 'ding_list',
+    'title' => $title,
+  ));
 
   // The entity_create automatically set the entity uid to the current user so
   // we only need to change this if specified.
@@ -234,7 +240,7 @@ function ding_list_create_ding_list($title, $type = DING_LIST_TYPE_USER_LIST, $a
     try {
       $openlist_id = ding_provider_invoke(
         'openlist',
-        'create_list', 
+        'create_list',
         ding_provider_invoke('openlist', 'user_identifier', $account),
         $title,
         $type,
@@ -308,12 +314,12 @@ function ding_list_handle_fields_in_list(&$list, array $fields) {
  * @return mixed
  *   The ding_list object or FALSE if edit failed.
  */
-function ding_list_edit_ding_list(&$list, $title, $more = NULL, $tell_openlist = TRUE, $fields = array()) {
+function ding_list_edit_ding_list(&$list, $title, $more = NULL, $tell_openlist = TRUE, array $fields = array()) {
   if ($list->title === $title && ($more === NULL || $list->more === $more) && empty($fields)) {
     return $list;
   }
 
-  $list->title = check_plain($title);
+  $list->title = $title;
 
   if ($more !== NULL) {
     $list->more = $more;
@@ -367,7 +373,7 @@ function ding_list_edit_ding_list(&$list, $title, $more = NULL, $tell_openlist =
  *   The count of element items actually deleted. Or FALSE if something went
  *   wrong.
  */
-function ding_list_detach_ding_list_element(&$list, $element_ids = array(), $save_list = TRUE, $tell_openlist = TRUE) {
+function ding_list_detach_ding_list_element(&$list, array $element_ids = array(), $save_list = TRUE, $tell_openlist = TRUE) {
   if (empty($element_ids)) {
     return 0;
   }
@@ -539,7 +545,7 @@ function ding_list_get_list($list, $account = NULL) {
   }
 
   $lists = &drupal_static(__FUNCTION__, array());
-  
+
   // Create the unique key using the list input and account uid.
   $key = $list . "_" . ($account ? $account->uid : "");
   if (isset($lists[$key])) {
@@ -623,12 +629,12 @@ function ding_list_edit_ding_list_element(&$element, $type = NULL, array $values
 function ding_list_get_list_element_value($element) {
   $field_name = 'field_value';
   $element_type = ding_base_get_value('ding_type', $element, 'field_element_type');
-  
+
   if (!empty($element->{'field_' . $element_type})) {
     $field_name = 'field_' . $element_type;
   }
   $value = ding_base_get_value('ding_type', $element, $field_name);
-  
+
   return $value;
 }
 

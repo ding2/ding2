@@ -17,6 +17,7 @@
  *   Authentication result.
  */
 function fbs_user_authenticate($name, $pincode) {
+  $res = new stdClass();
   $pass = _fbs_wayf_login($name);
   if ($pass) {
     // Wayf login.
@@ -28,7 +29,12 @@ function fbs_user_authenticate($name, $pincode) {
       );
     }
 
-    $res = fbs_service()->Patron->getPreAuthenticatedPatron(fbs_service()->agencyId, $name);
+    try {
+      $res = fbs_service()->Patron->getPreAuthenticatedPatron(fbs_service()->agencyId, $name);
+    }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
   }
   else {
     // Normal login.
@@ -36,13 +42,20 @@ function fbs_user_authenticate($name, $pincode) {
     $auth->libraryCardNumber = $name;
     $auth->pincode = $pincode;
 
-    $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
+    try {
+      $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
+    }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
   }
 
   $result = array(
-    'success' => $res->authenticated,
+    'success' => FALSE,
   );
-  if ($res->authenticated) {
+  if (!empty($res->authenticated)) {
+    $result['success'] = TRUE;
+
     // Save patron info in creds.
     $result['creds'] = _fbs_patron_info($res->patron);
 
@@ -84,6 +97,21 @@ function fbs_user_authenticate($name, $pincode) {
 }
 
 /**
+ * Get the name of the current user.
+ *
+ * This is actually just an implementation of what ding_user_name() falls back
+ * to in the absence of this function.
+ */
+function fbs_user_get_name($account) {
+  if ($patron_info = fbs_get_patron_info($account)
+      && isset($patron_info['name'])) {
+    return $patron_info['name'];
+  }
+
+  return NULL;
+}
+
+/**
  * Implements provider user, update_pincode.
  *
  * @param string $name
@@ -103,11 +131,26 @@ function fbs_user_update_pincode($account, $new_pincode) {
   $pincode_change->libraryCardNumber = $patron_info['library_card_number'];
   $update->pincodeChange = $pincode_change;
 
-  $res = fbs_service()->Patron->update(fbs_service()->agencyId, fbs_patron_id($account), $update);
+  $res = NULL;
+  try {
+    $res = fbs_service()->Patron->update(fbs_service()->agencyId, fbs_patron_id($account), $update);
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+
+    return array(
+      'creds' => FALSE,
+    );
+  }
+
   // FBS doesn't give any other indication of success than returning rather
   // than throwing an error.
-  $result = array('creds' => _fbs_patron_info($res->patron));
-  $result['creds']['library_card_number'] = $patron_info['library_card_number'];
+  $result = array();
+  if ($res) {
+    $result = array('creds' => _fbs_patron_info($res->patron));
+    $result['creds']['library_card_number'] = $patron_info['library_card_number'];
+  }
+
   return $result;
 }
 
@@ -149,4 +192,16 @@ function fbs_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
     // Re-throw other errors.
     throw $exception;
   }
+}
+
+/** 
+ * Implements clear_cache().
+ *
+ * This hook is only called from ding_dibs after a payment have been accepted.
+ *
+ * @param object $account
+ *   Drupal user account object.
+ */
+function fbs_user_clear_cache($account) {
+  // As the FBS currently only uses a static cache for debt... do nothing.
 }

@@ -7,6 +7,9 @@ defaults[projects][subdir] = "contrib"
 projects[addressfield][subdir] = "contrib"
 projects[addressfield][version] = "1.0-beta5"
 
+projects[admin_menu][subdir] = "contrib"
+projects[admin_menu][version] = "3.0-rc5"
+
 projects[admin_views][subdir] = "contrib"
 projects[admin_views][version] = "1.6"
 
@@ -39,10 +42,13 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-readd_ac
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 
-; Patch to fix empty order_id. See https://drupal.org/node/2107389
 projects[dibs][subdir] = "contrib"
 projects[dibs][version] = "1.0"
+; Patch to fix empty order_id. See https://drupal.org/node/2107389
 projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
+; Patch make dibs_split_payments payment_transaction_id a NOT NULL database field.
+; https://www.drupal.org/node/2812891
+projects[dibs][patch][] = "https://www.drupal.org/files/issues/mysql_5.7_compatibility-2812891-2.patch"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
@@ -61,7 +67,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.5"
+projects[entity][version] = "1.8"
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = "1.2"
@@ -74,11 +80,16 @@ projects[entityreference][version] = "1.1"
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
+projects[environment_indicator][subdir] = "contrib"
+projects[environment_indicator][version] = "2.8"
+
 projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
+; Fix for SA-CONTRIB-2016-020 - https://www.drupal.org/node/2705637
+projects[features][patch][0] = "http://cgit.drupalcode.org/features/patch/?id=c1e04f451816bd004f2096e469ec26ae9c534f3a"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
@@ -95,7 +106,7 @@ projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.1"
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-alpha3"
+projects[file_entity][version] = "2.0-beta3"
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "2.2"
@@ -125,6 +136,9 @@ projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_v
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
+projects[htmlmail][subdir] = "contrib"
+projects[htmlmail][version] = "2.65"
+
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.21"
 
@@ -135,7 +149,7 @@ projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.6"
+projects[jquery_update][version] = "2.7"
 
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
@@ -154,7 +168,11 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.2"
+projects[link][version] = "1.4"
+; Link sanitizes external URLs too much, rendering some external links broken.
+; Patch changes external URL handling to pass it through unmolested.
+; Patch from https://www.drupal.org/files/issues/link-external-1914072-22.patch
+projects[link][patch][] = "https://www.drupal.org/files/issues/link_module_displays-1914072-28.patch"
 
 projects[l10n_update][type] = "module"
 projects[l10n_update][subdir] = "contrib"
@@ -164,32 +182,34 @@ projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.11"
 
 projects[manualcrop][subdir] = "contrib"
-projects[manualcrop][version] = "1.5"
+projects[manualcrop][version] = "1.6"
+; Fix loading of updated JavaScript library.
+; https://www.drupal.org/node/2836970
+projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-imgareaselect_library_version_arguments-2836970-14-d7.patch"
+; Fix crop display when the same file is used in multiple fields
+; https://www.drupal.org/node/2503175
+projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-duplicatepreview-2503175-30.patch"
+; Fix horizontal alignment of preview and buttons.
+; https://www.drupal.org/node/2874825
+projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop_media-widget-alignment-2874825-2.patch"
+
+projects[mailsystem][subdir] = "contrib"
+projects[mailsystem][version] = "2.34"
 
 projects[maintenance_mode_api][subdir] = "contrib"
 projects[maintenance_mode_api][version] = "1.0-beta1"
 
-; This version of media is tested to work with both images and videos.
-projects[media][type] = "module"
 projects[media][subdir] = "contrib"
-projects[media][download][type] = "git"
-projects[media][download][url] = "http://git.drupal.org/project/media.git"
-projects[media][download][revision] = "c3cda2b"
-; Fixed issue where "insert" fails, see https://www.drupal.org/node/2184475.
-projects[media][patch][] = "https://www.drupal.org/files/issues/media_popup_trigger_some_js-2184475-6.patch"
+projects[media][version] = "2.0"
 
 projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.0-rc1"
 
-projects[media_youtube][type] = "module"
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][download][type] = "git"
-projects[media_youtube][download][url] = "http://git.drupal.org/project/media_youtube.git"
-projects[media_youtube][download][revision] = "ca46aba"
-projects[media_youtube][patch][] = "http://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
+projects[media_youtube][version] = "3.0"
 
 projects[memcache][subdir] = "contrib"
-projects[memcache][version] = "1.0"
+projects[memcache][version] = "1.5"
 
 ; Get a this special version that has support for features export.
 projects[menu_block][type] = "module"
@@ -207,12 +227,18 @@ projects[menu_position][version] = "1.1"
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
+; Patch messages to make message id a NOT NULL database field.
+; https://www.drupal.org/node/2051751
+projects[message][patch][0] = "https://www.drupal.org/files/message-primary_nullable-2051751-7.patch"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] "1.10"
+projects[metatag][version] = "1.21"
+
+projects[mmeu][subdir] = "contrib"
+projects[mmeu][version] = "1.0"
 
 projects[module_filter][subdir] = "contrib"
-projects[module_filter][version] = "1.8"
+projects[module_filter][version] = "2.0"
 
 ; NanoSOAP is currently not placed in contrib at this was not the case
 ; when using recursive make files.
@@ -237,16 +263,10 @@ projects[oembed][version] = "1.0-rc2"
 projects[oembed][patch][] = "http://www.drupal.org/files/issues/oembed-remove_hook_sytem_info_alter-2502817-1.patch"
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.7"
-projects[og][patch][] = "https://www.drupal.org/files/issues/entityreference_fields_do_not_validate-2249261-10.patch"
-; Fix using organic groups for relationships in views
-; https://www.drupal.org/node/1890370
-projects[og][patch][] = "https://www.drupal.org/files/issues/add-gid-to-relationship-field-1890370-34.patch"
+projects[og][version] = "2.9"
 
 projects[og_menu][subdir] = "contrib"
-projects[og_menu][version] = "3.0-rc5"
-; Fixes JavaScript menu selection in edit node forms.
-projects[og_menu][patch][0] = "http://drupal.org/files/issues/selector_not_found-2276951-2.patch"
+projects[og_menu][version] = "3.0"
 
 projects[opening_hours][subdir] = "contrib"
 projects[opening_hours][version] = "1.6"
@@ -256,6 +276,9 @@ projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-
 ; Support series longer than a year.
 ; https://www.drupal.org/node/2194867
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_hours-2194867-D7.patch"
+; Add "hide if empty" option to field settings.
+; https://www.drupal.org/node/2820005
+projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-hours-2820005-hide-field-if-empty.patch"
 
 projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
@@ -301,9 +324,7 @@ projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.7"
 
 projects[scheduler][subdir] = "contrib"
-projects[scheduler][version] = "1.2"
-; Suppress validation when deleting node.
-projects[scheduler][patch][] = "https://www.drupal.org/files/issues/validation_interferes-1.2-2627370-4.patch"
+projects[scheduler][version] = "1.5"
 
 ; Patched with "Secure Permissions fails with features and multilingual"
 projects[secure_permissions][type] = "module"
@@ -317,11 +338,17 @@ projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_p
 projects[services][subdir] = "contrib"
 projects[services][version] = "3.14"
 
+projects[services_views][subdir] = "contrib"
+projects[services_views][version] = "1.1"
+
 projects[search_api][subdir] = "contrib"
-projects[search_api][version] = "1.16"
+projects[search_api][version] = "1.18"
 
 projects[search_api_multi][subdir] = "contrib"
 projects[search_api_multi][version] = "1.3"
+; Fix incompatibility with Multiple types indexes
+; https://www.drupal.org/node/2580975
+projects[search_api_multi][patch][] = "https://www.drupal.org/files/issues/2580975-2--fix_multi_type_index_incompatibilities.patch"
 
 projects[search_api_db][subdir] = "contrib"
 projects[search_api_db][version] = "1.5"
@@ -365,10 +392,10 @@ projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.8"
+projects[views][version] = "3.16"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.2"
+projects[views_bulk_operations][version] = "3.3"
 
 projects[views_responsive_grid][subdir] = "contrib"
 projects[views_responsive_grid][version] = "1.3"
@@ -386,7 +413,10 @@ projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 
 projects[workflow][subdir] = "contrib"
-projects[workflow][version] = "2.7"
+projects[workflow][version] = "2.5"
+projects[workflow][patch][] = "http://www.drupal.org/files/issues/features_import-2484297-10.patch"
+; Prevent fatal errors on cron when using Scheduler, https://www.drupal.org/node/2499193.
+projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-php_fatal_error_call-2499193-7-2.5.patch"
 
 ; This revision support the CKEditor 4.x, and can be used until a new version is tagged.
 projects[wysiwyg][type] = "module"
@@ -399,7 +429,7 @@ projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
 projects[ask_vopros][download][type] = "git"
 projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
-projects[ask_vopros][download][tag] = "1.4"
+projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
@@ -420,17 +450,29 @@ libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases
 libraries[chosen][destination] = "libraries"
 
 libraries[guzzle][download][type] = "git"
-libraries[guzzle][download][url] = "git@github.com:guzzle/guzzle.git"
+libraries[guzzle][download][url] = "https://github.com/guzzle/guzzle.git"
+libraries[guzzle][download][tag] = "6.2.2"
 libraries[guzzle][destination] = "libraries"
 
 libraries[http-message][download][type] = "git"
-libraries[http-message][download][url] = "git@github.com:php-fig/http-message.git"
+libraries[http-message][download][url] = "https://github.com/php-fig/http-message.git"
+libraries[http-message][download][tag] = "1.0.1"
 libraries[http-message][destination] = "libraries"
+
+libraries[jsonmapper][download][type] = "git"
+libraries[jsonmapper][download][url] = "https://github.com/cweiske/jsonmapper"
+libraries[jsonmapper][download][tag] = "v0.4.4"
+libraries[jsonmapper][destination] = "libraries"
 
 libraries[leaflet][download][type] = "get"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][destination] = "libraries"
+
+libraries[phly-http][download][type] = "git"
+libraries[phly-http][download][url] = "https://github.com/phly/http"
+libraries[phly-http][download][tag] = "0.14.1"
+libraries[phly-http][destination] = "libraries"
 
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
@@ -439,11 +481,13 @@ libraries[profiler][download][branch] = "7.x-2.0-beta1"
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
 libraries[promises][download][type] = "git"
-libraries[promises][download][url] = "git@github.com:guzzle/promises.git"
+libraries[promises][download][url] = "https://github.com/guzzle/promises.git"
+libraries[promises][download][tag] = "1.2.0"
 libraries[promises][destination] = "libraries"
 
 libraries[psr7][download][type] = "git"
-libraries[psr7][download][url] = "git@github.com:guzzle/psr7.git"
+libraries[psr7][download][url] = "https://github.com/guzzle/psr7.git"
+libraries[psr7][download][tag] = "1.3.1"
 libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
@@ -457,7 +501,7 @@ libraries[zen-grids][download][tag] = "1.4"
 libraries[zen-grids][destination] = "libraries"
 
 libraries[jquery.imgareaselect][download][type] = "get"
-libraries[jquery.imgareaselect][download][url] =  http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
+libraries[jquery.imgareaselect][download][url] =  https://github.com/odyniec/imgareaselect/archive/v0.9.11-rc.1.tar.gz
 libraries[jquery.imgareaselect][directory_name] = "jquery.imgareaselect"
 libraries[jquery.imgareaselect][destination] = "libraries"
 
@@ -465,3 +509,18 @@ libraries[jquery.imagesloaded][download][type] = "get"
 libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
+
+libraries[slick][download][type] = "get"
+libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.6.0.zip
+libraries[slick][directory_name] = "slick"
+libraries[slick][destination] = "libraries"
+
+libraries[html5shiv][download][type] = "get"
+libraries[html5shiv][download][url] = https://github.com/aFarkas/html5shiv/archive/3.7.3.zip
+libraries[html5shiv][directory_name] = "html5shiv"
+libraries[html5shiv][destination] = "libraries"
+
+libraries[masonry][download][type] = "get"
+libraries[masonry][download][url] = https://github.com/desandro/masonry/archive/v4.1.1.zip
+libraries[masonry][directory_name] = "masonry"
+libraries[masonry][destination] = "libraries"

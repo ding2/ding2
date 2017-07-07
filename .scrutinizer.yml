@@ -33,10 +33,6 @@ filter:
         # Third party dependencies for FBS
         - modules/fbs/vendor/*
         # Third party JavaScript libraries
-        - themes/ddbasic/scripts/equalize.min.js
-        - themes/ddbasic/scripts/html5shiv.js
-        - themes/ddbasic/scripts/jquery.*
-        - themes/ddbasic/scripts/respond.*
-        - themes/ddbasic/scripts/scalefix.js
+        - themes/ddbasic/scripts/contrib/*
         # Minified JavaScript files
         - themes/ddbasic/scripts/*.min.js

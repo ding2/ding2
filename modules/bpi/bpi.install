@@ -15,6 +15,7 @@ function bpi_schema() {
     'fields' => array(
       'id' => array(
         'type' => 'serial',
+        'not null' => TRUE
       ),
       'nid' => array(
         'type' => 'int',
@@ -51,6 +52,14 @@ function bpi_schema() {
   );
 
   return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function bpi_install() {
+  // Disable view 'admin_views_node' (cf. bpi_update_7003).
+  bpi_update_7003();
 }
 
 /**

@@ -115,7 +115,7 @@ function ding2_install_tasks(&$install_state) {
       'type' => 'batch',
     ),
 
-    // Configure and revert features.
+    // Set up menu.
     'ding2_render_og_menus' => array(
       'display_name' => st('OG Menus'),
       'display' => module_exists('ding_example_content'),
@@ -136,7 +136,6 @@ function ding2_install_tasks(&$install_state) {
 
   return $ret;
 }
-
 
 /**
  * Translation callback.
@@ -212,7 +211,6 @@ function ding2_add_settings(&$install_state) {
     'ting_material_details',
     'ding_base',
     'ding_user_frontend',
-    'ding_path_alias',
     'ding_content',
     'ding_page',
     'ding_frontend',
@@ -252,7 +250,7 @@ function ding2_render_og_menus(&$install_state) {
   }
 
   $batch = array(
-    'title' => t('Updating Default link'),
+    'title' => st('Updating Default link'),
     'operations' => array(
       array('og_menu_default_links_batch_default_links_process', array($menus)),
     ),
@@ -309,8 +307,8 @@ function _ding2_remove_form_requirements(&$value, $key) {
 function ding2_module_selection_form($form, &$form_state) {
   // Available providers.
   $providers = array(
-    'alma' => 'Alma',
-    'openruth' => 'Openruth',
+    'fbs' => 'FBS',
+    'connie' => 'Connie (for testing without a library system)',
   );
 
   $form['providers'] = array(
@@ -324,7 +322,7 @@ function ding2_module_selection_form($form, &$form_state) {
     '#title' => '',
     '#type' => 'radios',
     '#options' => $providers,
-    '#default_value' => 'alma',
+    '#default_value' => 'fbs',
   );
 
   //
@@ -339,21 +337,21 @@ function ding2_module_selection_form($form, &$form_state) {
   $form['proxy']['sslproxy_enable'] = array(
     '#type' => 'checkbox',
     '#title' => 'Enable SSL proxy',
-    '#description' => 'Enable the SSL proxy module.',
+    '#description' => st('Enable the SSL proxy module.'),
     '#default_value' => TRUE,
   );
 
   $form['proxy']['sslproxy_var'] = array(
     '#type' => 'textfield',
-    '#title' => t('SSL Proxy Variable'),
-    '#description' => t('The variable being set by the SSL proxy server.'),
+    '#title' => st('SSL Proxy Variable'),
+    '#description' => st('The variable being set by the SSL proxy server.'),
     '#default_value' => 'X-FORWARDED-PROTO',
   );
 
   $form['proxy']['sslproxy_var_value'] = array(
     '#type' => 'textfield',
-    '#title' => t('SSL Proxy Variable Value'),
-    '#description' => t('The value of the variable being set by the SSL proxy server.'),
+    '#title' => st('SSL Proxy Variable Value'),
+    '#description' => st('The value of the variable being set by the SSL proxy server.'),
     '#default_value' => 'https',
   );
 
@@ -537,7 +535,7 @@ function ding2_module_selection_form_validate($form, &$form_state) {
     }
     else {
       // File upload failed.
-      form_set_error('iosicon_upload', t('The iOS icon could not be uploaded.'));
+      form_set_error('iosicon_upload', st('The iOS icon could not be uploaded.'));
     }
   }
 
@@ -546,7 +544,7 @@ function ding2_module_selection_form_validate($form, &$form_state) {
   if ($form_state['values']['iosicon_path']) {
     $path = _system_theme_settings_validate_path($form_state['values']['iosicon_path']);
     if (!$path) {
-      form_set_error('iosicon_path', t('The custom iOS icon path is invalid.'));
+      form_set_error('iosicon_path', st('The custom iOS icon path is invalid.'));
     }
   }
 }
@@ -819,4 +817,24 @@ function ding2_set_cookie_page() {
   // Permissions, see: ding_permissions module
   // display EU Cookie Compliance popup: anonymous user, authenticated user
   // administer EU Cookie Compliance popup: administrators, local administrator
+}
+
+/**
+ * Enabling Shortcuts plugin for Administration Menu module.
+ */
+function ding2_admin_menu_shortcuts() {
+  if (module_exists('admin_menu')) {
+    $content = variable_get('admin_menu_components', array());
+
+    if (empty($content)) {
+      module_load_include('inc', 'admin_menu', 'admin_menu');
+    }
+
+    $content['icon'] = '1';
+    $content['menu'] = '1';
+    $content['account'] = '1';
+    $content['shortcut.links'] = '1';
+
+    variable_set('admin_menu_components', $content);
+  }
 }

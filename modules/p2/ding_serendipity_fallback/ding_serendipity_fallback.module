@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Ding serendipity content
+ * Ding serendipity content.
  *
  * This module collects serendipity based on very general criteria
  * Set this module to lowest weight in order to work as a fallback plugin.
@@ -14,9 +14,10 @@
 function ding_serendipity_fallback_serendipity_info() {
   return array(
     'ting_object' => array(
-      'title' => 'Fallback materials',
-      'description' => 'Returns fallback content.',
+      'title' => t('Fallback materials'),
+      'description' => t('If other plugins fails to find serendipity, this plugin will return a simple CQL. Keep the weight of this plugin higher than all other plugins.'),
       'keys' => array('ting_object'),
+      'settings' => l(t("Set fallback CQL"),"admin/config/ding/serendipity"),
     ),
   );
 }
@@ -34,15 +35,16 @@ function ding_serendipity_fallback_ting_object_serendipity_add($context) {
     return array();
   }
 
-  // TODO: This seems to be the only module where ding_serendipity_search_string_final'
-  // and ding_serendipity_search_string_final_description is used. Configuration
+  // TODO: This seems to be the only module where
+  // ding_serendipity_search_string_final and
+  // ding_serendipity_search_string_final_description is used. Configuration
   // of such values such be set (and prefixed) with this module and not
   // ding_serendipity.
-  $query = variable_get('ding_serendipity_search_string_final');
+  $query = variable_get('ding_serendipity_search_string_final', DING_SERENDIPITY_DEFAULT_FALLBACK_STRING);
 
   if (!empty($query)) {
     try {
-      $results = ding_serendipity_do_search($query);
+      $results = ding_serendipity_do_search($query, array('limit' => 8));
     }
     catch (Exception $e) {
       watchdog_exception('ding_serendipity_fallback', $e);

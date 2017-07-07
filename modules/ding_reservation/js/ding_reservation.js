@@ -26,6 +26,18 @@
       checkboxes.change();
     });
 
+    // Handle delete all button.
+    $('.js-delete-all').click(function(evt) {
+      var form = $(this).closest('form');
+      evt.preventDefault();
+
+      $('input[type=checkbox]', form)
+        .prop('checked', true)
+        .change();
+
+      $('.action-buttons .delete-reservations input', form).trigger('mousedown');
+    });
+
     // Handle checkbox button count.
     $('.material-item input[type=checkbox]').change(function() {
       var form = $(this).closest('form');

@@ -127,7 +127,7 @@ function alma_settings_form() {
       'tls'  => 'Transport Layer Security (TLS)',
     ),
     '#required' => TRUE,
-    '#default_value' => variable_get('alma_ssl_version', 'sslv3'),
+    '#default_value' => variable_get('alma_ssl_version', 'tls'),
   );
 
   // Add the option to select a default interest period for reservations, if not
@@ -165,7 +165,7 @@ function alma_client() {
   static $client;
   if (!isset($client)) {
     try {
-      $client = new AlmaClient(variable_get('alma_base_url', ''), variable_get('alma_ssl_version', 'sslv3'));
+      $client = new AlmaClient(variable_get('alma_base_url', ''), variable_get('alma_ssl_version', 'tls'));
     }
     catch (Exception $e) {
       watchdog('alma', 'Constructor error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
@@ -596,7 +596,8 @@ function alma_update_provider($changes, $entity) {
     // Delete the email from ALMA and database.
     global $user;
 
-    if (isset($user->mail) && empty($changes['mail'])) {
+    $res = TRUE;
+    if (!empty($user->mail) && empty($changes['mail'])) {
       $res = alma_client_invoke('remove_email_address', $creds['name'], $creds['pass'], $user->mail);
     }
 

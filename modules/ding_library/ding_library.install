@@ -329,3 +329,11 @@ function ding_library_update_7012() {
   variable_del('pathauto_node_ding_library_en_pattern');
   variable_del('pathauto_node_ding_library_und_pattern');
 }
+
+/**
+ * Remove old library list image.
+ */
+function ding_library_update_7013() {
+  field_delete_field('field_ding_library_list_image');
+  field_purge_batch(1000);
+}

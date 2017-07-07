@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_list_installer.features.field_instance.inc
@@ -478,8 +479,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'ding_type-ding_list_element-field_ding_list_user'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_ding_list_user'.
   $field_instances['ding_type-ding_list_element-field_ding_list_user'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
