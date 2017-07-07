@@ -970,9 +970,167 @@ function ding_staff_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'ding_staff_people_list');
   $handler->display->display_options['defaults']['access'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'role';
-  $handler->display->display_options['access']['role'] = array(
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'administer users';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: User: Name */
+  $handler->display->display_options['filters']['uid']['id'] = 'uid';
+  $handler->display->display_options['filters']['uid']['table'] = 'users';
+  $handler->display->display_options['filters']['uid']['field'] = 'uid';
+  $handler->display->display_options['filters']['uid']['operator'] = 'not in';
+  $handler->display->display_options['filters']['uid']['value'] = array(
+    0 => 0,
+  );
+  $handler->display->display_options['filters']['uid']['group'] = 1;
+  /* Filter criterion: User: Name (raw) */
+  $handler->display->display_options['filters']['name']['id'] = 'name';
+  $handler->display->display_options['filters']['name']['table'] = 'users';
+  $handler->display->display_options['filters']['name']['field'] = 'name';
+  $handler->display->display_options['filters']['name']['operator'] = 'contains';
+  $handler->display->display_options['filters']['name']['group'] = 1;
+  $handler->display->display_options['filters']['name']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['name']['expose']['operator_id'] = 'name_op';
+  $handler->display->display_options['filters']['name']['expose']['label'] = 'Brugernavn';
+  $handler->display->display_options['filters']['name']['expose']['operator'] = 'name_op';
+  $handler->display->display_options['filters']['name']['expose']['identifier'] = 'name';
+  $handler->display->display_options['filters']['name']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    3 => 0,
+    8 => 0,
+  );
+  /* Filter criterion: User: E-mail */
+  $handler->display->display_options['filters']['mail']['id'] = 'mail';
+  $handler->display->display_options['filters']['mail']['table'] = 'users';
+  $handler->display->display_options['filters']['mail']['field'] = 'mail';
+  $handler->display->display_options['filters']['mail']['operator'] = 'contains';
+  $handler->display->display_options['filters']['mail']['group'] = 1;
+  $handler->display->display_options['filters']['mail']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['mail']['expose']['operator_id'] = 'mail_op';
+  $handler->display->display_options['filters']['mail']['expose']['label'] = 'E-mail';
+  $handler->display->display_options['filters']['mail']['expose']['operator'] = 'mail_op';
+  $handler->display->display_options['filters']['mail']['expose']['identifier'] = 'mail';
+  $handler->display->display_options['filters']['mail']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    3 => 0,
+    8 => 0,
+  );
+  /* Filter criterion: User: Active */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'users';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 'All';
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['status']['expose']['operator_id'] = '';
+  $handler->display->display_options['filters']['status']['expose']['label'] = 'Aktiv';
+  $handler->display->display_options['filters']['status']['expose']['operator'] = 'status_op';
+  $handler->display->display_options['filters']['status']['expose']['identifier'] = 'status';
+  $handler->display->display_options['filters']['status']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['status']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    3 => 0,
+    8 => 0,
+  );
+  /* Filter criterion: User: Roles */
+  $handler->display->display_options['filters']['rid']['id'] = 'rid';
+  $handler->display->display_options['filters']['rid']['table'] = 'users_roles';
+  $handler->display->display_options['filters']['rid']['field'] = 'rid';
+  $handler->display->display_options['filters']['rid']['value'] = array(
+    'all' => 'all',
+    3 => '3',
+    4 => '4',
+    5 => '5',
+    6 => '6',
     7 => '7',
+    9 => '9',
+    10 => '10',
+  );
+  $handler->display->display_options['filters']['rid']['group'] = 1;
+  $handler->display->display_options['filters']['rid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['rid']['expose']['operator_id'] = 'rid_op';
+  $handler->display->display_options['filters']['rid']['expose']['label'] = 'Rolle';
+  $handler->display->display_options['filters']['rid']['expose']['operator'] = 'rid_op';
+  $handler->display->display_options['filters']['rid']['expose']['identifier'] = 'rid';
+  $handler->display->display_options['filters']['rid']['expose']['remember'] = TRUE;
+  $handler->display->display_options['filters']['rid']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+    10 => 0,
+  );
+  $handler->display->display_options['filters']['rid']['expose']['reduce'] = TRUE;
+  /* Filter criterion: Profile: Forename (field_ding_staff_forename) */
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['id'] = 'field_ding_staff_forename_value';
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['table'] = 'field_data_field_ding_staff_forename';
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['field'] = 'field_ding_staff_forename_value';
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['relationship'] = 'profile';
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['operator'] = 'contains';
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['group'] = 1;
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['expose']['operator_id'] = 'field_ding_staff_forename_value_op';
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['expose']['label'] = 'Forename (Staff)';
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['expose']['operator'] = 'field_ding_staff_forename_value_op';
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['expose']['identifier'] = 'field_ding_staff_forename_value';
+  $handler->display->display_options['filters']['field_ding_staff_forename_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    3 => 0,
+    8 => 0,
+  );
+  /* Filter criterion: Profile: Surname (field_ding_staff_surname) */
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['id'] = 'field_ding_staff_surname_value';
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['table'] = 'field_data_field_ding_staff_surname';
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['field'] = 'field_ding_staff_surname_value';
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['relationship'] = 'profile';
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['operator'] = 'contains';
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['group'] = 1;
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['expose']['operator_id'] = 'field_ding_staff_surname_value_op';
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['expose']['label'] = 'Surname (Staff)';
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['expose']['operator'] = 'field_ding_staff_surname_value_op';
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['expose']['identifier'] = 'field_ding_staff_surname_value';
+  $handler->display->display_options['filters']['field_ding_staff_surname_value']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    3 => 0,
+    8 => 0,
+  );
+  /* Filter criterion: User: Roles */
+  $handler->display->display_options['filters']['rid_1']['id'] = 'rid_1';
+  $handler->display->display_options['filters']['rid_1']['table'] = 'users_roles';
+  $handler->display->display_options['filters']['rid_1']['field'] = 'rid';
+  $handler->display->display_options['filters']['rid_1']['operator'] = 'not';
+  $handler->display->display_options['filters']['rid_1']['value'] = array(
     8 => '8',
   );
   $handler->display->display_options['path'] = 'admin/ding_users';
