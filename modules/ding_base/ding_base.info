@@ -56,7 +56,6 @@ features[variable][] = bpi_field_title
 features[variable][] = date_api_use_iso8601
 features[variable][] = date_api_version
 features[variable][] = date_db_tz_support
-features[variable][] = date_default_timezone
 features[variable][] = ding_varnish_content_types
 features[variable][] = ding_varnish_paths
 features[variable][] = ding_varnish_role
