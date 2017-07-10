@@ -350,7 +350,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'label' => 'hidden',
         'module' => 'link',
         'settings' => array(),
-        'type' => 'link_label',
+        'type' => 'link_default',
         'weight' => 12,
       ),
       'search_result' => array(
@@ -378,8 +378,10 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     'label' => 'Link',
     'required' => 0,
     'settings' => array(
+      'absolute_url' => 1,
       'attributes' => array(
         'class' => 'button-see-online',
+        'configurable_class' => 0,
         'configurable_title' => 0,
         'rel' => 'nofollow',
         'target' => '_blank',
@@ -391,6 +393,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
       'enable_tokens' => 1,
       'rel_remove' => 'rel_remove_internal',
       'title' => 'optional',
+      'title_label_use_field_label' => 0,
       'title_maxlength' => 128,
       'title_value' => '',
       'url' => 0,
@@ -420,13 +423,9 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
       ),
       'default' => array(
         'label' => 'hidden',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => 'ding_secondary_large',
-        ),
-        'type' => 'image',
-        'weight' => 2,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -464,7 +463,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_eresource_list_image',
-    'label' => 'Logo',
+    'label' => 'List image',
     'required' => 1,
     'settings' => array(
       'alt_field' => 0,
@@ -482,8 +481,6 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
       'module' => 'media',
       'settings' => array(
         'allowed_schemes' => array(
-          'oembed' => 0,
-          'private' => 0,
           'public' => 'public',
           'vimeo' => 0,
           'youtube' => 0,
@@ -500,26 +497,22 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
           'media_default--media_browser_my_files' => 0,
           'media_internet' => 0,
           'upload' => 0,
-          'youtube' => 0,
         ),
         'manualcrop_crop_info' => 1,
         'manualcrop_default_crop_area' => 1,
-        'manualcrop_enable' => 1,
+        'manualcrop_enable' => 0,
         'manualcrop_inline_crop' => 0,
         'manualcrop_instant_crop' => FALSE,
         'manualcrop_instant_preview' => 1,
         'manualcrop_keyboard' => 1,
         'manualcrop_maximize_default_crop_area' => 0,
         'manualcrop_require_cropping' => array(),
-        'manualcrop_styles_list' => array(
-          'crop_13_10' => 'crop_13_10',
-        ),
+        'manualcrop_styles_list' => array(),
         'manualcrop_styles_mode' => 'include',
         'manualcrop_thumblist' => 0,
-        'progress_indicator' => 'throbber',
       ),
       'type' => 'media_generic',
-      'weight' => 4,
+      'weight' => 42,
     ),
   );
 
@@ -538,9 +531,12 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
       ),
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 9,
+        'module' => 'ting_reference',
+        'settings' => array(
+          'view_mode' => 'teaser',
+        ),
+        'type' => 'ting_reference_default',
+        'weight' => 3,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -635,6 +631,102 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     ),
   );
 
+  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_title_image'
+  $field_instances['node-ding_eresource-field_ding_eresource_title_image'] = array(
+    'bundle' => 'ding_eresource',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'ding_secondary_large',
+        ),
+        'type' => 'image',
+        'weight' => 3,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ding_eresource_title_image',
+    'label' => 'Title image',
+    'required' => 0,
+    'settings' => array(
+      'alt_field' => 0,
+      'default_image' => 0,
+      'file_directory' => 'title_image/eresource',
+      'file_extensions' => 'png gif jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'media',
+      'settings' => array(
+        'allowed_schemes' => array(
+          'public' => 'public',
+          'vimeo' => 0,
+          'youtube' => 0,
+        ),
+        'allowed_types' => array(
+          'audio' => 0,
+          'document' => 0,
+          'image' => 'image',
+          'video' => 0,
+        ),
+        'browser_plugins' => array(
+          'ding_content' => 0,
+          'media_default--media_browser_1' => 0,
+          'media_default--media_browser_my_files' => 0,
+          'media_internet' => 0,
+          'upload' => 0,
+        ),
+        'manualcrop_crop_info' => 1,
+        'manualcrop_default_crop_area' => 1,
+        'manualcrop_enable' => 0,
+        'manualcrop_inline_crop' => 0,
+        'manualcrop_instant_crop' => FALSE,
+        'manualcrop_instant_preview' => 1,
+        'manualcrop_keyboard' => 1,
+        'manualcrop_maximize_default_crop_area' => 0,
+        'manualcrop_require_cropping' => array(),
+        'manualcrop_styles_list' => array(),
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_thumblist' => 0,
+      ),
+      'type' => 'media_generic',
+      'weight' => 41,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Access');
@@ -646,9 +738,10 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
 If proxy is enabled, this category also controls whether or not prefix the e-resource link with the proxy. ');
   t('Lead');
   t('Link');
-  t('Logo');
+  t('List image');
   t('Materials');
   t('Tags');
+  t('Title image');
 
   return $field_instances;
 }
