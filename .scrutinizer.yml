@@ -39,4 +39,11 @@ filter:
         - themes/ddbasic/scripts/respond.*
         - themes/ddbasic/scripts/scalefix.js
         # Minified JavaScript files
-        - themes/ddbasic/scripts/*.min.js
+        - themes/ddbasic/scripts/*min.js
+        # Third party JavaScript libraries used in modules
+        - modules/ding_webtrends/js/webtrends*.js
+        - modules/ting_search_carousel/js/jquery.*
+        - modules/contrib/jquery_update/replace/ui/external/jquery.cookie*.js
+        - modules/ding_facetbrowser/js/jquery.cookie*.js
+        - modules/ding_toggle_format/js/jquery.cookie*.js
+        - modules/ding_tabroll/js/jquery-ui-tabs-rotate*.js
