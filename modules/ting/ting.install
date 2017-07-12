@@ -262,3 +262,10 @@ function ting_update_7010() {
     'ting_collection_types',
   ));
 }
+
+/**
+ * Remove ting_filter_by_local_holdings variable.
+ */
+function ting_update_7011() {
+  variable_del('ting_filter_by_local_holdings');
+}

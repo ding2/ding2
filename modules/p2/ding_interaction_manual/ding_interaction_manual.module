@@ -27,31 +27,58 @@ function ding_interaction_manual_preprocess_entity(&$variables) {
 /**
  * Implements hook_ding_interaction_view().
  */
-function ding_interaction_manual_ding_interaction_view() {
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'ding_type')
-    ->entityCondition('bundle', 'ding_interaction')
-    ->fieldCondition('field_ding_interaction_status', 'value', '1', '=')
-    ->addTag('random')
-    ->range(0, 1);
+function ding_interaction_manual_ding_interaction_view($count, $extra) {
+  global $user;
 
-  $result = $query->execute();
-  if (isset($result['ding_type'])) {
-    $id = array_keys($result['ding_type']);
-    $entity = entity_load_single('ding_type', $id[0]);
-
+  if (!empty($extra) && user_access('administer personalisation')) {
+    $entity = entity_load_single('ding_type', $extra);
     $render = current(current(entity_view('ding_type', array($entity), 'teaser')));
     return array('data' => render($render));
   }
 
-  return '';
-}
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'ding_type')
+    ->entityCondition('bundle', 'ding_interaction')
+    ->fieldCondition('field_ding_interaction_status', 'value', '1', '=');
 
-/**
- * Implements hook_query_TAG_alter().
- */
-function ding_interaction_manual_query_random_alter($query) {
-  $query->orderRandom();
+  $result = $query->execute();
+  if (!empty($result['ding_type'])) {
+    $valid = array();
+
+    // Populate the $valid array, with all the interactions the user has access
+    // to.
+    foreach (entity_load('ding_type', array_keys($result['ding_type'])) as $entity) {
+      $is_valid = TRUE;
+
+      foreach (ding_base_get_items('ding_type', $entity, 'field_ding_interaction_access') as $access) {
+        switch ($access['value']) {
+          case 'provider':
+            if (!ding_user_is_provider_user($user)) {
+              $is_valid = FALSE;
+            }
+            break;
+
+          case 'anonymous':
+            if (user_is_logged_in()) {
+              $is_valid = FALSE;
+            }
+            break;
+        }
+      }
+
+      if ($is_valid) {
+        $valid[] = $entity;
+      }
+    }
+
+    if (!empty($valid)) {
+      $entity = $valid[array_rand($valid)];
+      $render = current(current(entity_view('ding_type', array($entity), 'teaser')));
+      return array('data' => render($render));
+    }
+  }
+
+  return '';
 }
 
 /**
@@ -95,6 +122,31 @@ function ding_interaction_manual_form_alter(&$form, &$form_state, $form_id) {
         array('query' => array('destination' => 'admin/structure/entity-type/ding_type/ding_interaction'))
       ) .
       '<br /><br />' . 'Developers can use the API hooks to create new Ding Interactions.',
+    );
+  }
+
+  if ($form_id === 'eck__entity__form_edit_ding_type_ding_interaction') {
+    $form['actions']['preview'] = array(
+      '#type' => 'link',
+      '#weight' => 99999,
+      '#title' => t('Preview'),
+      '#description' => 'test',
+      '#href' => '',
+      '#attributes' => array(
+        'target' => '_blank',
+      ),
+      '#options' => array(
+        'query' => array(
+          'interaction' => 'ding_interaction_manual',
+          'interaction_extra' => $form['#entity']->id,
+        ),
+      ),
+    );
+  }
+  elseif ($form_id === 'eck__entity__form_add_ding_type_ding_interaction') {
+    $form['actions']['preview'] = array(
+      '#markup' => t('Save the interaction to preview it.'),
+      '#weight' => 99999,
     );
   }
 }

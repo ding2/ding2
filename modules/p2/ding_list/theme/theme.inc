@@ -12,6 +12,35 @@ function theme_ding_list_message($variables) {
 }
 
 /**
+ * Info displayed, when a list is created.
+ */
+function theme_ding_list_create_info($variables) {
+  $list = $variables['list'];
+
+  $out = '<div class="ding-list-test-button"></div>';
+
+  $items = array();
+  $items[] = t("You've create the list !list.", array(
+    '!list' => l($list->title, 'list/' . $list->id),
+  ));
+  $items[] = t('Use the "More" button on materials, to add them to the list.');
+  $items[] = t('You can search after materials !search, that you can add to the list.', array(
+    '!search' => l(t('Here'), 'search'),
+  ));
+  $items[] = t('Read more about how you use the lists !help', array(
+    '!help' => l(t('Here'), 'help/lists'),
+  ));
+
+  $list = array(
+    '#theme' => 'item_list',
+    '#items' => $items,
+  );
+  $out .= drupal_render($list);;
+
+  return '<div class="ding-list-create-info">' . $out . '</div>';
+}
+
+/**
  * Ding list permission description theme.
  */
 function theme_ding_list_permission_description($variables) {
@@ -59,7 +88,7 @@ function template_preprocess_ding_list_add_button(&$variables) {
   }
 
   if ($variables['type'] == 'ting_object') {
-    $options[] = array(
+    $new_list = array(
       'custom' => array(
         'title' => t('Add to new list'),
         'href' => 'list/create',
@@ -70,6 +99,13 @@ function template_preprocess_ding_list_add_button(&$variables) {
         'html' => TRUE,
       ),
     );
+
+    if (!user_is_logged_in()) {
+      $new_list['custom']['attributes']['class'][] = 'use-ajax';
+      $new_list['custom']['href'] = 'ding-list/login-create';
+    }
+
+    $options[] = $new_list;
   }
   foreach ($options as $option) {
     if (!isset($option['custom'])) {

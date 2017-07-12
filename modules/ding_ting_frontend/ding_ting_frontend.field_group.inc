@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function ding_ting_frontend_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -29,17 +29,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Holdings available on the shelf',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-holdings-available field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h2',
         'effect' => 'none',
         'speed' => 'fast',
+        'id' => 'ting_object_ting_object_full_group_holdings_available',
       ),
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_holdings_available|ting_object|ting_object|default'] = $field_group;
+  $field_groups['group_holdings_available|ting_object|ting_object|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -60,17 +61,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'On this site',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-on-this-site field-group-div',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
         'effect' => 'none',
         'speed' => 'fast',
+        'id' => 'ting_object_ting_object_full_group_on_this_site',
       ),
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_on_this_site|ting_object|ting_object|default'] = $field_group;
+  $field_groups['group_on_this_site|ting_object|ting_object|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -92,17 +94,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Group overlay',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-overlay field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',
+        'id' => 'ting_object_ting_object_compact_group_overlay',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_overlay|ting_object|ting_object|compact'] = $field_group;
+  $field_groups['group_overlay|ting_object|ting_object|compact'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -123,17 +126,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Issues',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-periodical-issues field-group-div',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
         'effect' => 'none',
         'speed' => 'fast',
+        'id' => 'ting_object_ting_object_full_group_periodical_issues',
       ),
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_periodical_issues|ting_object|ting_object|default'] = $field_group;
+  $field_groups['group_periodical_issues|ting_object|ting_object|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -154,17 +158,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Left column',
       'instance_settings' => array(
-        'classes' => 'ting-object-left',
+        'classes' => 'ting-object-left group-ting-left-col-collection field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
+        'id' => 'ting_object_ting_object_collection_list_group_ting_left_col_collection',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_ting_left_col_collection|ting_object|ting_object|collection_list'] = $field_group;
+  $field_groups['group_ting_left_col_collection|ting_object|ting_object|collection_list'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -185,17 +190,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Left column',
       'instance_settings' => array(
-        'classes' => 'ting-object-left',
+        'classes' => 'ting-object-left group-ting-left-col-primary field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
+        'id' => 'ting_object_ting_object_collection_primary_group_ting_left_col_primary',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_ting_left_col_primary|ting_object|ting_object|collection_primary'] = $field_group;
+  $field_groups['group_ting_left_col_primary|ting_object|ting_object|collection_primary'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -216,17 +222,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Left column',
       'instance_settings' => array(
-        'classes' => 'ting-object-left',
+        'classes' => 'ting-object-left group-ting-left-col-search field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
+        'id' => 'ting_object_ting_object_search_result_group_ting_left_col_search',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_ting_left_col_search|ting_object|ting_object|search_result'] = $field_group;
+  $field_groups['group_ting_left_col_search|ting_object|ting_object|search_result'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -247,17 +254,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Left column',
       'instance_settings' => array(
-        'classes' => 'ting-object-left',
+        'classes' => 'ting-object-left group-ting-object-left-column field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
+        'id' => 'ting_object_ting_object_full_group_ting_object_left_column',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_ting_object_left_column|ting_object|ting_object|default'] = $field_group;
+  $field_groups['group_ting_object_left_column|ting_object|ting_object|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -287,17 +295,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Right column',
       'instance_settings' => array(
-        'classes' => 'ting-object-right',
+        'classes' => 'ting-object-right group-ting-object-right-column field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
+        'id' => 'ting_object_ting_object_full_group_ting_object_right_column',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_ting_object_right_column|ting_object|ting_object|default'] = $field_group;
+  $field_groups['group_ting_object_right_column|ting_object|ting_object|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -318,17 +327,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Left column',
       'instance_settings' => array(
-        'classes' => 'ting-object-left',
+        'classes' => 'ting-object-left group-ting-object-teaser-left field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
+        'id' => 'ting_object_ting_object_teaser_group_ting_object_teaser_left',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_ting_object_teaser_left|ting_object|ting_object|teaser'] = $field_group;
+  $field_groups['group_ting_object_teaser_left|ting_object|ting_object|teaser'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -356,17 +366,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Right column',
       'instance_settings' => array(
-        'classes' => 'ting-object-right',
+        'classes' => 'ting-object-right group-ting-object-teaser-right field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
+        'id' => 'ting_object_ting_object_teaser_group_ting_object_teaser_right',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_ting_object_teaser_right|ting_object|ting_object|teaser'] = $field_group;
+  $field_groups['group_ting_object_teaser_right|ting_object|ting_object|teaser'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -393,17 +404,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Right column',
       'instance_settings' => array(
-        'classes' => 'ting-object-right',
+        'classes' => 'ting-object-right group-ting-right-col-collection field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
+        'id' => 'ting_object_ting_object_collection_list_group_ting_right_col_collection',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_ting_right_col_collection|ting_object|ting_object|collection_list'] = $field_group;
+  $field_groups['group_ting_right_col_collection|ting_object|ting_object|collection_list'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -429,17 +441,18 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Right column',
       'instance_settings' => array(
-        'classes' => 'ting-object-right',
+        'classes' => 'ting-object-right group-ting-right-col-primary field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
+        'id' => 'ting_object_ting_object_collection_primary_group_ting_right_col_primary',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_ting_right_col_primary|ting_object|ting_object|collection_primary'] = $field_group;
+  $field_groups['group_ting_right_col_primary|ting_object|ting_object|collection_primary'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -465,17 +478,27 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Right column',
       'instance_settings' => array(
-        'classes' => 'ting-object-right',
+        'classes' => 'ting-object-right group-ting-right-col-search field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
+        'id' => 'ting_object_ting_object_search_result_group_ting_right_col_search',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_ting_right_col_search|ting_object|ting_object|search_result'] = $field_group;
+  $field_groups['group_ting_right_col_search|ting_object|ting_object|search_result'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Group overlay');
+  t('Holdings available on the shelf');
+  t('Issues');
+  t('Left column');
+  t('On this site');
+  t('Right column');
+
+  return $field_groups;
 }

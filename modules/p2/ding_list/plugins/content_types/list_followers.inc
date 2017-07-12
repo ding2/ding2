@@ -22,6 +22,7 @@ function ding_list_list_followers_content_type_render($subtype, $conf, $panel_ar
   $list = $context->data;
 
   $block = new stdClass();
+
   $block->content = array(
     // Panels run the title through translation, so we add it to the content.
     array(
@@ -32,8 +33,11 @@ function ding_list_list_followers_content_type_render($subtype, $conf, $panel_ar
       ),
       '#value' => check_plain(entity_label('ding_type', $list)),
     ),
-    array('#theme' => 'ding_list_followers', '#list' => $list),
   );
+
+  if (ding_list_allowed($list, DING_LIST_OPERATION_SHARE)) {
+    $block->content[] = array('#theme' => 'ding_list_followers', '#list' => $list);
+  }
 
   return $block;
 }

@@ -113,7 +113,7 @@ function theme_ding_interaction_pane_content($variables) {
  * @return array
  *   A render array for output.
  */
-function ding_interaction_content(array $module_list = NULL, $count = DING_INTERACTION_DEFAULT_COUNT) {
+function ding_interaction_content(array $module_list = array(), $count = DING_INTERACTION_DEFAULT_COUNT, $extra = array()) {
   global $user;
   $data = NULL;
 
@@ -133,12 +133,13 @@ function ding_interaction_content(array $module_list = NULL, $count = DING_INTER
 
   // Show interaction pane on n'th page view.
   if (empty($edit['data']['ding_interaction']['count']) || $edit['data']['ding_interaction']['count'] == 0) {
-    if (!$module_list) {
+    if (empty($module_list)) {
       $module_list = ding_interaction_available_content();
     }
+
     if (count($module_list)) {
       $random = array_rand($module_list);
-      $data = module_invoke($random, 'ding_interaction_view', $count);
+      $data = module_invoke($random, 'ding_interaction_view', $count, $extra);
 
       if (!$data) {
         return FALSE;

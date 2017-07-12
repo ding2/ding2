@@ -73,6 +73,11 @@ $carousel-tab-color:                       $white;
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
   @include opacity(.25);
+  display: block !important;
+
+  &.rs-carousel-action-disabled {
+    display: none !important;
+  }
 
   &.rs-carousel-action-active {
     @include opacity(1);
@@ -117,12 +122,12 @@ $carousel-tab-color:                       $white;
   ul {
     li {
       list-style: none;
+      width: $carousel-image-width;
     }
   }
   li {
     margin-right: 20px;
     position: relative;
-    width: $carousel-image-width;
 
     img {
       min-width: 100%;

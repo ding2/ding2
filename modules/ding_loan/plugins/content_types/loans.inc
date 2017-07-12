@@ -225,52 +225,57 @@ function ding_loan_loans_form_submit($form, &$form_state) {
       $ids[] = $item->id;
     }
   }
+  if (empty($ids)) {
+    return;
+  }
+
+  $error_messages = array(
+    DingProviderLoan::STATUS_NOT_RENEWED => t('Unable to renew material'),
+    DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED => t('Maximum number of renewals reached'),
+    DingProviderLoan::STATUS_RENEWAL_RESERVED => t('The material is reserved by another loaner'),
+  );
 
   $clear_cache = FALSE;
-  if (!empty($ids)) {
-    $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
-    foreach ($result as $id => $status) {
-      // Try to get entity for the item.
-      $entity = $form_state['values']['items'][$id]->entity;
-      if (!is_object($entity) || $entity->reply == FALSE) {
-        // Build pseudo entity based on provider information.
-        $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
-        $title = $entity->getTitle() ? $entity->getTitle() : $item->display_name;
-      }
-      else {
-        // Create title from entity object.
-        $title = $entity->getTitle();
-      }
 
-      // @todo Better feedback.
-      switch ($status) {
-        case DingProviderLoan::STATUS_RENEWED:
-          drupal_set_message(t('"@title renewed"', array('@title' => $title)));
-          $clear_cache = TRUE;
-          break;
-
-        case DingProviderLoan::STATUS_NOT_RENEWED:
-          if ($status['message'] == 'maxNofRenewals') {
-            $message = t('Maximum number of renewals reached');
-          }
-          elseif ($status['message'] == 'copyIsReserved') {
-            $message = t('The material is reserved by another loaner');
-          }
-          else {
-            $message = t('Unable to renew material');
-          }
-          drupal_set_message(t('"@title: @message"', array('@title' => $title, '@message' => $message)), 'warning');
-          break;
-
-        default:
-          watchdog('ding_loan', 'Unknown renewal status code @code.', array('@code' => $status), WATCHDOG_ERROR);
-      }
+  $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
+  foreach ($result as $id => $status) {
+    // Try to get entity for the item.
+    $entity = $form_state['values']['items'][$id]->entity;
+    if (!is_object($entity) || $entity->reply == FALSE) {
+      // Build pseudo entity based on provider information.
+      $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
+      $title = $entity->getTitle() ? $entity->getTitle() : $item->display_name;
+    }
+    else {
+      // Create title from entity object.
+      $title = $entity->getTitle();
     }
 
-    // Clear session cache.
-    if ($clear_cache && module_exists('ding_session_cache')) {
-      ding_session_cache_clear('ding_loan', 'list');
+    // @todo Better feedback.
+    switch ($status) {
+      case DingProviderLoan::STATUS_RENEWED:
+      case DingProviderLoan::STATUS_RENEWAL_REQUESTED:
+        drupal_set_message(t('"@title renewed"', array('@title' => $title)));
+        $clear_cache = TRUE;
+        break;
+
+      case DingProviderLoan::STATUS_NOT_RENEWED:
+      case DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED:
+      case DingProviderLoan::STATUS_RENEWAL_RESERVED:
+        drupal_set_message(t('"@title: @message"', array(
+          '@title' => $title,
+          '@message' => $error_messages[$status],
+        )), 'warning');
+        break;
+
+      default:
+        watchdog('ding_loan', 'Unknown renewal status code @code.', array('@code' => $status), WATCHDOG_ERROR);
     }
+  }
+
+  // Clear session cache.
+  if ($clear_cache && module_exists('ding_session_cache')) {
+    ding_session_cache_clear('ding_loan', 'list');
   }
 }
 

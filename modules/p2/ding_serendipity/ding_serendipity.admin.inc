@@ -39,6 +39,17 @@ function ding_serendipity_admin_form($form, &$form_state) {
     '#maxlength' => 300,
   );
 
+  $form['test_cql'] = array(
+    '#type' => 'button',
+    '#value' => t('Test CQL'),
+    '#ajax' => array(
+      'wrapper' => 'test-cql-container',
+      'callback' => 'ding_serendipity_test_cql_callback',
+    ),
+    '#suffix' => '<div id="test-cql-container"></div>',
+    '#cql_element' => 'ding_serendipity_search_string_final',
+  );
+
   $form['ding_serendipity_search_string_final_description'] = array(
     '#type' => 'textfield',
     '#title' => t('Serendipity final fallback description'),
@@ -114,24 +125,6 @@ function ding_serendipity_admin_overview($form, &$form_state) {
   $form['ding_serendipity_weights'] = array(
     '#type' => 'value',
   );
-
-  $form['context'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('keys'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-  foreach ($info as $key => $value) {
-    foreach ($value['keys'] as $context) {
-      if (empty($form['context'][$context])) {
-        $form['context'][$context] = array(
-          '#type' => 'checkbox',
-          '#title' => check_plain($context),
-          '#default_value' => (!empty($form_state[$context])) ? $form_state[$context] : 1,
-        );
-      }
-    }
-  }
 
   return system_settings_form($form);
 }

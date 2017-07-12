@@ -347,13 +347,11 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       return;
     }
 
-    drupal_set_message(t(
-        "You've create the list !list.<br/>Read more about how you use the lists !help",
-        array(
-          '!list' => l($list->title, 'list/' . $list->id),
-          '!help' => l(t('Here'), 'help/lists'),
-        )
-      ));
+    $out = array(
+      '#theme' => 'ding_list_create_info',
+      '#list' => $list,
+    );
+    drupal_set_message(drupal_render($out));
   }
   else {
     $list = ding_list_get_list($form_state['existing']);
@@ -386,6 +384,8 @@ function ding_list_create_list_form_submit($form, &$form_state) {
  * This is a pure ajax interface form.
  */
 function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
+  global $user;
+
   if (!ding_list_user_has_access($list, 'owner')) {
     $form['unfollow_shared'] = array(
       '#type' => 'submit',
@@ -474,6 +474,37 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     '#type' => 'textfield',
     '#title' => t('Send invitation to this email adress:'),
     '#description' => t('At the moment only users at this library can share your lists.'),
+  );
+
+  $username = $user->name;
+  if (isset($user->data)) {
+    if (is_string($user->data)) {
+      $data = unserialize($user->data);
+    }
+    else {
+      $data = $user->data;
+    }
+
+    if (!empty($data) && isset($data['display_name'])) {
+      $username = $data['display_name'];
+    }
+  }
+  $form['mail_sharer']['email_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email subject.'),
+    '#default_value' => t('@user has shared a personal list with you at @library', array(
+      '@user' => $username,
+      '@library' => variable_get('site_name', ''),
+    )),
+  );
+  $form['mail_sharer']['email_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Email text'),
+    '#description' => t('The [link] text will be replaced by a link to the list'),
+    '#default_value' => t('Please use the following link to access this list.
+The link is active for 7 days from today, after which it will be disabled for security reasons.
+
+[link]'),
   );
 
   $form['mail_sharer']['share'] = array(
@@ -646,12 +677,11 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
 
   $uri = entity_uri('ding_type', $list);
   $token = ding_list_share_token($form_state['build_info']['args'][0], $form_state['values']['permission']);
-
   $link = l($list->title, $uri['path'], array('absolute' => TRUE, 'query' => array('token' => $token)));
 
   drupal_mail('ding_list', 'share', $form_state['values']['email'], $language, array(
-    'link' => $link,
-    'list' => $list,
+    'subject' => $form_state['values']['email_subject'],
+    'text' => str_replace('[link]', $link, $form_state['values']['email_text']),
   ));
 
   // Get generated message.

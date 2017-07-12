@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function ding_staff_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -33,17 +33,18 @@ function ding_staff_field_group_info() {
     'format_settings' => array(
       'label' => 'contact info',
       'instance_settings' => array(
-        'classes' => '',
+        'classes' => ' group-contactinfo field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',
+        'id' => 'profile2_ding_staff_profile_full_group_contactinfo',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_contactinfo|profile2|ding_staff_profile|default'] = $field_group;
+  $field_groups['group_contactinfo|profile2|ding_staff_profile|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -66,12 +67,12 @@ function ding_staff_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-ding-staff-contact field-group-fieldset',
         'required_fields' => 1,
       ),
     ),
   );
-  $export['group_ding_staff_contact|profile2|staff|form'] = $field_group;
+  $field_groups['group_ding_staff_contact|profile2|staff|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -94,12 +95,12 @@ function ding_staff_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-ding-staff-name field-group-fieldset',
         'required_fields' => 1,
       ),
     ),
   );
-  $export['group_ding_staff_name|profile2|staff|form'] = $field_group;
+  $field_groups['group_ding_staff_name|profile2|staff|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -124,12 +125,12 @@ function ding_staff_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'classes' => '',
+        'classes' => ' group-ding-staff-organisation field-group-fieldset',
         'required_fields' => 1,
       ),
     ),
   );
-  $export['group_ding_staff_organisation|profile2|staff|form'] = $field_group;
+  $field_groups['group_ding_staff_organisation|profile2|staff|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -152,17 +153,26 @@ function ding_staff_field_group_info() {
     'format_settings' => array(
       'label' => 'Right column',
       'instance_settings' => array(
-        'classes' => 'search-right',
+        'classes' => 'search-right group-right-col-search field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',
+        'id' => 'profile2_ding_staff_profile_full_group_right_col_search',
       ),
       'formatter' => 'open',
     ),
   );
-  $export['group_right_col_search|profile2|ding_staff_profile|default'] = $field_group;
+  $field_groups['group_right_col_search|profile2|ding_staff_profile|default'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Contact');
+  t('Name');
+  t('Organisation');
+  t('Right column');
+  t('contact info');
+
+  return $field_groups;
 }

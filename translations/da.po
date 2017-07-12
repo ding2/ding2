@@ -10618,10 +10618,6 @@ msgid "perform bookmark"
 msgstr ""
 
 #: /admin/people?render=overlay
-msgid "administer frontpage settings"
-msgstr ""
-
-#: /admin/people?render=overlay
 msgid "administer user role 3"
 msgstr ""
 
@@ -66653,3 +66649,212 @@ msgstr ""
 "kan du oprette dig som låner nedenfor.</br>\r\n"
 "Du er stadig logget ind ved NemID. Hvis du vil logge ud så "
 "!logout."
+
+#: mkdru-block-search.tpl.php:9
+msgid "Search"
+msgstr "Søg"
+
+#: mkdru-form.tpl.php:13
+msgid "Sort by"
+msgstr "Sortér efter"
+
+#: mkdru-form.tpl.php:15
+msgid "relevance"
+msgstr "Relevans"
+
+#: mkdru-form.tpl.php:16
+msgid "title"
+msgstr "Titel"
+
+#: mkdru-form.tpl.php:17
+msgid "newest"
+msgstr "Nyeste"
+
+#: mkdru-form.tpl.php:18
+msgid "oldest"
+msgstr "Ældste"
+
+#: mkdru-form.tpl.php:20
+msgid "and show"
+msgstr "og vis"
+
+#: mkdru-form.tpl.php:27
+msgid "per page."
+msgstr "per side."
+
+#: mkdru.theme.js:0
+msgid "Title"
+msgstr "titel"
+
+#: mkdru.theme.js:0
+msgid "Date"
+msgstr "Dato"
+
+#: mkdru.theme.js:0
+msgid "Author"
+msgstr "Forfatter"
+
+#: mkdru.theme.js:0
+msgid "Subject"
+msgstr "Emne"
+
+#: mkdru.theme.js:0
+msgid "Location"
+msgstr "Lokation"
+
+#: mkdru.theme.js:0
+msgid "Return to result list..."
+msgstr "Tilbage til resultatlisten.."
+
+#: mkdru.theme.js:0;0
+msgid "Prev"
+msgstr "Forrige"
+
+#: mkdru.theme.js:0;0
+msgid "Next"
+msgstr "Næste"
+
+#: mkdru.theme.js:0
+msgid "No results"
+msgstr "Din søgning gav desværre ikke noget resultat."
+
+#: mkdru.theme.js:0
+msgid "Waiting on "
+msgstr "Venter på "
+
+#: mkdru.theme.js:0
+msgid " out of "
+msgstr " ud af "
+
+#: mkdru.theme.js:0
+msgid " targets"
+msgstr " kilder"
+
+#: ding_mkws.admin.inc:96
+msgid "Available resources"
+msgstr "Tilgængelige kilder"
+
+#: ding_mkws.admin.inc:117
+msgid "Search result"
+msgstr "Søgeresultat"
+
+#: ding_mkws.admin.inc:118
+msgid "Collection view"
+msgstr "Værkvisning"
+
+#: ding_mkws.admin.inc:119
+msgid "Item page"
+msgstr "Postvisning"
+
+#: ding_mkws.admin.inc:131
+msgid "Show the widget on @item"
+msgstr "Vis denne widget på @item"
+
+#: ding_mkws.admin.inc:137
+msgid "Amount items in the widget"
+msgstr "Antal resultater i denne widget"
+
+#: ding_mkws.admin.inc:146
+msgid "LBR's to search for this widget"
+msgstr "Kilder der skal søges i for denne widget"
+
+#: ding_mkws.admin.inc:215
+msgid "Choose content types."
+msgstr "Vælg indholdstype(r)"
+
+#: ding_mkws.admin.inc:216
+msgid "Content types which should have MKWS node widget."
+msgstr "Indsholdstyperne som skal understøtte Søgning på Tværs widgets."
+
+#: ding_mkws.fields.inc:28;141
+msgid "Default"
+msgstr "Standard"
+
+#: ding_mkws.fields.inc:60
+msgid "LBR widget"
+msgstr "Søgning på Tværs widget"
+
+#: ding_mkws.fields.inc:71
+msgid "Term:"
+msgstr "Ord:"
+
+#: ding_mkws.fields.inc:74
+msgid "Type in your term(s) here..."
+msgstr "Indtast dine ord her..."
+
+#: ding_mkws.fields.inc:80 plugins/content_types/ding_mkws_panel_widget.inc:43
+msgid "Resources:"
+msgstr "Kilder:"
+
+#: ding_mkws.fields.inc:83 plugins/content_types/ding_mkws_panel_widget.inc:46
+msgid "Choose LBRs"
+msgstr "Vælg de kilder der skal søges i"
+
+#: ding_mkws.fields.inc:89
+msgid "Amount:"
+msgstr "Antal resultater:"
+
+#: js/ding_mkws.theme.js:0;0;0
+msgid "Target"
+msgstr "Kilde"
+
+#: js/ding_mkws.theme.js:0;0;0
+msgid "Title"
+msgstr "Titel"
+
+#: js/ding_mkws.theme.js:0;0;0
+msgid "Author"
+msgstr "Forfatter"
+
+#: js/ding_mkws.theme.js:0;0;0
+msgid "Date"
+msgstr "Dato"
+
+#: plugins/content_types/ding_mkws_panel_widget.inc:28
+msgid "Search term"
+msgstr "Søgeord"
+
+#: plugins/content_types/ding_mkws_panel_widget.inc:30
+msgid "Search term to search."
+msgstr "Søgeord der skal søges efter."
+
+#: plugins/content_types/ding_mkws_panel_widget.inc:35
+msgid "Amount of items"
+msgstr "Antal resultater"
+
+#: plugins/content_types/ding_mkws_panel_widget.inc:37
+msgid "Amount of items to display."
+msgstr "Antal af resultater der skal vises."
+
+#: ding_spt_statistics.module:37
+msgid "View SPT statistics"
+msgstr "Se Søgning på Tværs statistikker"
+
+#: ding_spt_statistics.module:38
+msgid "View statistics for clicked external SPT resources."
+msgstr "Vis statistikker for de kilder som bliver anvendt i Søgning på Tværs"
+
+#: ding_spt_statistics.module:93
+msgid "Hostname"
+msgstr "Værtsnavn"
+
+#: ding_spt_statistics.module:94
+msgid "Day"
+msgstr "Dag"
+
+#: ding_spt_statistics.module:95
+msgid "Week"
+msgstr "Uge"
+
+#: ding_spt_statistics.module:96
+msgid "Month"
+msgstr "Måned"
+
+#: ding_spt_statistics.module:97
+msgid "3 Months"
+msgstr "3 måneder"
+
+#: ding_spt_statistics.module:98
+msgid "All"
+msgstr "Alle"
+

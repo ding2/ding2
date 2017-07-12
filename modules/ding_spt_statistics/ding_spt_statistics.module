@@ -1,0 +1,262 @@
+<?php
+/**
+ * @file
+ * Implementation of hooks and basic functionality goes here.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_spt_statistics_menu() {
+  $items = array();
+
+  $items['spt/redirect'] = array(
+    'title' => 'Ding SPT redirect',
+    'description' => 'Count click and redirect to the external resource',
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('access content'),
+    'page callback' => 'ding_spt_statistics_redirect',
+  );
+  $items['admin/reports/spt-statistics'] = array(
+    'title' => 'Digital Resources search statistics',
+    'description' => 'Display statistics data about navigation on digital resources search results.',
+    'type' => MENU_NORMAL_ITEM,
+    'access arguments' => array('view spt statistics'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_spt_statistics_date_picker_form'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_spt_statistics_permission() {
+  return array(
+    'view spt statistics' => array(
+      'title' => t('View SPT statistics'),
+      'description' => t('View statistics for clicked external SPT resources.'),
+    ),
+  );
+}
+
+/**
+ * Count click and redirect to the resource.
+ */
+function ding_spt_statistics_redirect() {
+  $params = drupal_get_query_parameters();
+
+  // Register statistical data.
+  $hostname = !empty($params['hostname']) ? $params['hostname'] : FALSE;
+  ding_spt_statistics_register($hostname);
+
+  // Redirect to the external resource.
+  $path = !empty($params['path']) ? $params['path'] : '';
+  drupal_goto($path);
+}
+
+/**
+ * Register hostname into the statistics table.
+ *
+ * @param string $hostname
+ *   Name of the external host.
+ */
+function ding_spt_statistics_register($hostname) {
+  if (!$hostname) {
+    return;
+  }
+
+  // Insert values in statistics, if there is duplicate then update counter.
+  $id = db_query('INSERT INTO ding_spt_statistics (hostname, count) 
+    VALUES (:hostname, 1) ON DUPLICATE KEY UPDATE count = count + 1',
+    array(':hostname' => $hostname),
+    array('return' => Database::RETURN_INSERT_ID)
+  );
+
+  // Insert new record to the data table.
+  db_insert('ding_spt_hits')
+    ->fields(array(
+      'hid' => $id,
+      'accessed' => REQUEST_TIME,
+    ))
+    ->execute();
+}
+
+/**
+ * Form to select date ranges for statistics.
+ */
+function ding_spt_statistics_date_picker_form($form, &$form_state) {
+  $default_from = (isset($form_state['input']['date_from']) && !empty($form_state['input']['date_from']))
+    ? $form_state['input']['date_from']['date']
+    : 0;
+  $default_to = (isset($form_state['input']['date_to']) && !empty($form_state['input']['date_to']))
+    ? $form_state['input']['date_to']['date']
+    : 0;
+  $date_format = 'd-m-Y';
+
+  $form['date_picker'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Date range.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['date_picker']['date_from'] = array(
+    '#type' => 'date_popup',
+    '#required' => TRUE,
+    '#title' => t('From'),
+    '#default_value' => $default_from,
+    '#date_format' => $date_format,
+    '#date_year_range' => '-3:+3',
+  );
+
+  $form['date_picker']['date_to'] = array(
+    '#type' => 'date_popup',
+    '#required' => TRUE,
+    '#title' => t('To'),
+    '#default_value' => $default_to,
+    '#date_format' => $date_format,
+    '#date_year_range' => '-3:+3',
+  );
+
+  $form['actions'] = array(
+    '#type' => 'actions',
+  );
+
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+
+  $statistics_data = ding_spt_statistics_display($default_from, $default_to);
+
+  $form['statistics'] = array(
+    '#type' => 'tableselect',
+    '#header' => $statistics_data['header'],
+    '#options' => $statistics_data['rows'],
+    '#empty' => t('No content available.'),
+  );
+
+  $form['actions']['reset'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reset'),
+    '#submit' => array('ding_spt_statistics_reset'),
+  );
+
+  return $form;
+}
+
+/**
+ * Resetting filtered by range form.
+ */
+function ding_spt_statistics_reset($form, &$form_state) {
+  $form_state['rebuild'] = FALSE;
+}
+
+/**
+ * Validation callback.
+ *
+ * @see ding_spt_statistics_date_picker_form()
+ */
+function ding_spt_statistics_date_picker_form_validate($form, &$form_state) {
+  $date_from = $form_state['values']['date_from'];
+  $date_to = $form_state['values']['date_to'];
+
+  $from_timestamp = strtotime($date_from);
+  $to_timestamp = strtotime($date_to);
+
+  $till_now_90_days = time() - 90 * 86400;
+
+  if ($from_timestamp > $to_timestamp) {
+    form_set_error('date_from', t("From date can't be later then to date."));
+  }
+
+  if ($from_timestamp < $till_now_90_days) {
+    form_set_error('date_from', t('Statistics saved only for last 90n days.'));
+  }
+}
+
+/**
+ * Submit callback.
+ *
+ * @see ding_spt_statistics_date_picker_form()
+ */
+function ding_spt_statistics_date_picker_form_submit($form, &$form_state) {
+  $form_state['storage']['date_from'] = $form_state['values']['date_from'];
+  $form_state['storage']['date_to'] = $form_state['values']['date_to'];
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Prepare table header and body for statistics page.
+ *
+ * @param int $from
+ *   Some date.
+ * @param int $to
+ *   Some date.
+ *
+ * @return string
+ *   Themed table.
+ */
+function ding_spt_statistics_display($from = 0, $to = 0) {
+  $header = array(
+    array('data' => t('Hostname'), 'field' => 'hostname', 'sort' => 'ASC'),
+    array('data' => t('Hits'), 'field' => 'hits'),
+  );
+
+  // Get data from db.
+  $query = db_select('ding_spt_statistics', 's')
+    ->extend('PagerDefault')
+    ->extend('TableSort')
+    ->orderByHeader($header)
+    ->groupBy('s.hid')
+    ->limit(10);
+
+  $query->leftJoin('ding_spt_hits', 'h', 's.hid = h.hid');
+  $query->fields('s', array('hostname'/*, 'count'*/));
+  $query->fields('h', array('accessed'));
+
+  if (!empty($from) && !empty($to)) {
+    $from = $from . ' 00:00:00';
+    $from_timestamp = strtotime($from);
+    $to = $to . ' 23:59:59';
+    $to_timestamp = strtotime($to);
+    $query->condition('h.accessed', array($from_timestamp, $to_timestamp), 'BETWEEN');
+  }
+
+  $query->addExpression('COUNT(h.accessed)', 'hits');
+  $result = $query->execute()->fetchAllAssoc('hostname');
+
+  // Build markup for the table.
+  $rows = array();
+  foreach ($result as &$item) {
+    $rows[] = array(
+      $item->hostname,
+      $item->hits,
+    );
+  }
+
+  return array('header' => $header, 'rows' => $rows);
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_spt_statistics_cron() {
+  // Delete all records older then 3 months.
+  // Consider month as a period of 30 days.
+  db_delete('ding_spt_hits')
+    ->condition('accessed', REQUEST_TIME - 86400 * 90, '<')
+    ->execute();
+}
+
+/**
+ * Implements hook_spt_external_url_alter().
+ */
+function ding_spt_statistics_spt_external_url_alter(&$callbacks) {
+  // Add url preprocess callback.
+  $callbacks[] = 'dingSPTStatisticsUrlPreprocess';
+
+  drupal_add_js(drupal_get_path('module', 'ding_spt_statistics') . '/js/ding_spt_statistics.js');
+}

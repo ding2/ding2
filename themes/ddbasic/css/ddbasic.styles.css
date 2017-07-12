@@ -5252,8 +5252,7 @@ input#edit-search-block-form--2.spinner {
   width: 100%;
   /* Media queries */ }
   .ting-cover img {
-    position: relative;
-    z-index: 90; }
+    position: relative; }
   .ting-cover:before {
     color: #bcbcbc;
     font-family: "FontAwesome";
@@ -5526,7 +5525,11 @@ input#edit-search-block-form--2.spinner {
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
-  opacity: 0.25; }
+  opacity: 0.25;
+  display: block !important; }
+  .rs-carousel-action-prev.rs-carousel-action-disabled,
+  .rs-carousel-action-next.rs-carousel-action-disabled {
+    display: none !important; }
   .rs-carousel-action-prev.rs-carousel-action-active,
   .rs-carousel-action-next.rs-carousel-action-active {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
@@ -5561,12 +5564,12 @@ input#edit-search-block-form--2.spinner {
       color: #fff; } }
 
 .rs-carousel-items ul li {
-  list-style: none; }
+  list-style: none;
+  width: 200px; }
 
 .rs-carousel-items li {
   margin-right: 20px;
-  position: relative;
-  width: 200px; }
+  position: relative; }
   .rs-carousel-items li img {
     min-width: 100%;
     padding: 0; }
