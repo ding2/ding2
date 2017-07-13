@@ -689,7 +689,6 @@ function ding_permissions_secure_permissions($role) {
       'edit own document files',
       'edit own image files',
       'edit own video files',
-      'schedule (un)publishing of nodes',
       'show workflow state form',
       'use text format ding_wysiwyg',
       'view own private files',
@@ -1044,5 +1043,18 @@ function ding_permissions_page_alter(&$page) {
 
   if ($user->uid == '1' && in_array('administrators', array_values($user->roles))) {
     unset($page['page_top']['toolbar']);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_permissions_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  $args = arg();
+  $role_access = (is_array($user->roles) && in_array('guest blogger', array_values($user->roles))) ? TRUE : FALSE;
+
+  if ($args[0] == 'node' && $args[1] == 'add' && $role_access) {
+    $form['options']['status']['#default_value'] = 0;
   }
 }
