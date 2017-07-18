@@ -79,6 +79,17 @@ function ding_mkws_field_schema($field) {
           'not null' => TRUE,
           'default' => 0,
         ),
+        'toggle_title' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+        'widget_headline' => array(
+          'type' => 'varchar',
+          'length' => '255',
+          'not null' => TRUE,
+          'default' => '',
+        ),
       );
       break;
   }
@@ -206,5 +217,33 @@ function ding_mkws_update_7001() {
     $allowed_values = &$instance['settings']['allowed_values'];
     $allowed_values['mkws'] = 'MKWS';
     field_update_field($instance);
+  }
+}
+
+/**
+ * Adding new columns for handling widget headlines.
+ */
+function ding_mkws_update_7002() {
+  $fields = array(
+    'toggle_title' => array(
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => 0,
+    ),
+    'widget_headline' => array(
+      'type' => 'varchar',
+      'length' => '255',
+      'not null' => TRUE,
+      'default' => '',
+    ),
+  );
+
+  $field_name          = 'field_mkws_node_widget';
+  $data_table_name     = 'field_data_' . $field_name;
+  $revision_table_name = 'field_revision_' . $field_name;
+
+  foreach ($fields as $col_name => $value) {
+    db_add_field($data_table_name, $field_name . '_' . $col_name, $value);
+    db_add_field($revision_table_name, $field_name . '_' . $col_name, $value);
   }
 }

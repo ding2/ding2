@@ -122,6 +122,25 @@ function ding_mkws_widget_settings_form($form, $form_state) {
       '#default_value' => !empty($settings['opac'][$key]['show']) ? $settings['opac'][$key]['show'] : NULL,
     );
 
+    $form['opac'][$key]['toggle_title'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Change widget headline'),
+      '#default_value' => !empty($settings['opac'][$key]['toggle_title']) ? $settings['opac'][$key]['toggle_title'] : NULL,
+    );
+
+    $form['opac'][$key]['widget_headline'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Widget headline'),
+      '#default_value' => !empty($settings['opac'][$key]['widget_headline']) ? $settings['opac'][$key]['widget_headline'] : '',
+      '#states' => array(
+        'visible' => array(
+          'input[name="opac[' . $key . '][toggle_title]"]' => array(
+            'checked' => TRUE,
+          ),
+        ),
+      ),
+    );
+
     $form['opac'][$key]['amount'] = array(
       '#type' => 'textfield',
       '#title' => t('Amount items in the widget'),
@@ -196,6 +215,9 @@ function ding_mkws_widget_settings_form_submit($form, $form_state) {
     }
 
     $values['opac'][$key]['title'] = $items[$key]['title'];
+    if ($values['opac'][$key]['toggle_title']) {
+      $values['opac'][$key]['title'] = $values['opac'][$key]['widget_headline'];
+    }
     $values['opac'][$key]['task_name'] = $items[$key]['task_name'];
     $values['opac'][$key]['scope'] = $items[$key]['scope'];
   }

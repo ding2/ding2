@@ -101,6 +101,27 @@ function ding_mkws_field_widget_form(&$form, &$form_state, $field, $instance, $l
         '#maxlength' => 4,
       );
 
+      $element['wrapper']['toggle_title'] = array(
+        '#prefix' => '<br>',
+        '#type' => 'checkbox',
+        '#title' => t('Change widget headline'),
+        '#default_value' => !empty($item['toggle_title']) ? $item['toggle_title'] : 0,
+      );
+
+      $element['wrapper']['widget_headline'] = array(
+        '#prefix' => '<br>',
+        '#type' => 'textfield',
+        '#title' => t('Widget headline'),
+        '#default_value' => !empty($item['widget_headline']) ? $item['widget_headline'] : '',
+        '#states' => array(
+          'visible' => array(
+            'input[name="field_mkws_node_widget[und][0][wrapper][toggle_title]"]' => array(
+              'checked' => TRUE,
+            ),
+          ),
+        ),
+      );
+
       ding_mkws_include_all();
       $element['#attached'] = array(
         'css' => array(
@@ -122,6 +143,16 @@ function ding_mkws_field_presave($entity_type, $entity, $field, $instance, $lang
       foreach ($items as $delta => &$item) {
         $item = (!empty($item['wrapper'])) ? $item['wrapper'] : $item;
         $item['resources'] = serialize($item['resources']);
+
+        if (!empty($item['toggle_title'])) {
+          $instance['label'] = $item['widget_headline'];
+          field_update_instance($instance);
+        }
+        else {
+          $instance['label'] = 'Content for LBR';
+          field_update_instance($instance);
+        }
+
         if (empty($item['maxrecs'])) {
           $item['maxrecs'] = 0;
         }
