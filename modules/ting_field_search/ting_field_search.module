@@ -54,9 +54,9 @@ function ting_field_search_panels_pane_content_alter($content, $pane, $args, $co
 /**
  * Gets the active profile if any. Any code that performs alterations based on
  * an active profile should use this to get it, since it handles the detection
- * and loading correcty and stores it in a fast static.
+ * and loading correctly and stores it in a fast static.
  *
- * The first time this functon is called on a request it will attempt to
+ * The first time this function is called on a request it will attempt to
  * activate a profile by looking for a profile GET-parameter in the URI.
  *
  * @return object $profile
@@ -430,6 +430,64 @@ function ting_field_search_ting_search_settings_submit($form, &$form_state) {
 }
 
 /**
+ *
+ */
+function ting_field_search_filter_profiles() {
+  $exposed_profiles = array();
+
+  $active_profile = ting_field_search_get_active_profile();
+
+  $profiles = ting_field_search_profiles_load_all();
+  foreach (ting_field_search_profiles_sort($profiles) as $name => $profile) {
+
+    // Only exposed and activated profiles should be shown to the user.
+    if ($profile->config['user_interaction']['exposed'] && empty($profile->disabled)) {
+      // Filter based on grouping (always show profiles from same group).
+      if ($active_profile && $profile->config['user_interaction']['grouping'] == $active_profile->config['user_interaction']['grouping']) {
+        $exposed_profiles[$name] = t('Search in @profile', array(
+          '@profile'  => check_plain($profile->title),
+        ));
+        continue;
+      }
+
+      // Filter base on path.
+      if ($profile->config['user_interaction']['visibility'] !== 'all') {
+        $visibility = $profile->config['user_interaction']['visibility'] == 'expect' ? 0 : 1;
+        $pages = $profile->config['user_interaction']['pages'];
+        $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
+
+        // We have an optimization hack to speed up search (by-pass panels 2x
+        // times loading). So all searches are submitted to "/search-blank",
+        // which need to be added to pages to ensure no form validation errors.
+        $pages .= "\r\nsearch-blank";
+
+        // Compare the lowercase internal and lowercase path alias (if any).
+        $page_match = drupal_match_path($path, $pages);
+        if ($path != $_GET['q']) {
+          $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
+        }
+
+        if (!($visibility xor $page_match)) {
+          $exposed_profiles[$name] = t('Search in @profile', array(
+            '@profile'  => check_plain($profile->title),
+          ));
+          continue;
+        }
+      }
+
+      // If no profile is selected. Show all profiles that are not limited to pages.
+      if (!$active_profile && $profile->config['user_interaction']['visibility'] == 'all') {
+        $exposed_profiles[$name] = t('Search in @profile', array(
+          '@profile'  => check_plain($profile->title),
+        ));
+      }
+    }
+  }
+
+  return $exposed_profiles;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
@@ -437,21 +495,12 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     return;
   }
 
-  // Dont't alter the form if this is the node search page.
+  // Don't alter the form if this is the node search page.
   if (strpos(current_path(), 'search/node') === 0) {
     return;
   }
 
-  $exposed_profiles = array();
-  $profiles = ting_field_search_profiles_load_all();
-  foreach (ting_field_search_profiles_sort($profiles) as $name => $profile) {
-    // Only exposed and activated profiles should be shown to the user.
-    if ($profile->config['user_interaction']['exposed'] && empty($profile->disabled)) {
-      $exposed_profiles[$name] = t('Search in @profile', array(
-       '@profile'  => check_plain($profile->title),
-      ));
-    }
-  }
+  $exposed_profiles = ting_field_search_filter_profiles();
 
   // Don't render select if there's no exposed profiles.
   if (empty($exposed_profiles)) {

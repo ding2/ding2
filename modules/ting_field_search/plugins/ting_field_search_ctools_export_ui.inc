@@ -157,9 +157,36 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#description' => t('Append the profile on search links generated on all the search related pages shown with this profile (search result, collection and object pages).'),
     '#default_value' => $profile->config['user_interaction']['alter_links'],
   );
+  $form['config']['user_interaction']['grouping'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Profile grouping'),
+    '#description' => t('Which group of search profiles should be shown when this profile is used.'),
+    '#default_value' => !empty($profile->config['user_interaction']['grouping']) ? $profile->config['user_interaction']['grouping'] : 'default',
+  );
+  $form['config']['user_interaction']['visibility'] = array(
+    '#type' => 'radios',
+    '#title' => t('Show block on specific pages'),
+    '#options' => array(
+      'all' => t('Show on all pages.'),
+      'expect' => t('All pages except those listed'),
+      'only' => t('Only the listed pages'),
+    ),
+    '#default_value' => !empty($profile->config['user_interaction']['visibility']) ? $profile->config['user_interaction']['visibility'] : 'all',
+  );
+  $form['config']['user_interaction']['pages'] = array(
+    '#type' => 'textarea',
+    '#title' => 'Pages',
+    '#default_value' => $profile->config['user_interaction']['pages'],
+    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="config[user_interaction][visibility]"]' => array('value' => 'all'),
+      ),
+    ),
+  );
 
   // Search result fieldset.
- $form['config']['search_result'] = array(
+  $form['config']['search_result'] = array(
     '#type' => 'fieldset',
     '#title' => t('Search result'),
     '#description' => '<strong>'. t('Control how the search result is presented to the user') . '</strong>',
@@ -303,6 +330,9 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
   unset($form['info']);
 }
 
+/**
+ * Submit handler for the profile save form.
+ */
 function ting_field_search_profile_export_form_submit($form, &$form_state) {
   $profile = $form_state['item'];
 
