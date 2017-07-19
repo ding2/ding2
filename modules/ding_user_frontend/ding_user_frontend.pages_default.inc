@@ -792,9 +792,9 @@ function ding_user_frontend_default_page_manager_pages() {
   );
   $page->menu = array(
     'type' => 'tab',
-    'title' => 'Mine hjemlån',
+    'title' => 'Overdue loans',
     'name' => 'navigation',
-    'weight' => '3',
+    'weight' => '2',
     'parent' => array(
       'type' => 'tab',
       'title' => 'Min side',
@@ -962,7 +962,7 @@ function ding_user_frontend_default_page_manager_pages() {
     'settings' => NULL,
   );
   $page->menu = array(
-    'type' => 'tab',
+    'type' => 'none',
     'title' => 'Reservations',
     'name' => 'navigation',
     'weight' => '4',
@@ -1148,7 +1148,7 @@ function ding_user_frontend_default_page_manager_pages() {
     'type' => 'tab',
     'title' => 'Reservations ready for pick-up',
     'name' => 'navigation',
-    'weight' => '4',
+    'weight' => '1',
     'parent' => array(
       'type' => 'tab',
       'title' => 'Min side',
