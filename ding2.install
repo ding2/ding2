@@ -447,3 +447,10 @@ function ding2_update_7031() {
 function ding2_update_7032() {
   module_enable(array('ding_campaign'));
 }
+
+/**
+ * Enable Open Search search provider.
+ */
+function ding2_update_7033() {
+  module_enable(array('opensearch'));
+}

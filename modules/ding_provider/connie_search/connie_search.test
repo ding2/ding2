@@ -1,0 +1,37 @@
+<?php
+/**
+ * @file
+ * Test that the example provider implementation module passes the same
+ * tests as the real providers.
+ */
+
+class ConnieSearchProviderImplementationTestCase extends DingSearchProviderImplementationTestCase {
+
+  /**
+   * Return metadata about the test.
+   */
+  public static function getInfo() {
+    return [
+      'name' => 'Connie provider example search provider',
+      'description' => 'Test Ding! provider example search functionality.',
+      'group' => 'Ding! - example provider',
+    ];
+  }
+
+  /**
+   * Indicate which modules this test-class depends on.
+   */
+  public  function setUp() {
+    parent::setUp(['connie_search', 'ding_provider']);
+  }
+
+  /**
+   * Expected return-value of search_material_types.
+   *
+   * @return string[]
+   *   List of expected materials.
+   */
+  public function getMaterials() {
+    return ['material_type_1', 'material_type_2'];
+  }
+}

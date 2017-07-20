@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * Example implementation of a search provider.
+ */
+
+/**
+ * Implements hook_ding_provider().
+ */
+function connie_search_ding_provider() {
+  return array(
+    'title' => 'Connie Search',
+    'provides' => array(
+      'search' => array(
+        'prefix' => 'search',
+        'file' => 'includes/connie_search.search.inc',
+      ),
+    ),
+  );
+}

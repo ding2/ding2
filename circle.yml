@@ -15,6 +15,8 @@ dependencies:
     - echo "memory_limit = 512M" > /opt/circleci/.phpenv/versions/$(phpenv global)/etc/conf.d/memory.ini
     # Disable mail sending. Sendmail is not working on Circle.
     - echo "sendmail_path = /bin/true" > /opt/circleci/.phpenv/versions/$(phpenv global)/etc/conf.d/sendmail.ini
+    # Disable error-reporting for notices, de.
+    - echo "error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING" > /opt/circleci/.phpenv/versions/$(phpenv global)/etc/conf.d/error_reporting.ini
     # Clean up existing global composer installation. It contains dependencies
     # which do not match the PHP version we use. This prevents installation of
     # other packages.
