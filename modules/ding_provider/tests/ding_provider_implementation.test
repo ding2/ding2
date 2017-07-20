@@ -327,3 +327,28 @@ class DingBranchProviderImplementationTestCase extends DingProviderImplementatio
     }
   }
 }
+
+/**
+ * Class DingSearchProviderImplementationTestCase
+ *
+ * Tests a Ding search provider.
+ */
+abstract class DingSearchProviderImplementationTestCase extends DingProviderImplementationTestCase {
+
+  /**
+   * Provide a list of expected materials.
+   *
+   * @return string[]
+   *   Simple array of material types.
+   */
+  public abstract function getMaterials();
+
+  /**
+   * Verify that the provider returns the expected list of material types.
+   */
+  public function testMaterialTypes() {
+    $expected_materials = $this->getMaterials();
+    $materials_from_provider = ding_provider_invoke('search', 'material_type');
+    $this->assertEqual($expected_materials, $materials_from_provider);
+  }
+}
