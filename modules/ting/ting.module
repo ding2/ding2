@@ -575,6 +575,18 @@ function ting_page_alter(&$page) {
 }
 
 /**
+ * Implements hook_ding_provider_user().
+ */
+function ting_ding_provider_user() {
+  return array(
+    'search' => array(
+      'required' => TRUE,
+      'install time setup' => TRUE,
+    ),
+  );
+}
+
+/**
  * Page callback: Display a ting object.
  */
 function ting_object_page_view($object) {
@@ -1009,20 +1021,11 @@ function _ting_default_reservable_types() {
  *   Array with data well material types.
  */
 function _ting_fetch_well_types() {
-  // Get a list of types by executing a null query and look at the facets
-  // result.
-  $options = array(
-    'facets' => array('facet.type'),
-    'numFacets' => 99,
-    'reply_only' => TRUE,
-    'sort' => 'random',
-  );
-  module_load_include('client.inc', 'ting');
-  $result = ting_do_search("*", 0, 0, $options);
-
   $types = array();
-  foreach ($result->facets['facet.type']->terms as $term => $count) {
-    $types[drupal_strtolower($term)] = $count;
+
+  // Delegate the fetching of types to a search provider.
+  if (ding_provider_implements('search', 'material_types')) {
+    $types = ding_provider_invoke('search', 'material_types');
   }
 
   // Only save if we actually got any types.

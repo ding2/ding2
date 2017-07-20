@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * Drupal implementation of a OpenSearch search provider for the DING! project.
+ */
+
+/**
+ * Implements hook_ding_provider().
+ */
+function opensearch_ding_provider() {
+  return array(
+    'title' => 'Opensearch',
+    'provides' => array(
+      'search' => array(
+        'prefix' => 'search',
+        'file' => 'includes/opensearch.search.inc',
+      ),
+    ),
+  );
+}
