@@ -38,4 +38,6 @@ circle-run-unit-tests:
 	# Tests to be run are referenced as a comma-seperated list of group-names.
 	cd $(DRUPAL_SITE_PATH) && php scripts/run-tests.sh --php /opt/circleci/.phpenv/shims/php --xml $(CIRCLE_TEST_REPORTS)/phpunit \
 	  "Ding! - Ting search unittest"
+	cd $(DRUPAL_SITE_PATH) && php scripts/run-tests.sh --php /opt/circleci/.phpenv/shims/php --xml $(CIRCLE_TEST_REPORTS)/phpunit \
+	  --class ConnieSearchProviderImplementationTestCase
 
