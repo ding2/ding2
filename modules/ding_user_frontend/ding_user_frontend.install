@@ -32,11 +32,9 @@ function ding_user_frontend_update_7001() {
  */
 function ding_user_frontend_update_7002() {
   if ($view = views_get_view('flag_bookmarks_tab')) {
-    // Delete the view if it is the one that you are looking for.
     views_delete_view($view);
   }
   if ($view = views_get_view('flag_bookmarks')) {
-    // Delete the view if it is the one that you are looking for.
     views_delete_view($view);
   }
 }
