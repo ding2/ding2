@@ -6,6 +6,7 @@
  */
 
 class DingProviderImplementationTestCase extends DrupalWebTestCase {
+  protected $profile = 'ding2';
 
   function setUp() {
     $modules = func_get_args();
