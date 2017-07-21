@@ -10,10 +10,15 @@
 
 .ding-entity-rating-clear {
   @include transition(color $speed $ease);
-  display: inline-block;
+  display: none;
   margin: 5px 0 0 6px;
+
   &:hover {
     color: $color-primary;
+  }
+
+  .has-submission & {
+    display: inline-block;
   }
 }
 
@@ -43,7 +48,7 @@
         color: $color-primary;
       }
     }
-    
+
     // On material-item odd
     .material-item.odd & {
       &::after {
