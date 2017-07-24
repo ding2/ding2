@@ -251,6 +251,9 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       $bpi_content = $bpi_node->getProperties();
       $bpi_assets = $bpi_node->getAssets();
 
+      // Alter data before populate the form.
+      drupal_alter('bpi_syndicate_data', $form, $bpi_content);
+
       drupal_set_message(
         t(
           'Syndicating content <strong>@title</strong>, from category <strong>@category</strong> and audience <strong>@audience</strong>.',

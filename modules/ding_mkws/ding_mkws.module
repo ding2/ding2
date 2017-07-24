@@ -376,6 +376,10 @@ function ding_mkws_bpi_syndicate_data_alter(&$form, &$data) {
           $form['field_mkws_node_widget'][LANGUAGE_NONE][0]['wrapper']['resources']['#default_value'] = unserialize($value['resources']);
           $form['field_mkws_node_widget'][LANGUAGE_NONE][0]['wrapper']['amount']['#default_value'] = $value['amount'];
           $form['field_mkws_node_widget'][LANGUAGE_NONE][0]['wrapper']['maxrecs']['#default_value'] = $value['maxrecs'];
+          if ($value['toggle_title']) {
+            $form['field_mkws_node_widget'][LANGUAGE_NONE][0]['wrapper']['toggle_title']['#default_value'] =  $value['toggle_title'];
+            $form['field_mkws_node_widget'][LANGUAGE_NONE][0]['wrapper']['widget_headline']['#default_value'] =  $value['widget_headline'];
+          }
         }
       }
     }
