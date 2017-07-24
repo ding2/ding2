@@ -66,11 +66,13 @@
     // Styleguide 2.1.9
 
     // Small grid
+    @at-root .grid-small#{&},
     .grid-small & {
       @include span-columns(3);
       @include omega(4n);
     }
     // Medium grid
+    @at-root .grid-medium#{&},
     .grid-medium & {
       // In Ding frontpage layout & Ding2 site template
       .frontpage-layout &,
@@ -134,6 +136,7 @@
       }
     }
     // Large grid
+    @at-root .grid-large#{&},
     .grid-large & {
       @include span-columns(6);
       @include omega(2n);
@@ -201,6 +204,7 @@
       // First child
       &:first-child {
         // Medium grid
+        @at-root .grid-medium#{&},
         .grid-medium & {
           // In Ding frontpage layout
           .frontpage-layout & {
@@ -220,6 +224,7 @@
         }
       }
       // Medium grid
+      @at-root .grid-medium#{&},
       .grid-medium & {
         // In Ding frontpage layout
         .frontpage-layout & {
