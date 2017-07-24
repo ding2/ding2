@@ -89,6 +89,9 @@ function bpi_rules_push($node) {
 
   $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable, $with_refs);
 
+  // Alter data before push.
+  drupal_alter('bpi_push_data', $node, $bpi_content);
+
   $bpi = bpi_client_instance();
   $push_result = $bpi->push($bpi_content)->getProperties();
   if (!empty($push_result['id'])) {

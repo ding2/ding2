@@ -228,6 +228,9 @@ projects[metatag][version] = "1.21"
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
 
+projects[mkdru][subdir] = "contrib"
+projects[mkdru][version] "1.7"
+
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "2.0"
 
@@ -252,6 +255,7 @@ projects[oembed][subdir] = "contrib"
 projects[oembed][version] = "1.0-rc2"
 ; Remove hook_system_info_alter() to allow installing modules depending on oembed, after oembed is installed.
 projects[oembed][patch][] = "http://www.drupal.org/files/issues/oembed-remove_hook_sytem_info_alter-2502817-1.patch"
+projects[oembed][patch][] = "https://www.drupal.org/files/oembed-2021015-1.patch"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
@@ -500,3 +504,13 @@ libraries[jquery.imagesloaded][download][type] = "get"
 libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
+
+libraries[pz2][download][type] = "get"
+libraries[pz2][download][url] =  http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz
+libraries[pz2][directory_name] = "pz2"
+libraries[pz2][destination] = "libraries"
+
+libraries[jsrender][download][type] = "get"
+libraries[jsrender][download][url] =  https://github.com//BorisMoore/jsrender/archive/master.zip
+libraries[jsrender][directory_name] = "jsrender"
+libraries[jsrender][destination] = "libraries"
