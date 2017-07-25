@@ -89,6 +89,12 @@ projects[ding_library_opening_hours][download][type] = "git"
 projects[ding_library_opening_hours][download][url]  = "git@github.com:easySuite/ding_library_opening_hours.git"
 projects[ding_library_opening_hours][download][branch]  = "development"
 
+projects[ding_nis][type]           = "module"
+projects[ding_nis][subdir]         = ""
+projects[ding_nis][download][type] = "git"
+projects[ding_nis][download][url]  = "git@github.com:easySuite/ding_nis.git"
+projects[ding_nis][download][branch]  = "development"
+
 projects[ding_reading_club][type]           = "module"
 projects[ding_reading_club][subdir]         = ""
 projects[ding_reading_club][download][type] = "git"
