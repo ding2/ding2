@@ -65,6 +65,12 @@ projects[ding_event_rooms][download][type]    = "git"
 projects[ding_event_rooms][download][url]     = "git@github.com:easySuite/ding_event_rooms.git"
 projects[ding_event_rooms][download][branch]  = "development"
 
+projects[ding_header_opening_hours][type]              = "module"
+projects[ding_header_opening_hours][subdir]            = ""
+projects[ding_header_opening_hours][download][type]    = "git"
+projects[ding_header_opening_hours][download][url]     = "git@github.com:easySuite/ding_header_opening_hours.git"
+projects[ding_header_opening_hours][download][branch]  = "development"
+
 projects[ding_item_cache][type]           = "module"
 projects[ding_item_cache][subdir]         = ""
 projects[ding_item_cache][download][type] = "git"
