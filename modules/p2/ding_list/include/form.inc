@@ -59,18 +59,15 @@ function ding_list_remove_element_form_submit($form, &$form_state) {
  * @param string $value
  *   The value of the element, typically an identifier.
  * @param string $title
- *   If there's more than 1 list, use this as the title for the submit button,
- *   when there's only a single list use that list add text as submit text.
+ *   Title of the add button.
  */
-function ding_list_add_element_form($form, &$form_state, $type, $value, $title = 'Dinglist') {
+function ding_list_add_element_form($form, &$form_state, $type, $value, $title) {
   if (is_array($type)) {
     $type = key($type);
   }
 
   $options = ding_list_get_add_to_list_data($type, $value);
   if (count($options) > 1) {
-    $submit_title = $title;
-
     $form['list'] = array(
       '#type' => 'select',
       '#options' => array(),
@@ -93,15 +90,13 @@ function ding_list_add_element_form($form, &$form_state, $type, $value, $title =
         '#type' => 'hidden',
         '#value' => $list['list_id'],
       );
-
-      $submit_title = $list['title'];
     }
   }
 
   if (isset($form['list'])) {
     $form['submit'] = array(
       '#type' => 'submit',
-      '#value' => $submit_title,
+      '#value' => $title,
       '#ajax' => array(
         'callback' => 'ding_list_add_element_form_callback',
         'wrapper' => 'ding-list-add-element-form',
@@ -316,9 +311,19 @@ function ding_list_create_list_form_submit_delete($form, &$form_state) {
  */
 function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
   $permission = ding_list_get_permission($form_state['build_info']['args'][0]);
-  ding_list_remove_permission($permission);
+  if ($permission) {
+    ding_list_remove_permission($permission);
+  }
 
-  $form_state['redirect'] = 'user/' . $GLOBALS['user']->uid . '/dinglists';
+  $list = ding_list_get_list(DING_LIST_TYPE_LISTS);
+  if ($list) {
+    $element = ding_list_has_ding_list_element($list, DING_LIST_TYPE_LISTS, $form_state['build_info']['args'][0]->id);
+    if ($element) {
+      ding_list_detach_ding_list_element($list, array($element->id));
+    }
+  }
+
+  $form_state['redirect'] = 'user';
 }
 
 /**
@@ -389,7 +394,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   if (!ding_list_user_has_access($list, 'owner')) {
     $form['unfollow_shared'] = array(
       '#type' => 'submit',
-      '#value' => t('Unfollowed shared list'),
+      '#value' => t('Unfollow shared list'),
       '#submit' => array('ding_list_list_permissions_form_unfollow_shared'),
     );
 
