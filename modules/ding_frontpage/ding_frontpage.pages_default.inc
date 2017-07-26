@@ -214,7 +214,7 @@ function ding_frontpage_default_page_manager_pages() {
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'grid-medium',
+      'css_class' => '',
     );
     $pane->extras = array();
     $pane->position = 4;
