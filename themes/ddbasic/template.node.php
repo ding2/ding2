@@ -66,8 +66,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 function ddbasic_preprocess__node__ding_news(&$variables) {
 
   $variables['news_submitted'] = format_date($variables['created'], 'ding_date_only_version2');
-  $variables['news_full_submitted'] = format_date($variables['created'], 'ding_date_and_time');
-  $variables['news_full_changed'] = format_date($variables['changed'], 'ding_date_and_time');
+
   switch ($variables['view_mode']) {
     case 'full':
       array_push($variables['classes_array'], 'node-full');

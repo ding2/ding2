@@ -95,7 +95,7 @@
         <?php print render($content['group_left']['field_ding_news_title_image']); ?>
         <div class="section meta">
               <div class="author"><?php print t("By"); ?> <?php print $name; ?></div>
-              <div class="created"><?php print $news_full_submitted ?> (<?php print t('Updated')?> <?php print $news_full_changed ?>)</div>
+              <div class="created"><?php print $news_submitted ?></div>
           </div>
           <?php print render($content['group_left']); ?>
       </div>
