@@ -32,12 +32,6 @@ function ding_interaction_admin_info($subtype, $conf, $context) {
  * Implements hook_content_type_render().
  */
 function ding_interaction_content_type_render($subtype, $conf, $panel_args, $context) {
-  // Only show on front if serendipity is enabled for the frontpage.
-  // See ding_frontpage config at /admin/config/ding/frontend.
-  if (drupal_is_front_page() && !variable_get('ding_frontpage_serendipity') && variable_get('ding_frontpage_promoter') != 'serendipity') {
-    return;
-  }
-
   // Include the CTools tools that we need.
   ctools_include('ajax');
   // @TODO Change $output to render array and use #attached for files.
@@ -54,7 +48,7 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
     }
   }
 
-  $data = ding_interaction_content($module_list, $conf['count'], $extra);
+  $data = ding_interaction_content($module_list, variable_get('ding_interaction_page_count', DING_INTERACTION_DEFAULT_COUNT), $extra);
 
   $output = new stdClass();
   if ($data) {
@@ -84,6 +78,7 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
     // actually adding content.
     $output->css_class .= ' ding-interaction-true-pane';
   }
+
   return $output;
 }
 
