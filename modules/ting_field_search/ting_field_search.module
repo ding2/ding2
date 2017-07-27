@@ -403,7 +403,6 @@ function ting_field_search_form_ting_search_admin_settings_alter(&$form, &$form_
     TING_SEARCH_FORM_STYLE_NORMAL => $options[TING_SEARCH_FORM_STYLE_NORMAL],
     TING_SEARCH_FORM_STYLE_EXTENDED => $options[TING_SEARCH_FORM_STYLE_EXTENDED],
     'extended_with_profiles' => t('Extended with profiles'),
-    TING_SEARCH_FORM_STYLE_EXTENDED_WITH_TYPES => $options[TING_SEARCH_FORM_STYLE_EXTENDED_WITH_TYPES],
   );
 
   if ($search_style = variable_get('ting_field_search_search_style', FALSE)) {

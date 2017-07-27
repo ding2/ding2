@@ -285,6 +285,7 @@
             display: none;
           }
         }
+
         .form-item-search-block-form {
           width: getColumn(8) + getGutter();
           input[type="text"] {
@@ -350,7 +351,14 @@
 
           // Mobile
           @include media($mobile) {
-            width: 100px;
+            position: static;
+            width: 100%;
+            float: left;
+            margin-top: 10px;
+
+            .select-wrapper {
+              border-radius: $round-corner;
+            }
           }
         }
       }
@@ -427,25 +435,6 @@
       // Mobile search open
       .mobile-search-is-open & {
         top: $header-height;
-      }
-      .search-form-extended.search-form-no-materials & {
-        width: 100%;
-        .form-item-search-block-form {
-          width: getColumn(11 of 12) + getGutter(12);
-        }
-        .form-actions {
-          width: getColumn(1 of 12);
-        }
-
-        // Mobile
-        @include media($mobile) {
-          .form-item-search-block-form {
-            width: getColumn(9 of 12) + getGutter(12);
-          }
-          .form-actions {
-            width: getColumn(3 of 12);
-          }
-        }
       }
     }
   }
