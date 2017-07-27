@@ -296,6 +296,14 @@ input[type="radio"] {
     right: 0;
     top: 0;
   }
+
+  &.multiple {
+    height: auto;
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
 }
 
 select {
@@ -314,6 +322,16 @@ select {
   }
   &::-ms-expand {
     display: none;
+  }
+}
+
+select[multiple="multiple"] {
+  position: relative;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  option {
+    padding: 3px 5px;
   }
 }
 
