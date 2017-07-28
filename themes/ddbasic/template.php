@@ -372,32 +372,34 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
 function ddbasic_preprocess_menu_link(&$variables) {
   if ($variables['theme_hook_original'] === 'menu_link__user_menu') {
     $path = explode('/', $variables['element']['#href']);
+
     switch (end($path)) {
+      
       case 'status-loans':
         $loans = ddbasic_account_count_loans();
         if (!empty($loans)) {
-          $variables['element']['#title'] .= ' (' . $loans . ')';
+          $variables['element']['#title'] .= ' <span class="menu-item-count loans">' . $loans . '</span>';
         }
         break;
 
       case 'status-reservations':
         $reservations = ddbasic_account_count_reservation_not_ready();
         if (!empty($reservations)) {
-          $variables['element']['#title'] .= ' (' . $reservations . ')';
+          $variables['element']['#title'] .= ' <span class="menu-item-count reservations">' . $reservations . '</span>';
         }
         break;
 
       case 'status-reservations-ready':
         $reservations = ddbasic_account_count_reservation_ready();
         if (!empty($reservations)) {
-          $variables['element']['#title'] .= ' (' . $reservations . ')';
+          $variables['element']['#title'] .= ' <span class="menu-item-count reservations-ready">' . $reservations . '</span>';
         }
         break;
 
       case 'status-debts':
         $depts = ddbasic_account_count_depts();
         if (!empty($depts)) {
-          $variables['element']['#title'] .= ' (' . $depts . ')';
+          $variables['element']['#title'] .= ' <span class="menu-item-count debts">' . $depts . '</span>';
         }
         break;
     }
