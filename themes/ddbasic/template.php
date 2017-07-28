@@ -474,6 +474,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
 
     case 'user':
       $title_prefix = '<i class="icon-user"></i>';
+      $title_suffix = '<i class="icon-arrow-down"></i>';
       // If a user is logged in we change the menu item title.
       if (user_is_logged_in()) {
         $element['#href'] = 'user/me/view';
@@ -544,7 +545,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       break;
   }
 
-  $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
+  $output = l($title_prefix . '<span>' . $element['#title'] . '</span>' . $title_suffix, $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 

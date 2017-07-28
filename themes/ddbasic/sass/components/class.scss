@@ -267,6 +267,7 @@ a.topbar-link-signout {
 
 // Topbar link user account
 a.topbar-link-user-account {
+  @include button(arrow-down, $charcoal-opacity-dark, $white, $white, $color-primary);
   @extend .button;
   padding-right: 14px;
   background-color: $white;
