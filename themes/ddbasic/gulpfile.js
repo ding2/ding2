@@ -68,7 +68,7 @@ gulp.task('validate-sass', 'Validate the SCSS', function () {
  * Precompile all sass files into css files in the sass_css folder
  *
  */
-gulp.task('sass', 'Process SCSS using libsass',
+gulp.task('sass', 'Process SCSS into individual css files using libsass',
   function () {
     gulp.src(sassPath)
       .pipe(sass({outputStyle: 'nested'})
@@ -80,6 +80,28 @@ gulp.task('sass', 'Process SCSS using libsass',
       .pipe(gulp.dest('./sass_css'));
   }
 );
+
+/**
+ * Usage:
+ * gulp sassprod
+ *
+ * Precompile all sass files into one single bundle.css file in the sass_css folder
+ *
+ */
+gulp.task('sassprod', 'Process SCSS into one css file using libsass',
+  function () {
+    gulp.src(sassPath)
+      .pipe(sass({outputStyle: 'nested'})
+        .on('error', sass.logError))
+      // Save verbose output for testing purposes.
+      .pipe(gulp.dest('./sass_css_verbose_output'))
+      // Minify the css and save it.
+      .pipe(cleanCSS())
+      .pipe(concat('bundle.css'))
+      .pipe(gulp.dest('./sass_css'));
+  }
+);
+
 
 /**
   * Usage:
