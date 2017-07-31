@@ -56,7 +56,10 @@
   //image and text in two columns layout
   &.image-and-text {
     background: $color-primary;
-    color: $color-text-on-primary;
+
+    a {
+      color: $color-text-on-primary;
+    }
 
     .ding-campaign-text {
       @include span-columns(6);
@@ -86,34 +89,37 @@
   // text only layout
   &.text {
     background: $color-primary;
-    color: $color-text-on-primary;
 
-  .ding-campaign-text {
-    @include span-columns(12);
-    padding: 40px 30px;
-
-    .ding-campaign-headline {
-      @include span-columns(8);
+    a {
+      color: $color-text-on-primary;
     }
 
-    .ding-campaign-description {
-      @include span-columns(6);
-    }
-  }
-  // if text-only layout in medium-width panel
-  &.ding-campaign-medium-width {
     .ding-campaign-text {
+      @include span-columns(12);
+      padding: 40px 30px;
+
       .ding-campaign-headline {
-        @include span-columns(12);
+        @include span-columns(8);
       }
+
       .ding-campaign-description {
-        @include span-columns(12);
+        @include span-columns(6);
       }
     }
-  }
-  .no-touch & {
-    &:hover {
-      background: $grey-dark;
+    // if text-only layout in medium-width panel
+    &.ding-campaign-medium-width {
+      .ding-campaign-text {
+        .ding-campaign-headline {
+          @include span-columns(12);
+        }
+        .ding-campaign-description {
+          @include span-columns(12);
+        }
+      }
+    }
+    .no-touch & {
+      &:hover {
+        background: $grey-dark;
 
         a {
           color: $white;
