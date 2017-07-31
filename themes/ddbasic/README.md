@@ -175,9 +175,12 @@ Or precompile the .scss files just once
 ~$ gulp sass
 ```
 
-To compile the KSS into /kss from the current SCSS:
+Compile KSS from SCSS into sites/all/themes/ddbasic/styleguide:
 
 ```
+# Compile all sass into one css file
+~$ gulp sassprod
+# Compile KSS into the styleguide folder 
 ~$ gulp kss
 ```
 
