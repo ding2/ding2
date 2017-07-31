@@ -1036,25 +1036,7 @@ function ding_serendipity_get_default_admin_info($subtype, $conf, $context) {
  */
 function ding_serendipity_form_base($form_state) {
 
-  // Collect viewmodes from nodes.
-  $entity_info_node = entity_get_info('node');
-  $view_modes = array_keys($entity_info_node['view modes']);
-
-  // Merge with viewmodes from ting_object.
-  $entity_info_ting = entity_get_info('ting_object');
-  $view_modes = array_merge($view_modes, array_keys($entity_info_ting['view modes']));
-
-  // We want each viewmode as both key and value in the array.
-  $view_modes = array_combine($view_modes, $view_modes);
-
   $form = array();
-  $form['view_mode'] = array(
-    '#type' => 'select',
-    '#title' => t('Selected'),
-    '#options' => $view_modes,
-    '#default_value' => (isset($form_state['conf']['view_mode'])) ? $form_state['conf']['view_mode'] : 'full',
-    '#description' => t('Select the view mode which the content will display with.'),
-  );
 
   $form['sort_weight'] = array(
     '#type' => 'checkbox',
