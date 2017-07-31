@@ -74,13 +74,7 @@
 
       topbar_link_user.on('click', function(evt) {
         evt.preventDefault();
-        body.toggleClass('pane-login-is-open');
-        body.removeClass('mobile-menu-is-open mobile-search-is-open mobile-usermenu-is-open');
-        if(body.hasClass('pane-login-is-open')) {
-          body.addClass('overlay-is-active');
-        } else {
-          body.removeClass('overlay-is-active');
-        }
+        ddbasic.openLogin();
       });
 
       close_user_login.on('click', function(evt) {

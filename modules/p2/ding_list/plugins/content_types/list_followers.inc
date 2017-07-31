@@ -44,6 +44,20 @@ function ding_list_list_followers_content_type_render($subtype, $conf, $panel_ar
   );
 
   if (ding_list_allowed($list, DING_LIST_OPERATION_SHARE)) {
+    if (!user_is_logged_in() && $_GET['token']) {
+      $block->content[] = array(
+        '#theme' => 'link',
+        '#text' => t('Log in to follow the list'),
+        '#path' => 'user',
+        '#options' => array(
+          'attributes' => array(
+            'class' => array('button', 'open-login'),
+          ),
+          'html' => FALSE,
+        ),
+      );
+    }
+
     $block->content[] = array('#theme' => 'ding_list_followers', '#list' => $list);
   }
 
