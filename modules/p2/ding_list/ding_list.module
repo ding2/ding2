@@ -38,6 +38,7 @@ define('DING_LIST_OPERATION_FOLLOW', 'follow');
 define('DING_LIST_OPERATION_AUTO_CREATE', 'auto_create');
 define('DING_LIST_OPERATION_CHECK_EXISTS', 'check_exists');
 define('DING_LIST_OPERATION_SHARE', 'share');
+define('DING_LIST_OPERATION_EDIT_TITLE', 'edit_title');
 
 /**
  * View list permission.
@@ -322,6 +323,7 @@ function ding_list_list_operations() {
 function ding_list_ding_list_operations() {
   return array(
     DING_LIST_TYPE_USER_LIST => array(
+      DING_LIST_OPERATION_EDIT_TITLE => TRUE,
       DING_LIST_OPERATION_DELETE => TRUE,
       DING_LIST_OPERATION_ATTACH => array('ting_object'),
       DING_LIST_OPERATION_DETACH => TRUE,
@@ -1057,6 +1059,15 @@ function ding_list_entity_load($entities, $type) {
             );
             ding_list_edit_ding_list_element($entity, 'ting_object', $values);
           }
+        }
+      }
+
+      if ($entity->type === 'ding_list' && !ding_list_allowed($entity, DING_LIST_OPERATION_EDIT_TITLE)) {
+        $operations = ding_list_list_operations();
+        $list_type = ding_base_get_value('ding_type', $entity, 'field_list_type');
+
+        if (!empty($operations[$list_type]['_data']['default_title'])) {
+          $entity->title = $operations[$list_type]['_data']['default_title'];
         }
       }
     }
