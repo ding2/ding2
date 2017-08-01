@@ -12,3 +12,4 @@ stylesheets[all][] = ting.css
 dependencies[] = ding_entity
 dependencies[] = nanosoap
 dependencies[] = virtual_field
+dependencies[] = xautoload
