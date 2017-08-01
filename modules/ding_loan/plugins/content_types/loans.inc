@@ -289,6 +289,10 @@ function ding_loan_loans_form_submit($form, &$form_state) {
       $title = $entity->getTitle();
     }
 
+    if (!empty($form_state['values']['items'][$id]->notes) && !($form_state['values']['items'][$id]->ill_status)) {
+      $title .= ' (' . $form_state['values']['items'][$id]->notes . ')';
+    }
+
     // @todo Better feedback.
     switch ($status) {
       case DingProviderLoan::STATUS_RENEWED:
