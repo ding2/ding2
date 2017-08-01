@@ -125,14 +125,8 @@ class TingEntity extends DingEntity {
 
   function getTitle() {
     $title = FALSE;
-    if (!empty($this->reply->record['dc:title'])) {
-      // Use first title with dkdcplus:full if available.
-      if (isset($this->reply->record['dc:title']['dkdcplus:full'])) {
-        $title = $this->reply->record['dc:title']['dkdcplus:full'][0];
-      }
-      else {
-        $title = $this->reply->record['dc:title'][''][0];
-      }
+    if (!empty($this->reply->record) && !empty($this->reply->record->getTitle())) {
+      $title = $this->reply->record->getTitle();
     }
     return $title;
   }
