@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_list_installer.views_default.inc
@@ -88,6 +87,11 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['fields']['delta']['label'] = '';
   $handler->display->display_options['fields']['delta']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['delta']['element_wrapper_class'] = 'ding-list-weight';
+  /* Sort criterion: ding_type: Elementer (field_list_objects:delta) */
+  $handler->display->display_options['sorts']['delta']['id'] = 'delta';
+  $handler->display->display_options['sorts']['delta']['table'] = 'field_data_field_list_objects';
+  $handler->display->display_options['sorts']['delta']['field'] = 'delta';
+  $handler->display->display_options['sorts']['delta']['order'] = 'DESC';
   /* Contextual filter: Ding_type: Id */
   $handler->display->display_options['arguments']['id']['id'] = 'id';
   $handler->display->display_options['arguments']['id']['table'] = 'eck_ding_type';
