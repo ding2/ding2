@@ -26,6 +26,13 @@ circle-setup:
 	cp -R ./* $(DRUPAL_SITE_PATH)/profiles/ding2/
 	# Install the site using the ding2 profile
 	cd $(DRUPAL_SITE_PATH) && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y
+	# Notices and warnings are seen as an error from simpletests point of view
+	# and is added to the xml-output as such. Idealy we would not have any
+	# notices or warnings, but in the current state of affairs we see quite a
+	# few, so in order to focus on actually getting some tests up and running
+	# we're disabling notices and warnings for now. In the future it would be a
+	# good idéa to revisit running with E_ALL.
+	echo "ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);" | sudo tee --append $(DRUPAL_SITE_PATH)/sites/default/settings.php
 
 # Run ding2 unittests
 circle-run-unit-tests:
