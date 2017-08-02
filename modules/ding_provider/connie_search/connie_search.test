@@ -5,7 +5,7 @@
  * tests as the real providers.
  */
 
-class ConnieSearchProviderImplementationTestCase extends DingSearchProviderImplementationTestCase {
+class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProviderImplementationTestCase {
 
   /**
    * Return metadata about the test.

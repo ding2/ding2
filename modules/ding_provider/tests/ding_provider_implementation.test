@@ -349,7 +349,7 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    */
   public function testMaterialTypes() {
     $expected_materials = $this->getMaterials();
-    $materials_from_provider = ding_provider_invoke('search', 'material_type');
+    $materials_from_provider = ding_provider_invoke('search', 'material_types');
     $this->assertEqual($expected_materials, $materials_from_provider);
   }
 }
