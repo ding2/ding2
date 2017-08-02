@@ -312,7 +312,8 @@ function _ting_search_carousel_find_covers($query, $start, $size, array $ignore)
     'enrich' => TRUE,
     'allObjects' => FALSE,
   );
-  $result = ting_do_search($query, $start++, $size, $options);
+  // Ting pages are 1, not 0, based.
+  $result = ting_do_search($query, ($start++) + 1, $size, $options);
 
   // Bail out if the search failed.
   if (!$result) {
