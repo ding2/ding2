@@ -161,19 +161,21 @@ Install Gulp and other packages:
  ~$ npm install
 ```
 
-Gulp can watch your source files so they are processed on every change:
+### Watch source files
 
 ```
 ~$ gulp watch
 ```
 
-Or precompile the .scss files just once
+### Compile the source files once
 
 ```
 ~$ gulp sass
 ```
 
-Compile KSS from SCSS into sites/all/themes/ddbasic/styleguide:
+### Compile KSS from SCSS
+
+KSS target folder is [sites/all/themes/ddbasic/styleguide](http://msd.ding2.server003.b14cms.dk/profiles/ding2/themes/ddbasic/styleguide)
 
 ```
 # Compile all sass into one css file
@@ -182,11 +184,15 @@ Compile KSS from SCSS into sites/all/themes/ddbasic/styleguide:
 ~$ gulp kss
 ```
 
-Linting of SCSS
+### SCSS lint
+
+The [lint settings](https://github.com/b14/ding2/blob/b2578/themes/ddbasic/package.json
+) extends the [stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard/blob/master/index.js) with a few exceptions towards flexibility.
 
 ```
 ~$ gulp validate-sass 
 ```
+Pull requests are required to pass the linter.
 
 
 ## Compatibility
