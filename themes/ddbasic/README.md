@@ -67,7 +67,7 @@ Render this field with the desired viewmode to output a list of materials from a
 
 Drupal image styles makes preprocessing and cropping of images easy. Fluid responsive design and everchanging DPIs of devices makes it unfeasible to render images in 1:1 with the display on each device. The purpose left for the image styles is to deliver relevant aspect ratios and *reasonable* resolution of the content.
 
-Upscaling should be avoided in all cases, and moderate CCS downscaling and optionally cropping is the prefered way of delivery for images. Always try to find a proper existing image style optionally downscaling it instead of introducing a new imagestyle with perfect pixeldimensions.
+Upscaling should be avoided in all cases, and moderate CCS downscaling and optionally cropping is the prefered way of delivery for images. Always try to find a proper existing image style optionally downscaling it instead of introducing a new imagestyle with perfect pixel dimensions.
 
 ### Manual crop
 
@@ -78,8 +78,6 @@ Upscaling should be avoided in all cases, and moderate CCS downscaling and optio
 * Always derive new image styles from manual crops in order to be able to reuse the manual crop in other styles
 * Design for existing manual crop aspect ratios
 * If no aspect matches a desired manual crop, consider using a manual crop very close to the aspect and crop in a derived style or in CSS
-
-DDBasic uses [client side adaptive image styles](https://www.drupal.org/project/cs_adaptive_image) to serve different image styles for different devices. Most smaller images won’t see any significant improvement with this module. However images with large dimension should be optimized for mobile use cases. Keep in mind that settings for adaptive images should not prevent quality images for hires/retina displays. 
 
 ## HTML markup
 
@@ -96,7 +94,7 @@ Drupal introduces many useful concepts that can be used as guidelines for semant
 Nodes, entities, fields, menus, panels and modules are examples of important concepts that the Drupal template engine treats in a structured manner regarding APIs, markup and naming.
 
 
-The [scss file structure (temp link)](https://github.com/b14/ding2/tree/ddbasic/themes/ddbasic/sass) separates Drupal concepts and provides a hierarchy close to SMACSS recommendations. Note that due to clashes between Drupal default markup DDBasic is not SMACSS comliant.
+The [scss file structure (temp link)](https://github.com/b14/ding2/tree/ddbasic/themes/ddbasic/sass) separates Drupal concepts and provides a hierarchy close to SMACSS recommendations. Note that due to clashes between Drupal default markup DDBasic is not SMACSS compliant.
 
 The stylesheets are selfdocumented with [KSS](https://github.com/kneath/kss) and the [compiled DDBasic styleguide (temp link)](http://msd.ding2.server003.b14cms.dk/profiles/ding2/themes/ddbasic/styleguide/) shows how classes, mixins, extensions and variables are correctly applied in future frontend styling of DDBasic.
 
