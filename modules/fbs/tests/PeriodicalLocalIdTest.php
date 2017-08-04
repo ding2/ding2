@@ -11,6 +11,7 @@ require_once 'includes/classes/FBS.php';
  * Test getter/parser agaist a selection of periodicals.
  */
 class PeriodicalLocalIdTest extends PHPUnit_Framework_TestCase {
+
   /**
    * Set up the test.
    */
@@ -22,40 +23,42 @@ class PeriodicalLocalIdTest extends PHPUnit_Framework_TestCase {
     $cases = array(
       array(
         'recordId' => '870970-basis:51299116',
-        'volume' => 1,
-        'volumeYear' => 2012,
+        'volume' => '1',
+        'volumeYear' => '2012',
         'volumeNumber' => NULL,
         'expected' => 'fbs-1:2012:-:870970-basis::51299116',
       ),
       array(
         'recordId' => '870970-basis:51299116',
-        'volume' => 1,
-        'volumeYear' => 2012,
-        'volumeNumber' => 13,
+        'volume' => '1',
+        'volumeYear' => '2012',
+        'volumeNumber' => '13',
         'expected' => 'fbs-1:2012:13:870970-basis::51299116',
       ),
       array(
         'recordId' => '870970-basis::51299116',
-        'volume' => 1,
-        'volumeYear' => 2012,
-        'volumeNumber' => 13,
+        'volume' => '1',
+        'volumeYear' => '2012',
+        'volumeNumber' => '13',
         'expected' => 'fbs-1:2012:13:870970-basis::::51299116',
       ),
     );
 
     foreach ($cases as $case) {
-      $periodical = new FBS\Model\PeriodicalReservation();
-      $periodical->volume = $case['volume'];
-      $periodical->volumeYear = $case['volumeYear'];
-      $periodical->volumeNumber = $case['volumeNumber'];
+      $periodical = new FBS\Model\Periodical();
+      $periodicalRes = new FBS\Model\PeriodicalReservation();
+      $periodicalRes->volume = $periodical->volume = $case['volume'];
+      $periodicalRes->volumeYear = $periodical->volumeYear = $case['volumeYear'];
+      $periodicalRes->volumeNumber = $periodical->volumeNumber = $case['volumeNumber'];
 
       $local_id = _fbs_periodical_get_local_id($case['recordId'], $periodical);
 
       $this->assertEquals($case['expected'], $local_id);
 
       list($record_id, $new_periodical) = _fbs_periodical_parse_local_id($local_id);
+      print_r($new_periodical);
       $this->assertEquals($case['recordId'], $record_id);
-      $this->assertEquals($periodical, $new_periodical);
+      $this->assertEquals($periodicalRes, $new_periodical);
     }
   }
 }
