@@ -102,12 +102,22 @@ function connie_reservation_options_validate($type, $account, $reservables, $val
 }
 
 /**
+ * Returns an users preferred default options.
+ */
+function connie_reservation_default_options() {
+  return array(
+    'connie_preferred_branch' => 'aby',
+    'interest_period' => 180,
+  );
+}
+
+/**
  * Submit handler for reservations options.
  */
-function connie_reservation_options_submit($type, $account, $reservables, $values) {
+function connie_reservation_options_submit($account, $update) {
   $profile = ding_user_provider_profile($account);
   $field_language = field_language('profile2', $profile);
-  $update = ding_reservation_default_options_branch_submit($type, 'openruth_preferred_branch', $profile->connie_preferred_branch[$field_language['connie_preferred_branch']][0]['value'], $values);
+
   if (!empty($update['connie_preferred_branch'])) {
     $profile->connie_preferred_branch[$field_language['connie_preferred_branch']][0]['value'] = $update['connie_preferred_branch'];
     $profile->save();

@@ -28,6 +28,10 @@ function connie_ding_provider() {
         'prefix' => 'user',
         'file' => 'connie.user.inc',
       ),
+      'user_consent' => array(
+        'prefix' => 'user_consent',
+        'file' => 'connie.user_consent.inc',
+      ),
       'reservation' => array(
         'prefix' => 'reservation',
         'file' => 'connie.reservation.inc',

@@ -28,6 +28,7 @@ dependencies[] = pagepreview
 dependencies[] = admin_menu
 dependencies[] = admin_menu_toolbar
 dependencies[] = toolbar
+dependencies[] = xautoload
 
 ; Ding modules.
 dependencies[] = ding_base
