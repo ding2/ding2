@@ -285,49 +285,46 @@
             display: none;
           }
         }
-        .search-field {
-          width: 100%;
-          .form-item-search-block-form {
-            width: getColumn(8) + getGutter();
-            input[type="text"] {
-              &:focus {
-                width: 100%;
-              }
-            }
-
-            // Tablet
-            @include media($tablet) {
+        .form-item-search-block-form {
+          width: getColumn(8) + getGutter();
+          input[type="text"] {
+            &:focus {
               width: 100%;
-              padding-right: 270px;
-            }
-            // Mobile
-            @include media($mobile) {
-              padding-right: 170px;
             }
           }
-          .form-actions {
-            width: getColumn(1);
-            float: right;
-            input[type="submit"] {
-              @include transition(
-                background-color $speed $ease,
-                color $speed $ease
-              );
-              background-color: $grey;
-              color: $charcoal;
-              &:hover {
-                background-color: $grey-dark;
-                color: $white;
-              }
-            }
 
-            // Tablet
-            @include media($tablet) {
-              position: absolute;
-              top: 0;
-              right: 0;
-              width: 70px;
+          // Tablet
+          @include media($tablet) {
+            width: 100%;
+            padding-right: 270px;
+          }
+          // Mobile
+          @include media($mobile) {
+            padding-right: 170px;
+          }
+        }
+        .form-actions {
+          width: getColumn(1);
+          float: right;
+          input[type="submit"] {
+            @include transition(
+              background-color $speed $ease,
+              color $speed $ease
+            );
+            background-color: $grey;
+            color: $charcoal;
+            &:hover {
+              background-color: $grey-dark;
+              color: $white;
             }
+          }
+
+          // Tablet
+          @include media($tablet) {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 70px;
           }
         }
         .form-item-material-type {
@@ -432,23 +429,21 @@
         top: $header-height;
       }
       .search-form-extended.search-form-no-materials & {
-        .search-field {
-          width: 100%;
+        width: 100%;
+        .form-item-search-block-form {
+          width: getColumn(11 of 12) + getGutter(12);
+        }
+        .form-actions {
+          width: getColumn(1 of 12);
+        }
+
+        // Mobile
+        @include media($mobile) {
           .form-item-search-block-form {
-            width: getColumn(11 of 12) + getGutter(12);
+            width: getColumn(9 of 12) + getGutter(12);
           }
           .form-actions {
-            width: getColumn(1 of 12);
-          }
-
-          // Mobile
-          @include media($mobile) {
-            .form-item-search-block-form {
-              width: getColumn(9 of 12) + getGutter(12);
-            }
-            .form-actions {
-              width: getColumn(3 of 12);
-            }
+            width: getColumn(3 of 12);
           }
         }
       }

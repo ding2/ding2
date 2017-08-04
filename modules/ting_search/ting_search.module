@@ -291,19 +291,10 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
           '#options' => drupal_map_assoc(array_keys(_ting_fetch_well_types())),
           '#weight' => 10,
           '#default_value' => 'bog',
-      );
-    }
+        );
+      }
 
     case TING_SEARCH_FORM_STYLE_EXTENDED:
-      $form['search_field'] = array(
-        '#type' => 'container',
-        '#weight' => 5,
-        '#attributes' => array('class' => array('search-field')),
-        'search_block_form' => $form['search_block_form'],
-        'actions' => $form['actions'],
-      );
-      unset($form['search_block_form'], $form['actions']);
-
       $form['search_extended_open_button'] = array(
         '#markup' => '<a href="#" class="search-extended-button">Search extended button</a>',
       );
