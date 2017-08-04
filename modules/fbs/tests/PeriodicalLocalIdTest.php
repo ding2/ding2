@@ -56,9 +56,14 @@ class PeriodicalLocalIdTest extends PHPUnit_Framework_TestCase {
       $this->assertEquals($case['expected'], $local_id);
 
       list($record_id, $new_periodical) = _fbs_periodical_parse_local_id($local_id);
-      print_r($new_periodical);
-      $this->assertEquals($case['recordId'], $record_id);
+      $this->assertSame($case['recordId'], $record_id);
       $this->assertEquals($periodicalRes, $new_periodical);
+      // Assert that the individual properties aren't just effectually equal,
+      // but of the same type. We can't use assertSame on the periodical
+      // objects, as they're not the same object.
+      $this->assertSame($periodicalRes->volume, $new_periodical->volume);
+      $this->assertSame($periodicalRes->volumeYear, $new_periodical->volumeYear);
+      $this->assertSame($periodicalRes->volumeNumber, $new_periodical->volumeNumber);
     }
   }
 }
