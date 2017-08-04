@@ -26,7 +26,7 @@ class PeriodicalLocalIdTest extends PHPUnit_Framework_TestCase {
         'volume' => '1',
         'volumeYear' => '2012',
         'volumeNumber' => NULL,
-        'expected' => 'fbs-1:2012:-:870970-basis::51299116',
+        'expected' => 'fbs-1:2012:^:870970-basis::51299116',
       ),
       array(
         'recordId' => '870970-basis:51299116',
@@ -41,6 +41,13 @@ class PeriodicalLocalIdTest extends PHPUnit_Framework_TestCase {
         'volumeYear' => '2012',
         'volumeNumber' => '13',
         'expected' => 'fbs-1:2012:13:870970-basis::::51299116',
+      ),
+      array(
+        'recordId' => '870970-basis:51299116',
+        'volume' => '1',
+        'volumeYear' => '2012',
+        'volumeNumber' => '',
+        'expected' => 'fbs-1:2012:-:870970-basis::51299116',
       ),
     );
 
