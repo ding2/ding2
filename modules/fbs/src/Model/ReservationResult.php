@@ -18,13 +18,13 @@ class ReservationResult
     public $result = null;
 
     /**
-     * @var PeriodicalReservation Periodical information of the reservation
+     * @var PeriodicalReservation|null Periodical information of the reservation
      */
     public $periodical = null;
 
     /**
-     * @var ReservationDetails The reservation data as returned by the create/update
-     * operation
+     * @var ReservationDetails|null The reservation data as returned by the
+     * create/update operation
      */
     public $reservationDetails = null;
 

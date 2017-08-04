@@ -12,17 +12,17 @@ class Holdings
     public $materials = null;
 
     /**
-     * @var AgencyLocation Placement location
+     * @var AgencyLocation|null Placement location
      */
     public $location = null;
 
     /**
-     * @var AgencySublocation Placement sublocation
+     * @var AgencySublocation|null Placement sublocation
      */
     public $sublocation = null;
 
     /**
-     * @var AgencyDepartment Placement department
+     * @var AgencyDepartment|null Placement department
      */
     public $department = null;
 

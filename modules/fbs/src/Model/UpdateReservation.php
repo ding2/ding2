@@ -6,15 +6,15 @@ class UpdateReservation
 {
 
     /**
-     * @var string The date where the patron is no longer interested in the reserved
-     * material.
+     * @var string|null The date where the patron is no longer interested in the
+     * reserved material.
      *  If not set, a date will be calculated from the libraries default interest
      * period
      */
     public $expiryDate = null;
 
     /**
-     * @var string ISIL-number of pickup branch.
+     * @var string|null ISIL-number of pickup branch.
      *  If not set, will default to patrons preferred pickup branch
      */
     public $pickupBranch = null;

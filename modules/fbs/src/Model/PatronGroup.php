@@ -30,7 +30,7 @@ class PatronGroup
     public $description = null;
 
     /**
-     * @var PatronGroup[] The array of child groups of this group
+     * @var PatronGroup[]|null The array of child groups of this group
      */
     public $childGroups = null;
 

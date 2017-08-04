@@ -12,8 +12,8 @@ class PaymentConfirmation
     public $orderId = null;
 
     /**
-     * @var string set if fee was registered when using the orderId, unset otherwise
-     * (see paymentStatus for reason)
+     * @var string|null set if fee was registered when using the orderId, unset
+     * otherwise (see paymentStatus for reason)
      */
     public $confirmationId = null;
 

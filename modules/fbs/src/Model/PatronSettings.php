@@ -6,14 +6,14 @@ class PatronSettings
 {
 
     /**
-     * @var string Required if patron should receive email notifications
+     * @var string|null Required if patron should receive email notifications
      *  Existing email addresses are overwritten with this value
      *  If left empty existing email addresses are deleted
      */
     public $emailAddress = null;
 
     /**
-     * @var string Required if patron should receive SMS notifications
+     * @var string|null Required if patron should receive SMS notifications
      *  Existing phonenumbers are overwritten with this value
      *  If left empty existing phonenumbers are deleted
      */
@@ -26,7 +26,7 @@ class PatronSettings
     public $preferredPickupBranch = null;
 
     /**
-     * @var Period If not set then the patron is not on hold
+     * @var Period|null If not set then the patron is not on hold
      */
     public $onHold = null;
 

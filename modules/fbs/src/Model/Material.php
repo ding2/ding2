@@ -12,7 +12,7 @@ class Material
     public $itemNumber = null;
 
     /**
-     * @var Periodical Present if material is a periodical
+     * @var Periodical|null Present if material is a periodical
      */
     public $periodical = null;
 

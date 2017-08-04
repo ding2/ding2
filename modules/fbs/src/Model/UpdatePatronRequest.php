@@ -6,12 +6,12 @@ class UpdatePatronRequest
 {
 
     /**
-     * @var PatronSettings Set this if patron details are to be changed
+     * @var PatronSettings|null Set this if patron details are to be changed
      */
     public $patron = null;
 
     /**
-     * @var PincodeChange Set this if pincode is to be changed
+     * @var PincodeChange|null Set this if pincode is to be changed
      */
     public $pincodeChange = null;
 

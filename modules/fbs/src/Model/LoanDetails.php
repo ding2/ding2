@@ -18,7 +18,7 @@ class LoanDetails
     public $loanType = null;
 
     /**
-     * @var Periodical Present if material is a periodical
+     * @var Periodical|null Present if material is a periodical
      */
     public $periodical = null;
 
@@ -29,7 +29,7 @@ class LoanDetails
     public $dueDate = null;
 
     /**
-     * @var ILLBibliographicRecord Additional bibliographic information for
+     * @var ILLBibliographicRecord|null Additional bibliographic information for
      * inter-library loans
      */
     public $ilBibliographicRecord = null;

@@ -15,7 +15,7 @@ class AuthenticatedPatron
     public $authenticated = null;
 
     /**
-     * @var Patron Only available if patron exists in FBS and was succesfully
+     * @var Patron|null Only available if patron exists in FBS and was succesfully
      * authenticated.
      */
     public $patron = null;

@@ -6,17 +6,17 @@ class Patron
 {
 
     /**
-     * @var string
+     * @var string|null
      */
     public $birthday = null;
 
     /**
-     * @var Address
+     * @var Address|null
      */
     public $coAddress = null;
 
     /**
-     * @var Address
+     * @var Address|null
      */
     public $address = null;
 
@@ -27,7 +27,7 @@ class Patron
     public $preferredPickupBranch = null;
 
     /**
-     * @var Period If not set then the patron is not on hold
+     * @var Period|null If not set then the patron is not on hold
      */
     public $onHold = null;
 
@@ -45,7 +45,7 @@ class Patron
     public $receiveEmail = null;
 
     /**
-     * @var BlockStatus[] A list of block statuses -
+     * @var BlockStatus[]|null A list of block statuses -
      *  if the patron is not blocked then this value is empty or null
      */
     public $blockStatus = null;
@@ -57,17 +57,17 @@ class Patron
     public $receiveSms = null;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $emailAddress = null;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $phoneNumber = null;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $name = null;
 
@@ -78,7 +78,7 @@ class Patron
     public $receivePostalMail = null;
 
     /**
-     * @var boolean True if the user is allowed to create bookings.
+     * @var boolean|null True if the user is allowed to create bookings.
      */
     public $allowBookings = null;
 

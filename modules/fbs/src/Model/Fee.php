@@ -19,8 +19,8 @@ class Fee
     public $amount = null;
 
     /**
-     * @var string If the fee has been paid in full, this will be set to the date of
-     * the final payment, otherwise not set
+     * @var string|null If the fee has been paid in full, this will be set to the date
+     * of the final payment, otherwise not set
      */
     public $paidDate = null;
 
@@ -39,7 +39,7 @@ class Fee
     public $reasonMessage = null;
 
     /**
-     * @var string Expected payment due date
+     * @var string|null Expected payment due date
      */
     public $dueDate = null;
 
