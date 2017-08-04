@@ -43,12 +43,14 @@
 // On search result
 .ting-object.view-mode-search-result {
   .group-rating {
+    width: 100%;
+    float: left;
     padding-top: 20px;
     margin-top: 20px;
     border-top: 1px solid $charcoal-opacity-light;
-    
+
     @include media($mobile) {
-      padding-top: 4px;   
+      padding-top: 10px;
     }
   }
 }
