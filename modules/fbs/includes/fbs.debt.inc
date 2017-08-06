@@ -63,7 +63,9 @@ function fbs_debt_list($account) {
       if (count($record_ids) == 1) {
         $record_id = reset($record_ids);
         $entity = ding_entity_load($ids[$record_id]);
-        $data['display_name'] = $entity->getTitle();
+        // Create title that links to the object.
+        $uri = entity_uri('ting_object', $entity);
+        $data['display_name'] = l($entity->getTitle(), $uri['path']);
       }
       elseif (count($record_ids) > 1) {
         $data['display_name'] = t('Multiple materials');
