@@ -5,6 +5,7 @@ api = 2
 includes[ding2] = "ding2.make"
 
 ; easyOPAC modules
+<<<<<<< HEAD
 projects[alma_item_list][type]             = "module"
 projects[alma_item_list][subdir]           = ""
 projects[alma_item_list][download][type]   = "git"
@@ -438,7 +439,29 @@ projects[vejlebib_fbs][download][url]    = "git@github.com:vejlebib/vejlebib_fbs
 projects[vejlebib_fbs][download][branch] = "master"
 
 ; EASYOPAC themes
+projects[roskilde_subtheme][type]             = "theme"
+projects[roskilde_subtheme][subdir]           = ""
+projects[roskilde_subtheme][download][type]   = "git"
+projects[roskilde_subtheme][download][url]    = "git@github.com:easySuite/roskilde_subtheme.git"
+projects[roskilde_subtheme][download][branch] = "develop"
 
+projects[thisted_theme][type]             = "theme"
+projects[thisted_theme][subdir]           = ""
+projects[thisted_theme][download][type]   = "git"
+projects[thisted_theme][download][url]    = "git@github.com:easySuite/thisted_theme.git"
+projects[thisted_theme][download][branch] = "develop"
+
+projects[hjorbib_theme][type]             = "theme"
+projects[hjorbib_theme][subdir]           = ""
+projects[hjorbib_theme][download][type]   = "git"
+projects[hjorbib_theme][download][url]    = "git@github.com:easySuite/hjorbib_theme.git"
+projects[hjorbib_theme][download][branch] = "develop"
+
+projects[herbib_theme][type]             = "theme"
+projects[herbib_theme][subdir]           = ""
+projects[herbib_theme][download][type]   = "git"
+projects[herbib_theme][download][url]    = "git@github.com:easySuite/herbib_theme.git"
+projects[herbib_theme][download][branch] = "develop"
 
 
 ; Social Services modules and libraries
@@ -477,3 +500,4 @@ projects[kultur_subtheme][subdir]           = ""
 projects[kultur_subtheme][download][type]   = "git"
 projects[kultur_subtheme][download][url]    = "git@github.com:easySuite/kultur_subtheme.git"
 projects[kultur_subtheme][download][branch] = "develop"
+

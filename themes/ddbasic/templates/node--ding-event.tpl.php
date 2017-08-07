@@ -92,6 +92,9 @@
 ?>
 <div itemscope itemtype="http://schema.org/Event">
 <article class="event">
+  <?php if (isset($content['field_ding_event_image_gallery'])) : ?>
+    <?php print render($content['field_ding_event_image_gallery']); ?>
+  <?php endif; ?>
   <h1 class="page-title" itemprop="name"><?php print $title; ?></h1>
 
   <div class="event-lead">
@@ -137,7 +140,7 @@
       <?php print render($content['field_ding_event_title_image']); ?>
     </div>
     <?php endif; ?>
-    
+
     <div class="description" itemprop="description">
     <?php
       // Hide fields we have already rendered.
