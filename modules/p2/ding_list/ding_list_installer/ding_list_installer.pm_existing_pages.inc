@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Ding_list_installer.pm_existing_pages.inc
+ * Ding_list_installer.pm_existing_pages.inc.
  */
 
 /**

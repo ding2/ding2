@@ -43,7 +43,18 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
   // @TODO Change $output to render array and use #attached for files.
   drupal_add_js(drupal_get_path('module', 'ding_interaction') . '/js/ding_interaction.js');
   drupal_add_css(drupal_get_path('module', 'ding_interaction') . '/css/ding_interaction.css');
-  $data = ding_interaction_content(NULL, $conf['count']);
+
+  $extra = $module_list = array();
+
+  // Force select an interaction depending on get parameters.
+  if (!empty($_GET['interaction']) && user_access('administer personalisation')) {
+    $module_list[$_GET['interaction']] = module_invoke($_GET['interaction'], 'ding_interaction_info');
+    if (!empty($_GET['interaction_extra'])) {
+      $extra = $_GET['interaction_extra'];
+    }
+  }
+
+  $data = ding_interaction_content($module_list, $conf['count'], $extra);
 
   $output = new stdClass();
   if ($data) {

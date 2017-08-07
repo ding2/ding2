@@ -129,26 +129,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
         );
 
         if (!empty($configured_facet['sorting'])) {
-          switch ($configured_facet['sorting']) {
-            case 'alphabetical':
-              ksort($facet->terms);
-              break;
-
-            case 'alphabetical_reverse':
-              krsort($facet->terms);
-              break;
-
-            case 'numeric':
-              ksort($facet->terms, SORT_NUMERIC);
-              break;
-
-            case 'numeric_reverse':
-              krsort($facet->terms, SORT_NUMERIC);
-              break;
-
-            default:
-              break;
-          }
+          ding_facetbrowser_sort_terms($facet->terms, $configured_facet['sorting']);
         }
 
         foreach ($facet->terms as $term_name => $term_count) {
@@ -156,15 +137,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           $element_name = end($facet_name);
           $facets_string = $facet->name . ':' . $term_name;
           $term_name_title = $term_name;
-          // Check if term name is longer than 14 chars,
-          // if so, short it down to fit facet browser.
-          $substr_length = 19
-            + substr_count(drupal_substr($term_name, 0, 20), 'l')
-            + substr_count(drupal_substr($term_name, 0, 20), 'i')
-            - drupal_strlen((string)$term_count);
-          if (drupal_strlen($term_name) > $substr_length + 3) {
-            $term_name_title = drupal_substr($term_name, 0, $substr_length) . '...';
-          }
+          ding_facetbrowser_format_term_name($term_name, $term_count);
 
           if (_ding_facetbrowser_is_facet_set($facet->name, $term_name) === TRUE) {
             $default_values[] = $term_name;
@@ -212,6 +185,62 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
   }
 
   return $form;
+}
+
+/**
+ * Sorts facet terms with the specified sorting.
+ */
+function ding_facetbrowser_sort_terms(&$terms, $sorting) {
+  switch ($sorting) {
+    case 'alphabetical':
+      ksort($terms);
+      break;
+
+    case 'alphabetical_reverse':
+      krsort($terms);
+      break;
+
+    case 'numeric':
+      ksort($terms, SORT_NUMERIC);
+      break;
+
+    case 'numeric_reverse':
+      krsort($terms, SORT_NUMERIC);
+      break;
+
+    default:
+      break;
+  }
+}
+
+/**
+ * The sort options we support for facet terms.
+ */
+function ding_facetbrowser_sort_terms_options() {
+  return array(
+    'default' => t('Ranking (default)'),
+    'alphabetical' => t('Alphabetic'),
+    'aphabetical_reverse' => t('Alphabetic (reverse)'),
+    'numeric' => t('Numeric'),
+    'numeric_reverse' => t('Numeric (reverse)'),
+  );
+}
+
+/**
+ * Helper function to format term name title, if it's too long to display in
+ * the facetbrowser window.
+ *
+ * @See: ding_facetbrowser_form()
+ */
+function ding_facetbrowser_format_term_name($term_name, $term_count) {
+  $substr_length = 19
+    + substr_count(drupal_substr($term_name, 0, 20), 'l')
+    + substr_count(drupal_substr($term_name, 0, 20), 'i')
+    - drupal_strlen((string)$term_count);
+  if (drupal_strlen($term_name) > $substr_length) {
+    return drupal_substr($term_name, 0, $substr_length) . '...';
+  }
+  return $term_name;
 }
 
 /**
@@ -358,4 +387,3 @@ function ding_facetbrowser_block_view($delta = FALSE) {
 
   return $block;
 }
-

@@ -87,7 +87,12 @@ function ding_varnish_init() {
   if (empty($_POST) && user_is_logged_in()) {
     // Get the roles selected.
     $ding_varnish_role = variable_get('ding_varnish_role', 2);
-    if (isset($user->roles[$ding_varnish_role]) && count($user->roles) == 2) {
+
+    // Do not cache if there are any drupal messages set.
+    if (drupal_get_messages(NULL, FALSE)) {
+      $cacheable = FALSE;
+    }
+    elseif (isset($user->roles[$ding_varnish_role]) && count($user->roles) == 2) {
       // Role was cacheable.
       $cacheable = TRUE;
     }

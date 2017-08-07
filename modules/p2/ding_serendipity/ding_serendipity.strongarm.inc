@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_serendipity.strongarm.inc

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file field--ting-cover--ting-object.tpl.php
+ * @file
  * Removed all wrappers.
  *
  * Available variables:

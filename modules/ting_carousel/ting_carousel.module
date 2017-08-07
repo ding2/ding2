@@ -1,0 +1,99 @@
+<?php
+/**
+ * @file
+ * Carousel elements.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function ting_carousel_theme($existing, $type, $theme, $path) {
+  return array(
+    'ting_carousel' => array(
+      'variables' => array(
+        'items' => array(),
+        'item_type' => 'ting_object',
+        'args' => array(),
+      ),
+      'file' => 'ting_carousel.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function ting_carousel_libraries_info() {
+  return array(
+    'slick' => array(
+      'name' => 'Slick',
+      'vendor url' => 'http://kenwheeler.github.io/slick/',
+      'download url' => 'https://github.com/kenwheeler/slick/archive/1.6.0.zip',
+      'version arguments' => array(
+        'file' => 'slick/slick.min.js',
+        'pattern' => '/Version:\s([0-9a-zA-Z\.-]+)/',
+      ),
+      'files' => array(
+        'css' => array('slick/slick.css'),
+        'js' => array('slick/slick.min.js'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ting_carousel_field_formatter_info() {
+  return array(
+    'ting_carousel' => array(
+      'label' => t('Ting Carousel'),
+      'field types' => array('ting_reference'),
+      'settings' => array(
+        'view_mode' => 'teaser',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function ting_carousel_field_formatter_settings_form($field, $instance, $view_mode, $form, $form_state) {
+  $instance['display'][$view_mode]['type'] = 'ting_reference_default';
+  return ting_reference_field_formatter_settings_form($field, $instance, $view_mode, $form, $form_state);
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function ting_carousel_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $instance['display'][$view_mode]['type'] = 'ting_reference_default';
+  return ting_reference_field_formatter_settings_summary($field, $instance, $view_mode);
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ting_carousel_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $display['type'] = 'ting_reference_default';
+  return ting_reference_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display);
+}
+
+/**
+ * Implements hook_preprocess_field().
+ */
+function ting_carousel_preprocess_field(&$variables) {
+  if ($variables['element']['#formatter'] === 'ting_carousel') {
+    ting_carousel_add_externals();
+    $variables['classes_array'][] = 'ting-carousel-field';
+  }
+}
+
+/**
+ * Add all the js and css needed for the carousel to work.
+ */
+function ting_carousel_add_externals() {
+  drupal_add_js(drupal_get_path('module', 'ting_carousel') . '/js/ting-carousel.js');
+  libraries_load('slick');
+}

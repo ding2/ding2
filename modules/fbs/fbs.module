@@ -5,6 +5,13 @@
  * FBS provider module.
  */
 
+use FBS\Model\Patron;
+use FBS\Model\PatronSettings;
+use FBS\Model\Period;
+use FBS\Model\Periodical;
+use FBS\Model\PeriodicalReservation;
+use FBS\Model\UpdatePatronRequest;
+
 include_once 'fbs.features.inc';
 
 // Load Field module hooks. Wrapping in function exists, so we'll still be
@@ -34,10 +41,10 @@ function fbs_libraries_info() {
       'download url' => 'https://github.com/cweiske/jsonmapper',
       'version' => 'v0.4.4',
       'xautoload' => function ($adapter) {
+        $adapter->addClassMap(
         // Would like to:
         // $adapter->composerJson('composer.json');
         // But xautoload can't figure it out.
-        $adapter->addClassMap(
           array(
             'JsonMapper' => 'src/JsonMapper.php',
             'JsonMapper_Exception' => 'src/JsonMapper/Exception.php',
@@ -133,7 +140,6 @@ function fbs_get_patron_info($account = NULL) {
   $creds = ding_user_get_creds($user);
   return $creds;
 }
-
 
 /**
  * Return patron id for user.
@@ -253,6 +259,33 @@ function fbs_settings_form() {
     '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
   );
 
+  // Branches and blacklisted branches.
+  $form['branches'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Holdings Branches Blacklist'),
+    '#description' => t('Choose which branches to blacklist from searches'),
+  );
+
+  $form['branches']['fbs_branches_blacklist'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Branches blacklist'),
+    '#options' => fbs_branches(),
+    '#default_value' => variable_get('fbs_branches_blacklist', array()),
+  );
+
+  $form['user_branches'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('User Branches Blacklist'),
+    '#description' => t('Choose which branches to blacklist from user profile.'),
+  );
+
+  $form['user_branches']['fbs_user_branches_blacklist'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('User branch blacklist'),
+    '#options' => fbs_branches(),
+    '#default_value' => variable_get('fbs_user_branches_blacklist', array()),
+  );
+
   return system_settings_form($form);
 }
 
@@ -317,12 +350,12 @@ function fbs_profile2_presave($entity) {
   );
 
   if (array_diff_assoc($current, $existing) || array_diff_assoc($current_on_hold, $existing_on_hold)) {
-    $period = new FBS\Model\Period();
+    $period = new Period();
     $period->from = $current_on_hold['from'];
     $period->to = $current_on_hold['to'];
 
-    $update = new FBS\Model\UpdatePatronRequest();
-    $patron_settings = new FBS\Model\PatronSettings();
+    $update = new UpdatePatronRequest();
+    $patron_settings = new PatronSettings();
     foreach ($current as $key => $val) {
       $patron_settings->{$key} = $val;
     }
@@ -367,6 +400,13 @@ function fbs_update_preferred_branch($account, $branch_id) {
 
   if (!$wrapper->field_fbs_preferred_branch->value()) {
     $wrapper->field_fbs_preferred_branch->set($branch_id);
+    $current_on_hold = $wrapper->field_fbs_on_hold->value();
+    if (!empty($current_on_hold['from'])) {
+      $wrapper->field_fbs_on_hold->set(array(
+        'from' => date('Y-m-d', $current_on_hold['from']),
+        'to' => date('Y-m-d', $current_on_hold['to']),
+      ));
+    }
 
     $profile->save();
   }
@@ -397,7 +437,30 @@ function fbs_branches() {
 
     asort($branches);
   }
+
   return $branches;
+}
+
+/**
+ * Get user select-able branches.
+ */
+function fbs_user_branches($account) {
+  $branches = fbs_branches();
+  $blacklist = array_filter(variable_get('fbs_user_branches_blacklist', array()));
+
+  if (ding_user_is_provider_user($account)) {
+    $patron_info = fbs_get_patron_info($account);
+
+    $preferred_branch = $patron_info['preferred_branch'];
+
+    // If users preferred branch is blacklisted, remove it from the blacklist to
+    // allow the user to keep their old preference.
+    if ($preferred_branch && isset($blacklist[$preferred_branch])) {
+      unset($blacklist[$preferred_branch]);
+    }
+  }
+
+  return array_diff_key($branches, $blacklist);
 }
 
 /**
@@ -437,6 +500,33 @@ function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state)
   }
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Access options for the attributes in the holdings field.
+ */
+function fbs_form_ding_availability_admin_holdings_settings_alter(&$form, &$form_state, $form_id) {
+  $form['holdings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Holdings levels display'),
+    '#description' => t('Configure holdings display modes.'),
+  );
+  $form['holdings']['fbs_show_material_group'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show material group description'),
+    '#default_value' => variable_get('fbs_show_material_group', 0),
+  );
+  $form['holdings']['fbs_holdings_suffix_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Holdings suffix'),
+    '#description' => t('Select which type of suffix to use for holdings. Simple shows a mix between DK5 and inverted creator, while Shelf mark simulates the shelf mark from ALMA using marc-data from the well.'),
+    '#default_value' => variable_get('fbs_holdings_suffix_type', 'simple'),
+    '#options' => array(
+      'simple' => t('Simple'),
+      'shelf_mark' => t('Shelf mark'),
+    ),
+  );
+}
 
 /**
  * Pack patron info in an array.
@@ -450,7 +540,7 @@ function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state)
  * @return array
  *   Data to save.
  */
-function _fbs_patron_info(FBS\Model\Patron $patron) {
+function _fbs_patron_info(Patron $patron) {
   $creds = array(
     'patronId' => $patron->patronId,
     'name' => $patron->name,
@@ -496,7 +586,7 @@ function _fbs_patron_info(FBS\Model\Patron $patron) {
  * @return string
  *   The pseudo id.
  */
-function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodical) {
+function _fbs_periodical_get_local_id($record_id, Periodical $periodical) {
   // We're using - as a placeholder for empty values, it ensures that there'll
   // be something between the colons, which in turn means we don't have to
   // deal with the possibility of two colons in a row.
@@ -507,7 +597,7 @@ function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodic
     $record_id,
   );
 
-  $parts = array_map(function($part) {
+  $parts = array_map(function ($part) {
     // "Escape" the colons, so we can split on ":" later.
     return strtr($part, array(':' => '::'));
   }, $parts);
@@ -541,12 +631,12 @@ function _fbs_periodical_parse_local_id($local_id) {
     $parts = preg_split('/(?<!:):(?!:)/', $matches[1]);
 
     // Replace '-' with NULL and reverse the "escaping" of colon.
-    $parts = array_map(function($part) {
+    $parts = array_map(function ($part) {
       return $part === '-' ? NULL : strtr($part, array('::' => ':'));
     }, $parts);
   }
 
-  $periodical = new FBS\Model\PeriodicalReservation();
+  $periodical = new PeriodicalReservation();
   list(
     $periodical->volume,
     $periodical->volumeYear,
@@ -574,4 +664,36 @@ function _fbs_wayf_login($name, $value = NULL) {
   }
 
   return NULL;
+}
+
+/**
+ * Implements hook_ting_pre_execute().
+ */
+function fbs_ting_pre_execute($request) {
+  // We only want to modify searches.
+  if ($request instanceof TingClientSearchRequest) {
+    // Filter out blacklisted branches from search.
+    $branches_blacklist = array_filter(variable_get('fbs_branches_blacklist', array()));
+    $blacklist_names = array_values(array_intersect_key(fbs_branches(), $branches_blacklist));
+    $blacklist_names = array_map('_fbs_cql_quote_string', $blacklist_names);
+
+    $query = $request->getQuery();
+    if (!empty($branches_blacklist)) {
+      $query .= ' AND (holdingsitem.branch = (* not ' . implode(' not ',
+                $branches_blacklist) . '))';
+      $request->setQuery($query);
+    }
+
+    // Since FBS is using data-well 3.5 we need to filter local holdings.
+    $request->setFilterLocalHoldings(TRUE);
+  }
+}
+
+/**
+ * Quote string for use in CQL.
+ *
+ * Adds " around the string and escapes inline ".
+ */
+function _fbs_cql_quote_string($name) {
+  return '"' . preg_replace('/"/', '\\"', $name) . '"';
 }

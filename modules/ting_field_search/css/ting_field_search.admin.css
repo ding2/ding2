@@ -1,0 +1,44 @@
+#ting-field-search-wrapper .action-links {
+  margin-top: 0;
+}
+
+#ting-field-search-wrapper .fieldset-legend {
+  background: none;
+}
+
+#ting-field-search-profiles {
+  margin: 0 0 0.5em 0;
+}
+
+#ting-field-search-profiles a {
+  display: inline-block;
+}
+
+#facets .form-type-textfield {
+  overflow: hidden;
+}
+
+#edit-config-facets .fieldset-wrapper {
+  padding: 0;
+}
+
+.vertical-tabs .form-type-textfield input[type="text"] {
+  width: auto;
+}
+
+#facets input[type="text"] {
+  width: 100%;
+}
+
+.vertical-tabs .fieldset-wrapper .form-type-checkbox:nth-child(2) {
+  padding-top: 10px;
+}
+
+.vertical-tabs .fieldset-wrapper .fieldset-description {
+  margin-bottom: 15px;
+  border-bottom: 1px solid grey;
+}
+
+td.ctools-export-ui-operations .ctools-dropbutton {
+  right: 40px;
+}

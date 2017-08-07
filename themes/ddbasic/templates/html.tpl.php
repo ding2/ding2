@@ -44,7 +44,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language->language; ?>" lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>"<?php print $rdf_namespaces; ?>>
 <head>
   <?php print $head; ?>
-  <?php if (!empty($ios_logo)): ?><link rel="apple-touch-icon" href="<?php print $ios_logo; ?>"/><?php endif; ?>
+  <?php if (!empty($ios_logo)): ?><link rel="apple-touch-icon" href="<?php print $ios_logo; ?>"/><?php
+  endif; ?>
   <title><?php print $head_title; ?></title>
   <meta name="viewport" content="width=device-width">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -52,6 +53,8 @@
   <?php print $scripts; ?>
 </head>
 <body <?php print $attributes;?> class="<?php print $classes; ?>">
+  <div class="is-tablet"></div>
+  <div class="is-mobile"></div>
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
