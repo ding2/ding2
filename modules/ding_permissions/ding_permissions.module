@@ -178,6 +178,7 @@ function ding_permissions_secure_permissions($role) {
       'use personalisation',
     ),
     'administrators' => array(
+      'administer serendipity panes',
       'access administration pages',
       'access administration menu',
       'flush caches',
