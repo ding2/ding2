@@ -16,6 +16,14 @@
    position: relative;
    height: 100%;
    z-index: 3;
+   color: $color-text-on-primary;
+  }
+  .no-touch & {
+    &:hover {
+      a {
+        color: $white;
+      }
+    }
   }
   // campaign layout specific styles
   &.text-on-image {
@@ -57,10 +65,6 @@
   &.image-and-text {
     background: $color-primary;
 
-    a {
-      color: $color-text-on-primary;
-    }
-
     .ding-campaign-text {
       @include span-columns(6);
       float: right;
@@ -79,20 +83,12 @@
     .no-touch & {
       &:hover {
         background: $grey-dark;
-
-        a {
-          color: $white;
-        }
       }
     }
   }
   // text only layout
   &.text {
     background: $color-primary;
-
-    a {
-      color: $color-text-on-primary;
-    }
 
     .ding-campaign-text {
       @include span-columns(12);
@@ -120,10 +116,6 @@
     .no-touch & {
       &:hover {
         background: $grey-dark;
-
-        a {
-          color: $white;
-        }
       }
     }
   }
