@@ -35,6 +35,9 @@ function fbs_debt_list($account) {
   }
   $ids = ding_provider_build_entity_id($ids);
 
+  // Preload all entities with translated ids.
+  ding_entity_load_multiple(array_filter($ids));
+
   foreach ($res as $fee) {
     $id = $fee->feeId;
 
