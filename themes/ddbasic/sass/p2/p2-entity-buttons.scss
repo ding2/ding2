@@ -1,0 +1,164 @@
+//
+// Ding list entity buttons
+
+@import '../base.scss';
+
+// ==========================================================================
+// Ding list add button
+// ==========================================================================
+
+// In Ding entity buttons
+.field-name-ding-entity-buttons {
+  .ding-list-add-button {
+    .trigger {
+      @extend %button;
+      margin-bottom: 15px;
+      color: $charcoal-opacity-dark;
+
+      // Hover
+      .no-touch & {
+        &:hover {
+          color: $white;
+          background-color: $grey-dark;
+        }
+      }
+    }
+    .content {
+      @include transition(
+        opacity $speed $ease,
+        bottom 0s $speed
+      );
+      position: fixed;
+      z-index: $z-header + 1;
+      bottom: 100%;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      background-color: $black-overlay-dark;
+      overflow-y: scroll;
+      .wrapper {
+        @include wrapper;
+        position: relative;
+      }
+      .inner {
+        @include transform(translateX(-50%));
+        @include span-columns(8);
+        @include omega();
+        position: absolute;
+        top: 100px;
+        left: 50%;
+        margin-bottom: 50px;
+
+        // Tablet
+        @include media($tablet) {
+          @include span-columns(10);
+          @include omega();
+        }
+
+        // Mobile
+        @include media($mobile) {
+          width: 90%;
+        }
+      }
+      h2 {
+        @include font('display-large');
+        width: 100%;
+        padding-right: 100px;
+        float: left;
+        color: $white;
+        margin-bottom: 20px;
+      }
+      .close {
+        @include place-icon(close, $white);
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding-top: 20px;
+        padding-right: 44px;
+        float: right;
+        color: $white;
+        cursor: pointer;
+        &::after {
+          right: -20px;
+        }
+      }
+      .buttons {
+        width: 100%;
+        float: left;
+        list-style: none;
+        li {
+          width: 100%;
+          float: left;
+          padding: 20px;
+          background-color: $white;
+          &:nth-child(2n + 1) {
+            background-color: $grey;
+          }
+          > span,
+          .list-title {
+            @include font('display-small');
+          }
+          .list-title {
+            float: left;
+            color: $color-text;
+          }
+          .add-to-list-button {
+            float: right;
+            padding-right: 15px;
+            min-width: 170px;
+            background-color: $grey-medium;
+            .no-touch & {
+              &:hover {
+                background-color: $grey-dark;
+              }
+            }
+          }
+
+          // Mobile
+          @include media($mobile) {
+            .list-title {
+              width: 100%;
+              margin-bottom: 20px;
+            }
+            .add-to-list-button {
+              float: left;
+            }
+          }
+        }
+      }
+    }
+
+    // Open overlay
+    &.open-overlay {
+      .content {
+        @include transition(
+          opacity $speed $ease,
+          bottom 0s
+        );
+        bottom: 0;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+// In search
+.pane-search-query {
+  .ding-list-add-button {
+    .trigger,
+    .content h2,
+    .close {
+      display: none;
+    }
+    .buttons {
+      list-style: none;
+      margin: 0;
+      li a {
+        @extend %button;
+        float: right;
+        margin-bottom: 15px;
+      }
+    }
+  }
+}

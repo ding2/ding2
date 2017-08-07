@@ -1,0 +1,578 @@
+//
+// Styling of all views - general and class-specific
+
+@import '../../base.scss';
+
+// ==========================================================================
+// All views
+// ==========================================================================
+
+.view {
+  .views-row,
+  .view-content ul li {
+    margin-bottom: getGutter();
+    // Tablet
+    @include media($tablet) {
+      margin-bottom: 30px;
+    }
+    // Grid classes
+    //
+    // Add classes grid-small, grid-medium or grid-large to panel to float rows in desired grid
+    //
+    // Markup:
+    // <div class="panel-pane">
+    //  <div class="pane-content">
+    //    <div class="frontpage-layout">
+    //      <div class="panel-pane grid-small">
+    //        <div class="panel-pane-inner">
+    //          View in panel with grid-small class
+    //          <div class="view">
+    //            <div class="view-content">
+    //              <div class="views-row dummy-row"></div>
+    //              <div class="views-row dummy-row"></div>
+    //              <div class="views-row dummy-row"></div>
+    //              <div class="views-row dummy-row"></div>
+    //            </div>
+    //          </div>
+    //        </div>
+    //      </div>
+    //      <div class="panel-pane grid-medium">
+    //        <div class="panel-pane-inner">
+    //          View in panel with grid-medium class
+    //          <div class="view">
+    //            <div class="view-content">
+    //              <div class="views-row dummy-row"></div>
+    //              <div class="views-row dummy-row"></div>
+    //              <div class="views-row dummy-row"></div>
+    //            </div>
+    //          </div>
+    //        </div>
+    //      </div>
+    //      <div class="panel-pane grid-large">
+    //        <div class="panel-pane-inner">
+    //          View in panel with grid-large class
+    //          <div class="view">
+    //            <div class="view-content">
+    //              <div class="views-row dummy-row"></div>
+    //              <div class="views-row dummy-row"></div>
+    //            </div>
+    //          </div>
+    //        </div>
+    //      </div>
+    //    </div>
+    //  </div>
+    // </div>
+    //
+    // Styleguide 2.1.9
+
+    // Small grid
+    .grid-small & {
+      @include span-columns(3);
+      @include omega(4n);
+    }
+    // Medium grid
+    .grid-medium & {
+      // In Ding frontpage layout & Ding2 site template
+      .frontpage-layout &,
+      .ding2-site-template .ding2-site-template & {
+        @include span-columns(4);
+        @include omega(3n);
+
+        // Tablet
+        @include media($tablet) {
+          @include omega-reset(3n, 12);
+          @include span-columns(6);
+          @include omega(2n);
+        }
+
+        // Mobile
+        @include media($mobile) {
+          @include omega-reset(2n, 12);
+          width: 100%;
+          margin-bottom: 0;
+          &:nth-child(n) { // Overwrite previous set nth children for all children
+            margin-right: 0;
+          }
+        }
+
+      }
+      // In Default panel layout (Two sidebars, content in middle)
+      .default-panel-layout .primary-content & {
+        @include span-columns(4 of 8);
+        @include omega(2n);
+
+        // Tablet
+        @include media($tablet) {
+          @include span-columns(6);
+        }
+
+        // Mobile
+        @include media($mobile) {
+          width: 100%;
+          margin-right: 0;
+        }
+      }
+      .default-panel-layout .attachments-wrapper & {
+        @include span-columns(4);
+        @include omega(3n);
+
+        // Tablet
+        @include media($tablet) {
+          @include omega-reset(3n, 12);
+          @include span-columns(6);
+          @include omega(2n);
+        }
+
+        // Mobile
+        @include media($mobile) {
+          @include omega-reset(2n, 12);
+          width: 100%;
+          &:nth-child(n) { // Overwrite previous set nth children for all children
+            margin-right: 0;
+          }
+        }
+      }
+    }
+    // Large grid
+    .grid-large & {
+      @include span-columns(6);
+      @include omega(2n);
+    }
+  }
+  .grid-sizer {
+    // Medium grid
+    .grid-medium & {
+      // In Ding frontpage layout & Ding2 site template
+      .frontpage-layout &,
+      .ding2-site-template .ding2-site-template & {
+        width: getColumn(4);
+      }
+      // In Default panel layout (Two sidebars, content in middle)
+      .default-panel-layout .primary-content & {
+        width: getColumn(4 of 8);
+      }
+      .default-panel-layout .attachments-wrapper & {
+        width: getColumn(4);
+      }
+    }
+  }
+  .grid-gutter {
+    // Medium grid
+    .grid-medium & {
+      // In Ding frontpage layout & Ding2 site template
+      .frontpage-layout &,
+      .ding2-site-template .ding2-site-template & {
+        width: getGutter();
+      }
+      // In Default panel layout (Two sidebars, content in middle)
+      .default-panel-layout .primary-content & {
+        width: getGutter(8);
+      }
+      .default-panel-layout .attachments-wrapper & {
+        width: getGutter();
+      }
+    }
+  }
+  .view-content {
+    // List
+    > ul {
+      padding: 0;
+      list-style: none;
+    }
+  }
+  &.max-two-rows,
+  &.slide-on-mobile {
+    .more-link {
+      @include media($mobile) {
+        margin-top: -54px;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// View ding news
+// ==========================================================================
+
+.view-ding-news {
+  // First child large
+  &.first-child-large {
+    .views-row {
+      // First child
+      &:first-child {
+        // Medium grid
+        .grid-medium & {
+          // In Ding frontpage layout
+          .frontpage-layout & {
+            @include span-columns(8);
+
+            // Tablet
+            @include media($tablet) {
+              width: 100%;
+              margin-right: 0;
+            }
+          }
+          // In Default panel layout (Two sidebars, content in middle)
+          .default-panel-layout .primary-content & {
+            width: 100%;
+            margin-right: 0;
+          }
+        }
+      }
+      // Medium grid
+      .grid-medium & {
+        // In Ding frontpage layout
+        .frontpage-layout & {
+          @include omega-reset(3n, 12);
+          &:nth-child(3n + 2) {
+            margin-right: 0;
+          }
+          &:nth-child(3n + 3) {
+            clear: left;
+          }
+
+          // Tablet
+          @include media($tablet) {
+            @include omega-reset(2n, 12);
+            &:nth-child(3n + 2) {
+              margin-right: getGutter();
+            }
+            &:nth-child(3n + 3) {
+              clear: none;
+            }
+            &:nth-child(2n + 1) {
+              margin-right: 0;
+            }
+            &:nth-child(2n + 2) {
+              clear: left;
+            }
+          }
+
+          // Mobile
+          @include media($mobile) {
+            &:nth-child(n) { // Overwrite previous set nth children for all children
+              width: 100%;
+              margin: 0;
+              clear: none;
+            }
+          }
+        }
+        // In Default panel layout (Two sidebars, content in middle)
+        .default-panel-layout .primary-content & {
+          @include omega-reset(2n, 8);
+          &:nth-child(2n + 3) {
+            margin-right: 0;
+          }
+          &:nth-child(2n + 4) {
+            clear: left;
+          }
+
+          // Tablet
+          @include media($tablet) {
+            @include omega-reset(2n, 12);
+          }
+        }
+      }
+    }
+  }
+  // Slide on mobile
+  &.slide-on-mobile {
+
+    // Mobile
+    @include media($mobile) {
+      .views-row {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// View ding event
+// ==========================================================================
+
+.view-ding-event {
+  .group-separator {
+    .separator-title {
+      @include font('display-large');
+      width: 100%;
+      float: left;
+      padding: 15px 15px 10px;
+      margin-bottom: 15px;
+      background-color: $grey-dark;
+      color: $white;
+      &::first-letter {
+        text-transform: uppercase;
+      }
+      span {
+        @include font('base');
+        display: block;
+      }
+    }
+    .view-elements {
+      float: left;
+      width: 100%;
+    }
+    .views-row {
+      margin-bottom: 10px;
+      &:last-child {
+        margin-bottom: 30px;
+      }
+    }
+  }
+  .more-link {
+    margin-top: 20px;
+  }
+  // Max two rows
+  &.max-two-rows {
+    width: 100%;
+    float: left;
+    .views-row {
+      margin-bottom: 10px;
+      // Hide redundant rows
+      &.hide {
+        display: none;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        @include omega-reset(3n, 12);
+        @include span-columns(6);
+        @include omega(2n);
+      }
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        &:nth-child(n) { // Overwrite previous set nth children for all children
+          margin-right: 0;
+        }
+      }
+    }
+    .grid-sizer {
+      width: getColumn(4);
+    }
+    .grid-gutter {
+      width: getGutter();
+    }
+
+    // Tablet
+    @include media($tablet) {
+      .grid-sizer {
+        width: getColumn(6);
+      }
+    }
+    .group-row {
+      width: 100%;
+      float: left;
+      // No flex
+      &.no-flex {
+        .views-row {
+          @include span-columns(4);
+          @include omega(3n);
+        }
+      }
+      // Flex
+      &.flex {
+        height: 400px;
+        display: flex;
+        flex-flow: column wrap;
+        align-items: flex-start;
+        .views-row {
+          width: getColumn(4);
+          margin-right: getGutter();
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// View ding library list
+// ==========================================================================
+
+.view-ding-library.view-display-id-ding_library_libraries_list {
+  .views-row {
+    margin-bottom: 0;
+    padding: 15px 0;
+    border-top: 1px solid $charcoal-opacity-light;
+    &:last-child {
+      border-bottom: 1px solid $charcoal-opacity-light;
+    }
+  }
+}
+
+// ==========================================================================
+// View ding groups
+// ==========================================================================
+
+.view-ding-groups {
+  .views-row {
+    margin-bottom: getGutter();
+  }
+  &.view-display-id-panel_pane_frontpage {
+    .views-row {
+      &:nth-child(1),
+      &:nth-child(2) {
+        @include span-columns(6);
+
+        // Mobile
+        @include media($mobile) {
+          @include span-columns(12);
+        }
+      }
+      &:nth-child(2) {
+        @include omega();
+      }
+      &:nth-child(n+3) {
+        @include span-columns(3);
+      }
+      &:nth-child(4n+6) {
+        @include omega();
+      }
+      &:nth-child(4n+7) {
+        clear: left;
+      }
+    }
+
+    // Tablet
+    @include media($tablet) {
+      .views-row {
+        @include span-columns(4);
+        @include omega(3n);
+      }
+    }
+
+    // Mobile
+    @include media($mobile) {
+      .views-row {
+        &:nth-child(n) { // Overwrite previous set nth children for all children
+          width: 100%;
+          margin: 0;
+          clear: none;
+        }
+      }
+    }
+  }
+  &.view-display-id-ding_group_overview_simple {
+    .views-row {
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4) {
+        @include span-columns(6);
+        // Mobile
+        @include media($mobile) {
+          @include span-columns(12);
+        }
+      }
+      &:nth-child(2),
+      &:nth-child(4) {
+        @include omega();
+      }
+      &:nth-child(n+5) {
+        @include span-columns(3);
+      }
+      &:nth-child(4n+8) {
+        @include omega();
+      }
+      &:nth-child(4n+9) {
+        clear: left;
+      }
+    }
+
+    // Tablet
+    @include media($tablet) {
+      .views-row {
+        @include span-columns(4);
+        @include omega(3n);
+      }
+    }
+
+    // Mobile
+    @include media($mobile) {
+      .views-row {
+        &:nth-child(n) { // Overwrite previous set nth children for all children
+          width: 100%;
+          margin: 0 0 20px;
+          clear: none;
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// View Tag list
+// ==========================================================================
+
+.view-tags-list {
+  .group-separator {
+    @include linear-gradient(to top, $white 30px, $grey-light 100%);
+    // Has dynamic background
+    .has-dynamic-background & {
+      max-width: $dynamic-background-width;
+      margin: 0 auto;
+    }
+    .group-inner {
+      @include wrapper;
+      position: relative;
+      padding: 40px 0 30px;
+      .separator-title {
+        @include font('display-large');
+        color: $color-primary;
+        margin-bottom: 30px;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// View node search result
+// ==========================================================================
+
+.view-node-search-result {
+  ul.search-result {
+    > li {
+      width: 100%;
+      float: left;
+      list-style: none;
+      margin-left: 0;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+// ==========================================================================
+// View node search result
+// ==========================================================================
+
+.view-ding-staff {
+  .staff-department-head {
+    @include font('display-large');
+    float: left;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 15px 15px 10px;
+    background-color: $grey-dark;
+    color: $white;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+// ==========================================================================
+// View E-resources
+// ==========================================================================
+
+.views-widget-filter-field_ding_eresource_access_tid {
+  @include span-columns(4 of 8);
+  padding: 0;
+
+  // Mobile
+  @include media($mobile) {
+    width: 100%;
+  }
+}

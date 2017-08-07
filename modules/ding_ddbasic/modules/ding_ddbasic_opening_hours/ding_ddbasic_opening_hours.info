@@ -1,0 +1,5 @@
+name = DDBasic opening hours
+description = Module that help integrate the ddbasic theme with opening hours.
+package = "Ding!"
+core = 7.x
+dependencies[] = opening_hours

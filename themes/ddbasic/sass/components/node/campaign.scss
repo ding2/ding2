@@ -1,0 +1,130 @@
+@import '../../base.scss';
+
+.ding-campaign {
+  @include span-columns(12);
+  position: relative;
+  margin-bottom: getGutter();
+  // general styles for all campaigns
+  .ding-campaign-headline {
+    @include font('display-large-bold');
+  }
+  .ding-campaign-description {
+    @include font('display-small');
+  }
+  a {
+   @include span-columns(12);
+   position: relative;
+   height: 100%;
+   z-index: 3;
+  }
+  // campaign layout specific styles
+  &.text-on-image {
+    background-size: cover;
+    background-position: center center;
+    &::before {
+      @include transition(background-color $speed $ease);
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $charcoal-opacity-dark;
+      z-index: 1;
+    }
+    .ding-campaign-text {
+      @include span-columns(7);
+      position: relative;
+      min-height: 455px;
+      padding: 50px 30px;
+      color: $white;
+      z-index: 2;
+    }
+    &.ding-campaign-medium-width {
+      .ding-campaign-text {
+        @include span-columns(12);
+      }
+    }
+    .no-touch & {
+      &:hover {
+        &::before {
+          background-color: $charcoal-opacity-extra-dark;
+        }
+      }
+    }
+  }
+  //image and text in two columns layout
+  &.image-and-text {
+    background: $color-primary;
+    color: $color-text-on-primary;
+
+    .ding-campaign-text {
+      @include span-columns(6);
+      float: right;
+      padding: 40px 30px 40px 0;
+      min-height: 380px;
+    }
+    .ding-campaign-image {
+      @include span-columns(6);
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background-size: cover;
+      background-position: center center;
+    }
+    .no-touch & {
+      &:hover {
+        background: $grey-dark;
+
+        a {
+          color: $white;
+        }
+      }
+    }
+  }
+  // text only layout
+  &.text {
+    background: $color-primary;
+    color: $color-text-on-primary;
+
+  .ding-campaign-text {
+    @include span-columns(12);
+    padding: 40px 30px;
+
+    .ding-campaign-headline {
+      @include span-columns(8);
+    }
+
+    .ding-campaign-description {
+      @include span-columns(6);
+    }
+  }
+  // if text-only layout in medium-width panel
+  &.ding-campaign-medium-width {
+    .ding-campaign-text {
+      .ding-campaign-headline {
+        @include span-columns(12);
+      }
+      .ding-campaign-description {
+        @include span-columns(12);
+      }
+    }
+  }
+  .no-touch & {
+    &:hover {
+      background: $grey-dark;
+
+        a {
+          color: $white;
+        }
+      }
+    }
+  }
+  // image only layout
+  &.image {
+    img {
+      width: 100%;
+    }
+  }
+}

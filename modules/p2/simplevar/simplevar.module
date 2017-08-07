@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Simplevar
+ * Simplevar.
  */
 
 define('SIMPLEVAR_SPLITTER', '__');

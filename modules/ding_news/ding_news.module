@@ -121,3 +121,40 @@ function ding_news_preprocess_views_view(&$vars) {
     }
   }
 }
+
+/**
+ * Implements hook_menu().
+ */
+function ding_news_menu() {
+  $items['admin/config/ding/news'] = array(
+    'title' => 'Ding news settings',
+    'description' => 'Administer news settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_news_admin_setting_form'),
+    'access arguments' => array('administer news settings'),
+    'file' => 'ding_news.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_news_permission() {
+  return array(
+    'administer news settings' => array(
+      'title' => t('Administer news settings'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_pre_build().
+ */
+function ding_news_views_pre_build(&$view) {
+  switch ($view->name . ' ' . $view->current_display) {
+    case 'ding_news ding_news_list':
+      $view->items_per_page = variable_get('ding_news_list_items_per_page', 10);
+      break;
+  }
+}

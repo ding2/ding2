@@ -23,8 +23,7 @@ function ding_library_address_content_type_render($subtype, $conf, $panel_args, 
       <div class="library-address-street">' . $node->field_ding_library_addresse['und'][0]['thoroughfare'] . '</div>
       <div class="library-address-city-wrapper">
         <span class="library-address-postal-code">' . $node->field_ding_library_addresse['und'][0]['postal_code'] . '</span><span class="library-address-city">' . $node->field_ding_library_addresse['und'][0]['locality'] . '</span>
-      </div>
-      <div class="library-address-country">' . $node->field_ding_library_addresse['und'][0]['country'] . '</div>';
+      </div>';
   }
 
   $content .= '</div>';

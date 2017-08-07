@@ -161,8 +161,8 @@ function ding_news_field_group_info() {
     'label' => 'Relations',
     'weight' => '6',
     'children' => array(
-      0 => 'og_group_ref',
-      1 => 'ding_news_groups_ref',
+      0 => 'ding_news_groups_ref',
+      1 => 'og_group_ref',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -210,6 +210,70 @@ function ding_news_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_left|node|ding_news|alternative_layout_full';
+  $field_group->group_name = 'group_left';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'ding_news';
+  $field_group->mode = 'alternative_layout_full';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Left',
+    'weight' => '13',
+    'children' => array(
+      0 => 'field_ding_news_files',
+      1 => 'field_ding_news_tags',
+      2 => 'field_ding_news_title_image',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Left',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_left|node|ding_news|alternative_layout_full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_left|node|ding_news|default';
+  $field_group->group_name = 'group_left';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'ding_news';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Left',
+    'weight' => '0',
+    'children' => array(
+      0 => 'field_ding_news_title_image',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Left',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_left|node|ding_news|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_right_col_search|node|ding_news|search_result';
   $field_group->group_name = 'group_right_col_search';
   $field_group->entity_type = 'node';
@@ -239,6 +303,78 @@ function ding_news_field_group_info() {
     ),
   );
   $export['group_right_col_search|node|ding_news|search_result'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_right|node|ding_news|alternative_layout_full';
+  $field_group->group_name = 'group_right';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'ding_news';
+  $field_group->mode = 'alternative_layout_full';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Right',
+    'weight' => '16',
+    'children' => array(
+      0 => 'field_ding_news_body',
+      1 => 'field_ding_news_category',
+      2 => 'field_ding_news_lead',
+      3 => 'field_ding_news_materials',
+      4 => 'og_group_ref',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Right',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_right|node|ding_news|alternative_layout_full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_right|node|ding_news|default';
+  $field_group->group_name = 'group_right';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'ding_news';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Right',
+    'weight' => '1',
+    'children' => array(
+      0 => 'field_ding_news_body',
+      1 => 'field_ding_news_category',
+      2 => 'field_ding_news_files',
+      3 => 'field_ding_news_lead',
+      4 => 'field_ding_news_tags',
+      5 => 'og_group_ref',
+      6 => 'webform',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Right',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_right|node|ding_news|default'] = $field_group;
 
   return $export;
 }

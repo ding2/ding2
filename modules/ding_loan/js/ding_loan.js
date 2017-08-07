@@ -3,6 +3,7 @@
  */
 (function ($) {
   "use strict";
+
   $(document).ready(function($) {
     // Variables used to make the buttons follow scroll.
     var actions = $(".action-buttons");
@@ -14,9 +15,8 @@
     $('form input[type=checkbox]').prop('checked', false);
     $('.action-buttons input[type=submit]').prop('disabled', 'disabled');
 
-
     // Handle select all checkboxes.
-    $('.select-all input[type=checkbox]').click(function() {
+    var sub_select_all = $('.select-all input[type=checkbox]').click(function() {
       var checkboxes = $('input[type=checkbox]', $(this).closest('.select-all').nextUntil('.select-all'));
       if ($(this).prop('checked')) {
         // Only checkboxes that are enabled.
@@ -27,12 +27,36 @@
             box.change();
           }
         });
-        $(this).prop('checked', true)
+        $(this).prop('checked', true);
       }
       else {
         checkboxes.prop('checked', false);
         checkboxes.change();
       }
+    });
+
+    // Handle "global" select all checkbox.
+    var select_all = $('.form-item-select-all input[type=checkbox]').change(function () {
+      sub_select_all
+        .prop('checked', $(this).prop('checked'))
+        .click()
+        // Make sure the select all is checked or unchecked even after events.
+        .prop('checked', $(this).prop('checked'));
+    });
+
+    // Handle renew all button.
+    $('.js-renew-all').click(function(evt) {
+      evt.preventDefault();
+
+      var actions_container = $(this).closest('.actions-container');
+
+      $('.form-item-select-all input[type=checkbox]', actions_container)
+        .prop('checked', true)
+        .change();
+      // Wait for the changes to happen before triggering the renew button.
+      setTimeout(function () {
+        $('.action-buttons .renew-loan-button input', actions_container).trigger('click');
+      }, 0);
     });
 
     // Handle checkbox button count.
@@ -56,6 +80,11 @@
 
       // Change the select all based on the count found above.
       item.prevAll('.select-all').find('input[type=checkbox]:not(:disabled)').prop('checked', checked === checkboxes.length);
+
+      // Unceck the "global" select all.
+      if (!$(this).prop('checked')) {
+        select_all.prop('checked', false);
+      }
     });
 
 

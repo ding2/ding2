@@ -24,9 +24,9 @@ function ding_entity_rating_loan_history_ding_interaction_info() {
       );
     }
   }
-  
+
   $translatables = ding_entity_rating_loan_history_translatables();
-  
+
   return array(
     'title' => $translatables['title'],
     'translatables' => $translatables,
@@ -61,7 +61,11 @@ function ding_entity_rating_loan_history_ding_interaction_view($count = DING_ENT
         $view_objects[] = ding_entity_view($obj, 'compact');
       }
 
-      $car = array('#theme' => 'ting_carousel', '#objects' => $view_objects);
+      $car = array(
+        '#theme' => 'ting_carousel',
+        '#items' => $view_objects,
+        '#item_type' => 'items',
+      );
       return render($car);
     }
   }

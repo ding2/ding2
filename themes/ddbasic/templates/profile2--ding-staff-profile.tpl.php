@@ -29,12 +29,14 @@
  */
 ?>
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-  <div class="sub-header"><?php print render($position_no_label); ?></div>
-  <div class="content"<?php print $content_attributes; ?>>
-    <?php
-      // Hide name fields - they are present in the panel pane title.
-      hide($content['field_ding_staff_forename']);
-      hide($content['field_ding_staff_surname']);
-    ?>
-  <?php print render($content); ?>
+  <div class="left">
+    <?php print render($content['group_left']); ?>
+  </div>
+  <div class="right">
+        <h1>
+          <?php print render($content['group_right']['field_ding_staff_forename']); ?>
+          <?php print render($content['group_right']['field_ding_staff_surname']); ?>
+        </h1>
+        <?php print render($content['group_right']); ?>
+    </div>
 </div>

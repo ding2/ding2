@@ -33,8 +33,11 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
   }
 
   $libcode = $conf['libcode'];
-  if ($libcode !== FALSE) {
+  if (!empty($libcode)) {
     $libcode = variable_get('ting_library_code', '');
+  }
+  else {
+    $libcode = FALSE;
   }
 
   $openlist_items = array();
@@ -66,10 +69,13 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
     $obj = ding_entity_load($key, 'ting_object');
     ding_entity_rating_set_average($obj, $openlist_items[$delta]['average']);
 
-    $result[] = ting_object_view($obj, 'compact');
+    $result[] = ting_object_view($obj, 'teaser');
   }
 
-  $block->content = theme('ting_carousel', array('objects' => $result));
+  $block->content = theme('ting_carousel', array(
+    'items' => $result,
+    'item_type' => 'items',
+  ));
 
   return $block;
 }

@@ -16,7 +16,7 @@ function ding_message_schema() {
   // 3 Using simplevar (or similar)
   // I do not see any argumentation for using one approach over the other
   // and I would think we could drop at least one. I would prefer to keep
-  // 2 and 3. @MSD
+  // 2 and 3. @MSD.
   $schema['ding_message_check'] = array(
     'description' => 'Record when users where updated with messages',
     'fields' => array(

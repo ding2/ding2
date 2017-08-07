@@ -1,0 +1,15 @@
+name = Ding IPE Filter
+description = Filter configuration box in panels of the add content functionality
+core = 7.x
+package = Ding!
+dependencies[] = ctools
+dependencies[] = panels
+dependencies[] = panels_ipe
+dependencies[] = strongarm
+configure = admin/config/user-interface/ipe-filter
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = ding_ipe_filter_settings
+features[variable][] = ding_ipe_filter_table
+files[] = ding_ipe_filter.admin.inc
+mtime = 1484644491

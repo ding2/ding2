@@ -1,0 +1,101 @@
+//
+// Styling of content type Ding Group
+
+@import '../../base.scss';
+
+.node-ding-group {
+
+  // ==========================================================================
+  // Teaser
+  // ==========================================================================
+
+  &.node-teaser {
+    a {
+      @include aspect-ratio-background-image(16, 9);
+
+      border-radius: $round-corner;
+      &::before {
+        @include transition(background-color $speed $ease);
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $charcoal-opacity-light;
+        border-radius: $round-corner;
+      }
+      // Hover
+      &:hover {
+        &::before {
+          background-color: $charcoal-opacity-dark;
+        }
+      }
+    }
+    .group-text {
+      @include linear-gradient(
+        transparent 0%,
+        $charcoal-opacity-extra-dark 100%
+      );
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      padding: 25px $box-padding $box-padding;
+      color: $white;
+      border-bottom-right-radius: $round-corner;
+      border-bottom-left-radius: $round-corner;
+    }
+    h3.title {
+      @include font('display-small');
+      margin-bottom: 0;
+    }
+    .field-name-field-ding-group-lead {
+      display: none;
+    }
+    // First two teasers in view
+    .view-ding-groups .views-row:nth-child(1) &,
+    .view-ding-groups .views-row:nth-child(2) & {
+      h3.title {
+        @include font('display');
+        // Tablet
+        @include media($tablet) {
+          @include font('display-small');
+        }
+      }
+      .field-name-field-ding-group-lead {
+        display: block;
+        // Tablet
+        @include media($tablet) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  // ==========================================================================
+  // Full
+  // ==========================================================================
+
+  &.node-full {
+    h1.title {
+      margin-bottom: 15px;
+    }
+    .field-name-field-ding-group-title-image {
+      margin-bottom: 25px;
+    }
+    .field-name-field-ding-group-lead,
+    .field-name-field-ding-group-body {
+      @include span-columns(5 of 8);
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(8);
+      }
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+  }
+}
