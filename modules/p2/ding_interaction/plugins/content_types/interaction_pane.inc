@@ -11,22 +11,11 @@
 $plugin = array(
   'title' => t('Ding interaction pane'),
   'description' => t('Displays interaction to the user'),
-  'admin info' => 'ding_interaction_admin_info',
   'single' => TRUE,
   'edit form' => 'ding_interaction_content_type_edit_form',
   'render callback' => 'ding_interaction_content_type_render',
   'category' => t('Ding!'),
 );
-
-/**
- * Return a summary for the administration interaction in panels.
- */
-function ding_interaction_admin_info($subtype, $conf, $context) {
-  $output = new stdClass();
-  $output->title = t('Interaction');
-  $output->content = t('Interaction count: @count', array('@count' => $conf['count'])) . '<br/>';
-  return $output;
-}
 
 /**
  * Implements hook_content_type_render().
@@ -86,26 +75,5 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
  * Implements hook_content_type_edit_form().
  */
 function ding_interaction_content_type_edit_form($form, &$form_state) {
-  $form['count'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Count'),
-    '#default_value' => (isset($form_state['conf']['count'])) ? $form_state['conf']['count'] : DING_INTERACTION_DEFAULT_COUNT,
-    '#description' => t('How many page views should there be between showing this pane.'),
-  );
-
   return $form;
-}
-
-/**
- * Implements hook_content_type_edit_form_validate().
- */
-function ding_interaction_content_type_edit_form_validate($form, &$form_state) {
-
-}
-
-/**
- * Implements hook_content_type_edit_form_submit().
- */
-function ding_interaction_content_type_edit_form_submit($form, &$form_state) {
-  $form_state['conf']['count'] = !empty($form_state['values']['count']) ? $form_state['values']['count'] : DING_INTERACTION_DEFAULT_COUNT;
 }
