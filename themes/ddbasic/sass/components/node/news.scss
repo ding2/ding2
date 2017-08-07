@@ -269,7 +269,7 @@
         right: 7px;
       }
       .field-item {
-        float: left;
+        display: inline-block;
         margin-right: 5px;
         &::after {
           content: ',';
