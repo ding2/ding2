@@ -80,6 +80,13 @@ function fbs_debt_list($account) {
       // Apply som inline span-elements, so the different materials in the
       // display_name can be easily styled.
       $data['display_name'] = '<span>' . implode('</span><span>' , $materials) . '</span>';
+
+      if (count($materials) == 1)  {
+        $data['material_type'] = !empty($entity) ? $entity->type : t('Unknown type');
+      }
+      else {
+        $data['material_type'] = t('Multiple materials');
+      }
     }
 
     $result[$id] = new DingProviderDebt($id, $data);
