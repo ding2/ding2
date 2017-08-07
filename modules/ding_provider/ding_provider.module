@@ -605,16 +605,21 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
 }
 
 /**
- * Helper function to create data well 3 PID's.
+ * Helper function to create data well 3 PID's from faust/record id.
  *
  * This function is placed in the provider and not "ting" module as the
  * providers uses it and we don't want to have a binding from providers to ting.
  *
- * @param string $id
- *   The materials local id number (faust).
+ * @param mixed $ids
+ *   A string with a single faust to be translated.
+ *   An array with multiple faust to be translated.
  *
- * @return string
- *   The PID for the faust in the data well.
+ * @return mixed
+ *   Single faust: A string with data well PID. FALSE if the faust
+ *   couldn't be translated.
+ *   Array of fausts: An array with data well PIDs keyed be the original faust.
+ *   If a faust couldn't be translated the correspoding array value will be
+ *   FALSE.
  */
 function ding_provider_build_entity_id($ids) {
   if (is_array($ids) && !empty($ids)) {
