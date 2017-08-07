@@ -437,7 +437,7 @@ projects[vejlebib_fbs][subdir]           = ""
 projects[vejlebib_fbs][download][url]    = "git@github.com:vejlebib/vejlebib_fbs.git"
 projects[vejlebib_fbs][download][branch] = "master"
 
-; EASYOPAC themes
+; easyOPAC themes
 projects[roskilde_subtheme][type]             = "theme"
 projects[roskilde_subtheme][subdir]           = ""
 projects[roskilde_subtheme][download][type]   = "git"
@@ -461,7 +461,6 @@ projects[herbib_theme][subdir]           = ""
 projects[herbib_theme][download][type]   = "git"
 projects[herbib_theme][download][url]    = "git@github.com:easySuite/herbib_theme.git"
 projects[herbib_theme][download][branch] = "develop"
-
 
 ; Social Services modules and libraries
 projects[social_services][type]             = "module"
