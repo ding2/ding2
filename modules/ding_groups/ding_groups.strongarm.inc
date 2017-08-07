@@ -101,15 +101,6 @@ function ding_groups_strongarm() {
         'path' => array(
           'weight' => '5',
         ),
-        'metatags' => array(
-          'weight' => '40',
-        ),
-        'og_menu' => array(
-          'weight' => '0',
-        ),
-        'redirect' => array(
-          'weight' => '30',
-        ),
       ),
       'display' => array(),
     ),

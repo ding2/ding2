@@ -144,6 +144,7 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['arguments']['keys']['table'] = 'search_index';
   $handler->display->display_options['arguments']['keys']['field'] = 'keys';
   $handler->display->display_options['arguments']['keys']['default_action'] = 'empty';
+  $handler->display->display_options['arguments']['keys']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['keys']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['keys']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['keys']['summary']['format'] = 'default_summary';
