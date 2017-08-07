@@ -309,26 +309,26 @@
       position: relative;
       width: 100%;
       float: left;
-      .place2book-label {
-        @include font('base-bold');
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100px;
+    }
+    .place2book-tickets-label {
+      @include font('base-bold');
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
 
-        // Tablet
-        @include media($tablet) {
-          @include span-columns(2 of 5);
-        }
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(2 of 5);
       }
-      .ticket-info {
-        width: 100%;
-        padding-left: 100px;
+    }
+    .place2book-tickets-info {
+      width: 100%;
+      padding-left: 100px;
 
-        // Tablet
-        @include media($tablet) {
-          padding-left: getColumn(2 of 5);
-        }
+      // Tablet
+      @include media($tablet) {
+        padding-left: getColumn(2 of 5);
       }
     }
     .field-name-field-ding-event-files {
