@@ -355,17 +355,15 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
       ->execute();
 
     // Push only opening hours from current week till 10 weeks ahead.
-    $current_date = date('Y-m-d', REQUEST_TIME);
-    // Align with start of the week.
-    $current_day = date('N', REQUEST_TIME) - 1;
-    $now = strtotime($current_date) - $current_day * 86400;
-    // 10 weeks.
-    $threshold = 6048000;
+    // It's barely possible that a certain user would be interested
+    // in opening hours for a certain library further than 10 weeks ahead.
+    $start_date = strtotime('this monday');
+    $end_date = strtotime('this monday + 10 weeks');
 
     foreach ($result as $row) {
       $row = (array) $row;
       $date_stamp = strtotime($row['date']);
-      if ($date_stamp >= $now && $date_stamp <= $now + $threshold) {
+      if ($date_stamp >= $start_date && $date_stamp <= $end_date) {
         $mapping['fields']['opening_hours'][] = $row;
       }
     }
@@ -556,16 +554,17 @@ function theme_ding_mobilesearch_types_table(array $variables) {
  * Implements hook_cron().
  */
 function ding_mobilesearch_cron() {
-  $last_cron = variable_get('ms_update_oh', 0);
+  $last_cron = variable_get('ding_mobilesearch_opening_hours_update', 0);
 
+  // Update weekly.
   if ($last_cron + 604800 <= REQUEST_TIME) {
-    variable_set('ms_update_oh', REQUEST_TIME);
+    variable_set('ding_mobilesearch_opening_hours_update', REQUEST_TIME);
 
     $flag_items = flag_get_flagged_content('push_to_mongo');
 
     foreach ($flag_items as $item) {
       if ($item->content_type == 'node') {
-        DrupalQueue::get('ms_update_oh')->createItem($item->content_id);
+        DrupalQueue::get('ding_mobilesearch_opening_hours_update')->createItem($item->content_id);
       }
     }
   }
@@ -576,8 +575,8 @@ function ding_mobilesearch_cron() {
  */
 function ding_mobilesearch_cron_queue_info() {
   // Mobilesearch update opening hours.
-  $queue['ms_update_oh'] = array(
-    'worker callback' => '_ding_mobilesearch_ms_update_oh_worker',
+  $queue['ding_mobilesearch_opening_hours_update'] = array(
+    'worker callback' => '_ding_mobilesearch_opening_hours_update_worker',
     'time'            => 30,
     'skip on cron'    => FALSE,
   );
@@ -593,7 +592,7 @@ function ding_mobilesearch_cron_queue_info() {
  *
  * @see ding_mobilesearch_cron_queue_info()
  */
-function _ding_mobilesearch_ms_update_oh_worker($nid) {
+function _ding_mobilesearch_opening_hours_update_worker($nid) {
   $node = node_load($nid);
 
   if ($node) {
