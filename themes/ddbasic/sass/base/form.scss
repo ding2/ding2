@@ -296,13 +296,13 @@ input[type="radio"] {
     right: 0;
     top: 0;
   }
+}
 
-  &.multiple {
-    height: auto;
-    &::before,
-    &::after {
-      display: none;
-    }
+.select-wrapper-multiple {
+  height: auto;
+  &::before,
+  &::after {
+    display: none;
   }
 }
 
@@ -326,7 +326,7 @@ select {
 }
 
 select[multiple="multiple"] {
-  position: relative;
+  position: static;
   width: 100%;
   height: auto;
   padding: 10px;
