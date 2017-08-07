@@ -5,7 +5,6 @@ api = 2
 includes[ding2] = "ding2.make"
 
 ; easyOPAC modules
-<<<<<<< HEAD
 projects[alma_item_list][type]             = "module"
 projects[alma_item_list][subdir]           = ""
 projects[alma_item_list][download][type]   = "git"
