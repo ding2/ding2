@@ -125,8 +125,8 @@ class TingEntity extends DingEntity {
 
   function getTitle() {
     $title = FALSE;
-    if (!empty($this->reply->record) && !empty($this->reply->record->getTitle())) {
-      $title = $this->reply->record->getTitle();
+    if (!empty($this->reply)) {
+      $title = $this->reply->getTitle();
     }
     return $title;
   }
