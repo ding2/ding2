@@ -34,4 +34,14 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
   public function getMaterials() {
     return ['material_type_1', 'material_type_2'];
   }
+
+  /**
+   * Expected return-value of search_object_load.
+   *
+   * @return object[]
+   *   List of expected objects.
+   */
+  public function getLoadedObjects() {
+    return [];
+  }
 }
