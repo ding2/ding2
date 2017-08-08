@@ -4,6 +4,8 @@
  * Implements handling of loans through OpenRuth.
  */
 
+use OpenSearch\OpenSearchTingObject;
+
 /**
  * Get a list of material types from the Well.
  */
@@ -26,4 +28,23 @@ function opensearch_search_material_types() {
   }
 
   return $types;
+}
+
+/**
+ * Load objects from Open Search.
+ *
+ * @param string[] $ids
+ *   Array of ids to load from Open Search.
+ *
+ * @return \Drupal\ting\TingObjectInterface[]
+ *   An array of loaded objects.
+ */
+function opensearch_search_object_load(array $ids) {
+  $objects = ting_get_objects($ids);
+  foreach ($objects as $id => $object) {
+    if (!empty($object)) {
+      $objects[$id] = new OpenSearchTingObject($object);
+    }
+  }
+  return $objects;
 }
