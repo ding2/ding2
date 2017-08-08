@@ -175,6 +175,9 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
  * @return array
  */
 function ding_campaign_prepare_display($campaign, $style = 'medium') {
+  if (!$campaign) {
+    return array();
+  }
   // User entity wrapper to access fields.
   $wrapper = entity_metadata_wrapper('node', $campaign);
 
