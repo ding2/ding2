@@ -1032,6 +1032,9 @@ function ding_user_authenticate_form_callback($form, &$form_state) {
   );
 
   if ($success) {
+    $response['#commands'][] = ajax_command_ding_popup_close('ding_user');
+    $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticated'), t('Authenticated, refreshing page.'));
+
     // Close dialog if successful.
     $response['#commands'][] = ajax_command_ding_popup_close('ding_user', TRUE);
   }
