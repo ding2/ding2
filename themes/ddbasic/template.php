@@ -460,6 +460,12 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
 
   $element['#localized_options']['attributes']['class'][] = 'js-topbar-link';
 
+  // Some links are not translated properly, this makes sure these links are
+  // run through the t function.
+  if ($element['#original_link']['title'] == $element['#original_link']['link_title']) {
+    $element['#title'] = t($element['#title']);
+  }
+
   // Add some icons to our top-bar menu. We use system paths to check against.
   switch ($element['#href']) {
     case 'search':
