@@ -35,6 +35,17 @@ function ding_eresource_menu() {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function ding_eresource_permission() {
+  return array(
+    'administer eresource settings' => array(
+      'title' => t('Administer e-resource settings'),
+    ),
+  );
+}
+
+/**
  * Implements hook_form_alter().
  */
 function ding_eresource_form_alter(&$form, &$form_state, $form_id) {
