@@ -633,6 +633,12 @@ function ding_provider_build_entity_id($ids) {
       $options['collectionType'] = 'manifestation';
       $res = ting_do_search($query, 1, count($chunk), $options);
 
+      // Sometimes the well will be unreachable or not even one of the ids in
+      // chunk was searchable. In any case, this protects against a notice.
+      if (empty($res)) {
+        continue;
+      }
+
       foreach ($res->collections as $pid => $collection) {
         $faust = explode(':', $pid)[1];
         if ($key = array_search($faust, $ids)) {
