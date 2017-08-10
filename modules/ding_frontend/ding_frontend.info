@@ -82,6 +82,7 @@ features[menu_custom][] = menu-tabs-menu
 features[menu_links][] = menu-tabs-menu_login:user
 features[menu_links][] = menu-tabs-menu_logout:user/logout
 features[menu_links][] = menu-tabs-menu_menu:<front>
+features[menu_links][] = menu-tabs-menu_opening-hours:libraries
 features[menu_links][] = menu-tabs-menu_search:search
 features[menu_links][] = menu-tabs-menu_user-menu-mobile:node
 features[page_manager_existing_pages][] = comments
