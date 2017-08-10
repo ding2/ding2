@@ -304,7 +304,7 @@ function ting_openlist_get_soap($wsdl = NULL, $trace = FALSE) {
  * @return mixed
  *   Response from Openlist.
  */
-function ting_openlist_request($function, array $arguments = array(), $detailed_log = FALSE) {
+function ting_openlist_request($function, array $arguments = array(), $detailed_log = FALSE, $error_log = TRUE) {
   $response = FALSE;
   $start_time = microtime(TRUE);
 
@@ -340,18 +340,20 @@ function ting_openlist_request($function, array $arguments = array(), $detailed_
       }
     }
     catch (Exception $e) {
-      $execution_time = microtime(TRUE) - $start_time;
-      watchdog(
-        'openlist',
-        'Error (@execution_time s).<br /><strong>Function:</strong> @function.<br /><strong>Exception:</strong>@exception<hr /><pre>!details</pre>',
-        array(
-          '@function' => $function,
-          '@execution_time' => $execution_time,
-          '@exception' => $e->getMessage(),
-          '!details' => var_export($arguments, TRUE),
-        ),
-        WATCHDOG_ERROR
-      );
+      if ($error_log === TRUE) {
+        $execution_time = microtime(TRUE) - $start_time;
+        watchdog(
+          'openlist',
+          'Error (@execution_time s).<br /><strong>Function:</strong> @function.<br /><strong>Exception:</strong>@exception<hr /><pre>!details</pre>',
+          array(
+            '@function' => $function,
+            '@execution_time' => $execution_time,
+            '@exception' => $e->getMessage(),
+            '!details' => var_export($arguments, TRUE),
+          ),
+          WATCHDOG_ERROR
+        );
+      }
 
       throw $e;
     }
