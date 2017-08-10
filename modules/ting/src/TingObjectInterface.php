@@ -19,186 +19,216 @@ interface TingObjectInterface {
   // Material Details getters.
 
   /**
-   * TODO.
+   * Age for the target audience for the material.
    *
-   * @return mixed
-   *   TODO.
+   * Eg. "fra 11 år
+   *
+   * @return string
+   *   The age.
    */
   public function getAge();
 
   /**
-   * TODO.
+   * Target audience for the material.
    *
-   * @return mixed
-   *   TODO.
+   * Eg. "børnematerialer"
+   *
+   * @return string
+   *   The target group.
    */
   public function getAudience();
 
   /**
-   * TODO.
+   * Get an description of the material.
    *
-   * @return mixed
-   *   TODO.
+   * @return string
+   *   The description.
    */
   public function getDescription();
 
   /**
-   * TODO.
+   * The size or duration of the resource.
    *
-   * @return mixed
-   *   TODO.
+   * Eg. "245 sider".
+   * Eg. "12 t., 34 min."
+   *
+   * @return string
+   *   The extent.
    */
   public function getExtent();
 
   /**
-   * TODO.
+   * The file format, physical medium, or dimensions of the resource.
    *
-   * @return mixed
-   *   TODO.
+   * Eg. "1 cd, MP3"
+   * Eg. "illustreret i farver"
+   *
+   * @return string
+   *   The format.
    */
   public function getFormat();
 
   /**
-   * TODO.
+   * The genere of the material.
    *
-   * @return mixed
-   *   TODO.
+   * Eg. "fantasy"
+   *
+   * @return string
+   *   The genere.
    */
   public function getGenere();
 
   /**
-   * TODO.
+   * The ISBN of the material.
    *
-   * @return mixed
-   *   TODO.
+   * Eg. "9780615384238"
+   *
+   * @return string
+   *   The ISBN.
    */
   public function getIsbn();
 
   /**
-   * TODO.
+   * Get list of musicians listed as contributors.
    *
-   * @return mixed
-   *   TODO.
+   * @return string[]
+   *   The musicians.
    */
   public function getMusician();
 
   /**
-   * TODO.
+   * Get the Pan European Game Information (PEGI) rating for the material.
    *
-   * @return mixed
-   *   TODO.
+   * Eg. "PEGI-mærkning: 18"
+   *
+   * @return string
+   *   The rating.
    */
   public function getPegi();
 
   /**
-   * TODO.
+   * The name of the publisher of the material.
    *
-   * @return mixed
-   *   TODO.
+   * @return string
+   *   The name.
    */
   public function getPublisher();
 
   /**
-   * TODO.
+   * Get materials that references this material.
    *
-   * @return mixed
-   *   TODO.
+   * @return string[]
+   *   IDs of the materials.
    */
   public function getReferenced();
 
   /**
-   * TODO.
+   * Get newer materials that replaces this material.
    *
    * @return mixed
-   *   TODO.
+   *   The materials.
    */
   public function getReplacedBy();
 
   /**
-   * TODO.
+   * List of materials this material replaces.
    *
    * @return mixed
-   *   TODO.
+   *   The materials.
    */
   public function getReplaces();
 
   /**
-   * TODO.
+   * Information about rights held in and over the resource.
    *
    * @return mixed
-   *   TODO.
+   *   The rights.
    */
   public function getRights();
 
   /**
-   * TODO.
+   * List of materials in the same series as the this material.
    *
    * @return mixed
-   *   TODO.
+   *   The materials.
    */
   public function getSeriesDescription();
 
   /**
-   * TODO.
+   * Title of the material from which this material stems.
    *
-   * @return mixed
-   *   TODO.
+   * Eg. "Harry Potter and the philosopher's stone" is the source for
+   *  "Harry Potter und der Stein der Weisen"
+   *
+   * @return string
+   *   The title of the source.
    */
   public function getSource();
 
   /**
-   * TODO.
+   * Spatial characteristics of the resource.
    *
-   * @return mixed
-   *   TODO.
+   * Eg. "USA"
+   * Eg. "Italien"
+   *
+   * @return string
+   *   Spatial description of the material.
    */
   public function getSpatial();
 
   /**
-   * TODO.
+   * Material spoken language.
    *
-   * @return mixed
-   *   TODO.
+   * @return string
+   *   The language.
    */
   public function getSpoken();
 
   /**
-   * TODO.
+   * Material subtitles.
    *
-   * @return mixed
-   *   TODO.
+   * List of languages the material has subtitles in.
+   *
+   * Eg. ['Dansk', 'Tysk']
+   *
+   * @return string[]
+   *   List of languages.
    */
   public function getSubTitles();
 
   /**
-   * TODO.
+   * Titles of tracks in this material.
    *
-   * @return mixed
-   *   TODO.
+   * @return string[]
+   *   Track titles.
    */
   public function getTracks();
 
   /**
-   * TODO.
+   * Host publication URI.
    *
-   * @return mixed
-   *   TODO.
+   * @return string
+   *   The uri formatted as a link.
    */
   public function getURI();
 
   /**
-   * TODO.
+   * The revision of the material.
    *
-   * @return mixed
-   *   TODO.
+   * Eg. "1. udgave, 1. oplag (2016)".
+   *
+   * @return string
+   *   The version.
    */
   public function getVersion();
 
   /**
-   * TODO.
+   * Get relations for the material.
    *
-   * @return mixed
-   *   TODO.
+   * Eg. "Berlingske tidende, 2005-08-20" (for a newspaper article).
+   *
+   * @return string[]
+   *   Relations.
    */
   public function isPartOf();
 }
