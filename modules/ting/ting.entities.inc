@@ -60,6 +60,13 @@ class TingEntity extends DingEntity {
   public $classification = DingEntityBase::NULL;
   public $isbn = DingEntityBase::NULL;
 
+  /**
+   * The embedded search-provider specific object.
+   *
+   * @var \Drupal\ting\TingObjectInterface
+   */
+  public $reply;
+
   public function getExtent() {
     return !empty($this->reply->record['dcterms:extent'][''][0]) ? $this->reply->record['dcterms:extent'][''][0] : FALSE;
   }
