@@ -648,16 +648,26 @@ function ding_provider_build_entity_id($ids) {
       }
     }
 
-    // Mark every non-translated id still in the ids array.
+    // The faust left in ids array where not searchable and we could therefore
+    // not determine the proper namespace. Since it's possible to load objects
+    // separately, that are not searchable with the library's agencyid, the best
+    // we can do here is to use the standard DBC agency id, which is used for
+    // basis-records. The providers can then try ting_get_object with this PID,
+    // which may work (if it's not an inter-library loan of a local post).
+    // TODO: We should provide a separate mechanism for translating faust
+    // without holdingsitem.agencyid filter. This way the providers will know
+    // which materials can be searched with the current agency id and generate
+    // a link to them.
+    //
     foreach ($ids as $faust) {
-      $translated_ids[$faust] = FALSE;
+      $translated_ids[$faust] = '870970-basis:' . $faust;
     }
 
     return $translated_ids;
   }
   elseif (is_numeric($ids) || ctype_digit($ids)) {
     $obj = ting_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
-    $entity_id = ($obj) ? key($obj->collections) : FALSE;
+    $entity_id = ($obj) ? key($obj->collections) : '870970-basis:' . $ids;
 
     return $entity_id;
   }
