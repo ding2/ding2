@@ -378,6 +378,12 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['title_1']['label'] = '';
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title_1']['link_to_node'] = FALSE;
+  /* Field: Content: Location - Full name */
+  $handler->display->display_options['fields']['field_ding_event_location_name_line']['id'] = 'field_ding_event_location_name_line';
+  $handler->display->display_options['fields']['field_ding_event_location_name_line']['table'] = 'field_data_field_ding_event_location';
+  $handler->display->display_options['fields']['field_ding_event_location_name_line']['field'] = 'field_ding_event_location_name_line';
+  $handler->display->display_options['fields']['field_ding_event_location_name_line']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_location_name_line']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Has taxonomy term ID */
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
@@ -462,6 +468,7 @@ function ding_event_views_default_views() {
     'name_1' => 'name_1',
     'name_2' => 'name_2',
     'title_1' => 'title_1',
+    'field_ding_event_location_name_line' => 'field_ding_event_location_name_line',
   );
   /* Filter criterion: Content: Date -  start date (field_ding_event_date) */
   $handler->display->display_options['filters']['field_ding_event_date_value']['id'] = 'field_ding_event_date_value';
