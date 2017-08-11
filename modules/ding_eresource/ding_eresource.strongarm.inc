@@ -89,9 +89,6 @@ function ding_eresource_strongarm() {
       'workflow_tab' => array(
         'custom_settings' => FALSE,
       ),
-      'alternative_layout_full' => array(
-        'custom_settings' => TRUE,
-      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -104,18 +101,8 @@ function ding_eresource_strongarm() {
         'redirect' => array(
           'weight' => '30',
         ),
-        'metatags' => array(
-          'weight' => '40',
-        ),
       ),
-      'display' => array(
-        'ding_serendipity_info' => array(
-          'default' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-        ),
-      ),
+      'display' => array(),
     ),
   );
   $export['field_bundle_settings_node__ding_eresource'] = $strongarm;

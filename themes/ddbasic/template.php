@@ -14,6 +14,23 @@ require_once __DIR__ . '/template.field.php';
  * Implements hook_preprocess_html().
  */
 function ddbasic_preprocess_html(&$vars) {
+  if (in_array('html__node__newsletter', $vars['theme_hook_suggestions'])) {
+    $vars['newsletter'] = $vars['page']['content']['system_main']['main']['#markup'];
+  }
+
+  // Load responsive.js file
+  $file_name = drupal_get_path('theme', 'ddbasic') . '/scripts/responsive.js';
+  drupal_add_js(
+    $file_name,
+    array(
+      'type' => 'file',
+      'group'=> JS_LIBRARY,
+      'every_page' => TRUE,
+      'scope' => 'header',
+      'weight' => -19.95,
+    )
+  );
+
   global $language;
 
   // Setup iOS logo if it's set.
@@ -86,6 +103,38 @@ function ddbasic_process_html(&$vars) {
 }
 
 /**
+ * Implementation of hook_entity_view_alter().
+ */
+function ddbasic_entity_view_alter(&$build, $type) {
+  if (in_array($build['#view_mode'], array('full', 'search_result'))) {
+    if (isset($build['field_editorial_base'])) {
+      $items = field_get_items('node', $build['#node'], 'field_editorial_base', LANGUAGE_NONE);
+      if (!empty($items)) {
+        $build['field_editorial_base'] = array($build['field_editorial_base']);
+        $build['field_editorial_base']['#theme'] = 'field';
+        $build['field_editorial_base']['#view_mode'] = $build['#view_mode'];
+        $build['field_editorial_base']['#field_name'] = 'field_editorial_base';
+        $build['field_editorial_base']['#field_type'] = 'taxonomy_term_reference';
+        $build['field_editorial_base']['#formatter '] = 'taxonomy_term_reference_link';
+        $build['field_editorial_base']['#label_display'] = 'hidden';
+        $build['field_editorial_base']['#title'] = t('Section');
+        $build['field_editorial_base']['#language '] = LANGUAGE_NONE;
+        $build['field_editorial_base']['#field_translatable'] = 0 ;
+        $build['field_editorial_base']['#entity_type'] = 'node';
+        $build['field_editorial_base']['#bundle'] = $build['#node']->type;
+        $build['field_editorial_base']['#weight'] = isset($build['field_' . $build['#node']->type . '_tags']['#weight']) ?
+          $build['field_' . $build['#node']->type . '_tags']['#weight'] + 1  : 7;
+        $build['field_editorial_base']['#access'] = TRUE;
+        foreach ($items as $item) {
+          $term = field_view_value('node', $build['#node'], 'field_editorial_base', $item);
+          $build['field_editorial_base']['#items'][] = array('tid' => $item, 'taxonomy_term' => $term);
+        }
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_preprocess_panels_pane().
  */
 function ddbasic_preprocess_panels_pane(&$vars) {
@@ -123,11 +172,11 @@ function ddbasic_preprocess_panels_pane(&$vars) {
     $vars['classes_array'][] = 'sub-menu-wrapper';
 
     // Change the theme wrapper for both menu-block and OG menu.
-    if (isset($vars['content']['#content'])) {
+    if (isset($vars['content']['#content']) && is_array($vars['content']['#content'])) {
       // Menu-block.
       $vars['content']['#content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
-    else {
+    elseif(is_array($vars['content'])) {
       // OG menu.
       $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
@@ -135,6 +184,10 @@ function ddbasic_preprocess_panels_pane(&$vars) {
 
   if ($vars['pane']->subtype == 'menu_block-main_menu_second_level') {
     ddbasic_body_class('has-second-level-menu');
+  }
+
+  if ($vars['pane']->subtype == 'search-form' && $vars['pane']->panel != 'header') {
+    unset($vars['content']['advanced']);
   }
 }
 
@@ -1242,4 +1295,24 @@ function ddbasic_libraries_info() {
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Rewrites view's ouput.
+ */
+function ddbasic_views_pre_render(&$view){
+  if ($view->name == 'ding_event') {
+    foreach ($view->result as &$item) {
+      $field = &$item->field_field_ding_event_date[0];
+      $val = $field['raw']['value'];
+      if ($val == $field['raw']['value2']) {
+         $date = new DateTime($val, new DateTimeZone($field['raw']['timezone_db']));
+         $date->setTimezone(new DateTimeZone($field['raw']['timezone']));
+         $date = $date->format('H:i');
+         $field['rendered']['#markup'] = $date . ' - ' . t('All day');
+      }
+    }
+  }
 }

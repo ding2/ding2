@@ -383,7 +383,25 @@ function ding_library_default_page_manager_handlers() {
     $pane->type = 'contact';
     $pane->subtype = 'contact';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'entity_field_value:node:ding_library:field_hide_news_and_events',
+          'settings' => array(
+            'field_hide_news_and_events' => array(
+              'und' => array(
+                0 => array(
+                  'value' => 0,
+                ),
+              ),
+            ),
+            'field_hide_news_and_events_value' => NULL,
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'override_title' => 0,
       'override_title_text' => '',
@@ -415,7 +433,25 @@ function ding_library_default_page_manager_handlers() {
     $pane->type = 'weekly_opening_hours';
     $pane->subtype = 'weekly_opening_hours';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'entity_field_value:node:ding_library:field_hide_news_and_events',
+          'settings' => array(
+            'field_hide_news_and_events' => array(
+              'und' => array(
+                0 => array(
+                  'value' => 0,
+                ),
+              ),
+            ),
+            'field_hide_news_and_events_value' => NULL,
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'node' => '37',
       'context' => 'argument_entity_id:node_1',
@@ -907,7 +943,7 @@ function ding_library_default_page_manager_pages() {
     $display->panels['main_content'][2] = 'new-340e4d90-b7d8-430c-9e38-f14b9d6f3320';
     $pane = new stdClass();
     $pane->pid = 'new-c05787bc-8016-4669-8c82-10c349af2dea';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'contact';
     $pane->subtype = 'contact';
     $pane->shown = TRUE;
@@ -937,11 +973,11 @@ function ding_library_default_page_manager_pages() {
       'css_class' => 'ding-library-contact',
     );
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = '';
     $pane->uuid = 'c05787bc-8016-4669-8c82-10c349af2dea';
     $display->content['new-c05787bc-8016-4669-8c82-10c349af2dea'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-c05787bc-8016-4669-8c82-10c349af2dea';
+    $display->panels['left_sidebar'][2] = 'new-c05787bc-8016-4669-8c82-10c349af2dea';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

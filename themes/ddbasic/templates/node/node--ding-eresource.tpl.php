@@ -94,6 +94,5 @@
       <div class="buttons">
         <?php print l(t('E-resources'), 'e-materialer'); ?>
       </div>
-      <?php print render($content); ?>
   </div>
 </article>

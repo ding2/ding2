@@ -30,6 +30,12 @@ function ding_serendipity_serendipity_ting_object_admin_info($subtype, $conf, $c
  * Implements hook_content_type_render().
  */
 function ding_serendipity_serendipity_ting_object_content_type_render($subtype, $conf, $panel_args, $context) {
+  // Only show on front if serendipity is enabled for the frontpage.
+  // See ding_frontpage config at /admin/config/ding/frontend.
+  if (isset($conf['selected_keys']['frontpage']) && !variable_get('ding_frontpage_serendipity') && variable_get('ding_frontpage_promoter') != 'serendipity') {
+    return;
+  }
+
   $context_data = array();
   if (isset($conf['selected_keys'])) {
     foreach ($conf['selected_keys'] as $key => $value) {

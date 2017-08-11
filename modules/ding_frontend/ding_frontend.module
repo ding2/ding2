@@ -212,3 +212,64 @@ function ding_frontend_views_pre_render(&$view) {
     }
   }
 }
+
+/**
+ * Implements hook_entity_view().
+ */
+function ding_frontend_entity_view($entity, $entity_type, $view_mode, $langcode) {
+  // Hide all webform elements from search result display.
+  if ($entity_type == 'node' && $view_mode == 'search_result') {
+    unset($entity->content['webform']);
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function ding_frontend_node_presave($node) {
+  // Marking processable content types.
+  $processed_types = array(
+    'news' => 'ding_news',
+    'event' => 'ding_event',
+  );
+
+  // Processing content types marked previously.
+  foreach ($processed_types as $short => $content_type) {
+    // Check if current node content type is related to our processed types.
+    if ($content_type == $node->type) {
+      // Defining image fields.
+      $list_image_field = field_get_items('node', $node, "field_{$content_type}_list_image");
+      $title_image_field = field_get_items('node', $node, "field_{$content_type}_title_image");
+
+      // Check if fields are present.
+      if ($list_image_field || $title_image_field) {
+        $list_image_fid = $list_image_field[0]['fid'];
+        $title_image_fid = $title_image_field[0]['fid'];
+
+        // If images have same "fid", go further and process them.
+        if ($list_image_fid == $title_image_fid) {
+          // Load file object.
+          $file_entity = file_load($title_image_fid);
+          // Copy file in it's folder in filesystem.
+          $img = file_copy($file_entity, "public://list_image/{$short}", FILE_EXISTS_REPLACE);
+
+          // Preparing variables for updating file field.
+          $fid = $img->fid;
+          $alt = !empty($img->field_file_image_alt_text[LANGUAGE_NONE][0]['value']) ? $img->field_file_image_alt_text[LANGUAGE_NONE][0]['value'] : '';
+          $title = !empty($img->field_file_image_title_text[LANGUAGE_NONE][0]['value']) ? $img->field_file_image_title_text[LANGUAGE_NONE][0]['value'] : '';
+
+          // Generating field name in dependency of processed content type.
+          $list_image_wrapper = "field_{$content_type}_list_image";
+
+          // Loading node's entity metadata, set new values for processed image
+          // field and updating this field.
+          $node_wrapper = entity_metadata_wrapper('node', $node);
+          $node_wrapper->{$list_image_wrapper}->set(
+            array('fid' => $fid, 'alt' => $alt, 'title' => $title)
+          );
+          $node_wrapper->save();
+        }
+      }
+    }
+  }
+}

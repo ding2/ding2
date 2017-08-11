@@ -163,48 +163,6 @@
 
 }
 
-.field-name-field-ding-eresource-materials {
-  width: 100%;
-  float: left;
-
-  .node-ding-eresource & {
-    padding-top: 20px;
-
-    .field-label {
-      @include font('display-large');
-      margin-bottom: 20px;
-      color: $color-text;
-
-      // Mobile
-      @include media($mobile) {
-        margin-bottom: 10px;
-      }
-    }
-  }
-
-
-  > .field-items {
-    > .field-item {
-      @include span-columns(3);
-      @include omega(4n);
-      margin-bottom: getGutter();
-
-      // Tablet.
-      @include media($tablet) {
-        @include omega-reset(4n, 12);
-        @include span-columns(4);
-        @include omega(3n);
-      }
-
-      // Mobile.
-      @include media($mobile) {
-        width: 100%;
-        margin-right: 0;
-      }
-    }
-  }
-}
-
 // ==========================================================================
 // Ting Carousel field
 // ==========================================================================

@@ -105,7 +105,8 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
         'type' => NULL,
         'link' => NULL,
         'image' => NULL,
-        'text' => NULL
+        'text' => NULL,
+        'show_on_mobiles' => NULL,
       ),
       'template' => 'ding-campaign',
       'path' => $path . '/templates',
@@ -163,6 +164,15 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
   }
 
   return $content;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_campaign_preprocess_ding_campaign(&$variables) {
+  if (!empty($variables['show_on_mobiles'])) {
+    $variables['classes_array'][] = 'ding-campaign-mobile-display';
+  }
 }
 
 /**
@@ -645,3 +655,4 @@ function _ding_campaign_rule_by_type($node_type) {
 
   return $type;
 }
+

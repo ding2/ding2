@@ -198,7 +198,14 @@ function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $seria
 
     // Ensure exactly one trailing slash.
     $endpoint = rtrim($endpoint, '/') . '/';
-    $service = new FBS($agency_id, $endpoint, $client, $serializer);
+    try {
+      $service = new FBS($agency_id, $endpoint, $client, $serializer);
+    }
+    catch (FBSException $e) {
+      watchdog_exception('fbs', $e);
+
+      return FALSE;
+    }
   }
 
   return $service;

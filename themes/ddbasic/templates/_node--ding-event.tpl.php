@@ -90,34 +90,48 @@
  * @see template_process()
  */
 ?>
+<div itemscope itemtype="http://schema.org/Event">
 <article class="event">
-  <h1 class="page-title"><?php print $title; ?></h1>
+  <?php if (isset($content['field_ding_event_image_gallery'])) : ?>
+    <?php print render($content['field_ding_event_image_gallery']); ?>
+  <?php endif; ?>
+  <h1 class="page-title" itemprop="name"><?php print $title; ?></h1>
 
   <div class="event-lead">
     <?php print render($content['field_ding_event_lead']); ?>
   </div>
   <div class="event-info">
     <?php if (isset($ddbasic_event_date)) : ?>
-      <p><i class="icon-calendar"></i> <?php print $ddbasic_event_date; ?></p>
+        <meta itemprop="startDate" datetime="<?php print $ddbasic_event_start_date ?>" content="<?php print $ddbasic_event_start_date ?>">
+        <meta itemprop="endDate" datetime="<?php print $ddbasic_event_end_date ?>" content="<?php print $ddbasic_event_end_date ?>">
+        <p itemprop="duration"><i class="icon-calendar"></i><?php print $ddbasic_event_date; ?></p>
     <?php endif; ?>
     <?php if (isset($ddbasic_event_date)) : ?>
       <p><i class="icon-time"></i> <?php print $ddbasic_event_time; ?></p>
     <?php endif; ?>
 
     <?php if (isset($ddbasic_event_location)): ?>
-      <p><i class="icon-home"></i> <?php print render($ddbasic_event_location); ?></p>
+        <p itemprop="location"><i class="icon-home"></i> <?php print render($ddbasic_event_location); ?></p>
+    <?php endif; ?>
+
+    <?php if (isset($content['field_ding_event_rooms'])): ?>
+        <div class="event-room"><i class="icon-location-arrow"></i> <?php print render($content['field_ding_event_rooms']); ?></div>
     <?php endif; ?>
 
     <?php if (isset($content['field_ding_event_target'])): ?>
-      <p><i class="icon-user"></i> <?php print render($content['field_ding_event_target']); ?></p>
+        <p itemprop="attendee"><i class="icon-user"></i> <?php print render($content['field_ding_event_target']); ?></p>
     <?php endif; ?>
 
     <?php if (isset($content['field_ding_event_price'])): ?>
-      <p><i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?></p>
+        <p itemprop="price"><i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?></p>
     <?php endif; ?>
 
     <?php if (isset($content['field_place2book_tickets'])): ?>
       <div><?php print render($content['field_place2book_tickets']); ?></div>
+    <?php endif; ?>
+
+    <?php if (isset($content['field_ding_event_subscriptions'])): ?>
+        <div><?php print render($content['field_ding_event_subscriptions']); ?></div>
     <?php endif; ?>
   </div>
   <div class="event-content">
@@ -127,6 +141,7 @@
     </div>
     <?php endif; ?>
 
+    <div class="description" itemprop="description">
     <?php
       // Hide fields we have already rendered.
       hide($content['field_ding_event_category']);
@@ -148,6 +163,7 @@
 
       print render($content);
     ?>
+    </div>
   </div>
 
   <footer class="event-footer">
@@ -155,6 +171,9 @@
       <span class="event-category label"><?php print render($content['field_ding_event_category']); ?></span>
       <?php if (isset($content['field_ding_event_tags'])) : ?>
         <span class="event-tags label"><?php print render($content['field_ding_event_tags']); ?></span>
+      <?php endif; ?>
+      <?php if (isset($content['field_editorial_base'])) : ?>
+        <span class="event-section label"><?php print render($content['field_editorial_base']); ?></span>
       <?php endif; ?>
       <?php if (isset($content['og_group_ref']['#items'])) : ?>
         <span class="library-ref label label-info"><?php print render($content['og_group_ref']); ?></span>
@@ -192,3 +211,4 @@
 
   </footer>
 </article>
+</div>

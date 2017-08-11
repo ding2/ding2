@@ -93,6 +93,31 @@ function ding_serendipity_menu() {
 }
 
 /**
+ * Implements hook_form_alter().
+ *
+ * Add serendipity config to frontpage admin config.
+ */
+function ding_serendipity_form_ding_frontpage_admin_settings_alter(&$form, &$form_state, $form_id) {
+  $form['ding_frontpage']['ding_frontpage_promoter']['#options']['serendipity'] = t('Ding Serendipity');
+
+  $form['ding_frontpage']['ding_frontpage_serendipity'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show Ding Serendipity on the frontpage'),
+    '#default_value' => variable_get('ding_frontpage_serendipity', FALSE),
+    '#description' => t('If you selected Ding tab-roll or carousel above, check this option to also show Serendipity on the frontpage'),
+  );
+
+  $form['#submit'][] = 'ding_serendipity_frontpage_submit';
+}
+
+/**
+ * Submit handler for ding serendipity frontpage options.
+ */
+function ding_serendipity_frontpage_submit($form, $form_state) {
+  variable_set('ding_frontpage_serendipity', $form_state['values']['ding_frontpage_serendipity']);
+}
+
+/**
  * AJAX command to place HTML within the serendipity.
  *
  * @param array $context
