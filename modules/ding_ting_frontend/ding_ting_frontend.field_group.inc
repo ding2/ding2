@@ -376,13 +376,12 @@ function ding_ting_frontend_field_group_info() {
     'weight' => '1',
     'children' => array(
       0 => 'ting_title',
-      1 => 'ting_series',
-      2 => 'ting_abstract',
-      3 => 'ting_author',
-      4 => 'ting_subjects',
-      5 => 'ding_serendipity_info',
-      6 => 'ding_entity_rating_action',
-      7 => 'ding_entity_rating_result',
+      1 => 'ting_abstract',
+      2 => 'ting_author',
+      3 => 'ding_serendipity_info',
+      4 => 'ding_entity_rating_action',
+      5 => 'ding_entity_rating_result',
+      6 => 'ding_entity_buttons',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -492,6 +491,7 @@ function ding_ting_frontend_field_group_info() {
       3 => 'ting_author',
       4 => 'ding_entity_rating_action',
       5 => 'ding_entity_rating_result',
+      6 => 'ding_entity_buttons',
     ),
     'format_type' => 'div',
     'format_settings' => array(

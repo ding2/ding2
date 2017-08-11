@@ -265,6 +265,9 @@ projects[og][patch][] = "https://www.drupal.org/files/issues/entityreference_fie
 ; Fix using organic groups for relationships in views
 ; https://www.drupal.org/node/1890370
 projects[og][patch][] = "https://www.drupal.org/files/issues/add-gid-to-relationship-field-1890370-34.patch"
+; Keep OG membership on user save
+; https://www.drupal.org/node/1502916
+projects[og][patch][] = "https://www.drupal.org/files/membership-data-loss-user-save-1502916.patch"
 
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][version] = "3.0-rc5"
@@ -525,8 +528,9 @@ libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.gi
 libraries[zen-grids][download][tag] = "1.4"
 libraries[zen-grids][destination] = "libraries"
 
-libraries[jquery.imgareaselect][download][type] = "get"
-libraries[jquery.imgareaselect][download][url] =  http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
+libraries[jquery.imgareaselect][download][type] = "git"
+libraries[jquery.imgareaselect][download][url] =  "git@github.com:easySuite/imgareaselect.git"
+libraries[jquery.imgareaselect][download][branch] = "master"
 libraries[jquery.imgareaselect][directory_name] = "jquery.imgareaselect"
 libraries[jquery.imgareaselect][destination] = "libraries"
 
