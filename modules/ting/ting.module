@@ -76,6 +76,14 @@ function ting_menu() {
     'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
   );
 
+  $items['ting/redirect/%'] = array(
+    'title' => 'Redirect',
+    'page callback' => 'ting_redirect_remote_link',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'delivery callback' => 'ajax_deliver',
+  );
+
   $items['admin/config/ting'] = array(
     'title' => 'Ting',
     'description' => 'Manage Ting integration settings.',
@@ -536,18 +544,78 @@ function ting_ding_entity_is($object, $class) {
  */
 function ting_ding_entity_buttons($type, $entity) {
   if ($entity instanceof TingEntity && $entity->online_url) {
+    $link_access = $entity->link_access;
     $settings = variable_get('ting_url_labels', _ting_default_url_labels());
     $type = drupal_strtolower($entity->type);
+
     $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+    $url = $entity->getOnline_url();
+    $options = array(
+      'absolute' => TRUE,
+      'attributes' => array(
+        'class' => array('button-see-online'),
+        'target' => '_blank',
+      ),
+    );
+
+    switch ($link_access) {
+      case 'onsite':
+        $label = $label . ' *';
+        break;
+
+      case 'proxy':
+        if (!user_is_logged_in()) {
+          $url = url('ting/redirect/nojs',
+              array('absolute' => TRUE)) . '?object=' . $entity->ding_entity_id;
+          $options['attributes']['class'][] = 'use-ajax';
+        }
+        break;
+    }
+
+    $markup = l($label, $url, $options);
+
     return array(
       // The link can't use l() as it will encode the url from ting_proxy. Use
       // get online as the dc:identifier in $entity->online is not always the
       // correct url.
       array(
         '#type' => 'markup',
-        '#markup' => '<a class="button-see-online" target="_new" href="' . $entity->getOnline_url() . '">' . $label . '</a>',
+        '#markup' => $markup,
       ),
     );
+  }
+}
+
+
+/**
+ * Redirect to external link.
+ */
+function ting_redirect_remote_link($ajax) {
+  $qp = drupal_get_query_parameters();
+  if ($ajax == 'ajax') {
+    if (!user_is_logged_in()) {
+      return array(
+        '#type' => 'ajax',
+        '#commands' => array(
+          ajax_command_ding_user_authenticate(''),
+        ),
+      );
+    }
+    else {
+      $entity = ding_entity_load($qp['object']);
+      $url = $entity->getOnline_url();
+      ctools_include('ajax');
+      return array(
+        '#type' => 'ajax',
+        '#commands' => array(
+          ctools_ajax_command_redirect($url, array('external' => TRUE, 'target' => '_blank')),
+        ),
+      );
+    }
+  }
+  else {
+    $output = t("Please enable JavaScript in your browser.");
+    return $output;
   }
 }
 
@@ -1036,4 +1104,80 @@ function _ting_anchor_name($type) {
   $name = str_replace(':', '', $name);
   $name = strtolower($name);
   return $name;
+}
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function ting_field_extra_fields() {
+  $extra = array();
+
+  $extra['ting_object']['ting_object'] = array(
+    'display' => array(
+      'field_access_type_annotation' => array(
+        'label' => t('Link Access Type'),
+        'description' => t("Relation's link access annotation"),
+        'weight' => 100,
+        // It is required for integration with extrafield_views_integration.
+        'callback' => 'ting_extra_callback',
+      ),
+    ),
+  );
+
+  return $extra;
+}
+
+/**
+ * Callback for render onsite annotation.
+ *
+ * @param object $entity
+ *   Current entity object.
+ *
+ * @return array|string
+ *   Markup of annotation.
+ */
+function ting_extra_callback($entity) {
+  $link_access = $entity->link_access;
+
+  $output = '';
+  if ($link_access == 'onsite') {
+    $output = array(
+      '#type' => 'markup',
+      '#visible' => TRUE,
+      '#prefix' => '<div class="access-onsite">',
+      '#markup' => t('* The item kan be accessed from the public computers on the library.'),
+      '#suffix' => '</div>',
+    );
+  }
+
+  return $output;
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function ting_entity_view($entity, $type, $view_mode, $langcode) {
+  $content = $entity->content;
+
+  // Check the field is displayed for the current view_mode.
+  $field_name = 'field_access_type_annotation';
+
+  if ($type == 'ting_object' && $view_mode == 'full') {
+    $content['#group_children'][$field_name] = 'group_ting_object_right_column';
+    $content['#groups']['group_ting_object_right_column']->children[] = $field_name;
+    $content[$field_name] = ting_extra_callback($entity);
+  }
+  $entity->content = $content;
+}
+
+/**
+ * Implements hook_field_extra_fields_display_alter().
+ */
+function ting_field_extra_fields_display_alter(&$displays, $context) {
+  if ($context['view_mode'] == 'full') {
+    $displays['field_access_type_annotation']['weight'] = 99;
+  }
+  else {
+    $displays['field_access_type_annotation']['visible'] = FALSE;
+  }
 }
