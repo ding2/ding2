@@ -615,11 +615,10 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
  *   An array with multiple faust to be translated.
  *
  * @return mixed
- *   Single faust: A string with data well PID. FALSE if the faust
- *   couldn't be translated.
+ *   Single faust: A string with data well PID.
  *   Array of fausts: An array with data well PIDs keyed be the original faust.
- *   If a faust couldn't be translated the correspoding array value will be
- *   FALSE.
+ *   In both cases, if a faust couldn't be translated, the PID will be the
+ *   original faust with the standard DBC namespace "870970-basis:".
  */
 function ding_provider_build_entity_id($ids) {
   if (is_array($ids) && !empty($ids)) {
