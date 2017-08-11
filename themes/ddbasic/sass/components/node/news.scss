@@ -327,6 +327,7 @@
       }
     }
     .field-name-field-ding-news-lead {
+      @include font('base-bold');
       margin: 20px 0;
     }
     &.field-name-field-ding-news-body {
