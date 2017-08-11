@@ -28,8 +28,9 @@
     .admin-menu & {
       top: $admin-menu-height;
     }
-    // Admin menu
-    .admin-menu-with-shortcuts & {
+    // Admin menu shortcuts or toolbar.
+    .admin-menu-with-shortcuts &,
+    .toolbar & {
       top: $toolbar-height;
     }
   }
@@ -358,16 +359,18 @@
       .admin-menu & {
         top: $admin-menu-height;
       }
-      // Admin menu
-      .admin-menu-with-shortcuts & {
+      // Admin menu with shortcuts and toolbar.
+      .admin-menu-with-shortcuts &,
+      .toolbar & {
         top: $toolbar-height;
       }
       // Search Form Extended & admin menu
       .search-form-extended.admin-menu & {
         top: $admin-menu-height - 20px;
       }
-      // Search Form Extended & admin menu
-      .search-form-extended.admin-menu-with-shortcuts & {
+      // Search Form Extended with admin menu shortcuts or toolbar
+      .search-form-extended.admin-menu-with-shortcuts &,
+      .search-form-extended.toolbar & {
         top: $toolbar-height - 20px;
       }
       // Search Form Extended on frontpage
@@ -385,9 +388,11 @@
       .search-form-extended.front.admin-menu & {
         top: $topbar-height + $admin-menu-height;
       }
-      // Search Form Extended on frontpage with admin menu
+      // Search Form Extended on frontpage with admin menu shortcuts or toolbar
       .search-form-extended.page-search.admin-menu-with-shortcuts &,
-      .search-form-extended.front.admin-menu-with-shortcuts & {
+      .search-form-extended.front.admin-menu-with-shortcuts &,
+      .search-form-extended.page-search.toolbar &,
+      .search-form-extended.front.toolbar &  {
         top: $topbar-height + $toolbar-height;
       }
       // Extended search open
@@ -399,8 +404,9 @@
       .extended-search-is-open.admin-menu & {
         top: $topbar-height + $admin-menu-height;
       }
-      // Extended search open with admin menu
-      .extended-search-is-open.admin-menu-with-shortcuts & {
+      // Extended search open with admin menu shortcuts or toolbar.
+      .extended-search-is-open.admin-menu-with-shortcuts &,
+      .extended-search-is-open.toolbar & {
         top: $topbar-height + $toolbar-height;
       }
       // Search form extended front
@@ -487,8 +493,9 @@
     .admin-menu & {
       top: $topbar-height + $admin-menu-height;
     }
-    // Admin menu
-    .admin-menu-with-shortcuts & {
+    // Admin menu with shortcuts or toolbar
+    .admin-menu-with-shortcuts &,
+    .toolbar & {
       top: $topbar-height + $toolbar-height;
     }
     // Search Form Extended
@@ -508,8 +515,9 @@
     .search-form-extended.admin-menu & {
       top: $topbar-height + $admin-menu-height;
     }
-    // Search Form Extended with admin menu
-    .search-form-extended.admin-menu-with-shortcuts & {
+    // Search Form Extended with admin menu shortcuts or toolbar
+    .search-form-extended.admin-menu-with-shortcuts &,
+    .search-form-extended.toolbar & {
       top: $topbar-height + $toolbar-height;
     }
     // Search Form Extended on frontpage
@@ -523,9 +531,11 @@
     .search-form-extended.front.admin-menu & {
       top: $topbar-height + $search-form-extended-height + $admin-menu-height;
     }
-    // Search Form Extended on frontpage with admin menu
+    // Search Form Extended on frontpage with admin menu shortcuts or toolbar
     .search-form-extended.page-search.admin-menu-with-shortcuts &,
-    .search-form-extended.front.admin-menu-with-shortcuts & {
+    .search-form-extended.front.admin-menu-with-shortcuts &,
+    .search-form-extended.page-search.toolbar &,
+    .search-form-extended.front.toolbar &{
       top: $topbar-height + $search-form-extended-height + $toolbar-height;
     }
     // Extended search open
@@ -536,8 +546,9 @@
     .extended-search-is-open.admin-menu & {
       top: $topbar-height + $search-form-extended-height + $admin-menu-height;
     }
-    // Extended search open with admin menu
-    .extended-search-is-open.admin-menu-with-shortcuts & {
+    // Extended search open with admin menu shortcuts or toolbar
+    .extended-search-is-open.admin-menu-with-shortcuts &,
+    .extended-search-is-open.toolbar &{
       top: $topbar-height + $search-form-extended-height + $toolbar-height;
     }
 
@@ -612,8 +623,9 @@
         .admin-menu & {
           top: $header-height + $admin-menu-height;
         }
-        // Admin menu
-        .admin-menu-with-shortcut & {
+        // Admin menu with shortcuts or toolbar
+        .admin-menu-with-shortcut &,
+        .toolbar & {
           top: $header-height + $toolbar-height;
         }
 
