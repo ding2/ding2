@@ -664,7 +664,7 @@ function ding_provider_build_entity_id($ids) {
 
     return $translated_ids;
   }
-  elseif (is_numeric($ids) || ctype_digit($ids)) {
+  elseif (is_numeric($ids)) {
     $obj = ting_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
     $entity_id = ($obj) ? key($obj->collections) : '870970-basis:' . $ids;
 
