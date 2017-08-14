@@ -66629,7 +66629,6 @@ msgstr ""
 "Du er stadig logget ind ved NemID. Hvis du vil logge ud så "
 "!logout."
 
-<<<<<<< HEAD
 #: /
 msgid "View all opening hours"
 msgstr "Se alle åbningstider"
@@ -66926,7 +66925,6 @@ msgid ""
 "</ul>"
 msgstr "<p>Din søgning desværre ikke gav noget resultat, men vi vil gerne hjælpe dig med at komme videre!</p><p>Spørg os på biblioteket eller se kontaktoplysningerne til biblioteket nederst på siden.</p><p>Du "
 "kan også søge videre på <a href=\"http://bibliotek.dk/\">Bibliotek.dk</a></p>"
-=======
 #: /admin/modules/list/confirm
 msgid "Administer Mobilesearch"
 msgstr "Konfigurer CMS Content"
@@ -66962,4 +66960,3 @@ msgid ""
 msgstr "Der skete en fejl med forbindelsen til CMS Content. Vi har "
 "deaktiveret \"Send til CMS Content\" checkboxen. Check !settings."
 
->>>>>>> master
