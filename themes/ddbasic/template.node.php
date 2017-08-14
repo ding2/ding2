@@ -231,6 +231,9 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           ));
         }
 
+        if (!empty($location)) {
+          $variables['content']['group_left']['og_group_ref']['#access'] = FALSE;
+        }
       }
       break;
   }
