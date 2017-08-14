@@ -116,8 +116,8 @@ function ding_staff_field_group_info() {
     'children' => array(
       0 => 'field_ding_staff_department',
       1 => 'field_ding_staff_position',
-      2 => 'og_group_ref',
-      3 => 'field_ding_staff_work_areas',
+      2 => 'field_ding_staff_work_areas',
+      3 => 'og_group_ref',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
