@@ -31,18 +31,11 @@ function ddbasic_preprocess_html(&$vars) {
   // Search form style.
   switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
     case TING_SEARCH_FORM_STYLE_EXTENDED:
-      $vars['classes_array'][] = 'search-form-no-materials';
-
-    case TING_SEARCH_FORM_STYLE_EXTENDED_WITH_TYPES:
       $vars['classes_array'][] = 'search-form-extended';
       $vars['classes_array'][] = 'show-secondary-menu';
 
       if (menu_get_item()['path'] === 'search/ting/%') {
         $vars['classes_array'][] = 'extended-search-is-open';
-      }
-
-      if (!ting_search_form_show_types()) {
-        $vars['classes_array'][] = 'search-form-no-materials';
       }
       break;
   }
