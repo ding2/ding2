@@ -673,6 +673,10 @@ function ding_list_list_username($list) {
     return $owner->data['display_name'];
   }
 
+  if (!empty($owner->realname)) {
+    return $owner->realname;
+  }
+
   return t('Another loaner');
 }
 

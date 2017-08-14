@@ -59,6 +59,9 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
   $lists = ding_list_get_lists(NULL, $account);
   if ($lists !== FALSE) {
     foreach ($lists as $list) {
+      if (!ding_list_user_has_access($list, 'view')) {
+        continue;
+      }
       $list_type = ding_base_get_value('ding_type', $list, 'field_list_type');
       $list_label = check_plain(entity_label('ding_type', $list));
 
@@ -168,6 +171,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     );
 
     // Loans.
+    $loans = ding_provider_invoke('loan', 'list', $account);
     $count = count($loans) - $overdues;
     $groups['specials']['lists']['special_loans'][] = array(
       'data' =>
@@ -192,7 +196,11 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
 
   reset($groups);
 
-  $block->content = array('#theme' => 'ding_list_lists', '#groups' => $groups);
+  $block->content = array(
+    '#theme' => 'ding_list_lists',
+    '#groups' => $groups,
+    '#uid' => $account->uid,
+  );
   return $block;
 }
 

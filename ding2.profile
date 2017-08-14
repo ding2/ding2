@@ -308,6 +308,7 @@ function ding2_module_selection_form($form, &$form_state) {
   // Available providers.
   $providers = array(
     'fbs' => 'FBS',
+    'alma' => 'Alma',
     'connie' => 'Connie (for testing without a library system)',
   );
 
