@@ -259,8 +259,9 @@ function ding_mobilesearch_rest_exec($op, $entity_type, $entity) {
     }
     foreach ($diff['to_update'] as $agency_id) {
       $request_body['agency'] = $agency_id;
+      // @TODO: Unknown purpose to send two calls.
       $response = ding_mobilesearch_rest_service_call('addContent', $request_body);
-      if (!$response || (is_object($response['response']) && $response['response']->status == FALSE)) {
+      if (!$response || (isset($response['status']) && $response['status'] === FALSE)) {
         ding_mobilesearch_rest_service_call('updateContent', $request_body);
       }
     }
