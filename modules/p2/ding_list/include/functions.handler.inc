@@ -83,10 +83,10 @@ function ding_list_get_lists($list_type = NULL, $account = NULL, $range = array(
   }
 
   // Add lists user has access to, but don't own.
-  $query = db_select('field_data_field_ding_list_permissions', 'fdlp')
-    ->fields('fdlp', array('entity_id'));
-
   if (user_is_logged_in()) {
+    $query = db_select('field_data_field_ding_list_permissions', 'fdlp')
+      ->fields('fdlp', array('entity_id'));
+
     $id = $account->uid;
     if (ding_provider_implements('openlist', 'user_identifier')) {
       $id = ding_provider_invoke('openlist', 'user_identifier', $account);
@@ -94,16 +94,16 @@ function ding_list_get_lists($list_type = NULL, $account = NULL, $range = array(
 
     $query->join('field_data_field_ding_list_user', 'fdlu', 'fdlu.entity_id = fdlp.field_ding_list_permissions_target_id');
     $query->condition('fdlu.field_ding_list_user_value', $id);
-  }
 
-  if ($list_type !== NULL) {
-    $query->join('field_data_field_list_type', 'flt', 'flt.entity_id = fdlp.entity_id');
-    $query->condition('flt.field_list_type_value', $list_type);
-  }
+    if ($list_type !== NULL) {
+      $query->join('field_data_field_list_type', 'flt', 'flt.entity_id = fdlp.entity_id');
+      $query->condition('flt.field_list_type_value', $list_type);
+    }
 
-  $result = $query->execute()->fetchAllKeyed(0, 0);
-  if (!empty($result)) {
-    $lists += $result;
+    $result = $query->execute()->fetchAllKeyed(0, 0);
+    if (!empty($result)) {
+      $lists += $result;
+    }
   }
 
   $lists = entity_load('ding_type', array_keys($lists));
