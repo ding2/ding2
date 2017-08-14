@@ -4,7 +4,7 @@
  * Provides portable access to a "Ting" object retrieved from a search provider.
  */
 
-namespace Drupal\ting;
+namespace Ting;
 
 interface TingObjectInterface {
 

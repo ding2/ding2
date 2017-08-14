@@ -6,7 +6,7 @@
 
 namespace OpenSearch;
 
-use Drupal\ting\TingObjectInterface;
+use Ting\TingObjectInterface;
 use TingClientObject;
 
 /**

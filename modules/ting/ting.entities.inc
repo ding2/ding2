@@ -63,7 +63,7 @@ class TingEntity extends DingEntity {
   /**
    * The embedded search-provider specific object.
    *
-   * @var \Drupal\ting\TingObjectInterface
+   * @var Ting\TingObjectInterface
    */
   public $reply;
 

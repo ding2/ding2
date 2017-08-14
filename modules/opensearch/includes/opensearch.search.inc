@@ -36,7 +36,7 @@ function opensearch_search_material_types() {
  * @param string[] $ids
  *   Array of ids to load from Open Search.
  *
- * @return \Drupal\ting\TingObjectInterface[]
+ * @return Ting\TingObjectInterface[]
  *   An array of loaded objects.
  */
 function opensearch_search_object_load(array $ids) {
