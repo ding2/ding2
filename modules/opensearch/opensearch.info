@@ -5,4 +5,4 @@ package = Providers
 version = 7.x-1.0-dev
 project = opensearch
 dependencies[] = ding_provider
-dependencies[] = xautload
+dependencies[] = xautoload
