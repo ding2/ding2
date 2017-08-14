@@ -132,13 +132,13 @@ function ding_mobilesearch_rest_config_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Service URL'),
     '#default_value' => variable_get('mobilesearch_rest_url', ''),
-    '#description' => t('URL to service (trailing slash needed).'),
+    '#description' => t('URL to CMS Content service (trailing slash needed), e.g. https://cmscontent.dbc.dk/'),
     '#required' => TRUE,
   );
 
   $form['mobilesearch_rest_agency_id'] = array(
     '#type' => 'textfield',
-    '#title' => t('Ting Agency ID'),
+    '#title' => t('Agency ID'),
     '#default_value' => variable_get('ting_agency', NULL),
     '#attributes' => array('disabled' => TRUE),
     '#required' => TRUE,

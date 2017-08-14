@@ -66653,3 +66653,39 @@ msgstr ""
 "kan du oprette dig som låner nedenfor.</br>\r\n"
 "Du er stadig logget ind ved NemID. Hvis du vil logge ud så "
 "!logout."
+
+#: /admin/modules/list/confirm
+msgid "Administer Mobilesearch"
+msgstr "Konfigurer CMS Content"
+
+#: /admin/modules/list/confirm
+msgid "Push to Mongo"
+msgstr "Send til CMS Content"
+
+#: /batch?op=start&id=41
+msgid "Content export"
+msgstr "CMS Content eksportering"
+
+#: /batch?op=start&id=41
+msgid "Content exporting settings."
+msgstr "Indstillinger for CMS Content eksport"
+
+#: /batch?op=start&id=41
+msgid "Set a special configuration options for plugins."
+msgstr "Konfigurer speciel konfiguration for indhold."
+
+#: /node/add/ding-event
+msgid "REST plugin"
+msgstr ""
+
+#: /node/add/ding-event
+msgid "Export data to Mongo through REST API."
+msgstr "Eksport data til CMS Content via API."
+
+#: /node/add/ding-event
+msgid ""
+"Problem connecting to the REST service. We have unchecked your \"Push "
+"to Mongo\" flag. Please check your !settings."
+msgstr "Der skete en fejl med forbindelsen til CMS Content. Vi har "
+"deaktiveret \"Send til CMS Content\" checkboxen. Check !settings."
+
