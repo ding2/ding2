@@ -1196,7 +1196,12 @@ function ddbasic_select($variables) {
   element_set_attributes($element, array('id', 'name', 'size'));
   _form_set_class($element, array('form-select'));
 
-  return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
+  if ($variables['element']['#attributes']['multiple'] == 'multiple') {
+    return '<div class="select-wrapper select-wrapper-multiple"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
+  } else {
+    return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
+  }
+
 }
 
 /**
