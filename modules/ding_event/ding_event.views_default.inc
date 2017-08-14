@@ -1303,7 +1303,7 @@ function ding_event_views_default_views() {
   /* Display: Event list (same tag) */
   $handler = $view->new_display('panel_pane', 'Event list (same tag)', 'ding_event_list_same_tag');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Related events';
+  $handler->display->display_options['title'] = 'Related';
   $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
@@ -1368,14 +1368,34 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['field_ding_event_tags_tid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['field_ding_event_tags_tid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['field_ding_event_tags_tid']['break_phrase'] = TRUE;
+  /* Contextual filter: Content: Tags (field_ding_news_tags) */
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['id'] = 'field_ding_news_tags_tid';
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['table'] = 'field_data_field_ding_news_tags';
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['field'] = 'field_ding_news_tags_tid';
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_type'] = 'taxonomy_tid';
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_options']['term_page'] = FALSE;
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_options']['node'] = TRUE;
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_options']['anyall'] = '+';
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_options']['limit'] = TRUE;
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_options']['vocabularies'] = array(
+    'ding_content_tags' => 'ding_content_tags',
+  );
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 0;
+  $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
@@ -1383,17 +1403,26 @@ function ding_event_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_event' => 'ding_event',
+    'ding_news' => 'ding_news',
   );
+  $handler->display->display_options['filters']['type']['group'] = 1;
   /* Filter criterion: Date: Date (node) */
   $handler->display->display_options['filters']['date_filter']['id'] = 'date_filter';
   $handler->display->display_options['filters']['date_filter']['table'] = 'node';
   $handler->display->display_options['filters']['date_filter']['field'] = 'date_filter';
   $handler->display->display_options['filters']['date_filter']['operator'] = '>=';
+  $handler->display->display_options['filters']['date_filter']['group'] = 2;
   $handler->display->display_options['filters']['date_filter']['default_date'] = 'now';
   $handler->display->display_options['filters']['date_filter']['date_fields'] = array(
     'field_data_field_ding_event_date.field_ding_event_date_value' => 'field_data_field_ding_event_date.field_ding_event_date_value',
     'field_data_field_ding_event_date.field_ding_event_date_value2' => 'field_data_field_ding_event_date.field_ding_event_date_value2',
   );
+  /* Filter criterion: Content: Date -  start date (field_ding_event_date) */
+  $handler->display->display_options['filters']['field_ding_event_date_value']['id'] = 'field_ding_event_date_value';
+  $handler->display->display_options['filters']['field_ding_event_date_value']['table'] = 'field_data_field_ding_event_date';
+  $handler->display->display_options['filters']['field_ding_event_date_value']['field'] = 'field_ding_event_date_value';
+  $handler->display->display_options['filters']['field_ding_event_date_value']['operator'] = 'empty';
+  $handler->display->display_options['filters']['field_ding_event_date_value']['group'] = 2;
   $handler->display->display_options['pane_category']['name'] = 'Event panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
@@ -1637,7 +1666,7 @@ function ding_event_views_default_views() {
     t('Simple event list'),
     t('RSS event list'),
     t('Event list (same tag)'),
-    t('Related events'),
+    t('Related'),
     t('Event Image Crop list'),
     t('Event Image Crop Overview'),
     t('Items per page'),
