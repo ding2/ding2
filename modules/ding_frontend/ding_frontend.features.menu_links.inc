@@ -70,6 +70,26 @@ function ding_frontend_menu_default_menu_links() {
     'weight' => -49,
     'customized' => 0,
   );
+  // Exported menu link: menu-tabs-menu_opening-hours:libraries
+  $menu_links['menu-tabs-menu_opening-hours:libraries'] = array(
+    'menu_name' => 'menu-tabs-menu',
+    'link_path' => 'libraries',
+    'router_path' => 'libraries',
+    'link_title' => 'Opening hours',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'menu-tabs-menu_opening-hours:libraries',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -48,
+    'customized' => 1,
+  );
   // Exported menu link: menu-tabs-menu_search:search
   $menu_links['menu-tabs-menu_search:search'] = array(
     'menu_name' => 'menu-tabs-menu',
@@ -115,6 +135,7 @@ function ding_frontend_menu_default_menu_links() {
   t('Login');
   t('Logout');
   t('Menu');
+  t('Opening hours');
   t('Search');
   t('User menu (mobile)');
 
