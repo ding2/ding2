@@ -46,10 +46,14 @@
             });
 
             $('.view-ding-event.max-two-rows .view-elements').masonry({
+              layoutInstant: false,
               itemSelector: '.views-row',
               columnWidth: '.grid-sizer',
               gutter: '.grid-gutter',
               percentPosition: true,
+            })
+            .on('layoutComplete', function () {
+              $(this).addClass('is-masonry-complete');
             });
 
             masonry_is_active = true;
@@ -252,10 +256,14 @@
         break;
       case ddbasic.breakpoint.OUT:
         $('.js-masonry-view').masonry({
+          layoutInstant: false,
           itemSelector: '.views-row',
           columnWidth: '.grid-sizer',
           gutter: '.grid-gutter',
           percentPosition: true,
+        })
+        .on('layoutComplete', function () {
+          $(this).addClass('is-masonry-complete');
         });
         break;
     }
