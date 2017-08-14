@@ -66925,6 +66925,27 @@ msgid ""
 "</ul>"
 msgstr "<p>Din søgning desværre ikke gav noget resultat, men vi vil gerne hjælpe dig med at komme videre!</p><p>Spørg os på biblioteket eller se kontaktoplysningerne til biblioteket nederst på siden.</p><p>Du "
 "kan også søge videre på <a href=\"http://bibliotek.dk/\">Bibliotek.dk</a></p>"
+
+#: /
+msgid "Search in @profile"
+msgstr "Søg i @profile"
+
+#: /
+msgid "Search in all"
+msgstr "Søg i alle"
+
+#: /index.php
+msgid "Related news"
+msgstr "Relaterede nyheder"
+
+#: /nyheder/kort-nyt/med-youtube-indlejret
+msgid "Share this news"
+msgstr "Del denne nyhed"
+
+#: /lazy-pane/ajax
+msgid "Read about storage of loan history"
+msgstr "Læs om opbevaring af lånehistorik"
+
 #: /admin/modules/list/confirm
 msgid "Administer Mobilesearch"
 msgstr "Konfigurer CMS Content"
