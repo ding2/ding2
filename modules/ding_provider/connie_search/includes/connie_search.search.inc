@@ -33,12 +33,11 @@ function connie_search_search_object_load(array $ids) {
   return [new ConnieTingObject()];
 }
 
-
 /**
  * Load a collection from Open Search.
  *
  * @param string $id
- *   Id of material to load as a collection
+ *   Id of material to load as a collection.
  *
  * @return Ting\TingObjectCollectionInterface
  *   The collection.
@@ -56,7 +55,7 @@ function connie_search_search_collection_load($id) {
  * @return \Ting\Search\TingSearchResultInterface
  *   The search result.
  */
-function connie_search_search_search($query) {
+function connie_search_search_search(TingSearchRequest $query) {
   return new ConnieSearchResult();
 
 }

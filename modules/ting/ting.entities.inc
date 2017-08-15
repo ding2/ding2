@@ -385,14 +385,24 @@ class TingCollection extends DingEntityCollection {
   public $tingObjectCollection;
 
   /**
+   * Get the collection from the Ting search provider.
+   *
    * @return \Ting\TingObjectCollectionInterface
-   *   Get the collection from the Ting search provider
+   *   The collection.
    */
   public function getTingObjectCollection() {
     return $this->tingObjectCollection;
   }
 
-  function __construct($id, $object_collection) {
+  /**
+   * TingCollection constructor.
+   *
+   * @param string $id
+   *   Entity Id.
+   * @param \Ting\TingObjectCollectionInterface $object_collection
+   *   Search provider collection.
+   */
+  public function __construct($id, \Ting\TingObjectCollectionInterface $object_collection) {
     $this->ding_entity_id = $id;
     $this->tingObjectCollection = $object_collection;
 

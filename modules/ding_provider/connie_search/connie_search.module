@@ -29,4 +29,3 @@ function connie_search_ding_provider() {
 function connie_search_xautoload(LocalDirectoryAdapter $adapter) {
   $adapter->absolute()->addPsr4('Connie\\Search\\', drupal_get_path('module', 'connie_search') . '/src');
 }
-

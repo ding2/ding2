@@ -55,7 +55,7 @@ function opensearch_search_object_load(array $ids) {
  * Load a collection from Open Search.
  *
  * @param string $id
- *   Id of material to load as a collection
+ *   Id of material to load as a collection.
  *
  * @return Ting\TingObjectCollectionInterface
  *   The collection.
@@ -66,20 +66,24 @@ function opensearch_search_collection_load($id) {
 }
 
 /**
+ * Perform a search.
+ *
  * @param \Ting\Search\TingSearchRequest $ting_query
+ *   The query to execute.
+ *
+ * @return \Ting\Search\TingSearchResultInterface
+ *   The search result.
  */
 function opensearch_search_search(TingSearchRequest $ting_query) {
   // TODO BBS-SAL: At some point this function will become big enough that we
   // Should split it up - consider doing some OO "Handlers". Alternativly do a
   // OpenSearchTingSearchQuery, create a TingSearchQueryInterface and handle its
   // construction via new provider-function.
-
   // TODO BBS-SAL: At some point we should move the entire ting-client, and
   // ting.client.inc from the thing-module to the opensearch module.
-
+  $query = '';
   // Start off with an empty query, then attempt to construct it from what we
   // can find in the $query.
-  $query = '';
   if (!empty($simple_query_string = $ting_query->getSimpleQuery())) {
     // Try to build the best search query based on the inputted string.
     if (preg_match('/(^\d+$)|(^\d+:\d+$)|(=)/', $simple_query_string)) {
