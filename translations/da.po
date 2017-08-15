@@ -66568,7 +66568,7 @@ msgstr "Mere..."
 
 #: /admin/config/ding/interaction
 msgid "About consent and storage of previous loans"
-msgstr "Samtykke og opbevaring af information tidligere lån"
+msgstr "Samtykke og opbevaring af information om tidligere lån"
 
 #: /admin/config/ding/interaction
 msgid ""
