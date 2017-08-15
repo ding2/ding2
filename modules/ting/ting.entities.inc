@@ -374,8 +374,28 @@ class TingCollection extends DingEntityCollection {
   public $types_count = DingEntityBase::NULL;
   public $primary_object = DingEntityBase::NULL;
 
-  function __construct($id) {
+  // TODO BBS-SAL: After port remove this property.
+  public $reply;
+
+  /**
+   * The embedded search-provider specific object.
+   *
+   * @var Ting\TingObjectCollectionInterface
+   */
+  public $tingObjectCollection;
+
+  /**
+   * @return \Ting\TingObjectCollectionInterface
+   *   Get the collection from the Ting search provider
+   */
+  public function getTingObjectCollection() {
+    return $this->tingObjectCollection;
+  }
+
+  function __construct($id, $object_collection) {
     $this->ding_entity_id = $id;
+    $this->tingObjectCollection = $object_collection;
+
     parent::__construct();
   }
 

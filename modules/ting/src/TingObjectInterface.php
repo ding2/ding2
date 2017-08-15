@@ -9,12 +9,32 @@ namespace Ting;
 interface TingObjectInterface {
 
   /**
+   * Get provider-specific local ID.
+   *
+   * @return string
+   *   The local ID.
+   */
+  public function getLocalId();
+
+  /**
    * Retrieves the title of a material.
+   *
+   * If a longer version of the title exists it will be preferred.
    *
    * @return FALSE|string
    *   The title of the material, or FALSE if it could not be determined.
    */
   public function getTitle();
+
+  /**
+   * Retrieves the title of a material.
+   *
+   * If a short version of the title exists it will be preferred.
+   *
+   * @return FALSE|string
+   *   The title of the material, or FALSE if it could not be determined.
+   */
+  public function getShortTitle();
 
   // Material Details getters.
 
@@ -231,4 +251,25 @@ interface TingObjectInterface {
    *   Relations.
    */
   public function isPartOf();
+
+  /**
+   * Gets the material type.
+   *
+   * Eg. "Bog"
+   * Eg. "Lydbog (cd)"
+   *
+   * @return string
+   *   The type.
+   */
+  public function getType();
+
+  /**
+   * Get the year the material was produced.
+   *
+   * Format YYYY.
+   *
+   * @return string
+   *   The year
+   */
+  public function getYear();
 }

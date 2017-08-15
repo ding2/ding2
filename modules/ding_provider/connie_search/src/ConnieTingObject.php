@@ -9,6 +9,12 @@ namespace Connie\Search;
 use Ting\TingObjectInterface;
 
 class ConnieTingObject implements TingObjectInterface {
+  /**
+   * {@inheritdoc}
+   */
+  public function getLocalId() {
+    return 'unique-connie-id';
+  }
 
   /**
    * {@inheritdoc}

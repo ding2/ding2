@@ -349,4 +349,14 @@ class OpenSearchTingObject implements TingObjectInterface {
     // Return the entry back if it is not an array.
     return $entry;
   }
+
+  /**
+   * Get provider-specific local ID.
+   *
+   * @return string
+   *   The local ID.
+   */
+  public function getLocalId() {
+    return $this->openSearchObject->localId;
+  }
 }

@@ -7,6 +7,9 @@
 // Define the different types of data that we cache in ting_set_cache and the
 // default TTL.
 use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
+use Ting\Search\DingProviderStrategy;
+use Ting\Search\TingSearchRequest;
+
 define('TING_DEFAULT_CACHE_LIFETIME', 900);
 define('TING_CACHE_TING_OBJECT', 'ting-object');
 define('TING_CACHE_TING_OBJECT_FULLTEXT', 'ting-object-fulltext');
@@ -1064,4 +1067,15 @@ function _ting_anchor_name($type) {
  */
 function ting_xautoload(LocalDirectoryAdapter $adapter) {
   $adapter->absolute()->addPsr4('Ting\\', drupal_get_path('module', 'ting') . '/src');
+}
+
+/**
+ * Prepares a query-object for use.
+ *
+ * @return \Ting\Search\TingSearchRequest
+ *   A prepared query-object that can be used to search for materials.
+ */
+function ting_start_query() {
+  // Set the query-object up with a strategy that uses ding_provider_invoke().
+  return new TingSearchRequest(new DingProviderStrategy());
 }
