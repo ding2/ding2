@@ -268,11 +268,6 @@ function ting_openlist_get_soap($wsdl = NULL, $trace = FALSE) {
         )
       );
 
-      // Warn admins to obtain authkey before it will be mandatory
-      if (empty(variable_get('ting_openlist_authkey', '')) && user_access('administer site configuration')) {
-        drupal_set_message(t("Insert a valid !authkey for OpenList.",array("!authkey" => l("authkey","/admin/config/ding/provider/ting_openlist"))) ,"warning", FALSE);
-      }
-
       $clients[$wsdl]->__setCookie('library_code', variable_get('ting_library_code', ''));
       $clients[$wsdl]->__setCookie('authkey', variable_get('ting_openlist_authkey', ''));
 

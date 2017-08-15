@@ -44,7 +44,6 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_openlist_authkey', ''),
   );
 
-
   // Caching settings.
   $form['caching'] = array(
     '#type' => 'fieldset',
