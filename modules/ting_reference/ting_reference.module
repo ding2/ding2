@@ -4,6 +4,8 @@
  * Code for the Ting object reference feature.
  */
 
+use Ting\Search\TingSearchRequest;
+
 include_once 'ting_reference.features.inc';
 
 /**
@@ -558,28 +560,23 @@ function _ting_reference_autocomplete($string) {
 
   // Only use auto-complete if more that 3 chars have been written.
   if ($string && (strlen($string) > 3)) {
-    // Try to build the best search query based on the inputted string.
-    if (preg_match('/(^\d+$)|(^\d+:\d+$)|(=)/', $string)) {
-      // The query is either ISBN, tid or CQL search expression.
-      $query = $string;
-    }
-    else {
-      // Add wildcard to the search string.
-      $query  = _ting_search_quote($string) . '*';
-    }
+    // Build a search-query and execute it.
+    $search_query = ting_start_query();
+    $search_query->setSimpleQuery($string);
+    $search_query->setCount(10);
+    $search_query->setFacets([]);
 
-    // Search the data well.
-    $result = ting_do_search($query, 1, 10, array('facets' => array(), 'allObjects' => FALSE));
+    $result = $search_query->execute();
 
     // If there is no usable result, exit immediately, providing no reply.
-    if ($result && $result->numTotalObjects) {
-      foreach ($result->collections as $collection) {
-        $object = array_shift($collection->reply->objects);
-        $matches[$collection->id] = t('!title (!type, !year, !id)', array(
-          '!title' => isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '',
-          '!type' => isset($object->record['dc:type']['dkdcplus:BibDK-Type'][0]) ? $object->record['dc:type']['dkdcplus:BibDK-Type'][0] : '',
-          '!year' => $object->record['dc:date'][''][0],
-          '!id' => $object->localId,
+    if ($result && $result->getNumTotalObjects()) {
+      foreach ($result->getTingEntityCollections() as $entity_collection) {
+        $object = $entity_collection->getTingObjectCollection()->getPrimaryObject();
+        $matches[$entity_collection->id] = t('!title (!type, !year, !id)', array(
+          '!title' => $object->getShortTitle() ?: '',
+          '!type' => $object->getType() ?: '',
+          '!year' => $object->getYear(),
+          '!id' => $object->getLocalId(),
         ));
       }
     }

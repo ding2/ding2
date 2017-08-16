@@ -1,6 +1,15 @@
 <?php
 /**
  * @file
+ * Connie test-cases.
+ */
+
+use Connie\Search\ConnieSearchResult;
+use Connie\Search\ConnieTingObject;
+use Connie\Search\ConnieTingObjectCollection;
+
+/**
+ * @file
  * Test that the example provider implementation module passes the same
  * tests as the real providers.
  */
@@ -22,7 +31,7 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
    * Indicate which modules this test-class depends on.
    */
   public  function setUp() {
-    parent::setUp(['connie_search', 'ding_provider']);
+    parent::setUp(['connie_search', 'ding_provider', 'xautoload']);
   }
 
   /**
@@ -38,10 +47,30 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
   /**
    * Expected return-value of search_object_load.
    *
-   * @return object[]
+   * @return \Ting\TingObjectInterface[]
    *   List of expected objects.
    */
   public function getLoadedObjects() {
-    return [];
+    return [new ConnieTingObject()];
+  }
+
+  /**
+   * Expected return-value of search_collection_load.
+   *
+   * @return \Ting\TingObjectCollectionInterface
+   *   The expected collection.
+   */
+  public function getLoadedCollection() {
+    return ConnieTingObjectCollection::getSingleCollection();
+  }
+
+  /**
+   * Expected return-value of search_search.
+   *
+   * @return \Ting\Search\TingSearchResultInterface
+   *   The expected search result.
+   */
+  public function getSearchResult() {
+    return new ConnieSearchResult();
   }
 }

@@ -63,7 +63,7 @@ class TingEntity extends DingEntity {
   /**
    * The embedded search-provider specific object.
    *
-   * @var \Drupal\ting\TingObjectInterface
+   * @var Ting\TingObjectInterface
    */
   public $reply;
 
@@ -374,8 +374,38 @@ class TingCollection extends DingEntityCollection {
   public $types_count = DingEntityBase::NULL;
   public $primary_object = DingEntityBase::NULL;
 
-  function __construct($id) {
+  // TODO BBS-SAL: After port remove this property.
+  public $reply;
+
+  /**
+   * The embedded search-provider specific object.
+   *
+   * @var Ting\TingObjectCollectionInterface
+   */
+  public $tingObjectCollection;
+
+  /**
+   * Get the collection from the Ting search provider.
+   *
+   * @return \Ting\TingObjectCollectionInterface
+   *   The collection.
+   */
+  public function getTingObjectCollection() {
+    return $this->tingObjectCollection;
+  }
+
+  /**
+   * TingCollection constructor.
+   *
+   * @param string $id
+   *   Entity Id.
+   * @param \Ting\TingObjectCollectionInterface $object_collection
+   *   Search provider collection.
+   */
+  public function __construct($id, \Ting\TingObjectCollectionInterface $object_collection) {
     $this->ding_entity_id = $id;
+    $this->tingObjectCollection = $object_collection;
+
     parent::__construct();
   }
 

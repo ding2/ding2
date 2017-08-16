@@ -246,10 +246,12 @@ class TingCollectionController implements DrupalEntityControllerInterface {
           $entities[$ding_entity_id] = $this->entityCache[$ding_entity_id];
         }
         else {
+          // TODO BBS-SAL - remove the reply property when port is done.
           $reply = ting_get_object($ding_entity_id, TRUE);
           $object = NULL;
+          $object_collection = ding_provider_invoke('search', 'collection_load', $ding_entity_id);
           if ($reply) {
-            $object = new TingCollection($ding_entity_id);
+            $object = new TingCollection($ding_entity_id, $object_collection);
             $object->reply = $reply;
             $queried_entities[$ding_entity_id] = $object;
           }

@@ -4,7 +4,7 @@
  * Log interface.
  */
 
-namespace Drupal\ting;
+namespace Ting;
 
 /**
  * Simple logging interface.

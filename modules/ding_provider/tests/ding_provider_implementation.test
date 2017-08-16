@@ -352,6 +352,23 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    */
   public abstract function getLoadedObjects();
 
+
+  /**
+   * Expected return-value of search_collection_load.
+   *
+   * @return \Ting\TingObjectCollectionInterface
+   *   The expected collection.
+   */
+  public abstract function getLoadedCollection();
+
+  /**
+   * Expected return-value of search_search.
+   *
+   * @return \Ting\Search\TingSearchResultInterface
+   *   The expected search result.
+   */
+  public abstract function getSearchResult();
+
   /**
    * Verify that the provider returns the expected list of material types.
    */
@@ -368,5 +385,24 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $expected_objects = $this->getLoadedObjects();
     $objects_from_provider = ding_provider_invoke('search', 'object_load', $expected_objects);
     $this->assertEqual($expected_objects, $objects_from_provider);
+  }
+
+  /**
+   * Verify that the provider returns the expected loaded collection.
+   */
+  public function testCollectionLoad() {
+    $expected_collection = $this->getLoadedCollection();
+    $collection_from_provider = ding_provider_invoke('search', 'collection_load', $expected_collection);
+    $this->assertEqual($expected_collection, $collection_from_provider);
+  }
+
+  /**
+   * Verify that the provider returns the expected search result.
+   */
+  public function testSearch() {
+    $expected_search_result = $this->getSearchResult();
+    $query = ting_start_query();
+    $search_result_from_provider = ding_provider_invoke('search', 'search', $query);
+    $this->assertEqual($expected_search_result, $search_result_from_provider);
   }
 }

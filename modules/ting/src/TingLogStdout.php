@@ -4,7 +4,7 @@
  * STDOUT log interface.
  */
 
-namespace Drupal\ting;
+namespace Ting;
 
 /**
  * Simple STDOUT logging interface.
