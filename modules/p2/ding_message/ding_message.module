@@ -297,6 +297,9 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
       $query = 'dc.subject=' . check_plain($term->name);
       // Perform search.
       $result = ting_do_search($value, 1, 50);
+      // TODO BBS-SAL: Consider refactoring this to using the pager-size instead
+      // It is currenlty not available in the opensearch result but we have it
+      // in the query, so execute() could move it there.
       if (is_object($result) || $result->numTotalCollections != 0) {
         // Get the first element in the search result set.
         $first_collection = current($result->collections);

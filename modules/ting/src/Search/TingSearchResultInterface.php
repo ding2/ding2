@@ -20,6 +20,9 @@ interface TingSearchResultInterface {
   /**
    * Total number of elements in the search-result (regardless of limit).
    *
+   * TODO BBS-SAL: Consider renaming this hits() - see
+   * https://github.com/rvk-utd/ding2/pull/25#discussion_r133373710
+   *
    * @return int
    *   The number of objects.
    */
@@ -29,6 +32,9 @@ interface TingSearchResultInterface {
    * Total number of collections in the search-result.
    *
    * A Collection contains one or more objects.
+   *
+   * TODO BBS-SAL: Consider renaming this count() - see
+   * https://github.com/rvk-utd/ding2/pull/25#discussion_r133373710
    *
    * @return int
    *   The number of collections.
