@@ -69,7 +69,7 @@ class TingSearchRequest {
    * @return \Ting\Search\TingSearchRequest
    *   Current search query object.
    */
-  public function setNumResults($max) {
+  public function setCount($max) {
     $this->numResults = $max;
     return $this;
   }
