@@ -188,6 +188,15 @@
       }
     }
   }
+
+  .masonry-view {
+    @include transition(opacity $speed $ease);
+    opacity: 0;
+
+    &.is-masonry-complete {
+      opacity: 1;
+    }
+  }
 }
 
 // ==========================================================================

@@ -231,6 +231,9 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           ));
         }
 
+        if (!empty($location)) {
+          $variables['content']['group_left']['og_group_ref']['#access'] = FALSE;
+        }
       }
       break;
   }
@@ -246,7 +249,6 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
   $image_url = image_style_url($image_style, $image_uri);
   $attributes = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'attributes');
   $variables['type'] = drupal_html_class($type);
-  $variables['image'] = '<img src="' . $image_url . '">';
   $variables['background'] = ($type == 'text_on_image' ? 'style="background-image: url(' . $image_url . ');"' : " ");
   $variables['link'] = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'url');
   $variables['link_attr'] = isset($attributes['target']) ? $variables['link_attr'] = $attributes['target'] : "";
@@ -260,9 +262,12 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
         $variables['image'] = '<div class="ding-campaign-image" style="background-image: url(' . $image_url . '"></div>';
       break;
       case 'image':
-        $image_style = "crop_22_9";
-        $image_url = image_style_url($image_style, $image_uri);
-        $variables['image'] = '<img class="ding-campaign-image" src="' . $image_url . '">';
+        $variables['image'] = theme('image_style',array(
+            'style_name' => "crop_22_9",
+            'path' => $image_uri,
+            'attributes' => array('class' => 'ding-campaign-image')
+          )
+        );
       break;
     }
   }

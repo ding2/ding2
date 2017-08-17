@@ -85,7 +85,7 @@ legend {
 }
 
 .form-item {
-  margin: 0 0 10px;
+  margin: 0 0 20px;
   .count {
     color: $charcoal-opacity-dark;
   }
@@ -298,6 +298,14 @@ input[type="radio"] {
   }
 }
 
+.select-wrapper-multiple {
+  height: auto;
+  &::before,
+  &::after {
+    display: none;
+  }
+}
+
 select {
   @include font('base');
   position: absolute;
@@ -314,6 +322,16 @@ select {
   }
   &::-ms-expand {
     display: none;
+  }
+}
+
+select[multiple="multiple"] {
+  position: static;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  option {
+    padding: 3px 5px;
   }
 }
 

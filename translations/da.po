@@ -66925,3 +66925,59 @@ msgid ""
 "</ul>"
 msgstr "<p>Din søgning desværre ikke gav noget resultat, men vi vil gerne hjælpe dig med at komme videre!</p><p>Spørg os på biblioteket eller se kontaktoplysningerne til biblioteket nederst på siden.</p><p>Du "
 "kan også søge videre på <a href=\"http://bibliotek.dk/\">Bibliotek.dk</a></p>"
+
+#: /
+msgid "Search in @profile"
+msgstr "Søg i @profile"
+
+#: /
+msgid "Search in all"
+msgstr "Søg i alle"
+
+#: /index.php
+msgid "Related news"
+msgstr "Relaterede nyheder"
+
+#: /nyheder/kort-nyt/med-youtube-indlejret
+msgid "Share this news"
+msgstr "Del denne nyhed"
+
+#: /lazy-pane/ajax
+msgid "Read about storage of loan history"
+msgstr "Læs om opbevaring af lånehistorik"
+
+#: /admin/modules/list/confirm
+msgid "Administer Mobilesearch"
+msgstr "Konfigurer CMS Content"
+
+#: /admin/modules/list/confirm
+msgid "Push to Mongo"
+msgstr "Send til CMS Content"
+
+#: /batch?op=start&id=41
+msgid "Content export"
+msgstr "CMS Content eksportering"
+
+#: /batch?op=start&id=41
+msgid "Content exporting settings."
+msgstr "Indstillinger for CMS Content eksport"
+
+#: /batch?op=start&id=41
+msgid "Set a special configuration options for plugins."
+msgstr "Konfigurer speciel konfiguration for indhold."
+
+#: /node/add/ding-event
+msgid "REST plugin"
+msgstr ""
+
+#: /node/add/ding-event
+msgid "Export data to Mongo through REST API."
+msgstr "Eksport data til CMS Content via API."
+
+#: /node/add/ding-event
+msgid ""
+"Problem connecting to the REST service. We have unchecked your \"Push "
+"to Mongo\" flag. Please check your !settings."
+msgstr "Der skete en fejl med forbindelsen til CMS Content. Vi har "
+"deaktiveret \"Send til CMS Content\" checkboxen. Check !settings."
+

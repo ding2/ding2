@@ -23,8 +23,8 @@ function ding_groups_field_group_info() {
     'label' => 'Content',
     'weight' => '2',
     'children' => array(
-      0 => 'field_ding_group_lead',
-      1 => 'field_ding_group_body',
+      0 => 'field_ding_group_body',
+      1 => 'field_ding_group_lead',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -51,8 +51,8 @@ function ding_groups_field_group_info() {
     'label' => 'Images',
     'weight' => '1',
     'children' => array(
-      0 => 'field_ding_group_title_image',
-      1 => 'field_ding_group_list_image',
+      0 => 'field_ding_group_list_image',
+      1 => 'field_ding_group_title_image',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
