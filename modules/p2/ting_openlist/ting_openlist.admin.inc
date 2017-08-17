@@ -37,6 +37,13 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_openlist_prefix', uniqid()),
   );
 
+  $form['settings']['ting_openlist_authkey'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Openlist authkey'),
+    '#description' => t('The key that authenticates this library code towards OpenList.'),
+    '#default_value' => variable_get('ting_openlist_authkey', ''),
+  );
+
   // Caching settings.
   $form['caching'] = array(
     '#type' => 'fieldset',
@@ -90,7 +97,8 @@ function ting_openlist_settings_form($form, &$form_state) {
   // Statistics.
   $form['stats'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Statistics'),
+    '#title' => t('Statistics and authentication test'),
+    '#description' => t('You can check that your authkey, library code and IP is correct by fetching the OpenList statistics here.'),
   );
 
   $form['stats']['show_stats'] = array(

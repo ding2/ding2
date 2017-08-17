@@ -269,6 +269,7 @@ function ting_openlist_get_soap($wsdl = NULL, $trace = FALSE) {
       );
 
       $clients[$wsdl]->__setCookie('library_code', variable_get('ting_library_code', ''));
+      $clients[$wsdl]->__setCookie('authkey', variable_get('ting_openlist_authkey', ''));
 
       // Enable the developer cookie if specified.
       if (variable_get('ting_openlist_developer', FALSE)) {
