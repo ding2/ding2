@@ -367,9 +367,12 @@ function ddbasic_preprocess_menu_link(&$variables) {
     $path = explode('/', $variables['element']['#href']);
     switch (end($path)) {
       case 'status-loans':
-        $loans = ddbasic_account_count_loans();
+        $loans = ddbasic_account_count_overdue_loans();
         if (!empty($loans)) {
           $variables['element']['#title'] .= ' (' . $loans . ')';
+        }
+        else {
+          $variables['element']['#attributes']['class'][] = 'element-invisible';
         }
         break;
 
@@ -378,6 +381,9 @@ function ddbasic_preprocess_menu_link(&$variables) {
         if (!empty($reservations)) {
           $variables['element']['#title'] .= ' (' . $reservations . ')';
         }
+        else {
+          $variables['element']['#attributes']['class'][] = 'element-invisible';
+        }
         break;
 
       case 'status-reservations-ready':
@@ -385,12 +391,27 @@ function ddbasic_preprocess_menu_link(&$variables) {
         if (!empty($reservations)) {
           $variables['element']['#title'] .= ' (' . $reservations . ')';
         }
+        else {
+          $variables['element']['#attributes']['class'][] = 'element-invisible';
+        }
         break;
 
       case 'status-debts':
-        $depts = ddbasic_account_count_depts();
-        if (!empty($depts)) {
-          $variables['element']['#title'] .= ' (' . $depts . ')';
+        $debts = ddbasic_account_count_debts();
+        if (!empty($debts)) {
+          $variables['element']['#title'] .= ' (' . $debts . ')';
+        }
+        else {
+          $variables['element']['#attributes']['class'][] = 'element-invisible';
+        }
+        break;
+
+      case 'view':
+        if ($path[0] === 'user') {
+          $notifications = ding_message_get_message_count();
+          if (!empty($notifications)) {
+            $variables['element']['#title'] .= ' (' . $notifications . ')';
+          }
         }
         break;
     }
@@ -483,13 +504,13 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
 
         if (ding_user_is_provider_user($user)) {
           // Fill the notification icon, in following priority.
-          // Depts, overdue, ready reservations, notifications.
+          // Debts, overdue, ready reservations, notifications.
           $notification = array();
-          $depts = ddbasic_account_count_depts();
-          if (!empty($depts)) {
+          $debts = ddbasic_account_count_debts();
+          if (!empty($debts)) {
             $notification = array(
-              'count' => $depts,
-              'type' => 'depts',
+              'count' => $debts,
+              'type' => 'debts',
             );
           }
 
