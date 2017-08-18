@@ -302,7 +302,7 @@ ul.secondary-menu {
 // Top menu
 // ==========================================================================
 ul.topbar-menu {
-  @include span-columns(4);
+  @include span-columns(5);
   @include omega;
   float: right;
   // Notebook
@@ -407,7 +407,7 @@ ul.topbar-menu {
 
       // Mobile
       @include media($mobile) {
-        @include span-columns(5);
+        @include span-columns(6);
       }
     }
     &.topbar-link-opening-hours {
