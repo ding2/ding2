@@ -93,31 +93,6 @@ function ding_serendipity_menu() {
 }
 
 /**
- * Implements hook_form_alter().
- *
- * Add serendipity config to frontpage admin config.
- */
-function ding_serendipity_form_ding_frontpage_admin_settings_alter(&$form, &$form_state, $form_id) {
-  $form['ding_frontpage']['ding_frontpage_promoter']['#options']['serendipity'] = t('Ding Serendipity');
-
-  $form['ding_frontpage']['ding_frontpage_serendipity'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Show Ding Serendipity on the frontpage'),
-    '#default_value' => variable_get('ding_frontpage_serendipity', FALSE),
-    '#description' => t('If you selected Ding tab-roll or carousel above, check this option to also show Serendipity on the frontpage'),
-  );
-
-  $form['#submit'][] = 'ding_serendipity_frontpage_submit';
-}
-
-/**
- * Submit handler for ding serendipity frontpage options.
- */
-function ding_serendipity_frontpage_submit($form, $form_state) {
-  variable_set('ding_frontpage_serendipity', $form_state['values']['ding_frontpage_serendipity']);
-}
-
-/**
  * AJAX command to place HTML within the serendipity.
  *
  * @param array $context
@@ -672,7 +647,7 @@ function ding_serendipity_render(array $context = NULL) {
 
   // Fill in the default options.
   $context += array(
-    'view_mode' => 'full',
+    'view_mode' => 'teaser',
     'sort_weight' => FALSE,
     'max' => 0,
     'min' => 0,
@@ -1048,12 +1023,14 @@ function ding_serendipity_form_base($form_state) {
   $view_modes = array_combine($view_modes, $view_modes);
 
   $form = array();
+
   $form['view_mode'] = array(
     '#type' => 'select',
     '#title' => t('Selected'),
     '#options' => $view_modes,
-    '#default_value' => (isset($form_state['conf']['view_mode'])) ? $form_state['conf']['view_mode'] : 'full',
+    '#default_value' => (isset($form_state['conf']['view_mode'])) ? $form_state['conf']['view_mode'] : 'teaser',
     '#description' => t('Select the view mode which the content will display with.'),
+    '#access' => user_access('administer serendipity panes'),
   );
 
   $form['sort_weight'] = array(
@@ -1093,7 +1070,6 @@ function ding_serendipity_form_base($form_state) {
  * Add plugin key selection to forms.
  */
 function ding_serendipity_form_base_keys($form_state) {
-
   $form = array();
 
   // Let the user pick specific plugin keys for the serendipity panel.
@@ -1112,8 +1088,9 @@ function ding_serendipity_form_base_keys($form_state) {
     '#title' => t('Selected'),
     '#options' => array_unique($options),
     '#multiple' => TRUE,
-    '#default_value' => $form_state['conf']['selected_keys'],
+    '#default_value' => !empty($form_state['conf']['selected_keys']) ? $form_state['conf']['selected_keys'] : array('ting_object' => TRUE, 'frontpage' => TRUE),
     '#description' => t('Select any additional keys which apply to the serendipity display you wish to present.'),
+    '#access' => user_access('administer serendipity panes'),
   );
 
   return $form;
@@ -1188,4 +1165,15 @@ function ding_serendipity_test_cql_callback($form, &$form_state) {
   }
 
   return '<div id="test-cql-container">' . drupal_render($list) . '</div>';
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_serendipity_permission() {
+  return array(
+    'administer serendipity panes' => array(
+      'title' => t('Administer serendipity panes'),
+    ),
+  );
 }

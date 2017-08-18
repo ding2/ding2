@@ -132,13 +132,13 @@ function ding_mobilesearch_rest_config_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Service URL'),
     '#default_value' => variable_get('mobilesearch_rest_url', ''),
-    '#description' => t('URL to service (trailing slash needed).'),
+    '#description' => t('URL to CMS Content service (trailing slash needed), e.g. https://cmscontent.dbc.dk/'),
     '#required' => TRUE,
   );
 
   $form['mobilesearch_rest_agency_id'] = array(
     '#type' => 'textfield',
-    '#title' => t('Ting Agency ID'),
+    '#title' => t('Agency ID'),
     '#default_value' => variable_get('ting_agency', NULL),
     '#attributes' => array('disabled' => TRUE),
     '#required' => TRUE,
@@ -259,8 +259,9 @@ function ding_mobilesearch_rest_exec($op, $entity_type, $entity) {
     }
     foreach ($diff['to_update'] as $agency_id) {
       $request_body['agency'] = $agency_id;
+      // @TODO: Unknown purpose to send two calls.
       $response = ding_mobilesearch_rest_service_call('addContent', $request_body);
-      if (!$response || (is_object($response['response']) && $response['response']->status == FALSE)) {
+      if (!$response || (isset($response['status']) && $response['status'] === FALSE)) {
         ding_mobilesearch_rest_service_call('updateContent', $request_body);
       }
     }

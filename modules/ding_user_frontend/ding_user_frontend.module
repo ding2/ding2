@@ -391,3 +391,18 @@ function ding_user_frontend_url_inbound_alter(&$path, $original_path, $path_lang
     }
   }
 }
+
+/**
+ * Implements hook_views_default_views_alter().
+ *
+ * Ensure the views for the default bookmarks flag are killed. We don't use
+ * them and the flag_bookmarks_tab clashes with our user-menu.
+ */
+function ding_user_frontend_views_default_views_alter(&$views) {
+  if (!empty($views['flag_bookmarks'])) {
+    unset($views['flag_bookmarks']);
+  }
+  if (!empty($views['flag_bookmarks_tab'])) {
+    unset($views['flag_bookmarks_tab']);
+  }
+}

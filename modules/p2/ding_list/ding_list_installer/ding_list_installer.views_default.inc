@@ -358,9 +358,48 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['filters']['field_list_type_value']['field'] = 'field_list_type_value';
   $handler->display->display_options['filters']['field_list_type_value']['value'] = 'user_list';
 
-  /* Display: Public lists */
-  $handler = $view->new_display('panel_pane', 'Public lists', 'panel_pane_public_lists');
-  $handler->display->display_options['defaults']['title'] = FALSE;
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['path'] = 'public-lists';
+
+  /* Display: User lists */
+  $handler = $view->new_display('panel_pane', 'User lists', 'user');
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Ding_type: Author */
+  $handler->display->display_options['arguments']['uid']['id'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['table'] = 'eck_ding_type';
+  $handler->display->display_options['arguments']['uid']['field'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Ding_type: ding_type type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'eck_ding_type';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ding_list' => 'ding_list',
+  );
+  /* Filter criterion: ding_type: Ding List Status (field_ding_list_status) */
+  $handler->display->display_options['filters']['field_ding_list_status_value']['id'] = 'field_ding_list_status_value';
+  $handler->display->display_options['filters']['field_ding_list_status_value']['table'] = 'field_data_field_ding_list_status';
+  $handler->display->display_options['filters']['field_ding_list_status_value']['field'] = 'field_ding_list_status_value';
+  $handler->display->display_options['filters']['field_ding_list_status_value']['value'] = array(
+    'public' => 'public',
+  );
+  $handler->display->display_options['argument_input'] = array(
+    'uid' => array(
+      'type' => 'context',
+      'context' => 'entity:user.uid',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Ding_type: Author',
+    ),
+  );
   $translatables['public_lists'] = array(
     t('Master'),
     t('Public lists'),
@@ -380,6 +419,9 @@ function ding_list_installer_views_default_views() {
     t('Id'),
     t('.'),
     t(','),
+    t('Page'),
+    t('User lists'),
+    t('All'),
     t('View panes'),
   );
   $export['public_lists'] = $view;
