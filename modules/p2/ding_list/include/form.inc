@@ -59,18 +59,15 @@ function ding_list_remove_element_form_submit($form, &$form_state) {
  * @param string $value
  *   The value of the element, typically an identifier.
  * @param string $title
- *   If there's more than 1 list, use this as the title for the submit button,
- *   when there's only a single list use that list add text as submit text.
+ *   Title of the add button.
  */
-function ding_list_add_element_form($form, &$form_state, $type, $value, $title = 'Dinglist') {
+function ding_list_add_element_form($form, &$form_state, $type, $value, $title) {
   if (is_array($type)) {
     $type = key($type);
   }
 
   $options = ding_list_get_add_to_list_data($type, $value);
   if (count($options) > 1) {
-    $submit_title = $title;
-
     $form['list'] = array(
       '#type' => 'select',
       '#options' => array(),
@@ -93,15 +90,13 @@ function ding_list_add_element_form($form, &$form_state, $type, $value, $title =
         '#type' => 'hidden',
         '#value' => $list['list_id'],
       );
-
-      $submit_title = $list['title'];
     }
   }
 
   if (isset($form['list'])) {
     $form['submit'] = array(
       '#type' => 'submit',
-      '#value' => $submit_title,
+      '#value' => $title,
       '#ajax' => array(
         'callback' => 'ding_list_add_element_form_callback',
         'wrapper' => 'ding-list-add-element-form',
