@@ -4,6 +4,9 @@
  * Implements a common interface to backend providers.
  */
 
+use OpenSearch\OpenSearchTingObject;
+use Ting\TingPseudoObject;
+
 /**
  * Implements hook_menu().
  */
@@ -587,11 +590,16 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
   $ting_entity->ding_entity_id = $ding_entity_id;
   $ting_entity->provider_id = $local_id;
   $ting_entity->ding_entity_type = 'ding_entity';
-  $ting_entity->reply = new TingClientObject();
+  // TODO BBS-SAL: Clean out the direct property sets when done.
+  $ting_entity->reply = new TingPseudoObject();
   $ting_entity->reply->id = $ding_entity_id;
+  $ting_entity->reply->setDingId($ding_entity_id);
   $ting_entity->reply->localId = $local_id;
+  $ting_entity->reply->setLocalId($local_id);
+  // TODO BBS-SAL: figure out how to populate relations.
   $ting_entity->reply->relations = array();
   $ting_entity->reply->ownerId = drupal_substr($ding_entity_id, 0, strpos($ding_entity_id, '-'));
+  $ting_entity->reply->setOwnerId($ting_entity->reply->ownerId);
 
   // See if the provider have any information about the entity.
   if (ding_provider_implements('loan', 'populate_pseudo_entity')) {
