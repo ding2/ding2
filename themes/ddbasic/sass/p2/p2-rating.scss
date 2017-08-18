@@ -43,7 +43,7 @@
         color: $color-primary;
       }
     }
-    
+
     // On material-item odd
     .material-item.odd & {
       &::after {
@@ -76,6 +76,16 @@
     .no-touch & {
       &:hover {
         cursor: pointer;
+      }
+    }
+  }
+
+  &.has-submission {
+    .fa-star-o {
+      &.submitted {
+        &::after {
+          color: $color-secondary;
+        }
       }
     }
   }
