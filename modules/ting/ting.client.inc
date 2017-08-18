@@ -13,6 +13,42 @@ define('TING_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
 /**
  * Get an ting object or collection.
  *
+ * Returns the search response for the given id.
+ *
+ * @param string $object_id
+ *   The id to fetch.
+ * @param bool $collection
+ *   Whether to return a collection, if possible, or an object.
+ * @param bool $with_relations
+ *   Whether to return all relations. Defaults to FALSE.
+ *
+ * @todo Should use getObject, but the ting-client lib doesn't implement that.
+ *
+ * @return \TingClientObject|\TingClientObjectCollection
+ *   Ting object or object collection if $collection is TRUE and a collection
+ *   was found.
+ */
+function ting_get_object_sal($object_id, $collection = FALSE, $with_relations = FALSE) {
+  // TODO BBS-SAL: Look at loading relations.
+  if ($collection) {
+    // TODO BBS-SAL: the docblock says "if possible, or an object." - we have to
+    // figure out when not to return a collection.
+    $result = ding_provider_invoke('search', 'collection_load', [$object_id]);
+  }
+  else {
+    $result = ding_provider_invoke('search', 'object_load', [$object_id]);
+  }
+
+  if (empty($result) || !is_array($result)) {
+    return NULL;
+  }
+
+  return reset($result);
+}
+
+/**
+ * Get an ting object or collection.
+ *
  * Returns the search response for the given id. This will cache the
  * result, and any sub-objects, so fetching objects from a recently
  * fetched collection won't trigger another backend request.
