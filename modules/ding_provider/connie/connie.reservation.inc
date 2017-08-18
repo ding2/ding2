@@ -87,7 +87,7 @@ function connie_reservation_options($account, $default_value = '') {
   $form = array();
   $form += ding_reservation_default_options_branch(
     'connie_preferred_branch',
-    NULL,
+    'aby',
     connie_allowed_branches()
   );
 
