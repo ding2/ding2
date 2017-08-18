@@ -31,6 +31,48 @@ class OpenSearchTingObject implements TingObjectInterface {
   protected $openSearchObject;
 
   /**
+   * @var string Ding specific ID for the object. Usually the entity id.
+   */
+  protected $dingId;
+
+  /**
+   * @var string Ding specific ID for the object. Usually the entity id.
+   */
+  protected $ownerId;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDingId() {
+    return $this->dingId;
+  }
+
+  /**
+   * Sets the Ding id.
+   *
+   * @param string $ding_id
+   *   The Ding specific ID for the object. Usually the entity id.
+   */
+  public function setDingId($ding_id) {
+    $this->dingId = $ding_id;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOwnerId() {
+    return $this->ownerId;
+  }
+
+  /**
+   * Sets the Owner ID.
+   */
+  public function setOwnerId($owner_id) {
+    $this->ownerId = $owner_id;
+  }
+
+
+  /**
    * OpenSearchObject constructor.
    *
    * @param TingClientObject $open_search_object

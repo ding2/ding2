@@ -9,6 +9,22 @@ namespace Ting;
 interface TingObjectInterface {
 
   /**
+   * Gets the owner of the object, eg. the agency.
+   *
+   * @return string
+   *   The ID.
+   */
+  public function getOwnerId();
+
+  /**
+   * Gets the ding-specific id for this object. (Usually the entity id).
+   *
+   * @return string
+   *   The ID.
+   */
+  public function getDingId();
+
+  /**
    * Get provider-specific local ID.
    *
    * @return string

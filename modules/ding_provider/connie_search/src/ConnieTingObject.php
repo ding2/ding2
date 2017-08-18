@@ -204,4 +204,18 @@ class ConnieTingObject implements TingObjectInterface {
   public function getYear() {
     return '';
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDingId() {
+    return 'connie-123';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOwnerId() {
+    return 'connie-agency';
+  }
 }
