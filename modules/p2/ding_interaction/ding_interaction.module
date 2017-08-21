@@ -8,7 +8,7 @@
  * for the visitor.
  * The DI shuffles all available DI plugins and displays just one in random.
  * The idea is that the system contains alot of things we would like the user to
- * try out or to do, but we want it to be suggested in a not overwhelming way
+ * try out or to do, but we want it to be suggested in a not overwhelming way.
  *
  * Example 1: (Full interaction)
  * The user logs in
@@ -139,7 +139,7 @@ function ding_interaction_content(array $module_list = array(), $count = DING_IN
 
     if (count($module_list)) {
       $random = array_rand($module_list);
-      $data = module_invoke($random, 'ding_interaction_view', $count, $extra);
+      $data = module_invoke($random, 'ding_interaction_view', $extra);
 
       if (!$data) {
         return FALSE;
@@ -159,7 +159,7 @@ function ding_interaction_content(array $module_list = array(), $count = DING_IN
   // Update the user page count.
   if (user_is_logged_in()) {
     $edit['data']['ding_interaction']['count'] += 1;
-    if ($edit['data']['ding_interaction']['count'] >= variable_get('ding_interaction_page_count', 5)) {
+    if ($edit['data']['ding_interaction']['count'] >= $count) {
       $edit['data']['ding_interaction']['count'] = 0;
     }
     user_save($user, $edit);

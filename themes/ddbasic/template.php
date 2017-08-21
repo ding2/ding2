@@ -1,11 +1,14 @@
 <?php
+
 /**
  * @file
- * Preprocess and Process Functions.
+ * Preprocessors.
  */
 
-// Includes frequently used theme functions that gets theme info, css files etc.
-include_once drupal_get_path('theme', 'ddbasic') . '/inc/functions.inc';
+require_once __DIR__ . '/utils.inc';
+
+require_once __DIR__ . '/template.node.php';
+require_once __DIR__ . '/template.field.php';
 
 /**
  * Implements hook_preprocess_html().
@@ -22,76 +25,53 @@ function ddbasic_preprocess_html(&$vars) {
   // Clean up the lang attributes.
   $vars['html_attributes'] = 'lang="' . $language->language . '" dir="' . $language->dir . '"';
 
-  // Load ddbasic plugins.
-  ddbasic_load_plugins();
+  // Add additional body classes.
+  $vars['classes_array'] = array_merge($vars['classes_array'], ddbasic_body_class());
 
-  // Add conditional CSS for IE8.
-  drupal_add_css(path_to_theme() . '/css/ddbasic.ie8.min.css', array(
-    'group' => CSS_THEME,
-    'browsers' => array(
-      'IE' => 'lte IE 8',
-      '!IE' => FALSE,
-    ),
-    'weight' => 999,
-    'preprocess' => FALSE,
-  ));
+  // Search form style.
+  switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
+    case TING_SEARCH_FORM_STYLE_EXTENDED:
+      $vars['classes_array'][] = 'search-form-extended';
+      $vars['classes_array'][] = 'show-secondary-menu';
 
-  // Add conditional CSS for IE9.
-  drupal_add_css(path_to_theme() . '/css/ddbasic.ie9.min.css', array(
-    'group' => CSS_THEME,
-    'browsers' => array(
-      'IE' => 'lte IE 9',
-      '!IE' => FALSE,
-    ),
-    'weight' => 999,
-    'preprocess' => FALSE,
-  ));
+      if (menu_get_item()['path'] === 'search/ting/%') {
+        $vars['classes_array'][] = 'extended-search-is-open';
+      }
+      break;
+  }
+
+  // If dynamic background.
+  $image_conf = dynamic_background_load_image_configuration($vars);
+
+  if (!empty($image_conf)) {
+    $vars['classes_array'][] = 'has-dynamic-background';
+  }
+
+  // Store the menu item since it has some useful information.
+  $vars['menu_item'] = menu_get_item();
+
+  if ($vars['menu_item'] && strpos($vars['menu_item']['page_callback'], 'page_manager_') === 0) {
+    $vars['classes_array'][] = 'page-panels';
+  }
+  else {
+    $vars['classes_array'][] = 'page-no-panels';
+  }
+
+  // Include the libraries.
+  libraries_load('slick');
+  libraries_load('jquery.imagesloaded');
+  libraries_load('html5shiv');
+  libraries_load('masonry');
+
 }
 
 /**
  * Implements hook_process_html().
  *
- * Process variables for html.tpl.php
+ * Process variables for html.tpl.php.
  */
 function ddbasic_process_html(&$vars) {
-  // Classes for body element. Allows advanced theming based on context
-  // (home page, node of certain type, etc.)
-  if (!$vars['is_front']) {
-    // Add unique class for each page.
-    $path = drupal_get_path_alias($_GET['q']);
-    // Add unique class for each website section.
-    $section = explode('/', $path);
-    $section = array_shift($section);
-    $arg = explode('/', $_GET['q']);
-    if ($arg[0] == 'node' && isset($arg[1])) {
-      if ($arg[1] == 'add') {
-        $section = 'node-add';
-      }
-      elseif (isset($arg[2]) && is_numeric($arg[1]) && ($arg[2] == 'edit' || $arg[2] == 'delete')) {
-        $section = 'node-' . $arg[2];
-      }
-    }
-    $vars['classes_array'][] = drupal_html_class('section-' . $section);
-  }
-  // Store the menu item since it has some useful information.
-  $vars['menu_item'] = menu_get_item();
-  if ($vars['menu_item']) {
-    switch ($vars['menu_item']['page_callback']) {
-      case 'views_page':
-        // Is this a Views page?
-        $vars['classes_array'][] = 'page-views';
-        break;
 
-      case 'page_manager_page_execute':
-      case 'page_manager_node_view':
-      case 'page_manager_contact_site':
-        // Is this a Panels page?
-        $vars['classes_array'][] = 'page-panels';
-        break;
-    }
-  }
-
-  // Color module.
   // Hook into color.module.
   if (module_exists('color')) {
     _color_html_alter($vars);
@@ -99,50 +79,22 @@ function ddbasic_process_html(&$vars) {
 }
 
 /**
- * Implements hook_form_alter().
- */
-function ddbasic_form_alter(&$form, &$form_state, $form_id) {
-  switch ($form_id) {
-    case 'search_block_form':
-      $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
-      $form['search_block_form']['#field_prefix'] = '<i class="icon-search"></i>';
-      $form['search_block_form']['#title'] = t('Search the library database and the website');
-
-      // Remove element-invisible
-      unset($form['search_block_form']['#title_display']);
-      break;
-
-    case 'user_login_block':
-      $form['name']['#title'] = t('Loan or social security number');
-      $form['name']['#field_prefix'] = '<i class="icon-user"></i>';
-      $form['name']['#attributes']['placeholder'] = t('The number is 10 digits');
-      $form['name']['#type'] = 'password';
-
-      $form['pass']['#title'] = t('Pincode');
-      $form['pass']['#field_prefix'] = '<i class="icon-lock"></i>';
-      $form['pass']['#attributes']['placeholder'] = t('Pincode is 4 digits');
-
-      // Add JavaScript that will place focus in the login box, when the Login
-      // is clicked.
-      drupal_add_js(drupal_get_path('theme', 'ddbasic') . '/scripts/ddbasic.login.js', 'file');
-
-      unset($form['links']);
-
-      // Temporary hack to get rid of open id links.
-      unset($form['openid_links']);
-      unset($form['#attached']['js']);
-      break;
-  }
-}
-
-
-/**
  * Implements hook_preprocess_panels_pane().
  */
 function ddbasic_preprocess_panels_pane(&$vars) {
+  // If using lazy pane caching method, and lazy pane is returniing the rendered
+  // content, set the lazy_pane_render variable, so the template can take action
+  // accordingly.
+  $vars['is_lazy_pane_render'] = !empty($vars['pane']->cache['method'])
+    && $vars['pane']->cache['method'] === 'lazy'
+    && !empty($vars['display']->skip_cache);
+  if ($vars['is_lazy_pane_render']) {
+    $vars['theme_hook_suggestions'][] = 'panels_pane__lazy_pane_render';
+  }
+
   // Suggestions base on sub-type.
   $vars['theme_hook_suggestions'][] = 'panels_pane__' . str_replace('-', '__', $vars['pane']->subtype);
-  $vars['theme_hook_suggestions'][] = 'panels_pane__'  . $vars['pane']->panel . '__' . str_replace('-', '__', $vars['pane']->subtype);
+  $vars['theme_hook_suggestions'][] = 'panels_pane__' . $vars['pane']->panel . '__' . str_replace('-', '__', $vars['pane']->subtype);
 
   if (isset($vars['content'])) {
     if (isset($vars['content']['profile_ding_staff_profile']['#title']) && $vars['content']['profile_ding_staff_profile']['#title'] == 'Staff') {
@@ -173,6 +125,22 @@ function ddbasic_preprocess_panels_pane(&$vars) {
       $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
   }
+
+  if ($vars['pane']->subtype == 'menu_block-main_menu_second_level') {
+    ddbasic_body_class('has-second-level-menu');
+  }
+}
+
+/**
+ * Render callback.
+ *
+ * Remove panels div separator.
+ */
+function ddbasic_panels_default_style_render_region($vars) {
+  $output = '';
+  $output .= implode('', $vars['panes']);
+
+  return $output;
 }
 
 /**
@@ -185,15 +153,22 @@ function ddbasic_menu_tree__menu_block__1($vars) {
 /**
  * Implements theme_menu_tree().
  */
-function ddbasic_menu_tree__menu_block__2($vars) {
-  return '<ul class="secondary-menu">' . $vars['tree'] . '</ul>';
+function ddbasic_menu_tree__menu_block__main_menu_second_level($vars) {
+  return '<ul class="main-menu-second-level">' . $vars['tree'] . '</ul>';
 }
 
 /**
  * Implements theme_menu_tree().
  */
 function ddbasic_menu_tree__sub_menu($vars) {
-  return '<ul class="sub-menu">' . $vars['tree'] . '</ul>';
+  return '<ul class="main-menu-third-level">' . $vars['tree'] . '</ul>';
+}
+
+/**
+ * Implements theme_menu_tree().
+ */
+function ddbasic_menu_tree__menu_block__2($vars) {
+  return '<ul class="secondary-menu">' . $vars['tree'] . '</ul>';
 }
 
 /**
@@ -213,12 +188,79 @@ function ddbasic_menu_tree__user_menu($vars) {
 /**
  * Implements hook_preprocess_views_view_unformatted().
  *
- * Overwrite views row classes
+ * Overwrite views row classes.
+ */
+function ddbasic_preprocess_views_view(&$vars) {
+  switch ($vars['name']) {
+    case 'ding_event':
+      switch ($vars['view']->current_display) {
+        case 'ding_event_library_list':
+        case 'ding_event_groups_list':
+        case 'ding_event_list_same_tag':
+          // Add max-two-rows class.
+          $vars['classes_array'][] = 'max-two-rows';
+          $vars['classes_array'][] = 'not-frontpage-view';
+
+          break;
+
+        case 'ding_event_list_frontpage':
+          // Add max-two-rows class.
+          $vars['classes_array'][] = 'max-two-rows';
+          $vars['classes_array'][] = 'frontpage-view';
+
+          // Add event count setting as js variable.
+          $count = variable_get('ding_frontpage_events_count', 6);
+          drupal_add_js(array('number_of_events' => $count), 'setting');
+
+          break;
+      }
+      break;
+
+    case 'ding_news':
+      switch ($vars['view']->current_display) {
+        case 'ding_news_groups_list':
+        case 'ding_news_list_same_tag':
+          // Add slide-on-mobile class.
+          $vars['classes_array'][] = 'slide-on-mobile';
+          break;
+
+        case 'ding_news_frontpage_list':
+          // Add slide-on-mobile class.
+          $vars['classes_array'][] = 'slide-on-mobile';
+          // Add first-child-large class.
+          $vars['classes_array'][] = 'first-child-large';
+          break;
+      }
+      break;
+
+    case 'ding_groups':
+      switch ($vars['view']->current_display) {
+        case 'panel_pane_frontpage':
+          // Add slide-on-mobile class.
+          $vars['classes_array'][] = 'slide-on-mobile';
+          break;
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_unformatted().
+ *
+ * Overwrite views row classes.
  */
 function ddbasic_preprocess_views_view_unformatted(&$vars) {
+  // Add type class to tags_list view.
+  if ($vars['view']->name == 'tags_list') {
+    $nodes = array_values($vars['view']->style_plugin->row_plugin->nodes);
+    reset($vars['rows']);
+    $first_key = key($vars['rows']);
+    $first_node = $nodes[$first_key];
+    $vars['type_class'] = drupal_html_class($first_node->type);
+  }
   // Class names for overwriting.
   $row_first = "first";
-  $row_last  = "last";
+  $row_last = "last";
 
   $view = $vars['view'];
   $rows = $vars['rows'];
@@ -237,6 +279,7 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
     $count++;
 
     $vars['classes'][$id][] = $count % 2 ? 'odd' : 'even';
+    $vars['classes'][$id][] = 'views-row';
 
     if ($count == 1) {
       $vars['classes'][$id][] = $row_first;
@@ -254,314 +297,6 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
     }
     else {
       $vars['classes_array'][$id] = '';
-    }
-  }
-}
-
-/**
- * Implements hook_preprocess_views_view_field().
- */
-function ddbasic_preprocess_views_view_field(&$vars) {
-  $field = $vars['field'];
-
-  if (isset($field->field_info) && $field->field_info['field_name'] == 'field_ding_event_price') {
-    $ding_event_price = intval($vars['output']);
-    // Show "Free" text if ding_event_price is empty or zero.
-    if (empty($ding_event_price)) {
-      $vars['output'] = t('Free');
-    }
-  }
-}
-
-/**
- * Implements hook_preprocess_user_picture().
- *
- * Override or insert variables into template user_picture.tpl.php
- *
- * @TODO: Is there an render array for this, str replacement is not cheap.
- * @TODO: Why do we replace and insert span2 thumbnail classes? Aren't they
- *        bootstrap specific?
- */
-function ddbasic_preprocess_user_picture(&$variables) {
-  // Inject the class we need into the A tag of user_picture.
-  $variables['user_picture'] = str_replace('<a ', '<a class="span2 thumbnail" ', $variables['user_picture']);
-
-  // Inject the class we need into the IMG tag of user_picture.
-  $variables['user_picture'] = str_replace('<img ', '<img class="pull-left" ', $variables['user_picture']);
-}
-
-/**
- * Implements hook_preprocess_node().
- *
- * Override or insert variables into the node templates.
- */
-function ddbasic_preprocess_node(&$variables, $hook) {
-  // Add ddbasic_byline to variables.
-  $variables['ddbasic_byline'] = t('By: ');
-
-  // Add event node specific ddbasic variables.
-  if (isset($variables['content']['#bundle']) && $variables['content']['#bundle'] == 'ding_event') {
-
-    // Add event location variables.
-    if (!empty($variables['content']['field_ding_event_location'][0]['#address']['name_line'])) {
-      $variables['ddbasic_event_location'] = $variables['content']['field_ding_event_location'][0]['#address']['name_line'] . '<br/>' . $variables['content']['field_ding_event_location'][0]['#address']['thoroughfare'] . ', ' . $variables['content']['field_ding_event_location'][0]['#address']['locality'];
-    }
-    else {
-      // User OG group ref to link back to library.
-      if (isset($variables['content']['og_group_ref'])) {
-        $variables['ddbasic_event_location'] = $variables['content']['og_group_ref'];
-      }
-    }
-
-    // Add event date to variables. A render array is created based on the date
-    // format "date_only".
-    $event_date_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
-      'label' => 'hidden',
-      'type' => 'date_default',
-      'settings' => array(
-        'format_type' => 'ding_date_only',
-        'fromto' => 'both',
-      ),
-    ));
-    $variables['ddbasic_event_date'] = $event_date_ra[0]['#markup'];
-
-    // Add event time to variables. A render array is created based on the date
-    // format "time_only".
-    $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
-      'label' => 'hidden',
-      'type' => 'date_default',
-      'settings' => array(
-        'format_type' => 'ding_time_only',
-        'fromto' => 'both',
-      ),
-    ));
-    $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
-
-    // Show "Free" text if ding_event_price is empty or zero. Unfortunately we
-    // can't use the field template for this, since it's not called when the
-    // price field is empty. This means we also need to handle this en the views
-    // field preprocess.
-    if (empty($variables['content']['field_ding_event_price']['#items'][0]['value'])) {
-      $variables['content']['field_ding_event_price'][0]['#markup'] = t('Free');
-    }
-  }
-
-  // Add tpl suggestions for node view modes.
-  if (isset($variables['view_mode'])) {
-    $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];
-  }
-
-  // Add "read more" links to event, news and e-resource in search result view
-  // mode.
-  if ($variables['view_mode'] == 'search_result') {
-    switch ($variables['node']->type) {
-      case 'ding_event':
-        $more_link = array(
-          '#type' => 'link',
-          '#title' => t('Read more'),
-          '#href' => 'node/' . $variables['nid'],
-          '#options' => array(
-            'attributes' => array(
-              'title' => $variables['title'],
-            ),
-            'html' => FALSE,
-          ),
-          '#prefix' => '<span class="event-link">',
-          '#surfix' => '</div>',
-          '#weight' => 6,
-        );
-
-        $variables['content']['group_right_col_search']['more_link'] = $more_link;
-        break;
-
-      case 'ding_news':
-        $more_link = array(
-          '#type' => 'link',
-          '#title' => t('Read more'),
-          '#href' => 'node/' . $variables['nid'],
-          '#options' => array(
-            'attributes' => array(
-              'title' => $variables['title'],
-            ),
-            'html' => FALSE,
-          ),
-          '#prefix' => '<span class="news-link">',
-          '#surfix' => '</span>',
-          '#weight' => 6,
-        );
-
-        $variables['content']['group_right_col_search']['more_link'] = $more_link;
-        break;
-
-      case 'ding_eresource':
-        $more_link = array(
-          '#type' => 'link',
-          '#title' => t('Read more'),
-          '#href' => 'node/' . $variables['nid'],
-          '#options' => array(
-            'attributes' => array(
-              'title' => $variables['title'],
-            ),
-            'html' => FALSE,
-          ),
-          '#prefix' => '<span class="eresource-link">',
-          '#surfix' => '</span>',
-          '#weight' => 6,
-        );
-
-        $variables['content']['group_right_col_search']['more_link'] = $more_link;
-        break;
-
-      case 'ding_page':
-        $more_link = array(
-          '#type' => 'link',
-          '#title' => t('Read more'),
-          '#href' => 'node/' . $variables['nid'],
-          '#options' => array(
-            'attributes' => array(
-              'title' => $variables['title'],
-            ),
-            'html' => FALSE,
-          ),
-          '#prefix' => '<span class="page-link">',
-          '#surfix' => '</span>',
-          '#weight' => 6,
-        );
-
-        $variables['content']['group_right_col_search']['more_link'] = $more_link;
-        break;
-    }
-  }
-
-  // For search result view mode move title into left col. group.
-  if (isset($variables['content']['group_right_col_search'])) {
-    $variables['content']['group_right_col_search']['title'] = array(
-      '#type' => 'link',
-      '#title' => decode_entities($variables['title']),
-      '#href' => 'node/' . $variables['nid'],
-      '#options' => array(
-        'attributes' => array(
-          'title' => $variables['title'],
-        ),
-        'html' => FALSE,
-      ),
-      '#prefix' => '<h2>',
-      '#suffix' => '</h2>',
-    );
-  }
-
-  // Add updated to variables.
-  $variables['ddbasic_updated'] = t('!datetime', array(
-    '!datetime' => format_date(
-      $variables['node']->changed,
-      $type = 'long',
-      $format = '',
-      $timezone = NULL,
-      $langcode = NULL
-    ))
-  );
-
-  // Modified submitted variable.
-  if ($variables['display_submitted']) {
-    $variables['submitted'] = t('!datetime', array(
-      '!datetime' => format_date(
-        $variables['created'],
-        $type = 'long',
-        $format = '',
-        $timezone = NULL,
-        $langcode = NULL
-      ))
-    );
-  }
-}
-
-/**
- * Implements template_preprocess_field().
- */
-function ddbasic_preprocess_field(&$vars, $hook) {
-  // Get current view mode (teaser).
-  $view_mode = $vars['element']['#view_mode'];
-  $field_name = $vars['element']['#field_name'];
-
-  // Add suggestion for ddbasic specific field.
-  $vars['theme_hook_suggestions'][] = 'field__ddbasic';
-
-  // Add suggestion for ddbasic field with specific name.
-  $vars['theme_hook_suggestions'][] = 'field__ddbasic_' . $field_name;
-
-  // Add suggestion for ddbasic field in specific view mode.
-  $vars['theme_hook_suggestions'][] = 'field__ddbasic_' . $view_mode;
-
-  // Stream line tags in view modes using the same tpl.
-  if ($vars['element']['#field_type'] == 'taxonomy_term_reference') {
-    $vars['theme_hook_suggestions'][] = 'field__ddbasic_tags__' . $view_mode;
-  }
-
-  // Ensure that all OG group ref field are the same.
-  if ($field_name == 'ding_event_groups_ref' || $field_name == 'ding_news_groups_ref' || $field_name == 'og_group_ref') {
-    $vars['theme_hook_suggestions'][] = 'field__og_group_ref';
-
-    // Add classes to get label correctly formatted.
-    foreach ($vars['items'] as $id => $item) {
-      $vars['items'][$id]['#options'] = array(
-        'attributes' => array(
-          'class' => array(
-            'label',
-            'label_info',
-          ),
-        ),
-      );
-    }
-  }
-
-  // Clean up fields in search result view mode aka. search result page.
-  if ($view_mode == 'search_result') {
-    // Add suggestion that only hits the search result page.
-    $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . $view_mode;
-
-    switch ($vars['element']['#field_name']) {
-      case 'ting_author':
-      case 'ting_abstract':
-      case 'ting_subjects':
-        $vars['classes_array'] = array('content');
-        break;
-
-      case 'ting_title':
-        $vars['classes_array'] = array('heading');
-        break;
-    }
-  }
-
-  // Make suggestion for the availability on the search result page.
-  if ($vars['element']['#field_type'] == 'ting_collection_types' &&
-      $vars['element']['#formatter'] == 'ding_availability_with_labels') {
-    $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
-  }
-
-  // Add class to library OG ref on staff profiles only.
-  if ($vars['element']['#bundle'] == 'ding_staff_profile') {
-    $staff_fields = array(
-      'og_group_ref',
-      'field_ding_staff_department',
-      'field_ding_staff_email',
-      'field_ding_staff_phone',
-      'field_ding_staff_work_areas',
-    );
-
-    if (in_array($field_name, $staff_fields)) {
-      $vars['theme_hook_suggestions'][] = 'field__ding_staff__content_field';
-
-      // Ensure that department is not add label info.
-      if ($field_name == 'field_ding_staff_department' || $field_name == 'og_group_ref') {
-        foreach ($vars['items'] as $id => $item) {
-          // This as little hack to make the user interface look better.
-          $vars['items'][$id]['#options']['no_label'] = TRUE;
-        }
-      }
-    }
-
-    if ($field_name == 'og_group_ref') {
-      $vars['classes_array'][] = 'field-name-ding-library-name';
     }
   }
 }
@@ -589,26 +324,11 @@ function ddbasic_link($variables) {
 }
 
 /**
- * Render callback.
- *
- * Remove panels div separator.
- */
-function ddbasic_panels_default_style_render_region($vars) {
-  $output = '';
-  $output .= implode('', $vars['panes']);
-
-  return $output;
-}
-
-
-/**
  * Implements template_preprocess_user_profile().
  */
 function ddbasic_preprocess_user_profile(&$variables) {
   $variables['user_profile']['summary']['member_for']['#access'] = FALSE;
-  unset($variables['user_profile']['og_user_node']);
 }
-
 
 /**
  * Implements template_preprocess_entity().
@@ -621,7 +341,6 @@ function ddbasic_preprocess_entity(&$variables, $hook) {
     $function($variables, $hook);
   }
 }
-
 
 /**
  * Profile2 specific implementation of template_preprocess_entity().
@@ -640,6 +359,43 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
   }
 }
 
+/**
+ * Implements template_preprocess_menu_links().
+ */
+function ddbasic_preprocess_menu_link(&$variables) {
+  if ($variables['theme_hook_original'] === 'menu_link__user_menu') {
+    $path = explode('/', $variables['element']['#href']);
+    switch (end($path)) {
+      case 'status-loans':
+        $loans = ddbasic_account_count_loans();
+        if (!empty($loans)) {
+          $variables['element']['#title'] .= ' (' . $loans . ')';
+        }
+        break;
+
+      case 'status-reservations':
+        $reservations = ddbasic_account_count_reservation_not_ready();
+        if (!empty($reservations)) {
+          $variables['element']['#title'] .= ' (' . $reservations . ')';
+        }
+        break;
+
+      case 'status-reservations-ready':
+        $reservations = ddbasic_account_count_reservation_ready();
+        if (!empty($reservations)) {
+          $variables['element']['#title'] .= ' (' . $reservations . ')';
+        }
+        break;
+
+      case 'status-debts':
+        $depts = ddbasic_account_count_depts();
+        if (!empty($depts)) {
+          $variables['element']['#title'] .= ' (' . $depts . ')';
+        }
+        break;
+    }
+  }
+}
 
 /**
  * Implements theme_menu_link().
@@ -658,9 +414,6 @@ function ddbasic_menu_link($vars) {
     'menu-item',
   );
 
-  // Filter classes.
-  $element['#attributes']['class'] = ddbasic_remove_default_link_classes($element['#attributes']['class']);
-
   // Make sure text string is treated as html by l function.
   $element['#localized_options']['html'] = TRUE;
 
@@ -675,8 +428,7 @@ function ddbasic_menu_link($vars) {
  * Add specific markup for top-bar menu exposed as menu_block_4.
  */
 function ddbasic_menu_link__menu_tabs_menu($vars) {
-  // Run classes array through our custom stripper.
-  $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
+  global $user;
 
   // Check if the class array is empty.
   if (empty($vars['element']['#attributes']['class'])) {
@@ -717,9 +469,47 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $title_prefix = '<i class="icon-user"></i>';
       // If a user is logged in we change the menu item title.
       if (user_is_logged_in()) {
-        $element['#title'] = 'My Account';
+        $element['#href'] = 'user/me/view';
+        $element['#title'] = t('My Account');
         $element['#attributes']['class'][] = 'topbar-link-user-account';
         $element['#localized_options']['attributes']['class'][] = 'topbar-link-user-account';
+
+        if (ding_user_is_provider_user($user)) {
+          // Fill the notification icon, in following priority.
+          // Depts, overdue, ready reservations, notifications.
+          $notification = array();
+          $depts = ddbasic_account_count_depts();
+          if (!empty($depts)) {
+            $notification = array(
+              'count' => $depts,
+              'type' => 'depts',
+            );
+          }
+
+          if (empty($notification)) {
+            $overdues = ddbasic_account_count_overdue_loans();
+            if (!empty($overdues)) {
+              $notification = array(
+                'count' => $overdues,
+                'type' => 'overdue',
+              );
+            }
+          }
+
+          if (empty($notification)) {
+            $ready = ddbasic_account_count_reservation_ready();
+            if (!empty($ready)) {
+              $notification = array(
+                'count' => $ready,
+                'type' => 'ready',
+              );
+            }
+          }
+
+          if (!empty($notification)) {
+            $element['#title'] .= '<div class="notification-count notification-count-type-' . $notification['type'] . '">' . $notification['count'] . '</div>';
+          }
+        }
       }
       else {
         $element['#attributes']['class'][] = 'topbar-link-user';
@@ -734,6 +524,12 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
 
       break;
 
+    case 'libraries':
+      $title_prefix = '<i class="icon-clock"></i>';
+      $element['#localized_options']['attributes']['class'][] = 'topbar-link-opening-hours';
+      $element['#attributes']['class'][] = 'topbar-link-opening-hours';
+      break;
+
     default:
       $title_prefix = '<i class="icon-align-justify"></i>';
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-menu';
@@ -741,84 +537,8 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       break;
   }
 
-   // For some unknown issue translation fails.
-  $element['#title'] = t($element['#title']);
-
   $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
-}
-
-/**
- * Used to strip default class names from menu links.
- *
- * @param array $classes
- *   An array of class attributes.
- *
- * @return array
- *   Classes that are left.
- */
-function ddbasic_remove_default_link_classes($classes) {
-  if (!isset($classes)) {
-    return FALSE;
-  }
-
-  // Remove classes.
-  $remove = array();
-
-  // Remove .leaf.
-  if (theme_get_setting('ddbasic_classes_menu_leaf')) {
-    $remove[] .= "leaf";
-  }
-
-  // Remove .has-children.
-  if (theme_get_setting('ddbasic_classes_menu_has_children')) {
-    $remove[] .= "has-children";
-  }
-
-  // Remove .collapsed, .expanded and expandable.
-  if (theme_get_setting('ddbasic_classes_menu_collapsed')) {
-    $remove[] .= "collapsed";
-    $remove[] .= "expanded";
-    $remove[] .= "expandable";
-  }
-
-  // Remove the classes.
-  if ($remove) {
-    $classes = array_diff($classes, $remove);
-  }
-
-  // Remove menu-mlid-[NUMBER].
-  if (theme_get_setting('ddbasic_classes_menu_items_mlid')) {
-    $classes = preg_grep('/^menu-mlid-/', $classes, PREG_GREP_INVERT);
-  }
-
-  return $classes;
-}
-
-/**
- * Allows us to add script plugins to the theme via theme settings.
- *
- * Ex. add a javascript depending on the settings in the theme.
- */
-function ddbasic_load_plugins() {
-  $theme_path = drupal_get_path('theme', 'ddbasic');
-
-  // If sticky menus is enabled in the theme load it.
-  if (theme_get_setting('main_menu_sticky')) {
-
-    // Add variable to js so we can check if it is set.
-    drupal_add_js(array('ddbasic' => array('main_menu_sticky' => theme_get_setting('main_menu_sticky'))), 'setting');
-  }
-
-  // If equalize is enabled in the theme load it.
-  if (theme_get_setting('load_equalize')) {
-
-    // Add the script.
-    drupal_add_js($theme_path . '/scripts/equalize.min.js');
-
-    // Add variable to js so we can check if it is set.
-    drupal_add_js(array('ddbasic' => array('load_equalize' => theme_get_setting('load_equalize'))), 'setting');
-  }
 }
 
 /**
@@ -932,18 +652,179 @@ function ddbasic_item_list($variables) {
  * Implements hook_process_page().
  */
 function ddbasic_process_page(&$vars) {
-  // Hook into color.module
+  // Hook into color.module.
   if (module_exists('color')) {
     _color_page_alter($vars);
   }
 }
 
 /**
- * Implements hook_preprocess_ting_object().
+ * Preprocess function for ting_object theme function.
+ */
+function ddbasic_preprocess_ting_object(&$vars) {
+
+  switch ($vars['elements']['#entity_type']) {
+    case 'ting_object':
+
+      switch ($vars['elements']['#view_mode']) {
+        // Teaser.
+        case 'teaser':
+
+          // Check if overlay is disabled and set class.
+          if (theme_get_setting('ting_object_disable_overlay') == TRUE) {
+            $vars['classes_array'][] = 'no-overlay';
+          }
+          break;
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_process_ting_object().
  *
  * Adds wrapper classes to the different groups on the ting object.
  */
 function ddbasic_process_ting_object(&$vars) {
+  //
+  // Add tpl suggestions for node view modes.
+  if (isset($vars['elements']['#view_mode'])) {
+    $vars['theme_hook_suggestions'][] = $vars['elements']['#bundle'] . '__view_mode__' . $vars['elements']['#view_mode'];
+  }
+
+  switch ($vars['elements']['#entity_type']) {
+    case 'ting_collection':
+      // Add a reference to the ting_object if it's included in a
+      // ting_collection.
+      foreach ($vars['object']->entities as &$ting_entity) {
+        $ting_entity->in_collection = $vars['object'];
+      }
+      break;
+
+    case 'ting_object':
+
+      $uri_collection = entity_uri('ting_collection', $vars['object']);
+      $vars['ting_object_url_collection'] = url($uri_collection['path']);
+
+      $uri_object = entity_uri('ting_object', $vars['object']);
+      $vars['ting_object_url_object'] = url($uri_object['path']);
+
+      switch ($vars['elements']['#view_mode']) {
+
+        // Teaser.
+        case 'teaser':
+          $vars['content']['group_text']['read_more_button'] = array(
+            array(
+              '#theme' => 'link',
+              '#text' => t('Read more'),
+              '#path' => $uri_object['path'],
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
+                    'action-button',
+                    'read-more-button',
+                  ),
+                ),
+                'html' => FALSE,
+              ),
+            ),
+            '#weight' => 9998,
+          );
+
+          if ($vars['object']->is('reservable')) {
+            $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              'ajax'
+            );
+          }
+          if ($vars['object']->online_url) {
+            // Slice the output, so it only usese the online link button.
+            $vars['content']['group_text']['online_link'] = array_slice(ting_ding_entity_buttons(
+              'ding_entity',
+              $vars['object']
+            ), 0, 1);
+          }
+
+          // Check if teaser has rating function and remove abstract.
+          if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
+            unset($vars['content']['group_text']['ting_abstract']);
+          }
+
+          break;
+
+        // Reference teaser.
+        case 'reference_teaser':
+          $vars['content']['buttons'] = array(
+            '#prefix' => '<div class="buttons">',
+            '#suffix' => '</div>',
+            '#weight' => 9999,
+          );
+          $vars['content']['buttons']['read_more_button'] = array(
+            array(
+              '#theme' => 'link',
+              '#text' => t('Read more'),
+              '#path' => $uri_object['path'],
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
+                    'action-button',
+                    'read-more-button',
+                  ),
+                ),
+                'html' => FALSE,
+              ),
+            ),
+          );
+
+          if ($vars['object']->is('reservable')) {
+            $vars['content']['buttons']['reserve_button'] = ding_reservation_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              'ajax'
+            );
+          }
+          if ($vars['object']->online_url) {
+            // Slice the output, so it only usese the online link button.
+            $vars['content']['buttons']['online_link'] = array_slice(ting_ding_entity_buttons(
+              'ding_entity',
+              $vars['object']
+            ), 0, 1);
+          }
+
+          break;
+
+      }
+      break;
+  }
+
+  // Inject the availability from the collection into the actual ting object.
+  // Notice it's only done on the "search_result" view mode.
+  if ($vars['elements']['#entity_type'] == 'ting_object' && isset($vars['object']->in_collection)
+      && isset($vars['elements']['#view_mode'])
+      && in_array($vars['elements']['#view_mode'], array('search_result', 'collection_list'))) {
+    $availability = field_view_field(
+      'ting_collection',
+      $vars['object']->in_collection,
+      'ting_collection_types',
+      array(
+        'type' => 'ding_availability_with_labels',
+        'weight' => 9999,
+      )
+    );
+    $availability['#title'] = t('Borrowing options');
+
+    if (isset($vars['content']['group_ting_right_col_search'])) {
+      if (isset($vars['content']['group_ting_right_col_search']['group_info']['group_rating']['#weight'])) {
+        $availability['#weight'] = $vars['content']['group_ting_right_col_search']['group_info']['group_rating']['#weight'] - 0.5;
+      }
+      $vars['content']['group_ting_right_col_search']['group_info']['availability'] = $availability;
+    }
+    else {
+      $vars['content']['group_ting_right_col_collection']['availability'] = $availability;
+    }
+  }
+
   if (isset($vars['elements']['#view_mode']) && $vars['elements']['#view_mode'] == 'full') {
     switch ($vars['elements']['#entity_type']) {
       case 'ting_object':
@@ -979,7 +860,8 @@ function ddbasic_process_ting_object(&$vars) {
           unset($content['group_material_details']);
         }
 
-        if (isset($content['group_holdings_available']) && $content['group_holdings_available']) {
+        if (isset($content['content']['ding_availability_holdings'])) {
+
           $vars['content']['holdings-available'] = array(
             '#prefix' => '<div class="ting-object-wrapper">',
             '#suffix' => '</div>',
@@ -989,7 +871,7 @@ function ddbasic_process_ting_object(&$vars) {
               'details' => $content['group_holdings_available'],
             ),
           );
-          unset($content['group_holdings_available']);
+          unset($content['content']['ding_availability_holdings']);
         }
 
         if (isset($content['group_periodical_issues']) && $content['group_periodical_issues']) {
@@ -1030,25 +912,332 @@ function ddbasic_process_ting_object(&$vars) {
         // Move the rest over if any have been defined in the UI.
         if (!empty($content)) {
           // Move the remaining content one level down in the array structure.
-          // The reason for this is that drupal_render passes it to
-          // element_children, which will sort the array by #weight if any
-          // element has the key, or keep the array order if they doesn't. This
-          // will seriously mess up the display, as the groups above doesn't
-          // have a weight and can sink to the bottom, depending on the #weights
-          // defined.
-          $vars['content'] += array(
-            'content' => $content,
-          );
         }
-        break;
 
-      case 'ting_collection':
-        // Assumes that field only has one value.
-        foreach ($vars['content']['ting_entities'][0] as &$type) {
-          $type['#prefix'] = '<div class="ting-collection-wrapper"><div class="ting-collection-inner-wrapper">' . $type['#prefix'];
-          $type['#suffix'] = '</div></div>';
-        }
         break;
     }
   }
+}
+
+/**
+ * Preprocess function for material_item theme function.
+ */
+function ddbasic_preprocess_material_item(&$variables) {
+
+  // Add label for styling to checkbox.
+  $element = $variables['element'];
+
+  $element[$element['#id']]['#title'] = ".";
+
+  // Render the checkbox.
+  $variables['checkbox'] = drupal_render($element[$element['#id']]);
+
+  if (!empty($variables['information']['expiry'])) {
+    $variables['information']['expiry']['#weight'] = 1;
+  }
+}
+
+/**
+ * Preprocess function form element.
+ */
+function ddbasic_preprocess_form_element(&$variables) {
+  // Remove label to profile date field.
+  if ($variables['element']['#id'] == 'edit-profile-provider-alma-field-alma-reservation-pause-und-0-value2') {
+    $variables['element']['#title'] = '';
+  }
+  // Change label for date picker.
+  if ($variables['element']['#id'] == 'edit-profile-provider-alma-field-alma-reservation-pause-und-0-value2-datepicker-popup-0') {
+    $variables['element']['#title'] = 'Til dato:';
+  }
+  // Change label for date picker.
+  if ($variables['element']['#id'] == 'edit-profile-provider-alma-field-alma-reservation-pause-und-0-value-datepicker-popup-0') {
+    $variables['element']['#title'] = 'Fra dato:';
+  }
+
+}
+
+/**
+ * Preprocess ting_searchj_carousel.
+ */
+function ddbasic_preprocess_ting_search_carousel(&$variables) {
+  // Add ajax to make reserve links work.
+  drupal_add_library('system', 'drupal.ajax');
+
+  // The search carousel doesn't use the standard Drupal ajax API so it doesn't
+  // automatically include the ting-covers.js.
+  drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
+}
+
+/**
+ * Implements hook_preprocess_ting_search_carousel_collection().
+ */
+function ddbasic_preprocess_ting_search_carousel_collection(&$variables) {
+  $object = ding_entity_load($variables['collection']->id, 'ting_object');
+  $variables['content'] = ting_object_view($object, 'teaser');
+}
+
+/**
+ * Override theme_date_display_range().
+ */
+function ddbasic_date_display_range($variables) {
+  $date1 = $variables['date1'];
+  $date2 = $variables['date2'];
+  $timezone = $variables['timezone'];
+  $attributes_start = $variables['attributes_start'];
+  $attributes_end = $variables['attributes_end'];
+
+  $start_date = '<span class="date-display-start"' . drupal_attributes($attributes_start) . '>' . $date1 . '</span>';
+  $end_date = '<span class="date-display-end"' . drupal_attributes($attributes_end) . '>' . $date2 . $timezone . '</span>';
+
+  // If microdata attributes for the start date property have been passed in,
+  // add the microdata in meta tags.
+  if (!empty($variables['add_microdata'])) {
+    $start_date .= '<meta' . drupal_attributes($variables['microdata']['value']['#attributes']) . '/>';
+    $end_date .= '<meta' . drupal_attributes($variables['microdata']['value2']['#attributes']) . '/>';
+  }
+
+  // Wrap the result with the attributes.
+  return t('!start-date - !end-date', array(
+    '!start-date' => $start_date,
+    '!end-date' => $end_date,
+  ));
+}
+
+/**
+ * Ting search pager.
+ */
+function ddbasic_ting_search_pager($variables) {
+  if (!empty($_GET['size'])) {
+    $results_per_page = $_GET['size'];
+  }
+  else {
+    $results_per_page = variable_get('ting_search_results_per_page', 10);
+  }
+
+  $tags = $variables['tags'];
+  $element = $variables['element'];
+  $parameters = $variables['parameters'];
+  $quantity = 3;
+  $hide_list = isset($variables['hide_list']) ? $variables['hide_list'] : FALSE;
+  global $pager_page_array, $pager_total;
+
+  // Calculate various markers within this pager piece:
+  // Middle is used to "center" pages around the current page.
+  $pager_middle = ceil($quantity / 2);
+  // Current is the page we are currently paged to.
+  $pager_current = $pager_page_array[$element] + 1;
+  // First is the first page listed by this pager piece (re quantity).
+  $pager_first = $pager_current - $pager_middle + 1;
+  // Last is the last page listed by this pager piece (re quantity).
+  $pager_last = $pager_current + $quantity - $pager_middle;
+  // Max is the maximum page number.
+  $pager_max = $pager_total[$element];
+
+  // Prepare for generation loop.
+  $i = $pager_first;
+  if ($pager_last > $pager_max) {
+    // Adjust "center" if at end of query.
+    $i = $i + ($pager_max - $pager_last);
+    $pager_last = $pager_max;
+  }
+  if ($i <= 0) {
+    // Adjust "center" if at start of query.
+    $pager_last = $pager_last + (1 - $i);
+    $i = 1;
+  }
+
+  $li_previous = theme('pager_previous', array(
+    'text' => isset($tags[1]) ? $tags[1] : t('‹ previous'),
+    'element' => $element,
+    'interval' => 1,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_previous)) {
+    $li_previous = "&nbsp;";
+  }
+
+  $li_first = theme('pager_first', array(
+    'text' => isset($tags[0]) ? $tags[0] : t('« first'),
+    'element' => $element,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_first)) {
+    $li_first = "&nbsp;";
+  }
+
+  $li_next = theme('pager_next', array(
+    'text' => isset($tags[3]) ? $tags[3] : t('next ›'),
+    'element' => $element,
+    'interval' => 1,
+    'parameters' => $parameters,
+  ));
+  if (empty($li_next)) {
+    $li_next = "&nbsp;";
+  }
+
+  $li_last = theme('pager_last', array(
+    'text' => isset($tags[4]) ? $tags[4] : t('last »'),
+    'element' => $element,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_last)) {
+    $li_last = "&nbsp;";
+  }
+
+  if ($pager_total[$element] > 1) {
+    if ($pager_current > 2) {
+      $items[] = array(
+        'class' => array('pager-first'),
+        'data' => $li_first,
+      );
+    }
+
+    $items[] = array(
+      'class' => array('pager-previous'),
+      'data' => $li_previous,
+    );
+
+    // When there is more than one page, create the pager list.
+    if (!$hide_list && $i != $pager_max) {
+      if ($i > 1) {
+        $items[] = array(
+          'class' => array('pager-ellipsis'),
+          'data' => '…',
+        );
+      }
+      // Now generate the actual pager piece.
+      for (; $i <= $pager_last && $i <= $pager_max; $i++) {
+        if ($i < $pager_current) {
+          $items[] = array(
+            'class' => array('pager-item'),
+            'data' => theme('pager_previous', array(
+              'text' => $i * $results_per_page - $results_per_page + 1 . '-' . $i * $results_per_page,
+              'element' => $element,
+              'interval' => ($pager_current - $i),
+              'parameters' => $parameters,
+            )),
+          );
+        }
+        if ($i == $pager_current) {
+          $items[] = array(
+            'class' => array('pager-current'),
+            'data' => $i * $results_per_page - $results_per_page + 1 . '-' . $i * $results_per_page,
+          );
+        }
+        if ($i > $pager_current) {
+          $items[] = array(
+            'class' => array('pager-item'),
+            'data' => theme('pager_next', array(
+              'text' => $i * $results_per_page - $results_per_page + 1 . '-' . $i * $results_per_page,
+              'element' => $element,
+              'interval' => ($i - $pager_current),
+              'parameters' => $parameters,
+            )),
+          );
+        }
+        if ($i > $pager_current) {
+          $items[] = array(
+            'class' => array('pager-ellipsis'),
+            'data' => '…',
+          );
+        }
+      }
+      if ($i < $pager_max) {
+        $items[] = array(
+          'class' => array('pager-ellipsis'),
+          'data' => '…',
+        );
+      }
+    }
+    else {
+      $items[] = array(
+        'class' => array('pager-current'),
+        'data' => $pager_current,
+      );
+    }
+
+    $items[] = array(
+      'class' => array('pager-next'),
+      'data' => $li_next,
+    );
+    if ($pager_current + 1 < $pager_max && $li_last) {
+      $items[] = array(
+        'class' => array('pager-last'),
+        'data' => $li_last,
+      );
+    }
+    return theme('item_list', array(
+      'items' => $items,
+      'type' => 'ul',
+      'attributes' => array(
+        'class' => array('pager'),
+      ),
+    ));
+  }
+}
+
+/**
+ * Overrides theme_select().
+ *
+ * Adds wrapper div to all select form elements, for better styling in FF.
+ */
+function ddbasic_select($variables) {
+  $element = $variables['element'];
+  element_set_attributes($element, array('id', 'name', 'size'));
+  _form_set_class($element, array('form-select'));
+
+  if ($variables['element']['#attributes']['multiple'] == 'multiple') {
+    return '<div class="select-wrapper select-wrapper-multiple"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
+  } else {
+    return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
+  }
+
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function ddbasic_libraries_info() {
+  return array(
+    'slick' => array(
+      'name' => 'Slick',
+      'vendor url' => 'http://kenwheeler.github.io/slick/',
+      'download url' => 'https://github.com/kenwheeler/slick/archive/1.6.0.zip',
+      'version arguments' => array(
+        'file' => 'slick/slick.min.js',
+        'pattern' => '/Version:\s([0-9a-zA-Z\.-]+)/',
+      ),
+      'files' => array(
+        'css' => array('slick/slick.css'),
+        'js' => array('slick/slick.min.js'),
+      ),
+    ),
+    'html5shiv' => array(
+      'name' => 'HTML5 Shiv',
+      'vendor url' => 'https://github.com/aFarkas/html5shiv',
+      'download url' => 'https://github.com/aFarkas/html5shiv/archive/3.7.3.zip',
+      'version arguments' => array(
+        'file' => 'dist/html5shiv.min.js',
+        'pattern' => '/\*.*HTML5 Shiv ([0-9a-zA-Z\.-]+)/',
+      ),
+      'files' => array(
+        'js' => array('dist/html5shiv.min.js'),
+      ),
+    ),
+    'masonry' => array(
+      'name' => 'Masonry',
+      'vendor url' => 'https://github.com/desandro/masonry',
+      'download url' => 'https://github.com/desandro/masonry/archive/v4.1.1.zip',
+      'version arguments' => array(
+        'file' => 'dist/masonry.pkgd.min.js',
+        'pattern' => '/\*.*Masonry PACKAGED v([0-9a-zA-Z\.-]+)/',
+      ),
+      'files' => array(
+        'js' => array('dist/masonry.pkgd.min.js'),
+      ),
+    ),
+  );
 }

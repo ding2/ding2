@@ -2,9 +2,9 @@
 
 /**
  * @file
- * theme implementation for displaying place2book ticket info
+ * Theme implementation for displaying place2book ticket info
  * (support for ding_place2book module)
- * 
+ *
  * Variables:
  * $place2book_id: the ID for the event at place2book.com  (if it exists for the ding event)
  * $url: the full URL to the event at place2book.com (if it exists for the ding event)
@@ -12,28 +12,33 @@
  * - event-over
  * - closed-admission
  * - no-tickets-left
- * - order-link
- * 
+ * - order-link.
+ *
  * Only the 'order-link' type should be and action - the rest is to be
  * displayed as information to the user
  */
 
 switch ($type) {
   case 'event-over':
-    print '<div class="ticket-info">' . t('The event has already taken place') . '</div>';
-  break;
+    print '<div class="place2book-tickets-label">'. t('Tickets') . '</div><div class="place2book-tickets-info">' . t('The event has already taken place') . '</div>';
+    break;
+
   case 'closed-admission':
-    print '<div class="ticket-info">' . t('Not open for ticket sale') . '</div>';
+    print '<div class="place2book-tickets-label">'. t('Tickets') . '</div><div class="place2book-tickets-info">' . t('Not open for ticket sale') . '</div>';
     break;
+
   case 'no-tickets-left':
-    print '<div class="ticket-info">' . t('Sold out') . '</div>';
+    print '<div class="place2book-tickets-label">'. t('Tickets') . '</div><div class="place2book-tickets-info">' . t('Sold out') . '</div>';
     break;
+
   case 'order-link':
-    print l(t('Book a ticket'), $url, array('attributes' => array('class' => array('ticket-available'))));
+    print l(t('Book a ticket'), $url, array('attributes' => array('class' => array('ticket-available', 'button'))));
     break;
+
   case 'sale-not-started':
-    print '<div class="ticket-info">' . t('Ticket sale has not yet started for this event') . '</div>';
+    print '<div class="place2book-tickets-label">'. t('Tickets') . '</div><div class="place2book-tickets-info">' . t('Ticket sale has not yet started for this event') . '</div>';
     break;
+
   default:
     print '-nothing-';
     break;

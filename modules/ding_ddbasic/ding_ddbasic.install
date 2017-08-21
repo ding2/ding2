@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Ding ddbasic install.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_ddbasic_install() {
+  ding_ddbasic_update_7000();
+}
+
+/**
+ * Reset colors.
+ */
+function ding_ddbasic_update_7000() {
+  variable_del('color_ddbasic_palette');
+}

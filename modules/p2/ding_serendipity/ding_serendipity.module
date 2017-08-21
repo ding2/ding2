@@ -93,31 +93,6 @@ function ding_serendipity_menu() {
 }
 
 /**
- * Implements hook_form_alter().
- *
- * Add serendipity config to frontpage admin config.
- */
-function ding_serendipity_form_ding_frontpage_admin_settings_alter(&$form, &$form_state, $form_id) {
-  $form['ding_frontpage']['ding_frontpage_promoter']['#options']['serendipity'] = t('Ding Serendipity');
-
-  $form['ding_frontpage']['ding_frontpage_serendipity'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Show Ding Serendipity on the frontpage'),
-    '#default_value' => variable_get('ding_frontpage_serendipity', FALSE),
-    '#description' => t('If you selected Ding tab-roll or carousel above, check this option to also show Serendipity on the frontpage'),
-  );
-
-  $form['#submit'][] = 'ding_serendipity_frontpage_submit';
-}
-
-/**
- * Submit handler for ding serendipity frontpage options.
- */
-function ding_serendipity_frontpage_submit($form, $form_state) {
-  variable_set('ding_frontpage_serendipity', $form_state['values']['ding_frontpage_serendipity']);
-}
-
-/**
  * AJAX command to place HTML within the serendipity.
  *
  * @param array $context
@@ -146,7 +121,10 @@ function ding_serendipity_ajax_callback() {
     $tmp[] = $item;
   }
 
-  $rendered_content = theme('ting_carousel', array('objects' => $tmp));
+  $rendered_content = theme('ting_carousel', array(
+    'items' => $tmp,
+    'item_type' => 'items',
+  ));
   $commands = array();
   $commands[] = ajax_command_html('.pane-serendipity-ting-object .pane-content', $rendered_content);
 
@@ -379,7 +357,6 @@ function ding_serendipity_fetch(array $context = NULL) {
   return $results;
 }
 
-
 /**
  * Remove invalid materials from keys.
  *
@@ -453,7 +430,7 @@ function ding_serendipity_user_audience($account = NULL) {
   $ids = array();
   $result = FALSE;
 
-  if (FALSE && ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)) {
+  if (ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)) {
     $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $account);
 
     if (!empty($list)) {
@@ -468,7 +445,7 @@ function ding_serendipity_user_audience($account = NULL) {
       }
     }
   }
-  else {
+  elseif (ding_user_is_provider_user($account)) {
     foreach (ding_provider_invoke('loan', 'list', $account) as $loan) {
       $ids[] = $loan->ding_entity_id;
     }
@@ -539,19 +516,24 @@ function ding_serendipity_get_existing_list_materials($account = NULL) {
   // Exclude the remember list, so the user can be reminded.
   $list_types = array_diff($list_types, array(DING_LIST_TYPE_REMEMBER));
 
-  $elements = array();
-  foreach (ding_list_get_lists($list_types, $account) as $list) {
-    $elements[] = ding_base_get_items('ding_type', $list, 'field_list_objects');
-  }
-  // Flatten the array.
-  $elements = call_user_func_array('array_merge', $elements);
-  foreach ($elements as &$element) {
-    $element = $element['target_id'];
-  }
+  $lists = ding_list_get_lists($list_types, $account);
+  if ($lists !== FALSE) {
+    $elements = array();
 
-  // Load all the elements and their ids.
-  foreach (entity_load('ding_type', $elements) as $element) {
-    $ids[] = ding_base_get_value('ding_type', $element, 'field_value');
+    foreach ($lists as $list) {
+      $elements[] = ding_base_get_items('ding_type', $list, 'field_list_objects');
+    }
+
+    // Flatten the array.
+    $elements = call_user_func_array('array_merge', $elements);
+    foreach ($elements as &$element) {
+      $element = $element['target_id'];
+    }
+
+    // Load all the elements and their ids.
+    foreach (entity_load('ding_type', $elements) as $element) {
+      $ids[] = ding_base_get_value('ding_type', $element, 'field_value');
+    }
   }
 
   if (variable_get('ding_serendipity_enable_cache', FALSE)) {
@@ -593,7 +575,7 @@ function ding_serendipity_entity_presave($entity, $type) {
  * @return bool
  *   Return TRUE if all the values in the keys array are present in the array.
  */
-function ding_serendipity_access($context = array(), $keys = array()) {
+function ding_serendipity_access(array $context = array(), array $keys = array()) {
   $result = array_intersect(array_keys($context), $keys);
   return (!empty($result) && count($result) == count($keys));
 }
@@ -665,7 +647,7 @@ function ding_serendipity_render(array $context = NULL) {
 
   // Fill in the default options.
   $context += array(
-    'view_mode' => 'full',
+    'view_mode' => 'teaser',
     'sort_weight' => FALSE,
     'max' => 0,
     'min' => 0,
@@ -948,7 +930,7 @@ function ding_serendipity_entity_view($entity, $type, $view_mode, $langcode) {
  *    - limit: Max number of items.
  *    - shuffle: Randomize the items.
  */
-function ding_serendipity_do_search($query, $options = array()) {
+function ding_serendipity_do_search($query, array $options = array()) {
   $results = array();
   // Fill in the default options.
   $options += array(
@@ -1041,12 +1023,14 @@ function ding_serendipity_form_base($form_state) {
   $view_modes = array_combine($view_modes, $view_modes);
 
   $form = array();
+
   $form['view_mode'] = array(
     '#type' => 'select',
     '#title' => t('Selected'),
     '#options' => $view_modes,
-    '#default_value' => (isset($form_state['conf']['view_mode'])) ? $form_state['conf']['view_mode'] : 'full',
+    '#default_value' => (isset($form_state['conf']['view_mode'])) ? $form_state['conf']['view_mode'] : 'teaser',
     '#description' => t('Select the view mode which the content will display with.'),
+    '#access' => user_access('administer serendipity panes'),
   );
 
   $form['sort_weight'] = array(
@@ -1086,7 +1070,6 @@ function ding_serendipity_form_base($form_state) {
  * Add plugin key selection to forms.
  */
 function ding_serendipity_form_base_keys($form_state) {
-
   $form = array();
 
   // Let the user pick specific plugin keys for the serendipity panel.
@@ -1105,8 +1088,9 @@ function ding_serendipity_form_base_keys($form_state) {
     '#title' => t('Selected'),
     '#options' => array_unique($options),
     '#multiple' => TRUE,
-    '#default_value' => $form_state['conf']['selected_keys'],
+    '#default_value' => !empty($form_state['conf']['selected_keys']) ? $form_state['conf']['selected_keys'] : array('ting_object' => TRUE, 'frontpage' => TRUE),
     '#description' => t('Select any additional keys which apply to the serendipity display you wish to present.'),
+    '#access' => user_access('administer serendipity panes'),
   );
 
   return $form;
@@ -1131,7 +1115,7 @@ function ding_serendipity_form_base_submit(&$form_state) {
  * @param mixed $excludes
  *   Array or id of material(s) to exclude.
  */
-function ding_serendipity_exclude(&$list, $excludes) {
+function ding_serendipity_exclude(array &$list, $excludes) {
   if (empty($excludes)) {
     return;
   }
@@ -1181,4 +1165,15 @@ function ding_serendipity_test_cql_callback($form, &$form_state) {
   }
 
   return '<div id="test-cql-container">' . drupal_render($list) . '</div>';
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_serendipity_permission() {
+  return array(
+    'administer serendipity panes' => array(
+      'title' => t('Administer serendipity panes'),
+    ),
+  );
 }

@@ -231,7 +231,21 @@ function fbs_field_property_callback(&$info, $entity_type, $field, $instance, $f
   else {
     $property['getter callback'] = 'fbs_field_metadata_get';
   }
-  unset($property['setter callback']);
+
+  switch ($name) {
+    case 'field_fbs_preferred_branch':
+      $property['setter callback'] = 'fbs_field_metadata_set';
+      break;
+
+    case 'field_fbs_on_hold':
+      $property['setter callback'] = 'entity_metadata_field_verbatim_set';
+      break;
+
+    default:
+      unset($property['setter callback']);
+      break;
+  }
+  
   unset($property['query callback']);
 }
 
@@ -245,6 +259,16 @@ function fbs_field_metadata_get($entity, array $options, $name, $entity_type, &$
     return $val['value'];
   }
   return NULL;
+}
+
+/**
+ * Callback to set the value of a field.
+ */
+function fbs_field_metadata_set($entity, $name, $items, $langcode, $entity_type) {
+  if (!isset($items['value'])) {
+    $items = array('value' => $items);
+  }
+  entity_metadata_field_verbatim_set($entity, $name, $items, $langcode, $entity_type);
 }
 
 /**

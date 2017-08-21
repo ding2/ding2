@@ -113,11 +113,7 @@ function ding_serendipity_admin_overview($form, &$form_state) {
     if (isset($value['settings']) && $value['settings']) {
       $settings = $value['settings'];
       $form['ding_serendipity_callbacks']['#options'][$key]['settings'] = array(
-        'data' => l(
-          t('Settings'),
-          'admin/config/ding/serendipity/key_overview/' . $settings,
-          array('query' => array('destination' => 'admin/config/ding/serendipity/key_overview'))
-        ),
+        'data' => $settings,
       );
     }
   }
@@ -158,8 +154,8 @@ function ding_serendipity_process_options($element) {
           $title = '';
           if (!empty($element['#options'][$key]['title']['data']['#title'])) {
             $title = t('Update @title', array(
-                '@title' => $element['#options'][$key]['title']['data']['#title'],
-              ));
+              '@title' => $element['#options'][$key]['title']['data']['#title'],
+            ));
           }
           $element[$key] = array(
             '#type' => 'checkbox',

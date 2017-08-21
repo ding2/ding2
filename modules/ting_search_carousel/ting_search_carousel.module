@@ -224,12 +224,12 @@ function ting_search_carousel_get_covers($query, $start, $count, $query_only = F
       if ($cache = cache_get("ting_search_carousel_search_" . $query_id)) {
         if (isset($cache->data)) {
           $cache_data = $cache->data;
+          return _ting_search_carousel_get_slice($cache_data, $start, $count);
         }
       }
-      return _ting_search_carousel_get_slice($cache_data, $start, $count);
     }
 
-    while (count($cache_data['pool'] < $start + $count) &&
+    while (count($cache_data['pool']) < $start + $count &&
       !$cache_data['finished']) {
       $ignore_ids = $cache_data['all_ids'];
 
@@ -259,7 +259,7 @@ function ting_search_carousel_get_covers($query, $start, $count, $query_only = F
 function _ting_search_carousel_get_slice($cache_data, $start, $count) {
   $pool_size = count($cache_data['pool']);
   // All inside our already collected data.
-  if (($start + $count) < $pool_size) {
+  if (($start + $count) <= $pool_size) {
     return array(
       'collections' => array_slice($cache_data['pool'], $start, $count),
       'next_offset' => $start + $count,

@@ -1,0 +1,56 @@
+//
+// Styling of serendipity
+
+@import '../base.scss';
+
+// On ting full
+.ting-object.view-mode-full {
+  .group-rating {
+    float: left;
+    width: 100%;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid $charcoal-opacity-light;
+  }
+}
+
+// On ting teaser
+.ting-object.view-mode-teaser {
+  > .inner {
+    .group-rating {
+      padding: 0 20px;
+      margin-top: 10px;
+      opacity: 0;
+      color: $white;
+    }
+    .no-touch & {
+      &:hover {
+        .group-rating {
+          @include transition(opacity $speed 0.7s $ease);
+          opacity: 1;
+        }
+      }
+    }
+  }
+  .field-name-ding-serendipity-info {
+    margin-top: 10px;
+    .field-label {
+      display: none;
+    }
+  }
+}
+
+// On search result
+.ting-object.view-mode-search-result {
+  .group-rating {
+    width: 100%;
+    float: left;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid $charcoal-opacity-light;
+
+    @include media($mobile) {
+      padding-top: 10px;
+    }
+  }
+}

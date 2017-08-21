@@ -6,39 +6,6 @@
  */
 
 /**
- * Implements hook_admin_settings_alter().
- */
-function ding_serendipity_lists_form_ding_frontpage_admin_settings_alter(&$form, &$form_state, $form_id) {
-  $form['ding_serendipity_lists'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Ding serendipity lists front page settings'),
-    '#weight' => 5,
-    '#collapsible' => FALSE,
-    '#collapsed' => FALSE,
-  );
-
-  // Default CQL for frontpage serendipity in case everything else fails.
-  $form['ding_serendipity_lists']['ding_frontpage_serendipity_search_string'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Front page serendipity fallback search string'),
-    '#default_value' => variable_get('ding_frontpage_serendipity_search_string', ''),
-    '#size' => 160,
-    '#maxlength' => 300,
-  );
-
-  $form['ding_serendipity_lists']['test_cql'] = array(
-    '#type' => 'button',
-    '#value' => t('Test CQL'),
-    '#ajax' => array(
-      'wrapper' => 'test-cql-container',
-      'callback' => 'ding_serendipity_test_cql_callback',
-    ),
-    '#suffix' => '<div id="test-cql-container"></div>',
-    '#cql_element' => 'ding_frontpage_serendipity_search_string',
-  );
-}
-
-/**
  * Implements hook_serendipity_info().
  */
 function ding_serendipity_lists_serendipity_info() {
@@ -46,14 +13,14 @@ function ding_serendipity_lists_serendipity_info() {
 
   if (ding_provider_implements('openlist', 'call_module')) {
     $items['ting_objects_adhr'] = array(
-      'title' => 'Ting objects via openlist ADHR service',
-      'description' => 'Call ADHR service on the current object',
+      'title' => t('Ting objects via openlist ADHR service.'),
+      'description' => t('Call ADHR service on the current object to find related high rated materials.'),
       'keys' => array('ting_object', 'frontpage'),
     );
 
     $items['ting_objects_adhl'] = array(
-      'title' => 'Ting objects via openlist ADHL service',
-      'description' => 'Call ADHL service on the current object',
+      'title' => t('Ting objects via openlist ADHL service.'),
+      'description' => t('Call ADHL service on the current object to find related materials others have loaned.'),
       'keys' => array('ting_object', 'frontpage'),
     );
   }
@@ -61,8 +28,9 @@ function ding_serendipity_lists_serendipity_info() {
   $items += array(
     'frontpage_search' => array(
       'title' => t('Front page fallback content'),
-      'description' => t('Allow the library admin to enter a search string which pulls materials to be pushed to the front page.'),
+      'description' => t('Allow the library admin to enter a search string which pulls materials to be pushed to the serendipity box on the front page.'),
       'keys' => array('ting_object', 'frontpage'),
+      'settings' => l(t('Set the frontpage serendipity CQL'), '/admin/config/ding/serendipity/key_overview/ding_serendipity_lists_frontpage_search_settings'),
     ),
     'loan_adhl' => array(
       'title' => t('ADHL on random loan items'),
@@ -71,7 +39,7 @@ function ding_serendipity_lists_serendipity_info() {
     ),
     'author_from_lists' => array(
       'title' => t('Objects matching random author from lists'),
-      'description' => t('Objects matching random author from lists.'),
+      'description' => t('Find materials with same author as a random recent material from the user lists.'),
       'keys' => array('ting_object', 'frontpage'),
     ),
   );
@@ -250,7 +218,7 @@ function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
  */
 function ding_serendipity_lists_frontpage_search_serendipity_add($context) {
   $results = array();
-  if ($query = variable_get('ding_frontpage_serendipity_search_string', '')) {
+  if ($query = variable_get('ding_serendipity_lists_frontpage_search_string', '')) {
     // Fetch search results.
     $results = ding_serendipity_do_search($query);
     if ($results) {
@@ -263,6 +231,34 @@ function ding_serendipity_lists_frontpage_search_serendipity_add($context) {
     }
   }
   return $results;
+}
+
+/**
+ * Add settings for the adhl callback to the serendipity info array.
+ */
+function ding_serendipity_lists_frontpage_search_settings() {
+  $form = array();
+
+  $form['ding_serendipity_lists_frontpage_search_string'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Front page serendipity fallback search string'),
+    '#default_value' => variable_get('ding_serendipity_lists_frontpage_search_string', ''),
+    '#size' => 160,
+    '#maxlength' => 300,
+  );
+
+  $form['test_cql'] = array(
+    '#type' => 'button',
+    '#value' => t('Test CQL'),
+    '#ajax' => array(
+      'wrapper' => 'test-cql-container',
+      'callback' => 'ding_serendipity_test_cql_callback',
+    ),
+    '#suffix' => '<div id="test-cql-container"></div>',
+    '#cql_element' => 'ding_serendipity_lists_frontpage_search_string',
+  );
+
+  return system_settings_form($form);
 }
 
 /**
@@ -383,8 +379,8 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
 
     // Limit to same language to reduce signal to noise.
     $lang = $ting_entity->getLanguage();
-    if (!empty($lang)) {
-      $query = "(" . $query . ") AND facet.language=" . $ting_entity->getLanguage();
+    if (!empty($lang) && $lang != "Flere sprog") {
+      $query = '(' . $query . ') AND facet.language="' . $ting_entity->getLanguage() . '"';
     }
 
     // Fetch search results.

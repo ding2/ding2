@@ -35,4 +35,14 @@
     $(this).removeClass('ding-ipe-popup-top');
     $('.ipe-trigger').removeClass('active');
   });
+
+  Drupal.behaviors.ding_ipe_filter = {
+    attach: function(context) {
+      // Close modal window on cancel button click.
+      $('#edit-cancel', context).on('click', function() {
+        Drupal.CTools.Modal.dismiss();
+        return false;
+      });
+    }
+  };
 })(jQuery);

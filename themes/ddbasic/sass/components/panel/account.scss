@@ -1,0 +1,233 @@
+//
+// Styling of user account elements
+
+@import '../../base.scss';
+
+// ==========================================================================
+// User material item
+// ==========================================================================
+
+.default-account-panel-layout {
+  position: relative;
+  width: 100%;
+  float: left;
+  margin-bottom: 30px;
+
+  .title-container {
+    float: left;
+    width: 100%;
+
+    h2.pane-title {
+      float: left;
+      padding-right: 184px;
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+      }
+    }
+  }
+
+  .pane-content {
+    clear: both;
+    
+    > form {
+      position: relative;
+      float: left;
+      width: 100%;
+    }
+  }
+
+  .actions-container {
+    position: absolute;
+    top: 0;
+    z-index: $z-above;
+    padding: 10px;
+    background-color: $grey-dark;
+
+    &.is-bottom {
+      top: auto;
+      bottom: 0;
+    }
+
+    &.is-fixed {
+      position: fixed;
+    }
+
+    // Mobile
+    @include media($mobile) {
+      @include clearfix;
+      position: relative;
+    }
+
+    .form-item {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+
+      @include transform(translateY(-50%));
+
+      // Mobile
+      @include media($mobile) {
+        position: static;
+
+        @include transform(translateY(0%));
+      }
+
+      label {
+        color: $white;
+      }
+    }
+
+    .action-buttons {
+      width: 100%;
+      padding-left: 180px;
+
+      // Tablet
+      @include media($tablet) {
+        padding-left: 130px;
+      }
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        float: left;
+      }
+      .action-button {
+        @include span-columns(6);
+        padding: 0;
+        &:nth-child(2) {
+          margin-right: 0;
+        }
+        &:nth-child(3) {
+          margin-top: 10px;
+        }
+
+        @include media($mobile) {
+          width: 100%;
+          margin-bottom: 10px;
+          &:nth-child(3) {
+            margin-top: 0;
+          }
+        }
+        &.action-all {
+          a {
+            @include font('base');
+            @include transition(background-color $speed $ease, color $speed $ease);
+            display: block;
+            width: 100%;
+            height: $element-height;
+            padding: 23px 15px 18px;
+            border: none;
+            border-radius: $round-corner;
+            color: $charcoal-opacity-dark;
+            background-color: lighten($grey-dark, 5%);
+            line-height: 1em;
+            text-align: left;
+            cursor: pointer;
+            .no-touch & {
+              &:hover {
+                color: $white;
+              }
+            }
+          }
+        }
+        &.renew-all {
+          a {
+            color: white;
+            background-color: $green;
+            .no-touch & {
+              &:hover {
+                background-color: $green;
+              }
+            }
+          }
+        }
+        &.delete-all {
+          a {
+            color: white;
+            background-color: $red;
+            .no-touch & {
+              &:hover {
+                background-color: $red;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .select-all {
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        float: left;
+      }
+    }
+  }
+  .action-buttons {
+    @include clearfix;
+
+    .action-button {
+      background: none;
+      &.delete-reservations,
+      &.delete-bookmarks {
+        input {
+          background-color: $red;
+          color: $white;
+          &:disabled {
+            background-color: $grey-medium;
+            color: $charcoal-opacity-dark;
+          }
+        }
+      }
+
+      &.update-reservations,
+      &.renew-loan-button {
+        padding: 0;
+        input {
+          background-color: $green;
+          color: $white;
+          &:disabled {
+            background-color: $grey-medium;
+            color: $charcoal-opacity-dark;
+          }
+        }
+      }
+    }
+  }
+}
+
+.pane-bookmarks {
+  .delete-bookmarks.action-button {
+    padding-left: 0;
+    input {
+      padding-right: 80px;
+    }
+  }
+}
+
+.pane-import {
+  .form-item-CSV {
+    @include span-columns(6);
+
+    @include media($mobile) {
+      width: 100%;
+    }
+  }
+  input[type="submit"] {
+    float: left;
+    clear: left;
+    width: auto;
+    padding-right: 80px;
+  }
+}
+
+//Dont display print button on second panel.pane-reservations
+.pane-reservations + .pane-reservations {
+  .title-container {
+    a.print-button {
+      display: none;
+    }
+  }
+}

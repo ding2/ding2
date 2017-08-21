@@ -115,7 +115,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         // If item is of type 'library materials' (where we can lookup holding
         // data), prepare to check holding on the item.
         $holding_types = variable_get('ding_availability_holdings_types', _ding_availability_holdings_default_types());
-        if (in_array(strtolower($ac_source), $reservable_sources) && in_array(strtolower($entity->type), $holding_types)) {
+        if (in_array(drupal_strtolower($ac_source), $reservable_sources) && in_array(drupal_strtolower($entity->type), $holding_types)) {
           $attached['js'][] = array(
             'data' => array(
               'ding_availability_mode' => 'holdings',
@@ -280,7 +280,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           // If item is of type 'library materials' (where we can lookup
           // availability data), map the HTML id to the list of entity ids.
           // This is for the current material type group (book, cd, etc.).
-          if (in_array(strtolower($ac_source), $reservable_sources) && !in_array(drupal_strtolower($type), $online_types)) {
+          if (in_array(drupal_strtolower($ac_source), $reservable_sources) && !in_array(drupal_strtolower($type), $online_types)) {
             $id_mapping[$id] = array();
             foreach ($entities as $object_entity) {
               $id_mapping[$id][] = $object_entity->localId;

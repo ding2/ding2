@@ -215,19 +215,12 @@ function ding_staff_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'hidden',
-        'module' => 'cs_adaptive_image',
+        'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'styles' => array(
-            'breakpoint_1' => 768,
-            'breakpoint_2' => 500,
-            'fallback_style' => 'ding_list_large',
-            'max_style' => 'ding_list_large',
-            'style_1' => 'ding_list_medium',
-            'style_2' => 'ding_list_small',
-          ),
+          'image_style' => 'ding_panorama_list_large',
         ),
-        'type' => 'cs_adaptive_image',
+        'type' => 'image',
         'weight' => 3,
       ),
       'token' => array(
@@ -262,6 +255,8 @@ function ding_staff_field_default_field_instances() {
       'settings' => array(
         'allowed_schemes' => array(
           'public' => 'public',
+          'vimeo' => 0,
+          'youtube' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -273,21 +268,23 @@ function ding_staff_field_default_field_instances() {
           'ding_content' => 0,
           'media_default--media_browser_1' => 0,
           'media_default--media_browser_my_files' => 0,
+          'media_internet' => 0,
           'upload' => 0,
         ),
-        'manualcrop_crop_info' => TRUE,
-        'manualcrop_default_crop_area' => TRUE,
-        'manualcrop_enable' => FALSE,
-        'manualcrop_inline_crop' => FALSE,
+        'manualcrop_crop_info' => 1,
+        'manualcrop_default_crop_area' => 1,
+        'manualcrop_enable' => 1,
+        'manualcrop_inline_crop' => 0,
         'manualcrop_instant_crop' => FALSE,
-        'manualcrop_instant_preview' => TRUE,
-        'manualcrop_keyboard' => TRUE,
-        'manualcrop_maximize_default_crop_area' => FALSE,
+        'manualcrop_instant_preview' => 1,
+        'manualcrop_keyboard' => 1,
+        'manualcrop_maximize_default_crop_area' => 0,
         'manualcrop_require_cropping' => array(),
-        'manualcrop_styles_list' => array(),
+        'manualcrop_styles_list' => array(
+          'crop_16_9' => 'crop_16_9',
+        ),
         'manualcrop_styles_mode' => 'include',
-        'manualcrop_thumblist' => FALSE,
-        'progress_indicator' => 'throbber',
+        'manualcrop_thumblist' => 0,
       ),
       'type' => 'media_generic',
       'weight' => 1,
@@ -481,7 +478,7 @@ function ding_staff_field_default_field_instances() {
     'description' => 'Select the libraries this content should be associated with.',
     'display' => array(
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'entityreference',
         'settings' => array(
           'link' => 1,

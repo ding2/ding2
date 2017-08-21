@@ -1,0 +1,377 @@
+//
+// Styling of form elements.
+// Styling in this file should not be context-sensitive.
+
+@import '../base.scss';
+
+// Form
+//
+// Styleguide 1.2
+
+// ==========================================================================
+// General
+// ==========================================================================
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 25px 0;
+
+  &.collapsible {
+    overflow: hidden;
+    padding: 28px 0 26px;
+
+    .fieldset-legend {
+      html .content-wrapper & { // System module sets padding and background for this, which we need to overwrite - hence the extra nesting
+        padding-left: 0;
+        background: none;
+      }
+
+      a {
+        color: $black;
+      }
+    }
+
+    legend {
+      margin-bottom: 20px;
+      .summary {
+        margin: 0;
+      }
+    }
+
+    .fieldset-title {
+      @include arrow-button(arrow-up);
+      &::after {
+        right: 0;
+        top: 10px;
+        background-color: $grey-dark;
+        color: $white-opacity-dark;
+      }
+    }
+
+    // Collapsed
+    &.collapsed {
+      html & { // System module sets a height for this, which we need to overwrite - hence the extra nesting
+        height: 75px;
+      }
+      .fieldset-title {
+        &::after {
+          content: "\e901";
+          background-color: $grey;
+          color: $charcoal-opacity-dark;
+        }
+        &:hover {
+          &::after {
+            background-color: $grey-dark;
+            color: $white-opacity-dark;
+          }
+        }
+      }
+    }
+  }
+
+  .fieldset-wrapper {
+    float: left;
+  }
+}
+
+legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+
+  @include font('display-small');
+  margin-bottom: 10px;
+}
+
+.form-item {
+  margin: 0 0 20px;
+  .count {
+    color: $charcoal-opacity-dark;
+  }
+}
+
+// ==========================================================================
+// Input type text and password
+// ==========================================================================
+
+// Input type text and password
+//
+// Markup:
+// <input placeholder="Input type text" type="text"></br></br>
+// <input placeholder="Input type password" type="password">
+//
+// Styleguide 1.2.1
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  @include placeholder {
+    @include font('base');
+    line-height: 1em;
+  }
+
+  @include font('base');
+  width: 100%;
+  height: $element-height;
+  padding: 23px 15px 18px;
+  border: none;
+  border-radius: $round-corner;
+  line-height: 1em;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 10px $grey-medium;
+  }
+}
+
+// ==========================================================================
+// Textarea
+// ==========================================================================
+
+// Textarea
+//
+// Markup:
+// <div class="resizable-textarea">
+//  <textarea></textarea>
+//  <div class="grippie"></div>
+// </div>
+//
+// Styleguide 1.2.2
+
+textarea {
+  @include font('base');
+  padding: 23px 15px 18px;
+  border: none;
+  border-radius: $round-corner;
+  background-color: $white;
+}
+
+.resizable-textarea .grippie {
+  background-color: $grey;
+  border: none;
+}
+
+// ==========================================================================
+// Checkbox and radiobutton
+// ==========================================================================
+
+input[type="checkbox"],
+input[type="radio"] {
+  display: none;
+  & + label {
+    display: block;
+    padding: 7px 0 1px 42px;
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 28px;
+      height: 28px;
+      margin: 0 10px 5px 0;
+      background-color: $grey;
+    }
+  }
+}
+
+.form-checkboxes,
+.form-radios {
+  .form-item {
+    margin-top: 0;
+    margin-bottom: 15px;
+    width: 100%;
+    float: left;
+  }
+}
+
+// Checkbox
+//
+// :checked   - When checkbox is checked
+//
+// Markup:
+// <input type="checkbox" class="{{modifier_class}}">
+// <label>Label</label>
+//
+// Styleguide 1.2.3
+
+input[type="checkbox"] {
+  & + label {
+    &::before {
+      border-radius: $round-corner;
+    }
+  }
+  &:checked {
+    & + label {
+      @include place-icon(check, $color-text-on-primary, 28px);
+      &::after {
+        left: 0;
+      }
+      &::before {
+        background-color: $color-primary;
+      }
+    }
+  }
+}
+
+// Radiobutton
+//
+// :checked   - When radiobutton is selected
+//
+// Markup:
+// <input type="radio" class="{{modifier_class}}">
+// <label>Label</label>
+//
+// Styleguide 1.2.4
+
+input[type="radio"] {
+  & + label {
+    &::before {
+      border-radius: 50%;
+    }
+    &::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      background-color: $white;
+    }
+  }
+  &:checked {
+    & + label {
+      &::after {
+        background-color: $color-primary;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Select list
+// ==========================================================================
+
+// In order to hide the default select list button in all browsers we need to wrap all select lists in a div.
+// We can then hide the button by making the select list wider than its wrapper. And then place our own button.
+
+// Select list
+//
+// A select list needs to be wrapped in a div with the class "form-type-select" to be styled correct
+//
+// Markup:
+// <div class="form-type-select">
+//  <div class="select-wrapper">
+//    <select>
+//      <option>Option</option>
+//      <option>Option</option>
+//    </select>
+//  </div>
+// </div>
+//
+// Styleguide 1.2.5
+
+.select-wrapper {
+  position: relative;
+  overflow: hidden;
+  height: $element-height;
+  background-color: $white;
+  border: 1px solid $grey;
+  border-radius: $round-corner;
+
+  @include place-icon(arrow-down-small, $charcoal-opacity-dark);
+  &::after {
+    right: 0;
+  }
+  &::before {
+    content: '';
+    display: block;
+    background-color: $grey;
+    background-repeat: no-repeat;
+    background-position: right 4px center;
+    width: $element-height;
+    height: $element-height;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.select-wrapper-multiple {
+  height: auto;
+  &::before,
+  &::after {
+    display: none;
+  }
+}
+
+select {
+  @include font('base');
+  position: absolute;
+  z-index: $z-below;
+  width: 110%;
+  height: 52px;
+  -webkit-appearance: none;
+  border-radius: 0;
+  padding: 20px 30% 12px 10px;
+  border: none;
+  background-color: transparent;
+  &:focus {
+    outline: none;
+  }
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+select[multiple="multiple"] {
+  position: static;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  option {
+    padding: 3px 5px;
+  }
+}
+
+// ==========================================================================
+// Submit & form action
+// ==========================================================================
+
+.form-actions {
+  margin: 0;
+}
+
+// Submit
+//
+// :hover   - Hover styling
+//
+// Markup:
+// <input type="submit" value="Submit" class="{{modifier_class}}">
+//
+// Styleguide 1.2.6
+
+input[type="submit"] {
+  @include appearance(none);
+  @include font('base');
+  @include transition(background-color $speed $ease);
+  display: block;
+  width: 100%;
+  height: $element-height;
+  padding: 20px 15px 14px;
+  border: none;
+  border-radius: $round-corner;
+  color: $white;
+  background-color: $charcoal;
+  line-height: 1em;
+  text-align: left;
+  cursor: pointer;
+  &:hover {
+    background-color: $grey-dark;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 10px $grey-medium;
+  }
+}

@@ -34,12 +34,6 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['style_options']['class'] = 'list';
   $handler->display->display_options['style_options']['wrapper_class'] = 'search-results';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* No results behavior: Global: Unfiltered text */
-  $handler->display->display_options['empty']['area_text_custom']['id'] = 'area_text_custom';
-  $handler->display->display_options['empty']['area_text_custom']['table'] = 'views';
-  $handler->display->display_options['empty']['area_text_custom']['field'] = 'area_text_custom';
-  $handler->display->display_options['empty']['area_text_custom']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area_text_custom']['content'] = '<span>No items found in your search.</span>';
   /* Field: Indexed Multiple types: Node */
   $handler->display->display_options['fields']['node']['id'] = 'node';
   $handler->display->display_options['fields']['node']['table'] = 'search_api_index_default_multiple_index';
@@ -97,7 +91,6 @@ function ding_frontend_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
-    t('<span>No items found in your search.</span>'),
     t('All'),
     t('Content pane'),
     t('View panes'),
@@ -124,34 +117,16 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'input_required';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Udfør';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Stigende';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Faldende';
   $handler->display->display_options['exposed_form']['options']['text_input_required'] = 'No results found';
   $handler->display->display_options['exposed_form']['options']['text_input_required_format'] = 'ding_wysiwyg';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Antal elementer';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« første';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
   $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['row_class'] = 'list-item search-result';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
   $handler->display->display_options['style_options']['row_class_special'] = FALSE;
-  $handler->display->display_options['style_options']['class'] = 'list floated';
-  $handler->display->display_options['style_options']['wrapper_class'] = 'search-results';
+  $handler->display->display_options['style_options']['class'] = 'search-result';
   $handler->display->display_options['row_plugin'] = 'node';
   $handler->display->display_options['row_options']['view_mode'] = 'search_result';
-  $handler->display->display_options['row_options']['links'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -169,7 +144,7 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['arguments']['keys']['table'] = 'search_index';
   $handler->display->display_options['arguments']['keys']['field'] = 'keys';
   $handler->display->display_options['arguments']['keys']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['keys']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['keys']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['keys']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['keys']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['keys']['summary']['format'] = 'default_summary';
@@ -188,6 +163,7 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['filters']['type']['operator'] = 'not in';
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_campaign' => 'ding_campaign',
+    'new_materials' => 'new_materials',
     'panel' => 'panel',
     'ding_rolltab' => 'ding_rolltab',
   );
@@ -198,20 +174,20 @@ function ding_frontend_views_default_views() {
     t('Master'),
     t('Ding node search'),
     t('mere'),
-    t('Udfør'),
-    t('Gendan'),
-    t('Sortér efter'),
-    t('Stigende'),
-    t('Faldende'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
     t('No results found'),
-    t('Antal elementer'),
-    t('- Alle -'),
-    t('Forskydning'),
-    t('« første'),
-    t('‹ forrige'),
-    t('næste ›'),
-    t('sidste »'),
-    t('Alle'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('All'),
     t('Content pane'),
     t('more'),
     t('View panes'),

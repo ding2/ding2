@@ -1,0 +1,106 @@
+//
+// Styling of p2 views
+
+@import '../base.scss';
+
+// ==========================================================================
+// Draggable views
+// ==========================================================================
+tr.draggable {
+  td:first-child {
+    width: getColumn(1 of 8);
+  }
+  .element-hidden:first-child + td {
+    padding-left: 15px;
+  }
+  .tabledrag-handle {
+    width: 20px;
+    height: 20px;
+    margin-left: 0;
+    .handle {
+      position: relative;
+      background: none;
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      padding: 0;
+      &::before {
+        content: "\e917";
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-family: 'icomoon';
+        font-size: 20px;
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        color: $charcoal-opacity-dark;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// View ding list elements
+// ==========================================================================
+.view-ding-list-elements {
+  caption {
+    display: none;
+  }
+  .views-field-rendered-entity {
+    @include omega();
+    width: getColumn(7 of 8);
+    .list-element-title,
+    .ding-message-link,
+    .ding-type-ding-list {
+      @include span-columns(5 of 7);
+    }
+    .list-element-title,
+    .ding-message-link {
+      @include font('display-small');
+    }
+    .ding-type-ding-list {
+      h2 {
+        @include font('display-small');
+        margin-bottom: 0;
+      }
+    }
+    .ding-message {
+      @include span-columns(5 of 7);
+
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(5);
+      }
+
+      .ding-message-label {
+        float: left;
+        margin-top: 10px;
+        padding-right: 5px;
+        color: $charcoal-opacity-dark;
+      }
+      .entity-message {
+        float: left;
+        margin-top: 10px;
+      }
+    }
+    form {
+      @include span-columns(2 of 8);
+      @include omega();
+      float: right;
+      margin-right: 15px;
+      &:last-child {
+        margin-right: 15px;
+      }
+
+      // Mobile
+      @include media($mobile) {
+        width: auto;
+        margin-top: 10px;
+      }
+    }
+  }
+}

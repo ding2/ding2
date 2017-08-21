@@ -550,9 +550,23 @@ function ding_base_rewrite_color_stylesheet() {
 /**
  * Implements hook_field_widget_form_alter().
  */
-function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
-  // Our goal only image fields.
-  if (isset($element['#type']) && $element['#type'] == 'media') {
+function ding_base_field_widget_form_alter(&$elements, &$form_state, $context) {
+  // Add help text describing resizing/cropping to image fields.
+  $description = NULL;
+
+  // First extract all indexes of image fields.
+  $image_indexes = array_filter(element_children($elements),
+    function($i) use ($elements) {
+      return isset($elements[$i]['#type']) && $elements[$i]['#type'] == 'media';
+    }
+  );
+
+  foreach ($elements as $i => &$element) {
+    // Skip non-image elements.
+    if (!in_array($i, $image_indexes)) {
+      continue;
+    }
+
     $display = NULL;
     $displays = $context['instance']['display'];
     // By default we trying to get default display.
@@ -592,13 +606,17 @@ function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
           $i =  "{$i}px {$k}";
         });
 
-        $text = t("The image will automatically be resized. The maximum dimensions are %dimensions (Original: {$original_sample['width']}x{$original_sample['height']}).", array(
+        $description = t("The image will automatically be resized. The maximum dimensions are %dimensions (Original: {$original_sample['width']}x{$original_sample['height']}).", array(
           '%dimensions' => implode(' and ', $dimensions),
         ));
-        $element['#suffix'] = '<div class="description">' . $text . '</div>';
       }
     }
   }
+
+  if (!empty($description)) {
+    $elements['#suffix'] = $description;
+  }
+
 }
 
 /**

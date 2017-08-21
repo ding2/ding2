@@ -12,7 +12,7 @@
  */
 function ting_search_admin_settings($form_state) {
   $form = array();
-  
+
   $display_message = 'Your search gave more than %s results. Try to search more specific or use the facets to filter the result.';
 
   $form['ting_search'] = array(
@@ -63,7 +63,7 @@ function ting_search_admin_settings($form_state) {
     '#markup' => t($display_message),
     '#description' => t('Message to display when search has more than x results. The token %s will be substituted by the number choosen.'),
   );
-  
+
   if ( t($display_message) != $display_message ) {
     $form['ting_search']['ting_search_result_message']['#description'] .= '<br/>' . t('Translated from: %n.', array('%n' => $display_message));
   }
@@ -73,6 +73,16 @@ function ting_search_admin_settings($form_state) {
     '#title' => t('Display message at'),
     '#default_value' => variable_get('ting_search_result_message_limit', 100),
     '#description' => t('The limit at wich the message is to be displayed.'),
+  );
+
+  $form['ting_search']['ting_search_form_style'] = array(
+    '#type' => 'select',
+    '#title' => t('Search form style'),
+    '#options' => array(
+      TING_SEARCH_FORM_STYLE_NORMAL => t('Normal'),
+      TING_SEARCH_FORM_STYLE_EXTENDED => t('Extended'),
+    ),
+    '#default_value' => variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL),
   );
 
   return system_settings_form($form);

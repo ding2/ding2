@@ -669,7 +669,7 @@ class AlmaClient {
           // successful. Even if this is not the case any error in the current
           // renewal is irrelevant as the loan has previously been renewed so
           // don't report it as such.
-          if ($message == 'isRenewedToday' || $renewable == 'yes' || ) {
+          if ($message == 'isRenewedToday' || $renewable == 'yes') {
             $reservations[$id] = TRUE;
           }
           // When renewalIsDenied marked as 'no' it is probably a ILL loan

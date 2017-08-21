@@ -36,7 +36,7 @@ function ding_reservation_ctools_plugin_directory($module, $plugin) {
 function ding_reservation_menu() {
   $items = array();
 
-  $items['user/%user/status/reservations/update/%/%'] = array(
+  $items['user/%user/status-reservations/update/%/%'] = array(
     'title' => 'Update reservations',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_reservation_update_reservations_form', 1, 5, 6),
@@ -44,7 +44,7 @@ function ding_reservation_menu() {
     'access arguments' => array(1),
   );
 
-  $items['user/%user/status/reservations/delete/%'] = array(
+  $items['user/%user/status-reservations/delete/%'] = array(
     'title' => 'Delete reservations',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_reservation_delete_reservations_form', 1, 5),
@@ -202,7 +202,7 @@ function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
         drupal_form_submit('ding_reservation_reserve_form', $form_state, $reservable);
 
         // Return any status messages set by the form.
-        $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'));
+        $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'), array('refresh' => !empty($form_state['reserved'])));
       }
     }
     catch (DingProviderAuthException $exception) {
@@ -462,8 +462,15 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
     '#tree' => TRUE,
   );
 
+  $form['actions_container'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('actions-container', 'js-actions-container-fixed'),
+    ),
+  );
+
   // Add title item.
-  $form['title'] = array(
+  $form['actions_container']['title'] = array(
     '#type' => 'checkbox',
     '#title' => check_plain(t($conf['reservation_title'])),
     '#prefix' => '<div class="select-all ' . drupal_html_id($type) . '">',
@@ -533,7 +540,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
               '#weight' => 8,
             ),
             'created' => array(
-              'label' => t('Created date'),
+              'label' => t('Reservation date'),
               'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_material_lists_date') : '',
               'class' => 'created-date',
               '#weight' => 16,
@@ -571,7 +578,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
               '#weight' => 8,
             ),
             'created' => array(
-              'label' => t('Created date'),
+              'label' => t('Reservation date'),
               'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_material_lists_date') : '',
               'class' => 'created-date',
               '#weight' => 16,
@@ -668,14 +675,14 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
   }
 
   // Add action buttons to the top of the form.
-  $form['actions_top'] = array(
+  $form['actions_container']['actions_top'] = array(
     '#prefix' => '<div class="action-buttons">',
     '#suffix' => '</div>',
     '#weight' => -20,
   );
 
   if ($able_to_delete) {
-    $form['actions_top']['delete'] = array(
+    $form['actions_container']['actions_top']['delete'] = array(
       '#prefix' => '<div class="delete-reservations action-button">',
       '#suffix' => '</div>',
       '#submit' => array('ding_reservation_deletes_form_submit'),
@@ -686,10 +693,18 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
         'wrapper' => 'ding-reservation-reservations-form',
       ),
     );
+
+    $form['actions_container']['actions_top']['delete_all'] = array(
+      '#type' => 'markup',
+      '#prefix' => '<div class="delete-all action-all action-button js-delete-all">',
+      '#markup' => '<a href="#">' . t('Delete all') . '</a>',
+      '#suffix' => '</div>',
+      '#weight' => 10,
+    );
   }
 
   if ($type == DING_RESERVATION_NOT_READY) {
-    $form['actions_top']['update'] = array(
+    $form['actions_container']['actions_top']['update'] = array(
       '#prefix' => '<div class="update-reservations action-button">',
       '#suffix' => '</div>',
       '#type' => 'submit',
@@ -779,7 +794,7 @@ function ding_reservation_deletes_form_submit($form, &$form_state) {
 
   // Save the encoded id's and redirect the form.
   $form_state['encoded_reservations'] = $ids;
-  $form_state['redirect'] = array('user/' . $user->uid . '/status/reservations/delete/' . $ids, array('query' => drupal_get_destination()));
+  $form_state['redirect'] = array('user/' . $user->uid . '/status-reservations/delete/' . $ids, array('query' => drupal_get_destination()));
 }
 
 /**
@@ -814,7 +829,7 @@ function ding_reservation_updates_form_submit($form, &$form_state) {
   // Save the encoded id's and redirect the form.
   $form_state['current_branch'] = $current_branch;
   $form_state['encoded_reservations'] = $ids;
-  $form_state['redirect'] = array('user/' . $user->uid . '/status/reservations/update/' . $ids . '/' . $current_branch, array('query' => drupal_get_destination()));
+  $form_state['redirect'] = array('user/' . $user->uid . '/status-reservations/update/' . $ids . '/' . $current_branch, array('query' => drupal_get_destination()));
 }
 
 /**
@@ -890,7 +905,7 @@ function ding_reservation_delete_reservations_form($form, $form_state, $account,
   $form['cancel'] = array(
     '#type' => 'link',
     '#title' => t('Cancel'),
-    '#href' => 'user/' . $user->uid . '/status/reservations',
+    '#href' => 'user/' . $user->uid . '/status-reservations',
     '#value' => t('Cancel'),
   );
 

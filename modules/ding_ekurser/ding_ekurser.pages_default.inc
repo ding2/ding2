@@ -93,6 +93,30 @@ function ding_ekurser_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
+    $pane->pid = 'new-ed098fce-39b8-40ce-b809-7510324be5f1';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'search_result_count';
+    $pane->subtype = 'search_result_count';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'context_string_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'ed098fce-39b8-40ce-b809-7510324be5f1';
+    $display->content['new-ed098fce-39b8-40ce-b809-7510324be5f1'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-ed098fce-39b8-40ce-b809-7510324be5f1';
+    $pane = new stdClass();
     $pane->pid = 'new-2df864ec-6d35-4606-a781-8d4194769c0e';
     $pane->panel = 'left_sidebar';
     $pane->type = 'ding_facetbrowser';
@@ -112,34 +136,11 @@ function ding_ekurser_default_page_manager_pages() {
       'css_class' => '',
     );
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = '2df864ec-6d35-4606-a781-8d4194769c0e';
     $display->content['new-2df864ec-6d35-4606-a781-8d4194769c0e'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-2df864ec-6d35-4606-a781-8d4194769c0e';
-    $pane = new stdClass();
-    $pane->pid = 'new-ed098fce-39b8-40ce-b809-7510324be5f1';
-    $pane->panel = 'main_content';
-    $pane->type = 'search_result_count';
-    $pane->subtype = 'search_result_count';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'context_string_1',
-      'override_title' => 1,
-      'override_title_text' => 'eKurser',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = 'ed098fce-39b8-40ce-b809-7510324be5f1';
-    $display->content['new-ed098fce-39b8-40ce-b809-7510324be5f1'] = $pane;
-    $display->panels['main_content'][0] = 'new-ed098fce-39b8-40ce-b809-7510324be5f1';
+    $display->panels['left_sidebar'][1] = 'new-2df864ec-6d35-4606-a781-8d4194769c0e';
     $pane = new stdClass();
     $pane->pid = 'new-5bbd8677-c1a7-4bf3-9cbe-6c225035c436';
     $pane->panel = 'main_content';
@@ -159,11 +160,11 @@ function ding_ekurser_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = array();
     $pane->uuid = '5bbd8677-c1a7-4bf3-9cbe-6c225035c436';
     $display->content['new-5bbd8677-c1a7-4bf3-9cbe-6c225035c436'] = $pane;
-    $display->panels['main_content'][1] = 'new-5bbd8677-c1a7-4bf3-9cbe-6c225035c436';
+    $display->panels['main_content'][0] = 'new-5bbd8677-c1a7-4bf3-9cbe-6c225035c436';
     $pane = new stdClass();
     $pane->pid = 'new-ed8b5608-564b-4412-b22b-803d31dc343e';
     $pane->panel = 'main_content';
@@ -184,11 +185,11 @@ function ding_ekurser_default_page_manager_pages() {
       'css_class' => '',
     );
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = 'ed8b5608-564b-4412-b22b-803d31dc343e';
     $display->content['new-ed8b5608-564b-4412-b22b-803d31dc343e'] = $pane;
-    $display->panels['main_content'][2] = 'new-ed8b5608-564b-4412-b22b-803d31dc343e';
+    $display->panels['main_content'][1] = 'new-ed8b5608-564b-4412-b22b-803d31dc343e';
     $pane = new stdClass();
     $pane->pid = 'new-e013e349-9789-486b-9c5a-01eb99184144';
     $pane->panel = 'main_content';
@@ -217,11 +218,11 @@ function ding_ekurser_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 2;
     $pane->locks = array();
     $pane->uuid = 'e013e349-9789-486b-9c5a-01eb99184144';
     $display->content['new-e013e349-9789-486b-9c5a-01eb99184144'] = $pane;
-    $display->panels['main_content'][3] = 'new-e013e349-9789-486b-9c5a-01eb99184144';
+    $display->panels['main_content'][2] = 'new-e013e349-9789-486b-9c5a-01eb99184144';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-ed098fce-39b8-40ce-b809-7510324be5f1';
   $handler->conf['display'] = $display;
