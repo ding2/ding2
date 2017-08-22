@@ -7,11 +7,13 @@
 namespace Ting;
 
 /**
- * TingPseudoObject  for situations where a partial objects needs to be created.
+ * Value Object implementation of a TingObjectInterface.
+ *
+ * Can be used to manually construct a TingObjectInterface compatible object.
  *
  * @package Ting
  */
-class TingPseudoObject implements TingObjectInterface {
+class TingObject implements TingObjectInterface {
 
   // TODO BBS-SAL: We run with public access for now as some legacy-code still
   // needs directly access, but should be changed to protected when SAL is done.
