@@ -3,6 +3,9 @@
 circle-setup:
 	# Build profile using drush make
 	drush make ding2.make --no-core --contrib-destination=. -y
+	# Build the root composer.json. It only references our deployment tool so we
+	# mainly install it to verify that the depedency can still be resolved.
+	composer install
 	# Install theme dependencies
 	cd themes/ddbasic && npm install
 	# Process theme files.
