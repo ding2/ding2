@@ -36,7 +36,7 @@ class OpenSearchTingObject implements TingObjectInterface {
   protected $dingId;
 
   /**
-   * @var string Ding specific ID for the object. Usually the entity id.
+   * @var string Id of the owner of the object, eg. the Agency.
    */
   protected $ownerId;
 
