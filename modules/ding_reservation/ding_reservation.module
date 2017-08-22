@@ -1025,7 +1025,7 @@ function ding_reservation_default_options_branch($name, $default, $options) {
     '#title' => t('Select branch'),
     '#options' => $options,
     '#required' => TRUE,
-    '#default_value' => !empty($default) ? $default : '',
+    '#default_value' => !empty($default) ? $default : NULL,
   );
 
   if (empty($default)) {
