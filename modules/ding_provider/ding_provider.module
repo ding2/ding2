@@ -581,6 +581,7 @@ function ding_provider_function($type, $hook, $quiet = FALSE) {
  *   Ting entity object based on the entity ID given.
  */
 function ding_provider_get_pseudo_entity($ding_entity_id) {
+  // TODO BBS-SAL: Can we get rid of this funtion all together?
   $local_id = drupal_substr($ding_entity_id, strpos($ding_entity_id, ':') + 1);
 
   // Build entity based on available information.
