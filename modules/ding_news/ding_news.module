@@ -158,33 +158,3 @@ function ding_news_views_pre_build(&$view) {
       break;
   }
 }
-
-/**
- * Implements hook_views_query_build().
- *
- * Move the 2 contextual tags conditions to an OR group.
- */
-function ding_news_views_query_alter(&$view, &$query) {
-  switch ($view->name . ' ' . $view->current_display) {
-    case 'ding_news ding_news_list_same_tag':
-      $or_conditions = array();
-      // Look for the 2 conditions, and remove them from their primary AND
-      // where group.
-      foreach ($query->where[0]['conditions'] as $key => $condition) {
-        if (
-          strpos($condition['field'], 'field_data_field_ding_news_tags.field_ding_news_tags_tid') === 0
-          || strpos($condition['field'], 'field_data_field_ding_event_tags.field_ding_event_tags_tid') === 0
-        ) {
-          $or_conditions[] = $condition;
-          unset($query->where[0]['conditions'][$key]);
-        }
-      }
-
-      // Add the conditions to a newly created OR group.
-      if ($or_conditions !== FALSE) {
-        $group_id = $query->set_where_group('OR');
-        $query->where[$group_id]['conditions'] = $or_conditions;
-      }
-      break;
-  }
-}
