@@ -77,6 +77,9 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
       // The isPartOfManifestion relation has all relation to other libraries
       // copies of the relation, so we filter the ones that do not belong to
       // current library.
+      // TODO BBS-SAL: Implement an isLocal() method on TingObjectInterface
+      // instead. The goal is to determine whether this material is local to the
+      // physical library.
       $owner_id = is_object($relation->object) ? $relation->object->getOwnerId() : NULL;
       if ($relation->type == 'isPartOfManifestation' && variable_get('ting_agency', -1) != $owner_id) {
         continue;

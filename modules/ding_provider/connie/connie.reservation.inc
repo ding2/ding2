@@ -74,7 +74,7 @@ function connie_reservation_list($account, $type = NULL) {
 /**
  * Provide options for reservation.
  */
-function connie_reservation_options($account, $default_value = '') {
+function connie_reservation_options($account, $default_branch = NULL) {
   /*
    * While we use ding_reservation for branch handling, we don't want to
    * depend on the module, as it would mean that ding_reservation can't be
@@ -83,11 +83,22 @@ function connie_reservation_options($account, $default_value = '') {
   if (!module_exists('ding_reservation')) {
     throw new Exception('Connie reservation options requires ding_reservation.');
   }
+  $preferred_branch = NULL;
+
+  if (ding_user_is_provider_user($account)) {
+    $profile = ding_user_provider_profile($account);
+    if (isset($profile->connie_preferred_branch[LANGUAGE_NONE][0]['value'])) {
+      $preferred_branch = $profile->connie_preferred_branch[LANGUAGE_NONE][0]['value'];
+    }
+    elseif (!empty($default_branch)) {
+      $preferred_branch = $default_branch;
+    }
+  }
 
   $form = array();
   $form += ding_reservation_default_options_branch(
     'connie_preferred_branch',
-    NULL,
+    $preferred_branch,
     connie_allowed_branches()
   );
 

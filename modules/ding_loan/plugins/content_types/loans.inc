@@ -131,7 +131,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         // record for current agencyId, so we load it separately.
         // Here we are loading TingClientObject.
         // TODO BBS-SAL: ting_get_object should be handled by a provider.
-        $ting_object = ting_get_object($loan->ding_entity_id);
+        $ting_object = ting_get_object_sal($loan->ding_entity_id);
 
         // But we need TingEntity instance, so here we are populating this.
         $ting_entity = new TingEntity();
