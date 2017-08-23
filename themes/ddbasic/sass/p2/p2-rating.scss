@@ -92,6 +92,17 @@
           color: $color-secondary;
         }
       }
+
+      .material-item.odd &,
+      .ting-object.view-mode-teaser &,
+      .ting-object.view-mode-search-result & {
+        &.active,
+        &.submitted {
+          &::after {
+            color: $color-secondary;
+          }
+        }
+      }
     }
   }
 }
