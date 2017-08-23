@@ -43,18 +43,28 @@ class OpenSearchTingObject implements TingObjectInterface {
   /**
    * {@inheritdoc}
    */
-  public function getDingId() {
+  public function getId() {
     return $this->dingId;
+  }
+
+  /**
+   * Get provider-specific local ID.
+   *
+   * @return string
+   *   The local ID.
+   */
+  public function getSourceId() {
+    return $this->openSearchObject->localId;
   }
 
   /**
    * Sets the Ding id.
    *
-   * @param string $ding_id
+   * @param string $id
    *   The Ding specific ID for the object. Usually the entity id.
    */
-  public function setDingId($ding_id) {
-    $this->dingId = $ding_id;
+  public function setId($id) {
+    $this->id = $id;
   }
 
   /**
@@ -390,15 +400,5 @@ class OpenSearchTingObject implements TingObjectInterface {
 
     // Return the entry back if it is not an array.
     return $entry;
-  }
-
-  /**
-   * Get provider-specific local ID.
-   *
-   * @return string
-   *   The local ID.
-   */
-  public function getLocalId() {
-    return $this->openSearchObject->localId;
   }
 }

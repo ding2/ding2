@@ -576,7 +576,7 @@ function _ting_reference_autocomplete($string) {
           '!title' => $object->getShortTitle() ?: '',
           '!type' => $object->getType() ?: '',
           '!year' => $object->getYear(),
-          '!id' => $object->getLocalId(),
+          '!id' => $object->getSourceId(),
         ));
       }
     }

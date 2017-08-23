@@ -17,9 +17,9 @@ class TingObject implements TingObjectInterface {
 
   // TODO BBS-SAL: We run with public access for now as some legacy-code still
   // needs directly access, but should be changed to protected when SAL is done.
-  public $dingId;
+  public $id;
   public $ownerId;
-  public $localId;
+  public $sourceId;
   public $title;
   public $shortTitle;
   public $age;
@@ -70,33 +70,29 @@ class TingObject implements TingObjectInterface {
   /**
    * {@inheritdoc}
    */
-  public function getDingId() {
-    return $this->dingId;
+  public function getId() {
+    return $this->id;
   }
 
   /**
-   * Sets the Ding id.
+   * Sets the id.
    */
-  public function setDingId($ding_id) {
-    $this->dingId = $ding_id;
+  public function setId($id) {
+    $this->id = $id;
   }
 
-
   /**
-   * Get provider-specific local ID.
-   *
-   * @return string
-   *   The local ID.
+   * {@inheritdoc}
    */
-  public function getLocalId() {
-    return $this->localId;
+  public function getSourceId() {
+    return $this->sourceId;
   }
 
   /**
    * Set local id.
    */
-  public function setLocalId($local_id) {
-    $this->localId = $local_id;
+  public function setSourceId($source_id) {
+    $this->sourceId = $source_id;
   }
 
   /**

@@ -17,20 +17,31 @@ interface TingObjectInterface {
   public function getOwnerId();
 
   /**
-   * Gets the ding-specific id for this object. (Usually the entity id).
+   * Gets the search-provider specific id for the material.
+   *
+   * This ID can be assumed unique across all objects returned from the search-
+   * provider.
    *
    * @return string
    *   The ID.
    */
-  public function getDingId();
+  public function getId();
 
   /**
-   * Get provider-specific local ID.
+   * The unique id for the material in the source system.
+   *
+   * The TingObject is a representation of an object in a source-system indexed
+   * by the search provider. The source id is the id that can be used to
+   * uniquely identify this object in the source system.
+   *
+   * The ID can not be assumed to be unique among other TingObjects as the
+   * search-provider may search across objects originating from several source-
+   * systems.
    *
    * @return string
-   *   The local ID.
+   *   The source ID.
    */
-  public function getLocalId();
+  public function getSourceId();
 
   /**
    * Retrieves the title of a material.
