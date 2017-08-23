@@ -289,6 +289,9 @@ function ding_loan_loans_form_submit($form, &$form_state) {
       $title = $entity->getTitle();
     }
 
+    // Add extra information if it's a periodical. There is an exception
+    // because the notes field is also used to set library information for
+    // inter library loans but only when they are ready for pick-up.
     if (!empty($form_state['values']['items'][$id]->notes) && !($form_state['values']['items'][$id]->ill_status)) {
       $title .= ' (' . $form_state['values']['items'][$id]->notes . ')';
     }
