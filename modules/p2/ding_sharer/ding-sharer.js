@@ -57,10 +57,6 @@
 
         evt.preventDefault();
 
-        if ($(this).hasClass('sharer-noshare')) {
-          return;
-        }
-
         if ($(this).hasClass('facebook-share')) {
           community = 'facebook';
         }

@@ -46,15 +46,13 @@ function ding_list_private_share_content_type_render($subtype, $conf, $panel_arg
       $title = ucfirst($community);
       $output->content .= l(
         t('Share on @community', array('@community' => $title)),
-        'ding-list/private-share-message/' . $list->id,
+        'ding-list/private-share-message/' . $list->id . '/' . $community,
         array(
           'attributes' => array(
             'class' => array(
               'sharer-button', 'sharer-' . $community, 'use-ajax',
-              'sharer-noshare',
             ),
           ),
-          'query' => array('community' => $community),
         )
       );
     }

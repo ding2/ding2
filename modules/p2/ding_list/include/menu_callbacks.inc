@@ -167,7 +167,7 @@ function ding_list_delete_list_callback($list_id) {
  * @return array
  *   Ajax commands, with information about the process.
  */
-function ding_list_private_share_message_callback($list_id) {
+function ding_list_private_share_message_callback($list_id, $community) {
   $list = ding_list_get_list($list_id);
 
   $commands = array();
@@ -176,19 +176,14 @@ function ding_list_private_share_message_callback($list_id) {
 
   $query = array();
 
-  if ($_GET['community'] !== FALSE) {
-    $query['community'] = $_GET['community'];
-  }
-
   $commands[] = ajax_command_ding_popup(
     'ding_list',
     t('Info'),
     '<p>' . t('You need to make your list public, before you can share it on social media.') . '</p>' .
-    '<p>' . l(t('Yes - make my list public, and share it.'), 'ding-list/share-list/public/' . $list_id, array(
+    '<p>' . l(t('Yes - make my list public, and share it.'), 'ding-list/share-list/public/' . $list_id . '/' . $community, array(
       'attributes' => array(
         'class' => array('private-sharer', 'use-ajax'),
       ),
-      'query' => $query,
     )) . '<br/>' .
     l(t('No - not right now.'), '#', array('external' => TRUE, 'attributes' => array('class' => array('close-popupbar')))) . '</p>'
   );
@@ -203,7 +198,7 @@ function ding_list_private_share_message_callback($list_id) {
 /**
  * Set a list share permissions.
  */
-function ding_list_share_list_callback($permission, $list_id) {
+function ding_list_share_list_callback($permission, $list_id, $community) {
   $commands = array();
   $list = ding_list_get_list($list_id);
 
@@ -225,7 +220,7 @@ function ding_list_share_list_callback($permission, $list_id) {
     $commands[] = array(
       'command' => 'ding_list_private_sharer',
       'result' => TRUE,
-      'community' => $_GET['community'],
+      'community' => $community,
     );
   }
   else {

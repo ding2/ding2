@@ -581,10 +581,12 @@ The link is active for 7 days from today, after which it will be disabled for se
     ),
     '#tree' => TRUE,
   );
+
+  $url = url($uri['path'], array('absolute' => TRUE));
   $form['public']['link'] = array(
-    '#type' => 'textfield',
+    '#type' => 'item',
     '#title' => t('Share link'),
-    '#value' => url($uri['path'], array('absolute' => TRUE)),
+    '#markup' => l($url, $url),
   );
 
   return $form;
