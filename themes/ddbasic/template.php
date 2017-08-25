@@ -258,6 +258,12 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
     $first_node = $nodes[$first_key];
     $vars['type_class'] = drupal_html_class($first_node->type);
   }
+
+  // Set no-masonry to true for frontpage event view
+  if ($vars['view']->name == 'ding_event' && $vars['view']->current_display == 'ding_event_list_frontpage') {
+    $vars['no_masonry'] = TRUE;
+  }
+
   // Class names for overwriting.
   $row_first = "first";
   $row_last = "last";
