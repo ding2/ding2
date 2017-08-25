@@ -243,6 +243,7 @@ function ding_news_views_default_views() {
   /* Display: News list (frontpage) */
   $handler = $view->new_display('panel_pane', 'News list (frontpage)', 'ding_news_frontpage_list');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'grid-medium';
   $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['defaults']['use_more_always'] = FALSE;
