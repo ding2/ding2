@@ -84,7 +84,7 @@ function ding_campaign_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 7,
+      'weight' => 8,
     ),
   );
 
@@ -169,14 +169,6 @@ function ding_campaign_field_default_field_instances() {
           'image' => 'image',
           'video' => 0,
         ),
-        'browser_plugins' => array(
-          'ding_content' => 0,
-          'media_default--media_browser_1' => 0,
-          'media_default--media_browser_my_files' => 0,
-          'media_internet' => 0,
-          'upload' => 0,
-          'youtube' => 0,
-        ),
         'browser_plugins' => array(),
         'manualcrop_crop_info' => TRUE,
         'manualcrop_default_crop_area' => TRUE,
@@ -212,18 +204,17 @@ function ding_campaign_field_default_field_instances() {
         'weight' => 0,
       ),
       'default' => array(
-        'label' => 'hidden',
-        'module' => 'link',
+        'label' => 'above',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'link_default',
+        'type' => 'text_default',
         'weight' => 8,
       ),
       'full' => array(
-        'label' => 'hidden',
-        'module' => 'link',
+        'label' => 'above',
         'settings' => array(),
-        'type' => 'link_default',
-        'weight' => 5,
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -243,30 +234,77 @@ function ding_campaign_field_default_field_instances() {
     'label' => 'Campaign link',
     'required' => 0,
     'settings' => array(
-      'attributes' => array(
-        'class' => '',
-        'configurable_title' => 0,
-        'rel' => '',
-        'target' => 'user',
-        'title' => '',
-      ),
-      'display' => array(
-        'url_cutoff' => 80,
-      ),
-      'enable_tokens' => 1,
-      'rel_remove' => 'default',
-      'title' => 'none',
-      'title_maxlength' => 128,
-      'title_value' => '',
-      'url' => 0,
+      'text_processing' => 0,
       'user_register_form' => FALSE,
-      'validate_url' => 1,
     ),
     'widget' => array(
-      'active' => 0,
-      'module' => 'link',
-      'settings' => array(),
-      'type' => 'link_field',
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance: 'node-ding_campaign-field_camp_new_window'
+  $field_instances['node-ding_campaign-field_camp_new_window'] = array(
+    'bundle' => 'ding_campaign',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 9,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_camp_new_window',
+    'label' => 'Campaign open in new window',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
       'weight' => 4,
     ),
   );
@@ -387,7 +425,7 @@ function ding_campaign_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 3,
+      'weight' => 5,
     ),
   );
 
@@ -447,7 +485,7 @@ function ding_campaign_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -455,6 +493,7 @@ function ding_campaign_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Campaign image');
   t('Campaign link');
+  t('Campaign open in new window');
   t('Campaign settings');
   t('Campaign text');
   t('Libraries and Groups');
