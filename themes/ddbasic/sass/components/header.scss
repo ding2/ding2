@@ -288,7 +288,7 @@
         }
 
         .form-item-search-block-form {
-          width: getColumn(8) + getGutter();
+          width: getColumn(11) + getGutter();
           input[type="text"] {
             &:focus {
               width: 100%;
@@ -361,6 +361,12 @@
               border-radius: $round-corner;
             }
           }
+        }
+      }
+      // Search form extended with profiles
+      .search-form-extended-with-profiles & {
+        .form-item-search-block-form {
+          width: getColumn(8) + getGutter();
         }
       }
       // Admin menu

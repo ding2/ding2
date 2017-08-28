@@ -40,6 +40,12 @@ function ddbasic_preprocess_html(&$vars) {
       break;
   }
 
+  switch (variable_get('ting_field_search_search_style')) {
+    case 'extended_with_profiles':
+      $vars['classes_array'][] = 'search-form-extended-with-profiles';
+      break;
+  }
+
   // If dynamic background.
   $image_conf = dynamic_background_load_image_configuration($vars);
 
