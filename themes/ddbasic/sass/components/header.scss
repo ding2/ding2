@@ -298,11 +298,7 @@
           // Tablet
           @include media($tablet) {
             width: 100%;
-            padding-right: 270px;
-          }
-          // Mobile
-          @include media($mobile) {
-            padding-right: 170px;
+            padding-right: 70px;
           }
         }
         .form-actions {
@@ -367,6 +363,17 @@
       .search-form-extended-with-profiles & {
         .form-item-search-block-form {
           width: getColumn(8) + getGutter();
+
+          // Tablet
+          @include media($tablet) {
+            width: 100%;
+            padding-right: 270px;
+          }
+
+          // Mobile
+          @include media($mobile) {
+            padding-right: 70px;
+          }
         }
       }
       // Admin menu
