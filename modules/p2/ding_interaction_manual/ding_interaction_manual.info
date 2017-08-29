@@ -21,4 +21,4 @@ features[field_instance][] = ding_type-ding_interaction-field_ding_interaction_s
 features_exclude[field][ding_type-ding_interaction-field_ding_interaction_body] = ding_type-ding_interaction-field_ding_interaction_body
 features_exclude[field][ding_type-ding_interaction-field_ding_interaction_links] = ding_type-ding_interaction-field_ding_interaction_links
 features_exclude[field][ding_type-ding_interaction-field_ding_interaction_status] = ding_type-ding_interaction-field_ding_interaction_status
-mtime = 1487063846
+mtime = 1499431707
