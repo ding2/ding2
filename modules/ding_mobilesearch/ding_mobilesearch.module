@@ -391,11 +391,10 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         $mapping['fields']['field_ding_event_date'] = array(
           'name' => 'Event date',
           'value' => array(
-            'from' => $item['value'],
-            'to' => $item['value2'],
+            'from' => strtotime($item['value']),
+            'to' => strtotime($item['value2']),
           ),
           'attr' => array(
-            'timezone' => $tz,
             'all_day' => $all_day,
           ),
         );
