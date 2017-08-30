@@ -202,7 +202,6 @@ function ddbasic_preprocess_views_view(&$vars) {
       switch ($vars['view']->current_display) {
         case 'ding_event_library_list':
         case 'ding_event_groups_list':
-        case 'ding_event_list_same_tag':
           // Add max-two-rows class.
           $vars['classes_array'][] = 'max-two-rows';
           $vars['classes_array'][] = 'not-frontpage-view';
@@ -225,7 +224,6 @@ function ddbasic_preprocess_views_view(&$vars) {
     case 'ding_news':
       switch ($vars['view']->current_display) {
         case 'ding_news_groups_list':
-        case 'ding_news_list_same_tag':
           // Add slide-on-mobile class.
           $vars['classes_array'][] = 'slide-on-mobile';
           break;

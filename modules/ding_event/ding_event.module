@@ -193,7 +193,7 @@ function ding_event_install_menu_position($op = 'install') {
  * displayed once in related events on event page.
  */
 function ding_event_views_pre_execute(&$view) {
-  if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list_same_tag', 'ding_event_list'))) {
+  if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list'))) {
     $inner = $view->build_info['query'];
     $view->build_info['query'] = db_select($inner, 'inner_query')
       ->fields('inner_query')
