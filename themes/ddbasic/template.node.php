@@ -246,11 +246,10 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
   $image_uri = ding_base_get_value('node', $variables['node'], 'field_camp_image', 'uri');
   $image_style = "crop_22_9";
   $image_url = image_style_url($image_style, $image_uri);
-  $attributes = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'attributes');
   $variables['type'] = drupal_html_class($type);
   $variables['background'] = ($type == 'text_on_image' ? 'style="background-image: url(' . $image_url . ');"' : " ");
-  $variables['link'] = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'url');
-  $variables['link_attr'] = isset($attributes['target']) ? $variables['link_attr'] = $attributes['target'] : "";
+  $variables['link'] = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'value');
+  $variables['target'] = ding_base_get_value('node', $variables['node'], 'field_camp_new_window') ? '_blank' : '';
   $variables['panel_style'] = drupal_html_class($variables['elements']['#style']);
 
   if (isset($type)) {
