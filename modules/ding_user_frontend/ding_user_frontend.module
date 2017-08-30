@@ -325,19 +325,21 @@ function ding_user_frontend_build_menu($path = NULL) {
           }
 
           // Add current item and sub-menu to the menu.
-          $menu[] = $current;
+          $menu[$item['path']] = $current;
         }
       }
     }
+
+    $menu['user/%/edit']['#weight'] = 4;
 
     // Add logout to menu.
     $logout_item = array();
     $logout_item = $menu_item_defaults;
     $logout_item['#title'] = t('Log out');
-    $logout_item['#href'] = '/user/logout';
+    $logout_item['#href'] = 'user/logout';
     $logout_item['#weight'] = 100;
     $logout_item['#attributes']['class'] = 'user-log-out';
-    $menu[] = $logout_item;
+    $menu[$logout_item['#href']] = $logout_item;
 
     drupal_alter('ding_user_frontend_build_menu', $menu, $menu_item_defaults);
   }

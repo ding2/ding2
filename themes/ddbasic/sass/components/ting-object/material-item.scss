@@ -86,6 +86,13 @@
     }
   }
 
+  .item-material-type {
+    // Mobile
+    @include media($mobile) {
+      padding-left: 60px;
+    }
+  }
+
   .item-title {
     width: 100%;
     float: left;
@@ -99,7 +106,7 @@
 
       // Mobile
       @include media($mobile) {
-        width: 100%;
+        padding-right: 0;
       }
     }
     #ding-bookmark-remove-form & {
@@ -118,6 +125,13 @@
       margin-top: 0;
       padding: 0 10px 0 60px;
       white-space: normal;
+    }
+  }
+
+  .item-creators {
+    // Mobile
+    @include media($mobile) {
+      padding-left: 60px;
     }
   }
 
@@ -187,6 +201,9 @@
           margin-right: 0;
         }
       }
+      &.rating {
+        width: 100%;
+      }
     }
     .item-information-label {
       @include font('base-bold');
@@ -194,6 +211,11 @@
     }
     #ding-loan-loans-form & {
       width: 50%;
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+      }
       .item-information-label {
         @include font('base');
         color: $color-standard-text;

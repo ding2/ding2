@@ -129,6 +129,7 @@ features[variable][] = panels_everywhere_site_template_enabled_admin
 features[variable][] = panels_everywhere_site_template_per_theme
 features[views_view][] = ding_multiple_search
 features[views_view][] = ding_node_search
+features[views_view][] = ding_related_content
 features_exclude[menu_blocks][] = 2
 features_exclude[menu_blocks][] = 2
 mtime = 1499431707

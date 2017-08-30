@@ -73,6 +73,22 @@ class AdditionalInformationService {
   }
 
   /**
+   * Get information by PID (supported in moreinfo version 2.7 and up).
+   *
+   * @param mixed $pid
+   *   Expects either a single FAUST number, or an array of them, for looking
+   *   up multiple materials at a time.
+   *
+   * @return array
+   *   Array of the images that were found.
+   */
+  public function getByPid($pid) {
+    $identifiers = $this->collectIdentifiers('pid', $pid);
+    $response = $this->sendRequest($identifiers);
+    return $this->extractAdditionalInformation('pid', $response);
+  }
+
+  /**
    * Expand the provided IDs into the array structure used in sendRequest.
    */
   protected function collectIdentifiers($id_type, $ids) {
@@ -107,7 +123,7 @@ class AdditionalInformationService {
     );
 
     // New moreinfo service.
-    $client = new SoapClient($this->wsdlUrl . '/moreinfo.wsdl');
+    $client = new SoapClient($this->wsdlUrl . '/?wsdl');
 
     // Record the start time, so we can calculate the difference, once
     // the addi service responds.
@@ -179,7 +195,9 @@ class AdditionalInformationService {
       $thumbnail_url = $detail_url = NULL;
       $cover_image = isset($info->coverImage) ? $info->coverImage : FALSE;
 
-      if (isset($info->identifierKnown) && $info->identifierKnown && $cover_image) {
+      // To avoid unnecessary downloads we also check that the identifier from
+      // the result is of the expected type ($id_name).
+      if (!empty($info->identifierKnown) && $cover_image && isset($info->identifier->$id_name)) {
         if (!is_array($cover_image)) {
           $cover_image = array($cover_image);
         }

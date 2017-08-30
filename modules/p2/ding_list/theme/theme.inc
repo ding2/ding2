@@ -107,6 +107,10 @@ function template_preprocess_ding_list_add_button(&$variables) {
     $options[] = $new_list;
   }
   foreach ($options as $option) {
+    if ($option['type'] == 'search_query') {
+      $option['title'] = t('Add to searches I follow');
+    }
+
     if (!isset($option['custom'])) {
       $l = array(
         'title' => $option['title'],

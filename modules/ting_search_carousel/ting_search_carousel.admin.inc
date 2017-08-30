@@ -29,17 +29,6 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
     '#title' => t('Frontend settings'),
   );
 
-  $form['settings']['ting_search_carousel_tabs_position'] = array(
-    '#title' => t('Position of navigational tabs'),
-    '#type' => 'select',
-    '#options' => array(
-      'bottom' => t("Bottom"),
-    ),
-    '#default_value' => variable_get('ting_search_carousel_tabs_position', 'bottom'),
-    '#required' => TRUE,
-    '#description' => t('Select where you want the tabs for displaying the various searches to be placed in frontend.'),
-  );
-
   $form['settings']['ting_search_carousel_description_toggle'] = array(
     '#title' => t('Show descriptions for navigational tabs'),
     '#type' => 'checkbox',

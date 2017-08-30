@@ -212,3 +212,39 @@ function ding_frontend_views_pre_render(&$view) {
     }
   }
 }
+
+/**
+ * Implements hook_views_query_build().
+ */
+function ding_frontend_views_query_alter(&$view, &$query) {
+  switch ($view->name . ' ' . $view->current_display) {
+    case 'ding_related_content news_events':
+
+      // Move the 2 contextual tags conditions to an OR group.
+      $or_conditions = array();
+      foreach ($query->where[0]['conditions'] as $key => $condition) {
+        if (
+          strpos($condition['field'], 'field_data_field_ding_news_tags.field_ding_news_tags_tid') === 0
+          || strpos($condition['field'], 'field_data_field_ding_event_tags.field_ding_event_tags_tid') === 0
+        ) {
+          $or_conditions[] = $condition;
+          unset($query->where[0]['conditions'][$key]);
+        }
+      }
+
+      // Add the conditions to a newly created OR group.
+      if (!empty($or_conditions)) {
+        $group_id = $query->set_where_group('OR');
+        $query->where[$group_id]['conditions'] = $or_conditions;
+      }
+
+      // Order by the distance to either the created date if it's news or the
+      // start time if it's an event.
+      $query->add_orderby(
+        NULL,
+        "ABS(DATEDIFF(IF(node.type = 'ding_news', FROM_UNIXTIME(node.created), field_data_field_ding_event_date.field_ding_event_date_value), NOW()))",
+        'ASC',
+        'date_distance');
+      break;
+  }
+}

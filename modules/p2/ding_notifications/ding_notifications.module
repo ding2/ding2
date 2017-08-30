@@ -33,10 +33,6 @@ function ding_notifications_clear_cache($account = NULL) {
  * Implements hook_ding_user_frontend_build_menu_alter().
  */
 function ding_notifications_ding_user_frontend_build_menu_alter(&$menu, $menu_item_defaults) {
-  $logout_item = array();
-  $logout_item = $menu_item_defaults;
-  $logout_item['#title'] = t('Notifications (@count)', array('@count' => ding_message_get_message_count()));
-  $logout_item['#href'] = '/user/me/view';
-  $logout_item['#weight'] = 99;
-  $menu[] = $logout_item;
+  $menu['user/%/view']['#title'] = t('My library');
+  $menu['user/%/view']['#weight'] = 3;
 }
