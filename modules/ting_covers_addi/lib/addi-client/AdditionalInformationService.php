@@ -107,7 +107,7 @@ class AdditionalInformationService {
     );
 
     // New moreinfo service.
-    $client = new SoapClient($this->wsdlUrl . '/moreinfo.wsdl');
+    $client = new SoapClient($this->wsdlUrl . '/?wsdl');
 
     // Record the start time, so we can calculate the difference, once
     // the addi service responds.
