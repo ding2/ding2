@@ -167,18 +167,69 @@ function ding_list_delete_list_callback($list_id) {
  * @return array
  *   Ajax commands, with information about the process.
  */
-function ding_list_private_share_message_callback($list_id) {
+function ding_list_private_share_message_callback($list_id, $community) {
   $list = ding_list_get_list($list_id);
 
   $commands = array();
 
+  drupal_add_js(drupal_get_path('module', 'ding_list') . '/js/ding-list-private-sharer.js');
+
+  $query = array();
+
   $commands[] = ajax_command_ding_popup(
     'ding_list',
     t('Info'),
-    '<p>' . t("You can only share public lists.") . '<br>' .
-      l(t('Click here and set this list status to public'), 'list/' . $list->id . '/share')
-    . '</p>'
+    '<p>' . t('You need to make your list public, before you can share it on social media.') . '</p>' .
+    '<p>' . l(t('Yes - make my list public, and share it.'), 'ding-list/share-list/public/' . $list_id . '/' . $community, array(
+      'attributes' => array(
+        'class' => array('private-sharer', 'use-ajax'),
+      ),
+    )) . '<br/>' .
+    l(t('No - not right now.'), '#', array('external' => TRUE, 'attributes' => array('class' => array('close-popupbar')))) . '</p>'
   );
+
+  return array(
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  );
+}
+
+
+/**
+ * Set a list share permissions.
+ */
+function ding_list_share_list_callback($permission, $list_id, $community) {
+  $commands = array();
+  $list = ding_list_get_list($list_id);
+
+  if ($list) {
+    ding_list_edit_ding_list(
+      $list,
+      $list->title,
+      NULL,
+      TRUE,
+      array(
+        array(
+          'name' => 'field_ding_list_status',
+          'value_type' => 'value',
+          'value' => $permission,
+        ),
+      )
+    );
+
+    $commands[] = array(
+      'command' => 'ding_list_private_sharer',
+      'result' => TRUE,
+      'community' => $community,
+    );
+  }
+  else {
+    $commands[] = ajax_command_ding_popup(
+      'ding_list',
+      t('Error'),
+      '<p>' . t("List doesn't exist.") . '</p>'
+    );
+  }
 
   return array(
     '#type' => 'ajax',

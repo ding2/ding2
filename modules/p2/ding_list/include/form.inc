@@ -394,6 +394,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   // Get the status options from the field_ding_list_status allowed values.
   $status = field_info_field('field_ding_list_status');
   $status = $status['settings']['allowed_values'];
+  $uri = entity_uri('ding_type', $list);
 
   // Translate the allowed values.
   foreach ($status as $key => &$value) {
@@ -416,6 +417,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     '#markup' => '<div id="status-description"></div>',
   );
 
+  // Information when shared.
   $form['sharer'] = array(
     '#type' => 'fieldset',
     '#title' => t('Settings'),
@@ -438,7 +440,6 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   );
 
   // Setup the share link, with the correct token.
-  $uri = entity_uri('ding_type', $list);
   foreach ($permission_options as $key => $title) {
     $token = ding_list_share_token($list, $key);
     $form['sharer']['link'][$key] = array(
@@ -563,6 +564,26 @@ The link is active for 7 days from today, after which it will be disabled for se
     }
   }
 
+  // Information when public.
+  $form['public'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Public'),
+    '#description' => t('You can find your public list under !link', array('!link' => l(t('Public lists'), 'public-lists'))),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="status"]' => array('value' => 'public'),
+      ),
+    ),
+    '#tree' => TRUE,
+  );
+
+  $url = url($uri['path'], array('absolute' => TRUE));
+  $form['public']['link'] = array(
+    '#type' => 'item',
+    '#title' => t('Share link'),
+    '#markup' => l($url, $url),
+  );
+
   return $form;
 }
 
@@ -645,7 +666,7 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
 
   $output = array(
     'shared' => t('Your list is now shared.'),
-    'public' => t('Your list is now public. You can find it under !link', array('!link' => l(t('Public lists'), 'public-lists'))),
+    'public' => t('Your list is now public.'),
     'private' => t('Your list is now private.'),
   );
 
