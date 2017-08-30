@@ -30,7 +30,7 @@
 
   .pane-content {
     clear: both;
-    
+
     > form {
       position: relative;
       float: left;
@@ -92,6 +92,7 @@
       @include media($mobile) {
         width: 100%;
         float: left;
+        padding-left: 0;
       }
       .action-button {
         @include span-columns(6);
