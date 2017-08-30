@@ -288,7 +288,7 @@
         }
 
         .form-item-search-block-form {
-          width: getColumn(8) + getGutter();
+          width: getColumn(11) + getGutter();
           input[type="text"] {
             &:focus {
               width: 100%;
@@ -298,11 +298,7 @@
           // Tablet
           @include media($tablet) {
             width: 100%;
-            padding-right: 270px;
-          }
-          // Mobile
-          @include media($mobile) {
-            padding-right: 170px;
+            padding-right: 70px;
           }
         }
         .form-actions {
@@ -360,6 +356,23 @@
             .select-wrapper {
               border-radius: $round-corner;
             }
+          }
+        }
+      }
+      // Search form extended with profiles
+      .search-form-extended-with-profiles & {
+        .form-item-search-block-form {
+          width: getColumn(8) + getGutter();
+
+          // Tablet
+          @include media($tablet) {
+            width: 100%;
+            padding-right: 270px;
+          }
+
+          // Mobile
+          @include media($mobile) {
+            padding-right: 70px;
           }
         }
       }
