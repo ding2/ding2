@@ -708,6 +708,8 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'local administrator' => array(
+      'access media browser',
+      'use media wysiwyg',
       'eck add ding_type ding_interaction entities',
       'eck edit ding_type ding_interaction entities',
       'eck delete ding_type ding_interaction entities',
@@ -909,6 +911,8 @@ function ding_permissions_secure_permissions($role) {
       'administer personalisation',
     ),
     'local editor' => array(
+      'access media browser',
+      'use media wysiwyg',
       'eck add ding_type ding_interaction entities',
       'eck edit ding_type ding_interaction entities',
       'eck delete ding_type ding_interaction entities',
