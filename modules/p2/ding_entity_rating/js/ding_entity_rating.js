@@ -155,21 +155,15 @@
           dataType: 'json',
           method: 'get',
           success: function (data) {
-            var i;
-            for (i in data.user_ratings) {
-              if (data.user_ratings[i] !== false) {
+            for (var i in data) {
+              if (data[i] !== false) {
                 $('.ding-entity-rating[data-ding-entity-rating-id="' + i + '"] .js-rating-symbol')
-                  .eq(data.user_ratings[i])
+                  .eq(data[i])
+                  .removeClass('submitted')
                   .prevAll().addClass('submitted')
-                  .end().parent().addClass('has-submission');
-              }
-            }
-
-            for (i in data.averages) {
-              if (data.averages[i] !== false) {
-                $('.ding-entity-rating[data-ding-entity-rating-id="' + i + '"] .js-rating-symbol')
-                  .eq(data.averages[i])
-                  .prevAll().addClass('submitted');
+                  .end().nextAll().removeClass('submitted')
+                  .end().parent().addClass('has-submission')
+                  .find('.ding-entity-rating-avg').remove();
               }
             }
           }
