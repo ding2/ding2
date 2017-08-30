@@ -3132,7 +3132,7 @@ msgstr ""
 
 #: /index.php
 msgid "My files"
-msgstr ""
+msgstr "Mine filer"
 
 #: /index.php
 msgid "Display a list of all nodes in queue '@queue'"
@@ -10145,7 +10145,7 @@ msgstr ""
 
 #: /node/26/edit?render=overlay /node/add/ding-event
 msgid "Images"
-msgstr ""
+msgstr "Billeder"
 
 #: profiles/ding2/modules/contrib/autosave/autosave.js
 msgid "Ignore/Delete saved form"
@@ -19261,7 +19261,7 @@ msgid "n/a"
 msgstr "n/a"
 
 msgid "Upload"
-msgstr "Upload"
+msgstr "Hent"
 
 msgid "type"
 msgstr "type"
@@ -53187,11 +53187,11 @@ msgstr ""
 
 #: /index.php
 msgid "Crop images"
-msgstr ""
+msgstr "Beskær billeder"
 
 #: /index.php
 msgid "Crop images using Manual Crop."
-msgstr ""
+msgstr "Beskær billeder manuelt"
 
 #: /index.php
 msgid "Administer Manual Crop"
@@ -53279,7 +53279,7 @@ msgstr ""
 
 #: /index.php
 msgid "Manual Crop"
-msgstr ""
+msgstr "Manuel beskæring"
 
 #: /index.php
 msgid "File id"
@@ -53291,75 +53291,75 @@ msgstr ""
 
 #: /index.php
 msgid "The image style of the cropped image."
-msgstr ""
+msgstr "Billedformatet af det beskårne billede"
 
 #: /index.php
 msgid "Crop area: X offset"
-msgstr ""
+msgstr "Beskæringsområde: X offset"
 
 #: /index.php
 msgid "X coordinate of the crop area."
-msgstr ""
+msgstr "X koordinat af det beskårne område"
 
 #: /index.php
 msgid "Crop area: Y offset"
-msgstr ""
+msgstr "Beskæringsområde: Y offset"
 
 #: /index.php
 msgid "Y coordinate of the crop area."
-msgstr ""
+msgstr "Y koordinat af det beskårne område"
 
 #: /index.php
 msgid "Crop area: width"
-msgstr ""
+msgstr "Beskæringsområde: bredde"
 
 #: /index.php
 msgid "Width of the crop area."
-msgstr ""
+msgstr "Bredde af beskæringsområde"
 
 #: /index.php
 msgid "Crop area: height"
-msgstr ""
+msgstr "Beskæringsområde: højde"
 
 #: /index.php
 msgid "Height of the crop area."
-msgstr ""
+msgstr "Højde af beskæringsområde"
 
 #: /index.php
 msgid "Manual crop"
-msgstr ""
+msgstr "Manuel beskæring"
 
 #: /index.php
 msgid "Manualcrop data for this file."
-msgstr ""
+msgstr "Beskæringsdata for denne fil"
 
 #: /index.php
 msgid "manualcrop"
-msgstr ""
+msgstr "manuel beskæring"
 
 #: /index.php
 msgid "Manual Crop: Crop and scale"
-msgstr ""
+msgstr "Manuel beskæring: Beskær og skalér"
 
 #: /index.php
 msgid "\"Crop and scale a user-selected area, respecting the ratio of the \"destination width and height."
-msgstr ""
+msgstr "Beskær og skalérdet valgte område, med respekt for det valgte højde/breddeforhold."
 
 #: /index.php
 msgid "Manual Crop: Custom crop"
-msgstr ""
+msgstr "Manuel beskæring: tilpasset beskæring"
 
 #: /index.php
 msgid "Crop a freely user-selected area."
-msgstr ""
+msgstr "Beskær et vilkårligt brugervalgt område."
 
 #: /index.php
 msgid "Manual Crop: Reuse cropped style"
-msgstr ""
+msgstr "Manuel beskæring: genbrug indstillinger for beskæring af billede"
 
 #: /index.php
 msgid "Manual Crop: Automatically reuse cropped style"
-msgstr ""
+msgstr "Manuel beskæring: genbrug automatisk indstillinger for beskæring af billede"
 
 #: /admin/modules?render=overlay
 msgid "Settings for expiration of cached pages."
@@ -53395,7 +53395,7 @@ msgstr ""
 
 #: /admin/modules?render=overlay
 msgid "Lets you manually crop an image based upon the image style effects."
-msgstr ""
+msgstr "Lader dig manuelt beskære et billede baseret på foruddefinerede billedformater"
 
 #: /admin/modules?render=overlay
 msgid "Allows node previews to be viewed as fully-rendered pages."
@@ -56859,19 +56859,19 @@ msgstr ""
 
 #: /media/browser?render=media-popup&types%5Bimage%5D=image&schemes%5Bpublic%5D=public&file_directory=title_image%2Fnews&file_extensions=png+gif+jpg+jpeg&max_filesize=&uri_scheme=public&manualcrop%5Bentity_type%5D=node&manualcrop%5Bbundle%5D=ding_news&manualcrop%5Bfield_name%5D=field_ding_news_title_image&plugins=undefined
 msgid "Select a style to crop"
-msgstr ""
+msgstr "Vælg højde/breddeforhold for beskæring"
 
 #: profiles/ding2/modules/contrib/manualcrop/manualcrop.js
 msgid "(cropped)"
-msgstr ""
+msgstr "(beskåret)"
 
 #: profiles/ding2/modules/contrib/manualcrop/manualcrop.js
 msgid "\"It appears that some of the images could not be loaded for cropping, \"please try again in another browser."
-msgstr ""
+msgstr "Nogle af billederne kunne ikke beskæres. Prøv venligst igen i en anden browser."
 
 #: /media/browser?render=media-popup&types%5Bimage%5D=image&schemes%5Bpublic%5D=public&file_directory=title_image%2Fnews&file_extensions=png+gif+jpg+jpeg&max_filesize=&uri_scheme=public&manualcrop%5Bentity_type%5D=node&manualcrop%5Bbundle%5D=ding_news&manualcrop%5Bfield_name%5D=field_ding_news_title_image&plugins=undefined
 msgid "The crop selections have been saved."
-msgstr ""
+msgstr "Beskæringen et blevet gemt."
 
 #: profiles/ding2/modules/contrib/redirect/redirect.js
 msgid "1 enabled redirect"
@@ -66606,18 +66606,6 @@ msgstr "Søg i biblioteksbasen"
 msgid "Because you have a list with materials by the author !author."
 msgstr "Fordi du har en liste med materialer af forfatteren !author"
 
-#: /system/ajax
-msgid ""
-"Please use the following link to access this list.\n"
-"The link is active for 7 days from today, after which it will be "
-"disabled for security reasons.\n"
-"\n"
-"!link."
-msgstr ""
-"Åbn !link for at få adgang til listen. \r\n"
-"Linket er aktivt i 7 dage, hvorefter det vil blive deaktiveret af "
-"sikkerhedshensyn."
-
 #: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
 msgid ""
 "You do not have an user account at the public library. If you wish you "
@@ -66780,18 +66768,6 @@ msgid "Email text"
 msgstr "Indhold:"
 
 #: /list/107/share
-msgid ""
-"Please use the following link to access this list.\n"
-"The link is active for 7 days from today, after which it will be disabled for security reasons.\n"
-"\n"
-"[link]"
-msgstr ""
-"Følg linket herunder for at få adgang til listen."
-"Linket er aktivit i 7 days fra i dag, hvorefter det vil blive deaktiveret af sikkerhedsmæssige hensyn.\n"
-"\n"
-"[link]"
-
-#: /list/107/share
 msgid "The [link] text will be replaced by a link to the list"
 msgstr "Teksten [link] bliver erstattet af et link til din liste."
 
@@ -66926,6 +66902,18 @@ msgid ""
 msgstr "<p>Din søgning desværre ikke gav noget resultat, men vi vil gerne hjælpe dig med at komme videre!</p><p>Spørg os på biblioteket eller se kontaktoplysningerne til biblioteket nederst på siden.</p><p>Du "
 "kan også søge videre på <a href=\"http://bibliotek.dk/\">Bibliotek.dk</a></p>"
 
+#: /list/107/share
+msgid ""
+"Please use the following link to access this list.\n"
+"The link is active for 7 days from today, after which it will be "
+"disabled for security reasons.\n"
+"\n"
+"[link]"
+msgstr ""
+"Åbn !link for at få adgang til listen. \r\n"
+"Linket er aktivt i 7 dage, hvorefter det vil blive deaktiveret af "
+"sikkerhedshensyn."
+
 #: /
 msgid "Search in @profile"
 msgstr "Søg i @profile"
@@ -66945,6 +66933,22 @@ msgstr "Del denne nyhed"
 #: /lazy-pane/ajax
 msgid "Read about storage of loan history"
 msgstr "Læs om opbevaring af lånehistorik"
+
+#: /user/me/status-reservations
+msgid "Reservation date"
+msgstr "Reserveringsdato"
+
+#: /index.php
+msgid "Cropped Image"
+msgstr ""
+
+#: /node/add/ding-news
+msgid "Attach media"
+msgstr "Vedhæft mediefil"
+
+#: /node/5/edit?destination=admin/content%3Fstatus%3DAll%26type%3Dding_library%26sid%3DAll%26language%3DAll
+msgid "Select the image style to crop, the corresponding cropping tool will open."
+msgstr "Vælg højde/breddeforhold for beskæring."
 
 #: /admin/modules/list/confirm
 msgid "Administer Mobilesearch"
@@ -66980,4 +66984,3 @@ msgid ""
 "to Mongo\" flag. Please check your !settings."
 msgstr "Der skete en fejl med forbindelsen til CMS Content. Vi har "
 "deaktiveret \"Send til CMS Content\" checkboxen. Check !settings."
-
