@@ -596,7 +596,7 @@ function ding_entity_rating_preprocess_material_item(&$variables) {
       $variables['information']['ding_entity_rating'] = array(
         'label' => t('Rate'),
         'data' => theme('ding_entity_rating_display', array('entity' => $variables['element']['#loan']->entity)),
-        'class' => 'class',
+        'class' => 'rating',
       );
     }
   }
