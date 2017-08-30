@@ -42,7 +42,7 @@ function ding_carousel_element_info() {
     '#path' => '',
     '#placeholders' => 0,
     '#placeholder' => array(
-      '#type' => '#markup',
+      '#type' => 'markup',
       '#markup' => 'Loading...',
     ),
     '#hidden' => FALSE,

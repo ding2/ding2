@@ -123,12 +123,8 @@ function ting_search_carousel_block_info() {
 function ting_search_carousel_block_view($delta) {
   return array(
     'content' => theme('ting_search_carousel', array(
-<<<<<<< HEAD
-        'searches' => variable_get('ting_carousel_search_queries', array()),
-=======
       'searches' => variable_get('ting_carousel_search_queries', array()),
       'tab_position' => variable_get('ting_search_carousel_tabs_position'),
->>>>>>> 1770: Replace old carousel with Slick
     )),
   );
 }
@@ -226,13 +222,9 @@ function ting_search_carousel_get_covers($query, $start, $count, $query_only = F
       }
     }
 
-<<<<<<< HEAD
-    while (count($cache_data['pool']) < $start + $count &&
-=======
     // If the pool exactly matches the requested items, we'll fetch the next
     // chunk. Else search_page wouldn't get incremented.
     while ((count($cache_data['pool']) <= $start + $count) &&
->>>>>>> 1770: Replace old carousel with Slick
       !$cache_data['finished']) {
       $ignore_ids = $cache_data['all_ids'];
 
