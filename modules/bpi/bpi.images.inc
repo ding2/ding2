@@ -23,14 +23,9 @@ function bpi_syndicate_images($type = 'ajax') {
   $form = drupal_get_form('bpi_assets_form', $assets);
   $commands = array();
 
-  $commands[] = ajax_command_ding_popup(
-    'bpi-syndicate-images',
-    t('Syndicate images'),
-    drupal_render($form),
-    // We need to reload the main content page after syndicating assets to
-    // place the assets in the content.
-    array('refresh' => TRUE)
-  );
+  ctools_include('modal');
+  ctools_modal_add_js();
+  $commands[] = ctools_modal_command_display(t('Syndicate images'), drupal_render($form));
 
   return array('#type' => 'ajax', '#commands' => $commands);
 }
@@ -155,15 +150,10 @@ function bpi_assets_form_submit($form, &$form_state) {
  * @ingroup forms
  */
 function bpi_asset_action_ajax_callback($form, &$form_state) {
-  $html = theme('status_messages');
+  ctools_include('ajax');
 
   $commands = array();
-
-  $commands[] = ajax_command_ding_popup(
-    'bpi-syndicate-images',
-    t('Syndicate images'),
-    $html
-  );
+  $commands[] = ctools_ajax_command_reload();
 
   return array('#type' => 'ajax', '#commands' => $commands);
 }
