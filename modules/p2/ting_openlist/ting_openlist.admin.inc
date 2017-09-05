@@ -58,14 +58,6 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_openlist_log', FALSE),
   );
 
-  // The detailed log will log the full argument list send to openlist.
-  $form['debugging']['ting_openlist_log_details'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable detailed logging'),
-    '#description' => t('If logging, this will log more details, but the log messages can get big and confusing.'),
-    '#default_value' => variable_get('ting_openlist_log_details', FALSE),
-  );
-
   $form['debugging']['ting_openlist_developer'] = array(
     '#type' => 'checkbox',
     '#title' => t('Developer'),

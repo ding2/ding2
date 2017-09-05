@@ -249,14 +249,11 @@ function ting_openlist_field_validate($element, &$form_state, $form) {
  *   Function name of the function to call on the service.
  * @param array $arguments
  *   Numerical array with the arguments, in their respectable order.
- * @param bool $detailed_log
- *   If set to true, the arguments send is logged by watchdog, if logging is
- *   active.
  *
  * @return mixed
  *   Response from Openlist.
  */
-function ting_openlist_request($function, array $arguments = array(), $detailed_log = FALSE) {
+function ting_openlist_request($function, array $arguments = array()) {
   timer_start(__FUNCTION__);
 
   $parts = array(
@@ -282,37 +279,31 @@ function ting_openlist_request($function, array $arguments = array(), $detailed_
   );
 
   $response = drupal_http_request($url);
+  $data = drupal_json_decode($response->data);
 
-  if ($response->code != '200') {
+  if ($response->code != '200' || empty($data)) {
     watchdog(
       'ting_openlist',
-      '<p><strong>Function:</strong><pre>@function</pre></p><p><strong>Arguments:</strong><pre>!arguments</pre></p><p><strong>Response:</strong><pre>!response</pre></p><p><strong>Execution time:</strong><pre>@execution_time</pre></p>',
+      '<strong>Request</strong><pre>!link</pre><strong>Execution time</strong><pre>@execution_time ms</pre><strong>Response</strong><pre>!response</pre>',
       array(
-        '@function' => $function,
+        '!link' => l($url, $url, array('external' => TRUE)),
         '@execution_time' => timer_read(__FUNCTION__),
-        '!arguments' => htmlentities(var_export($arguments, TRUE)),
         '!response' => htmlentities(var_export($response, TRUE)),
       ),
       WATCHDOG_ERROR
     );
 
-    throw new Exception('Ting openlist error.');
+    throw new TingOpenlistRequestException($response);
   }
 
-  $data = drupal_json_decode($response->data);
-
   if (variable_get('ting_openlist_log', FALSE)) {
-    $details = '';
-    if ($detailed_log || variable_get('ting_openlist_log_details', FALSE)) {
-      $details = "<pre>" . htmlentities(var_export($arguments, TRUE)) . '</pre>';
-    }
     watchdog(
       'ting_openlist',
-      '@function (@execution_time ms)!details',
+      '<strong>Request</strong><pre>!link</pre><strong>Execution time</strong><pre>@execution_time ms</pre><strong>Response</strong><pre>!response</pre>',
       array(
-        '@function' => $function,
+        '!link' => l($url, $url, array('external' => TRUE)),
         '@execution_time' => timer_read(__FUNCTION__),
-        '!details' => $details,
+        '!response' => htmlentities(var_export($response, TRUE)),
       ),
       WATCHDOG_INFO
     );
