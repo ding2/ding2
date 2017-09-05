@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_list_installer.features.taxonomy.inc
