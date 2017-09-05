@@ -148,12 +148,15 @@ function ding_list_installer_default_page_manager_pages() {
   $page->path = 'list/%ding_type/edit';
   $page->access = array(
     'plugins' => array(
-      0 => array(
-        'name' => 'perm',
+      1 => array(
+        'name' => 'user_list',
         'settings' => array(
-          'perm' => 'use personalisation',
+          'visibility_settings' => 'edit',
         ),
-        'context' => 'logged-in-user',
+        'context' => array(
+          0 => 'logged-in-user',
+          1 => 'argument_entity_id:ding_type_1',
+        ),
         'not' => FALSE,
       ),
     ),
