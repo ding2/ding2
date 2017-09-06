@@ -141,30 +141,6 @@
   table.opening-hours-table {
     margin-bottom: 30px;
   }
-  // Collapse opening hours on mobile
-  .pane-title {
-    @include arrow-button(arrow-down);
-    position: relative;
-    &::after {
-      display: none; // hide arrow on desktop
-    }
-  }
-  // Mobile
-  @include media($mobile) {
-    .pane-title {
-      cursor: pointer;
-      &::after {
-        display: block;
-        top: -10px;
-        right: 0;
-        background-color: $grey;
-        color: $charcoal-opacity-dark;
-      }
-    }
-    .pane-content {
-      display: none;
-    }
-  }
 }
 
 // ==========================================================================
