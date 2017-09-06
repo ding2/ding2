@@ -175,7 +175,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     $count = count($loans) - $overdues;
     $groups['specials']['lists']['special_loans'][] = array(
       'data' =>
-      '<a href="' . url($uri['path'] . '/status-loans') . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
+      '<a href="' . url($uri['path'] . '/status-loans', array('fragment' => 'anchor-loans')) . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
       'class' => array('loan'),
     );
   }
