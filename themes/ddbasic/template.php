@@ -381,7 +381,7 @@ function ddbasic_preprocess_menu_link(&$variables) {
       case 'status-loans':
         $loans = ddbasic_account_count_overdue_loans();
         if (!empty($loans)) {
-          $variables['element']['#title'] .= ' <span class="menu-item-count loans">' . $loans . '</span>';
+          $variables['element']['#title'] .= ' <span class="menu-item-count">' . $loans . '</span>';
         }
         else {
           $variables['element']['#attributes']['class'][] = 'element-invisible';
@@ -391,7 +391,7 @@ function ddbasic_preprocess_menu_link(&$variables) {
       case 'status-reservations':
         $reservations = ddbasic_account_count_reservation_not_ready();
         if (!empty($reservations)) {
-          $variables['element']['#title'] .= ' <span class="menu-item-count reservations">' . $reservations . '</span>';
+          $variables['element']['#title'] .= ' <span class="menu-item-count">' . $reservations . '</span>';
         }
         else {
           $variables['element']['#attributes']['class'][] = 'element-invisible';
@@ -401,7 +401,7 @@ function ddbasic_preprocess_menu_link(&$variables) {
       case 'status-reservations-ready':
         $reservations = ddbasic_account_count_reservation_ready();
         if (!empty($reservations)) {
-          $variables['element']['#title'] .= ' <span class="menu-item-count reservations-ready">' . $reservations . '</span>';
+          $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-success">' . $reservations . '</span>';
         }
         else {
           $variables['element']['#attributes']['class'][] = 'element-invisible';
@@ -411,7 +411,7 @@ function ddbasic_preprocess_menu_link(&$variables) {
       case 'status-debts':
         $debts = ddbasic_account_count_debts();
         if (!empty($debts)) {
-          $variables['element']['#title'] .= ' <span class="menu-item-count debts">' . $depts . '</span>';
+          $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-warning">' . $depts . '</span>';
         }
         else {
           $variables['element']['#attributes']['class'][] = 'element-invisible';

@@ -692,7 +692,7 @@ ul.tabs.primary {
 }
 
 // ==========================================================================
-// User menu count
+// Menu item count
 // ==========================================================================
 .menu-item-count {
   display: inline-block;
@@ -707,13 +707,14 @@ ul.tabs.primary {
   border-radius: 50%;
   background-color: $color-primary;
   color: $color-text-on-primary;
-  
-  &.debts {
-    background-color: $red;
-  }
-  &.reservations-ready {
-    background-color: $green;
-  }
+}
+
+.menu-item-count-success {
+  background-color: $green;
+}
+
+.menu-item-count-warning {
+  background-color: $red;
 }
 
 // ==========================================================================
