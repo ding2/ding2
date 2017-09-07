@@ -81,6 +81,7 @@ class DingProviderDebt extends DingEntityBase {
       'type',
       'note',
       'material_type',
+      'payableByClient',
     );
     $this->_populate($properties, $data);
   }
