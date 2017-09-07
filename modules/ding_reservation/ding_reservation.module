@@ -1053,13 +1053,6 @@ function ding_reservation_default_options_branch($name, $default, $options) {
 function ding_reservation_interest_period_selector($name, $default, $options) {
   $form = array();
 
-  // Used to enable translation of options.
-  if (is_array($options)) {
-    foreach ($options as $k => $v) {
-      $options[$k] = t(check_plain($v));
-    }
-  }
-
   $form[$name] = array(
     '#type' => 'select',
     '#title' => t('Select interest period'),

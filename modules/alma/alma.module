@@ -47,7 +47,12 @@ function alma_get_interest_periods() {
   $field_info = field_info_field('field_alma_interest_period');
   $interest_periods = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : array();
 
-  return $interest_periods;
+  $options = array();
+  foreach ($interest_periods as $days => $period) {
+    $options[$days] = t($period);
+  }
+
+  return $options;
 }
 
 /**
