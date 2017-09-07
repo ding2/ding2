@@ -49,7 +49,8 @@ function alma_get_interest_periods() {
 
   $options = array();
   foreach ($interest_periods as $days => $period) {
-    $options[$days] = t($period);
+    $period = str_replace(' months', '', $period);
+    $options[$days] = format_plural($period, '1 month', '@count months');
   }
 
   return $options;
