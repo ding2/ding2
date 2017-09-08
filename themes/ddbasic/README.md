@@ -28,16 +28,20 @@ DDBasic introduces the following basic view modes which should be used across al
 
 node:
 
+```php
 * full
 * teaser
 * teaser_highlight
 * search_result
+```
 
 ting_object:
 
+```php
 * full
 * teaser
 * search_result
+```
 
 Note that each view mode can be styled individually for specific purposes, and fields can perfectly valid be hidden with display:none to create simpler outputs of each view mode. 
 
@@ -50,7 +54,7 @@ Rendered view modes is the preferred method of presentation of entities as oppos
 A recurring frontend task is to present a list of materials. The prefered procedure is to render an array of material ids as a carousel:
 
 ```php
-theme(‘ting_carousel’, array( ‘items’ => array(id1,id2,id3) ) );
+theme("ting_carousel", array("items" => array($id1, $id2, $id3)));
 ```
 
 The carousel can hold alot of materials and still keep the UI clean across devices. 
@@ -81,7 +85,7 @@ Upscaling should be avoided in all cases, and moderate CCS downscaling and optio
 
 ## HTML markup
 
-Along with preprocessing done in template.php the [template files (temp link)](https://github.com/b14/ding2ddbasic/tree/master/themes/ddbasic/templates) are the html implementation of the Drupal objects. 
+Along with preprocessing done in template.php the [template files](https://github.com/ding2/ding2/tree/master/themes/ddbasic/templates) are the html implementation of the Drupal objects. 
 
 DDBasic follows [Drupal best practices](https://www.drupal.org/coding-standards/css/architecture) for frontend development and Drupals take on CSS and best practices for SCSS.
 
@@ -94,20 +98,20 @@ Drupal introduces many useful concepts that can be used as guidelines for semant
 Nodes, entities, fields, menus, panels and modules are examples of important concepts that the Drupal template engine treats in a structured manner regarding APIs, markup and naming.
 
 
-The [scss file structure (temp link)](https://github.com/b14/ding2/tree/ddbasic/themes/ddbasic/sass) separates Drupal concepts and provides a hierarchy close to SMACSS recommendations. Note that due to clashes between Drupal default markup DDBasic is not SMACSS compliant.
+The [scss file structure](https://github.com/ding2/ding2/tree/master/themes/ddbasic/sass) separates Drupal concepts and provides a hierarchy close to SMACSS recommendations. Note that due to clashes between Drupal default markup DDBasic is not SMACSS compliant.
 
 The stylesheets are selfdocumented with [KSS](https://github.com/kneath/kss) and the [compiled DDBasic styleguide (temp link)](http://msd.ding2.server003.b14cms.dk/profiles/ding2/themes/ddbasic/styleguide/) shows how classes, mixins, extensions and variables are correctly applied in future frontend styling of DDBasic.
 
-The grid system is a 12 column grid based on [Bourbon Neat](http://neat.bourbon.io/) which is a light weight semantic framework for grids. See [grid settings (temp link)](https://github.com/b14/ding2/blob/ddbasic/themes/ddbasic/sass/configuration/_grid-settings.scss) for details.
+The grid system is a 12 column grid based on [Bourbon Neat](http://neat.bourbon.io/) which is a light weight semantic framework for grids. See [grid settings](https://github.com/ding2/ding2/tree/master/themes/ddbasic/sass/configuration/_grid-settings.scss) for details.
 
-A number of [practical breakpoints (temp link)](https://github.com/b14/ding2/blob/ddbasic/themes/ddbasic/sass/configuration/_grid-settings.scss) divides the styling into different device cases based on only one dimension, the screen width. Frontend development in contributed modules should use the established breakpoints, and tests should cover all breakpoint cases.
+A number of [practical breakpoints](https://github.com/ding2/ding2/tree/master/themes/ddbasic/sass/configuration/_grid-settings.scss) divides the styling into different device cases based on only one dimension, the screen width. Frontend development in contributed modules should use the established breakpoints, and tests should cover all breakpoint cases.
 
 Specific Drupal / DDBasic rule of thumbs:
 
 * Drupal structures are replicated as nested SCSS objects. 
 * Viewmodes are styled inside the parent entity object
-* Responsive specifications are styled inside the selector they override using the  @include media(..) mixin.
-* Specifications of viewmode rendering in views are placed inside entities using the & - parent selector keeping styling of entities in same file.
+* Responsive specifications are styled inside the selector they override using the  ```@include media(..)``` mixin.
+* Specifications of viewmode rendering in views are placed inside entities using the ```&```-parent selector keeping styling of entities in same file.
 
 ### Example - Nesting / Styling of a general entity
 
@@ -140,7 +144,7 @@ In general nesting levels should be kept minimal, but certain patterns of nestin
 ```
 
 
-See the [news.scss (temp link)](https://github.com/b14/ding2/blob/ddbasic/themes/ddbasic/sass/components/node/news.scss) for a complete example styling of an entity.
+See the [news.scss](https://github.com/ding2/ding2/tree/master/themes/ddbasic/sass/components/node/news.scss) for a complete example styling of an entity.
 
 ## Theme development
 
@@ -175,7 +179,7 @@ Install Gulp and other packages:
 
 ### Compile KSS from SCSS
 
-KSS target folder is [sites/all/themes/ddbasic/styleguide](http://msd.ding2.server003.b14cms.dk/profiles/ding2/themes/ddbasic/styleguide)
+KSS target folder is [sites/all/themes/ddbasic/styleguide (temp link)](http://msd.ding2.server003.b14cms.dk/profiles/ding2/themes/ddbasic/styleguide)
 
 ```
 # Compile all sass into one css file
@@ -186,7 +190,7 @@ KSS target folder is [sites/all/themes/ddbasic/styleguide](http://msd.ding2.serv
 
 ### SCSS lint
 
-The [lint settings](https://github.com/b14/ding2/blob/b2578/themes/ddbasic/package.json
+The [lint settings](https://github.com/ding2/ding2/tree/master/themes/ddbasic/package.json
 ) extends the [stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard/blob/master/index.js) with a few exceptions towards flexibility.
 
 ```

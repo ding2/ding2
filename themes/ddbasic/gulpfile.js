@@ -83,15 +83,16 @@ gulp.task('sass', 'Process SCSS into individual css files using libsass',
 
 /**
  * Usage:
- * gulp sassprod
+ * gulp ksssass
  *
- * Precompile all sass files into one single bundle.css file in the sass_css folder
+ * Precompile all sass files into one single bundle.css file in the sass_css folder.
+ * This all in one file is used by kss for the style sheet.
  *
  */
-gulp.task('sassprod', 'Process SCSS into one css file using libsass',
+gulp.task('ksssass', 'Process SCSS into one css file using libsass',
   function () {
     gulp.src(sassPath)
-      .pipe(sass({outputStyle: 'nested'})
+      .pipe(sass({outputStyle: 'compact'})
         .on('error', sass.logError))
       // Save verbose output for testing purposes.
       .pipe(gulp.dest('./sass_css_verbose_output'))
@@ -107,8 +108,10 @@ gulp.task('sassprod', 'Process SCSS into one css file using libsass',
   * Usage:
   * gulp kss
   *
-  * Create the KSS micro site in the stylesheets folder
+  * Create the KSS micro site in the stylesheets folder.
   * See ./sass/homepage.md
+  *
+  * To update the kss css files call gulp ksssass.
   *
   */
 gulp.task('kss', 'Process SCSS using KSS / kss-node',
