@@ -4,7 +4,7 @@ DDBasic is the default theme provided with DDBCMS and the recommended parent the
 
 This document explains important parts of the theme layer and best practices for theming modules and inheriting subthemes from DDBasic.
 
-*As the update has not yet been merged into the [ding2 master branch](https://github.com/ding2/ding2) links below will refer to a temporary git repo and KSS stylesheets.*
+*Note: KSS docs in links below are temporary awaiting a general doc solution.*
 
 ## The DDBasic framework
 
