@@ -39,6 +39,7 @@ dependencies[] = views
 dependencies[] = views_content
 dependencies[] = virtual_field
 dependencies[] = webform
+dependencies[] = better_exposed_filters
 features[ctools][] = field_group:field_group:1
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = strongarm:strongarm:1
