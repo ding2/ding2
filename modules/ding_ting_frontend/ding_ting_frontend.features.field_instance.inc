@@ -1093,9 +1093,9 @@ function ding_ting_frontend_field_default_field_instances() {
     'display' => array(
       'collection_list' => array(
         'label' => 'hidden',
-        'module' => 'ting',
+        'module' => 'ding_availability',
         'settings' => array(),
-        'type' => 'ting_type_default',
+        'type' => 'ding_availability_type',
         'weight' => 2,
       ),
       'collection_primary' => array(
