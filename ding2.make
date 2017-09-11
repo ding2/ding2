@@ -22,6 +22,9 @@ projects[autologout][version] = "4.3"
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 
+projects[better_exposed_filters][subdir] = "contrib"
+projects[better_exposed_filters][version] = "3.4"
+
 projects[block_access][subdir] = "contrib"
 projects[block_access][version] = "1.5"
 
