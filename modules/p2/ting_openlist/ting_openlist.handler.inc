@@ -40,6 +40,24 @@ function ting_openlist_handler_user_identifier($account = NULL) {
 }
 
 /**
+ * Check if openlist is available (and configured correct).
+ *
+ * @return bool
+ *   TRUE or FALSE depending on the availability.
+ */
+function ting_openlist_handler_is_available() {
+  $result = FALSE;
+  try {
+    $result = ting_openlist_request('ping', array(), FALSE, FALSE) == 'pong';
+  }
+  catch (Exception $r) {
+    $result = FALSE;
+  }
+
+  return $result;
+}
+
+/**
  * Get a user depending on the openlist_uid.
  *
  * @param string $openlist_uid

@@ -443,6 +443,11 @@ function ding_list_ctools_plugin_directory($owner, $plugin_type) {
  * loans list.
  */
 function ding_list_user_login(&$edit, $account) {
+  // Don't update users when openlist isn't available.
+  if (ding_provider_implements('openlist', 'is_available') && !ding_provider_invoke('openlist', 'is_available')) {
+    return;
+  }
+
   if (ding_provider_implements('openlist', 'update_user')) {
     ding_provider_invoke('openlist', 'update_user', $account);
 
