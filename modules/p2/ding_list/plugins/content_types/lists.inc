@@ -52,7 +52,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     ),
   );
 
-  if (!variable_get('user_consent_activate')) {
+  if (!variable_get('user_consent_activate') || !ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE, $account)) {
     unset($groups['specials']['lists'][DING_LIST_TYPE_LOAN_HISTORY]);
   }
 
