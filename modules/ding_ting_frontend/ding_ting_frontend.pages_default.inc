@@ -475,7 +475,7 @@ search/ting
     $pane->configuration = array(
       'admin_title' => 'Fandt du',
       'title' => 'Fandt du ikke hvad du søgte?',
-      'body' => '<p>Hvis du ikke har fundet det du ledte efter kan det være, at du skal ændre din søgemetode. Her kan du få en hjælpende hånd til at optimere din søgning og finde det du leder efter.</p><p><a class="button" href="/search/help">Hjælp til søgning</a></p>',
+      'body' => '<p>Spørg os på biblioteket eller få hjælp på <a href="http://biblioteksvagten.dk/" target="_blank">biblioteksvagten.dk</a><br>Du kan også søge videre på <a href="https://bibliotek.dk" target="_blank">bibliotek.dk</a></p>',
       'format' => 'ding_wysiwyg',
       'substitute' => 1,
     );
