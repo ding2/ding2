@@ -198,6 +198,11 @@ function ding_event_views_pre_execute(&$view) {
     $view->build_info['query'] = db_select($inner, 'inner_query')
       ->fields('inner_query')
       ->groupBy('nid');
+
+    // Respect inner order.
+    foreach ($inner->getOrderBy() as $field => $direction) {
+      $view->build_info['query']->orderBy($field, $direction);
+    }
   }
 }
 
