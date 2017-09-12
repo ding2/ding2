@@ -754,6 +754,21 @@ ul.tabs.primary {
   margin: 0 5px;
 }
 
+// Offset anchors with the height of the header.
+.anchor {
+  display: block;
+  position: relative;
+  top: -$header-height;
+
+  .has-second-level-menu & {
+    top: -($header-height + $second-level-menu-height);
+
+    @include media($tablet) {
+      top: -$header-height;
+    }
+  }
+}
+
 .page-lead {
   margin-bottom: 20px;
 }
