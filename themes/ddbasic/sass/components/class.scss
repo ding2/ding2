@@ -160,10 +160,16 @@ body > .ding2-site-template {
     background-color: $grey-dark;
     color: $white;
   }
-}
-
-.button-see-online {
-  @extend .action-button;
+  &.button-see-online,
+  &.other-formats {
+    display: block;
+  }
+  &.reserve-button {
+    display: none;
+    &.reservable {
+      display: block;
+    }
+  }
 }
 
 // Submit-button with icon
