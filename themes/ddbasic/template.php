@@ -422,7 +422,7 @@ function ddbasic_preprocess_menu_link(&$variables) {
         if ($path[0] === 'user') {
           $notifications = ding_message_get_message_count();
           if (!empty($notifications)) {
-            $variables['element']['#title'] .= ' (' . $notifications . ')';
+            $variables['element']['#title'] .= ' <span class="menu-item-count">' . $notifications . '</span>';
           }
         }
         break;
