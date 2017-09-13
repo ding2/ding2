@@ -40,7 +40,7 @@ function ding_user_frontend_user_overview_content_type_render($subtype, $conf, $
 
     // Fines.
     $count = count(ding_provider_invoke('debt', 'list', $account));
-    if($count > 0) {
+    if ($count > 0) {
       $class = 'fines';
     } else {
       $class = 'default';
@@ -105,8 +105,6 @@ function ding_user_frontend_user_overview_content_type_render($subtype, $conf, $
   catch (Exception $e) {
     watchdog_exception('ding_list', $e);
   }
-
-  drupal_alter('user_overview_items', $list, $account);
 
   $block->content = array(
     '#theme' => 'item_list',

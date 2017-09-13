@@ -336,6 +336,9 @@ function ding_user_frontend_build_menu($path = NULL) {
       }
     }
 
+    // We need this menu-item in order for the menu to appear on the page.
+    // We unset this menu-item because the menu header links to the same
+    // page, and we don't want it to also be a link in the menu.
     unset($menu['user/%/view']);
 
     $menu['user/%/edit']['#weight'] = 4;

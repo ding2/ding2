@@ -1176,9 +1176,12 @@ function ding_list_views_post_execute(&$view) {
   }
 }
 
-function ding_list_user_overview_items_alter(&$rows, $account) {
-  if (variable_get('user_consent_activate')) {
-    $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $account);
+/**
+ * Implements hook_panels_pane_content_alter().
+ */
+function ding_list_panels_pane_content_alter($content, $pane, $args, $contexts) {
+  if ($pane->type == 'user_overview') {
+    $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $contexts['context_user_1']->data);
     $uri = entity_uri('ding_type', $list);
     $list_type = ding_base_get_value('ding_type', $list, 'field_list_type');
     $list_label = check_plain(entity_label('ding_type', $list));
@@ -1187,8 +1190,9 @@ function ding_list_user_overview_items_alter(&$rows, $account) {
       '<a href="' . url($uri['path']) . '" class="signature-label"><span class="icon"></span>' . $list_label . '</a>',
       'class' => array(drupal_html_class($list_type)),
     );
-    $rows = array_slice($rows, 0, 4, true) +
+    $items = &$content->content['#items'];
+    $items = array_slice($items, 0, count($items) - 1, true) +
             array($list_type => $loan_history_link) +
-            array_slice($rows, 4, count($rows) - 1, true);
+            array_slice($items, count($items) - 2, count($items) - 1, true);
   }
 }
