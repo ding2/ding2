@@ -171,6 +171,8 @@ function ding_campaign_field_default_field_bases() {
         'text' => 'Text only',
         'image_and_text' => 'Image and text',
         'text_on_image' => 'Text on image',
+        'full' => 'WYSIWYG (not in use)',
+        'plain' => 'Plain text (not in use)',
       ),
       'allowed_values_function' => '',
       'profile2_private' => FALSE,

@@ -443,6 +443,15 @@ function ding_list_ctools_plugin_directory($owner, $plugin_type) {
  * loans list.
  */
 function ding_list_user_login(&$edit, $account) {
+  // The hook_user_login() is triggered during installation, this happens prior
+  // to openlist being correctly setup and causes warnings during install of
+  // ding2.
+  // To avoid this, we don't create lists and try to sync with openlist during
+  // installation.
+  if (drupal_installation_attempted()) {
+    return;
+  }
+
   if (ding_provider_implements('openlist', 'update_user')) {
     ding_provider_invoke('openlist', 'update_user', $account);
 

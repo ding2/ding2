@@ -52,7 +52,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     ),
   );
 
-  if (!variable_get('user_consent_activate')) {
+  if (!variable_get('user_consent_activate') || !ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE, $account)) {
     unset($groups['specials']['lists'][DING_LIST_TYPE_LOAN_HISTORY]);
   }
 
@@ -175,7 +175,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     $count = count($loans) - $overdues;
     $groups['specials']['lists']['special_loans'][] = array(
       'data' =>
-      '<a href="' . url($uri['path'] . '/status-loans') . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
+      '<a href="' . url($uri['path'] . '/status-loans', array('fragment' => 'anchor-loans')) . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
       'class' => array('loan'),
     );
   }

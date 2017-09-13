@@ -244,7 +244,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 function ddbasic_preprocess__node__ding_campaign(&$variables) {
   $type = ding_base_get_value('node', $variables['node'], 'field_camp_settings', 'value');
   $image_uri = ding_base_get_value('node', $variables['node'], 'field_camp_image', 'uri');
-  $image_style = "crop_22_9";
+  $image_style = "ding_full_width";
   $image_url = image_style_url($image_style, $image_uri);
   $variables['type'] = drupal_html_class($type);
   $variables['background'] = ($type == 'text_on_image' ? 'style="background-image: url(' . $image_url . ');"' : " ");
@@ -255,13 +255,11 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
   if (isset($type)) {
     switch ($type) {
       case 'image_and_text':
-        $image_style = "crop_16_9";
-        $image_url = image_style_url($image_style, $image_uri);
         $variables['image'] = '<div class="ding-campaign-image" style="background-image: url(' . $image_url . '"></div>';
       break;
       case 'image':
         $variables['image'] = theme('image_style',array(
-            'style_name' => "crop_22_9",
+            'style_name' => "ding_full_width",
             'path' => $image_uri,
             'attributes' => array('class' => 'ding-campaign-image')
           )
