@@ -16,3 +16,7 @@
   display: inline-block;
 }
 
+.page-search-ting .pane-search-result .panel-pane-inner .pane-content .warning ul {
+  list-style: none;
+  margin: auto;
+}
