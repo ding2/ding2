@@ -26,17 +26,6 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
   $block->content = '';
 
   $groups = array(
-    'specials' => array(
-      'title' => t('Library user status'),
-      'lists' => array(
-        DING_LIST_TYPE_SPECIAL_RESERVATIONS_READY => array(),
-        DING_LIST_TYPE_SPECIAL_RESERVATIONS => array(),
-        DING_LIST_TYPE_SPECIAL_LOANS_OVERDUE => array(),
-        DING_LIST_TYPE_SPECIAL_LOANS => array(),
-        DING_LIST_TYPE_LOAN_HISTORY => array(),
-        DING_LIST_TYPE_SPECIAL_DEPTS => array(),
-      ),
-    ),
     'userlists' => array(
       'title' => t('My library'),
       'lists' => array(
@@ -51,10 +40,6 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
       'sort' => 'ding_list_custom_sort_changed',
     ),
   );
-
-  if (!variable_get('user_consent_activate') || !ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE, $account)) {
-    unset($groups['specials']['lists'][DING_LIST_TYPE_LOAN_HISTORY]);
-  }
 
   $lists = ding_list_get_lists(NULL, $account);
   if ($lists !== FALSE) {
@@ -93,94 +78,10 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
                 '#list' => $list,
               );
               break;
-
-            case 'specials':
-              $items = ding_base_get_items('ding_type', $list, 'field_list_objects');
-
-              $groups[$group_name]['lists'][$list_type][] = array(
-                'data' =>
-                '<a href="' . url($uri['path']) . '" class="signature-label"><span class="icon"></span>' . $list_label . '</a>',
-                'class' => array(drupal_html_class($list_type)),
-                '#list' => $list,
-              );
-              break;
           }
         }
       }
     }
-  }
-
-  // Add specials.
-  try {
-    ding_user_get_creds($account);
-    $uri = entity_uri('user', $account);
-
-    // Fines.
-    $count = count(ding_provider_invoke('debt', 'list', $account));
-    if($count > 0) {
-      $class = 'fines';
-    } else {
-      $class = 'default';
-    }
-    $groups['specials']['lists']['special_depts'][] = array(
-      'data' =>
-      '<a href="' . url($uri['path'] . '/status-debts') . '" class="signature-label"><span class="icon"></span>' . t('Fines') . '</a>' . '<span class="label warn">' . $count . '</span>',
-      'class' => array($class),
-    );
-
-    // Loans overdue.
-    $loans = ding_provider_invoke('loan', 'list', $account);
-    $overdues = 0;
-    $today = date('Y-m-d', REQUEST_TIME);
-    foreach ($loans as $loan) {
-      if ($loan->expiry < $today) {
-        $overdues++;
-      }
-    }
-
-    if ($overdues > 0) {
-      $groups['specials']['lists']['special_loans_overdue'][] = array(
-        'data' =>
-        '<a href="' . url($uri['path'] . '/status-loans') . '" class="signature-label"><span class="icon"></span>' . t('Loans overdue') . '</a>' . '<span class="label warn">' . $overdues . '</span>',
-        'class' => array('warn'),
-      );
-    }
-    else {
-      unset($groups['specials']['lists']['special_loans_overdue']);
-    }
-
-    // Reservations ready.
-    $readys = count(ding_provider_invoke('reservation', 'list', $account, DING_RESERVATION_READY));
-    if ($readys > 0) {
-      $groups['specials']['lists']['special_reservations_ready'][] = array(
-        'data' =>
-        '<a href="' . url($uri['path'] . '/status-reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations ready for pick-up') . '</a>' . '<span class="label ready">' . $readys . '</span>',
-        'class' => array('ready'),
-      );
-    }
-    else {
-      unset($groups['specials']['lists']['special_reservations_ready']);
-    }
-
-    // All Reservations.
-    $count = count(ding_provider_invoke('reservation', 'list', $account, DING_RESERVATION_NOT_READY));
-    $groups['specials']['lists']['special_reservations'][] = array(
-      'data' =>
-      '<a href="' . url($uri['path'] . '/status-reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations') . '</a>' . '<span class="label">' . $count . '</span>',
-      'class' => array('reservations'),
-    );
-
-    // Loans.
-    $loans = ding_provider_invoke('loan', 'list', $account);
-    $count = count($loans) - $overdues;
-    $groups['specials']['lists']['special_loans'][] = array(
-      'data' =>
-      '<a href="' . url($uri['path'] . '/status-loans', array('fragment' => 'anchor-loans')) . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
-      'class' => array('loan'),
-    );
-  }
-  catch (Exception $e) {
-    watchdog_exception('ding_list', $e);
   }
 
   // Remove groups with no list, and sort groups.

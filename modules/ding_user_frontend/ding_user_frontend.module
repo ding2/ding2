@@ -6,6 +6,12 @@
 
 include_once 'ding_user_frontend.features.inc';
 
+define('DING_USER_FRONTEND_LIST_DEPTS', 'list_depts');
+define('DING_USER_FRONTEND_LIST_RESERVATIONS_READY', 'list_reservations_ready');
+define('DING_USER_FRONTEND_LIST_RESERVATIONS', 'list_reservations');
+define('DING_USER_FRONTEND_LIST_LOANS', 'list_loans');
+define('DING_USER_FRONTEND_LIST_LOANS_OVERDUE', 'list_loans_overdue');
+
 /**
  * Implements hook_ctools_plugin_directory().
  *
@@ -329,6 +335,11 @@ function ding_user_frontend_build_menu($path = NULL) {
         }
       }
     }
+
+    // We need this menu-item in order for the menu to appear on the page.
+    // We unset this menu-item because the menu header links to the same
+    // page, and we don't want it to also be a link in the menu.
+    unset($menu['user/%/view']);
 
     $menu['user/%/edit']['#weight'] = 4;
 
