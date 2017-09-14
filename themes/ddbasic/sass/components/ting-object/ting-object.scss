@@ -95,9 +95,13 @@
           left: -158.53659%;
         }
       }
-      .field-name-ting-details-type {
-        color: $white;
+      .field-name-ting-type {
         padding: 20px 20px 0;
+        li {
+          width: 110%;
+          text-align: left;
+          color: $white;
+        }
       }
       .field-name-ting-title {
         h2 {
@@ -259,7 +263,6 @@
       a {
         width: 100%;
         float: left;
-        display: block;
         padding-right: 45px;
 
         // Tablet
@@ -282,6 +285,11 @@
         @include media($tablet) {
           width: 42%;
         }
+      }
+    }
+    .field-name-ting-type {
+      li {
+        color: $color-standard-text;
       }
     }
     .field-name-ting-title {
@@ -433,7 +441,7 @@
         }
       }
       .action-button {
-        display: inline-block;
+        float: left;
         margin: 0 15px 15px 0;
         color: $white;
         background-color: $black;
@@ -497,6 +505,11 @@
     margin-bottom: 10px;
     .action-button.other-formats {
       display: none;
+    }
+    .field-name-ting-type {
+      li {
+        color: $color-standard-text;
+      }
     }
   }
 
@@ -568,7 +581,7 @@
       }
       .action-button,
       .button-see-online {
-        display: block;
+
         padding-right: 15px;
         margin-bottom: 15px;
 
