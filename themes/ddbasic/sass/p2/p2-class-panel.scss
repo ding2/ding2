@@ -108,19 +108,17 @@
 }
 
 // ==========================================================================
-// Pane user lists and specials
+// Pane user overview & lists
 // ==========================================================================
-.pane-userlists-and-specials {
-  .ding-user-lists {
-    h3 {
-      @include font('display-large');
-      color: $color-text;
-      margin-bottom: 20px;
+.pane-user-overview-and-lists {
+  h3 {
+    @include font('display-large');
+    color: $color-text;
+    margin-bottom: 20px;
 
-      // Mobile
-      @include media($mobile) {
-        margin-bottom: 10px;
-      }
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 10px;
     }
   }
   .list-links {
@@ -159,6 +157,23 @@
       top: 50%;
     }
   }
+  ul.bottom-links {
+    list-style: none;
+    li {
+      a {
+        float: left;
+        margin-right: 20px;
+        margin-bottom: 10px;
+      }
+      &:last-child {
+        a {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+.pane-user-overview {
   .specials {
     .signature-label {
       display: block;
@@ -213,6 +228,8 @@
       }
     }
   }
+}
+.pane-lists {
   .userlists {
     li {
       padding: 20px;
@@ -228,21 +245,6 @@
     .notification-label {
       padding-right: 5px;
       color: $charcoal-opacity-dark;
-    }
-  }
-  ul.bottom-links {
-    list-style: none;
-    li {
-      a {
-        float: left;
-        margin-right: 20px;
-        margin-bottom: 10px;
-      }
-      &:last-child {
-        a {
-          margin-right: 0;
-        }
-      }
     }
   }
 }
