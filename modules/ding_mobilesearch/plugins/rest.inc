@@ -18,7 +18,7 @@
  */
 function ding_mobilesearch_rest_service_call($method, $body = array()) {
   $service_url = variable_get('mobilesearch_rest_url', '');
-  $agency_id = variable_get('ting_agency', NULL);
+  $agency_id = variable_get('mobilesearch_rest_agency_id', NULL);
   $key = variable_get('mobilesearch_rest_key', NULL);
   $debug = variable_get('mobilesearch_rest_debug', FALSE);
   if (empty($service_url) || empty($agency_id) || empty($key)) {
@@ -104,7 +104,7 @@ function ding_mobilesearch_rest_node_agency_diff($node, $original = NULL, $op = 
     'to_delete' => array(),
   );
 
-  $agency_id = variable_get('ting_agency', NULL);
+  $agency_id = variable_get('mobilesearch_rest_agency_id', NULL);
   if ($agency_id && $op) {
     switch ($op) {
       case 'hook_node_insert':
@@ -139,7 +139,7 @@ function ding_mobilesearch_rest_config_form($form, &$form_state) {
   $form['mobilesearch_rest_agency_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Agency ID'),
-    '#default_value' => variable_get('ting_agency', NULL),
+    '#default_value' => variable_get('mobilesearch_rest_agency_id', NULL),
     '#attributes' => array('disabled' => TRUE),
     '#required' => TRUE,
   );
@@ -191,7 +191,7 @@ function ding_mobilesearch_rest_node_submit($form, &$form_state) {
 
       $config = array(
         'mobilesearch_rest_url' => variable_get('mobilesearch_rest_url', ''),
-        'mobilesearch_rest_agency_id' => variable_get('ting_agency', NULL),
+        'mobilesearch_rest_agency_id' => variable_get('mobilesearch_rest_agency_id', NULL),
         'mobilesearch_rest_key' => variable_get('mobilesearch_rest_key', NULL),
       );
       $test_result = ding_mobilesearch_rest_test_service($config);
