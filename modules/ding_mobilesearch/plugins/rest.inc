@@ -136,10 +136,18 @@ function ding_mobilesearch_rest_config_form($form, &$form_state) {
     '#required' => TRUE,
   );
 
+  $ting_agency = variable_get('ting_agency', '');
+  $agency_id = variable_get('mobilesearch_rest_agency_id', '');
+  if ($ting_agency != $agency_id) {
+    drupal_set_message(t('T!NG agency ID %ting_agency does not match REST plugin agency ID %agency_id', array(
+      '%ting_agency' => $ting_agency,
+      '%agency_id' => $agency_id,
+    )), 'warning');
+  }
   $form['mobilesearch_rest_agency_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Agency ID'),
-    '#default_value' => variable_get('mobilesearch_rest_agency_id', NULL),
+    '#default_value' => variable_get('mobilesearch_rest_agency_id', $ting_agency),
     '#attributes' => array('disabled' => TRUE),
     '#required' => TRUE,
   );
