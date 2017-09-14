@@ -840,7 +840,7 @@ function ddbasic_process_ting_object(&$vars) {
   // Notice it's only done on the "search_result" view mode.
   if ($vars['elements']['#entity_type'] == 'ting_object' && isset($vars['object']->in_collection)
       && isset($vars['elements']['#view_mode'])
-      && in_array($vars['elements']['#view_mode'], array('search_result', 'collection_list'))) {
+      && in_array($vars['elements']['#view_mode'], array('search_result'))) {
     $availability = field_view_field(
       'ting_collection',
       $vars['object']->in_collection,
