@@ -375,11 +375,13 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
 function ddbasic_preprocess_menu_link(&$variables) {
   if ($variables['theme_hook_original'] === 'menu_link__user_menu') {
     $path = explode('/', $variables['element']['#href']);
+
     switch (end($path)) {
+
       case 'status-loans':
         $loans = ddbasic_account_count_overdue_loans();
         if (!empty($loans)) {
-          $variables['element']['#title'] .= ' (' . $loans . ')';
+          $variables['element']['#title'] .= ' <span class="menu-item-count">' . $loans . '</span>';
         }
         else {
           $variables['element']['#attributes']['class'][] = 'element-invisible';
@@ -389,7 +391,7 @@ function ddbasic_preprocess_menu_link(&$variables) {
       case 'status-reservations':
         $reservations = ddbasic_account_count_reservation_not_ready();
         if (!empty($reservations)) {
-          $variables['element']['#title'] .= ' (' . $reservations . ')';
+          $variables['element']['#title'] .= ' <span class="menu-item-count">' . $reservations . '</span>';
         }
         else {
           $variables['element']['#attributes']['class'][] = 'element-invisible';
@@ -399,7 +401,7 @@ function ddbasic_preprocess_menu_link(&$variables) {
       case 'status-reservations-ready':
         $reservations = ddbasic_account_count_reservation_ready();
         if (!empty($reservations)) {
-          $variables['element']['#title'] .= ' (' . $reservations . ')';
+          $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-success">' . $reservations . '</span>';
         }
         else {
           $variables['element']['#attributes']['class'][] = 'element-invisible';
@@ -409,7 +411,7 @@ function ddbasic_preprocess_menu_link(&$variables) {
       case 'status-debts':
         $debts = ddbasic_account_count_debts();
         if (!empty($debts)) {
-          $variables['element']['#title'] .= ' (' . $debts . ')';
+          $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-warning">' . $depts . '</span>';
         }
         else {
           $variables['element']['#attributes']['class'][] = 'element-invisible';
@@ -420,7 +422,7 @@ function ddbasic_preprocess_menu_link(&$variables) {
         if ($path[0] === 'user') {
           $notifications = ding_message_get_message_count();
           if (!empty($notifications)) {
-            $variables['element']['#title'] .= ' (' . $notifications . ')';
+            $variables['element']['#title'] .= ' <span class="menu-item-count">' . $notifications . '</span>';
           }
         }
         break;
