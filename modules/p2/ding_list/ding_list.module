@@ -1180,7 +1180,7 @@ function ding_list_views_post_execute(&$view) {
  * Implements hook_panels_pane_content_alter().
  */
 function ding_list_panels_pane_content_alter($content, $pane, $args, $contexts) {
-  if ($pane->type == 'user_overview') {
+  if ($pane->type == 'user_overview' && variable_get('user_consent_activate') && ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE, $contexts['context_user_1']->data)) {
     $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $contexts['context_user_1']->data);
     $uri = entity_uri('ding_type', $list);
     $list_type = ding_base_get_value('ding_type', $list, 'field_list_type');
