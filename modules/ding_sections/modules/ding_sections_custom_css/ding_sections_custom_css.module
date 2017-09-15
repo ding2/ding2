@@ -15,9 +15,9 @@ function ding_sections_custom_css_page_alter(&$page) {
   $menu_item = array_reverse($menu_item);
 
   foreach ($menu_item as $key => $menu) {
-    if (isset($menu_item[$key + 1]['router_path'])) {
-      if ($menu_item[$key + 1]['router_path'] == 'taxonomy/term/%' && $menu_item[$key + 1] != NULL) {
-        $menu_object = menu_get_object('taxonomy_term', '2', $menu_item[$key + 1]['link_path']);
+    if (isset($menu_item[$key]['router_path'])) {
+      if ($menu_item[$key]['router_path'] == 'taxonomy/term/%' && $menu_item[$key] != NULL) {
+        $menu_object = menu_get_object('taxonomy_term', '2', $menu_item[$key]['link_path']);
         if ($menu_object && $menu_object->vocabulary_machine_name == 'section' && !empty($menu_object->field_ding_sections_custom_css)) {
           $css = $menu_object->field_ding_sections_custom_css[LANGUAGE_NONE][0]['value'];
           break;

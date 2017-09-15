@@ -128,7 +128,9 @@ function ddbasic_preprocess_panels_pane(&$vars) {
     }
     else {
       // OG menu.
-      $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
+      if (is_array($vars['content'])) {
+        $vars['content']['#theme_wrappers'] = ['menu_tree__sub_menu'];
+      }
     }
   }
 
@@ -1234,7 +1236,6 @@ function ddbasic_select($variables) {
   } else {
     return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
   }
-
 }
 
 /**
