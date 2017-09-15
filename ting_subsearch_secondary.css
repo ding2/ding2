@@ -16,7 +16,7 @@
   display: inline-block;
 }
 
-.page-search-ting .pane-search-result .panel-pane-inner .pane-content .warning ul {
+.page-search-ting .pane-search-result .panel-pane-inner .pane-content .search-field-in-content--message ul {
   list-style: none;
   margin: auto;
 }

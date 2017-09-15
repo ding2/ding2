@@ -98,7 +98,7 @@ function ting_subsearch_secondary_search($keys, $results) {
             $options
           );
         }
-        $message = '<div class="messages warning">' . $msg . '</div>';
+        $message = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
         drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/ting_subsearch_secondary.css');
       }
     }
