@@ -11,6 +11,6 @@
 </div>
 
 <div class="info">
-  <h3><?php print l($fields['title']->content, $url); ?></h3>
+  <h3><?php print l($fields['title']->raw, $url); ?></h3>
   <p><?php print $fields['field_ding_tabroll_lead']->content; ?></p>
 </div>
