@@ -411,7 +411,7 @@ function ddbasic_preprocess_menu_link(&$variables) {
       case 'status-debts':
         $debts = ddbasic_account_count_debts();
         if (!empty($debts)) {
-          $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-warning">' . $depts . '</span>';
+          $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-warning">' . $debts . '</span>';
         }
         else {
           $variables['element']['#attributes']['class'][] = 'element-invisible';
