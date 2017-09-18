@@ -449,13 +449,6 @@ function ding2_update_7032() {
 }
 
 /**
- * Enable E-resource module.
- */
-function ding2_update_7033() {
-  module_enable(array('ding_eresource'));
-}
-
-/**
  * Enable Mobilesearch module.
  */
 function ding2_update_7034() {
@@ -492,3 +485,11 @@ function ding2_update_7037() {
 function ding2_update_7038() {
   ding2_translation_update();
 }
+
+/**
+ * Enable E-resource module.
+ */
+function ding2_update_7039() {
+  module_enable(array('ding_eresource'));
+}
+
