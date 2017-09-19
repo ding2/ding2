@@ -476,17 +476,17 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
       // profile fields.
       $form['#submit'][] = 'ding_user_profile_update_submit';
     }
+
+    $int_per = variable_get('ding_reservation_disable_interest_date', '');
+    $profile_provider = 'profile_' . $profile_type->type;
+    $field = 'field_' . $profile_type->module . '_interest_period';
+
+    if (!empty($int_per)) {
+      $form[$profile_provider][$field]['#access'] = FALSE;
+    }
   }
 
   $form['#validate'][] = 'ding_user_profile_update_validate';
-
-  $int_per = variable_get('ding_reservation_disable_interest_date', '');
-  $profile_provider = 'profile_' . $profile_type->type;
-  $field = 'field_' . $profile_type->module . '_interest_period';
-
-  if (!empty($int_per)) {
-    $form[$profile_provider][$field]['#access'] = FALSE;
-  }
 }
 
 /**
