@@ -205,7 +205,7 @@ function ding_mobilesearch_rest_node_submit($form, &$form_state) {
       $test_result = ding_mobilesearch_rest_test_service($config);
       if (!$test_result) {
         drupal_set_message(t('Problem connecting to the REST service. We have unchecked your "Push to Mongo" flag. Please check your !settings.',
-          array('!settings' => l(t('settings'), 'admin/config/mobilesearch/content-export/plugin'))), 'warning');
+          array('!settings' => l(t('settings'), 'admin/config/ding/mobilesearch/content-export/plugin'))), 'warning');
         global $user;
         $flag = flag_get_flag('push_to_mongo');
         $flag->remember_content($node->nid, $node);
