@@ -341,6 +341,11 @@ select[multiple="multiple"] {
 
 .form-actions {
   margin: 0;
+
+  input[type='submit'] {
+    display: inline-block;
+    margin-right: 20px;
+  }
 }
 
 // Submit

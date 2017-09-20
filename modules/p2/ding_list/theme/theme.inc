@@ -226,6 +226,7 @@ function theme_ding_list_lists($variables) {
       l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button')))),
       l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button')))),
       l(t('View all public lists'), 'public-lists', array('attributes' => array('class' => array('button')))),
+      l(t('Reset my lists'), 'user/' . $user->uid . '/reset-lists', array('attributes' => array('class' => array('button')))),
     ),
       '#title' => "",
       '#type' => 'ul',
