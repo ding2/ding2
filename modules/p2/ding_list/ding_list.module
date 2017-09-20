@@ -1217,3 +1217,10 @@ function ding_list_panels_pane_content_alter($content, $pane, $args, $contexts) 
             array_slice($items, count($items) - 2, count($items) - 1, true);
   }
 }
+
+/**
+ * Implements hook_user_delete()
+ */
+function ding_list_user_delete($account) {
+  ding_list_reset_user($account);
+}

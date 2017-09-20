@@ -245,6 +245,7 @@ function theme_ding_list_lists($variables) {
 
     $render['#items'][] = l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button'))));
     $render['#items'][] = l(t('View all public lists'), 'public-lists', array('attributes' => array('class' => array('button'))));
+    $render['#items'][] = l(t('Reset my lists'), 'user/' . $user->uid . '/reset-lists', array('attributes' => array('class' => array('button'))));
 
     $out .= drupal_render($render);
   }
