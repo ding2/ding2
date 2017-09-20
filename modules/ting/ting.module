@@ -251,7 +251,7 @@ function ting_flush_caches() {
  */
 function ting_get_relations($ting_entity) {
   $relations = array();
-
+  // TODO BBS-SAL: Handle this as a part of BBS-46 ?
   foreach ($ting_entity->relations as $relation) {
     if ($relation->type == 'dbcaddi:hasOpenUrl' || $relation->type == 'dbcaddi:hasOnlineAccess') {
       continue;
@@ -278,6 +278,8 @@ function ting_block_view($delta = '') {
   $block = new stdClass();
 
   switch ($delta) {
+    // Render a block with links to related materials including a count of how
+    // many instances of each type is available.
     case 'ting_relation_anchors':
       $items = array();
       if ($object = menu_get_object('ting_object', 2)) {

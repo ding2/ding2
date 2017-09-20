@@ -209,7 +209,13 @@ class TingEntity extends DingEntity {
     return !empty($this->reply->record) ? $this->reply->record : false;
   }
 
-  function getRelations() {
+  /**
+   * Retrives materials related to the material represented by this entity.
+   *
+   * @return TingRelation[]
+   *   Array of TingRelation instances.
+   */
+  public function getRelations() {
     // If relations are not set; do another request to get relations
     if (!isset($this->reply->relationsData)) {
       $tingClientObject = ting_get_object($this->ding_entity_id, FALSE, TRUE);
