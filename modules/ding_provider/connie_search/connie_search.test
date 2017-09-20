@@ -31,7 +31,7 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
    * Indicate which modules this test-class depends on.
    */
   public  function setUp() {
-    parent::setUp(['connie_search', 'ding_provider', 'xautoload']);
+    parent::setUp(['connie_search', 'ding_provider', 'ting', 'xautoload']);
   }
 
   /**
@@ -72,5 +72,50 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
    */
   public function getSearchResult() {
     return new ConnieSearchResult();
+  }
+
+  /**
+   * Result of getAllRelations down to supported relations.
+   *
+   * @return \TingRelation[].
+   *   The relations.
+   */
+  public function getFilteredRelations() {
+    return [
+      new TingRelation('type1', 'http://example.com/1', (object) []),
+      new TingRelation('type3', 'http://example.com/3_0', (object) []),
+      new TingRelation('type3', 'http://example.com/3_1', (object) []),
+    ];
+  }
+
+  /**
+   * List of relations including some that are not supported.
+   *
+   * @return \TingRelation[].
+   *   The list.
+   */
+  public function getExampleRelations() {
+    return [
+      new TingRelation('type0', 'http://example.com/0', (object) []),
+      new TingRelation('type1', 'http://example.com/1', (object) []),
+      new TingRelation('type2', 'http://example.com/2_0', (object) []),
+      new TingRelation('type2', 'http://example.com/2_1', (object) []),
+      new TingRelation('type3', 'http://example.com/3_0', (object) []),
+      new TingRelation('type3', 'http://example.com/3_1', (object) []),
+      new TingRelation('type4', 'http://example.com/4', (object) []),
+    ];
+  }
+
+  /**
+   * Expected list of supported relations.
+   *
+   * @return string[].
+   *   List of relation titles keyed by type.
+   */
+  public function getSupportedRelations() {
+    return [
+      'type1' => 'Relation type 1',
+      'type3' => 'Relation type 3',
+    ];
   }
 }

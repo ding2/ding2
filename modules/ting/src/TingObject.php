@@ -47,6 +47,22 @@ class TingObject implements TingObjectInterface {
   public $type;
   public $year;
   public $isPartOf;
+  public $isLocal;
+  public $relations = [];
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isLocal() {
+    return $this->isLocal;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRelations() {
+    return $this->relations;
+  }
 
   // TODO BBS-SAL: Temporary fix to allow the pseudo object to be accessed via
   // properties, must be removed together with the dynamic property functions

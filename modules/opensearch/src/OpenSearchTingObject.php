@@ -47,6 +47,14 @@ class OpenSearchTingObject implements TingObjectInterface {
     return $this->dingId;
   }
 
+  public function getRelations(){
+    return [];
+  }
+
+  public function isLocal() {
+    return variable_get('ting_agency', -1) != $this->getOwnerId();
+  }
+
   /**
    * Get provider-specific local ID.
    *

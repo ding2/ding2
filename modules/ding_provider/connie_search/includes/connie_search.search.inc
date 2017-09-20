@@ -57,5 +57,38 @@ function connie_search_search_collection_load($id) {
  */
 function connie_search_search_search(TingSearchRequest $query) {
   return new ConnieSearchResult();
+}
 
+/**
+ * Given a list of relations, return the relations supported by the provider.
+ *
+ * @param \TingRelation[] $relations
+ *   List of relations.
+ *
+ * @return \TingRelation[]
+ *   List of relations with unsupported relations removed.
+ */
+function connie_search_search_filter_relations(array $relations) {
+  $supported = array_keys(connie_search_search_supported_relations());
+  return array_filter($relations,
+    function($entry) use ($supported) {
+      return in_array($entry->type, $supported);
+    }
+  );
+}
+
+/**
+ * Returns a list of relation-types supported by the provider.
+ *
+ * The array is a list of human-readable titles of the relations keyed by
+ * relation types (TingRelation->type).
+ *
+ * @return string[]
+ *   The list of types and titles.
+ */
+function connie_search_search_supported_relations() {
+  return [
+    'type1' => 'Relation type 1',
+    'type3' => 'Relation type 3',
+  ];
 }

@@ -9,6 +9,25 @@ namespace Ting;
 interface TingObjectInterface {
 
   /**
+   * Returns materials related to this material.
+   *
+   * @return TingRelation[]
+   *   An array of relations.
+   */
+  public function getRelations();
+
+  /**
+   * Determines whether the matrial is local.
+   *
+   * A local material is a material that is available from the library that is
+   * primary for the current Ding installation.
+   *
+   * @return bool
+   *   Whether the material is local.
+   */
+  public function isLocal();
+
+  /**
    * Gets the owner of the object, eg. the agency.
    *
    * @return string
