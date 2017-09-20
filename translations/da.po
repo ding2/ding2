@@ -3124,7 +3124,7 @@ msgstr ""
 
 #: /index.php
 msgid "Ding frontpage tabroll"
-msgstr ""
+msgstr "Tabroll"
 
 #: /index.php
 msgid "Ding frontpage tablroll"
@@ -48090,7 +48090,7 @@ msgstr "Tilføj til Liste"
 
 #: /index.php
 msgid "Ding Entity Rating: Popular"
-msgstr "Populært"
+msgstr "Månedens bedst bedømte titler"
 
 #: /
 msgid "Rate your previous loans"
@@ -55787,7 +55787,7 @@ msgstr "Populære materialer fra OpenList"
 
 #: /index.php
 msgid "Ding interaction pane"
-msgstr "Ding Interaction panel"
+msgstr "Interaktionsboks"
 
 #: /index.php
 msgid "Displays interaction to the user"
@@ -55851,7 +55851,7 @@ msgstr "Viser beskeder til brugeren"
 
 #: /index.php
 msgid "Ding serendipity with TingObject"
-msgstr "Ding Serendipitet med TingObject (Materialer)"
+msgstr "Biblioteket foreslår materialer til dig"
 
 #: /index.php
 msgid "Display serendipity content of type the ting object."
@@ -57183,7 +57183,7 @@ msgstr ""
 
 #: /varnish/roles
 msgid "Relevant campaigns"
-msgstr ""
+msgstr "Kampagner"
 
 #: /varnish/roles
 msgid "Display ad-like campaigns"
@@ -67187,3 +67187,7 @@ msgid ""
 "to Mongo\" flag. Please check your !settings."
 msgstr "Der skete en fejl med forbindelsen til CMS Content. Vi har "
 "deaktiveret \"Send til CMS Content\" checkboxen. Check !settings."
+
+#: /index.php
+msgid "All opening hours"
+msgstr "Åbningstider"
