@@ -214,7 +214,7 @@ function ddbasic_preprocess_views_view(&$vars) {
           $vars['classes_array'][] = 'frontpage-view';
 
           // Add event count setting as js variable.
-          $count = variable_get('ding_frontpage_events_count', 6);
+          $count = variable_get('ding_event_frontpage_items_per_page', 6);
           drupal_add_js(array('number_of_events' => $count), 'setting');
 
           break;
