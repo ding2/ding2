@@ -38,6 +38,56 @@ function ding_frontend_views_api($module = NULL, $api = NULL) {
 function ding_frontend_image_default_styles() {
   $styles = array();
 
+  // Exported image style: crop_16_9.
+  $styles['crop_16_9'] = array(
+    'name' => 'crop_16_9',
+    'label' => 'Crop 16:9',
+    'effects' => array(
+      2 => array(
+        'label' => 'Manual Crop: Custom crop',
+        'help' => 'Crop a freely user-selected area.',
+        'effect callback' => 'manualcrop_crop_effect',
+        'form callback' => 'manualcrop_crop_form',
+        'summary theme' => 'manualcrop_crop_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_crop',
+        'data' => array(
+          'width' => 356,
+          'height' => 200,
+          'keepproportions' => 1,
+          'reuse_crop_style' => 'crop_unconstrained',
+          'style_name' => 'crop_16_9',
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
+  // Exported image style: crop_unconstrained.
+  $styles['crop_unconstrained'] = array(
+    'name' => 'crop_unconstrained',
+    'label' => 'Crop unconstrained',
+    'effects' => array(
+      3 => array(
+        'label' => 'Manual Crop: Custom crop',
+        'help' => 'Crop a freely user-selected area.',
+        'effect callback' => 'manualcrop_crop_effect',
+        'form callback' => 'manualcrop_crop_form',
+        'summary theme' => 'manualcrop_crop_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_crop',
+        'data' => array(
+          'width' => '',
+          'height' => '',
+          'keepproportions' => 0,
+          'reuse_crop_style' => '',
+          'style_name' => 'crop_unconstrained',
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
   // Exported image style: ding_attachment_large.
   $styles['ding_attachment_large'] = array(
     'name' => 'ding_attachment_large',
@@ -108,6 +158,44 @@ function ding_frontend_image_default_styles() {
       ),
     ),
     'label' => 'ding_attachment_small',
+  );
+
+  // Exported image style: ding_full_width.
+  $styles['ding_full_width'] = array(
+    'name' => 'ding_full_width',
+    'label' => 'Ding full width',
+    'effects' => array(
+      4 => array(
+        'label' => 'Manual Crop: Reuse cropped style',
+        'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
+        'effect callback' => 'manualcrop_reuse_effect',
+        'form callback' => 'manualcrop_reuse_form',
+        'summary theme' => 'manualcrop_reuse_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_reuse',
+        'data' => array(
+          'reuse_crop_style' => 'crop_22_9',
+          'apply_all_effects' => 0,
+        ),
+        'weight' => 0,
+      ),
+      5 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 1124,
+          'height' => '',
+          'upscale' => 0,
+        ),
+        'weight' => 2,
+      ),
+    ),
   );
 
   // Exported image style: ding_list_large.

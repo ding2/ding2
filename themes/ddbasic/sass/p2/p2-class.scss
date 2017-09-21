@@ -34,7 +34,7 @@
     );
     @include transform(translateY(-14px));
     position: absolute;
-    right: 14px;
+    right: 56px;
     top: 50%;
     width: 30px;
     height: 30px;
@@ -50,16 +50,29 @@
       float: right;
       width: auto;
       height: auto;
+      padding-right: 46px;
       line-height: 20px;
       background-color: transparent;
       color: $color-primary;
     }
   }
+  
   .no-touch & {
     &:hover {
       .notification-count {
         color: $color-standard-text;
         background-color: $white;
+      }
+    }
+  }
+  
+  @include media($mobile) {
+    .no-touch & {
+      &:hover {
+        .notification-count {
+          color: $color-text-on-primary;
+          background-color: transparent;
+        }
       }
     }
   }

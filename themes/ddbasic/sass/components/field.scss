@@ -218,6 +218,15 @@ div.search-field-in-content--message {
   margin-bottom: 30px;
   background-color: $color-primary;
   color: $color-text-on-primary;
+
+  a,
+  a.active {
+    @include transition(color $speed $ease);
+    color: $white;
+    &:hover {
+      color: $white-opacity-dark;
+    }
+  }
 }
 
 // ==========================================================================

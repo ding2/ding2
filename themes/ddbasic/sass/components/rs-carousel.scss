@@ -8,7 +8,15 @@
 // ==========================================================================
 
 .rs-carousel {
+  @include transition(opacity $speed $ease);
   position: relative;
+  opacity: 0;
+
+  .ting_search_carousel_inited & {
+    opacity: 1;
+  }
+
+
   // Title
   .rs-carousel-title {
     @include font('display-large');

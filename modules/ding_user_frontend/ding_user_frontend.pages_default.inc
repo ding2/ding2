@@ -482,10 +482,10 @@ function ding_user_frontend_default_page_manager_handlers() {
     $display->content['new-c73e6fbd-2403-4298-8cdb-00ed617c8e5d'] = $pane;
     $display->panels['left_sidebar'][0] = 'new-c73e6fbd-2403-4298-8cdb-00ed617c8e5d';
     $pane = new stdClass();
-    $pane->pid = 'new-d081acdc-515e-4069-b395-8c7bc7e6e3c7';
+    $pane->pid = 'new-b3e8f15d-edc1-4157-8c03-55bfd5db84c0';
     $pane->panel = 'main_content';
-    $pane->type = 'lists';
-    $pane->subtype = 'lists';
+    $pane->type = 'user_overview';
+    $pane->subtype = 'user_overview';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -495,14 +495,14 @@ function ding_user_frontend_default_page_manager_handlers() {
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'pane-userlists-and-specials',
+      'css_class' => 'pane-user-overview-and-lists',
     );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $pane->uuid = 'd081acdc-515e-4069-b395-8c7bc7e6e3c7';
-    $display->content['new-d081acdc-515e-4069-b395-8c7bc7e6e3c7'] = $pane;
-    $display->panels['main_content'][0] = 'new-d081acdc-515e-4069-b395-8c7bc7e6e3c7';
+    $pane->uuid = 'b3e8f15d-edc1-4157-8c03-55bfd5db84c0';
+    $display->content['new-b3e8f15d-edc1-4157-8c03-55bfd5db84c0'] = $pane;
+    $display->panels['main_content'][0] = 'new-b3e8f15d-edc1-4157-8c03-55bfd5db84c0';
     $pane = new stdClass();
     $pane->pid = 'new-d8e66878-81ac-4da6-9c30-eb876b25af49';
     $pane->panel = 'main_content';
@@ -792,9 +792,9 @@ function ding_user_frontend_default_page_manager_pages() {
   );
   $page->menu = array(
     'type' => 'tab',
-    'title' => 'Mine hjemlån',
+    'title' => 'Overdue loans',
     'name' => 'navigation',
-    'weight' => '3',
+    'weight' => '2',
     'parent' => array(
       'type' => 'tab',
       'title' => 'Min side',
@@ -930,6 +930,138 @@ function ding_user_frontend_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
+  $page->name = 'user_my_library';
+  $page->task = 'page';
+  $page->admin_title = 'User my library';
+  $page->admin_description = '';
+  $page->path = 'user/%user/my-library';
+  $page->access = array();
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'Mit personlige bibliotek',
+    'name' => 'navigation',
+    'weight' => '3',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'user' => array(
+      'id' => 1,
+      'identifier' => 'User: ID',
+      'name' => 'entity_id:user',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_user_my_library__panel';
+  $handler->task = 'page';
+  $handler->subtask = 'user_my_library';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => 'panel',
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'afc7c078-151d-40f8-b503-1ca8abb56201';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'path' => '',
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $display->content['new-2567061b-6c7f-4208-9f1e-81cecd5840ff'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $pane = new stdClass();
+    $pane->pid = 'new-5d084033-4aa3-42e4-9303-c5fdde6d7d29';
+    $pane->panel = 'main_content';
+    $pane->type = 'lists';
+    $pane->subtype = 'lists';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'pane-user-overview-and-lists',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '5d084033-4aa3-42e4-9303-c5fdde6d7d29';
+    $display->content['new-5d084033-4aa3-42e4-9303-c5fdde6d7d29'] = $pane;
+    $display->panels['main_content'][0] = 'new-5d084033-4aa3-42e4-9303-c5fdde6d7d29';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['user_my_library'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
   $page->name = 'user_reservations';
   $page->task = 'page';
   $page->admin_title = 'User reservations';
@@ -962,7 +1094,7 @@ function ding_user_frontend_default_page_manager_pages() {
     'settings' => NULL,
   );
   $page->menu = array(
-    'type' => 'tab',
+    'type' => 'none',
     'title' => 'Reservations',
     'name' => 'navigation',
     'weight' => '4',
@@ -1148,7 +1280,7 @@ function ding_user_frontend_default_page_manager_pages() {
     'type' => 'tab',
     'title' => 'Reservations ready for pick-up',
     'name' => 'navigation',
-    'weight' => '4',
+    'weight' => '1',
     'parent' => array(
       'type' => 'tab',
       'title' => 'Min side',

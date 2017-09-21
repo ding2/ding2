@@ -859,7 +859,7 @@ function ding_event_field_default_field_instances() {
     'bundle' => 'ding_event',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'An external link to a site where the user can sign up for the event or buy tickets to the event. The link is printet out as a button. If the event has a price the text on the button will be "Bestil billet(ter)" - if not, the text will be "Deltag i arrangementet". If Place2book is used, this field should not be used.',
     'display' => array(
       'alternative_layout_full' => array(
         'label' => 'above',
@@ -898,8 +898,10 @@ function ding_event_field_default_field_instances() {
     'label' => 'Book ticket/Participate in event',
     'required' => 0,
     'settings' => array(
+      'absolute_url' => 1,
       'attributes' => array(
         'class' => '',
+        'configurable_class' => 0,
         'configurable_title' => 0,
         'rel' => '',
         'target' => 'default',
@@ -911,6 +913,7 @@ function ding_event_field_default_field_instances() {
       'enable_tokens' => 1,
       'rel_remove' => 'default',
       'title' => 'none',
+      'title_label_use_field_label' => 0,
       'title_maxlength' => 128,
       'title_value' => '',
       'url' => 0,
@@ -1074,7 +1077,7 @@ function ding_event_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'og_group_ref',
     'label' => 'Library',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'behaviors' => array(
         'og_widget' => array(
@@ -1114,6 +1117,7 @@ function ding_event_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('An external link to a site where the user can sign up for the event or buy tickets to the event. The link is printet out as a button. If the event has a price the text on the button will be "Bestil billet(ter)" - if not, the text will be "Deltag i arrangementet". If Place2book is used, this field should not be used.');
   t('Body');
   t('Book ticket/Participate in event');
   t('Category');

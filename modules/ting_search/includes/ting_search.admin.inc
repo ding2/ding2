@@ -81,7 +81,6 @@ function ting_search_admin_settings($form_state) {
     '#options' => array(
       TING_SEARCH_FORM_STYLE_NORMAL => t('Normal'),
       TING_SEARCH_FORM_STYLE_EXTENDED => t('Extended'),
-      TING_SEARCH_FORM_STYLE_EXTENDED_WITH_TYPES => t('Extended with material types'),
     ),
     '#default_value' => variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL),
   );

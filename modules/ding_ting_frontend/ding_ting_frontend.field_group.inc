@@ -140,9 +140,9 @@ function ding_ting_frontend_field_group_info() {
     'label' => 'Inner',
     'weight' => '43',
     'children' => array(
-      0 => 'ting_details_type',
+      0 => 'ting_author',
       1 => 'ting_title',
-      2 => 'ting_author',
+      2 => 'ting_type',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -329,12 +329,12 @@ function ding_ting_frontend_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Text',
-    'weight' => '44',
+    'weight' => '2',
     'children' => array(
-      0 => 'ting_details_type',
-      1 => 'ting_title',
-      2 => 'ting_abstract',
-      3 => 'ting_author',
+      0 => 'ting_abstract',
+      1 => 'ting_author',
+      2 => 'ting_title',
+      3 => 'ting_type',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -363,7 +363,7 @@ function ding_ting_frontend_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Text',
-    'weight' => '1',
+    'weight' => '2',
     'children' => array(
       0 => 'ting_abstract',
       1 => 'group_inner',
@@ -621,14 +621,14 @@ function ding_ting_frontend_field_group_info() {
     'children' => array(
       0 => 'ting_relations',
       1 => 'ting_infomedia',
-      2 => 'group_material_details',
-      3 => 'group_holdings_available',
-      4 => 'group_on_this_site',
-      5 => 'group_periodical_issues',
-      6 => 'group_ting_object_meta',
-      7 => 'group_ting_object_right_a',
-      8 => 'group_ting_object_right_c',
-      9 => 'group_oembed',
+      2 => 'group_holdings_available',
+      3 => 'group_on_this_site',
+      4 => 'group_periodical_issues',
+      5 => 'group_material_details',
+      6 => 'group_oembed',
+      7 => 'group_ting_object_right_c',
+      8 => 'group_ting_object_right_a',
+      9 => 'group_ting_object_meta',
     ),
     'format_type' => 'div',
     'format_settings' => array(

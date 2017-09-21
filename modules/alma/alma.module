@@ -592,8 +592,10 @@ function alma_update_provider($changes, $entity) {
       user_save($user);
     }
   }
-  else {
-    // Delete the email from ALMA and database.
+  elseif (array_key_exists('mail', $changes) && empty($changes['mail'])) {
+    // Delete the email from ALMA and database but only if we have a change to
+    // the mail setting it to empty. Check for key existence as isset will
+    // return false for null values.
     global $user;
 
     $res = TRUE;

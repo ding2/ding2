@@ -100,6 +100,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   );
 
   $any_renewable = FALSE;
+  $group_types = array();
   foreach ($groups as $gid => $group) {
     // Counter to ensure that the "select all" checkbox is disabled if all loans
     // in group are disabled.
@@ -118,44 +119,60 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       ),
     );
 
-    foreach ($group['loans'] as $loan) {
-      // Try to get entity for the loan.
-      $entity = $loan->entity;
-      $raw_title = $entity->getTitle();
+    // Numeric gids are loans not yet overdue.
+    $group_type = !is_numeric($gid) ? $gid : 'loans';
+    if (empty($group_types[$group_type])) {
+      $group_types[$group_type] = TRUE;
+      $form['loans'][$gid]['title']['#prefix'] = '<a class="anchor" id="anchor-' . $group_type . '"></a>' . $form['loans'][$gid]['title']['#prefix'];
+    }
 
-      if (!is_object($entity) || $entity->reply == FALSE) {
+    foreach ($group['loans'] as $loan) {
+      // The default title from loan object.
+      $title = $loan->display_name;
+
+      // Try to get entity for the loan to make a better title and provide info
+      // about the associated material.
+      $entity = $loan->entity;
+
+      if (!is_object($entity) || empty($entity->reply)) {
         // Patron have this item in loans list, but opensearch can't find this
         // record for current agencyId, so we load it separately.
         // Here we are loading TingClientObject.
-        $checked_entity = ting_get_object($loan->ding_entity_id);
+        $ting_object = ting_get_object($loan->ding_entity_id);
 
         // But we need TingEntity instance, so here we are populating this.
         $ting_entity = new TingEntity();
         $ting_entity->ding_entity_id = $entity->ding_entity_id;
-        $ting_entity->reply = $checked_entity;
-
-        // Fetching raw title of the loaded item.
-        $raw_title = $ting_entity->getTitle();
+        $ting_entity->reply = $ting_object;
+        $entity = $ting_entity;
       }
 
-      // Add title link.
-      $uri = entity_uri('ting_object', $entity);
-      $title = l($raw_title, $uri['path']);
+      if (is_object($entity) && !empty($entity->reply)) {
+        $raw_title = $entity->getTitle();
 
-      // Add creator(s).
-      $creators = $entity->creators;
+        // Add title link.
+        $uri = entity_uri('ting_object', $entity);
+        $title = l($raw_title, $uri['path']);
 
-      // Add type.
-      $mat_type = $entity->type;
+        // Add creator(s).
+        $creators = $entity->creators;
+
+        // Add type.
+        $mat_type = $entity->type;
+
+        // Attempt to render a cover.
+        $cover = field_view_field('ting_object', $entity, 'ting_cover', 'user_list');
+      }
+
 
       $item = array(
         '#type' => 'material_item',
         '#loan' => $loan,
         '#id' => $loan->id,
-        '#creators' => $creators,
-        '#material_type' => $mat_type,
+        '#creators' => isset($creators) ? $creators : NULL,
+        '#material_type' => isset($mat_type) ? $mat_type : NULL,
         '#title' => $title,
-        '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+        '#cover' => isset($cover) ? $cover : NULL,
         '#information' => array(
           'loan_date' => array(
             'label' => t('Loan date'),
@@ -287,6 +304,13 @@ function ding_loan_loans_form_submit($form, &$form_state) {
     else {
       // Create title from entity object.
       $title = $entity->getTitle();
+    }
+
+    // Add extra information if it's a periodical. There is an exception
+    // because the notes field is also used to set library information for
+    // inter library loans but only when they are ready for pick-up.
+    if (!empty($form_state['values']['items'][$id]->notes) && !($form_state['values']['items'][$id]->ill_status)) {
+      $title .= ' (' . $form_state['values']['items'][$id]->notes . ')';
     }
 
     // @todo Better feedback.

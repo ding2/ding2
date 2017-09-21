@@ -476,24 +476,17 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
       // profile fields.
       $form['#submit'][] = 'ding_user_profile_update_submit';
     }
+
+    $int_per = variable_get('ding_reservation_disable_interest_date', '');
+    $profile_provider = 'profile_' . $profile_type->type;
+    $field = 'field_' . $profile_type->module . '_interest_period';
+
+    if (!empty($int_per)) {
+      $form[$profile_provider][$field]['#access'] = FALSE;
+    }
   }
 
   $form['#validate'][] = 'ding_user_profile_update_validate';
-
-  $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
-  $form['ding_user_fee_sms'] = array(
-    '#type' => 'item',
-    '#markup' => $fee_sms,
-    '#weight' => 0,
-  );
-
-  $int_per = variable_get('ding_reservation_disable_interest_date', '');
-  $profile_provider = 'profile_' . $profile_type->type;
-  $field = 'field_' . $profile_type->module . '_interest_period';
-
-  if (!empty($int_per)) {
-    $form[$profile_provider][$field]['#access'] = FALSE;
-  }
 }
 
 /**
@@ -1046,7 +1039,14 @@ function ding_user_authenticate_form_callback($form, &$form_state) {
   );
 
   if ($success) {
-    // Close dialog if successful.
+    // Close the login form popup.
+    $response['#commands'][] = ajax_command_ding_popup_close('ding_user');
+    // Open a new popup for instant feedback, so the user knows they're being
+    // logged in.
+    $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticated'), t('Authenticated, refreshing page.'));
+    // When using the refresh option with the popup_close command it will not
+    // close the popup, but simply start refreshing, leaving the previously
+    // opened feedback popup open.
     $response['#commands'][] = ajax_command_ding_popup_close('ding_user', TRUE);
   }
   else {

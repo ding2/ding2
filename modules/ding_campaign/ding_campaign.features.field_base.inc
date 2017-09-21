@@ -100,28 +100,54 @@ function ding_campaign_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_camp_link',
-    'foreign keys' => array(),
-    'indexes' => array(),
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
     'locked' => 0,
-    'module' => 'link',
+    'module' => 'text',
     'settings' => array(
-      'attributes' => array(
-        'class' => '',
-        'rel' => '',
-        'target' => 'default',
-      ),
-      'display' => array(
-        'url_cutoff' => 80,
-      ),
-      'enable_tokens' => 1,
+      'max_length' => 255,
       'profile2_private' => FALSE,
-      'title' => 'optional',
-      'title_maxlength' => 128,
-      'title_value' => '',
-      'url' => 0,
     ),
     'translatable' => 0,
-    'type' => 'link_field',
+    'type' => 'text',
+  );
+
+  // Exported field_base: 'field_camp_new_window'
+  $field_bases['field_camp_new_window'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_camp_new_window',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => 0,
+        1 => 1,
+      ),
+      'allowed_values_function' => '',
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'list_boolean',
   );
 
   // Exported field_base: 'field_camp_settings'
@@ -145,6 +171,8 @@ function ding_campaign_field_default_field_bases() {
         'text' => 'Text only',
         'image_and_text' => 'Image and text',
         'text_on_image' => 'Text on image',
+        'full' => 'WYSIWYG (not in use)',
+        'plain' => 'Plain text (not in use)',
       ),
       'allowed_values_function' => '',
       'profile2_private' => FALSE,

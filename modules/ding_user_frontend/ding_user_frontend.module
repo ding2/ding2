@@ -6,6 +6,12 @@
 
 include_once 'ding_user_frontend.features.inc';
 
+define('DING_USER_FRONTEND_LIST_DEPTS', 'list_depts');
+define('DING_USER_FRONTEND_LIST_RESERVATIONS_READY', 'list_reservations_ready');
+define('DING_USER_FRONTEND_LIST_RESERVATIONS', 'list_reservations');
+define('DING_USER_FRONTEND_LIST_LOANS', 'list_loans');
+define('DING_USER_FRONTEND_LIST_LOANS_OVERDUE', 'list_loans_overdue');
+
 /**
  * Implements hook_ctools_plugin_directory().
  *
@@ -325,19 +331,26 @@ function ding_user_frontend_build_menu($path = NULL) {
           }
 
           // Add current item and sub-menu to the menu.
-          $menu[] = $current;
+          $menu[$item['path']] = $current;
         }
       }
     }
+
+    // We need this menu-item in order for the menu to appear on the page.
+    // We unset this menu-item because the menu header links to the same
+    // page, and we don't want it to also be a link in the menu.
+    unset($menu['user/%/view']);
+
+    $menu['user/%/edit']['#weight'] = 4;
 
     // Add logout to menu.
     $logout_item = array();
     $logout_item = $menu_item_defaults;
     $logout_item['#title'] = t('Log out');
-    $logout_item['#href'] = '/user/logout';
+    $logout_item['#href'] = 'user/logout';
     $logout_item['#weight'] = 100;
     $logout_item['#attributes']['class'] = 'user-log-out';
-    $menu[] = $logout_item;
+    $menu[$logout_item['#href']] = $logout_item;
 
     drupal_alter('ding_user_frontend_build_menu', $menu, $menu_item_defaults);
   }
@@ -392,5 +405,20 @@ function ding_user_frontend_url_inbound_alter(&$path, $original_path, $path_lang
         $path .= '/' . $matches[1];
       }
     }
+  }
+}
+
+/**
+ * Implements hook_views_default_views_alter().
+ *
+ * Ensure the views for the default bookmarks flag are killed. We don't use
+ * them and the flag_bookmarks_tab clashes with our user-menu.
+ */
+function ding_user_frontend_views_default_views_alter(&$views) {
+  if (!empty($views['flag_bookmarks'])) {
+    unset($views['flag_bookmarks']);
+  }
+  if (!empty($views['flag_bookmarks_tab'])) {
+    unset($views['flag_bookmarks_tab']);
   }
 }

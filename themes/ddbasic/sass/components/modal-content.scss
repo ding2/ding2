@@ -1,0 +1,35 @@
+//
+// Styling of content in modal-content
+
+@import '../base.scss';
+
+.modal-content {
+  input[type=email],
+  input[type=password],
+  input[type=text] {
+    width: auto;
+    background-color: $grey;
+  }
+  input[type=checkbox]+label,
+  input[type=radio]+label {
+    min-height: 28px;
+  }
+  input[type=submit] {
+    max-width: 200px;
+    margin-bottom: 10px;
+  }
+  .form-type-select {
+    max-width: 400px;
+  }
+  .option-text-aligner {
+    .dependent-options {
+      padding-left: 0;
+    }
+    .form-type-select {
+      min-width: 150px;
+    }
+  }
+  .description {
+    margin-bottom: 10px;
+  }
+}

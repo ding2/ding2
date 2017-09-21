@@ -62,4 +62,13 @@
     ddbasic.popupbar.close();
   };
 
+  Drupal.behaviors.popupbar = {
+    attach: function(context, settings) {
+      $('.close-popupbar', context).on('click', function (evt) {
+        evt.preventDefault();
+        ddbasic.popupbar.close();
+      });
+    }
+  };
+
 })(jQuery);

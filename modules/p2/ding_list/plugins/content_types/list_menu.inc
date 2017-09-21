@@ -38,7 +38,6 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
           'title' => t('To your lists'),
           'attributes' => array('class' => array('menu-item')),
           'html' => TRUE,
-          'fragment' => 'userlists',
         ),
         'view' => array(
           'href' => $uri['path'],

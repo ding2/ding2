@@ -96,10 +96,7 @@
           <?php print render($content['group_right']['field_ding_news_category']); ?>
           <div class="section meta">
               <div class="author"><?php print t("By"); ?> <?php print $name; ?></div>
-              <div class="created"><?php print $news_full_submitted ?> 
-              <?php if($news_full_submitted !== $news_full_changed) : ?>
-                (<?php print t('Updated')?> <?php print $news_full_changed; ?>)
-              <?php endif; ?>
+              <div class="created"><?php print $news_submitted ?>
               </div>
           </div>
           <?php print render($content['group_right']); ?>

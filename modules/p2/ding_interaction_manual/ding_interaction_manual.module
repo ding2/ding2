@@ -26,7 +26,7 @@ function ding_interaction_manual_preprocess_entity(&$variables) {
 /**
  * Implements hook_ding_interaction_view().
  */
-function ding_interaction_manual_ding_interaction_view($count, $extra) {
+function ding_interaction_manual_ding_interaction_view($extra) {
   global $user;
 
   if (!empty($extra) && user_access('administer personalisation')) {
