@@ -48,8 +48,7 @@ function ting_relation_theme() {
  * Builds the lists of relations to use as anchors when display a ting entity.
  */
 function ting_relation_ding_anchor_info() {
-  $relations = ting_relation_inline();
-  return $relations;
+  return ding_provider_invoke('search', 'inline_relation_types');
 }
 
 /**

@@ -76,6 +76,7 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
       $cache_key = ting_cache_collection_key($object_id);
     }
     $object = ting_cache_get($cache_key, $type, $with_relations);
+    $object = FALSE;
     if ($object != TING_CACHE_EMPTY_ENTRY && !$object) {
       // Put a negative reply in the cache. It will be overwritten by the
       // object, or ensure that we won't try to fetch this id again.
@@ -429,7 +430,7 @@ function ting_execute_cache($request) {
 
   // Check if the reply have been stored in cache.
   $reply = ting_cache_get(md5(serialize($parms)), TING_CACHE_REPLY);
-
+  $reply = FALSE;
   if (!$reply) {
     // Reply for the request was not found, so we have to ask the data well.
     $reply = ting_execute($request);

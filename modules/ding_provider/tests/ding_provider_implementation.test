@@ -370,6 +370,31 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
   public abstract function getSearchResult();
 
   /**
+   * Result of getAllRelations down to supported relations.
+   *
+   * @return \TingRelation[].
+   */
+  public abstract function getFilteredRelations();
+
+  /**
+   * List of relations including some that are not supported.
+   *
+   * @return \TingRelation[].
+   *   The list.
+   */
+  public abstract function getExampleRelations();
+
+  /**
+   * Expected list of supported relations.
+   *
+   * @return string[].
+   *   List of relation titles keyed by type.
+   */
+  public abstract function getSupportedRelations();
+
+
+
+  /**
    * Verify that the provider returns the expected list of material types.
    */
   public function testMaterialTypes() {
@@ -404,5 +429,31 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $query = ting_start_query();
     $search_result_from_provider = ding_provider_invoke('search', 'search', $query);
     $this->assertEqual($expected_search_result, $search_result_from_provider);
+  }
+
+  /**
+   * Verify that the provider returns the expected search result.
+   */
+  public function testFilterRelations() {
+    $relations = $this->getExampleRelations();
+    $expected_filtered_relations = $this->getFilteredRelations();
+    $filtered_relations = ding_provider_invoke('search', 'filter_relations', $relations);
+
+    $uri_extractor = function($relation) {
+      return $relation->getURI();
+    };
+    $expected_uris = array_map($expected_filtered_relations, $uri_extractor);
+    $filtered_uris = array_map($filtered_relations, $filtered_relations);
+
+    $this->assertEqual($expected_uris, $filtered_uris);
+  }
+
+  /**
+   * Verify that the provider returns the expected search result.
+   */
+  public function testSupportedRelations() {
+    $expected_relations = $this->getSupportedRelations();
+    $relations = ding_provider_invoke('search', 'supported_relations');
+    $this->assertEqual($expected_relations, $relations);
   }
 }
