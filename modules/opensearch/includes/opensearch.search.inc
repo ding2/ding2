@@ -102,7 +102,7 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
 }
 
 /**
- * Allows the provider to programtically filter relations
+ * Allows the provider to programtically filter relations.
  *
  * @return array
  *   Filtered list.
@@ -155,10 +155,8 @@ function opensearch_search_supported_relations() {
  *
  * @see http://platform.dandigbib.org/issues/378
  */
-function _opensearch_search_relation_get_target(\TingRelation $relation) {
+function _opensearch_search_relation_render_target(\TingRelation $relation) {
   $target = '_blank';
-  // TODO BBS-SAL: Have the provider render the link? Having an entire callback
-  // for providing a target seems a bit much.
   $data = isset($relation->getObject()->reply->relationsData) ?
     $relation->getObject()->reply->relationsData : NULL;
   if (isset($data)) {
@@ -180,7 +178,7 @@ function _opensearch_search_relation_get_target(\TingRelation $relation) {
  * @return string|bool
  *   The title found in the object or FALSE if non found.
  */
-function _opensearch_search_relation_get_title(\TingRelation $relation) {
+function _opensearch_search_relation_render_title(\TingRelation $relation) {
   // Set default fallback title.
   $title = isset($relation->object->title) ? $relation->object->title : FALSE;
 
@@ -208,7 +206,7 @@ function _opensearch_search_relation_get_title(\TingRelation $relation) {
  * @return string|bool
  *   The abstract found or FALSE if non found.
  */
-function _opensearch_search_relation_get_abstract(\TingRelation $relation) {
+function _opensearch_search_relation_render_abstract(\TingRelation $relation) {
   $abstract = FALSE;
   switch ($relation->type) {
     case 'dbcaddi:hasReview':
@@ -245,7 +243,7 @@ function _opensearch_search_relation_get_abstract(\TingRelation $relation) {
  * @return array|bool
  *   The online url found or FALSE if non found.
  */
-function _opensearch_search_relation_get_online_url(\TingRelation $relation) {
+function _opensearch_search_relation_render_online_url(\TingRelation $relation) {
   $url = FALSE;
   $title = '';
   switch ($relation->type) {

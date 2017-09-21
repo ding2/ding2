@@ -59,6 +59,9 @@ class TingObject implements TingObjectInterface {
 
   /**
    * {@inheritdoc}
+   *
+   * TODO BBS-SAL: this function should be used in the situations where ding
+   * currently accesses TingObject->relationsData directly.
    */
   public function getRelations() {
     return $this->relations;
