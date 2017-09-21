@@ -144,7 +144,6 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['arguments']['keys']['table'] = 'search_index';
   $handler->display->display_options['arguments']['keys']['field'] = 'keys';
   $handler->display->display_options['arguments']['keys']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['keys']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['keys']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['keys']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['keys']['summary']['format'] = 'default_summary';
@@ -311,6 +310,15 @@ function ding_frontend_views_default_views() {
 
   /* Display: News & Events */
   $handler = $view->new_display('panel_pane', 'News & Events', 'news_events');
+  $handler->display->display_options['allow']['use_pager'] = 0;
+  $handler->display->display_options['allow']['items_per_page'] = 0;
+  $handler->display->display_options['allow']['offset'] = 0;
+  $handler->display->display_options['allow']['link_to_view'] = 0;
+  $handler->display->display_options['allow']['more_link'] = 0;
+  $handler->display->display_options['allow']['path_override'] = 0;
+  $handler->display->display_options['allow']['title_override'] = 'title_override';
+  $handler->display->display_options['allow']['exposed_form'] = 0;
+  $handler->display->display_options['allow']['fields_override'] = 0;
   $translatables['ding_related_content'] = array(
     t('Master'),
     t('more'),
