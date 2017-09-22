@@ -14,7 +14,7 @@
       // Array of selectors for links to track via webtrends.
       var webtrendsAdd = [
         '.action-button.reserve-button',
-        '.action-button.bookmark-button',
+        '.ding-list-add-button .use-ajax',
         '.group-holdings-available a'
       ];
 
