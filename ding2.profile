@@ -660,6 +660,7 @@ function ding2_module_enable(&$install_state) {
   $modules = variable_get('ding_module_selected', array());
   $modules[] = 'l10n_update';
   $modules[] = 'ting_infomedia';
+  $modules[] = 'ding_eresource';
 
   $operations = ding2_module_list_as_operations($modules);
 

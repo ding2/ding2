@@ -267,7 +267,7 @@ function ddbasic_preprocess_views_view(&$vars) {
           $vars['classes_array'][] = 'frontpage-view';
 
           // Add event count setting as js variable.
-          $count = variable_get('ding_frontpage_events_count', 6);
+          $count = variable_get('ding_event_frontpage_items_per_page', 6);
           drupal_add_js(array('number_of_events' => $count), 'setting');
 
           break;
@@ -464,7 +464,7 @@ function ddbasic_preprocess_menu_link(&$variables) {
       case 'status-debts':
         $debts = ddbasic_account_count_debts();
         if (!empty($debts)) {
-          $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-warning">' . $depts . '</span>';
+          $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-warning">' . $debts . '</span>';
         }
         else {
           $variables['element']['#attributes']['class'][] = 'element-invisible';

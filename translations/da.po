@@ -3124,7 +3124,7 @@ msgstr ""
 
 #: /index.php
 msgid "Ding frontpage tabroll"
-msgstr "Tabroll"
+msgstr ""
 
 #: /index.php
 msgid "Ding frontpage tablroll"
@@ -48090,7 +48090,7 @@ msgstr "Tilføj til Liste"
 
 #: /index.php
 msgid "Ding Entity Rating: Popular"
-msgstr "Månedens bedst bedømte titler"
+msgstr "Populært"
 
 #: /
 msgid "Rate your previous loans"
@@ -55787,7 +55787,7 @@ msgstr "Populære materialer fra OpenList"
 
 #: /index.php
 msgid "Ding interaction pane"
-msgstr "Interaktionsboks"
+msgstr "Ding Interaction panel"
 
 #: /index.php
 msgid "Displays interaction to the user"
@@ -55851,7 +55851,7 @@ msgstr "Viser beskeder til brugeren"
 
 #: /index.php
 msgid "Ding serendipity with TingObject"
-msgstr "Biblioteket foreslår materialer til dig"
+msgstr "Ding Serendipitet med TingObject (Materialer)"
 
 #: /index.php
 msgid "Display serendipity content of type the ting object."
@@ -56108,22 +56108,6 @@ msgstr "Forside fallback indhold"
 #: /
 msgid "\"Allow the library admin to enter a search string which pulls materials \"to be pushed to the front page."
 msgstr ""
-
-#: /
-msgid "ADHL on random loan items"
-msgstr "ADHL på et tilfældigt hjemlån"
-
-#: /
-msgid "Check a random current loan via ADHL for serendipity."
-msgstr "Forslå hvad andre også har lånt (ADHL) på baggrund af et tilfældigt nuværende hjemlån."
-
-#: /
-msgid "Objects matching random author from lists"
-msgstr "Forslag af samme forfatter som materialer i egne lister"
-
-#: /
-msgid "Objects matching random author from lists."
-msgstr "Forslag af samme forfatter som et tilfældigt materiale i egne lister."
 
 #: /index.php
 msgid "\"This is the list of materials you have rated. Rate materials and get \"recommendations for similar content."
@@ -57183,7 +57167,7 @@ msgstr ""
 
 #: /varnish/roles
 msgid "Relevant campaigns"
-msgstr "Kampagner"
+msgstr ""
 
 #: /varnish/roles
 msgid "Display ad-like campaigns"
@@ -66568,7 +66552,7 @@ msgstr "Mere..."
 
 #: /admin/config/ding/interaction
 msgid "About consent and storage of previous loans"
-msgstr "Samtykke og opbevaring af information om tidligere lån"
+msgstr "Samtykke og opbevaring af information tidligere lån"
 
 #: /admin/config/ding/interaction
 msgid ""
@@ -70265,63 +70249,59 @@ msgid "Unknown material (@material_number)"
 msgstr "Slettet eller kasseret materiale (@material_number)"
 
 #: /lazy-pane/ajax
-msgid "Materials by ratings"
-msgstr ""
+msgid "Materials by ratings" 
+msgstr "Materialer som andre også har anbefalet" 
 
 #: /lazy-pane/ajax
-msgid ""
-"Get materials based on author or subject from users top rated "
-"materials"
-msgstr ""
+msgid "" 
+"Get materials based on author or subject from users top rated " 
+"materials" 
+msgstr "Materialer med samme forfatter eller emneord som brugerens favoritter" 
 
 #: /lazy-pane/ajax
-msgid "Fallback materials"
-msgstr ""
+msgid "Fallback materials" 
+msgstr "Bibliotekets grundlæggende anbefalinger" 
 
 #: /lazy-pane/ajax
-msgid ""
-"If other plugins fails to find serendipity, this plugin will return a "
-"simple CQL. Keep the weight of this plugin higher than all other "
-"plugins."
-msgstr ""
+msgid "" 
+"If other plugins fails to find serendipity, this plugin will return a " 
+"simple CQL. Keep the weight of this plugin higher than all other " 
+"plugins." 
+msgstr "Hvis andre plugins ikke finder materialer nok, så vil dette plugin returnere et CQL opslag. Holf vægten af dætte plugin højere end andre så det kun benyttes som sidste udvej." 
 
 #: /lazy-pane/ajax
-msgid "Set fallback CQL"
-msgstr ""
+msgid "Set fallback CQL" 
+msgstr "Angiv CQL til sidste udvejs opslag" 
 
 #: /lazy-pane/ajax
-msgid "Ting objects via openlist ADHR service."
-msgstr ""
+msgid "Ting objects via openlist ADHR service." 
+msgstr "Materialer via ADHR - Hvad andre også har ratet højt baseret på egne favoritter." 
 
 #: /lazy-pane/ajax
-msgid ""
-"Call ADHR service on the current object to find related high rated "
-"materials."
-msgstr ""
+msgid "" 
+"Call ADHR service on the current object to find related high rated " 
+"materials." 
+msgstr "Benyt ADHR (Andre har også anbefalet) på det aktuelle materiale" 
 
 #: /lazy-pane/ajax
-msgid "Ting objects via openlist ADHL service."
-msgstr ""
+msgid "Ting objects via openlist ADHL service." 
+msgstr "Materialer via OpenList ADHL service (Andre har også lånt)" 
 
 #: /lazy-pane/ajax
-msgid ""
-"Call ADHL service on the current object to find related materials "
-"others have loaned."
-msgstr ""
-
-#: /
-msgid "Front page fallback content"
-msgstr "Forside fallback indhold"
+msgid "" 
+"Call ADHL service on the current object to find related materials " 
+"others have loaned." 
+msgstr "Benyt ADHL (Andre har også lånt) på det aktuelle materiale." 
 
 #: /lazy-pane/ajax
-msgid ""
-"Allow the library admin to enter a search string which pulls materials "
-"to be pushed to the serendipity box on the front page."
-msgstr ""
+msgid "" 
+"Allow the library admin to enter a search string which pulls materials " 
+"to be pushed to the serendipity box on the front page." 
+msgstr "Lad biblioteks-admins indtaste CQL søgning som sender materialer ind i forsidens serendipitetspanel." 
 
 #: /lazy-pane/ajax
-msgid "Set the frontpage serendipity CQL"
-msgstr ""
+msgid "Set the frontpage serendipity CQL" 
+msgstr "Angiv forsidens serendipitets CQL" 
 
 #: /
 msgid "ADHL on random loan items"
@@ -70342,104 +70322,92 @@ msgid "Objects matching random author from lists."
 msgstr "Forslag af samme forfatter som et tilfældigt materiale i egne lister."
 
 #: /lazy-pane/ajax
-msgid "Node related material"
-msgstr ""
+msgid "Node related material" 
+msgstr "Materialer relateret til aktuel side (node)"
 
 #: /lazy-pane/ajax
-msgid ""
-"Returns nodes linked to through the node reference field "
-"\"field_related_content\""
-msgstr ""
+msgid "" 
+"Returns nodes linked to through the node reference field " 
+"\"field_related_content\"" 
+msgstr "Sider som er angivet via fields_related_content" 
 
 #: /lazy-pane/ajax
-msgid "Node related content"
-msgstr ""
+msgid "Node related content" 
+msgstr "Indhold relateret til aktuel side" 
 
 #: /lazy-pane/ajax
-msgid ""
-"Returns ting objects linked to nodes through the ting reference field "
-"\"field_materials\""
-msgstr ""
+msgid "" 
+"Returns ting objects linked to nodes through the ting reference field " 
+"\"field_materials\"" 
+msgstr "Hent materialer fra sider (nodes) via referencefeltet field_materials" 
 
 #: /lazy-pane/ajax
-msgid "Recent content of current term"
-msgstr ""
+msgid "Recent content of current term" 
+msgstr "Nyt indhold via aktuelt emneord" 
 
 #: /lazy-pane/ajax
-msgid "Fetch objects from this year matching term."
-msgstr ""
+msgid "Fetch objects from this year matching term." 
+msgstr "Hent materialer fra i år som matcher aktuelt emneord" 
 
 #: /lazy-pane/ajax
-msgid "Content with similar term"
-msgstr ""
+msgid "Content with similar term" 
+msgstr "Indhold med lignende emneord" 
 
 #: /lazy-pane/ajax
-msgid "Fetch nodes or materials with similar term."
-msgstr ""
+msgid "Fetch nodes or materials with similar term." 
+msgstr "Hent indhold (nodes) eller materialer med lignende emneord." 
 
 #: /lazy-pane/ajax
-msgid "Objects in taxonomy term recommended field"
-msgstr ""
+msgid "Objects in taxonomy term recommended field" 
+msgstr "Materialer som er angivet i emneordets anbefalinger" 
 
 #: /lazy-pane/ajax
-msgid "On each taxonomy term a list of recommended objects may be suggested."
-msgstr ""
+msgid "On each taxonomy term a list of recommended objects may be suggested." 
+msgstr "På hvert emneord kan der angives en liste med anbefalede materialer." 
 
 #: /lazy-pane/ajax
-msgid "Objects in taxonomy term popular field"
-msgstr ""
+msgid "Objects in taxonomy term popular field" 
+msgstr "Materialer fra emneordets felt med populære materialer." 
 
 #: /lazy-pane/ajax
-msgid "On each taxonomy term a list of popular objects may be suggested."
-msgstr ""
+msgid "On each taxonomy term a list of popular objects may be suggested." 
+msgstr "På hvert emneord kan der angives en liste med populære materialer." 
 
 #: /lazy-pane/ajax
-msgid "Ting Objects related by same author"
-msgstr ""
+msgid "Ting Objects related by same author" 
+msgstr "Materialer som har samme forfatter" 
 
 #: /lazy-pane/ajax
-msgid "Search for Ting objects with same author"
-msgstr ""
+msgid "Search for Ting objects with same author" 
+msgstr "Find materialer med samme forfatter" 
 
 #: /lazy-pane/ajax
-msgid "Ting Objects related by same subject"
-msgstr ""
+msgid "Ting Objects related by same subject" 
+msgstr "Materialer med samme emneord" 
 
 #: /lazy-pane/ajax
-msgid "Search for Ting  objects with same subject"
-msgstr ""
+msgid "Search for Ting  objects with same subject" 
+msgstr "Find materialer med samme emneord" 
 
 #: /lazy-pane/ajax
-msgid "Ting Objects related by same type"
-msgstr ""
+msgid "Ting Objects related by same type" 
+msgstr "Materialer med samme materialetype" 
 
 #: /lazy-pane/ajax
-msgid "Search for Ting objects with same type"
-msgstr ""
+msgid "Search for Ting objects with same type" 
+msgstr "Find materiale med samme materialetype" 
 
 #: /lazy-pane/ajax
-msgid "Ting objects via ADHL service on current object"
-msgstr ""
+msgid "Ting objects via ADHL service on current object" 
+msgstr "Find materialer via ADHL (Andre har også lånt) på det aktuelle materiale" 
 
 #: /lazy-pane/ajax
-msgid "Call ADHL service on the current object"
-msgstr ""
+msgid "Call ADHL service on the current object" 
+msgstr "Benyt ADHL service (Andre har også lånt) på det aktuelle materiale" 
 
 #: /lazy-pane/ajax
-msgid "Ting objects via openlist ADHR service."
-msgstr ""
-
-#: /lazy-pane/ajax
-msgid "Call Openlist ADHR service on the current object"
-msgstr ""
-
-#: /lazy-pane/ajax
-msgid "Ting objects via openlist ADHL service."
-msgstr ""
-
-#: /lazy-pane/ajax
-msgid "Call Openlist ADHL service on the current object"
-msgstr ""
+msgid "Call Openlist ADHR service on the current object" 
+msgstr "Benyt OpenList ADHR (Andre har også anbefalet) på det aktuelle materiale." 
 
 #: /ding-list/private-share-message/147/facebook
 msgid ""
@@ -70455,41 +70423,18 @@ msgstr "Ja - offentliggør min liste og del den."
 msgid "No - not right now."
 msgstr "Nej - ikke lige nu."
 
-#: /admin/modules/list/confirm
-msgid "Administer Mobilesearch"
-msgstr "Konfigurer CMS Content"
+#: /user/me/my-library
+msgid "View all public lists"
+msgstr "Se alle offentlige lister"
 
-#: /admin/modules/list/confirm
-msgid "Push to Mongo"
-msgstr "Send til CMS Content"
+#: /list/92/share
+msgid "Public"
+msgstr "Offentlig liste"
 
-#: /batch?op=start&id=41
-msgid "Content export"
-msgstr "CMS Content eksportering"
+#: /list/92/share
+msgid "You can find your public list under !link"
+msgstr "Listen vises under"
 
-#: /batch?op=start&id=41
-msgid "Content exporting settings."
-msgstr "Indstillinger for CMS Content eksport"
-
-#: /batch?op=start&id=41
-msgid "Set a special configuration options for plugins."
-msgstr "Konfigurer speciel konfiguration for indhold."
-
-#: /node/add/ding-event
-msgid "REST plugin"
-msgstr ""
-
-#: /node/add/ding-event
-msgid "Export data to Mongo through REST API."
-msgstr "Eksport data til CMS Content via API."
-
-#: /node/add/ding-event
-msgid ""
-"Problem connecting to the REST service. We have unchecked your \"Push "
-"to Mongo\" flag. Please check your !settings."
-msgstr "Der skete en fejl med forbindelsen til CMS Content. Vi har "
-"deaktiveret \"Send til CMS Content\" checkboxen. Check !settings."
-
-#: /index.php
-msgid "All opening hours"
-msgstr "Åbningstider"
+#: /da/user
+msgid "My library"
+msgstr "Mit personlige bibliotek"
