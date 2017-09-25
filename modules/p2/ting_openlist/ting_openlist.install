@@ -16,15 +16,24 @@ function ting_openlist_requirements($phase) {
   if ($phase == 'runtime') {
     $a = variable_get('ting_openlist_wsdl');
     $b = variable_get('ting_library_code');
-    if (!$a || !$b) {
+    $c = variable_get('ting_openlist_authkey');
+    if (empty($a) || empty($b) || empty($c)) {
       $requirements['ting_openlist'] = array(
         'title' => 'Ting Openlist',
-        'description' => t('Ting Openlist is not configured, please configure the module @here before continuing.', array(
-          '@here' => l(t('here'), 'admin/config/ding/provider/ting_openlist'),
+        'description' => t('Ting Openlist is not configured, please !configure the module before continuing.', array(
+          '!configure' => l(t('configure'), 'admin/config/ding/provider/ting_openlist'),
         )),
         'value' => t('Not configured'),
         'severity' => REQUIREMENT_ERROR,
       );
+    } else {
+      $requirements['ting_openlist'] = array(
+        'title' => 'Ting Openlist',
+        'value' => t('Ting Openlist is configured OK. !check Openlist connection.', array(
+          '!check' => l(t('Check'), 'admin/config/ding/provider/ting_openlist'),
+        )),
+        'severity' => REQUIREMENT_OK,
+      );      
     }
   }
 

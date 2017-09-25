@@ -3132,7 +3132,7 @@ msgstr ""
 
 #: /index.php
 msgid "My files"
-msgstr ""
+msgstr "Mine filer"
 
 #: /index.php
 msgid "Display a list of all nodes in queue '@queue'"
@@ -10145,7 +10145,7 @@ msgstr ""
 
 #: /node/26/edit?render=overlay /node/add/ding-event
 msgid "Images"
-msgstr ""
+msgstr "Billeder"
 
 #: profiles/ding2/modules/contrib/autosave/autosave.js
 msgid "Ignore/Delete saved form"
@@ -19261,7 +19261,7 @@ msgid "n/a"
 msgstr "n/a"
 
 msgid "Upload"
-msgstr "Upload"
+msgstr "Hent"
 
 msgid "type"
 msgstr "type"
@@ -53187,11 +53187,11 @@ msgstr ""
 
 #: /index.php
 msgid "Crop images"
-msgstr ""
+msgstr "Beskær billeder"
 
 #: /index.php
 msgid "Crop images using Manual Crop."
-msgstr ""
+msgstr "Beskær billeder manuelt"
 
 #: /index.php
 msgid "Administer Manual Crop"
@@ -53279,7 +53279,7 @@ msgstr ""
 
 #: /index.php
 msgid "Manual Crop"
-msgstr ""
+msgstr "Manuel beskæring"
 
 #: /index.php
 msgid "File id"
@@ -53291,75 +53291,75 @@ msgstr ""
 
 #: /index.php
 msgid "The image style of the cropped image."
-msgstr ""
+msgstr "Billedformatet af det beskårne billede"
 
 #: /index.php
 msgid "Crop area: X offset"
-msgstr ""
+msgstr "Beskæringsområde: X offset"
 
 #: /index.php
 msgid "X coordinate of the crop area."
-msgstr ""
+msgstr "X koordinat af det beskårne område"
 
 #: /index.php
 msgid "Crop area: Y offset"
-msgstr ""
+msgstr "Beskæringsområde: Y offset"
 
 #: /index.php
 msgid "Y coordinate of the crop area."
-msgstr ""
+msgstr "Y koordinat af det beskårne område"
 
 #: /index.php
 msgid "Crop area: width"
-msgstr ""
+msgstr "Beskæringsområde: bredde"
 
 #: /index.php
 msgid "Width of the crop area."
-msgstr ""
+msgstr "Bredde af beskæringsområde"
 
 #: /index.php
 msgid "Crop area: height"
-msgstr ""
+msgstr "Beskæringsområde: højde"
 
 #: /index.php
 msgid "Height of the crop area."
-msgstr ""
+msgstr "Højde af beskæringsområde"
 
 #: /index.php
 msgid "Manual crop"
-msgstr ""
+msgstr "Manuel beskæring"
 
 #: /index.php
 msgid "Manualcrop data for this file."
-msgstr ""
+msgstr "Beskæringsdata for denne fil"
 
 #: /index.php
 msgid "manualcrop"
-msgstr ""
+msgstr "manuel beskæring"
 
 #: /index.php
 msgid "Manual Crop: Crop and scale"
-msgstr ""
+msgstr "Manuel beskæring: Beskær og skalér"
 
 #: /index.php
 msgid "\"Crop and scale a user-selected area, respecting the ratio of the \"destination width and height."
-msgstr ""
+msgstr "Beskær og skalérdet valgte område, med respekt for det valgte højde/breddeforhold."
 
 #: /index.php
 msgid "Manual Crop: Custom crop"
-msgstr ""
+msgstr "Manuel beskæring: tilpasset beskæring"
 
 #: /index.php
 msgid "Crop a freely user-selected area."
-msgstr ""
+msgstr "Beskær et vilkårligt brugervalgt område."
 
 #: /index.php
 msgid "Manual Crop: Reuse cropped style"
-msgstr ""
+msgstr "Manuel beskæring: genbrug indstillinger for beskæring af billede"
 
 #: /index.php
 msgid "Manual Crop: Automatically reuse cropped style"
-msgstr ""
+msgstr "Manuel beskæring: genbrug automatisk indstillinger for beskæring af billede"
 
 #: /admin/modules?render=overlay
 msgid "Settings for expiration of cached pages."
@@ -53395,7 +53395,7 @@ msgstr ""
 
 #: /admin/modules?render=overlay
 msgid "Lets you manually crop an image based upon the image style effects."
-msgstr ""
+msgstr "Lader dig manuelt beskære et billede baseret på foruddefinerede billedformater"
 
 #: /admin/modules?render=overlay
 msgid "Allows node previews to be viewed as fully-rendered pages."
@@ -56109,22 +56109,6 @@ msgstr "Forside fallback indhold"
 msgid "\"Allow the library admin to enter a search string which pulls materials \"to be pushed to the front page."
 msgstr ""
 
-#: /
-msgid "ADHL on random loan items"
-msgstr "ADHL på et tilfældigt hjemlån"
-
-#: /
-msgid "Check a random current loan via ADHL for serendipity."
-msgstr "Forslå hvad andre også har lånt (ADHL) på baggrund af et tilfældigt nuværende hjemlån."
-
-#: /
-msgid "Objects matching random author from lists"
-msgstr "Forslag af samme forfatter som materialer i egne lister"
-
-#: /
-msgid "Objects matching random author from lists."
-msgstr "Forslag af samme forfatter som et tilfældigt materiale i egne lister."
-
 #: /index.php
 msgid "\"This is the list of materials you have rated. Rate materials and get \"recommendations for similar content."
 msgstr ""
@@ -56859,19 +56843,19 @@ msgstr ""
 
 #: /media/browser?render=media-popup&types%5Bimage%5D=image&schemes%5Bpublic%5D=public&file_directory=title_image%2Fnews&file_extensions=png+gif+jpg+jpeg&max_filesize=&uri_scheme=public&manualcrop%5Bentity_type%5D=node&manualcrop%5Bbundle%5D=ding_news&manualcrop%5Bfield_name%5D=field_ding_news_title_image&plugins=undefined
 msgid "Select a style to crop"
-msgstr ""
+msgstr "Vælg højde/breddeforhold for beskæring"
 
 #: profiles/ding2/modules/contrib/manualcrop/manualcrop.js
 msgid "(cropped)"
-msgstr ""
+msgstr "(beskåret)"
 
 #: profiles/ding2/modules/contrib/manualcrop/manualcrop.js
 msgid "\"It appears that some of the images could not be loaded for cropping, \"please try again in another browser."
-msgstr ""
+msgstr "Nogle af billederne kunne ikke beskæres. Prøv venligst igen i en anden browser."
 
 #: /media/browser?render=media-popup&types%5Bimage%5D=image&schemes%5Bpublic%5D=public&file_directory=title_image%2Fnews&file_extensions=png+gif+jpg+jpeg&max_filesize=&uri_scheme=public&manualcrop%5Bentity_type%5D=node&manualcrop%5Bbundle%5D=ding_news&manualcrop%5Bfield_name%5D=field_ding_news_title_image&plugins=undefined
 msgid "The crop selections have been saved."
-msgstr ""
+msgstr "Beskæringen et blevet gemt."
 
 #: profiles/ding2/modules/contrib/redirect/redirect.js
 msgid "1 enabled redirect"
@@ -59853,19 +59837,19 @@ msgstr ""
 
 #: /list/14/edit
 msgid "Forfattere jeg følger"
-msgstr ""
+msgstr "Forfattere jeg følger"
 
 #: /list/16/edit
 msgid "Tidligere lån"
-msgstr ""
+msgstr "Tidligere lån"
 
 #: /user/me/status/loans
 msgid "Loans due today"
-msgstr ""
+msgstr "Afleveres i dag"
 
 #: /list/15/edit
 msgid "Søgninger jeg følger"
-msgstr ""
+msgstr "Søgninger jeg følger"
 
 #: /index.php
 msgid "\"Control when the browser's internal cache of the current page should \"expire. The date must to be an <a \"href=\"http://www.csgnetwork.com/timerfc1123calc.html\">RFC-1123</a>-compliant \"date string that is represented in Greenwich Mean Time (GMT), e.g. \"'Fri, 11 Nov 2016 09:44:00 GMT'. Set to '0' to stop the page being \"cached entirely."
@@ -66606,18 +66590,6 @@ msgstr "Søg i biblioteksbasen"
 msgid "Because you have a list with materials by the author !author."
 msgstr "Fordi du har en liste med materialer af forfatteren !author"
 
-#: /system/ajax
-msgid ""
-"Please use the following link to access this list.\n"
-"The link is active for 7 days from today, after which it will be "
-"disabled for security reasons.\n"
-"\n"
-"!link."
-msgstr ""
-"Åbn !link for at få adgang til listen. \r\n"
-"Linket er aktivt i 7 dage, hvorefter det vil blive deaktiveret af "
-"sikkerhedshensyn."
-
 #: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
 msgid ""
 "You do not have an user account at the public library. If you wish you "
@@ -66780,18 +66752,6 @@ msgid "Email text"
 msgstr "Indhold:"
 
 #: /list/107/share
-msgid ""
-"Please use the following link to access this list.\n"
-"The link is active for 7 days from today, after which it will be disabled for security reasons.\n"
-"\n"
-"[link]"
-msgstr ""
-"Følg linket herunder for at få adgang til listen."
-"Linket er aktivit i 7 days fra i dag, hvorefter det vil blive deaktiveret af sikkerhedsmæssige hensyn.\n"
-"\n"
-"[link]"
-
-#: /list/107/share
 msgid "The [link] text will be replaced by a link to the list"
 msgstr "Teksten [link] bliver erstattet af et link til din liste."
 
@@ -66926,6 +66886,18 @@ msgid ""
 msgstr "<p>Din søgning desværre ikke gav noget resultat, men vi vil gerne hjælpe dig med at komme videre!</p><p>Spørg os på biblioteket eller se kontaktoplysningerne til biblioteket nederst på siden.</p><p>Du "
 "kan også søge videre på <a href=\"http://bibliotek.dk/\">Bibliotek.dk</a></p>"
 
+#: /list/107/share
+msgid ""
+"Please use the following link to access this list.\n"
+"The link is active for 7 days from today, after which it will be "
+"disabled for security reasons.\n"
+"\n"
+"[link]"
+msgstr ""
+"Åbn !link for at få adgang til listen. \r\n"
+"Linket er aktivt i 7 dage, hvorefter det vil blive deaktiveret af "
+"sikkerhedshensyn."
+
 #: /
 msgid "Search in @profile"
 msgstr "Søg i @profile"
@@ -66946,38 +66918,221 @@ msgstr "Del denne nyhed"
 msgid "Read about storage of loan history"
 msgstr "Læs om opbevaring af lånehistorik"
 
-#: /admin/modules/list/confirm
-msgid "Administer Mobilesearch"
-msgstr "Konfigurer CMS Content"
+#: /user/me/status-reservations
+msgid "Reservation date"
+msgstr "Reserveringsdato"
 
-#: /admin/modules/list/confirm
-msgid "Push to Mongo"
-msgstr "Send til CMS Content"
-
-#: /batch?op=start&id=41
-msgid "Content export"
-msgstr "CMS Content eksportering"
-
-#: /batch?op=start&id=41
-msgid "Content exporting settings."
-msgstr "Indstillinger for CMS Content eksport"
-
-#: /batch?op=start&id=41
-msgid "Set a special configuration options for plugins."
-msgstr "Konfigurer speciel konfiguration for indhold."
-
-#: /node/add/ding-event
-msgid "REST plugin"
+#: /index.php
+msgid "Cropped Image"
 msgstr ""
 
-#: /node/add/ding-event
-msgid "Export data to Mongo through REST API."
-msgstr "Eksport data til CMS Content via API."
+#: /node/add/ding-news
+msgid "Attach media"
+msgstr "Vedhæft mediefil"
 
-#: /node/add/ding-event
+#: /node/5/edit?destination=admin/content%3Fstatus%3DAll%26type%3Dding_library%26sid%3DAll%26language%3DAll
+msgid "Select the image style to crop, the corresponding cropping tool will open."
+msgstr "Vælg højde/breddeforhold for beskæring."
+
+#: /system/ajax
+msgid "Authenticated, refreshing page."
+msgstr "Du er nu logget ind! Vent venligst på at siden opdateres."
+
+#: /
+msgid "Overdue loans"
+msgstr "Overskredne lån"
+
+#: /
+msgid "Unknown material (@material_number)"
+msgstr "Slettet eller kasseret materiale (@material_number)"
+
+#: /lazy-pane/ajax
+msgid "Materials by ratings" 
+msgstr "Materialer som andre også har anbefalet" 
+
+#: /lazy-pane/ajax
+msgid "" 
+"Get materials based on author or subject from users top rated " 
+"materials" 
+msgstr "Materialer med samme forfatter eller emneord som brugerens favoritter" 
+
+#: /lazy-pane/ajax
+msgid "Fallback materials" 
+msgstr "Bibliotekets grundlæggende anbefalinger" 
+
+#: /lazy-pane/ajax
+msgid "" 
+"If other plugins fails to find serendipity, this plugin will return a " 
+"simple CQL. Keep the weight of this plugin higher than all other " 
+"plugins." 
+msgstr "Hvis andre plugins ikke finder materialer nok, så vil dette plugin returnere et CQL opslag. Holf vægten af dætte plugin højere end andre så det kun benyttes som sidste udvej." 
+
+#: /lazy-pane/ajax
+msgid "Set fallback CQL" 
+msgstr "Angiv CQL til sidste udvejs opslag" 
+
+#: /lazy-pane/ajax
+msgid "Ting objects via openlist ADHR service." 
+msgstr "Materialer via ADHR - Hvad andre også har ratet højt baseret på egne favoritter." 
+
+#: /lazy-pane/ajax
+msgid "" 
+"Call ADHR service on the current object to find related high rated " 
+"materials." 
+msgstr "Benyt ADHR (Andre har også anbefalet) på det aktuelle materiale" 
+
+#: /lazy-pane/ajax
+msgid "Ting objects via openlist ADHL service." 
+msgstr "Materialer via OpenList ADHL service (Andre har også lånt)" 
+
+#: /lazy-pane/ajax
+msgid "" 
+"Call ADHL service on the current object to find related materials " 
+"others have loaned." 
+msgstr "Benyt ADHL (Andre har også lånt) på det aktuelle materiale." 
+
+#: /lazy-pane/ajax
+msgid "" 
+"Allow the library admin to enter a search string which pulls materials " 
+"to be pushed to the serendipity box on the front page." 
+msgstr "Lad biblioteks-admins indtaste CQL søgning som sender materialer ind i forsidens serendipitetspanel." 
+
+#: /lazy-pane/ajax
+msgid "Set the frontpage serendipity CQL" 
+msgstr "Angiv forsidens serendipitets CQL" 
+
+#: /
+msgid "ADHL on random loan items"
+msgstr "ADHL på et tilfældigt hjemlån"
+
+#: /
+msgid "Check a random current loan via ADHL for serendipity."
+msgstr ""
+"Forslå hvad andre også har lånt (ADHL) på baggrund af et "
+"tilfældigt nuværende hjemlån."
+
+#: /
+msgid "Objects matching random author from lists"
+msgstr "Forslag af samme forfatter som materialer i egne lister"
+
+#: /
+msgid "Objects matching random author from lists."
+msgstr "Forslag af samme forfatter som et tilfældigt materiale i egne lister."
+
+#: /lazy-pane/ajax
+msgid "Node related material" 
+msgstr "Materialer relateret til aktuel side (node)"
+
+#: /lazy-pane/ajax
+msgid "" 
+"Returns nodes linked to through the node reference field " 
+"\"field_related_content\"" 
+msgstr "Sider som er angivet via fields_related_content" 
+
+#: /lazy-pane/ajax
+msgid "Node related content" 
+msgstr "Indhold relateret til aktuel side" 
+
+#: /lazy-pane/ajax
+msgid "" 
+"Returns ting objects linked to nodes through the ting reference field " 
+"\"field_materials\"" 
+msgstr "Hent materialer fra sider (nodes) via referencefeltet field_materials" 
+
+#: /lazy-pane/ajax
+msgid "Recent content of current term" 
+msgstr "Nyt indhold via aktuelt emneord" 
+
+#: /lazy-pane/ajax
+msgid "Fetch objects from this year matching term." 
+msgstr "Hent materialer fra i år som matcher aktuelt emneord" 
+
+#: /lazy-pane/ajax
+msgid "Content with similar term" 
+msgstr "Indhold med lignende emneord" 
+
+#: /lazy-pane/ajax
+msgid "Fetch nodes or materials with similar term." 
+msgstr "Hent indhold (nodes) eller materialer med lignende emneord." 
+
+#: /lazy-pane/ajax
+msgid "Objects in taxonomy term recommended field" 
+msgstr "Materialer som er angivet i emneordets anbefalinger" 
+
+#: /lazy-pane/ajax
+msgid "On each taxonomy term a list of recommended objects may be suggested." 
+msgstr "På hvert emneord kan der angives en liste med anbefalede materialer." 
+
+#: /lazy-pane/ajax
+msgid "Objects in taxonomy term popular field" 
+msgstr "Materialer fra emneordets felt med populære materialer." 
+
+#: /lazy-pane/ajax
+msgid "On each taxonomy term a list of popular objects may be suggested." 
+msgstr "På hvert emneord kan der angives en liste med populære materialer." 
+
+#: /lazy-pane/ajax
+msgid "Ting Objects related by same author" 
+msgstr "Materialer som har samme forfatter" 
+
+#: /lazy-pane/ajax
+msgid "Search for Ting objects with same author" 
+msgstr "Find materialer med samme forfatter" 
+
+#: /lazy-pane/ajax
+msgid "Ting Objects related by same subject" 
+msgstr "Materialer med samme emneord" 
+
+#: /lazy-pane/ajax
+msgid "Search for Ting  objects with same subject" 
+msgstr "Find materialer med samme emneord" 
+
+#: /lazy-pane/ajax
+msgid "Ting Objects related by same type" 
+msgstr "Materialer med samme materialetype" 
+
+#: /lazy-pane/ajax
+msgid "Search for Ting objects with same type" 
+msgstr "Find materiale med samme materialetype" 
+
+#: /lazy-pane/ajax
+msgid "Ting objects via ADHL service on current object" 
+msgstr "Find materialer via ADHL (Andre har også lånt) på det aktuelle materiale" 
+
+#: /lazy-pane/ajax
+msgid "Call ADHL service on the current object" 
+msgstr "Benyt ADHL service (Andre har også lånt) på det aktuelle materiale" 
+
+#: /lazy-pane/ajax
+msgid "Call Openlist ADHR service on the current object" 
+msgstr "Benyt OpenList ADHR (Andre har også anbefalet) på det aktuelle materiale." 
+
+#: /ding-list/private-share-message/147/facebook
 msgid ""
-"Problem connecting to the REST service. We have unchecked your \"Push "
-"to Mongo\" flag. Please check your !settings."
-msgstr "Der skete en fejl med forbindelsen til CMS Content. Vi har "
-"deaktiveret \"Send til CMS Content\" checkboxen. Check !settings."
+"You need to make your list public, before you can share it on social "
+"media."
+msgstr "Du skal offentliggøre din liste før du kan dele den med andre."
 
+#: /ding-list/private-share-message/147/facebook
+msgid "Yes - make my list public, and share it."
+msgstr "Ja - offentliggør min liste og del den."
+
+#: /ding-list/private-share-message/147/facebook
+msgid "No - not right now."
+msgstr "Nej - ikke lige nu."
+
+#: /user/me/my-library
+msgid "View all public lists"
+msgstr "Se alle offentlige lister"
+
+#: /list/92/share
+msgid "Public"
+msgstr "Offentlig liste"
+
+#: /list/92/share
+msgid "You can find your public list under !link"
+msgstr "Listen vises under"
+
+#: /da/user
+msgid "My library"
+msgstr "Mit personlige bibliotek"

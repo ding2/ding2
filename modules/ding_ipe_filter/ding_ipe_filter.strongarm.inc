@@ -67,7 +67,7 @@ function ding_ipe_filter_strongarm() {
     'ding_groups-ding_group_overview_simple' => array(
       'value' => 1,
       'weight' => '-5',
-      'title' => 'Temaer',
+      'title' => 'View: Ding groups (temapages): Group overview (simple)',
       'category' => 'groups-panes',
       'type' => 'views_panes',
       'subtype' => 'ding_groups-ding_group_overview_simple',
@@ -75,7 +75,7 @@ function ding_ipe_filter_strongarm() {
     'campaign' => array(
       'value' => 1,
       'weight' => '-4',
-      'title' => 'Kampagne',
+      'title' => 'Kampagner',
       'category' => 'ding-',
       'type' => 'campaign',
       'subtype' => 'campaign',
@@ -83,7 +83,7 @@ function ding_ipe_filter_strongarm() {
     'ding_news-ding_news_frontpage_list' => array(
       'value' => 1,
       'weight' => '-3',
-      'title' => 'Nyheder',
+      'title' => 'View: Ding news: News list (frontpage)',
       'category' => 'news-panes',
       'type' => 'views_panes',
       'subtype' => 'ding_news-ding_news_frontpage_list',
@@ -91,7 +91,7 @@ function ding_ipe_filter_strongarm() {
     'ding_event-ding_event_list_frontpage' => array(
       'value' => 1,
       'weight' => '-2',
-      'title' => 'Arrangementer',
+      'title' => 'View: Ding event: Event list (frontpage)',
       'category' => 'event-panes',
       'type' => 'views_panes',
       'subtype' => 'ding_event-ding_event_list_frontpage',

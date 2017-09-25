@@ -28,7 +28,7 @@ circle-setup:
 	mkdir $(DRUPAL_SITE_PATH)/profiles/ding2
 	cp -R ./* $(DRUPAL_SITE_PATH)/profiles/ding2/
 	# Install the site using the ding2 profile
-	cd $(DRUPAL_SITE_PATH) && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y
+	cd $(DRUPAL_SITE_PATH) && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y ding2_module_selection_form.providers_selection=connie
 	# Notices and warnings are seen as an error from simpletests point of view
 	# and is added to the xml-output as such. Idealy we would not have any
 	# notices or warnings, but in the current state of affairs we see quite a
@@ -40,7 +40,9 @@ circle-setup:
 # Run ding2 unittests
 circle-run-unit-tests:
 	cd $(DRUPAL_SITE_PATH)/profiles/ding2/modules/ding_test && composer install
-	cd $(DRUPAL_SITE_PATH) && drush en ding_test -y
+	cd $(DRUPAL_SITE_PATH) && drush pml
+	cd $(DRUPAL_SITE_PATH) && drush dis fbs alma -y
+	cd $(DRUPAL_SITE_PATH) && drush en connie ding_test -y
 	# Run all ding unit-tests
 	mkdir -p $(CIRCLE_TEST_REPORTS)/phpunit
 	# Circleci has a proxy for the php-executable which confuses run-tests.sh,

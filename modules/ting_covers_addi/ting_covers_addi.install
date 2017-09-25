@@ -26,3 +26,10 @@ function ting_covers_addi_install() {
     }
   }
 }
+
+/**
+ * Ensure libraries use the latest version of moreinfo.
+ */
+function ting_covers_addi_update_7001() {
+  variable_set('ting_covers_addi_wsdl_url', 'http://moreinfo.addi.dk/2.9');
+}

@@ -261,23 +261,22 @@ function _ting_field_search_detect_sort($profile) {
  * Helper function to create new materials CQL.
  */
 function _ting_field_search_new_materials_cql($days) {
-  // Get the current date and year.
+  // The best we can do at the moment seems to be accessionDate combined with a
+  // filter on years covered by the specified period. accessionDate alone
+  // doesn't guarantee a correct result, but it adds to the precision of the
+  // year filtering.
+  $expression = 'holdingsitem.accessionDate>=NOW-' . $days . 'DAYS';
+
+  // Determine current year and the last year covered by the period.
   $current_date = new DateTime();
   $current_year = $current_date->format('Y');
+  $last_year = $current_date
+    ->sub(new DateInterval('P' . $days . 'D'))
+    ->format('Y');
 
-  // Get the target date and year.
-  $target_date = $current_date->sub(new DateInterval('P' . $days . 'D'));
-  $target_year = $target_date->format('Y');
-  $expression = 'term.acquisitionDate>=' . $target_date->format('Ymd');
-
-  // Add a 'år=YYYY' condition for every year between target and current
-  // to filter out newly acquired, but older published materials.
-  $year_conditions = ' and (år=' . $target_year++;
-  for (;$target_year <= $current_year; $target_year++) {
-    $year_conditions .= ' or år=' . $target_year;
-  }
-  $year_conditions .= ')';
-  $expression .= $year_conditions;
+  // Attach the year query.
+  $years = range($last_year, $current_year);
+  $expression .= ' AND år any "' . implode(" ", $years) . '"';
 
   return $expression;
 }

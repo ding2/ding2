@@ -236,7 +236,7 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
     }
 
     if (!empty($instance->notice)) {
-      $notice = '<span class="notice">' . $instance->notice . '</span>';
+      $notice = '<span class="opening-hours-table-notice">' . $instance->notice . '</span>';
     }
     else {
       $notice = '';

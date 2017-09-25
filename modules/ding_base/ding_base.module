@@ -657,3 +657,31 @@ function ding_base_js_alter(&$javascript) {
     drupal_add_js(drupal_get_path('module', 'ding_base') . '/js/lazy-pane-fix.js');
   }
 }
+
+/**
+ * Implement hook_page_delivery_callback_alter()
+ *
+ * Override the default ajax_deliver callback on lazy_pane requests, so we can
+ * handle empty panes.
+ */
+function ding_base_page_delivery_callback_alter(&$callback) {
+  if (lazy_pane_is_lazy_request()) {
+    $callback = 'ding_base_lazy_pane_ajax_deliver';
+  }
+}
+
+/**
+ * This callback is used on lazy_pane requests.
+ *
+ * It will look for empty inserts, and change the command to use the
+ * ding_base_lazy_pan_remove_pane (see js/lazy-pane-fix.js) instead.
+ */
+function ding_base_lazy_pane_ajax_deliver($page_callback_result) {
+  foreach ($page_callback_result['#commands'] as &$command) {
+    if ($command['command'] === 'insert' && $command['data'] === NULL) {
+      $command['command'] = 'ding_base_lazy_pane_remove_pane';
+    }
+  }
+
+  return ajax_deliver($page_callback_result);
+}

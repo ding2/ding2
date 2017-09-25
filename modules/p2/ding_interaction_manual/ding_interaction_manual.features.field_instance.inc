@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_interaction_manual.features.field_instance.inc
@@ -14,7 +13,11 @@ function ding_interaction_manual_field_default_field_instances() {
   // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_access'
   $field_instances['ding_type-ding_interaction-field_ding_interaction_access'] = array(
     'bundle' => 'ding_interaction',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'value' => 'none',
+      ),
+    ),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -41,7 +44,7 @@ function ding_interaction_manual_field_default_field_instances() {
     'entity_type' => 'ding_type',
     'field_name' => 'field_ding_interaction_access',
     'label' => 'Ding Interaction Access',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
@@ -101,7 +104,7 @@ function ding_interaction_manual_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_links'.
+  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_links'
   $field_instances['ding_type-ding_interaction-field_ding_interaction_links'] = array(
     'bundle' => 'ding_interaction',
     'default_value' => NULL,
@@ -162,7 +165,7 @@ function ding_interaction_manual_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_status'.
+  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_status'
   $field_instances['ding_type-ding_interaction-field_ding_interaction_status'] = array(
     'bundle' => 'ding_interaction',
     'default_value' => array(

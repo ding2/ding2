@@ -64,11 +64,15 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
   $block->module = 'search';
   $block->delta = 'result';
 
-  $results = '';
+  $suffix = $prefix = $results = '';
+
   // Only search if there are keywords or non-empty conditions.
   if ($keys || !empty($conditions)) {
     // Collect the search results.
     $results = search_data($keys, $info['module'], $conditions);
+    $search_result = drupal_static('ting_search_results');
+    $prefix = implode(module_invoke_all('ting_search_results_prefix', $keys, $conditions, $search_result));
+    $suffix = implode(module_invoke_all('ting_search_results_suffix', $keys, $conditions, $search_result));
   }
 
   if (!empty($conf['log'])) {
@@ -79,7 +83,6 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
   if (!empty($results['#results'])) {
     // Get message limit and raw data well search results.
     $limit = variable_get('ting_search_result_message_limit', 100);
-    $search_result = drupal_static('ting_search_results');
 
     // Set message.
     $message = '';
@@ -103,8 +106,10 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
       $message .= '<div class="messages search-field-in-content--message">' . $msg . '</div>';
     }
 
+    $prefix .= $message;
+
     $block->title = t('Search results');
-    $block->content = $message . theme('ting_search_results', array('results' => $results['#results'], 'module' => $conf['type']));;
+    $block->content = $prefix . theme('ting_search_results', array('results' => $results['#results'], 'module' => $conf['type'])) . $suffix;
   }
   else {
     if (empty($conf['override_empty'])) {

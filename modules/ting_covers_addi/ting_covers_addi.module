@@ -42,7 +42,7 @@ function ting_covers_addi_ding_install_tasks() {
  *
  * Fetch covers from AdditionalInformation service.
  */
-function ting_covers_addi_ting_covers($request) {
+function ting_covers_addi_ting_covers($entities) {
   $covers = array();
 
   // Exceptions should only be thrown if something is so wrong,
@@ -50,16 +50,10 @@ function ting_covers_addi_ting_covers($request) {
   try {
     $service = new AdditionalInformationService(variable_get('ting_covers_addi_wsdl_url'), variable_get('ting_covers_addi_username'), variable_get('ting_covers_addi_group'), variable_get('ting_covers_addi_password'));
 
-    // We're working by localId, so create a look-up table.
-    $id_map = array();
-    foreach ($request as $id => $entity) {
-      $id_map[$entity->localId] = $id;
-    }
+    // Retrieve covers by PID.
+    $retrieved = $service->getByPid(array_keys($entities));
 
-    // Local ids = Faust numbers. Library object identifiers can be confusing.
-    $retrieved = $service->getByFaustNumber(array_keys($id_map));
-
-    foreach ($retrieved as $local_id => $cover) {
+    foreach ($retrieved as $pid=> $cover) {
       // Try to extract the image url from the result.
       $source_url = FALSE;
       if ($cover->detailUrl) {
@@ -71,7 +65,7 @@ function ting_covers_addi_ting_covers($request) {
 
       if ($source_url) {
         // Return the path to the cover.
-        $covers[$id_map[$local_id]] = $source_url;
+        $covers[$pid] = $source_url;
       }
     }
   }

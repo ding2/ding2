@@ -87,9 +87,8 @@ function ding_entity_rating_add_to_list_callback($entity, $rating) {
     // Trigger log-in (the link will be triggered on success).
     $commands[] = ajax_command_ding_user_authenticate('');
   }
-  elseif (!ding_user_is_provider_user($user)) {
-    // Error not library user.
-    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only provider users can rate materials.') . '</p>');
+  elseif (!user_access('use personalisation')) {
+    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t("You don't have permissions to rate materials.") . '</p>');
   }
   else {
     if ($rating > 0) {
@@ -596,7 +595,7 @@ function ding_entity_rating_preprocess_material_item(&$variables) {
       $variables['information']['ding_entity_rating'] = array(
         'label' => t('Rate'),
         'data' => theme('ding_entity_rating_display', array('entity' => $variables['element']['#loan']->entity)),
-        'class' => 'class',
+        'class' => 'rating',
       );
     }
   }

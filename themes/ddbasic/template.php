@@ -40,6 +40,12 @@ function ddbasic_preprocess_html(&$vars) {
       break;
   }
 
+  switch (variable_get('ting_field_search_search_style')) {
+    case 'extended_with_profiles':
+      $vars['classes_array'][] = 'search-form-extended-with-profiles';
+      break;
+  }
+
   // If dynamic background.
   $image_conf = dynamic_background_load_image_configuration($vars);
 
@@ -196,7 +202,6 @@ function ddbasic_preprocess_views_view(&$vars) {
       switch ($vars['view']->current_display) {
         case 'ding_event_library_list':
         case 'ding_event_groups_list':
-        case 'ding_event_list_same_tag':
           // Add max-two-rows class.
           $vars['classes_array'][] = 'max-two-rows';
           $vars['classes_array'][] = 'not-frontpage-view';
@@ -209,7 +214,7 @@ function ddbasic_preprocess_views_view(&$vars) {
           $vars['classes_array'][] = 'frontpage-view';
 
           // Add event count setting as js variable.
-          $count = variable_get('ding_frontpage_events_count', 6);
+          $count = variable_get('ding_event_frontpage_items_per_page', 6);
           drupal_add_js(array('number_of_events' => $count), 'setting');
 
           break;
@@ -219,7 +224,6 @@ function ddbasic_preprocess_views_view(&$vars) {
     case 'ding_news':
       switch ($vars['view']->current_display) {
         case 'ding_news_groups_list':
-        case 'ding_news_list_same_tag':
           // Add slide-on-mobile class.
           $vars['classes_array'][] = 'slide-on-mobile';
           break;
@@ -258,6 +262,12 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
     $first_node = $nodes[$first_key];
     $vars['type_class'] = drupal_html_class($first_node->type);
   }
+
+  // Set no-masonry to true for frontpage event view
+  if ($vars['view']->name == 'ding_event' && $vars['view']->current_display == 'ding_event_list_frontpage') {
+    $vars['no_masonry'] = TRUE;
+  }
+
   // Class names for overwriting.
   $row_first = "first";
   $row_last = "last";
@@ -365,32 +375,55 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
 function ddbasic_preprocess_menu_link(&$variables) {
   if ($variables['theme_hook_original'] === 'menu_link__user_menu') {
     $path = explode('/', $variables['element']['#href']);
+
     switch (end($path)) {
+
       case 'status-loans':
-        $loans = ddbasic_account_count_loans();
+        $loans = ddbasic_account_count_overdue_loans();
         if (!empty($loans)) {
-          $variables['element']['#title'] .= ' (' . $loans . ')';
+          $variables['element']['#title'] .= ' <span class="menu-item-count">' . $loans . '</span>';
+        }
+        else {
+          $variables['element']['#attributes']['class'][] = 'element-invisible';
         }
         break;
 
       case 'status-reservations':
         $reservations = ddbasic_account_count_reservation_not_ready();
         if (!empty($reservations)) {
-          $variables['element']['#title'] .= ' (' . $reservations . ')';
+          $variables['element']['#title'] .= ' <span class="menu-item-count">' . $reservations . '</span>';
+        }
+        else {
+          $variables['element']['#attributes']['class'][] = 'element-invisible';
         }
         break;
 
       case 'status-reservations-ready':
         $reservations = ddbasic_account_count_reservation_ready();
         if (!empty($reservations)) {
-          $variables['element']['#title'] .= ' (' . $reservations . ')';
+          $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-success">' . $reservations . '</span>';
+        }
+        else {
+          $variables['element']['#attributes']['class'][] = 'element-invisible';
         }
         break;
 
       case 'status-debts':
-        $depts = ddbasic_account_count_depts();
-        if (!empty($depts)) {
-          $variables['element']['#title'] .= ' (' . $depts . ')';
+        $debts = ddbasic_account_count_debts();
+        if (!empty($debts)) {
+          $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-warning">' . $debts . '</span>';
+        }
+        else {
+          $variables['element']['#attributes']['class'][] = 'element-invisible';
+        }
+        break;
+
+      case 'view':
+        if ($path[0] === 'user') {
+          $notifications = ding_message_get_message_count();
+          if (!empty($notifications)) {
+            $variables['element']['#title'] .= ' <span class="menu-item-count">' . $notifications . '</span>';
+          }
         }
         break;
     }
@@ -453,6 +486,12 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
 
   $element['#localized_options']['attributes']['class'][] = 'js-topbar-link';
 
+  // Some links are not translated properly, this makes sure these links are
+  // run through the t function.
+  if ($element['#original_link']['title'] == $element['#original_link']['link_title']) {
+    $element['#title'] = t($element['#title']);
+  }
+
   // Add some icons to our top-bar menu. We use system paths to check against.
   switch ($element['#href']) {
     case 'search':
@@ -467,6 +506,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
 
     case 'user':
       $title_prefix = '<i class="icon-user"></i>';
+      $title_suffix = '<i class="icon-arrow-down"></i>';
       // If a user is logged in we change the menu item title.
       if (user_is_logged_in()) {
         $element['#href'] = 'user/me/view';
@@ -476,13 +516,13 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
 
         if (ding_user_is_provider_user($user)) {
           // Fill the notification icon, in following priority.
-          // Depts, overdue, ready reservations, notifications.
+          // Debts, overdue, ready reservations, notifications.
           $notification = array();
-          $depts = ddbasic_account_count_depts();
-          if (!empty($depts)) {
+          $debts = ddbasic_account_count_debts();
+          if (!empty($debts)) {
             $notification = array(
-              'count' => $depts,
-              'type' => 'depts',
+              'count' => $debts,
+              'type' => 'debts',
             );
           }
 
@@ -537,7 +577,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       break;
   }
 
-  $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
+  $output = l($title_prefix . '<span>' . $element['#title'] . '</span>' . $title_suffix, $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
@@ -802,7 +842,7 @@ function ddbasic_process_ting_object(&$vars) {
   // Notice it's only done on the "search_result" view mode.
   if ($vars['elements']['#entity_type'] == 'ting_object' && isset($vars['object']->in_collection)
       && isset($vars['elements']['#view_mode'])
-      && in_array($vars['elements']['#view_mode'], array('search_result', 'collection_list'))) {
+      && in_array($vars['elements']['#view_mode'], array('search_result'))) {
     $availability = field_view_field(
       'ting_collection',
       $vars['object']->in_collection,
