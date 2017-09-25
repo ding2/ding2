@@ -89,13 +89,27 @@ function ding_user_menu() {
     'file' => 'ding_user.pages.inc',
     'type' => MENU_CALLBACK,
   );
-
   $items['admin/config/ding/user'] = array(
-    'title' => 'Ding user settings',
-    'description' => 'Administer user settings.',
+    'title' => 'Ding user',
+    'description' => 'Administer ding user settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_user_admin_setting_form'),
     'access arguments' => array('administer user settings'),
+    'file' => 'ding_user.admin.inc',
+  );
+  $items['admin/config/ding/user/settings'] = array(
+    'title' => 'Settings',
+    'description' => 'Administer default user settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  $items['admin/config/ding/user/profile'] = array(
+    'title' => 'Profile',
+    'description' => 'Manage the user profile features',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_user_profile_admin_form'),
+    'access arguments' => array('administer user settings profile'),
     'file' => 'ding_user.admin.inc',
   );
 
@@ -109,6 +123,9 @@ function ding_user_permission() {
   return array(
     'administer user settings' => array(
       'title' => t('Administer user settings'),
+    ),
+    'administer user settings profile' => array(
+      'title' => t('Administer user profile features'),
     ),
   );
 }
@@ -446,11 +463,12 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     $profile_type = ding_user_get_provider_profile_type();
     if ($form_state['profile2']->type == $profile_type->type) {
       // Add pin-code change field.
-      $maxlength = ding_user_get_pincode_length();
       $form['pass'] = array(
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
       );
+
+      $maxlength = ding_user_get_pincode_length();
       if (ding_user_name() && !isset($_SESSION['wayf_login'])) {
         $form['pass']['pincode_old'] = array(
           '#type' => 'password',
@@ -460,6 +478,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
           '#attributes' => array('class' => array('password-confirm')),
         );
       }
+      $description = variable_get('user_profile_pass', '');
       $form['pass']['pincode'] = array(
         '#type' => 'password_confirm',
         '#size' => $maxlength,
@@ -470,8 +489,22 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
           // the strength checker, which we don't want.
           'ding_user_form_process_password_confirm',
         ),
-        '#description' => t('To change the current pincode, enter the new pincode in both fields.'),
+        '#description' => '<div class="description">' . t('%description', array('%description' => $description)) . '</div>',
       );
+
+      $profile = 'profile_' . $profile_type->type;
+      foreach (element_children($form[$profile]) as $element) {
+        // Skip hidden fields.
+        if (in_array('field-widget-hidden', $form[$profile][$element]['#attributes']['class'])) {
+          continue;
+        }
+        $description = variable_get('user_profile_' . $element, '');
+        if (empty($form[$profile][$element][LANGUAGE_NONE]['#suffix'])) {
+          $form[$profile][$element][LANGUAGE_NONE]['#suffix'] = '';
+        }
+        $form[$profile][$element][LANGUAGE_NONE]['#suffix'] .= '<div class="description">' . t('%description', array('%description' => $description)) . '</div>';
+        $form[$profile][$element][LANGUAGE_NONE]['#description'] = '';
+      }
 
       // Add submit handler to change the pin-code as it's not part of the
       // profile fields.
