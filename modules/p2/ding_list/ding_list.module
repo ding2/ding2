@@ -22,12 +22,6 @@ define('DING_LIST_TYPE_LISTS', 'lists_list');
 define('DING_LIST_TYPE_FOLLOW_USER', 'follow_user');
 define('DING_LIST_TYPE_FOLLOW_AUTHOR', 'follow_author');
 
-define('DING_LIST_TYPE_SPECIAL_DEPTS', 'special_depts');
-define('DING_LIST_TYPE_SPECIAL_RESERVATIONS_READY', 'special_reservations_ready');
-define('DING_LIST_TYPE_SPECIAL_RESERVATIONS', 'special_reservations');
-define('DING_LIST_TYPE_SPECIAL_LOANS', 'special_loans');
-define('DING_LIST_TYPE_SPECIAL_LOANS_OVERDUE', 'special_loans_overdue');
-
 // Extend here with care.
 define('DING_LIST_OPERATION_DELETE', 'delete');
 define('DING_LIST_OPERATION_ATTACH', 'attach');
@@ -184,10 +178,18 @@ function ding_list_menu() {
     'page arguments' => array(2),
   ));
 
-  $items['ding-list/private-share-message/%'] = array_merge($edit_list_base, array(
+  $items['ding-list/private-share-message/%/%'] = array_merge($edit_list_base, array(
     'title' => 'Share message',
     'page callback' => 'ding_list_private_share_message_callback',
-    'page arguments' => array(2),
+    'page arguments' => array(2, 3),
+  ));
+
+  $items['ding-list/share-list/%/%/%'] = array_merge($edit_list_base, array(
+    'title' => 'Share list',
+    'page callback' => 'ding_list_share_list_callback',
+    'page arguments' => array(2, 3, 4),
+    'access arguments' => array(3),
+    'delivery callback' => 'ajax_deliver',
   ));
 
   $items['ding-list/login-create'] = array(
@@ -435,6 +437,15 @@ function ding_list_ctools_plugin_directory($owner, $plugin_type) {
  * loans list.
  */
 function ding_list_user_login(&$edit, $account) {
+  // The hook_user_login() is triggered during installation, this happens prior
+  // to openlist being correctly setup and causes warnings during install of
+  // ding2.
+  // To avoid this, we don't create lists and try to sync with openlist during
+  // installation.
+  if (drupal_installation_attempted()) {
+    return;
+  }
+
   if (ding_provider_implements('openlist', 'update_user')) {
     ding_provider_invoke('openlist', 'update_user', $account);
 
@@ -1162,5 +1173,26 @@ function ding_list_views_post_execute(&$view) {
         ding_entity_load_multiple($ting_ids, 'ting_object');
       }
     }
+  }
+}
+
+/**
+ * Implements hook_panels_pane_content_alter().
+ */
+function ding_list_panels_pane_content_alter($content, $pane, $args, $contexts) {
+  if ($pane->type == 'user_overview' && variable_get('user_consent_activate') && ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE, $contexts['context_user_1']->data)) {
+    $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $contexts['context_user_1']->data);
+    $uri = entity_uri('ding_type', $list);
+    $list_type = ding_base_get_value('ding_type', $list, 'field_list_type');
+    $list_label = check_plain(entity_label('ding_type', $list));
+    $loan_history_link = array(
+      'data' =>
+      '<a href="' . url($uri['path']) . '" class="signature-label"><span class="icon"></span>' . $list_label . '</a>',
+      'class' => array(drupal_html_class($list_type)),
+    );
+    $items = &$content->content['#items'];
+    $items = array_slice($items, 0, count($items) - 1, true) +
+            array($list_type => $loan_history_link) +
+            array_slice($items, count($items) - 2, count($items) - 1, true);
   }
 }

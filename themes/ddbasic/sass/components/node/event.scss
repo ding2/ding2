@@ -381,6 +381,10 @@
       color: $color-primary;
     }
 
+    .field-name-field-ding-event-lead {
+      @include font('base-bold');
+    }
+
     .field-name-field-ding-event-lead,
     .field-name-field-ding-event-body p {
       margin: 20px 0;

@@ -208,7 +208,7 @@
           carousel = first_carousel;
           // Add in extra content.
           if (tab.content) {
-            carousel.find('ul').append(tab.content);
+            carousel.find('ul.rs-carousel-runner').append(tab.content);
           }
         }
 

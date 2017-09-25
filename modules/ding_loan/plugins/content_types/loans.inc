@@ -100,6 +100,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
   );
 
   $any_renewable = FALSE;
+  $group_types = array();
   foreach ($groups as $gid => $group) {
     // Counter to ensure that the "select all" checkbox is disabled if all loans
     // in group are disabled.
@@ -117,6 +118,13 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         ),
       ),
     );
+
+    // Numeric gids are loans not yet overdue.
+    $group_type = !is_numeric($gid) ? $gid : 'loans';
+    if (empty($group_types[$group_type])) {
+      $group_types[$group_type] = TRUE;
+      $form['loans'][$gid]['title']['#prefix'] = '<a class="anchor" id="anchor-' . $group_type . '"></a>' . $form['loans'][$gid]['title']['#prefix'];
+    }
 
     foreach ($group['loans'] as $loan) {
       // The default title from loan object.
@@ -297,6 +305,13 @@ function ding_loan_loans_form_submit($form, &$form_state) {
     else {
       // Create title from entity object.
       $title = $entity->getTitle();
+    }
+
+    // Add extra information if it's a periodical. There is an exception
+    // because the notes field is also used to set library information for
+    // inter library loans but only when they are ready for pick-up.
+    if (!empty($form_state['values']['items'][$id]->notes) && !($form_state['values']['items'][$id]->ill_status)) {
+      $title .= ' (' . $form_state['values']['items'][$id]->notes . ')';
     }
 
     // @todo Better feedback.

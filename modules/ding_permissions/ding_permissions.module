@@ -178,6 +178,8 @@ function ding_permissions_secure_permissions($role) {
       'use personalisation',
     ),
     'administrators' => array(
+      'access media browser',
+      'use media wysiwyg',
       'administer serendipity panes',
       'access administration pages',
       'access administration menu',
@@ -227,6 +229,7 @@ function ding_permissions_secure_permissions($role) {
       'administer environment indicator settings',
       'administer event settings',
       'administer news settings',
+      'administer eresource settings',
       'administer user settings',
       'administer social links settings',
       'administer fe promote',
@@ -520,6 +523,8 @@ function ding_permissions_secure_permissions($role) {
       'administer personalisation',
     ),
     'editor' => array(
+      'access media browser',
+      'use media wysiwyg',
       'eck add ding_type ding_interaction entities',
       'eck edit ding_type ding_interaction entities',
       'eck delete ding_type ding_interaction entities',
@@ -672,6 +677,8 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'guest blogger' => array(
+      'access media browser',
+      'use media wysiwyg',
       'access administration menu',
       'access environment indicator',
       'access environment indicator development',
@@ -707,6 +714,8 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'local administrator' => array(
+      'access media browser',
+      'use media wysiwyg',
       'eck add ding_type ding_interaction entities',
       'eck edit ding_type ding_interaction entities',
       'eck delete ding_type ding_interaction entities',
@@ -743,6 +752,7 @@ function ding_permissions_secure_permissions($role) {
       'administer EU Cookie Compliance popup',
       'administer event settings',
       'administer news settings',
+      'administer eresource settings',
       'administer user settings',
       'administer social links settings',
       'administer fe promote',
@@ -907,6 +917,8 @@ function ding_permissions_secure_permissions($role) {
       'administer personalisation',
     ),
     'local editor' => array(
+      'access media browser',
+      'use media wysiwyg',
       'eck add ding_type ding_interaction entities',
       'eck edit ding_type ding_interaction entities',
       'eck delete ding_type ding_interaction entities',
