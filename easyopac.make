@@ -110,13 +110,6 @@ projects[ding_history_back][download][url]    = "git@github.com:easySuite/ding_h
 projects[ding_history_back][download][tag]    = "7.x-3.0.2"
 ;projects[ding_history_back][download][branch] = "development"
 
-projects[ding_item_cache][type]             = "module"
-projects[ding_item_cache][subdir]           = ""
-projects[ding_item_cache][download][type]   = "git"
-projects[ding_item_cache][download][url]    = "git@github.com:easySuite/ding_item_cache.git"
-projects[ding_item_cache][download][tag]    = "7.x-3.0.2"
-;projects[ding_item_cache][download][branch] = "development"
-
 projects[ding_item_list][type]             = "module"
 projects[ding_item_list][subdir]           = ""
 projects[ding_item_list][download][type]   = "git"
