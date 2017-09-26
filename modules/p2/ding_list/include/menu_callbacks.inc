@@ -185,7 +185,9 @@ function ding_list_private_share_message_callback($list_id, $community) {
         'class' => array('private-sharer', 'use-ajax'),
       ),
     )) . '<br/>' .
-    l(t('No - not right now.'), '#', array('external' => TRUE, 'attributes' => array('class' => array('close-popupbar')))) . '</p>'
+    l(t('No - not right now.'), '#', array('external' => TRUE, 'attributes' => array('class' => array('close-popupbar')))) . '<br/><br/>' .
+    t('* Note that popup blockers, might block the share popup.')
+    . '</p>'
   );
 
   return array(
