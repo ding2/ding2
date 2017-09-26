@@ -117,3 +117,24 @@ function ding_ddbasic_module_implements_alter(&$implementations, $hook) {
     $implementations['ding_ddbasic'] = $group;
   }
 }
+
+/**
+ * Implements hook_field_group_pre_render().
+ *
+ * This function gives you the oppertunity to create the given
+ * wrapper element that can contain the fields.
+ * In the example beneath, some variables are prepared and used when building the
+ * actual wrapper element. All elements in drupal fapi can be used.
+ *
+ * Note that at this point, the field group has no notion of the fields in it.
+ *
+ * There is also an alternative way of handling this. The default implementation
+ * within field_group calls "field_group_pre_render_<format_type>".
+ * @see field_group_pre_render_fieldset.
+ *
+ * @param Array $elements by address.
+ * @param Object $group The Field group info.
+ */
+function ding_ddbasic_field_group_pre_render(& $element, $group, & $form) {
+  $group->format_settings['instance_settings']['classes'] .= ' ' . drupal_html_class($group->group_name);
+}
