@@ -357,8 +357,8 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
     // Push only opening hours from current week till 10 weeks ahead.
     // It's barely possible that a certain user would be interested
     // in opening hours for a certain library further than 10 weeks ahead.
-    $start_date = strtotime('this monday');
-    $end_date = strtotime('this monday + 10 weeks');
+    $start_date = strtotime('last monday');
+    $end_date = strtotime('last monday + 10 weeks');
 
     foreach ($result as $row) {
       $row = (array) $row;
