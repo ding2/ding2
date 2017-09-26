@@ -136,5 +136,5 @@ function ding_ddbasic_module_implements_alter(&$implementations, $hook) {
  * @param Object $group The Field group info.
  */
 function ding_ddbasic_field_group_pre_render(& $element, $group, & $form) {
-  $group->format_settings['instance_settings']['classes'] .= ' ' . drupal_html_class($group->group_name);
+  $group->format_settings['instance_settings']['classes'] .= ' field-group-format ' . drupal_html_class($group->group_name);
 }
