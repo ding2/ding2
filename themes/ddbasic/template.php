@@ -316,6 +316,8 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
     $vars['type_class'] = drupal_html_class($first_node->type);
   }
 
+  $vars['no_masonry'] = FALSE;
+
   // Set no-masonry to true for frontpage event view
   if ($vars['view']->name == 'ding_event' && $vars['view']->current_display == 'ding_event_list_frontpage') {
     $vars['no_masonry'] = TRUE;
@@ -1338,16 +1340,18 @@ function ddbasic_libraries_info() {
 /**
  * Implements hook_views_pre_render().
  *
- * Rewrites view's ouput.
+ * Rewrites view's output.
  */
 function ddbasic_views_pre_render(&$view){
   if ($view->name == 'ding_event') {
     foreach ($view->result as &$item) {
-      $field = &$item->field_field_ding_event_date[0];
-      $val = $field['raw']['value'];
-      if ($val == $field['raw']['value2']) {
-         $date = new DateTime($val, new DateTimeZone($field['raw']['timezone_db']));
-         $date->setTimezone(new DateTimeZone($field['raw']['timezone']));
+      $node = node_load($item->nid);
+
+      $field = $node->field_ding_event_date['und'][0];
+      $val = $field['value'];
+      if ($val == $field['value2']) {
+         $date = new DateTime($val, new DateTimeZone($field['timezone_db']));
+         $date->setTimezone(new DateTimeZone($field['timezone']));
          $date = $date->format('H:i');
          $field['rendered']['#markup'] = $date . ' - ' . t('All day');
       }
