@@ -283,6 +283,7 @@ function template_preprocess_ding_entity_rating_display(&$variables) {
   // Add styling and javascript.
   // Since we don't use render here, we attach them old fashioned way.
   drupal_add_library('system', 'drupal.ajax');
+  drupal_add_library('system', 'ui.widget');
   $module_path = drupal_get_path('module', 'ding_entity_rating');
   drupal_add_css($module_path . '/css/ding_entity_rating.css');
   drupal_add_js($module_path . '/js/ding_entity_rating.js');
