@@ -5,6 +5,9 @@
  * Enable DIBS as a payment provider for Ding!
  */
 
+// URL used for capturing payments.
+define('DING_DIBS_CAPTURE_URL', 'https://payment.architrade.com/cgi-bin/capture.cgi');
+
 /**
  * Implements hook_dibsapi().
  */
@@ -195,14 +198,6 @@ function ding_dibs_payment_prepare($amount, array $params, $callback, $redirect 
  *   Transaction to capture.
  */
 function ding_dibs_capture($delta = NULL, array &$transaction = NULL) {
-
-  $url = trim(variable_get('url_dibs_capture'));
-
-  if (!$url) {
-    watchdog('ding_dibs', 'DIBS automatic capture URL is not configured.', array(), WATCHDOG_CRITICAL);
-    return FALSE;
-  }
-
   $module = 'ding_dibs';
   $delta = 1;
   $settings = (array) variable_get('dibs_settings_' . $module . '_' . $delta, array());
@@ -237,7 +232,7 @@ function ding_dibs_capture($delta = NULL, array &$transaction = NULL) {
     $params[] = $key . '=' . $val;
   }
 
-  $dibs_reply = drupal_http_request($url . '?' . implode('&', $params));
+  $dibs_reply = drupal_http_request(DING_DIBS_CAPTURE_URL . '?' . implode('&', $params));
 
   $capture_data = explode('&', $dibs_reply->data);
   foreach ($capture_data as $key => $val) {
@@ -262,10 +257,11 @@ function ding_dibs_capture($delta = NULL, array &$transaction = NULL) {
     return TRUE;
   }
   else {
-    watchdog('ding_dibs', 'DIBS capture failed:<br/>URL: %url<br/>DIBS reply: %reply.', array(
-      '%url' => $url . '?' . implode('&', $params),
+    $variables = array(
+      '%url' => DING_DIBS_CAPTURE_URL . '?' . implode('&', $params),
       '%reply' => '<pre>' . print_r($capture_status['capture_reply'], 1) . '</pre>',
-    ), WATCHDOG_CRITICAL);
+    );
+    watchdog('ding_dibs', 'DIBS capture failed:<br/>URL: %url<br/>DIBS reply: %reply.', $variables, WATCHDOG_CRITICAL);
   }
 
   return FALSE;
