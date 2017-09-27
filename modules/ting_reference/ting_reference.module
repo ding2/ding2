@@ -335,11 +335,22 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
         // @TODO: make view mode configurable.
         // Load the entity and build it.
         $entities = entity_load($entity_type, array($entity_id));
-        $build = entity_view($entity_type, $entities, 'search_result');
 
-        // Don't show links. Should be an option.
-        unset($build['links']);
-        $element[] = $build;
+        if ($entity_type === 'node') {
+          foreach ($entities as $key => $node) {
+            if ($node->status !== NODE_PUBLISHED) {
+              unset($entities[$key]);
+            }
+          }
+        }
+
+        if (!empty($entities)) {
+          $build = entity_view($entity_type, $entities, 'search_result');
+
+          // Don't show links. Should be an option.
+          unset($build['links']);
+          $element[] = $build;
+        }
       }
       break;
   }
