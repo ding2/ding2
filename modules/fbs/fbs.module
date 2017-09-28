@@ -694,13 +694,14 @@ function fbs_ting_pre_execute($request) {
   if ($request instanceof TingClientSearchRequest) {
     // Filter out blacklisted branches from search.
     $branches_blacklist = array_filter(variable_get('fbs_branches_blacklist', array()));
-    $blacklist_names = array_values(array_intersect_key(fbs_branches(), $branches_blacklist));
-    $blacklist_names = array_map('_fbs_cql_quote_string', $blacklist_names);
 
     $query = $request->getQuery();
     if (!empty($branches_blacklist)) {
-      $query .= ' AND (holdingsitem.branch = (* not ' . implode(' not ',
-                $branches_blacklist) . '))';
+      $branches = array_keys(fbs_branches());
+      $allowed_branches = array_diff($branches, array_keys($branches_blacklist));
+
+      $query .= ' AND (holdingsitem.branch = (' . implode(' OR ',
+          $allowed_branches) . '))';
       $request->setQuery($query);
     }
 
