@@ -34,10 +34,10 @@ function template_preprocess_ting_object_cover(&$variables) {
 
       // Render the img element.
       $variables['image'] = theme('image_style', array(
-        'style_name' => $variables['image_style'],
-        'path' => $path,
-        'alt' => $alt,
-      ));
+                              'style_name' => $variables['image_style'],
+                              'path' => $path,
+                              'alt' => $alt,
+                            ));
 
       // Avoid further javascript processing. Just load the image.
       $variables['classes'][] = 'ting-cover-processed';
