@@ -119,7 +119,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       ),
     );
 
-    // Assume anything not int he overdue group is loans (which are grouped by
+    // Assume anything not in the overdue group is loans (which are grouped by
     // their expire date).
     $group_type = $gid !== 'overdue' ? 'loans' : $gid;
     if (empty($group_types[$group_type])) {
