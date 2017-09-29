@@ -48310,7 +48310,7 @@ msgstr "Mine sider"
 
 #: /user
 msgid "Fines"
-msgstr "Gebyrer"
+msgstr "Betal gebyrer"
 
 #: /index.php
 msgid "Add search to list"
@@ -67108,12 +67108,6 @@ msgid "Call Openlist ADHR service on the current object"
 msgstr "Benyt OpenList ADHR (Andre har også anbefalet) på det aktuelle materiale." 
 
 #: /ding-list/private-share-message/147/facebook
-msgid ""
-"You need to make your list public, before you can share it on social "
-"media."
-msgstr "Du skal offentliggøre din liste før du kan dele den med andre."
-
-#: /ding-list/private-share-message/147/facebook
 msgid "Yes - make my list public, and share it."
 msgstr "Ja - offentliggør min liste og del den."
 
@@ -67136,3 +67130,24 @@ msgstr "Listen vises under"
 #: /da/user
 msgid "My library"
 msgstr "Mit personlige bibliotek"
+
+#: /search/ting/hunde
+msgid "Add to searches I follow"
+msgstr "Føj til søgninger jeg følger"
+
+#: /arrangementer/internet-undervisning/moed-forfatteren-elsebeth-egholm
+msgid "Related"
+msgstr "Se mere ..."
+
+#: /varnish/roles
+msgid "Push to Mongo"
+msgstr "Send til CMS Content"
+
+#: /ding-list/private-share-message/147/facebook
+msgid ""
+"You need to make your list public, before you can share it on social "
+"media."
+msgstr ""
+"Du skal offentliggøre din liste før du kan dele den med andre.\r\n"
+"\r\n"
+"<p>Husk at tillade pop-vinduer i browserens adresselinje, for at godkende deling af listen i Facebook eller Twitter!</p>"
