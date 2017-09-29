@@ -688,16 +688,19 @@ function fbs_ting_pre_execute($request) {
     // Filter out blacklisted branches from search.
     $branches_blacklist = array_filter(variable_get('fbs_branches_blacklist', array()));
 
-    $query = $request->getQuery();
     if (!empty($branches_blacklist)) {
-      $branches = array_keys(fbs_branches());
-      $allowed_branches = array_diff($branches, array_keys($branches_blacklist));
-
+      $query = $request->getQuery();
+      $allowed_branches = [];
+      foreach (fbs_branches() as $id => $branch) {
+        if (!in_array($id, $branches_blacklist)) {
+          $allowed_branches[] = _fbs_cql_quote_string($branch);
+        }
+      }
       $query .= ' AND (holdingsitem.branch = (' . implode(' OR ',
           $allowed_branches) . '))';
       $request->setQuery($query);
-    }
 
+    }
     // Since FBS is using data-well 3.5 we need to filter local holdings.
     $request->setFilterLocalHoldings(TRUE);
   }
