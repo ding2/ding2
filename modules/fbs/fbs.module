@@ -689,17 +689,23 @@ function fbs_ting_pre_execute($request) {
     $branches_blacklist = array_filter(variable_get('fbs_branches_blacklist', array()));
 
     $query = $request->getQuery();
-    if (!empty($branches_blacklist)) {
-      $branches = array_keys(fbs_branches());
-      $allowed_branches = array_diff($branches, array_keys($branches_blacklist));
-
-      $query .= ' AND (holdingsitem.branch = (' . implode(' OR ',
-          $allowed_branches) . '))';
-      $request->setQuery($query);
+    $branches = fbs_branches();
+    $allowed_branches = [];
+    foreach ($branches as $id => $branch) {
+      if (!in_array($id, $branches_blacklist)) {
+        $allowed_branches[] = $branch;
+      }
     }
+    if (!empty($branches_blacklist)) {
+      $query .= ' AND (holdingsitem.branch = ("' . implode('" OR "',
+          $allowed_branches) . '"))';
+      $request->setQuery($query);
 
-    // Since FBS is using data-well 3.5 we need to filter local holdings.
-    $request->setFilterLocalHoldings(TRUE);
+    }
+    else {
+      // Since FBS is using data-well 3.5 we need to filter local holdings.
+      $request->setFilterLocalHoldings(TRUE);
+    }
   }
 }
 
