@@ -693,11 +693,11 @@ function fbs_ting_pre_execute($request) {
       $allowed_branches = [];
       foreach (fbs_branches() as $id => $branch) {
         if (!in_array($id, $branches_blacklist)) {
-          $allowed_branches[] = $branch;
+          $allowed_branches[] = _fbs_cql_quote_string($branch);
         }
       }
-      $query .= ' AND (holdingsitem.branch = ("' . implode('" OR "',
-          $allowed_branches) . '"))';
+      $query .= ' AND (holdingsitem.branch = (' . implode(' OR ',
+          $allowed_branches) . '))';
       $request->setQuery($query);
 
     }
