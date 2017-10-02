@@ -34,6 +34,19 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     }
   }
 
+  // Add updated to variables.
+  $variables['ddbasic_updated'] = format_date($variables['node']->changed, 'long');
+
+  // Modified submitted variable.
+  if ($variables['display_submitted']) {
+    $variables['submitted'] = format_date($variables['node']->changed, 'long');
+  }
+}
+
+/**
+ * Implememnts template_process_node().
+ */
+function ddbasic_process_node(&$variables, $hook) {
   // For search result view mode move title into left col. group.
   if (isset($variables['content']['group_right_col_search'])) {
     $variables['content']['group_right_col_search']['title'] = array(
@@ -49,14 +62,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
       '#prefix' => '<h2>',
       '#suffix' => '</h2>',
     );
-  }
-
-  // Add updated to variables.
-  $variables['ddbasic_updated'] = format_date($variables['node']->changed, 'long');
-
-  // Modified submitted variable.
-  if ($variables['display_submitted']) {
-    $variables['submitted'] = format_date($variables['node']->changed, 'long');
   }
 }
 
