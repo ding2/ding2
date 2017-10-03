@@ -3,15 +3,11 @@ api = 2
 
 ; Core
 projects[drupal][type] = core
-projects[drupal][version] = 7.44
-projects[drupal][download][type] = get
-projects[drupal][download][url] = "http://ftp.drupal.org/files/projects/drupal-7.44.tar.gz"
+projects[drupal][version] = 7.56
 projects[drupal][patch][] = "http://drupal.org/files/issues/menu-get-item-rebuild-1232346-45.patch"
 projects[drupal][patch][] = "http://drupal.org/files/ssl-socket-transports-1879970-13.patch"
-projects[drupal][patch][] = "http://www.drupal.org/files/issues/autocomplete-1232416-205-7x.patch"
+projects[drupal][patch][] = "http://www.drupal.org/files/issues/1232416-autocomplete-for-drupal7x53.patch"
 projects[drupal][patch][] = "http://drupal.org/files/issues/translate_role_names-2205581-1.patch"
-; PHP7 fix (https://www.drupal.org/node/2877243)
-projects[drupal][patch][] = "https://www.drupal.org/files/issues/DATE_RFC7231-2877243-26.patch"
 
 ; Get the profile, which will contain the next makefile.
 projects[ding2][type] = "profile"
