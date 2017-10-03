@@ -118,4 +118,14 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
       'type3' => 'Relation type 3',
     ];
   }
+
+  /**
+   * Returns an instance of TingRelation.
+   *
+   * @return \TingRelation
+   *   The relation.
+   */
+  public function getDummyRelation() {
+    return new TingRelation('dummytype', 'http://example.com/dummy', (object) []);
+  }
 }
