@@ -8,6 +8,7 @@ use Connie\Search\ConnieSearchResult;
 use Connie\Search\ConnieTingObject;
 use Connie\Search\ConnieTingObjectCollection;
 use Ting\Search\TingSearchRequest;
+use TingRelation;
 
 /**
  * Get a list of material types from the Well.
@@ -90,5 +91,25 @@ function connie_search_search_supported_relations() {
   return [
     'type1' => 'Relation type 1',
     'type3' => 'Relation type 3',
+  ];
+}
+
+/**
+ * Returns a ting_relation render-array given a TingRelation.
+ *
+ * @param \TingRelation $relation
+ *   The relation to render.
+ *
+ * @return array
+ *   The render array.
+ */
+function connie_search_search_render_inline_relation(\TingRelation $relation) {
+  return [
+    '#theme' => 'ting_relation',
+    '#title' => 'En anmeldelse',
+    '#abstract' => 'Duis pellentesque, sem in luctus interdum, nisl ipsum luctus nulla, vitae tincidunt risus augue ut erat. Vestibulum purus lectus, hendrerit sit amet scelerisque tempus, blandit vel quam. Quisque ac venenatis magna. Sed blandit viverra leo, maximus fringilla augue. Ut rutrum massa ac enim tincidunt, ut volutpat lorem tincidunt. Praesent rhoncus sit amet eros eget tempor. Maecenas dapibus ultricies neque. Curabitur elementum, diam sit amet ullamcorper bibendum, dui lorem porta neque, nec faucibus tellus nibh at elit. Nam sagittis luctus lectus sagittis efficitur.',
+    '#online' => FALSE,
+    '#target' => '_blank',
+    '#relation' => $relation,
   ];
 }

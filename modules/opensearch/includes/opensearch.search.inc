@@ -108,7 +108,7 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
  *   Filtered list.
  */
 function opensearch_search_filter_relations($relations) {
-  $relation_types = opensearch_search_inline_relation_types();
+  $relation_types = opensearch_search_supported_relations();
 
   return array_filter($relations,
     function($relation) use ($relation_types) {
@@ -135,7 +135,7 @@ function opensearch_search_filter_relations($relations) {
  */
 function opensearch_search_supported_relations() {
   return [
-      'dbcaddi:hasCreatorDescription' => t('Author portrait'),  
+      'dbcaddi:hasCreatorDescription' => t('Author portrait'),
       'dbcaddi:hasReview' => t('Review'),
       'dbcaddi:hasSubjectDescription' => t('Subject description'),
       'dbcaddi:hasDescriptionFromPublisher' => t('Description from publisher'),
@@ -299,4 +299,24 @@ function _opensearch_search_relation_render_online_url(\TingRelation $relation) 
 
   // No url found so return FALSE;
   return $url;
+}
+
+/**
+ * Returns a ting_relation render-array given a TingRelation.
+ *
+ * @param \TingRelation $relation
+ *   The relation to render.
+ *
+ * @return array
+ *   The render array.
+ */
+function opensearch_search_render_inline_relation(TingRelation $relation) {
+  return [
+    '#theme' => 'ting_relation',
+    '#title' => _opensearch_search_relation_render_title($relation),
+    '#abstract' => _opensearch_search_relation_render_abstract($relation),
+    '#online' => _opensearch_search_relation_render_online_url($relation),
+    '#target' => _opensearch_search_relation_render_target($relation),
+    '#relation' => $relation,
+  ];
 }

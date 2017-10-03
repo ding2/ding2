@@ -392,7 +392,13 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    */
   public abstract function getSupportedRelations();
 
-
+  /**
+   * Returns an instance of TingRelation.
+   *
+   * @return \TingRelation
+   *   The relation.
+   */
+  public abstract function getDummyRelation();
 
   /**
    * Verify that the provider returns the expected list of material types.
@@ -455,5 +461,17 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $expected_relations = $this->getSupportedRelations();
     $relations = ding_provider_invoke('search', 'supported_relations');
     $this->assertEqual($expected_relations, $relations);
+  }
+
+  /**
+   * Verify that the provider can render a relation.
+   */
+  public function testRelationRendering() {
+    $dummy_relation = $this->getDummyRelation();
+    $render_array = ding_provider_invoke('search', 'render_inline_relation', $dummy_relation);
+    // Verify that the correct theme-hook is referenced.
+    $this->assertEqual('ting_relation', $render_array['#theme']);
+    // Verify that the relation is included in the render-array.
+    $this->assertEqual($dummy_relation, $render_array['#relation']);
   }
 }
