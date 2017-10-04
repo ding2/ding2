@@ -327,6 +327,7 @@ function ding_reservation_reserve_form($form, &$form_state, $reservable, $hide_o
       'class' => array(
         'action-button',
         'reserve-button',
+        'reservable',
       ),
     ),
     '#ajax' => array(
