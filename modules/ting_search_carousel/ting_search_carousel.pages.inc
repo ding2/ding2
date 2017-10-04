@@ -20,10 +20,13 @@ function ting_search_carousel_result($index, $offset) {
   }
   $offset = $chunk['next_offset'];
 
+  $js = drupal_add_js();
+
   // Return JSON output.
   drupal_json_output(array(
     'content' => $content,
     'index' => $index,
     'offset' => $offset,
+    'settings' => drupal_array_merge_deep_array($js['settings']['data']),
   ));
 }
