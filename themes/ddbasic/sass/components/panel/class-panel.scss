@@ -615,3 +615,12 @@
   max-width: 1260px;
   margin: 0 auto;
 }
+
+.panels-ipe-on {
+  // The lazy_pane module will occasionally include the IPE actions, on the pane
+  // being loaded. This is due to the cache keys lazy_pane work with. There's no
+  // hook for us to fix this problem, which is why we hide these actions here.
+  // The IPE module will set the display inline, when an admin is editing a page
+  // so the backend still works with this display none.
+  display: none;
+}

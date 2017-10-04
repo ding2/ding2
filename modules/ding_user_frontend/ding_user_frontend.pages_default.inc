@@ -1094,7 +1094,7 @@ function ding_user_frontend_default_page_manager_pages() {
     'settings' => NULL,
   );
   $page->menu = array(
-    'type' => 'none',
+    'type' => 'tab',
     'title' => 'Reservations',
     'name' => 'navigation',
     'weight' => '4',
