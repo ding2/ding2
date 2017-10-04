@@ -274,9 +274,8 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
  * Ding Library.
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
-
   // Google maps addition to library list.
-  $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
+  $address = $variables['content']['field_ding_library_addresse'][0]['#address'];
 
   $street = $address['thoroughfare'];
   $street = preg_replace('/\s+/', '+', $street);
@@ -286,8 +285,8 @@ function ddbasic_preprocess__node__ding_library(&$variables) {
   $url = "http://www.google.com/maps/place/" . $street . "+" . $postal . "+" . $city . "+" . $country;
   $link = l(t("Show on map"), $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
 
-  $variables['content']['group_ding_library_right_column']['maps_link']['#markup'] = $link;
-  $variables['content']['group_ding_library_right_column']['maps_link']['#weight'] = 10;
+  $variables['content']['maps_link']['#markup'] = $link;
+  $variables['content']['maps_link']['#weight'] = 10;
 }
 
 /**
