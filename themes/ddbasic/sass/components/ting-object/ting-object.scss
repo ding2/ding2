@@ -118,10 +118,10 @@
         @include font('display-small');
         width: 100%;
         padding: 0 20px;
-        color: $color-primary;
+        color: $color-text-link-on-dark;
         margin-bottom: 15px;
         a:hover {
-          color: $color-primary;
+          color: $color-text-link-on-dark;
         }
       }
       .field-name-ting-abstract {
