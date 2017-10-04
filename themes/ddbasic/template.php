@@ -53,10 +53,10 @@ function ddbasic_preprocess_html(&$vars) {
     $vars['classes_array'][] = 'has-dynamic-background';
   }
 
-  // Store the menu item since it has some useful information.
-  $vars['menu_item'] = menu_get_item();
+  // Detect if current page is a panel page and set class accordingly
+  $panel_page = page_manager_get_current_page();
 
-  if ($vars['menu_item'] && strpos($vars['menu_item']['page_callback'], 'page_manager_') === 0) {
+  if (!empty($panel_page)) {
     $vars['classes_array'][] = 'page-panels';
   }
   else {
