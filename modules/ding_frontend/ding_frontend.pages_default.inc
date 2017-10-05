@@ -331,6 +331,38 @@ search/node',
     $display->content['new-06e03f81-aacd-462e-be56-7cd9bcd2e5dc'] = $pane;
     $display->panels['left_sidebar'][0] = 'new-06e03f81-aacd-462e-be56-7cd9bcd2e5dc';
     $pane = new stdClass();
+    $pane->pid = 'new-d998c42f-f7b2-4140-91d3-b1e3d049c04c';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'campaign';
+    $pane->subtype = 'campaign';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'ding_campaign_count' => 3,
+      'ding_campaign_offset' => 0,
+      'ding_campaign_style' => 'ding_campaign_full_width',
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'argument_string_1',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'd998c42f-f7b2-4140-91d3-b1e3d049c04c';
+    $display->content['new-d998c42f-f7b2-4140-91d3-b1e3d049c04c'] = $pane;
+    $display->panels['left_sidebar'][1] = 'new-d998c42f-f7b2-4140-91d3-b1e3d049c04c';
+    $pane = new stdClass();
     $pane->pid = 'new-02042f1f-5d31-4817-bfa7-dbf689cd45ea';
     $pane->panel = 'main_content';
     $pane->type = 'views';
