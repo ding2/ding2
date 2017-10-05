@@ -928,6 +928,38 @@ function ding_user_frontend_default_page_manager_pages() {
     $display->content['new-95c59944-f02d-4a0c-95c4-a7a854e6a5f3'] = $pane;
     $display->panels['left_sidebar'][0] = 'new-95c59944-f02d-4a0c-95c4-a7a854e6a5f3';
     $pane = new stdClass();
+    $pane->pid = 'new-74f727a0-d247-4adc-87fa-f4c42c7218c2';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'campaign';
+    $pane->subtype = 'campaign';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'ding_campaign_count' => 3,
+      'ding_campaign_offset' => 0,
+      'ding_campaign_style' => 'ding_campaign_full_width',
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '74f727a0-d247-4adc-87fa-f4c42c7218c2';
+    $display->content['new-74f727a0-d247-4adc-87fa-f4c42c7218c2'] = $pane;
+    $display->panels['left_sidebar'][1] = 'new-74f727a0-d247-4adc-87fa-f4c42c7218c2';
+    $pane = new stdClass();
     $pane->pid = 'new-375a2a68-afd4-4852-8e12-0b6af310c47a';
     $pane->panel = 'main_content';
     $pane->type = 'loans';
