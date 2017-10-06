@@ -4809,8 +4809,12 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
 input#edit-search-block-form--2.spinner {
   background-image: none; }
 
-.field-name-ding-entity-buttons .find-items-button {
-  margin-left: 10px; }
+.field-name-ding-entity-buttons {
+  float: right; }
+  .field-name-ding-entity-buttons .action-button {
+    margin-left: 10px; }
+  .field-name-ding-entity-buttons .bookmark-button {
+    display: inline-block; }
 
 .button-see-online {
   margin-left: 10px;
