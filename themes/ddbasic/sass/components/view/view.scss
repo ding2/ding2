@@ -197,6 +197,8 @@
   &.slide-on-mobile {
     .more-link {
       @include media($mobile) {
+        width: 100%;
+        padding-right: 132px;
         margin-top: -54px;
       }
     }

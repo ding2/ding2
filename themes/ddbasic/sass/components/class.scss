@@ -106,7 +106,8 @@ body > .ding2-site-template {
     // Mobile
     @include media($mobile) {
       padding: 20px 20px 14px 15px; //@TODO padding should be like this for all buttons, mobile
-      width: 120px;
+      width: auto;
+      max-width: 100%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
