@@ -203,8 +203,22 @@ input#edit-search-block-form--2.spinner {
 
 
 .field-name-ding-entity-buttons {
+  float: right;
+
+  .action-button {
+    margin-left: 10px;
+  }
+
   .reserve-button {
     @extend %button-action;
+  }
+
+  .find-items-button {
+    @extend %button-theme;
+  }
+
+  .bookmark-button {
+    display: inline-block;
   }
 }
 
@@ -214,7 +228,6 @@ input#edit-search-block-form--2.spinner {
   margin-left: 10px;
   line-height: 125%;
 }
-
 
 
 /* Column wrapper fields
@@ -594,6 +607,12 @@ input#edit-search-block-form--2.spinner {
         margin-bottom: 10px;
 
         font-size: $font-size-large;
+      }
+
+      .field-name-ting-literary-form {
+        color: $gray-darker;
+        float: right;
+        font-size: 100%;
       }
 
       .search-result--heading-type {

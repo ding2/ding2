@@ -981,7 +981,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
 
         if (isset($content['group_holdings_available']) && $content['group_holdings_available']) {
           $vars['content']['holdings-available'] = array(
-            '#prefix' => '<div class="ting-object-wrapper">',
+            '#prefix' => '<div id="hasHoldings" class="ting-object-wrapper">',
             '#suffix' => '</div>',
             'content' => array(
               '#prefix' => '<div class="ting-object-inner-wrapper">',

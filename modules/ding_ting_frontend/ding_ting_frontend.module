@@ -64,3 +64,41 @@ function ding_ting_frontend_ding_entity_view($entity, $view_mode) {
   $entity->content['#groups']['group_holdings_available']->format_settings['formatter'] = $modified_view_mode;
 
 }
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ding_ting_frontend_ding_entity_buttons($type, $entity) {
+  drupal_add_js(drupal_get_path('module', 'ding_ting_frontend') . '/ding_ting_frontend.js', array('type' => 'file'));
+  $button = '';
+
+  $show_button = TRUE;
+  $collection = ting_collection_load($entity->id);
+  $path = current_path();
+  if (count($collection->types) > 1 && preg_match('~\bsearch\b~', $path)) {
+    $show_button = FALSE;
+  }
+
+  if ($type == 'ding_entity' && $entity->is('reservable') && $show_button) {
+    $button = array(
+      array(
+        '#theme' => 'link',
+        '#text' => t('Find the item'),
+        '#path' => 'ting/object/' . $entity->id,
+        '#options' => array(
+          'attributes' => array(
+            'class' => array(
+              'action-button',
+              'find-items-button',
+            ),
+            'id' => 'find-holdings',
+          ),
+          'fragment' => 'hasHoldings',
+          'html' => TRUE,
+        ),
+      ),
+    );
+  }
+
+  return $button;
+}
