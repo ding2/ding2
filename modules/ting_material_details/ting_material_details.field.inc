@@ -478,7 +478,7 @@ function ting_material_details_field_formatter_settings_summary($field, $instanc
  *   The virtual field value, or FALSE if it can not be determined.
  */
 function ting_material_details_get_object_property($field_name, TingEntity $entity) {
-  if ($entity->reply === NULL) {
+  if ($entity->reply === NULL || $entity->reply === FALSE) {
     return FALSE;
   }
   // Switch on the name and get the value from either a property on the entity

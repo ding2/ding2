@@ -164,7 +164,7 @@ function ding_availability_holdings($provider_ids) {
     );
 
     // Marks internet resources as available.
-    if ($item['is_internet']) {
+    if (!empty($item['is_internet'])) {
       $item['available'] = TRUE;
     }
 
@@ -269,7 +269,7 @@ function ding_availability_holdings_row($holding, $show_ordered_count) {
   $row['available'] = isset($holding['available_count']) ? (int) $holding['available_count'] : 0;
   $row['available'] += isset($holding['reference_count']) ? (int) $holding['reference_count'] : 0;
 
-  // copies in acquisition.
+  // Copies in acquisition.
   if ($show_ordered_count) {
     $ordered_count = isset($holding['ordered_count']) ? (int) $holding['ordered_count'] : 0;
     $row['copies'] += $ordered_count;

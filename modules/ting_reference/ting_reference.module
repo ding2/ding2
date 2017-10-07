@@ -564,7 +564,6 @@ function _ting_reference_autocomplete($string) {
     $search_query = ting_start_query();
     $search_query->setSimpleQuery($string);
     $search_query->setCount(10);
-    $search_query->setFacets([]);
 
     $result = $search_query->execute();
 
