@@ -45,10 +45,73 @@ class TingSearchRequest {
 
   /**
    * @var string[]
-   *   Facets this query should query within. If empty all facets will be
-   *   queried.
+   *   Facets we want to query against. If specified the search-result should
+   *   enumerate facet-matches alongside the actual material matches.
    */
   protected $facets = [];
+
+  /**
+   * @var int
+   *   Page offset. Defaults to 1 (first page)
+   */
+  protected $page = 1;
+
+  /**
+   * Sort directions.
+   *
+   * @var \Ting\Search\TingSearchSort[]
+   */
+  protected $sorts = [];
+
+  /**
+   * Raw provider-specific query string.
+   *
+   * @var string
+   */
+  protected $rawQuery;
+
+  /**
+   * Hints specific to the provider.
+   *
+   * Setting these hints must not affect the "business" result of doing the
+   * query. That is, the query should be able to perform its purpose without
+   * the hint, but given the hint it may eg. perform better.
+   *
+   * @var array
+   */
+  protected $providerSpecificHints;
+
+  /**
+   * Material IDs we what the query constrained to.
+   *
+   * @var string[]
+   *   List of ids.
+   */
+  protected $materialFilterIds;
+
+  protected $fieldFilters;
+
+  protected $populateCollections = FALSE;
+
+  /**
+   * Gets whether the search result should contain fully populated collections.
+   *
+   * @return bool
+   *   The flag.
+   */
+  public function getPopulateCollections() {
+    return $this->populateCollections;
+  }
+
+  /**
+   * Sets whether the search result should contain fully populated collections.
+   *
+   * @param bool $populate_collections
+   *   The flag.
+   */
+  public function setPopulateCollections($populate_collections) {
+    $this->populateCollections = $populate_collections;
+  }
 
   /**
    * TingSearchQuery constructor.
@@ -72,6 +135,16 @@ class TingSearchRequest {
   public function setCount($max) {
     $this->numResults = $max;
     return $this;
+  }
+
+  /**
+   * Gets the current maximum number of results to return.
+   *
+   * @return int|NULL
+   *   The maximum value. NULL if the value has not been set.
+   */
+  public function getCount() {
+    return $this->numResults;
   }
 
   /**
@@ -114,7 +187,17 @@ class TingSearchRequest {
   }
 
   /**
-   * Gets the list of facets the query should work within.
+   * Sets list of facets the query will return results for alongside materials.
+   *
+   * @param string[] $facets
+   *   The facets.
+   */
+  public function setFacets($facets) {
+    $this->facets = $facets;
+  }
+
+  /**
+   * List of facets the query will return results for alongside materials.
    *
    * @return string[]
    *   The facets.
@@ -124,13 +207,119 @@ class TingSearchRequest {
   }
 
   /**
-   * Sets the list of facets the query should work within.
+   * Get the page the search result should start at.
    *
-   * @param string[] $facets
-   *   The facets.
+   * @return int
+   *   The page-number, defaults to 1.
    */
-  public function setFacets($facets) {
-    $this->facets = $facets;
+  public function getPage() {
+    return $this->page;
   }
 
+  /**
+   * Sets the page the search result should start at.
+   *
+   * @param int $page
+   *   The page-number, defaults to 1.
+   */
+  public function setPage($page) {
+    $this->page = $page;
+  }
+
+  /**
+   * Get the current sorts.
+   *
+   * @return \Ting\Search\TingSearchSort[]
+   *   The sorts.
+   */
+  public function getSorts() {
+    return $this->sorts;
+  }
+
+  /**
+   * Add a sort based on a field to the query.
+   *
+   * @param string $field
+   *   The field to sort on.
+   *
+   * @param string $direction
+   *   The direction, see TingSearchSort::DIRECTION_*
+   */
+  public function addSort($field, $direction) {
+    $this->sorts[] = new TingSearchSort($field, $direction);
+  }
+
+  /**
+   * Gets a raw-query.
+   *
+   * Beware that this is a query passed in via setRawQuery() and _not_ the
+   * final query represented by the rest of the TingSearchRequest instance.
+   *
+   * @return string
+   *   The query.
+   */
+  public function getRawQuery() {
+    return $this->rawQuery;
+  }
+
+  /**
+   * Sets a raw string to be added to the final query.
+   *
+   * Beware that the query passed in should be compatible with the currently
+   * enabled provider.
+   *
+   * @param string $query
+   *   The query.
+   */
+  public function setRawQuery($query) {
+    $this->rawQuery = $query;
+  }
+
+  /**
+   * Get list of material ids the query is constrained to.
+   *
+   * @return string[]
+   *   The ids.
+   */
+  public function getMaterialFilter() {
+    return $this->materialFilterIds;
+  }
+
+  /**
+   * Set the list of material ids the query is constrained to.
+   *
+   * @param string[] $material_ids
+   *   The ids.
+   */
+  public function setMaterialFilter($material_ids) {
+    $this->materialFilterIds = $material_ids;
+  }
+
+  /**
+   * Get the list of field filters.
+   *
+   * @return \Ting\Search\BooleanStatementInterface[]
+   *   The filters.
+   */
+  public function getFieldFilters() {
+    return $this->fieldFilters;
+  }
+
+  /**
+   * Filter(s) or statement group(s) to add to the query.
+   *
+   * @param BooleanStatementInterface[]|BooleanStatementInterface $filters
+   *   One or more filters.
+   *
+   * @param string $logic_operator
+   *   Operator to apply if this is not the first statement. See
+   *   BooleanStatementInterface::OP_*
+   */
+  public function addFieldFilter($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
+    // Wrap in an array if it's not already.
+    if (!is_array($filters)) {
+      $filters = [$filters];
+    }
+    $this->fieldFilters[] = new BooleanStatementGroup($filters, $logic_operator);
+  }
 }

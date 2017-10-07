@@ -324,7 +324,7 @@ class OpenSearchTingObject implements TingObjectInterface {
 
     // TODO BBS-SAL: Remove logging when SAL is implemented.
     // Everything else goes to the Open Search object.
-    watchdog('opensearch', "Getting '$name'", WATCHDOG_DEBUG);
+    watchdog('opensearch', "Getting '$name'", [], WATCHDOG_DEBUG);
     if (isset($this->openSearchObject->$name)) {
       return $this->openSearchObject->$name;
     }
@@ -343,7 +343,7 @@ class OpenSearchTingObject implements TingObjectInterface {
     else {
       // TODO BBS-SAL: Remove logging when SAL is implemented.
       // Everything else goes to the Open Search object.
-      watchdog('opensearch', "Setting '$name'", WATCHDOG_DEBUG);
+      watchdog('opensearch', "Setting '$name'", [], WATCHDOG_DEBUG);
       $this->openSearchObject->$name = $value;
     }
   }
@@ -358,7 +358,7 @@ class OpenSearchTingObject implements TingObjectInterface {
     }
     // TODO BBS-SAL: Remove logging when SAL is implemented.
     // Everything else goes to the Open Search object.
-    watchdog('opensearch', "Is '$name' set?", WATCHDOG_DEBUG);
+    watchdog('opensearch', "Is '$name' set?", [], WATCHDOG_DEBUG);
     return isset($this->openSearchObject->$name);
   }
 
@@ -373,7 +373,7 @@ class OpenSearchTingObject implements TingObjectInterface {
     else {
       // TODO BBS-SAL: Remove logging when SAL is implemented.
       // Everything else goes to the Open Search object.
-      watchdog('opensearch', "Unsetting '$name'", WATCHDOG_DEBUG);
+      watchdog('opensearch', "Unsetting '$name'", [], WATCHDOG_DEBUG);
       unset($this->openSearchObject->$name);
     }
   }
