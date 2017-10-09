@@ -2,6 +2,12 @@
 
 use Drupal\ding_test\DingUnitTestBase;
 use Prophecy\Argument;
+use Ting\Search\BooleanStatementGroup;
+use Ting\Search\BooleanStatementInterface;
+use Ting\Search\StatementGroupRender;
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
+use Ting\Search\TingSearchStrategyInterface;
 
 class DingSearchUnitTest extends DingUnitTestBase {
   public static function getInfo() {
@@ -35,5 +41,59 @@ class DingSearchUnitTest extends DingUnitTestBase {
     $clientInstance = $clientDouble->reveal();
     $response = $clientInstance->request("GET", "http://example.com");
     $this->assertEqual($response->getBody(), "Hello World");
+  }
+
+  /**
+   * Test that the StatementGroupRender can render a nested group.
+   *
+   * @throws \Exception
+   */
+  public function testStatementGroupRenderer() {
+    // The final query-string the arrangement of groupings and fields below
+    // should end up as. Notice that we use mapped fields.
+    $expected_result = '(test_author=1 AND test_subject=1) OR test_category=1 OR (test_language=1 OR test_author=1 AND (test_subject=1 OR test_category=1))';
+
+    // Build the query, use the common names that will have to be mapped in
+    // order to match the expected output.
+    $group1 = new BooleanStatementGroup([
+      new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, 1),
+      new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, 1, '=', BooleanStatementInterface::OP_AND),
+    ]);
+
+    $group2 = new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, 1, '=', BooleanStatementInterface::OP_OR);
+
+    // Group 4 is nested inside group 3 so we define it first.
+    $group4 = new BooleanStatementGroup([
+      new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, 1),
+      new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, 1, '=', BooleanStatementInterface::OP_OR),
+    ], BooleanStatementInterface::OP_AND);
+
+    $group3 = new BooleanStatementGroup([
+      new TingSearchFieldFilter(TingSearchCommonFields::LANGUAGE, 1),
+      new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, 1, '=', BooleanStatementInterface::OP_OR),
+      $group4
+    ], BooleanStatementInterface::OP_OR);
+    $groups = [$group1, $group2, $group3];
+
+    // Setup a renderer configured to use our own mapping of fields.
+    $strategy_double = $this->prophet->prophesize(TingSearchStrategyInterface::class);
+    $mapping = [
+      TingSearchCommonFields::AUTHOR => 'test_author',
+      TingSearchCommonFields::SUBJECT => 'test_subject',
+      TingSearchCommonFields::CATEGORY => 'test_category',
+      TingSearchCommonFields::LANGUAGE => 'test_language',
+    ];
+    $strategy_double->mapCommonFields()->willReturn($mapping);
+    $strategy = $strategy_double->reveal();
+
+    $renderer = new StatementGroupRender($strategy);
+
+    // Test that adding a single group around a list does not affect redering.
+    $filter_string_wrapped = $renderer->renderGroup((new BooleanStatementGroup($groups)));
+    $filter_string_from_list = $renderer->renderStatements($groups);
+    $this->assertEqual($filter_string_from_list, $filter_string_wrapped, "List of filters is rendered the same way as a list wrapped in a group.");
+
+    // Test that the query ends up as we expect.
+    $this->assertEqual($expected_result, $filter_string_wrapped);
   }
 }
