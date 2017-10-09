@@ -143,7 +143,7 @@ class StatementGroupRender {
     // TODO BBS-SAL: escape field value - again using the provider.
 
     // Map the field if it is a common-field.
-    if (TingSearchCommonFields::isCommonField($field->getName())) {
+    if (in_array($field->getName(), TingSearchCommonFields::getAll())) {
       if (isset(self::$commonFieldMapping[$field->getName()])) {
         $field_name = self::$commonFieldMapping[$field->getName()];
       }

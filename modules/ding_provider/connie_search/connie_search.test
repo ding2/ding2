@@ -7,6 +7,7 @@
 use Connie\Search\ConnieSearchResult;
 use Connie\Search\ConnieTingObject;
 use Connie\Search\ConnieTingObjectCollection;
+use Ting\Search\TingSearchCommonFields;
 
 /**
  * @file
@@ -136,10 +137,6 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
    *   List of fields.
    */
   public function getExpectedCommonFields() {
-    $class = new ReflectionClass('\Ting\Search\TingSearchCommonFields');
-    // Return all static properties that does not start with _.
-    return array_filter($class->getStaticProperties(), function($name) {
-      return strpos($name, '_') !== 0;
-    });
+    return TingSearchCommonFields::getAll();
   }
 }

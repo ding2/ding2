@@ -16,27 +16,24 @@ namespace Ting\Search;
  * @package Ting\Search
  */
 class TingSearchCommonFields {
-  const _PREFIX = '_field_ting_search_';
+  const _PREFIX = '_field_ting_search_common_field_';
   const AUTHOR = self::_PREFIX . 'author';
   const CATEGORY = self::_PREFIX . 'category';
   const LANGUAGE = self::_PREFIX . 'language';
   const SUBJECT = self::_PREFIX . 'subject';
 
   /**
-   * Determines whether this field is a common field.
+   * Returns all valid values.
    *
-   * @param string $fieldname
-   *   Name of the field.
-   *
-   * @return bool
-   *   Whether the field is a common field.
+   * @return string[]
+   *   List of all field names.
    */
-  public static function isCommonField($fieldname) {
-    return in_array($fieldname, [
+  public static function getAll() {
+    return [
       self::AUTHOR,
       self::CATEGORY,
       self::LANGUAGE,
       self::SUBJECT
-    ]);
+    ];
   }
 }
