@@ -1013,18 +1013,13 @@ function ding_serendipity_do_search_sal(TingSearchRequest $query, $limit = 4, $s
     shuffle($collections);
   }
 
-  // Create result array, stop if count hits limit.
-  $count = 0;
-  foreach ($collections as $collection) {
-    $count++;
+  // Create result array, only use $limit results.
+  foreach (array_slice($collections, 0, $limit) as $collection) {
     $results[] = array(
       'type' => 'ting_object',
       'id' => $collection->getId(),
       'object' => $collection,
     );
-    if ($count > $limit) {
-      break;
-    }
   }
 
   return $results;

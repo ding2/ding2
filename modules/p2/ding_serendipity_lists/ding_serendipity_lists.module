@@ -362,7 +362,6 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
 
     $field_filters = [];
     // Pick the first author.
-    $terms[] = 'facet.creator="' . $author[0] . '"';
     $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, $author[0], TingSearchFieldFilter::OP_AND);
 
     // Taxonomy term pages (except frontpage) has a subject we want to add to
@@ -375,11 +374,8 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
 
       // Fallback to dc.subject.
       if ($value === FALSE) {
-        $value = 'facet.subject="' . $term->name . '"';
         $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, $term->name, TingSearchFieldFilter::OP_AND);
       }
-
-      $terms[] = $value;
     }
 
     // Limit to same language to reduce signal to noise.

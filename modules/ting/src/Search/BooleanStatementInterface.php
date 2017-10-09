@@ -7,8 +7,6 @@
 namespace Ting\Search;
 
 /**
- * Interface BooleanStatementInterface
- *
  * Describes a filters that can be combined with other files with logic
  * operations.
  *

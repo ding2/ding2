@@ -35,7 +35,7 @@ class BooleanStatementGroup implements BooleanStatementInterface {
    * @param string                               $logic_operator
    *   A TingSearchBooleanStatementInterface::OP_* operation.
    */
-  public function __construct(array $statements, $logic_operator = 'AND') {
+  public function __construct(array $statements, $logic_operator = BooleanStatementInterface::OP_AND) {
     $this->statements = $statements;
     $this->logicOperator = $logic_operator;
   }

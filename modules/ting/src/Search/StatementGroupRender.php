@@ -58,7 +58,7 @@ class StatementGroupRender {
    * @param \Ting\Search\BooleanStatementGroup $group
    *   The group to be rendered.
    *
-   * @param string                             $rendered_statement
+   * @param string $rendered_statement
    *   The rendered statement as it currently looks. The statement is passed by
    *   refrence and modifications are made during the traversal.
    *
