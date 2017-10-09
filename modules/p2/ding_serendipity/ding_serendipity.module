@@ -23,6 +23,10 @@
  *   - hook_<plugin>_serendipity_add() - to add suggestions to the DS pool
  */
 
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
+use Ting\Search\TingSearchRequest;
+
 include_once 'ding_serendipity.features.inc';
 
 define('DING_SERENDIPITY_FUNCTION_POSTFIX', '_serendipity_add');
@@ -376,17 +380,17 @@ function ding_serendipity_validate_materials(array $keys) {
 
   $sanitized = array();
 
-  // Lookup the materials in Broenden to filter out local missing materials.
-  $query = implode(" OR ", $keys);
+  $query = ting_start_query();
+  // Lookup the materials to filter out local missing materials.
+  $query->setMaterialFilter($keys);
 
   // Also add the audience to the query, if the user has a clear audience.
   $audience = ding_serendipity_user_audience();
   if ($audience !== FALSE) {
-    $query = '(' . $query . ') AND facet.category=' . $audience;
+    $query->addFieldFilter(new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, $audience));
   }
-
   try {
-    $result = ding_serendipity_do_search($query, array('limit' => count($keys)));
+    $result = ding_serendipity_do_search_sal($query, array('limit' => count($keys)));
   }
   catch (Exception $e) {
     watchdog_exception('ding_serendipity_sanitize', $e);
@@ -451,8 +455,10 @@ function ding_serendipity_user_audience($account = NULL) {
     }
   }
 
+  $query = ting_start_query();
+  $query->setMaterialFilter($ids);
   if (!empty($ids)) {
-    foreach (ding_serendipity_do_search(implode(" OR ", $ids), array('limit' => count($ids))) as $collection) {
+    foreach (ding_serendipity_do_search_sal($query, array('limit' => count($ids))) as $collection) {
       $entity = $collection['object']->getPrimary_object();
       $audience = !empty($entity->reply->record['dcterms:audience'][''][0]) ? $entity->reply->record['dcterms:audience'][''][0] : FALSE;
 
@@ -973,6 +979,60 @@ function ding_serendipity_do_search($query, array $options = array()) {
 }
 
 /**
+ * Wrap ting_do_search.
+ *
+ * Packs the result into an array readable by ding_serendipity_render().
+ *
+ * TODO: Rename when ding_serendipity all modules that uses
+ * ding_serendipity_do_search has been ported.
+ *
+ * @param \Ting\Search\TingSearchRequest $query
+ *   The search query.
+ * @param int $limit
+ *   Maximum number of results to return.
+ * @param bool $shuffle
+ *   Whether the result-order should be Randomized.
+ *
+ * @return array
+ *   An array of result-item arrays.
+ */
+function ding_serendipity_do_search_sal(TingSearchRequest $query, $limit = 4, $shuffle = FALSE) {
+  $results = array();
+
+  // Set sensible defaults for the query if the plugin did not do it.
+  if ($query->getCount() === NULL) {
+    $query->setCount(20);
+  }
+
+  $search_result = $query->execute();
+  if (!$search_result->getNumTotalCollections()) {
+    watchdog('ding_serendipity', 'BAD Search:@query', ['@query' => $query], WATCHDOG_WARNING);
+  }
+  $collections = $search_result->getTingEntityCollections();
+
+  // Randomize if requested to.
+  if ($shuffle === TRUE) {
+    shuffle($collections);
+  }
+
+  // Create result array, stop if count hits limit.
+  $count = 0;
+  foreach ($collections as $collection) {
+    $count++;
+    $results[] = array(
+      'type' => 'ting_object',
+      'id' => $collection->getId(),
+      'object' => $collection,
+    );
+    if ($count > $limit) {
+      break;
+    }
+  }
+
+  return $results;
+}
+
+/**
  * Implements hook_ding_serendipity_results_alter().
  */
 function ding_serendipity_ding_serendipity_results_alter(&$results) {
@@ -1145,13 +1205,16 @@ function ding_serendipity_test_cql_callback($form, &$form_state) {
     '#items' => array(),
   );
 
-  $results = ting_do_search($cql);
+  $query = ting_start_query();
+  $query->setRawQuery($cql);
+  $results = $query->execute();
 
-  if ($results) {
-    $list['#items'][] = t('Total results: @count', array('@count' => $results->numTotalObjects));
+  if ($results->getNumTotalObjects()) {
+    $list['#items'][] = t('Total results: @count', array('@count' => $results->getNumTotalObjects()));
 
-    if (!empty($results->collections)) {
-      foreach ($results->collections as $id => $result) {
+    $collections = $results->getTingEntityCollections();
+    if (!empty($collections)) {
+      foreach ($collections as $id => $result) {
         $list['#items'][] = '[' . $id . '] ' . $result->getTitle();
       }
 
