@@ -51,6 +51,8 @@ class TingSearchFieldFilter implements BooleanStatementInterface {
   /**
    * TingSearchFieldFilter constructor.
    *
+   * TODO BBS-SAL: Consider handling the $operator via an enum.
+   *
    * @param string $name
    *   The field name.
    *
