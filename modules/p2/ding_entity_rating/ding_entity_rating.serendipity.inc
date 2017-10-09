@@ -69,8 +69,7 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
     }
 
     // Search with only subjects.
-    $query = ting_start_query();
-    $query->addFieldFilters($field_filters);
+    $query = ting_start_query()->addFieldFilters($field_filters);
 
     if (empty($query)) {
       return array();

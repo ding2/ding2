@@ -223,8 +223,7 @@ function ding_serendipity_lists_frontpage_search_serendipity_add($context) {
   $results = array();
   if ($query_string = variable_get('ding_serendipity_lists_frontpage_search_string', '')) {
     // Fetch search results.
-    $query = ting_start_query();
-    $query->setRawQuery($query_string);
+    $query = ting_start_query()->setRawQuery($query_string);
     $results = ding_serendipity_do_search_sal($query);
     if ($results) {
       // Append info.
@@ -388,8 +387,7 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
     if (!empty($lang) && $lang !== "Flere sprog") {
       $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::LANGUAGE, $ting_entity->getLanguage(), TingSearchFieldFilter::OP_AND);
     }
-    $query = ting_start_query();
-    $query->addFieldFilters($field_filters);
+    $query = ting_start_query()->addFieldFilters($field_filters);
 
     // Fetch search results.
     // TODO: BBS-SAL: do final test when opensearch is up and running.

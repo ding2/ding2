@@ -380,9 +380,8 @@ function ding_serendipity_validate_materials(array $keys) {
 
   $sanitized = array();
 
-  $query = ting_start_query();
   // Lookup the materials to filter out local missing materials.
-  $query->setMaterialFilter($keys);
+  $query = ting_start_query()->setMaterialFilter($keys);;
 
   // Also add the audience to the query, if the user has a clear audience.
   $audience = ding_serendipity_user_audience();
@@ -455,8 +454,7 @@ function ding_serendipity_user_audience($account = NULL) {
     }
   }
 
-  $query = ting_start_query();
-  $query->setMaterialFilter($ids);
+  $query = ting_start_query()->setMaterialFilter($ids);
   if (!empty($ids)) {
     foreach (ding_serendipity_do_search_sal($query, array('limit' => count($ids))) as $collection) {
       $entity = $collection['object']->getPrimary_object();
@@ -1205,9 +1203,7 @@ function ding_serendipity_test_cql_callback($form, &$form_state) {
     '#items' => array(),
   );
 
-  $query = ting_start_query();
-  $query->setRawQuery($cql);
-  $results = $query->execute();
+  $results = ting_start_query()->setRawQuery($cql)->execute();
 
   if ($results->getNumTotalObjects()) {
     $list['#items'][] = t('Total results: @count', array('@count' => $results->getNumTotalObjects()));
