@@ -27,4 +27,15 @@ class DingProviderStrategy implements TingSearchStrategyInterface {
   public function executeSearch($query) {
     return ding_provider_invoke('search', 'search', $query);
   }
+
+  /**
+   * Returns a mapping of common field name to a provider-specific names.
+   *
+   * @return array
+   *   Associative array of provider-specific names keyed by
+   *   TingSearchCommonFields::* field names.
+   */
+  public function mapCommonFields() {
+    return ding_provider_invoke('search', 'map_common_fields');
+  }
 }

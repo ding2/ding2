@@ -13,9 +13,18 @@ namespace Ting\Search;
  * @package Ting\Search
  */
 class StatementGroupRender {
-
   // Provider-specific mapping, intialized during field rendering.
-  protected static $commonFieldMapping = NULL;
+  protected $commonFieldMapping = NULL;
+
+  /**
+   * StatementGroupRender constructor.
+   *
+   * @param \Ting\Search\TingSearchStrategyInterface $provider_strategy
+   *   The strategy to use when interfacing with the search provider.
+   */
+  public function __construct($provider_strategy) {
+    $this->providerStrategy = $provider_strategy;
+  }
 
   /**
    * Recursively renders a statement group into a string.
@@ -29,8 +38,8 @@ class StatementGroupRender {
    * @throws \Exception
    *   In case the group contains invalid members.
    */
-  public static function renderGroup($group) {
-    return self::walk($group);
+  public function renderGroup($group) {
+    return $this->walk($group);
   }
 
   /**
@@ -48,8 +57,8 @@ class StatementGroupRender {
    * @throws \Exception
    *   In case the group contains invalid members.
    */
-  public static function renderStatements($statements) {
-    return self::renderGroup(new BooleanStatementGroup($statements));
+  public function renderStatements($statements) {
+    return $this->renderGroup(new BooleanStatementGroup($statements));
   }
 
   /**
@@ -68,7 +77,7 @@ class StatementGroupRender {
    * @throws \InvalidArgumentException
    *   In case the group contains invalid members.
    */
-  protected static function walk($group, &$rendered_statement = NULL) {
+  protected function walk($group, &$rendered_statement = NULL) {
     // If this is the initial call to walk, take not of it so that we can treat
     // the outermost group differently. Eg. it should not have parenthesises
     // around it.
@@ -98,13 +107,13 @@ class StatementGroupRender {
 
       // We're at another group, recurse.
       if ($statement instanceof BooleanStatementGroup) {
-        self::walk($statement, $rendered_statement);
+        $this->walk($statement, $rendered_statement);
       }
       // If we're at a field, render it.
       elseif ($statement instanceof TingSearchFieldFilter) {
         // Notice, this may be empty if the field is not supported in which
         // case we'll end up with empty parenthesises.
-        $rendered_statement .= self::renderField($statement);
+        $rendered_statement .= $this->renderField($statement);
 
       }
       else {
@@ -134,9 +143,9 @@ class StatementGroupRender {
    *   The rendered field. Empty string if the field is a common field not
    *   supported by the current search-provider.
    */
-  protected static function renderField($field) {
-    if (self::$commonFieldMapping === NULL) {
-      self::$commonFieldMapping = ding_provider_invoke('search', 'map_common_fields');
+  protected function renderField($field) {
+    if ($this->commonFieldMapping === NULL) {
+      $this->commonFieldMapping = $this->providerStrategy->mapCommonFields();
     }
     // TODO BBS-SAL: use provider to map common fields and maybe also to do the
     // full render.
@@ -144,8 +153,8 @@ class StatementGroupRender {
 
     // Map the field if it is a common-field.
     if (in_array($field->getName(), TingSearchCommonFields::getAll())) {
-      if (isset(self::$commonFieldMapping[$field->getName()])) {
-        $field_name = self::$commonFieldMapping[$field->getName()];
+      if (isset($this->commonFieldMapping[$field->getName()])) {
+        $field_name = $this->commonFieldMapping[$field->getName()];
       }
       else {
         // If the field is a common field and the provider does not support it

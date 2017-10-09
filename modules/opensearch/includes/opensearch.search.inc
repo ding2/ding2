@@ -7,6 +7,7 @@
 use OpenSearch\OpenSearchTingObject;
 use OpenSearch\OpenSearchTingObjectCollection;
 use OpenSearch\OpenSearchTingSearchResult;
+use Ting\Search\DingProviderStrategy;
 use Ting\Search\StatementGroupRender;
 use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchRequest;
@@ -118,7 +119,8 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
 
   // Add field filter.
   if (!empty($ting_query->getFieldFilters())) {
-    $field_filters = StatementGroupRender::renderStatements($ting_query->getFieldFilters());
+    $render = new StatementGroupRender(new DingProviderStrategy());
+    $field_filters = $render->renderStatements($ting_query->getFieldFilters());
     $query_parts[] = $field_filters;
   }
 
