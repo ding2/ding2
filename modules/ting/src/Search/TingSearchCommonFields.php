@@ -19,6 +19,7 @@ class TingSearchCommonFields {
   const _PREFIX = '_field_ting_search_';
   const AUTHOR = self::_PREFIX . 'author';
   const CATEGORY = self::_PREFIX . 'category';
+  const SUBJECT = self::_PREFIX . 'subject';
 
   /**
    * Determines whether this field is a common field.
@@ -32,7 +33,8 @@ class TingSearchCommonFields {
   public static function isCommonField($fieldname) {
     return in_array($fieldname, [
       self::AUTHOR,
-      self::CATEGORY
+      self::CATEGORY,
+      self::SUBJECT
     ]);
   }
 }

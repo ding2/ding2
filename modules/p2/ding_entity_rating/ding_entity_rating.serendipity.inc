@@ -5,6 +5,9 @@
  * This module provides serendipity functions based on user lists and loans.
  */
 
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
+
 /**
  * Implements hook_serendipity_info().
  */
@@ -50,28 +53,30 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
   if (!empty($ting_object) && is_object($ting_object)) {
     $facets = array();
 
+    $field_filters = [];
     // Extract subjects.
     $subject = $ting_object->getSubjects();
     foreach ($subject as & $facet) {
-      $facets[] = 'facet.subject="' . $facet . '"';
+      $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, $facet, TingSearchFieldFilter::OP_OR);
     }
 
     // Build author array.
     if (count($facets) == 0) {
       $authors = $ting_object->getCreators();
       foreach ($authors as $author) {
-        $facets[] = 'facet.creator="' . $author . '"';
+        $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, $author, TingSearchFieldFilter::OP_OR);
       }
     }
 
     // Search with only subjects.
-    $query = implode(' OR ', $facets);
+    $query = ting_start_query();
+    $query->addFieldFilter($field_filters);
 
     if (empty($query)) {
       return array();
     }
 
-    $results = ding_serendipity_do_search($query, array());
+    $results = ding_serendipity_do_search_sal($query, array());
 
     foreach ($results as & $item) {
       $item['info'] = array(

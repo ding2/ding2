@@ -320,6 +320,8 @@ class TingSearchRequest {
     if (!is_array($filters)) {
       $filters = [$filters];
     }
-    $this->fieldFilters[] = new BooleanStatementGroup($filters, $logic_operator);
+    if (!empty($filters)) {
+      $this->fieldFilters[] = new BooleanStatementGroup($filters, $logic_operator);
+    }
   }
 }
