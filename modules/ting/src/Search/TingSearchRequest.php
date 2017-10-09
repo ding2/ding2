@@ -108,9 +108,13 @@ class TingSearchRequest {
    *
    * @param bool $populate_collections
    *   The flag.
+   *
+   * @return TingSearchRequest
+   *   the current query object.
    */
   public function setPopulateCollections($populate_collections) {
     $this->populateCollections = $populate_collections;
+    return $this;
   }
 
   /**
@@ -171,9 +175,13 @@ class TingSearchRequest {
    * @param string $query
    *   A simple string that may only match the materials partially, or may be a
    *   material-specific ID such as a ISBN
+   *
+   * @return TingSearchRequest
+   *   the current query object.
    */
   public function setSimpleQuery($query) {
     $this->simpleQuery = $query;
+    return $this;
   }
 
   /**
@@ -191,9 +199,13 @@ class TingSearchRequest {
    *
    * @param string[] $facets
    *   The facets.
+   *
+   * @return TingSearchRequest
+   *   the current query object.
    */
   public function setFacets($facets) {
     $this->facets = $facets;
+    return $this;
   }
 
   /**
@@ -211,6 +223,9 @@ class TingSearchRequest {
    *
    * @return int
    *   The page-number, defaults to 1.
+   *
+   * @return TingSearchRequest
+   *   the current query object.
    */
   public function getPage() {
     return $this->page;
@@ -221,9 +236,13 @@ class TingSearchRequest {
    *
    * @param int $page
    *   The page-number, defaults to 1.
+   *
+   * @return TingSearchRequest
+   *   the current query object.
    */
   public function setPage($page) {
     $this->page = $page;
+    return $this;
   }
 
   /**
@@ -244,9 +263,13 @@ class TingSearchRequest {
    *
    * @param string $direction
    *   The direction, see TingSearchSort::DIRECTION_*
+   *
+   * @return TingSearchRequest
+   *   the current query object.
    */
   public function addSort($field, $direction) {
     $this->sorts[] = new TingSearchSort($field, $direction);
+    return $this;
   }
 
   /**
@@ -270,9 +293,13 @@ class TingSearchRequest {
    *
    * @param string $query
    *   The query.
+   *
+   * @return TingSearchRequest
+   *   the current query object.
    */
   public function setRawQuery($query) {
     $this->rawQuery = $query;
+    return $this;
   }
 
   /**
@@ -290,9 +317,13 @@ class TingSearchRequest {
    *
    * @param string[] $material_ids
    *   The ids.
+   *
+   * @return TingSearchRequest
+   *   the current query object.
    */
   public function setMaterialFilter($material_ids) {
     $this->materialFilterIds = $material_ids;
+    return $this;
   }
 
   /**
@@ -314,6 +345,9 @@ class TingSearchRequest {
    * @param string $logic_operator
    *   Operator to apply if this is not the first statement. See
    *   BooleanStatementInterface::OP_*
+   *
+   * @return TingSearchRequest
+   *   the current query object.
    */
   public function addFieldFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
     // Wrap in an array if it's not already.
@@ -323,5 +357,6 @@ class TingSearchRequest {
     if (!empty($filters)) {
       $this->fieldFilters[] = new BooleanStatementGroup($filters, $logic_operator);
     }
+    return $this;
   }
 }
