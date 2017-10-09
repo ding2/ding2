@@ -380,7 +380,7 @@ function _ting_search_carousel_add_javascript() {
 
   drupal_add_library('system', 'ui.widget');
   drupal_add_library('system', 'ui.draggable');
-  drupal_add_js($path . '/js/jquery.ui.touch-punch.min.js');
+  drupal_add_js($path . '/js/jquery.ui.touch-punch.js');
   drupal_add_js($path . '/js/jquery.rs.carousel.js');
   drupal_add_js($path . '/js/ting_search_carousel.js');
 }
