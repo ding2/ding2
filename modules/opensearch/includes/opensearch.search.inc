@@ -320,3 +320,17 @@ function opensearch_search_render_inline_relation(TingRelation $relation) {
     '#relation' => $relation,
   ];
 }
+
+/**
+ * Mapping between common fields and their provider-specific name.
+ *
+ * @return array
+ *   Mapping between TingSearchCommonFields::* fields and their provider-
+ *   specific counterpart.
+ */
+function opensearch_search_map_common_fields() {
+  return [
+    TingSearchCommonFields::AUTHOR => 'facet.creator',
+    TingSearchCommonFields::CATEGORY => 'facet.category',
+  ];
+}

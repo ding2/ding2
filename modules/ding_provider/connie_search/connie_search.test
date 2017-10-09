@@ -128,4 +128,18 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
   public function getDummyRelation() {
     return new TingRelation('dummytype', 'http://example.com/dummy', (object) []);
   }
+
+  /**
+   * Returns the list of all common fields.
+   *
+   * @return string[]
+   *   List of fields.
+   */
+  public function getExpectedCommonFields() {
+    $class = new ReflectionClass('\Ting\Search\TingSearchCommonFields');
+    // Return all static properties that does not start with _.
+    return array_filter($class->getStaticProperties(), function($name) {
+      return strpos($name, '_') !== 0;
+    });
+  }
 }

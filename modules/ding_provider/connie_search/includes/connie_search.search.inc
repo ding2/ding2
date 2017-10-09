@@ -7,8 +7,8 @@
 use Connie\Search\ConnieSearchResult;
 use Connie\Search\ConnieTingObject;
 use Connie\Search\ConnieTingObjectCollection;
+use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchRequest;
-use TingRelation;
 
 /**
  * Get a list of material types from the Well.
@@ -111,5 +111,19 @@ function connie_search_search_render_inline_relation(\TingRelation $relation) {
     '#online' => FALSE,
     '#target' => '_blank',
     '#relation' => $relation,
+  ];
+}
+
+/**
+ * Mapping between common fields and their provider-specific name.
+ *
+ * @return array
+ *   Mapping between TingSearchCommonFields::* fields and their provider-
+ *   specific counterpart.
+ */
+function connie_search_search_map_common_fields() {
+  return [
+    TingSearchCommonFields::AUTHOR => 'facet.creator',
+    TingSearchCommonFields::CATEGORY => 'facet.category',
   ];
 }
