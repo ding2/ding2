@@ -387,7 +387,7 @@ function ding_serendipity_validate_materials(array $keys) {
   // Also add the audience to the query, if the user has a clear audience.
   $audience = ding_serendipity_user_audience();
   if ($audience !== FALSE) {
-    $query->addFieldFilter(new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, $audience));
+    $query->addFieldFilters(new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, $audience));
   }
   try {
     $result = ding_serendipity_do_search_sal($query, array('limit' => count($keys)));

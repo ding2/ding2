@@ -19,6 +19,7 @@ class TingSearchCommonFields {
   const _PREFIX = '_field_ting_search_';
   const AUTHOR = self::_PREFIX . 'author';
   const CATEGORY = self::_PREFIX . 'category';
+  const LANGUAGE = self::_PREFIX . 'language';
   const SUBJECT = self::_PREFIX . 'subject';
 
   /**
@@ -34,6 +35,7 @@ class TingSearchCommonFields {
     return in_array($fieldname, [
       self::AUTHOR,
       self::CATEGORY,
+      self::LANGUAGE,
       self::SUBJECT
     ]);
   }

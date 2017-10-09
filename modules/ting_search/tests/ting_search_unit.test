@@ -2,10 +2,6 @@
 
 use Drupal\ding_test\DingUnitTestBase;
 use Prophecy\Argument;
-use Ting\Search\StatementGroupRender;
-use Ting\Search\TingSearchFieldFilter;
-use Ting\Search\BooleanStatementInterface;
-use Ting\Search\BooleanStatementGroup;
 
 class DingSearchUnitTest extends DingUnitTestBase {
   public static function getInfo() {
@@ -40,42 +36,4 @@ class DingSearchUnitTest extends DingUnitTestBase {
     $response = $clientInstance->request("GET", "http://example.com");
     $this->assertEqual($response->getBody(), "Hello World");
   }
-
-  public function testMaterialsFilter() {
-    // The final query-string the arrangement of groupings and fields below
-    // should end up as.
-    $expected_result = '(bla1=1 AND bla2=1) OR bla3=1 OR (bla4=1 OR bla5=1 AND (bla6=1 OR bla7=1))';
-
-    // Build the query.
-    $group1 = new BooleanStatementGroup([
-      new TingSearchFieldFilter('bla1', 1),
-      new TingSearchFieldFilter('bla2', 1, '=', BooleanStatementInterface::OP_AND),
-    ]);
-
-    $group2 = new TingSearchFieldFilter('bla3', 1, '=', BooleanStatementInterface::OP_OR);
-
-    // Group 4 is nested inside group 3 so we define it first.
-    $group4 = new BooleanStatementGroup([
-      new TingSearchFieldFilter('bla6', 1),
-      new TingSearchFieldFilter('bla7', 1, '=', BooleanStatementInterface::OP_OR),
-    ], BooleanStatementInterface::OP_AND);
-
-    $group3 = new BooleanStatementGroup([
-      new TingSearchFieldFilter('bla4', 1),
-      new TingSearchFieldFilter('bla5', 1, '=', BooleanStatementInterface::OP_OR),
-      $group4
-    ], BooleanStatementInterface::OP_OR);
-
-
-    $groups = [$group1, $group2, $group3];
-
-    // Test that adding a single group around a list does not affect redering.
-    $filter_string_wrapped = StatementGroupRender::renderGroup((new BooleanStatementGroup($groups)));
-    $filter_string_from_list = StatementGroupRender::renderStatements($groups);
-    $this->assertEqual($filter_string_from_list, $filter_string_wrapped, "List of filters is rendered the same way as a list wrapped in a group.");
-
-    // Test that the query ends up as we expect.
-    $this->assertEqual($expected_result, $filter_string_wrapped);
-  }
-
 }

@@ -377,6 +377,7 @@ function opensearch_search_map_common_fields() {
   return [
     TingSearchCommonFields::AUTHOR => 'facet.creator',
     TingSearchCommonFields::CATEGORY => 'facet.category',
+    TingSearchCommonFields::LANGUAGE => 'facet.language',
     TingSearchCommonFields::SUBJECT => 'facet.subject',
   ];
 }

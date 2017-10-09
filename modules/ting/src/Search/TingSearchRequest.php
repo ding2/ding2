@@ -315,7 +315,7 @@ class TingSearchRequest {
    *   Operator to apply if this is not the first statement. See
    *   BooleanStatementInterface::OP_*
    */
-  public function addFieldFilter($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
+  public function addFieldFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
     // Wrap in an array if it's not already.
     if (!is_array($filters)) {
       $filters = [$filters];
