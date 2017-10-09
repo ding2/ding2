@@ -66,6 +66,8 @@ class TingSearchRequest {
   /**
    * Raw provider-specific query string.
    *
+   * @see setRawQuery()
+   *
    * @var string
    */
   protected $rawQuery;
@@ -91,6 +93,13 @@ class TingSearchRequest {
 
   protected $fieldFilters;
 
+  /**
+   * Specifies whether collections in the search-result should be fully
+   * populated. Eg. the returned collection may contain materials that does not
+   * match the search-query, but shares collection with a material that does.
+   *
+   * @var bool
+   */
   protected $populateCollections = FALSE;
 
   /**
@@ -286,10 +295,12 @@ class TingSearchRequest {
   }
 
   /**
-   * Sets a raw string to be added to the final query.
+   * Sets a raw provider-specific query-string to be added to the final query.
    *
-   * Beware that the query passed in should be compatible with the currently
-   * enabled provider.
+   * The query will not be processed in any way and will be AND'ed together with
+   * any other statements added to the query.
+   * It is up to the caller of this method to ensure that the query is
+   * compatible with the currently enabled search provider.
    *
    * @param string $query
    *   The query.
@@ -313,7 +324,9 @@ class TingSearchRequest {
   }
 
   /**
-   * Set the list of material ids the query is constrained to.
+   * Set the list of provider-specific material ids the query is constrained to.
+   *
+   * The ID can be received from a TingObjectInterface instance via getId().
    *
    * @param string[] $material_ids
    *   The ids.
