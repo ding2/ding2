@@ -460,9 +460,12 @@ function ding2_update_7034() {
  */
 function ding2_update_7035() {
   $default_mobilesearch_agencyid = variable_get('ting_agency');
+  $mobilesearch_rest_key = variable_get('mobilesearch_rest_key', NULL);
   variable_set('mobilesearch_rest_url', 'https://cmscontent.dbc.dk/');
   variable_set('mobilesearch_rest_agency_id', $default_mobilesearch_agencyid);
-  variable_set('mobilesearch_rest_key', $default_mobilesearch_agencyid . "DDBCMS");
+  if (empty($mobilesearch_rest_key)) {
+    variable_set('mobilesearch_rest_key', $default_mobilesearch_agencyid . "DDBCMS");
+  }
 }
 
 /**
