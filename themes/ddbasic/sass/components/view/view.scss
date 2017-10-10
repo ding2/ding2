@@ -206,6 +206,10 @@
     @include transition(opacity $speed $ease);
     opacity: 0;
 
+    @include media($mobile) {
+      opacity: 1;
+    }
+
     &.is-masonry-complete {
       opacity: 1;
     }
