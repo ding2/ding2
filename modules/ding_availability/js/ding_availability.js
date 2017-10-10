@@ -36,12 +36,12 @@
       // holdings in order to determine whether the material is a
       // periodical. This is a bit of a hack, but it's the quickest way
       // of fixing the problem right now.
-      if ($('.reserve-button').size() > 0) {
+      if ($('.reserve-button', context).size() > 0) {
         settings.ding_availability_mode = 'holdings';
       }
 
       $.each(html_ids, function (index, id) {
-        $('#' + id).addClass('pending');
+        $('#' + id, context).addClass('pending');
       });
 
       // Fetch availability.
@@ -69,7 +69,7 @@
             });
           },
           error: function () {
-            $('div.loader').remove();
+            $('div.loader', context).remove();
           }
         });
       }
