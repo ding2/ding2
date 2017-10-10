@@ -35,9 +35,9 @@ class TingSearchFieldFilter implements BooleanStatementInterface {
   /**
    * Field value.
    *
-   * If NULL the field is a boolean field.
+   * If TingSearchFieldFilter::BOOLEAN_FIELD_VALUE the field is a boolean field.
    *
-   * @var mixed|NULL
+   * @var mixed|TingSearchFieldFilter::BOOLEAN_FIELD_VALUE
    */
   protected $value;
 
@@ -56,17 +56,15 @@ class TingSearchFieldFilter implements BooleanStatementInterface {
    * TingSearchFieldFilter constructor.
    *
    * TODO BBS-SAL: Consider handling the $operator via an enum.
-   * TODO BBS-SAL: If we end up needing to compare null-values the default for
-   * $value needs to be a
    *
    * @param string $name
    *   The field name.
    *
-   * @param mixed|TingSearchFieldFilter::MISSING_VALUE $value
-   *   Field value, if omitted or set to TingSearchFieldFilter::MISSING_VALUE
+   * @param mixed|TingSearchFieldFilter::BOOLEAN_FIELD_VALUE $value
+   *   Field value, if omitted or set to TingSearchFieldFilter::BOOLEAN_FIELD_VALUE
    *   the field is treated as a boolean field that will be compared without an
    *   operator Eg:
-   *   (myboofield AND anotherfield=123)
+   *   (myboolfield AND anotherfield=123)
    *
    * @param string $operator
    *   Operator to use when comparing the field instance with a value.
