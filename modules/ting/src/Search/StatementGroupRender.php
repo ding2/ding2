@@ -166,6 +166,14 @@ class StatementGroupRender {
       // This is a provider-specific field, use the raw name.
       $field_name = $field->getName();
     }
+
+    if ($field->isBoolean()) {
+      // Just render the field, it can be evaluated without the operator and
+      // value.
+      return $field_name;
+    }
+
+    // Render the full field with operator and value.
     return $field_name . $field->getOperator() . $field->getValue();
   }
 }
