@@ -496,3 +496,10 @@ function ding2_update_7039() {
   module_enable(array('ding_eresource'));
 }
 
+/**
+ * Update our own translations.
+ */
+function ding2_update_7040() {
+  ding2_translation_update();
+}
+
