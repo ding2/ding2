@@ -262,8 +262,10 @@ function fbs_settings_form() {
   // Branches and blacklisted branches.
   $form['branches'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Holdings Branches Blacklist'),
+    '#title' => t('Search Branches Blacklist'),
     '#description' => t('Choose which branches to blacklist from searches'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
 
   $form['branches']['fbs_branches_blacklist'] = array(
@@ -277,6 +279,8 @@ function fbs_settings_form() {
     '#type' => 'fieldset',
     '#title' => t('User Branches Blacklist'),
     '#description' => t('Choose which branches to blacklist from user profile.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
 
   $form['user_branches']['fbs_user_branches_blacklist'] = array(
@@ -286,11 +290,19 @@ function fbs_settings_form() {
     '#default_value' => variable_get('fbs_user_branches_blacklist', array()),
   );
 
-  $form['user_branches']['fbs_user_holding_branches_exclude'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Filter holding'),
-    '#description' => t('Also remove blacklisted branches from holdings information. Using the selected branches above.'),
-    '#default_value' => variable_get('fbs_user_holding_branches_exclude', FALSE),
+  $form['holding_branches'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Holdings Branches Blacklist'),
+    '#description' => t('Choose which branches to blacklist from availability lists.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['holding_branches']['fbs_holdings_branches_blacklist'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Holdings branch blacklist'),
+    '#options' => fbs_branches(),
+    '#default_value' => variable_get('fbs_holdings_branches_blacklist', array()),
   );
 
   return system_settings_form($form);

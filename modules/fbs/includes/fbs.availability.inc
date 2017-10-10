@@ -17,7 +17,7 @@ function fbs_availability_items($provider_ids) {
   $avails = array();
 
   try {
-    $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids, _fbs_availability_get_user_backlist());
+    $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids, variable_get('fbs_holdings_branches_blacklist', array()));
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
@@ -44,7 +44,7 @@ function fbs_availability_holdings($provider_ids) {
   $holdings = array();
 
   try {
-    $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids, _fbs_availability_get_user_backlist());
+    $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids, variable_get('fbs_holdings_branches_blacklist', array()));
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
@@ -301,21 +301,6 @@ function fbs_translate_marc($code, $field) {
   }
 
   return isset($translations[$code]) ? $translations[$code] : NULL;
-}
-
-/**
- * Get branch blacklist for availability/holdings.
- *
- * @return array
- *   List of branches to blacklist.
- */
-function _fbs_availability_get_user_backlist() {
-  $blacklist = array();
-  if (variable_get('fbs_user_holding_branches_exclude', FALSE)) {
-    $blacklist = variable_get('fbs_user_branches_blacklist', array());
-  }
-
-  return $blacklist;
 }
 
 /**
