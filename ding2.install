@@ -463,7 +463,7 @@ function ding2_update_7035() {
   $mobilesearch_rest_key = variable_get('mobilesearch_rest_key', NULL);
   variable_set('mobilesearch_rest_url', 'https://cmscontent.dbc.dk/');
   variable_set('mobilesearch_rest_agency_id', $default_mobilesearch_agencyid);
-  if(empty($mobilesearch_rest_key)) {
+  if (empty($mobilesearch_rest_key)) {
     variable_set('mobilesearch_rest_key', $default_mobilesearch_agencyid . "DDBCMS");
   }
 }
