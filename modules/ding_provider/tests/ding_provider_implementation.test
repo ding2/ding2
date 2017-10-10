@@ -401,6 +401,14 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
   public abstract function getDummyRelation();
 
   /**
+   * Returns the list of all common fields.
+   *
+   * @return string[]
+   *   List of fields.
+   */
+  public abstract function getExpectedCommonFields();
+
+  /**
    * Verify that the provider returns the expected list of material types.
    */
   public function testMaterialTypes() {
@@ -473,5 +481,19 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $this->assertEqual('ting_relation', $render_array['#theme']);
     // Verify that the relation is included in the render-array.
     $this->assertEqual($dummy_relation, $render_array['#relation']);
+  }
+
+  /**
+   * Verify that the provider maps all common fields.
+   */
+  public function testCommonFieldMapping() {
+    $expected_keys = $this->getExpectedCommonFields();
+    $mapped_fields = ding_provider_invoke('search', 'map_common_fields');
+
+    $diff = array_diff($expected_keys, array_keys($mapped_fields));
+
+    if (!empty($diff)) {
+      $this->fail('Unmapped common field(s): ' . implode(', ', $diff));
+    }
   }
 }

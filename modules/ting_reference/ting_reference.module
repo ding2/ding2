@@ -561,12 +561,10 @@ function _ting_reference_autocomplete($string) {
   // Only use auto-complete if more that 3 chars have been written.
   if ($string && (strlen($string) > 3)) {
     // Build a search-query and execute it.
-    $search_query = ting_start_query();
-    $search_query->setSimpleQuery($string);
-    $search_query->setCount(10);
-    $search_query->setFacets([]);
-
-    $result = $search_query->execute();
+    $result = ting_start_query()
+      ->setSimpleQuery($string)
+      ->setCount(10)
+      ->execute();
 
     // If there is no usable result, exit immediately, providing no reply.
     if ($result && $result->getNumTotalObjects()) {

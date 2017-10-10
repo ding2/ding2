@@ -7,12 +7,18 @@
 use OpenSearch\OpenSearchTingObject;
 use OpenSearch\OpenSearchTingObjectCollection;
 use OpenSearch\OpenSearchTingSearchResult;
+use Ting\Search\DingProviderStrategy;
+use Ting\Search\StatementGroupRender;
+use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchRequest;
 
 /**
  * Get a list of material types from the Well.
  */
 function opensearch_search_material_types() {
+  // Ensure we have ting client.
+  module_load_include('inc', 'ting', 'ting.client');
+
   // Get a list of types by executing a null query and look at the facets
   // result.
   $options = [
@@ -76,29 +82,70 @@ function opensearch_search_collection_load($id) {
  *   The search result.
  */
 function opensearch_search_search(TingSearchRequest $ting_query) {
+  // Ensure we have ting client.
+  module_load_include('inc', 'ting', 'ting.client');
+
   // TODO BBS-SAL: At some point this function will become big enough that we
   // Should split it up - consider doing some OO "Handlers". Alternativly do a
   // OpenSearchTingSearchQuery, create a TingSearchQueryInterface and handle its
   // construction via new provider-function.
   // TODO BBS-SAL: At some point we should move the entire ting-client, and
   // ting.client.inc from the thing-module to the opensearch module.
-  $query = '';
+  $query_parts = [];
   // Start off with an empty query, then attempt to construct it from what we
-  // can find in the $query.
+  // can find in $ting_query.
+  // Provider-specific raw query.
+  if (!empty($ting_query->getRawQuery())) {
+    $query_parts[] = $ting_query->getRawQuery();
+  }
+
   if (!empty($simple_query_string = $ting_query->getSimpleQuery())) {
     // Try to build the best search query based on the inputted string.
     if (preg_match('/(^\d+$)|(^\d+:\d+$)|(=)/', $simple_query_string)) {
       // The query is either ISBN, tid or CQL search expression.
-      $query = $simple_query_string;
+      $query_parts[] = $simple_query_string;
     }
     else {
       // Add wildcard to the search string.
-      $query  = _ting_search_quote($simple_query_string) . '*';
+      $query_parts[]  = _ting_search_quote($simple_query_string) . '*';
     }
   }
 
+  // Add material filter.
+  if (!empty($ting_query->getMaterialFilter())) {
+    $material_filter_string = implode(' OR ', $ting_query->getMaterialFilter());
+    $query_parts[] .= $material_filter_string;
+  }
+
+  // Add field filter.
+  if (!empty($ting_query->getFieldFilters())) {
+    $render = new StatementGroupRender(new DingProviderStrategy());
+    $field_filters = $render->renderStatements($ting_query->getFieldFilters());
+    $query_parts[] = $field_filters;
+  }
+
+  // Join all query-parts together, wrap each part in a parentheses.
+  if (!empty($query_parts)) {
+    $paran_wrapper = function($part) {
+      return '(' . $part . ')';
+    };
+    $query = implode(' AND ', array_map($paran_wrapper, $query_parts));
+  }
+  else {
+    $query = '';
+  }
+
+  // TODO: Handle sorts.
   // Perform the Open Search search and wrap the result.
-  return new OpenSearchTingSearchResult(ting_do_search($query, 1, 10, array('facets' => $ting_query->getFacets(), 'all Objects' => FALSE)));
+  $options = [];
+  if (!empty($ting_query->getFacets())) {
+    $options['facets'] = $ting_query->getFacets();
+  }
+
+  // Whether to return all materials from matched collections.
+  $options['allObjects'] = $ting_query->getPopulateCollections();
+
+  return new OpenSearchTingSearchResult(ting_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options));
 }
 
 /**
@@ -318,5 +365,21 @@ function opensearch_search_render_inline_relation(TingRelation $relation) {
     '#online' => _opensearch_search_relation_render_online_url($relation),
     '#target' => _opensearch_search_relation_render_target($relation),
     '#relation' => $relation,
+  ];
+}
+
+/**
+ * Mapping between common fields and their provider-specific name.
+ *
+ * @return array
+ *   Mapping between TingSearchCommonFields::* fields and their provider-
+ *   specific counterpart.
+ */
+function opensearch_search_map_common_fields() {
+  return [
+    TingSearchCommonFields::AUTHOR => 'facet.creator',
+    TingSearchCommonFields::CATEGORY => 'facet.category',
+    TingSearchCommonFields::LANGUAGE => 'facet.language',
+    TingSearchCommonFields::SUBJECT => 'facet.subject',
   ];
 }

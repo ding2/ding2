@@ -7,6 +7,7 @@
 use Connie\Search\ConnieSearchResult;
 use Connie\Search\ConnieTingObject;
 use Connie\Search\ConnieTingObjectCollection;
+use Ting\Search\TingSearchCommonFields;
 
 /**
  * @file
@@ -127,5 +128,15 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
    */
   public function getDummyRelation() {
     return new TingRelation('dummytype', 'http://example.com/dummy', (object) []);
+  }
+
+  /**
+   * Returns the list of all common fields.
+   *
+   * @return string[]
+   *   List of fields.
+   */
+  public function getExpectedCommonFields() {
+    return TingSearchCommonFields::getAll();
   }
 }

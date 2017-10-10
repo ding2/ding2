@@ -5,6 +5,9 @@
  * Serendipity based on user lists and previous loans.
  */
 
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
+
 /**
  * Implements hook_serendipity_info().
  */
@@ -218,9 +221,10 @@ function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
  */
 function ding_serendipity_lists_frontpage_search_serendipity_add($context) {
   $results = array();
-  if ($query = variable_get('ding_serendipity_lists_frontpage_search_string', '')) {
+  if ($query_string = variable_get('ding_serendipity_lists_frontpage_search_string', '')) {
     // Fetch search results.
-    $results = ding_serendipity_do_search($query);
+    $query = ting_start_query()->setRawQuery($query_string);
+    $results = ding_serendipity_do_search_sal($query);
     if ($results) {
       // Append info.
       foreach ($results as & $item) {
@@ -249,7 +253,7 @@ function ding_serendipity_lists_frontpage_search_settings() {
 
   $form['test_cql'] = array(
     '#type' => 'button',
-    '#value' => t('Test CQL'),
+    '#value' => t('Test Query'),
     '#ajax' => array(
       'wrapper' => 'test-cql-container',
       'callback' => 'ding_serendipity_test_cql_callback',
@@ -356,8 +360,9 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
       return array();
     }
 
+    $field_filters = [];
     // Pick the first author.
-    $terms[] = 'facet.creator="' . $author[0] . '"';
+    $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, $author[0], TingSearchFieldFilter::OP_AND);
 
     // Taxonomy term pages (except frontpage) has a subject we want to add to
     // the CQL.
@@ -369,25 +374,23 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
 
       // Fallback to dc.subject.
       if ($value === FALSE) {
-        $value = 'facet.subject="' . $term->name . '"';
+        $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, $term->name, TingSearchFieldFilter::OP_AND);
       }
-
-      $terms[] = $value;
     }
-
-    $query = implode(" AND ", $terms);
 
     // Limit to same language to reduce signal to noise.
     $lang = $ting_entity->getLanguage();
-    if (!empty($lang) && $lang != "Flere sprog") {
-      $query = '(' . $query . ') AND facet.language="' . $ting_entity->getLanguage() . '"';
+    if (!empty($lang) && $lang !== "Flere sprog") {
+      $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::LANGUAGE, $ting_entity->getLanguage(), TingSearchFieldFilter::OP_AND);
     }
+    $query = ting_start_query()->addFieldFilters($field_filters);
 
     // Fetch search results.
-    $results = ding_serendipity_do_search($query);
-    if ($results) {
+    // TODO: BBS-SAL: do final test when opensearch is up and running.
+    $results = $query->execute();
+    if ($results->getTingEntityCollections()) {
       // Append info.
-      foreach ($results as & $item) {
+      foreach ($results->getTingEntityCollections() as & $item) {
         $item['info'] = array(
           'Query' => $query,
           'description' => t(
