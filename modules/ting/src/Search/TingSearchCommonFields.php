@@ -17,11 +17,31 @@ namespace Ting\Search;
  */
 class TingSearchCommonFields {
   const _PREFIX = '_field_ting_search_common_field_';
+
+  /**
+   * The author of the material.
+   */
   const AUTHOR = self::_PREFIX . 'author';
+
+  /**
+   * The audience of the materiale. Eg. for open search "børnematerialer" or
+   * "voksenmateriale".
+   */
   const CATEGORY = self::_PREFIX . 'category';
+
+  /**
+   * Language the material is in.
+   */
   const LANGUAGE = self::_PREFIX . 'language';
+
+  /**
+   * Subject tag for the material.
+   */
   const SUBJECT = self::_PREFIX . 'subject';
 
+  /**
+   * The date the material was added to the library.
+   */
   const ACQUISITION_DATE = self::_PREFIX . 'acquisition_date';
 
   /**
