@@ -22,6 +22,8 @@ class TingSearchCommonFields {
   const LANGUAGE = self::_PREFIX . 'language';
   const SUBJECT = self::_PREFIX . 'subject';
 
+  const ACQUISITION_DATE = self::_PREFIX . 'acquisition_date';
+
   /**
    * Returns all valid values.
    *
@@ -30,6 +32,7 @@ class TingSearchCommonFields {
    */
   public static function getAll() {
     return [
+      self::ACQUISITION_DATE,
       self::AUTHOR,
       self::CATEGORY,
       self::LANGUAGE,

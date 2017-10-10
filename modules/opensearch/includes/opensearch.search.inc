@@ -377,6 +377,7 @@ function opensearch_search_render_inline_relation(TingRelation $relation) {
  */
 function opensearch_search_map_common_fields() {
   return [
+    TingSearchCommonFields::ACQUISITION_DATE => 'acquisitionDate',
     TingSearchCommonFields::AUTHOR => 'facet.creator',
     TingSearchCommonFields::CATEGORY => 'facet.category',
     TingSearchCommonFields::LANGUAGE => 'facet.language',
