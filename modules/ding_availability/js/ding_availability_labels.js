@@ -115,8 +115,6 @@
         var reservable = status['reservable'];
         var available = status['available'];
 
-        $('.js-available, .js-reservable, .js-unavailable', groups_wrapper).remove()
-
         var group = null;
         if ($('.js-online', groups_wrapper).length !== 0) {
           group = $('.js-online', groups_wrapper);
@@ -147,6 +145,15 @@
 
         // Move the element into that type.
         group.append(element);
+
+        // Remove empty groups.
+        $('.js-available, .js-reservable, .js-unavailable', groups_wrapper).each(function () {
+          var $this = $(this);
+
+          if ($this.children('.search-result--availability-link').length === 0) {
+            $this.remove();
+          }
+        });
       }
 
       /**
