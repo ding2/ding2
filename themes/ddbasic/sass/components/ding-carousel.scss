@@ -1,0 +1,204 @@
+/**
+ * Carousel
+ */
+
+/* Variables
+   ========================================================================== */
+
+$carousel-background-color:                $white;
+$carousel-image-width:                     200px;
+$carousel-image-max-height:                250px;
+$carousel-tab-background-color:            transparentize($black, .5);
+$carousel-active-tab-background-color:     $black;
+$carousel-tab-color:                       $white;
+
+
+
+/* Wrapper
+   ========================================================================== */
+
+.ding-tabbed-carousel {
+  background-color: $carousel-background-color;
+  min-height: 225px;
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-bottom: 30px;
+  padding-left: 10px;
+
+  @include small-medium() {
+    background-color: $red;
+    min-height: 150px;
+    padding-top: 20px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+  }
+}
+
+.ding-carousel {
+  background-color: $carousel-background-color;
+
+  @include small-medium() {
+    background-color: $red;
+  }
+}
+
+
+/* Previous and next buttons
+   ========================================================================== */
+
+.ding-carousel .slick-arrow {
+  @include opacity(1);
+
+  @include small-medium() {
+    // !important to override the same style that Slick sets on the element
+    // itself.
+    display: none !important;
+  }
+}
+
+.ding-carousel .slick-arrow.slick-disabled {
+  @include opacity(.25);
+}
+
+.ding-carousel .slick-prev {
+  left: 20px;
+}
+
+.ding-carousel .slick-next {
+  right: 20px;
+}
+
+
+
+/* Carousel content, mask, title etc.
+   ========================================================================== */
+
+.ding-carousel {
+  ul {
+    overflow: hidden;
+
+    li {
+      list-style: none;
+      width: $carousel-image-width;
+    }
+  }
+  li {
+    margin-left: 10px;
+    margin-right: 10px;
+    position: relative;
+
+    img {
+      min-width: 100%;
+      padding: 0;
+    }
+
+    &:hover {
+      .search-carousel-cover-title {
+        background-color: $black;
+        text-decoration: none;
+      }
+    }
+
+    .search-carousel-cover-title {
+      width: 100%;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    .search-carousel-cover-title {
+      @include box-sizing(border-box);
+
+      background-color: transparentize($black, .25);
+      bottom: 0;
+      color: $white;
+      left: 0;
+      padding-top: 10px;
+      padding-right: 15px;
+      padding-bottom: 10px;
+      padding-left: 15px;
+      position: absolute;
+      width: 100%;
+    }
+  }
+
+  @include small() {
+    li {
+      width: $carousel-image-width/2;
+
+      .search-carousel-cover-title {
+        display: none;
+      }
+    }
+  }
+}
+
+/* Carousel
+   ========================================================================== */
+
+.carousel-tabs {
+  ul {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    text-align: center;
+
+    li {
+      @extend .icon-chevron-down;
+      position: relative;
+
+      a {
+        background-color: $carousel-tab-background-color;
+        color: $carousel-tab-color;
+        display: block;
+        margin-right: 1px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+
+        &:hover {
+          background-color: $carousel-active-tab-background-color;
+          text-decoration: none;
+        }
+      }
+
+      &.active {
+        a {
+          @include font-bold();
+
+          background-color: $carousel-active-tab-background-color;
+
+          &:before {
+            @include pseudo-arrow(10px, $carousel-active-tab-background-color, top, center, $offset: 20px);
+          }
+        }
+      }
+
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  select {
+    display: none;
+  }
+
+  @include small-medium() {
+    @include box-sizing(border-box);
+
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    ul {
+      display: none;
+    }
+
+    select {
+      display: block;
+      width: 100%;
+    }
+  }
+}
