@@ -1018,7 +1018,6 @@ function _ting_fetch_well_sources() {
     'facets' => array('facet.acSource'),
     'numFacets' => 99,
     'reply_only' => TRUE,
-    'sort' => 'random',
   );
   module_load_include('client.inc', 'ting');
   $result = ting_do_search("*", 0, 0, $options);
