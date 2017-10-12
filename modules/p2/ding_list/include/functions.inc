@@ -97,30 +97,32 @@ function ding_list_get_add_to_list_ting_object_creators($ting_object) {
   if (isset($creator)) {
     if (user_is_logged_in()) {
       $lists = ding_list_get_lists(DING_LIST_TYPE_FOLLOW_AUTHOR);
-      foreach ($lists as $list) {
-        if (!ding_list_has_ding_list_element($list, DING_LIST_TYPE_FOLLOW_AUTHOR, $creator)) {
-          $list_title = '<div class="list-title">' . $pretty_author . '</div><div class="add-to-list-button button">' . t('Follow the author') . '</div>';
-          if ($list->uid != $user->uid) {
-            $username = ding_list_list_username($list);
-            if ($username) {
-              $list_title .= '(' . $username . ')';
+      if (!empty($lists)) {
+        foreach ($lists as $list) {
+          if (!ding_list_has_ding_list_element($list, DING_LIST_TYPE_FOLLOW_AUTHOR, $creator)) {
+            $list_title = '<div class="list-title">' . $pretty_author . '</div><div class="add-to-list-button button">' . t('Follow the author') . '</div>';
+            if ($list->uid != $user->uid) {
+              $username = ding_list_list_username($list);
+              if ($username) {
+                $list_title .= '(' . $username . ')';
+              }
             }
-          }
-          $data[] = array(
-            'list_id' => $list->id,
-            'title' => $list_title,
-            'value' => $creator,
-            'type' => DING_LIST_TYPE_FOLLOW_AUTHOR,
-            'value_title' => $pretty_author,
-          );
-        }
-        else {
-          $list_title = t('Already following @author', array('@author' => implode(', ', $ting_object->getCreators())));
-          $data[] = array(
-            'custom' => array(
+            $data[] = array(
+              'list_id' => $list->id,
               'title' => $list_title,
-            ),
-          );
+              'value' => $creator,
+              'type' => DING_LIST_TYPE_FOLLOW_AUTHOR,
+              'value_title' => $pretty_author,
+            );
+          }
+          else {
+            $list_title = t('Already following @author', array('@author' => implode(', ', $ting_object->getCreators())));
+            $data[] = array(
+              'custom' => array(
+                'title' => $list_title,
+              ),
+            );
+          }
         }
       }
     }
