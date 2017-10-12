@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ding_entity_rating.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_entity_rating_uninstall() {
+  variable_del('ding_entity_rating_get_limit');
+}
