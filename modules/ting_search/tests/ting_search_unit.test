@@ -51,7 +51,7 @@ class DingSearchUnitTest extends DingUnitTestBase {
   public function testStatementGroupRenderer() {
     // The final query-string the arrangement of groupings and fields below
     // should end up as. Notice that we use mapped fields.
-    $expected_result = '(test_author=1 AND test_subject=1) OR test_category=1 OR (test_language OR test_author=1 AND (test_subject=1 OR test_category=1))';
+    $expected_result = '(test_author="1" AND test_subject="1") OR test_category="1\"" OR (test_language OR test_author="1" AND (test_subject="1" OR test_category="1"))';
 
     // Build the query, use the common names that will have to be mapped in
     // order to match the expected output.
@@ -60,7 +60,7 @@ class DingSearchUnitTest extends DingUnitTestBase {
       new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, 1, '=', BooleanStatementInterface::OP_AND),
     ]);
 
-    $group2 = new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, 1, '=', BooleanStatementInterface::OP_OR);
+    $group2 = new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, '1"', '=', BooleanStatementInterface::OP_OR);
 
     // Group 4 is nested inside group 3 so we define it first.
     $group4 = new BooleanStatementGroup([

@@ -173,7 +173,11 @@ class StatementGroupRender {
       return $field_name;
     }
 
+    // Very simpel quotes. Enclose everything in double-quotes, and escape any
+    // double-quotes in the value.
+    $quoted_field = '"' . str_replace('"', '\"', $field->getValue()) . '"';
+
     // Render the full field with operator and value.
-    return $field_name . $field->getOperator() . $field->getValue();
+    return $field_name . $field->getOperator() . $quoted_field;
   }
 }

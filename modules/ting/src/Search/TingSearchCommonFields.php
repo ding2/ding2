@@ -35,6 +35,11 @@ class TingSearchCommonFields {
   const LANGUAGE = self::_PREFIX . 'language';
 
   /**
+   * Type of material, eg "Bog" or "Avisartikel" for Open Search.
+   */
+  const MATERIAL_TYPE = self::_PREFIX . 'material_type';
+
+  /**
    * Subject tag for the material.
    */
   const SUBJECT = self::_PREFIX . 'subject';
@@ -56,6 +61,7 @@ class TingSearchCommonFields {
       self::AUTHOR,
       self::CATEGORY,
       self::LANGUAGE,
+      self::MATERIAL_TYPE,
       self::SUBJECT
     ];
   }
