@@ -430,7 +430,6 @@ function ting_execute_cache($request) {
 
   // Check if the reply have been stored in cache.
   $reply = ting_cache_get(md5(serialize($parms)), TING_CACHE_REPLY);
-  $reply = FALSE;
   if (!$reply) {
     // Reply for the request was not found, so we have to ask the data well.
     $reply = ting_execute($request);
