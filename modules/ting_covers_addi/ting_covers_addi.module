@@ -50,8 +50,27 @@ function ting_covers_addi_ting_covers($entities) {
   try {
     $service = new AdditionalInformationService(variable_get('ting_covers_addi_wsdl_url'), variable_get('ting_covers_addi_username'), variable_get('ting_covers_addi_group'), variable_get('ting_covers_addi_password'));
 
+    $pids = array();
+
+    // We shouldn't get to this point without a ting_agency, but check anyway.
+    if ($agency = variable_get('ting_agency', FALSE)) {
+      foreach (array_keys($entities) as $pid) {
+        // Moreinfo 2.9+ doesn't support the namespaces used for attachment-
+        // and local-posts. So here we convert these namespaces to DBC global
+        // namespace, to be able to fetch the covers. We'll remember the orig
+        // so that we can map back and keep this transparent to the caller.
+        if (strpos($pid, $agency . "-katalog") === 0) {
+          $entity = $entities[$pid];
+          $pids[$pid] = '870970-basis:' . $entity->localId;
+        }
+        else {
+          $pids[$pid] = $pid;
+        }
+      }
+    }
+
     // Retrieve covers by PID.
-    $retrieved = $service->getByPid(array_keys($entities));
+    $retrieved = $service->getByPid($pids);
 
     foreach ($retrieved as $pid=> $cover) {
       // Try to extract the image url from the result.
@@ -64,6 +83,8 @@ function ting_covers_addi_ting_covers($entities) {
       }
 
       if ($source_url) {
+        // Map back to original pid if it was converted above.
+        $pid = array_search($pid, $pids);
         // Return the path to the cover.
         $covers[$pid] = $source_url;
       }
