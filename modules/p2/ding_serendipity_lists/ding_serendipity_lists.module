@@ -224,7 +224,7 @@ function ding_serendipity_lists_frontpage_search_serendipity_add($context) {
   if ($query_string = variable_get('ding_serendipity_lists_frontpage_search_string', '')) {
     // Fetch search results.
     $query = ting_start_query()->setRawQuery($query_string);
-    $results = ding_serendipity_do_search_sal($query);
+    $results = ding_serendipity_do_search($query);
     if ($results) {
       // Append info.
       foreach ($results as & $item) {

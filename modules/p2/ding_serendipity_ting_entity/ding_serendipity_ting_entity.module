@@ -120,7 +120,7 @@ function ding_serendipity_ting_entity_ting_object_author_serendipity_add($contex
     $query->addFieldFilters(new TingSearchFieldFilter(TingSearchCommonFields::LANGUAGE, $lang));
   }
 
-  $results = ding_serendipity_do_search_sal($query);
+  $results = ding_serendipity_do_search($query);
   ding_serendipity_exclude($results, $context['ting_object_id']);
 
   foreach ($results as &$item) {
@@ -158,7 +158,7 @@ function ding_serendipity_ting_entity_ting_object_subject_serendipity_add($conte
   }, $subjects);
 
   $query = ting_start_query()->addFieldFilters($field_filters);
-  $results = ding_serendipity_do_search_sal($query);
+  $results = ding_serendipity_do_search($query);
   ding_serendipity_exclude($results, $context['ting_object_id']);
 
   foreach ($results as & $item) {
@@ -197,7 +197,7 @@ function ding_serendipity_ting_entity_ting_object_type_serendipity_add($context)
   if ($type) {
     // Find related content that matches the type.
     $query = ting_start_query()->addFieldFilters(new TingSearchFieldFilter(TingSearchCommonFields::MATERIAL_TYPE, $type));
-    $results = ding_serendipity_do_search_sal($query);
+    $results = ding_serendipity_do_search($query);
     ding_serendipity_exclude($results, $context['ting_object_id']);
 
     foreach ($results as & $item) {
