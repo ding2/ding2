@@ -45,6 +45,7 @@ features[features_api][] = api:2
 features[field_group][] = group_left_col_search|profile2|ding_staff_profile|default
 features[field_group][] = group_right_col_search|profile2|ding_staff_profile|default
 features[image][] = crop_16_9
+features[image][] = crop_22_9
 features[image][] = crop_unconstrained
 features[image][] = ding_attachment_large
 features[image][] = ding_attachment_medium
