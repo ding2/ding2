@@ -188,7 +188,7 @@ projects[manualcrop][version] = "1.6"
 projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-imgareaselect_library_version_arguments-2836970-14-d7.patch"
 ; Fix crop display when the same file is used in multiple fields
 ; https://www.drupal.org/node/2503175
-projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-duplicatepreview-2503175-30.patch"
+projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-duplicatepreview-2503175-41.patch"
 ; Fix horizontal alignment of preview and buttons.
 ; https://www.drupal.org/node/2874825
 projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop_media-widget-alignment-2874825-2.patch"
