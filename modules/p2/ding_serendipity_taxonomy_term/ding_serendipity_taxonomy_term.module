@@ -84,7 +84,7 @@ function ding_serendipity_taxonomy_term_recent_serendipity_add($context) {
 
   // Order by date.
   $query->addSort(TingSearchCommonFields::ACQUISITION_DATE, TingSearchSort::DIRECTION_DESCENDING);
-  return ding_serendipity_do_search_sal($query);
+  return ding_serendipity_do_search($query);
 }
 
 /**
@@ -130,7 +130,7 @@ function ding_serendipity_taxonomy_term_related_by_term_serendipity_add($context
   if ($context['bundle'] == 'ting_object') {
     $query = _ding_serendipity_taxonomy_term_query_from_term($term_array);
     $query->setCount($context['min']);
-    $results = ding_serendipity_do_search_sal($query);
+    $results = ding_serendipity_do_search($query);
 
     // Frontpage could be a taxonomy term.
     $description = t('This content has been promoted to you by the library.');

@@ -328,6 +328,11 @@ class TingSearchRequest {
    *
    * The ID can be received from a TingObjectInterface instance via getId().
    *
+   * TODO BBS-SAL: This should support both including and excluding. Eg.
+   * setMaterialFilter($material_ids, <indcation of include/exclude> and it
+   * should just add a new boolean filter group. When done this can replace
+   * ding_serendipity_exclude.
+   *
    * @param string[] $material_ids
    *   The ids.
    *

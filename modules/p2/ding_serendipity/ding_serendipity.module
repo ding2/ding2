@@ -389,7 +389,7 @@ function ding_serendipity_validate_materials(array $keys) {
     $query->addFieldFilters(new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, $audience));
   }
   try {
-    $result = ding_serendipity_do_search_sal($query, array('limit' => count($keys)));
+    $result = ding_serendipity_do_search($query, array('limit' => count($keys)));
   }
   catch (Exception $e) {
     watchdog_exception('ding_serendipity_sanitize', $e);
@@ -456,7 +456,7 @@ function ding_serendipity_user_audience($account = NULL) {
 
   $query = ting_start_query()->setMaterialFilter($ids);
   if (!empty($ids)) {
-    foreach (ding_serendipity_do_search_sal($query, array('limit' => count($ids))) as $collection) {
+    foreach (ding_serendipity_do_search($query, array('limit' => count($ids))) as $collection) {
       $entity = $collection['object']->getPrimary_object();
       $audience = !empty($entity->reply->record['dcterms:audience'][''][0]) ? $entity->reply->record['dcterms:audience'][''][0] : FALSE;
 
@@ -925,62 +925,6 @@ function ding_serendipity_entity_view($entity, $type, $view_mode, $langcode) {
  *
  * Packs the result into an array readable by ding_serendipity_render().
  *
- * @param string $query
- *   The search query.
- * @param array $options
- *   Will pass page, count and options keys on to ting_do_search (in that
- *   order).
- *   The following options is for the wrapper:
- *    - limit: Max number of items.
- *    - shuffle: Randomize the items.
- */
-function ding_serendipity_do_search($query, array $options = array()) {
-  $results = array();
-  // Fill in the default options.
-  $options += array(
-    'limit' => 4,
-    'shuffle' => FALSE,
-    'page' => 1,
-    'count' => 20,
-    'options' => array(
-      'sort' => '',
-    ),
-  );
-
-  module_load_include('inc', 'ting', 'ting.client');
-
-  $search_result = ting_do_search($query, $options['page'], $options['count'], $options['options']);
-
-  if (!isset($search_result->collections) || !is_array($search_result->collections)) {
-    watchdog('ding_serendipity', 'BAD Search:@query', array('@query' => $query), WATCHDOG_WARNING);
-  }
-  else {
-    // Randomize.
-    if ($options['shuffle'] == TRUE) {
-      shuffle($search_result->collections);
-    }
-
-    // Create result array.
-    foreach ($search_result->collections as $id => $collection) {
-      $results[] = array(
-        'type' => 'ting_object',
-        'id' => $collection->ding_entity_id,
-        'object' => $collection,
-      );
-    }
-
-    // Limit output.
-    $results = array_slice($results, 0, $options['limit']);
-  }
-
-  return $results;
-}
-
-/**
- * Wrap ting_do_search.
- *
- * Packs the result into an array readable by ding_serendipity_render().
- *
  * TODO: Rename when ding_serendipity all modules that uses
  * ding_serendipity_do_search has been ported.
  *
@@ -994,7 +938,7 @@ function ding_serendipity_do_search($query, array $options = array()) {
  * @return array
  *   An array of result-item arrays.
  */
-function ding_serendipity_do_search_sal(TingSearchRequest $query, $limit = 4, $shuffle = FALSE) {
+function ding_serendipity_do_search(TingSearchRequest $query, $limit = 4, $shuffle = FALSE) {
   $results = array();
 
   // Set sensible defaults for the query if the plugin did not do it.
