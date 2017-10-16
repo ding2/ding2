@@ -92,7 +92,10 @@
           <?php print render($content['group_right']); ?>
       </div>
       <div class="buttons">
-        <?php print l(t('E-resources'), 'e-materialer'); ?>
+        <?php print l(t('E-resources'), 'e-materialer', array('attributes' => array('class' => array('eresource-list-button')))); ?>
+        <?php if (!empty($link_url)) { ?>
+          <a href="<?php print $link_url; ?>" class="log-on" target="_blank"><?php print t('Log on'); ?></a>
+        <?php } ?>
       </div>
       <?php print render($content); ?>
   </div>

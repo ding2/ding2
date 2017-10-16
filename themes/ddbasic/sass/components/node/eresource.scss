@@ -140,6 +140,7 @@
         // Tablet
         @include media($tablet) {
           @include span-columns(6);
+          @include omega();
         }
 
         // Mobile
@@ -163,8 +164,15 @@
           margin-left: 0;
         }
         a {
-          @include button('arrow-right', $background-color: $grey-dark);
+          @include button('arrow-right');
           padding-right: 45px;
+          &::after {
+            color: $charcoal-opacity-dark;
+          }
+          &.eresource-list-button {
+            margin-bottom: 10px;
+            background-color: $grey-dark;
+          }
         }
       }
     }
