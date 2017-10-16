@@ -91,6 +91,11 @@ class TingSearchRequest {
    */
   protected $materialFilterIds;
 
+  /**
+   * @var BooleanStatementGroup[]
+   *   List of grouped BooleanStatementGroup and TingSearchFieldFilter
+   *   instances.
+   */
   protected $fieldFilters;
 
   /**
@@ -345,10 +350,10 @@ class TingSearchRequest {
   }
 
   /**
-   * Get the list of field filters.
+   * Get the list of BooleanStatementGroup instances.
    *
-   * @return \Ting\Search\BooleanStatementInterface[]
-   *   The filters.
+   * @return BooleanStatementGroup[]
+   *   List of BooleanStatementGroup intances used to filter field.
    */
   public function getFieldFilters() {
     return $this->fieldFilters;
@@ -357,8 +362,9 @@ class TingSearchRequest {
   /**
    * Filter(s) or statement group(s) to add to the query.
    *
-   * @param BooleanStatementInterface[]|BooleanStatementInterface $filters
-   *   One or more filters.
+   * @param mixed[]|\Ting\Search\BooleanStatementGroup|\Ting\Search\TingSearchFieldFilter $filters
+   *   A single BooleanStatementGroup or TingSearchFieldFilter or a (potentially
+   *   mixed) array of both.
    *
    * @param string $logic_operator
    *   Operator to apply if this is not the first statement. See
@@ -368,13 +374,52 @@ class TingSearchRequest {
    *   the current query object.
    */
   public function addFieldFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
-    // Wrap in an array if it's not already.
-    if (!is_array($filters)) {
-      $filters = [$filters];
+    // First off, protect against silly code.
+    if (empty($filters)) {
+      return $this;
     }
-    if (!empty($filters)) {
-      $this->fieldFilters[] = new BooleanStatementGroup($filters, $logic_operator);
+
+    // If this is not already a group, well have to do some work before adding
+    // it.
+    if (!($filters instanceof BooleanStatementGroup)) {
+      // We're about to wrap the filter in a group - make sure it is an array
+      // before doing so.
+      if (!is_array($filters)) {
+        // Wrap in an array if it's not already.
+        $filters = [$filters];
+      }
+
+      // Wrap the array in an group.
+      $filters = new BooleanStatementGroup($filters, $logic_operator);
     }
+
+    $this->fieldFilters[] = $filters;
+    return $this;
+  }
+
+  /**
+   * Utility function for adding a single field filter.
+   *
+   * The field will be AND'ed together with any other filters added to the
+   * query. If you need OR or any more complex grouping of filters and groups
+   * use addFieldFilters().
+   *
+   * @param string $name
+   *   The field name.
+   *
+   * @param mixed|TingSearchFieldFilter::BOOLEAN_FIELD_VALUE $value
+   *   Field value, if omitted or set to
+   *   TingSearchFieldFilter::BOOLEAN_FIELD_VALUE the field is treated as a
+   *   boolean field that will be compared without an operator Eg:
+   *   (myboolfield AND anotherfield=123)
+   * @param string $operator
+   *   Operator to use when comparing the field instance with a value.
+   *
+   * @return TingSearchRequest
+   *   the current query object.
+   */
+  public function addFieldFilter($name, $value = TingSearchFieldFilter::BOOLEAN_FIELD_VALUE, $operator = '=') {
+    $this->addFieldFilters([new TingSearchFieldFilter($name, $value, $operator)]);
     return $this;
   }
 }

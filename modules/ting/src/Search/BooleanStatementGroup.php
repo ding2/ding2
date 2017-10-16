@@ -1,6 +1,12 @@
 <?php
 /**
- * The BooleanStatementGroup class.
+ * @file
+ * The BooleanStatementGroup class
+ */
+
+/**
+ * Groups one or more boolean statements together. The statements are joined by
+ * a boolean operator.
  */
 namespace Ting\Search;
 
@@ -16,7 +22,7 @@ class BooleanStatementGroup implements BooleanStatementInterface {
   /**
    * The grouped statements.
    *
-   * @var \Ting\Search\BooleanStatementInterface[]
+   * @var mixed[]
    */
   protected $statements = [];
 
@@ -27,16 +33,20 @@ class BooleanStatementGroup implements BooleanStatementInterface {
   protected $logicOperator;
 
   /**
-   * BooleanStatementGroup constructor.
+   * Construct a BooleanStatementGroup.
    *
-   * @param \Ting\Search\TingSearchFieldFilter[] $statements
-   *   The grouped statements
+   * The statements is one or more groups or fields and will be joined together
+   * in a single group via the $logic_operator operator.
    *
-   * @param string                               $logic_operator
+   * @param mixed[] $statements
+   *   Instances of \Ting\Search\BooleanStatementGroup and
+   *   \Ting\Search\TingSearchFieldFilter
+   *
+   * @param string $logic_operator
    *   A TingSearchBooleanStatementInterface::OP_* operation.
    */
   public function __construct(array $statements, $logic_operator = BooleanStatementInterface::OP_AND) {
-    $this->statements = $statements;
+    $this->add($statements);
     $this->logicOperator = $logic_operator;
   }
 
@@ -48,10 +58,21 @@ class BooleanStatementGroup implements BooleanStatementInterface {
   }
 
   /**
+   * Set the logic-operator used to join the members of the group.
+   *
+   * @param string $logic_operator
+   *   A TingSearchBooleanStatementInterface::OP_* operation.
+   */
+  public function setLogicOperator($logic_operator) {
+    $this->logicOperator = $logic_operator;
+  }
+
+  /**
    * The grouped statements.
    *
-   * @return \Ting\Search\BooleanStatementInterface[]
-   *   The statements.
+   * @return mixed[]
+   *   The statements, instances of BooleanStatementGroup and
+   *   TingSearchFieldFilter.
    */
   public function getStatements() {
     return $this->statements;
@@ -60,10 +81,23 @@ class BooleanStatementGroup implements BooleanStatementInterface {
   /**
    * Add a statement to the group.
    *
-   * @param \Ting\Search\BooleanStatementInterface $statement
-   *   The statement.
+   * @param mixed[] $statements
+   *   One or more implementations of \Ting\Search\BooleanStatementGroup and
+   *   \Ting\Search\TingSearchFieldFilter.
    */
-  public function add(BooleanStatementInterface $statement) {
-    $this->statements[] = $statement;
+  public function add($statements) {
+    if (!is_array($statements)) {
+      $statements = [$statements];
+    }
+    foreach ($statements as $statement) {
+      if ($statement instanceof self || $statement instanceof TingSearchFieldFilter) {
+        $this->statements[] = $statement;
+      }
+      else {
+        throw new \InvalidArgumentException(
+          "Unsupported type, only BooleanStatementInterface and TingSearchFieldFilter is supported"
+        );
+      }
+    }
   }
 }
