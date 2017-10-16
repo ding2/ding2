@@ -61,12 +61,11 @@ function ding_entity_rating_loan_history_ding_interaction_view($extra) {
         $view_objects[] = ding_entity_view($obj, 'compact');
       }
 
-      $car = array(
-        '#theme' => 'ting_carousel',
+      $carousel = array(
+        '#type' => 'ding_carousel',
         '#items' => $view_objects,
-        '#item_type' => 'items',
       );
-      return render($car);
+      return drupal_render($carousel);
     }
   }
   return '';
