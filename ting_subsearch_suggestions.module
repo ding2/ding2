@@ -45,6 +45,11 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       // Find suggestions for "correct" search phrase.
       $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
 
+      if (strpos($suggestion, 'ting_search:') !== FALSE) {
+        $clear_suggestion = explode(':', $suggestion);
+        $suggestion = $clear_suggestion[1];
+      }
+
       if (!empty($suggestion)) {
         // Do secondary search for "correct" keys.
         $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
@@ -203,7 +208,8 @@ function ting_subsearch_suggestions_cron() {
         )
       );
       $result = json_decode($response->getBody());
-    } catch (GuzzleClientException $e) {
+    }
+    catch (GuzzleClientException $e) {
       throw new Exception($e->getMessage(), $e->getCode(), $e);
     }
 
