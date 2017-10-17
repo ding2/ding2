@@ -673,12 +673,37 @@ function ding_user_default_authname($name) {
   // exactly the size of the authname field in the database. So we ask hash
   // for binary data and lets _password_base64_encode base64 encode it to 86
   // characters, leaving enough room for our suffix.
-  $hash = hash('sha512', drupal_get_private_key() . $name, TRUE);
+  $hash = hash('sha512', ding_get_private_key() . $name, TRUE);
 
   // The string length of the hash have been changed in the line below and we
   // need to update the accounts with new hash values, hence this function call.
   _ding_user_update_old_accounts($hash);
   return _password_base64_encode($hash, drupal_strlen($hash)) . '@ding_user';
+}
+
+/**
+ * Private key variable used to generate tokens.
+ * Apparently the key generated in drupal_get_private_key() may change,
+ * so we'll get it from 'ding_private_key' variable instead.
+ * Preferably set the 'ding_private_key' variable in local.settings.php
+ *
+ * @return
+ *   The private key.
+ */
+function ding_get_private_key() {
+  if (!($key = variable_get('ding_private_key', 0))) {
+    if (!($key = variable_get('drupal_private_key', 0))) {
+      $key = drupal_random_key();
+    }
+    watchdog(
+      'ding_user',
+      'New ding_private_key generated. This may break the link to user\'s lists, if on a production site', 
+      array(),
+      WATCHDOG_WARNING
+    );
+    variable_set('ding_private_key', $key);
+  }
+  return $key;
 }
 
 /**
