@@ -19,9 +19,7 @@ function ting_search_carousel_result($index, $offset) {
   foreach ($chunk['entities'] as $entity) {
     $build[] = array(
       '#type' => 'ding_carousel_item',
-      '#content' => array(
-        '#cover' => ting_object_view($entity, 'teaser'),
-      ),
+      '#content' => ting_object_view($entity, 'teaser'),
     );
   }
 

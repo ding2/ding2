@@ -6,14 +6,10 @@
  */
 
 // The number of covers returned in each chunk.
-define('TING_SEARCH_CAROUSEL_CHUNK_SIZE', 5);
+define('TING_SEARCH_CAROUSEL_CHUNK_SIZE', 8);
 
 // Number of search results processed for covers at a time.
 define('TING_SEARCH_CAROUSEL_SEARCH_SIZE', 20);
-
-// Path in files we store our placeholder. Image styles can't work with files
-// outside the flies folder.
-define('TING_SEARCH_CAROUSEL_PLACEHOLDER_IMAGE', 'public://ting_search_carousel_placeholder.png');
 
 /**
  * Implements hook_menu().

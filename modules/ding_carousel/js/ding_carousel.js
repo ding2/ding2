@@ -234,7 +234,7 @@
           settings = $(this).data('settings');
         }
 
-        // Reset ul to 100% width before we start Slick. See the CSS.
+        // Reset ul to 100% width before we start Slick.
         carousel.find('ul').css('width', '100%');
         // Init carousels. In order to react to the init event, the
         // event handler needs to be defined before triggering Slick
