@@ -38,12 +38,10 @@
           height: 0;
           background-color: $color-text-link;
         }
-        .no-touch & {
-          &:hover {
-            color: $color-standard-text;
-            &::after {
-              height: 3px;
-            }
+        &:hover {
+          color: $color-standard-text;
+          &::after {
+            height: 3px;
           }
         }
       }
