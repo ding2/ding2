@@ -8,7 +8,7 @@
 $plugin = array(
   'title' => t('Ting search carousel'),
   'single' => TRUE,
-  'description' => t('A carousel displaying search results against the Ting system'),
+  'description' => t('A carousel displaying search results against the data well'),
   'category' => t('Ting'),
 );
 
@@ -21,28 +21,20 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
   if ($searches = variable_get('ting_carousel_search_queries', array())) {
     $carousels = array();
     foreach ($searches as $index => $search) {
-      $chunk = _ting_search_carousel_get_frontpage_covers($index, 0, TING_SEARCH_CAROUSEL_CHUNK_SIZE, TRUE);
+      $chunk = _ting_search_carousel_get_frontpage_entities($index, 0, TING_SEARCH_CAROUSEL_CHUNK_SIZE, TRUE);
 
-      $covers = array();
-      foreach ($chunk['collections'] as $collection) {
-        $covers[] = array(
-          '#type' => 'ting_search_carousel_cover',
-          '#cover' => $collection,
-        );
+      $items = array();
+      foreach ($chunk['entities'] as $entity) {
+        $items[] = ting_object_view($entity, 'teaser');
       }
 
       $carousels[] = array(
         '#type' => 'ding_carousel',
         '#title' => $search['title'],
         '#path' => 'ting_search_carousel/results/ajax/' . $index,
-        '#items' => $covers,
+        '#items' => $items,
         '#offset' => $chunk['next_offset'],
-        '#placeholders' => TING_SEARCH_CAROUSEL_CHUNK_SIZE,
-        '#placeholder' => array(
-          '#type' => 'ting_search_carousel_cover',
-          '#cover' => ting_search_carousel_collection_placeholder(),
-        ),
-
+        '#placeholders' => $chunk['next_offset'] > -1 ? TING_SEARCH_CAROUSEL_CHUNK_SIZE + 1 : 0,
       );
     }
 

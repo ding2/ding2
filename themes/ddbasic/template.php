@@ -1009,14 +1009,6 @@ function ddbasic_preprocess_ting_search_carousel(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_ting_search_carousel_collection().
- */
-function ddbasic_preprocess_ting_search_carousel_collection(&$variables) {
-  $object = ding_entity_load($variables['collection']->id, 'ting_object');
-  $variables['content'] = ting_object_view($object, 'teaser');
-}
-
-/**
  * Override theme_date_display_range().
  */
 function ddbasic_date_display_range($variables) {
@@ -1229,7 +1221,7 @@ function ddbasic_select($variables) {
   element_set_attributes($element, array('id', 'name', 'size'));
   _form_set_class($element, array('form-select'));
 
-  if ($variables['element']['#attributes']['multiple'] == 'multiple') {
+  if (isset($variables['element']['#attributes']['multiple']) && $variables['element']['#attributes']['multiple'] == 'multiple') {
     return '<div class="select-wrapper select-wrapper-multiple"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
   } else {
     return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';

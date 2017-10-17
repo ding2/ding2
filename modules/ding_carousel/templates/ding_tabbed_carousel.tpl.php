@@ -11,6 +11,6 @@
  */
 ?>
 <div class="<?php print $classes; ?>"
-  data-transition="<?php print $transition; ?>">
-  <?php print render($tabs); ?>
+	data-transition="<?php print $transition; ?>">
+	<?php print render($tabs); ?>
 </div>

@@ -15,13 +15,12 @@
  */
 function ting_search_carousel_result($index, $offset) {
   $build = array();
-  $chunk = _ting_search_carousel_get_frontpage_covers($index, $offset, TING_SEARCH_CAROUSEL_CHUNK_SIZE);
-  foreach ($chunk['collections'] as $collection) {
+  $chunk = _ting_search_carousel_get_frontpage_entities($index, $offset, TING_SEARCH_CAROUSEL_CHUNK_SIZE);
+  foreach ($chunk['entities'] as $entity) {
     $build[] = array(
       '#type' => 'ding_carousel_item',
       '#content' => array(
-        '#type' => 'ting_search_carousel_cover',
-        '#cover' => $collection,
+        '#cover' => ting_object_view($entity, 'teaser'),
       ),
     );
   }
@@ -32,10 +31,6 @@ function ting_search_carousel_result($index, $offset) {
     $build[] = array(
       '#type' => 'ding_carousel_item',
       '#placeholder' => TRUE,
-      '#content' => array(
-        '#type' => 'ting_search_carousel_cover',
-        '#cover' => ting_search_carousel_collection_placeholder(),
-      ),
     );
   }
 

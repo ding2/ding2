@@ -9,7 +9,7 @@
  * Preprocess variables for ding_carousel.tpl.php.
  */
 function template_preprocess_ding_carousel(&$vars) {
-  libraries_load('slick', 'non-minified');
+  libraries_load('slick');
   $carousel = $vars['carousel'];
 
   $vars['items'] = array();

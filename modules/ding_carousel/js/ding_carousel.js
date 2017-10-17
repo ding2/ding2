@@ -79,8 +79,8 @@
     this.beforeChange = beforeChange;
     this.transition = transition;
     this.element = $('<div>').addClass('carousel-tabs');
-    this.tabs = $('<ul>');
-    this.select = $('<select>');
+    this.tabs = $('<ul>').addClass('carousel-list-tabs');
+    this.select = $('<select>').addClass('carousel-select');
 
     // Make basic tab structure.
     this.element.append(this.tabs).append(this.select);
@@ -108,6 +108,7 @@
     this.addTab = function (title, element) {
       // Without the href, the styling suffers.
       var tab = $('<li>').append($('<a>').text(title).attr('href', '#')).data('target', element);
+      tab.addClass('carousel-item');
       element.data('tabset-tab', tab);
       this.tabs.append(tab);
       var option = $('<option>').text(title).data('target', element);
@@ -138,46 +139,10 @@
     };
 
     /**
-     * Make tabs equal width.
-     *
-     * @todo This might be done with CSS these days.
-     */
-    this.equalizeTabWith = function () {
-      // Get the list of tabs and the number of tabs in the list.
-      var childCount = this.tabs.children('li').length;
-
-      // Only do somehting if there actually is tabs.
-      if (childCount > 0) {
-
-        // Get the width of the <ul> list element.
-        var parentWidth = this.tabs.width();
-
-        // Calculate the width of the <li>'s.
-        var childWidth = Math.floor(parentWidth / childCount);
-
-        // Calculate the last <li> width to combined childrens width it self not
-        // included.
-        var childWidthLast = parentWidth - (childWidth * (childCount - 1));
-
-        // Set the tabs css widths.
-        this.tabs.children().css({'width' : childWidth + 'px'});
-        this.tabs.children(':last-child').css({'width' : childWidthLast + 'px'});
-      }
-    };
-
-    /**
      * Insert the tabs into the page.
      */
     this.insert = function (element) {
-      $(element).after(this.element);
-
-      // Make the tabs equal size.
-      this.equalizeTabWith();
-      var self = this;
-      // Resize the tabs if the window size changes.
-      $(window).bind('resize', function () {
-        self.equalizeTabWith();
-      });
+      $(element).before(this.element);
 
       // Activate the first tab.
       var target = this.tabs.find('li:first-child').data('target');
@@ -281,7 +246,6 @@
 
       // Initialize tab behavior on tabbed carousels.
       $('.ding-tabbed-carousel', context).once('ding-tabbed-carousel', function () {
-
         var transition;
         if (typeof $(this).data('transition') === 'string' &&
             typeof Drupal.dingCarouselTransitions[$(this).data('transition')] === 'function') {
@@ -310,7 +274,6 @@
         tabs.insert($(this));
       });
     }
-
   };
 
 })(jQuery);

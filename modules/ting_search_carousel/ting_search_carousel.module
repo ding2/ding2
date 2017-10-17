@@ -6,11 +6,13 @@
  */
 
 // The number of covers returned in each chunk.
-define('TING_SEARCH_CAROUSEL_CHUNK_SIZE', 12);
+define('TING_SEARCH_CAROUSEL_CHUNK_SIZE', 5);
+
 // Number of search results processed for covers at a time.
 define('TING_SEARCH_CAROUSEL_SEARCH_SIZE', 20);
+
 // Path in files we store our placeholder. Image styles can't work with files
-// outside the flies foler.
+// outside the flies folder.
 define('TING_SEARCH_CAROUSEL_PLACEHOLDER_IMAGE', 'public://ting_search_carousel_placeholder.png');
 
 /**
@@ -78,30 +80,7 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
     'ting_search_carousel_admin_form' => array(
       'render element' => 'form',
     ),
-    'ting_search_carousel_cover' => array(
-      'render element' => 'cover',
-      'file' => 'ting_search_carousel.theme.inc',
-      'template' => 'templates/ting_search_carousel_cover',
-    ),
   );
-}
-
-/**
- * Implements hook_element_info().
- */
-function ting_search_carousel_element_info() {
-  $path = drupal_get_path('module', 'ting_search_carousel');
-
-  $types['ting_search_carousel_cover'] = array(
-    '#theme' => 'ting_search_carousel_cover',
-    '#cover' => NULL,
-    '#attached' => array(
-      'css' => array($path . '/css/ting_search_carousel.css'),
-    ),
-  );
-
-  return $types;
-
 }
 
 /**
@@ -139,7 +118,7 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Get front page covers.
+ * Get front page entities.
  *
  * @param int $index
  *   The ting_carousel_search_queries index to get.
@@ -151,23 +130,23 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
  *   Whether to only consult the already cached data.
  *
  * @return array
- *   Array with the keys 'collections', an array of covers, and 'next_offset',
+ *   Array with the keys 'entities', an array of covers, and 'next_offset',
  *   which is the next offset to use or -1.
  */
-function _ting_search_carousel_get_frontpage_covers($index, $start, $count, $query_only = FALSE) {
+function _ting_search_carousel_get_frontpage_entities($index, $start, $count, $query_only = FALSE) {
   $queries = variable_get('ting_carousel_search_queries', array());
   $query = isset($queries[$index]) ? $queries[$index] : FALSE;
   if (!$query) {
-    return FALSE;
+    return array();
   }
 
-  return ting_search_carousel_get_covers($query['query'], $start, $count, $query_only);
+  return ting_search_carousel_get_entities($query['query'], $start, $count, $query_only);
 }
 
 /**
- * Get covers.
+ * Get ting entities that has covers.
  *
- * Returns sets of covers by looping through search result and collecting
+ * Returns sets of entities by looping through search result and collecting
  * materials with covers. Internally caches and processes the search result in
  * chunks as needed.
  *
@@ -181,10 +160,10 @@ function _ting_search_carousel_get_frontpage_covers($index, $start, $count, $que
  *   Whether to only consult the already cached data.
  *
  * @return array
- *   Array with the keys 'collections', an array of covers, and 'next_offset',
- *   which is the next offset to use or -1.
+ *   Array with the keys 'entities', an array of ting entities, and
+ *  'next_offset', which is the next offset to use or -1.
  */
-function ting_search_carousel_get_covers($query, $start, $count, $query_only = FALSE) {
+function ting_search_carousel_get_entities($query, $start, $count, $query_only = FALSE) {
   $query_id = md5($query);
   $cache_data = array(
     // All found covers.
@@ -229,16 +208,15 @@ function ting_search_carousel_get_covers($query, $start, $count, $query_only = F
       $ignore_ids = $cache_data['all_ids'];
 
       // Search well for materials with covers.
-      list($found_covers, $cache_data['search_page'], $cache_data['finished'])
-        = _ting_search_carousel_find_covers($query,
+      list($found_entities, $cache_data['search_page'], $cache_data['finished'])
+        = _ting_search_carousel_find_entities_with_covers($query,
           $cache_data['search_page'],
           $cache_data['search_page_size'],
           $ignore_ids);
 
-      foreach ($found_covers as $id => $cover) {
+      foreach ($found_entities as $id => $entities) {
         $ignore_ids[$id] = TRUE;
-        $cache_data['pool'][] = $cover;
-
+        $cache_data['pool'][] = $entities;
       }
     }
 
@@ -251,13 +229,23 @@ function ting_search_carousel_get_covers($query, $start, $count, $query_only = F
 
 /**
  * Get a slice of cached cover data.
+ *
+ * @param $cache_data
+ *   The cached data to use.
+ * @param $start
+ *   The start number to start the slice.
+ * @param $count
+ *   The number of items to find.
+ *
+ * @return array
+ *   Ting entities that has covers.
  */
 function _ting_search_carousel_get_slice($cache_data, $start, $count) {
   $pool_size = count($cache_data['pool']);
   // All inside our already collected data.
   if (($start + $count) <= $pool_size) {
     return array(
-      'collections' => array_slice($cache_data['pool'], $start, $count),
+      'entities' => array_slice($cache_data['pool'], $start, $count),
       'next_offset' => $start + $count,
     );
   }
@@ -265,21 +253,21 @@ function _ting_search_carousel_get_slice($cache_data, $start, $count) {
   // the end of data.
   elseif ($cache_data['finished']) {
     return array(
-      'collections' => $start < $pool_size ? array_slice($cache_data['pool'], $start) : array(),
+      'entities' => $start < $pool_size ? array_slice($cache_data['pool'], $start) : array(),
       'next_offset' => -1,
     );
   }
   // Not inside, and we're not finished yet.
   else {
     return array(
-      'collections' => array(),
+      'entities' => array(),
       'next_offset' => $start,
     );
   }
 }
 
 /**
- * Find covers from a query.
+ * Find ting entities with covers from a query.
  *
  * @param string $query
  *   Query to use.
@@ -291,13 +279,13 @@ function _ting_search_carousel_get_slice($cache_data, $start, $count) {
  *   Material ids to skip.
  *
  * @return array
- *   Array of found covers (an array), next start to use, and whether the result
- *   end was reached.
+ *   Array of found ting entities (an array), next start to use, and whether
+ *   the result end was reached.
  */
-function _ting_search_carousel_find_covers($query, $start, $size, array $ignore) {
-  $found_covers = array();
+function _ting_search_carousel_find_entities_with_covers($query, $start, $size, array $ignore) {
+  $entities_found_with_covers = array();
   $finished = FALSE;
-  $objects = array();
+  $entities = array();
 
   $options = array(
     'facets' => array(),
@@ -321,52 +309,19 @@ function _ting_search_carousel_find_covers($query, $start, $size, array $ignore)
       if (isset($ignore[$object->id])) {
         break;
       }
-      $objects[$object->id] = array(
-        'title' => isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '',
-        'creator' => isset($object->record['dc:creator']['dkdcplus:aut'][0]) ? $object->record['dc:creator']['dkdcplus:aut'][0] : '',
-      );
+      $entities[$object->id] = ding_entity_load($collection->id, 'ting_object');
     }
   }
 
   // See what materials have covers.
-  $covers = ting_covers_get(array_keys($objects));
+  $covers = ting_covers_get(array_keys($entities));
 
   // Loop over the fetched covers and build items.
   foreach ($covers as $id => $path) {
-    // Build object with the information collected.
-    $item = new stdClass();
-    $item->id = $id;
-    $item->title = $objects[$id]['title'];
-    $item->creator = $objects[$id]['creator'];
-    $item->path = $path;
-    // Legacy.
-    $item->image = image_style_url('ting_search_carousel', $path);
-
-    $found_covers[$id] = $item;
+    $entities_found_with_covers[$id] = $entities[$id];
   }
 
-  return array($found_covers, $start, $finished);
-}
-
-/**
- * Returns an placeholder collection item.
- */
-function ting_search_carousel_collection_placeholder() {
-  // Image styles only work on files in the files dir, so we copy our
-  // placeholder in.
-  if (!file_exists(TING_SEARCH_CAROUSEL_PLACEHOLDER_IMAGE)) {
-    file_unmanaged_copy(drupal_get_path('module', 'ting_search_carousel') .
-                        '/images/empty.png',
-                        TING_SEARCH_CAROUSEL_PLACEHOLDER_IMAGE,
-                        FILE_EXISTS_REPLACE);
-  }
-  $item = new stdClass();
-  $item->id = '#';
-  $item->title = '';
-  $item->creator = '';
-  $item->path = TING_SEARCH_CAROUSEL_PLACEHOLDER_IMAGE;
-  $item->placeholder = TRUE;
-  return $item;
+  return array($entities_found_with_covers, $start, $finished);
 }
 
 /**

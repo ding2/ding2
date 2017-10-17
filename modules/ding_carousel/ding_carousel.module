@@ -48,7 +48,6 @@ function ding_carousel_element_info() {
     '#hidden' => FALSE,
     '#attached' => array(
       'js' => array($path . '/js/ding_carousel.js'),
-      'css' => array($path . '/css/ding_carousel.css'),
     ),
   );
 
@@ -58,7 +57,6 @@ function ding_carousel_element_info() {
     '#transition' => 'fade',
     '#attached' => array(
       'js' => array($path . '/js/ding_carousel.js'),
-      'css' => array($path . '/css/ding_carousel.css'),
     ),
   );
 
@@ -88,16 +86,7 @@ function ding_carousel_libraries_info() {
     ),
     'files' => array(
       'js' => array('slick.min.js'),
-      'css' => array('slick.css'),
-    ),
-    'variants' => array(
-      'non-minified' => array(
-        'files' => array(
-          'js' => array('slick.js'),
-          'css' => array('slick.css'),
-        ),
-      ),
-    ),
+    )
   );
 
   return $libraries;
