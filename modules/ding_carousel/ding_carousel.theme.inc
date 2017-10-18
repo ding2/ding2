@@ -84,5 +84,10 @@ function template_preprocess_ding_carousel_item(&$vars) {
     $vars['classes_array'][] = 'placeholder';
   }
 
-  $vars['content'] = !empty($item['#content']) ? $item['#content'] : '';
+  $content = array(
+    '#type' => 'markup',
+    '#markup' => '<span class="icon-spinner"></span>',
+  );
+
+  $vars['content'] = !empty($item['#content']) ? $item['#content'] : $content;
 }
