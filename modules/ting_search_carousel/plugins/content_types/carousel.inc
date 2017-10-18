@@ -34,6 +34,8 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
         '#path' => 'ting_search_carousel/results/ajax/' . $index,
         '#items' => $items,
         '#offset' => $chunk['next_offset'],
+        // Add a single placeholder to fetch more content later if there is more
+        // content.
         '#placeholders' => $chunk['next_offset'] > -1 ? TING_SEARCH_CAROUSEL_CHUNK_SIZE + 1 : 0,
       );
     }

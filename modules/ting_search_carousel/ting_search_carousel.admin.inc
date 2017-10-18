@@ -13,7 +13,6 @@
  */
 function ting_search_carousel_admin_page() {
   drupal_add_js(drupal_get_path('module', 'ting_search_carousel') . '/js/ting_search_carousel.admin.js');
-  drupal_add_css(drupal_get_path('module', 'ting_search_carousel') . '/css/ting_search_carousel.css');
   variable_set('ting_carousel_search_queries_hidden', array());
 
   return drupal_get_form('ting_search_carousel_admin_form');
