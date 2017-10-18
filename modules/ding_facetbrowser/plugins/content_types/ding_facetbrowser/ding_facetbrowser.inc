@@ -22,8 +22,6 @@ function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $co
   $block->module = 'ding_facetbrowser';
   $block->delta  = 'ding_facetbrowser';
 
-
-
   // Invoke ding_facetbrowser() from executed search module.
   $executed_search = menu_get_item();
   if (!empty($executed_search['page_arguments'])) {
@@ -50,14 +48,14 @@ function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $co
       'js' => array(
         array(
           'data' => array(
-            $path . '/js/ding_facetbrowser.js'
+            $path . '/js/ding_facetbrowser.js',
           ),
         ),
         array(
           'data' => array(
             'ding_facetbrowser' => array(
               'selector' => '.js-facet-browser-toggle',
-              'number_of_terms' => variable_get('ding_facetbrowser_number_of_terms', 5)
+              'number_of_terms' => variable_get('ding_facetbrowser_number_of_terms', 5),
             ),
           ),
           'type' => 'setting',
