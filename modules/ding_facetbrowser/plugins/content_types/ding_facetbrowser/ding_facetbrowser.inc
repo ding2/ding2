@@ -47,9 +47,7 @@ function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $co
     $block->content['#attached'] = array(
       'js' => array(
         array(
-          'data' => array(
-            $path . '/js/ding_facetbrowser.js',
-          ),
+          'data' => $path . '/js/ding_facetbrowser.js',
         ),
         array(
           'data' => array(
