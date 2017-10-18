@@ -64,7 +64,6 @@ function ddbasic_preprocess_html(&$vars) {
   }
 
   // Include the libraries.
-  libraries_load('slick');
   libraries_load('jquery.imagesloaded');
   libraries_load('html5shiv');
   libraries_load('masonry');
@@ -1234,19 +1233,6 @@ function ddbasic_select($variables) {
  */
 function ddbasic_libraries_info() {
   return array(
-    'slick' => array(
-      'name' => 'Slick',
-      'vendor url' => 'http://kenwheeler.github.io/slick/',
-      'download url' => 'https://github.com/kenwheeler/slick/archive/1.6.0.zip',
-      'version arguments' => array(
-        'file' => 'slick/slick.min.js',
-        'pattern' => '/Version:\s([0-9a-zA-Z\.-]+)/',
-      ),
-      'files' => array(
-        'css' => array('slick/slick.css'),
-        'js' => array('slick/slick.min.js'),
-      ),
-    ),
     'html5shiv' => array(
       'name' => 'HTML5 Shiv',
       'vendor url' => 'https://github.com/aFarkas/html5shiv',

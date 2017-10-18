@@ -9,7 +9,11 @@
  * Preprocess variables for ding_carousel.tpl.php.
  */
 function template_preprocess_ding_carousel(&$vars) {
-  libraries_load('slick');
+  if (($library = libraries_load('slick')) && !$library['installed']) {
+    drupal_set_message(t('Slick library not loaded'));
+    watchdog('ding_carousel', $library['error message'], array(), WATCHDOG_ERROR);
+  }
+
   $carousel = $vars['carousel'];
 
   $vars['items'] = array();

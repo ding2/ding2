@@ -21,27 +21,6 @@ function ting_carousel_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_libraries_info().
- */
-function ting_carousel_libraries_info() {
-  return array(
-    'slick' => array(
-      'name' => 'Slick',
-      'vendor url' => 'http://kenwheeler.github.io/slick/',
-      'download url' => 'https://github.com/kenwheeler/slick/archive/1.6.0.zip',
-      'version arguments' => array(
-        'file' => 'slick/slick.min.js',
-        'pattern' => '/Version:\s([0-9a-zA-Z\.-]+)/',
-      ),
-      'files' => array(
-        'css' => array('slick/slick.css'),
-        'js' => array('slick/slick.min.js'),
-      ),
-    ),
-  );
-}
-
-/**
  * Implements hook_field_formatter_info().
  */
 function ting_carousel_field_formatter_info() {
