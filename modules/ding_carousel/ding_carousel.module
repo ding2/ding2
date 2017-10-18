@@ -43,7 +43,7 @@ function ding_carousel_element_info() {
     '#placeholders' => 0,
     '#placeholder' => array(
       '#type' => 'markup',
-      '#markup' => 'Loading...',
+      '#markup' => '<span class="icon-spinner"></span>',
     ),
     '#hidden' => FALSE,
     '#attached' => array(
