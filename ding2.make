@@ -520,6 +520,7 @@ libraries[slick][download][type] = "get"
 libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.8.0.tar.gz
 libraries[slick][directory_name] = "slick"
 libraries[slick][destination] = "libraries"
+libraries[slick][patch][] = "https://patch-diff.githubusercontent.com/raw/kenwheeler/slick/pull/2635.diff"
 
 libraries[html5shiv][download][type] = "get"
 libraries[html5shiv][download][url] = https://github.com/aFarkas/html5shiv/archive/3.7.3.zip

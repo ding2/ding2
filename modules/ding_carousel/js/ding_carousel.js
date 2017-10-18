@@ -189,6 +189,8 @@
   var update_handler = function (e, slick) {
     var tab = e.data;
 
+    console.log(update);
+
     if (!tab.data('updating')) {
       // If its the first batch or we're near the end.
       if (tab.data('offset') === 0 ||
@@ -216,11 +218,9 @@
    * odd width, but we expect all slides to be pretty similar.
    */
   var update_slides_to_scroll = function (e, slick) {
-    console.log('called');
     var slidesToScroll = Math.floor(slick.$slider.width() / slick.$slides.eq(0).outerWidth(true)) - 1;
     slick.options.slidesToScroll = Math.max(slidesToScroll, 1);
-
-    // slidesToShow
+    slick.options.slidesToShow = slick.$slider.width() / slick.$slides.eq(0).outerWidth(true);
   };
 
   /**

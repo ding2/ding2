@@ -9,7 +9,8 @@
  * Preprocess variables for ding_carousel.tpl.php.
  */
 function template_preprocess_ding_carousel(&$vars) {
-  if (($library = libraries_load('slick')) && !$library['installed']) {
+  // We need to load the non-minified version as with patch the library.
+  if (($library = libraries_load('slick', 'non-minified')) && !$library['installed']) {
     drupal_set_message(t('Slick library not loaded'));
     watchdog('ding_carousel', $library['error message'], array(), WATCHDOG_ERROR);
   }
@@ -42,6 +43,7 @@ function template_preprocess_ding_carousel(&$vars) {
     'infinite' => FALSE,
     // Use variableWidth to allow the theme to control cover sizes.
     'variableWidth' => TRUE,
+    'outerEdgeLimit' => TRUE,
   );
 
   if ($carousel['#hidden']) {
