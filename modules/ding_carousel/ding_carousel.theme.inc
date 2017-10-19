@@ -46,7 +46,7 @@ function template_preprocess_ding_carousel(&$vars) {
     'outerEdgeLimit' => TRUE,
   );
 
-  if ($carousel['#hidden']) {
+  if (isset($carousel['#hidden']) && $carousel['#hidden']) {
     $vars['classes_array'][] = 'hidden';
   }
 

@@ -8,4 +8,3 @@ dependencies[] = ding_entity_rating
 dependencies[] = ding_loan
 dependencies[] = ding_user_consent
 dependencies[] = ting
-dependencies[] = ting_carousel

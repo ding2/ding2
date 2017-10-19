@@ -21,5 +21,4 @@ dependencies[] = ding_serendipity_taxonomy_term
 dependencies[] = ding_serendipity_ting_entity
 dependencies[] = ding_sharer
 dependencies[] = ding_user_consent
-dependencies[] = ting_carousel
 dependencies[] = ting_openlist

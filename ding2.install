@@ -503,3 +503,14 @@ function ding2_update_7040() {
   ding2_translation_update();
 }
 
+/**
+ * Delete {system} records for ting_carousel modules.
+ *
+ * @see https://www.drupal.org/node/2487215
+ */
+function ding2_update_7041() {
+    db_delete('system')
+    ->condition('name', 'ting_carousel')
+    ->condition('type', 'module')
+    ->execute();
+}
