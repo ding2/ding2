@@ -690,7 +690,7 @@ function ding_list_secure_permissions($role) {
  * Implements template_preprocess_entity().
  */
 function ding_list_preprocess_entity(&$variables) {
-   if ($variables['entity_type'] == 'ding_type') {
+  if ($variables['entity_type'] == 'ding_type') {
     switch ($variables['ding_type']->type) {
       case 'ding_list':
         $variables['title_attributes_array']['class'][] = 'ding-list-title';
@@ -724,8 +724,8 @@ function ding_list_preprocess_entity(&$variables) {
               '#items' => array(),
               '#path' => 'ding-list/carousel/ajax/' . $variables['ding_type']->id,
               '#offset' => 0,
-              // Add a single placeholder to fetch more content later if there is more
-              // content.
+              // Add a single placeholder to fetch more content later if there
+              // is more content.
               '#placeholders' => count($objects) > DING_LIST_CAROUSEL_CHUNK_SIZE ? DING_LIST_CAROUSEL_CHUNK_SIZE + 1 : count($objects),
             );
             break;

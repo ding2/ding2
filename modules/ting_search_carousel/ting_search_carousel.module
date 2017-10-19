@@ -157,7 +157,7 @@ function _ting_search_carousel_get_frontpage_entities($index, $start, $count, $q
  *
  * @return array
  *   Array with the keys 'entities', an array of ting entities, and
- *  'next_offset', which is the next offset to use or -1.
+ *   'next_offset', which is the next offset to use or -1.
  */
 function ting_search_carousel_get_entities($query, $start, $count, $query_only = FALSE) {
   $query_id = md5($query);
@@ -226,11 +226,11 @@ function ting_search_carousel_get_entities($query, $start, $count, $query_only =
 /**
  * Get a slice of cached cover data.
  *
- * @param $cache_data
+ * @param array $cache_data
  *   The cached data to use.
- * @param $start
+ * @param int $start
  *   The start number to start the slice.
- * @param $count
+ * @param int $count
  *   The number of items to find.
  *
  * @return array

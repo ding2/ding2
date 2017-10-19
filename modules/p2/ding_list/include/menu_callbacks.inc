@@ -240,9 +240,9 @@ function ding_list_share_list_callback($permission, $list_id, $community) {
 /**
  * Fetch more list items for carousel's.
  *
- * @param $list_id
+ * @param string $list_id
  *   The id of the list to process.
- * @param $offset
+ * @param string $offset
  *   The off-set into the list.
  */
 function ding_list_carousel_ajax($list_id, $offset) {
