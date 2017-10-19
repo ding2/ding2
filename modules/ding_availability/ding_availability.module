@@ -283,13 +283,13 @@ function ding_availability_holding_format_time($date) {
  *
  * @param array $holding
  *   Holding from provider.
- * @param bool $fields
+ * @param array $fields
  *   Fields to add.
  *
  * @return array
  *   Row suitable for theme_table.
  */
-function ding_availability_holdings_row($holding, $fields) {
+function ding_availability_holdings_row(array $holding, array $fields) {
   $row = array();
 
   foreach ($fields as $field) {
