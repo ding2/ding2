@@ -50,4 +50,4 @@ files[] = includes/classes/FBSLogInterface.php
 files[] = includes/classes/FBSLogStdout.php
 files[] = includes/classes/FBSMisconfiguredException.php
 mtime = 1499431707
-required = 1
+#required = 1
