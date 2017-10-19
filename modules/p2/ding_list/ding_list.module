@@ -34,7 +34,7 @@ define('DING_LIST_OPERATION_CHECK_EXISTS', 'check_exists');
 define('DING_LIST_OPERATION_SHARE', 'share');
 
 // Carousel behaviour.
-define('DING_LIST_CAROUSEL_CHUNK_SIZE', 8);
+define('DING_LIST_CAROUSEL_CHUNK_SIZE', 6);
 
 /**
  * View list permission.
