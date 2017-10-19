@@ -27,6 +27,13 @@ function connie_reservation_set_preferred_branch($account, $branch) {
   // exception.
 }
 
+/**  carstenf change start: **/
+## this was inserted to return an empty array. The content would be 
+## preferred branch
+function connie_reservation_default_options($account) {
+  return array();
+}
+/** ^^^  carstenf **/
 /**
  * Provider list callback.
  */
@@ -104,14 +111,13 @@ function connie_reservation_options_validate($type, $account, $reservables, $val
 /**
  * Submit handler for reservations options.
  */
-function connie_reservation_options_submit($type, $account, $reservables, $values) {
-  $profile = ding_user_provider_profile($account);
-  $field_language = field_language('profile2', $profile);
-  $update = ding_reservation_default_options_branch_submit($type, 'openruth_preferred_branch', $profile->connie_preferred_branch[$field_language['connie_preferred_branch']][0]['value'], $values);
-  if (!empty($update['connie_preferred_branch'])) {
-    $profile->connie_preferred_branch[$field_language['connie_preferred_branch']][0]['value'] = $update['connie_preferred_branch'];
-    $profile->save();
-  }
+function connie_reservation_options_submit( $account, $values) {
+/** 
+**  indhold slettet af carstenf (i samarbejde med Kasper)
+**  da den kun vil sætte en default branch på brugerprofilen 
+**  og det er der egentlig ikke brug for. Alma og FBS benytter ikke 
+**  denne funktion.
+**/
 }
 
 /**
