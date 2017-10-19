@@ -65,7 +65,6 @@ function template_preprocess_ding_list_add_button(&$variables) {
     $variables['title'] = t('Add to list');
   }
 
-  $path = drupal_get_path('module', 'ding_list');
   $variables['buttons'] = array(
     '#theme' => 'links',
     '#links' => array(),
@@ -210,7 +209,6 @@ function theme_ding_list_lists($variables) {
         '#theme' => 'item_list',
         '#title' => $group['title'],
         '#items' => $rows,
-        '#title' => $group['title'],
         '#type' => 'ul',
         '#attributes' => array('class' => array('list-links', $group_name_class)),
       );

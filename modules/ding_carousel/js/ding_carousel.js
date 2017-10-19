@@ -189,8 +189,6 @@
   var update_handler = function (e, slick) {
     var tab = e.data;
 
-    console.log(update);
-
     if (!tab.data('updating')) {
       // If its the first batch or we're near the end.
       if (tab.data('offset') === 0 ||

@@ -23,9 +23,6 @@ function theme_ting_carousel($variables) {
  * Preprocess ting_carousel().
  */
 function template_preprocess_ting_carousel(&$variables) {
-  // Add all js and css files needed.
-  ting_carousel_add_externals();
-
   $variables['processed_items'] = array();
 
   if (!empty($variables['items'])) {

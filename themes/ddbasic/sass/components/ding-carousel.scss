@@ -92,11 +92,22 @@
     position: relative;
     clear: left;
     min-height: 418px; // Prevent page from jumping when content is loaded in
+    max-height: 418px;
 
     // Tablet
     @include media($tablet) {
       padding-top: 0;
       min-height: 363px; // Prevent page from jumping when content is loaded in
+      max-height: 363px;
+
+    }
+
+    .slick-list {
+      max-height: 418px;
+
+      @include media($tablet) {
+        max-height: 363px;
+      }
     }
 
     .slick-track {

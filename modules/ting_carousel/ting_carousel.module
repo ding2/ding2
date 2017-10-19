@@ -64,15 +64,6 @@ function ting_carousel_field_formatter_view($entity_type, $entity, $field, $inst
  */
 function ting_carousel_preprocess_field(&$variables) {
   if ($variables['element']['#formatter'] === 'ting_carousel') {
-    ting_carousel_add_externals();
     $variables['classes_array'][] = 'ting-carousel-field';
   }
-}
-
-/**
- * Add all the js and css needed for the carousel to work.
- */
-function ting_carousel_add_externals() {
-  drupal_add_js(drupal_get_path('module', 'ting_carousel') . '/js/ting-carousel.js');
-  libraries_load('slick');
 }

@@ -573,7 +573,7 @@ function ding_list_ding_user_consent_changed($consent) {
         }
       }
 
-      // Create any missing autocreated lists.
+      // Create any missing auto created lists.
       ding_list_setup_autocreated();
 
       // Update the historical loans.
@@ -588,9 +588,8 @@ function ding_list_ding_user_consent_changed($consent) {
 function ding_list_theme($existing, $type, $theme, $path) {
   return array(
     'ding_list_add_button' => array(
-      'path' => $path . '/theme',
-      'file' => 'theme.inc',
-      'template' => 'ding-list-add-button',
+      'file' => 'theme/theme.inc',
+      'template' => 'templates/ding-list-add-button',
       'variables' => array(
         'type' => NULL,
         'value' => NULL,
@@ -601,7 +600,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
     ),
     'ding_list_list' => array(
       'file' => 'theme/theme.inc',
-      'template' => 'theme/ding-list-list',
+      'template' => 'templates/ding-list-list',
       'variables' => array(
         'items' => array(),
         'sortable' => FALSE,
@@ -679,9 +678,7 @@ function ding_list_secure_permissions($role) {
  * Implements template_preprocess_entity().
  */
 function ding_list_preprocess_entity(&$variables) {
-  global $user;
-
-  if ($variables['entity_type'] == 'ding_type') {
+   if ($variables['entity_type'] == 'ding_type') {
     switch ($variables['ding_type']->type) {
       case 'ding_list':
         $variables['title_attributes_array']['class'][] = 'ding-list-title';
