@@ -176,6 +176,10 @@
         item.target.slick('slickAdd', data.content);
         item.tab.data('offset', data.offset);
         item.tab.data('updating', false);
+
+        // Ensure that behaviors are attached to the new content.
+        Drupal.attachBehaviors($('.ding-carousel-item'));
+
         // Carry on processing the queue.
         running = false;
         update();
@@ -224,12 +228,8 @@
   /**
    * Start the carousel when the document is ready.
    */
-  console.log('JS');
   Drupal.behaviors.ding_carousel = {
     attach: function (context) {
-
-      console.log('LOADED');
-
       // Start all carousels, tabbed or standalone.
       $('.ding-carousel', context).each(function () {
         var carousel = $(this);
