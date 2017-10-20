@@ -1003,6 +1003,10 @@ function ddbasic_preprocess_ding_carousel(&$variables) {
   drupal_add_library('system', 'drupal.ajax');
 
   // The ding carousel's do not use the standard Drupal ajax API so it doesn't
+  // automatically include the availability.
+  drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js');
+
+  // The ding carousel's do not use the standard Drupal ajax API so it doesn't
   // automatically include the ting-covers.js.
   drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
 }
