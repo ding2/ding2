@@ -129,6 +129,8 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
     ->execute()
     ->fetchField();
 
+  $tz = date_default_timezone(FALSE);
+
   $mapping = array(
     'fields' => array(
       'title' => array(
@@ -143,12 +145,12 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
       ),
       'created' => array(
         'name' => t('Created'),
-        'value' => $node->created,
+        'value' => ding_mobilesearch_format_date($node->created, $tz),
         'attr' => array(),
       ),
       'changed' => array(
         'name' => t('Updated'),
-        'value' => $node->changed,
+        'value' => ding_mobilesearch_format_date($node->changed, $tz),
         'attr' => array(),
       ),
       'status' => array(
@@ -380,7 +382,6 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         $field_field = field_info_field('field_ding_event_date');
         $field_instance = field_info_instance('node', 'field_ding_event_date', 'ding_event');
 
-        $tz = date_default_timezone(FALSE);
         $from_object = new DateObject($item['value'], 'UTC', date_type_format($field_field['type']));
         $from_object->setTimezone(new DateTimeZone($tz));
         $to_object = new DateObject($item['value2'], 'UTC', date_type_format($field_field['type']));
@@ -391,8 +392,8 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         $mapping['fields']['field_ding_event_date'] = array(
           'name' => 'Event date',
           'value' => array(
-            'from' => strtotime($item['value']),
-            'to' => strtotime($item['value2']),
+            'from' => ding_mobilesearch_format_date($from_object->getTimestamp(), $item['timezone']),
+            'to' => ding_mobilesearch_format_date($to_object->getTimestamp(), $item['timezone']),
           ),
           'attr' => array(
             'all_day' => $all_day,
@@ -426,6 +427,21 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
   }
 
   return $mapping;
+}
+
+/**
+ * Represents a timestamp in ISO-8601 format.
+ *
+ * @param int $timestamp
+ *   Unix timestamp.
+ * @param string $timezone
+ *   Target timezone.
+ *
+ * @return string
+ *   Date formatted using ISO-8601 notation.
+ */
+function ding_mobilesearch_format_date($timestamp, $timezone) {
+  return format_date($timestamp, 'custom', 'c', $timezone);
 }
 
 /**
