@@ -6,6 +6,9 @@
 
 .field-type-text-long {
   img {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 5px;
     &[align="right"] {
       padding: 20px 0 20px 20px;
     }
