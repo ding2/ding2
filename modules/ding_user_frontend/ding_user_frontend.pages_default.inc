@@ -935,7 +935,22 @@ function ding_user_frontend_default_page_manager_pages() {
   $page->admin_title = 'User my library';
   $page->admin_description = '';
   $page->path = 'user/%user/my-library';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array(
     'type' => 'tab',
     'title' => 'Mit personlige bibliotek',
