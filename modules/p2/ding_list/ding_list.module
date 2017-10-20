@@ -1198,7 +1198,7 @@ function ding_list_panels_pane_content_alter($content, $pane, $args, $contexts) 
 }
 
 /**
- * Implements hook_user_delete()
+ * Implements hook_user_delete().
  */
 function ding_list_user_delete($account) {
   ding_list_reset_user($account);

@@ -70,7 +70,9 @@ function ting_openlist_handler_update_user($account) {
  */
 function ting_openlist_handler_reset_user($account) {
   $user_identifier = ting_openlist_user_identifier($account);
-  return ting_openlist_request('callModule', array('ResetUser', 'reset', array($user_identifier)));
+  return ting_openlist_request('callModule', array('ResetUser', 'reset', array(
+    $user_identifier,
+  )));
 }
 
 /**

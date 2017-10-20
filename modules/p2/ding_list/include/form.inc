@@ -727,7 +727,7 @@ function ding_list_reset_user_form($form, &$form_state, $account) {
       '#value' => t('Cancel'),
       '#submit' => array('ding_list_reset_user_form_submit_cancel'),
       '#limit_validation_errors' => array(),
-    )
+    ),
   );
 
   return $form;
