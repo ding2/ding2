@@ -147,13 +147,9 @@
         group.append(element);
 
         // Remove empty groups.
-        $('.js-available, .js-reservable, .js-unavailable', groups_wrapper).each(function () {
-          var $this = $(this);
-
-          if ($this.children('.search-result--availability-link').length === 0) {
-            $this.remove();
-          }
-        });
+        $('.js-available, .js-reservable, .js-unavailable', groups_wrapper)
+          .not(':has(.js-search-result--availability-link)')
+          .remove();
       }
 
       /**
