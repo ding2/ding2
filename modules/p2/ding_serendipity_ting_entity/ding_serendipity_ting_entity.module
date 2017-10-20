@@ -10,6 +10,7 @@
  *  via ADHL or ADHR.
  */
 
+use Ting\Search\BooleanStatementGroup;
 use Ting\Search\BooleanStatementInterface;
 use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchFieldFilter;
@@ -108,16 +109,15 @@ function ding_serendipity_ting_entity_ting_object_author_serendipity_add($contex
   }
 
   // Find related content from any of the authors.
-  $field_filters = [];
-  foreach ($creators as $creator) {
-    $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, $creator, '=', BooleanStatementInterface::OP_OR);
-  }
-  $query = ting_start_query()->addFieldFilters($field_filters);
+  $field_filters = array_map(function($creator) {
+    return new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, $creator);
+  }, $creators);
+  $query = ting_start_query()->addFieldFilters($field_filters, BooleanStatementInterface::OP_OR);
 
   // Limit to same language to reduce signal to noise.
   $lang = $obj->getLanguage();
   if (!empty($lang) && $lang !== "Flere sprog") {
-    $query->addFieldFilters(new TingSearchFieldFilter(TingSearchCommonFields::LANGUAGE, $lang));
+    $query->addFieldFilter(TingSearchCommonFields::LANGUAGE, $lang);
   }
 
   $results = ding_serendipity_do_search($query);
@@ -154,10 +154,10 @@ function ding_serendipity_ting_entity_ting_object_subject_serendipity_add($conte
 
   // Find related content from any of the subjects.
   $field_filters = array_map(function($subject) {
-    return new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, $subject, '=', BooleanStatementInterface::OP_OR);
+    return new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, $subject, '=');
   }, $subjects);
 
-  $query = ting_start_query()->addFieldFilters($field_filters);
+  $query = ting_start_query()->addFieldFilters($field_filters, BooleanStatementInterface::OP_OR);
   $results = ding_serendipity_do_search($query);
   ding_serendipity_exclude($results, $context['ting_object_id']);
 
@@ -196,7 +196,7 @@ function ding_serendipity_ting_entity_ting_object_type_serendipity_add($context)
 
   if ($type) {
     // Find related content that matches the type.
-    $query = ting_start_query()->addFieldFilters(new TingSearchFieldFilter(TingSearchCommonFields::MATERIAL_TYPE, $type));
+    $query = ting_start_query()->addFieldFilter(TingSearchCommonFields::MATERIAL_TYPE, $type);
     $results = ding_serendipity_do_search($query);
     ding_serendipity_exclude($results, $context['ting_object_id']);
 
