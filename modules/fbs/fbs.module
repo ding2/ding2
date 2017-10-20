@@ -485,6 +485,19 @@ function fbs_interest_periods() {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function fbs_form_profile2_form_alter(&$form, &$form_state) {
+  $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
+
+  $form['profile_provider_fbs']['ding_user_fee_sms'] = array(
+    '#type' => 'item',
+    '#markup' => $fee_sms,
+    '#weight' => 3,
+  );
+}
+
+/**
  * Implements hook_form_FORM_ID_form_alter().
  *
  * Remove order_nr from the reservation listing. We don't have anything sane to
@@ -674,16 +687,20 @@ function fbs_ting_pre_execute($request) {
   if ($request instanceof TingClientSearchRequest) {
     // Filter out blacklisted branches from search.
     $branches_blacklist = array_filter(variable_get('fbs_branches_blacklist', array()));
-    $blacklist_names = array_values(array_intersect_key(fbs_branches(), $branches_blacklist));
-    $blacklist_names = array_map('_fbs_cql_quote_string', $blacklist_names);
 
-    $query = $request->getQuery();
     if (!empty($branches_blacklist)) {
-      $query .= ' AND (holdingsitem.branch = (* not ' . implode(' not ',
-                $branches_blacklist) . '))';
+      $query = $request->getQuery();
+      $allowed_branches = [];
+      foreach (fbs_branches() as $id => $branch) {
+        if (!in_array($id, $branches_blacklist)) {
+          $allowed_branches[] = _fbs_cql_quote_string($branch);
+        }
+      }
+      $query .= ' AND (holdingsitem.branch = (' . implode(' OR ',
+          $allowed_branches) . '))';
       $request->setQuery($query);
-    }
 
+    }
     // Since FBS is using data-well 3.5 we need to filter local holdings.
     $request->setFilterLocalHoldings(TRUE);
   }

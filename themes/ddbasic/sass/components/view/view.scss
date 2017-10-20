@@ -64,14 +64,23 @@
     // </div>
     //
     // Styleguide 2.1.9
+  }
 
-    // Small grid
-    .grid-small & {
+
+  // Small grid
+  &.grid-small,
+  .grid-small & {
+    .views-row,
+    .view-content ul li {
       @include span-columns(3);
       @include omega(4n);
     }
-    // Medium grid
-    .grid-medium & {
+  }
+  // Medium grid
+  &.grid-medium,
+  .grid-medium & {
+    .views-row,
+    .view-content ul li {
       // In Ding frontpage layout & Ding2 site template
       .frontpage-layout &,
       .ding2-site-template .ding2-site-template & {
@@ -133,8 +142,12 @@
         }
       }
     }
-    // Large grid
-    .grid-large & {
+  }
+  // Large grid
+  &.grid-large,
+  .grid-large & {
+    .views-row,
+    .view-content ul li {
       @include span-columns(6);
       @include omega(2n);
     }
@@ -188,6 +201,19 @@
       }
     }
   }
+
+  .masonry-view {
+    @include transition(opacity $speed $ease);
+    opacity: 0;
+
+    @include media($mobile) {
+      opacity: 1;
+    }
+
+    &.is-masonry-complete {
+      opacity: 1;
+    }
+  }
 }
 
 // ==========================================================================
@@ -201,6 +227,7 @@
       // First child
       &:first-child {
         // Medium grid
+        @at-root .grid-medium#{&},
         .grid-medium & {
           // In Ding frontpage layout
           .frontpage-layout & {
@@ -220,6 +247,7 @@
         }
       }
       // Medium grid
+      @at-root .grid-medium#{&},
       .grid-medium & {
         // In Ding frontpage layout
         .frontpage-layout & {

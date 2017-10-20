@@ -119,7 +119,7 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
   $form['config']['search_request']['new_materials'] = array(
     '#type' => 'textfield',
     '#title' => t('New materials'),
-    '#description' => t('Restrict the search result to only contain new materials acquired whitin the specified number of days.'),
+    '#description' => t('Enter a number of days to restrict the search result to only contain new materials.'),
     '#default_value' => $profile->config['search_request']['new_materials'],
     '#element_validate' => array('element_validate_integer_positive'),
   );

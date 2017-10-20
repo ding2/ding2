@@ -21,6 +21,7 @@
       @include place-icon(plus, $size: 8px);
       display: block;
       float: left;
+      clear: both;
       margin-top: 10px;
       padding-left: 42px;
       color: $charcoal-opacity-dark;
@@ -35,9 +36,11 @@
           color: $color-text-link;
         }
       }
-      // Hide show less link
       &.expand-less {
-        display: none;
+        @include place-icon(minus, $size: 8px);
+        &::after {
+          top: 4px;
+        }
       }
     }
     &.collapsed {

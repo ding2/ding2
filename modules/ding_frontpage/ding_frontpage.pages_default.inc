@@ -212,7 +212,10 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 4;
     $pane->locks = array();
@@ -261,7 +264,7 @@ function ding_frontpage_default_page_manager_pages() {
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'grid-medium',
+      'css_class' => '',
     );
     $pane->extras = array();
     $pane->position = 1;
@@ -311,7 +314,10 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();

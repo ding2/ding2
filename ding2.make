@@ -103,7 +103,7 @@ projects[fences][version] = "1.0"
 projects[fences][patch][0] = "http://drupal.org/files/field_for_wrapper_css_class-1679684-3.patch"
 
 projects[field_group][subdir] = "contrib"
-projects[field_group][version] = "1.1"
+projects[field_group][version] = "1.5"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta3"
@@ -392,7 +392,7 @@ projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.16"
+projects[views][version] = "3.17"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
@@ -438,7 +438,7 @@ projects[xautoload][version] = "5.7"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-4.0.0-beta1"
+libraries[bpi-client][download][branch] = "master"
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
@@ -492,7 +492,7 @@ libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][tag] = "7.x-4.0.0-beta1"
+libraries[ting-client][download][branch] = "master"
 libraries[ting-client][destination] = "modules/ting/lib"
 
 libraries[zen-grids][download][type] = "git"

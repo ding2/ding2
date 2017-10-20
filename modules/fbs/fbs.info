@@ -16,6 +16,7 @@ dependencies[] = text
 dependencies[] = virtual_field
 dependencies[] = xautoload
 configure = admin/config/ding/provider/fbs
+explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
 features[features_api][] = api:2
 features[field_base][] = field_fbs_address
 features[field_base][] = field_fbs_mail
@@ -45,3 +46,5 @@ files[] = includes/classes/FBSLogDrupal.php
 files[] = includes/classes/FBSLogInterface.php
 files[] = includes/classes/FBSLogStdout.php
 files[] = includes/classes/FBS.php
+mtime = 1499431707
+required = 1

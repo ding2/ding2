@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_list_installer.features.field_base.inc
@@ -11,7 +10,7 @@
 function ding_list_installer_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_content_status'.
+  // Exported field_base: 'field_content_status'
   $field_bases['field_content_status'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -46,7 +45,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_content_tags'.
+  // Exported field_base: 'field_ding_content_tags'
   $field_bases['field_ding_content_tags'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -81,7 +80,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_list'.
+  // Exported field_base: 'field_ding_list'
   $field_bases['field_ding_list'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -111,7 +110,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_ding_list_permission'.
+  // Exported field_base: 'field_ding_list_permission'
   $field_bases['field_ding_list_permission'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -138,7 +137,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_ding_list_permissions'.
+  // Exported field_base: 'field_ding_list_permissions'
   $field_bases['field_ding_list_permissions'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -175,7 +174,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_ding_list_status'.
+  // Exported field_base: 'field_ding_list_status'
   $field_bases['field_ding_list_status'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -203,7 +202,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_ding_list_user'.
+  // Exported field_base: 'field_ding_list_user'
   $field_bases['field_ding_list_user'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -233,7 +232,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_element_type'.
+  // Exported field_base: 'field_element_type'
   $field_bases['field_element_type'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -263,7 +262,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_list_objects'.
+  // Exported field_base: 'field_list_objects'
   $field_bases['field_list_objects'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -304,7 +303,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_list_type'.
+  // Exported field_base: 'field_list_type'
   $field_bases['field_list_type'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -334,7 +333,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_note'.
+  // Exported field_base: 'field_note'
   $field_bases['field_note'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -363,7 +362,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_notes'.
+  // Exported field_base: 'field_notes'
   $field_bases['field_notes'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -390,7 +389,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_search_query'.
+  // Exported field_base: 'field_search_query'
   $field_bases['field_search_query'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -420,7 +419,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_search_title'.
+  // Exported field_base: 'field_search_title'
   $field_bases['field_search_title'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -449,7 +448,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_taxonomy_term'.
+  // Exported field_base: 'field_taxonomy_term'
   $field_bases['field_taxonomy_term'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -479,7 +478,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_ting_object'.
+  // Exported field_base: 'field_ting_object'
   $field_bases['field_ting_object'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -509,7 +508,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_value'.
+  // Exported field_base: 'field_value'
   $field_bases['field_value'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -538,7 +537,7 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_weight'.
+  // Exported field_base: 'field_weight'
   $field_bases['field_weight'] = array(
     'active' => 1,
     'cardinality' => 1,

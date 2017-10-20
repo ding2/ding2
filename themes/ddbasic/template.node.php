@@ -34,6 +34,19 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     }
   }
 
+  // Add updated to variables.
+  $variables['ddbasic_updated'] = format_date($variables['node']->changed, 'long');
+
+  // Modified submitted variable.
+  if ($variables['display_submitted']) {
+    $variables['submitted'] = format_date($variables['node']->changed, 'long');
+  }
+}
+
+/**
+ * Implememnts template_process_node().
+ */
+function ddbasic_process_node(&$variables, $hook) {
   // For search result view mode move title into left col. group.
   if (isset($variables['content']['group_right_col_search'])) {
     $variables['content']['group_right_col_search']['title'] = array(
@@ -50,14 +63,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
       '#suffix' => '</h2>',
     );
   }
-
-  // Add updated to variables.
-  $variables['ddbasic_updated'] = format_date($variables['node']->changed, 'long');
-
-  // Modified submitted variable.
-  if ($variables['display_submitted']) {
-    $variables['submitted'] = format_date($variables['node']->changed, 'long');
-  }
 }
 
 /**
@@ -66,8 +71,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 function ddbasic_preprocess__node__ding_news(&$variables) {
 
   $variables['news_submitted'] = format_date($variables['created'], 'ding_date_only_version2');
-  $variables['news_full_submitted'] = format_date($variables['created'], 'ding_date_and_time');
-  $variables['news_full_changed'] = format_date($variables['changed'], 'ding_date_and_time');
+
   switch ($variables['view_mode']) {
     case 'full':
       array_push($variables['classes_array'], 'node-full');
@@ -130,7 +134,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 
   $price = field_get_items('node', $variables['node'], 'field_ding_event_price');
   if (!empty($price)) {
-    $variables['event_price'] = $price[0]['value'] . ' kr.';
+    $variables['event_price'] = $price[0]['value'] . ' ' . variable_get('ding_event_currency_type', 'Kr');
   }
   else {
     $variables['event_price'] = t('Free');
@@ -231,6 +235,9 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           ));
         }
 
+        if (!empty($location)) {
+          $variables['content']['group_left']['og_group_ref']['#access'] = FALSE;
+        }
       }
       break;
   }
@@ -242,27 +249,26 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 function ddbasic_preprocess__node__ding_campaign(&$variables) {
   $type = ding_base_get_value('node', $variables['node'], 'field_camp_settings', 'value');
   $image_uri = ding_base_get_value('node', $variables['node'], 'field_camp_image', 'uri');
-  $image_style = "crop_22_9";
+  $image_style = "ding_full_width";
   $image_url = image_style_url($image_style, $image_uri);
-  $attributes = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'attributes');
   $variables['type'] = drupal_html_class($type);
-  $variables['image'] = '<img src="' . $image_url . '">';
   $variables['background'] = ($type == 'text_on_image' ? 'style="background-image: url(' . $image_url . ');"' : " ");
-  $variables['link'] = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'url');
-  $variables['link_attr'] = isset($attributes['target']) ? $variables['link_attr'] = $attributes['target'] : "";
+  $variables['link'] = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'value');
+  $variables['target'] = ding_base_get_value('node', $variables['node'], 'field_camp_new_window') ? '_blank' : '';
   $variables['panel_style'] = drupal_html_class($variables['elements']['#style']);
 
   if (isset($type)) {
     switch ($type) {
       case 'image_and_text':
-        $image_style = "crop_16_9";
-        $image_url = image_style_url($image_style, $image_uri);
         $variables['image'] = '<div class="ding-campaign-image" style="background-image: url(' . $image_url . '"></div>';
       break;
       case 'image':
-        $image_style = "crop_22_9";
-        $image_url = image_style_url($image_style, $image_uri);
-        $variables['image'] = '<img class="ding-campaign-image" src="' . $image_url . '">';
+        $variables['image'] = theme('image_style',array(
+            'style_name' => "ding_full_width",
+            'path' => $image_uri,
+            'attributes' => array('class' => 'ding-campaign-image')
+          )
+        );
       break;
     }
   }

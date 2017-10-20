@@ -87,9 +87,8 @@ function ding_entity_rating_add_to_list_callback($entity, $rating) {
     // Trigger log-in (the link will be triggered on success).
     $commands[] = ajax_command_ding_user_authenticate('');
   }
-  elseif (!ding_user_is_provider_user($user)) {
-    // Error not library user.
-    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only provider users can rate materials.') . '</p>');
+  elseif (!user_access('use personalisation')) {
+    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t("You don't have permissions to rate materials.") . '</p>');
   }
   else {
     if ($rating > 0) {
@@ -284,6 +283,7 @@ function template_preprocess_ding_entity_rating_display(&$variables) {
   // Add styling and javascript.
   // Since we don't use render here, we attach them old fashioned way.
   drupal_add_library('system', 'drupal.ajax');
+  drupal_add_library('system', 'ui.widget');
   $module_path = drupal_get_path('module', 'ding_entity_rating');
   drupal_add_css($module_path . '/css/ding_entity_rating.css');
   drupal_add_js($module_path . '/js/ding_entity_rating.js');
@@ -591,10 +591,13 @@ function ding_entity_rating_frontpage_submit($form, $form_state) {
  */
 function ding_entity_rating_preprocess_material_item(&$variables) {
   if (isset($variables['element']['#loan'])) {
-    $variables['information']['ding_entity_rating'] = array(
-      'label' => t('Rate'),
-      'data' => theme('ding_entity_rating_display', array('entity' => $variables['element']['#loan']->entity)),
-      'class' => 'class',
-    );
+    $entity = $variables['element']['#loan']->entity;
+    if (is_object($entity) && !empty($entity->reply)) {
+      $variables['information']['ding_entity_rating'] = array(
+        'label' => t('Rate'),
+        'data' => theme('ding_entity_rating_display', array('entity' => $variables['element']['#loan']->entity)),
+        'class' => 'rating',
+      );
+    }
   }
 }

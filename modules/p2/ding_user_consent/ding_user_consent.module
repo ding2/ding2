@@ -91,7 +91,7 @@ function ding_user_consent_callback($ajax, $id, $set) {
   }
 
   if ($ajax) {
-    $commands[] = ajax_command_replace('.ding-user-consent-set .choice', $output);
+    $commands[] = ajax_command_ding_popup('ding_user_consent', t('Consent'), '<p>' . $output . '</p>', array('refresh' => TRUE));
     ajax_deliver(array('#type' => 'ajax', '#commands' => $commands));
   }
   else {

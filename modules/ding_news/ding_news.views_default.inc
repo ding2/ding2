@@ -225,12 +225,16 @@ function ding_news_views_default_views() {
     'news_category' => 'news_category',
   );
   $handler->display->display_options['arguments']['tid']['validate_options']['type'] = 'convert';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 0;
+  $handler->display->display_options['filters']['status']['group'] = 1;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
@@ -239,10 +243,12 @@ function ding_news_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_news' => 'ding_news',
   );
+  $handler->display->display_options['filters']['type']['group'] = 1;
 
   /* Display: News list (frontpage) */
   $handler = $view->new_display('panel_pane', 'News list (frontpage)', 'ding_news_frontpage_list');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['css_class'] = 'grid-medium';
   $handler->display->display_options['defaults']['use_more'] = FALSE;
   $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['defaults']['use_more_always'] = FALSE;
@@ -1389,7 +1395,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['use_more_text'] = 'See all news';
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
-  $handler->display->display_options['link_url'] = 'nyheder';
+  $handler->display->display_options['link_url'] = 'temaer/!1/nyheder';
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '6';
@@ -1802,62 +1808,6 @@ function ding_news_views_default_views() {
     ),
   );
 
-  /* Display: News list (same tag) */
-  $handler = $view->new_display('panel_pane', 'News list (same tag)', 'ding_news_list_same_tag');
-  $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Related news';
-  $handler->display->display_options['defaults']['use_more'] = FALSE;
-  $handler->display->display_options['use_more'] = TRUE;
-  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
-  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_always'] = TRUE;
-  $handler->display->display_options['defaults']['use_more_text'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'See all news';
-  $handler->display->display_options['defaults']['link_display'] = FALSE;
-  $handler->display->display_options['link_display'] = 'custom_url';
-  $handler->display->display_options['link_url'] = 'nyheder';
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '6';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['empty'] = FALSE;
-  $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: Content: Author */
-  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
-  $handler->display->display_options['relationships']['uid']['table'] = 'node';
-  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content id: Filter the node it self out */
-  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['table'] = 'node';
-  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['ui_name'] = 'Content id: Filter the node it self out';
-  $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'node';
-  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['nid']['not'] = TRUE;
-  /* Contextual filter: Content: Tags (field_ding_news_tags) */
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['id'] = 'field_ding_news_tags_tid';
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['table'] = 'field_data_field_ding_news_tags';
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['field'] = 'field_ding_news_tags_tid';
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_type'] = 'taxonomy_tid';
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_options']['term_page'] = FALSE;
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_options']['node'] = TRUE;
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_options']['anyall'] = '+';
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_options']['limit'] = TRUE;
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['default_argument_options']['vocabularies'] = array(
-    'ding_content_tags' => 'ding_content_tags',
-  );
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_ding_news_tags_tid']['break_phrase'] = TRUE;
-  $handler->display->display_options['pane_category']['name'] = 'News panes';
-  $handler->display->display_options['pane_category']['weight'] = '0';
-
   /* Display: News Image Crop list */
   $handler = $view->new_display('page', 'News Image Crop list', 'ding_news_imagecrop_list');
   $handler->display->display_options['defaults']['title'] = FALSE;
@@ -2031,8 +1981,6 @@ function ding_news_views_default_views() {
     t('.'),
     t('Groups panes'),
     t('News list (groups)'),
-    t('News list (same tag)'),
-    t('Related news'),
     t('News Image Crop list'),
     t('News Image Crop Overview'),
     t('Items per page'),

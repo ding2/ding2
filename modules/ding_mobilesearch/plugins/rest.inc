@@ -18,7 +18,7 @@
  */
 function ding_mobilesearch_rest_service_call($method, $body = array()) {
   $service_url = variable_get('mobilesearch_rest_url', '');
-  $agency_id = variable_get('ting_agency', NULL);
+  $agency_id = variable_get('mobilesearch_rest_agency_id', NULL);
   $key = variable_get('mobilesearch_rest_key', NULL);
   $debug = variable_get('mobilesearch_rest_debug', FALSE);
   if (empty($service_url) || empty($agency_id) || empty($key)) {
@@ -104,7 +104,7 @@ function ding_mobilesearch_rest_node_agency_diff($node, $original = NULL, $op = 
     'to_delete' => array(),
   );
 
-  $agency_id = variable_get('ting_agency', NULL);
+  $agency_id = variable_get('mobilesearch_rest_agency_id', NULL);
   if ($agency_id && $op) {
     switch ($op) {
       case 'hook_node_insert':
@@ -132,14 +132,22 @@ function ding_mobilesearch_rest_config_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Service URL'),
     '#default_value' => variable_get('mobilesearch_rest_url', ''),
-    '#description' => t('URL to service (trailing slash needed).'),
+    '#description' => t('URL to CMS Content service (trailing slash needed), e.g. https://cmscontent.dbc.dk/'),
     '#required' => TRUE,
   );
 
+  $ting_agency = variable_get('ting_agency', '');
+  $agency_id = variable_get('mobilesearch_rest_agency_id', '');
+  if ($ting_agency != $agency_id) {
+    drupal_set_message(t('T!NG agency ID %ting_agency does not match REST plugin agency ID %agency_id', array(
+      '%ting_agency' => $ting_agency,
+      '%agency_id' => $agency_id,
+    )), 'warning');
+  }
   $form['mobilesearch_rest_agency_id'] = array(
     '#type' => 'textfield',
-    '#title' => t('Ting Agency ID'),
-    '#default_value' => variable_get('ting_agency', NULL),
+    '#title' => t('Agency ID'),
+    '#default_value' => variable_get('mobilesearch_rest_agency_id', $ting_agency),
     '#attributes' => array('disabled' => TRUE),
     '#required' => TRUE,
   );
@@ -191,13 +199,13 @@ function ding_mobilesearch_rest_node_submit($form, &$form_state) {
 
       $config = array(
         'mobilesearch_rest_url' => variable_get('mobilesearch_rest_url', ''),
-        'mobilesearch_rest_agency_id' => variable_get('ting_agency', NULL),
+        'mobilesearch_rest_agency_id' => variable_get('mobilesearch_rest_agency_id', NULL),
         'mobilesearch_rest_key' => variable_get('mobilesearch_rest_key', NULL),
       );
       $test_result = ding_mobilesearch_rest_test_service($config);
       if (!$test_result) {
         drupal_set_message(t('Problem connecting to the REST service. We have unchecked your "Push to Mongo" flag. Please check your !settings.',
-          array('!settings' => l(t('settings'), 'admin/config/mobilesearch/content-export/plugin'))), 'warning');
+          array('!settings' => l(t('settings'), 'admin/config/ding/mobilesearch/content-export/plugin'))), 'warning');
         global $user;
         $flag = flag_get_flag('push_to_mongo');
         $flag->remember_content($node->nid, $node);
@@ -259,8 +267,9 @@ function ding_mobilesearch_rest_exec($op, $entity_type, $entity) {
     }
     foreach ($diff['to_update'] as $agency_id) {
       $request_body['agency'] = $agency_id;
+      // @TODO: Unknown purpose to send two calls.
       $response = ding_mobilesearch_rest_service_call('addContent', $request_body);
-      if (!$response || (is_object($response['response']) && $response['response']->status == FALSE)) {
+      if (!$response || (isset($response['status']) && $response['status'] === FALSE)) {
         ding_mobilesearch_rest_service_call('updateContent', $request_body);
       }
     }

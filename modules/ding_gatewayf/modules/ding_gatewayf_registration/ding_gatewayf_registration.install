@@ -11,3 +11,27 @@ function ding_gatewayf_registration_uninstall() {
   // Remove configuration variable.
   variable_del('ding_gatewayf_registration');
 }
+
+/**
+ * Implements hook_install().
+ */
+function ding_gatewayf_registration_install() {
+  ding_gatewayf_registration_set_detault_link();
+}
+
+/**
+ * Set default user signup link.
+ */
+function ding_gatewayf_registration_update_7001() {
+  ding_gatewayf_registration_set_detault_link();
+}
+
+/**
+ * Set default user signup link.
+ */
+function ding_gatewayf_registration_set_detault_link() {
+  $ding_user_signup_link = variable_get('ding_user_signup_link', FALSE);
+  if (empty($ding_user_signup_link)) {
+    variable_set('ding_user_signup_link', '/' . DING_GATEWAYF_REGISTRATION_INFORMATION_URL);
+  }
+}

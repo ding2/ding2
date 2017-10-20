@@ -3,6 +3,26 @@
 
 @import '../../base.scss';
 
+.content-wrapper {
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    background-color: $grey;
+  }
+  input[type=submit] {
+    width: auto;
+    margin-bottom: 20px;
+  }
+  .form-item {
+    max-width: 400px;
+
+    // Mobile
+    @include media($mobile) {
+      max-width: 100%;
+    }
+  }
+}
+
 .page-user {
   input[type="checkbox"],
   input[type="radio"] {
@@ -65,11 +85,6 @@
   .webform-client-form {
     margin-bottom: 30px;
   }
-  input[type="text"],
-  input[type="password"],
-  input[type="email"] {
-    background-color: $grey-light;
-  }
 }
 
 .form-item-search-block-form {
@@ -82,5 +97,11 @@
     &::-ms-clear {
       display: none;
     }
+  }
+}
+
+.panels-ipe-form-container {
+  input[type=submit] {
+    width: auto;
   }
 }

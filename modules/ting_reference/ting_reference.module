@@ -331,15 +331,23 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
         // Get endpoint information.
         $entity_id = $item['value']->endpoints[$langcode][0]['entity_id'];
         $entity_type = $item['value']->endpoints[$langcode][0]['entity_type'];
+        $conditions = array();
 
         // @TODO: make view mode configurable.
         // Load the entity and build it.
-        $entities = entity_load($entity_type, array($entity_id));
-        $build = entity_view($entity_type, $entities, 'search_result');
+        if ($entity_type === 'node') {
+          $conditions['status'] = NODE_PUBLISHED;
+        }
 
-        // Don't show links. Should be an option.
-        unset($build['links']);
-        $element[] = $build;
+        $entities = entity_load($entity_type, array($entity_id), $conditions);
+
+        if (!empty($entities)) {
+          $build = entity_view($entity_type, $entities, 'search_result');
+
+          // Don't show links. Should be an option.
+          unset($build['links']);
+          $element[] = $build;
+        }
       }
       break;
   }

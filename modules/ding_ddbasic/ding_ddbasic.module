@@ -117,3 +117,10 @@ function ding_ddbasic_module_implements_alter(&$implementations, $hook) {
     $implementations['ding_ddbasic'] = $group;
   }
 }
+
+/**
+ * Implements hook_field_group_pre_render().
+ */
+function ding_ddbasic_field_group_pre_render(&$element, $group, &$form) {
+  $group->format_settings['instance_settings']['classes'] .= ' field-group-format ' . drupal_html_class($group->group_name);
+}
