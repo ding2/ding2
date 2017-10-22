@@ -490,12 +490,6 @@ libraries[psr7][download][url] = "https://github.com/guzzle/psr7.git"
 libraries[psr7][download][tag] = "1.3.1"
 libraries[psr7][destination] = "libraries"
 
-libraries[slick][download][type] = "git"
-libraries[slick][download][url] = "git@github.com:kenwheeler/slick.git"
-libraries[slick][download][branch] = "master"
-libraries[slick][directory_name] = "slick"
-libraries[slick][destination] = "libraries"
-
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][download][branch] = "master"
@@ -520,6 +514,8 @@ libraries[slick][download][type] = "get"
 libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.8.0.tar.gz
 libraries[slick][directory_name] = "slick"
 libraries[slick][destination] = "libraries"
+; Fix variableWitdh and white space/empty slides at the end.
+; See https://github.com/kenwheeler/slick/pull/2635
 libraries[slick][patch][] = "https://patch-diff.githubusercontent.com/raw/kenwheeler/slick/pull/2635.diff"
 
 libraries[html5shiv][download][type] = "get"
