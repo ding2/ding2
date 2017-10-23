@@ -153,7 +153,7 @@
         $.ajax('/ding_entity_rating/get', {
           data: {ids: rating_ids},
           dataType: 'json',
-          type: rating_ids.length < Drupal.settings.ding_entity_rating_get_limit ? 'get' : 'post',
+          type: rating_ids.length < Drupal.settings.ding_entity_rating.get_limit ? 'get' : 'post',
           success: function (data) {
             for (var i in data) {
               if (data[i] !== false) {
