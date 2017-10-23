@@ -16,6 +16,8 @@ function theme_ding_ddbasic_opening_hours_week($variables) {
  * Preprocessor for ding_ddbasic_opening_hours_week.
  */
 function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
+  module_load_include('inc', 'opening_hours', 'includes/opening_hours.pages');
+
   $timespan = array(
     strtotime('last monday', strtotime('+1 day')),
     strtotime('next sunday', strtotime('-1 day')),
@@ -34,6 +36,7 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
     date('Y-m-d', $timespan[0]),
     date('Y-m-d', $timespan[1])
   );
+  $instances = array_filter($instances, '_opening_hours_exclude_blocked');
 
   // Add closed days.
   for ($day = $timespan[0]; $day <= $timespan[1]; $day += DING_DDBASIC_OPENING_HOURS_ONE_DAY) {
