@@ -31,7 +31,7 @@
 
   Drupal.behaviors.ting_carousel = {
     attach: function(context, settings) {
-      $('.ting-carousel, .ting-carousel-field > .field-items', context).each(function (delta, carousel) {
+      $('.ting-carousel:not(.slick-initialized), .ting-carousel-field > .field-items', context).each(function (delta, carousel) {
         var $carousel = $(carousel);
 
         $carousel.slick(ting_carousel_slick_options);
