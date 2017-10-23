@@ -121,10 +121,12 @@ function ding_serendipity_ajax_callback() {
     $tmp[] = $item;
   }
 
-  $rendered_content = theme('ting_carousel', array(
-    'items' => $tmp,
-    'item_type' => 'items',
-  ));
+  $carousel = array(
+    '#type' => 'ding_carousel',
+    '#items' => $tmp,
+  );
+  $rendered_content = drupal_render($carousel);
+
   $commands = array();
   $commands[] = ajax_command_html('.pane-serendipity-ting-object .pane-content', $rendered_content);
 
@@ -376,7 +378,8 @@ function ding_serendipity_validate_materials(array $keys) {
 
   $sanitized = array();
 
-  // Lookup the materials in Broenden to filter out local missing materials.
+  // Lookup the materials in the data well to filter out local missing
+  // materials.
   $query = implode(" OR ", $keys);
 
   // Also add the audience to the query, if the user has a clear audience.
@@ -387,13 +390,13 @@ function ding_serendipity_validate_materials(array $keys) {
 
   try {
     $result = ding_serendipity_do_search($query, array('limit' => count($keys)));
+
+    foreach ($result as $item) {
+      $sanitized[] = $item['id'];
+    }
   }
   catch (Exception $e) {
     watchdog_exception('ding_serendipity_sanitize', $e);
-  }
-
-  foreach ($result as $item) {
-    $sanitized[] = $item['id'];
   }
 
   // Filter out materials in the user's lists.

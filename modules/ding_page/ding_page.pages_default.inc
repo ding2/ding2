@@ -141,7 +141,7 @@ function ding_page_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'title',
-      'formatter' => 'ting_carousel',
+      'formatter' => 'ding_carousel',
       'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,

@@ -64,7 +64,6 @@ function ddbasic_preprocess_html(&$vars) {
   }
 
   // Include the libraries.
-  libraries_load('slick');
   libraries_load('jquery.imagesloaded');
   libraries_load('html5shiv');
   libraries_load('masonry');
@@ -997,23 +996,16 @@ function ddbasic_preprocess_form_element(&$variables) {
 }
 
 /**
- * Preprocess ting_searchj_carousel.
+ * Preprocess ding_carousel.
  */
-function ddbasic_preprocess_ting_search_carousel(&$variables) {
+function ddbasic_preprocess_ding_carousel(&$variables) {
   // Add ajax to make reserve links work.
   drupal_add_library('system', 'drupal.ajax');
 
-  // The search carousel doesn't use the standard Drupal ajax API so it doesn't
-  // automatically include the ting-covers.js.
+  // The ding carousel's do not use the standard Drupal ajax API so it doesn't
+  // automatically include availability and covers handling.
+  drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js');
   drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
-}
-
-/**
- * Implements hook_preprocess_ting_search_carousel_collection().
- */
-function ddbasic_preprocess_ting_search_carousel_collection(&$variables) {
-  $object = ding_entity_load($variables['collection']->id, 'ting_object');
-  $variables['content'] = ting_object_view($object, 'teaser');
 }
 
 /**
@@ -1229,7 +1221,7 @@ function ddbasic_select($variables) {
   element_set_attributes($element, array('id', 'name', 'size'));
   _form_set_class($element, array('form-select'));
 
-  if ($variables['element']['#attributes']['multiple'] == 'multiple') {
+  if (isset($variables['element']['#attributes']['multiple']) && $variables['element']['#attributes']['multiple'] == 'multiple') {
     return '<div class="select-wrapper select-wrapper-multiple"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
   } else {
     return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
@@ -1242,19 +1234,6 @@ function ddbasic_select($variables) {
  */
 function ddbasic_libraries_info() {
   return array(
-    'slick' => array(
-      'name' => 'Slick',
-      'vendor url' => 'http://kenwheeler.github.io/slick/',
-      'download url' => 'https://github.com/kenwheeler/slick/archive/1.6.0.zip',
-      'version arguments' => array(
-        'file' => 'slick/slick.min.js',
-        'pattern' => '/Version:\s([0-9a-zA-Z\.-]+)/',
-      ),
-      'files' => array(
-        'css' => array('slick/slick.css'),
-        'js' => array('slick/slick.min.js'),
-      ),
-    ),
     'html5shiv' => array(
       'name' => 'HTML5 Shiv',
       'vendor url' => 'https://github.com/aFarkas/html5shiv',

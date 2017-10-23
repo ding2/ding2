@@ -18,7 +18,7 @@
       <?php print $title; ?>
     </div>
 <?php endif; ?>
-  <div class="view-elements<?php if (!$no_masonry == TRUE): ?> js-masonry-view masonry-view<?php endif; ?>">
+  <div class="view-elements<?php if (isset($no_masonry) && !$no_masonry == TRUE): ?> js-masonry-view masonry-view<?php endif; ?>">
     <div class="view-elements-inner">
       <?php foreach ($rows as $id => $row): ?>
         <div<?php if ($classes_array[$id]) { print ' class="' . $classes_array[$id] .'"';  } ?>>

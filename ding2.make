@@ -511,9 +511,12 @@ libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
 
 libraries[slick][download][type] = "get"
-libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.6.0.zip
+libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.8.0.tar.gz
 libraries[slick][directory_name] = "slick"
 libraries[slick][destination] = "libraries"
+; Fix variableWitdh and white space/empty slides at the end.
+; See https://github.com/kenwheeler/slick/pull/2635
+libraries[slick][patch][] = "https://patch-diff.githubusercontent.com/raw/kenwheeler/slick/pull/2635.diff"
 
 libraries[html5shiv][download][type] = "get"
 libraries[html5shiv][download][url] = https://github.com/aFarkas/html5shiv/archive/3.7.3.zip

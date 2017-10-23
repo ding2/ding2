@@ -815,16 +815,6 @@ ul.tabs.primary {
     .view-ding-event & {
       padding-bottom: 70px;
     }
-    // On Ting carousel
-    @at-root .ting-carousel#{&} {
-      margin: 0 -13px;
-    }
-  }
-  // On Ting carousel
-  @at-root .ting-carousel#{&} {
-    .slick-slide {
-      margin: 0 13px;
-    }
   }
   .slick-arrow {
     @include transition(
