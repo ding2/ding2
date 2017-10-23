@@ -1,0 +1,86 @@
+/* ==========================================================================
+   ding carousel styling
+   ========================================================================== */
+
+/* Go away on really small screens. */
+@media (max-width: 300px) {
+  .ding-tabbed-carousel,
+  .ding-carousel,
+  .carousel-tabs {
+    display: none;
+  }
+}
+
+
+.ding-carousel.hidden {
+  /* Hide secondary carousels. */
+  display: none;
+}
+
+/* Previous and next buttons
+   ========================================================================== */
+.ding-carousel .slick-arrow {
+  color: transparent;
+  border: none;
+  outline: none;
+  background: transparent;
+  background-image: url('../images/arrows.png');
+  height: 55px;
+  overflow: hidden;
+  margin-top: -27px;
+  position: absolute;
+  direction: ltr;
+  text-indent: -1000px;
+  top: 50%;
+  width: 55px;
+  z-index: 1;
+}
+
+.ding-carousel .slick-prev {
+  left: 20px;
+}
+
+.ding-carousel .slick-next {
+  background-position: right 0;
+  right: 20px;
+}
+
+/* Carousel content.
+   ========================================================================== */
+.ding-carousel {
+  /* Hide the overflow of the extra wide ul below. */
+  overflow: hidden;
+}
+
+.ding-carousel ul {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* Set the width to ensure (within reason) that all covers are rendered on one
+   * line, let the parent clip. It is restored to 100% by the JS before
+   * activating the carousel. */
+  width: 3000px;
+}
+
+.ding-carousel li {
+  float: left;
+  width: 200px;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Carousel tabs
+   ========================================================================== */
+.carousel-tabs ul {
+  margin: 0;
+  position: relative;
+  text-align: center;
+}
+
+.carousel-tabs ul li {
+  display: table-cell;
+  vertical-align: top;
+  text-align: center;
+}
