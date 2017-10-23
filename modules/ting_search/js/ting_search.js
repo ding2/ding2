@@ -6,7 +6,14 @@
     $('input[name="search_block_form"]').keydown(function(event) {
       // When enter is hit in the search form.
       if (event.which === 13) {
-        Drupal.TingSearchOverlay();
+        /**
+         * A timeout is added, due to a strange bug in IE10
+         * The spinner CSS animation didnt start.
+         */
+        setTimeout(function(){
+          Drupal.TingSearchOverlay();
+        }, 100);
+        
       }
     });
 
