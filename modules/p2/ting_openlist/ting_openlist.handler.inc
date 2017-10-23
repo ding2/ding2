@@ -63,6 +63,19 @@ function ting_openlist_handler_update_user($account) {
 }
 
 /**
+ * Reset an openlist user.
+ *
+ * @param object $account
+ *   The user account to reset.
+ */
+function ting_openlist_handler_reset_user($account) {
+  $user_identifier = ting_openlist_user_identifier($account);
+  return ting_openlist_request('callModule', array('ResetUser', 'reset', array(
+    $user_identifier,
+  )));
+}
+
+/**
  * Create a list.
  *
  * @param string $user_identifier
