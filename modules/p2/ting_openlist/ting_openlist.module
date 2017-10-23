@@ -440,15 +440,15 @@ function ting_openlist_user_identifier($account = NULL) {
           $ids[$account->uid] = ting_openlist_create_identifier($creds['name']);
         }
         else {
-          // Standard drupal users (not loaners) will get the drupal private key
+          // Standard drupal users (not loaners) will get the Ding private key
           // prepended so they're unique across sites.
-          $ids[$account->uid] = ting_openlist_create_identifier(drupal_get_private_key() . $account->name);
+          $ids[$account->uid] = ting_openlist_create_identifier(ding_user_get_private_key() . $account->name);
         }
       }
       catch (Exception $e) {
-        // Standard drupal users (not loaners) will get the drupal private key
+        // Standard drupal users (not loaners) will get the Ding private key
         // prepended so they're unique across sites.
-        $ids[$account->uid] = ting_openlist_create_identifier(drupal_get_private_key() . $account->name);
+        $ids[$account->uid] = ting_openlist_create_identifier(ding_user_get_private_key() . $account->name);
       }
     }
   }
