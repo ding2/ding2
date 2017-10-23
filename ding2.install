@@ -171,6 +171,25 @@ function ding2_translation_update() {
 }
 
 /**
+ * Delete {system} records for a module.
+ *
+ * This function is to be used when removing a module from the code-base. It's
+ * needed because uninstalling a module that don't exists in code is not
+ * possible.
+ *
+ * Remember to run the clean-up that the module had in it's hook_uninstall
+ * before calling this function.
+ *
+ * @see https://www.drupal.org/node/2487215
+ */
+function ding2_remove_module($module) {
+  db_delete('system')
+    ->condition('name', $module)
+    ->condition('type', 'module')
+    ->execute();
+}
+
+/**
  * Enable new shortcuts.
  */
 function ding2_update_7000() {
@@ -505,12 +524,7 @@ function ding2_update_7040() {
 
 /**
  * Delete {system} records for ting_carousel modules.
- *
- * @see https://www.drupal.org/node/2487215
  */
 function ding2_update_7041() {
-    db_delete('system')
-    ->condition('name', 'ting_carousel')
-    ->condition('type', 'module')
-    ->execute();
+  ding2_remove_module('ting_carousel');
 }
