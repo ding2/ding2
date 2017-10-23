@@ -60,7 +60,7 @@ function template_preprocess_ding_tabbed_carousel(&$vars) {
 
   $vars['tabs'] = array();
   foreach ($tabbed_carousel['#tabs'] as $index => $tab) {
-    if ($index === 0) {
+    if ($index !== 0) {
       $tab['#hidden'] = TRUE;
     }
     $vars['tabs'][] = $tab;
