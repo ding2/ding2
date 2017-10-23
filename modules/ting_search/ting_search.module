@@ -102,6 +102,7 @@ function ting_search_search_info() {
 function ting_search_ding_facetbrowser() {
   $results = new stdClass();
   $results->show_empty = FALSE;
+  // TODO BBS-SAL: Should be an TingSearchResultInterface instead.
   $search_result = drupal_static('ting_search_results');
   if ($search_result) {
     $results->facets = ($search_result instanceof TingClientSearchResult) ? $search_result->facets : array();
@@ -165,6 +166,7 @@ function ting_search_get_extended_actions() {
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   // Define advanced fields.
+  // TODO: BBS-SAL - is this form actually exposed?
   $advanced_fields = array(
     'term.creator' => array(
       'key' => 'creator',
@@ -205,7 +207,11 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     array_shift($parts);
     $type = array_shift($parts);
     $search_query = implode('/', $parts);
+
+    // Detect "advanced" parts of the query and split it out into separate
+    // parts.
     $indexes = ting_search_extract_keys($search_query, array_keys($advanced_fields));
+    // The main free-text part of the query can be found under the 'q' key.
     $search_query = $indexes['q'];
     unset($indexes['q']);
 
@@ -407,6 +413,7 @@ function ting_search_conditions_callback($keys) {
 
 /**
  * Implements hook_search_execute().
+ * TODO BBS-SAL: port
  */
 function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   // Use static variable to ensure that this is only executed once.
@@ -447,6 +454,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         $options['sort'] = $conditions['sort'];
       }
 
+      //TODO BBS-SAL: Port to sal.
       module_load_include('client.inc', 'ting');
       $search_result = ting_do_search($query, $page + 1, $results_per_page, $options);
       if (isset($search_result->collections)) {
@@ -768,6 +776,7 @@ function ting_search_block_view($delta = '') {
 
       // Only display form if there are any search results.
       $search_result = drupal_static('ting_search_results');
+      // TODO BBS-SAL: port
       if (isset($search_result->numTotalObjects) && $search_result->numTotalObjects > 0) {
         $block['content'] = drupal_get_form('ting_search_sort_form');
       }
@@ -814,6 +823,7 @@ function ting_search_sort_form($form_state) {
  *   Returns an array of sort options.
  */
 function ting_search_sort_options() {
+  // TODO BBS-SAL: Where is the machine-names used?
   $options = array(
     '' => t('Ranking'),
     'title_ascending' => t('Title (Ascending)'),
@@ -875,6 +885,7 @@ function ting_search_records_per_page_controls_content() {
   $output = &drupal_static(__FUNCTION__, array());
 
   // Don't show anything if the search result is empty.
+  // TODO BBS-SAL: port.
   if (!empty($search_result->collections) && empty($output)) {
     // Get the default results per page.
     $def_size = variable_get('ting_search_results_per_page', 10);
@@ -947,6 +958,8 @@ function ting_search_submit($form, &$form_state) {
 
   }
 
+  // TODO BBS-SAL: Should this come from the provider? Its also present in the
+  // alter for the form.
   $extended_fields = array(
     'creator' => array(
       'index' => 'term.creator',
@@ -1039,6 +1052,8 @@ function ting_search_submit($form, &$form_state) {
  * Make sure string is strict cql
  */
 function _ting_search_quote($string) {
+  // TODO BBS-SAL, move into provider. Determine whether this can be done on
+  // fragments of the query, or whether it has to be the entire query.
   $cqlDoc = new TingSearchCqlDoctor($string);
   return $cqlDoc->string_to_cql($string);
 }
