@@ -192,6 +192,38 @@ function ddbasic_menu_tree__user_menu($vars) {
 }
 
 /**
+ * Implements hook_preprocess_views_view_field().
+ */
+function ddbasic_preprocess_views_view_field(&$vars) {
+  $view = $vars['view'];
+
+  switch ($view->name . ' ' . $view->current_display . ' ' . $vars['field']->field) {
+    case 'tags_list ding_content_tags type':
+      $taxonomy_term = taxonomy_term_load($view->args[0]);
+
+      switch ($vars['row']->node_type) {
+        case 'ding_news':
+          $type = t('News', array(), array('context' => 'pluralis'));
+          break;
+
+        case 'ding_event':
+          $type = t('Events');
+          break;
+
+        default:
+          $type = $vars['output'];
+          break;
+      }
+
+      $vars['output'] = t('@type in the category @term', array(
+        '@type' => $type,
+        '@term' => $taxonomy_term->name,
+      ));
+      break;
+  }
+}
+
+/**
  * Implements hook_preprocess_views_view_unformatted().
  *
  * Overwrite views row classes.
