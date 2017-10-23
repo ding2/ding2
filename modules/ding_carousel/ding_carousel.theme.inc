@@ -10,10 +10,7 @@
  */
 function template_preprocess_ding_carousel(&$vars) {
   // We need to load the non-minified version as with patch the library.
-  if (($library = libraries_load('slick', 'non-minified')) && !$library['installed']) {
-    drupal_set_message(t('Slick library not loaded'));
-    watchdog('ding_carousel', $library['error message'], array(), WATCHDOG_ERROR);
-  }
+  libraries_load('slick', 'non-minified');
 
   $carousel = $vars['carousel'];
 
