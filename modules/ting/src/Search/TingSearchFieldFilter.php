@@ -14,7 +14,7 @@ namespace Ting\Search;
  *
  * @package Ting\Search
  */
-class TingSearchFieldFilter implements BooleanStatementInterface {
+class TingSearchFieldFilter {
 
   const BOOLEAN_FIELD_VALUE = self::class . '-MISSING-VALUE';
 
@@ -41,17 +41,6 @@ class TingSearchFieldFilter implements BooleanStatementInterface {
    */
   protected $value;
 
-
-  /**
-   * The logic operator used to evaluate the field evaluation against the
-   * previous statement.
-   *
-   * @see BooleanStatementInterface::OP_*
-   *
-   * @var string
-   */
-  protected $logicOperator;
-
   /**
    * TingSearchFieldFilter constructor.
    *
@@ -61,31 +50,19 @@ class TingSearchFieldFilter implements BooleanStatementInterface {
    *   The field name.
    *
    * @param mixed|TingSearchFieldFilter::BOOLEAN_FIELD_VALUE $value
-   *   Field value, if omitted or set to TingSearchFieldFilter::BOOLEAN_FIELD_VALUE
-   *   the field is treated as a boolean field that will be compared without an
-   *   operator Eg:
+   *   Field value, if omitted or set to
+   *   TingSearchFieldFilter::BOOLEAN_FIELD_VALUE the field is treated as a
+   *   boolean field that will be compared without an operator Eg:
    *   (myboolfield AND anotherfield=123)
-   *
    * @param string $operator
    *   Operator to use when comparing the field instance with a value.
-   *
-   * @param string $logic_operator
-   *   Operator to use when comparing the evaluated field with a previous
-   *   statement.
    */
-  public function __construct($name, $value = self::BOOLEAN_FIELD_VALUE, $operator = '=', $logic_operator = BooleanStatementInterface::OP_AND) {
+  public function __construct($name, $value = self::BOOLEAN_FIELD_VALUE, $operator = '=') {
     $this->name = $name;
     $this->operator = $operator;
-    $this->logicOperator = $logic_operator;
     $this->value = $value;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getLogicOperator() {
-    return $this->logicOperator;
-  }
 
   /**
    * Returns the name of the field.

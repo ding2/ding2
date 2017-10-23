@@ -5,6 +5,8 @@
  * This module provides serendipity functions based on user lists and loans.
  */
 
+use Ting\Search\BooleanStatementGroup;
+use Ting\Search\BooleanStatementInterface;
 use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchFieldFilter;
 
@@ -54,22 +56,22 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
     $facets = array();
 
     $field_filters = [];
-    // Extract subjects.
+    // Extract subjects, add them as filters.
     $subject = $ting_object->getSubjects();
     foreach ($subject as & $facet) {
-      $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, $facet, TingSearchFieldFilter::OP_OR);
+      $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, $facet);
     }
 
-    // Build author array.
+    // Build author array, add them as filters.
     if (count($facets) == 0) {
       $authors = $ting_object->getCreators();
       foreach ($authors as $author) {
-        $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, $author, TingSearchFieldFilter::OP_OR);
+        $field_filters[] = new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, $author);
       }
     }
 
-    // Search with only subjects.
-    $query = ting_start_query()->addFieldFilters($field_filters);
+    // Perform a search for materials with any of the subjects or authors.
+    $query = ting_start_query()->addFieldFilters($field_filters, BooleanStatementInterface::OP_OR);
 
     if (empty($query)) {
       return array();

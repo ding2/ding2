@@ -50,6 +50,8 @@ class StatementGroupRender {
    *
    * @param \Ting\Search\BooleanStatementInterface[] $statements
    *   The list of statements to render.
+   * @param string $logic_operator
+   *   A TingSearchBooleanStatementInterface::OP_* operation.
    *
    * @return string
    *   The rendered group, empty string if the group is empty.
@@ -57,8 +59,8 @@ class StatementGroupRender {
    * @throws \Exception
    *   In case the group contains invalid members.
    */
-  public function renderStatements($statements) {
-    return $this->renderGroup(new BooleanStatementGroup($statements));
+  public function renderStatements($statements, $logic_operator = BooleanStatementInterface::OP_AND) {
+    return $this->renderGroup(new BooleanStatementGroup($statements, $logic_operator));
   }
 
   /**
@@ -102,7 +104,7 @@ class StatementGroupRender {
       // Add joining logic operator if we're not at the first element.
       if ($statement_index > 0) {
         // TODO: This could be an enum.
-        $rendered_statement .= ' ' . $statement->getLogicOperator() . ' ';
+        $rendered_statement .= ' ' . $group->getLogicOperator() . ' ';
       }
 
       // We're at another group, recurse.
