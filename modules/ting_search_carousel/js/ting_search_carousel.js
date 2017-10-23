@@ -267,7 +267,9 @@
       tabs[index].offset = -1;
       _fetch(index, offset, function (data) {
         var content = $(data.content);
-        Drupal.attachBehaviors(content);
+
+        $.extend(true, Drupal.settings, data.settings);
+        Drupal.attachBehaviors(content, Drupal.settings);
 
         tabs[index].offset = data.offset;
         tabs[index].wrapper.find('.rs-title').append(data.subtitle);

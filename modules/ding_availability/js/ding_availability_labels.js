@@ -9,7 +9,7 @@
   // Cache of fetched availability information.
   Drupal.DADB = {};
 
-  Drupal.behaviors.dingAvailabilityAttach = {
+  Drupal.behaviors.dingAvailabilityLabels = {
     attach: function(context, settings) {
       var ids = [];
       var html_ids = [];
