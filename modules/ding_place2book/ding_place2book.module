@@ -485,34 +485,34 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     }
     else {
       $status = 'event-over';
-      $class = 'info';
+      $class = 'ding-place2book-info';
 
     }
 
     switch ($status) {
       case 'open':
         $data = l(t('Book a ticket'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
-        $class = 'order';
+        $class = 'ding-place2book-order';
         break;
 
       case 'closed':
         $data = t('The event is closed for admission');
-        $class = 'info';
+        $class = 'ding-place2book-info';
         break;
 
       case 'sold-out':
         $data = t('Sold out');
-        $class = 'info';
+        $class = 'ding-place2book-info';
         break;
 
       case 'upcoming':
         $data = t('Ticket sale has not yet started for this event');
-        $class = 'info';
+        $class = 'ding-place2book-info';
         break;
 
       case 'event-over':
         $data = t('The event has already taken place');
-        $class = 'info';
+        $class = 'ding-place2book-info';
         break;
     }
 
