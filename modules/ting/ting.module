@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Enables integration with Ting.
@@ -23,7 +24,6 @@ function ting_ctools_plugin_api($module, $api) {
     return array('version' => 2);
   }
 }
-
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -98,7 +98,7 @@ function ting_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
   $items['admin/config/ting/settings/general'] = array(
-    'title' => t('General settings'),
+    'title' => 'General settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
@@ -220,7 +220,7 @@ function ting_block_info() {
       'cache' => DRUPAL_CACHE_PER_PAGE,
     ),
     'ting_relation_anchors' => array(
-      'info' => t('Ting relations for material '),
+      'info' => t('Ting relations for material'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
     ),
   );
@@ -363,7 +363,6 @@ function ting_element_info() {
     ),
   );
 }
-
 
 /**
  * Implements hook_theme().
@@ -583,10 +582,15 @@ function ting_page_alter(&$page) {
       $calls_str[] = print_r($call, TRUE);
     }
 
-    watchdog('ting', 'Warning, ting_execute called @x times:<br />"@queries"', array('@x' => count($calls), '@queries' => implode('" "', $calls_str)), WATCHDOG_WARNING);
+    $vars = array(
+      '@x' => count($calls),
+      '@queries' => implode('" "', $calls_str),
+    );
+    watchdog('ting', 'Warning, ting_execute called @x times:<br />"@queries"', $vars, WATCHDOG_WARNING);
 
     if (function_exists('dpm') && user_access('access devel information')) {
       drupal_set_message(t('Warning, ting_execute called @x times.', array('@x' => count($calls))), 'error');
+      // @codingStandardsIgnoreLine
       dpm($calls, 'ting_execute queries:');
     }
   }
@@ -841,8 +845,6 @@ function ting_boost_field_element_process($element, $form_state) {
   $element['weight'] = array(
     '#title' => t('Weight'),
     '#type' => 'textfield',
-    // '#type' => 'select',
-    // '#options' => drupal_map_assoc(range(1, 10)),
     '#default_value' => (isset($element['#value']['weight'])) ? $element['#value']['weight'] : NULL,
     '#element_validate' => array('boost_weight_validate'),
   );
