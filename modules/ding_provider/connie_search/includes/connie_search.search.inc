@@ -131,3 +131,37 @@ function connie_search_search_map_common_fields() {
     TingSearchCommonFields::SUBJECT => 'facet.subject',
   ];
 }
+
+/**
+ * Constructs a TingSearchRequest based on a "reference" search query.
+ *
+ * The implementation should assume that the user has entered a string with the
+ * express purpose of finding a specific material. That is, if the string seems
+ * to match the pattern of a unique material ID, the query should be constructed
+ * to look up by id.
+ *
+ * The provider can also choose to support advanced provider-specific querying.
+ *
+ * @param string $query_string
+ *   The user-provided search query.
+ *
+ * @return \Ting\Search\TingSearchRequest
+ *   The prepared query object.
+ */
+function connie_search_search_prepare_reference_query($query_string) {
+  $query = ting_start_query();
+
+  if (is_numeric($query_string)) {
+    $query->setMaterialFilter($query_string);
+  }
+  elseif (strpos($query_string, '=') !== FALSE) {
+    // The query seems to contain something advanced, process it as a raw query.
+    $query->setRawQuery($query_string);
+  }
+  else {
+    // Just perform a general fuzzy search.
+    $query->setFuzzy(TRUE);
+    $query->setFullTextQuery($query_string);
+  }
+  return $query;
+}

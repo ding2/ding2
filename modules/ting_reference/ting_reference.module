@@ -560,11 +560,17 @@ function _ting_reference_autocomplete($string) {
 
   // Only use auto-complete if more that 3 chars have been written.
   if ($string && (strlen($string) > 3)) {
-    // Build a search-query and execute it.
-    $result = ting_start_query()
-      ->setSimpleQuery($string)
-      ->setCount(10)
-      ->execute();
+    // Let the provider build a query if it knows how to.
+    if (ding_provider_implements('search', 'prepare_reference_query')) {
+      $query = ding_provider_invoke('search', 'prepare_reference_query', $string);
+    }
+    else {
+      // Else fall back to a standard freetext search.
+      $query = ting_start_query()->setFullTextQuery($string);
+    }
+
+    // Set limit and execute.
+    $result = $query->setCount(10)->execute();
 
     // If there is no usable result, exit immediately, providing no reply.
     if ($result && $result->getNumTotalObjects()) {

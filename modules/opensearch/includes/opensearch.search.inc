@@ -99,21 +99,13 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
     $query_parts[] = $ting_query->getRawQuery();
   }
 
-  if (!empty($simple_query_string = $ting_query->getSimpleQuery())) {
-    // Try to build the best search query based on the inputted string.
-    if (preg_match('/(^\d+$)|(^\d+:\d+$)|(=)/', $simple_query_string)) {
-      // The query is either ISBN, tid or CQL search expression.
-      $query_parts[] = $simple_query_string;
-    }
-    else {
-      // Add wildcard to the search string.
-      $query_parts[]  = _ting_search_quote($simple_query_string) . '*';
-    }
-  }
-
   // Add a general quoted free text search.
-  if (!empty($free_text_query = $ting_query->getFreeTextQuery())) {
-    $query_parts[] = _ting_search_quote($ting_query->getFreeTextQuery());
+  if (!empty($free_text_query = $ting_query->getFullTextQuery())) {
+    $free_text_query = _ting_search_quote($ting_query->getFullTextQuery());
+    if ($ting_query->isFuzzy()) {
+      $free_text_query = '*' . $free_text_query . '*';
+    }
+    $query_parts[] = $free_text_query;
   }
 
   // Add material filter.
@@ -389,4 +381,39 @@ function opensearch_search_map_common_fields() {
     TingSearchCommonFields::MATERIAL_TYPE => 'dc.type',
     TingSearchCommonFields::SUBJECT => 'facet.subject',
   ];
+}
+
+
+/**
+ * Constructs a TingSearchRequest based on a "reference" search query.
+ *
+ * The implementation should assume that the user has entered a string with the
+ * express purpose of finding a specific material. That is, if the string seems
+ * to match the pattern of a unique material ID, the query should be constructed
+ * to look up by id.
+ *
+ * The provider can also choose to support advanced provider-specific querying.
+ *
+ * @param string $query_string
+ *   The user-provided search query.
+ *
+ * @return \Ting\Search\TingSearchRequest
+ *   The prepared query object.
+ */
+function opensearch_search_prepare_reference_query($query_string) {
+  $query = ting_start_query();
+
+  // Try to build the best search query based on the inputted string.
+  if (preg_match('/(^\d+$)|(^\d+:\d+$)|(=)/', $query_string)) {
+    // The query is either ISBN, tid or CQL search expression.
+    // Add as raw (eg non-escaped) string.
+    $query->setRawQuery($query_string);
+  }
+  else {
+    // Do a full-text search.
+    $query->setFuzzy(TRUE);
+    $query->setFullTextQuery($query_string);
+  }
+
+  return $query;
 }

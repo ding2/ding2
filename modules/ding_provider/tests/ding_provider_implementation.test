@@ -496,4 +496,29 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
       $this->fail('Unmapped common field(s): ' . implode(', ', $diff));
     }
   }
+
+  /**
+   * Test that the provider can generate a reference query.
+   */
+  public function testPrepareReferenceQuery() {
+    $test_query_1 = 'test query';
+    $test_query_2 = 'test=query';
+    $test_query_3 = '123';
+
+    /**
+     * @var \Ting\Search\TingSearchRequest $query
+     */
+    $query = ding_provider_invoke('search', 'prepare_reference_query', $test_query_1);
+    // Plain search should be a fuzzy text-search.
+    $this->assertTrue($query->isFuzzy());
+    $this->assertEqual($query->getFullTextQuery(), $test_query_1);
+
+    $query = ding_provider_invoke('search', 'prepare_reference_query', $test_query_2);
+    $this->assertFalse($query->isFuzzy());
+    $this->assertEqual($query->getRawQuery(), $test_query_2);
+
+    $query = ding_provider_invoke('search', 'prepare_reference_query', $test_query_3);
+    $this->assertFalse($query->isFuzzy());
+    $this->assertEqual($query->getMaterialFilter(), [$test_query_3]);
+  }
 }
