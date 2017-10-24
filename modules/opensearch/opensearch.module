@@ -407,7 +407,7 @@ function opensearch_page_alter(&$page) {
   if (count($calls) > 5) {
     $calls_str = array();
     foreach ($calls as $call) {
-      $calls_str[] = print_r($calls, TRUE);
+      $calls_str[] = print_r($call, TRUE);
     }
 
     watchdog('opensearch', 'Warning, opensearch_execute called @x times:<br />"@queries"', array('@x' => count($calls), '@queries' => implode('" "', $calls_str)), WATCHDOG_WARNING);
