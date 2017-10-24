@@ -10,6 +10,18 @@ use Ting\Search\TingSearchResultInterface;
 
 class ConnieSearchResult implements TingSearchResultInterface {
 
+  protected $query;
+
+  /**
+   * ConnieSearchResult constructor.
+   *
+   * @param \Ting\Search\TingSearchRequest $query
+   *   The query that should produce the result.
+   */
+  public function __construct($query) {
+    $this->query = $query;
+  }
+
   /**
    * Total number of elements in the search-result (regardless of limit).
    *
@@ -42,5 +54,27 @@ class ConnieSearchResult implements TingSearchResultInterface {
    */
   public function getTingEntityCollections() {
     return [ConnieTingObjectCollection::getSingleCollection()];
+  }
+
+  /**
+   * Indicates whether the the search could yield more results.
+   *
+   * Eg. by increasing the count or page-number.
+   *
+   * @return bool
+   *   TRUE if the search-provider could provide more results.
+   */
+  public function hasMoreResults() {
+    return FALSE;
+  }
+
+  /**
+   * The search request that produced the resulted.
+   *
+   * @return \Ting\Search\TingSearchRequest
+   *   The search request.
+   */
+  public function getSearchRequest() {
+    return $this->query;
   }
 }

@@ -57,7 +57,7 @@ function connie_search_search_collection_load($id) {
  *   The search result.
  */
 function connie_search_search_search(TingSearchRequest $query) {
-  return new ConnieSearchResult();
+  return new ConnieSearchResult($query);
 }
 
 /**

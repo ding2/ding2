@@ -68,11 +68,14 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
   /**
    * Expected return-value of search_search.
    *
+   * @param \Ting\Search\TingSearchRequest $query
+   *   The query that should produce the result.
+   *
    * @return \Ting\Search\TingSearchResultInterface
    *   The expected search result.
    */
-  public function getSearchResult() {
-    return new ConnieSearchResult();
+  public function getSearchResult($query) {
+    return new ConnieSearchResult($query);
   }
 
   /**
