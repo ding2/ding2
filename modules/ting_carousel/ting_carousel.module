@@ -14,6 +14,7 @@ function ting_carousel_theme($existing, $type, $theme, $path) {
         'items' => array(),
         'item_type' => 'ting_object',
         'args' => array(),
+        'links' => array(),
       ),
       'file' => 'ting_carousel.theme.inc',
     ),

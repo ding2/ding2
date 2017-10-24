@@ -257,14 +257,73 @@
 }
 
 // ==========================================================================
+// Pane lists followers
+// ==========================================================================
+.pane-ding-list-elements-with-weight {
+  margin-top: 45px;
+}
+
+// ==========================================================================
+// Pane lists info
+// ==========================================================================
+.pane-list-info {
+  margin-bottom: 15px;
+  .ding-list-note {
+    margin-bottom: 5px;
+  }
+}
+
+// ==========================================================================
+// Pane lists data
+// ==========================================================================
+.pane-list-data {
+  @include clearfix();
+  padding-bottom: 10px;
+  border-bottom: 1px solid $grey-medium;
+  margin-bottom: 30px;
+  .ding-list-data {
+    > .field {
+      @include span-columns(3);
+      //Mobile
+      @include media($mobile) {
+        @include span-columns(6);
+      }
+    }
+    .label {
+      @include font('base-bold');
+    }
+  }
+}
+
+// ==========================================================================
 // Pane add list
 // ==========================================================================
 .pane-add-list {
-  width: 100%;
-  float: left;
-  margin: 40px 0;
-  form {
-    float: left;
+  float: right;
+  margin-bottom: 30px;
+  margin-right: 15px;
+  //Mobile
+  @include media($mobile) {
+    margin-right: 0;
+  }
+  input[type=submit] {
+    margin-bottom: 0;
+    //Mobile
+    @include media($mobile) {
+      width: 171px;
+    }
+  }
+}
+
+// ==========================================================================
+// Pane private share
+// ==========================================================================
+.pane-private-share {
+  float: right;
+  margin-bottom: 15px;
+  //Mobile
+  @include media($mobile) {
+    width: 100%;
   }
 }
 

@@ -618,6 +618,10 @@ function ding_list_theme($existing, $type, $theme, $path) {
       'file' => 'theme/theme.inc',
       'variables' => array('message' => ''),
     ),
+    'ding_list_label_value' => array(
+      'file' => 'theme/theme.inc',
+      'variables' => array('label' => NULL, 'value' => NULL),
+    ),
     'ding_list_followers' => array(
       'file' => 'theme/theme.inc',
       'variables' => array('list' => NULL),
@@ -712,7 +716,6 @@ function ding_list_preprocess_entity(&$variables) {
             foreach (array_slice($objects, 0, 40) as $object) {
               $ids[] = $object['target_id'];
             }
-
             $objects = entity_load('ding_type', $ids);
 
             $ting_ids = array();
@@ -720,18 +723,42 @@ function ding_list_preprocess_entity(&$variables) {
               $ting_ids[] = ding_list_get_list_element_value($object);
             }
             $objects = ding_entity_load_multiple($ting_ids, 'ting_object');
-
             if ($objects !== FALSE) {
               $items = array();
               foreach ($objects as $object) {
                 $items[] = ting_object_view($object, 'teaser');
               }
-
+              //Create Carousel
               $variables['content']['carousel'] = array(
                 '#theme' => 'ting_carousel',
                 '#items' => $items,
                 '#item_type' => 'item',
               );
+              //Create Carousel actions
+              $list = $variables['elements']['#entity'];
+              $variables['content']['carousel_actions'] = array(
+                '#type' => 'container',
+                '#attributes' => array(
+                  'class' => array(
+                    'ting-carousel-actions',
+                  ),
+                ),
+              );
+              $variables['content']['carousel_actions']['more'] = array(
+                '#theme' => 'link',
+                '#text' => t('Go to list'),
+                '#path' => 'list/' . $list->id,
+                '#prefix' => '<div class="more-link">',
+                '#suffix' => '</div>',
+                '#options' => array(
+                  'attributes' => array('class' => array('goto-list')),
+                    'html' => FALSE,
+                 ),
+              );
+              if($user->uid != $list->uid) {
+                $variables['content']['carousel_actions']['follow_form'] = array (
+                  drupal_get_form('ding_list_add_element_form', 'ding_list', $list->id, t('Add to lists I follow')));
+              }
             }
             break;
         }
