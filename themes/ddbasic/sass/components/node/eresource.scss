@@ -166,11 +166,14 @@
         a {
           @include button('arrow-right');
           padding-right: 45px;
+          margin-bottom: 10px;
           &::after {
             color: $charcoal-opacity-dark;
           }
-          &.eresource-list-button {
-            margin-bottom: 10px;
+          &:last-child {
+            margin-bottom: 0;
+          }
+          &.buttons-button-back {
             background-color: $grey-dark;
           }
         }
