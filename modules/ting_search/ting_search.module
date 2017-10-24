@@ -413,8 +413,6 @@ function ting_search_conditions_callback($keys) {
 
 /**
  * Implements hook_search_execute().
- *
- * TODO BBS-SAL: port.
  */
 function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   // Use static variable to ensure that this is only executed once.
@@ -423,9 +421,8 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     $results = array();
     $options = array();
     $results = array();
-    $facet_array = array();
-    $query = '(' . _ting_search_quote($keys) . ')';
-    $options['numFacets'] = variable_get('ting_search_number_of_facets', 25);
+    $query = ting_start_query()->setFullTextQuery($keys);
+    $query->setTermsPrFacet(variable_get('ting_search_number_of_facets', 25));
 
     // Extend query with selected facets.
     if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
@@ -433,14 +430,12 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       foreach ($facets as $facet) {
         $facet = explode(':', $facet, 2);
         if ($facet[0]) {
-          $facet_array[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
+          $query->addFieldFilter($facet[0], rawurldecode($facet[1]));
         }
       }
-
-      $query .= ' AND ' . implode(' AND ', $facet_array);
     }
 
-    $search_result = NULL;
+    $legacy_ting_search_results = NULL;
     try {
       $page = pager_find_page();
 
@@ -450,26 +445,29 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         $results_per_page = $conditions['size'];
       }
 
+      // TODO BBS-SAL: port.
       // Set sort order.
       if (!empty($conditions['sort'])) {
         $options['sort'] = $conditions['sort'];
       }
 
-      // TODO BBS-SAL: Port to sal.
       module_load_include('client.inc', 'ting');
-      $search_result = ting_do_search($query, $page + 1, $results_per_page, $options);
-      if (isset($search_result->collections)) {
-        $search_result->search_key = $keys;
+      $query->setPage($page + 1)->setCount($results_per_page);
+      $search_result = $query->execute();
+
+      if ($search_result->getNumTotalCollections() > 0) {
+        // TODO BBS-SAL: Workaround until we get rid of the static cache.
+        $search_result->openSearchResult->search_key = $keys;
 
         // So we got the total amount of results, but the joker here is that
         // we have no clue how many collections we got.
         // Rounded up, this will display 'one more page' if $search-result->more
         // is true.
-        $total_results = ($page + 1) * $results_per_page + ($search_result->more ? 1 : 0);
+        $total_results = ($page + 1) * $results_per_page + ($search_result->hasMoreResults() ? 1 : 0);
 
         pager_default_initialize($total_results, $results_per_page);
 
-        foreach ($search_result->collections as &$collection) {
+        foreach ($search_result->getTingEntityCollections() as $collection) {
           $build = ting_collection_view($collection, 'teaser');
           $uri = entity_uri('ting_collection', $collection);
           $results[] = array(
@@ -483,25 +481,31 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         }
       }
     }
-    catch (TingClientException $e) {
+    catch (\Exception $e) {
       watchdog_exception('ting_search', $e);
       $results = array();
     }
 
+    // TODO BBS-SAL: wrap the use of the static cache and update all usages to
+    // use TingSearchResultInterface instead of the raw result.
     // Save search result for usage by facet modules etc.
-    $ting_search_results = &drupal_static('ting_search_results');
-    $ting_search_results = $search_result;
+    $legacy_ting_search_results = &drupal_static('ting_search_results');
+    $legacy_ting_search_results = !empty($search_result) ? $search_result->openSearchResult : NULL;
 
+    // TODO BBS-SAL: The following code either needs to updated to SAL (eg.
+    // ding_facets needs to be updated) or removed.
+    /*
     // Add support for facet api.
     if (module_exists('ding_facets')) {
-      // @todo ITK Aarhus finish implementation of facet api to use a standard
-      // facet module, that allows usage of modules from D.O. to improved facet
-      // usage.
-      $adapter = facetapi_adapter_load('ding_facets');
-      if ($adapter) {
-        $adapter->addActiveFilters($query);
-      }
+    // @todo ITK Aarhus finish implementation of facet api to use a standard
+    // facet module, that allows usage of modules from D.O. to improved facet
+    // usage.
+    $adapter = facetapi_adapter_load('ding_facets');
+    if ($adapter) {
+    $adapter->addActiveFilters($query);
     }
+    }
+     */
   }
 
   return $results;
