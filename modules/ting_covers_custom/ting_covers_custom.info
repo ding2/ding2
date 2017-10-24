@@ -1,0 +1,4 @@
+name = Ting Covers: Custom
+description = Allow users to upload custom covers for objects.
+core = 7.x
+package = Ding!
