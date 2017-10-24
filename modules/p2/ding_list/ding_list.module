@@ -630,6 +630,10 @@ function ding_list_theme($existing, $type, $theme, $path) {
       'file' => 'theme/theme.inc',
       'variables' => array('message' => ''),
     ),
+    'ding_list_label_value' => array(
+      'file' => 'theme/theme.inc',
+      'variables' => array('label' => NULL, 'value' => NULL),
+    ),
     'ding_list_followers' => array(
       'file' => 'theme/theme.inc',
       'variables' => array('list' => NULL),
@@ -669,6 +673,17 @@ function ding_list_ding_entity_buttons($type, $entity) {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function ding_list_permission() {
+  return array(
+    'administer all lists' => array(
+      'title' => t('Administer all lists'),
+    ),
+  );
+}
+
+/**
  * Implements hook_secure_permissions().
  */
 function ding_list_secure_permissions($role) {
@@ -691,6 +706,8 @@ function ding_list_secure_permissions($role) {
  * Implements template_preprocess_entity().
  */
 function ding_list_preprocess_entity(&$variables) {
+  global $user;
+
   if ($variables['entity_type'] == 'ding_type') {
     switch ($variables['ding_type']->type) {
       case 'ding_list':
@@ -729,6 +746,34 @@ function ding_list_preprocess_entity(&$variables) {
               // is more content.
               '#placeholders' => count($objects) > DING_LIST_CAROUSEL_CHUNK_SIZE ? DING_LIST_CAROUSEL_CHUNK_SIZE + 1 : count($objects),
             );
+
+            if (!empty($objects)) {
+              //Create Carousel actions
+              $list = $variables['elements']['#entity'];
+              $variables['content']['carousel_actions'] = array(
+                '#type' => 'container',
+                '#attributes' => array(
+                  'class' => array(
+                    'ting-carousel-actions',
+                  ),
+                ),
+              );
+              $variables['content']['carousel_actions']['more'] = array(
+                '#theme' => 'link',
+                '#text' => t('Go to list'),
+                '#path' => 'list/' . $list->id,
+                '#prefix' => '<div class="more-link">',
+                '#suffix' => '</div>',
+                '#options' => array(
+                  'attributes' => array('class' => array('goto-list')),
+                    'html' => FALSE,
+                 ),
+              );
+
+              if ($list->uid != $user->uid && user_access('use personalisation')) {
+                $variables['content']['carousel_actions']['follow_form'] = drupal_get_form('ding_list_add_element_form', 'ding_list', $list->id, t('Add to lists I follow'));
+              }
+            }
             break;
         }
         break;

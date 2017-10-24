@@ -1,0 +1,34 @@
+//
+// Styling of Ding list
+
+@import '../base.scss';
+
+// ==========================================================================
+// Pane-sharer-pane and Social share container styles on Ding-list
+// ==========================================================================
+
+.page-list {
+  .pane-sharer-pane {
+    float: right;
+    margin-bottom: 15px;    
+    //Mobile
+    @include media($mobile) {
+      width: 100%;
+    }
+  }
+  //Overwrite deafult styles for the social share container on list-page
+  .social-share-container {
+    width: auto;
+    float: right;
+    padding-bottom: 0;
+    border-bottom: none;
+    margin-bottom: 0;
+    a {
+      padding-right: 15px;      
+      //Mobile
+      @include media($mobile) {
+        width: 171px;
+      }
+    }
+  }
+}

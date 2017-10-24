@@ -104,3 +104,18 @@ tr.draggable {
     }
   }
 }
+
+// ==========================================================================
+// View ding public lists
+// ==========================================================================
+.view-public-lists {
+  &.view-display-id-page {
+    .views-row {
+      margin-bottom: 60px;
+      // Tablet
+      @include media($tablet) {
+        margin-bottom: 30px;
+      }
+    }
+  }
+}
