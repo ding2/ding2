@@ -205,10 +205,7 @@ class TingSearchRequest {
    *   the current query object.
    */
   public function setFullTextQuery($full_text_query) {
-    if (!empty($full_text_query)) {
-      $this->fullTextQuery = $full_text_query;
-    }
-
+    $this->fullTextQuery = $full_text_query;
     return $this;
   }
 
