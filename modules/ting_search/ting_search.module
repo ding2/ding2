@@ -4,6 +4,8 @@
  * Enables search integration with Ting.
  */
 
+use Ting\Search\TingSearchResultInterface;
+
 require_once 'includes/TingSearchCqlDoctor.class.inc';
 
 define('TING_SEARCH_FORM_STYLE_NORMAL', 'normal');
@@ -102,11 +104,11 @@ function ting_search_search_info() {
 function ting_search_ding_facetbrowser() {
   $results = new stdClass();
   $results->show_empty = FALSE;
-  // TODO BBS-SAL: Should be an TingSearchResultInterface instead.
-  $search_result = drupal_static('ting_search_results');
+  $search_result = ting_search_current_results();
   if ($search_result) {
-    $results->facets = ($search_result instanceof TingClientSearchResult) ? $search_result->facets : array();
-    $results->searchkey = $search_result->search_key;
+    // TODO BBS-SAL: Add proper facet support here.
+    $results->facets = ($search_result->openSearchResult instanceof TingClientSearchResult) ? $search_result->openSearchResult->facets : array();
+    $results->searchkey = $search_result->getSearchRequest()->getFullTextQuery();
     return $results;
   }
 }
@@ -435,7 +437,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       }
     }
 
-    $legacy_ting_search_results = NULL;
+    $search_result = NULL;
     try {
       $page = pager_find_page();
 
@@ -445,7 +447,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         $results_per_page = $conditions['size'];
       }
 
-      // TODO BBS-SAL: port.
+      // TODO BBS-SAL: port, currently ignored.
       // Set sort order.
       if (!empty($conditions['sort'])) {
         $options['sort'] = $conditions['sort'];
@@ -486,11 +488,9 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       $results = array();
     }
 
-    // TODO BBS-SAL: wrap the use of the static cache and update all usages to
-    // use TingSearchResultInterface instead of the raw result.
     // Save search result for usage by facet modules etc.
-    $legacy_ting_search_results = &drupal_static('ting_search_results');
-    $legacy_ting_search_results = !empty($search_result) ? $search_result->openSearchResult : NULL;
+    $current_results = &ting_search_current_results();
+    $current_results = $search_result;
 
     // TODO BBS-SAL: The following code either needs to updated to SAL (eg.
     // ding_facets needs to be updated) or removed.
@@ -509,6 +509,16 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   }
 
   return $results;
+}
+
+/**
+ * Retrive the result for a ting_search query performed in this request.
+ *
+ * @return \Ting\Search\TingSearchResultInterface|NULL
+ *   The result or NULL if it is not available.
+ */
+function &ting_search_current_results() {
+  return drupal_static('ting_search_results');
 }
 
 /**
@@ -780,9 +790,8 @@ function ting_search_block_view($delta = '') {
       $block['subject'] = t('Ting search sort controls');
 
       // Only display form if there are any search results.
-      $search_result = drupal_static('ting_search_results');
-      // TODO BBS-SAL: port.
-      if (isset($search_result->numTotalObjects) && $search_result->numTotalObjects > 0) {
+      $search_result = ting_search_current_results();
+      if ($search_result && $search_result->getNumTotalObjects() > 0) {
         $block['content'] = drupal_get_form('ting_search_sort_form');
       }
       break;
@@ -884,14 +893,13 @@ function ting_search_sort_form_submit($form, &$form_state) {
  */
 function ting_search_records_per_page_controls_content() {
   // Get search results.
-  $search_result = drupal_static('ting_search_results');
+  $search_result = ting_search_current_results();
 
   // Use static as panels may call this more than once.
   $output = &drupal_static(__FUNCTION__, array());
 
   // Don't show anything if the search result is empty.
-  // TODO BBS-SAL: port.
-  if (!empty($search_result->collections) && empty($output)) {
+  if (empty($output) && $search_result && $search_result->getNumTotalCollections() > 0) {
     // Get the default results per page.
     $def_size = variable_get('ting_search_results_per_page', 10);
 

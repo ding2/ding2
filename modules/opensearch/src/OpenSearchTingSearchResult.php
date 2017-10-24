@@ -32,7 +32,7 @@ class OpenSearchTingSearchResult implements TingSearchResultInterface {
    *
    * @var \Ting\Search\TingSearchRequest
    */
-  protected $query;
+  protected $tingSearchRequest;
 
   /**
    * OpenSearchTingSearchResponse constructor.
@@ -40,12 +40,12 @@ class OpenSearchTingSearchResult implements TingSearchResultInterface {
    * @param \TingClientSearchResult $open_search_result
    *   Embedded provider-specific search result.
    *
-   * @param \Ting\Search\TingSearchRequest $query
+   * @param \Ting\Search\TingSearchRequest $search_request
    *   The query that should produce the result.
    */
-  public function __construct($open_search_result, $query) {
+  public function __construct($open_search_result, $search_request) {
     $this->openSearchResult = $open_search_result;
-    $this->query = $query;
+    $this->tingSearchRequest = $search_request;
   }
 
   /**
@@ -89,6 +89,6 @@ class OpenSearchTingSearchResult implements TingSearchResultInterface {
    *   The search request.
    */
   public function getSearchRequest() {
-    return $this->query;
+    return $this->tingSearchRequest;
   }
 }
