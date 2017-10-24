@@ -78,7 +78,7 @@ function ting_menu() {
     'position' => 'left',
     'weight' => 20,
     'page callback' => 'system_admin_menu_block_page',
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('administer ting settings'),
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
   );
