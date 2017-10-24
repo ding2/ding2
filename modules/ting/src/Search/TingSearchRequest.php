@@ -45,6 +45,12 @@ class TingSearchRequest {
 
   /**
    * @var int
+   *  Specify number of terms to return for each facet.
+   */
+  protected $termsPerFacet = NULL;
+
+  /**
+   * @var int
    *   Page offset. Defaults to 1 (first page)
    */
   protected $page = 1;
@@ -257,6 +263,30 @@ class TingSearchRequest {
    */
   public function setFuzzy($fuzzy) {
     $this->fuzzy = $fuzzy;
+    return $this;
+  }
+
+  /**
+   * Maximum number of terms to return per facet.
+   *
+   * @return int
+   *   The maximum.
+   */
+  public function getTermsPerFacet() {
+    return $this->termsPerFacet;
+  }
+
+  /**
+   * Sets the maximum number of terms to return per facet.
+   *
+   * @param int $terms_per_facet
+   *   The maximum number of terms to return pr facet.
+   *
+   * @return TingSearchRequest
+   *   The current query object.
+   */
+  public function setTermsPrFacet($terms_per_facet) {
+    $this->termsPerFacet = $terms_per_facet;
     return $this;
   }
 
