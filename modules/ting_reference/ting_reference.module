@@ -64,7 +64,9 @@ function ting_reference_field_info() {
     'ting_reference' => array(
       'label' => t('Ting reference'),
       'description' => t('Stores relationships between Ting objects and Drupal entities.'),
-      'settings' => array(),
+      'settings' => array(
+        'relation_type' => 'ting_reference',
+      ),
       'default_widget' => 'ting_reference_simple',
       'default_formatter' => 'ting_reference_default',
     ),
@@ -79,6 +81,24 @@ function ting_reference_field_info() {
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_field_settings_form().
+ */
+function ting_reference_field_settings_form($field, $instance, $has, $data) {
+  $settings = $field['settings'];
+  // This allows for the field to support other relation types than the default
+  // ting_reference relation defined within this module itself.
+  $form['relation_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Relation'),
+    '#options' => relation_list_types(),
+    '#default_value' => $settings['relation_type'],
+    '#required' => TRUE,
+    '#description' => t('The relation to store references in.'),
+  );
+  return $form;
 }
 
 /**
@@ -98,7 +118,8 @@ function ting_reference_field_load($entity_type, $entities, $field, $instances, 
     switch ($field['type']) {
       case 'ting_reference':
       case 'ting_reference_reverse':
-        $relations = ting_reference_get_relations($entity_type, $entity);
+        $relation_type = $field['settings']['relation_type'];
+        $relations = ting_reference_get_relations($entity_type, $entity, $relation_type);
         $delta = 0;
         foreach ($relations as $rid => $relation) {
           $items[$entity_id][$delta]['value'] = $relation;
@@ -117,7 +138,8 @@ function ting_reference_field_insert($entity_type, $entity, $field, $instance, $
   $entity_id = $entity->{$entity_info['entity keys']['id']};
   foreach ($items as $item) {
     if (!empty($item['tid'])) {
-      ting_reference_create_relation($entity_type, $entity_id, $item['tid']);
+      $relation_type = $field['settings']['relation_type'];
+      ting_reference_create_relation($entity_type, $entity_id, $item['tid'], $relation_type);
     }
   }
   // Need to clear field cache to display fields properly.
@@ -129,6 +151,7 @@ function ting_reference_field_insert($entity_type, $entity, $field, $instance, $
  * Implements hook_field_update().
  */
 function ting_reference_field_update($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  $relation_type = $field['settings']['relation_type'];
 
   // When nodes are saved problematically and edit form is not used,
   // the data structure contains the relation and not item tid's (effect
@@ -141,10 +164,10 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
   }
 
   if ($update) {
-    _ting_reference_field_update($entity_type, $entity, $items);
+    _ting_reference_field_update($entity_type, $entity, $items, $relation_type);
   }
   else {
-    _ting_reference_field_update_cron($entity_type, $entity, $items);
+    _ting_reference_field_update_cron($entity_type, $entity, $items, $relation_type);
   }
 
 }
@@ -153,14 +176,14 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
 /**
  * Field_update for edit form.
  */
-function _ting_reference_field_update($entity_type, $entity, &$items) {
+function _ting_reference_field_update($entity_type, $entity, &$items, $relation_type = 'ting_reference') {
 
   // Get the entity's id.
   $entity_ids = entity_extract_ids($entity_type, $entity);
   $entity_id = array_shift($entity_ids);
 
   // Get existing relations.
-  $relations = ting_reference_get_relations($entity_type, $entity);
+  $relations = ting_reference_get_relations($entity_type, $entity, $relation_type);
 
   // Since there is no way to update the delta value of the endpoints, we need
   // to delete all relations, and re-add them.
@@ -171,7 +194,7 @@ function _ting_reference_field_update($entity_type, $entity, &$items) {
   // Loop through items, create new and mark existing to be kept.
   foreach ($items as $item) {
     if (!empty($item['tid'])) {
-      ting_reference_create_relation($entity_type, $entity_id, $item['tid']);
+      ting_reference_create_relation($entity_type, $entity_id, $item['tid'], $relation_type);
     }
   }
 
@@ -184,14 +207,14 @@ function _ting_reference_field_update($entity_type, $entity, &$items) {
 /**
  * Field_update for cron.
  */
-function _ting_reference_field_update_cron($entity_type, $entity, &$items) {
+function _ting_reference_field_update_cron($entity_type, $entity, &$items, $relation_type = 'ting_reference') {
 
   // Get the entity's id.
   $entity_ids = entity_extract_ids($entity_type, $entity);
   $entity_id = array_shift($entity_ids);
 
   // Get existing relations.
-  $relations = ting_reference_get_relations($entity_type, $entity);
+  $relations = ting_reference_get_relations($entity_type, $entity, $relation_type);
 
   // Book keeping.
   $keep = array();
@@ -478,13 +501,15 @@ function ting_reference_ding_anchor_info() {
  *
  * @param string $entity_type
  *   The entity type.
- * @param entity $entity
+ * @param object $entity
  *   The loaded entity.
+ * @param string $relation_type
+ *   The type of relation to retrieve.
  *
  * @return array
  *   With loaded relation entities.
  */
-function ting_reference_get_relations($entity_type, $entity) {
+function ting_reference_get_relations($entity_type, $entity, $relation_type = 'ting_reference') {
   $entity_ids = entity_extract_ids($entity_type, $entity);
   $entity_id = array_shift($entity_ids);
 
@@ -496,7 +521,7 @@ function ting_reference_get_relations($entity_type, $entity) {
     // types, resulting in false relations. So we are forced to use a db_select.
     $result = db_select('field_data_endpoints', 'endpoints')
       ->fields('endpoints', array('entity_id'))
-      ->condition('bundle', 'ting_reference')
+      ->condition('bundle', $relation_type)
       ->condition('endpoints_entity_type', $entity_type)
       ->condition('endpoints_entity_id', $entity_id)
       ->orderBy('endpoints.entity_id')
@@ -520,12 +545,14 @@ function ting_reference_get_relations($entity_type, $entity) {
  *   The id of the entity to create the relation from.
  * @param int $tid
  *   The ting object entity id (Primary key).
+ * @param string $relation_type
+ *   The relation type to create.
  *
  * @return entity
  *   The created and saved relation entity.
  */
-function ting_reference_create_relation($entity_type, $entity_id, $tid) {
-  $relation = relation_create('ting_reference', array(
+function ting_reference_create_relation($entity_type, $entity_id, $tid, $relation_type = 'ting_reference') {
+  $relation = relation_create($relation_type, array(
     array(
       'entity_type' => $entity_type,
       'entity_id' => $entity_id,
