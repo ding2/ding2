@@ -99,6 +99,13 @@ class TingSearchRequest {
   protected $fieldFilters;
 
   /**
+   * The part of the query that should be interpreted as a free text search.
+   *
+   * @var string
+   */
+  protected $freeTextQuery;
+
+  /**
    * Specifies whether collections in the search-result should be fully
    * populated. Eg. the returned collection may contain materials that does not
    * match the search-query, but shares collection with a material that does.
@@ -206,6 +213,35 @@ class TingSearchRequest {
    */
   public function getSimpleQuery() {
     return $this->simpleQuery;
+  }
+
+  /**
+   * The part of the query that should be interpreted as a free text query.
+   *
+   * @return string
+   *   The query fragment.
+   */
+  public function getFreeTextQuery() {
+    return $this->freeTextQuery;
+  }
+
+  /**
+   * Sets a string that should be interpeted as a free text query.
+   *
+   * The query may still contain more "advanced" parts such as a field filter.
+   *
+   * @param string $free_text_query
+   *   Any string.
+   *
+   * @return TingSearchRequest
+   *   the current query object.
+   */
+  public function setFreeTextQuery($free_text_query) {
+    if (!empty($free_text_query)) {
+      $this->freeTextQuery = $free_text_query;
+    }
+
+    return $this;
   }
 
   /**

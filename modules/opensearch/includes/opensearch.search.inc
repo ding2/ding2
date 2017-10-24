@@ -111,6 +111,11 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
     }
   }
 
+  // Add a general quoted free text search.
+  if (!empty($free_text_query = $ting_query->getFreeTextQuery())) {
+    $query_parts[] = _ting_search_quote($ting_query->getFreeTextQuery());
+  }
+
   // Add material filter.
   if (!empty($ting_query->getMaterialFilter())) {
     $material_filter_string = implode(' OR ', $ting_query->getMaterialFilter());
