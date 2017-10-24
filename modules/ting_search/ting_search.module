@@ -413,7 +413,8 @@ function ting_search_conditions_callback($keys) {
 
 /**
  * Implements hook_search_execute().
- * TODO BBS-SAL: port
+ *
+ * TODO BBS-SAL: port.
  */
 function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   // Use static variable to ensure that this is only executed once.
@@ -454,7 +455,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         $options['sort'] = $conditions['sort'];
       }
 
-      //TODO BBS-SAL: Port to sal.
+      // TODO BBS-SAL: Port to sal.
       module_load_include('client.inc', 'ting');
       $search_result = ting_do_search($query, $page + 1, $results_per_page, $options);
       if (isset($search_result->collections)) {
@@ -776,7 +777,7 @@ function ting_search_block_view($delta = '') {
 
       // Only display form if there are any search results.
       $search_result = drupal_static('ting_search_results');
-      // TODO BBS-SAL: port
+      // TODO BBS-SAL: port.
       if (isset($search_result->numTotalObjects) && $search_result->numTotalObjects > 0) {
         $block['content'] = drupal_get_form('ting_search_sort_form');
       }
