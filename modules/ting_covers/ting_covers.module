@@ -223,9 +223,13 @@ function _ting_covers_get_file($id, $uri) {
     case 'public':
     case 'private':
     case 'file':
-      if (file_unmanaged_mv($uri, $path)) {
+      if (ting_covers_prepare_file($path, $uri)) {
         return $path;
       }
+      break;
+
+    default:
+      // Do nothing.
   }
 
   return FALSE;
@@ -256,12 +260,7 @@ function ting_covers_fetch_image($filename, $image_url) {
     return FALSE;
   }
 
-  // Get the folder for the final location of this preset.
-  $directory = dirname($filename);
-
-  // Build the destination folder tree if it doesn't already exist.
-  if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
-    watchdog('ting_covers', 'Failed to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
+  if (!ting_covers_prepare_directory($filename)) {
     return FALSE;
   }
 
@@ -286,4 +285,65 @@ function ting_covers_fetch_image($filename, $image_url) {
   }
 
   return FALSE;
+}
+
+/**
+ * Helper function to prepare a local cover file to be processed by ting covers.
+ *
+ * Cover fetching modules should use this for handling files local to the Drupal
+ * installation e.g. user uploaded files or files which are otherwise downloaded
+ * to the installation.
+ *
+ * @param string $filename
+ *    Destination file name, including its path within Drupal's file folder.
+ * @param string $uri
+ *    Source file uri.
+ *
+ * @return string|bool
+ *    The uri to the prepared file or FALSE if preparation failed.
+ */
+function ting_covers_prepare_file($filename, $uri) {
+  if (!ting_covers_prepare_directory($filename)) {
+    return FALSE;
+  }
+
+  // Determine if the file is managed or not. This will affect how we handle the
+  // file. This module depend upon covers being available under our own
+  // directory. For unmanaged files it is safe to move the file there.
+  // For managed files we create an unmanaged copy. This will ensure that the
+  // managed file stays intact. We cannot move it as we periodically delete
+  // covers. That would break the managed file.
+  $is_managed = !empty(file_load_multiple(array(), array('uri' => $uri)));
+  if ($is_managed) {
+    if (file_unmanaged_copy($uri, $filename)) {
+      return $filename;
+    };
+  }
+  else {
+    if (file_unmanaged_move($uri, $filename)) {
+      return $filename;
+    }
+  }
+
+  watchdog('ting_covers', 'Unable to copy/move file %source to %destination', array('%source' => $uri, '%destination' => $filename), WATCHDOG_ERROR);
+  return FALSE;
+}
+
+/**
+ * Setup directories for ting cover files.
+ *
+ * @param string $filename
+ *   The destination path for a file for which to create directories.
+ *
+ * @return bool
+ *   Whether the process succeeded or not.
+ */
+function ting_covers_prepare_directory($filename) {
+  // Build the destination folder tree if it doesn't already exist.
+  $directory = drupal_dirname($filename);
+  if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
+    watchdog('ting_covers', 'Failed to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
+    return FALSE;
+  }
+  return TRUE;
 }
