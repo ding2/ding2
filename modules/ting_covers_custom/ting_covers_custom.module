@@ -3,3 +3,5 @@
  * @file
  * Code for the ting_covers_custom module.
  */
+
+include_once 'ting_covers_custom.features.inc';
