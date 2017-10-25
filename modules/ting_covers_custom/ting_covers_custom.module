@@ -16,6 +16,31 @@ function ting_covers_custom_menu_alter(&$items) {
 }
 
 /**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function ting_covers_custom_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if ($root_path == 'admin/config/ting/covers/custom') {
+    // Add link to create a new cover from the administrative cover list.
+    // Set a destination to ensure that the user returns to the list afterwards.
+    $data['actions']['output'][] = array(
+      '#theme' => 'menu_local_task',
+      '#link' => array(
+        'title' => t('Add new cover'),
+        'href' => 'admin/structure/entity-type/ting_covers_custom/cover/add',
+        'localized_options' => array(
+          'query' => array(
+            'destination' => $root_path,
+          ),
+          'attributes' => array(
+            'title' => t('Add new cover'),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/**
  * Implements hook_module_implements_alter().
  */
 function ting_covers_custom_module_implements_alter(&$implementations, $hook) {
