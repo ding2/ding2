@@ -26,6 +26,7 @@ filter:
         - '*.pages_default.inc'
         - '*.panels_default.inc'
         - '*.panelizer.inc'
+        - '*.relation_type_default.inc'
         - '*.strongarm.inc'
         - '*.views_default.inc'
         # Generated webservice client code for FBS
