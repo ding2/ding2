@@ -7,6 +7,36 @@
 include_once 'ting_covers_custom.features.inc';
 
 /**
+ * Implements hook_ting_covers().
+ */
+function ting_covers_custom_ting_covers($entities) {
+  // Change an array of entities from id to Ting object to id to image uri.
+  array_walk($entities, function(TingEntity &$entity, $id) {
+    // Load related cover entities for each Ting object.
+    $relations = ting_reference_get_relations('ting_object', $entity, 'ting_covers_custom_cover');
+    $covers = array_map(function($relation) {
+      $endpoints = relation_get_endpoints($relation, 'ting_covers_custom');
+      // We could in theory have multiple cover endpoints. In practice there
+      // will be only one.
+      return reset($endpoints['ting_covers_custom']);
+    }, $relations);
+
+    if (!empty($covers)) {
+      // If we have a set of covers for the entity then extract a image uri.
+      /* @var \Entity $cover */
+      $cover = reset($covers);
+      $image_file = $cover->wrapper()->field_ting_covers_custom_image->value();
+      $entity = $image_file['uri'];
+    }
+    else {
+      $entity = NULL;
+    }
+  });
+
+  return $entities;
+}
+
+/**
  * Implements hook_menu_alter().
  */
 function ting_covers_custom_menu_alter(&$items) {
@@ -50,5 +80,16 @@ function ting_covers_custom_module_implements_alter(&$implementations, $hook) {
     $implementation = $implementations['ting_covers_custom'];
     unset($implementations['ting_covers_custom']);
     $implementations['ting_covers_custom'] = $implementation;
+  }
+  elseif ($hook == 'ting_covers') {
+    // Ting covers will show the first cover returned by a supplying module.
+    // Custom covers should take precedence over any other supplier to move
+    // it to the front.
+    $implementation = $implementations['ting_covers_custom'];
+    unset($implementations['ting_covers_custom']);
+    $implementations = array_merge(
+      array('ting_covers_custom' => $implementation),
+      $implementations
+    );
   }
 }
