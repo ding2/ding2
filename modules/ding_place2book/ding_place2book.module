@@ -524,3 +524,12 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
   print ajax_render($output);
   exit();
 }
+
+/**
+ * Implements hook_field_group_info_alter().
+ */
+function ding_place2book_field_group_info_alter(&$groups) {
+  if (!empty($groups['group_left|node|ding_event|default'])) {
+    $groups['group_left|node|ding_event|default']->data['children'][] = 'field_place2book';
+  }
+}
