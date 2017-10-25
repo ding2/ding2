@@ -56,7 +56,7 @@ function fbs_debt_list($account) {
 
     // If the has associated materials; collect some information about them and
     // try to build a more useful title.
-    $materials= array();
+    $materials = array();
     foreach ($fee->materials as $material) {
       $ding_entity_id = $ids[$material->recordId];
       if ($ding_entity_id && $entity = ding_entity_load($ding_entity_id)) {
@@ -81,9 +81,9 @@ function fbs_debt_list($account) {
     if (!empty($materials)) {
       // Apply som inline span-elements, so the different materials in the
       // display_name can be easily styled.
-      $data['display_name'] = '<span>' . implode('</span><span>' , $materials) . '</span>';
+      $data['display_name'] = '<span>' . implode('</span><span>', $materials) . '</span>';
 
-      if (count($materials) == 1)  {
+      if (count($materials) == 1) {
         $data['material_type'] = !empty($entity) ? $entity->type : t('Unknown type');
       }
       else {
