@@ -25,3 +25,28 @@ function ting_reference_update_7000() {
 function ting_reference_7001() {
   ding_entity_unlock_fields('ting_reference', array('ting_reference_reverse'));
 }
+
+/**
+ * Set relation type for all existing ting reference fields.
+ */
+function ting_reference_update_7002() {
+  $ting_reference_fields = array(
+    'field_ding_eresource_materials',
+    'field_ding_event_materials',
+    'field_ding_news_materials',
+    'field_ding_page_materials',
+    'ting_reference_reverse',
+  );
+  array_walk($ting_reference_fields, function($field_name) {
+    // field_update_field will merge the field configuration provided with the
+    // existing configuration so we only need to provide the field name and the
+    // new setting.
+    $field = array(
+      'field_name' => $field_name,
+      'settings' => array(
+        'relation_type' => 'ting_reference'
+      ),
+    );
+    field_update_field($field);
+  });
+}
