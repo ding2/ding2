@@ -551,7 +551,7 @@ function ding2_update_7041() {
  * Enable the ding_ddbasic module.
  */
 function ding2_update_7042() {
-  module_enable(array('ding_ddbasic'));
+  module_enable(array('ding_ddbasic', 'ding_ddbasic_opening_hours'));
 }
 
 /**
