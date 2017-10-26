@@ -54,8 +54,7 @@ function ding_ipe_filter_admin_panes_form($form, $form_state) {
     }
   }
 
-
-  $form['ding_ipe_filter_panes']['ding_ipe_filter_panes_selected'] = array (
+  $form['ding_ipe_filter_panes']['ding_ipe_filter_panes_selected'] = array(
     '#type' => 'tableselect',
     '#header' => $header,
     '#options' => $options,

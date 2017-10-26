@@ -75,9 +75,6 @@ function ding_ipe_filter_theme($existing, $type, $theme, $path) {
  * Implements hook_theme_registry_alter().
  *
  * Add pane buttons on IPE filter menus.
- *
- * @param array $registry
- *   Theme registry variables.
  */
 function ding_ipe_filter_theme_registry_alter(&$registry = array()) {
   $registry['panels_ipe_add_pane_button']['function'] = '_ding_ipe_filter_callback';
@@ -106,7 +103,7 @@ function _ding_ipe_filter_callback($variables = array()) {
       '#options' => array(
         'attributes' => array(
           'class' => array('ipe-trigger'),
-          'target_region' => $region_id
+          'target_region' => $region_id,
         ),
         'html' => FALSE,
       ),
@@ -117,10 +114,10 @@ function _ding_ipe_filter_callback($variables = array()) {
     ),
     '#attached' => array(
       'js' => array(
-        $path . '/js/ding_ipe_filter.js'
+        $path . '/js/ding_ipe_filter.js',
       ),
       'css' => array(
-        $path . '/css/ding_ipe_filter.css'
+        $path . '/css/ding_ipe_filter.css',
       ),
     ),
   );
@@ -165,12 +162,13 @@ function _ding_ipe_filter_callback($variables = array()) {
  * This is also used to check if a given pane is available in the current
  * codebase, hence preventing the user form adding old removed panel panes.
  *
- * @param $category
+ * @param string $category
  *   The pane category to find the pane.
- * @param $subtype_name
+ * @param string $subtype_name
  *   The panes subtype name used to identify the pane.
  *
- * @return bool
+ * @return array|bool
+ *   If pane information is found an array with the information else FALSE.
  */
 function _ding_ipe_filter_get_pane_info($category, $subtype_name) {
   $categories = &drupal_static(__FUNCTION__);
