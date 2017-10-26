@@ -442,10 +442,16 @@ function ting_field_search_filter_profiles() {
     // Only exposed and activated profiles should be shown to the user.
     if ($profile->config['user_interaction']['exposed'] && empty($profile->disabled)) {
       // Filter based on grouping (always show profiles from same group).
-      if ($active_profile && $profile->config['user_interaction']['grouping'] == $active_profile->config['user_interaction']['grouping']) {
+      if ($active_profile && $active_profile->config['user_interaction']['grouping'] == $profile->config['user_interaction']['grouping']) {
         $exposed_profiles[$name] = t('Search in @profile', array(
           '@profile'  => check_plain($profile->title),
         ));
+        continue;
+      }
+
+      // If the visibility is "expect" and we have a active profile that's
+      // different that the current one (checked above). It should not be shown.
+      if ($profile->config['user_interaction']['visibility'] == 'expect' && $active_profile) {
         continue;
       }
 
@@ -466,6 +472,9 @@ function ting_field_search_filter_profiles() {
           $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
         }
 
+        // When $visibility has a value of 0, the profile is displayed on
+        // all pages except those listed in $pages. When set to 1, it
+        // is displayed only on those pages listed in $pages.
         if (!($visibility xor $page_match)) {
           $exposed_profiles[$name] = t('Search in @profile', array(
             '@profile'  => check_plain($profile->title),
@@ -931,6 +940,7 @@ function ting_field_search_config_default() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default'
     ),
     'search_request' => array(
       'agency' => '',
