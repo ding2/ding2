@@ -9,7 +9,7 @@
  */
 ?>
 <div class="panels-ipe-newblock panels-ipe-on">
-	<?php echo drupal_render($links) ?>
+  <?php echo drupal_render($links) ?>
 </div>
 <div id="ipe-add-<?php echo $region_id ?>" class="panels-ipe-newblock ipe-popup element-hidden">
   <?php echo drupal_render($selections) ?>
