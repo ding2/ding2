@@ -426,6 +426,11 @@ function fbs_branches() {
     try {
       $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
     }
+    catch (FBSMisconfiguredException $e) {
+      // Be quiet and use an empty list if we're not configured yet.
+      $branches = array();
+      return $branches;
+    }
     catch (Exception $e) {
       watchdog_exception('fbs', $e);
     }
