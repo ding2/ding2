@@ -166,7 +166,8 @@ body > .ding2-site-template {
   }
   &.reserve-button {
     display: none;
-    &.reservable {
+    &.reservable,
+    .reservable & {
       display: block;
     }
   }
