@@ -34,4 +34,5 @@ function ding_ipe_filter_install() {
  */
 function ding_ipe_filter_uninstall() {
   variable_del('ding_ipe_filter_table');
+  variable_del('ding_ipe_filter_settings');
 }

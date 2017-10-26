@@ -4,9 +4,6 @@
  * Provide IPE Filter menu functionality.
  */
 
-include_once 'ding_ipe_filter.features.inc';
-
-
 /**
  * Implements hook_menu().
  */
