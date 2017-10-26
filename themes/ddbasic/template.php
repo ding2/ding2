@@ -417,6 +417,27 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
 }
 
 /**
+ * Paragraphs item specific implementation of template_preprocess_entity().
+ */
+function ddbasic_preprocess_entity_paragraphs_item(&$variables) {
+  // Image and text positioning for image and text paragraph.
+  if ($variables['elements']['#bundle'] == 'ding_paragraphs_image_and_text') {
+    $wrapper = entity_metadata_wrapper('paragraphs_item', $variables['paragraphs_item']);
+    $position = $wrapper->field_ding_paragraphs_position->value();
+    switch ($position) {
+      case 'image_top':
+        $variables['content']['field_ding_paragraphs_image']['#weight'] = 0;
+        $variables['content']['field_ding_paragraphs_text']['#weight'] = 1;
+        break;
+      case 'image_bottom':
+        $variables['content']['field_ding_paragraphs_image']['#weight'] = 1;
+        $variables['content']['field_ding_paragraphs_text']['#weight'] = 0;
+        break;
+    }
+  }
+}
+
+/**
  * Implements template_preprocess_menu_links().
  */
 function ddbasic_preprocess_menu_link(&$variables) {

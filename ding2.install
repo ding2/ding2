@@ -799,3 +799,9 @@ function ding2_update_7070() {
   ding2_translation_update();
 }
 
+/**
+ * Enable Ding paragraphs module.
+ */
+function ding2_update_7071() {
+  module_enable(array('ding_paragraphs'));
+}

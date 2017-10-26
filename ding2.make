@@ -342,6 +342,9 @@ projects[proj4js][version] = "1.2"
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
 
+projects[paragraphs][subdir] = "contrib"
+projects[paragraphs][version] = "1.0-rc5"
+
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.2"
 
