@@ -15,7 +15,7 @@ function ding_ipe_filter_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_ipe_filter_admin_panes_form'),
     'access arguments' => array('access administration pages'),
-    'file' => 'ding_ipe_filter.admin.inc',
+    'file' => 'includes/ding_ipe_filter.admin.inc',
   );
 
   return $items;
@@ -52,51 +52,6 @@ function ding_ipe_filter_use_menu() {
     }
     return FALSE;
   });
-}
-
-/**
- * Implements hook_theme().
- */
-function ding_ipe_filter_theme() {
-  return array(
-    'ding_ipe_filter_table' => array(
-      'render element' => 'form',
-    ),
-  );
-}
-
-/**
- * Implements theme_hook().
- */
-function theme_ding_ipe_filter_table($variables) {
-  $form = $variables['form'];
-  $header = $form['#header'];
-
-  $content = array(
-    'header' => $header,
-    'rows' => array(),
-    'attributes' => array('id' => 'ipe-filter-table'),
-  );
-  foreach (element_children($form) as $row_index) {
-    if (isset($form[$row_index]['title'])) {
-      $form[$row_index]['weight']['#attributes']['class'] = array('ipe-filter-order-weight');
-      $content['rows'][] = array(
-        'data' => array(
-          array('class' => array('slide-cross')),
-          drupal_render($form[$row_index]['delta']),
-          drupal_render($form[$row_index]['value']),
-          drupal_render($form[$row_index]['weight']),
-        ),
-        'class' => array('draggable'),
-      );
-    }
-  }
-  $output = theme('table', $content);
-  $output .= drupal_render_children($form);
-
-  drupal_add_tabledrag('ipe-filter-table', 'order', 'sibling', 'ipe-filter-order-weight');
-
-  return $output;
 }
 
 /**
@@ -187,4 +142,34 @@ function _ding_ipe_filter_show_for_admin() {
   }
 
   return $show_for_admin;
+}
+
+/**
+ * Get the current filter list.
+ *
+ * The panel panes selected in the administration UI and if not configured yet
+ * the default selections is used.
+ *
+ * @param bool $filter
+ *   If TRUE the field with value else all filters.
+ *
+ * @return array
+ *   The selected panes indexed by "category:subtype-name".
+ */
+function _ding_ipe_filter_selected_panes($filter = FALSE) {
+  $default = array(
+    'ding-:all_opening_hours' => 'ding-:all_opening_hours',
+    'ding-:popular' => 'ding-:popular',
+    'ding-:interaction_pane' => 'ding-:interaction_pane',
+    'ding-:serendipity_ting_object' => 'ding-:serendipity_ting_object',
+    'ding-:ding_tabroll-ding_frontpage_tabroll' => 'ding-:ding_tabroll-ding_frontpage_tabroll',
+    'event-panes:ding_event-ding_event_list_frontpage' => 'event-panes:ding_event-ding_event_list_frontpage',
+    'event-panes:ding_event-ding_event_simple_list' => 'event-panes:ding_event-ding_event_simple_list',
+    'groups-panes:ding_groups-ding_group_overview_simple' => 'groups-panes:ding_groups-ding_group_overview_simple',
+    'news-panes:ding_news-ding_news_frontpage_list' => 'news-panes:ding_news-ding_news_frontpage_list',
+    'ting:carousel' => 'ting:carousel',
+  );
+
+  $selected = variable_get('ding_ipe_filter_panes_selected', $default);
+  return $filter ? array_filter($selected) : $selected;
 }
