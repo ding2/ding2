@@ -721,6 +721,12 @@ function ding_message_preprocess_ting_object(&$vars) {
  *   client.
  */
 function ding_message_build_query($query) {
+  // TODO BBS-SAL: This seems to be a search-url. Confirm, and then see if we
+  // can build a query the same way ting_search does.
+  // instead of _ting_search_quote we can probably juse a simpleSearch.
+  // If the _ting_search_quote invocation is removed, be aware that it might
+  // be the last use of it outside the openseach module and should then be
+  // moved there.
   // Separate path and query.
   $qs = explode('?', urldecode($query));
   // Build the path as required.

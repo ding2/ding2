@@ -39,6 +39,7 @@ function ting_search_admin_settings($form_state) {
     '#default_value' => variable_get('ting_search_number_of_facets', 25),
   );
 
+  // TODO BBS-SAL, opensearch specific?
   $form['ting_search']['ting_search_register_serie_title'] = array(
     '#type' => 'textfield',
     '#title' => t('Serie title'),
