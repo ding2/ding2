@@ -1001,11 +1001,13 @@ function ddbasic_preprocess_form_element(&$variables) {
 function ddbasic_preprocess_ding_carousel(&$variables) {
   // Add ajax to make reserve links work.
   drupal_add_library('system', 'drupal.ajax');
+  drupal_add_library('system', 'ui.widget');
 
   // The ding carousel's do not use the standard Drupal ajax API so it doesn't
-  // automatically include availability and covers handling.
+  // automatically include availability, covers and rating handling.
   drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js');
   drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
+  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating.js');
 }
 
 /**
