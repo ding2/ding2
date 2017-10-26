@@ -76,8 +76,8 @@ function ding_paragraphs_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        'image_right' => 'Image right',
-        'image_left' => 'Image left',
+        'image_top' => 'Image top',
+        'image_bottom' => 'Image bottom',
       ),
       'allowed_values_function' => '',
       'profile2_private' => FALSE,
