@@ -80,6 +80,7 @@ function ding_news_field_group_info() {
     'children' => array(
       0 => 'field_ding_news_body',
       1 => 'field_ding_news_lead',
+      2 => 'group_ding_news_paragraphs',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
