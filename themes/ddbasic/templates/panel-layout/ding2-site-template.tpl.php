@@ -9,24 +9,23 @@
   <?php if (!empty($content['branding']) || !empty($content['header']) || !empty($content['navigation'])): ?>
     <header class="site-header">
       <?php if (!empty($content['branding'])): ?>
-        <section class="topbar">
-          <div class="topbar-inner">
+        <section class="site-header-topbar">
+          <div class="site-header-inner">
             <?php print render($content['branding']); ?>
           </div>
         </section>
       <?php endif; ?>
 
       <?php if (!empty($content['header'])): ?>
-        <section class="header-wrapper">
-          <div class="header-inner">
-            <?php print render($content['header']); ?>
-          </div>
+        <!-- @TODO denne klasse skal omdøbes hvis mobile menu ligger her -->
+        <section class="site-header-search">
+          <?php print render($content['header']); ?>
         </section>
       <?php endif; ?>
 
       <?php if (!empty($content['navigation'])): ?>
-        <section class="navigation-wrapper js-topbar-menu">
-          <div class="navigation-inner">
+        <section class="site-header-navigation js-topbar-menu">
+          <div class="site-header-inner">
             <?php print render($content['navigation']); ?>
           </div>
         </section>
