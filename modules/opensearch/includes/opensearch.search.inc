@@ -377,7 +377,7 @@ function opensearch_search_render_inline_relation(TingRelation $relation) {
  *   Mapping between TingSearchCommonFields::* fields and their provider-
  *   specific counterpart.
  */
-function opensearch_search_map_common_fields() {
+function opensearch_search_map_common_condition_fields() {
   return [
     TingSearchCommonFields::ACQUISITION_DATE => 'acquisitionDate',
     TingSearchCommonFields::AUTHOR => 'facet.creator',

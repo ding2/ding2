@@ -115,13 +115,16 @@ function connie_search_search_render_inline_relation(\TingRelation $relation) {
 }
 
 /**
- * Mapping between common fields and their provider-specific name.
+ * Mapping of common fields used in conditions to provider-specific names.
+ *
+ * Condition fields are fields that are used for boolean condition such as
+ * dc.type = "something" AND facet.creator = "someone"
  *
  * @return array
  *   Mapping between TingSearchCommonFields::* fields and their provider-
  *   specific counterpart.
  */
-function connie_search_search_map_common_fields() {
+function connie_search_search_map_common_condition_fields() {
   return [
     TingSearchCommonFields::ACQUISITION_DATE => 'acquisitionDate',
     TingSearchCommonFields::AUTHOR => 'facet.creator',

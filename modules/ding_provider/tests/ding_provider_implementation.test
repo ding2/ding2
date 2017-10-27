@@ -491,7 +491,7 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    */
   public function testCommonFieldMapping() {
     $expected_keys = $this->getExpectedCommonFields();
-    $mapped_fields = ding_provider_invoke('search', 'map_common_fields');
+    $mapped_fields = ding_provider_invoke('search', 'map_common_condition_fields');
 
     $diff = array_diff($expected_keys, array_keys($mapped_fields));
 
