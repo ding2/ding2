@@ -30,6 +30,9 @@ function ddbasic_preprocess_html(&$vars) {
 
   // Search form style.
   switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
+    case TING_SEARCH_FORM_STYLE_NORMAL:
+      $vars['classes_array'][] = 'search-form-default';
+      break;
     case TING_SEARCH_FORM_STYLE_EXTENDED:
       $vars['classes_array'][] = 'search-form-extended';
       $vars['classes_array'][] = 'show-secondary-menu';

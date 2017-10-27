@@ -9,6 +9,9 @@
   top: 0;
   left: 0;
   width: 100%;
+  .admin-menu & {
+    top: $admin-menu-height;
+  }
   .site-header-inner {
     @include wrapper;
   }
@@ -44,18 +47,25 @@
 }
 
 // ==========================================================================
-// Search
+// Search and user menu
 // ==========================================================================
-.site-header-search {
+.site-header-search-and-user-menu {
+  position: relative;
   .pane-user-menu {
-    display: none;
+    position: absolute;
+    top: 0;
+    z-index: 2;
   }
   .pane-search-form {
     position: absolute;
+    width: 100%;
     .form-item-search-block-form {
       float: left;
       input[type="text"] {
         border-radius: $round-corner 0 0 $round-corner;
+        &:focus {
+          box-shadow: none;
+        }
       }
     }
     .form-actions {
@@ -64,26 +74,82 @@
       }
     }
   }
+  .search-field-wrapper {
+    @include wrapper;
+    position: relative;
+  }
+  // Search form default
+  .search-form-default & {
+    .search-field-wrapper {
+      form {
+        position: absolute;
+        z-index: 1;
+        top: 15px;
+        right: 0;
+        width: getColumn(3);
+      }
+      .form-item-search-block-form {
+        width: getColumn(2 of 3) + getGutter(3);
+        float: left;
+        input[type="text"] {
+          @include transition(width $speed $ease);
+          float: right;
+          &:focus {
+            width: getColumn(4 of 2);
+            box-shadow: none;
+          }
+        }
+
+        // Tablet
+        @include media($tablet) {
+          width: getColumn(10) + getGutter();
+          input[type="text"] {
+            width: 100%;
+            &:focus {
+              width: 100%;
+            }
+          }
+        }
+
+        // Mobile
+        @include media($mobile) {
+          width: getColumn(9) + getGutter();
+        }
+      }
+      .form-actions {
+        width: getColumn(1 of 3);
+        float: left;
+        input[type="submit"] {
+          border-radius: 0 $round-corner $round-corner 0;
+        }
+
+        // Tablet
+        @include media($tablet) {
+          width: getColumn(2);
+        }
+
+        // Mobile
+        @include media($mobile) {
+          width: getColumn(3);
+        }
+      }
+    }
+  }
   // Search form extended
   .search-form-extended & {
     @include transition(height $speed $ease);
-    position: relative;
     height: 0;
     .pane-search-form {
       @include transition(box-shadow $speed $ease);
       bottom: 0;
       left: 0;
-      width: 100%;
       background-color: $charcoal;
       box-shadow: none;
       padding: 15px 0;
-      .search-field-wrapper {
-        @include wrapper;
-        position: relative;
-      }
       .search-extended-button {
         position: absolute;
-        top: 84px;
+        z-index: 1;
+        top: $search-form-extended-height;
         right: 0;
       }
       .form-item-search-block-form {
@@ -115,9 +181,30 @@
     }
   }
   .search-form-extended.extended-search-is-open & {
-    height: 84px;
+    height: $search-form-extended-height;
     .pane-search-form {
       box-shadow: $box-shadow;
+    }
+  }
+  // Search form extended with profiles
+  .search-form-extended-with-profiles & {
+    .pane-search-form {
+      .form-item-search-block-form {
+        width: getColumn(8) + getGutter();
+      }
+      .form-item-ting-field-search {
+        width: getColumn(3) + getGutter();
+        float: left;
+        margin-bottom: 0;
+      }
+      .select-wrapper {
+        border-radius: 0;
+        border: 1px solid $white;
+        border-left: 1px solid $grey;
+        &:before {
+          background-color: $white;
+        }
+      }
     }
   }
 }
@@ -126,6 +213,7 @@
 // Navigation
 // ==========================================================================
 .site-header-navigation {
+  position: relative;
   background-color: $color-primary;
   box-shadow: $box-shadow;
   .secondary-menu-wrapper {
@@ -144,6 +232,25 @@
     }
     .extended-search-is-allways-visible & {
       padding-right: 0;
+    }
+  }
+  .pane-menu-block-main-menu-second-level {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    left: 0;
+    background-color: $charcoal;
+    box-shadow: $box-shadow;
+    &::before {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 100%;
+      background-color: $black;
+      box-shadow: 0 5px 10px 0 $black;
+    }
+    .panel-pane-inner {
+      @include wrapper;
     }
   }
 }

@@ -17,8 +17,7 @@
       <?php endif; ?>
 
       <?php if (!empty($content['header'])): ?>
-        <!-- @TODO denne klasse skal omdøbes hvis mobile menu ligger her -->
-        <section class="site-header-search">
+        <section class="site-header-search-and-user-menu">
           <?php print render($content['header']); ?>
         </section>
       <?php endif; ?>
