@@ -215,6 +215,7 @@ function ding_list_menu() {
     'page callback' => 'ding_list_carousel_ajax',
     'page arguments' => array(3, 4),
     'access callback' => 'ding_list_user_has_access',
+    'access arguments' => array(3),
     'file' => 'include/menu_callbacks.inc',
     'type' => MENU_CALLBACK,
   );

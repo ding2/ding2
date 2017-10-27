@@ -802,8 +802,8 @@ function ding_list_get_permission_permissions($permission = FALSE) {
 /**
  * Check if a user has access to a list, with the given permissions.
  *
- * @param object $list
- *   List entity.
+ * @param object|int $list
+ *   List entity or the lists id.
  * @param string $permission
  *   The permission to check against.
  * @param object $account
@@ -823,6 +823,11 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
   $access_key = md5(serialize(func_get_args()));
   if (isset($access[$access_key])) {
     return $access[$access_key];
+  }
+
+  // If used as menu access callback the list have to be loaded.
+  if (is_numeric($list)) {
+    $list = ding_list_get_list($list);
   }
 
   if (ding_base_get_value('ding_type', $list, 'field_list_type') == DING_LIST_TYPE_LOAN_HISTORY

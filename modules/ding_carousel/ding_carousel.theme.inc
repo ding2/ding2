@@ -23,6 +23,17 @@ function template_preprocess_ding_carousel(&$vars) {
     );
   }
 
+  // This is an empty carousel, which slick don't handle well (as in it will
+  // make a infinite loop and kill the browser). So e.g. 0 hits search
+  // carousel's are fixed here be simply placing a single placeholder slide.
+  if (empty($vars['items'])) {
+    $vars['items'][] = array(
+      '#type' => 'ding_carousel_item',
+      '#content' => $carousel['#placeholder'],
+      '#placeholder' => TRUE,
+    );
+  }
+
   // Fill up with placeholders if there's not enough items.
   if (count($vars['items']) < $carousel['#placeholders']) {
     while (count($vars['items']) < $carousel['#placeholders']) {
