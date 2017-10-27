@@ -591,8 +591,6 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['type']['table'] = 'node';
   $handler->display->display_options['fields']['type']['field'] = 'type';
   $handler->display->display_options['fields']['type']['label'] = '';
-  $handler->display->display_options['fields']['type']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['type']['alter']['text'] = '%1: [type]';
   $handler->display->display_options['fields']['type']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Type */
   $handler->display->display_options['sorts']['type']['id'] = 'type';
@@ -651,7 +649,6 @@ function ding_content_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
-    t('%1: [type]'),
     t('All'),
     t('Tags'),
     t('Nodes based on tag'),
