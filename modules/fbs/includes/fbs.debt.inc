@@ -35,7 +35,12 @@ function fbs_debt_list($account) {
   // Translate record ids and preload entities.
   if ($ids) {
     $ids = ding_provider_build_entity_id($ids);
-    ding_entity_load_multiple(array_filter($ids));
+    $entities = array();
+    // Since ding_entitye_load_multiple() returns array keyed by local tid, we
+    // make e new array keyed by data well PiD.
+    foreach (ding_entity_load_multiple(array_filter($ids)) as $key => $entity) {
+      $entities[$entity->ding_entity_id] = $entity;
+    }
   }
 
   foreach ($res as $fee) {
@@ -59,7 +64,8 @@ function fbs_debt_list($account) {
     $materials = array();
     foreach ($fee->materials as $material) {
       $ding_entity_id = $ids[$material->recordId];
-      if ($ding_entity_id && $entity = ding_entity_load($ding_entity_id)) {
+      if (isset($entities[$ding_entity_id])) {
+        $entity = $entities[$ding_entity_id];
         // Create title that links to the object.
         $uri = entity_uri('ting_object', $entity);
 
