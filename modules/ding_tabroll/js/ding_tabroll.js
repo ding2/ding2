@@ -4,6 +4,8 @@
  * events on the tabs.
  */
 (function ($) {
+  'use strict';
+
   Drupal.behaviors.ding_tabroll = {
     attach: function (context) {
       var tabroll = $('.ding-tabroll', context);
@@ -19,7 +21,7 @@
             // Update the mobile navigation drop down.
             tabroll_select.prop('selectedIndex', ui.index);
           }
-        }).tabs("rotate", 5000);
+        }).tabs('rotate', 5000);
 
         // Stop tabs rotate when mouse is over the tab roll.
         tabroll.mouseenter(function() {
@@ -29,7 +31,7 @@
         // Start tabs rotate when mouse is out.
         tabroll.mouseleave(function() {
           if (!tab_selected) {
-            tabroll.tabs().tabs("rotate", 5000);
+            tabroll.tabs().tabs('rotate', 5000);
           }
         });
       }
@@ -44,7 +46,7 @@
 
       // Hook into click events in the responsive mobile selector.
       tabroll_select.live('change', function() {
-        tabroll.tabs("select", $(this).prop('selectedIndex'));
+        tabroll.tabs('select', $(this).prop('selectedIndex'));
         tabroll.tabs().tabs('rotate', 0);
         tab_selected = true;
       });
