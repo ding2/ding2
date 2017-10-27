@@ -140,6 +140,7 @@
         // Tablet
         @include media($tablet) {
           @include span-columns(6);
+          @include omega();
         }
 
         // Mobile
@@ -163,8 +164,18 @@
           margin-left: 0;
         }
         a {
-          @include button('arrow-right', $background-color: $grey-dark);
+          @include button('arrow-right');
           padding-right: 45px;
+          margin-bottom: 10px;
+          &::after {
+            color: $charcoal-opacity-dark;
+          }
+          &:last-child {
+            margin-bottom: 0;
+          }
+          &.buttons-button-back {
+            background-color: $grey-dark;
+          }
         }
       }
     }
