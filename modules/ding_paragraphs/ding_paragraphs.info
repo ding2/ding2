@@ -34,4 +34,4 @@ features[paragraphs][] = ding_paragraphs_text
 features[variable][] = field_bundle_settings_paragraphs_item__ding_paragraphs_image
 features[variable][] = field_bundle_settings_paragraphs_item__ding_paragraphs_image_and_text
 features[variable][] = field_bundle_settings_paragraphs_item__ding_paragraphs_text
-mtime = 1508931444
+mtime = 1509019156

@@ -129,7 +129,7 @@ function ding_news_strongarm() {
             'visible' => TRUE,
           ),
           'default' => array(
-            'weight' => '12',
+            'weight' => '13',
             'visible' => TRUE,
           ),
           'search_result' => array(
