@@ -456,7 +456,7 @@ projects[ting_reference_advanced][subdir]            = ""
 projects[ting_reference_advanced][download][type]    = "git"
 projects[ting_reference_advanced][download][url]     = "git@github.com:easySuite/ting_reference_advanced.git"
 ;projects[ting_reference_advanced][download][tag]     = "7.x-3.1.0"
-projects[ting_reference_advanced][download][branch]  = development"
+projects[ting_reference_advanced][download][branch]  = "development"
 
 projects[ting_search_terms][type]             = "module"
 projects[ting_search_terms][subdir]           = ""
