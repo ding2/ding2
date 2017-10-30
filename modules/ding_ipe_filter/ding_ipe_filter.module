@@ -96,7 +96,7 @@ function _ding_ipe_filter_callback($variables = array()) {
   $output = array(
     '#theme' => 'ding_ipe_filter_selection',
     '#region_id' => $region_id,
-    '#links' => $link = array(
+    '#links' => array(
       '#theme' => 'link',
       '#text' => t('Add', array(), array('context' => 'ding_ipe')),
       '#path' => NULL,
@@ -138,7 +138,7 @@ function _ding_ipe_filter_callback($variables = array()) {
   }
   else {
     // Filter panes available based on the configuration.
-    $selections = _ding_ipe_filter_selected_panes(TRUE);
+    $selections = _ding_ipe_filter_selected_panes();
     foreach ($selections as $selection) {
       list($category, $subtype_name) = explode(':', $selection);
       $pane = _ding_ipe_filter_get_pane_info($category, $subtype_name);
@@ -212,13 +212,10 @@ function _ding_ipe_filter_show_for_admin() {
  * The panel panes selected in the administration UI and if not configured yet
  * the default selections is used.
  *
- * @param bool $filter
- *   If TRUE the field with value else all filters.
- *
  * @return array
  *   The selected panes indexed by "category:subtype-name".
  */
-function _ding_ipe_filter_selected_panes($filter = FALSE) {
+function _ding_ipe_filter_selected_panes() {
   $default = array(
     'ding-:all_opening_hours' => 'ding-:all_opening_hours',
     'ding-:popular' => 'ding-:popular',
@@ -233,5 +230,5 @@ function _ding_ipe_filter_selected_panes($filter = FALSE) {
   );
 
   $selected = variable_get('ding_ipe_filter_panes_selected', $default);
-  return $filter ? array_filter($selected) : $selected;
+  return array_filter($selected);
 }

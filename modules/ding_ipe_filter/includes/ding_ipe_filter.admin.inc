@@ -24,7 +24,7 @@ function ding_ipe_filter_admin_panes_form($form, $form_state) {
 
   $form['ding_ipe_filter_panes'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Menu items'),
+    '#title' => t('Available panel panes'),
     '#description' => t('Select the panel panes that should be available in the editor when clicking the "add" buttons.'),
   );
 
@@ -36,7 +36,7 @@ function ding_ipe_filter_admin_panes_form($form, $form_state) {
     'description' => t('Description'),
   );
 
-  // Get all panes based on there categories.
+  // Get all panes based on their categories.
   ctools_include('content');
   $content_types = ctools_content_get_available_types();
   $panel_editor = new panels_renderer_editor();
