@@ -561,32 +561,6 @@ function ding_entity_rating_get_loans_not_rated() {
 }
 
 /**
- * Implements hook_form_alter().
- *
- * Add serendipity config to frontpage admin config.
- */
-function ding_entity_rating_form_ding_frontpage_admin_settings_alter(&$form, &$form_state, $form_id) {
-  $form['ding_frontpage']['ding_entity_rating_popular_on_frontpage'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Show this months popular elements on the frontpage.'),
-    '#default_value' => variable_get('ding_entity_rating_popular_on_frontpage', FALSE),
-    '#description' => t('Toggle popular on or off.'),
-  );
-
-  $form['#submit'][] = 'ding_entity_rating_frontpage_submit';
-}
-
-/**
- * Submit handler for ding serendipity frontpage options.
- */
-function ding_entity_rating_frontpage_submit($form, $form_state) {
-  variable_set(
-    'ding_entity_rating_popular_on_frontpage',
-    $form_state['values']['ding_entity_rating_popular_on_frontpage']
-  );
-}
-
-/**
  * Preprocess materials_item.
  */
 function ding_entity_rating_preprocess_material_item(&$variables) {
