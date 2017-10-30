@@ -1,6 +1,4 @@
 ;(function($){
-	'use strict';
-
 	$.extend( $.ui.tabs.prototype, {
 		rotation: null,
 		rotationDelay: null,
@@ -21,7 +19,7 @@
 				clearTimeout( self.rotation );
 				self.rotation = setTimeout(function() {
 					var t = o.active;
-					self.option( 'active',  ++t < self.anchors.length ? t : 0 );
+					self.option( "active",  ++t < self.anchors.length ? t : 0 );
 				}, ms );
 
 				if ( e ) {
@@ -42,14 +40,14 @@
 
 			// start rotation
 			if ( ms ) {
-				this.element.bind( 'tabsactivate', rotate );
-				this.anchors.bind( o.event + '.tabs', $.proxy(self.unpause, self) );
+				this.element.bind( "tabsactivate", rotate );
+				this.anchors.bind( o.event + ".tabs", $.proxy(self.unpause, self) );
 				rotate();
 			// stop rotation
 			} else {
 				clearTimeout( self.rotation );
-				this.element.unbind( 'tabsactivate', rotate );
-				this.anchors.unbind( o.event + '.tabs', $.proxy(self.pause, self) );
+				this.element.unbind( "tabsactivate", rotate );
+				this.anchors.unbind( o.event + ".tabs", $.proxy(self.pause, self) );
 				delete this._rotate;
 				delete this._unrotate;
 			}
