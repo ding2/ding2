@@ -5,13 +5,6 @@ api = 2
 includes[ding2] = "ding2.make"
 
 ; easyOPAC modules
-projects[alma_item_list][type]             = "module"
-projects[alma_item_list][subdir]           = ""
-projects[alma_item_list][download][type]   = "git"
-projects[alma_item_list][download][url]    = "git@github.com:easySuite/alma_item_list.git"
-;projects[alma_item_list][download][tag]    = "7.x-3.0.2"
-projects[alma_item_list][download][branch] = "development"
-
 projects[alma_reminder_service][type]             = "module"
 projects[alma_reminder_service][subdir]           = ""
 projects[alma_reminder_service][download][type]   = "git"
@@ -547,3 +540,10 @@ projects[kultur_subtheme][download][type]   = "git"
 projects[kultur_subtheme][download][url]    = "git@github.com:easySuite/kultur_subtheme.git"
 projects[kultur_subtheme][download][branch] = "develop"
 
+; To be removed
+projects[alma_item_list][type]             = "module"
+projects[alma_item_list][subdir]           = ""
+projects[alma_item_list][download][type]   = "git"
+projects[alma_item_list][download][url]    = "git@github.com:easySuite/alma_item_list.git"
+;projects[alma_item_list][download][tag]    = "7.x-3.0.2"
+projects[alma_item_list][download][branch] = "development"
