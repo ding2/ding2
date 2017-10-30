@@ -42,8 +42,9 @@ function ting_covers_custom_ting_covers($entities) {
  * Implements hook_menu_alter().
  */
 function ting_covers_custom_menu_alter(&$items) {
-  // Change menu entry type for the admin list. This will render it as a local
-  // task under Ting covers.
+  // Change menu entry type and set title for the admin list.
+  // This will render it as a local task under Ting covers.
+  $items['admin/config/ting/covers/custom']['title'] = t('Custom covers');
   $items['admin/config/ting/covers/custom']['type'] = MENU_LOCAL_TASK;
 }
 
