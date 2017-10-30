@@ -97,20 +97,30 @@
   .ding-list-title {
     @include font('display-large');
   }
-  .ting-carousel-actions {
+  > .content {
     position: relative;
-    margin-top: -54px;
+  }
+  .ting-carousel-actions {
+    position: absolute;
+    bottom: 0px;
     z-index: 2;
-    .more-link {
-      margin-right: 15px;
-    }
-    form {
-      float: left;
-    }
+
     //Mobile
     @include media($mobile) {
+      position: static;
       float: right;
-      margin-top: 15px;
+    }
+
+    form {
+      float: left;
+      input[type=submit] {
+        margin-bottom: 0;
+        margin-left: 15px;
+        //Mobile
+        @include media($mobile) {
+          width: 171px;
+        }
+      }
     }
   }
 }

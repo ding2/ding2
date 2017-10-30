@@ -10,11 +10,6 @@
 .page-list {
   .pane-sharer-pane {
     float: right;
-    margin-bottom: 15px;    
-    //Mobile
-    @include media($mobile) {
-      width: 100%;
-    }
   }
   //Overwrite deafult styles for the social share container on list-page
   .social-share-container {
@@ -22,7 +17,7 @@
     float: right;
     padding-bottom: 0;
     border-bottom: none;
-    margin-bottom: 0;
+    margin-bottom: 30px;
     a {
       padding-right: 15px;      
       //Mobile
