@@ -11,6 +11,117 @@ function ding_list_installer_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
+  $page->name = 'ding_lists_public_lists';
+  $page->task = 'page';
+  $page->admin_title = 'Ding lists public lists';
+  $page->admin_description = '';
+  $page->path = 'public-lists/!rid';
+  $page->access = array();
+  $page->menu = array();
+  $page->arguments = array(
+    'rid' => array(
+      'id' => 1,
+      'identifier' => 'String',
+      'name' => 'string',
+      'settings' => array(
+        'use_tail' => 0,
+      ),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_ding_lists_public_lists__panel';
+  $handler->task = 'page';
+  $handler->subtask = 'ding_lists_public_lists';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => 'panel',
+  );
+  $display = new panels_display();
+  $display->layout = 'ding2_site_template';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'branding' => NULL,
+      'header' => NULL,
+      'navigation' => NULL,
+      'content' => NULL,
+      'footer' => NULL,
+      'bottom' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = '1ce8373a-4e6e-4b13-b9b7-a610515ce8a0';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-e2e8ee47-7c11-4603-81ba-222db581463a';
+    $pane->panel = 'content';
+    $pane->type = 'public_lists_filter';
+    $pane->subtype = 'public_lists_filter';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'e2e8ee47-7c11-4603-81ba-222db581463a';
+    $display->content['new-e2e8ee47-7c11-4603-81ba-222db581463a'] = $pane;
+    $display->panels['content'][0] = 'new-e2e8ee47-7c11-4603-81ba-222db581463a';
+    $pane = new stdClass();
+    $pane->pid = 'new-8aa2b22e-ed43-4b77-a578-d6f617368b0e';
+    $pane->panel = 'content';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'public_lists-lists';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_string_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '8aa2b22e-ed43-4b77-a578-d6f617368b0e';
+    $display->content['new-8aa2b22e-ed43-4b77-a578-d6f617368b0e'] = $pane;
+    $display->panels['content'][1] = 'new-8aa2b22e-ed43-4b77-a578-d6f617368b0e';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-e2e8ee47-7c11-4603-81ba-222db581463a';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['ding_lists_public_lists'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
   $page->name = 'page_ding_list_create';
   $page->task = 'page';
   $page->admin_title = 'Page Ding List Create';
@@ -1037,4 +1148,5 @@ function ding_list_installer_default_page_manager_pages() {
   $pages['page_ding_list_view'] = $page;
 
   return $pages;
+
 }
