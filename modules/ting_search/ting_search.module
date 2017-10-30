@@ -487,8 +487,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     }
 
     // Save search result for usage by facet modules etc.
-    $current_results = &ting_search_current_results();
-    $current_results = $search_result;
+    ting_search_current_results($search_result);
 
     // TODO BBS-SAL: The following code either needs to updated to SAL (eg.
     // ding_facets needs to be updated) or removed.
@@ -510,11 +509,18 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
 /**
  * Retrive the result for a ting_search query performed in this request.
  *
+ * @param \Ting\Search\TingSearchResultInterface $new_search_result
+ *   New search result to make globally accessible.
+ *
  * @return \Ting\Search\TingSearchResultInterface|NULL
  *   The result or NULL if it is not available.
  */
-function &ting_search_current_results() {
-  return drupal_static('ting_search_results');
+function ting_search_current_results(TingSearchResultInterface $new_search_result) {
+  $global_search_result = &drupal_static('ting_search_results');
+  if (NULL !== $new_search_result) {
+    $global_search_result = $new_search_result;
+  }
+  return $global_search_result;
 }
 
 /**
