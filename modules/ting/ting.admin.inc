@@ -139,6 +139,7 @@ function ting_admin_ranking_settings($form, &$form_state) {
     '#after_build' => array('ting_admin_ranking_form_after_build'),
   );
 
+  // TODO BBS-SAL: Should this be made opensearch specific?
   $form['ting_ranking_custom'] = array(
     '#title' => t('Enable custom ranking'),
     '#type' => 'checkbox',

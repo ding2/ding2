@@ -1028,6 +1028,7 @@ function ting_search_submit($form, &$form_state) {
   $keys = $form_state['values'][$form_id];
   $fields = array();
 
+  // TODO BBS-SAL: Add proper facet support here.
   if (!empty($form_state['values']['material_type'])) {
     if (!empty($keys)) {
       $controls['facets'] = array('facet.type:' . $form_state['values']['material_type']);
