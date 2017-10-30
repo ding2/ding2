@@ -14,6 +14,11 @@
   }
   .site-header-inner {
     @include wrapper;
+
+    // Tablet
+    @include media($tablet) {
+      width: 100%;
+    }
   }
 }
 
@@ -42,6 +47,19 @@
       box-shadow: $box-shadow;
       background-color: $grey-light;
       z-index: 5;
+    }
+  }
+
+  // Tablet
+  @include media($tablet) {
+    box-shadow: none;
+    .topbar-menu {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      background-color: $color-primary;
+      padding: 10px 5%;
+      box-shadow: $box-shadow;
     }
   }
 }
@@ -87,6 +105,12 @@
         top: 15px;
         right: 0;
         width: getColumn(3);
+
+        // Tablet
+        @include media($tablet) {
+          position: static;
+          width: 100%;
+        }
       }
       .form-item-search-block-form {
         width: getColumn(2 of 3) + getGutter(3);
@@ -100,17 +124,6 @@
           }
         }
 
-        // Tablet
-        @include media($tablet) {
-          width: getColumn(10) + getGutter();
-          input[type="text"] {
-            width: 100%;
-            &:focus {
-              width: 100%;
-            }
-          }
-        }
-
         // Mobile
         @include media($mobile) {
           width: getColumn(9) + getGutter();
@@ -121,16 +134,6 @@
         float: left;
         input[type="submit"] {
           border-radius: 0 $round-corner $round-corner 0;
-        }
-
-        // Tablet
-        @include media($tablet) {
-          width: getColumn(2);
-        }
-
-        // Mobile
-        @include media($mobile) {
-          width: getColumn(3);
         }
       }
     }
@@ -159,12 +162,6 @@
             width: 100%;
           }
         }
-
-        // Tablet
-        @include media($tablet) {
-          width: 100%;
-          padding-right: 70px;
-        }
       }
       .form-actions {
         width: getColumn(1);
@@ -182,6 +179,11 @@
   }
   .search-form-extended.extended-search-is-open & {
     height: $search-form-extended-height;
+
+    // Tablet
+    @include media($tablet) {
+      height: auto;
+    }
     .pane-search-form {
       box-shadow: $box-shadow;
     }
@@ -207,6 +209,52 @@
       }
     }
   }
+  .search-form-extended &,
+  .search-form-default & {
+    // Tablet
+    @include media($tablet) {
+      .pane-search-form {
+        @include transition(
+          transform $speed $ease,
+          box-shadow $speed $ease
+        );
+        @include transform(translateY(-100%));
+        bottom: auto;
+        padding: 15px 0;
+        background-color: $charcoal;
+      }
+      .search-field-wrapper {
+        .form-item-search-block-form {
+          width: getColumn(10) + getGutter();
+          input[type="text"] {
+            &:focus {
+              width: 100%;
+            }
+          }
+        }
+        .form-actions {
+          width: getColumn(2);
+        }
+      }
+    }
+    // Mobile
+    @include media($mobile) {
+      .search-field-wrapper {
+        .form-actions {
+          width: getColumn(3);
+        }
+      }
+    }
+  }
+  .mobile-search-is-open & {
+    // Tablet
+    @include media($tablet) {
+      .pane-search-form {
+        @include transform(translateY(0));
+        box-shadow: $box-shadow;
+      }
+    }
+  }
 }
 
 // ==========================================================================
@@ -216,6 +264,38 @@
   position: relative;
   background-color: $color-primary;
   box-shadow: $box-shadow;
+
+  // Tablet
+  @include media($tablet) {
+    @include transition(
+      transform $speed $ease
+    );
+    @include transform(translateY(-100%));
+    position: absolute;
+    top: $header-height;
+    left: 0;
+    max-height: 100vh;
+    padding-bottom: $header-height;
+    background-color: transparent;
+    overflow: scroll;
+    box-shadow: none;
+
+    .main-menu-wrapper {
+      @include transition(
+        box-shadow $speed $ease
+      );
+      float: left;
+      background-color: $color-primary;
+    }
+
+    .mobile-menu-is-open & {
+      @include transform(translateY(0%));
+
+      .main-menu-wrapper {
+        box-shadow: $box-shadow;
+      }
+    }
+  }
   .secondary-menu-wrapper {
     display: none;
     // Show secondary menu
