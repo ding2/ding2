@@ -1,0 +1,10 @@
+
+/* Hack: Allow lead text to occupy full width og the collumn */
+.node-ding-page .field-name-field-ding-page-body, .node-ding-page .field-name-field-ding-page-lead {
+    width: auto;
+}
+
+/* Hack: set right column to use full width. Seams to inherit some weird percentage width */
+.node-ding-news.node-full .ding-news-right {
+    width: 54%;
+}
