@@ -52,7 +52,7 @@ function ting_search_admin_settings($form_state) {
   $form['ting_search']['ting_search_default_sort'] = array(
     '#type' => 'select',
     '#title' => t('Default sorting'),
-    '#options' => ting_search_sort_options(),
+    '#options' => ting_search_sort_form_options(),
     '#default_value' => variable_get('ting_search_default_sort', ''),
     '#description' => t('Set the default sorting for search results.'),
   );

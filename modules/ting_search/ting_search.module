@@ -4,6 +4,10 @@
  * Enables search integration with Ting.
  */
 
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchResultInterface;
+use Ting\Search\TingSearchSort;
+
 require_once 'includes/TingSearchCqlDoctor.class.inc';
 
 define('TING_SEARCH_FORM_STYLE_NORMAL', 'normal');
@@ -445,20 +449,23 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         $results_per_page = $conditions['size'];
       }
 
-      // TODO BBS-SAL: port, currently ignored.
       // Set sort order.
       if (!empty($conditions['sort'])) {
-        $options['sort'] = $conditions['sort'];
+        // Get all sort-options available from the provider.
+        $available_sort_options = ting_search_sort_options();
+
+        // Determine which sort-option the user has specified, pick out the
+        // TingSearchSort instance specified by the provider and add it to the
+        // query.
+        if (isset($available_sort_options[$conditions['sort']]) && !empty($available_sort_options[$conditions['sort']]['sort'])) {
+          $query->addSorts($available_sort_options[$conditions['sort']]['sort']);
+        }
       }
 
-      module_load_include('client.inc', 'ting');
       $query->setPage($page + 1)->setCount($results_per_page);
       $search_result = $query->execute();
 
       if ($search_result->getNumTotalCollections() > 0) {
-        // TODO BBS-SAL: Workaround until we get rid of the static cache.
-        $search_result->openSearchResult->search_key = $keys;
-
         // So we got the total amount of results, but the joker here is that
         // we have no clue how many collections we got.
         // Rounded up, this will display 'one more page' if $search-result->more
@@ -515,7 +522,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
  * @return \Ting\Search\TingSearchResultInterface|NULL
  *   The result or NULL if it is not available.
  */
-function ting_search_current_results(TingSearchResultInterface $new_search_result) {
+function ting_search_current_results(TingSearchResultInterface $new_search_result = NULL) {
   $global_search_result = &drupal_static('ting_search_results');
   if (NULL !== $new_search_result) {
     $global_search_result = $new_search_result;
@@ -817,10 +824,21 @@ function search_extend_content() {
 function ting_search_sort_form($form_state) {
   $form = array();
 
+  // Try to determine current sort.
+  if (NULL !== ting_search_current_results() && !empty(ting_search_current_results()->getSearchRequest()->getSorts())) {
+    // We have a search-result and the query contains a sort, use it.
+    // We can only select a single sort, so use the first.
+    $current_sort = ting_search_sort_key_from_sort(ting_search_current_results()->getSearchRequest()->getSorts()[0]);
+  }
+  else {
+    // Fall back to the configured default sort.
+    $current_sort = variable_get('ting_search_default_sort', '');
+  }
+
   $form['sort'] = array(
     '#type' => 'select',
-    '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : variable_get('ting_search_default_sort', ''),
-    '#options' => ting_search_sort_options(),
+    '#default_value' => $current_sort,
+    '#options' => ting_search_sort_form_options(),
   );
   $form['submit'] = array(
     '#type' => 'submit',
@@ -833,40 +851,90 @@ function ting_search_sort_form($form_state) {
 }
 
 /**
+ * Determines the key for an instance of TingSearchSort.
+ *
+ * The key is determined by examining sorts provided by default and by the
+ * current search-provider.
+ *
+ * Use this function for eg. determining which value of a sort <option> element
+ * corrosponds to a given TingSearchSort instance.
+ *
+ * @param \Ting\Search\TingSearchSort $sort
+ *   An instance of a sort.
+ *
+ * @return string|NULL
+ *   The key or NULL if none could be determined.
+ */
+function ting_search_sort_key_from_sort(TingSearchSort $sort) {
+  foreach (ting_search_sort_options() as $key => $info) {
+    if ($info['sort'] === $sort) {
+      return $key;
+    }
+  }
+  return NULL;
+}
+
+/**
+ * Produce a list of sort option suitable for a form options element.
+ *
+ * @return array
+ *   machine-name -> label lisl
+ */
+function ting_search_sort_form_options() {
+  $options_full = ting_search_sort_options();
+  array_walk($options_full, function (&$value, $key) {
+    return $value = $value['label'];
+  });
+
+  // Add label to the front of the options.
+  foreach ($options_full as $key => $option) {
+    $options_full[$key] = t('Sort by: !sort', array('!sort' => $option));
+  }
+
+  return $options_full;
+}
+
+/**
  * Set default sort options.
  *
  * @return array
  *   Returns an array of sort options.
  */
 function ting_search_sort_options() {
-  // TODO BBS-SAL: Where is the machine-names used?
-  $options = array(
-    '' => t('Ranking'),
-    'title_ascending' => t('Title (Ascending)'),
-    'title_descending' => t('Title (Descending)'),
-    'creator_ascending' => t('Creator (Ascending)'),
-    'creator_descending' => t('Creator (Descending)'),
-    'date_ascending' => t('Date (Ascending)'),
-    'date_descending' => t('Date (Descending)'),
-  );
+  $options = [
+    '' => [
+      'label' => t('Ranking'),
+      'sort' => NULL,
+    ],
+    'title_ascending' => [
+      'label' => t('Title (Ascending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_ASCENDING),
+    ],
+    'title_descending' => [
+      'label' => t('Title (Descending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_DESCENDING),
+    ],
+    'creator_ascending' => [
+      'label' => t('Creator (Ascending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_ASCENDING),
+    ],
+    'creator_descending' => [
+      'label' => t('Creator (Descending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_DESCENDING),
+    ],
+    'date_ascending' => [
+      'label' => t('Date (Ascending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_ASCENDING),
+    ],
+    'date_descending' => [
+      'label' => t('Date (Descending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_ASCENDING),
+    ],
+  ];
 
-  // Do not show sort-options specific for rank_frequency if
-  // custom_ranking is enabled or another rank is selected.
-  $default_sort = variable_get('ting_sort_default', 'rank_frequency');
-  $custom_ranking = variable_get('ting_ranking_custom', FALSE);
-  if ($default_sort == 'rank_frequency' && empty($custom_ranking)) {
-    $more_options = array(
-      'rank_title' => t('Best match on title'),
-      'rank_creator' => t('Best match on creator'),
-      'rank_subject' => t('Best match on subject'),
-    );
-    $options += $more_options;
-  }
-
-  // Add label to the front of the options.
-  foreach ($options as $key => $option) {
-    $options[$key] = t('Sort by: !sort', array('!sort' => $option));
-  }
+  // Add provider sorts.
+  $provider_sorts = ding_provider_invoke('search', 'sort_options');
+  $options += $provider_sorts;
 
   return $options;
 }
@@ -901,7 +969,7 @@ function ting_search_records_per_page_controls_content() {
   $output = &drupal_static(__FUNCTION__, array());
 
   // Don't show anything if the search result is empty.
-  if (empty($output) && $search_result && $search_result->getNumTotalCollections() > 0) {
+  if (empty($output) && NULL !== $search_result && $search_result->getNumTotalCollections() > 0) {
     // Get the default results per page.
     $def_size = variable_get('ting_search_results_per_page', 10);
 
