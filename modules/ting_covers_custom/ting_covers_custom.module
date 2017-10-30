@@ -33,7 +33,9 @@ function ting_covers_custom_ting_covers($entities) {
     }
   });
 
-  return $entities;
+  // Only return entities which actually have custom covers. Return NULL for
+  // an entity will prevent other sources from providing a cover for it.
+  return array_filter($entities);
 }
 
 /**
