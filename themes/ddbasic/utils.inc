@@ -126,3 +126,17 @@ function ddbasic_account_count_reservation_not_ready($account = NULL) {
 
   return $reservations[$account->uid];
 }
+
+/**
+ * Function to truncate strings
+ */
+function addEllipsis($string, $length, $end='...') {
+  if (strlen($string) > $length)
+  {
+    $length -= strlen($end);
+    $string  = substr($string, 0, $length);
+    $string .= '<span class="truncation">' . $end . '</span>';
+  }
+
+  return $string;
+}
