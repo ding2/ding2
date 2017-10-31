@@ -457,7 +457,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         // Determine which sort-option the user has specified, pick out the
         // TingSearchSort instance specified by the provider and add it to the
         // query.
-        if (isset($available_sort_options[$conditions['sort']]) && !empty($available_sort_options[$conditions['sort']]['sort'])) {
+        if (!empty($available_sort_options[$conditions['sort']]['sort'])) {
           $query->addSorts($available_sort_options[$conditions['sort']]['sort']);
         }
       }
