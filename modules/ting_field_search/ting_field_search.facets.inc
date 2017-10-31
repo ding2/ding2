@@ -24,11 +24,12 @@ function _ting_field_search_alter_facets() {
 function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_state) {
   if ($profile = _ting_field_search_alter_facets()) {
     // Get the facets returned from the datawell.
-    $search_result = drupal_static('ting_search_results');
-    if (empty($search_result->facets)) {
+    // TODO BBS-SAL: Implement proper facet support.
+    $search_result = ting_search_current_results();
+    if (empty($search_result->openSearchResult->facets)) {
       return;
     }
-    $facets = $search_result->facets;
+    $facets = $search_result->openSearchResult->facets;
 
     // Build a base URI for all the facet terms including any existing facet
     // parameters added manually. We would like to use 'facets[]' as key for

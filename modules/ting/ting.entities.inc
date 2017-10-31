@@ -60,6 +60,13 @@ class TingEntity extends DingEntity {
   public $classification = DingEntityBase::NULL;
   public $isbn = DingEntityBase::NULL;
 
+  /**
+   * The embedded search-provider specific object.
+   *
+   * @var Ting\TingObjectInterface
+   */
+  public $reply;
+
   public function getExtent() {
     return !empty($this->reply->record['dcterms:extent'][''][0]) ? $this->reply->record['dcterms:extent'][''][0] : FALSE;
   }
@@ -125,14 +132,8 @@ class TingEntity extends DingEntity {
 
   function getTitle() {
     $title = FALSE;
-    if (!empty($this->reply->record['dc:title'])) {
-      // Use first title with dkdcplus:full if available.
-      if (isset($this->reply->record['dc:title']['dkdcplus:full'])) {
-        $title = $this->reply->record['dc:title']['dkdcplus:full'][0];
-      }
-      else {
-        $title = $this->reply->record['dc:title'][''][0];
-      }
+    if (!empty($this->reply)) {
+      $title = $this->reply->getTitle();
     }
     return $title;
   }
@@ -208,7 +209,13 @@ class TingEntity extends DingEntity {
     return !empty($this->reply->record) ? $this->reply->record : false;
   }
 
-  function getRelations() {
+  /**
+   * Retrives materials related to the material represented by this entity.
+   *
+   * @return TingRelation[]
+   *   Array of TingRelation instances.
+   */
+  public function getRelations() {
     // If relations are not set; do another request to get relations
     if (!isset($this->reply->relationsData)) {
       $tingClientObject = ting_get_object($this->ding_entity_id, FALSE, TRUE);
@@ -373,8 +380,38 @@ class TingCollection extends DingEntityCollection {
   public $types_count = DingEntityBase::NULL;
   public $primary_object = DingEntityBase::NULL;
 
-  function __construct($id) {
+  // TODO BBS-SAL: After port remove this property.
+  public $reply;
+
+  /**
+   * The embedded search-provider specific object.
+   *
+   * @var Ting\TingObjectCollectionInterface
+   */
+  public $tingObjectCollection;
+
+  /**
+   * Get the collection from the Ting search provider.
+   *
+   * @return \Ting\TingObjectCollectionInterface
+   *   The collection.
+   */
+  public function getTingObjectCollection() {
+    return $this->tingObjectCollection;
+  }
+
+  /**
+   * TingCollection constructor.
+   *
+   * @param string $id
+   *   Entity Id.
+   * @param \Ting\TingObjectCollectionInterface $object_collection
+   *   Search provider collection.
+   */
+  public function __construct($id, \Ting\TingObjectCollectionInterface $object_collection) {
     $this->ding_entity_id = $id;
+    $this->tingObjectCollection = $object_collection;
+
     parent::__construct();
   }
 

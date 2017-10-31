@@ -13,6 +13,42 @@ define('TING_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
 /**
  * Get an ting object or collection.
  *
+ * Returns the search response for the given id.
+ *
+ * @param string $object_id
+ *   The id to fetch.
+ * @param bool $collection
+ *   Whether to return a collection, if possible, or an object.
+ * @param bool $with_relations
+ *   Whether to return all relations. Defaults to FALSE.
+ *
+ * @todo Should use getObject, but the ting-client lib doesn't implement that.
+ *
+ * @return \TingClientObject|\TingClientObjectCollection
+ *   Ting object or object collection if $collection is TRUE and a collection
+ *   was found.
+ */
+function ting_get_object_sal($object_id, $collection = FALSE, $with_relations = FALSE) {
+  // TODO BBS-SAL: Look at loading relations.
+  if ($collection) {
+    // TODO BBS-SAL: the docblock says "if possible, or an object." - we have to
+    // figure out when not to return a collection.
+    $result = ding_provider_invoke('search', 'collection_load', [$object_id]);
+  }
+  else {
+    $result = ding_provider_invoke('search', 'object_load', [$object_id]);
+  }
+
+  if (empty($result) || !is_array($result)) {
+    return NULL;
+  }
+
+  return reset($result);
+}
+
+/**
+ * Get an ting object or collection.
+ *
  * Returns the search response for the given id. This will cache the
  * result, and any sub-objects, so fetching objects from a recently
  * fetched collection won't trigger another backend request.
@@ -26,8 +62,9 @@ define('TING_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
  *
  * @todo Should use getObject, but the ting-client lib doesn't implement that.
  *
- * @return TingClientObject
- *   Ting object.
+ * @return \TingClientObject|\TingClientObjectCollection
+ *   Ting object or object collection if $collection is TRUE and a collection
+ *   was found.
  */
 function ting_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
   if (!empty($object_id)) {
@@ -39,6 +76,7 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
       $cache_key = ting_cache_collection_key($object_id);
     }
     $object = ting_cache_get($cache_key, $type, $with_relations);
+    $object = FALSE;
     if ($object != TING_CACHE_EMPTY_ENTRY && !$object) {
       // Put a negative reply in the cache. It will be overwritten by the
       // object, or ensure that we won't try to fetch this id again.
@@ -392,7 +430,6 @@ function ting_execute_cache($request) {
 
   // Check if the reply have been stored in cache.
   $reply = ting_cache_get(md5(serialize($parms)), TING_CACHE_REPLY);
-
   if (!$reply) {
     // Reply for the request was not found, so we have to ask the data well.
     $reply = ting_execute($request);

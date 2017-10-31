@@ -1,0 +1,31 @@
+<?php
+/**
+ * @file
+ * Drupal implementation of a OpenSearch search provider for the DING! project.
+ */
+
+use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
+
+/**
+ * Implements hook_ding_provider().
+ */
+function opensearch_ding_provider() {
+  return array(
+    'title' => 'Opensearch',
+    'provides' => array(
+      'search' => array(
+        'prefix' => 'search',
+        'file' => 'includes/opensearch.search.inc',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_xautoload().
+ *
+ * Place our OpenSearch classes in the OpenSearch namespace.
+ */
+function opensearch_xautoload(LocalDirectoryAdapter $adapter) {
+  $adapter->absolute()->addPsr4('OpenSearch\\', drupal_get_path('module', 'opensearch') . '/src');
+}

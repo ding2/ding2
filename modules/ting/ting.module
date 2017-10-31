@@ -4,6 +4,10 @@
  * Enables integration with Ting.
  */
 
+use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
+use Ting\Search\DingProviderStrategy;
+use Ting\Search\TingSearchRequest;
+
 // Define the different types of data that we cache in ting_set_cache and the
 // default TTL.
 define('TING_DEFAULT_CACHE_LIFETIME', 900);
@@ -247,7 +251,7 @@ function ting_flush_caches() {
  */
 function ting_get_relations($ting_entity) {
   $relations = array();
-
+  // TODO BBS-SAL: Handle this as a part of BBS-46 ?
   foreach ($ting_entity->relations as $relation) {
     if ($relation->type == 'dbcaddi:hasOpenUrl' || $relation->type == 'dbcaddi:hasOnlineAccess') {
       continue;
@@ -274,6 +278,8 @@ function ting_block_view($delta = '') {
   $block = new stdClass();
 
   switch ($delta) {
+    // Render a block with links to related materials including a count of how
+    // many instances of each type is available.
     case 'ting_relation_anchors':
       $items = array();
       if ($object = menu_get_object('ting_object', 2)) {
@@ -586,6 +592,18 @@ function ting_page_alter(&$page) {
       dpm($calls, 'ting_execute queries:');
     }
   }
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ting_ding_provider_user() {
+  return array(
+    'search' => array(
+      'required' => TRUE,
+      'install time setup' => TRUE,
+    ),
+  );
 }
 
 /**
@@ -981,20 +999,11 @@ function _ting_default_reservable_types() {
  *   Array with data well material types.
  */
 function _ting_fetch_well_types() {
-  // Get a list of types by executing a null query and look at the facets
-  // result.
-  $options = array(
-    'facets' => array('facet.type'),
-    'numFacets' => 99,
-    'reply_only' => TRUE,
-    'sort' => 'random',
-  );
-  module_load_include('client.inc', 'ting');
-  $result = ting_do_search("*", 0, 0, $options);
-
   $types = array();
-  foreach ($result->facets['facet.type']->terms as $term => $count) {
-    $types[drupal_strtolower($term)] = $count;
+
+  // Delegate the fetching of types to a search provider.
+  if (ding_provider_implements('search', 'material_types')) {
+    $types = ding_provider_invoke('search', 'material_types');
   }
 
   // Only save if we actually got any types.
@@ -1051,4 +1060,24 @@ function _ting_anchor_name($type) {
   $name = str_replace(':', '', $name);
   $name = strtolower($name);
   return $name;
+}
+
+/**
+ * Implements hook_xautoload().
+ *
+ * Place our Ting classes in the Ting namespace.
+ */
+function ting_xautoload(LocalDirectoryAdapter $adapter) {
+  $adapter->absolute()->addPsr4('Ting\\', drupal_get_path('module', 'ting') . '/src');
+}
+
+/**
+ * Prepares a query-object for use.
+ *
+ * @return \Ting\Search\TingSearchRequest
+ *   A prepared query-object that can be used to search for materials.
+ */
+function ting_start_query() {
+  // Set the query-object up with a strategy that uses ding_provider_invoke().
+  return new TingSearchRequest(new DingProviderStrategy());
 }

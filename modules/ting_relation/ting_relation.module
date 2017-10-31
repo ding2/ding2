@@ -48,27 +48,5 @@ function ting_relation_theme() {
  * Builds the lists of relations to use as anchors when display a ting entity.
  */
 function ting_relation_ding_anchor_info() {
-  $relations = ting_relation_inline();
-  return $relations;
-}
-
-/**
- * Inline relation types and their titles.
- *
- * @return array
- *   Indexed by the relation types with a translatable string as data.
- */
-function ting_relation_inline() {
-  static $types;
-  if (!$types) {
-    $types = array(
-      'dbcaddi:hasCreatorDescription' => t('Author portrait'),
-      'dbcaddi:hasReview' => t('Review'),
-      'dbcaddi:hasSubjectDescription' => t('Subject description'),
-      'dbcaddi:hasDescriptionFromPublisher' => t('Description from publisher'),
-      'dbcaddi:hasCreatorHomePage' => t('Creator homepage'),
-      'dbcbib:isPartOfManifestation' => t('Is part of manifestation'),
-    );
-  }
-  return $types;
+  return ding_provider_invoke('search', 'inline_relation_types');
 }

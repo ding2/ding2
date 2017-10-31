@@ -658,7 +658,11 @@ function ding2_module_list_as_operations($module_list) {
  */
 function ding2_module_enable(&$install_state) {
   $modules = variable_get('ding_module_selected', array());
+  // Modules we dont have an explicit dependency on but still want enabled by
+  // default. If the user later on does not need the module it can be disabled
+  // manually.
   $modules[] = 'l10n_update';
+  $modules[] = 'ting_fulltext';
   $modules[] = 'ting_infomedia';
   $modules[] = 'ding_eresource';
 

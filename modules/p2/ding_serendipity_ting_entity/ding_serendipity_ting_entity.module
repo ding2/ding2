@@ -10,6 +10,11 @@
  *  via ADHL or ADHR.
  */
 
+use Ting\Search\BooleanStatementGroup;
+use Ting\Search\BooleanStatementInterface;
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -103,20 +108,19 @@ function ding_serendipity_ting_entity_ting_object_author_serendipity_add($contex
     return $results;
   }
 
-  foreach ($creators as & $creator) {
-    $creator = 'facet.creator="' . $creator . '"';
-  }
-
-  // Find related content from any of the creators.
-  $query = implode(' OR ', $creators);
+  // Find related content from any of the authors.
+  $field_filters = array_map(function($creator) {
+    return new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, $creator);
+  }, $creators);
+  $query = ting_start_query()->addFieldFilters($field_filters, BooleanStatementInterface::OP_OR);
 
   // Limit to same language to reduce signal to noise.
   $lang = $obj->getLanguage();
-  if (!empty($lang) && $lang != "Flere sprog") {
-    $query = '(' . $query . ') AND facet.language="' . $lang . '"';
+  if (!empty($lang) && $lang !== "Flere sprog") {
+    $query->addFieldFilter(TingSearchCommonFields::LANGUAGE, $lang);
   }
 
-  $results = ding_serendipity_do_search($query, array());
+  $results = ding_serendipity_do_search($query);
   ding_serendipity_exclude($results, $context['ting_object_id']);
 
   foreach ($results as &$item) {
@@ -141,24 +145,26 @@ function ding_serendipity_ting_entity_ting_object_subject_serendipity_add($conte
   $obj = ding_entity_load($context['ting_object_id'], 'ting_object');
 
   // Build subject array.
-  $subject = $obj->getSubjects();
+  $subjects = $obj->getSubjects();
 
-  // Create the query.
-  foreach ($subject as & $facet) {
-    $facet = 'facet.subject="' . $facet . '"';
+  // Bail out if we don't have any subjects.
+  if (empty($subjects)) {
+    return $results;
   }
 
-  // Search with only subjects.
-  $query = implode(' OR ', $subject);
-  if (!empty($query)) {
-    $results = ding_serendipity_do_search($query, array());
-    ding_serendipity_exclude($results, $context['ting_object_id']);
+  // Find related content from any of the subjects.
+  $field_filters = array_map(function($subject) {
+    return new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, $subject, '=');
+  }, $subjects);
 
-    foreach ($results as & $item) {
-      $item['info'] = array(
-        'description' => t('This material has been selected based on the subjects of the material you are viewing.'),
-      );
-    }
+  $query = ting_start_query()->addFieldFilters($field_filters, BooleanStatementInterface::OP_OR);
+  $results = ding_serendipity_do_search($query);
+  ding_serendipity_exclude($results, $context['ting_object_id']);
+
+  foreach ($results as & $item) {
+    $item['info'] = array(
+      'description' => t('This material has been selected based on the subjects of the material you are viewing.'),
+    );
   }
 
   return $results;
@@ -183,14 +189,15 @@ function ding_serendipity_ting_entity_ting_object_type_serendipity_add($context)
   // @Todo extend with types where this plugin clearly is useless.
   // We would like to present other PS3 games for a PS3 game for instance.
   // But not just books for a book.
-  if (empty($type) || $type == 'Bog' || $type == 'Avisartikel' || $type == 'Tidsskriftsartikel') {
+  // TODO BBS-SAL: Enum here.
+  if (empty($type) || $type === 'Bog' || $type === 'Avisartikel' || $type === 'Tidsskriftsartikel') {
     return $results;
   }
 
   if ($type) {
-    $query = 'dc.type="' . $type . '"';
-    $query = ding_list_convert_cql($query);
-    $results = ding_serendipity_do_search($query, array());
+    // Find related content that matches the type.
+    $query = ting_start_query()->addFieldFilter(TingSearchCommonFields::MATERIAL_TYPE, $type);
+    $results = ding_serendipity_do_search($query);
     ding_serendipity_exclude($results, $context['ting_object_id']);
 
     foreach ($results as & $item) {

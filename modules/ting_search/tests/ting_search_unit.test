@@ -1,0 +1,165 @@
+<?php
+
+use Drupal\ding_test\DingUnitTestBase;
+use Prophecy\Argument;
+use Ting\Search\BooleanStatementGroup;
+use Ting\Search\BooleanStatementInterface;
+use Ting\Search\StatementGroupRender;
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
+use Ting\Search\TingSearchRequest;
+use Ting\Search\TingSearchStrategyInterface;
+
+class DingSearchUnitTest extends DingUnitTestBase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ting search Unittests',
+      'description' => 'Unit-tests that tests the ting search module.',
+      'group' => 'Ding! - Ting search unittest',
+      'dependencies' => array('ding_test'),
+    );
+  }
+
+  public function setUp() {
+    // Parent sets up autoloading and our test-dependencies so get it in the
+    // loop as quickly as possible.
+    parent::setUp();
+
+    // Any subsequent setup goes here.
+  }
+
+  // Initial test-case for testing tests.
+  public function testOk() {
+    // Set up the response we're going to return in a moment.
+    $response = $this->prophet->prophesize("Psr\Http\Message\ResponseInterface");
+    $response->getBody()->willReturn("Hello World");
+
+    // Setup a client that will return our double.
+    $clientDouble = $this->prophet->prophesize('GuzzleHttp\Client');
+    $clientDouble->request(Argument::type('string'), Argument::type('string'))->willReturn($response->reveal());
+
+    /** @var \GuzzleHttp\Client $clientInstance */
+    $clientInstance = $clientDouble->reveal();
+    $response = $clientInstance->request("GET", "http://example.com");
+    $this->assertEqual($response->getBody(), "Hello World");
+  }
+
+  /**
+   * Test that the StatementGroupRender can render a nested group.
+   *
+   * @throws \Exception
+   */
+  public function testStatementGroupRenderer() {
+    // The final query-string the arrangement of groupings and fields below
+    // should end up as. Notice that we use mapped fields.
+    $expected_result = '(test_author<"1" AND test_subject>"2") OR test_category="3\"" OR ((test_language OR test_author="5") AND (test_subject="6" OR test_category="7"))';
+
+    // Build the query, use the common names that will have to be mapped in
+    // order to match the expected output.
+    // Setup an "AND" group.
+    $group1 = new BooleanStatementGroup([
+      new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, 1, '<'),
+      new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, 2, '>'),
+    ], BooleanStatementInterface::OP_AND);
+
+    // Standalone field.
+    $field2 = new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, '3"');
+
+    // Group 4 (an OR group) is nested inside group 3 so we define it first.
+    $group4 = new BooleanStatementGroup([
+      // Test boolean field behaviour (that is: this field should be rendered
+      // without the comparison).
+      new TingSearchFieldFilter(TingSearchCommonFields::LANGUAGE),
+      new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, 5)
+    ], BooleanStatementInterface::OP_OR);
+
+    // Group 5 (an AND group) is nested inside group 3 so we define it first.
+    $group5 = new BooleanStatementGroup([
+      new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, 6),
+      new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, 7),
+    ], BooleanStatementInterface::OP_OR);
+
+    // Join group 4 and 5 together with an AND group.
+    $group3 = new BooleanStatementGroup([$group4, $group5], BooleanStatementInterface::OP_AND);
+
+    $groups = [$group1, $field2, $group3];
+
+    // Setup a renderer configured to use our own mapping of fields.
+    $strategy_double = $this->prophet->prophesize(TingSearchStrategyInterface::class);
+    $mapping = [
+      TingSearchCommonFields::AUTHOR => 'test_author',
+      TingSearchCommonFields::SUBJECT => 'test_subject',
+      TingSearchCommonFields::CATEGORY => 'test_category',
+      TingSearchCommonFields::LANGUAGE => 'test_language',
+    ];
+    $strategy_double->mapCommonFields()->willReturn($mapping);
+    $strategy = $strategy_double->reveal();
+
+    $renderer = new StatementGroupRender($strategy);
+
+    // Test that adding a single group around a list does not affect redering.
+    $filter_string_wrapped = $renderer->renderGroup((new BooleanStatementGroup($groups, BooleanStatementInterface::OP_OR)));
+    $filter_string_from_list = $renderer->renderStatements($groups, BooleanStatementInterface::OP_OR);
+    $this->assertEqual($filter_string_from_list, $filter_string_wrapped, "List of filters is rendered the same way as a list wrapped in a group.");
+
+    // Test that the query ends up as we expect.
+    $this->assertEqual($expected_result, $filter_string_wrapped);
+  }
+
+  /**
+   * Test that we can add filters to a search request as expected.
+   *
+   * @throws \Exception
+   */
+  public function testTingSearchRequestFilters() {
+    // Setup a search request with a dummy strategy that will never be used as
+    // we don't actually perform any searches.
+    $strategy_double = $this->prophet->prophesize(TingSearchStrategyInterface::class);
+    $strategy = $strategy_double->reveal();
+
+    $query = new TingSearchRequest($strategy);
+
+    // We want to test the following features of the filter-functionality of
+    // TingSearchRequest.
+    // 1) We can add a list of filters and have them wrapped in a group
+    // 2) We can add a single filter and have it wrapped in a group
+    // 3) We can construct our own group and have it added without wrapping
+    // 4) We can use a short-hand function of adding a field and it should
+    // result in the same as 2).
+    $_1_filter_list = [
+      new TingSearchFieldFilter('field1', 'value'),
+      new TingSearchFieldFilter('field1', 'value'),
+    ];
+    $_2_single_filter = new TingSearchFieldFilter('field2', 'value');
+    $_3_filter_group = new BooleanStatementGroup([
+      new TingSearchFieldFilter('field3', 'value'),
+      new TingSearchFieldFilter('field3', 'value'),
+    ], BooleanStatementInterface::OP_OR);
+
+
+    $query->addFieldFilters($_1_filter_list);
+    $query->addFieldFilters($_2_single_filter);
+    $query->addFieldFilters($_3_filter_group);
+    // Use the shorthand for testing 4). This is basically a shorthand for 2)
+    // so we use the same field-name to be able to test it in a moment.
+    $query->addFieldFilter('field2', 'value');
+
+    // This should have added four boolean statement groups.
+    $resulting_filters = $query->getFieldFilters();
+    $this->assertTrue((count($resulting_filters) == 4));
+    $this->assertTrue($resulting_filters[0] instanceof BooleanStatementGroup, 'Filter group 1 is a BooleanStatementGroup');
+    $this->assertTrue($resulting_filters[1] instanceof BooleanStatementGroup, 'Filter group 2 is a BooleanStatementGroup');
+    $this->assertTrue($resulting_filters[2] instanceof BooleanStatementGroup, 'Filter group 3 is a BooleanStatementGroup');
+    $this->assertTrue($resulting_filters[3] instanceof BooleanStatementGroup, 'Filter group 4 is a BooleanStatementGroup');
+
+    // The first two groups should have our first two filterlists in them.
+    $this->assertEqual($resulting_filters[0]->getStatements(), $_1_filter_list, 'Filter group 1 is the expected list');
+    $this->assertEqual($resulting_filters[1]->getStatements()[0], $_2_single_filter, 'Filter group 2 is a single filter');
+
+    // The third should be our previously added boolean group.
+    $this->assertEqual($resulting_filters[2], $_3_filter_group, 'Filter group 3 is the original group');
+
+    // The fourth group should be the same as 2).
+    $this->assertEqual($resulting_filters[3]->getStatements()[0], $_2_single_filter, 'FieldFilter shorthand should be the same as adding a TingSearchFieldFilter manually');
+  }
+}
