@@ -933,8 +933,9 @@ function ting_search_sort_options() {
   ];
 
   // Add provider sorts.
-  $provider_sorts = ding_provider_invoke('search', 'sort_options');
-  $options += $provider_sorts;
+  if (ding_provider_implements('search', 'sort_options')) {
+    $options += ding_provider_invoke('search', 'sort_options');
+  }
 
   return $options;
 }
