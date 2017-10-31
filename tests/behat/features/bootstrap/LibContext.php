@@ -15,30 +15,43 @@ use Behat\Mink\Exception\UnsupportedDriverActionException;
  */
 class LibContext implements Context, SnippetAcceptingContext {
 
+  /** @var array
+   * is holding css-locator strings
+   */
+  public $cssStr;
+
+
+  /** @var \Drupal\DrupalExtension\Context\DrupalContext */
+  public $drupalContext;
+
+  /**
+   * @var string
+   * Contains the last search string we used
+   */
+  public $lastSearchString;
+
+  /** @var \Drupal\DrupalExtension\Context\MinkContext */
+  public $minkContext;
+
+  /**
+   * @var array
+   */
+  public $searchResults = array();
+
   /**
    * Current authenticated user.
-   *
    * A value of FALSE denotes an anonymous user.
    *
    * @var stdClass|bool
    */
   public $user = FALSE;
 
-  /** @var \Drupal\DrupalExtension\Context\DrupalContext */
-  public $drupalContext;
-
-  /** @var \Drupal\DrupalExtension\Context\MinkContext */
-  public $minkContext;
-
-  /** @var $cssStr
-   * is holding css-locator strings
-   */
-  public $cssStr;
-
-  /** @var $verbose
+  /** @var object
    * Holds the flags telling whether we want a very verbose run or a more silent one
    */
   public $verbose;
+
+
 
   /**
    * Initializes context.
@@ -96,7 +109,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @throws Exception
    * Checks if cookie acceptance is shown, and accepts it if it is.
    */
-  public function handle_cookie_ask_librarian_overlay()
+  public function accept_cookies_ask_librarian_overlay()
   {
     // check if there's a cookie thing showing:
     $cookieAgree = $this->getPage()->find('css', $this->cssStr['button_agree']);
@@ -137,8 +150,9 @@ class LibContext implements Context, SnippetAcceptingContext {
         // refresh the search on the page
         $cookieAgree = $this->getPage()->find('css', $this->cssStr['button_agree']);
       }
+      $this->log_msg(($this->verbose->cookies == 'on'), "Ventede på at cookie forsvandt: " . ((330 - $maxwait)*300) . " millisecs\n");
+
     }
-    $this->log_msg(($this->verbose->cookies == 'on'), "Ventede på at cookie forsvandt: " . ((330 - $maxwait)*300) . " millisecs\n");
 
     // now minimize the "Spørg biblioteksvagten"
     // @todo: this should probably be a separate function
@@ -169,6 +183,186 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   *   Building the entire search result into an array
+   */
+  public function get_entire_search_result()
+  {
+    // initialise
+    $this->searchResults = array();
+    $founds = $this->getPage()->findAll('css', '.search-results li.list-item');
+
+    if (!$founds) {
+      throw new Exception("Kunne ikke finde et søgeresultat.");
+    }
+
+    // now we need to await that all the availability data are collected. We will wait here until we cannot find
+    // "Henter beholdningsoplysninger" anymore
+    $this->wait_until_text_is_gone(100, 'Henter beholdningsoplysninger');
+
+    // count of page number
+    $cnt = 1;
+    $lb_continue = true;
+    // loop through the pages until we're on the last page
+    while ($lb_continue ) {
+      // count of placement on page from top
+      $xte = 1;
+      foreach ($founds as $srItem) {
+
+        $this->scroll_to($srItem);
+        $isSamling = false;
+
+        // Get hold of the title
+        $titlelink = $srItem->find('css', '.ting-object h2 a');  // v4
+        if (!$titlelink) {
+          $titlelink = $srItem->find('css', '.ting-object .heading a'); // v3
+        }
+        $txt_title = ($titlelink) ? $titlelink->getText() : "";
+
+        // Find the author and published date
+        $creator = $srItem->find('css', '.ting-object .field-name-ting-author');
+        $txt_creator = "";
+        $txt_published = "";
+        if ($creator) {
+          $txt_creator_full = $creator->getText();
+          if (strlen($txt_creator_full)>0) {
+            $arrCreator=explode("(", $txt_creator_full);
+            // so authors may be listed with their birth year in ( ), so we need the last item for date and first for author
+            if (count($arrCreator)>=2) {
+              $txt_creator = $arrCreator[0];
+              $txt_published = substr($arrCreator[count($arrCreator)-1], 0, 4);
+            } else {
+              throw new Exception ("Forfatter blev ikke efterfulgt af årstal: " . $txt_title . " af " . $txt_creator_full);
+            }
+          }
+
+        }
+
+        // find the series - there can be multiple
+        $series = $srItem->findAll('css', '.field-name-ting-series .field-item');
+        $txt_serie = "";
+
+        foreach ($series as $serie) {
+          $txt_serie = $txt_serie . $serie->getText() . "\n";
+        }
+
+        // find "tilgængelig som"
+        $accessibilities = $srItem->findAll('css', '.availability p a');
+        $txt_access = "";
+
+        foreach ($accessibilities as $access) {
+          $txt_access = $txt_access . $access->getText() . "\n";
+        }
+
+        // Now we'll check if we've got a collection.
+        // The way to be sure on the search-page is to check
+        // if there are different material types (bog, lydbog, dvd, ...) listed
+        // We'll check if there are more found, and if the first one found
+        // is different from any of the subsequent ones. If so, we'll have a collection.
+        // If a collection consists only of one type, say 'bog', then we'll not
+        // be able to spot it from the search-page, only by opening the material-show
+        // and check if the url contains "Collection" (note: on the search screen all
+        // urls contain 'collection', so don't fall into that trap).
+        if ($txt_access != "") {
+          $arr_samling = preg_split("/\n/", $txt_access);
+
+          if (count($arr_samling)>1) {
+
+            $txt_mtype1 = $arr_samling[0];
+            for ($i=1;$i<count($arr_samling);$i++) {
+
+              $isSamling = ($txt_mtype1!=$arr_samling[$i] and $arr_samling[$i]!='') ? true : $isSamling;
+            }
+          }
+        }
+
+        // get the link that is shown as 'tilgængelig'. This needs to be present
+        $link = $srItem->find('css', '.availability a');
+        $txt_link = "";
+        if ($link) {
+          $txt_link = $link->getText();
+        }
+
+        // and finally grab out the cover image, if present.
+        $coverimg = $srItem->find('xpath', '//div[contains(@class,"ting-cover")]/img');
+        $txt_cover = "";
+        if ($coverimg) {
+          $txt_cover = $coverimg->getAttribute('src');
+
+        }
+
+        $this->searchResults[] = (object) array (
+              'page' => $cnt,
+              'item' => $xte,
+              'title' => $txt_title,
+              'link' => $txt_link,
+              'cover' => $txt_cover,
+              'serie' => $txt_serie,
+              'access' => $txt_access,
+              'collection' => ($isSamling) ? 'yes' : 'no',
+              'creator' => $txt_creator,
+              'published' => $txt_published,
+        );
+
+        if ($this->verbose->searchResults == 'on') {
+          $ll = count($this->searchResults)-1;
+          print_r ("Title: " . $this->searchResults[$ll]->title . ", skrevet af " . $this->searchResults[$ll]->creator . " (" . $this->searchResults[$ll]->published . ") "
+                . " (page " . $this->searchResults[$ll]->page
+                . " # " . $this->searchResults[$ll]->item . ")");
+          print_r ("\n");
+        }
+        $xte = $xte + 1;
+      }
+      if ($this->verbose->searchResults == 'on') {
+        print_r("Antal posteringer på siden: ");
+        print_r( ($xte - 1));
+        print_r("\n");
+        print_r("\n");
+      }
+
+      // ready for next page:
+      $cnt = $cnt + 1;
+      $pageing = $this->getPage()->find('css', '.pager .pager-next a');
+
+      if (!$pageing) {
+        // we trust this means we are at the end of the search result and we have scooped everything up
+        $lb_continue = false;
+      } else {
+        // this is a bit precarious, as we need to check if the cookie and 'ask librarians' overlays are
+        // popping up. If so, we'll whack them down again, because they can disturb our clicking.
+        $this->accept_cookies_ask_librarian_overlay();
+        // scroll down and click 'næste'
+        $this->scroll_to($pageing);
+
+        try {
+          $pageing->click();
+        } catch (UnsupportedDriverActionException $e) {
+          // Ignore
+        } catch (Exception $e) {
+          // just try again... might save us
+          $this->minkContext->getSession()->executeScript('window.scrollBy(0, 500);');
+          $this->accept_cookies_ask_librarian_overlay();
+          $pageing->click();
+        }
+
+        $this->wait_for_page();
+        // rescan the search results on this page
+        $founds = $this->getPage()->findAll('css', '.search-results li.list-item');
+
+      }
+      if ($this->verbose->searchMaxPages==($cnt-1)){
+        // stop early because of setting in verbose/control
+        $lb_continue = false;
+        $this->log_msg(($this->verbose->searchResults=="on"), "Stops after " . $cnt . " pages due to verbose setting.\n");
+      }
+
+    }
+    $this->log_msg(($this->verbose->searchResults == "on"), "Antal sider: " . ($cnt-1) . "\nAntal records:" . count($this->searchResults) . "\n");
+
+  }
+
+
+
+  /**
    * getPage - quick reference to the getPage element. Makes code more readable.
    *
    * @return \Behat\Mink\Element\DocumentElement
@@ -176,6 +370,44 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function getPage() {
     return $this->minkContext->getSession()->getPage();
   }
+
+  /**
+   * Navigate to a page.
+   *
+   * @todo should only navigate if the path is different from the current.
+   *
+   * @param string $path
+   *   The path to navigate to.
+   */
+  public function goto_page($path)
+  {
+    $this->minkContext->visit($path);
+  }
+
+
+  /**
+   * Go to the search page.
+   *
+   * @Given I have searched for :arg1
+   *
+   * @param string $string
+   *   String to search for.
+   * @throws Exception
+   */
+  public function gotoSearchPage($string)
+  {
+    // First we try to translate the argument, to see if there's anything we should pick out first
+    $searchString = $this->translate_argument($string);
+
+    $this->log_msg(($this->verbose->searchResults=="on"), "Søger efter " . urlencode($searchString) . "\n");
+
+    $this->lastSearchString = $searchString;
+
+    $this->goto_page('/search/ting/' . urlencode($searchString));
+
+  }
+
+
 
   /**
    * @Given I am logged in as a library user
@@ -436,7 +668,7 @@ class LibContext implements Context, SnippetAcceptingContext {
       // this tells if we want to know the username we logged in with
       case 'login':
       case 'logininfo':
-        $this->verbose[0]->loginInfo = $onoff;
+        $this->verbose->loginInfo = $onoff;
         if ($onoff == 'on') {
           print_r("Verbose mode of loginInfo set to on");
         }
@@ -445,7 +677,7 @@ class LibContext implements Context, SnippetAcceptingContext {
       case 'search-results':
       case 'search-result':
       case 'searchresults':
-        $this->verbose[0]->searchResults = $onoff;
+        $this->verbose->searchResults = $onoff;
         if ($onoff == 'on') {
           print_r("Verbose mode of searchResults set to on");
         }
@@ -453,24 +685,24 @@ class LibContext implements Context, SnippetAcceptingContext {
         // this indicates if we want to know about handling cookie-popups
       case 'cookie':
       case 'cookies':
-        $this->verbose[0]->cookies = $onoff;
+        $this->verbose->cookies = $onoff;
         if ($onoff == 'on') {
           print_r("Verbose mode of cookie-handling set to on");
         }
         break;
         // this setting controls how many search result pages we will traverse during testing
       case 'searchmaxpages':
-        $this->verbose[0]->searchMaxPages = $onoff;
-        # always notify the user of this setting
+        $this->verbose->searchMaxPages = $onoff;
+        // always notify the user of this setting
         print_r("Verbose mode for max number of search result pages set to " . $onoff);
         print_r("\n");
         break;
         // this is the catch-all setting
       case 'everything':
       case 'all':
-        $this->verbose[0]->loginInfo = $onoff;
-        $this->verbose[0]->searchResults = $onoff;
-        $this->verbose[0]->cookies = $onoff;
+        $this->verbose->loginInfo = $onoff;
+        $this->verbose->searchResults = $onoff;
+        $this->verbose->cookies = $onoff;
         break;
         // if we don't recognise this, let the user know, but don't fail on it
       default:
@@ -515,6 +747,79 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * Attempts to translate argument given in gherkin script.
+   * This allows for generic arguments to be given, to be replaced during runtime here either
+   * by looking up values on the current page, or substitute from a catalogue/known variable value
+   * The convention is to initiate a variable with a dollar-sign followed by <choice> : <source>
+   * choice is the way to select between several values that originates from the source.
+   * It could be 'random', 'first', 'last' or simply 'get', if there's only one value possible.
+   * Source is pointing to where the value should come from.
+   * 'nyhed' looks up news placed on the front page. If not on the front page - this will fail.
+   *
+   * @param $string
+   * @return mixed
+   * @throws Exception
+   */
+  public function translate_argument($string)
+  {
+    // if we can't translate it, we just pass it right back
+    $returnString = $string;
+    if (substr($string, 0, 1)=="$") {
+      // try to translate it
+      // form is $ <choice> : <source>
+      $lstr = substr($string, 1);
+      $cmdArr = explode(":", $lstr);
+      if (count($cmdArr)!=2) {
+        throw new Exception ("Argument angivet som ikke følger \$choice:source, som f.eks. \$random:nyhed");
+      }
+
+      // here we try to figure out what to translate to
+      switch (strtolower($cmdArr[1]))
+      {
+        // find news (presuming to be on the front page, otherwise fail)
+        // choose between them and return the value
+        case 'nyhed':
+          $foundArr = $this->getPage()->findAll('css', '.news-text h3.title');
+          if (!$foundArr) {
+            throw new Exception ("Argument ønsker en nyhed. Kunne ikke finde nyheder på siden.");
+          }
+          // only first, last and random works with nyheder as choice
+          switch( strtolower($cmdArr[0]))
+          {
+            case 'first':
+              $returnString = $foundArr[0]->getText();
+              break;
+            case 'last':
+              $returnString = $foundArr[count($foundArr)-1]->getText();
+              break;
+            case 'random':
+              $i = random_int(0, count($foundArr)-1);
+              $returnString = $foundArr[$i]->getText();
+              break;
+            default:
+              throw new Exception ("Kun 'first', 'last' og 'random' kan angives for nyhed");
+          }
+          break;
+        // Replace the value with the last known search string
+        case 'lastsearchstring':
+          // regardless of the choice
+          $returnString = $this->lastSearchString;
+          break;
+        default:
+          throw new Exception ("Ugyldig \$choice:source-angivelse: " . $string );
+          break;
+      }
+    }
+    if ($returnString != $string) {
+      // we always want to tell this, otherwise the tester cannot figure out what was done.
+      print_r("Udskiftede " . $string . " med " . $returnString);
+      print_r("\n");
+    }
+    return $returnString;
+  }
+
+
+  /**
    * Wait for page to load.
    */
   public function wait_for_page()
@@ -542,7 +847,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     while (--$maxwait>0 && !$field ) {
       sleep(1);
 
-      # try to find it again, if necessary
+      // try to find it again, if necessary
       if (!$field) {
         $field = $this->getPage()->find($locatortype, $locator);
       }
@@ -579,7 +884,7 @@ class LibContext implements Context, SnippetAcceptingContext {
           $continueWaiting = ($wait->isVisible()) ? true : false;
 
         } catch (Exception $e) {
-          ## ignore
+          // ignore
         }
       } else {
         $continueWaiting = false;
