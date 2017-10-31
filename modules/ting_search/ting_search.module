@@ -928,7 +928,7 @@ function ting_search_sort_options() {
     ],
     'date_descending' => [
       'label' => t('Date (Descending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_ASCENDING),
+      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_DESCENDING),
     ],
   ];
 
