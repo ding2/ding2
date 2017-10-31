@@ -139,36 +139,33 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
 
   // Set sort options.
   $field_mapping = _opensearch_search_map_common_sort_fields();
-  if (!empty($ting_query->getSorts())) {
+  if (count($ting_query->getSorts()) > 0) {
+    // We currently only support a single sort so we pick the first.
+    $instance = $ting_query->getSorts()[0];
+
+    // Map from common field back to our sort field.
+    if (isset($field_mapping[$instance->getField()])) {
+      $field = $field_mapping[$instance->getField()];
+    }
+    else {
+      // Not a common field, so we can assume the field has been provided by
+      // opensearch_search_sort_options so no need to map it.
+      $field = $instance->getField();
+    }
+
     // First map sort instances to opensearch compatible search strings.
-    $mapper = function(TingSearchSort $instance) use ($field_mapping) {
-      if ($instance->getDirection() === TingSearchSort::DIRECTION_ASCENDING) {
-        $direction = '_ascending';
-      }
-      elseif ($instance->getDirection() === TingSearchSort::DIRECTION_DESCENDING) {
-        $direction = '_descending';
-      }
-      else {
-        $direction = '';
-      }
+    if ($instance->getDirection() === TingSearchSort::DIRECTION_ASCENDING) {
+      $direction = '_ascending';
+    }
+    elseif ($instance->getDirection() === TingSearchSort::DIRECTION_DESCENDING) {
+      $direction = '_descending';
+    }
+    else {
+      $direction = '';
+    }
 
-      // Map from common field back to our sort field.
-      if (isset($field_mapping[$instance->getField()])) {
-        $field = $field_mapping[$instance->getField()];
-      }
-      else {
-        // Not a common field, so we can assume the field has been provided by
-        // opensearch_search_sort_options so no need to map it.
-        $field = $instance->getField();
-      }
-
-      return $field . $direction;
-    };
-
-    // Then if we have mutiple sorts seperate them by space.
-    $prepared_sorts = array_map($mapper, $ting_query->getSorts());
-    // We currently only support a single sort.
-    $options['sort'] = $prepared_sorts[0];
+    $opensearch_sort_field = $field . $direction;
+    $options['sort'] = $opensearch_sort_field;
   }
 
   // Set facet options.
