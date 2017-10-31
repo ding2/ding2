@@ -204,6 +204,56 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * @When I scroll to the bottom (of the page)
+   * Scroll to bottom of page
+   *
+   */
+  public function scrollToBottom()
+  {
+    $found = $this->getPage()->find('css', 'footer.footer');
+    if (!$found) {
+      $this->scrollTo($found);
+    }
+  }
+
+  /**
+   * @When I scroll :pixels pixels
+   * Scroll a bit up
+   *
+   */
+  public function scrollABit($pixels)
+  {
+    $this->minkContext->getSession()->executeScript('window.scrollBy(0, ' . $pixels . ');');
+  }
+
+  /**
+   * Scroll to an element.
+   *
+   * @param ElementInterface $element
+   *   Element to scroll to.
+   * @throws \Exception
+   */
+  public function scrollTo(ElementInterface $element)
+  {
+    // translate the xpath of the element by adding \\ in front of " to allow it
+    // to be passed in the javascript
+    $xpath = strtr($element->getXpath(), ['"' => '\\"']);
+    try {
+      $js = '';
+      $js = $js . 'var el = document.evaluate("' . $xpath .
+            '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue;';
+      $js = $js . 'document.body.scrollTop = document.documentElement.scrollTop = 0;';
+      $js = $js . 'el.scrollIntoViewIfNeeded(true);';
+      $this->minkContext->getSession()->executeScript($js);
+    } catch (UnsupportedDriverActionException $e) {
+      // Ignore.
+    } catch (Exception $e) {
+      throw new Exception('Kunne ikke scrolle til element: ' . $e->getMessage());
+    }
+  }
+
+
+  /**
    * @Given I want verbose mode for :area to be :onoff
    * @Given I set verbose mode for :area to be :onoff
    * @Given I set control mode for :area to be :onoff
