@@ -13,7 +13,7 @@ use Behat\Mink\Exception\UnsupportedDriverActionException;
 /**
  * Defines application features from the specific context.
  */
-class Ding2Context implements Context, SnippetAcceptingContext {
+class LibContext implements Context, SnippetAcceptingContext {
 
   /**
    * Current authenticated user.
@@ -40,13 +40,6 @@ class Ding2Context implements Context, SnippetAcceptingContext {
 
     $this->drupalContext = $environment->getContext('Drupal\DrupalExtension\Context\DrupalContext');
     $this->minkContext = $environment->getContext('Drupal\DrupalExtension\Context\MinkContext');
-    # caf $this->minkContext = $environment->getContext('Behat\MinkExtension\Context');
-    #$this->markupContext = $environment->getContext('Behat\MinkExtension\Context\MinkContext');
-    try {
-      $this->ding2MessagesContext = $environment->getContext('Ding2MessagesContext');
-    } catch (Exception $e) {
-      // Ingore.
-    }
 
     // Try to set a default window size. 
     try {

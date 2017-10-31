@@ -3,14 +3,12 @@ default:
     default:
       contexts:
         - FeatureContext
-        - Ding2Context
-        # - Ding2MessagesContext
-        - P2Context
+        - LibContext
+        - StepsContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\DrupalExtension\Context\DrushContext
-        #- Behat\MinkExtension\Context\MinkContext
         - IntegratedExperts\BehatScreenshotExtension\Context\ScreenshotContext
   extensions:
     SensioLabs\Behat\PageObjectExtension: ~
@@ -39,8 +37,6 @@ default:
       api_driver: 'drush'
       drush:
         root: '../../../../../web'
-      #drupal:
-        #drupal_root: '../../kasper/ding-docker/web'
       text:
         log_out: 'Log ud'
         username_field: 'Låner- eller CPR-nummer'
@@ -52,7 +48,6 @@ chrome:
     Behat\MinkExtension:
       selenium2:
         wd_host: "http://localhost:4444/wd/hub"
-        #wd_host: "http://192.168.0.85:4444/wd/hub"
         browser: chrome
         capabilities:
            browser: chrome
@@ -84,5 +79,3 @@ firefox:
         wd_host: "http://localhost:4444/wd/hub"
       default_session: 'selenium2'
       browser_name: 'firefox'
-
-

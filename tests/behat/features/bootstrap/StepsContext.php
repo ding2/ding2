@@ -11,10 +11,10 @@ use Behat\Mink\Exception\UnsupportedDriverActionException;
 /**
  * Defines application features from the specific context.
  */
-class P2Context implements Context, SnippetAcceptingContext {
+class StepsContext implements Context, SnippetAcceptingContext {
 
   /** @var Ding2Context */
-  private $ding2Context;
+  private $libContext;
 
   /**
    * Initializes context.
@@ -26,6 +26,14 @@ class P2Context implements Context, SnippetAcceptingContext {
   public function __construct() {
 
     
+  }
+
+  /** @BeforeScenario */
+  public function gatherContexts(BeforeScenarioScope $scope)
+  {
+    $environment = $scope->getEnvironment();
+
+    $this->libContext = $environment->getContext('LibContext');
   }
 
 }
