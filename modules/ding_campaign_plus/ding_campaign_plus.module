@@ -1,0 +1,55 @@
+<?php
+/**
+ * @file
+ * Code for the Ding Campaign Plus feature.
+ */
+
+include_once 'ding_campaign_plus.features.inc';
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$form_state) {
+
+  // Defines tab one.
+  $path =  drupal_get_path('module', 'field_group');
+  $form['triggers'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Campaign trigger'),
+    '#weight' => 2,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#attached' => array(
+      'js' => array(
+        $path . '/horizontal-tabs/horizontal-tabs.js',
+      ),
+      'css' => array(
+        $path . '/horizontal-tabs/horizontal-tabs.css',
+      ),
+    ),
+  );
+
+  $form['triggers']['tabs'] = array(
+    '#type' => 'horizontal_tabs',
+    '#tree' => TRUE,
+  );
+
+  // Defines tab one.
+  $form['triggers']['tabs']['ting_object'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Material view'),
+  );
+
+  // Defines tab two.
+  $form['triggers']['tabs']['search'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Search result'),
+  );
+
+  // Defines tab two.
+  $form['triggers']['tabs']['other'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Other triggers'),
+  );
+}
