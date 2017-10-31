@@ -195,8 +195,9 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
 
     // If the used field is a field we already support, pretend it was picked
     // by the user all along.
-    if (in_array($sort_used, ['rank_title', 'rank_subject', 'rank_creator'])) {
-      $sort_instance = opensearch_search_sort_options()[$sort_used]['sort'];
+    $provider_sorts = opensearch_search_sort_options();
+    if (array_key_exists($sort_used, $provider_sorts)) {
+      $sort_instance = $provider_sorts[$sort_used]['sort'];
       $result->getSearchRequest()->addSorts($sort_instance);
     }
   }
