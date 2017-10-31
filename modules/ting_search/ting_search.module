@@ -867,7 +867,7 @@ function ting_search_sort_form($form_state) {
  */
 function ting_search_sort_key_from_sort(TingSearchSort $sort) {
   foreach (ting_search_sort_options() as $key => $info) {
-    if ($info['sort'] === $sort) {
+    if ($info['sort'] == $sort) {
       return $key;
     }
   }
