@@ -197,6 +197,27 @@ function ding_event_views_pre_execute(&$view) {
     $view->build_info['query']->groupBy('node.nid');
     $view->build_info['count_query']->groupBy('node.nid');
   }
+
+  // Handle the "show_all" type of events, so they filter by end date instead of
+  // start date.
+  if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list', 'ding_event_list_frontpage'))) {
+    // Add the field_ding_event_list_filter field, so it can be used in the
+    // filter.
+    $view->build_info['query']->leftJoin(
+      'field_data_field_ding_event_list_filter',
+      'fdelf',
+      'fdelf.entity_id = node.nid AND fdelf.entity_type = :entity_type',
+      array(':entity_type' => 'node')
+    );
+
+    // We need to place the conditions inside the start date filter, which is
+    // referenced here. The reference is very specific, and changing the order
+    // of the view filters might break this functionality.
+    $date_condition = &$view->build_info['query']->conditions()[0]['field']->conditions()[0]['field']->conditions()[3];
+    $date_condition['field'] .= ' OR (fdelf.field_ding_event_list_filter_value = :filter'
+                              . ' AND ' . str_replace('.field_ding_event_date_value,', '.field_ding_event_date_value2,', $date_condition['field']) . ')';
+    $date_condition['value'][':filter'] = 'show_all';
+  }
 }
 
 /**
