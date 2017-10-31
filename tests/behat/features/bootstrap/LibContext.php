@@ -30,6 +30,9 @@ class LibContext implements Context, SnippetAcceptingContext {
   /** @var \Drupal\DrupalExtension\Context\MinkContext */
   public $minkContext;
 
+  /** @var holding css-locator strings */
+  public $cssStr;
+
   /** @var verbose
    * Holds the flags telling whether we want a very verbose run or a more silent one
    */
@@ -45,12 +48,16 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function __construct() {
 
     // initialise the verbose structure. These are default settings.
-    $this->verbose[] = (object) array (
+    $this->verbose = (object) array (
           'searchResults' => false,
           'loginInfo' => true,
           'cookies' => false,
           'searchMaxPages' => 0,
     );
+
+    $this->cssStr['button_agree'] = '.agree-button';
+    $this->cssStr['button_asklibrarian'] = '.ask-vopros-minimize span';
+
 
   }
 
@@ -81,6 +88,120 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
   }
 
+  /**
+   * @Given I accept cookies
+   *
+   * @throws Exception
+   * Checks if cookie acceptance is shown, and accepts it if it is.
+   */
+  public function handle_cookie_ask_librarian_overlay()
+  {
+    // check if there's a cookie thing showing:
+    $cookieAgree = $this->getPage()->find('css', $this->cssStr['button_agree']);
+    if ($cookieAgree) {
+      $this->log_msg(($this->verbose->cookies=='on'), "Cookie accept-besked vises.\n");
+      $this->log_timestamp(($this->verbose->cookies=='on'), "Start: ");
+
+      // now timing wise this is tricky, because the overlay moves. There seems to be no way to
+      // catch it while moving, so we try to click it until that actually works. Selenium always
+      // clicks in the middle of the element.
+      // We try at most 50 times. That will work for even very slow systems. Typically only one wait cycle is necessary.
+      $max=50;
+      $success=false;
+      while(--$max>0 && !$success) {
+        try {
+          $cookieAgree = $this->getPage()->find('css', $this->cssStr['button_agree']);
+
+          $cookieAgree->click();
+          // we will only ever execute this if the cookie button is clickable
+          $success = true;
+
+        } catch (Exception $e) {
+          // give it a bit more time to come into place.
+          usleep(100);
+        }
+      }
+      if(!$success) {
+        throw new Exception ("Cookie Agree-knap kunne ikke klikkes væk.");
+      }
+
+      $this->log_msg(($this->verbose->cookies=='on'), "Slut: ");
+
+      // now we have clicked it, we expect it to go away within at the most 10 secs.
+      $maxwait=330;
+      $cookieAgree = $this->getPage()->find('css', $this->cssStr['button_agree']);
+      while ($cookieAgree and --$maxwait > 0) {
+        usleep(300);
+        // refresh the search on the page
+        $cookieAgree = $this->getPage()->find('css', $this->cssStr['button_agree']);
+      }
+    }
+    $this->log_msg(($this->verbose->cookies == 'on'), "Ventede på at cookie forsvandt: " . ((330 - $maxwait)*300) . " millisecs\n");
+
+    // now minimize the "Spørg biblioteksvagten"
+    // @todo: this should probably be a separate function
+    $askLibrary = $this->getPage()->find('css', $this->cssStr['button_asklibrarian']);
+    if ($askLibrary) {
+      $this->log_msg(($this->verbose->cookies == "on"), "Spørg biblioteksvagten var centreret. Klikker den til minimeret tilstand.\n");
+      // simply click, and ignore if it can't click.
+      try {
+        $askLibrary->click();
+        usleep(100);
+      }  catch (UnsupportedDriverActionException $e) {
+        // Ignore.
+      } catch (Exception $e) {
+        // Ignore too
+      }
+      // We will wait a bit until it goes away
+      $max = 10;
+      while ($askLibrary && --$max>0) {
+
+        // renew our view on the page
+        $askLibrary = $this->getPage()->find('css', $this->cssStr['button_asklibrarian']);
+
+      }
+      if ($askLibrary) {
+        throw new Exception ("Spørg Bibliotekaren gik ikke væk.");
+      }
+    }
+  }
+
+  /**
+   * getPage - quick reference to the getPage element. Makes code more readable.
+   *
+   * @return \Behat\Mink\Element\DocumentElement
+   */
+  public function getPage() {
+    return $this->minkContext->getSession()->getPage();
+  }
+
+  /**
+   * log_msg - prints message on log if condition is true.
+   *
+   * @param $ifTrue
+   * @param $msg
+   */
+  public function log_msg($ifTrue, $msg) {
+    if ($ifTrue) {
+      print_r($msg);
+    }
+  }
+
+  /**
+   * log_timestamp - puts a timestamp in the log. Good for debugging timing issues.
+   * @param $ifTrue
+   * @param $msg
+   */
+  public function log_timestamp($ifTrue, $msg) {
+    // this is so we can use this function with verbose-checking
+    if ($ifTrue) {
+      // get the microtime, format it and print it.
+      $t = microtime(true);
+      $micro = sprintf("%06d",($t - floor($t)) * 1000000);
+      $d = new DateTime( date('Y-m-d H:i:s.'.$micro, $t) );
+      print_r($msg . " " . $d->format("Y-m-d H:i:s.u") . "\n");
+    }
+  }
 
   /**
    * @Given I want verbose mode for :area to be :onoff

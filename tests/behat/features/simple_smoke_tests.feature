@@ -10,5 +10,6 @@ Feature: Smoke tests
   @simplesmoke @api
   Scenario: See front page
     Given I am on "/"
+      And I accept cookies
      Then I save screenshot
      Then I should see "Kontakt"
