@@ -351,7 +351,7 @@ class TingSearchRequest {
    *   List of TingSearchSort instances.
    *
    * @return TingSearchRequest
-   *   the current query object.
+   *   The current query object.
    */
   public function addSorts($sorts) {
     if (!is_array($sorts)) {

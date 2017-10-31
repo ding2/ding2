@@ -188,6 +188,10 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   // Handle the situation where opensearch sets a default sort.
   if (empty($result->getSearchRequest()->getSorts()) && !empty($result->openSearchResult->sortUsed)) {
     $sort_used = $result->openSearchResult->sortUsed;
+    // In situations where we're configured to default to sort by "rank_general"
+    // opensearch may choose to use rank_main_title for the actual sort. Instead
+    // of introducing two different ways of ranking by title, we instead
+    // interpret it as "rank_title".
     if ($sort_used === 'rank_main_title') {
       $sort_used = 'rank_title';
     }

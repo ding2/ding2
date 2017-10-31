@@ -20,6 +20,10 @@ class TingSearchSort {
   // TODO: Could be an enum.
   const DIRECTION_ASCENDING = 'asc';
   const DIRECTION_DESCENDING = 'desc';
+  // "NONE" should be used in situations where the it doesn't make sense to
+  // specify a direction for a sort. This can be necessary in cases where the
+  // provider simply does not support a direction for the sort, or where it
+  // does not make sense ie. a random sort.
   const DIRECTION_NONE = '_none';
 
   /**

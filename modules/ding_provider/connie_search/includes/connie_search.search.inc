@@ -175,7 +175,7 @@ function connie_search_search_prepare_reference_query($query_string) {
 /**
  * Provide additional sort options.
  *
- * The provider should return an array of 0 or more "sorts" where each sort is
+ * The provider could return an array of 0 or more "sorts" where each sort is
  * keyed by a machine-name. Each entry must specify a label that will be used
  * for the "long" description of the sort, eg. in <option> elements, a
  * label_short that will be used in messages, and finally an instance of
