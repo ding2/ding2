@@ -30,10 +30,12 @@ class LibContext implements Context, SnippetAcceptingContext {
   /** @var \Drupal\DrupalExtension\Context\MinkContext */
   public $minkContext;
 
-  /** @var holding css-locator strings */
+  /** @var $cssStr
+   * is holding css-locator strings
+   */
   public $cssStr;
 
-  /** @var verbose
+  /** @var $verbose
    * Holds the flags telling whether we want a very verbose run or a more silent one
    */
   public $verbose;
@@ -208,7 +210,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Scroll to bottom of page
    *
    */
-  public function scrollToBottom()
+  public function scroll_to_bottom()
   {
     $found = $this->getPage()->find('css', 'footer.footer');
     if (!$found) {
@@ -221,7 +223,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Scroll a bit up
    *
    */
-  public function scrollABit($pixels)
+  public function scroll_a_bit($pixels)
   {
     $this->minkContext->getSession()->executeScript('window.scrollBy(0, ' . $pixels . ');');
   }
@@ -233,7 +235,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *   Element to scroll to.
    * @throws \Exception
    */
-  public function scrollTo(ElementInterface $element)
+  public function scroll_to(ElementInterface $element)
   {
     // translate the xpath of the element by adding \\ in front of " to allow it
     // to be passed in the javascript
@@ -310,4 +312,78 @@ class LibContext implements Context, SnippetAcceptingContext {
         break;
     }
   }
+
+  /**
+   * Wait for page to load.
+   */
+  public function wait_for_page()
+  {
+    try {
+      // Strictly, this waits for jQuery to be loaded, but it seems
+      // sufficient.
+      $this->drupalContext->getSession()->wait(5000, 'typeof window.jQuery == "function"');
+    } catch (UnsupportedDriverActionException $e) {
+      // Ignore.
+    } catch (Exception $e) {
+      throw new Exception('Ukendt fejl imens side load blev afventet: ' . $e);
+    }
+  }
+
+  /**
+   * Wait for element to be visible
+   */
+  public function wait_until_field_is_found($locatortype, $locator, $errmsgIfFails)
+  {
+    $field = $this->getPage()->find($locatortype, $locator);
+
+    // timeout is 30 seconds
+    $maxwait = 30;
+    while (--$maxwait>0 && !$field ) {
+      sleep(1);
+
+      # try to find it again, if necessary
+      if (!$field) {
+        $field = $this->getPage()->find($locatortype, $locator);
+      }
+
+    }
+    if (!$field) {
+      throw new Exception("Ventede 30 sekunder, men: " . $errmsgIfFails);
+    }
+  }
+
+  /**
+   * @When waiting up to :waitmax until :txt goes away
+   * @param $waitmax - number of waits of 300 ms
+   * @param $txt - text that we wait for will disappear
+   */
+  public function wait_until_text_is_gone($waitmax, $txt)
+  {
+    $wait=$this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+    $continueWaiting = true;
+    if (!$wait) {
+      return;
+    }
+    try {
+      $continueWaiting = ($wait->isVisible()) ? true : false;
+
+    } catch (Exception $e) {
+      // ignore
+    }
+    while ($continueWaiting and --$waitmax>0) {
+      usleep(300);
+      $wait=$this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+      if ($wait) {
+        try {
+          $continueWaiting = ($wait->isVisible()) ? true : false;
+
+        } catch (Exception $e) {
+          ## ignore
+        }
+      } else {
+        $continueWaiting = false;
+      }
+    }
+  }
+
 }
