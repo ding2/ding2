@@ -49,6 +49,7 @@
   stylesheets[all][] = sass_css/components/node/news.css
   stylesheets[all][] = sass_css/components/node/node.css
   stylesheets[all][] = sass_css/components/node/page.css
+  stylesheets[all][] = sass_css/components/node/paragraphs.css
 
   stylesheets[all][] = sass_css/components/panel/account.css
   stylesheets[all][] = sass_css/components/panel/class-panel.css

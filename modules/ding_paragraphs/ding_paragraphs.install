@@ -1,8 +1,0 @@
-<?php
-
-/**
- * Remove obsolete menu.
- */
-function ding_paragraphs_update_7001() {
-  
-}

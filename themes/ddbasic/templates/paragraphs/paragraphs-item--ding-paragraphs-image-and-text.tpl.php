@@ -26,7 +26,7 @@
  * @see template_process()
  */
 ?>
-<div class="ting-object list-item-style">
+<div class="ting-object list-item-style paragraphs-block">
   <div class="inner">
     <?php print render($content); ?>
   </div>

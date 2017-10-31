@@ -119,3 +119,42 @@ function ding_news_update_7006() {
   variable_del('pathauto_node_ding_news_en_pattern');
   variable_del('pathauto_node_ding_news_und_pattern');
 }
+
+/**
+ * Migrate news body field to paragraph and delete field.
+ */
+function ding_news_update_7007(&$sandbox) {
+  if (!isset($sandbox['total'])) {
+    $query = db_select('field_data_field_ding_news_body', 'f');
+    $query->fields('f');
+    $result = $query->execute();
+    $sandbox['total'] = $result->rowCount();
+    $sandbox['current'] = 0;
+  }
+
+  $nodes_per_pass = 30;
+
+  $query = db_select('field_data_field_ding_news_body', 'f');
+  $query->fields('f');
+  $query->range($sandbox['current'], $nodes_per_pass);
+  $result = $query->execute();
+
+  while ($value = $result->fetchAssoc()) {
+    $node = node_load($value['entity_id']);
+    $paragraph = new ParagraphsItemEntity(array('field_name' => 'field_ding_news_paragraphs', 'bundle' => 'ding_paragraphs_text'));
+    $paragraph->is_new = TRUE;
+    $paragraph->field_ding_paragraphs_text[$value['language']][0]['value'] = $value['field_ding_news_body_value'];
+    $paragraph->field_ding_paragraphs_text[$value['language']][0]['format'] = $value['field_ding_news_body_format'];
+    $paragraph->setHostEntity('node', $node);
+    $paragraph->save();
+    $sandbox['current']++;
+  }
+
+  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+
+  if ($sandbox['#finished'] === 1) {
+    drupal_set_message(t('We processed @nodes nodes. Deleting field_ding_news_body...', array('@nodes' => $sandbox['total'])));
+    field_delete_field('field_ding_news_body');
+    field_purge_batch(1);
+  }
+}

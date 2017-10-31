@@ -1,0 +1,9 @@
+//
+// Styling of paragraphs
+
+@import '../../base.scss';
+
+.paragraphs-block {
+  display: inline-block;
+  margin: 0 0 $distance-paragraph;
+}
