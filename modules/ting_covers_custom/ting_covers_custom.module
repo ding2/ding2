@@ -74,6 +74,53 @@ function ting_covers_custom_menu_local_tasks_alter(&$data, $router_item, $root_p
 }
 
 /**
+ * Implements hook_entity_insert().
+ */
+function ting_covers_custom_entity_insert($entity, $type) {
+  if ($type === 'relation' && $entity->relation_type === 'ting_covers_custom_cover') {
+    // Remove existing cover information when uploading a new cover.
+    ting_covers_custom_reset_relation_cover($entity);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function ting_covers_custom_entity_update($entity, $type) {
+  if ($type === 'relation' && $entity->relation_type === 'ting_covers_custom_cover') {
+    // Remove existing cover information when uploading a new cover.
+    ting_covers_custom_reset_relation_cover($entity);
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function ting_covers_custom_entity_delete($entity, $type) {
+  // Remove all cover information when deleting a cover.
+  if ($type === 'relation' && $entity->relation_type === 'ting_covers_custom_cover') {
+    ting_covers_custom_reset_relation_cover($entity);
+  }
+}
+
+/**
+ * Reset cover information for Ting entities that a custom cover relates to.
+ *
+ * We want to make sure that new cover information is propagated to the frontend
+ * as quickly as possible.
+ *
+ * @param object $relation
+ *   The relation between a Ting entity and a custom cover entity.
+ */
+function ting_covers_custom_reset_relation_cover($relation) {
+  $endpoints = relation_get_endpoints($relation, 'ting_object');
+  $ids = array_map(function(\TingEntity $entity) {
+    return $entity->getId();
+  }, $endpoints['ting_object']);
+  ting_covers_clean($ids);
+}
+
+/**
  * Implements hook_module_implements_alter().
  */
 function ting_covers_custom_module_implements_alter(&$implementations, $hook) {
