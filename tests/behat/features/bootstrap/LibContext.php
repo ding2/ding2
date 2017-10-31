@@ -314,6 +314,40 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * Print out information about the browser being used for the testing
+   *
+   * @Given you tell me the current browser name
+   * @Given you tell me the current browser
+   * @Given you show me the current browser name
+   * @Given you reveal the browser
+   *
+   * @param string $path
+   *   The path to navigate to.
+   */
+  public function show_the_browser()
+  {
+    $session = $this->minkContext->getSession();
+    $driver = $session->getDriver();
+    $userAgent = $driver->evaluateScript('return navigator.userAgent');
+    $provider = $driver->evaluateScript('return navigator.vendor');
+    $browser = null;
+    if (preg_match('/google/i', $provider)) {
+      //using chrome
+      $browser = 'chrome';
+    } elseif (preg_match('/firefox/i',$userAgent)) {
+      $browser = 'firefox';
+    }
+
+    if (!$provider) {
+      $provider = "<unknown>";
+    }
+    print_r("The current browser is: " . $browser . "\n");
+    print_r("The provider on record is: " . $provider . "\n");
+    print_r("The user agent is: " . $userAgent . "\n");
+
+  }
+
+  /**
    * Wait for page to load.
    */
   public function wait_for_page()
