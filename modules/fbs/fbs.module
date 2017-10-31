@@ -262,8 +262,10 @@ function fbs_settings_form() {
   // Branches and blacklisted branches.
   $form['branches'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Holdings Branches Blacklist'),
+    '#title' => t('Search Branches Blacklist'),
     '#description' => t('Choose which branches to blacklist from searches'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
 
   $form['branches']['fbs_branches_blacklist'] = array(
@@ -277,6 +279,8 @@ function fbs_settings_form() {
     '#type' => 'fieldset',
     '#title' => t('User Branches Blacklist'),
     '#description' => t('Choose which branches to blacklist from user profile.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
 
   $form['user_branches']['fbs_user_branches_blacklist'] = array(
@@ -284,6 +288,21 @@ function fbs_settings_form() {
     '#title' => t('User branch blacklist'),
     '#options' => fbs_branches(),
     '#default_value' => variable_get('fbs_user_branches_blacklist', array()),
+  );
+
+  $form['holding_branches'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Holdings Branches Blacklist'),
+    '#description' => t('Choose which branches to blacklist from availability lists.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['holding_branches']['fbs_holdings_branches_blacklist'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Holdings branch blacklist'),
+    '#options' => fbs_branches(),
+    '#default_value' => variable_get('fbs_holdings_branches_blacklist', array()),
   );
 
   return system_settings_form($form);
@@ -533,7 +552,7 @@ function fbs_form_ding_availability_admin_holdings_settings_alter(&$form, &$form
     '#type' => 'radios',
     '#title' => t('Holdings suffix'),
     '#description' => t('Select which type of suffix to use for holdings. Simple shows a mix between DK5 and inverted creator, while Shelf mark simulates the shelf mark from ALMA using marc-data from the well.'),
-    '#default_value' => variable_get('fbs_holdings_suffix_type', 'simple'),
+    '#default_value' => variable_get('fbs_holdings_suffix_type', 'shelf_mark'),
     '#options' => array(
       'simple' => t('Simple'),
       'shelf_mark' => t('Shelf mark'),
@@ -687,16 +706,20 @@ function fbs_ting_pre_execute($request) {
   if ($request instanceof TingClientSearchRequest) {
     // Filter out blacklisted branches from search.
     $branches_blacklist = array_filter(variable_get('fbs_branches_blacklist', array()));
-    $blacklist_names = array_values(array_intersect_key(fbs_branches(), $branches_blacklist));
-    $blacklist_names = array_map('_fbs_cql_quote_string', $blacklist_names);
 
-    $query = $request->getQuery();
     if (!empty($branches_blacklist)) {
-      $query .= ' AND (holdingsitem.branch = (* not ' . implode(' not ',
-                $branches_blacklist) . '))';
+      $query = $request->getQuery();
+      $allowed_branches = [];
+      foreach (fbs_branches() as $id => $branch) {
+        if (!in_array($id, $branches_blacklist)) {
+          $allowed_branches[] = _fbs_cql_quote_string($branch);
+        }
+      }
+      $query .= ' AND (holdingsitem.branch = (' . implode(' OR ',
+          $allowed_branches) . '))';
       $request->setQuery($query);
-    }
 
+    }
     // Since FBS is using data-well 3.5 we need to filter local holdings.
     $request->setFilterLocalHoldings(TRUE);
   }

@@ -935,7 +935,22 @@ function ding_user_frontend_default_page_manager_pages() {
   $page->admin_title = 'User my library';
   $page->admin_description = '';
   $page->path = 'user/%user/my-library';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array(
     'type' => 'tab',
     'title' => 'Mit personlige bibliotek',
@@ -1094,8 +1109,8 @@ function ding_user_frontend_default_page_manager_pages() {
     'settings' => NULL,
   );
   $page->menu = array(
-    'type' => 'none',
-    'title' => 'Reservations',
+    'type' => 'tab',
+    'title' => 'Reservations in queue',
     'name' => 'navigation',
     'weight' => '4',
     'parent' => array(
@@ -1212,11 +1227,11 @@ function ding_user_frontend_default_page_manager_pages() {
         'interlibrary_loans' => 'interlibrary_loans',
         'ready_for_pickup' => 0,
       ),
-      'form_build_id' => 'form-YjzqJCj7L0VlsFICUhBPU4plnz6GmBW4_ygeTOAg23o',
-      'form_token' => '58yM0Lyy1WXessO9Qx3vSM6g4JQYaG8E8ITfEpyCkEM',
+      'form_build_id' => 'form-ixlxciuXvuhXqcvp1j84xKjLfZ5kqhpihB1reTrVp4E',
+      'form_token' => '8yDFxGzbZIvwaF0fUvUvC9ihd-sT8Ou-Z5B34lxSo3g',
       'form_id' => 'ding_reservation_reservations_content_type_edit_form',
       'override_title' => 1,
-      'override_title_text' => 'Reservations',
+      'override_title_text' => 'Reservations in queue',
       'reservation_title' => 'Select all',
       'reservation_empty_text' => 'There are no reservations.',
       'reservation_form_id' => 'ding_reservation_reservations_notready_form',

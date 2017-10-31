@@ -39,7 +39,7 @@
           }
         }
       }
-      .group_text {
+      .group-text {
         @include transition(
           left $speed $ease,
           width $speed $ease,
@@ -56,7 +56,7 @@
           pointer-events: none;
         }
 
-        .group_inner {
+        .group-inner {
           position: relative;
           background: linear-gradient($charcoal 0%, $charcoal-opacity-extra-dark 100%);
           &::after {
@@ -86,12 +86,12 @@
         z-index: 2;
       }
       &.move-right {
-        .group_text {
+        .group-text {
           left: 100%;
         }
       }
       &.move-left {
-        .group_text {
+        .group-text {
           left: -158.53659%;
         }
       }
@@ -118,10 +118,10 @@
         @include font('display-small');
         width: 100%;
         padding: 0 20px;
-        color: $color-primary;
+        color: $color-text-link-on-dark;
         margin-bottom: 15px;
         a:hover {
-          color: $color-primary;
+          color: $color-text-link-on-dark;
         }
       }
       .field-name-ting-abstract {
@@ -176,7 +176,7 @@
             width: getColumn(3 of 2);
             background: $charcoal;
             box-shadow: $box-shadow;
-            .group_inner {
+            .group-inner {
               &::after {
                 @include transition(
                   opacity $speed-fast $hover-delay $ease

@@ -77,7 +77,7 @@ function ding_user_frontend_user_overview_content_type_render($subtype, $conf, $
     if ($readys > 0) {
       $list[DING_USER_FRONTEND_LIST_RESERVATIONS_READY] = array(
         'data' =>
-        '<a href="' . url($uri['path'] . '/status-reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations ready for pick-up') . '</a>' . '<span class="label ready">' . $readys . '</span>',
+        '<a href="' . url($uri['path'] . '/status-reservations-ready') . '" class="signature-label"><span class="icon"></span>' . t('Reservations ready for pick-up') . '</a>' . '<span class="label ready">' . $readys . '</span>',
         'class' => array('ready'),
       );
     }
@@ -98,7 +98,7 @@ function ding_user_frontend_user_overview_content_type_render($subtype, $conf, $
     $count = count($loans) - $overdues;
     $list[DING_USER_FRONTEND_LIST_LOANS] = array(
       'data' =>
-      '<a href="' . url($uri['path'] . '/status-loans') . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
+      '<a href="' . url($uri['path'] . '/status-loans', array('fragment' => 'anchor-loans')) . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
       'class' => array('loan'),
     );
   }

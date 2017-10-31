@@ -1,0 +1,224 @@
+/**
+ * Carousel
+ */
+
+@import '../base.scss';
+
+.carousel-tabs {
+  @include transition(opacity $speed $ease);
+  padding-bottom: 20px;
+
+  // Tablet
+  @include media($tablet) {
+    position: static;
+    width: auto;
+    padding-top: 0;
+  }
+  .carousel-list-tabs {
+    margin: 0;
+    text-align: left;
+
+    .carousel-item {
+      position: relative;
+      display: inline-block;
+      margin: 0 20px 0 0;
+      padding-bottom: 5px;
+      a {
+        @include transition(color $speed-fast $ease);
+        @include font('base');
+        padding: 0;
+        color: $charcoal-opacity-dark;
+        &::after {
+          @include transition(height $speed-fast $ease);
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 0;
+          background-color: $color-text-link;
+        }
+        &:hover {
+          color: $color-standard-text;
+          &::after {
+            height: 3px;
+          }
+        }
+      }
+      &.active {
+        a {
+          position: static;
+          color: $color-standard-text;
+          &::after {
+            height: 3px;
+          }
+        }
+      }
+    }
+
+    // Tablet
+    @include media($tablet) {
+      display: none;
+    }
+  }
+  .carousel-select {
+    display: none;
+    width: 100%;
+    padding-right: 160px;
+    float: left;
+    margin-top: -54px;
+
+    // Tablet
+    @include media($tablet) {
+      display: block;
+    }
+
+    // Mobile
+    @include media($mobile) {
+      padding-right: 0;
+    }
+  }
+}
+
+.ding-carousel {
+  @include transition(opacity $speed $ease);
+  position: relative;
+
+  &.hidden {
+    display: none;
+  }
+
+  .slick-slider {
+    position: relative;
+    clear: left;
+    min-height: 418px; // Prevent page from jumping when content is loaded in
+    max-height: 418px;
+
+    // Tablet
+    @include media($tablet) {
+      padding-top: 0;
+      min-height: 363px; // Prevent page from jumping when content is loaded in
+      max-height: 363px;
+
+    }
+
+    .slick-list {
+      max-height: 418px;
+
+      @include media($tablet) {
+        max-height: 363px;
+      }
+    }
+
+    .slick-track {
+      .slick-slide {
+        width: 260px;
+        margin-right: 28px;
+        text-align: left;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        // Tablet
+        @include media($tablet) {
+          width: 218px;
+          margin-right: 18px;
+        }
+
+        // Mobile
+        @include media($mobile) {
+          width: 218px;
+          margin-right: 18px;
+        }
+      }
+
+      .placeholder {
+        @include linear-gradient(to top, $grey-light 30px, $grey-medium 100%);
+        min-height: 336px;
+
+        .icon-spinner {
+          position: relative;
+          display: block;
+          width: 84px;
+          height: 84px;
+          margin: 0 auto 20px;
+
+          &::after {
+            @include animation(spin 1s linear infinite);
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('../../images/spinner.png') no-repeat;
+            background-size: 100% auto;
+          }
+        }
+      }
+    }
+
+    // Prev/Next
+    .slick-arrow {
+      position: absolute;
+      &.slick-prev {
+        @include arrow-button(arrow-left, $color-secondary);
+        left: auto;
+        right: 80px;
+
+        // Mobile
+        @include media($mobile) {
+          right: 66px;
+        }
+      }
+      &.slick-next {
+        @include arrow-button(arrow-right, $color-secondary);
+      }
+      &.slick-prev,
+      &.slick-next {
+        @include transition(opacity $speed $ease);
+        top: auto;
+        bottom: 0;
+        width: 68px;
+        height: 54px;
+        background-image: none;
+        margin-top: 0;
+        opacity: 1;
+        cursor: pointer;
+
+        // Mobile
+        @include media($mobile) {
+          width: 54px;
+        }
+        &::after {
+          bottom: 0;
+          right: 0;
+          width: 100%;
+          height: 100%;
+          text-indent: 0;
+        }
+
+        &:hover {
+          cursor: pointer;
+          &::after {
+            background-color: $grey-dark;
+            color: $white;
+          }
+        }
+
+        &.slick-disabled {
+          cursor: default;
+          opacity: $disabled;
+
+          &:hover {
+            &::after {
+              background-color: $color-secondary;
+              color: $charcoal-opacity-dark;
+            }
+          }
+        }
+      }
+    }
+  }
+}

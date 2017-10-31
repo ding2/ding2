@@ -1,0 +1,6 @@
+name = Ding Carousel
+description = Show materials and other content in a carousel
+package = Ding!
+version = "7.x-1.0"
+core = "7.x"
+dependencies[] = libraries

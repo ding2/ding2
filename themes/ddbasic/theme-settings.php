@@ -42,6 +42,13 @@ function ddbasic_form_system_theme_settings_validate($form, &$form_state) {
     case 'secondary': $form_state['values']['palette']['text_link'] = $form_state['values']['palette']['secondary'];
       break;
   }
+  switch ($form_state['values']['palette']['text_link_on_dark']) {
+    case 'primary': $form_state['values']['palette']['text_link_on_dark'] = $form_state['values']['palette']['primary'];
+      break;
+
+    case 'secondary': $form_state['values']['palette']['text_link_on_dark'] = $form_state['values']['palette']['secondary'];
+      break;
+  }
 }
 
 /**

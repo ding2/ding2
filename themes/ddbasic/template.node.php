@@ -34,6 +34,19 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     }
   }
 
+  // Add updated to variables.
+  $variables['ddbasic_updated'] = format_date($variables['node']->changed, 'long');
+
+  // Modified submitted variable.
+  if ($variables['display_submitted']) {
+    $variables['submitted'] = format_date($variables['node']->changed, 'long');
+  }
+}
+
+/**
+ * Implememnts template_process_node().
+ */
+function ddbasic_process_node(&$variables, $hook) {
   // For search result view mode move title into left col. group.
   if (isset($variables['content']['group_right_col_search'])) {
     $variables['content']['group_right_col_search']['title'] = array(
@@ -49,14 +62,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
       '#prefix' => '<h2>',
       '#suffix' => '</h2>',
     );
-  }
-
-  // Add updated to variables.
-  $variables['ddbasic_updated'] = format_date($variables['node']->changed, 'long');
-
-  // Modified submitted variable.
-  if ($variables['display_submitted']) {
-    $variables['submitted'] = format_date($variables['node']->changed, 'long');
   }
 }
 
@@ -129,7 +134,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 
   $price = field_get_items('node', $variables['node'], 'field_ding_event_price');
   if (!empty($price)) {
-    $variables['event_price'] = $price[0]['value'] . ' kr.';
+    $variables['event_price'] = $price[0]['value'] . ' ' . variable_get('ding_event_currency_type', 'Kr');
   }
   else {
     $variables['event_price'] = t('Free');
@@ -313,6 +318,7 @@ function ddbasic_preprocess__node__ding_group(&$variables) {
 function ddbasic_preprocess__node__ding_eresource(&$variables) {
   switch ($variables['view_mode']) {
     case 'teaser':
+    case 'full':
       if (!empty($variables['field_ding_eresource_link'][0]['url'])) {
         $variables['link_url'] = $variables['field_ding_eresource_link'][0]['url'];
       }

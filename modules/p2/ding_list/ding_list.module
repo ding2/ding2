@@ -33,6 +33,9 @@ define('DING_LIST_OPERATION_AUTO_CREATE', 'auto_create');
 define('DING_LIST_OPERATION_CHECK_EXISTS', 'check_exists');
 define('DING_LIST_OPERATION_SHARE', 'share');
 
+// Carousel behaviour.
+define('DING_LIST_CAROUSEL_CHUNK_SIZE', 6);
+
 /**
  * View list permission.
  */
@@ -205,6 +208,16 @@ function ding_list_menu() {
     'page arguments' => array(2, 3),
     'delivery callback' => 'ajax_deliver',
     'access callback' => TRUE,
+  );
+
+  $items['ding-list/carousel/ajax/%/%'] = array(
+    'title' => 'Show carousel results',
+    'page callback' => 'ding_list_carousel_ajax',
+    'page arguments' => array(3, 4),
+    'access callback' => 'ding_list_user_has_access',
+    'access arguments' => array(3),
+    'file' => 'include/menu_callbacks.inc',
+    'type' => MENU_CALLBACK,
   );
 
   return $items;
@@ -573,7 +586,7 @@ function ding_list_ding_user_consent_changed($consent) {
         }
       }
 
-      // Create any missing autocreated lists.
+      // Create any missing auto created lists.
       ding_list_setup_autocreated();
 
       // Update the historical loans.
@@ -588,9 +601,8 @@ function ding_list_ding_user_consent_changed($consent) {
 function ding_list_theme($existing, $type, $theme, $path) {
   return array(
     'ding_list_add_button' => array(
-      'path' => $path . '/theme',
-      'file' => 'theme.inc',
-      'template' => 'ding-list-add-button',
+      'file' => 'theme/theme.inc',
+      'template' => 'templates/ding-list-add-button',
       'variables' => array(
         'type' => NULL,
         'value' => NULL,
@@ -601,7 +613,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
     ),
     'ding_list_list' => array(
       'file' => 'theme/theme.inc',
-      'template' => 'theme/ding-list-list',
+      'template' => 'templates/ding-list-list',
       'variables' => array(
         'items' => array(),
         'sortable' => FALSE,
@@ -679,8 +691,6 @@ function ding_list_secure_permissions($role) {
  * Implements template_preprocess_entity().
  */
 function ding_list_preprocess_entity(&$variables) {
-  global $user;
-
   if ($variables['entity_type'] == 'ding_type') {
     switch ($variables['ding_type']->type) {
       case 'ding_list':
@@ -707,32 +717,18 @@ function ding_list_preprocess_entity(&$variables) {
         $objects = ding_base_get_items('ding_type', $variables['ding_type'], 'field_list_objects');
         switch ($variables['view_mode']) {
           case 'carousel':
-            $ids = array();
-            // Sets the max amount of items in the carousel to 10 elements.
-            foreach (array_slice($objects, 0, 40) as $object) {
-              $ids[] = $object['target_id'];
-            }
-
-            $objects = entity_load('ding_type', $ids);
-
-            $ting_ids = array();
-            foreach ($objects as $object) {
-              $ting_ids[] = ding_list_get_list_element_value($object);
-            }
-            $objects = ding_entity_load_multiple($ting_ids, 'ting_object');
-
-            if ($objects !== FALSE) {
-              $items = array();
-              foreach ($objects as $object) {
-                $items[] = ting_object_view($object, 'teaser');
-              }
-
-              $variables['content']['carousel'] = array(
-                '#theme' => 'ting_carousel',
-                '#items' => $items,
-                '#item_type' => 'item',
-              );
-            }
+            // Simple create a carousel with placeholders and delay rendering of
+            // the entities until needed. They wil be load in chuck sizes as
+            // required by ajax requests.
+            $variables['content']['carousel'] = array(
+              '#type' => 'ding_carousel',
+              '#items' => array(),
+              '#path' => 'ding-list/carousel/ajax/' . $variables['ding_type']->id,
+              '#offset' => 0,
+              // Add a single placeholder to fetch more content later if there
+              // is more content.
+              '#placeholders' => count($objects) > DING_LIST_CAROUSEL_CHUNK_SIZE ? DING_LIST_CAROUSEL_CHUNK_SIZE + 1 : count($objects),
+            );
             break;
         }
         break;
@@ -1142,37 +1138,6 @@ function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
         );
       }
       break;
-  }
-}
-
-/**
- * Implements hook_views_post_execute().
- */
-function ding_list_views_post_execute(&$view) {
-  if ($view->name == 'public_lists') {
-    // Collect the list ids.
-    $list_ids = [];
-    foreach ($view->result as $result) {
-      $list_ids[] = $result->id;
-    }
-
-    if ($list_ids) {
-      // Dig out ting ids referenced in list items.
-      $query = db_select('field_data_field_list_objects', 'o')
-        ->condition('o.entity_id', $list_ids, 'IN');
-      // Need the type field to limit to items of ting_object type.
-      $query->join('field_data_field_element_type', 't', "o.field_list_objects_target_id  = t.entity_id AND t.entity_type = 'ding_type' AND t.bundle = 'ding_list_element'");
-      // And apparently the object id is stored in field_value, not
-      // field_ting_object. Someone forgot to delete unused fields.
-      $query->join('field_data_field_value', 'v', "o.field_list_objects_target_id  = v.entity_id AND v.entity_type = 'ding_type' AND v.bundle = 'ding_list_element'");
-      $query->condition('t.field_element_type_value', 'ting_object')
-        ->fields('v', array('field_value_value'));
-
-      $ting_ids = array_unique(array_filter($query->execute()->fetchCol()));
-      if ($ting_ids) {
-        ding_entity_load_multiple($ting_ids, 'ting_object');
-      }
-    }
   }
 }
 
