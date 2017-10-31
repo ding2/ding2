@@ -25,3 +25,10 @@ Feature: SEEK redroute 01
       | term.language=dansk AND term.type=bog  AND term.title=?æ* | æ+    |
       | term.language=dansk AND term.type=bog  AND term.title=?ø* | ø+    |
       | term.language=dansk AND term.type=bog  AND term.title=?å* | å+    |
+
+  @api @seek004 @seekNologin @regression
+  Scenario: Show openscan suggestions in search field
+    Given I am on "/"
+    When I enter "her" in field "input#edit-search-block-form--2"
+    Then I get suggestions from openscan
+

@@ -183,6 +183,52 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * @When I enter :text in field :field
+   *
+   * Type text character by character, with support for newline, tab as \n and \t
+   */
+  public function enter_text_into_field($text, $field) {
+    $found = $this->getPage()->find('css', $field);
+    if (!$found) {
+      throw new Exception ("Kunne ikke finde feltet " . $field);
+    }
+    $this->scroll_to($found);
+    // click so we place the cursor in the field
+    $found->click();
+
+    // now it becomes technical, because we will type each character in
+    // the $text variable one at a time, but also we want to use the escape
+    // option of \n for instance. So we will remember if we get the \ char
+    // and check the next character.
+    $escaped = false;
+    for ($i=0;$i<strlen($text);$i++) {
+      $key = substr($text, $i, 1);
+      if ($escaped) {
+        switch ($key) {
+          case 'n':
+            $key = "\r\n";
+            break;
+          case "t":
+            $key = "\t";
+            break;
+          default:
+            // we will just let $key be what it is
+        }
+      }
+      // unless we start an escaped character, play it through the browser
+      if ($key == "\\") {
+        $escaped = true;
+      } else {
+        $this->minkContext->getSession()
+              ->getDriver()
+              ->getWebDriverSession()
+              ->element('xpath', $found->getXpath())
+              ->postValue(['value' => [$key]]);
+      }
+    }
+  }
+
+  /**
    *   Building the entire search result into an array
    */
   public function get_entire_search_result()
