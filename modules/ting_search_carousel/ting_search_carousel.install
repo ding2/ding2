@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install, update and uninstall functions for the ting_search_carousel module.
@@ -19,13 +20,17 @@ function ting_search_carousel_uninstall() {
   @drupal_rmdir('public://ting_search_carousel');
   variable_del('ting_carousel_search_queries_hidden');
   variable_del('ting_carousel_search_queries');
+  variable_del('ting_search_carousel_tabs_position');
+  variable_del('ting_search_carousel_description_toggle');
+  variable_del('ting_search_carousel_transition');
+  variable_del('ting_search_carousel_server_render');
 }
 
 /**
  * Add a shortcut for configuring ting_search_carousel.
  */
 function ting_search_carousel_add_shortcut() {
-  if(module_exists('shortcut')) {
+  if (module_exists('shortcut')) {
     // Add shortcut to carousel.
     $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
     $shortcut_set->links = array(
@@ -50,4 +55,19 @@ function ting_search_carousel_update_7001() {
     ->execute();
 
   ting_search_carousel_add_shortcut();
+}
+
+/**
+ * Delete obsolete variables.
+ */
+function ting_search_carousel_update_7002() {
+  variable_del('ting_search_carousel_tabs_position');
+  variable_del('ting_search_carousel_server_render');
+}
+
+/**
+ * Ensure ding_carousel is enabled.
+ */
+function ting_search_carousel_update_7003() {
+  module_enable(array('ding_carousel'));
 }

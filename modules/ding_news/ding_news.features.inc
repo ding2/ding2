@@ -32,31 +32,6 @@ function ding_news_views_api($module = NULL, $api = NULL) {
 function ding_news_image_default_styles() {
   $styles = array();
 
-  // Exported image style: crop_22_9.
-  $styles['crop_22_9'] = array(
-    'name' => 'crop_22_9',
-    'label' => 'Crop 22:9',
-    'effects' => array(
-      15 => array(
-        'label' => 'Manual Crop: Custom crop',
-        'help' => 'Crop a freely user-selected area.',
-        'effect callback' => 'manualcrop_crop_effect',
-        'form callback' => 'manualcrop_crop_form',
-        'summary theme' => 'manualcrop_crop_summary',
-        'module' => 'manualcrop',
-        'name' => 'manualcrop_crop',
-        'data' => array(
-          'width' => 855,
-          'height' => 350,
-          'keepproportions' => 1,
-          'reuse_crop_style' => 'crop_16_9',
-          'style_name' => 'crop_22_9',
-        ),
-        'weight' => 0,
-      ),
-    ),
-  );
-
   // Exported image style: ding_panorama_list_large_wide.
   $styles['ding_panorama_list_large_wide'] = array(
     'name' => 'ding_panorama_list_large_wide',

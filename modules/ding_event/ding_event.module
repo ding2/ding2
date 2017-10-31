@@ -194,15 +194,8 @@ function ding_event_install_menu_position($op = 'install') {
  */
 function ding_event_views_pre_execute(&$view) {
   if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list'))) {
-    $inner = $view->build_info['query'];
-    $view->build_info['query'] = db_select($inner, 'inner_query')
-      ->fields('inner_query')
-      ->groupBy('nid');
-
-    // Respect inner order.
-    foreach ($inner->getOrderBy() as $field => $direction) {
-      $view->build_info['query']->orderBy($field, $direction);
-    }
+    $view->build_info['query']->groupBy('node.nid');
+    $view->build_info['count_query']->groupBy('node.nid');
   }
 }
 

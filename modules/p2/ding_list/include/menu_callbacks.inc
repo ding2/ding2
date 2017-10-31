@@ -236,3 +236,67 @@ function ding_list_share_list_callback($permission, $list_id, $community) {
     '#commands' => $commands,
   );
 }
+
+/**
+ * Fetch more list items for carousel's.
+ *
+ * @param string $list_id
+ *   The id of the list to process.
+ * @param string $offset
+ *   The off-set into the list.
+ */
+function ding_list_carousel_ajax($list_id, $offset) {
+  $build = array(
+    'content' => array(),
+    'offset' => -1,
+  );
+
+  $list = ding_list_get_list($list_id);
+
+  // Check access to the list.
+  if (ding_list_user_has_access($list)) {
+    $ids = array();
+    $items = ding_base_get_items('ding_type', $list, 'field_list_objects');
+    foreach (array_slice($items, $offset, DING_LIST_CAROUSEL_CHUNK_SIZE) as $item) {
+      $ids[] = $item['target_id'];
+    }
+    $entities = entity_load('ding_type', $ids);
+
+    $object_ids = array();
+    foreach ($entities as $entity) {
+      $object_ids[] = ding_list_get_list_element_value($entity);
+    }
+    $entities = ding_entity_load_multiple($object_ids, 'ting_object');
+
+    $content = array();
+    foreach ($entities as $entity) {
+      $content[] = array(
+        '#type' => 'ding_carousel_item',
+        '#content' => ting_object_view($entity, 'teaser'),
+      );
+    }
+
+    // Calculate if there are more items in the list.
+    $next_offset = -1;
+    if ($offset + DING_LIST_CAROUSEL_CHUNK_SIZE <= count($items)) {
+      $next_offset = $offset + DING_LIST_CAROUSEL_CHUNK_SIZE;
+    }
+
+    // If there's more items, add a placeholder at the end to signal the user
+    // that it's loading.
+    if ($next_offset > -1) {
+      $content[] = array(
+        '#type' => 'ding_carousel_item',
+        '#placeholder' => TRUE,
+      );
+    }
+
+    $build = array(
+      'content' => drupal_render($content),
+      'offset' => $next_offset,
+    );
+  }
+
+  // Return JSON output.
+  drupal_json_output($build);
+}
