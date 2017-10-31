@@ -81,6 +81,13 @@
   }
 }
 
+#ding-reservation-reserve-form {
+  input[type=submit] {
+    width: auto;
+    padding-right: 80px;
+  }
+}
+
 .node-ding-event {
   .webform-client-form {
     margin-bottom: 30px;

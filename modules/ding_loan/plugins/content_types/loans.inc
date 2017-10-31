@@ -119,8 +119,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       ),
     );
 
-    // Numeric gids are loans not yet overdue.
-    $group_type = !is_numeric($gid) ? $gid : 'loans';
+    // Assume anything not in the overdue group is loans (which are grouped by
+    // their expire date).
+    $group_type = $gid !== 'overdue' ? 'loans' : $gid;
     if (empty($group_types[$group_type])) {
       $group_types[$group_type] = TRUE;
       $form['loans'][$gid]['title']['#prefix'] = '<a class="anchor" id="anchor-' . $group_type . '"></a>' . $form['loans'][$gid]['title']['#prefix'];

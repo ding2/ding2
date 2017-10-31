@@ -17,7 +17,7 @@ function fbs_availability_items($provider_ids) {
   $avails = array();
 
   try {
-    $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids, variable_get('fbs_branches_blacklist', array()));
+    $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids, variable_get('fbs_holdings_branches_blacklist', array()));
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
@@ -44,7 +44,7 @@ function fbs_availability_holdings($provider_ids) {
   $holdings = array();
 
   try {
-    $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids, variable_get('fbs_branches_blacklist', array()));
+    $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids, variable_get('fbs_holdings_branches_blacklist', array()));
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
@@ -96,7 +96,7 @@ function fbs_availability_holdings($provider_ids) {
 
       module_load_include('client.inc', 'ting');
       $entity_id = ding_provider_build_entity_id($provider_ids[0]);
-      $suffix_type = variable_get('fbs_holdings_suffix_type', 'simple');
+      $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
 
       if ($suffix_type == 'simple' && $entity = ding_entity_load($entity_id)) {
         // Get DK5 classification.
