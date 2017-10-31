@@ -13,3 +13,10 @@ Feature: Smoke tests
       And I accept cookies
      Then I save screenshot
      Then I should see "Kontakt"
+
+  @simplelogin @api
+  Scenario: Attempt to login
+    Given I am on "/"
+    And I accept cookies
+    And I am logged in as a library user
+

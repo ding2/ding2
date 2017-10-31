@@ -178,6 +178,173 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * @Given I am logged in as a library user
+   * @When I log in as a library user
+   */
+  public function iAmLoggedInAsALibraryUser()
+  {
+
+    // temporary solution, setting up hardcoded username list. Password is last 4 for Connie Provider
+    $userlist = array ();
+    $userlist[] = 'Lillekvak';
+    $userlist[] = 'Supermand';
+    $userlist[] = 'Fernando';
+    $userlist[] = 'Georgina';
+    $userlist[] = 'Henrietta';
+    $userlist[] = 'Ibenholt';
+    $userlist[] = 'Jepardy';
+    $userlist[] = 'Karolina';
+    $userlist[] = 'Louisette';
+    $userlist[] = 'Marionette';
+    $userlist[] = 'Nielsette';
+    $userlist[] = 'Ottomand';
+    $userlist[] = 'Pegonia';
+
+    // now pick a random one.
+    $name = $userlist[random_int(0, count($userlist)-1)];
+
+    // set up the user:
+    $user = (object) array(
+          'name' => $name,
+          'pass' => substr($name, -4),
+    );
+    $this->drupalContext->user = $user;
+    $this->login();
+
+    // We need the user uid for various reasons, however it's not easily
+    // available. Apparently the only place it makes an appearance
+    // nowadays is in a class on the body element of the user page. So try
+    // to dig it out from there.
+    $this->drupalContext->getSession()->visit($this->drupalContext->locatePath('/user'));
+
+    $body = $this->getPage()->find('css', 'body');
+    if (!$body) {
+      throw new Exception('Kunne ikke hente brugerens side.');
+    }
+    $classes = explode(' ', $body->getAttribute('class'));
+    foreach ($classes as $class) {
+      if (preg_match('{^page-user-(\d+)$}', $class, $matches)) {
+        $user->uid = $matches[1];
+        break;
+      }
+    }
+    if (!$user->uid) {
+      throw new Exception('Kunne ikke hente brugerens UID fra brugerens side.');
+    }
+
+    // In addition, make a note of the "id" that is used in paths (which
+    // is most often "me"), so we can construct paths as would be
+    // expected. We're sniffing this rather than hardcoding it because
+    // some users are except from the "me" replacement.
+    $link = $this->drupalContext->getSession()->getPage()->findLink('Brugerprofil');
+    if (!$link) {
+      throw new Exception('Kunne ikke finde link til brugerprofil på brugerens side.');
+    }
+    $this->user = $user;
+  }
+
+  /**
+   * Log in a user.
+   *
+   */
+  public function login()
+  {
+
+    if (!$this->drupalContext->user) {
+      throw new \Exception('Tried to login without a user.');
+    }
+
+    // it's nice to know in the log who we log in with:
+    $this->log_msg(($this->verbose->loginInfo=="on"), "Forsøger at logge ind med brugeren: " . $this->drupalContext->user->name . "\n");
+
+    $this->log_timestamp(($this->verbose->loginInfo=="on"), " - ");
+
+    $el = $this->minkContext->getSession()->getPage();
+    if (!$el) {
+      throw new Exception ("Kunne ikke finde en side at logge ind på.");
+    }
+
+    // find out if we are not logged in on page - body has a certain class
+    $pageclass = $el->find('xpath', '//body[contains(@class, "not-logged-in")]');
+
+    if ($pageclass) {
+      // now we know we are not logged-in.
+      // Find the link represented by the login-button in the top.
+      $xpath = "//body[contains(@class, 'overlay-is-active')]";
+      $libutton=$this->getPage()->find('xpath', $xpath);
+
+      if (!$libutton) {
+
+        // the overlay is not shown. This is expected.
+        // So we interject a bit of javascript to open it.
+
+        // This is actually a copy of the js that actually runs on the page itself
+        // but I couldn't get to activate that. This seems to do the same thing,
+        // except it cannot remove the mobile-tags, so I commented that out.
+        $js = "";
+        $js .= "document.querySelector('body').classList.toggle('pane-login-is-open');";
+        //$js .= "document.querySelector('body').classList.remove('mobile-menu-is-open mobile-search-is-open mobile-usermenu-is-open');";
+        $js .= "if (document.querySelector('body').classList.contains('pane-login-is-open')) {";
+        $js .= "document.querySelector('body').classList.add('overlay-is-active');";
+        $js .= "} else {";
+        $js .= "document.querySelector('body').classList.remove('overlay-is-active');";
+        $js .= "}";
+
+        $this->minkContext->getSession()->executeScript($js);
+
+      } else {
+        throw new Exception ("Fandt ikke login-knappen");
+      }
+
+    } else {
+      // we are already logged in?! This should not be possible. Yet, here we are..
+      print_r("Lader til at vi allerede er logget ind?");
+    }
+
+    // now wait until the username field is visible - it's the last one that scrolls into view
+    $this->wait_until_field_is_found('css', 'input#edit-name', 'Login brugernavn-felt er ikke på siden.');
+
+    // check if we can see the password and login-button as well
+    $passwordfield = $this->getPage()->find('css', 'input#edit-pass');
+    if (!$passwordfield) {
+      throw new Exception("Login password felt er ikke på siden");
+    }
+    $loginknap = $this->getPage()->find('css', 'input#edit-submit');
+    if (!$loginknap) {
+      throw new Exception("Login knap er ikke på siden");
+    }
+    if (!$loginknap->isVisible() || !$passwordfield->isVisible()) {
+      throw new Exception ("login-knap eller password-felt er ikke vist og tilgængelig på siden.");
+    }
+    // now fill in credentials
+    $el->fillField($this->drupalContext->getDrupalText('username_field'), $this->drupalContext->user->name);
+    $el->fillField($this->drupalContext->getDrupalText('password_field'), $this->drupalContext->user->pass);
+    $submit = $el->findButton($this->drupalContext->getDrupalText('log_in'));
+
+    if (empty($submit)) {
+      throw new \Exception(sprintf("Ingen login-knap på siden %s", $this->drupalContext->getSession()->getCurrentUrl()));
+    }
+
+    // Log in.
+    $submit->click();
+
+    // wait until we can see the username displayed
+    $this->wait_until_field_is_found('xpath',
+          '//div[contains(@class,"pane-current-user-name")]//div[contains(@class,"pane-content")]/text()[contains(.,"' . $this->drupalContext->user->name . '")]/..',
+          'Fandt ikke brugernavn på siden');
+
+    // check if we are logged in drupal-wise
+    if (!$this->drupalContext->loggedIn()) {
+      throw new \Exception(sprintf("Kunne ikke logge på som brugeren: '%s'", $this->drupalContext->user->name));
+    }
+
+    $this->log_timestamp(($this->verbose->loginInfo=="on"), " - OK\n");
+
+  }
+
+
+
+  /**
    * log_msg - prints message on log if condition is true.
    *
    * @param $ifTrue
