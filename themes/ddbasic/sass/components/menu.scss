@@ -405,13 +405,13 @@ ul.topbar-menu {
 
       // Tablet
       @include media($tablet) {
-        @include span-columns(3);
+        width: 180px;
         margin-left: 0;
       }
 
       // Mobile
       @include media($mobile) {
-        @include span-columns(6);
+        width: 156px;
       }
     }
     &.topbar-link-opening-hours {
@@ -454,9 +454,6 @@ ul.topbar-menu {
     top: 7px;
     margin-top: 8px;
     padding: 10px 20px;
-    .toolbar & {
-      top: 71px + $toolbar-height;
-    }
     &::before {
       @include transform(rotate(-45deg));
       width: 18px;
@@ -482,8 +479,8 @@ ul.topbar-menu {
 
     // Tablet
     @include media($tablet) {
+      @include transition(box-shadow $speed $ease)
       @include font('display-small');
-      //Reset desktop styles
       display: block;
       width: auto;
       top: 0;
@@ -496,6 +493,10 @@ ul.topbar-menu {
       left: 0 !important;
       &::before {
         display: none;
+      }
+
+      .mobile-usermenu-is-open & {
+        box-shadow: $box-shadow;
       }
     }
 

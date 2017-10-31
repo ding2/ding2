@@ -31,7 +31,6 @@
   background-color: $grey-light;
   box-shadow: $box-shadow;
 
-  // Pane header logo
   .pane-header-logo {
     @include span-columns(4);
     height: 44px;
@@ -69,16 +68,36 @@
 // ==========================================================================
 .site-header-search-and-user-menu {
   position: relative;
+  z-index: $z-overlay;
+
   .pane-user-menu {
     position: absolute;
     top: 0;
-    z-index: 2;
+    z-index: 51;
+
+    // Tablet
+    @include media($tablet) {
+      @include transition(transform $speed $ease);
+      @include transform(translateY(-100%));
+      display: block;
+      width: 100%;
+      max-height: 100vh;
+      padding-bottom: $header-height;
+      overflow: scroll;
+
+      .mobile-usermenu-is-open & {
+        @include transform(translateY(0));
+      }
+    }
   }
+
   .pane-search-form {
     position: absolute;
     width: 100%;
+
     .form-item-search-block-form {
       float: left;
+
       input[type="text"] {
         border-radius: $round-corner 0 0 $round-corner;
         &:focus {
@@ -86,16 +105,19 @@
         }
       }
     }
+
     .form-actions {
       input[type="submit"] {
         border-radius: 0 $round-corner $round-corner 0;
       }
     }
   }
+
   .search-field-wrapper {
     @include wrapper;
     position: relative;
   }
+
   // Search form default
   .search-form-default & {
     .search-field-wrapper {
@@ -112,12 +134,15 @@
           width: 100%;
         }
       }
+
       .form-item-search-block-form {
         width: getColumn(2 of 3) + getGutter(3);
         float: left;
+
         input[type="text"] {
           @include transition(width $speed $ease);
           float: right;
+
           &:focus {
             width: getColumn(4 of 2);
             box-shadow: none;
@@ -129,19 +154,28 @@
           width: getColumn(9) + getGutter();
         }
       }
+
       .form-actions {
         width: getColumn(1 of 3);
         float: left;
+
         input[type="submit"] {
-          border-radius: 0 $round-corner $round-corner 0;
+
+          // Tablet
+          @include media($tablet) {
+            background-color: $grey;
+            color: $charcoal;
+          }
         }
       }
     }
   }
+
   // Search form extended
   .search-form-extended & {
     @include transition(height $speed $ease);
     height: 0;
+
     .pane-search-form {
       @include transition(box-shadow $speed $ease);
       bottom: 0;
@@ -149,23 +183,33 @@
       background-color: $charcoal;
       box-shadow: none;
       padding: 15px 0;
+
       .search-extended-button {
         position: absolute;
         z-index: 1;
         top: $search-form-extended-height;
         right: 0;
+
+        // Tablet
+        @include media($tablet) {
+          display: none;
+        }
       }
+
       .form-item-search-block-form {
         width: getColumn(11) + getGutter();
+
         input[type="text"] {
           &:focus {
             width: 100%;
           }
         }
       }
+
       .form-actions {
         width: getColumn(1);
         float: right;
+
         input[type="submit"] {
           background-color: $grey;
           color: $charcoal;
@@ -177,6 +221,8 @@
       }
     }
   }
+
+  // Search form extended & extended search is open
   .search-form-extended.extended-search-is-open & {
     height: $search-form-extended-height;
 
@@ -184,31 +230,25 @@
     @include media($tablet) {
       height: auto;
     }
+
+    .pane-search-form {
+      box-shadow: $box-shadow;
+
+      // Tablet
+      @include media($tablet) {
+        box-shadow: none;
+      }
+    }
+  }
+
+  // Search form extended & mobile search is open
+  .search-form-extended.mobile-search-is-open & {
     .pane-search-form {
       box-shadow: $box-shadow;
     }
   }
-  // Search form extended with profiles
-  .search-form-extended-with-profiles & {
-    .pane-search-form {
-      .form-item-search-block-form {
-        width: getColumn(8) + getGutter();
-      }
-      .form-item-ting-field-search {
-        width: getColumn(3) + getGutter();
-        float: left;
-        margin-bottom: 0;
-      }
-      .select-wrapper {
-        border-radius: 0;
-        border: 1px solid $white;
-        border-left: 1px solid $grey;
-        &:before {
-          background-color: $white;
-        }
-      }
-    }
-  }
+
+  // Search form extended & search form default
   .search-form-extended &,
   .search-form-default & {
     // Tablet
@@ -223,29 +263,84 @@
         padding: 15px 0;
         background-color: $charcoal;
       }
+
       .search-field-wrapper {
         .form-item-search-block-form {
-          width: getColumn(10) + getGutter();
+          width: 100%;
+          padding-right: 70px;
+
           input[type="text"] {
             &:focus {
               width: 100%;
             }
           }
         }
+
         .form-actions {
-          width: getColumn(2);
-        }
-      }
-    }
-    // Mobile
-    @include media($mobile) {
-      .search-field-wrapper {
-        .form-actions {
-          width: getColumn(3);
+          position: absolute;
+          top: 0;
+          right: 0;
+          width: 70px;
         }
       }
     }
   }
+
+  // Search form extended with profiles
+  .search-form-extended-with-profiles & {
+    .pane-search-form {
+      .form-item-search-block-form {
+        width: getColumn(8) + getGutter();
+
+        // Tablet
+        @include media($tablet) {
+          width: 100%;
+          padding-right: 270px;
+        }
+
+        // Mobile
+        @include media($mobile) {
+          padding-right: 70px;
+        }
+      }
+      .form-item-ting-field-search {
+        width: getColumn(3) + getGutter();
+        float: left;
+        margin-bottom: 0;
+
+        // Tablet
+        @include media($tablet) {
+          position: absolute;
+          top: 0;
+          right: 70px;
+          width: 200px;
+        }
+
+        // Mobile
+        @include media($mobile) {
+          position: static;
+          width: 100%;
+          margin-top: 10px;
+        }
+      }
+      .select-wrapper {
+        border-radius: 0;
+        border: 1px solid $white;
+        border-left: 1px solid $grey;
+
+        &::before {
+          background-color: $white;
+        }
+
+        // Mobile
+        @include media($mobile) {
+          border-radius: $round-corner;
+        }
+      }
+    }
+  }
+
+  // Mobile search is open
   .mobile-search-is-open & {
     // Tablet
     @include media($tablet) {
@@ -274,6 +369,7 @@
     position: absolute;
     top: $header-height;
     left: 0;
+    width: 100%;
     max-height: 100vh;
     padding-bottom: $header-height;
     background-color: transparent;
@@ -284,20 +380,31 @@
       @include transition(
         box-shadow $speed $ease
       );
+      width: 100%;
       float: left;
       background-color: $color-primary;
     }
 
+    .secondary-menu-wrapper {
+      @include transition(
+        box-shadow $speed $ease
+      );
+    }
+
+    // Mobile menu is open
     .mobile-menu-is-open & {
       @include transform(translateY(0%));
 
-      .main-menu-wrapper {
+      .main-menu-wrapper,
+      .secondary-menu-wrapper {
         box-shadow: $box-shadow;
       }
     }
   }
+
   .secondary-menu-wrapper {
     display: none;
+
     // Show secondary menu
     .show-secondary-menu & {
       display: block;
@@ -310,10 +417,13 @@
         background-color: $grey;
       }
     }
+
+    // Extended search is allway visible
     .extended-search-is-allways-visible & {
       padding-right: 0;
     }
   }
+
   .pane-menu-block-main-menu-second-level {
     position: absolute;
     top: 100%;
@@ -321,6 +431,7 @@
     left: 0;
     background-color: $charcoal;
     box-shadow: $box-shadow;
+
     &::before {
       content: '';
       display: block;
@@ -329,55 +440,14 @@
       background-color: $black;
       box-shadow: 0 5px 10px 0 $black;
     }
-    .panel-pane-inner {
-      @include wrapper;
-    }
-  }
-}
-
-// Pane header logo
-// @TODO: Should this be moved to another file?
-.pane-header-logo {
-  .pane-header-logo-site-name-container {
-    height: 44px;
 
     // Tablet
     @include media($tablet) {
-      width: 100%;
+      display: none;
     }
-    .site-name {
-      @include font('display-small');
-      line-height: 44px;
-      color: $charcoal;
-    }
-    &.pane-header-logo-container {
-      .site-name {
-        display: none;
-      }
-      .vertical-helper {
-        display: inline-block;
-        height: 100%;
-        vertical-align: middle;
-      }
-      img {
-        display: inline-block;
-        vertical-align: middle;
-        max-height: 100%;
-        max-width: 95%;
-        width: auto;
-        height: auto;
-      }
 
-      // Mobile
-      @include media($mobile) {
-        .site-name {
-          display: block;
-        }
-        .vertical-helper,
-        img {
-          display: none;
-        }
-      }
+    .panel-pane-inner {
+      @include wrapper;
     }
   }
 }
