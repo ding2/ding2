@@ -878,7 +878,7 @@ function ting_search_sort_key_from_sort(TingSearchSort $sort) {
  * Produce a list of sort option suitable for a form options element.
  *
  * @return array
- *   machine-name -> label lisl
+ *   Machine-name -> label list.
  */
 function ting_search_sort_form_options() {
   $options_full = ting_search_sort_options();
