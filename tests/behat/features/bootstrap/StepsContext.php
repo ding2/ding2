@@ -13,8 +13,9 @@ use Behat\Mink\Exception\UnsupportedDriverActionException;
  */
 class StepsContext implements Context, SnippetAcceptingContext {
 
-  /** @var Ding2Context */
+  /** @var libContext */
   private $libContext;
+
 
   /**
    * Initializes context.
@@ -25,7 +26,6 @@ class StepsContext implements Context, SnippetAcceptingContext {
    */
   public function __construct() {
 
-    
   }
 
   /** @BeforeScenario */
