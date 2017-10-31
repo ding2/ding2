@@ -10,7 +10,9 @@ use OpenSearch\OpenSearchTingSearchResult;
 use Ting\Search\DingProviderStrategy;
 use Ting\Search\StatementGroupRender;
 use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchCommonSortFields;
 use Ting\Search\TingSearchRequest;
+use Ting\Search\TingSearchSort;
 
 /**
  * Get a list of material types from the Well.
@@ -132,13 +134,44 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
     $query = '';
   }
 
-  // TODO: Handle sorts.
-  // Perform the Open Search search and wrap the result.
+  // Prepare options.
   $options = [];
+
+  // Set sort options.
+  $field_mapping = _opensearch_search_map_common_sort_fields();
+  if (count($ting_query->getSorts()) > 0) {
+    // We currently only support a single sort so we pick the first.
+    $instance = $ting_query->getSorts()[0];
+
+    // Map from common field back to our sort field.
+    if (isset($field_mapping[$instance->getField()])) {
+      $field = $field_mapping[$instance->getField()];
+    }
+    else {
+      // Not a common field, so we can assume the field has been provided by
+      // opensearch_search_sort_options so no need to map it.
+      $field = $instance->getField();
+    }
+
+    // First map sort instances to opensearch compatible search strings.
+    if ($instance->getDirection() === TingSearchSort::DIRECTION_ASCENDING) {
+      $direction = '_ascending';
+    }
+    elseif ($instance->getDirection() === TingSearchSort::DIRECTION_DESCENDING) {
+      $direction = '_descending';
+    }
+    else {
+      $direction = '';
+    }
+
+    $opensearch_sort_field = $field . $direction;
+    $options['sort'] = $opensearch_sort_field;
+  }
+
+  // Set facet options.
   if (!empty($ting_query->getFacets())) {
     $options['facets'] = $ting_query->getFacets();
   }
-
   // Set the number of terms we request to get back per facet.
   if ($ting_query->getTermsPerFacet() !== NULL) {
     $options['numFacets'] = $ting_query->getTermsPerFacet();
@@ -147,7 +180,29 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   // Whether to return all materials from matched collections.
   $options['allObjects'] = $ting_query->getPopulateCollections();
 
-  return new OpenSearchTingSearchResult(ting_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options), $ting_query);
+  $result = new OpenSearchTingSearchResult(ting_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options), $ting_query);
+
+  // Handle the situation where opensearch sets a default sort.
+  if (empty($result->getSearchRequest()->getSorts()) && !empty($result->openSearchResult->sortUsed)) {
+    $sort_used = $result->openSearchResult->sortUsed;
+    // In situations where we're configured to default to sort by "rank_general"
+    // opensearch may choose to use rank_main_title for the actual sort. Instead
+    // of introducing two different ways of ranking by title, we instead
+    // interpret it as "rank_title".
+    if ($sort_used === 'rank_main_title') {
+      $sort_used = 'rank_title';
+    }
+
+    // If the used field is a field we already support, pretend it was picked
+    // by the user all along.
+    $provider_sorts = opensearch_search_sort_options();
+    if (array_key_exists($sort_used, $provider_sorts)) {
+      $sort_instance = $provider_sorts[$sort_used]['sort'];
+      $result->getSearchRequest()->addSorts($sort_instance);
+    }
+  }
+
+  return $result;
 }
 
 /**
@@ -377,7 +432,7 @@ function opensearch_search_render_inline_relation(TingRelation $relation) {
  *   Mapping between TingSearchCommonFields::* fields and their provider-
  *   specific counterpart.
  */
-function opensearch_search_map_common_fields() {
+function opensearch_search_map_common_condition_fields() {
   return [
     TingSearchCommonFields::ACQUISITION_DATE => 'acquisitionDate',
     TingSearchCommonFields::AUTHOR => 'facet.creator',
@@ -388,6 +443,20 @@ function opensearch_search_map_common_fields() {
   ];
 }
 
+/**
+ * Mapping between common fields and their provider-specific name.
+ *
+ * @return array
+ *   Mapping between TingSearchCommonFields::* fields and their provider-
+ *   specific counterpart.
+ */
+function _opensearch_search_map_common_sort_fields() {
+  return [
+    TingSearchCommonFields::TITLE => 'title',
+    TingSearchCommonFields::AUTHOR => 'creator',
+    TingSearchCommonFields::DATE => 'date',
+  ];
+}
 
 /**
  * Constructs a TingSearchRequest based on a "reference" search query.
@@ -421,4 +490,39 @@ function opensearch_search_prepare_reference_query($query_string) {
   }
 
   return $query;
+}
+
+/**
+ * Provide additional sort options.
+ *
+ * @return array
+ *   List of sort options represented by their labels and a TingSearchSort
+ *   instance. Keyed by a machine-name.
+ */
+function opensearch_search_sort_options() {
+  // Do not show sort-options specific for rank_frequency if
+  // custom_ranking is enabled or another rank is selected.
+  $default_sort = variable_get('ting_sort_default', 'rank_frequency');
+  $custom_ranking = variable_get('ting_ranking_custom', FALSE);
+  if ($default_sort !== 'rank_frequency' || !empty($custom_ranking)) {
+    return [];
+  }
+
+  return [
+    'rank_title' => [
+      'label' => t('Best match on title'),
+      'label_short' => t('Title'),
+      'sort' => new \Ting\Search\TingSearchSort('rank_title'),
+    ],
+    'rank_creator' => [
+      'label' => t('Best match on creator'),
+      'label_short' => t('Creator'),
+      'sort' => new \Ting\Search\TingSearchSort('rank_creator'),
+    ],
+    'rank_subject' => [
+      'label' => t('Best match on subject'),
+      'label_short' => t('Subject'),
+      'sort' => new \Ting\Search\TingSearchSort('rank_subject'),
+    ],
+  ];
 }

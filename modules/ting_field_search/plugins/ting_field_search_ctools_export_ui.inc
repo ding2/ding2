@@ -179,7 +179,7 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#title' => t('Default sorting'),
     '#description' => t('Select the default sorting'),
     // Use a helper function from ting_search to get available sort options.
-    '#options' => ting_search_sort_options(),
+    '#options' => ting_search_sort_form_options(),
     '#default_value' => $profile->config['search_result']['default_sort'],
   );
   $form['config']['search_result']['ranking'] = array(

@@ -29,13 +29,13 @@ class DingProviderStrategy implements TingSearchStrategyInterface {
   }
 
   /**
-   * Returns a mapping of common field name to a provider-specific names.
+   * Mapping of common fields used in conditions to provider-specific names.
    *
    * @return array
    *   Associative array of provider-specific names keyed by
    *   TingSearchCommonFields::* field names.
    */
   public function mapCommonFields() {
-    return ding_provider_invoke('search', 'map_common_fields');
+    return ding_provider_invoke('search', 'map_common_condition_fields');
   }
 }

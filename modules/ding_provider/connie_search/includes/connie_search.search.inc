@@ -9,6 +9,7 @@ use Connie\Search\ConnieTingObject;
 use Connie\Search\ConnieTingObjectCollection;
 use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchRequest;
+use Ting\Search\TingSearchSort;
 
 /**
  * Get a list of material types from the Well.
@@ -115,20 +116,25 @@ function connie_search_search_render_inline_relation(\TingRelation $relation) {
 }
 
 /**
- * Mapping between common fields and their provider-specific name.
+ * Mapping of common fields used in conditions to provider-specific names.
+ *
+ * Condition fields are fields that are used for boolean condition such as
+ * dc.type = "something" AND facet.creator = "someone"
  *
  * @return array
  *   Mapping between TingSearchCommonFields::* fields and their provider-
  *   specific counterpart.
  */
-function connie_search_search_map_common_fields() {
+function connie_search_search_map_common_condition_fields() {
   return [
     TingSearchCommonFields::ACQUISITION_DATE => 'acquisitionDate',
     TingSearchCommonFields::AUTHOR => 'facet.creator',
     TingSearchCommonFields::CATEGORY => 'facet.category',
+    TingSearchCommonFields::DATE => 'facet.date',
     TingSearchCommonFields::LANGUAGE => 'facet.language',
     TingSearchCommonFields::MATERIAL_TYPE => 'dc.type',
     TingSearchCommonFields::SUBJECT => 'facet.subject',
+    TingSearchCommonFields::TITLE => 'facet.title',
   ];
 }
 
@@ -164,4 +170,29 @@ function connie_search_search_prepare_reference_query($query_string) {
     $query->setFullTextQuery($query_string);
   }
   return $query;
+}
+
+/**
+ * Provide additional sort options.
+ *
+ * The provider could return an array of 0 or more "sorts" where each sort is
+ * keyed by a machine-name. Each entry must specify a label that will be used
+ * for the "long" description of the sort, eg. in <option> elements, a
+ * label_short that will be used in messages, and finally an instance of
+ * TingSearchSort that describes the sort direction and field.
+ *
+ * @return array
+ *   List of sort options represented by their labels and a TingSearchSort
+ *   instance. Keyed by a machine-name.
+ */
+function connie_search_search_sort_options() {
+  return [
+    'duck_type' => [
+      // General label for the option typically used in <option> elements.
+      'label' => t('Sort on type of duck'),
+      // Short label for the option, typically used in messages.
+      'label_short' => t('Ducktype'),
+      'sort' => new TingSearchSort('connie_duck_type', TingSearchSort::DIRECTION_DESCENDING),
+    ]
+  ];
 }

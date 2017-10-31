@@ -1,5 +1,7 @@
 <?php
 
+use Ting\Search\TingSearchSort;
+
 /**
  * @file
  * Test provider implementation.
@@ -491,7 +493,7 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    */
   public function testCommonFieldMapping() {
     $expected_keys = $this->getExpectedCommonFields();
-    $mapped_fields = ding_provider_invoke('search', 'map_common_fields');
+    $mapped_fields = ding_provider_invoke('search', 'map_common_condition_fields');
 
     $diff = array_diff($expected_keys, array_keys($mapped_fields));
 
@@ -523,5 +525,18 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $query = ding_provider_invoke('search', 'prepare_reference_query', $test_query_3);
     $this->assertFalse($query->isFuzzy());
     $this->assertEqual($query->getMaterialFilter(), [$test_query_3]);
+  }
+
+  /**
+   * Test the provider specifics custom sorting.
+   */
+  public function testProviderSpecificSort() {
+    $provider_sorts = ding_provider_invoke('search', 'sort_options');
+    $this->assertTrue(count($provider_sorts) > 0);
+
+    $sort = reset($provider_sorts);
+    $this->assertTrue($sort['sort'] instanceof TingSearchSort);
+    $this->assertTrue(!empty($sort['label']));
+    $this->assertTrue(!empty($sort['label_short']));
   }
 }

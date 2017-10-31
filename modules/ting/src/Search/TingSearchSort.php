@@ -20,6 +20,11 @@ class TingSearchSort {
   // TODO: Could be an enum.
   const DIRECTION_ASCENDING = 'asc';
   const DIRECTION_DESCENDING = 'desc';
+  // "NONE" should be used in situations where the it doesn't make sense to
+  // specify a direction for a sort. This can be necessary in cases where the
+  // provider simply does not support a direction for the sort, or where it
+  // does not make sense ie. a random sort.
+  const DIRECTION_NONE = '_none';
 
   /**
    * TingSearchSort constructor.
@@ -28,10 +33,9 @@ class TingSearchSort {
    *   Provider-specific name of the field sort by.
    *
    * @param string $direction
-   *   TingSearchSort::DIRECTION_ASCENDING ||
-   *   TingSearchSort::DIRECTION_DESCENDING.
+   *   TingSearchSort::DIRECTION_*.
    */
-  public function __construct($field, $direction = self::DIRECTION_ASCENDING) {
+  public function __construct($field, $direction = self::DIRECTION_NONE) {
     $this->direction = $direction;
     $this->field = $field;
   }

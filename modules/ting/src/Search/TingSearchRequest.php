@@ -345,6 +345,23 @@ class TingSearchRequest {
   }
 
   /**
+   * Add one or more sorts to the query.
+   *
+   * @param TingSearchSort[] $sorts
+   *   List of TingSearchSort instances.
+   *
+   * @return TingSearchRequest
+   *   The current query object.
+   */
+  public function addSorts($sorts) {
+    if (!is_array($sorts)) {
+      $sorts = [$sorts];
+    }
+    $this->sorts += $sorts;
+    return $this;
+  }
+
+  /**
    * Gets a raw-query.
    *
    * Beware that this is a query passed in via setRawQuery() and _not_ the

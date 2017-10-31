@@ -19,6 +19,11 @@ class TingSearchCommonFields {
   const _PREFIX = '_field_ting_search_common_field_';
 
   /**
+   * The date the material was added to the library.
+   */
+  const ACQUISITION_DATE = self::_PREFIX . 'acquisition_date';
+
+  /**
    * The author of the material.
    */
   const AUTHOR = self::_PREFIX . 'author';
@@ -28,6 +33,11 @@ class TingSearchCommonFields {
    * "voksenmateriale".
    */
   const CATEGORY = self::_PREFIX . 'category';
+
+  /**
+   * The date the material was published.
+   */
+  const DATE = self::_PREFIX . 'date';
 
   /**
    * Language the material is in.
@@ -45,9 +55,9 @@ class TingSearchCommonFields {
   const SUBJECT = self::_PREFIX . 'subject';
 
   /**
-   * The date the material was added to the library.
+   * Title of the materials
    */
-  const ACQUISITION_DATE = self::_PREFIX . 'acquisition_date';
+  const TITLE = self::_PREFIX . 'title';
 
   /**
    * Returns all valid values.
@@ -60,9 +70,11 @@ class TingSearchCommonFields {
       self::ACQUISITION_DATE,
       self::AUTHOR,
       self::CATEGORY,
+      self::DATE,
       self::LANGUAGE,
       self::MATERIAL_TYPE,
-      self::SUBJECT
+      self::SUBJECT,
+      self::TITLE,
     ];
   }
 }
