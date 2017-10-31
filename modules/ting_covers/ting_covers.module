@@ -192,6 +192,27 @@ function ting_covers_get(array $requested_covers) {
 }
 
 /**
+ * Remove all cover information about one or more ting entites.
+ *
+ * @param string|string[] $ids
+ *   One or more ting entity ids.
+ */
+function ting_covers_clean($ids) {
+  if (!is_array($ids)) {
+    $ids = array($ids);
+  }
+
+  array_walk($ids, function($id) {
+    $path = ting_covers_object_path($id);
+    // Delete current file and derivatives if any.
+    file_unmanaged_delete($path);
+    image_path_flush($path);
+    // Delete cache information about the cover not being available.
+    cache_clear_all(_ting_covers_cid($id), 'cache');
+  });
+}
+
+/**
  * Generate a cache id for a ting entity id.
  *
  * @param string $id
