@@ -478,6 +478,12 @@ projects[vejlebib_fbs][subdir]           = ""
 projects[vejlebib_fbs][download][url]    = "git@github.com:vejlebib/vejlebib_fbs.git"
 projects[vejlebib_fbs][download][branch] = "master"
 
+projects[ding_uninstall_modules][type]             = "module"
+projects[ding_uninstall_modules][download][type]   = "git"
+projects[ding_uninstall_modules][subdir]           = ""
+projects[ding_uninstall_modules][download][url]    = "git@github.com:easySuite/ding_uninstall_modules.git"
+projects[ding_uninstall_modules][download][branch] = "master"
+
 ; easyOPAC themes
 projects[roskilde_subtheme][type]             = "theme"
 projects[roskilde_subtheme][subdir]           = ""
