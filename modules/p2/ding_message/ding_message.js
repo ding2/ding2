@@ -44,12 +44,9 @@
           }
         }
       });
-      if(latestId && $('.ding-message-item', context).size() > 0) {
+      if (latestId) {
         $('.ding-message-item', context).each(function() {
-          if($(this).attr('data-ting-object-id') === latestId) {
-            isSet = true;
-          }
-          if(isSet) {
+          if ($(this).attr('data-ting-object-id') >= latestId) {
             $(this).addClass('new-content');
           }
         });
