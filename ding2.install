@@ -542,3 +542,10 @@ function ding2_update_7042() {
 function ding2_update_7043() {
   ding2_translation_update();
 }
+
+/**
+ * Disable toolbar module.
+ */
+function ding2_update_7044() {
+  module_disable(array('toolbar'));
+}
