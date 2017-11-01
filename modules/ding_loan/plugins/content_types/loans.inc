@@ -104,7 +104,7 @@ function ding_loan_loans_content_type_edit_form($form, &$form_state) {
  */
 function ding_loan_loans_content_type_edit_form_submit($form, &$form_state) {
   foreach (array_keys($form_state['plugin']['defaults']) as $key) {
-   if (isset($form_state['values'][$key])) {
+    if (isset($form_state['values'][$key])) {
       $form_state['conf'][$key] = $form_state['values'][$key];
     }
   }
