@@ -17,7 +17,7 @@ function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$fo
   $form['triggers'] = array(
     '#type' => 'fieldset',
     '#title' => t('Campaign trigger'),
-    '#weight' => 2,
+    '#weight' => 10,
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
     '#attached' => array(
@@ -35,21 +35,129 @@ function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$fo
     '#tree' => TRUE,
   );
 
-  // Defines tab one.
+  // Defines ting object view tab.
   $form['triggers']['tabs']['ting_object'] = array(
     '#type' => 'fieldset',
     '#title' => t('Material view'),
   );
 
-  // Defines tab two.
+  // Defines search results tab.
   $form['triggers']['tabs']['search'] = array(
     '#type' => 'fieldset',
     '#title' => t('Search result'),
   );
 
-  // Defines tab two.
+  // Defines other trigger methods (old ding campaign triggers).
   $form['triggers']['tabs']['other'] = array(
     '#type' => 'fieldset',
     '#title' => t('Other triggers'),
   );
+
+  $form['triggers']['tabs']['other']['rules'] =  _ding_campaign_plus_other_triggers_form($form, $form_state);
+
+
+  // Ensures that is comes after the triggers when rendered.
+  $form['field_ding_campaign_plus_track']['#weight'] = 11;
+}
+
+/**
+ * Builds the from rule selection elements.
+ *
+ * This are the rules known from the ding campaign module.
+ */
+function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
+  $count = !empty($form_state['values']['tabs']['other']['rules']['count']) ? $form_state['values']['tabs']['other']['rules']['count'] : 0;
+
+  $triggers = array(
+    '#title' => '',
+    '#prefix' => '<div id="ding-campaign-triggers">',
+    '#suffix' => '</div>',
+    '#description' => '',
+  );
+
+
+  for ($i = 0; $i <= $count; $i++) {
+    $triggers['rule_' . $i] = _ding_campaign_plus_rule_form($i, NULL, 'page');
+  }
+
+
+  $triggers['count'] = array(
+    '#type' => 'hidden',
+    '#value' => $count + 1,
+  );
+
+  $triggers['add_rule'] = array(
+    '#type' => 'button',
+    '#value' => t('Add another'),
+    '#ajax' => array(
+      'callback' => '_ding_campaign_plus_add_trigger',
+      'wrapper' => 'ding-campaign-triggers',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+
+  return $triggers;
+}
+
+/**
+ * Appends rule form via AJAX.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Form element - rule fields.
+ */
+function _ding_campaign_plus_add_trigger(array $form, array $form_state) {
+  return $form['triggers']['tabs']['other']['rules'];
+}
+
+/**
+ * Rule form fields chunk.
+ *
+ * @param int $number
+ *   The rule number (used for UI numbering).
+ * @param string $rule
+ *   Current rule machine name.
+ * @param string $type
+ *   Current type.
+ *
+ * @return array
+ *   Rule fields structure.
+ */
+function _ding_campaign_plus_rule_form($number = 0, $rule = NULL, $type = NULL) {
+  $form = array(
+    '#type' => 'fieldset',
+    '#title' => t('Rule %num',array('%num' => $number + 1)),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['type'] = array(
+    '#type' => 'select',
+    '#title' => t('Rule type'),
+    '#default_value' => ($type) ? $type : 'rule_page',
+    '#options' => array(
+      'page' => 'Page',
+      'event' => 'Event',
+      'news' => 'News',
+      'path' => 'Path',
+      'taxonomy' => 'Taxonomy term',
+      'og_group' => 'Library or group',
+    ),
+  );
+
+  $form['value'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Rule value'),
+    '#default_value' => ($rule) ? $rule : '',
+    '#size' => 64,
+    '#maxlength' => 255,
+    '#autocomplete_path' => 'ding_campaign/autocomplete/' . $type,
+  );
+
+  return $form;
 }
