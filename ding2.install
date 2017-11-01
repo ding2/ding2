@@ -535,3 +535,10 @@ function ding2_update_7041() {
 function ding2_update_7042() {
   module_enable(array('ding_ddbasic', 'ding_ddbasic_opening_hours'));
 }
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7043() {
+  ding2_translation_update();
+}
