@@ -32,3 +32,8 @@ Feature: SEEK redroute 01
     When I enter "her" in field "input#edit-search-block-form--2"
     Then I get suggestions from openscan
 
+  @api @seek005 @seekNologin
+  Scenario: Search using typing of enter
+    Given I am on "/"
+    When I enter "harry\n" in field "input#edit-search-block-form--2"
+    Then pageing allows to get all the results

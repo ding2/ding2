@@ -651,6 +651,18 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * @Then pageing allows to get all the results
+   *
+   * This retrieves the search result and stores it in the local array searchResults.
+   * There can be several search results, so some garbage collection needs to be done.
+   * The searchResult array will be reset before each scenario.
+   */
+  public function pageing_allows_to_get_all_results()
+  {
+    $this->get_entire_search_result();
+  }
+
+  /**
    * @When I scroll to the bottom (of the page)
    * Scroll to bottom of page
    *
