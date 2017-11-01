@@ -53,15 +53,3 @@ function ding_loan_ding_session_cache_defaults() {
     'expire' => 3600,
   );
 }
-
-/**
- * Implements hook_ding_user_frontend_build_menu_alter().
- *
- * Add loans link.
- */
-function ding_loan_ding_user_frontend_build_menu_alter(&$menu, $menu_item_defaults) {
-  $menu['user/%/status-loans#anchor-loans'] = $menu['user/%/status-loans'];
-  $menu['user/%/status-loans#anchor-loans']['#title'] = t('Loans');
-  $menu['user/%/status-loans#anchor-loans']['#weight'] -= 0.5;
-  $menu['user/%/status-loans#anchor-loans']['#localized_options']['fragment'] = 'anchor-loans';
-}
