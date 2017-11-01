@@ -69,4 +69,14 @@ interface TingSearchResultInterface {
    */
   public function getSearchRequest();
 
+  /**
+   * Facet matched in the result with term matches.
+   *
+   * The list is keyed by facet name.
+   *
+   * @return \Ting\Search\TingSearchFacet[]
+   *   List of facets, empty if none where found.
+   */
+  public function getFacets();
+
 }

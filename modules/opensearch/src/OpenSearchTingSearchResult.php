@@ -7,6 +7,8 @@
 namespace OpenSearch;
 
 
+use Ting\Search\TingSearchFacet;
+use Ting\Search\TingSearchFacetTerm;
 use Ting\Search\TingSearchResultInterface;
 
 /**
@@ -70,12 +72,7 @@ class OpenSearchTingSearchResult implements TingSearchResultInterface {
   }
 
   /**
-   * Indicates whether the the search could yield more results.
-   *
-   * Eg. by increasing the count or page-number.
-   *
-   * @return bool
-   *   TRUE if the search-provider could provide more results.
+   * {@inheritdoc}
    */
   public function hasMoreResults() {
     // The raw value is 0/1 so cast.
@@ -83,12 +80,37 @@ class OpenSearchTingSearchResult implements TingSearchResultInterface {
   }
 
   /**
-   * The search request that produced the resulted.
-   *
-   * @return \Ting\Search\TingSearchRequest
-   *   The search request.
+   * {@inheritdoc}
    */
   public function getSearchRequest() {
     return $this->tingSearchRequest;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFacets() {
+    $facets = [];
+
+    // Bail out if we don't have any facets.
+    if (empty($this->openSearchResult->facets)) {
+      return $facets;
+    }
+
+    /** @var \TingClientFacetResult $open_search_facet */
+    foreach ($this->openSearchResult->facets as $open_search_facet) {
+      // For each facet, extract data on the facet itself and its terms.
+      $facet = new TingSearchFacet($open_search_facet->name);
+      $terms = [];
+      foreach ($open_search_facet->terms as $term_name => $term_count) {
+        $terms[] = new TingSearchFacetTerm($term_name, $term_count);
+      }
+      $facet->setTerms($terms);
+      // Finish off by adding the facet to the list, keyed by its name as
+      // required by the interface.
+      $facets[$open_search_facet->name] = $facet;
+    }
+
+    return $facets;
   }
 }

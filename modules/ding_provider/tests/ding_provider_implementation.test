@@ -1,5 +1,6 @@
 <?php
 
+use Ting\Search\TingSearchResultInterface;
 use Ting\Search\TingSearchSort;
 
 /**
@@ -448,6 +449,20 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $expected_search_result = $this->getSearchResult($query);
     $search_result_from_provider = ding_provider_invoke('search', 'search', $query);
     $this->assertEqual($expected_search_result, $search_result_from_provider);
+  }
+
+  /**
+   * Verify that the provider returns the expected search result.
+   */
+  public function testSearchFacets() {
+    $query = ting_start_query();
+    $search_result_from_provider = ding_provider_invoke('search', 'search', $query);
+    $this->assertTrue($search_result_from_provider instanceof TingSearchResultInterface);
+    /** @var TingSearchResultInterface $search_result_from_provider */
+    $facets = $search_result_from_provider->getFacets();
+    foreach ($facets as $name => $facet) {
+      $this->assertEqual($facet->getName(), $name, 'Facet list should be keyed by name.');
+    }
   }
 
   /**

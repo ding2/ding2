@@ -170,6 +170,7 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
 
   // Set facet options.
   if (!empty($ting_query->getFacets())) {
+    // TODO BBS-SAL: Should we map use the facet class here?
     $options['facets'] = $ting_query->getFacets();
   }
   // Set the number of terms we request to get back per facet.
