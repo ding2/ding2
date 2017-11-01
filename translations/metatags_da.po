@@ -113,6 +113,14 @@ msgctxt "metatag_panels:page_user_debts_panel_context:title"
 msgid "Debts | [current-page:pager][site:name]"
 msgstr "Gebyrer | [current-page:pager][site:name]"
 
+<<<<<<< HEAD
+=======
+#: metatag:metatag_panels:page_user_loans_panel_context:title
+msgctxt "metatag_panels:page_user_loans_panel_context:title"
+msgid "Loans | [current-page:pager][site:name]"
+msgstr "Lån | [current-page:pager][site:name]"
+
+>>>>>>> Core: Translation update
 #: metatag:metatag_panels:page_user_reservations_panel_context:title
 msgctxt "metatag_panels:page_user_reservations_panel_context:title"
 msgid "Reservations | [current-page:pager][site:name]"
@@ -186,6 +194,11 @@ msgstr "Biblioteker | [current-page:pager][site:name]"
 msgctxt "metatag_panels:page_ding_library_about_panel_context:title"
 msgid "%slug:title | About | [current-page:pager][site:name]"
 msgstr "%slug:title | Om | [current-page:pager][site:name]"
+
+#: metatag:metatag_panels:page_ding_news_panel_context:title
+msgctxt "metatag_panels:page_ding_news_panel_context:title"
+msgid "News | [current-page:pager][site:name]"
+msgstr "Nyheder | [current-page:pager][site:name]"
 
 #: metatag:metatag_panels:page_ding_news_library_panel_context:title
 msgctxt "metatag_panels:page_ding_news_library_panel_context:title"

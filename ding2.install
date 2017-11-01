@@ -555,23 +555,16 @@ function ding2_update_7042() {
 }
 
 /**
- * Enable the ding_ddbasic_opening_hours module.
- */
-function ding2_update_7043() {
-  module_enable(array('ding_ddbasic', 'ding_ddbasic_opening_hours'));
-}
-
-/**
  * Update our own translations.
  */
-function ding2_update_7044() {
+function ding2_update_7043() {
   ding2_translation_update();
 }
 
 /**
  * Activate toggle_name theme setting
  */
-function ding2_update_7045() {
+function ding2_update_7044() {
   $default_theme = variable_get('theme_default', 'ddbasic');
   $theme_settings = variable_get('theme_' . $default_theme . '_settings');
   $theme_settings['toggle_name'] = 1;
@@ -581,14 +574,14 @@ function ding2_update_7045() {
 /**
  * Disable toolbar module.
  */
-function ding2_update_7046() {
+function ding2_update_7045() {
   module_disable(array('toolbar'));
 }
 
 /**
  * Update our own translations.
  */
-function ding2_update_7047() {
+function ding2_update_7046() {
   ding2_translation_update();
 }
 
