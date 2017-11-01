@@ -28,6 +28,11 @@ function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
     '#prefix' => '<div id="ding-campaign-triggers">',
     '#suffix' => '</div>',
     '#description' => '',
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus.admin.js',
+      )
+    ),
   );
 
   // If this form is "add another" or "remove" build rules already form_state
@@ -107,9 +112,9 @@ function _ding_campaign_plus_rule_form($number = 0, $rule = NULL, $type = NULL) 
       'page' => 'Page',
       'event' => 'Event',
       'news' => 'News',
-      'path' => 'Path',
+      'library' => 'Library',
+      'group' => 'Group',
       'taxonomy' => 'Taxonomy term',
-      'og_group' => 'Library or group',
     ),
   );
 
@@ -140,9 +145,66 @@ function _ding_campaign_plus_rule_form($number = 0, $rule = NULL, $type = NULL) 
 }
 
 /**
- * @param $form
- * @param $form_state
+ * Auto complete handler for rules.
+ *
+ * @param string $type
+ *   Type.
+ * @param string $input
+ *   Input.
+ */
+function _ding_campaign_plus_other_admin_autocomplete($type, $input) {
+  $matches = array();
+
+  switch ($type) {
+    case 'page':
+     $query = db_select('node', 'n')
+       ->fields('n', array('nid', 'title'))
+       ->condition('title', '%' . db_like($input) . '%', 'LIKE')
+       ->range(0, 5);
+     $results = $query->execute();
+
+     foreach ($results as $node) {
+       $matches[$node->title . " [$node->nid]"] = check_plain($node->title);
+     }
+     break;
+
+    case 'event':
+    case 'news':
+    case 'library':
+    case 'group':
+      $query = db_select('node', 'n')
+        ->fields('n', array('nid', 'title'))
+        ->condition('title', '%' . db_like($input) . '%', 'LIKE')
+        ->condition('type', 'ding_' . $type)
+        ->range(0, 5);
+      $results = $query->execute();
+
+      foreach ($results as $node) {
+        $matches[$node->title . " [$node->nid]"] = check_plain($node->title);
+      }
+      break;
+
+    case 'taxonomy':
+      $query = db_select('taxonomy_term_data', 't')
+        ->fields('t', array('tid', 'name'))
+        ->condition('name', '%' . db_like($input) . '%', 'LIKE')
+        ->range(0, 5);
+      $results = $query->execute();
+
+      foreach ($results as $term) {
+        $matches[$term->name . " [$term->tid]"] = check_plain($term->name);
+      }
+      break;
+  }
+
+  drupal_json_output($matches);
+}
+
+/**
+ * @TODO: Documentation
  */
 function _ding_campaign_plus_other_triggers_form_submit($form, &$form_state) {
-
+  /**
+   * TODO: Save data ?
+   */
 }

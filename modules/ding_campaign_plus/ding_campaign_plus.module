@@ -20,8 +20,8 @@ function ding_campaign_plus_menu() {
 
   $items['ding_campaign_plus/autocomplete/%'] = array(
     'title' => 'Campaign rule autocomplete',
-    'description' => 'Autocomplete field for campaign rule values.',
-    'page callback' => 'ding_campaign_admin_autocomplete',
+    'description' => 'Auto complete field for campaign rule values.',
+    'page callback' => '_ding_campaign_plus_other_admin_autocomplete',
     'page arguments' => array(2),
     'access arguments' => array('access campaign plus triggers'),
     'file' => 'includes/ding_campaign_plus_other.admin.inc',
@@ -50,7 +50,7 @@ function ding_campaign_plus_permission() {
 function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$form_state) {
 
   // Defines tab one.
-  $path =  drupal_get_path('module', 'field_group');
+  $path = drupal_get_path('module', 'field_group');
   $form['triggers'] = array(
     '#type' => 'fieldset',
     '#title' => t('Campaign trigger'),
