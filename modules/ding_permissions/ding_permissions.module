@@ -1026,21 +1026,6 @@ function ding_permissions_secure_permissions($role) {
     }
   }
 
-  // Ensure that administrative users only have access to one navigation system.
-  foreach ($permissions as &$role_permissions) {
-    if (in_array('access administration pages', $role_permissions)) {
-      // Roles with this permission should have access to Admin menu.
-      $role_permissions = array_unique(array_merge($role_permissions, array('access administration menu')));
-      $role_permissions = array_diff($role_permissions, array('access toolbar'));
-    }
-    else {
-      // If the role doesn't have 'access administration pages', Admin menu is
-      // useless so we can safely remove any access to it. If they role has
-      // access to Toolbar it will fallback to that.
-      $role_permissions = array_diff($role_permissions, array('access administration menu'));
-    }
-  }
-
   if (isset($permissions[$role])) {
     return $permissions[$role];
   }
