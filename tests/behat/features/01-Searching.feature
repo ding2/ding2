@@ -37,3 +37,10 @@ Feature: SEEK redroute 01
     Given I am on "/"
     When I enter "harry\n" in field "input#edit-search-block-form--2"
     Then pageing allows to get all the results
+
+  @api @seek005 @seekNologin
+  Scenario: Search using click search button
+    Given I am on "/"
+    When I enter "harry" in field "input#edit-search-block-form--2"
+    When I press "Søg"
+    Then pageing allows to get all the results
