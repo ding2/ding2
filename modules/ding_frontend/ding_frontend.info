@@ -103,6 +103,7 @@ features[page_manager_handlers][] = site_template_search_blank
 features[page_manager_pages][] = frontpage
 features[search_api_index][] = default_multiple_index
 features[search_api_server][] = localhost_db
+features[variable][] = admin_menu_components
 features[variable][] = cs_adaptive_image_breakpoint_count
 features[variable][] = date_format_ding_date_and_time
 features[variable][] = date_format_ding_date_only_version2
