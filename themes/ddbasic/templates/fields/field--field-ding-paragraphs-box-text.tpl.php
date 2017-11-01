@@ -42,11 +42,13 @@
  * @see theme_field()
  */
 ?>
-<div class="field-name-field-ding-page-body">
-  <?php if (!$label_hidden): ?>
-    <?php print $label ?>
-  <?php endif; ?>
-  <?php foreach ($items as $delta => $item): ?>
-    <?php print render($item); ?>
-  <?php endforeach; ?>
+<div class="ting-object list-item-style paragraphs-block">
+  <div class="inner">
+    <?php if (!$label_hidden): ?>
+      <?php print $label ?>
+    <?php endif; ?>
+    <?php foreach ($items as $delta => $item): ?>
+      <?php print render($item); ?>
+    <?php endforeach; ?>
+  </div>
 </div>

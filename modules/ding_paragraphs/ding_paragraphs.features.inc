@@ -36,6 +36,11 @@ function ding_paragraphs_paragraphs_info() {
       'bundle' => 'ding_paragraphs_text',
       'locked' => '1',
     ),
+    'ding_paragraphs_text_box' => array(
+      'name' => 'Text box paragraph',
+      'bundle' => 'ding_paragraphs_text_box',
+      'locked' => '1',
+    ),
   );
   return $items;
 }

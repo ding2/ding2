@@ -52,7 +52,7 @@ function ding_news_field_default_field_bases() {
     'translatable' => 0,
     'type' => 'entityreference',
   );
-
+  
   // Exported field_base: 'field_ding_news_body'.
   $field_bases['field_ding_news_body'] = array(
     'active' => 1,

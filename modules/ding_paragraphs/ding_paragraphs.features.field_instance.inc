@@ -61,11 +61,13 @@ function ding_paragraphs_field_default_field_instances() {
         'ding_paragraphs_image' => 'ding_paragraphs_image',
         'ding_paragraphs_image_and_text' => 'ding_paragraphs_image_and_text',
         'ding_paragraphs_text' => 'ding_paragraphs_text',
+        'ding_paragraphs_text_box' => 'ding_paragraphs_text_box',
       ),
       'bundle_weights' => array(
         'ding_paragraphs_image' => -5,
         'ding_paragraphs_image_and_text' => -4,
         'ding_paragraphs_text' => -6,
+        'ding_paragraphs_text_box' => 5,
       ),
       'default_edit_mode' => 'open',
       'title' => 'Paragraph',
@@ -310,7 +312,7 @@ function ding_paragraphs_field_default_field_instances() {
       'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 5,
+        'rows' => 12,
       ),
       'type' => 'text_textarea',
       'weight' => 1,
@@ -350,7 +352,47 @@ function ding_paragraphs_field_default_field_instances() {
       'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 5,
+        'rows' => 12,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 1,
+    ),
+  );
+
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_text_box-field_ding_paragraphs_box_text'
+  $field_instances['paragraphs_item-ding_paragraphs_text_box-field_ding_paragraphs_box_text'] = array(
+    'bundle' => 'ding_paragraphs_text_box',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'field_ding_paragraphs_box_text',
+    'label' => 'Box text',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 12,
       ),
       'type' => 'text_textarea',
       'weight' => 1,
@@ -359,6 +401,7 @@ function ding_paragraphs_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Box text');
   t('Image');
   t('Paragraphs');
   t('Position');
