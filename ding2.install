@@ -171,6 +171,25 @@ function ding2_translation_update() {
 }
 
 /**
+ * Delete {system} records for a module.
+ *
+ * This function is to be used when removing a module from the code-base. It's
+ * needed because uninstalling a module that don't exists in code is not
+ * possible.
+ *
+ * Remember to run the clean-up that the module had in it's hook_uninstall
+ * before calling this function.
+ *
+ * @see https://www.drupal.org/node/2487215
+ */
+function ding2_remove_module($module) {
+  db_delete('system')
+    ->condition('name', $module)
+    ->condition('type', 'module')
+    ->execute();
+}
+
+/**
  * Enable new shortcuts.
  */
 function ding2_update_7000() {
@@ -460,9 +479,12 @@ function ding2_update_7034() {
  */
 function ding2_update_7035() {
   $default_mobilesearch_agencyid = variable_get('ting_agency');
+  $mobilesearch_rest_key = variable_get('mobilesearch_rest_key', NULL);
   variable_set('mobilesearch_rest_url', 'https://cmscontent.dbc.dk/');
   variable_set('mobilesearch_rest_agency_id', $default_mobilesearch_agencyid);
-  variable_set('mobilesearch_rest_key', $default_mobilesearch_agencyid . "DDBCMS");
+  if (empty($mobilesearch_rest_key)) {
+    variable_set('mobilesearch_rest_key', $default_mobilesearch_agencyid . "DDBCMS");
+  }
 }
 
 /**
@@ -493,3 +515,30 @@ function ding2_update_7039() {
   module_enable(array('ding_eresource'));
 }
 
+/**
+ * Update our own translations.
+ */
+function ding2_update_7040() {
+  ding2_translation_update();
+}
+
+/**
+ * Delete {system} records for ting_carousel modules.
+ */
+function ding2_update_7041() {
+  ding2_remove_module('ting_carousel');
+}
+
+/**
+ * Enable the ding_ddbasic module.
+ */
+function ding2_update_7042() {
+  module_enable(array('ding_ddbasic', 'ding_ddbasic_opening_hours'));
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7043() {
+  ding2_translation_update();
+}

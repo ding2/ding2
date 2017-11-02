@@ -341,14 +341,14 @@ function ding_user_frontend_build_menu($path = NULL) {
     // page, and we don't want it to also be a link in the menu.
     unset($menu['user/%/view']);
 
-    $menu['user/%/edit']['#weight'] = 4;
+    $menu['user/%/edit']['#weight'] = 7;
 
     // Add logout to menu.
     $logout_item = array();
     $logout_item = $menu_item_defaults;
     $logout_item['#title'] = t('Log out');
     $logout_item['#href'] = 'user/logout';
-    $logout_item['#weight'] = 100;
+    $logout_item['#weight'] = 9;
     $logout_item['#attributes']['class'] = 'user-log-out';
     $menu[$logout_item['#href']] = $logout_item;
 

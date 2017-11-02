@@ -57,10 +57,10 @@ function ddbasic_preprocess_html(&$vars) {
     $vars['classes_array'][] = 'has-dynamic-background';
   }
 
-  // Store the menu item since it has some useful information.
-  $vars['menu_item'] = menu_get_item();
+  // Detect if current page is a panel page and set class accordingly
+  $panel_page = page_manager_get_current_page();
 
-  if ($vars['menu_item'] && strpos($vars['menu_item']['page_callback'], 'page_manager_') === 0) {
+  if (!empty($panel_page)) {
     $vars['classes_array'][] = 'page-panels';
   }
   else {
@@ -68,7 +68,6 @@ function ddbasic_preprocess_html(&$vars) {
   }
 
   // Include the libraries.
-  libraries_load('slick');
   libraries_load('jquery.imagesloaded');
   libraries_load('html5shiv');
   libraries_load('masonry');
@@ -229,6 +228,38 @@ function ddbasic_menu_tree__menu_tabs_menu($vars) {
  */
 function ddbasic_menu_tree__user_menu($vars) {
   return '<ul class="system-user-menu">' . $vars['tree'] . '</ul>';
+}
+
+/**
+ * Implements hook_preprocess_views_view_field().
+ */
+function ddbasic_preprocess_views_view_field(&$vars) {
+  $view = $vars['view'];
+
+  switch ($view->name . ' ' . $view->current_display . ' ' . $vars['field']->field) {
+    case 'tags_list ding_content_tags type':
+      $taxonomy_term = taxonomy_term_load($view->args[0]);
+
+      switch ($vars['row']->node_type) {
+        case 'ding_news':
+          $type = t('News', array(), array('context' => 'pluralis'));
+          break;
+
+        case 'ding_event':
+          $type = t('Events');
+          break;
+
+        default:
+          $type = $vars['output'];
+          break;
+      }
+
+      $vars['output'] = t('@type in the category @term', array(
+        '@type' => $type,
+        '@term' => $taxonomy_term->name,
+      ));
+      break;
+  }
 }
 
 /**
@@ -419,14 +450,17 @@ function ddbasic_preprocess_menu_link(&$variables) {
     $path = explode('/', $variables['element']['#href']);
 
     switch (end($path)) {
-
       case 'status-loans':
-        $loans = ddbasic_account_count_overdue_loans();
+        $loans = ddbasic_account_count_loans() - ddbasic_account_count_overdue_loans();
         if (!empty($loans)) {
           $variables['element']['#title'] .= ' <span class="menu-item-count">' . $loans . '</span>';
         }
-        else {
-          $variables['element']['#attributes']['class'][] = 'element-invisible';
+        break;
+
+      case 'status-loans-overdue':
+        $loans = ddbasic_account_count_overdue_loans();
+        if (!empty($loans)) {
+          $variables['element']['#title'] .= ' <span class="menu-item-count">' . $loans . '</span>';
         }
         break;
 
@@ -435,9 +469,6 @@ function ddbasic_preprocess_menu_link(&$variables) {
         if (!empty($reservations)) {
           $variables['element']['#title'] .= ' <span class="menu-item-count">' . $reservations . '</span>';
         }
-        else {
-          $variables['element']['#attributes']['class'][] = 'element-invisible';
-        }
         break;
 
       case 'status-reservations-ready':
@@ -445,18 +476,12 @@ function ddbasic_preprocess_menu_link(&$variables) {
         if (!empty($reservations)) {
           $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-success">' . $reservations . '</span>';
         }
-        else {
-          $variables['element']['#attributes']['class'][] = 'element-invisible';
-        }
         break;
 
       case 'status-debts':
         $debts = ddbasic_account_count_debts();
         if (!empty($debts)) {
           $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-warning">' . $debts . '</span>';
-        }
-        else {
-          $variables['element']['#attributes']['class'][] = 'element-invisible';
         }
         break;
 
@@ -1039,23 +1064,18 @@ function ddbasic_preprocess_form_element(&$variables) {
 }
 
 /**
- * Preprocess ting_searchj_carousel.
+ * Preprocess ding_carousel.
  */
-function ddbasic_preprocess_ting_search_carousel(&$variables) {
+function ddbasic_preprocess_ding_carousel(&$variables) {
   // Add ajax to make reserve links work.
   drupal_add_library('system', 'drupal.ajax');
+  drupal_add_library('system', 'ui.widget');
 
-  // The search carousel doesn't use the standard Drupal ajax API so it doesn't
-  // automatically include the ting-covers.js.
+  // The ding carousel's do not use the standard Drupal ajax API so it doesn't
+  // automatically include availability, covers and rating handling.
+  drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js');
   drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
-}
-
-/**
- * Implements hook_preprocess_ting_search_carousel_collection().
- */
-function ddbasic_preprocess_ting_search_carousel_collection(&$variables) {
-  $object = ding_entity_load($variables['collection']->id, 'ting_object');
-  $variables['content'] = ting_object_view($object, 'teaser');
+  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating.js');
 }
 
 /**
@@ -1285,19 +1305,6 @@ function ddbasic_select($variables) {
  */
 function ddbasic_libraries_info() {
   return array(
-    'slick' => array(
-      'name' => 'Slick',
-      'vendor url' => 'http://kenwheeler.github.io/slick/',
-      'download url' => 'https://github.com/kenwheeler/slick/archive/1.6.0.zip',
-      'version arguments' => array(
-        'file' => 'slick/slick.min.js',
-        'pattern' => '/Version:\s([0-9a-zA-Z\.-]+)/',
-      ),
-      'files' => array(
-        'css' => array('slick/slick.css'),
-        'js' => array('slick/slick.min.js'),
-      ),
-    ),
     'html5shiv' => array(
       'name' => 'HTML5 Shiv',
       'vendor url' => 'https://github.com/aFarkas/html5shiv',

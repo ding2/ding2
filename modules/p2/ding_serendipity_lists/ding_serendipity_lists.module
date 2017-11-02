@@ -173,9 +173,7 @@ function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
   $items = array_reverse($items);
   $items = entity_load('ding_type', array_slice($items, 0, 4));
 
-  $buffer = array();
   foreach ($items as $item) {
-
     // Load source material title.
     $source_id = ding_list_convert_cql(ding_list_get_list_element_value($item));
     $obj = ding_entity_load($source_id, 'ting_object');

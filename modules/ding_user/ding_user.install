@@ -11,6 +11,7 @@
  */
 function ding_user_install() {
   ding_user_create_entity_cache_table();
+  ding_user_create_private_key();
 }
 
 /**
@@ -27,6 +28,13 @@ function ding_user_create_entity_cache_table() {
     $schema['description'] = 'Cache table used to store profile2 entity records.';
     db_create_table('cache_entity_profile2', $schema);
   }
+}
+
+/**
+ * Creates the ding_user_private_key variable.
+ */
+function ding_user_create_private_key() {
+  variable_set('ding_user_private_key', drupal_get_private_key());
 }
 
 /**
@@ -129,4 +137,11 @@ function ding_user_update_7008(&$sandbox) {
 function ding_user_update_7009(&$sandbox) {
   db_query("DELETE a.* FROM redirect a INNER JOIN ( SELECT concat('user/', u.uid) s FROM users u INNER JOIN authmap a ON u.uid=a.uid ) b ON a.redirect=b.s;")
     ->execute();
+}
+
+/**
+ * Create the ding_user_private_key variable.
+ */
+function ding_user_update_7010(&$sandbox) {
+  ding_user_create_private_key();
 }

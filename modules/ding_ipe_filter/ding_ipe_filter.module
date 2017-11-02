@@ -4,9 +4,6 @@
  * Provide IPE Filter menu functionality.
  */
 
-include_once 'ding_ipe_filter.features.inc';
-
-
 /**
  * Implements hook_menu().
  */
@@ -18,7 +15,7 @@ function ding_ipe_filter_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_ipe_filter_admin_panes_form'),
     'access arguments' => array('access administration pages'),
-    'file' => 'ding_ipe_filter.admin.inc',
+    'file' => 'includes/ding_ipe_filter.admin.inc',
   );
 
   return $items;
@@ -60,53 +57,24 @@ function ding_ipe_filter_use_menu() {
 /**
  * Implements hook_theme().
  */
-function ding_ipe_filter_theme() {
+function ding_ipe_filter_theme($existing, $type, $theme, $path) {
   return array(
-    'ding_ipe_filter_table' => array(
-      'render element' => 'form',
+    'ding_ipe_filter_selection' => array(
+      'template' => 'ding-ipe-filter-selection',
+      'variables' => array(
+        'region_id' => NULL,
+        'links' => array(),
+        'selections' => array(),
+      ),
+      'path' => $path . '/templates',
     ),
   );
 }
 
 /**
- * Implements theme_hook().
- */
-function theme_ding_ipe_filter_table($variables) {
-  $form = $variables['form'];
-  $header = $form['#header'];
-
-  $content = array(
-    'header' => $header,
-    'rows' => array(),
-    'attributes' => array('id' => 'ipe-filter-table'),
-  );
-  foreach (element_children($form) as $row_index) {
-    if (isset($form[$row_index]['title'])) {
-      $form[$row_index]['weight']['#attributes']['class'] = array('ipe-filter-order-weight');
-      $content['rows'][] = array(
-        'data' => array(
-          array('class' => array('slide-cross')),
-          drupal_render($form[$row_index]['delta']),
-          drupal_render($form[$row_index]['value']),
-          drupal_render($form[$row_index]['weight']),
-        ),
-        'class' => array('draggable'),
-      );
-    }
-  }
-  $output = theme('table', $content);
-  $output .= drupal_render_children($form);
-
-  drupal_add_tabledrag('ipe-filter-table', 'order', 'sibling', 'ipe-filter-order-weight');
-
-  return $output;
-}
-
-/**
- * Add pane buttons on IPE filter menu based on settings and enabled modules.
+ * Implements hook_theme_registry_alter().
  *
- * @param array $registry
- *   Theme registry variables.
+ * Add pane buttons on IPE filter menus.
  */
 function ding_ipe_filter_theme_registry_alter(&$registry = array()) {
   $registry['panels_ipe_add_pane_button']['function'] = '_ding_ipe_filter_callback';
@@ -122,56 +90,102 @@ function ding_ipe_filter_theme_registry_alter(&$registry = array()) {
  *   Output IPE menu.
  */
 function _ding_ipe_filter_callback($variables = array()) {
-  ctools_include('content');
-  $content_types = ctools_content_get_available_types();
-  $panel_editor = new panels_renderer_editor();
-  $categories = $panel_editor->get_categories($content_types);
-
-  $assets_loaded = &drupal_static('ipe_assets_loaded', FALSE);
-  $settings = variable_get('ding_ipe_filter_table', array());
+  $path = drupal_get_path('module', 'ding_ipe_filter');
   $region_id  = $variables['region_id'];
-  $renderer = $variables['renderer'];
 
-  $buttons = array();
-  $attributes = array(
-    'class' => 'ctools-use-modal ding-ipe-menu-item',
+  $output = array(
+    '#theme' => 'ding_ipe_filter_selection',
+    '#region_id' => $region_id,
+    '#links' => array(
+      '#theme' => 'link',
+      '#text' => t('Add', array(), array('context' => 'ding_ipe')),
+      '#path' => NULL,
+      '#options' => array(
+        'attributes' => array(
+          'class' => array('ipe-trigger'),
+          'target_region' => $region_id,
+        ),
+        'html' => FALSE,
+      ),
+    ),
+    '#selections' => array(
+      '#theme' => 'item_list',
+      '#items' => array(),
+    ),
+    '#attached' => array(
+      'js' => array(
+        $path . '/js/ding_ipe_filter.js',
+      ),
+      'css' => array(
+        $path . '/css/ding_ipe_filter.css',
+      ),
+    ),
   );
 
-  foreach ($settings as $subtype_name => $setting) {
-    $enabled_category = isset($categories[$setting['category']]['content'][$setting['title']]);
-    if ($setting['value'] == 1 && $enabled_category) {
-      $buttons[] = l($setting['title'], $renderer->get_url('add-pane', $region_id, $setting['type'], $setting['subtype']), array('attributes' => $attributes));
+  // Check if permission is set or the configuration is not set to show filtered
+  // list of pane fallback to IPE default behaviour.
+  $permissions = ding_ipe_filter_use_menu();
+  if (_ding_ipe_filter_show_for_admin() || !empty($permissions)) {
+    $output['#links'] = array(
+      '#theme' => 'links',
+      '#links' => $variables['links'],
+      '#attributes' => array(
+        'class' => array('panels-ipe-linkbar', 'inline'),
+      ),
+    );
+    $output['#selections'] = array();
+    $output['#attached'] = array();
+  }
+  else {
+    // Filter panes available based on the configuration.
+    $selections = _ding_ipe_filter_selected_panes();
+    foreach ($selections as $selection) {
+      list($category, $subtype_name) = explode(':', $selection);
+      $pane = _ding_ipe_filter_get_pane_info($category, $subtype_name);
+      if (is_array($pane)) {
+        $url = $variables['renderer']->get_url('add-pane', $region_id, $pane['type_name'], $pane['subtype_name']);
+        $output['#selections']['#items'][] = l(t($pane['title']), $url, array(
+          'attributes' => array(
+            'class' => 'ctools-use-modal ding-ipe-menu-item',
+          ),
+        ));
+      }
     }
   }
 
-  $buttons = '<div id="ipe-add-' . $region_id . '" class="panels-ipe-newblock ipe-popup hide">' . theme('item_list', array('items' => $buttons)) . '</div>';
+  return drupal_render($output);
+}
 
-  if (!$assets_loaded) {
-    $path = drupal_get_path('module', 'ding_ipe_filter');
-    drupal_add_js($path . '/js/ipe.js', 'file');
-    drupal_add_css($path . '/css/ipe.css', 'file');
-
-    $assets_loaded = TRUE;
+/**
+ * Get pane information about a given pane.
+ *
+ * This is also used to check if a given pane is available in the current
+ * codebase, hence preventing the user form adding old removed panel panes.
+ *
+ * @param string $category
+ *   The pane category to find the pane.
+ * @param string $subtype_name
+ *   The panes subtype name used to identify the pane.
+ *
+ * @return array|bool
+ *   If pane information is found an array with the information else FALSE.
+ */
+function _ding_ipe_filter_get_pane_info($category, $subtype_name) {
+  $categories = &drupal_static(__FUNCTION__);
+  if (!isset($categories)) {
+    ctools_include('content');
+    $content_types = ctools_content_get_available_types();
+    $panel_editor = new panels_renderer_editor();
+    $categories = $panel_editor->get_categories($content_types);
   }
 
-  $links = l(t('Add'), NULL, array(
-    'attributes' => array(
-      'class' => 'ipe-trigger',
-      'target_region' => $region_id,
-    ),
-  ));
-
-  // If user roles are not set then display default ipe modal window.
-  $permissions = ding_ipe_filter_use_menu();
-  if (_ding_ipe_filter_show_for_admin() || !empty($permissions)) {
-    $attributes = array(
-      'class' => array('panels-ipe-linkbar', 'inline'),
-    );
-    $links = theme('links', array('links' => $variables['links'], 'attributes' => $attributes));
-    $buttons = '';
+  foreach ($categories[$category]['content'] as $pane) {
+    if ($pane['subtype_name'] == $subtype_name) {
+      return $pane;
+    }
   }
 
-  return '<div class="panels-ipe-newblock panels-ipe-on">' . $links . '</div>' . $buttons;
+  return FALSE;
 }
 
 /**
@@ -190,4 +204,31 @@ function _ding_ipe_filter_show_for_admin() {
   }
 
   return $show_for_admin;
+}
+
+/**
+ * Get the current filter list.
+ *
+ * The panel panes selected in the administration UI and if not configured yet
+ * the default selections is used.
+ *
+ * @return array
+ *   The selected panes indexed by "category:subtype-name".
+ */
+function _ding_ipe_filter_selected_panes() {
+  $default = array(
+    'ding-:all_opening_hours' => 'ding-:all_opening_hours',
+    'ding-:popular' => 'ding-:popular',
+    'ding-:interaction_pane' => 'ding-:interaction_pane',
+    'ding-:serendipity_ting_object' => 'ding-:serendipity_ting_object',
+    'ding-:ding_tabroll-ding_frontpage_tabroll' => 'ding-:ding_tabroll-ding_frontpage_tabroll',
+    'event-panes:ding_event-ding_event_list_frontpage' => 'event-panes:ding_event-ding_event_list_frontpage',
+    'event-panes:ding_event-ding_event_simple_list' => 'event-panes:ding_event-ding_event_simple_list',
+    'groups-panes:ding_groups-ding_group_overview_simple' => 'groups-panes:ding_groups-ding_group_overview_simple',
+    'news-panes:ding_news-ding_news_frontpage_list' => 'news-panes:ding_news-ding_news_frontpage_list',
+    'ting:carousel' => 'ting:carousel',
+  );
+
+  $selected = variable_get('ding_ipe_filter_panes_selected', $default);
+  return array_filter($selected);
 }

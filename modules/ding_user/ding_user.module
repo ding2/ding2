@@ -673,7 +673,7 @@ function ding_user_default_authname($name) {
   // exactly the size of the authname field in the database. So we ask hash
   // for binary data and lets _password_base64_encode base64 encode it to 86
   // characters, leaving enough room for our suffix.
-  $hash = hash('sha512', drupal_get_private_key() . $name, TRUE);
+  $hash = hash('sha512', ding_user_get_private_key() . $name, TRUE);
 
   // Hence the strlen().
   $authname = _password_base64_encode($hash, strlen($hash)) . '@ding_user';
@@ -684,7 +684,32 @@ function ding_user_default_authname($name) {
 }
 
 /**
- * Updates authname for existing users.
+ * Private key variable used to generate tokens.
+ *
+ * Apparently the key generated in drupal_get_private_key() may change,
+ * so we'll get it from 'ding_user_private_key' variable instead.
+ * Preferably set the 'ding_user_private_key' variable in local.settings.php
+ *
+ * @see https://www.drupal.org/node/487366
+ *
+ * @return string
+ *   The private key.
+ */
+function ding_user_get_private_key() {
+  if ($key = variable_get('ding_user_private_key', 0)) {
+    return $key;
+  }
+  watchdog(
+    'ding_user',
+    'ding_user_private_key not found', 
+    array(),
+    WATCHDOG_CRITICAL
+  );
+  throw new Exception(t('ding_user_private_key not found'));
+}
+
+/**
+ * This method updates the user authname hash.
  *
  * Brings compatibility of user accounts across various php versions.
  * Issue caused by drupal_strlen() -> mb_strlen(), whose

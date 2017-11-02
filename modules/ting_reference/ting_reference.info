@@ -6,6 +6,7 @@ php = 5.2.4
 project = ting_reference
 dependencies[] = ctools
 dependencies[] = ding_entity
+dependencies[] = ding_carousel
 dependencies[] = relation
 dependencies[] = ting
 dependencies[] = virtual_field

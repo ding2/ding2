@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Hooks provided by the ting_search_carousel module.
+ * Hooks provided by the ding_carousel module.
  */
 
 /**
@@ -11,7 +11,9 @@
  */
 
 /**
- * Implements hook_ting_search_carousel_transitions().
+ * Allows modules to provide extra transitions for the carousel.
+ *
+ * See ding_carousel.js for some examples implementations.
  */
 function hook_ting_search_carousel_transitions() {
   return array(
@@ -23,11 +25,9 @@ function hook_ting_search_carousel_transitions() {
     ),
     'fireworks' => array(
       'name' => t('The most insane transition'),
-      'file' => drupal_get_path('module', 'mymodule') . '/js/mymodule.js',
     ),
   );
 }
-
 
 /**
  * @} End of "addtogroup hooks".

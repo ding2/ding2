@@ -5,12 +5,22 @@
 @import '../base.scss';
 
 .field-type-text-long {
-  img {
-    &[align="right"] {
-      padding: 20px 0 20px 20px;
+  .media-element-container {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    &.media-wysiwyg-align-right {
+      margin: 20px 0 20px 20px;
     }
-    &[align="left"] {
-      padding: 20px 20px 20px 0;
+    &.media-wysiwyg-align-left {
+      margin: 20px 20px 20px 0;
+    }
+    &.media-wysiwyg-align-center {
+      width: 100%;
+      margin: 20px 0;
+      img {
+        display: inline-block;
+      }
     }
   }
 }

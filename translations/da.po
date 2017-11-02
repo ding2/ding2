@@ -32438,6 +32438,10 @@ msgstr "Lån"
 msgid "Reservations"
 msgstr "Reserveringer i kø"
 
+#: /nyheder
+msgid "Reservations in queue"
+msgstr "Reserveringer i kø"
+
 #: /da/ding_frontpage
 msgid "Debts"
 msgstr "mellemværende"
@@ -66867,7 +66871,7 @@ msgstr "Alle materialer"
 
 #: /e-materialer
 msgid "Log on"
-msgstr "Log ind"
+msgstr "Se online"
 
 #: /e-materialer
 msgid "E-resurse kategori"
@@ -70450,6 +70454,21 @@ msgid ""
 "You need to make your list public, before you can share it on social "
 "media."
 msgstr ""
-"Du skal offentliggøre din liste før du kan dele den med andre.\r\n"
+"Du skal offentliggøre din liste, før du kan dele den med andre.\r\n"
 "\r\n"
-"<p>Husk at tillade pop-vinduer i browserens adresselinje, for at godkende deling af listen i Facebook eller Twitter!</p>"
+"<p>Husk at tillade pop-vinduer i browserens adresselinje for at godkende deling af listen i Facebook eller Twitter!</p>"
+
+#: /node/add/ding-event
+msgid ""
+"Problem connecting to the REST service. We have unchecked your \"Push "
+"to Mongo\" flag. Please check your !settings."
+msgstr "DDB CMS kunne ikke få forbindelse til CMS Content servicen. Markeringen ved Send til CMS Content er fjernet. Undersøg venligst modulets !settings."
+
+#: /tags/rejse
+msgid "@type in the category @term"
+msgstr "@type i kategorien @term"
+
+#: /tags/rejse
+msgctxt "pluralis"
+msgid "News"
+msgstr "Nyheder"

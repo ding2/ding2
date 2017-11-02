@@ -166,7 +166,8 @@ body > .ding2-site-template {
   }
   &.reserve-button {
     display: none;
-    &.reservable {
+    &.reservable,
+    .reservable & {
       display: block;
     }
   }
@@ -555,9 +556,6 @@ a.opening-hours-toggle {
   @include font('display-small');
   margin-top: 10px;
   margin-bottom: 20px;
-  a {
-    color: $charcoal;
-  }
 }
 
 // ==========================================================================
@@ -817,16 +815,6 @@ ul.tabs.primary {
     // In event view
     .view-ding-event & {
       padding-bottom: 70px;
-    }
-    // On Ting carousel
-    @at-root .ting-carousel#{&} {
-      margin: 0 -13px;
-    }
-  }
-  // On Ting carousel
-  @at-root .ting-carousel#{&} {
-    .slick-slide {
-      margin: 0 13px;
     }
   }
   .slick-arrow {

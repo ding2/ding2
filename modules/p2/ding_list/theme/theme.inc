@@ -65,7 +65,6 @@ function template_preprocess_ding_list_add_button(&$variables) {
     $variables['title'] = t('Add to list');
   }
 
-  $path = drupal_get_path('module', 'ding_list');
   $variables['buttons'] = array(
     '#theme' => 'links',
     '#links' => array(),
@@ -211,7 +210,6 @@ function theme_ding_list_lists($variables) {
         '#theme' => 'item_list',
         '#title' => $group['title'],
         '#items' => $rows,
-        '#title' => $group['title'],
         '#type' => 'ul',
         '#attributes' => array('class' => array('list-links', $group_name_class)),
       );
@@ -224,10 +222,10 @@ function theme_ding_list_lists($variables) {
     $render = array(
       '#theme' => 'item_list',
       '#items' => array(
-      l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button')))),
-      l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button')))),
-      l(t('View all public lists'), 'public-lists', array('attributes' => array('class' => array('button')))),
-    ),
+        l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button')))),
+        l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button')))),
+        l(t('View all public lists'), 'public-lists', array('attributes' => array('class' => array('button')))),
+      ),
       '#title' => "",
       '#type' => 'ul',
       '#attributes' => array('class' => array('bottom-links')),

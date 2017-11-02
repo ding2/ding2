@@ -185,8 +185,6 @@ function ding_campaign_field_default_field_instances() {
         'manualcrop_require_cropping' => array(),
         'manualcrop_styles_list' => array(
           'crop_16_9' => 'crop_16_9',
-          'crop_22_9' => 'crop_22_9',
-          'crop_unconstrained' => 'crop_unconstrained',
         ),
         'manualcrop_styles_mode' => 'include',
         'manualcrop_thumblist' => 0,

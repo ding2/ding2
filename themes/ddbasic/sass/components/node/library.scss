@@ -115,13 +115,13 @@
   .field-name-field-ding-library-mail,
   .field-name-field-ding-library-links {
     position: relative;
-    @include span-columns(4 of 9);
+    width: getColumn(4 of 9);
     float: right;
     margin-right: getColumn(2 of 9);
 
     // Mobile
     @include media($mobile) {
-      @include span-columns(9 of 9);
+      width: 100%;
       margin-right: 0;
     }
     .field-label {

@@ -577,9 +577,9 @@ function ding_user_frontend_default_page_manager_pages() {
   );
   $page->menu = array(
     'type' => 'tab',
-    'title' => 'Mine bøder',
+    'title' => 'My debts',
     'name' => 'navigation',
-    'weight' => '5',
+    'weight' => '8',
     'parent' => array(
       'type' => 'tab',
       'title' => 'Min side',
@@ -824,9 +824,9 @@ function ding_user_frontend_default_page_manager_pages() {
   );
   $page->menu = array(
     'type' => 'tab',
-    'title' => 'Overdue loans',
+    'title' => 'Loans',
     'name' => 'navigation',
-    'weight' => '2',
+    'weight' => '1',
     'parent' => array(
       'type' => 'tab',
       'title' => 'Min side',
@@ -970,6 +970,9 @@ function ding_user_frontend_default_page_manager_pages() {
       'context' => 'argument_entity_id:user_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'overdue' => 0,
+      'regular' => 1,
+      'override_title_heading' => 'h2',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -994,17 +997,207 @@ function ding_user_frontend_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
+  $page->name = 'user_loans_overdue';
+  $page->task = 'page';
+  $page->admin_title = 'User loans overdue';
+  $page->admin_description = '';
+  $page->path = 'user/%user/status-loans-overdue';
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'external_user',
+        'settings' => NULL,
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+        ),
+        'not' => FALSE,
+      ),
+      1 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
+  );
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'Overdue loans',
+    'name' => 'navigation',
+    'weight' => '0',
+    'parent' => array(
+      'type' => 'tab',
+      'title' => 'Min side',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'user' => array(
+      'id' => 1,
+      'identifier' => 'User: ID',
+      'name' => 'entity_id:user',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_user_loans_overdue__panel_context_721ef93b-13f9-4644-8d35-ff9aaab01be6';
+  $handler->task = 'page';
+  $handler->subtask = 'user_loans_overdue';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(),
+      'logic' => 'and',
+    ),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Loans | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
+    'name' => '',
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'middle' => NULL,
+      'left' => NULL,
+      'right' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = '846ee609-1e6e-4c1e-ada9-7009f8684530';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-95c59944-f02d-4a0c-95c4-a7a854e6a5f3';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '95c59944-f02d-4a0c-95c4-a7a854e6a5f3';
+    $display->content['new-95c59944-f02d-4a0c-95c4-a7a854e6a5f3'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-95c59944-f02d-4a0c-95c4-a7a854e6a5f3';
+    $pane = new stdClass();
+    $pane->pid = 'new-375a2a68-afd4-4852-8e12-0b6af310c47a';
+    $pane->panel = 'main_content';
+    $pane->type = 'loans';
+    $pane->subtype = 'loans';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 1,
+      'override_title_text' => 'Overdue loans',
+      'overdue' => 1,
+      'regular' => 0,
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'default-account-panel-layout',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = '';
+    $pane->uuid = '375a2a68-afd4-4852-8e12-0b6af310c47a';
+    $display->content['new-375a2a68-afd4-4852-8e12-0b6af310c47a'] = $pane;
+    $display->panels['main_content'][0] = 'new-375a2a68-afd4-4852-8e12-0b6af310c47a';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['user_loans_overdue'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
   $page->name = 'user_my_library';
   $page->task = 'page';
   $page->admin_title = 'User my library';
   $page->admin_description = '';
   $page->path = 'user/%user/my-library';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array(
     'type' => 'tab',
     'title' => 'Mit personlige bibliotek',
     'name' => 'navigation',
-    'weight' => '3',
+    'weight' => '6',
     'parent' => array(
       'type' => 'none',
       'title' => '',
@@ -1159,9 +1352,9 @@ function ding_user_frontend_default_page_manager_pages() {
   );
   $page->menu = array(
     'type' => 'tab',
-    'title' => 'Reservations',
+    'title' => 'Reservations in queue',
     'name' => 'navigation',
-    'weight' => '4',
+    'weight' => '5',
     'parent' => array(
       'type' => 'tab',
       'title' => 'Min side',
@@ -1308,11 +1501,11 @@ function ding_user_frontend_default_page_manager_pages() {
         'interlibrary_loans' => 'interlibrary_loans',
         'ready_for_pickup' => 0,
       ),
-      'form_build_id' => 'form-YjzqJCj7L0VlsFICUhBPU4plnz6GmBW4_ygeTOAg23o',
-      'form_token' => '58yM0Lyy1WXessO9Qx3vSM6g4JQYaG8E8ITfEpyCkEM',
+      'form_build_id' => 'form-ixlxciuXvuhXqcvp1j84xKjLfZ5kqhpihB1reTrVp4E',
+      'form_token' => '8yDFxGzbZIvwaF0fUvUvC9ihd-sT8Ou-Z5B34lxSo3g',
       'form_id' => 'ding_reservation_reservations_content_type_edit_form',
       'override_title' => 1,
-      'override_title_text' => 'Reservations',
+      'override_title_text' => 'Reservations in queue',
       'reservation_title' => 'Select all',
       'reservation_empty_text' => 'There are no reservations.',
       'reservation_form_id' => 'ding_reservation_reservations_notready_form',
@@ -1376,7 +1569,7 @@ function ding_user_frontend_default_page_manager_pages() {
     'type' => 'tab',
     'title' => 'Reservations ready for pick-up',
     'name' => 'navigation',
-    'weight' => '1',
+    'weight' => '4',
     'parent' => array(
       'type' => 'tab',
       'title' => 'Min side',

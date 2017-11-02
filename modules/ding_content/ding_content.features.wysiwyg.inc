@@ -25,7 +25,6 @@ function ding_content_wysiwyg_default_profiles() {
         'default' => array(
           'Bold' => 1,
           'Italic' => 1,
-          'Underline' => 1,
           'JustifyLeft' => 1,
           'JustifyCenter' => 1,
           'JustifyRight' => 1,

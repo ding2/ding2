@@ -192,7 +192,7 @@ projects[manualcrop][version] = "1.6"
 projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-imgareaselect_library_version_arguments-2836970-14-d7.patch"
 ; Fix crop display when the same file is used in multiple fields
 ; https://www.drupal.org/node/2503175
-projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-duplicatepreview-2503175-30.patch"
+projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop-duplicatepreview-2503175-41.patch"
 ; Fix horizontal alignment of preview and buttons.
 ; https://www.drupal.org/node/2874825
 projects[manualcrop][patch][] = "https://www.drupal.org/files/issues/manualcrop_media-widget-alignment-2874825-2.patch"
@@ -529,9 +529,12 @@ libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
 
 libraries[slick][download][type] = "get"
-libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.6.0.zip
+libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.8.0.tar.gz
 libraries[slick][directory_name] = "slick"
 libraries[slick][destination] = "libraries"
+; Fix variableWitdh and white space/empty slides at the end.
+; See https://github.com/kenwheeler/slick/pull/2635
+libraries[slick][patch][] = "https://patch-diff.githubusercontent.com/raw/kenwheeler/slick/pull/2635.diff"
 
 libraries[html5shiv][download][type] = "get"
 libraries[html5shiv][download][url] = https://github.com/aFarkas/html5shiv/archive/3.7.3.zip

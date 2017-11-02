@@ -188,7 +188,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'title',
-      'formatter' => 'ting_carousel',
+      'formatter' => 'ding_carousel',
       'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
@@ -1016,6 +1016,38 @@ node/%node:nid/events
     $display->content['new-806db16f-e712-43d5-872a-01cf6482a01c'] = $pane;
     $display->panels['left_sidebar'][1] = 'new-806db16f-e712-43d5-872a-01cf6482a01c';
     $pane = new stdClass();
+    $pane->pid = 'new-8c3dcd03-d791-4895-b8af-fb15d1d090bb';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'slug' => 'arrangementer',
+      'default_link_text' => 'All categories',
+      'context' => array(
+        0 => 'argument_term_1',
+        1 => 'argument_slug_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'dropdown' => 0,
+      'base' => 'bibliotek',
+      'vocabulary' => 'event_category',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '8c3dcd03-d791-4895-b8af-fb15d1d090bb';
+    $display->content['new-8c3dcd03-d791-4895-b8af-fb15d1d090bb'] = $pane;
+    $display->panels['left_sidebar'][2] = 'new-8c3dcd03-d791-4895-b8af-fb15d1d090bb';
+    $pane = new stdClass();
     $pane->pid = 'new-150601e8-429a-4460-8500-c20fc264900a';
     $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
@@ -1046,42 +1078,11 @@ node/%node:nid/events
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 3;
     $pane->locks = '';
     $pane->uuid = '150601e8-429a-4460-8500-c20fc264900a';
     $display->content['new-150601e8-429a-4460-8500-c20fc264900a'] = $pane;
-    $display->panels['left_sidebar'][2] = 'new-150601e8-429a-4460-8500-c20fc264900a';
-    $pane = new stdClass();
-    $pane->pid = 'new-8c3dcd03-d791-4895-b8af-fb15d1d090bb';
-    $pane->panel = 'main_content';
-    $pane->type = 'taxonomy_menu';
-    $pane->subtype = 'taxonomy_menu';
-    $pane->shown = FALSE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'slug' => 'arrangementer',
-      'default_link_text' => 'All categories',
-      'context' => array(
-        0 => 'argument_term_1',
-        1 => 'argument_slug_1',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-      'dropdown' => 1,
-      'base' => 'bibliotek',
-      'vocabulary' => 'event_category',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '8c3dcd03-d791-4895-b8af-fb15d1d090bb';
-    $display->content['new-8c3dcd03-d791-4895-b8af-fb15d1d090bb'] = $pane;
-    $display->panels['main_content'][0] = 'new-8c3dcd03-d791-4895-b8af-fb15d1d090bb';
+    $display->panels['left_sidebar'][3] = 'new-150601e8-429a-4460-8500-c20fc264900a';
     $pane = new stdClass();
     $pane->pid = 'new-9bb644a0-3601-4ce3-a16a-c32dd13c12da';
     $pane->panel = 'main_content';
@@ -1104,11 +1105,11 @@ node/%node:nid/events
       'css_class' => 'grid-medium',
     );
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = array();
     $pane->uuid = '9bb644a0-3601-4ce3-a16a-c32dd13c12da';
     $display->content['new-9bb644a0-3601-4ce3-a16a-c32dd13c12da'] = $pane;
-    $display->panels['main_content'][1] = 'new-9bb644a0-3601-4ce3-a16a-c32dd13c12da';
+    $display->panels['main_content'][0] = 'new-9bb644a0-3601-4ce3-a16a-c32dd13c12da';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

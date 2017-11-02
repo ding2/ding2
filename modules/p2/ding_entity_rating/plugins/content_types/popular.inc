@@ -16,11 +16,6 @@ $plugin = array(
  * Implements hook_content_type_render().
  */
 function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_args, $context) {
-  // Only show on front if serendipity is enabled for the frontpage.
-  // See ding_frontpage config at /admin/config/ding/frontend.
-  if (drupal_is_front_page() && !variable_get('ding_entity_rating_popular_on_frontpage', FALSE)) {
-    return;
-  }
 
   $block = new stdClass();
 
@@ -72,10 +67,10 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
     $result[] = ting_object_view($obj, 'teaser');
   }
 
-  $block->content = theme('ting_carousel', array(
-    'items' => $result,
-    'item_type' => 'items',
-  ));
+  $block->content = array(
+    '#type' => 'ding_carousel',
+    '#items' => $result,
+  );
 
   return $block;
 }

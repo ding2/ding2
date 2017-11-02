@@ -9,79 +9,84 @@
   // Cache of fetched availability information.
   Drupal.DADB = {};
 
-  $(document).ready(function () {
-    var settings = Drupal.settings;
-    var ids = [];
-    var html_ids = [];
+  Drupal.behaviors.ding_availability = {
+    attach: function (context) {
+      var settings = Drupal.settings;
+      var ids = [];
+      var html_ids = [];
 
-    // Loop through the materials given in the settings and collect
-    // HTML ids and entity_ids.
-    if (settings.hasOwnProperty('ding_availability')) {
-      $.each(settings.ding_availability, function (id, entity_ids) {
-        $.each(entity_ids, function (index, entity_id) {
-          if (Drupal.DADB[entity_id] === undefined) {
-            Drupal.DADB[entity_id] = null;
-            ids.push(entity_id);
-            html_ids.push(id);
+      // Loop through the materials given in the settings and collect
+      // HTML ids and entity_ids.
+      if (settings.hasOwnProperty('ding_availability')) {
+        $.each(settings.ding_availability, function (id, entity_ids) {
+          $.each(entity_ids, function (index, entity_id) {
+            if (Drupal.DADB[entity_id] === undefined) {
+              Drupal.DADB[entity_id] = null;
+              ids.push(entity_id);
+              html_ids.push(id);
+            }
+          });
+        });
+      }
+
+      // If there's any reservation buttons, switch to holdings. We have
+      // periodicals that's a bit off an odd one in that they can both
+      // have issues, which means that the reservation button for the
+      // main object should be disabled, or not have any issues, which
+      // means that it should be left alone. So we need to fetch full
+      // holdings in order to determine whether the material is a
+      // periodical. This is a bit of a hack, but it's the quickest way
+      // of fixing the problem right now.
+      if ($('.reserve-button').size() > 0) {
+        settings.ding_availability_mode = 'holdings';
+      }
+
+      $.each(html_ids, function (index, id) {
+        $('#' + id).addClass('pending');
+      });
+
+      // Fetch availability.
+      if (ids.length > 0) {
+        var mode = settings.ding_availability_mode ? settings.ding_availability_mode : 'items';
+        var path = settings.basePath + 'ding_availability/' + mode + '/' + ids.join(',');
+        $.ajax({
+          dataType: "json",
+          url: path,
+          success: function (data) {
+            $.each(data, function (id, item) {
+              // Update cache.
+              Drupal.DADB[id] = item;
+            });
+
+            $.each(settings.ding_availability, function (id, entity_ids) {
+              if (id.match(/^availability-/)) {
+                // Update availability indicators.
+                ding_availability_update_availability(id, entity_ids);
+              }
+              else {
+                // Update holding information.
+                ding_availability_update_holdings(id, entity_ids);
+              }
+            });
+          },
+          error: function () {
+            $('div.loader').remove();
           }
         });
-      });
-    }
-
-    // If there's any reservation buttons, switch to holdings. We have
-    // periodicals that's a bit off an odd one in that they can both
-    // have issues, which means that the reservation button for the
-    // main object should be disabled, or not have any issues, which
-    // means that it should be left alone. So we need to fetch full
-    // holdings in order to determine whether the material is a
-    // periodical. This is a bit of a hack, but it's the quickest way
-    // of fixing the problem right now.
-    if ($('.reserve-button').size() > 0) {
-      settings.ding_availability_mode = 'holdings';
-    }
-
-    $.each(html_ids, function (index, id) {
-      $('#' + id).addClass('pending');
-    });
-
-    // Fetch availability.
-    if (ids.length > 0) {
-      var mode = settings.ding_availability_mode ? settings.ding_availability_mode : 'items';
-      var path = settings.basePath + 'ding_availability/' + mode + '/' + ids.join(',');
-      $.ajax({
-        dataType: "json",
-        url: path,
-        success: function (data) {
-          $.each(data, function (id, item) {
-            // Update cache.
-            Drupal.DADB[id] = item;
-          });
-
+      }
+      else {
+        // Apply already fetched availability, if any.
+        if (settings.hasOwnProperty('ding_availability')) {
           $.each(settings.ding_availability, function (id, entity_ids) {
-            if (id.match(/^availability-/)) {
-              // Update availability indicators.
-              ding_availability_update_availability(id, entity_ids);
-            }
-            else {
-              // Update holding information.
-              ding_availability_update_holdings(id, entity_ids);
-            }
+            ding_availability_update_availability(id, entity_ids);
           });
         },
         error: function (xhr, status, error) {
           $('div.loader').remove();
         }
-      });
-    }
-    else {
-      // Apply already fetched availability, if any.
-      if (settings.hasOwnProperty('ding_availability')) {
-        $.each(settings.ding_availability, function (id, entity_ids) {
-          ding_availability_update_availability(id, entity_ids);
-        });
       }
     }
-  });
+  };
 
   /**
    * Update availability information.
