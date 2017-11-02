@@ -46,7 +46,7 @@
       });
       if (latestId) {
         $('.ding-message-item', context).each(function() {
-          if ($(this).attr('data-ting-object-id') >= latestId) {
+          if (parseInt($(this).attr('data-ting-object-id'), 10) >= parseInt(latestId, 10)) {
             $(this).addClass('new-content');
           }
         });
