@@ -70,6 +70,12 @@
       float: right;
       padding: 40px 30px 40px 0;
       min-height: 380px;
+
+      @include media($mobile) {
+        @include span-columns(12);
+        float: none;
+        display: block;
+      }
     }
     .ding-campaign-image {
       @include span-columns(6);
@@ -79,6 +85,14 @@
       height: 100%;
       background-size: cover;
       background-position: center center;
+
+      @include media($mobile) {
+        @include span-columns(12);
+        float: none;
+        position: relative;
+        display: block;
+        min-height: 375px;
+      }
     }
     .no-touch & {
       &:hover {
@@ -123,6 +137,41 @@
   &.image {
     img {
       width: 100%;
+    }
+  }
+}
+
+@include media($mobile) {
+  .pane-content .ding-campaign .ding-campaign-text {
+    float: inherit;
+    width: auto;
+    padding: 50px 30px;
+
+    .ding-campaign-headline {
+      width: 100%;
+    }
+
+    .ding-campaign-description {
+      float: none;
+      width: auto;
+    }
+  }
+}
+
+.node-type-ding-campaign {
+  .node.node-ding-campaign{
+    max-width: 1124px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    overflow: auto;
+    padding-top: 15px;
+  }
+
+  .image {
+    img {
+      width: auto;
+      display: block
     }
   }
 }
