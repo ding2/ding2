@@ -5,13 +5,6 @@ api = 2
 includes[ding2] = "ding2.make"
 
 ; easyOPAC modules
-projects[alma_reminder_service][type]             = "module"
-projects[alma_reminder_service][subdir]           = ""
-projects[alma_reminder_service][download][type]   = "git"
-projects[alma_reminder_service][download][url]    = "git@github.com:easySuite/alma_reminder_service.git"
-;projects[alma_reminder_service][download][tag]    = "7.x-3.0.2"
-projects[alma_reminder_service][download][branch] = "development"
-
 projects[bibdk_subject_hierarchy][type]             = "module"
 projects[bibdk_subject_hierarchy][subdir]           = ""
 projects[bibdk_subject_hierarchy][download][type]   = "git"
@@ -553,3 +546,10 @@ projects[ding_item_viewer][download][type]   = "git"
 projects[ding_item_viewer][download][url]    = "git@github.com:easySuite/ding_item_viewer.git"
 ;projects[ding_item_viewer][download][tag]    = "7.x-3.0.2"
 projects[ding_item_viewer][download][branch] = "development"
+
+projects[alma_reminder_service][type]             = "module"
+projects[alma_reminder_service][subdir]           = ""
+projects[alma_reminder_service][download][type]   = "git"
+projects[alma_reminder_service][download][url]    = "git@github.com:easySuite/alma_reminder_service.git"
+;projects[alma_reminder_service][download][tag]    = "7.x-3.0.2"
+projects[alma_reminder_service][download][branch] = "development"
