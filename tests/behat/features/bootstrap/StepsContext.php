@@ -8,6 +8,7 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 
+
 /**
  * Defines application features from the specific context.
  */
@@ -26,38 +27,32 @@ class StepsContext implements Context, SnippetAcceptingContext {
    */
   public function __construct() {
 
+
   }
 
   /** @BeforeScenario */
-  public function gatherContexts(BeforeScenarioScope $scope)
-  {
+  public function gatherContexts(BeforeScenarioScope $scope) {
     $environment = $scope->getEnvironment();
 
     $this->libContext = $environment->getContext('LibContext');
   }
 
   /**
-   * @Then I can see :regexp somewhere in the search result
+   * @Then I can see :pattern somewhere in the search result
    */
-  public function iCanSeeRegexpSomewhereInSearchResult($regexp) {
-    $regexp = $this->libContext->translateArgument($regexp);
+  public function iCanSeeRegexpSomewhereInSearchResult($pattern) {
 
-    $this->libContext->getEntireSearchResult();
-
-    // now run through the entire search result to see if the title is there
-    $lb_found = false;
-    $xte = 0;
-    for ($i=0; $i<count($this->libContext->searchResults); $i++) {
-      if (preg_match('/' . $regexp . '/', $this->libContext->searchResults[$i]->title) ) {
-        $lb_found = true;
-        $this->libContext->logMsg(($this->libContext->verbose->searchResults == 'on'), "Fandt " . $regexp . " på side " . $this->libContext->searchResults[$i]->page . " listet som nummer " . $this->libContext->searchResults[$i]->item . "\n");
-      }
-      $xte = $xte + 1;
+    $result = $this->libContext->searchPage->getEntireSearchResult();
+    if ($result != "") {
+      print_r($this->libContext->searchPage->getMessages());
+      throw new Exception($result);
     }
 
-    if (!$lb_found ) {
-      throw new Exception("Did not find " . $regexp . " in the search result. Looked through " . $this->libContext->verbose->searchMaxPages . " pages.");
-    }
+    $pattern = $this->libContext->translateArgument($pattern);
+    if (!$this->libContext->searchPage->findRegEx($pattern)) {
+      throw new Exception("Did not find " . $pattern . " in the search result. Looked through " . $this->libContext->verbose->searchMaxPages . " pages.");
+    };
+
   }
 
   /**
@@ -97,7 +92,6 @@ class StepsContext implements Context, SnippetAcceptingContext {
     }
     // all we can do is list the number for convenience. It's in the configuration how many there should be.
     print_r("In total " . $cnt . " suggestions were shown. Check configurationen.");
-
   }
 
 }

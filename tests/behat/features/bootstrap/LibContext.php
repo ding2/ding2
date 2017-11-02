@@ -9,6 +9,7 @@ use Behat\Mink\Element\ElementInterface;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
+use Page\SearchPage;
 
 /**
  * Defines application features from the specific context.
@@ -33,10 +34,6 @@ class LibContext implements Context, SnippetAcceptingContext {
   /** @var \Drupal\DrupalExtension\Context\MinkContext */
   public $minkContext;
 
-  /**
-   * @var array
-   */
-  public $searchResults = array();
 
   /**
    * Current authenticated user.
@@ -60,18 +57,17 @@ class LibContext implements Context, SnippetAcceptingContext {
    * You can also pass arbitrary arguments to the
    * context constructor through behat.yml.
    */
-  public function __construct() {
+  public function __construct(SearchPage $searchPage) {
+    $this->searchPage = $searchPage;
 
     // initialise the verbose structure. These are default settings.
     $this->verbose = (object) array (
           'searchResults' => false,
           'loginInfo' => true,
           'cookies' => false,
-          'searchMaxPages' => 0,
     );
 
-    $this->cssStr['button_agree'] = '.agree-button';
-    $this->cssStr['button_asklibrarian'] = '.ask-vopros-minimize span';
+
 
 
   }
@@ -111,74 +107,11 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function AcceptCookiesMinimizeAskLibrarianOverlay()
   {
-    // check if there's a cookie thing showing:
-    $cookieAgree = $this->getPage()->find('css', $this->cssStr['button_agree']);
-    if ($cookieAgree) {
-      $this->logMsg(($this->verbose->cookies=='on'), "Cookie accept-besked vises.\n");
-      $this->logTimestamp(($this->verbose->cookies=='on'), "Start: ");
-
-      // now timing wise this is tricky, because the overlay moves. There seems to be no way to
-      // catch it while moving, so we try to click it until that actually works. Selenium always
-      // clicks in the middle of the element.
-      // We try at most 50 times. That will work for even very slow systems. Typically only one wait cycle is necessary.
-      $max=50;
-      $success=false;
-      while(--$max>0 && !$success) {
-        try {
-          $cookieAgree = $this->getPage()->find('css', $this->cssStr['button_agree']);
-
-          $cookieAgree->click();
-          // we will only ever execute this if the cookie button is clickable
-          $success = true;
-
-        } catch (Exception $e) {
-          // give it a bit more time to come into place.
-          usleep(100);
-        }
-      }
-      if(!$success) {
-        throw new Exception ("Cookie Agree-knap didn't go away after clicking on it.");
-      }
-
-      $this->logMsg(($this->verbose->cookies=='on'), "End: ");
-
-      // now we have clicked it, we expect it to go away within at the most 10 secs.
-      $maxwait=330;
-      $cookieAgree = $this->getPage()->find('css', $this->cssStr['button_agree']);
-      while ($cookieAgree and --$maxwait > 0) {
-        usleep(300);
-        // refresh the search on the page
-        $cookieAgree = $this->getPage()->find('css', $this->cssStr['button_agree']);
-      }
-      $this->logMsg(($this->verbose->cookies == 'on'), "Awaited cookie to go away: " . ((330 - $maxwait)*300) . " millisecs\n");
-
-    }
-
-    // now minimize the "Spørg biblioteksvagten"
-    // @todo: this should probably be a separate function
-    $askLibrary = $this->getPage()->find('css', $this->cssStr['button_asklibrarian']);
-    if ($askLibrary) {
-      $this->logMsg(($this->verbose->cookies == "on"), "Ask A Librarian was centered. Clicks it to minimize it.\n");
-      // simply click, and ignore if it can't click.
-      try {
-        $askLibrary->click();
-        usleep(100);
-      }  catch (UnsupportedDriverActionException $e) {
-        // Ignore.
-      } catch (Exception $e) {
-        // Ignore too
-      }
-      // We will wait a bit until it goes away
-      $max = 10;
-      while ($askLibrary && --$max>0) {
-
-        // renew our view on the page
-        $askLibrary = $this->getPage()->find('css', $this->cssStr['button_asklibrarian']);
-
-      }
-      if ($askLibrary) {
-        throw new Exception ("Ask The Librarian did not minimize.");
-      }
+    // we use the searchPage-instance to deal with cookies
+    $result = $this->searchPage->acceptCookiesMinimizeAskLibrarianOverlay();
+    if ($result = "") {
+      $this->logMsg(true, $this->searchPage->getMessages());
+      throw new Exception ($result);
     }
   }
 
@@ -201,7 +134,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     // option of \n for instance. So we will remember if we get the \ char
     // and check the next character.
     $escaped = false;
-    for ($i=0;$i<strlen($text);$i++) {
+    for ($i=0; $i<strlen($text); $i++) {
       $key = substr($text, $i, 1);
       if ($escaped) {
         switch ($key) {
@@ -228,183 +161,6 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
   }
 
-  /**
-   *   Building the entire search result into an array
-   */
-  public function getEntireSearchResult()
-  {
-    // initialise
-    $this->searchResults = array();
-    $founds = $this->getPage()->findAll('css', '.search-results li.list-item');
-
-    if (!$founds) {
-      throw new Exception("Didn't find a search result.");
-    }
-
-    // now we need to await that all the availability data are collected. We will wait here until we cannot find
-    // "Henter beholdningsoplysninger" anymore
-    $this->waitUntilTextIsGone(100, 'Henter beholdningsoplysninger');
-
-    // count of page number
-    $cnt = 1;
-    $lb_continue = true;
-    // loop through the pages until we're on the last page
-    while ($lb_continue ) {
-      // count of placement on page from top
-      $xte = 1;
-      foreach ($founds as $srItem) {
-
-        $this->scrollTo($srItem);
-        $isSamling = false;
-
-        // Get hold of the title
-        $titlelink = $srItem->find('css', '.ting-object h2 a');  // v4
-        if (!$titlelink) {
-          $titlelink = $srItem->find('css', '.ting-object .heading a'); // v3
-        }
-        $txt_title = ($titlelink) ? $titlelink->getText() : "";
-
-        // Find the author and published date
-        $creator = $srItem->find('css', '.ting-object .field-name-ting-author');
-        $txt_creator = "";
-        $txt_published = "";
-        if ($creator) {
-          $txt_creator_full = $creator->getText();
-          if (strlen($txt_creator_full)>0) {
-            $arrCreator=explode("(", $txt_creator_full);
-            // so authors may be listed with their birth year in ( ), so we need the last item for date and first for author
-            if (count($arrCreator)>=2) {
-              $txt_creator = $arrCreator[0];
-              $txt_published = substr($arrCreator[count($arrCreator)-1], 0, 4);
-            } else {
-              throw new Exception ("Creator was not followed with a '(' : " . $txt_title . " af " . $txt_creator_full);
-            }
-          }
-
-        }
-
-        // find the series - there can be multiple
-        $series = $srItem->findAll('css', '.field-name-ting-series .field-item');
-        $txt_serie = "";
-
-        foreach ($series as $serie) {
-          $txt_serie = $txt_serie . $serie->getText() . "\n";
-        }
-
-        // find "tilgængelig som"
-        $accessibilities = $srItem->findAll('css', '.availability p a');
-        $txt_access = "";
-
-        foreach ($accessibilities as $access) {
-          $txt_access = $txt_access . $access->getText() . "\n";
-        }
-
-        // Now we'll check if we've got a collection.
-        // The way to be sure on the search-page is to check
-        // if there are different material types (bog, lydbog, dvd, ...) listed
-        // We'll check if there are more found, and if the first one found
-        // is different from any of the subsequent ones. If so, we'll have a collection.
-        // If a collection consists only of one type, say 'bog', then we'll not
-        // be able to spot it from the search-page, only by opening the material-show
-        // and check if the url contains "Collection" (note: on the search screen all
-        // urls contain 'collection', so don't fall into that trap).
-        if ($txt_access != "") {
-          $arr_samling = preg_split("/\n/", $txt_access);
-
-          if (count($arr_samling)>1) {
-
-            $txt_mtype1 = $arr_samling[0];
-            for ($i=1;$i<count($arr_samling);$i++) {
-
-              $isSamling = ($txt_mtype1!=$arr_samling[$i] and $arr_samling[$i]!='') ? true : $isSamling;
-            }
-          }
-        }
-
-        // get the link that is shown as 'tilgængelig'. This needs to be present
-        $link = $srItem->find('css', '.availability a');
-        $txt_link = "";
-        if ($link) {
-          $txt_link = $link->getText();
-        }
-
-        // and finally grab out the cover image, if present.
-        $coverimg = $srItem->find('xpath', '//div[contains(@class,"ting-cover")]/img');
-        $txt_cover = "";
-        if ($coverimg) {
-          $txt_cover = $coverimg->getAttribute('src');
-
-        }
-
-        $this->searchResults[] = (object) array (
-              'page' => $cnt,
-              'item' => $xte,
-              'title' => $txt_title,
-              'link' => $txt_link,
-              'cover' => $txt_cover,
-              'serie' => $txt_serie,
-              'access' => $txt_access,
-              'collection' => ($isSamling) ? 'yes' : 'no',
-              'creator' => $txt_creator,
-              'published' => $txt_published,
-        );
-
-        if ($this->verbose->searchResults == 'on') {
-          $ll = count($this->searchResults)-1;
-          print_r ("Title: " . $this->searchResults[$ll]->title . ", by " . $this->searchResults[$ll]->creator . " (" . $this->searchResults[$ll]->published . ") "
-                . " (page " . $this->searchResults[$ll]->page
-                . " # " . $this->searchResults[$ll]->item . ")");
-          print_r ("\n");
-        }
-        $xte = $xte + 1;
-      }
-      if ($this->verbose->searchResults == 'on') {
-        print_r("Total items listed on page: ");
-        print_r( ($xte - 1));
-        print_r("\n");
-        print_r("\n");
-      }
-
-      // ready for next page:
-      $cnt = $cnt + 1;
-      $pageing = $this->getPage()->find('css', '.pager .pager-next a');
-
-      if (!$pageing) {
-        // we trust this means we are at the end of the search result and we have scooped everything up
-        $lb_continue = false;
-      } else {
-        // this is a bit precarious, as we need to check if the cookie and 'ask librarians' overlays are
-        // popping up. If so, we'll whack them down again, because they can disturb our clicking.
-        $this->AcceptCookiesMinimizeAskLibrarianOverlay();
-        // scroll down and click 'næste'
-        $this->scrollTo($pageing);
-
-        try {
-          $pageing->click();
-        } catch (UnsupportedDriverActionException $e) {
-          // Ignore
-        } catch (Exception $e) {
-          // just try again... might save us
-          $this->minkContext->getSession()->executeScript('window.scrollBy(0, 500);');
-          $this->AcceptCookiesMinimizeAskLibrarianOverlay();
-          $pageing->click();
-        }
-
-        $this->waitForPage();
-        // rescan the search results on this page
-        $founds = $this->getPage()->findAll('css', '.search-results li.list-item');
-
-      }
-      if ($this->verbose->searchMaxPages==($cnt-1)){
-        // stop early because of setting in verbose/control
-        $lb_continue = false;
-        $this->logMsg(($this->verbose->searchResults=="on"), "Stops after " . $cnt . " pages due to verbose setting.\n");
-      }
-
-    }
-    $this->logMsg(($this->verbose->searchResults == "on"), "Total pages: " . ($cnt-1) . "\nTotal items:" . count($this->searchResults) . "\n");
-
-  }
 
 
 
@@ -659,7 +415,14 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function pageingAllowsToGetAllResults()
   {
-    $this->getEntireSearchResult();
+    // log messages in any case. Might be useful info in there.
+    $this->logMsg(($this->verbose->searchResults == "on"), $this->searchPage->getMessages());
+
+    $result = $this->searchPage->getEntireSearchResult();
+    if ($result != "") {
+      throw new Exception ($result);
+    };
+
   }
 
   /**
@@ -744,13 +507,17 @@ class LibContext implements Context, SnippetAcceptingContext {
       case 'cookie':
       case 'cookies':
         $this->verbose->cookies = $onoff;
+        $this->searchPage->setVerboseCookieMode($onoff);
+
         if ($onoff == 'on') {
           print_r("Verbose mode of cookie-handling set to on");
         }
         break;
         // this setting controls how many search result pages we will traverse during testing
       case 'searchmaxpages':
-        $this->verbose->searchMaxPages = $onoff;
+
+        $this->searchPage->setMaxPageTraversals($onoff);
+
         // always notify the user of this setting
         print_r("Verbose mode for max number of search result pages set to " . $onoff);
         print_r("\n");
