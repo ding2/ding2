@@ -15,16 +15,16 @@ Feature: SEEK redroute 01
   @api @seek001 @seekNologin @regression
   Scenario Outline: Search for special letters
     Given I have searched for "<title>"
-    Then I can see "<regex>" somewhere in the search result
+    Then I can see "<letter>" somewhere in the search result
 
     Examples:
-      | title                                                     | regex |
-      | term.language=dansk AND term.type=bog  AND term.title=Æ*  | Æ+    |
-      | term.language=dansk AND term.type=bog  AND term.title=Ø*  | Ø+    |
-      | term.language=dansk AND term.type=bog  AND term.title=Å*  | Å+    |
-      | term.language=dansk AND term.type=bog  AND term.title=?æ* | æ+    |
-      | term.language=dansk AND term.type=bog  AND term.title=?ø* | ø+    |
-      | term.language=dansk AND term.type=bog  AND term.title=?å* | å+    |
+      | title                                                      | letter |
+      | term.language=dansk AND term.type=bog  AND term.title=Æ*   | Æ      |
+      | term.language=dansk AND term.type=bog  AND term.title=Ø*   | Ø      |
+      | term.language=dansk AND term.type=bog  AND term.title=Åer* | Å      |
+      | term.language=dansk AND term.type=bog  AND term.title=?æ*  | æ      |
+      | term.language=dansk AND term.type=bog  AND term.title=?ø*  | ø      |
+      | term.language=dansk AND term.type=bog  AND term.title=?å*  | å      |
 
   @api @seek004 @seekNologin @regression
   Scenario: Show openscan suggestions in search field
@@ -32,15 +32,16 @@ Feature: SEEK redroute 01
     When I enter "her" in field "input#edit-search-block-form--2"
     Then I get suggestions from openscan
 
-  @api @seek005 @seekNologin
+  @api @seek005 @seekNologin @regression
   Scenario: Search using typing of enter
     Given I am on "/"
     When I enter "harry\n" in field "input#edit-search-block-form--2"
     Then pageing allows to get all the results
 
-  @api @seek005 @seekNologin
+  @api @seek005 @seekNologin @regression
   Scenario: Search using click search button
     Given I am on "/"
     When I enter "harry" in field "input#edit-search-block-form--2"
     When I press "Søg"
     Then pageing allows to get all the results
+
