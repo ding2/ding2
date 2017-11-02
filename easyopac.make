@@ -220,13 +220,6 @@ projects[ding_video][download][url]    = "git@github.com:easySuite/ding_video.gi
 ;projects[ding_video][download][tag]    = "7.x-3.0.2"
 projects[ding_video][download][branch] = "development"
 
-projects[easyddb_alma_reminder][type]             = "module"
-projects[easyddb_alma_reminder][subdir]           = ""
-projects[easyddb_alma_reminder][download][type]   = "git"
-projects[easyddb_alma_reminder][download][url]    = "git@github.com:easySuite/easyddb_alma_reminder.git"
-;projects[easyddb_alma_reminder][download][tag]    = "7.x-3.0.2"
-projects[easyddb_alma_reminder][download][branch] = "development"
-
 projects[easyddb_facebookshare][type]             = "module"
 projects[easyddb_facebookshare][subdir]           = ""
 projects[easyddb_facebookshare][download][type]   = "git"
@@ -532,6 +525,13 @@ projects[alma_item_list][download][type]   = "git"
 projects[alma_item_list][download][url]    = "git@github.com:easySuite/alma_item_list.git"
 ;projects[alma_item_list][download][tag]    = "7.x-3.0.2"
 projects[alma_item_list][download][branch] = "development"
+
+projects[easyddb_alma_reminder][type]             = "module"
+projects[easyddb_alma_reminder][subdir]           = ""
+projects[easyddb_alma_reminder][download][type]   = "git"
+projects[easyddb_alma_reminder][download][url]    = "git@github.com:easySuite/easyddb_alma_reminder.git"
+;projects[easyddb_alma_reminder][download][tag]    = "7.x-3.0.2"
+projects[easyddb_alma_reminder][download][branch] = "development"
 
 projects[ding_user_header][type]             = "module"
 projects[ding_user_header][subdir]           = ""
