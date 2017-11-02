@@ -62,9 +62,7 @@ class LibContext implements Context, SnippetAcceptingContext {
 
     // initialise the verbose structure. These are default settings.
     $this->verbose = (object) array (
-          'searchResults' => false,
           'loginInfo' => true,
-          'cookies' => false,
     );
 
 
@@ -201,7 +199,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     // First we try to translate the argument, to see if there's anything we should pick out first
     $searchString = $this->translateArgument($string);
 
-    $this->logMsg(($this->verbose->searchResults=="on"), "Searches for " . urlencode($searchString) . "\n");
+    $this->logMsg(($this->searchPage->getVerboseSearchResult()=="on"), "Searches for " . urlencode($searchString) . "\n");
 
     $this->lastSearchString = $searchString;
 
@@ -416,7 +414,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function pageingAllowsToGetAllResults()
   {
     // log messages in any case. Might be useful info in there.
-    $this->logMsg(($this->verbose->searchResults == "on"), $this->searchPage->getMessages());
+    $this->logMsg(($this->searchPage->getVerboseSearchResult() == "on"), $this->searchPage->getMessages());
 
     $result = $this->searchPage->getEntireSearchResult();
     if ($result != "") {
@@ -498,7 +496,7 @@ class LibContext implements Context, SnippetAcceptingContext {
       case 'search-results':
       case 'search-result':
       case 'searchresults':
-        $this->verbose->searchResults = $onoff;
+        $this->searchPage->setVerboseSearchResult($onoff);
         if ($onoff == 'on') {
           print_r("Verbose mode of searchResults set to on");
         }
@@ -506,7 +504,6 @@ class LibContext implements Context, SnippetAcceptingContext {
         // this indicates if we want to know about handling cookie-popups
       case 'cookie':
       case 'cookies':
-        $this->verbose->cookies = $onoff;
         $this->searchPage->setVerboseCookieMode($onoff);
 
         if ($onoff == 'on') {
@@ -526,8 +523,8 @@ class LibContext implements Context, SnippetAcceptingContext {
       case 'everything':
       case 'all':
         $this->verbose->loginInfo = $onoff;
-        $this->verbose->searchResults = $onoff;
-        $this->verbose->cookies = $onoff;
+        $this->searchPage->setVerboseSearchResult($onoff);
+        $this->searchPage->setVerboseCookieMode($onoff);
         break;
         // if we don't recognise this, let the user know, but don't fail on it
       default:

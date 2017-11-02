@@ -254,13 +254,20 @@ class SearchPage extends PageBase
 
   /**
    * @return string
-   * Resets the log messages. They can only be read once.
+   * Returns and resets the log messages. They can only be read once.
    */
   public function getMessages() {
     return $this->messageCollection;
     $this->messageCollection = "";
   }
 
+  /**
+   * @return string
+   * Returns the verbose setting for search result
+   */
+  public function getVerboseSearchResult() {
+    return $this->verboseSearchResults;
+  }
 
   /**
    * log_msg - prints message on log if condition is true.
