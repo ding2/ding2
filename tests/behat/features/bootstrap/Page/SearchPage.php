@@ -9,6 +9,24 @@ namespace Page;
 class SearchPage extends PageBase
 {
 
+
+/*
+  protected $elements = array(
+
+  );
+*/
+  /**
+   * @var integer $maxPageTraversals
+   * If 0 it will be interpreted as 'all'
+   */
+  protected $maxPageTraversals = 0;
+
+  /**
+   * @var string $messageCollection
+   * contains all log messages from verbose mode
+   */
+  protected $messageCollection = '';
+
   /**
    * @var string $path
    */
@@ -22,17 +40,6 @@ class SearchPage extends PageBase
    */
   protected $searchResults = array();
 
-  /**
-   * @var integer $maxPageTraversals
-   * If 0 it will be interpreted as 'all'
-   */
-  protected $maxPageTraversals = 0;
-
-  /**
-   * @var string $messageCollection
-   * contains all log messages from verbose mode
-   */
-  protected $messageCollection = '';
 
   /**
    * @var string $verboseSearchResults
@@ -225,6 +232,53 @@ class SearchPage extends PageBase
   public function getMaxPageTraversals() {
     return $this->maxPageTraversals;
   }
+
+  /**
+   * @return string : empty if ok, otherwise the error message.
+   */
+  public function getOpenScanSuggestions() {
+    // we need to enable a wait because we cannot control the timing
+
+    // you'd think we want to use the waitFor method, but it doesn't actually do this trick
+    // we need to enable a wait because we cannot control the timing
+    // It is possibly some dynamic javascript on the page that tricks it.
+    $max = 300;
+    $found = $this->find('css', $this->elements['autocomplete']);
+    while (--$max>0 && !$found) {
+      usleep(100);
+      $found = $this->find('css', $this->elements['autocomplete']);
+    }
+
+    // report error if we ran out of time
+    if (!$found) {
+      return "Openscan did not show any suggestions. ";
+    }
+
+    $found = $this->getElement('autocomplete');
+
+    // it also takes a bit for the page to get the dynamics of the suggestions done. So we wait again
+    $max = 300;
+    $cnt=0;
+    while (--$max>0 && !$found->findAll("css", $this->elements['autocompleteList'])) {
+      usleep(100);
+      // refresh the search
+      $found = $this->getElement('autocomplete');
+    }
+
+    // now we list the suggestions given.
+    foreach ($found->findAll("css", $this->elements['autocompleteList']) as $suggestion) {
+      $this->logMsg(true, $suggestion->getText() . "\n");
+      $cnt++;
+    }
+    if ($cnt==0) {
+      return "No suggestions were found.";
+    }
+    // all we can do is list the number for convenience. It's in the configuration how many there should be.
+    $this->logMsg(true, "In total " . $cnt . " suggestions were shown. Check configurationen.");
+    return "";
+  }
+
+
 
   public function getSearchResultSize() {
     return count($this->searchResults);

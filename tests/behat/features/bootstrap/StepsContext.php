@@ -59,6 +59,14 @@ class StepsContext implements Context, SnippetAcceptingContext {
    * @Then I get suggestions from openscan
    */
   public function iGetSuggestionsFromOpenscan() {
+
+    $result = $this->libContext->searchPage->getOpenScanSuggestions();
+    $this->libContext->logMsg(true, $this->libContext->searchPage->getMessages());
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+    return;
+
     // we need to enable a wait because we cannot control the timing
     $max = 300;
     $found = $this->libContext->getPage()->find('css', 'div#autocomplete');
