@@ -206,13 +206,6 @@ projects[ding_ting_type_search][download][url]    = "git@github.com:easySuite/di
 ;projects[ding_ting_type_search][download][tag]    = "7.x-3.0.2"
 projects[ding_ting_type_search][download][branch] = "development"
 
-projects[ding_user_header][type]             = "module"
-projects[ding_user_header][subdir]           = ""
-projects[ding_user_header][download][type]   = "git"
-projects[ding_user_header][download][url]    = "git@github.com:easySuite/ding_user_header.git"
-;projects[ding_user_header][download][tag]    = "7.x-3.0.5"
-projects[ding_user_header][download][branch] = "development"
-
 projects[ding_user_profile][type]             = "module"
 projects[ding_user_profile][subdir]           = ""
 projects[ding_user_profile][download][type]   = "git"
@@ -539,6 +532,13 @@ projects[alma_item_list][download][type]   = "git"
 projects[alma_item_list][download][url]    = "git@github.com:easySuite/alma_item_list.git"
 ;projects[alma_item_list][download][tag]    = "7.x-3.0.2"
 projects[alma_item_list][download][branch] = "development"
+
+projects[ding_user_header][type]             = "module"
+projects[ding_user_header][subdir]           = ""
+projects[ding_user_header][download][type]   = "git"
+projects[ding_user_header][download][url]    = "git@github.com:easySuite/ding_user_header.git"
+;projects[ding_user_header][download][tag]    = "7.x-3.0.5"
+projects[ding_user_header][download][branch] = "development"
 
 projects[ding_item_viewer][type]             = "module"
 projects[ding_item_viewer][subdir]           = ""
