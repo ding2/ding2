@@ -9,7 +9,7 @@
  *
  * This are the rules known from the ding campaign module.
  */
-function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
+function _ding_campaign_plus_facet_triggers_form($form, &$form_state) {
   $values = isset($form_state['values']['tabs']['other']['rules']) ? $form_state['values']['tabs']['other']['rules'] : array();
   $count = !empty($values['count']) ? $values['count'] : 0;
 
@@ -56,6 +56,7 @@ function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
 
   $triggers['add_rule'] = array(
     '#type' => 'button',
+    '#name' => 'add_more',
     '#value' => t('Add another'),
     '#ajax' => array(
       'callback' => '_ding_campaign_plus_rule_ajax_callback',
@@ -79,7 +80,7 @@ function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
  * @return array
  *   Form element - rule fields.
  */
-function _ding_campaign_plus_rule_ajax_callback(array $form, array $form_state) {
+function _ding_campaign_plus_facet_rule_ajax_callback(array $form, array $form_state) {
   return $form['triggers']['tabs']['other']['rules'];
 }
 
@@ -96,7 +97,7 @@ function _ding_campaign_plus_rule_ajax_callback(array $form, array $form_state) 
  * @return array
  *   Rule fields structure.
  */
-function _ding_campaign_plus_rule_form($number = 0, $rule = NULL, $type = NULL) {
+function _ding_campaign_plus_facet_rule_form($number = 0, $rule = NULL, $type = NULL) {
   $form = array(
     '#type' => 'fieldset',
     '#title' => t('Rule %num',array('%num' => $number)),
@@ -104,27 +105,50 @@ function _ding_campaign_plus_rule_form($number = 0, $rule = NULL, $type = NULL) 
     '#collapsed' => FALSE,
   );
 
-  $form['rule_type'] = array(
+  $options = array();
+  $facets = variable_get('ding_facetbrowser_facets', array());
+  foreach ($facets as $facet) {
+    $options[$facet['name']] = $facet['title'];
+  }
+
+  $form['facet_type'] = array(
     '#type' => 'select',
-    '#title' => t('Rule type'),
+    '#title' => t('Facet Type'),
     '#default_value' => ($type) ? $type : 'rule_page',
-    '#options' => array(
-      'page' => 'Page',
-      'event' => 'Event',
-      'news' => 'News',
-      'library' => 'Library',
-      'group' => 'Group',
-      'taxonomy' => 'Taxonomy term',
-    ),
+    '#options' => $options,
+    '#attributes' => array(
+      'class' => array('js-fact-type'),
+    )
   );
 
-  $form['rule_value'] = array(
+  $options = _ting_fetch_well_types();
+  $options = array_keys($options);
+  $form['facet_value_select_type'] = array(
+    '#type' => 'select',
+    '#title' => t('Facet'),
+    '#default_value' => ($type) ? $type : 'rule_page',
+    '#options' => $options,
+    '#multiple' => TRUE,
+    '#size' => min(8, count($options)),
+  );
+
+  $options = _ting_fetch_well_sources();
+  $options = array_keys($options);
+  $form['facet_value_select_source'] = array(
+    '#type' => 'select',
+    '#title' => t('Facet'),
+    '#default_value' => ($type) ? $type : 'rule_page',
+    '#options' => $options,
+    '#multiple' => TRUE,
+    '#size' => min(8, count($options)),
+  );
+
+  $form['facet_value'] = array(
     '#type' => 'textfield',
-    '#title' => t('Rule value'),
+    '#title' => t('Facet value'),
     '#default_value' => ($rule) ? $rule : '',
     '#size' => 64,
     '#maxlength' => 255,
-    '#autocomplete_path' => 'ding_campaign_plus/autocomplete/' . $type,
   );
 
   $form['remove_rule_' . $number] = array(
@@ -152,50 +176,8 @@ function _ding_campaign_plus_rule_form($number = 0, $rule = NULL, $type = NULL) 
  * @param string $input
  *   Input.
  */
-function _ding_campaign_plus_other_admin_autocomplete($type, $input) {
+function _ding_campaign_plus_facet_admin_autocomplete($type, $input) {
   $matches = array();
-
-  switch ($type) {
-    case 'page':
-     $query = db_select('node', 'n')
-       ->fields('n', array('nid', 'title'))
-       ->condition('title', '%' . db_like($input) . '%', 'LIKE')
-       ->range(0, 5);
-     $results = $query->execute();
-
-     foreach ($results as $node) {
-       $matches[$node->title . " [$node->nid]"] = check_plain($node->title);
-     }
-     break;
-
-    case 'event':
-    case 'news':
-    case 'library':
-    case 'group':
-      $query = db_select('node', 'n')
-        ->fields('n', array('nid', 'title'))
-        ->condition('title', '%' . db_like($input) . '%', 'LIKE')
-        ->condition('type', 'ding_' . $type)
-        ->range(0, 5);
-      $results = $query->execute();
-
-      foreach ($results as $node) {
-        $matches[$node->title . " [$node->nid]"] = check_plain($node->title);
-      }
-      break;
-
-    case 'taxonomy':
-      $query = db_select('taxonomy_term_data', 't')
-        ->fields('t', array('tid', 'name'))
-        ->condition('name', '%' . db_like($input) . '%', 'LIKE')
-        ->range(0, 5);
-      $results = $query->execute();
-
-      foreach ($results as $term) {
-        $matches[$term->name . " [$term->tid]"] = check_plain($term->name);
-      }
-      break;
-  }
 
   drupal_json_output($matches);
 }
@@ -203,7 +185,7 @@ function _ding_campaign_plus_other_admin_autocomplete($type, $input) {
 /**
  * @TODO: Documentation
  */
-function _ding_campaign_plus_other_triggers_form_submit($form, &$form_state) {
+function _ding_campaign_plus_facet_triggers_form_submit($form, &$form_state) {
   /**
    * TODO: Save data ?
    */

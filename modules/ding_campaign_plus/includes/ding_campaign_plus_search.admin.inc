@@ -9,6 +9,7 @@
  */
 function _ding_campaign_plus_search_triggers_form($form, &$form_state) {
   $triggers = array();
+/*
   $triggers['display_campaign_on'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Show campaign on'),
@@ -20,7 +21,7 @@ function _ding_campaign_plus_search_triggers_form($form, &$form_state) {
       'patron' => t('Patron status page'),
     ),
   );
-
+*/
   $triggers['limit'] = array(
     '#type' => 'textfield',
     '#title' => t('Percent of the results'),

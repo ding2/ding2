@@ -5,12 +5,51 @@
 (function ($) {
   'use strict';
 
-    Drupal.behaviors.ding_campaign_plus_auto_complete = {
+  /**
+   * Change handler for facet type selection.
+   *
+   * Fix facet selection boxes as #stats don't work with ajax forms and
+   * "add another".
+   *
+   * @param event
+   *   The event that triggered the handler.
+   */
+  function changeHandler(event) {
+    var fieldset = $(event.target).parentsUntil('fieldset');
+    switch (this.value) {
+      case 'facet.type':
+        $('div[class$="facet-value-select-type"]', fieldset).show();
+        $('div[class$="facet-value-select-source"]', fieldset).hide();
+        $('div[class$="facet-value"]', fieldset).hide();
+        break;
 
-      attach: function (context, settings) {
+      case 'facet.acSource':
+        $('div[class$="facet-value-select-source"]', fieldset).show();
+        $('div[class$="facet-value-select-type"]', fieldset).hide();
+        $('div[class$="facet-value"]', fieldset).hide();
+        break;
 
-      }
+      default:
+        $('div[class$="facet-value-select-type"]', fieldset).hide();
+        $('div[class$="facet-value-select-source"]', fieldset).hide();
+        $('div[class$="facet-value"]', fieldset).show();
     }
+  }
+
+  Drupal.behaviors.ding_campaign_plus_auto_complete = {
+    attach: function (context, settings) {
+      var facet_selectors = $('select[multiple="multiple"]', context);
+      facet_selectors.parent().hide();
+
+      var fact_type_selectors = $('.js-fact-type', context);
+
+      // When "add another" is clicked the attach behaviors is called more
+      // than once, so the simple solution was to unbind the event before
+      // bind to ensure only one handler.
+      fact_type_selectors.unbind('change', changeHandler);
+      fact_type_selectors.bind('change', changeHandler);
+    }
+  }
 
   // Drupal.behaviors.ding_campaign_init = {
   //     bindAutocomplete: function(obj, type) {

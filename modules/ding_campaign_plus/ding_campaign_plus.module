@@ -10,6 +10,7 @@ include_once 'ding_campaign_plus.features.inc';
 // Sadly they need to be include here an not in the alter function. If not
 // include here the ajax (add another etc.) will not work.
 include_once 'includes/ding_campaign_plus_other.admin.inc';
+include_once 'includes/ding_campaign_plus_facet.admin.inc';
 include_once 'includes/ding_campaign_plus_search.admin.inc';
 
 /**
@@ -72,11 +73,18 @@ function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$fo
     '#tree' => TRUE,
   );
 
-  // Defines search results tab.
-  $form['triggers']['tabs']['search'] = array(
+  // Defines facet tab.
+  $form['triggers']['tabs']['facet'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Search result'),
-    'rules' => _ding_campaign_plus_search_triggers_form($form, $form_state),
+    '#title' => t('Facet trigger'),
+    'rules' => _ding_campaign_plus_facet_triggers_form($form, $form_state),
+  );
+
+  // Defines ting object view tab.
+  $form['triggers']['tabs']['object'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Material view'),
+    //'rules' => _ding_campaign_plus_facet_triggers_form($form, $form_state),
   );
 
   // Defines other trigger methods (old ding campaign triggers).
