@@ -1,9 +1,19 @@
 /**
  * @file
- * Handle changes to auto complete callbacks when rule type is changed.
+ * Handle rules UI in the administration interface.
  */
 (function ($) {
   'use strict';
+
+  // The select type that have auto-complete callbacks.
+  var auto_complete_types = [
+    'page',
+    'event',
+    'news',
+    'library',
+    'group',
+    'taxonomy'
+  ];
 
   /**
    * Change handler for facet type selection.
@@ -14,7 +24,7 @@
    * @param event
    *   The event that triggered the handler.
    */
-  function changeHandler(event) {
+  function facetTypeChangeHandler(event) {
     var fieldset = $(event.target).parentsUntil('fieldset');
     switch (this.value) {
       case 'facet.type':
@@ -36,83 +46,84 @@
     }
   }
 
+  /**
+   * Rebuild auto-complete callbacks when rule type is changed.
+   *
+   * @param $context
+   *   The context the auto-complete is located in.
+   * @param value
+   *   The selected value in the rule type select.
+   */
+  function rebuild_autocomplete($context, value) {
+    var $obj = $('input.form-text', $context);
+    $obj.unbind().removeClass('form-autocomplete').addClass('autocomplete-processed');
 
+    // Remove span element (will be recreated).
+    $('#' + $obj.attr('id') + '-autocomplete-aria-live', $context).remove();
 
-  Drupal.behaviors.ding_campaign_plus_auto_complete = {
+    if (value === undefined) {
+      console.log($context);
+      value = $('select option:selected', $context).val();
+      console.log(auto_complete_types.indexOf(value));
+    }
+
+    // Add auto complete if the value is one that has aut-complete support.
+    if (auto_complete_types.indexOf(value) !== -1) {
+      $context.find('input.autocomplete')
+        .val('/ding_campaign_plus/autocomplete/' + value)
+        .removeClass('autocomplete-processed')
+        .end()
+        .find('input.form-text')
+        .addClass('form-autocomplete');
+
+      Drupal.attachBehaviors($context);
+    }
+  }
+
+  /**
+   *
+   * @type {{attach: Drupal.behaviors.ding_campaign_plus_facet_selectors.attach}}
+   */
+  Drupal.behaviors.ding_campaign_plus_facet_selectors = {
     attach: function (context, settings) {
       var facet_selectors = $('select[multiple="multiple"]', context);
       facet_selectors.parent().hide();
 
       var fact_type_selectors = $('.js-fact-type', context);
 
-      // When "add another" is clicked the attach behaviors is called more
-      // than once, so the simple solution was to unbind the event before
-      // bind to ensure only one handler.
-      fact_type_selectors.once('ding_campaign_init_start').each(function() {
-        $(this).bind('change', changeHandler);
+      // Bind change handler to the facet type selection dropdown.
+      fact_type_selectors.once('ding-campaign-plus-facet-type').each(function() {
+        $(this).bind('change', facetTypeChangeHandler);
       });
 
-      //fact_type_selectors.unbind('change', changeHandler);
-      //fact_type_selectors.
+      // Ensures that the UI selections are initialized correct.
       fact_type_selectors.trigger('change');
     }
   };
 
-  Drupal.behaviors.ding_campaign_init = {
-      bindAutocomplete: function(obj, type) {
-        // Add auto complete behavior to 'rule value' input.
-        $(obj).find('input.autocomplete')
-          .val(Drupal.settings.ding_campaign_init.autocompleteUrl + type)
-          .removeClass('autocomplete-processed')
-          .end()
-          .find('input.form-text')
-          .addClass('form-autocomplete');
+  Drupal.behaviors.ding_campaign_plus_other_triggers = {
+    attach: function (context, settings) {
+      var local_context = $('#ding-campaign-triggers', context);
 
-        Drupal.attachBehaviors($(obj));
-      },
+      // OnLoad actions.
+      $('fieldset', local_context).once('ding-campaign-plus-triggers').each(function() {
+        var $context = $(this);
 
-      rebuildAutocomplete: function ($context, value) {
-        var $obj = $('input.form-text', $context);
-        $obj.unbind().removeClass('form-autocomplete').addClass('autocomplete-processed');
+        // Rebuild auto complete.
+        rebuild_autocomplete($context);
+      });
 
-        // Remove span element (will be recreated).
-        $('#' + $obj.attr('id') + '-autocomplete-aria-live', $context).remove();
+      // OnChange event for 'rule type' dropdown.
+      $('select', local_context).once('ding-campaign-plus-trigger-type-select').change(function (event) {
+        var fieldset = $(event.target).parentsUntil('fieldset');
 
-        if (value == undefined) {
-          value = $('select option:selected', $context).val();
-        }
+        // Rebuild the auto-complete for the new type selected.
+        rebuild_autocomplete(fieldset, this.value);
 
-        if (value == 'rule_page' || value == 'rule_event' || value == 'rule_news' || value == 'rule_taxonomy' || value == 'rule_library') {
-          // Add auto complete.
-          Drupal.behaviors.ding_campaign_init.bindAutocomplete($context, value);
-        }
-      },
-
-      attach: function (context, settings) {
-        // OnLoad actions.
-        $('.ding-campaign-rule', context).once('ding_campaign_init_start').each(function() {
-          console.log(context);
-          var $context = $(this);
-          // Rebuild auto complete.
-          Drupal.behaviors.ding_campaign_init.rebuildAutocomplete($context);
-        });
-
-        // OnChange event for 'rule type' dropdown.
-        $('.ding-campaign-rule select', context).once('ding_campaign_init').change(function () {
-          var $context = $(this).parent().parent().parent();
-          var value = $(this).selected().val();
-
-          // Add/remove auto complete for 'rule value'.
-          $('.rule-value', $context).show();
-
-          // Remove auto complete.
-          // Needed to prevent duplicating autocomplete behavior.
-          Drupal.behaviors.ding_campaign_init.rebuildAutocomplete($context, value);
-
-          // Clear rule value on rule type change.
-          $('input.form-text', $context).val('');
-        });
-      }
+        // Clear rule value on rule type change.
+        $('input.form-text', fieldset).val('');
+      });
+    }
   };
 
 })(jQuery);

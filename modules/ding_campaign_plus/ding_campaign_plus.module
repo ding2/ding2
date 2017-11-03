@@ -44,7 +44,6 @@ function ding_campaign_plus_permission() {
   );
 }
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
  */

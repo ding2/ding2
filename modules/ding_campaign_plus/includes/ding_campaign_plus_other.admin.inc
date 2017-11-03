@@ -164,6 +164,7 @@ function _ding_campaign_plus_other_admin_autocomplete($type, $input) {
      $query = db_select('node', 'n')
        ->fields('n', array('nid', 'title'))
        ->condition('title', '%' . db_like($input) . '%', 'LIKE')
+       ->condition('type', 'ding_campaign_plus', '!=')
        ->range(0, 5);
      $results = $query->execute();
 
