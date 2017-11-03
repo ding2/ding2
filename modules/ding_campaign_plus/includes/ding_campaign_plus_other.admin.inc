@@ -16,7 +16,7 @@ function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
   // Check if remove button has been pressed. If so remove element from
   // form_state values.
   if (isset($form_state['triggering_element'])) {
-    if ($form_state['triggering_element']['#op'] === 'remove') {
+    if ($form_state['triggering_element']['#op'] === 'remove' && substr($form_state['triggering_element']['#name'], 0, 18) === 'remove_other_rule_') {
       $rule = 'rule_' . $form_state['triggering_element']['#rule'];
       unset($values[$rule]);
       unset($form_state['values']['tabs']['other']['rules'][$rule]);
@@ -24,10 +24,8 @@ function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
   }
 
   $triggers = array(
-    '#title' => '',
     '#prefix' => '<div id="ding-campaign-triggers">',
     '#suffix' => '</div>',
-    '#description' => '',
     '#attached' => array(
       'js' => array(
         drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus.admin.js',
@@ -39,15 +37,20 @@ function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
   // values.
   foreach ($values as $key => $value) {
     if (substr($key, 0, 4) === "rule") {
-      $triggers[$key] = _ding_campaign_plus_facet_rule_form(substr($key, 5), NULL, 'page');
+      $triggers[$key] = _ding_campaign_plus_other_rule_form(substr($key, 5), NULL, 'page');
     }
   }
 
   // If not a remove operation add one more element.
-  if (!isset($form_state['triggering_element']) || $form_state['triggering_element']['#op'] !== 'remove') {
-    $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count, NULL, 'page');
+  if (!isset($form_state['triggering_element'])) {
+    $triggers['rule_' . $count] = _ding_campaign_plus_other_rule_form($count, NULL, 'page');
   }
-  $count++;
+  else if ($form_state['triggering_element']['#name'] === 'add_another_rule') {
+    // Check if it was this sub-form that need another element added if not
+    // exit to prevent extra elements being generated.
+    $count++;
+    $triggers['rule_' . $count] = _ding_campaign_plus_other_rule_form($count, NULL, 'page');
+  }
 
   $triggers['count'] = array(
     '#type' => 'hidden',
@@ -57,8 +60,9 @@ function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
   $triggers['add_rule'] = array(
     '#type' => 'button',
     '#value' => t('Add another'),
+    '#name' => 'add_another_rule',
     '#ajax' => array(
-      'callback' => '_ding_campaign_plus_rule_ajax_callback',
+      'callback' => '_ding_campaign_plus_other_rule_ajax_callback',
       'wrapper' => 'ding-campaign-triggers',
       'method' => 'replace',
       'effect' => 'fade',
@@ -79,7 +83,7 @@ function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
  * @return array
  *   Form element - rule fields.
  */
-function _ding_campaign_plus_rule_ajax_callback(array $form, array $form_state) {
+function _ding_campaign_plus_other_rule_ajax_callback(array $form, array $form_state) {
   return $form['triggers']['tabs']['other']['rules'];
 }
 
@@ -96,7 +100,7 @@ function _ding_campaign_plus_rule_ajax_callback(array $form, array $form_state) 
  * @return array
  *   Rule fields structure.
  */
-function _ding_campaign_plus_rule_form($number = 0, $rule = NULL, $type = NULL) {
+function _ding_campaign_plus_other_rule_form($number = 0, $rule = NULL, $type = NULL) {
   $form = array(
     '#type' => 'fieldset',
     '#title' => t('Rule %num',array('%num' => $number)),
@@ -130,11 +134,11 @@ function _ding_campaign_plus_rule_form($number = 0, $rule = NULL, $type = NULL) 
   $form['remove_rule_' . $number] = array(
     '#type' => 'button',
     '#value' => t('Remove'),
-    '#name' => 'remove_rule_' . $number,
+    '#name' => 'remove_other_rule_' . $number,
     '#op' => 'remove',
     '#rule' => $number,
     '#ajax' => array(
-      'callback' => '_ding_campaign_plus_rule_ajax_callback',
+      'callback' => '_ding_campaign_plus_other_rule_ajax_callback',
       'wrapper' => 'ding-campaign-triggers',
       'method' => 'replace',
       'effect' => 'fade'

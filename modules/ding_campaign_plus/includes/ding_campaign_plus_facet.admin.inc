@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains the form functions used to build the "Other triggers" tabs.
+ * Contains the form functions used to build the "Facet triggers" tabs.
  */
 
 /**
@@ -10,24 +10,22 @@
  * This are the rules known from the ding campaign module.
  */
 function _ding_campaign_plus_facet_triggers_form($form, &$form_state) {
-  $values = isset($form_state['values']['tabs']['other']['rules']) ? $form_state['values']['tabs']['other']['rules'] : array();
+  $values = isset($form_state['values']['tabs']['facet']['rules']) ? $form_state['values']['tabs']['facet']['rules'] : array();
   $count = !empty($values['count']) ? $values['count'] : 0;
 
   // Check if remove button has been pressed. If so remove element from
   // form_state values.
   if (isset($form_state['triggering_element'])) {
-    if ($form_state['triggering_element']['#op'] === 'remove') {
+    if ($form_state['triggering_element']['#op'] === 'remove' && substr($form_state['triggering_element']['#name'], 0, 18) === 'remove_facet_rule_') {
       $rule = 'rule_' . $form_state['triggering_element']['#rule'];
       unset($values[$rule]);
-      unset($form_state['values']['tabs']['other']['rules'][$rule]);
+      unset($form_state['values']['tabs']['facet']['rules'][$rule]);
     }
   }
 
   $triggers = array(
-    '#title' => '',
-    '#prefix' => '<div id="ding-campaign-triggers">',
+    '#prefix' => '<div id="ding-campaign-facet-triggers">',
     '#suffix' => '</div>',
-    '#description' => '',
     '#attached' => array(
       'js' => array(
         drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus.admin.js',
@@ -44,10 +42,15 @@ function _ding_campaign_plus_facet_triggers_form($form, &$form_state) {
   }
 
   // If not a remove operation add one more element.
-  if (!isset($form_state['triggering_element']) || $form_state['triggering_element']['#op'] !== 'remove') {
+  if (!isset($form_state['triggering_element'])) {
     $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count, NULL, 'page');
   }
-  $count++;
+  else if ($form_state['triggering_element']['#name'] === 'add_another_facet') {
+    // Check if it was this sub-form that need another element added if not
+    // exit to prevent extra elements being generated.
+    $count++;
+    $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count, NULL, 'page');
+  }
 
   $triggers['count'] = array(
     '#type' => 'hidden',
@@ -56,11 +59,11 @@ function _ding_campaign_plus_facet_triggers_form($form, &$form_state) {
 
   $triggers['add_rule'] = array(
     '#type' => 'button',
-    '#name' => 'add_more',
+    '#name' => 'add_another_facet',
     '#value' => t('Add another'),
     '#ajax' => array(
-      'callback' => '_ding_campaign_plus_rule_ajax_callback',
-      'wrapper' => 'ding-campaign-triggers',
+      'callback' => '_ding_campaign_plus_facet_rule_ajax_callback',
+      'wrapper' => 'ding-campaign-facet-triggers',
       'method' => 'replace',
       'effect' => 'fade',
     ),
@@ -70,7 +73,7 @@ function _ding_campaign_plus_facet_triggers_form($form, &$form_state) {
 }
 
 /**
- * Return the other rules part of the form.
+ * Return the facet rules part of the form.
  *
  * @param array $form
  *   Form array.
@@ -81,7 +84,7 @@ function _ding_campaign_plus_facet_triggers_form($form, &$form_state) {
  *   Form element - rule fields.
  */
 function _ding_campaign_plus_facet_rule_ajax_callback(array $form, array $form_state) {
-  return $form['triggers']['tabs']['other']['rules'];
+  return $form['triggers']['tabs']['facet']['rules'];
 }
 
 /**
@@ -154,12 +157,12 @@ function _ding_campaign_plus_facet_rule_form($number = 0, $rule = NULL, $type = 
   $form['remove_rule_' . $number] = array(
     '#type' => 'button',
     '#value' => t('Remove'),
-    '#name' => 'remove_rule_' . $number,
+    '#name' => 'remove_facet_rule_' . $number,
     '#op' => 'remove',
     '#rule' => $number,
     '#ajax' => array(
-      'callback' => '_ding_campaign_plus_rule_ajax_callback',
-      'wrapper' => 'ding-campaign-triggers',
+      'callback' => '_ding_campaign_plus_facet_rule_ajax_callback',
+      'wrapper' => 'ding-campaign-facet-triggers',
       'method' => 'replace',
       'effect' => 'fade'
     ),
