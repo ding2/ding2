@@ -444,12 +444,6 @@ projects[thisted_event_import][download][url]    = "git@github.com:easySuite/thi
 ;projects[thisted_event_import][download][tag]    = "7.x-3.1.0"
 projects[thisted_event_import][download][branch] = "develop"
 
-projects[vejlebib_fbs][type]             = "module"
-projects[vejlebib_fbs][download][type]   = "git"
-projects[vejlebib_fbs][subdir]           = ""
-projects[vejlebib_fbs][download][url]    = "git@github.com:vejlebib/vejlebib_fbs.git"
-projects[vejlebib_fbs][download][branch] = "master"
-
 projects[ding_uninstall_modules][type]             = "module"
 projects[ding_uninstall_modules][download][type]   = "git"
 projects[ding_uninstall_modules][subdir]           = ""
@@ -553,3 +547,9 @@ projects[alma_reminder_service][download][type]   = "git"
 projects[alma_reminder_service][download][url]    = "git@github.com:easySuite/alma_reminder_service.git"
 ;projects[alma_reminder_service][download][tag]    = "7.x-3.0.2"
 projects[alma_reminder_service][download][branch] = "development"
+
+projects[vejlebib_fbs][type]             = "module"
+projects[vejlebib_fbs][download][type]   = "git"
+projects[vejlebib_fbs][subdir]           = ""
+projects[vejlebib_fbs][download][url]    = "git@github.com:vejlebib/vejlebib_fbs.git"
+projects[vejlebib_fbs][download][branch] = "master"
