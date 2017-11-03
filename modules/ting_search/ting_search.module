@@ -1030,19 +1030,6 @@ function ting_search_submit($form, &$form_state) {
   $fields = array();
 
   // TODO BBS-SAL: Add proper facet support here.
-  if (!empty($form_state['values']['material_type'])) {
-    if (!empty($keys)) {
-      $controls['facets'] = array('facet.type:' . $form_state['values']['material_type']);
-    }
-    // If there's no search string, add the facet.type search to the actual
-    // string, or the search would return no results.
-    else {
-      $keys = 'facet.type="' . $form_state['values']['material_type'] . '"';
-      $controls['sort'] = 'date_descending';
-    }
-
-  }
-
   // TODO BBS-SAL: Should this come from the provider? Its also present in the
   // alter for the form.
   $extended_fields = array(
