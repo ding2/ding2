@@ -11,6 +11,7 @@ use Stack;
 class SearchPage extends PageBase
 {
 
+
   /**
    * @var Stack $expectedResultsCount
    * Stack holding the number of result per search. Primarily used for testing facets.
@@ -32,7 +33,8 @@ class SearchPage extends PageBase
   /**
    * @var string $path
    */
-  protected $path = '/';
+
+  protected $path = '/search/ting/{string}';
 
   /**
    * @var array $searchResults
@@ -510,6 +512,104 @@ class SearchPage extends PageBase
     // "The hitchhiker's guide to the galaxy".
     $this->open(['string' => $string]);
   }
+
+
+  public function searchForCertainSize($interval, $listOfTerms, $publishedBetween)
+  {
+    // start by making some syntax analysis
+    $stdmsg = "You must give an interval, like '50-100'";
+    $lInterval=explode('-', $interval);
+    if (count($lInterval)!=2) {
+      return $stdmsg . " for requested size. To values separated with a dash, please.";
+    }
+    if (!is_numeric($lInterval[0]) || !is_numeric($lInterval[1])) {
+      return $stdmsg . " for requested size. You haven't given numeric values.";
+    }
+    $lPublished=explode('-', $publishedBetween);
+    if (count($lPublished)!=2) {
+      return $stdmsg . " for published date. Two numeric values with a dash between, please.";
+    }
+    if (!is_numeric($lPublished[0]) || !is_numeric($lPublished[1])) {
+      return $stdmsg . " for published date. You haven't given numeric values.";
+    }
+    // add a preceeding "and" to the terms so we can search with them.
+    $listOfTerms = (strlen($listOfTerms)>0) ? ' and ' . $listOfTerms : '';
+    // we start in the first year
+    // lHigh* is upper limit, lLow* is lower limit. llast* holds the currently used interval.
+    $lHighYear=$lPublished[0];
+    $lLowYear=$lPublished[0];
+
+    $llastLow = $lLowYear;
+    $llastHigh = $lHighYear;
+
+    // now do a search
+    $this->open(['string' => urlencode("term.date>=" . $lLowYear . " and term.date<=" . $lHighYear . $listOfTerms)] );
+
+    // find out how many we got and log it for the tester, to see what is going on
+    $hits = $this->getShownSizeOfSearchResult();
+    $this->logMsg(true, "[" . $lLowYear . ";" . $lHighYear . "]=" . $hits . " resultater\n");
+
+    // we want to just try max 25 times to get a suitable size of search result .
+    // If it takes this long we either have a huge interval to search
+    // or we have searched ourselves into a rathole, so then it's time to end searching by then.
+    $attempts = 25;
+    while (--$attempts>0 && ($hits<$lInterval[0] || $hits>$lInterval[1])) {
+      if ($hits<$lInterval[0]) {
+        // add a year because we found less than what we want:
+        // first attempt to raise the upper year.. and else we try to decrease the lower year
+        if ($lHighYear<$lPublished[1]) {
+          // we add around half of what we can - this is a binary search method. We could also just add one, but
+          // tests have shown that this gives the result we want in less searches.
+          $lHighYear = $lHighYear + intdiv($lPublished[1]-$lHighYear, 2);
+        } else {
+          // alright - we are here because the upper year is already at the end of the interval we search within
+          // so now we try to lower the lower year.
+          if ($lLowYear>$lPublished[0]) {
+            $lLowYear--;
+          } else {
+            // by now we have to throw in the towel..
+            return "Tried the entire interval, but couldn't find a suitable search result size.";
+          }
+        }
+      }
+      // now see if we get more hits than we wanted. In that case, we will try to move the lower year up,
+      // while 'pushing' the upper year with it so they never cross
+      if ($hits>$lInterval[0]) {
+        // move up lower year - again, binary search style, but taking into account that the difference between
+        // the upper and lower may be just one year.
+        $lLowYear = ($lHighYear-$lLowYear>1) ? $lLowYear + intdiv($lHighYear-$lLowYear, 2) : $lLowYear+1;
+        // now fix the upper year so upper is always >= lower
+        $lHighYear = ($lHighYear<$lLowYear) ? $lLowYear : $lHighYear;
+      }
+      // if we moved the lower year beyond the upper interval we search within, we throw in the towel
+      if ($lLowYear>$lPublished[1]) {
+        return "Tried all the years in given interval, without finding a result of the requested size.";
+      }
+      // do another search, unless this search is identical to the one we just did
+      if (!($llastHigh == $lHighYear && $llastLow == $lLowYear))
+      {
+        // save these years as new last-tries
+        $llastLow = $lLowYear;
+        $llastHigh = $lHighYear;
+        $this->open(['string' => urlencode("term.date>=" . $lLowYear . " and term.date<=" . $lHighYear . $listOfTerms)] );
+
+        $hits = $this->getShownSizeOfSearchResult();
+        $this->logMsg(true,  "[" . $lLowYear . ";" . $lHighYear . "]=" . $hits . " resultater\n");
+
+      }
+
+    }
+
+    // so - how did this go then?
+    if ($hits <= $lInterval[1] && $hits >= $lInterval[0]) {
+      // success... we have a result within the limits
+      return "";
+    } else {
+      return "Could not find a search result within the limits. Adjust the criteria.";
+    }
+  }
+
+
 
   public function setMaxPageTraversals($maxPages) {
     $this->maxPageTraversals = $maxPages;

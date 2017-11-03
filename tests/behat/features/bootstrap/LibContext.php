@@ -114,6 +114,32 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * @Then I check if the right number of search results are shown
+   *
+   * The methods "I use facets to reduce..." sets $this->>expectedResultsCount and must
+   * be used before this is called, otherwise it will fail with that message.
+   */
+  public function checkIfTheRightNumberOfSearchResultsAreShown()
+  {
+    // scrape off the search result size from the page. This is displayed on every search result page
+    $resultSize = $this->searchPage->getShownSizeOfSearchResult();
+    if ($resultSize < 0) {
+      print_r($this->searchPage->getMessages());
+      throw new Exception ("Couldn't find a search result size on page.");
+    }
+
+    // Now compare to the expected number
+    if ($this->searchPage->getExpectedSearchResultSize() != 0 ) {
+      if ($this->searchPage->getExpectedSearchResultSize() != $resultSize)
+      {
+        throw new Exception ("Fandt ikke det forventede antal poster. (Fandt: " . $resultSize . ". Forventede:" . $this->searchPage->getExpectedSearchResultSize() . ")");
+      }
+    } else {
+      throw new Exception ("An expected number was never set. Use facets to set it.");
+    }
+  }
+
+  /**
    * @When I enter :text in field :field
    *
    * Type text character by character, with support for newline, tab as \n and \t
@@ -472,6 +498,46 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
   }
 
+  /**
+   * @Given I want a search result between :interval using :listOfTerms published between :publishedInterval
+   *
+   * Makes a series of searches until the search result is satisfactory.
+   * One example of usage is: Given I want a search result between "50-100" using "term.type=bog AND term.publisher=Gyldendal" published between "2000-2017"
+   * :interval     = "50-75" lower and upper acceptable number of search results.
+   *                         (this is compared to the number of posts found)
+   * :listOfTerms  = "term.type=ebog;term.publisher=Gyldendal"
+   * :publishedInterval = year interval of publishing, ex. "1995-2017".
+   *
+   * The method will use all the listOfTerms, but alter the dates published until a satisfactory
+   * amount of results are found. It will try first only the earliest year (ex. 1995) and if too
+   * few, then it will add another year - and keep adding years until it reaches 2017. If still too
+   * few with the full interval, it will fail.
+   * If too many, it will move up one year, until it has tried all years.
+   * With verbose of searchResults = on it will log it's attempts.
+   * If unable to reach a searchresult of the wanted size it will fail.
+   *
+   */
+  public function searchForResultOfCertainSizeUsingInterval($interval, $listOfTerms, $publishedBetween)
+  {
+     $result = $this->searchPage->searchForCertainSize($interval, $listOfTerms, $publishedBetween);
+     print_r($this->searchPage->getMessages());
+     if ($result != "") {
+       throw new Exception( $result);
+     }
+  }
+
+  /**
+   * @When I set (the) number of results per page to :size
+   *
+   */
+  public function setTheNumberOfResultsPerPageToSize($size)
+  {
+    $result = $this->searchPage->setTheNumberOfResultsPerPageToSize($size);
+    if ($result!="") {
+      throw new Exception ($result);
+    }
+  }
+
 
   /**
    * @Given I want verbose mode for :area to be :onoff
@@ -640,6 +706,49 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
     return $returnString;
   }
+
+
+  /**
+   * @When I deselect a facet to increase the search results
+   *
+   * Runs through the facets and deselects one. Note, this will fail if facets have not been selected already
+   */
+  public function useFacetsToIncreaseSearchResults()
+  {
+    // start by logging what we start out with.
+    print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
+
+    $result = $this->searchPage->useFacetsToIncreaseSearchResults();
+    print_r($this->searchPage->getMessages());
+    if ($result!="") {
+      throw new Exception ($result);
+    }
+
+  }
+
+  /**
+   * @When I use facets to reduce the search results to the highest possible
+   *
+   * Runs through the facets and selects the highest number of results possible
+   */
+  public function UseFacetsToReduceSearchResultsToTheHighestPossible()
+  {
+    // start by initialising the stack if necessary and reveal which number we are starting with
+    if ($this->searchPage->getExpectedSearchResultSize() < 0) {
+      $this->searchPage->setExpectedSearchResultSize($this->searchPage->getShownSizeOfSearchResult());
+    }
+    print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
+
+    $result = $this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible();
+
+    print_r($this->searchPage->getMessages());
+    if ($result!="") {
+      throw new Exception ($result);
+    }
+  }
+
+
+
 
 
   /**

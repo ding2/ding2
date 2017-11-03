@@ -1,8 +1,12 @@
 Feature: SEEK redroute 01
   In order to check searches on the DDB CMS
   As a user
-  I want to do searches and examine the search result for
-  - correct use of æ, ø and å (danish letters)
+  I want to do searches and examine the search result for the followingw
+  which refers to the lines in the redroute spreadsheet for testing searching (seek001 is line 1)
+  - correct use of æ, ø and å (danish letters) (seek001)
+  - check openscan suggestions (seek004)
+  - check testing using enter and by clicking search button (seek005)
+  - pagination on search result pages (seek007)
 
   Background:
     Given I am on "/"
@@ -45,3 +49,11 @@ Feature: SEEK redroute 01
     When I press "Søg"
     Then pageing allows to get all the results
 
+  @api @seek007 @seekNologin @newbehat
+  Scenario: Check pagination
+    Given I set control mode for "searchMaxPages" to be "100"
+    And I set verbose mode for "searchResults" to be "on"
+    Given I want a search result between "81-110" using "term.type=bog and term.creator=Hansen and term.publisher=Gyldendal" published between "2000-2017"
+    When pageing allows to get all the results
+    #When I use pagination to go to page "første"
+    #Then I check pagination on all pages
