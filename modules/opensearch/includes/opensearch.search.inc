@@ -526,3 +526,72 @@ function opensearch_search_sort_options() {
     ],
   ];
 }
+
+/**
+ * Helper function to create data well 3 PID's from faust/record id.
+ *
+ * This function is placed in the provider and not "ting" module as the
+ * providers uses it and we don't want to have a binding from providers to ting.
+ *
+ * @param mixed $ids
+ *   A string with a single faust to be translated.
+ *   An array with multiple faust to be translated.
+ *
+ * @return mixed
+ *   Single faust: A string with data well PID.
+ *   Array of fausts: An array with data well PIDs keyed be the original faust.
+ *   In both cases, if a faust couldn't be translated, the PID will be the
+ *   original faust with the standard DBC namespace "870970-basis:".
+ */
+function opensearch_search_object_ids($ids) {
+  if (is_array($ids) && !empty($ids)) {
+    $translated_ids = array();
+
+    // Open search is limited to 50 results per call, so split up in chunks to
+    // ensure we get PIDs for all passed local IDs.
+    foreach (array_chunk($ids, 50) as $chunk) {
+      $query = 'rec.id any "' . implode(" ", $chunk) . '" AND facet.acSource=bibliotekskatalog';
+      // Ensure that the work match in opensearch doesn't hide ids for us.
+      $options['collectionType'] = 'manifestation';
+      $res = ting_do_search($query, 1, count($chunk), $options);
+
+      // Sometimes the well will be unreachable or not even one of the ids in
+      // chunk was searchable. In any case, this protects against a notice.
+      if (empty($res)) {
+        continue;
+      }
+
+      foreach ($res->collections as $pid => $collection) {
+        $faust = explode(':', $pid)[1];
+        if ($key = array_search($faust, $ids)) {
+          $translated_ids[$faust] = $pid;
+          unset($ids[$key]);
+        }
+      }
+    }
+
+    // The faust left in ids array where not searchable and we could therefore
+    // not determine the proper namespace. Since it's possible to load objects
+    // separately, that are not searchable with the library's agencyid, the best
+    // we can do here is to use the standard DBC agency id, which is used for
+    // basis-records. The providers can then try ting_get_object with this PID,
+    // which may work (if it's not an inter-library loan of a local post).
+    // TODO: We should provide a separate mechanism for translating faust
+    // without holdingsitem.agencyid filter. This way the providers will know
+    // which materials can be searched with the current agency id and generate
+    // a link to them.
+    //
+    foreach ($ids as $faust) {
+      $translated_ids[$faust] = '870970-basis:' . $faust;
+    }
+
+    return $translated_ids;
+  }
+  elseif (is_numeric($ids)) {
+    $obj = ting_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
+    $entity_id = ($obj) ? key($obj->collections) : '870970-basis:' . $ids;
+
+    return $entity_id;
+  }
+  return FALSE;
+}
