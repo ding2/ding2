@@ -108,8 +108,7 @@ function ting_search_ding_facetbrowser() {
   $results->show_empty = FALSE;
   $search_result = ting_search_current_results();
   if ($search_result) {
-    // TODO BBS-SAL: Add proper facet support here.
-    $results->facets = ($search_result->openSearchResult instanceof TingClientSearchResult) ? $search_result->openSearchResult->facets : array();
+    $results->facets = $search_result->getFacets();
     $results->searchkey = $search_result->getSearchRequest()->getFullTextQuery();
     return $results;
   }
@@ -170,7 +169,6 @@ function ting_search_get_extended_actions() {
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   // Define advanced fields.
-  // TODO: BBS-SAL - is this form actually exposed?
   $advanced_fields = array(
     'term.creator' => array(
       'key' => 'creator',
@@ -422,8 +420,6 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   // Use static variable to ensure that this is only executed once.
   $results = &drupal_static(__FUNCTION__);
   if (!isset($results)) {
-    $results = array();
-    $options = array();
     $results = array();
     $query = ting_start_query()->setFullTextQuery($keys);
     $query->setTermsPrFacet(variable_get('ting_search_number_of_facets', 25));
@@ -1029,7 +1025,6 @@ function ting_search_submit($form, &$form_state) {
   $keys = $form_state['values'][$form_id];
   $fields = array();
 
-  // TODO BBS-SAL: Add proper facet support here.
   // TODO BBS-SAL: Should this come from the provider? Its also present in the
   // alter for the form.
   $extended_fields = array(
