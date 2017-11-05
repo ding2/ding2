@@ -70,3 +70,14 @@ Feature: SEEK redroute 01
     When pageing allows to get all the results
     Then all posts have "materialetype" in the search results
 
+  @api @seek014 @seekNologin @newbehat
+  Scenario: Check tilgængelighed is shown on search result
+    Given I have searched for "phrase.titleSeries=All*"
+    When pageing allows to get all the results
+    Then all posts have "tilgængelighed" in the search results
+
+  @api @seek015 @seekNologin @newbehat
+  Scenario: Check samlinger is shown on search result
+    Given I have searched for "phrase.titleSeries=Harry*"
+    When pageing allows to get all the results
+    Then there are posts with "materialesamling" in the search results
