@@ -51,6 +51,274 @@ class SearchPage extends PageBase
    */
   protected $verboseSearchResults = 'off';
 
+  /**
+   * Version 4: Checks if the pagination elements are shown correctly on page
+   *
+   * First page:   (1) 2 Næste
+   * Second :      forrige 1 (2) 3 Næste
+   * Third:        første forrige 1 2 (3) 4 Næste
+   * Fourth:       første forrige 1 2 3 (4) 5 Næste
+   * etc...
+   * Last page:    første forrige (...) 9 10 11 12 13 14 15 16 (17)   (so næste is not shown)
+   *               første forrige (...) 4 5 6 7 8 9 10 (11) 12 næste
+   * so always show the next page + Næste, and
+   *           all previously shown pages (up to 7 previous, which means ellipsis is shown from ?page=8
+   *
+   * returns a text string containing any deviances found. It doesn't fail on its own. If the returned
+   * string is empty, there was no problems found.
+   *
+   */
+  public function checkPaginationElements()
+  {
+    // check if the pagination elements are shown
+    $pg = $this->findAll('css', $this->elements['pager-elements']);
+    if (!$pg) {
+      return "Pagination elements are not shown.";
+    }
+
+    // find out which is the current page. This goes into our checks
+    $curpg = $this->getCurrentPage();
+
+    // these vars collect our check results.
+    $xte = 0;           //pagination element counter
+    $pgFirst = -1;
+    $pgForrige = -1;
+    $pgNaeste = -1;
+    $pgEllipse = 0;
+    $pgLast = 0;
+    foreach($pg as $pElement) {
+      $pElementText = $pElement->getAttribute('class');
+      $xte++;
+      switch ($pElementText) {
+        case "pager-first first":
+          if (null !== $pElement->find('css', 'a')) {
+            $pgFirst = $xte;
+          }
+          break;
+        case "pager-previous":
+        case "pager-previous first":
+          if (null !== ($pElement->find('css', 'a'))) {
+            $pgForrige = $xte;
+          }
+          break;
+        case "pager-next last":
+          if (null !== $pElement->find('css', 'a')) {
+            $pgNaeste = $xte;
+          }
+          break;
+        case "pager-ellipsis":
+          // in version 4 we can have up to two ellipses
+          $pgEllipse++;
+          break;
+        case "pager-current":
+          // we must not have a link on this page
+          $this->logMsg((null !==$pElement->find('css', 'a')), "Pagination has link to current page");
+          break;
+        default:
+          // count the number of links we can go to
+          if (null !== $pElement->find('css', 'a')) {
+            $pgLast++;
+          }
+      }
+    }
+    # now do the checks of placements
+    switch ($curpg) {
+      case 1:
+        # we don't want to see first, forrige
+        $this->logMsg(($pgFirst != -1), "Pagination: 'første' is shown on page 1.");
+        $this->logMsg(($pgForrige != -1), "Pagination: 'forrige' is shown on page 1");
+        // we don't want to see more than 2 indexes if we are on page 1
+        $this->logMsg(($pgEllipse > 1), "Pagination: Elipsis was shown on page 1");
+        $this->logMsg(($pgLast > 2), "Pagination: on page 1 we only expect link to next page");
+        //$this->logMsg(($curpg>=$pgLast and $pgNaeste != -1), "Pagination: 'Næste' is shown on last page (" . $curpg . ")");
+        //$this->logMsg(($curpg<$pgLast and $pgNaeste == -1), "Pagination: 'Næste' is not shown on page " . $curpg );
+
+        break;
+      case 2:
+        # we don't want to see first yet, but we want to see forrige
+        $this->logMsg(($pgFirst != -1), "Pagination: 'Første' is shown on page 2");
+        $this->logMsg(($pgForrige == -1), "Pagination: 'Forrige' is not shown on page 2");
+        $this->logMsg(($pgEllipse > 1), "Pagination: Elipsis not expected more than once on page 2");
+        $this->logMsg(($pgLast != 2), "Pagination: on page 2 we can go to more than page 1 and 3. Unexpected.");
+        //$this->logMsg(($curpg>=$pgLast and $pgNaeste != -1), "Pagination: 'Næste' is show on last page (" . $curpg . ")");
+        //$this->logMsg(($curpg<$pgLast and $pgNaeste == -1), "Pagination: 'Næste' is not shown on page " . $curpg);
+
+        break;
+      default:
+        # this goes for the remaining pages
+        $this->logMsg(($pgFirst == -1), "Pagination: 'Første' is not shown on page " . $curpg);
+        $this->logMsg(($pgForrige == -1), "Pagination: 'Forrige' is not shown on page " . $curpg);
+        $this->logMsg(($pgLast >= ($curpg + 1)), "Pagination: on page " . $curpg . " we can go to more than page " . $pgLast . " directly");
+        $this->logMsg(($pgEllipse > 2), "Pagination: Ellipsis should not be shown more than once on page " . $curpg);
+        $this->logMsg(($pgEllipse == 0), "Pagination: Ellipsis should at least be shown once on page " . $curpg);
+        //$this->logMsg(($curpg>$pgLast and $pgNaeste != -1), "Pagination: 'Næste' is shown on last page (" . $curpg . ")");
+        //$this->logMsg(($curpg<=$pgLast and $pgNaeste == -1), "Pagination: 'Næste' is not shown on page " . $curpg );
+
+        break;
+    }
+
+
+  }
+
+  public function checkPaginationOnAllPages() {
+    // first we check if we have a known search result in memory
+
+    $lastsearch = count($this->searchResults);
+    if (!$lastsearch)
+    {
+      return "No search result is present in memory. Use 'Then pageing allows to get all the results' first.";
+    }
+
+    // we've got to have more than 7 pages in the search result.
+    // if not we can't test everything
+    $lastpage = $this->searchResults[$lastsearch-1]->page;
+
+    // check all pages now
+
+    for($i = 0; $i < ($lastpage-1); $i++) {
+      // move to page using the pagination link.
+      $result = $this->goToPage(($i+1));
+      if ($result != "") {
+        return "Could not go to page " . $i+1 . ": " . $result;
+      }
+      // check that the pagination elements are shown correctly for this page
+      $this->logMsg(true, $this->checkPaginationElements());
+
+      // now check that the page contains the titles we expect, as we collected earlier (and if we didn't this will fail).
+      // Notice that the collection of search result uses the direct URL and not the pagination, which we check in this function.
+      $lRes = $this->getPageFullOfSearchResults(($i+1));
+
+      $this->LogMsg(true, $this->checkSearchResultPageAgainstKnownContent($lRes));
+    }
+
+    return "";
+
+  }
+
+  public function checkPostsWithXXInTheSearchResult($attribute, $mode)
+  {
+    $lastsearch = count($this->searchResults);
+
+    # just one is okay
+    $txt_accessibility = false;
+    $txt_cover = false;
+    $txt_materiale = false;
+    $txt_isSamling = false;
+    $txt_serie = false;
+    $txt_forfatterbeskrivelse = false;
+    $okay = false;
+
+    # we do the reverse if we expect all posts to have the attribute:
+    if ($mode=="all") {
+      $txt_accessibility = true;
+      $txt_cover = true;
+      $txt_materiale = true;
+      $txt_isSamling = true;
+      $txt_serie = true;
+      $txt_forfatterbeskrivelse = true;
+      $okay = true;
+    }
+
+    if (!$lastsearch or $lastsearch==0)
+    {
+      return "Search result is not found.";
+    }
+    for($i=0; $i<$lastsearch-1; $i++) {
+
+      if ($mode == "all") {
+        // set to false, and keep it false, if any one is not found in the entire result
+        $txt_accessibility = (strlen($this->searchResults[$i]->access) == 0) ? false : $txt_accessibility;
+        $txt_cover = (strlen($this->searchResults[$i]->cover)==0 ) ? false : $txt_cover;
+        $txt_isSamling = (!$this->searchResults[$i]->collection) ? false : $txt_isSamling;
+        $txt_materiale = (strlen($this->searchResults[$i]->link) == 0 ) ? false : $txt_materiale;
+        $txt_serie = (strlen($this->searchResults[$i]->serie) == 0 ) ? false : $txt_serie;
+
+      } else {
+        // set to true, and keep it as true in case at least one exists
+        $txt_accessibility = ($this->searchResults[$i]->access != "") ? true : $txt_accessibility;
+        $txt_cover = (strcmp($this->searchResults[$i]->cover, '') ) ? true : $txt_cover;
+        $txt_isSamling = ($this->searchResults[$i]->collection) ? true : $txt_isSamling;
+        $txt_materiale = ($this->searchResults[$i]->link != "" ) ? true : $txt_materiale;
+        $txt_serie = ($this->searchResults[$i]->serie != "" ) ? true : $txt_serie;
+      }
+
+    }
+    switch(strtolower($attribute)) {
+      case 'tilgængelig':
+      case 'tilgængelighed':
+        $okay = $txt_accessibility;
+        break;
+      case 'forside':
+      case 'cover':
+        $okay = $txt_cover;
+        break;
+      case 'materialesamling':
+        $okay = $txt_isSamling;
+        break;
+      case 'forfatterbeskrivelse':
+        $okay = $txt_forfatterbeskrivelse;
+        break;
+      case 'materialetype':
+        $okay = $txt_materiale;
+        break;
+      case 'serie':
+        $okay = $txt_serie;
+        break;
+
+    }
+
+
+    if (!$okay) {
+      if ($mode == "all") {
+        return "Not all posts have " . $attribute . " in the search result.";
+      } else {
+        return "Found none with " . $attribute . " in the search result.";
+      }
+    }
+
+
+  }
+
+
+  /**
+   * This collects all search results shown on the current page and compares to the array given as parameter
+   * containing the expected results for that page.
+   *
+   * @param $sRes - the last known search result, but notice, only the ones on the given page.
+   * @return string containing any found deviances. Empty if a-okay
+   * @throws Exception if we haven't done a search before this is invoked
+   */
+  public function checkSearchResultPageAgainstKnownContent($sRes)
+  {
+    // find all the titles in the search result
+    $founds = $this->findAll('css', '.search-results .ting-object h2 a');
+    if (!$founds) {
+      return "Couldn't find search result.";
+    }
+
+    // count of items on page from top (works as placement on page as well)
+    $xte = 0;
+    $txt = "";
+    foreach ($founds as $srItem) {
+      //  fail if we reach the end of the expected results.
+      if ($xte == count($sRes) ) {
+        $txt = $txt . "Found more on page than expected. Expected: " . $xte . ". \n";
+      }
+
+      // compare, unless we're above the array index
+      if ($xte < count($sRes)) {
+        if ($srItem->getText() != $sRes[$xte]->title) {
+          $txt = $txt . "Title #" . $xte . " not found. (Expected/Actual)=(" . $sRes[$xte]->title . "/" . $srItem->getText() . ")\n";
+        }
+      }
+      $xte++;
+    }
+    if ($xte<count($sRes)) {
+      $txt = $txt . "Expected more titles on page. (Actual " . ($xte-1) . ", expected " . count($sRes) . ")\n";
+    }
+    return $txt;
+  }
+
 
 
   /**
@@ -105,6 +373,38 @@ class SearchPage extends PageBase
   public function getActualSearchResultSize() {
     return count($this->searchResults);
   }
+
+  /**
+   * @return string - the page number of the current search result page
+   * Notice, it fails if the pagination element for current page is not present on the page
+   */
+  public function getCurrentPage()
+  {
+    // fail if there's not a current-page element on the pagination. We don't actually use the $curpg for anything
+    // just to let getElement fail if not present.
+    $curpg = $this->getElement("pager-current");
+
+    // now pick out the page number from the URL, bearing in mind it may be nonexistant, in which case we are on page 1
+    $url = $this->getSession()->getCurrentUrl();
+    if ($url != "") {
+      $urlElements = parse_url($url);
+      if (array_key_exists('query', $urlElements)) {
+        // we have parameters in link url
+        parse_str($urlElements['query'], $urlParams);
+        if (!array_key_exists('page', $urlParams)) {
+          // we didn't get a page parameter in link url
+          return 1;
+        } else {
+          // we got a page parameter. Check it's value against the page number we are looking for
+          return $urlParams['page']+1;
+        }
+      } else {
+        // no parameters at all would indicate the first page. That's okay, if that is what we were looking for
+        return 1;
+      }
+    }
+  }
+
 
   /**
    *   Building the entire search result into an array
@@ -379,6 +679,27 @@ class SearchPage extends PageBase
   }
 
   /**
+   * This returns an array containing the search results we expect to show on a particular page
+   *
+   * @param $sRes - the searchresult array we want to test against
+   * @param $pageNum - the actual page we want to look at and extract
+   * @return array of search results - the subset from $sRes which is contained on the wanted page
+   */
+  public function getPageFullOfSearchResults($pageNum) {
+    // set up the array
+    $lRes = array();
+    // run through the entire search result we have stored.
+    for ($i = 0; $i<count($this->searchResults); $i++) {
+      // add search results belong to the requested page to the array we return.
+      if ($this->searchResults[$i]->page == $pageNum) {
+        $lRes[] = $this->searchResults[$i];
+      }
+    }
+    return $lRes;
+  }
+
+
+  /**
    * @return string : empty if ok, otherwise the error message.
    */
   public function getOpenScanSuggestions() {
@@ -404,14 +725,14 @@ class SearchPage extends PageBase
     // it also takes a bit for the page to get the dynamics of the suggestions done. So we wait again
     $max = 300;
     $cnt=0;
-    while (--$max>0 && !$found->findAll("css", $this->elements['autocompleteList'])) {
+    while (--$max>0 && !$found->findAll("css", $this->elements['autocomplete-list'])) {
       usleep(100);
       // refresh the search
       $found = $this->getElement('autocomplete');
     }
 
     // now we list the suggestions given.
-    foreach ($found->findAll("css", $this->elements['autocompleteList']) as $suggestion) {
+    foreach ($found->findAll("css", $this->elements['autocomplete-list']) as $suggestion) {
       $this->logMsg(true, $suggestion->getText() . "\n");
       $cnt++;
     }
@@ -454,6 +775,57 @@ class SearchPage extends PageBase
    */
   public function getVerboseSearchResult() {
     return $this->verboseSearchResults;
+  }
+
+  public function goToPage($toPage) {
+    // this is counter intuitive, but page 2 will have parameter "page=1", so we
+    // start by subtracting 1.
+    $toPage = $toPage - 1;
+    $paginations = $this->findAll('xpath', $this->elements['pager-links']);
+    // initialise link - the index into the array.
+    $link = -2;
+
+    for($i=0; $i<count($paginations); $i++) {
+      // pick out the pagination link
+      $url = $paginations[$i]->getAttribute('href');
+
+      if (!$url) {
+        return "Could not find a correct link in pagination elements to pages.";
+      }
+
+      // Now check if we can get the page parameter from the link
+      // It's okay if no parameters at all --> page 1. Similar if parameters are given, but 'page' is not --> page 1.
+      $urlElements = parse_url($url);
+
+      if (array_key_exists('query', $urlElements)) {
+        // we have parameters in link url
+        parse_str($urlElements['query'], $urlParams);
+        if (!array_key_exists('page', $urlParams)) {
+          // we didn't get a page parameter in link url
+          if ($toPage==0) {
+            // so we are home free if we were looking for first page
+            $link = $i;
+          }
+        } else {
+          // we got a page parameter. Check it's value against the page number we are looking for
+          if ($toPage == $urlParams['page']) {
+            $link = $i;
+          }
+        }
+      } else {
+        // no parameters at all would indicate the first page. That's okay, if that is what we were looking for
+        if ($toPage==0) {
+          $link = $i;
+        }
+      }
+    }
+    if ($link < 0) {
+      return "Go to page error. Could not find the requested page " . $toPage . " in pagination.";
+    }
+    // now let's go to that page.
+    $this->scrollTo($paginations[$link]);
+    $paginations[$link]->click();
+    $this->waitForPage();
   }
 
   /**

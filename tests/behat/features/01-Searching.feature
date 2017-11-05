@@ -49,7 +49,7 @@ Feature: SEEK redroute 01
     When I press "Søg"
     Then pageing allows to get all the results
 
-  @api @seek007 @seekNologin @newbehat
+  @api @seek007 @seekNologin @regression
   Scenario: Check pagination
     Given I set control mode for "searchMaxPages" to be "100"
     #And I set verbose mode for "searchResults" to be "on"
@@ -57,4 +57,16 @@ Feature: SEEK redroute 01
     When pageing allows to get all the results
     #When I use pagination to go to page "1"
     Then I check pagination on all pages
+
+  @api @seek010  @seekNologin @regression
+  Scenario: Check serie-angivelse is shown on search result
+    Given I have searched for "phrase.titleSeries=B*"
+    When pageing allows to get all the results
+    Then there are posts with "serie" in the search results
+
+  @api @seek011 @seekNologin @regression
+  Scenario: Check materialetype is shown on search result
+    Given I have searched for "phrase.titleSeries=A*"
+    When pageing allows to get all the results
+    Then all posts have "materialetype" in the search results
 

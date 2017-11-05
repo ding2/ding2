@@ -212,6 +212,22 @@ class LibContext implements Context, SnippetAcceptingContext {
 
 
 
+  /**
+   * @Then there are posts with :attribute in the search results
+   */
+  public function findPostsWithXXInTheSearchResult($attribute)
+  {
+    $this->searchPage->checkPostsWithXXInTheSearchResult($attribute, "some");
+  }
+
+  /**
+   * @Then all posts have :attribute in the search results
+   */
+  public function findPostsAllHaveXXInTheSearchResult($attribute)
+  {
+    $this->searchPage->checkPostsWithXXInTheSearchResult($attribute, "all");
+  }
+
 
   /**
    * getPage - quick reference to the getPage element. Makes code more readable.
