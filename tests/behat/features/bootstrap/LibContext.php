@@ -140,6 +140,31 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * @Then I check pagination on all pages
+   *
+   * This is meant only to be used after a multipage search when pageing is in place.
+   *
+   * It goes through the latest stored search result and finds a random page which is accessible on the
+   * currently displayed page, and go to that one.
+   * Notice that the way to move to a particular page is to go to the link /search/thing/<searchcrit>?page=n
+   * where n = 1 yields page 2 in the search result. (without ?page it defaults to first page)
+   * Also notice that not all pages are given as options for the user. On a 10-page result, only 1 + 2 is displayed
+   * from the beginning.
+   * From page 3 you get "første" + "forrige". On page 1 and 2 you don't.
+   *
+   *
+   *
+   */
+  public function checkPaginationOnAllPages()
+  {
+    $result = $this->searchPage->checkPaginationOnAllPages();
+    print_r($this->searchPage->getMessages());
+    if ($result != "") {
+      throw new Exception("Pagination failed. " . $result);
+    }
+  }
+
+  /**
    * @When I enter :text in field :field
    *
    * Type text character by character, with support for newline, tab as \n and \t
@@ -731,7 +756,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * Runs through the facets and selects the highest number of results possible
    */
-  public function UseFacetsToReduceSearchResultsToTheHighestPossible()
+  public function useFacetsToReduceSearchResultsToTheHighestPossible()
   {
     // start by initialising the stack if necessary and reveal which number we are starting with
     if ($this->searchPage->getExpectedSearchResultSize() < 0) {
@@ -748,7 +773,28 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
 
+  /**
+   * @When I use pagination to go to page :toPage
+   *
+   * toPage is expected to be numeric. First page is 1.
+   */
+  public function usePaginationToGoToPageN($toPage) {
+    // start by scrolling to the footer so if we fail the screendump will tell us something
+    $this->searchPage->scrollToBottom();
 
+    // this will return the page number
+    $curpg = $this->searchPage->getCurrentPage();
+
+    // only change page if we are not already on it
+    if ($curpg != $toPage) {
+      $result = $this->searchPage->goToPage($toPage);
+      if ($result != "") {
+        throw new Exception ($result);
+      }
+    } else {
+      // we will not fail this.. it may be on purpose
+    }
+  }
 
 
   /**

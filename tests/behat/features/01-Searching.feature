@@ -52,8 +52,9 @@ Feature: SEEK redroute 01
   @api @seek007 @seekNologin @newbehat
   Scenario: Check pagination
     Given I set control mode for "searchMaxPages" to be "100"
-    And I set verbose mode for "searchResults" to be "on"
+    #And I set verbose mode for "searchResults" to be "on"
     Given I want a search result between "81-110" using "term.type=bog and term.creator=Hansen and term.publisher=Gyldendal" published between "2000-2017"
     When pageing allows to get all the results
-    #When I use pagination to go to page "første"
-    #Then I check pagination on all pages
+    #When I use pagination to go to page "1"
+    Then I check pagination on all pages
+
