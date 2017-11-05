@@ -165,6 +165,26 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * @Then the search result is sorted on :sortOption
+   *
+   */
+  public function checkSearchResultIsSortedOnSortOption($sortOption)
+  {
+    // check that the user asked for a valid sort-option
+    $result = $this->searchPage->sortOptionValid($sortOption);
+    if ($result != "") {
+      throw new Exception ("Sort option " . $sortOption . " not valid.");
+    }
+
+    $result = $this->searchPage->checkSorting($sortOption);
+    if ($result != "") {
+      print_r($this->searchPage->getMessages());
+      throw new Exception ($result);
+    }
+
+  }
+
+  /**
    * @When I enter :text in field :field
    *
    * Type text character by character, with support for newline, tab as \n and \t

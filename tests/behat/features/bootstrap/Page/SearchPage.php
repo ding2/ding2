@@ -319,7 +319,66 @@ class SearchPage extends PageBase
     return $txt;
   }
 
+  public function checkSorting($sortOption) {
+    // check we're looking at a search result page
+    $page = $this->find('css', 'div.search-results li.list-item');
+    if (null === $page) {
+      return "Attempting check of sorting when not on a search result page with results found.";
+    }
+    // so we're basically traversing the search result pages, and constantly check against the previous
+    // title shown, and compare if the relation between the two is fulfilled by the sort-criteria.
 
+    $this->getEntireSearchResult();
+
+    // track if we've got any errors so we can flag it
+    $sortingOK = true;
+
+    if (count($this->searchResults)<2) {
+      return "Attempting check of sorting but got less than two results.";
+    }
+
+    for ($i=1; $i<count($this->searchResults)-1; $i++) {
+      $isOK = false;
+      switch($sortOption)
+      {
+        case 'title_ascending':
+          $isOK = (strcasecmp($this->searchResults[$i-1]->title, $this->searchResults[$i]->title)<=0) ? true : false;
+          break;
+        case 'title_descending':
+          $isOK = (strcasecmp($this->searchResults[$i-1]->title, $this->searchResults[$i]->title)>=0) ? true : false;
+          break;
+        case 'creator_ascending':
+          $isOK = (strcasecmp($this->searchResults[$i-1]->creator, $this->searchResults[$i]->creator)<=0) ? true : false;
+          break;
+        case 'creator_descending':
+          $isOK = (strcasecmp($this->searchResults[$i-1]->creator, $this->searchResults[$i]->creator)>=0) ? true : false;
+          break;
+        case 'date_ascending':
+          $isOK = (strcasecmp($this->searchResults[$i-1]->published, $this->searchResults[$i]->published)<=0) ? true : false;
+          break;
+        case 'date_descending':
+          $isOK = (strcasecmp($this->searchResults[$i-1]->published, $this->searchResults[$i]->published)>=0) ? true : false;
+          break;
+        default:
+          return "Automation Error: checking sorting with unhandled, but valid sortOption: " . $sortOption;
+      }
+      if ($isOK === false) {
+        $this->logMsg(true, "Sorting on (" . $sortOption . ") is not ok:            (page " . $this->searchResults[$i]->page
+              . " #" . $this->searchResults[$i]->item . ")");
+        $this->logMsg(true, "    " . $this->searchResults[$i-1]->title . " by " . $this->searchResults[$i-1]->creator . " ("
+              . $this->searchResults[$i-1]->published . ")");
+
+        $this->logMsg(true, "  is listed before");
+        $this->logMsg(true, "    " . $this->searchResults[$i]->title . " by " . $this->searchResults[$i]->creator . " ("
+              . $this->searchResults[$i-1]->published . ")");
+        $sortingOK=false;
+      }
+    }
+    if ($sortingOK === false) {
+      return "Sorting not as expected.";
+    }
+
+  }
 
   /**
    * @return string - empty if we found the number of results as we expected.

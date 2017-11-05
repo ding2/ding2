@@ -70,7 +70,15 @@ Feature: SEEK redroute 01
     When pageing allows to get all the results
     Then all posts have "materialetype" in the search results
 
-  @api @seek013 @seekNologin @newbehat
+  @api @seek013 @seekNologin @regression
+  Scenario: Check sorting for title
+    Given I have searched for "phrase.titleSeries=B* and term.language=dansk"
+    When I sort the search result on "title_ascending"
+    Then the search result is sorted on "title_ascending"
+    When I sort the search result on "title_descending"
+    Then the search result is sorted on "title_descending"
+
+  @api @seek013 @seekNologin @regression
   Scenario: Check sorting for creator by listing the results in the log
     Given I have searched for "term.language=dansk and phrase.titleSeries=B*"
     And I set verbose mode for "search-Results" to be "on"
