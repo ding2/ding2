@@ -480,10 +480,13 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function pageingAllowsToGetAllResults()
   {
-    // log messages in any case. Might be useful info in there.
-    $this->logMsg(($this->searchPage->getVerboseSearchResult() == "on"), $this->searchPage->getMessages());
+
 
     $result = $this->searchPage->getEntireSearchResult();
+    // log messages in any case. Might be useful info in there.
+    if ($this->searchPage->getVerboseSearchResult() == "on") {
+      print_r ($this->searchPage->getMessages());
+    }
     if ($result != "") {
       throw new Exception ($result);
     };
@@ -674,6 +677,24 @@ class LibContext implements Context, SnippetAcceptingContext {
     print_r("The user agent is: " . $userAgent . "\n");
 
   }
+
+  /**
+   * @When I sort the search result on :sortOption
+   *
+   */
+  public function sortTheSearchResultOnOption($sortOption)
+  {
+    // check that the user asked for a valid sort-option
+    $result = $this->searchPage->sortOptionValid($sortOption);
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+    $result = $this->searchPage->sort($sortOption);
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+  }
+
 
   /**
    * Attempts to translate argument given in gherkin script.

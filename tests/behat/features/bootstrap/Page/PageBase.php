@@ -16,8 +16,14 @@ class PageBase extends LogMessages
   protected $verboseCookies = 'off';
 
   protected $elements = array(
-    'button-agree' => array('css' => '.agree-button'),
-    'button-askLibrarian' => array('css' =>'.ask-vopros-minimize span'),
+        'button-agree' => array('css' => '.agree-button'),
+        'button-askLibrarian' => array('css' => '.ask-vopros-minimize span'),
+        'autocomplete' => 'div#autocomplete',
+        'autocomplete-list' => 'li',
+        'search-item-list' => '.search-results li.list-item',
+        'pager-current' => '.pager-current',
+        'pager-links' => "//li[contains(@class, 'pager')]//a",
+        'pager-elements' => 'ul.pager li',
   );
 
 

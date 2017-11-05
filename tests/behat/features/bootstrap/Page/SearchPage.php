@@ -534,12 +534,12 @@ class SearchPage extends PageBase
         $this->logMsg(($this->verboseSearchResults== 'on'), "Title: " . $this->searchResults[$ll]->title .
               ", by " . $this->searchResults[$ll]->creator . " (" . $this->searchResults[$ll]->published . ") "
                 . " (page " . $this->searchResults[$ll]->page
-                . " # " . $this->searchResults[$ll]->item . ")\n");
+                . " # " . $this->searchResults[$ll]->item . ")");
 
         // next item on page
         $xte = $xte + 1;
       }
-      $this->logMsg(($this->verboseSearchResults == 'on'), "Total items listed on page: " . ($xte - 1) . "\n");
+      $this->logMsg(($this->verboseSearchResults == 'on'), "Total items listed on page: " . ($xte - 1) );
 
 
       // ready for next page:
@@ -1007,6 +1007,41 @@ class SearchPage extends PageBase
 
   public function setVerboseSearchResult($onoff) {
     $this->verboseSearchResults = $onoff;
+  }
+
+  public function sort($sortOption) {
+    // check we're looking at a search result page
+    $page = $this->find('css', 'div.search-results li.list-item');
+    if (null === $page) {
+      return "Attempting sort when not on a search result page with results found.";
+    }
+    // then we select the sorting from the dropdown
+    $sortDD = $this->find('css', 'select.form-select[name="sort"]');
+    if (null === $sortDD) {
+      return "Attempting sort but couldn't locate sorting dropdown. (css='select.form-select[name=\"sort\"]').";
+    }
+
+    // now set the sortOption
+    $this->scrollTo($sortDD);
+    $sortDD->selectOption($sortOption, false); # false as second param means we only select one value
+
+
+  }
+
+  public function sortOptionValid($sortOption)
+  {
+    // anticipate error
+    $isValid = false;
+    $isValid=($sortOption=="title_ascending") ;
+    $isValid=($sortOption=="title_descending") ? true : $isValid;
+    $isValid=($sortOption=="creator_ascending") ? true : $isValid;
+    $isValid=($sortOption=="creator_descending") ? true : $isValid;
+    $isValid=($sortOption=="date_ascending") ? true : $isValid;
+    $isValid=($sortOption=="date_descending") ? true : $isValid;
+    if (!$isValid) {
+      return "Error: you ask to sort on unknown criteria: " . $sortOption;
+    }
+
   }
 
   private function unpackFacetLists() {

@@ -70,14 +70,29 @@ Feature: SEEK redroute 01
     When pageing allows to get all the results
     Then all posts have "materialetype" in the search results
 
-  @api @seek014 @seekNologin @newbehat
+  @api @seek013 @seekNologin @newbehat
+  Scenario: Check sorting for creator by listing the results in the log
+    Given I have searched for "term.language=dansk and phrase.titleSeries=B*"
+    And I set verbose mode for "search-Results" to be "on"
+    When I sort the search result on "creator_descending"
+    Then pageing allows to get all the results
+    When I sort the search result on "creator_ascending"
+    Then pageing allows to get all the results
+
+  @api @seek014 @seekNologin @regression
   Scenario: Check tilgængelighed is shown on search result
     Given I have searched for "phrase.titleSeries=All*"
     When pageing allows to get all the results
     Then all posts have "tilgængelighed" in the search results
 
-  @api @seek015 @seekNologin @newbehat
+  @api @seek015 @seekNologin @regression
   Scenario: Check samlinger is shown on search result
     Given I have searched for "phrase.titleSeries=Harry*"
     When pageing allows to get all the results
     Then there are posts with "materialesamling" in the search results
+
+  @api @seek016 @seekNologin @newbehat
+  Scenario: Check forsidebillede is shown on search result
+    Given I have searched for "term.type=bog and holdingsitem.accessionDate>='NOW-300DAYS'"
+    When pageing allows to get all the results
+    Then there are posts with "forside" in the search results

@@ -32,7 +32,9 @@ class LogMessages extends Page
    */
   public function logMsg($ifTrue, $msg) {
     if ($ifTrue) {
-      $this->messageCollection = $this->messageCollection . $msg;
+      if ($msg != "") {
+        $this->messageCollection = $this->messageCollection . $msg . "\n";
+      }
     }
   }
 
