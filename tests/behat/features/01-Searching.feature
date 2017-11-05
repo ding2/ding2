@@ -70,6 +70,13 @@ Feature: SEEK redroute 01
     When pageing allows to get all the results
     Then all posts have "materialetype" in the search results
 
+  @api @seek012 @seekNologin
+  Scenario: Check internal searchfield
+    Given I am on "/"
+    And I have searched for "$random:nyhed"
+    When I search on hjemmesiden
+    Then I can see "$get:lastSearchString" in the search results first page
+
   @api @seek013 @seekNologin @regression
   Scenario: Check sorting for title
     Given I have searched for "phrase.titleSeries=B* and term.language=dansk"
@@ -86,6 +93,14 @@ Feature: SEEK redroute 01
     Then pageing allows to get all the results
     When I sort the search result on "creator_ascending"
     Then pageing allows to get all the results
+
+  @api @seek013 @seekNologin @regression
+  Scenario: Check sorting for published date
+    Given I have searched for "phrase.titleSeries=B*"
+    When I sort the search result on "date_descending"
+    Then the search result is sorted on "date_descending"
+    When I sort the search result on "date_ascending"
+    Then the search result is sorted on "date_ascending"
 
   @api @seek014 @seekNologin @regression
   Scenario: Check tilgængelighed is shown on search result

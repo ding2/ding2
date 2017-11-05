@@ -421,7 +421,28 @@ class SearchPage extends PageBase
 
   }
 
+  public function findTitleOnPage($title) {
+    $founds = $this->findAll('css', '.search-results li.list-item');
+    if (!$founds) {
+      return "Could not find a search result.";
+    }
 
+    $lb_found = false;
+    $xte = 0;
+    foreach ($founds as $srItem) {
+      $srItemTitle = $srItem->find('css', 'h2 a');
+      if ($srItemTitle) {
+        if ($srItemTitle->getText() == $title) {
+          $lb_found = true;
+          $this->logMsg(($this->verboseSearchResults == 'on'), "Fandt '" . $title . "' som nummer " . $xte . " på siden.");
+        }
+      }
+      $xte++;
+    }
+    if ($lb_found == 0) {
+      return "Did not find " . $title . " on page";
+    }
+  }
 
   /**
    * @return int - is the number of search results we actually found by scraping them off the pages
@@ -1040,7 +1061,17 @@ class SearchPage extends PageBase
     }
   }
 
-
+  public function searchOnHomePage() {
+    // find the radio button and activate it.
+    $xpath = "//div[@id='edit-searches']//label[@class='option' and @for='edit-searches-node']/a";
+    $found = $this->find('xpath', $xpath );
+    if (!$found) {
+      return "Could not find radio-button for searching on homepage.";
+    }
+    $this->scrollTo($found);
+    $found->click();
+    $this->waitForPage();
+  }
 
   public function setMaxPageTraversals($maxPages) {
     $this->maxPageTraversals = $maxPages;

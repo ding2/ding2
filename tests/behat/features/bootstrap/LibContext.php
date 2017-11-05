@@ -189,7 +189,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * Type text character by character, with support for newline, tab as \n and \t
    */
-  public function EnterTextIntoField($text, $field) {
+  public function enterTextIntoField($text, $field) {
     $found = $this->getPage()->find('css', $field);
     if (!$found) {
       throw new Exception ("Couldn't find the field " . $field);
@@ -248,6 +248,19 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->searchPage->checkPostsWithXXInTheSearchResult($attribute, "all");
   }
 
+
+  /**
+   * @Then I can see :title in the search results first page
+   */
+  public function findTitleInTheSearchResultsFirstPage($title)
+  {
+    $title = $this->translateArgument($title);
+
+    $result = $this->searchPage->findTitleOnPage($title);
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+  }
 
   /**
    * getPage - quick reference to the getPage element. Makes code more readable.
@@ -588,6 +601,19 @@ class LibContext implements Context, SnippetAcceptingContext {
      if ($result != "") {
        throw new Exception( $result);
      }
+  }
+
+  /**
+   * @When I search on hjemmesiden
+   *
+   */
+  public function searchOnHomePage()
+  {
+    $result = $this->searchPage->searchOnHomePage();
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+
   }
 
   /**
