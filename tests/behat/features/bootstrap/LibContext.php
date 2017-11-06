@@ -195,7 +195,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Type text character by character, with support for newline, tab as \n and \t
    */
   public function enterTextIntoField($text, $field) {
-    $found = $this->getPage()->find('css', $field);
+    $found = $this->getPage()->find('css', $this->translateFieldName($field));
     if (!$found) {
       throw new Exception ("Couldn't find the field " . $field);
     }
@@ -941,6 +941,20 @@ class LibContext implements Context, SnippetAcceptingContext {
     return $returnString;
   }
 
+  /**
+   * @param $field
+   * @return string - translated to css field name from popular name. If unknown, input is returned.
+   */
+  private function translateFieldName($field) {
+    $result = $field;
+    switch(strtolower($field)) {
+      case "søg":
+      case "søgefelt":
+        $result = "input#edit-search-block-form--2";
+        break;
+    }
+    return $result;
+  }
 
   /**
    * @When I deselect a facet to increase the search results

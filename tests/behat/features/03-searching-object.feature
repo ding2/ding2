@@ -43,7 +43,7 @@ Feature: test object displays after search
     Then online access button is shown
 
 
-  @api @seek026a @seekNologin @regression
+  @api @seek026 @seekNologin @regression
   Scenario: Search and display material reservation button shows
     Given filename 'creator.mat' is used
       And I only want reservables

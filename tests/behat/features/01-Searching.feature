@@ -33,29 +33,27 @@ Feature: SEEK redroute 01
   @api @seek004 @seekNologin @regression
   Scenario: Show openscan suggestions in search field
     Given I am on "/"
-    When I enter "her" in field "input#edit-search-block-form--2"
+    When I enter "her" in field "Søg"
     Then I get suggestions from openscan
 
   @api @seek005 @seekNologin @regression
   Scenario: Search using typing of enter
     Given I am on "/"
-    When I enter "larsen\n" in field "input#edit-search-block-form--2"
+    When I enter "larsen\n" in field "Søg"
     Then pageing allows to get all the results
 
   @api @seek005 @seekNologin @regression
   Scenario: Search using click search button
     Given I am on "/"
-    When I enter "hansen" in field "input#edit-search-block-form--2"
+    When I enter "hansen" in field "Søg"
     When I press "Søg"
     Then pageing allows to get all the results
 
   @api @seek007 @seekNologin @regression
   Scenario: Check pagination
     Given I set control mode for "searchMaxPages" to be "100"
-    #And I set verbose mode for "searchResults" to be "on"
     Given I want a search result between "81-110" using "term.type=bog and term.creator=Hansen and term.publisher=Gyldendal" published between "2000-2017"
     When pageing allows to get all the results
-    #When I use pagination to go to page "1"
     Then I check pagination on all pages
 
   @api @seek010  @seekNologin @regression

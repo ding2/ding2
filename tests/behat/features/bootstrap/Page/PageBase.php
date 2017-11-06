@@ -56,7 +56,7 @@ class PageBase extends LogMessages
           // we will only ever execute this if the cookie button is clickable
           $success = true;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
           // give it a bit more time to come into place.
           usleep(100);
         }
@@ -86,12 +86,13 @@ class PageBase extends LogMessages
       $this->logMsg(($this->verboseCookies == "on"), "Ask A Librarian was centered. Clicks it to minimize it.\n");
       // simply click, and ignore if it can't click.
       try {
+        $askLibrary = $this->find('css', $this->elements['button-askLibrarian']['css']);
         $askLibrary->click();
-        usleep(100);
-      }  catch (UnsupportedDriverActionException $e) {
-        // Ignore.
-      } catch (Exception $e) {
-        // Ignore too
+      } catch (\Exception $e) {
+        // wait a bit and try again
+        sleep(1);
+        $askLibrary = $this->find('css', $this->elements['button-askLibrarian']['css']);
+        $askLibrary->click();
       }
       // We will wait a bit until it goes away
       $max = 10;
@@ -105,6 +106,7 @@ class PageBase extends LogMessages
         return "Ask The Librarian did not minimize.";
       }
     }
+    return "";
   }
 
 
@@ -235,31 +237,22 @@ class PageBase extends LogMessages
    */
   public function waitUntilTextIsGone($waitmax, $txt)
   {
-    $wait=$this->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+    // first see if we can find the element
+    $wait = $this->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
     $continueWaiting = true;
     if (!$wait) {
-      return;
+      return "";
     }
-    try {
-      $continueWaiting = ($wait->isVisible()) ? true : false;
-
-    } catch (UnexpectedPageException $e) {
-      // ignore
-    }
+    // now wait for the assigned time until we no longer can find txt on the page
     while ($continueWaiting and --$waitmax>0) {
       usleep(300);
-      $wait=$this->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
-      if ($wait) {
-        try {
-          $continueWaiting = ($wait->isVisible());
-
-        } catch (Exception $e) {
-          // ignore
-        }
-      } else {
-        $continueWaiting = false;
-      }
+      $wait = $this->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+      $continueWaiting = ($wait === null);
     }
+    if ($waitmax>0) {
+      return "";
+    }
+    return "Failed - " . $txt . " is still on page.";
   }
 
 }

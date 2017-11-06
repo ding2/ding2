@@ -50,8 +50,8 @@ class StepsContext implements Context, SnippetAcceptingContext {
 
     $pattern = $this->libContext->translateArgument($pattern);
     if (!$this->libContext->searchPage->findRegEx($pattern)) {
-      throw new Exception("Did not find " . $pattern . " in the search result. Looked through " . $this->libContext->verbose->searchMaxPages . " pages.");
-    };
+      throw new Exception("Did not find " . $pattern . " in the search result. Looked through " . $this->libContext->searchPage->getMaxPageTraversals() . " pages.");
+    }
 
   }
 

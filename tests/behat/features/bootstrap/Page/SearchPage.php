@@ -846,12 +846,19 @@ class SearchPage extends PageBase
     }
 
     $linkObj = $pageRes[$i]->find('css', '.ting-object h2 a');
+    if (!$linkObj) {
+      return "Did not find a link to the item " . $i . " on the page.";
+    }
     // pick out the last part of the URL.
     $linkArr = explode('/', $linkObj->getAttribute('href'));
+    if (count($linkArr) == 0) {
+      return "The link to the page is not wellformed: href=" . $linkObj->getAttribute('href');
+    }
     $link =  urlencode('ting/object/' . $linkArr[count($linkArr)-1]);
-    $this->open(['string' => $link]);
+    //$this->open(['string' => $link]);
     //$this->gotoPage($link);
-
+    $this->getSession()->visit($link);
+    $this->waitForPage();
   }
 
   /**
@@ -1100,6 +1107,7 @@ class SearchPage extends PageBase
     $this->scrollTo($found);
     $found->click();
     $this->waitForPage();
+    return "";
   }
 
   public function setMaxPageTraversals($maxPages) {
@@ -1144,7 +1152,7 @@ class SearchPage extends PageBase
     $this->scrollTo($sortDD);
     $sortDD->selectOption($sortOption, false); # false as second param means we only select one value
 
-
+    return "";
   }
 
   public function sortOptionValid($sortOption)

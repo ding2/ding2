@@ -22,6 +22,7 @@ class ObjectPage extends PageBase
     if ($found === null) {
       return "Could not find entry: " . $relationType;
     }
+    return "";
   }
 
   public function entryIsNotShown($relType) {
@@ -31,6 +32,7 @@ class ObjectPage extends PageBase
     if ($found !== null) {
       return "Found a " . $relationType . " unexpectedly. Is your file updated?";
     }
+    return "";
   }
 
   private function convertRelationTypeToTechnicalTerm($relType)
@@ -47,7 +49,7 @@ class ObjectPage extends PageBase
 
     }
     if ($relationType == "") {
-      throw new Exception ("Could not dechipher the relationtype " . $relType . "\n Use either 'hasReview' or 'hasCreatorDescription'.");
+      return "Could not dechiper the relationtype " . $relType . "\n Use either 'hasReview' or 'hasCreatorDescription'.";
     }
     return $relationType;
   }
@@ -125,6 +127,7 @@ class ObjectPage extends PageBase
         return "Reservation-button is prevented on this object";
       }
     }
+    return "";
   }
 
   public function makeReservation() {
