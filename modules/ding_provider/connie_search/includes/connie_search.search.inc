@@ -211,13 +211,13 @@ function connie_search_search_object_ids($ids) {
   if (is_array($ids) && !empty($ids)) {
     $translated_ids = array();
     /** @var array $ids */
-    foreach ($ids as $faust) {
-      $translated_ids[$faust] = variable_get('ting_agency', '') . ':' . $faust;
+    foreach ($ids as $id) {
+      $translated_ids[$id] = '1337-test' . ':' . $id;
     }
     return $translated_ids;
   }
 
   if (is_numeric($ids)) {
-    return variable_get('ting_agency', '') . ':' . $ids;
+    return '1337-test' . ':' . $ids;
   }
 }

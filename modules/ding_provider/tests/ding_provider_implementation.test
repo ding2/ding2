@@ -414,6 +414,35 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
   public abstract function getExpectedCommonFields();
 
   /**
+   * Returns a list of translated object ID's.
+   *
+   * @return string[]
+   *   List of translated object ids.
+   */
+  public abstract function getTranslatedObjectIds();
+
+  /**
+   * Returns a list of material ID's.
+   *
+   * @return array
+   */
+  public abstract function getLocalObjectIds();
+
+  /**
+   * Returns a single translated object ID.
+   *
+   * @return string
+   */
+  public abstract function getTranslatedObjectId();
+
+  /**
+   * Returns a single material ID.
+   *
+   * @return string
+   */
+  public abstract function getSingleLocalObjectId();
+
+  /**
    * Verify that the provider returns the expected list of material types.
    */
   public function testMaterialTypes() {

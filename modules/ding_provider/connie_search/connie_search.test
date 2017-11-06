@@ -142,4 +142,68 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
   public function getExpectedCommonFields() {
     return TingSearchCommonFields::getAll();
   }
+
+  /**
+   * Return array of sample object ID's.
+   *
+   * @return array
+   *   Sample object ID's.
+   */
+  public function getLocalObjectIds() {
+    return array('1234', '4321', '1111');
+  }
+
+  /**
+   * Return array of translated ID's.
+   *
+   * @return array
+   *   Translated object ID's.
+   */
+  public function getTranslatedObjectIds() {
+    return array(
+      '1234' => '1337-test:1234',
+      '4321' => '1337-test:4321',
+      '1111' => '1337-test:1111'
+    );
+  }
+
+  /**
+   * Return single sample object ID.
+   *
+   * @return string
+   *   Sample object ID.Ø
+   */
+  public function getSingleLocalObjectId() {
+    return '1111';
+  }
+
+  /**
+   * @return string
+   *   Translated object ID.
+   */
+  public function getTranslatedObjectId() {
+    return '1337-test:1111';
+  }
+
+  function testObjectIds() {
+    // Test arrays.
+    $response = ding_provider_build_entity_id($this->getLocalObjectIds());
+
+    $this->assertEqual(
+      $response, $this->getTranslatedObjectIds(),
+      "Multiple object ID's are translated correctly."
+    );
+
+    $this->assertTrue(is_array($response));
+
+    // Test single value (string)
+    $response = ding_provider_build_entity_id($this->getSingleLocalObjectId());
+
+    $this->assertIdentical(
+      $response, $this->getTranslatedObjectId(),
+      'Single object ID is translated correctly.'
+    );
+
+    $this->assertTrue(is_string($response));
+  }
 }
