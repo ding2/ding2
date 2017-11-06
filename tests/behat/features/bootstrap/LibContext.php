@@ -10,6 +10,8 @@ use Behat\MinkExtension\Context\MinkContext;
 use Behat\Mink\Driver\Selenium2Driver;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Page\SearchPage;
+use Page\ObjectPage;
+
 
 /**
  * Defines application features from the specific context.
@@ -57,8 +59,10 @@ class LibContext implements Context, SnippetAcceptingContext {
    * You can also pass arbitrary arguments to the
    * context constructor through behat.yml.
    */
-  public function __construct(SearchPage $searchPage) {
+  public function __construct(SearchPage $searchPage, DataManager $dataManager, ObjectPage $objectPage) {
     $this->searchPage = $searchPage;
+    $this->dataMgr = $dataManager;
+    $this->objectPage = $objectPage;
 
     // initialise the verbose structure. These are default settings.
     $this->verbose = (object) array (
@@ -230,6 +234,23 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
   }
 
+  /**
+   * @When I display random object from file
+   *
+   */
+  public function displayRandomObjectFromFile() {
+    $mpid = $this->dataMgr->getRandomPID();
+
+    // help the tester by showing what was searched for and also which test system we're on
+    print_r("Displaying: " . $this->minkContext->getMinkParameter('base_url')  . "ting/object/" . $mpid . "\n");
+
+    $this->objectPage->open(['string' => urlencode($mpid)]);
+    sleep(5);
+    $this->objectPage->open(['string' => urlencode($mpid)]);
+    sleep(5);
+    $this->objectPage->open(['string' => urlencode($mpid)]);
+    $this->waitForPage();
+  }
 
 
   /**
@@ -248,7 +269,29 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->searchPage->checkPostsWithXXInTheSearchResult($attribute, "all");
   }
 
+  /**
+   * @Then a :relationType entry is shown
+   *
+   */
+  public function findRelationTypeEntryIsShown($relType)
+  {
+    $result = $this->objectPage->entryIsShown($relType);
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+  }
 
+  /**
+   * @Then a :relationType entry is not shown
+   *
+   */
+  public function findRelationTypeEntryNotShown($relType)
+  {
+    $result = $this->objectPage->entryIsNotShown($relType);
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+  }
   /**
    * @Then I can see :title in the search results first page
    */
@@ -617,6 +660,14 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * @Given filename :file is used
+   *
+   */
+  public function setFilename($file) {
+    $this->dataMgr->setFilename($file);
+  }
+
+  /**
    * @When I set (the) number of results per page to :size
    *
    */
@@ -688,6 +739,14 @@ class LibContext implements Context, SnippetAcceptingContext {
         print_r("\n");
         break;
     }
+  }
+
+  /**
+   * @Given (I) only (want) reservables
+   *
+   */
+  public function setReservables() {
+    $this->dataMgr->setReservable(true);
   }
 
   /**
