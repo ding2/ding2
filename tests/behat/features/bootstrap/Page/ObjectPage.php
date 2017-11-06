@@ -51,4 +51,87 @@ class ObjectPage extends PageBase
     }
     return $relationType;
   }
+
+  public function hasAddToList() {
+
+    $button = $this->find('xpath', "//div[contains(@class,'ding-list-add-button')]/a[contains(@class,'trigger')]");
+    if (!$button) {
+      return "Add to list-button is not shown";
+    }
+    return "";
+  }
+
+  public function hasNotAddToList() {
+    $button = $this->find('xpath', "//div[contains(@class,'ding-list-add-button')]/a[contains(@class,'trigger')]");
+    if ($button) {
+      if ($button->isVisible() ) {
+        return "Add To List button is visible, and it shouldn't be";
+      }
+    }
+    return "";
+  }
+
+  public function hasCoverPage() {
+
+    $coverimg = $this->find('xpath', '//div[contains(@class,"ting-cover")]/img');
+    $txt_cover = "";
+    if ($coverimg) {
+      $txt_cover = $coverimg->getAttribute('src');
+    }
+    if (strlen($txt_cover)>0) {
+      return "";
+    } else {
+      return "Did not find a cover page.";
+    }
+  }
+
+  public function hasAvailabiltyOptions() {
+    // simply try to grab the img object
+    $found = $this->find('css', '.ting-object .field-group-format li.availability');
+    if ($found === null) {
+      return "Could not find availability informations";
+    }
+    return "";
+  }
+
+  public function hasOnlineAccessButton() {
+
+    $button = $this->find('css', "a.button-see-online");
+
+    if (!$button) {
+      return "Online Access button is not shown";
+    }
+    return "";
+  }
+
+  public function hasReservationButton() {
+
+    $button = $this->find('css', '.ting-object-inner-wrapper a.reserve-button');
+    if (!$button) {
+      return "Reservation button was not found";
+    }
+
+    $classAttr = $button->getAttribute('class');
+    // it takes a bit to add these classes. Wait until they are there. This also covers not-reservable and unavailable, of course
+    $max=3000;
+    while (--$max>0 && (strpos($classAttr, 'reservable')===false || strpos($classAttr, 'available')===false)) {
+      usleep(10);
+      $classAttr = $button->getAttribute('class');
+    }
+
+    $classes = explode(' ', $classAttr);
+    foreach($classes as $class){
+      if ($class == 'not-reservable' ) {
+        return "Reservation-button is prevented on this object";
+      }
+    }
+  }
+
+  public function makeReservation() {
+
+    $button = $this->find('xpath', '//a[contains(@class,"reserve-button")]');
+
+    $this->scrollTo($button);
+    $button->click();
+  }
 }

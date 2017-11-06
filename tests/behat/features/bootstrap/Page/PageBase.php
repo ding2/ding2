@@ -109,6 +109,29 @@ class PageBase extends LogMessages
 
 
 
+  public function getPromptToLogin() {
+    // start by waiting for the popupbar-is-open class to be added to the body-tag
+    // it is a bit cheaky but that's all we need to check for.
+    $found = $this->find('css', 'body');
+    $max = 300;
+    while (--$max > 0 && strstr($found->getAttribute('class'), 'popupbar-is-open') === false) {
+      usleep(100);
+      $found = $this->find('css', 'body');
+    }
+
+    // let's check in another way to make sure
+    $classArr = explode(' ', $found->getAttribute('class'));
+    $gotIt = false;
+    foreach ($classArr as $class) {
+      if ($class == "popupbar-is-open") {
+        $gotIt = true;
+      }
+    }
+    if (!$gotIt) {
+      return "Was not prompted for login as expected.";
+    }
+  }
+
   /**
    * @When I scroll to the bottom (of the page)
    * Scroll to bottom of page

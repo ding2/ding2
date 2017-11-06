@@ -824,6 +824,35 @@ class SearchPage extends PageBase
     return "";
   }
 
+  public function getRandomSearchResultToShowPost($criteria)
+  {
+    // check we're looking at a search result page
+    $pageRes = $this->findAll('css', 'div.search-results li.list-item');
+    if (!$pageRes) {
+      return "Is not on a search result page with any results";
+    }
+    // choose a random title
+    $i = random_int(0, count($pageRes)-1);
+
+    if ($criteria == "coverpage") {
+      $max = 50;
+      while (--$max > 0 && !$pageRes[$i]->find('css', '.ting-object .ting-cover img')) {
+        usleep(100);
+        $i = random_int(0, count($pageRes)-1);
+      }
+      if (!$pageRes[$i]->find('css', '.ting-object .ting-cover img')) {
+        return "Could not find a result with a cover page.";
+      }
+    }
+
+    $linkObj = $pageRes[$i]->find('css', '.ting-object h2 a');
+    // pick out the last part of the URL.
+    $linkArr = explode('/', $linkObj->getAttribute('href'));
+    $link =  urlencode('ting/object/' . $linkArr[count($linkArr)-1]);
+    $this->open(['string' => $link]);
+    //$this->gotoPage($link);
+
+  }
 
   /**
    * Tries to find the number of search results shown as total found posts on the search page

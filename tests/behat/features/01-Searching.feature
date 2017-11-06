@@ -70,7 +70,7 @@ Feature: SEEK redroute 01
     When pageing allows to get all the results
     Then all posts have "materialetype" in the search results
 
-  @api @seek012 @seekNologin
+  @api @seek012 @seekNologin @regression
   Scenario: Check internal searchfield
     Given I am on "/"
     And I have searched for "$random:nyhed"
@@ -114,7 +114,7 @@ Feature: SEEK redroute 01
     When pageing allows to get all the results
     Then there are posts with "materialesamling" in the search results
 
-  @api @seek016 @seekNologin @newbehat
+  @api @seek016 @seekNologin @regression
   Scenario: Check forsidebillede is shown on search result
     Given I have searched for "term.type=bog and holdingsitem.accessionDate>='NOW-300DAYS'"
     When pageing allows to get all the results

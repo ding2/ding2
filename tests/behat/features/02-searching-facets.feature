@@ -6,7 +6,7 @@ Feature: Searching with facets
   - if we can use facets to end up with just one book.
 
 
-  @api @seek019 @seekNologin
+  @api @seek019 @seekNologin @regression
   Scenario: Search and use facets to find a lesser result
     Given I have searched for "term.type=bog and term.publisher=Gyldendal"
     And I accept cookies
@@ -20,7 +20,7 @@ Feature: Searching with facets
 
     # notice that we will not check facet results while deselecting because we cannot control
     # the sequence it will deselect in.
-  @api @seek020 @seekNologin
+  @api @seek020 @seekNologin @regression
   Scenario: Search and use facets repeatedly three times
     Given I have searched for "term.type=bog and term.publisher=Gyldendal"
     And I accept cookies

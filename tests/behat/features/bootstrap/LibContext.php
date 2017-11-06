@@ -253,6 +253,77 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
 
+
+  /**
+   * @Then it is possible to add to a list
+   * @Then it should be possible to add to a list
+   *
+   * check for whether the Husk / Tilføj til liste button is shown and visible
+   *
+   */
+  public function findAddToAList()
+  {
+    $result = $this->objectPage->hasAddToList();
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+  }
+
+  /**
+   * @Then it is not possible to add to a list
+   *
+   * check for whether the Husk / Tilføj til liste button is shown and visible
+   *
+   */
+  public function findAddToListNotPossible()
+  {
+    $result = $this->objectPage->hasNotAddToList();
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+  }
+
+  /**
+   * @Then I (should) see availability options
+   *
+   * The function can be used to return the href to the image as well.
+   */
+  public function findAvailabilityOptions()
+  {
+    $result = $this->objectPage->hasAvailabiltyOptions();
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+  }
+
+  /**
+   * @Then I should see a cover page
+   */
+  public function findCoverPage()
+  {
+
+    $result = $this->objectPage->hasCoverPage();
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+
+  }
+
+  /**
+   * @Then it is possible to get online access
+   * @Then online access button is shown
+   *
+   * check for whether the Husk / Tilføj til liste button is shown and visible
+   *
+   */
+  public function findOnlineAccessButton()
+  {
+    $result = $this->objectPage->hasOnlineAccessButton();
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+  }
+
   /**
    * @Then there are posts with :attribute in the search results
    */
@@ -267,6 +338,19 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function findPostsAllHaveXXInTheSearchResult($attribute)
   {
     $this->searchPage->checkPostsWithXXInTheSearchResult($attribute, "all");
+  }
+
+  /**
+   * @When I open a random search result with (a) cover page to show the post
+   *
+   * Expects to start on a search result. It scans the page for results, chooses one randomly
+   * and opens it up by extracting the pid from the link, and force its way to the ting/object/ prefix
+   * This means it does not show a work / collection, if that's where the search would go.
+   *
+   */
+  public function findRandomSearchResultWithCoverPageToShowThePost()
+  {
+    $this->searchPage->getRandomSearchResultToShowPost("coverpage");
   }
 
   /**
@@ -292,6 +376,23 @@ class LibContext implements Context, SnippetAcceptingContext {
       throw new Exception ($result);
     }
   }
+
+  /**
+   * @Then it is possible to click to reserve the material
+   *
+   * checks for the reserve-button being shown and visible
+   */
+  public function findReserveMaterialButton()
+  {
+    $result=$this->objectPage->hasReservationButton();
+    if ($result != "") {
+      throw new Exception($result);
+    }
+  }
+
+
+
+
   /**
    * @Then I can see :title in the search results first page
    */
@@ -312,6 +413,17 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function getPage() {
     return $this->minkContext->getSession()->getPage();
+  }
+
+  /**
+   * @Then I am prompted to login
+   */
+  public function getPromptToLogin()
+  {
+     $result = $this->objectPage->getPromptToLogin();
+     if ($result != "") {
+       throw new Exception ($result);
+     }
   }
 
   /**
@@ -568,6 +680,22 @@ class LibContext implements Context, SnippetAcceptingContext {
     };
 
   }
+
+  /**
+   * @When I try to reserve the material
+   *
+   **/
+  public function reserveTheMaterial()
+  {
+    $this->findReserveMaterialButton();
+
+    $result = $this->objectPage->makeReservation();
+    if ($result != "") {
+      throw new Exception ($result);
+    }
+
+  }
+
 
   /**
    * @When I scroll to the bottom (of the page)
