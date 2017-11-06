@@ -125,25 +125,8 @@ function ding_news_update_7006() {
  */
 function ding_news_update_7007(&$sandbox) {
   // Make sure we have somewhere to save the old body field.
-  if (
-    empty(field_info_instance(
-      'node',
-      'field_ding_news_body',
-      'ding_news')
-    ) ||
-    empty(field_info_instance(
-      'paragraphs_item',
-      'field_ding_paragraphs_text',
-      'ding_paragraphs_text')
-    ) ||
-    empty(field_info_instance('node',
-      'field_ding_news_paragraphs',
-      'ding_news')
-    )) {throw new DrupalUpdateException(t(
-      'This update requires the fields field_ding_paragraphs_text,
-      field_ding_news_paragraphs and field_ding_news_body to exist. 
-      Perhaps you need to revert a feature.')
-    );
+  if (empty(field_info_instance('node', 'field_ding_news_body', 'ding_news')) || empty(field_info_instance('paragraphs_item', 'field_ding_paragraphs_text', 'ding_paragraphs_text')) || empty(field_info_instance('node', 'field_ding_news_paragraphs', 'ding_news'))) {
+    throw new DrupalUpdateException(t('This update requires the fields field_ding_paragraphs_text, field_ding_news_paragraphs and field_ding_news_body to exist. Perhaps you need to revert a feature.'));
   }
 
   if (!isset($sandbox['total'])) {
