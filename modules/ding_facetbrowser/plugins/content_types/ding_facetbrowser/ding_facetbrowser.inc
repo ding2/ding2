@@ -41,7 +41,7 @@ function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $co
     $results = module_invoke($executed_search_module, 'ding_facetbrowser');
     if (is_object($results)) {
       foreach ($results->facets as $facet) {
-        if (count($facet->getTerms()) == TRUE) {
+        if (count($facet->getTerms()) > 0) {
           $content_in_facet = TRUE;
           break;
         }

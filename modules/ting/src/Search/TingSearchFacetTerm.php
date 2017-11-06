@@ -6,7 +6,9 @@
 
 namespace Ting\Search;
 
-
+/**
+ * Class that represents a single facet term and it's count.
+ */
 class TingSearchFacetTerm {
   /**
    * Term name.

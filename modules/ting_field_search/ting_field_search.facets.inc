@@ -29,10 +29,6 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
       return;
     }
 
-    // Until the facet-browser can be switched to specifying facets by their
-    // id, we need to be able to look them up by name.
-    $facets = $search_result->getFacets();
-
     // Build a base URI for all the facet terms including any existing facet
     // parameters added manually. We would like to use 'facets[]' as key for
     // all the facets, but Drupal functions output 'facets[0], facets[1], ..'
@@ -61,6 +57,7 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
     $facet_count = $profile->config['facets']['facet_count'];
     // Keep a record of the facets we've added.
     $profile_facets = array();
+    $facets = $search_result->getFacets();
     foreach ($profile->facets as $profile_facet) {
       $name = $profile_facet['name'];
       $profile_facets[$name] = $profile_facet;
