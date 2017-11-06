@@ -173,7 +173,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function checkPaginationOnAllPages()
   {
-    $this->check($this->searchPage->checkPaginationOnAllPages(), "Pagination failed.\n" . $this->searchPage->getMessages());
+    $this->check($this->searchPage->checkPaginationOnAllPages(),  $this->searchPage->getMessages());
   }
 
   /**
@@ -183,7 +183,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function checkSearchResultIsSortedOnSortOption($sortOption)
   {
     // check that the user asked for a valid sort-option
-    $this->check($this->searchPage->sortOptionValid($sortOption), "Sort option " . $sortOption . " not valid: ");
+    $this->check($this->searchPage->sortOptionValid($sortOption),  $sortOption );
 
 
     $this->check($this->searchPage->checkSorting($sortOption), $this->searchPage->getMessages());
