@@ -360,13 +360,6 @@ projects[ting_facet_custom][download][url]    = "git@github.com:easySuite/ting_f
 ;projects[ting_facet_custom][download][tag]    = "7.x-3.0.2"
 projects[ting_facet_custom][download][branch] = "development"
 
-projects[ting_field_search][type]             = "module"
-projects[ting_field_search][subdir]           = ""
-projects[ting_field_search][download][type]   = "git"
-projects[ting_field_search][download][url]    = "git@github.com:easySuite/ting_field_search.git"
-;projects[ting_field_search][download][tag]    = "7.x-3.0.5"
-projects[ting_field_search][download][branch] = "development"
-
 projects[ting_marc][type]             = "module"
 projects[ting_marc][subdir]           = ""
 projects[ting_marc][download][type]   = "git"
