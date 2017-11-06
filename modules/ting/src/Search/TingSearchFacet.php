@@ -55,16 +55,6 @@ class TingSearchFacet {
   }
 
   /**
-   * Sets the name of the facet.
-   *
-   * @param string $name
-   *   The name.
-   */
-  public function setName($name) {
-    $this->name = $name;
-  }
-
-  /**
    * Returns all term matches in the facet.
    *
    * A facet will only contain terms if it is a part of a search result.

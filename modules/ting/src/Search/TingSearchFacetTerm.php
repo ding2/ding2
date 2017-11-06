@@ -49,16 +49,6 @@ class TingSearchFacetTerm {
   }
 
   /**
-   * Sets the name of the term.
-   *
-   * @param string $name
-   *   The term name.
-   */
-  public function setName($name) {
-    $this->name = $name;
-  }
-
-  /**
    * Set the match count of the term.
    *
    * @return int
@@ -66,15 +56,5 @@ class TingSearchFacetTerm {
    */
   public function getCount() {
     return $this->count;
-  }
-
-  /**
-   * Sets the match count.
-   *
-   * @param int $count
-   *   The count.
-   */
-  public function setCount($count) {
-    $this->count = $count;
   }
 }
