@@ -269,13 +269,6 @@ projects[easyddb_frontend_layout][download][url]    = "git@github.com:easySuite/
 ;projects[easyddb_frontend_layout][download][tag]    = "7.x-3.0.2"
 projects[easyddb_frontend_layout][download][branch] = "development"
 
-projects[easyddb_legend][type]             = "module"
-projects[easyddb_legend][subdir]           = ""
-projects[easyddb_legend][download][type]   = "git"
-projects[easyddb_legend][download][url]    = "git@github.com:easySuite/easyddb_legend.git"
-;projects[easyddb_legend][download][tag]    = "7.x-3.0.2"
-projects[easyddb_legend][download][branch] = "development"
-
 projects[easyddb_materials_display][type]             = "module"
 projects[easyddb_materials_display][subdir]           = ""
 projects[easyddb_materials_display][download][type]   = "git"
@@ -532,6 +525,13 @@ projects[alma_reminder_service][download][type]   = "git"
 projects[alma_reminder_service][download][url]    = "git@github.com:easySuite/alma_reminder_service.git"
 ;projects[alma_reminder_service][download][tag]    = "7.x-3.0.2"
 projects[alma_reminder_service][download][branch] = "development"
+
+projects[easyddb_legend][type]             = "module"
+projects[easyddb_legend][subdir]           = ""
+projects[easyddb_legend][download][type]   = "git"
+projects[easyddb_legend][download][url]    = "git@github.com:easySuite/easyddb_legend.git"
+;projects[easyddb_legend][download][tag]    = "7.x-3.0.2"
+projects[easyddb_legend][download][branch] = "development"
 
 projects[easyddb_hide_librarydropdown][type]             = "module"
 projects[easyddb_hide_librarydropdown][subdir]           = ""
