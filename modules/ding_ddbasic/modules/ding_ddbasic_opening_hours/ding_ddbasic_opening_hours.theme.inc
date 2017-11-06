@@ -126,6 +126,31 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
     '@to' => format_date($timespan[1], 'custom', 'd.m'),
   ));
 
+  // Set first real category for "closed" days (-1).
+  $default = -1;
+  foreach ($structured as $day) {
+    $weights = array_keys($day['cols']);
+    foreach ($weights as $weight) {
+      if ($weight !== $default) {
+        $default = $weight;
+        break 2;
+      }
+    }
+  }
+  if ($default !== -1) {
+    // Default category from found, so move data around.
+    foreach ($structured as &$day) {
+      if (array_key_exists(-1, $day['cols'])) {
+        isset($day['cols'][$default]) ? $day['cols'][$default] += $day['cols'][-1] : $day['cols'][$default] = $day['cols'][-1];
+        unset($day['cols'][-1]);
+      }
+    }
+
+    // Also remove the -1 category.
+    unset($categories[-1]);
+  }
+
+
   $variables['table'] = ding_ddbasic_opening_hours_table(
     $title,
     $categories,
