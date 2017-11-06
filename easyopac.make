@@ -269,13 +269,6 @@ projects[easyddb_frontend_layout][download][url]    = "git@github.com:easySuite/
 ;projects[easyddb_frontend_layout][download][tag]    = "7.x-3.0.2"
 projects[easyddb_frontend_layout][download][branch] = "development"
 
-projects[easyddb_ipe_filter][type]             = "module"
-projects[easyddb_ipe_filter][subdir]           = ""
-projects[easyddb_ipe_filter][download][type]   = "git"
-projects[easyddb_ipe_filter][download][url]    = "git@github.com:easySuite/easyddb_ipe_filter.git"
-;projects[easyddb_ipe_filter][download][tag]    = "7.x-3.0.2"
-projects[easyddb_ipe_filter][download][branch] = "development"
-
 projects[easyddb_materials_display][type]             = "module"
 projects[easyddb_materials_display][subdir]           = ""
 projects[easyddb_materials_display][download][type]   = "git"
