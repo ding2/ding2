@@ -124,7 +124,7 @@
 
 .pane-ding-christmas-calendar-mobile {
   .calendar-popup {
-    display: none !important;
+    display: none;
   }
 }
 
@@ -166,7 +166,7 @@
   }
 
   tr {
-    background-color: transparent !important;
+    background-color: transparent;
     border: none;
     text-align: center;
     border-radius: 0;
@@ -503,6 +503,11 @@
     .slick-next:hover,
     .slick-next:focus {
       background: rgba(0, 0, 0, 1);
+    }
+  }
+  .page-ding-christmas-calendar #quiz-question-answering-form {
+      input#edit-navigation-submit {
+      margin-left: 0;
     }
   }
 }
