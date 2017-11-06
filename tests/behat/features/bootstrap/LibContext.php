@@ -110,12 +110,24 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function AcceptCookiesMinimizeAskLibrarianOverlay()
   {
     // we use the searchPage-instance to deal with cookies
-    $result = $this->searchPage->acceptCookiesMinimizeAskLibrarianOverlay();
-    if ($result = "") {
-      $this->logMsg(true, $this->searchPage->getMessages());
+    $this->check($this->searchPage->acceptCookiesMinimizeAskLibrarianOverlay(), $this->searchPage->getMessages());
+  }
+
+  /**
+   * @param $string - if non-empty - throw an exception
+   * @throws Exception
+   */
+  public function check($result, $msg = '') {
+    // log messages if we have any
+    if ($msg !== '') {
+      print_r($msg);
+    }
+    // fail if we have a non-empty string
+    if ($result !== "") {
       throw new Exception ($result);
     }
   }
+
 
   /**
    * @Then I check if the right number of search results are shown
@@ -161,11 +173,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function checkPaginationOnAllPages()
   {
-    $result = $this->searchPage->checkPaginationOnAllPages();
-    print_r($this->searchPage->getMessages());
-    if ($result != "") {
-      throw new Exception("Pagination failed. " . $result);
-    }
+    $this->check($this->searchPage->checkPaginationOnAllPages(), "Pagination failed.\n" . $this->searchPage->getMessages());
   }
 
   /**
@@ -175,17 +183,10 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function checkSearchResultIsSortedOnSortOption($sortOption)
   {
     // check that the user asked for a valid sort-option
-    $result = $this->searchPage->sortOptionValid($sortOption);
-    if ($result != "") {
-      throw new Exception ("Sort option " . $sortOption . " not valid.");
-    }
+    $this->check($this->searchPage->sortOptionValid($sortOption), "Sort option " . $sortOption . " not valid: ");
 
-    $result = $this->searchPage->checkSorting($sortOption);
-    if ($result != "") {
-      print_r($this->searchPage->getMessages());
-      throw new Exception ($result);
-    }
 
+    $this->check($this->searchPage->checkSorting($sortOption), $this->searchPage->getMessages());
   }
 
   /**
@@ -263,10 +264,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function findAddToAList()
   {
-    $result = $this->objectPage->hasAddToList();
-    if ($result != "") {
-      throw new Exception ($result);
-    }
+    $this->check($this->objectPage->hasAddToList());
   }
 
   /**
@@ -277,10 +275,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function findAddToListNotPossible()
   {
-    $result = $this->objectPage->hasNotAddToList();
-    if ($result != "") {
-      throw new Exception ($result);
-    }
+    $this->check($this->objectPage->hasNotAddToList());
   }
 
   /**
@@ -290,10 +285,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function findAvailabilityOptions()
   {
-    $result = $this->objectPage->hasAvailabiltyOptions();
-    if ($result != "") {
-      throw new Exception ($result);
-    }
+    $this->check($this->objectPage->hasAvailabiltyOptions());
   }
 
   /**
@@ -301,12 +293,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function findCoverPage()
   {
-
-    $result = $this->objectPage->hasCoverPage();
-    if ($result != "") {
-      throw new Exception ($result);
-    }
-
+    $this->check($this->objectPage->hasCoverPage());
   }
 
   /**
@@ -318,11 +305,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function findOnlineAccessButton()
   {
-    $result = $this->objectPage->hasOnlineAccessButton();
-    if ($result != "") {
-      throw new Exception ($result);
-    }
+    $this->check($this->objectPage->hasOnlineAccessButton());
   }
+
 
   /**
    * @Then there are posts with :attribute in the search results
@@ -359,10 +344,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function findRelationTypeEntryIsShown($relType)
   {
-    $result = $this->objectPage->entryIsShown($relType);
-    if ($result != "") {
-      throw new Exception ($result);
-    }
+    $this->check($this->objectPage->entryIsShown($relType));
   }
 
   /**
@@ -371,10 +353,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function findRelationTypeEntryNotShown($relType)
   {
-    $result = $this->objectPage->entryIsNotShown($relType);
-    if ($result != "") {
-      throw new Exception ($result);
-    }
+    $this->check($this->objectPage->entryIsNotShown($relType));
   }
 
   /**
@@ -384,10 +363,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function findReserveMaterialButton()
   {
-    $result=$this->objectPage->hasReservationButton();
-    if ($result != "") {
-      throw new Exception($result);
-    }
+    $this->check($this->objectPage->hasReservationButton());
   }
 
 
@@ -400,10 +376,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   {
     $title = $this->translateArgument($title);
 
-    $result = $this->searchPage->findTitleOnPage($title);
-    if ($result != "") {
-      throw new Exception ($result);
-    }
+    $this->check($this->searchPage->findTitleOnPage($title));
   }
 
   /**
@@ -420,10 +393,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function getPromptToLogin()
   {
-     $result = $this->objectPage->getPromptToLogin();
-     if ($result != "") {
-       throw new Exception ($result);
-     }
+     $this->check($this->objectPage->getPromptToLogin());
   }
 
   /**
@@ -668,17 +638,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function pageingAllowsToGetAllResults()
   {
-
-
-    $result = $this->searchPage->getEntireSearchResult();
-    // log messages in any case. Might be useful info in there.
-    if ($this->searchPage->getVerboseSearchResult() == "on") {
-      print_r ($this->searchPage->getMessages());
-    }
-    if ($result != "") {
-      throw new Exception ($result);
-    };
-
+    $this->check($this->searchPage->getEntireSearchResult(), ($this->searchPage->getVerboseSearchResult() == "on") ? $this->searchPage->getMessages() : '');
   }
 
   /**
@@ -689,11 +649,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   {
     $this->findReserveMaterialButton();
 
-    $result = $this->objectPage->makeReservation();
-    if ($result != "") {
-      throw new Exception ($result);
-    }
-
+    $this->check($this->objectPage->makeReservation());
   }
 
 
@@ -767,11 +723,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function searchForResultOfCertainSizeUsingInterval($interval, $listOfTerms, $publishedBetween)
   {
-     $result = $this->searchPage->searchForCertainSize($interval, $listOfTerms, $publishedBetween);
-     print_r($this->searchPage->getMessages());
-     if ($result != "") {
-       throw new Exception( $result);
-     }
+     $this->check($this->searchPage->searchForCertainSize($interval, $listOfTerms, $publishedBetween), $this->searchPage->getMessages());
   }
 
   /**
@@ -780,11 +732,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function searchOnHomePage()
   {
-    $result = $this->searchPage->searchOnHomePage();
-    if ($result != "") {
-      throw new Exception ($result);
-    }
-
+    $this->check($this->searchPage->searchOnHomePage());
   }
 
   /**
@@ -801,10 +749,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function setTheNumberOfResultsPerPageToSize($size)
   {
-    $result = $this->searchPage->setTheNumberOfResultsPerPageToSize($size);
-    if ($result!="") {
-      throw new Exception ($result);
-    }
+    $this->check($this->searchPage->setTheNumberOfResultsPerPageToSize($size));
   }
 
 
@@ -918,14 +863,8 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function sortTheSearchResultOnOption($sortOption)
   {
     // check that the user asked for a valid sort-option
-    $result = $this->searchPage->sortOptionValid($sortOption);
-    if ($result != "") {
-      throw new Exception ($result);
-    }
-    $result = $this->searchPage->sort($sortOption);
-    if ($result != "") {
-      throw new Exception ($result);
-    }
+    $this->check($this->searchPage->sortOptionValid($sortOption));
+    $this->check($this->searchPage->sort($sortOption));
   }
 
 
@@ -1013,12 +952,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     // start by logging what we start out with.
     print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
 
-    $result = $this->searchPage->useFacetsToIncreaseSearchResults();
-    print_r($this->searchPage->getMessages());
-    if ($result!="") {
-      throw new Exception ($result);
-    }
-
+    $this->check($this->searchPage->useFacetsToIncreaseSearchResults(), $this->searchPage->getMessages());
   }
 
   /**
@@ -1034,12 +968,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
     print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
 
-    $result = $this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible();
-
-    print_r($this->searchPage->getMessages());
-    if ($result!="") {
-      throw new Exception ($result);
-    }
+    $this->check( $this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible(), $this->searchPage->getMessages());
   }
 
 
@@ -1057,10 +986,7 @@ class LibContext implements Context, SnippetAcceptingContext {
 
     // only change page if we are not already on it
     if ($curpg != $toPage) {
-      $result = $this->searchPage->goToPage($toPage);
-      if ($result != "") {
-        throw new Exception ($result);
-      }
+      $this->check($this->searchPage->goToPage($toPage));
     } else {
       // we will not fail this.. it may be on purpose
     }
