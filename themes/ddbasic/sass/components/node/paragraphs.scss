@@ -39,16 +39,16 @@
   }
 
   .inner {
-    @include transition(
-        background-color $speed $ease,
-        box-shadow $speed $ease
-    );
     cursor: auto;
     width: 100%;
     float: left;
     padding: 15px;
     box-sizing: border-box;
     background-color: $grey;
+
+    .paragraphs-text {
+      margin: 10px 0;
+    }
 
     .ting-object-left {
       float: left;
