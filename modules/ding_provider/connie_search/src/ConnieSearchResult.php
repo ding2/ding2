@@ -6,6 +6,8 @@
 
 namespace Connie\Search;
 
+use Ting\Search\TingSearchFacet;
+use Ting\Search\TingSearchFacetTerm;
 use Ting\Search\TingSearchResultInterface;
 
 class ConnieSearchResult implements TingSearchResultInterface {
@@ -76,5 +78,21 @@ class ConnieSearchResult implements TingSearchResultInterface {
    */
   public function getSearchRequest() {
     return $this->query;
+  }
+
+  /**
+   * Facet matched in the result with term matches.
+   *
+   * @return \Ting\Search\TingSearchFacet[]
+   *   List of facets, empty if none where found.
+   */
+  public function getFacets() {
+    $terms = [
+      new TingSearchFacetTerm('term1', 42),
+      new TingSearchFacetTerm('term2', 2),
+      new TingSearchFacetTerm('term3', 3),
+    ];
+    $facet = new TingSearchFacet('facet-name', $terms);
+    return [$facet->getName() => $facet];
   }
 }
