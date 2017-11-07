@@ -210,7 +210,7 @@ function ddbasic_field__display_image_text($vars) {
 }
 
 /**
- * Implements hook_preprocess__field__field_ding_paragraphs_position()
+ * Implements hook_preprocess__field__field_ding_paragraphs_image()
  */
 function ddbasic_preprocess__field__field_ding_paragraphs_image(&$vars) {
   $image_paragraph_styles = array(
@@ -221,4 +221,18 @@ function ddbasic_preprocess__field__field_ding_paragraphs_image(&$vars) {
   }
 
   $vars['image_paragraph_styles'] = implode(' ', $image_paragraph_styles);
+}
+
+/**
+ * Implements hook_preprocess__field__field_ding_paragraphs_text()
+ */
+function ddbasic_preprocess__field__field_ding_paragraphs_text(&$vars) {
+  $text_paragraph_styles = array(
+    'paragraphs-text'
+  );
+  if (isset($vars['element']['attributes']['class'])) {
+    $text_paragraph_styles[] = $vars['element']['attributes']['class'];
+  }
+
+  $vars['text_paragraph_styles'] = implode(' ', $text_paragraph_styles);
 }

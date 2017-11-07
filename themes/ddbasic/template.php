@@ -437,6 +437,7 @@ function ddbasic_preprocess_entity_paragraphs_item(&$variables) {
         $variables['content']['field_ding_paragraphs_image']['#weight'] = 0;
         $variables['content']['field_ding_paragraphs_text']['#weight'] = 1;
         $variables['content']['field_ding_paragraphs_image']['attributes']['class'] = 'ting-object-left';
+        $variables['content']['field_ding_paragraphs_text']['attributes']['class'] = 'ting-object-right';
         break;
     }
   }
@@ -448,12 +449,6 @@ function ddbasic_preprocess_entity_paragraphs_item(&$variables) {
   }
   $variables['paragraph_styles'] = implode(' ', $paragraph_styles);
 }
-
-
-
-
-
-
 
 /**
  * Implements template_preprocess_menu_links().
