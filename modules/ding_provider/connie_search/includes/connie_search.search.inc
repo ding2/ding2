@@ -196,3 +196,28 @@ function connie_search_search_sort_options() {
     ]
   ];
 }
+
+/**
+ * Provide standard object ID's for connie provider.
+ *
+ * @param mixed $ids
+ *    Array with multiple ID's or a single ID.
+ *
+ * @return array|string
+ *    Array with multiple ID's. ID/faust as key and object ID as value.
+ *    If a string is provided as parameter, a string with object ID.
+ */
+function connie_search_search_object_ids($ids) {
+  if (is_array($ids) && !empty($ids)) {
+    $translated_ids = array();
+    /** @var array $ids */
+    foreach ($ids as $id) {
+      $translated_ids[$id] = '1337-test:' . $id;
+    }
+    return $translated_ids;
+  }
+
+  if (is_numeric($ids)) {
+    return '1337-test:' . $ids;
+  }
+}
