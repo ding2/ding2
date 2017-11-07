@@ -506,8 +506,12 @@
     }
   }
   .page-ding-christmas-calendar #quiz-question-answering-form {
-      input#edit-navigation-submit {
+    input#edit-navigation-submit {
       margin-left: 0;
+    }
+
+    input#edit-navigation-skip {
+      margin-right: 10px;
     }
   }
 }
