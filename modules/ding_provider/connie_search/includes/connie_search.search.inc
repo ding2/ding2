@@ -212,12 +212,12 @@ function connie_search_search_object_ids($ids) {
     $translated_ids = array();
     /** @var array $ids */
     foreach ($ids as $id) {
-      $translated_ids[$id] = '1337-test' . ':' . $id;
+      $translated_ids[$id] = '1337-test:' . $id;
     }
     return $translated_ids;
   }
 
   if (is_numeric($ids)) {
-    return '1337-test' . ':' . $ids;
+    return '1337-test:' . $ids;
   }
 }
