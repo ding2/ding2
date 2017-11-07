@@ -635,8 +635,81 @@ function ding_news_field_default_field_instances() {
       'weight' => 6,
     ),
   );
+  
+  // Exported field_instance: 'node-ding_news-field_ding_news_paragraphs'
+  $field_instances['node-ding_news-field_ding_news_paragraphs'] = array(
+    'bundle' => 'ding_news',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'paragraphs',
+        'settings' => array(
+          'view_mode' => 'full',
+        ),
+        'type' => 'paragraphs_view',
+        'weight' => 10,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ding_news_paragraphs',
+    'label' => 'Paragraphs',
+    'required' => 0,
+    'settings' => array(
+      'add_mode' => 'select',
+      'allowed_bundles' => array(
+        'ding_paragraphs_image' => 'ding_paragraphs_image',
+        'ding_paragraphs_image_and_text' => 'ding_paragraphs_image_and_text',
+        'ding_paragraphs_text' => 'ding_paragraphs_text',
+        'ding_paragraphs_text_box' => 'ding_paragraphs_text_box',
+      ),
+      'bundle_weights' => array(
+        'ding_paragraphs_image' => -5,
+        'ding_paragraphs_image_and_text' => -4,
+        'ding_paragraphs_text' => -6,
+        'ding_paragraphs_text_box' => 5,
+      ),
+      'default_edit_mode' => 'closed',
+      'title' => 'Paragraph',
+      'title_multiple' => 'Paragraphs',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'paragraphs',
+      'settings' => array(),
+      'type' => 'paragraphs_embed',
+      'weight' => 39,
+    ),
+  );
 
-  // Exported field_instance: 'node-ding_news-field_ding_news_show_as_list'.
+  // Exported field_instance: 'node-ding_news-field_ding_news_show_as_list'
   $field_instances['node-ding_news-field_ding_news_show_as_list'] = array(
     'bundle' => 'ding_news',
     'default_value' => array(
@@ -1058,6 +1131,7 @@ function ding_news_field_default_field_instances() {
   t('Library');
   t('List image');
   t('Materials');
+  t('Paragraphs');
   t('Select the libraries this content should be associated with.');
   t('Show as material list');
   t('Tags');
