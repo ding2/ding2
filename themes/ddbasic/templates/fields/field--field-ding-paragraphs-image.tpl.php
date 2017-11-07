@@ -42,11 +42,13 @@
  * @see theme_field()
  */
 ?>
-<p>
-  <?php if (!$label_hidden): ?>
-    <?php print $label ?>
-  <?php endif; ?>
-  <?php foreach ($items as $delta => $item): ?>
-    <?php print render($item); ?>
-  <?php endforeach; ?>
-</p>
+<div class="<?php print $image_paragraph_styles; ?>">
+  <p>
+    <?php if (!$label_hidden): ?>
+      <?php print $label ?>
+    <?php endif; ?>
+    <?php foreach ($items as $delta => $item): ?>
+      <?php print render($item); ?>
+    <?php endforeach; ?>
+  </p>
+</div>

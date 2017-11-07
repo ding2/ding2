@@ -3,7 +3,57 @@
 
 @import '../../base.scss';
 
+// Paragraphs block display
 .paragraphs-block {
+  position: relative;
   display: inline-block;
   margin: 0 0 $distance-paragraph;
+  width: 100%;
+
+  &.half_left {
+    float: left;
+    margin-right: 5%;
+    width: 50%;
+  }
+
+  &.half_right {
+    float: right;
+    margin-left: 5%;
+    width: 50%;
+  }
+
+  &.one_third_left {
+    float: left;
+    margin-right: 5%;
+    width: 33%;
+  }
+
+  &.one_third_right {
+    float: right;
+    margin-left: 5%;
+    width: 33%;
+  }
+
+  p:last-child {
+    margin: 0;
+  }
+
+  .inner {
+    @include transition(
+        background-color $speed $ease,
+        box-shadow $speed $ease
+    );
+    cursor: auto;
+    width: 100%;
+    float: left;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: $grey;
+
+    .ting-object-left {
+      float: left;
+      width: 40%;
+      margin-right: 5%;
+    }
+  }
 }

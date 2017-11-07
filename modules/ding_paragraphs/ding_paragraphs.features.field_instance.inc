@@ -161,6 +161,47 @@ function ding_paragraphs_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_display'
+  $field_instances['paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_display'] = array(
+    'bundle' => 'ding_paragraphs_image_and_text',
+    'default_value' => array(
+      0 => array(
+        'value' => 'full_width',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 5,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'field_ding_paragraphs_display',
+    'label' => 'Show as',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 0,
+    ),
+  );
+
   // Exported field_instance: 'paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_image'
   $field_instances['paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_image'] = array(
     'bundle' => 'ding_paragraphs_image_and_text',
@@ -235,7 +276,7 @@ function ding_paragraphs_field_default_field_instances() {
         'manualcrop_thumblist' => 0,
       ),
       'type' => 'media_generic',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -244,7 +285,7 @@ function ding_paragraphs_field_default_field_instances() {
     'bundle' => 'ding_paragraphs_image_and_text',
     'default_value' => array(
       0 => array(
-        'value' => 'image_right',
+        'value' => 'ting_object_left',
       ),
     ),
     'deleted' => 0,
@@ -254,7 +295,7 @@ function ding_paragraphs_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 4,
       ),
       'paragraphs_editor_preview' => array(
         'label' => 'above',
@@ -265,7 +306,7 @@ function ding_paragraphs_field_default_field_instances() {
     ),
     'entity_type' => 'paragraphs_item',
     'field_name' => 'field_ding_paragraphs_position',
-    'label' => 'Position',
+    'label' => 'Image position',
     'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -275,7 +316,7 @@ function ding_paragraphs_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 0,
+      'weight' => 1,
     ),
   );
 
@@ -315,7 +356,7 @@ function ding_paragraphs_field_default_field_instances() {
         'rows' => 12,
       ),
       'type' => 'text_textarea',
-      'weight' => 1,
+      'weight' => 2,
     ),
   );
 
@@ -399,12 +440,54 @@ function ding_paragraphs_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_text_box-field_ding_paragraphs_display'
+  $field_instances['paragraphs_item-ding_paragraphs_text_box-field_ding_paragraphs_display'] = array(
+    'bundle' => 'ding_paragraphs_text_box',
+    'default_value' => array(
+      0 => array(
+        'value' => 'full_width',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 1,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'field_ding_paragraphs_display',
+    'label' => 'Show as',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 0,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Box text');
   t('Image');
+  t('Image position');
   t('Paragraphs');
-  t('Position');
+  t('Show as');
   t('Text');
 
   return $field_instances;

@@ -420,7 +420,7 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
  * Paragraphs item specific implementation of template_preprocess_entity().
  */
 function ddbasic_preprocess_entity_paragraphs_item(&$variables) {
-  // Image and text positioning for image and text paragraph.
+  // Image and text positioning for image and text paragraph box.
   if ($variables['elements']['#bundle'] == 'ding_paragraphs_image_and_text') {
     $wrapper = entity_metadata_wrapper('paragraphs_item', $variables['paragraphs_item']);
     $position = $wrapper->field_ding_paragraphs_position->value();
@@ -433,9 +433,27 @@ function ddbasic_preprocess_entity_paragraphs_item(&$variables) {
         $variables['content']['field_ding_paragraphs_image']['#weight'] = 1;
         $variables['content']['field_ding_paragraphs_text']['#weight'] = 0;
         break;
+      case 'ting_object_left':
+        $variables['content']['field_ding_paragraphs_image']['#weight'] = 0;
+        $variables['content']['field_ding_paragraphs_text']['#weight'] = 1;
+        $variables['content']['field_ding_paragraphs_image']['attributes']['class'] = 'ting-object-left';
+        break;
     }
   }
+
+  $wrapper = $variables['paragraphs_item']->wrapper();
+  $paragraph_styles = array('paragraphs-block');
+  if(isset($wrapper->getPropertyInfo()['field_ding_paragraphs_display'])) {
+    $paragraph_styles[] = $wrapper->field_ding_paragraphs_display->value();
+  }
+  $variables['paragraph_styles'] = implode(' ', $paragraph_styles);
 }
+
+
+
+
+
+
 
 /**
  * Implements template_preprocess_menu_links().
