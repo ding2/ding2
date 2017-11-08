@@ -117,14 +117,7 @@ function _ding_campaign_plus_other_rule_form($number = 0, $default_values = arra
     '#type' => 'select',
     '#title' => t('Rule type'),
     '#default_value' => $type,
-    '#options' => array(
-      'page' => 'Page',
-      'event' => 'Event',
-      'news' => 'News',
-      'library' => 'Library',
-      'group' => 'Group',
-      'taxonomy' => 'Taxonomy term',
-    ),
+    '#options' => _ding_campaign_plus_get_other_triggers(),
   );
 
   $form['rule_value'] = array(

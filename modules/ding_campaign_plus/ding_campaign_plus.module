@@ -30,6 +30,15 @@ function ding_campaign_plus_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['admin/config/ding/campaigns_plus'] = array(
+    'title' => 'Campaign plus',
+    'description' => 'Configure campaign plus.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_campaign_plus_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'includes/ding_campaign_plus.admin.inc',
+  );
+
   return $items;
 }
 
@@ -41,6 +50,24 @@ function ding_campaign_plus_permission() {
     'access campaign plus triggers' => array(
       'title' => t('Access campaign plus triggers'),
       'description' => t('Access to define campaign rules'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_campaign_plus_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+function ding_campaign_plus_theme() {
+  return array(
+    'ding_campaign_plus_admin_form' => array(
+      'render element' => 'form',
+      'file' => 'includes/ding_campaign_plus.admin.inc',
     ),
   );
 }
@@ -164,62 +191,60 @@ function ding_campaign_plus_node_delete($node) {
   }
 }
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$form_state) {
-
   // Defines tab one.
   $path = drupal_get_path('module', 'field_group');
-  $form['triggers'] = [
+  $form['triggers'] = array(
     '#type' => 'fieldset',
     '#title' => t('Campaign trigger'),
     '#weight' => 10,
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
-    '#attached' => [
-      'js' => [
+    '#attached' => array(
+      'js' => array(
         $path . '/horizontal-tabs/horizontal-tabs.js',
-      ],
-      'css' => [
+      ),
+      'css' => array(
         $path . '/horizontal-tabs/horizontal-tabs.css',
-      ],
-    ],
-  ];
+      ),
+    ),
+  );
 
-  $form['triggers']['tabs'] = [
+  $form['triggers']['tabs'] = array(
     '#type' => 'horizontal_tabs',
     '#tree' => TRUE,
-  ];
+  );
 
   // Defines facet tab.
-  $form['triggers']['tabs']['facet'] = [
+  $form['triggers']['tabs']['facet'] = array(
     '#type' => 'fieldset',
     '#title' => t('Facet trigger'),
     'rules' => _ding_campaign_plus_facet_triggers_form($form, $form_state),
-  ];
+  );
 
   // Defines ting object view tab.
-  $form['triggers']['tabs']['object'] = [
+  $form['triggers']['tabs']['object'] = array(
     '#type' => 'fieldset',
     '#title' => t('Material view'),
     'rules' => _ding_campaign_plus_object_triggers_form($form, $form_state),
-  ];
+  );
 
   // Defines ting object view tab.
-  $form['triggers']['tabs']['search'] = [
+  $form['triggers']['tabs']['search'] = array(
     '#type' => 'fieldset',
     '#title' => t('Search query'),
     'rules' => _ding_campaign_plus_search_triggers_form($form, $form_state),
-  ];
+  );
 
   // Defines other trigger methods (old ding campaign triggers).
-  $form['triggers']['tabs']['other'] = [
+  $form['triggers']['tabs']['other'] = array(
     '#type' => 'fieldset',
     '#title' => t('Other triggers'),
     'rules' => _ding_campaign_plus_other_triggers_form($form, $form_state),
-  ];
+  );
 
   // Ensures that is comes after the triggers when rendered.
   $form['field_ding_campaign_plus_track']['#weight'] = 11;
@@ -301,4 +326,25 @@ function _ding_campaign_plus_filter_rules($nid, $type, $rules) {
   }
 
   return isset($filtered[$nid][$type]) ? $filtered[$nid][$type] : array();
+}
+
+function _ding_campaign_plus_get_other_triggers() {
+  return array(
+    'page' => 'Page',
+    'event' => 'Event',
+    'news' => 'News',
+    'library' => 'Library',
+    'group' => 'Group',
+    'taxonomy' => 'Taxonomy term',
+  );
+}
+
+function ding_campaign_plus_display($context_data, $style) {
+
+
+  $t=1;
+  return array(
+    '#type' => 'markup',
+    '#markup' => 'TEST',
+  );
 }
