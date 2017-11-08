@@ -32,8 +32,9 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   $account = isset($context->data) ? $context->data : NULL;
 
   $loans = FALSE;
+  $cache_key = 'list-' . $conf['overdue'] . '-' . $conf['regular'];
   if (module_exists('ding_session_cache')) {
-    $loans = ding_session_cache_get('ding_loan', 'list');
+    $loans = ding_session_cache_get('ding_loan', $cache_key);
   }
 
   if (!$loans) {
@@ -61,7 +62,7 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
 
     // Store the loans into ding session cache.
     if (module_exists('ding_session_cache')) {
-      ding_session_cache_set('ding_loan', 'list', $loans);
+      ding_session_cache_set('ding_loan', 'list', $cache_key);
     }
   }
 
