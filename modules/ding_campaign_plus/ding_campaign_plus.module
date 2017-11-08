@@ -12,6 +12,7 @@ include_once 'ding_campaign_plus.features.inc';
 include_once 'includes/ding_campaign_plus_other.admin.inc';
 include_once 'includes/ding_campaign_plus_facet.admin.inc';
 include_once 'includes/ding_campaign_plus_search.admin.inc';
+include_once 'includes/ding_campaign_plus_object.admin.inc';
 
 /**
  * Implements hook_menu().
@@ -45,57 +46,259 @@ function ding_campaign_plus_permission() {
 }
 
 /**
+ * Implements hook_node_load().
+ */
+function ding_campaign_plus_node_load($nodes, $types) {
+  foreach ($nodes as $node) {
+    if ($node->type === 'ding_campaign_plus') {
+      $rules = db_select('ding_campaign_plus', 'dcp')
+        ->fields('dcp')
+        ->condition('nid', $node->nid)
+        ->execute()
+        ->fetchAllAssoc('id');
+
+      $node->ding_campaign_plus = $rules;
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_campaign_plus_node_insert($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    $triggers = $node->tabs;
+
+    foreach ($triggers as $type => $trigger) {
+      switch ($type) {
+        case 'facet':
+          foreach ($trigger['rules'] as $rule) {
+            if (!is_array($rule)) {
+              continue;
+            }
+
+            switch ($rule['facet_type']) {
+              case 'facet.type':
+                $value = implode(',', $rule['facet_value_select_type']);
+                break;
+
+              case 'facet.acSource':
+                $value = implode(',', $rule['facet_value_select_source']);
+                break;
+
+              default:
+                $value = $rule['facet_value'];
+            }
+
+            if (!empty($value)) {
+              db_insert('ding_campaign_plus')
+                ->fields(array(
+                  'nid' => $node->nid,
+                  'type' => $type,
+                  'rule' => $rule['facet_type'],
+                  'value' => $value,
+                ))->execute();
+            }
+          }
+          break;
+
+        case 'other':
+          foreach ($trigger['rules'] as $rule) {
+            if (!empty($rule['rule_value'])) {
+              db_insert('ding_campaign_plus')
+                ->fields(array(
+                  'nid' => $node->nid,
+                  'type' => $type,
+                  'rule' => $rule['rule_type'],
+                  'value' => $rule['rule_value'],
+                ))->execute();
+            }
+          }
+          break;
+
+        case 'search':
+          if (!empty($trigger['rules']['query'])) {
+            db_insert('ding_campaign_plus')
+              ->fields(array(
+                'nid' => $node->nid,
+                'type' => $type,
+                'rule' => '',
+                'value' => $trigger['rules']['limit'] . ';' .$trigger['rules']['query'],
+              ))->execute();
+          }
+          break;
+
+        case 'object':
+          if (!empty($trigger['rules']['query'])) {
+            db_insert('ding_campaign_plus')
+              ->fields(array(
+                'nid' => $node->nid,
+                'type' => $type,
+                'rule' => '',
+                'value' => $trigger['rules']['query'],
+              ))->execute();
+          }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ding_campaign_plus_node_update($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    ding_campaign_plus_node_delete($node);
+    ding_campaign_plus_node_insert($node);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_campaign_plus_node_delete($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    db_delete('ding_campaign_plus')
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
+}
+
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$form_state) {
 
   // Defines tab one.
   $path = drupal_get_path('module', 'field_group');
-  $form['triggers'] = array(
+  $form['triggers'] = [
     '#type' => 'fieldset',
     '#title' => t('Campaign trigger'),
     '#weight' => 10,
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
-    '#attached' => array(
-      'js' => array(
+    '#attached' => [
+      'js' => [
         $path . '/horizontal-tabs/horizontal-tabs.js',
-      ),
-      'css' => array(
+      ],
+      'css' => [
         $path . '/horizontal-tabs/horizontal-tabs.css',
-      ),
-    ),
-  );
+      ],
+    ],
+  ];
 
-  $form['triggers']['tabs'] = array(
+  $form['triggers']['tabs'] = [
     '#type' => 'horizontal_tabs',
     '#tree' => TRUE,
-  );
+  ];
 
   // Defines facet tab.
-  $form['triggers']['tabs']['facet'] = array(
+  $form['triggers']['tabs']['facet'] = [
     '#type' => 'fieldset',
     '#title' => t('Facet trigger'),
     'rules' => _ding_campaign_plus_facet_triggers_form($form, $form_state),
-  );
+  ];
 
   // Defines ting object view tab.
-  $form['triggers']['tabs']['object'] = array(
+  $form['triggers']['tabs']['object'] = [
     '#type' => 'fieldset',
     '#title' => t('Material view'),
-    //'rules' => _ding_campaign_plus_facet_triggers_form($form, $form_state),
-  );
+    'rules' => _ding_campaign_plus_object_triggers_form($form, $form_state),
+  ];
+
+  // Defines ting object view tab.
+  $form['triggers']['tabs']['search'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Search query'),
+    'rules' => _ding_campaign_plus_search_triggers_form($form, $form_state),
+  ];
 
   // Defines other trigger methods (old ding campaign triggers).
-  $form['triggers']['tabs']['other'] = array(
+  $form['triggers']['tabs']['other'] = [
     '#type' => 'fieldset',
     '#title' => t('Other triggers'),
     'rules' => _ding_campaign_plus_other_triggers_form($form, $form_state),
-  );
+  ];
 
   // Ensures that is comes after the triggers when rendered.
   $form['field_ding_campaign_plus_track']['#weight'] = 11;
+}
 
-  // Add submit handler for the triggers.
-  array_unshift($form['actions']['submit']['#submit'], '_ding_campaign_plus_other_triggers_form_submit');
+/**
+ * Filter rules for usage in form as default values.
+ *
+ * @param int $nid
+ *   Node id to index static cache.
+ * @param string $type
+ *    The type of rules to return.
+ * @param array $rules
+ *   The rules for a given node.
+ *
+ * @return array
+ *   The rule(s) for the type.
+ */
+function _ding_campaign_plus_filter_rules($nid, $type, $rules) {
+  $filtered = drupal_static(__FUNCTION__, array());
+
+  if (!isset($filtered[$nid])) {
+    $filtered[$nid] = array(
+      'facet' => array(),
+      'other' => array(),
+    );
+
+    foreach ($rules as $rule) {
+      switch ($rule->type) {
+        case 'facet':
+          $value_type = array();
+          $value_source = array();
+          $value = '';
+          switch ($rule->rule) {
+            case 'facet.type':
+              $value_type = explode(',', $rule->value);
+              $value_type = array_combine($value_type, $value_type);
+              break;
+
+            case 'facet.acSource':
+              $value_source = explode(',', $rule->value);
+              $value_source = array_combine($value_source, $value_source);
+              break;
+
+            default:
+              $value = $rule->value;
+              break;
+          }
+          $filtered[$nid][$rule->type]['rule_' . count($filtered[$nid][$rule->type])] = array(
+            'type' => $rule->rule,
+            'facet_value_select_type' => $value_type,
+            'facet_value_select_source' => $value_source,
+            'facet_value' => $value,
+          );
+          break;
+
+        case 'other':
+          $filtered[$nid][$rule->type]['rule_' . count($filtered[$nid][$rule->type])] = array(
+            'rule_type' => $rule->rule,
+            'rule_value' => $rule->value,
+          );
+          break;
+
+        case 'object':
+          $filtered[$nid][$rule->type] = array(
+            'query' => $rule->value,
+          );
+          break;
+
+        case 'search':
+          $values = explode(';', $rule->value, 2);
+          $filtered[$nid][$rule->type] = array(
+            'limit' => $values[0],
+            'query' => $values[1],
+          );
+          break;
+      }
+    }
+  }
+
+  return isset($filtered[$nid][$type]) ? $filtered[$nid][$type] : array();
 }

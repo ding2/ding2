@@ -11,6 +11,12 @@
  */
 function _ding_campaign_plus_facet_triggers_form($form, &$form_state) {
   $values = isset($form_state['values']['tabs']['facet']['rules']) ? $form_state['values']['tabs']['facet']['rules'] : array();
+
+  // Get campaign rule from node.
+  if (empty($values) && isset($form_state['node']->ding_campaign_plus)) {
+    $values = _ding_campaign_plus_filter_rules($form_state['node']->nid, 'facet', $form_state['node']->ding_campaign_plus);
+    $values['count'] = count($values);
+  }
   $count = !empty($values['count']) ? $values['count'] : 0;
 
   // Check if remove button has been pressed. If so remove element from
@@ -37,19 +43,19 @@ function _ding_campaign_plus_facet_triggers_form($form, &$form_state) {
   // values.
   foreach ($values as $key => $value) {
     if (substr($key, 0, 4) === "rule") {
-      $triggers[$key] = _ding_campaign_plus_facet_rule_form(substr($key, 5), NULL, 'page');
+      $triggers[$key] = _ding_campaign_plus_facet_rule_form(substr($key, 5), $value);
     }
   }
 
   // If not a remove operation add one more element.
   if (!isset($form_state['triggering_element'])) {
-    $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count, NULL, 'page');
+    $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count);
   }
   else if ($form_state['triggering_element']['#name'] === 'add_another_facet') {
     // Check if it was this sub-form that need another element added if not
     // exit to prevent extra elements being generated.
     $count++;
-    $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count, NULL, 'page');
+    $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count);
   }
 
   $triggers['count'] = array(
@@ -92,15 +98,13 @@ function _ding_campaign_plus_facet_rule_ajax_callback(array $form, array $form_s
  *
  * @param int $number
  *   The rule number (used for UI numbering).
- * @param string $rule
- *   Current rule machine name.
- * @param string $type
- *   Current type.
+ * @param array $default_values
+ *   The default values for the fields.
  *
  * @return array
  *   Rule fields structure.
  */
-function _ding_campaign_plus_facet_rule_form($number = 0, $rule = NULL, $type = NULL) {
+function _ding_campaign_plus_facet_rule_form($number = 0, $default_values = array()) {
   $form = array(
     '#type' => 'fieldset',
     '#title' => t('Rule %num',array('%num' => $number)),
@@ -117,7 +121,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, $rule = NULL, $type = 
   $form['facet_type'] = array(
     '#type' => 'select',
     '#title' => t('Facet Type'),
-    '#default_value' => ($type) ? $type : 'rule_page',
+    '#default_value' => isset($default_values['type']) ? $default_values['type'] : 'facet.type',
     '#options' => $options,
     '#attributes' => array(
       'class' => array('js-fact-type'),
@@ -126,10 +130,11 @@ function _ding_campaign_plus_facet_rule_form($number = 0, $rule = NULL, $type = 
 
   $options = _ting_fetch_well_types();
   $options = array_keys($options);
+  $options = array_combine($options, $options);
   $form['facet_value_select_type'] = array(
     '#type' => 'select',
     '#title' => t('Facet'),
-    '#default_value' => ($type) ? $type : 'rule_page',
+    '#default_value' => isset($default_values['facet_value_select_type']) ? $default_values['facet_value_select_type'] : array(),
     '#options' => $options,
     '#multiple' => TRUE,
     '#size' => min(8, count($options)),
@@ -137,10 +142,11 @@ function _ding_campaign_plus_facet_rule_form($number = 0, $rule = NULL, $type = 
 
   $options = _ting_fetch_well_sources();
   $options = array_keys($options);
+  $options = array_combine($options, $options);
   $form['facet_value_select_source'] = array(
     '#type' => 'select',
     '#title' => t('Facet'),
-    '#default_value' => ($type) ? $type : 'rule_page',
+    '#default_value' => isset($default_values['facet_value_select_source']) ? $default_values['facet_value_select_source'] : array(),
     '#options' => $options,
     '#multiple' => TRUE,
     '#size' => min(8, count($options)),
@@ -149,7 +155,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, $rule = NULL, $type = 
   $form['facet_value'] = array(
     '#type' => 'textfield',
     '#title' => t('Facet value'),
-    '#default_value' => ($rule) ? $rule : '',
+    '#default_value' => isset($default_values['facet_value']) ? $default_values['facet_value'] : '',
     '#size' => 64,
     '#maxlength' => 255,
   );

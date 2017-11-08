@@ -81,6 +81,7 @@
   }
 
   /**
+   * Handle facet selection boxes.
    *
    * @type {{attach: Drupal.behaviors.ding_campaign_plus_facet_selectors.attach}}
    */
@@ -101,6 +102,11 @@
     }
   };
 
+  /**
+   * Handle trigger type auto-complete callbacks.
+   *
+   * @type {{attach: Drupal.behaviors.ding_campaign_plus_other_triggers.attach}}
+   */
   Drupal.behaviors.ding_campaign_plus_other_triggers = {
     attach: function (context, settings) {
       var local_context = $('#ding-campaign-triggers', context);

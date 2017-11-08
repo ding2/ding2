@@ -11,6 +11,12 @@
  */
 function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
   $values = isset($form_state['values']['tabs']['other']['rules']) ? $form_state['values']['tabs']['other']['rules'] : array();
+
+  // Get campaign rule from node.
+  if (empty($values) && isset($form_state['node']->ding_campaign_plus)) {
+    $values = _ding_campaign_plus_filter_rules($form_state['node']->nid, 'other', $form_state['node']->ding_campaign_plus);
+    $values['count'] = count($values);
+  }
   $count = !empty($values['count']) ? $values['count'] : 0;
 
   // Check if remove button has been pressed. If so remove element from
@@ -37,19 +43,19 @@ function _ding_campaign_plus_other_triggers_form($form, &$form_state) {
   // values.
   foreach ($values as $key => $value) {
     if (substr($key, 0, 4) === "rule") {
-      $triggers[$key] = _ding_campaign_plus_other_rule_form(substr($key, 5), NULL, 'page');
+      $triggers[$key] = _ding_campaign_plus_other_rule_form(substr($key, 5), $value);
     }
   }
 
   // If not a remove operation add one more element.
   if (!isset($form_state['triggering_element'])) {
-    $triggers['rule_' . $count] = _ding_campaign_plus_other_rule_form($count, NULL, 'page');
+    $triggers['rule_' . $count] = _ding_campaign_plus_other_rule_form($count);
   }
   else if ($form_state['triggering_element']['#name'] === 'add_another_rule') {
     // Check if it was this sub-form that need another element added if not
     // exit to prevent extra elements being generated.
     $count++;
-    $triggers['rule_' . $count] = _ding_campaign_plus_other_rule_form($count, NULL, 'page');
+    $triggers['rule_' . $count] = _ding_campaign_plus_other_rule_form($count);
   }
 
   $triggers['count'] = array(
@@ -92,15 +98,13 @@ function _ding_campaign_plus_other_rule_ajax_callback(array $form, array $form_s
  *
  * @param int $number
  *   The rule number (used for UI numbering).
- * @param string $rule
- *   Current rule machine name.
- * @param string $type
- *   Current type.
+ * @param array $default_values
+ *   The default values for the fields.
  *
  * @return array
  *   Rule fields structure.
  */
-function _ding_campaign_plus_other_rule_form($number = 0, $rule = NULL, $type = NULL) {
+function _ding_campaign_plus_other_rule_form($number = 0, $default_values = array()) {
   $form = array(
     '#type' => 'fieldset',
     '#title' => t('Rule %num',array('%num' => $number)),
@@ -108,10 +112,11 @@ function _ding_campaign_plus_other_rule_form($number = 0, $rule = NULL, $type = 
     '#collapsed' => FALSE,
   );
 
+  $type = isset($default_values['rule_type']) ? $default_values['rule_type'] : 'page';
   $form['rule_type'] = array(
     '#type' => 'select',
     '#title' => t('Rule type'),
-    '#default_value' => ($type) ? $type : 'rule_page',
+    '#default_value' => $type,
     '#options' => array(
       'page' => 'Page',
       'event' => 'Event',
@@ -125,7 +130,7 @@ function _ding_campaign_plus_other_rule_form($number = 0, $rule = NULL, $type = 
   $form['rule_value'] = array(
     '#type' => 'textfield',
     '#title' => t('Rule value'),
-    '#default_value' => ($rule) ? $rule : '',
+    '#default_value' => isset($default_values['rule_value']) ? $default_values['rule_value'] : '',
     '#size' => 64,
     '#maxlength' => 255,
     '#autocomplete_path' => 'ding_campaign_plus/autocomplete/' . $type,
@@ -203,13 +208,4 @@ function _ding_campaign_plus_other_admin_autocomplete($type, $input) {
   }
 
   drupal_json_output($matches);
-}
-
-/**
- * @TODO: Documentation
- */
-function _ding_campaign_plus_other_triggers_form_submit($form, &$form_state) {
-  /**
-   * TODO: Save data ?
-   */
 }
