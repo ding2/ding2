@@ -548,19 +548,22 @@ function ding2_update_7043() {
  */
 function ding2_update_7044() {
   $old_theme_settings = variable_get('theme_ddbasic_settings', array());
-  variable_set('theme_ddbasic_settings_backup', $old_theme_settings);
 
-  $topbar_color = $old_theme_settings['palette']['topbar_background_color'];
-  $header_background_color = $old_theme_settings['palette']['header_background_color'];
-  $link_color = $old_theme_settings['palette']['link'];
+  if (!empty($old_theme_settings)) {
+    variable_set('theme_ddbasic_settings_backup', $old_theme_settings);
 
-  $palette_changes = array(
-    'primary' => $header_background_color,
-    'secondary' => $link_color,
-    'topbar' => $topbar_color,
-  );
+    $topbar_color = $old_theme_settings['palette']['topbar_background_color'];
+    $header_background_color = $old_theme_settings['palette']['header_background_color'];
+    $link_color = $old_theme_settings['palette']['link'];
 
-  color_update_palette('ddbasic', $palette_changes);
+    $palette_changes = array(
+      'primary' => $header_background_color,
+      'secondary' => $link_color,
+      'topbar' => $topbar_color,
+    );
+
+    color_update_palette('ddbasic', $palette_changes);
+  }
 }
 
 /**
