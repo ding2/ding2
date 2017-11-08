@@ -442,3 +442,159 @@ msgstr "Indhold må redigeres"
 #: bpi.push.inc:123;257
 msgid "I want be anonymous"
 msgstr "Jeg ønsker at være anonym"
+
+msgid "Channels"
+msgstr "Kanaler"
+
+msgid "All channels"
+msgstr "Alle kanaler"
+
+msgid "My channels"
+msgstr "Mine kanaler"
+
+msgid "My channel subscriptions"
+msgstr "Mine abonnementer"
+
+msgid "Add channel"
+msgstr "Opret kanal"
+
+msgid "Channel details"
+msgstr "Kanaldetaljer"
+
+msgid "Edit channel"
+msgstr "Rediger kanal"
+
+msgid "Channel administrator"
+msgstr "Administrator"
+
+msgid "Channel editors"
+msgstr "Redaktører"
+
+msgid "Channel content"
+msgstr "Indhold"
+
+msgid "Node last added to channel at !timestamp"
+msgstr "Indhold sidst tilføjet !timestamp"
+
+msgid "Node last added at"
+msgstr "Indhold sidst tilføjet"
+
+msgid "Add editors to channel"
+msgstr "Tilføj redaktører"
+
+msgid "Channel has no editors"
+msgstr "Ingen redaktører"
+
+msgid "Add nodes to channel"
+msgstr "Tilføj indhold"
+
+msgid "Add to channel"
+msgstr "Tilføj til kanal"
+
+msgid "No nodes in channel"
+msgstr "Intet indhold i kanalen"
+
+msgid "Add node to channel"
+msgstr "Tilføj indhold til kanal"
+
+msgid "Remove node from channel"
+msgstr "Fjern indhold fra kanal"
+
+msgid "Remove editor from channel"
+msgstr "Fjern redaktør fra kanal"
+
+msgid "Number of nodes"
+msgstr "Styk indhold"
+
+msgid "User has no channels"
+msgstr "Brugeren har ingen kanaler"
+
+msgid "Add selected editors to channel"
+msgstr "Tilføj valgte brugere til kanal"
+
+msgid "Are you sure you want to remove %node from %channel?"
+msgstr "Er du sikker på at du vil fjerne %node fra %channel?"
+
+msgid "Are you sure you want to remove %editor from %channel?"
+msgstr "Er du sikker på at du vil fjerne %editor fra %channel?"
+
+msgid "Search in name"
+msgstr "Søg i navn"
+
+msgid "Reset filters"
+msgstr "Nulstil filtre"
+
+msgid "Cannot create bpi user !email"
+msgstr "Fejl under oprettelse af BPI-bruger !email"
+
+msgid "Cannot update bpi user !email"
+msgstr "Fejl under opdatering af BPI-bruger !email"
+
+msgid "Current user (!email) does not have a valid BPI user id"
+msgstr "Brugeren !email har ikke et gyldigt BPI-bruger-id"
+
+msgid "Subscribed to channel?"
+msgstr "Abonnement oprettet?"
+
+msgid "Subscribe to channel"
+msgstr "Abonner på kanal"
+
+msgid "Subscription on channel %channel created"
+msgstr "Abonnement på %channel oprettet"
+
+msgid "Unsubscribe from channel"
+msgstr "Opsig abonnement"
+
+msgid "Subscription on channel %channel deleted"
+msgstr "Abonnement på %channel opsagt"
+
+msgid "Subscriptions"
+msgstr "Gemte søgninger"
+
+msgid "(Select subscription)"
+msgstr "(Vælg søgning)"
+
+msgid "Apply subscription"
+msgstr "Brug søgning"
+
+msgid "Update subscription"
+msgstr "Opdater søgning"
+
+msgid "Delete subscription"
+msgstr "Slet søgning"
+
+msgid "Subscription title"
+msgstr "Titel"
+
+msgid "Create subscription"
+msgstr "Opret søgning"
+
+msgid "Please specify a subscription title"
+msgstr "Angiv venligst en titel"
+
+msgid "Subscription %title already exists"
+msgstr "Søgningen %title findes allerede"
+
+msgid "Subscription %title created"
+msgstr "Søgning %title oprettet"
+
+msgid "Error creation subscription"
+msgstr "Fejl under oprettelse af søgning"
+
+msgid "Subscription %id does not exists"
+msgstr "Søgning %id findes ikke"
+
+msgid "Subscription %title applied"
+msgstr "Søgning %title aktiveret"
+
+msgid "Cannot update subscription %title"
+msgstr "Fejl under opdatering af søgning %title"
+
+msgid "Subscription %title updated"
+msgstr "Søgning %title opdateret"
+
+msgid "Cannot delete subscription %title"
+msgstr "Fejl under sletning af søgning %title"
+
+msgid "Subscription %title deleted"
+msgstr "Søgning %title slettet"

@@ -112,3 +112,11 @@ div.form-item-bpi-search-query {
 .ding-popup-content .bpi-single-preview-item {
 	max-height: 60vh;
 }
+
+.bpi-channel-list .bpi-title {
+	width: 20%;
+}
+
+.bpi-channel-list .bpi-description {
+	width: 50%;
+}

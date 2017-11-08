@@ -35,7 +35,11 @@
       </p>
     </div>
   </div>
-  <p class="item-action item-action-syndicate">
-    <?php echo l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['id']); ?>
-  </p>
+
+  <?php if (!$no_actions): ?>
+    <p class="item-action item-action-syndicate">
+      <?php echo l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['id']); ?>
+      <?php echo l(t('Add to channel'), 'admin/bpi/channel/node/add/' . $item['id']); ?>
+    </p>
+  <?php endif ?>
 </div>
