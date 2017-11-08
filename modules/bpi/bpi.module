@@ -8,7 +8,6 @@
 
 include_once drupal_get_path('module', 'bpi') . '/bpi.images.inc';
 include_once drupal_get_path('module', 'bpi') . '/bpi.push.inc';
-include_once drupal_get_path('module', 'bpi') . '/bpi.bpi.inc';
 
 /**
  * URL search query key.

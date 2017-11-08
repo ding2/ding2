@@ -317,8 +317,6 @@ function bpi_search_get_items() {
 
   $response = bpi_search_content($phrase, $page, $filters, $sort);
 
-  $bpi_nodes = array();
-
   // Get agency_id=>agency cache.
   $agency_cache = array();
   $cache = cache_get(BPI_AGENCY_CACHE);
@@ -326,17 +324,51 @@ function bpi_search_get_items() {
     $agency_cache = $cache->data;
   }
 
-  foreach ($response as $item) {
-    /* @var $item \Bpi\Sdk\Item\Node */
+  $bpi_nodes = bpi_nodelist_to_array($response, $agency_cache);
+
+  // Save changes in agency cache.
+  if (empty($cache) || (!empty($cache) && $agency_cache != $cache->data)) {
+    cache_set(BPI_AGENCY_CACHE, $agency_cache);
+  }
+
+  return $bpi_nodes;
+}
+
+/**
+ * Convert a BPI nodelist into more simple array structure.
+ *
+ * @param \Bpi\Sdk\NodeList $node_list
+ *   The node list.
+ *
+ * @return array|null
+ *   Array of bpi fetched items, in structure:
+ *   - bpi_id: bpi identifier
+ *   - title: item title
+ *   - date: item creation date in the BPI system
+ *   - teaser: content teaser
+ *   - body: content body
+ *   - author: content author
+ *   - category: content category
+ *   - agency: content agency
+ *   - audience: content audience
+ *   - total_count: overall amount of items in the result
+ *   - assets: array of links representing the images content
+ */
+function bpi_nodelist_to_array($node_list, array &$agency_cache = NULL) {
+  $bpi_nodes = array();
+
+  foreach ($node_list as $item) {
     $current_item = $item->getProperties();
     $assets = $item->getAssets();
 
-    $agency = isset($current_item['agency_name']) ? $current_item['agency_name'] : '';
-    $agency_id = isset($current_item['agency_id']) ? $current_item['agency_id'] : '';
+    if ($agency_cache !== NULL) {
+      $agency = isset($current_item['agency_name']) ? $current_item['agency_name'] : '';
+      $agency_id = isset($current_item['agency_id']) ? $current_item['agency_id'] : '';
 
-    // Set agency into cache.
-    if (!empty($agency) && empty($agency_cache[$agency_id])) {
-      $agency_cache[$agency_id] = $agency;
+      // Set agency into cache.
+      if (!empty($agency) && empty($agency_cache[$agency_id])) {
+        $agency_cache[$agency_id] = $agency;
+      }
     }
 
     // Transform \Bpi\Sdk\Document properties items into array.
@@ -351,16 +383,11 @@ function bpi_search_get_items() {
       'agency' => $agency,
       'agency_id' => $agency_id,
       'audience' => isset($current_item['audience']) ? $current_item['audience'] : '',
-      'total_count' => isset($response->total) ? $response->total : 0,
+      'total_count' => isset($node_list->total) ? $node_list->total : 0,
       'assets' => (count($assets) > 0) ? $assets : array(),
       'editable' => !empty($current_item['editable']),
       'syndications' => isset($current_item['syndications']) ? $current_item['syndications'] : NULL,
     );
-  }
-
-  // Save changes in agency cache.
-  if (empty($cache) || (!empty($cache) && $agency_cache != $cache->data)) {
-    cache_set(BPI_AGENCY_CACHE, $agency_cache);
   }
 
   return $bpi_nodes;
@@ -1097,13 +1124,16 @@ function bpi_get_facets() {
  */
 function bpi_facets_to_array(\Bpi\Sdk\Facets $facets) {
   $data = array();
-  foreach ($facets->getFacets() as $facet) {
-    $data[$facet->getFacetName()] = array();
-    foreach ($facet->getFacetTerms() as $name => $term) {
-      $data[$facet->getFacetName()][$name] = array(
-        'title' => $term->getTitle(),
-        'count' => $term->getAmount(),
-      );
+  $facets = $facets->getFacets();
+  if (isset($facets)) {
+    foreach ($facets as $facet) {
+      $data[$facet->getFacetName()] = array();
+      foreach ($facet->getFacetTerms() as $name => $term) {
+        $data[$facet->getFacetName()][$name] = array(
+          'title' => $term->getTitle(),
+          'count' => $term->getAmount(),
+        );
+      }
     }
   }
 
