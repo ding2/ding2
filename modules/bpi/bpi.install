@@ -216,3 +216,33 @@ function bpi_update_7005() {
   }
   variable_set('views_defaults', $views_defaults);
 }
+
+/**
+ * Convert single BPI mapping to list of mappings.
+ */
+function bpi_update_7006(&$sandbox) {
+  if (variable_get('bpi_content_type', '')) {
+    $bpi_mappings = array(
+      array(
+        'bpi_node_type' => 'article',
+        'bpi_content_type' => variable_get('bpi_content_type', ''),
+        'bpi_field_mapping' => array(
+          'bpi_field_title' => variable_get('bpi_field_title', ''),
+          'bpi_field_teaser' => variable_get('bpi_field_teaser', ''),
+          'bpi_field_body' => variable_get('bpi_field_body', ''),
+          'bpi_field_tags' => variable_get('bpi_field_tags', ''),
+          'bpi_field_materials' => variable_get('bpi_field_materials', ''),
+        ),
+      ),
+    );
+
+    bpi_set_mappings($bpi_mappings);
+
+    variable_del('bpi_content_type');
+    variable_del('bpi_field_title');
+    variable_del('bpi_field_teaser');
+    variable_del('bpi_field_body');
+    variable_del('bpi_field_tags');
+    variable_del('bpi_field_materials');
+  }
+}

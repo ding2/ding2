@@ -57,6 +57,12 @@ function bpi_rules_push($node) {
     return FALSE;
   }
 
+  $bpi_mapping = bpi_get_mapping_by_content_type($node->type);
+  if (empty($bpi_mapping)) {
+    drupal_set_message(t('No BPI mapping defined for content type @type', array('@type' => $node->type)), 'error');
+    return FALSE;
+  }
+
   // Don't push to BPI if new sid (workflow state id) is the same as old sid.
   if ($node->workflow_transitions['field_bpi_workflow']->old_sid == $node->workflow_transitions['field_bpi_workflow']->new_sid) {
     return;
@@ -86,7 +92,7 @@ function bpi_rules_push($node) {
     return FALSE;
   }
 
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, FALSE, $editable, $with_refs);
+  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, FALSE, $editable, $with_refs, $bpi_mapping);
 
   $bpi = bpi_client_instance();
   $push_result = $bpi->push($bpi_content)->getProperties();

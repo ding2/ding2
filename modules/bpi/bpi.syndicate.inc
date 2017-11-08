@@ -324,6 +324,7 @@ function bpi_search_get_items() {
     // Transform \Bpi\Sdk\Document properties items into array.
     $bpi_nodes[] = array(
       'bpi_id' => isset($current_item['id']) ? $current_item['id'] : '',
+      'type' => isset($current_item['type']) ? $current_item['type'] : '',
       'title' => isset($current_item['title']) ? $current_item['title'] : '',
       'date' => isset($current_item['pushed']) ? $current_item['pushed'] : '',
       'teaser' => isset($current_item['teaser']) ? $current_item['teaser'] : '',
@@ -369,6 +370,10 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
 
   $table_head = array(
     array(
+      'data' => bpi_get_sort_link(t('Type'), 'type'),
+      'class' => array('bpi-type', _bpi_get_current_sorting('type') ? 'active' : ''),
+    ),
+    array(
       'data' => bpi_get_sort_link(t('Title'), 'title'),
       'class' => array('bpi-title', _bpi_get_current_sorting('title') ? 'active' : ''),
     ),
@@ -402,6 +407,7 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
 
   $rows = array();
   foreach ($items as $i => $item) {
+    $rows[$i]['type'] = $item['type'];
     $rows[$i]['title'] = sprintf(
       '<b>%s</b><br />%s',
       $item['title'],
@@ -451,10 +457,14 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
     // No need to be able to syndicate own content.
     // The ownership is based on agency id.
     if ($bpi_agency_id != $item['agency_id']) {
-      $actions[] = l(
-        t('Syndicate'),
-        'admin/bpi/syndicate/' . $item['bpi_id']
-      );
+			$syndicate_url = bpi_get_syndicate_url($item['type'], $item['bpi_id']);
+			if ($syndicate_url) {
+				$actions[] = '<a href="' . check_plain($syndicate_url) . '">' . t('Syndicate') . '</a>';
+			}
+		}
+
+    if (isset($variables['actions_callback']) && is_callable($variables['actions_callback'])) {
+      $variables['actions_callback']($actions, $item, $variables);
     }
 
     $rows[$i]['actions'] = implode(' ', $actions);
@@ -680,15 +690,40 @@ function bpi_available_map() {
  * @param int $bpi_id
  *   Content ID, as as stored in BPI service.
  */
-function bpi_syndicate_action($bpi_id) {
-  $bpi_ctype = variable_get('bpi_content_type', '');
+function bpi_syndicate_action($bpi_type, $bpi_id) {
+  $mapping = bpi_get_mapping($bpi_type);
 
-  if (!empty($bpi_ctype)) {
-    drupal_goto(str_replace('_', '-', 'node/add/' . $bpi_ctype), array('query' => array('bpi_id' => $bpi_id)));
-  }
-  else {
+  if (!empty($mapping) && !empty($mapping['bpi_content_type'])) {
+    $hook = 'bpi_syndicate_action_url';
+    foreach (module_implements($hook) as $module) {
+      $url = module_invoke($module, $hook, $bpi_type, $bpi_id, $mapping);
+      if (!empty($url)) {
+        header('Location: ' . $url, TRUE, 301);
+        drupal_exit($url);
+      }
+    }
+    drupal_set_message(t('Cannot syndicate @type', array('@type' => $bpi_type)), 'warning');
     drupal_goto('admin/bpi');
   }
+  else {
+    drupal_set_message(t('Cannot find BPI mapping for @type', array('@type' => $bpi_type)), 'warning');
+    drupal_goto('admin/bpi');
+  }
+}
+
+function bpi_get_syndicate_url($bpi_type, $bpi_id) {
+  $mapping = bpi_get_mapping($bpi_type);
+  if (!empty($mapping)) {
+    $hook = 'bpi_syndicate_action_url';
+    foreach (module_implements($hook) as $module) {
+      $url = module_invoke($module, $hook, $bpi_type, $bpi_id, $mapping);
+      if (!empty($url)) {
+        return $url;
+      }
+    }
+  }
+
+  return NULL;
 }
 
 /**

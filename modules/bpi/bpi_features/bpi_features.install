@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Install/uninstall, database related stuff here.
+ */
+
+/**
+ * Revert BPI workflow features.
+ */
+function bpi_features_update_7001(&$sandbox) {
+  features_revert(array('bpi_features' => array('rules_config')));
+}

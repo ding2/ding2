@@ -36,9 +36,12 @@
       </p>
     </div>
   </div>
+
   <?php if (!$hide_syndicate_link): ?>
-  <p class="item-action item-action-syndicate">
-    <?php echo l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['id']); ?>
-  </p>
+    <?php if (isset($syndicate_url)): ?>
+      <p class="item-action item-action-syndicate">
+        <?php echo l(t('Syndicate'), $syndicate_url); ?>
+      </p>
+    <?php endif; ?>
   <?php endif; ?>
 </div>

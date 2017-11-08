@@ -14,8 +14,9 @@ function bpi_features_default_rules_configuration() {
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
       "REQUIRES" : [ "rules" ],
-      "ON" : { "node_update--ding_news" : { "bundle" : "ding_news" } },
+      "ON" : { "node_update" : [] },
       "IF" : [
+        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_bpi_workflow" } },
         { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "4" } }
       ],
       "DO" : [ { "bpi_rules_push" : { "entity" : [ "node" ] } } ]
@@ -26,8 +27,9 @@ function bpi_features_default_rules_configuration() {
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
       "REQUIRES" : [ "rules" ],
-      "ON" : { "node_update--ding_news" : { "bundle" : "ding_news" } },
+      "ON" : { "node_update" : [] },
       "IF" : [
+        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_bpi_workflow" } },
         { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "7" } }
       ],
       "DO" : [ { "bpi_rules_delete" : { "entity" : [ "node" ] } } ]
@@ -38,8 +40,9 @@ function bpi_features_default_rules_configuration() {
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
       "REQUIRES" : [ "rules" ],
-      "ON" : { "node_insert--ding_news" : { "bundle" : "ding_news" } },
+      "ON" : { "node_insert" : [] },
       "IF" : [
+        { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_bpi_workflow" } },
         { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "3" } }
       ],
       "DO" : [ { "redirect" : { "url" : "node\\/[node:nid]\\/workflow" } } ]

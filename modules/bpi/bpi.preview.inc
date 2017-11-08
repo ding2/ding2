@@ -20,12 +20,6 @@ function admin_bpi_preview_ajax_callback($type, $bpi_id) {
     return _admin_bpi_preview_output($type, t('Incorrect BPI ID.'));
   }
 
-  $bpi_ctype = variable_get('bpi_content_type', '');
-  // This could lead to unexpected behavior. Just a note.
-  if (empty($bpi_ctype)) {
-    return _admin_bpi_preview_output($type, t('BPI is not mapped to any content type.'));
-  }
-
   // Load bpi.syndicate.inc for label mappers.
   module_load_include('inc', 'bpi', 'bpi.syndicate');
 
@@ -39,7 +33,10 @@ function admin_bpi_preview_ajax_callback($type, $bpi_id) {
     return _admin_bpi_preview_output($type, t('Failed to fetch the article from BPI well.'));
   }
 
-  $output = theme('bpi_preview_item', array('item' => $bpi_content));
+  $output = theme('bpi_preview_item', array(
+    'item' => $bpi_content,
+    'syndicate_url' => bpi_get_syndicate_url($bpi_content['type'], $bpi_content['id']),
+  ));
 
   return _admin_bpi_preview_output($type, $output);
 }
