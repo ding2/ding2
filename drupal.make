@@ -13,4 +13,4 @@ projects[drupal][patch][] = http://drupal.org/files/issues/drupal-1823504-13-uni
 projects[ding2][type] = "profile"
 projects[ding2][download][type] = "git"
 projects[ding2][download][url] = "git@github.com:ding2/ding2.git"
-projects[ding2][download][tag] = "7.x-4.0.1-rc3"
+projects[ding2][download][tag] = "7.x-4.0.1"

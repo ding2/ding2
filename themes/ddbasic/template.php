@@ -406,29 +406,19 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
 function ddbasic_preprocess_menu_link(&$variables) {
   if ($variables['theme_hook_original'] === 'menu_link__user_menu') {
     $path = explode('/', $variables['element']['#href']);
-    $path = end($path);
 
-    if (!empty($variables['element']['#localized_options']['fragment'])) {
-      $path .= '#' . $variables['element']['#localized_options']['fragment'];
-    }
-
-    switch ($path) {
-      case 'status-loans#anchor-loans':
+    switch (end($path)) {
+      case 'status-loans':
         $loans = ddbasic_account_count_loans() - ddbasic_account_count_overdue_loans();
         if (!empty($loans)) {
           $variables['element']['#title'] .= ' <span class="menu-item-count">' . $loans . '</span>';
         }
-        // Loans is only shown on mobile.
-        $variables['element']['#attributes']['class'][] = 'is-mobile';
         break;
 
-      case 'status-loans':
+      case 'status-loans-overdue':
         $loans = ddbasic_account_count_overdue_loans();
         if (!empty($loans)) {
           $variables['element']['#title'] .= ' <span class="menu-item-count">' . $loans . '</span>';
-        }
-        else {
-          $variables['element']['#attributes']['class'][] = 'is-mobile';
         }
         break;
 
@@ -437,9 +427,6 @@ function ddbasic_preprocess_menu_link(&$variables) {
         if (!empty($reservations)) {
           $variables['element']['#title'] .= ' <span class="menu-item-count">' . $reservations . '</span>';
         }
-        else {
-          $variables['element']['#attributes']['class'][] = 'is-mobile';
-        }
         break;
 
       case 'status-reservations-ready':
@@ -447,18 +434,12 @@ function ddbasic_preprocess_menu_link(&$variables) {
         if (!empty($reservations)) {
           $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-success">' . $reservations . '</span>';
         }
-        else {
-          $variables['element']['#attributes']['class'][] = 'is-mobile';
-        }
         break;
 
       case 'status-debts':
         $debts = ddbasic_account_count_debts();
         if (!empty($debts)) {
           $variables['element']['#title'] .= ' <span class="menu-item-count menu-item-count-warning">' . $debts . '</span>';
-        }
-        else {
-          $variables['element']['#attributes']['class'][] = 'is-mobile';
         }
         break;
 

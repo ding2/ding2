@@ -33,5 +33,22 @@ function ding_ipe_filter_install() {
  * Implements hook_uninstall().
  */
 function ding_ipe_filter_uninstall() {
+  variable_del('ding_ipe_filter_panes_selected');
+  variable_del('ding_ipe_filter_settings');
+}
+
+/**
+ * Upgrade configuration to new data structure.
+ */
+function ding_ipe_filter_update_7100(&$sandbox) {
+  $selections = variable_get('ding_ipe_filter_table');
+
+  $new_selections = array();
+  foreach ($selections as $selection) {
+    $id = $selection['category'] . ':' . $selection['subtype'];
+    $new_selections[$id] = $id;
+  }
+
+  variable_set('ding_ipe_filter_panes_selected', $new_selections);
   variable_del('ding_ipe_filter_table');
 }
