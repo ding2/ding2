@@ -748,7 +748,7 @@ function ding_list_preprocess_entity(&$variables) {
             );
 
             if (!empty($objects)) {
-              //Create Carousel actions
+              // Create Carousel actions.
               $list = $variables['elements']['#entity'];
               $variables['content']['carousel_actions'] = array(
                 '#type' => 'container',
@@ -766,8 +766,8 @@ function ding_list_preprocess_entity(&$variables) {
                 '#suffix' => '</div>',
                 '#options' => array(
                   'attributes' => array('class' => array('goto-list')),
-                    'html' => FALSE,
-                 ),
+                  'html' => FALSE,
+                ),
               );
 
               if ($list->uid != $user->uid && user_access('use personalisation')) {

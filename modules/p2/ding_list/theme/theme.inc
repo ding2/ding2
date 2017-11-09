@@ -162,8 +162,8 @@ function template_preprocess_ding_list_followers(&$variables) {
  */
 function theme_ding_list_label_value($variables) {
   $label = '';
-  if($variables['label']) {
-    $label = '<div class="label">' . t($variables['label']) . '</div>';
+  if ($variables['label']) {
+    $label = '<div class="label">' . $variables['label'] . '</div>';
   }
   $out = '<div class="field">' . $label . '<div class="text">' . $variables['value'] . '</div></div>';
 

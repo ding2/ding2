@@ -15,7 +15,7 @@ $plugin = array(
   'edit form' => 'ding_sharer_content_type_edit_form',
   'render callback' => 'ding_sharer_content_type_render',
   'category' => t('Ding!'),
-  'defaults' => array( // Array of defaults for the settings form.
+  'defaults' => array(
     'share_type' => 'normal',
   ),
 );

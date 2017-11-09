@@ -277,7 +277,6 @@ function ding_list_handle_fields_in_list(&$list, array $fields) {
         case 'field_ding_content_tags':
           $field['value'] = ding_list_handle_taxonomy_terms($field['value'], $field['name']);
           $list->{$field['name']}[LANGUAGE_NONE] = $field['value'];
-          dpm($list);
           break;
 
         default:
@@ -318,9 +317,9 @@ function ding_list_handle_fields_in_list(&$list, array $fields) {
  *   vocabulary).
  *
  * @return array
- *   An array of taxonomuy_term entities.
+ *   An array of taxonomy_term entities.
  */
-function ding_list_handle_taxonomy_terms($tags, $field_name) {
+function ding_list_handle_taxonomy_terms(array $tags, $field_name) {
   $value = array();
 
   // Collect candidate vocabularies.
@@ -350,7 +349,7 @@ function ding_list_handle_taxonomy_terms($tags, $field_name) {
         'vocabulary_machine_name' => $vocabulary->machine_name,
       );
     }
-    $value[] = (array)$term;
+    $value[] = (array) $term;
   }
 
   return $value;

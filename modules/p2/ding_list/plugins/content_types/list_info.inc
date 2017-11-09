@@ -27,7 +27,7 @@ function ding_list_list_info_content_type_render($subtype, $conf, $panel_args, $
     '#theme' => 'ding_list_info',
     '#list' => $list,
   );
-  if($user->uid == $list->uid) {
+  if ($user->uid == $list->uid) {
     if (ding_base_get_value('ding_type', $list, 'field_list_type') !== DING_LIST_TYPE_LOAN_HISTORY) {
       $block->content[] = array(
         '#prefix' => '<div class="ding-list-help">',

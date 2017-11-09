@@ -27,8 +27,8 @@ function ding_list_public_lists_filter_content_type_render($subtype, $conf, $pan
 
   foreach (array_intersect(user_roles(), array('provider', 'staff')) as $rid => $role) {
     $block->content['#links'][] = array(
-      // The user_roles module only translate the built in role names, which is
-      // why the role variable is run through the t() function.
+      // The user_roles function only translate the built in role names, which
+      // is why the role variable is run through the t() function.
       'title' => t($role),
       'href' => 'public-lists/' . $rid,
     );
