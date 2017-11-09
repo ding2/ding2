@@ -359,16 +359,15 @@ function _ding_campaign_plus_get_other_triggers() {
     'library' => 'Library',
     'group' => 'Group',
     'taxonomy' => 'Taxonomy term',
+    'path' => 'Path',
   );
 }
 
 
 function ding_campaign_plus_display($context_data, $style) {
 
+  $campaign = node_load(67);
 
   $t=1;
-  return array(
-    '#type' => 'markup',
-    '#markup' => 'TEST',
-  );
+  return node_view($campaign, 'full');
 }
