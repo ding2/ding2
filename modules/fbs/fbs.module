@@ -496,11 +496,11 @@ function fbs_form_profile2_form_alter(&$form, &$form_state) {
     '#weight' => 3,
   );
   
-  //Add validation to email
+  // Add validation to email.
   $form['profile_provider_fbs']['field_fbs_mail']['#element_validate'] = array('fbs_form_profile2_mail_validate');
-  //Add validation to phone
+  // Add validation to phone.
   $form['profile_provider_fbs']['field_fbs_phone']['#element_validate'] = array('fbs_form_profile2_phone_validate');
-  //Add submit handler, to redirect to same URL
+  // Add submit handler, to redirect to same URL.
   $form['#submit'][] = 'fbs_form_profile2_rebuild_submit';
 }
 
@@ -509,8 +509,8 @@ function fbs_form_profile2_form_alter(&$form, &$form_state) {
  */
 function fbs_form_profile2_mail_validate($element, $form_state) {
   $email = $form_state['input']['profile_provider_fbs']['field_fbs_mail']['und'][0]['value'];
-  if(!empty($email)) {
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL) && !preg_match('/@.+\./', $email)) {
+  if (!empty($email)) {
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) && !preg_match('/@.+\./', $email)) {
       form_set_error('profile_provider_fbs][field_fbs_mail', t('Please fill in a valid email'));
     }
   }
@@ -522,16 +522,15 @@ function fbs_form_profile2_mail_validate($element, $form_state) {
 function fbs_form_profile2_phone_validate($element, $form_state) {
   $phone = $form_state['input']['profile_provider_fbs']['field_fbs_phone']['und'][0]['value'];
 
-  if(!empty($phone)) {
-    //Preg match for danish phonenumbers
-    //Pass:
-    //(+45) 35 35 35 35 ||| +45 35 35 35 35 ||| 35 35 35 35 ||| 35353535
-    //Fail:
-    //(45)35353535 ||| 4535353535
-    
+  if (!empty($phone)) {
+    // Preg match for danish phonenumbers
+    // Pass:
+    // (+45) 35 35 35 35 ||| +45 35 35 35 35 ||| 35 35 35 35 ||| 35353535
+    // Fail:
+    // (45)35353535 ||| 4535353535.
     $re = '/^((\(?\+45\)?)?)(\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2})$/';
     preg_match_all($re, $phone, $matches, PREG_SET_ORDER, 0);
-    
+
     if (empty($matches)) {
       form_set_error('profile_provider_fbs][field_fbs_phone', t('Please fill in a valid phonenumber'));
     } 
@@ -542,7 +541,7 @@ function fbs_form_profile2_phone_validate($element, $form_state) {
  * Submit handler for fbs_form_profile2
  */
 function fbs_form_profile2_rebuild_submit($form, &$form_state) {
-  //Rebuilds form and stay on same page
+  // Rebuilds form and stay on same page.
   $form_state['rebuild'] = TRUE;
 }
 
