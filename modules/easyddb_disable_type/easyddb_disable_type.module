@@ -1,0 +1,54 @@
+<?php
+/**
+ * @file
+ *  Module which disable or enable type in titles.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function easyddb_disable_type_menu() {
+  $menu_item = array();
+
+  $menu_item['admin/config/ting/disable_type'] = array(
+    'title' => t('Disable type in search results'),
+    'description' => t('Disable or enable typ in titles on search results page.'),
+    'access arguments' => array('administer'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('easyddb_disable_type_form'),
+  );
+
+  return $menu_item;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function easyddb_disable_type_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'ting_search_admin_settings') {
+    $disable_types = variable_get('easyddb_disable_type', FALSE);
+
+    $form['ting_search']['easyddb_disable_type'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Disable type in titles on search page.'),
+      '#description' => t('Disable or enable typ in titles on search results page.'),
+      '#default_value' => $disable_types,
+    );
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function easyddb_disable_type_preprocess_field(&$variables) {
+  $field_name = $variables['element']['#field_name'];
+  if ('ting_title' !== $field_name) {
+    return;
+  }
+
+  $disable_types = variable_get('easyddb_disable_type', FALSE);
+  $prefix = isset($variables['items'][0]['#prefix']);
+  if ($disable_types && $prefix) {
+    $variables['items'][0]['#prefix'] = '<h2>';
+  }
+}

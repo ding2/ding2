@@ -1,0 +1,5 @@
+name = "easyDDB disable type"
+description = "Configuration to disable/enable display of materialtype in titles on various pages."
+package = "easyOPAC"
+core = "7.x"
+version = 7.x-3.0.2
