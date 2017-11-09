@@ -66,7 +66,7 @@ function ding_campaign_plus_ctools_plugin_directory($module, $plugin) {
 /**
  * Implements hook_theme().
  */
-function ding_campaign_plus_theme() {
+function ding_campaign_plus_theme($existing, $type, $theme, $path) {
   return array(
     'ding_campaign_plus_admin_form' => array(
       'render element' => 'form',
@@ -363,6 +363,30 @@ function _ding_campaign_plus_get_other_triggers() {
   );
 }
 
+/**
+ * Implements hook_preprocess_node().
+ *
+ * Add theme suggestions based on campaign type for campaigns plus. Also extract
+ * image as background style (mainly used to get image and/with text).
+ */
+function ding_campaign_plus_preprocess_node(&$variables, $hook) {
+  if ($variables['type'] == 'ding_campaign_plus') {
+    $node = $variables['node'];
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $type = $wrapper->field_ding_campaign_plus_type->value();
+    $variables['theme_hook_suggestions'][] = 'node__ding_campaign_plus__' . substr($type, 9);
+
+    switch ($type) {
+      case 'campaign_text_with_image':
+      case 'campaign_text_and_image':
+        $image = $wrapper->field_ding_campaign_plus_image->value();
+        $image_url = image_style_url('ding_full_width', $image['uri']);
+        $variables['image_as_background'] = 'background-image: url(' . $image_url . ')';
+        break;
+    }
+
+  }
+}
 
 function ding_campaign_plus_display($context_data, $style) {
 
