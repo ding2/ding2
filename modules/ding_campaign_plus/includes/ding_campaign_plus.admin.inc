@@ -4,14 +4,15 @@
  * Defines the administration UI for the module.
  */
 
-
+/**
+ * Administration settings form for the module.
+ */
 function ding_campaign_plus_admin_settings($form, $form_state) {
   $form = array(
     '#theme' => 'ding_campaign_plus_admin_form',
     '#tree' => TRUE,
   );
 
-  $defaults = variable_get('ding_campaign_plus_weight', array());
 
   $form['ding_campaign_plus_weight'] = array(
     '#type' => 'fieldset',
@@ -19,12 +20,12 @@ function ding_campaign_plus_admin_settings($form, $form_state) {
     '#description' => t('Set the weight for the different triggers. If more campaigns are triggered by the same triggers these weights are used to determined which should be displayed. ')
   );
 
+  // Build table options sorted by selected weight.
+  $defaults = variable_get('ding_campaign_plus_weight', array());
   $options = ding_campaign_plus_ding_settings_options($defaults);
-
   foreach ($options as $key => $option) {
     $form['ding_campaign_plus_weight']['table'][$key] = ding_campaign_plus_admin_settings_form_add($option['title'], $option['weight']);
   }
-
 
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Save Changes'));
@@ -32,6 +33,9 @@ function ding_campaign_plus_admin_settings($form, $form_state) {
   return $form;
 }
 
+/**
+ * Submit handler for the administration settings form.
+ */
 function ding_campaign_plus_admin_settings_submit($form, $form_state) {
   $values = $form_state['values']['ding_campaign_plus_weight']['table'];
 
@@ -44,7 +48,13 @@ function ding_campaign_plus_admin_settings_submit($form, $form_state) {
 }
 
 /**
- * Implements hook_ding_carousel_transitions().
+ * Build options (table rows) for the administration UI.
+ *
+ * @param array $weights
+ *   The weights used to determine the sort order of the options.
+ *
+ * @return array
+ *   The options sorted by weight.
  */
 function ding_campaign_plus_ding_settings_options($weights) {
   $options = array();
@@ -76,11 +86,23 @@ function ding_campaign_plus_ding_settings_options($weights) {
     ),
   );
 
+  // Sort options be weight keeping the array keys.
   uasort($options, '_ding_campaign_plus_ding_settings_options_sort');
 
   return $options;
 }
 
+/**
+ * Compare function use to sort options.
+ *
+ * @param array $a
+ *   Single option.
+ * @param array $b
+ *   Single option.
+ *
+ * @return int
+ *   The result of the comparison.
+ */
 function _ding_campaign_plus_ding_settings_options_sort($a, $b) {
   if ($a['weight'] == $b['weight']) {
     return 0;
@@ -88,7 +110,18 @@ function _ding_campaign_plus_ding_settings_options_sort($a, $b) {
   return ($a['weight'] < $b['weight']) ? -1 : 1;
 }
 
-function ding_campaign_plus_admin_settings_form_add($title, $default = 0) {
+/**
+ * Build single row for use in the table.
+ *
+ * @param string $title
+ *   The title to display in the table.
+ * @param int $weight
+ *   The weight of the row in the table.
+ *
+ * @return array
+ *   Form element for the table.
+ */
+function ding_campaign_plus_admin_settings_form_add($title, $weight = 0) {
   return array(
     // We'll use a form element of type '#markup' to display the item name.
     'name' => array(
@@ -98,15 +131,18 @@ function ding_campaign_plus_admin_settings_form_add($title, $default = 0) {
     'weight' => array(
       '#type' => 'weight',
       '#title' => t('Weight'),
-      '#default_value' => $default,
+      '#default_value' => $weight,
       '#delta' => 10,
       '#title_display' => 'invisible',
     ),
-
-    '#wieght' => $default,
   );
 }
 
+/**
+ * Implements theme_ding_campaign_plus_admin_form().
+ *
+ * Themes the admin forms weight table.
+ */
 function theme_ding_campaign_plus_admin_form($variables) {
   $form = $variables['form'];
 

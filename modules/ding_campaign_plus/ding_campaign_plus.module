@@ -63,6 +63,9 @@ function ding_campaign_plus_ctools_plugin_directory($module, $plugin) {
   }
 }
 
+/**
+ * Implements hook_theme().
+ */
 function ding_campaign_plus_theme() {
   return array(
     'ding_campaign_plus_admin_form' => array(
@@ -91,6 +94,8 @@ function ding_campaign_plus_node_load($nodes, $types) {
 
 /**
  * Implements hook_node_insert().
+ *
+ * Save campaign rules for a given campaign.
  */
 function ding_campaign_plus_node_insert($node) {
   if ($node->type === 'ding_campaign_plus') {
@@ -195,6 +200,18 @@ function ding_campaign_plus_node_delete($node) {
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$form_state) {
+  // Add states to the node form based on campaign type selection.
+  $form['field_ding_campaign_plus_text']['#states'] = array(
+    'invisible' => array(
+      ':input[name="field_ding_campaign_plus_type[und]"]' => array('value' => 'campaign_image'),
+    ),
+  );
+  $form['field_ding_campaign_plus_image']['#states'] = array(
+    'invisible' => array(
+      ':input[name="field_ding_campaign_plus_type[und]"]' => array('value' => 'campaign_text'),
+    ),
+  );
+
   // Defines tab one.
   $path = drupal_get_path('module', 'field_group');
   $form['triggers'] = array(
@@ -328,6 +345,12 @@ function _ding_campaign_plus_filter_rules($nid, $type, $rules) {
   return isset($filtered[$nid][$type]) ? $filtered[$nid][$type] : array();
 }
 
+/**
+ * Defines the "trigger" in the other category.
+ *
+ * @return array
+ *   The triggers.
+ */
 function _ding_campaign_plus_get_other_triggers() {
   return array(
     'page' => 'Page',
@@ -338,6 +361,7 @@ function _ding_campaign_plus_get_other_triggers() {
     'taxonomy' => 'Taxonomy term',
   );
 }
+
 
 function ding_campaign_plus_display($context_data, $style) {
 
