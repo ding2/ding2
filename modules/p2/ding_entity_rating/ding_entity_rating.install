@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Setup the fields needed for ding list.
+ */
+
+/**
+ * Delete ding_entity_rating_popular_on_frontpage variable
+ */
+function ding_entity_rating_update_7001() {
+  variable_del('ding_entity_rating_popular_on_frontpage');
+}
