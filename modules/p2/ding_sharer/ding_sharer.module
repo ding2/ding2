@@ -104,8 +104,8 @@ function theme_ding_sharer($variables) {
 
   $out .= '<div class="share-buttons">';
   foreach ($variables['communities'] as $community => $text) {
-    if($text !== '0') {
-      if($variables['type'] == 'buttons') {
+    if ($text !== '0') {
+      if ($variables['type'] == 'buttons') {
         $text = t('Share list on') . ' ' . $text;
         $anchor_class = 'button';
       }
