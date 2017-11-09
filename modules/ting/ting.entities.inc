@@ -71,13 +71,20 @@ class TingEntity extends DingEntity {
    */
   public $reply;
 
+  /**
+   * The size or duration of the resource.
+   *
+   * Eg. "245 sider".
+   * Eg. "12 t., 34 min."
+   *
+   * @return string
+   *   The extent.
+   */
   public function getExtent() {
-    // TODO BBS-SAL: port.
-    return !empty($this->reply->record['dcterms:extent'][''][0]) ? $this->reply->record['dcterms:extent'][''][0] : FALSE;
+    return $this->reply->getExtent();
   }
 
-  function getClassification() {
-    $dk5 = '';
+  public function getClassification() {
     // TODO BBS-SAL: port.
     if (!empty($this->reply->record['dc:subject']['dkdcplus:DK5'][0])) {
       $dk5 = $this->reply->record['dc:subject']['dkdcplus:DK5'][0];
@@ -92,13 +99,23 @@ class TingEntity extends DingEntity {
     return FALSE;
   }
 
-  function getClassificationText() {
+  public function getClassificationText() {
+    // TODO BBS-SAL: port.
     $dk5_text = !empty($this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0]) ? $this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0] : '';
 
     return $dk5_text;
   }
 
-  function getIsPartOf() {
+  /**
+   * Get relations for the material.
+   *
+   * Eg. "Berlingske tidende, 2005-08-20" (for a newspaper article).
+   *
+   * @return string[]
+   *   Relations.
+   */
+  public function getIsPartOf() {
+    // TODO BBS-SAL: port.
     $this->isPartOf = array();
     if( !empty($this->reply->record['dcterms:isPartOf']) ) {
       foreach($this->reply->record['dcterms:isPartOf'] as $type => $dcterms_ispartof ) {
@@ -111,7 +128,8 @@ class TingEntity extends DingEntity {
   }
 
   // pjo 26-09-11 ; getmethod contributor
-  function getContributors() {
+  public function getContributors() {
+    // TODO BBS-SAL: port.
     $this->contributors = array();
     if( !empty($this->reply->record['dc:contributor']) ) {
       foreach($this->reply->record['dc:contributor'] as $type => $dc_contributor ) {
@@ -123,29 +141,53 @@ class TingEntity extends DingEntity {
     return $this->contributors;
   }
 
-
-  function getLocalId() {
-    return !empty($this->reply->localId) ? $this->reply->localId : FALSE;
+  /**
+   * Get provider-specific local ID.
+   *
+   * @return string
+   *   The local ID.
+   */
+  public function getLocalId() {
+    return $this->reply->getSourceId();
   }
 
-  function getOwnerId() {
-    return !empty($this->reply->ownerId) ? $this->reply->ownerId : FALSE;
+  /**
+   * Gets the owner of the object, eg. the agency.
+   *
+   * @return string
+   *   The ID.
+   */
+  public function getOwnerId() {
+    return $this->reply->getOwnerId();
   }
 
-  function getType() {
-    return !empty($this->reply->record['dc:type']['dkdcplus:BibDK-Type'][0]) ? $this->reply->record['dc:type']['dkdcplus:BibDK-Type'][0] : FALSE;
+  /**
+   * Gets the material type.
+   *
+   * Eg. "Bog"
+   * Eg. "Lydbog (cd)"
+   *
+   * @return string
+   *   The type.
+   */
+  public function getType() {
+    return $this->reply->getType();
   }
 
-  function getTitle() {
-    $title = FALSE;
-    if (!empty($this->reply)) {
-      $title = $this->reply->getTitle();
-    }
-    return $title;
+  /**
+   * Retrieves the title of a material.
+   *
+   * If a longer version of the title exists it will be preferred.
+   *
+   * @return FALSE|string
+   *   The title of the material, or FALSE if it could not be determined.
+   */
+  public function getTitle() {
+    return $this->reply->getTitle();
   }
-
 
   private function splitSerie() {
+    // TODO BBS-SAL: port, find example, add to interface.
     $series = !empty($this->reply->record['dc:title']['dkdcplus:series']) ? $this->reply->record['dc:title']['dkdcplus:series'] : array();
     $serie_titles = array();
     foreach ($series as $serie) {
@@ -155,63 +197,29 @@ class TingEntity extends DingEntity {
   }
 
   function getSerieTitle() {
+    // TODO BBS-SAL: port, find example, add to interface.
     return $this->splitSerie();
   }
 
- function getSerieDescription() {
-    $serie = !empty($this->reply->record['dc:description']['dkdcplus:series'][0]) ? $this->reply->record['dc:description']['dkdcplus:series'][0] : '';
-    return $this->process_series_description($serie);
-  }
-
   /**
-   * Process series information.
+   * List of materials in the same series as the this material.
    *
-   * This could be handled more elegantly if we had better structured data.
-   * For now we have to work with what we got to convert titles to links
-   * Series information appear in the following formats:
-   * - Samhørende: [title 1] ; [title 2] ; [title 3]
-   * - [volumne number]. del af: [title]
+   * @return mixed
+   *   The materials.
    */
-  private function process_series_description($series) {
-    $result = '';
-    $parts = explode(':', $series);
-
-    if (is_array($parts) && count($parts) >= 2) {
-      $prefix = $parts[0] . ': ';
-
-      if (stripos($prefix, 'del af:') !== FALSE) {
-        $title = trim($parts[1]);
-        $path = str_replace('@serietitle', drupal_strtolower($title), variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"'));
-        $link = l($title, 'search/ting/' . $path, array('attributes' => array('class' => array('series'))));
-        $result = $prefix . $link;
-      } else if (stripos($prefix, 'Samhørende:') !== FALSE) {
-        $titles = $parts[1];
-        // Multiple titles are separated by ' ; '. Explode to iterate over them
-        $titles = explode(' ; ', $titles);
-        foreach ($titles as &$title) {
-          $title = trim($title);
-          // Some title elements are actually volumne numbers. Do not convert these to links
-          if (!preg_match('/(nr.)? \d+/i', $title)) {
-            $title = l($title, 'search/ting/' . '"' . $title . '"');
-          }
-        }
-        // Reassemple titles
-        $titles = implode(', ', $titles);
-        $result = $prefix . ' ' . $titles;
-      }
-      else {
-        return $series;
-      }
-    }
-
-    return $result;
+  public function getSerieDescription() {
+    // TODO BBS-SAL: port, find example, test opensearch implementation.
+    // TODO is this actually the correct method? Compare descriptions....
+    return $this->reply->getSeriesDescription();
   }
 
   function getAbstract() {
+    // TODO BBS-SAL: port.
     return !empty($this->reply->record['dcterms:abstract'][''][0]) ? $this->reply->record['dcterms:abstract'][''][0] : FALSE;
   }
 
   function getRecord() {
+    // TODO BBS-SAL: seems like a really bad idea.
     return !empty($this->reply->record) ? $this->reply->record : false;
   }
 
@@ -223,7 +231,7 @@ class TingEntity extends DingEntity {
    */
   public function getRelations() {
     // If relations are not set; do another request to get relations
-    // TODO BBS-SAL: port this.
+    // TODO BBS-SAL: seems like a really bad idea.
     if (!isset($this->reply->relationsData)) {
       $tingClientObject = ting_get_object($this->ding_entity_id, FALSE, TRUE);
       if (isset($tingClientObject->relationsData)) {
@@ -254,6 +262,7 @@ class TingEntity extends DingEntity {
   }
 
   function getCreators() {
+    // TODO BBS-SAL: port.
     $this->creators = array();
     if (!empty($this->reply->record['dc:creator'])) {
       foreach ($this->reply->record['dc:creator'] as $type => $dc_creator) {
@@ -272,6 +281,7 @@ class TingEntity extends DingEntity {
    *   List of item creators with inverted fields.
    */
   public function getInvertedCreators() {
+    // TODO BBS-SAL: port.
     $this->creator = array();
     if (!empty($this->reply->record['dc:creator']['oss:sort'])) {
       $this->creator = $this->reply->record['dc:creator']['oss:sort'];
@@ -281,6 +291,7 @@ class TingEntity extends DingEntity {
   }
 
   function getSubjects() {
+    // TODO BBS-SAL: port.
     $this->subjects = array();
     if (!empty($this->reply->record['dc:subject'])) {
       foreach ($this->reply->record['dc:subject'] as $type => $dc_subject) {
@@ -293,10 +304,20 @@ class TingEntity extends DingEntity {
   }
 
   function getLanguage() {
+    // TODO BBS-SAL: port, find example, add to interface.
     return !empty($this->reply->record['dc:language'][''][0]) ? $this->reply->record['dc:language'][''][0] : FALSE;
   }
 
-  function getDate() {
+  /**
+   * Get the year the material was produced.
+   *
+   * Format YYYY.
+   *
+   * @return string
+   *   The year
+   */
+  public function getDate() {
+    $this->reply->getYear();
     return !empty($this->reply->record['dc:date']) ? $this->reply->record['dc:date'][''][0] : FALSE;
   }
 
@@ -311,6 +332,7 @@ class TingEntity extends DingEntity {
    *   URL to the online resource or the empty string if not found.
    */
   function getOnline_url($get_relations = TRUE) {
+    // TODO BBS-SAL: port, find example, add to interface.
     $url = '';
     if ($get_relations) {
       // Try to find the online url from relation data, which requires us to get
@@ -347,11 +369,19 @@ class TingEntity extends DingEntity {
   }
 
   function getAc_source() {
+    // TODO BBS-SAL: port, find example, add to interface.
     return !empty($this->reply->record['ac:source'][''][0]) ? $this->reply->record['ac:source'][''][0] : FALSE;
   }
 
-  function getDescription() {
-    return !empty($this->reply->record['dc:description'][''][0]) ? $this->reply->record['dc:description'][''][0] : FALSE;
+
+  /**
+   * Get an description of the material.
+   *
+   * @return string
+   *   The description.
+   */
+  public function getDescription() {
+    return $this->reply->getDescription();
   }
 
   /**
@@ -360,6 +390,7 @@ class TingEntity extends DingEntity {
    * @return array
    */
   function getIsbn() {
+    // TODO BBS-SAL: port - figure out whether to replicate the logic below.
     $isbn = array();
 
     // Nothing to do.

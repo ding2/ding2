@@ -189,7 +189,9 @@ class OpenSearchTingObject implements TingObjectInterface {
    * {@inheritdoc}
    */
   public function getSeriesDescription() {
-    return $this->getRecordEntry('dc:description', 'dkdcplus:series');
+    $description = $this->getRecordEntry('dc:description', 'dkdcplus:series');
+    return $this->processSeriesDescription($description;
+
   }
 
   /**
@@ -409,4 +411,54 @@ class OpenSearchTingObject implements TingObjectInterface {
     // Return the entry back if it is not an array.
     return $entry;
   }
+
+  /**
+   * Process series information.
+   *
+   * This could be handled more elegantly if we had better structured data.
+   * For now we have to work with what we got to convert titles to links
+   * Series information appear in the following formats:
+   * - Samhørende: [title 1] ; [title 2] ; [title 3]
+   * - [volumne number]. del af: [title]
+   *
+   * @param string[] $series
+   *   List of series descriptions.
+   */
+  private function processSeriesDescription($series) {
+    $result = '';
+    $parts = explode(':', $series);
+
+    if (is_array($parts) && count($parts) >= 2) {
+      $prefix = $parts[0] . ': ';
+
+      if (stripos($prefix, 'del af:') !== FALSE) {
+        $title = trim($parts[1]);
+        $path = str_replace('@serietitle', drupal_strtolower($title), variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"'));
+        $link = l($title, 'search/ting/' . $path, array('attributes' => array('class' => array('series'))));
+        $result = $prefix . $link;
+      }
+      elseif (stripos($prefix, 'Samhørende:') !== FALSE) {
+        $titles = $parts[1];
+        // Multiple titles are separated by ' ; '. Explode to iterate over them.
+        $titles = explode(' ; ', $titles);
+        foreach ($titles as &$title) {
+          $title = trim($title);
+          // Some title elements are actually volumne numbers.
+          // Do not convert these to links.
+          if (!preg_match('/(nr.)? \d+/i', $title)) {
+            $title = l($title, 'search/ting/"' . $title . '"');
+          }
+        }
+        // Reassemple titles.
+        $titles = implode(', ', $titles);
+        $result = $prefix . ' ' . $titles;
+      }
+      else {
+        return $series;
+      }
+    }
+
+    return $result;
+  }
+
 }
