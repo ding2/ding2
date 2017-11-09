@@ -160,12 +160,12 @@ function ding_ddbasic_field_group_pre_render(&$element, $group, &$form) {
  * Change view mode on teaser if theme settings is set to no-overlay
  */
 function ding_ddbasic_entity_view_mode_alter(&$view_mode, $context) {
-  //Change view mode on teasers if theme setting is set to no-overlay.
+  // Change view mode on teasers if theme setting is set to no-overlay.
   if ($context['entity_type'] == 'node' && $view_mode == 'teaser') {
-    if(theme_get_setting('ding_news_disable_overlay') && $context['entity']->type == 'ding_news') {
+    if (theme_get_setting('ding_news_disable_overlay') && $context['entity']->type == 'ding_news') {
       $view_mode = 'teaser_no_overlay';
     }
-    if(theme_get_setting('ding_group_disable_overlay') && $context['entity']->type == 'ding_group') {
+    if (theme_get_setting('ding_group_disable_overlay') && $context['entity']->type == 'ding_group') {
       $view_mode = 'teaser_no_overlay';
     }
   }
