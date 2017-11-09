@@ -86,9 +86,6 @@ function opensearch_search_collection_load($id) {
  *   The search result.
  */
 function opensearch_search_search(TingSearchRequest $ting_query) {
-  // Ensure we have ting client.
-  module_load_include('inc', 'ting', 'ting.client');
-
   // TODO BBS-SAL: At some point this function will become big enough that we
   // Should split it up - consider doing some OO "Handlers". Alternativly do a
   // OpenSearchTingSearchQuery, create a TingSearchQueryInterface and handle its
@@ -183,6 +180,8 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   // Whether to return all materials from matched collections.
   $options['allObjects'] = $ting_query->getPopulateCollections();
 
+  // Ensure we have ting client.
+  module_load_include('inc', 'ting', 'ting.client');
   $result = new OpenSearchTingSearchResult(ting_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options), $ting_query);
 
   // Handle the situation where opensearch sets a default sort.
@@ -556,6 +555,9 @@ function opensearch_search_object_ids($ids) {
       $query = 'rec.id any "' . implode(" ", $chunk) . '" AND facet.acSource=bibliotekskatalog';
       // Ensure that the work match in opensearch doesn't hide ids for us.
       $options['collectionType'] = 'manifestation';
+
+      // Ensure we have ting client.
+      module_load_include('inc', 'ting', 'ting.client');
       $res = ting_do_search($query, 1, count($chunk), $options);
 
       // Sometimes the well will be unreachable or not even one of the ids in
