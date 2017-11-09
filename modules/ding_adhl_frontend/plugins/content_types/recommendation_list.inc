@@ -53,10 +53,12 @@ function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $c
     $ting_object_id = $context->get_original_argument()->getId();
     switch ($context->type) {
       case 'ting_object':
+        // TODO BBS-SAL: Port.
         $object = ting_get_object($ting_object_id);
         break 2;
 
       case 'ting_collection':
+        // TODO BBS-SAL: Port.
         $object = ting_get_object($ting_object_id, TRUE);
         break 2;
     }

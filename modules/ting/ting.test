@@ -1,5 +1,5 @@
 <?php
-
+// TODO BBS-SAL: Remove this file instead of "porting".
 /**
  * Test to ensure that ting objects is available through ding_entity.
  */

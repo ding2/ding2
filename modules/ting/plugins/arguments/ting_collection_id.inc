@@ -30,6 +30,7 @@ function ting_tasks_ting_collection_id_context($arg = NULL, $conf = NULL, $empty
     return FALSE;
   }
   module_load_include('client.inc', 'ting');
+  // TODO BBS-SAL: Dead code? ting_get_collection does not exist.
   $collection = ting_get_collection($arg);
   if (!($collection instanceOf TingClientcollection)) {
     return FALSE;

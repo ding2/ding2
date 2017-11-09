@@ -186,6 +186,7 @@ class TingSearchRequest {
    */
   public function execute() {
     // Delegate to the strategy.
+    // TODO BBS-SAL: implement pre/post hooks - see ting.api.php.
     return $this->searchStrategy->executeSearch($this);
   }
 

@@ -3,7 +3,7 @@
  * @file
  * Wrapper functions for Ting client.
  */
-
+// TODO BBS-SAL: move to opensearch, consider rename to opensearch.client.inc.
 /**
  * Used to indicate that a given cache entry have return no reply from the data
  * well.
@@ -76,7 +76,6 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
       $cache_key = ting_cache_collection_key($object_id);
     }
     $object = ting_cache_get($cache_key, $type, $with_relations);
-    $object = FALSE;
     if ($object != TING_CACHE_EMPTY_ENTRY && !$object) {
       // Put a negative reply in the cache. It will be overwritten by the
       // object, or ensure that we won't try to fetch this id again.

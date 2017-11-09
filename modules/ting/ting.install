@@ -85,6 +85,8 @@ function ting_schema() {
     ),
   );
 
+  // BBS-SAL: move/copy this to opensearch. Rename table to cache_opensearch
+  // Consider what to do with the current cache_ting table.
   // Cache table used by ting_execute_cache.
   $schema['cache_ting'] = drupal_get_schema_unprocessed('system', 'cache');
 

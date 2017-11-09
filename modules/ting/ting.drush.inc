@@ -3,13 +3,19 @@
  * @file
  * This file implements support for drush into the module.
  */
-
+// TODO BBS-SAL: Move all opensearch related caches (probably all in this file
+// to opensearch.
 /**
  * Implements hook_drush_cache_clear().
  *
  * Adds a cache clear option for the recommendation cache.
  */
 function ting_drush_cache_clear(&$types) {
+  // TODO BBS-SAL: Add a opensearch alias for each of these cache tables.
+  // eg, leave the key (but rename the function).
+  // $types['ting_object'] = 'opensearch_object_cache_clear';
+  // But then add
+  // $types['opensearch_object'] = 'opensearch_object_cache_clear';
   // Default cache table.
   $types['ting'] = 'ting_flush_caches';
 

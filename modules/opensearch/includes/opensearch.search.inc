@@ -24,13 +24,15 @@ function opensearch_search_material_types() {
   // Get a list of types by executing a null query and look at the facets
   // result.
   $options = [
+    // TODO BBS-SAL: Set the facet via SAL.
     'facets' => ['facet.type'],
     'numFacets' => 99,
     'reply_only' => TRUE,
-    'sort' => 'random',
+    // Following configuration breaks the search, commented out for now.
+    // 'sort' => 'random',
   ];
   module_load_include('client.inc', 'ting');
-  // TODO: search via the abstraction-layer (to be implemented).
+  // TODO BBS-SAL: search via the abstraction-layer.
   $result = ting_do_search("*", 0, 0, $options);
 
   $types = [];

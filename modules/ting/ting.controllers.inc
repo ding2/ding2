@@ -10,6 +10,7 @@
  */
 class TingObjectController extends DrupalDefaultEntityController {
   public function load($ids = array(), $conditions = array()) {
+    // TODO BBS-SAL: Should not be necessary after the port.
     module_load_include('client.inc', 'ting');
     $queried_entities = array();
     // We really don't support loading of all objects. We're adding to
@@ -237,6 +238,7 @@ class TingCollectionController implements DrupalEntityControllerInterface {
    * Implements DrupalEntityControllerInterface::load().
    */
   public function load($ids = array(), $conditions = array()) {
+    // TODO BBS-SAL: Remove when ting_get_object invocation is gone.
     module_load_include('client.inc', 'ting');
     $entities = array();
     $queried_entities = array();

@@ -21,6 +21,10 @@ function ting_admin_ting_settings($form_state) {
     '#tree' => FALSE,
   );
 
+  // TODO BBS-SAL: The next couple of settings seems opensearch specific, move
+  // them to the opensearch module and add an install task for them via a
+  // hook_ding_install_tasks implementation in opensearch.module.
+  // See ting_ding_install_tasks for reference.
   $form['ting']['ting_agency'] = array(
     '#type' => 'textfield',
     '#title' => t('Library code'),
@@ -118,6 +122,8 @@ function ting_admin_ting_settings($form_state) {
     '#weight' => 1,
   );
 
+  // TODO BBS-SAL: Search profiles are a opensearch concept. Parts of it could
+  // probably be kept search provider independent.
   $form['ting']['ting_search_profile'] = array(
     '#type' => 'textfield',
     '#title' => t('Search profile'),
@@ -139,7 +145,7 @@ function ting_admin_ranking_settings($form, &$form_state) {
     '#after_build' => array('ting_admin_ranking_form_after_build'),
   );
 
-  // TODO BBS-SAL: Should this be made opensearch specific?
+  // TODO BBS-SAL: Move to opensearch
   $form['ting_ranking_custom'] = array(
     '#title' => t('Enable custom ranking'),
     '#type' => 'checkbox',
@@ -291,6 +297,7 @@ function _ting_ranking_field_sort($a, $b) {
  * @ingroup forms
  */
 function ting_admin_boost_settings($form, &$form_state) {
+  // TODO BBS-SAL: move to opensearch.
   form_load_include($form_state, 'admin.inc', 'ting');
   $form = array('#after_build' => array('ting_admin_boost_form_after_build'));
 

@@ -37,6 +37,10 @@ class TingRelation extends DingEntityBase {
 
 /**
  * Ting object entity.
+ * TODO BBS-SAL:
+ *  - refactor public properties and getters to use getters on the
+ *    TingObjectInterface instead.
+ *  - Track down _all_ usages of the properties.
  */
 class TingEntity extends DingEntity {
   public $type = DingEntityBase::NULL;
@@ -68,11 +72,13 @@ class TingEntity extends DingEntity {
   public $reply;
 
   public function getExtent() {
+    // TODO BBS-SAL: port.
     return !empty($this->reply->record['dcterms:extent'][''][0]) ? $this->reply->record['dcterms:extent'][''][0] : FALSE;
   }
 
   function getClassification() {
     $dk5 = '';
+    // TODO BBS-SAL: port.
     if (!empty($this->reply->record['dc:subject']['dkdcplus:DK5'][0])) {
       $dk5 = $this->reply->record['dc:subject']['dkdcplus:DK5'][0];
 
@@ -374,6 +380,12 @@ class TingEntity extends DingEntity {
 
 /**
  * Ting collection entity.
+ *
+ * TODO BBS-SAL:
+ * - Switch from public properties to using getters on the
+ *   TingObjectCollectionInterface.
+ * - Move existing general purpose getters into a TingObjectCollectionBase
+ *   and have connie/opensearch implementations inherit.
  */
 class TingCollection extends DingEntityCollection {
   public $title = DingEntityBase::NULL;

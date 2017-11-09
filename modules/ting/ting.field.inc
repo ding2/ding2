@@ -379,6 +379,11 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           $title = check_plain($title);
         }
 
+        // TODO BBS-SAL: Refactor this to a general setting that allows the
+        // administrator to choose a list of material-types that should have
+        // the language added to the title if the material is not in the site
+        // default language. Add a ting_default_material_language variable and
+        // add it to ting.admin.inc.
         $is_book = '';
         if (isset($entity)) {
           $_string = $entity->type;
@@ -444,6 +449,8 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
       case 'ting_author_default':
         $creators = array();
         foreach ($entity->creators as $i => $creator) {
+          // TODO BBS-SAL: Use a variable for holding the search query the same
+          // way it is done with ting_search_register_serie_title.
           $creators[] = l($creator, 'search/ting/phrase.creator="' . $creator . '"', array('attributes' => array('class' => array('author'))));
         }
         $markup_string = '';
@@ -473,6 +480,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         if (count($entity->subjects) == TRUE) {
           $subjects = array();
           foreach ($entity->subjects as $subject) {
+            // TODO BBS-SAL: see 'ting_author_default'.
             $subjects[] = l($subject, 'search/ting/phrase.subject="' . $subject . '"', array('attributes' => array('class' => array('subject'))));
           }
           $element[$delta] = array(
