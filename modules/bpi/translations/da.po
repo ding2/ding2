@@ -456,6 +456,9 @@ msgid "My channel subscriptions"
 msgstr "Mine abonnementer"
 
 msgid "Add channel"
+msgstr "Tilføj kanal"
+
+msgid "Create channel"
 msgstr "Opret kanal"
 
 msgid "Channel details"
@@ -484,6 +487,12 @@ msgstr "Tilføj redaktører"
 
 msgid "Channel has no editors"
 msgstr "Ingen redaktører"
+
+msgid "Channel has new content"
+msgstr "Nyt ind i kanalen"
+
+msgid "Channel has no nodes"
+msgstr "Intet indhold i kanalen"
 
 msgid "Add nodes to channel"
 msgstr "Tilføj indhold"
