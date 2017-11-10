@@ -80,6 +80,7 @@ function bpi_menu() {
   );
 
   $menu['admin/bpi/channel'] = array(
+    'weight' => 10,
     'title' => 'Channels',
     'type' => MENU_LOCAL_TASK,
     'description' => 'Show all channels.',
@@ -194,6 +195,7 @@ function bpi_menu() {
   );
 
   $menu['admin/bpi/user'] = array(
+    'weight' => 20,
     'title' => 'Users',
     'type' => MENU_LOCAL_TASK,
     'description' => 'Show all users.',
