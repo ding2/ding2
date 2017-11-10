@@ -591,6 +591,7 @@ function opensearch_search_object_ids($ids) {
     return $translated_ids;
   }
   elseif (is_numeric($ids)) {
+    module_load_include('client.inc', 'ting');
     $obj = ting_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
     $entity_id = ($obj) ? key($obj->collections) : '870970-basis:' . $ids;
 
