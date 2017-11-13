@@ -229,8 +229,6 @@ function fbs_availability_holdings($provider_ids) {
         $result_holding['placement'][] = $holdings_suffix;
       }
 
-      $placement_string = implode(' > ', $result_holding['placement']);
-
       // Count available materials.
       foreach ($item_holding->materials as $material) {
         $result[$item->recordId]['total_count']++;
@@ -241,6 +239,8 @@ function fbs_availability_holdings($provider_ids) {
         }
 
         if ($material->periodical) {
+          $placement_string = implode(' > ', $result_holding['placement']);
+
           // Add to issues.
           $key = (!empty($material->periodical->volumeYear) ?
                   $material->periodical->volumeYear : '') . ':' .
@@ -299,7 +299,28 @@ function fbs_availability_holdings($provider_ids) {
     }
   }
 
+  // Sort holdings alphabetically based on library name.
+  foreach ($result as &$item) {
+    usort($item['holdings'], 'fbs_holdings_sort_compare');
+  }
+
   return $result;
+}
+
+/**
+ * Sort string compare function used by holdings sort.
+ *
+ * @param array $a
+ *   Holdings array,
+ * @param array $b
+ *  Holdings array,
+ *
+ * @return int
+ *   Returns < 0 if str1 is less than str2; > 0 if str1 is greater than str2,
+ *   and 0 if they are equal.
+ */
+function fbs_holdings_sort_compare($a, $b) {
+  return strcasecmp($a['placement'][0], $b['placement'][0]);
 }
 
 /**
