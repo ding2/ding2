@@ -13,7 +13,10 @@ function opensearch_install() {
 function opensearch_migrate_settings() {
   $settings_map = array(
     'ting_search_url' => 'opensearch_url',
-    'ting_use_auth' => 'opensearch_use_auth'
+    'ting_use_auth' => 'opensearch_use_auth',
+    'ting_auth_name' => 'opensearch_auth_name',
+    'ting_auth_pass' => 'opensearch_auth_pass',
+    'ting_auth_group' => 'opensearch_auth_group',
   );
 
   array_walk($settings_map, function($new_var, $old_var) {

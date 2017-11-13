@@ -63,37 +63,37 @@ function opensearch_admin_settings($form_state) {
     '#tree' => FALSE,
   );
 
-  $form['opensearch']['authentification']['ting_use_auth'] = array(
+  $form['opensearch']['authentification']['opensearch_use_auth'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use authentication'),
-    '#default_value' => variable_get('ting_use_auth', FALSE),
+    '#default_value' => variable_get('opensearch_use_auth', FALSE),
     '#description' => t('Use authentication rather than rely on IP granted access.'),
   );
 
   $auth_states = array(
     'enabled' => array(
-      'input[name=ting_use_auth]' => array('checked' => TRUE),
+      'input[name=opensearch_use_auth]' => array('checked' => TRUE),
     ),
   );
 
-  $form['opensearch']['authentification']['ting_auth_name'] = array(
+  $form['opensearch']['authentification']['opensearch_auth_name'] = array(
     '#type' => 'textfield',
     '#title' => t('Name'),
-    '#default_value' => variable_get('ting_auth_name', ''),
+    '#default_value' => variable_get('opensearch_auth_name', ''),
     '#states' => $auth_states,
   );
 
-  $form['opensearch']['authentification']['ting_auth_pass'] = array(
+  $form['opensearch']['authentification']['opensearch_auth_pass'] = array(
     '#type' => 'textfield',
     '#title' => t('Password'),
-    '#default_value' => variable_get('ting_auth_pass', ''),
+    '#default_value' => variable_get('opensearch_auth_pass', ''),
     '#states' => $auth_states,
   );
 
-  $form['opensearch']['authentification']['ting_auth_group'] = array(
+  $form['opensearch']['authentification']['opensearch_auth_group'] = array(
     '#type' => 'textfield',
     '#title' => t('Group'),
-    '#default_value' => variable_get('ting_auth_group', ''),
+    '#default_value' => variable_get('opensearch_auth_group', ''),
     '#states' => $auth_states,
   );
 
