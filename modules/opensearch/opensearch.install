@@ -18,6 +18,7 @@ function opensearch_migrate_settings() {
     'ting_auth_pass' => 'opensearch_auth_pass',
     'ting_auth_group' => 'opensearch_auth_group',
     'ting_recommendation_url' => 'opensearch_recommendation_url',
+    'ting_enable_logging' => 'opensearch_enable_logging',
   );
 
   array_walk($settings_map, function($new_var, $old_var) {

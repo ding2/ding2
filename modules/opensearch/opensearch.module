@@ -105,10 +105,10 @@ function opensearch_admin_settings($form_state) {
     '#default_value' => variable_get('opensearch_recommendation_url', ''),
   );
 
-  $form['opensearch']['ting_enable_logging'] = array(
+  $form['opensearch']['opensearch_enable_logging'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable logging'),
-    '#default_value' => variable_get('ting_enable_logging', FALSE),
+    '#default_value' => variable_get('opensearch_enable_logging', FALSE),
     '#weight' => 1,
   );
 
