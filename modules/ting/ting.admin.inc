@@ -12,126 +12,22 @@
  * @see system_settings_form()
  */
 function ting_admin_ting_settings($form_state) {
-  form_load_include($form_state, 'inc', 'ting', 'ting.admin');
-  $form = array();
-
-  $form['ting'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Ting service settings'),
-    '#tree' => FALSE,
-  );
-
-  // TODO BBS-SAL: The next couple of settings seems opensearch specific, move
-  // them to the opensearch module and add an install task for them via a
-  // hook_ding_install_tasks implementation in opensearch.module.
-  // See ting_ding_install_tasks for reference.
-  $form['ting']['ting_agency'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Library code'),
-    '#description' => t('The 6-digit code representing the library organization'),
-    '#default_value' => variable_get('ting_agency', ''),
-  );
-
-  $form['ting']['ting_search_url'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Search service URL'),
-    '#description' => t('URL to the Ting search webservice, e.g. http://opensearch.addi.dk/3.0/'),
-    '#required' => TRUE,
-    '#default_value' => variable_get('ting_search_url', ''),
-  );
-
-  $form['ting']['authentification'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Authentication'),
-    '#tree' => FALSE,
-  );
-
-  $form['ting']['authentification']['ting_use_auth'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Use authentication'),
-    '#default_value' => variable_get('ting_use_auth', FALSE),
-    '#description' => t('Use authentication rather than rely on IP granted access.'),
-  );
-
-  $auth_states = array(
-    'enabled' => array(
-      'input[name=ting_use_auth]' => array('checked' => TRUE),
+  // This form is for configuration elements which work across all Ting (search)
+  // providers.
+  // This form element is primarily a stopgap in case users get confused about
+  // where the former OpenSearch configuration was located.
+  return array(
+    array(
+      '#type' => 'item',
+      '#title' => t('Search configuration'),
+      '#description' => t(
+        'Search is now handled by a provider. Please <a href="@provider-page">check the settings</a> for your currently active search provider.',
+        array(
+          '@provider-page' => url('admin/config/ding/provider'),
+        )
+      ),
     ),
   );
-
-  $form['ting']['authentification']['ting_auth_name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Name'),
-    '#default_value' => variable_get('ting_auth_name', ''),
-    '#states' => $auth_states,
-  );
-
-  $form['ting']['authentification']['ting_auth_pass'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Password'),
-    '#default_value' => variable_get('ting_auth_pass', ''),
-    '#states' => $auth_states,
-  );
-
-  $form['ting']['authentification']['ting_auth_group'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Group'),
-    '#default_value' => variable_get('ting_auth_group', ''),
-    '#states' => $auth_states,
-  );
-
-  $form['ting']['ting_recommendation_url'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Recommendation service URL'),
-    '#description' => t('URL to the Ting recommendation webservice (Andre der har lånt...) , e.g. http://openadhl.addi.dk/1.1/'),
-    '#required' => FALSE,
-    '#default_value' => variable_get('ting_recommendation_url', ''),
-  );
-
-  $form['ting']['ting_enable_logging'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable logging'),
-    '#default_value' => variable_get('ting_enable_logging', FALSE),
-    '#weight' => 1,
-  );
-
-  $intervals = array(
-    60,
-    300,
-    900,
-    1800,
-    3600,
-    10800,
-    43200,
-    86400,
-    259200,
-    604800,
-  );
-
-  $options = array();
-  foreach ($intervals as $interval) {
-    $options[$interval] = format_interval($interval, 2);
-  }
-
-  $form['ting']['ting_cache_lifetime'] = array(
-    '#type' => 'select',
-    '#title' => t('Cache lifetime'),
-    '#default_value' => variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME),
-    '#options' => $options,
-    '#description' => t("Cache answers from the datawell for this time. At least a few minutes is recommended, so the same objects doesn't have to be fetched on each page request."),
-    '#weight' => 1,
-  );
-
-  // TODO BBS-SAL: Search profiles are a opensearch concept. Parts of it could
-  // probably be kept search provider independent.
-  $form['ting']['ting_search_profile'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Search profile'),
-    '#description' => t('Profile name, used for filtering the search based on settings from vip.dbc.dk.'),
-    '#default_value' => variable_get('ting_search_profile', ''),
-  );
-
-  return system_settings_form($form);
 }
 
 /**

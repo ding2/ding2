@@ -494,7 +494,7 @@ function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT, $with_relations = F
   $cid = $type . ':' . $id;
   ting_cache_invoke_cache_key_hook($cid);
 
-  if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
+  if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
     $cache = cache_get($cid, 'cache_ting');
     if ($cache && ($cache->expire > REQUEST_TIME)) {
       $data = $cache->data;
@@ -538,7 +538,7 @@ function ting_cache_set($id, $value, $type = TING_CACHE_TING_OBJECT) {
   $cid = $type . ':' . $id;
   ting_cache_invoke_cache_key_hook($cid);
 
-  if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
+  if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
     cache_set($cid, $value, 'cache_ting', REQUEST_TIME + $ttl);
   }
   else {
@@ -654,10 +654,10 @@ function ting_get_request_factory() {
 
   if (!isset($request_factory)) {
     $url_variables = array(
-      'search' => 'ting_search_url',
-      'object' => 'ting_search_url',
-      'collection' => 'ting_search_url',
-      'recommendation' => 'ting_recommendation_url',
+      'search' => 'opensearch_url',
+      'object' => 'opensearch_url',
+      'collection' => 'opensearch_url',
+      'recommendation' => 'opensearch_recommendation_url',
     );
 
     // TODO: This should probably be rethought.
@@ -674,11 +674,11 @@ function ting_get_request_factory() {
     }
 
     $auth = array();
-    if (variable_get('ting_use_auth', FALSE)) {
+    if (variable_get('opensearch_use_auth', FALSE)) {
       $auth = array(
-        'name' => variable_get('ting_auth_name', ''),
-        'pass' => variable_get('ting_auth_pass', ''),
-        'group' => variable_get('ting_auth_group', ''),
+        'name' => variable_get('opensearch_auth_name', ''),
+        'pass' => variable_get('opensearch_auth_pass', ''),
+        'group' => variable_get('opensearch_auth_group', ''),
       );
     }
 
@@ -769,7 +769,7 @@ function ting_get_client() {
   static $client;
 
   if (!isset($client)) {
-    $logger = (variable_get('ting_enable_logging', FALSE)) ? new TingClientDrupalWatchDogLogger(ting_get_request_factory()) : new TingClientVoidLogger();
+    $logger = (variable_get('opensearch_enable_logging', FALSE)) ? new TingClientDrupalWatchDogLogger(ting_get_request_factory()) : new TingClientVoidLogger();
     $client = new TingClient(new TingClientRequestAdapter(), $logger);
   }
 
