@@ -228,7 +228,6 @@ function ding_serendipity_ting_entity_ting_object_adhl_serendipity_add($context)
 
   $type = strtolower($obj->getType());
   if (!empty($obj) && isset($accepted_types[$type]) && $accepted_types[$type]) {
-    $record = $obj->getRecord();
 
     if ($obj->getIsbn()) {
       if (($agency = variable_get('ting_agency', '')) != '') {
