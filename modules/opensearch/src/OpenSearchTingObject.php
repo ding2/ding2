@@ -8,6 +8,7 @@ namespace OpenSearch;
 
 use Ting\TingObjectInterface;
 use TingClientObject;
+use TingRelation;
 
 /**
  * Class OpenSearchObject
@@ -31,20 +32,20 @@ class OpenSearchTingObject implements TingObjectInterface {
   protected $openSearchObject;
 
   /**
-   * @var string Ding specific ID for the object. Usually the entity id.
-   */
-  protected $dingId;
-
-  /**
    * @var string Id of the owner of the object, eg. the Agency.
    */
   protected $ownerId;
 
   /**
+   * @var TingRelation[] list of materials related to this material.
+   */
+  protected $relations;
+
+  /**
    * {@inheritdoc}
    */
   public function getId() {
-    return $this->dingId;
+    return $this->openSearchObject->id;
   }
 
   public function getRelations(){
