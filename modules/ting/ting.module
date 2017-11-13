@@ -188,20 +188,6 @@ function ting_menu_alter(&$items) {
 }
 
 /**
- * Implements hook_ding_install_tasks().
- */
-function ting_ding_install_tasks() {
-  module_load_include('inc', 'ting', 'ting.admin');
-  return array(
-    'ting_admin_ting_settings' => array(
-      'display_name' => st('Ting service settings'),
-      'type' => 'form',
-      'file' => drupal_get_path('module', 'ting') . '/ting.admin.inc',
-    ),
-  );
-}
-
-/**
  * Implements hook_permission().
  */
 function ting_permission() {

@@ -46,8 +46,8 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
     array_walk_recursive($form, '_ding2_remove_form_requirements');
 
     // Set default values in ting search form to help aegir/bulk installations.
-    if ($form_id == 'ting_admin_ting_settings') {
-      $form['ting']['ting_search_url']['#default_value'] = 'http://opensearch.addi.dk/3.0/';
+    if ($form_id == 'opensearch_admin_settings') {
+      $form['ting']['opensearch_url']['#default_value'] = 'http://opensearch.addi.dk/3.0/';
       $form['ting']['ting_recommendation_url']['#default_value'] = 'http://openadhl.addi.dk/1.1/';
     }
 
@@ -661,6 +661,7 @@ function ding2_module_enable(&$install_state) {
   // Modules we dont have an explicit dependency on but still want enabled by
   // default. If the user later on does not need the module it can be disabled
   // manually.
+  $modules[] = 'opensearch';
   $modules[] = 'l10n_update';
   $modules[] = 'ting_fulltext';
   $modules[] = 'ting_infomedia';
