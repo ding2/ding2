@@ -792,7 +792,7 @@ function ting_collection_view($object, $view_mode = 'full', $langcode = NULL) {
  * @param TingObjectInterface[] $objects
  *   List of objects.
  */
-function _ting_type_lang_sort($objects, &$return_types) {
+function _ting_type_lang_sort(array $objects, &$return_types) {
   $types = array();
   $languages = array();
   $sorted = array();

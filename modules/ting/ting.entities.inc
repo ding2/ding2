@@ -477,4 +477,3 @@ class TingCollection extends DingEntityCollection {
     return $this->tingObjectCollection->getPrimaryObject();
   }
 }
-
