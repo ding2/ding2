@@ -179,7 +179,6 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         // Patron have this item in loans list, but opensearch can't find this
         // record for current agencyId, so we load it separately.
         // Here we are loading TingClientObject.
-
         $ting_object = ding_provider_invoke('search', 'object_load', [$loan->ding_entity_id]);
         if (!empty($ting_object) && is_array($ting_object)) {
           $ting_object = reset($ting_object);
