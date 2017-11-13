@@ -130,7 +130,7 @@ function ting_field_load($entity_type, $entities, $field, $instances, $langcode,
   // Transform entities into a multiple field.
   if ($field['type'] == 'ting_entities') {
     foreach ($entities as $id => $entity) {
-      foreach ($entity->entities as $ent) {
+      foreach ($entity->getEntities() as $ent) {
         $items[$id][] = array(
           'id' => $ent->id,
         );
@@ -317,7 +317,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
 
   // Entity listing is a special case.
   if ($display['type'] == 'ting_entities_default') {
-    $entities = $entity->entities;
+    $entities = $entity->getEntities();
     // Skip the first.
     if ($display['settings']['hide_primary']) {
       array_shift($entities);

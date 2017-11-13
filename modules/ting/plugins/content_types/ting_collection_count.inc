@@ -24,7 +24,7 @@ function ding_ddbasic_ting_collection_title_and_count_content_type_render($subty
   
   $object = isset($context->data) ? ($context->data) : NULL;
   if ($object instanceOf TingCollection) {
-    $count = count($object->entities);
+    $count = count($object->getEntities());
     $block->content = '<span class="material-title">"' . check_plain($object->title) . '"</span><span class="count"> (' . $count . ' hits)</span>';
   }
 

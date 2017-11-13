@@ -315,7 +315,7 @@ function ting_block_view($delta = '') {
         $items = array();
         foreach ($collection->types as $k => $type) {
           if ($collection->types_count[$type] == 1) {
-            $items[] = l($type . ' (' . $collection->types_count[$type] . ')', 'ting/object/' . $collection->entities[$k]->ding_entity_id);
+            $items[] = l($type . ' (' . $collection->types_count[$type] . ')', 'ting/object/' . $collection->getEntities()[$k]->ding_entity_id);
           }
           else {
             $items[] = l($type . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE));
@@ -334,7 +334,7 @@ function ting_block_view($delta = '') {
       if ($object && $collection = ting_collection_load($object->id)) {
         $items = array();
 
-        foreach ($collection->entities as $entity) {
+        foreach ($collection->getEntities() as $entity) {
           $item = ting_object_view($entity, 'teaser');
           $items[] = render($item);
         }
@@ -634,7 +634,7 @@ function ting_object_page_view($object) {
  * Page callback: Display a ting collection.
  */
 function ting_collection_page_view($object) {
-  if (count($object->entities) < 2) {
+  if (count($object->getEntities()) < 2) {
     $uri = entity_uri('ting_object', $object);
     drupal_goto($uri['path'], $uri['options']);
   }
