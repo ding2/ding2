@@ -1,0 +1,429 @@
+<?php
+/**
+ * @file
+ * Defines basic campaigns triggers and handling.
+ */
+
+define('DING_CAMPAIGN_PLUS_FACET_TYPE', 'facet');
+
+/**
+ * Implements hook_ding_campaign_plus_info().
+ */
+function ding_campaign_plus_facet_ding_campaign_plus_info() {
+  return array(
+    'title' => t('Facets'),
+    'type' => DING_CAMPAIGN_PLUS_FACET_TYPE,
+    'form' => 'ding_campaign_plus_facet_admin_form',
+  );
+}
+
+/**
+ * Implements hook_node_load().
+ */
+function ding_campaign_plus_facet_node_load($nodes, $types) {
+  foreach ($nodes as $node) {
+    if ($node->type === 'ding_campaign_plus') {
+      $rules = db_select('ding_campaign_plus_facet', 'dcpf')
+        ->fields('dcpf')
+        ->condition('nid', $node->nid)
+        ->execute()
+        ->fetchAllAssoc('id');
+
+      foreach ($rules as &$rule) {
+        $rule->value = unserialize($rule->value);
+
+        // Add type to easy identify this rule type.
+        $rule->type = 'facet';
+      }
+
+      if (!isset($node->ding_campaign_plus)) {
+        $node->ding_campaign_plus = array();
+      }
+      $node->ding_campaign_plus += $rules;
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_campaign_plus_facet_node_insert($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    $triggers = $node->tabs[DING_CAMPAIGN_PLUS_FACET_TYPE];
+
+    foreach ($triggers['rules'] as $rule) {
+      if (!is_array($rule)) {
+        continue;
+      }
+
+      switch ($rule['facet']) {
+        case 'facet.type':
+          $value = $rule['facet_value_select_type'];
+          $value = empty($value) ? $value : serialize($value);
+          break;
+
+        case 'facet.acSource':
+          $value = $rule['facet_value_select_source'];
+          $value = empty($value) ? $value : serialize($value);
+          break;
+
+        default:
+          $value = $rule['facet_value'];
+      }
+
+      if (!empty($value)) {
+        db_insert('ding_campaign_plus_facet')
+          ->fields(array(
+            'nid' => $node->nid,
+            'facet' => $rule['facet'],
+            'value' => $value,
+            'percent' => $rule['percent'],
+          ))->execute();
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ding_campaign_plus_facet_node_update($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    ding_campaign_plus_facet_node_delete($node);
+    ding_campaign_plus_facet_node_insert($node);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_campaign_plus_facet_node_delete($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    db_delete('ding_campaign_plus_facet')
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
+}
+
+/**
+ * Find campaigns that matches the current context.
+ *
+ * @TODO take campaign style into the selection setup.
+ *
+ * @param array $contexts
+ *   The contexts acquired from panels context.
+ * @param $style
+ *   The style to use.
+ *
+ * @return array
+ *   The id's of the campaigns found index by the trigger type.
+ */
+function ding_campaign_plus_facet_ding_campaign_plus_matches($contexts, $style) {
+  $matches = array();
+
+  foreach ($contexts as $key => $context) {
+    switch ($key) {
+      case 'search_term':
+        $triggers = _ding_campaign_plus_facet_match($context);
+        foreach ($triggers as $facet => $nids) {
+          $matches[$facet] = $nids;
+        }
+        break;
+    }
+  }
+
+  return $matches;
+}
+
+/**
+ * The node edit form callback defined in the hook_ding_campaign_plus_info.
+ */
+function ding_campaign_plus_facet_admin_form($form, $form_state) {
+  $values = array();
+  if (isset($form_state['values']['tabs'][DING_CAMPAIGN_PLUS_FACET_TYPE]['rules'])) {
+    $values = $form_state['values']['tabs'][DING_CAMPAIGN_PLUS_FACET_TYPE]['rules'];
+  }
+
+  // Get campaign rule from node.
+  if (empty($values) && isset($form_state['node']->ding_campaign_plus)) {
+    $values = _ding_campaign_plus_facet_get_rules($form_state['node']->nid, $form_state['node']->ding_campaign_plus);
+    $values['count'] = count($values);
+  }
+  $count = !empty($values['count']) ? $values['count'] : 0;
+
+  // Check if remove button has been pressed. If so remove element from
+  // form_state values.
+  if (isset($form_state['triggering_element'])) {
+    if ($form_state['triggering_element']['#op'] === 'remove' && substr($form_state['triggering_element']['#name'], 0, 18) === 'remove_facet_rule_') {
+      $rule = 'rule_' . $form_state['triggering_element']['#rule'];
+      unset($values[$rule]);
+      unset($form_state['values']['tabs']['facet']['rules'][$rule]);
+    }
+  }
+
+  $triggers = array(
+    '#prefix' => '<div id="ding-campaign-facet-triggers">',
+    '#suffix' => '</div>',
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'ding_campaign_plus_facet') . '/js/ding_campaign_plus_facet.admin.js',
+      )
+    ),
+  );
+
+  // If this form is "add another" or "remove" build rules already form_state
+  // values.
+  foreach ($values as $key => $value) {
+    if (substr($key, 0, 4) === "rule") {
+      $triggers[$key] = _ding_campaign_plus_facet_rule_form(substr($key, 5), $value);
+    }
+  }
+
+  // If not a remove operation add one more element.
+  if (!isset($form_state['triggering_element'])) {
+    $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count);
+  }
+  else if ($form_state['triggering_element']['#name'] === 'add_another_facet') {
+    // Check if it was this sub-form that need another element added if not
+    // exit to prevent extra elements being generated.
+    $count++;
+    $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count);
+  }
+
+  $triggers['count'] = array(
+    '#type' => 'hidden',
+    '#value' => $count,
+  );
+
+  $triggers['add_rule'] = array(
+    '#type' => 'button',
+    '#name' => 'add_another_facet',
+    '#value' => t('Add another'),
+    '#ajax' => array(
+      'callback' => '_ding_campaign_plus_facet_rule_ajax_callback',
+      'wrapper' => 'ding-campaign-facet-triggers',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+
+  return $triggers;
+}
+
+/**
+ * Return the facet rules part of the form.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Form element - rule fields.
+ */
+function _ding_campaign_plus_facet_rule_ajax_callback(array $form, array $form_state) {
+  return $form['triggers']['tabs']['facet']['rules'];
+}
+
+/**
+ * Rule form fields chunk.
+ *
+ * @param int $number
+ *   The rule number (used for UI numbering).
+ * @param array $default_values
+ *   The default values for the fields.
+ *
+ * @return array
+ *   Rule fields structure.
+ */
+function _ding_campaign_plus_facet_rule_form($number = 0, $default_values = array()) {
+  $form = array(
+    '#type' => 'fieldset',
+    '#title' => t('Rule %num',array('%num' => $number)),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+  );
+
+  $options = array();
+  $facets = variable_get('ding_facetbrowser_facets', array());
+  foreach ($facets as $facet) {
+    $options[$facet['name']] = $facet['title'];
+  }
+
+  $form['facet'] = array(
+    '#type' => 'select',
+    '#title' => t('Facet Type'),
+    '#default_value' => isset($default_values['facet']) ? $default_values['facet'] : 'facet.type',
+    '#options' => $options,
+    '#attributes' => array(
+      'class' => array('js-fact-type'),
+    )
+  );
+
+  $form['percent'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Percent of the results'),
+    '#size' => 4,
+    '#default_value' => isset($default_values['percent']) ? $default_values['percent'] : '30',
+  );
+
+  $options = _ting_fetch_well_types();
+  $options = array_keys($options);
+  $options = array_combine($options, $options);
+  $form['facet_value_select_type'] = array(
+    '#type' => 'select',
+    '#title' => t('Facet'),
+    '#default_value' => isset($default_values['facet_value_select_type']) ? $default_values['facet_value_select_type'] : array(),
+    '#options' => $options,
+    '#multiple' => TRUE,
+    '#size' => min(8, count($options)),
+  );
+
+  $options = _ting_fetch_well_sources();
+  $options = array_keys($options);
+  $options = array_combine($options, $options);
+  $form['facet_value_select_source'] = array(
+    '#type' => 'select',
+    '#title' => t('Facet'),
+    '#default_value' => isset($default_values['facet_value_select_source']) ? $default_values['facet_value_select_source'] : array(),
+    '#options' => $options,
+    '#multiple' => TRUE,
+    '#size' => min(8, count($options)),
+  );
+
+  $form['facet_value'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Facet value'),
+    '#default_value' => isset($default_values['facet_value']) ? $default_values['facet_value'] : '',
+    '#size' => 64,
+    '#maxlength' => 255,
+  );
+
+  $form['remove_rule_' . $number] = array(
+    '#type' => 'button',
+    '#value' => t('Remove'),
+    '#name' => 'remove_facet_rule_' . $number,
+    '#op' => 'remove',
+    '#rule' => $number,
+    '#ajax' => array(
+      'callback' => '_ding_campaign_plus_facet_rule_ajax_callback',
+      'wrapper' => 'ding-campaign-facet-triggers',
+      'method' => 'replace',
+      'effect' => 'fade'
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * Find "facet" rules in the current rules for a given node.
+ *
+ * @param int $nid
+ *   Node id for the node (used as index in static cache).
+ * @param array $rules
+ *   All the rules loaded for the node.
+ *
+ * @return array
+ *   The rules of the basic types.
+ */
+function _ding_campaign_plus_facet_get_rules($nid, $rules) {
+  $filtered = drupal_static(__FUNCTION__, array());
+
+  if (!isset($filtered[$nid])) {
+    $filtered[$nid] = array();
+
+    foreach ($rules as $rule) {
+      if ($rule->type == 'facet') {
+        $value_type = array();
+        $value_source = array();
+        $value = '';
+
+        switch ($rule->facet) {
+          case 'facet.type':
+            $value_type = $rule->value;
+            break;
+
+          case 'facet.acSource':
+            $value_source = $rule->value;
+            break;
+
+          default:
+            $value = $rule->value;
+            break;
+        }
+
+        $filtered[$nid]['rule_' . count($filtered[$nid])] = array(
+          'facet' => $rule->facet,
+          'percent' => $rule->percent,
+          'facet_value_select_type' => $value_type,
+          'facet_value_select_source' => $value_source,
+          'facet_value' => $value,
+        );
+      }
+    }
+  }
+
+  return $filtered[$nid];
+}
+
+/**
+ * Helper function to look-up rules in the database.
+ *
+ * @param array $keys
+ *   Search keys entered by the user.
+ *
+ * @return array
+ *   Matches indexed by facet name and contains campaign ID's.
+ */
+function _ding_campaign_plus_facet_match($keys) {
+  $triggers = array();
+
+  // Find rules that will match facet.
+  $campaigns = db_select('ding_campaign_plus_facet', 'dcpf')
+    ->fields('dcpf')
+    ->execute();
+
+  if ($campaigns) {
+    // Run user search - to get facets.
+    $facet_array = array();
+    $conditions = ting_search_conditions_callback($keys);
+    $query = '(' . _ting_search_quote($keys) . ')';
+
+    // Extend query with selected facets.
+    if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
+      $facets = $conditions['facets'];
+      foreach ($facets as $facet) {
+        $facet = explode(':', $facet, 2);
+        if ($facet[0]) {
+          $facet_array[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
+        }
+      }
+
+      $query .= ' AND ' . implode(' AND ', $facet_array);
+    }
+
+    module_load_include('client.inc', 'ting');
+    $search_result = ting_do_search($query, 1, 1);
+
+    // Loop rules to find percentage match in facets.
+    foreach ($campaigns as $campaign) {
+      $facets = unserialize($campaign->value);
+      if (isset($search_result->facets[$campaign->facet])) {
+        $terms = $search_result->facets[$campaign->facet]->terms;
+        foreach ($facets as $facet) {
+          // Check if facet exits in the search result and if the limit is
+          // reached.
+          if (isset($terms[$facet]) && ($terms[$facet]/$search_result->numTotalObjects) * 100 >= $campaign->percent) {
+            if (!isset($triggers[$facet])) {
+              $triggers[$facet] = array();
+            }
+            $triggers[$campaign->facet][] = $campaign->nid;
+          }
+        }
+      }
+    }
+  }
+
+  return $triggers;
+}

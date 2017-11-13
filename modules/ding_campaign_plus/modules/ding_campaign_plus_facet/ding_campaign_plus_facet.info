@@ -1,0 +1,5 @@
+name = Ding Campaign Plus Facets
+description = Facet campaign plus triggers
+core = 7.x
+package = Ding!
+dependencies[] = ding_campaign_plus

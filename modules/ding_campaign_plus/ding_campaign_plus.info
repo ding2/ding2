@@ -2,6 +2,7 @@ name = Ding Campaign Plus
 description = Campaign system. Displays context-sensitive campaigns.
 core = 7.x
 package = Ding!
+dependencies[] = ding_campaign_plus_basic
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = field_group

@@ -1,0 +1,231 @@
+<?php
+/**
+ * @file
+ * Defines basic campaigns triggers and handling.
+ */
+
+define('DING_CAMPAIGN_PLUS_SEARCH_TYPE', 'search');
+
+/**
+ * Implements hook_ding_campaign_plus_info().
+ */
+function ding_campaign_plus_search_ding_campaign_plus_info() {
+  return array(
+    'title' => t('Search'),
+    'type' => DING_CAMPAIGN_PLUS_SEARCH_TYPE,
+    'form' => 'ding_campaign_plus_search_admin_form',
+  );
+}
+
+/**
+ * Implements hook_node_load().
+ */
+function ding_campaign_plus_search_node_load($nodes, $types) {
+  foreach ($nodes as $node) {
+    if ($node->type === 'ding_campaign_plus') {
+      $rules = db_select('ding_campaign_plus_search', 'dcps')
+        ->fields('dcps')
+        ->condition('nid', $node->nid)
+        ->execute()
+        ->fetchAllAssoc('id');
+
+      // Add type to easy identify this rule type.
+      foreach ($rules as &$rule) {
+        $rule->type = 'search';
+      }
+
+      if (!isset($node->ding_campaign_plus)) {
+        $node->ding_campaign_plus = array();
+      }
+      $node->ding_campaign_plus += $rules;
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_campaign_plus_search_node_insert($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    $triggers = $node->tabs[DING_CAMPAIGN_PLUS_SEARCH_TYPE];
+
+    if (!empty($triggers['rules']['query'])) {
+      db_insert('ding_campaign_plus_search')
+        ->fields(array(
+          'nid' => $node->nid,
+          'query' => $triggers['rules']['query'],
+          'percent' => $triggers['rules']['percent'],
+        ))->execute();
+    }
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ding_campaign_plus_search_node_update($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    ding_campaign_plus_search_node_delete($node);
+    ding_campaign_plus_search_node_insert($node);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_campaign_plus_search_node_delete($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    db_delete('ding_campaign_plus_search')
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
+}
+
+/**
+ * Find campaigns that matches the current context.
+ *
+ * @TODO take campaign style into the selection setup.
+ *
+ * @param array $contexts
+ *   The contexts acquired from panels context.
+ * @param $style
+ *   The style to use.
+ *
+ * @return array
+ *   The id's of the campaigns found index by the trigger type.
+ */
+function ding_campaign_plus_search_ding_campaign_plus_matches($contexts, $style) {
+  $matches = array();
+
+  foreach ($contexts as $key => $context) {
+    switch ($key) {
+      case 'search_term':
+        $matches['search'] =_ding_campaign_plus_search_match($context);
+        break;
+    }
+  }
+
+  return $matches;
+}
+
+/**
+ * The node edit form callback defined in the hook_ding_campaign_plus_info.
+ */
+function ding_campaign_plus_search_admin_form($form, $form_state) {
+  $triggers = array();
+
+  $values = array();
+  if (isset($form_state['values']['tabs'][DING_CAMPAIGN_PLUS_SEARCH_TYPE]['rules'])) {
+    $values = $form_state['values']['tabs'][DING_CAMPAIGN_PLUS_SEARCH_TYPE]['rules'];
+  }
+
+  // Get campaign rule from node.
+  if (empty($values) && isset($form_state['node']->ding_campaign_plus)) {
+    $values = _ding_campaign_plus_search_get_rules($form_state['node']->nid, $form_state['node']->ding_campaign_plus);
+  }
+
+  $triggers['percent'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Percent of the results'),
+    '#size' => 4,
+    '#description' => t('The percent of the results in the search result.'),
+    '#default_value' => isset($values['percent']) ? $values['percent'] : '30',
+  );
+
+  $triggers['query'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search query'),
+    '#description' => t('Search query that should trigger the campaign.'),
+    '#default_value' => isset($values['query']) ? $values['query'] : '',
+    '#maxlength' => 2048
+  );
+
+  return $triggers;
+}
+
+/**
+ * Find "facet" rules in the current rules for a given node.
+ *
+ * @param int $nid
+ *   Node id for the node (used as index in static cache).
+ * @param array $rules
+ *   All the rules loaded for the node.
+ *
+ * @return array
+ *   The rules of the basic types.
+ */
+function _ding_campaign_plus_search_get_rules($nid, $rules) {
+  $filtered = drupal_static(__FUNCTION__, array());
+
+  if (!isset($filtered[$nid])) {
+    $filtered[$nid] = array();
+
+    foreach ($rules as $rule) {
+      if ($rule->type == 'search') {
+        $filtered[$nid]  = array(
+          'percent' => $rule->percent,
+          'query' => $rule->query,
+        );
+      }
+    }
+  }
+
+  return $filtered[$nid];
+}
+
+/**
+ * Helper function to look-up rules in the database.
+ *
+ * @param array $keys
+ *   Search keys entered by the user.
+ *
+ * @return array
+ *   Campaign ID's for triggered campaigns.
+ */
+function _ding_campaign_plus_search_match($keys) {
+  $nids = array();
+
+  // Find rules that will match facet.
+  $campaigns = db_select('ding_campaign_plus_search', 'dcps')
+    ->fields('dcps')
+    ->execute();
+
+  if ($campaigns) {
+    // Run user search to get number of results used to percentage
+    // calculations.
+    $facet_array = array();
+    $conditions = ting_search_conditions_callback($keys);
+    $query = '(' . _ting_search_quote($keys) . ')';
+
+    // Extend query with selected facets.
+    if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
+      $facets = $conditions['facets'];
+      foreach ($facets as $facet) {
+        $facet = explode(':', $facet, 2);
+        if ($facet[0]) {
+          $facet_array[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
+        }
+      }
+
+      $query .= ' AND ' . implode(' AND ', $facet_array);
+    }
+
+    module_load_include('client.inc', 'ting');
+    $search_result = ting_do_search($query, 1, 1);
+    $no_of_results = $search_result->numTotalObjects;
+
+    if ($no_of_results) {
+      // Loop rules to find percentage match in facets.
+      foreach ($campaigns as $campaign) {
+        // Do combined search to get intersection between user search and
+        // campaign trigger CQL string.
+        $search_result = ting_do_search($query . 'AND (' . $campaign->query . ')', 1, 1);
+        if (($search_result->numTotalObjects/$no_of_results) * 100 >= $campaign->percent) {
+          $nids[] = $campaign->nid;
+        }
+      }
+    }
+  }
+
+  return $nids;
+}

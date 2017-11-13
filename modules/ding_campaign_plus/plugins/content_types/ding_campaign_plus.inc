@@ -34,7 +34,15 @@ function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel
 
   $style = (!empty($conf['ding_campaign_style'])) ? $conf['ding_campaign_style'] : 'ding_campaign_full_width';
 
-  $block->content = ding_campaign_plus_display($context_data, $style);
+  $campaigns = ding_campaign_plus_get_matches($context_data, $style);
+
+  $block->content = '';
+  if (!empty($campaigns)) {
+    $campaign = node_load(reset($campaigns));
+    if ($campaign) {
+      $block->content = node_view($campaign, 'full');
+    }
+  }
 
   return $block;
 }

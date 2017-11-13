@@ -1,0 +1,4 @@
+name = Ding Campaign Plus Basic
+description = Basic campaign plus triggers
+core = 7.x
+package = Ding!

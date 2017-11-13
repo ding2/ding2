@@ -6,29 +6,11 @@
 
 include_once 'ding_campaign_plus.features.inc';
 
-// Load the files need to generate the trigger tabs in the administration form.
-// Sadly they need to be include here an not in the alter function. If not
-// include here the ajax (add another etc.) will not work.
-include_once 'includes/ding_campaign_plus_other.admin.inc';
-include_once 'includes/ding_campaign_plus_facet.admin.inc';
-include_once 'includes/ding_campaign_plus_search.admin.inc';
-include_once 'includes/ding_campaign_plus_object.admin.inc';
-
 /**
  * Implements hook_menu().
  */
 function ding_campaign_plus_menu() {
   $items = array();
-
-  $items['ding_campaign_plus/autocomplete/%'] = array(
-    'title' => 'Campaign rule autocomplete',
-    'description' => 'Auto complete field for campaign rule values.',
-    'page callback' => '_ding_campaign_plus_other_admin_autocomplete',
-    'page arguments' => array(2),
-    'access arguments' => array('access campaign plus triggers'),
-    'file' => 'includes/ding_campaign_plus_other.admin.inc',
-    'type' => MENU_CALLBACK,
-  );
 
   $items['admin/config/ding/campaigns_plus'] = array(
     'title' => 'Campaign plus',
@@ -76,124 +58,23 @@ function ding_campaign_plus_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_node_load().
- */
-function ding_campaign_plus_node_load($nodes, $types) {
-  foreach ($nodes as $node) {
-    if ($node->type === 'ding_campaign_plus') {
-      $rules = db_select('ding_campaign_plus', 'dcp')
-        ->fields('dcp')
-        ->condition('nid', $node->nid)
-        ->execute()
-        ->fetchAllAssoc('id');
-
-      $node->ding_campaign_plus = $rules;
-    }
-  }
-}
-
-/**
- * Implements hook_node_insert().
+ * Get information about the different triggers/rules available for campaigns
  *
- * Save campaign rules for a given campaign.
+ * @see hook_ding_campaign_plus_info().
+ *
+ * @return array
+ *   Basic information about the triggers.
  */
-function ding_campaign_plus_node_insert($node) {
-  if ($node->type === 'ding_campaign_plus') {
-    $triggers = $node->tabs;
-
-    foreach ($triggers as $type => $trigger) {
-      switch ($type) {
-        case 'facet':
-          foreach ($trigger['rules'] as $rule) {
-            if (!is_array($rule)) {
-              continue;
-            }
-
-            switch ($rule['facet_type']) {
-              case 'facet.type':
-                $value = implode(',', $rule['facet_value_select_type']);
-                break;
-
-              case 'facet.acSource':
-                $value = implode(',', $rule['facet_value_select_source']);
-                break;
-
-              default:
-                $value = $rule['facet_value'];
-            }
-
-            if (!empty($value)) {
-              db_insert('ding_campaign_plus')
-                ->fields(array(
-                  'nid' => $node->nid,
-                  'type' => $type,
-                  'rule' => $rule['facet_type'],
-                  'value' => $value,
-                ))->execute();
-            }
-          }
-          break;
-
-        case 'other':
-          foreach ($trigger['rules'] as $rule) {
-            if (!empty($rule['rule_value'])) {
-              db_insert('ding_campaign_plus')
-                ->fields(array(
-                  'nid' => $node->nid,
-                  'type' => $type,
-                  'rule' => $rule['rule_type'],
-                  'value' => $rule['rule_value'],
-                ))->execute();
-            }
-          }
-          break;
-
-        case 'search':
-          if (!empty($trigger['rules']['query'])) {
-            db_insert('ding_campaign_plus')
-              ->fields(array(
-                'nid' => $node->nid,
-                'type' => $type,
-                'rule' => '',
-                'value' => $trigger['rules']['limit'] . ';' .$trigger['rules']['query'],
-              ))->execute();
-          }
-          break;
-
-        case 'object':
-          if (!empty($trigger['rules']['query'])) {
-            db_insert('ding_campaign_plus')
-              ->fields(array(
-                'nid' => $node->nid,
-                'type' => $type,
-                'rule' => '',
-                'value' => $trigger['rules']['query'],
-              ))->execute();
-          }
-      }
+function ding_campaign_plus_rules_info() {
+  $result = drupal_static(__FUNCTION__);
+  if (!isset($result)) {
+    $result = [];
+    foreach (module_implements('ding_campaign_plus_info') as $module) {
+      $result[$module] = module_invoke($module, 'ding_campaign_plus_info');
     }
   }
-}
 
-/**
- * Implements hook_node_update().
- */
-function ding_campaign_plus_node_update($node) {
-  if ($node->type === 'ding_campaign_plus') {
-    ding_campaign_plus_node_delete($node);
-    ding_campaign_plus_node_insert($node);
-  }
-}
-
-/**
- * Implements hook_node_delete().
- */
-function ding_campaign_plus_node_delete($node) {
-  if ($node->type === 'ding_campaign_plus') {
-    db_delete('ding_campaign_plus')
-      ->condition('nid', $node->nid)
-      ->execute();
-  }
+  return $result;
 }
 
 /**
@@ -235,132 +116,19 @@ function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$fo
     '#tree' => TRUE,
   );
 
-  // Defines facet tab.
-  $form['triggers']['tabs']['facet'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Facet trigger'),
-    'rules' => _ding_campaign_plus_facet_triggers_form($form, $form_state),
-  );
-
-  // Defines ting object view tab.
-  $form['triggers']['tabs']['object'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Material view'),
-    'rules' => _ding_campaign_plus_object_triggers_form($form, $form_state),
-  );
-
-  // Defines ting object view tab.
-  $form['triggers']['tabs']['search'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Search query'),
-    'rules' => _ding_campaign_plus_search_triggers_form($form, $form_state),
-  );
-
-  // Defines other trigger methods (old ding campaign triggers).
-  $form['triggers']['tabs']['other'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Other triggers'),
-    'rules' => _ding_campaign_plus_other_triggers_form($form, $form_state),
-  );
-
-  // Ensures that is comes after the triggers when rendered.
-  $form['field_ding_campaign_plus_track']['#weight'] = 11;
-}
-
-/**
- * Filter rules for usage in form as default values.
- *
- * @param int $nid
- *   Node id to index static cache.
- * @param string $type
- *    The type of rules to return.
- * @param array $rules
- *   The rules for a given node.
- *
- * @return array
- *   The rule(s) for the type.
- */
-function _ding_campaign_plus_filter_rules($nid, $type, $rules) {
-  $filtered = drupal_static(__FUNCTION__, array());
-
-  if (!isset($filtered[$nid])) {
-    $filtered[$nid] = array(
-      'facet' => array(),
-      'other' => array(),
+  // Build form tabs with the triggers.
+  $data = ding_campaign_plus_rules_info();
+  foreach ($data as $module => $info) {
+    $callback = $info['form'];
+    $form['triggers']['tabs'][$info['type']] = array(
+      '#type' => 'fieldset',
+      '#title' => $info['title'],
+      'rules' => $callback($form, $form_state),
     );
-
-    foreach ($rules as $rule) {
-      switch ($rule->type) {
-        case 'facet':
-          $value_type = array();
-          $value_source = array();
-          $value = '';
-          switch ($rule->rule) {
-            case 'facet.type':
-              $value_type = explode(',', $rule->value);
-              $value_type = array_combine($value_type, $value_type);
-              break;
-
-            case 'facet.acSource':
-              $value_source = explode(',', $rule->value);
-              $value_source = array_combine($value_source, $value_source);
-              break;
-
-            default:
-              $value = $rule->value;
-              break;
-          }
-          $filtered[$nid][$rule->type]['rule_' . count($filtered[$nid][$rule->type])] = array(
-            'type' => $rule->rule,
-            'facet_value_select_type' => $value_type,
-            'facet_value_select_source' => $value_source,
-            'facet_value' => $value,
-          );
-          break;
-
-        case 'other':
-          $filtered[$nid][$rule->type]['rule_' . count($filtered[$nid][$rule->type])] = array(
-            'rule_type' => $rule->rule,
-            'rule_value' => $rule->value,
-          );
-          break;
-
-        case 'object':
-          $filtered[$nid][$rule->type] = array(
-            'query' => $rule->value,
-          );
-          break;
-
-        case 'search':
-          $values = explode(';', $rule->value, 2);
-          $filtered[$nid][$rule->type] = array(
-            'limit' => $values[0],
-            'query' => $values[1],
-          );
-          break;
-      }
-    }
   }
 
-  return isset($filtered[$nid][$type]) ? $filtered[$nid][$type] : array();
-}
-
-/**
- * Defines the "trigger" in the other category.
- *
- * @return array
- *   The triggers.
- */
-function _ding_campaign_plus_get_other_triggers() {
-  return array(
-    'page' => 'Page',
-    'event' => 'Event',
-    'news' => 'News',
-    'library' => 'Library',
-    'group' => 'Group',
-    'taxonomy' => 'Taxonomy term',
-    'path' => 'Path',
-  );
+  // Ensures that tracking comes after the triggers when rendered.
+  $form['field_ding_campaign_plus_track']['#weight'] = 11;
 }
 
 /**
@@ -388,10 +156,57 @@ function ding_campaign_plus_preprocess_node(&$variables, $hook) {
   }
 }
 
-function ding_campaign_plus_display($context_data, $style) {
+/**
+ * Get campaigns that matches the current context.
+ *
+ * @param $contexts
+ *   The current panels contexts.
+ * @param $style
+ *   The campaign style selected in panels pane configuration.
+ *
+ * @return array
+ *   The ID's of the campaigns trigger by the context.
+ */
+function ding_campaign_plus_get_matches($contexts, $style) {
+  // Add path context.
+  $contexts['path'] = (object) array(
+    'raw' => arg(),
+    'path' => drupal_get_path_alias($_GET['q']),
+  );
 
-  $campaign = node_load(67);
+  // Remove empty contexts here an not in each hook below.
+  foreach ($contexts as $key => $context) {
+    if (is_null($context)) {
+      unset($contexts[$key]);
+    }
+  }
 
-  $t=1;
-  return node_view($campaign, 'full');
+  $campaigns = array();
+  foreach (module_implements('ding_campaign_plus_matches') as $module) {
+    $matches = module_invoke($module, 'ding_campaign_plus_matches', $contexts, $style);
+    foreach ($matches as $type => $nids) {
+      ding_campaign_plus_add_campaign($campaigns, $nids, $type);
+    }
+  }
+
+  arsort($campaigns);
+  return array_keys($campaigns);
+}
+
+/**
+ * Add campaign id and calculate new weight for that campaign.
+ *
+ * @param array $campaigns
+ *   Campaigns index by id and value as current weight.
+ * @param array $nids
+ *   New campaign id's
+ * @param string $type
+ *   The type of campaigns (used to find the right weight).
+ */
+function ding_campaign_plus_add_campaign(&$campaigns, $nids, $type) {
+  $rule_weights = variable_get('ding_campaign_plus_weight', array());
+
+  foreach ($nids as $nid) {
+    $campaigns[$nid] = isset($campaigns[$nid]) ? $campaigns[$nid] + $rule_weights[$type] : $rule_weights[$type];
+  }
 }

@@ -7,11 +7,11 @@
 /**
  * Implements hook_schema().
  */
-function ding_campaign_plus_schema() {
+function ding_campaign_plus_facet_schema() {
   $schema = array();
 
-  $schema['ding_campaign_plus'] = array(
-    'description' => 'Campaign plus rules',
+  $schema['ding_campaign_plus_facet'] = array(
+    'description' => 'Campaign plus facet rules',
     'fields' => array(
       'id' => array(
         'type' => 'serial',
@@ -24,23 +24,20 @@ function ding_campaign_plus_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
-      'type' => array(
+      'facet' => array(
         'type' => 'varchar',
         'length' => 128,
         'not null' => TRUE,
-      ),
-      'rule' => array(
-        'type' => 'varchar',
-        'length' => 128,
-        'not null' => TRUE,
-      ),
-      'title' => array(
-        'type' => 'text',
-        'not null' => FALSE,
       ),
       'value' => array(
         'type' => 'text',
         'not null' => TRUE,
+      ),
+      'percent' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
       ),
     ),
     'primary key' => array('id'),
@@ -55,6 +52,6 @@ function ding_campaign_plus_schema() {
 /**
  * Implements hook_uninstall().
  */
-function ding_campaign_plus_uninstall() {
-  drupal_uninstall_schema('ding_campaign_plus');
+function ding_campaign_plus_facet_uninstall() {
+  drupal_uninstall_schema('ding_campaign_plus_facet');
 }
