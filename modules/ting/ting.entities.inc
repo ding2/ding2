@@ -380,23 +380,25 @@ class TingCollection extends DingEntityCollection {
     parent::__construct();
   }
 
-  function getTitle() {
-    foreach ($this->reply->objects as &$object) {
+  /**
+   * The title of the collection.
+   *
+   * @return string|FALSE
+   *   The title or FALSE if it could not be determined.
+   */
+  public function getTitle() {
+    foreach ($this->tingObjectCollection->getObjects() as $object) {
       // Find the title of the object that was used to fetch this collection. We
       // don't look at dkdcplus:full as it might be too specific ("1Q84. Book 1"
       // for instance).
-      if ($object->id == $this->ding_entity_id && !empty($object->record['dc:title'])) {
-        return $object->record['dc:title'][''][0];
+      if ($object->getId() === $this->getId() && !empty($object->getShortTitle())) {
+        return $object->getShortTitle();
       }
     }
 
     // If we couldn't find the object, use the title of the first object.
-    $title = FALSE;
-    if (isset($this->reply->objects[0]->record['dc:title'])) {
-      $title = $this->reply->objects[0]->record['dc:title'][''][0];
-    }
-
-    return $title;
+    $primary_object = $this->tingObjectCollection->getPrimaryObject();
+    return $primary_object === NULL ? FALSE : $primary_object->getShortTitle();
   }
 
   function getEntities() {

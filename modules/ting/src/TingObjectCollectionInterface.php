@@ -29,7 +29,7 @@ interface TingObjectCollectionInterface {
   /**
    * Get the primary Object in this collection.
    *
-   * @return \Ting\TingObjectInterface
+   * @return \Ting\TingObjectInterface|NULL
    *   The object.
    */
   public function getPrimaryObject();
