@@ -68,33 +68,42 @@ class OpenSearchTingObject implements TingObjectInterface {
    */
   public function getRelations() {
     // If relations are not set; do another request to get relations.
-    if (!isset($this->openSearchObject->relationsData)) {
-      $ting_client_object = ting_get_object($this->ding_entity_id, FALSE, TRUE);
-      if (isset($ting_client_object->relationsData)) {
-        $this->openSearchObject->relationsData = $ting_client_object->relationsData;
-      }
+    // relationData holds the raw relation data from the query. If it is not
+    // available, attempt to load it by re-loading the entire object with
+    // with_relations = TRUE.
+    if (NULL === $this->getRelationsData()) {
+      $loaded = ting_get_object($this->getId(), FALSE, TRUE);
+      $this->openSearchObject = $loaded;
     }
 
-    $this->openSearchObject->relations = array();
-    $relation_objects = array();
-    if (isset($this->openSearchObject->relationsData)) {
-      $entity_ids = array();
-      foreach ($this->openSearchObject->relationsData as $record) {
-        if (isset($record->relationUri) && isset($record->relationObject)) {
+    // If we have not converted relationsData to TingRelations yet, get started.
+    if (NULL !== $this->getRelationsData() && empty($this->relations)) {
+      $relation_objects = [];
+      $entity_ids = [];
+      foreach ($this->getRelationsData() as $record) {
+        if (isset($record->relationUri, $record->relationObject)) {
           $entity_ids[] = $record->relationUri;
         }
       }
-      if ($entity_ids) {
+
+      // We found relations, now load them as full entities.
+      if (count($entity_ids) > 0) {
         $objects = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
-        foreach ($objects as $object) {
-          $relation_objects[$object->id] = $object;
-        }
+        // Produce an array of loaded objects keyed by search-provider ids.
+        $relation_objects = array_reduce($objects, function ($carry, $object) {
+          $carry[$object->id] = $object;
+          return $carry;
+        }, []);
       }
-      foreach ($this->openSearchObject->relationsData as $record) {
-        $this->openSearchObject->relations[] = new TingRelation($record->relationType, $record->relationUri, isset($relation_objects[$record->relationUri]) ? $relation_objects[$record->relationUri] : NULL);
-      }
+
+      // Wrap each loaded relation object in a TingRelation that will be able
+      // to store the relation uri and type we may need later.
+      $this->relations = array_map(function($record) use($relation_objects) {
+        return new TingRelation($record->relationType, $record->relationUri, isset($relation_objects[$record->relationUri]) ? $relation_objects[$record->relationUri] : NULL);
+      }, $this->getRelationsData());
+
     }
-    return $this->openSearchObject->relations;
+    return $this->relations;
 
   }
 
@@ -200,7 +209,7 @@ class OpenSearchTingObject implements TingObjectInterface {
    */
   public function isOnline() {
     // Check if the material has its own URI - if so we assume it is online.
-    return !empty($this->openSearchObject->record['dc:identifier']['dcterms:URI']);
+    return !empty($this->getRecordEntry('dc:identifier', 'dcterms:URI'));
   }
 
   /**
@@ -211,28 +220,22 @@ class OpenSearchTingObject implements TingObjectInterface {
     // Try to find the online url from relation data, which requires us to get
     // relations. First check if relations are set; if not do another request
     // to get relations.
-    if (!isset($this->openSearchObject->relationsData)) {
-      $ting_client_object = ting_get_object($this->getId(), FALSE, TRUE);
-      if (isset($ting_client_object->relationsData)) {
-        $this->openSearchObject->relationsData = $ting_client_object->relationsData;
-      }
-    }
-    if (isset($this->openSearchObject->relationsData)) {
-      foreach ($this->openSearchObject->relationsData as $data) {
-        if ($data->relationType === 'dbcaddi:hasOnlineAccess') {
-          $url = preg_replace('/^\[URL\]/', '', $data->relationUri);
-          // Check for correct url or leading token - some uri is only an id.
-          if (stripos($url, 'http') === 0 || strpos($url, '[') === 0) {
-            // Give other modules a chance to rewrite the url.
-            drupal_alter('ting_online_url', $url, $this);
-          }
+    $relations = $this->getRelations();
+
+    foreach ($relations as $relation) {
+      if ($relation->getType() === 'dbcaddi:hasOnlineAccess') {
+        $url = preg_replace('/^\[URL\]/', '', $relation->getURI());
+        // Check for correct url or leading token - some uri is only an id.
+        if (stripos($url, 'http') === 0 || strpos($url, '[') === 0) {
+          // Give other modules a chance to rewrite the url.
+          drupal_alter('ting_online_url', $url, $this);
         }
       }
     }
 
     // No hasOnlineAccess found so fallback to dc:identifier.
-    if (empty($url) && isset($this->openSearchObject->record['dc:identifier']['dcterms:URI'])) {
-      $url = $this->openSearchObject->record['dc:identifier']['dcterms:URI'][0];
+    if (empty($url) && !empty($this->getRecordEntry('dc:identifier', 'dcterms:URI'))) {
+      $url = $this->firstEntry($this->getRecordEntry('dc:identifier', 'dcterms:URI'));
       // Give ting_proxy a change to rewrite the url.
       drupal_alter('ting_online_url', $url, $this);
     }
@@ -717,6 +720,21 @@ class OpenSearchTingObject implements TingObjectInterface {
     }
 
     return $result;
+  }
+
+  /**
+   * Gets the raw relations data from the embedded opensearch object.
+   *
+   * If empty relations can be loaded by issuing a new search with relation-
+   * loading enabled
+   *
+   * @return object[]|NULL
+   *   List of raw data-objects with relationType, relationUri and a nested
+   *   relationObject if the relation is an indexed material. NULL if no
+   *   relations has been loaded.
+   */
+  protected function getRelationsData() {
+    return isset($this->openSearchObject->relationsData) ? $this->openSearchObject->relationsData : [];
   }
 
 }
