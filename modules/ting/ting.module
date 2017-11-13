@@ -7,6 +7,7 @@
 use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
 use Ting\Search\DingProviderStrategy;
 use Ting\Search\TingSearchRequest;
+use Ting\TingObjectInterface;
 
 // Define the different types of data that we cache in ting_set_cache and the
 // default TTL.
@@ -787,6 +788,9 @@ function ting_collection_view($object, $view_mode = 'full', $langcode = NULL) {
  * Sorts the objects according to type and language.
  *
  * But maintains the order of types and languages in the original array.
+ *
+ * @param TingObjectInterface[] $objects
+ *   List of objects.
  */
 function _ting_type_lang_sort($objects, &$return_types) {
   $types = array();
@@ -795,9 +799,9 @@ function _ting_type_lang_sort($objects, &$return_types) {
   // Sort the objects into type buckets containing language buckets.
   foreach ($objects as $object) {
     // We're using keys so we don't have to uniq its afterwards.
-    $types[$object->type] = TRUE;
-    $languages[$object->language] = TRUE;
-    $buckets[$object->type][$object->language][] = $object;
+    $types[$object->getType()] = TRUE;
+    $languages[$object->getLanguage()] = TRUE;
+    $buckets[$object->getType()][$object->getLanguage()][] = $object;
   }
 
   $return_types = array_keys($types);

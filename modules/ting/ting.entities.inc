@@ -396,17 +396,24 @@ class TingCollection extends DingEntityCollection {
     return $primary_object === NULL ? FALSE : $primary_object->getShortTitle();
   }
 
-  function getEntities() {
+  /**
+   * Get list of entities in this collection.
+   *
+   * @return \Ting\TingObject[]
+   *   List of TingObject instances.
+   */
+  public function getEntities() {
     $this->entities = array();
-    if (isset($this->reply->objects)) {
+    $objects = $this->tingObjectCollection->getObjects();
+    if (!empty($objects)) {
       $entity_ids = array();
-      foreach ($this->reply->objects as $record) {
+      foreach ($objects as $record) {
         // Pull the entity with the same id at the top.
-        if ($record->id == $this->id) {
-          array_unshift($entity_ids, $record->id);
+        if ($record->getId() == $this->getId()) {
+          array_unshift($entity_ids, $record->getId());
         }
         else {
-          $entity_ids[] = $record->id;
+          $entity_ids[] = $record->getId();
         }
       }
       $entities = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
