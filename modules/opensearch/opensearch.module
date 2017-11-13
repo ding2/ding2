@@ -40,10 +40,14 @@ function opensearch_admin_settings($form_state) {
     '#tree' => FALSE,
   );
 
-  // TODO BBS-SAL: The next couple of settings seems opensearch specific, move
-  // them to the opensearch module and add an install task for them via a
-  // hook_ding_install_tasks implementation in opensearch.module.
-  // See ting_ding_install_tasks for reference.
+  // TODO BBS-SAL: Consider alternate handling of Ting agency.
+  // This value has multiple purposes:
+  // - As configuration when accessing OpenSearch
+  // - As an unique identifier for the library organization in other parts of
+  //   the system
+  // Consider whether the variable should be kept (and moved back to the Ting
+  // module) or renamed to opensearch_agency and use cases updated so that
+  // other providers also can provide a unique identifier.
   $form['opensearch']['ting_agency'] = array(
     '#type' => 'textfield',
     '#title' => t('Library code'),
