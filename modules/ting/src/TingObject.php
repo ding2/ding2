@@ -17,38 +17,48 @@ class TingObject implements TingObjectInterface {
 
   // TODO BBS-SAL: We run with public access for now as some legacy-code still
   // needs directly access, but should be changed to protected when SAL is done.
-  public $id;
-  public $ownerId;
-  public $sourceId;
-  public $title;
-  public $shortTitle;
+  public $abstract;
   public $age;
   public $audience;
+  public $classifications;
+  public $contributors;
+  public $creators;
   public $description;
   public $extent;
   public $format;
   public $genere;
+  public $id;
   public $isbn;
+  public $isLocal;
+  public $isPartOf;
+  public $language;
+  public $materialSource;
   public $musician;
+  public $online;
+  public $onlineUrl;
+  public $ownerId;
   public $pegi;
   public $publisher;
   public $referenced;
+  public $relations = [];
   public $replacedBy;
   public $replaces;
   public $rights;
   public $seriesDescription;
+  public $seriesTitles;
+  public $shortTitle;
   public $source;
+  public $sourceId;
   public $spatial;
   public $spoken;
+  public $subjects;
   public $subTitles;
+  public $title;
   public $tracks;
+  public $type;
   public $uRI;
   public $version;
-  public $type;
   public $year;
-  public $isPartOf;
-  public $isLocal;
-  public $relations = [];
 
   /**
    * {@inheritdoc}
@@ -610,6 +620,116 @@ class TingObject implements TingObjectInterface {
    */
   public function getYear() {
     return $this->year;
+  }
+
+  /**
+   * Returns the material classification.
+   *
+   * @return string|FALSE
+   *   The classification.
+   */
+  public function getClassification() {
+    return $this->classifications;
+  }
+
+  /**
+   * Returns a short for the material.
+   *
+   * @return string|FALSE
+   *   The abstract.
+   */
+  public function getAbstract() {
+    return $this->abstract;
+  }
+
+  /**
+   * Returns the creators of the material.
+   *
+   * For a book the creator would typically be the author.
+   *
+   * @param string $format
+   *   TingObjectInterface::NAME_FORMAT_* formats to specify how the authors
+   *   names should be formatted.s
+   *
+   * @return string[].
+   *   The list of formatted author-names, empty if none was found.
+   */
+  public function getCreators($format = self::NAME_FORMAT_DEFAULT) {
+    return $this->creators;
+  }
+
+  /**
+   * Returns list of subjects/keywords for the material.
+   *
+   * @return string[]
+   *   List of subjects, empty if none could be found.
+   */
+  public function getSubjects() {
+    return $this->subjects;
+  }
+
+  /**
+   * The language of the material.
+   *
+   * @return string|FALSE
+   *   The language, FALSE if it could not be found.
+   */
+  public function getLanguage() {
+    return $this->language;
+  }
+
+  /**
+   * URL where the material can be found online.
+   *
+   * @return string|FALSE
+   *   The URL, FALSE if it could not be found.
+   */
+  public function getOnlineUrl() {
+    return $this->onlineUrl;
+  }
+
+  /**
+   * Whether the material is a purely online material.
+   *
+   * @return bool
+   *   TRUE if the material can only be found online.
+   */
+  public function isOnline() {
+    return $this->isOnline;
+  }
+
+  /**
+   * Returns the original source of the material.
+   *
+   * Eg. Bibliotekskatalog, Anmeldelser.
+   *
+   * @return string|FALSE
+   *   The source of the material.
+   */
+  public function getMaterialSource() {
+    return $this->materialSource;
+  }
+
+  /**
+   * List of contributors to the material.
+   *
+   * Eg, name of the translator of the material.
+   *
+   * @return string[]
+   *   List of contributors, empty if none could be found.
+   */
+  public function getContributors() {
+    return $this->contributors;
+  }
+
+  /**
+   * List of titles of the series the material is a part of.
+   *
+   * @return string[]
+   *   List of titles, empty if none could be found.
+   */
+  public function getSeriesTitles() {
+    return $this->seriesTitles;
   }
 
   /**
