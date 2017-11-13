@@ -654,9 +654,9 @@ function ting_get_request_factory() {
 
   if (!isset($request_factory)) {
     $url_variables = array(
-      'search' => 'ting_search_url',
-      'object' => 'ting_search_url',
-      'collection' => 'ting_search_url',
+      'search' => 'opensearch_url',
+      'object' => 'opensearch_url',
+      'collection' => 'opensearch_url',
       'recommendation' => 'ting_recommendation_url',
     );
 
