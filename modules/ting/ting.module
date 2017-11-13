@@ -10,7 +10,6 @@ use Ting\Search\TingSearchRequest;
 
 // Define the different types of data that we cache in ting_set_cache and the
 // default TTL.
-define('TING_DEFAULT_CACHE_LIFETIME', 900);
 define('TING_CACHE_TING_OBJECT', 'ting-object');
 define('TING_CACHE_TING_OBJECT_FULLTEXT', 'ting-object-fulltext');
 define('TING_CACHE_COLLECTION', 'ting-collection');

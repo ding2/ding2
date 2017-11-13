@@ -494,7 +494,7 @@ function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT, $with_relations = F
   $cid = $type . ':' . $id;
   ting_cache_invoke_cache_key_hook($cid);
 
-  if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
+  if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
     $cache = cache_get($cid, 'cache_ting');
     if ($cache && ($cache->expire > REQUEST_TIME)) {
       $data = $cache->data;
@@ -538,7 +538,7 @@ function ting_cache_set($id, $value, $type = TING_CACHE_TING_OBJECT) {
   $cid = $type . ':' . $id;
   ting_cache_invoke_cache_key_hook($cid);
 
-  if ($ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME)) {
+  if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
     cache_set($cid, $value, 'cache_ting', REQUEST_TIME + $ttl);
   }
   else {
