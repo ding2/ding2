@@ -551,7 +551,6 @@ function ting_ding_entity_buttons($type, $entity) {
   if ($entity instanceof TingEntity) {
     $buttons = array();
 
-    // TODO BBS-SAL: refactor to getter.
     if ($entity->getOnline_url()) {
       $settings = variable_get('ting_url_labels', _ting_default_url_labels());
       $type = drupal_strtolower($entity->type);

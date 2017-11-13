@@ -15,8 +15,6 @@ namespace Ting;
  */
 class TingObject implements TingObjectInterface {
 
-  // TODO BBS-SAL: We run with public access for now as some legacy-code still
-  // needs directly access, but should be changed to protected when SAL is done.
   public $abstract;
   public $age;
   public $audience;

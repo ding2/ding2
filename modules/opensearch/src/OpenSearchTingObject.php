@@ -294,8 +294,8 @@ class OpenSearchTingObject implements TingObjectInterface {
   public function getContributors() {
     $search_only_fields = ['oss:sort'];
     $contributors = $this->filterRecordsExclude($this->getRecordLevel('dc:contributor'), $search_only_fields);
-    // We may have multiple field containing contributes, flatten that multi-
-    // dimentional array of records down to their values.
+    // We may have multiple field containing contributors, flatten that multi-
+    // dimensional array of records down to their values.
     $contributors = $this->recordsFlatten($contributors);
 
     // Default to returning an empty list.

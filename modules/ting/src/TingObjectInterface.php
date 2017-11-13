@@ -346,7 +346,7 @@ interface TingObjectInterface {
    *
    * @param string $format
    *   TingObjectInterface::NAME_FORMAT_* formats to specify how the authors
-   *   names should be formatted.s
+   *   names should be formatted.
    *
    * @return string[].
    *   The list of formatted author-names, empty if none was found.
