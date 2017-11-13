@@ -419,13 +419,13 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         break;
 
       case 'ting_series_default':
-        if ($entity->serieTitle) {
+        if ($entity->getSeriesTitles()) {
           // The search string used is configurable because the data well is not
           // fully implemented regarding series. As default we search both in
           // the series title register and the description field because many
           // series only have data in the description field. This will probably
           // change with new versions of the data well.
-          foreach($entity->serieTitle as  $title) {
+          foreach($entity->getSeriesTitles() as $title) {
             $search_term = str_replace('@serietitle', drupal_strtolower($title[0]), variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"'));
             $series_number = isset($title[1]) ? ' : ' . check_plain($title[1]) . ' ; ' : ' ; ';
             $element[$delta][] = array(

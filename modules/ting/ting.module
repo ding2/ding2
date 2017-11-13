@@ -527,7 +527,7 @@ function ting_ding_entity_is($object, $class) {
   if ($class == 'reservable' || $class == 'cartable') {
     $sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
     $types = variable_get('ting_reservable_types', _ting_default_reservable_types());
-    if (in_array(drupal_strtolower($object->ac_source), $sources) && in_array(drupal_strtolower($object->type), $types)) {
+    if (in_array(drupal_strtolower($object->getAc_source()), $sources) && in_array(drupal_strtolower($object->type), $types)) {
       return TRUE;
     }
     else {
@@ -552,7 +552,7 @@ function ting_ding_entity_buttons($type, $entity) {
     $buttons = array();
 
     // TODO BBS-SAL: refactor to getter.
-    if ($entity->online_url) {
+    if ($entity->getOnline_url()) {
       $settings = variable_get('ting_url_labels', _ting_default_url_labels());
       $type = drupal_strtolower($entity->type);
       $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
