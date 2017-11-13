@@ -494,7 +494,7 @@ function ting_material_details_get_object_property($field_name, TingEntity $enti
       return $entity->subjects;
 
     case 'ting_details_classification':
-      return $entity->classification;
+      return $entity->getClassification();
 
     case 'ting_details_contributor':
       // The plural is not a typo.
