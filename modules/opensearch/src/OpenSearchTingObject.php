@@ -37,6 +37,11 @@ class OpenSearchTingObject implements TingObjectInterface {
   protected $ownerId;
 
   /**
+   * Local property for holding the relations array.
+   *
+   * The property needs to be local as the __get() magic functions won't be
+   * able to properly handle arrays as they need to be passed by reference.
+   *
    * @var TingRelation[] list of materials related to this material.
    */
   protected $relations;
