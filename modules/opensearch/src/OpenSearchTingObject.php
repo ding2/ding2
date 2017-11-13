@@ -315,6 +315,62 @@ class OpenSearchTingObject implements TingObjectInterface {
   }
 
   /**
+   * Fetch a record from the Open Search object.
+   *
+   * @param string $l1_key
+   *   Key for the first level of value to fetch
+   *
+   * @return array
+   *   The level, empty array if no entry could be found
+   */
+  protected function getRecordLevel($l1_key) {
+    // Not a nested value, just fetch by l1_key.
+    return empty($this->openSearchObject->record[$l1_key]) ? [] : $this->openSearchObject->record[$l1_key];
+  }
+
+  /**
+   * Filters away records with blacklisted keys.
+   *
+   * @param array $records
+   *   Associative list of records
+   *
+   * @param array $blacklist
+   *   List of keys that should be removed from the list of records.
+   *
+   * @return array
+   *   The filtered list of records.
+   */
+  protected function filterRecordsExclude($records, $blacklist = []) {
+    return array_filter($records, function ($key) use ($blacklist) {
+      return !in_array($key, $blacklist);
+    }, ARRAY_FILTER_USE_KEY);
+  }
+
+  /**
+   * Flattens a 2-level array into a 1-level array.
+   *
+   * Eg [ key1 => [ key2 => val2, key3 => val3]] is reduced to [val2, val3].
+   *
+   * @param array $records
+   *   A list of records each itself an array.
+   *
+   * @return array
+   *   List of all unique values of the nested arrays.
+   */
+  protected function recordsFlatten($records) {
+    if (!is_array($records)) {
+      return $records;
+    }
+
+    $records = array_reduce($records, function ($carry, $entry) {
+      // Reduce each associative array into its value and add them to the carry.
+      return empty($entry) ? $carry : array_merge($carry, array_values($entry));
+    }, []);
+
+    return array_unique($records);
+  }
+
+  /**
    * Handle property reads.
    *
    * Delegates all non-local property reads to the Open Search object.
@@ -406,7 +462,7 @@ class OpenSearchTingObject implements TingObjectInterface {
   protected function firstEntry($entry) {
     if (is_array($entry) && count($entry) > 0) {
       $array_values = array_values($entry);
-      return array_shift($array_values);
+      return reset($array_values);
     }
 
     // Return the entry back if it is not an array.
