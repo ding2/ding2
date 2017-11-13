@@ -8,6 +8,10 @@ namespace Ting;
 
 interface TingObjectInterface {
 
+  const NAME_FORMAT_SURNAME_FIRST = __CLASS__ . 'first';
+
+  const NAME_FORMAT_DEFAULT = __CLASS__ . 'default';
+
   /**
    * Returns materials related to this material.
    *
@@ -149,8 +153,8 @@ interface TingObjectInterface {
    *
    * Eg. "9780615384238"
    *
-   * @return string
-   *   The ISBN.
+   * @return string[]
+   *   Zero or more ISBNs.
    */
   public function getIsbn();
 
@@ -318,4 +322,95 @@ interface TingObjectInterface {
    *   The year
    */
   public function getYear();
+
+  /**
+   * Returns the material classification.
+   *
+   * @return string|FALSE
+   *   The classification.
+   */
+  public function getClassification();
+
+  /**
+   * Returns a short abstract for the material.
+   *
+   * @return string|FALSE
+   *   The abstract.
+   */
+  public function getAbstract();
+
+  /**
+   * Returns the creators of the material.
+   *
+   * For a book the creator would typically be the author.
+   *
+   * @param string $format
+   *   TingObjectInterface::NAME_FORMAT_* formats to specify how the authors
+   *   names should be formatted.s
+   *
+   * @return string[].
+   *   The list of formatted author-names, empty if none was found.
+   */
+  public function getCreators($format = self::NAME_FORMAT_DEFAULT);
+
+  /**
+   * Returns list of subjects/keywords for the material.
+   *
+   * @return string[]
+   *   List of subjects, empty if none could be found.
+   */
+  public function getSubjects();
+
+  /**
+   * The language of the material.
+   *
+   * @return string|FALSE
+   *   The language, FALSE if it could not be found.
+   */
+  public function getLanguage();
+
+  /**
+   * URL where the material can be found online.
+   *
+   * @return string|FALSE
+   *   The URL, FALSE if it could not be found.
+   */
+  public function getOnlineUrl();
+
+  /**
+   * Whether the material is a purely online material.
+   *
+   * @return bool
+   *   TRUE if the material can only be found online.
+   */
+  public function isOnline();
+
+  /**
+   * Returns the original source of the material.
+   *
+   * Eg. Bibliotekskatalog, Anmeldelser.
+   *
+   * @return string|FALSE
+   *   The source of the material.
+   */
+  public function getMaterialSource();
+
+  /**
+   * List of contributors to the material.
+   *
+   * Eg, name of the translator of the material.
+   *
+   * @return string[]
+   *   List of contributors, empty if none could be found.
+   */
+  public function getContributors();
+
+  /**
+   * List of titles of the series the material is a part of.
+   *
+   * @return string[]
+   *   List of titles, empty if none could be found.
+   */
+  public function getSeriesTitles();
+
 }

@@ -42,16 +42,63 @@ class OpenSearchTingObject implements TingObjectInterface {
   protected $relations;
 
   /**
+   * OpenSearchObject constructor.
+   *
+   * @param TingClientObject $open_search_object
+   *   The Open Search result this object wraps.
+   */
+  public function __construct($open_search_object) {
+    $this->openSearchObject = $open_search_object;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getId() {
     return $this->openSearchObject->id;
   }
 
-  public function getRelations(){
-    return [];
+  /**
+   * {@inheritdoc}
+   */
+  public function getRelations() {
+    // If relations are not set; do another request to get relations.
+    if (!isset($this->openSearchObject->relationsData)) {
+      $ting_client_object = ting_get_object($this->ding_entity_id, FALSE, TRUE);
+      if (isset($ting_client_object->relationsData)) {
+        $this->openSearchObject->relationsData = $ting_client_object->relationsData;
+      }
+    }
+
+    $this->openSearchObject->relations = array();
+    $relation_objects = array();
+    if (isset($this->openSearchObject->relationsData)) {
+      $entity_ids = array();
+      foreach ($this->openSearchObject->relationsData as $record) {
+        if (isset($record->relationUri) && isset($record->relationObject)) {
+          $entity_ids[] = $record->relationUri;
+        }
+      }
+      if ($entity_ids) {
+        $objects = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
+        foreach ($objects as $object) {
+          $relation_objects[$object->id] = $object;
+        }
+      }
+      foreach ($this->openSearchObject->relationsData as $record) {
+        $this->openSearchObject->relations[] = new TingRelation($record->relationType, $record->relationUri, isset($relation_objects[$record->relationUri]) ? $relation_objects[$record->relationUri] : NULL);
+      }
+    }
+    return $this->openSearchObject->relations;
+
   }
 
+  /**
+   * Determines whether this material is local to the library-system provider.
+   *
+   * @return bool
+   *   Whether the material is local.
+   */
   public function isLocal() {
     return variable_get('ting_agency', -1) != $this->getOwnerId();
   }
@@ -90,15 +137,109 @@ class OpenSearchTingObject implements TingObjectInterface {
     $this->ownerId = $owner_id;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getClassification() {
+    // Get the first classification.
+    $classification = $this->firstEntry($this->getRecordEntry('dc:subject', 'dkdcplus:DK5'));
+
+    if (empty($classification)) {
+      return FALSE;
+    }
+
+    // Ignore the shorthand for "Skønlitteratur".
+    return $classification === 'sk' ? '' : $classification;
+  }
 
   /**
-   * OpenSearchObject constructor.
-   *
-   * @param TingClientObject $open_search_object
-   *   The Open Search result this object wraps.
+   * {@inheritdoc}
    */
-  public function __construct($open_search_object) {
-    $this->openSearchObject = $open_search_object;
+  public function getCreators($format = TingObjectInterface::NAME_FORMAT_DEFAULT) {
+    // Get all authors, filter away instances of the field that is only used for
+    // search internals (eg, a sort-field).
+    if ($format == TingObjectInterface::NAME_FORMAT_SURNAME_FIRST) {
+      $creators = $this->getRecordEntry('dc:creator', 'oss:sort');
+    }
+    else {
+      // Filter away fields that should only be used for internals.
+      $search_only_fields = ['oss:sort'];
+      $creators = $this->filterRecordsExclude($this->getRecordLevel('dc:creator'), $search_only_fields);
+      // Each record entry is a single-element array - map it to a array of
+      // strings by picking the first element from each.
+      $creators = $this->recordsFlatten($creators);
+    }
+
+    return empty($creators) ? [] : $creators;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSubjects() {
+    // Filter away fields that should only be used for internals.
+    $search_only_fields = ['dkdcplus:genre', 'dkdcplus:DK5', 'dkdcplus:DK5-Text', 'dkdcplus:DBCO', 'dkdcplus:DBCN'];
+    $subjects = $this->filterRecordsExclude($this->getRecordLevel('dc:subject'), $search_only_fields);
+    return $this->recordsFlatten($subjects);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLanguage() {
+    return $this->firstEntry($this->getRecordEntry('dc:language'));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function isOnline() {
+    // Check if the material has its own URI - if so we assume it is online.
+    return !empty($this->openSearchObject->record['dc:identifier']['dcterms:URI']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOnlineUrl() {
+    $url = '';
+    // Try to find the online url from relation data, which requires us to get
+    // relations. First check if relations are set; if not do another request
+    // to get relations.
+    if (!isset($this->openSearchObject->relationsData)) {
+      $ting_client_object = ting_get_object($this->getId(), FALSE, TRUE);
+      if (isset($ting_client_object->relationsData)) {
+        $this->openSearchObject->relationsData = $ting_client_object->relationsData;
+      }
+    }
+    if (isset($this->openSearchObject->relationsData)) {
+      foreach ($this->openSearchObject->relationsData as $data) {
+        if ($data->relationType === 'dbcaddi:hasOnlineAccess') {
+          $url = preg_replace('/^\[URL\]/', '', $data->relationUri);
+          // Check for correct url or leading token - some uri is only an id.
+          if (stripos($url, 'http') === 0 || strpos($url, '[') === 0) {
+            // Give other modules a chance to rewrite the url.
+            drupal_alter('ting_online_url', $url, $this);
+          }
+        }
+      }
+    }
+
+    // No hasOnlineAccess found so fallback to dc:identifier.
+    if (empty($url) && isset($this->openSearchObject->record['dc:identifier']['dcterms:URI'])) {
+      $url = $this->openSearchObject->record['dc:identifier']['dcterms:URI'][0];
+      // Give ting_proxy a change to rewrite the url.
+      drupal_alter('ting_online_url', $url, $this);
+    }
+
+    return $url;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  function getMaterialSource() {
+    return $this->firstEntry($this->getRecordEntry('ac:source'));
   }
 
   /**
@@ -134,7 +275,30 @@ class OpenSearchTingObject implements TingObjectInterface {
    * {@inheritdoc}
    */
   public function isPartOf() {
-    return $this->getRecordEntry('dcterms:isPartOf');
+    $search_only_fields = ['oss:sort'];
+    $ispartof = $this->filterRecordsExclude($this->getRecordLevel('dcterms:isPartOf'), $search_only_fields);
+    return $this->recordsFlatten($ispartof);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getContributors() {
+    $search_only_fields = ['oss:sort'];
+    $contributors = $this->filterRecordsExclude($this->getRecordLevel('dc:contributor'), $search_only_fields);
+    // We may have multiple field containing contributes, flatten that multi-
+    // dimentional array of records down to their values.
+    $contributors = $this->recordsFlatten($contributors);
+
+    // Default to returning an empty list.
+    return empty($contributors) ? [] : $contributors;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getAbstract() {
+    return $this->firstEntry($this->getRecordEntry('dcterms:abstract'));
   }
 
   /**
@@ -190,16 +354,35 @@ class OpenSearchTingObject implements TingObjectInterface {
    * {@inheritdoc}
    */
   public function getSeriesDescription() {
-    $description = $this->getRecordEntry('dc:description', 'dkdcplus:series');
-    return $this->processSeriesDescription($description;
+    $description = $this->firstEntry($this->getRecordEntry('dc:description', 'dkdcplus:series'));
+    return $this->processSeriesDescription($description);
 
   }
 
   /**
    * {@inheritdoc}
    */
+  public function getSeriesTitles() {
+    $series = $this->getRecordEntry('dc:title', 'dkdcplus:series');
+    // No match, return early.
+    if (empty($series)) {
+      return [];
+    }
+
+    $series_titles = array();
+    foreach ($series as $serie) {
+      // Each title might be multiple titles, if so split them and add them.
+      $series_titles[] = explode(';', $serie);
+    }
+
+    return empty($series_titles) ? [] : $series_titles;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getDescription() {
-    return $this->getRecordEntry('dc:description');
+    return $this->firstEntry($this->getRecordEntry('dc:description'));
   }
 
   /**
@@ -227,7 +410,20 @@ class OpenSearchTingObject implements TingObjectInterface {
    * {@inheritdoc}
    */
   public function getIsbn() {
-    return $this->getRecordEntry('dc:identifier', 'dkdcplus:ISBN');
+    $isbn = array();
+
+    // Nothing to do.
+    if (empty($this->openSearchObject->record['dc:identifier']['dkdcplus:ISBN'])) {
+      return $isbn;
+    }
+
+    // Get ISBN numbers.
+    $isbn = $this->openSearchObject->record['dc:identifier']['dkdcplus:ISBN'];
+    foreach ($isbn as $k => $number) {
+      $isbn[$k] = str_replace(array(' ', '-'), '', $number);
+    }
+    rsort($isbn);
+    return $isbn;
   }
 
   /**
