@@ -39,10 +39,6 @@ class TingRelation extends DingEntityBase {
 
 /**
  * Ting object entity.
- * TODO BBS-SAL:
- *  - refactor public properties and getters to use getters on the
- *    TingObjectInterface instead.
- *  - Track down _all_ usages of the properties.
  */
 class TingEntity extends DingEntity {
 
