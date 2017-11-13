@@ -48,7 +48,7 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
     // Set default values in ting search form to help aegir/bulk installations.
     if ($form_id == 'opensearch_admin_settings') {
       $form['ting']['opensearch_url']['#default_value'] = 'http://opensearch.addi.dk/3.0/';
-      $form['ting']['ting_recommendation_url']['#default_value'] = 'http://openadhl.addi.dk/1.1/';
+      $form['ting']['opensearch_recommendation_url']['#default_value'] = 'http://openadhl.addi.dk/1.1/';
     }
 
     if ($form_id == 'ting_covers_admin_addi_settings_form') {

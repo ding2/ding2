@@ -657,7 +657,7 @@ function ting_get_request_factory() {
       'search' => 'opensearch_url',
       'object' => 'opensearch_url',
       'collection' => 'opensearch_url',
-      'recommendation' => 'ting_recommendation_url',
+      'recommendation' => 'opensearch_recommendation_url',
     );
 
     // TODO: This should probably be rethought.

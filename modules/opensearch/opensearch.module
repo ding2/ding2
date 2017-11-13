@@ -97,12 +97,12 @@ function opensearch_admin_settings($form_state) {
     '#states' => $auth_states,
   );
 
-  $form['opensearch']['ting_recommendation_url'] = array(
+  $form['opensearch']['opensearch_recommendation_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Recommendation service URL'),
     '#description' => t('URL to the recommendation webservice (Andre der har lånt...) , e.g. http://openadhl.addi.dk/1.1/'),
     '#required' => FALSE,
-    '#default_value' => variable_get('ting_recommendation_url', ''),
+    '#default_value' => variable_get('opensearch_recommendation_url', ''),
   );
 
   $form['opensearch']['ting_enable_logging'] = array(
