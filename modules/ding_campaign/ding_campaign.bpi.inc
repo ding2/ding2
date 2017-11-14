@@ -40,14 +40,6 @@ function ding_campaign_bpi_get_field_mapping_form($bpi_type, $content_type, arra
         '#disabled' => TRUE,
       ),
 
-      'bpi_field_teaser' => array(
-        '#type' => 'select',
-        '#title' => t('BPI teaser'),
-        '#description' => t('The field to extract the teaser from. If the content type have a body summary, assign it to the body field.'),
-        '#options' => $field_options,
-        '#default_value' => isset($field_mapping['bpi_field_teaser']) ? $field_mapping['bpi_field_teaser'] : NULL,
-      ),
-
       'bpi_field_body' => array(
         '#type' => 'select',
         '#title' => t('BPI body'),
