@@ -604,7 +604,7 @@ function opensearch_search_object_ids($ids) {
 
 function opensearch_search_autocomplete($query) {
   $items = array();
-  $rest_url = variable_get('ting_search_autocomplete_suggestion_url', '');
+  $rest_url = variable_get('opensearch_search_autocomplete_suggestion_url', '');
   $method = variable_get('ting_search_autocomplete_method', 'facets');
   $settings = ting_search_autocomplete_settings();
 
