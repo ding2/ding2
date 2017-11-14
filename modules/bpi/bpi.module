@@ -1258,7 +1258,6 @@ function bpi_ensure_bpi_workflow_fields() {
             'formatter' => 'closed',
           ),
         );
-        drupal_set_message(t('Saving BPI workflow group'));
         field_group_group_save($group);
 
         // Enable the field group.
