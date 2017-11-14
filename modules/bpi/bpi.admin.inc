@@ -295,6 +295,8 @@ function bpi_admin_get_field_mapping_form($bpi_type, $content_type, array $field
 function bpi_admin_content_mapping_form_submit(array $form, array &$form_state) {
   // Reindex bpi_mappings array.
   $form_state['values']['bpi_mappings'] = isset($form_state['values']['bpi_mappings']) ? array_values($form_state['values']['bpi_mappings']) : array();
+  // Ensure that all mapped content types have the BPI workflow field.
+  bpi_ensure_bpi_workflow_fields();
 }
 
 /**
