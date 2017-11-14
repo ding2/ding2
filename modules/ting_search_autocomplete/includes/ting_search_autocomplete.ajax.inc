@@ -24,12 +24,6 @@ function ting_search_autocomplete_callback($query = '', $reset = FALSE) {
     drupal_exit();
   }
 
-  if (empty($settings['index'])) {
-    watchdog('ting_search_autocomplete', 'Autocomplete index not defined ', array(), $severity = WATCHDOG_WARNING);
-    drupal_json_output(array());
-    drupal_exit();
-  }
-
   // Try to use cache for the search string.
   $cid = md5($query);
   if (!$reset && $cache = cache_get($cid, 'cache_ting_search_autocomplete')) {

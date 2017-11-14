@@ -601,3 +601,46 @@ function opensearch_search_object_ids($ids) {
   }
   return FALSE;
 }
+
+function opensearch_search_autocomplete($query) {
+  $items = array();
+  $rest_url = variable_get('ting_search_autocomplete_suggestion_url', '');
+  $method = variable_get('ting_search_autocomplete_method', 'facets');
+  $settings = ting_search_autocomplete_settings();
+
+  if (empty($settings['index'])) {
+    watchdog('ting_search_autocomplete', 'Autocomplete index not defined ', array(), $severity = WATCHDOG_WARNING);
+    drupal_json_output(array());
+    drupal_exit();
+  }
+
+  // minimumString is not an openSuggestion parameter
+  unset($settings['minimumString']);
+
+  $rest_url = $rest_url . 'rest/' . $method;
+  $settings['query'] = $query;
+  $url = url($rest_url, array('query' => $settings));
+
+  $result = drupal_http_request($url, array());
+
+  if (!empty($result->data)) {
+    $result_data = drupal_json_decode($result->data);
+    if (empty($result->error)) {
+      if (!empty($result_data['suggestions'])) {
+        foreach ($result_data['suggestions'] as $suggestion) {
+          if ($method == 'facetSpell') {
+            $items[truncate_utf8(strip_tags($suggestion['phrase']), 256, TRUE, FALSE, 1)] = $suggestion['phrase'];
+          }
+          else {
+            $items[truncate_utf8(strip_tags($suggestion['suggestion']), 256, TRUE, FALSE, 1)] = $suggestion['suggestion'];
+          }
+        }
+      }
+    }
+    else {
+      watchdog('ting_search_autocomplete', 'Autocomplete error: ' . $result->error . ' (' . $result->code . ")\nURL: $url" , array(), $severity = WATCHDOG_ERROR);
+    }
+  }
+
+  return $items;
+}
