@@ -195,7 +195,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $typed_entities = array();
 
         // Sort entities into type -> ids.
-        foreach ($entity->entities as $ent) {
+        foreach ($entity->getEntities() as $ent) {
           $typed_entities[$ent->type][] = $ent;
         }
 

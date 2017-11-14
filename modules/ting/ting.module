@@ -7,6 +7,7 @@
 use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
 use Ting\Search\DingProviderStrategy;
 use Ting\Search\TingSearchRequest;
+use Ting\TingObjectInterface;
 
 // Define the different types of data that we cache in ting_set_cache and the
 // default TTL.
@@ -300,7 +301,7 @@ function ting_block_view($delta = '') {
         $items = array();
         foreach ($collection->types as $k => $type) {
           if ($collection->types_count[$type] == 1) {
-            $items[] = l($type . ' (' . $collection->types_count[$type] . ')', 'ting/object/' . $collection->entities[$k]->ding_entity_id);
+            $items[] = l($type . ' (' . $collection->types_count[$type] . ')', 'ting/object/' . $collection->getEntities()[$k]->ding_entity_id);
           }
           else {
             $items[] = l($type . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE));
@@ -319,7 +320,7 @@ function ting_block_view($delta = '') {
       if ($object && $collection = ting_collection_load($object->id)) {
         $items = array();
 
-        foreach ($collection->entities as $entity) {
+        foreach ($collection->getEntities() as $entity) {
           $item = ting_object_view($entity, 'teaser');
           $items[] = render($item);
         }
@@ -619,7 +620,7 @@ function ting_object_page_view($object) {
  * Page callback: Display a ting collection.
  */
 function ting_collection_page_view($object) {
-  if (count($object->entities) < 2) {
+  if (count($object->getEntities()) < 2) {
     $uri = entity_uri('ting_object', $object);
     drupal_goto($uri['path'], $uri['options']);
   }
@@ -772,17 +773,20 @@ function ting_collection_view($object, $view_mode = 'full', $langcode = NULL) {
  * Sorts the objects according to type and language.
  *
  * But maintains the order of types and languages in the original array.
+ *
+ * @param TingObjectInterface[] $objects
+ *   List of objects.
  */
-function _ting_type_lang_sort($objects, &$return_types) {
+function _ting_type_lang_sort(array $objects, &$return_types) {
   $types = array();
   $languages = array();
   $sorted = array();
   // Sort the objects into type buckets containing language buckets.
   foreach ($objects as $object) {
     // We're using keys so we don't have to uniq its afterwards.
-    $types[$object->type] = TRUE;
-    $languages[$object->language] = TRUE;
-    $buckets[$object->type][$object->language][] = $object;
+    $types[$object->getType()] = TRUE;
+    $languages[$object->getLanguage()] = TRUE;
+    $buckets[$object->getType()][$object->getLanguage()][] = $object;
   }
 
   $return_types = array_keys($types);

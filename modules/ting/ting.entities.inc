@@ -39,10 +39,6 @@ class TingRelation extends DingEntityBase {
 
 /**
  * Ting object entity.
- * TODO BBS-SAL:
- *  - refactor public properties and getters to use getters on the
- *    TingObjectInterface instead.
- *  - Track down _all_ usages of the properties.
  */
 class TingEntity extends DingEntity {
 
@@ -332,20 +328,15 @@ class TingEntity extends DingEntity {
 
 /**
  * Ting collection entity.
- *
- * TODO BBS-SAL:
- * - Switch from public properties to using getters on the
- *   TingObjectCollectionInterface.
- * - Move existing general purpose getters into a TingObjectCollectionBase
- *   and have connie/opensearch implementations inherit.
  */
 class TingCollection extends DingEntityCollection {
+  // Default properties we want handled via magic getters in DingEntityBase.
   public $title = DingEntityBase::NULL;
   public $types = DingEntityBase::NULL;
   public $types_count = DingEntityBase::NULL;
   public $primary_object = DingEntityBase::NULL;
 
-  // TODO BBS-SAL: After port remove this property.
+  // TODO BBS-SAL: Remove when port is done if we can be sure it is not used.
   public $reply;
 
   /**
@@ -380,36 +371,48 @@ class TingCollection extends DingEntityCollection {
     parent::__construct();
   }
 
-  function getTitle() {
-    foreach ($this->reply->objects as &$object) {
+  /**
+   * The title of the collection.
+   *
+   * @return string|FALSE
+   *   The title or FALSE if it could not be determined.
+   */
+  public function getTitle() {
+    foreach ($this->tingObjectCollection->getObjects() as $object) {
       // Find the title of the object that was used to fetch this collection. We
       // don't look at dkdcplus:full as it might be too specific ("1Q84. Book 1"
       // for instance).
-      if ($object->id == $this->ding_entity_id && !empty($object->record['dc:title'])) {
-        return $object->record['dc:title'][''][0];
+      if ($object->getId() === $this->getId() && !empty($object->getShortTitle())) {
+        return $object->getShortTitle();
       }
     }
 
     // If we couldn't find the object, use the title of the first object.
-    $title = FALSE;
-    if (isset($this->reply->objects[0]->record['dc:title'])) {
-      $title = $this->reply->objects[0]->record['dc:title'][''][0];
-    }
-
-    return $title;
+    $primary_object = $this->tingObjectCollection->getPrimaryObject();
+    return $primary_object === NULL ? FALSE : $primary_object->getShortTitle();
   }
 
-  function getEntities() {
+  /**
+   * Get list of entities in this collection.
+   *
+   * @return \Ting\TingObject[]
+   *   List of TingObject instances.
+   */
+  public function getEntities() {
+    // Override magic getter-property from DingEntityBase by setting a property.
+    // This way this getter will only be invoked once as long as the caller
+    // uses property access.
     $this->entities = array();
-    if (isset($this->reply->objects)) {
+    $objects = $this->tingObjectCollection->getObjects();
+    if (!empty($objects)) {
       $entity_ids = array();
-      foreach ($this->reply->objects as $record) {
+      foreach ($objects as $record) {
         // Pull the entity with the same id at the top.
-        if ($record->id == $this->id) {
-          array_unshift($entity_ids, $record->id);
+        if ($record->getId() == $this->getId()) {
+          array_unshift($entity_ids, $record->getId());
         }
         else {
-          $entity_ids[] = $record->id;
+          $entity_ids[] = $record->getId();
         }
       }
       $entities = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
@@ -423,7 +426,15 @@ class TingCollection extends DingEntityCollection {
     return $this->entities;
   }
 
-  function getTypes() {
+  /**
+   * List of material types.
+   *
+   * Eg. "Bog".
+   *
+   * @return string[]
+   *   The list.
+   */
+  public function getTypes() {
     $types = array();
     foreach ($this->entities as $object) {
       $types[] = $object->type;
@@ -437,22 +448,32 @@ class TingCollection extends DingEntityCollection {
     return $this->types = array_unique($types);
   }
 
-  function getTypes_count() {
+  /**
+   * Gets the number of different types of materials in the collection.
+   *
+   * @return array
+   *   Count of the various types, keyed by type name.
+   */
+  public function getTypes_count() {
     $types = array();
     foreach ($this->entities as $object) {
-      if ( !isset($types[$object->type] ) ) {
+      if (!isset($types[$object->type])) {
         $types[$object->type] = 1;
-      } else {
+      }
+      else {
         $types[$object->type]++;
       }
     }
     return $this->types_count = $types;
   }
 
-  function getPrimary_object() {
-    if ($entities = $this->entities) {
-      return reset($entities);
-    }
+  /**
+   * Get the primary Object in this collection.
+   *
+   * @return \Ting\TingObjectInterface|NULL
+   *   The object.
+   */
+  public function getPrimary_object() {
+    return $this->tingObjectCollection->getPrimaryObject();
   }
 }
-
