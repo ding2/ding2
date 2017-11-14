@@ -48,6 +48,8 @@ class OpenSearchTingObjectCollection implements TingObjectCollectionInterface {
   public function getPrimaryObject() {
     // Get the first array-entry (without modifying the array).
     $objects = array_values($this->tingObjects);
-    return empty($this->tingObjects) ? NULL : array_shift($objects);
+    // We work under the assumption that this collection would never be
+    // instantiated if $this->tingObjects was empty so no null check here.
+    return array_shift($objects);
   }
 }

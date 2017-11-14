@@ -454,7 +454,7 @@ class TingCollection extends DingEntityCollection {
    * @return array
    *   Count of the various types, keyed by type name.
    */
-  function getTypes_count() {
+  public function getTypes_count() {
     $types = array();
     foreach ($this->entities as $object) {
       if (!isset($types[$object->type])) {
@@ -473,7 +473,7 @@ class TingCollection extends DingEntityCollection {
    * @return \Ting\TingObjectInterface|NULL
    *   The object.
    */
-  function getPrimary_object() {
+  public function getPrimary_object() {
     return $this->tingObjectCollection->getPrimaryObject();
   }
 }
