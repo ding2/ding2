@@ -53,8 +53,8 @@ test:
     - cp -R ./* $DRUPAL_SITE_PATH/profiles/ding2/
     # Install the site using the ding2 profile
     - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y)
-    # Run PHP7 Compatibility Checker - using tee to get non-rezero exit code (see https://github.com/sstalle/php7cc/issues/102)
-    - php7cc --except=vendor --level=error --extensions=php,inc,module,install $DRUPAL_SITE_PATH
+    # Run PHP7 Compatibility Checker
+    - php7cc --except=vendor --except=modules --level=error --extensions=php,inc,module,install $DRUPAL_SITE_PATH
   post:
     # Clean up after site install.
     # sudo is required here. The files are not writeable.
