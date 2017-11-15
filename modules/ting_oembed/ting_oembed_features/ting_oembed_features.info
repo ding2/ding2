@@ -17,6 +17,7 @@ features[features_api][] = api:2
 features[field_base][] = field_ting_oembed_oembed
 features[field_group][] = group_oembed|ting_object|ting_object|default
 features[field_group][] = group_oembed|ting_object|ting_object|form
+features[field_group][] = group_ting_object_right_column|ting_object|ting_object|default
 features[field_instance][] = ting_object-ting_object-field_ting_oembed_oembed
 features[oembed_provider][] = eKurser
 features[variable][] = default_oembed_provider
