@@ -19,6 +19,12 @@ projects[ding_billetexpressen_import][download][url]    = "git@github.com:easySu
 ;projects[ding_billetexpressen_import][download][tag]    = "7.x-3.0.3"
 projects[ding_billetexpressen_import][download][branch] = "development"
 
+projects[ding_billettendk_import][type]             = "module"
+projects[ding_billettendk_import][subdir]           = ""
+projects[ding_billettendk_import][download][type]   = "git"
+projects[ding_billettendk_import][download][url]    = "git@github.com:easySuite/ding_billettendk_import.git"
+projects[ding_billettendk_import][download][branch] = "develop"
+
 projects[ding_bibliotek_info][type]             = "module"
 projects[ding_bibliotek_info][subdir]           = ""
 projects[ding_bibliotek_info][download][type]   = "git"
