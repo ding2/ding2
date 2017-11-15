@@ -470,10 +470,12 @@ class TingCollection extends DingEntityCollection {
   /**
    * Get the primary Object in this collection.
    *
-   * @return \Ting\TingObjectInterface|NULL
+   * @return \TingEntity|NULL
    *   The object.
    */
   public function getPrimary_object() {
-    return $this->tingObjectCollection->getPrimaryObject();
+    if ($entities = $this->entities) {
+      return reset($entities);
+    }
   }
 }
