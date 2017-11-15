@@ -9,13 +9,6 @@ use Ting\Search\DingProviderStrategy;
 use Ting\Search\TingSearchRequest;
 use Ting\TingObjectInterface;
 
-// Define the different types of data that we cache in ting_set_cache and the
-// default TTL.
-define('TING_CACHE_TING_OBJECT', 'ting-object');
-define('TING_CACHE_TING_OBJECT_FULLTEXT', 'ting-object-fulltext');
-define('TING_CACHE_COLLECTION', 'ting-collection');
-define('TING_CACHE_REPLY', 'ting-reply');
-
 // Load Field module hooks.
 module_load_include('inc', 'ting', 'ting.field');
 
