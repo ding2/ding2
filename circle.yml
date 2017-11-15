@@ -53,7 +53,7 @@ test:
     - cp -R ./* $DRUPAL_SITE_PATH/profiles/ding2/
     # Install the site using the ding2 profile
     - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y)
-    # Run PHP7 Compatibility Checker
+    # Run PHP7 Compatibility Checker - using tee to get non-rezero exit code (see https://github.com/sstalle/php7cc/issues/102)
     - 'php7cc --except=vendor --level=error --extensions=php,inc,module,install $DRUPAL_SITE_PATH | tee /dev/tty | grep -vq ''File: '''
   post:
     # Clean up after site install.

@@ -9,7 +9,7 @@ of the [TING concept](http://ting.dk).
 
 # Installation
 This README assumes that you have install a configured your server with a
-working Apache/Nginx, APC, Memcached, PHP 7.0 and Varnish 3.x (optional). The
+working Apache/Nginx, APC, Memcached, PHP 5.6+ and Varnish 3.x (optional). The
 stack should be optimized to run a Drupal site.
 
 If you want to try out Ding2 you can download [the latest release](https://github.com/ding2/ding2/releases/latest). The `ding2-7.x-[version].tar.gz` file contain a full Drupal installation including Drupal Core, third party modules and Ding2 code needed to run the site.
@@ -19,7 +19,7 @@ The reset of this document explains how to download Drupal and patch the core
 to run a Ding2 based site.
 
 ## Dependencies
-* [Drupal 7.55](https://www.drupal.org/project/drupal/releases/7.55) - latest stable
+* [Drupal 7.56](https://www.drupal.org/project/drupal/releases/7.56) - latest stable
   version of Drupal Core that ding2 have been tested on and the last stable
   release when this was written.
 * [Drush 6.1.0](https://github.com/drush-ops/drush) - latest release when this
@@ -27,13 +27,13 @@ to run a Ding2 based site.
 
 ## Drupal
 Go into your web-root (from now on named DRUPAL) and execute this drush command
-to download a fresh copy of Drupal version 7.55. If you omit the version number
+to download a fresh copy of Drupal version 7.56. If you omit the version number
 the newest version of Drupal will be downloaded.
 ```sh
-  ~$ drush dl drupal-7.55
-  ~$ mv drupal-7.55/* .
-  ~$ mv drupal-7.55/.* .
-  ~$ rm -r drupal-7.55
+  ~$ drush dl drupal-7.56
+  ~$ mv drupal-7.56/* .
+  ~$ mv drupal-7.56/.* .
+  ~$ rm -r drupal-7.56
 ```
 
 ### Patches
@@ -56,12 +56,6 @@ This [patch](https://drupal.org/node/1879970) ensure that communication with
 web-services that runs OpenSSL v1.0.x or newer works.
 ```sh
   ~$ wget -qO- http://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
-```
-
-This [patch](https://www.drupal.org/node/2877243) ensure that core is PHP 7.0 compliant.
-web-services that runs OpenSSL v1.0.x or newer works.
-```sh
-  ~$ wget -qO- https://www.drupal.org/files/issues/DATE_RFC7231-2877243-26.patch | patch -p1
 ```
 
 __Optional__,but recommended patch that ensures that Ajax errors only are
