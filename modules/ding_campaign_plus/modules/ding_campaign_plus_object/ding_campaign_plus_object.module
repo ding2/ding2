@@ -96,10 +96,12 @@ function ding_campaign_plus_object_node_delete($node) {
 function ding_campaign_plus_object_ding_campaign_plus_matches($contexts, $style) {
   $matches = array();
 
+  $types = array('object', 'collection');
+
   foreach ($contexts as $key => $context) {
     switch ($key) {
       case 'path':
-        if (count($context->raw) == 3 && $context->raw[0] == 'ting' && $context->raw[1] == 'object') {
+        if (count($context->raw) == 3 && $context->raw[0] == 'ting' && in_array($context->raw[1], $types)) {
           $ting_object_id = $context->raw[2];
           $matches['search'] =_ding_campaign_plus_object_match($ting_object_id);
         }
