@@ -204,7 +204,20 @@ function ding_campaign_plus_get_matches($contexts, $style) {
  *   The type of campaigns (used to find the right weight).
  */
 function ding_campaign_plus_add_campaign(&$campaigns, $nids, $type) {
-  $rule_weights = variable_get('ding_campaign_plus_weight', array());
+  $rule_weights = drupal_static(__FUNCTION__, array());
+
+  if (empty($rule_weights)) {
+    $rule_weights = variable_get('ding_campaign_plus_weight', array());
+
+    if (empty($rule_weights)) {
+      foreach (module_implements('ding_campaign_plus_default_weights') as $module) {
+        $types = module_invoke($module, 'ding_campaign_plus_default_weights');
+        foreach ($types as $type => $info) {
+          $rule_weights[$type] = $info['weight'];
+        }
+      }
+    }
+  }
 
   foreach ($nids as $nid) {
     $campaigns[$nid] = isset($campaigns[$nid]) ? $campaigns[$nid] + $rule_weights[$type] : $rule_weights[$type];

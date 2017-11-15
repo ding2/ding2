@@ -18,6 +18,25 @@ function ding_campaign_plus_basic_ding_campaign_plus_info() {
 }
 
 /**
+ * Implements hook_ding_campaign_plus_default_weights().
+ */
+function ding_campaign_plus_basic_ding_campaign_plus_default_weights() {
+  $types = _ding_campaign_plus_basic_get_types();
+
+  $weight = -10;
+  $weights = array();
+  foreach ($types as $key => $type) {
+    $weights[$key] = array(
+      'prefix' => t('Basic'),
+      'title' => $type,
+      'weight' => $weight++,
+    );
+  }
+
+  return $weights;
+}
+
+/**
  * Implements hook_menu().
  */
 function ding_campaign_plus_basic_menu() {
@@ -114,17 +133,7 @@ function ding_campaign_plus_basic_node_delete($node) {
 }
 
 /**
- * Find campaigns that matches the current context.
- *
- * @TODO take campaign style into the selection setup.
- *
- * @param array $contexts
- *   The contexts acquired from panels context.
- * @param $style
- *   The style to use.
- *
- * @return array
- *   The id's of the campaigns found index by the trigger type.
+ * Implements hook_ding_campaign_plus_matches().
  */
 function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) {
   $matches = array();

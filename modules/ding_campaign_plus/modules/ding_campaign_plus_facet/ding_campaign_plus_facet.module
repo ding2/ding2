@@ -18,6 +18,24 @@ function ding_campaign_plus_facet_ding_campaign_plus_info() {
 }
 
 /**
+ * Implements hook_ding_campaign_plus_default_weights().
+ */
+function ding_campaign_plus_facet_ding_campaign_plus_default_weights() {
+  $facets = variable_get('ding_facetbrowser_facets', array());
+
+  $weights = array();
+  foreach ($facets as $facet) {
+    $weights[$facet['name']] = array(
+      'prefix' => t('Facet'),
+      'title' => $facet['title'],
+      'weight' => 0,
+    );
+  }
+
+  return $weights;
+}
+
+/**
  * Implements hook_node_load().
  */
 function ding_campaign_plus_facet_node_load($nodes, $types) {
@@ -106,17 +124,7 @@ function ding_campaign_plus_facet_node_delete($node) {
 }
 
 /**
- * Find campaigns that matches the current context.
- *
- * @TODO take campaign style into the selection setup.
- *
- * @param array $contexts
- *   The contexts acquired from panels context.
- * @param $style
- *   The style to use.
- *
- * @return array
- *   The id's of the campaigns found index by the trigger type.
+ * Implements hook_ding_campaign_plus_matches().
  */
 function ding_campaign_plus_facet_ding_campaign_plus_matches($contexts, $style) {
   $matches = array();

@@ -59,27 +59,19 @@ function ding_campaign_plus_admin_settings_submit($form, $form_state) {
 function ding_campaign_plus_ding_settings_options($weights) {
   $options = array();
 
-  $facets = variable_get('ding_facetbrowser_facets', array());
-  foreach ($facets as $facet) {
-    $options[$facet['name']] =  array(
-      'title' => 'Facet - ' . $facet['title'],
-      'weight' => isset($weights[$facet['name']]) ? $weights[$facet['name']] : 0,
-    );
+  foreach (module_implements('ding_campaign_plus_default_weights') as $module) {
+    $types = module_invoke($module, 'ding_campaign_plus_default_weights');
+    foreach ($types as $type => $info) {
+      $options[$type] = array(
+        'title' => $info['prefix'] . ' - ' . $info['title'],
+        'weight' => isset($weights[$type]) ? $weights[$type] : $info['weight'],
+      );
+    }
   }
 
-  $types = _ding_campaign_plus_get_other_triggers();
-  foreach ($types as $id => $title) {
-    $options[$id] = array(
-      'title' => 'Other - ' . $title,
-      'weight' => isset($weights[$id]) ? $weights[$id] : 0,
-    );
-  }
+
 
   $options += array(
-    'object' => array(
-      'title' => 'Ting object view',
-      'weight' => isset($weights['object']) ? $weights['object'] : 0,
-    ),
     'search' => array(
       'title' => 'Search (CQL)',
       'weight' => isset($weights['object']) ? $weights['object'] : 0,
