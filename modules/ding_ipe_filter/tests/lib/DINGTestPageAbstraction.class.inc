@@ -48,7 +48,8 @@ class DINGTestPageAbstraction {
    * Function waitForElement wait until the element is appear.
    */
   public function waitForElement($selector, $time = self::WAIT_FOR_ELEMENT, $force = TRUE) {
-    for ($second = 0; $second++) {
+    $second = 0;
+    while (TRUE) {
       if ($second >= $time) {
         if ($force) {
           $this->phpunit_instance->fail('Element ' . $selector . ' not found.');
@@ -63,6 +64,7 @@ class DINGTestPageAbstraction {
       }
       catch (Exception $e) {}
       sleep(1);
+      $second++;
     }
   }
 
