@@ -314,7 +314,8 @@ function _ting_boost_field_sort($a, $b) {
  */
 function ting_admin_online_types_settings($form_state) {
   form_load_include($form_state, 'inc', 'ting', 'ting.admin');
-  form_load_include($form_state, 'inc', 'ting', 'ting.client');
+  // TODO BBS-SAL: Should no longer be needed:
+  form_load_include($form_state, 'inc', 'ting', 'opensearch.client');
   $form = array();
 
   $form['update'] = array(

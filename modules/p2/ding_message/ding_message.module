@@ -287,7 +287,7 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
       break;
 
     case 'taxonomy_term':
-      module_load_include('inc', 'ting', 'ting.client');
+      module_load_include('inc', 'opensearch', 'open.client');
       // Get the element value.
       $value = ding_list_get_list_element_value($element);
       // Load taxonomy term.
@@ -342,7 +342,7 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
 
     case 'follow_author':
     case 'search_query':
-      module_load_include('inc', 'ting', 'ting.client');
+      module_load_include('inc', 'opensearch', 'opensearch.client');
       // Get the element value.
       $value = ding_list_get_list_element_value($element);
       if ($value) {

@@ -3,6 +3,7 @@
  * @file
  * Wrapper functions for Ting client.
  */
+
 // TODO BBS-SAL: move to opensearch, consider rename to opensearch.client.inc.
 /**
  * Used to indicate that a given cache entry have return no reply from the data
