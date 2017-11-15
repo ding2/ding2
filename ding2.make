@@ -211,13 +211,11 @@ projects[media_youtube][version] = "3.0"
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.5"
 
-; Get a this special version that has support for features export.
-projects[menu_block][type] = "module"
 projects[menu_block][subdir] = "contrib"
-projects[menu_block][download][type] = "git"
-projects[menu_block][download][url] = "http://git.drupal.org/project/menu_block.git"
-projects[menu_block][download][revision] = "32ab1cf08b729c93302455d67dd05f64ad2fc056"
-projects[menu_block][patch][0] = "http://drupal.org/files/menu_block-ctools-693302-96.patch"
+projects[menu_block][version] = "2.7"
+; Add support for features export of blocks
+; https://www.drupal.org/node/693302
+projects[menu_block][patch][0] = "https://www.drupal.org/files/issues/menu_block-2x-ctools_exportables-693302-163.patch"
 
 projects[menu_breadcrumb][subdir] = "contrib"
 projects[menu_breadcrumb][version] = "1.5"
