@@ -339,7 +339,7 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
  * @param string $object_id
  *   Object identifier.
  */
-function ting_get_object_marcxchange($object_id) {
+function opensearch_get_object_marcxchange($object_id) {
   $cache_key = 'marcxchange:' . $object_id;
   $object = ting_cache_get($cache_key, OPENSEARCH_CACHE_TING_OBJECT, FALSE);
 
