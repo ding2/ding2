@@ -360,13 +360,11 @@ function opensearch_search_autocomplete_settings() {
 
   $base_settings['agency']  = variable_get('ting_agency', NULL);
   $base_settings['profile'] = variable_get('ting_search_profile', NULL);
-  $base_settings['maxSuggestions'] = 10;
   $base_settings['maxTime'] = 2000;
 
   $base_settings['highlight'] = NULL;
   $base_settings['highlight.pre'] = NULL;
   $base_settings['highlight.post'] = NULL;
-  $base_settings['minimumString'] = 3;
 
   $defaults = variable_get('opensearch_search_autocomplete_settings', array());
 

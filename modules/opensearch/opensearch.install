@@ -22,10 +22,17 @@ function opensearch_migrate_settings() {
     'ting_cache_lifetime' => 'opensearch_cache_lifetime',
     'ting_search_autocomplete_suggestion_url' => 'opensearch_search_autocomplete_suggestion_url',
     'ting_search_autocomplete_method' => 'opensearch_search_autocomplete_method',
+    'ting_search_autocomplete_settings' => 'opensearch_search_autocomplete_settings',
   );
 
   array_walk($settings_map, function($new_var, $old_var) {
+    $settings_keep = array(
+      'ting_search_autocomplete_settings',
+    );
+
     variable_set($new_var, variable_get($old_var));
-    variable_del($old_var);
+    if (!in_array($old_var, $settings_keep, TRUE)) {
+      variable_del($old_var);
+    }
   });
 }
