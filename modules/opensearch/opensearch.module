@@ -160,24 +160,17 @@ function opensearch_admin_settings($form_state) {
   $form['opensearch_autocomplete'] = array(
     '#type' => 'fieldset',
     '#title' => t('Opensearch autocomplete settings'),
-    '#tree' => FALSE,
+    '#tree' => TRUE,
   );
 
   $default_settings = opensearch_search_autocomplete_settings();
-
-  // Attach the CSS to the form
-  $form['opensearch_autocomplete']['#attached'] = array(
-    'css' => array(
-      'type' => 'file',
-      'data' => drupal_get_path('module', 'opensearch') . '/css/opensearch_autocomplete_admin_form.css',
-    ),
-  );
 
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_webservice'] = array(
     '#type' => 'fieldset',
     '#title' => t('Autocomplete URL', array(), array('context' => 'opensearch_search_autocomplete')),
     '#tree' => FALSE,
     '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
 
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_webservice']['opensearch_search_autocomplete_suggestion_url'] = array(
