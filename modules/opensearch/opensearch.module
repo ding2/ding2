@@ -245,12 +245,6 @@ function opensearch_admin_settings($form_state) {
     '#size' => 26,
     '#default_value' => $default_settings['profile'],
   );
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['maxSuggestions'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Max suggestions', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 26,
-    '#default_value' => $default_settings['maxSuggestions'],
-  );
 
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['maxTime'] = array(
     '#type' => 'textfield',
@@ -279,15 +273,6 @@ function opensearch_admin_settings($form_state) {
     '#title' => t('Highlight suffix', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 26,
     '#default_value' => $default_settings['highlight.post'],
-  );
-
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['minimumString'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Minimum string', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#description' => t('Minimum string length to do autocomplete lookup on
-    .', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 26,
-    '#default_value' => $default_settings['minimumString'],
   );
 
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_help'] = array(
