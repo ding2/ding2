@@ -206,6 +206,7 @@ function opensearch_admin_settings($form_state) {
     '#title' => t('Autocomplete settings', array(), array('context' => 'opensearch_search_autocomplete')),
     '#tree' => TRUE,
     '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
 
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['index'] = array(
