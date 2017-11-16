@@ -619,7 +619,7 @@ function opensearch_search_autocomplete($query) {
   $settings = opensearch_search_autocomplete_settings();
 
   if (empty($settings['index'])) {
-    watchdog('opensearch_search_autocomplete', 'Autocomplete index not defined ', array(), $severity = WATCHDOG_WARNING);
+    watchdog('opensearch', 'Autocomplete index not defined ', array(), $severity = WATCHDOG_WARNING);
     drupal_json_output(array());
     return array();
   }
@@ -649,7 +649,7 @@ function opensearch_search_autocomplete($query) {
     }
     else {
       $message = t('Autocomplete error: @error (@error_code) using following URL: @url');
-      watchdog('opensearch_search_autocomplete', $message, array(
+      watchdog('opensearch', $message, array(
         '@error' => $result->error,
         '@error_code' => $result->code,
         '@url' => $url
