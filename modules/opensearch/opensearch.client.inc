@@ -354,7 +354,7 @@ function opensearch_get_object_marcxchange($object_id) {
 
     // Have to use ting_execute directly since marc objects might collide with
     // normal dkabm objects in the cache.
-    $object = ting_execute($request);
+    $object = opensearch_execute($request);
     if ($object) {
       _opensearch_cache_set($cache_key, $object, OPENSEARCH_CACHE_TING_OBJECT);
     }
@@ -395,7 +395,7 @@ function opensearch_execute_cache($request) {
   $reply = _opensearch_cache_get(md5(serialize($parms)), OPENSEARCH_CACHE_REPLY);
   if (!$reply) {
     // Reply for the request was not found, so we have to ask the data well.
-    $reply = ting_execute($request);
+    $reply = opensearch_execute($request);
 
     // Cache any sub-objects (mostly true for collections).
     if (isset($reply->objects)) {
@@ -636,7 +636,7 @@ function opensearch_get_object_recommendations($isbn, $num_results = 10) {
   $request = opensearch_get_request_factory()->getObjectRecommendationRequest();
   $request->setIsbn($isbn);
   $request->setNumResults($num_results);
-  return ting_execute($request);
+  return opensearch_execute($request);
 }
 
 /**
@@ -697,7 +697,7 @@ function opensearch_get_request_factory() {
  * @return mixed
  *   Result of the request or false if an error occurs.
  */
-function ting_execute($request) {
+function opensearch_execute($request) {
   // Get additional parameters from other modules.
   $params = module_invoke_all('ting_pre_execute', $request);
   if (!empty($params)) {

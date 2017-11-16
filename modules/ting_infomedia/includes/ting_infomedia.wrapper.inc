@@ -30,7 +30,7 @@ function ting_infomedia_get_article($id) {
   $request->setFaust($id);
 
   ting_infomedia_add_user_creds($request);
-  $ret = $request->parse(ting_execute($request->getRequest()));
+  $ret = $request->parse(opensearch_execute($request->getRequest()));
 
   return $ret;
 }
@@ -50,7 +50,7 @@ function ting_infomedia_check_article($id) {
   $request->setFaust($id);
   $request = ting_infomedia_add_user_creds($request);
 
-  return $request->parse(ting_execute($request));
+  return $request->parse(opensearch_execute($request));
 }
 
 /**
@@ -77,7 +77,7 @@ function ting_infomedia_get_review($id, $id_is_isbn = FALSE) {
 
   $request = ting_infomedia_add_user_creds($request);
 
-  return $request->parse(ting_execute($request));
+  return $request->parse(opensearch_execute($request));
 }
 
 /**
@@ -103,7 +103,7 @@ function ting_infomedia_check_review($id, $id_is_isbn = FALSE) {
   }
 
   $request = ting_infomedia_add_user_creds($request);
-  return $request->parse(ting_execute($request));
+  return $request->parse(opensearch_execute($request));
 }
 
 /**
