@@ -24,7 +24,6 @@ function opensearch_search_material_types() {
   // Get a list of types by executing a null query and look at the facets
   // result.
   $options = [
-    // TODO BBS-SAL: Set the facet via SAL.
     'facets' => ['facet.type'],
     'numFacets' => 99,
     'reply_only' => TRUE,
@@ -33,7 +32,7 @@ function opensearch_search_material_types() {
   ];
   module_load_include('client.inc', 'opensearch');
   // TODO BBS-SAL: search via the abstraction-layer.
-  $result = ting_do_search("*", 0, 0, $options);
+  $result = opensearch_do_search("*", 0, 0, $options);
 
   $types = [];
   foreach ($result->facets['facet.type']->terms as $term => $count) {
@@ -180,7 +179,7 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
 
   // Ensure we have ting client.
   module_load_include('inc', 'opensearch', 'opensearch.client');
-  $result = new OpenSearchTingSearchResult(ting_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options), $ting_query);
+  $result = new OpenSearchTingSearchResult(opensearch_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options), $ting_query);
 
   // Handle the situation where opensearch sets a default sort.
   if (empty($result->getSearchRequest()->getSorts()) && !empty($result->openSearchResult->sortUsed)) {
@@ -556,7 +555,7 @@ function opensearch_search_object_ids($ids) {
 
       // Ensure we have ting client.
       module_load_include('inc', 'opensearch', 'opensearch.client');
-      $res = ting_do_search($query, 1, count($chunk), $options);
+      $res = opensearch_do_search($query, 1, count($chunk), $options);
 
       // Sometimes the well will be unreachable or not even one of the ids in
       // chunk was searchable. In any case, this protects against a notice.
@@ -591,8 +590,8 @@ function opensearch_search_object_ids($ids) {
     return $translated_ids;
   }
   elseif (is_numeric($ids)) {
-    $obj = ting_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
     module_load_include('client.inc', 'opensearch');
+    $obj = opensearch_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
     $entity_id = ($obj) ? key($obj->collections) : '870970-basis:' . $ids;
 
     return $entity_id;

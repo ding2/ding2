@@ -167,7 +167,8 @@ function ting_new_materials_do_search($query, $page = 0, $num_per_page = 10) {
   // Search the data well.
   $search_result = array();
   try {
-    $search_result = ting_do_search($query, $page + 1, $num_per_page, $options);
+    // TODO: Consider porting this to the Search Abstraction Layer.
+    $search_result = opensearch_do_search($query, $page + 1, $num_per_page, $options);
   }
   catch (TingClientException $e) {
     watchdog('ting_new_materials', 'Failed to get objects from the Data well: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));

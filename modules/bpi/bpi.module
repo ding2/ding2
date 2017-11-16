@@ -931,7 +931,8 @@ function bpi_validate_material($id) {
   module_load_include('client.inc', 'opensearch');
 
   // Search the data well.
-  $result = ting_do_search($id, 1, 1, array('facets' => array(), 'allObjects' => FALSE));
+  // TODO: use the Search Abstraction Layer (ting_start_query()).
+  $result = opensearch_do_search($id, 1, 1, array('facets' => array(), 'allObjects' => FALSE));
 
   // If there is no usable result, exit immediately, providing no reply.
   $object = NULL;

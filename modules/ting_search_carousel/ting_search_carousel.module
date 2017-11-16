@@ -288,8 +288,10 @@ function _ting_search_carousel_find_entities_with_covers($query, $start, $size, 
     'enrich' => TRUE,
     'allObjects' => FALSE,
   );
+
+  // TODO: use the Search Abstraction Layer (ting_start_query()).
   // Ting pages are 1, not 0, based.
-  $result = ting_do_search($query, ($start++) + 1, $size, $options);
+  $result = opensearch_do_search($query, ($start++) + 1, $size, $options);
 
   // Bail out if the search failed.
   if (!$result) {

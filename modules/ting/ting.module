@@ -1013,8 +1013,8 @@ function _ting_fetch_well_sources() {
     'reply_only' => TRUE,
     // 'sort' => 'random',
   );
-  $result = ting_do_search("*", 0, 0, $options);
   module_load_include('client.inc', 'opensearch');
+  $result = opensearch_do_search("*", 0, 0, $options);
 
   $sources = array();
   foreach ($result->facets['facet.acSource']->terms as $term => $count) {

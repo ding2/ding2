@@ -225,7 +225,7 @@ function ting_get_objects($ids) {
  * @return TingClientSearchResult
  *   The search result.
  */
-function ting_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
+function opensearch_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
   $request = ting_get_request_factory()->getSearchRequest();
 
   $request->setQuery($query);
