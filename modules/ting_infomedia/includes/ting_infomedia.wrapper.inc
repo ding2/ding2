@@ -4,7 +4,7 @@
  * Field wrapper for infomedia.
  */
 
-module_load_include('client.inc', 'ting');
+module_load_include('client.inc', 'opensearch');
 
 /**
  * Retrieve Infomedia article identified by faust number.

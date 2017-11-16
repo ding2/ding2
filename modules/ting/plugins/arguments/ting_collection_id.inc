@@ -29,7 +29,7 @@ function ting_tasks_ting_collection_id_context($arg = NULL, $conf = NULL, $empty
     // TODO: Can we do a better job of validating collection IDs?
     return FALSE;
   }
-  module_load_include('client.inc', 'ting');
+  module_load_include('client.inc', 'opensearch');
   // TODO BBS-SAL: Dead code? ting_get_collection does not exist.
   $collection = ting_get_collection($arg);
   if (!($collection instanceOf TingClientcollection)) {

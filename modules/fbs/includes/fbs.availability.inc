@@ -94,7 +94,7 @@ function fbs_availability_holdings($provider_ids) {
         $result_holding['placement'][] = $material_description[0]->materialGroupName;
       }
 
-      module_load_include('client.inc', 'ting');
+      module_load_include('client.inc', 'opensearch');
       $entity_id = ding_provider_build_entity_id($provider_ids[0]);
       $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
 

@@ -31,7 +31,7 @@ function opensearch_search_material_types() {
     // Following configuration breaks the search, commented out for now.
     // 'sort' => 'random',
   ];
-  module_load_include('client.inc', 'ting');
+  module_load_include('client.inc', 'opensearch');
   // TODO BBS-SAL: search via the abstraction-layer.
   $result = ting_do_search("*", 0, 0, $options);
 
@@ -591,8 +591,8 @@ function opensearch_search_object_ids($ids) {
     return $translated_ids;
   }
   elseif (is_numeric($ids)) {
-    module_load_include('client.inc', 'ting');
     $obj = ting_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
+    module_load_include('client.inc', 'opensearch');
     $entity_id = ($obj) ? key($obj->collections) : '870970-basis:' . $ids;
 
     return $entity_id;

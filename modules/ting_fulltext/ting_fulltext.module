@@ -41,7 +41,7 @@ function ting_fulltext_theme($existing, $type, $theme, $path) {
  */
 function ting_fulltext_object_load($object_id) {
   if (!empty($object_id)) {
-    module_load_include('client.inc', 'ting');
+    module_load_include('client.inc', 'opensearch');
 
     $request = ting_get_request_factory()->getObjectRequest();
     $request->setObjectId($object_id);
