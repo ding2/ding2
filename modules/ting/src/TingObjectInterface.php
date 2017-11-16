@@ -408,7 +408,11 @@ interface TingObjectInterface {
   /**
    * List of titles of the series the material is a part of.
    *
-   * @return string[]
+   * Each title is an array of one or two elements:
+   * - The first element represents the series title and is required.
+   * - The second element represents the series number and is optional.
+   *
+   * @return string[][]
    *   List of titles, empty if none could be found.
    */
   public function getSeriesTitles();
