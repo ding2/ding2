@@ -602,16 +602,26 @@ function opensearch_search_object_ids($ids) {
   return FALSE;
 }
 
+/**
+ * Auto-complete callback for the ting search block.
+ *
+ * The function returns JSON and ending execution.
+ *
+ * @param string $query
+ *   The string to search suggestion with.
+ *
+ * @return array
+ */
 function opensearch_search_autocomplete($query) {
   $items = array();
   $rest_url = variable_get('opensearch_search_autocomplete_suggestion_url', '');
   $method = variable_get('ting_search_autocomplete_method', 'facets');
-  $settings = ting_search_autocomplete_settings();
+  $settings = opensearch_search_autocomplete_settings();
 
   if (empty($settings['index'])) {
     watchdog('opensearch_search_autocomplete', 'Autocomplete index not defined ', array(), $severity = WATCHDOG_WARNING);
     drupal_json_output(array());
-    drupal_exit();
+    return array();
   }
 
   // minimumString is not an openSuggestion parameter
@@ -621,7 +631,7 @@ function opensearch_search_autocomplete($query) {
   $settings['query'] = $query;
   $url = url($rest_url, array('query' => $settings));
 
-  $result = drupal_http_request($url, array());
+  $result = drupal_http_request($url);
 
   if (!empty($result->data)) {
     $result_data = drupal_json_decode($result->data);
