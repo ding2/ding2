@@ -46,11 +46,11 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
       _opensearch_cache_set($object_id, OPENSEARCH_CACHE_EMPTY_ENTRY, $type);
 
       // Build request request and set object id.
-      $request = ting_get_request_factory()->getObjectRequest();
+      $request = opensearch_get_request_factory()->getObjectRequest();
       if ($collection) {
         // If this is a collection we need to do a collection request, which is
         // a search request.
-        $request = ting_get_request_factory()->getCollectionRequest();
+        $request = opensearch_get_request_factory()->getCollectionRequest();
         $request->setAllObjects(FALSE);
       }
       $request->setObjectId($object_id);
@@ -166,7 +166,7 @@ function opensearch_get_objects($ids) {
   // ORed together seems to break it).
   $query_chunks = array_chunk($query, 50);
   foreach ($query_chunks as $query_chunk) {
-    $request = ting_get_request_factory()->getSearchRequest();
+    $request = opensearch_get_request_factory()->getSearchRequest();
     if ($agency) {
       $request->setAgency($agency);
     }
@@ -226,7 +226,7 @@ function opensearch_get_objects($ids) {
  *   The search result.
  */
 function opensearch_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
-  $request = ting_get_request_factory()->getSearchRequest();
+  $request = opensearch_get_request_factory()->getSearchRequest();
 
   $request->setQuery($query);
   if ($agency = variable_get('ting_agency', FALSE)) {
@@ -346,7 +346,7 @@ function opensearch_get_object_marcxchange($object_id) {
   if ($object != OPENSEARCH_CACHE_EMPTY_ENTRY && !$object) {
     _opensearch_cache_set($cache_key, OPENSEARCH_CACHE_EMPTY_ENTRY, OPENSEARCH_CACHE_TING_OBJECT);
 
-    $request = ting_get_request_factory()->getMarcXchangeRequest();
+    $request = opensearch_get_request_factory()->getMarcXchangeRequest();
 
     $request->setAgency(variable_get('ting_agency'));
     $request->setProfile(variable_get('ting_search_profile'));
@@ -632,8 +632,8 @@ function _opensearch_cache_update_relations_status($object, $with_relations = FA
  * @return array
  *   An array of TingClientObjectRecommendation objects.
  */
-  $request = ting_get_request_factory()->getObjectRecommendationRequest();
 function opensearch_get_object_recommendations($isbn, $num_results = 10) {
+  $request = opensearch_get_request_factory()->getObjectRecommendationRequest();
   $request->setIsbn($isbn);
   $request->setNumResults($num_results);
   return ting_execute($request);
@@ -649,7 +649,7 @@ function opensearch_get_object_recommendations($isbn, $num_results = 10) {
  * @return TingClientRequestFactory
  *   TingClientRequestFactory object.
  */
-function ting_get_request_factory() {
+function opensearch_get_request_factory() {
   static $request_factory;
 
   if (!isset($request_factory)) {
@@ -769,7 +769,7 @@ function _opensearch_get_client() {
   static $client;
 
   if (!isset($client)) {
-    $logger = (variable_get('opensearch_enable_logging', FALSE)) ? new TingClientDrupalWatchDogLogger(ting_get_request_factory()) : new TingClientVoidLogger();
+    $logger = (variable_get('opensearch_enable_logging', FALSE)) ? new TingClientDrupalWatchDogLogger(opensearch_get_request_factory()) : new TingClientVoidLogger();
     $client = new TingClient(new TingClientRequestAdapter(), $logger);
   }
 
