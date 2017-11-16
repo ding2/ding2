@@ -38,7 +38,7 @@ function ding_session_cache_form_system_performance_settings_alter(&$form, &$for
       $result = $function();
       $form['ding_session_cache'][$module] = array(
         '#type' => 'fieldset',
-        '#title' => $result['titel'],
+        '#title' => $result['title'],
         'enabled' => array(
           '#type' => 'checkbox',
           '#title' => 'Enabled',
@@ -47,7 +47,7 @@ function ding_session_cache_form_system_performance_settings_alter(&$form, &$for
         'expire' => array(
           '#type' => 'select',
           '#title' => t('Maximum cache lifetime'),
-          '#default_value' => isset($defaults[$module]['expire']) ? $defaults[$module]['expire'] : $result['enabled'],
+          '#default_value' => isset($defaults[$module]['expire']) ? $defaults[$module]['expire'] : $result['expire'],
           '#options' => $period,
         ),
       );

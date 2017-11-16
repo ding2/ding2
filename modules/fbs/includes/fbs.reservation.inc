@@ -12,95 +12,116 @@
  *   User to list reservations for.
  * @param string|null $requested_type
  *   Type of reservations to list. Null for all.
+ * @param bool $reset
+ *   If TRUE cache is reset (default: FALSE)
  *
  * @return array
  *   Reservation info.
  */
-function fbs_reservation_list($account, $requested_type = NULL) {
-  $res = array();
-  try {
-    $res = fbs_service()->Reservations->getReservations(fbs_service()->agencyId, fbs_patron_id($account));
-  }
-  catch (Exception $e) {
-    watchdog_exception('fbs', $e);
-  }
+function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) {
+  $results = &drupal_static(__FUNCTION__, array());
 
-  $result = array(
-    DING_RESERVATION_READY => array(),
-    DING_RESERVATION_NOT_READY => array(),
-    DING_RESERVATION_INTERLIBRARY_LOANS => array(),
-  );
-
-  $ids = array();
-  foreach ($res as $reservation) {
-    $ids[$reservation->recordId] = $reservation->recordId;
-  }
-  $ids = ding_provider_build_entity_id($ids);
-
-  foreach ($res as $reservation) {
-    $type = $reservation->state == 'readyForPickup' ? DING_RESERVATION_READY : DING_RESERVATION_NOT_READY;
-    $type = $reservation->state == 'interLibraryReservation' ? DING_RESERVATION_INTERLIBRARY_LOANS : $type;
-
-    $ding_reservation = array(
-      'ding_entity_id' => $ids[$reservation->recordId],
-      'id' => $reservation->reservationId,
-      'pickup_branch_id' => $reservation->pickupBranch,
-      'created' => $reservation->dateOfReservation,
-      'expiry' => $reservation->expiryDate,
-      // Required by ding_reservation.
-      'reservation_type' => $type,
-    );
-
-    if ($type === DING_RESERVATION_READY) {
-      $ding_reservation['pickup_date'] = $reservation->pickupDeadline;
-      $ding_reservation['pickup_order_id'] = $reservation->pickupNumber;
-      $ding_reservation['order_arrived'] = TRUE;
-    }
-    elseif ($type === DING_RESERVATION_NOT_READY || $type === DING_RESERVATION_INTERLIBRARY_LOANS) {
-      if (!empty($reservation->numberInQueue)) {
-        $ding_reservation['queue_number'] = $reservation->numberInQueue;
-      }
+  if (empty($results) || $reset) {
+    // Check if ding_session_cache is available.
+    if (module_exists('ding_session_cache') && !$reset) {
+      $results = ding_session_cache_get('fbs', 'reservation');
     }
 
-    // Add in periodical information if it is one.
-    if ($reservation->periodical) {
-      $periodical = $reservation->periodical;
-      $vol = $periodical->volume;
-      if (!empty($periodical->volumeNumber)) {
-        $vol .= '.' . $periodical->volumeNumber;
+    // If both static cache and session cache failed, try reloading information
+    // from FBS.
+    if (empty($results) || $reset) {
+      $results = array(
+        DING_RESERVATION_READY => array(),
+        DING_RESERVATION_NOT_READY => array(),
+        DING_RESERVATION_INTERLIBRARY_LOANS => array(),
+      );
+      $res = array();
+      try {
+        $res = fbs_service()->Reservations->getReservations(fbs_service()->agencyId, fbs_patron_id($account));
+      } catch (Exception $e) {
+        watchdog_exception('fbs', $e);
       }
 
-      if (!empty($periodical->displayText)) {
-        $ding_reservation['notes'] = check_plain($periodical->displayText);
+      $ids = array();
+      foreach ($res as $reservation) {
+        $ids[$reservation->recordId] = $reservation->recordId;
       }
-      elseif (!empty($periodical->volumeYear)) {
-        $ding_reservation['notes'] = t('Issue @vol, @year', array('@vol' => $vol, '@year' => $periodical->volumeYear));
+      $ids = ding_provider_build_entity_id($ids);
+
+      foreach ($res as $reservation) {
+        $type = $reservation->state == 'readyForPickup' ? DING_RESERVATION_READY : DING_RESERVATION_NOT_READY;
+        $type = $reservation->state == 'interLibraryReservation' ? DING_RESERVATION_INTERLIBRARY_LOANS : $type;
+
+        $ding_reservation = array(
+          'ding_entity_id' => $ids[$reservation->recordId],
+          'id' => $reservation->reservationId,
+          'pickup_branch_id' => $reservation->pickupBranch,
+          'created' => $reservation->dateOfReservation,
+          'expiry' => $reservation->expiryDate,
+          // Required by ding_reservation.
+          'reservation_type' => $type,
+        );
+
+        if ($type === DING_RESERVATION_READY) {
+          $ding_reservation['pickup_date'] = $reservation->pickupDeadline;
+          $ding_reservation['pickup_order_id'] = $reservation->pickupNumber;
+          $ding_reservation['order_arrived'] = TRUE;
+        }
+        elseif ($type === DING_RESERVATION_NOT_READY || $type === DING_RESERVATION_INTERLIBRARY_LOANS) {
+          if (!empty($reservation->numberInQueue)) {
+            $ding_reservation['queue_number'] = $reservation->numberInQueue;
+          }
+        }
+
+        // Add in periodical information if it is one.
+        if ($reservation->periodical) {
+          $periodical = $reservation->periodical;
+          $vol = $periodical->volume;
+          if (!empty($periodical->volumeNumber)) {
+            $vol .= '.' . $periodical->volumeNumber;
+          }
+
+          if (!empty($periodical->displayText)) {
+            $ding_reservation['notes'] = check_plain($periodical->displayText);
+          }
+          elseif (!empty($periodical->volumeYear)) {
+            $ding_reservation['notes'] = t('Issue @vol, @year', array(
+              '@vol' => $vol,
+              '@year' => $periodical->volumeYear
+            ));
+          }
+          else {
+            $ding_reservation['notes'] = t('Issue @vol', array('@vol' => $vol));
+          }
+        }
+
+        // Handle inter library loans.
+        if (!empty($reservation->ilBibliographicRecord)) {
+          $ding_reservation['display_name'] = $reservation->ilBibliographicRecord->title;
+        }
+
+        $results[$type][$ding_reservation['id']] = new DingProviderReservation($ding_reservation['id'], $ding_reservation);
       }
-      else {
-        $ding_reservation['notes'] = t('Issue @vol', array('@vol' => $vol));
+
+      // Store the reservations into ding session cache.
+      if (module_exists('ding_session_cache')) {
+        ding_session_cache_set('fbs', 'reservation', $results);
+      }
+
+      // Filter the result based on the requested type of reservations.
+      if ($requested_type) {
+        if (isset($results[$requested_type])) {
+          return $results[$requested_type];
+        }
+        else {
+          watchdog('fbs', 'Unknown reservation type (%type) requested', array('%type' => $requested_type), WATCHDOG_ERROR);
+          return array();
+        }
       }
     }
-
-    // Handle inter library loans.
-    if (!empty($reservation->ilBibliographicRecord)) {
-      $ding_reservation['display_name'] = $reservation->ilBibliographicRecord->title;
-    }
-
-    $result[$type][$ding_reservation['id']] = new DingProviderReservation($ding_reservation['id'], $ding_reservation);
   }
 
-  // Filter the result based on the requested type of reservations.
-  if ($requested_type) {
-    if (isset($result[$requested_type])) {
-      return $result[$requested_type];
-    }
-    else {
-      watchdog('fbs', 'Unknown reservation type (%type) requested', array('%type' => $requested_type), WATCHDOG_ERROR);
-      return array();
-    }
-  }
-
-  return $result;
+  return $results;
 }
 
 /**
@@ -148,6 +169,11 @@ function fbs_reservation_create($account, $record_id, $options) {
   if (!empty($response->success)) {
     /** @var \FBS\Model\ReservationDetails $res_details */
 
+    // Clear ding session cache.
+    if (module_exists('ding_session_cache')) {
+      ding_session_cache_clear('fbs', 'reservation');
+    }
+
     $res_details = $result->reservationDetails;
     return array(
       'branch' => $res_details->pickupBranch,
@@ -189,6 +215,9 @@ function fbs_reservation_create($account, $record_id, $options) {
  *   Reservations to update.
  * @param array $options
  *   Update options.
+ *
+ * @return bool
+ *   TRUE if no errors else FALSE.
  */
 function fbs_reservation_update($account, $reservation_ids, $options) {
   $batch = new FBS\Model\UpdateReservationBatch();
@@ -203,12 +232,19 @@ function fbs_reservation_update($account, $reservation_ids, $options) {
 
   try {
     fbs_service()->Reservations->updateReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
+
+    // Clear ding session cache.
+    if (module_exists('ding_session_cache')) {
+      ding_session_cache_clear('fbs', 'reservation');
+    }
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
 
     return FALSE;
   }
+
+  return TRUE;
 }
 
 /**
@@ -216,18 +252,28 @@ function fbs_reservation_update($account, $reservation_ids, $options) {
  *
  * @param object $account
  *   User to delete reservations for.
- * @param array $reservation_ids
+ * @param array $reservation_id
  *   Reservations to delete.
+ *
+ * @return bool
+ *   TRUE if no errors else FALSE.
  */
 function fbs_reservation_delete($account, $reservation_id) {
   try {
     fbs_service()->Reservations->deleteReservations(fbs_service()->agencyId, fbs_patron_id($account), $reservation_id);
+
+    // Clear ding session cache.
+    if (module_exists('ding_session_cache')) {
+      ding_session_cache_clear('fbs', 'reservation');
+    }
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
 
     return FALSE;
   }
+
+  return TRUE;
 }
 
 /**

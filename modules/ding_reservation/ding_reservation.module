@@ -1094,7 +1094,7 @@ function ding_reservation_cache_clear() {
  */
 function ding_reservation_ding_session_cache_defaults() {
   return array(
-    'titel' => 'Ding reservation',
+    'title' => 'Ding reservation',
     'enabled' => TRUE,
     'expire' => 3600,
   );
