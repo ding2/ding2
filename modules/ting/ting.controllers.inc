@@ -249,7 +249,7 @@ class TingCollectionController implements DrupalEntityControllerInterface {
         }
         else {
           // TODO BBS-SAL - remove the reply property when port is done.
-          $reply = ting_get_object($ding_entity_id, TRUE);
+          $reply = opensearch_get_object($ding_entity_id, TRUE);
           $object = NULL;
           $object_collection = ding_provider_invoke('search', 'collection_load', $ding_entity_id);
           if ($reply) {

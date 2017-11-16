@@ -30,7 +30,7 @@ define('OPENSEARCH_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
  *   Ting object or object collection if $collection is TRUE and a collection
  *   was found.
  */
-function ting_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
+function opensearch_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
   if (!empty($object_id)) {
     // Check the cache first.
     $type = OPENSEARCH_CACHE_TING_OBJECT;
@@ -122,7 +122,7 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
  *
  * @todo Should use getObject when getObject supports getting multiple.
  */
-function ting_get_objects($ids) {
+function opensearch_get_objects($ids) {
   $objects = array();
   // Pre-fill from cache.
   foreach ($ids as $id) {
@@ -157,7 +157,7 @@ function ting_get_objects($ids) {
       }
       else {
         // Get objects as it was not local.
-        $objects[$id] = ting_get_object($id);
+        $objects[$id] = opensearch_get_object($id);
       }
     }
   }

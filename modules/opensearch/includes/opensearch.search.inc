@@ -52,7 +52,7 @@ function opensearch_search_material_types() {
  *   An array of loaded objects.
  */
 function opensearch_search_object_load(array $ids) {
-  $objects = ting_get_objects($ids);
+  $objects = opensearch_get_objects($ids);
   foreach ($objects as $id => $object) {
     if (!empty($object)) {
       $objects[$id] = new OpenSearchTingObject($object);
@@ -71,7 +71,7 @@ function opensearch_search_object_load(array $ids) {
  *   The collection.
  */
 function opensearch_search_collection_load($id) {
-  $reply = ting_get_object($id, TRUE);
+  $reply = opensearch_get_object($id, TRUE);
   return new OpenSearchTingObjectCollection($reply);
 }
 
