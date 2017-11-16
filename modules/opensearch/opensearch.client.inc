@@ -1,15 +1,14 @@
 <?php
 /**
  * @file
- * Wrapper functions for Ting client.
+ * Wrapper functions for Opensearch client.
  */
 
-// TODO BBS-SAL: move to opensearch, consider rename to opensearch.client.inc.
 /**
  * Used to indicate that a given cache entry have return no reply from the data
  * well.
  */
-define('TING_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
+define('OPENSEARCH_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
 
 /**
  * Get an ting object or collection.
@@ -34,17 +33,17 @@ define('TING_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
 function ting_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
   if (!empty($object_id)) {
     // Check the cache first.
-    $type = TING_CACHE_TING_OBJECT;
+    $type = OPENSEARCH_CACHE_TING_OBJECT;
     $cache_key = $object_id;
     if ($collection) {
-      $type = TING_CACHE_COLLECTION;
+      $type = OPENSEARCH_CACHE_COLLECTION;
       $cache_key = ting_cache_collection_key($object_id);
     }
     $object = ting_cache_get($cache_key, $type, $with_relations);
-    if ($object != TING_CACHE_EMPTY_ENTRY && !$object) {
+    if ($object != OPENSEARCH_CACHE_EMPTY_ENTRY && !$object) {
       // Put a negative reply in the cache. It will be overwritten by the
       // object, or ensure that we won't try to fetch this id again.
-      ting_cache_set($object_id, TING_CACHE_EMPTY_ENTRY, $type);
+      ting_cache_set($object_id, OPENSEARCH_CACHE_EMPTY_ENTRY, $type);
 
       // Build request request and set object id.
       $request = ting_get_request_factory()->getObjectRequest();
@@ -80,7 +79,7 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
       // that there is no empty cache entry.
       if ($collection) {
         if (is_null($object)) {
-          $object = TING_CACHE_EMPTY_ENTRY;
+          $object = OPENSEARCH_CACHE_EMPTY_ENTRY;
         }
         ting_cache_set($object_id, $object, $type);
       }
@@ -108,7 +107,7 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
 
     // If not asking for a collection, and the object is, return the
     // sub-object with the same id.
-    if ($object == TING_CACHE_EMPTY_ENTRY) {
+    if ($object == OPENSEARCH_CACHE_EMPTY_ENTRY) {
       return NULL;
     }
 
@@ -127,7 +126,7 @@ function ting_get_objects($ids) {
   $objects = array();
   // Pre-fill from cache.
   foreach ($ids as $id) {
-    $objects[$id] = ting_cache_get($id, TING_CACHE_TING_OBJECT);
+    $objects[$id] = ting_cache_get($id, OPENSEARCH_CACHE_TING_OBJECT);
     if (isset($objects[$id]) && isset($objects[$id]->objects)) {
       foreach ($objects[$id]->objects as $sub_object) {
         if ($sub_object->id == $id) {
@@ -139,7 +138,7 @@ function ting_get_objects($ids) {
       $objects[$id] = NULL;
     }
 
-    if ($objects[$id] == TING_CACHE_EMPTY_ENTRY) {
+    if ($objects[$id] == OPENSEARCH_CACHE_EMPTY_ENTRY) {
       $objects[$id] = NULL;
     }
   }
@@ -342,10 +341,10 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
  */
 function ting_get_object_marcxchange($object_id) {
   $cache_key = 'marcxchange:' . $object_id;
-  $object = ting_cache_get($cache_key, TING_CACHE_TING_OBJECT, FALSE);
+  $object = ting_cache_get($cache_key, OPENSEARCH_CACHE_TING_OBJECT, FALSE);
 
-  if ($object != TING_CACHE_EMPTY_ENTRY && !$object) {
-    ting_cache_set($cache_key, TING_CACHE_EMPTY_ENTRY, TING_CACHE_TING_OBJECT);
+  if ($object != OPENSEARCH_CACHE_EMPTY_ENTRY && !$object) {
+    ting_cache_set($cache_key, OPENSEARCH_CACHE_EMPTY_ENTRY, OPENSEARCH_CACHE_TING_OBJECT);
 
     $request = ting_get_request_factory()->getMarcXchangeRequest();
 
@@ -357,7 +356,7 @@ function ting_get_object_marcxchange($object_id) {
     // normal dkabm objects in the cache.
     $object = ting_execute($request);
     if ($object) {
-      ting_cache_set($cache_key, $object, TING_CACHE_TING_OBJECT);
+      ting_cache_set($cache_key, $object, OPENSEARCH_CACHE_TING_OBJECT);
     }
   }
 
@@ -379,9 +378,9 @@ function ting_execute_cache($request) {
   $parms = $request->getRequest()->getParameters();
 
   // Handle fulltext vs. dkabm caching of object.
-  $type = TING_CACHE_TING_OBJECT;
+  $type = OPENSEARCH_CACHE_TING_OBJECT;
   if ($parms['format'] == 'docbook') {
-    $type = TING_CACHE_TING_OBJECT_FULLTEXT;
+    $type = OPENSEARCH_CACHE_TING_OBJECT_FULLTEXT;
   }
 
   // User static cache to store request, used in another function to see if the
@@ -393,7 +392,7 @@ function ting_execute_cache($request) {
   $calls[] = $parms;
 
   // Check if the reply have been stored in cache.
-  $reply = ting_cache_get(md5(serialize($parms)), TING_CACHE_REPLY);
+  $reply = ting_cache_get(md5(serialize($parms)), OPENSEARCH_CACHE_REPLY);
   if (!$reply) {
     // Reply for the request was not found, so we have to ask the data well.
     $reply = ting_execute($request);
@@ -401,7 +400,7 @@ function ting_execute_cache($request) {
     // Cache any sub-objects (mostly true for collections).
     if (isset($reply->objects)) {
       foreach ($reply->objects as $object) {
-        ting_cache_set($object->id, $object, TING_CACHE_TING_OBJECT);
+        ting_cache_set($object->id, $object, OPENSEARCH_CACHE_TING_OBJECT);
         // Cache any relations.
         if (isset($object->relations)) {
           foreach ($object->relations as $relation) {
@@ -429,7 +428,7 @@ function ting_execute_cache($request) {
             }
             ting_cache_set($object->id, $object, $type);
           }
-          ting_cache_set(ting_cache_collection_key($collection->objects[0]->id), $collection, TING_CACHE_COLLECTION);
+          ting_cache_set(ting_cache_collection_key($collection->objects[0]->id), $collection, OPENSEARCH_CACHE_COLLECTION);
         }
       }
     }
@@ -437,7 +436,7 @@ function ting_execute_cache($request) {
     // Cache any relations.
     if (isset($reply->relations)) {
       foreach ($reply->relations as $relation) {
-        ting_cache_set($relation->id, $relation, TING_CACHE_TING_OBJECT);
+        ting_cache_set($relation->id, $relation, OPENSEARCH_CACHE_TING_OBJECT);
       }
     }
 
@@ -447,19 +446,19 @@ function ting_execute_cache($request) {
         ting_cache_set($reply->id, $reply);
       }
       else {
-        $reply = TING_CACHE_EMPTY_ENTRY;
+        $reply = OPENSEARCH_CACHE_EMPTY_ENTRY;
       }
     }
 
     // Store the reply for the request itself in the cache.
     if (is_null($reply)) {
       // Handle empty data well replies.
-      $reply = TING_CACHE_EMPTY_ENTRY;
+      $reply = OPENSEARCH_CACHE_EMPTY_ENTRY;
     }
-    ting_cache_set(md5(serialize($parms)), $reply, TING_CACHE_REPLY);
+    ting_cache_set(md5(serialize($parms)), $reply, OPENSEARCH_CACHE_REPLY);
   }
 
-  if ($reply == TING_CACHE_EMPTY_ENTRY) {
+  if ($reply == OPENSEARCH_CACHE_EMPTY_ENTRY) {
     return NULL;
   }
 
@@ -491,7 +490,7 @@ function ting_execute_cache($request) {
  *   The cached item based on the $type and $id given. If non found in the cache
  *   NULL is returned.
  */
-function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT, $with_relations = FALSE) {
+function ting_cache_get($id, $type = OPENSEARCH_CACHE_TING_OBJECT, $with_relations = FALSE) {
   $cid = $type . ':' . $id;
   ting_cache_invoke_cache_key_hook($cid);
 
@@ -534,7 +533,7 @@ function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT, $with_relations = F
  *   one off: TING_CACHE_TING_OBJECT, TING_CACHE_COLLECTION,
  *   TING_CACHE_TING_OBJECT_FULLTEXT or TING_CACHE_REPLY.
  */
-function ting_cache_set($id, $value, $type = TING_CACHE_TING_OBJECT) {
+function ting_cache_set($id, $value, $type = OPENSEARCH_CACHE_TING_OBJECT) {
   // Define the cache id.
   $cid = $type . ':' . $id;
   ting_cache_invoke_cache_key_hook($cid);
