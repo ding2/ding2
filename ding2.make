@@ -93,7 +93,7 @@ projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-alpha8"
+projects[feeds][version] = "2.0-beta4"
 
 projects[feeds_ex][subdir] = "contrib"
 projects[feeds_ex][version] = "1.0-beta2"
