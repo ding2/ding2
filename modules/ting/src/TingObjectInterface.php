@@ -15,7 +15,7 @@ interface TingObjectInterface {
   /**
    * Returns materials related to this material.
    *
-   * @return TingRelation[]
+   * @return \TingRelation[]
    *   An array of relations.
    */
   public function getRelations();
