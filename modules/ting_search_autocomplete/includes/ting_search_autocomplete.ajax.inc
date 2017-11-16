@@ -31,7 +31,7 @@ function ting_search_autocomplete_callback($query = '', $reset = FALSE) {
   }
   else {
     // Suggestion service does not implement SOAP with a JSON response
-    $matches = ting_search_autocomplete_get_suggestions($query);
+    $matches = ding_provider_invoke('search', 'autocomplete', $query);
 
     // Store the matches in cache for faster lookup next time.
     cache_set($cid, $matches, 'cache_ting_search_autocomplete', CACHE_TEMPORARY);
@@ -39,15 +39,4 @@ function ting_search_autocomplete_callback($query = '', $reset = FALSE) {
 
   drupal_json_output($matches);
   drupal_exit();
-}
-
-
-/**
- * SuggestionService - retrieve suggestions with drupal_http_request() 
- *
- * @param string $query
- * @return array
- */
-function ting_search_autocomplete_get_suggestions($query) {
-  return ding_provider_invoke('search', 'autocomplete', $query);
 }
