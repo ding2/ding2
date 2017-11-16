@@ -379,8 +379,10 @@ class OpenSearchTingObject implements TingObjectInterface {
 
     $series_titles = array();
     foreach ($series as $serie) {
-      // Each title might be multiple titles, if so split them and add them.
-      $series_titles[] = explode(';', $serie);
+      // Each title might contain both title and series number separated by ;.
+      // Split them into parts. If there is no series number for a title then
+      // the title should only contain a single element.
+      $series_titles[] = explode(';', $serie, 2);
     }
 
     return empty($series_titles) ? [] : $series_titles;
@@ -682,8 +684,8 @@ class OpenSearchTingObject implements TingObjectInterface {
    * - Samhørende: [title 1] ; [title 2] ; [title 3]
    * - [volumne number]. del af: [title]
    *
-   * @param string[] $series
-   *   List of series descriptions.
+   * @param string $series
+   *   Series description.
    */
   private function processSeriesDescription($series) {
     $result = '';
