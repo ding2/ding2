@@ -142,18 +142,25 @@
 }
 
 @include media($mobile) {
-  .pane-content .ding-campaign .ding-campaign-text {
-    float: inherit;
-    width: auto;
-    padding: 50px 30px;
+  .node-ding-campaign {
+    display: none;
+    &.mobile-show {
+      display: block;
 
-    .ding-campaign-headline {
-      width: 100%;
-    }
+      .ding-campaign-text {
+        float: inherit;
+        width: auto;
+        padding: 50px 30px;
 
-    .ding-campaign-description {
-      float: none;
-      width: auto;
+        .ding-campaign-headline {
+          width: 100%;
+        }
+
+        .ding-campaign-description {
+          float: none;
+          width: auto;
+        }
+      }
     }
   }
 }
