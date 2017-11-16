@@ -50,6 +50,6 @@ function ding_loan_ding_session_cache_defaults() {
   return array(
     'title' => 'Ding loans',
     'enabled' => TRUE,
-    'expire' => 3600,
+    'expire' => 60,
   );
 }
