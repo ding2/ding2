@@ -1,43 +1,47 @@
-#edit-opensearch-autocomplete .form-type-radio {
+#edit-opensearch-search-autocomplete-settings .fieldset-wrapper {
+    display: inline-block;
+    width: 100%;
+}
+
+#edit-opensearch-search-autocomplete-settings .form-type-radio {
     padding: 4px 5px;
     float: left;
 }
 
-#edit-opensearch-autocomplete .form-type-textfield {
+#edit-opensearch-search-autocomplete-settings .form-type-textfield {
     padding: 0 9px 0;
     float: left;
-    width: 100%;
 }
 
-#edit-opensearch-autocomplete .form-item-opensearch-search-autocomplete-settings-highlight {
+#edit-opensearch-search-autocomplete-settings .form-item-opensearch-search-autocomplete-settings-highlight {
     width: 18em;
 }
 
-#edit-opensearch-autocomplete .form-item-opensearch-search-autocomplete-settings-highlightpre,
-#edit-opensearch-autocomplete .form-item-opensearch-search-autocomplete-settings-highlightpost {
+#edit-opensearch-search-autocomplete-settings .form-item-opensearch-search-autocomplete-settings-highlightpre,
+#edit-opensearch-search-autocomplete-settings .form-item-opensearch-search-autocomplete-settings-highlightpost {
     width: 12em;
 }
 
-#edit-opensearch-autocomplete .form-item-opensearch-search-autocomplete-settings-highlightpre input,
-#edit-opensearch-autocomplete .form-item-opensearch-search-autocomplete-settings-highlightpost input {
+#edit-opensearch-search-autocomplete-settings .form-item-opensearch-search-autocomplete-settings-highlightpre input,
+#edit-opensearch-search-autocomplete-settings .form-item-opensearch-search-autocomplete-settings-highlightpost input {
     width: 10em;
 }
 
-#edit-opensearch-autocomplete .form-item-ting-search-autocomplete-rest-url {
+#edit-opensearch-search-autocomplete-settings .form-item-opensearch-search-autocomplete-rest-url {
     width: 46em;
 }
 
-#edit-opensearch-autocomplete .form-item-opensearch-search-autocomplete-settings-highlight {
+#edit-opensearch-search-autocomplete-settings .form-item-opensearch-search-autocomplete-settings-highlight {
     padding: 18px 9px 0;
     float: left;
     clear: left;
 }
 
-#edit-opensearch-autocomplete .form-item-opensearch-search-autocomplete-settings-highlight label {
+#edit-opensearch-search-autocomplete-settings .form-item-opensearch-search-autocomplete-settings-highlight label {
     font-weight: bold;
 }
 
-#edit-opensearch-autocomplete .form-item-ting-search-autocomplete-settings-agency {
+#edit-opensearch-search-autocomplete-settings .form-item-opensearch-search-autocomplete-settings-agency {
     clear: left;
 }
 
@@ -46,11 +50,11 @@
     float: none;
 }
 
-#edit-opensearch-autocomplete td {
+#edit-opensearch-search-autocomplete-settings td {
     vertical-align: top;
 }
 
-#edit-opensearch-autocomplete td:nth-child(1) {
+#edit-opensearch-search-autocomplete-settings td:nth-child(1) {
     font-weight: bold;
     min-width: 10em;
 }
