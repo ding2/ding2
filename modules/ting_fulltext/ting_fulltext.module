@@ -49,7 +49,7 @@ function ting_fulltext_object_load($object_id) {
     $request->setFormat('docbook');
     $request->setObjectFormat('docbook');
     $request->setOutputType('xml');
-    $xml = ting_execute_cache($request);
+    $xml = opensearch_execute_cache($request);
 
     return $xml;
   }

@@ -73,7 +73,7 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
       }
 
       // Execute the request.
-      $object = ting_execute_cache($request);
+      $object = opensearch_execute_cache($request);
 
       // If this was a collection request store the collection reply to ensure
       // that there is no empty cache entry.
@@ -179,7 +179,7 @@ function opensearch_get_objects($ids) {
     $request->setNumResults(50);
     $request->setAllObjects(TRUE);
 
-    $result = ting_execute_cache($request);
+    $result = opensearch_execute_cache($request);
 
     if ($result && is_array($result->collections)) {
       foreach ($result->collections as $collection) {
@@ -316,7 +316,7 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
     $request->userDefinedBoost = $uboosts;
   }
 
-  $search_result = ting_execute_cache($request);
+  $search_result = opensearch_execute_cache($request);
   // Replace collections with proper TingCollection objects.
   if ($search_result && is_array($search_result->collections)) {
     $ids = array();
@@ -374,7 +374,7 @@ function opensearch_get_object_marcxchange($object_id) {
  * @return object
  *   The search reply from the data well.
  */
-function ting_execute_cache($request) {
+function opensearch_execute_cache($request) {
   $parms = $request->getRequest()->getParameters();
 
   // Handle fulltext vs. dkabm caching of object.
