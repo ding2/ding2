@@ -217,9 +217,9 @@ interface TingObjectInterface {
   public function getRights();
 
   /**
-   * List of materials in the same series as the this material.
+   * Description of the series which the material is a part of.
    *
-   * @return mixed
+   * @return string|FALSE
    *   The materials.
    */
   public function getSeriesDescription();

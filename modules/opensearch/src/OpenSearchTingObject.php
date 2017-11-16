@@ -684,8 +684,8 @@ class OpenSearchTingObject implements TingObjectInterface {
    * - Samhørende: [title 1] ; [title 2] ; [title 3]
    * - [volumne number]. del af: [title]
    *
-   * @param string[] $series
-   *   List of series descriptions.
+   * @param string $series
+   *   Series description.
    */
   private function processSeriesDescription($series) {
     $result = '';
