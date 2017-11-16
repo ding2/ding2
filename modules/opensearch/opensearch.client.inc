@@ -689,23 +689,6 @@ function opensearch_get_request_factory() {
 }
 
 /**
- * Add relation type to a search request object.
- *
- * @param TingClientSearchRequest $request
- *   The search request to add the relation to.
- * @param string $type
- *   The type of relation add to the request.
- *
- * @return TingClientSearchRequest
- *   The request added the relation.
- */
-function ting_add_relations($request, $type = 'full') {
-  $request->setAllRelations(TRUE);
-  $request->setRelationData($type);
-  return $request;
-}
-
-/**
  * Perform a request against Ting and perform error handling if necessary.
  *
  * @param object $request
