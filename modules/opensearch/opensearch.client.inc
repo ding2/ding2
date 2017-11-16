@@ -632,8 +632,8 @@ function _opensearch_cache_update_relations_status($object, $with_relations = FA
  * @return array
  *   An array of TingClientObjectRecommendation objects.
  */
-function ting_get_object_recommendations($isbn, $num_results = 10) {
   $request = ting_get_request_factory()->getObjectRecommendationRequest();
+function opensearch_get_object_recommendations($isbn, $num_results = 10) {
   $request->setIsbn($isbn);
   $request->setNumResults($num_results);
   return ting_execute($request);
