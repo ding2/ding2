@@ -500,8 +500,8 @@ function opensearch_search_prepare_reference_query($query_string) {
 function opensearch_search_sort_options() {
   // Do not show sort-options specific for rank_frequency if
   // custom_ranking is enabled or another rank is selected.
-  $default_sort = variable_get('ting_sort_default', 'rank_frequency');
-  $custom_ranking = variable_get('ting_ranking_custom', FALSE);
+  $default_sort = variable_get('opensearch_sort_default', 'rank_frequency');
+  $custom_ranking = variable_get('opensearch_ranking_custom', FALSE);
   if ($default_sort !== 'rank_frequency' || !empty($custom_ranking)) {
     return [];
   }

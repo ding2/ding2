@@ -100,26 +100,6 @@ function ting_menu() {
     'weight' => -10,
   );
 
-  // TODO BBS-SAL: move to opensearch.
-  $items['admin/config/ting/ranking'] = array(
-    'title' => 'Search result ranking',
-    'description' => 'Provides settings for how search results are ranked.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_admin_ranking_settings'),
-    'access arguments' => array('administer ting settings'),
-    'file' => 'ting.admin.inc',
-  );
-
-  // TODO BBS-SAL: move to opensearch.
-  $items['admin/config/ting/boost'] = array(
-    'title' => 'Search result boost',
-    'description' => 'Enable the user to boost specific values for specific fields in search results.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_admin_boost_settings'),
-    'access arguments' => array('administer ting settings'),
-    'file' => 'ting.admin.inc',
-  );
-
   $items['admin/config/ting/online_types'] = array(
     'title' => 'Online types and URL labels',
     'description' => 'Define online resource types and their corresponding URL labels.',
@@ -336,29 +316,6 @@ function ting_block_view($delta = '') {
   return $block;
 }
 
-/**
- * Implements hook_element_info().
- *
- * Define a new form element named ting_ranking_field.
- *
- * It calls the theme function theme_ting_ranking_field, if not defined
- * no elements will be displayed.
- *
- * TODO BBS-SAL: Move to opensearch.
- */
-function ting_element_info() {
-  return array(
-    'ting_boost_field' => array(
-      '#input' => TRUE,
-      '#process' => array('ting_boost_field_element_process'),
-    ),
-    'ting_ranking_field' => array(
-      '#input' => TRUE,
-      '#process' => array('ting_ranking_field_element_process'),
-    ),
-  );
-}
-
 
 /**
  * Implements hook_theme().
@@ -369,12 +326,7 @@ function ting_theme() {
       'template' => 'ting_object',
       'render element' => 'elements',
       'file' => 'ting.theme.inc',
-    ),
-    // TODO BBS-SAL: Move to opensearch.
-    'ting_ranking_field' => array(
-      'arguments' => array('element' => NULL),
-    ),
-
+    )
   );
 }
 
@@ -786,118 +738,6 @@ function _ting_default_url_labels() {
     'lydbog (online)' => t('Hear online'),
     'grammofonplade' => t('Hear online'),
   );
-}
-
-/**
- * Processor for the ting_boost_field form element.
- *
- * TODO BBS-SAL: Move to opensearch.
- */
-function ting_boost_field_element_process($element, $form_state) {
-  $element['#tree'] = TRUE;
-  $element['#prefix'] = '<div class="ting-boost-field-element clearfix">';
-  $element['#suffix'] = '</div>';
-
-  $element['field_name'] = array(
-    '#title' => t('Field name'),
-    '#type' => 'select',
-    '#options' => array(
-      '' => '- ' . t('Choose') . ' -',
-      'term.acSource' => t('Source'),
-      'term.creator' => t('Author'),
-      'term.date' => t('Year of publish'),
-      'term.language' => t('Language'),
-      'term.type' => t('Material type'),
-      'term.identifier' => t('ISBN number'),
-      'term.subject' => t('Subject'),
-      'facet.dk5' => t('Classification'),
-    ),
-    '#default_value' => (isset($element['#value']['field_name'])) ? $element['#value']['field_name'] : NULL,
-    '#attributes' => array('class' => array('field-name')),
-  );
-
-  $element['field_value'] = array(
-    '#title' => t('Value'),
-    '#type' => 'textfield',
-    '#default_value' => (isset($element['#value']['field_value'])) ? $element['#value']['field_value'] : NULL,
-  );
-
-  $element['weight'] = array(
-    '#title' => t('Weight'),
-    '#type' => 'textfield',
-    // '#type' => 'select',
-    // '#options' => drupal_map_assoc(range(1, 10)),
-    '#default_value' => (isset($element['#value']['weight'])) ? $element['#value']['weight'] : NULL,
-    '#element_validate' => array('boost_weight_validate'),
-  );
-
-  return $element;
-}
-
-/**
- * Validate the boost form.
- *
- * TODO BBS-SAL: Move to opensearch.
- */
-function boost_weight_validate($element, &$form_state) {
-  if (!empty($element['#value']) && (is_int($element['#value']))) {
-    form_error($element, t('Boost weight is an integer.'));
-  }
-}
-
-/**
- * Processor for the ting_ranking_field form element.
- *
- * TODO BBS-SAL: Move to opensearch.
- */
-function ting_ranking_field_element_process($element, $form_state) {
-  $element['#tree'] = TRUE;
-  $element['#prefix'] = '<div class="ting-ranking-field-element clearfix">';
-  $element['#suffix'] = '</div>';
-
-  $element['field_type'] = array(
-    '#title' => t('Type'),
-    '#type' => 'select',
-    '#options' => array(
-      'phrase' => t('Phrase'),
-      'word' => t('Word'),
-    ),
-    '#default_value' => (isset($element['#value']['field_type'])) ? $element['#value']['field_type'] : NULL,
-  );
-
-  $element['field_name'] = array(
-    '#title' => t('Field name'),
-    '#type' => 'select',
-    '#options' => array(
-      '' => '- ' . t('Choose') . ' -',
-      'term.acSource' => t('Source'),
-      'term.title' => t('Title'),
-      'term.creator' => t('Author'),
-      'term.subject' => t('Subject'),
-      'term.date' => t('Year of publish'),
-      'term.type' => t('Material type'),
-    ),
-    '#default_value' => (isset($element['#value']['field_name'])) ? $element['#value']['field_name'] : NULL,
-    '#attributes' => array('class' => array('field-name')),
-  );
-
-  $element['weight'] = array(
-    '#title' => t('Weight'),
-    '#type' => 'select',
-    '#options' => drupal_map_assoc(range(1, 10)),
-    '#default_value' => (isset($element['#value']['weight'])) ? $element['#value']['weight'] : NULL,
-  );
-
-  return $element;
-}
-
-/**
- * Theme function to format the custom form element ting_ranking_field.
- *
- * TODO BBS-SAL: Move to opensearch.
- */
-function theme_ting_ranking_field($element) {
-  return theme('form_element', $element);
 }
 
 /**
