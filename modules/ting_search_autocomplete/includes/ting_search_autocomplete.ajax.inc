@@ -7,7 +7,7 @@
 /**
  * Auto-complete callback for the ting search block.
  *
- * The function returns JSON and ending execution.
+ * The function returns JSON and ends the execution.
  *
  * @param string $query
  *   The string to search suggestion with.
