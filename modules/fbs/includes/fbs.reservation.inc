@@ -107,17 +107,17 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
       if (module_exists('ding_session_cache')) {
         ding_session_cache_set('fbs', 'reservation', $results);
       }
+    }
+  }
 
-      // Filter the result based on the requested type of reservations.
-      if ($requested_type) {
-        if (isset($results[$requested_type])) {
-          return $results[$requested_type];
-        }
-        else {
-          watchdog('fbs', 'Unknown reservation type (%type) requested', array('%type' => $requested_type), WATCHDOG_ERROR);
-          return array();
-        }
-      }
+  // Filter the result based on the requested type of reservations.
+  if ($requested_type) {
+    if (isset($results[$requested_type])) {
+      return $results[$requested_type];
+    }
+    else {
+      watchdog('fbs', 'Unknown reservation type (%type) requested', array('%type' => $requested_type), WATCHDOG_ERROR);
+      return array();
     }
   }
 
