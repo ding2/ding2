@@ -34,8 +34,8 @@ interface TingObjectInterface {
   /**
    * Gets the owner of the object, eg. the agency.
    *
-   * @return string
-   *   The ID.
+   * @return string|FALSE
+   *   The ID, or FALSE if it could not be determined.
    */
   public function getOwnerId();
 
@@ -61,8 +61,8 @@ interface TingObjectInterface {
    * search-provider may search across objects originating from several source-
    * systems.
    *
-   * @return string
-   *   The source ID.
+   * @return string|FALSE
+   *   The source ID, or FALSE if it could not be determined.
    */
   public function getSourceId();
 
@@ -71,7 +71,7 @@ interface TingObjectInterface {
    *
    * If a longer version of the title exists it will be preferred.
    *
-   * @return FALSE|string
+   * @return string|FALSE
    *   The title of the material, or FALSE if it could not be determined.
    */
   public function getTitle();
@@ -93,8 +93,8 @@ interface TingObjectInterface {
    *
    * Eg. "fra 11 år
    *
-   * @return string
-   *   The age.
+   * @return string|FALSE
+   *   The age, or FALSE if it could not be determined.
    */
   public function getAge();
 
@@ -103,16 +103,16 @@ interface TingObjectInterface {
    *
    * Eg. "børnematerialer"
    *
-   * @return string
-   *   The target group.
+   * @return string|FALSE
+   *   The target group, or FALSE if it could not be determined.
    */
   public function getAudience();
 
   /**
    * Get an description of the material.
    *
-   * @return string
-   *   The description.
+   * @return string|FALSE
+   *   The description, or FALSE if it could not be determined.
    */
   public function getDescription();
 
@@ -122,8 +122,8 @@ interface TingObjectInterface {
    * Eg. "245 sider".
    * Eg. "12 t., 34 min."
    *
-   * @return string
-   *   The extent.
+   * @return string|FALSE
+   *   The extent, or FALSE if it could not be determined.
    */
   public function getExtent();
 
@@ -133,8 +133,8 @@ interface TingObjectInterface {
    * Eg. "1 cd, MP3"
    * Eg. "illustreret i farver"
    *
-   * @return string
-   *   The format.
+   * @return string|FALSE
+   *   The format, or FALSE if it could not be determined.
    */
   public function getFormat();
 
@@ -143,8 +143,8 @@ interface TingObjectInterface {
    *
    * Eg. "fantasy"
    *
-   * @return string
-   *   The genere.
+   * @return string|FALSE
+   *   The genere, or FALSE if it could not be determined.
    */
   public function getGenere();
 
@@ -171,16 +171,16 @@ interface TingObjectInterface {
    *
    * Eg. "PEGI-mærkning: 18"
    *
-   * @return string
-   *   The rating.
+   * @return string|FALSE
+   *   The rating, or FALSE if it could not be determined.
    */
   public function getPegi();
 
   /**
    * The name of the publisher of the material.
    *
-   * @return string
-   *   The name.
+   * @return string|FALSE
+   *   The name, or FALSE if it could not be determined.
    */
   public function getPublisher();
 
@@ -196,7 +196,7 @@ interface TingObjectInterface {
    * Get newer materials that replaces this material.
    *
    * @return mixed
-   *   The materials.
+   *   The materials, or FALSE if it could not be determined.
    */
   public function getReplacedBy();
 
@@ -204,7 +204,7 @@ interface TingObjectInterface {
    * List of materials this material replaces.
    *
    * @return mixed
-   *   The materials.
+   *   The materials, or FALSE if it could not be determined.
    */
   public function getReplaces();
 
@@ -212,7 +212,7 @@ interface TingObjectInterface {
    * Information about rights held in and over the resource.
    *
    * @return mixed
-   *   The rights.
+   *   The rights, or FALSE if it could not be determined.
    */
   public function getRights();
 
@@ -220,7 +220,7 @@ interface TingObjectInterface {
    * Description of the series which the material is a part of.
    *
    * @return string|FALSE
-   *   The materials.
+   *   The series description, or FALSE if it could not be determined.
    */
   public function getSeriesDescription();
 
@@ -230,8 +230,8 @@ interface TingObjectInterface {
    * Eg. "Harry Potter and the philosopher's stone" is the source for
    *  "Harry Potter und der Stein der Weisen"
    *
-   * @return string
-   *   The title of the source.
+   * @return string|FALSE
+   *   The title of the source, or FALSE if it could not be determined.
    */
   public function getSource();
 
@@ -241,16 +241,17 @@ interface TingObjectInterface {
    * Eg. "USA"
    * Eg. "Italien"
    *
-   * @return string
-   *   Spatial description of the material.
+   * @return string|FALSE
+   *   Spatial description of the material, or FALSE if it could not be
+   *   determined.
    */
   public function getSpatial();
 
   /**
    * Material spoken language.
    *
-   * @return string
-   *   The language.
+   * @return string|FALSE
+   *   The language, or FALSE if it could not be determined.
    */
   public function getSpoken();
 
@@ -277,8 +278,8 @@ interface TingObjectInterface {
   /**
    * Host publication URI.
    *
-   * @return string
-   *   The uri formatted as a link.
+   * @return string|FALSE
+   *   The uri formatted as a link, or FALSE if it could not be determined.
    */
   public function getURI();
 
@@ -287,8 +288,8 @@ interface TingObjectInterface {
    *
    * Eg. "1. udgave, 1. oplag (2016)".
    *
-   * @return string
-   *   The version.
+   * @return string|FALSE
+   *   The version, or FALSE if it could not be determined.
    */
   public function getVersion();
 
@@ -308,8 +309,8 @@ interface TingObjectInterface {
    * Eg. "Bog"
    * Eg. "Lydbog (cd)"
    *
-   * @return string
-   *   The type.
+   * @return string|FALSE
+   *   The type, or FALSE if it could not be determined.
    */
   public function getType();
 
@@ -318,8 +319,8 @@ interface TingObjectInterface {
    *
    * Format YYYY.
    *
-   * @return string
-   *   The year
+   * @return string|FALSE
+   *   The year, or FALSE if it could not be determined.
    */
   public function getYear();
 
@@ -327,7 +328,7 @@ interface TingObjectInterface {
    * Returns the material classification.
    *
    * @return string|FALSE
-   *   The classification.
+   *   The classification, or FALSE if it could not be determined.
    */
   public function getClassification();
 
@@ -335,7 +336,7 @@ interface TingObjectInterface {
    * Returns a short abstract for the material.
    *
    * @return string|FALSE
-   *   The abstract.
+   *   The abstract, or FALSE if it could not be determined.
    */
   public function getAbstract();
 
@@ -391,7 +392,7 @@ interface TingObjectInterface {
    * Eg. Bibliotekskatalog, Anmeldelser.
    *
    * @return string|FALSE
-   *   The source of the material.
+   *   The source of the material, or FALSE if it could not be determined.
    */
   public function getMaterialSource();
 
