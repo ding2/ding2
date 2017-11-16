@@ -6,7 +6,6 @@
  */
 
 function ting_search_autocomplete_admin() {
-  $default_settings = ting_search_autocomplete_settings();
 
   $form['ting_search_autocomplete_settings']['maxSuggestions'] = array(
     '#type' => 'textfield',
