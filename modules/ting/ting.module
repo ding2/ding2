@@ -476,30 +476,6 @@ function ting_entity_info() {
 }
 
 /**
- * Implements hook_registry_files_alter().
- *
- * TODO BBS-SAL: Switch to xautoload when ting-client is moved.
- */
-function ting_registry_files_alter(&$files, $modules) {
-  // Add in ting client classes, so the autoloader knows where to find
-  // them. This is more handy than hardcoding them into the info file.
-  $def = array(
-    'module' => 'ting',
-    'weight' => 0,
-  );
-
-  // Add all of the Ting client library to the registry.
-  foreach (file_scan_directory(drupal_get_path('module', 'ting') . '/lib/ting-client/lib', '/\.php$/') as $filename => $dummy) {
-    $files[$filename] = $def;
-  }
-
-  // And the Ting client unit tests as well.
-  foreach (file_scan_directory(drupal_get_path('module', 'ting') . '/lib/ting-client/tests', '/\.test$/') as $filename => $dummy) {
-    $files[$filename] = $def;
-  }
-}
-
-/**
  * Implements hook_ding_entity_is().
  */
 function ting_ding_entity_is($object, $class) {
