@@ -613,14 +613,19 @@ function opensearch_search_object_ids($ids) {
  */
 function opensearch_search_autocomplete($query) {
   $items = array();
+
   $rest_url = variable_get('opensearch_search_autocomplete_suggestion_url', '');
   $method = variable_get('ting_search_autocomplete_method', 'facets');
   $settings = opensearch_search_autocomplete_settings();
 
+  if (drupal_strlen($query) < $settings['minimumString']) {
+    return $items;
+  }
+  unset($settings['minimumString']);
+
   if (empty($settings['index'])) {
     watchdog('opensearch', 'Autocomplete index not defined ', array(), $severity = WATCHDOG_WARNING);
-    drupal_json_output(array());
-    return array();
+    return $items;
   }
 
   $rest_url = $rest_url . 'rest/' . $method;

@@ -16,13 +16,6 @@
  */
 function ting_search_autocomplete_callback($query = '', $reset = FALSE) {
   $query = check_plain(strtolower($query));
-  $settings = variable_get('ting_search_autocomplete_settings', array());
-
-  $minimum_string = (!empty($settings['minimumString'])) ? $settings['minimumString'] : 3;
-  if (drupal_strlen($query) < $minimum_string) {
-    drupal_json_output(array());
-    drupal_exit();
-  }
 
   // Try to use cache for the search string.
   $cid = md5($query);

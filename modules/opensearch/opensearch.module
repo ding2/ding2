@@ -246,6 +246,13 @@ function opensearch_admin_settings($form_state) {
     '#default_value' => $default_settings['profile'],
   );
 
+  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['maxSuggestions'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Max suggestions', array(), array('context' => 'opensearch_search_autocomplete')),
+    '#size' => 26,
+    '#default_value' => $default_settings['maxSuggestions'],
+  );
+
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['maxTime'] = array(
     '#type' => 'textfield',
     '#title' => t('Max request time', array(), array('context' => 'opensearch_search_autocomplete')),
@@ -273,6 +280,15 @@ function opensearch_admin_settings($form_state) {
     '#title' => t('Highlight suffix', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 26,
     '#default_value' => $default_settings['highlight.post'],
+  );
+
+  $form['opensearch_autocomplete_settings']['minimumString'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Minimum string', array(), array('context' => 'opensearch_search_autocomplete')),
+    '#description' => t('Minimum characters the user has to type before the suggestion service is queried.', array()
+      , array('context' => 'opensearch_search_autocomplete')),
+    '#size' => 26,
+    '#default_value' => $default_settings['minimumString'],
   );
 
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_help'] = array(
@@ -341,11 +357,13 @@ function opensearch_search_autocomplete_settings() {
 
   $base_settings['agency']  = variable_get('ting_agency', NULL);
   $base_settings['profile'] = variable_get('ting_search_profile', NULL);
+  $base_settings['maxSuggestions'] = 10;
   $base_settings['maxTime'] = 2000;
 
   $base_settings['highlight'] = NULL;
   $base_settings['highlight.pre'] = NULL;
   $base_settings['highlight.post'] = NULL;
+  $base_settings['minimumString'] = 3;
 
   $defaults = variable_get('opensearch_search_autocomplete_settings', array());
 

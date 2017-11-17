@@ -22,27 +22,11 @@ function opensearch_migrate_settings() {
     'ting_cache_lifetime' => 'opensearch_cache_lifetime',
     'ting_search_autocomplete_suggestion_url' => 'opensearch_search_autocomplete_suggestion_url',
     'ting_search_autocomplete_method' => 'opensearch_search_autocomplete_method',
+    'ting_autocomplete_settings' => 'opensearch_search_autocomplete_settings',
   );
 
   array_walk($settings_map, function($new_var, $old_var) {
     variable_set($new_var, variable_get($old_var));
     variable_del($old_var);
   });
-
-  // Keep minimumString in ting_search_autocomplete_settings.
-  // Move the rest to opensearch_search_autocomplete_settings.
-  $ting_autocomplete_settings = variable_get('ting_search_autocomplete_settings');
-  $opensearch_search_autocomplete_settings = array();
-
-  if (is_array($ting_autocomplete_settings)) {
-    foreach ($ting_autocomplete_settings as $key => $value) {
-      if ($key !== 'minimumString') {
-        unset($ting_autocomplete_settings[$key]);
-        $opensearch_search_autocomplete_settings[$key] = $value;
-      }
-    }
-
-    variable_set('ting_autocomplete_settings', $ting_autocomplete_settings);
-    variable_set('opensearch_search_autocomplete_settings', $ting_autocomplete_settings);
-  }
 }
