@@ -166,5 +166,10 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
     }
   }
 
+  // Clear ding session cache.
+  if (module_exists('ding_session_cache')) {
+    ding_session_cache_clear('fbs', 'debt');
+  }
+
   return TRUE;
 }
