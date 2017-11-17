@@ -24,7 +24,7 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
   if (empty($results) || $reset) {
     // Check if ding_session_cache is available.
     if (module_exists('ding_session_cache') && !$reset) {
-      $results = ding_session_cache_get('fbs', 'reservation');
+      $results = ding_session_cache_get('fbs', 'reservation', array());
     }
 
     // If both static cache and session cache failed, try reloading information

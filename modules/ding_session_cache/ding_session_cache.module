@@ -86,18 +86,21 @@ function ding_session_cache_set($module, $cid, $data) {
  *   Name of the module that the date is stored under (prefix).
  * @param string $cid
  *   Index data is stored under.
+ * @param bool $default
+ *   Default value if cache for the $cid is empty.
  *
  * @return mixed
  *   If data found it's returned else FALSE.
  */
-function ding_session_cache_get($module, $cid) {
+function ding_session_cache_get($module, $cid, $default = FALSE) {
   if (_ding_session_cache_enabled($module)) {
     $cache = cache_get(_ding_session_cache_get_cid($module, $cid), 'cache_ding_session_cache');
     if (isset($cache->expire) && $cache->expire > REQUEST_TIME) {
       return $cache->data;
     }
   }
-  return FALSE;
+
+  return $default;
 }
 
 /**

@@ -22,7 +22,7 @@ function fbs_loan_list($account, $reset = FALSE) {
   if (empty($results) || $reset) {
     // Check if ding_session_cache is available.
     if (module_exists('ding_session_cache') && !$reset) {
-      $results = ding_session_cache_get('fbs', 'loans');
+      $results = ding_session_cache_get('fbs', 'loans', array());
     }
 
     // If both static cache and session cache failed, try reloading information
