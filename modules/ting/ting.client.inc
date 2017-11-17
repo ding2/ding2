@@ -23,6 +23,7 @@
  *   opensearch_get_object.
  */
 function ting_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
+  module_load_include('inc', 'opensearch', 'opensearch.client');
   return opensearch_get_object($object_id, $collection, $with_relations);
 }
 
@@ -33,9 +34,10 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
  *
  * @deprecated Use the Search Abstraction Layer if possible. If you have
  *   a specific dependency on the opensearch provider, switch to
- *   opensearch_get_object.
+ *   opensearch_get_objects.
  */
 function ting_get_objects($ids) {
+  module_load_include('inc', 'opensearch', 'opensearch.client');
   return opensearch_get_objects($ids);
 }
 
@@ -46,9 +48,10 @@ function ting_get_objects($ids) {
  *
  * @deprecated Use the Search Abstraction Layer if possible. If you have
  *   a specific dependency on the opensearch provider, switch to
- *   opensearch_get_object.
+ *   opensearch_do_search.
  */
 function ting_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
+  module_load_include('inc', 'opensearch', 'opensearch.client');
   return opensearch_do_search($query, $page, $results_per_page, $options);
 }
 
@@ -59,9 +62,10 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
  *
  * @deprecated Use the Search Abstraction Layer if possible. If you have
  *   a specific dependency on the opensearch provider, switch to
- *   opensearch_get_object.
+ *   opensearch_get_object_marcxchange.
  */
 function ting_get_object_marcxchange($object_id) {
+  module_load_include('inc', 'opensearch', 'opensearch.client');
   return opensearch_get_object_marcxchange($object_id);
 }
 
@@ -72,9 +76,10 @@ function ting_get_object_marcxchange($object_id) {
  *
  * @deprecated Use the Search Abstraction Layer if possible. If you have
  *   a specific dependency on the opensearch provider, switch to
- *   opensearch_get_object.
+ *   opensearch_execute_cache.
  */
 function ting_execute_cache($request) {
+  module_load_include('inc', 'opensearch', 'opensearch.client');
   return opensearch_execute_cache($request);
 }
 
@@ -85,10 +90,11 @@ function ting_execute_cache($request) {
  *
  * @deprecated Use the Search Abstraction Layer if possible. If you have
  *   a specific dependency on the opensearch provider, switch to
- *   opensearch_get_object.
+ *   opensearch_get_object_recommendations.
  */
 function ting_get_object_recommendations($isbn, $num_results = 10) {
-  opensearch_get_object_recommendations($isbn, $num_results);
+  module_load_include('inc', 'opensearch', 'opensearch.client');
+  return opensearch_get_object_recommendations($isbn, $num_results);
 }
 
 /**
@@ -102,9 +108,10 @@ function ting_get_object_recommendations($isbn, $num_results = 10) {
  *
  * @deprecated Use the Search Abstraction Layer if possible. If you have
  *   a specific dependency on the opensearch provider, switch to
- *   opensearch_get_object.
+ *   opensearch_get_request_factory.
  */
 function ting_get_request_factory() {
+  module_load_include('inc', 'opensearch', 'opensearch.client');
   return opensearch_get_request_factory();
 }
 
@@ -115,8 +122,9 @@ function ting_get_request_factory() {
  *
  * @deprecated Use the Search Abstraction Layer if possible. If you have
  *   a specific dependency on the opensearch provider, switch to
- *   opensearch_get_object.
+ *   opensearch_execute.
  */
 function ting_execute($request) {
+  module_load_include('inc', 'opensearch', 'opensearch.client');
   return opensearch_execute($request);
 }
