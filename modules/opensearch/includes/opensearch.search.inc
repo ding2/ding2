@@ -624,9 +624,6 @@ function opensearch_search_autocomplete($query) {
     return array();
   }
 
-  // minimumString is not an openSuggestion parameter
-  unset($settings['minimumString']);
-
   $rest_url = $rest_url . 'rest/' . $method;
   $settings['query'] = $query;
   $url = url($rest_url, array('query' => $settings));

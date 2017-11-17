@@ -302,8 +302,6 @@ function opensearch_admin_settings($form_state) {
         t('Only get suggestions from data accessible to the specified library ID. F.ex.: 715100', array(), array('context' => 'opensearch_search_autocomplete'))),
       array(t('Profile:', array(), array('context' => 'opensearch_search_autocomplete')),
         t('Only get suggestions from data accessible to the specified search profile, as defined in the VIP database.', array(), array('context' => 'opensearch_search_autocomplete'))),
-      array(t('Max suggestions:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Maximum suggestions to return. Default 10', array(), array('context' => 'opensearch_search_autocomplete'))),
       array(t('Max request time:', array(), array('context' => 'opensearch_search_autocomplete')),
         t('Maximum request time in milliseconds. Default 2000', array(),
           array('context' => 'opensearch_search_autocomplete'))),
@@ -313,8 +311,6 @@ function opensearch_admin_settings($form_state) {
       array(t('Highlight prefix & suffix:', array(), array('context' => 'opensearch_search_autocomplete')),
         t('Defaults to &lt;em&gt; & &lt;/em&gt;.', array(), array('context'
         => 'opensearch_search_autocomplete'))),
-      array(t('Minimum string:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Minimum characters the user has to type before the suggestionservice is queried.', array(), array('context' => 'opensearch_search_autocomplete'))),
     ),
     '#attributes' => array('class' => array('table-class')),
     '#empty' => t('Your table is empty'),
