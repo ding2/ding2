@@ -605,12 +605,11 @@ function opensearch_search_object_ids($ids) {
 /**
  * Auto-complete callback for the ting search block.
  *
- * The function returns JSON and ending execution.
- *
  * @param string $query
  *   The string to search suggestion with.
  *
- * @return array
+ * @return array $items
+ *   Items similar to the query.
  */
 function opensearch_search_autocomplete($query) {
   $items = array();
