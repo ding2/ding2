@@ -31,7 +31,6 @@ function opensearch_search_material_types() {
     // 'sort' => 'random',
   ];
   module_load_include('client.inc', 'opensearch');
-  // TODO BBS-SAL: search via the abstraction-layer.
   $result = opensearch_do_search("*", 0, 0, $options);
 
   $types = [];

@@ -927,9 +927,9 @@ function bpi_workflow_by_machine_names($machine_names) {
  *   int in case when material with same id was found.
  */
 function bpi_validate_material($id) {
-  // Load ting client.
-  module_load_include('client.inc', 'opensearch');
 
+  // Load opensearch client.
+  module_load_include('client.inc', 'opensearch');
   // Search the data well.
   // TODO: use the Search Abstraction Layer (ting_start_query()).
   $result = opensearch_do_search($id, 1, 1, array('facets' => array(), 'allObjects' => FALSE));
