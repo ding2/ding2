@@ -15,7 +15,6 @@ function opensearch_admin_ranking_settings($form, &$form_state) {
     '#after_build' => array('opensearch_admin_ranking_form_after_build'),
   );
 
-  // TODO BBS-SAL: Move to opensearch.
   $form['opensearch_ranking_custom'] = array(
     '#title' => t('Enable custom ranking'),
     '#type' => 'checkbox',
