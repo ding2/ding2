@@ -14,22 +14,12 @@ function ting_search_autocomplete_schema() {
   return $schema;
 }
 
-
-/**
- * Implements hook_install().
- */
-function ting_search_autocomplete_install() {
-  _ting_search_autocomplete_settings();
-}
-
-
 /**
  * Redo module to use opensuggestion webservice.
  */
 function ting_search_autocomplete_update_7001() {
   _ting_search_autocomplete_settings();
 }
-
 
 /**
  * Initialize opensuggestion webservice settings.

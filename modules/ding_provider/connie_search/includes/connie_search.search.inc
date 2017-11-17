@@ -221,3 +221,47 @@ function connie_search_search_object_ids($ids) {
     return '1337-test:' . $ids;
   }
 }
+
+/**
+ * Auto-complete callback for the ting search block.
+ *
+ * @param string $query
+ *   The string to search suggestion with.
+ *
+ * @return array $items
+ *   Items similar to the query.
+ */
+function connie_search_search_autocomplete($query) {
+  $items = array();
+
+  $results = array(
+    'Harry Potter and the Goblet of Fire',
+    'The Hobbit',
+    'The Da Vinci Code',
+    '1984',
+    'The Hunger Games',
+    'Game of Thrones',
+    'The Inside',
+    'The Shining',
+    'Dracula',
+    'Time Travellers Wife'
+  );
+
+  if (!empty($results)) {
+    foreach ($results as $result) {
+      if (similar_text($query, $result) > 3) {
+        $items[] = $result;
+      }
+    }
+  }
+  else {
+    $message = t('Autocomplete error: @error (@error_code) using following URL: @url');
+    watchdog('connie_search', $message, array(
+      '@error' => 'Woops, something went wrong!',
+      '@error_code' => '500',
+      '@url' => 'http://localhost/rest/autocomplete'
+    ), WATCHDOG_ERROR);
+  }
+
+  return $items;
+}
