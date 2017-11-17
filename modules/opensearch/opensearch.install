@@ -5,6 +5,7 @@
  */
 function opensearch_install() {
   opensearch_migrate_settings();
+  migrate_roles();
 }
 
 /**
