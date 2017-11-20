@@ -5,7 +5,7 @@
  */
 function opensearch_install() {
   opensearch_migrate_settings();
-  migrate_roles();
+  opensearch_migrate_roles();
 }
 
 /**
@@ -39,7 +39,7 @@ function opensearch_migrate_settings() {
 /**
  * Translate legacy ting roles to opensearch.
  */
-function migrate_roles() {
+function opensearch_migrate_roles() {
   // Get all permissions keyed by role id.
   $loaded_permissions = user_role_permissions(user_roles());
   $ting_permission = 'administer ting settings';
