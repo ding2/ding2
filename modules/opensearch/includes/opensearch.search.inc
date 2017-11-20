@@ -8,6 +8,7 @@ use OpenSearch\OpenSearchTingObject;
 use OpenSearch\OpenSearchTingObjectCollection;
 use OpenSearch\OpenSearchTingSearchResult;
 use Ting\Search\DingProviderStrategy;
+use Ting\Search\SearchProviderException;
 use Ting\Search\StatementGroupRender;
 use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchCommonSortFields;
@@ -82,6 +83,9 @@ function opensearch_search_collection_load($id) {
  *
  * @return \Ting\Search\TingSearchResultInterface
  *   The search result.
+ *
+ * @throws \Ting\Search\SearchProviderException
+ *   If an error occurs during search.
  */
 function opensearch_search_search(TingSearchRequest $ting_query) {
   // TODO BBS-SAL: At some point this function will become big enough that we
@@ -178,7 +182,11 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
 
   // Ensure we have ting client.
   module_load_include('inc', 'opensearch', 'opensearch.client');
-  $result = new OpenSearchTingSearchResult(opensearch_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options), $ting_query);
+  $search_result = opensearch_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options);
+  if ($search_result === NULL) {
+    throw new SearchProviderException("Unable to execute search, inspect logs for details");
+  }
+  $result = new OpenSearchTingSearchResult($search_result, $ting_query);
 
   // Handle the situation where opensearch sets a default sort.
   if (empty($result->getSearchRequest()->getSorts()) && !empty($result->openSearchResult->sortUsed)) {

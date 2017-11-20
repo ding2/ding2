@@ -25,7 +25,13 @@ class DingProviderStrategy implements TingSearchStrategyInterface {
    *   The result of performing the search.
    */
   public function executeSearch($query) {
-    return ding_provider_invoke('search', 'search', $query);
+    try {
+      return ding_provider_invoke('search', 'search', $query);
+    }
+    catch (SearchProviderException $e) {
+      watchdog_exception('ting', $e, 'Error while searching');
+      return new NullSearchResult($query);
+    }
   }
 
   /**
