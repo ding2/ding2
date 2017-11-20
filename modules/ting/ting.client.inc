@@ -98,24 +98,6 @@ function ting_get_object_recommendations($isbn, $num_results = 10) {
 }
 
 /**
- * Retrieves an initialized Ting client request factory.
- *
- * @throws TingClientException
- *   If there is no end-point url defined in the configuration this exception is
- *   thrown.
- *
- * @see opensearch_get_request_factory()
- *
- * @deprecated Use the Search Abstraction Layer if possible. If you have
- *   a specific dependency on the opensearch provider, switch to
- *   opensearch_get_request_factory.
- */
-function ting_get_request_factory() {
-  module_load_include('inc', 'opensearch', 'opensearch.client');
-  return opensearch_get_request_factory();
-}
-
-/**
  * Perform a request against Ting and perform error handling if necessary.
  *
  * @see opensearch_execute()
