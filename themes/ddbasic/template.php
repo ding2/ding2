@@ -436,8 +436,8 @@ function ddbasic_preprocess_entity_paragraphs_item(&$variables) {
       case 'ting_object_left':
         $variables['content']['field_ding_paragraphs_image']['#weight'] = 0;
         $variables['content']['field_ding_paragraphs_text']['#weight'] = 1;
-        $variables['content']['field_ding_paragraphs_image']['attributes']['class'] = 'ting-object-left';
-        $variables['content']['field_ding_paragraphs_text']['attributes']['class'] = 'ting-object-right';
+        $variables['content']['field_ding_paragraphs_image']['attributes']['class'] = 'object-left';
+        $variables['content']['field_ding_paragraphs_text']['attributes']['class'] = 'object-right';
         break;
     }
   }
@@ -934,6 +934,28 @@ function ddbasic_process_ting_object(&$vars) {
 
           // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
+
+          // Check if teaser has rating function and remove abstract.
+          if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
+            unset($vars['content']['group_text']['ting_abstract']);
+          }
+
+          break;
+        case 'paragraphs_teaser':
+          if ($vars['object']->is('reservable')) {
+            $vars['content']['group_ting_right_col_collection']['reserve_button'] = ding_reservation_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              'ajax'
+            );
+          }
+          if ($vars['object']->online_url) {
+            // Slice the output, so it only usese the online link button.
+            $vars['content']['group_ting_right_col_collection']['online_link'] = array_slice(ting_ding_entity_buttons(
+              'ding_entity',
+              $vars['object']
+            ), 0, 1);
+          }
 
           // Check if teaser has rating function and remove abstract.
           if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {

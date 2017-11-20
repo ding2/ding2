@@ -224,6 +224,10 @@
         // Tablet
         @include media($tablet) {
           @include span-columns(6);
+
+          &.has-paragraphs {
+            width:100%;
+          }
         }
 
         // Mobile
@@ -307,6 +311,10 @@
         // Tablet
         @include media($tablet) {
           @include span-columns(6);
+
+          &.has-paragraphs {
+            width:100%;
+          }
         }
 
         // Mobile

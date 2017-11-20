@@ -360,6 +360,10 @@
       // Tablet
       @include media($tablet) {
         @include span-columns(6);
+
+        &.has-paragraphs {
+          width:100%;
+        }
       }
 
       // Mobile
@@ -375,12 +379,20 @@
       @include media($tablet) {
         @include span-columns(6);
         margin-right: 0;
+
+        &.has-paragraphs {
+          @include span-columns(8);
+        }
       }
 
       // Mobile
       @include media($mobile) {
         @include span-columns(12);
         margin-right: 0;
+
+        &.has-paragraphs {
+          @include span-columns(12);
+        }
       }
     }
     h1 {

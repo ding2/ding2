@@ -94,7 +94,7 @@
  ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="inner">
-    <div class="left">
+    <div class="left has-paragraphs">
       <?php print render($content['group_left']['field_ding_event_title_image']); ?>
       <h2><?php print t('Information about the event'); ?></h2>
       <!-- insert time-field markup -->
@@ -127,7 +127,7 @@
         endif;
       ?>
     </div>
-    <div class="right">
+    <div class="right has-paragraphs">
       <?php print render($content['field_ding_event_category']); ?>
       <h1><?php print $title; ?></h1>
       <?php print render($content['group_right']['field_ding_event_date']);?>

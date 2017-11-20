@@ -26,12 +26,43 @@
     float: left;
     margin-right: 5%;
     width: 33%;
+
+    .field-name-ting-abstract {
+      display: none;
+    }
+
+    .ting-object .ting-object-left {
+      float: left;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .ting-object .ting-object-right {
+      float: left;
+      width: 100%;
+    }
   }
 
   &.one_third_right {
     float: right;
     margin-left: 5%;
     width: 33%;
+
+    .field-name-ting-abstract {
+      display: none;
+    }
+
+    .ting-object .ting-object-left {
+      float: left;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    
+    .ting-object .ting-object-right {
+      float: left;
+      width: 100%;
+    }
+
   }
 
   p:last-child {
@@ -50,16 +81,62 @@
       margin: 10px 0;
     }
 
-    .ting-object-left {
+    .object-left {
       float: left;
       width: 40%;
       margin-right: 5%;
     }
 
-    .ting-object-right {
+    .object-right {
       float: left;
       margin: 0;
       width: 55%;
+    }
+  }
+
+  .ting-object {
+    .ting-object-left {
+      float: left;
+      margin-right: 2%;
+      width: 30%;
+
+      @include media($mobile) {
+        width: 15%;
+      }
+    }
+
+    .ting-object-right {
+      display: flex;
+      flex-wrap: wrap;
+      float: right;
+      width: 65%;
+
+      @include media($mobile) {
+        width: 82%;
+      }
+
+      .field-name-ting-type {
+        display: none;
+      }
+
+      .field-name-ting-title h2 {
+        margin: 0;
+      }
+
+      .field-name-ting-abstract {
+        margin: 10px 0;
+        max-width: 100%;
+      }
+
+      .reserve-button {
+        order: 10;
+      }
+
+      .action-button {
+        padding: 10px 60px 8px 15px;
+        margin-top: 10px;
+        max-width: 100%;
+      }
     }
   }
 }

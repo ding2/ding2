@@ -100,6 +100,30 @@ function ding_paragraphs_field_default_field_bases() {
     'type' => 'image',
   );
 
+  // Exported field_base: 'field_ding_paragraphs_material'
+  $field_bases['field_ding_paragraphs_material'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ding_paragraphs_material',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'ting_reference',
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'ting_reference',
+      'settings' => array(),
+      'type' => 'ting_reference',
+    ),
+    'translatable' => 0,
+    'type' => 'ting_reference',
+  );
+
   // Exported field_base: 'field_ding_paragraphs_position'
   $field_bases['field_ding_paragraphs_position'] = array(
     'active' => 1,

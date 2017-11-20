@@ -59,6 +59,29 @@ function ding_paragraphs_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_paragraphs_item__ding_paragraphs_single_material';
+  $strongarm->value = array(
+    'view_modes' => array(
+      'paragraphs_editor_preview' => array(
+        'custom_settings' => TRUE,
+      ),
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
+    'extra_fields' => array(
+      'form' => array(),
+      'display' => array(),
+    ),
+  );
+  $export['field_bundle_settings_paragraphs_item__ding_paragraphs_single_material'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_paragraphs_item__ding_paragraphs_text';
   $strongarm->value = array(
     'view_modes' => array(
@@ -101,6 +124,30 @@ function ding_paragraphs_strongarm() {
     ),
   );
   $export['field_bundle_settings_paragraphs_item__ding_paragraphs_text_box'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'field_bundle_settings_ting_object__ting_object';
+  $strongarm->value = array(
+    'view_modes' => array(),
+    'extra_fields' => array(
+      'form' => array(),
+      'display' => array(
+        'ding_serendipity_info' => array(
+          'paragraphs_teaser' => array(
+            'weight' => '5',
+            'visible' => FALSE,
+          ),
+          'reference_teaser' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
+    ),
+  );
+  $export['field_bundle_settings_ting_object__ting_object'] = $strongarm;
 
   return $export;
 }

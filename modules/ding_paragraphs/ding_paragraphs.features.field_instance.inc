@@ -286,6 +286,85 @@ function ding_paragraphs_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_display'
+  $field_instances['paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_display'] = array(
+    'bundle' => 'ding_paragraphs_single_material',
+    'default_value' => array(
+      0 => array(
+        'value' => 'full_width',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'field_ding_paragraphs_display',
+    'label' => 'Show as',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 0,
+    ),
+  );
+
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_material'
+  $field_instances['paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_material'] = array(
+    'bundle' => 'ding_paragraphs_single_material',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'ting_reference',
+        'settings' => array(
+          'view_mode' => 'paragraphs_teaser',
+        ),
+        'type' => 'ting_reference_default',
+        'weight' => 0,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'field_ding_paragraphs_material',
+    'label' => 'Materiale',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'ting_reference',
+      'settings' => array(),
+      'type' => 'ting_reference_advanced',
+      'weight' => 1,
+    ),
+  );
+
   // Exported field_instance: 'paragraphs_item-ding_paragraphs_text-field_ding_paragraphs_text'
   $field_instances['paragraphs_item-ding_paragraphs_text-field_ding_paragraphs_text'] = array(
     'bundle' => 'ding_paragraphs_text',
@@ -411,6 +490,7 @@ function ding_paragraphs_field_default_field_instances() {
   t('Box text');
   t('Image');
   t('Image position');
+  t('Materiale');
   t('Show as');
   t('Text');
 

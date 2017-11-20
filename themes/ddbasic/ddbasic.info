@@ -105,7 +105,7 @@
 
   scripts[] = scripts/ting-object/ting-object.js
 
-  scripts[] = scripts/view.js
+;  scripts[] = scripts/view.js
 
   scripts[] = scripts/p2/p2-notification.js
   scripts[] = scripts/p2/p2-lists.js

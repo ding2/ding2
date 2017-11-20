@@ -31,6 +31,11 @@ function ding_paragraphs_paragraphs_info() {
       'bundle' => 'ding_paragraphs_image_and_text',
       'locked' => '1',
     ),
+    'ding_paragraphs_single_material' => array(
+      'name' => 'Enkelt materiale',
+      'bundle' => 'ding_paragraphs_single_material',
+      'locked' => '1',
+    ),
     'ding_paragraphs_text' => array(
       'name' => 'Text paragraph',
       'bundle' => 'ding_paragraphs_text',
