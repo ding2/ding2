@@ -62,7 +62,6 @@ function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $c
         break 2;
 
       case 'ting_collection':
-        // TODO BBS-SAL: Port.
         $object = opensearch_get_object($ting_object_id, TRUE);
         break 2;
     }
