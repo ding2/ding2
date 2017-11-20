@@ -326,7 +326,7 @@ function ting_theme() {
       'template' => 'ting_object',
       'render element' => 'elements',
       'file' => 'ting.theme.inc',
-    )
+    ),
   );
 }
 
