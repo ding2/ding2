@@ -238,7 +238,7 @@ class TingCollectionController implements DrupalEntityControllerInterface {
    * Implements DrupalEntityControllerInterface::load().
    */
   public function load($ids = array(), $conditions = array()) {
-    // TODO BBS-SAL: Remove when ting_get_object invocation is gone.
+    // TODO BBS-SAL: Remove when opensearch_get_object invocation is gone.
     module_load_include('client.inc', 'opensearch');
     $entities = array();
     $queried_entities = array();
@@ -248,19 +248,24 @@ class TingCollectionController implements DrupalEntityControllerInterface {
           $entities[$ding_entity_id] = $this->entityCache[$ding_entity_id];
         }
         else {
-          // TODO BBS-SAL - remove the reply property when port is done.
-          $reply = opensearch_get_object($ding_entity_id, TRUE);
-          $object = NULL;
+          // Use the search provider to load the collection.
           $object_collection = ding_provider_invoke('search', 'collection_load', $ding_entity_id);
-          if ($reply) {
-            $object = new TingCollection($ding_entity_id, $object_collection);
-            $object->reply = $reply;
-            $queried_entities[$ding_entity_id] = $object;
+          if (empty($object_collection)) {
+            continue;
           }
+          $object = new TingCollection($ding_entity_id, $object_collection);
+
+          // TODO BBS-SAL - Consider removing the reply property when the port
+          // is done.
+          // Support legacy open search.
+          $reply = opensearch_get_object($ding_entity_id, TRUE);
+          if ($reply) {
+            $object->reply = $reply;
+          }
+          $queried_entities[$ding_entity_id] = $object;
 
           if (isset($object)) {
             $entities[$ding_entity_id] = $object;
-            // $this->entityCache[$ding_entity_id] = $object;
           }
         }
       }
