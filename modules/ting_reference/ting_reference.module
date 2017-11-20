@@ -492,8 +492,6 @@ function ting_reference_object_id_validate($element, &$form_state, $form) {
 
   // Don't bother validating empty fields.
   if (!empty($ting_object_id)) {
-    module_load_include('client.inc', 'ting');
-
     // If the colon was URL-encoded, decode it - and trim whitespace from
     // both ends of the input string.
     $ting_object_id = trim(str_replace('%3A', ':', $ting_object_id));
@@ -598,9 +596,6 @@ function ting_reference_create_relation($entity_type, $entity_id, $tid) {
  */
 function _ting_reference_autocomplete($string) {
   $matches = array();
-
-  // Load ting client.
-  module_load_include('client.inc', 'ting');
 
   // Only use auto-complete if more that 3 chars have been written.
   if ($string && (strlen($string) > 3)) {

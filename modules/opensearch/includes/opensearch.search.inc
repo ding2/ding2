@@ -19,21 +19,19 @@ use Ting\Search\TingSearchSort;
  */
 function opensearch_search_material_types() {
   // Ensure we have ting client.
-  module_load_include('inc', 'ting', 'ting.client');
+  module_load_include('inc', 'opensearch', 'opensearch.client');
 
   // Get a list of types by executing a null query and look at the facets
   // result.
   $options = [
-    // TODO BBS-SAL: Set the facet via SAL.
     'facets' => ['facet.type'],
     'numFacets' => 99,
     'reply_only' => TRUE,
     // Following configuration breaks the search, commented out for now.
     // 'sort' => 'random',
   ];
-  module_load_include('client.inc', 'ting');
-  // TODO BBS-SAL: search via the abstraction-layer.
-  $result = ting_do_search("*", 0, 0, $options);
+  module_load_include('client.inc', 'opensearch');
+  $result = opensearch_do_search("*", 0, 0, $options);
 
   $types = [];
   foreach ($result->facets['facet.type']->terms as $term => $count) {
@@ -53,7 +51,7 @@ function opensearch_search_material_types() {
  *   An array of loaded objects.
  */
 function opensearch_search_object_load(array $ids) {
-  $objects = ting_get_objects($ids);
+  $objects = opensearch_get_objects($ids);
   foreach ($objects as $id => $object) {
     if (!empty($object)) {
       $objects[$id] = new OpenSearchTingObject($object);
@@ -72,7 +70,7 @@ function opensearch_search_object_load(array $ids) {
  *   The collection.
  */
 function opensearch_search_collection_load($id) {
-  $reply = ting_get_object($id, TRUE);
+  $reply = opensearch_get_object($id, TRUE);
   return new OpenSearchTingObjectCollection($reply);
 }
 
@@ -90,8 +88,6 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   // Should split it up - consider doing some OO "Handlers". Alternativly do a
   // OpenSearchTingSearchQuery, create a TingSearchQueryInterface and handle its
   // construction via new provider-function.
-  // TODO BBS-SAL: At some point we should move the entire ting-client, and
-  // ting.client.inc from the thing-module to the opensearch module.
   $query_parts = [];
   // Start off with an empty query, then attempt to construct it from what we
   // can find in $ting_query.
@@ -181,8 +177,8 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   $options['allObjects'] = $ting_query->getPopulateCollections();
 
   // Ensure we have ting client.
-  module_load_include('inc', 'ting', 'ting.client');
-  $result = new OpenSearchTingSearchResult(ting_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options), $ting_query);
+  module_load_include('inc', 'opensearch', 'opensearch.client');
+  $result = new OpenSearchTingSearchResult(opensearch_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options), $ting_query);
 
   // Handle the situation where opensearch sets a default sort.
   if (empty($result->getSearchRequest()->getSorts()) && !empty($result->openSearchResult->sortUsed)) {
@@ -557,8 +553,8 @@ function opensearch_search_object_ids($ids) {
       $options['collectionType'] = 'manifestation';
 
       // Ensure we have ting client.
-      module_load_include('inc', 'ting', 'ting.client');
-      $res = ting_do_search($query, 1, count($chunk), $options);
+      module_load_include('inc', 'opensearch', 'opensearch.client');
+      $res = opensearch_do_search($query, 1, count($chunk), $options);
 
       // Sometimes the well will be unreachable or not even one of the ids in
       // chunk was searchable. In any case, this protects against a notice.
@@ -593,8 +589,8 @@ function opensearch_search_object_ids($ids) {
     return $translated_ids;
   }
   elseif (is_numeric($ids)) {
-    module_load_include('client.inc', 'ting');
-    $obj = ting_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
+    module_load_include('client.inc', 'opensearch');
+    $obj = opensearch_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
     $entity_id = ($obj) ? key($obj->collections) : '870970-basis:' . $ids;
 
     return $entity_id;

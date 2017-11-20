@@ -41,7 +41,7 @@ function ting_admin_ranking_settings($form, &$form_state) {
     '#after_build' => array('ting_admin_ranking_form_after_build'),
   );
 
-  // TODO BBS-SAL: Move to opensearch
+  // TODO BBS-SAL: Move to opensearch.
   $form['ting_ranking_custom'] = array(
     '#title' => t('Enable custom ranking'),
     '#type' => 'checkbox',
@@ -314,13 +314,13 @@ function _ting_boost_field_sort($a, $b) {
  */
 function ting_admin_online_types_settings($form_state) {
   form_load_include($form_state, 'inc', 'ting', 'ting.admin');
-  form_load_include($form_state, 'inc', 'ting', 'ting.client');
+
   $form = array();
 
   $form['update'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Update from datawell'),
-    '#description' => t('Update the list of known types by asking the datawell for all types.'),
+    '#title' => t('Update from search provider'),
+    '#description' => t('Update the list of known types by asking the search provider for all types.'),
   );
 
   $form['update']['update'] = array(
@@ -406,8 +406,8 @@ function ting_admin_reservable_settings($form_state) {
 
   $form['update'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Update from datawell'),
-    '#description' => t('Update the lists of known types and sources by asking the datawell for all types and sorces.'),
+    '#title' => t('Update from search provider'),
+    '#description' => t('Update the lists of known types and sources by asking the search provider for all types and sorces.'),
   );
 
   $form['update']['update'] = array(

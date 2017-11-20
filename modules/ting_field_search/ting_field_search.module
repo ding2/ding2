@@ -226,9 +226,9 @@ function _ting_field_search_append_cql($request, $cql) {
  * to add a modifier, the sorting of results in ting_cache will get mixed up if
  * a profile is using another default sort than ting_search.
  *
- * @see ting_search_conditions_callback()
- * @see ting_search_search_execute()
- * @see ting_do_search()
+ * @see opensearch_search_conditions_callback()
+ * @see opensearch_search_search_execute()
+ * @see opensearch_do_search()
  */
 function _ting_field_search_detect_sort($profile) {
   $sort = FALSE;

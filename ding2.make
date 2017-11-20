@@ -493,7 +493,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][download][tag] = "7.x-4.0.1"
-libraries[ting-client][destination] = "modules/ting/lib"
+libraries[ting-client][destination] = "modules/opensearch/lib"
 
 libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"

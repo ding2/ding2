@@ -36,26 +36,26 @@ function ting_drush_cache_clear(&$types) {
  * Clear all ting objects from the ting cache table.
  */
 function ting_object_cache_clear() {
-  cache_clear_all(TING_CACHE_TING_OBJECT, 'cache_ting', TRUE);
+  cache_clear_all(OPENSEARCH_CACHE_TING_OBJECT, 'cache_ting', TRUE);
 }
 
 /**
  * Clear all ting objects fulltext from the ting cache table.
  */
 function ting_object_fulltext_cache_clear() {
-  cache_clear_all(TING_CACHE_TING_OBJECT_FULLTEXT, 'cache_ting', TRUE);
+  cache_clear_all(OPENSEARCH_CACHE_TING_OBJECT_FULLTEXT, 'cache_ting', TRUE);
 }
 
 /**
  * Clear all ting collections from the ting cache table.
  */
 function ting_collection_cache_clear() {
-  cache_clear_all(TING_CACHE_COLLECTION, 'cache_ting', TRUE);
+  cache_clear_all(OPENSEARCH_CACHE_COLLECTION, 'cache_ting', TRUE);
 }
 
 /**
  * Clear all ting reply from the ting cache table.
  */
 function ting_reply_cache_clear() {
-  cache_clear_all(TING_CACHE_REPLY, 'cache_ting', TRUE);
+  cache_clear_all(OPENSEARCH_CACHE_REPLY, 'cache_ting', TRUE);
 }
