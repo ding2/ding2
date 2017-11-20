@@ -258,7 +258,7 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
     $request->setSort($options['sort']);
   }
   else{
-    $sort = variable_get('ting_sort_default', 'rank_frequency');
+    $sort = variable_get('opensearch_sort_default', 'rank_frequency');
     $request->setSort($sort);
   }
 
@@ -274,9 +274,9 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
   }
 
   // Apply custom ranking if enabled.
-  if (variable_get('ting_ranking_custom', FALSE) && variable_get('ting_ranking_fields', array()) && !isset($options['sort'])) {
+  if (variable_get('opensearch_ranking_custom', FALSE) && variable_get('opensearch_ranking_fields', array()) && !isset($options['sort'])) {
     $fields = array();
-    foreach (variable_get('ting_ranking_fields', array()) as $field) {
+    foreach (variable_get('opensearch_ranking_fields', array()) as $field) {
       $fields[] = array(
         'fieldName' => $field['field_name'],
         'fieldType' => $field['field_type'],
@@ -302,7 +302,7 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
     }
   }
   // Apply custom boosts if any.
-  $boosts = variable_get('ting_boost_fields', array());
+  $boosts = variable_get('opensearch_boost_fields', array());
 
   if ($boosts) {
     $uboosts = array();

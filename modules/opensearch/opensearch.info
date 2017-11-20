@@ -7,3 +7,4 @@ project = opensearch
 dependencies[] = ding_provider
 dependencies[] = xautoload
 files[] = lib/ting-client/**
+configure = admin/config/opensearch
