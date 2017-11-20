@@ -89,6 +89,14 @@ function opensearch_menu() {
     'file path' => drupal_get_path('module', 'system'),
   );
 
+  $items['admin/config/opensearch/settings'] = array(
+    'title' => 'Provider settings',
+    'description' => 'Base settings for the Opensearch integration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('opensearch_admin_settings'),
+    'access arguments' => array('administer opensearch settings'),
+  );
+
   $items['admin/config/opensearch/ranking'] = array(
     'title' => 'Search result ranking',
     'description' => 'Provides settings for how search results are ranked.',
