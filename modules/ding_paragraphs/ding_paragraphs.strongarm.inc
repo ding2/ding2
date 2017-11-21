@@ -136,8 +136,8 @@ function ding_paragraphs_strongarm() {
       'display' => array(
         'ding_serendipity_info' => array(
           'paragraphs_teaser' => array(
-            'weight' => '5',
-            'visible' => FALSE,
+            'weight' => '0',
+            'visible' => TRUE,
           ),
           'reference_teaser' => array(
             'weight' => '0',
