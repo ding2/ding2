@@ -13,13 +13,37 @@
   &.half_left {
     float: left;
     margin-right: 5%;
-    width: 50%;
+    width: getColumn(6);
+
+    @include media($notebook) {
+      width: 100%;
+    }
+
+    @include media($tablet) {
+      width: 100%;
+    }
+
+    @include media($mobile) {
+      width: 100%;
+    }
   }
 
   &.half_right {
     float: right;
     margin-left: 5%;
-    width: 50%;
+    width: getColumn(6);
+
+    @include media($notebook) {
+      width: 100%;
+    }
+
+    @include media($tablet) {
+      width: 100%;
+    }
+
+    @include media($mobile) {
+      width: 100%;
+    }
   }
 
   &.one_third_left {
@@ -101,8 +125,8 @@
       margin-right: 2%;
       flex: 0 1 auto;
 
-      @include media($mobile) {
-        max-width: 15%;
+      .ting-cover > img {
+        min-width: 50px;
       }
     }
 
@@ -116,7 +140,25 @@
       }
 
       .field-name-ting-title h2 {
+
         margin: 0;
+        -ms-word-break: break-all;
+        word-break: break-all;
+
+        /* Non standard for WebKit */
+        word-break: break-word;
+
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        hyphens: auto;
+
+        a {
+          color: $color-text;
+
+          &:hover {
+            color: $color-text-link;
+          }
+        }
       }
 
       .field-name-ting-abstract {
