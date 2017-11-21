@@ -217,7 +217,9 @@ projects[menu_block][subdir] = "contrib"
 projects[menu_block][version] = "2.7"
 ; Add support for features export of blocks
 ; https://www.drupal.org/node/693302
-projects[menu_block][patch][0] = "https://www.drupal.org/files/issues/menu_block-2x-ctools_exportables-693302-163.patch"
+; The patch here add a database table, which is already created in a previous hook_update (from a previous patch).
+; We have to modify it for our use. 
+projects[menu_block][patch][0] = "patches/menu_block-2x-ctools_exportables-693302-163.ding2.patch"
 
 projects[menu_breadcrumb][subdir] = "contrib"
 projects[menu_breadcrumb][version] = "1.5"
