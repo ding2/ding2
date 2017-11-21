@@ -17,3 +17,16 @@ function ding_paragraphs_preprocess_node(&$variables) {
     drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js', 'file');
   }
 }
+
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function ding_paragraphs_entity_info_alter(&$entity_info) {
+  $entity_info['ting_object']['view modes'] += array(
+    'paragraphs_teaser' => array(
+      'label' => t('Paragraphs teaser'),
+      'custom settings' => TRUE,
+    ),
+  );
+}

@@ -8,6 +8,7 @@
  * Implements hook_ctools_plugin_api().
  */
 function ding_paragraphs_ctools_plugin_api($module = NULL, $api = NULL) {
+  $a =2;
   if ($module == "field_group" && $api == "field_group") {
     return array("version" => "1");
   }
