@@ -55,15 +55,19 @@
       display: none;
     }
 
-    .ting-object .ting-object-left {
-      float: left;
-      margin-bottom: 10px;
-      width: 100%;
-    }
+    .ting-object {
+      display: block;
 
-    .ting-object .ting-object-right {
-      float: left;
-      width: 100%;
+      .ting-object-left {
+        float: left;
+        margin-bottom: 10px;
+        width: 100%;
+      }
+
+      .ting-object-right {
+        float: left;
+        width: 100%;
+      }
     }
   }
 
