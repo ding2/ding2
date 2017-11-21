@@ -99,21 +99,17 @@
     
     .ting-object-left {
       margin-right: 2%;
-      flex: 1 1 30%;
+      flex: 0 1 auto;
 
       @include media($mobile) {
-        flex: 1 1 15%;;
+        max-width: 15%;
       }
     }
 
     .ting-object-right {
       display: flex;
       flex-wrap: wrap;
-      flex: 1 1 65%;
-
-      @include media($mobile) {
-        flex: 1 1 82%;
-      }
+      flex: 1 1 auto;
 
       .field-name-ting-type {
         display: none;
