@@ -95,24 +95,24 @@
   }
 
   .ting-object {
+    display: flex;
+    
     .ting-object-left {
-      float: left;
       margin-right: 2%;
-      width: 30%;
+      flex: 1 1 30%;
 
       @include media($mobile) {
-        width: 15%;
+        flex: 1 1 15%;;
       }
     }
 
     .ting-object-right {
       display: flex;
       flex-wrap: wrap;
-      float: right;
-      width: 65%;
+      flex: 1 1 65%;
 
       @include media($mobile) {
-        width: 82%;
+        flex: 1 1 82%;
       }
 
       .field-name-ting-type {
@@ -128,6 +128,7 @@
         max-width: 100%;
       }
 
+      .button-see-online,
       .reserve-button {
         order: 10;
       }
