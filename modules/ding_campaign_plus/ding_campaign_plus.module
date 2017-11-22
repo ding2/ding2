@@ -153,6 +153,8 @@ function ding_campaign_plus_preprocess_node(&$variables, $hook) {
         break;
     }
 
+    // Add webtrends campaign tracking id.
+    $variables['WT_mc_id'] = $wrapper->field_ding_campaign_plus_track->value();
   }
 }
 
