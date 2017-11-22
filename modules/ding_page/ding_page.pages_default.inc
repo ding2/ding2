@@ -248,6 +248,36 @@ function ding_page_default_page_manager_handlers() {
     $display->content['new-0c1b010b-aad2-4a5e-badd-f2fe5334a80c'] = $pane;
     $display->panels['left_sidebar'][2] = 'new-0c1b010b-aad2-4a5e-badd-f2fe5334a80c';
     $pane = new stdClass();
+    $pane->pid = 'new-c4827866-8897-43a4-805e-44937ffeb779';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'style' => 'ribbon',
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+        1 => 'argument_entity_id:node_1',
+        2 => 'empty',
+        3 => 'relationship_terms_from_node_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = 'c4827866-8897-43a4-805e-44937ffeb779';
+    $display->content['new-c4827866-8897-43a4-805e-44937ffeb779'] = $pane;
+    $display->panels['left_sidebar'][4] = 'new-c4827866-8897-43a4-805e-44937ffeb779';
+    $pane = new stdClass();
     $pane->pid = 'new-0d732c8e-6a2e-4993-ba6f-7cb2025bada6';
     $pane->panel = 'left_sidebar';
     $pane->type = 'block';
@@ -264,11 +294,11 @@ function ding_page_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 5;
     $pane->locks = '';
     $pane->uuid = '0d732c8e-6a2e-4993-ba6f-7cb2025bada6';
     $display->content['new-0d732c8e-6a2e-4993-ba6f-7cb2025bada6'] = $pane;
-    $display->panels['left_sidebar'][3] = 'new-0d732c8e-6a2e-4993-ba6f-7cb2025bada6';
+    $display->panels['left_sidebar'][5] = 'new-0d732c8e-6a2e-4993-ba6f-7cb2025bada6';
     $pane = new stdClass();
     $pane->pid = 'new-33f78b6a-3147-455f-b437-70261fe3426c';
     $pane->panel = 'main_content';

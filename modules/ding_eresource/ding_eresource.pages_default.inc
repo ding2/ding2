@@ -173,6 +173,7 @@ function ding_eresource_default_page_manager_handlers() {
     $pane->uuid = 'fb3893c4-f99a-47a1-989f-46b5483382fd';
     $display->content['new-fb3893c4-f99a-47a1-989f-46b5483382fd'] = $pane;
     $display->panels['attachment_1_1'][2] = 'new-fb3893c4-f99a-47a1-989f-46b5483382fd';
+
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-9585f181-cf01-4270-a7fd-b981246d6e2c';
   $handler->conf['display'] = $display;

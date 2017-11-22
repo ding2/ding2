@@ -247,6 +247,36 @@ function ding_event_default_page_manager_handlers() {
     $display->content['new-f5e3797c-577f-4522-a7e3-d3024f3fe922'] = $pane;
     $display->panels['attachment_1_1'][2] = 'new-f5e3797c-577f-4522-a7e3-d3024f3fe922';
     $pane = new stdClass();
+    $pane->pid = 'new-7b4fb590-cbbc-42b7-86e9-5ed4df806d88';
+    $pane->panel = 'content';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'style' => 'ribbon',
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+        1 => 'argument_entity_id:node_1',
+        2 => 'empty',
+        3 => 'relationship_terms_from_node_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = '7b4fb590-cbbc-42b7-86e9-5ed4df806d88';
+    $display->content['new-7b4fb590-cbbc-42b7-86e9-5ed4df806d88'] = $pane;
+    $display->panels['content'][3] = 'new-7b4fb590-cbbc-42b7-86e9-5ed4df806d88';
+    $pane = new stdClass();
     $pane->pid = 'new-8fa01e13-dc8b-4ce2-b791-60e54159e8d7';
     $pane->panel = 'attachment_1_1';
     $pane->type = 'views_panes';
@@ -264,11 +294,15 @@ function ding_event_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 4;
     $pane->locks = array();
     $pane->uuid = '8fa01e13-dc8b-4ce2-b791-60e54159e8d7';
     $display->content['new-8fa01e13-dc8b-4ce2-b791-60e54159e8d7'] = $pane;
+<<<<<<< HEAD
     $display->panels['attachment_1_1'][3] = 'new-8fa01e13-dc8b-4ce2-b791-60e54159e8d7';
+=======
+    $display->panels['content'][4] = 'new-8fa01e13-dc8b-4ce2-b791-60e54159e8d7';
+>>>>>>> 2177: Updated panels with campign plus panes
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
