@@ -180,6 +180,10 @@ projects[l10n_update][type] = "module"
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "1.0"
 
+projects[l10n_client][type] = "module"
+projects[l10n_client][subdir] = "contrib"
+projects[l10n_client][version] = "1.3"
+
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.11"
 
