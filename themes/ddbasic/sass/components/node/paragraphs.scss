@@ -97,6 +97,11 @@
 
   }
 
+  h2 {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
   p:last-child {
     margin: 0;
   }
@@ -127,11 +132,11 @@
   }
 
   .ting-object {
-    display: flex;
+    @include display(flex);
     
     .ting-object-left {
       margin-right: 2%;
-      flex: 0 1 auto;
+      @include flex(0 1 auto);
 
       .ting-cover > img {
         min-width: 50px;
@@ -139,16 +144,15 @@
     }
 
     .ting-object-right {
-      display: flex;
-      flex-wrap: wrap;
-      flex: 1 1 auto;
+      @include display(flex);
+      @include flex-wrap(wrap);
+      @include flex(1 1 auto);
 
       .field-name-ting-type {
         display: none;
       }
 
       .field-name-ting-title h2 {
-
         margin: 0;
         -ms-word-break: break-all;
         word-break: break-all;
@@ -176,7 +180,7 @@
 
       .button-see-online,
       .reserve-button {
-        order: 10;
+        @include order(10);
       }
 
       .action-button {
