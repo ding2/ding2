@@ -387,14 +387,15 @@ function ding_loan_loans_form_submit($form, &$form_state) {
 
   $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
   foreach ($result as $id => $status) {
+    $item = $form_state['values']['items'][$id];
     // Try to get entity for the item.
     /** @var \TingEntity $entity */
-    $entity = $form_state['values']['items'][$id]->entity;
+    $entity = $item->entity;
 
     if (!is_object($entity) || NULL === $entity->getTingObject()) {
       // Build pseudo entity based on provider information.
       $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
-      $title = $entity->getTitle() ? $entity->getTitle() : $item->display_name;
+      $title = $entity->getTitle() ?: $item->display_name;
     }
     else {
       // Create title from entity object.
