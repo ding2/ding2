@@ -33,14 +33,28 @@ function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel
     'library' => isset($context[1]->data) ? $context[1]->data : NULL,
     'search_term' => isset($context[2]->data) ? $context[2]->data : NULL,
     'taxonomy_term' => isset($context[3]->data) ? $context[3]->data : NULL,
+    'path' => (object) array(
+      'raw' => arg(),
+      'path' => drupal_get_path_alias($_GET['q']),
+    )
   );
-
   $style = !empty($conf['style']) ? $conf['style'] : 'ribbon';
 
-  $campaigns = ding_campaign_plus_get_matches($context_data, $style);
+  // Check cache to see if campaign trigger has been calculated for this
+  // context.
+  $cid = _ding_campaign_plus_cache_id($context_data, $style);
+  $cache = cache_get($cid);
+  if (isset($cache->data) && REQUEST_TIME < $cache->expire) {
+    $campaigns = $cache->data;
+  }
+  else {
+    $campaigns = ding_campaign_plus_get_matches($context_data, $style);
+    cache_set($cid, $campaigns, 'cache', REQUEST_TIME + variable_get('ding_campaign_plus_expire', 900));
+  }
 
   $block->content = '';
   if (!empty($campaigns)) {
+    // Use the first campaign only.
     $campaign = node_load(reset($campaigns));
     if ($campaign) {
       $block->content = node_view($campaign, 'full');

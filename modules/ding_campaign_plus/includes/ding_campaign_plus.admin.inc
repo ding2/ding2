@@ -27,6 +27,14 @@ function ding_campaign_plus_admin_settings($form, $form_state) {
     $form['ding_campaign_plus_weight']['table'][$key] = ding_campaign_plus_admin_settings_form_add($option['title'], $option['weight']);
   }
 
+  $form['ding_campaign_plus_expire'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Campaign cache expire'),
+    '#description' => t('Campaign selection is cached to boost performance. This is the number of seconds before campaigns should be reselected base on triggers for a give context.'),
+    '#default_value' => variable_get('ding_campaign_plus_expire', 900),
+    '#size' => 8,
+  );
+
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Save Changes'));
 

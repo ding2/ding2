@@ -153,7 +153,7 @@ function ding_campaign_plus_preprocess_node(&$variables, $hook) {
         break;
     }
 
-    // Add webtrends campaign tracking id.
+    // Add campaign tracking id.
     $variables['WT_mc_id'] = $wrapper->field_ding_campaign_plus_track->value();
   }
 }
@@ -170,12 +170,6 @@ function ding_campaign_plus_preprocess_node(&$variables, $hook) {
  *   The ID's of the campaigns trigger by the context.
  */
 function ding_campaign_plus_get_matches($contexts, $style) {
-  // Add path context.
-  $contexts['path'] = (object) array(
-    'raw' => arg(),
-    'path' => drupal_get_path_alias($_GET['q']),
-  );
-
   // Remove empty contexts here an not in each hook below.
   foreach ($contexts as $key => $context) {
     if (is_null($context)) {
@@ -224,4 +218,43 @@ function ding_campaign_plus_add_campaign(&$campaigns, $nids, $type) {
   foreach ($nids as $nid) {
     $campaigns[$nid] = isset($campaigns[$nid]) ? $campaigns[$nid] + $rule_weights[$type] : $rule_weights[$type];
   }
+}
+
+/**
+ * Build cache id based on the current context.
+ *
+ * @param $contexts
+ *   Context triggers for the current page.
+ * @param $style
+ *   The style of campaign to display.
+ *
+ * @return string
+ *   Cache id.
+ */
+function _ding_campaign_plus_cache_id($contexts, $style) {
+  $cid = $style;
+  foreach ($contexts as $type => $context) {
+    if (is_null($context)) {
+      continue;
+    }
+
+    switch ($type) {
+      case 'library':
+      case 'page':
+      case 'taxonomy_term':
+        $cid .= $context->uuid;
+        break;
+
+      case 'search_term':
+        $conditions = ting_search_conditions_callback($context);
+        $cid .= $context . '|' . serialize($conditions);
+        break;
+
+      case 'path';
+        $cid .= $context->path;
+        break;
+    }
+  }
+
+  return sha1($cid);
 }

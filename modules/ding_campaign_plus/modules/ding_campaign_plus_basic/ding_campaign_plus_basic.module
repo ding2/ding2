@@ -425,9 +425,14 @@ function _ding_campaign_plus_basic_get_types() {
  *   The campaign id's that was found.
  */
 function _ding_campaign_plus_basic_match($type, $value) {
+  // Always check the default "page" rule as well as the content type given.
+  $or = db_or()
+    ->condition('type', 'page')
+    ->condition('type', $type);
+
   $nids = db_select('ding_campaign_plus_basic', 'dcp')
     ->fields('dcp', array('nid'))
-    ->condition('type', $type)
+    ->condition($or)
     ->condition('value', $value)
     ->execute()
     ->fetchCol();
