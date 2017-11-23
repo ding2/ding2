@@ -47,6 +47,10 @@
       padding: 50px 30px;
       color: $white;
       z-index: 2;
+      @include media($mobile) {
+        @include span-columns(12);
+        min-height: auto;
+      }
     }
     &.ding-campaign-medium-width {
       .ding-campaign-text {
@@ -70,6 +74,11 @@
       float: right;
       padding: 40px 30px 40px 0;
       min-height: 380px;
+      @include media($mobile) {
+        @include span-columns(12);
+        padding: 40px 30px;
+        min-height: auto;
+      }
     }
     .ding-campaign-image {
       @include span-columns(6);
@@ -79,6 +88,11 @@
       height: 100%;
       background-size: cover;
       background-position: center center;
+      @include media($mobile) {
+        @include span-columns(12);
+        position: static;
+        height: 230px;
+      }
     }
     .no-touch & {
       &:hover {
@@ -89,17 +103,20 @@
   // text only layout
   &.text {
     background: $color-primary;
-
     .ding-campaign-text {
       @include span-columns(12);
       padding: 40px 30px;
-
       .ding-campaign-headline {
         @include span-columns(8);
+        @include media($mobile) {
+          @include span-columns(12);
+        }
       }
-
       .ding-campaign-description {
         @include span-columns(6);
+        @include media($mobile) {
+          @include span-columns(12);
+        }
       }
     }
     // if text-only layout in medium-width panel
