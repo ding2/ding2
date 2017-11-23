@@ -138,16 +138,28 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
     }
   }
   if ($default !== -1) {
+    // Remove the -1 category.
+    unset($categories[-1]);
+
+    // Close notice.
+    $notice = '<span class="opening-hours-table-notice">' . t('Closed') . '</span>';
+
     // Default category from found, so move data around.
     foreach ($structured as &$day) {
       if (array_key_exists(-1, $day['cols'])) {
         isset($day['cols'][$default]) ? $day['cols'][$default] += $day['cols'][-1] : $day['cols'][$default] = $day['cols'][-1];
         unset($day['cols'][-1]);
       }
-    }
 
-    // Also remove the -1 category.
-    unset($categories[-1]);
+      // Fill in closed in empty fields.
+      if (count($day['cols']) !== count($categories)) {
+        foreach ($categories as $key => $category) {
+          if (!isset($day['cols'][$key])) {
+            $day['cols'][$key] = $notice;
+          }
+        }
+      }
+    }
   }
 
 
