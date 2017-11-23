@@ -45,17 +45,30 @@ function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel
   $cid = _ding_campaign_plus_cache_id($context_data, $style);
   $cache = cache_get($cid);
   if (isset($cache->data) && REQUEST_TIME < $cache->expire) {
-    $campaigns = $cache->data;
+    $campaign_nids = $cache->data;
   }
   else {
-    $campaigns = ding_campaign_plus_get_matches($context_data, $style);
-    cache_set($cid, $campaigns, 'cache', REQUEST_TIME + variable_get('ding_campaign_plus_expire', 900));
+    $campaign_nids = ding_campaign_plus_get_matches($context_data, $style);
+    cache_set($cid, $campaign_nids, 'cache', REQUEST_TIME + variable_get('ding_campaign_plus_expire', 900));
   }
 
   $block->content = '';
-  if (!empty($campaigns)) {
-    // Use the first campaign only.
-    $campaign = node_load(reset($campaigns));
+  if (!empty($campaign_nids)) {
+    $campaign = FALSE;
+    foreach ($campaign_nids as $nid) {
+      // Use the first campaign only.
+      $campaign = node_load($nid);
+
+      // Check if campaign matches style.
+      if ($campaign->field_ding_campaign_plus_style[LANGUAGE_NONE][0]['value'] == $style) {
+        // Campaign found that matches style.
+        break;
+      }
+      else {
+        $campaign = FALSE;
+      }
+    }
+
     if ($campaign) {
       $block->content = node_view($campaign, 'full');
     }

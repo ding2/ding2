@@ -168,6 +168,58 @@ function ding_campaign_plus_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ding_campaign_plus-field_ding_campaign_plus_style'
+  $field_instances['node-ding_campaign_plus-field_ding_campaign_plus_style'] = array(
+    'bundle' => 'ding_campaign_plus',
+    'default_value' => array(
+      0 => array(
+        'value' => 'ribbon',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ding_campaign_plus_style',
+    'label' => 'Style',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 11,
+    ),
+  );
+
   // Exported field_instance: 'node-ding_campaign_plus-field_ding_campaign_plus_text'
   $field_instances['node-ding_campaign_plus-field_ding_campaign_plus_text'] = array(
     'bundle' => 'ding_campaign_plus',
@@ -331,6 +383,7 @@ function ding_campaign_plus_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Image');
   t('Link');
+  t('Style');
   t('Text');
   t('Tracking tags');
   t('Type');

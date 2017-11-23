@@ -27,6 +27,7 @@ function ding_campaign_plus_field_group_info() {
       1 => 'field_ding_campaign_plus_link',
       2 => 'field_ding_campaign_plus_text',
       3 => 'field_ding_campaign_plus_type',
+      4 => 'field_ding_campaign_plus_style',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
