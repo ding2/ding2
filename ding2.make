@@ -63,7 +63,7 @@ projects[dynamic_background][version] = "2.0-rc4"
 projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/create_file_path-2410241-1.patch"
 
 projects[eck][subdir] = "contrib"
-projects[eck][version] = "2.0-rc7"
+projects[eck][version] = "2.0-rc9"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
