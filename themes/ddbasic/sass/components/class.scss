@@ -744,6 +744,9 @@ ul.tabs.primary {
     display: block;
     float: left;
     margin-right: 16px;
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
 

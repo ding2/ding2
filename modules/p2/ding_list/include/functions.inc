@@ -825,6 +825,11 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
     return $access[$access_key];
   }
 
+  if (user_access('administer all lists')) {
+    $access[$access_key] = TRUE;
+    return $access[$access_key];
+  }
+
   // If used as menu access callback the list have to be loaded.
   if (is_numeric($list)) {
     $list = ding_list_get_list($list);
