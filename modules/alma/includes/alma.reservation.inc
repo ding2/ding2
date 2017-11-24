@@ -301,6 +301,13 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
   if (is_int($result)) {
     // Reset session cache.
     alma_reservation_clear_cache();
+
+    // Force reload the holdings cache for reserved item.
+    // TODO: Implement in a more fashionable way.
+    // @see alma_availability_holdings()
+    $cid = md5(serialize(array($id)));
+    cache_clear_all($cid, 'cache');
+
     return array(
       'branch' => $branch,
       'queue_number' => $result,
@@ -369,6 +376,12 @@ function alma_reservation_delete($account, $id) {
 
   alma_reservation_clear_cache();
   if (isset($reservations[(string) $id])) {
+    // Force reload the holdings cache for reserved item.
+    // TODO: Implement in a more fashionable way.
+    // @see alma_availability_holdings()
+    $cid = md5(serialize(array($reservations[(string) $id]['record_id'])));
+    cache_clear_all($cid, 'cache');
+
     return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[(string) $id]);
   }
 }
