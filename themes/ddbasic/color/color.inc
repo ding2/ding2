@@ -20,6 +20,7 @@ $info = array(
     'text_on_primary' => t('Text on primary'),
     'text_on_secondary' => t('Text on secondary'),
     'topbar' => t('Topbar'),
+    'extended_search_pane' => t('Extended search pane'),
   ),
   // Pre-defined color schemes.
   'schemes' => array(
@@ -37,6 +38,7 @@ $info = array(
         'text_on_primary' => '#fffff1',
         'text_on_secondary' => '#fffff2',
         'topbar' => '#f1f2f3',
+        'extended_search_pane' => '#262625',
       ),
     ),
   ),
