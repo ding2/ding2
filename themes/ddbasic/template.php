@@ -443,12 +443,10 @@ function ddbasic_preprocess_menu_link(&$variables) {
         }
         break;
 
-      case 'view':
-        if ($path[0] === 'user') {
-          $notifications = ding_message_get_message_count();
-          if (!empty($notifications)) {
-            $variables['element']['#title'] .= ' <span class="menu-item-count">' . $notifications . '</span>';
-          }
+      case 'my-library':
+        $notifications = ding_message_get_message_count();
+        if (!empty($notifications)) {
+          $variables['element']['#title'] .= ' <span class="menu-item-count">' . $notifications . '</span>';
         }
         break;
     }
