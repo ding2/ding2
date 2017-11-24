@@ -229,7 +229,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'label' => 'hidden',
         'module' => 'file',
         'settings' => array(),
-        'type' => 'file_url_plain',
+        'type' => 'file_default',
         'weight' => 14,
       ),
       'search_result' => array(
