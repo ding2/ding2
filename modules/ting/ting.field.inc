@@ -356,7 +356,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         if ($display['settings']['link_type'] != 'none' && !isset($entity->is_available)) {
           $link = TRUE;
         }
-
+        
         // Check if element should be prefixed with type.
         if ($display['settings']['prefix_type'] == 'yes') {
           $collection = ting_collection_load($entity->id);
@@ -364,18 +364,20 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           if (count($collection->types) > 1) {
             $ting_type = t('Material collection');
           }
-          $collection_entity_title = NULL;
-          foreach ($collection->entities as $collection_entity) {
-            if ($collection_entity_title == NULL) {
-              $collection_entity_title = $collection_entity->title;
-            }
-            elseif ($collection_entity_title != $collection_entity->title) {
-              // Replace title with the more generic collection title.
-              $title = $collection->title;
-              $ting_type = t('Material collection');
-              break;
-            }
+          
+          $collection_titles = array_map(
+            function($collection_entity) {
+              return $collection_entity->title;
+            },
+            $collection->entities
+          );
+          // If a collection has items of the same type?
+          // But with different titles, then use the generic collection title.
+          if (count(array_unique($collection_titles) > 1)) {
+            $title = $collection->title;
+            $ting_type = t('Material collection');
           }
+          
           // @todo: this could be moved into a theme function to be more
           // generic.
           $prefix = '<span class="search-result--heading-type js-toggle-info-container">' . $ting_type . ':</span>';
