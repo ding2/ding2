@@ -838,7 +838,7 @@ class TingObject implements TingObjectInterface {
    */
   public function __get($name) {
     // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Getting '$name'", WATCHDOG_DEBUG);
+    watchdog('TingPseudoObject', "Getting '$name'", [], WATCHDOG_DEBUG);
 
     // Handle local properties.
     if (in_array($name, $this->localProperties)) {
@@ -853,7 +853,7 @@ class TingObject implements TingObjectInterface {
    */
   public function __set($name, $value) {
     // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Setting '$name'", WATCHDOG_DEBUG);
+    watchdog('TingPseudoObject', "Setting '$name'", [], WATCHDOG_DEBUG);
 
     if (in_array($name, $this->localProperties)) {
       $this->$name = $value;
@@ -865,7 +865,7 @@ class TingObject implements TingObjectInterface {
    */
   public function __isset($name) {
     // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Is '$name' set?", WATCHDOG_DEBUG);
+    watchdog('TingPseudoObject', "Is '$name' set?", [], WATCHDOG_DEBUG);
     return isset($this->openSearchObject->$name);
   }
 
@@ -879,6 +879,6 @@ class TingObject implements TingObjectInterface {
     }
 
     // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Unsetting '$name'", WATCHDOG_DEBUG);
+    watchdog('TingPseudoObject', "Unsetting '$name'", [], WATCHDOG_DEBUG);
   }
 }
