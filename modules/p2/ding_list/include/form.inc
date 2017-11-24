@@ -209,12 +209,14 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
     $form_state['existing'] = FALSE;
   }
 
-  $form['title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Title'),
-    '#required' => TRUE,
-    '#default_value' => isset($existing->title) ? $existing->title : '',
-  );
+  if (ding_list_allowed($existing, DING_LIST_OPERATION_EDIT_TITLE)) {
+    $form['title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Title'),
+      '#required' => TRUE,
+      '#default_value' => isset($existing->title) ? $existing->title : '',
+    );
+  }
 
   $form['notes'] = array(
     '#type' => 'textarea',
@@ -377,9 +379,11 @@ function ding_list_create_list_form_submit($form, &$form_state) {
   else {
     $list = ding_list_get_list($form_state['existing']);
 
+    $title = ding_list_allowed($list, DING_LIST_OPERATION_EDIT_TITLE) ? $form_state['values']['title'] : $list->title;
+
     ding_list_edit_ding_list(
       $list,
-      $form_state['values']['title'],
+      $title,
       NULL,
       TRUE,
       $fields
