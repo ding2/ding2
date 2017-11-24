@@ -1,0 +1,162 @@
+//
+// Styling of ui dialog
+// Overwrites the jQuery UI standard
+
+@import '../base.scss';
+
+// ==========================================================================
+// UI widget overlay
+// ==========================================================================
+.ui-widget-overlay {
+  background-image: none;
+  background-color: $charcoal-opacity-dark;
+  opacity: 1;
+  z-index: $z-overlay;
+}
+
+// ==========================================================================
+// UI dialog
+// ==========================================================================
+.ui-dialog {
+  @include font('base');
+  padding: 0 50px;
+  z-index: $z-overlay + 1;
+  @include media($mobile) {
+    padding: 0 20px;
+  }
+  .ui-dialog-title {
+    float: none;
+    display: block;
+    width: 100%;
+    margin: 0;
+    overflow: visible;
+    white-space: normal;
+    @include media($mobile) {
+      max-width: calc(100% - 50px);
+      text-align: left;
+    }
+  }
+  .ui-dialog-titlebar {
+    position: static;
+    padding: 30px 0;
+    @include media($mobile) {
+      padding-right: 50px;
+      padding: 20px 0;
+    }
+  }
+  .ui-dialog-content {
+    @include font('base');
+    padding: 0;
+  }
+  .ui-dialog-titlebar-close {
+    @include place-icon(close);
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 54px;
+    height: 54px;
+    padding: 0;
+    margin: 0;
+    &::after {
+      @include transition(color $speed $ease);
+    }
+    @include media($mobile) {
+      right: 35px;
+    }
+    .ui-icon,
+    .ui-button-text {
+      display: none;
+    }
+    &.ui-state-hover {
+      &::after {
+        color: $white;
+      }
+    }
+  }
+  .ui-dialog-buttonpane {
+    margin: 0;
+    padding: 40px 0 30px 0;
+    .ui-dialog-buttonset {
+      float: none;
+      width: 100%;
+      text-align: center;
+    }
+    button {
+      @extend %button;
+      float: none;
+      display: inline-block; 
+      margin: 0 10px;
+      outline: none;
+      text-align: left;
+      @include font('base');
+      @include media($mobile) {
+        max-width: 110px;
+      }
+    }
+  }
+}
+
+.ui-corner-all {
+  border-radius: 0;
+}
+
+.ui-widget-header {
+  @include font('base-bold');
+  font-size: 18px;
+  text-align: center;
+  background-image: none;
+  background-color: $color-primary;
+  border: none;
+  color: $white;
+  
+  .ui-state-default {
+    border: none;
+    background-image: none;
+    background-color: none;
+  }
+}
+
+.ui-widget-content {
+  background-image: none;
+  background-color: $color-primary;
+  border: none;
+  color: $white;
+  .ui-state-default {
+    border: none;
+    background-image: none;
+    background-color: transparent;
+    color: $white;
+  }
+  .ui-state-focus {
+    border: none;
+    background-image: none;
+    background-color: transparent;
+    color: $white;
+  }
+}
+
+.ui-state-default {
+  border: none;
+  background-image: none;
+  background-color: transparent;
+  color: $white;
+}
+
+.ui-button-text-only {
+  .ui-button-text {
+    padding: 0;
+  }
+}
+
+.ui-button {
+  @include font('base');
+  .ui-button-text {
+    display: inline;
+  }
+}
+
+.ui-widget {
+  button {
+    @include font('base');
+  }
+}
