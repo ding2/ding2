@@ -22,17 +22,6 @@ function ting_ctools_plugin_api($module, $api) {
 }
 
 /**
- * Implements hook_ding_provider_user().
- */
-function ting_ding_provider_user() {
-  return array(
-    'search' => array(
-      'required' => TRUE,
-    ),
-  );
-}
-
-/**
  * Implements hook_ctools_plugin_directory().
  *
  * Lets the system know where our task and task_handler plugins are.
