@@ -280,8 +280,10 @@ function ting_openlist_request($function, array $arguments = array()) {
 
   $response = drupal_http_request($url);
   $data = drupal_json_decode($response->data);
+  $watchdog_severity = ($response->code != '200' || empty($data)) ? WATCHDOG_ERROR : WATCHDOG_INFO;
 
-  if ($response->code != '200' || empty($data)) {
+
+  if (variable_get('ting_openlist_log', FALSE) || $watchdog_severity === WATCHDOG_ERROR) {
     watchdog(
       'ting_openlist',
       '<strong>Request</strong><pre>!link</pre><strong>Execution time</strong><pre>@execution_time ms</pre><strong>Response</strong><pre>!response</pre>',
@@ -290,23 +292,12 @@ function ting_openlist_request($function, array $arguments = array()) {
         '@execution_time' => timer_read(__FUNCTION__),
         '!response' => htmlentities(var_export($response, TRUE)),
       ),
-      WATCHDOG_ERROR
+      $watchdog_severity
     );
 
-    throw new TingOpenlistRequestException($response, $url);
-  }
-
-  if (variable_get('ting_openlist_log', FALSE)) {
-    watchdog(
-      'ting_openlist',
-      '<strong>Request</strong><pre>!link</pre><strong>Execution time</strong><pre>@execution_time ms</pre><strong>Response</strong><pre>!response</pre>',
-      array(
-        '!link' => l($url, $url, array('external' => TRUE)),
-        '@execution_time' => timer_read(__FUNCTION__),
-        '!response' => htmlentities(var_export($response, TRUE)),
-      ),
-      WATCHDOG_INFO
-    );
+    if ($watchdog_severity) {
+      throw new TingOpenlistRequestException($response, $url);
+    }
   }
 
   return $data;
