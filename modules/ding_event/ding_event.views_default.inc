@@ -487,6 +487,31 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_location_name_line']['field'] = 'field_ding_event_location_name_line';
   $handler->display->display_options['fields']['field_ding_event_location_name_line']['label'] = '';
   $handler->display->display_options['fields']['field_ding_event_location_name_line']['element_label_colon'] = FALSE;
+  /* Field: Content: Location - Country */
+  $handler->display->display_options['fields']['field_ding_event_location_country']['id'] = 'field_ding_event_location_country';
+  $handler->display->display_options['fields']['field_ding_event_location_country']['table'] = 'field_data_field_ding_event_location';
+  $handler->display->display_options['fields']['field_ding_event_location_country']['field'] = 'field_ding_event_location_country';
+  $handler->display->display_options['fields']['field_ding_event_location_country']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_location_country']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_location_country']['display_name'] = 1;
+  /* Field: Content: Location - Locality (i.e. City) */
+  $handler->display->display_options['fields']['field_ding_event_location_locality']['id'] = 'field_ding_event_location_locality';
+  $handler->display->display_options['fields']['field_ding_event_location_locality']['table'] = 'field_data_field_ding_event_location';
+  $handler->display->display_options['fields']['field_ding_event_location_locality']['field'] = 'field_ding_event_location_locality';
+  $handler->display->display_options['fields']['field_ding_event_location_locality']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_location_locality']['element_label_colon'] = FALSE;
+  /* Field: Content: Location - Postal code */
+  $handler->display->display_options['fields']['field_ding_event_location_postal_code']['id'] = 'field_ding_event_location_postal_code';
+  $handler->display->display_options['fields']['field_ding_event_location_postal_code']['table'] = 'field_data_field_ding_event_location';
+  $handler->display->display_options['fields']['field_ding_event_location_postal_code']['field'] = 'field_ding_event_location_postal_code';
+  $handler->display->display_options['fields']['field_ding_event_location_postal_code']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_location_postal_code']['element_label_colon'] = FALSE;
+  /* Field: Content: Location - Thoroughfare (i.e. Street address) */
+  $handler->display->display_options['fields']['field_ding_event_location_thoroughfare']['id'] = 'field_ding_event_location_thoroughfare';
+  $handler->display->display_options['fields']['field_ding_event_location_thoroughfare']['table'] = 'field_data_field_ding_event_location';
+  $handler->display->display_options['fields']['field_ding_event_location_thoroughfare']['field'] = 'field_ding_event_location_thoroughfare';
+  $handler->display->display_options['fields']['field_ding_event_location_thoroughfare']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_location_thoroughfare']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Content: Has taxonomy term ID */
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
@@ -561,6 +586,10 @@ function ding_event_views_default_views() {
     'name_2' => 'name_2',
     'title_1' => 'title_1',
     'field_ding_event_location_name_line' => 'field_ding_event_location_name_line',
+    'field_ding_event_location_country' => 'field_ding_event_location_country',
+    'field_ding_event_location_locality' => 'field_ding_event_location_locality',
+    'field_ding_event_location_postal_code' => 'field_ding_event_location_postal_code',
+    'field_ding_event_location_thoroughfare' => 'field_ding_event_location_thoroughfare',
   );
   /* Filter criterion: Content: Date -  start date (field_ding_event_date) */
   $handler->display->display_options['filters']['field_ding_event_date_value']['id'] = 'field_ding_event_date_value';
