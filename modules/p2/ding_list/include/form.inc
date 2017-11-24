@@ -330,9 +330,19 @@ function ding_list_create_list_form_submit_delete($form, &$form_state) {
  */
 function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
   $permission = ding_list_get_permission($form_state['build_info']['args'][0]);
-  ding_list_remove_permission($permission);
+  if ($permission) {
+    ding_list_remove_permission($permission);
+  }
 
-  $form_state['redirect'] = 'user/' . $GLOBALS['user']->uid . '/dinglists';
+  $list = ding_list_get_list(DING_LIST_TYPE_LISTS);
+  if ($list) {
+    $element = ding_list_has_ding_list_element($list, DING_LIST_TYPE_LISTS, $form_state['build_info']['args'][0]->id);
+    if ($element) {
+      ding_list_detach_ding_list_element($list, array($element->id));
+    }
+  }
+
+  $form_state['redirect'] = 'user';
 }
 
 /**
@@ -408,7 +418,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   if (!ding_list_user_has_access($list, 'owner')) {
     $form['unfollow_shared'] = array(
       '#type' => 'submit',
-      '#value' => t('Unfollowed shared list'),
+      '#value' => t('Unfollow shared list'),
       '#submit' => array('ding_list_list_permissions_form_unfollow_shared'),
     );
 
