@@ -14,6 +14,17 @@ define('TING_SEARCH_FORM_STYLE_NORMAL', 'normal');
 define('TING_SEARCH_FORM_STYLE_EXTENDED', 'extended');
 
 /**
+ * Implements hook_ding_provider_user().
+ */
+function ting_search_ding_provider_user() {
+  return array(
+    'search' => array(
+      'required' => TRUE,
+    ),
+  );
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  *
  * It simply tells panels where to find the .inc files that define various
