@@ -7,6 +7,17 @@
 require_once 'includes/ting_relation.field.inc';
 
 /**
+ * Implements hook_ding_provider_user().
+ */
+function ting_relation_ding_provider_user() {
+  return array(
+    'search' => array(
+      'required' => TRUE,
+    ),
+  );
+}
+
+/**
  * Implements hook_theme().
  */
 function ting_relation_theme() {

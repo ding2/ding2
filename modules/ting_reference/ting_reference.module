@@ -24,6 +24,16 @@ function ting_reference_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ting_reference_ding_provider_user() {
+  return array(
+    'search' => array(
+      'required' => TRUE,
+    ),
+  );
+}
 
 /**
  * Implements hook_entity_info_alter().

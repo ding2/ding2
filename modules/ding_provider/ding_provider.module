@@ -92,6 +92,17 @@ function ding_provider_permission() {
 }
 
 /**
+ * Implements hook_ding_provider_user().
+ */
+function ding_provider_ding_provider_user() {
+  return array(
+    'search' => array(
+      'required' => TRUE,
+    ),
+  );
+}
+
+/**
  * Implements hook_ding_install_tasks().
  */
 function ding_provider_ding_install_tasks() {
