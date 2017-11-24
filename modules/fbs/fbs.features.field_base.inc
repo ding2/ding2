@@ -36,6 +36,36 @@ function fbs_field_default_field_bases() {
     'type' => 'fbs_address',
   );
 
+  // Exported field_base: 'field_fbs_interest_period'
+  $field_bases['field_fbs_interest_period'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_fbs_interest_period',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        30 => '1 måned',
+        60 => '2 months',
+        90 => '3 months',
+        180 => '6 months',
+        360 => '12 months',
+      ),
+      'allowed_values_function' => 'fbs_interest_periods',
+      'profile2_private' => 0,
+    ),
+    'translatable' => 0,
+    'type' => 'list_text',
+  );
+
   // Exported field_base: 'field_fbs_mail'
   $field_bases['field_fbs_mail'] = array(
     'active' => 1,
