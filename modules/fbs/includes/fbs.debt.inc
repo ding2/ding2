@@ -105,6 +105,7 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
+    return FALSE;
   }
 
   foreach ($res as $confirmation) {
