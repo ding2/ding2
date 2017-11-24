@@ -470,7 +470,6 @@ function ding_dibs_cron() {
     if (!empty($ding_dibs_email)) {
       $emails_array = preg_split("/\,|\r\n|\n/", $ding_dibs_email);
       if (count($emails_array) >= 1) {
-        variable_set('ding_dibs_last_cron', REQUEST_TIME);
         $id = _ding_dibs_insert_table(variable_get('ding_dibs_last_cron', REQUEST_TIME));
         for ($count = 0; $count < count($emails_array); $count++) {
           if (!empty($emails_array[$count])) {
@@ -483,6 +482,28 @@ function ding_dibs_cron() {
         }
       }
     }
+
+    // Wipe out old dibs transactions.
+    $wipe_dibs_transactions_threshold = variable_get('ding_dibs_wipe_transaction_threshold', 0);
+    if ($wipe_dibs_transactions_threshold) {
+      $threshold = REQUEST_TIME - $wipe_dibs_transactions_threshold;
+      $query = db_select('dibs_transactions', dt)
+        ->fields('dt', array('tid'))
+        ->where('UNIX_TIMESTAMP(dt.payment_time) < :threshold', array(':threshold' => $threshold))
+        ->execute();
+
+      $wipe_target = $query->fetchCol();
+
+      db_delete('dibs_transactions')
+        ->condition('tid', $wipe_target, 'IN')
+        ->execute();
+
+      db_delete('dibs_transactions_log')
+        ->condition('tid', $wipe_target, 'IN')
+        ->execute();
+    }
+
+    variable_set('ding_dibs_last_cron', REQUEST_TIME);
   }
 }
 

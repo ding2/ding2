@@ -55,5 +55,17 @@ function ding_dibs_admin_settings($form, &$form_state) {
     '#default_value' => variable_get('cards_supported'),
   );
 
+  $form['ding_dibs_wipe_transaction_threshold'] = array(
+    '#type' => 'select',
+    '#title' => t('Wipe out transactions older than:'),
+    '#default_value' => variable_get('ding_dibs_wipe_transaction_threshold', 0),
+    '#options' => array(
+      0 => t('None (keep all)'),
+      '2592000' => t('30 days'),
+      '7776000' => t('90 days'),
+      '31536000' => t('1 year'),
+    ),
+  );
+
   return system_settings_form($form);
 }
