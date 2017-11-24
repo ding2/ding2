@@ -249,9 +249,11 @@ class TingCollectionController implements DrupalEntityControllerInterface {
         }
         else {
           // Use the search provider to load the collection.
+          /** @var \Ting\TingObjectCollectionInterface $object_collection */
           $object_collection = ding_provider_invoke('search', 'collection_load', $ding_entity_id);
-          if (empty($object_collection)) {
-            continue;
+
+          if (empty($object_collection) || empty($object_collection->getPrimaryObject())) {
+            watchdog('ting', 'Loaded empty collection with ID @id, this could be an error. ', ['@id' => $ding_entity_id], WATCHDOG_WARNING);
           }
           $object = new TingCollection($ding_entity_id, $object_collection);
 
