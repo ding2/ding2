@@ -14,6 +14,7 @@ function ding_campaign_plus_object_ding_campaign_plus_info() {
     'title' => t('Object view'),
     'type' => DING_CAMPAIGN_PLUS_OBJECT_TYPE,
     'form' => 'ding_campaign_plus_object_admin_form',
+    'auto' => 'ding_campaign_plus_object_auto_admin_form',
   );
 }
 
@@ -116,9 +117,26 @@ function ding_campaign_plus_object_ding_campaign_plus_matches($contexts, $style)
 }
 
 /**
+ * Build form options used to configure auto generated campaigns.
+ *
+ * @param $form_state
+ * @param bool $default
+ *
+ * @return array
+ */
+function ding_campaign_plus_object_auto_admin_form(&$form_state, $default = FALSE) {
+  return array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable'),
+    '#description' => t('Activate trigger on object view based on matching subjects from content.'),
+    '#default_value' => empty($default) ? FALSE : $default,
+  );
+}
+
+/**
  * The node edit form callback defined in the hook_ding_campaign_plus_info.
  */
-function ding_campaign_plus_object_admin_form($form, $form_state) {
+function ding_campaign_plus_object_admin_form(&$form_state) {
   $triggers = array();
 
   $value = array(

@@ -14,6 +14,7 @@ function ding_campaign_plus_facet_ding_campaign_plus_info() {
     'title' => t('Facets'),
     'type' => DING_CAMPAIGN_PLUS_FACET_TYPE,
     'form' => 'ding_campaign_plus_facet_admin_form',
+    'auto' => 'ding_campaign_plus_facet_auto_admin_form',
   );
 }
 
@@ -144,9 +145,33 @@ function ding_campaign_plus_facet_ding_campaign_plus_matches($contexts, $style) 
 }
 
 /**
+ * Build form options used to configure auto generated campaigns.
+ *
+ * @param $form_state
+ * @param string $default
+ *
+ * @return array
+ */
+function ding_campaign_plus_facet_auto_admin_form(&$form_state, $default = '') {
+  $options = array();
+  $facets = variable_get('ding_facetbrowser_facets', array());
+  foreach ($facets as $facet) {
+    $options[$facet['name']] = $facet['title'] . ' (' . $facet['name'] . ')';
+  }
+
+  return array(
+    '#type' => 'radios',
+    '#title' => t('Facets available'),
+    '#description' => t('The contents subjects will automatically create a trigger against the selected facet type.'),
+    '#options' => array('_none_' => t('None')) + $options,
+    '#default_value' => empty($default) ? '_none_' : $default,
+  );
+}
+
+/**
  * The node edit form callback defined in the hook_ding_campaign_plus_info.
  */
-function ding_campaign_plus_facet_admin_form($form, $form_state) {
+function ding_campaign_plus_facet_admin_form(&$form_state) {
   $values = array();
   if (isset($form_state['values']['tabs'][DING_CAMPAIGN_PLUS_FACET_TYPE]['rules'])) {
     $values = $form_state['values']['tabs'][DING_CAMPAIGN_PLUS_FACET_TYPE]['rules'];

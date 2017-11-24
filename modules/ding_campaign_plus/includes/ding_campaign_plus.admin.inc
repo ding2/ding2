@@ -13,7 +13,6 @@ function ding_campaign_plus_admin_settings($form, $form_state) {
     '#tree' => TRUE,
   );
 
-
   $form['ding_campaign_plus_weight'] = array(
     '#type' => 'fieldset',
     '#title' => t('Weight'),
@@ -25,6 +24,42 @@ function ding_campaign_plus_admin_settings($form, $form_state) {
   $options = ding_campaign_plus_ding_settings_options($defaults);
   foreach ($options as $key => $option) {
     $form['ding_campaign_plus_weight']['table'][$key] = ding_campaign_plus_admin_settings_form_add($option['title'], $option['weight']);
+  }
+
+  $form['ding_campaign_plus_auto'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Generated campaigns',
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $default = variable_get('ding_campaign_plus_auto', array());
+  $form['ding_campaign_plus_auto']['enabled'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enabled generate campaigns'),
+    '#description' => t('Allow users to automatically generate campaigns when creating new content. A checkbox will be inserted into the different content types.'),
+    '#default_value' => isset($default['enabled']) ? $default['enabled'] : 0,
+  );
+
+  // Build options to generate campaigns.
+  $data = ding_campaign_plus_rules_info();
+  foreach ($data as $module => $info) {
+    if (isset($info['auto'])) {
+      $callback = $info['auto'];
+      $form['ding_campaign_plus_auto'][$module] = array(
+        '#type' => 'fieldset',
+        '#title' => $info['title'],
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#states' => array(
+          'invisible' => array(
+            ':input[name="ding_campaign_plus_auto[enabled]"]' => array('checked' => FALSE),
+          ),
+        ),
+        'config' => $callback($form_state, $default[$module]['config']),
+      );
+    }
   }
 
   $form['ding_campaign_plus_expire'] = array(
@@ -45,14 +80,14 @@ function ding_campaign_plus_admin_settings($form, $form_state) {
  * Submit handler for the administration settings form.
  */
 function ding_campaign_plus_admin_settings_submit($form, $form_state) {
-  $values = $form_state['values']['ding_campaign_plus_weight']['table'];
-
   $weights = array();
-  foreach ($values as $key => $value) {
+  foreach ($form_state['values']['ding_campaign_plus_weight']['table'] as $key => $value) {
     $weights[$key] = $value['weight'];
   }
 
   variable_set('ding_campaign_plus_weight', $weights);
+  variable_set('ding_campaign_plus_expire',  $form_state['values']['ding_campaign_plus_expire']);
+  variable_set('ding_campaign_plus_auto',  $form_state['values']['ding_campaign_plus_auto']);
 }
 
 /**
