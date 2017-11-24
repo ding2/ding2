@@ -16,7 +16,7 @@
  *   DingProviderDebt objects in array, keyed by debt ID.
  */
 function alma_debt_list($account, $reset = FALSE) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   // Use static cache to speed up communication with Alma.
   $results = &drupal_static(__FUNCTION__, FALSE);

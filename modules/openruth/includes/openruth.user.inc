@@ -68,7 +68,7 @@ function openruth_user_authenticate($name, $pincode) {
  *   Drupal user account object.
  */
 function openruth_user_clear_cache($account) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   // Update user status cache.
   _openruth_user_status($creds, TRUE);
 }
@@ -88,7 +88,7 @@ function openruth_user_update_pincode($account, $new_pincode) {
   $result = array();
 
   if (isset($new_pincode)) {
-    $creds = ding_user_get_creds($account);
+    $creds = ding_user_get_creds();
     $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], array('pass' => $new_pincode));
     if ($res !== TRUE) {
       // Call failed, throw exception.

@@ -137,7 +137,7 @@ function fbs_get_patron_info($account = NULL) {
     return $account->creds;
   }
 
-  $creds = ding_user_get_creds($user);
+  $creds = ding_user_get_creds();
   return $creds;
 }
 
@@ -336,7 +336,7 @@ function fbs_profile2_presave($entity) {
     // we wont try to update.
     return;
   }
-  $patron = ding_user_get_creds($user);
+  $patron = ding_user_get_creds();
   $wrapper = entity_metadata_wrapper('profile2', $entity);
 
   $current_on_hold = array();
