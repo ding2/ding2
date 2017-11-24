@@ -283,31 +283,30 @@ function _ting_search_carousel_find_entities_with_covers($query, $start, $size, 
   $finished = FALSE;
   $entities = array();
 
-  $options = array(
-    'facets' => array(),
-    'enrich' => TRUE,
-    'allObjects' => FALSE,
-  );
+  $sal_query = ting_start_query()
+    ->setRawQuery($query)
+    ->setPage($start + 1)
+    ->setCount($size)
+    ->addFieldFilter('enrich', TRUE)
+    ->addFieldFilter('allObjects', FALSE)
+    ->setMaterialFilter($ignore);
 
-  // TODO: use the Search Abstraction Layer (ting_start_query()).
-  // Ting pages are 1, not 0, based.
-  $result = opensearch_do_search($query, ($start++) + 1, $size, $options);
+  $results = $sal_query->execute();
+  $collections = $results->getTingEntityCollections();
 
   // Bail out if the search failed.
-  if (!$result) {
+  if (!$results) {
     return array(array(), $start, TRUE);
   }
 
-  if (!$result->more) {
+  if (!$results->hasMoreResults()) {
     $finished = TRUE;
   }
-  foreach ($result->collections as $collection) {
-    foreach ($collection->reply->objects as $object) {
-      // Skip ignored ids.
-      if (isset($ignore[$object->id])) {
-        break;
-      }
-      $entities[$object->id] = ding_entity_load($collection->id, 'ting_object');
+
+  foreach ($collections as $collection) {
+    foreach ($collection->getEntities() as $entity) {
+      $entity_id = $entity->getId();
+      $entities[$entity_id] = ding_entity_load($entity_id, 'ting_object');
     }
   }
 
