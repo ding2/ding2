@@ -556,6 +556,28 @@
         color: $color-standard-text;
       }
     }
+    
+    //Mobile
+    @include media($mobile) {
+      > .inner {
+        .ting-object-left,
+        .ting-object-right {
+          width: auto;
+          float: none;
+        }
+        .field-name-ting-type,
+        .field-name-ting-title,
+        .field-name-ting-author {
+          @include span-columns(8 of 12);
+          margin-right: 0;
+        }
+        .field-name-ting-abstract {
+          width: 100%;
+          padding: 10px 0;
+          clear: both;
+        }
+      }
+    }
   }
 
   // ==========================================================================
