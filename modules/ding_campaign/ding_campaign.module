@@ -317,10 +317,11 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   }
 
   // Process taxonomy campaigns.
-  if ($context['taxonomy_term'] != NULL && isset($context['taxonomy_term']->tid)) {
-    $tid = $context['taxonomy_term']->tid;
+  if ($context['taxonomy_term'] != NULL && isset($context['taxonomy_term']->tids)) {
+    $tids = $context['taxonomy_term']->tids;
 
-    $result = db_query('SELECT r.cid
+    foreach ($tids as $tid) {
+      $result = db_query('SELECT r.cid
       FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
       WHERE r.nid = :tid
         AND r.type = \'rule_taxonomy\'
@@ -328,10 +329,11 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
         AND r.cid = d.cid
         AND r.cid = n.nid
       ORDER BY d.weight DESC', array(':tid' => (int) $tid))
-      ->fetchAll();
+        ->fetchAll();
 
-    foreach ($result as $key => $value) {
-      @$campaigns[$value->cid] += 3;
+      foreach ($result as $key => $value) {
+        @$campaigns[$value->cid] += 3;
+      }
     }
   }
 
