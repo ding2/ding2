@@ -86,6 +86,7 @@ function ding_event_field_group_info() {
       3 => 'field_ding_event_price',
       4 => 'field_ding_event_ticket_link',
       5 => 'og_group_ref',
+      6 => 'field_ding_event_list_filter',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
