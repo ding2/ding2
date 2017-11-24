@@ -22,6 +22,9 @@ projects[autologout][version] = "4.3"
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 
+projects[better_exposed_filters][subdir] = "contrib"
+projects[better_exposed_filters][version] = "3.4"
+
 projects[block_access][subdir] = "contrib"
 projects[block_access][version] = "1.5"
 
@@ -78,6 +81,9 @@ projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
+
+projects[entityreference_filter][subdir] = "contrib"
+projects[entityreference_filter][version] = "1.7"
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
