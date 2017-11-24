@@ -293,7 +293,7 @@ function ting_openlist_request($function, array $arguments = array()) {
       WATCHDOG_ERROR
     );
 
-    throw new TingOpenlistRequestException($response);
+    throw new TingOpenlistRequestException($response, $url);
   }
 
   if (variable_get('ting_openlist_log', FALSE)) {
