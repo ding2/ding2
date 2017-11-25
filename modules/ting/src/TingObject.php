@@ -20,7 +20,8 @@ class TingObject implements TingObjectInterface {
   public $audience;
   public $classifications;
   public $contributors;
-  public $creators;
+  public $creatorsFormatSurnameFirst;
+  public $creatorsFormatDefault;
   public $description;
   public $extent;
   public $format;
@@ -641,6 +642,106 @@ class TingObject implements TingObjectInterface {
   }
 
   /**
+   * @param mixed $abstract
+   */
+  public function setAbstract($abstract) {
+    $this->abstract = $abstract;
+  }
+
+  /**
+   * @param mixed $classifications
+   */
+  public function setClassifications($classifications) {
+    $this->classifications = $classifications;
+  }
+
+  /**
+   * @param mixed $contributors
+   */
+  public function setContributors($contributors) {
+    $this->contributors = $contributors;
+  }
+
+  /**
+   * @param mixed $creators
+   */
+  public function setCreatorsFormatSurnameFirst($creators) {
+    $this->creatorsFormatSurnameFirst = $creators;
+  }
+
+  /**
+   * @param mixed $creators
+   */
+  public function setCreatorsFormatDefault($creators) {
+    $this->creatorsFormatDefault = $creators;
+  }
+
+  /**
+   * @param mixed $isLocal
+   */
+  public function setIsLocal($isLocal) {
+    $this->isLocal = $isLocal;
+  }
+
+  /**
+   * @param mixed $language
+   */
+  public function setLanguage($language) {
+    $this->language = $language;
+  }
+
+  /**
+   * @param mixed $materialSource
+   */
+  public function setMaterialSource($materialSource) {
+    $this->materialSource = $materialSource;
+  }
+
+  /**
+   * @param mixed $online
+   */
+  public function setOnline($online) {
+    $this->online = $online;
+  }
+
+  /**
+   * @param mixed $onlineUrl
+   */
+  public function setOnlineUrl($onlineUrl) {
+    $this->onlineUrl = $onlineUrl;
+  }
+
+  /**
+   * @param array $relations
+   */
+  public function setRelations(array $relations) {
+    $this->relations = $relations;
+  }
+
+  /**
+   * @param mixed $seriesTitles
+   */
+  public function setSeriesTitles($seriesTitles) {
+    $this->seriesTitles = $seriesTitles;
+  }
+
+  /**
+   * @param mixed $subjects
+   */
+  public function setSubjects($subjects) {
+    $this->subjects = $subjects;
+  }
+
+  /**
+   * @param array $localProperties
+   */
+  public function setLocalProperties(array $localProperties) {
+    $this->localProperties = $localProperties;
+  }
+
+
+
+  /**
    * Returns the creators of the material.
    *
    * For a book the creator would typically be the author.
@@ -653,7 +754,7 @@ class TingObject implements TingObjectInterface {
    *   The list of formatted author-names, empty if none was found.
    */
   public function getCreators($format = self::NAME_FORMAT_DEFAULT) {
-    return $this->creators;
+    return $format == self::NAME_FORMAT_SURNAME_FIRST ? $this->creatorsFormatSurnameFirst : $this->creatorsFormatDefault;
   }
 
   /**
@@ -737,7 +838,7 @@ class TingObject implements TingObjectInterface {
    */
   public function __get($name) {
     // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Getting '$name'", WATCHDOG_DEBUG);
+    watchdog('TingPseudoObject', "Getting '$name'", [], WATCHDOG_DEBUG);
 
     // Handle local properties.
     if (in_array($name, $this->localProperties)) {
@@ -752,7 +853,7 @@ class TingObject implements TingObjectInterface {
    */
   public function __set($name, $value) {
     // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Setting '$name'", WATCHDOG_DEBUG);
+    watchdog('TingPseudoObject', "Setting '$name'", [], WATCHDOG_DEBUG);
 
     if (in_array($name, $this->localProperties)) {
       $this->$name = $value;
@@ -764,7 +865,7 @@ class TingObject implements TingObjectInterface {
    */
   public function __isset($name) {
     // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Is '$name' set?", WATCHDOG_DEBUG);
+    watchdog('TingPseudoObject', "Is '$name' set?", [], WATCHDOG_DEBUG);
     return isset($this->openSearchObject->$name);
   }
 
@@ -778,6 +879,6 @@ class TingObject implements TingObjectInterface {
     }
 
     // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Unsetting '$name'", WATCHDOG_DEBUG);
+    watchdog('TingPseudoObject', "Unsetting '$name'", [], WATCHDOG_DEBUG);
   }
 }
