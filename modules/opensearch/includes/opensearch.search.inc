@@ -124,12 +124,6 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
     $query_parts[] = $free_text_query;
   }
 
-  // Add material filter.
-  if (!empty($ting_query->getMaterialFilter())) {
-    $material_filter_string = implode(' OR ', $ting_query->getMaterialFilter());
-    $query_parts[] .= $material_filter_string;
-  }
-
   // Add field filter.
   if (!empty($ting_query->getFieldFilters())) {
     $render = new OpenSearchStatementGroupRender(new DingProviderStrategy());
@@ -142,6 +136,22 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
       throw new SearchProviderException("Unable to render statements", 0, $e);
     }
     $query_parts[] = $field_filters;
+  }
+
+  // Add material filter, this has to be the very last thing we do as we have
+  // to handle the filter differently query_parts is empty.
+  $material_filter = $ting_query->getMaterialFilter();
+  if (!empty($material_filter)) {
+    if ($ting_query->isMaterialFilterInclude()) {
+      // The material filter is a list of IDs to include. Add OR conditions.
+      $query_parts[] = implode(' OR ', $material_filter);
+    }
+    else {
+      // We're excluding, meaning we need a NOT in front of all id's. We can't
+      // start the query with a NOT so we add a wildcard match to the start of
+      // the filter if query is empty.
+      $query_parts[] = '* NOT ' . implode(' NOT ', $material_filter);
+    }
   }
 
   // Join all query-parts together, wrap each part in a parentheses.
