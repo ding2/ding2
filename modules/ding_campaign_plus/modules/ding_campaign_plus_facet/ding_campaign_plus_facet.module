@@ -87,7 +87,7 @@ function ding_campaign_plus_facet_node_insert($node) {
           break;
 
         default:
-          $value = $rule['facet_value'];
+          $value = empty($rule['facet_value']) ? $rule['facet_value'] : serialize($rule['facet_value']);
       }
 
       if (!empty($value)) {
@@ -437,11 +437,13 @@ function _ding_campaign_plus_facet_match($keys) {
     }
 
     module_load_include('client.inc', 'ting');
-    $search_result = ting_do_search($query, 1, 1);
+    $search_result = ting_do_search($query, 1, 1, array(
+      'numFacets' => variable_get('ting_search_number_of_facets', 25),
+    ));
 
     // Loop rules to find percentage match in facets.
     foreach ($campaigns as $campaign) {
-      $facets = unserialize($campaign->value);
+      $facets = (array) unserialize($campaign->value);
       if (isset($search_result->facets[$campaign->facet])) {
         $terms = $search_result->facets[$campaign->facet]->terms;
         foreach ($facets as $facet) {
