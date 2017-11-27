@@ -61,7 +61,7 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
       }
 
       // Set search profile from the administration interface.
-      $profile = variable_get('ting_search_profile', '');
+      $profile = variable_get('opensearch_search_profile', '');
       if (!empty($profile) && method_exists($request, 'setProfile')) {
         $request->setProfile($profile);
       }
@@ -170,7 +170,7 @@ function opensearch_get_objects($ids) {
     if ($agency) {
       $request->setAgency($agency);
     }
-    $profile = variable_get('ting_search_profile', '');
+    $profile = variable_get('opensearch_search_profile', '');
     if (!empty($profile) && method_exists($request, 'setProfile')) {
       $request->setProfile($profile);
     }
@@ -268,7 +268,7 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
   $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
 
   // Set search profile, if applicable.
-  $profile = variable_get('ting_search_profile', '');
+  $profile = variable_get('opensearch_search_profile', '');
   if (!empty($profile) && method_exists($request, 'setProfile')) {
     $request->setProfile($profile);
   }
@@ -349,7 +349,7 @@ function opensearch_get_object_marcxchange($object_id) {
     $request = opensearch_get_request_factory()->getMarcXchangeRequest();
 
     $request->setAgency(variable_get('ting_agency'));
-    $request->setProfile(variable_get('ting_search_profile'));
+    $request->setProfile(variable_get('opensearch_search_profile'));
     $request->setIdentifier($object_id);
 
     // Have to use ting_execute directly since marc objects might collide with

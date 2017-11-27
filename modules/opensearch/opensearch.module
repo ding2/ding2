@@ -353,13 +353,11 @@ function opensearch_admin_settings($form_state) {
     '#weight' => 1,
   );
 
-  // TODO BBS-SAL: Search profiles are a opensearch concept. Parts of it could
-  // probably be kept search provider independent.
-  $form['opensearch']['ting_search_profile'] = array(
+  $form['opensearch']['opensearch_search_profile'] = array(
     '#type' => 'textfield',
     '#title' => t('Search profile'),
     '#description' => t('Profile name, used for filtering the search based on settings from vip.dbc.dk.'),
-    '#default_value' => variable_get('ting_search_profile', ''),
+    '#default_value' => variable_get('opensearch_search_profile', ''),
   );
   return system_settings_form($form);
 }
@@ -385,7 +383,7 @@ function opensearch_search_autocomplete_settings() {
   $base_settings['sort'] = 'count';
 
   $base_settings['agency']  = variable_get('ting_agency', NULL);
-  $base_settings['profile'] = variable_get('ting_search_profile', NULL);
+  $base_settings['profile'] = variable_get('opensearch_search_profile', NULL);
   $base_settings['maxSuggestions'] = 10;
   $base_settings['maxTime'] = 2000;
 
