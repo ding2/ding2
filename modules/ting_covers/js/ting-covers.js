@@ -16,7 +16,7 @@
 
   var ting_cover_insert = function(covers) {
     $.each(covers, function(index, cover_info) {
-      $('.ting-cover-processing[data-ting-cover-object-id="' + cover_info.id + '"][data-ting-cover-style="' + cover_info.image_style + '"').html('<img src="' + cover_info.url + '"/>');
+      $('.ting-cover-processing[data-ting-cover-object-id="' + cover_info.id + '"][data-ting-cover-style="' + cover_info.image_style + '"]').html('<img src="' + cover_info.url + '"/>');
     });
   };
 
