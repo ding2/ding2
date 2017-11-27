@@ -586,6 +586,7 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $query = ding_provider_invoke('search', 'prepare_reference_query', $test_query_3);
     $this->assertFalse($query->isFuzzy());
     $this->assertEqual($query->getMaterialFilter(), [$test_query_3]);
+    $this->assertTrue($query->isMaterialFilterInclude());
   }
 
   /**

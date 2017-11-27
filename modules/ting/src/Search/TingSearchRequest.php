@@ -91,6 +91,14 @@ class TingSearchRequest {
   protected $materialFilterIds;
 
   /**
+   * If the list of material ID's should be included or excluded.
+   *
+   * @var bool
+   *   The flag.
+   */
+  protected $materialFilterInclude = TRUE;
+
+  /**
    * @var BooleanStatementGroup[]
    *   List of grouped BooleanStatementGroup and TingSearchFieldFilter
    *   instances.
@@ -405,27 +413,38 @@ class TingSearchRequest {
   }
 
   /**
+   * If the id's are included or excluded.
+   *
+   * @return bool
+   *   The flag.
+   */
+  public function isMaterialFilterInclude() {
+    return $this->materialFilterInclude;
+  }
+
+  /**
    * Set the list of provider-specific material ids the query is constrained to.
    *
    * The ID can be received from a TingObjectInterface instance via getId().
    *
-   * TODO BBS-SAL: This should support both including and excluding. Eg.
-   * setMaterialFilter($material_ids, <indcation of include/exclude> and it
-   * should just add a new boolean filter group. When done this can replace
-   * ding_serendipity_exclude.
+   * TODO BBS-SAL: This can replace ding_serendipity_exclude.
    *
    * @param string[]|string $material_ids
    *   One or more ids.
    *
+   * @param bool $include
+   *   Includes the materials if true and excludes them if false.
+   *
    * @return TingSearchRequest
    *   the current query object.
    */
-  public function setMaterialFilter($material_ids) {
+  public function setMaterialFilter($material_ids, $include = TRUE) {
     if (!is_array($material_ids)) {
       $material_ids = [$material_ids];
     }
 
     $this->materialFilterIds = $material_ids;
+    $this->materialFilterInclude = $include;
     return $this;
   }
 
