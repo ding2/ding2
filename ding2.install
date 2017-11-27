@@ -554,12 +554,14 @@ function ding2_update_7044() {
 
     $topbar_color = $old_theme_settings['palette']['topbar_background_color'];
     $header_background_color = $old_theme_settings['palette']['header_background_color'];
+    $navigation_background_color = $old_theme_settings['palette']['navigation_background_color'];
     $link_color = $old_theme_settings['palette']['link'];
 
     $palette_changes = array(
-      'primary' => $header_background_color,
+      'primary' => $navigation_background_color,
       'secondary' => $link_color,
       'topbar' => $topbar_color,
+      'extended_search_pane' => $header_background_color,
     );
 
     color_update_palette('ddbasic', $palette_changes);
