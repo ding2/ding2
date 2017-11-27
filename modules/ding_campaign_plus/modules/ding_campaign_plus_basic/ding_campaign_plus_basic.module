@@ -178,12 +178,58 @@ function ding_campaign_plus_basic_auto_admin_form(&$form_state, $default = '') {
     '#description' => t('The contents subjects will automatically create a trigger against the selected rule type'),
     '#options' => array(
       '_none_' => t('None'),
-      'page' => t('Page'),
+      'library' => t('Library'),
       'taxonomy' => t('Taxonomy term'),
-      'path' => t('Path'),
+      'group' => t('Group'),
     ),
     '#default_value' => empty($default) ? '_none_' : $default,
   );
+}
+
+/**
+ * Implements hook_ding_campaign_plus_auto_trigger().
+ *
+ * When auto-generating campaigns this defines the triggers for the basic
+ * module.
+ */
+function ding_campaign_plus_basic_ding_campaign_plus_auto_trigger($config, $campaign_node, $values) {
+  $trigger = array();
+  $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE] = array('rules' => array());
+  $node = entity_metadata_wrapper('node', (object) $values);
+
+  switch ($config) {
+    case 'library':
+      $libraries = $node->og_group_ref->value();
+      foreach ($libraries as $key => $library) {
+        $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules']['rule_' . $key] = array(
+          'type' => $config,
+          'value' => $library->title . ' [' . $library->nid . ']',
+        );
+      }
+      break;
+
+    case 'group':
+      $field = $node->getBundle() . '_groups_ref';
+      $groups = $node->{$field}->value();
+      foreach ($groups as $key => $group) {
+        $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules']['rule_' . $key] = array(
+          'type' => $config,
+          'value' => $group->title . ' [' . $group->nid . ']',
+        );
+      }
+      break;
+
+    case 'taxonomy':
+      $field = 'field_' . $node->getBundle() . '_category';
+      $term = $node->{$field}->value();
+      $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules']['rule_0'] = array(
+        'type' => $config,
+        'value' => $term->name . ' [' . $term->tid . ']',
+      );
+      break;
+  }
+
+  return $trigger;
 }
 
 /**

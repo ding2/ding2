@@ -65,5 +65,23 @@ function hook_ding_campaign_plus_default_weights() {
 }
 
 /**
+ * Defines the rules for a given trigger for auto generated campaigns.
+ *
+ * @param $config
+ *   The auto generate administration configuration.
+ * @param $campaign_node
+ *   The campaign node that the rules should be generated for.
+ * @param $values
+ *   The values from the node edit form submit for the content that the auto
+ *   generated campaign is build.
+ *
+ * @return array
+ *   Matching the modules rules format for the module.
+ */
+function hook_ding_campaign_plus_auto_trigger($config, $campaign_node, $values) {
+  return array('TYPE' => array('rules' => array('rule_0' => array())));
+}
+
+/**
  * @} End of "addtogroup hooks".
  */

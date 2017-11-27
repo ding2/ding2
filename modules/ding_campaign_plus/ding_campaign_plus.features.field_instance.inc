@@ -52,7 +52,7 @@ function ding_campaign_plus_field_default_field_instances() {
     'settings' => array(
       'alt_field' => 0,
       'default_image' => 0,
-      'file_directory' => 'ding_campaing_plus',
+      'file_directory' => 'ding_campaign_plus',
       'file_extensions' => 'png jpg jpeg',
       'max_filesize' => '',
       'max_resolution' => '',

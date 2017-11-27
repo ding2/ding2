@@ -1,0 +1,49 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_campaign_plus_auto_schema() {
+  $schema = array();
+
+  $schema['ding_campaign_plus_auto'] = array(
+    'description' => 'Linked auto generated campaigns to content',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'campaign_nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_campaign_plus_auto_uninstall() {
+  drupal_uninstall_schema('ding_campaign_plus_auto');
+  variable_del('ding_campaign_plus_auto');
+}

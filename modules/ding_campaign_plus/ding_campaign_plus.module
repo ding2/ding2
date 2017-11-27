@@ -131,31 +131,6 @@ function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$fo
   $form['field_ding_campaign_plus_track']['#weight'] = 11;
 }
 
-
-/**
- * Implements hook_form_alter().
- */
-function ding_campaign_plus_form_alter(&$form, &$form_state, $form_id) {
-  $types = array('ding_page_node_form', 'ding_event_node_form', 'ding_news_node_form');
-  if (in_array($form_id, $types)) {
-
-    $form['campaign_plus_auto_generate'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Campaign'),
-      '#description' => t('Generate campaign based on this'),
-      '#collapsible' => TRUE,
-      '#collapsed' => FALSE,
-      '#weight' => 50,
-    );
-
-    $form['campaign_plus_auto_generate']['enable'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Generate campaign'),
-      '#desecription' => t('Generate campaign based on the current content.'),
-    );
-  }
-}
-
 /**
  * Implements hook_preprocess_node().
  *

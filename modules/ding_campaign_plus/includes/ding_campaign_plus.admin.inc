@@ -26,48 +26,13 @@ function ding_campaign_plus_admin_settings($form, $form_state) {
     $form['ding_campaign_plus_weight']['table'][$key] = ding_campaign_plus_admin_settings_form_add($option['title'], $option['weight']);
   }
 
-  $form['ding_campaign_plus_auto'] = array(
-    '#type' => 'fieldset',
-    '#title' => 'Generated campaigns',
-    '#tree' => TRUE,
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-
-  $default = variable_get('ding_campaign_plus_auto', array());
-  $form['ding_campaign_plus_auto']['enabled'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enabled generate campaigns'),
-    '#description' => t('Allow users to automatically generate campaigns when creating new content. A checkbox will be inserted into the different content types.'),
-    '#default_value' => isset($default['enabled']) ? $default['enabled'] : 0,
-  );
-
-  // Build options to generate campaigns.
-  $data = ding_campaign_plus_rules_info();
-  foreach ($data as $module => $info) {
-    if (isset($info['auto'])) {
-      $callback = $info['auto'];
-      $form['ding_campaign_plus_auto'][$module] = array(
-        '#type' => 'fieldset',
-        '#title' => $info['title'],
-        '#collapsible' => TRUE,
-        '#collapsed' => TRUE,
-        '#states' => array(
-          'invisible' => array(
-            ':input[name="ding_campaign_plus_auto[enabled]"]' => array('checked' => FALSE),
-          ),
-        ),
-        'config' => $callback($form_state, $default[$module]['config']),
-      );
-    }
-  }
-
   $form['ding_campaign_plus_expire'] = array(
     '#type' => 'textfield',
     '#title' => t('Campaign cache expire'),
     '#description' => t('Campaign selection is cached to boost performance. This is the number of seconds before campaigns should be reselected base on triggers for a give context.'),
     '#default_value' => variable_get('ding_campaign_plus_expire', 900),
     '#size' => 8,
+    '#weight' => 15,
   );
 
   $form['actions'] = array('#type' => 'actions');
@@ -87,7 +52,6 @@ function ding_campaign_plus_admin_settings_submit($form, $form_state) {
 
   variable_set('ding_campaign_plus_weight', $weights);
   variable_set('ding_campaign_plus_expire',  $form_state['values']['ding_campaign_plus_expire']);
-  variable_set('ding_campaign_plus_auto',  $form_state['values']['ding_campaign_plus_auto']);
 }
 
 /**
@@ -111,8 +75,6 @@ function ding_campaign_plus_ding_settings_options($weights) {
       );
     }
   }
-
-
 
   $options += array(
     'search' => array(
