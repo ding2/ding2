@@ -27,6 +27,7 @@ filter:
         - '*.panels_default.inc'
         - '*.panelizer.inc'
         - '*.strongarm.inc'
+        - '*.ting_field_search_default_profiles.inc'
         - '*.views_default.inc'
         # Generated webservice client code for FBS
         - modules/fbs/prancer/*
