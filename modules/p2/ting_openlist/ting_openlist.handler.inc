@@ -198,15 +198,15 @@ function ting_openlist_handler_get_user_elements($user_identifier, $from) {
  *
  * @param string $module
  *   Name of the module.
- * @param string $method
- *   The method to call.
+ * @param string $function
+ *   The function to call.
  * @param array $arguments
  *   List of ordered arguments.
  *
  * @return mixed
  *   The return of the module.
  */
-function ting_openlist_handler_call_module($module, $method, array $arguments = array()) {
+function ting_openlist_handler_call_module($module, $function, array $arguments = array()) {
   $method = 'callModule';
   return ting_openlist_request($method, func_get_args());
 }
