@@ -258,7 +258,7 @@
         z-index: $z-header - 1;
         top: -20px;
         width: 100%;
-        background-color: $charcoal;
+        background-color: $charcoal-lighter;
 
         // Tablet
         @include media($tablet) {
