@@ -80,9 +80,6 @@
           $.each(settings.ding_availability, function (id, entity_ids) {
             ding_availability_update_availability(id, entity_ids);
           });
-        },
-        error: function (xhr, status, error) {
-          $('div.loader').remove();
         }
       }
     }
