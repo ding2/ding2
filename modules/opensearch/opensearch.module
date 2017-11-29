@@ -405,5 +405,5 @@ function opensearch_search_autocomplete_settings() {
  * Place our OpenSearch classes in the OpenSearch namespace.
  */
 function opensearch_xautoload(LocalDirectoryAdapter $adapter) {
-  $adapter->absolute()->addPsr4('OpenSearch\\', drupal_get_path('module', 'opensearch') . '/src');
+  $adapter->addPsr4('OpenSearch', 'src');
 }

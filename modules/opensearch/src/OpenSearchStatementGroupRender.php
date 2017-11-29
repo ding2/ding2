@@ -4,15 +4,19 @@
  * The StatementGroupRender class.
  */
 
-namespace Ting\Search;
+namespace OpenSearch;
+
+use Ting\Search\BooleanStatementGroup;
+use Ting\Search\BooleanStatementInterface;
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
 
 /**
- * Class TingFilterGroupRendere
  * Recursivly renders a statement group
  *
  * @package Ting\Search
  */
-class StatementGroupRender {
+class OpenSearchStatementGroupRender {
   // Provider-specific mapping, intialized during field rendering.
   protected $commonFieldMapping = NULL;
 
@@ -35,7 +39,7 @@ class StatementGroupRender {
    * @return string
    *   The rendered group, empty string if the group is empty.
    *
-   * @throws \Exception
+   * @throws \InvalidArgumentException
    *   In case the group contains invalid members.
    */
   public function renderGroup($group) {
@@ -56,7 +60,7 @@ class StatementGroupRender {
    * @return string
    *   The rendered group, empty string if the group is empty.
    *
-   * @throws \Exception
+   * @throws \InvalidArgumentException
    *   In case the group contains invalid members.
    */
   public function renderStatements($statements, $logic_operator = BooleanStatementInterface::OP_AND) {
@@ -154,7 +158,7 @@ class StatementGroupRender {
     // TODO BBS-SAL: escape field value - again using the provider.
 
     // Map the field if it is a common-field.
-    if (in_array($field->getName(), TingSearchCommonFields::getAll())) {
+    if (in_array($field->getName(), TingSearchCommonFields::getAll(), TRUE)) {
       if (isset($this->commonFieldMapping[$field->getName()])) {
         $field_name = $this->commonFieldMapping[$field->getName()];
       }
@@ -180,6 +184,6 @@ class StatementGroupRender {
     $quoted_field = '"' . str_replace('"', '\"', $field->getValue()) . '"';
 
     // Render the full field with operator and value.
-    return $field_name . $field->getOperator() . $quoted_field;
+    return $field_name . '=' . $quoted_field;
   }
 }

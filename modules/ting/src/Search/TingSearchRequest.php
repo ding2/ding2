@@ -432,8 +432,10 @@ class TingSearchRequest {
   /**
    * Get the list of BooleanStatementGroup instances.
    *
+   * When executed the statements must be joined together with a logical AND.
+   *
    * @return BooleanStatementGroup[]
-   *   List of BooleanStatementGroup intances used to filter field.
+   *   List of BooleanStatementGroup instances used to filter field.
    */
   public function getFieldFilters() {
     return $this->fieldFilters;
@@ -442,13 +444,16 @@ class TingSearchRequest {
   /**
    * Filter(s) or statement group(s) to add to the query.
    *
+   * If the query already contains filters, the filters specified in $filters
+   * will be AND'ed with the existing filters.
+   *
    * @param mixed[]|\Ting\Search\BooleanStatementGroup|\Ting\Search\TingSearchFieldFilter $filters
    *   A single BooleanStatementGroup or TingSearchFieldFilter or a (potentially
    *   mixed) array of both.
    *
    * @param string $logic_operator
-   *   Operator to apply if this is not the first statement. See
-   *   BooleanStatementInterface::OP_*
+   *   Logical operator to use for joining filters together if $filters contains
+   *   more than one filter. See BooleanStatementInterface::OP_*.
    *
    * @return TingSearchRequest
    *   the current query object.
@@ -488,18 +493,16 @@ class TingSearchRequest {
    *   The field name.
    *
    * @param mixed|TingSearchFieldFilter::BOOLEAN_FIELD_VALUE $value
-   *   Field value, if omitted or set to
+   *   Expected field-value, if omitted or set to
    *   TingSearchFieldFilter::BOOLEAN_FIELD_VALUE the field is treated as a
    *   boolean field that will be compared without an operator Eg:
    *   (myboolfield AND anotherfield=123)
-   * @param string $operator
-   *   Operator to use when comparing the field instance with a value.
    *
    * @return TingSearchRequest
    *   the current query object.
    */
-  public function addFieldFilter($name, $value = TingSearchFieldFilter::BOOLEAN_FIELD_VALUE, $operator = '=') {
-    $this->addFieldFilters([new TingSearchFieldFilter($name, $value, $operator)]);
+  public function addFieldFilter($name, $value = TingSearchFieldFilter::BOOLEAN_FIELD_VALUE) {
+    $this->addFieldFilters([new TingSearchFieldFilter($name, $value)]);
     return $this;
   }
 }
