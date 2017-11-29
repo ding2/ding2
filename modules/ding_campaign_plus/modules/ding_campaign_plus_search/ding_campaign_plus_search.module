@@ -113,6 +113,29 @@ function ding_campaign_plus_search_ding_campaign_plus_matches($contexts, $style)
 }
 
 /**
+ * Implements hook_ding_campaign_plus_auto_trigger().
+ *
+ * When auto-generating campaigns this defines the triggers for the object
+ * module.
+ */
+function ding_campaign_plus_object_ding_campaign_plus_auto_trigger($config, $campaign_node, $values) {
+  $trigger = array();
+  $trigger[DING_CAMPAIGN_PLUS_OBJECT_TYPE] = array('rules' => array());
+
+  if ($config) {
+    $node = entity_metadata_wrapper('node', (object) $values);
+    $field = 'field_' . $node->getBundle() . '_category';
+    $term = $node->{$field}->value();
+    $trigger[DING_CAMPAIGN_PLUS_OBJECT_TYPE]['rules'] = array(
+      'query' => '"' . $term->name . '"',
+      'percent' => '30'
+    );
+  }
+
+  return $trigger;
+}
+
+/**
  * Build form options used to configure auto generated campaigns.
  *
  * @param $form_state
