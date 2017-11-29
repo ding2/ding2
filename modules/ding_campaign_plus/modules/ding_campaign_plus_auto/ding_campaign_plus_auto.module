@@ -138,6 +138,10 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
       $campaign_wrapper->field_ding_campaign_plus_type->set('campaign_text');
     }
 
+    $field = 'field_' . $node->getBundle() . '_category';
+    $term = $node->{$field}->value();
+    $campaign_wrapper->field_ding_campaign_plus_track->set($term->name);
+
     // Add triggers for the new campaign
     $config = variable_get('ding_campaign_plus_auto', array());
     $campaign_node->tabs = array();

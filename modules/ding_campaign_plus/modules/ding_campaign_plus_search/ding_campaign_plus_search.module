@@ -115,10 +115,10 @@ function ding_campaign_plus_search_ding_campaign_plus_matches($contexts, $style)
 /**
  * Implements hook_ding_campaign_plus_auto_trigger().
  *
- * When auto-generating campaigns this defines the triggers for the object
+ * When auto-generating campaigns this defines the triggers for the search
  * module.
  */
-function ding_campaign_plus_object_ding_campaign_plus_auto_trigger($config, $campaign_node, $values) {
+function ding_campaign_plus_search_ding_campaign_plus_auto_trigger($config, $campaign_node, $values) {
   $trigger = array();
   $trigger[DING_CAMPAIGN_PLUS_OBJECT_TYPE] = array('rules' => array());
 
