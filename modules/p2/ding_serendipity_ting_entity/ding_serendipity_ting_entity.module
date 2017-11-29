@@ -154,7 +154,7 @@ function ding_serendipity_ting_entity_ting_object_subject_serendipity_add($conte
 
   // Find related content from any of the subjects.
   $field_filters = array_map(function($subject) {
-    return new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, $subject, '=');
+    return new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, $subject);
   }, $subjects);
 
   $query = ting_start_query()->addFieldFilters($field_filters, BooleanStatementInterface::OP_OR);
