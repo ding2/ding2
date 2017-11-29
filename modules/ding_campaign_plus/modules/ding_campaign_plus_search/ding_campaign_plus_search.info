@@ -3,3 +3,4 @@ description = Search campaign plus triggers
 core = 7.x
 package = Ding!
 dependencies[] = ding_campaign_plus
+dependencies[] = ting

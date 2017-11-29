@@ -59,34 +59,47 @@ function ding_campaign_plus_auto_admin_settings_form_submit(&$form, &$form_state
  * content.
  */
 function ding_campaign_plus_auto_form_alter(&$form, &$form_state, $form_id) {
-  if (!isset($form_state['node']->nid) && isset($form['#node_edit_form']) && $form['#node_edit_form']) {
+  if (isset($form['#node_edit_form']) && $form['#node_edit_form']) {
     if (in_array($form['#node']->type, _ding_campaign_plus_auto_content_types())) {
       $form['ding_campaign_plus_auto_generate'] = array(
         '#type' => 'fieldset',
         '#title' => t('Campaign'),
-        '#description' => t('Generate campaign based on this'),
         '#collapsible' => TRUE,
         '#collapsed' => FALSE,
         '#weight' => 50,
         '#tree' => TRUE,
       );
 
-      $form['ding_campaign_plus_auto_generate']['enable'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Generate campaign'),
-        '#desecription' => t('Generate campaign based on the current content.'),
-        '#default_value' => FALSE,
-      );
+      if (isset($form_state['node']->nid) && !empty($form_state['node']->ding_campaign_plus_auto)) {
+        $campaign = node_load($form_state['node']->ding_campaign_plus_auto);
+        $link = l($campaign->title, 'node/' . $campaign->nid, array(
+          'attributes' => array(
+            'target' => 'blank',
+          ),
+        ));
+        $form['ding_campaign_plus_auto_generate']['info'] = array(
+          '#type' => 'markup',
+          '#markup' => t('This node is linked to campaign') . ' - ' . $link,
+        );
+      }
+      else {
+        $form['ding_campaign_plus_auto_generate']['enable'] = array(
+          '#type' => 'checkbox',
+          '#title' => t('Generate campaign'),
+          '#desecription' => t('Generate campaign based on the current content.'),
+          '#default_value' => FALSE,
+        );
 
-      $form['ding_campaign_plus_auto_generate']['link'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Link campaign too'),
-        '#desecription' => t('When clicked where should the user be sent.'),
-        '#default_value' => '<front>',
-      );
+        $form['ding_campaign_plus_auto_generate']['link'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Link campaign too'),
+          '#desecription' => t('When clicked where should the user be sent.'),
+          '#default_value' => '<front>',
+        );
 
-      $form += array('#submit' => array());
-      array_unshift($form['#submit'], 'ding_campaign_plus_auto_form_submit');
+        $form += array('#submit' => array());
+        array_unshift($form['#submit'], 'ding_campaign_plus_auto_form_submit');
+      }
     }
   }
 }
@@ -145,20 +158,26 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
  * Implements hook_node_insert().
  */
 function ding_campaign_plus_auto_node_insert($node) {
+  $campaign_nid = &drupal_static(__FUNCTION__);
   if ($node->type == 'ding_campaign_plus') {
-    $nid = drupal_static(__FUNCTION__);
-    $nid = $node->nid;
+    $campaign_nid = $node->nid;
   }
-  else {
-    $campaign_nid = drupal_static(__FUNCTION__);
-    if ($campaign_nid) {
-      db_insert('ding_campaign_plus_auto')
-        ->fields(array('nid', 'campaign_nid'), array($node->nid, $campaign_nid))
-        ->execute();
+  else if ($campaign_nid) {
+    db_insert('ding_campaign_plus_auto')
+      ->fields(array('nid', 'campaign_nid'), array($node->nid, $campaign_nid))
+      ->execute();
 
-      // Reset campaign nid.
-      $campaign_nid = FALSE;
-    }
+    // Reset campaign nid.
+    $campaign_nid = FALSE;
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ding_campaign_plus_auto_node_update($node) {
+  if (in_array($node->type, _ding_campaign_plus_auto_content_types())) {
+    ding_campaign_plus_auto_node_insert($node);
   }
 }
 
@@ -169,7 +188,7 @@ function ding_campaign_plus_auto_node_load($nodes, $types) {
   foreach ($nodes as &$node) {
     if (in_array($node->type, _ding_campaign_plus_auto_content_types())) {
       $nid = db_select('ding_campaign_plus_auto', 'dcpa')
-        ->fields('dcpa', array('nid'))
+        ->fields('dcpa', array('campaign_nid'))
         ->condition('nid', $node->nid)
         ->execute()
         ->fetchCol();
@@ -178,6 +197,17 @@ function ding_campaign_plus_auto_node_load($nodes, $types) {
         $node->ding_campaign_plus_auto = reset($nid);
       }
     }
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_campaign_plus_auto_node_delete($node) {
+  if (in_array($node->type, _ding_campaign_plus_auto_content_types())) {
+    db_delete('ding_campaign_plus_auto')
+      ->condition('nid', $node->nid)
+      ->execute();
   }
 }
 
