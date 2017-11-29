@@ -4,14 +4,13 @@
  * Implements handling of loans through OpenRuth.
  */
 
+use OpenSearch\OpenSearchStatementGroupRender;
 use OpenSearch\OpenSearchTingObject;
 use OpenSearch\OpenSearchTingObjectCollection;
 use OpenSearch\OpenSearchTingSearchResult;
 use Ting\Search\DingProviderStrategy;
 use Ting\Search\SearchProviderException;
-use Ting\Search\StatementGroupRender;
 use Ting\Search\TingSearchCommonFields;
-use Ting\Search\TingSearchCommonSortFields;
 use Ting\Search\TingSearchRequest;
 use Ting\Search\TingSearchSort;
 
@@ -117,8 +116,15 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
 
   // Add field filter.
   if (!empty($ting_query->getFieldFilters())) {
-    $render = new StatementGroupRender(new DingProviderStrategy());
-    $field_filters = $render->renderStatements($ting_query->getFieldFilters());
+    $render = new OpenSearchStatementGroupRender(new DingProviderStrategy());
+    try {
+      $field_filters = $render->renderStatements(
+        $ting_query->getFieldFilters()
+      );
+    }
+    catch (InvalidArgumentException $e) {
+      throw new SearchProviderException("Unable to render statements", 0, $e);
+    }
     $query_parts[] = $field_filters;
   }
 
