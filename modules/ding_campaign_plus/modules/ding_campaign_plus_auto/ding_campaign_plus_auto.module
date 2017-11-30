@@ -138,6 +138,10 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
       $campaign_wrapper->field_ding_campaign_plus_type->set('campaign_text');
     }
 
+    $field = 'field_' . $node->getBundle() . '_lead';
+    $lead = $node->{$field}->value();
+    $campaign_wrapper->field_ding_campaign_plus_text->set($lead);
+
     $field = 'field_' . $node->getBundle() . '_category';
     $term = $node->{$field}->value();
     $campaign_wrapper->field_ding_campaign_plus_track->set($term->name);
@@ -155,6 +159,13 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
     // and this campaign.
     $campaign_node = node_submit($campaign_node);
     node_save($campaign_node);
+
+    // Set message that campaign have been created.
+    $node_link = l(t('view'), 'node/' . $campaign_node->nid);
+    $watchdog_args = array('@type' => $campaign_node->type, '%title' => $campaign_node->title);
+    $t_args = array('@type' => node_type_get_name($campaign_node), '%title' => $campaign_node->title);
+    watchdog('content', '@type: added %title.', $watchdog_args, WATCHDOG_NOTICE, $node_link);
+    drupal_set_message(t('@type %title has been created.', $t_args));
   }
 }
 
