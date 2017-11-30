@@ -64,6 +64,21 @@
         }
       }
     }
+    // if layout in aside panel
+    .secondary-content & {
+      .ding-campaign-text {
+        @include span-columns(12);
+        min-height: auto;
+        .ding-campaign-headline, .ding-campaign-description {
+          @include span-columns(12);
+        }
+      }
+    }
+    @include media($mobile) {
+      .secondary-content & {
+        margin-top: getGutter();
+      }
+    }
   }
   //image and text in two columns layout
   &.image-and-text {
@@ -79,6 +94,7 @@
         padding: 40px 30px;
         min-height: auto;
       }
+
     }
     .ding-campaign-image {
       @include span-columns(6);
@@ -94,9 +110,28 @@
         height: 230px;
       }
     }
+    // If layout in aside panel
+    .secondary-content & {
+      .ding-campaign-text {
+        @include span-columns(12);
+        padding: 40px 30px;
+        min-height: auto;
+      }
+      .ding-campaign-image {
+        @include span-columns(12);
+        position: static;
+        height: 230px;
+      }
+    }
     .no-touch & {
       &:hover {
         background: $grey-dark;
+      }
+    }
+
+    @include media($mobile) {
+      .secondary-content & {
+        margin-top: getGutter();
       }
     }
   }
@@ -135,11 +170,32 @@
         background: $grey-dark;
       }
     }
+    // if text-only layout in aside panel
+    .secondary-content & {
+      .ding-campaign-text {
+        .ding-campaign-headline, .ding-campaign-description {
+          @include span-columns(12);
+        }
+      }
+    }
+    @include media($mobile) {
+      .secondary-content & {
+        margin-top: getGutter();
+      }
+    }
   }
   // image only layout
   &.image {
     img {
       width: 100%;
+    }
+
+  }
+  &.campaign-image {
+    @include media($mobile) {
+      .secondary-content & {
+        margin-top: getGutter();
+      }
     }
   }
 }
