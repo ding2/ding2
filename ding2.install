@@ -552,3 +552,10 @@ function ding2_update_7044() {
   $theme_settings['toggle_name'] = 1;
   variable_set('theme_' . $default_theme . '_settings', $theme_settings);
 }
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7045() {
+  ding2_translation_update();
+}

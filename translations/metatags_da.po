@@ -118,6 +118,11 @@ msgctxt "metatag_panels:page_user_loans_panel_context:title"
 msgid "Loans | [current-page:pager][site:name]"
 msgstr "Lån | [current-page:pager][site:name]"
 
+#: metatag:metatag_panels:page_user_loans_overdue_panel_context:title
+msgctxt "metatag_panels:page_user_loans_overdue_panel_context:title"
+msgid "Overdue loans | [current-page:pager][site:name]"
+msgstr "Overskredne lån | [current-page:pager][site:name]"
+
 #: metatag:metatag_panels:page_user_reservations_panel_context:title
 msgctxt "metatag_panels:page_user_reservations_panel_context:title"
 msgid "Reservations | [current-page:pager][site:name]"
