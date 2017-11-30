@@ -139,7 +139,7 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   }
 
   // Add material filter, this has to be the very last thing we do as we have
-  // to handle the filter differently query_parts is empty.
+  // to handle the filter differently if $query_parts is empty.
   $material_filter = $ting_query->getMaterialFilter();
   if (!empty($material_filter)) {
     if ($ting_query->isMaterialFilterInclude()) {
@@ -150,7 +150,12 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
       // We're excluding, meaning we need a NOT in front of all id's. We can't
       // start the query with a NOT so we add a wildcard match to the start of
       // the filter if query is empty.
-      $query_parts[] = '* NOT ' . implode(' NOT ', $material_filter);
+      if (empty($query_parts)) {
+        $query_parts[] = '* NOT ' . implode(' NOT ', $material_filter);
+      }
+      else {
+        $query_parts[] = implode(' NOT ', $material_filter);
+      }
     }
   }
 
