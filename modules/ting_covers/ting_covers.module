@@ -185,7 +185,7 @@ function ting_covers_get(array $requested_covers) {
 
   // Mark all remaining as not found in cache.
   foreach ($entities as $id => $entity) {
-    cache_set(ting_covers_cid($id), 1, 'cache', $_SERVER['REQUEST_TIME'] + TING_COVERS_DEFAULT_CACHE_LIFETIME);
+    cache_set(_ting_covers_cid($id), 1, 'cache', $_SERVER['REQUEST_TIME'] + TING_COVERS_DEFAULT_CACHE_LIFETIME);
   }
 
   return $covers;
