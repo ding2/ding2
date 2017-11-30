@@ -637,6 +637,36 @@ search/ting
     $display->content['new-26a27e6c-f934-4169-a06e-04db0f61ebf6'] = $pane;
     $display->panels['left_sidebar'][1] = 'new-26a27e6c-f934-4169-a06e-04db0f61ebf6';
     $pane = new stdClass();
+    $pane->pid = 'new-b238f54d-6cbb-4d51-873d-4510199d4854';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'style' => 'box',
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = 'b238f54d-6cbb-4d51-873d-4510199d4854';
+    $display->content['new-b238f54d-6cbb-4d51-873d-4510199d4854'] = $pane;
+    $display->panels['left_sidebar'][4] = 'new-b238f54d-6cbb-4d51-873d-4510199d4854';
+    $pane = new stdClass();
     $pane->pid = 'new-55cc4d0d-d8cd-46ae-96f7-18bb4fc809c8';
     $pane->panel = 'main_content';
     $pane->type = 'ting_collection';
@@ -875,6 +905,7 @@ search/ting
     $pane->uuid = '2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
     $display->content['new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a'] = $pane;
     $display->panels['attachment_1_1'][5] = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
+
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
