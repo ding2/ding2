@@ -120,13 +120,13 @@ function ding_campaign_plus_search_ding_campaign_plus_matches($contexts, $style)
  */
 function ding_campaign_plus_search_ding_campaign_plus_auto_trigger($config, $campaign_node, $values) {
   $trigger = array();
-  $trigger[DING_CAMPAIGN_PLUS_OBJECT_TYPE] = array('rules' => array());
+  $trigger[DING_CAMPAIGN_PLUS_SEARCH_TYPE] = array('rules' => array());
 
   if ($config) {
     $node = entity_metadata_wrapper('node', (object) $values);
     $field = 'field_' . $node->getBundle() . '_category';
     $term = $node->{$field}->value();
-    $trigger[DING_CAMPAIGN_PLUS_OBJECT_TYPE]['rules'] = array(
+    $trigger[DING_CAMPAIGN_PLUS_SEARCH_TYPE]['rules'] = array(
       'query' => '"' . $term->name . '"',
       'percent' => '30'
     );

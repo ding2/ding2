@@ -79,7 +79,7 @@ function hook_ding_campaign_plus_default_weights() {
  *   Matching the modules rules format for the module.
  */
 function hook_ding_campaign_plus_auto_trigger($config, $campaign_node, $values) {
-  return array('TYPE' => array('rules' => array('rule_0' => array())));
+  return array('TYPE' => array('rules' => array()));
 }
 
 /**
