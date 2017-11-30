@@ -601,4 +601,37 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $this->assertTrue(!empty($sort['label']));
     $this->assertTrue(!empty($sort['label_short']));
   }
+
+  /**
+   * Test that the provider can include and exclude materials.
+   */
+  public function testMaterialFilter() {
+    $query = ting_start_query();
+
+    /**
+     * @var \Ting\Search\TingSearchRequest $query_include
+     */
+    $query_include = ding_provider_invoke('search', 'search', $query);
+    $query_include->setMaterialFilter('connie-123');
+
+    /**
+     * @var \Ting\Search\TingSearchRequest $query_exclude
+     */
+    $query_exclude = ding_provider_invoke('search', 'search', $query);
+    $query_exclude->setMaterialFilter('connie-123', FALSE);
+
+    // Execute the queries with included and excluded materials.
+    $result_include = $query_include->execute();
+    $result_exclude = $query_exclude->execute();
+
+    // connie-123 is included, so we expect a single object to be returned.
+    $this->assertEqual($query_include->getMaterialFilter(), ['connie-123']);
+    $this->assertTrue($query_include->isMaterialFilterInclude());
+    $this->assertTrue($result_include->getNumTotalObjects() > 0);
+
+    // connie-123 is excluded, so we expect no objects to be returned.
+    $this->assertEqual($query_exclude->getMaterialFilter(), ['connie-123']);
+    $this->assertTrue($query_include->isMaterialFilterInclude());
+    $this->assertFalse($result_exclude->getNumTotalObjects() > 0);
+  }
 }
