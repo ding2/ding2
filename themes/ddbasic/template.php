@@ -71,7 +71,7 @@ function ddbasic_preprocess_html(&$vars) {
   libraries_load('jquery.imagesloaded');
   libraries_load('html5shiv');
   libraries_load('masonry');
-
+  libraries_load('slick');
 }
 
 /**
@@ -1327,6 +1327,29 @@ function ddbasic_libraries_info() {
       ),
       'files' => array(
         'js' => array('dist/masonry.pkgd.min.js'),
+      ),
+    ),
+    'slick' => array(
+      'name' => 'Slick.js carousel library',
+      'path' => 'slick',
+      'vendor url' => 'https://github.com/kenwheeler/slick',
+      'download url' => 'https://github.com/kenwheeler/slick/archive/1.8.0.zip',
+      'version arguments' => array(
+        'file' => 'slick/slick.js',
+        'pattern' => '/Version:\s+([0-9a-zA-Z\.-]+)/',
+        'lines' => 15,
+      ),
+      'files' => array(
+        'js' => array('slick.min.js'),
+        'css' => array('slick.css'),
+      ),
+      'variants' => array(
+        'non-minified' => array(
+          'files' => array(
+            'js' => array('slick.js'),
+            'css' => array('slick.css'),
+          ),
+        ),
       ),
     ),
   );
