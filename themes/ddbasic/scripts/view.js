@@ -289,37 +289,50 @@
             // wrap slides in containers of 2.
             event_view_rows.slice(i, i+2).wrapAll("<div class='two-slides'></div>");
           }
-          $('.view-ding-event.max-two-rows .view-elements-inner').slick({
-            arrows: true,
-            infinite: false,
-            slidesToScroll: 1,
-            slidesToShow: 1
-          });
+
+          var slick_init = $('.view-ding-event.max-two-rows .view-elements-inner');
+          if (slick_init.length !== 0) {
+            slick_init.slick({
+              arrows: true,
+              infinite: false,
+              slidesToScroll: 1,
+              slidesToShow: 1
+            });
+          }
 
           // Slide-on-mobile views
-          $('.view.slide-on-mobile .view-content').slick({
-            arrows: true,
-            infinite: false,
-            slidesToScroll: 1,
-            slidesToShow: 1
-          });
+          var slick_init_mobile = $('.view.slide-on-mobile .view-content');
+          if (slick_init_mobile.length !== 0) {
+            slick_init_mobile.slick({
+              arrows: true,
+              infinite: false,
+              slidesToScroll: 1,
+              slidesToShow: 1
+            });
+          }
 
           break;
+
         case ddbasic.breakpoint.OUT:
+          var slick_destroy = $('.view-ding-event.max-two-rows .view-elements-inner.slick-initialized');
           // Event max-two-rows view.
-          $('.view-ding-event.max-two-rows .view-elements-inner.slick-initialized').slick('unslick');
-          $('.two-slides .views-row').unwrap();
+          if (slick_destroy.length !== 0) {
+            slick_destroy.slick('unslick');
+            $('.two-slides .views-row').unwrap();
 
-          var doc_style = document.documentElement.style;
+            var doc_style = document.documentElement.style;
 
-          if (event_view_rows.length > 3 || ('flexWrap' in doc_style)) {
-            $('.view-ding-event.max-two-rows').removeClass('no-flex');
-            $('.view-ding-event.max-two-rows').addClass('flex');
+            if (event_view_rows.length > 3 || ('flexWrap' in doc_style)) {
+              $('.view-ding-event.max-two-rows').removeClass('no-flex');
+              $('.view-ding-event.max-two-rows').addClass('flex');
+            }
           }
 
           // Slide-on-mobile views.
-          $('.view.slide-on-mobile .view-content.slick-initialized').slick('unslick');
-
+          var slick_destroy_mobile = $('.view.slide-on-mobile .view-content.slick-initialized');
+          if (slick_destroy_mobile.length !== 0) {
+            slick_destroy_mobile.slick('unslick');
+          }
           break;
       }
     }).triggerHandler('resize.ding_view_slide');
