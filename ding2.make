@@ -553,6 +553,9 @@ projects[extlink][subdir]                   = "contrib"
 projects[ckeditor_link][subdir]             = "contrib"
 projects[ckeditor_link][version]            = "2.4"
 
+projects[css_editor][subdir]                = "contrib"
+projects[css_editor][version]               = "1.0"
+
 projects[opengraph_meta][version]           = "1.3"
 projects[opengraph_meta][subdir]            = "contrib"
 
