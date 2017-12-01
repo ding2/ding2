@@ -184,14 +184,14 @@ function ting_admin_reservable_settings($form_state) {
   $form['ting_reservable']['ting_reservable_sources'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Sources'),
-    '#options' => drupal_map_assoc(array_keys($sources)),
+    '#options' => drupal_map_assoc($sources),
     '#default_value' => variable_get('ting_reservable_sources', _ting_default_reservable_sources()),
   );
 
   $form['ting_reservable']['ting_reservable_types'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Types'),
-    '#options' => drupal_map_assoc(array_keys($types)),
+    '#options' => drupal_map_assoc($types),
     '#default_value' => variable_get('ting_reservable_types', _ting_default_reservable_types()),
   );
   // Save us the trouble of running array_filter.

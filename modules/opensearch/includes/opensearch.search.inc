@@ -53,12 +53,9 @@ function _opensearch_get_facet_values($facet_name) {
   ];
   $result = opensearch_do_search("*", 0, 0, $options);
 
-  $types = [];
-  foreach ($result->facets[$facet_name]->terms as $term => $count) {
-    $types[drupal_strtolower($term)] = $count;
-  }
-
-  return $types;
+  // Terms is a map from term names to result frequencies.
+  $term_names = array_keys($result->facets[$facet_name]->terms);
+  return array_map('drupal_strtolower', $term_names);
 }
 
 /**

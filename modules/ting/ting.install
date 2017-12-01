@@ -271,3 +271,18 @@ function ting_update_7010() {
 function ting_update_7011() {
   variable_del('ting_filter_by_local_holdings');
 }
+
+/**
+ * Convert material types and sources to new structure.
+ */
+function ting_update_7012() {
+  // Variables currently contain maps of names to frequencies. Going forward
+  // we only require the names so convert each to an array of names.
+  $var_names = array('ting_well_types', 'ting_well_sources');
+  array_map(function($var_name) {
+    $var_value = variable_get($var_name, []);
+    if (!empty($var_value)) {
+      variable_set($var_name, array_keys($var_value));
+    }
+  }, $var_names);
+}
