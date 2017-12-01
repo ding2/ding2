@@ -843,24 +843,14 @@ function _ting_fetch_well_types() {
  *   Array with the sources.
  */
 function _ting_fetch_well_sources() {
-  // Get a list of sources by executing a null query and look at the facets
-  // result.
-  // TODO BBS-SAL: Port as provider call.
-  $options = array(
-    'facets' => array('facet.acSource'),
-    'numFacets' => 99,
-    'reply_only' => TRUE,
-    // 'sort' => 'random',
-  );
-  module_load_include('client.inc', 'opensearch');
-  $result = opensearch_do_search("*", 0, 0, $options);
-
   $sources = array();
-  foreach ($result->facets['facet.acSource']->terms as $term => $count) {
-    $sources[drupal_strtolower($term)] = $count;
+
+  // Delegate the fetching of sources to a search provider.
+  if (ding_provider_implements('search', 'sources')) {
+    $sources = ding_provider_invoke('search', 'sources');
   }
 
-  // Only save if we actually got any types.
+  // Only save if we actually got any sources.
   if (!empty($sources)) {
     variable_set('ting_well_sources', $sources);
   }

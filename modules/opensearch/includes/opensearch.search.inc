@@ -18,27 +18,43 @@ use Ting\Search\TingSearchSort;
  * Get a list of material types from the Well.
  */
 function opensearch_search_material_types() {
+  return _opensearch_get_facet_values('facet.type');
+}
+
+/**
+ * Get a list of sources from OpenSearch
+ */
+function opensearch_search_sources() {
+  return _opensearch_get_facet_values('facet.acSource');
+}
+
+/**
+ * Gets possible values for a facet from OpenSearch.
+ *
+ * @param string $facet_name
+ *   The name of the facet.
+ *
+ * @return array
+ *   A map from facet names to number of results matching that facet.
+ */
+function _opensearch_get_facet_values($facet_name) {
   // Ensure we have ting client.
   module_load_include('inc', 'opensearch', 'opensearch.client');
 
   // Get a list of types by executing a null query and look at the facets
   // result.
   $options = [
-    'facets' => ['facet.type'],
+    'facets' => [$facet_name],
     'numFacets' => 99,
     'reply_only' => TRUE,
     // Following configuration breaks the search, commented out for now.
     // 'sort' => 'random',
   ];
-  module_load_include('client.inc', 'opensearch');
   $result = opensearch_do_search("*", 0, 0, $options);
 
-  $types = [];
-  foreach ($result->facets['facet.type']->terms as $term => $count) {
-    $types[drupal_strtolower($term)] = $count;
-  }
-
-  return $types;
+  // Terms is a map from term names to result frequencies.
+  $term_names = array_keys($result->facets[$facet_name]->terms);
+  return array_map('drupal_strtolower', $term_names);
 }
 
 /**

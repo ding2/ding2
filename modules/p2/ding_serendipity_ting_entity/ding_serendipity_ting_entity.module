@@ -80,7 +80,7 @@ function ding_serendipity_ting_entity_adhl_settings() {
   $form['ding_serendipity_ting_entity_adhl_accepted_types'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Select which types are looked up for ADHL'),
-    '#options' => drupal_map_assoc(array_keys($types)),
+    '#options' => drupal_map_assoc($types),
     '#default_value' => variable_get('ding_serendipity_ting_entity_adhl_accepted_types', array()),
   );
 

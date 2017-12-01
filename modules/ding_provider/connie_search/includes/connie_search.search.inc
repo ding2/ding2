@@ -21,6 +21,15 @@ function connie_search_search_material_types() {
   return ['material_type_1', 'material_type_2'];
 }
 
+/**
+ * Get a list of search sources.
+ *
+ * @return string[]
+ *   List of search sources.
+ */
+function connie_search_search_sources() {
+  return ['source A', 'source B'];
+}
 
 /**
  * Load objects from Open Search.
