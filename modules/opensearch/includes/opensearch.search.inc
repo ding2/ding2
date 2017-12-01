@@ -43,6 +43,29 @@ function opensearch_search_material_types() {
 }
 
 /**
+ * Get a list of sources from OpenSearch
+ */
+function opensearch_search_sources() {
+  // Get a list of sources by executing a null query and look at the facets
+  // result.
+  $options = array(
+    'facets' => array('facet.acSource'),
+    'numFacets' => 99,
+    'reply_only' => TRUE,
+    // 'sort' => 'random',
+  );
+  module_load_include('client.inc', 'opensearch');
+  $result = opensearch_do_search("*", 0, 0, $options);
+
+  $sources = array();
+  foreach ($result->facets['facet.acSource']->terms as $term => $count) {
+    $sources[drupal_strtolower($term)] = $count;
+  }
+
+  return $sources;
+}
+
+/**
  * Load objects from Open Search.
  *
  * @param string[] $ids

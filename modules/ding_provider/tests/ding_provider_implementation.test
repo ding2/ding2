@@ -348,6 +348,14 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
   public abstract function getMaterials();
 
   /**
+   * Provide a list of expected sources.
+   *
+   * @return string[]
+   *   Simple array of sources.
+   */
+  public abstract function getSources();
+
+  /**
    * Expected return-value of search_object_load.
    *
    * @return object[]
@@ -450,6 +458,15 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $expected_materials = $this->getMaterials();
     $materials_from_provider = ding_provider_invoke('search', 'material_types');
     $this->assertEqual($expected_materials, $materials_from_provider);
+  }
+  
+  /**
+   * Verify that the provider returns the expected list of sources.
+   */
+  public function testSources() {
+    $expected_sources = $this->getSources();
+    $sources_from_provider = ding_provider_invoke('search', 'sources');
+    $this->assertEqual($expected_sources, $sources_from_provider);
   }
 
   /**

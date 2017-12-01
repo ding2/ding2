@@ -46,6 +46,15 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
   }
 
   /**
+   * Expected return value of search_sources.
+   *
+   * @return string[]
+   *   List of expected sources.
+   */
+  public function getSources() {
+    return ['source A', 'source B'];
+  }
+  /**
    * Expected return-value of search_object_load.
    *
    * @return \Ting\TingObjectInterface[]
