@@ -491,18 +491,15 @@ class TingSearchRequest {
    *
    * @param string $name
    *   The field name.
-   *
-   * @param mixed|TingSearchFieldFilter::BOOLEAN_FIELD_VALUE $value
-   *   Expected field-value, if omitted or set to
-   *   TingSearchFieldFilter::BOOLEAN_FIELD_VALUE the field is treated as a
-   *   boolean field that will be compared without an operator Eg:
-   *   (myboolfield AND anotherfield=123)
+   * @param mixed $value
+   *   Expected field-value.
    *
    * @return TingSearchRequest
    *   the current query object.
    */
-  public function addFieldFilter($name, $value = TingSearchFieldFilter::BOOLEAN_FIELD_VALUE) {
+  public function addFieldFilter($name, $value) {
     $this->addFieldFilters([new TingSearchFieldFilter($name, $value)]);
     return $this;
   }
+
 }

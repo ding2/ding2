@@ -173,12 +173,6 @@ class OpenSearchStatementGroupRender {
       $field_name = $field->getName();
     }
 
-    if ($field->isBoolean()) {
-      // Just render the field, it can be evaluated without the operator and
-      // value.
-      return $field_name;
-    }
-
     // Very simpel quotes. Enclose everything in double-quotes, and escape any
     // double-quotes in the value.
     $quoted_field = '"' . str_replace('"', '\"', $field->getValue()) . '"';
