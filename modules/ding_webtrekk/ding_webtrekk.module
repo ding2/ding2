@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ * Include basic hooks for the module functionality.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_webtrekk_menu(){
+  $items = [];
+  $items['admin/config/ding/webtrekk'] = [
+    'title' => 'Webtrekk',
+    'description' => 'Settings for the Webtrekk analytics tool.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_webtrekk_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ding_webtrekk.admin.inc',
+  ];
+  
+  return $items;
+}
