@@ -20,3 +20,27 @@ function ding_webtrekk_menu(){
   
   return $items;
 }
+
+/**
+ * Implements hook_page_alter().
+ */
+function ding_webtrekk_page_alter(&$page) {
+  $page['page_bottom']['webtrekk']['#attached']['js'] = [
+    [
+      'data' => drupal_get_path('module', 'ding_webtrekk') . '/js/tiLoader.min.js',
+      'type' => 'file',
+      'scope' => 'footer',
+    ],
+    [
+      'data' => [
+        'ding_webtrekk' => [
+          'webtrekk_ti_domain' => variable_get('webtrekk_ti_domain', ''),
+          'webtrekk_ti_id' => variable_get('webtrekk_ti_id', ''),
+          'webtrekk_custom_domain' => variable_get('webtrekk_custom_domain', ''),
+          'webtrekk_custom_path' => variable_get('webtrekk_custom_path', ''),
+        ]
+      ],
+      'type' => 'setting',
+    ],
+  ];
+}
