@@ -28,7 +28,7 @@ function ding_webtrekk_admin_settings_form($form_state) {
   $form['webtrekk_custom_path'] = [
     '#type' => 'textfield',
     '#title' => t('Custom Path'),
-    '#description' => t('Enter the path to your JavaScript file here, if the TagIntegration file should be loaded fromyour server.'),
+    '#description' => t('Enter the path to your JavaScript file here, if the TagIntegration file should be loaded from your server.'),
     '#default_value' => variable_get('webtrekk_custom_path', ''),
   ];
   
