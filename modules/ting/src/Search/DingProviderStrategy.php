@@ -28,6 +28,10 @@ class DingProviderStrategy implements TingSearchStrategyInterface {
     try {
       return ding_provider_invoke('search', 'search', $query);
     }
+    catch (UnsupportedSearchQueryException $e) {
+      watchdog_exception('ting', $e, 'The provider did not support the query');
+      return new NullSearchResult($query);
+    }
     catch (SearchProviderException $e) {
       watchdog_exception('ting', $e, 'Error while searching');
       return new NullSearchResult($query);
