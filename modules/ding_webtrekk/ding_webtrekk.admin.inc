@@ -4,7 +4,10 @@
  * Administration form definition.
  */
 
-function ding_webtrekk_admin_settings_form($form_state) {
+/**
+ * Define admin page.
+ */
+function ding_webtrekk_admin_settings_form() {
   $form = [];
   
   $form['webtrekk_ti_domain'] = [
