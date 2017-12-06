@@ -25,7 +25,18 @@ function ding_webtrekk_menu() {
  * Implements hook_page_alter().
  */
 function ding_webtrekk_page_alter(&$page) {
+  $script = 'window._ti = window._ti || {};';
+
+  $title = drupal_get_title();
+  if ($title) {
+    $script .= "window._ti['pageTitle'] = '$title';";
+  }
+
   $page['page_bottom']['webtrekk']['#attached']['js'] = [
+    [
+      'data' => $script,
+      'type' => 'inline',
+    ],
     [
       'data' => drupal_get_path('module', 'ding_webtrekk') . '/js/tiLoader.min.js',
       'type' => 'file',
@@ -36,11 +47,56 @@ function ding_webtrekk_page_alter(&$page) {
         'ding_webtrekk' => [
           'webtrekk_ti_domain' => variable_get('webtrekk_ti_domain', ''),
           'webtrekk_ti_id' => variable_get('webtrekk_ti_id', ''),
-          'webtrekk_custom_domain' => variable_get('webtrekk_custom_domain', ''),
-          'webtrekk_custom_path' => variable_get('webtrekk_custom_path', ''),
         ]
       ],
       'type' => 'setting',
     ],
   ];
+}
+
+/**
+ * Implements hook_panels_pane_content_alter().
+ */
+function ding_webtrekk_panels_pane_content_alter($content, $pane, $args, $contexts) {
+  if ($pane->type == 'search_result' && $pane->configuration['type'] == 'ting_search') {
+    if ($search_result = drupal_static('ting_search_results', FALSE)) {
+      $script = 'window._ti = window._ti || {};';
+      // Pass page title to the script.
+      if (!empty($content->original_title)) {
+        $script .= "\nwindow._ti['pageTitle'] = '$content->original_title';";
+      }
+
+      // Pass search options to the script.
+      $search_key = $search_result->search_key;
+      $count = $search_result->numTotalObjects;
+      $script .= "\nwindow._ti['OSS'] = '$search_key';\nwindow._ti['OSSr'] = '$count';";
+
+      drupal_add_js($script, array(
+        'type' => 'inline',
+      ));
+    }
+  }
+}
+
+/**
+ * Implements hook_views_post_execute().
+ */
+function ding_webtrekk_views_post_execute(&$view) {
+  if ($view->name == 'ding_multiple_search') {
+    $script = 'window._ti = window._ti || {};';
+
+    $search_key = array_shift($view->args);
+    $script .= "\nwindow._ti['internalSearch'] = '$search_key'";
+
+    $count = $view->total_rows;
+    $script .= "\nwindow._ti['numberSearchResults'] = '$count';";
+
+    if (!empty($view->human_name)) {
+      $script .= "\nwindow._ti['pageTitle'] = '$view->human_name';";
+    }
+
+    drupal_add_js($script, array(
+      'type' => 'inline',
+    ));
+  }
 }
