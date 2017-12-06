@@ -329,7 +329,6 @@ function ding_list_installer_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Public lists';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -343,6 +342,11 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'entity';
   $handler->display->display_options['row_options']['view_mode'] = 'carousel';
+  /* Relationship: Ding_type: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'eck_ding_type';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['label'] = 'Author';
   /* Field: Ding_type: Id */
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ding_type';
@@ -352,6 +356,15 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['sorts']['changed']['table'] = 'eck_ding_type';
   $handler->display->display_options['sorts']['changed']['field'] = 'changed';
   $handler->display->display_options['sorts']['changed']['order'] = 'DESC';
+  /* Contextual filter: User: Roles */
+  $handler->display->display_options['arguments']['rid']['id'] = 'rid';
+  $handler->display->display_options['arguments']['rid']['table'] = 'users_roles';
+  $handler->display->display_options['arguments']['rid']['field'] = 'rid';
+  $handler->display->display_options['arguments']['rid']['relationship'] = 'uid';
+  $handler->display->display_options['arguments']['rid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['rid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['rid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['rid']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Ding_type: ding_type type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'eck_ding_type';
@@ -366,15 +379,6 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['filters']['field_ding_list_status_value']['value'] = array(
     'public' => 'public',
   );
-  /* Filter criterion: ding_type: Type (field_list_type) */
-  $handler->display->display_options['filters']['field_list_type_value']['id'] = 'field_list_type_value';
-  $handler->display->display_options['filters']['field_list_type_value']['table'] = 'field_data_field_list_type';
-  $handler->display->display_options['filters']['field_list_type_value']['field'] = 'field_list_type_value';
-  $handler->display->display_options['filters']['field_list_type_value']['value'] = 'user_list';
-
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page');
-  $handler->display->display_options['path'] = 'public-lists';
 
   /* Display: User lists */
   $handler = $view->new_display('panel_pane', 'User lists', 'user');
@@ -414,9 +418,22 @@ function ding_list_installer_views_default_views() {
       'label' => 'Ding_type: Author',
     ),
   );
+
+  /* Display: Lists */
+  $handler = $view->new_display('panel_pane', 'Lists', 'lists');
+  $handler->display->display_options['argument_input'] = array(
+    'rid' => array(
+      'type' => 'context',
+      'context' => 'string.raw',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'User: Roles',
+    ),
+  );
+  $handler->display->display_options['inherit_panels_path'] = '1';
   $translatables['public_lists'] = array(
     t('Master'),
-    t('Public lists'),
     t('more'),
     t('Apply'),
     t('Reset'),
@@ -430,13 +447,14 @@ function ding_list_installer_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
+    t('Author'),
     t('Id'),
     t('.'),
     t(','),
-    t('Page'),
-    t('User lists'),
     t('All'),
+    t('User lists'),
     t('View panes'),
+    t('Lists'),
   );
   $export['public_lists'] = $view;
 

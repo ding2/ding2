@@ -94,4 +94,4 @@ features[variable][] = scheduler_unpublish_enable_ding_news
 features[variable][] = webform_node_ding_news
 features[views_view][] = ding_news
 features[views_view][] = ding_node
-mtime = 1507797796
+mtime = 1508943106

@@ -607,7 +607,7 @@ function ding_message_preprocess_entity(&$vars) {
         );
 
         // Add message link to title.
-        $vars['content']['query']['#options']['query'] = array('size' => 50, 'message' => $last_element);
+        $vars['content']['query']['#options']['query'] = $link_query;
         $vars['content']['query']['#options']['attributes']['data-item-id'] = $values->mid;
         $vars['content']['query']['#options']['attributes']['class'] = array('ding-message-link');
       }

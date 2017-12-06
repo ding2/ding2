@@ -31,10 +31,11 @@
   stylesheets[all][] = sass_css/components/ding-tabroll.css
   stylesheets[all][] = sass_css/components/user.css
   stylesheets[all][] = sass_css/components/modal-content.css
+  stylesheets[all][] = sass_css/components/ding-list.css
 
   stylesheets[all][] = sass_css/components/form/form-user-login.css
   stylesheets[all][] = sass_css/components/form/form-user-profile.css
-  stylesheets[all][] = sass_css/components/form/form-loans.css
+  stylesheets[all][] = sass_css/components/form/form-status.css
   stylesheets[all][] = sass_css/components/form/form-class.css
 
   stylesheets[all][] = sass_css/components/node/campaign.css

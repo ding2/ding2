@@ -267,12 +267,12 @@ function opensearch_search_filter_relations($relations) {
  */
 function opensearch_search_supported_relations() {
   return [
-      'dbcaddi:hasCreatorDescription' => t('Author portrait'),
-      'dbcaddi:hasReview' => t('Review'),
-      'dbcaddi:hasSubjectDescription' => t('Subject description'),
-      'dbcaddi:hasDescriptionFromPublisher' => t('Description from publisher'),
-      'dbcaddi:hasCreatorHomePage' => t('Creator homepage'),
-      'dbcbib:isPartOfManifestation' => t('Is part of manifestation'),
+    'dbcaddi:hasCreatorDescription' => t('Author portrait'),
+    'dbcaddi:hasReview' => t('Review'),
+    'dbcaddi:hasSubjectDescription' => t('Subject description'),
+    'dbcaddi:hasDescriptionFromPublisher' => t('Description from publisher'),
+    'dbcaddi:hasCreatorHomePage' => t('Creator homepage'),
+    'dbcbib:isPartOfManifestation' => t('Is part of manifestation'),
   ];
 }
 
@@ -528,31 +528,52 @@ function opensearch_search_prepare_reference_query($query_string) {
  *   instance. Keyed by a machine-name.
  */
 function opensearch_search_sort_options() {
+  $options = [];
+
+  // TODO BBS-SAL: Test.
+  // Add Acquisition Date sort for opensearch v4.3 or higher.
+  $matches = array();
+  $ting_search = variable_get('opensearch_url');
+  preg_match_all('~(\d\.\d\.?\d?)\/?$~', $ting_search, $matches);
+  $version = (float) $matches[1][0];
+  if ($version >= 4.3) {
+    $options['localAcquisitionDate_ascending'] = [
+      'label' => t('Acquisition Date (ascending)'),
+      'label_short' => t('Acquisition Date'),
+      'sort' => new TingSearchSort('localAcquisitionDate', TingSearchSort::DIRECTION_ASCENDING),
+    ];
+    $options['localAcquisitionDate_descending'] = [
+      'label' => t('Acquisition Date (descending)'),
+      'label_short' => t('Acquisition Date'),
+      'sort' => new TingSearchSort('localAcquisitionDate', TingSearchSort::DIRECTION_DESCENDING),
+    ];
+  }
+
   // Do not show sort-options specific for rank_frequency if
   // custom_ranking is enabled or another rank is selected.
   $default_sort = variable_get('opensearch_sort_default', 'rank_frequency');
   $custom_ranking = variable_get('opensearch_ranking_custom', FALSE);
-  if ($default_sort !== 'rank_frequency' || !empty($custom_ranking)) {
-    return [];
+  if ($default_sort === 'rank_frequency' && empty($custom_ranking)) {
+    $options = array_merge($options, [
+      'rank_title' => [
+        'label' => t('Best match on title'),
+        'label_short' => t('Title'),
+        'sort' => new TingSearchSort('rank_title'),
+      ],
+      'rank_creator' => [
+        'label' => t('Best match on creator'),
+        'label_short' => t('Creator'),
+        'sort' => new TingSearchSort('rank_creator'),
+      ],
+      'rank_subject' => [
+        'label' => t('Best match on subject'),
+        'label_short' => t('Subject'),
+        'sort' => new TingSearchSort('rank_subject'),
+      ],
+    ]);
   }
 
-  return [
-    'rank_title' => [
-      'label' => t('Best match on title'),
-      'label_short' => t('Title'),
-      'sort' => new \Ting\Search\TingSearchSort('rank_title'),
-    ],
-    'rank_creator' => [
-      'label' => t('Best match on creator'),
-      'label_short' => t('Creator'),
-      'sort' => new \Ting\Search\TingSearchSort('rank_creator'),
-    ],
-    'rank_subject' => [
-      'label' => t('Best match on subject'),
-      'label_short' => t('Subject'),
-      'sort' => new \Ting\Search\TingSearchSort('rank_subject'),
-    ],
-  ];
+  return $options;
 }
 
 /**
@@ -621,9 +642,7 @@ function opensearch_search_object_ids($ids) {
   elseif (is_numeric($ids)) {
     module_load_include('client.inc', 'opensearch');
     $obj = opensearch_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
-    $entity_id = ($obj) ? key($obj->collections) : '870970-basis:' . $ids;
-
-    return $entity_id;
+    return ($obj) ? key($obj->collections) : '870970-basis:' . $ids;
   }
   return FALSE;
 }
@@ -665,7 +684,7 @@ function opensearch_search_autocomplete($query) {
     if (empty($result->error)) {
       if (!empty($result_data['suggestions'])) {
         foreach ($result_data['suggestions'] as $suggestion) {
-          if ($method == 'facetSpell') {
+          if ($method === 'facetSpell') {
             $items[truncate_utf8(strip_tags($suggestion['phrase']), 256, TRUE, FALSE, 1)] = $suggestion['phrase'];
           }
           else {
@@ -679,7 +698,7 @@ function opensearch_search_autocomplete($query) {
       watchdog('opensearch', $message, array(
         '@error' => $result->error,
         '@error_code' => $result->code,
-        '@url' => $url
+        '@url' => $url,
       ), WATCHDOG_ERROR);
     }
   }

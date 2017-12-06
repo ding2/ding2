@@ -16,6 +16,10 @@ function ding_ddbasic_entity_info_alter(&$entity_info) {
     'label' => t('Alternative layout full'),
     'custom settings' => TRUE,
   );
+  $entity_info['node']['view modes']['teaser_no_overlay'] = array(
+    'label' => t('Teaser no overlay'),
+    'custom settings' => TRUE,
+  );
 }
 
 /**
@@ -55,7 +59,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
           ),
           '#size' => '1',
           '#default_value' => $default_value,
-        ) + $form['color']['palette']['text'];
+        ) + (isset($form['color']['palette']['text']) ? $form['color']['palette']['text'] : array());
 
         // Limit the choices on text colors.
         switch ($form['color']['palette']['text_link']['#default_value']) {
@@ -79,7 +83,35 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
           ),
           '#size' => '1',
           '#default_value' => $default_value,
-        ) + $form['color']['palette']['text_link'];
+        ) + (isset($form['color']['palette']['text_link']) ? $form['color']['palette']['text_link'] : array());
+
+        // Limit the choices on text link colors on dark background.
+        $default_value = '#ffffff';
+        if (isset($form['color']['palette']['text_link_on_dark']['#default_value'])) {
+          switch ($form['color']['palette']['text_link_on_dark']['#default_value']) {
+            case $form['color']['palette']['primary']['#default_value']:
+              $default_value = 'primary';
+              break;
+
+            case $form['color']['palette']['secondary']['#default_value']:
+              $default_value = 'secondary';
+              break;
+          }
+        }
+
+        $form['color']['palette']['text_link_on_dark'] = array(
+          '#description' => t('Choose a color that is legible on a dark background<br />Is used for text-links on dark background'),
+          '#type' => 'select',
+          '#options' => array(
+            // The primary and secondary value is handled in the theme_settings
+            // submit callback, in the ddbasic theme.
+            'primary' => t('Primary'),
+            'secondary' => t('Secondary'),
+            DING_DDBASIC_COLOR_WHITE => t('White'),
+          ),
+          '#size' => '1',
+          '#default_value' => $default_value,
+        ) + (isset($form['color']['palette']['text_link_on_dark']) ? $form['color']['palette']['text_link_on_dark'] : array());
 
         // Limit the choices on text link colors on dark background.
         switch ($form['color']['palette']['text_link_on_dark']['#default_value']) {
@@ -114,7 +146,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
             DING_DDBASIC_COLOR_BLACK => t('Black'),
           ),
           '#size' => '1',
-        ) + $form['color']['palette']['text_on_primary'];
+        ) + (isset($form['color']['palette']['text_on_primary']) ? $form['color']['palette']['text_on_primary'] : array());
 
         $form['color']['palette']['text_on_secondary'] = array(
           '#description' => t('Choose a color that is legible on the secondary color'),
@@ -124,7 +156,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
             DING_DDBASIC_COLOR_BLACK => t('Black'),
           ),
           '#size' => '1',
-        ) + $form['color']['palette']['text_on_secondary'];
+        ) + (isset($form['color']['palette']['text_on_secondary']) ? $form['color']['palette']['text_on_secondary'] : array());
       }
       break;
   }
@@ -148,4 +180,25 @@ function ding_ddbasic_module_implements_alter(&$implementations, $hook) {
  */
 function ding_ddbasic_field_group_pre_render(&$element, $group, &$form) {
   $group->format_settings['instance_settings']['classes'] .= ' field-group-format ' . drupal_html_class($group->group_name);
+}
+
+/**
+ * Implements hook_entity_view_mode_alter().
+ *
+ * Change view mode on teaser if theme settings is set to no-overlay
+ */
+function ding_ddbasic_entity_view_mode_alter(&$view_mode, $context) {
+  // Change view mode on teasers if theme setting is set to no-overlay.
+  if ($context['entity_type'] == 'node' && $view_mode == 'teaser') {
+    if (theme_get_setting('ding_news_disable_overlay') && $context['entity']->type == 'ding_news') {
+      $view_mode = 'teaser_no_overlay';
+    }
+    if (theme_get_setting('ding_group_disable_overlay') && $context['entity']->type == 'ding_group') {
+      $view_mode = 'teaser_no_overlay';
+    }
+  }
+
+  if ($context['entity_type'] == 'ting_object' && $view_mode == 'teaser' && theme_get_setting('ting_object_disable_overlay')) {
+    $view_mode = 'teaser_no_overlay';
+  }
 }

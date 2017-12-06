@@ -840,9 +840,10 @@ function bpi_get_facets() {
   }
 
   if ($reload) {
-    $response = bpi_search_content();
-    if (!empty($response)) {
-      $facets = $response->getFacets();
+    $bpi = bpi_client_instance();
+    $result = $bpi->searchNodes();
+    if (!empty($result)) {
+      $facets = $result->getFacets();
       $_SESSION[BPI_ALL_FACETS_KEY] = bpi_facets_to_array($facets);
     }
     else {

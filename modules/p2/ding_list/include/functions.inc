@@ -512,7 +512,7 @@ function ding_list_update_historical_loans($account = NULL) {
   $save_list = FALSE;
   if (ding_user_is_provider_user($account)) {
     try {
-      $creds = ding_user_get_creds($account);
+      $creds = ding_user_get_creds();
       if (!empty($creds['name'])) {
         // Create a timestamp representing today.
         $today = mktime(0, 0, 0);
@@ -824,6 +824,11 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
   // defined by all the arguments given the function.
   $access_key = md5(serialize(func_get_args()));
   if (isset($access[$access_key])) {
+    return $access[$access_key];
+  }
+
+  if (user_access('administer all lists')) {
+    $access[$access_key] = TRUE;
     return $access[$access_key];
   }
 

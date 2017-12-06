@@ -44,17 +44,19 @@ function ding_list_private_share_content_type_render($subtype, $conf, $panel_arg
   if ($access) {
     foreach ($conf['communities'] as $community) {
       $title = ucfirst($community);
-      $output->content .= l(
-        t('Share on @community', array('@community' => $title)),
-        'ding-list/private-share-message/' . $list->id . '/' . $community,
-        array(
-          'attributes' => array(
-            'class' => array(
-              'sharer-button', 'sharer-' . $community, 'use-ajax',
+      if ($title != '0') {
+        $output->content .= l(
+          t('Share list on @community', array('@community' => $title)),
+          'ding-list/private-share-message/' . $list->id . '/' . $community,
+          array(
+            'attributes' => array(
+              'class' => array(
+                'sharer-button', 'sharer-' . $community, 'use-ajax',
+              ),
             ),
-          ),
-        )
-      );
+          )
+        );
+      }
     }
 
     $output->content = '<div class="sharer">' . $output->content . '</div>';

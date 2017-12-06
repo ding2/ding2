@@ -32,8 +32,9 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   $account = isset($context->data) ? $context->data : NULL;
 
   $loans = FALSE;
+  $cache_key = 'list-' . $conf['overdue'] . '-' . $conf['regular'];
   if (module_exists('ding_session_cache')) {
-    $loans = ding_session_cache_get('ding_loan', 'list');
+    $loans = ding_session_cache_get('ding_loan', $cache_key);
   }
 
   if (!$loans) {
@@ -61,7 +62,7 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
 
     // Store the loans into ding session cache.
     if (module_exists('ding_session_cache')) {
-      ding_session_cache_set('ding_loan', 'list', $loans);
+      ding_session_cache_set('ding_loan', 'list', $cache_key);
     }
   }
 
@@ -339,12 +340,13 @@ function ding_loan_loans_form_submit($form, &$form_state) {
 
   $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
   foreach ($result as $id => $status) {
+    $item = $form_state['values']['items'][$id];
     // Try to get entity for the item.
-    $entity = $form_state['values']['items'][$id]->entity;
+    $entity = $item->entity;
     if (!is_object($entity) || $entity->reply == FALSE) {
       // Build pseudo entity based on provider information.
       $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
-      $title = $entity->getTitle() ? $entity->getTitle() : $item->display_name;
+      $title = $entity->getTitle() ?: $item->display_name;
     }
     else {
       // Create title from entity object.

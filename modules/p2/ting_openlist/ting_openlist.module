@@ -434,7 +434,7 @@ function ting_openlist_user_identifier($account = NULL) {
     }
     else {
       try {
-        $creds = ding_user_get_creds($account);
+        $creds = ding_user_get_creds();
 
         if (!empty($creds['name'])) {
           $ids[$account->uid] = ting_openlist_create_identifier($creds['name']);

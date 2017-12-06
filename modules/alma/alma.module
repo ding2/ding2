@@ -379,7 +379,7 @@ function alma_profile2_presave($entity) {
 
       // Update local drupal user (mail and display name).
       if (isset($changes['mail'])) {
-        $creds = ding_user_get_creds($entity);
+        $creds = ding_user_get_creds();
         $auth_name = ding_user_default_authname($creds['name']);
         _ding_user_create_account($auth_name, array(
           'user' => array(
@@ -413,7 +413,7 @@ function alma_update_provider($changes, $entity) {
   $error_message = t('Error communicating with library system.');
 
   try {
-    $creds = ding_user_get_creds($entity);
+    $creds = ding_user_get_creds();
   }
   catch (Exception $exception) {
     watchdog_exception('Alma provider', $exception);
@@ -636,8 +636,7 @@ function alma_update_provider($changes, $entity) {
 function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
   if (is_null($creds)) {
     // Get creds, which may throw an exception that login is required.
-    global $user;
-    $creds = ding_user_get_creds($user);
+    $creds = ding_user_get_creds();
   }
 
   // Try static cache.
@@ -696,9 +695,8 @@ function alma_profile2_load($entities) {
       $patron = &drupal_static(__FUNCTION__);
       if (!isset($patron)) {
         // Get information from alma about the current user.
-        global $user;
         try {
-          $creds = ding_user_get_creds($user);
+          $creds = ding_user_get_creds();
         }
         catch (DingProviderAuthException $e) {
           // The user was not logged in, hence we can't fill out the profile.
