@@ -14,7 +14,8 @@ function ding_campaign_plus_basic_ding_campaign_plus_info() {
     'title' => t('Basic'),
     'type' => DING_CAMPAIGN_PLUS_BASIC_TYPE,
     'form' => 'ding_campaign_plus_basic_admin_form',
-    'auto' => 'ding_campaign_plus_basic_auto_admin_form'
+    'auto' => 'ding_campaign_plus_basic_auto_admin_form',
+    'weight' => 5,
   );
 }
 

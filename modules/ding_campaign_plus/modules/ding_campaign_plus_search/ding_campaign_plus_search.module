@@ -15,6 +15,7 @@ function ding_campaign_plus_search_ding_campaign_plus_info() {
     'type' => DING_CAMPAIGN_PLUS_SEARCH_TYPE,
     'form' => 'ding_campaign_plus_search_admin_form',
     'auto' => 'ding_campaign_plus_search_auto_admin_form',
+    'weight' => 15,
   );
 }
 

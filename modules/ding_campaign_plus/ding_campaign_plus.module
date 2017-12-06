@@ -121,6 +121,7 @@ function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$fo
   foreach ($data as $module => $info) {
     $callback = $info['form'];
     $form['triggers']['tabs'][$info['type']] = array(
+      '#weight' => isset($info['weight']) ? $info['weight'] : 0,
       '#type' => 'fieldset',
       '#title' => $info['title'],
       'rules' => $callback($form_state),

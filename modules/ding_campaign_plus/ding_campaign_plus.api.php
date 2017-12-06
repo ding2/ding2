@@ -23,6 +23,7 @@ function hook__ding_campaign_plus_info() {
     'type' => 'test',
     'form' => 'ding_campaign_plus_test_admin_form',
     'auto' => 'ding_campaign_plus_test_auto_admin_form',
+    'weight' => 0,
   );
 }
 
