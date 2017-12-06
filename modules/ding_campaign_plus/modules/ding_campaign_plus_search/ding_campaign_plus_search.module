@@ -233,11 +233,11 @@ function _ding_campaign_plus_search_match($keys) {
   $nids = array();
 
   // Find rules that will match facet.
-  $campaigns = db_select('ding_campaign_plus_search', 'dcps')
+  $triggers = db_select('ding_campaign_plus_search', 'dcps')
     ->fields('dcps')
     ->execute();
 
-  if ($campaigns) {
+  if ($triggers) {
     // Run user search to get number of results used to percentage
     // calculations.
     $facet_array = array();
@@ -263,16 +263,42 @@ function _ding_campaign_plus_search_match($keys) {
 
     if ($no_of_results) {
       // Loop rules to find percentage match in facets.
-      foreach ($campaigns as $campaign) {
+      foreach ($triggers as $trigger) {
         // Do combined search to get intersection between user search and
         // campaign trigger CQL string.
-        $search_result = ting_do_search($query . 'AND (' . $campaign->query . ')', 1, 1);
-        if (($search_result->numTotalObjects/$no_of_results) * 100 >= $campaign->percent) {
-          $nids[] = $campaign->nid;
+        $search_result = ting_do_search($query . 'AND (' . $trigger->query . ')', 1, 1);
+        if (($search_result->numTotalObjects/$no_of_results) * 100 >= $trigger->percent) {
+          $nids[] = $trigger->nid;
         }
       }
     }
   }
 
   return $nids;
+}
+
+/**
+ * Implements hook_ding_campaign_plus_validator().
+ *
+ * Validate that a give campaign triggers don't have 0-hits in the search
+ * query.
+ */
+function ding_campaign_plus_search_ding_campaign_plus_validator($nid) {
+  $triggers = db_select('ding_campaign_plus_search', 'dcps')
+    ->fields('dcps')
+    ->condition('nid')
+    ->execute();
+
+  if ($triggers) {
+    $hits = 0;
+    module_load_include('client.inc', 'ting');
+    foreach ($triggers as $trigger) {
+      $search_result = ting_do_search($trigger->query, 1, 1);
+      $hits += $search_result->numTotalObjects;
+    }
+
+    return $hits > 0;
+  }
+
+  return NULL;
 }

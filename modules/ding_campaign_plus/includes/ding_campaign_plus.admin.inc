@@ -26,6 +26,16 @@ function ding_campaign_plus_admin_settings($form, $form_state) {
     $form['ding_campaign_plus_weight']['table'][$key] = ding_campaign_plus_admin_settings_form_add($option['title'], $option['weight']);
   }
 
+  $period = drupal_map_assoc(array(0, 3600, 10800, 21600, 32400, 43200, 86400, 172800, 345600, 604800, 1209600, 2419200), 'format_interval');
+  $form['ding_campaign_plus_notification'] = array(
+    '#type' => 'select',
+    '#title' => t('Notification scan interval'),
+    '#description' => t('Cached pages will not be re-created until at least this much time has elapsed.'),
+    '#options' => $period,
+    '#default_value' => variable_get('ding_campaign_plus_notification', 604800),
+    '#weight' => 12,
+  );
+
   $form['ding_campaign_plus_expire'] = array(
     '#type' => 'textfield',
     '#title' => t('Campaign cache expire'),

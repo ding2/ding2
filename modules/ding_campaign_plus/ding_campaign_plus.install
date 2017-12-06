@@ -89,4 +89,6 @@ function ding_campaign_plus_uninstall() {
   variable_del('ding_campaign_plus_weight');
   variable_del('ding_campaign_plus_expire');
   variable_del('ding_campaign_plus_auto');
+
+  variable_del('ding_campaign_plus_cron_last_run');
 }
