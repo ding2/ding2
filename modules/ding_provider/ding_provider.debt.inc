@@ -51,6 +51,11 @@ class DingProviderDebt extends DingEntityBase {
   protected $material_number = DingEntityBase::NULL;
 
   /**
+   * Material type for which the debt is about.
+   */
+  protected $material_type = DingEntityBase::NULL;
+
+  /**
    * Default constructor for this class.
    *
    * @param string $id
@@ -75,6 +80,7 @@ class DingProviderDebt extends DingEntityBase {
       'invoice_number',
       'type',
       'note',
+      'material_type',
     );
     $this->_populate($properties, $data);
   }

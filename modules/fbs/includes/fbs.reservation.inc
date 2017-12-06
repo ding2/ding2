@@ -175,7 +175,7 @@ function fbs_reservation_create($account, $record_id, $options) {
       case 'success':
       default:
         watchdog('fbs', 'Unexpected state "@state" on failed reservaiton', array('@state' => $result->result), WATCHDOG_WARNING);
-        throw new DingProviderUserException('Unknown error from library system while attempting to reserve.');
+        throw new DingProviderUserException(t('Unknown error from library system while attempting to reserve.'));
     };
   }
 }
@@ -280,9 +280,18 @@ function fbs_reservation_branch_name($branch_id) {
  */
 function fbs_reservation_default_options($account) {
   $patron_info = fbs_get_patron_info($account);
+
+  $profile = ding_user_provider_profile($account);
+
+  // Use a metadata wrapper to access the data.
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+  // Get values.
+  $interest_period = $wrapper->field_fbs_interest_period->value();
+
   return array(
     'fbs_preferred_branch' => $patron_info['preferred_branch'],
-    'interest_period' => variable_get('fbs_default_interest_period', 180),
+    'interest_period' => $interest_period,
   );
 }
 
@@ -304,6 +313,8 @@ function fbs_reservation_options($account, $default_branch = NULL) {
     $patron_info = fbs_get_patron_info($account);
 
     $preferred_branch = empty($default_branch) ? $patron_info['preferred_branch'] : $default_branch;
+
+    $interest_period = fbs_reservation_default_interest_period($account);
   }
 
   if ((!empty($default_branch))) {
@@ -335,6 +346,22 @@ function fbs_reservation_options_submit($account, $values) {
  * @return int
  *   Default interest period for user.
  */
-function fbs_reservation_default_interest_period() {
-  return variable_get('fbs_default_interest_period', 180);
+function fbs_reservation_default_interest_period($account) {
+  if (is_null($account)) {
+    global $user;
+    $account = $user;
+  }
+
+  $profile = ding_user_provider_profile($account);
+
+  // Get interest period from the profile.
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+  $value = $wrapper->field_fbs_interest_period->value();
+
+  // If no period is selected, try getting default value.
+  if (is_null($value) || empty($value)) {
+    $value = variable_get('fbs_default_interest_period', 180);
+  }
+
+  return $value;
 }

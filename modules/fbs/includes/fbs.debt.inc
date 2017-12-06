@@ -27,13 +27,21 @@ function fbs_debt_list($account) {
 
   $ids = array();
   foreach ($res as $fee) {
-    // The entity is only fetched in this case.
-    if (!empty($fee->materials) && count($fee->materials) == 1) {
-      $material = reset($fee->materials);
+    foreach ($fee->materials as $material) {
       $ids[$material->recordId] = $material->recordId;
     }
   }
-  $ids = ding_provider_build_entity_id($ids);
+
+  // Translate record ids and preload entities.
+  if ($ids) {
+    $ids = ding_provider_build_entity_id($ids);
+    $entities = array();
+    // Since ding_entitye_load_multiple() returns array keyed by local tid, we
+    // make e new array keyed by data well PiD.
+    foreach (ding_entity_load_multiple(array_filter($ids)) as $key => $entity) {
+      $entities[$entity->ding_entity_id] = $entity;
+    }
+  }
 
   foreach ($res as $fee) {
     $id = $fee->feeId;
@@ -51,24 +59,42 @@ function fbs_debt_list($account) {
       'type' => $fee->reasonMessage,
     );
 
-    if (!empty($fee->materials)) {
-      $record_ids = array();
-      $material_ids = array();
-      foreach ($fee->materials as $material) {
-        $material_ids[] = $material->materialItemNumber;
-        $record_ids[] = $material->recordId;
-      }
+    // If the has associated materials; collect some information about them and
+    // try to build a more useful title.
+    $materials = array();
+    foreach ($fee->materials as $material) {
+      $ding_entity_id = $ids[$material->recordId];
+      if (isset($entities[$ding_entity_id])) {
+        $entity = $entities[$ding_entity_id];
+        // Create title that links to the object.
+        $uri = entity_uri('ting_object', $entity);
 
-      // If there's only one material, use its title as display_name;
-      if (count($record_ids) == 1) {
-        $record_id = reset($record_ids);
-        $entity = ding_entity_load($ids[$record_id]);
-        $data['display_name'] = $entity->getTitle();
+        $title = t('@material_title (@material_number)', array(
+          '@material_title' => $entity->getTitle(),
+          '@material_number' => $material->materialItemNumber,
+        ));
+        $materials[] = l($title, $uri['path'], $uri['options']);
       }
-      elseif (count($record_ids) > 1) {
-        $data['display_name'] = t('Multiple materials');
+      else {
+        // TODO: Maybe we can do better before falling back to this. E.g. like
+        // trying to use a pseudo entity like ding_reservation.
+        $materials[] = t('Unknown material (@material_number)', array(
+          '@material_number' => $material->materialItemNumber,
+        ));
       }
-      $data['material_number'] = implode(', ', $material_ids);
+    }
+
+    if (!empty($materials)) {
+      // Apply som inline span-elements, so the different materials in the
+      // display_name can be easily styled.
+      $data['display_name'] = '<span>' . implode('</span><span>', $materials) . '</span>';
+
+      if (count($materials) == 1) {
+        $data['material_type'] = !empty($entity) ? $entity->type : t('Unknown type');
+      }
+      else {
+        $data['material_type'] = t('Multiple materials');
+      }
     }
 
     $result[$id] = new DingProviderDebt($id, $data);
@@ -105,6 +131,7 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
+    return FALSE;
   }
 
   foreach ($res as $confirmation) {

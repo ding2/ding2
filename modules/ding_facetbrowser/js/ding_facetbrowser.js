@@ -8,7 +8,7 @@
   Drupal.behaviors.ding_facetbrowser = {
     attach: function(context, settings) {
       // Fold facet groups as default.
-      ding_facetbrowser_fold_facet_group();
+      ding_facetbrowser_fold_facet_group(context);
 
       // Select the facet browser(s) HTML element.
       var facet_browsers = $(Drupal.settings.ding_facetbrowser.selector);
@@ -54,14 +54,14 @@
             }
 
             // Set cookie, so to remember if they where shown.
-            $.cookie('ding_facetbrowers_groups_shown', cookie);
+            Cookies.set('ding_facetbrowers_groups_shown', cookie);
           });
 
           return false;
         });
 
         // Check the cookie, if facet groups should be hidden or shown as default.
-        if (parseInt($.cookie('ding_facetbrowers_groups_shown'), 10) === 1) {
+        if (parseInt(Cookies.get('ding_facetbrowers_groups_shown'), 10) === 1) {
           show_more_groups.trigger('click');
         }
       });
@@ -84,9 +84,9 @@
   /**
    * Fold facet groups to show only x unselected checkboxes per group.
    */
-  function ding_facetbrowser_fold_facet_group() {
+  function ding_facetbrowser_fold_facet_group(context) {
     // Select the facet browser HTML element.
-    var facet_browser = $(Drupal.settings.ding_facetbrowser.selector);
+    var facet_browser = $(Drupal.settings.ding_facetbrowser.selector, context);
 
     // Add show more button to each facet group and hide some terms.
     facet_browser.find('fieldset.form-wrapper').once('ding-facetbrowser-group', function() {

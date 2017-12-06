@@ -209,18 +209,37 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
     $form_state['existing'] = FALSE;
   }
 
-  $form['title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Title'),
-    '#required' => TRUE,
-    '#default_value' => isset($existing->title) ? $existing->title : '',
-  );
+  if (ding_list_allowed($existing, DING_LIST_OPERATION_EDIT_TITLE)) {
+    $form['title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Title'),
+      '#required' => TRUE,
+      '#default_value' => isset($existing->title) ? $existing->title : '',
+    );
+  }
 
   $form['notes'] = array(
     '#type' => 'textarea',
     '#title' => t('Note'),
     '#default_value' => isset($note) ? $note : '',
   );
+
+  // Allow admins to add tags to lists.
+  if (user_access('administer all lists')) {
+    $form['tags'] = array(
+      '#type' => 'textfield',
+      '#title' => 'tag',
+      '#autocomplete_path' => 'taxonomy/autocomplete/field_ding_content_tags',
+    );
+
+    if ($existing !== FALSE) {
+      $tags = array();
+      foreach (ding_base_get_items('ding_type', $existing, 'field_ding_content_tags') as $item) {
+        $tags[$item['tid']] = isset($item['taxonomy_term']) ? $item['taxonomy_term'] : taxonomy_term_load($item['tid']);
+      }
+      $form['tags']['#default_value'] = taxonomy_implode_tags($tags);
+    }
+  }
 
   if ($existing) {
     // The user can is always allowed to edit existing lists.
@@ -311,15 +330,40 @@ function ding_list_create_list_form_submit_delete($form, &$form_state) {
  */
 function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
   $permission = ding_list_get_permission($form_state['build_info']['args'][0]);
-  ding_list_remove_permission($permission);
+  if ($permission) {
+    ding_list_remove_permission($permission);
+  }
 
-  $form_state['redirect'] = 'user/' . $GLOBALS['user']->uid . '/dinglists';
+  $list = ding_list_get_list(DING_LIST_TYPE_LISTS);
+  if ($list) {
+    $element = ding_list_has_ding_list_element($list, DING_LIST_TYPE_LISTS, $form_state['build_info']['args'][0]->id);
+    if ($element) {
+      ding_list_detach_ding_list_element($list, array($element->id));
+    }
+  }
+
+  $form_state['redirect'] = 'user';
 }
 
 /**
  * The create_list_form submit handler.
  */
 function ding_list_create_list_form_submit($form, &$form_state) {
+  $fields = array(
+    array(
+      'name' => 'field_notes',
+      'value_type' => 'value',
+      'value' => $form_state['values']['notes'],
+    ),
+  );
+
+  if (isset($form_state['values']['tags'])) {
+    $fields[] = array(
+      'name' => 'field_ding_content_tags',
+      'value_type' => 'tid',
+      'value' => $form_state['values']['tags'],
+    );
+  }
   // Create the new list object.
   if (!$form_state['existing']) {
     $list = ding_list_create_ding_list(
@@ -328,13 +372,7 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       NULL,
       NULL,
       NULL,
-      array(
-        array(
-          'name' => 'field_notes',
-          'value_type' => 'value',
-          'value' => $form_state['values']['notes'],
-        ),
-      )
+      $fields
     );
 
     if ($list === FALSE) {
@@ -351,18 +389,14 @@ function ding_list_create_list_form_submit($form, &$form_state) {
   else {
     $list = ding_list_get_list($form_state['existing']);
 
+    $title = ding_list_allowed($list, DING_LIST_OPERATION_EDIT_TITLE) ? $form_state['values']['title'] : $list->title;
+
     ding_list_edit_ding_list(
       $list,
-      $form_state['values']['title'],
+      $title,
       NULL,
       TRUE,
-      array(
-        array(
-          'name' => 'field_notes',
-          'value_type' => 'value',
-          'value' => $form_state['values']['notes'],
-        ),
-      )
+      $fields
     );
   }
 
@@ -384,7 +418,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   if (!ding_list_user_has_access($list, 'owner')) {
     $form['unfollow_shared'] = array(
       '#type' => 'submit',
-      '#value' => t('Unfollowed shared list'),
+      '#value' => t('Unfollow shared list'),
       '#submit' => array('ding_list_list_permissions_form_unfollow_shared'),
     );
 

@@ -158,10 +158,23 @@ function template_preprocess_ding_list_followers(&$variables) {
 }
 
 /**
+ * Ding list label/value theme.
+ */
+function theme_ding_list_label_value($variables) {
+  $label = '';
+  if ($variables['label']) {
+    $label = '<div class="label">' . $variables['label'] . '</div>';
+  }
+  $out = '<div class="field">' . $label . '<div class="text">' . $variables['value'] . '</div></div>';
+
+  return $out;
+}
+
+/**
  * Ding list followers theme.
  */
 function theme_ding_list_followers($variables) {
-  $out = format_plural($variables['count'], '1 user following this list', '@count users following this list');
+  $out = '<div class="field ding-followers"><div class="label">' . t('Number of followers') . '</div><div class="text">' . format_plural($variables['count'], '1', '@count') . '</div></div>';
 
   return $out;
 }
@@ -172,11 +185,11 @@ function theme_ding_list_followers($variables) {
 function theme_ding_list_info($variables) {
   $out = '';
 
-  if ($variables['note'] !== FALSE) {
-    $out .= '<div class="ding-list-note">' . $variables['note'] . '</div>';
+  if (!empty($variables['list']->field_notes)) {
+    $out .= '<div class="ding-list-note">' . $variables['list']->field_notes['und'][0]['value'] . '</div>';
   }
 
-  if ($variables['no_objects']) {
+  if (empty($variables['list']->field_list_objects)) {
     $out .= '<div class="ding-list-no-elements">' . t('No elements in this list.') . '</div>';
   }
 
@@ -220,15 +233,19 @@ function theme_ding_list_lists($variables) {
   if ($variables['uid'] == $user->uid) {
     $render = array(
       '#theme' => 'item_list',
-      '#items' => array(
-        l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button')))),
-        l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button')))),
-        l(t('View all public lists'), 'public-lists', array('attributes' => array('class' => array('button')))),
-      ),
+      '#items' => array(),
       '#title' => "",
       '#type' => 'ul',
       '#attributes' => array('class' => array('bottom-links')),
     );
+
+    if (ding_message_get_message_count()) {
+      $render['#items'][] = l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button'))));
+    }
+
+    $render['#items'][] = l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button'))));
+    $render['#items'][] = l(t('View all public lists'), 'public-lists', array('attributes' => array('class' => array('button'))));
+
     $out .= drupal_render($render);
   }
 

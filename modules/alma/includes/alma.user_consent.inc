@@ -40,7 +40,7 @@ function alma_user_consent_info() {
 function alma_user_consent_add($account, $consent) {
   switch ($consent) {
     case 'loan_history_store':
-      $creds = ding_user_get_creds($account);
+      $creds = ding_user_get_creds();
       $patron = alma_get_patron($creds);
       if (isset($patron->category)) {
         // Changes mapped from the category structure in Axiell.
@@ -66,7 +66,7 @@ function alma_user_consent_add($account, $consent) {
 function alma_user_consent_remove($account, $consent) {
   switch ($consent) {
     case 'loan_history_store':
-      $creds = ding_user_get_creds($account);
+      $creds = ding_user_get_creds();
       $patron = alma_get_patron($creds);
       if (isset($patron->category)) {
         // Changes mapped from the category structure in Axiell.
@@ -93,7 +93,7 @@ function alma_user_consent_remove($account, $consent) {
  */
 function alma_user_consent_get_consent($account) {
   try {
-    $creds = ding_user_get_creds($account);
+    $creds = ding_user_get_creds();
   }
   catch (DingProviderAuthException $e) {
     return NULL;

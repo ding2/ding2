@@ -33,6 +33,8 @@ circle-setup:
 	# we're disabling notices and warnings for now. In the future it would be a
 	# good idéa to revisit running with E_ALL.
 	echo "ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);" | sudo tee --append $(DRUPAL_SITE_PATH)/sites/default/settings.php
+    # Run PHP7 Compatibility Checker - using tee to get non-rezero exit code (see https://github.com/sstalle/php7cc/issues/102)
+    php7cc --except=vendor --level=error --extensions=php,inc,module,install $DRUPAL_SITE_PATH | tee /dev/tty | grep -vq ''File: ''
 
 # Run ding2 unittests
 circle-run-unit-tests:
@@ -51,4 +53,3 @@ circle-run-unit-tests:
 	  "Opensearch"
 	cd $(DRUPAL_SITE_PATH) && php scripts/run-tests.sh --php /opt/circleci/.phpenv/shims/php --xml $(CIRCLE_TEST_REPORTS)/phpunit \
 	  --class ConnieSearchSearchProviderImplementationTestCase
-

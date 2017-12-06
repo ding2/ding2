@@ -32,6 +32,7 @@ define('DING_LIST_OPERATION_FOLLOW', 'follow');
 define('DING_LIST_OPERATION_AUTO_CREATE', 'auto_create');
 define('DING_LIST_OPERATION_CHECK_EXISTS', 'check_exists');
 define('DING_LIST_OPERATION_SHARE', 'share');
+define('DING_LIST_OPERATION_EDIT_TITLE', 'edit_title');
 
 // Carousel behaviour.
 define('DING_LIST_CAROUSEL_CHUNK_SIZE', 6);
@@ -337,6 +338,7 @@ function ding_list_list_operations() {
 function ding_list_ding_list_operations() {
   return array(
     DING_LIST_TYPE_USER_LIST => array(
+      DING_LIST_OPERATION_EDIT_TITLE => TRUE,
       DING_LIST_OPERATION_DELETE => TRUE,
       DING_LIST_OPERATION_ATTACH => array('ting_object'),
       DING_LIST_OPERATION_DETACH => TRUE,
@@ -630,6 +632,10 @@ function ding_list_theme($existing, $type, $theme, $path) {
       'file' => 'theme/theme.inc',
       'variables' => array('message' => ''),
     ),
+    'ding_list_label_value' => array(
+      'file' => 'theme/theme.inc',
+      'variables' => array('label' => NULL, 'value' => NULL),
+    ),
     'ding_list_followers' => array(
       'file' => 'theme/theme.inc',
       'variables' => array('list' => NULL),
@@ -669,6 +675,17 @@ function ding_list_ding_entity_buttons($type, $entity) {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function ding_list_permission() {
+  return array(
+    'administer all lists' => array(
+      'title' => t('Administer all lists'),
+    ),
+  );
+}
+
+/**
  * Implements hook_secure_permissions().
  */
 function ding_list_secure_permissions($role) {
@@ -691,6 +708,8 @@ function ding_list_secure_permissions($role) {
  * Implements template_preprocess_entity().
  */
 function ding_list_preprocess_entity(&$variables) {
+  global $user;
+
   if ($variables['entity_type'] == 'ding_type') {
     switch ($variables['ding_type']->type) {
       case 'ding_list':
@@ -729,6 +748,34 @@ function ding_list_preprocess_entity(&$variables) {
               // is more content.
               '#placeholders' => count($objects) > DING_LIST_CAROUSEL_CHUNK_SIZE ? DING_LIST_CAROUSEL_CHUNK_SIZE + 1 : count($objects),
             );
+
+            if (!empty($objects)) {
+              // Create Carousel actions.
+              $list = $variables['elements']['#entity'];
+              $variables['content']['carousel_actions'] = array(
+                '#type' => 'container',
+                '#attributes' => array(
+                  'class' => array(
+                    'ting-carousel-actions',
+                  ),
+                ),
+              );
+              $variables['content']['carousel_actions']['more'] = array(
+                '#theme' => 'link',
+                '#text' => t('Go to list'),
+                '#path' => 'list/' . $list->id,
+                '#prefix' => '<div class="more-link">',
+                '#suffix' => '</div>',
+                '#options' => array(
+                  'attributes' => array('class' => array('goto-list')),
+                  'html' => FALSE,
+                ),
+              );
+
+              if ($list->uid != $user->uid && user_access('use personalisation')) {
+                $variables['content']['carousel_actions']['follow_form'] = drupal_get_form('ding_list_add_element_form', 'ding_list', $list->id, t('Add to lists I follow'));
+              }
+            }
             break;
         }
         break;
@@ -1064,6 +1111,15 @@ function ding_list_entity_load($entities, $type) {
             );
             ding_list_edit_ding_list_element($entity, 'ting_object', $values);
           }
+        }
+      }
+
+      if ($entity->type === 'ding_list' && !ding_list_allowed($entity, DING_LIST_OPERATION_EDIT_TITLE)) {
+        $operations = ding_list_list_operations();
+        $list_type = ding_base_get_value('ding_type', $entity, 'field_list_type');
+
+        if (!empty($operations[$list_type]['_data']['default_title'])) {
+          $entity->title = $operations[$list_type]['_data']['default_title'];
         }
       }
     }

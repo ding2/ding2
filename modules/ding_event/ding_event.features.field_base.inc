@@ -266,6 +266,33 @@ function ding_event_field_default_field_bases() {
     'type' => 'text_long',
   );
 
+  // Exported field_base: 'field_ding_event_list_filter'
+  $field_bases['field_ding_event_list_filter'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ding_event_list_filter',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        'only_start_date' => 'Vis kun på startdatoen på forsiden og begivenhedsoversigten (Vises altid på afholdelsesbiblioteket)',
+        'show_all' => 'Vis på dags dato, så begivenheden er synlig hver dag den foregår.',
+      ),
+      'allowed_values_function' => '',
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'list_text',
+  );
+
   // Exported field_base: 'field_ding_event_list_image'
   $field_bases['field_ding_event_list_image'] = array(
     'active' => 1,

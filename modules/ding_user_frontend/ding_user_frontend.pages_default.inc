@@ -1012,7 +1012,7 @@ function ding_user_frontend_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'Loans | [current-page:pager][site:name]',
+          'value' => 'Overdue loans | [current-page:pager][site:name]',
         ),
       ),
     ),

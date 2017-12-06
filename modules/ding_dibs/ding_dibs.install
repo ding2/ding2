@@ -140,3 +140,12 @@ function ding_dibs_update_7002() {
   $mail_settings['ding_dibs_ding_dibs_report'] = "HTMLMailSystem";
   variable_set('mail_system', $mail_settings);
 }
+
+/**
+ * Remove the url_dibs_capture variable.
+ *
+ * Also: switch to the proper numbering scheme for update hooks.
+ */
+function ding_dibs_update_7101() {
+  variable_del('url_dibs_capture');
+}

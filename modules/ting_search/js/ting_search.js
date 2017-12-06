@@ -6,7 +6,7 @@
     $('input[name="search_block_form"]').keydown(function(event) {
       // When enter is hit in the search form.
       if (event.which === 13) {
-        Drupal.TingSearchOverlay();
+        Drupal.TingSearchOverlay(); 
       }
     });
 

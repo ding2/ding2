@@ -47,6 +47,14 @@ function ding_ting_frontend_entity_info_alter(&$entity_info) {
         'label' => t('Search result'),
         'custom settings' => TRUE,
       ),
+      'reference_teaser' => array(
+        'label' => t('Reference teaser'),
+        'custom settings' => TRUE,
+      ),
+      'teaser_no_overlay' => array(
+        'label' => t('Teaser no overlay'),
+        'custom settings' => TRUE,
+      ),
     );
   }
 }

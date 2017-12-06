@@ -31,7 +31,7 @@ function ding_campaign_campaign_content_type_render($subtype, $conf, $panel_args
     'page' => isset($context[0]->data) ? $context[0]->data : NULL,
     'library' => isset($context[1]->data) ? $context[1]->data : NULL,
     'search_term' => isset($context[2]->data) ? $context[2]->data : NULL,
-    'taxonomy_term' => isset($context[3]->data) ? $context[3]->data : NULL,
+    'taxonomy_term' => isset($context[3]->data) ? $context[3] : NULL,
   );
   $count = $conf['ding_campaign_count'];
   $offset = $conf['ding_campaign_offset'];

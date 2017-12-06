@@ -88,11 +88,7 @@ function ding_varnish_init() {
     // Get the roles selected.
     $ding_varnish_role = variable_get('ding_varnish_role', 2);
 
-    // Do not cache if there are any drupal messages set.
-    if (drupal_get_messages(NULL, FALSE)) {
-      $cacheable = FALSE;
-    }
-    elseif (isset($user->roles[$ding_varnish_role]) && count($user->roles) == 2) {
+    if (isset($user->roles[$ding_varnish_role]) && count($user->roles) == 2) {
       // Role was cacheable.
       $cacheable = TRUE;
     }
@@ -136,7 +132,8 @@ function ding_varnish_page_build() {
   $max_age = !isset($_COOKIE[session_name()]) || isset($hook_boot_headers['vary']) ? variable_get('page_cache_maximum_age', 0) : 0;
 
   // Check if this request is cacheable and that ttl have been set.
-  if ($cacheable) {
+  // Also, do not cache if there are any drupal messages set.
+  if ($cacheable && !drupal_get_messages(NULL, FALSE)) {
     // Force max-age as session was set above, but page is marked as cacheable.
     $max_age = variable_get('page_cache_maximum_age', 0);
 
