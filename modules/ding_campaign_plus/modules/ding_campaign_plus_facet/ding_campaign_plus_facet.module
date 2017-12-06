@@ -175,48 +175,44 @@ function ding_campaign_plus_facet_auto_admin_form(&$form_state, $default = '') {
  * When auto-generating campaigns this defines the triggers for the facet
  * module.
  */
-function ding_campaign_plus_facet_ding_campaign_plus_auto_trigger($config, $campaign_node, $values) {
+function ding_campaign_plus_facet_ding_campaign_plus_auto_trigger($config, $campaign_node, $values, $subjects) {
   $trigger = array();
   $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE] = array('rules' => array());
 
-  if ($config != '_none_') {
-    $node = entity_metadata_wrapper('node', (object) $values);
+  if ($config != '_none_' && !empty($subjects)) {
+    foreach ($subjects as $key => $value) {
+      $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key] = array(
+        'facet' => $config,
+        'percent' => '30',
+      );
 
-    $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_0'] = array(
-      'facet' => $config,
-      'percent' => '30',
-    );
+      switch ($config) {
+        case 'facet.type':
+          $options = _ting_fetch_well_types();
+          $options = array_keys($options);
+          if (in_array($value, $options)) {
+            $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value_select_type'] = $value;
+          }
+          else {
+            unset($trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]);
+          }
+          break;
 
-    $field = 'field_' . $node->getBundle() . '_category';
-    $term = $node->{$field}->value();
-    $value = $term->name;
+        case 'facet.acSource':
+          $options = _ting_fetch_well_sources();
+          $options = array_keys($options);
+          if (in_array($value, $options)) {
+            $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value_select_source'] = $value;
+          }
+          else {
+            unset($trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]);
+          }
+          break;
 
-    switch ($config) {
-      case 'facet.type':
-        $options = _ting_fetch_well_types();
-        $options = array_keys($options);
-        if (in_array($value, $options)) {
-          $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_0']['facet_value_select_type'] = $value;
-        }
-        else {
-          unset($trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_0']);
-        }
-        break;
-
-      case 'facet.acSource':
-        $options = _ting_fetch_well_sources();
-        $options = array_keys($options);
-        if (in_array($value, $options)) {
-          $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_0']['facet_value_select_source'] = $value;
-        }
-        else {
-          unset($trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_0']);
-        }
-        break;
-
-      default:
-        $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_0']['facet_value'] = $value;
-        break;
+        default:
+          $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value'] = $value;
+          break;
+      }
     }
   }
 

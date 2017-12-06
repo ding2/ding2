@@ -74,11 +74,13 @@ function hook_ding_campaign_plus_default_weights() {
  * @param $values
  *   The values from the node edit form submit for the content that the auto
  *   generated campaign is build.
+ * @param $subject
+ *   The subjects entered by the user.
  *
  * @return array
  *   Matching the modules rules format for the module.
  */
-function hook_ding_campaign_plus_auto_trigger($config, $campaign_node, $values) {
+function hook_ding_campaign_plus_auto_trigger($config, $campaign_node, $values, $subject) {
   return array('TYPE' => array('rules' => array()));
 }
 

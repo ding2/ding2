@@ -192,7 +192,7 @@ function ding_campaign_plus_basic_auto_admin_form(&$form_state, $default = '') {
  * When auto-generating campaigns this defines the triggers for the basic
  * module.
  */
-function ding_campaign_plus_basic_ding_campaign_plus_auto_trigger($config, $campaign_node, $values) {
+function ding_campaign_plus_basic_ding_campaign_plus_auto_trigger($config, $campaign_node, $values, $subjects) {
   $trigger = array();
   $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE] = array('rules' => array());
 
@@ -222,12 +222,36 @@ function ding_campaign_plus_basic_ding_campaign_plus_auto_trigger($config, $camp
         break;
 
       case 'taxonomy':
-        $field = 'field_' . $node->getBundle() . '_category';
-        $term = $node->{$field}->value();
-        $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules']['rule_0'] = array(
-          'type' => $config,
-          'value' => $term->name . ' [' . $term->tid . ']',
-        );
+        if (!empty($subjects)) {
+          foreach ($subjects as $key => $subject) {
+            // Check if term exits in the database.
+            $term = taxonomy_get_term_by_name($subject);
+            $term = reset($term);
+
+            $value = '';
+            if (!empty($term)) {
+              $value = $term->name . ' [' . $term->tid . ']';
+            }
+            else {
+              $vocab = taxonomy_vocabulary_machine_name_load('ding_content_tags');
+              // Create term in tags.
+              $term = (object) array(
+                'vid' => $vocab->vid,
+                'name' => $subject
+              );
+
+              if (taxonomy_term_save($term)) {
+                $term = taxonomy_get_term_by_name($subject);
+                $value = $term->name . ' [' . $term->tid . ']';
+              }
+            }
+
+            $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules']['rule_' . $key] = array(
+              'type' => $config,
+              'value' => $value,
+            );
+          }
+        }
         break;
     }
   }

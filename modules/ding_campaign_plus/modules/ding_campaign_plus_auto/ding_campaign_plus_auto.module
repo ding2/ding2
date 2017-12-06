@@ -68,6 +68,14 @@ function ding_campaign_plus_auto_form_alter(&$form, &$form_state, $form_id) {
         '#collapsed' => FALSE,
         '#weight' => 50,
         '#tree' => TRUE,
+        // Attache JS to hide the states fields, as it don't work i node edit
+        // alters. So this JS hides theme, so states takes overt to display
+        // theme.
+        '#attached' => array(
+          'js' => array(
+            drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus.js',
+          )
+        ),
       );
 
       if (isset($form_state['node']->nid) && !empty($form_state['node']->ding_campaign_plus_auto)) {
@@ -93,9 +101,28 @@ function ding_campaign_plus_auto_form_alter(&$form, &$form_state, $form_id) {
         $form['ding_campaign_plus_auto_generate']['link'] = array(
           '#type' => 'textfield',
           '#title' => t('Link campaign too'),
-          '#desecription' => t('When clicked where should the user be sent.'),
+          '#description' => t('When campaign is clicked where should the user be sent.'),
           '#default_value' => '<front>',
+          '#states' => array(
+            'visible' => array(
+              ':input[name^="ding_campaign_plus_auto_generate"]' => array('checked' => TRUE),
+            ),
+          ),
         );
+
+        $form['ding_campaign_plus_auto_generate']['keywords'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Campaign keywords (subjects)'),
+          '#description' => t('This comma separated list of keywords/subjects are used to trigger campaigns'),
+          '#default_value' => '',
+          '#states' => array(
+            'visible' => array(
+              ':input[name^="ding_campaign_plus_auto_generate"]' => array('checked' => TRUE),
+            ),
+          ),
+        );
+
+        $form_state['rebuild'] = TRUE;
 
         $form += array('#submit' => array());
         array_unshift($form['#submit'], 'ding_campaign_plus_auto_form_submit');
@@ -141,16 +168,24 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
     $field = 'field_' . $node->getBundle() . '_lead';
     $lead = $node->{$field}->value();
     $campaign_wrapper->field_ding_campaign_plus_text->set($lead);
+    $campaign_wrapper->field_ding_campaign_plus_track->set($node->label());
 
-    $field = 'field_' . $node->getBundle() . '_category';
-    $term = $node->{$field}->value();
-    $campaign_wrapper->field_ding_campaign_plus_track->set($term->name);
+    // Filter subjects.
+    $subjects = explode(',', $form_state['values']['ding_campaign_plus_auto_generate']['keywords']);
+    if (is_array($subjects)) {
+      $subjects = array_map('trim', $subjects);
+      $subjects = array_unique($subjects);
+      $subjects = array_values($subjects);
+    }
+    else {
+      $subjects = array();
+    }
 
     // Add triggers for the new campaign
     $config = variable_get('ding_campaign_plus_auto', array());
     $campaign_node->tabs = array();
     foreach (module_implements('ding_campaign_plus_auto_trigger') as $module) {
-      $campaign_node->tabs += module_invoke($module, 'ding_campaign_plus_auto_trigger', $config[$module]['config'], $campaign_node, $form_state['values']);
+      $campaign_node->tabs += module_invoke($module, 'ding_campaign_plus_auto_trigger', $config[$module]['config'], $campaign_node, $form_state['values'], $subjects);
     }
 
     // Save campaign node. Which will also trigger the node insert hook below,

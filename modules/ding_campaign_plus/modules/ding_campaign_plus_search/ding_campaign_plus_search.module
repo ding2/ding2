@@ -118,16 +118,18 @@ function ding_campaign_plus_search_ding_campaign_plus_matches($contexts, $style)
  * When auto-generating campaigns this defines the triggers for the search
  * module.
  */
-function ding_campaign_plus_search_ding_campaign_plus_auto_trigger($config, $campaign_node, $values) {
+function ding_campaign_plus_search_ding_campaign_plus_auto_trigger($config, $campaign_node, $values, $subjects) {
   $trigger = array();
   $trigger[DING_CAMPAIGN_PLUS_SEARCH_TYPE] = array('rules' => array());
 
-  if ($config) {
-    $node = entity_metadata_wrapper('node', (object) $values);
-    $field = 'field_' . $node->getBundle() . '_category';
-    $term = $node->{$field}->value();
+  if ($config && !empty($subjects)) {
+    $value = '';
+    foreach ($subjects as $subject) {
+      $value .= '"' . $subject. '" or ';
+    }
+    $value = substr($value, 0, strlen($value) - 4);
     $trigger[DING_CAMPAIGN_PLUS_SEARCH_TYPE]['rules'] = array(
-      'query' => '"' . $term->name . '"',
+      'query' => $value,
       'percent' => '30'
     );
   }
