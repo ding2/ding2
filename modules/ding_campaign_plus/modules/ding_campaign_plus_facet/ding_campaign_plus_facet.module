@@ -498,6 +498,7 @@ function _ding_campaign_plus_facet_match($keys) {
       if (isset($search_result->facets[$campaign->facet])) {
         $terms = $search_result->facets[$campaign->facet]->terms;
         foreach ($facets as $facet) {
+          $facet = drupal_strtolower($facet);
           // Check if facet exits in the search result and if the limit is
           // reached.
           if (isset($terms[$facet]) && ($terms[$facet]/$search_result->numTotalObjects) * 100 >= $campaign->percent) {
