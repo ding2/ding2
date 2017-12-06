@@ -51482,7 +51482,7 @@ msgid "\"The Additional Information service is used to retrieve cover images. \"
 msgstr ""
 
 #: /admin/config/ting/covers/addi?render=overlay
-msgid "\"URL to the Additional Information webservice, e.g. \"http://moreinfo.addi.dk/2.1/"
+msgid "\"URL to the Additional Information webservice, e.g. \"http://moreinfo.addi.dk/2.10"
 msgstr ""
 
 #: /admin/config/ting/covers/addi?render=overlay
