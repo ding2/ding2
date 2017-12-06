@@ -197,10 +197,15 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
 
     // Set message that campaign have been created.
     $node_link = l(t('view'), 'node/' . $campaign_node->nid);
+    $node_edit_link = l(t('link'), 'node/' . $campaign_node->nid . '/edit');
     $watchdog_args = array('@type' => $campaign_node->type, '%title' => $campaign_node->title);
-    $t_args = array('@type' => node_type_get_name($campaign_node), '%title' => $campaign_node->title);
+    $t_args = array(
+      '@type' => node_type_get_name($campaign_node),
+      '%title' => $campaign_node->title,
+      '!link' => $node_edit_link);
     watchdog('content', '@type: added %title.', $watchdog_args, WATCHDOG_NOTICE, $node_link);
-    drupal_set_message(t('@type %title has been created.', $t_args));
+
+    drupal_set_message(t('@type %title has been created. You can edit it using this !link', $t_args));
   }
 }
 
