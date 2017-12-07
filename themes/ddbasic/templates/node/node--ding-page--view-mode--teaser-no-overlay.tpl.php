@@ -84,7 +84,7 @@
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <a href="<?php print $node_url; ?>">
     <div class="ding-page-image">
-      <?php if(!empty($background_image)) : ?>
+      <?php if( !empty($background_image)) : ?>
         <img src="<?php print $background_image; ?>">
       <?php endif; ?> 
     </div>  

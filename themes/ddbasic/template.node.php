@@ -345,7 +345,7 @@ function ddbasic_preprocess__node__ding_eresource(&$variables) {
 function ddbasic_preprocess__node__ding_page(&$variables) {
   switch ($variables['view_mode']) {
     case 'teaser':
-      if(!empty($variables['field_ding_page_list_image'][0]['uri'])) {
+      if( !empty($variables['field_ding_page_list_image'][0]['uri'])) {
         $variables['background_image'] = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
       } else {
         $variables['background_image'] = '';
@@ -354,7 +354,7 @@ function ddbasic_preprocess__node__ding_page(&$variables) {
     case 'teaser_no_overlay':
       array_push($variables['classes_array'], 'node-teaser-no-overlay');
 
-      if(!empty($variables['field_ding_page_list_image'][0]['uri'])) {
+      if( !empty($variables['field_ding_page_list_image'][0]['uri'])) {
         $variables['background_image'] = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
       } else {
         $variables['background_image'] = '';

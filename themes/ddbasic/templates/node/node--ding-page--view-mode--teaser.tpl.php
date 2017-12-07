@@ -82,7 +82,7 @@
  */
 ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <a href="<?php print $node_url; ?>" <?php if(!empty($background_image)){?>style="background-image: url(<?php print $background_image; ?>)"<?php
+  <a href="<?php print $node_url; ?>" <?php if( !empty($background_image)){?>style="background-image: url(<?php print $background_image; ?>)"<?php
  } ?>>
     <div class="page-text">
       <h3 class="title"><?php print $title; ?></h3>
