@@ -51,6 +51,11 @@ function ding_webtrekk_page_alter(&$page) {
       'type' => 'inline',
       'scope' => 'footer',
     ],
+    [
+      'data' => drupal_get_path('module', 'ding_webtrekk') . '/js/ding_webtrekk.form.js',
+      'type' => 'file',
+      'scope' => 'footer',
+    ],
   ];
 }
 
@@ -82,13 +87,12 @@ function ding_webtrekk_panels_pane_content_alter($content, $pane, $args, $contex
  * Implements hook_views_post_execute().
  */
 function ding_webtrekk_views_post_execute(&$view) {
-  if ($view->name == 'ding_multiple_search') {
+  $count = $view->total_rows;
+  if ($view->name == 'ding_multiple_search' && $count > 0) {
     $script = 'window._ti = window._ti || {};';
 
     $search_key = array_shift($view->args);
     $script .= "\nwindow._ti['internalSearch'] = '$search_key'";
-
-    $count = $view->total_rows;
     $script .= "\nwindow._ti['numberSearchResults'] = '$count';";
 
     if (!empty($view->human_name)) {
