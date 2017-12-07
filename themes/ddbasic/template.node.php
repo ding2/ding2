@@ -194,10 +194,13 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 
       // Date.
       if (!empty($date)) {
-        $start_date = strtotime($date[0]['value']);
-        $end_date = strtotime($date[0]['value2']);
+        $date_start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
+        $date_start->setTimezone(new DateTimeZone($date[0]['timezone']));
 
-        $variables['event_date'] = format_date($start_date, 'ding_date_only_version2');
+        $date_end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
+        $date_end->setTimezone(new DateTimeZone($date[0]['timezone']));
+
+        $variables['event_date'] = date_format_date($date_start, 'ding_date_only_version2');
         $event_time_view_settings = array(
           'label' => 'hidden',
           'type' => 'date_default',
@@ -208,11 +211,11 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         );
 
         // If start and end date days are equal.
-        if (date('Ymd', $start_date) !== date('Ymd', $end_date)) {
-          $variables['event_date'] .= ' - ' . format_date($end_date, 'ding_date_only_version2');
+        if ($date_start->format('Ymd') !== $date_end->format('Ymd')) {
+          $variables['event_date'] .= ' - ' . date_format_date($date_end, 'ding_date_only_version2');
         }
         // If start and end date days and time are not equal.
-        if ($start_date !== $end_date) {
+        if ($date_start->format('YmdHi') !== $date_end->format('YmdHi')) {
           $event_time_view_settings['settings']['fromto'] = 'both';
         }
 
