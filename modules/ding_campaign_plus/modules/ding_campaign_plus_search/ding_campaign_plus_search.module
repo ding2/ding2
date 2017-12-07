@@ -124,11 +124,7 @@ function ding_campaign_plus_search_ding_campaign_plus_auto_trigger($config, $cam
   $trigger[DING_CAMPAIGN_PLUS_SEARCH_TYPE] = array('rules' => array());
 
   if ($config && !empty($subjects)) {
-    $value = '';
-    foreach ($subjects as $subject) {
-      $value .= '"' . $subject. '" or ';
-    }
-    $value = substr($value, 0, strlen($value) - 4);
+    $value = '"' . implode('" or "', $subjects) . '"';
     $trigger[DING_CAMPAIGN_PLUS_SEARCH_TYPE]['rules'] = array(
       'query' => $value,
       'percent' => '30'
@@ -286,18 +282,25 @@ function _ding_campaign_plus_search_match($keys) {
 function ding_campaign_plus_search_ding_campaign_plus_validator($nid) {
   $triggers = db_select('ding_campaign_plus_search', 'dcps')
     ->fields('dcps')
-    ->condition('nid')
-    ->execute();
+    ->condition('nid', $nid)
+    ->execute()
+    ->fetchAll();
 
   if ($triggers) {
-    $hits = 0;
+    $active = TRUE;
     module_load_include('client.inc', 'ting');
     foreach ($triggers as $trigger) {
       $search_result = ting_do_search($trigger->query, 1, 1);
-      $hits += $search_result->numTotalObjects;
+      if ($search_result->numTotalObjects > 0) {
+        // No need to check more rules one of theme makes hits.
+        return TRUE;
+      }
+      else {
+        $active = FALSE;
+      }
     }
 
-    return $hits > 0;
+    return $active;
   }
 
   return NULL;

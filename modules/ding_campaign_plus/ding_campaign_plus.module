@@ -75,20 +75,44 @@ function ding_campaign_plus_cron_queue_info() {
  *   The node id of the campaign.
  */
 function _ding_campaign_plus_notification($campaign_nid) {
-  $triggers = array();
+  $triggers = TRUE;
   foreach (module_implements('ding_campaign_plus_validator') as $module) {
-    $triggers[] += module_invoke($module, 'ding_campaign_plus_validator', $campaign_nid);
-  }
-
-  // If any of the modules reports "false" an no-hit-trigger is found.
-  foreach ($triggers as $trigger) {
-    if ($trigger === FALSE) {
-      // Send notification to site administrator.
-
-
-      // Break the loop so only on mail is sent.
+    $triggers = module_invoke($module, 'ding_campaign_plus_validator', $campaign_nid);
+    if ($triggers === TRUE) {
+      // No need to check the other triggers as one have passed.
       break;
     }
+  }
+
+  // If any of the modules reports "false" a no-hit-trigger is found.
+  if ($triggers === FALSE) {
+    // Send notification to site administrator.
+    $campaign = node_load($campaign_nid);
+    $user = user_load($campaign->uid);
+
+    $to = $user->mail;
+    $from = variable_get('site_mail', '');
+    $body = array();
+    $body[] = t('Hi !name', array('!name' => $user->name));
+    $body[] = '';
+    $body[] = t('The campaign "!title" will not be shown as it do not generate any hits in the data-well.', array('!title' => $campaign->title));
+    $body[] = '';
+    $body[] = t('The campaign can be found here !url', array('!url' => url('node/' . $campaign_nid, array('absolute' => TRUE))));
+
+    $params = array('body' => implode("\n", $body));
+    drupal_mail('ding_campaign_plus', 'notification', $to, language_default(), $params, $from);
+  }
+}
+
+/**
+ * Implements hook_mail()
+ */
+function ding_campaign_plus_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'notification':
+      $message['subject'] = t('Inactive campaign detected');
+      $message['body'][] = $params['body'];
+      break;
   }
 }
 
@@ -98,7 +122,8 @@ function _ding_campaign_plus_notification($campaign_nid) {
 function ding_campaign_plus_cron() {
   $last_run = variable_get('ding_campaign_plus_cron_last_run', 0);
 
-  if (REQUEST_TIME - $last_run >= variable_get('ding_campaign_plus_notification', 604800)) {
+  // Only add campaigns to validation queue on different intervals.
+  if (REQUEST_TIME - $last_run >= variable_get('ding_campaign_plus_notification', 604800) || $last_run == 0) {
     $result = db_select('node', 'n')
       ->fields('n', array('nid'))
       ->condition('type', 'ding_campaign_plus')

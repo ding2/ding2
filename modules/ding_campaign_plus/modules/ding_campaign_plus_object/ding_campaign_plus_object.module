@@ -128,13 +128,10 @@ function ding_campaign_plus_object_ding_campaign_plus_auto_trigger($config, $cam
   $trigger[DING_CAMPAIGN_PLUS_OBJECT_TYPE] = array('rules' => array());
 
   if ($config && !empty($subjects)) {
-    $value = 'facet.subject = (';
-    foreach ($subjects as $subject) {
-      $value .= '"' . $subject. '" or ';
-    }
-    $value = substr($value, 0, strlen($value) - 4);
+    $value = 'facet.subject = ("';
+    $value .= implode('" or "', $subjects);
     $trigger[DING_CAMPAIGN_PLUS_OBJECT_TYPE]['rules'] = array(
-      'query' => $value . ')',
+      'query' => $value . '")',
     );
   }
 
@@ -246,4 +243,37 @@ function _ding_campaign_plus_object_match($ting_object_id) {
   }
 
   return $nids;
+}
+
+/**
+ * Implements hook_ding_campaign_plus_validator().
+ *
+ * Validate that a give campaign triggers don't have 0-hits in the search
+ * query.
+ */
+function ding_campaign_plus_object_ding_campaign_plus_validator($nid) {
+  $triggers = db_select('ding_campaign_plus_object', 'dcpo')
+    ->fields('dcpo')
+    ->condition('nid', $nid)
+    ->execute()
+    ->fetchAll();
+
+  if ($triggers) {
+    $active = TRUE;
+    module_load_include('client.inc', 'ting');
+    foreach ($triggers as $trigger) {
+      $search_result = ting_do_search($trigger->query, 1, 1);
+      if ($search_result->numTotalObjects > 0) {
+        // No need to check more rules one of theme makes hits.
+        return TRUE;
+      }
+      else {
+        $active = FALSE;
+      }
+    }
+
+    return $active;
+  }
+
+  return NULL;
 }

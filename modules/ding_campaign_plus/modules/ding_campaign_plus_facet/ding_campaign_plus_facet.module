@@ -515,3 +515,43 @@ function _ding_campaign_plus_facet_match($keys) {
 
   return $triggers;
 }
+
+/**
+ * Implements hook_ding_campaign_plus_validator().
+ *
+ * Validate that a give campaign triggers don't have 0-hits in the search
+ * query.
+ */
+function ding_campaign_plus_facet_ding_campaign_plus_validator($nid) {
+  $triggers = db_select('ding_campaign_plus_facet', 'dcpf')
+    ->fields('dcpf')
+    ->condition('nid', $nid)
+    ->execute()
+    ->fetchAll();
+
+  if ($triggers) {
+    $active = TRUE;
+    module_load_include('client.inc', 'ting');
+    foreach ($triggers as $trigger) {
+      $facet_array = array();
+      $facets = (array) unserialize($trigger->value);
+      foreach ($facets as $facet) {
+        $facet_array[] = $trigger->facet . '="' . rawurldecode($facet) . '"';
+      }
+      $query = implode(' AND ', $facet_array);
+      $search_result = ting_do_search($query, 1, 1);
+
+      if ($search_result->numTotalObjects > 0) {
+        // No need to check more rules one of theme makes hits.
+        return TRUE;
+      }
+      else {
+        $active = FALSE;
+      }
+    }
+
+    return $active;
+  }
+
+  return NULL;
+}
