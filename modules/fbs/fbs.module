@@ -527,7 +527,7 @@ function fbs_form_profile2_form_alter(&$form, &$form_state) {
   $form['profile_provider_fbs']['ding_user_fee_sms'] = array(
     '#type' => 'item',
     '#markup' => $fee_sms,
-    '#weight' => 3,
+    '#weight' => $form['profile_provider_fbs']['field_fbs_phone_notification']['#weight'] + 0.1,
   );
 
   // Add validation to email.
