@@ -2,6 +2,7 @@
 
 use Ting\Search\TingSearchResultInterface;
 use Ting\Search\TingSearchSort;
+use Ting\Search\TingSearchRequest;
 
 /**
  * @file
@@ -606,32 +607,27 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    * Test that the provider can include and exclude materials.
    */
   public function testMaterialFilter() {
-    $query = ting_start_query();
-
-    /**
-     * @var \Ting\Search\TingSearchRequest $query_include
-     */
-    $query_include = ding_provider_invoke('search', 'search', $query);
+    $query_include = ting_start_query();
     $query_include->setMaterialFilter('connie-123');
 
-    /**
-     * @var \Ting\Search\TingSearchRequest $query_exclude
-     */
-    $query_exclude = ding_provider_invoke('search', 'search', $query);
-    $query_exclude->setMaterialFilter('connie-123', FALSE);
-
-    // Execute the queries with included and excluded materials.
-    $result_include = $query_include->execute();
-    $result_exclude = $query_exclude->execute();
-
-    // connie-123 is included, so we expect a single object to be returned.
     $this->assertEqual($query_include->getMaterialFilter(), ['connie-123']);
     $this->assertTrue($query_include->isMaterialFilterInclude());
-    $this->assertTrue($result_include->getNumTotalObjects() > 0);
 
-    // connie-123 is excluded, so we expect no objects to be returned.
+    /* @var \Ting\Search\TingSearchResultInterface $result_include */
+    $result_include = ding_provider_invoke('search', 'search',
+      $query_include);
+    // connie-123 is included, so we expect a single object to be returned.
+    $this->assertEqual(1, $result_include->getNumTotalObjects());
+
+    $query_exclude = ting_start_query();
+    $query_exclude->setMaterialFilter('connie-123', FALSE);
+
     $this->assertEqual($query_exclude->getMaterialFilter(), ['connie-123']);
-    $this->assertTrue($query_include->isMaterialFilterInclude());
-    $this->assertFalse($result_exclude->getNumTotalObjects() > 0);
+    $this->assertFalse($query_exclude->isMaterialFilterInclude());
+
+    /* @var \Ting\Search\TingSearchResultInterface $result_exclude */
+    $result_exclude = ding_provider_invoke('search', 'search', $query_exclude);
+    // connie-123 is excluded, so we expect no objects to be returned.
+    $this->assertEqual(0, $result_exclude->getNumTotalObjects());
   }
 }
