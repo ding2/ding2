@@ -41,8 +41,8 @@ function ding_webtrekk_page_alter(&$page) {
     ],
     [
       'data' => 'window._tiConfig = window._tiConfig || {
-        tiDomain: \'' . $domain . '\',' .
-        'tiId: \'' . $id . '\',' .
+        tiDomain: ' . "'$domain'," .
+        'tiId: '. "'$id,'" .
         'option: {}
       };
 /** start TagIntegration loader  */
