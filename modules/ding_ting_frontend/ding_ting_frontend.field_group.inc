@@ -29,7 +29,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Holdings available on the shelf',
       'instance_settings' => array(
-        'classes' => ' group-holdings-available field-group-div',
+        'classes' => 'group-holdings-available field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h2',
@@ -120,7 +120,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Inner',
       'instance_settings' => array(
-        'classes' => ' group-inner field-group-div',
+        'classes' => 'group-inner field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -154,7 +154,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Inner',
       'instance_settings' => array(
-        'classes' => ' group-inner field-group-div',
+        'classes' => 'group-inner field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -186,7 +186,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'On this site',
       'instance_settings' => array(
-        'classes' => ' group-on-this-site field-group-div',
+        'classes' => 'group-on-this-site field-group-div',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
@@ -218,7 +218,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Issues',
       'instance_settings' => array(
-        'classes' => ' group-periodical-issues field-group-div',
+        'classes' => 'group-periodical-issues field-group-div',
         'description' => '',
         'show_label' => '1',
         'label_element' => 'h2',
@@ -251,7 +251,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Rating',
       'instance_settings' => array(
-        'classes' => ' group-rating field-group-div',
+        'classes' => 'group-rating field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -284,7 +284,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Rating',
       'instance_settings' => array(
-        'classes' => ' group-rating field-group-div',
+        'classes' => 'group-rating field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -317,7 +317,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Rating',
       'instance_settings' => array(
-        'classes' => ' group-rating field-group-div',
+        'classes' => 'group-rating field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -352,7 +352,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Text',
       'instance_settings' => array(
-        'classes' => ' group-text field-group-div',
+        'classes' => 'group-text field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -386,7 +386,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Text',
       'instance_settings' => array(
-        'classes' => ' group-text field-group-div',
+        'classes' => 'group-text field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -420,7 +420,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Text',
       'instance_settings' => array(
-        'classes' => ' group-text field-group-div',
+        'classes' => 'group-text field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -454,7 +454,7 @@ function ding_ting_frontend_field_group_info() {
     'format_settings' => array(
       'label' => 'Text',
       'instance_settings' => array(
-        'classes' => ' group-text field-group-div',
+        'classes' => 'group-text field-group-div',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
