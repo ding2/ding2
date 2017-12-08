@@ -26,7 +26,12 @@ function template_preprocess_ting_object_cover(&$variables) {
   );
   $variables['image'] = '';
 
-  if (!cache_get('ting_covers:' . $object->id)) {
+  if (cache_get('ting_covers:' . $object->id)) {
+    // We know that there is no cover available for this object so avoid
+    // further javascript processing.
+    $variables['classes'][] = 'ting-cover-processed';
+  }
+  else {
     $path = ting_covers_object_path($object->id);
     if (file_exists($path)) {
       // Generate an alt tag.
