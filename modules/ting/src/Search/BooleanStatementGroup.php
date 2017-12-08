@@ -7,7 +7,7 @@ namespace Ting\Search;
  *
  * The statements are joined by a boolean operator.
  */
-class BooleanStatementGroup implements BooleanStatementInterface {
+class BooleanStatementGroup implements BooleanStatementInterface, FilterStatementInterface {
 
   /**
    * The grouped statements.

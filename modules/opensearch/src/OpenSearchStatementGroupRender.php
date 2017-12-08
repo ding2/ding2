@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * The StatementGroupRender class.
- */
 
 namespace OpenSearch;
 
@@ -10,15 +6,31 @@ use Ting\Search\BooleanStatementGroup;
 use Ting\Search\BooleanStatementInterface;
 use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchFieldFilter;
+use Ting\Search\TingSearchStrategyInterface;
 
 /**
- * Recursivly renders a statement group
+ * Recursively renders a statement group.
  *
  * @package Ting\Search
  */
 class OpenSearchStatementGroupRender {
-  // Provider-specific mapping, intialized during field rendering.
+
+  /**
+   * Provider-specific mapping, initialized during field rendering.
+   *
+   * The array maps Common fields defined in TingSearchCommonFields to their
+   * primo counterparts.
+   *
+   * @var array
+   */
   protected $commonFieldMapping = NULL;
+
+  /**
+   * The strategy to use when interfacing with the search provider.
+   *
+   * @var \Ting\Search\TingSearchStrategyInterface
+   */
+  protected $providerStrategy;
 
   /**
    * StatementGroupRender constructor.
@@ -26,7 +38,7 @@ class OpenSearchStatementGroupRender {
    * @param \Ting\Search\TingSearchStrategyInterface $provider_strategy
    *   The strategy to use when interfacing with the search provider.
    */
-  public function __construct($provider_strategy) {
+  public function __construct(TingSearchStrategyInterface $provider_strategy) {
     $this->providerStrategy = $provider_strategy;
   }
 
@@ -42,7 +54,7 @@ class OpenSearchStatementGroupRender {
    * @throws \InvalidArgumentException
    *   In case the group contains invalid members.
    */
-  public function renderGroup($group) {
+  public function renderGroup(BooleanStatementGroup $group) {
     return $this->walk($group);
   }
 
@@ -52,7 +64,7 @@ class OpenSearchStatementGroupRender {
    * This is a helper-function that warps the list in a single group before
    * rendering it.
    *
-   * @param \Ting\Search\BooleanStatementInterface[] $statements
+   * @param \Ting\Search\FilterStatementInterface[] $statements
    *   The list of statements to render.
    * @param string $logic_operator
    *   A TingSearchBooleanStatementInterface::OP_* operation.
@@ -63,7 +75,7 @@ class OpenSearchStatementGroupRender {
    * @throws \InvalidArgumentException
    *   In case the group contains invalid members.
    */
-  public function renderStatements($statements, $logic_operator = BooleanStatementInterface::OP_AND) {
+  public function renderStatements(array $statements, $logic_operator = BooleanStatementInterface::OP_AND) {
     return $this->renderGroup(new BooleanStatementGroup($statements, $logic_operator));
   }
 
@@ -72,7 +84,6 @@ class OpenSearchStatementGroupRender {
    *
    * @param \Ting\Search\BooleanStatementGroup $group
    *   The group to be rendered.
-   *
    * @param string $rendered_statement
    *   The rendered statement as it currently looks. The statement is passed by
    *   refrence and modifications are made during the traversal.
@@ -83,7 +94,7 @@ class OpenSearchStatementGroupRender {
    * @throws \InvalidArgumentException
    *   In case the group contains invalid members.
    */
-  protected function walk($group, &$rendered_statement = NULL) {
+  protected function walk(BooleanStatementGroup $group, &$rendered_statement = NULL) {
     // If this is the initial call to walk, take not of it so that we can treat
     // the outermost group differently. Eg. it should not have parenthesises
     // around it.
@@ -142,21 +153,20 @@ class OpenSearchStatementGroupRender {
   /**
    * Render a field.
    *
-   * @param TingSearchFieldFilter $field
+   * @param \Ting\Search\TingSearchFieldFilter $field
    *   The filter.
    *
    * @return string
    *   The rendered field. Empty string if the field is a common field not
    *   supported by the current search-provider.
    */
-  protected function renderField($field) {
+  protected function renderField(TingSearchFieldFilter $field) {
     if ($this->commonFieldMapping === NULL) {
       $this->commonFieldMapping = $this->providerStrategy->mapCommonFields();
     }
     // TODO BBS-SAL: use provider to map common fields and maybe also to do the
     // full render.
     // TODO BBS-SAL: escape field value - again using the provider.
-
     // Map the field if it is a common-field.
     if (in_array($field->getName(), TingSearchCommonFields::getAll(), TRUE)) {
       if (isset($this->commonFieldMapping[$field->getName()])) {
@@ -180,4 +190,5 @@ class OpenSearchStatementGroupRender {
     // Render the full field with operator and value.
     return $field_name . '=' . $quoted_field;
   }
+
 }

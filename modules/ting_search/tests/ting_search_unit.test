@@ -8,6 +8,7 @@ use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchFieldFilter;
 use Ting\Search\TingSearchRequest;
 use Ting\Search\TingSearchStrategyInterface;
+use Ting\Search\UnsupportedSearchQueryException;
 
 class DingSearchUnitTest extends DingUnitTestBase {
   public static function getInfo() {
@@ -99,4 +100,32 @@ class DingSearchUnitTest extends DingUnitTestBase {
     // The fourth group should be the same as 2).
     $this->assertEqual($resulting_filters[3]->getStatements()[0], $_2_single_filter, 'FieldFilter shorthand should be the same as adding a TingSearchFieldFilter manually');
   }
+
+  /**
+   * Test we can't add an invalid field filter to a statement.
+   */
+  public function testInvalidFieldFilter() {
+    $invalid = (object) [];
+
+    // Setup a search request with a dummy strategy that will never be used as
+    // we don't actually perform any searches.
+    $strategy_double = $this->prophet->prophesize(TingSearchStrategyInterface::class);
+    $strategy = $strategy_double->reveal();
+
+    $query = new TingSearchRequest($strategy);
+
+    // Test that the filter is rejected.
+    try {
+      $query->addFieldFilters($invalid);
+    }
+    catch (UnsupportedSearchQueryException $e) {
+      // All is ok.
+      $this->pass("Expected exception is thrown");
+      return;
+    }
+
+    // The renderer should have thrown an exception.
+    $this->fail('Expected exception to be trown');
+  }
+
 }

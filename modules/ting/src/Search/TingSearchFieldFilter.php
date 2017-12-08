@@ -10,7 +10,7 @@ namespace Ting\Search;
  *
  * @package Ting\Search
  */
-class TingSearchFieldFilter {
+class TingSearchFieldFilter implements FilterStatementInterface {
 
   /**
    * The field.

@@ -434,7 +434,7 @@ class TingSearchRequest {
    *
    * When executed the statements must be joined together with a logical AND.
    *
-   * @return BooleanStatementGroup[]
+   * @return FilterStatementInterface[]
    *   List of BooleanStatementGroup instances used to filter field.
    */
   public function getFieldFilters() {
@@ -447,22 +447,35 @@ class TingSearchRequest {
    * If the query already contains filters, the filters specified in $filters
    * will be AND'ed with the existing filters.
    *
-   * @param mixed[]|\Ting\Search\BooleanStatementGroup|\Ting\Search\TingSearchFieldFilter $filters
+   * @param \Ting\Search\FilterStatementInterface[]|\Ting\Search\FilterStatementInterface $filters
    *   A single BooleanStatementGroup or TingSearchFieldFilter or a (potentially
    *   mixed) array of both.
-   *
    * @param string $logic_operator
    *   Logical operator to use for joining filters together if $filters contains
    *   more than one filter. See BooleanStatementInterface::OP_*.
    *
    * @return TingSearchRequest
    *   the current query object.
+   *
+   * @throws \Ting\Search\UnsupportedSearchQueryException
    */
   public function addFieldFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
     // First off, protect against silly code.
     if (empty($filters)) {
       return $this;
     }
+
+    // Ensure we got what we expected.
+    $check_array = is_array($filters) ? $filters : [$filters];
+    array_walk($check_array, function ($filter) {
+      if (!($filter instanceof BooleanStatementGroup || $filter instanceof TingSearchFieldFilter)) {
+        // We got something unexpected.
+        $details = is_object($filter) ? get_class($filter) : (string) $filter;
+        throw new UnsupportedSearchQueryException(
+          'Encountered unknown filter type ' . $details
+        );
+      }
+    });
 
     // If this is not already a group, well have to do some work before adding
     // it.
