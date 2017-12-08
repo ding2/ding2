@@ -48,7 +48,6 @@ function ding_campaign_grid_campaign_content_type_render($subtype, $conf, $panel
  * Implements hook_content_type_edit_form().
  */
 function ding_campaign_grid_campaign_content_type_edit_form($form, &$form_state) {
-
   $form['ding_campaign_count'] = array(
     '#type' => 'textfield',
     '#title' => t('Campaign count'),
