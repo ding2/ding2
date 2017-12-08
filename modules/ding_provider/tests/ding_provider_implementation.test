@@ -587,7 +587,6 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $query = ding_provider_invoke('search', 'prepare_reference_query', $test_query_3);
     $this->assertFalse($query->isFuzzy());
     $this->assertEqual($query->getMaterialFilter(), [$test_query_3]);
-    $this->assertTrue($query->isMaterialFilterInclude());
   }
 
   /**
@@ -604,30 +603,23 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
   }
 
   /**
-   * Test that the provider can include and exclude materials.
+   * Test TingSearchRequest can include and exclude materials.
    */
   public function testMaterialFilter() {
     $query_include = ting_start_query();
-    $query_include->setMaterialFilter('connie-123');
+    // We do not run this, so the ID doesn't matter.
+    $query_include->setMaterialFilter('123');
 
-    $this->assertEqual($query_include->getMaterialFilter(), ['connie-123']);
+    // Check the filter is being set to include.
+    $this->assertEqual($query_include->getMaterialFilter(), ['123']);
     $this->assertTrue($query_include->isMaterialFilterInclude());
 
-    /* @var \Ting\Search\TingSearchResultInterface $result_include */
-    $result_include = ding_provider_invoke('search', 'search',
-      $query_include);
-    // connie-123 is included, so we expect a single object to be returned.
-    $this->assertEqual(1, $result_include->getNumTotalObjects());
-
     $query_exclude = ting_start_query();
-    $query_exclude->setMaterialFilter('connie-123', FALSE);
+    // We do not run this, so the ID doesn't matter.
+    $query_exclude->setMaterialFilter('123', FALSE);
 
-    $this->assertEqual($query_exclude->getMaterialFilter(), ['connie-123']);
+    // Check the filter is being set to exclude.
+    $this->assertEqual($query_exclude->getMaterialFilter(), ['123']);
     $this->assertFalse($query_exclude->isMaterialFilterInclude());
-
-    /* @var \Ting\Search\NullSearchResult $result_exclude */
-    $result_exclude = new \Ting\Search\NullSearchResult();
-    // connie-123 is excluded, so we expect no objects to be returned.
-    $this->assertEqual(0, $result_exclude->getNumTotalObjects());
   }
 }
