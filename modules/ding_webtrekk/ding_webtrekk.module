@@ -13,8 +13,8 @@ function ding_webtrekk_menu() {
     'title' => 'Webtrekk',
     'description' => 'Settings for the Webtrekk analytics tool.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_webtrekk_admin_settings_form'),
-    'access arguments' => array('administer site configuration'),
+    'page arguments' => ['ding_webtrekk_admin_settings_form'],
+    'access arguments' => ['administer site configuration'],
     'file' => 'ding_webtrekk.admin.inc',
   ];
   
@@ -25,29 +25,31 @@ function ding_webtrekk_menu() {
  * Implements hook_page_alter().
  */
 function ding_webtrekk_page_alter(&$page) {
-  $script = 'window._ti = window._ti || {};';
-
-  $title = drupal_get_title();
-  if ($title) {
-    $script .= "window._ti['pageTitle'] = '$title';";
-  }
   $domain = variable_get('webtrekk_ti_domain', '');
   $id = variable_get('webtrekk_ti_id', '');
 
+  if (empty($domain) && empty($id)) {
+    return;
+  }
+
+  $params = [
+    'pageTitle' => drupal_get_title(),
+  ];
+  _ding_webtrekk_set_data_layer_values($params);
+
+  // @codingStandardsIgnoreStart
+  $tag_integration_logic = '/** start TagIntegration loader  */
+(function(c,d,a,f){c.wts=c.wts||[];var g=function(b){var a="";b.customDomain&&b.customPath?a=b.customDomain+"/"+b.customPath:b.tiDomain&&b.tiId&&(a=b.tiDomain+"/resp/api/get/"+b.tiId+"?url="+encodeURIComponent(c.location.href)+"&v=5");if(b.option)for(var d in b.option)a+="&"+d+"="+encodeURIComponent(b.option[d]);return a};if(-1===d.cookie.indexOf("wt_r=1")){var e=d.getElementsByTagName(a)[0];a=d.createElement(a);a.async=!0;a.onload=function(){if("undefined"!==typeof c.wt_r&&!isNaN(c.wt_r)){var b=new Date,a=b.getTime()+1E3*parseInt(c.wt_r);b.setTime(a);d.cookie="wt_r=1;path=/;expires="+b.toUTCString()}};a.onerror=function(){"undefined"!==typeof c.wt_mcp_hide&&"function"===typeof c.wt_mcp_hide.show&&(c.wt_mcp_hide.show(),c.wt_mcp_hide.show=function(){})};a.src="//"+g(f);e.parentNode.insertBefore(a,e)}})(window,document,"script",_tiConfig);
+/** end TagIntegration loader */';
+  // @codingStandardsIgnoreEnd
+
   $page['page_bottom']['webtrekk']['#attached']['js'] = [
-    [
-      'data' => $script,
-      'type' => 'inline',
-    ],
     [
       'data' => 'window._tiConfig = window._tiConfig || {
         tiDomain: ' . "'$domain'," .
         'tiId: ' . "'$id'," .
         'option: {}
-      };
-/** start TagIntegration loader  */
-(function(c,d,a,f){c.wts=c.wts||[];var g=function(b){var a="";b.customDomain&&b.customPath?a=b.customDomain+"/"+b.customPath:b.tiDomain&&b.tiId&&(a=b.tiDomain+"/resp/api/get/"+b.tiId+"?url="+encodeURIComponent(c.location.href)+"&v=5");if(b.option)for(var d in b.option)a+="&"+d+"="+encodeURIComponent(b.option[d]);return a};if(-1===d.cookie.indexOf("wt_r=1")){var e=d.getElementsByTagName(a)[0];a=d.createElement(a);a.async=!0;a.onload=function(){if("undefined"!==typeof c.wt_r&&!isNaN(c.wt_r)){var b=new Date,a=b.getTime()+1E3*parseInt(c.wt_r);b.setTime(a);d.cookie="wt_r=1;path=/;expires="+b.toUTCString()}};a.onerror=function(){"undefined"!==typeof c.wt_mcp_hide&&"function"===typeof c.wt_mcp_hide.show&&(c.wt_mcp_hide.show(),c.wt_mcp_hide.show=function(){})};a.src="//"+g(f);e.parentNode.insertBefore(a,e)}})(window,document,"script",_tiConfig);
-/** end TagIntegration loader */',
+      };' . $tag_integration_logic,
       'type' => 'inline',
       'scope' => 'footer',
     ],
@@ -56,46 +58,69 @@ function ding_webtrekk_page_alter(&$page) {
 
 /**
  * Implements hook_panels_pane_content_alter().
+ *
+ * Track ting search results.
  */
 function ding_webtrekk_panels_pane_content_alter($content, $pane, $args, $contexts) {
   if ($pane->type == 'search_result' && $pane->configuration['type'] == 'ting_search') {
     if ($search_result = drupal_static('ting_search_results', FALSE)) {
-      $script = 'window._ti = window._ti || {};';
-      // Pass page title to the script.
-      if (!empty($content->original_title)) {
-        $script .= "\nwindow._ti['pageTitle'] = '$content->original_title';";
-      }
-
-      // Pass search options to the script.
-      $search_key = $search_result->search_key;
-      $count = $search_result->numTotalObjects;
-      $script .= "\nwindow._ti['OSS'] = '$search_key';\nwindow._ti['OSSr'] = '$count';";
-
-      drupal_add_js($script, array(
-        'type' => 'inline',
-      ));
+      $params = [
+        'pageTitle' => $content->original_title,
+        'OSS' => $search_result->search_key,
+        'OSSr' => $search_result->numTotalObjects,
+      ];
+      _ding_webtrekk_set_data_layer_values($params);
     }
   }
 }
 
 /**
  * Implements hook_views_post_execute().
+ *
+ * Track internal search results.
  */
 function ding_webtrekk_views_post_execute(&$view) {
   $count = $view->total_rows;
   if ($view->name == 'ding_multiple_search' && $count > 0) {
-    $script = 'window._ti = window._ti || {};';
-
-    $search_key = array_shift($view->args);
-    $script .= "\nwindow._ti['internalSearch'] = '$search_key'";
-    $script .= "\nwindow._ti['numberSearchResults'] = '$count';";
-
-    if (!empty($view->human_name)) {
-      $script .= "\nwindow._ti['pageTitle'] = '$view->human_name';";
+    // This view is loaded 2 times. Prevent from loading params multiple times.
+    $loaded = &drupal_static(__FUNCTION__);
+    if (!empty($loaded)) {
+      return ;
     }
+    $loaded = TRUE;
 
-    drupal_add_js($script, array(
-      'type' => 'inline',
-    ));
+    $params = [
+      'internalSearch' => array_shift($view->args),
+      'numberSearchResults' => $count,
+      'pageTitle' => $view->human_name,
+    ];
+    _ding_webtrekk_set_data_layer_values($params);
   }
+}
+
+/**
+ * Pass Tag Information variables to the inline js script.
+ *
+ * @param array $value_map
+ *   Key, value collection of parameters to be considered.
+ */
+function _ding_webtrekk_set_data_layer_values(array $value_map) {
+  $script_lines = array_map(function($key, $value) {
+    if ($value) {
+      return "window._ti['$key'] = '$value'";
+    }
+  }, array_keys($value_map), $value_map);
+
+  // Remove empty values.
+  $script_lines = array_filter($script_lines);
+
+  $script_lines = array_merge (
+    ['window._ti = window._ti || {}'],
+    $script_lines
+  );
+
+  $script = implode(";\n", $script_lines);
+  drupal_add_js($script, [
+    'type' => 'inline',
+  ]);
 }
