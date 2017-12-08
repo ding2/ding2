@@ -625,8 +625,8 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $this->assertEqual($query_exclude->getMaterialFilter(), ['connie-123']);
     $this->assertFalse($query_exclude->isMaterialFilterInclude());
 
-    /* @var \Ting\Search\TingSearchResultInterface $result_exclude */
-    $result_exclude = ding_provider_invoke('search', 'search', $query_exclude);
+    /* @var \Ting\Search\NullSearchResult $result_exclude */
+    $result_exclude = new \Ting\Search\NullSearchResult();
     // connie-123 is excluded, so we expect no objects to be returned.
     $this->assertEqual(0, $result_exclude->getNumTotalObjects());
   }
