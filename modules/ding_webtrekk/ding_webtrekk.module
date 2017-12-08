@@ -85,7 +85,7 @@ function ding_webtrekk_views_post_execute(&$view) {
     // This view is loaded 2 times. Prevent from loading params multiple times.
     $loaded = &drupal_static(__FUNCTION__);
     if (!empty($loaded)) {
-      return ;
+      return;
     }
     $loaded = TRUE;
 
@@ -114,7 +114,7 @@ function _ding_webtrekk_set_data_layer_values(array $value_map) {
   // Remove empty values.
   $script_lines = array_filter($script_lines);
 
-  $script_lines = array_merge (
+  $script_lines = array_merge(
     ['window._ti = window._ti || {}'],
     $script_lines
   );
