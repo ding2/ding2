@@ -515,7 +515,7 @@ projects[xautoload][version] = "5.7"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][branch] = "master"
+libraries[bpi-client][download][tag] = "7.x-6.5.0"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
@@ -591,8 +591,8 @@ libraries[psr7][destination] = "libraries"
 ; For ting.
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][branch] = "master"
 libraries[ting-client][destination] = "modules/opensearch/lib"
+libraries[ting-client][download][tag] = "7.x-6.5.0"
 
 ; Obsoleted. Only reference is in ding_frontend.
 libraries[zen-grids][download][type] = "git"
@@ -646,7 +646,7 @@ libraries[smart-app-banner][destination] = "libraries"
 
 ; For ding_react.
 libraries[ddb-react][download][type] = "get"
-libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/latest/dist.zip
+libraries[ddb-react][download][url] = https://github.com/danskernesdigitalebibliotek/ddb-react/releases/download/2.4.1/dist.zip
 libraries[ddb-react][directory_name] = "ddb-react"
 libraries[ddb-react][destination] = "libraries"
 
