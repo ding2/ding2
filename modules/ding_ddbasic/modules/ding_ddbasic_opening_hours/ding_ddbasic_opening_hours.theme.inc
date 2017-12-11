@@ -409,7 +409,8 @@ function template_preprocess_ding_ddbasic_opening_hours_all_tabbed(&$variables) 
         }
       }
 
-      // If library doesn't have opening hours - we hide this, otherwise show info for this library.
+      // If library doesn't have opening hours - we hide this, otherwise show
+      // info for this library.
       if (!empty($inlined)) {
         $div[$k][] = [
           $lib = [
