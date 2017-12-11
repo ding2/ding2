@@ -286,7 +286,7 @@ function theme_ding_ddbasic_opening_hours_all_tabbed($variables) {
  */
 function template_preprocess_ding_ddbasic_opening_hours_all_tabbed(&$variables) {
   drupal_add_library('system', 'ui.tabs');
-  drupal_add_js('jQuery(document).ready(function(){jQuery("#tabs").tabs();});', 'inline');
+  drupal_add_js('jQuery(document).ready(function(){jQuery("#oh-tabs").tabs();});', 'inline');
 
   $today = strtotime('today');
 
@@ -344,7 +344,7 @@ function template_preprocess_ding_ddbasic_opening_hours_all_tabbed(&$variables) 
         if ($key == '-1') {
           $category = t('Library and citizens');
         }
-        $tabs_heading[$key] = l($category, '', ['fragment' => 'tab-' . $key]);
+        $tabs_heading[$key] = "<a href='#tab-$key'>$category</a>";
       }
     }
 
@@ -426,7 +426,7 @@ function template_preprocess_ding_ddbasic_opening_hours_all_tabbed(&$variables) 
   // Forming container for rendering.
   $content_block = [
     '#type' => 'container',
-    '#attributes' => ['id' => 'tabs'],
+    '#attributes' => ['id' => 'oh-tabs'],
     'tabs' => [
       '#theme' => 'item_list',
       '#items' => $tabs_heading,
