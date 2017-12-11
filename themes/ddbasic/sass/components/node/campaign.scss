@@ -204,6 +204,17 @@
       font-size: 140%;
     }
 
+    @include media($notebook,$tablet) {
+      @include span-columns(3.5 of 12);
+    }
+
+    @include media($mobile) {
+      @include span-columns(3 of 3);
+      margin: 0;
+      float: none;
+    }
+
+
     .ding-campaign-grid-description {
       opacity: 0;
       color: $white;
