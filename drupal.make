@@ -14,4 +14,4 @@ projects[drupal][patch][] = "http://www.drupal.org/files/issues/drupal-tabledrag
 projects[ding2][type] = "profile"
 projects[ding2][download][type] = "git"
 projects[ding2][download][url] = "git@github.com:ding2/ding2.git"
-projects[ding2][download][branch] = "master"
+projects[ding2][download][branch] = "7.x-4.5.0-rc1"
