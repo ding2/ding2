@@ -154,6 +154,10 @@
       font-size: 95%;
       font-family: $font-family-bold;
       color: $color-standard-text;
+
+      &:focus {
+        outline: none;
+      }
     }
 
     .ui-state-default {
@@ -161,10 +165,27 @@
       background: transparent;
       padding-left: 0;
       margin: 0;
+      width: 20%;
+
+      a {
+        white-space: nowrap;
+        width: 4.2em;
+        overflow: hidden;
+        text-overflow: clip;
+      }
     }
+
     .ui-tabs-active{
       border: $grey-light 1px solid;
       background: $white;
+      width: auto;
+
+      a {
+        white-space: normal;
+        width: auto;
+        overflow: auto;
+        text-overflow: unset;
+      }
     }
   }
 
@@ -172,9 +193,13 @@
     font-size: 95%;
     display: inline-block;
     width: auto;
-    color: $color-standard-text;
+    font-family: $font-family;
     padding-left: 15px;
     margin: 0;
+
+    a {
+      color: $color-text-link;
+    }
   }
 
   .oh-info {
@@ -183,7 +208,7 @@
     float: right;
 
     .opening-hours-table-notice {
-      margin-right: 30px;
+      margin-right: 10px;
       font-size: 85%;
       color: $grey-dark;
     }
@@ -196,7 +221,7 @@
   .ui-tabs-panel.ui-widget-content {
     .oh-item {
       border-bottom: 1px dashed $grey;
-      padding: 15px 20px 15px 0;
+      padding: 15px 7px 15px 0;
       overflow: auto;
 
       &:last-child {
