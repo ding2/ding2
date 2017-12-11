@@ -4,6 +4,7 @@ description = Install a Ding based library site.
 core = 7.x
 distribution_name = "Ding 2"
 exclusive = TRUE
+version = 7.x-4.7.0-rc2
 
 ; Core modules.
 dependencies[] = block
