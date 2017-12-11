@@ -13,4 +13,4 @@ projects[drupal][patch][] = "http://drupal.org/files/issues/translate_role_names
 projects[ding2][type] = "profile"
 projects[ding2][download][type] = "git"
 projects[ding2][download][url] = "git@github.com:ding2/ding2.git"
-projects[ding2][download][branch] = "master"
+projects[ding2][download][branch] = "7.x-4.3.4-rc1"
