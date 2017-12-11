@@ -21,4 +21,4 @@ projects[drupal][patch][] = "https://www.drupal.org/files/issues/2020-09-23/drup
 projects[ding2][type] = "profile"
 projects[ding2][download][type] = "git"
 projects[ding2][download][url] = "https://github.com/ding2/ding2.git"
-projects[ding2][download][branch] = "master"
+projects[ding2][download][tag] = "7.x-6.2.1-rc1"
