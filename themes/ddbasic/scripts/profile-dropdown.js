@@ -18,6 +18,21 @@
 
       // Open/close mobile menu on click.
       my_account.on('click', function(event) {
+        if(body.hasClass('has-touch') && !ddbasic.breakpoint.is('tablet')) {
+          event.preventDefault();
+          if($(this).hasClass('js-active')) {
+            dropdown().css('left', '');
+            body.removeClass('mobile-usermenu-is-open overlay-is-active');
+            my_account.removeClass('js-active active');
+          } else {
+            dropdown().css({
+              'left': my_account.position().left - (dropdown().width() - my_account.width()),
+            });
+            body.addClass('mobile-usermenu-is-open overlay-is-active');
+            my_account.addClass('js-active active');
+          }
+        }
+
         if (ddbasic.breakpoint.is('tablet')) {
           event.preventDefault();
           body.toggleClass('mobile-usermenu-is-open');
@@ -32,7 +47,7 @@
 
       // Open dropdown when mouse enters my account menu-link.gla
       my_account.on('mouseenter', function() {
-        if (!ddbasic.breakpoint.is('tablet')) {
+        if (!ddbasic.breakpoint.is('tablet') && !body.hasClass('has-touch')) {
           dropdown().css({
             'left': my_account.offset().left - my_account.width() / 2,
             'position': 'fixed'
@@ -54,7 +69,7 @@
 
       // Close dropdown when mouse leaves my-account menu-link from the sides.
       my_account.on('mouseleave', function(event) {
-        if(!ddbasic.breakpoint.is('tablet')) {
+        if(!ddbasic.breakpoint.is('tablet') && !body.hasClass('has-touch')) {
           if (event.offsetX < 0 || event.offsetX > $(this).width()) {
             dropdown().css('left', '');
             dropdown().css('position', '');
