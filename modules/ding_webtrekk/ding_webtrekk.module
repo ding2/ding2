@@ -65,7 +65,7 @@ function ding_webtrekk_panels_pane_content_alter($content, $pane, $args, $contex
   if ($pane->type == 'search_result' && $pane->configuration['type'] == 'ting_search' && strpos(current_path(), 'search/ting') === 0) {
     if ($search_result = drupal_static('ting_search_results', FALSE)) {
       $params = [
-        'pageTitle' => $content->original_title,
+        'pageTitle' => 'Search ting',
         'OSS' => $search_result->search_key,
         'OSSr' => $search_result->numTotalObjects,
       ];
@@ -91,7 +91,7 @@ function ding_webtrekk_views_post_execute(&$view) {
     $params = [
       'internalSearch' => array_shift($view->args),
       'numberSearchResults' => $view->total_rows,
-      'pageTitle' => $view->human_name,
+      'pageTitle' => 'Search content',
     ];
     _ding_webtrekk_set_data_layer_values($params);
   }
