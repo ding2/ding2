@@ -132,3 +132,105 @@
     margin-top: 20px;
   }
 }
+
+.pane-all-opening-hours {
+  #oh-tabs {
+    border: none;
+    border-radius: none;
+    background: transparent;
+  }
+
+  .ui-tabs-panel.ui-widget-content {
+    border: 1px solid $grey;
+    padding: 0;
+  }
+
+  .ui-widget-header {
+    border: none;
+    background: transparent;
+    padding: 0;
+
+    a {
+      font-size: 95%;
+      font-family: $font-family-bold;
+      color: $color-standard-text;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .ui-state-default {
+      border: $grey-light 1px solid;
+      background: transparent;
+      padding-left: 0;
+      margin: 0;
+      width: 20%;
+
+      a {
+        white-space: nowrap;
+        width: 4.2em;
+        overflow: hidden;
+        text-overflow: clip;
+      }
+    }
+
+    .ui-tabs-active{
+      border: $grey-light 1px solid;
+      background: $white;
+      width: auto;
+
+      a {
+        white-space: normal;
+        width: auto;
+        overflow: auto;
+        text-overflow: unset;
+      }
+    }
+  }
+
+  h3 {
+    font-size: 95%;
+    display: inline-block;
+    width: auto;
+    font-family: $font-family;
+    padding-left: 15px;
+    margin: 0;
+
+    a {
+      color: $color-text-link;
+    }
+  }
+
+  .oh-info {
+    display: inline-block;
+    width: auto;
+    float: right;
+
+    .opening-hours-table-notice {
+      margin-right: 10px;
+      font-size: 85%;
+      color: $grey-dark;
+    }
+
+    .oh-period {
+      float: right;
+    }
+  }
+
+  .ui-tabs-panel.ui-widget-content {
+    .oh-item {
+      border-bottom: 1px dashed $grey;
+      padding: 15px 7px 15px 0;
+      overflow: auto;
+
+      &:last-child {
+        border: none;
+      }
+    }
+  }
+
+  .more-link {
+    margin-top: 15px;
+  }
+}
