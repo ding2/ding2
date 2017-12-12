@@ -17,7 +17,7 @@ function ding_webtrekk_menu() {
     'access arguments' => ['administer site configuration'],
     'file' => 'ding_webtrekk.admin.inc',
   ];
-  
+
   return $items;
 }
 
@@ -54,18 +54,15 @@ function ding_webtrekk_page_alter(&$page) {
       'scope' => 'footer',
     ],
   ];
-}
 
-/**
- * Implements hook_panels_pane_content_alter().
- *
- * Track ting search results.
- */
-function ding_webtrekk_panels_pane_content_alter($content, $pane, $args, $contexts) {
-  if ($pane->type == 'search_result' && $pane->configuration['type'] == 'ting_search') {
+  // Track ting search results. We take advantage of the fact that ting_search
+  // module stores the result in a static variable when search is triggered via
+  // search_data() function from core search module. Since this is not tied to
+  // any path, we also check current_path().
+  if (strpos(current_path(), 'search/ting') === 0) {
     if ($search_result = drupal_static('ting_search_results', FALSE)) {
       $params = [
-        'pageTitle' => $content->original_title,
+        'pageTitle' => 'Search ting',
         'OSS' => $search_result->search_key,
         'OSSr' => $search_result->numTotalObjects,
       ];
@@ -80,8 +77,11 @@ function ding_webtrekk_panels_pane_content_alter($content, $pane, $args, $contex
  * Track internal search results.
  */
 function ding_webtrekk_views_post_execute(&$view) {
-  $count = $view->total_rows;
-  if ($view->name == 'ding_multiple_search' && $count > 0) {
+  // We also check current_path to ensure we're tracking on the correct page.
+  // For example, the view is also executed on ting_search search page to show
+  // the number of results to the user, if they searched in content instead.
+  // See search_backend.inc ctools content type plugin from ting_search.
+  if ($view->name == 'ding_multiple_search' && strpos(current_path(), 'search/node') === 0) {
     // This view is loaded 2 times. Prevent from loading params multiple times.
     $loaded = &drupal_static(__FUNCTION__);
     if (!empty($loaded)) {
@@ -91,8 +91,8 @@ function ding_webtrekk_views_post_execute(&$view) {
 
     $params = [
       'internalSearch' => array_shift($view->args),
-      'numberSearchResults' => $count,
-      'pageTitle' => $view->human_name,
+      'numberSearchResults' => $view->total_rows,
+      'pageTitle' => 'Search content',
     ];
     _ding_webtrekk_set_data_layer_values($params);
   }
