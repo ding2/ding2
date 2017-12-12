@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * @file
+ * This file does not contain any code, instead code is placed in LibContext.php and
+ * StepsContext.php.
+ * Place generally applicable functions in LibContext and specific step implementations
+ * in StepsContext.
+ */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
@@ -8,8 +15,7 @@ use Behat\Gherkin\Node\TableNode;
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext implements Context, SnippetAcceptingContext
-{
+class FeatureContext implements Context, SnippetAcceptingContext {
     /**
      * Initializes context.
      *
@@ -17,7 +23,6 @@ class FeatureContext implements Context, SnippetAcceptingContext
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    public function __construct()
-    {
+    public function __construct() {
     }
 }
