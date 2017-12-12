@@ -88,19 +88,24 @@ function _ding_campaign_plus_notification($campaign_nid) {
   if ($triggers === FALSE) {
     // Send notification to site administrator.
     $campaign = node_load($campaign_nid);
-    $user = user_load($campaign->uid);
 
-    $to = $user->mail;
-    $from = variable_get('site_mail', '');
-    $body = array();
-    $body[] = t('Hi !name', array('!name' => $user->name));
-    $body[] = '';
-    $body[] = t('The campaign "!title" will not be shown as it do not generate any hits in the data-well.', array('!title' => $campaign->title));
-    $body[] = '';
-    $body[] = t('The campaign can be found here !url', array('!url' => url('node/' . $campaign_nid, array('absolute' => TRUE))));
+    $address = variable_get('site_mail', '');
+    if (!empty($address)) {
+      $to = $address;
+      $from = $address;
+      $body = array();
+      $body[] = t('Hi');
+      $body[] = '';
+      $body[] = t('The campaign "!title" will not be shown as it do not generate any hits in the data-well.', array('!title' => $campaign->title));
+      $body[] = '';
+      $body[] = t('The campaign can be found here !url', array('!url' => url('node/' . $campaign_nid, array('absolute' => TRUE))));
 
-    $params = array('body' => implode("\n", $body));
-    drupal_mail('ding_campaign_plus', 'notification', $to, language_default(), $params, $from);
+      $params = array('body' => implode("\n", $body));
+      drupal_mail('ding_campaign_plus', 'notification', $to, language_default(), $params, $from);
+    }
+    else {
+      watchdog('ding_campaign_plus', 'Notification mail not set as site mail is empty', array(), WATCHDOG_NOTICE);
+    }
   }
 }
 
