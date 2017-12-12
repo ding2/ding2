@@ -80,8 +80,7 @@ function ding_webtrekk_panels_pane_content_alter($content, $pane, $args, $contex
  * Track internal search results.
  */
 function ding_webtrekk_views_post_execute(&$view) {
-  $count = $view->total_rows;
-  if ($view->name == 'ding_multiple_search' && $count > 0) {
+  if ($view->name == 'ding_multiple_search') {
     // This view is loaded 2 times. Prevent from loading params multiple times.
     $loaded = &drupal_static(__FUNCTION__);
     if (!empty($loaded)) {
@@ -91,7 +90,7 @@ function ding_webtrekk_views_post_execute(&$view) {
 
     $params = [
       'internalSearch' => array_shift($view->args),
-      'numberSearchResults' => $count,
+      'numberSearchResults' => $view->total_rows,
       'pageTitle' => $view->human_name,
     ];
     _ding_webtrekk_set_data_layer_values($params);
