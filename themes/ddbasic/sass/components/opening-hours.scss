@@ -133,6 +133,7 @@
   }
 }
 
+
 .pane-all-opening-hours {
   #oh-tabs {
     border: none;
@@ -166,13 +167,24 @@
       background: transparent;
       padding-left: 0;
       margin: 0;
-      width: 20%;
+      width: 21%;
 
       a {
         white-space: nowrap;
-        width: 4.2em;
+        width: 5.2em;
         overflow: hidden;
-        text-overflow: clip;
+        text-overflow: ellipsis;
+      }
+
+      @include media($tablet) {
+        width: auto;
+
+        a {
+          white-space: normal;
+          width: auto;
+          overflow: auto;
+          text-overflow: unset;
+        }
       }
     }
 
@@ -212,6 +224,21 @@
       margin-right: 10px;
       font-size: 85%;
       color: $grey-dark;
+      display: inline-block;
+      margin-right: 10px;
+      white-space: nowrap;
+      width: 6em;
+      position: relative;
+      overflow: hidden;
+      text-overflow: clip;
+
+      @include media($tablet) {
+        width: auto;
+        white-space: normal;
+        width: auto;
+        overflow: auto;
+        text-overflow: unset;
+      }
     }
 
     .oh-period {
