@@ -278,7 +278,7 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
  * Categorized library opening hours.
  */
 function theme_ding_ddbasic_opening_hours_all_tabbed($variables) {
-  return render($variables['tabbed']);
+  return $variables['tabbed'];
 }
 
 /**
@@ -294,6 +294,7 @@ function template_preprocess_ding_ddbasic_opening_hours_all_tabbed(&$variables) 
     $today = $variables['today'];
   }
 
+  $order = [];
   $queue = nodequeue_load_queue_by_name('ding_library_listing');
   foreach (nodequeue_load_nodes($queue->qid, FALSE, 0, 0) as $node) {
     $order[$node->title] = $node->nid;
