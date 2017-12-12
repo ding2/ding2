@@ -30,7 +30,7 @@ class ObjectPage extends PageBase {
    */
   public function entryIsShown($relType) {
     $relationType = $this->convertRelationTypeToTechnicalTerm($relType);
-    $found = $this->find('css', '.ting-object div[id="' . $relationType . '"]' );
+    $found = $this->find('css', '.ting-object div[id="' . $relationType . '"]');
     if ($found === null) {
       return "Could not find entry: " . $relationType;
     }
@@ -49,7 +49,7 @@ class ObjectPage extends PageBase {
   public function entryIsNotShown($relType) {
     $relationType = $this->convertRelationTypeToTechnicalTerm($relType);
 
-    $found = $this->find('css', '.ting-object div[id="' . $relationType . '"]' );
+    $found = $this->find('css', '.ting-object div[id="' . $relationType . '"]');
     if ($found !== null) {
       return "Found a " . $relationType . " unexpectedly. Is your file updated?";
     }
@@ -59,14 +59,13 @@ class ObjectPage extends PageBase {
   /**
    * Convert Relation to Technical Term.
    *
-   * @param $relType
+   * @param string $relType
    *    Relationtype to be converted.
    *
    * @return string
    *    Technical term for relation.
    */
-  private function convertRelationTypeToTechnicalTerm($relType)
-  {
+  private function convertRelationTypeToTechnicalTerm($relType) {
     $relationType = "";
     switch (strtolower($relType)) {
       case 'hasreview':
@@ -108,7 +107,7 @@ class ObjectPage extends PageBase {
   public function hasNotAddToList() {
     $button = $this->find('xpath', "//div[contains(@class,'ding-list-add-button')]/a[contains(@class,'trigger')]");
     if ($button) {
-      if ($button->isVisible() ) {
+      if ($button->isVisible()) {
         return "Add To List button is visible, and it shouldn't be";
       }
     }
@@ -189,8 +188,8 @@ class ObjectPage extends PageBase {
     }
 
     $classes = explode(' ', $classAttr);
-    foreach($classes as $class) {
-      if ($class == 'not-reservable' ) {
+    foreach ($classes as $class) {
+      if ($class == 'not-reservable') {
         return "Reservation-button is prevented on this object";
       }
     }
@@ -200,6 +199,8 @@ class ObjectPage extends PageBase {
   /**
    * Attempt to make a reservation.
    *
+   * @throws \Exception
+   *    In case of error.
    */
   public function makeReservation() {
 

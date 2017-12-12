@@ -157,7 +157,6 @@ class SearchPage extends PageBase {
         $this->logMsg(($pgLast != 2), "Pagination: on page 2 we can go to more than page 1 and 3. Unexpected.");
         // $this->logMsg(($curpg>=$pgLast and $pgNaeste != -1), "Pagination: 'Næste' is show on last page (" . $curpg . ")");
         // $this->logMsg(($curpg<$pgLast and $pgNaeste == -1), "Pagination: 'Næste' is not shown on page " . $curpg);
-
         break;
 
       default:
@@ -245,8 +244,7 @@ class SearchPage extends PageBase {
       $okay = true;
     }
 
-    if (!$lastsearch or $lastsearch == 0)
-    {
+    if (!$lastsearch or $lastsearch == 0) {
       return "Search result is not found.";
     }
     for ($i = 0; $i < $lastsearch - 1; $i++) {
@@ -381,27 +379,27 @@ class SearchPage extends PageBase {
       $isOK = false;
       switch ($sortOption) {
         case 'title_ascending':
-          $isOK = (strcasecmp($this->searchResults[$i - 1]->title, $this->searchResults[$i]->title)<=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->title, $this->searchResults[$i]->title) <= 0) ? true : false;
           break;
 
         case 'title_descending':
-          $isOK = (strcasecmp($this->searchResults[$i - 1]->title, $this->searchResults[$i]->title)>=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->title, $this->searchResults[$i]->title) >= 0) ? true : false;
           break;
 
         case 'creator_ascending':
-          $isOK = (strcasecmp($this->searchResults[$i - 1]->creator, $this->searchResults[$i]->creator)<=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->creator, $this->searchResults[$i]->creator) <= 0) ? true : false;
           break;
 
         case 'creator_descending':
-          $isOK = (strcasecmp($this->searchResults[$i - 1]->creator, $this->searchResults[$i]->creator)>=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->creator, $this->searchResults[$i]->creator) >= 0) ? true : false;
           break;
 
         case 'date_ascending':
-          $isOK = (strcasecmp($this->searchResults[$i - 1]->published, $this->searchResults[$i]->published)<=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->published, $this->searchResults[$i]->published) <= 0) ? true : false;
           break;
 
         case 'date_descending':
-          $isOK = (strcasecmp($this->searchResults[$i - 1]->published, $this->searchResults[$i]->published)>=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->published, $this->searchResults[$i]->published) >= 0) ? true : false;
           break;
 
         default:
@@ -415,7 +413,7 @@ class SearchPage extends PageBase {
 
         $this->logMsg(true, "  is listed before");
         $this->logMsg(true, "    " . $this->searchResults[$i]->title . " by " . $this->searchResults[$i]->creator . " ("
-              . $this->searchResults[$i-1]->published . ")");
+              . $this->searchResults[$i - 1]->published . ")");
         $sortingOK = false;
       }
     }
@@ -635,7 +633,7 @@ class SearchPage extends PageBase {
           if (count($arr_samling) > 1) {
             $txt_mtype1 = $arr_samling[0];
             for ($i = 1; $i < count($arr_samling); $i++) {
-              $isSamling = ($txt_mtype1!=$arr_samling[$i] and $arr_samling[$i] != '') ? true : $isSamling;
+              $isSamling = ($txt_mtype1 != $arr_samling[$i] and $arr_samling[$i] != '') ? true : $isSamling;
             }
           }
         }
@@ -939,8 +937,8 @@ class SearchPage extends PageBase {
       return "The link to the page is not wellformed: href=" . $linkObj->getAttribute('href');
     }
     $link = urlencode('ting/object/' . $linkArr[count($linkArr) - 1]);
-    //$this->open(['string' => $link]);
-    //$this->gotoPage($link);
+    // $this->open(['string' => $link]);
+    // $this->gotoPage($link);
     $this->getSession()->visit($link);
     $this->waitForPage();
   }
@@ -1290,7 +1288,6 @@ class SearchPage extends PageBase {
    *
    * @throws Exception
    *    In case of error.
-   *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
    *    In case of error.
    */

@@ -76,13 +76,13 @@ class PageBase extends LogMessages {
           usleep(100);
         }
       }
-      if(!$success) {
+      if (!$success) {
         return "Cookie Agree-knap didn't go away after clicking on it.";
       }
 
       $this->logMsg(($this->verboseCookies == 'on'), "End: ");
 
-      // now we have clicked it, we expect it to go away within at the most 10 secs.
+      // Now we have clicked it, we expect it to go away within at the most 10 secs.
       $maxwait = 330;
       $cookieAgree = $this->find('css', $this->elements['button-agree']['css']);
       while ($cookieAgree and --$maxwait > 0) {
@@ -90,7 +90,7 @@ class PageBase extends LogMessages {
         // Refresh the search on the page.
         $cookieAgree = $this->find('css', $this->elements['button-agree']['css']);
       }
-      $this->logMsg(($this->verboseCookies == 'on'), "Awaited cookie to go away: " . ((330 - $maxwait)*300) . " millisecs\n");
+      $this->logMsg(($this->verboseCookies == 'on'), "Awaited cookie to go away: " . ((330 - $maxwait) * 300) . " millisecs\n");
 
     }
 
@@ -105,7 +105,7 @@ class PageBase extends LogMessages {
         $askLibrary->click();
       }
       catch (\Exception $e) {
-        // Wait a bit and try again
+        // Wait a bit and try again.
         sleep(1);
         $askLibrary = $this->find('css', $this->elements['button-askLibrarian']['css']);
         $askLibrary->click();
@@ -202,6 +202,12 @@ class PageBase extends LogMessages {
     }
   }
 
+  /**
+   * Set Verbose Mode for Cookie handling.
+   *
+   * @param string $onoff
+   *    On or Off to set verbose mode for cookie handling.
+   */
   public function setVerboseCookieMode($onoff) {
     $this->verboseCookies = $onoff;
   }
@@ -252,9 +258,9 @@ class PageBase extends LogMessages {
    * Wait Until Text is gone.
    *
    * @param int $waitmax
-   *    Number of waits of 300 ms
+   *    Number of waits of 300 ms.
    * @param string $txt
-   *    Text that we wait for will disappear
+   *    Text that we wait for will disappear.
    *
    * @When waiting up to :waitmax until :txt goes away
    */
@@ -266,7 +272,7 @@ class PageBase extends LogMessages {
       return "";
     }
     // Now wait for the assigned time until we no longer can find txt on the page.
-    while ($continueWaiting and --$waitmax>0) {
+    while ($continueWaiting and --$waitmax > 0) {
       usleep(300);
       $wait = $this->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
       $continueWaiting = ($wait === null);
