@@ -161,7 +161,8 @@
     }
 
     .ui-state-default {
-      border: $grey-light 1px solid;
+      border: $grey 1px solid;
+      border-bottom: none;
       background: transparent;
       padding-left: 0;
       margin: 0;
