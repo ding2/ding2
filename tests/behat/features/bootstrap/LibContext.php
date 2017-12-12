@@ -99,12 +99,13 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Runs before each scenario
    *
-   * @BeforeScenario
-   *
    * @param BeforeScenarioScope $scope
-   *   contains scope information
+   *   Contains scope information.
    *
    * @throws \Behat\Mink\Exception\DriverException
+   *   In case of error.
+   *
+   * @BeforeScenario
    */
   public function beforeScenario(BeforeScenarioScope $scope) {
     // Gather contexts.
@@ -190,11 +191,12 @@ class LibContext implements Context, SnippetAcceptingContext {
    * General function to check the outcome of a function and handle the result
    *
    * @param string $result
-   *   if non-empty an exception is thrown
+   *   If non-empty an exception is thrown.
    * @param string $msg
-   *   the message to show together with the exception
+   *   The message to show together with the exception.
    *
    * @throws Exception
+   *   In case of error.
    */
   public function check($result, $msg = '') {
     // Log messages if we have any.
@@ -318,7 +320,6 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Step
    *
    * @When I display random object from file
-   *
    */
   public function displayRandomObjectFromFile() {
     $mpid = $this->dataMgr->getRandomPID();
@@ -354,7 +355,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * The function can be used to return the href to the image as well.
    *
    * @Then I (should) see availability options
-  */
+   */
   public function findAvailabilityOptions() {
     $this->check($this->objectPage->hasAvailabiltyOptions());
   }
@@ -485,6 +486,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *   String to search for.
    *
    * @throws Exception
+   *   In case of error.
    *
    * @Given I have searched for :string
    */
@@ -500,6 +502,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Step
    *
    * @Given I am logged in as a library user
+   *
    * @When I log in as a library user
    */
   public function iAmLoggedInAsALibraryUser() {
@@ -659,7 +662,7 @@ class LibContext implements Context, SnippetAcceptingContext {
       throw new \Exception(sprintf("Could not log on as user: '%s'", $this->drupalContext->user->name));
     }
 
-    $this->logTimestamp(($this->verbose->loginInfo=="on"), " - OK\n");
+    $this->logTimestamp(($this->verbose->loginInfo == "on"), " - OK\n");
   }
 
   /**
@@ -949,12 +952,13 @@ class LibContext implements Context, SnippetAcceptingContext {
    * 'nyhed' looks up news placed on the front page. If not on the front page - this will fail.
    *
    * @param string $string
-   *    the argument given
+   *    The argument given.
    *
    * @return mixed
-   *    the translated argument, or the original if no translation was made
+   *    The translated argument, or the original if no translation was made.
    *
    * @throws Exception
+   *    Throws exception in case of error.
    */
   public function translateArgument($string) {
     // If we can't translate it, we just pass it right back.
@@ -1061,14 +1065,16 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
     print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
 
-    $this->check( $this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible(), $this->searchPage->getMessages());
+    $this->check($this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible(), $this->searchPage->getMessages());
   }
 
   /**
-   * @When I use pagination to go to page :toPage
+   * Step
    *
    * @param int $toPage
    *   is expected to be numeric. First page is 1.
+   *
+   * @When I use pagination to go to page :toPage
    */
   public function usePaginationToGoToPageN($toPage) {
     // Start by scrolling to the footer so if we fail the screendump will tell us something.
@@ -1128,9 +1134,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Step
    *
    * @param int $waitmax
-   *    number of waits of 300 ms
+   *    Number of waits of 300 ms.
    * @param string $txt
-   *    text that we wait for will disappear
+   *    Text that we wait for will disappear.
    *
    * @When waiting up to :waitmax until :txt goes away
    */
