@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Ding Campaign Plus Auto generate module.
@@ -49,7 +50,7 @@ function ding_campaign_plus_auto_form_ding_campaign_plus_admin_settings_alter(&$
  * Submit handler for the admin form.
  */
 function ding_campaign_plus_auto_admin_settings_form_submit(&$form, &$form_state) {
-  variable_set('ding_campaign_plus_auto',  $form_state['values']['ding_campaign_plus_auto']);
+  variable_set('ding_campaign_plus_auto', $form_state['values']['ding_campaign_plus_auto']);
 }
 
 /**
@@ -74,7 +75,7 @@ function ding_campaign_plus_auto_form_alter(&$form, &$form_state, $form_id) {
         '#attached' => array(
           'js' => array(
             drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus.js',
-          )
+          ),
         ),
       );
 
@@ -153,7 +154,7 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
     $campaign_wrapper->field_ding_campaign_plus_type->set('campaign_text_and_image');
     $campaign_wrapper->field_ding_campaign_plus_style->set('ribbon');
     $campaign_wrapper->field_ding_campaign_plus_link->set(array(
-      'url' => $form_state['values']['ding_campaign_plus_auto_generate']['link']
+      'url' => $form_state['values']['ding_campaign_plus_auto_generate']['link'],
     ));
 
     $field = 'field_' . $node->getBundle() . '_title_image';
@@ -181,7 +182,7 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
       $subjects = array();
     }
 
-    // Add triggers for the new campaign
+    // Add triggers for the new campaign.
     $config = variable_get('ding_campaign_plus_auto', array());
     $campaign_node->tabs = array();
     foreach (module_implements('ding_campaign_plus_auto_trigger') as $module) {
@@ -202,7 +203,8 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
     $t_args = array(
       '@type' => node_type_get_name($campaign_node),
       '%title' => $campaign_node->title,
-      '!link' => $node_edit_link);
+      '!link' => $node_edit_link,
+    );
     watchdog('content', '@type: added %title.', $watchdog_args, WATCHDOG_NOTICE, $node_link);
 
     drupal_set_message(t('@type %title has been created. You can edit it using this !link', $t_args));
@@ -217,7 +219,7 @@ function ding_campaign_plus_auto_node_insert($node) {
   if ($node->type == 'ding_campaign_plus') {
     $campaign_nid = $node->nid;
   }
-  else if ($campaign_nid) {
+  elseif ($campaign_nid) {
     db_insert('ding_campaign_plus_auto')
       ->fields(array('nid', 'campaign_nid'), array($node->nid, $campaign_nid))
       ->execute();

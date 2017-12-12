@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Defines the administration UI for the module.
@@ -16,7 +17,7 @@ function ding_campaign_plus_admin_settings($form, $form_state) {
   $form['ding_campaign_plus_weight'] = array(
     '#type' => 'fieldset',
     '#title' => t('Weight'),
-    '#description' => t('Set the weight for the different triggers. If more campaigns are triggered by the same triggers these weights are used to determined which should be displayed. ')
+    '#description' => t('Set the weight for the different triggers. If more campaigns are triggered by the same triggers these weights are used to determined which should be displayed.'),
   );
 
   // Build table options sorted by selected weight.
@@ -26,7 +27,22 @@ function ding_campaign_plus_admin_settings($form, $form_state) {
     $form['ding_campaign_plus_weight']['table'][$key] = ding_campaign_plus_admin_settings_form_add($option['title'], $option['weight']);
   }
 
-  $period = drupal_map_assoc(array(0, 3600, 10800, 21600, 32400, 43200, 86400, 172800, 345600, 604800, 1209600, 2419200), 'format_interval');
+  // Time interval for scanning campaigns for 0-hits.
+  $period = drupal_map_assoc(array(
+    0,
+    3600,
+    10800,
+    21600,
+    32400,
+    43200,
+    86400,
+    172800,
+    345600,
+    604800,
+    1209600,
+    2419200,
+  ), 'format_interval');
+
   $form['ding_campaign_plus_notification'] = array(
     '#type' => 'select',
     '#title' => t('Notification scan interval'),
@@ -61,7 +77,7 @@ function ding_campaign_plus_admin_settings_submit($form, $form_state) {
   }
 
   variable_set('ding_campaign_plus_weight', $weights);
-  variable_set('ding_campaign_plus_expire',  $form_state['values']['ding_campaign_plus_expire']);
+  variable_set('ding_campaign_plus_expire', $form_state['values']['ding_campaign_plus_expire']);
 }
 
 /**
@@ -73,7 +89,7 @@ function ding_campaign_plus_admin_settings_submit($form, $form_state) {
  * @return array
  *   The options sorted by weight.
  */
-function ding_campaign_plus_ding_settings_options($weights) {
+function ding_campaign_plus_ding_settings_options(array $weights) {
   $options = array();
 
   foreach (module_implements('ding_campaign_plus_default_weights') as $module) {
@@ -110,7 +126,7 @@ function ding_campaign_plus_ding_settings_options($weights) {
  * @return int
  *   The result of the comparison.
  */
-function _ding_campaign_plus_ding_settings_options_sort($a, $b) {
+function _ding_campaign_plus_ding_settings_options_sort(array $a, array $b) {
   if ($a['weight'] == $b['weight']) {
     return 0;
   }
@@ -176,7 +192,7 @@ function theme_ding_campaign_plus_admin_form($variables) {
 
   $form['ding_campaign_plus_weight']['table'] = array(
     '#type' => 'markup',
-    '#markup' => $output
+    '#markup' => $output,
   );
 
   $output = drupal_render_children($form);

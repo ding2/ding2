@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Defines basic campaigns triggers and handling.
@@ -28,7 +29,7 @@ function ding_campaign_plus_object_ding_campaign_plus_default_weights() {
       'prefix' => t('Object'),
       'title' => t('Ting material view'),
       'weight' => 10,
-    )
+    ),
   );
 }
 
@@ -108,7 +109,7 @@ function ding_campaign_plus_object_ding_campaign_plus_matches($contexts, $style)
       case 'path':
         if (count($context->raw) == 3 && $context->raw[0] == 'ting' && in_array($context->raw[1], $types)) {
           $ting_object_id = $context->raw[2];
-          $matches['search'] =_ding_campaign_plus_object_match($ting_object_id);
+          $matches['search'] = _ding_campaign_plus_object_match($ting_object_id);
         }
         break;
     }
@@ -141,12 +142,15 @@ function ding_campaign_plus_object_ding_campaign_plus_auto_trigger($config, $cam
 /**
  * Build form options used to configure auto generated campaigns.
  *
- * @param $form_state
+ * @param array $form_state
+ *   The forms current state.
  * @param bool $default
+ *   The default configuration value.
  *
  * @return array
+ *   The form element send into the admin form.
  */
-function ding_campaign_plus_object_auto_admin_form(&$form_state, $default = FALSE) {
+function ding_campaign_plus_object_auto_admin_form(array &$form_state, $default = FALSE) {
   return array(
     '#type' => 'checkbox',
     '#title' => t('Enable'),
@@ -175,7 +179,7 @@ function ding_campaign_plus_object_admin_form(&$form_state) {
     '#title' => t('Search query'),
     '#description' => t('Search query that should trigger the campaign'),
     '#default_value' => $value['query'],
-    '#maxlength' => 2048
+    '#maxlength' => 2048,
   );
 
   return $triggers;
@@ -192,15 +196,15 @@ function ding_campaign_plus_object_admin_form(&$form_state) {
  * @return array
  *   The rules of the basic types.
  */
-function _ding_campaign_plus_object_get_rules($nid, $rules) {
-  $filtered = drupal_static(__FUNCTION__, array());
+function _ding_campaign_plus_object_get_rules($nid, array $rules) {
+  $filtered = &drupal_static(__FUNCTION__, array());
 
   if (!isset($filtered[$nid])) {
     $filtered[$nid] = array();
 
     foreach ($rules as $rule) {
       if ($rule->type == 'object') {
-        $filtered[$nid]  = array(
+        $filtered[$nid] = array(
           'query' => $rule->query,
         );
       }
@@ -219,7 +223,7 @@ function _ding_campaign_plus_object_get_rules($nid, $rules) {
  * @return array
  *   Campaign ID's for triggered campaigns.
  */
-function _ding_campaign_plus_object_match($ting_object_id) {
+function _ding_campaign_plus_object_match(array $ting_object_id) {
   $nids = array();
 
   // Find rules that will match facet.

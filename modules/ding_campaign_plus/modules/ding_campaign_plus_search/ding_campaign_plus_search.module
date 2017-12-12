@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Defines basic campaigns triggers and handling.
@@ -28,7 +29,7 @@ function ding_campaign_plus_search_ding_campaign_plus_default_weights() {
       'prefix' => t('Search'),
       'title' => t('CQL statement'),
       'weight' => 10,
-    )
+    ),
   );
 }
 
@@ -105,7 +106,7 @@ function ding_campaign_plus_search_ding_campaign_plus_matches($contexts, $style)
   foreach ($contexts as $key => $context) {
     switch ($key) {
       case 'search_term':
-        $matches['search'] =_ding_campaign_plus_search_match($context);
+        $matches['search'] = _ding_campaign_plus_search_match($context);
         break;
     }
   }
@@ -127,7 +128,7 @@ function ding_campaign_plus_search_ding_campaign_plus_auto_trigger($config, $cam
     $value = '"' . implode('" or "', $subjects) . '"';
     $trigger[DING_CAMPAIGN_PLUS_SEARCH_TYPE]['rules'] = array(
       'query' => $value,
-      'percent' => '30'
+      'percent' => '30',
     );
   }
 
@@ -137,12 +138,15 @@ function ding_campaign_plus_search_ding_campaign_plus_auto_trigger($config, $cam
 /**
  * Build form options used to configure auto generated campaigns.
  *
- * @param $form_state
+ * @param array $form_state
+ *   The forms current state.
  * @param bool $default
+ *   The default configuration value.
  *
  * @return array
+ *   The form element send into the admin form.
  */
-function ding_campaign_plus_search_auto_admin_form(&$form_state, $default = FALSE) {
+function ding_campaign_plus_search_auto_admin_form(array &$form_state, $default = FALSE) {
   return array(
     '#type' => 'checkbox',
     '#title' => t('Enable'),
@@ -180,7 +184,7 @@ function ding_campaign_plus_search_admin_form(&$form_state) {
     '#title' => t('Search query'),
     '#description' => t('Search query that should trigger the campaign.'),
     '#default_value' => isset($values['query']) ? $values['query'] : '',
-    '#maxlength' => 2048
+    '#maxlength' => 2048,
   );
 
   return $triggers;
@@ -197,15 +201,15 @@ function ding_campaign_plus_search_admin_form(&$form_state) {
  * @return array
  *   The rules of the basic types.
  */
-function _ding_campaign_plus_search_get_rules($nid, $rules) {
-  $filtered = drupal_static(__FUNCTION__, array());
+function _ding_campaign_plus_search_get_rules($nid, array $rules) {
+  $filtered = &drupal_static(__FUNCTION__, array());
 
   if (!isset($filtered[$nid])) {
     $filtered[$nid] = array();
 
     foreach ($rules as $rule) {
       if ($rule->type == 'search') {
-        $filtered[$nid]  = array(
+        $filtered[$nid] = array(
           'percent' => $rule->percent,
           'query' => $rule->query,
         );
@@ -225,7 +229,7 @@ function _ding_campaign_plus_search_get_rules($nid, $rules) {
  * @return array
  *   Campaign ID's for triggered campaigns.
  */
-function _ding_campaign_plus_search_match($keys) {
+function _ding_campaign_plus_search_match(array $keys) {
   $nids = array();
 
   // Find rules that will match facet.
@@ -263,7 +267,7 @@ function _ding_campaign_plus_search_match($keys) {
         // Do combined search to get intersection between user search and
         // campaign trigger CQL string.
         $search_result = ting_do_search($query . 'AND (' . $trigger->query . ')', 1, 1);
-        if (($search_result->numTotalObjects/$no_of_results) * 100 >= $trigger->percent) {
+        if (($search_result->numTotalObjects / $no_of_results) * 100 >= $trigger->percent) {
           $nids[] = $trigger->nid;
         }
       }

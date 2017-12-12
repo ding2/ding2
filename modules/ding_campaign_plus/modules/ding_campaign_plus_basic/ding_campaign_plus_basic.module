@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Defines basic campaigns triggers and handling.
@@ -167,12 +168,15 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
 /**
  * Build form options used to configure auto generated campaigns.
  *
- * @param $form_state
+ * @param array $form_state
+ *   The forms current state.
  * @param string $default
+ *   The default configuration value.
  *
  * @return array
+ *   The form element send into the admin form.
  */
-function ding_campaign_plus_basic_auto_admin_form(&$form_state, $default = '') {
+function ding_campaign_plus_basic_auto_admin_form(array &$form_state, $default = '') {
   return array(
     '#type' => 'radios',
     '#title' => t('Trigger to use'),
@@ -238,7 +242,7 @@ function ding_campaign_plus_basic_ding_campaign_plus_auto_trigger($config, $camp
               // Create term in tags.
               $term = (object) array(
                 'vid' => $vocab->vid,
-                'name' => $subject
+                'name' => $subject,
               );
 
               if (taxonomy_term_save($term)) {
@@ -262,10 +266,6 @@ function ding_campaign_plus_basic_ding_campaign_plus_auto_trigger($config, $camp
 
 /**
  * The node edit form callback defined in the hook_ding_campaign_plus_info.
- *
- * @param $form_state
- *
- * @return array
  */
 function ding_campaign_plus_basic_admin_form(&$form_state) {
   $values = array();
@@ -296,7 +296,7 @@ function ding_campaign_plus_basic_admin_form(&$form_state) {
     '#attached' => array(
       'js' => array(
         drupal_get_path('module', 'ding_campaign_plus_basic') . '/js/ding_campaign_plus_basic.admin.js',
-      )
+      ),
     ),
   );
 
@@ -312,7 +312,7 @@ function ding_campaign_plus_basic_admin_form(&$form_state) {
   if (!isset($form_state['triggering_element'])) {
     $triggers['rule_' . $count] = _ding_campaign_plus_basic_rule_form($count);
   }
-  else if ($form_state['triggering_element']['#name'] === 'add_another_rule') {
+  elseif ($form_state['triggering_element']['#name'] === 'add_another_rule') {
     // Check if it was this sub-form that need another element added if not
     // exit to prevent extra elements being generated.
     $count++;
@@ -365,10 +365,10 @@ function _ding_campaign_plus_basic_rule_ajax_callback(array $form, array $form_s
  * @return array
  *   Rule fields structure.
  */
-function _ding_campaign_plus_basic_rule_form($number = 0, $default_values = array()) {
+function _ding_campaign_plus_basic_rule_form($number = 0, array $default_values = array()) {
   $form = array(
     '#type' => 'fieldset',
-    '#title' => t('Rule %num',array('%num' => $number)),
+    '#title' => t('Rule %num', array('%num' => $number)),
     '#collapsible' => FALSE,
     '#collapsed' => FALSE,
   );
@@ -378,7 +378,7 @@ function _ding_campaign_plus_basic_rule_form($number = 0, $default_values = arra
     '#type' => 'select',
     '#title' => t('Rule type'),
     '#default_value' => $type,
-    '#options' => _ding_campaign_plus_basic_get_types()
+    '#options' => _ding_campaign_plus_basic_get_types(),
   );
 
   $form['value'] = array(
@@ -400,7 +400,7 @@ function _ding_campaign_plus_basic_rule_form($number = 0, $default_values = arra
       'callback' => '_ding_campaign_plus_basic_rule_ajax_callback',
       'wrapper' => 'ding-campaign-triggers',
       'method' => 'replace',
-      'effect' => 'fade'
+      'effect' => 'fade',
     ),
   );
 
@@ -418,8 +418,8 @@ function _ding_campaign_plus_basic_rule_form($number = 0, $default_values = arra
  * @return array
  *   The rules of the basic types.
  */
-function _ding_campaign_plus_basic_get_rules($nid, $rules) {
-  $filtered = drupal_static(__FUNCTION__, array());
+function _ding_campaign_plus_basic_get_rules($nid, array $rules) {
+  $filtered = &drupal_static(__FUNCTION__, array());
 
   if (!isset($filtered[$nid])) {
     $filtered[$nid] = array();

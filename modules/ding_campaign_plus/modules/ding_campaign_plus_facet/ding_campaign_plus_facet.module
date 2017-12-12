@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Defines basic campaigns triggers and handling.
@@ -148,12 +149,15 @@ function ding_campaign_plus_facet_ding_campaign_plus_matches($contexts, $style) 
 /**
  * Build form options used to configure auto generated campaigns.
  *
- * @param $form_state
+ * @param array $form_state
+ *   The forms current state.
  * @param string $default
+ *   The default configuration value.
  *
  * @return array
+ *   The form element send into the admin form.
  */
-function ding_campaign_plus_facet_auto_admin_form(&$form_state, $default = '') {
+function ding_campaign_plus_facet_auto_admin_form(array &$form_state, $default = '') {
   $options = array();
   $facets = variable_get('ding_facetbrowser_facets', array());
   foreach ($facets as $facet) {
@@ -168,7 +172,6 @@ function ding_campaign_plus_facet_auto_admin_form(&$form_state, $default = '') {
     '#default_value' => empty($default) ? '_none_' : $default,
   );
 }
-
 
 /**
  * Implements hook_ding_campaign_plus_auto_trigger().
@@ -252,7 +255,7 @@ function ding_campaign_plus_facet_admin_form(&$form_state) {
     '#attached' => array(
       'js' => array(
         drupal_get_path('module', 'ding_campaign_plus_facet') . '/js/ding_campaign_plus_facet.admin.js',
-      )
+      ),
     ),
   );
 
@@ -268,7 +271,7 @@ function ding_campaign_plus_facet_admin_form(&$form_state) {
   if (!isset($form_state['triggering_element'])) {
     $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count);
   }
-  else if ($form_state['triggering_element']['#name'] === 'add_another_facet') {
+  elseif ($form_state['triggering_element']['#name'] === 'add_another_facet') {
     // Check if it was this sub-form that need another element added if not
     // exit to prevent extra elements being generated.
     $count++;
@@ -321,10 +324,10 @@ function _ding_campaign_plus_facet_rule_ajax_callback(array $form, array $form_s
  * @return array
  *   Rule fields structure.
  */
-function _ding_campaign_plus_facet_rule_form($number = 0, $default_values = array()) {
+function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values = array()) {
   $form = array(
     '#type' => 'fieldset',
-    '#title' => t('Rule %num',array('%num' => $number)),
+    '#title' => t('Rule %num', array('%num' => $number)),
     '#collapsible' => FALSE,
     '#collapsed' => FALSE,
   );
@@ -342,7 +345,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, $default_values = arra
     '#options' => $options,
     '#attributes' => array(
       'class' => array('js-fact-type'),
-    )
+    ),
   );
 
   $form['percent'] = array(
@@ -394,7 +397,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, $default_values = arra
       'callback' => '_ding_campaign_plus_facet_rule_ajax_callback',
       'wrapper' => 'ding-campaign-facet-triggers',
       'method' => 'replace',
-      'effect' => 'fade'
+      'effect' => 'fade',
     ),
   );
 
@@ -412,8 +415,8 @@ function _ding_campaign_plus_facet_rule_form($number = 0, $default_values = arra
  * @return array
  *   The rules of the basic types.
  */
-function _ding_campaign_plus_facet_get_rules($nid, $rules) {
-  $filtered = drupal_static(__FUNCTION__, array());
+function _ding_campaign_plus_facet_get_rules($nid, array $rules) {
+  $filtered = &drupal_static(__FUNCTION__, array());
 
   if (!isset($filtered[$nid])) {
     $filtered[$nid] = array();
@@ -461,7 +464,7 @@ function _ding_campaign_plus_facet_get_rules($nid, $rules) {
  * @return array
  *   Matches indexed by facet name and contains campaign ID's.
  */
-function _ding_campaign_plus_facet_match($keys) {
+function _ding_campaign_plus_facet_match(array $keys) {
   $triggers = array();
 
   // Find rules that will match facet.
@@ -502,7 +505,7 @@ function _ding_campaign_plus_facet_match($keys) {
           $facet = drupal_strtolower($facet);
           // Check if facet exits in the search result and if the limit is
           // reached.
-          if (isset($terms[$facet]) && ($terms[$facet]/$search_result->numTotalObjects) * 100 >= $campaign->percent) {
+          if (isset($terms[$facet]) && ($terms[$facet] / $search_result->numTotalObjects) * 100 >= $campaign->percent) {
             if (!isset($triggers[$facet])) {
               $triggers[$facet] = array();
             }

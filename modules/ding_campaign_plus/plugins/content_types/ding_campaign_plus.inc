@@ -36,7 +36,7 @@ function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel
     'path' => (object) array(
       'raw' => arg(),
       'path' => drupal_get_path_alias($_GET['q']),
-    )
+    ),
   );
   $style = !empty($conf['style']) ? $conf['style'] : 'ribbon';
 
