@@ -1286,9 +1286,7 @@ class SearchPage extends PageBase {
    * @return string
    *    Nonempty if failure.
    *
-   * @throws Exception
-   *    In case of error.
-   * @throws \Behat\Mink\Exception\ElementNotFoundException
+   * @throws Exception|\Behat\Mink\Exception\ElementNotFoundException
    *    In case of error.
    */
   public function sort($sortOption) {
