@@ -50,7 +50,7 @@
 
       // Bind change handler to the facet type selection dropdown.
       fact_type_selectors.once('ding-campaign-plus-facet-type').each(function() {
-        $(this).bind('change', facetTypeChangeHandler);
+        $(this).on('change', facetTypeChangeHandler);
       });
 
       // Ensures that the UI selections are initialized correct.

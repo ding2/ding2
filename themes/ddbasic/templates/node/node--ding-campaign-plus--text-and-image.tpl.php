@@ -79,7 +79,7 @@
  */
 ?>
 <div class="<?php print $classes; ?>">
-  <div class="ding-campaign ding-campaign--content image-and-text" data-wt-campaign="<?php print $WT_mc_id; ?>" data-wt-ti="<?php print $title; ?>">
+  <div class="ding-campaign ding-campaign--content image-and-text" data-wt-campaign="<?php print $wt_mc_id; ?>" data-wt-ti="<?php print $title; ?>">
     <a href="<?php print $field_ding_campaign_plus_link[LANGUAGE_NONE][0]['url']; ?>" target="__blank">
       <div class="ding-campaign-image" style="<?php print $image_as_background; ?>"></div>
       <div class="ding-campaign-text">

@@ -216,7 +216,7 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
  */
 function ding_campaign_plus_auto_node_insert($node) {
   $campaign_nid = &drupal_static(__FUNCTION__);
-  if ($node->type == 'ding_campaign_plus') {
+  if ($node->type === 'ding_campaign_plus') {
     $campaign_nid = $node->nid;
   }
   elseif ($campaign_nid) {

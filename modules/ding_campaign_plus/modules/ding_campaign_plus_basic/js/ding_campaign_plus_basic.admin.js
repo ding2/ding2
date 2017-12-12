@@ -26,7 +26,7 @@
    */
   function rebuild_autocomplete($context, value) {
     var $obj = $('input.form-text', $context);
-    $obj.unbind().removeClass('form-autocomplete').addClass('autocomplete-processed');
+    $obj.off().removeClass('form-autocomplete').addClass('autocomplete-processed');
 
     // Remove span element (will be recreated).
     $('#' + $obj.attr('id') + '-autocomplete-aria-live', $context).remove();

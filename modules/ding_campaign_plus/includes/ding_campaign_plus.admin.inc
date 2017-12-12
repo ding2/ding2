@@ -127,7 +127,7 @@ function ding_campaign_plus_ding_settings_options(array $weights) {
  *   The result of the comparison.
  */
 function _ding_campaign_plus_ding_settings_options_sort(array $a, array $b) {
-  if ($a['weight'] == $b['weight']) {
+  if ($a['weight'] === $b['weight']) {
     return 0;
   }
   return ($a['weight'] < $b['weight']) ? -1 : 1;

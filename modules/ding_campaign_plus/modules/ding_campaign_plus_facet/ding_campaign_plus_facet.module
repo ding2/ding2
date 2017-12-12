@@ -422,7 +422,7 @@ function _ding_campaign_plus_facet_get_rules($nid, array $rules) {
     $filtered[$nid] = array();
 
     foreach ($rules as $rule) {
-      if ($rule->type == 'facet') {
+      if ($rule->type === 'facet') {
         $value_type = array();
         $value_source = array();
         $value = '';

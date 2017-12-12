@@ -208,7 +208,7 @@ function _ding_campaign_plus_search_get_rules($nid, array $rules) {
     $filtered[$nid] = array();
 
     foreach ($rules as $rule) {
-      if ($rule->type == 'search') {
+      if ($rule->type === 'search') {
         $filtered[$nid] = array(
           'percent' => $rule->percent,
           'query' => $rule->query,
@@ -245,10 +245,12 @@ function _ding_campaign_plus_search_match(array $keys) {
     $query = '(' . _ting_search_quote($keys) . ')';
 
     // Extend query with selected facets.
-    if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
+    if (isset($conditions['facets'])) {
       $facets = $conditions['facets'];
       foreach ($facets as $facet) {
         $facet = explode(':', $facet, 2);
+        // If first element is set the second will always exists as this is
+        // defined when facet trigger is saved.
         if ($facet[0]) {
           $facet_array[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
         }
@@ -261,7 +263,7 @@ function _ding_campaign_plus_search_match(array $keys) {
     $search_result = ting_do_search($query, 1, 1);
     $no_of_results = $search_result->numTotalObjects;
 
-    if ($no_of_results) {
+    if ($no_of_results > 0) {
       // Loop rules to find percentage match in facets.
       foreach ($triggers as $trigger) {
         // Do combined search to get intersection between user search and
@@ -296,7 +298,8 @@ function ding_campaign_plus_search_ding_campaign_plus_validator($nid) {
     foreach ($triggers as $trigger) {
       $search_result = ting_do_search($trigger->query, 1, 1);
       if ($search_result->numTotalObjects > 0) {
-        // No need to check more rules one of theme makes hits.
+        // No need to check more triggers as we have found one trigger that
+        // generates hits in the data-well.
         return TRUE;
       }
       else {

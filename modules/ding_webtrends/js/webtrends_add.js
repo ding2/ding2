@@ -48,7 +48,6 @@
       });
 
       // Add camping tracking.
-      console.log('test');
       $('.ding-campaign--content').once(function () {
         var $this = $(this);
         if ($this.attr('data-wt-campaign') !== 'undefined' && $this.attr('data-wt-ti') !== 'undefined') {

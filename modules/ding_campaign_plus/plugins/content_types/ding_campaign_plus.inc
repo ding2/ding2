@@ -60,7 +60,7 @@ function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel
       $campaign = node_load($nid);
 
       // Check if campaign matches style.
-      if ($campaign->field_ding_campaign_plus_style[LANGUAGE_NONE][0]['value'] == $style) {
+      if ($campaign->field_ding_campaign_plus_style[LANGUAGE_NONE][0]['value'] === $style) {
         // Campaign found that matches style.
         break;
       }

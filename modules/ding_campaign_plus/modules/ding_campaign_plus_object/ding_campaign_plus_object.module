@@ -107,7 +107,7 @@ function ding_campaign_plus_object_ding_campaign_plus_matches($contexts, $style)
   foreach ($contexts as $key => $context) {
     switch ($key) {
       case 'path':
-        if (count($context->raw) == 3 && $context->raw[0] == 'ting' && in_array($context->raw[1], $types)) {
+        if (count($context->raw) === 3 && $context->raw[0] === 'ting' && in_array($context->raw[1], $types)) {
           $ting_object_id = $context->raw[2];
           $matches['search'] = _ding_campaign_plus_object_match($ting_object_id);
         }
@@ -203,7 +203,7 @@ function _ding_campaign_plus_object_get_rules($nid, array $rules) {
     $filtered[$nid] = array();
 
     foreach ($rules as $rule) {
-      if ($rule->type == 'object') {
+      if ($rule->type === 'object') {
         $filtered[$nid] = array(
           'query' => $rule->query,
         );
