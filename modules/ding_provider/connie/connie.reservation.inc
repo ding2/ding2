@@ -28,8 +28,7 @@ function connie_reservation_set_preferred_branch($account, $branch) {
 }
 
 /**
- * This returns an empty array. The content would be the preferred branch, 
- * but that is not used anywhere else, so connie also shouldn't.
+ * This returns an empty array representing the preferred branch. 
  */
 function connie_reservation_default_options($account) {
   return array();
@@ -111,6 +110,7 @@ function connie_reservation_options_validate($type, $account, $reservables, $val
 
 /**
  * Submit handler for reservations options.
+ *
  * This is kept empty, as all it would do is to put a default branch on the
  * user profile, and it's not really needed. Alma and FBS are not using this
  * function as well, so Connie also shouldn't.
