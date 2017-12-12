@@ -2,11 +2,13 @@
 
 /**
  * @file
- * This file does not contain any code, instead code is placed in LibContext.php and
- * StepsContext.php.
+ * This file does not contain any code.
+ *
+ * Instead code is placed in LibContext.php and StepsContext.php.
  * Place generally applicable functions in LibContext and specific step implementations
  * in StepsContext.
  */
+
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;

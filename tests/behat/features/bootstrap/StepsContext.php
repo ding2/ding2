@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ * Here are the steps being implemented.
+ */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Tester\Exception\PendingException;
@@ -14,7 +18,12 @@ use Behat\Mink\Exception\UnsupportedDriverActionException;
  */
 class StepsContext implements Context, SnippetAcceptingContext {
 
-  /** @var libContext */
+  /**
+   * This is the context variable
+   *
+   * @var libContext
+   *   This is the context var
+   */
   private $libContext;
 
 
@@ -26,11 +35,13 @@ class StepsContext implements Context, SnippetAcceptingContext {
    * context constructor through behat.yml.
    */
   public function __construct() {
-
-
   }
 
-  /** @BeforeScenario */
+  /**
+   * Sets up things before each scenario
+   *
+   * @BeforeScenario
+   */
   public function gatherContexts(BeforeScenarioScope $scope) {
     $environment = $scope->getEnvironment();
 
@@ -59,46 +70,45 @@ class StepsContext implements Context, SnippetAcceptingContext {
    * @Then I get suggestions from openscan
    */
   public function iGetSuggestionsFromOpenscan() {
-
     $result = $this->libContext->searchPage->getOpenScanSuggestions();
     $this->libContext->logMsg(true, $this->libContext->searchPage->getMessages());
     if ($result != "") {
-      throw new Exception ($result);
+      throw new Exception($result);
     }
     return;
 
-    // we need to enable a wait because we cannot control the timing
+    // We need to enable a wait because we cannot control the timing.
     $max = 300;
     $found = $this->libContext->getPage()->find('css', 'div#autocomplete');
 
-    while (--$max>0 && !$found) {
+    while (--$max > 0 && !$found) {
       usleep(100);
       $found = $this->libContext->getPage()->find('css', 'div#autocomplete');
     }
 
-    // report error if we ran out of time
+    // Report error if we ran out of time.
     if (!$found) {
-      throw new Exception ("Openscan did not show any suggestions. ");
+      throw new Exception("Openscan did not show any suggestions. ");
     }
 
-    // it also takes a bit for the page to get the dynamics of the suggestions done. So we wait again
+    // It also takes a bit for the page to get the dynamics of the suggestions done. So we wait again.
     $max = 300;
-    $cnt=0;
-    while (--$max>0 && !$found->findAll("css", "li")) {
+    $cnt = 0;
+    while (--$max > 0 && !$found->findAll("css", "li")) {
       usleep(100);
-      // refresh the search
+      // Refresh the search.
       $found = $this->libContext->getPage()->find('css', 'div#autocomplete');
     }
 
-    // now we list the suggestions given.
+    // Now we list the suggestions given.
     foreach ($found->findAll("css", "li") as $suggestion) {
       print_r($suggestion->getText() . "\n");
       $cnt++;
     }
-    if ($cnt==0) {
-      throw new Exception ("No suggestions were found.");
+    if ($cnt == 0) {
+      throw new Exception("No suggestions were found.");
     }
-    // all we can do is list the number for convenience. It's in the configuration how many there should be.
+    // All we can do is list the number for convenience. It's in the configuration how many there should be.
     print_r("In total " . $cnt . " suggestions were shown. Check configurationen.");
   }
 
