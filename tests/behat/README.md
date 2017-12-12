@@ -88,4 +88,6 @@ temporarily insert the base_url parameter in the behat.yml-file:
         #wd_host: "http://localhost:4444/wd/hub"
       browser_name: 'chrome'
       base_url: http://localhost:32770
-```      
+```
+
+

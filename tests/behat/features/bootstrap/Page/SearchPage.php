@@ -426,7 +426,6 @@ class SearchPage extends PageBase
     if (!$founds) {
       return "Could not find a search result.";
     }
-
     $lb_found = false;
     $xte = 0;
     foreach ($founds as $srItem) {
@@ -439,9 +438,10 @@ class SearchPage extends PageBase
       }
       $xte++;
     }
-    if ($lb_found == 0) {
+    if ($lb_found === false) {
       return "Did not find " . $title . " on page";
     }
+    return "";
   }
 
   /**

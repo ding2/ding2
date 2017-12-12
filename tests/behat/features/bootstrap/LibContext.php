@@ -23,6 +23,15 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public $cssStr;
 
+  /**
+   * @var string
+   */
+  private $currentFeature;
+
+  /**
+   * @var string
+   */
+  private $currentScenario;
 
   /** @var \Drupal\DrupalExtension\Context\DrupalContext */
   public $drupalContext;
@@ -99,6 +108,53 @@ class LibContext implements Context, SnippetAcceptingContext {
       // Ignore, but make a note of it for the tester
       print_r("Before Scenario: resizeWindow fejlede. \n");
     }
+  }
+
+  /**
+   * @AfterScenario
+   * Place screenshots in the assigned folder, after resizing window appropriately, if scenario failed
+   *
+   */
+  public function afterScenario(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope) {
+
+
+    if ($scope->getTestResult()->getResultCode()>0) {
+      $this->saveScreenshot();
+    }
+  }
+
+  /**
+   * @Then I save (a) screenshot
+   *
+   * Save a screenshot on demand
+   */
+  public function saveScreenshot() {
+    // setup folders and make sure the folders exists
+    $screenShotDir = 'results/'; // /html/assets/screenshots/';
+    $featureFolder = preg_replace('/\W/', '', $this->currentFeature);
+    if (!file_exists($screenShotDir . $featureFolder)) {
+      mkdir($screenShotDir . $featureFolder);
+    }
+
+    // setup filename and make sure it is unique, by adding a postfix (simple number)
+    $fileName = $screenShotDir . $featureFolder . "/"
+          . preg_replace('/\W/', '', $this->currentScenario) ;
+    $fileNamePostfix = "";
+    while (file_exists($fileName . $fileNamePostfix . '.png')) {
+      $fileNamePostfix++;
+    }
+    $fileName = $fileName . $fileNamePostfix . '.png';
+
+    // log the filename of the screenshot to notify the user
+    print_r( "Screenshot in: " . $fileName . "\n");
+
+    // now find the actual height of the shown page
+    $height = $this->minkContext->getSession()->evaluateScript("return document.body.scrollHeight;");
+    // and save the screenshot
+    $this->minkContext->getSession()
+          ->getDriver()
+          ->resizeWindow(1024, $height, 'current');
+    file_put_contents($fileName, $this->minkContext->getSession()->getDriver()->getScreenshot());
   }
 
   /**
@@ -245,14 +301,10 @@ class LibContext implements Context, SnippetAcceptingContext {
     // help the tester by showing what was searched for and also which test system we're on
     print_r("Displaying: " . $this->minkContext->getMinkParameter('base_url')  . "ting/object/" . $mpid . "\n");
 
-    $this->objectPage->open(['string' => urlencode($mpid)]);
-    sleep(5);
-    $this->objectPage->open(['string' => urlencode($mpid)]);
-    sleep(5);
-    $this->objectPage->open(['string' => urlencode($mpid)]);
+    // now open the page - replace the {id} with the mpid in the path
+    $this->objectPage->open(['id' => urlencode($mpid)]);
     $this->waitForPage();
   }
-
 
 
   /**

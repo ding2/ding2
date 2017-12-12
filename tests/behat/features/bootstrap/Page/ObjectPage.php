@@ -14,7 +14,7 @@ class ObjectPage extends PageBase
   /**
    * @var string $path
    */
-  protected $path = '/ting/object/%7Bid%7B';
+  protected $path = '/ting/object/{id}';
 
   public function entryIsShown($relType) {
     $relationType = $this->convertRelationTypeToTechnicalTerm($relType);
