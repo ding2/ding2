@@ -1,21 +1,33 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: caf
- * Date: 11/6/17
- * Time: 12:25 AM
+ * @file
+ * Implements page showing an object.
  */
 
 namespace Page;
 
-
-class ObjectPage extends PageBase
-{
+/**
+ * Class ObjectPage
+ *
+ * @package Page
+ */
+class ObjectPage extends PageBase {
   /**
+   * Path.
+   *
    * @var string $path
    */
   protected $path = '/ting/object/{id}';
 
+  /**
+   * EntryIsShown.
+   *
+   * @param string $relType
+   *    Popular name for a relationtype to be found.
+   *
+   * @return string
+   *    Nonempty if it cannot be found.
+   */
   public function entryIsShown($relType) {
     $relationType = $this->convertRelationTypeToTechnicalTerm($relType);
     $found = $this->find('css', '.ting-object div[id="' . $relationType . '"]' );
@@ -25,6 +37,15 @@ class ObjectPage extends PageBase
     return "";
   }
 
+  /**
+   * Entry Is Not Shown.
+   *
+   * @param string $relType
+   *    Relationtype that must not be shown.
+   *
+   * @return string
+   *    Nonempty if it is shown.
+   */
   public function entryIsNotShown($relType) {
     $relationType = $this->convertRelationTypeToTechnicalTerm($relType);
 
@@ -35,14 +56,23 @@ class ObjectPage extends PageBase
     return "";
   }
 
+  /**
+   * Convert Relation to Technical Term.
+   *
+   * @param $relType
+   *    Relationtype to be converted.
+   *
+   * @return string
+   *    Technical term for relation.
+   */
   private function convertRelationTypeToTechnicalTerm($relType)
   {
     $relationType = "";
-    switch(strtolower($relType))
-    {
+    switch (strtolower($relType)) {
       case 'hasreview':
         $relationType = 'dbcaddi:hasReview';
         break;
+
       case 'hascreatordescription':
         $relationType = 'dbcaddi:hasCreatorDescription';
         break;
@@ -54,6 +84,12 @@ class ObjectPage extends PageBase
     return $relationType;
   }
 
+  /**
+   * HasAddToList.
+   *
+   * @return string
+   *    Nonempty if Add to list is not found.
+   */
   public function hasAddToList() {
 
     $button = $this->find('xpath', "//div[contains(@class,'ding-list-add-button')]/a[contains(@class,'trigger')]");
@@ -63,6 +99,12 @@ class ObjectPage extends PageBase
     return "";
   }
 
+  /**
+   * Hasn't add to list.
+   *
+   * @return string
+   *    Nonempty if Add to list is not found.
+   */
   public function hasNotAddToList() {
     $button = $this->find('xpath', "//div[contains(@class,'ding-list-add-button')]/a[contains(@class,'trigger')]");
     if ($button) {
@@ -73,6 +115,12 @@ class ObjectPage extends PageBase
     return "";
   }
 
+  /**
+   * Has Cover Page.
+   *
+   * @return string
+   *    Nonempty if coverpage is not found.
+   */
   public function hasCoverPage() {
 
     $coverimg = $this->find('xpath', '//div[contains(@class,"ting-cover")]/img');
@@ -80,15 +128,22 @@ class ObjectPage extends PageBase
     if ($coverimg) {
       $txt_cover = $coverimg->getAttribute('src');
     }
-    if (strlen($txt_cover)>0) {
+    if (strlen($txt_cover) > 0) {
       return "";
-    } else {
+    }
+    else {
       return "Did not find a cover page.";
     }
   }
 
+  /**
+   * Has Availability Options.
+   *
+   * @return string
+   *    Nonempty if availability is not shown.
+   */
   public function hasAvailabiltyOptions() {
-    // simply try to grab the img object
+    // Simply try to grab the img object.
     $found = $this->find('css', '.ting-object .field-group-format li.availability');
     if ($found === null) {
       return "Could not find availability informations";
@@ -96,6 +151,12 @@ class ObjectPage extends PageBase
     return "";
   }
 
+  /**
+   * Has Online Access Options.
+   *
+   * @return string
+   *    Nonempty if online access is not shown.
+   */
   public function hasOnlineAccessButton() {
 
     $button = $this->find('css', "a.button-see-online");
@@ -106,6 +167,12 @@ class ObjectPage extends PageBase
     return "";
   }
 
+  /**
+   * Has Reservation Options.
+   *
+   * @return string
+   *    Nonempty if reservation button is not shown.
+   */
   public function hasReservationButton() {
 
     $button = $this->find('css', '.ting-object-inner-wrapper a.reserve-button');
@@ -114,15 +181,15 @@ class ObjectPage extends PageBase
     }
 
     $classAttr = $button->getAttribute('class');
-    // it takes a bit to add these classes. Wait until they are there. This also covers not-reservable and unavailable, of course
-    $max=3000;
-    while (--$max>0 && (strpos($classAttr, 'reservable')===false || strpos($classAttr, 'available')===false)) {
+    // It takes a bit to add these classes. Wait until they are there. This also covers not-reservable and unavailable, of course.
+    $max = 3000;
+    while (--$max > 0 && (strpos($classAttr, 'reservable') === false || strpos($classAttr, 'available') === false)) {
       usleep(10);
       $classAttr = $button->getAttribute('class');
     }
 
     $classes = explode(' ', $classAttr);
-    foreach($classes as $class){
+    foreach($classes as $class) {
       if ($class == 'not-reservable' ) {
         return "Reservation-button is prevented on this object";
       }
@@ -130,6 +197,10 @@ class ObjectPage extends PageBase
     return "";
   }
 
+  /**
+   * Attempt to make a reservation.
+   *
+   */
   public function makeReservation() {
 
     $button = $this->find('xpath', '//a[contains(@class,"reserve-button")]');

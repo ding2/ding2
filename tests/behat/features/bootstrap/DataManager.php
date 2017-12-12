@@ -5,13 +5,10 @@
  * DataManager. Handles data from files.
  */
 
-
-
 /**
  * Class DataManager
  */
-class DataManager extends \Page\PageBase
-{
+class DataManager extends \Page\PageBase {
   /**
    * Filename.
    *
@@ -33,8 +30,7 @@ class DataManager extends \Page\PageBase
    * @return mixed
    *    The current filename.
    */
-  public function getFilename()
-  {
+  public function getFilename() {
     return $this->filename;
   }
 
@@ -42,8 +38,10 @@ class DataManager extends \Page\PageBase
    * GetRandomPID
    *
    * @return mixed|string
+   *    Return the PID that was found.
    *
    * @throws Exception
+   *    In case of error.
    */
   public function getRandomPID() {
     $marray = [];
@@ -67,13 +65,13 @@ class DataManager extends \Page\PageBase
         return "File '" . $this->filename . "' was empty";
       }
 
-      $tmp = explode("\t", $marray[(random_int(0, count($marray)-1))]);
+      $tmp = explode("\t", $marray[(random_int(0, count($marray) - 1))]);
       if (count($tmp) != 2) {
         return "File '" . $this->filename . "' expected to have two columns.";
       }
       $max = 200;
       while (--$max > 0 && $this->onlyReservable && !$this->isReservable($tmp[0])) {
-        $tmp = explode("\t", $marray[(random_int(0, count($marray)-1))]);
+        $tmp = explode("\t", $marray[(random_int(0, count($marray) - 1))]);
         if (count($tmp) != 2) {
           return "File '" . $this->filename . "' expected to have two columns.";
         }
@@ -88,6 +86,7 @@ class DataManager extends \Page\PageBase
 
   /**
    * Returns false only if material is reservable according to Connie rules.
+   *
    * @todo: how to do this on other providers?
    */
   private function isReservable($mpid) {
@@ -115,7 +114,7 @@ class DataManager extends \Page\PageBase
    * SetReservable.
    *
    * @param bool $truefalse
-   *    Set flag for whether material should be reservable or not
+   *    Set flag for whether material should be reservable or not.
    */
   public function setReservable($truefalse) {
     $this->onlyReservable = $truefalse;

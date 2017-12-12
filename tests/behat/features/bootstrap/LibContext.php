@@ -4,6 +4,7 @@
  * @file
  * Implements step definitions for general-purpose steps
  */
+
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
@@ -257,7 +258,6 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Step
    *
    * @Then the search result is sorted on :sortOption
-   *
    */
   public function checkSearchResultIsSortedOnSortOption($sortOption) {
     // Check that the user asked for a valid sort-option.

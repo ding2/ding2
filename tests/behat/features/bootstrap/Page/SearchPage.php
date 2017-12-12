@@ -13,6 +13,7 @@ use Stack;
 
 /**
  * Class SearchPage
+ *
  * @package Page
  */
 class SearchPage extends PageBase {
@@ -88,7 +89,6 @@ class SearchPage extends PageBase {
     $curpg = $this->getCurrentPage();
 
     // These vars collect our check results.
-
     // Pagination element counter.
     $xte = 0;
     $pgFirst = -1;
@@ -96,7 +96,7 @@ class SearchPage extends PageBase {
     $pgNaeste = -1;
     $pgEllipse = 0;
     $pgLast = 0;
-    foreach($pg as $pElement) {
+    foreach ($pg as $pElement) {
       $pElementText = $pElement->getAttribute('class');
       $xte++;
       switch ($pElementText) {
@@ -126,7 +126,7 @@ class SearchPage extends PageBase {
 
         case "pager-current":
           // We must not have a link on this page.
-          $this->logMsg((null !==$pElement->find('css', 'a')), "Pagination has link to current page");
+          $this->logMsg((null !== $pElement->find('css', 'a')), "Pagination has link to current page");
           break;
 
         default:
@@ -155,10 +155,11 @@ class SearchPage extends PageBase {
         $this->logMsg(($pgForrige == -1), "Pagination: 'Forrige' is not shown on page 2");
         $this->logMsg(($pgEllipse > 1), "Pagination: Elipsis not expected more than once on page 2");
         $this->logMsg(($pgLast != 2), "Pagination: on page 2 we can go to more than page 1 and 3. Unexpected.");
-        //$this->logMsg(($curpg>=$pgLast and $pgNaeste != -1), "Pagination: 'Næste' is show on last page (" . $curpg . ")");
-        //$this->logMsg(($curpg<$pgLast and $pgNaeste == -1), "Pagination: 'Næste' is not shown on page " . $curpg);
+        // $this->logMsg(($curpg>=$pgLast and $pgNaeste != -1), "Pagination: 'Næste' is show on last page (" . $curpg . ")");
+        // $this->logMsg(($curpg<$pgLast and $pgNaeste == -1), "Pagination: 'Næste' is not shown on page " . $curpg);
 
         break;
+
       default:
         // This goes for the remaining pages.
         $this->logMsg(($pgFirst == -1), "Pagination: 'Første' is not shown on page " . $curpg);
@@ -166,8 +167,8 @@ class SearchPage extends PageBase {
         $this->logMsg(($pgLast >= ($curpg + 1)), "Pagination: on page " . $curpg . " we can go to more than page " . $pgLast . " directly");
         $this->logMsg(($pgEllipse > 2), "Pagination: Ellipsis should not be shown more than once on page " . $curpg);
         $this->logMsg(($pgEllipse == 0), "Pagination: Ellipsis should at least be shown once on page " . $curpg);
-        //$this->logMsg(($curpg>$pgLast and $pgNaeste != -1), "Pagination: 'Næste' is shown on last page (" . $curpg . ")");
-        //$this->logMsg(($curpg<=$pgLast and $pgNaeste == -1), "Pagination: 'Næste' is not shown on page " . $curpg);
+        // $this->logMsg(($curpg>$pgLast and $pgNaeste != -1), "Pagination: 'Næste' is shown on last page (" . $curpg . ")");
+        // $this->logMsg(($curpg<=$pgLast and $pgNaeste == -1), "Pagination: 'Næste' is not shown on page " . $curpg);
         break;
 
     }
@@ -184,28 +185,26 @@ class SearchPage extends PageBase {
    */
   public function checkPaginationOnAllPages() {
     // First we check if we have a known search result in memory.
-
     $lastsearch = count($this->searchResults);
     if (!$lastsearch) {
       return "No search result is present in memory. Use 'Then pageing allows to get all the results' first.";
     }
 
-    $lastpage = $this->searchResults[$lastsearch-1]->page;
+    $lastpage = $this->searchResults[$lastsearch - 1]->page;
 
     // Check all pages now.
-
-    for($i = 0; $i < ($lastpage-1); $i++) {
+    for ($i = 0; $i < ($lastpage - 1); $i++) {
       // Move to page using the pagination link.
-      $result = $this->goToPage(($i+1));
+      $result = $this->goToPage(($i + 1));
       if ($result != "") {
-        return "Could not go to page " . $i+1 . ": " . $result;
+        return "Could not go to page " . $i + 1 . ": " . $result;
       }
       // Check that the pagination elements are shown correctly for this page.
       $this->logMsg(true, $this->checkPaginationElements());
 
       // Now check that the page contains the titles we expect, as we collected earlier (and if we didn't this will fail).
       // Notice that the collection of search result uses the direct URL and not the pagination, which we check in this function.
-      $lRes = $this->getPageFullOfSearchResults(($i+1));
+      $lRes = $this->getPageFullOfSearchResults(($i + 1));
 
       $this->LogMsg(true, $this->checkSearchResultPageAgainstKnownContent($lRes));
     }
@@ -246,20 +245,18 @@ class SearchPage extends PageBase {
       $okay = true;
     }
 
-    if (!$lastsearch or $lastsearch==0)
+    if (!$lastsearch or $lastsearch == 0)
     {
       return "Search result is not found.";
     }
-    for($i=0; $i<$lastsearch-1; $i++) {
-
+    for ($i = 0; $i < $lastsearch - 1; $i++) {
       if ($mode == "all") {
         // Set to false, and keep it false, if any one is not found in the entire result.
         $txt_accessibility = (strlen($this->searchResults[$i]->access) == 0) ? false : $txt_accessibility;
-        $txt_cover = (strlen($this->searchResults[$i]->cover)==0) ? false : $txt_cover;
+        $txt_cover = (strlen($this->searchResults[$i]->cover) == 0) ? false : $txt_cover;
         $txt_isSamling = (!$this->searchResults[$i]->collection) ? false : $txt_isSamling;
         $txt_materiale = (strlen($this->searchResults[$i]->link) == 0) ? false : $txt_materiale;
         $txt_serie = (strlen($this->searchResults[$i]->serie) == 0) ? false : $txt_serie;
-
       }
       else {
         // Set to true, and keep it as true in case at least one exists.
@@ -324,7 +321,7 @@ class SearchPage extends PageBase {
    * @throws Exception
    *    If we haven't done a search before this is invoked.
    */
-  public function checkSearchResultPageAgainstKnownContent($sRes) {
+  public function checkSearchResultPageAgainstKnownContent($sRes = array()) {
     // Find all the titles in the search result.
     $founds = $this->findAll('css', '.search-results .ting-object h2 a');
     if (!$founds) {
@@ -358,7 +355,7 @@ class SearchPage extends PageBase {
    * CheckSorting.
    *
    * @param string $sortOption
-   *    One of title_ascending, title_descending, creator_ascending/descending, date_ascending/descending
+   *    One of title_ascending, title_descending, creator_ascending/descending, date_ascending/descending.
    *
    * @return string
    *    Nonempty if error.
@@ -371,41 +368,40 @@ class SearchPage extends PageBase {
     }
     // So we're basically traversing the search result pages, and constantly check against the previous
     // title shown, and compare if the relation between the two is fulfilled by the sort-criteria.
-
     $this->getEntireSearchResult();
 
     // Track if we've got any errors so we can flag it.
     $sortingOK = true;
 
-    if (count($this->searchResults)<2) {
+    if (count($this->searchResults) < 2) {
       return "Attempting check of sorting but got less than two results.";
     }
 
-    for ($i = 1; $i < count($this->searchResults)-1; $i++) {
+    for ($i = 1; $i < count($this->searchResults) - 1; $i++) {
       $isOK = false;
       switch ($sortOption) {
         case 'title_ascending':
-          $isOK = (strcasecmp($this->searchResults[$i-1]->title, $this->searchResults[$i]->title)<=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->title, $this->searchResults[$i]->title)<=0) ? true : false;
           break;
 
         case 'title_descending':
-          $isOK = (strcasecmp($this->searchResults[$i-1]->title, $this->searchResults[$i]->title)>=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->title, $this->searchResults[$i]->title)>=0) ? true : false;
           break;
 
         case 'creator_ascending':
-          $isOK = (strcasecmp($this->searchResults[$i-1]->creator, $this->searchResults[$i]->creator)<=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->creator, $this->searchResults[$i]->creator)<=0) ? true : false;
           break;
 
         case 'creator_descending':
-          $isOK = (strcasecmp($this->searchResults[$i-1]->creator, $this->searchResults[$i]->creator)>=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->creator, $this->searchResults[$i]->creator)>=0) ? true : false;
           break;
 
         case 'date_ascending':
-          $isOK = (strcasecmp($this->searchResults[$i-1]->published, $this->searchResults[$i]->published)<=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->published, $this->searchResults[$i]->published)<=0) ? true : false;
           break;
 
         case 'date_descending':
-          $isOK = (strcasecmp($this->searchResults[$i-1]->published, $this->searchResults[$i]->published)>=0) ? true : false;
+          $isOK = (strcasecmp($this->searchResults[$i - 1]->published, $this->searchResults[$i]->published)>=0) ? true : false;
           break;
 
         default:
@@ -414,13 +410,13 @@ class SearchPage extends PageBase {
       if ($isOK === false) {
         $this->logMsg(true, "Sorting on (" . $sortOption . ") is not ok:            (page " . $this->searchResults[$i]->page
               . " #" . $this->searchResults[$i]->item . ")");
-        $this->logMsg(true, "    " . $this->searchResults[$i-1]->title . " by " . $this->searchResults[$i-1]->creator . " ("
-              . $this->searchResults[$i-1]->published . ")");
+        $this->logMsg(true, "    " . $this->searchResults[$i - 1]->title . " by " . $this->searchResults[$i - 1]->creator . " ("
+              . $this->searchResults[$i - 1]->published . ")");
 
         $this->logMsg(true, "  is listed before");
         $this->logMsg(true, "    " . $this->searchResults[$i]->title . " by " . $this->searchResults[$i]->creator . " ("
               . $this->searchResults[$i-1]->published . ")");
-        $sortingOK=false;
+        $sortingOK = false;
       }
     }
     if ($sortingOK === false) {
@@ -444,7 +440,7 @@ class SearchPage extends PageBase {
     }
     else {
       // Do nothing, but put it in the log.
-      $this->logMsg(true,"An expected number of items were not set.");
+      $this->logMsg(true, "An expected number of items were not set.");
     }
     return "";
   }
@@ -458,7 +454,7 @@ class SearchPage extends PageBase {
    */
   public function findRegEx($regexp) {
 
-    // run through the entire search result to see if the title is there
+    // Run through the entire search result to see if the title is there.
     $found = false;
     $xte = 0;
     for ($i = 0; $i < count($this->searchResults); $i++) {
@@ -508,11 +504,11 @@ class SearchPage extends PageBase {
   /**
    * GetActualSearchResultSize.
    *
-   * @return int
-   *    Is the number of search results we actually found by scraping them off the pages.
-   *
    * Contrast this to getShownSizeOfSearchResult.
    * Notice this is possibly limited by the verbose/control setting of maxSearchPages.
+   *
+   * @return int
+   *    Is the number of search results we actually found by scraping them off the pages.
    */
   public function getActualSearchResultSize() {
     return count($this->searchResults);
@@ -524,7 +520,7 @@ class SearchPage extends PageBase {
    * @return string
    *    The page number of the current search result page.
    *
-   * Notice, it fails if the pagination element for current page is not present on the page
+   *    Notice, it fails if the pagination element for current page is not present on the page.
    */
   public function getCurrentPage() {
     // Fail if there's not a current-page element on the pagination. We don't actually use the $curpg for anything else.
@@ -543,7 +539,7 @@ class SearchPage extends PageBase {
         }
         else {
           // We got a page parameter. Check it's value against the page number we are looking for.
-          return $urlParams['page']+1;
+          return $urlParams['page'] + 1;
         }
       }
       else {
@@ -584,8 +580,8 @@ class SearchPage extends PageBase {
         $this->scrollTo($srItem);
         $isSamling = false;
 
-        // Get hold of the title.
-        $titlelink = $srItem->find('css', '.ting-object h2 a');  // v4
+        // Get hold of the title (version 4).
+        $titlelink = $srItem->find('css', '.ting-object h2 a');
 
         // Find the author and published date.
         $creator = $srItem->find('css', '.ting-object .field-name-ting-author');
@@ -639,7 +635,7 @@ class SearchPage extends PageBase {
           if (count($arr_samling) > 1) {
             $txt_mtype1 = $arr_samling[0];
             for ($i = 1; $i < count($arr_samling); $i++) {
-              $isSamling = ($txt_mtype1!=$arr_samling[$i] and $arr_samling[$i]!='') ? true : $isSamling;
+              $isSamling = ($txt_mtype1!=$arr_samling[$i] and $arr_samling[$i] != '') ? true : $isSamling;
             }
           }
         }
@@ -658,7 +654,7 @@ class SearchPage extends PageBase {
           $txt_cover = $coverimg->getAttribute('src');
         }
 
-        $this->searchResults[] = (object) array (
+        $this->searchResults[] = (object) array(
           'page' => $cnt,
           'item' => $xte,
           'title' => $txt_title,
@@ -672,7 +668,7 @@ class SearchPage extends PageBase {
         );
 
         $ll = count($this->searchResults) - 1;
-        $this->logMsg(($this->verboseSearchResults== 'on'), "Title: " . $this->searchResults[$ll]->title .
+        $this->logMsg(($this->verboseSearchResults == 'on'), "Title: " . $this->searchResults[$ll]->title .
               ", by " . $this->searchResults[$ll]->creator . " (" . $this->searchResults[$ll]->published . ") "
                 . " (page " . $this->searchResults[$ll]->page
                 . " # " . $this->searchResults[$ll]->item . ")");
@@ -681,7 +677,6 @@ class SearchPage extends PageBase {
         $xte = $xte + 1;
       }
       $this->logMsg(($this->verboseSearchResults == 'on'), "Total items listed on page: " . ($xte - 1));
-
 
       // Ready for next page:
       $cnt = $cnt + 1;
@@ -725,10 +720,6 @@ class SearchPage extends PageBase {
     return "";
   }
 
-
-
-
-
   /**
    * GetExpectedSearchResultSize - returns the last expected result.
    *
@@ -741,7 +732,7 @@ class SearchPage extends PageBase {
   public function getExpectedSearchResultSize($pop = false) {
     // It's a bit crude, but I'm not sure where else to initialize this Stack variable.
     if (!$this->expectedResultsCount) {
-      $this->expectedResultsCount = new Stack;
+      $this->expectedResultsCount = new Stack();
     }
     return $this->expectedResultsCount->get($pop);
   }
@@ -761,12 +752,12 @@ class SearchPage extends PageBase {
    * @throws Exception
    *    In case of error.
    */
-  private function getLargestFacetAndClickIt($facets, $select = true) {
+  private function getLargestFacetAndClickIt($facets = array(), $select = true) {
     // Now we traverse them to find out how many results they 'promise' if selected.
     $largestName = "";
     $largestCount = 0;
     $largestCheckbox = $facets[0];
-    foreach($facets as $chkbox) {
+    foreach ($facets as $chkbox) {
       // This can be a getElement.
       $lcntElement = $chkbox->find('css', 'span.count');
       if ($lcntElement) {
@@ -777,7 +768,7 @@ class SearchPage extends PageBase {
       }
       // Remove the paranthesises to retrieve the number and check if this is the largest number
       // found this far. If so, we will save it for later use.
-      $lcnt = substr($lcnt, 1, strlen($lcnt)-2);
+      $lcnt = substr($lcnt, 1, strlen($lcnt) - 2);
       if ($lcnt > $largestCount) {
         $largestCount = $lcnt;
         $largestName = $chkbox->find('css', 'a')->getText();
@@ -814,8 +805,10 @@ class SearchPage extends PageBase {
   }
 
   /**
+   * Get Current Max Page Traversel setting.
+   *
    * @return int
-   * Set the maximum number of pages we want to traverse to scrape off the search result.
+   *    Set the maximum number of pages we want to traverse to scrape off the search result.
    */
   public function getMaxPageTraversals() {
     return $this->maxPageTraversals;
@@ -846,7 +839,7 @@ class SearchPage extends PageBase {
     // Set up the array.
     $lRes = array();
     // Run through the entire search result we have stored.
-    for ($i = 0; $i<count($this->searchResults); $i++) {
+    for ($i = 0; $i < count($this->searchResults); $i++) {
       // Add search results belong to the requested page to the array we return.
       if ($this->searchResults[$i]->page == $pageNum) {
         $lRes[] = $this->searchResults[$i];
@@ -864,7 +857,6 @@ class SearchPage extends PageBase {
    */
   public function getOpenScanSuggestions() {
     // We need to enable a wait because we cannot control the timing.
-
     // You'd think we want to use the waitFor method, but it doesn't actually do this trick.
     // We need to enable a wait because we cannot control the timing.
     // It is possibly some dynamic javascript on the page that tricks it.
@@ -875,7 +867,7 @@ class SearchPage extends PageBase {
       $found = $this->find('css', $this->elements['autocomplete']);
     }
 
-    // report error if we ran out of time
+    // Report error if we ran out of time.
     if (!$found) {
       return "Openscan did not show any suggestions. ";
     }
@@ -923,7 +915,7 @@ class SearchPage extends PageBase {
       return "Is not on a search result page with any results";
     }
     // Choose a random title.
-    $i = random_int(0, count($pageRes)-1);
+    $i = random_int(0, count($pageRes) - 1);
 
     if ($criteria == "coverpage") {
       // Attempt max 50 times to find a random post with cover page on it.
@@ -946,7 +938,7 @@ class SearchPage extends PageBase {
     if (count($linkArr) == 0) {
       return "The link to the page is not wellformed: href=" . $linkObj->getAttribute('href');
     }
-    $link =  urlencode('ting/object/' . $linkArr[count($linkArr)-1]);
+    $link = urlencode('ting/object/' . $linkArr[count($linkArr) - 1]);
     //$this->open(['string' => $link]);
     //$this->gotoPage($link);
     $this->getSession()->visit($link);
@@ -960,8 +952,8 @@ class SearchPage extends PageBase {
    *    The number of search results.
    */
   public function getShownSizeOfSearchResult() {
-    // todo: use getElement here
-    $found =$this->find('css', '.pane-content .count');
+    // todo: use getElement here.
+    $found = $this->find('css', '.pane-content .count');
     if (!$found) {
       $this->logMsg(true, "Couldn't find count of results on page.");
       return -1;
@@ -1008,7 +1000,7 @@ class SearchPage extends PageBase {
     // Initialise link - the index into the array.
     $link = -2;
 
-    for($i = 0; $i < count($paginations); $i++) {
+    for ($i = 0; $i < count($paginations); $i++) {
       // Pick out the pagination link.
       $url = $paginations[$i]->getAttribute('href');
 
@@ -1039,7 +1031,7 @@ class SearchPage extends PageBase {
       }
       else {
         // No parameters at all would indicate the first page. That's okay, if that is what we were looking for.
-        if ($toPage==0) {
+        if ($toPage == 0) {
           $link = $i;
         }
       }
@@ -1068,16 +1060,15 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * popExpectedSearchResultSize - pops and returns the last expected result.
+   * PopExpectedSearchResultSize - pops and returns the last expected result.
    *
    * @return int
    *    The expected number of postings found.
-   *
    */
   public function popExpectedSearchResultSize() {
     // It's a bit crude, but I don't know where else to initialise this Stack.
     if (!$this->expectedResultsCount) {
-      $this->expectedResultsCount = new Stack;
+      $this->expectedResultsCount = new Stack();
     }
     return $this->expectedResultsCount->pop();
   }
@@ -1088,7 +1079,7 @@ class SearchPage extends PageBase {
   public function setExpectedSearchResultSize($size) {
     // It's a bit crude, but I don't know where else to initialise this Stack.
     if (!$this->expectedResultsCount) {
-      $this->expectedResultsCount = new Stack;
+      $this->expectedResultsCount = new Stack();
     }
     /*
      * We fail diligently by just setting a -1 as expected result. That will never compare
@@ -1121,11 +1112,12 @@ class SearchPage extends PageBase {
    * @param string $interval
    *    Interval f.ex. '50-100'.
    * @param string $listOfTerms
-   *    Search delimiters, f.ex. "term.creator=Agnes*"
+   *    Search delimiters, f.ex. "term.creator=Agnes*".
    * @param string $publishedBetween
    *    Published year interval, f.ex. "2009-2017".
    *
    * @return string
+   *    Nonempty if failure.
    */
   public function searchForCertainSize($interval, $listOfTerms, $publishedBetween) {
     // Start by making some syntax analysis.
@@ -1145,7 +1137,7 @@ class SearchPage extends PageBase {
       return $stdmsg . " for published date. You haven't given numeric values.";
     }
     // Add a preceeding "and" to the terms so we can search with them.
-    $listOfTerms = (strlen($listOfTerms)>0) ? ' and ' . $listOfTerms : '';
+    $listOfTerms = (strlen($listOfTerms) > 0) ? ' and ' . $listOfTerms : '';
     // We start in the first year.
     // The variables lHigh* are upper limits, lLow* are lower limits. llast* holds the currently used interval.
     $lHighYear = $lPublished[0];
@@ -1202,15 +1194,14 @@ class SearchPage extends PageBase {
         return "Tried all the years in given interval, without finding a result of the requested size.";
       }
       // Do another search, unless this search is identical to the one we just did.
-      if (!($llastHigh == $lHighYear && $llastLow == $lLowYear))
-      {
+      if (!($llastHigh == $lHighYear && $llastLow == $lLowYear)) {
         // Save these years as new last-tries.
         $llastLow = $lLowYear;
         $llastHigh = $lHighYear;
         $this->open(['string' => urlencode("term.date>=" . $lLowYear . " and term.date<=" . $lHighYear . $listOfTerms)]);
 
         $hits = $this->getShownSizeOfSearchResult();
-        $this->logMsg(true,  "[" . $lLowYear . ";" . $lHighYear . "]=" . $hits . " resultater\n");
+        $this->logMsg(true, "[" . $lLowYear . ";" . $lHighYear . "]=" . $hits . " resultater\n");
       }
     }
 
@@ -1269,8 +1260,8 @@ class SearchPage extends PageBase {
    *    In case of error.
    */
   public function setTheNumberOfResultsPerPageToSize($size) {
-    $found =$this->find('css', 'select#edit-size.form-select[name="size"]');
-    if (!$found){
+    $found = $this->find('css', 'select#edit-size.form-select[name="size"]');
+    if (!$found) {
       return "Did not find a dropdown for setting results per page.";
     }
     $found->selectOption($size, false);
@@ -1299,6 +1290,7 @@ class SearchPage extends PageBase {
    *
    * @throws Exception
    *    In case of error.
+   *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
    *    In case of error.
    */
@@ -1332,9 +1324,9 @@ class SearchPage extends PageBase {
    *    Nonempty if the sortoption is not valid.
    */
   public function sortOptionValid($sortOption) {
-    // anticipate error
+    // Anticipate error.
     $isValid = false;
-    $isValid = ($sortOption == "title_ascending") ;
+    $isValid = ($sortOption == "title_ascending");
     $isValid = ($sortOption == "title_descending") ? true : $isValid;
     $isValid = ($sortOption == "creator_ascending") ? true : $isValid;
     $isValid = ($sortOption == "creator_descending") ? true : $isValid;
@@ -1359,8 +1351,7 @@ class SearchPage extends PageBase {
     // We set 200 as the upper limit for unpacking. It's way above what we will experience,
     // But we want to unpack them all, and still get out of this in a civilised way if there unpacking doesn't work.
     $cnt = 200;
-    while($found && --$cnt > 0)
-    {
+    while ($found && --$cnt > 0) {
       $this->scrollTo($found);
 
       try {
@@ -1391,12 +1382,12 @@ class SearchPage extends PageBase {
    */
   public function useFacetsToIncreaseSearchResults() {
     // Report an error if we've not set a facet correctly previously.
-    if ($this->getExpectedSearchResultSize()==0) {
+    if ($this->getExpectedSearchResultSize() == 0) {
       return "We can only attempt to deselect a facet if we selected one first.";
     }
 
     // Then find all the checked facets on the page.
-    $found =$this->findAll('css', '.selected-checkbox');
+    $found = $this->findAll('css', '.selected-checkbox');
     if (!$found) {
       return "Did not find any selected facets. We expect facets to contain class=selected-checkbox.";
     }
@@ -1419,7 +1410,7 @@ class SearchPage extends PageBase {
     $this->unpackFacetLists();
 
     // Now find all the checkboxes on the page.
-    $found =$this->findAll('css', '.unselected-checkbox');
+    $found = $this->findAll('css', '.unselected-checkbox');
     if (!$found) {
       return "Didn't find any facets on the page.";
     }
