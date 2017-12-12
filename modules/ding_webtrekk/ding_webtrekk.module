@@ -54,16 +54,13 @@ function ding_webtrekk_page_alter(&$page) {
       'scope' => 'footer',
     ],
   ];
-}
 
-/**
- * Implements hook_panels_pane_content_alter().
- *
- * Track ting search results.
- */
-function ding_webtrekk_panels_pane_content_alter($content, $pane, $args, $contexts) {
-  if ($pane->type == 'search_result' && $pane->configuration['type'] == 'ting_search' && strpos(current_path(), 'search/ting') === 0) {
-    if ($search_result = drupal_static('ting_search_results', FALSE)) {
+  // Track ting search results. We take advantage of the fact that ting_search
+  // module stores the result in a static variable when search is triggered via
+  // search_data() function from core search module. Since this is not tied to
+  // any path, we also check current_path().
+  if (strpos(current_path(), 'search/ting') === 0) {
+    if ($search_result = drupal_static('ting_search_results', FALSE) {
       $params = [
         'pageTitle' => 'Search ting',
         'OSS' => $search_result->search_key,
