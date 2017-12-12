@@ -17,7 +17,7 @@ function ding_webtrekk_menu() {
     'access arguments' => ['administer site configuration'],
     'file' => 'ding_webtrekk.admin.inc',
   ];
-  
+
   return $items;
 }
 
@@ -62,7 +62,7 @@ function ding_webtrekk_page_alter(&$page) {
  * Track ting search results.
  */
 function ding_webtrekk_panels_pane_content_alter($content, $pane, $args, $contexts) {
-  if ($pane->type == 'search_result' && $pane->configuration['type'] == 'ting_search') {
+  if ($pane->type == 'search_result' && $pane->configuration['type'] == 'ting_search' && strpos(current_path(), 'search/ting') === 0) {
     if ($search_result = drupal_static('ting_search_results', FALSE)) {
       $params = [
         'pageTitle' => $content->original_title,
@@ -80,7 +80,7 @@ function ding_webtrekk_panels_pane_content_alter($content, $pane, $args, $contex
  * Track internal search results.
  */
 function ding_webtrekk_views_post_execute(&$view) {
-  if ($view->name == 'ding_multiple_search') {
+  if ($view->name == 'ding_multiple_search' && strpos(current_path(), 'search/node') === 0) {
     // This view is loaded 2 times. Prevent from loading params multiple times.
     $loaded = &drupal_static(__FUNCTION__);
     if (!empty($loaded)) {
