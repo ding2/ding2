@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ * Implements step definitions for general-purpose steps
+ */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
@@ -18,48 +22,61 @@ use Page\ObjectPage;
  */
 class LibContext implements Context, SnippetAcceptingContext {
 
-  /** @var array
-   * is holding css-locator strings
+  /**
+   * Holder of css-locator strings
+   *
+   * @var array $cssStr
    */
   public $cssStr;
 
   /**
-   * @var string
+   * Holds the name of the current feature being run
+   *
+   * @var string $currentFeature
    */
   private $currentFeature;
 
   /**
-   * @var string
+   * Holds the name of the current scenario being run
+   *
+   * @var string $currentScenario
    */
   private $currentScenario;
 
-  /** @var \Drupal\DrupalExtension\Context\DrupalContext */
+  /**
+   * Holds the drupal Context
+   *
+   * @var \Drupal\DrupalExtension\Context\DrupalContext $drupalContext
+   */
   public $drupalContext;
 
   /**
-   * @var string
    * Contains the last search string we used
+   *
+   * @var string $lastSearchString
    */
   public $lastSearchString;
 
-  /** @var \Drupal\DrupalExtension\Context\MinkContext */
+  /**
+   * Holds the MinkContext to drive the browser
+   *
+   * @var \Drupal\DrupalExtension\Context\MinkContext $minkContext
+   */
   public $minkContext;
 
-
   /**
-   * Current authenticated user.
-   * A value of FALSE denotes an anonymous user.
+   * Current authenticated user. A value of FALSE denotes an anonymous user.
    *
-   * @var stdClass|bool
+   * @var stdClass|bool $user
    */
   public $user = FALSE;
 
-  /** @var object
+  /**
    * Holds the flags telling whether we want a very verbose run or a more silent one
+   *
+   * @var object $verbose
    */
   public $verbose;
-
-
 
   /**
    * Initializes context.
@@ -74,19 +91,19 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->objectPage = $objectPage;
 
     // Initialise the verbose structure. These are default settings.
-    $this->verbose = (object) array (
-          'loginInfo' => true,
+    $this->verbose = (object) array(
+      'loginInfo' => true,
     );
-
-
-
-
   }
 
   /**
+   * Runs before each scenario
+   *
    * @BeforeScenario
    *
    * @param BeforeScenarioScope $scope
+   *   contains scope information
+   *
    * @throws \Behat\Mink\Exception\DriverException
    */
   public function beforeScenario(BeforeScenarioScope $scope) {
@@ -103,29 +120,29 @@ class LibContext implements Context, SnippetAcceptingContext {
       $this->minkContext->getSession()
             ->getDriver()
             ->resizeWindow(1024, 2000, 'current');
-    } catch (UnsupportedDriverActionException $e) {
+    }
+    catch (UnsupportedDriverActionException $e) {
       // Ignore, but make a note of it for the tester.
       print_r("Before Scenario: resizeWindow fejlede. \n");
     }
   }
 
   /**
+   * Runs after each scenario
+   *
    * @AfterScenario
    * Place screenshots in the assigned folder, after resizing window appropriately, if scenario failed
-   *
    */
   public function afterScenario(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope) {
-
-
     if ($scope->getTestResult()->getResultCode() > 0) {
       $this->saveScreenshot();
     }
   }
 
   /**
-   * @Then I save (a) screenshot
+   * Step to save a screenshot on demand
    *
-   * Save a screenshot on demand
+   * @Then I save (a) screenshot
    */
   public function saveScreenshot() {
     // Setup folders and make sure the folders exists.
@@ -137,7 +154,7 @@ class LibContext implements Context, SnippetAcceptingContext {
 
     // Setup filename and make sure it is unique, by adding a postfix (simple number).
     $fileName = $screenShotDir . $featureFolder . "/"
-          . preg_replace('/\W/', '', $this->currentScenario) ;
+          . preg_replace('/\W/', '', $this->currentScenario);
     $fileNamePostfix = "";
     while (file_exists($fileName . $fileNamePostfix . '.png')) {
       $fileNamePostfix++;
@@ -145,7 +162,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     $fileName = $fileName . $fileNamePostfix . '.png';
 
     // Log the filename of the screenshot to notify the user.
-    print_r( "Screenshot in: " . $fileName . "\n");
+    print_r("Screenshot in: " . $fileName . "\n");
 
     // Now find the actual height of the shown page.
     $height = $this->minkContext->getSession()->evaluateScript("return document.body.scrollHeight;");
@@ -157,18 +174,26 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * Step
+   *
    * @Given I accept cookies
    *
    * @throws Exception
-   * Checks if cookie acceptance is shown, and accepts it if it is.
+   *   Checks if cookie acceptance is shown, and accepts it if it is.
    */
-  public function AcceptCookiesMinimizeAskLibrarianOverlay() {
+  public function acceptCookiesMinimizeAskLibrarianOverlay() {
     // We use the searchPage-instance to deal with cookies.
     $this->check($this->searchPage->acceptCookiesMinimizeAskLibrarianOverlay(), $this->searchPage->getMessages());
   }
 
   /**
-   * @param $string - if non-empty - throw an exception
+   * General function to check the outcome of a function and handle the result
+   *
+   * @param string $result
+   *   if non-empty an exception is thrown
+   * @param string $msg
+   *   the message to show together with the exception
+   *
    * @throws Exception
    */
   public function check($result, $msg = '') {
@@ -184,6 +209,8 @@ class LibContext implements Context, SnippetAcceptingContext {
 
 
   /**
+   * Step
+   *
    * @Then I check if the right number of search results are shown
    *
    * The methods "I use facets to reduce..." sets $this->>expectedResultsCount and must
@@ -198,9 +225,8 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
 
     // Now compare to the expected number.
-    if ($this->searchPage->getExpectedSearchResultSize() != 0 ) {
-      if ($this->searchPage->getExpectedSearchResultSize() != $resultSize)
-      {
+    if ($this->searchPage->getExpectedSearchResultSize() != 0) {
+      if ($this->searchPage->getExpectedSearchResultSize() != $resultSize) {
         throw new Exception("Fandt ikke det forventede antal poster. (Fandt: " . $resultSize . ". Forventede:" . $this->searchPage->getExpectedSearchResultSize() . ")");
       }
     }
@@ -210,10 +236,9 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * @Then I check pagination on all pages
-   *
    * This is meant only to be used after a multipage search when pageing is in place.
    *
+   * @Then I check pagination on all pages
    * It goes through the latest stored search result and finds a random page which is accessible on the
    * currently displayed page, and go to that one.
    * Notice that the way to move to a particular page is to go to the link /search/thing/<searchcrit>?page=n
@@ -221,30 +246,28 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Also notice that not all pages are given as options for the user. On a 10-page result, only 1 + 2 is displayed
    * from the beginning.
    * From page 3 you get "første" + "forrige". On page 1 and 2 you don't.
-   *
-   *
-   *
    */
   public function checkPaginationOnAllPages() {
-    $this->check($this->searchPage->checkPaginationOnAllPages(),  $this->searchPage->getMessages());
+    $this->check($this->searchPage->checkPaginationOnAllPages(), $this->searchPage->getMessages());
   }
 
   /**
+   * Step
+   *
    * @Then the search result is sorted on :sortOption
    *
    */
   public function checkSearchResultIsSortedOnSortOption($sortOption) {
     // Check that the user asked for a valid sort-option.
-    $this->check($this->searchPage->sortOptionValid($sortOption),  $sortOption );
-
+    $this->check($this->searchPage->sortOptionValid($sortOption), $sortOption);
 
     $this->check($this->searchPage->checkSorting($sortOption), $this->searchPage->getMessages());
   }
 
   /**
-   * @When I enter :text in field :field
-   *
    * Type text character by character, with support for newline, tab as \n and \t
+   *
+   * @When I enter :text in field :field
    */
   public function enterTextIntoField($text, $field) {
     $found = $this->getPage()->find('css', $this->translateFieldName($field));
@@ -261,16 +284,18 @@ class LibContext implements Context, SnippetAcceptingContext {
      * and then check the next character.
      */
     $escaped = false;
-    for ($i=0; $i<strlen($text); $i++) {
+    for ($i = 0; $i < strlen($text); $i++) {
       $key = substr($text, $i, 1);
       if ($escaped) {
         switch ($key) {
           case 'n':
             $key = "\r\n";
             break;
+
           case "t":
             $key = "\t";
             break;
+
           default:
             // We will just let $key be what it is.
         }
@@ -290,6 +315,8 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * Step
+   *
    * @When I display random object from file
    *
    */
@@ -304,38 +331,37 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->waitForPage();
   }
 
-
   /**
+   * Check for whether the Husk / Tilføj til liste button is shown and visible
+   *
    * @Then it is possible to add to a list
    * @Then it should be possible to add to a list
-   *
-   * check for whether the Husk / Tilføj til liste button is shown and visible
-   *
    */
   public function findAddToAList() {
     $this->check($this->objectPage->hasAddToList());
   }
 
   /**
+   * Check for whether the Husk / Tilføj til liste button is shown and visible
+   *
    * @Then it is not possible to add to a list
-   *
-   * check for whether the Husk / Tilføj til liste button is shown and visible
-   *
    */
   public function findAddToListNotPossible() {
     $this->check($this->objectPage->hasNotAddToList());
   }
 
   /**
-   * @Then I (should) see availability options
-   *
    * The function can be used to return the href to the image as well.
-   */
+   *
+   * @Then I (should) see availability options
+  */
   public function findAvailabilityOptions() {
     $this->check($this->objectPage->hasAvailabiltyOptions());
   }
 
   /**
+   * Step
+   *
    * @Then I should see a cover page
    */
   public function findCoverPage() {
@@ -343,18 +369,18 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * Check for whether the Husk / Tilføj til liste button is shown and visible
+   *
    * @Then it is possible to get online access
    * @Then online access button is shown
-   *
-   * check for whether the Husk / Tilføj til liste button is shown and visible
-   *
    */
   public function findOnlineAccessButton() {
     $this->check($this->objectPage->hasOnlineAccessButton());
   }
 
-
   /**
+   * Step
+   *
    * @Then there are posts with :attribute in the search results
    */
   public function findPostsWithXXInTheSearchResult($attribute) {
@@ -362,6 +388,8 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * Step
+   *
    * @Then all posts have :attribute in the search results
    */
   public function findPostsAllHaveXXInTheSearchResult($attribute) {
@@ -369,46 +397,47 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * @When I open a random search result with (a) cover page to show the post
+   * Step
    *
+   * @When I open a random search result with (a) cover page to show the post
    * Expects to start on a search result. It scans the page for results, chooses one randomly
    * and opens it up by extracting the pid from the link, and force its way to the ting/object/ prefix
    * This means it does not show a work / collection, if that's where the search would go.
-   *
    */
   public function findRandomSearchResultWithCoverPageToShowThePost() {
     $this->searchPage->getRandomSearchResultToShowPost("coverpage");
   }
 
   /**
-   * @Then a :relationType entry is shown
+   * Step
    *
+   * @Then a :relationType entry is shown
    */
   public function findRelationTypeEntryIsShown($relType) {
     $this->check($this->objectPage->entryIsShown($relType));
   }
 
   /**
-   * @Then a :relationType entry is not shown
+   * Step
    *
+   * @Then a :relationType entry is not shown
    */
   public function findRelationTypeEntryNotShown($relType) {
     $this->check($this->objectPage->entryIsNotShown($relType));
   }
 
   /**
-   * @Then it is possible to click to reserve the material
+   * Checks for the reserve-button being shown and visible
    *
-   * checks for the reserve-button being shown and visible
+   * @Then it is possible to click to reserve the material
    */
   public function findReserveMaterialButton() {
     $this->check($this->objectPage->hasReservationButton());
   }
 
-
-
-
   /**
+   * Step
+   *
    * @Then I can see :title in the search results first page
    */
   public function findTitleInTheSearchResultsFirstPage($title) {
@@ -418,15 +447,18 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * getPage - quick reference to the getPage element. Makes code more readable.
+   * GetPage - quick reference to the getPage element. Makes code more readable.
    *
    * @return \Behat\Mink\Element\DocumentElement
+   *   returns a page element
    */
   public function getPage() {
     return $this->minkContext->getSession()->getPage();
   }
 
   /**
+   * Step
+   *
    * @Then I am prompted to login
    */
   public function getPromptToLogin() {
@@ -449,34 +481,31 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Go to the search page.
    *
-   * @Given I have searched for :arg1
-   *
    * @param string $string
    *   String to search for.
+   *
    * @throws Exception
+   *
+   * @Given I have searched for :string
    */
   public function gotoSearchPage($string) {
     // First we try to translate the argument, to see if there's anything we should pick out first.
     $searchString = $this->translateArgument($string);
-
-    $this->logMsg(($this->searchPage->getVerboseSearchResult()=="on"), "Searches for " . urlencode($searchString) . "\n");
-
+    $this->logMsg(($this->searchPage->getVerboseSearchResult() == "on"), "Searches for " . urlencode($searchString) . "\n");
     $this->lastSearchString = $searchString;
-
     $this->gotoPage('/search/ting/' . urlencode($searchString));
-
   }
 
-
-
   /**
+   * Step
+   *
    * @Given I am logged in as a library user
    * @When I log in as a library user
    */
   public function iAmLoggedInAsALibraryUser() {
 
     // Temporary solution, setting up hardcoded username list. Password is last 4 for Connie Provider.
-    $userlist = array ();
+    $userlist = array();
     $userlist[] = 'Lillekvak';
     $userlist[] = 'Supermand';
     $userlist[] = 'Fernando';
@@ -492,12 +521,12 @@ class LibContext implements Context, SnippetAcceptingContext {
     $userlist[] = 'Pegonia';
 
     // Now pick a random one.
-    $name = $userlist[random_int(0, count($userlist)-1)];
+    $name = $userlist[random_int(0, count($userlist) - 1)];
 
     // Set up the user.
     $user = (object) array(
-          'name' => $name,
-          'pass' => substr($name, -4),
+      'name' => $name,
+      'pass' => substr($name, -4),
     );
     $this->drupalContext->user = $user;
     $this->login();
@@ -540,7 +569,6 @@ class LibContext implements Context, SnippetAcceptingContext {
 
   /**
    * Log a user in.
-   *
    */
   public function login() {
 
@@ -549,9 +577,9 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
 
     // It's nice to know in the log who we log in with.
-    $this->logMsg(($this->verbose->loginInfo=="on"), "Attempts logging in with user: " . $this->drupalContext->user->name . "\n");
+    $this->logMsg(($this->verbose->loginInfo == "on"), "Attempts logging in with user: " . $this->drupalContext->user->name . "\n");
 
-    $this->logTimestamp(($this->verbose->loginInfo=="on"), " - ");
+    $this->logTimestamp(($this->verbose->loginInfo == "on"), " - ");
 
     $el = $this->minkContext->getSession()->getPage();
     if (!$el) {
@@ -564,7 +592,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     if ($pageclass) {
       // Now we know we are not logged-in. Find the link represented by the login-button in the top.
       $xpath = "//body[contains(@class, 'overlay-is-active')]";
-      $libutton=$this->getPage()->find('xpath', $xpath);
+      $libutton = $this->getPage()->find('xpath', $xpath);
 
       if (!$libutton) {
 
@@ -634,15 +662,13 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->logTimestamp(($this->verbose->loginInfo=="on"), " - OK\n");
   }
 
-
-
   /**
-   * log_msg - prints message on log if condition is true.
+   * Log_msg - prints message on log if condition is true.
    *
    * @param bool $ifTrue
-   *   indicates if the message is to be printed or not
+   *   Indicates if the message is to be printed or not.
    * @param string $msg
-   *   the actual message to show if condition is true
+   *   The actual message to show if condition is true.
    */
   public function logMsg($ifTrue, $msg) {
     if ($ifTrue) {
@@ -651,27 +677,28 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * log_timestamp - puts a timestamp in the log. Good for debugging timing issues.
+   * Log_timestamp - puts a timestamp in the log. Good for debugging timing issues.
    *
    * @param bool $ifTrue
-   *   indicates if the message is to be shown or not
+   *   Indicates if the message is to be shown or not.
    * @param string $msg
-   *   the actual message to show
+   *   The actual message to show.
    */
   public function logTimestamp($ifTrue, $msg) {
     // This is so we can use this function with verbose-checking.
     if ($ifTrue) {
       // Get the microtime, format it and print it.
       $t = microtime(true);
-      $micro = sprintf("%06d",($t - floor($t)) * 1000000);
-      $d = new DateTime( date('Y-m-d H:i:s.'.$micro, $t));
+      $micro = sprintf("%06d", ($t - floor($t)) * 1000000);
+      $d = new DateTime(date('Y-m-d H:i:s.' . $micro, $t));
       print_r($msg . " " . $d->format("Y-m-d H:i:s.u") . "\n");
     }
   }
 
   /**
-   * @Then pageing allows to get all the results
+   * Step
    *
+   * @Then pageing allows to get all the results
    * This retrieves the search result and stores it in the local array searchResults.
    * There can be several search results, so some garbage collection needs to be done.
    * The searchResult array will be reset before each scenario.
@@ -681,8 +708,9 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * @When I try to reserve the material
+   * Step
    *
+   * @When I try to reserve the material
    */
   public function reserveTheMaterial() {
     $this->findReserveMaterialButton();
@@ -690,11 +718,10 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->check($this->objectPage->makeReservation());
   }
 
-
   /**
-   * @When I scroll to the bottom (of the page)
-   *
    * Scroll to bottom of page
+   *
+   * @When I scroll to the bottom (of the page)
    */
   public function scrollToBottom() {
     $found = $this->getPage()->find('css', 'footer.footer');
@@ -704,9 +731,9 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * @When I scroll :pixels pixels
-   *
    * Scroll a bit up
+   *
+   * @When I scroll :pixels pixels
    */
   public function scrollABit($pixels) {
     $this->minkContext->getSession()->executeScript('window.scrollBy(0, ' . $pixels . ');');
@@ -717,8 +744,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @param ElementInterface $element
    *   Element to scroll to.
+   *
    * @throws \Exception
-   *   The exception we throw
+   *   The exception we throw.
    */
   public function scrollTo(ElementInterface $element) {
     // Translate the xpath of the element by adding \\ in front of " to allow it to be passed in the javascript.
@@ -726,21 +754,24 @@ class LibContext implements Context, SnippetAcceptingContext {
     try {
       $js = '';
       $js = $js . 'var el = document.evaluate("' . $xpath .
-            '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue;';
+            '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;';
       $js = $js . 'document.body.scrollTop = document.documentElement.scrollTop = 0;';
       $js = $js . 'el.scrollIntoViewIfNeeded(true);';
       $this->minkContext->getSession()->executeScript($js);
-    } catch (UnsupportedDriverActionException $e) {
+    }
+    catch (UnsupportedDriverActionException $e) {
       // Ignore.
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception('Could not scroll to element: ' . $e->getMessage());
     }
   }
 
   /**
+   * Makes a series of searches until the search result is satisfactory.
+   *
    * @Given I want a search result between :interval using :listOfTerms published between :publishedInterval
    *
-   * Makes a series of searches until the search result is satisfactory.
    * One example of usage is: Given I want a search result between "50-100" using "term.type=bog AND term.publisher=Gyldendal" published between "2000-2017"
    * :interval     = "50-75" lower and upper acceptable number of search results.
    *                         (this is compared to the number of posts found)
@@ -754,31 +785,33 @@ class LibContext implements Context, SnippetAcceptingContext {
    * If too many, it will move up one year, until it has tried all years.
    * With verbose of searchResults = on it will log it's attempts.
    * If unable to reach a searchresult of the wanted size it will fail.
-   *
    */
   public function searchForResultOfCertainSizeUsingInterval($interval, $listOfTerms, $publishedBetween) {
      $this->check($this->searchPage->searchForCertainSize($interval, $listOfTerms, $publishedBetween), $this->searchPage->getMessages());
   }
 
   /**
-   * @When I search on hjemmesiden
+   * Step
    *
+   * @When I search on hjemmesiden
    */
   public function searchOnHomePage() {
     $this->check($this->searchPage->searchOnHomePage());
   }
 
   /**
-   * @Given filename :file is used
+   * Step
    *
+   * @Given filename :file is used
    */
   public function setFilename($file) {
     $this->dataMgr->setFilename($file);
   }
 
   /**
-   * @When I set (the) number of results per page to :size
+   * Step
    *
+   * @When I set (the) number of results per page to :size
    */
   public function setTheNumberOfResultsPerPageToSize($size) {
     $this->check($this->searchPage->setTheNumberOfResultsPerPageToSize($size));
@@ -786,16 +819,16 @@ class LibContext implements Context, SnippetAcceptingContext {
 
 
   /**
+   * Sets the control or verbose mode of the run, controlling how much info is put into the output log.
+   *
    * @Given I want verbose mode for :area to be :onoff
    * @Given I set verbose mode for :area to be :onoff
    * @Given I set control mode for :area to be :onoff
-   *
-   * Sets the control or verbose mode of the run, controlling how much info is put into the output log.
    */
   public function setVerboseControlMode($area, $onoff) {
     $area = mb_strtolower($area);
     $onoff = mb_strtolower($onoff);
-    switch($area) {
+    switch ($area) {
       // This tells if we want to know the username we logged in with.
       case 'login':
       case 'logininfo':
@@ -804,6 +837,7 @@ class LibContext implements Context, SnippetAcceptingContext {
           print_r("Verbose mode of loginInfo set to on");
         }
         break;
+
         // This indicates if we want to see in the log what was found in the searches.
       case 'search-results':
       case 'search-result':
@@ -813,6 +847,7 @@ class LibContext implements Context, SnippetAcceptingContext {
           print_r("Verbose mode of searchResults set to on");
         }
         break;
+
         // This indicates if we want to know about handling cookie-popups.
       case 'cookie':
       case 'cookies':
@@ -822,6 +857,7 @@ class LibContext implements Context, SnippetAcceptingContext {
           print_r("Verbose mode of cookie-handling set to on");
         }
         break;
+
         // This setting controls how many search result pages we will traverse during testing.
       case 'searchmaxpages':
 
@@ -831,6 +867,7 @@ class LibContext implements Context, SnippetAcceptingContext {
         print_r("Verbose mode for max number of search result pages set to " . $onoff);
         print_r("\n");
         break;
+
         // This is the catch-all setting.
       case 'everything':
       case 'all':
@@ -838,17 +875,20 @@ class LibContext implements Context, SnippetAcceptingContext {
         $this->searchPage->setVerboseSearchResult($onoff);
         $this->searchPage->setVerboseCookieMode($onoff);
         break;
+
         // If we don't recognise this, let the user know, but don't fail on it.
       default:
         print_r("Unknown verbose mode:" . $area);
         print_r("\n");
         break;
+
     }
   }
 
   /**
-   * @Given (I) only (want) reservables
+   * Step
    *
+   * @Given (I) only (want) reservables
    */
   public function setReservables() {
     $this->dataMgr->setReservable(true);
@@ -861,9 +901,6 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @Given you tell me the current browser
    * @Given you show me the current browser name
    * @Given you reveal the browser
-   *
-   * @param string $path
-   *   The path to navigate to.
    */
   public function showTheBrowser() {
     $session = $this->minkContext->getSession();
@@ -875,7 +912,7 @@ class LibContext implements Context, SnippetAcceptingContext {
       // Using chrome.
       $browser = 'chrome';
     }
-    elseif (preg_match('/firefox/i',$userAgent)) {
+    elseif (preg_match('/firefox/i', $userAgent)) {
       $browser = 'firefox';
     }
 
@@ -889,8 +926,9 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * @When I sort the search result on :sortOption
+   * Step
    *
+   * @When I sort the search result on :sortOption
    */
   public function sortTheSearchResultOnOption($sortOption) {
     // Check that the user asked for a valid sort-option.
@@ -910,8 +948,12 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Source is pointing to where the value should come from.
    * 'nyhed' looks up news placed on the front page. If not on the front page - this will fail.
    *
-   * @param $string
+   * @param string $string
+   *    the argument given
+   *
    * @return mixed
+   *    the translated argument, or the original if no translation was made
+   *
    * @throws Exception
    */
   public function translateArgument($string) {
@@ -926,8 +968,7 @@ class LibContext implements Context, SnippetAcceptingContext {
       }
 
       // Here we try to figure out what to translate to.
-      switch (strtolower($cmdArr[1]))
-      {
+      switch (strtolower($cmdArr[1])) {
         // Find news (presuming to be on the front page, otherwise fail), choose between them and return the value.
         case "news":
         case 'nyhed':
@@ -936,30 +977,35 @@ class LibContext implements Context, SnippetAcceptingContext {
             throw new Exception("Argument for a news item. Could not find any news on the page.");
           }
           // Only first, last and random works with nyheder as choice.
-          switch( strtolower($cmdArr[0]))
-          {
+          switch (strtolower($cmdArr[0])) {
             case 'first':
               $returnString = $foundArr[0]->getText();
               break;
+
             case 'last':
-              $returnString = $foundArr[count($foundArr)-1]->getText();
+              $returnString = $foundArr[count($foundArr) - 1]->getText();
               break;
+
             case 'random':
-              $i = random_int(0, count($foundArr)-1);
+              $i = random_int(0, count($foundArr) - 1);
               $returnString = $foundArr[$i]->getText();
               break;
+
             default:
               throw new Exception("Only 'first', 'last' og 'random' can be modifiers for 'news'");
           }
           break;
+
         // Replace the value with the last known search string.
         case 'lastsearchstring':
           // Regardless of the choice.
           $returnString = $this->lastSearchString;
           break;
+
         default:
-          throw new Exception("Unknown \$modifier:source combination: " . $string );
+          throw new Exception("Unknown \$modifier:source combination: " . $string);
           break;
+
       }
     }
     if ($returnString != $string) {
@@ -974,25 +1020,27 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Translate popular name to css field name
    *
    * @param string $field
-   *   popular name
+   *   Popular name.
+   *
    * @return string
-   *   translated to css field name from popular name. If unknown, input is returned.
+   *   Translated to css field name from popular name. If unknown, input is returned.
    */
   private function translateFieldName($field) {
     $result = $field;
-    switch(strtolower($field)) {
+    switch (strtolower($field)) {
       case "søg":
       case "søgefelt":
         $result = "input#edit-search-block-form--2";
         break;
+
     }
     return $result;
   }
 
   /**
-   * @When I deselect a facet to increase the search results
-   *
    * Runs through the facets and deselects one. Note, this will fail if facets have not been selected already
+   *
+   * @When I deselect a facet to increase the search results
    */
   public function useFacetsToIncreaseSearchResults() {
     // Start by logging what we start out with.
@@ -1002,9 +1050,9 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * @When I use facets to reduce the search results to the highest possible
-   *
    * Runs through the facets and selects the highest number of results possible
+   *
+   * @When I use facets to reduce the search results to the highest possible
    */
   public function useFacetsToReduceSearchResultsToTheHighestPossible() {
     // Start by initialising the stack if necessary and reveal which number we are starting with.
@@ -1015,7 +1063,6 @@ class LibContext implements Context, SnippetAcceptingContext {
 
     $this->check( $this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible(), $this->searchPage->getMessages());
   }
-
 
   /**
    * @When I use pagination to go to page :toPage
@@ -1047,9 +1094,11 @@ class LibContext implements Context, SnippetAcceptingContext {
     try {
       // Strictly, this waits for jQuery to be loaded, but it seems sufficient.
       $this->drupalContext->getSession()->wait(5000, 'typeof window.jQuery == "function"');
-    } catch (UnsupportedDriverActionException $e) {
+    }
+    catch (UnsupportedDriverActionException $e) {
       // Ignore.
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception("Unknown error while awaiting page to load:" . $e);
     }
   }
@@ -1062,7 +1111,7 @@ class LibContext implements Context, SnippetAcceptingContext {
 
     // Timeout is 30 seconds.
     $maxwait = 30;
-    while (--$maxwait>0 && !$field ) {
+    while (--$maxwait > 0 && !$field) {
       sleep(1);
 
       // Try to find it again, if necessary.
@@ -1076,12 +1125,17 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * Step
+   *
+   * @param int $waitmax
+   *    number of waits of 300 ms
+   * @param string $txt
+   *    text that we wait for will disappear
+   *
    * @When waiting up to :waitmax until :txt goes away
-   * @param $waitmax - number of waits of 300 ms
-   * @param $txt - text that we wait for will disappear
    */
   public function waitUntilTextIsGone($waitmax, $txt) {
-    $wait=$this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+    $wait = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
     $continueWaiting = true;
     if (!$wait) {
       return;
@@ -1089,16 +1143,18 @@ class LibContext implements Context, SnippetAcceptingContext {
     try {
       $continueWaiting = ($wait->isVisible()) ? true : false;
 
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       // Ignore.
     }
-    while ($continueWaiting and --$waitmax>0) {
+    while ($continueWaiting and --$waitmax > 0) {
       usleep(300);
-      $wait=$this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+      $wait = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
       if ($wait) {
         try {
           $continueWaiting = ($wait->isVisible()) ? true : false;
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
           // Ignore.
         }
       }

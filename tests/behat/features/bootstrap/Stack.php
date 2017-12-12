@@ -21,9 +21,10 @@ class Stack {
    * Get the top of the stack, optionally clearing (popping) it
    *
    * @param bool $pop
-   *   input is true if the value is popped, otherwise it will remain on stack
+   *   Input is true if the value is popped, otherwise it will remain on stack.
+   *
    * @return int
-   *   this is the value returned from the stack
+   *   This is the value returned from the stack.
    */
   public function get($pop = false) {
     if (count($this->stack) == 0) {
@@ -57,7 +58,7 @@ class Stack {
    * Insert a new value on the stack
    *
    * @param int $value
-   *   This is the value being pushed onto the stack
+   *   This is the value being pushed onto the stack.
    */
   public function set($value) {
     if (!is_numeric($value)) {

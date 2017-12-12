@@ -2,8 +2,9 @@
 
 /**
  * @file
- * Implements messages to be logged to the output for the benefit of the
- * tester. Essentially the messages are a queue, which can be added to
+ * Implements messages to be logged to the output for the benefit of the tester.
+ *
+ * Essentially the messages are a queue, which can be added to
  * until it is emptied, whereby all messages queued up will be printed.
  */
 
@@ -12,6 +13,11 @@ namespace Page;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Factory;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 
+/**
+ * Class LogMessages
+ *
+ * @package Page
+ */
 class LogMessages extends Page {
   /**
    * Contains all log messages from verbose mode.
@@ -37,7 +43,7 @@ class LogMessages extends Page {
   /**
    * Log_msg - prints message on log if condition is true.
    *
-   * @param boolean $ifTrue
+   * @param bool $ifTrue
    *   True indicates verbose mode, so we will print the timestamp, otherwise not.
    * @param string $msg
    *   This is the string we will show if the condition is true.

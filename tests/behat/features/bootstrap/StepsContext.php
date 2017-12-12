@@ -4,6 +4,7 @@
  * @file
  * Here are the steps being implemented.
  */
+
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Tester\Exception\PendingException;
@@ -49,6 +50,8 @@ class StepsContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * Step
+   *
    * @Then I can see :pattern somewhere in the search result
    */
   public function iCanSeeRegexpSomewhereInSearchResult($pattern) {
@@ -67,6 +70,8 @@ class StepsContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * Step
+   *
    * @Then I get suggestions from openscan
    */
   public function iGetSuggestionsFromOpenscan() {
