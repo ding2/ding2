@@ -183,20 +183,8 @@
   }
 }
 
-.ding-campaign-grid-wrapper {
-
-  &:after {
-    content: " ";
-    clear: both;
-    display: table;
-  }
-
-  .ding-campaign-grid-title a {
-    color: $color-standard-text;
-  }
-
   .ding-campaign-grid-item {
-    @include span-columns(3.8 of 12);
+    @include span-columns(3.5 of 12);
     margin: 0 18px 20px 18px;
 
     h2 {
@@ -204,8 +192,8 @@
       font-size: 140%;
     }
 
-    @include media($notebook,$tablet) {
-      @include span-columns(3.5 of 12);
+    @include media($tablet) {
+      @include span-columns(5.5 of 12);
     }
 
     @include media($mobile) {
@@ -240,6 +228,14 @@
           position: absolute;
           height: 100%;
           top: 0;
+
+
+          @include media($tablet,$mobile) {
+            background-color: transparent;
+            position: relative;
+            height: 100%;
+            content: none;
+          }
         }
 
         .ding-campaign-grid-description {
