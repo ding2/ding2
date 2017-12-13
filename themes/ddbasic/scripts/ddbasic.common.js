@@ -75,15 +75,13 @@
   function autofocusInputs() {
     // Set autofocus on page load (instead of autofocus attr)
     if (!/iPad|iPhone|iPod/g.test(navigator.userAgent)) {
-      $('input[name="search_block_form"]').focus();
+      $('.search-form-extended input[name="search_block_form"]').focus();
     }
 
     // Search button click
-    $('.topbar-link-search').click(function() {
+    $('.search-form-extended .search-extended-button').click(function() {
       var input = $('input[name="search_block_form"]');
-      if ($(this).is('.active')) {
-        input.focus();
-      }
+      input.focus();
     });
 
     // Login button click
