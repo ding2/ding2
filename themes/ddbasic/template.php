@@ -170,10 +170,6 @@ function ddbasic_preprocess_panels_pane(&$vars) {
   if ($vars['pane']->subtype == 'menu_block-main_menu_second_level') {
     ddbasic_body_class('has-second-level-menu');
   }
-
-  if ($vars['pane']->subtype == 'search-form' && $vars['pane']->panel != 'header') {
-    unset($vars['content']['advanced']);
-  }
 }
 
 /**
