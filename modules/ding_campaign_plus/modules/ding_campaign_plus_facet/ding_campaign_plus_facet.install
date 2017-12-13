@@ -40,6 +40,12 @@ function ding_campaign_plus_facet_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
+      'common' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
     ),
     'primary key' => array('id'),
     'indexes' => array(

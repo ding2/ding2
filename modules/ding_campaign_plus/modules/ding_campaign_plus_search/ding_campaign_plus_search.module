@@ -223,13 +223,13 @@ function _ding_campaign_plus_search_get_rules($nid, array $rules) {
 /**
  * Helper function to look-up rules in the database.
  *
- * @param array $keys
+ * @param string $keys
  *   Search keys entered by the user.
  *
  * @return array
  *   Campaign ID's for triggered campaigns.
  */
-function _ding_campaign_plus_search_match(array $keys) {
+function _ding_campaign_plus_search_match($keys) {
   $nids = array();
 
   // Find rules that will match facet.

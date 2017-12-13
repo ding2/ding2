@@ -21,17 +21,28 @@
         $('div[class$="facet-value-select-type"]', fieldset).show();
         $('div[class$="facet-value-select-source"]', fieldset).hide();
         $('div[class$="facet-value"]', fieldset).hide();
+        $('div[class$="common"]', fieldset).hide();
         break;
 
       case 'facet.acSource':
         $('div[class$="facet-value-select-source"]', fieldset).show();
         $('div[class$="facet-value-select-type"]', fieldset).hide();
         $('div[class$="facet-value"]', fieldset).hide();
+        $('div[class$="common"]', fieldset).hide();
+        break;
+
+      case 'facet.subject':
+        $('div[class$="facet-value-select-type"]', fieldset).hide();
+        $('div[class$="facet-value-select-source"]', fieldset).hide();
+        $('div[class$="common"]', fieldset).hide();
+        $('div[class$="facet-value"]', fieldset).show();
+        $('div[class$="common"]', fieldset).show();
         break;
 
       default:
         $('div[class$="facet-value-select-type"]', fieldset).hide();
         $('div[class$="facet-value-select-source"]', fieldset).hide();
+        $('div[class$="common"]', fieldset).hide();
         $('div[class$="facet-value"]', fieldset).show();
     }
   }
