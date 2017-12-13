@@ -243,6 +243,14 @@
         overflow: auto;
         text-overflow: unset;
       }
+
+      @include media($mobile) {
+        width: 6em;
+        overflow: hidden;
+        text-overflow: clip;
+        text-align: right;
+        white-space: nowrap;
+      }
     }
 
     .oh-period {
