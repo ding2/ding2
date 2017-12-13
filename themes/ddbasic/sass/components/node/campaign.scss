@@ -183,68 +183,73 @@
   }
 }
 
-  .ding-campaign-grid-item {
-    @include span-columns(3.5 of 12);
-    margin: 0 18px 20px 18px;
+.ding-campaign-grid-item {
+  @include span-columns(3.5 of 12);
+  margin: 0 18px 20px 18px;
 
-    h2 {
-      margin-bottom: 0px;
-      font-size: 140%;
+  h2 {
+    margin-bottom: 0px;
+    font-size: 140%;
+  }
+
+  @include media($tablet) {
+    @include span-columns(5.5 of 12);
+  }
+
+  @include media($mobile) {
+    @include span-columns(3 of 3);
+    margin: 0;
+    float: none;
+    padding-bottom: 15px;
+  }
+
+  .ding-campaign-grid-title{
+    a {
+      color: $color-text;
     }
-
-    @include media($tablet) {
-      @include span-columns(5.5 of 12);
-    }
-
-    @include media($mobile) {
-      @include span-columns(3 of 3);
-      margin: 0;
-      float: none;
-    }
-
-
-    .ding-campaign-grid-description {
-      opacity: 0;
-      color: $white;
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      top: 0;
-      margin-left: 0;
-      z-index: 1;
-      padding: 5px;
-      @include transition(opacity $speed $ease);
-    }
+  }
+  .ding-campaign-grid-description {
+    opacity: 0;
+    color: $white;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    margin-left: 0;
+    z-index: 1;
+    padding: 5px;
+    overflow: hidden;
+    @include transition(opacity $speed $ease);
+  }
 
   & .ding-campaign-grid-image {
-      position: relative;
-      z-index: 2;
+    position: relative;
+    z-index: 2;
 
-      &:hover {
-        &:after {
-          background-color: $black-overlay;
-          width: 100%;
-          content: " ";
-          position: absolute;
+    &:hover {
+      &:after {
+        background-color: $black-overlay;
+        width: 100%;
+        content: " ";
+        position: absolute;
+        height: 100%;
+        top: 0;
+
+
+        @include media($tablet,$mobile) {
+          background-color: transparent;
+          position: relative;
           height: 100%;
-          top: 0;
-
-
-          @include media($tablet,$mobile) {
-            background-color: transparent;
-            position: relative;
-            height: 100%;
-            content: none;
-          }
+          content: none;
         }
+      }
 
-        .ding-campaign-grid-description {
-          opacity: 1;
+      .ding-campaign-grid-description {
+        opacity: 1;
 
-          @include media($tablet,$mobile) {
-            opacity: 0;
-            height: 0;
-          }
+        @include media($tablet,$mobile) {
+          opacity: 0;
+          height: 0;
         }
       }
     }
