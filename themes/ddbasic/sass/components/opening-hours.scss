@@ -133,12 +133,16 @@
   }
 }
 
-
 .pane-all-opening-hours {
   #oh-tabs {
     border: none;
     border-radius: none;
     background: transparent;
+  }
+
+  .ui-widget {
+    font-family: $font-family;
+    font-size: inherit;
   }
 
   .ui-tabs-panel.ui-widget-content {
@@ -219,18 +223,18 @@
     display: inline-block;
     width: auto;
     float: right;
+    padding-right: 15px;
 
     .opening-hours-table-notice {
-      margin-right: 10px;
       font-size: 85%;
       color: $grey-dark;
       display: inline-block;
-      margin-right: 10px;
       white-space: nowrap;
       width: 6em;
       position: relative;
       overflow: hidden;
       text-overflow: clip;
+      text-align: right;
 
       @include media($tablet) {
         width: auto;
@@ -243,13 +247,14 @@
 
     .oh-period {
       float: right;
+      margin-left: 10px;
     }
   }
 
   .ui-tabs-panel.ui-widget-content {
     .oh-item {
       border-bottom: 1px dashed $grey;
-      padding: 15px 7px 15px 0;
+      padding: 15px 0;
       overflow: auto;
 
       &:last-child {
