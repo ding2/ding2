@@ -59,9 +59,9 @@ function ding_message_menu() {
     'access arguments' => array('use personalisation'),
     'type' => MENU_CALLBACK,
   );
-  $items['ding_message/purge_user_messages'] = array(
+  $items['ding_message/clear_user_messages'] = array(
     'title' => 'Purge user messages',
-    'page callback' => 'ding_message_purge_user_messages',
+    'page callback' => 'ding_message_clear_user_messages',
     'access arguments' => array('use personalisation'),
     'type' => MENU_CALLBACK,
     'file' => 'ding_message.admin.inc',
