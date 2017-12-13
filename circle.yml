@@ -8,6 +8,9 @@ machine:
   environment:
     # This is where we build our complete Drupal site
     DRUPAL_SITE_PATH: /tmp/drupal
+    BEHAT_PHP_VERSION: 5.6.22
+  hosts:
+    ding2.dev: 127.0.0.1
 
 dependencies:
   post:
@@ -26,36 +29,33 @@ dependencies:
     - composer global require drush/drush:6.* --prefer-source --no-interaction
     # Install PHP 7.x Compatibility Checker.
     - composer global require sstalle/php7cc
+    # Install behat and dependencies.
+    - (cd tests/behat &&
+      eval $(phpenv sh-shell $BEHAT_PHP_VERSION) &&
+      composer install --no-progress --prefer-source)
+    # Set up Apache to serve our site.
+    - cp tests/apache.conf /etc/apache2/sites-available/ding2.conf
+    - a2ensite ding2.conf
+    - a2enmod rewrite
+    - sudo service apache2 restart
+    # Start phantomjs.
+    - case $CIRCLE_NODE_INDEX in 0) phantomjs --webdriver=4444 ;; 1) wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar && java -jar selenium-server-standalone-2.44.0.jar ;; esac:
+        background: true
 
 test:
   override:
-    # Build profile using drush make
-    - drush make ding2.make --no-core --contrib-destination=. -y
-    # Install theme dependencies
-    - (cd themes/ddbasic && npm install)
-    # Process theme files.
-    # If there are any changes then fail the build. The result of processing
-    # should be committed along with the source changes.
-    - (cd themes/ddbasic && node_modules/.bin/gulp uglify sass)
-    # Readable changes. Exclude minified CSS files compiled from SCSS. Changes
-    # in verbose version will probably also apply here.
-    - git diff --exit-code -- . ':(exclude)themes/ddbasic/css/*.min.css'
-    # Do a complete diff in short form as well for good measure. This will
-    # catch changes in excluded files.
-    - git diff --stat --exit-code
-    # Built an entire Drupal site with core, contrib and custom code
-    # First we build Drupal core only. Instead of using the profile specified in
-    # the make  file we use the one we have just build.
-    # This way we do not have to update drupal.make for each build.
-    - drush make drupal.make --projects=drupal -y $DRUPAL_SITE_PATH
-    # Copy the current profile which has just been built into Drupal core
-    - mkdir $DRUPAL_SITE_PATH/profiles/ding2
-    - cp -R ./* $DRUPAL_SITE_PATH/profiles/ding2/
-    # Install the site using the ding2 profile
-    - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y)
-    # Run PHP7 Compatibility Checker - using tee to get non-rezero exit code (see https://github.com/sstalle/php7cc/issues/102)
-    - 'php7cc --except=vendor --level=error --extensions=php,inc,module,install $DRUPAL_SITE_PATH | tee /dev/tty | grep -vq ''File: '''
+    - make circle-static-analysis:
+        parallel: true
+    - make circle-setup:
+        parallel: true
+    - make circle-run-tests:
+        parallel: true
+
   post:
+    # Copy Behat report and screendumps to circle.
+    - mkdir -p $CIRCLE_TEST_REPORTS/behat
+    - cp $DRUPAL_SITE_PATH/profiles/ding2/tests/behat/results/index.html $CIRCLE_TEST_REPORTS/behat/report.html
+    - cp $DRUPAL_SITE_PATH/profiles/ding2/tests/behat/results/*.png $CIRCLE_TEST_REPORTS/behat
     # Clean up after site install.
     # sudo is required here. The files are not writeable.
     - sudo rm -rf $DRUPAL_SITE_PATH/sites/default/settings.php $DRUPAL_SITE_PATH/sites/default/files

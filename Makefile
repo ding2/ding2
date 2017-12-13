@@ -29,6 +29,10 @@ circle-setup:
 	# Make the files directory writable for the web server user.
 	cd $(DRUPAL_SITE_PATH)/sites/default && sudo chown www-data. files
 
+circle-static-analysis:
+	# Run PHP7 Compatibility Checker - using tee to get non-rezero exit code (see https://github.com/sstalle/php7cc/issues/102)
+	- 'php7cc --except=vendor --level=error --extensions=php,inc,module,install $DRUPAL_SITE_PATH | tee /dev/tty | grep -vq ''File: '''
+
 circle-run-tests:
 	# Run Behat tests.
         
@@ -38,5 +42,5 @@ circle-run-tests:
 	eval `phpenv sh-shell $(BEHAT_PHP_VERSION)` && \
 	./bin/behat --tags 'seekNologin'  \
 	$(if $(subst 0,,$(CIRCLE_NODE_INDEX)),--tags '~no_circle_selenium') \
-	--format=junit --format=pretty \
+	--format=html --output=results \
 	$(if $(subst 0,,$(CIRCLE_NODE_INDEX)),-p chrome)

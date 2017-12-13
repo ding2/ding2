@@ -7,9 +7,9 @@ install-site:
 # Setup test modules on site.
 setup-modules:
 	# We use the connie test provider for testing. Enable it and
-	# disable the default alma.
+	# disable the default fbs.
 	drush en -y connie
-	drush dis -y alma
+	drush dis -y fbs
 
 	# Enable mocking openlist provider.
 	drush en -y connie_openlist
@@ -17,13 +17,13 @@ setup-modules:
 setup-config:
 	# Configure ting.module
 	drush vset -y ting_agency 100200
-	drush vset -y ting_search_url 'http://oss-services.dbc.dk/opensearch/4.2/'
+	drush vset -y ting_search_url 'http://oss-services.dbc.dk/opensearch/4.5/'
 	drush vset -y ting_search_profile test
 
 	# Configure openlist.
 	drush vset -y ting_search_profile test
 	drush vset -y ting_openlist_prefix test
-	drush vset -y ting_openlist_wsdl 'http://v2_test.openlist.server003.b14cms.dk/?wsdl'
+	drush vset -y ting_openlist_wsdl 'https://test.openlist.ddbcms.dk/?wsdl'
 
 	# Activate consent and set config.
 	drush vset -y user_consent_activate true
