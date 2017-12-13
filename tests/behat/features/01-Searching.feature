@@ -76,10 +76,14 @@ Feature: SEEK redroute 01
     Then I can see "$get:lastSearchString" in the search results first page
 
   @api @seek013 @seekNologin @regression
-  Scenario: Check sorting for title
+  Scenario: Check sorting for title ascending
     Given I have searched for "phrase.titleSeries=B* and term.language=dansk"
     When I sort the search result on "title_ascending"
     Then the search result is sorted on "title_ascending"
+
+  @api @seek013 @seekNologin @regression
+  Scenario: Check sorting for title descending
+    Given I have searched for "phrase.titleSeries=B* and term.language=dansk"
     When I sort the search result on "title_descending"
     Then the search result is sorted on "title_descending"
 
@@ -93,10 +97,15 @@ Feature: SEEK redroute 01
     Then pageing allows to get all the results
 
   @api @seek013 @seekNologin @regression
-  Scenario: Check sorting for published date
+  Scenario: Check sorting for published date descending
     Given I have searched for "phrase.titleSeries=B*"
+    And I set control mode for "searchMaxPages" to be "2"
     When I sort the search result on "date_descending"
     Then the search result is sorted on "date_descending"
+
+  @api @seek013b @seekNologin @regression
+  Scenario: Check sorting for published date ascending
+    Given I have searched for "phrase.titleSeries=B*"
     When I sort the search result on "date_ascending"
     Then the search result is sorted on "date_ascending"
 

@@ -375,7 +375,11 @@ class SearchPage extends PageBase {
       return "Attempting check of sorting but got less than two results.";
     }
 
-    for ($i = 1; $i < count($this->searchResults) - 1; $i++) {
+    // Now run through the result and compare each entry with the former, to check - if possible - if they
+    // are in the correct and expected order. Notice that not all checks that fail here means the system doesn't
+    // work.
+
+    for ($i = 1; $i < count($this->searchResults); $i++) {
       $isOK = false;
       switch ($sortOption) {
         case 'title_ascending':
@@ -399,6 +403,7 @@ class SearchPage extends PageBase {
           break;
 
         case 'date_descending':
+          //print_r("i: " . $i . ": " . $this->searchResults[$i - 1]->published . " vs " . $this->searchResults[$i]->published . "\n");
           $isOK = (strcasecmp($this->searchResults[$i - 1]->published, $this->searchResults[$i]->published) >= 0) ? true : false;
           break;
 
@@ -410,16 +415,16 @@ class SearchPage extends PageBase {
               . " #" . $this->searchResults[$i]->item . ")");
         $this->logMsg(true, "    " . $this->searchResults[$i - 1]->title . " by " . $this->searchResults[$i - 1]->creator . " ("
               . $this->searchResults[$i - 1]->published . ")");
-
         $this->logMsg(true, "  is listed before");
         $this->logMsg(true, "    " . $this->searchResults[$i]->title . " by " . $this->searchResults[$i]->creator . " ("
-              . $this->searchResults[$i - 1]->published . ")");
+              . $this->searchResults[$i]->published . ")");
         $sortingOK = false;
       }
     }
     if ($sortingOK === false) {
       return "Sorting not as expected.";
     }
+    return "";
   }
 
   /**
@@ -557,8 +562,9 @@ class SearchPage extends PageBase {
   public function getEntireSearchResult() {
     // Initialise.
     $this->searchResults = array();
-    $founds = $this->findAll('css', '.search-results li.list-item');
 
+    // Check that we are on a search-page to start with.
+    $founds = $this->findAll('css', '.search-results li.list-item');
     if (!$founds) {
       return "Didn't find a search result.";
     }
@@ -568,12 +574,18 @@ class SearchPage extends PageBase {
     $this->waitUntilTextIsGone(100, 'Henter beholdningsoplysninger');
 
     // Count of page number.
-    $cnt = 1;
+    $currentPageNumber = 1;
     $continueFlag = true;
     // Loop through the pages until we're on the last page.
     while ($continueFlag) {
       // Count of placement on page from top.
       $itemNumber = 1;
+
+      // Go to the page we want to look at.
+      $this->goToPage($currentPageNumber);
+      // Rescan the search results on this page.
+      $founds = $this->findAll('css', '.search-results li.list-item');
+
       foreach ($founds as $srItem) {
         $this->scrollTo($srItem);
         $isSamling = false;
@@ -599,13 +611,11 @@ class SearchPage extends PageBase {
               $this->logMsg(true, "Creator was not followed with a '(' : " . $foundTitle . " af " . $foundCreatorFull);
             }
           }
-
         }
 
         // Find the series - there can be multiple.
         $seriesHolder = $srItem->findAll('css', '.field-name-ting-series .field-item');
         $foundSeries = "";
-
         foreach ($seriesHolder as $serie) {
           $foundSeries = $foundSeries . $serie->getText() . "\n";
         }
@@ -613,7 +623,6 @@ class SearchPage extends PageBase {
         // Find "tilgængelig som".
         $accessibilitiesHolder = $srItem->findAll('css', '.availability p a');
         $foundAccesses = "";
-
         foreach ($accessibilitiesHolder as $access) {
           $foundAccesses = $foundAccesses . $access->getText() . "\n";
         }
@@ -630,7 +639,6 @@ class SearchPage extends PageBase {
          */
         if ($foundAccesses != "") {
           $arr_samling = preg_split("/\n/", $foundAccesses);
-
           if (count($arr_samling) > 1) {
             $collectionType1 = $arr_samling[0];
             for ($i = 1; $i < count($arr_samling); $i++) {
@@ -654,7 +662,7 @@ class SearchPage extends PageBase {
         }
 
         $this->searchResults[] = (object) array(
-          'page' => $cnt,
+          'page' => $currentPageNumber,
           'item' => $itemNumber,
           'title' => $foundTitle,
           'link' => $foundLink,
@@ -666,6 +674,7 @@ class SearchPage extends PageBase {
           'published' => $foundDatePublished,
         );
 
+        // Now log if we have verbose mode on, so the tester can see what we actually found.
         $ll = count($this->searchResults) - 1;
         $this->logMsg(($this->verboseSearchResults == 'on'), "Title: " . $this->searchResults[$ll]->title .
               ", by " . $this->searchResults[$ll]->creator . " (" . $this->searchResults[$ll]->published . ") "
@@ -678,44 +687,22 @@ class SearchPage extends PageBase {
       $this->logMsg(($this->verboseSearchResults == 'on'), "Total items listed on page: " . ($itemNumber - 1));
 
       // Ready for next page:
-      $cnt = $cnt + 1;
+      $currentPageNumber = $currentPageNumber + 1;
       $pageing = $this->find('css', '.pager .pager-next a');
 
       if (!$pageing) {
         // We trust this means we are at the end of the search result and we have scooped everything up.
         $continueFlag = false;
       }
-      else {
-        /*
-         * This is a bit precarious, as we need to check if the cookie and 'ask librarians' overlays are
-         * popping up. If so, we'll whack them down again, because they can disturb our clicking.
-         * Scroll down and click 'næste'.
-         */
-        $this->scrollTo($pageing);
 
-        try {
-          $pageing->click();
-        }
-        catch (UnsupportedDriverActionException $e) {
-          // Ignore.
-        }
-        catch (\Exception $e) {
-          // Just try again... might save us.
-          $this->scrollABit(500);
-          $pageing->click();
-        }
-
-        $this->waitForPage();
-        // Rescan the search results on this page.
-        $founds = $this->findAll('css', '.search-results li.list-item');
-      }
-      if ($this->maxPageTraversals == ($cnt - 1)) {
+      // Check if we are still traversing pages, or we are content with what we've got.
+      if ($this->maxPageTraversals == ($currentPageNumber - 1)) {
         // Stop early because of setting in verbose/control.
         $continueFlag = false;
-        $this->logMsg(($this->verboseSearchResults == "on"), "Stops after " . $cnt . " pages due to verbose setting.\n");
+        $this->logMsg(($this->verboseSearchResults == "on"), "Stops after " . $currentPageNumber . " pages due to verbose setting.\n");
       }
     }
-    $this->logMsg(($this->verboseSearchResults == "on"), "Total pages: " . ($cnt - 1) . "\nTotal items:" . count($this->searchResults) . "\n");
+    $this->logMsg(($this->verboseSearchResults == "on"), "Total pages: " . ($currentPageNumber - 1) . "\nTotal items:" . count($this->searchResults) . "\n");
     return "";
   }
 
@@ -1293,17 +1280,19 @@ class SearchPage extends PageBase {
   public function sort($sortOption) {
     // Check we're looking at a search result page.
     $page = $this->find('css', 'div.search-results li.list-item');
-    if (null === $page) {
+    if (!$page) {
       return "Attempting sort when not on a search result page with results found.";
     }
+
     // Then we select the sorting from the dropdown.
     $sortDD = $this->find('css', 'select.form-select[name="sort"]');
-    if (null === $sortDD) {
+    if (!$sortDD) {
       return "Attempting sort but couldn't locate sorting dropdown. (css='select.form-select[name=\"sort\"]').";
     }
 
     // Now set the sortOption.
     $this->scrollTo($sortDD);
+
     // The second parameter is 'false' as it means we only select one value.
     $sortDD->selectOption($sortOption, false);
 
@@ -1320,8 +1309,7 @@ class SearchPage extends PageBase {
    *    Nonempty if the sortoption is not valid.
    */
   public function sortOptionValid($sortOption) {
-    // Anticipate error.
-    $isValid = false;
+    // Set isValid true if it is one of the following values.
     $isValid = ($sortOption == "title_ascending");
     $isValid = ($sortOption == "title_descending") ? true : $isValid;
     $isValid = ($sortOption == "creator_ascending") ? true : $isValid;
@@ -1331,7 +1319,7 @@ class SearchPage extends PageBase {
     if (!$isValid) {
       return "Error: you ask to sort on unknown criteria: " . $sortOption;
     }
-
+    return "";
   }
 
   /**

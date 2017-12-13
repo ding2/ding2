@@ -261,7 +261,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function checkSearchResultIsSortedOnSortOption($sortOption) {
     // Check that the user asked for a valid sort-option.
-    $this->check($this->searchPage->sortOptionValid($sortOption), $sortOption);
+    $this->check($this->searchPage->sortOptionValid($sortOption));
 
     $this->check($this->searchPage->checkSorting($sortOption), $this->searchPage->getMessages());
   }
