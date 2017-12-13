@@ -534,7 +534,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     '#default_value' => t('Please use the following link to access this list.
 The link is active for 7 days from today, after which it will be disabled for security reasons.
 
-[link]'),
+!link'),
   );
 
   $form['mail_sharer']['share'] = array(
@@ -731,7 +731,7 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
 
   drupal_mail('ding_list', 'share', $form_state['values']['email'], $language, array(
     'subject' => $form_state['values']['email_subject'],
-    'text' => str_replace('[link]', $link, $form_state['values']['email_text']),
+    'text' => str_replace('!link', $link, $form_state['values']['email_text']),
   ));
 
   // Get generated message.
