@@ -569,52 +569,53 @@ class SearchPage extends PageBase {
 
     // Count of page number.
     $cnt = 1;
-    $lb_continue = true;
+    $continueFlag = true;
     // Loop through the pages until we're on the last page.
-    while ($lb_continue) {
+    while ($continueFlag) {
       // Count of placement on page from top.
-      $xte = 1;
+      $itemNumber = 1;
       foreach ($founds as $srItem) {
         $this->scrollTo($srItem);
         $isSamling = false;
 
         // Get hold of the title (version 4).
-        $titlelink = $srItem->find('css', '.ting-object h2 a');
+        $titleHolder = $srItem->find('css', '.ting-object h2 a');
+        $foundTitle = $titleHolder->getText();
 
         // Find the author and published date.
-        $creator = $srItem->find('css', '.ting-object .field-name-ting-author');
-        $txt_creator = "";
-        $txt_published = "";
-        if ($creator) {
-          $txt_creator_full = $creator->getText();
-          if (strlen($txt_creator_full) > 0) {
-            $arrCreator = explode("(", $txt_creator_full);
+        $creatorHolder = $srItem->find('css', '.ting-object .field-name-ting-author');
+        $foundCreator = "";
+        $foundDatePublished = "";
+        if ($creatorHolder) {
+          $foundCreatorFull = $creatorHolder->getText();
+          if (strlen($foundCreatorFull) > 0) {
+            $arrCreator = explode("(", $foundCreatorFull);
             // So authors may be listed with their birth year in ( ), so we need the last item for date and first for author.
             if (count($arrCreator) >= 2) {
-              $txt_creator = $arrCreator[0];
-              $txt_published = substr($arrCreator[count($arrCreator) - 1], 0, 4);
+              $foundCreator = $arrCreator[0];
+              $foundDatePublished = substr($arrCreator[count($arrCreator) - 1], 0, 4);
             }
             else {
-              $this->logMsg(true, "Creator was not followed with a '(' : " . $txt_title . " af " . $txt_creator_full);
+              $this->logMsg(true, "Creator was not followed with a '(' : " . $foundTitle . " af " . $foundCreatorFull);
             }
           }
 
         }
 
         // Find the series - there can be multiple.
-        $series = $srItem->findAll('css', '.field-name-ting-series .field-item');
-        $txt_serie = "";
+        $seriesHolder = $srItem->findAll('css', '.field-name-ting-series .field-item');
+        $foundSeries = "";
 
-        foreach ($series as $serie) {
-          $txt_serie = $txt_serie . $serie->getText() . "\n";
+        foreach ($seriesHolder as $serie) {
+          $foundSeries = $foundSeries . $serie->getText() . "\n";
         }
 
         // Find "tilgængelig som".
-        $accessibilities = $srItem->findAll('css', '.availability p a');
-        $txt_access = "";
+        $accessibilitiesHolder = $srItem->findAll('css', '.availability p a');
+        $foundAccesses = "";
 
-        foreach ($accessibilities as $access) {
-          $txt_access = $txt_access . $access->getText() . "\n";
+        foreach ($accessibilitiesHolder as $access) {
+          $foundAccesses = $foundAccesses . $access->getText() . "\n";
         }
 
         /*
@@ -627,42 +628,42 @@ class SearchPage extends PageBase {
          * see if the url contains "Collection" - this is not part of the current check.
          * Note: on the search screen all urls contain 'collection', so don't fall into that trap.
          */
-        if ($txt_access != "") {
-          $arr_samling = preg_split("/\n/", $txt_access);
+        if ($foundAccesses != "") {
+          $arr_samling = preg_split("/\n/", $foundAccesses);
 
           if (count($arr_samling) > 1) {
-            $txt_mtype1 = $arr_samling[0];
+            $collectionType1 = $arr_samling[0];
             for ($i = 1; $i < count($arr_samling); $i++) {
-              $isSamling = ($txt_mtype1 != $arr_samling[$i] and $arr_samling[$i] != '') ? true : $isSamling;
+              $isSamling = ($collectionType1 != $arr_samling[$i] and $arr_samling[$i] != '') ? true : $isSamling;
             }
           }
         }
 
         // Get the link that is shown as 'tilgængelig'. This needs to be present.
-        $link = $srItem->find('css', '.availability a');
-        $txt_link = "";
-        if ($link) {
-          $txt_link = $link->getText();
+        $linkHolder = $srItem->find('css', '.availability a');
+        $foundLink = "";
+        if ($linkHolder) {
+          $foundLink = $linkHolder->getText();
         }
 
         // And finally grab out the cover image, if present.
-        $coverimg = $srItem->find('xpath', '//div[contains(@class,"ting-cover")]/img');
-        $txt_cover = "";
-        if ($coverimg) {
-          $txt_cover = $coverimg->getAttribute('src');
+        $coverImageHolder = $srItem->find('xpath', '//div[contains(@class,"ting-cover")]/img');
+        $foundCoverImage = "";
+        if ($coverImageHolder) {
+          $foundCoverImage = $coverImageHolder->getAttribute('src');
         }
 
         $this->searchResults[] = (object) array(
           'page' => $cnt,
-          'item' => $xte,
-          'title' => $txt_title,
-          'link' => $txt_link,
-          'cover' => $txt_cover,
-          'serie' => $txt_serie,
-          'access' => $txt_access,
+          'item' => $itemNumber,
+          'title' => $foundTitle,
+          'link' => $foundLink,
+          'cover' => $foundCoverImage,
+          'serie' => $foundSeries,
+          'access' => $foundAccesses,
           'collection' => ($isSamling) ? 'yes' : 'no',
-          'creator' => $txt_creator,
-          'published' => $txt_published,
+          'creator' => $foundCreator,
+          'published' => $foundDatePublished,
         );
 
         $ll = count($this->searchResults) - 1;
@@ -672,9 +673,9 @@ class SearchPage extends PageBase {
                 . " # " . $this->searchResults[$ll]->item . ")");
 
         // Next item on page.
-        $xte = $xte + 1;
+        $itemNumber = $itemNumber + 1;
       }
-      $this->logMsg(($this->verboseSearchResults == 'on'), "Total items listed on page: " . ($xte - 1));
+      $this->logMsg(($this->verboseSearchResults == 'on'), "Total items listed on page: " . ($itemNumber - 1));
 
       // Ready for next page:
       $cnt = $cnt + 1;
@@ -682,7 +683,7 @@ class SearchPage extends PageBase {
 
       if (!$pageing) {
         // We trust this means we are at the end of the search result and we have scooped everything up.
-        $lb_continue = false;
+        $continueFlag = false;
       }
       else {
         /*
@@ -710,7 +711,7 @@ class SearchPage extends PageBase {
       }
       if ($this->maxPageTraversals == ($cnt - 1)) {
         // Stop early because of setting in verbose/control.
-        $lb_continue = false;
+        $continueFlag = false;
         $this->logMsg(($this->verboseSearchResults == "on"), "Stops after " . $cnt . " pages due to verbose setting.\n");
       }
     }
