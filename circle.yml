@@ -34,12 +34,13 @@ dependencies:
       eval $(phpenv sh-shell $BEHAT_PHP_VERSION) &&
       composer install --no-progress --prefer-source)
     # Set up Apache to serve our site.
-    - cp tests/apache.conf /etc/apache2/sites-available/ding2.conf
+    - cp tests/behat/apache.conf /etc/apache2/sites-available/ding2.conf
     - a2ensite ding2.conf
     - a2enmod rewrite
     - sudo service apache2 restart
-    # Start phantomjs.
-    - case $CIRCLE_NODE_INDEX in 0) phantomjs --webdriver=4444 ;; 1) wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar && java -jar selenium-server-standalone-2.44.0.jar ;; esac:
+    # Start selenium.
+    #- case $CIRCLE_NODE_INDEX in 0) phantomjs --webdriver=4444 ;; 1) wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar && java -jar selenium-server-standalone-2.44.0.jar ;; esac:
+    - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar && java -jar selenium-server-standalone-2.44.0.jar
         background: true
 
 test:
