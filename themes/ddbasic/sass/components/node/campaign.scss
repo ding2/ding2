@@ -185,13 +185,15 @@
 
 .ding-campaign-grid-item {
   @include span-columns(3.8 of 12);
-  margin: 0 10px 20px 10px;
+  margin: 0 10px 50px 10px;
 
   h2 {
     margin-bottom: 0px;
     font-size: 120%;
     line-height: 1;
     padding-top: 10px;
+    position: absolute;
+    width: 200px;
   }
 
   @include media($tablet) {
