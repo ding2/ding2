@@ -690,3 +690,27 @@ function _ding_campaign_rule_by_type($node_type) {
   return $type;
 }
 
+/**
+ * Implements hook_preprocess().
+ */
+function ding_campaign_preprocess(&$variables, $hook) {
+  switch ($hook) {
+    case 'node':
+      if ($variables['view_mode'] == 'full' && ($variables['type'] == 'ding_event' || $variables['type'] == 'ding_news')) {
+        // Load panes for fetching campaign pane settings.
+        $conf = [];
+        $panels = panels_load_display(1);
+        foreach ($panels->content as $panel) {
+          if ($panel->type == 'campaign' && $panel->subtype == 'campaign') {
+            $conf = $panel->configuration;
+          }
+        }
+
+        $context = ['search_term' => [], 'taxonomy_term' => []];
+        $context['page'] = $variables['node'];
+        $campaigns = ding_campaign_display($context, $conf['ding_campaign_count'], $conf['ding_campaign_offset']);
+        $variables['campaigns'] = $campaigns;
+      }
+      break;
+  }
+}
