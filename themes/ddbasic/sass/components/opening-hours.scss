@@ -156,7 +156,7 @@
     padding: 0;
 
     a {
-      font-size: 95%;
+      font-size: inherit;
       font-family: $font-family-bold;
       color: $color-standard-text;
 
@@ -171,11 +171,11 @@
       background: transparent;
       padding-left: 0;
       margin: 0;
-      width: 21%;
+      width: 35%;
 
       a {
         white-space: nowrap;
-        width: 5.2em;
+        width: 9em;
         overflow: hidden;
         text-overflow: ellipsis;
       }
@@ -207,7 +207,7 @@
   }
 
   h3 {
-    font-size: 95%;
+    font-size: inherit;
     display: inline-block;
     width: auto;
     font-family: $font-family;
@@ -230,27 +230,10 @@
       color: $grey-dark;
       display: inline-block;
       white-space: nowrap;
-      width: 6em;
-      position: relative;
-      overflow: hidden;
-      text-overflow: clip;
+      text-overflow: ellipsis;
       text-align: right;
-
-      @include media($tablet) {
-        width: auto;
-        white-space: normal;
-        width: auto;
-        overflow: auto;
-        text-overflow: unset;
-      }
-
-      @include media($mobile) {
-        width: 6em;
-        overflow: hidden;
-        text-overflow: clip;
-        text-align: right;
-        white-space: nowrap;
-      }
+      width: auto;
+      overflow: hidden;
     }
 
     .oh-period {
