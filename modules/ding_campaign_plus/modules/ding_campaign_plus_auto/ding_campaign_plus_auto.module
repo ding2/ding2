@@ -137,13 +137,32 @@ function ding_campaign_plus_auto_form_alter(&$form, &$form_state, $form_id) {
  */
 function ding_campaign_plus_auto_form_submit($form, &$form_state) {
   if ($form_state['values']['ding_campaign_plus_auto_generate']['enable']) {
-    // Create "fake" node entity based on form values.
-    $node = entity_metadata_wrapper('node', (object) $form_state['values']);
+    // Filter subjects.
+    $subjects = explode(',', $form_state['values']['ding_campaign_plus_auto_generate']['keywords']);
+    if (is_array($subjects)) {
+      $subjects = array_map('trim', $subjects);
+      $subjects = array_unique($subjects);
+      $subjects = array_values($subjects);
+
+      // Store subjects for later use in hook_load.
+      $campaign = &drupal_static(__FILE__, array());
+      $campaign = $subjects;
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_campaign_plus_auto_node_insert($node) {
+  $subjects = &drupal_static(__FILE__);
+  if (in_array($node->type, _ding_campaign_plus_auto_content_types()) && !empty($subjects)) {
+    $node_wrapper = entity_metadata_wrapper('node', $node);
 
     // Create campaign.
     global $user;
     $campaign_node = new stdClass();
-    $campaign_node->title = $node->label();
+    $campaign_node->title = $node_wrapper->label();
     $campaign_node->type = "ding_campaign_plus";
     node_object_prepare($campaign_node);
     $campaign_node->language = LANGUAGE_NONE;
@@ -154,33 +173,22 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
     $campaign_wrapper->field_ding_campaign_plus_type->set('campaign_text_and_image');
     $campaign_wrapper->field_ding_campaign_plus_style->set('ribbon');
     $campaign_wrapper->field_ding_campaign_plus_link->set(array(
-      'url' => $form_state['values']['ding_campaign_plus_auto_generate']['link'],
+      'url' => '/node/' . $node->nid,
     ));
 
-    $field = 'field_' . $node->getBundle() . '_title_image';
-    $image = $node->{$field}->value();
-    if ($image['fid'] !== 0) {
+    $field = 'field_' . $node_wrapper->getBundle() . '_title_image';
+    $image = $node_wrapper->{$field}->value();
+    if (isset($image) && $image['fid'] !== 0) {
       $campaign_wrapper->field_ding_campaign_plus_image->set($image);
     }
     else {
       $campaign_wrapper->field_ding_campaign_plus_type->set('campaign_text');
     }
 
-    $field = 'field_' . $node->getBundle() . '_lead';
-    $lead = $node->{$field}->value();
+    $field = 'field_' . $node_wrapper->getBundle() . '_lead';
+    $lead = $node_wrapper->{$field}->value();
     $campaign_wrapper->field_ding_campaign_plus_text->set($lead);
-    $campaign_wrapper->field_ding_campaign_plus_track->set($node->label());
-
-    // Filter subjects.
-    $subjects = explode(',', $form_state['values']['ding_campaign_plus_auto_generate']['keywords']);
-    if (is_array($subjects)) {
-      $subjects = array_map('trim', $subjects);
-      $subjects = array_unique($subjects);
-      $subjects = array_values($subjects);
-    }
-    else {
-      $subjects = array();
-    }
+    $campaign_wrapper->field_ding_campaign_plus_track->set($node_wrapper->label());
 
     // Add triggers for the new campaign.
     $config = variable_get('ding_campaign_plus_auto', array());
@@ -208,33 +216,13 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
     watchdog('content', '@type: added %title.', $watchdog_args, WATCHDOG_NOTICE, $node_link);
 
     drupal_set_message(t('@type %title has been created. You can edit it using this !link', $t_args));
-  }
-}
 
-/**
- * Implements hook_node_insert().
- */
-function ding_campaign_plus_auto_node_insert($node) {
-  $campaign_nid = &drupal_static(__FUNCTION__);
-  if ($node->type === 'ding_campaign_plus') {
-    $campaign_nid = $node->nid;
-  }
-  elseif ($campaign_nid) {
     db_insert('ding_campaign_plus_auto')
-      ->fields(array('nid', 'campaign_nid'), array($node->nid, $campaign_nid))
+      ->fields(array('nid', 'campaign_nid'), array($node->nid, $campaign_node->nid))
       ->execute();
 
-    // Reset campaign nid.
-    $campaign_nid = FALSE;
-  }
-}
-
-/**
- * Implements hook_node_update().
- */
-function ding_campaign_plus_auto_node_update($node) {
-  if (in_array($node->type, _ding_campaign_plus_auto_content_types())) {
-    ding_campaign_plus_auto_node_insert($node);
+    // Reset campaign static.
+    $subjects = NULL;
   }
 }
 
