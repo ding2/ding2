@@ -45,6 +45,8 @@ class DingProviderStrategy implements TingSearchStrategyInterface {
    *   Associative array of provider-specific names keyed by
    *   TingSearchCommonFields::* field names.
    */
+  // TODO BBS-SAL Remove this function and the provider call. It is only used
+  // by OpenSearch and can be kept within the OpenSearchStatementGroupRender.
   public function mapCommonFields() {
     return ding_provider_invoke('search', 'map_common_condition_fields');
   }
