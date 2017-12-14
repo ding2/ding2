@@ -99,18 +99,6 @@ function ding_campaign_plus_auto_form_alter(&$form, &$form_state, $form_id) {
           '#default_value' => FALSE,
         );
 
-        $form['ding_campaign_plus_auto_generate']['link'] = array(
-          '#type' => 'textfield',
-          '#title' => t('Link campaign too'),
-          '#description' => t('When campaign is clicked where should the user be sent.'),
-          '#default_value' => '<front>',
-          '#states' => array(
-            'visible' => array(
-              ':input[name^="ding_campaign_plus_auto_generate"]' => array('checked' => TRUE),
-            ),
-          ),
-        );
-
         $form['ding_campaign_plus_auto_generate']['keywords'] = array(
           '#type' => 'textfield',
           '#title' => t('Campaign keywords (subjects)'),
