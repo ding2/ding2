@@ -25,6 +25,9 @@
 <?php } else { ?>
   <section class="navigation-wrapper mobile-user-menu <?php print $classes; ?>">
     <div class="navigation-inner">
+      <?php if ($admin_links): ?>
+	    <?php print $admin_links; ?>
+      <?php endif; ?>
       <?php print render($content); ?>
     </div>
   </section>
