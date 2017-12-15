@@ -39,7 +39,6 @@ circle-run-tests:
 
         export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://ding2.dev/" }}}' && \
 	cd $(DRUPAL_SITE_PATH)/profiles/ding2/tests/behat && \
-	eval `phpenv sh-shell $(BEHAT_PHP_VERSION)` && \
 	./bin/behat --tags 'seekNologin'  \
 	$(if $(subst 0,,$(CIRCLE_NODE_INDEX)),--tags '~no_circle_selenium') \
 	--format=html --output=results \

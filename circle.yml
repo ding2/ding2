@@ -8,7 +8,6 @@ machine:
   environment:
     # This is where we build our complete Drupal site
     DRUPAL_SITE_PATH: $HOME/build
-    BEHAT_PHP_VERSION: 5.6.22
   hosts:
     ding2.dev: 127.0.0.1
 
@@ -31,7 +30,6 @@ dependencies:
     - composer global require sstalle/php7cc
     # Install behat and dependencies.
     - (cd tests/behat &&
-      eval $(phpenv sh-shell $BEHAT_PHP_VERSION) &&
       composer install --no-progress --prefer-source)
     # Set up Apache to serve our site.
     # The existing php5 module available on the machine does not exist. Replace
