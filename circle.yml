@@ -34,7 +34,7 @@ dependencies:
       eval $(phpenv sh-shell $BEHAT_PHP_VERSION) &&
       composer install --no-progress --prefer-source)
     # Set up Apache to serve our site.
-    - cp tests/behat/apache.conf /etc/apache2/sites-available/ding2.conf
+    - sudo cp tests/behat/apache.conf /etc/apache2/sites-available/ding2.conf
     - a2ensite ding2.conf
     - a2enmod rewrite
     - sudo service apache2 restart
