@@ -57,8 +57,8 @@ test:
   post:
     # Copy Behat report and screendumps to circle.
     - mkdir -p $CIRCLE_TEST_REPORTS/behat
-    - cp $DRUPAL_SITE_PATH/profiles/ding2/tests/behat/results/index.html $CIRCLE_TEST_REPORTS/behat/report.html
-    - cp $DRUPAL_SITE_PATH/profiles/ding2/tests/behat/results/*.png $CIRCLE_TEST_REPORTS/behat
+    - cp tests/behat/results/index.html $CIRCLE_TEST_REPORTS/behat/report.html
+    - cp tests/behat/results/*.png $CIRCLE_TEST_REPORTS/behat
     # Clean up after site install.
     # sudo is required here. The files are not writeable.
     - sudo rm -rf $DRUPAL_SITE_PATH/sites/default/settings.php $DRUPAL_SITE_PATH/sites/default/files

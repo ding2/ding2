@@ -13,7 +13,7 @@ default:
     SensioLabs\Behat\PageObjectExtension: ~
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
      name: html
-     renderer: Twig
+     renderer: Behat2
      file_name: Index
      print_args: true
      print_outp: true
@@ -22,11 +22,7 @@ default:
       filename: report.xml
       outputDir: "%paths.base%/"
     Behat\MinkExtension:
-      goutte: ~
-    #IntegratedExperts\BehatScreenshotExtension:
-    #  dir: results
-    #  fail: true
-    #  purge: false
+      goutte: ~git
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drush'
