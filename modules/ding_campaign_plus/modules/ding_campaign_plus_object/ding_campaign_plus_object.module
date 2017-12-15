@@ -217,13 +217,13 @@ function _ding_campaign_plus_object_get_rules($nid, array $rules) {
 /**
  * Helper function to look-up rules in the database.
  *
- * @param array $ting_object_id
+ * @param string $ting_object_id
  *   Search keys entered by the user.
  *
  * @return array
  *   Campaign ID's for triggered campaigns.
  */
-function _ding_campaign_plus_object_match(array $ting_object_id) {
+function _ding_campaign_plus_object_match($ting_object_id) {
   $nids = array();
 
   // Find rules that will match facet.
@@ -240,7 +240,7 @@ function _ding_campaign_plus_object_match(array $ting_object_id) {
       module_load_include('client.inc', 'ting');
       $search_result = ting_do_search($query, 1, 1);
 
-      if ($search_result->numTotalObjects) {
+      if ($search_result->numTotalObjects > 0) {
         $nids[] = $campaign->nid;
       }
     }
