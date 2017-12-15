@@ -21,8 +21,8 @@ default:
     jarnaiz\JUnitFormatter\JUnitFormatterExtension:
       filename: report.xml
       outputDir: "%paths.base%/"
-    Behat\MinkExtension:
-      goutte: ~git
+#    Behat\MinkExtension:
+#      goutte: ~git
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drush'
