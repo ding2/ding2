@@ -35,8 +35,8 @@ dependencies:
       composer install --no-progress --prefer-source)
     # Set up Apache to serve our site.
     - sudo cp tests/behat/apache.conf /etc/apache2/sites-available/ding2.conf
-    - a2ensite ding2.conf
-    - a2enmod rewrite
+    - sudo a2ensite ding2.conf
+    - sudo a2enmod rewrite
     - sudo service apache2 restart
     # Start selenium.
     #- case $CIRCLE_NODE_INDEX in 0) phantomjs --webdriver=4444 ;; 1) wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar && java -jar selenium-server-standalone-2.44.0.jar ;; esac:
