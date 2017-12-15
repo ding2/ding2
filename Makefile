@@ -37,4 +37,4 @@ circle-run-tests:
 	# Run Behat tests.
 	export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://ding2.dev/" }}}' && \
 	cd $(DRUPAL_SITE_PATH)/profiles/ding2/tests/behat && \
-	./bin/behat --tags 'seek010' -p chrome
+	./bin/behat --tags 'seek010,simplesmoke' --format=junit --format=pretty -p chrome
