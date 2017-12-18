@@ -692,12 +692,19 @@ function ding_base_lazy_pane_ajax_deliver($page_callback_result) {
  * This check uses Drupals valid_email_addess(), and makes sure the domain used
  * is a valid top level domain.
  *
- * @param String $email
+ * @param string $email
  *   The email to validate.
- * @return Boolean
+ *
+ * @return bool
  *   TRUE if the address is in a valid format.
  */
 function ding_base_validate_email($email) {
+  // If < and > are used, set the email to the data encapsulated by these
+  // characters.
+  if (preg_match('/<([^>]*)>/', $email, $matches)) {
+    $email = $matches[1];
+  }
+
   if (!valid_email_address($email)) {
     return FALSE;
   }
