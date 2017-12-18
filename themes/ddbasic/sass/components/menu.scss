@@ -492,11 +492,11 @@ ul.topbar-menu {
       padding: 0;
       margin: 0;
       box-shadow: none;
-      left: 0;
+      //Reset js inforced inline style
+      left: 0 !important;
       &::before {
         display: none;
       }
-      // Create log-out link for tablet/mobile
     }
 
     // Notebook
