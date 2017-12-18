@@ -361,10 +361,10 @@ function bpi_nodelist_to_array($node_list, array &$agency_cache = NULL) {
     $current_item = $item->getProperties();
     $assets = $item->getAssets();
 
-    if ($agency_cache !== NULL) {
-      $agency = isset($current_item['agency_name']) ? $current_item['agency_name'] : '';
-      $agency_id = isset($current_item['agency_id']) ? $current_item['agency_id'] : '';
+    $agency = isset($current_item['agency_name']) ? $current_item['agency_name'] : '';
+    $agency_id = isset($current_item['agency_id']) ? $current_item['agency_id'] : '';
 
+    if ($agency_cache !== NULL) {
       // Set agency into cache.
       if (!empty($agency) && empty($agency_cache[$agency_id])) {
         $agency_cache[$agency_id] = $agency;
