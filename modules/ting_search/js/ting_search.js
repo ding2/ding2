@@ -17,6 +17,21 @@
       return true;
     });
 
+    // The search overlay fails in FF and Safari. 
+    // When the form submit is triggered, any changes to the DOM
+    // is not redrawn in browser.
+    // Therefore we take over the submit, and put the submit
+    // in a timeout function. That does the trick.
+    // @see https://stackoverflow.com/questions/22043493/unable-to-make-style-changes-to-the-dom-after-form-submit-in-safari?rq=1
+    $('#search-block-form').submit(function(event) {
+      event.preventDefault();
+      Drupal.TingSearchOverlay();
+      var form = this;
+      setTimeout(function () {
+  	    form.submit();
+  	  }, 0);
+    });
+
     // Add search link to the different links on the search result page.
     $('.search-results a').live('click', function() {
       if ($(this).not('[target="_blank"]').length) {
