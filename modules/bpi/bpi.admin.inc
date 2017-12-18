@@ -177,7 +177,9 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
 
     $mapping = array(
       '#type' => 'fieldset',
-      '#title' => t('Mapping (@bpi_type)', array('@bpi_type' => isset($default_values['bpi_node_type']) ? $default_values['bpi_node_type'] : '–')),
+      '#title' => t('Mapping (@bpi_type)', array(
+        '@bpi_type' => isset($default_values['bpi_node_type']) ? t($default_values['bpi_node_type']) : '–')
+      ),
       '#collapsible' => TRUE,
     );
     if (isset($form_state['deleted_mappings'][$i])) {
@@ -236,7 +238,9 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
         $mapping += array(
           'remove_mapping' => array(
             '#type' => 'submit',
-            '#value' => t('Remove mapping of @bpi_type', array('@bpi_type' => isset($default_values['bpi_node_type']) ? $default_values['bpi_node_type'] : '–')),
+            '#value' => t('Remove mapping of @bpi_type', array(
+              '@bpi_type' => isset($default_values['bpi_node_type']) ? t($default_values['bpi_node_type']) : '–'
+            )),
             '#name' => 'remove_mapping_' . $i,
             '#submit' => array('bpi_admin_content_mapping_form_add_mapping_remove_one'),
             '#ajax' => array(
@@ -343,7 +347,9 @@ function bpi_admin_content_mapping_form_add_mapping_remove_one($form, &$form_sta
     if (isset($bpi_mappings[$index])) {
       $form_state['deleted_mappings'][$index] = $index;
       $form_state['rebuild'] = TRUE;
-      drupal_set_message(t('Save to remove mapping of @bpi_type', array('@bpi_type' => $bpi_mappings[$index]['bpi_node_type'])), 'warning');
+      drupal_set_message(t('Save to remove mapping of @bpi_type', array(
+        '@bpi_type' => t($bpi_mappings[$index]['bpi_node_type']))
+      ), 'warning');
     }
   }
 }

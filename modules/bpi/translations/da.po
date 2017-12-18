@@ -454,3 +454,36 @@ msgstr "Indhold må redigeres"
 #: bpi.push.inc:123;257
 msgid "I want be anonymous"
 msgstr "Jeg ønsker at være anonym"
+
+msgid "BPI node type"
+msgstr "BPI-indholdstype"
+
+msgid "article"
+msgstr "artikel"
+
+msgid "campaign"
+msgstr "kampagne"
+
+msgid "BPI tags"
+msgstr "Tags (BPI)"
+
+msgid "BPI materials"
+msgstr "Materialer (BPI)"
+
+msgid "Mapping (@bpi_type)"
+msgstr "Tilknytning (@bpi_type)"
+
+msgid "Enter the BPI node type, e.g. ding_news, campaign, carousel."
+msgstr "Vælg BPI-indholdstypen."
+
+msgid "If you change the content type, you have to save the form before editing the field mapping."
+msgstr "Hvis du ændrer indholdstypen, skal du gemme formularen før du redigerer felttilknytningen."
+
+msgid "Remove mapping of @bpi_type"
+msgstr "Fjern tilknytning af @bpi_type"
+
+msgid "Save to remove mapping of @bpi_type"
+msgstr "Gem for at fjerne tilknytning af @bpi_type"
+
+msgid "Add mapping"
+msgstr "Tilføj tilknytning"

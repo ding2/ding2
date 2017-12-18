@@ -218,9 +218,27 @@ function bpi_update_7005() {
 }
 
 /**
+ * Update the database with the newest translations.
+ */
+function bpi_translation_update() {
+  // Update build-in translation group.
+  $file = new stdClass();
+  $file->uri = drupal_get_path('module', 'bpi') . '/translations/da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'default');
+}
+
+/**
+ * Update our own translations.
+ */
+function bpi_update_7006() {
+  bpi_translation_update();
+}
+
+/**
  * Convert single BPI mapping to list of mappings.
  */
-function bpi_update_7006(&$sandbox) {
+function bpi_update_7007(&$sandbox) {
   if (variable_get('bpi_content_type', '')) {
     $bpi_mappings = array(
       array(
