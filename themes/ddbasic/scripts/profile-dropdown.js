@@ -21,7 +21,6 @@
         if(body.hasClass('has-touch') && !ddbasic.breakpoint.is('tablet')) {
           event.preventDefault();
           if($(this).hasClass('js-active')) {
-            dropdown().css('left', '');
             body.removeClass('mobile-usermenu-is-open overlay-is-active');
             my_account.removeClass('js-active active');
           } else {
