@@ -40,7 +40,7 @@
 
   <?php if ($channel->getNodeLastAddedAt()): ?>
     <p>
-      <?php echo t('Node last added to channel at !timestamp', array('!timestamp' => $channel->getNodeLastAddedAt()->format('Y-m-d H:i:s'))); ?>
+      <?php echo t('Node last added to channel at !timestamp', array('!timestamp' => format_date($channel->getNodeLastAddedAt()->getTimestamp(), 'short'))); ?>
     </p>
   <?php endif ?>
 

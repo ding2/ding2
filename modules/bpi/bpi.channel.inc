@@ -965,7 +965,7 @@ function bpi_preprocess_bpi_channel_list(array &$variables) {
                    : '<a href="#" onclick="BpiChannel.subscribe(\'' . $item->getId() . '\')">' . t('Subscribe to channel') . '</a>';
       }
 
-      $node_last_added_at = $item->getNodeLastAddedAt() ? $item->getNodeLastAddedAt()->format('Y-m-d H:i:s') : NULL;
+      $node_last_added_at = $item->getNodeLastAddedAt() ? format_date($item->getNodeLastAddedAt()->getTimestamp(), 'short') : NULL;
       $has_new_content = bpi_channel_has_new_content($item) ? t('Yes') : t('No');
 
       $row = array(

@@ -451,7 +451,7 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
       $item['teaser']
     );
 
-    $rows[$i]['date'] = date_format(new DateTime($item['date']), 'Y-m-d H:i:s');
+    $rows[$i]['date'] = format_date((new DateTime($item['date']))->getTimestamp(), 'short');
     $rows[$i]['syndications'] = $item['syndications'];
 
     // Add details.
