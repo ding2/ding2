@@ -137,8 +137,10 @@ function bpi_menu() {
     'file' => 'bpi.channel.inc',
   );
 
-  // "Add channel" should also be available under "My channels".
-  $menu['admin/bpi/channel/user/add'] = $menu['admin/bpi/channel/add'];
+  // "Add channel" should also be available under "My channels" and under "My
+  // channel subscriptions".
+  $menu['admin/bpi/channel/user/add-channel'] = $menu['admin/bpi/channel/add'];
+  $menu['admin/bpi/channel/subscriptions/add-channel'] = $menu['admin/bpi/channel/add'];
 
   $menu['admin/bpi/channel/%'] = array(
     'title' => 'Channel details',
