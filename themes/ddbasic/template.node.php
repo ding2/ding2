@@ -194,10 +194,15 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 
       // Date.
       if (!empty($date)) {
+        // @see http://www.drupalcontrib.org/api/drupal/contributions%21date%21date_api%21date_api.module/class/DateObject/7
+        // Create a dateObject from startdate, set base timezone to UTC
         $date_start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
+        // Set timezone to local timezone
         $date_start->setTimezone(new DateTimeZone($date[0]['timezone']));
 
+        // Create a dateObject from startdate, set base timezone to UTC
         $date_end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
+        // Set timezone to local timezone
         $date_end->setTimezone(new DateTimeZone($date[0]['timezone']));
 
         $variables['event_date'] = date_format_date($date_start, 'ding_date_only_version2');
@@ -245,7 +250,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         $variables['share_button'] = array(
           '#theme' => 'ding_sharer',
           '#label' => t('Share this event'),
-        );;
+        );
 
         // Make book/participate in event button.
         $price = ding_base_get_value('node', $variables['node'], 'field_ding_event_price');
