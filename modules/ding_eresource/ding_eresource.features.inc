@@ -38,7 +38,7 @@ function ding_eresource_image_default_styles() {
     'label' => 'Ding eresource list',
     'effects' => array(
       9 => array(
-        'label' => 'Manuel beskæring: genbrug indstillinger for beskæring af billede',
+        'label' => 'Manual Crop: Reuse cropped style',
         'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
         'effect callback' => 'manualcrop_reuse_effect',
         'form callback' => 'manualcrop_reuse_form',
@@ -52,8 +52,8 @@ function ding_eresource_image_default_styles() {
         'weight' => 0,
       ),
       11 => array(
-        'label' => 'Skalér og beskær',
-        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
         'dimensions callback' => 'image_resize_dimensions',
         'form callback' => 'image_resize_form',
