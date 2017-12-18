@@ -491,10 +491,6 @@ function bpi_user_list_form_add_editors_to_channel_submit(array $form, array &$f
  *   A list of users.
  */
 function bpi_user_search_get_items() {
-  if ($_SERVER['REQUEST_METHOD'] != 'GET') {
-    return NULL;
-  }
-
   $page = pager_find_page();
   $phrase = _bpi_get_current_search_phrase();
   $filters = _bpi_get_current_filter();
@@ -590,7 +586,21 @@ function bpi_build_user_table($users) {
     '#type' => 'tableselect',
     '#header' => $header,
     '#options' => $options,
+    '#process' => array('form_process_tableselect', 'bpi_user_form_process_tableselect'),
   );
+}
+
+/**
+ * Process user tableselect.
+ */
+function bpi_user_form_process_tableselect($element) {
+  // Disable selection of current bpi user.
+  $user_id = bpi_get_current_bpi_user_id();
+  if (isset($element[$user_id])) {
+    $element[$user_id]['#disabled'] = TRUE;
+  }
+
+  return $element;
 }
 
 /**

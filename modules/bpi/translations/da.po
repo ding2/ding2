@@ -539,6 +539,9 @@ msgstr "Søg i navn"
 msgid "Search in title and description"
 msgstr "Søg i titel og beskrivelse"
 
+msgid "Search in name and email"
+msgstr "Søg i navn og e-mail"
+
 msgid "Reset filters"
 msgstr "Nulstil filtre"
 
@@ -616,3 +619,9 @@ msgstr "Fejl under sletning af søgning %title"
 
 msgid "Subscription %title deleted"
 msgstr "Søgning %title slettet"
+
+msgid "No users found"
+msgstr "Ingen brugere fundet"
+
+msgid "Please select one or more users"
+msgstr "Vælg venligst én eller flere brugere"
