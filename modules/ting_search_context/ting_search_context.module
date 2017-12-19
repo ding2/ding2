@@ -226,6 +226,14 @@ function ting_search_context_ting_pre_execute($request) {
 
     $facets = array_flip($request->getFacets()) + $required_facets;
     $request->setFacets(array_keys($facets));
+
+    // We need to ensure numberOfTerms will be specified in the SOAP request
+    // against the well. Else opensearch will return error.
+    // We first check if it's already set to avoid overriding values set by
+    // other modules.
+    if (empty($request->getNumFacets())) {
+      $request->setNumFacets(variable_get('ting_search_number_of_facets', 25));
+    }
   }
 }
 
