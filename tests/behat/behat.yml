@@ -3,7 +3,8 @@ default:
     default:
       contexts:
         - FeatureContext
-        - LibContext
+        - LibContext:
+            NoScreenDump: "true"
         - StepsContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext

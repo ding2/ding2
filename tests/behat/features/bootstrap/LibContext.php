@@ -66,6 +66,14 @@ class LibContext implements Context, SnippetAcceptingContext {
   public $minkContext;
 
   /**
+   * Hold the flag for whether screendumps are created or not. Default they are, but for circleCI they should not be.
+   *
+   * @var bool $takeScreenDumps
+   */
+  public $takeScreenDumps;
+
+
+  /**
    * Current authenticated user. A value of FALSE denotes an anonymous user.
    *
    * @var stdClass|bool $user
@@ -86,10 +94,14 @@ class LibContext implements Context, SnippetAcceptingContext {
    * You can also pass arbitrary arguments to the
    * context constructor through behat.yml.
    */
-  public function __construct(SearchPage $searchPage, DataManager $dataManager, ObjectPage $objectPage) {
+  public function __construct(SearchPage $searchPage, DataManager $dataManager, ObjectPage $objectPage, $NoScreenDump) {
     $this->searchPage = $searchPage;
     $this->dataMgr = $dataManager;
     $this->objectPage = $objectPage;
+    $this->takeScreenDumps = true;
+    if ($NoScreenDump == "true") {
+      $this->takeScreenDumps = false;
+    }
 
     // Initialise the verbose structure. These are default settings.
     $this->verbose = (object) array(
@@ -147,6 +159,13 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @Then I save (a) screenshot
    */
   public function saveScreenshot() {
+    // Initially check if we are taking screenshots at all.
+    // For CircleCI we will set this false using the BEHAT_PARAMS env variable.
+    if (!$this->takeScreenDumps) {
+      print_r("Due to screendump setting, screendumps are not taken to comply with circleCI.\n");
+      return;
+    }
+
     // Setup folders and make sure the folders exists.
     $screenShotDir = 'results/';
     $featureFolder = preg_replace('/\W/', '', $this->currentFeature);
