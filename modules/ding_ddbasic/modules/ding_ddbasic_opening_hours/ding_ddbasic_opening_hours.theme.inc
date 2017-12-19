@@ -188,7 +188,8 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
 
   $order = array();
   $queue = nodequeue_load_queue_by_name('ding_library_listing');
-  foreach (nodequeue_load_nodes($queue->qid, FALSE, 0, 0) as $node) {
+  $subqueue = current(nodequeue_load_subqueues_by_queue($queue->qid));
+  foreach (nodequeue_load_nodes($subqueue->sqid, FALSE, 0, 0) as $node) {
     $order[$node->title] = $node->nid;
   }
 
