@@ -454,40 +454,50 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           return ['default' => $creator, 'inverted' => $inverted_creator];
         }, $entity->getCreators(), $entity->getInvertedCreators());
 
-        foreach ($creators as $creator_formats) {
-          $replace_array = [
-            '@author' => $creator_formats['default'],
-            '@author_inverted' => $creator_formats['inverted'],
+        // Array mapped with replacement string as key and the author name as
+        // the value.
+        $replace_array = array_map(function($creator) {
+          return [
+            '@author' => $creator['default'],
+            '@author_inverted' => $creator['inverted'],
           ];
-          // The variable specify whether to use to the default or inverted
-          // form.
-          $search_term = strtr(
-            variable_get('ting_search_register_author', 'phrase.creator="@author"'),
-            $replace_array
-          );
+        }, $creators);
 
-          $creators[] = l(
-            $creator_formats['default'], 'search/ting/' . $search_term,
-            array('attributes' => array('class' => array('author')))
-          );
-        }
-        // Because of the string translation above, we end up with an array,
-        // where one of them is null. To fix it, we use array_filter() and then
-        // we run urldecode on each, so we end up with query rather than
+        // The variable specify whether to use to the default or inverted
+        // form.
+        $search_term = strtr(
+          variable_get('ting_search_register_author', 'phrase.creator="@author"'),
+          $replace_array
+        );
+
+        // The links with the correct author name depending on the whether
+        // @author or @author_inverted is used.
+        $creator_links = array_map(function($creator, $search_term) {
+          return [
+            l($creator['default'],'search/ting/' . $search_term, [
+              'attributes' => [
+                'class' => ['author'],
+              ],
+            ]),
+          ];
+        }, $creators, $search_term);
+
+        // Run urldecode on each, so we end up with query rather than
         // searching for something like "&facets[0]=facet_creator".
-        $creators = array_filter(array_map('urldecode', $creators));
+        $creator_links = array_map('urldecode', $creator_links);
+
         $markup_string = '';
         if (count($creators)) {
           if ($entity->date != '') {
             $markup_string = t('By !author_link (@year)', array(
-              '!author_link' => implode(', ', $creators),
+              '!author_link' => implode(', ', $creator_links),
               // So wrong, but appears to be the way the data is.
               '@year' => $entity->date,
               ));
           }
           else {
             $markup_string = t('By !author_link', array(
-              '!author_link' => implode(', ', $creators),
+              '!author_link' => implode(', ', $creator_links),
             ));
           }
         }
