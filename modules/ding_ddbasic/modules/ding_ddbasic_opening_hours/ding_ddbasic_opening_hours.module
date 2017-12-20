@@ -70,7 +70,7 @@ function ding_ddbasic_opening_hours_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Turn a structrued "opening hours" array into a table theme render array.
+ * Turn a structured "opening hours" array into a table theme render array.
  *
  * @param string $title
  *   Title of the opening hours table. In this case it's the value of the first
