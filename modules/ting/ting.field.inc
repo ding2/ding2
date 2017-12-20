@@ -447,12 +447,35 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         break;
 
       case 'ting_author_default':
-        $creators = array();
-        foreach ($entity->creators as $i => $creator) {
-          // TODO BBS-SAL: Use a variable for holding the search query the same
-          // way it is done with ting_search_register_serie_title.
-          $creators[] = l($creator, 'search/ting/phrase.creator="' . $creator . '"', array('attributes' => array('class' => array('author'))));
+        /** @var \TingEntity $entity */
+        // Primo uses facets that filters on "last name, first name" where
+        // OpenSearch uses "first name, last name".
+        $creators = array_map(function($creator, $inverted_creator) {
+          return ['default' => $creator, 'inverted' => $inverted_creator];
+        }, $entity->getCreators(), $entity->getInvertedCreators());
+
+        foreach ($creators as $creator_formats) {
+          $replace_array = [
+            '@author' => $creator_formats['default'],
+            '@author_inverted' => $creator_formats['inverted'],
+          ];
+          // The variable specify whether to use to the default or inverted
+          // form.
+          $search_term = strtr(
+            variable_get('ting_search_register_author', 'phrase.creator="@author"'),
+            $replace_array
+          );
+
+          $creators[] = l(
+            $creator_formats['default'], 'search/ting/' . $search_term,
+            array('attributes' => array('class' => array('author')))
+          );
         }
+        // Because of the string translation above, we end up with an array,
+        // where one of them is null. To fix it, we use array_filter() and then
+        // we run urldecode on each, so we end up with query rather than
+        // searching for something like "&facets[0]=facet_creator".
+        $creators = array_filter(array_map('urldecode', $creators));
         $markup_string = '';
         if (count($creators)) {
           if ($entity->date != '') {
