@@ -283,9 +283,19 @@ function _ting_search_carousel_find_entities_with_covers($query, $start, $size, 
   $finished = FALSE;
   $entities = array();
 
+  // Throw an exception if the remainder of the offset divided by the chunk
+  // size is not equal to 0.
+  if (!$start % $size === 0) {
+    throw new InvalidArgumentException('Offset to start from % search chunk size should not have remainders left.');
+  }
+
+  // Determine what page we are on based on the start position and size.
+  // Start is 0 indexed while page number is 1 indexed.
+  $page = floor($start / $size) + 1;
+
   $sal_query = ting_start_query()
     ->setRawQuery($query)
-    ->setPage($start)
+    ->setPage($page)
     ->setCount($size)
     ->setPopulateCollections(FALSE)
     ->setMaterialFilter($ignore, FALSE);
