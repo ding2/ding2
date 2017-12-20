@@ -502,10 +502,13 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
       case 'ting_subjects_default':
         if (count($entity->subjects) == TRUE) {
           $subjects = array();
+          $search_term = variable_get('ting_search_register_subject', 'phrase.subject="@subject"');
           foreach ($entity->subjects as $subject) {
-            // TODO BBS-SAL: see 'ting_author_default'.
-            $subjects[] = l($subject, 'search/ting/phrase.subject="' . $subject . '"', array('attributes' => array('class' => array('subject'))));
+            $subjects[] = l($subject, $search_term, array(
+              'attributes' => array('class' => array('subject'))
+            ));
           }
+          array_map('urldecode', $subjects);
           $element[$delta] = array(
             '#markup' => implode(' ', $subjects),
           );
