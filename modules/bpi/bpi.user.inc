@@ -554,16 +554,16 @@ function bpi_search_users($query = '', $page = 1, $filters = array(), $sorting =
 function bpi_build_user_table($users) {
   $header = array(
     'name' => array(
-      'data' => bpi_get_sort_link(t('Name'), 'name'),
-      'class' => array('bpi-name', _bpi_get_current_sorting('name') ? 'active' : ''),
+      'data' => t('Name'),
+      'class' => array('bpi-name'),
     ),
     'email' => array(
-      'data' => bpi_get_sort_link(t('E-mail'), 'email'),
-      'class' => array('bpi-email', _bpi_get_current_sorting('email') ? 'active' : ''),
+      'data' => t('E-mail'),
+      'class' => array('bpi-email'),
     ),
     'agency' => array(
-      'data' => bpi_get_sort_link(t('Agency'), 'agency'),
-      'class' => array('bpi-agency', _bpi_get_current_sorting('agency') ? 'active' : ''),
+      'data' => t('Agency'),
+      'class' => array('bpi-agency'),
     ),
   );
 

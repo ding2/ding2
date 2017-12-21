@@ -892,21 +892,20 @@ function bpi_preprocess_bpi_channel_list(array &$variables) {
 
   $table_head = array(
     array(
-      'data' => bpi_get_sort_link(t('Name'), 'name'),
-      'class' => array('bpi-title', _bpi_get_current_sorting('name') ? 'active' : ''),
+      'data' => t('Name'),
+      'class' => array('bpi-title'),
     ),
     array(
       'data' => t('Description'),
-      'data' => bpi_get_sort_link(t('Description'), 'description'),
-      'class' => array('bpi-description', _bpi_get_current_sorting('description') ? 'active' : ''),
+      'class' => array('bpi-description'),
     ),
     array(
-      'data' => bpi_get_sort_link(t('Administrator'), 'admin'),
-      'class' => array('bpi-title', _bpi_get_current_sorting('title') ? 'active' : ''),
+      'data' => t('Administrator'),
+      'class' => array('bpi-administrator'),
     ),
     array(
-      'data' => bpi_get_sort_link(t('Agency'), 'agency'),
-      'class' => array('bpi-agency', _bpi_get_current_sorting('agency') ? 'active' : ''),
+      'data' => t('Agency'),
+      'class' => array('bpi-agency'),
     ),
     array(
       'data' => t('Number of nodes'),
