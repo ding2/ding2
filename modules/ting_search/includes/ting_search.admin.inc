@@ -39,8 +39,14 @@ function ting_search_admin_settings($form_state) {
     '#default_value' => variable_get('ting_search_number_of_facets', 25),
   );
 
-  // TODO BBS-SAL, opensearch specific?
-  $form['ting_search']['ting_search_register_serie_title'] = array(
+  $form['ting_search']['search_strings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Search strings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['ting_search']['search_strings']['ting_search_register_serie_title'] = array(
     '#type' => 'textfield',
     '#title' => t('Serie title'),
     '#description' => t(
@@ -53,7 +59,7 @@ function ting_search_admin_settings($form_state) {
     ),
   );
 
-  $form['ting_search']['ting_search_register_author'] = array(
+  $form['ting_search']['search_strings']['ting_search_register_author'] = array(
     '#type' => 'textfield',
     '#title' => t('Author'),
     '#description' => t(
@@ -67,7 +73,7 @@ function ting_search_admin_settings($form_state) {
     ),
   );
 
-  $form['ting_search']['ting_search_register_subject'] = array(
+  $form['ting_search']['search_strings']['ting_search_register_subject'] = array(
     '#type' => 'textfield',
     '#title' => t('Subject'),
     '#description' => t(
