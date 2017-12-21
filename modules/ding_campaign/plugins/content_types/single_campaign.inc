@@ -36,7 +36,6 @@ function ding_campaign_single_campaign_content_type_edit_form($form, &$form_stat
  */
 function ding_campaign_single_campaign_content_type_edit_form_submit($form, &$form_state) {
   $form_state['conf']['single_campaign'] = $form_state['values']['single_campaign'];
-//  $form_state['conf']['ding_campaign_image_style'] = $form_state['values']['ding_campaign_image_style'];
 }
 
 /**
