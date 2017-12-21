@@ -448,8 +448,10 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
 
       case 'ting_author_default':
         /** @var \TingEntity $entity */
-        // Primo uses facets that filters on "last name, first name" where
-        // OpenSearch uses "first name, last name".
+        // Build an array containing different formats of each creator name.
+        // This will allow administrators to use the format that suits their
+        // needs best e.g. if one wants to use a facet where the name is
+        // inverted.
         $creators = array_map(function($creator, $inverted_creator) {
           return ['default' => $creator, 'inverted' => $inverted_creator];
         }, $entity->getCreators(), $entity->getInvertedCreators());
