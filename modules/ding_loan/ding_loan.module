@@ -62,7 +62,7 @@ function ding_loan_preprocess_material_item(&$variables) {
     $bookmark_button = ding_list_ding_entity_buttons('ding_entity', $variables['element']['#loan']);
     $variables['information']['loan_bookmark'] = array(
       'data' => drupal_render($bookmark_button),
-      'class' => 'bookmark',
+      'class' => 'field-name-ding-entity-buttons bookmark',
       '#weight' => 99,
     );
   }

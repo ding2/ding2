@@ -46,6 +46,7 @@ function ding_campaign_single_campaign_content_type_render($subtype, $conf, $pan
   if (!empty($campaign)) {
     $node_view = node_view(reset($campaign), 'full');
     $node_view['#style'] = 'medium';
+    $node_view['#widget_type'] = 'single';
 
     $content = [
       '#theme' => 'ding_campaign_wrapper',
@@ -57,4 +58,3 @@ function ding_campaign_single_campaign_content_type_render($subtype, $conf, $pan
     return $block;
   }
 }
-

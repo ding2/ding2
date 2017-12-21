@@ -272,13 +272,22 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
         $variables['image'] = '<div class="ding-campaign-image" style="background-image: url(' . $image_url . '"></div>';
       break;
       case 'image':
-        $variables['image'] = theme('image_style',array(
-            'style_name' => "ding_full_width",
-            'path' => $image_uri,
-            'attributes' => array('class' => 'ding-campaign-image')
-          )
-        );
-      break;
+        if(!empty($variables['elements']['#widget_type']) && $variables['elements']['#widget_type'] == 'single') {
+          $variables['image'] = theme('image', [
+              'path' => $image_uri,
+              'attributes' => ['class' => 'ding-campaign-image']
+            ]
+          );
+        }
+        else {
+          $variables['image'] = theme('image_style', [
+              'style_name' => $image_style,
+              'path' => $image_uri,
+              'attributes' => ['class' => 'ding-campaign-image']
+            ]
+          );
+        }
+        break;
     }
   }
 }

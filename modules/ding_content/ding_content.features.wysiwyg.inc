@@ -45,6 +45,7 @@ function ding_content_wysiwyg_default_profiles() {
           'ShowBlocks' => 1,
           'RemoveFormat' => 1,
           'Format' => 1,
+          'Styles' => 1,
           'Table' => 1,
           'CreateDiv' => 1,
         ),
