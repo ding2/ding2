@@ -39,6 +39,8 @@
   <?php if (!$no_actions): ?>
     <p class="item-action item-action-syndicate">
       <?php echo l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['id']); ?>
+    </p>
+    <p class="item-action item-add-to-channel">
       <?php echo l(t('Add to channel'), 'admin/bpi/channel/node/add/' . $item['id']); ?>
     </p>
   <?php endif ?>
