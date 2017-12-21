@@ -467,20 +467,20 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         // form.
         $search_term = strtr(
           variable_get('ting_search_register_author', 'phrase.creator="@author"'),
-          $replace_array
+          $replace_array[0]
         );
 
         // The links with the correct author name depending on the whether
         // @author or @author_inverted is used.
-        $creator_links = array_map(function($creator, $search_term) {
-          return [
-            l($creator['default'],'search/ting/' . $search_term, [
-              'attributes' => [
-                'class' => ['author'],
-              ],
-            ]),
-          ];
-        }, $creators, $search_term);
+        $creator_links = [];
+        foreach ($creators as $creator) {
+          $creator_links[] = l($creator['default'],'search/ting/' .
+            $search_term, [
+            'attributes' => [
+              'class' => ['author'],
+            ],
+          ]);
+        }
 
         // Run urldecode on each, so we end up with query rather than
         // searching for something like "&facets[0]=facet_creator".
@@ -514,11 +514,11 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           $subjects = array();
           $search_term = variable_get('ting_search_register_subject', 'phrase.subject="@subject"');
           foreach ($entity->subjects as $subject) {
-            $subjects[] = l($subject, $search_term, array(
+            $subjects[] = l($subject, 'search/ting/' . $search_term, array(
               'attributes' => array('class' => array('subject')),
             ));
           }
-          array_map('urldecode', $subjects);
+          $subjects = array_map('urldecode', $subjects);
           $element[$delta] = array(
             '#markup' => implode(' ', $subjects),
           );
