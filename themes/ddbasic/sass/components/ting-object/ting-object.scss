@@ -461,9 +461,9 @@
         @include font('display-small');
         margin-bottom: 0;
         a {
-          color: $charcoal;
+          color: $color-text-link;
           &:hover {
-            color: $color-text-link;
+            color: $charcoal;
           }
         }
       }
