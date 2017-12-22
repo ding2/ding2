@@ -121,7 +121,8 @@
         }
 
         img {
-          height: 380px;
+          height: 380px !important;
+          display: block;
         }
 
         // Tablet
