@@ -253,9 +253,8 @@ function ding_ting_frontend_field_default_field_instances() {
       ),
       'teaser' => array(
         'label' => 'hidden',
-        'module' => 'ding_entity',
         'settings' => array(),
-        'type' => 'ding_entity_buttons_ajax',
+        'type' => 'hidden',
         'weight' => 3,
       ),
       'ting_reference_preview' => array(

@@ -120,6 +120,11 @@
           margin-right: 0;
         }
 
+        img {
+          height: 380px !important;
+          display: block;
+        }
+
         // Tablet
         @include media($tablet) {
           width: 218px;
