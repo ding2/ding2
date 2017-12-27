@@ -447,24 +447,58 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         break;
 
       case 'ting_author_default':
-        $creators = array();
-        foreach ($entity->creators as $i => $creator) {
-          // TODO BBS-SAL: Use a variable for holding the search query the same
-          // way it is done with ting_search_register_serie_title.
-          $creators[] = l($creator, 'search/ting/phrase.creator="' . $creator . '"', array('attributes' => array('class' => array('author'))));
+        /** @var \TingEntity $entity */
+        // Build an array containing different formats of each creator name.
+        // This will allow administrators to use the format that suits their
+        // needs best e.g. if one wants to use a facet where the name is
+        // inverted.
+        $creators = array_map(function($creator, $inverted_creator) {
+          return ['default' => $creator, 'inverted' => $inverted_creator];
+        }, $entity->getCreators(), $entity->getInvertedCreators());
+
+        // Array mapped with replacement string as key and the author name as
+        // the value.
+        $replace_array = array_map(function($creator) {
+          return [
+            '@author' => $creator['default'],
+            '@author_inverted' => $creator['inverted'],
+          ];
+        }, $creators);
+
+        // The variable specify whether to use to the default or inverted
+        // form.
+        $search_term = strtr(
+          variable_get('ting_search_register_author', 'phrase.creator="@author"'),
+          $replace_array[0]
+        );
+
+        // The links with the correct author name depending on the whether
+        // @author or @author_inverted is used.
+        $creator_links = [];
+        foreach ($creators as $creator) {
+          $creator_links[] = l($creator['default'], 'search/ting/' . $search_term, [
+            'attributes' => [
+              'class' => ['author'],
+            ],
+          ]);
         }
+
+        // Run urldecode on each, so we end up with query rather than
+        // searching for something like "&facets[0]=facet_creator".
+        $creator_links = array_map('urldecode', $creator_links);
+
         $markup_string = '';
         if (count($creators)) {
           if ($entity->date != '') {
             $markup_string = t('By !author_link (@year)', array(
-              '!author_link' => implode(', ', $creators),
+              '!author_link' => implode(', ', $creator_links),
               // So wrong, but appears to be the way the data is.
               '@year' => $entity->date,
               ));
           }
           else {
             $markup_string = t('By !author_link', array(
-              '!author_link' => implode(', ', $creators),
+              '!author_link' => implode(', ', $creator_links),
             ));
           }
         }
@@ -479,10 +513,13 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
       case 'ting_subjects_default':
         if (count($entity->subjects) == TRUE) {
           $subjects = array();
+          $search_term = variable_get('ting_search_register_subject', 'phrase.subject="@subject"');
           foreach ($entity->subjects as $subject) {
-            // TODO BBS-SAL: see 'ting_author_default'.
-            $subjects[] = l($subject, 'search/ting/phrase.subject="' . $subject . '"', array('attributes' => array('class' => array('subject'))));
+            $subjects[] = l($subject, 'search/ting/' . $search_term, array(
+              'attributes' => array('class' => array('subject')),
+            ));
           }
+          $subjects = array_map('urldecode', $subjects);
           $element[$delta] = array(
             '#markup' => implode(' ', $subjects),
           );
