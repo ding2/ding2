@@ -106,6 +106,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     // Initialise the verbose structure. These are default settings.
     $this->verbose = (object) array(
       'loginInfo' => true,
+      'loginTimingInfo' => false,
     );
   }
 
@@ -341,7 +342,11 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @When I display random object from file
    */
   public function displayRandomObjectFromFile() {
+    // Obtain a random PID, but throw an error if we get an error message back instead of a PID.
     $mpid = $this->dataMgr->getRandomPID();
+    if (substr($mpid, 0, 5) == "Error") {
+      throw new Exception($mpid);
+    }
 
     // Help the tester by showing what was searched for and also which test system we're on.
     print_r("Displaying: " . $this->minkContext->getMinkParameter('base_url')  . "ting/object/" . $mpid . "\n");
@@ -404,7 +409,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @Then there are posts with :attribute in the search results
    */
   public function findPostsWithXXInTheSearchResult($attribute) {
-    $this->searchPage->checkPostsWithXXInTheSearchResult($attribute, "some");
+    $this->check($this->searchPage->checkPostsWithXXInTheSearchResult($attribute, "some"));
   }
 
   /**
@@ -601,7 +606,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     // It's nice to know in the log who we log in with.
     $this->logMsg(($this->verbose->loginInfo == "on"), "Attempts logging in with user: " . $this->drupalContext->user->name . "\n");
 
-    $this->logTimestamp(($this->verbose->loginInfo == "on"), " - ");
+    $this->logTimestamp(($this->verbose->loginTimingInfo == "on"), " - ");
 
     $el = $this->minkContext->getSession()->getPage();
     if (!$el) {
@@ -681,7 +686,7 @@ class LibContext implements Context, SnippetAcceptingContext {
       throw new \Exception(sprintf("Could not log on as user: '%s'", $this->drupalContext->user->name));
     }
 
-    $this->logTimestamp(($this->verbose->loginInfo == "on"), " - OK\n");
+    $this->logTimestamp(($this->verbose->loginTimingInfo == "on"), " - OK\n");
   }
 
   /**

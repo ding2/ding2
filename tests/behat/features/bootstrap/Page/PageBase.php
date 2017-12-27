@@ -151,6 +151,7 @@ class PageBase extends LogMessages {
     if (!$gotIt) {
       return "Was not prompted for login as expected.";
     }
+    return "";
   }
 
   /**

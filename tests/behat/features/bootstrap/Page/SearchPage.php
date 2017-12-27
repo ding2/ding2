@@ -259,13 +259,13 @@ class SearchPage extends PageBase {
       else {
         // Set to true, and keep it as true in case at least one exists.
         $txt_accessibility = ($this->searchResults[$i]->access != "") ? true : $txt_accessibility;
-        $txt_cover = (strcmp($this->searchResults[$i]->cover, '')) ? true : $txt_cover;
+        $txt_cover = ($this->searchResults[$i]->cover != "") ? true : $txt_cover;
         $txt_isSamling = ($this->searchResults[$i]->collection) ? true : $txt_isSamling;
         $txt_materiale = ($this->searchResults[$i]->link != "") ? true : $txt_materiale;
         $txt_serie = ($this->searchResults[$i]->serie != "") ? true : $txt_serie;
       }
     }
-
+    // Now find out what we were in fact looking for.
     switch (strtolower($attribute)) {
       case 'tilgængelig':
       case 'tilgængelighed':
@@ -294,7 +294,7 @@ class SearchPage extends PageBase {
         break;
 
     }
-
+    // Return the result.
     if (!$okay) {
       if ($mode == "all") {
         return "Not all posts have " . $attribute . " in the search result.";
@@ -378,7 +378,6 @@ class SearchPage extends PageBase {
     // Now run through the result and compare each entry with the former, to check - if possible - if they
     // are in the correct and expected order. Notice that not all checks that fail here means the system doesn't
     // work.
-
     for ($i = 1; $i < count($this->searchResults); $i++) {
       $isOK = false;
       switch ($sortOption) {
@@ -403,7 +402,6 @@ class SearchPage extends PageBase {
           break;
 
         case 'date_descending':
-          //print_r("i: " . $i . ": " . $this->searchResults[$i - 1]->published . " vs " . $this->searchResults[$i]->published . "\n");
           $isOK = (strcasecmp($this->searchResults[$i - 1]->published, $this->searchResults[$i]->published) >= 0) ? true : false;
           break;
 
@@ -919,15 +917,9 @@ class SearchPage extends PageBase {
     if (!$linkObj) {
       return "Did not find a link to the item " . $i . " on the page.";
     }
-    // Pick out the last part of the URL.
-    $linkArr = explode('/', $linkObj->getAttribute('href'));
-    if (count($linkArr) == 0) {
-      return "The link to the page is not wellformed: href=" . $linkObj->getAttribute('href');
-    }
-    $link = urlencode('ting/object/' . $linkArr[count($linkArr) - 1]);
-    // $this->open(['string' => $link]);
-    // $this->gotoPage($link);
-    $this->getSession()->visit($link);
+    // Open that page by clicking on the link.
+    $this->scrollTo($linkObj);
+    $linkObj->click();
     $this->waitForPage();
   }
 

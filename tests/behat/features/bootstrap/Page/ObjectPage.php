@@ -203,10 +203,9 @@ class ObjectPage extends PageBase {
    *    In case of error.
    */
   public function makeReservation() {
-
     $button = $this->find('xpath', '//a[contains(@class,"reserve-button")]');
-
     $this->scrollTo($button);
     $button->click();
+    return "";
   }
 }

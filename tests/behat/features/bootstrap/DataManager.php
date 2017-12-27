@@ -62,25 +62,32 @@ class DataManager extends \Page\PageBase {
       }
       fclose($mfilehandle);
       if (count($marray) < 1) {
-        return "File '" . $this->filename . "' was empty";
+        return "Error: file '" . $this->filename . "' was empty";
       }
 
-      $tmp = explode("\t", $marray[(random_int(0, count($marray) - 1))]);
-      if (count($tmp) != 2) {
-        return "File '" . $this->filename . "' expected to have two columns.";
+      // Pick a random line of the ones read in, and dissolve it into fields, separated by tabs.
+      $columns = explode("\t", $marray[(random_int(0, count($marray) - 1))]);
+      if (count($columns) != 3) {
+        return "Error: the file '" . $this->filename . "' is expected to have three columns.";
       }
+      // If the flag is set for only finding reservables, try up to 200 times to
+      // find one that is reservable according to Connie conventions. Notice we
+      // only try this for books, because other types are generally not reservable.
       $max = 200;
-      while (--$max > 0 && $this->onlyReservable && !$this->isReservable($tmp[0])) {
-        $tmp = explode("\t", $marray[(random_int(0, count($marray) - 1))]);
-        if (count($tmp) != 2) {
-          return "File '" . $this->filename . "' expected to have two columns.";
+      while (--$max > 0 && $this->onlyReservable && $columns[2] == "Bog" && !$this->isReservable($columns[0])) {
+        $columns = explode("\t", $marray[(random_int(0, count($marray) - 1))]);
+        if (count($columns) != 3) {
+          return "Error: file '" . $this->filename . "' is expected to have three columns.";
         }
       }
       if ($max == 0) {
-        return "Error - no reservable information found";
+        return "Error: no reservable information found";
       }
       // Return the PID.
-      return $tmp[0];
+      return $columns[0];
+    }
+    else {
+      return "Error: file " . $this->filename . " does not exist or is not readable!";
     }
   }
 

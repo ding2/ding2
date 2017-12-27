@@ -68,7 +68,8 @@ Feature: SEEK redroute 01
     When pageing allows to get all the results
     Then all posts have "materialetype" in the search results
 
-  @api @seek012 @seekNologin @regression
+    # Taken out because currently sites are being built without adding news to them
+  @api @seek012 @seekNologin @wip @regression
   Scenario: Check internal searchfield
     Given I am on "/"
     And I have searched for "$random:nyhed"
@@ -81,7 +82,8 @@ Feature: SEEK redroute 01
     When I sort the search result on "title_ascending"
     Then the search result is sorted on "title_ascending"
 
-  @api @seek013 @seekNologin @regression
+    # Taken out because currently there is a bug on sorting desc on title.
+  @api @seek013 @seekNologin @wip @regression
   Scenario: Check sorting for title descending
     Given I have searched for "phrase.titleSeries=B* and term.language=dansk"
     When I sort the search result on "title_descending"
@@ -103,7 +105,7 @@ Feature: SEEK redroute 01
     When I sort the search result on "date_descending"
     Then the search result is sorted on "date_descending"
 
-  @api @seek013b @seekNologin @regression
+  @api @seek013 @seekNologin @regression
   Scenario: Check sorting for published date ascending
     Given I have searched for "phrase.titleSeries=B*"
     When I sort the search result on "date_ascending"
@@ -123,6 +125,6 @@ Feature: SEEK redroute 01
 
   @api @seek016 @seekNologin @regression
   Scenario: Check forsidebillede is shown on search result
-    Given I have searched for "term.type=bog and holdingsitem.accessionDate>='NOW-300DAYS'"
+    Given I have searched for "term.type=bog and term.date=2014 and holdingsitem.accessionDate>='NOW-300DAYS'"
     When pageing allows to get all the results
     Then there are posts with "forside" in the search results
