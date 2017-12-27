@@ -209,8 +209,6 @@ function opensearch_get_objects($ids) {
  *    - facets: Array of facet names for which to return results. Default:
  *      facet.subject, facet.creator, facet.type, facet.date, facet.language
  *    - numFacets: The number of terms to include with each facet. Default: 10
- *    - enrich: Whether to include additional information and cover images with
- *      each object. Default: false
  *    - sort: The key to sort the results by. Default: "" (corresponds to
  *      relevance). The possible values are defined by the sortType type
  *      in the XSD.

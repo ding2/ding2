@@ -194,7 +194,10 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
     return '1337-test:1111';
   }
 
-  function testObjectIds() {
+  /**
+   * Test translation of object ID's.
+   */
+  public function testObjectIds() {
     // Test arrays.
     $response = ding_provider_build_entity_id($this->getLocalObjectIds());
 

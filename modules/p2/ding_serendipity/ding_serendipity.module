@@ -383,7 +383,7 @@ function ding_serendipity_validate_materials(array $keys) {
   $sanitized = array();
 
   // Lookup the materials to filter out local missing materials.
-  $query = ting_start_query()->setMaterialFilter($keys);;
+  $query = ting_start_query()->setMaterialFilter($keys);
 
   // Also add the audience to the query, if the user has a clear audience.
   $audience = ding_serendipity_user_audience();

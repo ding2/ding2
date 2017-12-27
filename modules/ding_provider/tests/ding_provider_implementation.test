@@ -2,6 +2,7 @@
 
 use Ting\Search\TingSearchResultInterface;
 use Ting\Search\TingSearchSort;
+use Ting\Search\TingSearchRequest;
 
 /**
  * @file
@@ -599,5 +600,26 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $this->assertTrue($sort['sort'] instanceof TingSearchSort);
     $this->assertTrue(!empty($sort['label']));
     $this->assertTrue(!empty($sort['label_short']));
+  }
+
+  /**
+   * Test TingSearchRequest can include and exclude materials.
+   */
+  public function testMaterialFilter() {
+    $query_include = ting_start_query();
+    // We do not run this, so the ID doesn't matter.
+    $query_include->setMaterialFilter('123');
+
+    // Check the filter is being set to include.
+    $this->assertEqual($query_include->getMaterialFilter(), ['123']);
+    $this->assertTrue($query_include->isMaterialFilterInclude());
+
+    $query_exclude = ting_start_query();
+    // We do not run this, so the ID doesn't matter.
+    $query_exclude->setMaterialFilter('123', FALSE);
+
+    // Check the filter is being set to exclude.
+    $this->assertEqual($query_exclude->getMaterialFilter(), ['123']);
+    $this->assertFalse($query_exclude->isMaterialFilterInclude());
   }
 }
