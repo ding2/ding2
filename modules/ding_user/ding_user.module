@@ -390,6 +390,7 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
     '#type' => 'textfield',
     '#title' => t('Pin code length'),
     '#default_value' => ding_user_get_pincode_length(),
+    '#element_validate' => array('element_validate_integer_positive'),
   );
 
   // Blocked user information page.
