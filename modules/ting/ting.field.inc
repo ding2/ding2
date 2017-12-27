@@ -476,8 +476,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         // @author or @author_inverted is used.
         $creator_links = [];
         foreach ($creators as $creator) {
-          $creator_links[] = l($creator['default'],'search/ting/' .
-            $search_term, [
+          $creator_links[] = l($creator['default'], 'search/ting/' . $search_term, [
             'attributes' => [
               'class' => ['author'],
             ],
