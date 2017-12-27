@@ -523,6 +523,157 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * @Given I create files :mfile from opensearch on relation :relation
+   *
+   * @Param string $mfile
+   *    Filename basis for the two files being created, appended with _pos.mat and _neg.mat
+   * @Param string $relation
+   *    The relation we are looking for, in opensearch terminology, f.ex. dbcaddi:hasCreatorDescription
+   */
+  public function ICreateFilesForRelation($mfile, $relation) {
+    for ($i = 1 ; $i < 12000; $i = $i + 50) {
+      $this->ICreateFilesForRelationChunk($mfile, $relation, $i);
+    }
+  }
+
+  /**
+   * Helper function for ICreateFilesForRelation.
+   *
+   * @param string $mfile
+   *    Filename base for the two files being created.
+   * @param string $relation
+   *    The relation we are looking for.
+   * @param integer $start
+   *    The starting point for the service retrieval.
+   */
+  private function ICreateFilesForRelationChunk($mfile, $relation, $start) {
+    // Set up the search as URL.
+    $url = "https://oss-services.dbc.dk/opensearch/4.5/";
+    $url_search = "?action=search&query=%22term.type=Bog%22";
+    $url_params = "&relationData=full";
+    $url_auth = "&agency=100200&profile=test&start=" . $start . "&stepValue=50&sort=date_descending";
+
+    // Now do the search.
+    $curl = new Curl\Curl();
+    $curl->get($url . $url_search . $url_params . $url_auth);
+
+    // Now look at the result.
+    // NB: $got_header=$curl->response_headers;
+    //     $got_body=$curl->response;
+    $xml2 = new DOMDocument();
+    try {
+      $xml2->loadXML($curl->response);
+    }
+    catch (Exception $e) {
+      // Return gracefully.
+      return;
+    }
+    // Find all the titles, this is returned as an array.
+    $result = $xml2->getElementsByTagName("object");
+
+    // Reset the counters.
+    $cntPos = 0;
+    $cntNeg = 0;
+
+    // We always append to files. We create a positive and negative. Positive contains
+    // PIDs that have the relation. Negatives don't.
+    $outputfilePositive = fopen($mfile . "_Positive.mat", "a");
+    $outputfileNegative = fopen($mfile . "_Negative.mat", "a");
+
+    // Now we loop through the results. It's an array of Nodes.
+    foreach ($result as $rout) {
+      // Ignore anything which is not a collection record.
+      if ($rout->parentNode->nodeName == "collection" ) {
+        $mpid = "";
+        $mtype = "";
+        $mrelations = array();
+
+        // This is where record | relations is which we're looking for.
+        // @todo: this would be better as a xpath, I guess, but can't make xpath work on this. It never returns anything.
+        foreach ($rout->childNodes as $rc) {
+          // Find the record block and retrieve the data we want from there: the type.
+          if ($rc->nodeName == 'dkabm:record') {
+            foreach ($rc->childNodes as $rc1) {
+              if ($rc1->nodeName == "dc:type") {
+                $mtype = $rc1->nodeValue;
+              }
+            }
+          }
+
+          // pick out the PID
+          if ($rc->nodeName == 'primaryObjectIdentifier') {
+            $mpid = $rc->nodeValue;
+          }
+
+          // Get the relations
+          if ($rc->nodeName == 'relations') {
+            $rcrelations = $rc->childNodes;
+
+            // Go through each relation in turn.
+            foreach ($rcrelations as $rcrel) {
+              // The relationType and relationURI are even a level down from here.
+              $rcNodes = $rcrel->childNodes;
+              $mRelType = "";
+              $mRelURI = "";
+              // This is a bit complicated. We try to gather the relationType and relationUri
+              // we find, but there might only be a relationObject. Since we need both type
+              // and the Uri to make a relation, we scan all childnodes to pick out the values.
+              foreach ($rcNodes as $rc1) {
+                $mRelType = ($rc1->nodeName == 'relationType') ? $rc1->nodeValue : $mRelType;
+                $mRelURI = ($rc1->nodeName == 'relationUri') ? $rc1->nodeValue : $mRelURI;
+                // Now we try to see if we can pick out an infomedia relation
+                // which is hidden as a full object under the relationObject-node.
+                // If only xpath would work, this code could be much simpler and better.
+                if ($rc1->nodeName == 'relationObject') {
+                  foreach($rc1->childNodes as $rc4) {
+                    foreach($rc4->childNodes as $rc3) {
+                      foreach($rc3->childNodes as $rc2) {
+                        if ($rc2->nodeName=="dc:identifier") {
+                          if ($rc2->getAttribute("xsi:type") == "dcterms:URI") {
+                            $mrelations[] = ['type' => 'accessInfoMedia', 'uri' => $rc2->nodeValue];
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              // Check if we found a relationType, in which case we add it to the array.
+              // Note, that the Uri may be empty. That's okay for this purpose.
+              if ($mRelType != "") {
+                $mrelations[] = ['type' => $mRelType, 'uri' => $mRelURI, ];
+              }
+            }
+          }
+        }
+        // Now let's see if we found the relation we are looking for.
+        $positiveFound = false;
+        $haveSavedIt = false;
+        foreach ($mrelations as $mr1) {
+          if ($mr1['type'] == $relation && $mpid != "" && !$haveSavedIt) {
+            fwrite($outputfilePositive, $mpid . "\t" . ((strlen($mr1['uri']) > 0) ? $mr1['uri'] : "") . "\t" . $mtype . "\n");
+            $positiveFound = true;
+            $cntPos++;
+            $haveSavedIt = true;
+          }
+        }
+        // save to the negative file if relation was not found
+        if ($positiveFound == false && $mpid != "" ) {
+          fwrite($outputfileNegative, $mpid . "\t\t" . $mtype . "\n");
+          $cntNeg++;
+        }
+      }
+    }
+    fclose($outputfilePositive);
+    fclose($outputfileNegative);
+
+    // report to the log what happened
+    print_r("Appended " . $cntPos . " records to the '" . $mfile . "_Positive'-file\n");
+    print_r("Appended " . $cntNeg . " records to the '" . $mfile . "_Negative'-file\n");
+  }
+
+
+  /**
    * Step
    *
    * @Given I am logged in as a library user
