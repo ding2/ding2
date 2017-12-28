@@ -113,7 +113,41 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->verbose = (object) array(
       'loginInfo' => true,
       'loginTimingInfo' => false,
+      'ScrShotDir' => "",
+      'ScrShotUseFeatureFolder' => false,
     );
+
+    // Read in parameters from config-file. Notice its name is hard coded and must be
+    // placed in the behat root directory.
+    $filename = "behat.config";
+    if (is_readable($filename)) {
+      // Now open, and read in all lines until no more data is returned.
+      $mfilehandle = fopen($filename, "r");
+      while (($fline = fgets($mfilehandle)) !== false) {
+        if ($fline != "") {
+          // Format should be key <tab> value.
+          $columns = explode("\t", $fline);
+          if (count($columns) != 2) {
+            return "Error: File '" . $filename . "' is expected to have two columns.";
+          }
+          switch (strtolower($columns[0])) {
+            case "screenshotdirectory":
+              $this->verbose['ScrShotDir'] = $columns[1];
+              break;
+
+            case "screenshotusefeaturefolder":
+              $this->verbose['ScrShotUseFeatureFolder'] = $columns[1];
+              break;
+
+            case "logintiminginfo":
+              $this->verbose['loginTimingInfo'] = $columns[1];
+              break;
+
+          }
+        }
+      }
+      fclose($mfilehandle);
+    }
   }
 
   /**
@@ -166,26 +200,27 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @Then I save (a) screenshot
    */
   public function saveScreenshot() {
-    // Initially check if we are taking screenshots at all.
-    // For CircleCI we will set this false using the BEHAT_PARAMS env variable.
+    // Initially check if we are taking screenshots at all. The setting is in the behat.yml file.
     if (!$this->takeScreenDumps) {
-      print_r("Due to screendump setting, screendumps are not taken to comply with circleCI.\n");
+      print_r("Due to screendump setting in behat.yml, screendumps are currently not being saved.\n");
       return;
     }
 
     // Setup folders and make sure the folders exists.
-    //$screenShotDir = 'results/';
-    //$featureFolder = preg_replace('/\W/', '', $this->currentFeature);
-    //if (!file_exists($screenShotDir . $featureFolder)) {
-    //  mkdir($screenShotDir . $featureFolder);
-    //}
-    $screenShotDir = "";
+    $screenShotDir = $this->verbose['ScrShotDir'];
     $featureFolder = "";
+    if ($this->verbose['ScrShotUseFeatureFolder']) {
+      $featureFolder = preg_repclace('/\W/', '', ucwords(strtolower($this->currentFeature))) ;
+      if (!file_exists($screenShotDir . $featureFolder)) {
+        mkdir($screenShotDir . $featureFolder);
+      }
+      // Add the dash to make the following code work in all circumstances.
+      $featureFolder = $featureFolder . "/";
+    }
 
     // Setup filename and make sure it is unique, by adding a postfix (simple number).
-    //$fileName = $screenShotDir . $featureFolder . "/"
-    //      . preg_replace('/\W/', '', $this->currentScenario);
-    $fileName = preg_replace('/\W/', '', $this->currentScenario);
+    $fileName = $screenShotDir . $featureFolder
+      . preg_replace('/\W/', '', ucwords(strtolower($this->currentScenario)));
     $fileNamePostfix = "";
     while (file_exists($fileName . $fileNamePostfix . '.png')) {
       $fileNamePostfix++;
