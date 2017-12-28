@@ -153,6 +153,8 @@ The following conventions are used:
 
 @regression - all scenarios which should run for normal regression testing. This will be pretty much all scenarios.
 
+@cci - all scenarios that run during the automatic test on circleCI. See paragraph on CircleCI.
+
 @api - indicates that the chrome browser is to be used. This is put on all scenarios.
 
 @seekNNN - refers to search-tests in the redroute spreadsheet, where NNN is the line. @seek007 refers to test of pagination, f.ex. Some lines have multiple tests, and thus multiple scenarios can be marked with the same number.
@@ -169,6 +171,21 @@ Connie requires the last 4 letters to be given as password.
 ### versioning
 
 The behat code should always follow the cms code version. 
+
+### CircleCI
+
+A subset of the regression suite is designed to be run after each push of a branch.
+The subset is defined based on the following limitations:
+- not all configurations can be made to the testsite that is spun up.
+- some tests may need human checkup, like sorting.
+- some tests are not compatible with the local testsite.
+
+Currently (January 2018) the following limitations exists:
+- Openscan integration cannot be enabled using drush
+- Cover pages cannot be shown, because that will require credentials to be put into source code for configuration
+- data are expected to come from opensearch test, v4.5, agency 100200.
+- sorting is not machine-deterministic and should not stop a build.
+- default news are not loaded into a testsite, so internal search cannot be tested.
 
 
 
