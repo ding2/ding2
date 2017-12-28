@@ -45,14 +45,16 @@ Feature: test object displays after search
     Then online access button is shown
 
 
-  @api @seek026 @seekNologin @regression @cci
+    # Excluded from CCI because it cannot currently find the material, so probably not configured to right opensource
+  @api @seek026 @seekNologin @regression
   Scenario: Search and display material reservation button shows
     Given filename 'creator.dat' is used
       And I only want reservables
     When I display random object from file
     Then it is possible to click to reserve the material
 
-  @api @seek026 @seekLogin @regression @cci
+    # Excluded from CCI because it cannot currently log in.
+  @api @seek026b @seekLogin @regression
   Scenario: Search and display material husk or add to list button shows
     Given I am logged in as a library user
     Given filename 'creator.dat' is used
@@ -66,7 +68,8 @@ Feature: test object displays after search
     When I display random object from file
     Then it is not possible to add to a list
 
-  @api @seek026 @seekNologin @regression @cci
+    # Excluded from CCI because it cannot currently find the material, so probably not configured to right opensource
+  @api @seek026 @seekNologin @regression
   Scenario: Search and reserve material while not logged in to prompt login
     Given filename 'creator.dat' is used
       And I only want reservables
