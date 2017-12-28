@@ -7,7 +7,7 @@ Feature: Smoke tests
   // Even if it isn't and this will fail, we will have access to a
   // screenshot, to document that we have opened a browser, and navigated
   // on it. In other words, if we succeed then we can run behat tests.
-  @simplesmoke @api
+  @simplesmoke @api @cci
   Scenario: See front page
     Given I am on "/"
       And I accept cookies
