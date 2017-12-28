@@ -33,7 +33,7 @@ class TingOpenlistRequestException extends Exception {
   public function __construct($response, $request_url) {
     parent::__construct(t('Ting openlist error.'));
     $this->response = $response;
-    $this->response = $request_url;
+    $this->request_url = $request_url;
   }
 
 }
