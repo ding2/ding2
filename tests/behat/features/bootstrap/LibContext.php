@@ -174,15 +174,18 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
 
     // Setup folders and make sure the folders exists.
-    $screenShotDir = 'results/';
-    $featureFolder = preg_replace('/\W/', '', $this->currentFeature);
-    if (!file_exists($screenShotDir . $featureFolder)) {
-      mkdir($screenShotDir . $featureFolder);
-    }
+    //$screenShotDir = 'results/';
+    //$featureFolder = preg_replace('/\W/', '', $this->currentFeature);
+    //if (!file_exists($screenShotDir . $featureFolder)) {
+    //  mkdir($screenShotDir . $featureFolder);
+    //}
+    $screenShotDir = "";
+    $featureFolder = "";
 
     // Setup filename and make sure it is unique, by adding a postfix (simple number).
-    $fileName = $screenShotDir . $featureFolder . "/"
-          . preg_replace('/\W/', '', $this->currentScenario);
+    //$fileName = $screenShotDir . $featureFolder . "/"
+    //      . preg_replace('/\W/', '', $this->currentScenario);
+    $fileName = preg_replace('/\W/', '', $this->currentScenario);
     $fileNamePostfix = "";
     while (file_exists($fileName . $fileNamePostfix . '.png')) {
       $fileNamePostfix++;

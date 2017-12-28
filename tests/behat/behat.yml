@@ -4,7 +4,7 @@ default:
       contexts:
         - FeatureContext
         - LibContext:
-            NoScreenDump: "true"
+            NoScreenDump: "false"
         - StepsContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
