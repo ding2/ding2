@@ -17,7 +17,6 @@ use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Page\SearchPage;
 use Page\ObjectPage;
 
-
 /**
  * Defines application features from the specific context.
  */
@@ -50,6 +49,13 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @var \Drupal\DrupalExtension\Context\DrupalContext $drupalContext
    */
   public $drupalContext;
+
+  /**
+   * Holds the current user
+   *
+   * @var array $drupalUser
+   */
+  public $drupalUser;
 
   /**
    * Contains the last search string we used
@@ -674,14 +680,17 @@ class LibContext implements Context, SnippetAcceptingContext {
 
 
   /**
-   * Step
+   * Step for logging in a user assuming Connie is the provider
    *
    * @Given I am logged in as a library user
    *
    * @When I log in as a library user
    */
   public function iAmLoggedInAsALibraryUser() {
-
+    // If for some reason Mink has not started us up on the site, then navigate there.
+    if (strstr($this->minkContext->getSession()->getDriver()->getContent() , "Drupal") == 0) {
+      $this->minkContext->getSession()->visit($this->minkContext->getMinkParameter('base_url') );
+    };
     // Temporary solution, setting up hardcoded username list. Password is last 4 for Connie Provider.
     $userlist = array();
     $userlist[] = 'Lillekvak';
@@ -706,7 +715,7 @@ class LibContext implements Context, SnippetAcceptingContext {
       'name' => $name,
       'pass' => substr($name, -4),
     );
-    $this->drupalContext->user = $user;
+    $this->drupalUser = $user;
     $this->login();
 
     /*
@@ -750,12 +759,12 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function login() {
 
-    if (!$this->drupalContext->user) {
+    if (!$this->drupalUser) {
       throw new \Exception('Tried to login without a user.');
     }
 
     // It's nice to know in the log who we log in with.
-    $this->logMsg(($this->verbose->loginInfo == "on"), "Attempts logging in with user: " . $this->drupalContext->user->name . "\n");
+    $this->logMsg(($this->verbose->loginInfo == "on"), "Attempts logging in with user: " . $this->drupalUser->name . "\n");
 
     $this->logTimestamp(($this->verbose->loginTimingInfo == "on"), " - ");
 
@@ -816,8 +825,8 @@ class LibContext implements Context, SnippetAcceptingContext {
       throw new Exception("Login button or password field is not shown/accessible on page.");
     }
     // Now fill in credentials.
-    $el->fillField($this->drupalContext->getDrupalText('username_field'), $this->drupalContext->user->name);
-    $el->fillField($this->drupalContext->getDrupalText('password_field'), $this->drupalContext->user->pass);
+    $el->fillField($this->drupalContext->getDrupalText('username_field'), $this->drupalUser->name);
+    $el->fillField($this->drupalContext->getDrupalText('password_field'), $this->drupalUser->pass);
     $submit = $el->findButton($this->drupalContext->getDrupalText('log_in'));
 
     if (empty($submit)) {
@@ -829,12 +838,12 @@ class LibContext implements Context, SnippetAcceptingContext {
 
     // Wait until we can see the username displayed.
     $this->waitUntilFieldIsFound('xpath',
-          '//div[contains(@class,"pane-current-user-name")]//div[contains(@class,"pane-content")]/text()[contains(.,"' . $this->drupalContext->user->name . '")]/..',
+          '//div[contains(@class,"pane-current-user-name")]//div[contains(@class,"pane-content")]/text()[contains(.,"' . $this->drupalUser->name . '")]/..',
           "Did not find the users name displayed on page");
 
     // Check if we are logged in drupal-wise.
     if (!$this->drupalContext->loggedIn()) {
-      throw new \Exception(sprintf("Could not log on as user: '%s'", $this->drupalContext->user->name));
+      throw new \Exception(sprintf("Could not log on as user: '%s'", $this->drupalUser->name));
     }
 
     $this->logTimestamp(($this->verbose->loginTimingInfo == "on"), " - OK\n");
