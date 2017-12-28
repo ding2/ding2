@@ -7,7 +7,7 @@ Feature: Searching with facets
 
 
   @api @seek019 @seekNologin @regression @cci
-  Scenario: Search and use facets to find a lesser result
+  Scenario: S019 Search and use facets to find a lesser result
     Given I have searched for "term.type=bog and term.publisher=Gyldendal"
     And I accept cookies
     When I set number of results per page to "50"
@@ -21,7 +21,7 @@ Feature: Searching with facets
     # notice that we will not check facet results while deselecting because we cannot control
     # the sequence it will deselect in.
   @api @seek020 @seekNologin @regression @cci
-  Scenario: Search and use facets repeatedly three times
+  Scenario: S020 Search and use facets repeatedly three times
     Given I have searched for "term.type=bog and term.publisher=Gyldendal"
     And I accept cookies
     When I set number of results per page to "50"

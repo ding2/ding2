@@ -17,7 +17,7 @@ Feature: SEEK redroute 01
 
 
   @api @seek001 @seekNologin @regression @cci
-  Scenario Outline: Search for special letters
+  Scenario Outline: S001 Search for special letters
     Given I have searched for "<title>"
     Then I can see "<letter>" somewhere in the search result
 
@@ -31,64 +31,64 @@ Feature: SEEK redroute 01
       | term.language=dansk AND term.type=bog  AND term.title=?å*  | å      |
 
   @api @seek004 @seekNologin @regression
-  Scenario: Show openscan suggestions in search field
+  Scenario: S004 Show openscan suggestions in search field
     Given I am on "/"
     When I enter "her" in field "Søg"
     Then I get suggestions from openscan
 
   @api @seek005 @seekNologin @regression @cci
-  Scenario: Search using typing of enter
+  Scenario: S005 Search using typing of enter
     Given I am on "/"
     When I enter "larsen\n" in field "Søg"
     Then pageing allows to get all the results
 
   @api @seek005 @seekNologin @regression @cci
-  Scenario: Search using click search button
+  Scenario: S005 Search using click search button
     Given I am on "/"
     When I enter "hansen" in field "Søg"
     When I press "Søg"
     Then pageing allows to get all the results
 
   @api @seek007 @seekNologin @regression @cci
-  Scenario: Check pagination
+  Scenario: S007 Check pagination
     Given I set control mode for "searchMaxPages" to be "100"
     Given I want a search result between "81-110" using "term.type=bog and term.creator=Hansen and term.publisher=Gyldendal" published between "2000-2017"
     When pageing allows to get all the results
     Then I check pagination on all pages
 
   @api @seek010  @seekNologin @regression @cci
-  Scenario: Check serie-angivelse is shown on search result
+  Scenario: S010 Check serie-angivelse is shown on search result
     Given I have searched for "phrase.titleSeries=B*"
     When pageing allows to get all the results
     Then there are posts with "serie" in the search results
 
   @api @seek011 @seekNologin @regression @cci
-  Scenario: Check materialetype is shown on search result
+  Scenario: S011 Check materialetype is shown on search result
     Given I have searched for "phrase.titleSeries=A*"
     When pageing allows to get all the results
     Then all posts have "materialetype" in the search results
 
   @api @seek012 @seekNologin @regression
-  Scenario: Check internal searchfield
+  Scenario: S012 Check internal searchfield
     Given I am on "/"
     And I have searched for "$random:nyhed"
     When I search on hjemmesiden
     Then I can see "$get:lastSearchString" in the search results first page
 
   @api @seek013 @seekNologin @regression
-  Scenario: Check sorting for title ascending
+  Scenario: S013 Check sorting for title ascending
     Given I have searched for "phrase.titleSeries=B* and term.language=dansk"
     When I sort the search result on "title_ascending"
     Then the search result is sorted on "title_ascending"
 
   @api @seek013 @seekNologin @regression
-  Scenario: Check sorting for title descending
+  Scenario: S013 Check sorting for title descending
     Given I have searched for "phrase.titleSeries=B* and term.language=dansk"
     When I sort the search result on "title_descending"
     Then the search result is sorted on "title_descending"
 
   @api @seek013 @seekNologin @regression @cci
-  Scenario: Check sorting for creator by listing the results in the log
+  Scenario: S013 Check sorting for creator by listing the results in the log
     Given I have searched for "term.language=dansk and phrase.titleSeries=B*"
     And I set verbose mode for "search-Results" to be "on"
     When I sort the search result on "creator_descending"
@@ -97,32 +97,32 @@ Feature: SEEK redroute 01
     Then pageing allows to get all the results
 
   @api @seek013 @seekNologin @regression @cci
-  Scenario: Check sorting for published date descending
+  Scenario: S013 Check sorting for published date descending
     Given I have searched for "phrase.titleSeries=B*"
     And I set control mode for "searchMaxPages" to be "2"
     When I sort the search result on "date_descending"
     Then the search result is sorted on "date_descending"
 
   @api @seek013 @seekNologin @regression
-  Scenario: Check sorting for published date ascending
+  Scenario: S013 Check sorting for published date ascending
     Given I have searched for "phrase.titleSeries=B*"
     When I sort the search result on "date_ascending"
     Then the search result is sorted on "date_ascending"
 
   @api @seek014 @seekNologin @regression @cci
-  Scenario: Check tilgængelighed is shown on search result
+  Scenario: S014 Check tilgængelighed is shown on search result
     Given I have searched for "phrase.titleSeries=All*"
     When pageing allows to get all the results
     Then all posts have "tilgængelighed" in the search results
 
   @api @seek015 @seekNologin @regression @cci
-  Scenario: Check samlinger is shown on search result
+  Scenario: S015 Check samlinger is shown on search result
     Given I have searched for "phrase.titleSeries=Harry*"
     When pageing allows to get all the results
     Then there are posts with "materialesamling" in the search results
 
   @api @seek016 @seekNologin @regression
-  Scenario: Check forsidebillede is shown on search result
+  Scenario: S016 Check forsidebillede is shown on search result
     Given I have searched for "term.type=Bog and term.date='2014' and holdingsitem.accessionDate>='NOW-300DAYS'"
     When pageing allows to get all the results
     Then there are posts with "forside" in the search results
