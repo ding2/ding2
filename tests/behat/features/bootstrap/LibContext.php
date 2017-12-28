@@ -110,7 +110,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
 
     // Initialise the verbose structure. These are default settings.
-    $this->verbose = (object) array(
+    $this->verbose = array(
       'loginInfo' => true,
       'loginTimingInfo' => false,
       'ScrShotDir' => "",
@@ -128,10 +128,13 @@ class LibContext implements Context, SnippetAcceptingContext {
           // Format should be key <tab> value.
           $columns = explode("\t", $fline);
           if (count($columns) != 2) {
-            return "Error: File '" . $filename . "' is expected to have two columns.";
+            print_r ("Error: File '" . $filename . "' is expected to have two columns.");
+          }
+          if (ord(substr($columns[1], strlen($columns[1]), 1)) < 32) {
+            $columns[1] = substr($columns[1], 0, strlen($columns[1]) - 1);
           }
           switch (strtolower($columns[0])) {
-            case "screenshotdirectory":
+            case "scrshotdir":
               $this->verbose['ScrShotDir'] = $columns[1];
               break;
 
@@ -210,11 +213,11 @@ class LibContext implements Context, SnippetAcceptingContext {
     $screenShotDir = $this->verbose['ScrShotDir'];
     $featureFolder = "";
     if ($this->verbose['ScrShotUseFeatureFolder']) {
-      $featureFolder = preg_repclace('/\W/', '', ucwords(strtolower($this->currentFeature))) ;
+      $featureFolder = preg_replace('/\W/', '', ucwords(strtolower($this->currentFeature))) ;
       if (!file_exists($screenShotDir . $featureFolder)) {
         mkdir($screenShotDir . $featureFolder);
       }
-      // Add the dash to make the following code work in all circumstances.
+      // Add the slash to make the following code work in all circumstances.
       $featureFolder = $featureFolder . "/";
     }
 
