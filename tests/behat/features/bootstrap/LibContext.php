@@ -110,7 +110,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
 
     // Initialise the verbose structure. These are default settings.
-    $this->verbose = array(
+    $this->verbose = (object) array(
       'loginInfo' => true,
       'loginTimingInfo' => false,
       'ScrShotDir' => "",
@@ -135,15 +135,15 @@ class LibContext implements Context, SnippetAcceptingContext {
           }
           switch (strtolower($columns[0])) {
             case "scrshotdir":
-              $this->verbose['ScrShotDir'] = $columns[1];
+              $this->verbose->ScrShotDir = $columns[1];
               break;
 
             case "screenshotusefeaturefolder":
-              $this->verbose['ScrShotUseFeatureFolder'] = $columns[1];
+              $this->verbose->ScrShotUseFeatureFolder = $columns[1];
               break;
 
             case "logintiminginfo":
-              $this->verbose['loginTimingInfo'] = $columns[1];
+              $this->verbose->loginTimingInfo = $columns[1];
               break;
 
           }
@@ -210,9 +210,9 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
 
     // Setup folders and make sure the folders exists.
-    $screenShotDir = $this->verbose['ScrShotDir'];
+    $screenShotDir = $this->verbose->ScrShotDir;
     $featureFolder = "";
-    if ($this->verbose['ScrShotUseFeatureFolder']) {
+    if ($this->verbose->ScrShotUseFeatureFolder) {
       $featureFolder = preg_replace('/\W/', '', ucwords(strtolower($this->currentFeature))) ;
       if (!file_exists($screenShotDir . $featureFolder)) {
         mkdir($screenShotDir . $featureFolder);
