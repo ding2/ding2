@@ -54,8 +54,6 @@ test:
     - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
     - make circle-run-tests:
         parallel: true
-    - make circle-after-tests:
-        parallel: true
 
   post:
     # Copy Behat report and screendumps to circle.
