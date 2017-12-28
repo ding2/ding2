@@ -12,15 +12,17 @@ class TingOpenlistRequestException extends Exception {
 
   /**
    * The object returned by drupal_http_request().
+   *
    * @var object
    */
-  public $response;
+  protected $response;
 
   /**
    * The URL called.
+   *
    * @var string
    */
-  public $request_url;
+  protected $request_url;
 
   /**
    * Construct exception.
@@ -34,6 +36,30 @@ class TingOpenlistRequestException extends Exception {
     parent::__construct(t('Ting openlist error.'));
     $this->response = $response;
     $this->request_url = $request_url;
+  }
+
+  /**
+   * Returns the Drupal HTTP response object.
+   *
+   * @see drupal_http_request().
+   *
+   * @return object
+   *   Drupal HTTP response object.
+   */
+  public function getResponse()
+  {
+    return $this->response;
+  }
+
+  /**
+   * Return the requested URL.
+   *
+   * @return string
+   *   Request URL.
+   */
+  public function getRequestUrl()
+  {
+    return $this->request_url;
   }
 
 }

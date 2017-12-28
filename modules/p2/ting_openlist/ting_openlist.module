@@ -282,7 +282,6 @@ function ting_openlist_request($function, array $arguments = array()) {
   $data = drupal_json_decode($response->data);
   $watchdog_severity = ($response->code != '200' || empty($data)) ? WATCHDOG_ERROR : WATCHDOG_INFO;
 
-
   if (variable_get('ting_openlist_log', FALSE) || $watchdog_severity === WATCHDOG_ERROR) {
     watchdog(
       'ting_openlist',
