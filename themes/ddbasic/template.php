@@ -254,11 +254,6 @@ function ddbasic_preprocess_views_view(&$vars) {
 
     case 'ding_news':
       switch ($vars['view']->current_display) {
-        case 'ding_news_groups_list':
-          // Add slide-on-mobile class.
-          $vars['classes_array'][] = 'slide-on-mobile';
-          break;
-
         case 'ding_news_frontpage_list':
           // Add slide-on-mobile class.
           $vars['classes_array'][] = 'slide-on-mobile';
