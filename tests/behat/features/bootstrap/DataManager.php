@@ -48,40 +48,49 @@ class DataManager extends \Page\PageBase {
     if (is_readable($this->filename)) {
 
       // Now open, and read in all lines until no more data is returned, or we found a match.
+      // If we only want reservables, we only read in objects of type Bog*.
       $mfilehandle = fopen($this->filename, "r");
-
-      $fline = fgets($mfilehandle);
-      if ($fline != "") {
-        $marray[] = $fline;
-      }
-      // Now go through the rest of the file.
       while (($fline = fgets($mfilehandle)) !== false) {
         if ($fline != "") {
-          $marray[] = $fline;
+          // If we are only looking for reservables, we should only add real books.
+          if ($this->onlyReservable) {
+            $columns = explode("\t", $fline);
+            if (count($columns) != 3) {
+              return "Error: File '" . $this->filename . "' is expected to have three columns.";
+            }
+            if (substr($columns[2], 0, 3) == "Bog") {
+              $marray[] = $fline;
+            }
+          }
+          else {
+            $marray[] = $fline;
+          }
         }
       }
       fclose($mfilehandle);
       if (count($marray) < 1) {
-        return "Error: file '" . $this->filename . "' was empty";
+        return "Error: file '" . $this->filename . "' was empty or did not contain any books.";
       }
 
       // Pick a random line of the ones read in, and dissolve it into fields, separated by tabs.
-      $columns = explode("\t", $marray[(random_int(0, count($marray) - 1))]);
-      if (count($columns) != 3) {
-        return "Error: the file '" . $this->filename . "' is expected to have three columns.";
-      }
+      $pointer = random_int(0, count($marray) - 1);
+      $columns = explode("\t", $marray[$pointer]);
+
       // If the flag is set for only finding reservables, try up to 200 times to
       // find one that is reservable according to Connie conventions. Notice we
       // only try this for books, because other types are generally not reservable.
       $max = 200;
-      while (--$max > 0 && $this->onlyReservable && $columns[2] == "Bog" && !$this->isReservable($columns[0])) {
-        $columns = explode("\t", $marray[(random_int(0, count($marray) - 1))]);
-        if (count($columns) != 3) {
-          return "Error: file '" . $this->filename . "' is expected to have three columns.";
+      while (--$max > 0 && $this->onlyReservable && !$this->isReservable($columns[0]) ) {
+        // We found a random one to start with, now we spin forward until we
+        // find a reservable one and loop around if we get to the end.
+        $pointer++;
+        if ($pointer == count($marray)) {
+          $pointer = 0;
         }
+        $columns = explode("\t", $marray[$pointer]);
       }
       if ($max == 0) {
-        return "Error: no reservable information found";
+        return "Error: no reservable information found " . $columns[0] . " " . $columns[2];
       }
       // Return the PID.
       return $columns[0];
