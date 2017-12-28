@@ -16,7 +16,7 @@ Feature: SEEK redroute 01
     And I accept cookies
 
 
-  @api @seek001 @seekNologin @regression
+  @api @seek001 @seekNologin @regression @cci
   Scenario Outline: Search for special letters
     Given I have searched for "<title>"
     Then I can see "<letter>" somewhere in the search result
@@ -36,40 +36,39 @@ Feature: SEEK redroute 01
     When I enter "her" in field "Søg"
     Then I get suggestions from openscan
 
-  @api @seek005 @seekNologin @regression
+  @api @seek005 @seekNologin @regression @cci
   Scenario: Search using typing of enter
     Given I am on "/"
     When I enter "larsen\n" in field "Søg"
     Then pageing allows to get all the results
 
-  @api @seek005 @seekNologin @regression
+  @api @seek005 @seekNologin @regression @cci
   Scenario: Search using click search button
     Given I am on "/"
     When I enter "hansen" in field "Søg"
     When I press "Søg"
     Then pageing allows to get all the results
 
-  @api @seek007 @seekNologin @regression
+  @api @seek007 @seekNologin @regression @cci
   Scenario: Check pagination
     Given I set control mode for "searchMaxPages" to be "100"
     Given I want a search result between "81-110" using "term.type=bog and term.creator=Hansen and term.publisher=Gyldendal" published between "2000-2017"
     When pageing allows to get all the results
     Then I check pagination on all pages
 
-  @api @seek010  @seekNologin @regression
+  @api @seek010  @seekNologin @regression @cci
   Scenario: Check serie-angivelse is shown on search result
     Given I have searched for "phrase.titleSeries=B*"
     When pageing allows to get all the results
     Then there are posts with "serie" in the search results
 
-  @api @seek011 @seekNologin @regression
+  @api @seek011 @seekNologin @regression @cci
   Scenario: Check materialetype is shown on search result
     Given I have searched for "phrase.titleSeries=A*"
     When pageing allows to get all the results
     Then all posts have "materialetype" in the search results
 
-    # Taken out because currently sites are being built without adding news to them
-  @api @seek012 @seekNologin @wip @regression
+  @api @seek012 @seekNologin @regression
   Scenario: Check internal searchfield
     Given I am on "/"
     And I have searched for "$random:nyhed"
@@ -82,14 +81,13 @@ Feature: SEEK redroute 01
     When I sort the search result on "title_ascending"
     Then the search result is sorted on "title_ascending"
 
-    # Taken out because currently there is a bug on sorting desc on title.
-  @api @seek013 @seekNologin @wip @regression
+  @api @seek013 @seekNologin @regression
   Scenario: Check sorting for title descending
     Given I have searched for "phrase.titleSeries=B* and term.language=dansk"
     When I sort the search result on "title_descending"
     Then the search result is sorted on "title_descending"
 
-  @api @seek013 @seekNologin @regression
+  @api @seek013 @seekNologin @regression @cci
   Scenario: Check sorting for creator by listing the results in the log
     Given I have searched for "term.language=dansk and phrase.titleSeries=B*"
     And I set verbose mode for "search-Results" to be "on"
@@ -98,7 +96,7 @@ Feature: SEEK redroute 01
     When I sort the search result on "creator_ascending"
     Then pageing allows to get all the results
 
-  @api @seek013 @seekNologin @regression
+  @api @seek013 @seekNologin @regression @cci
   Scenario: Check sorting for published date descending
     Given I have searched for "phrase.titleSeries=B*"
     And I set control mode for "searchMaxPages" to be "2"
@@ -111,13 +109,13 @@ Feature: SEEK redroute 01
     When I sort the search result on "date_ascending"
     Then the search result is sorted on "date_ascending"
 
-  @api @seek014 @seekNologin @regression
+  @api @seek014 @seekNologin @regression @cci
   Scenario: Check tilgængelighed is shown on search result
     Given I have searched for "phrase.titleSeries=All*"
     When pageing allows to get all the results
     Then all posts have "tilgængelighed" in the search results
 
-  @api @seek015 @seekNologin @regression
+  @api @seek015 @seekNologin @regression @cci
   Scenario: Check samlinger is shown on search result
     Given I have searched for "phrase.titleSeries=Harry*"
     When pageing allows to get all the results
@@ -125,6 +123,6 @@ Feature: SEEK redroute 01
 
   @api @seek016 @seekNologin @regression
   Scenario: Check forsidebillede is shown on search result
-    Given I have searched for "term.type=bog and term.date=2014 and holdingsitem.accessionDate>='NOW-300DAYS'"
+    Given I have searched for "term.type=Bog and term.date='2014' and holdingsitem.accessionDate>='NOW-300DAYS'"
     When pageing allows to get all the results
     Then there are posts with "forside" in the search results
