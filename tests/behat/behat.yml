@@ -49,6 +49,21 @@ chrome:
       browser_name: 'chrome'
       javascript_session: selenium2
 
+circleci:
+  extensions:
+    Behat\MinkExtension:
+      selenium2:
+        wd_host: "http://localhost:4444/wd/hub"
+        browser: chrome
+        capabilities:
+           browser: chrome
+           marionette: true
+           chrome:
+             {switches:['--start_maximized', "--headless", "--disable-gpu"]}
+      default_session: 'selenium2'
+      browser_name: 'chrome'
+      javascript_session: selenium2
+
 visible:
   extensions:
     Behat\MinkExtension:
