@@ -213,16 +213,11 @@ function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
  */
 function ding_library_disable_custom_alias($form, &$form_state) {
   if (isset($form['path']['pathauto'])) {
-    $form['path']['pathauto']['#description'] = t('Custom alias has been disabled');
-    $form['path']['pathauto']['#attached']['js'][] = drupal_get_path('module', 'ding_library') . '/ding_library.js';
-
-    // We have to keep the alias textfield, since removing it causes a fatal
-    // error in the parent element validate handler, so we just tell the FORM
-    // API it's disabled and make sure it's disabled in frontend.
-    $form['path']['alias']['#disabled'] = TRUE;
-    // For some reason this is necessary.
-    $form['path']['alias']['#attributes'] = array('disabled' => TRUE);
-    unset($form['path']['alias']['#states']);
+    $form['path']['#access'] = FALSE;
+    // Setting #access to FALSE on the path element, results in pathauto not
+    // deriving an alias automatically. We therefore tell pathauto explicitly
+    // to do this.
+    $form_state['values']['path']['pathauto'] = 1;
   }
   return $form;
 }
