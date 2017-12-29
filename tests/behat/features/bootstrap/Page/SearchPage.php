@@ -269,6 +269,7 @@ class SearchPage extends PageBase {
     switch (strtolower($attribute)) {
       case 'tilgængelig':
       case 'tilgængelighed':
+      case 'availability':
         $okay = $txt_accessibility;
         break;
 
@@ -278,18 +279,22 @@ class SearchPage extends PageBase {
         break;
 
       case 'materialesamling':
+      case 'collection':
         $okay = $txt_isSamling;
         break;
 
       case 'forfatterbeskrivelse':
+      case 'creatordescription':
         $okay = $txt_forfatterbeskrivelse;
         break;
 
       case 'materialetype':
+      case 'objecttype':
         $okay = $txt_materiale;
         break;
 
       case 'serie':
+      case 'series':
         $okay = $txt_serie;
         break;
 
