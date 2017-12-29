@@ -515,7 +515,9 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           $subjects = array();
           $search_term = variable_get('ting_search_register_subject', 'phrase.subject="@subject"');
           foreach ($entity->subjects as $subject) {
-            $subjects[] = l($subject, 'search/ting/' . $search_term, array(
+            $subject_enc = str_replace('@subject', $subject,
+              $search_term);
+            $subjects[] = l($subject, 'search/ting/' . $subject_enc, array(
               'attributes' => array('class' => array('subject')),
             ));
           }
