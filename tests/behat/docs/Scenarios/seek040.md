@@ -7,7 +7,7 @@ Using known data, objects are shown and it's determined that creator description
 ## Method
 This test uses the data manager module, and sets the filename. These files are actually created 
 using an extract from opensearch, automatically. 
-There's a documentation entry on the data manager class and data files.
+There's a documentation entry on the data manager class in the guideline document and data files.
 
 This test is divided into two scenarios.
 
