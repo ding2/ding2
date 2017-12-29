@@ -984,7 +984,8 @@ class LibContext implements Context, SnippetAcceptingContext {
       $js = $js . 'var el = document.evaluate("' . $xpath .
             '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;';
       $js = $js . 'document.body.scrollTop = document.documentElement.scrollTop = 0;';
-      $js = $js . 'el.scrollIntoViewIfNeeded(true);';
+      // $js = $js . 'el.scrollIntoViewIfNeeded(true);';
+      $js = $js . 'el.scrollIntoView(true);';
       $this->minkContext->getSession()->executeScript($js);
     }
     catch (UnsupportedDriverActionException $e) {
@@ -1022,6 +1023,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Step
    *
    * @When I search on hjemmesiden
+   * @When I search (internally|on the home page)
    */
   public function searchOnHomePage() {
     $this->check($this->searchPage->searchOnHomePage());
@@ -1203,7 +1205,7 @@ class LibContext implements Context, SnippetAcceptingContext {
         case 'nyhed':
           $foundArr = $this->getPage()->findAll('css', '.news-text h3.title');
           if (!$foundArr) {
-            throw new Exception("Argument for a news item. Could not find any news on the page.");
+            throw new Exception("Argument for a news item. Could not find any news on the page. Make sure the browser is on the front page when running this command.");
           }
           // Only first, last and random works with nyheder as choice.
           switch (strtolower($cmdArr[0])) {
