@@ -177,7 +177,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     try {
       $this->minkContext->getSession()
             ->getDriver()
-            ->resizeWindow(1024, 2000, 'current');
+            ->resizeWindow(1280, 2000, 'current');
     }
     catch (UnsupportedDriverActionException $e) {
       // Ignore, but make a note of it for the tester.
@@ -238,7 +238,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     // Save the screenshot.
     $this->minkContext->getSession()
           ->getDriver()
-          ->resizeWindow(1024, $height, 'current');
+          ->resizeWindow(1280, $height, 'current');
     file_put_contents($fileName, $this->minkContext->getSession()->getDriver()->getScreenshot());
   }
 
