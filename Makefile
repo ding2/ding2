@@ -38,4 +38,4 @@ circle-run-tests:
 	export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://ding2.dev/" }}}' && \
 	cd $(DRUPAL_SITE_PATH)/profiles/ding2/tests/behat && \
 	echo "ScrShotDir	$(CIRCLE_ARTIFACTS)/" > behat.config && \
-	./bin/behat --tags 'cci' --tags '~wip' --format=junit --out=$(CIRCLE_TEST_REPORTS)/cucumber/junit.xml --format=pretty --out=std -p circleci
+	./bin/behat --tags 'cci' --tags '~wip' --format=junit --out=$(CIRCLE_TEST_REPORTS)/cucumber/junit.xml --format=pretty --out=std -p chrome
