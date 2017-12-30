@@ -984,8 +984,8 @@ class LibContext implements Context, SnippetAcceptingContext {
       $js = $js . 'var el = document.evaluate("' . $xpath .
             '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;';
       $js = $js . 'document.body.scrollTop = document.documentElement.scrollTop = 0;';
-      // $js = $js . 'el.scrollIntoViewIfNeeded(true);';
-      $js = $js . 'el.scrollIntoView(true);';
+      $js = $js . 'el.scrollIntoViewIfNeeded(true);';
+      // $js = $js . 'el.scrollIntoView(true);';
       $this->minkContext->getSession()->executeScript($js);
     }
     catch (UnsupportedDriverActionException $e) {
