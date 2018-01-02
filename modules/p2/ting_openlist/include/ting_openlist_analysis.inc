@@ -5,6 +5,12 @@
  * Functions for analysis of local OpenList Entities
  */
 
+/**
+ * Get providers.
+ *
+ * @return int
+ *   Number of providers.
+ */
 function ting_openlist_local_analysis_data_providers() {
   $query = db_select('users', 'u');
   $query->join('users_roles', 'ur', 'ur.uid = u.uid');
@@ -12,6 +18,12 @@ function ting_openlist_local_analysis_data_providers() {
   return $query->countQuery()->execute()->fetchField();
 }
 
+/**
+ * Get providers with an openlist uid.
+ *
+ * @return int
+ *   Number of providers.
+ */
 function ting_openlist_local_analysis_data_providers_id() {
   $query = db_select('users', 'u');
   $query->join('users_roles', 'ur', 'ur.uid = u.uid');
@@ -20,6 +32,12 @@ function ting_openlist_local_analysis_data_providers_id() {
   return $query->countQuery()->execute()->fetchField();
 }
 
+/**
+ * Get providers which is synced.
+ *
+ * @return int
+ *   Number of synced users.
+ */
 function ting_openlist_local_analysis_data_providers_openlist_is_sync() {
   $query = db_select('users', 'u');
   $query->join('users_roles', 'ur', 'ur.uid = u.uid');
@@ -28,6 +46,13 @@ function ting_openlist_local_analysis_data_providers_openlist_is_sync() {
   return $query->countQuery()->execute()->fetchField();
 }
 
+/**
+ * Count the types of lists.
+ *
+ * @return array
+ *   An associative array, where the key is the list_type_X (X being number of
+ *   lists) and the key is number of occurences.
+ */
 function ting_openlist_local_analysis_data_list_counts() {
   $sub_query = db_select('field_data_field_list_type', 'flt');
   $sub_query->join('eck_ding_type', 'dt', 'dt.id = flt.entity_id');
@@ -49,6 +74,13 @@ function ting_openlist_local_analysis_data_list_counts() {
   return $query->execute()->fetchAllKeyed();
 }
 
+/**
+ * The top 10 duplicate lists.
+ *
+ * @return array
+ *   Keyed array, where they key is the openlist_uid and value the number of
+ *   list duplicates.
+ */
 function ting_openlist_local_analysis_data_top10_list() {
   $sub_query = db_select('field_data_field_list_type', 'flt');
   $sub_query->join('eck_ding_type', 'dt', 'dt.id = flt.entity_id');
@@ -72,7 +104,14 @@ function ting_openlist_local_analysis_data_top10_list() {
   return $query->execute()->fetchAllKeyed();
 }
 
-function ting_openlist_local_analysis_data_elements_counts() {
+/**
+ * Get lists with duplicate elements.
+ *
+ * @return array
+ *   An associative array, where the key tells how many duplicates there is, and
+ *   the value is the number of occurences.
+ */
+function ting_openlist_local_analysis_data_duplicate_elements() {
   $sub_query = db_select('field_data_field_list_objects', 'flo');
   $sub_query->join('field_data_field_value', 'fv', 'fv.entity_id = flo.field_list_objects_target_id');
   $sub_query->addField('flo', 'entity_id');
@@ -92,15 +131,20 @@ function ting_openlist_local_analysis_data_elements_counts() {
   return $query->execute()->fetchAllKeyed();
 }
 
+/**
+ * Get the analysis data.
+ *
+ * @return array
+ *   The associated array of data. Check the documentation for each of the
+ *   functions for more information about the specific key.
+ */
 function ting_openlist_get_local_analysis_data() {
-  $data = array(
+  return array(
     'providers' => ting_openlist_local_analysis_data_providers(),
     'providers_openlist_id' => ting_openlist_local_analysis_data_providers_id(),
     'providers_openlist_is_sync' => ting_openlist_local_analysis_data_providers_openlist_is_sync(),
     'list_counts' => ting_openlist_local_analysis_data_list_counts(),
     'top10_list' => ting_openlist_local_analysis_data_top10_list(),
-    'elements_counts' => ting_openlist_local_analysis_data_elements_counts(),
+    'duplicate_elements' => ting_openlist_local_analysis_data_duplicate_elements(),
   );
-
-  return $data;
 }
