@@ -12,8 +12,8 @@
 
   &.half_left {
     float: left;
-    margin-right: 5%;
-    width: getColumn(6);
+    padding-right: 3%;
+    width: 50%;
 
     @include media($notebook) {
       width: 100%;
@@ -30,8 +30,8 @@
 
   &.half_right {
     float: right;
-    margin-left: 5%;
-    width: getColumn(6);
+    padding-left: 3%;
+    width: 50%;
 
     @include media($notebook) {
       width: 100%;
@@ -48,7 +48,7 @@
 
   &.one_third_left {
     float: left;
-    margin-right: 5%;
+    padding-right: 3%;
     width: 33%;
 
     .field-name-ting-abstract {
@@ -73,7 +73,7 @@
 
   &.one_third_right {
     float: right;
-    margin-left: 5%;
+    padding-left: 3%;
     width: 33%;
 
     .field-name-ting-abstract {
@@ -190,4 +190,9 @@
       }
     }
   }
+}
+
+// Override existing css from different files.
+.node-ding-page .field-name-field-ding-page-body > .paragraphs-text p:last-child {
+  margin-bottom: 30px;
 }
