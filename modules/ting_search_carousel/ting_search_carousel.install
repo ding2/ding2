@@ -38,6 +38,9 @@ function ting_search_carousel_add_shortcut() {
         'link_path' => 'admin/config/ting/ting_search_carousel',
         'link_title' => st('Configure carousel'),
         'weight' => -14,
+        // We have to specify this, since our router path might not exist yet on
+        // fresh install.
+        'router_path' => 'admin/config/ting/ting_search_carousel'
       ),
     );
 
@@ -70,4 +73,23 @@ function ting_search_carousel_update_7002() {
  */
 function ting_search_carousel_update_7003() {
   module_enable(array('ding_carousel'));
+}
+
+/**
+ * Ensure router path for carousel shortcut menu link is correct.
+ */
+function ting_search_carousel_update_7004() {
+  if (module_exists('shortcut')) {
+    $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+
+    foreach ($shortcut_set->links as &$link) {
+      // The router path needs to be correct for the access check for the menu
+      // link to work.
+      if ($link['link_path'] == 'admin/config/ting/ting_search_carousel') {
+        $link['router_path'] = $link['link_path'];
+      }
+    }
+
+    shortcut_set_save($shortcut_set);
+  }
 }

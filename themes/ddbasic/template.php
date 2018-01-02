@@ -87,7 +87,7 @@ function ddbasic_process_html(&$vars) {
  * Implements hook_preprocess_panels_pane().
  */
 function ddbasic_preprocess_panels_pane(&$vars) {
-  // If using lazy pane caching method, and lazy pane is returniing the rendered
+  // If using lazy pane caching method, and lazy pane is returning the rendered
   // content, set the lazy_pane_render variable, so the template can take action
   // accordingly.
   $vars['is_lazy_pane_render'] = !empty($vars['pane']->cache['method'])
@@ -254,11 +254,6 @@ function ddbasic_preprocess_views_view(&$vars) {
 
     case 'ding_news':
       switch ($vars['view']->current_display) {
-        case 'ding_news_groups_list':
-          // Add slide-on-mobile class.
-          $vars['classes_array'][] = 'slide-on-mobile';
-          break;
-
         case 'ding_news_frontpage_list':
           // Add slide-on-mobile class.
           $vars['classes_array'][] = 'slide-on-mobile';
