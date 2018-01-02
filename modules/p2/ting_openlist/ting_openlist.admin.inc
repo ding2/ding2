@@ -145,12 +145,13 @@ function ting_openlist_settings_form($form, &$form_state) {
  */
 function ting_openlist_show_local_analysis_form_callback($form, &$form_state) {
   module_load_include('inc', 'ting_openlist', 'include/ting_openlist_analysis');
+  $data = ting_openlist_get_local_analysis_data();
 
   $out = array(
     '#type' => 'html_tag',
     '#tag' => 'div',
     '#attributes' => array('id' => 'show-local-analysis-container'),
-    '#value' => ting_openlist_get_local_analysis(),
+    '#value' => '<pre>' . htmlentities(var_export($data, TRUE)) . '</pre>',
   );
 
   return render($out);
