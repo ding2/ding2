@@ -18,7 +18,6 @@ function ding_paragraphs_preprocess_node(&$variables) {
   }
 }
 
-
 /**
  * Implements hook_entity_info_alter().
  */
@@ -28,5 +27,22 @@ function ding_paragraphs_entity_info_alter(&$entity_info) {
       'label' => t('Paragraphs teaser'),
       'custom settings' => TRUE,
     ),
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add js for form.
+ */
+function ding_paragraphs_form_node_form_alter(&$form, &$form_state) {
+  // General form setup.
+  $form['#attached'] = array(
+    'js' => array(
+      array(
+        'type' => 'file',
+        'data' => drupal_get_path('module', 'ding_paragraphs'). '/js/ding_paragraphs_form.js',
+      ),
+    )
   );
 }
