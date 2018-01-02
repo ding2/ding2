@@ -32,6 +32,11 @@ function ding_list_reset_user($account = NULL) {
   if (isset($result['ding_type'])) {
     entity_delete_multiple('ding_type', array_keys($result['ding_type']));
   }
+
+  ding_list_setup_autocreated($account);
+  if (ding_user_consent_has_consent('loan_history_store')) {
+    ding_list_update_historical_loans($account);
+  }
 }
 
 /**

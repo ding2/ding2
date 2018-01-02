@@ -19,11 +19,22 @@
     border-bottom: none;
     margin-bottom: 30px;
     a {
-      padding-right: 15px;      
+      padding-right: 15px;
       //Mobile
       @include media($mobile) {
         width: 171px;
       }
+    }
+  }
+}
+
+.ding-list-reset-user-form {
+  .form-actions {
+    margin-top: 1em;
+
+    input[type='submit'] {
+      display: inline-block;
+      margin-right: 20px;
     }
   }
 }

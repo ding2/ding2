@@ -16,7 +16,19 @@ function ding_list_installer_default_page_manager_pages() {
   $page->admin_title = 'Ding list reset user';
   $page->admin_description = '';
   $page->path = 'user/%user/reset-lists';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'reset_lists',
+        'settings' => NULL,
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array();
   $page->arguments = array(
     'user' => array(

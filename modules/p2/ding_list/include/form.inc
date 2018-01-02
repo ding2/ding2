@@ -746,33 +746,13 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
  * Ask user to reset their lists.
  */
 function ding_list_reset_user_form($form, &$form_state, $account) {
-  $form['warning'] = array(
-    '#markup' => '<p>' . t('Are you sure you want to reset all your lists.') . '</p>',
+  $form['#attributes']['class'] = array('ding-list-reset-user-form');
+  return confirm_form(
+    $form,
+    t('Reset my lists'),
+    'user/' . $account->uid . '/my-library',
+    t('Are you sure you want to reset all your lists.')
   );
-
-  $form['actions'] = array(
-    '#type' => 'actions',
-    'yes' => array(
-      '#type' => 'submit',
-      '#value' => t('Yes'),
-    ),
-    'cancel' => array(
-      '#type' => 'submit',
-      '#value' => t('Cancel'),
-      '#submit' => array('ding_list_reset_user_form_submit_cancel'),
-      '#limit_validation_errors' => array(),
-    ),
-  );
-
-  return $form;
-}
-
-/**
- * Cancel handler for ding_list_reset_user_form.
- */
-function ding_list_reset_user_form_submit_cancel($form, &$form_state) {
-  $account = $form_state['build_info']['args'][0];
-  $form_state['redirect'] = 'user/' . $account->uid . '/my-library';
 }
 
 /**
@@ -782,11 +762,6 @@ function ding_list_reset_user_form_submit($form, &$form_state) {
   $account = $form_state['build_info']['args'][0];
 
   ding_list_reset_user($account);
-
-  ding_list_setup_autocreated($account);
-  if (ding_user_consent_has_consent('loan_history_store')) {
-    ding_list_update_historical_loans($account);
-  }
 
   $form_state['redirect'] = 'user/' . $account->uid . '/my-library';
 }
