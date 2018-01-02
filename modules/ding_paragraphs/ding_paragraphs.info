@@ -25,7 +25,6 @@ features[field_base][] = field_ding_paragraphs_image
 features[field_base][] = field_ding_paragraphs_material
 features[field_base][] = field_ding_paragraphs_position
 features[field_base][] = field_ding_paragraphs_text
-features[field_group][] = group_ding_news_paragraphs|node|ding_news|form
 features[field_group][] = group_ting_left_col_collection|ting_object|ting_object|paragraphs_teaser
 features[field_group][] = group_ting_right_col_collection|ting_object|ting_object|paragraphs_teaser
 features[field_instance][] = paragraphs_item-ding_paragraphs_image-field_ding_paragraphs_image

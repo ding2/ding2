@@ -39,6 +39,7 @@ features[field_base][] = field_ding_news_paragraphs
 features[field_base][] = field_ding_news_show_as_list
 features[field_base][] = field_ding_news_tags
 features[field_base][] = field_ding_news_title_image
+features[field_group][] = group_ding_news_paragraphs|node|ding_news|form
 features[field_group][] = group_ding_news_attachments|node|ding_news|form
 features[field_group][] = group_ding_news_categorization|node|ding_news|form
 features[field_group][] = group_ding_news_content|node|ding_news|form

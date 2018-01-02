@@ -122,7 +122,7 @@ function ding_page_field_group_info() {
         'classes' => '',
         'description' => '',
       ),
-      'formatter' => 'collapsed',
+      'formatter' => 'collapsible',
     ),
   );
   $field_groups['group_ding_page_paragraphs|node|ding_page|form'] = $field_group;
