@@ -21,7 +21,7 @@ function ding_paragraphs_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => 'ding_full_width',
+          'image_style' => 'ding_secondary_large',
         ),
         'type' => 'image',
         'weight' => 0,
@@ -139,7 +139,7 @@ function ding_paragraphs_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => 'ding_full_width',
+          'image_style' => 'ding_secondary_large',
         ),
         'type' => 'image',
         'weight' => 0,

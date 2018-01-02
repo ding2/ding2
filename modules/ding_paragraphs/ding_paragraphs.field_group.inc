@@ -80,7 +80,6 @@ function ding_paragraphs_field_group_info() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Left column');
-  t('Paragraphs');
   t('Right column');
 
   return $field_groups;
