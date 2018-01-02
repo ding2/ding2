@@ -162,11 +162,13 @@ function ting_openlist_show_local_analysis_form_callback($form, &$form_state) {
 function ting_openlist_submit_local_analysis_form_callback($form, &$form_state) {
   module_load_include('inc', 'ting_openlist', 'include/ting_openlist_analysis');
 
+  $result = ding_provider_invoke('openlist', 'call_module', 'LocalAnalysis', 'sendData', array(ting_openlist_get_local_analysis_data()));
+
   $out = array(
     '#type' => 'html_tag',
     '#tag' => 'div',
     '#attributes' => array('id' => 'show-local-analysis-container'),
-    '#value' => ting_openlist_submit_local_analysis(),
+    '#value' => $result ? t('Stats are sent') : t('Unknown error try again later'),
   );
 
   return render($out);

@@ -10,13 +10,6 @@ function ting_openlist_get_local_analysis() {
   return '<pre>' . htmlentities(var_export($data, TRUE)) . '</pre>';
 }
 
-function ting_openlist_submit_local_analysis() {
-  dpm(ding_provider_invoke('openlist', 'call_module', 'LocalAnalysis', 'sendData', array(ting_openlist_get_local_analysis_data())));
-
-
-  return "Stats are sent.";
-}
-
 function ting_openlist_get_local_analysis_data() {
   $data = array();
 
