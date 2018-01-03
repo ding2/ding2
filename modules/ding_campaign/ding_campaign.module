@@ -194,7 +194,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       ->fetchAll();
 
     foreach ($result as $key => $value) {
-      @$campaigns[$value->cid] += 11;
+      @$campaigns[$value->cid] += 12;
     }
   }
 
@@ -213,7 +213,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       ->fetchAll();
 
     foreach ($result as $key => $value) {
-      @$campaigns[$value->cid] += 10;
+      @$campaigns[$value->cid] += 11;
     }
   }
 
@@ -232,6 +232,22 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       ->fetchAll();
 
     foreach ($result as $key => $value) {
+      @$campaigns[$value->cid] += 10;
+    }
+  }
+
+  // Process user campaigns.
+  $result = db_query('SELECT r.cid, r.rule
+    FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
+    WHERE r.type = \'rule_user\'
+      AND n.status = 1
+      AND r.cid = d.cid
+      AND r.cid = n.nid
+    ORDER BY d.weight DESC')
+    ->fetchAll();
+
+  foreach ($result as $key => $value) {
+    if (arg(0) == 'user' || arg(0) == 'list') {
       @$campaigns[$value->cid] += 9;
     }
   }
@@ -247,6 +263,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     ->fetchAll();
 
   $path = drupal_get_path_alias($_GET['q']);
+
   foreach ($result as $key => $value) {
     $page_match = drupal_match_path($path, $value->rule);
 
