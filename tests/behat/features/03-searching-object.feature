@@ -32,13 +32,13 @@ Feature: test object displays after search
     When I display random object from file
     Then a 'hasReview' entry is not shown
 
-  @api @seek035 @seekNologin @regression
+  @api @seek035 @seekNologin @regression @cci
   Scenario: S035 Show Object Placement
     Given filename 'creator.dat' is used
     When I display random object from file
     Then a 'hasPlacement' entry is shown
 
-  @api @seek034 @seekNologin @regression
+  @api @seek034 @seekNologin @regression @cci
   Scenario: S034 Show Object Details
     Given filename 'creator.dat' is used
     When I display random object from file
