@@ -35,14 +35,54 @@ function ding_paragraphs_entity_info_alter(&$entity_info) {
  *
  * Add js for form.
  */
-function ding_paragraphs_form_node_form_alter(&$form, &$form_state) {
-  // General form setup.
-  $form['#attached'] = array(
-    'js' => array(
-      array(
-        'type' => 'file',
-        'data' => drupal_get_path('module', 'ding_paragraphs'). '/js/ding_paragraphs_form.js',
-      ),
-    )
-  );
+function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
+  if (isset($form['field_ding_page_paragraphs'])) {
+    // Attach js to form.
+    $form['#attached'] = array(
+      'js' => array(
+        array(
+          'type' => 'file',
+          'data' => drupal_get_path('module', 'ding_paragraphs'). '/js/ding_paragraphs_form.js',
+        ),
+      )
+    );
+
+    // Add information for each paragraph in backend.
+    foreach($form['field_ding_page_paragraphs'][LANGUAGE_NONE] as $key => $value) {
+      if (is_array($value) && isset($value['#entity_type']) && $value['#entity_type'] == 'paragraphs_item') {
+        $wrapper = entity_metadata_wrapper($value['#entity_type'], $value['#entity']);
+        $output = '';
+        switch ($value['#bundle']) {
+          case 'ding_paragraphs_image_and_text' :
+            // Add image and text snippet.
+            $image = $wrapper->field_ding_paragraphs_image->value()['0'];
+            $image['style_name'] = 'thumbnail';
+            $image['path'] = $image['uri'];
+            $output = theme_image_style($image) . ' - ' .mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_text->value()['value']), 0, 30, "...");
+            break;
+          case 'ding_paragraphs_text_box' :
+            // Add text snippet.
+            $output = mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_box_text->value()['value']), 0, 30, "...");
+            break;
+          case 'ding_paragraphs_image' :
+            // For some unknown reason the previously defined wrapper is off,
+            // so we grab the image entity from elsewhere.
+            $wrapper = entity_metadata_wrapper('paragraphs_item', $value['field_ding_paragraphs_image'][LANGUAGE_NONE]['0']['#entity']);
+            // Add image.
+            $image = $wrapper->field_ding_paragraphs_image->value()['0'];
+            $image['style_name'] = 'thumbnail';
+            $image['path'] = $image['uri'];
+            $output = theme_image_style($image);
+            break;
+          case 'ding_paragraphs_text' :
+            // Add text snippet.
+            //A little more letters since this is the wrapping text.
+            $output = mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_text->value()['value']), 0, 50, "...");
+            break;
+        }
+        // Alter markup of each paragraph.
+        $form['field_ding_page_paragraphs'][LANGUAGE_NONE][$key]['paragraph_bundle_title']['info']['#markup'] .= ' - ' . $output;
+      }
+    }
+  }
 }
