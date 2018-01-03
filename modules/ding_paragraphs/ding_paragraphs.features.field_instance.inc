@@ -14,7 +14,8 @@ function ding_paragraphs_field_default_field_instances() {
   $field_instances['paragraphs_item-ding_paragraphs_image-field_ding_paragraphs_image'] = array(
     'bundle' => 'ding_paragraphs_image',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Images are scaled to a width of 900px.
+The recommended minimum width of this image is 900px to ensure images are not upscaled when displayed.',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -132,7 +133,8 @@ function ding_paragraphs_field_default_field_instances() {
   $field_instances['paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_image'] = array(
     'bundle' => 'ding_paragraphs_image_and_text',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Images are scaled to a width of 900px.
+The recommended minimum width of this image is 900px to ensure images are not upscaled when displayed.',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -490,6 +492,8 @@ function ding_paragraphs_field_default_field_instances() {
   t('Box text');
   t('Image');
   t('Image position');
+  t('Images are scaled to a width of 900px.
+The recommended minimum width of this image is 900px to ensure images are not upscaled when displayed.');
   t('Materiale');
   t('Show as');
   t('Text');
