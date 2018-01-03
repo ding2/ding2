@@ -40,6 +40,10 @@
           if ($('select option:selected', $context).val() == 'rule_generic') {
             $('.rule-value', $context).hide();
           }
+          // Hide rule value for user type.
+          if ($('select option:selected', $context).val() == 'rule_user') {
+            $('.rule-value', $context).hide();
+          }
         });
 
         // OnChange event for 'rule type' dropdown.
@@ -48,6 +52,10 @@
           var value = $(this).selected().val();
           if (value == 'rule_generic') {
             // Generic does not need a 'rule value'.
+            $('.rule-value', $context).hide();
+          }
+          if (value == 'rule_user') {
+            // User does not need a 'rule value'.
             $('.rule-value', $context).hide();
           }
           else {
