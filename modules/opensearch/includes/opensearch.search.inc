@@ -481,7 +481,7 @@ function opensearch_search_map_common_condition_fields() {
     TingSearchCommonFields::AUTHOR => 'facet.creator',
     TingSearchCommonFields::CATEGORY => 'facet.category',
     TingSearchCommonFields::LANGUAGE => 'facet.language',
-    TingSearchCommonFields::MATERIAL_TYPE => 'dc.type',
+    TingSearchCommonFields::MATERIAL_TYPE => 'facet.type',
     TingSearchCommonFields::SUBJECT => 'facet.subject',
   ];
 }
