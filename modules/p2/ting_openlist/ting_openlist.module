@@ -7,6 +7,8 @@
 
 define('TING_OPENLIST_DEFAULT_DOMAIN', 'https://test.openlist.ddbcms.dk');
 
+require_once 'TingOpenlistRequestException.php';
+
 /**
  * Implements hook_ding_provider().
  */
@@ -294,7 +296,7 @@ function ting_openlist_request($function, array $arguments = array()) {
       $watchdog_severity
     );
 
-    if ($watchdog_severity) {
+    if ($watchdog_severity == WATCHDOG_ERROR) {
       throw new TingOpenlistRequestException($response, $url);
     }
   }
