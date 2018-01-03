@@ -171,6 +171,7 @@ class SearchPage extends PageBase {
         break;
 
     }
+    return "";
   }
 
   /**
@@ -196,7 +197,7 @@ class SearchPage extends PageBase {
       // Move to page using the pagination link.
       $result = $this->goToPage(($i + 1));
       if ($result != "") {
-        return "Could not go to page " . $i + 1 . ": " . $result;
+        return "Could not go to page " . ($i + 1) . ": " . $result;
       }
       // Check that the pagination elements are shown correctly for this page.
       $this->logMsg(true, $this->checkPaginationElements());
