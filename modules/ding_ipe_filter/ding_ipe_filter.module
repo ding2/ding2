@@ -183,9 +183,11 @@ function _ding_ipe_filter_get_pane_info($category, $subtype_name) {
     $categories = $panel_editor->get_categories($content_types);
   }
 
-  foreach ($categories[$category]['content'] as $pane) {
-    if ($pane['subtype_name'] == $subtype_name) {
-      return $pane;
+  if (!empty($categories[$category]['content'])) {
+    foreach ($categories[$category]['content'] as $pane) {
+      if ($pane['subtype_name'] == $subtype_name) {
+        return $pane;
+      }
     }
   }
 
