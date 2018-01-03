@@ -770,17 +770,6 @@ function ding2_set_cookie_page() {
   $node->title = 'Cookies på hjemmesiden';
   $node->type = 'ding_page';
   $node->language = 'und';
-  /*
-  $node->field_ding_page_body = array(
-    'und' => array(
-      array(
-        'value' => $body,
-        'format' => 'ding_wysiwyg',
-        'safe_value' => $body,
-      ),
-    ),
-  );
-  */
   $node->field_ding_page_lead = array(
     'und' => array(
       array(
