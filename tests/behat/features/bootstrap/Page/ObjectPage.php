@@ -181,9 +181,10 @@ class ObjectPage extends PageBase {
 
     $classAttr = $button->getAttribute('class');
     // It takes a bit to add these classes. Wait until they are there. This also covers not-reservable and unavailable, of course.
+    // A 5 second pause is a tad long, but it caters for slower environments, like upgrade-fbs.
     $max = 3000;
     while (--$max > 0 && (strpos($classAttr, 'reservable') === false || strpos($classAttr, 'available') === false)) {
-      usleep(10);
+      sleep(5);
       $classAttr = $button->getAttribute('class');
     }
 
