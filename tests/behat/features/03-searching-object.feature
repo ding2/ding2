@@ -32,6 +32,18 @@ Feature: test object displays after search
     When I display random object from file
     Then a 'hasReview' entry is not shown
 
+  @api @seek035 @seekNologin @regression
+  Scenario: S035 Show Object Placement
+    Given filename 'creator.dat' is used
+    When I display random object from file
+    Then a 'hasPlacement' entry is shown
+
+  @api @seek034 @seekNologin @regression
+  Scenario: S034 Show Object Details
+    Given filename 'creator.dat' is used
+    When I display random object from file
+    Then a 'hasDetails' entry is shown
+
   @api @seek025 @seekNologin @regression @cci
   Scenario: S025 Search and display material see availability
     Given filename 'onlineAccess.dat' is used

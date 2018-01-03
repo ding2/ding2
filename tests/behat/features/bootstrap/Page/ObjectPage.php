@@ -30,7 +30,7 @@ class ObjectPage extends PageBase {
    */
   public function entryIsShown($relType) {
     $relationType = $this->convertRelationTypeToTechnicalTerm($relType);
-    $found = $this->find('css', '.ting-object div[id="' . $relationType . '"]');
+    $found = $this->find('css', '.ting-object ' . $relationType);
     if ($found === null) {
       return "Could not find entry: " . $relationType;
     }
@@ -49,7 +49,7 @@ class ObjectPage extends PageBase {
   public function entryIsNotShown($relType) {
     $relationType = $this->convertRelationTypeToTechnicalTerm($relType);
 
-    $found = $this->find('css', '.ting-object div[id="' . $relationType . '"]');
+    $found = $this->find('css', '.ting-object ' . $relationType);
     if ($found !== null) {
       return "Found a " . $relationType . " unexpectedly. Is your file updated?";
     }
@@ -69,16 +69,25 @@ class ObjectPage extends PageBase {
     $relationType = "";
     switch (strtolower($relType)) {
       case 'hasreview':
-        $relationType = 'dbcaddi:hasReview';
+        $relationType = 'div[id="dbcaddi:hasReview"]';
         break;
 
       case 'hascreatordescription':
-        $relationType = 'dbcaddi:hasCreatorDescription';
+        $relationType = 'div[id="dbcaddi:hasCreatorDescription"]';
+        break;
+
+      case 'hasplacement':
+        $relationType = 'div.group-holdings-available a';
+        break;
+
+      case 'hasdetails':
+      case 'hasobjectdetails':
+        $relationType = 'div.group-material-details a';
         break;
 
     }
     if ($relationType == "") {
-      return "Could not dechiper the relationtype " . $relType . "\n Use either 'hasReview' or 'hasCreatorDescription'.";
+      return "Error: Could not dechiper the relationtype " . $relType . "\n(Knowns are 'hasReview', 'hasCreatorDescription', 'hasDetails', 'hasPlacement').";
     }
     return $relationType;
   }
