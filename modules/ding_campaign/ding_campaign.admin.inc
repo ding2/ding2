@@ -157,7 +157,7 @@ function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
 
     // Add new rules.
     for ($i = 0; $i < $c; $i++) {
-      if ($form_state['input']['rule_value'][$i] != '' || $form_state['input']['rule_type'][$i] == 'rule_generic') {
+      if ($form_state['input']['rule_value'][$i] != '' || $form_state['input']['rule_type'][$i] == 'rule_generic' || $form_state['input']['rule_type'][$i] == 'rule_user') {
 
         $nid = NULL;
         if (in_array($form_state['input']['rule_type'][$i], array('rule_page', 'rule_news', 'rule_event', 'rule_taxonomy', 'rule_library'))) {
@@ -209,6 +209,7 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
       'rule_taxonomy' => 'Taxonomy term',
       'rule_generic' => 'Generic',
       'rule_library' => 'Library',
+      'rule_user' => 'User pages',
     ),
     '#prefix' => '<div class="ding-campaign-rule"><div class="rule-type">',
     '#suffix' => '</div>',
