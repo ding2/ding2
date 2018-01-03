@@ -237,7 +237,7 @@
           @include span-columns(3 of 5);
           margin: 20px 0;
           color: $white;
-          background: $color-primary;
+          background: $color-secondary;
 
           // Tablet
           @include media($tablet) {
