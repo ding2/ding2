@@ -52,7 +52,7 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
     }
 
     if ($form_id == 'ting_covers_admin_addi_settings_form') {
-      $form['addi']['addi_wsdl_url']['#default_value'] = 'http://moreinfo.addi.dk/2.1/';
+      $form['addi']['addi_wsdl_url']['#default_value'] = 'http://moreinfo.addi.dk/2.10';
     }
   }
 }
