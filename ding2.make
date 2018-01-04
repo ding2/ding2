@@ -17,7 +17,7 @@ projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
 
 projects[autologout][subdir] = "contrib"
-projects[autologout][version] = "4.3"
+projects[autologout][version] = "4.5"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"

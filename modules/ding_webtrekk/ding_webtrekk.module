@@ -1,0 +1,126 @@
+<?php
+/**
+ * @file
+ * Include basic hooks for the module functionality.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_webtrekk_menu() {
+  $items = [];
+  $items['admin/config/ding/webtrekk'] = [
+    'title' => 'Webtrekk',
+    'description' => 'Settings for the Webtrekk analytics tool.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['ding_webtrekk_admin_settings_form'],
+    'access arguments' => ['administer site configuration'],
+    'file' => 'ding_webtrekk.admin.inc',
+  ];
+
+  return $items;
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function ding_webtrekk_page_alter(&$page) {
+  $domain = variable_get('webtrekk_ti_domain', '');
+  $id = variable_get('webtrekk_ti_id', '');
+
+  if (empty($domain) && empty($id)) {
+    return;
+  }
+
+  $params = [
+    'pageTitle' => drupal_get_title(),
+  ];
+  _ding_webtrekk_set_data_layer_values($params);
+
+  // @codingStandardsIgnoreStart
+  $tag_integration_logic = '/** start TagIntegration loader  */
+(function(c,d,a,f){c.wts=c.wts||[];var g=function(b){var a="";b.customDomain&&b.customPath?a=b.customDomain+"/"+b.customPath:b.tiDomain&&b.tiId&&(a=b.tiDomain+"/resp/api/get/"+b.tiId+"?url="+encodeURIComponent(c.location.href)+"&v=5");if(b.option)for(var d in b.option)a+="&"+d+"="+encodeURIComponent(b.option[d]);return a};if(-1===d.cookie.indexOf("wt_r=1")){var e=d.getElementsByTagName(a)[0];a=d.createElement(a);a.async=!0;a.onload=function(){if("undefined"!==typeof c.wt_r&&!isNaN(c.wt_r)){var b=new Date,a=b.getTime()+1E3*parseInt(c.wt_r);b.setTime(a);d.cookie="wt_r=1;path=/;expires="+b.toUTCString()}};a.onerror=function(){"undefined"!==typeof c.wt_mcp_hide&&"function"===typeof c.wt_mcp_hide.show&&(c.wt_mcp_hide.show(),c.wt_mcp_hide.show=function(){})};a.src="//"+g(f);e.parentNode.insertBefore(a,e)}})(window,document,"script",_tiConfig);
+/** end TagIntegration loader */';
+  // @codingStandardsIgnoreEnd
+
+  $page['page_bottom']['webtrekk']['#attached']['js'] = [
+    [
+      'data' => 'window._tiConfig = window._tiConfig || {
+        tiDomain: ' . "'$domain'," .
+        'tiId: ' . "'$id'," .
+        'option: {}
+      };' . $tag_integration_logic,
+      'type' => 'inline',
+      'scope' => 'footer',
+    ],
+  ];
+
+  // Track ting search results. We take advantage of the fact that ting_search
+  // module stores the result in a static variable when search is triggered via
+  // search_data() function from core search module. Since this is not tied to
+  // any path, we also check current_path().
+  if (strpos(current_path(), 'search/ting') === 0) {
+    if ($search_result = drupal_static('ting_search_results', FALSE)) {
+      $params = [
+        'pageTitle' => 'Search ting',
+        'OSS' => $search_result->search_key,
+        'OSSr' => $search_result->numTotalObjects,
+      ];
+      _ding_webtrekk_set_data_layer_values($params);
+    }
+  }
+}
+
+/**
+ * Implements hook_views_post_execute().
+ *
+ * Track internal search results.
+ */
+function ding_webtrekk_views_post_execute(&$view) {
+  // We also check current_path to ensure we're tracking on the correct page.
+  // For example, the view is also executed on ting_search search page to show
+  // the number of results to the user, if they searched in content instead.
+  // See search_backend.inc ctools content type plugin from ting_search.
+  if ($view->name == 'ding_multiple_search' && strpos(current_path(), 'search/node') === 0) {
+    // This view is loaded 2 times. Prevent from loading params multiple times.
+    $loaded = &drupal_static(__FUNCTION__);
+    if (!empty($loaded)) {
+      return;
+    }
+    $loaded = TRUE;
+
+    $params = [
+      'internalSearch' => array_shift($view->args),
+      'numberSearchResults' => $view->total_rows,
+      'pageTitle' => 'Search content',
+    ];
+    _ding_webtrekk_set_data_layer_values($params);
+  }
+}
+
+/**
+ * Pass Tag Information variables to the inline js script.
+ *
+ * @param array $value_map
+ *   Key, value collection of parameters to be considered.
+ */
+function _ding_webtrekk_set_data_layer_values(array $value_map) {
+  $script_lines = array_map(function($key, $value) {
+    if ($value) {
+      return "window._ti['$key'] = '$value'";
+    }
+  }, array_keys($value_map), $value_map);
+
+  // Remove empty values.
+  $script_lines = array_filter($script_lines);
+
+  $script_lines = array_merge(
+    ['window._ti = window._ti || {}'],
+    $script_lines
+  );
+
+  $script = implode(";\n", $script_lines);
+  drupal_add_js($script, [
+    'type' => 'inline',
+  ]);
+}
