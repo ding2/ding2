@@ -15,6 +15,20 @@ function ding_news_install() {
 
 /**
  * Remove old ting reference field table from news.
+ * Implements hook_update_dependencies().
+ */
+function ding_news_update_dependencies() {
+  // Ding_news_update_7007 must run after ding2_update_7044 and ting_reference_7003.
+  $dependencies['ding_news'][7007] = array(
+    'ding2' => 7044,
+    'ting_reference' => 7003,
+  );
+
+  return $dependencies;
+}
+
+/**
+ * Remove old ting reference field table from news.
  */
 function ding_news_update_7000() {
   // The tables are left over after change to virtual field, hence we have to
@@ -154,8 +168,12 @@ function ding_news_update_7007(&$sandbox) {
     $paragraph->save();
     $sandbox['current']++;
   }
-
-  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  if($sandbox['total'] > 0) {
+    $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  }
+  else {
+    $sandbox['#finished'] = 1;
+  }
 
   if ($sandbox['#finished'] === 1) {
     drupal_set_message(t('We processed @nodes nodes. Deleting field_ding_news_body...', array('@nodes' => $sandbox['total'])));

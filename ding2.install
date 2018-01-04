@@ -117,6 +117,18 @@ function ding2_install() {
 }
 
 /**
+ * Implements hook_update_dependencies().
+ */
+function ding2_update_dependencies() {
+  // Ding2_7044 must run after ting_reference_7003.
+  $dependencies['ding2'][7044] = array(
+    'ting_reference' => 7003,
+  );
+
+  return $dependencies;
+}
+
+/**
  * Set default theme setting for ddbasic.
  *
  * @return array
@@ -804,4 +816,20 @@ function ding2_update_7070() {
  */
 function ding2_update_7071() {
   module_enable(array('ding_paragraphs'));
+}
+
+/**
+ * Enable the ding_paragraphs module.
+ */
+function ding2_update_7048() {
+  module_enable(array('ding_paragraphs'));
+
+  // Revert features.
+  module_load_include('inc', 'ding2', 'ding2.install_callbacks');
+  _ding2_features_revert('ding_paragraphs');
+  _ding2_features_revert('ding_page');
+  _ding2_features_revert('ding_news');
+
+  // Clear cache before continuing update.
+  drupal_flush_all_caches();
 }

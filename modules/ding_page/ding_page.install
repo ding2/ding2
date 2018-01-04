@@ -5,6 +5,19 @@
  */
 
 /**
+ * Implements hook_update_dependencies().
+ */
+function ding_page_update_dependencies() {
+  // Ding_page_update_7004 must run after ding2_update_7044 and ting_reference_7003.
+  $dependencies['ding_page'][7004] = array(
+    'ding2' => 7044,
+    'ting_reference' => 7003,
+  );
+
+  return $dependencies;
+}
+
+/**
  * Remove obsolete menu.
  */
 function ding_page_update_7001() {
