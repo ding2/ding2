@@ -209,7 +209,7 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
     $form_state['existing'] = FALSE;
   }
 
-  if (ding_list_allowed($existing, DING_LIST_OPERATION_EDIT_TITLE)) {
+  if ($existing === FALSE || ding_list_allowed($existing, DING_LIST_OPERATION_EDIT_TITLE)) {
     $form['title'] = array(
       '#type' => 'textfield',
       '#title' => t('Title'),
