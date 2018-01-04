@@ -188,12 +188,10 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
 
   $order = array();
   $queue = nodequeue_load_queue_by_name('ding_library_listing');
-  if ($queue->subqueues < 1) {
-    return;
-  }
-  $subqueue = current(nodequeue_load_subqueues_by_queue($queue->qid));
-  foreach (nodequeue_load_nodes($subqueue->sqid, FALSE, 0, 0) as $node) {
-    $order[$node->title] = $node->nid;
+  foreach (nodequeue_load_subqueues_by_queue($queue->qid) as $subqueue) {
+    foreach (nodequeue_load_nodes($subqueue->sqid, FALSE, 0, 0) as $node) {
+      $order[$node->title] = $node->nid;
+    }
   }
 
   // Get and sort all the instances in the given timespan.
