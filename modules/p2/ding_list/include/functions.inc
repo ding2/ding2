@@ -9,6 +9,37 @@ require_once __DIR__ . '/functions.openlist.inc';
 require_once __DIR__ . '/functions.handler.inc';
 
 /**
+ * Remove all the lists connected to a user.
+ *
+ * @param object $account
+ *   The user account.
+ */
+function ding_list_reset_user($account = NULL) {
+  if ($account === NULL) {
+    global $user;
+    $account = $user;
+  }
+
+  if (ding_provider_implements('openlist', 'reset_user')) {
+    ding_provider_invoke('openlist', 'reset_user', $account);
+  }
+
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', 'ding_type')
+    ->propertyCondition('uid', $account->uid)
+    ->execute();
+
+  if (isset($result['ding_type'])) {
+    entity_delete_multiple('ding_type', array_keys($result['ding_type']));
+  }
+
+  ding_list_setup_autocreated($account);
+  if (ding_user_consent_has_consent('loan_history_store')) {
+    ding_list_update_historical_loans($account);
+  }
+}
+
+/**
  * Get the list of actions, depending on type and value.
  *
  * @param string $type
