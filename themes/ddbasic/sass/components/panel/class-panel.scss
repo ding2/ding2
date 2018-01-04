@@ -60,6 +60,11 @@
   .more-link {
     min-width: getColumn(3);
     float: left;
+
+    // Mobile
+    @include media($mobile) {
+      float: none;
+    }
   }
   // Grid small
   &.grid-small {

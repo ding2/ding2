@@ -23,6 +23,7 @@ dependencies[] = ting_proxy
 dependencies[] = ting_reference
 dependencies[] = ting_relation
 dependencies[] = ting_search_autocomplete
+dependencies[] = ting_search
 dependencies[] = uuid
 dependencies[] = virtual_field
 features[ctools][] = field_group:field_group:1

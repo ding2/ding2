@@ -35,6 +35,16 @@ body {
   &.overlay-is-active,
   &.popupbar-is-open {
     overflow: hidden;
+
+    // This is a fix for the modal bug in iOS 11.
+    // See: https://hackernoon.com/how-to-fix-the-ios-11-input-element-in-fixed-modals-bug-aaf66c7ba3f8
+    // Using position: fixed on body-element seems to work. !important is
+    // currently used because the body element is styled inline with
+    // position: relative;
+    // width: 100% ensures that everything looks normal, when the fix is applied.
+    position: fixed !important;
+    width: 100%;
+
     &::after {
       @include transition(
         opacity $speed $ease,
@@ -611,7 +621,7 @@ ul.tabs.primary {
     left: 0;
     width: 100%;
     height: 100%;
-    
+
   }
   .search-overlay--text {
     color: $white;

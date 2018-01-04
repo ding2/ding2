@@ -14,11 +14,11 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#title' => t('Openlist settings'),
   );
 
-  $form['settings']['ting_openlist_wsdl'] = array(
+  $form['settings']['ting_openlist_domain'] = array(
     '#type' => 'textfield',
-    '#title' => t('URI of the WSDL file'),
-    '#description' => t("The client doesn't support non-WSDL mode, so this is required."),
-    '#default_value' => variable_get('ting_openlist_wsdl', ''),
+    '#title' => t('Openlist domain'),
+    '#description' => t("The openlist URL."),
+    '#default_value' => variable_get('ting_openlist_domain', TING_OPENLIST_DEFAULT_DOMAIN),
     '#required' => TRUE,
   );
 
@@ -44,20 +44,6 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_openlist_authkey', ''),
   );
 
-  // Caching settings.
-  $form['caching'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Openlist WSDL caching'),
-    '#description' => t('These settings only affect the SoapClients created for openlist, and will not interfere with other SoapClients on your site.'),
-  );
-
-  $form['caching']['ting_openlist_wsdl_cache'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable WSDL caching'),
-    '#description' => '',
-    '#default_value' => variable_get('ting_openlist_wsdl_cache', TRUE),
-  );
-
   // Debugging settings.
   $form['debugging'] = array(
     '#type' => 'fieldset',
@@ -72,26 +58,11 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_openlist_log', FALSE),
   );
 
-  // The detailed log will log the full argument list send to openlist.
-  $form['debugging']['ting_openlist_log_details'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable detailed logging'),
-    '#description' => t('If logging, this will log more details, but the log messages can get big and confusing.'),
-    '#default_value' => variable_get('ting_openlist_log_details', FALSE),
-  );
-
   $form['debugging']['ting_openlist_developer'] = array(
     '#type' => 'checkbox',
     '#title' => t('Developer'),
     '#description' => t('Send the developer cookie to the service.'),
     '#default_value' => variable_get('ting_openlist_developer', FALSE),
-  );
-
-  $form['debugging']['ting_openlist_no_wsdl_cache'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Disable WSDL caching'),
-    '#description' => t('Only disable WSDL caching when testing experimental OpenList API'),
-    '#default_value' => variable_get('ting_openlist_no_wsdl_cache', FALSE),
   );
 
   // Statistics.
