@@ -1,8 +1,6 @@
 # Behat regression suite checks
 
 Suite for automated checking of DDB CMS.
-Content (in progress):
-* Smoketest (@simplesmoke) - demonstrate that the basic behat setup works.
 
 
 ## Preparation
@@ -12,6 +10,7 @@ Check out the branch behat-testsuite.
 Install browser-support.
 
 #### installing Behat
+
 _Development machine:_
 If you use PHPStorm open the project and add the composer dependency "behat/behat".
 Version should be at least 3.4.
@@ -40,7 +39,8 @@ In this, create a composer.json file and run the composer on it.
         "behat/mink-extension": "^2.2",
         "behat/mink-goutte-driver": "^1.2",
         "behat/mink-selenium2-driver": "^1.3",
-        "integratedexperts/behat-screenshot": "^0.6.2",
+        "michaelc/intdiv-compat": "^1.0",
+        "paragonie/random_compat": "^2.0"
         "curl/curl": "^1.8"
     }
 }
@@ -84,10 +84,15 @@ temporarily insert the base_url parameter in the behat.yml-file:
 ```sh
     Behat\MinkExtension:
       goutte: ~
-      #selenium2:
-        #wd_host: "http://localhost:4444/wd/hub"
       browser_name: 'chrome'
       base_url: http://localhost:32770
 ```
 
-
+Another hint is to create a file, f.ex. ".vanilla", containing the BEHAT_PARAMS
+export, and then source it. By having a series of files like that it is easy
+to switch between test sites:
+```sh
+% cat .vanilla
+export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "https://vanilla-fbs.ddbcms.dk/"}}}'
+% source .vanilla
+```
