@@ -61,6 +61,34 @@ There are two context-files, LibContext and StepsContext. They are considered eq
 Classes are instantiated in LibContext, which in turns is referenced in StepsContext. The hierarchy is thus:
 StepsContext->LibContext->Classes...
 
+### behat.config file - parameter transfer
+To make setup of parameters to the behat suite easier a file called behat.config
+which must be placed in the behat-root directory (just under features), is used.
+
+If the file does not exist, default values are being used.
+
+If the file exists, it will be read, and any parameter which is included in it
+will have its value set accordingly.
+
+The format of the behat.config file is simple:
+- one line per parameter
+- each line consists of parameter name <tab> value
+
+The following example will direct screenshots to the results-directory (default it will be
+placed the behat-root-dir), 
+and have the screenshots placed in a subfolder named by the feature file (default it won't).
+Also logintiming information verbose mode will be set to false (which is also the default value).
+```sh
+scrshotdir  results/
+screenshotusefeaturefolder  true
+logintiminginfo false
+```
+(These are the currently the only parameters that can be set in this way).
+
+This is used on circleCI by having the makefile create the behat.config file,
+to redirect the screenshots directly to the artefact-folder.
+The above example is good for local use.
+
 ### Injecting classes into context-file
 
 Read here: http://behat-page-object-extension.readthedocs.io/en/stable/guide/working_with_page_objects.html#injecting-page-objects-into-a-context-file
