@@ -7,6 +7,8 @@
 
 define('TING_OPENLIST_DEFAULT_DOMAIN', 'https://test.openlist.ddbcms.dk');
 
+require_once 'TingOpenlistRequestException.php';
+
 /**
  * Implements hook_ding_provider().
  */
@@ -279,10 +281,9 @@ function ting_openlist_request($function, array $arguments = array()) {
   );
 
   $response = drupal_http_request($url);
-  $data = drupal_json_decode($response->data);
-  $watchdog_severity = ($response->code != '200' || empty($data)) ? WATCHDOG_ERROR : WATCHDOG_INFO;
+  $watchdog_severity = ($response->code !== '200' || empty($response->data)) ? WATCHDOG_ERROR : WATCHDOG_INFO;
 
-  if (variable_get('ting_openlist_log', FALSE) || $watchdog_severity === WATCHDOG_ERROR) {
+  if ($watchdog_severity === WATCHDOG_ERROR || variable_get('ting_openlist_log', FALSE)) {
     watchdog(
       'ting_openlist',
       '<strong>Request</strong><pre>!link</pre><strong>Execution time</strong><pre>@execution_time ms</pre><strong>Response</strong><pre>!response</pre>',
@@ -294,12 +295,12 @@ function ting_openlist_request($function, array $arguments = array()) {
       $watchdog_severity
     );
 
-    if ($watchdog_severity) {
+    if ($watchdog_severity === WATCHDOG_ERROR) {
       throw new TingOpenlistRequestException($response, $url);
     }
   }
 
-  return $data;
+  return drupal_json_decode($response->data);
 }
 
 /**

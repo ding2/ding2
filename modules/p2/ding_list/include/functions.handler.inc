@@ -275,7 +275,8 @@ function ding_list_handle_fields_in_list(&$list, array $fields) {
     foreach ($fields as $field) {
       switch ($field['name']) {
         case 'field_ding_content_tags':
-          $field['value'] = ding_list_handle_taxonomy_terms($field['value'], $field['name']);
+          $field['value'] = ding_list_handle_taxonomy_terms([$field['value']],
+            $field['name']);
           $list->{$field['name']}[LANGUAGE_NONE] = $field['value'];
           break;
 
