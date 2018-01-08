@@ -67,7 +67,7 @@ function ting_admin_online_types_settings($form_state) {
 
   $form['ting_online']['ting_online_types'] = array(
     '#type' => 'checkboxes',
-    '#options' => drupal_map_assoc(array_keys($types)),
+    '#options' => drupal_map_assoc($types),
     '#default_value' => variable_get('ting_online_types', _ting_default_online_types()),
   );
 
@@ -95,12 +95,11 @@ function ting_admin_online_types_settings($form_state) {
       '#description' => t("Here you may override the default label for individual material types."),
     );
 
-    foreach ($types as $term => $count) {
+    foreach ($types as $term) {
       $form['ting_url_labels']['types'][$term] = array(
         '#type' => 'textfield',
         '#title' => $term,
         '#default_value' => isset($settings[$term]) ? $settings[$term] : '',
-        '#description' => t('Count: @count', array('@count' => $count)),
         // Fudge the parent so we'll get all the labels in one big array in
         // ting_url_labels.
         '#parents' => array('ting_url_labels', $term),
