@@ -391,23 +391,15 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           $title = check_plain($title);
         }
 
-        // TODO BBS-SAL: Refactor this to a general setting that allows the
-        // administrator to choose a list of material-types that should have
-        // the language added to the title if the material is not in the site
-        // default language. Add a ting_default_material_language variable and
-        // add it to ting.admin.inc.
-        $is_book = '';
-        if (isset($entity)) {
-          $_string = $entity->type;
-
-          if (isset($_string) && preg_match('~\bBog\b~', $_string) != FALSE) {
-            $is_book = TRUE;
-          }
-
-          $lang = $entity->getLanguage();
-          if ($is_book && $lang != 'Dansk') {
-            $title = $title . ' (' . $lang . ')';
-          }
+        // Append the language as a suffix to the title for certain material
+        // types if the material language is not the default language.
+        /* @var \TingEntity $entity */
+        $title_suffix_types = variable_get('ting_language_type_title_suffix', []);
+        $default_language = variable_get('ting_language_default');
+        $is_title_suffix_type = in_array($entity->getType(), $title_suffix_types);
+        $is_default_language = $entity->getLanguage() == $default_language;
+        if ($is_title_suffix_type && !$is_default_language) {
+          $title .= " ($language)";
         }
 
         $element[$delta] = array(

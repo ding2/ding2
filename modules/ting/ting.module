@@ -117,6 +117,15 @@ function ting_menu() {
     'file' => 'ting.admin.inc',
   );
 
+  $items['admin/config/ting/language'] = array(
+    'title' => 'Language',
+    'description' => 'Configure how languages affect Ting objects.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_language_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ting.admin.inc',
+  );
+
   return $items;
 }
 
