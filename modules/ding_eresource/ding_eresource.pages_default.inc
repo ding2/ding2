@@ -69,7 +69,7 @@ function ding_eresource_default_page_manager_handlers() {
     'body_classes_to_add' => '',
   );
   $display = new panels_display();
-  $display->layout = 'ding2_site_template';
+  $display->layout = 'ding_single';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
