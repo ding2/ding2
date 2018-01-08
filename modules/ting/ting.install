@@ -286,3 +286,18 @@ function ting_update_7012() {
     }
   }, $var_names);
 }
+
+/**
+ * Configure book types to have non-default languages shown as title suffix.
+ */
+function ting_update_7013() {
+  variable_set('ting_language_default', 'Dansk');
+
+  $language_suffix_types = array_filter(
+    _ting_fetch_well_types(),
+    function($type) {
+      return (bool) preg_match('/\bBog\b/i', $type);
+    }
+  );
+  variable_set('ting_language_type_title_suffix', $language_suffix_types);
+}

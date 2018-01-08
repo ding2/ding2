@@ -193,6 +193,62 @@ function ting_admin_reservable_settings($form_state) {
 }
 
 /**
+ * Form for managing language configuration.
+ *
+ * This configuration deals with how materials are handled depending on their
+ * language.
+ */
+function ting_admin_language_settings($form_state) {
+  $form['update'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Update from search provider'),
+    '#description' => t('Update the lists of known types.'),
+  );
+
+  $form['update']['update'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update'),
+    '#submit' => array('ting_admin_type_source_update'),
+  );
+
+  $form['language'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Default language'),
+    '#tree' => FALSE,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  // Note that this relies on a single global default language and not the user
+  // language or the like. We cannot expect that the material language and
+  // Drupal user language will be in the same format.
+  global $language;
+  $form['language']['ting_language_default'] = array(
+    '#type' => 'textfield',
+    '#default_value' => variable_get('ting_language_default', $language->native),
+    '#description' => t('The language expected to be used by most materials. Please use the full textual version of the language name as provided by your search provider.'),
+  );
+
+  $form['title_suffix'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Title suffix'),
+    '#tree' => FALSE,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#description' => t("Select which material types should have the language appended as suffix."),
+  );
+
+  $types = variable_get('ting_well_types', _ting_fetch_well_types());
+  $form['title_suffix']['ting_language_type_title_suffix'] = array(
+    '#type' => 'checkboxes',
+    '#options' => drupal_map_assoc($types),
+    '#default_value' => variable_get('ting_language_type_title_suffix', []),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
  * Submit handler.
  *
  * Updates the list of known types and sources from the data well.
