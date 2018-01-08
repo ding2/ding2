@@ -502,7 +502,7 @@ function ding_library_default_page_manager_pages() {
     ),
   );
   $display = new panels_display();
-  $display->layout = 'ding2_site_template';
+  $display->layout = 'ding_single';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
