@@ -1,7 +1,7 @@
 /**
  * @file
  * Make ding availibility work and fetch material availability.
- * For more information check out ding_carousel.js.
+ * For more information see ding_carousel.js.
  */
 
 (function ($) {
