@@ -1,14 +1,16 @@
 <?php
+
 /**
  * @file
- * Handles update tasks for the module. 
+ * Handles update tasks for the module.
  */
 
 /**
  * Implements hook_update_dependencies().
  */
 function ding_page_update_dependencies() {
-  // Ding_page_update_7004 must run after ding2_update_7044 and ting_reference_7003.
+  // Ding_page_update_7004 must run after ding2_update_7044
+  // and ting_reference_7003.
   $dependencies['ding_page'][7004] = array(
     'ding2' => 7044,
     'ting_reference' => 7003,
@@ -27,7 +29,7 @@ function ding_page_update_7001() {
 }
 
 /**
- * Remove old ting reference field table from page. 
+ * Remove old ting reference field table from page.
  */
 function ding_page_update_7002() {
   // The tables are left over after change to virtual field, hence we have to
@@ -35,7 +37,6 @@ function ding_page_update_7002() {
   db_drop_table('field_data_field_ding_page_materials');
   db_drop_table('field_revision_field_ding_page_materials');
 }
-
 
 /**
  * Remove old page path auto patterns.

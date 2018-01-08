@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Handles update tasks for the module.
@@ -18,7 +19,8 @@ function ding_news_install() {
  * Implements hook_update_dependencies().
  */
 function ding_news_update_dependencies() {
-  // Ding_news_update_7007 must run after ding2_update_7044 and ting_reference_7003.
+  // Ding_news_update_7007 must run after ding2_update_7044
+  // and ting_reference_7003.
   $dependencies['ding_news'][7007] = array(
     'ding2' => 7044,
     'ting_reference' => 7003,
@@ -168,7 +170,7 @@ function ding_news_update_7007(&$sandbox) {
     $paragraph->save();
     $sandbox['current']++;
   }
-  if($sandbox['total'] > 0) {
+  if ($sandbox['total'] > 0) {
     $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
   }
   else {
