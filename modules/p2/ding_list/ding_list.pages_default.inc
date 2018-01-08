@@ -101,6 +101,7 @@ function ding_list_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
+
   $page->name = 'page_ding_list_create';
   $page->task = 'page';
   $page->admin_title = 'Page Ding List Create';
