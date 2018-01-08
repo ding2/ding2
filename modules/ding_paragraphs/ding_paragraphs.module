@@ -46,7 +46,6 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
     $paragraph_field = 'field_ding_news_paragraphs';
   }
 
-  /*
   if ($paragraph_field) {
     // Attach js to form.
     $form['#attached'] = array(
@@ -99,5 +98,4 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
       }
     }
   }
-  */
 }
