@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Ding paragraphs feature.
@@ -7,13 +8,13 @@
 include_once 'ding_paragraphs.features.inc';
 
 /**
-* Implements hook_preprocess_entity().
-*/
+ * Implements hook_preprocess_entity().
+ */
 function ding_paragraphs_preprocess_node(&$variables) {
-  if (isset($variables['field_ding_news_paragraphs']) || isset($variables['field_ding_page_paragraphs']) ) {
+  if (isset($variables['field_ding_news_paragraphs']) || isset($variables['field_ding_page_paragraphs'])) {
     drupal_add_library('system', 'drupal.ajax');
     drupal_add_library('system', 'ui.widget');
-    drupal_add_js(drupal_get_path('module', 'ding_paragraphs') .'/js/ding_paragraphs.js', 'file');
+    drupal_add_js(drupal_get_path('module', 'ding_paragraphs') . '/js/ding_paragraphs.js', 'file');
     drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js', 'file');
   }
 }
@@ -44,36 +45,38 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
   if (isset($form['field_ding_news_paragraphs'])) {
     $paragraph_field = 'field_ding_news_paragraphs';
   }
-  
-  if($paragraph_field) {
+
+  if ($paragraph_field) {
     // Attach js to form.
     $form['#attached'] = array(
       'js' => array(
         array(
           'type' => 'file',
-          'data' => drupal_get_path('module', 'ding_paragraphs'). '/js/ding_paragraphs_form.js',
+          'data' => drupal_get_path('module', 'ding_paragraphs') . '/js/ding_paragraphs_form.js',
         ),
-      )
+      ),
     );
 
     // Add information for each paragraph in backend.
-    foreach($form[$paragraph_field][LANGUAGE_NONE] as $key => $value) {
+    foreach ($form[$paragraph_field][LANGUAGE_NONE] as $key => $value) {
       if (is_array($value) && isset($value['#entity_type']) && $value['#entity_type'] == 'paragraphs_item') {
         $wrapper = entity_metadata_wrapper($value['#entity_type'], $value['#entity']);
         $output = '';
         switch ($value['#bundle']) {
-          case 'ding_paragraphs_image_and_text' :
+          case 'ding_paragraphs_image_and_text':
             // Add image and text snippet.
             $image = $wrapper->field_ding_paragraphs_image->value()['0'];
             $image['style_name'] = 'thumbnail';
             $image['path'] = $image['uri'];
-            $output = theme_image_style($image) . ' - ' .mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_text->value()['value']), 0, 30, "...");
+            $output = theme_image_style($image) . ' - ' . mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_text->value()['value']), 0, 30, "...");
             break;
-          case 'ding_paragraphs_text_box' :
+
+          case 'ding_paragraphs_text_box':
             // Add text snippet.
             $output = mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_box_text->value()['value']), 0, 30, "...");
             break;
-          case 'ding_paragraphs_image' :
+
+          case 'ding_paragraphs_image':
             // For some unknown reason the previously defined wrapper is off,
             // so we grab the image entity from elsewhere.
             $wrapper = entity_metadata_wrapper('paragraphs_item', $value['field_ding_paragraphs_image'][LANGUAGE_NONE]['0']['#entity']);
@@ -83,9 +86,10 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
             $image['path'] = $image['uri'];
             $output = theme_image_style($image);
             break;
-          case 'ding_paragraphs_text' :
+
+          case 'ding_paragraphs_text':
             // Add text snippet.
-            //A little more letters since this is the wrapping text.
+            // A little more letters since this is the wrapping text.
             $output = mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_text->value()['value']), 0, 50, "...");
             break;
         }

@@ -2,7 +2,6 @@ name = Ding paragraphs
 description = Paragraph bundles for Ding!
 core = 7.x
 package = Ding!
-project = ding_paragraphs
 dependencies[] = ctools
 dependencies[] = ding_entity
 dependencies[] = ding_news

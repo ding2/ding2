@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_paragraphs.features.field_instance.inc
@@ -10,7 +11,7 @@
 function ding_paragraphs_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'paragraphs_item-ding_paragraphs_image-field_ding_paragraphs_image'
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_image-field_ding_paragraphs_image'.
   $field_instances['paragraphs_item-ding_paragraphs_image-field_ding_paragraphs_image'] = array(
     'bundle' => 'ding_paragraphs_image',
     'deleted' => 0,
@@ -89,7 +90,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     ),
   );
 
-  // Exported field_instance: 'paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_display'
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_display'.
   $field_instances['paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_display'] = array(
     'bundle' => 'ding_paragraphs_image_and_text',
     'default_value' => array(
@@ -129,7 +130,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     ),
   );
 
-  // Exported field_instance: 'paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_image'
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_image'.
   $field_instances['paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_image'] = array(
     'bundle' => 'ding_paragraphs_image_and_text',
     'deleted' => 0,
@@ -208,7 +209,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     ),
   );
 
-  // Exported field_instance: 'paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_position'
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_position'.
   $field_instances['paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_position'] = array(
     'bundle' => 'ding_paragraphs_image_and_text',
     'default_value' => array(
@@ -248,7 +249,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     ),
   );
 
-  // Exported field_instance: 'paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_text'
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_text'.
   $field_instances['paragraphs_item-ding_paragraphs_image_and_text-field_ding_paragraphs_text'] = array(
     'bundle' => 'ding_paragraphs_image_and_text',
     'default_value' => NULL,
@@ -288,7 +289,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     ),
   );
 
-  // Exported field_instance: 'paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_display'
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_display'.
   $field_instances['paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_display'] = array(
     'bundle' => 'ding_paragraphs_single_material',
     'default_value' => array(
@@ -328,7 +329,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     ),
   );
 
-  // Exported field_instance: 'paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_material'
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_material'.
   $field_instances['paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_material'] = array(
     'bundle' => 'ding_paragraphs_single_material',
     'default_value' => NULL,
@@ -367,7 +368,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     ),
   );
 
-  // Exported field_instance: 'paragraphs_item-ding_paragraphs_text-field_ding_paragraphs_text'
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_text-field_ding_paragraphs_text'.
   $field_instances['paragraphs_item-ding_paragraphs_text-field_ding_paragraphs_text'] = array(
     'bundle' => 'ding_paragraphs_text',
     'default_value' => NULL,
@@ -407,7 +408,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     ),
   );
 
-  // Exported field_instance: 'paragraphs_item-ding_paragraphs_text_box-field_ding_paragraphs_box_text'
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_text_box-field_ding_paragraphs_box_text'.
   $field_instances['paragraphs_item-ding_paragraphs_text_box-field_ding_paragraphs_box_text'] = array(
     'bundle' => 'ding_paragraphs_text_box',
     'default_value' => NULL,
@@ -447,7 +448,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     ),
   );
 
-  // Exported field_instance: 'paragraphs_item-ding_paragraphs_text_box-field_ding_paragraphs_display'
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_text_box-field_ding_paragraphs_display'.
   $field_instances['paragraphs_item-ding_paragraphs_text_box-field_ding_paragraphs_display'] = array(
     'bundle' => 'ding_paragraphs_text_box',
     'default_value' => array(
