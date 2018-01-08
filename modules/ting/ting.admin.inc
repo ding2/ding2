@@ -51,7 +51,7 @@ function ting_admin_online_types_settings($form_state) {
   $form['update']['update'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
-    '#submit' => array('ting_admin_online_types_settings_update_types'),
+    '#submit' => array('ting_admin_type_source_update'),
   );
 
   $types = variable_get('ting_well_types', _ting_fetch_well_types());
@@ -111,13 +111,6 @@ function ting_admin_online_types_settings($form_state) {
 }
 
 /**
- * Submit handler. Updates the list of known types from the data well.
- */
-function ting_admin_online_types_settings_update_types($form, &$form_state) {
-  _ting_fetch_well_types();
-}
-
-/**
  * Form builder; Configure reservable materials.
  *
  * @ingroup forms
@@ -137,7 +130,7 @@ function ting_admin_reservable_settings($form_state) {
   $form['update']['update'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
-    '#submit' => array('ting_admin_reservable_settings_update'),
+    '#submit' => array('ting_admin_type_source_update'),
   );
 
   $form['reservation_settings'] = array(
@@ -204,7 +197,7 @@ function ting_admin_reservable_settings($form_state) {
  *
  * Updates the list of known types and sources from the data well.
  */
-function ting_admin_reservable_settings_update($form, &$form_state) {
+function ting_admin_type_source_update($form, &$form_state) {
   _ting_fetch_well_types();
   _ting_fetch_well_sources();
 }
