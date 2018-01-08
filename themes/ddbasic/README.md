@@ -182,9 +182,8 @@ Install Gulp and other packages:
 KSS target folder is [sites/all/themes/ddbasic/styleguide (temp link)](http://msd.ding2.server003.b14cms.dk/profiles/ding2/themes/ddbasic/styleguide)
 
 ```
-# Compile all sass into one css file
-~$ gulp sassprod
 # Compile KSS into the styleguide folder 
+# Note: the complete css is compacted into bundle.css for KSS reasons
 ~$ gulp kss
 ```
 

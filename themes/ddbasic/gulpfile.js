@@ -82,29 +82,6 @@ gulp.task('sass', 'Process SCSS into individual css files using libsass',
 );
 
 /**
- * Usage:
- * gulp ksssass
- *
- * Precompile all sass files into one single bundle.css file in the sass_css folder.
- * This all in one file is used by kss for the style sheet.
- *
- */
-gulp.task('ksssass', 'Process SCSS into one css file using libsass',
-  function () {
-    gulp.src(sassPath)
-      .pipe(sass({outputStyle: 'compact'})
-        .on('error', sass.logError))
-      // Save verbose output for testing purposes.
-      .pipe(gulp.dest('./sass_css_verbose_output'))
-      // Minify the css and save it.
-      .pipe(cleanCSS())
-      .pipe(concat('bundle.css'))
-      .pipe(gulp.dest('./sass_css'));
-  }
-);
-
-
-/**
   * Usage:
   * gulp kss
   *
@@ -125,6 +102,7 @@ gulp.task('kss', 'Process SCSS using KSS / kss-node',
 
     // Create the bundle.css
     gulp.src('./sass_css/**/*.css')
+      .pipe(cleanCSS())
       .pipe(concat('bundle.css'))
       .pipe(gulp.dest('./sass_css'));
 
