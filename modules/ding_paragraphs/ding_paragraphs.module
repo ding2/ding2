@@ -36,7 +36,15 @@ function ding_paragraphs_entity_info_alter(&$entity_info) {
  * Add js for form.
  */
 function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
+  $paragraph_field = FALSE;
   if (isset($form['field_ding_page_paragraphs'])) {
+    $paragraph_field = 'field_ding_page_paragraphs';
+  }
+  if (isset($form['field_ding_news_paragraphs'])) {
+    $paragraph_field = 'field_ding_news_paragraphs';
+  }
+  
+  if($paragraph_field) {
     // Attach js to form.
     $form['#attached'] = array(
       'js' => array(
@@ -48,7 +56,7 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
     );
 
     // Add information for each paragraph in backend.
-    foreach($form['field_ding_page_paragraphs'][LANGUAGE_NONE] as $key => $value) {
+    foreach($form[$paragraph_field][LANGUAGE_NONE] as $key => $value) {
       if (is_array($value) && isset($value['#entity_type']) && $value['#entity_type'] == 'paragraphs_item') {
         $wrapper = entity_metadata_wrapper($value['#entity_type'], $value['#entity']);
         $output = '';
@@ -81,7 +89,7 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
             break;
         }
         // Alter markup of each paragraph.
-        $form['field_ding_page_paragraphs'][LANGUAGE_NONE][$key]['paragraph_bundle_title']['info']['#markup'] .= ' - ' . $output;
+        $form[$paragraph_field][LANGUAGE_NONE][$key]['paragraph_bundle_title']['info']['#markup'] .= ' - ' . $output;
       }
     }
   }
