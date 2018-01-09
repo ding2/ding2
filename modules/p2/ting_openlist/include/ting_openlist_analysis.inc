@@ -6,7 +6,7 @@
  */
 
 /**
- * Get providers.
+ * Get providers users.
  *
  * @return int
  *   Number of providers.
@@ -47,11 +47,19 @@ function ting_openlist_local_analysis_data_providers_openlist_is_sync() {
 }
 
 /**
- * Count the types of lists.
+ * Count the types of lists, grouped by users.
  *
  * @return array
- *   An associative array, where the key is the list_type_X (X being number of
- *   lists) and the key is number of occurences.
+ *   An associative array, where the key indicates how many instances there is
+ *   of a list type (list_type__X), and the value is the number of users that
+ *   has that many lists.
+ *
+ *   If the installation has 3 users, and 1 of these users has a duplicate of
+ *   the books_read type, the output would be:
+ *   [
+ *     'books_read__1' => '2',
+ *     'books_read__2' => '1',
+ *   ]
  */
 function ting_openlist_local_analysis_data_list_counts() {
   $sub_query = db_select('field_data_field_list_type', 'flt');
@@ -75,7 +83,7 @@ function ting_openlist_local_analysis_data_list_counts() {
 }
 
 /**
- * The top 10 duplicate lists.
+ * Get the top 10 users, with duplicate lists, ordered by number duplicates.
  *
  * @return array
  *   Keyed array, where they key is the openlist_uid and value the number of
@@ -105,11 +113,11 @@ function ting_openlist_local_analysis_data_top10_list() {
 }
 
 /**
- * Get lists with duplicate elements.
+ * Get count of lists with duplicate elements.
  *
  * @return array
- *   An associative array, where the key tells how many duplicates there is, and
- *   the value is the number of occurences.
+ *   An associative array, where the key tells how many duplicates there is in
+ *   a list, and the value is the number of lists with this many duplicates.
  */
 function ting_openlist_local_analysis_data_duplicate_elements() {
   $sub_query = db_select('field_data_field_list_objects', 'flo');
@@ -121,7 +129,7 @@ function ting_openlist_local_analysis_data_duplicate_elements() {
     ->groupBy('fv.field_value_value')
     ->havingCondition('cnt', 1, '>');
   $query = db_select($sub_query, 's');
-  $query->addExpression("CONCAT('duplicates__', s.cnt)", 'lists');
+  $query->addExpression("CONCAT('duplicates__', s.cnt)", 'elements');
   $query->addExpression('COUNT(s.entity_id)', 'cnt');
   $query
     ->groupBy('s.entity_id')
