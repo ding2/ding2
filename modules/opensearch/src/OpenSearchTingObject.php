@@ -586,10 +586,7 @@ class OpenSearchTingObject implements TingObjectInterface {
     if (in_array($name, $this->localProperties)) {
       return $this->$name;
     }
-
-    // TODO BBS-SAL: Remove logging when SAL is implemented.
     // Everything else goes to the Open Search object.
-    watchdog('opensearch', "Getting '$name'", [], WATCHDOG_DEBUG);
     if (isset($this->openSearchObject->$name)) {
       return $this->openSearchObject->$name;
     }
@@ -606,9 +603,7 @@ class OpenSearchTingObject implements TingObjectInterface {
       $this->$name = $value;
     }
     else {
-      // TODO BBS-SAL: Remove logging when SAL is implemented.
       // Everything else goes to the Open Search object.
-      watchdog('opensearch', "Setting '$name'", [], WATCHDOG_DEBUG);
       $this->openSearchObject->$name = $value;
     }
   }
@@ -621,9 +616,7 @@ class OpenSearchTingObject implements TingObjectInterface {
     if (in_array($name, $this->localProperties)) {
       return isset($this->$name);
     }
-    // TODO BBS-SAL: Remove logging when SAL is implemented.
     // Everything else goes to the Open Search object.
-    watchdog('opensearch', "Is '$name' set?", [], WATCHDOG_DEBUG);
     return isset($this->openSearchObject->$name);
   }
 
@@ -636,9 +629,7 @@ class OpenSearchTingObject implements TingObjectInterface {
       unset($this->$name);
     }
     else {
-      // TODO BBS-SAL: Remove logging when SAL is implemented.
       // Everything else goes to the Open Search object.
-      watchdog('opensearch', "Unsetting '$name'", [], WATCHDOG_DEBUG);
       unset($this->openSearchObject->$name);
     }
   }
@@ -653,14 +644,8 @@ class OpenSearchTingObject implements TingObjectInterface {
    * Use this function if you want to assume that there is only one entry for
    * the entry and you want to skip the array.
    *
-   * TODO BBS-SAL: This distinction between "details" properties (which we
-   * return as arrays) and the rest (eg. getYear) where we return the first
-   * entry in the array because the caller seems to require it is confusing.
-   * Should we just decide the cardinallity of the fields up front, or should we
-   * stick to the "old" conversion and always return a [$value]?
-   *
    * @param mixed $entry
-   *   An entry
+   *   An entry.
    *
    * @return mixed
    *   The first entry in the array or the entry itself if it is not an array.
