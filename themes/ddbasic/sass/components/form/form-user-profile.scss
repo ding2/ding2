@@ -41,6 +41,7 @@
       .field-name-field-alma-sms,
       .field-name-field-fbs-phone,
       .field-name-field-fbs-mail,
+      .field-name-field-fbs-interest-period,
       .field-name-field-fbs-preferred-branch {
         @include span-columns(6);
         clear: left;
