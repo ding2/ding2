@@ -11,7 +11,7 @@
  * @param object $account
  *   User to get debt listing for.
  * @param bool $reset
- *   If TRUE cache is reset (default: FALSE)
+ *   If TRUE cache is reset (default: FALSE).
  *
  * @return array
  *   Debt information.

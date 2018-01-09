@@ -13,7 +13,7 @@
  * @param string|null $requested_type
  *   Type of reservations to list. Null for all.
  * @param bool $reset
- *   If TRUE cache is reset (default: FALSE)
+ *   If TRUE cache is reset (default: FALSE).
  *
  * @return array
  *   Reservation info.
@@ -88,7 +88,7 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
           elseif (!empty($periodical->volumeYear)) {
             $ding_reservation['notes'] = t('Issue @vol, @year', array(
               '@vol' => $vol,
-              '@year' => $periodical->volumeYear
+              '@year' => $periodical->volumeYear,
             ));
           }
           else {

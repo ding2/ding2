@@ -11,7 +11,7 @@
  * @param object $account
  *   User to fetch list for.
  * @param bool $reset
- *   If TRUE cache is reset (default: FALSE)
+ *   If TRUE cache is reset (default: FALSE).
  *
  * @return array
  *   Loan information.
@@ -65,7 +65,7 @@ function fbs_loan_list($account, $reset = FALSE) {
           if (!empty($periodical->volumeYear)) {
             $loan_data['notes'] = t('Issue @vol, @year', array(
               '@vol' => $vol,
-              '@year' => $periodical->volumeYear
+              '@year' => $periodical->volumeYear,
             ));
           }
           else {
