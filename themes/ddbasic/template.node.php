@@ -194,13 +194,18 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 
       // Date.
       if (!empty($date)) {
-        // @see http://www.drupalcontrib.org/api/drupal/contributions%21date%21date_api%21date_api.module/class/DateObject/7
+        // When the user saves the event time (e.g. danish time 2018-01-10 00:00),
+        // the value is saved in the database in UTC time 
+        // (e.g. UTC time 2018-01-09 23:00). To print out the date/time properly
+        // We first need to create the dateObject with the UTC database time, and
+        // afterwards we can convert the dateObject db-time to localtime.
+
         // Create a dateObject from startdate, set base timezone to UTC
         $date_start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
         // Set timezone to local timezone
         $date_start->setTimezone(new DateTimeZone($date[0]['timezone']));
 
-        // Create a dateObject from startdate, set base timezone to UTC
+        // Create a dateObject from enddate, set base timezone to UTC
         $date_end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
         // Set timezone to local timezone
         $date_end->setTimezone(new DateTimeZone($date[0]['timezone']));
