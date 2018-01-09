@@ -48,7 +48,7 @@ function ding_loan_sort_expiry($a, $b) {
  */
 function ding_loan_ding_session_cache_defaults() {
   return array(
-    'titel' => 'Ding loans',
+    'title' => 'Ding loans',
     'enabled' => TRUE,
     'expire' => 3600,
   );

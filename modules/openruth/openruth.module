@@ -548,7 +548,7 @@ function openruth_field_attach_view_alter(&$output, $context) {
  */
 function openruth_ding_session_cache_defaults() {
   return array(
-    'titel' => 'Openruth (reservations, loans)',
+    'title' => 'Openruth (reservations, loans)',
     'enabled' => TRUE,
     'expire' => 3600,
   );
