@@ -551,20 +551,6 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
   }
 
   /**
-   * Verify that the provider maps all common fields.
-   */
-  public function testCommonFieldMapping() {
-    $expected_keys = $this->getExpectedCommonFields();
-    $mapped_fields = ding_provider_invoke('search', 'map_common_condition_fields');
-
-    $diff = array_diff($expected_keys, array_keys($mapped_fields));
-
-    if (!empty($diff)) {
-      $this->fail('Unmapped common field(s): ' . implode(', ', $diff));
-    }
-  }
-
-  /**
    * Test that the provider can generate a reference query.
    */
   public function testPrepareReferenceQuery() {

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * The TingSearchStrategyInterface interface.
- */
-
 namespace Ting\Search;
 
 /**
@@ -25,12 +20,4 @@ interface TingSearchStrategyInterface {
    */
   public function executeSearch($query);
 
-  /**
-   * Returns a mapping of common field name to a provider-specific names.
-   *
-   * @return array
-   *   Associative array of provider-specific names keyed by
-   *   TingSearchCommonFields::* field names.
-   */
-  public function mapCommonFields();
 }

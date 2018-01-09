@@ -78,10 +78,9 @@ class OpensearchUnitTest extends DingUnitTestBase {
       TingSearchCommonFields::CATEGORY => 'test_category',
       TingSearchCommonFields::LANGUAGE => 'test_language',
     ];
-    $strategy_double->mapCommonFields()->willReturn($mapping);
     $strategy = $strategy_double->reveal();
 
-    $renderer = new OpenSearchStatementGroupRender($strategy);
+    $renderer = new OpenSearchStatementGroupRender($strategy, $mapping);
 
     // Test that adding a single group around a list does not affect rendering.
     $filter_string_wrapped = $renderer->renderGroup((new BooleanStatementGroup($groups, BooleanStatementInterface::OP_OR)));

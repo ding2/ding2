@@ -475,24 +475,6 @@ function opensearch_search_render_inline_relation(TingRelation $relation) {
  *   Mapping between TingSearchCommonFields::* fields and their provider-
  *   specific counterpart.
  */
-function opensearch_search_map_common_condition_fields() {
-  return [
-    TingSearchCommonFields::ACQUISITION_DATE => 'acquisitionDate',
-    TingSearchCommonFields::AUTHOR => 'facet.creator',
-    TingSearchCommonFields::CATEGORY => 'facet.category',
-    TingSearchCommonFields::LANGUAGE => 'facet.language',
-    TingSearchCommonFields::MATERIAL_TYPE => 'facet.type',
-    TingSearchCommonFields::SUBJECT => 'facet.subject',
-  ];
-}
-
-/**
- * Mapping between common fields and their provider-specific name.
- *
- * @return array
- *   Mapping between TingSearchCommonFields::* fields and their provider-
- *   specific counterpart.
- */
 function _opensearch_search_map_common_sort_fields() {
   return [
     TingSearchCommonFields::TITLE => 'title',

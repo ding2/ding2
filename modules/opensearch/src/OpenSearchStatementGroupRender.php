@@ -16,14 +16,11 @@ use Ting\Search\TingSearchStrategyInterface;
 class OpenSearchStatementGroupRender {
 
   /**
-   * Provider-specific mapping, initialized during field rendering.
-   *
-   * The array maps Common fields defined in TingSearchCommonFields to their
-   * primo counterparts.
+   * Map between TingSearchCommonFields fields and opensearch counterparts.
    *
    * @var array
    */
-  protected $commonFieldMapping = NULL;
+  protected $commonFieldMapping = [];
 
   /**
    * The strategy to use when interfacing with the search provider.
@@ -37,9 +34,24 @@ class OpenSearchStatementGroupRender {
    *
    * @param \Ting\Search\TingSearchStrategyInterface $provider_strategy
    *   The strategy to use when interfacing with the search provider.
+   * @param array $common_field_mapping
+   *   Optional mapping between TingSearchCommonFields::* fields and their
+   *   opensearch-specific counterparts. This mapping should mainly be specified
+   *   during tests as it will default to a standard mapping that should work in
+   *   most cases.
    */
-  public function __construct(TingSearchStrategyInterface $provider_strategy) {
+  public function __construct(TingSearchStrategyInterface $provider_strategy, array $common_field_mapping = []) {
     $this->providerStrategy = $provider_strategy;
+
+    // Override field mapping if specified.
+    $this->commonFieldMapping = count($common_field_mapping) === 0 ? [
+      TingSearchCommonFields::ACQUISITION_DATE => 'acquisitionDate',
+      TingSearchCommonFields::AUTHOR => 'facet.creator',
+      TingSearchCommonFields::CATEGORY => 'facet.category',
+      TingSearchCommonFields::LANGUAGE => 'facet.language',
+      TingSearchCommonFields::MATERIAL_TYPE => 'facet.type',
+      TingSearchCommonFields::SUBJECT => 'facet.subject',
+    ] : $common_field_mapping;
   }
 
   /**
@@ -161,13 +173,6 @@ class OpenSearchStatementGroupRender {
    *   supported by the current search-provider.
    */
   protected function renderField(TingSearchFieldFilter $field) {
-    if ($this->commonFieldMapping === NULL) {
-      $this->commonFieldMapping = $this->providerStrategy->mapCommonFields();
-    }
-    // TODO BBS-SAL: use provider to map common fields and maybe also to do the
-    // full render.
-    // TODO BBS-SAL: escape field value - again using the provider.
-    // Map the field if it is a common-field.
     if (in_array($field->getName(), TingSearchCommonFields::getAll(), TRUE)) {
       if (isset($this->commonFieldMapping[$field->getName()])) {
         $field_name = $this->commonFieldMapping[$field->getName()];
@@ -190,5 +195,4 @@ class OpenSearchStatementGroupRender {
     // Render the full field with operator and value.
     return $field_name . '=' . $quoted_field;
   }
-
 }
