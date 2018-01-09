@@ -19,17 +19,17 @@
  *   Reservation info.
  */
 function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) {
-  $results = &drupal_static(__FUNCTION__, array());
+  $results = &drupal_static(__FUNCTION__, NULL);
 
-  if (empty($results) || $reset) {
+  if (is_null($results) || $reset) {
     // Check if ding_session_cache is available.
     if (module_exists('ding_session_cache') && !$reset) {
-      $results = ding_session_cache_get('fbs', 'reservation', array());
+      $results = ding_session_cache_get('fbs', 'reservation', NULL);
     }
 
     // If both static cache and session cache failed, try reloading information
     // from FBS.
-    if (empty($results) || $reset) {
+    if (is_null($results) || $reset) {
       $results = array(
         DING_RESERVATION_READY => array(),
         DING_RESERVATION_NOT_READY => array(),
@@ -38,7 +38,8 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
       $res = array();
       try {
         $res = fbs_service()->Reservations->getReservations(fbs_service()->agencyId, fbs_patron_id($account));
-      } catch (Exception $e) {
+      }
+      catch (Exception $e) {
         watchdog_exception('fbs', $e);
       }
 

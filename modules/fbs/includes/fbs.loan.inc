@@ -17,21 +17,24 @@
  *   Loan information.
  */
 function fbs_loan_list($account, $reset = FALSE) {
-  $results = &drupal_static(__FUNCTION__, array());
+  $results = &drupal_static(__FUNCTION__, NULL);
 
-  if (empty($results) || $reset) {
+  if (is_null($results) || $reset) {
     // Check if ding_session_cache is available.
     if (module_exists('ding_session_cache') && !$reset) {
-      $results = ding_session_cache_get('fbs', 'loans', array());
+      $results = ding_session_cache_get('fbs', 'loans', NULL);
     }
 
     // If both static cache and session cache failed, try reloading information
     // from FBS.
-    if (empty($results) || $reset) {
+    if (is_null($results) || $reset) {
+      $results = array();
+
       $res = array();
       try {
         $res = fbs_service()->MaterialLoans->getLoans(fbs_service()->agencyId, fbs_patron_id($account));
-      } catch (Exception $e) {
+      }
+      catch (Exception $e) {
         watchdog_exception('fbs', $e);
       }
 
