@@ -19,7 +19,8 @@
 
     // The search overlay fails in FF and Safari. 
     // When the form submit is triggered, any changes to the DOM
-    // is not redrawn in browser.
+    // is not redrawn in browser. We need to add the search-
+    // overlay before formsubmit. 
     // Therefore we take over the submit, and put the submit
     // in a timeout function. That does the trick.
     // @see https://stackoverflow.com/questions/22043493/unable-to-make-style-changes-to-the-dom-after-form-submit-in-safari?rq=1
@@ -28,7 +29,7 @@
       Drupal.TingSearchOverlay();
       var form = this;
       setTimeout(function () {
-  	    form.submit();
+        form.submit();
   	  }, 0);
     });
 
