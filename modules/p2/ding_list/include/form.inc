@@ -534,7 +534,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     '#default_value' => t('Please use the following link to access this list.
 The link is active for 7 days from today, after which it will be disabled for security reasons.
 
-[link]'),
+!link'),
   );
 
   $form['mail_sharer']['share'] = array(
@@ -731,7 +731,7 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
 
   drupal_mail('ding_list', 'share', $form_state['values']['email'], $language, array(
     'subject' => $form_state['values']['email_subject'],
-    'text' => str_replace('[link]', $link, $form_state['values']['email_text']),
+    'text' => str_replace('!link', $link, $form_state['values']['email_text']),
   ));
 
   // Get generated message.
@@ -740,4 +740,28 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
   $response['#commands'][] = ajax_command_ding_popup('ding_list', t('Share'), $html);
 
   return $response;
+}
+
+/**
+ * Ask user to reset their lists.
+ */
+function ding_list_reset_user_form($form, &$form_state, $account) {
+  $form['#attributes']['class'] = array('ding-list-reset-user-form');
+  return confirm_form(
+    $form,
+    t('Reset my lists'),
+    'user/' . $account->uid . '/my-library',
+    t('Are you sure you want to reset all your lists.')
+  );
+}
+
+/**
+ * Submit handler for ding_list_reset_user_form.
+ */
+function ding_list_reset_user_form_submit($form, &$form_state) {
+  $account = $form_state['build_info']['args'][0];
+
+  ding_list_reset_user($account);
+
+  $form_state['redirect'] = 'user/' . $account->uid . '/my-library';
 }

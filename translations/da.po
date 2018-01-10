@@ -51482,7 +51482,7 @@ msgid "\"The Additional Information service is used to retrieve cover images. \"
 msgstr ""
 
 #: /admin/config/ting/covers/addi?render=overlay
-msgid "\"URL to the Additional Information webservice, e.g. \"http://moreinfo.addi.dk/2.1/"
+msgid "\"URL to the Additional Information webservice, e.g. \"http://moreinfo.addi.dk/2.10"
 msgstr ""
 
 #: /admin/config/ting/covers/addi?render=overlay
@@ -66896,7 +66896,7 @@ msgid ""
 "The link is active for 7 days from today, after which it will be "
 "disabled for security reasons.\n"
 "\n"
-"[link]"
+"!link"
 msgstr ""
 "Åbn !link for at få adgang til listen. \r\n"
 "Linket er aktivt i 7 dage, hvorefter det vil blive deaktiveret af "

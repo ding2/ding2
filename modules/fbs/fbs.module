@@ -29,6 +29,20 @@ function fbs_xautoload($adapter) {
 }
 
 /**
+ * Implements hook_ding_session_cache_defaults().
+ *
+ * Set default ding_session_cache settings and tell ding_session_cache that this
+ * module supports it.
+ */
+function fbs_ding_session_cache_defaults() {
+  return array(
+    'title' => 'FBS (information from FBS)',
+    'enabled' => TRUE,
+    'expire' => 3600,
+  );
+}
+
+/**
  * Implements hook_libraries_info().
  *
  * For defining external libraries.

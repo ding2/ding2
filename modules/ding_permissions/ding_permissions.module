@@ -517,6 +517,7 @@ function ding_permissions_secure_permissions($role) {
       'view scheduled content',
       'view the administration theme',
       'administer personalisation',
+      'reset all user lists',
     ),
     'editor' => array(
       'access media browser',
@@ -913,6 +914,7 @@ function ding_permissions_secure_permissions($role) {
       'view scheduled content',
       'view the administration theme',
       'administer personalisation',
+      'reset all user lists',
     ),
     'local editor' => array(
       'access media browser',
@@ -998,6 +1000,7 @@ function ding_permissions_secure_permissions($role) {
       'view own private files',
       'view own provider_alma profile',
       'view own provider_openruth profile',
+      'reset own lists',
     ),
     'staff' => array(
       'access environment indicator',

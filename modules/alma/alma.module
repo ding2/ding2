@@ -775,7 +775,7 @@ function alma_field_attach_view_alter(&$output, $context) {
  */
 function alma_ding_session_cache_defaults() {
   return array(
-    'titel' => 'Alma (reservations, loans)',
+    'title' => 'Alma (reservations, loans)',
     'enabled' => TRUE,
     'expire' => 3600,
   );
