@@ -603,7 +603,7 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
   $ting_entity->ding_entity_id = $ding_entity_id;
   $ting_entity->provider_id = $local_id;
   $ting_entity->ding_entity_type = 'ding_entity';
-  // TODO BBS-SAL: Clean out the direct property sets when done.
+  // TODO BBS-153: Clean out the direct property sets when done.
   $ting_entity->reply = new TingObject();
   $ting_entity->reply->id = $ding_entity_id;
   $ting_entity->reply->setId($ding_entity_id);
