@@ -135,6 +135,11 @@
   }
   // image only layout
   &.image {
+    .node-type-ding-news &,
+    .node-type-ding-event & {
+      margin: 20px 0;
+    }
+
     img {
       width: 100%;
     }
