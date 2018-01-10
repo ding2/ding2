@@ -33,16 +33,3 @@ function template_preprocess_ting_object(&$variables) {
     ));
   }
 }
-
-/**
- * Helper function to format abstracts from ting.
- *
- * TODO BBS-SAL: Remove.
- */
-function ting_format_abstract($string) {
-  $string = str_replace('Indhold:', '', $string);
-  $string = str_replace(' ; ', '<br/>', $string);
-  $string = str_replace(' / ', '<br/>', $string);
-
-  return $string;
-}
