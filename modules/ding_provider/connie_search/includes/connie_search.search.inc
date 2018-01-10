@@ -251,3 +251,16 @@ function connie_search_search_autocomplete($query) {
 
   return $items;
 }
+
+/**
+ * Quotes a search string to make it compatible with the provider.
+ *
+ * @param string $search_string
+ *   The search string.
+ *
+ * @return string
+ *   The quoted search string.
+ */
+function connie_search_search_search_quote($search_string) {
+  return str_replace('"', '\"', $search_string);
+}

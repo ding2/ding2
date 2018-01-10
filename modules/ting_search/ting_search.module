@@ -1127,11 +1127,8 @@ function ting_search_submit($form, &$form_state) {
 }
 
 /**
- * Make sure string is strict cql
+ * Make sure string is strict cql.
  */
 function _ting_search_quote($string) {
-  // TODO BBS-SAL, move into provider. Determine whether this can be done on
-  // fragments of the query, or whether it has to be the entire query.
-  $cqlDoc = new TingSearchCqlDoctor($string);
-  return $cqlDoc->string_to_cql($string);
+  return ding_provider_invoke('search', 'search_quote', $string);
 }

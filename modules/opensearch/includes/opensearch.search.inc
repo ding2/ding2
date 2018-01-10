@@ -698,3 +698,17 @@ function opensearch_search_autocomplete($query) {
 
   return $items;
 }
+
+/**
+ * Quotes a search string to make it compatible with the provider.
+ *
+ * @param string $search_string
+ *   The search string.
+ *
+ * @return string
+ *   The quoted search string.
+ */
+function opensearch_search_search_quote($search_string) {
+  $cqlDoc = new TingSearchCqlDoctor($search_string);
+  return $cqlDoc->string_to_cql($search_string);
+}
