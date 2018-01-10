@@ -261,7 +261,7 @@ class TingCollectionController implements DrupalEntityControllerInterface {
           }
           $object = new TingCollection($ding_entity_id, $object_collection);
 
-          // TODO BBS-153 - Remove the reply property when the port
+          // TODO BBS-SAL BBS-153 - Remove the reply property when the port
           // is done. Notice the client is loaded at this point because we just
           // did a provider-invocation which is why we can call
           // opensearch_get_object.

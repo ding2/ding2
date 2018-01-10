@@ -203,7 +203,7 @@ function ting_block_info() {
  * Implements hook_cron().
  *
  * Ensures that all expired entries are delete form the cache on cron runes.
- * TODO BBS-SAL: move/copy to opensearch as cache_opensearch
+ * TODO BBS-SAL BBS-176: move/copy to opensearch as cache_opensearch
  * (depending on whether we keep cache_ting)
  */
 function ting_cron() {
@@ -213,7 +213,7 @@ function ting_cron() {
 /**
  * Implements hook_flush_caches().
  *
- * TODO BBS-SAL: move/copy to opensearch as cache_opensearch
+ * TODO BBS-SAL BBS-176: move/copy to opensearch as cache_opensearch
  * (depending on whether we keep cache_ting)
  */
 function ting_flush_caches() {

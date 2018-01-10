@@ -12,16 +12,8 @@ namespace Ting\Search;
  * @package Ting\Search
  */
 interface TingSearchResultInterface {
-  // TODO BBS-SAL: this interface might need to built out, see
-  // https://opensource.dbc.dk/services/open-search-web-service for details on
-  // what Open Search returns, and TingClientSearchResult for the current
-  // Ting client response.
-
   /**
    * Total number of elements in the search-result (regardless of limit).
-   *
-   * TODO BBS-SAL: Consider renaming this hits() - see
-   * https://github.com/rvk-utd/ding2/pull/25#discussion_r133373710
    *
    * @return int
    *   The number of objects.
@@ -32,9 +24,6 @@ interface TingSearchResultInterface {
    * Total number of collections in the search-result.
    *
    * A Collection contains one or more objects.
-   *
-   * TODO BBS-SAL: Consider renaming this count() - see
-   * https://github.com/rvk-utd/ding2/pull/25#discussion_r133373710
    *
    * @return int
    *   The number of collections.

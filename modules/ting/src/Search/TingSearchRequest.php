@@ -185,7 +185,6 @@ class TingSearchRequest {
    */
   public function execute() {
     // Delegate to the strategy.
-    // TODO BBS-SAL: implement pre/post hooks - see ting.api.php.
     return $this->searchStrategy->executeSearch($this);
   }
 
@@ -393,8 +392,6 @@ class TingSearchRequest {
    * Set the list of provider-specific material ids the query is constrained to.
    *
    * The ID can be received from a TingObjectInterface instance via getId().
-   *
-   * TODO BBS-SAL: This can replace ding_serendipity_exclude.
    *
    * @param string[]|string $material_ids
    *   One or more ids.
