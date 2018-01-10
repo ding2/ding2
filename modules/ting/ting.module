@@ -885,3 +885,24 @@ function ting_start_query() {
   // Set the query-object up with a strategy that uses ding_provider_invoke().
   return new TingSearchRequest(new DingProviderStrategy());
 }
+
+/**
+ * Loads a TingObjectInterface instance.
+ *
+ * @param string $id
+ *   ID of the TingObject.
+ *
+ * @return null|\Ting\TingObjectInterface
+ *   The loaded object or NULL if it could not be found.
+ */
+function ting_search_object_load($id) {
+  $ting_search_object = ding_provider_invoke('search', 'object_load', [$id]);
+  if (!empty($ting_search_object) && is_array($ting_search_object)) {
+    $ting_search_object = reset($ting_search_object);
+  }
+  else {
+    $ting_search_object = NULL;
+  }
+
+  return $ting_search_object;
+}
