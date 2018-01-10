@@ -216,30 +216,6 @@ class TingSearchRequest {
   }
 
   /**
-   * Sets list of facets the query will return results for alongside materials.
-   *
-   * @param string[] $facets
-   *   The facets.
-   *
-   * @return TingSearchRequest
-   *   the current query object.
-   */
-  public function setFacets($facets) {
-    $this->facets = $facets;
-    return $this;
-  }
-
-  /**
-   * List of facets the query will return results for alongside materials.
-   *
-   * @return string[]
-   *   The facets.
-   */
-  public function getFacets() {
-    return $this->facets;
-  }
-
-  /**
    * Returns whether searches should be fuzzy.
    *
    * @return bool
