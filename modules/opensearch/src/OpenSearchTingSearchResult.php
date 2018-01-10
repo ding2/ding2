@@ -23,8 +23,6 @@ class OpenSearchTingSearchResult implements TingSearchResultInterface {
   /**
    * The actual search-result from Ting Client.
    *
-   * TODO BBS-SAL: Change to protected when port is complete.
-   *
    * @var \TingClientSearchResult
    */
   public $openSearchResult;

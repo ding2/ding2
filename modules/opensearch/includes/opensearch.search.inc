@@ -103,10 +103,6 @@ function opensearch_search_collection_load($id) {
  *   If an error occurs during search.
  */
 function opensearch_search_search(TingSearchRequest $ting_query) {
-  // TODO BBS-SAL: At some point this function will become big enough that we
-  // Should split it up - consider doing some OO "Handlers". Alternativly do a
-  // OpenSearchTingSearchQuery, create a TingSearchQueryInterface and handle its
-  // construction via new provider-function.
   $query_parts = [];
   // Start off with an empty query, then attempt to construct it from what we
   // can find in $ting_query.
@@ -527,12 +523,11 @@ function opensearch_search_prepare_reference_query($query_string) {
 function opensearch_search_sort_options() {
   $options = [];
 
-  // TODO BBS-SAL: Test.
-  // Add Acquisition Date sort for opensearch v4.3 or higher.
   $matches = array();
   $ting_search = variable_get('opensearch_url');
   preg_match_all('~(\d\.\d\.?\d?)\/?$~', $ting_search, $matches);
   $version = (float) $matches[1][0];
+  // Add Acquisition Date sort for opensearch v4.3 or higher.
   if ($version >= 4.3) {
     $options['localAcquisitionDate_ascending'] = [
       'label' => t('Acquisition Date (ascending)'),

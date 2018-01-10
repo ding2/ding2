@@ -12,15 +12,6 @@ namespace Ting\Search;
  *
  * A request for a search using a search provider.
  *
- * TODO BBS-SAL: TingClient has multiple types of "Request"s eg.
- * TingClientObjectRequest - We should have this in mind during the
- * implementation of SAL. On the one hand we don't want to make  eg.
- * TingSearchRequest to generic in order to handle a wide range of ways to
- * Interact with Open Search, on the other hand, we want to keep things as
- * simple as possible - if there is a simple way of handling two different use-
- * cases using the same functionality, we should prefer that over solving it
- * with complexity.
- *
  * @package Ting\Search
  */
 class TingSearchRequest {

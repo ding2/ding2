@@ -593,7 +593,6 @@ function ding_provider_function($type, $hook, $quiet = FALSE) {
  *   Ting entity object based on the entity ID given.
  */
 function ding_provider_get_pseudo_entity($ding_entity_id) {
-  // TODO BBS-SAL: Can we get rid of this funtion all together?
   $local_id = drupal_substr($ding_entity_id, strpos($ding_entity_id, ':') + 1);
 
   // Build entity based on available information.
@@ -609,7 +608,7 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
   $ting_entity->reply->setId($ding_entity_id);
   $ting_entity->reply->localId = $local_id;
   $ting_entity->reply->setSourceId($local_id);
-  // TODO BBS-SAL: figure out how to populate relations.
+  // Pseudo entities are created without relations.
   $ting_entity->reply->relations = array();
   $ting_entity->reply->ownerId = drupal_substr($ding_entity_id, 0, strpos($ding_entity_id, '-'));
   $ting_entity->reply->setOwnerId($ting_entity->reply->ownerId);

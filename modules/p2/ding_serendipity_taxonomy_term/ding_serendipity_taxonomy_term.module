@@ -105,7 +105,7 @@ function _ding_serendipity_taxonomy_term_query_from_term(array $term_array) {
   else {
     // Just add the term name itself as a boolean field.
     // TODO BBS-SAL: How will searching directly on a term be supported by
-    // Primo? Chould this actually be a common field which should then just be
+    // Primo? Could this actually be a common field which should then just be
     // rendered as a boolean field?
     $query->addFieldFilters($term_array['term']->name);
   }
