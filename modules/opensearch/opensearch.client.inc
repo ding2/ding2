@@ -561,8 +561,8 @@ function _opensearch_cache_set($id, $value, $type = OPENSEARCH_CACHE_TING_OBJECT
  */
 function _opensearch_cache_invoke_cache_key_hook(&$cid) {
   // We need to pass by reference, so no module_invoke_all().
-  foreach (module_implements('ting_cache_key') as $module) {
-    $function = $module . '_ting_cache_key';
+  foreach (module_implements('opensearch_cache_key') as $module) {
+    $function = $module . '_opensearch_cache_key';
     $function($cid);
   }
 }
@@ -697,7 +697,7 @@ function opensearch_get_request_factory() {
  */
 function opensearch_execute($request) {
   // Get additional parameters from other modules.
-  $params = module_invoke_all('ting_pre_execute', $request);
+  $params = module_invoke_all('opensearch_pre_execute', $request);
   if (!empty($params)) {
     $request->setParameters($params);
   }
@@ -719,7 +719,7 @@ function opensearch_execute($request) {
 
     // Pass parsed results to other modules.
     // @todo Check if it works for collection of items.
-    $props = module_invoke_all('ting_post_execute', $request, $response, $res);
+    $props = module_invoke_all('opensearch_post_execute', $request, $response, $res);
     if (!empty($props)) {
       foreach ($props as $property => $value) {
         $response->{$property} = $value;
