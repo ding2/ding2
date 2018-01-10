@@ -6,10 +6,10 @@
  */
 
 /**
- * Get providers users.
+ * Get provider users.
  *
  * @return int
- *   Number of providers.
+ *   Number of provider users.
  */
 function ting_openlist_local_analysis_data_providers() {
   $query = db_select('users', 'u');
@@ -19,10 +19,10 @@ function ting_openlist_local_analysis_data_providers() {
 }
 
 /**
- * Get providers with an openlist uid.
+ * Get provider users with an openlist uid.
  *
  * @return int
- *   Number of providers.
+ *   Number of provider users.
  */
 function ting_openlist_local_analysis_data_providers_id() {
   $query = db_select('users', 'u');
@@ -33,7 +33,7 @@ function ting_openlist_local_analysis_data_providers_id() {
 }
 
 /**
- * Get providers which is synced.
+ * Get provider users which are synced.
  *
  * @return int
  *   Number of synced users.
