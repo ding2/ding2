@@ -234,6 +234,7 @@ function ding_serendipity_ting_entity_ting_object_adhl_serendipity_add($context)
         $agency .= ':';
       }
 
+      // TODO BBS-SAL BBS-213: Implement search provider call here?
       $recommendations = opensearch_get_object_recommendations($obj->getIsbn());
       ding_serendipity_exclude($recommendations, $context['ting_object_id']);
 

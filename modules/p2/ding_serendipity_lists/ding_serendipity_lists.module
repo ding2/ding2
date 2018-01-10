@@ -312,7 +312,7 @@ function ding_serendipity_lists_loan_adhl_serendipity_add($context) {
           if (is_array($isbn)) {
             $isbn = current($isbn);
           }
-          // TODO BBS-SAL: Implement search provider call here.
+          // TODO BBS-SAL BBS-213: Implement search provider call here.
           $recommendations = opensearch_get_object_recommendations($isbn, 4);
           $title = truncate_utf8($obj->getTitle(), 60, TRUE, TRUE);
 
