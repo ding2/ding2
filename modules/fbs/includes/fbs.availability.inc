@@ -128,7 +128,7 @@ function fbs_availability_holdings($provider_ids) {
         // Use the 'sk' marker to determine if this is non-fiction.
         // It seems to present in both the 'm' and 'o' subfield so we check them
         // to be sure.
-        else if ($field652m != 'sk' && $field652o != 'sk') {
+        else if ($field652m !== 'sk' && $field652o !== 'sk') {
           // DK5 classification.
           $suffix .= $field652m;
 
