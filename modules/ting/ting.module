@@ -439,23 +439,23 @@ function ting_entity_info() {
  * Implements hook_ding_entity_is().
  */
 function ting_ding_entity_is($object, $class) {
-  if ($class == 'reservable' || $class == 'cartable') {
-    $sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
-    $types = variable_get('ting_reservable_types', _ting_default_reservable_types());
-    if (in_array(drupal_strtolower($object->ac_source), $sources) && in_array(drupal_strtolower($object->type), $types)) {
-      return TRUE;
-    }
-    else {
-      return FALSE;
-    }
-  }
-  elseif ($class == 'periodical') {
-    // TODO BBS-SAL: use a (new) provider call - hardcode the return-value in
-    // the opensearch implementation.
-    // @todo make this configurable.
-    // @todo also make sure that availability information isn't displayed
-    //   on the object
-    return in_array(drupal_strtolower($object->type), array('tidsskrift', 'periodikum', 'årbog'));
+  switch ($class) {
+    case 'reservable':
+    case 'cartable':
+      $sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
+      $types = variable_get('ting_reservable_types', _ting_default_reservable_types());
+      return (in_array(drupal_strtolower($object->ac_source), $sources) && in_array(drupal_strtolower($object->type), $types));
+
+    case 'periodical':
+      // TODO BBS-SAL: use a (new) provider call - hardcode the return-value in
+      // the opensearch implementation.
+      // @todo make this configurable.
+      // @todo also make sure that availability information isn't displayed
+      //   on the object
+      return in_array(drupal_strtolower($object->type), array('tidsskrift', 'periodikum', 'årbog'));
+
+    case 'online':
+      return !empty($object->getOnline_url());
   }
 }
 
@@ -466,7 +466,7 @@ function ting_ding_entity_buttons($type, $entity) {
   if ($entity instanceof TingEntity) {
     $buttons = array();
 
-    if ($entity->getOnline_url()) {
+    if ($entity->is('online')) {
       $settings = variable_get('ting_url_labels', _ting_default_url_labels());
       $type = drupal_strtolower($entity->type);
       $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];

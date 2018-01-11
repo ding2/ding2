@@ -82,6 +82,12 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_eresource_access',
@@ -132,6 +138,12 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'weight' => 7,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -196,6 +208,12 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_eresource_category',
@@ -245,6 +263,12 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'weight' => 3,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -313,6 +337,12 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_eresource_lead',
@@ -367,6 +397,12 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'weight' => 2,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -460,6 +496,12 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_eresource_list_image',
@@ -508,7 +550,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'manualcrop_maximize_default_crop_area' => 0,
         'manualcrop_require_cropping' => array(),
         'manualcrop_styles_list' => array(
-          'crop_unconstrained' => 'crop_unconstrained',
+          'crop_16_9' => 'crop_16_9',
         ),
         'manualcrop_styles_mode' => 'include',
         'manualcrop_thumblist' => 0,
@@ -553,6 +595,12 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'weight' => 4,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -613,6 +661,12 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_eresource_tags',
@@ -668,6 +722,12 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'weight' => 0,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

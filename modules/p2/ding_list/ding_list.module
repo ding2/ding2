@@ -682,6 +682,12 @@ function ding_list_permission() {
     'administer all lists' => array(
       'title' => t('Administer all lists'),
     ),
+    'reset own lists' => array(
+      'title' => t('Reset own lists'),
+    ),
+    'reset all user lists' => array(
+      'title' => t('Reset all user lists'),
+    ),
   );
 }
 
@@ -948,17 +954,13 @@ function ding_list_mail($key, &$message, $params) {
         '@user' => $username,
         '@library' => variable_get('site_name', ''),
       ));
-      $message['body'][] = t('Please use the following link to access this list.
-The link is active for 7 days from today, after which it will be disabled for security reasons.
-
-!link', array('!link' => $params['link']));
 
       if (!empty($user->mail)) {
         $message['headers']['reply-to'] = $user->mail;
       }
 
       $message['subject'] = $params['subject'];
-      $message['body'][] = $params['text'];
+      $message['body'][] = nl2br($params['text']);
       break;
   }
 }
@@ -1216,4 +1218,19 @@ function ding_list_panels_pane_content_alter($content, $pane, $args, $contexts) 
             array($list_type => $loan_history_link) +
             array_slice($items, count($items) - 2, count($items) - 1, true);
   }
+}
+
+/**
+ * Implements hook_user_delete().
+ */
+function ding_list_user_delete($account) {
+  ding_list_reset_user($account);
+}
+
+/**
+ * Check if a user has access to reset own or another user's lists.
+ */
+function ding_list_reset_lists_access($account, $target_account) {
+  return user_access('reset all user lists', $account)
+    || ($account->uid == $target_account->uid && user_access('reset own lists', $account));
 }

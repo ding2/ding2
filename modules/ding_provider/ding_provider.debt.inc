@@ -84,4 +84,18 @@ class DingProviderDebt extends DingEntityBase {
     );
     $this->_populate($properties, $data);
   }
+
+  /**
+   * Ensures that properties are populated on deserialization.
+   */
+  public function __wakeup() {
+    foreach (get_object_vars($this) as $prop => $val) {
+      if (isset($this->properties[$prop]) && $this->properties[$prop] === self::NULL) {
+        $this->properties[$prop] = $val;
+      }
+      elseif (isset($this->properties[$prop])) {
+        $this->$prop = $this->properties[$prop];
+      }
+    }
+  }
 }

@@ -82,11 +82,72 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#suffix' => '<div id="show-stats-container"></div>',
   );
 
+  $form['analysis'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Analysis'),
+    '#description' => t('Show or submit local statistics to OpenList for analysis.'),
+  );
+
+  $form['analysis']['show_local_analysis'] = array(
+    '#type' => 'button',
+    '#value' => t('Show local analysis'),
+    '#ajax' => array(
+      'wrapper' => 'show-local-analysis-container',
+      'callback' => 'ting_openlist_show_local_analysis_form_callback',
+    ),
+    '#suffix' => '<div id="show-local-analysis-container"></div>',
+  );
+
+  $form['analysis']['submit_local_analysis'] = array(
+    '#type' => 'button',
+    '#value' => t('Submit local analysis'),
+    '#ajax' => array(
+      'wrapper' => 'submit-local-analysis-container',
+      'callback' => 'ting_openlist_submit_local_analysis_form_callback',
+    ),
+    '#suffix' => '<div id="submit-local-analysis-container"></div>',
+  );
+
   return system_settings_form($form);
 }
 
 /**
- * Callback for satistics.
+ * Callback for local statistics.
+ */
+function ting_openlist_show_local_analysis_form_callback($form, &$form_state) {
+  module_load_include('inc', 'ting_openlist', 'include/ting_openlist_analysis');
+  $data = ting_openlist_get_local_analysis_data();
+
+  $out = array(
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#attributes' => array('id' => 'show-local-analysis-container'),
+    '#value' => '<pre>' . htmlentities(var_export($data, TRUE)) . '</pre>',
+  );
+
+  return render($out);
+}
+
+/**
+ * Callback for submission of local statistics.
+ */
+function ting_openlist_submit_local_analysis_form_callback($form, &$form_state) {
+  module_load_include('inc', 'ting_openlist', 'include/ting_openlist_analysis');
+
+  $result = ding_provider_invoke('openlist', 'call_module', 'LocalAnalysis', 'sendData', array(ting_openlist_get_local_analysis_data()));
+
+  $out = array(
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#attributes' => array('id' => 'show-local-analysis-container'),
+    '#value' => $result ? t('Stats are sent') : t('Unknown error try again later'),
+  );
+
+  return render($out);
+}
+
+/**
+ * Callback for statistics.
  */
 function ting_openlist_show_stats_form_callback($form, &$form_state) {
   $out = array();
