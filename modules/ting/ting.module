@@ -455,7 +455,7 @@ function ting_ding_entity_is($object, $class) {
       return in_array(drupal_strtolower($object->type), array('tidsskrift', 'periodikum', 'årbog'));
 
     case 'online':
-      return !empty($object->online_url);
+      return !empty($object->getOnline_url());
   }
 }
 
