@@ -68,15 +68,12 @@ class TingObject implements TingObjectInterface {
 
   /**
    * {@inheritdoc}
-   *
-   * TODO BBS-SAL: this function should be used in the situations where ding
-   * currently accesses TingObject->relationsData directly.
    */
   public function getRelations() {
     return $this->relations;
   }
 
-  // TODO BBS-SAL: Temporary fix to allow the pseudo object to be accessed via
+  // TODO BBS-SAL BBS-153: Temporary fix to allow the pseudo object to be accessed via
   // properties, must be removed together with the dynamic property functions
   // at the bottom of this class when the SAL port is complete.
   protected $localProperties = [];

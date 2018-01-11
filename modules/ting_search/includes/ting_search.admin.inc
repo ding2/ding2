@@ -115,7 +115,7 @@ function ting_search_admin_settings($form_state) {
     '#description' => t('The limit at wich the message is to be displayed.'),
   );
 
-  // TODO BBS-SAL: Test whether we properly support extended.
+  // TODO BBS-SAL BBS-217: Test whether we properly support extended.
   $form['ting_search']['ting_search_form_style'] = array(
     '#type' => 'select',
     '#title' => t('Search form style'),

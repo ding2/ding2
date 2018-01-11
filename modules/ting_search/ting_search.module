@@ -1036,8 +1036,7 @@ function ting_search_submit($form, &$form_state) {
   $keys = $form_state['values'][$form_id];
   $fields = array();
 
-  // TODO BBS-SAL: Should this come from the provider? Its also present in the
-  // alter for the form.
+  // TODO BBS-SAL BBS-217: Convert this to SAL.
   $extended_fields = array(
     'creator' => array(
       'index' => 'term.creator',

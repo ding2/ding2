@@ -248,7 +248,7 @@ function opensearch_admin_settings($form_state) {
     '#tree' => FALSE,
   );
 
-  // TODO BBS-SAL: Consider alternate handling of Ting agency.
+  // TODO BBS-SAL BBS-180: Consider alternate handling of Ting agency.
   // This value has multiple purposes:
   // - As configuration when accessing OpenSearch
   // - As an unique identifier for the library organization in other parts of
