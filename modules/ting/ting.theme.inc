@@ -25,11 +25,22 @@ function template_preprocess_ting_object(&$variables) {
 
   // Modify 'alt' attribute for list items.
   if (!empty($variables['content']['ting_cover']) && !empty($variables['content']['group_collection_list'])) {
-    $variables['content']['ting_cover'][0]['#alt'] = implode(' ', array(
-      // TODO BBS-SAL: Switch to getters.
-      $variables['object']->title,
-      $variables['object']->type,
-      $variables['object']->date,
-    ));
+    // Find a object we can pull the data from and add alt-data.
+    $data_object = NULL;
+    if ($variables['object'] instanceof TingEntity) {
+      $data_object = $variables['object'];
+    }
+    if ($variables['object'] instanceof TingCollection) {
+      $data_object = $variables['object']->getPrimary_object();
+    }
+
+    if (NULL !== $data_object) {
+      $variables['content']['ting_cover'][0]['#alt'] = implode(' ', [
+        $data_object->getTitle(),
+        $data_object->getType(),
+        $data_object->getDate(),
+      ]
+      );
+    }
   }
 }
