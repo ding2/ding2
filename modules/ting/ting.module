@@ -225,10 +225,10 @@ function ting_flush_caches() {
  */
 function ting_get_relations($ting_entity) {
   $relations = array();
-  // TODO BBS-SAL: use search:supported_relations provider function to filter
-  // the relations to avoid referencing opensearch types directly.
+  // Ask the provider for a list of relation-types it supports.
+  $supported_relations = array_keys(ding_provider_invoke('search', 'supported_relations'));
   foreach ($ting_entity->relations as $relation) {
-    if ($relation->type == 'dbcaddi:hasOpenUrl' || $relation->type == 'dbcaddi:hasOnlineAccess') {
+    if (!in_array($relation->type, $supported_relations)) {
       continue;
     }
     $relations[$relation->type][] = $relation;
