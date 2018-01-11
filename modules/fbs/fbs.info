@@ -50,4 +50,10 @@ files[] = includes/classes/FBSLogInterface.php
 files[] = includes/classes/FBSLogStdout.php
 files[] = includes/classes/FBSMisconfiguredException.php
 mtime = 1499431707
-required = 1
+# Features will mark any module that implements hook_field_info() as required.
+# This causes the module to be enabled automatically during site-install, which
+# in the case of a Ding-provider is a problem.
+# To prevent "required = 1" line below has been commented out. When a future
+# feature-export reintroduce the line make sure to ignore it and keep this
+# block of comments and the out-commented line intact.
+# required = 1

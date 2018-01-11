@@ -26,6 +26,7 @@ function template_preprocess_ting_object(&$variables) {
   // Modify 'alt' attribute for list items.
   if (!empty($variables['content']['ting_cover']) && !empty($variables['content']['group_collection_list'])) {
     $variables['content']['ting_cover'][0]['#alt'] = implode(' ', array(
+      // TODO BBS-SAL: Switch to getters.
       $variables['object']->title,
       $variables['object']->type,
       $variables['object']->date,
@@ -35,6 +36,8 @@ function template_preprocess_ting_object(&$variables) {
 
 /**
  * Helper function to format abstracts from ting.
+ *
+ * TODO BBS-SAL: Remove.
  */
 function ting_format_abstract($string) {
   $string = str_replace('Indhold:', '', $string);

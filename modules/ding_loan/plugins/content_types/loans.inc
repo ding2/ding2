@@ -177,10 +177,14 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       $entity = $loan->entity;
 
       if (!is_object($entity) || empty($entity->reply)) {
-        // Patron have this item in loans list, but opensearch can't find this
-        // record for current agencyId, so we load it separately.
-        // Here we are loading TingClientObject.
-        $ting_object = ting_get_object($loan->ding_entity_id);
+        // Patron have this item in loans list, but the search provider can't
+        // find this record for current agencyId, so we load it separately.
+        // TODO BBS-SAL: We could probably do with a one-shot utility function
+        // For loading a single object by id here.
+        $ting_object = ding_provider_invoke('search', 'object_load', [$loan->ding_entity_id]);
+        if (!empty($ting_object) && is_array($ting_object)) {
+          $ting_object = reset($ting_object);
+        }
 
         // But we need TingEntity instance, so here we are populating this.
         $ting_entity = new TingEntity();

@@ -3,7 +3,8 @@
  * @file
  * Hooks provided by the Ting module.
  */
-
+// TODO BBS-SAL: Move to opensearch, consider rename to
+// hook_opensearch_pre_execute.
 /**
  * Set additional parameters to ting request.
  *
@@ -50,6 +51,7 @@ function hook_ting_post_execute($request, $response, $raw_response) {
  *   The cache key that can be altered.
  */
 function hook_ting_cache_key(&$cid) {
+  // TODO BBS-SAL: Move to opensearch.
   // Determine context.
   $context = 'search';
 

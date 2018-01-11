@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function opensearch_install() {
+  opensearch_migrate_settings();
+  opensearch_migrate_roles();
+}
+
+/**
+ * Rename old ting variables to opensearch scope.
+ */
+function opensearch_migrate_settings() {
+  $settings_map = array(
+    'ting_auth_group' => 'opensearch_auth_group',
+    'ting_auth_name' => 'opensearch_auth_name',
+    'ting_auth_pass' => 'opensearch_auth_pass',
+    'ting_autocomplete_settings' => 'opensearch_search_autocomplete_settings',
+    'ting_boost_fields' => 'opensearch_boost_fields',
+    'ting_cache_lifetime' => 'opensearch_cache_lifetime',
+    'ting_enable_logging' => 'opensearch_enable_logging',
+    'ting_ranking_custom' => 'opensearch_ranking_custom',
+    'ting_ranking_fields' => 'opensearch_ranking_fields',
+    'ting_recommendation_url' => 'opensearch_recommendation_url',
+    'ting_search_autocomplete_method' => 'opensearch_search_autocomplete_method',
+    'ting_search_autocomplete_suggestion_url' => 'opensearch_search_autocomplete_suggestion_url',
+    'ting_search_profile' => 'opensearch_search_profile',
+    'ting_search_url' => 'opensearch_url',
+    'ting_sort_default' => 'opensearch_sort_default',
+    'ting_use_auth' => 'opensearch_use_auth',
+  );
+
+  array_walk($settings_map, function($new_var, $old_var) {
+    variable_set($new_var, variable_get($old_var));
+    variable_del($old_var);
+  });
+}
+
+/**
+ * Translate legacy ting roles to opensearch.
+ */
+function opensearch_migrate_roles() {
+  // Get all permissions keyed by role id.
+  $loaded_permissions = user_role_permissions(user_roles());
+  $ting_permission = 'administer ting settings';
+  $opensearch_permission = 'administer opensearch settings';
+
+  // Find all roles that references the ting permission and grant the role the
+  // new opensearch permission as well.
+  array_walk($loaded_permissions,
+    function ($permissions, $role_id) use ($ting_permission, $opensearch_permission){
+      if (array_key_exists($ting_permission, $permissions)) {
+        user_role_grant_permissions($role_id, [$opensearch_permission]);
+      }
+    }
+  );
+}
