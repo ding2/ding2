@@ -206,8 +206,9 @@ function ting_field_search_opensearch_pre_execute($request) {
 }
 
 /**
- * Priveat helper function to append cql to a request. Used in
- * hook_opensearch_pre_execute implementation.
+ * Private helper function to append cql to a request.
+ *
+ * Used in hook_opensearch_pre_execute implementation.
  */
 function _ting_field_search_append_cql($request, $cql) {
   $query = '(' . $request->getQuery() . ') and (' . $cql . ')';

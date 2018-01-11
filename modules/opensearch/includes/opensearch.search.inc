@@ -709,6 +709,6 @@ function opensearch_search_autocomplete($query) {
  *   The quoted search string.
  */
 function opensearch_search_search_quote($search_string) {
-  $cqlDoc = new TingSearchCqlDoctor($search_string);
-  return $cqlDoc->string_to_cql($search_string);
+  $cql_doc = new TingSearchCqlDoctor($search_string);
+  return $cql_doc->string_to_cql($search_string);
 }
