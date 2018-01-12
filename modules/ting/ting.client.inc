@@ -412,27 +412,6 @@ function ting_execute_cache($request) {
       }
     }
 
-    // Cache any collections. Done after objects to ensure that collections take
-    // precedence.
-    if (isset($reply->collections)) {
-      foreach ($reply->collections as &$collection) {
-        if (is_array($collection->objects)) {
-          foreach ($collection->objects as $object) {
-            // Cache any relations.
-            if (isset($object->relations)) {
-              foreach ($object->relations as $relation) {
-                if (isset($relation->id)) {
-                  ting_cache_set($relation->id, $relation);
-                }
-              }
-            }
-            ting_cache_set($object->id, $object, $type);
-          }
-          ting_cache_set(ting_cache_collection_key($collection->objects[0]->id), $collection, TING_CACHE_COLLECTION);
-        }
-      }
-    }
-
     // Cache any relations.
     if (isset($reply->relations)) {
       foreach ($reply->relations as $relation) {
