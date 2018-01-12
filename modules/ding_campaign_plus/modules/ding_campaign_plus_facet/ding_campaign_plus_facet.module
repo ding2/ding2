@@ -99,7 +99,6 @@ function ding_campaign_plus_facet_node_insert($node) {
             'nid' => $node->nid,
             'facet' => $rule['facet'],
             'value' => $value,
-            'percent' => $rule['percent'],
             'common' => $rule['common'] === '_none_' ? NULL : $rule['common'],
           ))->execute();
       }
@@ -189,7 +188,6 @@ function ding_campaign_plus_facet_ding_campaign_plus_auto_trigger($config, $camp
     foreach ($subjects as $key => $value) {
       $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key] = array(
         'facet' => $config,
-        'percent' => 30,
         'common' => NULL,
       );
 
@@ -217,7 +215,6 @@ function ding_campaign_plus_facet_ding_campaign_plus_auto_trigger($config, $camp
           break;
 
         case 'facet.subject':
-          $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['percent'] = 0;
           $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['common'] = variable_get('ding_facetbrowser_number_of_terms', 5);
           $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value'] = $value;
           break;
@@ -357,18 +354,11 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
     ),
   );
 
-  $form['percent'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Percent of the results'),
-    '#size' => 4,
-    '#default_value' => isset($default_values['percent']) ? $default_values['percent'] : '30',
-  );
-
   $options = range(1, 10, 1);
   $form['common'] = array(
     '#type' => 'select',
     '#title' => t('Most common subjects'),
-    '#options' => array('_none_' => t('None')) + array_combine($options, $options),
+    '#options' => array_combine($options, $options),
     '#default_value' => isset($default_values['common']) ? $default_values['common'] : array(),
   );
 
@@ -460,7 +450,6 @@ function _ding_campaign_plus_facet_get_rules($nid, array $rules) {
 
         $filtered[$nid]['rule_' . count($filtered[$nid])] = array(
           'facet' => $rule->facet,
-          'percent' => $rule->percent,
           'common' => $rule->common,
           'facet_value_select_type' => $value_type,
           'facet_value_select_source' => $value_source,
@@ -514,7 +503,7 @@ function _ding_campaign_plus_facet_match($keys) {
       'numFacets' => variable_get('ting_search_number_of_facets', 25),
     ));
 
-    // Loop rules to find percentage match in facets.
+    // Loop rules to find most common matches in facets.
     foreach ($campaigns as $campaign) {
       $facets = (array) unserialize($campaign->value);
       if (isset($search_result->facets[$campaign->facet])) {
@@ -524,13 +513,7 @@ function _ding_campaign_plus_facet_match($keys) {
           // Check if facet exits in the search result and if the limit is
           // reached.
           if (isset($terms[$facet])) {
-            if ($campaign->percent !== 0 && ($terms[$facet] / $search_result->numTotalObjects) * 100 >= $campaign->percent) {
-              if (!isset($triggers[$facet])) {
-                $triggers[$facet] = array();
-              }
-              $triggers[$campaign->facet][] = $campaign->nid;
-            }
-            elseif (!empty($campaign->common)) {
+            if (!empty($campaign->common)) {
               $counter = 1;
               foreach ($terms as $term => $amount) {
                 // Terms is sorted by the most common first.

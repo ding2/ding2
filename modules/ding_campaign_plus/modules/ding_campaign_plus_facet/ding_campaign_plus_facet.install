@@ -34,12 +34,6 @@ function ding_campaign_plus_facet_schema() {
         'type' => 'text',
         'not null' => TRUE,
       ),
-      'percent' => array(
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-        'default' => 0,
-      ),
       'common' => array(
         'type' => 'int',
         'unsigned' => TRUE,
