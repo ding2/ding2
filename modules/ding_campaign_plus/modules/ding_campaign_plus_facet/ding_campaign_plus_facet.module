@@ -60,7 +60,8 @@ function ding_campaign_plus_facet_node_load($nodes, $types) {
       if (!isset($node->ding_campaign_plus)) {
         $node->ding_campaign_plus = array();
       }
-      $node->ding_campaign_plus += $rules;
+      $node->ding_campaign_plus = array_merge($node->ding_campaign_plus, $rules);
+      $t=1;
     }
   }
 }
@@ -218,6 +219,7 @@ function ding_campaign_plus_facet_ding_campaign_plus_auto_trigger($config, $camp
         case 'facet.subject':
           $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['percent'] = 0;
           $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['common'] = variable_get('ding_facetbrowser_number_of_terms', 5);
+          $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value'] = $value;
           break;
 
         default:

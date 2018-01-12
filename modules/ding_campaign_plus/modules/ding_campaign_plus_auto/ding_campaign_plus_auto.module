@@ -133,8 +133,8 @@ function ding_campaign_plus_auto_form_submit($form, &$form_state) {
       $subjects = array_values($subjects);
 
       // Store subjects for later use in hook_load.
-      $campaign = &drupal_static(__FILE__, array());
-      $campaign = $subjects;
+      $campaign_subjects = &drupal_static(__FILE__, array());
+      $campaign_subjects = $subjects;
     }
   }
 }

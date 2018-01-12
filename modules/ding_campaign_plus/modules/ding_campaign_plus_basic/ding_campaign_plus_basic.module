@@ -247,6 +247,7 @@ function ding_campaign_plus_basic_ding_campaign_plus_auto_trigger($config, $camp
 
               if (taxonomy_term_save($term)) {
                 $term = taxonomy_get_term_by_name($subject);
+                $term = reset($term);
                 $value = $term->name . ' [' . $term->tid . ']';
               }
             }
