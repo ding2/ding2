@@ -273,6 +273,8 @@ projects[oembed][subdir] = "contrib"
 projects[oembed][version] = "1.0-rc2"
 ; Remove hook_system_info_alter() to allow installing modules depending on oembed, after oembed is installed.
 projects[oembed][patch][] = "http://www.drupal.org/files/issues/oembed-remove_hook_sytem_info_alter-2502817-1.patch"
+; Added a check to ensure that a menu item exists before trying to alter it in order to fix a PHP error.
+projects[oembed][patch][] = "https://www.drupal.org/files/oembed-2021015-1.patch"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
