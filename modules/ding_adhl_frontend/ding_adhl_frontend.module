@@ -126,6 +126,7 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
           break;
         }
 
+        // TODO BBS-SAL BBS-213: Implement search provider call here?
         // Get the recommendations from the ting client (ADHL service).
         $recommendations = opensearch_get_object_recommendations($identifier, $number_of_recommendations);
         if (isset($recommendations) && is_array($recommendations)) {

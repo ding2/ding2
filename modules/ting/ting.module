@@ -203,7 +203,7 @@ function ting_block_info() {
  * Implements hook_cron().
  *
  * Ensures that all expired entries are delete form the cache on cron runes.
- * TODO BBS-SAL: move/copy to opensearch as cache_opensearch
+ * TODO BBS-SAL BBS-176: move/copy to opensearch as cache_opensearch
  * (depending on whether we keep cache_ting)
  */
 function ting_cron() {
@@ -213,7 +213,7 @@ function ting_cron() {
 /**
  * Implements hook_flush_caches().
  *
- * TODO BBS-SAL: move/copy to opensearch as cache_opensearch
+ * TODO BBS-SAL BBS-176: move/copy to opensearch as cache_opensearch
  * (depending on whether we keep cache_ting)
  */
 function ting_flush_caches() {
@@ -225,10 +225,10 @@ function ting_flush_caches() {
  */
 function ting_get_relations($ting_entity) {
   $relations = array();
-  // TODO BBS-SAL: use search:supported_relations provider function to filter
-  // the relations to avoid referencing opensearch types directly.
+  // Ask the provider for a list of relation-types it supports.
+  $supported_relations = array_keys(ding_provider_invoke('search', 'supported_relations'));
   foreach ($ting_entity->relations as $relation) {
-    if ($relation->type == 'dbcaddi:hasOpenUrl' || $relation->type == 'dbcaddi:hasOnlineAccess') {
+    if (!in_array($relation->type, $supported_relations)) {
       continue;
     }
     $relations[$relation->type][] = $relation;
@@ -447,11 +447,9 @@ function ting_ding_entity_is($object, $class) {
       return (in_array(drupal_strtolower($object->ac_source), $sources) && in_array(drupal_strtolower($object->type), $types));
 
     case 'periodical':
-      // TODO BBS-SAL: use a (new) provider call - hardcode the return-value in
-      // the opensearch implementation.
-      // @todo make this configurable.
-      // @todo also make sure that availability information isn't displayed
-      //   on the object
+      // TODO BBS-SAL BBS-218: make this configurable.
+      // @todo make sure that availability information isn't displayed
+      // on the object.
       return in_array(drupal_strtolower($object->type), array('tidsskrift', 'periodikum', 'årbog'));
 
     case 'online':
@@ -498,31 +496,6 @@ function ting_ding_entity_buttons($type, $entity) {
     }
 
     return $buttons;
-  }
-}
-
-/**
- * Implements hook_page_alter().
- *
- * Log, and display if the devel module is active and the user has
- * permissions, a warning if the data well was queried more than once.
- *
- * TODO BBS-SAL: Move to opensearch.
- */
-function ting_page_alter(&$page) {
-  $calls = &drupal_static('ting_execute_cache');
-  if (count($calls) > 5) {
-    $calls_str = array();
-    foreach ($calls as $call) {
-      $calls_str[] = print_r($calls, TRUE);
-    }
-
-    watchdog('ting', 'Warning, ting_execute called @x times:<br />"@queries"', array('@x' => count($calls), '@queries' => implode('" "', $calls_str)), WATCHDOG_WARNING);
-
-    if (function_exists('dpm') && user_access('access devel information')) {
-      drupal_set_message(t('Warning, ting_execute called @x times.', array('@x' => count($calls))), 'error');
-      dpm($calls, 'ting_execute queries:');
-    }
   }
 }
 
@@ -909,4 +882,25 @@ function ting_xautoload(LocalDirectoryAdapter $adapter) {
 function ting_start_query() {
   // Set the query-object up with a strategy that uses ding_provider_invoke().
   return new TingSearchRequest(new DingProviderStrategy());
+}
+
+/**
+ * Loads a TingObjectInterface instance.
+ *
+ * @param string $id
+ *   ID of the TingObject.
+ *
+ * @return null|\Ting\TingObjectInterface
+ *   The loaded object or NULL if it could not be found.
+ */
+function ting_search_object_load($id) {
+  $ting_search_object = ding_provider_invoke('search', 'object_load', [$id]);
+  if (!empty($ting_search_object) && is_array($ting_search_object)) {
+    $ting_search_object = reset($ting_search_object);
+  }
+  else {
+    $ting_search_object = NULL;
+  }
+
+  return $ting_search_object;
 }

@@ -551,20 +551,6 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
   }
 
   /**
-   * Verify that the provider maps all common fields.
-   */
-  public function testCommonFieldMapping() {
-    $expected_keys = $this->getExpectedCommonFields();
-    $mapped_fields = ding_provider_invoke('search', 'map_common_condition_fields');
-
-    $diff = array_diff($expected_keys, array_keys($mapped_fields));
-
-    if (!empty($diff)) {
-      $this->fail('Unmapped common field(s): ' . implode(', ', $diff));
-    }
-  }
-
-  /**
    * Test that the provider can generate a reference query.
    */
   public function testPrepareReferenceQuery() {
@@ -621,5 +607,18 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     // Check the filter is being set to exclude.
     $this->assertEqual($query_exclude->getMaterialFilter(), ['123']);
     $this->assertFalse($query_exclude->isMaterialFilterInclude());
+  }
+
+  /**
+   * Test that search strings are quoted.
+   */
+  public function testSearchQuoting() {
+    // Connie does a simple escaping of quotes.
+    $input = 'test"String"';
+    $expected = 'test\"String\"';
+
+    $result = ding_provider_invoke('search', 'search_quote', $input);
+
+    $this->assertEqual($result, $expected);
   }
 }

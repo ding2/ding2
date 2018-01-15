@@ -9,9 +9,8 @@
  * Controller class for ting objects.
  */
 class TingObjectController extends DrupalDefaultEntityController {
+
   public function load($ids = array(), $conditions = array()) {
-    // TODO BBS-SAL: Should not be necessary after the port.
-    module_load_include('client.inc', 'opensearch');
     $queried_entities = array();
     // We really don't support loading of all objects. We're adding to
     // $ids depending on conditions.
@@ -245,8 +244,6 @@ class TingCollectionController implements DrupalEntityControllerInterface {
    * Implements DrupalEntityControllerInterface::load().
    */
   public function load($ids = array(), $conditions = array()) {
-    // TODO BBS-SAL: Remove when opensearch_get_object invocation is gone.
-    module_load_include('client.inc', 'opensearch');
     $entities = array();
     $queried_entities = array();
     if (isset($conditions['ding_entity_id'])) {
@@ -264,8 +261,10 @@ class TingCollectionController implements DrupalEntityControllerInterface {
           }
           $object = new TingCollection($ding_entity_id, $object_collection);
 
-          // TODO BBS-SAL - Consider removing the reply property when the port
-          // is done.
+          // TODO BBS-SAL BBS-153 - Remove the reply property when the port
+          // is done. Notice the client is loaded at this point because we just
+          // did a provider-invocation which is why we can call
+          // opensearch_get_object.
           // Support legacy open search.
           $reply = opensearch_get_object($ding_entity_id, TRUE);
           if ($reply) {

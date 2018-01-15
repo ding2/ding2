@@ -125,29 +125,6 @@ function connie_search_search_render_inline_relation(\TingRelation $relation) {
 }
 
 /**
- * Mapping of common fields used in conditions to provider-specific names.
- *
- * Condition fields are fields that are used for boolean condition such as
- * dc.type = "something" AND facet.creator = "someone"
- *
- * @return array
- *   Mapping between TingSearchCommonFields::* fields and their provider-
- *   specific counterpart.
- */
-function connie_search_search_map_common_condition_fields() {
-  return [
-    TingSearchCommonFields::ACQUISITION_DATE => 'acquisitionDate',
-    TingSearchCommonFields::AUTHOR => 'facet.creator',
-    TingSearchCommonFields::CATEGORY => 'facet.category',
-    TingSearchCommonFields::DATE => 'facet.date',
-    TingSearchCommonFields::LANGUAGE => 'facet.language',
-    TingSearchCommonFields::MATERIAL_TYPE => 'dc.type',
-    TingSearchCommonFields::SUBJECT => 'facet.subject',
-    TingSearchCommonFields::TITLE => 'facet.title',
-  ];
-}
-
-/**
  * Constructs a TingSearchRequest based on a "reference" search query.
  *
  * The implementation should assume that the user has entered a string with the
@@ -273,4 +250,17 @@ function connie_search_search_autocomplete($query) {
   }
 
   return $items;
+}
+
+/**
+ * Quotes a search string to make it compatible with the provider.
+ *
+ * @param string $search_string
+ *   The search string.
+ *
+ * @return string
+ *   The quoted search string.
+ */
+function connie_search_search_search_quote($search_string) {
+  return str_replace('"', '\"', $search_string);
 }

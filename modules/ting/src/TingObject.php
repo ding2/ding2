@@ -68,15 +68,12 @@ class TingObject implements TingObjectInterface {
 
   /**
    * {@inheritdoc}
-   *
-   * TODO BBS-SAL: this function should be used in the situations where ding
-   * currently accesses TingObject->relationsData directly.
    */
   public function getRelations() {
     return $this->relations;
   }
 
-  // TODO BBS-SAL: Temporary fix to allow the pseudo object to be accessed via
+  // TODO BBS-SAL BBS-153: Temporary fix to allow the pseudo object to be accessed via
   // properties, must be removed together with the dynamic property functions
   // at the bottom of this class when the SAL port is complete.
   protected $localProperties = [];
@@ -837,9 +834,6 @@ class TingObject implements TingObjectInterface {
    * Delegates all non-local property reads to the Open Search object.
    */
   public function __get($name) {
-    // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Getting '$name'", [], WATCHDOG_DEBUG);
-
     // Handle local properties.
     if (in_array($name, $this->localProperties)) {
       return $this->$name;
@@ -852,9 +846,6 @@ class TingObject implements TingObjectInterface {
    * Handle property mutation.
    */
   public function __set($name, $value) {
-    // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Setting '$name'", [], WATCHDOG_DEBUG);
-
     if (in_array($name, $this->localProperties)) {
       $this->$name = $value;
     }
@@ -864,8 +855,6 @@ class TingObject implements TingObjectInterface {
    * Test if a property is present.
    */
   public function __isset($name) {
-    // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Is '$name' set?", [], WATCHDOG_DEBUG);
     return isset($this->openSearchObject->$name);
   }
 
@@ -877,8 +866,6 @@ class TingObject implements TingObjectInterface {
     if (in_array($name, $this->localProperties)) {
       unset($this->$name);
     }
-
-    // TODO BBS-SAL: Remove logging when SAL is implemented.
-    watchdog('TingPseudoObject', "Unsetting '$name'", [], WATCHDOG_DEBUG);
   }
+
 }

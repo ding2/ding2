@@ -43,6 +43,7 @@ function ding_serendipity_ting_entity_serendipity_info() {
       'title' => t('Ting Objects related by same type'),
       'description' => t('Search for Ting objects with same type'),
       'keys' => array('ting_object_id'),
+      // TODO BBS-SAL BBS-219: Add configuration for blacklist here.
     ),
     'ting_object_adhl' => array(
       'title' => t('Ting objects via ADHL service on current object'),
@@ -189,7 +190,7 @@ function ding_serendipity_ting_entity_ting_object_type_serendipity_add($context)
   // @Todo extend with types where this plugin clearly is useless.
   // We would like to present other PS3 games for a PS3 game for instance.
   // But not just books for a book.
-  // TODO BBS-SAL: Enum here.
+  // TODO BBS-SAL BBS-219: make configurable.
   if (empty($type) || $type === 'Bog' || $type === 'Avisartikel' || $type === 'Tidsskriftsartikel') {
     return $results;
   }
@@ -234,6 +235,7 @@ function ding_serendipity_ting_entity_ting_object_adhl_serendipity_add($context)
         $agency .= ':';
       }
 
+      // TODO BBS-SAL BBS-213: Implement search provider call here?
       $recommendations = opensearch_get_object_recommendations($obj->getIsbn());
       ding_serendipity_exclude($recommendations, $context['ting_object_id']);
 

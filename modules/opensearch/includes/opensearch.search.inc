@@ -67,6 +67,9 @@ function _opensearch_get_facet_values($facet_name) {
  *   An array of loaded objects.
  */
 function opensearch_search_object_load(array $ids) {
+  // Ensure we have ting client.
+  module_load_include('inc', 'opensearch', 'opensearch.client');
+
   $objects = opensearch_get_objects($ids);
   foreach ($objects as $id => $object) {
     if (!empty($object)) {
@@ -86,6 +89,9 @@ function opensearch_search_object_load(array $ids) {
  *   The collection.
  */
 function opensearch_search_collection_load($id) {
+  // Ensure we have ting client.
+  module_load_include('inc', 'opensearch', 'opensearch.client');
+
   $reply = opensearch_get_object($id, TRUE);
   return new OpenSearchTingObjectCollection($reply);
 }
@@ -103,10 +109,6 @@ function opensearch_search_collection_load($id) {
  *   If an error occurs during search.
  */
 function opensearch_search_search(TingSearchRequest $ting_query) {
-  // TODO BBS-SAL: At some point this function will become big enough that we
-  // Should split it up - consider doing some OO "Handlers". Alternativly do a
-  // OpenSearchTingSearchQuery, create a TingSearchQueryInterface and handle its
-  // construction via new provider-function.
   $query_parts = [];
   // Start off with an empty query, then attempt to construct it from what we
   // can find in $ting_query.
@@ -204,11 +206,6 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
     $options['sort'] = $opensearch_sort_field;
   }
 
-  // Set facet options.
-  if (!empty($ting_query->getFacets())) {
-    // TODO BBS-SAL: Should we map use the facet class here?
-    $options['facets'] = $ting_query->getFacets();
-  }
   // Set the number of terms we request to get back per facet.
   if ($ting_query->getTermsPerFacet() !== NULL) {
     $options['numFacets'] = $ting_query->getTermsPerFacet();
@@ -475,24 +472,6 @@ function opensearch_search_render_inline_relation(TingRelation $relation) {
  *   Mapping between TingSearchCommonFields::* fields and their provider-
  *   specific counterpart.
  */
-function opensearch_search_map_common_condition_fields() {
-  return [
-    TingSearchCommonFields::ACQUISITION_DATE => 'acquisitionDate',
-    TingSearchCommonFields::AUTHOR => 'facet.creator',
-    TingSearchCommonFields::CATEGORY => 'facet.category',
-    TingSearchCommonFields::LANGUAGE => 'facet.language',
-    TingSearchCommonFields::MATERIAL_TYPE => 'facet.type',
-    TingSearchCommonFields::SUBJECT => 'facet.subject',
-  ];
-}
-
-/**
- * Mapping between common fields and their provider-specific name.
- *
- * @return array
- *   Mapping between TingSearchCommonFields::* fields and their provider-
- *   specific counterpart.
- */
 function _opensearch_search_map_common_sort_fields() {
   return [
     TingSearchCommonFields::TITLE => 'title',
@@ -545,12 +524,11 @@ function opensearch_search_prepare_reference_query($query_string) {
 function opensearch_search_sort_options() {
   $options = [];
 
-  // TODO BBS-SAL: Test.
-  // Add Acquisition Date sort for opensearch v4.3 or higher.
   $matches = array();
   $ting_search = variable_get('opensearch_url');
   preg_match_all('~(\d\.\d\.?\d?)\/?$~', $ting_search, $matches);
   $version = (float) $matches[1][0];
+  // Add Acquisition Date sort for opensearch v4.3 or higher.
   if ($version >= 4.3) {
     $options['localAcquisitionDate_ascending'] = [
       'label' => t('Acquisition Date (ascending)'),
@@ -719,4 +697,18 @@ function opensearch_search_autocomplete($query) {
   }
 
   return $items;
+}
+
+/**
+ * Quotes a search string to make it compatible with the provider.
+ *
+ * @param string $search_string
+ *   The search string.
+ *
+ * @return string
+ *   The quoted search string.
+ */
+function opensearch_search_search_quote($search_string) {
+  $cql_doc = new TingSearchCqlDoctor($search_string);
+  return $cql_doc->string_to_cql($search_string);
 }

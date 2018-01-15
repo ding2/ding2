@@ -12,15 +12,6 @@ namespace Ting\Search;
  *
  * A request for a search using a search provider.
  *
- * TODO BBS-SAL: TingClient has multiple types of "Request"s eg.
- * TingClientObjectRequest - We should have this in mind during the
- * implementation of SAL. On the one hand we don't want to make  eg.
- * TingSearchRequest to generic in order to handle a wide range of ways to
- * Interact with Open Search, on the other hand, we want to keep things as
- * simple as possible - if there is a simple way of handling two different use-
- * cases using the same functionality, we should prefer that over solving it
- * with complexity.
- *
  * @package Ting\Search
  */
 class TingSearchRequest {
@@ -194,7 +185,6 @@ class TingSearchRequest {
    */
   public function execute() {
     // Delegate to the strategy.
-    // TODO BBS-SAL: implement pre/post hooks - see ting.api.php.
     return $this->searchStrategy->executeSearch($this);
   }
 
@@ -222,30 +212,6 @@ class TingSearchRequest {
   public function setFullTextQuery($full_text_query) {
     $this->fullTextQuery = $full_text_query;
     return $this;
-  }
-
-  /**
-   * Sets list of facets the query will return results for alongside materials.
-   *
-   * @param string[] $facets
-   *   The facets.
-   *
-   * @return TingSearchRequest
-   *   the current query object.
-   */
-  public function setFacets($facets) {
-    $this->facets = $facets;
-    return $this;
-  }
-
-  /**
-   * List of facets the query will return results for alongside materials.
-   *
-   * @return string[]
-   *   The facets.
-   */
-  public function getFacets() {
-    return $this->facets;
   }
 
   /**
@@ -426,8 +392,6 @@ class TingSearchRequest {
    * Set the list of provider-specific material ids the query is constrained to.
    *
    * The ID can be received from a TingObjectInterface instance via getId().
-   *
-   * TODO BBS-SAL: This can replace ding_serendipity_exclude.
    *
    * @param string[]|string $material_ids
    *   One or more ids.

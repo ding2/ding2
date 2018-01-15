@@ -10,7 +10,5 @@ files[] = ting.test
 configure = admin/config/ting
 stylesheets[all][] = ting.css
 dependencies[] = ding_entity
-; TODO BBS-SAL: move with ting-client.
-dependencies[] = nanosoap
 dependencies[] = virtual_field
 dependencies[] = xautoload

@@ -248,7 +248,7 @@ function opensearch_admin_settings($form_state) {
     '#tree' => FALSE,
   );
 
-  // TODO BBS-SAL: Consider alternate handling of Ting agency.
+  // TODO BBS-SAL BBS-180: Consider alternate handling of Ting agency.
   // This value has multiple purposes:
   // - As configuration when accessing OpenSearch
   // - As an unique identifier for the library organization in other parts of
@@ -406,4 +406,27 @@ function opensearch_search_autocomplete_settings() {
  */
 function opensearch_xautoload(LocalDirectoryAdapter $adapter) {
   $adapter->addPsr4('OpenSearch', 'src');
+}
+
+/**
+ * Implements hook_page_alter().
+ *
+ * Log, and display if the devel module is active and the user has
+ * permissions, a warning if the data well was queried more than once.
+ */
+function opensearch_page_alter(&$page) {
+  $calls = &drupal_static('opensearch_execute_cache');
+  if (count($calls) > 5) {
+    $calls_str = array();
+    foreach ($calls as $call) {
+      $calls_str[] = print_r($calls, TRUE);
+    }
+
+    watchdog('opensearch', 'Warning, opensearch_execute called @x times:<br />"@queries"', array('@x' => count($calls), '@queries' => implode('" "', $calls_str)), WATCHDOG_WARNING);
+
+    if (function_exists('dpm') && user_access('access devel information')) {
+      drupal_set_message(t('Warning, opensearch_execute called @x times.', array('@x' => count($calls))), 'error');
+      dpm($calls, 'opensearch_execute queries:');
+    }
+  }
 }

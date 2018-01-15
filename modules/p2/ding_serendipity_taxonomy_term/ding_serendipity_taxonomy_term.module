@@ -103,11 +103,8 @@ function _ding_serendipity_taxonomy_term_query_from_term(array $term_array) {
     $query->setRawQuery(ding_list_convert_cql($term_array['query']));
   }
   else {
-    // Just add the term name itself as a boolean field.
-    // TODO BBS-SAL: How will searching directly on a term be supported by
-    // Primo? Chould this actually be a common field which should then just be
-    // rendered as a boolean field?
-    $query->addFieldFilters($term_array['term']->name);
+    // Just add the term name itself as a full text search.
+    $query->setFullTextQuery($term_array['term']->name);
   }
 
   return $query;

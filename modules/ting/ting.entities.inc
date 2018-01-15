@@ -336,7 +336,7 @@ class TingCollection extends DingEntityCollection {
   public $types_count = DingEntityBase::NULL;
   public $primary_object = DingEntityBase::NULL;
 
-  // TODO BBS-SAL: Remove when port is done if we can be sure it is not used.
+  // TODO BBS-153: Remove when port is done if we can be sure it is not used.
   public $reply;
 
   /**

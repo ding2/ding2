@@ -503,13 +503,13 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     // Save search result for usage by facet modules etc.
     ting_search_current_results($search_result);
 
-    // TODO BBS-SAL: The following code either needs to updated to SAL (eg.
-    // ding_facets needs to be updated) or removed.
     // Add support for facet api.
     if (module_exists('ding_facets')) {
-      // @todo ITK Aarhus finish implementation of facet api to use a standard
+      // TODO: ITK Aarhus finish implementation of facet api to use a standard
       // facet module, that allows usage of modules from D.O. to improved facet
       // usage.
+      // TODO: If general facet-api support is included in core it has to be
+      // integrated with search abstraction layer as well.
       $adapter = facetapi_adapter_load('ding_facets');
       if ($adapter) {
         $adapter->addActiveFilters($query);
@@ -1036,8 +1036,7 @@ function ting_search_submit($form, &$form_state) {
   $keys = $form_state['values'][$form_id];
   $fields = array();
 
-  // TODO BBS-SAL: Should this come from the provider? Its also present in the
-  // alter for the form.
+  // TODO BBS-SAL BBS-217: Convert this to SAL.
   $extended_fields = array(
     'creator' => array(
       'index' => 'term.creator',
@@ -1127,11 +1126,8 @@ function ting_search_submit($form, &$form_state) {
 }
 
 /**
- * Make sure string is strict cql
+ * Make sure string is strict cql.
  */
 function _ting_search_quote($string) {
-  // TODO BBS-SAL, move into provider. Determine whether this can be done on
-  // fragments of the query, or whether it has to be the entire query.
-  $cqlDoc = new TingSearchCqlDoctor($string);
-  return $cqlDoc->string_to_cql($string);
+  return ding_provider_invoke('search', 'search_quote', $string);
 }
