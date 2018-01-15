@@ -30,7 +30,7 @@
       var form = this;
       setTimeout(function () {
         form.submit();
-  	  }, 0);
+      }, 0);
     });
 
     // Add search link to the different links on the search result page.
