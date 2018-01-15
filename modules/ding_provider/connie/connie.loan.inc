@@ -5,6 +5,8 @@
  * Ding loan provider example.
  */
 
+use Ting\TingObject;
+
 /**
  *
  */
@@ -44,4 +46,22 @@ function connie_loan_renew($account, $ids) {
   }
 
   return $result;
+}
+
+/**
+ * Enrich pseudo entities.
+ *
+ * @param object $ting_entity
+ *   Provider reservation object.
+ * @param \Ting\TingObject $ting_object
+ *   Mutable ting object that represents the raw search result from the search
+ *   provider.
+ *
+ * @return object
+ *   Ting entity object, filled with data from provider service.
+ */
+function connie_loan_populate_pseudo_entity($ting_entity, TingObject $ting_object) {
+  $ting_object->setTitle(trim($ting_object->getTitle() . " Connie edition"));
+
+  return $ting_entity;
 }

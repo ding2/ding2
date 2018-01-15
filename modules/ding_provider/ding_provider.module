@@ -614,8 +614,10 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
 
   // See if the provider have any information about the entity.
   if (ding_provider_implements('loan', 'populate_pseudo_entity')) {
-    $ting_entity = ding_provider_invoke('loan', 'populate_pseudo_entity', $ting_entity);
+    $ting_entity = ding_provider_invoke('loan', 'populate_pseudo_entity', $ting_entity, $ting_object);
   }
+
+  $ting_entity->setTingObject($ting_object);
 
   // Mark this object as pseudo, so formatters can take action.
   $ting_entity->is_available = FALSE;
