@@ -79,6 +79,26 @@ class TingEntity extends DingEntity {
   public $reply;
 
   /**
+   * The Ting object that the entity uses to access data from a search provider.
+   *
+   * @return \Ting\TingObjectInterface
+   *   The object.
+   */
+  public function getTingObject() {
+    return $this->reply;
+  }
+
+  /**
+   * Set the Ting object the entity should use to access search provider data.
+   *
+   * @param \Ting\TingObjectInterface $reply
+   *   The object.
+   */
+  public function setTingObject(TingObjectInterface $reply) {
+    $this->reply = $reply;
+  }
+
+  /**
    * The size or duration of the resource.
    *
    * Eg. "245 sider".
