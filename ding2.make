@@ -221,14 +221,14 @@ projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "3.0"
 
 projects[memcache][subdir] = "contrib"
-projects[memcache][version] = "1.5"
+projects[memcache][version] = "1.6"
 
 projects[menu_block][subdir] = "contrib"
 projects[menu_block][version] = "2.7"
 ; Add support for features export of blocks
 ; https://www.drupal.org/node/693302
 ; The patch here add a database table, which is already created in a previous hook_update (from a previous patch).
-; We have to modify it for our use. 
+; We have to modify it for our use.
 projects[menu_block][patch][0] = "patches/menu_block-2x-ctools_exportables-693302-163.ding2.patch"
 
 projects[menu_breadcrumb][subdir] = "contrib"
