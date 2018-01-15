@@ -535,6 +535,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
 The link is active for 7 days from today, after which it will be disabled for security reasons.
 
 !link'),
+    '#resizable' => FALSE,
   );
 
   $form['mail_sharer']['share'] = array(
