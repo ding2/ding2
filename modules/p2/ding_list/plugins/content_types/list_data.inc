@@ -34,18 +34,18 @@ function ding_list_list_data_content_type_render($subtype, $conf, $panel_args, $
       ),
     ),
   );
-  
+
   if ($user->uid != $list->uid) {
     $block->content['info']['user'] = array(
       '#theme' => 'ding_list_label_value',
       '#label' => t('Created by'),
-      '#value' => $list_user->data['display_name'],
+      '#value' => ding_list_list_username($list),
     );
   }
 
   if (ding_list_allowed($list, DING_LIST_OPERATION_SHARE) && $list_status != 'private') {
     $block->content['info'][] = array(
-      '#theme' => 'ding_list_followers', 
+      '#theme' => 'ding_list_followers',
       '#list' => $list,
     );
   }
