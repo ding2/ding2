@@ -671,14 +671,19 @@ function ding_user_default_authname($name) {
 
   // A sha512 is 64 bytes, which becomes 128 hexadecimal chars, which is
   // exactly the size of the authname field in the database. So we ask hash
-  // for binary data and lets _password_base64_encode base64 encode it to 86
+  // for binary data and lets _password_base64_encode base64 encode it to 88
   // characters, leaving enough room for our suffix.
   $hash = hash('sha512', ding_user_get_private_key() . $name, TRUE);
 
-  // The string length of the hash have been changed in the line below and we
-  // need to update the accounts with new hash values, hence this function call.
-  _ding_user_update_old_accounts($hash);
-  return _password_base64_encode($hash, drupal_strlen($hash)) . '@ding_user';
+  // We're using strlen() because we want the byte count. drupal_strlen() will
+  // try to interpret the binary data as UTF-8, often fail and chop off what
+  // it considers invalid. It shouldn't be necessary to explain why this is
+  // bad.
+  $authname = _password_base64_encode($hash, strlen($hash)) . '@ding_user';
+
+  _ding_user_fix_bad_authnames($authname);
+
+  return $authname;
 }
 
 /**
@@ -699,7 +704,7 @@ function ding_user_get_private_key() {
   }
   watchdog(
     'ding_user',
-    'ding_user_private_key not found', 
+    'ding_user_private_key not found',
     array(),
     WATCHDOG_CRITICAL
   );
@@ -708,50 +713,77 @@ function ding_user_get_private_key() {
 
 /**
  * This method updates the user authname hash.
+ * Updates authname for existing users.
+ * Fix bad authnames.
  *
- * It will become deprecated after a while.
+ * A bug got introduced in the hashing of ding_user_default_authname() at some
+ * point, which means there's potentially users with bad authnames in the
+ * database.
  *
- * @param string $hash
- *   Hash used as provider users authname.
+ * Fortunately it's a case of the hash being truncated, so we can spot and fix
+ * the offending authnames.
+ *
+ * @param string $authname
+ *   The authname to find and fix bad ones for.
  */
-function _ding_user_update_old_accounts($hash) {
-  // Create authname hash using old workflow (the difference is in strlen VS
-  // drupal_strlen).
-  $auth_name_old = _password_base64_encode($hash, strlen($hash)) . '@ding_user';
+function _ding_user_fix_bad_authnames($authname) {
+  // Select all authnames that either matches the authname, or is a prefix of
+  // the authname (which is the bad ones).
+  $suffix = "@ding_user";
+  // Length of the common suffix. We add one because the last byte of the hash
+  // can vary due to base64, so we cut that off too, before comparing.
+  $suffix_length = strlen($suffix) + 1;
+  $query = db_select('authmap', 'a')
+         ->fields('a', array('uid'))
+         ->where("authname REGEXP :suffix_regex AND (
+  authname = :proper_authname OR
+  SUBSTR(:proper_authname, 1, LENGTH(authname) - :suffix_length) = SUBSTR(authname, 1, LENGTH(authname) - :suffix_length)
+)",
+                 array(
+                   ':suffix_regex' => $suffix . '$',
+                   ':proper_authname' => $authname,
+                   ':suffix_length' => $suffix_length,
+                 )
+         );
 
-  // Try to find the users uid based on the old hash value (length of the old
-  // hash should be 96).
-  $uid = db_select('authmap', 'a')
-    ->fields('a', array('uid'))
-    ->condition('authname', $auth_name_old)
+  // Join with users and order by last login.
+  $query->join('users', 'u', 'a.uid = u.uid');
+  $query->orderBy('u.login');
+
+  $uids = $query
     ->execute()
-    ->fetchField();
+    ->fetchCol();
 
-  // Proceed only in the case it exists and needs to be updated.
-  if ($uid) {
-    // Create new hash.
-    $auth_name_new = _password_base64_encode($hash, drupal_strlen($hash)) . '@ding_user';
-    $account_new = user_external_load($auth_name_new);
+  if (count($uids) == 1 && $uids[0] == $authname) {
+    // Only one found, and it's the one we're using, we're golden.
+    return;
+  }
 
-    // Update old account (authmap and init) only when there is no new account
-    // for the same user.
-    if (!$account_new) {
-      db_update('authmap')
-        ->fields(array(
-          'authname' => $auth_name_new,
-        ))
-        ->condition('authname', $auth_name_old)
-        ->execute();
+  if ($uids) {
+    // The last one is the one that's been used most recently.
+    $keeper = array_pop($uids);
 
-      db_update('users')
-        ->fields(array(
-          'init' => $auth_name_new,
-        ))
-        ->condition('uid', $uid)
-        ->execute();
+    // Delete the other users.
+    foreach ($uids as $uid) {
+      user_delete($uid);
     }
-    // @todo Should the old account be deleted when the user already has a new
-    // account?
+
+    // Update the remaining user with the right authname.
+    db_update('authmap')
+      ->fields(array(
+        'authname' => $authname,
+      ))
+      ->condition('uid', $keeper, '=')
+      ->condition('authname', $authname, '<>')
+      ->execute();
+
+    db_update('users')
+      ->fields(array(
+        'init' => $authname,
+      ))
+      ->condition('uid', $keeper, '=')
+      ->condition('init', $authname, '<>')
+      ->execute();
   }
 }
 
