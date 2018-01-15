@@ -248,17 +248,12 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
       '#value' => t('Save list'),
     );
 
-    if (ding_list_allowed($existing, DING_LIST_OPERATION_DELETE)) {
+    if (ding_list_allowed($existing, DING_LIST_OPERATION_DELETE) && (user_access('administer all lists') || $existing->uid == $user->uid)) {
       $form['actions']['delete_list'] = array(
         '#type' => 'submit',
         '#value' => t('Delete list'),
       );
-      if ($existing->uid == $user->uid) {
-        $form['actions']['delete_list']['#submit'] = array('ding_list_create_list_form_submit_delete');
-      }
-      else {
-        $form['actions']['delete_list']['#submit'] = array('ding_list_create_list_form_submit_delete_share');
-      }
+      $form['actions']['delete_list']['#submit'] = array('ding_list_create_list_form_submit_delete');
     }
   }
   else {
