@@ -541,7 +541,7 @@ function fbs_form_profile2_form_alter(&$form, &$form_state) {
   $form['profile_provider_fbs']['ding_user_fee_sms'] = array(
     '#type' => 'item',
     '#markup' => $fee_sms,
-    '#weight' => 3,
+    '#weight' => $form['profile_provider_fbs']['field_fbs_phone_notification']['#weight'] + 0.1,
   );
 
   // Add validation to email.
@@ -558,7 +558,7 @@ function fbs_form_profile2_form_alter(&$form, &$form_state) {
 function fbs_form_profile2_mail_validate($element, $form_state) {
   $email = $form_state['input']['profile_provider_fbs']['field_fbs_mail']['und'][0]['value'];
   if (!empty($email)) {
-    if (!valid_email_address($email)) {
+    if (!ding_base_validate_email($email)) {
       form_set_error('profile_provider_fbs][field_fbs_mail', t('Please fill in a valid email'));
     }
   }
