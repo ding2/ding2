@@ -523,6 +523,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
       'module' => 'media',
       'settings' => array(
         'allowed_schemes' => array(
+          'oembed' => 0,
           'public' => 'public',
           'vimeo' => 0,
           'youtube' => 0,
@@ -550,7 +551,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'manualcrop_maximize_default_crop_area' => 0,
         'manualcrop_require_cropping' => array(),
         'manualcrop_styles_list' => array(
-          'crop_16_9' => 'crop_16_9',
+          'crop_4_3' => 'crop_4_3',
         ),
         'manualcrop_styles_mode' => 'include',
         'manualcrop_thumblist' => 0,
