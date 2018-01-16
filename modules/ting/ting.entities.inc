@@ -375,6 +375,16 @@ class TingCollection extends DingEntityCollection {
   public $tingObjectCollection;
 
   /**
+   * Set the collection from the Ting search provider.
+   *
+   * @param \Ting\TingObjectCollectionInterface $tingObjectCollection
+   *   The collection.
+   */
+  public function setTingObjectCollection(TingObjectCollectionInterface $tingObjectCollection) {
+    $this->tingObjectCollection = $tingObjectCollection;
+  }
+
+  /**
    * Get the collection from the Ting search provider.
    *
    * @return \Ting\TingObjectCollectionInterface

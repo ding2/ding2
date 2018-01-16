@@ -260,15 +260,10 @@ class TingCollectionController implements DrupalEntityControllerInterface {
             watchdog('ting', 'Loaded empty collection with ID @id, this could be an error. ', ['@id' => $ding_entity_id], WATCHDOG_WARNING);
           }
           $object = new TingCollection($ding_entity_id, $object_collection);
-
-          // TODO BBS-SAL BBS-153 - Remove the reply property when the port
-          // is done. Notice the client is loaded at this point because we just
-          // did a provider-invocation which is why we can call
-          // opensearch_get_object.
-          // Support legacy open search.
-          $reply = opensearch_get_object($ding_entity_id, TRUE);
-          if ($reply) {
-            $object->reply = $reply;
+          // Attach search provider object.
+          $ting_object_collection = ding_provider_invoke('search', 'collection_load', $ding_entity_id);
+          if ($ting_object_collection) {
+            $object->setTingObjectCollection($ting_object_collection);
           }
           $queried_entities[$ding_entity_id] = $object;
 
