@@ -461,7 +461,8 @@ function ding_serendipity_user_audience($account = NULL) {
   if (!empty($ids)) {
     foreach (ding_serendipity_do_search($query, array('limit' => count($ids))) as $collection) {
       $entity = $collection['object']->getPrimary_object();
-      $audience = !empty($entity->reply->record['dcterms:audience'][''][0]) ? $entity->reply->record['dcterms:audience'][''][0] : FALSE;
+      /** @var TingEntity $entity */
+      $audience = !empty($entity->getTingObject()->getAudience()) ? $entity->getTingObject()->getAudience() : FALSE;
 
       if (!isset($audiences[$audience])) {
         $audiences[$audience] = 0;

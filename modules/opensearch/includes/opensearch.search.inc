@@ -263,8 +263,12 @@ function opensearch_search_filter_relations($relations) {
       // The isPartOfManifestion relation has all relation to other libraries
       // copies of the relation, so we filter the ones that do not belong to
       // current library.
-      if ($relation->type == 'dbcbib:isPartOfManifestation' && is_object($relation->object) && $relation->object instanceof TingEntity && $relation->object->reply->isLocal()) {
-        return FALSE;
+      if ($relation->type === 'dbcbib:isPartOfManifestation' && is_object($relation->object) && $relation->object instanceof TingEntity) {
+        /** @var \Ting\TingObjectInterface $ting_object */
+        $ting_object = $relation->object->getTingObject();
+        if (NULL !== $ting_object && $ting_object->isLocal()) {
+          return FALSE;
+        }
       }
       return TRUE;
     }
