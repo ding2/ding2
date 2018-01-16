@@ -11,6 +11,10 @@ $plugin = array(
   'single' => TRUE,
   'category' => t('Dinglist'),
   'render callback' => 'ding_list_public_lists_filter_content_type_render',
+  'required context' => array(
+    new ctools_context_required(t('String'), 'string'),
+    new ctools_context_required(t('Taxonomy term'), 'taxonomy_term'),
+  )
 );
 
 /**
@@ -19,7 +23,14 @@ $plugin = array(
 function ding_list_public_lists_filter_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
 
-  $block->title = t('Lists');
+  $term = !empty($context[1]->data) ? $context[1]->data : FALSE;
+
+  if ($term === FALSE) {
+    $block->title = t('Lists');
+  }
+  else {
+    $block->title = t('Lists tagged with %tag', array('%tag' => $term->name));
+  }
   $block->content = array(
     '#theme' => 'links',
     '#links' => array(),
@@ -30,15 +41,19 @@ function ding_list_public_lists_filter_content_type_render($subtype, $conf, $pan
     'provider' => t('Loaners'),
   );
   foreach (array_intersect(user_roles(), array_keys($roles)) as $rid => $role) {
-    $block->content['#links'][] = array(
+    $block->content['#links'][$rid] = array(
       'title' => $roles[$role],
-      'href' => 'public-lists/' . $rid,
+      'href' => 'public-lists/' . $rid . ($term ? '/' . $term->tid : ''),
     );
   }
-  $block->content['#links'][] = array(
+  $block->content['#links']['all'] = array(
     'title' => t('All'),
-    'href' => 'public-lists',
+    'href' => 'public-lists/all' . ($term ? '/' . $term->tid : ''),
   );
+
+  if (!empty($context[0]->data) && $context[0]->data === 'all') {
+    $block->content['#links']['all']['attributes']['class'][] = 'active';
+  }
 
   return $block;
 }

@@ -126,7 +126,7 @@ function ding_list_installer_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Ding lists public lists';
   $page->admin_description = '';
-  $page->path = 'public-lists/!rid';
+  $page->path = 'public-lists/!rid/!tid';
   $page->access = array();
   $page->menu = array();
   $page->arguments = array(
@@ -136,6 +136,28 @@ function ding_list_installer_default_page_manager_pages() {
       'name' => 'string',
       'settings' => array(
         'use_tail' => 0,
+      ),
+    ),
+    'tid' => array(
+      'id' => 1,
+      'identifier' => 'Taxonomy term: ID',
+      'name' => 'term',
+      'settings' => array(
+        'input_form' => 'tid',
+        'vids' => array(
+          2 => '2',
+          1 => 0,
+          3 => 0,
+          8 => 0,
+          9 => 0,
+          10 => 0,
+          4 => 0,
+          5 => 0,
+          6 => 0,
+          7 => 0,
+        ),
+        'breadcrumb' => 1,
+        'transform' => 0,
       ),
     ),
   );
@@ -211,6 +233,7 @@ function ding_list_installer_default_page_manager_pages() {
     $pane->configuration = array(
       'context' => array(
         0 => 'argument_string_1',
+        1 => 'argument_term_1',
       ),
     );
     $pane->cache = array();

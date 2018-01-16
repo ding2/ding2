@@ -165,6 +165,12 @@ function theme_ding_list_label_value($variables) {
   if ($variables['label']) {
     $label = '<div class="label">' . $variables['label'] . '</div>';
   }
+
+  // Assume a render array if the value is an array.
+  if (is_array($variables['value'])) {
+    $variables['value'] = render($variables['value']);
+  }
+
   $out = '<div class="field">' . $label . '<div class="text">' . $variables['value'] . '</div></div>';
 
   return $out;
