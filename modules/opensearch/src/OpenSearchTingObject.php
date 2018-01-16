@@ -503,6 +503,13 @@ class OpenSearchTingObject implements TingObjectInterface {
   }
 
   /**
+   * Data-formats in which the object is available.
+   */
+  public function getFormatsAvailable() {
+    return $this->openSearchObject->formatsAvailable;
+  }
+
+  /**
    * Fetch a record from the Open Search object.
    *
    * @param string $l1_key
