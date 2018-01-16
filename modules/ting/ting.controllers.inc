@@ -132,7 +132,7 @@ class TingObjectController extends DrupalDefaultEntityController {
       // In the case when the entity is not available from the well,
       // remove it from the loading queue.
       if (!empty($objects[$qe->ding_entity_id])) {
-        $qe->reply = $objects[$qe->ding_entity_id];
+        $qe->setTingObject($objects[$qe->ding_entity_id]);
       }
       else {
         unset($queried_entities[$k]);
