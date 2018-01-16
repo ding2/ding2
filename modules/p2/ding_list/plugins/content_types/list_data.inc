@@ -61,7 +61,7 @@ function ding_list_list_data_content_type_render($subtype, $conf, $panel_args, $
       '#theme' => 'links',
       '#links' => array(),
       '#attributes' => array(
-        'class' => array('filter-links')
+        'class' => array('filter-links'),
       ),
     );
     foreach (taxonomy_term_load_multiple($tids) as $term) {

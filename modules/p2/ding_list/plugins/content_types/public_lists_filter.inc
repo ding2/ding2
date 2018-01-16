@@ -14,7 +14,7 @@ $plugin = array(
   'required context' => array(
     new ctools_context_required(t('String'), 'string'),
     new ctools_context_required(t('Taxonomy term'), 'taxonomy_term'),
-  )
+  ),
 );
 
 /**
