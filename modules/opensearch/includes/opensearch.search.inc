@@ -301,10 +301,10 @@ function opensearch_search_supported_relations() {
  */
 function _opensearch_search_relation_render_target(\TingRelation $relation) {
   $target = '_blank';
-  $data = isset($relation->getObject()->reply->relationsData) ?
-    $relation->getObject()->reply->relationsData : NULL;
-  if (isset($data)) {
-    if (strpos($data[0]->relationUri, '[useraccessinfomedia]') === 0) {
+
+  $relations = $relation->getObject()->getTingObject()->getRelations();
+  if (!empty($relations)) {
+    if (strpos($relations[0]->getURI(), '[useraccessinfomedia]') === 0) {
       $target = '_self';
     }
   }
