@@ -728,7 +728,7 @@ class OpenSearchTingObject implements TingObjectInterface {
    *   relations has been loaded.
    */
   protected function getRelationsData() {
-    return isset($this->openSearchObject->relationsData) ? $this->openSearchObject->relationsData : [];
+    return isset($this->openSearchObject->relationsData) ? $this->openSearchObject->relationsData : NULL;
   }
 
 }
