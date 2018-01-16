@@ -6,6 +6,7 @@
  */
 
 use Ting\TingObjectInterface;
+use Ting\TingObjectCollectionInterface;
 
 /**
  * Object representing a relation between TingEntites.
@@ -24,17 +25,24 @@ class TingRelation extends DingEntityBase {
     }
   }
 
+  /**
+   * Ting Entity if the relation is a relation to a material.
+   *
+   * @return \TingEntity|NULL
+   *   The entity.
+   */
   public function getObject() {
-    return $this->properties['object'];
+    return $this->properties['object'] !== DingEntityBase::NULL ? $this->properties['object'] : NULL;
   }
 
   public function getURI() {
-    return $this->properties['uri'];
+    return $this->properties['uri'] !== DingEntityBase::NULL ? $this->properties['uri'] : NULL;
   }
 
   public function getType() {
-    return $this->properties['type'];
+    return $this->properties['type'] !== DingEntityBase::NULL ? $this->properties['type'] : NULL;
   }
+
 }
 
 /**
