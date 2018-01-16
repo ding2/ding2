@@ -67,7 +67,7 @@
       color: $color-primary;
     }
   }
-  
+
   .no-touch & {
     &:hover {
       .notification-count {
@@ -76,7 +76,7 @@
       }
     }
   }
-  
+
   @include media($mobile) {
     .no-touch & {
       &:hover {
@@ -121,6 +121,30 @@
           width: 171px;
         }
       }
+    }
+  }
+
+  &.view-mode-carousel {
+    .ding-list-title {
+      margin-bottom: 20px;
+    }
+
+    > .content {
+      padding-bottom: 50px;
+    }
+
+    .slick-slider {
+      margin-bottom: 0;
+    }
+
+    &.ding-list--featured {
+      > .content {
+        padding-bottom: 0;
+      }
+    }
+
+    .field-name-field-notes {
+      margin-bottom: 20px;
     }
   }
 }

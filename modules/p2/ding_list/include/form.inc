@@ -239,6 +239,12 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
       }
       $form['tags']['#default_value'] = taxonomy_implode_tags($tags);
     }
+
+    $form['featured'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Featured'),
+      '#default_value' => ding_base_get_value('ding_type', $existing, 'field_ding_list_featured'),
+    );
   }
 
   if ($existing) {
@@ -349,6 +355,11 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       'name' => 'field_notes',
       'value_type' => 'value',
       'value' => $form_state['values']['notes'],
+    ),
+    array(
+      'name' => 'field_ding_list_featured',
+      'value_type' => 'value',
+      'value' => $form_state['values']['featured'],
     ),
   );
 

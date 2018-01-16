@@ -21,7 +21,7 @@ function ding_list_installer_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 7,
       ),
       'default' => array(
         'label' => 'above',
@@ -63,7 +63,7 @@ function ding_list_installer_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 5,
       ),
       'default' => array(
         'label' => 'above',
@@ -97,6 +97,55 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'ding_type-ding_list-field_ding_list_featured'
+  $field_instances['ding_type-ding_list-field_ding_list_featured'] = array(
+    'bundle' => 'ding_list',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'carousel' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'ding_type',
+    'field_name' => 'field_ding_list_featured',
+    'label' => 'Ding list featured',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 31,
+    ),
+  );
+
   // Exported field_instance: 'ding_type-ding_list-field_ding_list_permissions'
   $field_instances['ding_type-ding_list-field_ding_list_permissions'] = array(
     'bundle' => 'ding_list',
@@ -108,7 +157,7 @@ function ding_list_installer_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 6,
       ),
       'default' => array(
         'label' => 'above',
@@ -158,7 +207,7 @@ function ding_list_installer_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 4,
       ),
       'default' => array(
         'label' => 'above',
@@ -206,7 +255,7 @@ function ding_list_installer_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 3,
       ),
       'default' => array(
         'label' => 'above',
@@ -289,7 +338,7 @@ function ding_list_installer_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'default' => array(
         'label' => 'above',
@@ -367,9 +416,10 @@ function ding_list_installer_field_default_field_instances() {
         'weight' => 0,
       ),
       'carousel' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'text_plain',
         'weight' => 0,
       ),
       'default' => array(
@@ -1174,6 +1224,7 @@ function ding_list_installer_field_default_field_instances() {
   t('Ding List Permissions');
   t('Ding List Status');
   t('Ding List User');
+  t('Ding list featured');
   t('Elementer');
   t('Note');
   t('Noter');

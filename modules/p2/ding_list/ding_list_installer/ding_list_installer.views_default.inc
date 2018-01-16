@@ -351,6 +351,11 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ding_type';
   $handler->display->display_options['fields']['id']['field'] = 'id';
+  /* Sort criterion: ding_type: Ding list featured (field_ding_list_featured) */
+  $handler->display->display_options['sorts']['field_ding_list_featured_value']['id'] = 'field_ding_list_featured_value';
+  $handler->display->display_options['sorts']['field_ding_list_featured_value']['table'] = 'field_data_field_ding_list_featured';
+  $handler->display->display_options['sorts']['field_ding_list_featured_value']['field'] = 'field_ding_list_featured_value';
+  $handler->display->display_options['sorts']['field_ding_list_featured_value']['order'] = 'DESC';
   /* Sort criterion: Ding_type: Changed */
   $handler->display->display_options['sorts']['changed']['id'] = 'changed';
   $handler->display->display_options['sorts']['changed']['table'] = 'eck_ding_type';

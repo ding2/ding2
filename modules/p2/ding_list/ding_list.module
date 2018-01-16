@@ -719,7 +719,9 @@ function ding_list_preprocess_entity(&$variables) {
   if ($variables['entity_type'] == 'ding_type') {
     switch ($variables['ding_type']->type) {
       case 'ding_list':
+        $variables['classes_array'][] = 'view-mode-' . $variables['view_mode'];
         $variables['title_attributes_array']['class'][] = 'ding-list-title';
+
         if (!ding_list_user_has_access($variables['ding_type'])) {
           $variables['classes_array'][] = 'no-access';
           $variables['content'][] = array(
@@ -742,18 +744,22 @@ function ding_list_preprocess_entity(&$variables) {
         $objects = ding_base_get_items('ding_type', $variables['ding_type'], 'field_list_objects');
         switch ($variables['view_mode']) {
           case 'carousel':
-            // Simple create a carousel with placeholders and delay rendering of
-            // the entities until needed. They wil be load in chuck sizes as
-            // required by ajax requests.
-            $variables['content']['carousel'] = array(
-              '#type' => 'ding_carousel',
-              '#items' => array(),
-              '#path' => 'ding-list/carousel/ajax/' . $variables['ding_type']->id,
-              '#offset' => 0,
-              // Add a single placeholder to fetch more content later if there
-              // is more content.
-              '#placeholders' => count($objects) > DING_LIST_CAROUSEL_CHUNK_SIZE ? DING_LIST_CAROUSEL_CHUNK_SIZE + 1 : count($objects),
-            );
+            if (ding_base_get_value('ding_type', $variables['ding_type'], 'field_ding_list_featured')) {
+              $variables['classes_array'][] = 'ding-list--featured';
+
+              // Simple create a carousel with placeholders and delay rendering of
+              // the entities until needed. They wil be load in chuck sizes as
+              // required by ajax requests.
+              $variables['content']['carousel'] = array(
+                '#type' => 'ding_carousel',
+                '#items' => array(),
+                '#path' => 'ding-list/carousel/ajax/' . $variables['ding_type']->id,
+                '#offset' => 0,
+                // Add a single placeholder to fetch more content later if there
+                // is more content.
+                '#placeholders' => count($objects) > DING_LIST_CAROUSEL_CHUNK_SIZE ? DING_LIST_CAROUSEL_CHUNK_SIZE + 1 : count($objects),
+              );
+            }
 
             if (!empty($objects)) {
               // Create Carousel actions.
@@ -765,6 +771,7 @@ function ding_list_preprocess_entity(&$variables) {
                     'ting-carousel-actions',
                   ),
                 ),
+                '#weight' => 1,
               );
               $variables['content']['carousel_actions']['more'] = array(
                 '#theme' => 'link',
