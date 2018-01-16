@@ -306,7 +306,46 @@ function ding_event_field_default_field_bases() {
     'type' => 'ting_reference',
   );
 
+<<<<<<< HEAD
   // Exported field_base: 'field_ding_event_price'.
+=======
+  // Exported field_base: 'field_ding_event_organizer'
+  $field_bases['field_ding_event_organizer'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ding_event_organizer',
+    'foreign keys' => array(
+      'tid' => array(
+        'columns' => array(
+          'tid' => 'tid',
+        ),
+        'table' => 'taxonomy_term_data',
+      ),
+    ),
+    'indexes' => array(
+      'tid' => array(
+        0 => 'tid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'taxonomy',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => array(
+          'vocabulary' => 'event_organizer',
+          'parent' => 0,
+        ),
+      ),
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'taxonomy_term_reference',
+  );
+
+  // Exported field_base: 'field_ding_event_price'
+>>>>>>> 3224: Added event organizer taxonomy and field
   $field_bases['field_ding_event_price'] = array(
     'active' => 1,
     'cardinality' => 1,
