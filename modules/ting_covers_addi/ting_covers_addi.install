@@ -40,3 +40,10 @@ function ting_covers_addi_update_7001() {
 function ting_covers_addi_update_7002() {
   variable_set('ting_covers_addi_wsdl_url', 'http://moreinfo.addi.dk/2.10');
 }
+
+/**
+ * Ensure libraries use the latest version of moreinfo.
+ */
+function ting_covers_addi_update_7003() {
+  variable_set('ting_covers_addi_wsdl_url', 'http://moreinfo.addi.dk/2.11');
+}
