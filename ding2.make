@@ -567,7 +567,7 @@ libraries[js.cookie][download][url] =  "https://github.com/js-cookie/js-cookie/r
 libraries[js.cookie][directory_name] = "js.cookie"
 libraries[js.cookie][destination] = "libraries"
 
-; For ding_carousel.
+; For ding_libs.
 libraries[slick][download][type] = "get"
 libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.8.0.tar.gz
 libraries[slick][directory_name] = "slick"
