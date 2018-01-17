@@ -33,7 +33,7 @@ function ding_serendipity_lists_serendipity_info() {
       'title' => t('Front page fallback content'),
       'description' => t('Allow the library admin to enter a search string which pulls materials to be pushed to the serendipity box on the front page.'),
       'keys' => array('ting_object', 'frontpage'),
-      'settings' => l(t('Set the frontpage serendipity CQL'), '/admin/config/ding/serendipity/key_overview/ding_serendipity_lists_frontpage_search_settings'),
+      'settings' => l(t('Set the frontpage serendipity search string'), '/admin/config/ding/serendipity/key_overview/ding_serendipity_lists_frontpage_search_settings'),
     ),
     'loan_adhl' => array(
       'title' => t('ADHL on random loan items'),
@@ -249,15 +249,15 @@ function ding_serendipity_lists_frontpage_search_settings() {
     '#maxlength' => 300,
   );
 
-  $form['test_cql'] = array(
+  $form['test_query'] = array(
     '#type' => 'button',
     '#value' => t('Test Query'),
     '#ajax' => array(
-      'wrapper' => 'test-cql-container',
-      'callback' => 'ding_serendipity_test_cql_callback',
+      'wrapper' => 'test-query-container',
+      'callback' => 'ding_serendipity_test_query_callback',
     ),
-    '#suffix' => '<div id="test-cql-container"></div>',
-    '#cql_element' => 'ding_serendipity_lists_frontpage_search_string',
+    '#suffix' => '<div id="test-query-container"></div>',
+    '#query_element' => 'ding_serendipity_lists_frontpage_search_string',
   );
 
   return system_settings_form($form);

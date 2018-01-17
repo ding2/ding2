@@ -1126,7 +1126,7 @@ function ting_search_submit($form, &$form_state) {
 }
 
 /**
- * Make sure string is strict cql.
+ * Make sure string does not contain illegal unquoted parts.
  */
 function _ting_search_quote($string) {
   return ding_provider_invoke('search', 'search_quote', $string);
