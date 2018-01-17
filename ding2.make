@@ -472,7 +472,7 @@ projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
 
 ; Libraries
-; For bpi.
+; For ding_libs.
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
@@ -484,18 +484,18 @@ libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEdi
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
-; For bpi.
+; For ding_libs.
 libraries[chosen][download][type] = "get"
 libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip"
 libraries[chosen][destination] = "libraries"
 
-; For bpi.
+; For ding_libs.
 libraries[guzzle][download][type] = "git"
 libraries[guzzle][download][url] = "https://github.com/guzzle/guzzle.git"
 libraries[guzzle][download][tag] = "6.2.2"
 libraries[guzzle][destination] = "libraries"
 
-; For bpi and ding_libs.
+; For ding_libs.
 libraries[http-message][download][type] = "git"
 libraries[http-message][download][url] = "https://github.com/php-fig/http-message.git"
 libraries[http-message][download][tag] = "1.0.1"
@@ -525,13 +525,13 @@ libraries[profiler][download][branch] = "7.x-2.0-beta1"
 ; https://drupal.org/node/1328796, keep dependency order of base profile.
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
-; For bpi.
+; For ding_libs.
 libraries[promises][download][type] = "git"
 libraries[promises][download][url] = "https://github.com/guzzle/promises.git"
 libraries[promises][download][tag] = "1.2.0"
 libraries[promises][destination] = "libraries"
 
-; For bpi.
+; For ding_libs.
 libraries[psr7][download][type] = "git"
 libraries[psr7][download][url] = "https://github.com/guzzle/psr7.git"
 libraries[psr7][download][tag] = "1.3.1"
