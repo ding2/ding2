@@ -969,6 +969,12 @@ function ding_list_mail($key, &$message, $params) {
       $message['subject'] = $params['subject'];
       $message['body'][] = nl2br($params['text']);
       break;
+
+    case 'admin_notify':
+      $message['headers']['reply-to'] = $params['reply_to'];
+      $message['subject'] = $params['subject'];
+      $message['body'][] = nl2br($params['text']);
+      break;
   }
 }
 

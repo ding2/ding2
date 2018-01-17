@@ -310,6 +310,8 @@ function ding_list_create_list_form_submit_cancel($form, &$form_state) {
  * Delete list handler.
  */
 function ding_list_create_list_form_submit_delete($form, &$form_state) {
+  global $user, $language;
+
   if (!isset($form_state['storage']['confirm'])) {
     $form_state['storage']['confirm'] = TRUE;
     $form_state['rebuild'] = TRUE;
@@ -322,6 +324,22 @@ function ding_list_create_list_form_submit_delete($form, &$form_state) {
 
   $list = ding_list_get_list($form_state['existing']);
   ding_list_delete_list($list);
+
+  if ($list->uid != $user->uid && user_access('administer all lists')) {
+    $list_owner = user_load($list->uid);
+
+    drupal_mail('ding_list', 'admin_notify', $list_owner->mail, $language, array(
+      'reply_to' => $user->mail,
+      'subject' => t('An admin has deleted your list at @library', array(
+        '@library' => variable_get('site_name', ''),
+      )),
+      'text' => t("Your list @list has been deleted at @library.\n\nIf you have any questions you can contact @reply", array(
+        '@list' => $list->title,
+        '@library' => variable_get('site_name', ''),
+        '@reply' => $user->mail,
+      )),
+    ));
+  }
 
   $form_state['redirect'] = 'user/' . $GLOBALS['user']->uid . '/dinglists';
 }
@@ -689,6 +707,8 @@ function ding_list_list_permissions_form_set_permission_callback($form, &$form_s
  * When changing the permissions status of the list.
  */
 function ding_list_list_permissions_form_state_callback($form, &$form_state) {
+  global $user;
+
   $list = $form_state['build_info']['args'][0];
   ding_list_edit_ding_list(
     $list,
@@ -704,13 +724,32 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
     )
   );
 
-  $output = array(
-    'shared' => t('Your list is now shared.'),
-    'public' => t('Your list is now public.'),
-    'private' => t('Your list is now private.'),
+  $translation_matrix = array(
+    'shared' => t('shared'),
+    'public' => t('public'),
+    'private' => t('private'),
   );
 
-  return theme('ding_list_permission_description', array('message' => $output[$form_state['values']['status']]));
+  if ($list->uid != $user->uid && user_access('administer all lists')) {
+    $list_owner = user_load($list->uid);
+
+    drupal_mail('ding_list', 'admin_notify', $list_owner->mail, $language, array(
+      'reply_to' => $user->mail,
+      'subject' => t('An admin has made changes to your list at @library', array(
+        '@library' => variable_get('site_name', ''),
+      )),
+      'text' => t("Your list @list at @library has changed sharing status to @status.\n\nIf you have any questions you can contact @reply", array(
+        '@list' => $list->title,
+        '@library' => variable_get('site_name', ''),
+        '@status' => $translation_matrix[$form_state['values']['status']],
+        '@reply' => $user->mail,
+      )),
+    ));
+  }
+
+  return theme('ding_list_permission_description', array(
+    'message' => t('Your list is now @status', array('@status' => $translation_matrix[$form_state['values']['status']])),
+  ));
 }
 
 /**
