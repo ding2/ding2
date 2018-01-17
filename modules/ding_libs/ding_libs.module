@@ -43,6 +43,20 @@ function ding_libs_libraries_info() {
         $adapter->composerJson('composer.json');
       },
     ),
+    'js.cookie' => array(
+      'name' => 'JavaScript Cookie',
+      'vendor url' => 'https://github.com/js-cookie/js-cookie',
+      'download url' => 'https://github.com/js-cookie/js-cookie/releases',
+      'version arguments' => array(
+        'file' => 'js.cookie-2.1.4.min.js',
+        'pattern' => '/js-cookie v(\d+\.+\d+\.\d+)/',
+      ),
+      'files' => array(
+        'js' => array(
+          'js.cookie-2.1.4.min.js',
+        ),
+      ),
+    ),
     'jsonmapper' => array(
       'name' => 'JsonMapper',
       'vendor url' => 'https://github.com/cweiske/jsonmapper',

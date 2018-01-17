@@ -561,7 +561,7 @@ libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imag
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
 
-; For ding_facetbrowser.
+; For ding_libs.
 libraries[js.cookie][download][type] = "get"
 libraries[js.cookie][download][url] =  "https://github.com/js-cookie/js-cookie/releases/download/v2.1.4/js.cookie-2.1.4.min.js"
 libraries[js.cookie][directory_name] = "js.cookie"
