@@ -12,6 +12,15 @@
  */
 function ding_libs_libraries_info() {
   return array(
+    'http-message' => array(
+      'name' => 'Common interface for HTTP messages',
+      'vendor url' => 'https://github.com/php-fig/http-message',
+      'download url' => 'https://github.com/php-fig/http-message',
+      'version' => '1.0',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
     'jsonmapper' => array(
       'name' => 'JsonMapper',
       'vendor url' => 'https://github.com/cweiske/jsonmapper',
@@ -28,15 +37,6 @@ function ding_libs_libraries_info() {
           )
         );
 
-      },
-    ),
-    'http-message' => array(
-      'name' => 'Common interface for HTTP messages',
-      'vendor url' => 'https://github.com/php-fig/http-message',
-      'download url' => 'https://github.com/php-fig/http-message',
-      'version' => '1.0',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
       },
     ),
     'phly-http' => array(
