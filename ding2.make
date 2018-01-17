@@ -555,7 +555,7 @@ libraries[jquery.imgareaselect][download][url] =  https://github.com/odyniec/img
 libraries[jquery.imgareaselect][directory_name] = "jquery.imgareaselect"
 libraries[jquery.imgareaselect][destination] = "libraries"
 
-; For manualcrop.
+; For manualcrop and ddbasic.
 libraries[jquery.imagesloaded][download][type] = "get"
 libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
@@ -576,13 +576,13 @@ libraries[slick][destination] = "libraries"
 ; See https://github.com/kenwheeler/slick/pull/2635
 libraries[slick][patch][] = "https://patch-diff.githubusercontent.com/raw/kenwheeler/slick/pull/2635.diff"
 
-; For ddbasic.
+; For ding_libs.
 libraries[html5shiv][download][type] = "get"
 libraries[html5shiv][download][url] = https://github.com/aFarkas/html5shiv/archive/3.7.3.zip
 libraries[html5shiv][directory_name] = "html5shiv"
 libraries[html5shiv][destination] = "libraries"
 
-; For ddbasic.
+; For ding_libs.
 libraries[masonry][download][type] = "get"
 libraries[masonry][download][url] = https://github.com/desandro/masonry/archive/v4.1.1.zip
 libraries[masonry][directory_name] = "masonry"
