@@ -495,13 +495,13 @@ libraries[guzzle][download][url] = "https://github.com/guzzle/guzzle.git"
 libraries[guzzle][download][tag] = "6.2.2"
 libraries[guzzle][destination] = "libraries"
 
-; For bpi and fbs.
+; For bpi and ding_libs.
 libraries[http-message][download][type] = "git"
 libraries[http-message][download][url] = "https://github.com/php-fig/http-message.git"
 libraries[http-message][download][tag] = "1.0.1"
 libraries[http-message][destination] = "libraries"
 
-; For fbs.
+; For ding_libs.
 libraries[jsonmapper][download][type] = "git"
 libraries[jsonmapper][download][url] = "https://github.com/cweiske/jsonmapper"
 libraries[jsonmapper][download][tag] = "v0.4.4"
@@ -513,7 +513,7 @@ libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][destination] = "libraries"
 
-; For fbs.
+; For ding_libs.
 libraries[phly-http][download][type] = "git"
 libraries[phly-http][download][url] = "https://github.com/phly/http"
 libraries[phly-http][download][tag] = "0.14.1"
