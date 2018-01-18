@@ -32,11 +32,17 @@ function ting_search_ortograf_callback($string = '') {
   }
   else {
     $suggestions = ting_search_ortograf_get_suggestions($query);
-    // Maximum space in suggestions dropdown is 62 characters.
+    // Maximum space in suggestions dropdown is 60 characters.
     // Maximum characters for search query string is 256 characters.
     foreach ($suggestions as $suggestion) {
-      $val = truncate_utf8($suggestion, 62, TRUE, TRUE, 1);
+      $val = truncate_utf8($suggestion, 60, TRUE, TRUE, 1);
       $key = truncate_utf8($suggestion, 256, TRUE, FALSE, 1);
+       // Trim whitespace and question mark.
+      $key = trim($key, " \t\n\r\0\x0B?");
+      $key = str_replace('"', '', $key);
+      if (strpos($suggestion, ' ')) {
+        $key = '"' . $key . '"';
+      }
       $matches[$key] = $val;
     }
     // Store the matches in cache for faster lookup next time.
