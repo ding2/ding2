@@ -16,7 +16,7 @@
           if (!active) {
             active = true;
             // Hide dragging if an item is not collapsed.
-            if($("input[name$='collapse_button']").length > 0) {
+            if ($("input[name$='collapse_button']").length > 0) {
               $(".field-type-paragraphs .field-multiple-drag").hide();
             }
             else {

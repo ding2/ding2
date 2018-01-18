@@ -52,7 +52,11 @@ function ding_page_update_7003() {
  */
 function ding_page_update_7004(&$sandbox) {
   // Make sure we have somewhere to save the old body field.
-  if (empty(field_info_instance('node', 'field_ding_page_body', 'ding_page')) || empty(field_info_instance('paragraphs_item', 'field_ding_paragraphs_text', 'ding_paragraphs_text')) || empty(field_info_instance('node', 'field_ding_page_paragraphs', 'ding_page'))) {
+  $empty_body = empty(field_info_instance('node', 'field_ding_page_body', 'ding_page'));
+  $empty_paragraphs_text = empty(field_info_instance('paragraphs_item', 'field_ding_paragraphs_text', 'ding_paragraphs_text'));
+  $empty_reference = empty(field_info_instance('node', 'field_ding_page_paragraphs', 'ding_page'));
+
+  if ($empty_body || $empty_paragraphs_text || $empty_reference) {
     throw new DrupalUpdateException(t('This update requires the fields field_ding_paragraphs_text and field_ding_page_body field_ding_page_paragraphs to exist. Perhaps you need to revert a feature.'));
   }
 
