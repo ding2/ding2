@@ -240,11 +240,15 @@ function theme_ding_list_lists($variables) {
     );
 
     if (ding_message_get_message_count()) {
-      $render['#items'][] = l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button'))));
+      $render['#items'][] = l(t("Mark all notifications as read"), "ding_message/clear_user_messages", array('attributes' => array('class' => array('button'))));
     }
 
     $render['#items'][] = l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button'))));
     $render['#items'][] = l(t('View all public lists'), 'public-lists', array('attributes' => array('class' => array('button'))));
+    $viewed_account = user_load($variables['uid']);
+    if (ding_list_reset_lists_access($user, $viewed_account)) {
+      $render['#items'][] = l(t('Reset my lists'), 'user/' . $user->uid . '/reset-lists', array('attributes' => array('class' => array('button'))));
+    }
 
     $out .= drupal_render($render);
   }

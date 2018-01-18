@@ -3,12 +3,10 @@
 /**
  * @file
  * Infomedia ctools content type that takes an argument.
- *
  */
 
 /**
- * Plugins are described by creating a $plugin array which will be used
- * by the system that includes this file.
+ * Plugin description array.
  */
 $plugin = array(
   'title' => t('infomedia article'),
@@ -23,7 +21,7 @@ $plugin = array(
 );
 
 /**
- * Implements ting_infomedia_infomedia_content_type_admin_title()
+ * Plugin title callback.
  */
 function ting_infomedia_infomedia_content_type_admin_title($subtype, $conf, $context = NULL) {
   $output = t('Infomedia article');
@@ -36,21 +34,21 @@ function ting_infomedia_infomedia_content_type_admin_title($subtype, $conf, $con
 }
 
 /**
- * Implements ting_infomedia_infomedia_content_type_admin_info
+ * Plugin admin_info callback.
  */
 function ting_infomedia_infomedia_content_type_admin_info($subtype, $conf, $context = NULL) {
   $block = new stdClass();
-  $block->title = check_plain("Infomedia article content type");
+  $block->title = "Infomedia article content type";
 
   return $block;
 }
 
 /**
- * Implements infomedia_content_type_render().
+ * Plugin render callback.
  */
 function infomedia_content_type_render($subtype, $conf, $args, $context) {
   $block = new stdClass();
-  $id = ( isset($args[0]) ) ? (int)$args[0] : $context->original_argument;
+  $id = (isset($args[0])) ? (int) $args[0] : $context->original_argument;
   $block->content = drupal_render(ting_infomedia_view($id));
 
   return $block;

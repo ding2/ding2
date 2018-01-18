@@ -215,8 +215,10 @@ ul.main-menu-third-level {
           left: 0;
         }
       }
-      &:hover {
-        color: $charcoal;
+      .no-touch & {
+        &:hover {
+          color: $charcoal;
+        }
       }
     }
     &.expanded {
@@ -266,9 +268,11 @@ ul.secondary-menu {
         height: 0;
         background-color: $color-text-on-primary;
       }
-      &:hover {
-        &::after {
-          height: 5px;
+      .no-touch & {
+        &:hover {
+          &::after {
+            height: 5px;
+          }
         }
       }
     }
@@ -488,11 +492,11 @@ ul.topbar-menu {
       padding: 0;
       margin: 0;
       box-shadow: none;
-      left: 0;
+      //Reset js inforced inline style
+      left: 0 !important;
       &::before {
         display: none;
       }
-      // Create log-out link for tablet/mobile
     }
 
     // Notebook

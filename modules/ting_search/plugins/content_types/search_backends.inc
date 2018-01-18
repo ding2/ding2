@@ -51,7 +51,7 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
 
     // Create the option as a link.
     $txt = format_string('Search @backend', array('@backend' => $backend['title']));
-    $title = l(t('@txt', array('@txt' => $txt)), $path, array('query' => $conditions));
+    $title = l(t($txt), $path, array('query' => $conditions));
 
     // Getting the count of search results for each enabled backend.
     switch ($backend['path']) {
