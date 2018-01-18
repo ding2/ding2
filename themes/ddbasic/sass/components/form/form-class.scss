@@ -112,3 +112,11 @@
     width: auto;
   }
 }
+
+#autocomplete li div {
+  padding: 0.2rem 0.5rem 0;
+}
+
+#autocomplete li:last-child div {
+  padding: 0.2rem 0.5rem 0.2rem;
+}
