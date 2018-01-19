@@ -88,22 +88,27 @@ function ding_dibs_email_reports() {
     ->execute()
     ->fetchAll();
   $max_count = count($report);
-  if (!$max_count) {
-    return '<p>' . t('No transactions found.') . '</p>';
-  }
+
   for ($count = 0; $count < $max_count; $count++) {
     // As a result deliveries should fall reports from the database table
     // "dibs transactions".
     // Columns "payment status", "provider payment_status",
-    // "dibs_capture_status" have both equally have the status of unpaid (0).
+    // "dibs_capture_status" have both equally have the status of unpaid (0)
+    // or paid (1).
     // Testing conducted by feedback from.
-    // Payment status (0)equal provider payment status.
-    $payment_status = $report[$count]->payment_status == $report[$count]->provider_payment_status && $report[$count]->payment_status == 0;
-    // Payment status equal dibs capture status.
-    $capture_status = $report[$count]->payment_status == $report[$count]->dibs_capture_status;
-    if ($payment_status && $capture_status) {
+    if (!(
+      // Payment status equal provider payment status.
+      $report[$count]->payment_status == $report[$count]->provider_payment_status
+      // Payment status equal dibs capture status.
+      && $report[$count]->payment_status == $report[$count]->dibs_capture_status
+      // Provider payment status equal dibs capture status.
+      && $report[$count]->provider_payment_status == $report[$count]->dibs_capture_status
+    )) {
       $report_valid[] = $report[$count];
     }
+  }
+  if (!$max_count || empty($report_valid)) {
+    return '<p>' . t('No transactions found.') . '</p>';
   }
   $header = array(
     array('data' => t('Order ID')),
