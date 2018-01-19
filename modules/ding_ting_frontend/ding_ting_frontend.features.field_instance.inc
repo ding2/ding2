@@ -651,7 +651,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'module' => 'ting_covers',
         'settings' => array(
           'image_style' => 'ding_list_medium',
-          'link_type' => 'none',
+          'link_type' => 'object',
         ),
         'type' => 'ting_cover_default',
         'weight' => 5,
@@ -1160,7 +1160,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting',
         'settings' => array(
-          'link_type' => 'none',
+          'link_type' => 'object',
           'prefix_type' => 'no',
         ),
         'type' => 'ting_title_default',
