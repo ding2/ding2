@@ -27,7 +27,5 @@
  */
 ?>
 <div class="<?php print $paragraph_styles; ?> materials-list">
-  <div class="inner">
-    <?php print render($content); ?>
-  </div>
+  <?php print render($content); ?>
 </div>
