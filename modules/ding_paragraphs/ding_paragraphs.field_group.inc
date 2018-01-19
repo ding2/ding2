@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_paragraphs.field_group.inc

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_paragraphs.strongarm.inc
@@ -131,7 +130,38 @@ function ding_paragraphs_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_ting_object__ting_object';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'teaser' => array(
+        'custom_settings' => TRUE,
+      ),
+      'paragraphs_teaser' => array(
+        'custom_settings' => TRUE,
+      ),
+      'collection_primary' => array(
+        'custom_settings' => TRUE,
+      ),
+      'collection_list' => array(
+        'custom_settings' => TRUE,
+      ),
+      'search_result' => array(
+        'custom_settings' => TRUE,
+      ),
+      'reference_teaser' => array(
+        'custom_settings' => TRUE,
+      ),
+      'user_list' => array(
+        'custom_settings' => TRUE,
+      ),
+      'ting_reference_preview' => array(
+        'custom_settings' => TRUE,
+      ),
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(),
       'display' => array(
@@ -141,6 +171,10 @@ function ding_paragraphs_strongarm() {
             'visible' => TRUE,
           ),
           'reference_teaser' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'default' => array(
             'weight' => '0',
             'visible' => TRUE,
           ),
