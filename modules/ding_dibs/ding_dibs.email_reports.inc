@@ -98,7 +98,7 @@ function ding_dibs_email_reports() {
     // "dibs_capture_status" have both equally have the status of unpaid (0)
     // or paid (1).
     // Testing conducted by feedback from.
-    if (!(
+    if ((
       // Payment status equal provider payment status.
       $report[$count]->payment_status == $report[$count]->provider_payment_status
       // Payment status equal dibs capture status.
