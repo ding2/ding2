@@ -61,7 +61,7 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
     foreach ($form[$paragraph_field][LANGUAGE_NONE] as $key => $value) {
       if (is_array($value) && isset($value['#entity_type']) && $value['#entity_type'] == 'paragraphs_item') {
         $wrapper = entity_metadata_wrapper($value['#entity_type'], $value['#entity']);
-        $output = '';
+        $output = FALSE;
         switch ($value['#bundle']) {
           case 'ding_paragraphs_image_and_text':
             // Add image and text snippet.
@@ -94,7 +94,9 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
             break;
         }
         // Alter markup of each paragraph.
-        $form[$paragraph_field][LANGUAGE_NONE][$key]['paragraph_bundle_title']['info']['#markup'] .= ' - ' . $output;
+        if ($output) {
+          $form[$paragraph_field][LANGUAGE_NONE][$key]['paragraph_bundle_title']['info']['#markup'] .= ' - ' . $output;
+        }
       }
     }
   }

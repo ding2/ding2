@@ -288,6 +288,45 @@ The recommended minimum width of this image is 900px to ensure images are not up
     ),
   );
 
+  // Exported field_instance: 'paragraphs_item-ding_paragraphs_material_list-field_ding_paragraphs_material'
+  $field_instances['paragraphs_item-ding_paragraphs_material_list-field_ding_paragraphs_material'] = array(
+    'bundle' => 'ding_paragraphs_material_list',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'ting_reference',
+        'settings' => array(
+          'view_mode' => 'search_result',
+        ),
+        'type' => 'ting_reference_default',
+        'weight' => 0,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'field_ding_paragraphs_material',
+    'label' => 'Materiale',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'ting_reference',
+      'settings' => array(),
+      'type' => 'ting_reference_advanced',
+      'weight' => 2,
+    ),
+  );
+
   // Exported field_instance: 'paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_display'
   $field_instances['paragraphs_item-ding_paragraphs_single_material-field_ding_paragraphs_display'] = array(
     'bundle' => 'ding_paragraphs_single_material',

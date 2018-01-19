@@ -191,6 +191,22 @@
       }
     }
   }
+
+  &.materials-list {
+    width: 150%;
+
+    @include media($notebook) {
+      width: 163%;
+    }
+
+    @include media($tablet) {
+      width: 152%;
+    }
+
+    @include media($mobile) {
+      width: 100%;
+    }
+  }
 }
 
 // Override existing css from different files.
