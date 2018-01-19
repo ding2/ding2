@@ -206,6 +206,10 @@
     @include media($mobile) {
       width: 100%;
     }
+
+    .ting-object {
+      margin-bottom: 10px;
+    }
   }
 }
 
