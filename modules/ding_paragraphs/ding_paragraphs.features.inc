@@ -21,6 +21,11 @@ function ding_paragraphs_ctools_plugin_api($module = NULL, $api = NULL) {
  */
 function ding_paragraphs_paragraphs_info() {
   $items = array(
+    'ding_paragraphs_carousel' => array(
+      'name' => 'Carousel',
+      'bundle' => 'ding_paragraphs_carousel',
+      'locked' => '1',
+    ),
     'ding_paragraphs_image' => array(
       'name' => 'Image paragraph',
       'bundle' => 'ding_paragraphs_image',
