@@ -61,7 +61,6 @@ function ding_campaign_plus_facet_node_load($nodes, $types) {
         $node->ding_campaign_plus = array();
       }
       $node->ding_campaign_plus = array_merge($node->ding_campaign_plus, $rules);
-      $t=1;
     }
   }
 }
@@ -354,12 +353,12 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
     ),
   );
 
-  $options = range(1, 10, 1);
+  $options = drupal_map_assoc(range(1, 15));
   $form['common'] = array(
     '#type' => 'select',
     '#title' => t('Most common subjects'),
     '#options' => array_combine($options, $options),
-    '#default_value' => isset($default_values['common']) ? $default_values['common'] : array(),
+    '#default_value' => isset($default_values['common']) ? $default_values['common'] : variable_get('ding_facetbrowser_number_of_terms', 5),
   );
 
   $options = _ting_fetch_well_types();

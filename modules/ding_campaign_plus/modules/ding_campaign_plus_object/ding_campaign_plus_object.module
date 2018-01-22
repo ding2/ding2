@@ -53,7 +53,7 @@ function ding_campaign_plus_object_node_load($nodes, $types) {
       if (!isset($node->ding_campaign_plus)) {
         $node->ding_campaign_plus = array();
       }
-      $node->ding_campaign_plus += $rules;
+      $node->ding_campaign_plus = array_merge($node->ding_campaign_plus, $rules);
     }
   }
 }
