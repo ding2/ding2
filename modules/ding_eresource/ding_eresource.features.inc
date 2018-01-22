@@ -37,7 +37,7 @@ function ding_eresource_image_default_styles() {
     'name' => 'ding_eresource_list',
     'label' => 'Ding eresource list',
     'effects' => array(
-      9 => array(
+      7 => array(
         'label' => 'Manual Crop: Reuse cropped style',
         'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
         'effect callback' => 'manualcrop_reuse_effect',
@@ -46,12 +46,12 @@ function ding_eresource_image_default_styles() {
         'module' => 'manualcrop',
         'name' => 'manualcrop_reuse',
         'data' => array(
-          'reuse_crop_style' => 'crop_16_9',
+          'reuse_crop_style' => 'crop_4_3',
           'apply_all_effects' => 0,
         ),
         'weight' => 0,
       ),
-      11 => array(
+      8 => array(
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
@@ -62,7 +62,7 @@ function ding_eresource_image_default_styles() {
         'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => 150,
-          'height' => 85,
+          'height' => 112,
         ),
         'weight' => 3,
       ),
