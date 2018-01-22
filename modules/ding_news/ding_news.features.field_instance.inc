@@ -684,6 +684,7 @@ function ding_news_field_default_field_instances() {
     'settings' => array(
       'add_mode' => 'select',
       'allowed_bundles' => array(
+        'ding_paragraphs_carousel' => 'ding_paragraphs_carousel',
         'ding_paragraphs_image' => 'ding_paragraphs_image',
         'ding_paragraphs_image_and_text' => 'ding_paragraphs_image_and_text',
         'ding_paragraphs_material_list' => 'ding_paragraphs_material_list',
@@ -692,6 +693,7 @@ function ding_news_field_default_field_instances() {
         'ding_paragraphs_text_box' => 'ding_paragraphs_text_box',
       ),
       'bundle_weights' => array(
+        'ding_paragraphs_carousel' => 11,
         'ding_paragraphs_image' => -5,
         'ding_paragraphs_image_and_text' => -4,
         'ding_paragraphs_material_list' => -12,
