@@ -100,17 +100,19 @@ function alma_loan_renew($account, $ids) {
  * Should be used in the case object in not in Ting anymore or the reservation
  * is an remote reservation.
  *
- * @param object $ting_entity
+ * @param TingEntity $ting_entity
  *   Provider reservation object.
  * @param \Ting\TingObject $ting_object
  *   Mutable ting object that represents the raw search result from the search
  *   provider.
  *
- * @return object
+ * @return TingEntity
  *   Ting entity object, filled with data from provider service.
+ *
  * @throws \Exception
+ *   Exception thrown if an error occurs while interacting with Alma.
  */
-function alma_loan_populate_pseudo_entity($ting_entity, TingObject $ting_object) {
+function alma_loan_populate_pseudo_entity(TingEntity $ting_entity, TingObject $ting_object) {
   $alma_object = alma_client_invoke('catalogue_record_detail', $ting_entity->localId);
 
   if ($alma_object['request_status'] === 'ok' && isset($alma_object['records'][$ting_entity->localId])) {

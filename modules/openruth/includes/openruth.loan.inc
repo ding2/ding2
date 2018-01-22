@@ -86,19 +86,21 @@ function openruth_loan_renew($account, $ids) {
 }
 
 /**
- * Replace entity for the reservation in the case object in not in Ting anymore
- * or the reservation is an remote reservation.
+ * Replace entity for the reservation.
  *
- * @param DingEntity $ting_entity
+ * In the case object in not in Ting anymore or the reservation is an remote
+ * reservation.
+ *
+ * @param TingEntity $ting_entity
  *   Provider reservation object.
  * @param \Ting\TingObject $ting_object
  *   Mutable ting object that represents the raw search result from the search
  *   provider.
  *
- * @return DingEntity
+ * @return TingEntity
  *   Ting entity object, filled with data from provider service.
  */
-function openruth_loan_populate_pseudo_entity($ting_entity, TingObject $ting_object) {
+function openruth_loan_populate_pseudo_entity(TingEntity $ting_entity, TingObject $ting_object) {
   $openruth_object = openruth_seek_reserved_item($ting_entity->localId);
 
   if (is_object($openruth_object)) {

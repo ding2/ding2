@@ -35,10 +35,22 @@ class TingRelation extends DingEntityBase {
     return $this->properties['object'] !== DingEntityBase::NULL ? $this->properties['object'] : NULL;
   }
 
+  /**
+   * Returns the URI for the relation.
+   *
+   * @return string|NULL
+   *   The uri.
+   */
   public function getURI() {
     return $this->properties['uri'] !== DingEntityBase::NULL ? $this->properties['uri'] : NULL;
   }
 
+  /**
+   * Returns the type of related relation.
+   *
+   * @return string|NULL
+   *   The type.
+   */
   public function getType() {
     return $this->properties['type'] !== DingEntityBase::NULL ? $this->properties['type'] : NULL;
   }

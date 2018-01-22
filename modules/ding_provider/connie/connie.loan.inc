@@ -8,7 +8,7 @@
 use Ting\TingObject;
 
 /**
- *
+ * Implements loan, list provider hook.
  */
 function connie_loan_list($account) {
   // Throw exception if we're not logged in.
@@ -34,7 +34,7 @@ function connie_loan_list($account) {
 }
 
 /**
- *
+ * Implements loan, renew provider hook.
  */
 function connie_loan_renew($account, $ids) {
   ding_user_get_creds();
