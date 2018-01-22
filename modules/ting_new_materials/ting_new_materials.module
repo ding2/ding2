@@ -168,6 +168,8 @@ function ting_new_materials_do_search($query, $page = 0, $num_per_page = 10) {
   $search_result = array();
   try {
     // TODO: Consider porting this to the Search Abstraction Layer.
+    // When doing so, remember to clean out all use of ->reply eg in
+    // ting_new_materials_process_search_results.
     $search_result = opensearch_do_search($query, $page + 1, $num_per_page, $options);
   }
   catch (TingClientException $e) {
@@ -178,7 +180,7 @@ function ting_new_materials_do_search($query, $page = 0, $num_per_page = 10) {
 }
 
 /**
- *Extract ids from the search results.
+ * Extract ids from the search results.
  *
  * @param TingClientSearchResult $search_results
  *  The search result.

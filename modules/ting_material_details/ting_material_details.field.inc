@@ -478,7 +478,7 @@ function ting_material_details_field_formatter_settings_summary($field, $instanc
  *   The virtual field value, or FALSE if it can not be determined.
  */
 function ting_material_details_get_object_property($field_name, TingEntity $entity) {
-  if (empty($entity->reply)) {
+  if (NULL === $entity->getTingObject()) {
     return FALSE;
   }
   // Switch on the name and get the value from either a property on the entity
@@ -501,73 +501,73 @@ function ting_material_details_get_object_property($field_name, TingEntity $enti
       return $entity->contributors;
 
     case 'ting_details_format':
-      return $entity->reply->getFormat();
+      return $entity->getTingObject()->getFormat();
 
     case 'ting_details_ispartof':
-      return $entity->reply->isPartOf();
+      return $entity->getTingObject()->isPartOf();
 
     case 'ting_details_spoken':
-      return $entity->reply->getSpoken();
+      return $entity->getTingObject()->getSpoken();
 
     case 'ting_details_subtitles':
-      return $entity->reply->getSubTitles();
+      return $entity->getTingObject()->getSubTitles();
 
     case 'ting_details_genre':
-      return $entity->reply->getGenere();
+      return $entity->getTingObject()->getGenere();
 
     case 'ting_details_spatial':
-      return $entity->reply->getSpatial();
+      return $entity->getTingObject()->getSpatial();
 
     case 'ting_details_musician':
-      return $entity->reply->getMusician();
+      return $entity->getTingObject()->getMusician();
 
     case 'ting_details_tracks':
-      return $entity->reply->getTracks();
+      return $entity->getTingObject()->getTracks();
 
     case 'ting_details_referenced':
-      return $entity->reply->getReferenced();
+      return $entity->getTingObject()->getReferenced();
 
     case 'ting_details_seriesdescription':
-      return $entity->reply->getSeriesDescription();
+      return $entity->getTingObject()->getSeriesDescription();
 
     case 'ting_details_description':
-      return $entity->reply->getDescription();
+      return $entity->getTingObject()->getDescription();
 
     case 'ting_details_source':
-      return $entity->reply->getSource();
+      return $entity->getTingObject()->getSource();
 
     case 'ting_details_replaces':
-      return $entity->reply->getReplaces();
+      return $entity->getTingObject()->getReplaces();
 
     case 'ting_details_replaced_by':
-      return $entity->reply->getReplacedBy();
+      return $entity->getTingObject()->getReplacedBy();
 
     case 'ting_details_isbn':
-      return $entity->reply->getIsbn();
+      return $entity->getTingObject()->getIsbn();
 
     case 'ting_details_uri':
-      return $entity->reply->getURI();
+      return $entity->getTingObject()->getURI();
 
     case 'ting_details_version':
-      return $entity->reply->getVersion();
+      return $entity->getTingObject()->getVersion();
 
     case 'ting_details_extent':
-      return $entity->reply->getExtent();
+      return $entity->getTingObject()->getExtent();
 
     case 'ting_details_publisher':
-      return $entity->reply->getPublisher();
+      return $entity->getTingObject()->getPublisher();
 
     case 'ting_details_rights':
-      return $entity->reply->getRights();
+      return $entity->getTingObject()->getRights();
 
     case 'ting_details_age':
-      return $entity->reply->getAge();
+      return $entity->getTingObject()->getAge();
 
     case 'ting_details_audience':
-      return $entity->reply->getAudience();
+      return $entity->getTingObject()->getAudience();
 
     case 'ting_details_pegi':
-      return $entity->reply->getPegi();
+      return $entity->getTingObject()->getPegi();
   }
 
   // In case we can't match the field, default to FALSE.

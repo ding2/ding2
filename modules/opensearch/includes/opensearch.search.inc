@@ -263,8 +263,12 @@ function opensearch_search_filter_relations($relations) {
       // The isPartOfManifestion relation has all relation to other libraries
       // copies of the relation, so we filter the ones that do not belong to
       // current library.
-      if ($relation->type == 'dbcbib:isPartOfManifestation' && is_object($relation->object) && $relation->object instanceof TingEntity && $relation->object->reply->isLocal()) {
-        return FALSE;
+      if ($relation->type === 'dbcbib:isPartOfManifestation' && is_object($relation->object) && $relation->object instanceof TingEntity) {
+        /** @var \Ting\TingObjectInterface $ting_object */
+        $ting_object = $relation->object->getTingObject();
+        if (NULL !== $ting_object && $ting_object->isLocal()) {
+          return FALSE;
+        }
       }
       return TRUE;
     }
@@ -301,10 +305,10 @@ function opensearch_search_supported_relations() {
  */
 function _opensearch_search_relation_render_target(\TingRelation $relation) {
   $target = '_blank';
-  $data = isset($relation->getObject()->reply->relationsData) ?
-    $relation->getObject()->reply->relationsData : NULL;
-  if (isset($data)) {
-    if (strpos($data[0]->relationUri, '[useraccessinfomedia]') === 0) {
+
+  $relations = $relation->getObject()->getTingObject()->getRelations();
+  if (!empty($relations)) {
+    if (strpos($relations[0]->getURI(), '[useraccessinfomedia]') === 0) {
       $target = '_self';
     }
   }

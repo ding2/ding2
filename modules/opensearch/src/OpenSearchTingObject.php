@@ -503,6 +503,13 @@ class OpenSearchTingObject implements TingObjectInterface {
   }
 
   /**
+   * Data-formats in which the object is available.
+   */
+  public function getFormatsAvailable() {
+    return $this->openSearchObject->formatsAvailable;
+  }
+
+  /**
    * Fetch a record from the Open Search object.
    *
    * @param string $l1_key
@@ -721,7 +728,7 @@ class OpenSearchTingObject implements TingObjectInterface {
    *   relations has been loaded.
    */
   protected function getRelationsData() {
-    return isset($this->openSearchObject->relationsData) ? $this->openSearchObject->relationsData : [];
+    return isset($this->openSearchObject->relationsData) ? $this->openSearchObject->relationsData : NULL;
   }
 
 }

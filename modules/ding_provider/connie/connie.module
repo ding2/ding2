@@ -139,11 +139,21 @@ function connie_availability_holdings($provider_ids) {
   // Holdings is a superset of items.
   $res = connie_availability_items($provider_ids);
   foreach ($res as $id => &$availability) {
-    if (((int) ($id / 100) % 2) == 0) {
-      $availability['holdings'] = array(
-        'Andeby bibliotek',
-        'Gåserød bibliotek',
-      );
+    if (((int) ($id / 100) % 2) === 0) {
+      $availability['holdings'] = [
+        'Andeby bibliotek' => [
+          'reservable' => TRUE,
+          'total_count' => 10,
+          'available' => TRUE,
+          'ordered_count' => 2,
+        ],
+        'Gåserød bibliotek' => [
+          'reservable' => FALSE,
+          'total_count' => 4,
+          'available' => FALSE,
+          'ordered_count' => 1,
+        ],
+      ];
     }
     else {
       $availability['holdings'] = array();

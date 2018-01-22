@@ -937,11 +937,12 @@ function bpi_validate_material($id) {
   // If there is no usable result, exit immediately, providing no reply.
   $object = NULL;
   if ($result && $result->numTotalObjects) {
+    /** @var \TingCollection $collection */
     foreach ($result->collections as $collection) {
-      $object = array_shift($collection->reply->objects);
+      $object = $collection->getPrimary_object();
     }
   }
-  return $object ? $object->id : FALSE;
+  return $object ? $object->getId() : FALSE;
 }
 
 /**

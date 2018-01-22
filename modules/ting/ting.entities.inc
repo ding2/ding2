@@ -6,6 +6,7 @@
  */
 
 use Ting\TingObjectInterface;
+use Ting\TingObjectCollectionInterface;
 
 /**
  * Object representing a relation between TingEntites.
@@ -24,17 +25,36 @@ class TingRelation extends DingEntityBase {
     }
   }
 
+  /**
+   * Ting Entity if the relation is a relation to a material.
+   *
+   * @return \TingEntity|NULL
+   *   The entity.
+   */
   public function getObject() {
-    return $this->properties['object'];
+    return $this->properties['object'] !== DingEntityBase::NULL ? $this->properties['object'] : NULL;
   }
 
+  /**
+   * Returns the URI for the relation.
+   *
+   * @return string|NULL
+   *   The uri.
+   */
   public function getURI() {
-    return $this->properties['uri'];
+    return $this->properties['uri'] !== DingEntityBase::NULL ? $this->properties['uri'] : NULL;
   }
 
+  /**
+   * Returns the type of related relation.
+   *
+   * @return string|NULL
+   *   The type.
+   */
   public function getType() {
-    return $this->properties['type'];
+    return $this->properties['type'] !== DingEntityBase::NULL ? $this->properties['type'] : NULL;
   }
+
 }
 
 /**
@@ -77,6 +97,26 @@ class TingEntity extends DingEntity {
    * @var Ting\TingObjectInterface
    */
   public $reply;
+
+  /**
+   * The Ting object that the entity uses to access data from a search provider.
+   *
+   * @return \Ting\TingObjectInterface
+   *   The object.
+   */
+  public function getTingObject() {
+    return $this->reply;
+  }
+
+  /**
+   * Set the Ting object the entity should use to access search provider data.
+   *
+   * @param \Ting\TingObjectInterface $reply
+   *   The object.
+   */
+  public function setTingObject(TingObjectInterface $reply) {
+    $this->reply = $reply;
+  }
 
   /**
    * The size or duration of the resource.
@@ -345,6 +385,16 @@ class TingCollection extends DingEntityCollection {
    * @var Ting\TingObjectCollectionInterface
    */
   public $tingObjectCollection;
+
+  /**
+   * Set the collection from the Ting search provider.
+   *
+   * @param \Ting\TingObjectCollectionInterface $tingObjectCollection
+   *   The collection.
+   */
+  public function setTingObjectCollection(TingObjectCollectionInterface $tingObjectCollection) {
+    $this->tingObjectCollection = $tingObjectCollection;
+  }
 
   /**
    * Get the collection from the Ting search provider.
