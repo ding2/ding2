@@ -1139,14 +1139,14 @@ function ding_serendipity_exclude(array &$list, $excludes) {
 /**
  * Callback for testing cql.
  */
-function ding_serendipity_test_cql_callback($form, &$form_state) {
-  $cql = $form_state['values'][$form_state['triggering_element']['#cql_element']];
+function ding_serendipity_test_query_callback($form, &$form_state) {
+  $query = $form_state['values'][$form_state['triggering_element']['#query_element']];
   $list = array(
     '#theme' => 'item_list',
     '#items' => array(),
   );
 
-  $results = ting_start_query()->setRawQuery($cql)->execute();
+  $results = ting_start_query()->setRawQuery($query)->setCount(10)->execute();
 
   if ($results->getNumTotalObjects()) {
     $list['#items'][] = t('Total results: @count', array('@count' => $results->getNumTotalObjects()));
@@ -1166,7 +1166,7 @@ function ding_serendipity_test_cql_callback($form, &$form_state) {
     $list['#items'][] = t('Total results: @count', array('@count' => 0));
   }
 
-  return '<div id="test-cql-container">' . drupal_render($list) . '</div>';
+  return '<div id="test-query-container">' . drupal_render($list) . '</div>';
 }
 
 /**
