@@ -85,7 +85,7 @@
   }
   Drupal.behaviors.ding_ting_teaser_image_width = {
     attach: function(context, settings) {
-      adapt_images($('.ting-object.view-mode-teaser img'));
+      adapt_images($('.ting-object.view-mode-teaser img, .ting-object.view-mode-teaser-no-overlay img'));
     }
   };
 
