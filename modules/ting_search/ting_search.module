@@ -913,30 +913,6 @@ function ting_search_sort_options() {
       'label' => t('Ranking'),
       'sort' => NULL,
     ],
-    'title_ascending' => [
-      'label' => t('Title (Ascending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_ASCENDING),
-    ],
-    'title_descending' => [
-      'label' => t('Title (Descending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_DESCENDING),
-    ],
-    'creator_ascending' => [
-      'label' => t('Creator (Ascending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_ASCENDING),
-    ],
-    'creator_descending' => [
-      'label' => t('Creator (Descending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_DESCENDING),
-    ],
-    'date_ascending' => [
-      'label' => t('Date (Ascending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_ASCENDING),
-    ],
-    'date_descending' => [
-      'label' => t('Date (Descending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_DESCENDING),
-    ],
   ];
 
   // Add provider sorts.
