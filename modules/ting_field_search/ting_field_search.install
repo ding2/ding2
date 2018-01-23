@@ -65,6 +65,13 @@ function ting_field_search_schema() {
         'serialize' => TRUE,
         'description' => 'Serialized profile configuration that do not warrant a single column.',
       ),
+      'fields' => array(
+        'type' => 'blob',
+        'size' => 'big',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'description' => 'Serialized field configuration',
+      ),
       'weight' => array(
         'type' => 'int',
         'size' => 'small',
@@ -310,4 +317,18 @@ function ting_field_search_update_7002() {
       ->fields(array('config' => serialize($config)))
       ->execute();
   }
+}
+
+/**
+ * Add serialized db field for field configuration on search profiles.
+ */
+function ting_field_search_update_7003() {
+  db_add_field('ting_field_search_profile', 'fields', array(
+    'type' => 'blob',
+    'size' => 'big',
+    'not null' => TRUE,
+    'serialize' => TRUE,
+    'description' => 'Serialized field configuration',
+    'initial' =>  serialize(array()),
+  ));
 }
