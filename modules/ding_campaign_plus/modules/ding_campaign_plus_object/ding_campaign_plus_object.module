@@ -124,7 +124,7 @@ function ding_campaign_plus_object_ding_campaign_plus_matches($contexts, $style)
  * When auto-generating campaigns this defines the triggers for the object
  * module.
  */
-function ding_campaign_plus_object_ding_campaign_plus_auto_trigger($config, $campaign_node, $values, $subjects) {
+function ding_campaign_plus_object_ding_campaign_plus_auto_trigger($config, $campaign_node, $node, $subjects) {
   $trigger = array();
   $trigger[DING_CAMPAIGN_PLUS_OBJECT_TYPE] = array('rules' => array());
 
@@ -165,10 +165,6 @@ function ding_campaign_plus_object_auto_admin_form(array &$form_state, $default 
 function ding_campaign_plus_object_admin_form(&$form_state) {
   $triggers = array();
 
-  $value = array(
-    'query' => '',
-  );
-
   // Get campaign rule from node.
   if (isset($form_state['node']->nid)) {
     $value = _ding_campaign_plus_object_get_rules($form_state['node']->nid, $form_state['node']->ding_campaign_plus);
@@ -178,7 +174,7 @@ function ding_campaign_plus_object_admin_form(&$form_state) {
     '#type' => 'textfield',
     '#title' => t('Search query'),
     '#description' => t('Search query that should trigger the campaign'),
-    '#default_value' => $value['query'],
+    '#default_value' => isset($value['query']) ? $value['query'] : '',
     '#maxlength' => 2048,
   );
 

@@ -72,16 +72,16 @@ function hook_ding_campaign_plus_default_weights() {
  *   The auto generate administration configuration.
  * @param object $campaign_node
  *   The campaign node that the rules should be generated for.
- * @param array $values
- *   The values from the node edit form submit for the content that the auto
- *   generated campaign is build.
+ * @param \Entity $node
+ *   The node that has triggered the auto generated campaign. Note that the node
+ *   have not yet been saved to the database.
  * @param array $subjects
  *   The subjects entered by the user.
  *
  * @return array
  *   Matching the modules rules format for the module.
  */
-function hook_ding_campaign_plus_auto_trigger(array $config, $campaign_node, array $values, array $subjects) {
+function hook_ding_campaign_plus_auto_trigger(array $config, $campaign_node, $node, array $subjects) {
   return array('TYPE' => array('rules' => array()));
 }
 

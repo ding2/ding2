@@ -197,13 +197,11 @@ function ding_campaign_plus_basic_auto_admin_form(array &$form_state, $default =
  * When auto-generating campaigns this defines the triggers for the basic
  * module.
  */
-function ding_campaign_plus_basic_ding_campaign_plus_auto_trigger($config, $campaign_node, $values, $subjects) {
+function ding_campaign_plus_basic_ding_campaign_plus_auto_trigger($config, $campaign_node, $node, $subjects) {
   $trigger = array();
   $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE] = array('rules' => array());
 
   if ($config != '_none_') {
-    $node = entity_metadata_wrapper('node', (object) $values);
-
     switch ($config) {
       case 'library':
         $libraries = $node->og_group_ref->value();

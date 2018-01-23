@@ -151,13 +151,13 @@ function ding_campaign_plus_facet_ding_campaign_plus_matches($contexts, $style) 
  *
  * @param array $form_state
  *   The forms current state.
- * @param string $default
+ * @param array $default
  *   The default configuration value.
  *
  * @return array
  *   The form element send into the admin form.
  */
-function ding_campaign_plus_facet_auto_admin_form(array &$form_state, $default = '') {
+function ding_campaign_plus_facet_auto_admin_form(array &$form_state, $default = array()) {
   $options = array();
   $facets = variable_get('ding_facetbrowser_facets', array());
   foreach ($facets as $facet) {
@@ -165,11 +165,20 @@ function ding_campaign_plus_facet_auto_admin_form(array &$form_state, $default =
   }
 
   return array(
-    '#type' => 'radios',
-    '#title' => t('Facets available'),
-    '#description' => t('The contents subjects will automatically create a trigger against the selected facet type.'),
-    '#options' => array('_none_' => t('None')) + $options,
-    '#default_value' => empty($default) ? '_none_' : $default,
+    'default' => array(
+      '#type' => 'select',
+      '#title' => t('Default common number'),
+      '#description' => t('Default "Most common subjects" to match against.'),
+      '#options' => drupal_map_assoc(range(1, 15)),
+      '#default_value' => empty($default['default']) ? '_none_' : $default['default'],
+    ),
+    'facets' =>  array(
+      '#type' => 'radios',
+      '#title' => t('Facets available'),
+      '#description' => t('The contents subjects will automatically create a trigger against the selected facet type.'),
+      '#options' => array('_none_' => t('None')) + $options,
+      '#default_value' => empty($default['facets']) ? '_none_' : $default['facets'],
+    ),
   );
 }
 
@@ -179,18 +188,18 @@ function ding_campaign_plus_facet_auto_admin_form(array &$form_state, $default =
  * When auto-generating campaigns this defines the triggers for the facet
  * module.
  */
-function ding_campaign_plus_facet_ding_campaign_plus_auto_trigger($config, $campaign_node, $values, $subjects) {
+function ding_campaign_plus_facet_ding_campaign_plus_auto_trigger($config, $campaign_node, $node, $subjects) {
   $trigger = array();
   $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE] = array('rules' => array());
 
-  if ($config != '_none_' && !empty($subjects)) {
+  if ($config['facets'] != '_none_' && !empty($subjects)) {
     foreach ($subjects as $key => $value) {
       $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key] = array(
-        'facet' => $config,
+        'facet' => $config['facets'],
         'common' => NULL,
       );
 
-      switch ($config) {
+      switch ($config['facets']) {
         case 'facet.type':
           $options = _ting_fetch_well_types();
           $options = array_keys($options);
@@ -214,7 +223,7 @@ function ding_campaign_plus_facet_ding_campaign_plus_auto_trigger($config, $camp
           break;
 
         case 'facet.subject':
-          $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['common'] = variable_get('ding_facetbrowser_number_of_terms', 5);
+          $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['common'] = $config['default'];
           $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value'] = $value;
           break;
 
@@ -353,12 +362,17 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
     ),
   );
 
+  // Get default "most common" from auto-generate campaign configuration. This
+  // is a lose dependency to auto generate module and should stay lose.
+  $default = variable_get('ding_campaign_plus_auto', array());
+  $default = isset($default['ding_campaign_plus_facet']['config']['default']) ? $default['ding_campaign_plus_facet']['config']['default'] : 5;
+
   $options = drupal_map_assoc(range(1, 15));
   $form['common'] = array(
     '#type' => 'select',
     '#title' => t('Most common subjects'),
     '#options' => array_combine($options, $options),
-    '#default_value' => isset($default_values['common']) ? $default_values['common'] : variable_get('ding_facetbrowser_number_of_terms', 5),
+    '#default_value' => isset($default_values['common']) ? $default_values['common'] : $default,
   );
 
   $options = _ting_fetch_well_types();
