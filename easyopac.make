@@ -23,7 +23,7 @@ projects[ding_billettendk_import][type]             = "module"
 projects[ding_billettendk_import][subdir]           = ""
 projects[ding_billettendk_import][download][type]   = "git"
 projects[ding_billettendk_import][download][url]    = "git@github.com:easySuite/ding_billettendk_import.git"
-projects[ding_billettendk_import][download][branch] = "develop"
+projects[ding_billettendk_import][download][branch] = "development"
 
 projects[ding_bibliotek_info][type]             = "module"
 projects[ding_bibliotek_info][subdir]           = ""
