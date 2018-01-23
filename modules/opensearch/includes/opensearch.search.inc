@@ -526,7 +526,32 @@ function opensearch_search_prepare_reference_query($query_string) {
  *   instance. Keyed by a machine-name.
  */
 function opensearch_search_sort_options() {
-  $options = [];
+  $options = [
+    'title_ascending' => [
+      'label' => t('Title (Ascending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_ASCENDING),
+    ],
+      'title_descending' => [
+      'label' => t('Title (Descending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_DESCENDING),
+    ],
+      'creator_ascending' => [
+      'label' => t('Creator (Ascending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_ASCENDING),
+    ],
+      'creator_descending' => [
+      'label' => t('Creator (Descending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_DESCENDING),
+    ],
+      'date_ascending' => [
+      'label' => t('Date (Ascending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_ASCENDING),
+    ],
+      'date_descending' => [
+      'label' => t('Date (Descending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_DESCENDING),
+    ]
+  ];
 
   $matches = array();
   $ting_search = variable_get('opensearch_url');
