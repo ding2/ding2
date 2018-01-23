@@ -1,0 +1,42 @@
+/**
+ * Basic theming of profile page.
+ */
+
+
+/* Main search field */
+#ting-field-search-fields-form .form-item-query {
+  max-width: none;
+  margin-top: 30px;
+}
+
+/* Prpfile page submit */
+#ting-field-search-fields-form input[type="submit"] {
+  float: right;
+  padding-right: 60px;
+}
+
+#ting-field-search-fields-wrapper {
+  margin-bottom: 25px;
+}
+
+#ting-field-search-fields-wrapper .form-type-textfield,
+#ting-field-search-fields-wrapper .form-type-checkboxes {
+  width: 33.3333%;
+  float: left;
+  padding: 20px 10px;
+  margin: 0;
+}
+
+#ting-field-search-fields-wrapper div.form-type-textfield:first-child,
+#ting-field-search-fields-wrapper div.form-type-checkboxes:first-child  {
+  padding-left: 0;
+}
+
+#ting-field-search-fields-wrapper div.form-type-textfield:last-child,
+#ting-field-search-fields-wrapper div.form-type-checkboxes:last-child  {
+  padding-left: 0;
+}
+
+#ting-field-search-fields-wrapper .form.submit {
+  padding: 20px 80px 14px 15px;
+}
