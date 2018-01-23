@@ -219,7 +219,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->panel = 'content';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'ding_campaign_count' => 3,

@@ -158,6 +158,11 @@ function ding_permissions_secure_permissions($role) {
     'authenticated user' => array(
       'access comments',
       'access content',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access site-wide contact form',
       'access user profiles',
       'display EU Cookie Compliance popup',
@@ -181,7 +186,9 @@ function ding_permissions_secure_permissions($role) {
       'flush caches',
       'access all views',
       'access all webform results',
+      'access broken links report',
       'access campaign rules',
+      'access ckeditor link',
       'access comments',
       'access content',
       'access content overview',
@@ -192,6 +199,7 @@ function ding_permissions_secure_permissions($role) {
       'access environment indicator staging',
       'access environment indicator overwritten_environment',
       'access overlay',
+      'access own broken links report',
       'access own webform content',
       'access own webform results',
       'access own webform submissions',
@@ -238,6 +246,7 @@ function ding_permissions_secure_permissions($role) {
       'administer group',
       'administer image styles',
       'administer languages',
+      'administer linkchecker',
       'administer media browser',
       'administer menu',
       'administer menu positions',
@@ -340,6 +349,7 @@ function ding_permissions_secure_permissions($role) {
       'create webform content',
       'create ding_eresource content',
       'customize shortcut links',
+      'delete all webform submissions',
       'delete all blocks',
       'delete all webform submissions',
       'delete any audio files',
@@ -416,6 +426,7 @@ function ding_permissions_secure_permissions($role) {
       'edit any webform content',
       'edit any ding_eresource content',
       'edit meta tags',
+      'edit link settings',
       'edit opening hours for content',
       'edit own audio files',
       'edit own comments',
@@ -431,6 +442,7 @@ function ding_permissions_secure_permissions($role) {
       'edit own panel content',
       'edit own panel-nodes',
       'edit own video files',
+      'edit webform components',
       'edit own webform content',
       'edit own webform submissions',
       'edit own ding_eresource content',
@@ -528,6 +540,7 @@ function ding_permissions_secure_permissions($role) {
       'access administration menu',
       'access all webform results',
       'access campaign rules',
+      'access ckeditor link',
       'access content overview',
       'access contextual links',
       'access environment indicator',
@@ -596,6 +609,7 @@ function ding_permissions_secure_permissions($role) {
       'delete own image files',
       'delete own video files',
       'delete own webform content',
+      'delete own webform submissions',
       'delete own ding_eresource content',
       'delete revisions',
       'delete terms in 1',
@@ -642,7 +656,9 @@ function ding_permissions_secure_permissions($role) {
       'edit own document files',
       'edit own image files',
       'edit own video files',
+      'edit webform components',
       'edit own webform content',
+      'edit own webform submissions',
       'edit own ding_eresource content',
       'edit terms in 1',
       'edit terms in 2',
@@ -680,6 +696,7 @@ function ding_permissions_secure_permissions($role) {
       'access environment indicator default_environment',
       'access environment indicator staging',
       'access environment indicator overwritten_environment',
+      'access ckeditor link',
       'access overlay',
       'access site-wide contact form',
       'access toolbar',
@@ -720,7 +737,9 @@ function ding_permissions_secure_permissions($role) {
       'access administration menu',
       'flush caches',
       'access all webform results',
+      'access broken links report',
       'access campaign rules',
+      'access ckeditor link',
       'access content overview',
       'access environment indicator',
       'access environment indicator development',
@@ -730,6 +749,7 @@ function ding_permissions_secure_permissions($role) {
       'access site-wide contact form',
       'access contextual links',
       'access overlay',
+      'access own broken links report',
       'access own webform results',
       'access own webform submissions',
       'access site in maintenance mode',
@@ -752,6 +772,7 @@ function ding_permissions_secure_permissions($role) {
       'administer social links settings',
       'administer fe promote',
       'administer files',
+      'administer linkchecker',
       'administer menu',
       'administer meta tags',
       'administer nodes',
@@ -797,6 +818,7 @@ function ding_permissions_secure_permissions($role) {
       'create webform content',
       'create ding_eresource content',
       'customize shortcut links',
+      'delete all webform submissions',
       'delete any audio files',
       'delete any ding_campaign content',
       'delete any ding_event content',
@@ -823,6 +845,7 @@ function ding_permissions_secure_permissions($role) {
       'delete own image files',
       'delete own video files',
       'delete own webform content',
+      'delete own webform submissions',
       'delete own ding_eresource content',
       'delete revisions',
       'delete terms in 1',
@@ -844,6 +867,7 @@ function ding_permissions_secure_permissions($role) {
       'dynamic backgrounds css callback',
       'dynamic backgrounds set default',
       'dynamic backgrounds weight',
+      'edit all webform submissions',
       'edit any audio files',
       'edit any ding_campaign content',
       'edit any ding_event content',
@@ -859,6 +883,7 @@ function ding_permissions_secure_permissions($role) {
       'edit any webform content',
       'edit any ding_eresource content',
       'edit meta tags',
+      'edit link settings',
       'edit opening hours for content',
       'edit own audio files',
       'edit own ding_campaign content',
@@ -871,7 +896,9 @@ function ding_permissions_secure_permissions($role) {
       'edit own document files',
       'edit own image files',
       'edit own video files',
+      'edit webform components',
       'edit own webform content',
+      'edit own webform submissions',
       'edit own ding_eresource content',
       'edit terms in 1',
       'edit terms in 2',
@@ -920,7 +947,9 @@ function ding_permissions_secure_permissions($role) {
       'eck list ding_type ding_interaction entities',
       'eck view ding_type ding_interaction entities',
       'access administration menu',
+      'access all webform results',
       'access campaign rules',
+      'access ckeditor link',
       'access content overview',
       'access contextual links',
       'access environment indicator',
@@ -930,6 +959,8 @@ function ding_permissions_secure_permissions($role) {
       'access environment indicator overwritten_environment',
       'access site-wide contact form',
       'access overlay',
+      'access own webform results',
+      'access own webform submissions',
       'access toolbar',
       'access workbench',
       'add media from remote sources',
@@ -948,12 +979,15 @@ function ding_permissions_secure_permissions($role) {
       'create ding_news content',
       'create ding_page content',
       'create files',
+      'create webform content',
       'customize shortcut links',
       'delete any ding_event content',
       'delete bpi content',
       'delete own ding_event content',
       'delete own ding_news content',
       'delete own ding_page content',
+      'delete own webform content',
+      'delete own webform submissions',
       'delete terms in 2',
       'download own audio files',
       'download own document files',
@@ -971,6 +1005,9 @@ function ding_permissions_secure_permissions($role) {
       'edit own document files',
       'edit own image files',
       'edit own video files',
+      'edit webform components',
+      'edit own webform content',
+      'edit own webform submissions',
       'edit terms in 2',
       'participate in workflow',
       'schedule publishing of nodes',
@@ -986,6 +1023,11 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'provider' => array(
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'create files',
       'edit own provider_alma profile',
       'edit own provider_openruth profile',
@@ -1041,5 +1083,29 @@ function ding_permissions_secure_permissions($role) {
 
   if (isset($permissions[$role])) {
     return $permissions[$role];
+  }
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function ding_permissions_page_alter(&$page) {
+  global $user;
+
+  if ($user->uid == '1' && in_array('administrators', array_values($user->roles))) {
+    unset($page['page_top']['toolbar']);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_permissions_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  $args = arg();
+  $role_access = (is_array($user->roles) && in_array('guest blogger', array_values($user->roles))) ? TRUE : FALSE;
+
+  if ($args[0] == 'node' && $args[1] == 'add' && $role_access) {
+    $form['options']['status']['#default_value'] = 0;
   }
 }

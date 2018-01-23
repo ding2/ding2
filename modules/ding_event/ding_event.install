@@ -157,3 +157,30 @@ function ding_event_update_7008() {
       ->execute();
   }
 }
+
+/**
+ * Change price field type in database.
+ *
+ * On some instances field_type of price field have "text" type which is
+ * throwing exceptions on some feature reverts, because drush can't change
+ * field_type and module in database.
+ */
+function ding_event_update_7009() {
+  // Getting field settings from field_config.
+  $field_props = db_select('field_config', 'fc')
+    ->fields('fc')
+    ->condition('field_name', 'field_ding_event_price')
+    ->execute()
+    ->fetchAssoc();
+
+  if ($field_props['type'] == 'text') {
+    // If found wrong type, update field settings.
+    db_update('field_config')
+      ->fields(array(
+        'type' => 'number_integer',
+        'module' => 'number'
+      ))
+      ->condition('field_name', 'field_ding_event_price')
+      ->execute();
+  }
+}

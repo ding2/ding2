@@ -14,6 +14,10 @@ require_once __DIR__ . '/template.field.php';
  * Implements hook_preprocess_html().
  */
 function ddbasic_preprocess_html(&$vars) {
+  if (in_array('html__node__newsletter', $vars['theme_hook_suggestions'])) {
+    $vars['newsletter'] = $vars['page']['content']['system_main']['main']['#markup'];
+  }
+
   global $language;
 
   // Setup iOS logo if it's set.
@@ -67,7 +71,7 @@ function ddbasic_preprocess_html(&$vars) {
   libraries_load('jquery.imagesloaded');
   libraries_load('html5shiv');
   libraries_load('masonry');
-
+  libraries_load('slick');
 }
 
 /**
@@ -80,6 +84,38 @@ function ddbasic_process_html(&$vars) {
   // Hook into color.module.
   if (module_exists('color')) {
     _color_html_alter($vars);
+  }
+}
+
+/**
+ * Implementation of hook_entity_view_alter().
+ */
+function ddbasic_entity_view_alter(&$build, $type) {
+  if (in_array($build['#view_mode'], array('full', 'search_result'))) {
+    if (isset($build['field_editorial_base'])) {
+      $items = field_get_items('node', $build['#node'], 'field_editorial_base', LANGUAGE_NONE);
+      if (!empty($items)) {
+        $build['field_editorial_base'] = array($build['field_editorial_base']);
+        $build['field_editorial_base']['#theme'] = 'field';
+        $build['field_editorial_base']['#view_mode'] = $build['#view_mode'];
+        $build['field_editorial_base']['#field_name'] = 'field_editorial_base';
+        $build['field_editorial_base']['#field_type'] = 'taxonomy_term_reference';
+        $build['field_editorial_base']['#formatter '] = 'taxonomy_term_reference_link';
+        $build['field_editorial_base']['#label_display'] = 'hidden';
+        $build['field_editorial_base']['#title'] = t('Section');
+        $build['field_editorial_base']['#language '] = LANGUAGE_NONE;
+        $build['field_editorial_base']['#field_translatable'] = 0 ;
+        $build['field_editorial_base']['#entity_type'] = 'node';
+        $build['field_editorial_base']['#bundle'] = $build['#node']->type;
+        $build['field_editorial_base']['#weight'] = isset($build['field_' . $build['#node']->type . '_tags']['#weight']) ?
+          $build['field_' . $build['#node']->type . '_tags']['#weight'] + 1  : 7;
+        $build['field_editorial_base']['#access'] = TRUE;
+        foreach ($items as $item) {
+          $term = field_view_value('node', $build['#node'], 'field_editorial_base', $item);
+          $build['field_editorial_base']['#items'][] = array('tid' => $item, 'taxonomy_term' => $term);
+        }
+      }
+    }
   }
 }
 
@@ -121,11 +157,11 @@ function ddbasic_preprocess_panels_pane(&$vars) {
     $vars['classes_array'][] = 'sub-menu-wrapper';
 
     // Change the theme wrapper for both menu-block and OG menu.
-    if (isset($vars['content']['#content'])) {
+    if (isset($vars['content']['#content']) && is_array($vars['content']['#content'])) {
       // Menu-block.
       $vars['content']['#content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
-    else {
+    elseif(is_array($vars['content'])) {
       // OG menu.
       $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
@@ -293,6 +329,8 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
     $first_node = $nodes[$first_key];
     $vars['type_class'] = drupal_html_class($first_node->type);
   }
+
+  $vars['no_masonry'] = FALSE;
 
   // Set no-masonry to true for frontpage event view
   if ($vars['view']->name == 'ding_event' && $vars['view']->current_display == 'ding_event_list_frontpage') {
@@ -1269,8 +1307,9 @@ function ddbasic_select($variables) {
   $element = $variables['element'];
   element_set_attributes($element, array('id', 'name', 'size'));
   _form_set_class($element, array('form-select'));
+  $multiple = !empty($variables['element']['#attributes']['multiple']) ? $variables['element']['#attributes']['multiple'] : '';
 
-  if (isset($variables['element']['#attributes']['multiple']) && $variables['element']['#attributes']['multiple'] == 'multiple') {
+  if (!empty($multiple) && $multiple == 'multiple') {
     return '<div class="select-wrapper select-wrapper-multiple"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
   } else {
     return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
@@ -1307,5 +1346,50 @@ function ddbasic_libraries_info() {
         'js' => array('dist/masonry.pkgd.min.js'),
       ),
     ),
+    'slick' => array(
+      'name' => 'Slick.js carousel library',
+      'path' => 'slick',
+      'vendor url' => 'https://github.com/kenwheeler/slick',
+      'download url' => 'https://github.com/kenwheeler/slick/archive/1.8.0.zip',
+      'version arguments' => array(
+        'file' => 'slick/slick.js',
+        'pattern' => '/Version:\s+([0-9a-zA-Z\.-]+)/',
+        'lines' => 15,
+      ),
+      'files' => array(
+        'js' => array('slick.min.js'),
+        'css' => array('slick.css'),
+      ),
+      'variants' => array(
+        'non-minified' => array(
+          'files' => array(
+            'js' => array('slick.js'),
+            'css' => array('slick.css'),
+          ),
+        ),
+      ),
+    ),
   );
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Rewrites view's output.
+ */
+function ddbasic_views_pre_render(&$view){
+  if ($view->name == 'ding_event') {
+    foreach ($view->result as &$item) {
+      $node = node_load($item->nid);
+
+      $field = $node->field_ding_event_date['und'][0];
+      $val = $field['value'];
+      if ($val == $field['value2']) {
+         $date = new DateTime($val, new DateTimeZone($field['timezone_db']));
+         $date->setTimezone(new DateTimeZone($field['timezone']));
+         $date = $date->format('H:i');
+         $field['rendered']['#markup'] = $date . ' - ' . t('All day');
+      }
+    }
+  }
 }

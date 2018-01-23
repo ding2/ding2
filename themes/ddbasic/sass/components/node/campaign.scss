@@ -70,6 +70,12 @@
       float: right;
       padding: 40px 30px 40px 0;
       min-height: 380px;
+
+      @include media($mobile) {
+        @include span-columns(12);
+        float: none;
+        display: block;
+      }
     }
     .ding-campaign-image {
       @include span-columns(6);
@@ -79,6 +85,14 @@
       height: 100%;
       background-size: cover;
       background-position: center center;
+
+      @include media($mobile) {
+        @include span-columns(12);
+        float: none;
+        position: relative;
+        display: block;
+        min-height: 375px;
+      }
     }
     .no-touch & {
       &:hover {
@@ -121,8 +135,132 @@
   }
   // image only layout
   &.image {
+    .node-type-ding-news &,
+    .node-type-ding-event & {
+      margin: 20px 0;
+    }
+
     img {
       width: 100%;
+    }
+  }
+}
+
+@include media($mobile) {
+  .node-ding-campaign {
+    display: none;
+    &.mobile-show {
+      display: block;
+
+      .ding-campaign-text {
+        float: inherit;
+        width: auto;
+        padding: 50px 30px;
+
+        .ding-campaign-headline {
+          width: 100%;
+        }
+
+        .ding-campaign-description {
+          float: none;
+          width: auto;
+        }
+      }
+    }
+  }
+}
+
+.node-type-ding-campaign {
+  .node.node-ding-campaign{
+    max-width: 1124px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    overflow: auto;
+    padding-top: 15px;
+  }
+
+  .image {
+    img {
+      width: auto;
+      display: block
+    }
+  }
+}
+
+.ding-campaign-grid-item {
+  @include span-columns(3.8 of 12);
+  margin: 0 10px 50px 10px;
+
+  h2 {
+    margin-bottom: 0px;
+    font-size: 120%;
+    line-height: 1;
+    padding-top: 10px;
+    position: absolute;
+    width: 200px;
+  }
+
+  @include media($tablet) {
+    @include span-columns(5.5 of 12);
+  }
+
+  @include media($mobile) {
+    @include span-columns(3 of 3);
+    margin: 0;
+    float: none;
+    padding-bottom: 15px;
+  }
+
+  .ding-campaign-grid-title{
+    a {
+      color: $color-text;
+    }
+  }
+  .ding-campaign-grid-description {
+    opacity: 0;
+    color: $white;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    margin-left: 0;
+    z-index: 1;
+    padding: 5px;
+    overflow: hidden;
+    @include transition(opacity $speed $ease);
+  }
+
+  & .ding-campaign-grid-image {
+    position: relative;
+    z-index: 2;
+
+    &:hover {
+      &:after {
+        background-color: $black-overlay;
+        width: 100%;
+        content: " ";
+        position: absolute;
+        height: 100%;
+        top: 0;
+
+
+        @include media($tablet,$mobile) {
+          background-color: transparent;
+          position: relative;
+          height: 100%;
+          content: none;
+        }
+      }
+
+      .ding-campaign-grid-description {
+        opacity: 1;
+
+        @include media($tablet,$mobile) {
+          opacity: 0;
+          height: 0;
+        }
+      }
     }
   }
 }

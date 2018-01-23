@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * @TODO: Missing file description.
+ * Code for the Ting Infomedia feature.
  */
 
 // Load field hooks.
@@ -290,4 +290,3 @@ function ting_infomedia_ctools_plugin_api($module, $api) {
     return array('version' => 1);
   }
 }
-

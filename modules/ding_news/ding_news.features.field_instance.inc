@@ -99,7 +99,9 @@ function ding_news_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 32,
     ),
@@ -257,7 +259,9 @@ function ding_news_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 37,
     ),
@@ -631,7 +635,7 @@ function ding_news_field_default_field_instances() {
       'active' => 0,
       'module' => 'ting_reference',
       'settings' => array(),
-      'type' => 'ting_reference_advanced',
+      'type' => 'ting_reference_default',
       'weight' => 6,
     ),
   );
@@ -1042,7 +1046,9 @@ function ding_news_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 31,
     ),

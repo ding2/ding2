@@ -90,7 +90,6 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
-
  ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="inner">
@@ -122,6 +121,9 @@
           print $book_button;
         endif;
       ?>
+      <?php if (!empty($campaigns)): ?>
+        <?php print drupal_render($campaigns); ?>
+      <?php endif; ?>
     </div>
     <div class="right">
       <?php print render($content['field_ding_event_category']); ?>

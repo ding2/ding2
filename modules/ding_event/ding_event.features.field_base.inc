@@ -378,6 +378,7 @@ function ding_event_field_default_field_bases() {
     'locked' => 0,
     'module' => 'number',
     'settings' => array(
+      'max_length' => 255,
       'profile2_private' => FALSE,
     ),
     'translatable' => 0,

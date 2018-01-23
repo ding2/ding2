@@ -273,3 +273,172 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
     $structured
   );
 }
+
+/**
+ * Categorized library opening hours.
+ */
+function theme_ding_ddbasic_opening_hours_all_tabbed($variables) {
+  return $variables['tabbed'];
+}
+
+/**
+ * Preprocessing categorized library opening hours.
+ */
+function template_preprocess_ding_ddbasic_opening_hours_all_tabbed(&$variables) {
+  drupal_add_library('system', 'ui.tabs');
+  drupal_add_js('jQuery(document).ready(function(){jQuery("#oh-tabs").tabs();});', 'inline');
+
+  $today = strtotime('today');
+
+  if (!empty($variables['today'])) {
+    $today = $variables['today'];
+  }
+
+  $order = [];
+  $queue = nodequeue_load_queue_by_name('ding_library_listing');
+  foreach (nodequeue_load_nodes($queue->qid, FALSE, 0, 0) as $node) {
+    $order[$node->title] = $node->nid;
+  }
+
+  // Get and sort all the instances in the given timespan.
+  $instances = opening_hours_instance_load_multiple(
+    array_values($order),
+    date('Y-m-d', $today),
+    date('Y-m-d', $today)
+  );
+
+  foreach ($order as $library_nid) {
+    $closed = TRUE;
+    foreach ($instances as $instance) {
+      if ($instance->nid == $library_nid) {
+        $closed = FALSE;
+      }
+    }
+
+    if ($closed === TRUE) {
+      $instances[] = (object) [
+        'instance_id' => -1,
+        'nid' => $library_nid,
+        'start_time' => '0',
+        'end_time' => '0',
+        'category_tid' => NULL,
+        'date' => date('Y-m-d', $today),
+        'closed' => TRUE,
+        'notice' => t('Closed'),
+      ];
+    }
+  }
+
+  usort($instances, 'ding_ddbasic_opening_hours_sort');
+
+  $order = array_flip($order);
+
+  foreach ($instances as $instance) {
+    $category_weight = ding_ddbasic_opening_hours_get_category_weight($instance->category_tid);
+
+    if (!isset($categories[$category_weight])) {
+      $categories[$category_weight] = ding_ddbasic_opening_hours_get_category_name($instance->category_tid);
+
+      // Forming tab heading names.
+      foreach ($categories as $key => $category) {
+        // Resetting default tab name.
+        if ($key == '-1') {
+          $category = t('Library and citizens');
+        }
+        $tabs_heading[$key] = "<a href='#tab-$key'>$category</a>";
+      }
+    }
+
+    $library = $order[$instance->nid];
+
+    if (!isset($structured[$library])) {
+      $structured[$library] = [
+        'cols' => [],
+        'extra' => [],
+        'name' => l($library, 'node/' . $instance->nid),
+      ];
+    }
+
+    if (!empty($instance->notice)) {
+      $notice = '<span class="opening-hours-table-notice">' . $instance->notice . '</span>';
+    }
+    else {
+      $notice = '';
+    }
+
+    if (empty($structured[$library]['cols'][$category_weight])) {
+      $structured[$library]['cols'][$category_weight] = '';
+    }
+
+    if (empty($instance->closed)) {
+      $structured[$library]['cols'][$category_weight] .= '<div class="oh-info-item">' . $notice . '<span class="oh-period">' . t('@from - @to', [
+          '@from' => $instance->start_time,
+          '@to' => $instance->end_time,
+        ]) . '</span></div>';
+    }
+    else {
+      $structured[$library]['cols'][$category_weight] = $notice;
+      // Passing 'closed' attribute in order to know that library is closed.
+      $structured[$library]['extra']['closed'] = $category_weight;
+    }
+
+    $structured = array_merge(array_intersect_key(array_flip($order), $structured), $structured);
+  }
+
+  // Start rendering block with tabs.
+  foreach ($tabs_heading as $k => $tab) {
+    $div[$k] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'id' => 'tab-' . $k,
+      ],
+    ];
+
+    // Rendering opening hours.
+    foreach ($structured as $lib => $item) {
+      $inlined = '';
+      foreach ($item['cols'] as $i => $col) {
+        // Display opening hours item for tab with related category.
+        if ($i == $k) {
+          $inlined .= $col;
+        }
+        // Show if library is closed.
+        else {
+          if (!empty($item['extra']['closed'])) {
+            $inlined = $item['cols']['-1'];
+          }
+        }
+      }
+
+      // If library doesn't have opening hours - we hide this, otherwise show
+      // info for this library.
+      if (!empty($inlined)) {
+        $div[$k][] = [
+          $lib = [
+            '#prefix' => '<div class="oh-item">',
+            '#suffix' => '</div>',
+            '#type' => 'markup',
+            '#markup' => '<h3>' . $item['name'] . '</h3><div class="oh-info">' . $inlined . '</div>',
+          ],
+        ];
+      }
+    }
+  }
+
+  // Forming container for rendering.
+  $content_block = [
+    '#type' => 'container',
+    '#attributes' => ['id' => 'oh-tabs'],
+    'tabs' => [
+      '#theme' => 'item_list',
+      '#items' => $tabs_heading,
+    ],
+    'contents' => [
+      '#type' => 'markup',
+      '#markup' => drupal_render($div),
+    ],
+  ];
+
+  // Return rendered block into pane.
+  $variables['tabbed'] = drupal_render($content_block);
+}
