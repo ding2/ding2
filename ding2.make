@@ -67,6 +67,7 @@ projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/cre
 
 projects[eck][subdir] = "contrib"
 projects[eck][version] = "2.0-rc9"
+projects[eck][patch][] = "https://www.drupal.org/files/issues/eck-pdoexception-2109589-17.patch"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -464,8 +465,8 @@ projects[xautoload][version] = "5.7"
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
+libraries[bpi-client][download][tag] = "7.x-4.1.0"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-4.0.2"
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
@@ -525,7 +526,8 @@ libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][tag] = "7.x-4.0.2"
+libraries[ting-client][download][branch] = "master"
+libraries[ting-client][download][tag] = "7.x-4.1.0"
 libraries[ting-client][destination] = "modules/ting/lib"
 
 libraries[zen-grids][download][type] = "git"

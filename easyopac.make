@@ -121,7 +121,7 @@ projects[ding_library_opening_hours][type]             = "module"
 projects[ding_library_opening_hours][subdir]           = ""
 projects[ding_library_opening_hours][download][type]   = "git"
 projects[ding_library_opening_hours][download][url]    = "git@github.com:easySuite/ding_library_opening_hours.git"
-projects[ding_library_opening_hours][download][tag]    = "7.x-4.0.2"
+projects[ding_library_opening_hours][download][tag]    = "7.x-4.1.0"
 ;projects[ding_library_opening_hours][download][branch] = "development"
 
 projects[ding_menu_alt][type]             = "module"
