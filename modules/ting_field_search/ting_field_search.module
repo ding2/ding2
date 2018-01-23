@@ -659,13 +659,19 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     '#empty_option' => t('Search in all'),
     '#options' => $exposed_profiles,
     '#weight' => 10,
-    '#default_value' => $profile ? $profile : '',
+    '#default_value' => $default_profile,
   );
 
   // Store the active profile for later in form submission.
   $form['ting_field_search_profile'] = array(
     '#type' => 'hidden',
-    '#default_value' => $profile ? $profile : '',
+    '#default_value' => $profile ? $profile->name : '',
+  );
+
+  // Store whether the profile has fields, so we don't load it unnecessarily.
+  $form['ting_field_search_profile_has_fields'] = array(
+    '#type' => 'hidden',
+    '#default_value' => $profile ? !empty($profile->fields) : FALSE,
   );
 
   // Adding content search option into ting_field_search dropdown.
@@ -676,6 +682,52 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   $form['#validate'][] = 'ting_field_search_search_block_validate';
   // Redirect if an exposed profile was selected.
   $form['#submit'][] = 'ting_field_search_search_block_submit';
+
+  // Use an #after_build to remove our profile field queries from the main
+  // query.
+  $form['#after_build'][] = 'ting_field_search_search_block_form_after_build';
+}
+
+/**
+ * Form after build for search_block_form.
+ *
+ * This seems to be the only reliable way (with out changing module system
+ * weight) to override the default_value on search block form, such that it
+ * doesn't include profile field values.
+ */
+function ting_field_search_search_block_form_after_build($form, &$form_state) {
+  if (!$form_state['values']['ting_field_search_profile_has_fields']) {
+    return $form;
+  }
+  $profile = $form_state['values']['ting_field_search_profile'];
+  $profile = ting_field_search_profiles_load($profile);
+  if ($profile && !empty($profile->fields)) {
+    $query = $form['search_block_form']['#default_value'];
+    $keys = ting_field_search_extract_keys($query, array_keys($profile->fields));
+    // This seems to be run after default values are applied, so use #value.
+    $form['search_block_form']['#value'] = $keys['q'];
+  }
+  return $form;
+}
+
+/**
+ * Wrapper around ting_search_extract_keys() to add support for additional
+ * CQL operators.
+ */
+function ting_field_search_extract_keys($search_query, $keys) {
+  foreach ($keys as $key) {
+    // TOOO: Extract the indexes here and merge with the result from
+    // ting_search_extract_keys().
+    $search = $key . ' any ';
+    $replace = $key . '=';
+    // To be safe we make sure to replace the last occurrence of ' any ' with
+    // the index. This should be owned by our field.
+    // See: https://pageconfig.com/post/replace-last-occurrence-of-a-string-php
+    if (($pos = strpos($search_query, $search)) !== FALSE) {
+      $search_query = substr_replace($search_query, $replace, $pos, strlen($search));
+    }
+  }
+  return ting_search_extract_keys($search_query, $keys);
 }
 
 /**
@@ -725,6 +777,173 @@ function ting_field_search_search_block_submit($form, &$form_state) {
   if ($form_state['values']['ting_field_search'] == 'node') {
     $form_state['action'] = "search/node";
     $form_state['redirect'] = 'search/node/' . $form_state['values']['search_block_form'];
+  }
+}
+
+/**
+ * Form builder for a profile's field form.
+ */
+function ting_field_search_fields_form($form, &$form_state, $profile, $query = '') {
+  $form = array();
+
+  $form['profile'] = array(
+    '#type' => 'value',
+    '#value' => $profile,
+  );
+
+  // Extract our fields and their values from the search query.
+  $values = ting_field_search_extract_keys($query, array_keys($profile->fields));
+  $query = $values['q'];
+  unset($values['q']);
+
+  $form['sort'] = array(
+    '#type' => 'hidden',
+    '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : FALSE,
+    '#attributes' => array('id' => 'controls_search_sort'),
+  );
+  $form['size'] = array(
+    '#type' => 'hidden',
+    '#default_value' => isset($_GET['size']) ? (int) $_GET['size'] : FALSE,
+    '#attributes' => array('id' => 'controls_search_size'),
+  );
+  $form['query'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search'),
+    '#title_display' => 'invisible',
+    '#default_value' => $query,
+    '#attributes' => array('placeholder' => t('Search in @profile', array(
+      '@profile' => $profile->title,
+    ))),
+  );
+
+  $form['ting_field_search_fields'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Textfields'),
+    '#collapsible' => TRUE,
+    '#collapsed' => empty($values),
+    '#tree' => TRUE,
+    '#prefix' => '<div id="ting-field-search-fields-wrapper">',
+    '#suffix' => '</div>',
+  );
+
+  foreach ($profile->fields as $index => $field) {
+    $field_element = array(
+      '#type' => $field['type'],
+      '#title' => check_plain($field['title']),
+      '#title_display' => $field['title_display'] ? 'before' : 'invisible',
+      '#default_value' => isset($values[$index]) ? $values[$index] : '',
+      '#weight' => $field['weight'],
+    );
+
+    if ($field['type'] == 'textfield') {
+      $field_element['#default_value'] = isset($values[$index]) ? $values[$index] : '';
+      if ($field['placeholder']) {
+        $field_element['#attributes'] = array(
+          'placeholder' => check_plain($field['description'])
+        );
+      }
+    }
+    else if ($field['type'] == 'checkboxes') {
+      // Get each line of the field options.
+      $options = preg_split('/[\n\r]+/', $field['options']);
+      foreach ($options as $key => $value) {
+        list($search_key, $label) = explode('|', trim($value));
+        $options[$search_key] = $label;
+        unset($options[$key]);
+      }
+      $field_element['#options'] = $options;
+      $defaults = array();
+      if (isset($values[$index])) {
+        $defaults = explode(' ', trim($values[$index]));
+      }
+      $field_element['#default_value'] = $defaults;
+    }
+
+    $form['ting_field_search_fields'][$field['type']][$index] = $field_element;
+  }
+
+  $form['actions'] = array(
+    '#type' => 'actions',
+    '#attributes' => array('class' => array('clearfix')),
+  );
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Search in @profile', array('@profile' => $profile->title)),
+  );
+
+  $path = drupal_get_path('module', 'ting_field_search');
+  $form['#attached']['css'][] = $path . '/css/ting_field_search.fields.css';
+
+  return $form;
+}
+
+/**
+ * Submit handler for profiles fields form.
+ */
+function ting_field_search_fields_form_submit($form, &$form_state) {
+  // We need this override copied from core search module, since this is also
+  // a search form, which relies on redirect.
+  // (see http://drupal.org/node/292565).
+  if (isset($_GET['destination'])) {
+    unset($_GET['destination']);
+  }
+
+  // Query parameters for the search URI.
+  $params= array();
+
+  // Get the size and sort controls (copied from ting_search_submit()).
+  $s = $form_state['values']['sort'];
+  if ($s != "") {
+    $params['sort'] = $s;
+  }
+
+  $s = $form_state['values']['size'];
+  if ($s != "") {
+    $params['size'] = $s;
+  }
+
+  $profile = $form_state['values']['profile'];
+
+  $params['profile'] = $profile->name;
+
+  // Build a query from the profile fields to append to the main query.
+  $field_values = $form_state['values']['ting_field_search_fields'];
+  $field_query = array();
+  foreach ($profile->fields as $index => $field) {
+    $field_value = $field_values[$field['type']][$index];
+    switch ($field['type']) {
+      case 'textfield':
+        if ($field_value = trim($field_value)) {
+          $field_query[] = $field['index'] . '="' . $field_value. '"';
+        }
+        break;
+      case 'checkboxes':
+        if ($field_value = array_filter($field_value)) {
+          $field_query[] = $field['index'] . ' any "' . implode(" ", $field_value) . '"';
+        }
+        break;
+    }
+  }
+
+  // Build final query.
+  $query = array();
+  if (!empty($form_state['values']['query'])) {
+    $query[] = $form_state['values']['query'];
+  }
+  if (!empty($field_query)) {
+    $query[] = '(' . implode(' and ', $field_query) . ')';
+  }
+
+  if (empty($query)) {
+    form_set_error('keys', t('Please enter some keywords.'));
+  }
+  else {
+    $query = implode(' and ', $query);
+    $query = trim($query);
+    // Redirect and let ting_search page handle the rest.
+    $form_state['redirect'] = array('search/ting/' . $query, array(
+      'query' => $params,
+    ));
   }
 }
 
