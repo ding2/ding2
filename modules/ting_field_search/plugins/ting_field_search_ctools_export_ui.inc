@@ -347,6 +347,60 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     $form['facets']['table'][$index]['weight']['#default_value'] = $weight;
   }
 
+  // Field settings.
+  $form['config']['fields'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Fields'),
+    '#description' => '<strong>' . t('Field settings') . '</strong>',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => -10,
+  );
+
+  // Need a profile machine_name to add fields.
+  // TODO: Maybe use ctools object cache to provide a better user experience.
+  // See: https://www.webomelette.com/ctools-object-cache-multi-step-form
+  if (!empty($profile->name)) {
+    $form['config']['fields']['add_field'] = array(
+      '#prefix' => '<ul class="action-links"><li>',
+      '#type' => 'link',
+      '#title' => t('Add field'),
+      '#href' => 'admin/config/ting/ting-field-search-profiles/list/' . $profile->name . '/fields/add',
+      '#suffix' => '</li></ul>',
+    );
+  }
+
+  // Build field tables if present.
+  if (!empty($profile->fields)) {
+    // When displaying fields, we need to ensure they are sorted by weight:
+    ting_field_search_profile_fields_sort($profile);
+
+    $field_types = array();
+
+    $rows = array();
+    $row_elements = array();
+    foreach ($profile->fields as $key => $field) {
+      $row = _ting_field_search_build_field_row($field, $profile);
+      $row_elements[$field['index']] = array(
+        // We only allow field value to be manipulated in the table, so that is
+        // the only element we need outside the table.
+        'weight' => &$row['data'][3]['data'],
+      );
+      $rows[$key] = $row;
+    }
+
+    $header = array(t('Title'), t('Type'), t('Index') , t('Weight'), t('Operations'));
+    $form['config']['fields']['text']['table'] = array(
+      '#theme' => 'table',
+      'elements' => $row_elements,
+      '#header' => $header,
+      '#rows' => $rows,
+      '#attributes' => array('id' => 'fields-text'),
+    );
+    drupal_add_tabledrag('fields-text', 'order', 'sibling', 'field-weight');
+  }
+
+
   // Add some correcting CSS.
   $path = drupal_get_path('module', 'ting_field_search');
   $form['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
@@ -367,6 +421,15 @@ function ting_field_search_profile_export_form_submit($form, &$form_state) {
       $current = $facets[$key];
       if ($current['name']) {
         $profile->facets[] = $current;
+      }
+    }
+  }
+
+  // Update field weights.
+  if (!empty($form_state['values']['fields-text'])) {
+    foreach ($form_state['values']['fields-text'] as $index => $field_values) {
+      if (isset($profile->fields[$index])) {
+        $profile->fields[$index]['weight'] = $field_values['weight'];
       }
     }
   }
@@ -462,6 +525,50 @@ function _ting_field_search_build_facet_row($index, $facet = NULL) {
           '#options' => array('attributes' => array('title' => t('Delete facet.'))),
         ),
       ),
+    ),
+    'class' => array('draggable'),
+  );
+}
+
+/**
+ * Helper function to prepare a field row for tabledrag.
+ */
+function _ting_field_search_build_field_row($field, $profile) {
+  $base = 'admin/config/ting/ting-field-search-profiles/list/';
+  $base .= $profile->name . '/fields/' . $field['index'];
+  return array(
+    'data' => array(
+      array('data' => array(
+        '#markup' => $field['title'],
+      )),
+      array('data' => array(
+        '#markup' => $field['type'],
+      )),
+      array('data' => array(
+        '#markup' => $field['index'],
+      )),
+      array('data' => array(
+        '#type' => 'weight',
+        '#title' => t('Weight'),
+        '#default_value' => $field['weight'],
+        '#title_display' => 'invisible',
+        '#attributes' => array('class' => array('field-weight')),
+        '#parents' => array('fields-text', $field['index'], 'weight'),
+      )),
+      array('data' => array(
+        '#theme' => 'links',
+        '#attributes' => array('class' => array('inline')),
+        '#links' => array(
+          array(
+            'title' => t('Edit'),
+            'href' => $base . '/edit',
+          ),
+          array(
+            'title' => t('Delete'),
+            'href' => $base . '/delete',
+          ),
+        ),
+      )),
     ),
     'class' => array('draggable'),
   );

@@ -20,6 +20,54 @@ function ting_field_search_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function ting_field_search_menu() {
+  $items = array();
+
+  $items['admin/config/ting/ting-field-search-profiles/list/%ting_field_search_profiles/fields/add'] = array(
+    'title' => 'Add field',
+    'description' => 'Add a new field to a profile.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_field_search_field_form_add', 5),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_field_search.admin.inc',
+  );
+  $items['admin/config/ting/ting-field-search-profiles/list/%ting_field_search_profiles/fields/%/edit'] = array(
+    'title' => 'Edit field',
+    'description' => 'Edit an existing field on a profile.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_field_search_field_form_edit', 5, 7),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_field_search.admin.inc',
+  );
+  $items['admin/config/ting/ting-field-search-profiles/list/%ting_field_search_profiles/fields/%/delete'] = array(
+    'title' => 'Delete field',
+    'description' => 'Delete an existing field on a profile.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_field_search_field_delete_confirm_form', 5, 7),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_field_search.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_forms().
+ */
+function ting_field_search_forms() {
+  $forms = array();
+  $forms['ting_field_search_field_form_add'] = array(
+    'callback' => 'ting_field_search_field_form',
+  );
+  $forms['ting_field_search_field_form_edit'] = array(
+    'callback' => 'ting_field_search_field_form',
+  );
+  return $forms;
+}
+
+/**
  * Implements hook_panels_pane_prerender().
  *
  * We use this hook as a main entry for activating profiles. All the targeted
@@ -768,6 +816,9 @@ function ting_field_search_profiles_load_multiple($names = NULL) {
   }
 
   foreach ($profiles as $profile) {
+    if (!isset($profile->fields)) {
+      $profile->fields = array();
+    }
     // Apply defaults for any missing config values.
     foreach (ting_field_search_config_default() as $key => $config_defaults) {
       $config = isset($profile->config[$key]) ? $profile->config[$key] : array();
@@ -881,6 +932,7 @@ function ting_field_search_profile_create($set_defaults = TRUE) {
 
   // This wrapper gives us a chance to set some defaults.
   $profile->config = ting_field_search_config_default();
+  $profile->fields = array();
   $profile->facets = array();
 
   return $profile;
@@ -1020,6 +1072,19 @@ function _ting_field_search_profiles_weight_sort($profile_a, $profile_b) {
     return 0;
   }
   return $a_weight < $b_weight ? -1 : 1;
+}
+
+/**
+ * Sorts the fields on profile by weight.
+ */
+function ting_field_search_profile_fields_sort($profile) {
+  if (empty($profile->fields)) {
+    return;
+  }
+
+  uasort($profile->fields, function($a, $b) {
+    return $a['weight'] - $b['weight'];
+  });
 }
 
 /**
