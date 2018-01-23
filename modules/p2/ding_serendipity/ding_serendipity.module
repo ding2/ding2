@@ -1157,7 +1157,7 @@ function ding_serendipity_test_query_callback($form, &$form_state) {
         $list['#items'][] = '[' . $id . '] ' . $result->getTitle();
       }
 
-      if (!empty($results->more)) {
+      if (!empty($results->hasMoreResults())) {
         $list['#items'][] = '...';
       }
     }
