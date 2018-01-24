@@ -1338,3 +1338,27 @@ function ting_field_search_config_default() {
     ),
   );
 }
+
+/**
+ * Defines the field types we support.
+ */
+function ting_field_search_field_types() {
+  return array(
+    'textfield' => array(
+      'single' => t('Text field'),
+      'plural' => t('Text fields'),
+    ),
+    'checkboxes' => array(
+      'single' => t('Check boxes'),
+      'plural' => t('Check boxes'),
+    ),
+    'radios' => array(
+      'single' => t('Radios'),
+      'plural' => t('Radios'),
+    ),
+    'select' => array(
+      'single' => t('Dropdown'),
+      'plural' => t('Dropdowns')
+    ),
+  );
+}

@@ -39,16 +39,16 @@ function ting_field_search_field_form($form, &$form_state, $profile, $field_inde
   $form_state['field'] = $field;
   $form_state['profile'] = $profile;
 
+  $options = array();
+  foreach (ting_field_search_field_types() as $type => $labels) {
+    $options[$type] = $labels['single'];
+  }
+
   $form['type'] = array(
     '#type' => 'select',
     '#title' => t('Field type'),
     '#description' => t('Select a field type.'),
-    '#options' => array(
-      'textfield' => t('Text field'),
-      'checkboxes' => t('Check boxes'),
-      'radios' => t('Radios'),
-      'select' => t('Dropdown'),
-    ),
+    '#options' => $options,
     '#default_value' => $field['type'],
   );
   $form['title'] = array(
