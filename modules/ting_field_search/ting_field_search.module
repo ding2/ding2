@@ -828,15 +828,19 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
       '#weight' => $field['weight'],
     );
 
-    if ($field['type'] == 'textfield') {
-      $field_element['#default_value'] = isset($values[$index]) ? $values[$index] : '';
-      if ($field['placeholder']) {
+    if ($field['description_display']) {
+      // Textfields can show as placeholder.
+      if ($field['type'] == 'textfield' && $field['placeholder']) {
         $field_element['#attributes'] = array(
           'placeholder' => check_plain($field['description'])
         );
       }
+      else {
+        $field_element['#description'] = check_plain($field['description']);
+      }
     }
-    else if ($field['type'] == 'checkboxes') {
+
+    if ($field['type'] == 'checkboxes') {
       // Get each line of the field options.
       $options = preg_split('/[\n\r]+/', $field['options']);
       foreach ($options as $key => $value) {
