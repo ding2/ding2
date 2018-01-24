@@ -55,4 +55,6 @@ function ding_campaign_plus_facet_schema() {
  */
 function ding_campaign_plus_facet_uninstall() {
   drupal_uninstall_schema('ding_campaign_plus_facet');
+
+  variable_del('ding_campaign_plus_facets');
 }

@@ -18,6 +18,7 @@ function ding_campaign_plus_admin_settings($form, $form_state) {
     '#type' => 'fieldset',
     '#title' => t('Weight'),
     '#description' => t('Set the weight for the different triggers. If more campaigns are triggered by the same triggers these weights are used to determined which should be displayed.'),
+    '#weight' => -10,
   );
 
   // Build table options sorted by selected weight.

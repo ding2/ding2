@@ -24,11 +24,11 @@ function ding_campaign_plus_facet_ding_campaign_plus_info() {
  * Implements hook_ding_campaign_plus_default_weights().
  */
 function ding_campaign_plus_facet_ding_campaign_plus_default_weights() {
-  $facets = variable_get('ding_facetbrowser_facets', array());
+  $facets = _ding_campaign_plus_facet_get_facets();
 
   $weights = array();
   foreach ($facets as $facet) {
-    $weights[$facet['name']] = array(
+    $weights[$facet['facet']] = array(
       'prefix' => t('Facet'),
       'title' => $facet['title'],
       'weight' => 0,
@@ -36,6 +36,34 @@ function ding_campaign_plus_facet_ding_campaign_plus_default_weights() {
   }
 
   return $weights;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_campaign_plus_facet_menu() {
+  $items = array();
+  $items['admin/config/ding/campaigns_plus/%/delete'] = array(
+    'title' => 'Delete facets',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_campaign_plus_facet_delete', 4),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_campaign_plus_facet_theme($existing, $type, $theme, $path) {
+  $themes = array(
+    'ding_campaign_plus_facet_table_drag' => array(
+      'render element' => 'element'
+    ),
+  );
+  return $themes;
 }
 
 /**
@@ -159,9 +187,9 @@ function ding_campaign_plus_facet_ding_campaign_plus_matches($contexts, $style) 
  */
 function ding_campaign_plus_facet_auto_admin_form(array &$form_state, $default = array()) {
   $options = array();
-  $facets = variable_get('ding_facetbrowser_facets', array());
+  $facets = _ding_campaign_plus_facet_get_facets();
   foreach ($facets as $facet) {
-    $options[$facet['name']] = $facet['title'] . ' (' . $facet['name'] . ')';
+    $options[$facet['facet']] = $facet['title'] . ' (' . $facet['facet'] . ')';
   }
 
   return array(
@@ -180,6 +208,172 @@ function ding_campaign_plus_facet_auto_admin_form(array &$form_state, $default =
       '#default_value' => empty($default['facets']) ? '_none_' : $default['facets'],
     ),
   );
+}
+
+/**
+ * Implements hook_form_ding_campaign_plus_admin_settings_alter().
+ *
+ * Added form elements to the configuration form to define which facets should
+ * be available for facet triggers.
+ */
+function ding_campaign_plus_facet_form_ding_campaign_plus_admin_settings_alter(&$form, &$form_state, $form_id) {
+  $form['ding_campaign_plus_facets'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Facets',
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => 0,
+  );
+
+  $form['ding_campaign_plus_facets']['facets'] = array(
+    '#prefix' => '<div id="facets">',
+    '#suffix' => '</div>',
+    '#theme' => 'ding_campaign_plus_facet_table_drag',
+  );
+
+
+  $facets = _ding_campaign_plus_facet_get_facets();
+  foreach ($facets as $id => $facet) {
+    $form['ding_campaign_plus_facets']['facets'][$id]['facet'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Facet id'),
+      '#title_display' => 'invisible',
+      '#default_value' => $facet['facet'],
+    );
+
+    $form['ding_campaign_plus_facets']['facets'][$id]['title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Title'),
+      '#title_display' => 'invisible',
+      '#default_value' => $facet['title'],
+    );
+
+    $form['ding_campaign_plus_facets']['facets'][$id]['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#default_value' => $facet['weight'],
+      '#title_display' => 'invisible',
+      '#attributes' => array('class' => array('facet-weight')),
+    );
+
+    $form['ding_campaign_plus_facets']['facets'][$id]['action'] = array(
+      '#type' => 'link',
+      '#title' => t('delete'),
+      '#href' =>  'admin/config/ding/campaigns_plus/' . $facet['facet'] . '/delete',
+      '#options' => array('attributes' => array('title' => t('Delete facet.'))),
+    );
+  }
+
+  $id++;
+  $form['ding_campaign_plus_facets']['facets'][$id]['facet'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Facet id'),
+    '#default_value' => '',
+  );
+
+  $form['ding_campaign_plus_facets']['facets'][$id]['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => '',
+  );
+
+  $form['ding_campaign_plus_facets']['facets'][$id]['weight'] = array(
+    '#type' => 'weight',
+    '#title' => t('Weight'),
+    '#default_value' => 10,
+    '#attributes' => array('class' => array('facet-weight')),
+  );
+
+  $form += array('#submit' => array());
+  $form['#submit'][] = 'ding_campaign_plus_facet_admin_settings_form_submit';
+}
+
+/**
+ * Submit handler for the administration form.
+ */
+function ding_campaign_plus_facet_admin_settings_form_submit($form, $form_state) {
+  $facets = $form_state['values']['ding_campaign_plus_facets']['facets'];
+  foreach ($facets as $id => $facet) {
+    if (empty($facet['facet'])) {
+      unset($facets[$id]);
+    }
+  }
+
+  variable_set('ding_campaign_plus_facets', $facets);
+}
+
+/**
+ * Menu callback for facet delete confirm.
+ *
+ * @param $form_id
+ *   ID of the form calling the delete action.
+ * @param $form_state
+ *   The state of the form.
+ * @param $facet_id
+ *   The ID of the facets to remove.
+ *
+ * @return mixed
+ *   Confirmation for.
+ */
+function ding_campaign_plus_facet_delete($form_id, $form_state, $facet_id) {
+  $form['facet_id'] = array(
+    '#type' => 'value',
+    '#value' => $facet_id,
+  );
+  return confirm_form($form, t("Are you sure you want to delete @facet?", array('@facet' => $facet_id)), 'admin/config/ding/campaigns_plus');
+}
+
+/**
+ * Submit handler for the delete facet confirmation form.
+ */
+function ding_campaign_plus_facet_delete_submit($form, &$form_state) {
+  $facets = variable_get('ding_campaign_plus_facets', array());
+  foreach ($facets as $key => $facet) {
+    if ($facet['facet'] == $form_state['values']['facet_id']) {
+      unset($facets[$key]);
+    }
+  }
+  variable_set('ding_campaign_plus_facets', $facets);
+  drupal_set_message(t('@facet deleted.', array('@facet' => $form_state['values']['facet_id'])));
+  $form_state['redirect'] = 'admin/config/ding/campaigns_plus';
+}
+
+/**
+ * Default theme function for facet table.
+ *
+ * Add draggable table layout to facet table.
+ *
+ * @param array $vars
+ *   The variables for this theme function (form element).
+ *
+ * @return string
+ *  The formatted table.
+ */
+function theme_ding_campaign_plus_facet_table_drag($vars) {
+  drupal_add_tabledrag('campaign-facets', 'order', 'sibling', 'facet-weight');
+
+  $rows = array();
+  foreach (element_children($vars['element']) as $id) {
+    $facet = $vars['element'][$id];
+    $row = array();
+    $row[] = drupal_render($facet['facet']);
+    $row[] = drupal_render($facet['title']);
+    $row[] = drupal_render($facet['weight']);
+    $row[] = drupal_render($facet['action']);
+
+    $rows[] = array(
+      'data' => $row,
+      'class' => array('draggable'),
+    );
+  }
+
+  $header = array(t('Facet'), t('Title'), t('Weight'), t('Operations'));
+  return theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+    'attributes' => array('id' => 'campaign-facets'),
+  ));
 }
 
 /**
@@ -347,9 +541,9 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
   );
 
   $options = array();
-  $facets = variable_get('ding_facetbrowser_facets', array());
+  $facets = _ding_campaign_plus_facet_get_facets();
   foreach ($facets as $facet) {
-    $options[$facet['name']] = $facet['title'];
+    $options[$facet['facet']] = $facet['title'];
   }
 
   $form['facet'] = array(
@@ -473,6 +667,31 @@ function _ding_campaign_plus_facet_get_rules($nid, array $rules) {
   }
 
   return $filtered[$nid];
+}
+
+/**
+ * Get facets.
+ *
+ * Default to facet-browser defined facets and fallback to the camping
+ * configured facets.
+ *
+ * @return array
+ *   The facets made available for this module.
+ */
+function _ding_campaign_plus_facet_get_facets() {
+  $facets = variable_get('ding_campaign_plus_facets', NULL);
+  if (is_null($facets)) {
+    $facets = variable_get('ding_facetbrowser_facets', array());
+    $facets = array_map(function($facet) {
+      return array(
+        'facet' => $facet['name'],
+        'title' => $facet['title'],
+        'weight' => $facet['weight'],
+      );
+    }, $facets);
+  }
+
+  return $facets;
 }
 
 /**
