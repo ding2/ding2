@@ -816,6 +816,8 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
     ))),
   );
 
+  $form['ting_field_search_fields'] = array('#tree' => TRUE);
+
   // Build a form element for each field on the profile.
   $field_elements = array();
 
@@ -868,7 +870,6 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
       '#title' => $types[$type]['plural'],
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
-      '#tree' => FALSE,
       '#attributes' => array('class' => array(
         'ting-field-search-field-group'
       )),
