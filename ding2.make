@@ -245,7 +245,7 @@ projects[memcache][version] = "1.6"
 
 projects[menu_block][subdir] = "contrib"
 projects[menu_block][version] = "2.7"
-; Add support for features export of blocks
+; Add support for features export of blocks.
 ; https://www.drupal.org/node/693302
 ; The patch here add a database table, which is already created in a previous hook_update (from a previous patch).
 ; We have to modify it for our use.
@@ -483,6 +483,24 @@ projects[ask_vopros][download][tag] = "1.5"
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
 
+projects[mkdru][subdir] = "contrib"
+projects[mkdru][version] = "1.9"
+
+projects[mkdru_ding][type] = "module"
+projects[mkdru_ding][download][type] = "git"
+projects[mkdru_ding][download][url] = "https://github.com/easySuite/mkdru_ding.git"
+projects[mkdru_ding][download][branch] = "develop"
+
+projects[ding_mkws][type] = "module"
+projects[ding_mkws][download][type] = "git"
+projects[ding_mkws][download][url] = "https://github.com/easySuite/ding_mkws.git"
+projects[ding_mkws][download][branch] = "development"
+
+projects[ding_spt_statistics][type] = "module"
+projects[ding_spt_statistics][download][type] = "git"
+projects[ding_spt_statistics][download][url] = "https://github.com/easySuite/ding_spt_statistics.git"
+projects[ding_spt_statistics][download][branch] = "development"
+
 ; Libraries
 ; For ding_libs.
 libraries[bpi-client][destination] = "modules/bpi/lib"
@@ -604,3 +622,13 @@ libraries[smart-app-banner][download][type] = "get"
 libraries[smart-app-banner][download][url] = https://github.com/kudago/smart-app-banner/archive/v1.3.0.zip
 libraries[smart-app-banner][directory_name] = "smart-app-banner"
 libraries[smart-app-banner][destination] = "libraries"
+
+libraries[pz2][download][type] = "get"
+libraries[pz2][download][url] = http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz
+libraries[pz2][directory_name] = "pz2"
+libraries[pz2][destination] = "libraries"
+
+libraries[jsrender][download][type] = "get"
+libraries[jsrender][download][url] = https://github.com/BorisMoore/jsrender/archive/master.zip
+libraries[jsrender][directory_name] = "jsrender"
+libraries[jsrender][destination] = "libraries"
