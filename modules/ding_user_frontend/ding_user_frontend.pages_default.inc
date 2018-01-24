@@ -503,32 +503,6 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->uuid = 'b3e8f15d-edc1-4157-8c03-55bfd5db84c0';
     $display->content['new-b3e8f15d-edc1-4157-8c03-55bfd5db84c0'] = $pane;
     $display->panels['main_content'][0] = 'new-b3e8f15d-edc1-4157-8c03-55bfd5db84c0';
-    $pane = new stdClass();
-    $pane->pid = 'new-d8e66878-81ac-4da6-9c30-eb876b25af49';
-    $pane->panel = 'main_content';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_user_frontend-ding-user-loan-number';
-    $pane->shown = FALSE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => 'sdfsdf',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'user-loan-status-wrapper',
-    );
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = 'd8e66878-81ac-4da6-9c30-eb876b25af49';
-    $display->content['new-d8e66878-81ac-4da6-9c30-eb876b25af49'] = $pane;
-    $display->panels['main_content'][1] = 'new-d8e66878-81ac-4da6-9c30-eb876b25af49';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
