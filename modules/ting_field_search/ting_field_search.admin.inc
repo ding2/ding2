@@ -21,7 +21,7 @@ function ting_field_search_field_form($form, &$form_state, $profile, $field_inde
   $field = array(
     'type' => 'textfield',
     'title' => '',
-    'title_display' => 0,
+    'title_display' => FALSE,
     'description' => '',
     'description_display' => TRUE,
     'prefix' => '',
@@ -63,6 +63,7 @@ function ting_field_search_field_form($form, &$form_state, $profile, $field_inde
   $form['title_display'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display title'),
+    '#default_value' => $field['title_display'],
   );
   $form['description'] = array(
     '#type' => 'textfield',
