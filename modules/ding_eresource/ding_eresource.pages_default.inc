@@ -105,37 +105,6 @@ function ding_eresource_default_page_manager_handlers() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-203b68b0-35f7-4be2-bac3-b300a7e5f01c';
-    $pane->panel = 'content';
-    $pane->type = 'taxonomy_menu';
-    $pane->subtype = 'taxonomy_menu';
-    $pane->shown = FALSE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'slug' => 'e-materialer',
-      'default_link_text' => 'All categories',
-      'dropdown' => 0,
-      'vocabulary' => 'e_resource_category',
-      'base' => '',
-      'context' => array(
-        0 => 'relationship_entity_from_field:field_ding_eresource_category-node-taxonomy_term_1',
-        1 => 'empty',
-      ),
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '203b68b0-35f7-4be2-bac3-b300a7e5f01c';
-    $display->content['new-203b68b0-35f7-4be2-bac3-b300a7e5f01c'] = $pane;
-    $display->panels['content'][0] = 'new-203b68b0-35f7-4be2-bac3-b300a7e5f01c';
-    $pane = new stdClass();
     $pane->pid = 'new-9585f181-cf01-4270-a7fd-b981246d6e2c';
     $pane->panel = 'content';
     $pane->type = 'node_content';
@@ -163,11 +132,11 @@ function ding_eresource_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = '';
     $pane->uuid = '9585f181-cf01-4270-a7fd-b981246d6e2c';
     $display->content['new-9585f181-cf01-4270-a7fd-b981246d6e2c'] = $pane;
-    $display->panels['content'][1] = 'new-9585f181-cf01-4270-a7fd-b981246d6e2c';
+    $display->panels['content'][0] = 'new-9585f181-cf01-4270-a7fd-b981246d6e2c';
     $pane = new stdClass();
     $pane->pid = 'new-fb3893c4-f99a-47a1-989f-46b5483382fd';
     $pane->panel = 'content';
@@ -199,11 +168,11 @@ function ding_eresource_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 1;
     $pane->locks = '';
     $pane->uuid = 'fb3893c4-f99a-47a1-989f-46b5483382fd';
     $display->content['new-fb3893c4-f99a-47a1-989f-46b5483382fd'] = $pane;
-    $display->panels['content'][2] = 'new-fb3893c4-f99a-47a1-989f-46b5483382fd';
+    $display->panels['content'][1] = 'new-fb3893c4-f99a-47a1-989f-46b5483382fd';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-9585f181-cf01-4270-a7fd-b981246d6e2c';
   $handler->conf['display'] = $display;
