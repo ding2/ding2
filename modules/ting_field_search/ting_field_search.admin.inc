@@ -23,6 +23,7 @@ function ting_field_search_field_form($form, &$form_state, $profile, $field_inde
     'title' => '',
     'title_display' => 0,
     'description' => '',
+    'description_display' => TRUE,
     'prefix' => '',
     'suffix' => '',
     'placeholder' => 1,
@@ -70,6 +71,11 @@ function ting_field_search_field_form($form, &$form_state, $profile, $field_inde
     '#maxlength' => 128,
     '#default_value' => $field['description'],
   );
+  $form['description_display'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display description'),
+    '#default_value' => $field['description_display'],
+  );
   $form['placeholder'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show description as placeholder text (only applies to textfields)'),
@@ -77,6 +83,7 @@ function ting_field_search_field_form($form, &$form_state, $profile, $field_inde
     '#states' => array(
       'visible' => array(
         ':input[name="type"]' => array('value' => 'textfield'),
+        ':input[name="description_display"]' => array('checked' => TRUE),
       ),
     ),
   );
