@@ -7,36 +7,60 @@
 #ting-field-search-fields-form .form-item-query {
   max-width: none;
   margin-top: 30px;
+  margin-bottom: 25px;
 }
 
 /* Prpfile page submit */
 #ting-field-search-fields-form input[type="submit"] {
   float: right;
-  padding-right: 60px;
+  padding-right: 40px;
 }
 
-#ting-field-search-fields-wrapper {
-  margin-bottom: 25px;
+/* Field groups*/
+.ting-field-search-field-group.collapsible {
+  margin-bottom: 0;
+  border-top: 1px solid rgba(120, 120, 120, 0.2);
+  padding: 45px 0 60px;
 }
 
-#ting-field-search-fields-wrapper .form-type-textfield,
-#ting-field-search-fields-wrapper .form-type-checkboxes {
+.ting-field-search-field-group .fieldset.collapsible {
+  padding: 28px 0 0;
+}
+
+/* Title on field group  */
+.ting-field-search-field-group .fieldset-legend .fieldset-title {
+  display: inline-block;
+  width: 100%;
+}
+
+.ting-field-search-field-group.collapsible .fieldset-title::after {
+  top: 25px;
+}
+
+.ting-field-search-field-group .fieldset-wrapper {
+  width: 100%;
+}
+
+/* Check boxes */
+.ting-field-search-field-group .form-type-checkboxes > label {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.ting-field-search-field-group .fieldset-wrapper .form-type-textfield,
+.ting-field-search-field-group .fieldset-wrapper .form-type-checkboxes {
   width: 33.3333%;
   float: left;
-  padding: 20px 10px;
+  padding: 20px 10px 0;
   margin: 0;
 }
 
-#ting-field-search-fields-wrapper div.form-type-textfield:first-child,
-#ting-field-search-fields-wrapper div.form-type-checkboxes:first-child  {
+.ting-field-search-field-group div.form-type-textfield:first-child,
+.ting-field-search-field-group div.form-type-checkboxes:first-child  {
   padding-left: 0;
 }
 
-#ting-field-search-fields-wrapper div.form-type-textfield:last-child,
-#ting-field-search-fields-wrapper div.form-type-checkboxes:last-child  {
-  padding-left: 0;
-}
-
-#ting-field-search-fields-wrapper .form.submit {
-  padding: 20px 80px 14px 15px;
+.ting-field-search-field-group div.form-type-textfield:last-child,
+.ting-field-search-field-group div.form-type-checkboxes:last-child  {
+  padding-right: 0;
 }
