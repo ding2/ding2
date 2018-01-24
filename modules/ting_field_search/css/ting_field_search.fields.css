@@ -42,7 +42,8 @@
 }
 
 /* Check boxes */
-.ting-field-search-field-group .form-type-checkboxes > label {
+.ting-field-search-field-group .form-type-checkboxes > label,
+.ting-field-search-field-group .form-type-textfield > label {
   font-size: 18px;
   margin-bottom: 15px;
 }
