@@ -816,15 +816,8 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
     ))),
   );
 
-  $form['ting_field_search_fields'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Textfields'),
-    '#collapsible' => TRUE,
-    '#collapsed' => empty($values),
-    '#tree' => TRUE,
-    '#prefix' => '<div id="ting-field-search-fields-wrapper">',
-    '#suffix' => '</div>',
-  );
+  // Build a form element for each field on the profile.
+  $field_elements = array();
 
   foreach ($profile->fields as $index => $field) {
     $field_element = array(
@@ -859,7 +852,27 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
       $field_element['#default_value'] = $defaults;
     }
 
-    $form['ting_field_search_fields'][$field['type']][$index] = $field_element;
+    $field_elements[$field['type']][$index] = $field_element;
+  }
+
+  $types = ting_field_search_field_types();
+
+  // Build a field group for each type of field on the profile.
+  foreach (array_keys($field_elements) as $type) {
+    $field_group = array(
+      '#type' => 'fieldset',
+      '#title' => $types[$type]['plural'],
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#tree' => FALSE,
+      '#attributes' => array('class' => array(
+        'ting-field-search-field-group'
+      )),
+    );
+
+    $field_group = array_merge($field_group, $field_elements[$type]);
+
+    $form['ting_field_search_fields'][$type] = $field_group;
   }
 
   $form['actions'] = array(
