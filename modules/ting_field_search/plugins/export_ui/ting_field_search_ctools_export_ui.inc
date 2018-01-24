@@ -375,29 +375,38 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     // When displaying fields, we need to ensure they are sorted by weight:
     ting_field_search_profile_fields_sort($profile);
 
-    $field_types = array();
-
     $rows = array();
     $row_elements = array();
     foreach ($profile->fields as $key => $field) {
       $row = _ting_field_search_build_field_row($field, $profile);
-      $row_elements[$field['index']] = array(
+      $type = $field['type'];
+      $row_elements[$type][$key] = array(
         // We only allow field value to be manipulated in the table, so that is
         // the only element we need outside the table.
         'weight' => &$row['data'][3]['data'],
       );
-      $rows[$key] = $row;
+      $rows[$type][$key] = $row;
     }
 
-    $header = array(t('Title'), t('Type'), t('Index') , t('Weight'), t('Operations'));
-    $form['config']['fields']['text']['table'] = array(
-      '#theme' => 'table',
-      'elements' => $row_elements,
-      '#header' => $header,
-      '#rows' => $rows,
-      '#attributes' => array('id' => 'fields-text'),
-    );
-    drupal_add_tabledrag('fields-text', 'order', 'sibling', 'field-weight');
+    // Build a table render array for each field type.
+    foreach (array_keys($rows) as $type) {
+      $form['config']['fields'][$type] = array(
+        '#type' => 'fieldset',
+        '#title' => $type,
+        '#description' => t('Fields in %type', array('%type' => $type)),
+        '#collapsible' => TRUE,
+      );
+      $header = array(t('Title'), t('Type'), t('Index') , t('Weight'), t('Operations'));
+      $table_id = 'fields-' . $type;
+      $form['config']['fields'][$type]['table'] = array(
+        '#theme' => 'table',
+        'elements' => $row_elements[$type],
+        '#header' => $header,
+        '#rows' => $rows[$type],
+        '#attributes' => array('id' => $table_id),
+      );
+      drupal_add_tabledrag($table_id, 'order', 'sibling', 'field-weight');
+    }
   }
 
 
@@ -412,7 +421,7 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
  * Submit handler for the profile save form.
  */
 function ting_field_search_profile_export_form_submit($form, &$form_state) {
-  $profile = $form_state['item'];
+  $profile = &$form_state['item'];
 
   // Mark any input facet with an empty name to be deleted.
   $profile->facets = array();
@@ -426,11 +435,9 @@ function ting_field_search_profile_export_form_submit($form, &$form_state) {
   }
 
   // Update field weights.
-  if (!empty($form_state['values']['fields-text'])) {
-    foreach ($form_state['values']['fields-text'] as $index => $field_values) {
-      if (isset($profile->fields[$index])) {
-        $profile->fields[$index]['weight'] = $field_values['weight'];
-      }
+  foreach ($form_state['values']['field-weights'] as $index => $value) {
+    if (isset($profile->fields[$index])) {
+      $profile->fields[$index]['weight'] = $value['weight'];
     }
   }
 
@@ -553,7 +560,7 @@ function _ting_field_search_build_field_row($field, $profile) {
         '#default_value' => $field['weight'],
         '#title_display' => 'invisible',
         '#attributes' => array('class' => array('field-weight')),
-        '#parents' => array('fields-text', $field['index'], 'weight'),
+        '#parents' => array('field-weights', $field['index'], 'weight'),
       )),
       array('data' => array(
         '#theme' => 'links',
