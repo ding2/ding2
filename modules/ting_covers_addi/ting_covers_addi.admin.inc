@@ -24,7 +24,7 @@ function ting_covers_addi_admin_settings_form($form, &$form_state) {
   $form['addi']['ting_covers_addi_wsdl_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Service URL'),
-    '#description' => t('URL to the Additional Information webservice, e.g. http://moreinfo.addi.dk/2.11'),
+    '#description' => t('URL to the Additional Information webservice, e.g. https://moreinfo.addi.dk/2.11'),
     '#required' => TRUE,
     '#default_value' => variable_get('ting_covers_addi_wsdl_url', ''),
   );
