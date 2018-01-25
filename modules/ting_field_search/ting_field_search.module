@@ -842,7 +842,7 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
       }
     }
 
-    if ($field['type'] == 'checkboxes') {
+    if (in_array($field['type'], array('checkboxes', 'radios', 'select'))) {
       // Get each line of the field options.
       $options = preg_split('/[\n\r]+/', $field['options']);
       foreach ($options as $key => $value) {

@@ -42,17 +42,25 @@
 
 /* Check boxes */
 .ting-field-search-field-group .form-type-checkboxes > label,
-.ting-field-search-field-group .form-type-textfield > label {
+.ting-field-search-field-group .form-type-textfield > label,
+.ting-field-search-field-group .form-type-radios > label,
+.ting-field-search-field-group .form-type-select > label {
   font-size: 18px;
   margin-bottom: 15px;
 }
 
 .ting-field-search-field-group .fieldset-wrapper .form-type-textfield,
-.ting-field-search-field-group .fieldset-wrapper .form-type-checkboxes {
+.ting-field-search-field-group .fieldset-wrapper .form-type-checkboxes,
+.ting-field-search-field-group .fieldset-wrapper .form-type-radios,
+.ting-field-search-field-group .fieldset-wrapper .form-type-select {
   width: 33.3333%;
   float: left;
   padding: 20px 10px 0;
   margin: 0;
+}
+
+.ting-field-search-field-group .fieldset-wrapper .form-type-select {
+  padding: 20px 0 0;
 }
 
 .ting-field-search-field-group div.form-type-textfield:first-child,
