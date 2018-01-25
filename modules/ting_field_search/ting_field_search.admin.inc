@@ -21,7 +21,7 @@ function ting_field_search_field_form($form, &$form_state, $profile, $field_inde
   $field = array(
     'type' => 'textfield',
     'title' => '',
-    'title_display' => FALSE,
+    'title_display' => TRUE,
     'description' => '',
     'description_display' => TRUE,
     'prefix' => '',
