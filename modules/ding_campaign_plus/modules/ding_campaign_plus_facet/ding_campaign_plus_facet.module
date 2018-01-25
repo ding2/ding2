@@ -675,20 +675,76 @@ function _ding_campaign_plus_facet_get_rules($nid, array $rules) {
  * Default to facet-browser defined facets and fallback to the camping
  * configured facets.
  *
+ * @param bool $reset
+ *   If TRUE cache is reset (default: FALSE).
+ *
  * @return array
  *   The facets made available for this module.
  */
-function _ding_campaign_plus_facet_get_facets() {
-  $facets = variable_get('ding_campaign_plus_facets', NULL);
-  if (is_null($facets)) {
-    $facets = variable_get('ding_facetbrowser_facets', array());
-    $facets = array_map(function($facet) {
-      return array(
-        'facet' => $facet['name'],
-        'title' => $facet['title'],
-        'weight' => $facet['weight'],
+function _ding_campaign_plus_facet_get_facets($reset = FALSE) {
+  $facets = &drupal_static(__FUNCTION__, array());
+
+  if (empty($facets) || $reset) {
+    $facets = variable_get('ding_campaign_plus_facets', NULL);
+    if (is_null($facets)) {
+      $facets = variable_get('ding_facetbrowser_facets', array());
+      $facets = array_map(function ($facet) {
+        return array(
+          'facet' => $facet['name'],
+          'title' => $facet['title'],
+          'weight' => $facet['weight'],
+        );
+      }, $facets);
+    }
+  }
+
+  return $facets;
+}
+
+/**
+ * Build facets used in search queries.
+ *
+ * This is an combination of the default facets combined with the facets defined
+ * in the administration interface in this module.
+ *
+ * @param bool $reset
+ *   If TRUE cache is reset (default: FALSE).
+ *
+ * @return array
+ *   The facets that should be used to check if facet campaign can be triggered.
+ */
+function _ding_campaign_plus_facet_build_search_facets($reset = FALSE) {
+  $facets = &drupal_static(__FUNCTION__, array());
+
+  if (empty($facets) || $reset) {
+    if (module_exists('ding_facetbrowser')) {
+      // Populate facets with configured facets.
+      foreach (variable_get('ding_facetbrowser_facets', array()) as $facet) {
+        $facets[] = $facet['name'];
+      }
+    }
+    else {
+      // Fallback to the CMS's default facets as defined in the ting client.
+      $facets = array(
+        'facet.subject',
+        'facet.creator',
+        'facet.type',
+        'facet.category',
+        'facet.language',
+        'facet.date',
+        'facet.acSource',
       );
-    }, $facets);
+    }
+
+    // Merge the campaign plus facet into default facets.
+    $campaign_facets = variable_get('ding_campaign_plus_facets', NULL);
+    if (!is_null($campaign_facets)) {
+      foreach ($campaign_facets as $campaign_facet) {
+        if (!in_array($campaign_facet['facet'], $facets)) {
+          $facets[] = $campaign_facet['facet'];
+        }
+      }
+    }
   }
 
   return $facets;
@@ -733,6 +789,7 @@ function _ding_campaign_plus_facet_match($keys) {
     module_load_include('client.inc', 'ting');
     $search_result = ting_do_search($query, 1, 1, array(
       'numFacets' => variable_get('ting_search_number_of_facets', 25),
+      'facets' => _ding_campaign_plus_facet_build_search_facets(),
     ));
 
     // Loop rules to find most common matches in facets.
