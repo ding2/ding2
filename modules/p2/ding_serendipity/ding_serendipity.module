@@ -392,7 +392,7 @@ function ding_serendipity_validate_materials(array $keys) {
   }
   $result = [];
   try {
-    $result = ding_serendipity_do_search($query, array('limit' => count($keys)));
+    $result = ding_serendipity_do_search($query, count($keys));
 
     foreach ($result as $item) {
       $sanitized[] = $item['id'];
@@ -459,7 +459,7 @@ function ding_serendipity_user_audience($account = NULL) {
 
   $query = ting_start_query()->setMaterialFilter($ids);
   if (!empty($ids)) {
-    foreach (ding_serendipity_do_search($query, array('limit' => count($ids))) as $collection) {
+    foreach (ding_serendipity_do_search($query, count($ids)) as $collection) {
       $entity = $collection['object']->getPrimary_object();
       /** @var TingEntity $entity */
       $audience = !empty($entity->getTingObject()->getAudience()) ? $entity->getTingObject()->getAudience() : FALSE;
