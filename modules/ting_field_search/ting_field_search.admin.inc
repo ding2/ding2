@@ -124,7 +124,11 @@ function ting_field_search_field_form($form, &$form_state, $profile, $field_inde
     '#default_value' => $field['options'],
     '#states' => array(
       'visible' => array(
-        ':input[name="type"]' => array('value' => 'checkboxes'),
+        ':input[name="type"]' => array(
+          array('value' => 'checkboxes'),
+          array('value' => 'radios'),
+          array('value' => 'select'),
+        ),
       ),
     ),
   );
