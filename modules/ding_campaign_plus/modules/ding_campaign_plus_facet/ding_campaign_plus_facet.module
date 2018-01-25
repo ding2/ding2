@@ -798,15 +798,20 @@ function _ding_campaign_plus_facet_match($keys) {
       if (isset($search_result->facets[$campaign->facet])) {
         $terms = $search_result->facets[$campaign->facet]->terms;
 
-        // Cut off all terms above the current triggers "most common" limit.
+        // Cut off all terms above the current triggers "most common" limit. The
+        // array keys are extracted as some facets has numbers as keys and it's
+        // the keys that are the facet names. The array slice will assume that
+        // strings as number are numbers a will reset theme. Which is not what
+        // we wan't here.
+        $terms = array_keys($terms);
         $terms = array_slice($terms, 0, $campaign->common);
 
         // Check if facets matches any of the terms left.
         foreach ($facets as $facet) {
           $facet = drupal_strtolower($facet);
-          if (isset($terms[$facet])) {
+          if (in_array($facet, $terms)) {
             if (!isset($triggers[$facet])) {
-              $triggers[$facet] = array();
+              $triggers[$campaign->facet] = array();
             }
             $triggers[$campaign->facet][] = $campaign->nid;
             break;
