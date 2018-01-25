@@ -177,7 +177,11 @@ function ding_campaign_plus_field_default_field_instances() {
       ),
     ),
     'deleted' => 0,
-    'description' => '',
+    'description' => '<b>Ribbon</b>:<br />
+Campaign ribbon are placed according to the page\'s primary content on eg. material view. The campaign has the same width as the page\'s column. Images for this view should be in a horizontal format such as the title picture.
+<br /><br />
+<b>Box</b>:<br />
+Campaign box is located at the bottom of the left column, on the page types where there are 2 columns. This view will be e.g. used when searching. Use pictures of the list image or a more square image if you want to utilize something more of the height.',
     'display' => array(
       'alternative_layout_full' => array(
         'label' => 'above',
@@ -381,6 +385,11 @@ function ding_campaign_plus_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('<b>Ribbon</b>:<br />
+Campaign ribbon are placed according to the page\'s primary content on eg. material view. The campaign has the same width as the page\'s column. Images for this view should be in a horizontal format such as the title picture.
+<br /><br />
+<b>Box</b>:<br />
+Campaign box is located at the bottom of the left column, on the page types where there are 2 columns. This view will be e.g. used when searching. Use pictures of the list image or a more square image if you want to utilize something more of the height.');
   t('Image');
   t('Link');
   t('Style');
