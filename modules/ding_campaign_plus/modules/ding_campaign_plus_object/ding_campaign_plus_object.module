@@ -129,7 +129,7 @@ function ding_campaign_plus_object_ding_campaign_plus_auto_trigger($config, $cam
   $trigger[DING_CAMPAIGN_PLUS_OBJECT_TYPE] = array('rules' => array());
 
   if ($config && !empty($subjects)) {
-    $value = 'facet.subject = ("';
+    $value = '("';
     $value .= implode('" or "', $subjects);
     $trigger[DING_CAMPAIGN_PLUS_OBJECT_TYPE]['rules'] = array(
       'query' => $value . '")',
