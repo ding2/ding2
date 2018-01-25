@@ -12,8 +12,7 @@
 
 /* Prpfile page submit */
 #ting-field-search-fields-form input[type="submit"] {
-  float: right;
-  padding-right: 40px;
+  padding-right: 15px;
 }
 
 /* Field groups*/
