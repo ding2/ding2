@@ -26,7 +26,12 @@ function ding_user_external_user_access_check($conf, $context) {
   if (empty($context) || empty($context[0]->data) || !user_is_logged_in()) {
     return FALSE;
   }
-  return (user_get_authmaps($context[0]->data->init) xor $conf);
+  // Ensure that the user has been externally authenticated by ding_user.
+  $query = db_select('authmap', 'a')
+    ->condition('uid', $context[0]->data->uid, '=')
+    ->condition('module', 'ding_user', '=');
+
+  return $query->countQuery()->execute()->fetchField();
 }
 
 /**
