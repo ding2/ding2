@@ -315,8 +315,11 @@
 
       case ddbasic.breakpoint.OUT:
         // Event max-two-rows view.
-        $('.view-ding-event.max-two-rows .view-elements-inner.slick-initialized').slick('unslick');
-        $('.two-slides .views-row').unwrap();
+        var carousels = $('.view-ding-event.max-two-rows .view-elements-inner.slick-initialized');
+        if (carousels.length > 0) {
+          carousels.slick('unslick');
+          $('.two-slides .views-row').unwrap();
+        }
 
         var doc_style = document.documentElement.style;
 
@@ -326,7 +329,10 @@
         }
 
         // Slide-on-mobile views.
-        $('.view.slide-on-mobile .view-content.slick-initialized').slick('unslick');
+        carousels = $('.view.slide-on-mobile .view-content.slick-initialized');
+        if (carousels.length > 0) {
+          carousels.slick('unslick');
+        }
 
         break;
       }
