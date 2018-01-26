@@ -282,7 +282,7 @@ function ting_infomedia_parse_for_errors(TingClientInfomediaResult $result) {
  * @return mixed
  *   FALSE is not verified or article else translated string.
  */
-function ting_infomedia_parse_for_article_error($part) {
+function ting_infomedia_parse_for_article_error(array $part) {
   $ret = FALSE;
 
   if (!$part['verified']) {
