@@ -1,9 +1,9 @@
 <?php
-
 /**
  * @file
  * Teplate for rendering Infomedia articles.
  */
+
 ?>
 <div  class="infomedia-article">
   <div class="infomedia-image">
