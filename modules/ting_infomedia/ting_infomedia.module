@@ -130,7 +130,7 @@ function ting_infomedia_ding_entity_buttons($type, $entity) {
     $build = array();
     $options = array(
       'attributes' => array(
-        'class' => 'button-see-online use-ajax',
+        'class' => 'action-button button-see-online use-ajax',
       ),
     );
     $build[] = array(
