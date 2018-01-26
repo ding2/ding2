@@ -174,3 +174,93 @@ It must be possible to retrieve a list of debts (fees) for a patron. For each de
 
 Given one or more debt ids and identification information for a patron, it must be possible to register these debts as paid.
 
+#### Search
+
+##### Search functionality
+
+It must be possible to search for items in the catalog based on a query string.
+
+It must be possible to search for items in the catalog based the item matching one or more values (OR or AND correlation) for a specific field. This can also be implemented as facets or indices. At least the following fields must be supported:
+
+* Acquisition date
+* Creator
+* Category
+* Language
+* Publication date
+* Subject
+* Title
+* Type
+
+It must be possible to search for items in the catalog based on a query containing multiple joined subqueries. Results must satisfy all subqueries (AND correlation).
+
+It must be possible to divide a search result into subsets e.g. by specifying an offset and a number of items requested.
+
+Items in the search result must be in an order which is meaningful to the query. It should be possible to specify one or more orders when executing a search.
+
+It must be possible to retrieve an item based on the id of said item. It should be possible to retrieve multiple items in a single request by providing multiple ids. 
+
+It must be possible to exclude items from a search result based on their id.
+
+It should be possible to retrieve facets and terms for a search result. Each term must include a count of how many items it refers to within the result.
+
+It should be possible to provide suggestions for queries based on a partial query. An example of a use case for this is autocompletion.
+
+It may be possible to group items within search results into collections e.g. different revisions or volumes of an item are shown as a single search result.
+
+It may be possible to perform a fuzzy search which includes results which do not match the query fully but are still deemed relevant.
+
+It may be possible to retrieve items which are deemed relevant to a specific item e.g. through collaborative filtering.  
+
+##### Item properties
+
+It must be possible to retrieve data about individual items within the library catalog. In this regard a item is considered a certain book, cd or other type of object - not the individual copies of the items.
+
+It must be possible to derive the following properties:
+
+* Id. The id for an item must be unique and should not change over time.
+* Title of the item. A short version of the title is also supported.
+* Names of one or more creators of the item
+* Item tyoe e.g. *Book* or *Audio CD*
+* Item source
+* Id of the item based on the source. If an item in the search system originates from the library system this should be the library system id.
+
+It should be possible to derive the following properties:
+
+* An abstract providing a summary
+* One or more subjects
+* Language of the item
+* Url to the item if it has a digital representation
+* Series name and order of the item.
+* Year the item was produced.
+
+It may be possible to derive the following properties:
+
+* Age for the target audience for the item
+* Target audience for the item
+* A description of physical appearance of the item
+* Size or duration of the item
+* File format, physical medium, or dimensions of the item
+* Genre of the item
+* ISBN of the item. Preferably ISBN-13.
+* Name(s) of musicians listed as contributors
+* Pan European Game Information (PEGI) rating for the item
+* Name of the publisher of the item
+* Ids of items which references this item
+* Version/revision of the item
+* Ids of newer items which replace this item
+* Ids of newer items which are replaced by this item
+* Information about rights held in and over the item
+* Spatial characteristics of the item
+* Spoken language within the item
+* Item subtitle languages
+* Titles of tracks in this item
+* Item revision name.
+* Item which contains this item e.g. a periodical issue containing an article.
+* Classification of the item
+* Names of one or more contributors of the item
+* Ids of items which are related 
+* Full text version of the item
+
+It must be possible to retrieve a cover image of an item - either directly from the search system  or indirectly through information provided through the search result.
+
+It must be possible to retrieve a list of all item types and sources used in the system.
