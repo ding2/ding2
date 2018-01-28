@@ -11,7 +11,7 @@ It searches for "phrase.titleSeries=B*", which is cryptic,
 but this should ensure we find series. As B is quite common as a starting 
 letter for some word in the title, this should actually work on most agencies.
 
-After that it uses **Then pageing allows to get all the results** (see Seek007),
+After that it uses **Then paging allows to get all the results** (see Seek007),
 to scrape off the result and finally it goes through
 **Then there are posts with "serie" in the search results**.
 

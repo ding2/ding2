@@ -28,7 +28,7 @@ The string given in the gherkin script will then be typed in, character
 by character, but with special keys preceded by a \.
 \n is newline. \t is tab. More could be added, but aren't at the time being.
 
-The script ends with "Then the pageing allows to get all the results".
+The script ends with "Then the paging allows to get all the results".
 This basically reads in the search result, and by doing so it will
 notify the user if no search was performed.
 

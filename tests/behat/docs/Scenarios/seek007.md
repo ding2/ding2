@@ -24,7 +24,7 @@ given.
 By using this method we can be certain we get a big enough search result to
 walk through.
 
-**When pageing allows to get all the results**
+**When paging allows to get all the results**
 is a very used method. It scrapes off all the results of the 
 search, page by page, and places the result in an internal array.
 

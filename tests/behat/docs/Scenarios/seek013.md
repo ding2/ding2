@@ -16,7 +16,7 @@ only selects the sort option from the drop down. It does do a check on whether x
 Again xx is validated, and if okay, the search result is checked from the top down on the page.
 The check respects the searchMaxPage-setting, if any, and thus only looks through that many pages.
 
-**NB:** Creators and titles are difficult to check, because they are sorted according to a sort-order value, which is only available in the opensearch results. This sorting respects "Aa" as "Å" for instance, and that makes checking this incredible difficult, because it is also not simple to look up the actual book (because searching does show collections as well) in the opensearch interface. For this reason the scenario that tests sorting for creator never fails, but uses the verbose mode and **Then pageing allows to get all the results** to display the results for the user instead. 
+**NB:** Creators and titles are difficult to check, because they are sorted according to a sort-order value, which is only available in the opensearch results. This sorting respects "Aa" as "Å" for instance, and that makes checking this incredible difficult, because it is also not simple to look up the actual book (because searching does show collections as well) in the opensearch interface. For this reason the scenario that tests sorting for creator never fails, but uses the verbose mode and **Then paging allows to get all the results** to display the results for the user instead. 
  
 
 
