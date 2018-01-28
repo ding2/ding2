@@ -40,32 +40,32 @@ Feature: SEEK redroute 01
   Scenario: S005 Search using typing of enter
     Given I am on "/"
     When I enter "larsen\n" in field "Søg"
-    Then pageing allows to get all the results
+    Then paging allows to get all the results
 
   @api @seek005 @seekNologin @regression @cci
   Scenario: S005 Search using click search button
     Given I am on "/"
     When I enter "hansen" in field "Søg"
     When I press "Søg"
-    Then pageing allows to get all the results
+    Then paging allows to get all the results
 
   @api @seek007 @seekNologin @regression @cci
   Scenario: S007 Check pagination
     Given I set control mode for "searchMaxPages" to be "100"
     Given I want a search result between "81-110" using "term.type=bog and term.creator=Hansen and term.publisher=Gyldendal" published between "2000-2017"
-    When pageing allows to get all the results
+    When paging allows to get all the results
     Then I check pagination on all pages
 
   @api @seek010  @seekNologin @regression @cci
   Scenario: S010 Check serie-angivelse is shown on search result
     Given I have searched for "phrase.titleSeries=B*"
-    When pageing allows to get all the results
+    When paging allows to get all the results
     Then there are posts with "serie" in the search results
 
   @api @seek011 @seekNologin @regression @cci
   Scenario: S011 Check materialetype is shown on search result
     Given I have searched for "phrase.titleSeries=A*"
-    When pageing allows to get all the results
+    When paging allows to get all the results
     Then all posts have "materialetype" in the search results
 
   @api @seek012 @seekNologin @regression
@@ -92,9 +92,9 @@ Feature: SEEK redroute 01
     Given I have searched for "term.language=dansk and phrase.titleSeries=B*"
     And I set verbose mode for "search-Results" to be "on"
     When I sort the search result on "creator_descending"
-    Then pageing allows to get all the results
+    Then paging allows to get all the results
     When I sort the search result on "creator_ascending"
-    Then pageing allows to get all the results
+    Then paging allows to get all the results
 
   @api @seek013 @seekNologin @regression @cci
   Scenario: S013 Check sorting for published date descending
@@ -112,17 +112,17 @@ Feature: SEEK redroute 01
   @api @seek014 @seekNologin @regression @cci
   Scenario: S014 Check tilgængelighed is shown on search result
     Given I have searched for "phrase.titleSeries=All*"
-    When pageing allows to get all the results
+    When paging allows to get all the results
     Then all posts have "tilgængelighed" in the search results
 
   @api @seek015 @seekNologin @regression @cci
   Scenario: S015 Check samlinger is shown on search result
     Given I have searched for "phrase.titleSeries=Harry*"
-    When pageing allows to get all the results
+    When paging allows to get all the results
     Then there are posts with "materialesamling" in the search results
 
   @api @seek016 @seekNologin @regression
   Scenario: S016 Check forsidebillede is shown on search result
     Given I have searched for "term.type=Bog and term.date='2014' and holdingsitem.accessionDate>='NOW-300DAYS'"
-    When pageing allows to get all the results
+    When paging allows to get all the results
     Then there are posts with "forside" in the search results

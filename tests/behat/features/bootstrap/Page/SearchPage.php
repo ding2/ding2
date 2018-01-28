@@ -187,7 +187,7 @@ class SearchPage extends PageBase {
     // First we check if we have a known search result in memory.
     $lastsearch = count($this->searchResults);
     if (!$lastsearch) {
-      return "No search result is present in memory. Use 'Then pageing allows to get all the results' first.";
+      return "No search result is present in memory. Use 'Then paging allows to get all the results' first.";
     }
 
     $lastpage = $this->searchResults[$lastsearch - 1]->page;
@@ -692,9 +692,9 @@ class SearchPage extends PageBase {
 
       // Ready for next page:
       $currentPageNumber = $currentPageNumber + 1;
-      $pageing = $this->find('css', '.pager .pager-next a');
+      $paging = $this->find('css', '.pager .pager-next a');
 
-      if (!$pageing) {
+      if (!$paging) {
         // We trust this means we are at the end of the search result and we have scooped everything up.
         $continueFlag = false;
       }

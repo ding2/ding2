@@ -181,7 +181,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
     catch (UnsupportedDriverActionException $e) {
       // Ignore, but make a note of it for the tester.
-      print_r("Before Scenario: resizeWindow fejlede. \n");
+      print_r("Before Scenario: resizeWindow failed. \n");
     }
   }
 
@@ -297,7 +297,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     // Now compare to the expected number.
     if ($this->searchPage->getExpectedSearchResultSize() != 0) {
       if ($this->searchPage->getExpectedSearchResultSize() != $resultSize) {
-        throw new Exception("Fandt ikke det forventede antal poster. (Fandt: " . $resultSize . ". Forventede:" . $this->searchPage->getExpectedSearchResultSize() . ")");
+        throw new Exception("Did not find the expected number of posts. (Found: " . $resultSize . ". Expected:" . $this->searchPage->getExpectedSearchResultSize() . ")");
       }
     }
     else {
@@ -306,7 +306,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * This is meant only to be used after a multipage search when pageing is in place.
+   * This is meant only to be used after a multipage search when paging is in place.
    *
    * @Then I check pagination on all pages
    * It goes through the latest stored search result and finds a random page which is accessible on the
@@ -926,12 +926,12 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Step
    *
-   * @Then pageing allows to get all the results
+   * @Then paging allows to get all the results
    * This retrieves the search result and stores it in the local array searchResults.
    * There can be several search results, so some garbage collection needs to be done.
    * The searchResult array will be reset before each scenario.
    */
-  public function pageingAllowsToGetAllResults() {
+  public function pagingAllowsToGetAllResults() {
     $this->check($this->searchPage->getEntireSearchResult(), ($this->searchPage->getVerboseSearchResult() == "on") ? $this->searchPage->getMessages() : '');
   }
 
