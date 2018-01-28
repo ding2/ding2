@@ -6,7 +6,7 @@ Suite for automated checking of DDB CMS.
 ## Preparation
 
 Install Behat.
-Check out the branch behat-testsuite.
+Check out the code.
 Install browser-support.
 
 #### installing Behat

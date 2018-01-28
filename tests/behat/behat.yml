@@ -22,8 +22,6 @@ default:
     jarnaiz\JUnitFormatter\JUnitFormatterExtension:
       filename: report.xml
       outputDir: "%paths.base%/"
-#    Behat\MinkExtension:
-#      goutte: ~git
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drush'
@@ -44,7 +42,7 @@ chrome:
         capabilities:
            browser: chrome
            chrome:
-             {switches:['--start_maximized', "--headless", "--disable-gpu"]}
+             {switches:['--start_maximized', "--headless", "--disable-gpu", "--no-first-run", "--disable-translate"]}
       default_session: 'selenium2'
       browser_name: 'chrome'
       javascript_session: selenium2
@@ -59,7 +57,7 @@ circleci:
            browser: chrome
            marionette: true
            chrome:
-             {switches:['--start_maximized', "--headless", "--disable-gpu"]}
+             {switches:['--start_maximized', "--headless", "--disable-gpu", "--no-first-run", "--disable-translate"]}
       default_session: 'selenium2'
       browser_name: 'chrome'
       javascript_session: selenium2
@@ -73,7 +71,7 @@ visible:
          capabilities:
            browser: chrome
            chrome:
-             {switches:['--start_maximized', "--disable-gpu"]}
+             {switches:['--start_maximized', "--disable-gpu", "--no-first-run", "--disable-translate"]}
       default_session: 'selenium2'
       browser_name: 'chrome'
       javascript_session: selenium2
