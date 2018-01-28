@@ -22,15 +22,13 @@ setup-config:
 
 	# Configure recommendation service
 	drush vset -y ting_recommendation_url 'http://openadhl.addi.dk/1.1/'
-	drush vset -y ting_infomedia_url 'http://useraccessinfomedia.addi.dk/1.1/'
+	drush vset -y ting_infomedia_url 'http://useraccessinfomedia.addi.dk/1.3/'
 
 	# Configure autocomplete
-	drush vset -y ting_search_autocomplete_suggestion_url 'http://opensuggestion.addi.dk/1.0/'
+	drush vset -y ting_search_autocomplete_suggestion_url 'http://opensuggestion.addi.dk/b3.5_2.0/'
 	drush vset -y ting_search_autocomplete_suggestion_method 'facets'
 	drush vset -y ting_search_autocomplete_suggestion_index 'scanterm.mainTitle'
 	drush vset -y ting_search_autocomplete_suggestion_facetindex 'scanphrase.mainTitle'
-
-
 
 	# Configure openlist.
 	drush vset -y ting_search_profile test

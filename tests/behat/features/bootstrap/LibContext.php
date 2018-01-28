@@ -671,7 +671,7 @@ class LibContext implements Context, SnippetAcceptingContext {
                 // Now we try to see if we can pick out an infomedia relation
                 // which is hidden as a full object under the relationObject-node.
                 // If only xpath would work, this code could be much simpler and better.
-                if ($rc1->nodeName == 'relationObject') {
+                if ($rc1->nodeName == 'relationObject' && $mRelType == 'ddcaddi:hasOnlineAccess') {
                   foreach($rc1->childNodes as $rc4) {
                     foreach($rc4->childNodes as $rc3) {
                       foreach($rc3->childNodes as $rc2) {

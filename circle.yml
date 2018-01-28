@@ -39,9 +39,6 @@ dependencies:
     - sudo a2enmod rewrite
     - sudo service apache2 restart
     # Start selenium.
-    #- case $CIRCLE_NODE_INDEX in 0) phantomjs --webdriver=4444 ;; 1) wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar && java -jar selenium-server-standalone-2.44.0.jar ;; esac:
-    #- wget http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar && java -jar selenium-server-standalone-3.8.1.jar:
-    #- wget http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar && java -jar selenium-server-standalone-3.5.3.jar:
     - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar && java -jar selenium-server-standalone-2.44.0.jar:
         background: true
 
@@ -56,9 +53,6 @@ test:
         parallel: true
 
   post:
-    # Copy Behat report and screendumps to circle.
-    #- cp $DRUPAL_SITE_PATH/profiles/ding2/tests/behat/results/Index.html $CIRCLE_TEST_REPORTS/behat/report.html
-    #- cp $DRUPAL_SITE_PATH/profiles/ding2/tests/behat/results/*.png $CIRCLE_TEST_REPORTS/behat
     # Clean up after site install.
     # sudo is required here. The files are not writeable.
     - sudo rm -rf $DRUPAL_SITE_PATH/sites/default/settings.php $DRUPAL_SITE_PATH/sites/default/files

@@ -20,3 +20,9 @@ Feature: Smoke tests
     And I accept cookies
     And I am logged in as a library user
 
+  @maintenanceonly 
+  Scenario: Update files after well is refreshed
+    Given I create files 'aim' from opensearch on relation 'accessInfoMedia'
+    Given I create files 'credesc' from opensearch on relation 'hasCreatorDescription'
+    Given I create files 'onlacc' from opensearch on relation 'hasOnlineAccess'
+    Given I create files 'hasrev' from opensearch on relation 'hasReview'
