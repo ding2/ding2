@@ -858,11 +858,35 @@ news/%tid:name',
     $display->content['new-bb26b1db-7e7e-4c3f-8956-183ed5e31146'] = $pane;
     $display->panels['left_sidebar'][0] = 'new-bb26b1db-7e7e-4c3f-8956-183ed5e31146';
     $pane = new stdClass();
+    $pane->pid = 'new-f1e2fb98-3c09-4b57-9f72-eed841e3fc36';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'block';
+    $pane->subtype = 'views--exp-ding_news-ding_news_list';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'inherit_path' => 1,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'f1e2fb98-3c09-4b57-9f72-eed841e3fc36';
+    $display->content['new-f1e2fb98-3c09-4b57-9f72-eed841e3fc36'] = $pane;
+    $display->panels['left_sidebar'][1] = 'new-f1e2fb98-3c09-4b57-9f72-eed841e3fc36';
+    $pane = new stdClass();
     $pane->pid = 'new-b4813802-1a27-4792-b1e2-90500530a32b';
     $pane->panel = 'left_sidebar';
     $pane->type = 'taxonomy_menu';
     $pane->subtype = 'taxonomy_menu';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'slug' => 'nyheder',
@@ -883,17 +907,17 @@ news/%tid:name',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = array();
     $pane->uuid = 'b4813802-1a27-4792-b1e2-90500530a32b';
     $display->content['new-b4813802-1a27-4792-b1e2-90500530a32b'] = $pane;
-    $display->panels['left_sidebar'][1] = 'new-b4813802-1a27-4792-b1e2-90500530a32b';
+    $display->panels['left_sidebar'][2] = 'new-b4813802-1a27-4792-b1e2-90500530a32b';
     $pane = new stdClass();
     $pane->pid = 'new-1b296b9b-ddc2-4c6a-8447-84b7e4380270';
     $pane->panel = 'left_sidebar';
     $pane->type = 'library_list';
     $pane->subtype = 'library_list';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array(
       'plugins' => array(
         0 => array(
@@ -924,11 +948,11 @@ news/%tid:name',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 3;
     $pane->locks = '';
     $pane->uuid = '1b296b9b-ddc2-4c6a-8447-84b7e4380270';
     $display->content['new-1b296b9b-ddc2-4c6a-8447-84b7e4380270'] = $pane;
-    $display->panels['left_sidebar'][2] = 'new-1b296b9b-ddc2-4c6a-8447-84b7e4380270';
+    $display->panels['left_sidebar'][3] = 'new-1b296b9b-ddc2-4c6a-8447-84b7e4380270';
     $pane = new stdClass();
     $pane->pid = 'new-ed3bd36b-3b75-4103-8826-db8e20c8b8d6';
     $pane->panel = 'left_sidebar';
@@ -960,11 +984,11 @@ news/%tid:name',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 4;
     $pane->locks = '';
     $pane->uuid = 'ed3bd36b-3b75-4103-8826-db8e20c8b8d6';
     $display->content['new-ed3bd36b-3b75-4103-8826-db8e20c8b8d6'] = $pane;
-    $display->panels['left_sidebar'][3] = 'new-ed3bd36b-3b75-4103-8826-db8e20c8b8d6';
+    $display->panels['left_sidebar'][4] = 'new-ed3bd36b-3b75-4103-8826-db8e20c8b8d6';
     $pane = new stdClass();
     $pane->pid = 'new-253b275c-0dd3-419b-b9b2-dfa9d2d44789';
     $pane->panel = 'main_content';
