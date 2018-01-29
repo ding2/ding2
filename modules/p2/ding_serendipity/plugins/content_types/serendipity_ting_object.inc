@@ -74,7 +74,10 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
 
     $output['#attached']['library'][] = array('system', 'drupal.ajax');
     $output['#attached']['css'][] = $path . '/css/ding_serendipity.css';
-    $output['#attached']['js'][] = $path . '/js/ding_serendipity.js';
+    /* Attaching /js/ding_serendipity.js here makes sense. However, attached 
+       scripts is handled via jquery AJAX call from jQuery.ajaxTransport in 
+       jQuery version < 3.0, where async is set to false, and will trigger a
+       warning in Gecko 30.0; For now, add it in ding_serendipity.info */
     $output['#attached']['js'][] = array(
       'data' => array(
         'ding_serendipity' => array('context' => $context_data),
@@ -91,7 +94,7 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
   $block = new stdClass();
   $block->title = t('Serendipity materials');
   $block->content = $output;
-
+  
   return $block;
 }
 
