@@ -224,23 +224,6 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
     '#default_value' => isset($note) ? $note : '',
   );
 
-  // Allow admins to add tags to lists.
-  if (user_access('administer all lists')) {
-    $form['tags'] = array(
-      '#type' => 'textfield',
-      '#title' => 'tag',
-      '#autocomplete_path' => 'taxonomy/autocomplete/field_ding_content_tags',
-    );
-
-    if ($existing !== FALSE) {
-      $tags = array();
-      foreach (ding_base_get_items('ding_type', $existing, 'field_ding_content_tags') as $item) {
-        $tags[$item['tid']] = isset($item['taxonomy_term']) ? $item['taxonomy_term'] : taxonomy_term_load($item['tid']);
-      }
-      $form['tags']['#default_value'] = taxonomy_implode_tags($tags);
-    }
-  }
-
   if ($existing) {
     // The user can is always allowed to edit existing lists.
     $form['actions']['edit_list'] = array(
@@ -349,21 +332,6 @@ function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
  * The create_list_form submit handler.
  */
 function ding_list_create_list_form_submit($form, &$form_state) {
-  $fields = array(
-    array(
-      'name' => 'field_notes',
-      'value_type' => 'value',
-      'value' => $form_state['values']['notes'],
-    ),
-  );
-
-  if (isset($form_state['values']['tags'])) {
-    $fields[] = array(
-      'name' => 'field_ding_content_tags',
-      'value_type' => 'tid',
-      'value' => $form_state['values']['tags'],
-    );
-  }
   // Create the new list object.
   if (!$form_state['existing']) {
     $list = ding_list_create_ding_list(
@@ -372,7 +340,13 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       NULL,
       NULL,
       NULL,
-      $fields
+      array(
+        array(
+          'name' => 'field_notes',
+          'value_type' => 'value',
+          'value' => $form_state['values']['notes'],
+        ),
+      )
     );
 
     if ($list === FALSE) {
@@ -396,7 +370,13 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       $title,
       NULL,
       TRUE,
-      $fields
+      array(
+        array(
+          'name' => 'field_notes',
+          'value_type' => 'value',
+          'value' => $form_state['values']['notes'],
+        ),
+      )
     );
   }
 
