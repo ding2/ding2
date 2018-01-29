@@ -37,42 +37,7 @@ function fbs_field_default_field_instances() {
       'module' => 'virtual_field',
       'settings' => array(),
       'type' => 'hidden',
-      'weight' => 8,
-    ),
-  );
-
-  // Exported field_instance: 'profile2-provider_fbs-field_fbs_interest_period'
-  $field_instances['profile2-provider_fbs-field_fbs_interest_period'] = array(
-    'bundle' => 'provider_fbs',
-    'default_value' => array(
-      0 => array(
-        'value' => 90,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 6,
-      ),
-    ),
-    'entity_type' => 'profile2',
-    'field_name' => 'field_fbs_interest_period',
-    'label' => 'Interest period',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 5,
+      'weight' => 15,
     ),
   );
 
@@ -105,7 +70,7 @@ function fbs_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 3,
+      'weight' => 4,
     ),
   );
 
@@ -137,7 +102,7 @@ function fbs_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'fbs_options_onoff',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -168,7 +133,7 @@ function fbs_field_default_field_instances() {
       'module' => 'virtual_field',
       'settings' => array(),
       'type' => 'hidden',
-      'weight' => 0,
+      'weight' => 1,
     ),
   );
 
@@ -198,7 +163,7 @@ function fbs_field_default_field_instances() {
       'module' => 'fbs',
       'settings' => array(),
       'type' => 'fbs_period',
-      'weight' => 7,
+      'weight' => 11,
     ),
   );
 
@@ -231,7 +196,7 @@ function fbs_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 1,
+      'weight' => 2,
     ),
   );
 
@@ -263,7 +228,7 @@ function fbs_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'fbs_options_onoff',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -293,7 +258,7 @@ function fbs_field_default_field_instances() {
       'module' => 'fbs',
       'settings' => array(),
       'type' => 'fbs_options_select',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -302,7 +267,6 @@ function fbs_field_default_field_instances() {
   t('Address');
   t('E-mail');
   t('E-mail notifications');
-  t('Interest period');
   t('Name');
   t('On hold');
   t('Phone');
