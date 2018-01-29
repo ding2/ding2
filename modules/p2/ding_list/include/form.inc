@@ -742,27 +742,3 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
 
   return $response;
 }
-
-/**
- * Ask user to reset their lists.
- */
-function ding_list_reset_user_form($form, &$form_state, $account) {
-  $form['#attributes']['class'] = array('ding-list-reset-user-form');
-  return confirm_form(
-    $form,
-    t('Reset my lists'),
-    'user/' . $account->uid . '/my-library',
-    t('Are you sure you want to reset all your lists.')
-  );
-}
-
-/**
- * Submit handler for ding_list_reset_user_form.
- */
-function ding_list_reset_user_form_submit($form, &$form_state) {
-  $account = $form_state['build_info']['args'][0];
-
-  ding_list_reset_user($account);
-
-  $form_state['redirect'] = 'user/' . $account->uid . '/my-library';
-}
