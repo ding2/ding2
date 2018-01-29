@@ -275,7 +275,7 @@ function ding_list_handle_fields_in_list(&$list, array $fields) {
     foreach ($fields as $field) {
       switch ($field['name']) {
         case 'field_ding_content_tags':
-          $field['value'] = ding_list_handle_taxonomy_terms([$field['value']], $field['name']);
+          $field['value'] = ding_list_handle_taxonomy_terms($field['value'], $field['name']);
           $list->{$field['name']}[LANGUAGE_NONE] = $field['value'];
           break;
 
@@ -310,8 +310,8 @@ function ding_list_handle_fields_in_list(&$list, array $fields) {
  *
  * Copied from taxonomy_autocomplete_validate() function.
  *
- * @param array $tags
- *   An array of tag names.
+ * @param string $tags
+ *   The tags to explode into an array.
  * @param string $field_name
  *   Name of the field the tags should be attached to (used for getting the
  *   vocabulary).
@@ -319,7 +319,7 @@ function ding_list_handle_fields_in_list(&$list, array $fields) {
  * @return array
  *   An array of taxonomy_term entities.
  */
-function ding_list_handle_taxonomy_terms(array $tags, $field_name) {
+function ding_list_handle_taxonomy_terms($tags, $field_name) {
   $value = array();
 
   // Collect candidate vocabularies.

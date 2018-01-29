@@ -351,6 +351,11 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['fields']['id']['id'] = 'id';
   $handler->display->display_options['fields']['id']['table'] = 'eck_ding_type';
   $handler->display->display_options['fields']['id']['field'] = 'id';
+  /* Sort criterion: ding_type: Ding list featured (field_ding_list_featured) */
+  $handler->display->display_options['sorts']['field_ding_list_featured_value']['id'] = 'field_ding_list_featured_value';
+  $handler->display->display_options['sorts']['field_ding_list_featured_value']['table'] = 'field_data_field_ding_list_featured';
+  $handler->display->display_options['sorts']['field_ding_list_featured_value']['field'] = 'field_ding_list_featured_value';
+  $handler->display->display_options['sorts']['field_ding_list_featured_value']['order'] = 'DESC';
   /* Sort criterion: Ding_type: Changed */
   $handler->display->display_options['sorts']['changed']['id'] = 'changed';
   $handler->display->display_options['sorts']['changed']['table'] = 'eck_ding_type';
@@ -365,6 +370,14 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['arguments']['rid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['rid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['rid']['summary_options']['items_per_page'] = '25';
+  /* Contextual filter: ding_type: Tags (field_ding_content_tags) */
+  $handler->display->display_options['arguments']['field_ding_content_tags_tid']['id'] = 'field_ding_content_tags_tid';
+  $handler->display->display_options['arguments']['field_ding_content_tags_tid']['table'] = 'field_data_field_ding_content_tags';
+  $handler->display->display_options['arguments']['field_ding_content_tags_tid']['field'] = 'field_ding_content_tags_tid';
+  $handler->display->display_options['arguments']['field_ding_content_tags_tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_ding_content_tags_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_ding_content_tags_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_ding_content_tags_tid']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Ding_type: ding_type type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'eck_ding_type';
@@ -429,6 +442,14 @@ function ding_list_installer_views_default_views() {
       'panel' => '0',
       'fixed' => '',
       'label' => 'User: Roles',
+    ),
+    'field_ding_content_tags_tid' => array(
+      'type' => 'context',
+      'context' => 'entity:taxonomy_term.tid',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'ding_type: Tags (field_ding_content_tags)',
     ),
   );
   $handler->display->display_options['inherit_panels_path'] = '1';

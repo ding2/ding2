@@ -239,6 +239,12 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
       }
       $form['tags']['#default_value'] = taxonomy_implode_tags($tags);
     }
+
+    $form['featured'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Featured'),
+      '#default_value' => ding_base_get_value('ding_type', $existing, 'field_ding_list_featured'),
+    );
   }
 
   if ($existing) {
@@ -248,17 +254,12 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
       '#value' => t('Save list'),
     );
 
-    if (ding_list_allowed($existing, DING_LIST_OPERATION_DELETE)) {
+    if (ding_list_allowed($existing, DING_LIST_OPERATION_DELETE) && (user_access('administer all lists') || $existing->uid == $user->uid)) {
       $form['actions']['delete_list'] = array(
         '#type' => 'submit',
         '#value' => t('Delete list'),
       );
-      if ($existing->uid == $user->uid) {
-        $form['actions']['delete_list']['#submit'] = array('ding_list_create_list_form_submit_delete');
-      }
-      else {
-        $form['actions']['delete_list']['#submit'] = array('ding_list_create_list_form_submit_delete_share');
-      }
+      $form['actions']['delete_list']['#submit'] = array('ding_list_create_list_form_submit_delete');
     }
   }
   else {
@@ -309,6 +310,8 @@ function ding_list_create_list_form_submit_cancel($form, &$form_state) {
  * Delete list handler.
  */
 function ding_list_create_list_form_submit_delete($form, &$form_state) {
+  global $user, $language;
+
   if (!isset($form_state['storage']['confirm'])) {
     $form_state['storage']['confirm'] = TRUE;
     $form_state['rebuild'] = TRUE;
@@ -321,6 +324,22 @@ function ding_list_create_list_form_submit_delete($form, &$form_state) {
 
   $list = ding_list_get_list($form_state['existing']);
   ding_list_delete_list($list);
+
+  if ($list->uid != $user->uid && user_access('administer all lists')) {
+    $list_owner = user_load($list->uid);
+
+    drupal_mail('ding_list', 'admin_notify', $list_owner->mail, $language, array(
+      'reply_to' => $user->mail,
+      'subject' => t('An admin has deleted your list at @library', array(
+        '@library' => variable_get('site_name', ''),
+      )),
+      'text' => t("Your list @list has been deleted at @library.\n\nIf you have any questions you can contact @reply", array(
+        '@list' => $list->title,
+        '@library' => variable_get('site_name', ''),
+        '@reply' => $user->mail,
+      )),
+    ));
+  }
 
   $form_state['redirect'] = 'user/' . $GLOBALS['user']->uid . '/dinglists';
 }
@@ -354,6 +373,11 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       'name' => 'field_notes',
       'value_type' => 'value',
       'value' => $form_state['values']['notes'],
+    ),
+    array(
+      'name' => 'field_ding_list_featured',
+      'value_type' => 'value',
+      'value' => $form_state['values']['featured'],
     ),
   );
 
@@ -684,6 +708,8 @@ function ding_list_list_permissions_form_set_permission_callback($form, &$form_s
  * When changing the permissions status of the list.
  */
 function ding_list_list_permissions_form_state_callback($form, &$form_state) {
+  global $user;
+
   $list = $form_state['build_info']['args'][0];
   ding_list_edit_ding_list(
     $list,
@@ -699,13 +725,32 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
     )
   );
 
-  $output = array(
-    'shared' => t('Your list is now shared.'),
-    'public' => t('Your list is now public.'),
-    'private' => t('Your list is now private.'),
+  $translation_matrix = array(
+    'shared' => t('shared'),
+    'public' => t('public'),
+    'private' => t('private'),
   );
 
-  return theme('ding_list_permission_description', array('message' => $output[$form_state['values']['status']]));
+  if ($list->uid != $user->uid && user_access('administer all lists')) {
+    $list_owner = user_load($list->uid);
+
+    drupal_mail('ding_list', 'admin_notify', $list_owner->mail, $language, array(
+      'reply_to' => $user->mail,
+      'subject' => t('An admin has made changes to your list at @library', array(
+        '@library' => variable_get('site_name', ''),
+      )),
+      'text' => t("Your list @list at @library has changed sharing status to @status.\n\nIf you have any questions you can contact @reply", array(
+        '@list' => $list->title,
+        '@library' => variable_get('site_name', ''),
+        '@status' => $translation_matrix[$form_state['values']['status']],
+        '@reply' => $user->mail,
+      )),
+    ));
+  }
+
+  return theme('ding_list_permission_description', array(
+    'message' => t('Your list is now @status', array('@status' => $translation_matrix[$form_state['values']['status']])),
+  ));
 }
 
 /**

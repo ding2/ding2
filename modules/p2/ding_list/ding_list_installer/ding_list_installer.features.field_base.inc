@@ -110,6 +110,33 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
+  // Exported field_base: 'field_ding_list_featured'
+  $field_bases['field_ding_list_featured'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ding_list_featured',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => 0,
+        1 => 1,
+      ),
+      'allowed_values_function' => '',
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'list_boolean',
+  );
+
   // Exported field_base: 'field_ding_list_permission'
   $field_bases['field_ding_list_permission'] = array(
     'active' => 1,
