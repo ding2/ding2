@@ -71,8 +71,7 @@ function ding_campaign_plus_auto_form_alter(&$form, &$form_state, $form_id) {
         '#weight' => 50,
         '#tree' => TRUE,
         // Attache JS to hide the states fields, as it don't work i node edit
-        // alters. So this JS hides theme, so states takes overt to display
-        // theme.
+        // alters. So this JS hides theme, states takes over to display theme.
         '#attached' => array(
           'js' => array(
             drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus.js',
@@ -111,8 +110,6 @@ function ding_campaign_plus_auto_form_alter(&$form, &$form_state, $form_id) {
             ),
           ),
         );
-
-        $form_state['rebuild'] = TRUE;
 
         $form += array('#submit' => array());
         array_unshift($form['#submit'], 'ding_campaign_plus_auto_form_submit');
