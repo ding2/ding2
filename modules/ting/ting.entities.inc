@@ -233,7 +233,12 @@ class TingEntity extends DingEntity {
         }
       }
       foreach ($this->reply->relationsData as $record) {
-        $this->relations[] = new TingRelation($record->relationType, $record->relationUri, isset($relation_objects[$record->relationUri]) ? $relation_objects[$record->relationUri] : NULL);
+        // We need to be careful here, since we can't be sure that our relations
+        // is actually searchable on their own. So we need to ensure that we
+        // were actually able to fetch an object here.
+        if (isset($relation_objects[$record->relationUri])) {
+          $this->relations[] = new TingRelation($record->relationType, $record->relationUri, isset($relation_objects[$record->relationUri]) ? $relation_objects[$record->relationUri] : NULL);
+        }
       }
     }
     return $this->relations;
