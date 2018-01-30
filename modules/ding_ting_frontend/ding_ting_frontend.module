@@ -72,3 +72,13 @@ function ding_ting_frontend_ding_entity_view($entity, $view_mode) {
   $entity->content['#groups']['group_holdings_available']->format_settings['formatter'] = $modified_view_mode;
 
 }
+
+/**
+ * Implements hook_post_features_revert().
+ */
+function ding_ting_frontend_post_features_revert($component) {
+  if (module_exists('easyddb_search_result_reservation')) {
+    drupal_load('module', 'easyddb_search_result_reservation');
+    _easyddb_search_result_reservation_field_create();
+  }
+}

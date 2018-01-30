@@ -99,15 +99,33 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
       'template' => 'ding-campaign-wrapper',
       'path' => $path . '/templates',
     ),
+    'ding_campaign_grid_wrapper' => array(
+      'variables' => array(
+        'content' => NULL,
+        'more_link' => NULL,
+      ),
+      'template' => 'ding-campaign-grid-wrapper',
+      'path' => $path . '/templates',
+    ),
     'ding_campaign' => array(
       'variables' => array(
         'title' => NULL,
         'type' => NULL,
         'link' => NULL,
         'image' => NULL,
-        'text' => NULL
+        'text' => NULL,
+        'show_on_mobiles' => NULL,
       ),
       'template' => 'ding-campaign',
+      'path' => $path . '/templates',
+    ),
+    'ding_campaign_grid' => array(
+      'variables' => array(
+        'title' => NULL,
+        'image' => NULL,
+        'description' => NULL,
+      ),
+      'template' => 'ding-campaign-grid',
       'path' => $path . '/templates',
     ),
   );
@@ -137,7 +155,7 @@ function template_preprocess_ding_campaign(&$variables) {
  * @return array
  *   Render array with the campaigns found.
  */
-function ding_campaign_display($context, $count, $offset, $style = 'medium') {
+function ding_campaign_display($context, $count, $offset, $style = 'medium', $subtype = 'relevant_campaign', $more_link = array()) {
   $content = array();
   // Get node id's for the campaign nodes matching the context.
   $campaigns = ding_campaign_get_campaigns($context, $count, $offset);
@@ -146,7 +164,7 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
   if (!empty($campaigns)) {
     // Set outer wrapper.
     $content = array(
-      '#theme' => 'ding_campaign_wrapper',
+      '#theme' => $subtype == 'relevant_campaign' ? 'ding_campaign_wrapper' : 'ding_campaign_grid_wrapper',
       '#content' => array(),
     );
 
@@ -156,13 +174,39 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
     // Loop through campaigns.
     foreach ($campaigns as $campaign) {
       // Add current campaign to content array.
-      $node_view = node_view($campaign, 'full');
-      $node_view['#style'] = $style;
-      $content['#content'][] = $node_view;
+      if ($subtype != 'grid_campaign') {
+        $node_view = node_view($campaign, 'full');
+        $node_view['#style'] = $style;
+        $content['#content'][] = $node_view;
+      }
+      else {
+        $campaign_title = $campaign->title;
+        $campaign_image = $campaign->field_camp_image[LANGUAGE_NONE][0]['uri'];
+        $campaign_description = !empty($campaign->metatags) ? $campaign->metatags['da']['abstract']['value'] : '';
+        $campaign_link = $campaign->field_camp_link[LANGUAGE_NONE][0]['value'];
+        $content['#content'][] = theme('ding_campaign_grid', array(
+            'title' => l($campaign_title, $campaign_link),
+            'image' => l(theme('image_style', array('path' => $campaign_image, 'style_name' => 'ding_campaign_grid')), $campaign_link, array('html' => TRUE)),
+            'description' => $campaign_description,
+          )
+        );
+        if (array_filter($more_link)) {
+          $content['#more_link'] = l($more_link['link_title'], $more_link['link_url']);
+        }
+      }
     }
   }
 
   return $content;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_campaign_preprocess_ding_campaign(&$variables) {
+  if (!empty($variables['show_on_mobiles'])) {
+    $variables['classes_array'][] = 'ding-campaign-mobile-display';
+  }
 }
 
 /**
@@ -646,4 +690,29 @@ function _ding_campaign_rule_by_type($node_type) {
   }
 
   return $type;
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function ding_campaign_preprocess(&$variables, $hook) {
+  switch ($hook) {
+    case 'node':
+      if ($variables['view_mode'] == 'full' && ($variables['type'] == 'ding_event' || $variables['type'] == 'ding_news')) {
+        // Load panes for fetching campaign pane settings.
+        $conf = [];
+        $panels = panels_load_display(1);
+        foreach ($panels->content as $panel) {
+          if ($panel->type == 'campaign' && $panel->subtype == 'campaign') {
+            $conf = $panel->configuration;
+          }
+        }
+
+        $context = ['search_term' => [], 'taxonomy_term' => []];
+        $context['page'] = $variables['node'];
+        $campaigns = ding_campaign_display($context, $conf['ding_campaign_count'], $conf['ding_campaign_offset']);
+        $variables['campaigns'] = $campaigns;
+      }
+      break;
+  }
 }

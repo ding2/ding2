@@ -280,14 +280,23 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
  */
 function ddbasic_preprocess__node__ding_campaign(&$variables) {
   $type = ding_base_get_value('node', $variables['node'], 'field_camp_settings', 'value');
-  $image_uri = ding_base_get_value('node', $variables['node'], 'field_camp_image', 'uri');
-  $image_style = "ding_full_width";
-  $image_url = image_style_url($image_style, $image_uri);
   $variables['type'] = drupal_html_class($type);
-  $variables['background'] = ($type == 'text_on_image' ? 'style="background-image: url(' . $image_url . ');"' : " ");
+  if (!empty($variables['field_camp_image'])) {
+    $image_uri = ding_base_get_value('node', $variables['node'], 'field_camp_image', 'uri');
+    $image_style = "ding_full_width";
+    $image_url = file_create_url($image_uri);
+    $variables['image'] = '<img src="' . $image_url . '">';
+    $variables['background'] = ($type == 'text_on_image' ? 'style="background-image: url(' . $image_url . ');"' : " ");
+  }
   $variables['link'] = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'value');
   $variables['target'] = ding_base_get_value('node', $variables['node'], 'field_camp_new_window') ? '_blank' : '';
   $variables['panel_style'] = drupal_html_class($variables['elements']['#style']);
+
+  // Display campaign if it is on the mobile browser.
+  $mobile_show = $variables['field_show_on_mobiles'][LANGUAGE_NONE][0]['value'];
+  if ($mobile_show) {
+    $variables['classes_array'][] = 'mobile-show';
+  }
 
   if (isset($type)) {
     switch ($type) {
@@ -295,13 +304,22 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
         $variables['image'] = '<div class="ding-campaign-image" style="background-image: url(' . $image_url . '"></div>';
       break;
       case 'image':
-        $variables['image'] = theme('image_style',array(
-            'style_name' => "ding_full_width",
-            'path' => $image_uri,
-            'attributes' => array('class' => 'ding-campaign-image')
-          )
-        );
-      break;
+        if(!empty($variables['elements']['#widget_type']) && $variables['elements']['#widget_type'] == 'single') {
+          $variables['image'] = theme('image', [
+              'path' => $image_uri,
+              'attributes' => ['class' => 'ding-campaign-image']
+            ]
+          );
+        }
+        else {
+          $variables['image'] = theme('image_style', [
+              'style_name' => $image_style,
+              'path' => $image_uri,
+              'attributes' => ['class' => 'ding-campaign-image']
+            ]
+          );
+        }
+        break;
     }
   }
 }
@@ -310,9 +328,8 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
  * Ding Library.
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
-
   // Google maps addition to library list.
-  $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
+  $address = $variables['content']['field_ding_library_addresse'][0]['#address'];
 
   $street = $address['thoroughfare'];
   $street = preg_replace('/\s+/', '+', $street);
@@ -322,8 +339,8 @@ function ddbasic_preprocess__node__ding_library(&$variables) {
   $url = "http://www.google.com/maps/place/" . $street . "+" . $postal . "+" . $city . "+" . $country;
   $link = l(t("Show on map"), $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
 
-  $variables['content']['group_ding_library_right_column']['maps_link']['#markup'] = $link;
-  $variables['content']['group_ding_library_right_column']['maps_link']['#weight'] = 10;
+  $variables['content']['maps_link']['#markup'] = $link;
+  $variables['content']['maps_link']['#weight'] = 10;
 }
 
 /**

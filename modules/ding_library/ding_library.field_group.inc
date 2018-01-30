@@ -146,7 +146,7 @@ function ding_library_field_group_info() {
     'format_settings' => array(
       'label' => 'Left column',
       'instance_settings' => array(
-        'classes' => 'ding-library-left',
+        'classes' => 'group-ding-library-left-column field-group-div ding-library-left',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
@@ -181,7 +181,7 @@ function ding_library_field_group_info() {
     'format_settings' => array(
       'label' => 'Right column',
       'instance_settings' => array(
-        'classes' => 'ding-library-right',
+        'classes' => 'group-ding-library-left-column field-group-div ding-library-right',
         'description' => '',
         'show_label' => '0',
         'label_element' => 'h3',
