@@ -228,7 +228,7 @@ projects[menu_block][version] = "2.7"
 ; Add support for features export of blocks
 ; https://www.drupal.org/node/693302
 ; The patch here add a database table, which is already created in a previous hook_update (from a previous patch).
-; We have to modify it for our use. 
+; We have to modify it for our use.
 projects[menu_block][patch][0] = "patches/menu_block-2x-ctools_exportables-693302-163.ding2.patch"
 
 projects[menu_breadcrumb][subdir] = "contrib"
@@ -449,6 +449,30 @@ projects[ask_vopros][download][tag] = "1.5"
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
 
+projects[mkdru][type] = "module"
+projects[mkdru][subdir] = "contrib"
+projects[mkdru][download][type] = "git"
+projects[mkdru][download][url] = "http://git.drupal.org/project/mkdru.git"
+projects[mkdru][download][branch] = "1.x"
+
+projects[mkdru_ding][type] = "module"
+projects[mkdru_ding][subdir] = "contrib"
+projects[mkdru_ding][download][type] = "git"
+projects[mkdru_ding][download][url] = "https://github.com/easySuite/mkdru_ding.git"
+projects[mkdru_ding][download][branch] = "develop"
+
+projects[ding_mkws][type] = "module"
+projects[ding_mkws][subdir] = "contrib"
+projects[ding_mkws][download][type] = "git"
+projects[ding_mkws][download][url] = "https://github.com/easySuite/ding_mkws.git"
+projects[ding_mkws][download][branch] = "development"
+
+projects[ding_spt_statistics][type] = "module"
+projects[ding_spt_statistics][subdir] = "contrib"
+projects[ding_spt_statistics][download][type] = "git"
+projects[ding_spt_statistics][download][url] = "https://github.com/easySuite/ding_spt_statistics.git"
+projects[ding_spt_statistics][download][branch] = "development"
+
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
@@ -547,3 +571,13 @@ libraries[masonry][download][type] = "get"
 libraries[masonry][download][url] = https://github.com/desandro/masonry/archive/v4.1.1.zip
 libraries[masonry][directory_name] = "masonry"
 libraries[masonry][destination] = "libraries"
+
+libraries[pz2][download][type] = "get"
+libraries[pz2][download][url] = http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz
+libraries[pz2][directory_name] = "pz2"
+libraries[pz2][destination] = "libraries"
+
+libraries[jsrender][download][type] = "get"
+libraries[jsrender][download][url] = https://github.com/BorisMoore/jsrender/archive/master.zip
+libraries[jsrender][directory_name] = "jsrender"
+libraries[jsrender][destination] = "libraries"

@@ -103,5 +103,10 @@
         </div>
       <?php endif; ?>
     </a>
+
+    <?php // Render MKWS results set. ?>
+    <?php if (!empty($content['field_mkws_node_widget'])) : ?>
+      <?php print render($content['field_mkws_node_widget']); ?>
+    <?php endif; ?>
   </div>
 </div>

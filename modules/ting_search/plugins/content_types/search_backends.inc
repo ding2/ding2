@@ -68,7 +68,7 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
           $ting_search_results = ting_do_search($keys);
         }
         // Get count of total results from ting.
-        $count = $ting_search_results->numTotalObjects;
+        $count = isset($ting_search_results->numTotalObjects) ? $ting_search_results->numTotalObjects : 0;
         $title = $title . ' <span class="count">(' . $count . ')</span>';
         break;
 
