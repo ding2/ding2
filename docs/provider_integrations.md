@@ -76,8 +76,8 @@ While it is possible to mix and match provider systems and provider types as nee
 * A provider system must expose an API for the required functionality and data. Examples of protocols used for current integrations:
   * HTTP + JSON/XML
   * SOAP
-* It must be possible to consume the API using PHP as that is the programming language used by Ding2.  
-* The API should use some form of access control which allows it to be accessed by the Ding2 website and prevents access from outsiders. Examples of currently used authentication methods:
+* It must be possible to consume the API using PHP since that is the programming language used by Ding2.  
+* The API should use some form of access-control which allows it to be accessed by the Ding2 website and prevents access from outsiders. Examples of currently used authentication methods:
   * Authentication (preferred) e.g. based on username/password or tokens. 
   * Restriction by IP.
 * The API should be well-documented in regards to functionality and data exposed. Examples of documentation used by current provider systems:
@@ -88,7 +88,7 @@ While it is possible to mix and match provider systems and provider types as nee
 
 ### Library system requirements
 
-We refer to a system responsible for managing patrons, materials and material instances and the relationships between these as a library system. When used as a provider system it usually provides the following types:
+Here we refer to a system responsible for managing patrons, materials, individual items and the relationships between these as a library system. When used as a provider system it usually provides the following types:
 
 * User
 * Availability
@@ -100,87 +100,87 @@ We refer to a system responsible for managing patrons, materials and material in
 
 #### User
 
-It must be possible to authenticate a patron given a username and a password. The username can also be in the form of a patron number, social security number or other forms of textual identification. The password can also be a PIN code.
+It must be possible to authenticate a patron through a given username and a password. The username can also be in the form of a patron number, national identification number or other forms of textual identification. The password can also be a PIN code.
 
-The authentication API should return some form of method for identifying the patron for subsequent requests. It is preferable not to store authentication credentials for each user within the Ding2 system after login procedure has completed.
+The authentication API should offer a method for Identifying the patron for subsequent requests. It is preferable not to store the authentication credentials for each user within the Ding2 system after the login procedures have been completed.
 
-The authentication API may provide information about whether a patron is blocked i.e. prevented from accessing the library based on debts, bad behaviour or the like.
+The authentication API must provide information about whether a patron is blocked i.e. prevented from accessing the library based on debts, bad behaviour or the like if such functionality is supported by the library system.
 
-Given a new password it must be possible to change the password of a patron using the API.
+It must be possible to change the password of a patron using the API.
 
 #### Availability
 
-It must be possible to determine the availability of a material given an id of the material (not a material instance). Availability information includes:
+It must be possible to determine the availability of an item given an ID of the material (not item). Information on availability includes:
 
-* Whether the material is available for loan by a patron
-* Whether the material can be reserved by a patron
-* The total number of material instances managed by the library organisation
-* The distribution of material instances within the library organisation. This should include branch names, locations within each branch and shelf information.
+* Whether the material is available for loan by a patron.
+* Whether the material can be reserved by a patron.
+* The total number of items managed by the library organisation.
+* The distribution of items within the library organisation. This should include the name of the library branch, the location within each branch and shelf information.
 
 #### Reservation
 
-It must be possible to retrieve the current material reservations of a patron. For each reservation it must be possible to determine:
+It must be possible to retrieve the current reservations of materials for a patron. For each reservation it must be possible to determine:
 
-* An id of the reservation
-* The id of the reserved material as used by the search provider system
-* The date the reservation was performed by the patron
-* The date the reservation expires and is no longer relevant for the patron if not fulfilled by the library
-* The id of the branch where the patron would like to pick up the reserved material when ready
-* Textual notes for the reservation (if used by the library system)
-* The state of the reservation: Whether is ready for pickup or not or if it is an interlibrary reservation
+* An ID of the reservation.
+* The ID of the reserved material as used by the search provider system.
+* The date the reservation was initiated by the patron.
+* The date the reservation expires and is no longer relevant for the patron if not fulfilled by the library before that date.
+* The ID of the branch where the patron would like to pick up the reserved material.
+* Text messages for the reservation (if used by the library system).
+* The state of the reservation, whether it is ready for pickup or not or if it is an interlibrary reservation.
 * If the reservation is not ready for pickup:
-  * The position of the current reservation in the queue of all reservations of the material.
+  * The situation of the current reservation in the queue of all reservations of the material.
 * If the reservation is ready for pickup:
-  * An id of the material instance ready for pickup 
-  * The deadline for the patron to pick up an instance of the reserved material (if the reservation is ready for pickup)
+  * An ID of the item ready for pickup. 
+  * The deadline for the patron to pick up the reserved item.
 * If the reservation is an interlibrary loan and cannot be expected to be available in the local library system:
-  * Metadata for the material. As minimum a title of the material.
+  * Metadata for the material. As minimum thr title should be made available.
   
-Given an id of a material and identification information for a patron and it must be possible to create a reservation of the material for the patron. The reservation may include information such as an expiry period and a requested pickup branch for the reservation. If the reservation is successful the provider must provide information about pickup branch and queue position for the reservation. If the reservation fails the provider should provide information to be able to determine if the cause of the failure is caused by library policies.
+With an ID of a material and identification information for a patron it must be possible to create a reservation of the material for the patron. The reservation may include information such as an expiry period and a requested pickup branch for the reservation. If the reservation is successful, the provider must provide information about pickup branch and queue position for the reservation. If the reservation cannot be fulfilled the provider should provide information to be able to determine if the reason for the failure is caused by library policies.
 
-Given an id of a reservation, it must be possible to update it. This may include changing the expiry period or pickup branch for the reservation.
+With the ID of a reservation, it must be possible to update it. This may include changing the expiry period or the pickup branch for the reservation.
 
-Given an id of a reservation, it must be possible to delete a reservation.
+With an ID of a reservation, it must be possible to delete it without being fulfilled.
 
-Given an id of a branch in the library organisation, it must be possible to determine the name of this branch.
+With the ID of a branch within the library organisation, it must be possible to determine the name of the branch in question.
 
-Given a user it should be possible to update default options for this user. The options may include a preferred pickup branch for reservations and a default expiry period.
+With the ID of a patron, it should be possible to update default reservation preferences for the patron. Preferences may include a preferred branch for picking up reservations or a default expiry period.
 
 #### Loan
 
-It must be possible to retrieve the current loans of a patron. For each loan it must be possible to determine:
+It must be possible to retrieve information on the current loans of a patron. For each loan it must be possible to determine:
 
-* An id for the loan
-* The id of the loaned material as used by the search provider system
-* The date the loan was performed by the patron
-* The date the loan expires
+* An ID for the loan.
+* The ID of the item borrowed by the patron.
+* The ID of the lent material as used by the search provider system.
+* The date the item was borrowed by the patron.
+* The date the loan expires.
 * Whether the loan can be renewed by the patron
-* The id of the material instance loaned by the patron
 
-Given one or more loan ids it must be possible to renew these loans and thus extend the expiry date. For each renewal request, the library system must return whether the renewal was successful or not.
+With one or more loan IDs it must be possible to renew each of these loans and thus extend its expiry date. For each renewal request, the library system must indicate whether the renewal was successful or not.
 
-The library system may provide additional information about why a renewal request was not successful i.e. because the patron cannot renew the loan again because of library policies or because the material has been reserved by another patron.
+The library system may provide additional information about why a renewal request was not successful. Potential causes are library policies or reservations by another patron.
 
 #### Debt
 
-It must be possible to retrieve a list of debts (fees) for a patron. For each debt it must be possible to determine:
+It must be possible to retrieve a list of debts (or fees) for a patron. For each debt it must be possible to determine:
 
-* An id for the debt
-* A date where the debt originates
-* A text message for the debt. This should describe the reason for the debt e.g. a late fee or reimbursement for a lost material.
-* The amount of money owed in total for the debt
-* The amount of money remaining which is left to be paid by the patron in case is has been paid partially
-* The type of material for which the debt is created
+* An ID for the debt.
+* A date when the debt was originated.
+* A text message for the debt which should describe the reason for the debt, if it is a fee for overdue return or reimbursement for a lost material.
+* The total amount of money owed for the debt.
+* The amount of money left to be paid by the patron, in case the debt has been partially paid.
+* The type of material for which the debt is created.
 
-Given one or more debt ids and identification information for a patron, it must be possible to register these debts as paid.
+With one or more debt IDS and the identification information for the patron, it must be possible to register each one of these debts as settled. This can be used if the library accepts online payment.
 
 #### Search
 
 ##### Search functionality
 
-It must be possible to search for items in the catalog based on a query string.
+It must be possible to do a free text search for materials in the catalog based on a query string.
 
-It must be possible to search for items in the catalog based the item matching one or more values (OR or AND correlation) for a specific field. This can also be implemented as facets or indices. At least the following fields must be supported:
+It must be possible to search for materials in the catalog matching one or more values (OR or AND correlation) for a specific field. This can also be implemented as facets or indices. At least the following fields must be supported:
 
 * Acquisition date
 * Creator
@@ -191,21 +191,22 @@ It must be possible to search for items in the catalog based the item matching o
 * Title
 * Type
 
-It must be possible to search for items in the catalog based on a query containing multiple joined subqueries. Results must satisfy all subqueries (AND correlation).
+It must be possible to search for materials in the catalog based on a query containing multiple joined subqueries. Results must satisfy all subqueries (AND correlation).
 
-It must be possible to divide a search result into subsets e.g. by specifying an offset and a number of items requested.
+It must be possible to divide a search result into subsets such as by specifying an offset and a number of items requested. Example: Return 10 items starting from number 30.
 
-Items in the search result must be in an order which is meaningful to the query. It should be possible to specify one or more orders when executing a search.
+Items in the search result must be in an order which is meaningful to the query. It should be possible to specify one or more sorting methods when executing a search. Example: Sort results by publication year with the newest materials first.
 
-It must be possible to retrieve an item based on the id of said item. It should be possible to retrieve multiple items in a single request by providing multiple ids. 
 
-It must be possible to exclude items from a search result based on their id.
+It must be possible to retrieve an item based on the ID of said item. It should be possible to retrieve multiple items in a single request by providing multiple IDs. 
+
+It must be possible to exclude items from a search result based on their ID.
 
 It should be possible to retrieve facets and terms for a search result. Each term must include a count of how many items it refers to within the result.
 
 It should be possible to provide suggestions for queries based on a partial query. An example of a use case for this is autocompletion.
 
-It may be possible to group items within search results into collections e.g. different revisions or volumes of an item are shown as a single search result.
+It may be possible to group items within search results into collections e.g. different editions or volumes of an item are shown as a single search result.
 
 It may be possible to perform a fuzzy search which includes results which do not match the query fully but are still deemed relevant.
 
@@ -213,53 +214,53 @@ It may be possible to retrieve items which are deemed relevant to a specific ite
 
 ##### Item properties
 
-It must be possible to retrieve data about individual items within the library catalog. In this regard a item is considered a certain book, cd or other type of object - not the individual copies of the items.
+It must be possible to retrieve data about individual items within the library catalog. In this regard a item is considered a certain book, cd or other type of object - although not the individual copies (items) of the material.
 
-It must be possible to derive the following properties:
+It must be possible to retrieve the following properties:
 
-* Id. The id for an item must be unique and should not change over time.
-* Title of the item. A short version of the title is also supported.
+* ID. The ID for an item must be unique and should not change over time.
+* Title of the item. A short version of the title may be supported.
 * Names of one or more creators of the item
-* Item tyoe e.g. *Book* or *Audio CD*
-* Item source
-* Id of the item based on the source. If an item in the search system originates from the library system this should be the library system id.
+* Item tyoe e.g. *Book* or *Audio CD*.
+* Item source.
+* ID of the item based on the source. If an item in the search system originates from the library system, this should be the library system ID.
 
-It should be possible to derive the following properties:
+It should be possible to retrieve the following properties:
 
-* An abstract providing a summary
-* One or more subjects
-* Language of the item
-* Url to the item if it has a digital representation
-* Series name and order of the item.
+* An abstract providing a summary.
+* One or more subject headings.
+* Language of the item.
+* Url to the item if it has a digital representation.
+* Series name and number of the item.
 * Year the item was produced.
 
-It may be possible to derive the following properties:
+It may be possible to retrieve the following properties, if applicable:
 
-* Age for the target audience for the item
-* Target audience for the item
-* A description of physical appearance of the item
-* Size or duration of the item
-* File format, physical medium, or dimensions of the item
-* Genre of the item
+* Age for the target audience for the item.
+* Target audience for the item.
+* A description of physical appearance of the item.
+* Size or duration of the item.
+* File format, physical medium, or dimensions of the item.
+* Genre of the item.
 * ISBN of the item. Preferably ISBN-13.
-* Name(s) of musicians listed as contributors
-* Pan European Game Information (PEGI) rating for the item
-* Name of the publisher of the item
-* Ids of items which references this item
-* Version/revision of the item
-* Ids of newer items which replace this item
-* Ids of newer items which are replaced by this item
-* Information about rights held in and over the item
-* Spatial characteristics of the item
-* Spoken language within the item
-* Item subtitle languages
-* Titles of tracks in this item
+* Name(s) of musicians listed as contributors.
+* Pan European Game Information (PEGI) rating for the item.
+* Name of the publisher of the item.
+* IDs of items which references this item.
+* Version/revision of the item.
+* IDs of newer items which replace this item.
+* IDs of older items which are replaced by this item.
+* Information about rights held in and of the item.
+* Spatial characteristics of the item.
+* Spoken language within the item.
+* Item subtitle languages.
+* Titles of tracks in this item.
 * Item revision name.
 * Item which contains this item e.g. a periodical issue containing an article.
-* Classification of the item
-* Names of one or more contributors of the item
-* Ids of items which are related 
-* Full text version of the item
+* Classification of the item.
+* Names of one or more contributors of the item.
+* IDs of items which are related. 
+* Full text version of the item.
 
 It must be possible to retrieve a cover image of an item - either directly from the search system  or indirectly through information provided through the search result.
 
