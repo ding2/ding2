@@ -12,24 +12,37 @@
 
 /* Prpfile page submit */
 #ting-field-search-fields-form input[type="submit"] {
-  padding-right: 15px;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  display: inline;
+}
+
+#ting-field-search-fields-form .form-actions {
+  text-align: center;
+}
+
+#ting-field-search-fields-form .fieldset-wrapper {
+  width: 100%;
+}
+
+/* Title on field group  */
+#ting-field-search-fields-form  .fieldset-title {
+  display: inline-block;
+  width: 100%;
+}
+
+/* "Advanced search" title on root fieldset */
+#edit-ting-field-search-fields > legend {
+  font-size: 24px;
 }
 
 /* Field groups*/
-.ting-field-search-field-group.collapsible {
+.ting-field-search-field-group.form-wrapper {
   margin-bottom: 0;
-  border-top: 1px solid rgba(120, 120, 120, 0.2);
-  padding: 45px 0 60px;
 }
 
 .ting-field-search-field-group .fieldset.collapsible {
   padding: 28px 0 0;
-}
-
-/* Title on field group  */
-.ting-field-search-field-group .fieldset-legend .fieldset-title {
-  display: inline-block;
-  width: 100%;
 }
 
 .ting-field-search-field-group.collapsible .fieldset-title::after {
@@ -56,7 +69,6 @@
   width: 33.3333%;
   float: left;
   padding: 20px 10px 0;
-  margin: 0;
 }
 
 .ting-field-search-field-group .fieldset-wrapper .form-type-select {

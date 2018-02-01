@@ -816,7 +816,13 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
     ))),
   );
 
-  $form['ting_field_search_fields'] = array('#tree' => TRUE);
+  $form['ting_field_search_fields'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Additional search options'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#tree' => TRUE,
+  );
 
   // Build a form element for each field on the profile.
   $field_elements = array();
@@ -882,7 +888,6 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
 
   $form['actions'] = array(
     '#type' => 'actions',
-    '#attributes' => array('class' => array('clearfix')),
   );
   $form['actions']['submit'] = array(
     '#type' => 'submit',
