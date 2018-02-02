@@ -1,8 +1,7 @@
-  <?php
+<?php
 
 /**
  * @file
- *
  * Install file for Ting field search.
  */
 
@@ -118,7 +117,7 @@ function ting_field_search_schema() {
         'size' => 'small',
         'not null' => TRUE,
         'default' => 1,
-        'description' => 'Facet weight: Used to order facets in the UI.'
+        'description' => 'Facet weight: Used to order facets in the UI.',
       ),
     ),
     'primary key' => array('name', 'pid'),
@@ -135,7 +134,6 @@ function ting_field_search_schema() {
 
 /**
  * Helper function to load profiles in update functions.
- * For schema version 7000 -> ...
  */
 function _ting_field_search_load_profiles_7000() {
   return db_select('ting_field_search_profile', 'tp')
@@ -146,6 +144,7 @@ function _ting_field_search_load_profiles_7000() {
 
 /**
  * Adds the new config field to the profile table.
+ *
  * Adds new serial primary key to profile table.
  * Update foreign key in facet table to point to the new profile primary key.
  */
@@ -165,7 +164,7 @@ function ting_field_search_update_7000() {
   $migrate_data = array();
   foreach ($profiles as $name => $profile) {
     $profile = (array) $profile;
-    $config = array_intersect_key($profile , array_flip($migrate_fields));
+    $config = array_intersect_key($profile, array_flip($migrate_fields));
     $migrate_data[$name] = $config;
   }
 
@@ -185,12 +184,8 @@ function ting_field_search_update_7000() {
   db_add_field('ting_field_search_profile', 'config', $config_field);
   foreach ($migrate_data as $name => $config) {
     db_merge('ting_field_search_profile')
-      ->key(array(
-        'name' => $name,
-      ))
-      ->fields(array(
-        'config' => serialize($config),
-      ))
+      ->key(array('name' => $name))
+      ->fields(array('config' => serialize($config)))
       ->execute();
   }
   $config_field['not null'] = TRUE;
@@ -202,7 +197,7 @@ function ting_field_search_update_7000() {
     'type' => 'serial',
     'not null' => TRUE,
     'unsigned' => TRUE,
-    'description' => 'The primary identifier for a profile.'
+    'description' => 'The primary identifier for a profile.',
   );
   db_add_field('ting_field_search_profile', 'pid', $pid, array(
     'primary key' => array('pid'),
@@ -236,6 +231,7 @@ function ting_field_search_update_7000() {
 
 /**
  * Move the query and profile fields to the config array.
+ *
  * Migrate existing config values to the new array structure.
  */
 function ting_field_search_update_7001() {
@@ -280,18 +276,15 @@ function ting_field_search_update_7001() {
 
   foreach ($new_configs as $name => $new_config) {
     db_merge('ting_field_search_profile')
-      ->key(array(
-        'name' => $name,
-      ))
-      ->fields(array(
-        'config' => serialize($new_config),
-      ))
+      ->key(array('name' => $name))
+      ->fields(array('config' => serialize($new_config)))
       ->execute();
   }
 }
 
 /**
- * Remove any trace of the now unused Ting field search cache backends.
+ * Remove any trace of the now unused Ting field search cache backend.
+ *
  * Remove settings no longer used from profile config.
  */
 function ting_field_search_update_7002() {
