@@ -566,7 +566,10 @@ function ting_field_search_filter_profiles() {
         // We have an optimization hack to speed up search (by-pass panels 2x
         // times loading). So all searches are submitted to "/search-blank",
         // which need to be added to pages to ensure no form validation errors.
-        $pages .= "\r\nsearch-blank";
+        // If visibility is "expect" it should not be added to the pages list.
+        if ($visibility) {
+          $pages .= "\r\nsearch-blank";
+        }
 
         // Compare the lowercase internal and lowercase path alias (if any).
         $page_match = drupal_match_path($path, $pages);
