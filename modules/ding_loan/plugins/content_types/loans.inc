@@ -178,15 +178,10 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       if (!is_object($entity) || empty($entity->reply)) {
         // Patron have this item in loans list, but opensearch can't find this
-        // record for current agencyId, so we load it separately.
-        // Here we are loading TingClientObject.
-        $ting_object = ting_get_object($loan->ding_entity_id);
-
-        // But we need TingEntity instance, so here we are populating this.
-        $ting_entity = new TingEntity();
-        $ting_entity->ding_entity_id = $entity->ding_entity_id;
-        $ting_entity->reply = $ting_object;
-        $entity = $ting_entity;
+        // record for current agencyId, so ask ding_provider for help:
+        $ding_entity_id = $loan->ding_entity_id;
+        $entities = ding_provider_get_pseudo_entities(array($ding_entity_id));
+        $entity = array_shift($entities);
       }
 
       if (is_object($entity) && !empty($entity->reply)) {
