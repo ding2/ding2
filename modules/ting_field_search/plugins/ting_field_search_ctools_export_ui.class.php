@@ -100,6 +100,7 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
       case 'weight':
         $this->sorts[$name] = $weight;
         break;
+
       case 'exposed':
         $this->sorts[$name] = $exposed;
         break;

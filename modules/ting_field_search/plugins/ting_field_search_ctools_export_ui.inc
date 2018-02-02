@@ -157,6 +157,7 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#description' => t('Append the profile on search links generated on all the search related pages shown with this profile (search result, collection and object pages).'),
     '#default_value' => $profile->config['user_interaction']['alter_links'],
   );
+
   $form['config']['user_interaction']['grouping'] = array(
     '#type' => 'textfield',
     '#title' => t('Profile grouping'),
@@ -177,7 +178,18 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#type' => 'textarea',
     '#title' => 'Pages',
     '#default_value' => $profile->config['user_interaction']['pages'],
-    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#description' => t('Specify pages by using their paths. Enter one path per line. The \'*\' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.', array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="config[user_interaction][visibility]"]' => array('value' => 'all'),
+      ),
+    ),
+  );
+  $form['config']['user_interaction']['search_box'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Expand search box',
+    '#default_value' => $profile->config['user_interaction']['search_box'],
+    '#description' => t('If checked the search box is expanded as default on the matching pages.', array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
     '#states' => array(
       'invisible' => array(
         ':input[name="config[user_interaction][visibility]"]' => array('value' => 'all'),
@@ -352,9 +364,11 @@ function ting_field_search_profile_export_form_submit($form, &$form_state) {
   // redirect. So here we construct the path and set the active tab as fragment
   // manually.
   $active_tab = $form_state['values']['config']['config__active_tab'];
+
   // Remove it so it doesn't get saved in the DB.
   unset($form_state['values']['config']['config__active_tab']);
   $path ='admin/config/ting/ting-field-search-profiles/list/' . $profile->name;
+
   // Setup the parameters for drupal_goto().
   $form_state['object']->plugin['redirect']['edit'] = array();
   $form_state['object']->plugin['redirect']['edit'][0] = $path;
