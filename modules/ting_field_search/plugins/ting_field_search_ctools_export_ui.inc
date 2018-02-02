@@ -198,6 +198,17 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
       ),
     ),
   );
+  $form['config']['user_interaction']['default_profile'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Default profile',
+    '#default_value' => $profile->config['user_interaction']['default_profile'],
+    '#description' => t('If checked this profile is pre-selected on the pages selected above.'),
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="config[user_interaction][visibility]"]' => array('value' => 'all'),
+      ),
+    ),
+  );
 
   // Search result fieldset.
   $form['config']['search_result'] = array(

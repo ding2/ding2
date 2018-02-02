@@ -476,6 +476,61 @@ function ting_field_search_preprocess_html(&$vars) {
   }
 }
 
+
+/**
+ * Find the default profile for the current context.
+ *
+ * @return string
+ *   The name of the profile that is default.
+ */
+function ting_field_search_get_default_profile() {
+  // If there's an active profile and it is stick; set it as default value.
+  if ($default_profile = ting_field_search_get_active_profile()) {
+    $default_profile = $default_profile->config['user_interaction']['sticky'] ? $default_profile->name : '';
+  }
+
+  if (empty($default_profile)) {
+    $profiles = ting_field_search_profiles_load_all();
+    foreach ($profiles as $profile) {
+      // Expended search box not checked go to the next profile.
+      if (!array_key_exists('default_profile', $profile->config['user_interaction']) || !$profile->config['user_interaction']['default_profile']) {
+        continue;
+      }
+
+      // If the profile has visibility all always expand the search field.
+      if ($profile->config['user_interaction']['visibility'] === 'all') {
+        $default_profile = $profile->name;
+        break;
+      }
+
+      $visibility = $profile->config['user_interaction']['visibility'] == 'expect' ? 0 : 1;
+      $pages = $profile->config['user_interaction']['pages'];
+      $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
+
+      // We have an optimization hack to speed up search (by-pass panels 2x
+      // times loading). So all searches are submitted to "/search-blank",
+      // which need to be added to pages to ensure no form validation errors.
+      $pages .= "\r\nsearch-blank";
+
+      // Compare the lowercase internal and lowercase path alias (if any).
+      $page_match = drupal_match_path($path, $pages);
+      if ($path != $_GET['q']) {
+        $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
+      }
+
+      // When $visibility has a value of 0, the profile is displayed on
+      // all pages except those listed in $pages. When set to 1, it
+      // is displayed only on those pages listed in $pages.
+      if (!($visibility xor $page_match)) {
+        $default_profile = $profile->name;
+        break;
+      }
+    }
+  }
+
+  return $default_profile;
+}
+
 /**
  * Filter the profiles displayed based on configuration.
  */
@@ -563,11 +618,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     return;
   }
 
-  // If there's an active profile and it is stick; set it as default value.
-  if ($profile = ting_field_search_get_active_profile()) {
-    $profile = $profile->config['user_interaction']['sticky'] ? $profile->name : '';
-  }
-
+  $profile = ting_field_search_get_default_profile();
   $form['ting_field_search'] = array(
     '#type' => 'select',
     '#empty_option' => t('Search in all'),
@@ -593,7 +644,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
  */
 function ting_field_search_search_block_validate($form, &$form_state) {
   // Reset the sort if the user is changing profile. This is the most intuitive
-  // and fixes several issues when the profiles is using differentdefault sort
+  // and fixes several issues when the profiles is using different default sort
   // settings.
   $previous_profile = $form_state['values']['ting_field_search_profile'];
   $selected_profile = $form_state['values']['ting_field_search'];
@@ -619,7 +670,7 @@ function ting_field_search_search_block_submit($form, &$form_state) {
     $profile = ting_field_search_profiles_load($selected_profile);
 
     if ($profile && $profile->config['search_request']['allow_empty']) {
-      // This is a bit hacky, but appearently the only way we can clear an error
+      // This is a bit hacky, but apparently the only way we can clear an error
       // for a single form element. Using form_clear_error will just remove all
       // errors.
       // See: https://api.drupal.org/comment/49163#comment-49163
@@ -988,7 +1039,7 @@ function ting_field_search_profiles_sort(&$profiles) {
 }
 
 /**
- * Sort profile based on weight used with usort.
+ * Sort profile based on weight.
  *
  * Modified version of drupal_sort_weight that takes objects.
  *
@@ -1022,6 +1073,7 @@ function ting_field_search_config_default() {
       'alter_links' => 1,
       'grouping' => 'default',
       'search_box' => 0,
+      'default_profile' => 0,
     ),
     'search_request' => array(
       'agency' => '',
