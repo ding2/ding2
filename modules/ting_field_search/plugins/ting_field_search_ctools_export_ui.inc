@@ -114,7 +114,7 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Query'),
     '#description' => t('Enter a base search query that is appended to every search request, when using this profile.'),
-    '#maxlength' => 256,
+    '#maxlength' => 1024,
     '#default_value' => $profile->config['search_request']['query'],
     '#size' => 100,
   );
