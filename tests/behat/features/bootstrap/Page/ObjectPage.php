@@ -87,7 +87,7 @@ class ObjectPage extends PageBase {
 
     }
     if ($relationType == "") {
-      return "Error: Could not dechiper the relationtype " . $relType . "\n(Knowns are 'hasReview', 'hasCreatorDescription', 'hasDetails', 'hasPlacement').";
+      return "Error: Could not decipher the relationtype " . $relType . "\n(Knowns are 'hasReview', 'hasCreatorDescription', 'hasDetails', 'hasPlacement').";
     }
     return $relationType;
   }
@@ -209,7 +209,10 @@ class ObjectPage extends PageBase {
   /**
    * Attempt to make a reservation.
    *
-   * @throws \Exception
+   * @return string
+   *    The status of whether the reservation click could be done.
+   *
+   * @throws Exception
    *    In case of error.
    */
   public function makeReservation() {
