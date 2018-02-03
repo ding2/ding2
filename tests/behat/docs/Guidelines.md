@@ -61,6 +61,15 @@ There are two context-files, LibContext and StepsContext. They are considered eq
 Classes are instantiated in LibContext, which in turns is referenced in StepsContext. The hierarchy is thus:
 StepsContext->LibContext->Classes...
 
+### Naming of scenarios
+The scenarios are named seekXXX where XXX is
+the number of the row in the spreadsheet
+describing the redroutes. The sequence is not
+necessarily sequential, ie. numbers will
+be missing, because those checks are not
+selected for implementation or not valid for
+different reasons.
+
 ### behat.config file - parameter transfer
 To make setup of parameters to the behat suite easier a file called behat.config
 which must be placed in the behat-root directory (just under features), is used.
