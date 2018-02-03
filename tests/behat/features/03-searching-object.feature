@@ -4,6 +4,7 @@ Feature: test object displays after search
   I want to do searches and examine the search result for
   - if creatorDescriptions are being shown if present
   - if accessInfomedia relations are being shown if present
+  Numbering refers to the lines in the redroute spreadsheet for testing searching (seek004 is line 4)
 
   @api @seek040 @seekNologin @regression @cci
     Scenario: S040 Show creatorDescriptions

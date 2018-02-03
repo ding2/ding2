@@ -4,6 +4,7 @@ Feature: Searching with facets
   I want to do searches and examine the search result for
   - if the number of shown results are actually shown
   - if we can use facets to end up with just one book.
+  Numbering refers to the lines in the redroute spreadsheet for testing searching (seek004 is line 4)
 
 
   @api @seek019 @seekNologin @regression @cci

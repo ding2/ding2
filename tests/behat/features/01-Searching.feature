@@ -1,8 +1,8 @@
 Feature: SEEK redroute 01
   In order to check searches on the DDB CMS
   As a user
-  I want to do searches and examine the search result for the followingw
-  which refers to the lines in the redroute spreadsheet for testing searching (seek001 is line 1)
+  I want to do searches and examine the search result for the following
+  which refers to the lines in the redroute spreadsheet for testing searching (seek004 is line 4)
   - correct use of æ, ø and å (danish letters) (seek001)
   - check openscan suggestions (seek004)
   - check testing using enter and by clicking search button (seek005)
