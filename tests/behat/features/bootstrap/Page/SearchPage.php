@@ -63,20 +63,14 @@ class SearchPage extends PageBase {
   protected $verboseSearchResults = 'off';
 
   /**
-   * Version 4: Checks if the pagination elements are shown correctly on page.
+   * Checks if the pagination elements are shown correctly on page.
    *
-   * First page:   (1) 2 Næste
-   * Second :      forrige 1 (2) 3 Næste
-   * Third:        første forrige 1 2 (3) 4 Næste
-   * Fourth:       første forrige 1 2 3 (4) 5 Næste
-   * etc...
-   * Last page:    første forrige (...) 9 10 11 12 13 14 15 16 (17)   (so næste is not shown)
-   *               første forrige (...) 4 5 6 7 8 9 10 (11) 12 næste
-   * so always show the next page + Næste, and
-   *           all previously shown pages (up to 7 previous, which means ellipsis is shown from ?page=8
+   * This is compatible with version 4 of DDB CMS.
+   * Returns a text string containing any deviances found.
+   * If the returned string is empty, there was no problems found.
    *
-   * returns a text string containing any deviances found. It doesn't fail on its own. If the returned
-   * string is empty, there was no problems found.
+   * @return string
+   *    Contains any deviances found.
    */
   public function checkPaginationElements() {
     // Check if the pagination elements are shown.
@@ -92,9 +86,8 @@ class SearchPage extends PageBase {
     // Pagination element counter.
     $xte = 0;
     $pgFirst = -1;
-    $pgForrige = -1;
-    $pgNaeste = -1;
-    $pgEllipse = 0;
+    $pgPrevious = -1;
+    $pgEllipsis = 0;
     $pgLast = 0;
     foreach ($pg as $pElement) {
       $pElementText = $pElement->getAttribute('class');
@@ -109,19 +102,13 @@ class SearchPage extends PageBase {
         case "pager-previous":
         case "pager-previous first":
           if (null !== ($pElement->find('css', 'a'))) {
-            $pgForrige = $xte;
-          }
-          break;
-
-        case "pager-next last":
-          if (null !== $pElement->find('css', 'a')) {
-            $pgNaeste = $xte;
+            $pgPrevious = $xte;
           }
           break;
 
         case "pager-ellipsis":
-          // In version 4 we can have up to two ellipses.
-          $pgEllipse++;
+          // There can be multiple of these.
+          $pgEllipsis++;
           break;
 
         case "pager-current":
@@ -141,27 +128,27 @@ class SearchPage extends PageBase {
       case 1:
         // We don't want to see first, forrige.
         $this->logMsg(($pgFirst != -1), "Pagination: 'første' is shown on page 1.");
-        $this->logMsg(($pgForrige != -1), "Pagination: 'forrige' is shown on page 1");
+        $this->logMsg(($pgPrevious != -1), "Pagination: 'forrige' is shown on page 1");
         // We don't want to see more than 2 indexes if we are on page 1.
-        $this->logMsg(($pgEllipse > 1), "Pagination: Elipsis was shown on page 1");
+        $this->logMsg(($pgEllipsis > 1), "Pagination: Elipsis was shown on page 1");
         $this->logMsg(($pgLast > 2), "Pagination: on page 1 we only expect link to next page");
         break;
 
       case 2:
         // We don't want to see first yet, but we want to see forrige.
         $this->logMsg(($pgFirst != -1), "Pagination: 'Første' is shown on page 2");
-        $this->logMsg(($pgForrige == -1), "Pagination: 'Forrige' is not shown on page 2");
-        $this->logMsg(($pgEllipse > 1), "Pagination: Elipsis not expected more than once on page 2");
+        $this->logMsg(($pgPrevious == -1), "Pagination: 'Forrige' is not shown on page 2");
+        $this->logMsg(($pgEllipsis > 1), "Pagination: Elipsis not expected more than once on page 2");
         $this->logMsg(($pgLast != 2), "Pagination: on page 2 we can go to more than page 1 and 3. Unexpected.");
         break;
 
       default:
         // This goes for the remaining pages.
         $this->logMsg(($pgFirst == -1), "Pagination: 'Første' is not shown on page " . $curpg);
-        $this->logMsg(($pgForrige == -1), "Pagination: 'Forrige' is not shown on page " . $curpg);
+        $this->logMsg(($pgPrevious == -1), "Pagination: 'Forrige' is not shown on page " . $curpg);
         $this->logMsg(($pgLast >= ($curpg + 1)), "Pagination: on page " . $curpg . " we can go to more than page " . $pgLast . " directly");
-        $this->logMsg(($pgEllipse > 2), "Pagination: Ellipsis should not be shown more than once on page " . $curpg);
-        $this->logMsg(($pgEllipse == 0), "Pagination: Ellipsis should at least be shown once on page " . $curpg);
+        $this->logMsg(($pgEllipsis > 2), "Pagination: Ellipsis should not be shown more than once on page " . $curpg);
+        $this->logMsg(($pgEllipsis == 0), "Pagination: Ellipsis should at least be shown once on page " . $curpg);
         break;
 
     }
@@ -206,7 +193,7 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * CheckPosts
+   * Check posts for whether the given attribute can be found on the post.
    *
    * @param string $attribute
    *    The kind of material to check, like forfatterbeskrivelse, coverpage etc.
@@ -220,22 +207,22 @@ class SearchPage extends PageBase {
     $lastsearch = count($this->searchResults);
 
     // Just one is okay.
-    $txt_accessibility = false;
-    $txt_cover = false;
-    $txt_materiale = false;
-    $txt_isSamling = false;
-    $txt_serie = false;
-    $txt_forfatterbeskrivelse = false;
+    $accessibility = false;
+    $cover = false;
+    $material = false;
+    $isCollection = false;
+    $series = false;
+    $creatorDescription = false;
     $okay = false;
 
     // We do the reverse if we expect all posts to have the attribute.
     if ($mode == "all") {
-      $txt_accessibility = true;
-      $txt_cover = true;
-      $txt_materiale = true;
-      $txt_isSamling = true;
-      $txt_serie = true;
-      $txt_forfatterbeskrivelse = true;
+      $accessibility = true;
+      $cover = true;
+      $material = true;
+      $isCollection = true;
+      $series = true;
+      $creatorDescription = true;
       $okay = true;
     }
 
@@ -245,19 +232,19 @@ class SearchPage extends PageBase {
     for ($i = 0; $i < $lastsearch - 1; $i++) {
       if ($mode == "all") {
         // Set to false, and keep it false, if any one is not found in the entire result.
-        $txt_accessibility = (strlen($this->searchResults[$i]->access) == 0) ? false : $txt_accessibility;
-        $txt_cover = (strlen($this->searchResults[$i]->cover) == 0) ? false : $txt_cover;
-        $txt_isSamling = (!$this->searchResults[$i]->collection) ? false : $txt_isSamling;
-        $txt_materiale = (strlen($this->searchResults[$i]->link) == 0) ? false : $txt_materiale;
-        $txt_serie = (strlen($this->searchResults[$i]->serie) == 0) ? false : $txt_serie;
+        $accessibility = (strlen($this->searchResults[$i]->access) == 0) ? false : $accessibility;
+        $cover = (strlen($this->searchResults[$i]->cover) == 0) ? false : $cover;
+        $isCollection = (!$this->searchResults[$i]->collection) ? false : $isCollection;
+        $material = (strlen($this->searchResults[$i]->link) == 0) ? false : $material;
+        $series = (strlen($this->searchResults[$i]->serie) == 0) ? false : $series;
       }
       else {
         // Set to true, and keep it as true in case at least one exists.
-        $txt_accessibility = ($this->searchResults[$i]->access != "") ? true : $txt_accessibility;
-        $txt_cover = ($this->searchResults[$i]->cover != "") ? true : $txt_cover;
-        $txt_isSamling = ($this->searchResults[$i]->collection) ? true : $txt_isSamling;
-        $txt_materiale = ($this->searchResults[$i]->link != "") ? true : $txt_materiale;
-        $txt_serie = ($this->searchResults[$i]->serie != "") ? true : $txt_serie;
+        $accessibility = ($this->searchResults[$i]->access != "") ? true : $accessibility;
+        $cover = ($this->searchResults[$i]->cover != "") ? true : $cover;
+        $isCollection = ($this->searchResults[$i]->collection) ? true : $isCollection;
+        $material = ($this->searchResults[$i]->link != "") ? true : $material;
+        $series = ($this->searchResults[$i]->serie != "") ? true : $series;
       }
     }
     // Now find out what we were in fact looking for.
@@ -265,32 +252,32 @@ class SearchPage extends PageBase {
       case 'tilgængelig':
       case 'tilgængelighed':
       case 'availability':
-        $okay = $txt_accessibility;
+        $okay = $accessibility;
         break;
 
       case 'forside':
       case 'cover':
-        $okay = $txt_cover;
+        $okay = $cover;
         break;
 
       case 'materialesamling':
       case 'collection':
-        $okay = $txt_isSamling;
+        $okay = $isCollection;
         break;
 
       case 'forfatterbeskrivelse':
       case 'creatordescription':
-        $okay = $txt_forfatterbeskrivelse;
+        $okay = $creatorDescription;
         break;
 
       case 'materialetype':
       case 'objecttype':
-        $okay = $txt_materiale;
+        $okay = $material;
         break;
 
       case 'serie':
       case 'series':
-        $okay = $txt_serie;
+        $okay = $series;
         break;
 
     }
@@ -350,13 +337,16 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * CheckSorting.
+   * Check sorting of search result according to expected sort order.
    *
    * @param string $sortOption
    *    One of title_ascending, title_descending, creator_ascending/descending, date_ascending/descending.
    *
    * @return string
    *    Nonempty if error.
+   *
+   * @throws Exception
+   *    In case of error.
    */
   public function checkSorting($sortOption) {
     // Check we're looking at a search result page.
@@ -426,7 +416,7 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * CompareResultSizeWithExpected.
+   * Compare the result size of the actual current search result with the expected.
    *
    * @return string
    *    empty if we found the number of results as we expected.
@@ -452,6 +442,9 @@ class SearchPage extends PageBase {
    *
    * @params string $regexp
    *    Contains the regular expression to search for.
+   *
+   * @return bool
+   *    False if the expression is not found.
    */
   public function findRegEx($regexp) {
 
@@ -471,7 +464,7 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * FindTitleOnPage.
+   * Find the title on the page.
    *
    * @param string $title
    *    The title to search for.
@@ -491,7 +484,7 @@ class SearchPage extends PageBase {
       if ($srItemTitle) {
         if ($srItemTitle->getText() == $title) {
           $lb_found = true;
-          $this->logMsg(($this->verboseSearchResults == 'on'), "Fandt '" . $title . "' som nummer " . $xte . " på siden.");
+          $this->logMsg(($this->verboseSearchResults == 'on'), "Found '" . $title . "' listed as number " . $xte . " on the page.");
         }
       }
       $xte++;
@@ -503,7 +496,7 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * GetActualSearchResultSize.
+   * Get the size of the actual search result.
    *
    * Contrast this to getShownSizeOfSearchResult.
    * Notice this is possibly limited by the verbose/control setting of maxSearchPages.
@@ -516,12 +509,12 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * GetCurrentPage.
+   * Get the currently shown page.
    *
-   * @return string
+   * Notice, it fails if the pagination element for current page is not present on the page.
+   *
+   * @return int
    *    The page number of the current search result page.
-   *
-   *    Notice, it fails if the pagination element for current page is not present on the page.
    */
   public function getCurrentPage() {
     // Fail if there's not a current-page element on the pagination. We don't actually use the $curpg for anything else.
@@ -556,6 +549,9 @@ class SearchPage extends PageBase {
    *
    * @return string
    *    Empty means everything was fine. Not empty means failed. Text will be the reason it failed.
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function getEntireSearchResult() {
     // Initialise.
@@ -723,7 +719,7 @@ class SearchPage extends PageBase {
 
 
   /**
-   * GetLargetsFacetAndClickit.
+   * Find the largest facet option and click it.
    *
    * @param array $facets
    *    List of elements containing facets.
@@ -789,7 +785,7 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * Get Current Max Page Traversel setting.
+   * Get Current Max Page Traversal setting.
    *
    * @return int
    *    Set the maximum number of pages we want to traverse to scrape off the search result.
@@ -804,7 +800,7 @@ class SearchPage extends PageBase {
    * @return string
    *    The logmessages.
    */
-  public function getMessages() {
+  public function getAndClearMessages() {
     $msg = $this->messageCollection;
     $this->messageCollection = "";
     return $msg;
@@ -834,7 +830,7 @@ class SearchPage extends PageBase {
 
 
   /**
-   * GetOpenScanSuggestions.
+   * Check the openscan suggestions.
    *
    * @return string
    *    Empty if ok, otherwise the error message.
@@ -881,7 +877,7 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * GetRandomSearchResultToShowPost.
+   * Open a random search result to show post by clicking on the link to it.
    *
    * @param string $criteria
    *    Can be coverpage to select only post with cover page, or any other value to not care about that.
@@ -889,6 +885,8 @@ class SearchPage extends PageBase {
    * @return string
    *    Nonempty in case of failure.
    *
+   * @throws Exception
+   *    In case of error.
    * @throws \Exception
    *    In case of error.
    */
@@ -1085,7 +1083,7 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * SearchForCertainSize.
+   * Do a search for a search result of a certain number of results.
    *
    * @param string $interval
    *    Interval f.ex. '50-100'.
@@ -1194,7 +1192,7 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * SearchOnHomePage.
+   * Perform the search on the home page.
    *
    * @return string
    *    Nonempty if failure.
@@ -1258,7 +1256,9 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * Sorting.
+   * Sorting the search result.
+   *
+   * Find the sorting dropdown and select the given option to sort the search result.
    *
    * @param string $sortOption
    *    What to sort on.
@@ -1292,7 +1292,7 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * SortOptionValid - checks if it is.
+   * Checks if the sort option is valid.
    *
    * @param string $sortOption
    *    What to sort on.
@@ -1355,6 +1355,9 @@ class SearchPage extends PageBase {
    *
    * @return string
    *    Empty if all ok.
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function useFacetsToIncreaseSearchResults() {
     // Report an error if we've not set a facet correctly previously.
