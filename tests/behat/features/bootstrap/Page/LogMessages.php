@@ -33,7 +33,7 @@ class LogMessages extends Page {
    * @return string
    *   The string to be shown.
    */
-  public function getMessages() {
+  public function getAndClearMessages() {
     $tmp = $this->messageCollection;
     $this->messageCollection = "";
     return $tmp;
