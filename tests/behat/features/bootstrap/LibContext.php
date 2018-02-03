@@ -276,7 +276,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function acceptCookiesMinimizeAskLibrarianOverlay() {
     // We use the searchPage-instance to deal with cookies.
-    $this->check($this->searchPage->acceptCookiesMinimizeAskLibrarianOverlay(), $this->searchPage->getMessages());
+    $this->check($this->searchPage->acceptCookiesMinimizeAskLibrarianOverlay(), $this->searchPage->getAndClearMessages());
   }
 
   /**
@@ -317,7 +317,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     // Scrape off the search result size from the page. This is displayed on every search result page.
     $resultSize = $this->searchPage->getShownSizeOfSearchResult();
     if ($resultSize < 0) {
-      print_r($this->searchPage->getMessages());
+      print_r($this->searchPage->getAndClearMessages());
       throw new Exception("Couldn't find a search result size on page.");
     }
 
@@ -352,7 +352,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *    In case of errors.
    */
   public function checkPaginationOnAllPages() {
-    $this->check($this->searchPage->checkPaginationOnAllPages(), $this->searchPage->getMessages());
+    $this->check($this->searchPage->checkPaginationOnAllPages(), $this->searchPage->getAndClearMessages());
   }
 
   /**
@@ -370,7 +370,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     // Check that the user asked for a valid sort-option.
     $this->check($this->searchPage->sortOptionValid($sortOption));
 
-    $this->check($this->searchPage->checkSorting($sortOption), $this->searchPage->getMessages());
+    $this->check($this->searchPage->checkSorting($sortOption), $this->searchPage->getAndClearMessages());
   }
 
   /**
@@ -1050,7 +1050,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *   In case of errors.
    */
   public function pagingAllowsToGetAllResults() {
-    $this->check($this->searchPage->getEntireSearchResult(), ($this->searchPage->getVerboseSearchResult() == "on") ? $this->searchPage->getMessages() : '');
+    $this->check($this->searchPage->getEntireSearchResult(), ($this->searchPage->getVerboseSearchResult() == "on") ? $this->searchPage->getAndClearMessages() : '');
   }
 
   /**
@@ -1147,7 +1147,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *    In case of search error or a suitable result cannot be found.
    */
   public function searchForResultOfCertainSizeUsingInterval($interval, $listOfTerms, $publishedBetween) {
-     $this->check($this->searchPage->searchForCertainSize($interval, $listOfTerms, $publishedBetween), $this->searchPage->getMessages());
+     $this->check($this->searchPage->searchForCertainSize($interval, $listOfTerms, $publishedBetween), $this->searchPage->getAndClearMessages());
   }
 
   /**
@@ -1438,10 +1438,11 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @When I deselect a facet to increase the search results
    */
   public function useFacetsToIncreaseSearchResults() {
-    // Start by logging what we start out with.
+    // Start by logging what we start out with and also reduce the stack to the new expected result
     print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
+    print_r("Expecting now: " . $this->searchPage->getExpectedSearchResultSize(true) . "\n");
 
-    $this->check($this->searchPage->useFacetsToIncreaseSearchResults(), $this->searchPage->getMessages());
+    $this->check($this->searchPage->useFacetsToIncreaseSearchResults(), $this->searchPage->getAndClearMessages());
   }
 
   /**
@@ -1456,7 +1457,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
     print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
 
-    $this->check($this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible(), $this->searchPage->getMessages());
+    $this->check($this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible(), $this->searchPage->getAndClearMessages());
   }
 
   /**
