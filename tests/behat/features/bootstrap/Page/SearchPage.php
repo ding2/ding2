@@ -145,8 +145,6 @@ class SearchPage extends PageBase {
         // We don't want to see more than 2 indexes if we are on page 1.
         $this->logMsg(($pgEllipse > 1), "Pagination: Elipsis was shown on page 1");
         $this->logMsg(($pgLast > 2), "Pagination: on page 1 we only expect link to next page");
-        // $this->logMsg(($curpg>=$pgLast and $pgNaeste != -1), "Pagination: 'Næste' is shown on last page (" . $curpg . ")");
-        // $this->logMsg(($curpg<$pgLast and $pgNaeste == -1), "Pagination: 'Næste' is not shown on page " . $curpg);
         break;
 
       case 2:
@@ -155,8 +153,6 @@ class SearchPage extends PageBase {
         $this->logMsg(($pgForrige == -1), "Pagination: 'Forrige' is not shown on page 2");
         $this->logMsg(($pgEllipse > 1), "Pagination: Elipsis not expected more than once on page 2");
         $this->logMsg(($pgLast != 2), "Pagination: on page 2 we can go to more than page 1 and 3. Unexpected.");
-        // $this->logMsg(($curpg>=$pgLast and $pgNaeste != -1), "Pagination: 'Næste' is show on last page (" . $curpg . ")");
-        // $this->logMsg(($curpg<$pgLast and $pgNaeste == -1), "Pagination: 'Næste' is not shown on page " . $curpg);
         break;
 
       default:
@@ -166,8 +162,6 @@ class SearchPage extends PageBase {
         $this->logMsg(($pgLast >= ($curpg + 1)), "Pagination: on page " . $curpg . " we can go to more than page " . $pgLast . " directly");
         $this->logMsg(($pgEllipse > 2), "Pagination: Ellipsis should not be shown more than once on page " . $curpg);
         $this->logMsg(($pgEllipse == 0), "Pagination: Ellipsis should at least be shown once on page " . $curpg);
-        // $this->logMsg(($curpg>$pgLast and $pgNaeste != -1), "Pagination: 'Næste' is shown on last page (" . $curpg . ")");
-        // $this->logMsg(($curpg<=$pgLast and $pgNaeste == -1), "Pagination: 'Næste' is not shown on page " . $curpg);
         break;
 
     }
