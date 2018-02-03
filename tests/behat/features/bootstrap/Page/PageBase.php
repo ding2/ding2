@@ -77,7 +77,7 @@ class PageBase extends LogMessages {
         }
       }
       if (!$success) {
-        return "Cookie Agree-knap didn't go away after clicking on it.";
+        return "Cookie Agree-button didn't go away after clicking on it.";
       }
 
       $this->logMsg(($this->verboseCookies == 'on'), "End: ");
@@ -259,12 +259,15 @@ class PageBase extends LogMessages {
   /**
    * Wait Until Text is gone.
    *
+   * @When waiting up to :waitmax until :txt goes away
+   *
    * @param int $waitmax
    *    Number of waits of 300 ms.
    * @param string $txt
    *    Text that we wait for will disappear.
    *
-   * @When waiting up to :waitmax until :txt goes away
+   * @return string
+   *    Return status of operation.
    */
   public function waitUntilTextIsGone($waitmax, $txt) {
     // First see if we can find the element.
