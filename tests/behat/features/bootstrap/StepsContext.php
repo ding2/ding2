@@ -42,6 +42,9 @@ class StepsContext implements Context, SnippetAcceptingContext {
    * Sets up things before each scenario
    *
    * @BeforeScenario
+   *
+   * @param BeforeScenarioScope $scope
+   *    Built-in value of the scope. Part of the behat framework.
    */
   public function gatherContexts(BeforeScenarioScope $scope) {
     $environment = $scope->getEnvironment();
@@ -50,9 +53,18 @@ class StepsContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Step
+   * Implements step to check for a pattern in the search result.
+   *
+   * The pattern is given in a popular name, and then
+   * translated to a regular expression format.
    *
    * @Then I can see :pattern somewhere in the search result
+   *
+   * @param $pattern
+   *    The popular pattern to search for.
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function iCanSeeRegexpSomewhereInSearchResult($pattern) {
 
@@ -70,9 +82,14 @@ class StepsContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Step
+   * Implements step to check that openscan suggestions are given.
+   *
+   * Note this requires that openscan is enabled in the configuration.
    *
    * @Then I get suggestions from openscan
+   *
+   * @throws Exception
+   *   In case of errors.
    */
   public function iGetSuggestionsFromOpenscan() {
     $result = $this->libContext->searchPage->getOpenScanSuggestions();
