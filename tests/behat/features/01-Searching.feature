@@ -25,10 +25,18 @@ Feature: SEEK redroute 01
       | title                                                      | letter |
       | term.language=dansk AND term.type=bog  AND term.title=Æ*   | Æ      |
       | term.language=dansk AND term.type=bog  AND term.title=Ø*   | Ø      |
-      | term.language=dansk AND term.type=bog  AND term.title=Åer* | Å      |
       | term.language=dansk AND term.type=bog  AND term.title=?æ*  | æ      |
       | term.language=dansk AND term.type=bog  AND term.title=?ø*  | ø      |
       | term.language=dansk AND term.type=bog  AND term.title=?å*  | å      |
+
+  @api @seek001 @seekNologin @regression
+  Scenario Outline: S001 Search for special letters
+    Given I have searched for "<title>"
+    Then I can see "<letter>" somewhere in the search result
+
+    Examples:
+      | title                                                      | letter |
+      | term.language=dansk AND term.type=bog  AND term.title=Åer* | Å      |
 
   @api @seek004 @seekNologin @regression
   Scenario: S004 Show openscan suggestions in search field
