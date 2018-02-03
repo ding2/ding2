@@ -3,6 +3,17 @@
 /**
  * @file
  * DataManager. Handles data from files.
+ *
+ * The data manager module is first cut on a data management
+ * support system for the behat test suite. This will provide 
+ * known data to support the test scenarios. At this stage the
+ * data is placed in files of equivalent data for particular 
+ * purposes: Pid's which have reviews, creator-description,
+ * online access, accessinfomedia - and pid's that doesn't have
+ * this particular attribute.
+ * The file to be used is set through a gherkin command and 
+ * to find a Pid a random post is picked from that file. This 
+ * broadens the test coverage to vary on data.
  */
 
 /**
@@ -10,14 +21,14 @@
  */
 class DataManager extends \Page\PageBase {
   /**
-   * Filename.
+   * Filename - holds the filename for the current chosen data file.
    *
    * @var string $filename
    */
   protected $filename = '';
 
   /**
-   * Flag for reservable only.
+   * Flag for reservable only. If set only reservable pid's will be returned.
    *
    * @var bool $onlyReservable
    *    True if only finding reservable objects.
@@ -25,7 +36,7 @@ class DataManager extends \Page\PageBase {
   protected $onlyReservable = false;
 
   /**
-   * GetFilename.
+   * Get Filename - returns the current filename in use.
    *
    * @return mixed
    *    The current filename.
@@ -35,7 +46,11 @@ class DataManager extends \Page\PageBase {
   }
 
   /**
-   * GetRandomPID
+   * Get a random PID from the set datafile. 
+   *
+   * The reason for taking out random values is to create the opportunity of a broader test.
+   * All data in the file must be equivalent in terms of their basic attributes, for instance
+   * 'has review'.
    *
    * @return mixed|string
    *    Return the PID that was found.
@@ -101,9 +116,14 @@ class DataManager extends \Page\PageBase {
   }
 
   /**
-   * Returns false only if material is reservable according to Connie rules.
+   * Tells if material is reservable according to Connie rules.
    *
-   * @todo: how to do this on other providers?
+   * This works of course only on Connie, which must be enabled for checks about
+   * reservation.
+   *
+   * @param string $mpid
+   *    The pid of the object to be checked for whether it is reservable.
+   *
    */
   private function isReservable($mpid) {
     $xx = explode(":", $mpid);
@@ -117,7 +137,7 @@ class DataManager extends \Page\PageBase {
   }
 
   /**
-   * SetFilename
+   * Set Filename for the data file to be used for known data.
    *
    * @param string $setFilename
    *    Filename to use.
@@ -127,7 +147,7 @@ class DataManager extends \Page\PageBase {
   }
 
   /**
-   * SetReservable.
+   * Set flag for whether returned pid's from data files of known pids should only be reservable.
    *
    * @param bool $truefalse
    *    Set flag for whether material should be reservable or not.
