@@ -9,7 +9,7 @@ namespace Page;
 
 use Behat\Mink\Session;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Factory;
-use Stack;
+
 
 /**
  * Class SearchPage
@@ -18,12 +18,7 @@ use Stack;
  */
 class SearchPage extends PageBase {
 
-  /**
-   * Stack holding the number of result per search. Primarily used for testing facets.
-   *
-   * @var Stack $expectedResultsCount
-   */
-  private $expectedResultsCount;
+
 
   /**
    * If 0 it will be interpreted as 'all'-
@@ -54,6 +49,12 @@ class SearchPage extends PageBase {
    */
   protected $searchResults = array();
 
+  /**
+   * Holds the stack for checking expected results using facets.
+   *
+   * @var array $stackFacets
+   */
+  protected $stackFacets = array();
 
   /**
    * Flag for verbose settings.
@@ -707,14 +708,20 @@ class SearchPage extends PageBase {
    *    Optional default false. If true, the last result will be popped from the stack too.
    *
    * @return int
-   *    Nonempty if failure.
+   *    Negative if failure.
    */
   public function getExpectedSearchResultSize($pop = false) {
-    // It's a bit crude, but I'm not sure where else to initialize this Stack variable.
-    if (!$this->expectedResultsCount) {
-      $this->expectedResultsCount = new Stack();
+    if (!$this->stackFacets) {
+      return -1;
     }
-    return $this->expectedResultsCount->get($pop);
+    if (count($this->stackFacets) == 0) {
+      return -1;
+    }
+    $value = $this->stackFacets[count($this->stackFacets) - 1];
+    if ($pop) {
+      return array_pop($this->stackFacets);
+    }
+    return $value;
   }
 
 
@@ -765,12 +772,12 @@ class SearchPage extends PageBase {
       $this->setExpectedSearchResultSize($largestCount);
     }
     else {
-      if ($this->expectedResultsCount->pop() < 0) {
-        return "Something went wrong with expected results - are you trying to deselect with selecting facets first?";
+      if ($this->getExpectedSearchResultSize(false) < 0) {
+        return "Something went wrong with expected results - are you trying to deselect without selecting facets first?";
       };
     }
-    $this->logMsg(true, "Clicks facet: " . $largestName . " to get " . $this->expectedResultsCount->get() . " results.");
 
+    $this->logMsg(true, "Clicks facet: " . $largestName . " to get " . $this->getExpectedSearchResultSize(false) . " results.");
     // Now we will select the largest one we ended up with.
     $link = $largestCheckbox->find('css', 'a');
     if ($link) {
@@ -1042,32 +1049,17 @@ class SearchPage extends PageBase {
    *    The expected number of postings found.
    */
   public function popExpectedSearchResultSize() {
-    // It's a bit crude, but I don't know where else to initialise this Stack.
-    if (!$this->expectedResultsCount) {
-      $this->expectedResultsCount = new Stack();
+    if (count($this->stackFacets) == 0) {
+      return -1;
     }
-    return $this->expectedResultsCount->pop();
+    return array_pop($this->stackFacets);
   }
 
   /**
    * SetExpectedSearchResultSize - pops and returns the last expected result.
    */
   public function setExpectedSearchResultSize($size) {
-    // It's a bit crude, but I don't know where else to initialise this Stack.
-    if (!$this->expectedResultsCount) {
-      $this->expectedResultsCount = new Stack();
-    }
-    /*
-     * We fail diligently by just setting a -1 as expected result. That will never compare
-     * to anything so we will get the actual failing condition at a later step.
-     * Meanwhile we loaded the reason into the logmessages which should be revealed at that
-     * time.
-     */
-    if (!is_numeric($size)) {
-      $this->logMsg(true, "Tried to set expected result to a non-number: " . $size);
-      $size = -1;
-    }
-    $this->expectedResultsCount->set($size);
+    array_push($this->stackFacets, $size);
   }
 
   /**
@@ -1361,7 +1353,7 @@ class SearchPage extends PageBase {
    */
   public function useFacetsToIncreaseSearchResults() {
     // Report an error if we've not set a facet correctly previously.
-    if ($this->getExpectedSearchResultSize() == 0) {
+    if ($this->getExpectedSearchResultSize() < 0) {
       return "We can only attempt to deselect a facet if we selected one first.";
     }
 
@@ -1393,7 +1385,6 @@ class SearchPage extends PageBase {
     if (!$found) {
       return "Didn't find any facets on the page.";
     }
-
     return $this->getLargestFacetAndClickIt($found, true);
   }
 }
