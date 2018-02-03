@@ -94,11 +94,21 @@ class LibContext implements Context, SnippetAcceptingContext {
   public $verbose;
 
   /**
-   * Initializes context.
+   * LibContext constructor.
    *
+   * Initializes context.
    * Every scenario gets its own context instance.
    * You can also pass arbitrary arguments to the
    * context constructor through behat.yml.
+   *
+   * @param SearchPage $searchPage
+   *    Injects the searchPage class.
+   * @param DataManager $dataManager
+   *    Injects the dataManager class.
+   * @param ObjectPage $objectPage
+   *    Injects the objectPage class.
+   * @param $NoScreenDump
+   *    Retrieved from behat.yml to indicate if screendumps are to be made or not.
    */
   public function __construct(SearchPage $searchPage, DataManager $dataManager, ObjectPage $objectPage, $NoScreenDump) {
     $this->searchPage = $searchPage;
@@ -154,15 +164,15 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Runs before each scenario
+   * Runs before each scenario.
+   *
+   * @BeforeScenario
    *
    * @param BeforeScenarioScope $scope
    *   Contains scope information.
    *
    * @throws \Behat\Mink\Exception\DriverException
    *   In case of error.
-   *
-   * @BeforeScenario
    */
   public function beforeScenario(BeforeScenarioScope $scope) {
     // Gather contexts.
@@ -186,10 +196,19 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Runs after each scenario
+   * Runs after each scenario.
+   *
+   * If scenario failed: place screenshots in the assigned folder, after resizing window appropriately.
    *
    * @AfterScenario
-   * Place screenshots in the assigned folder, after resizing window appropriately, if scenario failed
+   *
+   * @param \Behat\Behat\Hook\Scope\AfterScenarioScope $scope
+   *    Built-in parameter.
+   *
+   * @throws UnsupportedDriverActionException
+   *    In case of errors.
+   * @throws \Behat\Mink\Exception\DriverException
+   *    In case of errors.
    */
   public function afterScenario(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope) {
     if ($scope->getTestResult()->getResultCode() > 0) {
@@ -201,6 +220,11 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Step to save a screenshot on demand
    *
    * @Then I save (a) screenshot
+   *
+   * @throws UnsupportedDriverActionException
+   *    In case of error.
+   * @throws \Behat\Mink\Exception\DriverException
+   *    In case of error.
    */
   public function saveScreenshot() {
     // Initially check if we are taking screenshots at all. The setting is in the behat.yml file.
@@ -243,7 +267,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Step
+   * Implements step to accept the use of cookies agreement.
    *
    * @Given I accept cookies
    *
@@ -279,12 +303,15 @@ class LibContext implements Context, SnippetAcceptingContext {
 
 
   /**
-   * Step
-   *
-   * @Then I check if the right number of search results are shown
+   * Implements step to check that the expected number of search results are found after using facets.
    *
    * The methods "I use facets to reduce..." sets $this->>expectedResultsCount and must
    * be used before this is called, otherwise it will fail with that message.
+   *
+   * @Then I check if the right number of search results are shown
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function checkIfTheRightNumberOfSearchResultsAreShown() {
     // Scrape off the search result size from the page. This is displayed on every search result page.
@@ -306,25 +333,38 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * This is meant only to be used after a multipage search when paging is in place.
+   * Implement step to check the pagination is correct on all pages.
    *
-   * @Then I check pagination on all pages
+   * This is meant only to be used after a multipage search when paging is in place.
    * It goes through the latest stored search result and finds a random page which is accessible on the
    * currently displayed page, and go to that one.
    * Notice that the way to move to a particular page is to go to the link /search/thing/<searchcrit>?page=n
-   * where n = 1 yields page 2 in the search result. (without ?page it defaults to first page)
-   * Also notice that not all pages are given as options for the user. On a 10-page result, only 1 + 2 is displayed
-   * from the beginning.
+   * where n = 1 yields page 2 in the search result (without ?page it defaults to first page).
+   * Also notice that not all pages are given as options for the user.
+   * On a 10-page result, only 1 + 2 is displayed from the beginning.
    * From page 3 you get "første" + "forrige". On page 1 and 2 you don't.
+   *
+   * @Then I check pagination on all pages
+   *
+   * @throws Exception
+   *    In case of errors.
+   * @throws \Page\Exception
+   *    In case of errors.
    */
   public function checkPaginationOnAllPages() {
     $this->check($this->searchPage->checkPaginationOnAllPages(), $this->searchPage->getMessages());
   }
 
   /**
-   * Step
+   * Implements step to sort the search result with a particular sort order.
    *
    * @Then the search result is sorted on :sortOption
+   *
+   * @params string $sortOption
+   *    What the sorting should be made on.
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function checkSearchResultIsSortedOnSortOption($sortOption) {
     // Check that the user asked for a valid sort-option.
@@ -337,6 +377,14 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Type text character by character, with support for newline, tab as \n and \t
    *
    * @When I enter :text in field :field
+   *
+   * @param string $text
+   *    The text to enter into the field.
+   * @param string $field
+   *    The popular name for the field to enter data into.
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function enterTextIntoField($text, $field) {
     $found = $this->getPage()->find('css', $this->translateFieldName($field));
@@ -384,9 +432,14 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Step
+   * Implements step to open the object page of an object from the equivalence class chosen.
+   *
+   * The equivalence class is chosen by setting the file in another step.
    *
    * @When I display random object from file
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function displayRandomObjectFromFile() {
     // Obtain a random PID, but throw an error if we get an error message back instead of a PID.
@@ -408,6 +461,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @Then it is possible to add to a list
    * @Then it should be possible to add to a list
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function findAddToAList() {
     $this->check($this->objectPage->hasAddToList());
@@ -417,6 +473,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Check for whether the Husk / Tilføj til liste button is shown and visible
    *
    * @Then it is not possible to add to a list
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function findAddToListNotPossible() {
     $this->check($this->objectPage->hasNotAddToList());
@@ -426,73 +485,109 @@ class LibContext implements Context, SnippetAcceptingContext {
    * The function can be used to return the href to the image as well.
    *
    * @Then I (should) see availability options
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function findAvailabilityOptions() {
     $this->check($this->objectPage->hasAvailabiltyOptions());
   }
 
   /**
-   * Step
+   * Implements step to check if a cover page is shown.
    *
    * @Then I should see a cover page
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function findCoverPage() {
     $this->check($this->objectPage->hasCoverPage());
   }
 
   /**
-   * Check for whether the Husk / Tilføj til liste button is shown and visible
+   * Check for whether the "Husk / Tilføj til liste" button is shown and visible
    *
    * @Then it is possible to get online access
    * @Then online access button is shown
+   *
+   * @throws Exception
+   *   In case of errors.
    */
   public function findOnlineAccessButton() {
     $this->check($this->objectPage->hasOnlineAccessButton());
   }
 
   /**
-   * Step
+   * Implements step to check that at least one search result post has a particular attribute.
    *
    * @Then there are posts with :attribute in the search results
+   *
+   * @param string $attribute
+   *    The attribute to look for.
+   *
+   * @throws Exception
+   *    In case of error.
    */
   public function findPostsWithXXInTheSearchResult($attribute) {
     $this->check($this->searchPage->checkPostsWithXXInTheSearchResult($attribute, "some"));
   }
 
   /**
-   * Step
+   * Implements step to check that all shown posts in search result has a particular attribute.
    *
    * @Then all posts have :attribute in the search results
+   *
+   * @param string $attribute
+   *    The attribute to look for.
    */
   public function findPostsAllHaveXXInTheSearchResult($attribute) {
     $this->searchPage->checkPostsWithXXInTheSearchResult($attribute, "all");
   }
 
   /**
-   * Step
+   * Implements step to open one of the search results that has a cover page shown.
    *
-   * @When I open a random search result with (a) cover page to show the post
-   * Expects to start on a search result. It scans the page for results, chooses one randomly
+   * Any of the shown results which have a cover page shown should also have a cover page shown
+   * on the detail object view. So it picks one in random.
+   * It expects to start on a search result. It scans the page for results, chooses one randomly
    * and opens it up by extracting the pid from the link, and force its way to the ting/object/ prefix
    * This means it does not show a work / collection, if that's where the search would go.
+   *
+   * @When I open a random search result with (a) cover page to show the post
+   *
+   * @throws Exception
+   *    In case of errors.
    */
   public function findRandomSearchResultWithCoverPageToShowThePost() {
     $this->searchPage->getRandomSearchResultToShowPost("coverpage");
   }
 
   /**
-   * Step
+   * Implements a step to check if a particular relation type is shown.
    *
    * @Then a :relationType entry is shown
+   *
+   * @param string $relType
+   *    The relation type to look for.
+   *
+   * @throws Exception
+   *    In case of error.
    */
   public function findRelationTypeEntryIsShown($relType) {
     $this->check($this->objectPage->entryIsShown($relType));
   }
 
   /**
-   * Step
+   * Implements step to check if a particular relation type is not shown.
    *
    * @Then a :relationType entry is not shown
+   *
+   * @param string $relType
+   *    The relation type to look for.
+   *
+   * @throws Exception
+   *    In case of error.
    */
   public function findRelationTypeEntryNotShown($relType) {
     $this->check($this->objectPage->entryIsNotShown($relType));
@@ -508,9 +603,15 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Step
+   * Implements step to check for a title to be present on the first page of a search result.
    *
    * @Then I can see :title in the search results first page
+   *
+   * @param string $title
+   *   The title to search for.
+   *
+   * @throws Exception
+   *   In case of errors.
    */
   public function findTitleInTheSearchResultsFirstPage($title) {
     $title = $this->translateArgument($title);
@@ -529,9 +630,12 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Step
+   * Implements step to check for a login prompt.
    *
    * @Then I am prompted to login
+   *
+   * @throws Exception
+   *   In case of error.
    */
   public function getPromptToLogin() {
      $this->check($this->objectPage->getPromptToLogin());
@@ -553,13 +657,13 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Go to the search page.
    *
+   * @Given I have searched for :string
+   *
    * @param string $string
    *   String to search for.
    *
    * @throws Exception
    *   In case of error.
-   *
-   * @Given I have searched for :string
    */
   public function gotoSearchPage($string) {
     // First we try to translate the argument, to see if there's anything we should pick out first.
@@ -570,6 +674,8 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
+   * Implements step to search for data and put it into a file as known data.
+   *
    * @Given I create files :mfile from opensearch on relation :relation
    *
    * @Param string $mfile
@@ -592,6 +698,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    *    The relation we are looking for.
    * @param integer $start
    *    The starting point for the service retrieval.
+   *
+   * @throws ErrorException
+   *    In case of errors.
    */
   private function ICreateFilesForRelationChunk($mfile, $relation, $start) {
     // Set up the search as URL.
@@ -797,6 +906,11 @@ class LibContext implements Context, SnippetAcceptingContext {
 
   /**
    * Log a user in.
+   *
+   * @throws Exception
+   *    In case of errors.
+   * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *    In case of errors.
    */
   public function login() {
 
@@ -924,21 +1038,28 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Step
+   * Scrape off all the search results for further analysis and reference.
    *
-   * @Then paging allows to get all the results
    * This retrieves the search result and stores it in the local array searchResults.
    * There can be several search results, so some garbage collection needs to be done.
    * The searchResult array will be reset before each scenario.
+   *
+   * @Then paging allows to get all the results
+   *
+   * @throws Exception
+   *   In case of errors.
    */
   public function pagingAllowsToGetAllResults() {
     $this->check($this->searchPage->getEntireSearchResult(), ($this->searchPage->getVerboseSearchResult() == "on") ? $this->searchPage->getMessages() : '');
   }
 
   /**
-   * Step
+   * Make a reservation.
    *
    * @When I try to reserve the material
+   *
+   * @throws Exception
+   *    In case of error.
    */
   public function reserveTheMaterial() {
     $this->findReserveMaterialButton();
@@ -950,6 +1071,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Scroll to bottom of page
    *
    * @When I scroll to the bottom (of the page)
+   *
+   * @throws Exception
+   *    In case of error.
    */
   public function scrollToBottom() {
     $found = $this->getPage()->find('css', 'footer.footer');
@@ -959,9 +1083,12 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Scroll a bit up
+   * Scroll a bit up.
    *
    * @When I scroll :pixels pixels
+   *
+   * @param string $pixels
+   *    The number of pixels to scroll up.
    */
   public function scrollABit($pixels) {
     $this->minkContext->getSession()->executeScript('window.scrollBy(0, ' . $pixels . ');');
@@ -974,7 +1101,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *   Element to scroll to.
    *
    * @throws \Exception
-   *   The exception we throw.
+   *   The exception we throw in case of error.
    */
   public function scrollTo(ElementInterface $element) {
     // Translate the xpath of the element by adding \\ in front of " to allow it to be passed in the javascript.
@@ -999,14 +1126,6 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Makes a series of searches until the search result is satisfactory.
    *
-   * @Given I want a search result between :interval using :listOfTerms published between :publishedInterval
-   *
-   * One example of usage is: Given I want a search result between "50-100" using "term.type=bog AND term.publisher=Gyldendal" published between "2000-2017"
-   * :interval     = "50-75" lower and upper acceptable number of search results.
-   *                         (this is compared to the number of posts found)
-   * :listOfTerms  = "term.type=ebog;term.publisher=Gyldendal"
-   * :publishedInterval = year interval of publishing, ex. "1995-2017".
-   *
    * The method will use all the listOfTerms, but alter the dates published until a satisfactory
    * amount of results are found. It will try first only the earliest year (ex. 1995) and if too
    * few, then it will add another year - and keep adding years until it reaches 2017. If still too
@@ -1014,34 +1133,62 @@ class LibContext implements Context, SnippetAcceptingContext {
    * If too many, it will move up one year, until it has tried all years.
    * With verbose of searchResults = on it will log it's attempts.
    * If unable to reach a searchresult of the wanted size it will fail.
+   *
+   * @Given I want a search result between :interval using :listOfTerms published between :publishedInterval
+   *
+   * @param string $interval
+   *    Acceptable interval of search result. Given in form "50-75".
+   * @param string $listOfTerms
+   *    Restrictive search term, f.ex. "term.type=ebog;term.publisher=Gyldendal".
+   * @param string $publishedBetween
+   *    Year interval of publishing, f.ex. "1995-2017".
+   *
+   * @throws Exception
+   *    In case of search error or a suitable result cannot be found.
    */
   public function searchForResultOfCertainSizeUsingInterval($interval, $listOfTerms, $publishedBetween) {
      $this->check($this->searchPage->searchForCertainSize($interval, $listOfTerms, $publishedBetween), $this->searchPage->getMessages());
   }
 
   /**
-   * Step
+   * Implements step to perform the current search on the library's home page.
    *
    * @When I search on hjemmesiden
    * @When I search (internally|on the home page)
+   *
+   * @throws Exception
+   *    In case of error.
+   * @throws \Page\Exception
+   *    In case of error.
    */
   public function searchOnHomePage() {
     $this->check($this->searchPage->searchOnHomePage());
   }
 
   /**
-   * Step
+   * Implements step to set the current file.
    *
    * @Given filename :file is used
+   *
+   * @param string $file
+   *    Filename to use. The file should be in the behat root dir.
    */
   public function setFilename($file) {
     $this->dataMgr->setFilename($file);
   }
 
   /**
-   * Step
+   * Implements step to set the number of results per search page.
    *
    * @When I set (the) number of results per page to :size
+   *
+   * @param string $size
+   *    The number of results to set to.
+   *
+   * @throws Exception
+   *    In case of the operation fails.
+   * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *    In case the number cannot be selected or the dropdown is not present.
    */
   public function setTheNumberOfResultsPerPageToSize($size) {
     $this->check($this->searchPage->setTheNumberOfResultsPerPageToSize($size));
@@ -1054,6 +1201,11 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @Given I want verbose mode for :area to be :onoff
    * @Given I set verbose mode for :area to be :onoff
    * @Given I set control mode for :area to be :onoff
+   *
+   * @param string $area
+   *    The key to the setting.
+   * @param string $onoff
+   *    The value to set - on or off.
    */
   public function setVerboseControlMode($area, $onoff) {
     $area = mb_strtolower($area);
@@ -1116,7 +1268,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Step
+   * Implements step to indicate that only reservable material is to be found.
    *
    * @Given (I) only (want) reservables
    */
@@ -1156,9 +1308,19 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Step
+   * Implements step to sort the search result by choosing in the dropdown.
    *
    * @When I sort the search result on :sortOption
+   *
+   * @param string $sortOption
+   *    The option sort by.
+   *
+   * @throws Exception
+   *    If sorting fails.
+   * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *    If sortoption is not valid.
+   * @throws \Page\Exception
+   *    If sorting fails.
    */
   public function sortTheSearchResultOnOption($sortOption) {
     // Check that the user asked for a valid sort-option.
@@ -1261,6 +1423,8 @@ class LibContext implements Context, SnippetAcceptingContext {
     switch (strtolower($field)) {
       case "søg":
       case "søgefelt":
+      case "search":
+      case "searchfield":
         $result = "input#edit-search-block-form--2";
         break;
 
@@ -1296,12 +1460,15 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Step
+   * Implements step to navigate to a specific page using the paging mechanism
    *
    * @param int $toPage
    *   is expected to be numeric. First page is 1.
    *
    * @When I use pagination to go to page :toPage
+   *
+   * @throws Exception
+   * @throws \Page\Exception
    */
   public function usePaginationToGoToPageN($toPage) {
     // Start by scrolling to the footer so if we fail the screendump will tell us something.
@@ -1314,14 +1481,13 @@ class LibContext implements Context, SnippetAcceptingContext {
     if ($curpg != $toPage) {
       $this->check($this->searchPage->goToPage($toPage));
     }
-    else {
-      // We will not fail this.. it may be on purpose.
-    }
   }
 
 
   /**
    * Wait for page to load.
+   *
+   * @throws Exception
    */
   public function waitForPage() {
     try {
@@ -1358,7 +1524,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Step
+   * Implements step to wait until a text disappears.
    *
    * @param int $waitmax
    *    Number of waits of 300 ms.
