@@ -471,7 +471,7 @@ class LibContext implements Context, SnippetAcceptingContext {
       // Now open the page - replace the {id} with the mpid in the path.
       $this->objectPage->open(['id' => urlencode($mpid)]);
       $this->waitForPage();
-      if (!$this->minkContext->findElements(By.xpath("//div[contains(@class,'field-name-ting-title')]/h2"))) {
+      if (!$this->minkContext->find("xpath", "//div[contains(@class,'field-name-ting-title')]/h2"))) {
         $this->saveScreenshot();
       }
     }
@@ -557,10 +557,10 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Implements step to check that all shown posts in search result has a particular attribute.
    *
-   * @Then all posts have :attribute in the search results
-   *
    * @param string $attribute
    *    The attribute to look for.
+   *
+   * @Then all posts have :attribute in the search results
    */
   public function findPostsAllHaveXXInTheSearchResult($attribute) {
     $this->searchPage->checkPostsWithXXInTheSearchResult($attribute, "all");
@@ -1203,7 +1203,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @When I set (the) number of results per page to :size
    *
    * @throws Exception
+   *   When errors occurs.
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   When errors happens.
    */
   public function setTheNumberOfResultsPerPageToSize($size) {
     $this->check($this->searchPage->setTheNumberOfResultsPerPageToSize($size));
@@ -1213,14 +1215,14 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Sets the control or verbose mode of the run, controlling how much info is put into the output log.
    *
-   * @Given I want verbose mode for :area to be :onoff
-   * @Given I set verbose mode for :area to be :onoff
-   * @Given I set control mode for :area to be :onoff
-   *
    * @param string $area
    *    The key to the setting.
    * @param string $onoff
    *    The value to set - on or off.
+   *
+   * @Given I want verbose mode for :area to be :onoff
+   * @Given I set verbose mode for :area to be :onoff
+   * @Given I set control mode for :area to be :onoff
    */
   public function setVerboseControlMode($area, $onoff) {
     $area = mb_strtolower($area);
