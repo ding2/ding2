@@ -95,7 +95,7 @@ class DataManager extends \Page\PageBase {
       // find one that is reservable according to Connie conventions. Notice we
       // only try this for books, because other types are generally not reservable.
       $max = 200;
-      while (--$max > 0 && $this->onlyReservable && !$this->isReservable($columns[0]) ) {
+      while (--$max > 0 && $this->onlyReservable && !$this->isReservable($columns[0])) {
         // We found a random one to start with, now we spin forward until we
         // find a reservable one and loop around if we get to the end.
         $pointer++;
@@ -123,7 +123,6 @@ class DataManager extends \Page\PageBase {
    *
    * @param string $mpid
    *    The pid of the object to be checked for whether it is reservable.
-   *
    */
   private function isReservable($mpid) {
     $xx = explode(":", $mpid);
