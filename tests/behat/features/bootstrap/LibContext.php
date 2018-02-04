@@ -471,7 +471,7 @@ class LibContext implements Context, SnippetAcceptingContext {
       // Now open the page - replace the {id} with the mpid in the path.
       $this->objectPage->open(['id' => urlencode($mpid)]);
       $this->waitForPage();
-      if (!$this->minkContext->find("xpath", "//div[contains(@class,'field-name-ting-title')]/h2")) {
+      if (!$this->getPage()->find("xpath", "//div[contains(@class,'field-name-ting-title')]/h2")) {
         print_r("Failed\n");
         $this->saveScreenshot();
       }
