@@ -464,7 +464,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function displayAllObjectsFromFile() {
     $this->dataMgr->setToFirstInFile();
     while (!$this->dataMgr->EOF()) {
-      $mpid = $this->dataMgr->getNextPID();
+      $mpid = $this->dataMgr->readNextPidFromFile();
       // Help the tester by showing what was searched for and also which test system we're on.
       print_r("Displaying: " . $this->minkContext->getMinkParameter('base_url') . "ting/object/" . $mpid . "\n");
 
