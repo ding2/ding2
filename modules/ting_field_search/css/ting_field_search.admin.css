@@ -42,3 +42,32 @@
 td.ctools-export-ui-operations .ctools-dropbutton {
   right: 40px;
 }
+
+/* Field group information */
+#edit-config-fields .form-item {
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+
+#edit-config-fields .form-item label {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* Edit field group link */
+#edit-config-fields .edit-field-group {
+  display: inline-block;
+  margin-top: 15px;
+}
+
+#edit-config-fields .add-field {
+  padding: 0;
+  margin: 15px 0 0 0;
+}
+
+/* Group form */
+#ting-field-search-group-form-add select,
+#ting-field-search-group-form-edit select,
+#edit-config-fields select {
+  width: 80px;
+}

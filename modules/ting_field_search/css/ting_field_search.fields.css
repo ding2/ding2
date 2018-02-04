@@ -29,6 +29,7 @@
 #ting-field-search-fields-form  .fieldset-title {
   display: inline-block;
   width: 100%;
+  color: inherit;
 }
 
 /* "Advanced search" title on root fieldset */
@@ -59,28 +60,42 @@
 .ting-field-search-field-group .form-type-radios > label,
 .ting-field-search-field-group .form-type-select > label {
   font-size: 18px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
+/* Field group layout */
 .ting-field-search-field-group .fieldset-wrapper .form-type-textfield,
 .ting-field-search-field-group .fieldset-wrapper .form-type-checkboxes,
 .ting-field-search-field-group .fieldset-wrapper .form-type-radios,
 .ting-field-search-field-group .fieldset-wrapper .form-type-select {
-  width: 33.3333%;
   float: left;
-  padding: 20px 10px 0;
+  padding: 20px 5px 0 5px;
 }
 
-.ting-field-search-field-group .fieldset-wrapper .form-type-select {
-  padding: 20px 0 0;
+.ting-field-search-field-group-columns-2 .fieldset-wrapper .form-type-textfield,
+.ting-field-search-field-group-columns-2 .fieldset-wrapper .form-type-checkboxes,
+.ting-field-search-field-group-columns-2 .fieldset-wrapper .form-type-radios,
+.ting-field-search-field-group-columns-2 .fieldset-wrapper .form-type-select {
+  width: 50%;
 }
 
-.ting-field-search-field-group div.form-type-textfield:first-child,
-.ting-field-search-field-group div.form-type-checkboxes:first-child  {
-  padding-left: 0;
+.ting-field-search-field-group-columns-3 .fieldset-wrapper .form-type-textfield,
+.ting-field-search-field-group-columns-3 .fieldset-wrapper .form-type-checkboxes,
+.ting-field-search-field-group-columns-3 .fieldset-wrapper .form-type-radios,
+.ting-field-search-field-group-columns-3 .fieldset-wrapper .form-type-select {
+  width: 33.33333%;
 }
 
-.ting-field-search-field-group div.form-type-textfield:last-child,
-.ting-field-search-field-group div.form-type-checkboxes:last-child  {
-  padding-right: 0;
+.ting-field-search-field-group-columns-4 .fieldset-wrapper .form-type-textfield,
+.ting-field-search-field-group-columns-4 .fieldset-wrapper .form-type-checkboxes,
+.ting-field-search-field-group-columns-4 .fieldset-wrapper .form-type-radios,
+.ting-field-search-field-group-columns-4 .fieldset-wrapper .form-type-select {
+  width: 25%;
+}
+
+.ting-field-search-field-group-columns-5 .fieldset-wrapper .form-type-textfield,
+.ting-field-search-field-group-columns-5 .fieldset-wrapper .form-type-checkboxes,
+.ting-field-search-field-group-columns-5 .fieldset-wrapper .form-type-radios,
+.ting-field-search-field-group-columns-5 .fieldset-wrapper .form-type-select {
+  width: 20%;
 }

@@ -25,27 +25,57 @@ function ting_field_search_ctools_plugin_directory($module, $plugin) {
 function ting_field_search_menu() {
   $items = array();
 
-  $items['admin/config/ting/ting-field-search-profiles/list/%ting_field_search_profiles/fields/add'] = array(
+  // Base path for field and field group configuration.
+  $base = 'admin/config/ting/ting-field-search-profiles/%ting_field_search_profiles';
+
+  // Groups.
+  $items[$base . '/groups/add'] = array(
+    'title' => 'Add field group',
+    'description' => 'Add a new field group to a profile.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_field_search_group_form_add', 4),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_field_search.admin.inc',
+  );
+  $items[$base . '/groups/%/edit'] = array(
+    'title' => 'Edit field group',
+    'description' => 'Edit an existing field group on a profile.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_field_search_group_form_edit', 4, 6),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_field_search.admin.inc',
+  );
+  $items[$base . '/groups/%/delete'] = array(
+    'title' => 'Delete field group',
+    'description' => 'Delete an existing field grouo on a profile.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_field_search_group_delete_confirm_form', 4, 6),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_field_search.admin.inc',
+  );
+
+  // Fields.
+  $items[$base . '/fields/%/add'] = array(
     'title' => 'Add field',
     'description' => 'Add a new field to a profile.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_field_search_field_form_add', 5),
+    'page arguments' => array('ting_field_search_field_form_add', 4, 6),
     'access arguments' => array('administer site configuration'),
     'file' => 'ting_field_search.admin.inc',
   );
-  $items['admin/config/ting/ting-field-search-profiles/list/%ting_field_search_profiles/fields/%/edit'] = array(
+  $items[$base . '/fields/%/%/edit'] = array(
     'title' => 'Edit field',
     'description' => 'Edit an existing field on a profile.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_field_search_field_form_edit', 5, 7),
+    'page arguments' => array('ting_field_search_field_form_edit', 4, 6, 7),
     'access arguments' => array('administer site configuration'),
     'file' => 'ting_field_search.admin.inc',
   );
-  $items['admin/config/ting/ting-field-search-profiles/list/%ting_field_search_profiles/fields/%/delete'] = array(
+  $items[$base . '/fields/%/delete'] = array(
     'title' => 'Delete field',
     'description' => 'Delete an existing field on a profile.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_field_search_field_delete_confirm_form', 5, 7),
+    'page arguments' => array('ting_field_search_field_delete_confirm_form', 4, 6),
     'access arguments' => array('administer site configuration'),
     'file' => 'ting_field_search.admin.inc',
   );
@@ -63,6 +93,12 @@ function ting_field_search_forms() {
   );
   $forms['ting_field_search_field_form_edit'] = array(
     'callback' => 'ting_field_search_field_form',
+  );
+  $forms['ting_field_search_group_form_add'] = array(
+    'callback' => 'ting_field_search_group_form',
+  );
+  $forms['ting_field_search_group_form_edit'] = array(
+    'callback' => 'ting_field_search_group_form',
   );
   return $forms;
 }
@@ -820,7 +856,7 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
     '#type' => 'fieldset',
     '#title' => t('Additional search options'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
+    '#collapsed' => empty($values),
     '#tree' => TRUE,
   );
 
@@ -839,9 +875,7 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
     if ($field['description_display']) {
       // Textfields can show as placeholder.
       if ($field['type'] == 'textfield' && $field['placeholder']) {
-        $field_element['#attributes'] = array(
-          'placeholder' => check_plain($field['description'])
-        );
+        $field_element['#attributes']['placeholder'] = check_plain($field['description']);
       }
       else {
         $field_element['#description'] = check_plain($field['description']);
@@ -864,26 +898,34 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
       $field_element['#default_value'] = $defaults;
     }
 
-    $field_elements[$field['type']][$index] = $field_element;
+    $field_elements[$field['group_name']][$index] = $field_element;
   }
 
   $types = ting_field_search_field_types();
 
-  // Build a field group for each type of field on the profile.
-  foreach (array_keys($field_elements) as $type) {
+  // Build a fieldset for each field group on the profile.
+  foreach (array_keys($field_elements) as $group_name) {
+    $group = $profile->groups[$group_name];
+
     $field_group = array(
       '#type' => 'fieldset',
-      '#title' => $types[$type]['plural'],
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
+      '#title' => check_plain($group['title']),
+      '#title_display' => $group['title_display'] ? 'before' : 'invisible',
+      '#collapsible' => $group['collapsible'],
+      '#collapsed' => $group['collapsed'],
       '#attributes' => array('class' => array(
-        'ting-field-search-field-group'
+        'ting-field-search-field-group',
+        'ting-field-search-field-group-columns-' . $group['columns'],
       )),
     );
 
-    $field_group = array_merge($field_group, $field_elements[$type]);
+    if ($group['description_display']) {
+      $field_group['#description'] = $group['description'];
+    }
 
-    $form['ting_field_search_fields'][$type] = $field_group;
+    $field_group = array_merge($field_group, $field_elements[$group_name]);
+
+    $form['ting_field_search_fields'][$group_name] = $field_group;
   }
 
   $form['actions'] = array(
@@ -933,7 +975,7 @@ function ting_field_search_fields_form_submit($form, &$form_state) {
   $field_values = $form_state['values']['ting_field_search_fields'];
   $field_query = array();
   foreach ($profile->fields as $index => $field) {
-    $field_value = $field_values[$field['type']][$index];
+    $field_value = $field_values[$field['group_name']][$index];
     switch ($field['type']) {
       case 'textfield':
         if ($field_value = trim($field_value)) {
@@ -1061,6 +1103,9 @@ function ting_field_search_profiles_load_multiple($names = NULL) {
     if (!isset($profile->fields)) {
       $profile->fields = array();
     }
+    if (!isset($profile->groups)) {
+      $profile->groups = array();
+    }
     // Apply defaults for any missing config values.
     foreach (ting_field_search_config_default() as $key => $config_defaults) {
       $config = isset($profile->config[$key]) ? $profile->config[$key] : array();
@@ -1174,6 +1219,7 @@ function ting_field_search_profile_create($set_defaults = TRUE) {
 
   // This wrapper gives us a chance to set some defaults.
   $profile->config = ting_field_search_config_default();
+  $profile->groups = array();
   $profile->fields = array();
   $profile->facets = array();
 
@@ -1317,15 +1363,27 @@ function _ting_field_search_profiles_weight_sort($profile_a, $profile_b) {
 }
 
 /**
- * Sorts the fields on profile by weight.
+ * Sorts the fields and field groups on the profile by their weight.
  */
 function ting_field_search_profile_fields_sort($profile) {
-  if (empty($profile->fields)) {
-    return;
+  if (!empty($profile->fields)) {
+    uasort($profile->fields, function($a, $b) {
+      return $a['weight'] - $b['weight'];
+    });
   }
+  if (!empty($profile->groups)) {
+    uasort($profile->groups, function($a, $b) {
+      return $a['weight'] - $b['weight'];
+    });
+  }
+}
 
-  uasort($profile->fields, function($a, $b) {
-    return $a['weight'] - $b['weight'];
+/**
+ * Returns earch field on the profile that is in group_name.
+ */
+function ting_field_search_field_group_fields($profile, $group_name) {
+  return array_filter($profile->fields, function($field) use ($group_name) {
+    return $field['group_name'] === $group_name;
   });
 }
 

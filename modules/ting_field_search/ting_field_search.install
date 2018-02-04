@@ -72,6 +72,13 @@ function ting_field_search_schema() {
         'serialize' => TRUE,
         'description' => 'Serialized field configuration',
       ),
+      'groups' => array(
+        'type' => 'blob',
+        'size' => 'big',
+        'not null' => TRUE,
+        'serialize' => TRUE,
+        'description' => 'Serialized groups configuration',
+      ),
       'weight' => array(
         'type' => 'int',
         'size' => 'small',
@@ -329,6 +336,14 @@ function ting_field_search_update_7003() {
     'not null' => TRUE,
     'serialize' => TRUE,
     'description' => 'Serialized field configuration',
+    'initial' =>  serialize(array()),
+  ));
+  db_add_field('ting_field_search_profile', 'groups', array(
+    'type' => 'blob',
+    'size' => 'big',
+    'not null' => TRUE,
+    'serialize' => TRUE,
+    'description' => 'Serialized groups configuration',
     'initial' =>  serialize(array()),
   ));
 }

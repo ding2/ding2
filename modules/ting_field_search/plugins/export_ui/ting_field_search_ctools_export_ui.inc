@@ -357,58 +357,108 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#weight' => -10,
   );
 
-  // Need a profile machine_name to add fields.
-  // TODO: Maybe use ctools object cache to provide a better user experience.
-  // See: https://www.webomelette.com/ctools-object-cache-multi-step-form
+  // Base path for group and field config.
+  $base = 'admin/config/ting/ting-field-search-profiles/' . $profile->name;
+
+  // Need a profile machine_name to add groups.
+  // TODO: Find out how we can determine if a profile is being imported. This
+  // only protects against profiles being created.
   if (!empty($profile->name)) {
-    $form['config']['fields']['add_field'] = array(
+    $form['config']['fields']['add_group'] = array(
       '#prefix' => '<ul class="action-links"><li>',
       '#type' => 'link',
-      '#title' => t('Add field'),
-      '#href' => 'admin/config/ting/ting-field-search-profiles/list/' . $profile->name . '/fields/add',
+      '#title' => t('Add field group'),
+      '#href' => $base . '/groups/add',
       '#suffix' => '</li></ul>',
     );
   }
 
-  // Build field tables if present.
-  if (!empty($profile->fields)) {
-    // When displaying fields, we need to ensure they are sorted by weight:
-    ting_field_search_profile_fields_sort($profile);
+  // Ensure fields and fields groups are displayed sorted by weight.
+  ting_field_search_profile_fields_sort($profile);
 
-    $rows = array();
-    $row_elements = array();
-    foreach ($profile->fields as $key => $field) {
-      $row = _ting_field_search_build_field_row($field, $profile);
-      $type = $field['type'];
-      $row_elements[$type][$key] = array(
-        // We only allow field value to be manipulated in the table, so that is
-        // the only element we need outside the table.
-        'weight' => &$row['data'][3]['data'],
-      );
-      $rows[$type][$key] = $row;
-    }
-
-    // Build a table render array for each field type.
-    foreach (array_keys($rows) as $type) {
-      $form['config']['fields'][$type] = array(
+  // Build field groups if present.
+  if (!empty($profile->groups)) {
+    foreach ($profile->groups as $group_name => $group) {
+      $form['config']['fields'][$group_name] = array(
         '#type' => 'fieldset',
-        '#title' => $type,
-        '#description' => t('Fields in %type', array('%type' => $type)),
+        '#title' => check_plain($group['title']),
         '#collapsible' => TRUE,
       );
+
+      // Field group information.
+      if (!empty($group['description'])) {
+        $form['config']['fields'][$group_name]['description'] = array(
+          '#type' => 'item',
+          '#title' => t('Description'),
+          '#markup' => check_plain($group['description']),
+        );
+      }
+      $form['config']['fields'][$group_name]['columns'] = array(
+        '#type' => 'item',
+        '#title' => t('Columns'),
+        '#markup' => check_plain($group['columns']),
+      );
+      $form['config']['fields'][$group_name]['weight'] = array(
+        '#type' => 'select',
+        '#title' => t('Weight'),
+        '#options' => drupal_map_assoc(range(-15, 15)),
+        '#default_value' => $group['weight'],
+      );
+
+      // Edit field group link.
+      $form['config']['fields'][$group_name]['edit_group'] = array(
+        '#type' => 'item',
+        '#markup' => l(
+          t('Edit field group'),
+          $base . '/groups/' . $group_name .  '/edit',
+          array('attributes' => array('class' => array('edit-field-group')))
+        ),
+      );
+
+      // Add field link.
+      $form['config']['fields'][$group_name]['add_field'] = array(
+        '#prefix' => '<ul class="action-links add-field"><li>',
+        '#type' => 'link',
+        '#title' => t('Add field'),
+        '#href' => $base . '/fields/' . $group_name . '/add',
+        '#suffix' => '</li></ul>',
+      );
+
+      // Prepare the table render array for the fields in the group.
       $header = array(t('Title'), t('Type'), t('Index') , t('Weight'), t('Operations'));
-      $table_id = 'fields-' . $type;
-      $form['config']['fields'][$type]['table'] = array(
+      $table_id = 'fields-' . $group_name;
+      $form['config']['fields'][$group_name]['table'] = array(
         '#theme' => 'table',
-        'elements' => $row_elements[$type],
         '#header' => $header,
-        '#rows' => $rows[$type],
         '#attributes' => array('id' => $table_id),
+        '#empty' => t('No fields added to this group'),
       );
       drupal_add_tabledrag($table_id, 'order', 'sibling', 'field-weight');
     }
   }
 
+  // Build field rows and add them to their field group table.
+  if (!empty($profile->fields)) {
+    $rows = array();
+    $row_elements = array();
+    foreach ($profile->fields as $index => $field) {
+      $row = _ting_field_search_build_field_row($field, $base . '/fields');
+      $group_name = $field['group_name'];
+      $row_elements[$group_name][$index] = array(
+        // We only allow field value to be manipulated in the table, so that is
+        // the only element we need outside the table.
+        'weight' => &$row['data'][3]['data'],
+      );
+      $rows[$group_name][$index] = $row;
+    }
+
+    foreach (array_keys($rows) as $group_name) {
+      $form['config']['fields'][$group_name]['table'] += array(
+        'elements' => $row_elements[$group_name],
+        '#rows' => $rows[$group_name],
+      );
+    }
+  }
 
   // Add some correcting CSS.
   $path = drupal_get_path('module', 'ting_field_search');
@@ -540,9 +590,7 @@ function _ting_field_search_build_facet_row($index, $facet = NULL) {
 /**
  * Helper function to prepare a field row for tabledrag.
  */
-function _ting_field_search_build_field_row($field, $profile) {
-  $base = 'admin/config/ting/ting-field-search-profiles/list/';
-  $base .= $profile->name . '/fields/' . $field['index'];
+function _ting_field_search_build_field_row($field, $base) {
   return array(
     'data' => array(
       array('data' => array(
@@ -568,11 +616,11 @@ function _ting_field_search_build_field_row($field, $profile) {
         '#links' => array(
           array(
             'title' => t('Edit'),
-            'href' => $base . '/edit',
+            'href' => $base . '/' . $field['group_name'] . '/' . $field['index'] . '/edit',
           ),
           array(
             'title' => t('Delete'),
-            'href' => $base . '/delete',
+            'href' => $base . '/' . $field['index'] . '/delete',
           ),
         ),
       )),
