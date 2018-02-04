@@ -924,6 +924,7 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
       '#title_display' => $group['title_display'] ? 'before' : 'invisible',
       '#collapsible' => $group['collapsible'],
       '#collapsed' => $group['collapsed'],
+      '#weight' => $group['weight'],
       '#attributes' => array('class' => array(
         'ting-field-search-field-group',
         'ting-field-search-field-group-columns-' . $group['columns'],
