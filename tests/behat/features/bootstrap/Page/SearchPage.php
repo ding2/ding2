@@ -18,8 +18,6 @@ use SensioLabs\Behat\PageObjectExtension\PageObject\Factory;
  */
 class SearchPage extends PageBase {
 
-
-
   /**
    * If 0 it will be interpreted as 'all'-
    *
@@ -893,7 +891,6 @@ class SearchPage extends PageBase {
    *    Nonempty in case of failure.
    *
    * @throws Exception
-   *    In case of error.
    * @throws \Exception
    *    In case of error.
    */

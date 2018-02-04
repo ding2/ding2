@@ -107,7 +107,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *    Injects the dataManager class.
    * @param ObjectPage $objectPage
    *    Injects the objectPage class.
-   * @param $NoScreenDump
+   * @param string $NoScreenDump
    *    Retrieved from behat.yml to indicate if screendumps are to be made or not.
    */
   public function __construct(SearchPage $searchPage, DataManager $dataManager, ObjectPage $objectPage, $NoScreenDump) {
@@ -138,7 +138,7 @@ class LibContext implements Context, SnippetAcceptingContext {
           // Format should be key <tab> value.
           $columns = explode("\t", $fline);
           if (count($columns) != 2) {
-            print_r ("Error: File '" . $filename . "' is expected to have two columns.");
+            print_r("Error: File '" . $filename . "' is expected to have two columns.");
           }
           if (ord(substr($columns[1], strlen($columns[1]), 1)) < 32) {
             $columns[1] = substr($columns[1], 0, strlen($columns[1]) - 1);
@@ -166,10 +166,10 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Runs before each scenario.
    *
-   * @BeforeScenario
-   *
    * @param BeforeScenarioScope $scope
    *   Contains scope information.
+   *
+   * @BeforeScenario
    *
    * @throws \Behat\Mink\Exception\DriverException
    *   In case of error.
@@ -200,13 +200,14 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * If scenario failed: place screenshots in the assigned folder, after resizing window appropriately.
    *
-   * @AfterScenario
-   *
    * @param \Behat\Behat\Hook\Scope\AfterScenarioScope $scope
    *    Built-in parameter.
    *
+   * @AfterScenario
+   *
    * @throws UnsupportedDriverActionException
    *    In case of errors.
+   *
    * @throws \Behat\Mink\Exception\DriverException
    *    In case of errors.
    */
@@ -223,6 +224,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @throws UnsupportedDriverActionException
    *    In case of error.
+   *
    * @throws \Behat\Mink\Exception\DriverException
    *    In case of error.
    */
@@ -237,7 +239,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     $screenShotDir = $this->verbose->ScrShotDir;
     $featureFolder = "";
     if ($this->verbose->ScrShotUseFeatureFolder) {
-      $featureFolder = preg_replace('/\W/', '', ucwords(strtolower($this->currentFeature))) ;
+      $featureFolder = preg_replace('/\W/', '', ucwords(strtolower($this->currentFeature)));
       if (!file_exists($screenShotDir . $featureFolder)) {
         mkdir($screenShotDir . $featureFolder);
       }
@@ -348,6 +350,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @throws Exception
    *    In case of errors.
+   *
    * @throws \Page\Exception
    *    In case of errors.
    */
@@ -376,12 +379,12 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Type text character by character, with support for newline, tab as \n and \t
    *
-   * @When I enter :text in field :field
-   *
    * @param string $text
    *    The text to enter into the field.
    * @param string $field
    *    The popular name for the field to enter data into.
+   *
+   * @When I enter :text in field :field
    *
    * @throws Exception
    *    In case of errors.
@@ -521,10 +524,10 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Implements step to check that at least one search result post has a particular attribute.
    *
-   * @Then there are posts with :attribute in the search results
-   *
    * @param string $attribute
    *    The attribute to look for.
+   *
+   * @Then there are posts with :attribute in the search results
    *
    * @throws Exception
    *    In case of error.
@@ -566,10 +569,10 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Implements a step to check if a particular relation type is shown.
    *
-   * @Then a :relationType entry is shown
-   *
    * @param string $relType
    *    The relation type to look for.
+   *
+   * @Then a :relationType entry is shown
    *
    * @throws Exception
    *    In case of error.
@@ -581,10 +584,10 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Implements step to check if a particular relation type is not shown.
    *
-   * @Then a :relationType entry is not shown
-   *
    * @param string $relType
    *    The relation type to look for.
+   *
+   * @Then a :relationType entry is not shown
    *
    * @throws Exception
    *    In case of error.
@@ -605,10 +608,10 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Implements step to check for a title to be present on the first page of a search result.
    *
-   * @Then I can see :title in the search results first page
-   *
    * @param string $title
    *   The title to search for.
+   *
+   * @Then I can see :title in the search results first page
    *
    * @throws Exception
    *   In case of errors.
@@ -657,10 +660,10 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Go to the search page.
    *
-   * @Given I have searched for :string
-   *
    * @param string $string
    *   String to search for.
+   *
+   * @Given I have searched for :string
    *
    * @throws Exception
    *   In case of error.
@@ -684,7 +687,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *    The relation we are looking for, in opensearch terminology, f.ex. dbcaddi:hasCreatorDescription
    */
   public function ICreateFilesForRelation($mfile, $relation) {
-    for ($i = 1 ; $i < 12000; $i = $i + 50) {
+    for ($i = 1; $i < 12000; $i = $i + 50) {
       $this->ICreateFilesForRelationChunk($mfile, $relation, $i);
     }
   }
@@ -696,7 +699,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *    Filename base for the two files being created.
    * @param string $relation
    *    The relation we are looking for.
-   * @param integer $start
+   * @param int $start
    *    The starting point for the service retrieval.
    *
    * @throws ErrorException
@@ -715,7 +718,7 @@ class LibContext implements Context, SnippetAcceptingContext {
 
     // Now look at the result.
     // NB: $got_header=$curl->response_headers;
-    //     $got_body=$curl->response;
+    // $got_body=$curl->response;
     $xml2 = new DOMDocument();
     try {
       $xml2->loadXML($curl->response);
@@ -739,7 +742,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     // Now we loop through the results. It's an array of Nodes.
     foreach ($result as $rout) {
       // Ignore anything which is not a collection record.
-      if ($rout->parentNode->nodeName == "collection" ) {
+      if ($rout->parentNode->nodeName == "collection") {
         $mpid = "";
         $mtype = "";
         $mrelations = array();
@@ -756,12 +759,12 @@ class LibContext implements Context, SnippetAcceptingContext {
             }
           }
 
-          // pick out the PID
+          // Pick out the PID.
           if ($rc->nodeName == 'primaryObjectIdentifier') {
             $mpid = $rc->nodeValue;
           }
 
-          // Get the relations
+          // Get the relations.
           if ($rc->nodeName == 'relations') {
             $rcrelations = $rc->childNodes;
 
@@ -781,10 +784,10 @@ class LibContext implements Context, SnippetAcceptingContext {
                 // which is hidden as a full object under the relationObject-node.
                 // If only xpath would work, this code could be much simpler and better.
                 if ($rc1->nodeName == 'relationObject' && $mRelType == 'ddcaddi:hasOnlineAccess') {
-                  foreach($rc1->childNodes as $rc4) {
-                    foreach($rc4->childNodes as $rc3) {
-                      foreach($rc3->childNodes as $rc2) {
-                        if ($rc2->nodeName=="dc:identifier") {
+                  foreach ($rc1->childNodes as $rc4) {
+                    foreach ($rc4->childNodes as $rc3) {
+                      foreach ($rc3->childNodes as $rc2) {
+                        if ($rc2->nodeName == "dc:identifier") {
                           if ($rc2->getAttribute("xsi:type") == "dcterms:URI") {
                             $mrelations[] = ['type' => 'accessInfoMedia', 'uri' => $rc2->nodeValue];
                           }
@@ -797,7 +800,7 @@ class LibContext implements Context, SnippetAcceptingContext {
               // Check if we found a relationType, in which case we add it to the array.
               // Note, that the Uri may be empty. That's okay for this purpose.
               if ($mRelType != "") {
-                $mrelations[] = ['type' => $mRelType, 'uri' => $mRelURI, ];
+                $mrelations[] = ['type' => $mRelType, 'uri' => $mRelURI];
               }
             }
           }
@@ -813,8 +816,8 @@ class LibContext implements Context, SnippetAcceptingContext {
             $haveSavedIt = true;
           }
         }
-        // save to the negative file if relation was not found
-        if ($positiveFound == false && $mpid != "" ) {
+        // Save to the negative file if relation was not found.
+        if ($positiveFound == false && $mpid != "") {
           fwrite($outputfileNegative, $mpid . "\t\t" . $mtype . "\n");
           $cntNeg++;
         }
@@ -823,7 +826,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     fclose($outputfilePositive);
     fclose($outputfileNegative);
 
-    // report to the log what happened
+    // Report to the log what happened.
     print_r("Appended " . $cntPos . " records to the '" . $mfile . "_Positive'-file\n");
     print_r("Appended " . $cntNeg . " records to the '" . $mfile . "_Negative'-file\n");
   }
@@ -839,7 +842,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function iAmLoggedInAsALibraryUser() {
     // If for some reason Mink has not started us up on the site, then navigate there.
     if (strstr($this->minkContext->getSession()->getDriver()->getContent() , "Drupal") == 0) {
-      $this->minkContext->getSession()->visit($this->minkContext->getMinkParameter('base_url') );
+      $this->minkContext->getSession()->visit($this->minkContext->getMinkParameter('base_url'));
     };
     // Temporary solution, setting up hardcoded username list. Password is last 4 for Connie Provider.
     $userlist = array();
@@ -909,6 +912,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @throws Exception
    *    In case of errors.
+   *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
    *    In case of errors.
    */
@@ -1085,10 +1089,10 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Scroll a bit up.
    *
-   * @When I scroll :pixels pixels
-   *
    * @param string $pixels
    *    The number of pixels to scroll up.
+   *
+   * @When I scroll :pixels pixels
    */
   public function scrollABit($pixels) {
     $this->minkContext->getSession()->executeScript('window.scrollBy(0, ' . $pixels . ');');
@@ -1134,14 +1138,14 @@ class LibContext implements Context, SnippetAcceptingContext {
    * With verbose of searchResults = on it will log it's attempts.
    * If unable to reach a searchresult of the wanted size it will fail.
    *
-   * @Given I want a search result between :interval using :listOfTerms published between :publishedInterval
-   *
    * @param string $interval
    *    Acceptable interval of search result. Given in form "50-75".
    * @param string $listOfTerms
    *    Restrictive search term, f.ex. "term.type=ebog;term.publisher=Gyldendal".
    * @param string $publishedBetween
    *    Year interval of publishing, f.ex. "1995-2017".
+   *
+   * @Given I want a search result between :interval using :listOfTerms published between :publishedInterval
    *
    * @throws Exception
    *    In case of search error or a suitable result cannot be found.
@@ -1158,6 +1162,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @throws Exception
    *    In case of error.
+   *
    * @throws \Page\Exception
    *    In case of error.
    */
@@ -1168,10 +1173,10 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Implements step to set the current file.
    *
-   * @Given filename :file is used
-   *
    * @param string $file
    *    Filename to use. The file should be in the behat root dir.
+   *
+   * @Given filename :file is used
    */
   public function setFilename($file) {
     $this->dataMgr->setFilename($file);
@@ -1180,13 +1185,14 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Implements step to set the number of results per search page.
    *
-   * @When I set (the) number of results per page to :size
-   *
    * @param string $size
    *    The number of results to set to.
    *
+   * @When I set (the) number of results per page to :size
+   *
    * @throws Exception
    *    In case of the operation fails.
+   *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
    *    In case the number cannot be selected or the dropdown is not present.
    */
@@ -1310,15 +1316,17 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Implements step to sort the search result by choosing in the dropdown.
    *
-   * @When I sort the search result on :sortOption
-   *
    * @param string $sortOption
    *    The option sort by.
    *
+   * @When I sort the search result on :sortOption
+   *
    * @throws Exception
    *    If sorting fails.
+   *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
    *    If sortoption is not valid.
+   *
    * @throws \Page\Exception
    *    If sorting fails.
    */
@@ -1438,7 +1446,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @When I deselect a facet to increase the search results
    */
   public function useFacetsToIncreaseSearchResults() {
-    // Start by logging what we start out with and also reduce the stack to the new expected result
+    // Start by logging what we start out with and also reduce the stack to the new expected result.
     print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
     print_r("Expecting now: " . $this->searchPage->getExpectedSearchResultSize(true) . "\n");
 
@@ -1470,6 +1478,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @throws Exception
    * @throws \Page\Exception
+   *    In case of error.
    */
   public function usePaginationToGoToPageN($toPage) {
     // Start by scrolling to the footer so if we fail the screendump will tell us something.
@@ -1489,6 +1498,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Wait for page to load.
    *
    * @throws Exception
+   *    In case of error.
    */
   public function waitForPage() {
     try {

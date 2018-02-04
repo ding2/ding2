@@ -41,10 +41,10 @@ class StepsContext implements Context, SnippetAcceptingContext {
   /**
    * Sets up things before each scenario
    *
-   * @BeforeScenario
-   *
    * @param BeforeScenarioScope $scope
    *    Built-in value of the scope. Part of the behat framework.
+   *
+   * @BeforeScenario
    */
   public function gatherContexts(BeforeScenarioScope $scope) {
     $environment = $scope->getEnvironment();
@@ -58,10 +58,10 @@ class StepsContext implements Context, SnippetAcceptingContext {
    * The pattern is given in a popular name, and then
    * translated to a regular expression format.
    *
-   * @Then I can see :pattern somewhere in the search result
-   *
-   * @param $pattern
+   * @param string $pattern
    *    The popular pattern to search for.
+   *
+   * @Then I can see :pattern somewhere in the search result
    *
    * @throws Exception
    *    In case of errors.
