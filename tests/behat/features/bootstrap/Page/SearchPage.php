@@ -892,7 +892,6 @@ class SearchPage extends PageBase {
    *
    * @throws Exception
    * @throws \Exception
-   *    In case of error.
    */
   public function getRandomSearchResultToShowPost($criteria) {
     // Check we're looking at a search result page.

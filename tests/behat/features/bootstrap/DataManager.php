@@ -95,6 +95,7 @@ class DataManager extends \Page\PageBase {
    * Return state of file reading.
    *
    * @return bool
+   *    True if the file has been read to an end.
    */
   public function EOF() {
     if ($this->fileEOF) {

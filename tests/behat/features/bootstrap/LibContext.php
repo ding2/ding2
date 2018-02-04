@@ -206,10 +206,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @AfterScenario
    *
    * @throws UnsupportedDriverActionException
-   *    In case of errors.
-   *
    * @throws \Behat\Mink\Exception\DriverException
-   *    In case of errors.
    */
   public function afterScenario(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope) {
     if ($scope->getTestResult()->getResultCode() > 0) {
@@ -223,10 +220,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @Then I save (a) screenshot
    *
    * @throws UnsupportedDriverActionException
-   *    In case of error.
-   *
    * @throws \Behat\Mink\Exception\DriverException
-   *    In case of error.
    */
   public function saveScreenshot() {
     // Initially check if we are taking screenshots at all. The setting is in the behat.yml file.
@@ -349,10 +343,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @Then I check pagination on all pages
    *
    * @throws Exception
-   *    In case of errors.
-   *
    * @throws \Page\Exception
-   *    In case of errors.
    */
   public function checkPaginationOnAllPages() {
     $this->check($this->searchPage->checkPaginationOnAllPages(), $this->searchPage->getAndClearMessages());
@@ -475,7 +466,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     while (!$this->dataMgr->EOF()) {
       $mpid = $this->dataMgr->getNextPID();
       // Help the tester by showing what was searched for and also which test system we're on.
-      print_r("Displaying: " . $this->minkContext->getMinkParameter('base_url')  . "ting/object/" . $mpid . "\n");
+      print_r("Displaying: " . $this->minkContext->getMinkParameter('base_url') . "ting/object/" . $mpid . "\n");
 
       // Now open the page - replace the {id} with the mpid in the path.
       $this->objectPage->open(['id' => urlencode($mpid)]);
@@ -868,7 +859,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function iAmLoggedInAsALibraryUser() {
     // If for some reason Mink has not started us up on the site, then navigate there.
-    if (strstr($this->minkContext->getSession()->getDriver()->getContent() , "Drupal") == 0) {
+    if (strstr($this->minkContext->getSession()->getDriver()->getContent(), "Drupal") == 0) {
       $this->minkContext->getSession()->visit($this->minkContext->getMinkParameter('base_url'));
     };
     // Temporary solution, setting up hardcoded username list. Password is last 4 for Connie Provider.
@@ -937,9 +928,8 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Log a user in.
    *
-   * @throws Exception  In case of errors.
-   *
-   * @throws \Behat\Mink\Exception\ElementNotFoundException  In case of errors.
+   * @throws Exception
+   * @throws \Behat\Mink\Exception\ElementNotFoundException
    */
   public function login() {
 
@@ -1185,8 +1175,8 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @When I search on hjemmesiden
    * @When I search (internally|on the home page)
    *
-   * @throws Exception    In case of error.
-   * @throws \Page\Exception    In case of error.
+   * @throws Exception
+   * @throws \Page\Exception
    */
   public function searchOnHomePage() {
     $this->check($this->searchPage->searchOnHomePage());
@@ -1212,8 +1202,8 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @When I set (the) number of results per page to :size
    *
-   * @throws Exception    In case of the operation fails.
-   * @throws \Behat\Mink\Exception\ElementNotFoundException   In case the number cannot be selected or the dropdown is not present.
+   * @throws Exception
+   * @throws \Behat\Mink\Exception\ElementNotFoundException
    */
   public function setTheNumberOfResultsPerPageToSize($size) {
     $this->check($this->searchPage->setTheNumberOfResultsPerPageToSize($size));
@@ -1341,10 +1331,8 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @When I sort the search result on :sortOption
    *
    * @throws Exception
-   *    If sorting fails.
-   *
-   * @throws \Behat\Mink\Exception\ElementNotFoundException If sortoption is not valid.
-   * @throws \Page\Exception If sorting fails.
+   * @throws \Behat\Mink\Exception\ElementNotFoundException
+   * @throws \Page\Exception
    */
   public function sortTheSearchResultOnOption($sortOption) {
     // Check that the user asked for a valid sort-option.
@@ -1494,7 +1482,6 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @throws Exception
    * @throws \Page\Exception
-   *    In case of error.
    */
   public function usePaginationToGoToPageN($toPage) {
     // Start by scrolling to the footer so if we fail the screendump will tell us something.
