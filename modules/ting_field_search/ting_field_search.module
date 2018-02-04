@@ -891,11 +891,15 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
         unset($options[$key]);
       }
       $field_element['#options'] = $options;
-      $defaults = array();
-      if (isset($values[$index])) {
-        $defaults = explode(' ', trim($values[$index]));
+
+      // Checkboxes can also accept multiple values.
+      if ($field['type'] == 'checkboxes') {
+        $defaults = array();
+        if (isset($values[$index])) {
+          $defaults = explode(' ', trim($values[$index]));
+        }
+        $field_element['#default_value'] = $defaults;
       }
-      $field_element['#default_value'] = $defaults;
     }
 
     $field_elements[$field['group_name']][$index] = $field_element;
@@ -976,8 +980,15 @@ function ting_field_search_fields_form_submit($form, &$form_state) {
   $field_query = array();
   foreach ($profile->fields as $index => $field) {
     $field_value = $field_values[$field['group_name']][$index];
+    $field_value = $field_values[$field['group_name']][$index];
     switch ($field['type']) {
       case 'textfield':
+      case 'radios':
+      case 'select':
+        // Normalize.
+        if (is_array($field_value)) {
+          $field_value = array_shift($field_value);
+        }
         if ($field_value = trim($field_value)) {
           $field_query[] = $field['index'] . '="' . $field_value. '"';
         }
