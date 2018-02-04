@@ -28,6 +28,22 @@ class DataManager extends \Page\PageBase {
   protected $filename = '';
 
   /**
+   * Counter into file
+   *
+   * @var file $fileHolder
+   *    Pointer to file.
+   */
+  protected $fileHolder;
+
+  /**
+   * Flag showing if we have reached the end of the file.
+   *
+   * @var bool $fileOEF
+   *    Flag.
+   */
+  protected $fileEOF;
+
+  /**
    * Flag for reservable only. If set only reservable pid's will be returned.
    *
    * @var bool $onlyReservable
@@ -44,6 +60,48 @@ class DataManager extends \Page\PageBase {
   public function getFilename() {
     return $this->filename;
   }
+
+  /**
+   * Open file and make it ready to read from.
+   */
+  public function setToFirstInFile() {
+    if (!$this->fileHolder) {
+      if (is_readable($this->filename)) {
+        $this->fileHolder = fopen($this->filename, "r");
+        $this->fileEOF = false;
+      }
+    }
+  }
+
+
+  /**
+   * Reads next from file.
+   *
+   * Updates fileEOF marking and close the file if the end has been reached.
+   *
+   * @return string
+   *    The next PID read from file.
+   */
+  public function readNextPidFromFile() {
+    $this->fileEOF = !($fline = fgets($mfilehandle));
+    if ($this->fileEOF == true) {
+      fclose($this->fileHolder);
+    }
+    $columns = explode("\t", $fline);
+    return $columns[0];
+  }
+      
+  /**
+   * Return state of file reading.
+   *
+   * @return bool
+   */
+  public function EOF() {
+    if ($this->fileEOF) {
+      return true;
+    };
+    return false;
+  } 
 
   /**
    * Get a random PID from the set datafile. 

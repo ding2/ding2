@@ -432,7 +432,7 @@ class LibContext implements Context, SnippetAcceptingContext {
               ->postValue(['value' => [$key]]);
       }
     }
-  }
+  } 
 
   /**
    * Implements step to open the object page of an object from the equivalence class chosen.
@@ -457,6 +457,33 @@ class LibContext implements Context, SnippetAcceptingContext {
     // Now open the page - replace the {id} with the mpid in the path.
     $this->objectPage->open(['id' => urlencode($mpid)]);
     $this->waitForPage();
+  }
+
+  /**
+   * Implements step to open the object page of all objects in turn from the equivalence class chosen.
+   *
+   * This is mainly used for testing if the objects are valid, and should not run regulary on every push.
+   * The equivalence class is chosen by setting the file in another step.
+   *
+   * @When I display all objects from file
+   *
+   * @throws Exception
+   *    In case of errors.
+   */
+  public function displayAllObjectsFromFile() {
+    $this->dataMgr->setToFirstInFile();
+    while (!$this->dataMgr->EOF()) {
+      $mpid = $this->dataMgr->getNextPID();
+      // Help the tester by showing what was searched for and also which test system we're on.
+      print_r("Displaying: " . $this->minkContext->getMinkParameter('base_url')  . "ting/object/" . $mpid . "\n");
+
+      // Now open the page - replace the {id} with the mpid in the path.
+      $this->objectPage->open(['id' => urlencode($mpid)]);
+      $this->waitForPage();
+      if (!$this->minkContext->findElements(By.xpath("//div[contains(@class,'field-name-ting-title')]/h2"))) {
+        $this->saveScreenshot();
+      }
+    }
   }
 
   /**
@@ -910,11 +937,9 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Log a user in.
    *
-   * @throws Exception
-   *    In case of errors.
+   * @throws Exception  In case of errors.
    *
-   * @throws \Behat\Mink\Exception\ElementNotFoundException
-   *    In case of errors.
+   * @throws \Behat\Mink\Exception\ElementNotFoundException  In case of errors.
    */
   public function login() {
 
@@ -1160,11 +1185,8 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @When I search on hjemmesiden
    * @When I search (internally|on the home page)
    *
-   * @throws Exception
-   *    In case of error.
-   *
-   * @throws \Page\Exception
-   *    In case of error.
+   * @throws Exception    In case of error.
+   * @throws \Page\Exception    In case of error.
    */
   public function searchOnHomePage() {
     $this->check($this->searchPage->searchOnHomePage());
@@ -1190,11 +1212,8 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @When I set (the) number of results per page to :size
    *
-   * @throws Exception
-   *    In case of the operation fails.
-   *
-   * @throws \Behat\Mink\Exception\ElementNotFoundException
-   *    In case the number cannot be selected or the dropdown is not present.
+   * @throws Exception    In case of the operation fails.
+   * @throws \Behat\Mink\Exception\ElementNotFoundException   In case the number cannot be selected or the dropdown is not present.
    */
   public function setTheNumberOfResultsPerPageToSize($size) {
     $this->check($this->searchPage->setTheNumberOfResultsPerPageToSize($size));
@@ -1324,11 +1343,8 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @throws Exception
    *    If sorting fails.
    *
-   * @throws \Behat\Mink\Exception\ElementNotFoundException
-   *    If sortoption is not valid.
-   *
-   * @throws \Page\Exception
-   *    If sorting fails.
+   * @throws \Behat\Mink\Exception\ElementNotFoundException If sortoption is not valid.
+   * @throws \Page\Exception If sorting fails.
    */
   public function sortTheSearchResultOnOption($sortOption) {
     // Check that the user asked for a valid sort-option.
