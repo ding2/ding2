@@ -130,7 +130,7 @@ function ting_field_search_field_form($form, &$form_state, $profile, $group_name
   $form['index']['options'] = array(
     '#type' => 'textarea',
     '#title' => t('Options'),
-    '#description' => t('Enter a key|value pair pr. line. Key is used in the search query and values is shown to the user.'),
+    '#description' => t('Enter a key|value pair pr. line. Key is used in the search query and values is shown to the user. For radios and select type fields, use the key "all" as default value (e.g. "all|All").'),
     '#cols' => 30,
     '#rows' => 6,
     '#default_value' => $field['options'],

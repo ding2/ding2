@@ -892,13 +892,20 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
       }
       $field_element['#options'] = $options;
 
-      // Checkboxes can also accept multiple values.
+      // Checkboxes can accept multiple values.
       if ($field['type'] == 'checkboxes') {
         $defaults = array();
         if (isset($values[$index])) {
           $defaults = explode(' ', trim($values[$index]));
         }
         $field_element['#default_value'] = $defaults;
+      }
+
+      // Radios and select supports a specail 'all' defaul value.
+      if (in_array($field['type'], array('radios', 'select'))) {
+        if (empty($values[$index]) && isset($options['all'])) {
+          $field_element['#default_value'] = 'all';
+        }
       }
     }
 
@@ -982,9 +989,12 @@ function ting_field_search_fields_form_submit($form, &$form_state) {
     $field_value = $field_values[$field['group_name']][$index];
     $field_value = $field_values[$field['group_name']][$index];
     switch ($field['type']) {
-      case 'textfield':
       case 'radios':
       case 'select':
+        if ($field_value == 'all') {
+          $field_value = '';
+        }
+      case 'textfield':
         // Normalize.
         if (is_array($field_value)) {
           $field_value = array_shift($field_value);
