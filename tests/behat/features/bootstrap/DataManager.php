@@ -83,7 +83,7 @@ class DataManager extends \Page\PageBase {
    *    The next PID read from file.
    */
   public function readNextPidFromFile() {
-    $this->fileEOF = !($fline = fgets($mfilehandle));
+    $this->fileEOF = !($fline = fgets($this->fileHolder));
     if ($this->fileEOF == true) {
       fclose($this->fileHolder);
     }
