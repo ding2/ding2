@@ -28,7 +28,13 @@ function connie_reservation_set_preferred_branch($account, $branch) {
 }
 
 /**
- * This returns an empty array representing the preferred branch. 
+ * Implements provider reservation default branch.
+ * 
+ * @params object $account
+ *   The user to get the default branch for.
+ * 
+ * @return array
+ *   An empty array mimicking a default branch is not selected.
  */
 function connie_reservation_default_options($account) {
   return array();
@@ -110,12 +116,15 @@ function connie_reservation_options_validate($type, $account, $reservables, $val
 
 /**
  * Submit handler for reservations options.
- *
- * This is kept empty, as all it would do is to put a default branch on the
- * user profile, and it's not really needed. Alma and FBS are not using this
- * function as well, so Connie also shouldn't.
  */
-function connie_reservation_options_submit($account, $values) {
+function connie_reservation_options_submit($type, $account, $reservables, $values) {
+  $profile = ding_user_provider_profile($account);
+  $field_language = field_language('profile2', $profile);
+  $update = ding_reservation_default_options_branch_submit($type, 'openruth_preferred_branch', $profile->connie_preferred_branch[$field_language['connie_preferred_branch']][0]['value'], $values);
+  if (!empty($update['connie_preferred_branch'])) {
+    $profile->connie_preferred_branch[$field_language['connie_preferred_branch']][0]['value'] = $update['connie_preferred_branch']
+    $profile->save();
+  }
 }
 
 /**
