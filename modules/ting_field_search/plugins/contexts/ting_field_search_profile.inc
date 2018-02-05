@@ -4,7 +4,7 @@ $plugin = array(
     'title' => t('Ting field search profile'),
     'description' => t('A Ting field search profile context.'),
     'context' => 'ting_field_search_profile_context_create',
-    'edit form' => 'ting_field_search_profile_context_settings_form',
+    'settings form' => 'ting_field_search_profile_context_settings_form',
     'keyword' => 'ting_field_search_profile',
     'context name' => 'ting_field_search_profile',
     'convert list' => 'ting_field_search_profile_object_convert_list',
@@ -36,7 +36,8 @@ function ting_field_search_profile_context_create($empty, $data = NULL, $conf = 
   }
 }
 
-function ting_field_search_profile_context_settings_form($form, &$form_state) {
+function ting_field_search_profile_context_settings_form($conf, $external = FALSE) {
+  $form = array();
   return $form;
 }
 
