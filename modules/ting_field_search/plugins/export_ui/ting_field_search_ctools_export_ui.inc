@@ -460,6 +460,29 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     }
   }
 
+  // Profile page config.
+  $form['config']['profile_page'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Profile page'),
+    '#description' => '<strong>' . t('Profile page settings') . '</strong>',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => -10,
+  );
+  $form['config']['profile_page']['enabled'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable profile page'),
+    '#description' => t('Enable the dedicated page for this profile'),
+    '#default_value' => $profile->config['profile_page']['enabled'],
+  );
+  $form['config']['profile_page']['profile_page_link'] = array(
+    '#type' => 'item',
+    '#description' => t('Profile page enabled at <a href="!url">!url</a>', array(
+      '!url' => url('ting-field-search/profile/' . $profile->name),
+    )),
+    '#access' => $profile->config['profile_page']['enabled'],
+  );
+
   // Add some correcting CSS.
   $path = drupal_get_path('module', 'ting_field_search');
   $form['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
