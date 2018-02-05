@@ -18,6 +18,7 @@ function ting_field_search_default_page_manager_pages() {
   $page->path = 'ting-field-search/profile/%name';
   $page->access = array(
     'logic' => 'and',
+    'plugins' => array(),
   );
   $page->menu = array();
   $page->arguments = array(
@@ -51,6 +52,17 @@ function ting_field_search_default_page_manager_pages() {
     'contexts' => array(),
     'relationships' => array(),
     'name' => 'panel',
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'ting_field_search_profile_page',
+          'settings' => NULL,
+          'context' => 'argument_ting_field_search_profile_1',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
