@@ -86,6 +86,7 @@ class DataManager extends \Page\PageBase {
     $this->fileEOF = !($fline = fgets($this->fileHolder));
     if ($this->fileEOF == true) {
       fclose($this->fileHolder);
+      $this->fileHolder = null;
     }
     $columns = explode("\t", $fline);
     return $columns[0];
