@@ -6,7 +6,10 @@ $plugin = array(
   'single' => TRUE,
   'content_types' => array('ting_field_search_profile_page'),
   'render callback' => 'ting_field_search_profile_page_render',
-  'required context' => new ctools_context_optional(t('Keywords'), 'string'),
+  'required context' => array(
+    new ctools_context_optional(t('Keywords'), 'string'),
+    new ctools_context_optional(t('Ting field search profile'), 'ting_field_search_profile'),
+  ),
   'category' => t('Ting'),
 );
 
@@ -14,26 +17,40 @@ $plugin = array(
  * Render callback.
  */
 function ting_field_search_profile_page_render($subtype, $conf, $panel_args, $context) {
-  if (empty($context) || empty($context->data)) {
-    $search_query = '';
+  $search_query = '';
+  $profile = FALSE;
+
+  if (!empty($context[0]) && !empty($context[0]->data)) {
+    $search_query = $context[0]->data;
   }
-  else {
-    $search_query = $context->data;
+  if (!empty($context[1]) && !empty($context[1]->data)) {
+    $profile = $context[1]->data;
+  }
+
+  // If we still don't have a profile context, support the old method of URL
+  // query parameter input.
+  if (!$profile) {
+    $profile = ting_field_search_get_active_profile();
   }
 
   $block = new stdClass();
   $block->module = 'ting_field_search';
 
-  $profile = ting_field_search_get_active_profile();
-
-  if (!$profile || empty($profile->fields)) {
+  if (!$profile) {
     $block->content = '';
     return $block;
   }
 
-  $block->title = t('Continue search in @profile', array(
-    '@profile' => $profile->title,
-  ));
+  if (!empty($search_query)) {
+    $block->title = t('Continue search in @profile', array(
+      '@profile' => $profile->title,
+    ));
+  }
+  else {
+    $block->title = t('Search in @profile', array(
+      '@profile' => $profile->title,
+    ));
+  }
   $block->content['fields_form'] = drupal_get_form('ting_field_search_fields_form', $profile, $search_query);
 
   return $block;
