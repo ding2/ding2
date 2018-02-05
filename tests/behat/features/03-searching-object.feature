@@ -6,14 +6,14 @@ Feature: test object displays after search
   - if accessInfomedia relations are being shown if present
   Numbering refers to the lines in the redroute spreadsheet for testing searching (seek004 is line 4)
 
-  @api @seek040 @seekNologin @regression @cci
+  @api @seek040 @seekNologin @regression @wip
     Scenario: S040 Show creatorDescriptions
     Given filename "creator.dat" is used
       And I only want reservables
     When I display random object from file
     Then a 'hasCreatorDescription' entry is shown
 
-  @api @seek040 @seekNologin @regression @cci
+  @api @seek040 @seekNologin @regression @wip
   Scenario: S040 Do not show creatorDescriptions
     Given filename "creatorNot.dat" is used
     When I display random object from file

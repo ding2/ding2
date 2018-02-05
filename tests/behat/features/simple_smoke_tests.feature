@@ -27,7 +27,7 @@ Feature: Smoke tests
     Given I create files 'onlacc' from opensearch on relation 'hasOnlineAccess'
     Given I create files 'hasrev' from opensearch on relation 'hasReview'
 
-  @specialtests @cci
+  @specialtests
   Scenario: Test entries in datafiles
     Given filename "creator.dat" is used
     When I display all objects from file
