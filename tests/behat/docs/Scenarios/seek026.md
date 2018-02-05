@@ -19,3 +19,5 @@ For checking prompting to login, if not already logged in, by clicking Reservér
 ## Notes
 The login prompt scenario is currently excluded from the CCI suite, because the built site on CircleCI seems to use a different opensearch agency and/or service, despite attempts to reconfigure it. 
 
+Also tests for reservations are not on CCI because its 
+currently not possible to determine the exact dataset used there.

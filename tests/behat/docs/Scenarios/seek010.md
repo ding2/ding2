@@ -16,7 +16,7 @@ to scrape off the result and finally it goes through
 **Then there are posts with "serie" in the search results**.
 
 This procedure runs through the scraped off results array, and
-searches for various things. In this case 'serie', but that is actually 
+searches for various things. In this case 'series', but that is actually 
 a parameter. The same method is used in the subsequent scenarios.
 It is happy to find only one series, and a series is marked by
 showing "Serie: <name of serie>" on the post in the result.

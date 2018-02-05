@@ -93,11 +93,10 @@ class StepsContext implements Context, SnippetAcceptingContext {
    */
   public function iGetSuggestionsFromOpenscan() {
     $result = $this->libContext->searchPage->getOpenScanSuggestions();
-    $this->libContext->logMsg(true, $this->libContext->searchPage->getMessages());
+    $this->libContext->logMsg(true, $this->libContext->searchPage->getAndClearMessages());
     if ($result != "") {
       throw new Exception($result);
     }
-    return;
 
     // We need to enable a wait because we cannot control the timing.
     $max = 300;

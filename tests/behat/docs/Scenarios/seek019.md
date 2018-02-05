@@ -24,6 +24,4 @@ This scenario ends by actually deselecting the facet. Again, it will seek out th
  
 
 ## Notes
-These commands utilizes a stack functionality, which is in the Stack.php object. It was created to suit our purposes, and because a stack object seems not to be generally available in php5.
-The stack enables us to continue using the facets as we will do in Seek020.
 

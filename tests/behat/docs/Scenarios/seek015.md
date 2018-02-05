@@ -15,5 +15,3 @@ To identify a collection the following method is used:
 
 
 ## Notes
-The parameter 'materialesamling' could also be 'collection'.
-

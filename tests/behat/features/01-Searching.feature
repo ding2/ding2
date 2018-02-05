@@ -41,19 +41,19 @@ Feature: SEEK redroute 01
   @api @seek004 @seekNologin @regression
   Scenario: S004 Show openscan suggestions in search field
     Given I am on "/"
-    When I enter "her" in field "Søg"
+    When I enter "her" in field "Search"
     Then I get suggestions from openscan
 
   @api @seek005 @seekNologin @regression @cci
   Scenario: S005 Search using typing of enter
     Given I am on "/"
-    When I enter "larsen\n" in field "Søg"
+    When I enter "larsen\n" in field "Search"
     Then paging allows to get all the results
 
   @api @seek005 @seekNologin @regression @cci
   Scenario: S005 Search using click search button
     Given I am on "/"
-    When I enter "hansen" in field "Søg"
+    When I enter "hansen" in field "Search"
     When I press "Søg"
     Then paging allows to get all the results
 
@@ -68,19 +68,19 @@ Feature: SEEK redroute 01
   Scenario: S010 Check serie-angivelse is shown on search result
     Given I have searched for "phrase.titleSeries=B*"
     When paging allows to get all the results
-    Then there are posts with "serie" in the search results
+    Then there are posts with "series" in the search results
 
   @api @seek011 @seekNologin @regression @cci
   Scenario: S011 Check materialetype is shown on search result
     Given I have searched for "phrase.titleSeries=A*"
     When paging allows to get all the results
-    Then all posts have "materialetype" in the search results
+    Then all posts have "objecttype" in the search results
 
   @api @seek012 @seekNologin @regression
   Scenario: S012 Check internal searchfield
     Given I am on "/"
-    And I have searched for "$random:nyhed"
-    When I search on hjemmesiden
+    And I have searched for "$random:news"
+    When I search internally on the home page
     Then I can see "$get:lastSearchString" in the search results first page
 
   @api @seek013 @seekNologin @regression
@@ -121,16 +121,16 @@ Feature: SEEK redroute 01
   Scenario: S014 Check tilgængelighed is shown on search result
     Given I have searched for "phrase.titleSeries=All*"
     When paging allows to get all the results
-    Then all posts have "tilgængelighed" in the search results
+    Then all posts have "availability" in the search results
 
   @api @seek015 @seekNologin @regression @cci
   Scenario: S015 Check samlinger is shown on search result
     Given I have searched for "phrase.titleSeries=Harry*"
     When paging allows to get all the results
-    Then there are posts with "materialesamling" in the search results
+    Then there are posts with "collection" in the search results
 
   @api @seek016 @seekNologin @regression
   Scenario: S016 Check forsidebillede is shown on search result
     Given I have searched for "term.type=Bog and term.date='2014' and holdingsitem.accessionDate>='NOW-300DAYS'"
     When paging allows to get all the results
-    Then there are posts with "forside" in the search results
+    Then there are posts with "cover" in the search results

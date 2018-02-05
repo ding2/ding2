@@ -16,7 +16,6 @@ __"term.type=Bog and term.date='2014' and holdingsitem.accessionDate>='NOW-300DA
 
 
 ## Notes
-The parameter 'forside' is interchangable with 'cover' if you want english only.
 
 Because of the need for credentials to configure the cover page addi service, this scenario is not part of the CCI suite (it would require credentials to be in the github source code).
 

@@ -12,5 +12,3 @@ the occurrence must be on all records found in the search result.
 
 
 ## Notes
-The parameter 'materialetype' could also be 'objecttype'.
-

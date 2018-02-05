@@ -21,3 +21,5 @@ will check if the creator description is shown by looking for the class being pr
 
 ## Notes
 The conversion to technical terms should probably 'live' in the data manager object, instead of being hard coded.
+
+This is currently excluded from CCI because the dataset there cannot be determined.

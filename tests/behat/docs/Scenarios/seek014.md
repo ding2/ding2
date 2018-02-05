@@ -10,5 +10,4 @@ This is tested in the same way as Seek010 - look to that for more details.
 
 
 ## Notes
-The parameter 'tilgængelighed' can also be 'tilgængelig' or 'availability'.
 

@@ -1179,8 +1179,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Implements step to perform the current search on the library's home page.
    *
-   * @When I search on hjemmesiden
-   * @When I search (internally|on the home page)
+   * @When I search internally on the home page
    *
    * @throws Exception
    * @throws \Page\Exception
@@ -1385,7 +1384,6 @@ class LibContext implements Context, SnippetAcceptingContext {
       switch (strtolower($cmdArr[1])) {
         // Find news (presuming to be on the front page, otherwise fail), choose between them and return the value.
         case "news":
-        case 'nyhed':
           $foundArr = $this->getPage()->findAll('css', '.news-text h3.title');
           if (!$foundArr) {
             throw new Exception("Argument for a news item. Could not find any news on the page. Make sure the browser is on the front page when running this command.");
@@ -1442,8 +1440,6 @@ class LibContext implements Context, SnippetAcceptingContext {
   private function translateFieldName($field) {
     $result = $field;
     switch (strtolower($field)) {
-      case "søg":
-      case "søgefelt":
       case "search":
       case "searchfield":
         $result = "input#edit-search-block-form--2";

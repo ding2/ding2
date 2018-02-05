@@ -248,33 +248,26 @@ class SearchPage extends PageBase {
     }
     // Now find out what we were in fact looking for.
     switch (strtolower($attribute)) {
-      case 'tilgængelig':
-      case 'tilgængelighed':
       case 'availability':
         $okay = $accessibility;
         break;
 
-      case 'forside':
       case 'cover':
         $okay = $cover;
         break;
 
-      case 'materialesamling':
       case 'collection':
         $okay = $isCollection;
         break;
 
-      case 'forfatterbeskrivelse':
       case 'creatordescription':
         $okay = $creatorDescription;
         break;
 
-      case 'materialetype':
       case 'objecttype':
         $okay = $material;
         break;
 
-      case 'serie':
       case 'series':
         $okay = $series;
         break;
