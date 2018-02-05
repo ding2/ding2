@@ -465,19 +465,22 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->dataMgr->setToFirstInFile();
     while (!$this->dataMgr->EOF()) {
       $mpid = $this->dataMgr->readNextPidFromFile();
-      // Help the tester by showing what was searched for and also which test system we're on.
-      print_r("Displaying: " . $this->minkContext->getMinkParameter('base_url') . "ting/object/" . $mpid . " ");
+      if ($mpid != "") {
+        // Help the tester by showing what was searched for and also which test system we're on.
+        print_r("Displaying: " . $this->minkContext->getMinkParameter('base_url') . "ting/object/" . $mpid . " ");
 
-      // Now open the page - replace the {id} with the mpid in the path.
-      $this->objectPage->open(['id' => urlencode($mpid)]);
-      $this->waitForPage();
-      if (!$this->getPage()->find("xpath", "//div[contains(@class,'field-name-ting-title')]/h2")) {
-        print_r("Failed\n");
-        $this->saveScreenshot();
+        // Now open the page - replace the {id} with the mpid in the path.
+        $this->objectPage->open(['id' => urlencode($mpid)]);
+        $this->waitForPage();
+        if (!$this->getPage()->find("xpath", "//div[contains(@class,'field-name-ting-title')]/h2")) {
+          print_r("Failed\n");
+        }
+        else {
+          print_r("OK\n");
+          $this->saveScreenshot();
+        }
       }
-      else {
-        print_r("OK\n");
-      }
+
     }
   }
 
