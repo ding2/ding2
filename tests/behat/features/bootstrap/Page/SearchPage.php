@@ -549,6 +549,8 @@ class SearchPage extends PageBase {
     // Initialise.
     $this->searchResults = array();
 
+    $this->waitFor(60, function() {return ($this->findAll('css', '.search-results li.list-item'));});
+
     // Check that we are on a search-page to start with.
     $founds = $this->findAll('css', '.search-results li.list-item');
     if (!$founds) {
