@@ -206,7 +206,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @AfterScenario
    *
    * @throws UnsupportedDriverActionException
+   *   When errors happens during screenshot.
    * @throws \Behat\Mink\Exception\DriverException
+   *   When grave errors happens.
    */
   public function afterScenario(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope) {
     if ($scope->getTestResult()->getResultCode() > 0) {
@@ -220,7 +222,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @Then I save (a) screenshot
    *
    * @throws UnsupportedDriverActionException
+   *   When errors happens.
    * @throws \Behat\Mink\Exception\DriverException
+   *   When errors occurs.
    */
   public function saveScreenshot() {
     // Initially check if we are taking screenshots at all. The setting is in the behat.yml file.
@@ -343,7 +347,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @Then I check pagination on all pages
    *
    * @throws Exception
+   *   If errors happens.
    * @throws \Page\Exception
+   *   When errors happens.
    */
   public function checkPaginationOnAllPages() {
     $this->check($this->searchPage->checkPaginationOnAllPages(), $this->searchPage->getAndClearMessages());
@@ -358,7 +364,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *    What the sorting should be made on.
    *
    * @throws Exception
-   *    In case of errors.
+   *   In case of errors.
    */
   public function checkSearchResultIsSortedOnSortOption($sortOption) {
     // Check that the user asked for a valid sort-option.
@@ -936,7 +942,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Log a user in.
    *
    * @throws Exception
+   *   When errors happens.
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   When fields are not found.
    */
   public function login() {
 
@@ -1182,7 +1190,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @When I search internally on the home page
    *
    * @throws Exception
+   *   Happens in case of errors.
    * @throws \Page\Exception
+   *   Happens if other errors are encountered.
    */
   public function searchOnHomePage() {
     $this->check($this->searchPage->searchOnHomePage());
@@ -1339,8 +1349,11 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @When I sort the search result on :sortOption
    *
    * @throws Exception
+   *   When errors are met.
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   When element is not found.
    * @throws \Page\Exception
+   *   If error happens in the page module.
    */
   public function sortTheSearchResultOnOption($sortOption) {
     // Check that the user asked for a valid sort-option.
@@ -1367,7 +1380,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *    The translated argument, or the original if no translation was made.
    *
    * @throws Exception
-   *    Throws exception in case of error.
+   *   Throws exception in case of error.
    */
   public function translateArgument($string) {
     // If we can't translate it, we just pass it right back.
@@ -1486,7 +1499,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @When I use pagination to go to page :toPage
    *
    * @throws Exception
+   *   When errors occurs.
    * @throws \Page\Exception
+   *   When errors occurs in the page module.
    */
   public function usePaginationToGoToPageN($toPage) {
     // Start by scrolling to the footer so if we fail the screendump will tell us something.
