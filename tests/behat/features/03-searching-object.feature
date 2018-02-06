@@ -45,13 +45,13 @@ Feature: test object displays after search
     When I display random object from file
     Then a 'hasDetails' entry is shown
 
-  @api @seek025 @seekNologin @regression @cci
+  @api @seek025 @seekNologin @regression
   Scenario: S025 Search and display material see availability
     Given filename 'onlineAccess.dat' is used
     When I display random object from file
     Then I should see availability options
 
-  @api @seek026 @seekNologin @regression @cci
+  @api @seek026 @seekNologin @regression
   Scenario: S026 Search and display material see online button shows
     Given filename 'onlineAccess.dat' is used
     When I display random object from file
