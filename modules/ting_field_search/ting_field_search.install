@@ -147,6 +147,43 @@ function ting_field_search_schema() {
 }
 
 /**
+ * Implements hook_field_schema().
+ */
+function ting_field_search_field_schema($field) {
+  $schema = array();
+
+  switch ($field['type']) {
+    case 'ting_field_search_profile_page_placement':
+      $schema['columns'] = array(
+        'profile_name' => array(
+          'type' => 'varchar',
+          'length' => 64,
+          'not null' => FALSE,
+          'default' => NULL,
+        ),
+        'position' => array(
+          'type' => 'varchar',
+          'length' => 128,
+          'not null' => FALSE,
+          'default' => NULL,
+        ),
+        'weight' => array(
+          'type' => 'int',
+          'size' => 'small',
+          'not null' => FALSE,
+          'default' => NULL,
+        ),
+      );
+      $schema['indexes'] = array(
+        'profile_name' => array('profile_name'),
+      );
+      break;
+  }
+
+  return $schema;
+}
+
+/**
  * Helper function to load profiles in update functions.
  */
 function _ting_field_search_load_profiles_7000() {

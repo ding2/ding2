@@ -9,6 +9,8 @@ include_once 'ting_field_search.features.inc';
 
 // Separate handling of facets.
 include_once 'ting_field_search.facets.inc';
+// Field hook implementations.
+include_once 'ting_field_search.field.inc';
 
 /**
  * Implements hook_ctools_plugin_directory().
