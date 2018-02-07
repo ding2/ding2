@@ -99,7 +99,8 @@ function ting_field_search_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'arguments' => array(
-        'field_search_guide_position_value' => 'sidebar',
+        'field_profile_page_placment_profile_name' => '%name:name',
+        'field_profile_page_placment_position' => 'sidebar',
       ),
     );
     $pane->cache = array();
@@ -152,7 +153,8 @@ function ting_field_search_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'arguments' => array(
-        'field_search_guide_position_value' => 'bottomleft',
+        'field_profile_page_placment_profile_name' => '%name:name',
+        'field_profile_page_placment_position' => 'bottomleft',
       ),
     );
     $pane->cache = array();
@@ -178,7 +180,8 @@ function ting_field_search_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'arguments' => array(
-        'field_search_guide_position_value' => 'bottomright',
+        'field_profile_page_placment_profile_name' => '%name:name',
+        'field_profile_page_placment_position' => 'bottomright',
       ),
     );
     $pane->cache = array();

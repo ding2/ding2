@@ -39,6 +39,28 @@ function ting_field_search_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
+  // Exported field_base: 'field_profile_page_placment'
+  $field_bases['field_profile_page_placment'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_profile_page_placment',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'profile_name' => array(
+        0 => 'profile_name',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'ting_field_search',
+    'settings' => array(
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'ting_field_search_profile_page_placement',
+  );
+
   // Exported field_base: 'field_search_guide_files'
   $field_bases['field_search_guide_files'] = array(
     'active' => 1,
@@ -100,90 +122,6 @@ function ting_field_search_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'link_field',
-  );
-
-  // Exported field_base: 'field_search_guide_position'
-  $field_bases['field_search_guide_position'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_search_guide_position',
-    'foreign keys' => array(),
-    'indexes' => array(
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'list',
-    'settings' => array(
-      'allowed_values' => array(
-        'sidebar' => 'Left sidebar',
-        'bottomleft' => 'Bottom left',
-        'bottomright' => 'Bottom right',
-      ),
-      'allowed_values_function' => '',
-      'profile2_private' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'list_text',
-  );
-
-  // Exported field_base: 'field_search_guide_weight'
-  $field_bases['field_search_guide_weight'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_search_guide_weight',
-    'foreign keys' => array(),
-    'indexes' => array(
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'list',
-    'settings' => array(
-      'allowed_values' => array(
-        -15 => -15,
-        -14 => -14,
-        -13 => -13,
-        -12 => -12,
-        -11 => -11,
-        -10 => -10,
-        -9 => -9,
-        -8 => -8,
-        -7 => -7,
-        -6 => -6,
-        -5 => -5,
-        -4 => -4,
-        -3 => -3,
-        -2 => -2,
-        -1 => -1,
-        0 => 0,
-        1 => 1,
-        2 => 2,
-        3 => 3,
-        4 => 4,
-        5 => 5,
-        6 => 6,
-        7 => 7,
-        8 => 8,
-        9 => 9,
-        10 => 10,
-        11 => 11,
-        12 => 12,
-        13 => 13,
-        14 => 14,
-        15 => 15,
-      ),
-      'allowed_values_function' => '',
-      'profile2_private' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'list_integer',
   );
 
   return $field_bases;
