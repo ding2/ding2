@@ -549,7 +549,9 @@ class SearchPage extends PageBase {
     // Initialise.
     $this->searchResults = array();
 
-    $this->waitFor(60, function() {return ($this->findAll('css', '.search-results li.list-item'));});
+    $this->waitFor(60, function() {
+      return ($this->findAll('css', '.search-results li.list-item'));
+    });
 
     // Check that we are on a search-page to start with.
     $founds = $this->findAll('css', '.search-results li.list-item');
@@ -886,7 +888,9 @@ class SearchPage extends PageBase {
    *    Nonempty in case of failure.
    *
    * @throws Exception
+   *   When errors occurs.
    * @throws \Exception
+   *   After errors this is thrown to be catched by the behat framework.
    */
   public function getRandomSearchResultToShowPost($criteria) {
     // Check we're looking at a search result page.
