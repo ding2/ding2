@@ -17,11 +17,6 @@ dependencies:
     - echo "sendmail_path = /bin/true" > /opt/circleci/php/$(phpenv global)/etc/conf.d/sendmail.ini
     # Increase xdebug nesting level (php7cc requires this).
     - echo "xdebug.max_nesting_level = 1000" > /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini
-    # Disable error-reporting for notices. The ding test currently throws a lot
-    # of notices and warnings which is interpreted as errors by simpletest.
-    # until we clean up all of these messages, the quick solution is to ignore
-    # them.
-    - echo "error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING" > /opt/circleci/.phpenv/versions/$(phpenv global)/etc/conf.d/error_reporting.ini
     # Clean up existing global composer installation. It contains dependencies
     # which do not match the PHP version we use. This prevents installation of
     # other packages.
