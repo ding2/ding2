@@ -483,6 +483,19 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#access' => $profile->config['profile_page']['enabled'],
   );
 
+  // Provide an easy way to alias the profile page.
+  $conditions = array(
+    'source' => 'ting-field-search/profile/' . $profile->name,
+  );
+  $alias = path_load($conditions);
+  $form['config']['profile_page']['alias'] = array(
+    '#type' => 'textfield',
+    '#title' => t('URL alias'),
+    '#description' => t('Optionally specify an alternative URL by which the profile page can be accessed. Use a relative path and don\'t add a trailing slash or the URL alias won\'t work.'),
+    '#maxlength' => 255,
+    '#default_value' => $alias['alias'],
+  );
+
   // Add some correcting CSS.
   $path = drupal_get_path('module', 'ting_field_search');
   $form['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
@@ -525,6 +538,16 @@ function ting_field_search_profile_export_form_submit($form, &$form_state) {
       }
     }
   }
+
+  if (!empty($form_state['values']['config']['profile_page']['alias'])) {
+    $path = array();
+    $path['alias'] = $form_state['values']['config']['profile_page']['alias'];
+    $path['language'] = LANGUAGE_NONE;
+    $path['source'] = 'ting-field-search/profile/' . $profile->name;
+    path_save($path);
+  }
+  // Regardless, ensure the alias isn't carried over to profile config.
+  unset($form_state['values']['config']['profile_page']['alias']);
 
   // There's a 'redirect' option in the export plugin definition, but we need
   // to dynamically insert a fragment so the current tab will be open after
