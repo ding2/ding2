@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * ting_field_search_2.features.field_instance.inc
+ * ting_field_search.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function ting_field_search_2_field_default_field_instances() {
+function ting_field_search_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-ting_field_search_search_guide-body'
@@ -228,7 +228,7 @@ function ting_field_search_2_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_search_guide_links',
     'label' => 'Links',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'absolute_url' => 1,
       'attributes' => array(
@@ -266,12 +266,10 @@ function ting_field_search_2_field_default_field_instances() {
   t('Attach related files to a search guide.');
   t('Attach related links to a search profile.');
   t('Body');
-  t('Choose where to position the search guide on the profile page.');
-  t('Determines the position of the search guide.');
   t('Files');
   t('Links');
-  t('Position');
-  t('Weight');
+  t('Place the search guide on profile pages.');
+  t('Placements');
 
   return $field_instances;
 }
