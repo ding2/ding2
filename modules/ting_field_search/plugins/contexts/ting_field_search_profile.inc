@@ -23,10 +23,6 @@ function ting_field_search_profile_context_create($empty, $data = NULL, $conf = 
     return $context;
   }
 
-  if ($conf) {
-    // Nothing for now.
-  }
-
   if (!empty($data)) {
     $context->data = $data;
     $context->title = $data->title;
@@ -42,9 +38,17 @@ function ting_field_search_profile_context_settings_form($conf, $external = FALS
 }
 
 function ting_field_search_profile_object_convert_list() {
-  return array();
+  return array(
+    'name' => t('Profile machine-name'),
+    'title' => t('Profile title'),
+  );
 }
 
 function ting_field_search_profile_object_convert($context, $type) {
-  return '';
+  switch ($type) {
+    case 'name':
+      return $context->data->name;
+    case 'title':
+      return $context->data->title;
+  }
 }
