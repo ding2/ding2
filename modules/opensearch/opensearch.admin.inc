@@ -89,7 +89,6 @@ function opensearch_admin_ranking_settings($form, &$form_state) {
   return $form;
 }
 
-
 /**
  * Submit handler for the "Add another item" button of a field form.
  *
@@ -116,7 +115,7 @@ function opensearch_admin_ranking_add_more_js($form, &$form_state) {
 /**
  * After build callback to the ranking settings form.
  *
- * Add a little bit of CSS and JS to the form.
+ * Add a little bit of CSS to the form.
  */
 function opensearch_admin_ranking_form_after_build($form, &$form_state) {
   $path = drupal_get_path('module', 'opensearch');
@@ -141,7 +140,7 @@ function opensearch_admin_ranking_settings_submit($form, &$form_state) {
   $default_sort = $form_state['values']['opensearch_sort_default']['fields']['sort_type'];
   variable_set('opensearch_sort_default', $default_sort);
 
-  drupal_set_message(t('Settings has been saved'), 'status');
+  drupal_set_message(t('The configuration options have been saved.'));
 }
 
 /**

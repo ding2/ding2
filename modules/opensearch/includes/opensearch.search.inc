@@ -22,7 +22,7 @@ function opensearch_search_material_types() {
 }
 
 /**
- * Get a list of sources from OpenSearch
+ * Get a list of sources from OpenSearch.
  */
 function opensearch_search_sources() {
   return _opensearch_get_facet_values('facet.acSource');
@@ -38,7 +38,7 @@ function opensearch_search_sources() {
  *   A map from facet names to number of results matching that facet.
  */
 function _opensearch_get_facet_values($facet_name) {
-  // Ensure we have ting client.
+  // Ensure we have the OpenSearch client loaded.
   module_load_include('inc', 'opensearch', 'opensearch.client');
 
   // Get a list of types by executing a null query and look at the facets
@@ -47,8 +47,6 @@ function _opensearch_get_facet_values($facet_name) {
     'facets' => [$facet_name],
     'numFacets' => 99,
     'reply_only' => TRUE,
-    // Following configuration breaks the search, commented out for now.
-    // 'sort' => 'random',
   ];
   $result = opensearch_do_search("*", 0, 0, $options);
 
@@ -72,6 +70,8 @@ function opensearch_search_object_load(array $ids) {
 
   $objects = opensearch_get_objects($ids);
   foreach ($objects as $id => $object) {
+    // OpenSearch may return empty entries e.g. for invalid ids. Do not
+    // process these.
     if (!empty($object)) {
       $objects[$id] = new OpenSearchTingObject($object);
     }
@@ -163,7 +163,7 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
 
   // Join all query-parts together, wrap each part in a parentheses.
   if (!empty($query_parts)) {
-    $paran_wrapper = function($part) {
+    $paran_wrapper = function ($part) {
       return '(' . $part . ')';
     };
     $query = implode(' AND ', array_map($paran_wrapper, $query_parts));
@@ -255,7 +255,7 @@ function opensearch_search_filter_relations($relations) {
   $relation_types = opensearch_search_supported_relations();
 
   return array_filter($relations,
-    function($relation) use ($relation_types) {
+    function ($relation) use ($relation_types) {
 
       if (!isset($relation_types[$relation->type])) {
         return FALSE;
@@ -315,8 +315,6 @@ function _opensearch_search_relation_render_target(\TingRelation $relation) {
   return $target;
 }
 
-
-
 /**
  * Finds the best title for a relation based on the relation type.
  *
@@ -361,7 +359,6 @@ function _opensearch_search_relation_render_abstract(\TingRelation $relation) {
     case 'dbcaddi:hasSubjectDescription':
     case 'dbcaddi:hasCreatorDescription':
     case 'dbcaddi:hasDescriptionFromPublisher':
-
       $abstract = $relation->object->getDescription();
       if (empty($abstract)) {
         $abstract = $relation->object->getAbstract();
@@ -371,7 +368,7 @@ function _opensearch_search_relation_render_abstract(\TingRelation $relation) {
     case 'dbcaddi:hasCreatorHomePage':
       // This type of relation is basically a link without an object in the
       // data well.
-      $abstract = t('You can find more information about the material on the creators homapge.');
+      $abstract = t('You can find more information about the material on the creators homepage.');
       break;
 
     case 'dbcbib:isPartOfManifestation':
@@ -389,7 +386,7 @@ function _opensearch_search_relation_render_abstract(\TingRelation $relation) {
  *   The relation entity to get abstract from.
  *
  * @return array|bool
- *   The online url found or FALSE if non found.
+ *   An array containing entries for url and title if found. FALSE if not found.
  */
 function _opensearch_search_relation_render_online_url(\TingRelation $relation) {
   $url = FALSE;
@@ -439,13 +436,13 @@ function _opensearch_search_relation_render_online_url(\TingRelation $relation) 
 
   // If url was found return an array with the url and title.
   if ($url) {
-    return array(
+    $url = array(
       'url' => $url,
       'title' => $title,
     );
   }
 
-  // No url found so return FALSE;
+  // No url found so return FALSE.
   return $url;
 }
 
@@ -535,22 +532,22 @@ function opensearch_search_sort_options() {
       'label' => t('Title (Descending)'),
       'sort' => new TingSearchSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_DESCENDING),
     ],
-      'creator_ascending' => [
+    'creator_ascending' => [
       'label' => t('Creator (Ascending)'),
       'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_ASCENDING),
     ],
-      'creator_descending' => [
+    'creator_descending' => [
       'label' => t('Creator (Descending)'),
       'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_DESCENDING),
     ],
-      'date_ascending' => [
+    'date_ascending' => [
       'label' => t('Date (Ascending)'),
       'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_ASCENDING),
     ],
-      'date_descending' => [
+    'date_descending' => [
       'label' => t('Date (Descending)'),
       'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_DESCENDING),
-    ]
+    ],
   ];
 
   $matches = array();
@@ -664,7 +661,7 @@ function opensearch_search_object_ids($ids) {
   elseif (is_numeric($ids)) {
     module_load_include('client.inc', 'opensearch');
     $obj = opensearch_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
-    return ($obj) ? key($obj->collections) : '870970-basis:' . $ids;
+    return !empty($obj) ? key($obj->collections) : '870970-basis:' . $ids;
   }
   return FALSE;
 }
@@ -675,7 +672,7 @@ function opensearch_search_object_ids($ids) {
  * @param string $query
  *   The string to search suggestion with.
  *
- * @return array $items
+ * @return string[]
  *   Items similar to the query.
  */
 function opensearch_search_autocomplete($query) {

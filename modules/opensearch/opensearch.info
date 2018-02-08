@@ -6,6 +6,7 @@ version = 7.x-1.0-dev
 project = opensearch
 dependencies[] = nanosoap
 dependencies[] = ding_provider
+dependencies[] = ting_relation
 dependencies[] = xautoload
 files[] = lib/ting-client/**
 files[] = opensearch_unit.test
