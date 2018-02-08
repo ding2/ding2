@@ -696,7 +696,7 @@ function ding_user_get_private_key() {
   }
   watchdog(
     'ding_user',
-    'ding_user_private_key not found', 
+    'ding_user_private_key not found',
     array(),
     WATCHDOG_CRITICAL
   );

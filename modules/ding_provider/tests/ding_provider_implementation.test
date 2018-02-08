@@ -2,13 +2,14 @@
 
 use Ting\Search\TingSearchResultInterface;
 use Ting\Search\TingSearchSort;
-use Ting\Search\TingSearchRequest;
 
 /**
- * @file
- * Test provider implementation.
+ * Base class for testing implementations of different types of providers.
+ *
+ * Direct child classes define tests of specific types of providers e.g.
+ * availability, loan, search or user. Second level child classes should then
+ * implement tests of specific provider implementations.
  */
-
 class DingProviderImplementationTestCase extends DrupalWebTestCase {
   protected $profile = 'ding2';
 
