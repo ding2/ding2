@@ -7,7 +7,6 @@
 use Connie\Search\ConnieSearchResult;
 use Connie\Search\ConnieTingObject;
 use Connie\Search\ConnieTingObjectCollection;
-use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchRequest;
 use Ting\Search\TingSearchSort;
 
@@ -32,10 +31,10 @@ function connie_search_search_sources() {
 }
 
 /**
- * Load objects from Open Search.
+ * Load objects from the search system.
  *
  * @param string[] $ids
- *   Array of ids to load from Open Search.
+ *   Array of ids to load from the search system.
  *
  * @return Ting\TingObjectInterface[]
  *   An array of loaded objects.
@@ -82,7 +81,7 @@ function connie_search_search_search(TingSearchRequest $query) {
 function connie_search_search_filter_relations(array $relations) {
   $supported = array_keys(connie_search_search_supported_relations());
   return array_filter($relations,
-    function($entry) use ($supported) {
+    function ($entry) use ($supported) {
       return in_array($entry->type, $supported);
     }
   );
@@ -179,7 +178,7 @@ function connie_search_search_sort_options() {
       // Short label for the option, typically used in messages.
       'label_short' => t('Ducktype'),
       'sort' => new TingSearchSort('connie_duck_type', TingSearchSort::DIRECTION_DESCENDING),
-    ]
+    ],
   ];
 }
 
@@ -187,11 +186,11 @@ function connie_search_search_sort_options() {
  * Provide standard object ID's for connie provider.
  *
  * @param mixed $ids
- *    Array with multiple ID's or a single ID.
+ *   Array with multiple ID's or a single ID.
  *
  * @return array|string
- *    Array with multiple ID's. ID/faust as key and object ID as value.
- *    If a string is provided as parameter, a string with object ID.
+ *   Array with multiple ID's. ID/faust as key and object ID as value.
+ *   If a string is provided as parameter, a string with object ID.
  */
 function connie_search_search_object_ids($ids) {
   if (is_array($ids) && !empty($ids)) {
@@ -214,7 +213,7 @@ function connie_search_search_object_ids($ids) {
  * @param string $query
  *   The string to search suggestion with.
  *
- * @return array $items
+ * @return string[]
  *   Items similar to the query.
  */
 function connie_search_search_autocomplete($query) {
@@ -230,7 +229,7 @@ function connie_search_search_autocomplete($query) {
     'The Inside',
     'The Shining',
     'Dracula',
-    'Time Travellers Wife'
+    'Time Travellers Wife',
   );
 
   if (!empty($results)) {
@@ -245,7 +244,7 @@ function connie_search_search_autocomplete($query) {
     watchdog('connie_search', $message, array(
       '@error' => 'Woops, something went wrong!',
       '@error_code' => '500',
-      '@url' => 'http://localhost/rest/autocomplete'
+      '@url' => 'http://localhost/rest/autocomplete',
     ), WATCHDOG_ERROR);
   }
 

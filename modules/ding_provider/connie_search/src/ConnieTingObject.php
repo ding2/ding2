@@ -7,12 +7,9 @@
 namespace Connie\Search;
 
 use Ting\TingObject;
-use Ting\TingObjectInterface;
 
 /**
  * TingObjectInterface implementation for testing.
- *
- * @package Connie\Search
  */
 class ConnieTingObject extends TingObject {
 
@@ -26,4 +23,5 @@ class ConnieTingObject extends TingObject {
     $this->setId('connie-123');
     $this->setOwnerId('connie-agency');
   }
+
 }

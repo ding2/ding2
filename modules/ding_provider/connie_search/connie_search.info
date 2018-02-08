@@ -3,5 +3,6 @@ description = An example search provider module for reference and testing. Not f
 core = 7.x
 package = Providers
 dependencies[] = ding_provider
+dependencies[] = ting_relation
 dependencies[] = xautoload
 files[] = connie_search.test
