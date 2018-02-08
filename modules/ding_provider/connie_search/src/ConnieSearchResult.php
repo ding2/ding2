@@ -60,7 +60,7 @@ class ConnieSearchResult implements TingSearchResultInterface {
    *   Collections contained in the search result.
    */
   public function getTingEntityCollections() {
-    return [ConnieTingObjectCollection::getSingleCollection()];
+    return [ConnieTingObjectCollection::getSingleCollection('object1')];
   }
 
   /**

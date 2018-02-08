@@ -65,7 +65,7 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
    *   List of expected objects.
    */
   public function getLoadedObjects() {
-    return [new ConnieTingObject()];
+    return ['object1' => new ConnieTingObject('object1')];
   }
 
   /**
@@ -75,7 +75,7 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
    *   The expected collection.
    */
   public function getLoadedCollection() {
-    return ConnieTingObjectCollection::getSingleCollection();
+    return ConnieTingObjectCollection::getSingleCollection('object1');
   }
 
   /**

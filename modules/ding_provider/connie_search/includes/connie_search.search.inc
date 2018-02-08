@@ -40,7 +40,10 @@ function connie_search_search_sources() {
  *   An array of loaded objects.
  */
 function connie_search_search_object_load(array $ids) {
-  return [new ConnieTingObject()];
+  $objects = array_map(function($id) {
+    return new ConnieTingObject($id);
+  }, $ids);
+  return array_combine($ids, $objects);
 }
 
 /**
@@ -53,7 +56,7 @@ function connie_search_search_object_load(array $ids) {
  *   The collection.
  */
 function connie_search_search_collection_load($id) {
-  return ConnieTingObjectCollection::getSingleCollection();
+  return ConnieTingObjectCollection::getSingleCollection($id);
 }
 
 /**

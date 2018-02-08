@@ -49,11 +49,14 @@ class ConnieTingObjectCollection implements TingObjectCollectionInterface {
   /**
    * Simple factory for returning a collection with a single object.
    *
+   * @param string $id
+   *   The id of the object within the collection.
+   *
    * @return \Connie\Search\ConnieTingObjectCollection
    *   The collection.
    */
-  public static function getSingleCollection() {
-    return new self([new ConnieTingObject()]);
+  public static function getSingleCollection($id) {
+    return new self([new ConnieTingObject($id)]);
   }
 
 }

@@ -475,7 +475,8 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    */
   public function testObjectLoad() {
     $expected_objects = $this->getLoadedObjects();
-    $objects_from_provider = ding_provider_invoke('search', 'object_load', $expected_objects);
+    $object_ids = array_keys($expected_objects);
+    $objects_from_provider = ding_provider_invoke('search', 'object_load', $object_ids);
     $this->assertEqual($expected_objects, $objects_from_provider);
   }
 
@@ -484,7 +485,8 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    */
   public function testCollectionLoad() {
     $expected_collection = $this->getLoadedCollection();
-    $collection_from_provider = ding_provider_invoke('search', 'collection_load', $expected_collection);
+    $collection_id = $expected_collection->getPrimaryObject()->getId();
+    $collection_from_provider = ding_provider_invoke('search', 'collection_load', $collection_id);
     $this->assertEqual($expected_collection, $collection_from_provider);
   }
 

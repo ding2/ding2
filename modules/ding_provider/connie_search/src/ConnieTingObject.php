@@ -15,12 +15,15 @@ class ConnieTingObject extends TingObject {
 
   /**
    * ConnieTingObject constructor.
+   *
+   * @param string $id
+   *   The id of the object.
    */
-  public function __construct() {
+  public function __construct($id) {
+    $this->setId($id);
     $this->setSourceId('unique-connie-id');
     $this->setTitle('Connie and the Sorcerer\'s Stone');
     $this->setShortTitle('Connie');
-    $this->setId('connie-123');
     $this->setOwnerId('connie-agency');
   }
 
