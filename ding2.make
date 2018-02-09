@@ -95,9 +95,7 @@ projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0"
-; Fix for SA-CONTRIB-2016-020 - https://www.drupal.org/node/2705637
-projects[features][patch][0] = "http://cgit.drupalcode.org/features/patch/?id=c1e04f451816bd004f2096e469ec26ae9c534f3a"
+projects[features][version] = "2.10"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
