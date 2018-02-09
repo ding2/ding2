@@ -10,7 +10,17 @@ use Ting\Search\TingSearchRequest;
 use Ting\Search\TingSearchStrategyInterface;
 use Ting\Search\UnsupportedSearchQueryException;
 
+/**
+ * Unit tests for searches.
+ */
 class DingSearchUnitTest extends DingUnitTestBase {
+
+  /**
+   * Return metadata about the test.
+   *
+   * @return array
+   *   Map of test metadata.
+   */
   public static function getInfo() {
     return array(
       'name' => 'Ting search Unittests',
@@ -18,14 +28,6 @@ class DingSearchUnitTest extends DingUnitTestBase {
       'group' => 'Ding! - Ting search unittest',
       'dependencies' => array('ding_test'),
     );
-  }
-
-  public function setUp() {
-    // Parent sets up autoloading and our test-dependencies so get it in the
-    // loop as quickly as possible.
-    parent::setUp();
-
-    // Any subsequent setup goes here.
   }
 
   // Initial test-case for testing tests.
