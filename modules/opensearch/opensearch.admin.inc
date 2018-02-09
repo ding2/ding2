@@ -133,7 +133,7 @@ function opensearch_admin_ranking_settings_submit($form, &$form_state) {
   $fields = $form_state['values']['opensearch_ranking_fields']['fields'];
 
   $fields = array_filter($fields, '_opensearch_ranking_field_filter');
-  usort($fields, '_opensearch_ranking_field_sort');
+  usort($fields, 'drupal_sort_weight');
 
   variable_set('opensearch_ranking_fields', $fields);
 
@@ -148,16 +148,6 @@ function opensearch_admin_ranking_settings_submit($form, &$form_state) {
  */
 function _opensearch_ranking_field_filter($element) {
   return !empty($element['field_name']);
-}
-
-/**
- * Usort() callback to remove empty/deleted elements.
- */
-function _opensearch_ranking_field_sort($a, $b) {
-  if ($a['weight'] == $b['weight']) {
-    return 0;
-  }
-  return ($a['weight'] > $b['weight']) ? -1 : 1;
 }
 
 /**
@@ -446,7 +436,7 @@ function opensearch_admin_boost_settings_submit($form, &$form_state) {
   $fields = $form_state['values']['opensearch_boost_fields']['fields'];
 
   $fields = array_filter($fields, '_opensearch_boost_field_filter');
-  usort($fields, '_opensearch_boost_field_sort');
+  usort($fields, 'drupal_sort_weight');
 
   variable_set('opensearch_boost_fields', $fields);
 }
@@ -456,14 +446,4 @@ function opensearch_admin_boost_settings_submit($form, &$form_state) {
  */
 function _opensearch_boost_field_filter($element) {
   return !(empty($element['field_name']) || empty($element['field_value']));
-}
-
-/**
- * Callback for usort() to remove empty/deleted elements.
- */
-function _opensearch_boost_field_sort($a, $b) {
-  if ($a['weight'] == $b['weight']) {
-    return 0;
-  }
-  return ($a['weight'] > $b['weight']) ? -1 : 1;
 }
