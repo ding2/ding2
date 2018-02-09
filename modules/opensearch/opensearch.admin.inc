@@ -27,7 +27,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
 
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_webservice'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Autocomplete URL', array(), array('context' => 'opensearch_search_autocomplete')),
+    '#title' => t('Webservice', array(), array('context' => 'opensearch_search_autocomplete')),
     '#tree' => FALSE,
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
@@ -35,7 +35,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
 
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_webservice']['opensearch_search_autocomplete_suggestion_url'] = array(
     '#type' => 'textfield',
-    '#title' => t('Autocomplete URL', array(), array('context' => 'opensearch_search_autocomplete')),
+    '#title' => t('URL', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 73,
     '#description' => t('URL to Autocomplete webservice. F.ex.: http://opensuggestion.addi.dk/1.0/', array(), array('context' => 'opensearch_search_autocomplete')),
     '#default_value' => variable_get('opensearch_search_autocomplete_suggestion_url',
@@ -46,7 +46,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
 
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_webservice']['opensearch_search_autocomplete_method'] = array(
     '#type' => 'textfield',
-    '#title' => t('Autocomplete method', array(), array('context' => 'opensearch_search_autocomplete')),
+    '#title' => t('Method', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 73,
     '#description' => t('The method to use. Currently there are two methods: terms and facets. Version 2.0 exposes facetSpell method', array(), array('context' => 'opensearch_search_autocomplete')),
     '#default_value' => variable_get('opensearch_search_autocomplete_method',
@@ -56,7 +56,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
 
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Autocomplete settings', array(), array('context' => 'opensearch_search_autocomplete')),
+    '#title' => t('Settings', array(), array('context' => 'opensearch_search_autocomplete')),
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
@@ -153,7 +153,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
 
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_help'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Autocomplete help', array(), array('context' => 'opensearch_search_autocomplete')),
+    '#title' => t('Help', array(), array('context' => 'opensearch_search_autocomplete')),
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
