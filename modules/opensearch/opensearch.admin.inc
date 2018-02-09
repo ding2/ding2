@@ -439,6 +439,8 @@ function opensearch_admin_boost_settings_submit($form, &$form_state) {
   usort($fields, 'drupal_sort_weight');
 
   variable_set('opensearch_boost_fields', $fields);
+
+  drupal_set_message(t('The configuration options have been saved.'));
 }
 
 /**
