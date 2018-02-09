@@ -65,7 +65,7 @@ function _opensearch_get_facet_values($facet_name) {
  *   An array of loaded objects.
  */
 function opensearch_search_object_load(array $ids) {
-  // Ensure we have ting client.
+  // Ensure we have OpenSearch client.
   module_load_include('inc', 'opensearch', 'opensearch.client');
 
   $objects = opensearch_get_objects($ids);
@@ -89,7 +89,7 @@ function opensearch_search_object_load(array $ids) {
  *   The collection.
  */
 function opensearch_search_collection_load($id) {
-  // Ensure we have ting client.
+  // Ensure we have OpenSearch client.
   module_load_include('inc', 'opensearch', 'opensearch.client');
 
   $reply = opensearch_get_object($id, TRUE);
@@ -214,7 +214,7 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   // Whether to return all materials from matched collections.
   $options['allObjects'] = $ting_query->getPopulateCollections();
 
-  // Ensure we have ting client.
+  // Ensure we have OpenSearch client.
   module_load_include('inc', 'opensearch', 'opensearch.client');
   $search_result = opensearch_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options);
   if ($search_result === NULL) {
@@ -622,7 +622,7 @@ function opensearch_search_object_ids($ids) {
       // Ensure that the work match in opensearch doesn't hide ids for us.
       $options['collectionType'] = 'manifestation';
 
-      // Ensure we have ting client.
+      // Ensure we have OpenSearch client.
       module_load_include('inc', 'opensearch', 'opensearch.client');
       $res = opensearch_do_search($query, 1, count($chunk), $options);
 

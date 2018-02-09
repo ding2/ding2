@@ -10,6 +10,8 @@ namespace OpenSearch;
 use Ting\Search\TingSearchFacet;
 use Ting\Search\TingSearchFacetTerm;
 use Ting\Search\TingSearchResultInterface;
+use TingClientSearchRequest;
+use TingClientSearchResult;
 
 /**
  * Class OpenSearchTingSearchResult
@@ -43,7 +45,7 @@ class OpenSearchTingSearchResult implements TingSearchResultInterface {
    * @param \Ting\Search\TingSearchRequest $search_request
    *   The query that should produce the result.
    */
-  public function __construct($open_search_result, $search_request) {
+  public function __construct(TingClientSearchResult $open_search_result, TingClientSearchRequest $search_request) {
     $this->openSearchResult = $open_search_result;
     $this->tingSearchRequest = $search_request;
   }

@@ -162,31 +162,51 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
   $form['opensearch_autocomplete']['opensearch_search_autocomplete_help']['description'] = array(
     '#theme' => 'table',
     '#rows' => array(
-      array(t('Match index:', array(), array('context' => 'opensearch_search_autocomplete')),
+      array(
+        t('Match index:', array(), array('context' => 'opensearch_search_autocomplete')),
         t('The index to find word matches in.<br/>
                If a term index, single terms are returned, while phrase indexes return entire phrases. Only entries in the specified index that begin with the specified query string are returned. For term indexes the query string can only contain one term<br/>
-               F.ex.: scanterm.mainTitle + query: "kan" will match "<b>Kan</b>dis", or scanphrase.mainTitle + query: "kan" will match "<b>Kan</b>sas city"', array(), array('context' => 'opensearch_search_autocomplete'))),
-      array(t('Facet index:', array(), array('context' => 'opensearch_search_autocomplete')),
+               F.ex.: scanterm.mainTitle + query: "kan" will match "<b>Kan</b>dis", or scanphrase.mainTitle + query: "kan" will match "<b>Kan</b>sas city"', array(), array('context' => 'opensearch_search_autocomplete')),
+      ),
+      array(
+        t('Facet index:', array(), array('context' => 'opensearch_search_autocomplete')),
         t('The index to get suggestions from.<br/>
                This variant looks in the specified index for entries that contain the words from specified query string and then counts results in groups based on the specified facet index. This will also provide suggestions for phrases that contain the words from the query string.<br/>
                Care should be taken in selecting a suitable pair of indexes. The facet index should be an index generated from the same data as the match index. The match index should be a term index and the facet index should be a phrase index<br/>
-               F.ex.: scanphrase.mainTitle (combined with match index: scanterm.mainTitle) + query: "kan" will match "From Impressionism to <b>Kan</b>dinsky"', array(), array('context' => 'opensearch_search_autocomplete'))),
-      array(t('Query filter:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('A query that may be used to filter the area you want to get suggestions from. F.ex.: term.workType=literature', array(), array('context' => 'opensearch_search_autocomplete'))),
-      array(t('Output sort order:', array(), array('context' => 'opensearch_search_autocomplete')), t('Defaults to "count"', array(), array('context' => 'opensearch_search_autocomplete'))),
-      array(t('Agency:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Only get suggestions from data accessible to the specified library ID. F.ex.: 715100', array(), array('context' => 'opensearch_search_autocomplete'))),
-      array(t('Profile:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Only get suggestions from data accessible to the specified search profile, as defined in the VIP database.', array(), array('context' => 'opensearch_search_autocomplete'))),
-      array(t('Max request time:', array(), array('context' => 'opensearch_search_autocomplete')),
+               F.ex.: scanphrase.mainTitle (combined with match index: scanterm.mainTitle) + query: "kan" will match "From Impressionism to <b>Kan</b>dinsky"', array(), array('context' => 'opensearch_search_autocomplete')),
+      ),
+      array(
+        t('Query filter:', array(), array('context' => 'opensearch_search_autocomplete')),
+        t('A query that may be used to filter the area you want to get suggestions from. F.ex.: term.workType=literature', array(), array('context' => 'opensearch_search_autocomplete')),
+      ),
+      array(
+        t('Output sort order:', array(), array('context' => 'opensearch_search_autocomplete')),
+        t('Defaults to "count"', array(), array('context' => 'opensearch_search_autocomplete')),
+      ),
+      array(
+        t('Agency:', array(), array('context' => 'opensearch_search_autocomplete')),
+        t('Only get suggestions from data accessible to the specified library ID. F.ex.: 715100', array(), array('context' => 'opensearch_search_autocomplete')),
+      ),
+      array(
+        t('Profile:', array(), array('context' => 'opensearch_search_autocomplete')),
+        t('Only get suggestions from data accessible to the specified search profile, as defined in the VIP database.', array(), array('context' => 'opensearch_search_autocomplete')),
+      ),
+      array(
+        t('Max request time:', array(), array('context' => 'opensearch_search_autocomplete')),
         t('Maximum request time in milliseconds. Default 2000', array(),
-          array('context' => 'opensearch_search_autocomplete'))),
-      array(t('Highlight:', array(), array('context' => 'opensearch_search_autocomplete')),
+          array('context' => 'opensearch_search_autocomplete')),
+      ),
+      array(
+        t('Highlight:', array(), array('context' => 'opensearch_search_autocomplete')),
         t('Add prefix and suffix around strings that match the query.', array
-        (), array('context' => 'opensearch_search_autocomplete'))),
-      array(t('Highlight prefix & suffix:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Defaults to &lt;em&gt; & &lt;/em&gt;.', array(), array('context'
-        => 'opensearch_search_autocomplete'))),
+        (), array('context' => 'opensearch_search_autocomplete')),
+      ),
+      array(
+        t('Highlight prefix & suffix:', array(), array('context' => 'opensearch_search_autocomplete')),
+        t('Defaults to &lt;em&gt; & &lt;/em&gt;.', array(), array(
+          'context' => 'opensearch_search_autocomplete',
+        )),
+      ),
     ),
     '#attributes' => array('class' => array('table-class')),
     '#empty' => t('Your table is empty'),
@@ -419,7 +439,7 @@ function opensearch_admin_boost_add_more_js($form, &$form_state) {
 /**
  * After build callback to the boost settings form.
  *
- * Add a little bit of CSS and JS to the form.
+ * Add a little bit of CSS to the form.
  */
 function opensearch_admin_boost_form_after_build($form, &$form_state) {
   $path = drupal_get_path('module', 'opensearch');
