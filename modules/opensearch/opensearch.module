@@ -78,6 +78,8 @@ function opensearch_permission() {
  * Implements hook_menu().
  */
 function opensearch_menu() {
+  $items = array();
+
   $items['admin/config/opensearch'] = array(
     'title' => 'Opensearch',
     'description' => 'Manage Opensearch integration settings.',
@@ -127,7 +129,6 @@ function opensearch_menu() {
   return $items;
 }
 
-
 /**
  * Processor for the opensearch_boost_field form element.
  */
@@ -163,22 +164,11 @@ function opensearch_boost_field_element_process($element, $form_state) {
   $element['weight'] = array(
     '#title' => t('Weight'),
     '#type' => 'textfield',
-    // '#type' => 'select',
-    // '#options' => drupal_map_assoc(range(1, 10)),
     '#default_value' => (isset($element['#value']['weight'])) ? $element['#value']['weight'] : NULL,
-    '#element_validate' => array('boost_weight_validate'),
+    '#element_validate' => array('element_validate_integer'),
   );
 
   return $element;
-}
-
-/**
- * Validate the boost form.
- */
-function boost_weight_validate($element, &$form_state) {
-  if (!empty($element['#value']) && (is_int($element['#value']))) {
-    form_error($element, t('Boost weight is an integer.'));
-  }
 }
 
 /**
@@ -366,23 +356,28 @@ function opensearch_admin_settings($form_state) {
  * Validation handler for opensearch_search_autocomplete_admin
  */
 function opensearch_search_autocomplete_admin_validate($form, &$form_state) {
-  $form_state['values']['opensearch_search_autocomplete_suggestion_url'] = trim
-  ($form_state['values']['opensearch_search_autocomplete_suggestion_url']);
+  $form_state['values']['opensearch_search_autocomplete_suggestion_url'] = trim(
+    $form_state['values']['opensearch_search_autocomplete_suggestion_url']
+  );
 }
 
 /**
  * Get settings, and merge with defaults.
+ *
  * @return array
+ *   A map of OpenSearch autocomplete settings to use.
  */
 function opensearch_search_autocomplete_settings() {
   $settings = array();
+
+  $base_settings = array();
 
   $base_settings['index'] = NULL;
   $base_settings['facetIndex'] = NULL;
   $base_settings['filterQuery'] = NULL;
   $base_settings['sort'] = 'count';
 
-  $base_settings['agency']  = variable_get('ting_agency', NULL);
+  $base_settings['agency'] = variable_get('ting_agency', NULL);
   $base_settings['profile'] = variable_get('opensearch_search_profile', NULL);
   $base_settings['maxSuggestions'] = 10;
   $base_settings['maxTime'] = 2000;

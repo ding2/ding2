@@ -270,9 +270,6 @@ class TingSearchRequest {
    *
    * @return int
    *   The page-number, defaults to 1.
-   *
-   * @return TingSearchRequest
-   *   the current query object.
    */
   public function getPage() {
     return $this->page;

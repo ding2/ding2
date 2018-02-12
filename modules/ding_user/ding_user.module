@@ -390,6 +390,7 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
     '#type' => 'textfield',
     '#title' => t('Pin code length'),
     '#default_value' => ding_user_get_pincode_length(),
+    '#description' => t('The required length of the pin code used to access the site. This must be a integer value larger than 0.'),
     '#element_validate' => array('element_validate_integer_positive'),
   );
 
@@ -696,7 +697,7 @@ function ding_user_get_private_key() {
   }
   watchdog(
     'ding_user',
-    'ding_user_private_key not found', 
+    'ding_user_private_key not found',
     array(),
     WATCHDOG_CRITICAL
   );

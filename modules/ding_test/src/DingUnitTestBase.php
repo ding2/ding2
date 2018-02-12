@@ -11,6 +11,9 @@ namespace Drupal\ding_test;
 use Drupal\xautoload\ClassLoader\ClassLoaderInterface;
 use DrupalUnitTestCase;
 
+/**
+ * Base class for unit tests which rely on XAutoload for class loading.
+ */
 class DingUnitTestBase extends DrupalUnitTestCase {
 
   /**

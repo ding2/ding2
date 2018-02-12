@@ -5,8 +5,7 @@
  */
 
 /**
- * Used to indicate that a given cache entry have return no reply from the data
- * well.
+ * Indicates that a given cache entry have return no reply from the data well.
  */
 define('OPENSEARCH_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
 
@@ -62,7 +61,7 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
 
       // Set search profile from the administration interface.
       $profile = variable_get('opensearch_search_profile', '');
-      if (!empty($profile) && method_exists($request, 'setProfile')) {
+      if (!empty($profile)) {
         $request->setProfile($profile);
       }
 
@@ -255,7 +254,7 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
   if (isset($options['sort']) && $options['sort']) {
     $request->setSort($options['sort']);
   }
-  else{
+  else {
     $sort = variable_get('opensearch_sort_default', 'rank_frequency');
     $request->setSort($sort);
   }
@@ -267,7 +266,7 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
 
   // Set search profile, if applicable.
   $profile = variable_get('opensearch_search_profile', '');
-  if (!empty($profile) && method_exists($request, 'setProfile')) {
+  if (!empty($profile)) {
     $request->setProfile($profile);
   }
 
@@ -350,7 +349,7 @@ function opensearch_get_object_marcxchange($object_id) {
     $request->setProfile(variable_get('opensearch_search_profile'));
     $request->setIdentifier($object_id);
 
-    // Have to use ting_execute directly since marc objects might collide with
+    // Have to use opensearch_execute directly since marc objects might collide with
     // normal dkabm objects in the cache.
     $object = opensearch_execute($request);
     if ($object) {
@@ -705,7 +704,6 @@ function opensearch_execute($request) {
   try {
     timer_start('ting');
     $res = _opensearch_get_client()->execute($request);
-    timer_stop('ting');
 
     // When the request is for fulltext (doc-book) the result is XML but the
     // next part expect JSON only formatted input. So this hack simply return
@@ -732,9 +730,10 @@ function opensearch_execute($request) {
     if (isset($e->user_message)) {
       drupal_set_message($e->user_message, 'warning');
     }
-    timer_stop('ting');
     watchdog('ting client', 'Error performing request: ' . $e->getMessage(), NULL, WATCHDOG_ERROR, 'http://' . $_SERVER["HTTP_HOST"] . request_uri());
     return FALSE;
+  } finally {
+    timer_stop('ting');
   }
 }
 

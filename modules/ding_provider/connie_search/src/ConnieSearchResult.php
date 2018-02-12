@@ -10,6 +10,11 @@ use Ting\Search\TingSearchFacet;
 use Ting\Search\TingSearchFacetTerm;
 use Ting\Search\TingSearchResultInterface;
 
+/**
+ * Dummy implementation of a search result.
+ *
+ * Implemented for testing purposes.
+ */
 class ConnieSearchResult implements TingSearchResultInterface {
 
   protected $query;
@@ -55,7 +60,7 @@ class ConnieSearchResult implements TingSearchResultInterface {
    *   Collections contained in the search result.
    */
   public function getTingEntityCollections() {
-    return [ConnieTingObjectCollection::getSingleCollection()];
+    return [ConnieTingObjectCollection::getSingleCollection('object1')];
   }
 
   /**
@@ -95,4 +100,5 @@ class ConnieSearchResult implements TingSearchResultInterface {
     $facet = new TingSearchFacet('facet-name', $terms);
     return [$facet->getName() => $facet];
   }
+
 }

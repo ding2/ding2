@@ -7,6 +7,7 @@
 namespace OpenSearch;
 
 use Ting\TingObjectCollectionInterface;
+use TingClientObjectCollection;
 
 /**
  * Class OpenSearchTingObjectCollection
@@ -27,7 +28,7 @@ class OpenSearchTingObjectCollection implements TingObjectCollectionInterface {
    * @param \TingClientObjectCollection $collection
    *   Collection from the ting client.
    */
-  public function __construct($collection) {
+  public function __construct(TingClientObjectCollection $collection) {
     if (!empty($collection->objects)) {
       $this->tingObjects = array_map(function ($object) {
         return new OpenSearchTingObject($object);

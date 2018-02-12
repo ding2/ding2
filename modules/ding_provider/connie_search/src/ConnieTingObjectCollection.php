@@ -8,6 +8,11 @@ namespace Connie\Search;
 
 use Ting\TingObjectCollectionInterface;
 
+/**
+ * Dummy object collection implementation.
+ *
+ * Implemented for testing purposes.
+ */
 class ConnieTingObjectCollection implements TingObjectCollectionInterface {
 
   /**
@@ -21,7 +26,7 @@ class ConnieTingObjectCollection implements TingObjectCollectionInterface {
    * @param \Ting\TingObjectInterface[] $objects
    *   The objects in the collection.
    */
-  public function __construct($objects) {
+  public function __construct(array $objects) {
     $this->objects = $objects;
   }
 
@@ -44,10 +49,14 @@ class ConnieTingObjectCollection implements TingObjectCollectionInterface {
   /**
    * Simple factory for returning a collection with a single object.
    *
+   * @param string $id
+   *   The id of the object within the collection.
+   *
    * @return \Connie\Search\ConnieTingObjectCollection
    *   The collection.
    */
-  public static function getSingleCollection() {
-    return new self([new ConnieTingObject()]);
+  public static function getSingleCollection($id) {
+    return new self([new ConnieTingObject($id)]);
   }
+
 }

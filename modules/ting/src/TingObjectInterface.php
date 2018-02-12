@@ -21,7 +21,7 @@ interface TingObjectInterface {
   public function getRelations();
 
   /**
-   * Determines whether the matrial is local.
+   * Determines whether the material is local.
    *
    * A local material is a material that is available from the library that is
    * primary for the current Ding installation.

@@ -52,7 +52,7 @@ class OpenSearchTingObject implements TingObjectInterface {
    * @param TingClientObject $open_search_object
    *   The Open Search result this object wraps.
    */
-  public function __construct($open_search_object) {
+  public function __construct(TingClientObject $open_search_object) {
     $this->openSearchObject = $open_search_object;
   }
 
@@ -98,13 +98,12 @@ class OpenSearchTingObject implements TingObjectInterface {
 
       // Wrap each loaded relation object in a TingRelation that will be able
       // to store the relation uri and type we may need later.
-      $this->relations = array_map(function($record) use($relation_objects) {
+      $this->relations = array_map(function ($record) use ($relation_objects) {
         return new TingRelation($record->relationType, $record->relationUri, isset($relation_objects[$record->relationUri]) ? $relation_objects[$record->relationUri] : NULL);
       }, $this->getRelationsData());
 
     }
     return $this->relations;
-
   }
 
   /**
@@ -192,7 +191,13 @@ class OpenSearchTingObject implements TingObjectInterface {
    */
   public function getSubjects() {
     // Filter away fields that should only be used for internals.
-    $search_only_fields = ['dkdcplus:genre', 'dkdcplus:DK5', 'dkdcplus:DK5-Text', 'dkdcplus:DBCO', 'dkdcplus:DBCN'];
+    $search_only_fields = [
+      'dkdcplus:genre',
+      'dkdcplus:DK5',
+      'dkdcplus:DK5-Text',
+      'dkdcplus:DBCO',
+      'dkdcplus:DBCN',
+    ];
     $subjects = $this->filterRecordsExclude($this->getRecordLevel('dc:subject'), $search_only_fields);
     return $this->recordsFlatten($subjects);
   }
@@ -246,7 +251,7 @@ class OpenSearchTingObject implements TingObjectInterface {
   /**
    * {@inheritdoc}
    */
-  function getMaterialSource() {
+  public function getMaterialSource() {
     return $this->firstEntry($this->getRecordEntry('ac:source'));
   }
 
@@ -513,13 +518,12 @@ class OpenSearchTingObject implements TingObjectInterface {
    * Fetch a record from the Open Search object.
    *
    * @param string $l1_key
-   *   Key for the first level of value to fetch
-   *
+   *   Key for the first level of value to fetch.
    * @param string $l2_key
    *   Key for the second level of value to fetch. If not specified it is
    *   assumed that the value can be fetched via $array[$l1_key]['']
    *
-   * @return string|array|FALSE
+   * @return string|array|false
    *   The value from the open search object or FALSE if not found
    */
   protected function getRecordEntry($l1_key, $l2_key = '') {
@@ -531,7 +535,7 @@ class OpenSearchTingObject implements TingObjectInterface {
    * Fetch a record from the Open Search object.
    *
    * @param string $l1_key
-   *   Key for the first level of value to fetch
+   *   Key for the first level of value to fetch.
    *
    * @return array
    *   The level, empty array if no entry could be found
@@ -545,7 +549,7 @@ class OpenSearchTingObject implements TingObjectInterface {
    * Filters away records with blacklisted keys.
    *
    * @param array $records
-   *   Associative list of records
+   *   Associative list of records.
    *
    * @param array $blacklist
    *   List of keys that should be removed from the list of records.
@@ -678,6 +682,9 @@ class OpenSearchTingObject implements TingObjectInterface {
    *
    * @param string $series
    *   Series description.
+   *
+   * @return string
+   *    A cleaned up version of the series description contain only the title.
    */
   private function processSeriesDescription($series) {
     $result = '';

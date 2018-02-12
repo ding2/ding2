@@ -12,7 +12,17 @@ use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchFieldFilter;
 use Ting\Search\TingSearchStrategyInterface;
 
+/**
+ * Unit test for OpenSearch module.
+ */
 class OpensearchUnitTest extends DingUnitTestBase {
+
+  /**
+   * Return metadata about the test.
+   *
+   * @return array
+   *   Map of test metadata.
+   */
   public static function getInfo() {
     return [
       'name' => 'Opensearch Unittests',

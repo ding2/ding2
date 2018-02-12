@@ -5,7 +5,6 @@
  */
 function opensearch_install() {
   opensearch_migrate_settings();
-  opensearch_migrate_roles();
 }
 
 /**
@@ -35,24 +34,4 @@ function opensearch_migrate_settings() {
     variable_set($new_var, variable_get($old_var));
     variable_del($old_var);
   });
-}
-
-/**
- * Translate legacy ting roles to opensearch.
- */
-function opensearch_migrate_roles() {
-  // Get all permissions keyed by role id.
-  $loaded_permissions = user_role_permissions(user_roles());
-  $ting_permission = 'administer ting settings';
-  $opensearch_permission = 'administer opensearch settings';
-
-  // Find all roles that references the ting permission and grant the role the
-  // new opensearch permission as well.
-  array_walk($loaded_permissions,
-    function ($permissions, $role_id) use ($ting_permission, $opensearch_permission){
-      if (array_key_exists($ting_permission, $permissions)) {
-        user_role_grant_permissions($role_id, [$opensearch_permission]);
-      }
-    }
-  );
 }
