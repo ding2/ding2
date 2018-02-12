@@ -57,7 +57,7 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
     switch ($backend['path']) {
       case 'ting':
         // Using already formed search results.
-        $ting_search_results = drupal_static('ting_search_results');
+        $ting_search_results = ting_search_current_results();
         // If search results is empty perform new ting search.
         // This condition is putted here for getting results when not
         // on /search/ting/%key% page.
