@@ -17,10 +17,10 @@ define('TING_SEARCH_CAROUSEL_SEARCH_SIZE', 20);
 function ting_search_carousel_menu() {
   $items = array();
 
-  $items['ting_search_carousel/results/ajax/%/%'] = array(
+  $items['ting_search_carousel/results/ajax/%/%/%'] = array(
     'title' => 'Show search carousel results',
     'page callback' => 'ting_search_carousel_result',
-    'page arguments' => array(3, 4),
+    'page arguments' => array(3, 4, 5),
     'access arguments' => array('access content'),
     'file' => 'ting_search_carousel.pages.inc',
     'type' => MENU_CALLBACK,
@@ -122,6 +122,8 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
  *   Start offset.
  * @param int $count
  *   Number to return.
+ * @param string $hash
+ *   MD5 formed from search query.
  * @param bool $query_only
  *   Whether to only consult the already cached data.
  *
@@ -129,8 +131,24 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
  *   Array with the keys 'entities', an array of covers, and 'next_offset',
  *   which is the next offset to use or -1.
  */
-function _ting_search_carousel_get_frontpage_entities($index, $start, $count, $query_only = FALSE) {
-  $queries = variable_get('ting_carousel_search_queries', array());
+function _ting_search_carousel_get_frontpage_entities($index, $start, $count, $hash, $query_only = FALSE) {
+  $queries = array();
+  $panes = db_select('panels_pane', 'pp')
+    ->fields('pp')
+    ->condition('type', 'carousel')
+    ->condition('subtype', 'carousel')
+    ->execute()
+    ->fetchAll();
+
+  foreach ($panes as $item) {
+    $conf = unserialize($item->configuration);
+    $compare_hash = md5(drupal_json_encode($conf['ting_searches']));
+
+    if ($hash == $compare_hash) {
+      $queries = $conf['ting_searches'];
+    }
+  }
+
   $query = isset($queries[$index]) ? $queries[$index] : FALSE;
   if (!$query) {
     return array();
@@ -236,7 +254,7 @@ function ting_search_carousel_get_entities($query, $start, $count, $query_only =
  * @return array
  *   Ting entities that has covers.
  */
-function _ting_search_carousel_get_slice($cache_data, $start, $count) {
+function _ting_search_carousel_get_slice(array $cache_data, $start, $count) {
   $pool_size = count($cache_data['pool']);
   // All inside our already collected data.
   if (($start + $count) <= $pool_size) {
@@ -349,4 +367,61 @@ function ting_search_carousel_image_default_styles() {
       ),
     ),
   );
+}
+
+/**
+ * Theme the queries form, mainly adding a table drag-n-drop feature.
+ *
+ * @param array $variables
+ *   Theme related variables.
+ *
+ * @return string
+ *   Themed form output.
+ */
+function theme_ting_search_carousel_admin_form(array $variables) {
+  $form = $variables['form'];
+  drupal_add_tabledrag('ting-search-carousel-admin-sort', 'order', 'sibling', 'sort');
+
+  $header = array('Searches', '');
+  $rows = array();
+  foreach (element_children($form['ting_searches']) as $key) {
+    // Add class to group weight fields for drag and drop.
+    $form['ting_searches'][$key]['sort[]']['#attributes']['class'][] = 'sort';
+
+    // Get sort element.
+    $sort = $form['ting_searches'][$key]['sort[]'];
+    unset($form['ting_searches'][$key]['sort[]']);
+
+    // Build rows.
+    $classes = array('draggable');
+    if (isset($form['ting_searches'][$key]['#prefix'])) {
+      $classes[] = 'search-query-hidden';
+    }
+
+    if (!empty($form['ting_searches'][$key]['title[]']['#value'])) {
+      $rows[] = array(
+        'data' => array(
+          drupal_render($form['ting_searches'][$key]),
+          drupal_render($sort),
+        ),
+        'class' => $classes,
+      );
+    }
+  }
+
+  $table_vars = array(
+    'header' => $header,
+    'rows' => $rows,
+    'attributes' => array('id' => 'ting-search-carousel-admin-sort'),
+    'caption' => '',
+    'colgroups' => array(),
+    'sticky' => FALSE,
+    'empty' => 'EMPTY',
+  );
+  $output = theme('table', $table_vars);
+
+  // Render remaining elements.
+  $output .= drupal_render_children($form);
+
+  return $output;
 }

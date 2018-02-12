@@ -76,20 +76,40 @@ function ting_search_carousel_update_7003() {
 }
 
 /**
- * Ensure router path for carousel shortcut menu link is correct.
+ * Move carousel configuration into panels pane.
  */
 function ting_search_carousel_update_7004() {
-  if (module_exists('shortcut')) {
-    $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+  $query = db_select('panels_pane', 'pp');
 
-    foreach ($shortcut_set->links as &$link) {
-      // The router path needs to be correct for the access check for the menu
-      // link to work.
-      if ($link['link_path'] == 'admin/config/ting/ting_search_carousel') {
-        $link['router_path'] = $link['link_path'];
-      }
+  $query->condition('type', 'carousel')
+    ->condition('subtype', 'carousel')
+    ->fields('pp', array('pid', 'configuration'));
+
+  $results = $query->execute();
+
+  $default_configuration = array(
+    'ting_search_carousel_description_toggle' => 0,
+    'ting_search_carousel_transition' => 'fade',
+  );
+
+  $searches = variable_get('ting_carousel_search_queries', array());
+  $searches_configuration = variable_get('ting_search_carousel_settings', $default_configuration);
+
+  $carousel_configuration = array(
+    'ting_searches' => $searches,
+    'settings' => $searches_configuration,
+  );
+
+  foreach ($results as $result) {
+    $panel_configuration = unserialize($result->configuration);
+    if (!isset($panel_configuration['ting_searches']) || empty($panel_configuration['ting_searches'])) {
+      $panel_configuration = $carousel_configuration;
+      db_update('panels_pane')
+        ->fields(array('configuration' => serialize($panel_configuration)))
+        ->condition('pid', $result->pid, '=')
+        ->execute();
     }
-
-    shortcut_set_save($shortcut_set);
   }
+  variable_del('ting_carousel_search_queries');
+  variable_del('ting_search_carousel_settings');
 }
