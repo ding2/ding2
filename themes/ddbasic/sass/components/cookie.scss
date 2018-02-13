@@ -13,7 +13,7 @@
     }
     #popup-text {
       @include font('base');
-      max-width: none;
+      max-width: calc(100% - 40px);
       float: none;
       padding-top: 20px;
       padding-bottom: 10px;
@@ -40,7 +40,8 @@
       max-width: none;
       float: left;
       .agree-button,
-      .find-more-button {
+      .find-more-button,
+      .hide-popup-button {
         @extend %button;
         @include font('base');
         background: $color-secondary;
@@ -73,14 +74,8 @@
       width: 40px;
       height: 40px;
       line-height: 60px;
-      top: 50%;
-      margin-top: -20px;
+      top: 0;
       cursor: pointer;
-
-      // Mobile
-      @include media($mobile) {
-        top: 25px;
-      }
     }
   }
 }
