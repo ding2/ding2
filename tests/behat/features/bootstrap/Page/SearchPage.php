@@ -1011,7 +1011,7 @@ class SearchPage extends PageBase {
    * SetExpectedSearchResultSize - pops and returns the last expected result.
    *
    * @param string $size
-   *   The value to set as expected result
+   *   The value to set as expected result.
    */
   public function setExpectedSearchResultSize($size) {
     array_push($this->stackFacets, $size);
@@ -1068,7 +1068,8 @@ class SearchPage extends PageBase {
       $this->scrollTo($linkObj);
       $linkObj->click();
       $this->waitForPage();
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception("Could not go to the page.");
     }
     return "";

@@ -173,7 +173,7 @@ class PageBase extends LogMessages {
    * Scroll a bit up
    *
    * @param string $pixels
-   *   The number of pixels to scroll
+   *   The number of pixels to scroll.
    *
    * @When I scroll :pixels pixels
    */

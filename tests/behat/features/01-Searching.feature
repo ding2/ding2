@@ -19,6 +19,7 @@ Feature: SEEK redroute 01
   @api @seek001 @seekNologin @regression @cci
   Scenario Outline: S001 Search for special letters
     Given I have searched for "<title>"
+    And I set control mode for "searchMaxPages" to be "5"
     Then I can see "<letter>" somewhere in the search result
 
     Examples:

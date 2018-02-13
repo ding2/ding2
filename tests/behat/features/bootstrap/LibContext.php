@@ -218,7 +218,6 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Step to save a screenshot on demand
    *
    * @Then I save (a) screenshot
-   *
    */
   public function saveScreenshot() {
     // Initially check if we are taking screenshots at all. The setting is in the behat.yml file.
@@ -346,9 +345,11 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function checkPaginationOnAllPages() {
     try {
       $this->check($this->searchPage->checkPaginationOnAllPages(), $this->searchPage->getAndClearMessages());
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception("Failed: " . $e->getMessage());
-    } catch (\Page\Exception $e) {
+    }
+    catch (\Page\Exception $e) {
       throw new Exception("Failed getting pages: " . $e->getMessage());
     }
   }
@@ -1073,9 +1074,11 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function pagingAllowsToGetAllResults() {
     try {
       $this->check($this->searchPage->getEntireSearchResult(), ($this->searchPage->getVerboseSearchResult() == "on") ? $this->searchPage->getAndClearMessages() : '');
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception("Failed: " . $e->getMessage());
-    } catch (\Page\Exception $e) {
+    }
+    catch (\Page\Exception $e) {
       throw new Exception("Failed: " . $e->getMessage());
     }
   }
@@ -1093,11 +1096,14 @@ class LibContext implements Context, SnippetAcceptingContext {
     try {
       $this->findReserveMaterialButton();
       $this->check($this->objectPage->makeReservation());
-    } catch (Exception $e) {
-      throw new Exception("Failed: " . $e->getMessage());
-    } catch (\Page\Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception("Failed: " . $e->getMessage());
     }
+    catch (\Page\Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    }
+
   }
 
   /**
@@ -1194,9 +1200,11 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function searchOnHomePage() {
     try {
       $this->check($this->searchPage->searchOnHomePage());
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception("Failed: " . $e->getMessage());
-    } catch (\Page\Exception $e) {
+    }
+    catch (\Page\Exception $e) {
       throw new Exception("Failed: " . $e->getMessage());
     }
   }
@@ -1227,9 +1235,11 @@ class LibContext implements Context, SnippetAcceptingContext {
   public function setTheNumberOfResultsPerPageToSize($size) {
     try {
       $this->check($this->searchPage->setTheNumberOfResultsPerPageToSize($size));
-    } catch (\Behat\Mink\Exception\ElementNotFoundException $e) {
+    }
+    catch (\Behat\Mink\Exception\ElementNotFoundException $e) {
       throw new Exception("Failed in setting number of results per page: " . $e->getMessage());
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception("Failed in setting the number of results per page: " . $e->getMessage());
     }
   }
@@ -1363,11 +1373,14 @@ class LibContext implements Context, SnippetAcceptingContext {
     try {
       $this->check($this->searchPage->sortOptionValid($sortOption));
       $this->check($this->searchPage->sort($sortOption));
-    } catch (\Behat\Mink\Exception\ElementNotFoundException $e) {
+    }
+    catch (\Behat\Mink\Exception\ElementNotFoundException $e) {
       throw new Exception("Failed in sorting: " . $e->getMessage());
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception("Failed in sorting: " . $e->getMessage());
-    } catch (\Page\Exception $e) {
+    }
+    catch (\Page\Exception $e) {
       throw new Exception("Failed in sorting: " . $e->getMessage());
     }
   }
@@ -1488,9 +1501,11 @@ class LibContext implements Context, SnippetAcceptingContext {
 
     try {
       $this->check($this->searchPage->useFacetsToIncreaseSearchResults(), $this->searchPage->getAndClearMessages());
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception("Failed: " . $e->getMessage());
-    } catch (\Page\Exception $e) {
+    }
+    catch (\Page\Exception $e) {
       throw new Exception("Failed: " . $e->getMessage());
     }
   }
@@ -1510,7 +1525,8 @@ class LibContext implements Context, SnippetAcceptingContext {
     // Start by scrolling to the footer so if we fail the screendump will tell us something.
     try {
       $this->searchPage->scrollToBottom();
-    } catch (\Page\Exception $e) {
+    }
+    catch (\Page\Exception $e) {
       throw new Exception("Failed: " . $e->getMessage());
     }
 
@@ -1521,9 +1537,11 @@ class LibContext implements Context, SnippetAcceptingContext {
     if ($curpg != $toPage) {
       try {
         $this->check($this->searchPage->goToPage($toPage));
-      } catch (Exception $e) {
+      }
+      catch (Exception $e) {
         throw new Exception("Failed in go to Page " . $e->getMessage());
-      } catch (\Page\Exception $e) {
+      }
+      catch (\Page\Exception $e) {
         throw new Exception("Failed in going to Page: " . $e->getMessage());
       }
     }
@@ -1546,9 +1564,11 @@ class LibContext implements Context, SnippetAcceptingContext {
 
     try {
       $this->check($this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible(), $this->searchPage->getAndClearMessages());
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception("Failed: " . $e->getMessage());
-    } catch (\Page\Exception $e) {
+    }
+    catch (\Page\Exception $e) {
       throw new Exception("Failed: " . $e->getMessage());
     }
   }
@@ -1576,10 +1596,10 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Implements step to sort the search result with a particular sort order.
    *
-   * @Then the search result is sorted on :sortOption
-   *
    * @param string $sortOption
    *    What the sorting should be made on.
+   *
+   * @Then the search result is sorted on :sortOption
    *
    * @throws Exception
    *   In case of errors.
@@ -1589,9 +1609,11 @@ class LibContext implements Context, SnippetAcceptingContext {
     try {
       $this->check($this->searchPage->sortOptionValid($sortOption));
       $this->check($this->searchPage->checkSorting($sortOption), $this->searchPage->getAndClearMessages());
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       throw new Exception("Failed " . $e->getMessage());
-    } catch (\Page\Exception $e) {
+    }
+    catch (\Page\Exception $e) {
       throw new Exception("Failed with " . $e->getMessage());
     }
   }
@@ -1599,11 +1621,11 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Wait for element to be visible
    *
-   * @param $locatortype
+   * @param string $locatortype
    *   Whether we are looking for an xpath or css locator.
-   * @param $locator
+   * @param string $locator
    *   The locator address to search for.
-   * @param $errmsgIfFails
+   * @param string $errmsgIfFails
    *   The error message to display in case of error.
    *
    * @throws Exception
