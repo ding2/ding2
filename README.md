@@ -70,7 +70,7 @@ Ensures that Ajax errors only are displayed when not in readystate 4. So when
 the user presses enter to perform a search before auto-complete Ajax is call is
 completed an error will not be displayed.
 ```sh
-  ~$ wget -qO- http://www.drupal.org/files/issues/autocomplete-1232416-205-7x.patch | patch -p1
+  ~$ wget -qO- http://www.drupal.org/files/issues/1232416-autocomplete-for-drupal7x53.patch | patch -p1
 ```
 
 Fixes the problem with scrolls when dragging items within tables in the backend.
