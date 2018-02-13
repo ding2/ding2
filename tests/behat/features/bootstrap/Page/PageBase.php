@@ -158,6 +158,9 @@ class PageBase extends LogMessages {
    * Scroll to bottom of page
    *
    * @When I scroll to the bottom (of the page)
+   *
+   * @throws Exception
+   *   In case of error.
    */
   public function scrollToBottom() {
     $found = $this->find('css', 'footer.footer');
@@ -168,6 +171,9 @@ class PageBase extends LogMessages {
 
   /**
    * Scroll a bit up
+   *
+   * @param string $pixels
+   *   The number of pixels to scroll
    *
    * @When I scroll :pixels pixels
    */
@@ -193,11 +199,7 @@ class PageBase extends LogMessages {
             '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;';
       $js = $js . 'document.body.scrollTop = document.documentElement.scrollTop = 0;';
       $js = $js . 'el.scrollIntoViewIfNeeded(true);';
-      // $js = $js . 'el.scrollIntoView(true);';
       $this->getSession()->executeScript($js);
-    }
-    catch (UnsupportedDriverActionException $e) {
-      // Ignore.
     }
     catch (Exception $e) {
       throw new Exception('Could not scroll to element: ' . $e->getMessage());
@@ -248,11 +250,8 @@ class PageBase extends LogMessages {
       // Strictly, this waits for jQuery to be loaded, but it seems sufficient.
       $this->getSession()->wait(5000, 'typeof window.jQuery == "function"');
     }
-    catch (UnsupportedDriverActionException $e) {
-      // Ignore.
-    }
     catch (Exception $e) {
-      throw new UnexpectedPageException('Unknown error waiting for page');
+      throw new Exception('Unknown error waiting for page');
     }
   }
 

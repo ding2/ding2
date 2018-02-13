@@ -432,7 +432,7 @@ class SearchPage extends PageBase {
   /**
    * This searches for a pattern anywhere in the search results.
    *
-   * @params string $regexp
+   * @param string $regexp
    *    Contains the regular expression to search for.
    *
    * @return bool
@@ -533,6 +533,7 @@ class SearchPage extends PageBase {
         return 1;
       }
     }
+    return 1;
   }
 
 
@@ -699,7 +700,7 @@ class SearchPage extends PageBase {
   /**
    * GetExpectedSearchResultSize - returns the last expected result.
    *
-   * @params bool $pop
+   * @param bool $pop
    *    Optional default false. If true, the last result will be popped from the stack too.
    *
    * @return int
@@ -879,51 +880,6 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * Open a random search result to show post by clicking on the link to it.
-   *
-   * @param string $criteria
-   *    Can be coverpage to select only post with cover page, or any other value to not care about that.
-   *
-   * @return string
-   *    Nonempty in case of failure.
-   *
-   * @throws Exception
-   *   When errors occurs.
-   * @throws \Exception
-   *   After errors this is thrown to be catched by the behat framework.
-   */
-  public function getRandomSearchResultToShowPost($criteria) {
-    // Check we're looking at a search result page.
-    $pageRes = $this->findAll('css', 'div.search-results li.list-item');
-    if (!$pageRes) {
-      return "Is not on a search result page with any results";
-    }
-    // Choose a random title.
-    $i = random_int(0, count($pageRes) - 1);
-
-    if ($criteria == "coverpage") {
-      // Attempt max 50 times to find a random post with cover page on it.
-      $max = 50;
-      while (--$max > 0 && !$pageRes[$i]->find('css', '.ting-object .ting-cover img')) {
-        usleep(100);
-        $i = random_int(0, count($pageRes) - 1);
-      }
-      if (!$pageRes[$i]->find('css', '.ting-object .ting-cover img')) {
-        return "Could not find a result with a cover page.";
-      }
-    }
-
-    $linkObj = $pageRes[$i]->find('css', '.ting-object h2 a');
-    if (!$linkObj) {
-      return "Did not find a link to the item " . $i . " on the page.";
-    }
-    // Open that page by clicking on the link.
-    $this->scrollTo($linkObj);
-    $linkObj->click();
-    $this->waitForPage();
-  }
-
-  /**
    * Tries to find the number of search results shown as total found posts on the search page.
    *
    * @return int
@@ -948,7 +904,6 @@ class SearchPage extends PageBase {
     return $expectCount;
   }
 
-
   /**
    * Returns the verbose setting for search result
    *
@@ -958,6 +913,7 @@ class SearchPage extends PageBase {
   public function getVerboseSearchResult() {
     return $this->verboseSearchResults;
   }
+
 
   /**
    * GoToPage.
@@ -1021,6 +977,7 @@ class SearchPage extends PageBase {
     $this->scrollTo($paginations[$link]);
     $paginations[$link]->click();
     $this->waitForPage();
+    return "";
   }
 
   /**
@@ -1052,6 +1009,9 @@ class SearchPage extends PageBase {
 
   /**
    * SetExpectedSearchResultSize - pops and returns the last expected result.
+   *
+   * @param string $size
+   *   The value to set as expected result
    */
   public function setExpectedSearchResultSize($size) {
     array_push($this->stackFacets, $size);
@@ -1060,13 +1020,58 @@ class SearchPage extends PageBase {
   /**
    * Searches for $string.
    *
-   * @params string $string
+   * @param string $string
    *    The string to search for.
    */
   public function search($string) {
     // You'd think we should URL encode this, but that makes it fail on
     // "The hitchhiker's guide to the galaxy".
     $this->open(['string' => $string]);
+  }
+
+  /**
+   * Open a random search result to show post by clicking on the link to it.
+   *
+   * @param string $criteria
+   *    Can be coverpage to select only post with cover page, or any other value to not care about that.
+   *
+   * @return string
+   *    Nonempty in case of failure.
+   */
+  public function getRandomSearchResultToShowPost($criteria) {
+    // Check we're looking at a search result page.
+    $pageRes = $this->findAll('css', 'div.search-results li.list-item');
+    if (!$pageRes) {
+      return "Is not on a search result page with any results";
+    }
+    // Choose a random title.
+    $i = random_int(0, count($pageRes) - 1);
+
+    if ($criteria == "coverpage") {
+      // Attempt max 50 times to find a random post with cover page on it.
+      $max = 50;
+      while (--$max > 0 && !$pageRes[$i]->find('css', '.ting-object .ting-cover img')) {
+        usleep(100);
+        $i = random_int(0, count($pageRes) - 1);
+      }
+      if (!$pageRes[$i]->find('css', '.ting-object .ting-cover img')) {
+        return "Could not find a result with a cover page.";
+      }
+    }
+
+    $linkObj = $pageRes[$i]->find('css', '.ting-object h2 a');
+    if (!$linkObj) {
+      return "Did not find a link to the item " . $i . " on the page.";
+    }
+    // Open that page by clicking on the link.
+    try {
+      $this->scrollTo($linkObj);
+      $linkObj->click();
+      $this->waitForPage();
+    } catch (Exception $e) {
+      throw new Exception("Could not go to the page.");
+    }
+    return "";
   }
 
   /**

@@ -205,10 +205,8 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @AfterScenario
    *
-   * @throws UnsupportedDriverActionException
+   * @throws Exception
    *   When errors happens during screenshot.
-   * @throws \Behat\Mink\Exception\DriverException
-   *   When grave errors happens.
    */
   public function afterScenario(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope) {
     if ($scope->getTestResult()->getResultCode() > 0) {
@@ -221,10 +219,6 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @Then I save (a) screenshot
    *
-   * @throws UnsupportedDriverActionException
-   *   When errors happens.
-   * @throws \Behat\Mink\Exception\DriverException
-   *   When errors occurs.
    */
   public function saveScreenshot() {
     // Initially check if we are taking screenshots at all. The setting is in the behat.yml file.
@@ -348,29 +342,15 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @throws Exception
    *   If errors happens.
-   * @throws \Page\Exception
-   *   When errors happens.
    */
   public function checkPaginationOnAllPages() {
-    $this->check($this->searchPage->checkPaginationOnAllPages(), $this->searchPage->getAndClearMessages());
-  }
-
-  /**
-   * Implements step to sort the search result with a particular sort order.
-   *
-   * @Then the search result is sorted on :sortOption
-   *
-   * @params string $sortOption
-   *    What the sorting should be made on.
-   *
-   * @throws Exception
-   *   In case of errors.
-   */
-  public function checkSearchResultIsSortedOnSortOption($sortOption) {
-    // Check that the user asked for a valid sort-option.
-    $this->check($this->searchPage->sortOptionValid($sortOption));
-
-    $this->check($this->searchPage->checkSorting($sortOption), $this->searchPage->getAndClearMessages());
+    try {
+      $this->check($this->searchPage->checkPaginationOnAllPages(), $this->searchPage->getAndClearMessages());
+    } catch (Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    } catch (\Page\Exception $e) {
+      throw new Exception("Failed getting pages: " . $e->getMessage());
+    }
   }
 
   /**
@@ -429,7 +409,7 @@ class LibContext implements Context, SnippetAcceptingContext {
               ->postValue(['value' => [$key]]);
       }
     }
-  } 
+  }
 
   /**
    * Implements step to open the object page of an object from the equivalence class chosen.
@@ -631,6 +611,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Checks for the reserve-button being shown and visible
    *
    * @Then it is possible to click to reserve the material
+   *
+   * @throws Exception
+   *   In case of error.
    */
   public function findReserveMaterialButton() {
     $this->check($this->objectPage->hasReservationButton());
@@ -687,7 +670,6 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->minkContext->visit($path);
   }
 
-
   /**
    * Go to the search page.
    *
@@ -707,6 +689,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->gotoPage('/search/ting/' . urlencode($searchString));
   }
 
+
   /**
    * Implements step to search for data and put it into a file as known data.
    *
@@ -716,6 +699,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    *    Filename basis for the two files being created, appended with _pos.mat and _neg.mat
    * @Param string $relation
    *    The relation we are looking for, in opensearch terminology, f.ex. dbcaddi:hasCreatorDescription
+   *
+   * @throws ErrorException
+   *   In case of error.
    */
   public function ICreateFilesForRelation($mfile, $relation) {
     for ($i = 1; $i < 12000; $i = $i + 50) {
@@ -862,13 +848,15 @@ class LibContext implements Context, SnippetAcceptingContext {
     print_r("Appended " . $cntNeg . " records to the '" . $mfile . "_Negative'-file\n");
   }
 
-
   /**
    * Step for logging in a user assuming Connie is the provider
    *
    * @Given I am logged in as a library user
    *
    * @When I log in as a library user
+   *
+   * @throws Exception
+   *   In case of error.
    */
   public function iAmLoggedInAsALibraryUser() {
     // If for some reason Mink has not started us up on the site, then navigate there.
@@ -938,18 +926,17 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->user = $user;
   }
 
+
   /**
    * Log a user in.
    *
    * @throws Exception
    *   When errors happens.
-   * @throws \Behat\Mink\Exception\ElementNotFoundException
-   *   When fields are not found.
    */
   public function login() {
 
     if (!$this->drupalUser) {
-      throw new \Exception('Tried to login without a user.');
+      throw new Exception('Tried to login without a user.');
     }
 
     // It's nice to know in the log who we log in with.
@@ -1019,7 +1006,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     $submit = $el->findButton($this->drupalContext->getDrupalText('log_in'));
 
     if (empty($submit)) {
-      throw new \Exception(sprintf("No login button on page %s", $this->drupalContext->getSession()->getCurrentUrl()));
+      throw new Exception(sprintf("No login button on page %s", $this->drupalContext->getSession()->getCurrentUrl()));
     }
 
     // Log in.
@@ -1032,7 +1019,7 @@ class LibContext implements Context, SnippetAcceptingContext {
 
     // Check if we are logged in drupal-wise.
     if (!$this->drupalContext->loggedIn()) {
-      throw new \Exception(sprintf("Could not log on as user: '%s'", $this->drupalUser->name));
+      throw new Exception(sprintf("Could not log on as user: '%s'", $this->drupalUser->name));
     }
 
     $this->logTimestamp(($this->verbose->loginTimingInfo == "on"), " - OK\n");
@@ -1084,7 +1071,13 @@ class LibContext implements Context, SnippetAcceptingContext {
    *   In case of errors.
    */
   public function pagingAllowsToGetAllResults() {
-    $this->check($this->searchPage->getEntireSearchResult(), ($this->searchPage->getVerboseSearchResult() == "on") ? $this->searchPage->getAndClearMessages() : '');
+    try {
+      $this->check($this->searchPage->getEntireSearchResult(), ($this->searchPage->getVerboseSearchResult() == "on") ? $this->searchPage->getAndClearMessages() : '');
+    } catch (Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    } catch (\Page\Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    }
   }
 
   /**
@@ -1096,9 +1089,15 @@ class LibContext implements Context, SnippetAcceptingContext {
    *    In case of error.
    */
   public function reserveTheMaterial() {
-    $this->findReserveMaterialButton();
 
-    $this->check($this->objectPage->makeReservation());
+    try {
+      $this->findReserveMaterialButton();
+      $this->check($this->objectPage->makeReservation());
+    } catch (Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    } catch (\Page\Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    }
   }
 
   /**
@@ -1134,7 +1133,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @param ElementInterface $element
    *   Element to scroll to.
    *
-   * @throws \Exception
+   * @throws Exception
    *   The exception we throw in case of error.
    */
   public function scrollTo(ElementInterface $element) {
@@ -1191,11 +1190,15 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @throws Exception
    *   Happens in case of errors.
-   * @throws \Page\Exception
-   *   Happens if other errors are encountered.
    */
   public function searchOnHomePage() {
-    $this->check($this->searchPage->searchOnHomePage());
+    try {
+      $this->check($this->searchPage->searchOnHomePage());
+    } catch (Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    } catch (\Page\Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    }
   }
 
   /**
@@ -1220,13 +1223,16 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @throws Exception
    *   When errors occurs.
-   * @throws \Behat\Mink\Exception\ElementNotFoundException
-   *   When errors happens.
    */
   public function setTheNumberOfResultsPerPageToSize($size) {
-    $this->check($this->searchPage->setTheNumberOfResultsPerPageToSize($size));
+    try {
+      $this->check($this->searchPage->setTheNumberOfResultsPerPageToSize($size));
+    } catch (\Behat\Mink\Exception\ElementNotFoundException $e) {
+      throw new Exception("Failed in setting number of results per page: " . $e->getMessage());
+    } catch (Exception $e) {
+      throw new Exception("Failed in setting the number of results per page: " . $e->getMessage());
+    }
   }
-
 
   /**
    * Sets the control or verbose mode of the run, controlling how much info is put into the output log.
@@ -1300,6 +1306,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
   }
 
+
   /**
    * Implements step to indicate that only reservable material is to be found.
    *
@@ -1350,17 +1357,20 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @throws Exception
    *   When errors are met.
-   * @throws \Behat\Mink\Exception\ElementNotFoundException
-   *   When element is not found.
-   * @throws \Page\Exception
-   *   If error happens in the page module.
    */
   public function sortTheSearchResultOnOption($sortOption) {
     // Check that the user asked for a valid sort-option.
-    $this->check($this->searchPage->sortOptionValid($sortOption));
-    $this->check($this->searchPage->sort($sortOption));
+    try {
+      $this->check($this->searchPage->sortOptionValid($sortOption));
+      $this->check($this->searchPage->sort($sortOption));
+    } catch (\Behat\Mink\Exception\ElementNotFoundException $e) {
+      throw new Exception("Failed in sorting: " . $e->getMessage());
+    } catch (Exception $e) {
+      throw new Exception("Failed in sorting: " . $e->getMessage());
+    } catch (\Page\Exception $e) {
+      throw new Exception("Failed in sorting: " . $e->getMessage());
+    }
   }
-
 
   /**
    * Attempts to translate argument given in gherkin script.
@@ -1441,6 +1451,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     return $returnString;
   }
 
+
   /**
    * Translate popular name to css field name
    *
@@ -1466,28 +1477,22 @@ class LibContext implements Context, SnippetAcceptingContext {
    * Runs through the facets and deselects one. Note, this will fail if facets have not been selected already
    *
    * @When I deselect a facet to increase the search results
+   *
+   * @throws Exception
+   *   In case of error.
    */
   public function useFacetsToIncreaseSearchResults() {
     // Start by logging what we start out with and also reduce the stack to the new expected result.
     print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
     print_r("Expecting now: " . $this->searchPage->getExpectedSearchResultSize(true) . "\n");
 
-    $this->check($this->searchPage->useFacetsToIncreaseSearchResults(), $this->searchPage->getAndClearMessages());
-  }
-
-  /**
-   * Runs through the facets and selects the highest number of results possible
-   *
-   * @When I use facets to reduce the search results to the highest possible
-   */
-  public function useFacetsToReduceSearchResultsToTheHighestPossible() {
-    // Start by initialising the stack if necessary and reveal which number we are starting with.
-    if ($this->searchPage->getExpectedSearchResultSize() < 0) {
-      $this->searchPage->setExpectedSearchResultSize($this->searchPage->getShownSizeOfSearchResult());
+    try {
+      $this->check($this->searchPage->useFacetsToIncreaseSearchResults(), $this->searchPage->getAndClearMessages());
+    } catch (Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    } catch (\Page\Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
     }
-    print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
-
-    $this->check($this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible(), $this->searchPage->getAndClearMessages());
   }
 
   /**
@@ -1500,22 +1505,53 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @throws Exception
    *   When errors occurs.
-   * @throws \Page\Exception
-   *   When errors occurs in the page module.
    */
   public function usePaginationToGoToPageN($toPage) {
     // Start by scrolling to the footer so if we fail the screendump will tell us something.
-    $this->searchPage->scrollToBottom();
+    try {
+      $this->searchPage->scrollToBottom();
+    } catch (\Page\Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    }
 
     // This will return the page number.
     $curpg = $this->searchPage->getCurrentPage();
 
     // Only change page if we are not already on it.
     if ($curpg != $toPage) {
-      $this->check($this->searchPage->goToPage($toPage));
+      try {
+        $this->check($this->searchPage->goToPage($toPage));
+      } catch (Exception $e) {
+        throw new Exception("Failed in go to Page " . $e->getMessage());
+      } catch (\Page\Exception $e) {
+        throw new Exception("Failed in going to Page: " . $e->getMessage());
+      }
     }
   }
 
+  /**
+   * Runs through the facets and selects the highest number of results possible
+   *
+   * @When I use facets to reduce the search results to the highest possible
+   *
+   * @throws Exception
+   *   In case of error.
+   */
+  public function useFacetsToReduceSearchResultsToTheHighestPossible() {
+    // Start by initialising the stack if necessary and reveal which number we are starting with.
+    if ($this->searchPage->getExpectedSearchResultSize() < 0) {
+      $this->searchPage->setExpectedSearchResultSize($this->searchPage->getShownSizeOfSearchResult());
+    }
+    print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
+
+    try {
+      $this->check($this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible(), $this->searchPage->getAndClearMessages());
+    } catch (Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    } catch (\Page\Exception $e) {
+      throw new Exception("Failed: " . $e->getMessage());
+    }
+  }
 
   /**
    * Wait for page to load.
@@ -1536,8 +1572,42 @@ class LibContext implements Context, SnippetAcceptingContext {
     }
   }
 
+
+  /**
+   * Implements step to sort the search result with a particular sort order.
+   *
+   * @Then the search result is sorted on :sortOption
+   *
+   * @param string $sortOption
+   *    What the sorting should be made on.
+   *
+   * @throws Exception
+   *   In case of errors.
+   */
+  public function checkSearchResultIsSortedOnSortOption($sortOption) {
+    // Check that the user asked for a valid sort-option.
+    try {
+      $this->check($this->searchPage->sortOptionValid($sortOption));
+      $this->check($this->searchPage->checkSorting($sortOption), $this->searchPage->getAndClearMessages());
+    } catch (Exception $e) {
+      throw new Exception("Failed " . $e->getMessage());
+    } catch (\Page\Exception $e) {
+      throw new Exception("Failed with " . $e->getMessage());
+    }
+  }
+
   /**
    * Wait for element to be visible
+   *
+   * @param $locatortype
+   *   Whether we are looking for an xpath or css locator.
+   * @param $locator
+   *   The locator address to search for.
+   * @param $errmsgIfFails
+   *   The error message to display in case of error.
+   *
+   * @throws Exception
+   *   In case of error.
    */
   public function waitUntilFieldIsFound($locatortype, $locator, $errmsgIfFails) {
     $field = $this->getPage()->find($locatortype, $locator);
