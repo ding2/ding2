@@ -38,9 +38,6 @@ function ting_search_carousel_add_shortcut() {
         'link_path' => 'admin/config/ting/ting_search_carousel',
         'link_title' => st('Configure carousel'),
         'weight' => -14,
-        // We have to specify this, since our router path might not exist yet on
-        // fresh install.
-        'router_path' => 'admin/config/ting/ting_search_carousel'
       ),
     );
 
@@ -85,7 +82,7 @@ function ting_search_carousel_update_7004() {
     ->condition('subtype', 'carousel')
     ->fields('pp', array('pid', 'configuration'));
 
-  $results = $query->execute();
+  $results = $query->execute()->fetchAll();
 
   $default_configuration = array(
     'ting_search_carousel_description_toggle' => 0,
@@ -102,13 +99,14 @@ function ting_search_carousel_update_7004() {
 
   foreach ($results as $result) {
     $panel_configuration = unserialize($result->configuration);
-    if (!isset($panel_configuration['ting_searches']) || empty($panel_configuration['ting_searches'])) {
-      $panel_configuration = $carousel_configuration;
-      db_update('panels_pane')
-        ->fields(array('configuration' => serialize($panel_configuration)))
-        ->condition('pid', $result->pid, '=')
-        ->execute();
+    if (empty($searches)) {
+      $carousel_configuration['ting_searches'] = $panel_configuration['searches'];
     }
+    $panel_configuration = $carousel_configuration;
+    db_update('panels_pane')
+      ->fields(array('configuration' => serialize($panel_configuration)))
+      ->condition('pid', $result->pid, '=')
+      ->execute();
   }
   variable_del('ting_carousel_search_queries');
   variable_del('ting_search_carousel_settings');
