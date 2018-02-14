@@ -26,33 +26,6 @@ function ting_search_carousel_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['admin/config/ting/ting_search_carousel'] = array(
-    'title' => 'Ting search carousel',
-    'description' => 'Manage content for frontpage carousel.',
-    'page callback' => 'ting_search_carousel_admin_page',
-    'page arguments' => array(),
-    'access arguments' => array('configure carousel'),
-    'file' => 'ting_search_carousel.admin.inc',
-  );
-
-  $items['admin/config/ting/ting_search_carousel/settings'] = array(
-    'title' => 'Content',
-    'description' => 'Manage content for frontpage carousel.',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -10,
-  );
-
-  $items['admin/config/ting/ting_search_carousel/frontend_settings'] = array(
-    'title' => 'Frontend settings',
-    'description' => 'Manage settings for the display of frontpage carousel',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_search_carousel_settings_admin_form'),
-    'access arguments' => array('configure carousel'),
-    'file' => 'ting_search_carousel.admin.inc',
-    'type' => MENU_LOCAL_TASK,
-    'weight' => 0,
-  );
-
   return $items;
 }
 
