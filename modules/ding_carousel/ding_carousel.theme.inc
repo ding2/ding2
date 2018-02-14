@@ -58,6 +58,11 @@ function template_preprocess_ding_carousel(&$vars) {
     $vars['classes_array'][] = 'hidden';
   }
 
+  // Set class if ting_objects are displayed without overlay.
+  if (theme_get_setting('ting_object_disable_overlay')) {
+    $vars['classes_array'][] = 'ting-object-no-overlay';
+  }
+
   $vars['title'] = $carousel['#title'];
   $vars['offset'] = $carousel['#offset'];
   $vars['path'] = $carousel['#path'];
