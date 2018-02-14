@@ -1,11 +1,20 @@
 <?php
 /**
  * @file
- * Handles update tasks for the module. 
+ * Handles update tasks for the module.
  */
 
 /**
- * Remove old ting reference field table from news. 
+ * Implements hook_install().
+ */
+function ding_news_install() {
+  variable_set('node_options_ding_news', array(
+    0 => 'status',
+  ));
+}
+
+/**
+ * Remove old ting reference field table from news.
  */
 function ding_news_update_7000() {
   // The tables are left over after change to virtual field, hence we have to
