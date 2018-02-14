@@ -71,3 +71,43 @@ function ting_search_carousel_update_7002() {
 function ting_search_carousel_update_7003() {
   module_enable(array('ding_carousel'));
 }
+
+/**
+ * Move carousel configuration into panels pane.
+ */
+function ting_search_carousel_update_7004() {
+  $query = db_select('panels_pane', 'pp');
+
+  $query->condition('type', 'carousel')
+    ->condition('subtype', 'carousel')
+    ->fields('pp', array('pid', 'configuration'));
+
+  $results = $query->execute()->fetchAll();
+
+  $default_configuration = array(
+    'ting_search_carousel_description_toggle' => 0,
+    'ting_search_carousel_transition' => 'fade',
+  );
+
+  $searches = variable_get('ting_carousel_search_queries', array());
+  $searches_configuration = variable_get('ting_search_carousel_settings', $default_configuration);
+
+  $carousel_configuration = array(
+    'ting_searches' => $searches,
+    'settings' => $searches_configuration,
+  );
+
+  foreach ($results as $result) {
+    $panel_configuration = unserialize($result->configuration);
+    if (empty($searches)) {
+      $carousel_configuration['ting_searches'] = $panel_configuration['searches'];
+    }
+    $panel_configuration = $carousel_configuration;
+    db_update('panels_pane')
+      ->fields(array('configuration' => serialize($panel_configuration)))
+      ->condition('pid', $result->pid, '=')
+      ->execute();
+  }
+  variable_del('ting_carousel_search_queries');
+  variable_del('ting_search_carousel_settings');
+}
