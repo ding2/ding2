@@ -73,9 +73,28 @@ function ting_search_carousel_update_7003() {
 }
 
 /**
- * Move carousel configuration into panels pane.
+ * Ensure router path for carousel shortcut menu link is correct.
  */
 function ting_search_carousel_update_7004() {
+  if (module_exists('shortcut')) {
+    $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+
+    foreach ($shortcut_set->links as &$link) {
+      // The router path needs to be correct for the access check for the menu
+      // link to work.
+      if ($link['link_path'] == 'admin/config/ting/ting_search_carousel') {
+        $link['router_path'] = $link['link_path'];
+      }
+    }
+
+    shortcut_set_save($shortcut_set);
+  }
+}
+
+/**
+ * Move carousel configuration into panels pane.
+ */
+function ting_search_carousel_update_7005() {
   $query = db_select('panels_pane', 'pp');
 
   $query->condition('type', 'carousel')
