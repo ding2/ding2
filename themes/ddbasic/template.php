@@ -14,11 +14,13 @@ require_once __DIR__ . '/template.field.php';
  * Implements hook_preprocess_html().
  */
 function ddbasic_preprocess_html(&$vars) {
+  global $language;
+
+  drupal_add_library('system', 'ui');
+
   if (in_array('html__node__newsletter', $vars['theme_hook_suggestions'])) {
     $vars['newsletter'] = $vars['page']['content']['system_main']['main']['#markup'];
   }
-
-  global $language;
 
   // Setup iOS logo if it's set.
   $vars['ios_logo'] = theme_get_setting('iosicon_upload');
