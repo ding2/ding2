@@ -79,7 +79,7 @@ function ding_place2book_disable() {
 }
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function ding_place2book_menu() {
   $items = array();
@@ -388,13 +388,12 @@ function ding_place2book_process_node(&$variables) {
 function ding_place2book_node_delete($node) {
   // We only handle event nodes.
   if ($node->type == "ding_event") {
-    /**
-     * TODO: No attempt is currently made to stop the node from being
-     *       deleted if the above place2book-delete fails...
-     *
-     * REVIEW: Maybe a clean-up check could be execute by the
-     *         administrator or cron?
-     */
+    // TODO: No attempt is currently made to stop the node from being
+    //       deleted if the above place2book-delete fails...
+    //
+    // @REVIEW: Maybe a clean-up check could be execute by the
+    //          administrator or cron?
+    //
     $place2book_id = db_query('SELECT place2book_id
                                FROM {ding_place2book}
                                WHERE nid = :nid', array(':nid' => $node->nid))
@@ -513,21 +512,22 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
 }
 
 /**
- * Handles communitaction with the place2book web-services, which consists of
- * insert, update and delete opreations.
+ * Handles communication with the place2book web-services.
  *
- * @todo: I see no reason why all this is contained within a single function.
- *        Refactor to ding_place2book_$op().
+ * Which consists of insert, update and delete operations.
+ *
+ * TODO: I see no reason why all this is contained within a single function.
+ *       Refactor to ding_place2book_$op().
  *
  * @param string $op
- *  The operation to preform: insert, update or delete.
+ *   The operation to preform: insert, update or delete.
  * @param object $node
- *  A node object for the event.
+ *   A node object for the event.
  * @param int $place2book_id
  *  Place2Book identifier.
  *
  * @return int
- *  Place2Book identifier.
+ *   Place2Book identifier.
  */
 function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
   // Service settings.
