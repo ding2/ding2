@@ -1052,4 +1052,3 @@ function _ting_search_quote($string) {
   $cqlDoc = new TingSearchCqlDoctor($string);
   return $cqlDoc->string_to_cql($string);
 }
-
