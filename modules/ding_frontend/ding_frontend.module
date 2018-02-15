@@ -252,7 +252,7 @@ function ding_frontend_views_query_alter(&$view, &$query) {
 /**
  *Implements hook_search_api_views_query_alter().
  */
-function ting_search_search_api_views_query_alter(view &$view, SearchApiViewsQuery &$query) {
+function ding_frontend_search_api_views_query_alter(view &$view, SearchApiViewsQuery &$query) {
   // Ensure that we use correct view.
   if ($view->name == 'ding_multiple_search') {
     // Look that args are not empty.
