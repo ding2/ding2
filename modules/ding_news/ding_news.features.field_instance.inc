@@ -10,7 +10,7 @@
 function ding_news_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-ding_news-ding_news_groups_ref'
+  // Exported field_instance: 'node-ding_news-ding_news_groups_ref'.
   $field_instances['node-ding_news-ding_news_groups_ref'] = array(
     'bundle' => 'ding_news',
     'default_value' => NULL,
@@ -99,7 +99,7 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_news-field_ding_news_body'
+  // Exported field_instance: 'node-ding_news-field_ding_news_body'.
   $field_instances['node-ding_news-field_ding_news_body'] = array(
     'bundle' => 'ding_news',
     'default_value' => NULL,
@@ -172,7 +172,7 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_news-field_ding_news_category'
+  // Exported field_instance: 'node-ding_news-field_ding_news_category'.
   $field_instances['node-ding_news-field_ding_news_category'] = array(
     'bundle' => 'ding_news',
     'default_value' => NULL,
@@ -244,7 +244,7 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_news-field_ding_news_files'
+  // Exported field_instance: 'node-ding_news-field_ding_news_files'.
   $field_instances['node-ding_news-field_ding_news_files'] = array(
     'bundle' => 'ding_news',
     'deleted' => 0,
@@ -319,7 +319,7 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_news-field_ding_news_lead'
+  // Exported field_instance: 'node-ding_news-field_ding_news_lead'.
   $field_instances['node-ding_news-field_ding_news_lead'] = array(
     'bundle' => 'ding_news',
     'default_value' => NULL,
@@ -395,7 +395,7 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_news-field_ding_news_list_image'
+  // Exported field_instance: 'node-ding_news-field_ding_news_list_image'.
   $field_instances['node-ding_news-field_ding_news_list_image'] = array(
     'bundle' => 'ding_news',
     'deleted' => 0,
@@ -510,7 +510,7 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_news-field_ding_news_materials'
+  // Exported field_instance: 'node-ding_news-field_ding_news_materials'.
   $field_instances['node-ding_news-field_ding_news_materials'] = array(
     'bundle' => 'ding_news',
     'default_value' => NULL,
@@ -588,7 +588,7 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_news-field_ding_news_show_as_list'
+  // Exported field_instance: 'node-ding_news-field_ding_news_show_as_list'.
   $field_instances['node-ding_news-field_ding_news_show_as_list'] = array(
     'bundle' => 'ding_news',
     'default_value' => array(
@@ -660,7 +660,7 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_news-field_ding_news_tags'
+  // Exported field_instance: 'node-ding_news-field_ding_news_tags'.
   $field_instances['node-ding_news-field_ding_news_tags'] = array(
     'bundle' => 'ding_news',
     'default_value' => NULL,
@@ -734,7 +734,7 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_news-field_ding_news_title_image'
+  // Exported field_instance: 'node-ding_news-field_ding_news_title_image'.
   $field_instances['node-ding_news-field_ding_news_title_image'] = array(
     'bundle' => 'ding_news',
     'deleted' => 0,
@@ -881,7 +881,7 @@ function ding_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_news-og_group_ref'
+  // Exported field_instance: 'node-ding_news-og_group_ref'.
   $field_instances['node-ding_news-og_group_ref'] = array(
     'bundle' => 'ding_news',
     'default_value' => NULL,
