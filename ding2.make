@@ -415,6 +415,18 @@ projects[views_bulk_operations][version] = "3.3"
 projects[views_responsive_grid][subdir] = "contrib"
 projects[views_responsive_grid][version] = "1.3"
 
+projects[views_rss][subdir] = "contrib"
+projects[views_rss][version] = "2.0-rc4"
+
+; This specific checkout is only because of the module is dev branch only.
+projects[views_rss_media][type] = "module"
+projects[views_rss_media][subdir] = "contrib"
+projects[views_rss_media][download][type] = "git"
+projects[views_rss_media][download][url] = "http://git.drupal.org/project/views_rss_media.git"
+projects[views_rss_media][download][revision] = "14f7cc90d41c0186d2356ff528ac316a16eba3fd"
+projects[views_rss_media][patch][] = "https://www.drupal.org/files/issues/strict-warning-2149287-1.patch"
+projects[views_rss_media][patch][] = "https://www.drupal.org/files/issues/views_rss_media-2550589-1.patch"
+
 ; Development version where the "unpublished" status have been fixed on the content edit page.
 projects[view_unpublished][subdir] = "contrib"
 projects[view_unpublished][download][type] = "git"

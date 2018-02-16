@@ -564,3 +564,10 @@ function ding2_update_7045() {
 function ding2_update_7046() {
   ding2_translation_update();
 }
+
+/**
+ * Enable ding_content_rss module.
+ */
+function ding2_update_7047() {
+  module_enable(array('ding_content_rss'));
+}
