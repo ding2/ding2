@@ -262,7 +262,7 @@ function ding_frontend_search_api_views_query_alter(view &$view, SearchApiViewsQ
       // Cleanup original args (search query), so the $query variable
       // will not have to construct monstrous query to get needed records
       // from search index.
-      $new_args = preg_replace('/(=|\.| or | and |="|")/i', ' ', $args);
+      $new_args = preg_replace('/(!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\"|\&|\#|\[|\]|~|$|_| or | and |-)/i', ' ', $args);
       // Return cleared search query string into view's query.
       $query->keys($new_args);
     }
