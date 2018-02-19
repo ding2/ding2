@@ -448,7 +448,11 @@ class TingSearchRequest {
     // Ensure we got what we expected.
     $check_array = is_array($filters) ? $filters : [$filters];
     array_walk($check_array, function ($filter) {
-      if (!($filter instanceof BooleanStatementGroup || $filter instanceof TingSearchFieldFilter)) {
+      if (!(
+        $filter instanceof BooleanStatementGroup ||
+        $filter instanceof TingSearchFieldFilter ||
+        $filter instanceof TingSearchRawFilter
+      )) {
         // We got something unexpected.
         $details = is_object($filter) ? get_class($filter) : (string) $filter;
         throw new UnsupportedSearchQueryException(
