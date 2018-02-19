@@ -94,7 +94,7 @@ class TingSearchRequest {
    *   List of grouped BooleanStatementGroup and TingSearchFieldFilter
    *   instances.
    */
-  protected $fieldFilters;
+  protected $filters;
 
   /**
    * The part of the query that should be interpreted as a fulltext search.
@@ -417,8 +417,8 @@ class TingSearchRequest {
    * @return FilterStatementInterface[]
    *   List of BooleanStatementGroup instances used to filter field.
    */
-  public function getFieldFilters() {
-    return $this->fieldFilters;
+  public function getFilters() {
+    return $this->filters;
   }
 
   /**
@@ -439,7 +439,7 @@ class TingSearchRequest {
    *
    * @throws \Ting\Search\UnsupportedSearchQueryException
    */
-  public function addFieldFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
+  public function addFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
     // First off, protect against silly code.
     if (empty($filters)) {
       return $this;
@@ -471,7 +471,7 @@ class TingSearchRequest {
       $filters = new BooleanStatementGroup($filters, $logic_operator);
     }
 
-    $this->fieldFilters[] = $filters;
+    $this->filters[] = $filters;
     return $this;
   }
 
@@ -491,7 +491,7 @@ class TingSearchRequest {
    *   the current query object.
    */
   public function addFieldFilter($name, $value) {
-    $this->addFieldFilters([new TingSearchFieldFilter($name, $value)]);
+    $this->addFilters([new TingSearchFieldFilter($name, $value)]);
     return $this;
   }
 

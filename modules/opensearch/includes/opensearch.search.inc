@@ -127,11 +127,11 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   }
 
   // Add field filter.
-  if (!empty($ting_query->getFieldFilters())) {
+  if (!empty($ting_query->getFilters())) {
     $render = new OpenSearchStatementGroupRender(new DingProviderStrategy());
     try {
       $field_filters = $render->renderStatements(
-        $ting_query->getFieldFilters()
+        $ting_query->getFilters()
       );
     }
     catch (InvalidArgumentException $e) {
