@@ -156,21 +156,7 @@ function ting_search_theme($existing, $type, $theme, $path) {
       'template' => 'ting-search-display-extended-query',
       'path' => $path . '/templates',
     ),
-    'ting_search_extended_search' => array(
-      'template' => 'ting-search-extended-search',
-      'path' => $path . '/templates',
-    ),
   );
-}
-
-/**
- * Returns a themed list of extended actions.
- *
- * @return string
- *   HTML ting_search_extended_search.
- */
-function ting_search_get_extended_actions() {
-  return theme('ting_search_extended_search');
 }
 
 /**
@@ -179,38 +165,12 @@ function ting_search_get_extended_actions() {
  * For the form search_block_form.
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
-  // Define advanced fields.
-  $advanced_fields = array(
-    'term.creator' => array(
-      'key' => 'creator',
-      'title' => t('Author'),
-      'description' => t('Enter the author name'),
-    ),
-    'term.title' => array(
-      'key' => 'title',
-      'title' => t('Title'),
-      'description' => t('Enter title'),
-    ),
-    'term.subject' => array(
-      'key' => 'subject',
-      'title' => t('Subject'),
-      'description' => t('Enter subject keywords'),
-    ),
-  );
-
   // Remove the form token so the form becomes cachable. If we don't, all
   // pages with the search form becomes un-cachable, as drupal_validate_form()
   // will check the token and fail if the current user is not the same as the
   // one that caused the page to be cached.
   unset($form['#token']);
   unset($form['form_token']);
-
-  // We're going to disable advanced search in
-  // the first version, and implement later on.
-  // When implementing againg, set
-  // $advanced = TRUE - just below
-  // and re-enable asserts in testTingExtended() in ting_search.test.
-  $advanced = FALSE;
 
   // Parse extended search query parameters.
   if (arg(0) == 'search') {
@@ -220,19 +180,6 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     array_shift($parts);
     $type = array_shift($parts);
     $search_query = implode('/', $parts);
-
-    // Detect "advanced" parts of the query and split it out into separate
-    // parts.
-    $indexes = ting_search_extract_keys($search_query, array_keys($advanced_fields));
-    // The main free-text part of the query can be found under the 'q' key.
-    $search_query = $indexes['q'];
-    unset($indexes['q']);
-
-    if ($type != 'ting' and !empty($indexes)) {
-      $search_query .= " " . implode(' ', $indexes);
-      $indexes = array();
-      $advanced = FALSE;
-    }
 
     // Set default value to the current search query.
     $form['search_block_form']['#default_value'] = $search_query;
@@ -261,37 +208,6 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     '#default_value' => isset($_GET['size']) ? (int) $_GET['size'] : FALSE,
     '#attributes' => array('id' => 'controls_search_size'),
   );
-
-  // See line 127-130 - disabled in the first version.
-  //$form['form_id']['#suffix'] = ting_search_get_extended_actions();
-
-  if ($advanced) {
-    $form['advanced'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Advanced search'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#weight' => 101,
-      '#prefix' => '<div id="advanced-search-wrapper">',
-      '#suffix' => '</div>',
-      '#attached' => array(
-        'js' => array(
-          drupal_get_path('module', 'ting_search') . '/js/ting_search_extendform.js',
-        ),
-      ),
-    );
-
-    foreach ($advanced_fields as $name => $field) {
-      $form['advanced'][$field['key']] = array(
-        '#type' => 'textfield',
-        '#title' => check_plain($field['title']),
-        '#size' => 30,
-        '#maxlength' => 64,
-        '#description' => check_plain($field['description']),
-        '#default_value' => isset($indexes[$name]) ? $indexes[$name] : '',
-      );
-    }
-  }
 
   switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
     case TING_SEARCH_FORM_STYLE_EXTENDED:
@@ -1012,22 +928,8 @@ function ting_search_submit($form, &$form_state) {
   $keys = $form_state['values'][$form_id];
   $fields = array();
 
-  // TODO BBS-SAL BBS-217: Convert this to SAL.
-  $extended_fields = array(
-    'creator' => array(
-      'index' => 'term.creator',
-      'parents' => array('creator'),
-    ),
-    'title' => array(
-      'index' => 'term.title',
-      'parents' => array('title'),
-    ),
-    'subject' => array(
-      'index' => 'term.subject',
-      'parents' => array('subject'),
-    ),
-  );
-  // Allow other modules change fields.
+  // Allow other modules add filters.
+  $extended_fields = array();
   drupal_alter('ting_search_fields', $extended_fields);
 
   foreach ($extended_fields as $name => $data) {
