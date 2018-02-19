@@ -1,17 +1,12 @@
 <?php
 
 /**
- * @file
- * Infomedio context plugin.
- */
-
-/**
- * Plugin definition array.
+ * Create a $plugin array which will be used
  */
 $plugin = array(
   'title' => t("infomedia"),
   'description' => t('A single Infomedia data element.'),
-  'context' => 'ting_infomedia_context_create_infomedia',
+  'context' => 'ting_infomedia_context_create_infomedia',  // func to create context
   'context name' => 'infomedia',
   'settings form' => 'infomedia_settings_form',
   'keyword' => 'infomedia',
@@ -22,9 +17,8 @@ $plugin = array(
 );
 
 /**
- * Create a context.
- *
- * Either from manual configuration or from an argument on the URL.
+ * Create a context, either from manual configuration or from an argument on the
+ * URL.
  */
 function ting_infomedia_context_create_infomedia($empty, $data = NULL, $conf = FALSE) {
   $context = new ctools_context('infomedia');

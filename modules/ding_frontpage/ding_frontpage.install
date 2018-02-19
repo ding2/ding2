@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Ding frontpage install.
+ */
+
+/**
+ * Lock the frontpage features.
+ */
+function ding_frontpage_update_7000() {
+  features_feature_lock('ding_frontpage');
+}

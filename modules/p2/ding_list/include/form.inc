@@ -224,23 +224,6 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
     '#default_value' => isset($note) ? $note : '',
   );
 
-  // Allow admins to add tags to lists.
-  if (user_access('administer all lists')) {
-    $form['tags'] = array(
-      '#type' => 'textfield',
-      '#title' => 'tag',
-      '#autocomplete_path' => 'taxonomy/autocomplete/field_ding_content_tags',
-    );
-
-    if ($existing !== FALSE) {
-      $tags = array();
-      foreach (ding_base_get_items('ding_type', $existing, 'field_ding_content_tags') as $item) {
-        $tags[$item['tid']] = isset($item['taxonomy_term']) ? $item['taxonomy_term'] : taxonomy_term_load($item['tid']);
-      }
-      $form['tags']['#default_value'] = taxonomy_implode_tags($tags);
-    }
-  }
-
   if ($existing) {
     // The user can is always allowed to edit existing lists.
     $form['actions']['edit_list'] = array(
@@ -349,21 +332,6 @@ function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
  * The create_list_form submit handler.
  */
 function ding_list_create_list_form_submit($form, &$form_state) {
-  $fields = array(
-    array(
-      'name' => 'field_notes',
-      'value_type' => 'value',
-      'value' => $form_state['values']['notes'],
-    ),
-  );
-
-  if (isset($form_state['values']['tags'])) {
-    $fields[] = array(
-      'name' => 'field_ding_content_tags',
-      'value_type' => 'tid',
-      'value' => $form_state['values']['tags'],
-    );
-  }
   // Create the new list object.
   if (!$form_state['existing']) {
     $list = ding_list_create_ding_list(
@@ -372,7 +340,13 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       NULL,
       NULL,
       NULL,
-      $fields
+      array(
+        array(
+          'name' => 'field_notes',
+          'value_type' => 'value',
+          'value' => $form_state['values']['notes'],
+        ),
+      )
     );
 
     if ($list === FALSE) {
@@ -396,7 +370,13 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       $title,
       NULL,
       TRUE,
-      $fields
+      array(
+        array(
+          'name' => 'field_notes',
+          'value_type' => 'value',
+          'value' => $form_state['values']['notes'],
+        ),
+      )
     );
   }
 
@@ -535,6 +515,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
 The link is active for 7 days from today, after which it will be disabled for security reasons.
 
 !link'),
+    '#resizable' => FALSE,
   );
 
   $form['mail_sharer']['share'] = array(
@@ -740,28 +721,4 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
   $response['#commands'][] = ajax_command_ding_popup('ding_list', t('Share'), $html);
 
   return $response;
-}
-
-/**
- * Ask user to reset their lists.
- */
-function ding_list_reset_user_form($form, &$form_state, $account) {
-  $form['#attributes']['class'] = array('ding-list-reset-user-form');
-  return confirm_form(
-    $form,
-    t('Reset my lists'),
-    'user/' . $account->uid . '/my-library',
-    t('Are you sure you want to reset all your lists.')
-  );
-}
-
-/**
- * Submit handler for ding_list_reset_user_form.
- */
-function ding_list_reset_user_form_submit($form, &$form_state) {
-  $account = $form_state['build_info']['args'][0];
-
-  ding_list_reset_user($account);
-
-  $form_state['redirect'] = 'user/' . $account->uid . '/my-library';
 }

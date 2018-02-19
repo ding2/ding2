@@ -373,7 +373,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           );
           // If a collection has items of the same type?
           // But with different titles, then use the generic collection title.
-          if (count(array_unique($collection_titles) > 1)) {
+          if (count(array_unique($collection_titles)) > 1) {
             $title = $collection->title;
             $ting_type = t('Material collection');
           }

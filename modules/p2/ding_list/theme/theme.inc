@@ -158,23 +158,10 @@ function template_preprocess_ding_list_followers(&$variables) {
 }
 
 /**
- * Ding list label/value theme.
- */
-function theme_ding_list_label_value($variables) {
-  $label = '';
-  if ($variables['label']) {
-    $label = '<div class="label">' . $variables['label'] . '</div>';
-  }
-  $out = '<div class="field">' . $label . '<div class="text">' . $variables['value'] . '</div></div>';
-
-  return $out;
-}
-
-/**
  * Ding list followers theme.
  */
 function theme_ding_list_followers($variables) {
-  $out = '<div class="field ding-followers"><div class="label">' . t('Number of followers') . '</div><div class="text">' . format_plural($variables['count'], '1', '@count') . '</div></div>';
+  $out = format_plural($variables['count'], '1 user following this list', '@count users following this list');
 
   return $out;
 }
@@ -185,11 +172,11 @@ function theme_ding_list_followers($variables) {
 function theme_ding_list_info($variables) {
   $out = '';
 
-  if (!empty($variables['list']->field_notes)) {
-    $out .= '<div class="ding-list-note">' . $variables['list']->field_notes['und'][0]['value'] . '</div>';
+  if ($variables['note'] !== FALSE) {
+    $out .= '<div class="ding-list-note">' . $variables['note'] . '</div>';
   }
 
-  if (empty($variables['list']->field_list_objects)) {
+  if ($variables['no_objects']) {
     $out .= '<div class="ding-list-no-elements">' . t('No elements in this list.') . '</div>';
   }
 
@@ -240,15 +227,11 @@ function theme_ding_list_lists($variables) {
     );
 
     if (ding_message_get_message_count()) {
-      $render['#items'][] = l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button'))));
+      $render['#items'][] = l(t("Mark all notifications as read"), "ding_message/clear_user_messages", array('attributes' => array('class' => array('button'))));
     }
 
     $render['#items'][] = l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button'))));
     $render['#items'][] = l(t('View all public lists'), 'public-lists', array('attributes' => array('class' => array('button'))));
-    $viewed_account = user_load($variables['uid']);
-    if (ding_list_reset_lists_access($user, $viewed_account)) {
-      $render['#items'][] = l(t('Reset my lists'), 'user/' . $user->uid . '/reset-lists', array('attributes' => array('class' => array('button'))));
-    }
 
     $out .= drupal_render($render);
   }
