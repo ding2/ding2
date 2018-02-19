@@ -311,7 +311,7 @@ class TingSearchRequest {
    * @return TingSearchRequest
    *   the current query object.
    */
-  public function addSort($field, $direction) {
+  public function addSort($field, $direction = TingSearchSort::DIRECTION_NONE) {
     $this->sorts[] = new TingSearchSort($field, $direction);
     return $this;
   }
