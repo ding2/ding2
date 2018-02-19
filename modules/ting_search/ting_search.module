@@ -4,7 +4,7 @@
  * Enables search integration with Ting.
  */
 
-use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchRawFilter;
 use Ting\Search\TingSearchResultInterface;
 use Ting\Search\TingSearchSort;
 
@@ -300,13 +300,17 @@ function ting_search_conditions_callback($keys) {
     $conditions['size'] = (int) $_REQUEST['size'];
   }
 
-
   if (!empty($_REQUEST['sort'])) {
     $conditions['sort'] = check_plain($_REQUEST['sort']);
   }
   else {
     $conditions['sort'] = variable_get('ting_search_default_sort', '');
   }
+
+  if (!empty($_REQUEST['filters'])) {
+    $conditions['filters'] = $_REQUEST['filters'];
+  }
+
   // If facets is set, check if we have to remove any, if so,
   // reload the page.
   if (!empty($_REQUEST['facets'])) {
@@ -350,6 +354,19 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     $results = array();
     $query = ting_start_query()->setFullTextQuery($keys);
     $query->setTermsPrFacet(variable_get('ting_search_number_of_facets', 25));
+
+    // Extend query with filters.
+    if (!empty($conditions['filters'])) {
+      foreach ($conditions['filters'] as $name => $filter) {
+        // If no name is provided for a filter then it is a raw filter.
+        if (is_int($name)) {
+          $query->addFilters(array(new TingSearchRawFilter($filter)));
+        }
+        else {
+          $query->addFieldFilter($name, $filter);
+        }
+      }
+    }
 
     // Extend query with selected facets.
     if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
@@ -915,7 +932,6 @@ function ting_search_records_per_page_controls_content() {
  * Process a block search form submission.
  */
 function ting_search_submit($form, &$form_state) {
-  $controls = array();
   // The search form relies on control of the redirect destination for its
   // functionality, so we override any static destination set in the request,
   // for example by drupal_access_denied() or drupal_not_found()
@@ -926,32 +942,28 @@ function ting_search_submit($form, &$form_state) {
 
   $form_id = $form['form_id']['#value'];
   $keys = $form_state['values'][$form_id];
-  $fields = array();
+  $filters = array();
+  $controls = array();
 
   // Allow other modules add filters.
-  $extended_fields = array();
-  drupal_alter('ting_search_fields', $extended_fields);
+  // Hook refers to fields for historical reasons.
+  $fields = array();
+  drupal_alter('ting_search_fields', $fields);
 
-  foreach ($extended_fields as $name => $data) {
+  foreach ($fields as $name => $data) {
     if (isset($data['value'])) {
-      $fields[] = $data['value'];
+      // Fields with a predefined value are considered raw filters. They are
+      // added without an index as a key so we can separate them from normal
+      // filters later on.
+      $filters[] = $data['value'];
     }
     else {
       $value = drupal_array_get_nested_value($form_state['values'], $data['parents']);
       if (!empty($value)) {
-        $fields[] = $data['index'] . '=' . (strpos($value, ' ') ? '"' . $value . '"' : $value);
+        $filters[$data['index']] = $value;
       }
     }
   }
-
-  $q = array();
-  if (!empty($keys)) {
-    $q[] = $keys;
-  }
-  if (!empty($fields)) {
-    $q[] = '(' . implode(' AND ', $fields) . ')';
-  }
-  $q = implode(' AND ', $q);
 
   $s = $form_state['values']['sort'];
   if ($s != "") {
@@ -973,7 +985,7 @@ function ting_search_submit($form, &$form_state) {
   // because that results in a confusing error message.  It would say a plain
   // "field is required" because the search keywords field has no title.
   // The error message would also complain about a missing #title field.)
-  if ($q == '') {
+  if (empty($keys) && empty($filters)) {
     form_set_error('keys', t('Please enter some keywords.'));
   }
   $search_info = array();
@@ -992,9 +1004,9 @@ function ting_search_submit($form, &$form_state) {
   }
   if (!empty($search_info['path']) && in_array($search_info['module'], variable_get('search_active_modules', array()))) {
     $form_state['redirect'] = array(
-      'search/' . $search_info['path'] . '/' . trim($q),
+      'search/' . $search_info['path'] . '/' . trim($keys),
       array(
-        'query' => $controls,
+        'query' => array_merge($controls, array('filters' => $filters)),
       ),
     );
   }
