@@ -106,6 +106,7 @@ function ting_search_ding_facetbrowser() {
   if ($search_result) {
     $results->facets = ($search_result instanceof TingClientSearchResult) ? $search_result->facets : array();
     $results->searchkey = $search_result->search_key;
+    $results->conditions = $search_result->conditions;
     return $results;
   }
 }
@@ -402,6 +403,11 @@ function ting_search_conditions_callback($keys) {
       drupal_goto(rawurldecode($_GET['q']), array('query' => $facets));
     }
   }
+
+  if (!empty($_REQUEST['extra_query'])) {
+    $conditions['extra_query'] = $_REQUEST['extra_query'];
+  }
+
   return $conditions;
 }
 
@@ -410,11 +416,12 @@ function ting_search_conditions_callback($keys) {
  */
 function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   // Use static variable to ensure that this is only executed once.
-  $results = &drupal_static(__FUNCTION__);
-  if (!isset($results)) {
-    $results = array();
+  $results = &drupal_static(__FUNCTION__, array());
+  $static_key = md5(serialize(func_get_args()));
+
+  if (!isset($results[$static_key])) {
+    $results[$static_key] = array();
     $options = array();
-    $results = array();
     $facet_array = array();
     $query = '(' . _ting_search_quote($keys) . ')';
     $options['numFacets'] = variable_get('ting_search_number_of_facets', 25);
@@ -430,6 +437,10 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       }
 
       $query .= ' AND ' . implode(' AND ', $facet_array);
+    }
+
+    if (!empty($conditions['extra_query'])) {
+      $query .= implode('', $conditions['extra_query']);
     }
 
     $search_result = NULL;
@@ -449,6 +460,8 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
 
       module_load_include('client.inc', 'ting');
       $search_result = ting_do_search($query, $page + 1, $results_per_page, $options);
+      $search_result->conditions = $conditions;
+
       if (isset($search_result->collections)) {
         $search_result->search_key = $keys;
 
@@ -463,7 +476,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         foreach ($search_result->collections as &$collection) {
           $build = ting_collection_view($collection, 'teaser');
           $uri = entity_uri('ting_collection', $collection);
-          $results[] = array(
+          $results[$static_key][] = array(
             'link' => url($uri['path'], $uri['options']),
             'type' => '',
             'title' => $collection->title,
@@ -476,11 +489,17 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     }
     catch (TingClientException $e) {
       watchdog_exception('ting_search', $e);
-      $results = array();
+      $results[$static_key] = array();
+    }
+
+    $static_results_name = 'ting_search_results';
+
+    if (!empty($conditions['static_results_name'])) {
+      $static_results_name = $conditions['static_results_name'];
     }
 
     // Save search result for usage by facet modules etc.
-    $ting_search_results = &drupal_static('ting_search_results');
+    $ting_search_results = &drupal_static($static_results_name);
     $ting_search_results = $search_result;
 
     // Add support for facet api.
@@ -495,7 +514,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     }
   }
 
-  return $results;
+  return $results[$static_key];
 }
 
 /**

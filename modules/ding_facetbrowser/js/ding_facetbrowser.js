@@ -78,6 +78,52 @@
           Drupal.TingSearchOverlay();
         }
       });
+
+      facet_browsers.find('.js-year-span').not('.js-year-span-processed').each(function () {
+        var
+          $element = $(this).addClass('js-year-span-processed'),
+          update_info = function (values) {
+            var cnt = 0;
+            for (var i in Drupal.settings.ding_facetbrowser.year_span.years) {
+              if (i >= values[0] && i <= values[1]) {
+                cnt += parseInt(Drupal.settings.ding_facetbrowser.year_span.years[i], 10);
+              }
+            }
+
+            $element.find('.year-span__start').text(values[0]);
+            $element.find('.year-span__end').text(values[1]);
+            $element.find('.year-span__counter').text('(' + cnt + ')');
+          };
+
+        $element.find('.year-span__slider').slider({
+          range: true,
+          min: Drupal.settings.ding_facetbrowser.year_span.min,
+          max: Drupal.settings.ding_facetbrowser.year_span.max,
+          values: Drupal.settings.ding_facetbrowser.year_span.range,
+          slide: function (evt, ui) {
+            update_info(ui.values);
+          },
+          change: function (evt, ui) {
+            var
+              append = Drupal.settings.ding_facetbrowser.year_span.uri.indexOf('?') === -1 ? '?' : '&',
+              range = [
+                parseInt(Drupal.settings.ding_facetbrowser.year_span.range[0], 10),
+                parseInt(Drupal.settings.ding_facetbrowser.year_span.range[1], 10)
+              ];
+
+            // Don't refresh the page, if the values did not change.
+            if (range[0] === ui.values[0] && range[1] === ui.values[1]) {
+              return;
+            }
+
+            Drupal.TingSearchOverlay();
+            window.location = Drupal.settings.ding_facetbrowser.year_span.uri + append + 'extra_query[year_span]= and facet.date>=' + ui.values[0] + ' and facet.date<=' + ui.values[1];
+          },
+          create: function () {
+            update_info(Drupal.settings.ding_facetbrowser.year_span.range);
+          }
+        });
+      });
     }
   };
 
