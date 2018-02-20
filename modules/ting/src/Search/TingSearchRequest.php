@@ -120,30 +120,6 @@ class TingSearchRequest {
   protected $populateCollections = FALSE;
 
   /**
-   * Gets whether the search result should contain fully populated collections.
-   *
-   * @return bool
-   *   The flag.
-   */
-  public function getPopulateCollections() {
-    return $this->populateCollections;
-  }
-
-  /**
-   * Sets whether the search result should contain fully populated collections.
-   *
-   * @param bool $populate_collections
-   *   The flag.
-   *
-   * @return TingSearchRequest
-   *   the current query object.
-   */
-  public function setPopulateCollections($populate_collections) {
-    $this->populateCollections = $populate_collections;
-    return $this;
-  }
-
-  /**
    * TingSearchQuery constructor.
    *
    * @param \Ting\Search\TingSearchStrategyInterface $search_strategy
@@ -406,6 +382,30 @@ class TingSearchRequest {
 
     $this->materialFilterIds = $material_ids;
     $this->materialFilterInclude = $include;
+    return $this;
+  }
+
+  /**
+   * Gets whether the search result should contain fully populated collections.
+   *
+   * @return bool
+   *   The flag.
+   */
+  public function getPopulateCollections() {
+    return $this->populateCollections;
+  }
+
+  /**
+   * Sets whether the search result should contain fully populated collections.
+   *
+   * @param bool $populate_collections
+   *   The flag.
+   *
+   * @return TingSearchRequest
+   *   the current query object.
+   */
+  public function setPopulateCollections($populate_collections) {
+    $this->populateCollections = $populate_collections;
     return $this;
   }
 
