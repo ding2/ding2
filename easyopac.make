@@ -169,7 +169,7 @@ projects[ding_redia_rss][subdir]           = ""
 projects[ding_redia_rss][download][type]   = "git"
 projects[ding_redia_rss][download][url]    = "git@github.com:easySuite/ding_redia_rss.git"
 ;projects[ding_redia_rss][download][tag]    = "7.x-3.1.0"
-projects[ding_redia_rss][download][branch] = "development"
+projects[ding_redia_rss][download][branch] = "develop"
 
 projects[ding_redia_variables][type]             = "module"
 projects[ding_redia_variables][subdir]           = ""
