@@ -26,6 +26,17 @@
     z-index: 1;
   }
 
+  // Mobile
+  @include media($mobile) {
+    top: -($header-height);
+    z-index: $z-header + 1;
+    overflow: auto;
+
+    .topbar-up & {
+      top: -84px;
+    }
+  }
+
   .pane-login-is-open & {
     @include transition(
       transform $speed $ease,
