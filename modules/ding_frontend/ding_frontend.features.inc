@@ -190,7 +190,7 @@ function ding_frontend_image_default_styles() {
     'name' => 'ding_full_width',
     'label' => 'Ding full width',
     'effects' => array(
-      1 => array(
+      2 => array(
         'label' => 'Manual Crop: Reuse cropped style',
         'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
         'effect callback' => 'manualcrop_reuse_effect',
@@ -204,20 +204,21 @@ function ding_frontend_image_default_styles() {
         ),
         'weight' => 0,
       ),
-      3 => array(
-        'label' => 'Scale and crop',
-        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
-        'effect callback' => 'image_scale_and_crop_effect',
-        'dimensions callback' => 'image_resize_dimensions',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
+      4 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
         'module' => 'image',
-        'name' => 'image_scale_and_crop',
+        'name' => 'image_scale',
         'data' => array(
           'width' => 1124,
-          'height' => 631,
+          'height' => '',
+          'upscale' => 0,
         ),
-        'weight' => 2,
+        'weight' => 3,
       ),
     ),
   );
