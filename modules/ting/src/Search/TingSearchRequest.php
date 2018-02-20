@@ -17,6 +17,23 @@ namespace Ting\Search;
 class TingSearchRequest {
 
   /**
+   * Collections within search results should contain a group of objects defined
+   * as a work. Examples of objects which may be defined as a work:
+   *
+   * - All editions of the same title
+   * - All translations of the same title
+   * - A title in book, audio book, ebook and movie format.
+   *
+   * It is up to the individual provider to determine what constitutes a work.
+   */
+  const COLLECTION_TYPE_WORK = 'collection_type_work';
+
+  /**
+   * Each collection within the search result must only contain a single object.
+   */
+  const COLLECTION_TYPE_SINGLE_OBJECT = 'collection_type_single_object';
+
+  /**
    * @var \Ting\Search\TingSearchStrategyInterface
    */
   protected $searchStrategy;
@@ -118,6 +135,15 @@ class TingSearchRequest {
    * @var bool
    */
   protected $populateCollections = FALSE;
+
+  /**
+   * Specifies how collections should be handled within the search result.
+   *
+   * @see \Ting\Search\TingSearchRequest::COLLECTION_TYPE_*
+   *
+   * @var string
+   */
+  protected $collectionType = self::COLLECTION_TYPE_WORK;
 
   /**
    * TingSearchQuery constructor.
@@ -406,6 +432,34 @@ class TingSearchRequest {
    */
   public function setPopulateCollections($populate_collections) {
     $this->populateCollections = $populate_collections;
+    return $this;
+  }
+
+  /**
+   * Determine whether a collection should be used for the request.
+   *
+   * @see TingSearchRequest::COLLECTION_TYPE_*
+   *
+   * @return bool
+   *   Whether to use the specified collection type
+   */
+  public function useCollectionType($type) {
+    return $this->collectionType === $type;
+  }
+
+  /**
+   * Sets the collection type to use for the request.
+   *
+   * @see TingSearchRequest::COLLECTION_TYPE_*
+   *
+   * @param string $collectionType
+   *   The collection type.
+   *
+   * @return TingSearchRequest
+   *   The current query object.
+   */
+  public function setCollectionType($collectionType) {
+    $this->collectionType = $collectionType;
     return $this;
   }
 
