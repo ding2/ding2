@@ -199,6 +199,7 @@ function ting_new_materials_process_search_results($search_results) {
 
               $coverObject->title = $collection->primary_object->title;
               $coverObject->creators = $collection->primary_object->creators;
+              $coverObject->id = $collection->primary_object->id;
               $coverObject->localId = $collection->primary_object->localId;
               $coverObject->ownerId = $collection->primary_object->ownerId;
               $coverObject->collectionTitle = $collection->title;
@@ -331,6 +332,7 @@ class NewMaterialsCoverObject {
 
   public $title;
   public $creators;
+  public $id;
   public $localId;
   public $ownerId;
   public $collectionTitle;
