@@ -73,11 +73,6 @@ class TingObject implements TingObjectInterface {
     return $this->relations;
   }
 
-  // TODO BBS-SAL BBS-153: Temporary fix to allow the pseudo object to be accessed via
-  // properties, must be removed together with the dynamic property functions
-  // at the bottom of this class when the SAL port is complete.
-  protected $localProperties = [];
-
   /**
    * {@inheritdoc}
    */
@@ -866,46 +861,6 @@ class TingObject implements TingObjectInterface {
    */
   public function getSeriesTitles() {
     return $this->seriesTitles;
-  }
-
-  /**
-   * Handle property reads.
-   *
-   * Delegates all non-local property reads to the Open Search object.
-   */
-  public function __get($name) {
-    // Handle local properties.
-    if (in_array($name, $this->localProperties)) {
-      return $this->$name;
-    }
-
-    return NULL;
-  }
-
-  /**
-   * Handle property mutation.
-   */
-  public function __set($name, $value) {
-    if (in_array($name, $this->localProperties)) {
-      $this->$name = $value;
-    }
-  }
-
-  /**
-   * Test if a property is present.
-   */
-  public function __isset($name) {
-    return isset($this->openSearchObject->$name);
-  }
-
-  /**
-   * Unsets a property.
-   */
-  public function __unset($name) {
-    // Handle local properties.
-    if (in_array($name, $this->localProperties)) {
-      unset($this->$name);
-    }
   }
 
 }

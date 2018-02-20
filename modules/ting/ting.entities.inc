@@ -376,15 +376,12 @@ class TingCollection extends DingEntityCollection {
   public $types_count = DingEntityBase::NULL;
   public $primary_object = DingEntityBase::NULL;
 
-  // TODO BBS-153: Remove when port is done if we can be sure it is not used.
-  public $reply;
-
   /**
    * The embedded search-provider specific object.
    *
    * @var Ting\TingObjectCollectionInterface
    */
-  public $tingObjectCollection;
+  protected $tingObjectCollection;
 
   /**
    * Set the collection from the Ting search provider.
