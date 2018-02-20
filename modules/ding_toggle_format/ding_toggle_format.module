@@ -110,7 +110,7 @@ function ding_toggle_format_block_info() {
 function ding_toggle_format_block_view($delta = '') {
 
   drupal_add_js(drupal_get_path('module', 'ding_toggle_format') . '/js/ding_toggle_format.js');
-  drupal_add_js(drupal_get_path('module', 'ding_toggle_format') . '/js/jquery.cookie.min.js');
+  drupal_add_js(drupal_get_path('module', 'ding_toggle_format') . '/js/js.cookie.js');
 
   drupal_add_css(drupal_get_path('module', 'ding_toggle_format') . '/css/ding_toggle_format.css');
 
@@ -162,7 +162,7 @@ function ding_toggle_format_render_link() {
  * Implements hook_preprocess().
  */
 function ding_toggle_format_preprocess(&$variables, $hook) {
-  if ('25_50_25' == $hook) {
+  if ('25_50_25' == $hook || $hook == 'ding2_site_template') {
     $materials_toggle = variable_get('materials_toggle', array());
     $user_toggle = variable_get('user_toggle', array());
 
@@ -170,15 +170,19 @@ function ding_toggle_format_preprocess(&$variables, $hook) {
       ding_toggle_format_check_page($user_toggle, 'user', 2);
     if ($is_toggle_page) {
       $block = module_invoke('ding_toggle_format', 'block_view', '');
-      $toggle_format_markup =
-        '<div class="panel-pane pane-block pane-ding-toggle-format-toggle">' .
-        '<div class="pane-content">' .
+      $toggle_format_markup
+        = '<div class="panel-pane pane-block pane-ding-toggle-format-toggle"><div class="pane-content">' .
         render($block['content']) .
-        '</div>' .
-        '</div>';
+        '</div></div>';
 
-      $existing_content = $variables['content']['main_content'];
-      $variables['content']['main_content'] = $toggle_format_markup . $existing_content;
+      if (!is_object($variables['display']->args[0])) {
+        $existing_content = $variables['content']['content'];
+        $variables['content']['content'] = $toggle_format_markup . $existing_content;
+      }
+      else {
+        $existing_content = $variables['content']['main_content'];
+        $variables['content']['main_content'] = $toggle_format_markup . $existing_content;
+      }
     }
   }
 }
