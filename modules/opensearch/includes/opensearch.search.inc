@@ -127,11 +127,11 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   }
 
   // Add field filter.
-  if (!empty($ting_query->getFieldFilters())) {
+  if (!empty($ting_query->getFilters())) {
     $render = new OpenSearchStatementGroupRender(new DingProviderStrategy());
     try {
       $field_filters = $render->renderStatements(
-        $ting_query->getFieldFilters()
+        $ting_query->getFilters()
       );
     }
     catch (InvalidArgumentException $e) {
@@ -213,6 +213,12 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
 
   // Whether to return all materials from matched collections.
   $options['allObjects'] = $ting_query->getPopulateCollections();
+
+  // Determine which collection type to use. Work is default for OpenSearch and
+  // we only support one other type.
+  if ($ting_query->useCollectionType(TingSearchRequest::COLLECTION_TYPE_SINGLE_OBJECT)) {
+    $options['collectionType'] = 'manifestation';
+  }
 
   // Ensure we have OpenSearch client.
   module_load_include('inc', 'opensearch', 'opensearch.client');

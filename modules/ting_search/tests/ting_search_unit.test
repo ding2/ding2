@@ -77,15 +77,15 @@ class DingSearchUnitTest extends DingUnitTestBase {
     ], BooleanStatementInterface::OP_OR);
 
 
-    $query->addFieldFilters($_1_filter_list);
-    $query->addFieldFilters($_2_single_filter);
-    $query->addFieldFilters($_3_filter_group);
+    $query->addFilters($_1_filter_list);
+    $query->addFilters($_2_single_filter);
+    $query->addFilters($_3_filter_group);
     // Use the shorthand for testing 4). This is basically a shorthand for 2)
     // so we use the same field-name to be able to test it in a moment.
     $query->addFieldFilter('field2', 'value');
 
     // This should have added four boolean statement groups.
-    $resulting_filters = $query->getFieldFilters();
+    $resulting_filters = $query->getFilters();
     $this->assertTrue((count($resulting_filters) == 4));
     $this->assertTrue($resulting_filters[0] instanceof BooleanStatementGroup, 'Filter group 1 is a BooleanStatementGroup');
     $this->assertTrue($resulting_filters[1] instanceof BooleanStatementGroup, 'Filter group 2 is a BooleanStatementGroup');
@@ -118,7 +118,7 @@ class DingSearchUnitTest extends DingUnitTestBase {
 
     // Test that the filter is rejected.
     try {
-      $query->addFieldFilters($invalid);
+      $query->addFilters($invalid);
     }
     catch (UnsupportedSearchQueryException $e) {
       // All is ok.

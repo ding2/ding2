@@ -4,7 +4,7 @@
  * Enables search integration with Ting.
  */
 
-use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchRawFilter;
 use Ting\Search\TingSearchResultInterface;
 use Ting\Search\TingSearchSort;
 
@@ -156,21 +156,7 @@ function ting_search_theme($existing, $type, $theme, $path) {
       'template' => 'ting-search-display-extended-query',
       'path' => $path . '/templates',
     ),
-    'ting_search_extended_search' => array(
-      'template' => 'ting-search-extended-search',
-      'path' => $path . '/templates',
-    ),
   );
-}
-
-/**
- * Returns a themed list of extended actions.
- *
- * @return string
- *   HTML ting_search_extended_search.
- */
-function ting_search_get_extended_actions() {
-  return theme('ting_search_extended_search');
 }
 
 /**
@@ -179,38 +165,12 @@ function ting_search_get_extended_actions() {
  * For the form search_block_form.
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
-  // Define advanced fields.
-  $advanced_fields = array(
-    'term.creator' => array(
-      'key' => 'creator',
-      'title' => t('Author'),
-      'description' => t('Enter the author name'),
-    ),
-    'term.title' => array(
-      'key' => 'title',
-      'title' => t('Title'),
-      'description' => t('Enter title'),
-    ),
-    'term.subject' => array(
-      'key' => 'subject',
-      'title' => t('Subject'),
-      'description' => t('Enter subject keywords'),
-    ),
-  );
-
   // Remove the form token so the form becomes cachable. If we don't, all
   // pages with the search form becomes un-cachable, as drupal_validate_form()
   // will check the token and fail if the current user is not the same as the
   // one that caused the page to be cached.
   unset($form['#token']);
   unset($form['form_token']);
-
-  // We're going to disable advanced search in
-  // the first version, and implement later on.
-  // When implementing againg, set
-  // $advanced = TRUE - just below
-  // and re-enable asserts in testTingExtended() in ting_search.test.
-  $advanced = FALSE;
 
   // Parse extended search query parameters.
   if (arg(0) == 'search') {
@@ -220,19 +180,6 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     array_shift($parts);
     $type = array_shift($parts);
     $search_query = implode('/', $parts);
-
-    // Detect "advanced" parts of the query and split it out into separate
-    // parts.
-    $indexes = ting_search_extract_keys($search_query, array_keys($advanced_fields));
-    // The main free-text part of the query can be found under the 'q' key.
-    $search_query = $indexes['q'];
-    unset($indexes['q']);
-
-    if ($type != 'ting' and !empty($indexes)) {
-      $search_query .= " " . implode(' ', $indexes);
-      $indexes = array();
-      $advanced = FALSE;
-    }
 
     // Set default value to the current search query.
     $form['search_block_form']['#default_value'] = $search_query;
@@ -261,37 +208,6 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     '#default_value' => isset($_GET['size']) ? (int) $_GET['size'] : FALSE,
     '#attributes' => array('id' => 'controls_search_size'),
   );
-
-  // See line 127-130 - disabled in the first version.
-  //$form['form_id']['#suffix'] = ting_search_get_extended_actions();
-
-  if ($advanced) {
-    $form['advanced'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Advanced search'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#weight' => 101,
-      '#prefix' => '<div id="advanced-search-wrapper">',
-      '#suffix' => '</div>',
-      '#attached' => array(
-        'js' => array(
-          drupal_get_path('module', 'ting_search') . '/js/ting_search_extendform.js',
-        ),
-      ),
-    );
-
-    foreach ($advanced_fields as $name => $field) {
-      $form['advanced'][$field['key']] = array(
-        '#type' => 'textfield',
-        '#title' => check_plain($field['title']),
-        '#size' => 30,
-        '#maxlength' => 64,
-        '#description' => check_plain($field['description']),
-        '#default_value' => isset($indexes[$name]) ? $indexes[$name] : '',
-      );
-    }
-  }
 
   switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
     case TING_SEARCH_FORM_STYLE_EXTENDED:
@@ -384,13 +300,17 @@ function ting_search_conditions_callback($keys) {
     $conditions['size'] = (int) $_REQUEST['size'];
   }
 
-
   if (!empty($_REQUEST['sort'])) {
     $conditions['sort'] = check_plain($_REQUEST['sort']);
   }
   else {
     $conditions['sort'] = variable_get('ting_search_default_sort', '');
   }
+
+  if (!empty($_REQUEST['filters'])) {
+    $conditions['filters'] = $_REQUEST['filters'];
+  }
+
   // If facets is set, check if we have to remove any, if so,
   // reload the page.
   if (!empty($_REQUEST['facets'])) {
@@ -434,6 +354,19 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     $results = array();
     $query = ting_start_query()->setFullTextQuery($keys);
     $query->setTermsPrFacet(variable_get('ting_search_number_of_facets', 25));
+
+    // Extend query with filters.
+    if (!empty($conditions['filters'])) {
+      foreach ($conditions['filters'] as $name => $filter) {
+        // If no name is provided for a filter then it is a raw filter.
+        if (is_int($name)) {
+          $query->addFilters(array(new TingSearchRawFilter($filter)));
+        }
+        else {
+          $query->addFieldFilter($name, $filter);
+        }
+      }
+    }
 
     // Extend query with selected facets.
     if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
@@ -999,7 +932,6 @@ function ting_search_records_per_page_controls_content() {
  * Process a block search form submission.
  */
 function ting_search_submit($form, &$form_state) {
-  $controls = array();
   // The search form relies on control of the redirect destination for its
   // functionality, so we override any static destination set in the request,
   // for example by drupal_access_denied() or drupal_not_found()
@@ -1010,46 +942,28 @@ function ting_search_submit($form, &$form_state) {
 
   $form_id = $form['form_id']['#value'];
   $keys = $form_state['values'][$form_id];
+  $filters = array();
+  $controls = array();
+
+  // Allow other modules add filters.
+  // Hook refers to fields for historical reasons.
   $fields = array();
+  drupal_alter('ting_search_fields', $fields);
 
-  // TODO BBS-SAL BBS-217: Convert this to SAL.
-  $extended_fields = array(
-    'creator' => array(
-      'index' => 'term.creator',
-      'parents' => array('creator'),
-    ),
-    'title' => array(
-      'index' => 'term.title',
-      'parents' => array('title'),
-    ),
-    'subject' => array(
-      'index' => 'term.subject',
-      'parents' => array('subject'),
-    ),
-  );
-  // Allow other modules change fields.
-  drupal_alter('ting_search_fields', $extended_fields);
-
-  foreach ($extended_fields as $name => $data) {
+  foreach ($fields as $name => $data) {
     if (isset($data['value'])) {
-      $fields[] = $data['value'];
+      // Fields with a predefined value are considered raw filters. They are
+      // added without an index as a key so we can separate them from normal
+      // filters later on.
+      $filters[] = $data['value'];
     }
     else {
       $value = drupal_array_get_nested_value($form_state['values'], $data['parents']);
       if (!empty($value)) {
-        $fields[] = $data['index'] . '=' . (strpos($value, ' ') ? '"' . $value . '"' : $value);
+        $filters[$data['index']] = $value;
       }
     }
   }
-
-  $q = array();
-  if (!empty($keys)) {
-    $q[] = $keys;
-  }
-  if (!empty($fields)) {
-    $q[] = '(' . implode(' AND ', $fields) . ')';
-  }
-  $q = implode(' AND ', $q);
 
   $s = $form_state['values']['sort'];
   if ($s != "") {
@@ -1071,7 +985,7 @@ function ting_search_submit($form, &$form_state) {
   // because that results in a confusing error message.  It would say a plain
   // "field is required" because the search keywords field has no title.
   // The error message would also complain about a missing #title field.)
-  if ($q == '') {
+  if (empty($keys) && empty($filters)) {
     form_set_error('keys', t('Please enter some keywords.'));
   }
   $search_info = array();
@@ -1090,9 +1004,9 @@ function ting_search_submit($form, &$form_state) {
   }
   if (!empty($search_info['path']) && in_array($search_info['module'], variable_get('search_active_modules', array()))) {
     $form_state['redirect'] = array(
-      'search/' . $search_info['path'] . '/' . trim($q),
+      'search/' . $search_info['path'] . '/' . trim($keys),
       array(
-        'query' => $controls,
+        'query' => array_merge($controls, array('filters' => $filters)),
       ),
     );
   }

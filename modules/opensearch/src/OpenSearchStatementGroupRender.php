@@ -6,6 +6,7 @@ use Ting\Search\BooleanStatementGroup;
 use Ting\Search\BooleanStatementInterface;
 use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchFieldFilter;
+use Ting\Search\TingSearchRawFilter;
 use Ting\Search\TingSearchStrategyInterface;
 
 /**
@@ -137,6 +138,10 @@ class OpenSearchStatementGroupRender {
       // We're at another group, recurse.
       if ($statement instanceof BooleanStatementGroup) {
         $this->walk($statement, $rendered_statement);
+      }
+      // If we have a raw filter then add it directly.
+      elseif ($statement instanceof TingSearchRawFilter) {
+        $rendered_statement .= $statement->getFilter();
       }
       // If we're at a field, render it.
       elseif ($statement instanceof TingSearchFieldFilter) {

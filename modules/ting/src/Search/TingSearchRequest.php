@@ -17,6 +17,23 @@ namespace Ting\Search;
 class TingSearchRequest {
 
   /**
+   * Collections within search results should contain a group of objects defined
+   * as a work. Examples of objects which may be defined as a work:
+   *
+   * - All editions of the same title
+   * - All translations of the same title
+   * - A title in book, audio book, ebook and movie format.
+   *
+   * It is up to the individual provider to determine what constitutes a work.
+   */
+  const COLLECTION_TYPE_WORK = 'collection_type_work';
+
+  /**
+   * Each collection within the search result must only contain a single object.
+   */
+  const COLLECTION_TYPE_SINGLE_OBJECT = 'collection_type_single_object';
+
+  /**
    * @var \Ting\Search\TingSearchStrategyInterface
    */
   protected $searchStrategy;
@@ -94,7 +111,7 @@ class TingSearchRequest {
    *   List of grouped BooleanStatementGroup and TingSearchFieldFilter
    *   instances.
    */
-  protected $fieldFilters;
+  protected $filters;
 
   /**
    * The part of the query that should be interpreted as a fulltext search.
@@ -120,28 +137,13 @@ class TingSearchRequest {
   protected $populateCollections = FALSE;
 
   /**
-   * Gets whether the search result should contain fully populated collections.
+   * Specifies how collections should be handled within the search result.
    *
-   * @return bool
-   *   The flag.
+   * @see \Ting\Search\TingSearchRequest::COLLECTION_TYPE_*
+   *
+   * @var string
    */
-  public function getPopulateCollections() {
-    return $this->populateCollections;
-  }
-
-  /**
-   * Sets whether the search result should contain fully populated collections.
-   *
-   * @param bool $populate_collections
-   *   The flag.
-   *
-   * @return TingSearchRequest
-   *   the current query object.
-   */
-  public function setPopulateCollections($populate_collections) {
-    $this->populateCollections = $populate_collections;
-    return $this;
-  }
+  protected $collectionType = self::COLLECTION_TYPE_WORK;
 
   /**
    * TingSearchQuery constructor.
@@ -311,7 +313,7 @@ class TingSearchRequest {
    * @return TingSearchRequest
    *   the current query object.
    */
-  public function addSort($field, $direction) {
+  public function addSort($field, $direction = TingSearchSort::DIRECTION_NONE) {
     $this->sorts[] = new TingSearchSort($field, $direction);
     return $this;
   }
@@ -410,6 +412,58 @@ class TingSearchRequest {
   }
 
   /**
+   * Gets whether the search result should contain fully populated collections.
+   *
+   * @return bool
+   *   The flag.
+   */
+  public function getPopulateCollections() {
+    return $this->populateCollections;
+  }
+
+  /**
+   * Sets whether the search result should contain fully populated collections.
+   *
+   * @param bool $populate_collections
+   *   The flag.
+   *
+   * @return TingSearchRequest
+   *   the current query object.
+   */
+  public function setPopulateCollections($populate_collections) {
+    $this->populateCollections = $populate_collections;
+    return $this;
+  }
+
+  /**
+   * Determine whether a collection should be used for the request.
+   *
+   * @see TingSearchRequest::COLLECTION_TYPE_*
+   *
+   * @return bool
+   *   Whether to use the specified collection type
+   */
+  public function useCollectionType($type) {
+    return $this->collectionType === $type;
+  }
+
+  /**
+   * Sets the collection type to use for the request.
+   *
+   * @see TingSearchRequest::COLLECTION_TYPE_*
+   *
+   * @param string $collectionType
+   *   The collection type.
+   *
+   * @return TingSearchRequest
+   *   The current query object.
+   */
+  public function setCollectionType($collectionType) {
+    $this->collectionType = $collectionType;
+    return $this;
+  }
+
+  /**
    * Get the list of BooleanStatementGroup instances.
    *
    * When executed the statements must be joined together with a logical AND.
@@ -417,8 +471,8 @@ class TingSearchRequest {
    * @return FilterStatementInterface[]
    *   List of BooleanStatementGroup instances used to filter field.
    */
-  public function getFieldFilters() {
-    return $this->fieldFilters;
+  public function getFilters() {
+    return $this->filters;
   }
 
   /**
@@ -439,7 +493,7 @@ class TingSearchRequest {
    *
    * @throws \Ting\Search\UnsupportedSearchQueryException
    */
-  public function addFieldFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
+  public function addFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
     // First off, protect against silly code.
     if (empty($filters)) {
       return $this;
@@ -448,7 +502,11 @@ class TingSearchRequest {
     // Ensure we got what we expected.
     $check_array = is_array($filters) ? $filters : [$filters];
     array_walk($check_array, function ($filter) {
-      if (!($filter instanceof BooleanStatementGroup || $filter instanceof TingSearchFieldFilter)) {
+      if (!(
+        $filter instanceof BooleanStatementGroup ||
+        $filter instanceof TingSearchFieldFilter ||
+        $filter instanceof TingSearchRawFilter
+      )) {
         // We got something unexpected.
         $details = is_object($filter) ? get_class($filter) : (string) $filter;
         throw new UnsupportedSearchQueryException(
@@ -471,7 +529,7 @@ class TingSearchRequest {
       $filters = new BooleanStatementGroup($filters, $logic_operator);
     }
 
-    $this->fieldFilters[] = $filters;
+    $this->filters[] = $filters;
     return $this;
   }
 
@@ -491,7 +549,7 @@ class TingSearchRequest {
    *   the current query object.
    */
   public function addFieldFilter($name, $value) {
-    $this->addFieldFilters([new TingSearchFieldFilter($name, $value)]);
+    $this->addFilters([new TingSearchFieldFilter($name, $value)]);
     return $this;
   }
 

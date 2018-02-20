@@ -49,16 +49,16 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
 
       // Check if the search return any results.
       $results = NULL;
-      if ($search_result->numTotalObjects > 0) {
+      if ($search_result->getNumTotalObjects() > 0) {
         // Now that we have a result set, initialize the pager.
-        pager_default_initialize($search_result->numTotalObjects, $num_per_page);
+        pager_default_initialize($search_result->getNumTotalObjects(), $num_per_page);
 
         // Create legend with "Show y-x of result(s)", but only if pager is active
         // for the current result.
-        if ($search_result->numTotalObjects > $num_per_page) {
+        if ($search_result->getNumTotalObjects() > $num_per_page) {
           $from = ($pager_page * $num_per_page) + 1;
-          $to = $from + ($search_result->numTotalCollections - 1);
-          $total = $search_result->numTotalObjects;
+          $to = $from + ($search_result->getNumTotalCollections() - 1);
+          $total = $search_result->getNumTotalObjects();
           $legend = format_plural($total, 'Show 1 result', 'Show %from-%to of <span class="placeholder">@count</span> results', array(
             '%from' => $from,
             '%to' => $to,
@@ -68,7 +68,7 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
         // We want to build the result as a normal search result. So we have to
         // build the collections as search results "objects".
         $results = array();
-        foreach ($search_result->collections as $collection) {
+        foreach ($search_result->getTingEntityCollections() as $collection) {
           // Build the collection.
           $build = ting_collection_view($collection, 'teaser');
 

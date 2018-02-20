@@ -140,14 +140,7 @@ class OpenSearchTingObject implements TingObjectInterface {
    * {@inheritdoc}
    */
   public function getOwnerId() {
-    return $this->ownerId;
-  }
-
-  /**
-   * Sets the Owner ID.
-   */
-  public function setOwnerId($owner_id) {
-    $this->ownerId = $owner_id;
+    return $this->openSearchObject->ownerId;
   }
 
   /**

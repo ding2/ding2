@@ -925,12 +925,7 @@ function ding_serendipity_entity_view($entity, $type, $view_mode, $langcode) {
 }
 
 /**
- * Wrap ting_do_search.
- *
- * Packs the result into an array readable by ding_serendipity_render().
- *
- * TODO: Rename when ding_serendipity all modules that uses
- * ding_serendipity_do_search has been ported.
+ * Execute a search for serendipity results.
  *
  * @param \Ting\Search\TingSearchRequest $query
  *   The search query.
