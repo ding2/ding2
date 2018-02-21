@@ -48,7 +48,7 @@ An example name could be `7.x-3.4.2-rc1`.
 
 7. In `ding2.info` set `version = 7.x-3.4.2-rc1`
 
-8. Commit your changes `git add ding2.info ding2.make drupal.make && git commit -m "Core: Bumped version to 7.x-3.4.2-rc1"`
+8. Commit your changes `git add ding2.info ding2.make drupal.make && git commit --amend -m "Core: Bumped version to 7.x-3.4.2-rc1"`
 
 9. In the git repository tag the commit with the release name og push it `git tag 7.x-3.4.2-rc1 && git push origin 7.x-3.4.2-rc1`
 
