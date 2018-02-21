@@ -13,7 +13,7 @@
   Drupal.behaviors.readyFormat = {
     attach: function(context, settings) {
       if ($('body').hasClass('page-search-ting')) {
-        $('.pane-ding-toggle-format-toggle').insertBefore('.pane-search-result-count');
+        $('.pane-ding-toggle-format-toggle').insertBefore('.pane-search-result');
       }
 
       $('#ding-toggle-format', context).ready(function() {

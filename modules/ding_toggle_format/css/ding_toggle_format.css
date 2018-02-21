@@ -3,17 +3,35 @@ div.pane-ding-toggle-format-toggle div.pane-content {
   padding-bottom: 0;
 }
 
-img#ding-toggle-format-image {
-  height: 15px;
-  width: 35px;
+.pane-ding-toggle-format-toggle span.ding-toggle-format-label {
+  display: inline-block;
+  width: auto;
 }
 
-a.ding-toggle-format-short {
-    background: transparent url(../images/toggle_format_short.png) no-repeat right center;
+a#ding-toggle-format {
+  width: 150px;
+  display: inline-flex;
 }
 
-a.ding-toggle-format-long {
-    background: transparent url(../images/toggle_format_long.png) no-repeat right center;
+.pane-ding-toggle-format-toggle #ding-toggle-format:before {
+  content: "\ea7a";
+  font-family: 'icomoon';
 }
 
+.pane-ding-toggle-format-toggle #ding-toggle-format:after {
+  content: "\e9ba";
+  font-family: 'icomoon';
+}
 
+.pane-ding-toggle-format-toggle #ding-toggle-format:before,
+.pane-ding-toggle-format-toggle #ding-toggle-format:after {
+  color: #bcbcbc;
+  display: inline-block;
+  font-family: "icomoon";
+  font-size: 100%;
+  height: 20px;
+  margin-top: 5px;
+  text-decoration: none;
+  width: 20px;
+  padding-left: 10px;
+}

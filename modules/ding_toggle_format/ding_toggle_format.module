@@ -110,7 +110,7 @@ function ding_toggle_format_block_info() {
 function ding_toggle_format_block_view($delta = '') {
 
   drupal_add_js(drupal_get_path('module', 'ding_toggle_format') . '/js/ding_toggle_format.js');
-  drupal_add_js(drupal_get_path('module', 'ding_toggle_format') . '/js/jquery.cookie.min.js');
+  drupal_add_js(drupal_get_path('module', 'ding_toggle_format') . '/js/js.cookie.js');
 
   drupal_add_css(drupal_get_path('module', 'ding_toggle_format') . '/css/ding_toggle_format.css');
 
@@ -162,23 +162,31 @@ function ding_toggle_format_render_link() {
  * Implements hook_preprocess().
  */
 function ding_toggle_format_preprocess(&$variables, $hook) {
-  if ('25_50_25' == $hook) {
+  if ($hook == '25_50_25' || $hook == 'ding2_site_template') {
     $materials_toggle = variable_get('materials_toggle', array());
     $user_toggle = variable_get('user_toggle', array());
 
+    $togglable = array_filter(array_merge($materials_toggle, $user_toggle));
+
     $is_toggle_page = ding_toggle_format_check_page($materials_toggle) ||
       ding_toggle_format_check_page($user_toggle, 'user', 2);
-    if ($is_toggle_page) {
-      $block = module_invoke('ding_toggle_format', 'block_view', '');
-      $toggle_format_markup =
-        '<div class="panel-pane pane-block pane-ding-toggle-format-toggle">' .
-        '<div class="pane-content">' .
-        render($block['content']) .
-        '</div>' .
-        '</div>';
 
-      $existing_content = $variables['content']['main_content'];
-      $variables['content']['main_content'] = $toggle_format_markup . $existing_content;
+    $current_path = current_path();
+
+    foreach ($togglable as $item) {
+      if ($is_toggle_page && strpos($current_path, $item) !== FALSE) {
+        $block = module_invoke('ding_toggle_format', 'block_view', '');
+        $toggle_format_markup
+          = '<div class="panel-pane pane-block pane-ding-toggle-format-toggle"><div class="pane-content">' .
+          render($block['content']) .
+          '</div></div>';
+
+        $content_var = ($item == 'ting/object') ? 'content' : 'main_content';
+        if (!is_object($variables['display']->args[0])) {
+          $existing_content = $variables['content'][$content_var];
+          $variables['content'][$content_var] = $toggle_format_markup . $existing_content;
+        }
+      }
     }
   }
 }
