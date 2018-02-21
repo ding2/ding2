@@ -1,0 +1,77 @@
+@import '../base.scss';
+
+a#ding-toggle-format {
+  width: 150px;
+  display: inline-flex;
+}
+
+.pane-ding-toggle-format-toggle #ding-toggle-format:before {
+  content: "\ea7a";
+  font-family: 'icomoon';
+}
+
+.pane-ding-toggle-format-toggle #ding-toggle-format:after {
+  content: "\e9ba";
+  font-family: 'icomoon';
+}
+
+.pane-ding-toggle-format-toggle #ding-toggle-format:before,
+.pane-ding-toggle-format-toggle #ding-toggle-format:after {
+  color: #bcbcbc;
+  display: inline-block;
+  font-family: "icomoon";
+  font-size: 100%;
+  height: 20px;
+  margin-top: 5px;
+  text-decoration: none;
+  width: 20px;
+  padding-left: 10px;
+}
+
+.pane-ding-toggle-format-toggle #ding-toggle-format.ding-toggle-format-short:before,
+.pane-ding-toggle-format-toggle #ding-toggle-format.ding-toggle-format-long:after {
+ color: $color-primary;
+}
+
+.pane-ting-collection .ding-format-short,
+.ding-format-short {
+  .ting-object {
+    .ting-cover,
+    span.search-result--heading-type,
+    .info-container .field-name-ting-abstract,
+    .info-container .availability,
+    .field-name-ting-abstract {
+      display: none;
+    }
+
+    &.list-item-style>.inner .ting-object-right {
+      float: initial;
+    }
+
+    .info-container .group-rating {
+      padding-top: 10px; 
+      margin-top: 0;
+      border-top: none; 
+    }
+
+    .ting-object-left {
+      display: none;
+    }
+
+    ul.availability{   
+      float: left;
+      display: block;
+      width: 100%;
+    }
+  }
+}
+
+.page-ting-object {
+  .pane-ding-toggle-format-toggle .pane-content {
+    max-width: 1124px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    position: relative;
+  }
+}
