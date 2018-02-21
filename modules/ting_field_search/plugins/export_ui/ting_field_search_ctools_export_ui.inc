@@ -496,6 +496,26 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#default_value' => $alias['alias'],
   );
 
+  // Display attached search guides.
+  if ($search_guides = ting_field_search_search_guides_load($profile)) {
+    $rows = array();
+    foreach ($search_guides as $nid => $search_guide) {
+      $rows[$nid] = _ting_field_search_build_search_guide_row($search_guide, $profile);
+    }
+    $form['config']['profile_page']['search_guides'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Search guides'),
+      '#description' => t('The search guides currently attached to this profile.'),
+    );
+    $header = array(t('Title'), t('Position'), t('Weight'), t('Operations'));
+    $form['config']['profile_page']['search_guides']['table'] = array(
+      '#theme' => 'table',
+      '#header' => $header,
+      '#rows' => $rows,
+      '#empty' => t('No search guides added to this profile'),
+    );
+  }
+
   // Add some correcting CSS.
   $path = drupal_get_path('module', 'ting_field_search');
   $form['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
@@ -684,5 +704,39 @@ function _ting_field_search_build_field_row($field, $base) {
       )),
     ),
     'class' => array('draggable'),
+  );
+}
+
+/**
+ * Helper function to build a row in the search guides table.
+ */
+function _ting_field_search_build_search_guide_row($search_guide, $profile) {
+  $guide_wrapper = entity_metadata_wrapper('node', $search_guide);
+  $field = FALSE; // For the field wrapper.
+
+  // The placements field is attached to the search guide as multi value, so we
+  // need to find the one related to the this profile.
+  foreach ($guide_wrapper->field_profile_page_placement->getIterator() as $delta => $field_wrapper) {
+    if ($field_wrapper->profile_name->value() === $profile->name) {
+      $field = $field_wrapper;
+      break;
+    }
+  }
+
+  return array(
+    'data' => array(
+      array('data' => array(
+        '#markup' => check_plain($search_guide->title),
+      )),
+      array('data' => array(
+        '#markup' => $field ? $field->position->value() : '',
+      )),
+      array('data' => array(
+        '#markup' => $field ? $field->weight->value() : '',
+      )),
+      array('data' => array(
+        '#markup' => l(t('Edit'), 'node/' . $search_guide->nid . '/edit'),
+      )),
+    ),
   );
 }
