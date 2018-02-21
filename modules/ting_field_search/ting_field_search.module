@@ -1365,6 +1365,33 @@ function ting_field_search_facets_load($pids) {
 }
 
 /**
+ * Loads all search guides attached to a profile sorted by the weight column.
+ *
+ * @return array of node objects keyed by nid.
+ */
+function ting_field_search_search_guides_load($profile) {
+  $search_guides = array();
+
+  // Need a profile machine-name to proceed.
+  if (empty($profile->name)) {
+    return $search_guides;
+  }
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ting_field_search_search_guide')
+    ->fieldCondition('field_profile_page_placement', 'profile_name', $profile->name)
+    ->fieldOrderBy('field_profile_page_placement', 'weight');
+
+  $result = $query->execute();
+  if (isset($result['node'])) {
+    $search_guides = entity_load('node', array_keys($result['node']));
+  }
+
+  return $search_guides;
+}
+
+/**
  * Sorts profiles by weight.
  */
 function ting_field_search_profiles_sort(&$profiles) {
