@@ -867,6 +867,8 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
 
   foreach ($profile->fields as $index => $field) {
     $field_element = array(
+      '#prefix' => "<div class='ting-field-search-field'>",
+      '#suffix' => '</div>',
       '#type' => $field['type'],
       '#title' => check_plain($field['title']),
       '#title_display' => $field['title_display'] ? 'before' : 'invisible',
