@@ -62,7 +62,7 @@
   stylesheets[all][] = sass_css/layout/panel.css
 
   stylesheets[all][] = sass_css/module/christmas_calendar.css
-    stylesheets[all][] = sass_css/module/ding_toggle.css
+  stylesheets[all][] = sass_css/module/ding_toggle.css
 
   stylesheets[all][] = sass_css/p2/p2-ding-interaction.css
   stylesheets[all][] = sass_css/p2/p2-class.css
