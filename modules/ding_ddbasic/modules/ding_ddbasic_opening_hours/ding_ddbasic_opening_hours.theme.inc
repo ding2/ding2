@@ -235,6 +235,7 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
         'cols' => array(),
         'extra' => array(),
         'name' => l($library, 'node/' . $instance->nid),
+        'nid' => $instance->nid,
       );
     }
 
@@ -297,7 +298,9 @@ function template_preprocess_ding_ddbasic_opening_hours_all_tabbed(&$variables) 
   $order = [];
   $queue = nodequeue_load_queue_by_name('ding_library_listing');
   foreach (nodequeue_load_nodes($queue->qid, FALSE, 0, 0) as $node) {
-    $order[$node->title] = $node->nid;
+    if (empty($node->field_ding_library_main_val[LANGUAGE_NONE][0]['value'])) {
+      $order[$node->title] = $node->nid;
+    }
   }
 
   // Get and sort all the instances in the given timespan.
