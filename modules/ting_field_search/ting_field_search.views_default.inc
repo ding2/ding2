@@ -98,31 +98,31 @@ function ting_field_search_views_default_views() {
   $handler->display->display_options['fields']['field_search_guide_links']['delta_offset'] = '0';
   $handler->display->display_options['fields']['field_search_guide_links']['multi_type'] = 'ul';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Content: Placements (field_profile_page_placment:weight) */
-  $handler->display->display_options['sorts']['field_profile_page_placment_weight']['id'] = 'field_profile_page_placment_weight';
-  $handler->display->display_options['sorts']['field_profile_page_placment_weight']['table'] = 'field_data_field_profile_page_placment';
-  $handler->display->display_options['sorts']['field_profile_page_placment_weight']['field'] = 'field_profile_page_placment_weight';
+  /* Sort criterion: Content: Placements (field_profile_page_placement:weight) */
+  $handler->display->display_options['sorts']['field_profile_page_placement_weight']['id'] = 'field_profile_page_placement_weight';
+  $handler->display->display_options['sorts']['field_profile_page_placement_weight']['table'] = 'field_data_field_profile_page_placement';
+  $handler->display->display_options['sorts']['field_profile_page_placement_weight']['field'] = 'field_profile_page_placement_weight';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Placements (field_profile_page_placment:profile_name) */
-  $handler->display->display_options['arguments']['field_profile_page_placment_profile_name']['id'] = 'field_profile_page_placment_profile_name';
-  $handler->display->display_options['arguments']['field_profile_page_placment_profile_name']['table'] = 'field_data_field_profile_page_placment';
-  $handler->display->display_options['arguments']['field_profile_page_placment_profile_name']['field'] = 'field_profile_page_placment_profile_name';
-  $handler->display->display_options['arguments']['field_profile_page_placment_profile_name']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['field_profile_page_placment_profile_name']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_profile_page_placment_profile_name']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_profile_page_placment_profile_name']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_profile_page_placment_profile_name']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_profile_page_placment_profile_name']['limit'] = '0';
-  /* Contextual filter: Content: Placements (field_profile_page_placment:position) */
-  $handler->display->display_options['arguments']['field_profile_page_placment_position']['id'] = 'field_profile_page_placment_position';
-  $handler->display->display_options['arguments']['field_profile_page_placment_position']['table'] = 'field_data_field_profile_page_placment';
-  $handler->display->display_options['arguments']['field_profile_page_placment_position']['field'] = 'field_profile_page_placment_position';
-  $handler->display->display_options['arguments']['field_profile_page_placment_position']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['field_profile_page_placment_position']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_profile_page_placment_position']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_profile_page_placment_position']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_profile_page_placment_position']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_profile_page_placment_position']['limit'] = '0';
+  /* Contextual filter: Content: Placements (field_profile_page_placement:profile_name) */
+  $handler->display->display_options['arguments']['field_profile_page_placement_profile_name']['id'] = 'field_profile_page_placement_profile_name';
+  $handler->display->display_options['arguments']['field_profile_page_placement_profile_name']['table'] = 'field_data_field_profile_page_placement';
+  $handler->display->display_options['arguments']['field_profile_page_placement_profile_name']['field'] = 'field_profile_page_placement_profile_name';
+  $handler->display->display_options['arguments']['field_profile_page_placement_profile_name']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['field_profile_page_placement_profile_name']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_profile_page_placement_profile_name']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_profile_page_placement_profile_name']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_profile_page_placement_profile_name']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_profile_page_placement_profile_name']['limit'] = '0';
+  /* Contextual filter: Content: Placements (field_profile_page_placement:position) */
+  $handler->display->display_options['arguments']['field_profile_page_placement_position']['id'] = 'field_profile_page_placement_position';
+  $handler->display->display_options['arguments']['field_profile_page_placement_position']['table'] = 'field_data_field_profile_page_placement';
+  $handler->display->display_options['arguments']['field_profile_page_placement_position']['field'] = 'field_profile_page_placement_position';
+  $handler->display->display_options['arguments']['field_profile_page_placement_position']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['field_profile_page_placement_position']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_profile_page_placement_position']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_profile_page_placement_position']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_profile_page_placement_position']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_profile_page_placement_position']['limit'] = '0';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Published */
@@ -140,21 +140,21 @@ function ting_field_search_views_default_views() {
     'ting_field_search_search_guide' => 'ting_field_search_search_guide',
   );
   $handler->display->display_options['argument_input'] = array(
-    'field_profile_page_placment_profile_name' => array(
+    'field_profile_page_placement_profile_name' => array(
       'type' => 'user',
       'context' => 'string.html_safe',
       'context_optional' => 1,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Content: Profile page placement (field_profile_page_placment:profile_name)',
+      'label' => 'Content: Profile page placement (field_profile_page_placement:profile_name)',
     ),
-    'field_profile_page_placment_position' => array(
+    'field_profile_page_placement_position' => array(
       'type' => 'user',
       'context' => 'entity:comment.author',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Content: Placements (field_profile_page_placment:position)',
+      'label' => 'Content: Placements (field_profile_page_placement:position)',
     ),
   );
   $translatables['ting_field_search_search_guide'] = array(

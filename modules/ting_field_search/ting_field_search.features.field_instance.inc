@@ -72,8 +72,8 @@ function ting_field_search_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ting_field_search_search_guide-field_profile_page_placment'
-  $field_instances['node-ting_field_search_search_guide-field_profile_page_placment'] = array(
+  // Exported field_instance: 'node-ting_field_search_search_guide-field_profile_page_placement'
+  $field_instances['node-ting_field_search_search_guide-field_profile_page_placement'] = array(
     'bundle' => 'ting_field_search_search_guide',
     'default_value' => NULL,
     'deleted' => 0,
@@ -111,7 +111,7 @@ function ting_field_search_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_profile_page_placment',
+    'field_name' => 'field_profile_page_placement',
     'label' => 'Placements',
     'required' => 0,
     'settings' => array(

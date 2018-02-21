@@ -99,8 +99,8 @@ function ting_field_search_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'arguments' => array(
-        'field_profile_page_placment_profile_name' => '%name:name',
-        'field_profile_page_placment_position' => 'sidebar',
+        'field_profile_page_placement_profile_name' => '%name:name',
+        'field_profile_page_placement_position' => 'sidebar',
       ),
     );
     $pane->cache = array();
@@ -153,8 +153,8 @@ function ting_field_search_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'arguments' => array(
-        'field_profile_page_placment_profile_name' => '%name:name',
-        'field_profile_page_placment_position' => 'bottomleft',
+        'field_profile_page_placement_profile_name' => '%name:name',
+        'field_profile_page_placement_position' => 'bottomleft',
       ),
     );
     $pane->cache = array();
@@ -180,8 +180,8 @@ function ting_field_search_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'arguments' => array(
-        'field_profile_page_placment_profile_name' => '%name:name',
-        'field_profile_page_placment_position' => 'bottomright',
+        'field_profile_page_placement_profile_name' => '%name:name',
+        'field_profile_page_placement_position' => 'bottomright',
       ),
     );
     $pane->cache = array();

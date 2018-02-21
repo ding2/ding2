@@ -39,13 +39,13 @@ function ting_field_search_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'field_profile_page_placment'
-  $field_bases['field_profile_page_placment'] = array(
+  // Exported field_base: 'field_profile_page_placement'
+  $field_bases['field_profile_page_placement'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_profile_page_placment',
+    'field_name' => 'field_profile_page_placement',
     'foreign keys' => array(),
     'indexes' => array(
       'profile_name' => array(

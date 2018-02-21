@@ -23,7 +23,7 @@ function ting_field_search_field_group_info() {
     'label' => 'Add this search guide to profile pages',
     'weight' => '12',
     'children' => array(
-      0 => 'field_profile_page_placment',
+      0 => 'field_profile_page_placement',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
