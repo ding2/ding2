@@ -127,9 +127,10 @@ function ding_ddbasic_opening_hours_table($title, $categories, $structured) {
       $cols[] = $col;
     }
 
-    if(!empty($row['nid'])) {
+    if (!empty($row['nid'])) {
       $table['#rows'][$row['nid']] = array('data' => $cols) + $row['extra'];
-    } else {
+    }
+    else {
       $table['#rows'][] = array('data' => $cols) + $row['extra'];
     }
   }
