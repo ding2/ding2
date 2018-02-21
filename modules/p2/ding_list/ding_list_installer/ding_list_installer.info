@@ -5,7 +5,6 @@ package = Ding!
 dependencies[] = ding_content
 dependencies[] = ding_message_p2_installer
 dependencies[] = eck
-dependencies[] = eck
 dependencies[] = entity
 dependencies[] = entityreference
 dependencies[] = list

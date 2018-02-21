@@ -48,7 +48,7 @@
             });
             update_availability_remove_pending();
           },
-          error: function () {
+          error: function (xhr, status, error) {
             $('div.loader').remove();
           }
         });
@@ -96,7 +96,7 @@
 
         // Get hold of the reserve button (it hidden as default, so we may need
         // to show it).
-        var reserver_btn = element.parents('.ting-object:first').find('[id^=ding-reservation-reserve-form]');
+        var reserver_btn = element.parents('.ting-object:first').find('.reserve-button');
 
         update_availability_elements(element, reserver_btn, status);
       }
@@ -116,15 +116,15 @@
         var available = status['available'];
 
         var group = null;
-        if ($('.js-online', groups_wrapper).length !== 0) {
-          group = $('.js-online', groups_wrapper);
-        }
-        else if (available) {
+        if (available) {
           group = $('.js-available', groups_wrapper);
 
           if (group.length === 0) {
             group = $('<p class="js-available">' + Drupal.t('Available') + ': </p>');
             groups_wrapper.append(group);
+          }
+          else if ($('.js-online', groups_wrapper).length !== 0) {
+            group = $('.js-online', groups_wrapper);
           }
         }
         else if (reservable) {

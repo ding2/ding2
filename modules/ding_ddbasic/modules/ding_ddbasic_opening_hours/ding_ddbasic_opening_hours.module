@@ -66,6 +66,12 @@ function ding_ddbasic_opening_hours_theme($existing, $type, $theme, $path) {
         'timespan' => array(),
       ),
     ),
+    'ding_ddbasic_opening_hours_all_tabbed' => array(
+      'file' => 'ding_ddbasic_opening_hours.theme.inc',
+      'variables' => array(
+        'today' => NULL,
+      ),
+    ),
   );
 }
 
