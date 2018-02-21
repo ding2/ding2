@@ -15,6 +15,8 @@ function ting_field_search_field_info() {
       'description' => t('Used to place search guide on a Ting field search profile page.'),
       'default_widget' => 'ting_field_search_profile_page_placement_default',
       'default_formatter' => 'hidden',
+      'property_type' => 'ting_field_search',
+      'property_callbacks' => array('ting_field_search_property_info_callback'),
     ),
   );
 }
@@ -89,4 +91,37 @@ function ting_field_search_field_widget_form(&$form, &$form_state, $field, $inst
   $element['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
 
   return $element;
+}
+
+/**
+ * Property info callback to provide metadata for the Entity API.
+ */
+function ting_field_search_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
+  $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$field['field_name']];
+
+  // As recommended in Entity API documentation.
+  // See: https://www.drupal.org/docs/7/api/entity-api/property-info-for-fields
+  $property['getter callback'] = 'entity_metadata_field_verbatim_get';
+  $property['setter callback'] = 'entity_metadata_field_verbatim_set';
+  unset($property['query callback']);
+
+  // Define the data structure of our field.
+  $property['property info']['profile_name'] = array(
+    'type' => 'text',
+    'label' => t('Profile machine-name'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+  );
+  $property['property info']['position'] = array(
+    'type' => 'text',
+    'label' => t('Position'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+  );
+  $property['property info']['weight'] = array(
+    'type' => 'integer',
+    'label' => t('Weight'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+  );
 }
