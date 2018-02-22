@@ -2,9 +2,7 @@
 
 /**
  * @file
- *
- * Contains hooks and function that modifies the Ding facetbrowser based on the
- * active profile.
+ * Modifies the Ding facetbrowser based on the active profile.
  */
 
 /**
@@ -32,11 +30,10 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
 
     // Build a base URI for all the facet terms including any existing facet
     // parameters added manually. We would like to use 'facets[]' as key for
-    // all the facets, but Drupal functions output 'facets[0], facets[1], ..'
+    // all the facets, but Drupal functions output 'facets[0], facets[1], ..'.
     global $base_url;
     $base_term_uri = $base_url . '/' . request_path();
     $facet_parameters = array();
-    $parameters = array();
     $parameters = drupal_get_query_parameters(NULL, array('q', 'page'));
     // We'll just pass the parameters array through the helper to ensure all
     // parameters are added to the query.
@@ -66,7 +63,7 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
 
       // No need to do anything if the profile facet wasn't returned.
       if ($facet && count($facet->terms)) {
-        // Get the element name - i.e. the part of the facet name after the '.'
+        // Get the element name - i.e. the part of the facet name after the '.'.
         $element_name = explode('.', $name);
         $element_name = end($element_name);
         $facet_class = ($count > $facet_count) ? 'js-hidden' : 'js-visible';

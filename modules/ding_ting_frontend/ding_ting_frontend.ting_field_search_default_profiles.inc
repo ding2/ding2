@@ -27,6 +27,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 0,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -111,6 +114,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -223,6 +229,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -307,6 +316,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -377,6 +389,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -496,6 +511,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -601,6 +619,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -678,6 +699,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -783,6 +807,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -867,6 +894,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -944,6 +974,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -978,6 +1011,9 @@ function ding_ting_frontend_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',

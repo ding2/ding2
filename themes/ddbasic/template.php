@@ -67,7 +67,6 @@ function ddbasic_preprocess_html(&$vars) {
   libraries_load('jquery.imagesloaded');
   libraries_load('html5shiv');
   libraries_load('masonry');
-
 }
 
 /**
@@ -76,7 +75,6 @@ function ddbasic_preprocess_html(&$vars) {
  * Process variables for html.tpl.php.
  */
 function ddbasic_process_html(&$vars) {
-
   // Hook into color.module.
   if (module_exists('color')) {
     _color_html_alter($vars);
