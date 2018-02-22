@@ -81,9 +81,17 @@
   width: 50%;
 }
 
+.ting-field-search-field-group-columns-2 .ting-field-search-field:nth-child(2n+1) {
+  clear: left;
+}
+
 /* 3-column layout */
 .ting-field-search-field-group-columns-3 .ting-field-search-field {
   width: 33.33333%;
+}
+
+.ting-field-search-field-group-columns-3 .ting-field-search-field:nth-child(3n+1) {
+  clear: left;
 }
 
 /* 4-column layout */
@@ -91,7 +99,15 @@
   width: 25%;
 }
 
+.ting-field-search-field-group-columns-4 .ting-field-search-field:nth-child(4n+1) {
+  clear: left;
+}
+
 /* 5-column layout */
 .ting-field-search-field-group-columns-5 .ting-field-search-field {
   width: 20%;
+}
+
+.ting-field-search-field-group-columns-5 .ting-field-search-field:nth-child(5n+1) {
+  clear: left;
 }
