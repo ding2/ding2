@@ -223,7 +223,7 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   // Ensure we have OpenSearch client.
   module_load_include('inc', 'opensearch', 'opensearch.client');
   $search_result = opensearch_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options);
-  if ($search_result === NULL) {
+  if (empty($search_result)) {
     throw new SearchProviderException("Unable to execute search, inspect logs for details");
   }
   $result = new OpenSearchTingSearchResult($search_result, $ting_query);
