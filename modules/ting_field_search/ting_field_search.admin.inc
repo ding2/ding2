@@ -29,6 +29,7 @@ function ting_field_search_field_form($form, &$form_state, $profile, $group_name
     'group_name' => $group_name,
     'placeholder' => 1,
     'options' => array(),
+    'column_count' => 1,
   );
 
   if ($field_index) {
@@ -56,6 +57,21 @@ function ting_field_search_field_form($form, &$form_state, $profile, $group_name
     '#description' => t('Select a field type.'),
     '#options' => $type_options,
     '#default_value' => $field['type'],
+  );
+  $form['column_count'] = array(
+    '#type' => 'select',
+    '#title' => t('Column count'),
+    '#description' => t('Select the number of columns for the options.'),
+    '#options' => drupal_map_assoc(range(1, 5)),
+    '#default_value' => $field['column_count'],
+    '#states' => array(
+      'visible' => array(
+        ':input[name="type"]' => array(
+          array('value' => 'checkboxes'),
+          array('value' => 'radios'),
+        ),
+      ),
+    ),
   );
   $form['group_name'] = array(
     '#type' => 'select',

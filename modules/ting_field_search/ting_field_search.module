@@ -866,9 +866,8 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
   $field_elements = array();
 
   foreach ($profile->fields as $index => $field) {
+    $field_class = 'ting-field-search-field';
     $field_element = array(
-      '#prefix' => "<div class='ting-field-search-field'>",
-      '#suffix' => '</div>',
       '#type' => $field['type'],
       '#title' => check_plain($field['title']),
       '#title_display' => $field['title_display'] ? 'before' : 'invisible',
@@ -911,7 +910,19 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
           $field_element['#default_value'] = 'all';
         }
       }
+
+      // Checkboxes and radios support multi-column layout.
+      if (in_array($field['type'], array('checkboxes', 'radios'))) {
+        $column_count = $field['column_count'];
+        if ($column_count > 1) {
+          $field_class .= " ting-field-search-field-column-count-$column_count";
+        }
+      }
     }
+
+    // Apply the wrapper that is used for field layout.
+    $field_element['#prefix'] = "<div class='$field_class'>";
+    $field_element['#suffix'] = '</div>';
 
     $field_elements[$field['group_name']][$index] = $field_element;
   }

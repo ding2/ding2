@@ -111,3 +111,38 @@
 .ting-field-search-field-group-columns-5 .ting-field-search-field:nth-child(5n+1) {
   clear: left;
 }
+
+/* Multi.column layout for checkboxes and radios. */
+.ting-field-search-field-group .ting-field-search-field .form-type-checkbox,
+.ting-field-search-field-group .ting-field-search-field .form-type-radio {
+  display: inline-block;
+  float: none;
+}
+
+.ting-field-search-field-column-count-2 .form-checkboxes,
+.ting-field-search-field-column-count-2 .form-radios {
+  -webkit-column-count: 2;
+  -moz-column-count: 2;
+  column-count: 2;
+}
+
+.ting-field-search-field-column-count-3 .form-checkboxes,
+.ting-field-search-field-column-count-3 .form-radios {
+  -webkit-column-count: 3;
+  -moz-column-count: 3;
+  column-count: 3;
+}
+
+.ting-field-search-field-column-count-4 .form-checkboxes,
+.ting-field-search-field-column-count-4 .form-radios {
+  -webkit-column-count: 4;
+  -moz-column-count: 4;
+  column-count: 4;
+}
+
+.ting-field-search-field-column-count-5 .form-checkboxes,
+.ting-field-search-field-column-count-5 .form-radios {
+  -webkit-column-count: 5;
+  -moz-column-count: 5;
+  column-count: 5;
+}
