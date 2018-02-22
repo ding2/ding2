@@ -223,7 +223,7 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   // Ensure we have OpenSearch client.
   module_load_include('inc', 'opensearch', 'opensearch.client');
   $search_result = opensearch_do_search($query, $ting_query->getPage(), $ting_query->getCount(), $options);
-  if ($search_result === NULL) {
+  if (empty($search_result)) {
     throw new SearchProviderException("Unable to execute search, inspect logs for details");
   }
   $result = new OpenSearchTingSearchResult($search_result, $ting_query);
@@ -554,25 +554,17 @@ function opensearch_search_sort_options() {
       'label' => t('Date (Descending)'),
       'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_DESCENDING),
     ],
-  ];
-
-  $matches = array();
-  $ting_search = variable_get('opensearch_url');
-  preg_match_all('~(\d\.\d\.?\d?)\/?$~', $ting_search, $matches);
-  $version = (float) $matches[1][0];
-  // Add Acquisition Date sort for opensearch v4.3 or higher.
-  if ($version >= 4.3) {
-    $options['localAcquisitionDate_ascending'] = [
+    'localAcquisitionDate_ascending' => [
       'label' => t('Acquisition Date (ascending)'),
       'label_short' => t('Acquisition Date'),
       'sort' => new TingSearchSort('localAcquisitionDate', TingSearchSort::DIRECTION_ASCENDING),
-    ];
-    $options['localAcquisitionDate_descending'] = [
+    ],
+    'localAcquisitionDate_descending' => [
       'label' => t('Acquisition Date (descending)'),
       'label_short' => t('Acquisition Date'),
       'sort' => new TingSearchSort('localAcquisitionDate', TingSearchSort::DIRECTION_DESCENDING),
-    ];
-  }
+    ],
+  ];
 
   // Do not show sort-options specific for rank_frequency if
   // custom_ranking is enabled or another rank is selected.

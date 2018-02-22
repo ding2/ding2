@@ -8,6 +8,7 @@ use Connie\Search\ConnieSearchResult;
 use Connie\Search\ConnieTingObject;
 use Connie\Search\ConnieTingObjectCollection;
 use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchRequest;
 
 /**
  * Connie search provider test case.
@@ -87,7 +88,7 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
    * @return \Ting\Search\TingSearchResultInterface
    *   The expected search result.
    */
-  public function getSearchResult($query) {
+  public function getSearchResult(TingSearchRequest $query) {
     return new ConnieSearchResult($query);
   }
 
@@ -157,20 +158,20 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
   }
 
   /**
-   * Return array of sample object ID's.
+   * Return array of sample object IDs.
    *
-   * @return array
-   *   Sample object ID's.
+   * @return string[]
+   *   Sample object IDs.
    */
   public function getLocalObjectIds() {
     return array('1234', '4321', '1111');
   }
 
   /**
-   * Return array of translated ID's.
+   * Return array of translated IDs.
    *
    * @return array
-   *   Translated object ID's.
+   *   Translated object IDs.
    */
   public function getTranslatedObjectIds() {
     return array(
@@ -184,7 +185,7 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
    * Return single sample object ID.
    *
    * @return string
-   *   Sample object ID.Ø
+   *   Sample object ID.
    */
   public function getSingleLocalObjectId() {
     return '1111';
@@ -201,7 +202,7 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
   }
 
   /**
-   * Test translation of object ID's.
+   * Test translation of object IDs.
    */
   public function testObjectIds() {
     // Test arrays.
@@ -214,7 +215,7 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
 
     $this->assertTrue(is_array($response));
 
-    // Test single value (string)
+    // Test single value (string).
     $response = ding_provider_build_entity_id($this->getSingleLocalObjectId());
 
     $this->assertIdentical(
@@ -224,4 +225,5 @@ class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProvide
 
     $this->assertTrue(is_string($response));
   }
+
 }

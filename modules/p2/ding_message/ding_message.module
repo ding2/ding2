@@ -296,14 +296,8 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
       // Taxonomy terms updates are a ting search
       // for materials with the subject = term->name.
       $query = 'dc.subject=' . check_plain($term->name);
-      // TODO BBS-SAL BBS-134 : use the Search Abstraction Layer with a filter
-      // query.
-      // Perform search.
+      // TODO Port to search abstraction layer with a filter.
       $result = opensearch_do_search($value, 1, 50);
-      // TODO BBS-SAL BBS-134: Consider refactoring this to using the pager-size
-      // instead
-      // It is currently not available in the opensearch result but we have it
-      // in the query, so execute() could move it there.
       if (is_object($result) || $result->numTotalCollections != 0) {
         // Get the first element in the search result set.
         $first_collection = current($result->collections);
@@ -353,8 +347,7 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
         // Build a search query, since the url path doesn't
         // match the query accepted by ting_do_search.
         $query = ding_message_build_query($value);
-        // Perform search.
-        // TODO BBS-SAL BBS-134: port.
+        // TODO Port to search abstraction layer.
         $result = opensearch_do_search($query, 1, 50);
         if (is_object($result) || $result->numTotalCollections > 0) {
           // Get the first element in the search result set.
@@ -735,9 +728,10 @@ function ding_message_preprocess_ting_object(&$vars) {
  *   client.
  */
 function ding_message_build_query($query) {
-  // TODO BBS-SAL BBS-134: This seems to be a search-url. Confirm, and then see
-  // if we can build a query the same way ting_search does.
-  // instead of _ting_search_quote we can probably juse a simpleSearch.
+  // TODO Port this to the search abstraction layer.
+  // This seems to be a search-url. Confirm, and then see if we can build a
+  // query the same way ting_search does. Instead of _ting_search_quote we can
+  // probably just a full text search.
   // If the _ting_search_quote invocation is removed, be aware that it might
   // be the last use of it outside the openseach module and should then be
   // moved there.

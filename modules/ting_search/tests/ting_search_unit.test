@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Test for ting search module.
+ */
+
 use Drupal\ding_test\DingUnitTestBase;
 use Prophecy\Argument;
 use Ting\Search\BooleanStatementGroup;
@@ -30,7 +35,9 @@ class DingSearchUnitTest extends DingUnitTestBase {
     );
   }
 
-  // Initial test-case for testing tests.
+  /**
+   * Initial test-case for testing tests.
+   */
   public function testOk() {
     // Set up the response we're going to return in a moment.
     $response = $this->prophet->prophesize("Psr\Http\Message\ResponseInterface");
@@ -48,8 +55,6 @@ class DingSearchUnitTest extends DingUnitTestBase {
 
   /**
    * Test that we can add filters to a search request as expected.
-   *
-   * @throws \Exception
    */
   public function testTingSearchRequestFilters() {
     // Setup a search request with a dummy strategy that will never be used as
@@ -75,7 +80,6 @@ class DingSearchUnitTest extends DingUnitTestBase {
       new TingSearchFieldFilter('field3', 'value'),
       new TingSearchFieldFilter('field3', 'value'),
     ], BooleanStatementInterface::OP_OR);
-
 
     $query->addFilters($_1_filter_list);
     $query->addFilters($_2_single_filter);

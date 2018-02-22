@@ -72,6 +72,7 @@ class OpenSearchTingObject implements TingObjectInterface {
     // available, attempt to load it by re-loading the entire object with
     // with_relations = TRUE.
     if (NULL === $this->getRelationsData()) {
+      module_load_include('inc', 'opensearch', 'opensearch.client');
       $loaded = opensearch_get_object($this->getId(), FALSE, TRUE);
       $this->openSearchObject = $loaded;
     }
