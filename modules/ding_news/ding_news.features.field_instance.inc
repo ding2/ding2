@@ -587,7 +587,7 @@ function ding_news_field_default_field_instances() {
       'active' => 0,
       'module' => 'ting_reference',
       'settings' => array(),
-      'type' => 'ting_reference_default',
+      'type' => 'ting_reference_advanced',
       'weight' => 6,
     ),
   );
