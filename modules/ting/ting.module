@@ -442,7 +442,7 @@ function ting_ding_entity_is($object, $class) {
       return (in_array(drupal_strtolower($object->ac_source), $sources) && in_array(drupal_strtolower($object->type), $types));
 
     case 'periodical':
-      // TODO BBS-SAL BBS-218: make this configurable.
+      // TODO Reduce coupling with Danish OpenSearch type names for periodicals.
       // @todo make sure that availability information isn't displayed
       // on the object.
       return in_array(drupal_strtolower($object->type), array('tidsskrift', 'periodikum', 'årbog'));
