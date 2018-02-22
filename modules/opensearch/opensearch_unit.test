@@ -45,8 +45,6 @@ class OpensearchUnitTest extends DingUnitTestBase {
 
   /**
    * Test that the StatementGroupRender can render a nested group.
-   *
-   * @throws \Exception
    */
   public function testStatementGroupRenderer() {
     // The final query-string the arrangement of groupings and fields below

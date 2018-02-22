@@ -145,8 +145,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
   $form['opensearch_autocomplete_settings']['minimumString'] = array(
     '#type' => 'textfield',
     '#title' => t('Minimum string', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#description' => t('Minimum characters the user has to type before the suggestion service is queried.', array()
-      , array('context' => 'opensearch_search_autocomplete')),
+    '#description' => t('Minimum characters the user has to type before the suggestion service is queried.', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 26,
     '#default_value' => $default_settings['minimumString'],
   );
@@ -198,8 +197,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
       ),
       array(
         t('Highlight:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Add prefix and suffix around strings that match the query.', array
-        (), array('context' => 'opensearch_search_autocomplete')),
+        t('Add prefix and suffix around strings that match the query.', array(), array('context' => 'opensearch_search_autocomplete')),
       ),
       array(
         t('Highlight prefix & suffix:', array(), array('context' => 'opensearch_search_autocomplete')),

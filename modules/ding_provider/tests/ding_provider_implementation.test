@@ -1,5 +1,6 @@
 <?php
 
+use Ting\Search\TingSearchRequest;
 use Ting\Search\TingSearchResultInterface;
 use Ting\Search\TingSearchSort;
 
@@ -383,12 +384,13 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    * @return \Ting\Search\TingSearchResultInterface
    *   The expected search result.
    */
-  public abstract function getSearchResult($query);
+  public abstract function getSearchResult(TingSearchRequest $query);
 
   /**
    * Result of getAllRelations down to supported relations.
    *
-   * @return \TingRelation[].
+   * @return \TingRelation[]
+   *   The relations.
    */
   public abstract function getFilteredRelations();
 
@@ -425,17 +427,18 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
   public abstract function getExpectedCommonFields();
 
   /**
-   * Returns a list of translated object ID's.
+   * Returns a list of translated object IDs.
    *
    * @return string[]
-   *   List of translated object ids.
+   *   List of translated object IDs.
    */
   public abstract function getTranslatedObjectIds();
 
   /**
-   * Returns a list of material ID's.
+   * Returns a list of material IDs.
    *
-   * @return array
+   * @return string[]
+   *   Sample object IDs.
    */
   public abstract function getLocalObjectIds();
 
@@ -443,6 +446,7 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    * Returns a single translated object ID.
    *
    * @return string
+   *   Translated object ID.
    */
   public abstract function getTranslatedObjectId();
 
@@ -450,6 +454,7 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    * Returns a single material ID.
    *
    * @return string
+   *   Sample object ID.
    */
   public abstract function getSingleLocalObjectId();
 
@@ -561,9 +566,7 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $test_query_2 = 'test=query';
     $test_query_3 = '123';
 
-    /**
-     * @var \Ting\Search\TingSearchRequest $query
-     */
+    /* @var \Ting\Search\TingSearchRequest $query */
     $query = ding_provider_invoke('search', 'prepare_reference_query', $test_query_1);
     // Plain search should be a fuzzy text-search.
     $this->assertTrue($query->isFuzzy());

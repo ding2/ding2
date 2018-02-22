@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Install and update routines for the OpenSearch module.
+ */
+
+/**
  * Implements hook_install().
  */
 function opensearch_install() {
