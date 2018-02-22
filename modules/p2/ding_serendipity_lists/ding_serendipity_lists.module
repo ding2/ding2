@@ -312,7 +312,7 @@ function ding_serendipity_lists_loan_adhl_serendipity_add($context) {
           if (is_array($isbn)) {
             $isbn = current($isbn);
           }
-          // TODO BBS-SAL BBS-213: Implement search provider call here.
+          // TODO Replace direct call to ADHL with abstraction layer.
           $recommendations = opensearch_get_object_recommendations($isbn, 4);
           $title = truncate_utf8($obj->getTitle(), 60, TRUE, TRUE);
 
