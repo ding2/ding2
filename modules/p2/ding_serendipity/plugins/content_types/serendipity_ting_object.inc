@@ -52,7 +52,7 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
   }
 
   if (!empty($context[3]->data)) {
-    $context_data['ting_object'] = $context[2]->data;
+    $context_data['ting_object'] = $context[3]->data;
     $context_data['ting_object_id'] = $panel_args[0];
   }
 

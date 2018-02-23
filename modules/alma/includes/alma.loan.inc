@@ -4,6 +4,9 @@
  * Implements provider hooks that is associated with loans in alma.
  */
 
+use Ting\TingObject;
+use Ting\TingObjectInterface;
+
 /**
  * Implements hook_loan_list().
  *
@@ -97,31 +100,38 @@ function alma_loan_renew($account, $ids) {
  * Should be used in the case object in not in Ting anymore or the reservation
  * is an remote reservation.
  *
- * @param object $ting_entity
+ * @param TingEntity $ting_entity
  *   Provider reservation object.
+ * @param \Ting\TingObject $ting_object
+ *   Mutable ting object that represents the raw search result from the search
+ *   provider.
  *
- * @return object
+ * @return TingEntity
  *   Ting entity object, filled with data from provider service.
+ *
+ * @throws \Exception
+ *   Exception thrown if an error occurs while interacting with Alma.
  */
-function alma_loan_populate_pseudo_entity($ting_entity) {
+function alma_loan_populate_pseudo_entity(TingEntity $ting_entity, TingObject $ting_object) {
   $alma_object = alma_client_invoke('catalogue_record_detail', $ting_entity->localId);
 
-  if ($alma_object['request_status'] == 'ok' && isset($alma_object['records'][$ting_entity->localId])) {
+  if ($alma_object['request_status'] === 'ok' && isset($alma_object['records'][$ting_entity->localId])) {
     $source = $alma_object['records'][$ting_entity->localId];
 
-    $ting_entity->reply->record['dc:title']['dkdcplus:full'] = array($source['titles'][0]);
-    $ting_entity->reply->record['dc:type']['dkdcplus:BibDK-Type'] = array($source['media_class']);
-    $ting_entity->reply->record['dc:date'][''] = array($source['publication_year']);
+    $ting_object->setTitle($source['titles'][0]);
+    $ting_object->setType($source['media_class']);
+    $ting_object->setYear($source['publication_year']);
 
     // If it a ill Alma record authors are not always available.
     if (isset($source['authors'])) {
-      $ting_entity->reply->record['dc:creator']['dkdcplus:aut'] = $source['authors'];
+      $ting_object->setCreatorsFormatDefault($source['authors']);
     }
 
     // If it is an inter library loan (ill) Alma record isbn are not always
     // available.
     if (isset($source['isbns'][0])) {
-      $ting_entity->reply->record['dc:identifier']['dkdcplus:ISBN'][0] = str_replace(array('-', ' ', 'ISBN'), '', $source['isbns'][0]);
+      $isbn = str_replace(array('-', ' ', 'ISBN'), '', $source['isbns'][0]);
+      $ting_object->setIsbn($isbn);
     }
 
     $ting_entity->ting_title = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));

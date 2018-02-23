@@ -1,0 +1,7 @@
+name = Connie Search
+description = An example search provider module for reference and testing. Not for production use.
+core = 7.x
+package = Providers
+dependencies[] = ding_provider
+dependencies[] = xautoload
+files[] = connie_search.test

@@ -5,6 +5,9 @@
  * Entity classes for ting objects and collections.
  */
 
+use Ting\TingObjectInterface;
+use Ting\TingObjectCollectionInterface;
+
 /**
  * Object representing a relation between TingEntites.
  */
@@ -22,23 +25,51 @@ class TingRelation extends DingEntityBase {
     }
   }
 
+  /**
+   * Ting Entity if the relation is a relation to a material.
+   *
+   * @return \TingEntity|NULL
+   *   The entity.
+   */
   public function getObject() {
-    return $this->properties['object'];
+    return $this->properties['object'] !== DingEntityBase::NULL ? $this->properties['object'] : NULL;
   }
 
+  /**
+   * Returns the URI for the relation.
+   *
+   * @return string|NULL
+   *   The uri.
+   */
   public function getURI() {
-    return $this->properties['uri'];
+    return $this->properties['uri'] !== DingEntityBase::NULL ? $this->properties['uri'] : NULL;
   }
 
+  /**
+   * Returns the type of related relation.
+   *
+   * @return string|NULL
+   *   The type.
+   */
   public function getType() {
-    return $this->properties['type'];
+    return $this->properties['type'] !== DingEntityBase::NULL ? $this->properties['type'] : NULL;
   }
+
 }
 
 /**
  * Ting object entity.
  */
 class TingEntity extends DingEntity {
+
+  // The following properties are never accessed as actual properties. Instead
+  // DingEntityBase (base parent) reads in their default values and removes
+  // them. They are from then on accessed via a dynamic getter in
+  // DingEntityBase.
+  // A future refactor of this class would be to do away with this pattern all
+  // together and go back to ordinary getters. This would make the
+  // DingEntityBase subclasses much more transparent and make it clear where
+  // they are called from.
   public $type = DingEntityBase::NULL;
   public $serieNumber = DingEntityBase::NULL;
   public $serieTitle = DingEntityBase::NULL;
@@ -60,195 +91,182 @@ class TingEntity extends DingEntity {
   public $classification = DingEntityBase::NULL;
   public $isbn = DingEntityBase::NULL;
 
-  public function getExtent() {
-    return !empty($this->reply->record['dcterms:extent'][''][0]) ? $this->reply->record['dcterms:extent'][''][0] : FALSE;
-  }
+  /**
+   * The embedded search-provider specific object.
+   *
+   * @var Ting\TingObjectInterface
+   */
+  public $reply;
 
-  function getClassification() {
-    $dk5 = '';
-    if (!empty($this->reply->record['dc:subject']['dkdcplus:DK5'][0])) {
-      $dk5 = $this->reply->record['dc:subject']['dkdcplus:DK5'][0];
-
-      if ($dk5 == 'sk') {
-        return '';
-      }
-
-      return $dk5;
-    }
-
-    return FALSE;
-  }
-
-  function getClassificationText() {
-    $dk5_text = !empty($this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0]) ? $this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0] : '';
-
-    return $dk5_text;
-  }
-
-  function getIsPartOf() {
-    $this->isPartOf = array();
-    if( !empty($this->reply->record['dcterms:isPartOf']) ) {
-      foreach($this->reply->record['dcterms:isPartOf'] as $type => $dcterms_ispartof ) {
-        if( $type != 'oss:sort' ) {
-          $this->isPartOf = array_merge($this->isPartOf, $dcterms_ispartof);
-        }
-      }
-    }
-    return $this->isPartOf;
-  }
-
-  // pjo 26-09-11 ; getmethod contributor
-  function getContributors() {
-    $this->contributors = array();
-    if( !empty($this->reply->record['dc:contributor']) ) {
-      foreach($this->reply->record['dc:contributor'] as $type => $dc_contributor ) {
-        if( $type != 'oss:sort' ) {
-          $this->contributors = array_merge($this->contributors, $dc_contributor);
-        }
-      }
-    }
-    return $this->contributors;
-  }
-
-
-  function getLocalId() {
-    return !empty($this->reply->localId) ? $this->reply->localId : FALSE;
-  }
-
-  function getOwnerId() {
-    return !empty($this->reply->ownerId) ? $this->reply->ownerId : FALSE;
-  }
-
-  function getType() {
-    return !empty($this->reply->record['dc:type']['dkdcplus:BibDK-Type'][0]) ? $this->reply->record['dc:type']['dkdcplus:BibDK-Type'][0] : FALSE;
-  }
-
-  function getTitle() {
-    $title = FALSE;
-    if (!empty($this->reply->record['dc:title'])) {
-      // Use first title with dkdcplus:full if available.
-      if (isset($this->reply->record['dc:title']['dkdcplus:full'])) {
-        $title = $this->reply->record['dc:title']['dkdcplus:full'][0];
-      }
-      else {
-        $title = $this->reply->record['dc:title'][''][0];
-      }
-    }
-    return $title;
-  }
-
-
-  private function splitSerie() {
-    $series = !empty($this->reply->record['dc:title']['dkdcplus:series']) ? $this->reply->record['dc:title']['dkdcplus:series'] : array();
-    $serie_titles = array();
-    foreach ($series as $serie) {
-      $serie_titles[] = explode(';', $serie);
-    }
-    return $serie_titles;
-  }
-
-  function getSerieTitle() {
-    return $this->splitSerie();
-  }
-
- function getSerieDescription() {
-    $serie = !empty($this->reply->record['dc:description']['dkdcplus:series'][0]) ? $this->reply->record['dc:description']['dkdcplus:series'][0] : '';
-    return $this->process_series_description($serie);
+  /**
+   * The Ting object that the entity uses to access data from a search provider.
+   *
+   * @return \Ting\TingObjectInterface
+   *   The object.
+   */
+  public function getTingObject() {
+    return $this->reply;
   }
 
   /**
-   * Process series information.
+   * Set the Ting object the entity should use to access search provider data.
    *
-   * This could be handled more elegantly if we had better structured data.
-   * For now we have to work with what we got to convert titles to links
-   * Series information appear in the following formats:
-   * - Samhørende: [title 1] ; [title 2] ; [title 3]
-   * - [volumne number]. del af: [title]
+   * @param \Ting\TingObjectInterface $reply
+   *   The object.
    */
-  private function process_series_description($series) {
-    $result = '';
-    $parts = explode(':', $series);
-
-    if (is_array($parts) && count($parts) >= 2) {
-      $prefix = $parts[0] . ': ';
-
-      if (stripos($prefix, 'del af:') !== FALSE) {
-        $title = trim($parts[1]);
-        $path = str_replace('@serietitle', drupal_strtolower($title), variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"'));
-        $link = l($title, 'search/ting/' . $path, array('attributes' => array('class' => array('series'))));
-        $result = $prefix . $link;
-      } else if (stripos($prefix, 'Samhørende:') !== FALSE) {
-        $titles = $parts[1];
-        // Multiple titles are separated by ' ; '. Explode to iterate over them
-        $titles = explode(' ; ', $titles);
-        foreach ($titles as &$title) {
-          $title = trim($title);
-          // Some title elements are actually volumne numbers. Do not convert these to links
-          if (!preg_match('/(nr.)? \d+/i', $title)) {
-            $title = l($title, 'search/ting/' . '"' . $title . '"');
-          }
-        }
-        // Reassemple titles
-        $titles = implode(', ', $titles);
-        $result = $prefix . ' ' . $titles;
-      }
-      else {
-        return $series;
-      }
-    }
-
-    return $result;
+  public function setTingObject(TingObjectInterface $reply) {
+    $this->reply = $reply;
   }
 
-  function getAbstract() {
-    return !empty($this->reply->record['dcterms:abstract'][''][0]) ? $this->reply->record['dcterms:abstract'][''][0] : FALSE;
+  /**
+   * The size or duration of the resource.
+   *
+   * Eg. "245 sider".
+   * Eg. "12 t., 34 min."
+   *
+   * @return string
+   *   The extent.
+   */
+  public function getExtent() {
+    return empty($this->reply) ? FALSE : $this->reply->getExtent();
   }
 
-  function getRecord() {
-    return !empty($this->reply->record) ? $this->reply->record : false;
+  /**
+   * Returns the material classification.
+   *
+   * @return string|FALSE
+   *   The classification.
+   */
+  public function getClassification() {
+    return empty($this->reply) ? FALSE : $this->reply->getClassification();
   }
 
-  function getRelations() {
-    // If relations are not set; do another request to get relations
-    if (!isset($this->reply->relationsData)) {
-      $tingClientObject = ting_get_object($this->ding_entity_id, FALSE, TRUE);
-      if (isset($tingClientObject->relationsData)) {
-        $this->reply->relationsData = $tingClientObject->relationsData;
-      }
+  /**
+   * Get relations for the material.
+   *
+   * Eg. "Berlingske tidende, 2005-08-20" (for a newspaper article).
+   *
+   * @return string[]
+   *   Relations.
+   */
+  public function getIsPartOf() {
+    if (empty($this->reply)) {
+      return [];
     }
 
-    $this->relations = array();
-    $relation_objects = array();
-    if (isset($this->reply->relationsData)) {
-      $entity_ids = array();
-      foreach ($this->reply->relationsData as $record) {
-        if (isset($record->relationUri) && isset($record->relationObject)) {
-          $entity_ids[] = $record->relationUri;
-        }
-      }
-      if ($entity_ids) {
-        $objects = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
-        foreach ($objects as $object) {
-          $relation_objects[$object->id] = $object;
-        }
-      }
-      foreach ($this->reply->relationsData as $record) {
-        $this->relations[] = new TingRelation($record->relationType, $record->relationUri, isset($relation_objects[$record->relationUri]) ? $relation_objects[$record->relationUri] : NULL);
-      }
-    }
-    return $this->relations;
+    return $this->reply->isPartOf();
   }
 
-  function getCreators() {
-    $this->creators = array();
-    if (!empty($this->reply->record['dc:creator'])) {
-      foreach ($this->reply->record['dc:creator'] as $type => $dc_creator) {
-        if ($type != 'oss:sort') {
-          $this->creators = array_merge($this->creators, $dc_creator);
-        }
-      }
+  /**
+   * List of contributors to the material.
+   *
+   * Eg, name of the translator of the material.
+   *
+   * @return string[]
+   *   List of contributors, empty if none could be found.
+   */
+  public function getContributors() {
+    if (empty($this->reply)) {
+      return [];
     }
-    return $this->creators;
+    return $this->reply->getContributors();
+  }
+
+  /**
+   * Get provider-specific local ID.
+   *
+   * @return string
+   *   The local ID.
+   */
+  public function getLocalId() {
+    return !empty($this->reply) ? $this->reply->getSourceId() : FALSE;
+  }
+
+  /**
+   * Gets the owner of the object, eg. the agency.
+   *
+   * @return string
+   *   The ID.
+   */
+  public function getOwnerId() {
+    return empty($this->reply) ? FALSE : $this->reply->getOwnerId();
+  }
+
+  /**
+   * Gets the material type.
+   *
+   * Eg. "Bog"
+   * Eg. "Lydbog (cd)"
+   *
+   * @return string
+   *   The type.
+   */
+  public function getType() {
+    return empty($this->reply) ? FALSE : $this->reply->getType();
+  }
+
+  /**
+   * Retrieves the title of a material.
+   *
+   * If a longer version of the title exists it will be preferred.
+   *
+   * @return FALSE|string
+   *   The title of the material, or FALSE if it could not be determined.
+   */
+  public function getTitle() {
+    return empty($this->reply) ? FALSE : $this->reply->getTitle();
+  }
+
+  /**
+   * List of titles of the series the material is a part of.
+   *
+   * @return string[]
+   *   List of titles, empty if none could be found.
+   */
+  public function getSeriesTitles() {
+    return empty($this->reply) ? [] : $this->reply->getSeriesTitles();
+  }
+
+  /**
+   * Lists the description of the series the material is a part of.
+   *
+   * @return mixed
+   *   The materials.
+   */
+  public function getSerieDescription() {
+    return empty($this->reply) ? FALSE : $this->reply->getSeriesDescription();
+  }
+
+  /**
+   * Returns a short abstract for the material.
+   *
+   * @return string|FALSE
+   *   The abstract.
+   */
+  public function getAbstract() {
+    return empty($this->reply) ? FALSE : $this->reply->getAbstract();
+  }
+
+  /**
+   * Retrives materials related to the material represented by this entity.
+   *
+   * @return TingRelation[]
+   *   Array of TingRelation instances.
+   */
+  public function getRelations() {
+    return empty($this->reply) ? [] : $this->reply->getRelations();
+  }
+
+  /**
+   * Returns the creators of the material.
+   *
+   * For a book the creator would typically be the author.
+   *
+   * @return string[].
+   *   The list of formatted author-names, empty if none was found.
+   */
+  public function getCreators() {
+    return empty($this->reply) ? [] : $this->reply->getCreators();
   }
 
   /**
@@ -258,156 +276,190 @@ class TingEntity extends DingEntity {
    *   List of item creators with inverted fields.
    */
   public function getInvertedCreators() {
-    $this->creator = array();
-    if (!empty($this->reply->record['dc:creator']['oss:sort'])) {
-      $this->creator = $this->reply->record['dc:creator']['oss:sort'];
-    }
-
-    return $this->creator;
+    return empty($this->reply) ? [] : $this->reply->getCreators(TingObjectInterface::NAME_FORMAT_SURNAME_FIRST);
   }
 
-  function getSubjects() {
-    $this->subjects = array();
-    if (!empty($this->reply->record['dc:subject'])) {
-      foreach ($this->reply->record['dc:subject'] as $type => $dc_subject) {
-        if (!in_array($type, array('dkdcplus:genre', 'dkdcplus:DK5', 'dkdcplus:DK5-Text', 'dkdcplus:DBCO', 'dkdcplus:DBCN'))) {
-          $this->subjects = array_merge($this->subjects, $dc_subject);
-        }
-      }
-    }
-    return $this->subjects;
+  /**
+   * Returns list of subjects/keywords for the material.
+   *
+   * @return string[]
+   *   List of subjects, empty if none could be found.
+   */
+  public function getSubjects() {
+    return empty($this->reply) ? [] : $this->reply->getSubjects();
   }
 
-  function getLanguage() {
-    return !empty($this->reply->record['dc:language'][''][0]) ? $this->reply->record['dc:language'][''][0] : FALSE;
+  /**
+   * The language of the material.
+   *
+   * @return string|FALSE
+   *   The language, FALSE if it could not be found.
+   */
+  public function getLanguage() {
+    return empty($this->reply) ? FALSE : $this->reply->getLanguage();
   }
 
-  function getDate() {
-    return !empty($this->reply->record['dc:date']) ? $this->reply->record['dc:date'][''][0] : FALSE;
+  /**
+   * Get the year the material was produced.
+   *
+   * Format YYYY.
+   *
+   * @return string
+   *   The year
+   */
+  public function getDate() {
+    return empty($this->reply) ? FALSE : $this->reply->getYear();
   }
 
   /**
    * Try to find the online url.
    *
-   * @param bool $get_relations
-   *   If TRUE relations will be fetched from the data well else "dc:identifier"
-   *   will be checked.
-   *
    * @return mixed
    *   URL to the online resource or the empty string if not found.
    */
-  function getOnline_url($get_relations = TRUE) {
-    $url = '';
-    if ($get_relations) {
-      // Try to find the online url from relation data, which requires us to get
-      // relations. First check if relations are set; if not do another request
-      // to get relations
-      if (!isset($this->reply->relationsData)) {
-        $tingClientObject = ting_get_object($this->ding_entity_id, FALSE, TRUE);
-        if (isset($tingClientObject->relationsData)) {
-          $this->reply->relationsData = $tingClientObject->relationsData;
-        }
-      }
-      if (isset($this->reply->relationsData)) {
-        foreach ($this->reply->relationsData as $data) {
-          if ($data->relationType == 'dbcaddi:hasOnlineAccess') {
-            $url = preg_replace('/^\[URL\]/', '', $data->relationUri);
-            // Check for correct url or leading token - some uri is only an id.
-            if (stripos($url, 'http') === 0 || strpos($url, '[') === 0) {
-              // Give other modules a chance to rewrite the url.
-              drupal_alter('ting_online_url', $url, $this);
-            }
-          }
-        }
-      }
-    }
-
-    // No hasOnlineAccess found so fallback to dc:identifier.
-    if (empty($url) && isset($this->reply->record['dc:identifier']['dcterms:URI'])) {
-      $url = $this->reply->record['dc:identifier']['dcterms:URI'][0];
-      // Give ting_proxy a change to rewrite the url.
-      drupal_alter('ting_online_url', $url, $this);
-    }
-
-    return $url;
-  }
-
-  function getAc_source() {
-    return !empty($this->reply->record['ac:source'][''][0]) ? $this->reply->record['ac:source'][''][0] : FALSE;
-  }
-
-  function getDescription() {
-    return !empty($this->reply->record['dc:description'][''][0]) ? $this->reply->record['dc:description'][''][0] : FALSE;
+  public function getOnline_url() {
+    return empty($this->reply) ? FALSE : $this->reply->getOnlineUrl();
   }
 
   /**
-   * Get ISBN numbers of the object.
+   * Whether the material is a purely online material.
    *
-   * @return array
+   * @return bool
+   *   TRUE if the material can only be found online.
    */
-  function getIsbn() {
-    $isbn = array();
-
-    // Nothing to do.
-    if (empty($this->reply->record['dc:identifier']['dkdcplus:ISBN'])) {
-      return $isbn;
-    }
-
-    // Get ISBN numbers.
-    $isbn = $this->reply->record['dc:identifier']['dkdcplus:ISBN'];
-    foreach ($isbn as $k => $number) {
-      $isbn[$k] = str_replace(array(' ', '-'), '', $number);
-    }
-    rsort($isbn);
-    return $isbn;
+  public function isOnline() {
+    return empty($this->reply) ? FALSE : $this->reply->isOnline();
   }
 
+  /**
+   * Returns the original source of the material.
+   *
+   * Eg. Bibliotekskatalog, Anmeldelser.
+   *
+   * @return string|FALSE
+   *   The source of the material.
+   */
+  public function getAc_source() {
+    return empty($this->reply) ? FALSE : $this->reply->getMaterialSource();
+  }
+
+  /**
+   * Get an description of the material.
+   *
+   * @return string
+   *   The description.
+   */
+  public function getDescription() {
+    return empty($this->reply) ? FALSE : $this->reply->getDescription();
+  }
+
+  /**
+   * The ISBN of the material.
+   *
+   * Eg. "9780615384238"
+   *
+   * @return string[]
+   *   Zero or more ISBNs.
+   */
+  public function getIsbn() {
+    return empty($this->reply) ? FALSE : $this->reply->getIsbn();
+  }
 }
 
 /**
  * Ting collection entity.
  */
 class TingCollection extends DingEntityCollection {
+  // Default properties we want handled via magic getters in DingEntityBase.
   public $title = DingEntityBase::NULL;
   public $types = DingEntityBase::NULL;
   public $types_count = DingEntityBase::NULL;
   public $primary_object = DingEntityBase::NULL;
 
-  function __construct($id) {
+  /**
+   * The embedded search-provider specific object.
+   *
+   * @var Ting\TingObjectCollectionInterface
+   */
+  protected $tingObjectCollection;
+
+  /**
+   * Set the collection from the Ting search provider.
+   *
+   * @param \Ting\TingObjectCollectionInterface $tingObjectCollection
+   *   The collection.
+   */
+  public function setTingObjectCollection(TingObjectCollectionInterface $tingObjectCollection) {
+    $this->tingObjectCollection = $tingObjectCollection;
+  }
+
+  /**
+   * Get the collection from the Ting search provider.
+   *
+   * @return \Ting\TingObjectCollectionInterface
+   *   The collection.
+   */
+  public function getTingObjectCollection() {
+    return $this->tingObjectCollection;
+  }
+
+  /**
+   * TingCollection constructor.
+   *
+   * @param string $id
+   *   Entity Id.
+   * @param \Ting\TingObjectCollectionInterface $object_collection
+   *   Search provider collection.
+   */
+  public function __construct($id, \Ting\TingObjectCollectionInterface $object_collection) {
     $this->ding_entity_id = $id;
+    $this->tingObjectCollection = $object_collection;
+
     parent::__construct();
   }
 
-  function getTitle() {
-    foreach ($this->reply->objects as &$object) {
+  /**
+   * The title of the collection.
+   *
+   * @return string|FALSE
+   *   The title or FALSE if it could not be determined.
+   */
+  public function getTitle() {
+    foreach ($this->tingObjectCollection->getObjects() as $object) {
       // Find the title of the object that was used to fetch this collection. We
       // don't look at dkdcplus:full as it might be too specific ("1Q84. Book 1"
       // for instance).
-      if ($object->id == $this->ding_entity_id && !empty($object->record['dc:title'])) {
-        return $object->record['dc:title'][''][0];
+      if ($object->getId() === $this->getId() && !empty($object->getShortTitle())) {
+        return $object->getShortTitle();
       }
     }
 
     // If we couldn't find the object, use the title of the first object.
-    $title = FALSE;
-    if (isset($this->reply->objects[0]->record['dc:title'])) {
-      $title = $this->reply->objects[0]->record['dc:title'][''][0];
-    }
-
-    return $title;
+    $primary_object = $this->tingObjectCollection->getPrimaryObject();
+    return $primary_object === NULL ? FALSE : $primary_object->getShortTitle();
   }
 
-  function getEntities() {
+  /**
+   * Get list of entities in this collection.
+   *
+   * @return \Ting\TingObject[]
+   *   List of TingObject instances.
+   */
+  public function getEntities() {
+    // Override magic getter-property from DingEntityBase by setting a property.
+    // This way this getter will only be invoked once as long as the caller
+    // uses property access.
     $this->entities = array();
-    if (isset($this->reply->objects)) {
+    $objects = $this->tingObjectCollection->getObjects();
+    if (!empty($objects)) {
       $entity_ids = array();
-      foreach ($this->reply->objects as $record) {
+      foreach ($objects as $record) {
         // Pull the entity with the same id at the top.
-        if ($record->id == $this->id) {
-          array_unshift($entity_ids, $record->id);
+        if ($record->getId() == $this->getId()) {
+          array_unshift($entity_ids, $record->getId());
         }
         else {
-          $entity_ids[] = $record->id;
+          $entity_ids[] = $record->getId();
         }
       }
       $entities = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
@@ -421,7 +473,15 @@ class TingCollection extends DingEntityCollection {
     return $this->entities;
   }
 
-  function getTypes() {
+  /**
+   * List of material types.
+   *
+   * Eg. "Bog".
+   *
+   * @return string[]
+   *   The list.
+   */
+  public function getTypes() {
     $types = array();
     foreach ($this->entities as $object) {
       $types[] = $object->type;
@@ -435,22 +495,34 @@ class TingCollection extends DingEntityCollection {
     return $this->types = array_unique($types);
   }
 
-  function getTypes_count() {
+  /**
+   * Gets the number of different types of materials in the collection.
+   *
+   * @return array
+   *   Count of the various types, keyed by type name.
+   */
+  public function getTypes_count() {
     $types = array();
     foreach ($this->entities as $object) {
-      if ( !isset($types[$object->type] ) ) {
+      if (!isset($types[$object->type])) {
         $types[$object->type] = 1;
-      } else {
+      }
+      else {
         $types[$object->type]++;
       }
     }
     return $this->types_count = $types;
   }
 
-  function getPrimary_object() {
+  /**
+   * Get the primary Object in this collection.
+   *
+   * @return \TingEntity|NULL
+   *   The object.
+   */
+  public function getPrimary_object() {
     if ($entities = $this->entities) {
       return reset($entities);
     }
   }
 }
-

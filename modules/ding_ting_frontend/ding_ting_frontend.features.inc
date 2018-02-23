@@ -20,7 +20,4 @@ function ding_ting_frontend_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
-  if ($module == "ting_field_search" && $api == "ting_field_search_default_profiles") {
-    return array("version" => "1");
-  }
 }
