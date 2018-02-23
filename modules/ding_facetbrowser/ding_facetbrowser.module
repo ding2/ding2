@@ -1,4 +1,11 @@
 <?php
+/**
+ * @file
+ * The ding_facetbrowser module.
+ */
+
+use Ting\Search\TingSearchFacet;
+use Ting\Search\TingSearchFacetTerm;
 
 /**
  * Implements hook_block_info().
@@ -112,7 +119,7 @@ function ding_facetbrowser_libraries_info() {
  * @param array $facets
  * @return array $form
  */
-function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = FALSE) {
+function ding_facetbrowser_form($form, &$form_state, $facets = [], $search = FALSE) {
   global $base_root;
 
   $default_values = array();
@@ -129,45 +136,46 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
   $facet_show_count = variable_get('ding_facetbrowser_showcount', count($facets));
   foreach (variable_get('ding_facetbrowser_facets', array()) as $configured_facet) {
 
-    if (isset($facets[$configured_facet['name']])) {
+    if (!empty($facets[$configured_facet['name']])) {
+      /** @var TingSearchFacet $facet */
       $facet = $facets[$configured_facet['name']];
 
       // Decide if the facet is to have the hidden class or not.
       $facet_class = ($i >= $facet_show_count) ? 'js-hidden' : 'js-visible';
 
-      if (count($facet->terms) > 0) {
-        $form[$facet->name] = array(
+      if (count($facet->getTerms()) > 0) {
+        $form[$facet->getName()] = array(
           '#type' => 'fieldset',
           '#title' => check_plain($configured_facet['title']),
           '#attributes'  => array(
-            'id' => str_replace('.', '-', $facet->name),
+            'id' => str_replace('.', '-', $facet->getName()),
             'data' => array(
-              $facet->name,
+              $facet->getName(),
             ),
-            'count' => count($facet->terms),
+            'count' => count($facet->getTerms()),
             'class' => array(
               $facet_class,
             ),
           ),
         );
 
+        // Sort the list of terms.
+        $terms = $facet->getTerms();
         if (!empty($configured_facet['sorting'])) {
-          ding_facetbrowser_sort_terms($facet->terms, $configured_facet['sorting']);
+          ding_facetbrowser_sort_terms($terms, $configured_facet['sorting']);
         }
 
-        foreach ($facet->terms as $term_name => $term_count) {
-          $facet_name = explode('.', $facet->name);
-          $element_name = end($facet_name);
-          $facets_string = $facet->name . ':' . $term_name;
+        foreach ($terms as $term_name => $term) {
+          $facets_string = $facet->getName() . ':' . $term_name;
           $term_name_title = $term_name;
-          ding_facetbrowser_format_term_name($term_name, $term_count);
+          ding_facetbrowser_format_term_name($term_name, $term->getCount());
 
-          if (_ding_facetbrowser_is_facet_set($facet->name, $term_name) === TRUE) {
+          if (_ding_facetbrowser_is_facet_set($facet->getName(), $term_name) === TRUE) {
             $default_values[] = $term_name;
             $facets_string = '-' . $facets_string;
 
             $uri = $base_root . _ding_facetbrowser_parse_request_uri();
-            $selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>', $uri, array(
+            $selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term->getCount() . ')</span>', $uri, array(
               'html' => TRUE,
               'query' => array(
                 'facets' => array('' => $facets_string),
@@ -179,7 +187,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           }
           else {
             $uri = $base_root . _ding_facetbrowser_parse_request_uri();
-            $not_selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>', $uri, array(
+            $not_selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term->getCount() . ')</span>', $uri, array(
               'html' => TRUE,
               'query' => array(
                 'facets' => array('' => $facets_string),
@@ -190,7 +198,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
             ));
           }
 
-          $form[$facet->name][$element_name] = array(
+          $form[$facet->getName()][$facet->getName()] = array(
             '#type' => 'checkboxes',
             '#options' => $selected + $not_selected,
             '#default_value' => $default_values,

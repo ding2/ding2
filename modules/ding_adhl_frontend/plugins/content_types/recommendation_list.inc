@@ -52,12 +52,17 @@ function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $c
   foreach ($contexts as $context) {
     $ting_object_id = $context->get_original_argument()->getId();
     switch ($context->type) {
+      // TODO: The following invocations of opensearch_get_object can be ported
+      // to the search abtraction layer. All
+      // ding_adhl_frontend_get_recommended_objects needs is a way to extract
+      // an ISBN, and that data is available via a search-provider independent
+      // TingObject->getIsbn().
       case 'ting_object':
-        $object = ting_get_object($ting_object_id);
+        $object = opensearch_get_object($ting_object_id);
         break 2;
 
       case 'ting_collection':
-        $object = ting_get_object($ting_object_id, TRUE);
+        $object = opensearch_get_object($ting_object_id, TRUE);
         break 2;
     }
   }

@@ -442,8 +442,8 @@ projects[wysiwyg][download][revision] = "7981731f4f3db2f932419499d2ec13a073e9b88
 
 projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
-projects[ask_vopros][download][type] = "git"
-projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
+projects[ask_vopros][download][type] = "get"
+projects[ask_vopros][download][url] = "https://github.com/vopros-dk/ask_vopros.git"
 projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
@@ -453,7 +453,7 @@ projects[xautoload][version] = "5.7"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][branch] = "master"
+libraries[bpi-client][download][tag] = "7.x-4.3.0-rc1"
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
@@ -507,8 +507,8 @@ libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][branch] = "master"
-libraries[ting-client][destination] = "modules/ting/lib"
+libraries[ting-client][download][tag] = "7.x-4.3.0-rc1"
+libraries[ting-client][destination] = "modules/opensearch/lib"
 
 libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"
