@@ -32,7 +32,6 @@ ul {
     > li {
       position: relative;
       float: left;
-      margin-right: 40px;
       &:last-child {
         margin-right: 0;
       }
@@ -76,8 +75,6 @@ ul {
       font-family: $font-family-bold;
     }
     > li {
-      padding: 30px 0;
-
       // Tablet
       @include media($tablet) {
         width: 100%;
@@ -90,6 +87,9 @@ ul {
       }
       a {
         color: $color-text-on-primary;
+        padding: 30px 40px 30px 0;
+        display: block;
+
         &::after {
           background-color: $color-text-on-primary;
 
