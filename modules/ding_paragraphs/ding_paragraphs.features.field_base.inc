@@ -116,7 +116,7 @@ function ding_paragraphs_field_default_field_bases() {
     ),
     'storage' => array(
       'active' => 1,
-      'module' => 'ting_reference',
+      'module' => 'virtual_field',
       'settings' => array(),
       'type' => 'ting_reference',
     ),
