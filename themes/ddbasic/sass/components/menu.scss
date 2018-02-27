@@ -76,7 +76,12 @@ ul {
     }
     > li {
       // Tablet
-      @include media($tablet) {
+      > a {
+        padding: 30px 40px 30px 0;
+        display: block;
+      }
+
+      @include media($tablet, $mobile) {
         width: 100%;
         padding: 0;
         > a {
@@ -87,9 +92,6 @@ ul {
       }
       a {
         color: $color-text-on-primary;
-        padding: 30px 40px 30px 0;
-        display: block;
-
         &::after {
           background-color: $color-text-on-primary;
 
