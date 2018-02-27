@@ -508,7 +508,6 @@ libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][branch] = "master"
 libraries[ting-client][download][tag] = "7.x-4.1.0"
 libraries[ting-client][destination] = "modules/ting/lib"
 
