@@ -261,17 +261,17 @@ function opensearch_search_filter_relations($relations) {
   $relation_types = opensearch_search_supported_relations();
 
   return array_filter($relations,
-    function ($relation) use ($relation_types) {
+    function (\TingRelation $relation) use ($relation_types) {
 
-      if (!isset($relation_types[$relation->type])) {
+      if (!isset($relation_types[$relation->getType()])) {
         return FALSE;
       }
       // The isPartOfManifestion relation has all relation to other libraries
       // copies of the relation, so we filter the ones that do not belong to
       // current library.
-      if ($relation->type === 'dbcbib:isPartOfManifestation' && is_object($relation->object) && $relation->object instanceof TingEntity) {
-        /** @var \Ting\TingObjectInterface $ting_object */
-        $ting_object = $relation->object->getTingObject();
+      $object = $relation->getObject();
+      if ($relation->getType() === 'dbcbib:isPartOfManifestation' && !empty($object)) {
+        $ting_object = $object->getTingObject();
         if (NULL !== $ting_object && $ting_object->isLocal()) {
           return FALSE;
         }
@@ -312,8 +312,9 @@ function opensearch_search_supported_relations() {
 function _opensearch_search_relation_render_target(\TingRelation $relation) {
   $target = '_blank';
 
-  $relations = $relation->getObject()->getTingObject()->getRelations();
-  if (!empty($relations)) {
+  $object = $relation->getObject();
+  if (!empty($object) && !empty($object->getTingObject()->getRelations())) {
+    $relations = $object->getTingObject()->getRelations();
     if (strpos($relations[0]->getURI(), '[useraccessinfomedia]') === 0) {
       $target = '_self';
     }
@@ -331,15 +332,19 @@ function _opensearch_search_relation_render_target(\TingRelation $relation) {
  *   The title found in the object or FALSE if non found.
  */
 function _opensearch_search_relation_render_title(\TingRelation $relation) {
+  $title = FALSE;
+  $object = $relation->getObject();
   // Set default fallback title.
-  $title = isset($relation->object->title) ? $relation->object->title : FALSE;
+  if (!empty($object)) {
+    $title = $object->getTitle();
+  }
 
   // Find better title based on relation type.
-  switch ($relation->type) {
+  switch ($relation->getType()) {
     case 'dbcaddi:hasReview':
       // If the relation has "isPartOf" it's always a better title than the one
-      // in  object title as it is always "Anmeldelse".
-      $is_part_of = $relation->object->getIsPartOf();
+      // in the object title as it is always "Anmeldelse".
+      $is_part_of = $object->getIsPartOf();
       if (!empty($is_part_of)) {
         $title = reset($is_part_of);
       }
@@ -360,14 +365,18 @@ function _opensearch_search_relation_render_title(\TingRelation $relation) {
  */
 function _opensearch_search_relation_render_abstract(\TingRelation $relation) {
   $abstract = FALSE;
-  switch ($relation->type) {
+  $object = $relation->getObject();
+
+  switch ($relation->getType()) {
     case 'dbcaddi:hasReview':
     case 'dbcaddi:hasSubjectDescription':
     case 'dbcaddi:hasCreatorDescription':
     case 'dbcaddi:hasDescriptionFromPublisher':
-      $abstract = $relation->object->getDescription();
-      if (empty($abstract)) {
-        $abstract = $relation->object->getAbstract();
+      if (!empty($object)) {
+        $abstract = $object->getDescription();
+        if (empty($abstract)) {
+          $abstract = $object->getAbstract();
+        }
       }
       break;
 
@@ -378,7 +387,9 @@ function _opensearch_search_relation_render_abstract(\TingRelation $relation) {
       break;
 
     case 'dbcbib:isPartOfManifestation':
-      $abstract = $relation->object->getSerieDescription();
+      if (!empty($object)) {
+        $abstract = $object->getSerieDescription();
+      }
       break;
   }
 
@@ -397,24 +408,30 @@ function _opensearch_search_relation_render_abstract(\TingRelation $relation) {
 function _opensearch_search_relation_render_online_url(\TingRelation $relation) {
   $url = FALSE;
   $title = '';
-  switch ($relation->type) {
+
+  $object = $relation->getObject();
+  switch ($relation->getType()) {
     case 'dbcaddi:hasReview':
     case 'dbcaddi:hasSubjectDescription':
     case 'dbcaddi:hasCreatorDescription':
+      if (empty($object)) {
+        break;
+      }
+
       // Reservable sources is library material.
       $reservable_sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
-      if (in_array(strtolower($relation->object->getAc_source()), $reservable_sources)) {
+      if (in_array(strtolower($object->getAc_source()), $reservable_sources)) {
         $title = t('Read more about the material');
-        $url = '/ting/object/' . $relation->object->id;
+        $url = '/ting/object/' . $object->id;
       }
       else {
-        $title = t('Read more at %source', array('%source' => $relation->object->getAc_source()));
-        $url = $relation->object->getOnline_url();
+        $title = t('Read more at %source', array('%source' => $object->getAc_source()));
+        $url = $object->getOnline_url();
         $url = empty($url) ? FALSE : $url;
 
         // Try to make a better link text as part of can contain series
         // information etc.
-        $is_part_of = $relation->object->getIsPartOf();
+        $is_part_of = $object->getIsPartOf();
         if (!empty($is_part_of)) {
           $title = reset($is_part_of);
         }
@@ -429,14 +446,14 @@ function _opensearch_search_relation_render_online_url(\TingRelation $relation) 
     case 'dbcaddi:hasCreatorHomePage':
       // This type of relation is basically a link without an object in the
       // data well.
-      $url = $relation->uri;
-      $title = $relation->uri;
+      $url = $relation->getURI();
+      $title = $relation->getURI();
       break;
 
     case 'dbcbib:isPartOfManifestation':
       $uri = entity_uri('ting_object', $relation->getObject());
       $url = '/' . $uri['path'];
-      $title = $relation->object->getTitle();
+      $title = $object->getTitle();
       break;
   }
 
