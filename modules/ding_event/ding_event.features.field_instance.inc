@@ -10,7 +10,7 @@
 function ding_event_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-ding_event-ding_event_groups_ref'.
+  // Exported field_instance: 'node-ding_event-ding_event_groups_ref'
   $field_instances['node-ding_event-ding_event_groups_ref'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -87,7 +87,79 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_body'.
+  // Exported field_instance: 'node-ding_event-field_date_2'
+  $field_instances['node-ding_event-field_date_2'] = array(
+    'bundle' => 'ding_event',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 12,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_date_2',
+    'label' => 'Date 2',
+    'required' => 0,
+    'settings' => array(
+      'default_value' => 'now',
+      'default_value2' => 'same',
+      'default_value_code' => '',
+      'default_value_code2' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'date',
+      'settings' => array(
+        'display_all_day' => 0,
+        'increment' => 15,
+        'input_format' => 'd-m-Y H:i:s',
+        'input_format_custom' => '',
+        'label_position' => 'above',
+        'text_parts' => array(),
+        'year_range' => '-3:+3',
+      ),
+      'type' => 'date_popup',
+      'weight' => 41,
+    ),
+  );
+
+  // Exported field_instance: 'node-ding_event-field_ding_event_body'
   $field_instances['node-ding_event-field_ding_event_body'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -146,7 +218,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_category'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_category'
   $field_instances['node-ding_event-field_ding_event_category'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -209,7 +281,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_date'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_date'
   $field_instances['node-ding_event-field_ding_event_date'] = array(
     'bundle' => 'ding_event',
     'deleted' => 0,
@@ -282,7 +354,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_files'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_files'
   $field_instances['node-ding_event-field_ding_event_files'] = array(
     'bundle' => 'ding_event',
     'deleted' => 0,
@@ -348,7 +420,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_lead'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_lead'
   $field_instances['node-ding_event-field_ding_event_lead'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -411,7 +483,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_list_filter'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_list_filter'
   $field_instances['node-ding_event-field_ding_event_list_filter'] = array(
     'bundle' => 'ding_event',
     'default_value' => array(
@@ -470,7 +542,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_list_image'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_list_image'
   $field_instances['node-ding_event-field_ding_event_list_image'] = array(
     'bundle' => 'ding_event',
     'deleted' => 0,
@@ -580,7 +652,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_location'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_location'
   $field_instances['node-ding_event-field_ding_event_location'] = array(
     'bundle' => 'ding_event',
     'default_value' => array(
@@ -667,7 +739,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_materials'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_materials'
   $field_instances['node-ding_event-field_ding_event_materials'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -722,7 +794,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_price'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_price'
   $field_instances['node-ding_event-field_ding_event_price'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -786,7 +858,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_tags'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_tags'
   $field_instances['node-ding_event-field_ding_event_tags'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -846,7 +918,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_target'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_target'
   $field_instances['node-ding_event-field_ding_event_target'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -907,7 +979,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_ticket_link'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_ticket_link'
   $field_instances['node-ding_event-field_ding_event_ticket_link'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -982,7 +1054,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_title_image'.
+  // Exported field_instance: 'node-ding_event-field_ding_event_title_image'
   $field_instances['node-ding_event-field_ding_event_title_image'] = array(
     'bundle' => 'ding_event',
     'deleted' => 0,
@@ -1081,7 +1153,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-og_group_ref'.
+  // Exported field_instance: 'node-ding_event-og_group_ref'
   $field_instances['node-ding_event-og_group_ref'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -1171,6 +1243,7 @@ function ding_event_field_default_field_instances() {
   t('Book ticket/Participate in event');
   t('Category');
   t('Date');
+  t('Date 2');
   t('Display this event in the selected group (temapage).');
   t('Event list filter');
   t('Events show the value "Gratis", if the field is set to 0. If there\'s multiple ticket types, you can set the value as lowest - highest price in the field, like "30 - 50"');
