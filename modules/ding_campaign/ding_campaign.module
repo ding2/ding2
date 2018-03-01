@@ -124,6 +124,7 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
         'title' => NULL,
         'image' => NULL,
         'description' => NULL,
+        'link' => NULL,
       ),
       'template' => 'ding-campaign-grid',
       'path' => $path . '/templates',
@@ -185,9 +186,10 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium', $su
         $campaign_description = !empty($campaign->metatags) ? $campaign->metatags['da']['abstract']['value'] : '';
         $campaign_link = $campaign->field_camp_link[LANGUAGE_NONE][0]['value'];
         $content['#content'][] = theme('ding_campaign_grid', array(
-            'title' => l($campaign_title, $campaign_link),
-            'image' => l(theme('image_style', array('path' => $campaign_image, 'style_name' => 'ding_campaign_grid')), $campaign_link, array('html' => TRUE)),
+            'title' => $campaign_title,
+            'image' => theme('image_style', array('path' => $campaign_image, 'style_name' => 'ding_campaign_grid')),
             'description' => $campaign_description,
+            'link' => $campaign_link,
           )
         );
         if (array_filter($more_link)) {
