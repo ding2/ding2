@@ -27,8 +27,8 @@ function ding_campaign_plus_auto_form_ding_campaign_plus_admin_settings_alter(&$
   $data = ding_campaign_plus_rules_info();
   foreach ($data as $module => $info) {
     if (isset($info['auto'])) {
-      $callback = $info['auto'];
-      $default_config = isset($default[$module]['config']) ? $default[$module]['config'] : NULL;
+      $callback = $info['auto']['callback'];
+      $default_config = isset($default[$module]['config']) ? $default[$module]['config'] : $info['auto']['default'];
       $form['ding_campaign_plus_auto'][$module] = array(
         '#type' => 'fieldset',
         '#title' => $info['title'],

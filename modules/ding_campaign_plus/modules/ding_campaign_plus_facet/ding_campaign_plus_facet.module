@@ -15,7 +15,13 @@ function ding_campaign_plus_facet_ding_campaign_plus_info() {
     'title' => t('Facets'),
     'type' => DING_CAMPAIGN_PLUS_FACET_TYPE,
     'form' => 'ding_campaign_plus_facet_admin_form',
-    'auto' => 'ding_campaign_plus_facet_auto_admin_form',
+    'auto' => array(
+      'callback' => 'ding_campaign_plus_facet_auto_admin_form',
+      'default' => array(
+        'default' => 7,
+        'facets' => 'facet.subject',
+      ),
+    ),
     'weight' => 0,
   );
 }

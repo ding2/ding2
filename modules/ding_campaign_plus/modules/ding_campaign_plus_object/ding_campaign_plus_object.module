@@ -15,7 +15,10 @@ function ding_campaign_plus_object_ding_campaign_plus_info() {
     'title' => t('Object view'),
     'type' => DING_CAMPAIGN_PLUS_OBJECT_TYPE,
     'form' => 'ding_campaign_plus_object_admin_form',
-    'auto' => 'ding_campaign_plus_object_auto_admin_form',
+    'auto' => array(
+      'callback' => 'ding_campaign_plus_object_auto_admin_form',
+      'default' => FALSE,
+    ),
     'weight' => 10,
   );
 }

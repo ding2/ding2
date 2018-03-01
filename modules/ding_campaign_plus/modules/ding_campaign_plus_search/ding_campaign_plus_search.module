@@ -15,7 +15,10 @@ function ding_campaign_plus_search_ding_campaign_plus_info() {
     'title' => t('Search'),
     'type' => DING_CAMPAIGN_PLUS_SEARCH_TYPE,
     'form' => 'ding_campaign_plus_search_admin_form',
-    'auto' => 'ding_campaign_plus_search_auto_admin_form',
+    'auto' => array(
+      'callback' => 'ding_campaign_plus_search_auto_admin_form',
+      'default' => FALSE,
+    ),
     'weight' => 15,
   );
 }
