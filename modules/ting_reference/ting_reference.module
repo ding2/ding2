@@ -305,6 +305,7 @@ function ting_reference_field_formatter_settings_form($field, $instance, $view_m
         '#type' => 'select',
         '#default_value' => $settings['view_mode'],
         '#options' => $view_modes,
+        '#multiple' => TRUE,
       );
       break;
   }

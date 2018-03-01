@@ -64,11 +64,17 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
         $output = FALSE;
         switch ($value['#bundle']) {
           case 'ding_paragraphs_image_and_text':
+            $image_wrapper = $wrapper->field_ding_paragraphs_image->value();
             // Add image and text snippet.
-            $image = $wrapper->field_ding_paragraphs_image->value()['0'];
-            $image['style_name'] = 'thumbnail';
-            $image['path'] = $image['uri'];
-            $output = theme_image_style($image) . ' - ' . mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_text->value()['value']), 0, 30, "...");
+            $image_display = '';
+            if (isset($image_wrapper['0'])) {
+              $image = $wrapper->field_ding_paragraphs_image->value()['0'];
+              $image['style_name'] = 'thumbnail';
+              $image['path'] = $image['uri'];
+              $image_display = theme_image_style($image);
+            }
+
+            $output = $image_display . ' - ' . mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_text->value()['value']), 0, 30, "...");
             break;
 
           case 'ding_paragraphs_text_box':
