@@ -419,7 +419,7 @@ function ding_page_field_default_field_instances() {
     'bundle' => 'ding_page',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Close all paragraphs to change the order',
     'display' => array(
       'alternative_layout_full' => array(
         'label' => 'above',
@@ -672,6 +672,7 @@ function ding_page_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Files');
+  t('Close all paragraphs to change the order');
   t('Lead');
   t('Libraries and Groups');
   t('List image');
