@@ -513,9 +513,9 @@ function opensearch_search_prepare_reference_query($query_string) {
     $query->setRawQuery($query_string);
   }
   else {
-    // Do a full-text search.
-    $query->setFuzzy(TRUE);
-    $query->setFullTextQuery($query_string);
+    // Do a full-text search with the wildcard character appended to expand
+    // search results until we have a hit.
+    $query->setFullTextQuery($query_string . '*');
   }
 
   return $query;

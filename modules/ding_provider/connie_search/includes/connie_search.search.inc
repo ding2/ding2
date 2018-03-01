@@ -153,8 +153,7 @@ function connie_search_search_prepare_reference_query($query_string) {
     $query->setRawQuery($query_string);
   }
   else {
-    // Just perform a general fuzzy search.
-    $query->setFuzzy(TRUE);
+    // Just perform a general full text search.
     $query->setFullTextQuery($query_string);
   }
   return $query;
