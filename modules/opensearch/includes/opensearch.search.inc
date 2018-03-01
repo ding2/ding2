@@ -85,15 +85,20 @@ function opensearch_search_object_load(array $ids) {
  * @param string $id
  *   Id of material to load as a collection.
  *
- * @return Ting\TingObjectCollectionInterface
- *   The collection.
+ * @return Ting\TingObjectCollectionInterface|NULL
+ *   The collection or NULL if there is no collection for the id.
  */
 function opensearch_search_collection_load($id) {
   // Ensure we have OpenSearch client.
   module_load_include('inc', 'opensearch', 'opensearch.client');
 
   $reply = opensearch_get_object($id, TRUE);
-  return new OpenSearchTingObjectCollection($reply);
+  if ($reply instanceof TingClientObjectCollection) {
+    return new OpenSearchTingObjectCollection($reply);
+  }
+  else {
+    return NULL;
+  }
 }
 
 /**
