@@ -28,6 +28,7 @@ function ding_campaign_plus_auto_form_ding_campaign_plus_admin_settings_alter(&$
   foreach ($data as $module => $info) {
     if (isset($info['auto'])) {
       $callback = $info['auto'];
+      $default_config = isset($default[$module]['config']) ? $default[$module]['config'] : NULL;
       $form['ding_campaign_plus_auto'][$module] = array(
         '#type' => 'fieldset',
         '#title' => $info['title'],
@@ -38,7 +39,7 @@ function ding_campaign_plus_auto_form_ding_campaign_plus_admin_settings_alter(&$
             ':input[name="ding_campaign_plus_auto[enabled]"]' => array('checked' => FALSE),
           ),
         ),
-        'config' => $callback($form_state, $default[$module]['config']),
+        'config' => $callback($form_state, $default_config),
       );
     }
   }
