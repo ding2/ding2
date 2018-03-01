@@ -203,7 +203,7 @@ function ding_campaign_plus_facet_auto_admin_form(array &$form_state, $default =
       '#type' => 'select',
       '#title' => t('Default common number'),
       '#description' => t('Default "Most common subjects" to match against.'),
-      '#options' => drupal_map_assoc(range(1, 15)),
+      '#options' => drupal_map_assoc(range(1, 30)),
       '#default_value' => empty($default['default']) ? '_none_' : $default['default'],
     ),
     'facets' =>  array(
@@ -567,7 +567,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
   $default = variable_get('ding_campaign_plus_auto', array());
   $default = isset($default['ding_campaign_plus_facet']['config']['default']) ? $default['ding_campaign_plus_facet']['config']['default'] : 5;
 
-  $options = drupal_map_assoc(range(1, 15));
+  $options = drupal_map_assoc(range(1, 30));
   $form['common'] = array(
     '#type' => 'select',
     '#title' => t('Most common subjects'),
