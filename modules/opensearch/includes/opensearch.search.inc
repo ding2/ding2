@@ -120,9 +120,6 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   // Add a general quoted free text search.
   if (!empty($free_text_query = $ting_query->getFullTextQuery())) {
     $free_text_query = _ting_search_quote($ting_query->getFullTextQuery());
-    if ($ting_query->isFuzzy()) {
-      $free_text_query = '*' . $free_text_query . '*';
-    }
     $query_parts[] = $free_text_query;
   }
 
