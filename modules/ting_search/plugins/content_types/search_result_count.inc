@@ -21,7 +21,7 @@ function ting_search_result_count_content_type_render($subtype, $conf, $panel_ar
   $block = new stdClass();
 
   $search_result = drupal_static('ting_search_results');
-  if (isset($search_result)) {
+  if (!empty($search_result)) {
     $results = isset($search_result->numTotalObjects) ? (int) $search_result->numTotalObjects : 0;
     $block->content = array(
       'title' => array(
