@@ -849,7 +849,7 @@ function _ding_campaign_plus_facet_match($keys) {
         foreach ($facets as $facet) {
           $facet = drupal_strtolower($facet);
           if (_ding_campaign_plus_facet_compare($facet, $terms)) {
-            if (!isset($triggers[$facet])) {
+            if (!isset($triggers[$campaign->facet])) {
               $triggers[$campaign->facet] = array();
             }
             $triggers[$campaign->facet][] = $campaign->nid;

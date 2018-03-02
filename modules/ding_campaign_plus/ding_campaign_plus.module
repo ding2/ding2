@@ -274,20 +274,38 @@ function ding_campaign_plus_get_matches(array $contexts, $style) {
     }
   }
 
-  uasort($campaigns, '_ding_campaign_plus_sort');
-  return array_keys($campaigns);
-}
+  // Sort based on calculated weight.
+  asort($campaigns, SORT_NUMERIC);
 
-/**
- * Sort campaign based on weight.
- *
- * Modified version of drupal_sort_weight.
- */
-function _ding_campaign_plus_sort($a, $b) {
-  if ($a == $b) {
-    return 0;
+  // Load changed date for the campaigns triggered.
+  $nids = array_keys($campaigns);
+  $times = db_select('node', 'n')
+    ->fields('n', array('nid', 'changed'))
+    ->condition('nid', $nids, 'IN')
+    ->execute()
+    ->fetchAllKeyed(0);
+
+  // Split the array into groups base on weight and add the changed times.
+  $groups = array();
+  foreach($campaigns as $key => $item) {
+    $groups[$item][$key] = $times[$key];
   }
-  return $a < $b ? -1 : 1;
+
+  // Sort the groups based on the changed time inside each weighted group.
+  $groups = array_map(function ($values) {
+    arsort($values, SORT_NUMERIC);
+    return array_keys($values);
+  }, $groups);
+
+  // Flatten the array based on the grouping and time sort order into an list
+  // of node id's.
+  $campaigns = array();
+  $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($groups));
+  foreach($it as $v) {
+    $campaigns[] = $v;
+  }
+
+  return $campaigns;
 }
 
 /**
