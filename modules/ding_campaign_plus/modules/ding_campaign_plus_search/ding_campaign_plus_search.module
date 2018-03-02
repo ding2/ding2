@@ -31,7 +31,7 @@ function ding_campaign_plus_search_ding_campaign_plus_default_weights() {
     'search' => array(
       'prefix' => t('Search'),
       'title' => t('CQL statement'),
-      'weight' => 10,
+      'weight' => 15,
     ),
   );
 }

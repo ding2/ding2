@@ -22,7 +22,7 @@ function ding_campaign_plus_facet_ding_campaign_plus_info() {
         'facets' => 'facet.subject',
       ),
     ),
-    'weight' => 0,
+    'weight' => -15,
   );
 }
 
@@ -37,7 +37,7 @@ function ding_campaign_plus_facet_ding_campaign_plus_default_weights() {
     $weights[$facet['facet']] = array(
       'prefix' => t('Facet'),
       'title' => $facet['title'],
-      'weight' => 0,
+      'weight' => -15,
     );
   }
 
@@ -239,6 +239,7 @@ function ding_campaign_plus_facet_form_ding_campaign_plus_admin_settings_alter(&
   );
 
 
+  $id = 0;
   $facets = _ding_campaign_plus_facet_get_facets();
   foreach ($facets as $id => $facet) {
     $form['ding_campaign_plus_facets']['facets'][$id]['facet'] = array(
@@ -402,7 +403,6 @@ function ding_campaign_plus_facet_ding_campaign_plus_auto_trigger($config, $camp
       switch ($config['facets']) {
         case 'facet.type':
           $options = _ting_fetch_well_types();
-          $options = array_keys($options);
           if (in_array($value, $options)) {
             $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value_select_type'] = $value;
           }
@@ -413,7 +413,6 @@ function ding_campaign_plus_facet_ding_campaign_plus_auto_trigger($config, $camp
 
         case 'facet.acSource':
           $options = _ting_fetch_well_sources();
-          $options = array_keys($options);
           if (in_array($value, $options)) {
             $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value_select_source'] = $value;
           }
@@ -565,7 +564,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
   // Get default "most common" from auto-generate campaign configuration. This
   // is a lose dependency to auto generate module and should stay lose.
   $default = variable_get('ding_campaign_plus_auto', array());
-  $default = isset($default['ding_campaign_plus_facet']['config']['default']) ? $default['ding_campaign_plus_facet']['config']['default'] : 5;
+  $default = isset($default['ding_campaign_plus_facet']['config']['default']) ? $default['ding_campaign_plus_facet']['config']['default'] : 7;
 
   $options = drupal_map_assoc(range(1, 30));
   $form['common'] = array(
@@ -576,7 +575,6 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
   );
 
   $options = _ting_fetch_well_types();
-  $options = array_keys($options);
   $options = array_combine($options, $options);
   $form['facet_value_select_type'] = array(
     '#type' => 'select',
@@ -588,7 +586,6 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
   );
 
   $options = _ting_fetch_well_sources();
-  $options = array_keys($options);
   $options = array_combine($options, $options);
   $form['facet_value_select_source'] = array(
     '#type' => 'select',
@@ -844,16 +841,14 @@ function _ding_campaign_plus_facet_match($keys) {
 
         // Cut off all terms above the current triggers "most common" limit. The
         // array keys are extracted as some facets has numbers as keys and it's
-        // the keys that are the facet names. The array slice will assume that
-        // strings as number are numbers a will reset theme. Which is not what
-        // we wan't here.
+        // the keys that are the facet names.
         $terms = array_keys($terms);
         $terms = array_slice($terms, 0, $campaign->common);
 
         // Check if facets matches any of the terms left.
         foreach ($facets as $facet) {
           $facet = drupal_strtolower($facet);
-          if (in_array($facet, $terms)) {
+          if (_ding_campaign_plus_facet_compare($facet, $terms)) {
             if (!isset($triggers[$facet])) {
               $triggers[$campaign->facet] = array();
             }
@@ -866,6 +861,65 @@ function _ding_campaign_plus_facet_match($keys) {
   }
 
   return $triggers;
+}
+
+/**
+ * Determines if to facets is a match.
+ *
+ * Users can use asterisk (*) and <, > operators as the facet trigger value for
+ * a campaign. So this is detected here and matches are preformed.
+ *
+ * @param string $match
+ *   The string/facet to test if matches the terms.
+ * @param array $terms
+ *   The terms in a given facet group from the data-well.
+ *
+ * @return bool
+ *   If matched TRUE else FALSE.
+ */
+function _ding_campaign_plus_facet_compare($match, array $terms) {
+  if (strpos($match, '*')) {
+    $match = '/' . str_replace('*', '.*', $match) . '/';
+    return !empty(preg_grep($match, $terms));
+  }
+  else if (preg_match('/^(<=|>=|<|>)\s*(.*)/', $match, $matches)) {
+    foreach ($terms as $term) {
+      // Switch over the operator as PHP don't allow operators in variable,
+      // which would have simplified this code.
+      switch ($matches[1]) {
+        case '<':
+          if ($term < $matches[2]) {
+            return TRUE;
+          };
+          break;
+
+        case '>':
+          if ($term > $matches[2]) {
+            return TRUE;
+          };
+          break;
+
+        case '>=':
+          if ($term >= $matches[2]) {
+            return TRUE;
+          };
+          break;
+
+        case '<=':
+          if ($term <= $matches[2]) {
+            return TRUE;
+          };
+          break;
+
+        default:
+          return FALSE;
+      }
+    }
+  }
+
+  // No wild card or comparison operator, so we do a simple check for the exact
+  // value in the array.
+  return in_array($match, $terms);
 }
 
 /**
