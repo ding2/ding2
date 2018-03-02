@@ -335,6 +335,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
     return $element;
   }
 
+  /* @var \TingEntity $entity */
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ting_title_default':
@@ -432,10 +433,14 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           // series only have data in the description field. This will probably
           // change with new versions of the data well.
           foreach ($entity->getSeriesTitles() as $title) {
-            $search_term = str_replace('@serietitle', drupal_strtolower($title[0]), variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"'));
+            $series_title = $title[0];
             $series_number = isset($title[1]) ? ' : ' . check_plain($title[1]) . ' ; ' : ' ; ';
+
+            $replacement = array('@serietitle' => drupal_strtolower($series_title));
+            $search_string = variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"');
+            $link = ting_field_search_link(trim($series_title), $search_string, $replacement, array('attributes' => array('class' => array('series'))));
             $element[$delta][] = array(
-              '#markup' => l(trim($title[0]), 'search/ting/' . $search_term, array('attributes' => array('class' => array('series')))) . $series_number,
+              '#markup' => $link . $series_number,
             );
           }
         }
@@ -453,7 +458,6 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         break;
 
       case 'ting_author_default':
-        /** @var \TingEntity $entity */
         // Build an array containing different formats of each creator name.
         // This will allow administrators to use the format that suits their
         // needs best e.g. if one wants to use a facet where the name is
@@ -470,28 +474,17 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
             '@author_inverted' => $creator['inverted'],
           ];
         }, $creators);
-
-        // The variable specify whether to use to the default or inverted
-        // form.
-        $search_term = strtr(
-          variable_get('ting_search_register_author', 'phrase.creator="@author"'),
-          $replace_array[0]
-        );
+        $search_string = variable_get('ting_search_register_author', 'phrase.creator="@author"');
 
         // The links with the correct author name depending on the whether
         // @author or @author_inverted is used.
-        $creator_links = [];
-        foreach ($creators as $creator) {
-          $creator_links[] = l($creator['default'], 'search/ting/' . $search_term, [
-            'attributes' => [
-              'class' => ['author'],
-            ],
-          ]);
-        }
-
-        // Run urldecode on each, so we end up with query rather than
-        // searching for something like "&facets[0]=facet_creator".
-        $creator_links = array_map('urldecode', $creator_links);
+        $creator_links = array_map(function($creator, $replacements) use ($search_string) {
+          return ting_field_search_link($creator['default'], $search_string, $replacements, array(
+            'attributes' => array(
+              'class' => array('author'),
+            ),
+          ));
+        }, $creators, $replace_array);
 
         $markup_string = '';
         if (count($creators)) {
@@ -517,19 +510,17 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         break;
 
       case 'ting_subjects_default':
-        if (count($entity->subjects) == TRUE) {
-          $subjects = array();
-          $search_term = variable_get('ting_search_register_subject', 'phrase.subject="@subject"');
-          foreach ($entity->subjects as $subject) {
-            $subject_enc = str_replace('@subject', $subject,
-              $search_term);
-            $subjects[] = l($subject, 'search/ting/' . $subject_enc, array(
+        if (!empty($entity->getSubjects())) {
+          $search_string = variable_get('ting_search_register_subject', 'phrase.subject="@subject"');
+          $subject_links = array_map(function($subject) use ($search_string) {
+            $replacement = array('@subject' => $subject);
+            return ting_field_search_link($subject, $search_string, $replacement, array(
               'attributes' => array('class' => array('subject')),
             ));
-          }
-          $subjects = array_map('urldecode', $subjects);
+          }, $entity->getSubjects());
+
           $element[$delta] = array(
-            '#markup' => implode(' ', $subjects),
+            '#markup' => implode(' ', $subject_links),
           );
         }
         break;
@@ -555,4 +546,37 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
   }
 
   return $element;
+}
+
+/**
+ * Build a link to a search result.
+ *
+ * @param string $text
+ *   The link text for the link.
+ * @param string $search_string
+ *   The string containing the search elements.
+ *   This contains search string and
+ *   query elements separated by a ? separator. Text before the separator is
+ *   treated as the search string. Text after the separator is treated as the
+ *   query string and parsed via parse_str(). This can be used to specify
+ *   facets.
+ *   The search string may contain variables to be replaced with field values.
+ * @param string[] $replacements
+ *   An array of replacements. Keys are variable names that should be translated
+ *   with corresponding values.
+ * @param array $options
+ *   Additional options to be passed to the link.
+ *
+ * @return string
+ *   An HTML string containing a link to the search result.
+ */
+function ting_field_search_link($text, $search_string, array $replacements = [], array $options = []) {
+  list($path_suffix, $query_string) = preg_split('/\?/', $search_string, 2);
+  $path = 'search/ting/' . strtr($path_suffix, $replacements);
+  $query_string = strtr($query_string, $replacements);
+  parse_str($query_string, $query);
+  return l($text, $path, array_merge_recursive(
+    $options,
+    array('query' => $query)
+  ));
 }
