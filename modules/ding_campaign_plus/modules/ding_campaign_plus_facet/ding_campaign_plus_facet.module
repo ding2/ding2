@@ -691,51 +691,185 @@ function _ding_campaign_plus_facet_get_facets($reset = FALSE) {
     $facets = variable_get('ding_campaign_plus_facets', NULL);
     if (is_null($facets)) {
       // This list is based on the opensearch documentation for data well
-      // version b3.5_4.5.
+      // version b3.5_4.5. The title is in Danish an not translated as this
+      // matches the way ding_facetbrowser uses these as well.
       $facets = array(
-        'facet.access',
-        'facet.acSource',
-        'facet.audience',
-        'facet.audienceCategory',
-        'facet.branch',
-        'facet.category',
-        'facet.creator',
-        'facet.creatorFunction',
-        'facet.date',
-        'facet.dateFirstEdition',
-        'facet.department',
-        'facet.dk5',
-        'facet.extraTitles',
-        'facet.fictionSubject',
-        'facet.form',
-        'facet.gamePlatform',
-        'facet.genre',
-        'facet.genreCategory',
-        'facet.geographic',
-        'facet.language',
-        'facet.level',
-        'facet.let',
-        'facet.literaryForm',
-        'facet.lix',
-        'facet.musicSubject',
-        'facet.nationality',
-        'facet.nonFictionSubject',
-        'facet.partOf',
-        'facet.period',
-        'facet.primaryCreator',
-        'facet.publisher',
-        'facet.sheetMusic',
-        'facet.subject',
-        'facet.titleSeries',
-        'facet.type',
-      );
-      $facets = array_map(function ($facet) {
-        return array(
-          'facet' => $facet,
-          'title' => $facet,
+        array(
+          'facet' => 'facet.access',
+          'title' => 'Adgang',
           'weight' => 0,
-        );
-      }, $facets);
+        ),
+        array(
+          'facet' => 'facet.acSource',
+          'title' => 'Kilde',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.audience',
+          'title' => 'Målgruppe',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.audienceCategory',
+          'title' => 'Brugerniveau',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.branch',
+          'title' => 'Filial',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.category',
+          'title' => 'Voksen- eller børnematerialer',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.creator',
+          'title' => 'Ophav',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.creatorFunction',
+          'title' => 'Ophav funktion',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.date',
+          'title' => 'Dato',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.dateFirstEdition',
+          'title' => 'Udgivelsesår for første udgave',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.department',
+          'title' => 'Afdeling',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.dk5',
+          'title' => 'DK5 Klassifikation',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.extraTitles',
+          'title' => 'Ekstra e-bøger',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.fictionSubject',
+          'title' => 'Skønlitterært emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.form',
+          'title' => 'Form',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.gamePlatform',
+          'title' => 'Spilplatform',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.genre',
+          'title' => 'Genre',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.genreCategory',
+          'title' => 'Genrekategori',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.geographic',
+          'title' => 'Geografisk emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.language',
+          'title' => 'Sprog',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.level',
+          'title' => 'Fagligt niveau',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.let',
+          'title' => 'Lettal',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.literaryForm',
+          'title' => 'Litterær form',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.lix',
+          'title' => 'Lix',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.musicSubject',
+          'title' => 'Musik emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.nationality',
+          'title' => 'Nationalitet for film',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.nonFictionSubject',
+          'title' => 'Fag emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.partOf',
+          'title' => 'Del af',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.period',
+          'title' => 'Periode som emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.primaryCreator',
+          'title' => 'Hovedophav',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.publisher',
+          'title' => 'Forlag',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.sheetMusic',
+          'title' => 'Noder',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.subject',
+          'title' => 'Emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.titleSeries',
+          'title' => 'Serietitle',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.type',
+          'title' => 'Materialetype',
+          'weight' => 0,
+        ),
+      );
     }
   }
 
