@@ -269,6 +269,8 @@ projects[oembed][patch][] = "https://www.drupal.org/files/oembed-2021015-1.patch
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
+; https://www.drupal.org/node/1502916, membership data loss.
+projects[og][patch][] = "https://www.drupal.org/files/membership-data-loss-user-save-1502916.patch"
 
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][version] = "3.0"
