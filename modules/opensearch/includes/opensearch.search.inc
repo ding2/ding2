@@ -568,16 +568,6 @@ function opensearch_search_sort_options() {
       'label' => t('Date (Descending)'),
       'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_DESCENDING),
     ],
-    'localAcquisitionDate_ascending' => [
-      'label' => t('Acquisition Date (ascending)'),
-      'label_short' => t('Acquisition Date'),
-      'sort' => new TingSearchSort('localAcquisitionDate', TingSearchSort::DIRECTION_ASCENDING),
-    ],
-    'localAcquisitionDate_descending' => [
-      'label' => t('Acquisition Date (descending)'),
-      'label_short' => t('Acquisition Date'),
-      'sort' => new TingSearchSort('localAcquisitionDate', TingSearchSort::DIRECTION_DESCENDING),
-    ],
   ];
 
   // Do not show sort-options specific for rank_frequency if
