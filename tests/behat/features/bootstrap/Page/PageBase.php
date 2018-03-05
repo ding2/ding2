@@ -7,6 +7,7 @@
 
 namespace Page;
 
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Session;
 
 use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\UnexpectedPageException;
@@ -187,7 +188,7 @@ class PageBase extends LogMessages {
    * @param ElementInterface $element
    *   Element to scroll to.
    *
-   * @throws Exception
+   * @throws \Exception
    *   In case of error.
    */
   public function scrollTo(ElementInterface $element) {
@@ -201,8 +202,8 @@ class PageBase extends LogMessages {
       $js = $js . 'el.scrollIntoViewIfNeeded(true);';
       $this->getSession()->executeScript($js);
     }
-    catch (Exception $e) {
-      throw new Exception('Could not scroll to element: ' . $e->getMessage());
+    catch (DriverException $e) {
+      throw new \Exception('Could not scroll to element: ' . $e->getMessage());
     }
   }
 

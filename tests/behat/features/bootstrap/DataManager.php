@@ -183,6 +183,9 @@ class DataManager extends \Page\PageBase {
    *
    * @param string $mpid
    *    The pid of the object to be checked for whether it is reservable.
+   *
+   * @return boolean
+   *    If true the material is reservable
    */
   private function isReservable($mpid) {
     $xx = explode(":", $mpid);

@@ -9,6 +9,7 @@ namespace Page;
 
 use Behat\Mink\Session;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Factory;
+use WebDriver\Exception;
 
 
 /**
@@ -934,7 +935,8 @@ class SearchPage extends PageBase {
     // Initialise link - the index into the array.
     $link = -2;
 
-    for ($i = 0; $i < count($paginations); $i++) {
+    $numberOfPages = count($paginations);
+    for ($i = 0; $i < $numberOfPages; $i++) {
       // Pick out the pagination link.
       $url = $paginations[$i]->getAttribute('href');
 
@@ -1037,6 +1039,9 @@ class SearchPage extends PageBase {
    *
    * @return string
    *    Nonempty in case of failure.
+   *
+   * @throws \Exception
+   *    In case an error occurs.
    */
   public function getRandomSearchResultToShowPost($criteria) {
     // Check we're looking at a search result page.
@@ -1069,8 +1074,8 @@ class SearchPage extends PageBase {
       $linkObj->click();
       $this->waitForPage();
     }
-    catch (Exception $e) {
-      throw new Exception("Could not go to the page.");
+    catch (\Exception $e) {
+      throw new \Exception("Could not go to the page.");
     }
     return "";
   }

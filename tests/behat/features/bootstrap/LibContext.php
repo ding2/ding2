@@ -382,7 +382,8 @@ class LibContext implements Context, SnippetAcceptingContext {
      * and then check the next character.
      */
     $escaped = false;
-    for ($i = 0; $i < strlen($text); $i++) {
+    $length = strlen($text);
+    for ($i = 0; $i < $length; $i++) {
       $key = substr($text, $i, 1);
       if ($escaped) {
         switch ($key) {
@@ -696,13 +697,13 @@ class LibContext implements Context, SnippetAcceptingContext {
    *
    * @Given I create files :mfile from opensearch on relation :relation
    *
-   * @Param string $mfile
+   * @param string $mfile
    *    Filename basis for the two files being created, appended with _pos.mat and _neg.mat
    * @Param string $relation
    *    The relation we are looking for, in opensearch terminology, f.ex. dbcaddi:hasCreatorDescription
    *
    * @throws ErrorException
-   *   In case of error.
+   *   In case of error in calling the opensearch service.
    */
   public function ICreateFilesForRelation($mfile, $relation) {
     for ($i = 1; $i < 12000; $i = $i + 50) {
@@ -721,7 +722,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    *    The starting point for the service retrieval.
    *
    * @throws ErrorException
-   *    In case of errors.
+   *    In case of fetching from the search fails.
    */
   private function ICreateFilesForRelationChunk($mfile, $relation, $start) {
     // Set up the search as URL.
