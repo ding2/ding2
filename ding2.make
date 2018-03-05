@@ -445,6 +445,24 @@ projects[ask_vopros][download][tag] = "1.5"
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
 
+projects[mkdru][subdir] = "contrib"
+projects[mkdru][version] = "1.9"
+
+projects[mkdru_ding][type] = "module"
+projects[mkdru_ding][download][type] = "git"
+projects[mkdru_ding][download][url] = "https://github.com/easySuite/mkdru_ding.git"
+projects[mkdru_ding][download][branch] = "develop"
+
+projects[ding_mkws][type] = "module"
+projects[ding_mkws][download][type] = "git"
+projects[ding_mkws][download][url] = "https://github.com/easySuite/ding_mkws.git"
+projects[ding_mkws][download][branch] = "development"
+
+projects[ding_spt_statistics][type] = "module"
+projects[ding_spt_statistics][download][type] = "git"
+projects[ding_spt_statistics][download][url] = "https://github.com/easySuite/ding_spt_statistics.git"
+projects[ding_spt_statistics][download][branch] = "development"
+
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
@@ -544,6 +562,16 @@ libraries[masonry][download][type] = "get"
 libraries[masonry][download][url] = https://github.com/desandro/masonry/archive/v4.1.1.zip
 libraries[masonry][directory_name] = "masonry"
 libraries[masonry][destination] = "libraries"
+
+libraries[pz2][download][type] = "get"
+libraries[pz2][download][url] = http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz
+libraries[pz2][directory_name] = "pz2"
+libraries[pz2][destination] = "libraries"
+
+libraries[jsrender][download][type] = "get"
+libraries[jsrender][download][url] = https://github.com/BorisMoore/jsrender/archive/master.zip
+libraries[jsrender][directory_name] = "jsrender"
+libraries[jsrender][destination] = "libraries"
 
 ; easyDDB contribution modules
 projects[extlink][version]                  = "1.18"

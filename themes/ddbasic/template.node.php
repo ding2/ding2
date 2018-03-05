@@ -258,24 +258,27 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
   }
   $variables['link'] = ding_base_get_value('node', $variables['node'], 'field_camp_link', 'value');
   $variables['target'] = ding_base_get_value('node', $variables['node'], 'field_camp_new_window') ? '_blank' : '';
-  $variables['panel_style'] = drupal_html_class($variables['elements']['#style']);
+  $variables['panel_style'] = !empty($variables['elements']['#style']) ? drupal_html_class($variables['elements']['#style']) : '';
 
   // Display campaign if it is on the mobile browser.
-  $mobile_show = $variables['field_show_on_mobiles'][LANGUAGE_NONE][0]['value'];
-  if ($mobile_show) {
-    $variables['classes_array'][] = 'mobile-show';
+  if (!empty($variables['field_show_on_mobiles'])) {
+    $mobile_show = $variables['field_show_on_mobiles'][LANGUAGE_NONE][0]['value'];
+    if ($mobile_show) {
+      $variables['classes_array'][] = 'mobile-show';
+    }
   }
 
   if (isset($type)) {
     switch ($type) {
       case 'image_and_text':
         $variables['image'] = '<div class="ding-campaign-image" style="background-image: url(' . $image_url . '"></div>';
-      break;
+        break;
+
       case 'image':
-        if(!empty($variables['elements']['#widget_type']) && $variables['elements']['#widget_type'] == 'single') {
+        if (!empty($variables['elements']['#widget_type']) && $variables['elements']['#widget_type'] == 'single') {
           $variables['image'] = theme('image', [
               'path' => $image_uri,
-              'attributes' => ['class' => 'ding-campaign-image']
+              'attributes' => ['class' => 'ding-campaign-image'],
             ]
           );
         }
@@ -283,7 +286,7 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
           $variables['image'] = theme('image_style', [
               'style_name' => $image_style,
               'path' => $image_uri,
-              'attributes' => ['class' => 'ding-campaign-image']
+              'attributes' => ['class' => 'ding-campaign-image'],
             ]
           );
         }

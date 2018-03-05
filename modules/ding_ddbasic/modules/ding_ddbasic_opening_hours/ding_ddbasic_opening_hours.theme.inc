@@ -274,3 +274,17 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
     $structured
   );
 }
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_ddbasic_opening_hours_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
+  if (!empty($variables['table']['#rows'])) {
+    foreach ($variables['table']['#rows'] as $lid => $row) {
+      $library = node_load($lid);
+      if (!empty($library->field_ding_library_main_val[LANGUAGE_NONE][0]['value'])) {
+        unset($variables['table']['#rows'][$lid]);
+      }
+    }
+  }
+}

@@ -37,10 +37,13 @@ a#ding-toggle-format {
 .ding-format-short {
   .ting-object {
     .ting-cover,
-    span.search-result--heading-type,
     .info-container .field-name-ting-abstract,
-    .info-container .availability,
-    .field-name-ting-abstract {
+    .field-name-ting-abstract,
+    .field-type-ting-series,
+    .subjects.field-type-ting-subjects,
+    .availability.search-result--availability,
+    .field-group-format.group-rating,
+    .group-rating {
       display: none;
     }
 
@@ -48,20 +51,8 @@ a#ding-toggle-format {
       float: initial;
     }
 
-    .info-container .group-rating {
-      padding-top: 10px; 
-      margin-top: 0;
-      border-top: none; 
-    }
-
     .ting-object-left {
       display: none;
-    }
-
-    ul.availability{   
-      float: left;
-      display: block;
-      width: 100%;
     }
   }
 }
@@ -73,5 +64,15 @@ a#ding-toggle-format {
     margin-right: auto;
     width: 90%;
     position: relative;
+  }
+}
+
+@include media($mobile) {
+  .ding2-site-template .pane-ding-toggle-format-toggle {
+    span.ding-toggle-format-label,
+    a#ding-toggle-format {
+      display: none;
+      height: 0;
+    }
   }
 }
