@@ -95,9 +95,7 @@ projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0"
-; Fix for SA-CONTRIB-2016-020 - https://www.drupal.org/node/2705637
-projects[features][patch][0] = "http://cgit.drupalcode.org/features/patch/?id=c1e04f451816bd004f2096e469ec26ae9c534f3a"
+projects[features][version] = "2.10"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
@@ -221,14 +219,14 @@ projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "3.0"
 
 projects[memcache][subdir] = "contrib"
-projects[memcache][version] = "1.5"
+projects[memcache][version] = "1.6"
 
 projects[menu_block][subdir] = "contrib"
 projects[menu_block][version] = "2.7"
 ; Add support for features export of blocks
 ; https://www.drupal.org/node/693302
 ; The patch here add a database table, which is already created in a previous hook_update (from a previous patch).
-; We have to modify it for our use. 
+; We have to modify it for our use.
 projects[menu_block][patch][0] = "patches/menu_block-2x-ctools_exportables-693302-163.ding2.patch"
 
 projects[menu_breadcrumb][subdir] = "contrib"
@@ -273,6 +271,8 @@ projects[oembed][subdir] = "contrib"
 projects[oembed][version] = "1.0-rc2"
 ; Remove hook_system_info_alter() to allow installing modules depending on oembed, after oembed is installed.
 projects[oembed][patch][] = "http://www.drupal.org/files/issues/oembed-remove_hook_sytem_info_alter-2502817-1.patch"
+; Added a check to ensure that a menu item exists before trying to alter it in order to fix a PHP error.
+projects[oembed][patch][] = "https://www.drupal.org/files/oembed-2021015-1.patch"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
@@ -442,8 +442,8 @@ projects[wysiwyg][download][revision] = "7981731f4f3db2f932419499d2ec13a073e9b88
 
 projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
-projects[ask_vopros][download][type] = "git"
-projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
+projects[ask_vopros][download][type] = "get"
+projects[ask_vopros][download][url] = "https://github.com/vopros-dk/ask_vopros.git"
 projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
@@ -508,7 +508,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][download][branch] = "master"
-libraries[ting-client][destination] = "modules/ting/lib"
+libraries[ting-client][destination] = "modules/opensearch/lib"
 
 libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"

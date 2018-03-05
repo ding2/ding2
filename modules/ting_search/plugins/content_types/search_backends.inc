@@ -51,13 +51,13 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
 
     // Create the option as a link.
     $txt = format_string('Search @backend', array('@backend' => $backend['title']));
-    $title = l(t('@txt', array('@txt' => $txt)), $path, array('query' => $conditions));
+    $title = l(t($txt), $path, array('query' => $conditions));
 
     // Getting the count of search results for each enabled backend.
     switch ($backend['path']) {
       case 'ting':
         // Using already formed search results.
-        $ting_search_results = drupal_static('ting_search_results');
+        $ting_search_results = ting_search_current_results();
         // If search results is empty perform new ting search.
         // This condition is putted here for getting results when not
         // on /search/ting/%key% page.
@@ -68,7 +68,7 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
           $ting_search_results = ting_do_search($keys);
         }
         // Get count of total results from ting.
-        $count = $ting_search_results->numTotalObjects;
+        $count = $ting_search_results->getNumTotalObjects();
         $title = $title . ' <span class="count">(' . $count . ')</span>';
         break;
 

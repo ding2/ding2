@@ -58,10 +58,10 @@ class DingFacetbrowserWeb extends DrupalWebTestCase {
 
     parent::setUp('ting', 'ding_facetbrowser', 'search', 'ting_search');
     variable_set('ting_agency', '100200');
-    variable_set('ting_search_url', 'http://opensearch.addi.dk/next_2.0/');
+    variable_set('opensearch_url', 'https://opensearch.addi.dk/b3.5_4.5/');
     variable_set('ting_scan_url', 'http://openscan.addi.dk/1.7/');
     variable_set('ting_spell_url', 'http://openspell.addi.dk/1.2/');
-    variable_set('ting_recommendation_url', 'http://openadhl.addi.dk/1.1/');
+    variable_set('opensearch_recommendation_url', 'http://openadhl.addi.dk/1.1/');
     variable_set('search_active_modules', array('node' => 'node', 'ting_search' => 'ting_search'));
     variable_set('search_default_module', 'ting_search');
 

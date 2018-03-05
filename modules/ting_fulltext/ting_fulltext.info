@@ -6,4 +6,5 @@ version = "7.x-0.21"
 files[] = ting_fulltext.module
 files[] = ting_fulltext.pages.inc
 dependencies[] = ting
+dependencies[] = opensearch
 

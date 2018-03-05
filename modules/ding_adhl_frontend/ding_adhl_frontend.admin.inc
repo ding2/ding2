@@ -50,7 +50,7 @@ function ding_adhl_frontend_settings_form($form, $form_state) {
   $form['information'] = array(
     '#markup' => t('If you are looking for the service configuration see !link, which currently points to %service', array(
       '!link' => $service_link,
-      '%service' => variable_get('ting_recommendation_url', ''),
+      '%service' => variable_get('opensearch_recommendation_url', ''),
     )),
   );
 

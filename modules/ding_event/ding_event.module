@@ -214,6 +214,12 @@ function ding_event_views_pre_execute(&$view) {
     // referenced here. The reference is very specific, and changing the order
     // of the view filters might break this functionality.
     $date_condition = &$view->build_info['query']->conditions()[0]['field']->conditions()[0]['field']->conditions()[3];
+
+    // If the value is empty we assume the exposed combined search filter has
+    // content, this pushes the condition we want 1 further "down" in the array.
+    if (empty($date_condition['value'])) {
+      $date_condition = &$view->build_info['query']->conditions()[0]['field']->conditions()[0]['field']->conditions()[4];
+    }
     $date_condition['field'] .= ' OR (fdelf.field_ding_event_list_filter_value = :filter'
                               . ' AND ' . str_replace('.field_ding_event_date_value,', '.field_ding_event_date_value2,', $date_condition['field']) . ')';
     $date_condition['value'][':filter'] = 'show_all';

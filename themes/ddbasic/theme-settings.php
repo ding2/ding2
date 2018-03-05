@@ -20,39 +20,6 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#default_value' => theme_get_setting('ting_object_disable_overlay'),
   );
 
-  $form['ddbasic_settings']['ding_news_overlay'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Ding news overlay'),
-  );
-  $form['ddbasic_settings']['ding_news_overlay']['ding_news_disable_overlay'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Disable overlay'),
-    '#description' => t('Disable gradient overlay with text on Ding news teasers'),
-    '#default_value' => theme_get_setting('ding_news_disable_overlay'),
-  );
-
-  $form['ddbasic_settings']['ding_group_overlay'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Ding group overlay'),
-  );
-  $form['ddbasic_settings']['ding_group_overlay']['ding_group_disable_overlay'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Disable overlay'),
-    '#description' => t('Disable gradient overlay with text on Ding group teasers'),
-    '#default_value' => theme_get_setting('ding_group_disable_overlay'),
-  );
-
-  $form['ddbasic_settings']['ding_rolltab_overlay'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Ding tabroll overlay'),
-  );
-  $form['ddbasic_settings']['ding_rolltab_overlay']['ding_rolltab_disable_overlay'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Disable overlay'),
-    '#description' => t('Disable gradient overlay with text on Ding tabroll teasers'),
-    '#default_value' => theme_get_setting('ding_rolltab_disable_overlay'),
-  );
-
   $form['#validate'][] = 'ddbasic_form_system_theme_settings_validate';
   $form['#submit'][] = 'ddbasic_form_system_theme_settings_submit';
 }
@@ -88,14 +55,5 @@ function ddbasic_form_system_theme_settings_validate($form, &$form_state) {
  * Custom submit for the theme_settings form.
  */
 function ddbasic_form_system_theme_settings_submit($form, &$form_state) {
-  $theme_name = $form_state['build_info']['args'][0];
-  // Add all the css files to the color module info array.
-  $theme_path = drupal_realpath(drupal_get_path('theme', $theme_name)) . '/';
-  $cssfiles = array_merge(
-    file_scan_directory($theme_path . '/sass_css', '/\.css$/')
-  );
-  $form_state['values']['info']['css'] = array();
-  foreach ($cssfiles as $cssfile) {
-    $form_state['values']['info']['css'][] = str_replace($theme_path, '', drupal_realpath($cssfile->uri));
-  }
+  $form_state['values']['info']['css'] = ding_base_color_css_files($form_state['build_info']['args'][0]);
 }

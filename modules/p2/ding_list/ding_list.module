@@ -632,10 +632,6 @@ function ding_list_theme($existing, $type, $theme, $path) {
       'file' => 'theme/theme.inc',
       'variables' => array('message' => ''),
     ),
-    'ding_list_label_value' => array(
-      'file' => 'theme/theme.inc',
-      'variables' => array('label' => NULL, 'value' => NULL),
-    ),
     'ding_list_followers' => array(
       'file' => 'theme/theme.inc',
       'variables' => array('list' => NULL),
@@ -675,23 +671,6 @@ function ding_list_ding_entity_buttons($type, $entity) {
 }
 
 /**
- * Implements hook_permission().
- */
-function ding_list_permission() {
-  return array(
-    'administer all lists' => array(
-      'title' => t('Administer all lists'),
-    ),
-    'reset own lists' => array(
-      'title' => t('Reset own lists'),
-    ),
-    'reset all user lists' => array(
-      'title' => t('Reset all user lists'),
-    ),
-  );
-}
-
-/**
  * Implements hook_secure_permissions().
  */
 function ding_list_secure_permissions($role) {
@@ -714,8 +693,6 @@ function ding_list_secure_permissions($role) {
  * Implements template_preprocess_entity().
  */
 function ding_list_preprocess_entity(&$variables) {
-  global $user;
-
   if ($variables['entity_type'] == 'ding_type') {
     switch ($variables['ding_type']->type) {
       case 'ding_list':
@@ -754,34 +731,6 @@ function ding_list_preprocess_entity(&$variables) {
               // is more content.
               '#placeholders' => count($objects) > DING_LIST_CAROUSEL_CHUNK_SIZE ? DING_LIST_CAROUSEL_CHUNK_SIZE + 1 : count($objects),
             );
-
-            if (!empty($objects)) {
-              // Create Carousel actions.
-              $list = $variables['elements']['#entity'];
-              $variables['content']['carousel_actions'] = array(
-                '#type' => 'container',
-                '#attributes' => array(
-                  'class' => array(
-                    'ting-carousel-actions',
-                  ),
-                ),
-              );
-              $variables['content']['carousel_actions']['more'] = array(
-                '#theme' => 'link',
-                '#text' => t('Go to list'),
-                '#path' => 'list/' . $list->id,
-                '#prefix' => '<div class="more-link">',
-                '#suffix' => '</div>',
-                '#options' => array(
-                  'attributes' => array('class' => array('goto-list')),
-                  'html' => FALSE,
-                ),
-              );
-
-              if ($list->uid != $user->uid && user_access('use personalisation')) {
-                $variables['content']['carousel_actions']['follow_form'] = drupal_get_form('ding_list_add_element_form', 'ding_list', $list->id, t('Add to lists I follow'));
-              }
-            }
             break;
         }
         break;
@@ -1218,19 +1167,4 @@ function ding_list_panels_pane_content_alter($content, $pane, $args, $contexts) 
             array($list_type => $loan_history_link) +
             array_slice($items, count($items) - 2, count($items) - 1, true);
   }
-}
-
-/**
- * Implements hook_user_delete().
- */
-function ding_list_user_delete($account) {
-  ding_list_reset_user($account);
-}
-
-/**
- * Check if a user has access to reset own or another user's lists.
- */
-function ding_list_reset_lists_access($account, $target_account) {
-  return user_access('reset all user lists', $account)
-    || ($account->uid == $target_account->uid && user_access('reset own lists', $account));
 }
