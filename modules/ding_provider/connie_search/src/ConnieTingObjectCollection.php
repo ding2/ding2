@@ -43,7 +43,7 @@ class ConnieTingObjectCollection implements TingObjectCollectionInterface {
   public function getPrimaryObject() {
     // Get the first array-entry (without modifying the array).
     $objects = array_values($this->objects);
-    return empty($this->tingObjects) ? NULL : array_shift($objects);
+    return empty($objects) ? NULL : array_shift($objects);
   }
 
   /**
