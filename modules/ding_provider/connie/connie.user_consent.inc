@@ -2,13 +2,6 @@
 /**
  * @file
  * Implements the connie user consent interface.
- *
- * When a user gives permission to store his or her loan history for longer
- * than 30 days the user category is changed to reflect the new status. If the
- * permission is revoked then the user category is changed back to the
- * original.
- *
- * TODO: Implement this when connie supports user consent.
  */
 
 /**
