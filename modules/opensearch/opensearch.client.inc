@@ -25,9 +25,9 @@ define('OPENSEARCH_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
  *
  * @todo Should use getObject, but the ting-client lib doesn't implement that.
  *
- * @return \TingClientObject|\TingClientObjectCollection
+ * @return \TingClientObject|\TingClientObjectCollection|NULL
  *   Ting object or object collection if $collection is TRUE and a collection
- *   was found.
+ *   was found. NULL is returned if no object or collection could be retrieved.
  */
 function opensearch_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
   if (!empty($object_id)) {
