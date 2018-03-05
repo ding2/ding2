@@ -49,6 +49,8 @@ function fbs_ding_provider() {
 
 By combining these two modules end users are provides with a user interface for handling reservations while the reservation data is stored in a separate system.
 
+[`ding_provider.api.php`](../modules/ding_provider/ding_provider.api.php) containers more in-depth documentation about provider hooks, their parameters etc.
+
 ## Types of providers
 
 The different aspects of managing a library website are mirrored in the different *provider types* used by Ding2. A provider system may support one or more of these types. Not all types are required to run a Ding2 website.
