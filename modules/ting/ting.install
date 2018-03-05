@@ -299,3 +299,12 @@ function ting_update_7013() {
   );
   variable_set('ting_language_type_title_suffix', $language_suffix_types);
 }
+
+/**
+ * Enable OpenSearch module if no other search provider is active.
+ */
+function ting_update_7014() {
+  if (!ding_provider_implements('search', 'search')) {
+    module_enable(['opensearch']);
+  }
+}
