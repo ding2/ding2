@@ -122,7 +122,7 @@ function connie_reservation_options_submit($type, $account, $reservables, $value
   $field_language = field_language('profile2', $profile);
   $update = ding_reservation_default_options_branch_submit($type, 'openruth_preferred_branch', $profile->connie_preferred_branch[$field_language['connie_preferred_branch']][0]['value'], $values);
   if (!empty($update['connie_preferred_branch'])) {
-    $profile->connie_preferred_branch[$field_language['connie_preferred_branch']][0]['value'] = $update['connie_preferred_branch']
+    $profile->connie_preferred_branch[$field_language['connie_preferred_branch']][0]['value'] = $update['connie_preferred_branch'];
     $profile->save();
   }
 }
