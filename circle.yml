@@ -44,10 +44,7 @@ dependencies:
 
 test:
   override:
-    - make circle-static-analysis:
-        parallel: true
-    - make circle-setup:
-        parallel: true
+    - make circle-setup
     - make circle-run-unit-tests
     - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
     - make circle-run-behat-tests:
