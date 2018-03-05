@@ -42,6 +42,7 @@ function ting_search_admin_settings($form_state) {
   $form['ting_search']['search_strings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Search strings'),
+    '#description' => t('Search strings are used to build links to new search results based on field values. You can supply both search string and query values e.g. for facets separated by ?. As an example the following search string will link author name to a phrase search for the author with language set to Danish: phrase.creator="@author"?facets[]=facet.language:dansk.'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
