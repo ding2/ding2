@@ -51,6 +51,10 @@ function ding_ting_frontend_entity_info_alter(&$entity_info) {
         'label' => t('Reference teaser'),
         'custom settings' => TRUE,
       ),
+      'teaser' => array(
+        'label' => t('Teaser'),
+        'custom settings' => TRUE,
+      ),
     );
   }
 }
