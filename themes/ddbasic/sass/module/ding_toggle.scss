@@ -37,11 +37,12 @@ a#ding-toggle-format {
 .ding-format-short {
   .ting-object {
     .ting-cover,
-    span.search-result--heading-type,
     .info-container .field-name-ting-abstract,
     .field-name-ting-abstract,
     .field-type-ting-series,
     .subjects.field-type-ting-subjects,
+    .availability.search-result--availability,
+    .field-group-format.group-rating,
     .group-rating {
       display: none;
     }
