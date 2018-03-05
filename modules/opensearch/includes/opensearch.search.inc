@@ -120,9 +120,6 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   // Add a general quoted free text search.
   if (!empty($free_text_query = $ting_query->getFullTextQuery())) {
     $free_text_query = _ting_search_quote($ting_query->getFullTextQuery());
-    if ($ting_query->isFuzzy()) {
-      $free_text_query = '*' . $free_text_query . '*';
-    }
     $query_parts[] = $free_text_query;
   }
 
@@ -513,9 +510,9 @@ function opensearch_search_prepare_reference_query($query_string) {
     $query->setRawQuery($query_string);
   }
   else {
-    // Do a full-text search.
-    $query->setFuzzy(TRUE);
-    $query->setFullTextQuery($query_string);
+    // Do a full-text search with the wildcard character appended to expand
+    // search results until we have a hit.
+    $query->setFullTextQuery($query_string . '*');
   }
 
   return $query;

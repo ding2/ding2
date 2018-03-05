@@ -121,13 +121,6 @@ class TingSearchRequest {
   protected $fullTextQuery;
 
   /**
-   * Whether in particular fulltext searches are fuzzy.
-   *
-   * @var bool
-   */
-  protected $fuzzy = FALSE;
-
-  /**
    * Specifies whether collections in the search-result should be fully
    * populated. Eg. the returned collection may contain materials that does not
    * match the search-query, but shares collection with a material that does.
@@ -213,33 +206,6 @@ class TingSearchRequest {
    */
   public function setFullTextQuery($full_text_query) {
     $this->fullTextQuery = $full_text_query;
-    return $this;
-  }
-
-  /**
-   * Returns whether searches should be fuzzy.
-   *
-   * @return bool
-   *   Whether the search should be fuzzy.
-   */
-  public function isFuzzy() {
-    return $this->fuzzy;
-  }
-
-  /**
-   * Sets whether searches should be fuzzy.
-   *
-   * This will in particular affect full-text queries specified via
-   * setFullTextQuery()
-   *
-   * @param bool $fuzzy
-   *   The flag.
-   *
-   * @return TingSearchRequest
-   *   the current query object.
-   */
-  public function setFuzzy($fuzzy) {
-    $this->fuzzy = $fuzzy;
     return $this;
   }
 
