@@ -365,27 +365,45 @@ class SearchPage extends PageBase {
       $isOK = false;
       switch ($sortOption) {
         case 'title_ascending':
-          $isOK = (strcasecmp($this->searchResults[$i - 1]->title, $this->searchResults[$i]->title) <= 0) ? true : false;
+          $isOK = (strcasecmp($this->replaceWithDoubleAa($this->searchResults[$i - 1]->title), $this->replaceWithDoubleAa($this->searchResults[$i]->title)) <= 0) ? true : false;
+          // Modify the result if one or both are missing - this is not a reason to fail the check.
+          $isOK = (strlen($this->searchResults[$i - 1]->title) == 0) ? true : $isOK;
+          $isOK = (strlen($this->searchResults[$i]->title) == 0) ? true : $isOK;
           break;
 
         case 'title_descending':
-          $isOK = (strcasecmp($this->searchResults[$i - 1]->title, $this->searchResults[$i]->title) >= 0) ? true : false;
+          $isOK = (strcasecmp($this->replaceWithDoubleAa($this->searchResults[$i - 1]->title), $this->replaceWithDoubleAa($this->searchResults[$i]->title)) >= 0) ? true : false;
+          // Modify the result if one or both are missing - this is not a reason to fail the check.
+          $isOK = (strlen($this->searchResults[$i - 1]->title) == 0) ? true : $isOK;
+          $isOK = (strlen($this->searchResults[$i]->title) == 0) ? true : $isOK;
           break;
 
         case 'creator_ascending':
-          $isOK = (strcasecmp($this->searchResults[$i - 1]->creator, $this->searchResults[$i]->creator) <= 0) ? true : false;
+          $isOK = (strcasecmp($this->replaceWithDoubleAa($this->searchResults[$i - 1]->creator), $this->replaceWithDoubleAa($this->searchResults[$i]->creator)) <= 0) ? true : false;
+          // Modify the result if one or both are missing - this is not a reason to fail the check.
+          $isOK = (strlen($this->searchResults[$i - 1]->creator) == 0) ? true : $isOK;
+          $isOK = (strlen($this->searchResults[$i]->creator) == 0) ? true : $isOK;
           break;
 
         case 'creator_descending':
-          $isOK = (strcasecmp($this->searchResults[$i - 1]->creator, $this->searchResults[$i]->creator) >= 0) ? true : false;
+          $isOK = (strcasecmp($this->replaceWithDoubleAa($this->searchResults[$i - 1]->creator), $this->replaceWithDoubleAa($this->searchResults[$i]->creator)) >= 0) ? true : false;
+          // Modify the result if one or both are missing - this is not a reason to fail the check.
+          $isOK = (strlen($this->searchResults[$i - 1]->creator) == 0) ? true : $isOK;
+          $isOK = (strlen($this->searchResults[$i]->creator) == 0) ? true : $isOK;
           break;
 
         case 'date_ascending':
           $isOK = (strcasecmp($this->searchResults[$i - 1]->published, $this->searchResults[$i]->published) <= 0) ? true : false;
+          // Modify the result if one or both are missing - this is not a reason to fail the check.
+          $isOK = (strlen($this->searchResults[$i - 1]->published) == 0) ? true : $isOK;
+          $isOK = (strlen($this->searchResults[$i]->published) == 0) ? true : $isOK;
           break;
 
         case 'date_descending':
           $isOK = (strcasecmp($this->searchResults[$i - 1]->published, $this->searchResults[$i]->published) >= 0) ? true : false;
+          // Modify the result if one or both are missing - this is not a reason to fail the check.
+          $isOK = (strlen($this->searchResults[$i - 1]->published) == 0) ? true : $isOK;
+          $isOK = (strlen($this->searchResults[$i]->published) == 0) ? true : $isOK;
           break;
 
         default:
@@ -394,10 +412,10 @@ class SearchPage extends PageBase {
       if ($isOK === false) {
         $this->logMsg(true, "Sorting on (" . $sortOption . ") is not ok:            (page " . $this->searchResults[$i]->page
               . " #" . $this->searchResults[$i]->item . ")");
-        $this->logMsg(true, "    " . $this->searchResults[$i - 1]->title . " by " . $this->searchResults[$i - 1]->creator . " ("
+        $this->logMsg(true, "    " . $this->replaceWithDoubleAa($this->searchResults[$i - 1]->title) . " by " . $this->replaceWithDoubleAa($this->searchResults[$i - 1]->creator) . " ("
               . $this->searchResults[$i - 1]->published . ")");
         $this->logMsg(true, "  is listed before");
-        $this->logMsg(true, "    " . $this->searchResults[$i]->title . " by " . $this->searchResults[$i]->creator . " ("
+        $this->logMsg(true, "    " . $this->replaceWithDoubleAa($this->searchResults[$i]->title) . " by " . $this->replaceWithDoubleAa($this->searchResults[$i]->creator) . " ("
               . $this->searchResults[$i]->published . ")");
         $sortingOK = false;
       }
@@ -406,6 +424,20 @@ class SearchPage extends PageBase {
       return "Sorting not as expected.";
     }
     return "";
+  }
+
+  /**
+   * Replace danish å with double-a, as aa. Also returns the string with lowercase.
+   *
+   * @param String $inputStr
+   *    The string to be transcribed into aa for universal comparison.
+   *
+   * @return string
+   *    The transcribed version of the input string.
+   */
+  public function replaceWithDoubleAa(String $inputStr) {
+    $outputStr = mb_ereg_replace('Å', "aa", $inputStr);
+    return mb_strtolower($outputStr);
   }
 
   /**
