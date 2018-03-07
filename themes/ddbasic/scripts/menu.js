@@ -19,11 +19,11 @@
       // If they scrolled down and are past the topbar, add class .topbar-up.
       if(st > last_scroll_top && st > topbar_height) {
           // Scroll Down
-          $('header.site-header').addClass('topbar-up');
+          $('body').addClass('topbar-up');
       } else {
           // Scroll Up
           if(st + $(window).height() < $(document).height()) {
-            $('header.site-header').removeClass('topbar-up');
+            $('body').removeClass('topbar-up');
           }
       }
 
