@@ -46,7 +46,6 @@ test:
   override:
     - make circle-setup
     - make circle-run-unit-tests
-    - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
     - make circle-run-behat-tests:
         parallel: true
 
@@ -56,5 +55,7 @@ test:
     - sudo rm -rf $DRUPAL_SITE_PATH/sites/default/settings.php $DRUPAL_SITE_PATH/sites/default/files
     # Remove node_modules folder. This is not needed in the final artifact.
     - rm -rf $DRUPAL_SITE_PATH/profiles/ding2/themes/ddbasic/node_modules
+    # Remove ding_test composer vendor folder
+    - rm -rf $DRUPAL_SITE_PATH/profiles/ding2/modules/ding_test/vendor
     # Wrap the site into an archieve and expose it as an artifact.
     - tar -zcvf $CIRCLE_ARTIFACTS/ding2-$CIRCLE_SHA1.tar.gz -C $DRUPAL_SITE_PATH .

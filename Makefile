@@ -1,5 +1,4 @@
 # Prepare a site-installation for testing
-
 circle-setup:
 	# Build profile using drush make
 	drush make ding2.make --no-core --contrib-destination=. -y
@@ -37,6 +36,7 @@ circle-setup:
 	php7cc --except=vendor --level=error --extensions=php,inc,module,install $(DRUPAL_SITE_PATH) | tee /dev/tty | grep -vq 'File: '
 
 circle-run-behat-tests:
+	mkdir -p $(CIRCLE_TEST_REPORTS)/cucumber
 	# Set up test site.
 	cd $(DRUPAL_SITE_PATH)/profiles/ding2/tests/behat && make test-setup
 	# Make the files directory writable for the web server user.

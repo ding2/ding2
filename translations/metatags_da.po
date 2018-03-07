@@ -246,3 +246,8 @@ msgstr "Nyheder | [current-page:pager][site:name]"
 msgctxt "metatag_panels:page_user_my_library_panel:title"
 msgid "My personal library | [current-page:pager][site:name]"
 msgstr "Mit personlige bibliotek | [current-page:pager][site:name]"
+
+#: metatag:metatag_panels:page_user_loans_overdue_panel_context:title
+msgctxt "metatag_panels:page_user_loans_overdue_panel_context:title"
+msgid "Overdue loans | [current-page:pager][site:name]"
+msgstr "Overskredne lån | [current-page:pager][site:name]"

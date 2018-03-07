@@ -299,60 +299,9 @@ function ding_list_handle_fields_in_list(&$list, array $fields) {
               }
             }
           }
-          break;
       }
     }
   }
-}
-
-/**
- * Get terms from tags.
- *
- * Copied from taxonomy_autocomplete_validate() function.
- *
- * @param array $tags
- *   An array of tag names.
- * @param string $field_name
- *   Name of the field the tags should be attached to (used for getting the
- *   vocabulary).
- *
- * @return array
- *   An array of taxonomy_term entities.
- */
-function ding_list_handle_taxonomy_terms(array $tags, $field_name) {
-  $value = array();
-
-  // Collect candidate vocabularies.
-  $field = field_info_field($field_name);
-
-  $vocabularies = array();
-  foreach ($field['settings']['allowed_values'] as $tree) {
-    if ($vocabulary = taxonomy_vocabulary_machine_name_load($tree['vocabulary'])) {
-      $vocabularies[$vocabulary->vid] = $vocabulary;
-    }
-  }
-
-  // Translate term names into actual terms.
-  $typed_terms = drupal_explode_tags($tags);
-  foreach ($typed_terms as $typed_term) {
-    // See if the term exists in the chosen vocabulary and return the tid;
-    // otherwise, create a new 'autocreate' term for insert/update.
-    if ($possibilities = taxonomy_term_load_multiple(array(), array('name' => trim($typed_term), 'vid' => array_keys($vocabularies)))) {
-      $term = array_pop($possibilities);
-    }
-    else {
-      $vocabulary = reset($vocabularies);
-      $term = array(
-        'tid' => 'autocreate',
-        'vid' => $vocabulary->vid,
-        'name' => $typed_term,
-        'vocabulary_machine_name' => $vocabulary->machine_name,
-      );
-    }
-    $value[] = (array) $term;
-  }
-
-  return $value;
 }
 
 /**

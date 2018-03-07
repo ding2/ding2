@@ -44482,7 +44482,7 @@ msgstr "Overskredne lån - gebyr kan forekomme, også ved fornyelse"
 
 #: /user/36/status
 msgid "Due in @count, @date"
-msgstr "Aflevér senest <B>@date</B>"
+msgstr "Aflevér senest den <B>@date</B>"
 
 #: /user/36/status
 msgid "Material no."
@@ -48230,7 +48230,7 @@ msgstr "Se og redigere listen"
 
 #: /list/17/share
 msgid "Select which type of access to share"
-msgstr "Brugere med adgang til listen skal kunne: "
+msgstr "Modtagere af linket skal kunne: "
 
 #: /list/17/share
 msgid "Share link"
@@ -67002,8 +67002,8 @@ msgid ""
 msgstr "Lad biblioteks-admins indtaste CQL søgning som sender materialer ind i forsidens serendipitetspanel." 
 
 #: /lazy-pane/ajax
-msgid "Set the frontpage serendipity CQL" 
-msgstr "Angiv forsidens serendipitets CQL" 
+msgid "Set the frontpage serendipity search string"
+msgstr "Angiv forsidens serendipitets søge streng"
 
 #: /
 msgid "ADHL on random loan items"

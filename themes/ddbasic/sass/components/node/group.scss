@@ -74,61 +74,6 @@
   }
 
   // ==========================================================================
-  // Teaser no overlay
-  // ==========================================================================
-
-  &.node-teaser-no-overlay {
-    .ding-group-image {
-      @include aspect-ratio-background-image(16, 9);
-      margin-bottom: 14px;
-      overflow: hidden;
-      border-radius: $round-corner;
-      img {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        left: 0;
-        top: 0;
-      }
-    }
-
-    h3.title {
-      @include transition(color $speed $ease);
-      @include font('display-small');
-      margin-bottom: 4px;
-      color: $color-standard-text;
-    }
-    .field-name-field-ding-group-lead {
-      display: none;
-      color: $color-standard-text;
-    }
-    // First two teasers in view
-    .view-ding-groups .views-row:nth-child(1) &,
-    .view-ding-groups .views-row:nth-child(2) & {
-      h3.title {
-        @include font('display');
-        // Tablet
-        @include media($tablet) {
-          @include font('display-small');
-        }
-      }
-      .field-name-field-ding-group-lead {
-        @include span-columns(8);
-        display: block;
-        // Tablet
-        @include media($tablet) {
-          display: none;
-        }
-      }
-    }
-    a:hover {
-      h3.title {
-        color: $color-text-link;
-      }
-    }
-  }
-
-  // ==========================================================================
   // Full
   // ==========================================================================
 
