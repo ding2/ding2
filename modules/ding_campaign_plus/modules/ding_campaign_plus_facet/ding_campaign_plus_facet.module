@@ -1012,7 +1012,7 @@ function _ding_campaign_plus_facet_match($keys) {
                 if (!_ding_campaign_plus_facet_compare($facet, $terms)) {
                   // This is "and" operator, so if one rule is not satisfied
                   // break out to next rules group.
-                  break 2;
+                  break 3;
                 }
                 else {
                   if (!isset($local_triggers[$rule->facet])) {

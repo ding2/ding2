@@ -274,36 +274,38 @@ function ding_campaign_plus_get_matches(array $contexts, $style) {
     }
   }
 
-  // Sort based on calculated weight.
-  asort($campaigns, SORT_NUMERIC);
+  // Only if any campaigns where found in the sub-module match functions.
+  if (!empty($campaigns)) {
+    // Sort based on calculated weight.
+    asort($campaigns, SORT_NUMERIC);
 
-  // Load changed date for the campaigns triggered.
-  $nids = array_keys($campaigns);
-  $times = db_select('node', 'n')
-    ->fields('n', array('nid', 'changed'))
-    ->condition('nid', $nids, 'IN')
-    ->condition('status', 1)
-    ->execute()
-    ->fetchAllKeyed(0);
+    // Load changed date for the campaigns triggered.
+    $nids = array_keys($campaigns);
+    $times = db_select('node', 'n')
+      ->fields('n', array('nid', 'changed'))
+      ->condition('nid', $nids, 'IN')
+      ->execute()
+      ->fetchAllKeyed(0);
 
-  // Split the array into groups base on weight and add the changed times.
-  $groups = array();
-  foreach($campaigns as $key => $item) {
-    $groups[$item][$key] = $times[$key];
-  }
+    // Split the array into groups base on weight and add the changed times.
+    $groups = array();
+    foreach($campaigns as $key => $item) {
+      $groups[$item][$key] = $times[$key];
+    }
 
-  // Sort the groups based on the changed time inside each weighted group.
-  $groups = array_map(function ($values) {
-    arsort($values, SORT_NUMERIC);
-    return array_keys($values);
-  }, $groups);
+    // Sort the groups based on the changed time inside each weighted group.
+    $groups = array_map(function ($values) {
+      arsort($values, SORT_NUMERIC);
+      return array_keys($values);
+    }, $groups);
 
-  // Flatten the array based on the grouping and time sort order into an list
-  // of node id's.
-  $campaigns = array();
-  $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($groups));
-  foreach($it as $nid) {
-    $campaigns[] = $nid;
+    // Flatten the array based on the grouping and time sort order into an list
+    // of node id's.
+    $campaigns = array();
+    $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($groups));
+    foreach($it as $nid) {
+      $campaigns[] = $nid;
+    }
   }
 
   return $campaigns;
