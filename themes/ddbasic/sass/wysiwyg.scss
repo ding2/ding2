@@ -1,0 +1,19 @@
+//
+// Styling of WYSIWYG editor
+
+@import 'base.scss';
+
+// Media element
+.media-element {
+	display: block;
+	margin-right: 10px;
+  margin-bottom: 5px;
+
+  &.media-wysiwyg-align-left {
+	  margin: 20px 20px 20px 0;
+  }
+
+  &.media-wysiwyg-align-right {
+	  margin: 20px 0 20px 20px;
+  }
+}
