@@ -611,6 +611,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
   $form['facet_value'] = array(
     '#type' => 'textfield',
     '#title' => t('Facet value'),
+    '#description' => t('If the facet type selected is numeric the operators "<", "<=", ">=", ">" can be used e.g. > 2015. Wildcard "*" is also supported for matching with for example DK5 e.g. 89*'),
     '#default_value' => isset($default_values['facet_value']) ? $default_values['facet_value'] : '',
     '#size' => 64,
     '#maxlength' => 255,
