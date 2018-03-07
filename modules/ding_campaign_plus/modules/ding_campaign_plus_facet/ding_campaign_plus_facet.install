@@ -40,6 +40,10 @@ function ding_campaign_plus_facet_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
+      'operator' => array(
+        'type' => 'varchar',
+        'length' => 4
+      ),
     ),
     'primary key' => array('id'),
     'indexes' => array(

@@ -133,7 +133,9 @@ function ding_campaign_plus_facet_node_insert($node) {
             'facet' => $rule['facet'],
             'value' => $value,
             'common' => $rule['common'] === '_none_' ? NULL : $rule['common'],
-          ))->execute();
+            'operator' => $triggers['rules']['operator'],
+          ))
+          ->execute();
       }
     }
   }
@@ -237,7 +239,6 @@ function ding_campaign_plus_facet_form_ding_campaign_plus_admin_settings_alter(&
     '#suffix' => '</div>',
     '#theme' => 'ding_campaign_plus_facet_table_drag',
   );
-
 
   $id = 0;
   $facets = _ding_campaign_plus_facet_get_facets();
@@ -472,6 +473,17 @@ function ding_campaign_plus_facet_admin_form(&$form_state) {
     ),
   );
 
+  $triggers['operator'] = array(
+    '#type' => 'select',
+    '#title' => t('Operator'),
+    '#description' => t('Used to define the operator used between facet rules below.'),
+    '#options' => array(
+      'or' => t('or'),
+      'and' => t('and'),
+    ),
+    '#default_value' => isset($values['rule_0']['operator']) ? $values['rule_0']['operator'] : 'or',
+  );
+
   // If this form is "add another" or "remove" build rules already form_state
   // values.
   foreach ($values as $key => $value) {
@@ -664,6 +676,7 @@ function _ding_campaign_plus_facet_get_rules($nid, array $rules) {
           'facet_value_select_type' => $value_type,
           'facet_value_select_source' => $value_source,
           'facet_value' => $value,
+          'operator' => $rule->operator,
         );
       }
     }
@@ -938,11 +951,18 @@ function _ding_campaign_plus_facet_match($keys) {
   $triggers = array();
 
   // Find rules that will match facet.
-  $campaigns = db_select('ding_campaign_plus_facet', 'dcpf')
+  $results = db_select('ding_campaign_plus_facet', 'dcpf')
     ->fields('dcpf')
-    ->execute();
+    ->execute()
+    ->fetchAll();
 
-  if ($campaigns) {
+  // Group the rules by node id.
+  $rules_group = array();
+  foreach ($results as $rule) {
+    $rules_group[$rule->nid][] = $rule;
+  }
+
+  if (!empty($rules_group)) {
     // Run user search - to get facets.
     $facet_array = array();
     $conditions = ting_search_conditions_callback($keys);
@@ -968,28 +988,73 @@ function _ding_campaign_plus_facet_match($keys) {
     ));
 
     // Loop rules to find most common matches in facets.
-    foreach ($campaigns as $campaign) {
-      $facets = (array) unserialize($campaign->value);
-      if (isset($search_result->facets[$campaign->facet])) {
-        $terms = $search_result->facets[$campaign->facet]->terms;
+    foreach ($rules_group as $rules) {
+      // Get the operator for the first rule as all rules in group have same
+      // operator.
+      $operator = reset($rules)->operator;
+      switch ($operator) {
+        case 'and':
+          $local_triggers = array();
+          foreach ($rules as $rule) {
+            $facets = (array) unserialize($rule->value);
+            if (isset($search_result->facets[$rule->facet])) {
+              $terms = $search_result->facets[$rule->facet]->terms;
 
-        // Cut off all terms above the current triggers "most common" limit. The
-        // array keys are extracted as some facets has numbers as keys and it's
-        // the keys that are the facet names.
-        $terms = array_keys($terms);
-        $terms = array_slice($terms, 0, $campaign->common);
+              // Cut off all terms above the current triggers "most common" limit. The
+              // array keys are extracted as some facets has numbers as keys and it's
+              // the keys that are the facet names.
+              $terms = array_keys($terms);
+              $terms = array_slice($terms, 0, $rule->common);
 
-        // Check if facets matches any of the terms left.
-        foreach ($facets as $facet) {
-          $facet = drupal_strtolower($facet);
-          if (_ding_campaign_plus_facet_compare($facet, $terms)) {
-            if (!isset($triggers[$campaign->facet])) {
-              $triggers[$campaign->facet] = array();
+              // Check if facets matches any of the terms left.
+              foreach ($facets as $facet) {
+                $facet = drupal_strtolower($facet);
+                if (!_ding_campaign_plus_facet_compare($facet, $terms)) {
+                  // This is "and" operator, so if one rule is not satisfied
+                  // break out to next rules group.
+                  break 2;
+                }
+                else {
+                  if (!isset($local_triggers[$rule->facet])) {
+                    $local_triggers[$rule->facet] = array();
+                  }
+                  $local_triggers[$rule->facet][] = $rule->nid;
+                }
+              }
             }
-            $triggers[$campaign->facet][] = $campaign->nid;
-            break;
           }
-        }
+
+          // If we get to this code all rules in the "and" group is satisfied.
+          $triggers = array_merge_recursive($triggers, $local_triggers);
+          break;
+
+        default:
+          // This is the "or" case and also the default operator.
+          foreach ($rules as $rule) {
+            $facets = (array) unserialize($rule->value);
+            if (isset($search_result->facets[$rule->facet])) {
+              $terms = $search_result->facets[$rule->facet]->terms;
+
+              // Cut off all terms above the current triggers "most common" limit. The
+              // array keys are extracted as some facets has numbers as keys and it's
+              // the keys that are the facet names.
+              $terms = array_keys($terms);
+              $terms = array_slice($terms, 0, $rule->common);
+
+              // Check if facets matches any of the terms left.
+              foreach ($facets as $facet) {
+                $facet = drupal_strtolower($facet);
+                if (_ding_campaign_plus_facet_compare($facet, $terms)) {
+                  if (!isset($triggers[$rule->facet])) {
+                    $triggers[$rule->facet] = array();
+                  }
+                  $triggers[$rule->facet][] = $rule->nid;
+                  break;
+                }
+              }
+            }
+          }
+          break;
       }
     }
   }

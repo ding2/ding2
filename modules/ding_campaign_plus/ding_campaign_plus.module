@@ -282,6 +282,7 @@ function ding_campaign_plus_get_matches(array $contexts, $style) {
   $times = db_select('node', 'n')
     ->fields('n', array('nid', 'changed'))
     ->condition('nid', $nids, 'IN')
+    ->condition('status', 1)
     ->execute()
     ->fetchAllKeyed(0);
 
@@ -301,8 +302,8 @@ function ding_campaign_plus_get_matches(array $contexts, $style) {
   // of node id's.
   $campaigns = array();
   $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($groups));
-  foreach($it as $v) {
-    $campaigns[] = $v;
+  foreach($it as $nid) {
+    $campaigns[] = $nid;
   }
 
   return $campaigns;
@@ -335,7 +336,7 @@ function ding_campaign_plus_add_campaign(array &$campaigns, array $nids, $type) 
   }
 
   foreach ($nids as $nid) {
-    $campaigns[$nid] = isset($campaigns[$nid]) ? $campaigns[$nid] + $rule_weights[$type] : $rule_weights[$type];
+    $campaigns[$nid] = isset($campaigns[$nid]) ? $campaigns[$nid] + (int) $rule_weights[$type] : (int) $rule_weights[$type];
   }
 }
 
