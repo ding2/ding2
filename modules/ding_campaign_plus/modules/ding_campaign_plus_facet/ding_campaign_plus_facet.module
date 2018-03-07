@@ -970,8 +970,8 @@ function _ding_campaign_plus_facet_match($keys) {
 
     // Extend query with selected facets.
     if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
-      $facets = $conditions['facets'];
-      foreach ($facets as $facet) {
+      $values = $conditions['facets'];
+      foreach ($values as $facet) {
         $facet = explode(':', $facet, 2);
         if ($facet[0]) {
           $facet_array[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
@@ -996,20 +996,14 @@ function _ding_campaign_plus_facet_match($keys) {
         case 'and':
           $local_triggers = array();
           foreach ($rules as $rule) {
-            $facets = (array) unserialize($rule->value);
             if (isset($search_result->facets[$rule->facet])) {
+              $values = (array) unserialize($rule->value);
               $terms = $search_result->facets[$rule->facet]->terms;
 
-              // Cut off all terms above the current triggers "most common" limit. The
-              // array keys are extracted as some facets has numbers as keys and it's
-              // the keys that are the facet names.
-              $terms = array_keys($terms);
-              $terms = array_slice($terms, 0, $rule->common);
-
               // Check if facets matches any of the terms left.
-              foreach ($facets as $facet) {
-                $facet = drupal_strtolower($facet);
-                if (!_ding_campaign_plus_facet_compare($facet, $terms)) {
+              foreach ($values as $value) {
+                $value = drupal_strtolower($value);
+                if (!_ding_campaign_plus_facet_compare($value, $terms, $rule->common)) {
                   // This is "and" operator, so if one rule is not satisfied
                   // break out to next rules group.
                   break 3;
@@ -1031,20 +1025,14 @@ function _ding_campaign_plus_facet_match($keys) {
         default:
           // This is the "or" case and also the default operator.
           foreach ($rules as $rule) {
-            $facets = (array) unserialize($rule->value);
             if (isset($search_result->facets[$rule->facet])) {
+              $values = (array) unserialize($rule->value);
               $terms = $search_result->facets[$rule->facet]->terms;
 
-              // Cut off all terms above the current triggers "most common" limit. The
-              // array keys are extracted as some facets has numbers as keys and it's
-              // the keys that are the facet names.
-              $terms = array_keys($terms);
-              $terms = array_slice($terms, 0, $rule->common);
-
               // Check if facets matches any of the terms left.
-              foreach ($facets as $facet) {
-                $facet = drupal_strtolower($facet);
-                if (_ding_campaign_plus_facet_compare($facet, $terms)) {
+              foreach ($values as $value) {
+                $value = drupal_strtolower($value);
+                if (_ding_campaign_plus_facet_compare($value, $terms, $rule->common)) {
                   if (!isset($triggers[$rule->facet])) {
                     $triggers[$rule->facet] = array();
                   }
@@ -1068,46 +1056,46 @@ function _ding_campaign_plus_facet_match($keys) {
  * Users can use asterisk (*) and <, > operators as the facet trigger value for
  * a campaign. So this is detected here and matches are preformed.
  *
- * @param string $match
+ * @param string $value
  *   The string/facet to test if matches the terms.
  * @param array $terms
  *   The terms in a given facet group from the data-well.
+ * @param int $common
+ *   The most common terms.
  *
  * @return bool
  *   If matched TRUE else FALSE.
  */
-function _ding_campaign_plus_facet_compare($match, array $terms) {
-  if (strpos($match, '*')) {
-    $match = '/' . str_replace('*', '.*', $match) . '/';
-    return !empty(preg_grep($match, $terms));
+function _ding_campaign_plus_facet_compare($value, array $terms, $common) {
+  // Cut off all terms above the current triggers "most common" limit. The
+  // array keys are extracted as some facets has numbers as keys and it's
+  // the keys that are the facet names.
+  $terms = array_keys($terms);
+  $terms = array_slice($terms, 0, $common);
+
+  if (strpos($value, '*')) {
+    $value = '/' . str_replace('*', '.*', $value) . '/';
+    return !empty(preg_grep($value, $terms));
   }
-  else if (preg_match('/^(<=|>=|<|>)\s*(.*)/', $match, $matches)) {
-    foreach ($terms as $term) {
-      // Switch over the operator as PHP don't allow operators in variable,
-      // which would have simplified this code.
+  else if (preg_match('/^(<=|>=|<|>)\s*(.*)/', $value, $matches)) {
+    if (is_numeric($matches[2])) {
+      sort($terms, SORT_NUMERIC);
+      $value = floatval($matches[2]);
       switch ($matches[1]) {
         case '<':
-          if ($term < $matches[2]) {
-            return TRUE;
-          };
+          return end($terms) < $value;
           break;
 
         case '>':
-          if ($term > $matches[2]) {
-            return TRUE;
-          };
+          return reset($terms) > $value;
           break;
 
         case '>=':
-          if ($term >= $matches[2]) {
-            return TRUE;
-          };
+          return end($terms) <= $value;
           break;
 
         case '<=':
-          if ($term <= $matches[2]) {
-            return TRUE;
-          };
+          return reset($terms) >= $value;
           break;
 
         default:
@@ -1118,7 +1106,7 @@ function _ding_campaign_plus_facet_compare($match, array $terms) {
 
   // No wild card or comparison operator, so we do a simple check for the exact
   // value in the array.
-  return in_array($match, $terms);
+  return in_array($value, $terms);
 }
 
 /**
