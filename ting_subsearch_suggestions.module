@@ -207,7 +207,7 @@ function ting_subsearch_suggestions_cron() {
           ),
         )
       );
-      $result = json_decode($response->getBody());
+      $result = json_decode($response->getBody(), TRUE);
     }
     catch (GuzzleClientException $e) {
       throw new Exception($e->getMessage(), $e->getCode(), $e);
@@ -227,19 +227,19 @@ function ting_subsearch_suggestions_cron() {
 /**
  * Insert kpi keys into table.
  */
-function ting_subsearch_suggestions_insert_records($json) {
+function ting_subsearch_suggestions_insert_records($result) {
 
   db_truncate('ting_subsearch_kpi_index_popular_keys')->execute();
 
-  foreach ($json->data[0]->SubRows[0] as $keys => $data) {
+  foreach ($result['data'][0]['SubRows'][0] as $keys => $data) {
     // Avoid keys that didn't have successful searches, are longer than 255
     // chars and have an equalsign as part of it.
-    if ($data->measures->SuccessfulSearches > 0 && strlen($keys) < 255 && !strpos('=', $keys)) {
+    if ($data['measures']['SuccessfulSearches'] > 0 && strlen($keys) < 255 && !strpos('=', $keys)) {
       $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields(
         array(
           'id' => md5($keys),
           'popular_keys' => $keys,
-          'numtotalsearches' => (int) $data->measures->SuccessfulSearches,
+          'numtotalsearches' => (int) $data['measures']['SuccessfulSearches'],
         )
       );
       $query->execute();
