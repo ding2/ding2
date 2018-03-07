@@ -124,6 +124,7 @@ function ding_campaign_plus_facet_node_insert($node) {
 
         default:
           $value = empty($rule['facet_value']) ? $rule['facet_value'] : serialize($rule['facet_value']);
+          break;
       }
 
       if (!empty($value)) {
@@ -952,8 +953,10 @@ function _ding_campaign_plus_facet_match($keys) {
   $triggers = array();
 
   // Find rules that will match facet.
-  $results = db_select('ding_campaign_plus_facet', 'dcpf')
-    ->fields('dcpf')
+  $query = db_select('ding_campaign_plus_facet', 'dcpf')
+    ->fields('dcpf');
+  $query->join('node', 'n', 'dcpf.nid = n.nid');
+  $results = $query->condition('status', 1)
     ->execute()
     ->fetchAll();
 

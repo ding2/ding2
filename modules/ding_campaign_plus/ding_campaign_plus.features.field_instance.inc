@@ -10,7 +10,8 @@
 function ding_campaign_plus_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-ding_campaign_plus-field_ding_campaign_plus_image'
+  // Exported field_instance:
+  // 'node-ding_campaign_plus-field_ding_campaign_plus_image'.
   $field_instances['node-ding_campaign_plus-field_ding_campaign_plus_image'] = array(
     'bundle' => 'ding_campaign_plus',
     'deleted' => 0,
@@ -100,7 +101,8 @@ function ding_campaign_plus_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_campaign_plus-field_ding_campaign_plus_link'
+  // Exported field_instance:
+  // 'node-ding_campaign_plus-field_ding_campaign_plus_link'.
   $field_instances['node-ding_campaign_plus-field_ding_campaign_plus_link'] = array(
     'bundle' => 'ding_campaign_plus',
     'default_value' => NULL,
@@ -168,7 +170,8 @@ function ding_campaign_plus_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_campaign_plus-field_ding_campaign_plus_style'
+  // Exported field_instance:
+  // 'node-ding_campaign_plus-field_ding_campaign_plus_style'.
   $field_instances['node-ding_campaign_plus-field_ding_campaign_plus_style'] = array(
     'bundle' => 'ding_campaign_plus',
     'default_value' => array(
@@ -224,7 +227,8 @@ Campaign box is located at the bottom of the left column, on the page types wher
     ),
   );
 
-  // Exported field_instance: 'node-ding_campaign_plus-field_ding_campaign_plus_text'
+  // Exported field_instance:
+  // 'node-ding_campaign_plus-field_ding_campaign_plus_text'.
   $field_instances['node-ding_campaign_plus-field_ding_campaign_plus_text'] = array(
     'bundle' => 'ding_campaign_plus',
     'default_value' => NULL,
@@ -276,7 +280,8 @@ Campaign box is located at the bottom of the left column, on the page types wher
     ),
   );
 
-  // Exported field_instance: 'node-ding_campaign_plus-field_ding_campaign_plus_track'
+  // Exported field_instance:
+  // 'node-ding_campaign_plus-field_ding_campaign_plus_track'.
   $field_instances['node-ding_campaign_plus-field_ding_campaign_plus_track'] = array(
     'bundle' => 'ding_campaign_plus',
     'default_value' => array(
@@ -331,7 +336,8 @@ Campaign box is located at the bottom of the left column, on the page types wher
     ),
   );
 
-  // Exported field_instance: 'node-ding_campaign_plus-field_ding_campaign_plus_type'
+  // Exported field_instance:
+  // 'node-ding_campaign_plus-field_ding_campaign_plus_type'.
   $field_instances['node-ding_campaign_plus-field_ding_campaign_plus_type'] = array(
     'bundle' => 'ding_campaign_plus',
     'default_value' => array(

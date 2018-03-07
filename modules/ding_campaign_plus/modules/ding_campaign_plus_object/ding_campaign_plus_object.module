@@ -226,21 +226,23 @@ function _ding_campaign_plus_object_match($ting_object_id) {
   $nids = array();
 
   // Find rules that will match facet.
-  $campaigns = db_select('ding_campaign_plus_object', 'dcpo')
-    ->fields('dcpo')
+  $query = db_select('ding_campaign_plus_object', 'dcpo')
+    ->fields('dcpo');
+  $query->join('node', 'n', 'dcpo.nid = n.nid');
+  $rules = $query->condition('status', 1)
     ->execute();
 
-  if ($campaigns) {
-    foreach ($campaigns as $campaign) {
+  if ($rules) {
+    foreach ($rules as $rule) {
       // Run campaign search query combined with the object id to see if it
       // contains the current viewed ting object.
-      $query = '(' . _ting_search_quote($campaign->query) . ') AND (' . $ting_object_id . ')';
+      $query = '(' . _ting_search_quote($rule->query) . ') AND (' . $ting_object_id . ')';
 
       module_load_include('client.inc', 'ting');
       $search_result = ting_do_search($query, 1, 1);
 
       if ($search_result->numTotalObjects > 0) {
-        $nids[] = $campaign->nid;
+        $nids[] = $rule->nid;
       }
     }
   }

@@ -236,11 +236,13 @@ function _ding_campaign_plus_search_match($keys) {
   $nids = array();
 
   // Find rules that will match facet.
-  $triggers = db_select('ding_campaign_plus_search', 'dcps')
-    ->fields('dcps')
+  $query = db_select('ding_campaign_plus_search', 'dcps')
+    ->fields('dcps');
+  $query->join('node', 'n', 'dcps.nid = n.nid');
+  $rules = $query->condition('status', 1)
     ->execute();
 
-  if ($triggers) {
+  if ($rules) {
     // Run user search to get number of results used to percentage
     // calculations.
     $facet_array = array();
@@ -268,12 +270,12 @@ function _ding_campaign_plus_search_match($keys) {
 
     if ($no_of_results > 0) {
       // Loop rules to find percentage match in facets.
-      foreach ($triggers as $trigger) {
+      foreach ($rules as $rule) {
         // Do combined search to get intersection between user search and
         // campaign trigger CQL string.
-        $search_result = ting_do_search($query . 'AND (' . $trigger->query . ')', 1, 1);
-        if (($search_result->numTotalObjects / $no_of_results) * 100 >= $trigger->percent) {
-          $nids[] = $trigger->nid;
+        $search_result = ting_do_search($query . 'AND (' . $rule->query . ')', 1, 1);
+        if (($search_result->numTotalObjects / $no_of_results) * 100 >= $rule->percent) {
+          $nids[] = $rule->nid;
         }
       }
     }

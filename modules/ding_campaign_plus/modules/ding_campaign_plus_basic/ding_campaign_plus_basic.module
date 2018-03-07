@@ -534,10 +534,12 @@ function _ding_campaign_plus_basic_match($type, $value) {
     ->condition('type', 'page')
     ->condition('type', $type);
 
-  $nids = db_select('ding_campaign_plus_basic', 'dcp')
-    ->fields('dcp', array('nid'))
+  $query = db_select('ding_campaign_plus_basic', 'dcpb')
+    ->fields('dcpb', array('nid'))
     ->condition($or)
-    ->condition('value', $value)
+    ->condition('value', $value);
+  $query->join('node', 'n', 'dcpb.nid = n.nid');
+  $nids = $query->condition('status', 1)
     ->execute()
     ->fetchCol();
 
