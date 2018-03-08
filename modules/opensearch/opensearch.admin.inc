@@ -210,7 +210,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     '#empty' => t('Your table is empty'),
   );
 
-  return $form;
+  return system_settings_form($form);
 }
 
 /**
