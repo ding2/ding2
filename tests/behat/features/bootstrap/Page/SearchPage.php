@@ -435,7 +435,7 @@ class SearchPage extends PageBase {
    * @return string
    *    The transcribed version of the input string.
    */
-  public function replaceWithDoubleAa(String $inputStr) {
+  public function replaceWithDoubleAa(string $inputStr) {
     $outputStr = mb_ereg_replace('Å', "aa", $inputStr);
     return mb_strtolower($outputStr);
   }
