@@ -531,8 +531,8 @@ function _ding_campaign_plus_basic_get_types() {
 function _ding_campaign_plus_basic_match($type, $value) {
   // Always check the default "page" rule as well as the content type given.
   $or = db_or()
-    ->condition('type', 'page')
-    ->condition('type', $type);
+    ->condition('dcpb.type', 'page')
+    ->condition('dcpb.type', $type);
 
   $query = db_select('ding_campaign_plus_basic', 'dcpb')
     ->fields('dcpb', array('nid'))
