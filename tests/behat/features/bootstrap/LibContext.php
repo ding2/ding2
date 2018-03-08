@@ -695,12 +695,12 @@ class LibContext implements Context, SnippetAcceptingContext {
   /**
    * Implements step to search for data and put it into a file as known data.
    *
-   * @Given I create files :mfile from opensearch on relation :relation
-   *
    * @param string $mfile
-   *    Filename basis for the two files being created, appended with _pos.mat and _neg.mat
-   * @Param string $relation
-   *    The relation we are looking for, in opensearch terminology, f.ex. dbcaddi:hasCreatorDescription
+   *    Filename basis for the two files being created, appended with _pos.mat and _neg.mat.
+   * @param string $relation
+   *    The relation we are looking for, in opensearch terminology, f.ex. dbcaddi:hasCreatorDescription.
+   *
+   * @Given I create files :mfile from opensearch on relation :relation
    *
    * @throws ErrorException
    *   In case of error in calling the opensearch service.

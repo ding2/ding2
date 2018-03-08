@@ -429,7 +429,7 @@ class SearchPage extends PageBase {
   /**
    * Replace danish å with double-a, as aa. Also returns the string with lowercase.
    *
-   * @param String $inputStr
+   * @param string $inputStr
    *    The string to be transcribed into aa for universal comparison.
    *
    * @return string
