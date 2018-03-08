@@ -29,10 +29,10 @@ function connie_reservation_set_preferred_branch($account, $branch) {
 
 /**
  * Implements provider reservation default branch.
- * 
+ *
  * @params object $account
  *   The user to get the default branch for.
- * 
+ *
  * @return array
  *   An empty array mimicking a default branch is not selected.
  */
@@ -123,16 +123,6 @@ function connie_reservation_options($account, $default_branch = NULL) {
  */
 function connie_reservation_options_validate($type, $account, $reservables, $values) {
   return ding_reservation_default_options_branch_validate($type, 'openruth_preferred_branch', $profile_branch, $values);
-}
-
-/**
- * Returns an users preferred default options.
- */
-function connie_reservation_default_options() {
-  return array(
-    'connie_preferred_branch' => 'aby',
-    'interest_period' => 180,
-  );
 }
 
 /**
