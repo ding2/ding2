@@ -1021,6 +1021,20 @@ function ddbasic_preprocess_form_element(&$variables) {
  * Preprocess ding_carousel.
  */
 function ddbasic_preprocess_ding_carousel(&$variables) {
+  ddbasic_add_ting_object_behaviour();
+}
+
+/**
+ * Preprocess ting_reference_item.
+ */
+function ddbasic_preprocess_ting_reference_item(&$variables) {
+  ddbasic_add_ting_object_behaviour();
+}
+
+/**
+ * Helper function to ensure correct behaviour of ting object overlay.
+ */
+function ddbasic_add_ting_object_behaviour() {
   // Add ajax to make reserve links work.
   drupal_add_library('system', 'drupal.ajax');
   drupal_add_library('system', 'ui.widget');

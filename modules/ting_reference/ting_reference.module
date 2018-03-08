@@ -21,6 +21,14 @@ function ting_reference_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  // Callback for lazy/ajax load reference.
+  $items['ting_reference/ajax/%'] = array(
+    'page callback' => '_ting_reference_ajax',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -31,6 +39,20 @@ function ting_reference_ding_provider_user() {
   return array(
     'search' => array(
       'required' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_reference_theme() {
+  return array(
+    'ting_reference_item' => array(
+      'variables' => array(
+        'entity_id' => NULL,
+      ),
+      'template' => 'templates/ting_reference_item',
     ),
   );
 }
@@ -136,7 +158,6 @@ function ting_reference_field_insert($entity_type, $entity, $field, $instance, $
   field_cache_clear();
 }
 
-
 /**
  * Implements hook_field_update().
  */
@@ -160,7 +181,6 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
   }
 
 }
-
 
 /**
  * Field_update for edit form.
@@ -192,15 +212,10 @@ function _ting_reference_field_update($entity_type, $entity, &$items) {
 
 }
 
-
 /**
  * Field_update for cron.
  */
 function _ting_reference_field_update_cron($entity_type, $entity, &$items) {
-
-  // Get the entity's id.
-  $entity_ids = entity_extract_ids($entity_type, $entity);
-  $entity_id = array_shift($entity_ids);
 
   // Get existing relations.
   $relations = ting_reference_get_relations($entity_type, $entity);
@@ -229,7 +244,6 @@ function _ting_reference_field_update_cron($entity_type, $entity, &$items) {
   }
 
 }
-
 
 /**
  * Implements hook_field_delete().
@@ -329,19 +343,16 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
 
   switch ($display['type']) {
     case 'ting_reference_default':
-      $entity_ids = array();
-
-      // Extract the IDs for the ting_object entities we need to load.
       foreach ($items as $item) {
-        $entity_id = $item['value']->endpoints[$langcode][1]['entity_id'];
-        $entity_ids[$item['value']->rid] = $entity_id;
+        $element[] = array(
+          '#theme' => 'ting_reference_item',
+          '#entity_id' => $item['value']->endpoints[$langcode][1]['entity_id'],
+        );
       }
-      // Load the ting objects found.
-      $ding_entities = entity_load('ting_object', $entity_ids);
 
-      foreach ($ding_entities as $entity) {
-        $element[] = ting_object_view($entity, $display['settings']['view_mode']);
-      }
+      $element['#attached']['js'] = array(
+        drupal_get_path('module', 'ting_reference') . '/js/ting_reference_ajax.js',
+      );
       break;
 
     case 'ting_reference_reverse_default':
@@ -401,6 +412,27 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
   }
 
   return $element;
+}
+
+/**
+ * Ajax callback to render single reference object.
+ *
+ * It's returned as JSON.
+ *
+ * @param int $entity_id
+ *   The id of the ting object entity to load.
+ */
+function _ting_reference_ajax($entity_id) {
+  // Load the ting objects found.
+  $entity = entity_load('ting_object', array($entity_id));
+  $ting_object = ting_object_view(reset($entity), 'teaser');
+
+  $build = array(
+    'id' => $entity_id,
+    'content' => render($ting_object),
+  );
+
+  drupal_json_output($build);
 }
 
 /**
