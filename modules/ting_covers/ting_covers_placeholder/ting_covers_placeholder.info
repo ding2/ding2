@@ -1,0 +1,5 @@
+name = Ting covers - Placeholder.com
+description = Use placeholder.com to generate covers for all Ting objects and collections. Use development and testing purposes.
+package = Ding!
+core = 7.x
+dependencies[] = ting_covers
