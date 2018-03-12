@@ -8,12 +8,6 @@
  * Autocomplete settings.
  */
 function opensearch_search_autocomplete_admin($form, &$form_state) {
-  $form['opensearch_autocomplete'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Opensearch autocomplete settings'),
-    '#tree' => TRUE,
-  );
-
   $default_settings = opensearch_search_autocomplete_settings();
 
   // Attach the CSS to the form.
@@ -25,7 +19,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     ),
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_webservice'] = array(
+  $form['opensearch_search_autocomplete_webservice'] = array(
     '#type' => 'fieldset',
     '#title' => t('Webservice', array(), array('context' => 'opensearch_search_autocomplete')),
     '#tree' => FALSE,
@@ -33,7 +27,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     '#collapsed' => FALSE,
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_webservice']['opensearch_search_autocomplete_suggestion_url'] = array(
+  $form['opensearch_search_autocomplete_webservice']['opensearch_search_autocomplete_suggestion_url'] = array(
     '#type' => 'textfield',
     '#title' => t('URL', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 73,
@@ -44,7 +38,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     '#element_validate' => array('opensearch_search_autocomplete_admin_validate'),
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_webservice']['opensearch_search_autocomplete_method'] = array(
+  $form['opensearch_search_autocomplete_webservice']['opensearch_search_autocomplete_method'] = array(
     '#type' => 'textfield',
     '#title' => t('Method', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 73,
@@ -54,7 +48,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     '#required' => TRUE,
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings'] = array(
+  $form['opensearch_search_autocomplete_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Settings', array(), array('context' => 'opensearch_search_autocomplete')),
     '#tree' => TRUE,
@@ -62,7 +56,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     '#collapsed' => FALSE,
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['index'] = array(
+  $form['opensearch_search_autocomplete_settings']['index'] = array(
     '#type' => 'textfield',
     '#title' => t('Match index', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 25,
@@ -70,7 +64,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     '#required' => TRUE,
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['facetIndex'] = array(
+  $form['opensearch_search_autocomplete_settings']['facetIndex'] = array(
     '#type' => 'textfield',
     '#title' => t('Facet Index', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 25,
@@ -78,49 +72,49 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     '#required' => TRUE,
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['filterQuery'] = array(
+  $form['opensearch_search_autocomplete_settings']['filterQuery'] = array(
     '#type' => 'textfield',
     '#title' => t('Filter Query', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 25,
     '#default_value' => $default_settings['filterQuery'],
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['sort'] = array(
+  $form['opensearch_search_autocomplete_settings']['sort'] = array(
     '#type' => 'radios',
     '#title' => t('Output sort order', array(), array('context' => 'opensearch_search_autocomplete')),
     '#options' => array('count' => 'count', 'index' => 'index'),
     '#default_value' => $default_settings['sort'],
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['agency'] = array(
+  $form['opensearch_search_autocomplete_settings']['agency'] = array(
     '#type' => 'textfield',
     '#title' => t('Agency', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 26,
     '#default_value' => $default_settings['agency'],
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['profile'] = array(
+  $form['opensearch_search_autocomplete_settings']['profile'] = array(
     '#type' => 'textfield',
     '#title' => t('Profile', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 26,
     '#default_value' => $default_settings['profile'],
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['maxSuggestions'] = array(
+  $form['opensearch_search_autocomplete_settings']['maxSuggestions'] = array(
     '#type' => 'textfield',
     '#title' => t('Max suggestions', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 26,
     '#default_value' => $default_settings['maxSuggestions'],
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['maxTime'] = array(
+  $form['opensearch_search_autocomplete_settings']['maxTime'] = array(
     '#type' => 'textfield',
     '#title' => t('Max request time', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 26,
     '#default_value' => $default_settings['maxTime'],
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['highlight'] = array(
+  $form['opensearch_search_autocomplete_settings']['highlight'] = array(
     '#type' => 'checkbox',
     '#title' => t('Highlight', array(), array('context' => 'opensearch_search_autocomplete')),
     '#description' => t('If checked, search prefix will be enclosed in highlight prefix and suffix', array(), array('context' => 'opensearch_search_autocomplete')),
@@ -128,21 +122,21 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     '#return_value' => 'true',
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['highlight.pre'] = array(
+  $form['opensearch_search_autocomplete_settings']['highlight.pre'] = array(
     '#type' => 'textfield',
     '#title' => t('Highlight prefix', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 26,
     '#default_value' => $default_settings['highlight.pre'],
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_settings']['highlight.post'] = array(
+  $form['opensearch_search_autocomplete_settings']['highlight.post'] = array(
     '#type' => 'textfield',
     '#title' => t('Highlight suffix', array(), array('context' => 'opensearch_search_autocomplete')),
     '#size' => 26,
     '#default_value' => $default_settings['highlight.post'],
   );
 
-  $form['opensearch_autocomplete_settings']['minimumString'] = array(
+  $form['opensearch_search_autocomplete_settings']['minimumString'] = array(
     '#type' => 'textfield',
     '#title' => t('Minimum string', array(), array('context' => 'opensearch_search_autocomplete')),
     '#description' => t('Minimum characters the user has to type before the suggestion service is queried.', array(), array('context' => 'opensearch_search_autocomplete')),
@@ -150,7 +144,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     '#default_value' => $default_settings['minimumString'],
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_help'] = array(
+  $form['opensearch_search_autocomplete_help'] = array(
     '#type' => 'fieldset',
     '#title' => t('Help', array(), array('context' => 'opensearch_search_autocomplete')),
     '#tree' => TRUE,
@@ -158,7 +152,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     '#collapsed' => FALSE,
   );
 
-  $form['opensearch_autocomplete']['opensearch_search_autocomplete_help']['description'] = array(
+  $form['opensearch_search_autocomplete_help']['description'] = array(
     '#theme' => 'table',
     '#rows' => array(
       array(
@@ -210,7 +204,7 @@ function opensearch_search_autocomplete_admin($form, &$form_state) {
     '#empty' => t('Your table is empty'),
   );
 
-  return $form;
+  return system_settings_form($form);
 }
 
 /**
