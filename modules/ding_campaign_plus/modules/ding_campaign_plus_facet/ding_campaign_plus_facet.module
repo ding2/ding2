@@ -205,7 +205,7 @@ function ding_campaign_plus_facet_auto_admin_form(array &$form_state, $default =
     'default' => array(
       '#type' => 'select',
       '#title' => t('Default common number'),
-      '#description' => t('Default "Most common subjects" to match against.'),
+      '#description' => t('Default "Most common values" to match against.'),
       '#options' => drupal_map_assoc(range(1, 30)),
       '#default_value' => empty($default['default']) ? '_none_' : $default['default'],
     ),
@@ -258,14 +258,6 @@ function ding_campaign_plus_facet_form_ding_campaign_plus_admin_settings_alter(&
       '#default_value' => $facet['title'],
     );
 
-    $form['ding_campaign_plus_facets']['facets'][$id]['weight'] = array(
-      '#type' => 'weight',
-      '#title' => t('Weight'),
-      '#default_value' => $facet['weight'],
-      '#title_display' => 'invisible',
-      '#attributes' => array('class' => array('facet-weight')),
-    );
-
     $form['ding_campaign_plus_facets']['facets'][$id]['action'] = array(
       '#type' => 'link',
       '#title' => t('delete'),
@@ -287,11 +279,10 @@ function ding_campaign_plus_facet_form_ding_campaign_plus_admin_settings_alter(&
     '#default_value' => '',
   );
 
-  $form['ding_campaign_plus_facets']['facets'][$id]['weight'] = array(
-    '#type' => 'weight',
-    '#title' => t('Weight'),
-    '#default_value' => 10,
-    '#attributes' => array('class' => array('facet-weight')),
+  $form['ding_campaign_plus_facets']['description'] = array(
+    '#prefix' => '<div class="description">',
+    '#suffix' => '</div>',
+    '#markup' => t('All facets are explained at <a href="!url">!url</a>', array('!url' => 'https://opensearch.addi.dk/b3.5_4.5/?showCqlFile&repository=prod&cql=opensearch_cql.xml#facet')),
   );
 
   $form += array('#submit' => array());
@@ -368,7 +359,6 @@ function theme_ding_campaign_plus_facet_table_drag($vars) {
     $row = array();
     $row[] = drupal_render($facet['facet']);
     $row[] = drupal_render($facet['title']);
-    $row[] = drupal_render($facet['weight']);
     $row[] = drupal_render($facet['action']);
 
     $rows[] = array(
@@ -377,7 +367,7 @@ function theme_ding_campaign_plus_facet_table_drag($vars) {
     );
   }
 
-  $header = array(t('Facet'), t('Title'), t('Weight'), t('Operations'));
+  $header = array(t('Facet'), t('Title'), t('Operations'));
   return theme('table', array(
     'header' => $header,
     'rows' => $rows,
@@ -582,16 +572,17 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
   $options = drupal_map_assoc(range(1, 30));
   $form['common'] = array(
     '#type' => 'select',
-    '#title' => t('Most common subjects'),
+    '#title' => t('Most common values'),
     '#options' => array_combine($options, $options),
     '#default_value' => isset($default_values['common']) ? $default_values['common'] : $default,
+    '#description' => t('Number of most common values wherein facet value is contained to trigger campaign'),
   );
 
   $options = _ting_fetch_well_types();
   $options = array_combine($options, $options);
   $form['facet_value_select_type'] = array(
     '#type' => 'select',
-    '#title' => t('Facet'),
+    '#title' => t('Facet value'),
     '#default_value' => isset($default_values['facet_value_select_type']) ? $default_values['facet_value_select_type'] : array(),
     '#options' => $options,
     '#multiple' => TRUE,
@@ -602,7 +593,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
   $options = array_combine($options, $options);
   $form['facet_value_select_source'] = array(
     '#type' => 'select',
-    '#title' => t('Facet'),
+    '#title' => t('Facet value'),
     '#default_value' => isset($default_values['facet_value_select_source']) ? $default_values['facet_value_select_source'] : array(),
     '#options' => $options,
     '#multiple' => TRUE,
