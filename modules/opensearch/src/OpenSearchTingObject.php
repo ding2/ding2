@@ -44,7 +44,7 @@ class OpenSearchTingObject implements TingObjectInterface {
    *
    * @var TingRelation[] list of materials related to this material.
    */
-  protected $relations;
+  protected $relations = [];
 
   /**
    * OpenSearchObject constructor.
