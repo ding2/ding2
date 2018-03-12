@@ -554,6 +554,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
     $options[$facet['facet']] = $facet['title'];
   }
 
+  asort($options);
   $form['facet'] = array(
     '#type' => 'select',
     '#title' => t('Facet Type'),
@@ -580,6 +581,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
 
   $options = _ting_fetch_well_types();
   $options = array_combine($options, $options);
+  asort($options);
   $form['facet_value_select_type'] = array(
     '#type' => 'select',
     '#title' => t('Facet value'),
@@ -591,6 +593,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
 
   $options = _ting_fetch_well_sources();
   $options = array_combine($options, $options);
+  asort($options);
   $form['facet_value_select_source'] = array(
     '#type' => 'select',
     '#title' => t('Facet value'),
