@@ -40,3 +40,12 @@ function opensearch_migrate_settings() {
     variable_del($old_var);
   });
 }
+
+/**
+ * Rebuild class registry.
+ */
+function opensearch_update_7001() {
+  // We have moved the CQL Doctor class from ting_search to this module.
+  // Rebuild registry to load it based on opensearch.info file update.
+  registry_rebuild();
+}

@@ -9,4 +9,5 @@ dependencies[] = ding_provider
 dependencies[] = xautoload
 files[] = lib/ting-client/**
 files[] = opensearch_unit.test
+files[] = includes/TingSearchCqlDoctor.class.inc
 configure = admin/config/opensearch

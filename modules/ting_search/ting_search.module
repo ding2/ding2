@@ -8,8 +8,6 @@ use Ting\Search\TingSearchRawFilter;
 use Ting\Search\TingSearchResultInterface;
 use Ting\Search\TingSearchSort;
 
-require_once 'includes/TingSearchCqlDoctor.class.inc';
-
 define('TING_SEARCH_FORM_STYLE_NORMAL', 'normal');
 define('TING_SEARCH_FORM_STYLE_EXTENDED', 'extended');
 
@@ -1013,11 +1011,4 @@ function ting_search_submit($form, &$form_state) {
   else {
     form_set_error(NULL, t('Search is currently disabled.'), 'error');
   }
-}
-
-/**
- * Make sure string does not contain illegal unquoted parts.
- */
-function _ting_search_quote($string) {
-  return ding_provider_invoke('search', 'search_quote', $string);
 }
