@@ -124,8 +124,8 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
 
   // Add a general quoted free text search.
   if (!empty($free_text_query = $ting_query->getFullTextQuery())) {
-    $free_text_query = _ting_search_quote($ting_query->getFullTextQuery());
-    $query_parts[] = $free_text_query;
+    $cqlDoctor = new TingSearchCqlDoctor($free_text_query);
+    $query_parts[] = $cqlDoctor->string_to_cql();
   }
 
   // Add field filter.
@@ -730,18 +730,4 @@ function opensearch_search_autocomplete($query) {
   }
 
   return $items;
-}
-
-/**
- * Quotes a search string to make it compatible with the provider.
- *
- * @param string $search_string
- *   The search string.
- *
- * @return string
- *   The quoted search string.
- */
-function opensearch_search_search_quote($search_string) {
-  $cql_doc = new TingSearchCqlDoctor($search_string);
-  return $cql_doc->string_to_cql($search_string);
 }

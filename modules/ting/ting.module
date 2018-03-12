@@ -441,12 +441,6 @@ function ting_ding_entity_is($object, $class) {
       $types = variable_get('ting_reservable_types', _ting_default_reservable_types());
       return (in_array(drupal_strtolower($object->ac_source), $sources) && in_array(drupal_strtolower($object->type), $types));
 
-    case 'periodical':
-      // TODO Reduce coupling with Danish OpenSearch type names for periodicals.
-      // @todo make sure that availability information isn't displayed
-      // on the object.
-      return in_array(drupal_strtolower($object->type), array('tidsskrift', 'periodikum', 'årbog'));
-
     case 'online':
       return !empty($object->getOnline_url());
   }

@@ -612,16 +612,4 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
     $this->assertFalse($query_exclude->isMaterialFilterInclude());
   }
 
-  /**
-   * Test that search strings are quoted.
-   */
-  public function testSearchQuoting() {
-    // Connie does a simple escaping of quotes.
-    $input = 'test"String"';
-    $expected = 'test\"String\"';
-
-    $result = ding_provider_invoke('search', 'search_quote', $input);
-
-    $this->assertEqual($result, $expected);
-  }
 }
