@@ -10,7 +10,6 @@ div.ipe-popup {
   top: 78px;
   overflow-y: scroll;
   width: 400px;
-  height: 200px;
 }
 
 div.ipe-popup ul {
@@ -31,6 +30,7 @@ div.ipe-popup .item-list ul li {
   margin: 0;
   padding: 0;
   width: 100%;
+  list-style: none;
 }
 
 .layout-wrapper .group-blocks--wrapper {
