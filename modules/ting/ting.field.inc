@@ -571,7 +571,8 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
  *   An HTML string containing a link to the search result.
  */
 function ting_field_search_link($text, $search_string, array $replacements = [], array $options = []) {
-  list($path_suffix, $query_string) = preg_split('/\?/', $search_string, 2);
+  $search_string_parts = preg_split('/\?/', $search_string, 2);
+  list($path_suffix, $query_string) = array_pad($search_string_parts, 2, '');
   $path = 'search/ting/' . strtr($path_suffix, $replacements);
   $query_string = strtr($query_string, $replacements);
   parse_str($query_string, $query);
