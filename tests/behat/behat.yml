@@ -1,0 +1,86 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - LibContext:
+            NoScreenDump: "false"
+        - StepsContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MarkupContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    SensioLabs\Behat\PageObjectExtension: ~
+    emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
+     name: html
+     renderer: Behat2
+     file_name: Index
+     print_args: true
+     print_outp: true
+     loop_break: true
+    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
+      filename: report.xml
+      outputDir: "%paths.base%/"
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drush'
+      drush:
+        root: '../../../../../web'
+      text:
+        log_out: 'Log ud'
+        username_field: 'Låner- eller CPR-nummer'
+        password_field: 'Pinkode'
+
+
+chrome:
+  extensions:
+    Behat\MinkExtension:
+      selenium2:
+        wd_host: "http://localhost:4444/wd/hub"
+        browser: chrome
+        capabilities:
+           browser: chrome
+           chrome:
+             {switches:['--start_maximized', "--headless", "--disable-gpu", "--no-first-run", "--disable-translate"]}
+      default_session: 'selenium2'
+      browser_name: 'chrome'
+      javascript_session: selenium2
+
+circleci:
+  extensions:
+    Behat\MinkExtension:
+      selenium2:
+        wd_host: "http://localhost:4444/wd/hub"
+        browser: chrome
+        capabilities:
+           browser: chrome
+           marionette: true
+           chrome:
+             {switches:['--start_maximized', "--headless", "--disable-gpu", "--no-first-run", "--disable-translate"]}
+      default_session: 'selenium2'
+      browser_name: 'chrome'
+      javascript_session: selenium2
+
+visible:
+  extensions:
+    Behat\MinkExtension:
+      selenium2:
+         wd_host: "http://localhost:4445/wd/hub"
+         browser: chrome
+         capabilities:
+           browser: chrome
+           chrome:
+             {switches:['--start_maximized', "--disable-gpu", "--no-first-run", "--disable-translate"]}
+      default_session: 'selenium2'
+      browser_name: 'chrome'
+      javascript_session: selenium2
+
+firefox:
+  extensions:
+    Behat\MinkExtension:
+      selenium2:
+        browser: 'firefox'
+        wd_host: "http://localhost:4444/wd/hub"
+      default_session: 'selenium2'
+      browser_name: 'firefox'

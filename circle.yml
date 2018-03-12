@@ -7,7 +7,9 @@ machine:
     version: 6.10.0
   environment:
     # This is where we build our complete Drupal site
-    DRUPAL_SITE_PATH: /tmp/drupal
+    DRUPAL_SITE_PATH: $HOME/build
+  hosts:
+    ding2.dev: 127.0.0.1
 
 dependencies:
   post:
@@ -26,11 +28,27 @@ dependencies:
     - composer global require drush/drush:6.* --prefer-source --no-interaction
     # Install PHP 7.x Compatibility Checker.
     - composer global require sstalle/php7cc
+    # Install behat and dependencies.
+    - (cd tests/behat &&
+      composer install --no-progress --prefer-source)
+    # Set up Apache to serve our site.
+    # We use PHP7 - not PHP5 so remove it from our installation. The actual version of PHP is defined in ding2.conf
+    - sudo a2dismod php5
+    - sudo cp tests/behat/apache.conf /etc/apache2/sites-available/ding2.conf
+    - sudo a2ensite ding2.conf
+    - sudo a2enmod rewrite
+    - sudo service apache2 restart
+    # Start selenium.
+    - wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar && java -jar selenium-server-standalone-2.44.0.jar:
+        background: true
 
 test:
   override:
     - make circle-setup
     - make circle-run-unit-tests
+    - make circle-run-behat-tests:
+        parallel: true
+
   post:
     # Clean up after site install.
     # sudo is required here. The files are not writeable.

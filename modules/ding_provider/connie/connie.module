@@ -52,6 +52,10 @@ function connie_ding_provider() {
         'prefix' => 'wayf',
         'file' => 'connie.wayf.inc',
       ),
+      'user_consent' => array(
+        'prefix' => 'user_consent',
+        'file' => 'connie.user_consent.inc',
+      ),
     ),
   );
 }
