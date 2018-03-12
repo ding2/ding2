@@ -616,7 +616,9 @@ class SearchPage extends PageBase {
 
         // Get hold of the title (version 4).
         $titleHolder = $srItem->find('css', '.ting-object h2 a');
-        $foundTitle = $titleHolder->getText();
+        if ($titleHolder) {
+          $foundTitle = $titleHolder->getText();
+        }
 
         // Find the author and published date.
         $creatorHolder = $srItem->find('css', '.ting-object .field-name-ting-author');

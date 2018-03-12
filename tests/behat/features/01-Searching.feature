@@ -33,11 +33,12 @@ Feature: SEEK redroute 01
   @api @seek001 @seekNologin @regression
   Scenario Outline: S001 Search for special letters
     Given I have searched for "<title>"
+    When I set number of results per page to "50"
     Then I can see "<letter>" somewhere in the search result
 
     Examples:
       | title                                                      | letter |
-      | term.language=dansk AND term.type=bog  AND term.title=Åer* | Å      |
+      | term.language=dansk AND term.type=bog  AND term.title=Å* | Å      |
 
   @api @seek004 @seekNologin @regression
   Scenario: S004 Show openscan suggestions in search field
