@@ -351,7 +351,6 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
         // Build a search query, since the url path doesn't
         // match the query accepted by ting_do_search.
         $query = ding_message_build_query($value);
-        // TODO Port to search abstraction layer.
         $result = $query->setCount(50)->execute();
         if ($result->getNumTotalCollections() > 0) {
           // Get the first element in the search result set.
