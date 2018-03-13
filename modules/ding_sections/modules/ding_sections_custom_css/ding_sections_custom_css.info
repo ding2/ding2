@@ -1,0 +1,12 @@
+name = Ding Sections Custom CSS
+description = Add custom CSS to Section term nodes
+core = 7.x
+package = Ding!
+version = 7.x-1.0
+project = ding_sections_custom_css
+dependencies[] = ding_sections
+dependencies[] = features
+dependencies[] = text
+features[features_api][] = api:2
+features[field_base][] = field_ding_sections_custom_css
+features[field_instance][] = taxonomy_term-section-field_ding_sections_custom_css

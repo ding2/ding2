@@ -1,0 +1,5 @@
+name = Ding Sections
+description = Provides integration of content in the sections system.
+package = Ding!
+core = "7.x"
+configure = admin/config/section/content

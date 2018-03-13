@@ -154,6 +154,7 @@ function ding_permissions_secure_permissions($role) {
       'search content',
       'view any ding_staff_profile profile',
       'view files',
+      'view section panels terms',
     ),
     'authenticated user' => array(
       'access comments',
@@ -171,6 +172,7 @@ function ding_permissions_secure_permissions($role) {
       'view own files',
       'view own private files',
       'use personalisation',
+      'view section panels terms',
     ),
     'administrators' => array(
       'access media browser',
@@ -267,6 +269,7 @@ function ding_permissions_secure_permissions($role) {
       'administer relations',
       'administer rules',
       'administer scheduler',
+      'administer section',
       'administer search',
       'administer shortcuts',
       'administer site configuration',
@@ -338,6 +341,7 @@ function ding_permissions_secure_permissions($role) {
       'create panel content',
       'create panel-nodes',
       'create relations',
+      'create section content',
       'create url aliases',
       'create webform content',
       'create ding_eresource content',
@@ -356,6 +360,7 @@ function ding_permissions_secure_permissions($role) {
       'delete any image files',
       'delete any panel content',
       'delete any panel-nodes',
+      'delete any section content',
       'delete any video files',
       'delete any webform content',
       'delete any ding_eresource content',
@@ -372,6 +377,7 @@ function ding_permissions_secure_permissions($role) {
       'delete own image files',
       'delete own panel content',
       'delete own panel-nodes',
+      'delete own section content',
       'delete own video files',
       'delete own webform content',
       'delete own webform submissions',
@@ -414,6 +420,7 @@ function ding_permissions_secure_permissions($role) {
       'edit any panel content',
       'edit any panel-nodes',
       'edit any provider_alma profile',
+      'edit any section content',
       'edit any video files',
       'edit any webform content',
       'edit any ding_eresource content',
@@ -432,6 +439,7 @@ function ding_permissions_secure_permissions($role) {
       'edit own image files',
       'edit own panel content',
       'edit own panel-nodes',
+      'edit own section content',
       'edit own video files',
       'edit own webform content',
       'edit own webform submissions',
@@ -516,6 +524,7 @@ function ding_permissions_secure_permissions($role) {
       'view private files',
       'view revisions',
       'view scheduled content',
+      'view section panels terms',
       'view the administration theme',
       'administer personalisation',
     ),
@@ -672,7 +681,9 @@ function ding_permissions_secure_permissions($role) {
       'view bpi statistics',
       'view own unpublished content',
       'view revisions',
+      'view section panels terms',
       'view the administration theme',
+      'use section panels terms',
     ),
     'guest blogger' => array(
       'access media browser',
@@ -710,6 +721,7 @@ function ding_permissions_secure_permissions($role) {
       'view own private files',
       'view own unpublished content',
       'view the administration theme',
+      'view section panels terms',
     ),
     'local administrator' => array(
       'access media browser',
@@ -764,6 +776,7 @@ function ding_permissions_secure_permissions($role) {
       'administer redirects',
       'administer place2book settings',
       'administer search',
+      'administer section',
       'administer shortcuts',
       'administer site configuration',
       'administer taxonomy',
@@ -797,6 +810,7 @@ function ding_permissions_secure_permissions($role) {
       'create ding_page content',
       'create ding_rolltab content',
       'create files',
+      'create section content',
       'configure gatewayf',
       'create url aliases',
       'create webform content',
@@ -812,6 +826,7 @@ function ding_permissions_secure_permissions($role) {
       'delete any ding_rolltab content',
       'delete any document files',
       'delete any image files',
+      'delete any section content',
       'delete any video files',
       'delete any webform content',
       'delete any ding_eresource content',
@@ -826,6 +841,7 @@ function ding_permissions_secure_permissions($role) {
       'delete own ding_rolltab content',
       'delete own document files',
       'delete own image files',
+      'delete own section content',
       'delete own video files',
       'delete own webform content',
       'delete own ding_eresource content',
@@ -860,6 +876,7 @@ function ding_permissions_secure_permissions($role) {
       'edit any ding_staff_profile profile',
       'edit any document files',
       'edit any image files',
+      'edit any section content',
       'edit any video files',
       'edit any webform content',
       'edit any ding_eresource content',
@@ -875,6 +892,7 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_rolltab content',
       'edit own document files',
       'edit own image files',
+      'edit own section content',
       'edit own video files',
       'edit own webform content',
       'edit own ding_eresource content',
@@ -913,6 +931,8 @@ function ding_permissions_secure_permissions($role) {
       'view private files',
       'view revisions',
       'view scheduled content',
+      'use section panels terms',
+      'view section panels terms',
       'view the administration theme',
       'administer personalisation',
     ),
@@ -988,6 +1008,7 @@ function ding_permissions_secure_permissions($role) {
       'view bpi statistics',
       'view own unpublished content',
       'view revisions',
+      'view section panels terms',
       'view the administration theme',
     ),
     'provider' => array(
@@ -1000,6 +1021,7 @@ function ding_permissions_secure_permissions($role) {
       'view own private files',
       'view own provider_alma profile',
       'view own provider_openruth profile',
+      'view section panels terms',
     ),
     'staff' => array(
       'access environment indicator',
@@ -1008,6 +1030,7 @@ function ding_permissions_secure_permissions($role) {
       'access environment indicator staging',
       'access environment indicator overwritten_environment',
       'edit own ding_staff_profile profile',
+      'view section panels terms',
     ),
     'user administrator' => array(
       'access administration pages',
@@ -1021,6 +1044,22 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
   );
+
+  // Add permissions based on the created taxonomy term.
+  $voc = taxonomy_vocabulary_machine_name_load('section');
+  $vid = !empty($voc->vid) ? $voc->vid : FALSE;
+  if ($vid) {
+    $roles = array(
+      'administrators',
+      'editor',
+      'local administrator',
+      'local editor',
+    );
+    foreach ($roles as $r) {
+      $permissions[$r][] = 'edit terms in ' . $vid;
+      $permissions[$r][] = 'delete terms in ' . $vid;
+    }
+  }
 
   // Add editor specific permissions by node type,
   // using override node options module permissions.
