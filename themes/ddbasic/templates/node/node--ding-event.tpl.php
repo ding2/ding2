@@ -90,7 +90,6 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
-
  ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="inner">
@@ -122,6 +121,9 @@
           print $book_button;
         endif;
       ?>
+      <?php if (!empty($campaigns)): ?>
+        <?php print drupal_render($campaigns); ?>
+      <?php endif; ?>
     </div>
     <div class="right">
       <?php print render($content['field_ding_event_category']); ?>
@@ -129,7 +131,10 @@
       <?php print render($content['group_right']['field_ding_event_date']);?>
       <?php print render($share_button); ?>
       <?php print render($content['group_right']);?>
-
     </div>
+    <?php // Render MKWS results set. ?>
+    <?php if (!empty($content['field_mkws_node_widget'])) : ?>
+      <?php print render($content['field_mkws_node_widget']); ?>
+    <?php endif; ?>
   </div>
 </article>

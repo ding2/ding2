@@ -156,6 +156,13 @@
       if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'])) {
         // Insert/update holding information for material.
         $('#' + id).html(Drupal.DADB[entity_id].html);
+        // Don't show queue time if item not reservable.
+        if (Drupal.DADB[entity_id].reservable === false) {
+          $('#' + id + ' span.in-queue').hide();
+        }
+      }
+      else {
+        $('div.group-holdings-available').parent().parent().remove();
       }
     });
   }

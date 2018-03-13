@@ -89,6 +89,9 @@
   <div class="ding-news-inner">
       <div class="ding-news-left">
           <?php print render($content['group_left']); ?>
+          <?php if (!empty($campaigns)): ?>
+            <?php print drupal_render($campaigns); ?>
+          <?php endif; ?>
       </div>
       <div class="ding-news-right">
           <h1><?php print $title; ?></h1>

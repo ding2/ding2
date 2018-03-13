@@ -32,7 +32,6 @@ ul {
     > li {
       position: relative;
       float: left;
-      margin-right: 40px;
       &:last-child {
         margin-right: 0;
       }
@@ -76,10 +75,14 @@ ul {
       font-family: $font-family-bold;
     }
     > li {
-      padding: 30px 0;
-
+      margin-right: 40px;
       // Tablet
-      @include media($tablet) {
+      > a {
+        padding: 30px 0;
+        display: block;
+      }
+
+      @include media($tablet, $mobile) {
         width: 100%;
         padding: 0;
         > a {

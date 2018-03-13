@@ -7,7 +7,7 @@
  *   - $title: Relation title string.
  *   - $abstract: Short description of the relation (from the entities
  *     description field or abstract field).
- *   - $online: Array with title and url to more information online.
+ *   - $online: Array with title, url, external to more information online.
  *   - $fulltext_link: Link to docbook format inserted by ting_fulltext module.
  */
 ?>

@@ -179,9 +179,11 @@ function _ding_ipe_filter_get_pane_info($category, $subtype_name) {
     $categories = $panel_editor->get_categories($content_types);
   }
 
-  foreach ($categories[$category]['content'] as $pane) {
-    if ($pane['subtype_name'] == $subtype_name) {
-      return $pane;
+  if (!empty($categories[$category]['content'])) {
+    foreach ($categories[$category]['content'] as $pane) {
+      if ($pane['subtype_name'] == $subtype_name) {
+        return $pane;
+      }
     }
   }
 
@@ -217,18 +219,29 @@ function _ding_ipe_filter_show_for_admin() {
  */
 function _ding_ipe_filter_selected_panes() {
   $default = array(
+    'ding-ding_nodelist:' => 'ding-:ding_nodelist',
+    'ding-:ding_item_list' => 'ding-:ding_item_list',
+    'ding-:campaign' => 'ding-:campaign',
+    'ding-:single_campaign' => 'ding-:single_campaign',
+    'ting:carousel' => 'ting:carousel',
+    'miscellaneous:ding_event_calendar-ding-event-calendar' => 'miscellaneous:ding_event_calendar-ding-event-calendar',
     'ding-:all_opening_hours' => 'ding-:all_opening_hours',
     'ding-:popular' => 'ding-:popular',
     'ding-:interaction_pane' => 'ding-:interaction_pane',
     'ding-:serendipity_ting_object' => 'ding-:serendipity_ting_object',
-    'ding-:ding_tabroll-ding_frontpage_tabroll' => 'ding-:ding_tabroll-ding_frontpage_tabroll',
-    'event-panes:ding_event-ding_event_list_frontpage' => 'event-panes:ding_event-ding_event_list_frontpage',
-    'event-panes:ding_event-ding_event_simple_list' => 'event-panes:ding_event-ding_event_simple_list',
-    'groups-panes:ding_groups-ding_group_overview_simple' => 'groups-panes:ding_groups-ding_group_overview_simple',
-    'news-panes:ding_news-ding_news_frontpage_list' => 'news-panes:ding_news-ding_news_frontpage_list',
-    'ting:carousel' => 'ting:carousel',
+    'menus:menu_block-3' => 'menus:menu_block-3',
+    'menus:menu_block-4' => 'menus:menu_block-4',
+    'easyopac:section_description_image' => 'easyopac:section_description_image',
   );
 
   $selected = variable_get('ding_ipe_filter_panes_selected', $default);
   return array_filter($selected);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_ipe_filter_preprocess_panels_ipe_pane_wrapper(&$variables) {
+  unset($variables['links']['style']);
+  unset($variables['links']['css']);
 }
