@@ -558,6 +558,7 @@ function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values 
   $form['facet'] = array(
     '#type' => 'select',
     '#title' => t('Facet Type'),
+    '#description' => t('All facets are explained at <a href="!url">!url</a>', array('!url' => 'https://opensearch.addi.dk/b3.5_4.5/?showCqlFile&repository=prod&cql=opensearch_cql.xml#facet')),
     '#default_value' => isset($default_values['facet']) ? $default_values['facet'] : 'facet.type',
     '#options' => $options,
     '#attributes' => array(
