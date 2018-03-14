@@ -547,3 +547,8 @@ libraries[masonry][download][type] = "get"
 libraries[masonry][download][url] = https://github.com/desandro/masonry/archive/v4.1.1.zip
 libraries[masonry][directory_name] = "masonry"
 libraries[masonry][destination] = "libraries"
+
+libraries[smart-app-banner][download][type] = "get"
+libraries[smart-app-banner][download][url] = https://github.com/kudago/smart-app-banner/archive/v1.3.0.zip
+libraries[smart-app-banner][directory_name] = "smart-app-banner"
+libraries[smart-app-banner][destination] = "libraries"
