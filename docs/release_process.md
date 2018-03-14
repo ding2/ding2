@@ -50,15 +50,15 @@ An example name could be `7.x-3.4.2-rc1`.
 
 8. Commit your changes `git add ding2.info ding2.make drupal.make && git commit -m "Core: Bumped version to 7.x-3.4.2-rc1"`
 
-9. Force push your changes to the release branch on GitHub `git push origin release --force`
+9. In the git repository tag the commit with the release name og push it `git tag 7.x-3.4.2-rc1 && git push origin 7.x-3.4.2-rc1`
 
-10. Go to [Circle CI](https://circleci.com/gh/ding2/ding2) and ensure that the build has been completed successfully
+10. Force push your changes to the release branch on GitHub `git push origin release --force`
 
-11. Under the build find the "Artifacts" section and download the archive named `ding2-[Commit SHA].tar.gz` to your local machine
+11. Go to [Circle CI](https://circleci.com/gh/ding2/ding2) and ensure that the build has been completed successfully
 
-12. Rename the downloaded file according to the release name e.g. `ding2-7.x-3.4.2-rc1.tar.gz`
+12. Under the build find the "Artifacts" section and download the archive named `ding2-[Commit SHA].tar.gz` to your local machine
 
-13. In the git repository tag the commit with the release name og push it `git tag 7.x-3.4.2-rc1 && git push origin 7.x-3.4.2-rc1`
+13. Rename the downloaded file according to the release name e.g. `ding2-7.x-3.4.2-rc1.tar.gz`
 
 14. Find the tag [on GitHub under releases](https://github.com/ding2/ding2/releases) and on the tag details page click "Edit tag"
 

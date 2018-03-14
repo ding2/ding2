@@ -92,7 +92,7 @@ projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.1"
+projects[features][version] = "2.10"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
@@ -478,7 +478,7 @@ projects[ding_spt_statistics][download][branch] = "development"
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
-libraries[bpi-client][download][tag] = "7.x-4.2.0"
+libraries[bpi-client][download][tag] = "7.x-4.2.1"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
 
 libraries[ckeditor][download][type] = "get"
@@ -540,6 +540,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][download][tag] = "7.x-4.2.0"
+libraries[ting-client][download][tag] = "7.x-4.2.1"
 libraries[ting-client][destination] = "modules/ting/lib"
 
 libraries[zen-grids][download][type] = "git"

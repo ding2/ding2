@@ -10,7 +10,7 @@
 function ding_event_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-ding_event-ding_event_groups_ref'
+  // Exported field_instance: 'node-ding_event-ding_event_groups_ref'.
   $field_instances['node-ding_event-ding_event_groups_ref'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -89,7 +89,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_body'
+  // Exported field_instance: 'node-ding_event-field_ding_event_body'.
   $field_instances['node-ding_event-field_ding_event_body'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -148,7 +148,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_category'
+  // Exported field_instance: 'node-ding_event-field_ding_event_category'.
   $field_instances['node-ding_event-field_ding_event_category'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -213,7 +213,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_date'
+  // Exported field_instance: 'node-ding_event-field_ding_event_date'.
   $field_instances['node-ding_event-field_ding_event_date'] = array(
     'bundle' => 'ding_event',
     'deleted' => 0,
@@ -286,7 +286,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_files'
+  // Exported field_instance: 'node-ding_event-field_ding_event_files'.
   $field_instances['node-ding_event-field_ding_event_files'] = array(
     'bundle' => 'ding_event',
     'deleted' => 0,
@@ -352,7 +352,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_lead'
+  // Exported field_instance: 'node-ding_event-field_ding_event_lead'.
   $field_instances['node-ding_event-field_ding_event_lead'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -415,7 +415,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_list_filter'
+  // Exported field_instance: 'node-ding_event-field_ding_event_list_filter'.
   $field_instances['node-ding_event-field_ding_event_list_filter'] = array(
     'bundle' => 'ding_event',
     'default_value' => array(
@@ -474,7 +474,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_list_image'
+  // Exported field_instance: 'node-ding_event-field_ding_event_list_image'.
   $field_instances['node-ding_event-field_ding_event_list_image'] = array(
     'bundle' => 'ding_event',
     'deleted' => 0,
@@ -584,7 +584,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_location'
+  // Exported field_instance: 'node-ding_event-field_ding_event_location'.
   $field_instances['node-ding_event-field_ding_event_location'] = array(
     'bundle' => 'ding_event',
     'default_value' => array(
@@ -671,7 +671,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_materials'
+  // Exported field_instance: 'node-ding_event-field_ding_event_materials'.
   $field_instances['node-ding_event-field_ding_event_materials'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -726,7 +726,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_price'
+  // Exported field_instance: 'node-ding_event-field_ding_event_price'.
   $field_instances['node-ding_event-field_ding_event_price'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -790,7 +790,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_tags'
+  // Exported field_instance: 'node-ding_event-field_ding_event_tags'.
   $field_instances['node-ding_event-field_ding_event_tags'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -850,7 +850,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_target'
+  // Exported field_instance: 'node-ding_event-field_ding_event_target'.
   $field_instances['node-ding_event-field_ding_event_target'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -913,7 +913,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_ticket_link'
+  // Exported field_instance: 'node-ding_event-field_ding_event_ticket_link'.
   $field_instances['node-ding_event-field_ding_event_ticket_link'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
@@ -988,7 +988,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_title_image'
+  // Exported field_instance: 'node-ding_event-field_ding_event_title_image'.
   $field_instances['node-ding_event-field_ding_event_title_image'] = array(
     'bundle' => 'ding_event',
     'deleted' => 0,
@@ -1087,7 +1087,7 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-og_group_ref'
+  // Exported field_instance: 'node-ding_event-og_group_ref'.
   $field_instances['node-ding_event-og_group_ref'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
