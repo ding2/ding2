@@ -313,7 +313,7 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
   );
   if (in_array($field['type'], $field_types)) {
     try {
-      $patron = ding_user_get_creds($user);
+      $patron = ding_user_get_creds();
     }
     catch (Exception $e) {
       // No creds, don't return anything.

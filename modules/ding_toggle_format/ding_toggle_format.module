@@ -116,7 +116,20 @@ function ding_toggle_format_block_view($delta = '') {
 
   return array(
     'subject' => t('Ding toggle format'),
-    'content' => ding_toggle_format_render_link(),
+    'content' => array(
+      '#markup' => ding_toggle_format_render_link(),
+      '#attached' => array(
+        'css' => array(
+          $path . '/css/ding_toggle_format.css',
+        ),
+        'js' => array(
+          $path . '/js/ding_toggle_format.js',
+        ),
+        'libraries_load' => array(
+          array('js.cookie'),
+        ),
+      ),
+    ),
   );
 }
 

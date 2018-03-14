@@ -510,7 +510,7 @@ function ding_list_update_historical_loans($account = NULL) {
   $save_list = FALSE;
   if (ding_user_is_provider_user($account)) {
     try {
-      $creds = ding_user_get_creds($account);
+      $creds = ding_user_get_creds();
       if (!empty($creds['name'])) {
         // Create a timestamp representing today.
         $today = mktime(0, 0, 0);

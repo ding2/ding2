@@ -162,10 +162,23 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 
       // Date.
       if (!empty($date)) {
-        $start_date = strtotime($date[0]['value']);
-        $end_date = strtotime($date[0]['value2']);
+        // When the user saves the event time (e.g. danish time 2018-01-10 00:00),
+        // the value is saved in the database in UTC time 
+        // (e.g. UTC time 2018-01-09 23:00). To print out the date/time properly
+        // We first need to create the dateObject with the UTC database time, and
+        // afterwards we can convert the dateObject db-time to localtime.
 
-        $variables['event_date'] = format_date($start_date, 'ding_date_only_version2');
+        // Create a dateObject from startdate, set base timezone to UTC
+        $date_start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
+        // Set timezone to local timezone
+        $date_start->setTimezone(new DateTimeZone($date[0]['timezone']));
+
+        // Create a dateObject from enddate, set base timezone to UTC
+        $date_end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
+        // Set timezone to local timezone
+        $date_end->setTimezone(new DateTimeZone($date[0]['timezone']));
+
+        $variables['event_date'] = date_format_date($date_start, 'ding_date_only_version2');
         $event_time_view_settings = array(
           'label' => 'hidden',
           'type' => 'date_default',
@@ -176,11 +189,11 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         );
 
         // If start and end date days are equal.
-        if (date('Ymd', $start_date) !== date('Ymd', $end_date)) {
-          $variables['event_date'] .= ' - ' . format_date($end_date, 'ding_date_only_version2');
+        if ($date_start->format('Ymd') !== $date_end->format('Ymd')) {
+          $variables['event_date'] .= ' - ' . date_format_date($date_end, 'ding_date_only_version2');
         }
         // If start and end date days and time are not equal.
-        if ($start_date !== $end_date) {
+        if ($date_start->format('YmdHi') !== $date_end->format('YmdHi')) {
           $event_time_view_settings['settings']['fromto'] = 'both';
         }
 
@@ -210,7 +223,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         $variables['share_button'] = array(
           '#theme' => 'ding_sharer',
           '#label' => t('Share this event'),
-        );;
+        );
 
         // Make book/participate in event button.
         $price = ding_base_get_value('node', $variables['node'], 'field_ding_event_price');

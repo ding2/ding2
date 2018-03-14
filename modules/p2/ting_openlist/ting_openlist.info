@@ -5,3 +5,4 @@ package = Ding!
 dependencies[] = ding_provider
 dependencies[] = ding_user
 dependencies[] = ting_reference
+files[] = TingOpenlistRequestException.php

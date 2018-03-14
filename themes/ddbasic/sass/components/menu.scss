@@ -218,8 +218,10 @@ ul.main-menu-third-level {
           left: 0;
         }
       }
-      &:hover {
-        color: $charcoal;
+      .no-touch & {
+        &:hover {
+          color: $charcoal;
+        }
       }
     }
     &.expanded {
@@ -269,9 +271,11 @@ ul.secondary-menu {
         height: 0;
         background-color: $color-text-on-primary;
       }
-      &:hover {
-        &::after {
-          height: 5px;
+      .no-touch & {
+        &:hover {
+          &::after {
+            height: 5px;
+          }
         }
       }
     }
@@ -442,7 +446,7 @@ ul.topbar-menu {
 // User menu in Header wrapper
 // ==========================================================================
 .header-wrapper .navigation-inner {
-  > ul.main-menu-third-level {
+  ul.main-menu-third-level {
     //Mouseover style
     display: none;
     width: 292px;
@@ -491,11 +495,11 @@ ul.topbar-menu {
       padding: 0;
       margin: 0;
       box-shadow: none;
-      left: 0;
+      //Reset js inforced inline style
+      left: 0 !important;
       &::before {
         display: none;
       }
-      // Create log-out link for tablet/mobile
     }
 
     // Notebook
@@ -560,5 +564,45 @@ ul.topbar-menu {
         }
       }
     }
+  }
+}
+
+// ==========================================================================
+// User mobile menu placeholder - lazy loading
+// ==========================================================================
+.mobile-user-menu .lazy-pane-placeholder {
+  display: none;
+  width: 292px;
+  position: relative;
+  border-radius: $round-corner;
+  background-color: $white;
+  box-shadow: $box-shadow;
+  top: 71px;
+  margin-top: 8px;
+  padding: 10px 20px;
+
+  &::before {
+    @include transform(rotate(-45deg));
+    width: 18px;
+    height: 18px;
+    content: "";
+    display: block;
+    background-color: $white;
+    position: absolute;
+    right: 20px;
+    top: -8px;
+  }
+
+  &::after {
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    content: "";
+  }
+
+  .mobile-usermenu-is-open & {
+    display: block;
   }
 }

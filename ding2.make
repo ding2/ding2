@@ -17,10 +17,13 @@ projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
 
 projects[autologout][subdir] = "contrib"
-projects[autologout][version] = "4.3"
+projects[autologout][version] = "4.5"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
+
+projects[better_exposed_filters][subdir] = "contrib"
+projects[better_exposed_filters][version] = "3.4"
 
 projects[block_access][subdir] = "contrib"
 projects[block_access][version] = "1.5"
@@ -49,7 +52,7 @@ projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
 projects[dibs][patch][] = "https://www.drupal.org/files/issues/mysql_5.7_compatibility-2812891-2.patch"
 
 projects[diff][subdir] = "contrib"
-projects[diff][version] = "3.2"
+projects[diff][version] = "3.3"
 
 ; The patch ensures that file upload patch is created on file upload. It normally
 ; created on settings form save, but as we use feature this do not work.
@@ -59,7 +62,7 @@ projects[dynamic_background][version] = "2.0-rc4"
 projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/create_file_path-2410241-1.patch"
 
 projects[eck][subdir] = "contrib"
-projects[eck][version] = "2.0-rc7"
+projects[eck][version] = "2.0-rc9"
 projects[eck][patch][] = "https://www.drupal.org/files/issues/eck-pdoexception-2109589-17.patch"
 
 projects[email][subdir] = "contrib"
@@ -75,6 +78,9 @@ projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
+
+projects[entityreference_filter][subdir] = "contrib"
+projects[entityreference_filter][version] = "1.7"
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
@@ -181,6 +187,10 @@ projects[l10n_update][type] = "module"
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "1.0"
 
+projects[l10n_client][type] = "module"
+projects[l10n_client][subdir] = "contrib"
+projects[l10n_client][version] = "1.3"
+
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.15"
 
@@ -212,15 +222,15 @@ projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "3.0"
 
 projects[memcache][subdir] = "contrib"
-projects[memcache][version] = "1.5"
+projects[memcache][version] = "1.6"
 
-; Get a this special version that has support for features export.
-projects[menu_block][type] = "module"
 projects[menu_block][subdir] = "contrib"
-projects[menu_block][download][type] = "git"
-projects[menu_block][download][url] = "http://git.drupal.org/project/menu_block.git"
-projects[menu_block][download][revision] = "32ab1cf08b729c93302455d67dd05f64ad2fc056"
-projects[menu_block][patch][0] = "http://drupal.org/files/menu_block-ctools-693302-96.patch"
+projects[menu_block][version] = "2.7"
+; Add support for features export of blocks
+; https://www.drupal.org/node/693302
+; The patch here add a database table, which is already created in a previous hook_update (from a previous patch).
+; We have to modify it for our use.
+projects[menu_block][patch][0] = "patches/menu_block-2x-ctools_exportables-693302-163.ding2.patch"
 
 projects[menu_breadcrumb][subdir] = "contrib"
 projects[menu_breadcrumb][version] = "1.5"
@@ -250,7 +260,7 @@ projects[nanosoap][version] = "1.0"
 projects[nanosoap][patch][] = "http://drupal.org/files/nanosoap-curloptions-1943732.patch"
 
 projects[nodequeue][subdir] = "contrib"
-projects[nodequeue][version] = "2.0-beta1"
+projects[nodequeue][version] = "2.1"
 
 projects[node_clone][subdir] = "contrib"
 projects[node_clone][version] = "1.0-rc2"
@@ -264,7 +274,7 @@ projects[oembed][subdir] = "contrib"
 projects[oembed][version] = "1.0-rc2"
 ; Remove hook_system_info_alter() to allow installing modules depending on oembed, after oembed is installed.
 projects[oembed][patch][] = "http://www.drupal.org/files/issues/oembed-remove_hook_sytem_info_alter-2502817-1.patch"
-; Fix fatal error on install: Unsupported operand types
+; Added a check to ensure that a menu item exists before trying to alter it in order to fix a PHP error.
 projects[oembed][patch][] = "https://www.drupal.org/files/oembed-2021015-1.patch"
 
 projects[og][subdir] = "contrib"
@@ -468,7 +478,7 @@ projects[ding_spt_statistics][download][branch] = "development"
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
-libraries[bpi-client][download][tag] = "7.x-4.1.0"
+libraries[bpi-client][download][tag] = "7.x-4.2.0"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
 
 libraries[ckeditor][download][type] = "get"
@@ -529,7 +539,7 @@ libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][tag] = "7.x-4.1.0"
+libraries[ting-client][download][tag] = "7.x-4.2.0"
 libraries[ting-client][destination] = "modules/ting/lib"
 
 libraries[zen-grids][download][type] = "git"
@@ -546,6 +556,11 @@ libraries[jquery.imagesloaded][download][type] = "get"
 libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
+
+libraries[js.cookie][download][type] = "get"
+libraries[js.cookie][download][url] =  "https://github.com/js-cookie/js-cookie/releases/download/v2.1.4/js.cookie-2.1.4.min.js"
+libraries[js.cookie][directory_name] = "js.cookie"
+libraries[js.cookie][destination] = "libraries"
 
 libraries[slick][download][type] = "get"
 libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.8.0.tar.gz

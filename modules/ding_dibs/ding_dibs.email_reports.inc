@@ -40,7 +40,6 @@ function ding_dibs_setting_emails($form, &$form_state) {
     '#title' => t('Input emails that should be notified if something unusual happens with a payment.'),
     '#description' => t('Enter up to ten email addresses Enter through the separator or comma, without blank lines.'),
     '#default_value' => variable_get('ding_dibs_emails', ''),
-    '#required' => TRUE,
     '#element_validate' => array('ding_dibs_emails_validate'),
   );
   return system_settings_form($form);

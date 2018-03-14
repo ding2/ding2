@@ -273,24 +273,32 @@ function ding_list_create_ding_list($title, $type = DING_LIST_TYPE_USER_LIST, $a
 function ding_list_handle_fields_in_list(&$list, array $fields) {
   if (!empty($fields)) {
     foreach ($fields as $field) {
-      if (!is_array($field['value'])) {
-        if (!empty($field['value'])) {
-          $list->{$field['name']}[LANGUAGE_NONE] = array(array($field['value_type'] => $field['value']));
-        }
-        else {
-          $list->{$field['name']} = array();
-        }
-      }
-      else {
-        $list->{$field['name']}[LANGUAGE_NONE] = array();
-        foreach ($field['value'] as $value) {
-          if (!empty($value)) {
-            $list->{$field['name']}[LANGUAGE_NONE][] = array($field['value_type'] => $value);
+      switch ($field['name']) {
+        case 'field_ding_content_tags':
+          $field['value'] = ding_list_handle_taxonomy_terms([$field['value']], $field['name']);
+          $list->{$field['name']}[LANGUAGE_NONE] = $field['value'];
+          break;
+
+        default:
+          if (!is_array($field['value'])) {
+            if (!empty($field['value'])) {
+              $list->{$field['name']}[LANGUAGE_NONE] = array(array($field['value_type'] => $field['value']));
+            }
+            else {
+              $list->{$field['name']} = array();
+            }
           }
           else {
-            $list->{$field['name']} = array();
+            $list->{$field['name']}[LANGUAGE_NONE] = array();
+            foreach ($field['value'] as $value) {
+              if (!empty($value)) {
+                $list->{$field['name']}[LANGUAGE_NONE][] = array($field['value_type'] => $value);
+              }
+              else {
+                $list->{$field['name']} = array();
+              }
+            }
           }
-        }
       }
     }
   }
