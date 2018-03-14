@@ -1228,7 +1228,7 @@ function bpi_ensure_bpi_workflow_fields() {
             ),
             'type' => 'workflow_default',
             'weight' => 35,
-          )
+          ),
         );
         field_create_instance($instance);
         drupal_set_message(t('Added BPI workflow field to content type @content_type', array('@content_type' => $content_type)));
@@ -1238,7 +1238,7 @@ function bpi_ensure_bpi_workflow_fields() {
       $group_name = 'group_workflow';
       $mode = 'form';
       if (!field_group_exists($group_name, $entity_type, $content_type, $mode)) {
-        $group = (object)array(
+        $group = (object) array(
           'identifier' => $group_name . '|' . $entity_type . '|' . $content_type . '|' . $mode,
           'group_name' => $group_name,
           'entity_type' => $entity_type,

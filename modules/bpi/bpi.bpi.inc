@@ -48,7 +48,6 @@ function bpi_bpi_get_field_mapping_form($bpi_type, $content_type, array $field_m
       'bpi_field_tags' => array(
         '#type' => 'select',
         '#title' => t('BPI tags'),
-        '#description' => t(''),
         '#options' => $field_options,
         '#default_value' => isset($field_mapping['bpi_field_tags']) ? $field_mapping['bpi_field_tags'] : NULL,
       ),

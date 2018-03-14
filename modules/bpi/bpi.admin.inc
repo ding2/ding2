@@ -188,7 +188,8 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
           '#markup' => 'Save to confirm',
         ),
       );
-    } else {
+    }
+    else {
       $item = array(
         'bpi_node_type' => array(
           '#type' => 'select',
@@ -207,7 +208,7 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
           '#type' => 'select',
           '#title' => t('Content type'),
           '#description' => t('Select a content type into which content from BPI will be syndicated.')
-          .'<br/>'. t('If you change the content type, you have to save the form before editing the field mapping.'),
+          .'<br/>' . t('If you change the content type, you have to save the form before editing the field mapping.'),
           '#options' => $node_types,
           '#default_value' => isset($default_values['bpi_content_type']) ? $default_values['bpi_content_type'] : NULL,
           '#ajax' => array(
@@ -239,7 +240,7 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
           'remove_mapping' => array(
             '#type' => 'submit',
             '#value' => t('Remove mapping of @bpi_type', array(
-              '@bpi_type' => isset($default_values['bpi_node_type']) ? t($default_values['bpi_node_type']) : '–'
+              '@bpi_type' => isset($default_values['bpi_node_type']) ? t($default_values['bpi_node_type']) : '–',
             )),
             '#name' => 'remove_mapping_' . $i,
             '#submit' => array('bpi_admin_content_mapping_form_add_mapping_remove_one'),
@@ -284,6 +285,9 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
   return system_settings_form($form);
 }
 
+/**
+ * BPI field mapping form.
+ */
 function bpi_admin_get_field_mapping_form($bpi_type, $content_type, array $field_mapping) {
   $hook = 'bpi_get_field_mapping_form';
   foreach (module_implements($hook) as $module) {
@@ -296,6 +300,9 @@ function bpi_admin_get_field_mapping_form($bpi_type, $content_type, array $field
   return NULL;
 }
 
+/**
+ * BPI field mapping form submit handler.
+ */
 function bpi_admin_content_mapping_form_submit(array $form, array &$form_state) {
   // Reindex bpi_mappings array.
   $form_state['values']['bpi_mappings'] = isset($form_state['values']['bpi_mappings']) ? array_values($form_state['values']['bpi_mappings']) : array();

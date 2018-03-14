@@ -711,6 +711,20 @@ function bpi_syndicate_action($bpi_type, $bpi_id) {
   }
 }
 
+/**
+ * Get url for syndicating a BPI node.
+ *
+ * All modules implementing BPI syndication will be asked for the url used to
+ * syndicate the node.
+ *
+ * @param string $bpi_type
+ *   The bpi type.
+ * @param string $bpi_id
+ *   The bpi node id.
+ *
+ * @return string|NULL
+ *   The syndicate url.
+ */
 function bpi_get_syndicate_url($bpi_type, $bpi_id) {
   $mapping = bpi_get_mapping($bpi_type);
   if (!empty($mapping)) {

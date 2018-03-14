@@ -134,7 +134,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   $bpi_content['title'] = $node->title;
 
   $teaser_field = isset($mapping['bpi_field_mapping']['bpi_field_teaser']) ? field_view_field('node', $node, $mapping['bpi_field_mapping']['bpi_field_teaser']) : NULL;
-  $body_field = isset($mapping['bpi_field_mapping']['bpi_field_body']) ? field_view_field('node', $node, $mapping['bpi_field_mapping']['bpi_field_body']) : '';
+  $body_field = isset($mapping['bpi_field_mapping']['bpi_field_body']) ? field_view_field('node', $node, $mapping['bpi_field_mapping']['bpi_field_body']) : NULL;
   $teaser = bpi_get_field_value($teaser_field);
   $body = bpi_get_field_value($body_field);
 
@@ -257,13 +257,13 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
 /**
  * Get string value from a content type field.
  *
- * @param $field
+ * @param array|NULL $field
  *   The field.
  *
  * @return string
  *   The field value.
  */
-function bpi_get_field_value($field) {
+function bpi_get_field_value(array $field = NULL) {
   $value = '';
 
   if (!empty($field)) {

@@ -11,21 +11,58 @@
  */
 
 /**
- * Return a list of BPI node type a module can handle.
+ * Return a list of BPI node types a module can handle.
  *
  * @return array
  *   An array of BPI type names.
  */
 function hook_bpi_syndicate_get_bpi_types() {
+    return array();
 }
 
+/**
+ * Get form for mapping a BPI node to a Drupal content type.
+ *
+ * @param string $bpi_type
+ *   The BPI type.
+ * @param string $content_type
+ *   The Drupal content type.
+ * @param array $field_mapping
+ *   The current field mapping.
+ *
+ * @return array
+ *   The mapping form.
+ */
 function hook_bpi_get_field_mapping_form($bpi_type, $content_type, array $field_mapping) {
+    return array();
 }
 
+/**
+ * Alter the form for defining a BPI node mapping.
+ *
+ * @param string $bpi_type
+ *   The BPI node type.
+ * @param array $form_item
+ *   The form.
+ */
 function hook_bpi_mapping_form_alter($bpi_type, array &$form_item) {
 }
 
+/**
+ * Get a url used for syndicating a BPI node.
+ *
+ * @param string $bpi_type
+ *   The BPI node type.
+ * @param string $bpi_id
+ *   The BPI node id.
+ * @param array $mapping
+ *   The mapping for the node type.
+ *
+ * @return string|NULL
+ *   The syndicate url.
+ */
 function hook_bpi_syndicate_action_url($bpi_type, $bpi_id, array $mapping) {
+    return NULL;
 }
 
 /**
@@ -53,6 +90,7 @@ function hook_bpi_convert_to_bpi_alter(array &$bpi_content, $node, array $mappin
  *   The image type.
  */
 function hook_bpi_get_image_type($image_field_name, $node) {
+    return NULL;
 }
 
 /**

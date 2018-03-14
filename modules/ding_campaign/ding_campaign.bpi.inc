@@ -55,7 +55,7 @@ function ding_campaign_bpi_get_field_mapping_form($bpi_type, $content_type, arra
         '#options' => $field_options,
         '#default_value' => isset($field_mapping['bpi_field_url']) ? $field_mapping['bpi_field_url'] : NULL,
       ),
-);
+    );
   }
 
   return NULL;
