@@ -337,7 +337,7 @@ function bpi_search_get_items() {
 /**
  * Convert a BPI nodelist into more simple array structure.
  *
- * @param \Bpi\Sdk\NodeList $node_list
+ * @param \Bpi\Sdk\NodeList|array $node_list
  *   The node list.
  *
  * @return array|null

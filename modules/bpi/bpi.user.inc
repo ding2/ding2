@@ -545,7 +545,7 @@ function bpi_search_users($query = '', $page = 1, $filters = array(), $sorting =
 /**
  * Build a tableselect element for selecting user.
  *
- * @param array $users
+ * @param \Bpi\Sdk\UserList|NULL $users
  *   The users.
  *
  * @return array

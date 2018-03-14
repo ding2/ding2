@@ -1,7 +1,17 @@
+<?php
+/**
+ * @file
+ * Channel view template.
+ */
+?>
 <div class="channel-view">
   <div class="bpi-actions">
-    <?php if (bpi_can_edit_channel($channel)) { echo l(t('Edit'), 'admin/bpi/channel/' . $channel->getId() . '/edit'); } ?>
-    <?php if (bpi_can_edit_channel($channel)) { echo l(t('Delete'), 'admin/bpi/channel/' . $channel->getId() . '/delete'); } ?>
+    <?php if (bpi_can_edit_channel($channel)): ?>
+      <?php echo l(t('Edit'), 'admin/bpi/channel/' . $channel->getId() . '/edit'); ?>
+    <?php endif ?>
+    <?php if (bpi_can_edit_channel($channel)): ?>
+      <?php echo l(t('Delete'), 'admin/bpi/channel/' . $channel->getId() . '/delete'); ?>
+    <?php endif ?>
   </div>
 
   <h1><?php echo $channel->getName(); ?></h1>
