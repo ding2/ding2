@@ -14,7 +14,7 @@
   });
 
   // Call resize function when images are loaded.
-  Drupal.behaviors.ding_event_teaser_loaded = {
+  Drupal.behaviors.ding_news_teaser_loaded = {
     attach: function(context, settings) {
       if ($.isFunction($.fn.imagesLoaded)) {
         $('.view-ding-news .view-elements').imagesLoaded( function() {
