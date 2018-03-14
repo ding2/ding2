@@ -141,6 +141,7 @@ input[type="email"] {
 textarea {
   @include font('base');
   padding: 23px 15px 18px;
+  max-width: 100%;
   border: none;
   border-radius: $round-corner;
   background-color: $white;

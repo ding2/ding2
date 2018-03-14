@@ -60,6 +60,11 @@
   .more-link {
     min-width: getColumn(3);
     float: left;
+
+    // Mobile
+    @include media($mobile) {
+      float: none;
+    }
   }
   // Grid small
   &.grid-small {
@@ -603,6 +608,18 @@
     padding: 0;
     .form-submit {
       margin-top: 0;
+    }
+  }
+
+  .views-widget-filter-field_ding_event_category_tid,
+  .views-widget-filter-og_group_ref_target_id_entityreference_filter {
+    width: 100%;
+    label {
+      h2 {
+        position: relative;
+        border-top: 1px solid rgba(38, 38, 38, .2);
+        padding-top: 25px;
+      }
     }
   }
 }

@@ -44482,7 +44482,7 @@ msgstr "Overskredne lån - gebyr kan forekomme, også ved fornyelse"
 
 #: /user/36/status
 msgid "Due in @count, @date"
-msgstr "Aflevér senest <B>@date</B>"
+msgstr "Aflevér senest den <B>@date</B>"
 
 #: /user/36/status
 msgid "Material no."
@@ -48230,7 +48230,7 @@ msgstr "Se og redigere listen"
 
 #: /list/17/share
 msgid "Select which type of access to share"
-msgstr "Brugere med adgang til listen skal kunne: "
+msgstr "Modtagere af linket skal kunne: "
 
 #: /list/17/share
 msgid "Share link"
@@ -65945,7 +65945,7 @@ msgstr "Redigér liste"
 
 #: /user/me/status
 msgid "Unable to renew material"
-msgstr "Materialet kunne ikke fornys"
+msgstr "Materialet kunne ikke fornyes"
 
 #: /user/me/status
 msgid "\"@title: @message\""
@@ -70472,3 +70472,34 @@ msgstr "@type i kategorien @term"
 msgctxt "pluralis"
 msgid "News"
 msgstr "Nyheder"
+
+#: /ting/object/725300-katalog%3A22718584/reserve
+msgid "Only library user can make reservations."
+msgstr "Kun biblioteksbrugere kan reservere materialer."
+
+#: /search/ting/den%20store%20danske
+msgid "Acquisition Date (ascending)"
+msgstr "Anskaffelsesdato - ældste først"
+
+#: /search/ting/den%20store%20danske
+msgid "Acquisition Date (descending)"
+msgstr "Anskaffelsesdato - nyeste først"
+
+#: /system/ajax
+msgid "Unknown error from library system while attempting to reserve."
+msgstr "Reservering ikke mulig. Kontakt biblioteket."
+
+#: /system/ajax
+msgid ""
+"Please use the following link to access this list.\n"
+"The link is active for 7 days from today, after which it will be "
+"disabled for security reasons.\n"
+"\n"
+"!link"
+msgstr ""
+"Åbn !link for at få adgang til listen. \r\n"
+"Linket er aktivt i 7 dage, hvorefter det vil blive deaktiveret af sikkerhedshensyn."
+
+#: /list/240
+msgid "Rename / Delete list"
+msgstr "Omdøb eller slet liste"

@@ -14,4 +14,5 @@
     <?php print render($content['ting_cover']); ?>
   </a>
   <?php print render($content); ?>
+  <div class="ting-object-new-in-list"><?php print t('New in list'); ?></div>
 </div>

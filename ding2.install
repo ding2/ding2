@@ -398,8 +398,6 @@ function ding2_update_7022() {
  */
 function ding2_update_7023() {
   module_enable(array('admin_menu', 'admin_menu_toolbar'));
-
-  ding2_admin_menu_shortcuts();
 }
 
 /**
@@ -540,5 +538,29 @@ function ding2_update_7042() {
  * Update our own translations.
  */
 function ding2_update_7043() {
+  ding2_translation_update();
+}
+
+/**
+ * Activate toggle_name theme setting
+ */
+function ding2_update_7044() {
+  $default_theme = variable_get('theme_default', 'ddbasic');
+  $theme_settings = variable_get('theme_' . $default_theme . '_settings');
+  $theme_settings['toggle_name'] = 1;
+  variable_set('theme_' . $default_theme . '_settings', $theme_settings);
+}
+
+/**
+ * Disable toolbar module.
+ */
+function ding2_update_7045() {
+  module_disable(array('toolbar'));
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7046() {
   ding2_translation_update();
 }

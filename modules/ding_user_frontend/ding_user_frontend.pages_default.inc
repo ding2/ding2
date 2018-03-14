@@ -1172,7 +1172,7 @@ function ding_user_frontend_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => 'Loans | [current-page:pager][site:name]',
+          'value' => 'Overdue loans | [current-page:pager][site:name]',
         ),
       ),
     ),
@@ -1364,6 +1364,14 @@ function ding_user_frontend_default_page_manager_pages() {
     'contexts' => array(),
     'relationships' => array(),
     'name' => 'panel',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'My personal library | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';

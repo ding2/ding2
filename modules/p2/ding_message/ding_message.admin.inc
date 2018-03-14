@@ -107,11 +107,26 @@ function ding_message_update_form_submit($form, &$form_state) {
 /**
  * Todo: function description here.
  */
-function ding_message_purge_user_messages() {
+function ding_message_clear_user_messages() {
   global $user;
-  ding_message_purge_messages($user->uid);
+
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'message', '=')
+    ->propertyCondition('type', 'new_content', '=')
+    ->propertyCondition('uid', $user->uid);
+
+  $result = $query->execute();
+  if (!empty($result['message'])) {
+    foreach (message_load_multiple(array_keys($result['message'])) as $message) {
+      $wrapper = entity_metadata_wrapper('message', $message);
+      $wrapper->field_state->set(DING_MESSAGE_CLOSED);
+      $wrapper->save();
+    }
+  }
+
   drupal_set_message(t("Your notifications has been marked as read"));
-  drupal_goto("user");
+  drupal_goto("user/" . $user->uid . "/my-library");
 }
 
 /**
