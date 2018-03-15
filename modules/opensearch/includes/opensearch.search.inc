@@ -213,6 +213,11 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
     $options['numFacets'] = $ting_query->getTermsPerFacet();
   }
 
+  // Set facets.
+  if (!empty($ting_query->getFacets())) {
+    $options['facets'] = $ting_query->getFacets();
+  }
+
   // Whether to return all materials from matched collections.
   $options['allObjects'] = $ting_query->getPopulateCollections();
 
