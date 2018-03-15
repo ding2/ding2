@@ -619,7 +619,7 @@ function ding_library_default_page_manager_pages() {
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['ding_libraries'] = $page;
+  $pages[''] = $page;
 
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
@@ -946,7 +946,7 @@ function ding_library_default_page_manager_pages() {
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
-  $pages['ding_library_about'] = $page;
+  $pages[''] = $page;
 
   return $pages;
 
