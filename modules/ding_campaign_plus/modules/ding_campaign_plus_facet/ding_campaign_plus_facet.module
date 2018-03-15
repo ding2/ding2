@@ -887,55 +887,6 @@ function _ding_campaign_plus_facet_get_facets($reset = FALSE) {
 }
 
 /**
- * Build facets used in search queries.
- *
- * This is an combination of the default facets combined with the facets defined
- * in the administration interface in this module.
- *
- * @param bool $reset
- *   If TRUE cache is reset (default: FALSE).
- *
- * @return array
- *   The facets that should be used to check if facet campaign can be triggered.
- */
-function _ding_campaign_plus_facet_build_search_facets($reset = FALSE) {
-  $facets = &drupal_static(__FUNCTION__, array());
-
-  if (empty($facets) || $reset) {
-    if (module_exists('ding_facetbrowser')) {
-      // Populate facets with configured facets.
-      foreach (variable_get('ding_facetbrowser_facets', array()) as $facet) {
-        $facets[] = $facet['name'];
-      }
-    }
-    else {
-      // Fallback to the CMS's default facets as defined in the ting client.
-      $facets = array(
-        'facet.subject',
-        'facet.creator',
-        'facet.type',
-        'facet.category',
-        'facet.language',
-        'facet.date',
-        'facet.acSource',
-      );
-    }
-
-    // Merge the campaign plus facet into default facets.
-    $campaign_facets = variable_get('ding_campaign_plus_facets', NULL);
-    if (!is_null($campaign_facets)) {
-      foreach ($campaign_facets as $campaign_facet) {
-        if (!in_array($campaign_facet['facet'], $facets)) {
-          $facets[] = $campaign_facet['facet'];
-        }
-      }
-    }
-  }
-
-  return $facets;
-}
-
-/**
  * Helper function to look-up rules in the database.
  *
  * @param string $keys
@@ -962,30 +913,25 @@ function _ding_campaign_plus_facet_match($keys) {
   }
 
   if (!empty($rules_group)) {
-    // Run user search - to get facets.
-    $facet_array = array();
-    $conditions = ting_search_conditions_callback($keys);
-    $query = '(' . _ting_search_quote($keys) . ')';
+    // Request a clone of the current search and result objects.
+    $current = ting_search_current_results(NULL, TRUE);
 
-    // Extend query with selected facets.
-    if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
-      $values = $conditions['facets'];
-      foreach ($values as $facet) {
-        $facet = explode(':', $facet, 2);
-        if ($facet[0]) {
-          $facet_array[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
-        }
-      }
+    // Add all facets to the search query (or all campaign plus facets).
+    $facets = _ding_campaign_plus_facet_get_facets();
+    foreach ($facets as $facet) {
+      $t=1;
+      $current->getSearchRequest()->setTermsPrFacet(30);
+      
 
-      $query .= ' AND ' . implode(' AND ', $facet_array);
     }
 
-    module_load_include('client.inc', 'ting');
+/*
     $search_result = ting_do_search($query, 1, 1, array(
       'numFacets' => variable_get('ting_search_number_of_facets', 25),
       'facets' => _ding_campaign_plus_facet_build_search_facets(),
     ));
-
+*/
+    $t = $current->getFacets();
     // Loop rules to find most common matches in facets.
     foreach ($rules_group as $rules) {
       // Get the operator for the first rule as all rules in group have same

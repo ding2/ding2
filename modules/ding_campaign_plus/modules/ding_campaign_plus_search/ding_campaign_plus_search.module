@@ -242,39 +242,22 @@ function _ding_campaign_plus_search_match($keys) {
   $rules = $query->condition('status', 1)
     ->execute();
 
-  if ($rules) {
-    // Run user search to get number of results used to percentage
-    // calculations.
-    $facet_array = array();
-    $conditions = ting_search_conditions_callback($keys);
-    $query = '(' . _ting_search_quote($keys) . ')';
+  if ($rules->rowCount() > 0) {
+    // Request a clone of the current search and result objects.
+    $current = ting_search_current_results(NULL, TRUE);
+    $query = $current->getSearchRequest()->getFullTextQuery();
 
-    // Extend query with selected facets.
-    if (isset($conditions['facets'])) {
-      $facets = $conditions['facets'];
-      foreach ($facets as $facet) {
-        $facet = explode(':', $facet, 2);
-        // If first element is set the second will always exists as this is
-        // defined when facet trigger is saved.
-        if ($facet[0]) {
-          $facet_array[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
-        }
-      }
-
-      $query .= ' AND ' . implode(' AND ', $facet_array);
-    }
-
-    module_load_include('client.inc', 'ting');
-    $search_result = ting_do_search($query, 1, 1);
-    $no_of_results = $search_result->numTotalObjects;
-
+    $no_of_results = $current->getNumTotalObjects();
     if ($no_of_results > 0) {
       // Loop rules to find percentage match in facets.
       foreach ($rules as $rule) {
         // Do combined search to get intersection between user search and
         // campaign trigger CQL string.
-        $search_result = ting_do_search($query . 'AND (' . $rule->query . ')', 1, 1);
-        if (($search_result->numTotalObjects / $no_of_results) * 100 >= $rule->percent) {
+        $search_result = $current->getSearchRequest()
+          ->setFullTextQuery($query . ' AND (' . $rule->query . ')')
+          ->execute();
+
+        if (($search_result->getNumTotalObjects() / $no_of_results) * 100 >= $rule->percent) {
           $nids[] = $rule->nid;
         }
       }
@@ -291,18 +274,21 @@ function _ding_campaign_plus_search_match($keys) {
  * query.
  */
 function ding_campaign_plus_search_ding_campaign_plus_validator($nid) {
-  $triggers = db_select('ding_campaign_plus_search', 'dcps')
-    ->fields('dcps')
-    ->condition('nid', $nid)
-    ->execute()
-    ->fetchAll();
+  $query = db_select('ding_campaign_plus_search', 'dcps')
+    ->fields('dcps');
+  $query->join('node', 'n', 'dcps.nid = n.nid');
+  $rules = $query->condition('status', 1)
+    ->execute();
 
-  if ($triggers) {
+  if ($rules->rowCount() > 0) {
     $active = TRUE;
-    module_load_include('client.inc', 'ting');
-    foreach ($triggers as $trigger) {
-      $search_result = ting_do_search($trigger->query, 1, 1);
-      if ($search_result->numTotalObjects > 0) {
+    foreach ($rules as $rule) {
+      $results = ting_start_query()
+        ->setFullTextQuery($rule->query)
+        ->setCount(1)
+        ->setPage(1)
+        ->execute();
+      if ($results->getNumTotalObjects() > 0) {
         // No need to check more triggers as we have found one trigger that
         // generates hits in the data-well.
         return TRUE;

@@ -232,16 +232,17 @@ function _ding_campaign_plus_object_match($ting_object_id) {
   $rules = $query->condition('status', 1)
     ->execute();
 
-  if ($rules) {
+  if ($rules->rowCount() > 0) {
     foreach ($rules as $rule) {
       // Run campaign search query combined with the object id to see if it
       // contains the current viewed ting object.
-      $query = '(' . _ting_search_quote($rule->query) . ') AND (' . $ting_object_id . ')';
+      $results = ting_start_query()
+        ->setFullTextQuery('(' . $rule->query . ') AND (' . $ting_object_id . ')')
+        ->setCount(0)
+        ->setPage(0)
+        ->execute();
 
-      module_load_include('client.inc', 'ting');
-      $search_result = ting_do_search($query, 1, 1);
-
-      if ($search_result->numTotalObjects > 0) {
+      if ($results->getNumTotalObjects() > 0) {
         $nids[] = $rule->nid;
       }
     }
@@ -257,18 +258,21 @@ function _ding_campaign_plus_object_match($ting_object_id) {
  * query.
  */
 function ding_campaign_plus_object_ding_campaign_plus_validator($nid) {
-  $triggers = db_select('ding_campaign_plus_object', 'dcpo')
-    ->fields('dcpo')
-    ->condition('nid', $nid)
-    ->execute()
-    ->fetchAll();
+  $query = db_select('ding_campaign_plus_object', 'dcpo')
+    ->fields('dcpo');
+  $query->join('node', 'n', 'dcpo.nid = n.nid');
+  $rules = $query->condition('status', 1)
+    ->execute();
 
-  if ($triggers) {
+  if ($rules->rowCount() > 0) {
     $active = TRUE;
-    module_load_include('client.inc', 'ting');
-    foreach ($triggers as $trigger) {
-      $search_result = ting_do_search($trigger->query, 1, 1);
-      if ($search_result->numTotalObjects > 0) {
+    foreach ($rules as $rule) {
+      $results = ting_start_query()
+        ->setFullTextQuery($rule->query)
+        ->setCount(1)
+        ->setPage(1)
+        ->execute();
+      if ($results->getNumTotalObjects() > 0) {
         // No need to check more rules one of theme makes hits.
         return TRUE;
       }
