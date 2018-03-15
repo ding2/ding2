@@ -918,20 +918,15 @@ function _ding_campaign_plus_facet_match($keys) {
 
     // Add all facets to the search query (or all campaign plus facets).
     $facets = _ding_campaign_plus_facet_get_facets();
-    foreach ($facets as $facet) {
-      $t=1;
-      $current->getSearchRequest()->setTermsPrFacet(30);
-      
+    $facets = array_map(function ($facet) {
+      return $facet['facet'];
+    }, $facets);
+    $results = $current->getSearchRequest()
+      ->setTermsPrFacet(30)
+      ->setFacets($facets)
+      ->execute();
+    $search_facets = $results->getFacets();
 
-    }
-
-/*
-    $search_result = ting_do_search($query, 1, 1, array(
-      'numFacets' => variable_get('ting_search_number_of_facets', 25),
-      'facets' => _ding_campaign_plus_facet_build_search_facets(),
-    ));
-*/
-    $t = $current->getFacets();
     // Loop rules to find most common matches in facets.
     foreach ($rules_group as $rules) {
       // Get the operator for the first rule as all rules in group have same
@@ -941,9 +936,9 @@ function _ding_campaign_plus_facet_match($keys) {
         case 'and':
           $local_triggers = array();
           foreach ($rules as $rule) {
-            if (isset($search_result->facets[$rule->facet])) {
+            if (isset($search_facets[$rule->facet])) {
               $values = (array) unserialize($rule->value);
-              $terms = $search_result->facets[$rule->facet]->terms;
+              $terms = $search_facets[$rule->facet]->getTerms();
 
               // Check if facets matches any of the terms left.
               foreach ($values as $value) {
@@ -970,9 +965,9 @@ function _ding_campaign_plus_facet_match($keys) {
         default:
           // This is the "or" case and also the default operator.
           foreach ($rules as $rule) {
-            if (isset($search_result->facets[$rule->facet])) {
+            if (isset($search_facets[$rule->facet])) {
               $values = (array) unserialize($rule->value);
-              $terms = $search_result->facets[$rule->facet]->terms;
+              $terms = $search_facets[$rule->facet]->getTerms();
 
               // Check if facets matches any of the terms left.
               foreach ($values as $value) {
@@ -1061,25 +1056,28 @@ function _ding_campaign_plus_facet_compare($value, array $terms, $common) {
  * query.
  */
 function ding_campaign_plus_facet_ding_campaign_plus_validator($nid) {
-  $triggers = db_select('ding_campaign_plus_facet', 'dcpf')
-    ->fields('dcpf')
-    ->condition('nid', $nid)
+  $query = db_select('ding_campaign_plus_facet', 'dcpf')
+    ->fields('dcpf');
+  $query->join('node', 'n', 'dcpf.nid = n.nid');
+  $rules = $query->condition('status', 1)
     ->execute()
     ->fetchAll();
 
-  if ($triggers) {
+  if ($rules) {
     $active = TRUE;
     module_load_include('client.inc', 'ting');
-    foreach ($triggers as $trigger) {
-      $facet_array = array();
-      $facets = (array) unserialize($trigger->value);
+    foreach ($rules as $rule) {
+      $facets = (array) unserialize($rule->value);
+      $query = ting_start_query();
       foreach ($facets as $facet) {
-        $facet_array[] = $trigger->facet . '="' . rawurldecode($facet) . '"';
+        $query->addFieldFilter($rule->facet, $facet);
       }
-      $query = implode(' AND ', $facet_array);
-      $search_result = ting_do_search($query, 1, 1);
+      $results = $query
+        ->setCount(0)
+        ->setPage(0)
+        ->execute();
 
-      if ($search_result->numTotalObjects > 0) {
+      if ($results->getNumTotalObjects() > 0) {
         // No need to check more rules one of theme makes hits.
         return TRUE;
       }
