@@ -326,10 +326,24 @@ function fbs_reservation_branch_name($branch_id) {
  *   The default options.
  */
 function fbs_reservation_default_options($account) {
+  // Load profile2 profile.
+  $profile = ding_user_provider_profile($account);
+
+  // Use a metadata wrapper to access the data.
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+  // Get values.
+  $interest_period = $wrapper->field_fbs_interest_period->value();
+
+  if(empty($interest_period)) {
+    $interest_period = variable_get('fbs_default_interest_period', 180);
+  }
+
   $patron_info = fbs_get_patron_info($account);
+
   return array(
     'fbs_preferred_branch' => $patron_info['preferred_branch'],
-    'interest_period' => variable_get('fbs_default_interest_period', 180),
+    'interest_period' => $interest_period,
   );
 }
 
@@ -357,9 +371,13 @@ function fbs_reservation_options($account, $default_branch = NULL) {
     $preferred_branch = $default_branch;
   }
 
+  $profile = ding_user_provider_profile($account);
+  $interest_period = fbs_reservation_default_interest_period($profile);
+  $periods = fbs_interest_periods();
+
   $form = array();
   $form += ding_reservation_default_options_branch('fbs_preferred_branch', $preferred_branch, fbs_user_branches($account));
-  $form += ding_reservation_interest_period_selector('interest_period', variable_get('fbs_default_interest_period', 180), fbs_interest_periods());
+  $form += ding_reservation_interest_period_selector('interest_period', $interest_period, $periods);
 
   return $form;
 }
@@ -377,11 +395,33 @@ function fbs_reservation_options_submit($account, $values) {
 }
 
 /**
- * Implements provider reservation, default_interst_period.
+ * Implements hook_default_interest_period().
  *
- * @return int
- *   Default interest period for user.
+ * Tries to find the users default interest period based on the users profile2
+ * provider profile.
+ *
+ * @param object $profile
+ *   The users profile2 provider profile.
+ *
+ * @return string
+ *   The default interest period selected by the user in his/her profile or the
+ *   default value selected by the site.
  */
-function fbs_reservation_default_interest_period() {
-  return variable_get('fbs_default_interest_period', 180);
+function fbs_reservation_default_interest_period($profile = NULL) {
+  // If profile is not given, try loading it for the user.
+  if (is_null($profile)) {
+    global $user;
+    $profile = ding_user_provider_profile($user);
+  }
+
+  // Get interest period from the profile.
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+  $value = $wrapper->field_fbs_interest_period->value();
+
+  // If no period is selected, try getting default value.
+  if (is_null($value) || empty($value)) {
+    $value = variable_get('alma_default_interest_period', 180);
+  }
+
+  return $value;
 }
