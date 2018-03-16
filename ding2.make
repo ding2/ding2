@@ -213,7 +213,7 @@ projects[media][subdir] = "contrib"
 projects[media][version] = "2.0"
 
 projects[media_vimeo][subdir] = "contrib"
-projects[media_vimeo][version] = "2.0-rc1"
+projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "3.0"
