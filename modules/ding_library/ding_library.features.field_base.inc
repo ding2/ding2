@@ -10,14 +10,13 @@
 function ding_library_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_ding_library_addresse'
+  // Exported field_base: 'field_ding_library_addresse'.
   $field_bases['field_ding_library_addresse'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_library_addresse',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'addressfield',
@@ -28,21 +27,13 @@ function ding_library_field_default_field_bases() {
     'type' => 'addressfield',
   );
 
-  // Exported field_base: 'field_ding_library_body'
+  // Exported field_base: 'field_ding_library_body'.
   $field_bases['field_ding_library_body'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_library_body',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -57,21 +48,13 @@ function ding_library_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_library_fax_number'
+  // Exported field_base: 'field_ding_library_fax_number'.
   $field_bases['field_ding_library_fax_number'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_library_fax_number',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -87,14 +70,13 @@ function ding_library_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_ding_library_geocode'
+  // Exported field_base: 'field_ding_library_geocode'.
   $field_bases['field_ding_library_geocode'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_library_geocode',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'geofield',
@@ -107,21 +89,13 @@ function ding_library_field_default_field_bases() {
     'type' => 'geofield',
   );
 
-  // Exported field_base: 'field_ding_library_lead'
+  // Exported field_base: 'field_ding_library_lead'.
   $field_bases['field_ding_library_lead'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_library_lead',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -136,14 +110,13 @@ function ding_library_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_library_links'
+  // Exported field_base: 'field_ding_library_links'.
   $field_bases['field_ding_library_links'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_library_links',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',
@@ -167,14 +140,13 @@ function ding_library_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'field_ding_library_mail'
+  // Exported field_base: 'field_ding_library_mail'.
   $field_bases['field_ding_library_mail'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_library_mail',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'email',
@@ -185,21 +157,13 @@ function ding_library_field_default_field_bases() {
     'type' => 'email',
   );
 
-  // Exported field_base: 'field_ding_library_phone_number'
+  // Exported field_base: 'field_ding_library_phone_number'.
   $field_bases['field_ding_library_phone_number'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_library_phone_number',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -215,21 +179,13 @@ function ding_library_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_ding_library_slug'
+  // Exported field_base: 'field_ding_library_slug'.
   $field_bases['field_ding_library_slug'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_library_slug',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -245,21 +201,13 @@ function ding_library_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_ding_library_title_image'
+  // Exported field_base: 'field_ding_library_title_image'.
   $field_bases['field_ding_library_title_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_library_title_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -276,14 +224,13 @@ function ding_library_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'group_group'
+  // Exported field_base: 'group_group'.
   $field_bases['group_group'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'group_group',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
