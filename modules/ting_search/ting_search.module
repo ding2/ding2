@@ -471,7 +471,7 @@ function ting_search_current_results(TingSearchResultInterface $new_search_resul
   if (NULL !== $new_search_result) {
     $global_search_result = $new_search_result;
   }
-  return $clone ? unserialize(serialize($global_search_result)) : $global_search_result;
+  return $clone ? clone $global_search_result : $global_search_result;
 }
 
 /**
