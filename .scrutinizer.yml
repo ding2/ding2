@@ -9,6 +9,7 @@ tools:
       - test
       - profile
       - theme
+      - php
   js_hint:
     use_native_config: true
 
