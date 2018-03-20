@@ -106,9 +106,6 @@ function ding_event_strongarm() {
       'alternative_layout_full' => array(
         'custom_settings' => TRUE,
       ),
-      'teaser_no_overlay' => array(
-        'custom_settings' => TRUE,
-      ),
     ),
     'extra_fields' => array(
       'form' => array(
