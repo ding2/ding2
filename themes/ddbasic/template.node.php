@@ -313,9 +313,13 @@ function ddbasic_preprocess__node__ding_library(&$variables) {
 function ddbasic_preprocess__node__ding_group(&$variables) {
   switch ($variables['view_mode']) {
     case 'teaser':
-      $img_uri = $variables['field_ding_group_list_image'][0]['uri'];
-      if (!empty($img_uri)) {
-        $variables['background_image'] = image_style_url('ding_panorama_list_large_desaturate', $img_uri);
+      $variables['link_attributes'] = array(
+        'style' => '',
+      );
+
+      if (!empty($variables['field_ding_group_list_image'][0]['uri'])) {
+        $img_url = image_style_url('ding_panorama_list_large_desaturate', $variables['field_ding_group_list_image'][0]['uri']);
+        $variables['link_attributes']['style'] = 'background-image:url("' . $img_url . '");';
       }
       break;
 
@@ -345,21 +349,27 @@ function ddbasic_preprocess__node__ding_eresource(&$variables) {
 function ddbasic_preprocess__node__ding_page(&$variables) {
   switch ($variables['view_mode']) {
     case 'teaser':
+      $variables['link_attributes'] = array(
+        'style' => '',
+      );
+
       if (!empty($variables['field_ding_page_list_image'][0]['uri'])) {
-        $variables['background_image'] = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
-      } else {
-        $variables['background_image'] = '';
+        $img_url = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
+        $variables['link_attributes']['style'] = 'background-image:url("' . $img_url . '");';
       }
       break;
+
     case 'teaser_no_overlay':
       array_push($variables['classes_array'], 'node-teaser-no-overlay');
 
       if (!empty($variables['field_ding_page_list_image'][0]['uri'])) {
         $variables['background_image'] = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
-      } else {
+      } 
+      else {
         $variables['background_image'] = '';
       }
       break;
+
     case 'full':
       array_push($variables['classes_array'], 'node-full');
       break;
