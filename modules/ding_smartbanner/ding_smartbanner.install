@@ -13,7 +13,7 @@ function ding_smartbanner_install() {
     'base_config' => array(
       'days_hidden' => '15',
       'days_reminder' => '90',
-      'app_store_language' => 'en',
+      'app_store_language' => 'dk',
       'app_title' => 'Biblioteket',
       'app_author' => 'Redia',
       'button_name' => 'View',

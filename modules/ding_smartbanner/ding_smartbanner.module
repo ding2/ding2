@@ -78,7 +78,7 @@ function ding_smartbanner_init() {
   drupal_add_js(libraries_get_path('smart-app-banner') . '/smart-app-banner.js', array('type' => 'file', 'scope' => 'footer'));
   drupal_add_js(DING_SMARTBANNER_MODULE_PATH . '/js/ding_smartbanner.js', array('type' => 'file', 'scope' => 'footer'));
 
-  $icon_path = DING_SMARTBANNER_MODULE_PATH . '/icon.png';
+  $icon_path = DING_SMARTBANNER_MODULE_PATH . '/images/icon.png';
 
   $os = array(
     'ios' => array(

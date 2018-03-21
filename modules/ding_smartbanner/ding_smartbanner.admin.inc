@@ -48,7 +48,7 @@ function ding_smartbanner_settings_form($form, &$form_state) {
       'en' => t('En'),
       'dk' => t('Dk'),
     ),
-    '#default_value' => !empty($configs['base_config']['app_store_language']) ? $configs['base_config']['app_store_language'] : 'en',
+    '#default_value' => !empty($configs['base_config']['app_store_language']) ? $configs['base_config']['app_store_language'] : 'dk',
   );
 
   $form['smartbanner']['base_config']['app_title'] = array(

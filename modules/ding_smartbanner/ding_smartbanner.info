@@ -1,6 +1,5 @@
 name = Ding Smartbanner
 description = Module detects mobile device and shows popup with link to native application.
 core = 7.x
-version = 7.x-4.1.0
 package = Ding!
 config = admin/config/smartbanner
