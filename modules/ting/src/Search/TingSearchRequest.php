@@ -234,7 +234,9 @@ class TingSearchRequest {
   }
 
   /**
-   * The facets for set for this search.
+   * The facets used for this search request.
+   *
+   * @see TingSearchRequest::setFacets() for more information.
    *
    * @return array
    *   The facets.
@@ -244,9 +246,21 @@ class TingSearchRequest {
   }
 
   /**
-   * Sets the facets used for the search.
+   * Sets the facets used for this search request.
    *
-   * @param array $facets
+   * Note that the facets set here might be provider dependent. Not all
+   * providers have the same facets available and if facets used is not defined
+   * in TingSearchCommonFields this may break search request for a given
+   * provider. So this should be used with care or it might limit the usefulness
+   * of the module using it.
+   *
+   * Modules using non TingSearchCommonFields facets should use those defined by
+   * ding_facetbrowser or at least make the facets used configurable in the
+   * sites administration menus.
+   *
+   * The facets set here will also be the facets returned in the search result.
+   *
+   * @param string[] $facets
    *    The facets used for the search.
    *
    * @return TingSearchRequest

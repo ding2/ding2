@@ -213,7 +213,6 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
     $options['numFacets'] = $ting_query->getTermsPerFacet();
   }
 
-  // Set facets.
   if (!empty($ting_query->getFacets())) {
     $options['facets'] = $ting_query->getFacets();
   }
