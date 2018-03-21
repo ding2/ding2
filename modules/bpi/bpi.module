@@ -1014,3 +1014,132 @@ function bpi_xautoload($adapter) {
     drupal_get_path('module', 'bpi') . '/lib/bpi-client/Bpi/Sdk/'
   );
 }
+
+/**
+ * Implements hook_views_default_views_alter().
+ *
+ * Add BPI column, option to change BPI state, and language to content view.
+ */
+function bpi_features_views_default_views_alter(&$views) {
+  if (isset($views['admin_views_node'])) {
+    $display_default = &$views['admin_views_node']->display['default'];
+    $display_options = &$display_default->display_options;
+    $fields = &$display_options['fields'];
+
+    // We want to move operations column to the right (down in the array), so we
+    // unset them here and insert them later.
+    $edit_node = $fields['edit_node'];
+    $delete_node = $fields['delete_node'];
+    unset($fields['edit_node']);
+    unset($fields['delete_node']);
+    $clone_node = NULL;
+    if (!isset($fields['clone_node'])) {
+      $clone_node = array(
+        'id' => 'clone_node',
+        'table' => 'node',
+        'field' => 'clone_node',
+        'label' => 'Clone',
+      );
+    }
+    else {
+      $clone_node = $fields['clone_node'];
+    }
+    unset($fields['clone_node']);
+
+    // Add language and workflow state.
+    $fields['language'] = array(
+      'id' => 'language',
+      'table' => 'node',
+      'field' => 'language',
+    );
+    $fields['sid'] = array(
+      'id' => 'sid',
+      'table' => 'workflow_node_current',
+      'field' => 'sid',
+      'label' => 'BPI State',
+    );
+
+    // Insert operations here.
+    $fields['edit_node'] = $edit_node;
+    $fields['clone_node'] = $clone_node;
+    $fields['delete_node'] = $delete_node;
+
+    // Add workflow.
+    $fields['workflow_node'] = array(
+      'id' => 'workflow_node',
+      'table' => 'views_entity_node',
+      'field' => 'workflow_node',
+      'label' => 'Operations',
+      'text' => 'change BPI state',
+    );
+
+    $style_options = &$display_options['style_options'];
+
+    // Put sid and workflow_node in the correct columns.
+    $style_options['columns']['sid'] = 'sid';
+    $style_options['columns']['workflow_node'] = 'edit_node';
+    $style_options['columns']['clone_node'] = 'edit_node';
+
+    // Add sortable to columns.
+    $sortable = array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    );
+    $style_options['info']['language'] = $sortable;
+    $style_options['info']['sid'] = $sortable;
+    $non_sortable = array(
+      'align' => '',
+      'separator' => '&emsp;',
+      'empty_column' => 0,
+    );
+    $style_options['info']['clone_node'] = $non_sortable;
+    $style_options['info']['workflow_node'] = $non_sortable;
+
+    // Add filter for workflow.
+    $display_options['filters']['sid'] = array(
+      'id' => 'sid',
+      'table' => 'workflow_node_current',
+      'field' => 'sid',
+      'exposed' => TRUE,
+      'expose' => array(
+        'operator_id' => 'sid_op',
+        'label' => 'Workflow state',
+        'operator' => 'sid_op',
+        'identifier' => 'sid',
+        'workflow_reduce_wid' => 1,
+        'workflow_include_all' => TRUE,
+      ),
+    );
+    // Add language filter.
+    $display_options['filters']['language'] = array(
+      'id' => 'language',
+      'table' => 'node',
+      'field' => 'language',
+      'exposed' => TRUE,
+      'expose' => array(
+        'operator_id' => 'language_op',
+        'label' => 'Language',
+        'operator' => 'language_op',
+        'identifier' => 'language',
+      ),
+    );
+
+    // Clone node bulk operation.
+    $fields['views_bulk_operations']['vbo_operations'] += array(
+      'action::clone_action_clone' => array(
+        'selected' => 1,
+        'skip_confirmation' => 0,
+        'override_label' => 1,
+        'label' => 'Clone node',
+        'postpone_processing' => 0,
+      ),
+    );
+
+    // Autosubmit.
+    $display_options['exposed_form']['options']['reset_button'] = FALSE;
+    $display_options['exposed_form']['options']['autosubmit'] = TRUE;
+  }
+}
