@@ -424,7 +424,9 @@ projects[views_rss_media][subdir] = "contrib"
 projects[views_rss_media][download][type] = "git"
 projects[views_rss_media][download][url] = "http://git.drupal.org/project/views_rss_media.git"
 projects[views_rss_media][download][revision] = "14f7cc90d41c0186d2356ff528ac316a16eba3fd"
+; Prevents yielding strict warning about variables that should be passed by reference in views_rss_media_requirements().
 projects[views_rss_media][patch][] = "https://www.drupal.org/files/issues/strict-warning-2149287-1.patch"
+; Changing REQUIREMENT_ERROR to REQUIREMENT_WARNING so the installation of module will pass.
 projects[views_rss_media][patch][] = "https://www.drupal.org/files/issues/views_rss_media-2550589-1.patch"
 
 ; Development version where the "unpublished" status have been fixed on the content edit page.

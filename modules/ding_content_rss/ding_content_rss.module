@@ -104,7 +104,6 @@ function ding_content_rss_field_formatter_settings_form($field, $instance, $view
     '#title' => t('Display:'),
     '#type' => 'select',
     '#options' => array(
-      'both' => t('Both Start and End dates'),
       'value' => t('Start date only'),
       'value2' => t('End date only'),
     ),

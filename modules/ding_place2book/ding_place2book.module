@@ -1071,11 +1071,11 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
       }
     }
   }
-  return theme('place2book_ticketsinfo', [
+  return theme('place2book_ticketsinfo', array(
     'place2book_id' => $place2book_id,
     'url' => $url,
     'type' => $type,
-  ]);
+  ));
 }
 
 /**
@@ -1130,6 +1130,8 @@ function ding_place2book_theme() {
  */
 function ding_place2book_preprocess_node(&$variables) {
   if ($variables['type'] == 'ding_event' && $variables['view_mode'] == 'full') {
+    // Hide field_place2book_tickets, because it is rendering "placeholder"
+    // default value under the "Left" info group.
     $variables['content']['field_place2book_tickets']['#access'] = FALSE;
   }
 }

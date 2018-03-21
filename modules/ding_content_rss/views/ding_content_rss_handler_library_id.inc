@@ -12,24 +12,12 @@
 class ding_content_rss_handler_library_id extends views_handler_field {
 
   /**
-   * {@inheritdoc}
+   * Query definition.
+   * MUST be here as it is an requirement by views field handler.
    */
-  function option_definition() {
-    $options = parent::option_definition();
-    return $options;
+  function query() {
+    // Do nothing -- to override the parent query.
   }
-
-  /**
-   * {@inheritdoc}
-   */
-  function options_form(&$form, &$form_state) {
-    parent::options_form($form, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  function query() {}
 
   /**
    * Find out the information to render.
