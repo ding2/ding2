@@ -238,7 +238,7 @@ class TingSearchRequest {
    *
    * @see TingSearchRequest::setFacets() for more information.
    *
-   * @return array
+   * @return string[]
    *   The facets.
    */
   public function getFacets() {
