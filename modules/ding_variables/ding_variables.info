@@ -2,5 +2,5 @@ name = Ding Variables
 description = Exposed custom variables as a JSON format.
 core = 7.x
 package = Ding!
-version = 7.x-3.0.5
-
+dependencies[] = opensearch
+dependencies[] = ting_search_carousel
