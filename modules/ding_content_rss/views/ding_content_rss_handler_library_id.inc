@@ -8,12 +8,10 @@
 /**
  * Class ding_content_rss_handler_library_id.
  */
-// @codingStandardsIgnoreStart
 class ding_content_rss_handler_library_id extends views_handler_field {
 
   /**
-   * Query definition.
-   * MUST be here as it is an requirement by views field handler.
+   * Query definition. MUST be here as it is required by views field handler.
    */
   function query() {
     // Do nothing -- to override the parent query.
@@ -30,4 +28,3 @@ class ding_content_rss_handler_library_id extends views_handler_field {
   }
 
 }
-// @codingStandardsIgnoreEnd
