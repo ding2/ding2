@@ -159,11 +159,11 @@ function ting_new_materials_make_limit_query($limit = 0) {
 function ting_new_materials_do_search($query, $page = 0, $num_per_page = 10) {
   // Build search options and ensure that they are sorted correctly.
   $query = ting_start_query()
-    ->setRawQuery($query)
-    ->setCollectionType(TingSearchRequest::COLLECTION_TYPE_SINGLE_OBJECT)
-    ->addSort('date_descending')
-    ->setPage($page + 1)
-    ->setCount($num_per_page);
+    ->withRawQuery($query)
+    ->withCollectionType(TingSearchRequest::COLLECTION_TYPE_SINGLE_OBJECT)
+    ->withSort('date_descending')
+    ->withPage($page + 1)
+    ->withCount($num_per_page);
   return $query->execute();
 }
 

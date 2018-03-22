@@ -80,10 +80,10 @@ function ding_serendipity_taxonomy_term_recent_serendipity_add($context) {
   $query = _ding_serendipity_taxonomy_term_query_from_term($term_array);
   // Select content from this year.
   $limit = (is_numeric($context['max'])) ? $context['max'] : 16;
-  $query->setCount($limit);
+  $query = $query->withCount($limit);
 
   // Order by date.
-  $query->addSort(TingSearchCommonFields::ACQUISITION_DATE, TingSearchSort::DIRECTION_DESCENDING);
+  $query = $query->withSort(TingSearchCommonFields::ACQUISITION_DATE, TingSearchSort::DIRECTION_DESCENDING);
   return ding_serendipity_do_search($query);
 }
 
@@ -100,11 +100,11 @@ function _ding_serendipity_taxonomy_term_query_from_term(array $term_array) {
   $query = ting_start_query();
   if ($term_array['has_query']) {
     // The term has a query attached, use it.
-    $query->setRawQuery(ding_list_convert_cql($term_array['query']));
+    $query = $query->withRawQuery(ding_list_convert_cql($term_array['query']));
   }
   else {
     // Just add the term name itself as a full text search.
-    $query->setFullTextQuery($term_array['term']->name);
+    $query = $query->withFullTextQuery($term_array['term']->name);
   }
 
   return $query;
@@ -129,7 +129,7 @@ function ding_serendipity_taxonomy_term_related_by_term_serendipity_add($context
   $results = array();
   if ($context['bundle'] == 'ting_object') {
     $query = _ding_serendipity_taxonomy_term_query_from_term($term_array);
-    $query->setCount($context['min']);
+    $query = $query->withCount($context['min']);
     $results = ding_serendipity_do_search($query);
 
     // Frontpage could be a taxonomy term.
