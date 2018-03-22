@@ -246,19 +246,16 @@ class TingSearchRequest {
   }
 
   /**
-   * Sets the facets used for this search request.
+   * Sets which facets that search request should return.
    *
-   * Note that the facets set here might be provider dependent. Not all
-   * providers have the same facets available and if facets used is not defined
-   * in TingSearchCommonFields this may break search request for a given
+   * Note that facets set will be provider dependent. Search providers are not
+   * likely to have the same facets available and referencing the id of a
+   * facet for a specific provider will break search request for another
    * provider. So this should be used with care or it might limit the usefulness
    * of the module using it.
    *
-   * Modules using non TingSearchCommonFields facets should use those defined by
-   * ding_facetbrowser or at least make the facets used configurable in the
-   * sites administration menus.
-   *
-   * The facets set here will also be the facets returned in the search result.
+   * Modules specifying facets to retrieve should make the facets used
+   * configurable in the site administration.
    *
    * @param string[] $facets
    *    The facets used for the search.
