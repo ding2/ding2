@@ -571,3 +571,12 @@ function ding2_update_7046() {
 function ding2_update_7047() {
   module_enable(array('ding_app_content_rss'));
 }
+
+/**
+ * Enable ding_app_variables module.
+ */
+function ding2_update_7048() {
+  if (module_exists('opensearch')) {
+    module_enable(array('ding_app_variables'));
+  }
+}
