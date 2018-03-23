@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @file
+ * Install and uninstall ding_app_smartbanner.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_app_smartbanner_install() {
+  $smartbanner_config = array(
+    'base_config' => array(
+      'days_hidden' => '15',
+      'days_reminder' => '90',
+      'app_store_language' => 'dk',
+      'app_title' => 'Biblioteket',
+      'app_author' => 'Redia',
+      'button_name' => 'View',
+      'app_icon' => array(
+        'icon' => FALSE,
+        'icon_delete' => 0,
+        'icon_upload' => '',
+      ),
+    ),
+    'app_configs' => array(
+      'ios_app_config' => array(
+        'app_enabled' => 1,
+        'app_id' => '827729275',
+        'app_price' => 'Gratis',
+        'app_description' => 'Hele biblioteket i en app',
+      ),
+      'android_app_config' => array(
+        'app_enabled' => 1,
+        'app_id' => 'app.redia.dk.biblioteket',
+        'app_price' => 'Gratis',
+        'app_description' => 'Hele biblioteket i en app',
+      ),
+      'windows_app_config' => array(
+        'app_enabled' => 0,
+        'app_id' => '',
+        'package' => '',
+        'app_price' => '',
+        'app_description' => '',
+      ),
+    ),
+  );
+
+  variable_set('smartbanner_config', $smartbanner_config);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_app_smartbanner_uninstall() {
+  variable_del('smartbanner_config');
+}

@@ -19,5 +19,5 @@
   "shadow": true,
   "smarttabs": true,
   "multistr": true,
-  "predef": [ "Drupal", "jQuery", "$"  ]
+  "predef": [ "Drupal", "jQuery", "$", "SmartBanner"]
 }
