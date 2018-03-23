@@ -1,20 +1,21 @@
 <?php
+
 /**
  * @file
- * ding_content_rss.features.inc
+ * ding_app_content_rss.features.inc
  */
 
 /**
  * Implements hook_views_api().
  */
-function ding_content_rss_views_api($module = NULL, $api = NULL) {
+function ding_app_content_rss_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
 /**
  * Implements hook_flag_default_flags().
  */
-function ding_content_rss_flag_default_flags() {
+function ding_app_content_rss_flag_default_flags() {
   $flags = array();
   // Exported flag: "Mobile app".
   $flags['mobile_app'] = array(
@@ -54,7 +55,7 @@ function ding_content_rss_flag_default_flags() {
     'show_on_teaser' => 0,
     'show_contextual_link' => 0,
     'i18n' => 0,
-    'module' => 'ding_content_rss',
+    'module' => 'ding_app_content_rss',
     'locked' => array(
       0 => 'name',
     ),

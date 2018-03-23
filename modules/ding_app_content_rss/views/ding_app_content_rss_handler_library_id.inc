@@ -6,9 +6,9 @@
  */
 
 /**
- * Class ding_content_rss_handler_library_id.
+ * Class ding_app_content_rss_handler_library_id.
  */
-class ding_content_rss_handler_library_id extends views_handler_field {
+class ding_app_content_rss_handler_library_id extends views_handler_field {
 
   /**
    * Query definition. MUST be here as it is required by views field handler.

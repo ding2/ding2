@@ -1,21 +1,22 @@
 <?php
+
 /**
  * @file
- * ding_content_rss.views_default.inc
+ * ding_app_content_rss.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function ding_content_rss_views_default_views() {
+function ding_app_content_rss_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'ding_content_event_rss';
+  $view->name = 'ding_app_content_event_rss';
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'Ding Content Event RSS';
+  $view->human_name = 'Ding App Content Event RSS';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -92,7 +93,7 @@ function ding_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date']['label'] = '';
   $handler->display->display_options['fields']['field_ding_event_date']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_date']['type'] = 'ding_content_rss_date_time';
+  $handler->display->display_options['fields']['field_ding_event_date']['type'] = 'ding_app_content_rss_date_time';
   $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
     'fromto' => 'value',
   );
@@ -104,7 +105,7 @@ function ding_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date_1']['label'] = '';
   $handler->display->display_options['fields']['field_ding_event_date_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date_1']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_date_1']['type'] = 'ding_content_rss_date_time';
+  $handler->display->display_options['fields']['field_ding_event_date_1']['type'] = 'ding_app_content_rss_date_time';
   $handler->display->display_options['fields']['field_ding_event_date_1']['settings'] = array(
     'fromto' => 'value2',
   );
@@ -115,7 +116,7 @@ function ding_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_location']['label'] = '';
   $handler->display->display_options['fields']['field_ding_event_location']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_location']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['field_ding_event_location']['type'] = 'ding_content_rss_location';
+  $handler->display->display_options['fields']['field_ding_event_location']['type'] = 'ding_app_content_rss_location';
   $handler->display->display_options['fields']['field_ding_event_location']['settings'] = array(
     'use_widget_handlers' => 0,
     'format_handlers' => array(),
@@ -161,12 +162,12 @@ function ding_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_list_image_1']['settings'] = array(
     'image_style' => 'medium',
   );
-  /* Field: Ding Content RSS: Library ID */
-  $handler->display->display_options['fields']['ding_content_rss_handler_library_id']['id'] = 'ding_content_rss_handler_library_id';
-  $handler->display->display_options['fields']['ding_content_rss_handler_library_id']['table'] = 'ding_content_rss';
-  $handler->display->display_options['fields']['ding_content_rss_handler_library_id']['field'] = 'ding_content_rss_handler_library_id';
-  $handler->display->display_options['fields']['ding_content_rss_handler_library_id']['label'] = '';
-  $handler->display->display_options['fields']['ding_content_rss_handler_library_id']['element_label_colon'] = FALSE;
+  /* Field: Ding App Content RSS: Library ID */
+  $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['id'] = 'ding_app_content_rss_handler_library_id';
+  $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['table'] = 'ding_app_content_rss';
+  $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['field'] = 'ding_app_content_rss_handler_library_id';
+  $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['label'] = '';
+  $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['element_label_colon'] = FALSE;
   /* Field: Content: Promoted to front page */
   $handler->display->display_options['fields']['promote']['id'] = 'promote';
   $handler->display->display_options['fields']['promote']['table'] = 'node';
@@ -288,7 +289,7 @@ function ding_content_rss_views_default_views() {
       ),
     ),
     'content-rss' => array(
-      'ding_content_rss' => array(
+      'ding_app_content_rss' => array(
         'subheadline' => 'field_ding_event_lead',
         'arrangement-starttime' => 'field_ding_event_date',
         'arrangement-endtime' => 'field_ding_event_date_1',
@@ -297,7 +298,7 @@ function ding_content_rss_views_default_views() {
         'arrangement-location' => 'field_ding_event_location',
         'arrangement-price' => 'field_ding_event_price',
         'resources' => 'nid',
-        'library-id' => 'ding_content_rss_handler_library_id',
+        'library-id' => 'ding_app_content_rss_handler_library_id',
         'booking-url' => 'field_ding_event_ticket_link',
         'organizers' => 'field_ding_event_organizer',
         'promoted' => 'promote',
@@ -308,7 +309,7 @@ function ding_content_rss_views_default_views() {
     'absolute_paths' => 1,
     'feed_in_links' => 0,
   );
-  $handler->display->display_options['path'] = 'ding-content-rss/event';
+  $handler->display->display_options['path'] = 'ding-app-content-rss/event';
 
   /* Display: App Feed */
   $handler = $view->new_display('feed', 'App Feed', 'feed_app');
@@ -359,7 +360,7 @@ function ding_content_rss_views_default_views() {
       ),
     ),
     'content-rss' => array(
-      'ding_content_rss' => array(
+      'ding_app_content_rss' => array(
         'subheadline' => 'field_ding_event_lead',
         'arrangement-starttime' => 'field_ding_event_date',
         'arrangement-endtime' => 'field_ding_event_date_1',
@@ -387,8 +388,8 @@ function ding_content_rss_views_default_views() {
   $handler->display->display_options['relationships']['flag_content_rel']['field'] = 'flag_content_rel';
   $handler->display->display_options['relationships']['flag_content_rel']['flag'] = 'mobile_app';
   $handler->display->display_options['relationships']['flag_content_rel']['user_scope'] = 'any';
-  $handler->display->display_options['path'] = 'ding-content-rss/event/app';
-  $translatables['ding_content_event_rss'] = array(
+  $handler->display->display_options['path'] = 'ding-app-content-rss/event/app';
+  $translatables['ding_app_content_event_rss'] = array(
     t('Master'),
     t('more'),
     t('Apply'),
@@ -409,14 +410,14 @@ function ding_content_rss_views_default_views() {
     t('App Feed'),
     t('flag'),
   );
-  $export['ding_content_event_rss'] = $view;
+  $export['ding_app_content_event_rss'] = $view;
 
   $view = new view();
-  $view->name = 'ding_content_news_rss';
+  $view->name = 'ding_app_content_news_rss';
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'Ding Content News RSS';
+  $view->human_name = 'Ding App Content News RSS';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -537,12 +538,12 @@ function ding_content_rss_views_default_views() {
   $handler->display->display_options['fields']['unpublish_on']['date_format'] = 'custom';
   $handler->display->display_options['fields']['unpublish_on']['custom_date_format'] = 'U';
   $handler->display->display_options['fields']['unpublish_on']['timezone'] = 'UTC';
-  /* Field: Ding Content RSS: Library ID */
-  $handler->display->display_options['fields']['ding_content_rss_handler_library_id']['id'] = 'ding_content_rss_handler_library_id';
-  $handler->display->display_options['fields']['ding_content_rss_handler_library_id']['table'] = 'ding_content_rss';
-  $handler->display->display_options['fields']['ding_content_rss_handler_library_id']['field'] = 'ding_content_rss_handler_library_id';
-  $handler->display->display_options['fields']['ding_content_rss_handler_library_id']['label'] = '';
-  $handler->display->display_options['fields']['ding_content_rss_handler_library_id']['element_label_colon'] = FALSE;
+  /* Field: Ding App Content RSS: Library ID */
+  $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['id'] = 'ding_app_content_rss_handler_library_id';
+  $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['table'] = 'ding_app_content_rss';
+  $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['field'] = 'ding_app_content_rss_handler_library_id';
+  $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['label'] = '';
+  $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['element_label_colon'] = FALSE;
   /* Field: Content: Promoted to front page */
   $handler->display->display_options['fields']['promote']['id'] = 'promote';
   $handler->display->display_options['fields']['promote']['table'] = 'node';
@@ -618,7 +619,7 @@ function ding_content_rss_views_default_views() {
   );
   $handler->display->display_options['style_options']['item'] = array(
     'content-rss' => array(
-      'ding_content_rss' => array(
+      'ding_app_content_rss' => array(
         'subheadline' => 'field_ding_news_lead',
         'arrangement-starttime' => '',
         'arrangement-endtime' => '',
@@ -627,8 +628,8 @@ function ding_content_rss_views_default_views() {
         'arrangement-location' => '',
         'arrangement-price' => '',
         'resources' => 'nid',
-        'library-id' => 'ding_content_rss_handler_library_id',
-        'library-title' => 'ding_content_rss_handler_library_title',
+        'library-id' => 'ding_app_content_rss_handler_library_id',
+        'library-title' => 'ding_app_content_rss_handler_library_title',
         'promoted' => 'promote',
       ),
     ),
@@ -660,7 +661,7 @@ function ding_content_rss_views_default_views() {
     'absolute_paths' => 1,
     'feed_in_links' => 0,
   );
-  $handler->display->display_options['path'] = 'ding-content-rss/news';
+  $handler->display->display_options['path'] = 'ding-app-content-rss/news';
 
   /* Display: App Feed */
   $handler = $view->new_display('feed', 'App Feed', 'feed_app');
@@ -689,7 +690,7 @@ function ding_content_rss_views_default_views() {
   );
   $handler->display->display_options['style_options']['item'] = array(
     'content-rss' => array(
-      'ding_content_rss' => array(
+      'ding_app_content_rss' => array(
         'subheadline' => 'field_ding_news_lead',
         'arrangement-starttime' => '',
         'arrangement-endtime' => '',
@@ -740,8 +741,8 @@ function ding_content_rss_views_default_views() {
   $handler->display->display_options['relationships']['flag_content_rel']['field'] = 'flag_content_rel';
   $handler->display->display_options['relationships']['flag_content_rel']['flag'] = 'mobile_app';
   $handler->display->display_options['relationships']['flag_content_rel']['user_scope'] = 'any';
-  $handler->display->display_options['path'] = 'ding-content-rss/news/app';
-  $translatables['ding_content_news_rss'] = array(
+  $handler->display->display_options['path'] = 'ding-app-content-rss/news/app';
+  $translatables['ding_app_content_news_rss'] = array(
     t('Master'),
     t('more'),
     t('Apply'),
@@ -762,7 +763,7 @@ function ding_content_rss_views_default_views() {
     t('App Feed'),
     t('flag'),
   );
-  $export['ding_content_news_rss'] = $view;
+  $export['ding_app_content_news_rss'] = $view;
 
   return $export;
 }
