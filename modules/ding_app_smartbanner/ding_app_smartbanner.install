@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Install and uninstall ding_smartbanner.
+ * Install and uninstall ding_app_smartbanner.
  */
 
 /**
  * Implements hook_install().
  */
-function ding_smartbanner_install() {
+function ding_app_smartbanner_install() {
   $smartbanner_config = array(
     'base_config' => array(
       'days_hidden' => '15',
@@ -52,6 +52,6 @@ function ding_smartbanner_install() {
 /**
  * Implements hook_uninstall().
  */
-function ding_smartbanner_uninstall() {
+function ding_app_smartbanner_uninstall() {
   variable_del('smartbanner_config');
 }

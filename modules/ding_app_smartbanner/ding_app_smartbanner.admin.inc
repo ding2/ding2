@@ -8,7 +8,7 @@
 /**
  * Module settings form.
  */
-function ding_smartbanner_settings_form($form, &$form_state) {
+function ding_app_smartbanner_settings_form($form, &$form_state) {
   $configs = variable_get('smartbanner_config', array());
 
   $form['#tree'] = TRUE;
@@ -228,8 +228,8 @@ function ding_smartbanner_settings_form($form, &$form_state) {
     '#value' => t('Save'),
   );
 
-  $form['#validate'][] = 'ding_smartbanner_settings_form_validate';
-  $form['#submit'] = array('ding_smartbanner_settings_form_submit');
+  $form['#validate'][] = 'ding_app_smartbanner_settings_form_validate';
+  $form['#submit'] = array('ding_app_smartbanner_settings_form_submit');
 
   return $form;
 }
@@ -237,7 +237,7 @@ function ding_smartbanner_settings_form($form, &$form_state) {
 /**
  * Fields validation.
  */
-function ding_smartbanner_settings_form_validate($form, &$form_state) {
+function ding_app_smartbanner_settings_form_validate($form, &$form_state) {
   $file = file_save_upload('smartbanner', array(
     'file_validate_is_image' => array(),
     'file_validate_extensions' => array('png gif jpg jpeg'),
@@ -254,7 +254,7 @@ function ding_smartbanner_settings_form_validate($form, &$form_state) {
 /**
  * Custom fields manipulations before save.
  */
-function ding_smartbanner_settings_form_submit($form, &$form_state) {
+function ding_app_smartbanner_settings_form_submit($form, &$form_state) {
   $values = $form_state['values']['smartbanner'];
 
   $icon = $values['base_config']['app_icon']['icon'];
@@ -262,7 +262,7 @@ function ding_smartbanner_settings_form_submit($form, &$form_state) {
   if (!empty($icon_upload->fid)) {
     if (!$icon_upload->status) {
       $info = image_get_info($icon_upload->uri);
-      $picture_directory = file_default_scheme() . '://ding_smartbanner';
+      $picture_directory = file_default_scheme() . '://ding_app_smartbanner';
 
       // Prepare the pictures directory.
       file_prepare_directory($picture_directory, FILE_CREATE_DIRECTORY);

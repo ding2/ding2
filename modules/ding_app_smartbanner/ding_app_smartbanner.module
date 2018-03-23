@@ -5,12 +5,12 @@
  * Smart banner module file.
  */
 
-define('DING_SMARTBANNER_MODULE_PATH', drupal_get_path('module', 'ding_smartbanner'));
+define('DING_APP_SMARTBANNER_MODULE_PATH', drupal_get_path('module', 'ding_app_smartbanner'));
 
 /**
  * Implements hook_menu().
  */
-function ding_smartbanner_menu() {
+function ding_app_smartbanner_menu() {
   $item = array();
 
   $item['admin/config/smartbanner'] = array(
@@ -28,9 +28,9 @@ function ding_smartbanner_menu() {
     'title' => 'Smart banner',
     'description' => 'Manage smart banner configuration.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_smartbanner_settings_form'),
+    'page arguments' => array('ding_app_smartbanner_settings_form'),
     'access arguments' => array('access administration pages'),
-    'file' => 'ding_smartbanner.admin.inc',
+    'file' => 'ding_app_smartbanner.admin.inc',
     'type' => MENU_NORMAL_ITEM,
   );
 
@@ -40,14 +40,14 @@ function ding_smartbanner_menu() {
 /**
  * Implements hook_libraries_info().
  */
-function ding_smartbanner_libraries_info() {
+function ding_app_smartbanner_libraries_info() {
   $libraries = array();
 
   $libraries['smart-app-banner'] = array(
     'name' => 'Smart App Banner',
     'vendor url' => 'https://github.com/kudago/smart-app-banner',
     'download url' => 'https://github.com/kudago/smart-app-banner/archive/v1.3.0.zip',
-    'version callback' => 'ding_smartbanner_short_circuit_version',
+    'version callback' => 'ding_app_smartbanner_short_circuit_version',
     'version arguments' => array(
       'file' => 'smart-app-banner.js',
       'pattern' => '/v(\d+\.+\d+\.+\d+)/',
@@ -64,21 +64,21 @@ function ding_smartbanner_libraries_info() {
 /**
  * Short-circuit the version argument for libraries_info().
  */
-function ding_smartbanner_short_circuit_version() {
+function ding_app_smartbanner_short_circuit_version() {
   return TRUE;
 }
 
 /**
  * Implements hook_init().
  */
-function ding_smartbanner_init() {
+function ding_app_smartbanner_init() {
   $configs = variable_get('smartbanner_config', array());
 
   drupal_add_css(libraries_get_path('smart-app-banner') . '/smart-app-banner.css');
   drupal_add_js(libraries_get_path('smart-app-banner') . '/smart-app-banner.js', array('type' => 'file', 'scope' => 'footer'));
-  drupal_add_js(DING_SMARTBANNER_MODULE_PATH . '/js/ding_smartbanner.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js(DING_APP_SMARTBANNER_MODULE_PATH . '/js/ding_app_smartbanner.js', array('type' => 'file', 'scope' => 'footer'));
 
-  $icon_path = DING_SMARTBANNER_MODULE_PATH . '/images/icon.png';
+  $icon_path = DING_APP_SMARTBANNER_MODULE_PATH . '/images/icon.png';
 
   $os = array(
     'ios' => array(
@@ -165,6 +165,6 @@ function ding_smartbanner_init() {
   }
 
   if (!empty($configs['base_config'])) {
-    drupal_add_js(array('ding_smartbanner' => $configs['base_config']), 'setting');
+    drupal_add_js(array('ding_app_smartbanner' => $configs['base_config']), 'setting');
   }
 }
