@@ -72,6 +72,27 @@ function fbs_availability_holdings($provider_ids) {
       'sublocation',
       'materials',
     );
+
+    // Load the entity based on the type of suffix type. It's places outside the
+    // holdings loop to prevent calling the search provider for each holdings
+    // item.
+    module_load_include('client.inc', 'opensearch');
+    $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
+    $entity_id = ding_provider_build_entity_id($provider_ids[0]);
+    switch ($suffix_type) {
+      case 'simple':
+        $entity = ding_entity_load($entity_id);
+        break;
+
+      case 'shelf_mark':
+        $entity = opensearch_get_object_marcxchange($entity_id);
+        break;
+
+      default:
+        $entity = NULL;
+        break;
+    }
+
     foreach ($item->holdings as $item_holding) {
       $result_holding = array(
         'available_count' => 0,
@@ -94,11 +115,7 @@ function fbs_availability_holdings($provider_ids) {
         $result_holding['placement'][] = $material_description[0]->materialGroupName;
       }
 
-      module_load_include('client.inc', 'opensearch');
-      $entity_id = ding_provider_build_entity_id($provider_ids[0]);
-      $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
-
-      if ($suffix_type == 'simple' && $entity = ding_entity_load($entity_id)) {
+      if ($suffix_type == 'simple') {
         // Get DK5 classification.
         if ($classification = $entity->getClassification()) {
           $result_holding['placement'][] = $classification;
@@ -109,7 +126,7 @@ function fbs_availability_holdings($provider_ids) {
           $result_holding['placement'][] = $creator[0];
         }
       }
-      elseif ($suffix_type == 'shelf_mark' && $entity = opensearch_get_object_marcxchange($entity_id)) {
+      elseif ($suffix_type == 'shelf_mark') {
         $suffix = '';
         $field652m = fbs_get_marc_field($entity, '652', 'm');
         $field652o = fbs_get_marc_field($entity, '652', 'o');
@@ -132,7 +149,7 @@ function fbs_availability_holdings($provider_ids) {
           // DK5 classification.
           $suffix .= $field652m;
 
-          // Additonal descriptors from the DK5 classification.
+          // Additional descriptors from the DK5 classification.
           if ($field652b = fbs_get_marc_field($entity, '652', 'b')) {
             $suffix .= ' ' . $field652b;
           }
@@ -253,7 +270,6 @@ function fbs_availability_holdings($provider_ids) {
       }
       $result[$item->recordId]['issues'] = $issues;
     }
-
   }
 
   return $result;
