@@ -83,7 +83,7 @@
           }
 
           var a = document.createElement('a');
-          a.href = element[0].src;
+          a.href = element[0].href;
           a.target = '_blank';
           a.className = element[0].className;
           a.setAttribute('data-file_info', element.attr('data-file_info'));

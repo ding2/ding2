@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for DAMS module.
@@ -80,6 +81,10 @@ function ding_dams_permission() {
 function ding_dams_popup_callback($ajax, $fid) {
   if (!empty($fid)) {
     if ($ajax) {
+      ctools_include('modal');
+      ctools_include('ajax');
+      ctools_modal_add_js();
+
       $file = file_load($fid);
       $display = array(
         'status' => TRUE,
@@ -91,14 +96,8 @@ function ding_dams_popup_callback($ajax, $fid) {
       );
       $element = file_entity_file_formatter_file_field_view($file, $display, LANGUAGE_NONE);
       $output = render($element);
-      $commands = array();
-      $commands[] = ajax_command_ding_popup("ding_dams_popup_{$fid}", $file->filename, $output, array(
-        'extra_data' => array(
-          'fit_popup' => TRUE,
-        ),
-      ));
-      print ajax_render($commands);
-      exit;
+
+      return ctools_modal_render("&nbsp;", $output);
     }
     else {
       $file = file_load($fid);
@@ -127,8 +126,31 @@ function ding_dams_page_alter(&$page) {
     drupal_add_js($js_file, array('scope' => 'footer'));
   }
 
+  ctools_include('ajax');
   ctools_include('modal');
   ctools_modal_add_js();
+
+  // Initiate own settings for ctools modal.
+  $modal_style = array(
+    'dams-modal' => array(
+      'modalSize' => array(
+        'type' => 'scale',
+        'width' => 'auto !important',
+        'height' => 'auto !important',
+        'addWidth' => 10,
+        'addHeight' => 10,
+      ),
+      'modalOptions' => array(
+        'opacity' => .6,
+        'background-color' => '#000',
+      ),
+      'animation' => 'fadeIn',
+      'modalTheme' => 'dams_modal',
+    ),
+  );
+  // Add the settings array defined above to Drupal 7's JS settings:
+  drupal_add_js($modal_style, 'setting');
+  drupal_add_js(drupal_get_path('module', 'ding_dams') . '/js/ding_dams.scripts.js', 'file');
 
   if ($media_page) {
     // Use media page for the dams theming.
@@ -207,7 +229,6 @@ function ding_dams_form_file_entity_edit_alter(&$form, &$form_state) {
     $form['actions']['cancel']['#attributes']['class'][] = 'ctools-close-modal';
   }
 }
-
 
 /**
  * Implements hook_media_wysiwyg_allowed_view_modes_alter().
@@ -292,6 +313,7 @@ function ding_dams_entity_info_alter(&$entity_info) {
  * Implements hook_media_token_to_markup_alter().
  */
 function ding_dams_media_wysiwyg_token_to_markup_alter(&$element, $tag_info, $settings) {
+  $a = 1;
   $ding_view_modes = array(
     'ding_dams_inline',
     'ding_dams_popup',
@@ -351,7 +373,7 @@ function ding_dams_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Helper function to get the doctype_icon
+ * Helper function to get the doctype_icon.
  */
 function ding_dams_get_doctype_icon($file = NULL) {
   if (is_null($file)) {
@@ -427,6 +449,7 @@ function theme_ding_dams_inline(&$variables) {
           'width' => NULL,
           'height' => NULL,
           'multiple_file_behavior' => NULL,
+          'preload' => NULL,
         ),
       );
       $element = file_entity_file_formatter_file_field_view($file, $display, LANGUAGE_NONE);

@@ -1,4 +1,5 @@
 <?php
+
 Class DamsTest extends PHPUnit_Extensions_SeleniumTestCase {
   protected $abstractedPage;
   protected $config;

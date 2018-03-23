@@ -40,6 +40,7 @@
      */
     insert: function (formatted_media) {
       formatted_media.options.dams_type = 'image';
+
       var element = Drupal.media.filter.create_element(formatted_media.html, {
         fid: this.mediaFile.fid,
         view_mode: formatted_media.type,
@@ -48,10 +49,12 @@
         dams_type: 'image'
       });
 
+      var file_info = Drupal.media.filter.extract_file_info(element);
+
       var markup = '';
       var macro = Drupal.media.filter.create_macro(element);
       if (formatted_media.type === 'ding_dams_download_link') {
-        var data = JSON.parse(decodeURI(element.attr('data-file_info')));
+        var data = file_info;
         var name = '';
         if (data.fields['field_file_image_alt_text[und][0][value]'].length > 0) {
           name = data.fields['field_file_image_alt_text[und][0][value]'];
@@ -59,12 +62,12 @@
         else {
           name = element[0].src.split('/').pop().split('.')[0];
         }
+
         var a = document.createElement('a');
         a.href = element[0].src;
         a.target = '_blank';
         a.title = element.attr('title');
         a.className = element[0].className;
-        a.setAttribute('data-file_info', element.attr('data-file_info'));
         a.innerHTML = typeof element.attr('title') !== 'undefined' ? element.attr('title') : name;
         markup = a.outerHTML;
       }

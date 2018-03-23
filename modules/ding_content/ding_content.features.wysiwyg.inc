@@ -56,7 +56,7 @@ function ding_content_wysiwyg_default_profiles() {
       'acf_mode' => 0,
       'acf_allowed_content' => '',
       'css_setting' => 'self',
-      'css_path' => '/profiles/ding2/themes/ddbasic/sass_css/wysiwyg.css',
+      'css_path' => '',
       'stylesSet' => '',
       'block_formats' => 'p,h2,h3,div',
       'advanced__active_tab' => 'edit-css',

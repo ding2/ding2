@@ -38,3 +38,18 @@
   left: 25px;
   text-align: left;
 }
+
+#modalContent .ctools-modal-dams-modal-content .modal-header {
+  background-color: #cccccc;
+  height: 50px;
+}
+
+#modalContent .ctools-modal-dams-modal-content .modal-header .close-messages-button::after {
+  font-family: 'icomoon';
+  content: "\e907";
+  position: relative;
+  color: #000;
+  display: block;
+  font-size: 4em;
+  margin: 15px 0;
+}

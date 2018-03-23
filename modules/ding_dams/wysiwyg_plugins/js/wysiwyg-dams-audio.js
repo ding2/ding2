@@ -54,6 +54,7 @@
 
       var markup = '';
       var macro = Drupal.media.filter.create_macro(element);
+
       switch (formatted_media.type) {
         case 'ding_dams_download_link':
           var a = document.createElement('a');
@@ -72,11 +73,12 @@
           break;
 
         case 'ding_dams_popup':
-          var data = JSON.parse(decodeURI(element.attr('data-file_info')));
+          var data = element[0].dataset;
           var a = document.createElement('a');
-          a.href = "ding-dams/nojs/popup/" + data.fid;
+
+          a.href = "/ding-dams/nojs/popup/" + data.fid;
           a.target = '_blank';
-          a.className = element[0].className + ' use-ajax';
+          a.className = element[0].className + ' ctools-use-modal ctools-modal-dams-modal';
           a.setAttribute('data-file_info', element.attr('data-file_info'));
 
           var image = document.createElement('img');

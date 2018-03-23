@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Define the WYSIWYG browser plugin.
@@ -119,24 +120,9 @@ function ding_dams_ding_dams_plugin() {
  * Defines default variables.
  */
 function ding_dams_include_browser_js() {
-  static $included;
-  if ($included) {
-    return;
-  }
-  $included = TRUE;
-  module_load_include('inc', 'media', 'includes/media.browser');
-  $javascript = media_browser_js();
-  foreach ($javascript as $key => $definitions) {
-    foreach ($definitions as $definition) {
-      $function = 'drupal_add_' . $key;
-      // Since the arguments to pass are variable, use call_user_func_array().
-      // This will not handle all potential drupal_add_*() functions directly
-      // but covers the js and library needed here, which are unlikely to be
-      // expanded since this function is only a workaround
-      // for a wysiwyg limitation.
-      call_user_func_array($function, $definition);
-    }
-  }
+  drupal_add_library('media', 'media_browser');
+  drupal_add_library('media', 'media_browser_settings');
+
   // Add wysiwyg-specific settings.
   $settings = array('blacklist' => array('src', 'fid', 'view_mode', 'format'));
   drupal_add_js(array('media' => $settings), 'setting');

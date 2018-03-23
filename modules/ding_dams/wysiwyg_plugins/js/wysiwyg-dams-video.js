@@ -40,7 +40,7 @@
     insert: function (formatted_media) {
       var html = formatted_media.html;
       if (formatted_media.type !== 'ding_dams_inline') {
-        html = $(formatted_media.html).children('source');
+        html = $(formatted_media.html).children('a');
       }
 
       formatted_media.options.dams_type = 'video';
@@ -53,15 +53,16 @@
 
       var markup = '';
       var macro = Drupal.media.filter.create_macro(element);
+      var data = Drupal.media.filter.extract_file_info(element);
+
       switch (formatted_media.type) {
         case 'ding_dams_download_link':
           var name = $(formatted_media.html).children('a').html();
 
           var a = document.createElement('a');
-          a.href = element[0].src;
+          a.href = element[0].href;
           a.target = '_blank';
           a.className = element[0].className;
-          a.setAttribute('data-file_info', element.attr('data-file_info'));
           a.innerHTML = name;
           markup = a.outerHTML;
           break;
@@ -74,37 +75,31 @@
           break;
 
         case 'ding_dams_popup':
-          var data = JSON.parse(decodeURI(element.attr('data-file_info')));
-
           var a = document.createElement('a');
-          a.href = "ding-dams/nojs/popup/" + data.fid;
+          a.href = "/ding-dams/nojs/popup/" + data.fid;
           a.target = '_blank';
-          a.className = element[0].className + ' use-ajax';
-          a.setAttribute('data-file_info', element.attr('data-file_info'));
+          a.className = element[0].className + ' ctools-use-modal ctools-modal-dams-modal';
 
           var image = document.createElement('img');
-          image.src = Drupal.settings.ding_dams.icon_path + '/doc_flv.png';
+          image.src = Drupal.settings.ding_dams.icon_path + 'doc_flv.png';
           a.appendChild(image);
 
-          markup = a.outerHTML;
           markup = a.outerHTML;
           break;
 
         case 'ding_dams_download_icon':
           var a = document.createElement('a');
-          a.href = element[0].src;
+          a.href = element[0].href;
           a.target = '_blank';
           a.className = element[0].className;
-          a.setAttribute('data-file_info', element.attr('data-file_info'));
 
           var image = document.createElement('img');
-          image.src = Drupal.settings.ding_dams.icon_path + '/doc_flv.png';
+          image.src = Drupal.settings.ding_dams.icon_path + 'doc_flv.png';
           a.appendChild(image);
 
           markup = a.outerHTML;
           break;
       }
-      Drupal.media.filter.ensure_tagmap();
 
       Drupal.settings.tagmap[macro] = markup;
 
