@@ -39,6 +39,9 @@ function opensearch_migrate_settings() {
     variable_set($new_var, variable_get($old_var));
     variable_del($old_var);
   });
+
+  // Cache table used by ting_execute_cache.
+  $schema['cache_opensearch'] = drupal_get_schema_unprocessed('system', 'cache');
 }
 
 /**
@@ -55,4 +58,12 @@ function opensearch_update_7001() {
  */
 function opensearch_update_7002() {
   variable_set('opensearch_url', 'https://opensearch.addi.dk/b3.5_5.0/');
+}
+
+/**
+ * Add new cache table.
+ */
+function opensearch_update_7003() {
+  $schema['cache_opensearch'] = drupal_get_schema_unprocessed('system', 'cache');
+  db_create_table('cache_opensearch', $schema['cache_opensearch']);
 }
