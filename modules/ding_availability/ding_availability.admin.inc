@@ -2,7 +2,7 @@
 /**
  * @file
  * The administration interface to select the data well types that should have
- * holdings information. 
+ * holdings information.
  */
 
 /**
@@ -17,14 +17,14 @@ function ding_availability_admin_holdings_settings($form_state) {
   form_load_include($form_state, 'inc', 'ting', 'ting.admin');
   $form['update'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Update from datawell'),
-    '#description' => t('Update the lists of known types and sources by asking the datawell for all types and sorces.'),
+    '#title' => t('Update from search provider'),
+    '#description' => t('Update the lists of known types and sources by asking the search provider for all types and sorces.'),
   );
 
   $form['update']['update'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
-    '#submit' => array('ting_admin_reservable_settings_update'),
+    '#submit' => array('ting_admin_type_source_update'),
   );
 
   // Get available types.
