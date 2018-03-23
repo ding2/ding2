@@ -44,7 +44,7 @@ function ding_serendipity_fallback_ting_object_serendipity_add($context) {
 
   if (!empty($query)) {
     try {
-      $sal_query = ting_start_query()->setRawQuery($query)->setCount(8);
+      $sal_query = ting_start_query()->withRawQuery($query)->withCount(8);
       $results = ding_serendipity_do_search($sal_query);
     }
     catch (Exception $e) {

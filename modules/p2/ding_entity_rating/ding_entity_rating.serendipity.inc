@@ -71,7 +71,7 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
     }
 
     // Perform a search for materials with any of the subjects or authors.
-    $query = ting_start_query()->addFilters($field_filters, BooleanStatementInterface::OP_OR);
+    $query = ting_start_query()->withFilters($field_filters, BooleanStatementInterface::OP_OR);
 
     if (empty($query)) {
       return array();

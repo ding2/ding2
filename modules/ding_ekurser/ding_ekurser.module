@@ -93,10 +93,10 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
  */
 function _ding_ekurser_get_subject_terms() {
   $search_result = ting_start_query()
-    ->setFullTextQuery('ekurser.nu')
-    ->setCount(1)
-    ->addSort('acquisitionDate_descending')
-    ->setTermsPrFacet(20)
+    ->withFullTextQuery('ekurser.nu')
+    ->withCount(1)
+    ->withSort('acquisitionDate_descending')
+    ->withTermsPrFacet(20)
     ->execute();
 
   // Extract subject facets.

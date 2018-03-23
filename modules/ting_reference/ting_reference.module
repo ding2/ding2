@@ -615,11 +615,11 @@ function _ting_reference_autocomplete($string) {
     }
     else {
       // Else fall back to a standard freetext search.
-      $query = ting_start_query()->setFullTextQuery($string);
+      $query = ting_start_query()->withFullTextQuery($string);
     }
 
     // Set limit and execute.
-    $result = $query->setCount(10)->execute();
+    $result = $query->withCount(10)->execute();
 
     // If there is no usable result, exit immediately, providing no reply.
     if ($result && $result->getNumTotalObjects()) {

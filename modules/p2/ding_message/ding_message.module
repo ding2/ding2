@@ -298,8 +298,8 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
       // Taxonomy terms updates are a ting search
       // for materials with the subject = term->name.
       $result = ting_start_query()
-        ->addFieldFilter(TingSearchCommonFields::SUBJECT, check_plain($term->name))
-        ->setCount(50)
+        ->withFieldFilter(TingSearchCommonFields::SUBJECT, check_plain($term->name))
+        ->withCount(50)
         ->execute();
       if ($result->getNumTotalCollections() > 0) {
         // Get the first element in the search result set.
@@ -352,7 +352,7 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
         // match the query accepted by ting_do_search.
         $query = ding_message_build_query($value);
         // TODO Port to search abstraction layer.
-        $result = $query->setCount(50)->execute();
+        $result = $query->withCount(50)->execute();
         if ($result->getNumTotalCollections() > 0) {
           // Get the first element in the search result set.
           $collections = $result->getTingEntityCollections();
@@ -737,13 +737,13 @@ function ding_message_build_query($query_string) {
   parse_str($query, $query_data);
 
   if (!empty($path)) {
-    $search_query->setFullTextQuery($path);
+    $search_query = $search_query->withFullTextQuery($path);
   }
 
   if (!empty($query_data['facets']) && is_array($query_data['facets'])) {
     foreach ($query_data['facets'] as $facet) {
       list($facet_name, $facet_value) = explode(':', $facet, 2);
-      $search_query->addFieldFilter($facet_name, $facet_value);
+      $search_query = $search_query->withFieldFilter($facet_name, $facet_value);
     }
   }
 

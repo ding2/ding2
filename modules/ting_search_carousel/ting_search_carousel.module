@@ -295,11 +295,11 @@ function _ting_search_carousel_find_entities_with_covers($query, $start, $size, 
   $page = floor($start / $size) + 1;
 
   $sal_query = ting_start_query()
-    ->setRawQuery($query)
-    ->setPage($page)
-    ->setCount($size)
-    ->setPopulateCollections(FALSE)
-    ->setMaterialFilter($ignore, FALSE);
+    ->withRawQuery($query)
+    ->withPage($page)
+    ->withCount($size)
+    ->withPopulateCollections(FALSE)
+    ->withMaterialFilter($ignore, FALSE);
 
   $results = $sal_query->execute();
 

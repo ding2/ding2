@@ -8,9 +8,12 @@
 namespace Ting\Search;
 
 /**
- * Class TingSearchRequest
+ * A search request using a search provider.
  *
- * A request for a search using a search provider.
+ * This class is intetionally immutable. Calls to modify the state of a search
+ * request will result in a new object. This avoids unnecessary side effects
+ * to existing request objects if a request object is used as a basis for new
+ * searches.
  *
  * @package Ting\Search
  */
@@ -73,7 +76,7 @@ class TingSearchRequest {
   /**
    * Raw provider-specific query string.
    *
-   * @see setRawQuery()
+   * @see withRawQuery()
    *
    * @var string
    */
@@ -155,11 +158,12 @@ class TingSearchRequest {
    *   The maximum value.
    *
    * @return \Ting\Search\TingSearchRequest
-   *   Current search query object.
+   *   Updated search query object.
    */
-  public function setCount($max) {
-    $this->numResults = $max;
-    return $this;
+  public function withCount($max) {
+    $clone = clone $this;
+    $clone->numResults = $max;
+    return $clone;
   }
 
   /**
@@ -202,11 +206,12 @@ class TingSearchRequest {
    *   Any string.
    *
    * @return TingSearchRequest
-   *   the current query object.
+   *   Updated search request object.
    */
-  public function setFullTextQuery($full_text_query) {
-    $this->fullTextQuery = $full_text_query;
-    return $this;
+  public function withFullTextQuery($full_text_query) {
+    $clone = clone $this;
+    $clone->fullTextQuery = $full_text_query;
+    return $clone;
   }
 
   /**
@@ -226,11 +231,12 @@ class TingSearchRequest {
    *   The maximum number of terms to return pr facet.
    *
    * @return TingSearchRequest
-   *   The current query object.
+   *   Updated search request object.
    */
-  public function setTermsPrFacet($terms_per_facet) {
-    $this->termsPerFacet = $terms_per_facet;
-    return $this;
+  public function withTermsPrFacet($terms_per_facet) {
+    $clone = clone $this;
+    $clone->termsPerFacet = $terms_per_facet;
+    return $clone;
   }
 
   /**
@@ -261,11 +267,12 @@ class TingSearchRequest {
    *    The facets used for the search.
    *
    * @return TingSearchRequest
-   *   The current query object.
+   *   Updated search request object.
    */
-  public function setFacets(array $facets) {
-    $this->facets = $facets;
-    return $this;
+  public function withFacets(array $facets) {
+    $clone = clone $this;
+    $clone->facets = $facets;
+    return $clone;
   }
 
   /**
@@ -285,11 +292,12 @@ class TingSearchRequest {
    *   The page-number, defaults to 1.
    *
    * @return TingSearchRequest
-   *   the current query object.
+   *   Updated search request object.
    */
-  public function setPage($page) {
-    $this->page = $page;
-    return $this;
+  public function withPage($page) {
+    $clone = clone $this;
+    $clone->page = $page;
+    return $clone;
   }
 
   /**
@@ -312,11 +320,12 @@ class TingSearchRequest {
    *   The direction, see TingSearchSort::DIRECTION_*
    *
    * @return TingSearchRequest
-   *   the current query object.
+   *   Updated search request object.
    */
-  public function addSort($field, $direction = TingSearchSort::DIRECTION_NONE) {
-    $this->sorts[] = new TingSearchSort($field, $direction);
-    return $this;
+  public function withSort($field, $direction = TingSearchSort::DIRECTION_NONE) {
+    $clone = clone $this;
+    $clone->sorts[] = new TingSearchSort($field, $direction);
+    return $clone;
   }
 
   /**
@@ -326,14 +335,15 @@ class TingSearchRequest {
    *   List of TingSearchSort instances.
    *
    * @return TingSearchRequest
-   *   The current query object.
+   *   Updated search request object.
    */
-  public function addSorts($sorts) {
+  public function withSorts($sorts) {
     if (!is_array($sorts)) {
       $sorts = [$sorts];
     }
-    $this->sorts += $sorts;
-    return $this;
+    $clone = clone $this;
+    $clone->sorts += $sorts;
+    return $clone;
   }
 
   /**
@@ -361,11 +371,12 @@ class TingSearchRequest {
    *   The query.
    *
    * @return TingSearchRequest
-   *   the current query object.
+   *   Updated search request object.
    */
-  public function setRawQuery($query) {
-    $this->rawQuery = $query;
-    return $this;
+  public function withRawQuery($query) {
+    $clone = clone $this;
+    $clone->rawQuery = $query;
+    return $clone;
   }
 
   /**
@@ -400,16 +411,17 @@ class TingSearchRequest {
    *   Includes the materials if true and excludes them if false.
    *
    * @return TingSearchRequest
-   *   the current query object.
+   *   Updated search request object.
    */
-  public function setMaterialFilter($material_ids, $include = TRUE) {
+  public function withMaterialFilter($material_ids, $include = TRUE) {
     if (!is_array($material_ids)) {
       $material_ids = [$material_ids];
     }
 
-    $this->materialFilterIds = $material_ids;
-    $this->materialFilterInclude = $include;
-    return $this;
+    $clone = clone $this;
+    $clone->materialFilterIds = $material_ids;
+    $clone->materialFilterInclude = $include;
+    return $clone;
   }
 
   /**
@@ -429,11 +441,12 @@ class TingSearchRequest {
    *   The flag.
    *
    * @return TingSearchRequest
-   *   the current query object.
+   *   Updated search request object.
    */
-  public function setPopulateCollections($populate_collections) {
-    $this->populateCollections = $populate_collections;
-    return $this;
+  public function withPopulateCollections($populate_collections) {
+    $clone = clone $this;
+    $clone->populateCollections = $populate_collections;
+    return $clone;
   }
 
   /**
@@ -457,11 +470,12 @@ class TingSearchRequest {
    *   The collection type.
    *
    * @return TingSearchRequest
-   *   The current query object.
+   *   Updated search request object.
    */
-  public function setCollectionType($collectionType) {
-    $this->collectionType = $collectionType;
-    return $this;
+  public function withCollectionType($collectionType) {
+    $clone = clone $this;
+    $clone->collectionType = $collectionType;
+    return $clone;
   }
 
   /**
@@ -490,11 +504,11 @@ class TingSearchRequest {
    *   more than one filter. See BooleanStatementInterface::OP_*.
    *
    * @return TingSearchRequest
-   *   the current query object.
+   *   Updated search request object.
    *
    * @throws \Ting\Search\UnsupportedSearchQueryException
    */
-  public function addFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
+  public function withFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
     // First off, protect against silly code.
     if (empty($filters)) {
       return $this;
@@ -530,8 +544,9 @@ class TingSearchRequest {
       $filters = new BooleanStatementGroup($filters, $logic_operator);
     }
 
-    $this->filters[] = $filters;
-    return $this;
+    $clone = clone $this;
+    $clone->filters[] = $filters;
+    return $clone;
   }
 
   /**
@@ -547,11 +562,10 @@ class TingSearchRequest {
    *   Expected field-value.
    *
    * @return TingSearchRequest
-   *   the current query object.
+   *   Updated search request object.
    */
-  public function addFieldFilter($name, $value) {
-    $this->addFilters([new TingSearchFieldFilter($name, $value)]);
-    return $this;
+  public function withFieldFilter($name, $value) {
+    return $this->withFilters([new TingSearchFieldFilter($name, $value)]);
   }
 
 }
