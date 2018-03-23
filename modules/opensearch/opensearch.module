@@ -130,6 +130,22 @@ function opensearch_menu() {
 }
 
 /**
+ * Implements hook_cron().
+ *
+ * Ensures that all expired entries are delete form the cache on cron runes.
+ */
+function opensearch_cron() {
+  cache_clear_all(NULL, 'cache_opensearch');
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function opensearch_flush_caches() {
+  return array('cache_opensearch');
+}
+
+/**
  * Processor for the opensearch_boost_field form element.
  */
 function opensearch_boost_field_element_process($element, $form_state) {
