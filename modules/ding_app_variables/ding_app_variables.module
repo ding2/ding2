@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Define modules hooks.
@@ -7,14 +8,14 @@
 /**
  * Implements hook_menu().
  */
-function ding_variables_menu() {
+function ding_app_variables_menu() {
   $items = array();
 
   $items['ding/variables'] = array(
     'title' => 'Display variables as JSON output',
     'access callback' => TRUE,
     'delivery callback' => 'drupal_json_output',
-    'page callback' => 'ding_variables_display',
+    'page callback' => 'ding_app_variables_display',
   );
 
   return $items;
@@ -26,7 +27,7 @@ function ding_variables_menu() {
  * @return array
  *   List of all variables to the output.
  */
-function ding_variables_display() {
+function ding_app_variables_display() {
   $carousel_configs = variable_get('ting_carousel_search_queries');
 
   $variables = array(

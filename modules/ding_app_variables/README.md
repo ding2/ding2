@@ -1,4 +1,4 @@
-# Ding Variables
+# Ding App Variables
 Expose Drupal variables and carousels configurations as an array in JSON format.
 
 ### List of exposed variables

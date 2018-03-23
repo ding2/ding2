@@ -1,4 +1,4 @@
-name = Ding Variables
+name = Ding App Variables
 description = Exposed custom variables as a JSON format.
 core = 7.x
 package = Ding!
