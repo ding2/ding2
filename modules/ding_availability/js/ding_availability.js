@@ -47,32 +47,25 @@
 
       // Fetch availability.
       if (ids.length > 0) {
-        var mode = settings.ding_availability_mode ? settings.ding_availability_mode : 'items';
-        var path = settings.basePath + 'ding_availability/' + mode + '/' + ids.join(',');
-        $.ajax({
-          dataType: "json",
-          url: path,
-          success: function (data) {
-            $.each(data, function (id, item) {
-              // Update cache.
-              Drupal.DADB[id] = item;
-            });
-
-            $.each(settings.ding_availability, function (id, entity_ids) {
-              if (id.match(/^availability-/)) {
-                // Update availability indicators.
-                ding_availability_update_availability(id, entity_ids);
+        // Detect the material being viewed. Mot all show materials
+        // needs to load holdings information. The materials in the
+        // carousels/listings etc. don't need to load holdings to show
+        // a reservation button.
+        var holdingsIds = $('.field-name-ding-availability-holdings .field-item div');
+        if (holdingsIds.size() > 0) {
+          var matches = holdingsIds.attr('id').match(/\d+$/);
+          if (matches.length > 0) {
+            var id = [];
+            id.push(ids.find(function (elm, index) {
+              if (elm === matches[0]) {
+                ids.splice(index, 1);
+                return elm;
               }
-              else {
-                // Update holding information.
-                ding_availability_update_holdings(id, entity_ids);
-              }
-            });
-          },
-          error: function () {
-            $('div.loader').remove();
+            }));
+            ding_availability_fetch('holdings', id);
           }
-        });
+        }
+        ding_availability_fetch('items', ids);
       }
       else {
         // Apply already fetched availability, if any.
@@ -84,6 +77,42 @@
       }
     }
   };
+
+  /**
+   * Load information from the backend.
+   *
+   * @param {string} mode
+   *   The type of information to fetch "holdings" or "items".
+   * @param {array} ids
+   *   The ids to fetch information for.
+   */
+  function ding_availability_fetch(mode, ids) {
+    var path = Drupal.settings.basePath + 'ding_availability/' + mode + '/' + ids.join(',');
+    $.ajax({
+      dataType: "json",
+      url: path,
+      success: function (data) {
+        $.each(data, function (id, item) {
+          // Update cache.
+          Drupal.DADB[id] = item;
+        });
+
+        $.each(Drupal.settings.ding_availability, function (id, entity_ids) {
+          if (id.match(/^availability-/)) {
+            // Update availability indicators.
+            ding_availability_update_availability(id, entity_ids);
+          }
+          else {
+            // Update holding information.
+            ding_availability_update_holdings(id, entity_ids);
+          }
+        });
+      },
+      error: function () {
+        $('div.loader').remove();
+      }
+    });
+  }
 
   /**
    * Update availability information.
