@@ -114,6 +114,10 @@ function ding_eresource_strongarm() {
             'weight' => '0',
             'visible' => TRUE,
           ),
+          'search_result' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
         ),
       ),
     ),

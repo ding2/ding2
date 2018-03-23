@@ -58,6 +58,55 @@
       color: $color-text;
     }
   }
+  // ==========================================================================
+  // Search result
+  // ==========================================================================
+  &.view-mode-search-result {
+    @include transition(
+      background-color $speed $ease,
+      box-shadow $speed $ease
+    );
+    min-height: 104px;
+    cursor: auto;
+    width: 100%;
+    float: left;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: $grey;
+
+    .view-mode-search-result-content-type {
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      @include font('display-small');
+      width: getColumn(6 of 8);
+      margin-bottom: 10px;
+      font-weight: normal;
+      &:hover {
+        color: $color-text-link;
+      }
+      // Tablet
+      @include media($tablet) {
+        width: getColumn(10);
+      }
+      // Mobil
+      @include media($mobile) {
+        width: 100%;
+      }
+    }
+
+    .button {
+      float: left;
+      margin-top: 25px;
+      clear: both;
+      background-color: $grey-medium;
+      &:hover {
+        color: $white;
+        background-color: $color-secondary;
+      }
+    }
+  }
 }
 
 // ==========================================================================

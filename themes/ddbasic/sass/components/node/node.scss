@@ -20,47 +20,51 @@
     padding: 15px;
     box-sizing: border-box;
     background-color: $grey;
-    h3.title {
-      width: getColumn(6 of 8);
-      margin-bottom: 0;
-      color: $charcoal;
-      font-weight: normal;
-      &:hover {
-        color: $color-text-link;
-      }
-      // Tablet
-      @include media($tablet) {
-        width: getColumn(10);
-      }
-      // Mobil
-      @include media($mobile) {
-        width: 100%;
-      }
+  }
+  .view-mode-search-result-content-type {
+    margin-bottom: 10px;
+  }
+  h3.title {
+    width: getColumn(6 of 8);
+    margin-bottom: 0;
+    color: $charcoal;
+    font-weight: normal;
+    &:hover {
+      color: $color-text-link;
     }
-    .field-type-taxonomy-term-reference {
+    // Tablet
+    @include media($tablet) {
+      width: getColumn(10);
+    }
+    // Mobil
+    @include media($mobile) {
       width: 100%;
-      float: left;
-      .field-item {
-        float: left;
-        margin-right: 6px;
-      }
     }
-    .field-type-text-long {
-      @include span-columns(6 of 8);
-      margin-top: 10px;
-      // Tablet
-      @include media($tablet) {
-        width: getColumn(10);
-      }
-      // Mobil
-      @include media($mobile) {
-        width: 100%;
-      }
+  }
+  .field-type-taxonomy-term-reference {
+    width: 100%;
+    float: left;
+    .field-item {
+      float: left;
+      margin-right: 6px;
+    }
+  }
+  .field-type-text-long {
+    @include span-columns(6 of 8);
+    margin-top: 10px;
+    margin-bottom: 0;
+    // Tablet
+    @include media($tablet) {
+      width: getColumn(10);
+    }
+    // Mobil
+    @include media($mobile) {
+      width: 100%;
     }
   }
   .button {
     float: left;
-    margin-top: 15px;
+    margin-top: 25px;
     clear: both;
     background-color: $grey-medium;
     &:hover {

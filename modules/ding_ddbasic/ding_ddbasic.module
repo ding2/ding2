@@ -16,6 +16,14 @@ function ding_ddbasic_entity_info_alter(&$entity_info) {
     'label' => t('Alternative layout full'),
     'custom settings' => TRUE,
   );
+  $entity_info['user']['view modes']['search_result'] = array(
+    'label' => t('Search result'),
+    'custom settings' => TRUE,
+  );
+  $entity_info['profile2']['view modes']['search_result'] = array(
+    'label' => t('Search result'),
+    'custom settings' => TRUE,
+  );
 }
 
 /**

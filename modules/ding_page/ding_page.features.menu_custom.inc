@@ -20,6 +20,5 @@ function ding_page_menu_default_menu_custom() {
   // Included for use with string extractors like potx.
   t('Secondary menu');
 
-
   return $menus;
 }

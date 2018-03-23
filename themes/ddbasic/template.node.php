@@ -47,9 +47,15 @@ function ddbasic_preprocess_node(&$variables, $hook) {
  * Implememnts template_process_node().
  */
 function ddbasic_process_node(&$variables, $hook) {
-  // For search result view mode move title into left col. group.
-  if (isset($variables['content']['group_right_col_search'])) {
-    $variables['content']['group_right_col_search']['title'] = array(
+  // For search result view mode add type and title
+  if ($variables['view_mode'] == 'search_result') {
+    $node_type = node_type_get_name($variables['type']);
+    $variables['content']['type'] = array(
+      '#markup' => '<div class="view-mode-search-result-content-type">' . $node_type . '</div>',
+      '#weight' => -9999,
+    );
+
+    $variables['content']['title'] = array(
       '#theme' => 'link',
       '#text' => decode_entities($variables['title']),
       '#path' => 'node/' . $variables['nid'],
@@ -59,8 +65,9 @@ function ddbasic_process_node(&$variables, $hook) {
         ),
         'html' => FALSE,
       ),
-      '#prefix' => '<h2>',
-      '#suffix' => '</h2>',
+      '#prefix' => '<h3 class="title">',
+      '#suffix' => '</h3>',
+      '#weight' => -9998,
     );
   }
 }
@@ -163,7 +170,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
       // Date.
       if (!empty($date)) {
         // When the user saves the event time (e.g. danish time 2018-01-10 00:00),
-        // the value is saved in the database in UTC time 
+        // the value is saved in the database in UTC time
         // (e.g. UTC time 2018-01-09 23:00). To print out the date/time properly
         // We first need to create the dateObject with the UTC database time, and
         // afterwards we can convert the dateObject db-time to localtime.
@@ -292,19 +299,21 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
 
-  // Google maps addition to library list.
-  $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
+  // Google maps addition to library list on teaser
+  if ($variables['view_mode'] == 'teaser') {
+    $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
 
-  $street = $address['thoroughfare'];
-  $street = preg_replace('/\s+/', '+', $street);
-  $postal = $address['postal_code'];
-  $city = $address['locality'];
-  $country = $address['country'];
-  $url = "http://www.google.com/maps/place/" . $street . "+" . $postal . "+" . $city . "+" . $country;
-  $link = l(t("Show on map"), $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
+    $street = $address['thoroughfare'];
+    $street = preg_replace('/\s+/', '+', $street);
+    $postal = $address['postal_code'];
+    $city = $address['locality'];
+    $country = $address['country'];
+    $url = "http://www.google.com/maps/place/" . $street . "+" . $postal . "+" . $city . "+" . $country;
+    $link = l(t("Show on map"), $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
 
-  $variables['content']['group_ding_library_right_column']['maps_link']['#markup'] = $link;
-  $variables['content']['group_ding_library_right_column']['maps_link']['#weight'] = 10;
+    $variables['content']['group_ding_library_right_column']['maps_link']['#markup'] = $link;
+    $variables['content']['group_ding_library_right_column']['maps_link']['#weight'] = 10;
+  }
 }
 
 /**
