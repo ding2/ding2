@@ -16,12 +16,12 @@
    position: relative;
    height: 100%;
    z-index: 3;
-   color: $color-text-on-primary;
+   color: $color-text-link;
   }
   .no-touch & {
     &:hover {
       a {
-        color: $white;
+        color: $color-text-link-on-dark;
       }
     }
   }
