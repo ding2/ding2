@@ -361,8 +361,7 @@ function fbs_reservation_options($account, $default_branch = NULL) {
     $preferred_branch = $default_branch;
   }
 
-  $profile = ding_user_provider_profile($account);
-  $interest_period = fbs_reservation_default_interest_period($profile);
+  $interest_period = fbs_reservation_default_interest_period($account);
   $periods = fbs_interest_periods();
 
   $form = array();
