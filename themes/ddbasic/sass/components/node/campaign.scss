@@ -48,9 +48,11 @@
       color: $white;
       z-index: 2;
     }
+    // if in medium-width panel
     &.ding-campaign-medium-width {
       .ding-campaign-text {
         @include span-columns(12);
+        min-height: 240px;
       }
     }
     .no-touch & {
@@ -79,6 +81,18 @@
       height: 100%;
       background-size: cover;
       background-position: center center;
+    }
+    // if in medium-width panel
+    &.ding-campaign-medium-width {
+      .ding-campaign-text {
+        min-height: 202px;
+        .ding-campaign-headline {
+          @include font('display');
+        }
+        .ding-campaign-description {
+          @include font('base');
+        }
+      }
     }
     .no-touch & {
       &:hover {
