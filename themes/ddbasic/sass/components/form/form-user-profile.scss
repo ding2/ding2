@@ -239,7 +239,7 @@
         }
       }
 
-      .form-type-password-confirm.form-item-pincode {
+      .form-type-password-confirm {
         .description {
           font-size: 14px;
           padding-top: 20px;
@@ -249,6 +249,10 @@
   }
 }
 
-.page-user-edit .content-wrapper .form-item {
-  max-width: 100%;
+.page-user-edit {
+  .content-wrapper {
+    .form-item {
+      max-width: 100%;
+    }
+  }
 }
