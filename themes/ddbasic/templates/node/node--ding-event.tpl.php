@@ -136,5 +136,6 @@
     <?php if (!empty($content['field_mkws_node_widget'])) : ?>
       <?php print render($content['field_mkws_node_widget']); ?>
     <?php endif; ?>
+    <?php print render($content); ?>
   </div>
 </article>
