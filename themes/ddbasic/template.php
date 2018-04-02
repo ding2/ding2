@@ -1356,13 +1356,18 @@ function ddbasic_views_pre_render(&$view){
     foreach ($view->result as &$item) {
       $node = node_load($item->nid);
 
+      // TODO: Library nodes can be encountered, which can be a view flaw.
+      if ($node->type != 'ding_event') {
+        continue;
+      }
+
       $field = $node->field_ding_event_date['und'][0];
       $val = $field['value'];
       if ($val == $field['value2']) {
-         $date = new DateTime($val, new DateTimeZone($field['timezone_db']));
-         $date->setTimezone(new DateTimeZone($field['timezone']));
-         $date = $date->format('H:i');
-         $field['rendered']['#markup'] = $date . ' - ' . t('All day');
+        $date = new DateTime($val, new DateTimeZone($field['timezone_db']));
+        $date->setTimezone(new DateTimeZone($field['timezone']));
+        $date = $date->format('H:i');
+        $field['rendered']['#markup'] = $date . ' - ' . t('All day');
       }
     }
   }
