@@ -1351,7 +1351,7 @@ function ddbasic_libraries_info() {
  *
  * Rewrites view's output.
  */
-function ddbasic_views_pre_render(&$view){
+function ddbasic_views_pre_render(&$view) {
   if ($view->name == 'ding_event') {
     foreach ($view->result as &$item) {
       $node = node_load($item->nid);
