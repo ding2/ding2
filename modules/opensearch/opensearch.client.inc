@@ -278,75 +278,6 @@ function opensearch_get_object_marcxchange($object_id) {
   return opensearch_execute($request);
 }
 
-///**
-// * Wrapper for invoking our cache_key hook, since we need to do this two places.
-// *
-// * @see _opensearch_cache_get()
-// * @see _opensearch_cache_set()
-// *
-// * @param string $cid
-// *   The cache_key that other modules can modify.
-// */
-//function _opensearch_cache_invoke_cache_key_hook(&$cid) {
-//  // We need to pass by reference, so no module_invoke_all().
-//  foreach (module_implements('opensearch_cache_key') as $module) {
-//    $function = $module . '_opensearch_cache_key';
-//    $function($cid);
-//  }
-//}
-
-///**
-// * Generates a cache id (cid) for ting collection cache.
-// *
-// * Collections have to be indexed in cache based on the facets selected as the
-// * collections changes content based on facets. This is all due to the fact that
-// * collections don't have unique id's. In fact we use the first object's id in
-// * the collection to id the collection.
-// *
-// * @param string $object_id
-// *   Ting object ID also known as PID.
-// *
-// * @return string
-// *   Cache key to retrieve and set data in the cache,
-// */
-//function _opensearch_cache_collection_key($object_id) {
-//  $cache_key = $object_id;
-//  if (!empty($_GET['facets'])) {
-//    $cache_key .= ':' . md5(serialize($_GET['facets']));
-//  }
-//
-//  return $cache_key;
-//}
-
-///**
-// * Mark the object in the cache as having no relations in the data well.
-// *
-// * This is need as object may have been cached without relations in a search
-// * request, but a get_object request may ask for the same object from cache with
-// * relations. So this FALSE value is used to ensure that the data well is only
-// * asked once for a object with relations even, if it do not have relations.
-// *
-// * Default value from the data well is an empty array, so if the array is empty
-// * the ting_cache_set, function will not return the cached if relations are
-// * requested.
-// *
-// * @param StdClass $object
-// *   Ting data well object.
-// * @param bool $with_relations
-// *   If TRUE relations will be marked.
-// */
-//function _opensearch_cache_update_relations_status($object, $with_relations = FALSE) {
-//  if ($with_relations && $object instanceof TingClientObject) {
-//    if (empty($object->relations)) {
-//      // Mark this object as having no relations.
-//      $object->relations = FALSE;
-//    }
-//
-//    // Update cache with the object.
-//    _opensearch_cache_set($object->id, $object);
-//  }
-//}
-
 /**
  * Get recommendations for a given ISBN.
  *
@@ -417,7 +348,7 @@ function opensearch_get_request_factory() {
 /**
  * Perform a request against Ting and perform error handling if necessary.
  *
- * @param object $request
+ * @param \TingClientRequest $request
  *   The request.
  *
  * @return mixed
@@ -428,6 +359,34 @@ function opensearch_execute($request) {
   $params = module_invoke_all('opensearch_pre_execute', $request);
   if (!empty($params)) {
     $request->setParameters($params);
+  }
+
+  // Build cache id for this request. The whole object it serialized to ensure
+  // that the request type is part of the cache key. This may lead to the same
+  // results being cached more than once, but doing this way simplifies the code
+  // and the overhead is minimal.
+  $cid = md5(serialize($request));
+  drupal_alter('opensearch_cache_key', $cid, $request);
+
+  // Check static cache first as this is the fasts lookup. We use the fast
+  // static pattern described on drupal.org in the drupal_static
+  // documentation.
+  static $opensearch_static_fast = array();
+  if (array_key_exists($cid,  $opensearch_static_fast)) {
+    return $opensearch_static_fast[$cid];
+  }
+
+  // Check the database/memcached cache for the request also check that the
+  // cache data has not expired before using it.
+  $cache = cache_get($cid, 'cache_opensearch');
+  if ($cache && ($cache->expire > REQUEST_TIME)) {
+    $data = $cache->data;
+
+    // Update the static cache with the database cache content to speed up the
+    // next request for the same data.
+    $opensearch_static_fast[$cid] = $data;
+
+    return $data;
   }
 
   try {
@@ -453,6 +412,13 @@ function opensearch_execute($request) {
       }
     }
 
+    // Update the cache with the raw reponse object from the data well for
+    // faster processing. Also set the static cache.
+    $opensearch_static_fast[$cid] = $response;
+    if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
+      cache_set($cid, $response, 'cache_opensearch', REQUEST_TIME + $ttl);
+    }
+
     return $response;
   }
   catch (TingClientException $e) {
@@ -461,7 +427,8 @@ function opensearch_execute($request) {
     }
     watchdog('ting client', 'Error performing request: ' . $e->getMessage(), NULL, WATCHDOG_ERROR, 'http://' . $_SERVER["HTTP_HOST"] . request_uri());
     return FALSE;
-  } finally {
+  }
+  finally {
     timer_stop('ting');
   }
 }
