@@ -5,7 +5,6 @@
  * API Functions.
  */
 
-require_once __DIR__ . '/functions.openlist.inc';
 require_once __DIR__ . '/functions.handler.inc';
 
 /**
@@ -31,8 +30,7 @@ require_once __DIR__ . '/functions.handler.inc';
  *      single link.
  */
 function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
-  global $user;
-
+  // @TODO Implement permissions.
   $data = array();
 
   // Get list types that allow for attachment of the specific element type.
@@ -40,35 +38,33 @@ function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
     DING_LIST_OPERATION_ATTACH => array($type),
   ));
   if (empty($list_types)) {
-    return $data;
+    return array();
   }
 
-  // Get all lists of the list_types given.
   $lists = ding_list_get_lists($list_types);
 
-  if ($lists !== FALSE) {
-    // Fill the $data array with actions, getting one action for each list.
-    foreach ($lists as $list) {
-      $list_title = $list->title;
+  // Fill the $data array with actions, getting one action for each list.
+  foreach ($lists as $list) {
+    $list_title = $list['title'];
 
-      if ($list->uid != $user->uid) {
-        if (!ding_list_user_has_access($list, DING_LIST_PERMISSION_EDIT)) {
-          continue;
-        }
-        $username = ding_list_list_username($list);
-        if ($username) {
-          $list_title .= '(' . $username . ')';
-        }
+    if (!ding_list_is_owner($list)) {
+      if (!ding_list_user_has_access($list, DING_LIST_PERMISSION_EDIT)) {
+        continue;
       }
 
-      $data[] = array(
-        'list_id' => $list->id,
-        'title' => '<div class="list-title">' . $list_title . '</div><div class="add-to-list-button button">' . t('Add to list') . '</div>',
-        'value' => $value,
-        'type' => $type,
-        'value_title' => $value_title,
-      );
+      $username = ding_list_list_username($list);
+      if ($username) {
+        $list_title .= ' (' . $username . ')';
+      }
     }
+
+    $data[] = array(
+      'list_id' => $list['list_id'],
+      'title' => '<div class="list-title">' . $list_title . '</div><div class="add-to-list-button button">' . t('Add to list') . '</div>',
+      'value' => $value,
+      'type' => $type,
+      'value_title' => $value_title,
+    );
   }
 
   $context = array(
@@ -87,6 +83,7 @@ function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
  * @see ding_list_get_add_to_list_data()
  */
 function ding_list_get_add_to_list_ting_object_creators($ting_object) {
+  // @TODO Implement shared user lists.
   global $user;
   $data = array();
   $creators = $ting_object->getCreators();
@@ -99,16 +96,11 @@ function ding_list_get_add_to_list_ting_object_creators($ting_object) {
       $lists = ding_list_get_lists(DING_LIST_TYPE_FOLLOW_AUTHOR);
       if (!empty($lists)) {
         foreach ($lists as $list) {
-          if (!ding_list_has_ding_list_element($list, DING_LIST_TYPE_FOLLOW_AUTHOR, $creator)) {
+          if (!ding_list_has_element($list, $creator)) {
             $list_title = '<div class="list-title">' . $pretty_author . '</div><div class="add-to-list-button button">' . t('Follow the author') . '</div>';
-            if ($list->uid != $user->uid) {
-              $username = ding_list_list_username($list);
-              if ($username) {
-                $list_title .= '(' . $username . ')';
-              }
-            }
+
             $data[] = array(
-              'list_id' => $list->id,
+              'list_id' => $list['list_id'],
               'title' => $list_title,
               'value' => $creator,
               'type' => DING_LIST_TYPE_FOLLOW_AUTHOR,
@@ -246,7 +238,7 @@ function ding_list_get_random_user_list_item() {
     DING_LIST_TYPE_LOAN_HISTORY,
     DING_LIST_TYPE_BOOKS_READ,
     DING_LIST_TYPE_REMEMBER,
-  ));
+  ), NULL, TRUE);
 
   // No lists no result.
   if ($lists === FALSE) {
@@ -256,18 +248,33 @@ function ding_list_get_random_user_list_item() {
   shuffle($lists);
 
   // Find a non empty list.
+  $max_try = 10;
   foreach ($lists as $list) {
-    $items = field_get_items('ding_type', $list, 'field_list_objects');
-    if (isset($items[0]['target_id'])) {
-      $index = rand(0, count($items) - 1);
-      $element = entity_load_single('ding_type', $items[$index]['target_id']);
-      $element_id = ding_list_get_list_element_value($element);
 
-      $element_id = ding_list_convert_cql($element_id);
-      $ting_entity = ting_object_load($element_id);
-      // Return as soon as we have found.
-      return $ting_entity;
+    if (empty($list['elements'])) {
+      continue;
     }
+
+    // Fail safe for big lists.
+    if ($max_try-- < 1) {
+      return FALSE;
+    }
+
+    // Pick randomly but weight newer elements.
+    $element = ding_serendipity_pick_weighted_random($list['elements'], 1);
+    $element = current($element);
+
+    $element_id = ding_list_convert_cql($element['value']);
+
+    $ting_entity = ting_object_load($element_id);
+
+    if (empty($ting_entity)) {
+      continue;
+    }
+
+    // Return as soon as we have found.
+    return $ting_entity;
+
   }
   return FALSE;
 }
@@ -285,62 +292,7 @@ function ding_list_get_random_user_list_item() {
  */
 function ding_list_allowed($list, $operation) {
   $list_operations = ding_list_list_operations();
-
-  return isset($list_operations[ding_base_get_value('ding_type', $list, 'field_list_type')][$operation]);
-}
-
-/**
- * Load keys from elements in a list of type $key_type.
- *
- * @param object $user
- *   User account.
- * @param mixed $lid
- *   ID of user list OR list identifier.
- * @param mixed $key_type
- *   Optional type of key to extract.
- *
- * @return array
- *   An array of keys.
- */
-function ding_list_load_keys($user, $lid, $key_type = FALSE) {
-  $keys = array();
-  if (is_numeric($lid)) {
-    // Load certain list.
-    $list = entity_load('ding_type', array($lid));
-    if ($list === FALSE) {
-      return array();
-    }
-    $list = array_shift($list);
-  }
-  else {
-    // Load named list.
-    $lists = ding_list_get_lists($lid, $user, array(0, 1));
-    if ($lists === FALSE) {
-      return array();
-    }
-    $list = array_shift($lists);
-  }
-
-  // Load list elements.
-  $items = field_get_items('ding_type', $list, 'field_list_objects');
-  if ($items !== FALSE) {
-    $keys = array();
-    foreach ($items as $item) {
-      $keys[] = $item['target_id'];
-    }
-
-    // Load list entities.
-    $elements = entity_load('ding_type', $keys);
-    $keys = array();
-    foreach ($elements as $element) {
-      $type = ding_base_get_value('ding_type', $element, 'field_element_type');
-      if ($type !== FALSE && (!$key_type || $type === 'taxonomy_term')) {
-        $element_id = ding_base_get_value('ding_type', $element, 'field_' . $type);
-        $keys[] = $element_id;
-      }
-    }
-  }
-  return $keys;
+  return isset($list_operations[$list['type']][$operation]);
 }
 
 /**
@@ -348,25 +300,16 @@ function ding_list_load_keys($user, $lid, $key_type = FALSE) {
  *
  * @param object $list
  *   The ding_list to delete.
- * @param string $type
- *   Type of the ding_list_element. This is put into the field_element_type,
- *   and determines which field_[TYPE] to save the $id in.
- * @param int $id
- *   The id of the element. This is a string so the id can be a ting_object
- *   id. It can also be a simple string, which is useful when adding a search
- *   query for example.
+ * @param string $value
+ *   The value to look for.
  *
  * @return mixed
  *   If the list has the element, return that element entity, if not return
  *   FALSE
  */
-function ding_list_has_ding_list_element($list, $type, $id) {
-  // Get the elements in the list.
-  $elements = ding_list_load_elements($list);
-
-  foreach ($elements as $element) {
-    $element_value = ding_list_get_list_element_value($element);
-    if ($element_value !== FALSE && $element_value === $id) {
+function ding_list_has_element($list, $value) {
+  foreach ($list['elements'] as $element) {
+    if ($element['value'] == $value) {
       return $element;
     }
   }
@@ -477,14 +420,18 @@ function ding_list_setup_autocreated($account = NULL) {
   // $auto_create variable.
   if ($lists !== FALSE) {
     foreach ($lists as $list) {
-      $type = ding_base_get_value('ding_type', $list, 'field_list_type');
-      unset($auto_create[$type]);
+      unset($auto_create[$list['type']]);
     }
   }
 
   // Create all the lists in the $auto_create array.
   foreach ($auto_create as $type => $nothing) {
-    ding_list_create_ding_list($list_operations[$type]['_data']['default_title'], $type, $account);
+    $list = array(
+      'type' => $type,
+      'owner' => ding_provider_invoke('openlist', 'user_identifier', $account),
+      'title' => $list_operations[$type]['_data']['default_title'],
+    );
+    ding_list_save_list($list);
   }
 }
 
@@ -507,7 +454,7 @@ function ding_list_update_historical_loans($account = NULL) {
   $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $account);
   // Get the last update from the list, or set it to 0 if it doesn't
   // exist.
-  $latest = isset($list->more) && is_numeric($list->more) ? $list->more : 0;
+  $latest = isset($list['data']['latest']) && is_numeric($list['data']['latest']) ? $list['data']['latest'] : 0;
 
   $save_list = FALSE;
   if (ding_user_is_provider_user($account)) {
@@ -523,10 +470,10 @@ function ding_list_update_historical_loans($account = NULL) {
           if ($loan['loan_date'] < $today) {
             $save_list = TRUE;
             $ding_entity_id = variable_get('ting_agency', '') . ':' . $loan['id'];
-            ding_list_create_ding_list_element($list, 'ting_object', array(
+            ding_list_attach_element($list, 'ting_object', array(
               'value' => $ding_entity_id,
               'note' => serialize($loan),
-            ), $account, FALSE);
+            ));
             $latest = max($latest, $loan['loan_date']);
           }
         }
@@ -539,60 +486,10 @@ function ding_list_update_historical_loans($account = NULL) {
 
   if ($save_list) {
     // Set the latest time to tomorrow.
-    $latest = mktime(0, 0, 0, date('n', $latest), date('j', $latest) + 1, date('Y', $latest));
-    ding_list_edit_ding_list($list, $list->title, $latest);
+    $list['data']['latest'] = mktime(0, 0, 0, date('n', $latest), date('j', $latest) + 1, date('Y', $latest));
+    ding_list_save_list($list);
   }
   return TRUE;
-}
-
-/**
- * Load recent nodes tagged with $tids.
- *
- * @param array $tids
- *   An array of taxonomy term ids to match with nodes. The function will Load
- *   nids of nodes which are tagged with one or more of these ids.
- *   This parameter is required.
- * @param mixed $type
- *   If provided the result will only contain nodes of this node type.
- * @param mixed $limit
- *   If provided the result will be limited to this number.
- *
- * @return array
- *   An array of nids tagged with one or more of the provided taxonomy terms.
- */
-function ding_list_tids_to_nids(array $tids, $type = FALSE, $limit = FALSE) {
-  // No tids no nids.
-  if (empty($tids)) {
-    return array();
-  }
-
-  // Setup select query with the provided tids as a condition.
-  $query = db_select('taxonomy_index', 't')
-    ->condition('tid', $tids, 'IN')
-    ->addTag('node_access');
-
-  // Join the node table.
-  $query->join('node', 'n', 'n.nid = t.nid');
-
-  // If a limit has been provided add this to the query.
-  if ($limit !== FALSE) {
-    $query->range(0, $limit);
-  }
-
-  // Published nodes only.
-  $query->condition('n.status', 1);
-
-  // Optional type(=bundle) filter.
-  if ($type !== FALSE) {
-    $query->condition('n.type', $type);
-  }
-
-  // Select the nid and order by the time of creation.
-  $query->addField('t', 'nid');
-  $query->orderBy('t.created', "DESC");
-
-  // Return the column of nids.
-  return $query->execute()->fetchCol();
 }
 
 /**
@@ -669,7 +566,7 @@ function ding_list_set_permission($entity, $permission) {
  *   The username (or an empty string if no username was retrieved).
  */
 function ding_list_list_username($list) {
-  $owner = user_load($list->uid);
+  $owner = ding_list_local_user($list['owner']);
 
   if (!empty($owner->data) && isset($owner->data['display_name'])) {
     return $owner->data['display_name'];
@@ -802,10 +699,56 @@ function ding_list_get_permission_permissions($permission = FALSE) {
 }
 
 /**
+ * Get the local user from the list owner.
+ *
+ * @param string $owner
+ *   The owner key.
+ *
+ * @return bool|object
+ *   FALSE if no user is found, or the user object if one is.
+ */
+function ding_list_local_user($owner) {
+  if (ding_provider_implements('openlist', 'local_user')) {
+    return ding_provider_invoke('openlist', 'local_user', $owner);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Check if a user is the owner of the list.
+ *
+ * @param array $list
+ *   List.
+ * @param object $account
+ *   User object.
+ *
+ * @return bool
+ *   TRUE if the user is the owner.
+ */
+function ding_list_is_owner(array $list, $account = NULL) {
+  if ($account === NULL) {
+    global $user;
+    $account = $user;
+  }
+
+  if (is_numeric($list)) {
+    $list = ding_list_get_list($list);
+  }
+
+  $account_openlist_id = FALSE;
+  if (ding_provider_implements('openlist', 'user_identifier')) {
+    $account_openlist_id = ding_provider_invoke('openlist', 'user_identifier', $account);
+  }
+
+  return $account_openlist_id == $list['owner'];
+}
+
+/**
  * Check if a user has access to a list, with the given permissions.
  *
- * @param object|int $list
- *   List entity or the lists id.
+ * @param array|int $list
+ *   List or the lists id.
  * @param string $permission
  *   The permission to check against.
  * @param object $account
@@ -818,6 +761,7 @@ function ding_list_get_permission_permissions($permission = FALSE) {
  *   TRUE or FALSE depending on the user has access.
  */
 function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIEW, $account = NULL, $token = FALSE) {
+  // @TODO Implement permissions system.
   $access = &drupal_static(__FUNCTION__, array());
 
   // The access key is the key used by the static cache, and it's a unique key
@@ -826,76 +770,35 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
   if (isset($access[$access_key])) {
     return $access[$access_key];
   }
-
-  // If used as menu access callback the list have to be loaded.
-  if (is_numeric($list)) {
-    $list = ding_list_get_list($list);
-  }
-
-  if (ding_base_get_value('ding_type', $list, 'field_list_type') == DING_LIST_TYPE_LOAN_HISTORY
-      && !variable_get('user_consent_activate')) {
-    $access[$access_key] = FALSE;
-    return $access[$access_key];
-  }
+  $access[$access_key] = FALSE;
 
   if ($account === NULL) {
     global $user;
     $account = $user;
   }
 
-  // Is owner.
-  if ($account->uid == $list->uid) {
+  if (user_access('ding_list administer lists', $account)) {
     $access[$access_key] = TRUE;
     return $access[$access_key];
   }
 
-  // List share status.
-  switch (ding_base_get_value('ding_type', $list, 'field_ding_list_status', 'value', 'private')) {
-    case 'private':
-      $access[$access_key] = FALSE;
-      return $access[$access_key];
-
-    case 'public':
-      $access[$access_key] = $permission == DING_LIST_PERMISSION_VIEW;
-      return $access[$access_key];
+  // If used as menu access callback the list have to be loaded.
+  if (is_numeric($list)) {
+    $list = ding_list_get_list($list);
   }
 
-  // User not logged in.
-  if (!user_is_logged_in()) {
-    $access[$access_key] = FALSE;
-
-    // Check token anonymous.
-    if (!empty($token)) {
-      foreach (ding_list_get_permission_permissions() as $key => $array) {
-        if (ding_list_check_token($list, $key, $token)) {
-          $access[$access_key] = TRUE;
-        }
-      }
-    }
-    return $access[$access_key];
-  }
-
-  // Has permissions in table.
-  if (ding_list_has_permission($list, $permission, $account)) {
+  if (ding_list_is_owner($list, $account)) {
     $access[$access_key] = TRUE;
     return $access[$access_key];
   }
 
-  // Check token for logged in users.
-  if (!empty($token)) {
-    if ($account->uid > 0) {
-      foreach (ding_list_get_permission_permissions() as $key => $array) {
-        if (ding_list_check_token($list, $key, $token)) {
-          ding_list_add_permission($list, $key, $account);
-          $permissions = ding_list_get_permission_permissions($key);
-          $access[$access_key] = in_array($permission, $permissions);
-          return $access[$access_key];
-        }
-      }
-    }
-  }
+  switch ($permission) {
+    case DING_LIST_PERMISSION_VIEW:
+      // @TODO Check if it's public
+      $access[$access_key] = isset($list['data']['visibility']) && $list['data']['visibility'] === 'public';
 
-  $access[$access_key] = FALSE;
+      return $access[$access_key];
+  }
 
   return $access[$access_key];
 }
@@ -934,6 +837,8 @@ function ding_list_check_token($list, $key, $token) {
  *
  * @return int
  *   The followers count.
+ *
+ * @TODO Rewrite this, to use the openlist service.
  */
 function ding_list_get_list_followers_count($list) {
   $query = db_select('field_data_field_value', 'fv')
@@ -946,4 +851,34 @@ function ding_list_get_list_followers_count($list) {
   return $query->countQuery()
     ->execute()
     ->fetchField();
+}
+
+/**
+ * Get a user object, including lists.
+ *
+ * @param object $account
+ *   The user object.
+ * @param bool $no_cache
+ *   Don't use cached data.
+ *
+ * @return array
+ *   The user object.
+ */
+function ding_list_get_user_object($account = NULL, $no_cache = FALSE) {
+  $user_object = &drupal_static(__FUNCTION__, array());
+
+  if ($account === NULL) {
+    global $user;
+    $account = user_load($user->uid);
+  }
+
+  if (!isset($user_object[$account->uid])) {
+    $user_object[$account->uid] = FALSE;
+
+    if (ding_provider_implements('openlist', 'v2_get_user')) {
+      $user_object[$account->uid] = ding_provider_invoke('openlist', 'v2_get_user', $account, $no_cache);
+    }
+  }
+
+  return $user_object[$account->uid];
 }

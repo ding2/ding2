@@ -245,6 +245,37 @@ function ting_openlist_field_validate($element, &$form_state, $form) {
 }
 
 /**
+ * Clear all caches related to a list.
+ *
+ * @param array $list
+ *   The list array.
+ */
+function ting_openlist_cache_clear_list(array $list) {
+  $clear = array('l' . $list['list_id']);
+  $account = ting_openlist_local_user($list['owner']);
+  if ($account !== FALSE && !empty($account->uid)) {
+    $clear[] = 'u' . $account->uid;
+  }
+  ting_openlist_cache_clear($clear);
+}
+
+/**
+ * Clear openlist caches with a specfic prefix.
+ *
+ * @param string $prefixes
+ *   The prefix.
+ */
+function ting_openlist_cache_clear($prefixes) {
+  if (!is_array($prefixes)) {
+    $prefixes = array($prefixes);
+  }
+
+  foreach ($prefixes as $prefix) {
+    cache_clear_all($prefix . '_', 'cache_openlist', TRUE);
+  }
+}
+
+/**
  * Call the openlist service.
  *
  * @param string $function
@@ -255,8 +286,17 @@ function ting_openlist_field_validate($element, &$form_state, $form) {
  * @return mixed
  *   Response from Openlist.
  */
-function ting_openlist_request($function, array $arguments = array()) {
+function ting_openlist_request($function, array $arguments = array(), array $settings = array()) {
+  $static_cache = &drupal_static(__FUNCTION__, array());
+
   timer_start(__FUNCTION__);
+
+  $settings += array('method' => 'GET');
+  $settings += array(
+    'use_cache' => strtoupper($settings['method']) === 'POST' ? FALSE : FALSE,
+    'save_cache' => strtoupper($settings['method']) === 'POST' ? FALSE : 60,
+    'cache_prefix' => 'def',
+  );
 
   $parts = array(
     variable_get('ting_openlist_domain', TING_OPENLIST_DEFAULT_DOMAIN),
@@ -280,8 +320,22 @@ function ting_openlist_request($function, array $arguments = array()) {
     array('query' => $query)
   );
 
-  $response = drupal_http_request($url);
-  $watchdog_severity = ($response->code !== '200' || empty($response->data)) ? WATCHDOG_ERROR : WATCHDOG_INFO;
+  $cache_key = $settings['cache_prefix'] . '_' . md5($url);
+  if ($settings['use_cache'] === TRUE) {
+    if (isset($static_cache[$cache_key])) {
+      return $static_cache[$cache_key];
+    }
+
+    if (($cache = cache_get($cache_key, 'cache_openlist')) && REQUEST_TIME < $cache->expire) {
+      return $cache->data;
+    }
+  }
+
+  $response = drupal_http_request($url, array(
+    'method' => $settings['method'],
+  ));
+
+  $watchdog_severity = ($response->code !== '200') ? WATCHDOG_ERROR : WATCHDOG_INFO;
 
   if ($watchdog_severity === WATCHDOG_ERROR || variable_get('ting_openlist_log', FALSE)) {
     watchdog(
@@ -300,7 +354,14 @@ function ting_openlist_request($function, array $arguments = array()) {
     }
   }
 
-  return drupal_json_decode($response->data);
+  $data = drupal_json_decode($response->data);
+  if ($settings['save_cache'] !== FALSE) {
+    $expire = ($settings['save_cache'] === 0 ? CACHE_PERMANENT : REQUEST_TIME + $settings['save_cache']);
+    cache_set($cache_key, $data, 'cache_openlist', $expire);
+    $static_cache[$cache_key] = $data;
+  }
+
+  return $data;
 }
 
 /**
@@ -330,7 +391,7 @@ function ting_openlist_update_user($account = NULL) {
  * @return object
  *   The user account.
  */
-function ting_openlist_get_user($openlist_uid) {
+function ting_openlist_local_user($openlist_uid) {
   $result = db_select('users', 'u')
     ->fields('u', array('uid'))
     ->condition('u.openlist_uid', $openlist_uid)
@@ -342,8 +403,7 @@ function ting_openlist_get_user($openlist_uid) {
     $account = user_load($result['uid']);
   }
   else {
-    $account = new stdClass();
-    $account->name = $account->mail = t('User missing');
+    $account = FALSE;
   }
 
   return $account;
@@ -414,4 +474,11 @@ function ting_openlist_create_identifier($name) {
     variable_set('ting_openlist_prefix', $prefix);
   }
   return hash('sha512', $prefix . $name);
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function ting_openlist_flush_caches() {
+  return array('cache_openlist');
 }

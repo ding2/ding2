@@ -58,22 +58,23 @@ function ding_list_attach_element_callback($type, $list_id, $value) {
   $op_infos = ding_list_list_operations();
   $op = $op_infos[$type];
 
-  if (!ding_list_has_ding_list_element($list, $type, $value)) {
-    $element = ding_list_create_ding_list_element($list, $type, array('value' => $value));
+  if (!ding_list_has_element($list, $value)) {
+    $element_data = array('value' => $value);
+
+    if (isset($_GET['title'])) {
+      $element_data['title'] = $_GET['title'];
+    }
+
+    $element = ding_list_attach_element($list, $type, $element_data);
 
     if ($element !== FALSE) {
 
-      if (isset($_GET['title'])) {
-        $element->field_search_title[LANGUAGE_NONE] = array(array('value' => $_GET['title']));
-        $element->save();
-      }
-
       if (!empty($op['_data']['response_success'])) {
         // Translate the response.
-        $response = t($op['_data']['response_success'], array('!name' => l($list->title, 'list/' . $list->id)));
+        $response = t($op['_data']['response_success'], array('!name' => l($list['title'], 'list/' . $list['list_id'])));
       }
       else {
-        $response = t('Added to !name', array('!name' => l($list->title, 'list/' . $list->id)));
+        $response = t('Added to !name', array('!name' => l($list['title'], 'list/' . $list['list_id'])));
       }
     }
     else {
@@ -81,77 +82,10 @@ function ding_list_attach_element_callback($type, $list_id, $value) {
     }
   }
   else {
-    $response = t('Already added to !name', array('!name' => l($list->title, 'list/' . $list->id)));
+    $response = t('Already added to !name', array('!name' => l($list['title'], 'list/' . $list['list_id'])));
   }
 
   $commands[] = ajax_command_ding_popup('ding_list', t('List'), '<div class="ding-list-message">' . $response . '</div>');
-  return array(
-    '#type' => 'ajax',
-    '#commands' => $commands,
-  );
-}
-
-/**
- * Remove an element from a list.
- *
- * @param string $list_id
- *   The ID of the list.
- * @param string $element_id
- *   The ID of the element.
- *
- * @return array
- *   Ajax commands, with information about the process.
- */
-function ding_list_remove_element_from_list_callback($list_id, $element_id) {
-  $list = ding_list_get_list($list_id);
-  $context = drupal_get_query_parameters();
-  if (ding_list_detach_ding_list_element($list, explode(',', $element_id)) !== FALSE) {
-    $html = t('Removed from !name', array('!name' => l($list->title, 'user/list/' . $list->id)));
-  }
-  else {
-    $html = t("An error occurred while removing your element. Please contact the administrator if this problem persists.");
-  }
-
-  $status = array(
-    'selector' => '#' . $context['html_id'],
-    'message' => $html,
-    'status' => TRUE,
-    'refresh' => TRUE,
-  );
-  $commands = array();
-
-  $commands[] = ajax_command_html('#' . $context['html_id'] . ' .action-message', $html, $status);
-
-  return array(
-    '#type' => 'ajax',
-    '#commands' => $commands,
-  );
-}
-
-/**
- * Delete a list.
- *
- * @param string $list_id
- *   The ID of the list.
- *
- * @return array
- *   Ajax commands, with information about the process.
- */
-function ding_list_delete_list_callback($list_id) {
-  $list = ding_list_get_list($list_id);
-
-  ding_list_delete_list($list);
-
-  $status = array(
-    'status' => TRUE,
-    'remove' => '.ding-type-ding-list',
-  );
-
-  $html = t('List deleted');
-  $commands = array();
-  $context = drupal_get_query_parameters();
-  $commands[] = ajax_command_append('#' . $context['html_id'], $html, $status);
-
   return array(
     '#type' => 'ajax',
     '#commands' => $commands,
@@ -172,6 +106,7 @@ function ding_list_private_share_message_callback($list_id, $community) {
 
   $commands = array();
 
+  drupal_add_js(drupal_get_path('module', 'ding_sharer') . '/ding-sharer.js');
   drupal_add_js(drupal_get_path('module', 'ding_list') . '/js/ding-list-private-sharer.js');
 
   $query = array();
@@ -203,19 +138,8 @@ function ding_list_share_list_callback($permission, $list_id, $community) {
   $list = ding_list_get_list($list_id);
 
   if ($list) {
-    ding_list_edit_ding_list(
-      $list,
-      $list->title,
-      NULL,
-      TRUE,
-      array(
-        array(
-          'name' => 'field_ding_list_status',
-          'value_type' => 'value',
-          'value' => $permission,
-        ),
-      )
-    );
+    $list['data']['visibility'] = $permission;
+    ding_list_save_list($list);
 
     $commands[] = array(
       'command' => 'ding_list_private_sharer',
@@ -255,19 +179,13 @@ function ding_list_carousel_ajax($list_id, $offset) {
 
   // Check access to the list.
   if (ding_list_user_has_access($list)) {
-    $ids = array();
-    $items = ding_base_get_items('ding_type', $list, 'field_list_objects');
-    foreach (array_slice($items, $offset, DING_LIST_CAROUSEL_CHUNK_SIZE) as $item) {
-      $ids[] = $item['target_id'];
-    }
-    $entities = entity_load('ding_type', $ids);
-
     $object_ids = array();
-    foreach ($entities as $entity) {
-      $object_ids[] = ding_list_get_list_element_value($entity);
+    foreach (array_slice($list['elements'], $offset, DING_LIST_CAROUSEL_CHUNK_SIZE) as $element) {
+      // $ids[] = $item['target_id'];
+      $object_ids[] = $element['value'];
     }
-    $entities = ding_entity_load_multiple($object_ids, 'ting_object');
 
+    $entities = ding_entity_load_multiple($object_ids, 'ting_object');
     $content = array();
     foreach ($entities as $entity) {
       $content[] = array(
@@ -278,7 +196,7 @@ function ding_list_carousel_ajax($list_id, $offset) {
 
     // Calculate if there are more items in the list.
     $next_offset = -1;
-    if ($offset + DING_LIST_CAROUSEL_CHUNK_SIZE <= count($items)) {
+    if ($offset + DING_LIST_CAROUSEL_CHUNK_SIZE <= count($list['elements'])) {
       $next_offset = $offset + DING_LIST_CAROUSEL_CHUNK_SIZE;
     }
 

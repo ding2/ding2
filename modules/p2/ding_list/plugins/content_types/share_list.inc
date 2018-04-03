@@ -12,7 +12,7 @@ $plugin = array(
   'content_types' => array('ding_type'),
   'category' => t('Dinglist'),
   'render callback' => 'ding_list_share_list_content_type_render',
-  'required context' => new ctools_context_required(t('Dinglist'), 'ding_type'),
+  'required context' => new ctools_context_required(t('Ding list'), 'ding_list_list'),
 );
 
 /**

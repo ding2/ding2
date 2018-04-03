@@ -12,7 +12,7 @@ $plugin = array(
   'content_types' => array('ding_type'),
   'category' => t('Dinglist'),
   'render callback' => 'ding_list_list_menu_content_type_render',
-  'required context' => new ctools_context_required(t('Dinglist'), 'ding_type'),
+  'required context' => new ctools_context_optional(t('Ding list'), 'ding_list_list'),
 );
 
 /**
@@ -27,9 +27,6 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
   $block->content = array();
 
   if (user_is_logged_in()) {
-
-    $uri = entity_uri('ding_type', $list);
-
     $block->content = array(
       '#theme' => 'links',
       '#links' => array(
@@ -37,41 +34,51 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
           'href' => 'user/' . $user->uid . '/my-library',
           'title' => t('To your lists'),
           'attributes' => array('class' => array('menu-item')),
-          'html' => TRUE,
-        ),
-        'view' => array(
-          'href' => $uri['path'],
-          'title' => check_plain(entity_label('ding_type', $list)),
-          'attributes' => array('class' => array('menu-item')),
-          'html' => TRUE,
+          'html' => FALSE,
         ),
       ),
       '#attributes' => array('class' => 'sub-menu'),
     );
 
-    if (ding_list_user_has_access($list, 'edit', $user)) {
-      $block->content['#links']['edit'] = array(
-        'href' => $uri['path'] . '/edit',
-        'title' => t('Rename / Delete list'),
+    if ($list) {
+      $block->content['#links']['view'] = array(
+        'href' => 'list/' . $list['list_id'],
+        'title' => check_plain($list['title']),
         'attributes' => array('class' => array('menu-item')),
-        'html' => TRUE,
+        'html' => FALSE,
       );
-    }
 
-    if (ding_list_allowed($list, DING_LIST_OPERATION_SHARE)) {
-      if (ding_list_user_has_access($list, 'owner', $user)) {
-        $title = t('Share list');
-      }
-      else {
-        $title = t('Unfollow list');
+      if (ding_list_user_has_access($list, 'edit', $user)) {
+        $block->content['#links']['edit'] = array(
+          'href' => 'list/' . $list['list_id'] . '/edit',
+          'title' => t('Rename / Delete list'),
+          'attributes' => array('class' => array('menu-item')),
+          'html' => FALSE,
+        );
       }
 
-      $block->content['#links']['share'] = array(
-        'href' => $uri['path'] . '/share',
-        'title' => $title,
-        'attributes' => array('class' => array('menu-item')),
-        'html' => TRUE,
-      );
+      if (ding_list_allowed($list, DING_LIST_OPERATION_SHARE)) {
+        $title = FALSE;
+
+        if (ding_list_is_owner($list, $user)) {
+          $title = t('Share list');
+        }
+        else {
+          $lists_list = ding_list_get_list(DING_LIST_TYPE_LISTS);
+          if (ding_list_has_element($lists_list, $list['list_id'])) {
+            $title = t('Unfollow list');
+          }
+        }
+
+        if ($title !== FALSE) {
+          $block->content['#links']['share'] = array(
+            'href' => 'list/' . $list['list_id'] . '/share',
+            'title' => $title,
+            'attributes' => array('class' => array('menu-item')),
+            'html' => FALSE,
+          );
+        }
+      }
     }
   }
 

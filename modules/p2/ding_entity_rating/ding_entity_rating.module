@@ -235,10 +235,10 @@ function ding_entity_rating_field_formatter_view($entity_type, $entity, $field, 
 function ding_entity_rating_get_user_rating($entity) {
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST);
   $result = FALSE;
-  $element = ding_list_has_ding_list_element($list, 'ting_object', $entity->ding_entity_id);
+  $element = ding_list_has_element($list, $entity->ding_entity_id);
 
   if ($element !== FALSE) {
-    $result = ding_base_get_value('ding_type', $element, 'field_weight');
+    $result = $element['extra']['weight'];
   }
 
   return $result;
@@ -323,7 +323,7 @@ function template_preprocess_ding_entity_rating_average(&$variables) {
  * Theme function for ding_entity_rating_average.
  */
 function theme_ding_entity_rating_average($variables) {
-  $output = '<div class="ding-entity-rating-submitted">';
+  $output = '<div class="ding-entity-rating ding-entity-rating--average ding-entity-rating-submitted">';
 
   $rating = round($variables['rating']);
   $output .= ding_entity_rating_build_theme_list($rating);
@@ -394,14 +394,17 @@ function ding_entity_rating_average($entity, $value = NULL) {
     $averages[$id] = $value;
   }
   elseif (!isset($averages[$id])) {
-    $query = db_select('field_data_field_weight', 'w');
-    $query->join('eck_ding_type', 'dt', 'w.entity_id = dt.id');
-    $query->join('field_data_field_value', 'v', 'w.entity_id = v.entity_id');
-    $query->condition('v.field_value_value', $id)
-      ->addExpression('AVG(w.field_weight_value)', 'avg_count');
-    $result = $query->execute();
 
-    $averages[$id] = $result->fetchField(0);
+    try {
+      $rating = ding_provider_invoke('openlist', 'call_module', 'TingObjectRating', 'getRating', array(
+        $id,
+      ));
+      $averages[$id] = $rating;
+    }
+    catch (Exception $e) {
+      watchdog_exception('ding_entity_rating', $e);
+    }
+
   }
 
   return $averages[$id];
@@ -423,20 +426,20 @@ function ding_entity_rating_average($entity, $value = NULL) {
 function ding_entity_rating_add_to_list($entity, $account, $rating) {
   // Get the rating list.
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST, $account);
-  $element = ding_list_has_ding_list_element($list, 'ting_object', $entity->ding_entity_id);
+  $element = ding_list_has_element($list, $entity->ding_entity_id);
   if (!$element) {
     $values = array(
       'value' => $entity->ding_entity_id,
       'weight' => $rating,
     );
-    return ding_list_create_ding_list_element($list, 'ting_object', $values, $account, TRUE);
+    return ding_list_attach_element($list, 'ting_object', $values);
   }
   else {
     $values = array(
       'value' => $entity->ding_entity_id,
       'weight' => $rating,
     );
-    return ding_list_edit_ding_list_element($element, 'ting_object', $values);
+    return ding_list_edit_element($element, $values);
   }
 }
 
@@ -454,8 +457,8 @@ function ding_entity_rating_add_to_list($entity, $account, $rating) {
 function ding_entity_rating_remove_from_list($entity, $account) {
   // Get the rating list.
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST, $account);
-  if ($element = ding_list_has_ding_list_element($list, 'ting_object', $entity->ding_entity_id)) {
-    ding_list_detach_ding_list_element($list, array($element->id));
+  if ($element = ding_list_has_element($list, $entity->ding_entity_id)) {
+    ding_list_detach_element($element);
     return TRUE;
   }
   else {
@@ -477,7 +480,7 @@ function ding_entity_rating_ding_interaction_info() {
     $history_list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY);
     $has_history = ding_user_consent_has_consent('loan_history_store')
       && $history_list
-      && field_get_items('ding_type', $history_list, 'field_list_objects');
+      && !empty($history_list['elements']);
 
     $activity = $has_loans || $has_history;
   }
@@ -530,7 +533,7 @@ function theme_ding_entity_rating_promote_ratings($variables) {
     $loan_button = "<li>" . l($translatables['current_loans'], "user/$uid/status/loans") . "</li>";
   }
 
-  if (isset($variables['history_list']) && field_get_items('ding_type', $variables['history_list'], 'field_list_objects')) {
+  if (isset($variables['history_list']) && !empty($history_list['elements'])) {
     $history_button = "<li>" . l($translatables['previous_loans'], "list/" . $variables['history_list']->id) . "</li>";
   }
 
@@ -552,7 +555,7 @@ function ding_entity_rating_get_loans_not_rated() {
     $loans = ding_provider_invoke('loan', 'list', $user);
     $list = ding_list_get_list(DING_ENTITY_RATING_LIST, $user);
     foreach ($loans as $loan) {
-      if (!$element = ding_list_has_ding_list_element($list, 'ting_object', $loan->ding_entity_id)) {
+      if (!$element = ding_list_has_element($list, $loan->ding_entity_id)) {
         $unrated[] = $loan->ding_entity_id;
       }
     }
@@ -573,5 +576,23 @@ function ding_entity_rating_preprocess_material_item(&$variables) {
         'class' => 'rating',
       ];
     }
+  }
+}
+
+/**
+ * Preprocess ding_list_element.
+ */
+function ding_entity_rating_preprocess_ding_list_element(&$variables) {
+  $element = $variables['element'];
+
+  switch ($element['type']) {
+    case 'ting_object':
+      if (!empty($element['extra']['weight'])) {
+        $variables['content']['value']['rating'] = array(
+          '#theme' => 'ding_entity_rating_average',
+          '#rating' => $element['extra']['weight'],
+        );
+      }
+      break;
   }
 }
