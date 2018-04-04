@@ -14,26 +14,27 @@
       var ids = [];
       var html_ids = [];
 
-      // Extract entity ids from Drupal settings array.
+      // Loop through the materials given in the settings and collect
+      // HTML ids and entity_ids.
       if (settings.hasOwnProperty('ding_availability')) {
-        $.each(settings.ding_availability, function(id, entity_ids) {
-          $.each(entity_ids, function(index, entity_id) {
-            if (Drupal.DADB[entity_id] === undefined) {
-              Drupal.DADB[entity_id] = null;
-              ids.push(entity_id);
-              html_ids.push(id);
-            }
-          });
+        $.each(settings.ding_availability, function (id, data) {
+          if (Drupal.DADB[data.local] === undefined) {
+            Drupal.DADB[data.local] = null;
+            ids.push(data);
+            html_ids.push(id);
+          }
         });
       }
 
       // Fetch availability.
       if (ids.length > 0) {
         var mode = settings.ding_availability_mode ? settings.ding_availability_mode : 'items';
-        var path = settings.basePath + 'ding_availability/' + mode + '/' + ids.join(',');
+        var path = settings.basePath + 'ding_availability/' + mode;
         $.ajax({
+          type: "POST",
           dataType: "json",
           url: path,
+          data: { 'ids': ids },
           success: function(data) {
             $.each(data, function(id, item) {
               // Update cache.
