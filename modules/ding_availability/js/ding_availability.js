@@ -18,14 +18,12 @@
       // Loop through the materials given in the settings and collect
       // HTML ids and entity_ids.
       if (settings.hasOwnProperty('ding_availability')) {
-        $.each(settings.ding_availability, function (id, entity_ids) {
-          $.each(entity_ids, function (index, entity_id) {
-            if (Drupal.DADB[entity_id] === undefined) {
-              Drupal.DADB[entity_id] = null;
-              ids.push(entity_id);
-              html_ids.push(id);
-            }
-          });
+        $.each(settings.ding_availability, function (id, data) {
+          if (Drupal.DADB[data.local] === undefined) {
+            Drupal.DADB[data.local] = null;
+            ids.push(data);
+            html_ids.push(id);
+          }
         });
       }
 
@@ -57,7 +55,7 @@
           if (matches.length > 0) {
             var id = [];
             id.push(ids.find(function (elm, index) {
-              if (elm === matches[0]) {
+              if (elm.local === matches[0]) {
                 ids.splice(index, 1);
                 return elm;
               }
@@ -87,10 +85,12 @@
    *   The ids to fetch information for.
    */
   function ding_availability_fetch(mode, ids) {
-    var path = Drupal.settings.basePath + 'ding_availability/' + mode + '/' + ids.join(',');
+    var path = Drupal.settings.basePath + 'ding_availability/' + mode;
     $.ajax({
+      type: "POST",
       dataType: "json",
       url: path,
+      data: { 'ids': ids },
       success: function (data) {
         $.each(data, function (id, item) {
           // Update cache.

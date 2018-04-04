@@ -7,14 +7,20 @@
 /**
  * Implements provider availability, items.
  *
- * @param array $provider_ids
- *   Array of ting object ids (faust).
+ * @param array $data
+ *   Array of ids indexed by 'local' and 'pid'. Where local is the faust and
+ *   pid is the data-well id.
  *
  * @return array
- *   Avaliability info.
+ *   Availability info.
  */
-function fbs_availability_items($provider_ids) {
+function fbs_availability_items($data) {
   $avails = array();
+
+  // Filter the local/faust ids
+  $provider_ids = array_map(function ($ids) {
+    return $ids['local'];
+  }, $data);
 
   try {
     $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids, variable_get('fbs_holdings_branches_blacklist', array()));
@@ -34,14 +40,20 @@ function fbs_availability_items($provider_ids) {
 /**
  * Implements provider availability, holdings.
  *
- * @param array $provider_ids
- *   Array of ting object ids (faust).
+ * @param array $data
+ *   Array of ids indexed by 'local' and 'pid'. Where local is the faust and
+ *   pid is the data-well id.
  *
  * @return array
  *   Holdings info.
  */
-function fbs_availability_holdings($provider_ids) {
+function fbs_availability_holdings($data) {
   $holdings = array();
+
+  // Filter the local/faust ids
+  $provider_ids = array_map(function ($ids) {
+    return $ids['local'];
+  }, $data);
 
   try {
     $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids, variable_get('fbs_holdings_branches_blacklist', array()));
@@ -78,7 +90,17 @@ function fbs_availability_holdings($provider_ids) {
     // item.
     module_load_include('client.inc', 'opensearch');
     $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
-    $entity_id = ding_provider_build_entity_id($provider_ids[0]);
+
+    // Try to get the entity id with out calling the provider, which in
+    // OpenSearch will trigger a search request just to get the id.
+    foreach ($data as $id) {
+      if ($id['local'] == $provider_ids[0]) {
+        $entity_id = $id['pid'];
+        break;
+      }
+     }
+
+    $entity_id = empty($entity_id) ? ding_provider_build_entity_id($provider_ids[0]) : $entity_id;
     switch ($suffix_type) {
       case 'simple':
         $entity = ding_entity_load($entity_id);

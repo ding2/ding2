@@ -7,16 +7,22 @@
 /**
  * Implements provider availability, holdings.
  *
- * @param array $provider_ids
- *   Array of provider ids that should be fetched information for.
+ * @param array $data
+ *   Array of ids indexed by 'local' and 'pid'. Where local is the faust and
+ *   pid is the data-well id.
  * @param bool $reset
  *   If TRUE the cache will be reset. Default FALSE.
  *
  * @return mixed
  *   An empty array, information about the holdings or even FALSE.
  */
-function openruth_availability_holdings($provider_ids, $reset = FALSE) {
+function openruth_availability_holdings($data, $reset = FALSE) {
   $results = array();
+
+  // Filter the local/faust ids
+  $provider_ids = array_map(function ($ids) {
+    return $ids['local'];
+  }, $data);
 
   // Create cache id.
   $cid = md5(serialize($provider_ids));
