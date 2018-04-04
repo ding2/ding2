@@ -5,11 +5,6 @@
  */
 
 /**
- * Indicates that a given cache entry have return no reply from the data well.
- */
-define('OPENSEARCH_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
-
-/**
  * Get an ting object or collection.
  *
  * Returns the search response for the given id. This will cache the
@@ -31,13 +26,14 @@ define('OPENSEARCH_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
  */
 function opensearch_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
   if (!empty($object_id)) {
-    // Build request request and set object id.
-    $request = opensearch_get_request_factory()->getObjectRequest();
     if ($collection) {
       // If this is a collection we need to do a collection request, which is
       // a search request.
       $request = opensearch_get_request_factory()->getCollectionRequest();
       $request->setAllObjects(FALSE);
+    }
+    else {
+      $request = opensearch_get_request_factory()->getObjectRequest();
     }
     $request->setObjectId($object_id);
 
@@ -59,9 +55,9 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
     }
 
     // Execute the request.
-    $object = opensearch_execute($request);
+    $result = opensearch_execute($request);
 
-    return $object;
+    return $collection || is_null($result) ? $result : reset($result);
   }
 
   return NULL;
@@ -70,60 +66,30 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
 /**
  * Get a bunch of objects in one request.
  *
- * @todo Should use getObject when getObject supports getting multiple.
+ * @param string[] $ids
+ *   Data-well PIDs for the objects to get.
+ *
+ * @return array
+ *   The objects fetched from the data-well.
+ *
+ * @throws \TingClientException
  */
 function opensearch_get_objects($ids) {
-  $objects = array();
+  $request = opensearch_get_request_factory()->getObjectRequest();
+  $request->setObjectIds($ids);
 
-  // Not all object are searchable, such as relation etc. So to get over this we
-  // split the request into to groups "own id's" and "others". Where the first
-  // is ensured to be searchable.
-  $agency = variable_get('ting_agency', FALSE);
-  $query = array();
-  foreach ($ids as $id) {
-    // So if the agency match lets search theme as that's faster then fetching
-    // them one by one.
-    if (preg_match('/^(870970-basis|' . $agency . '-katalog|' . $agency . ')/', $id)) {
-      $query[] = 'rec.id=' . $id;
-    }
-    else {
-      // Get objects as it was not local.
-      $objects[$id] = opensearch_get_object($id);
-    }
+  // Set agency from the administration interface.
+  if ($agency = variable_get('ting_agency', FALSE)) {
+    $request->setAgency($agency);
   }
 
-  // Open search is limited to 50 results per call, so iterate until all results
-  // have been fetched. It has a limit on the size of the query (>187 rec.id=
-  // ORed together seems to break it).
-  $query_chunks = array_chunk($query, 50);
-  foreach ($query_chunks as $query_chunk) {
-    $request = opensearch_get_request_factory()->getSearchRequest();
-    if ($agency) {
-      $request->setAgency($agency);
-    }
-    $profile = variable_get('opensearch_search_profile', '');
-    if (!empty($profile) && method_exists($request, 'setProfile')) {
-      $request->setProfile($profile);
-    }
-    $request->setQuery(implode(' OR ', $query_chunk));
-    $request->setStart(1);
-    $request->setNumResults(50);
-    $request->setAllObjects(TRUE);
-
-    $result = opensearch_execute($request);
-
-    if ($result && is_array($result->collections)) {
-      foreach ($result->collections as $collection) {
-        if (is_array($collection->objects) && count($collection->objects)) {
-          foreach ($collection->objects as $object) {
-            $objects[$object->id] = $object;
-          }
-        }
-      }
-    }
+  // Set search profile from the administration interface.
+  $profile = variable_get('opensearch_search_profile', '');
+  if (!empty($profile)) {
+    $request->setProfile($profile);
   }
 
-  return $objects;
+  return opensearch_execute($request);;
 }
 
 /**
@@ -246,6 +212,7 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
   }
 
   $search_result = opensearch_execute($request);
+
   // Replace collections with proper TingCollection objects.
   if ($search_result && is_array($search_result->collections)) {
     $ids = array();
