@@ -259,6 +259,6 @@ function ting_sfx_preprocess_html(&$variables, $hook) {
 /**
  * Implements hook_ding_entity_buttons().
  */
-function ting_sfx_ding_entity_buttons($type, $entity, $widget = 'default') {
+function ting_sfx_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
   return array(ting_sfx_get_markup($entity));
 }
