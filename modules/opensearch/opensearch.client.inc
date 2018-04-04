@@ -260,6 +260,7 @@ function opensearch_get_object_recommendations($isbn, $num_results = 10) {
   $request = opensearch_get_request_factory()->getObjectRecommendationRequest();
   $request->setIsbn($isbn);
   $request->setNumResults($num_results);
+
   return opensearch_execute($request);
 }
 
