@@ -7,7 +7,12 @@
 /**
  * Implements provider availability, items.
  */
-function alma_availability_items($provider_ids) {
+function alma_availability_items($data) {
+  // Filter the local/faust ids
+  $provider_ids = array_map(function ($ids) {
+    return $ids['local'];
+  }, $data);
+
   $ids = implode(',', $provider_ids);
   $result = alma_client_invoke('get_availability', $ids);
   if (!$result) {
@@ -19,7 +24,12 @@ function alma_availability_items($provider_ids) {
 /**
  * Implements provider availability, holdings.
  */
-function alma_availability_holdings($provider_ids, $reset = FALSE) {
+function alma_availability_holdings($data, $reset = FALSE) {
+  // Filter the local/faust ids
+  $provider_ids = array_map(function ($ids) {
+    return $ids['local'];
+  }, $data);
+
   // Create cache id.
   $cid = md5(serialize($provider_ids));
 
