@@ -433,7 +433,7 @@ function ting_ding_entity_is($object, $class) {
 /**
  * Implements hook_ding_entity_buttons().
  */
-function ting_ding_entity_buttons($type, $entity) {
+function ting_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
   if ($entity instanceof TingEntity) {
     $buttons = array();
 
@@ -452,20 +452,26 @@ function ting_ding_entity_buttons($type, $entity) {
       );
     }
 
-    $collection = ting_collection_load($entity->id);
-    if (count($collection->types) > 1) {
-      $buttons[] = array(
-        '#theme' => 'link',
-        '#text' => t('Other formats'),
-        '#path' => '#',
-        '#options' => array(
-          'attributes' => array(
-            'class' => array('action-button', 'other-formats'),
-          ),
-          'html' => FALSE,
-          'external' => TRUE,
-        ),
-      );
+    // Loading collection (specially on empty cache is expensive). So only load
+    // the collection when it's need and here only when this button is required
+    // in the design. Before using context it was load but not used in the
+    // design.
+    if (strpos($view_mode, 'teaser') === false) {
+      $collection = ting_collection_load($entity->id);
+      if (count($collection->types) > 1) {
+        $buttons[] = [
+          '#theme' => 'link',
+          '#text' => t('Other formats'),
+          '#path' => '#',
+          '#options' => [
+            'attributes' => [
+              'class' => ['action-button', 'other-formats'],
+            ],
+            'html' => FALSE,
+            'external' => TRUE,
+          ],
+        ];
+      }
     }
 
     return $buttons;
