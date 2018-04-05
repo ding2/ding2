@@ -73,8 +73,9 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
  *   The objects fetched from the data-well.
  *
  * @throws \TingClientException
+ *   This may throw this exception if the search request fails.
  */
-function opensearch_get_objects($ids) {
+function opensearch_get_objects(array $ids) {
   $request = opensearch_get_request_factory()->getObjectRequest();
   $request->setObjectIds($ids);
 
@@ -319,7 +320,7 @@ function opensearch_get_request_factory() {
  * @param \TingClientRequest $request
  *   The request.
  *
- * @return mixed
+ * @return \TingClientSearchResult|bool
  *   Result of the request or false if an error occurs.
  */
 function opensearch_execute($request) {
@@ -340,7 +341,7 @@ function opensearch_execute($request) {
   // static pattern described on drupal.org in the drupal_static
   // documentation.
   static $opensearch_static_fast = array();
-  if (array_key_exists($cid,  $opensearch_static_fast)) {
+  if (array_key_exists($cid, $opensearch_static_fast)) {
     return $opensearch_static_fast[$cid];
   }
 

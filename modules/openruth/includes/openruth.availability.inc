@@ -16,10 +16,10 @@
  * @return mixed
  *   An empty array, information about the holdings or even FALSE.
  */
-function openruth_availability_holdings($data, $reset = FALSE) {
+function openruth_availability_holdings(array $data, $reset = FALSE) {
   $results = array();
 
-  // Filter the local/faust ids
+  // Filter the data into a single array with provider ids.
   $provider_ids = array_map(function ($ids) {
     return $ids['local'];
   }, $data);

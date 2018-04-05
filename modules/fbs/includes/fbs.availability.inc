@@ -14,10 +14,10 @@
  * @return array
  *   Availability info.
  */
-function fbs_availability_items($data) {
+function fbs_availability_items(array $data) {
   $avails = array();
 
-  // Filter the local/faust ids
+  // Filter the data into a single array with provider ids.
   $provider_ids = array_map(function ($ids) {
     return $ids['local'];
   }, $data);
@@ -47,10 +47,10 @@ function fbs_availability_items($data) {
  * @return array
  *   Holdings info.
  */
-function fbs_availability_holdings($data) {
+function fbs_availability_holdings(array $data) {
   $holdings = array();
 
-  // Filter the local/faust ids
+  // Filter the data into a single array with provider ids.
   $provider_ids = array_map(function ($ids) {
     return $ids['local'];
   }, $data);
@@ -91,7 +91,7 @@ function fbs_availability_holdings($data) {
     module_load_include('client.inc', 'opensearch');
     $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
 
-    // Try to get the entity id with out calling the provider, which in
+    // Try to get the entity id without calling the provider, which in
     // OpenSearch will trigger a search request just to get the id.
     foreach ($data as $id) {
       if ($id['local'] == $provider_ids[0]) {
