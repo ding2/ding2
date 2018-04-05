@@ -153,7 +153,7 @@ function ding_list_share_token($list, $permission, $date = FALSE) {
     $date = REQUEST_TIME;
   }
 
-  return md5('prefix_' . $list->id . '_' . $list->created . '_' . $permission . '_' . date('Ymd', $date));
+  return md5('prefix_' . $list['list_id'] . '_' . $list['owner'] . '_' . $permission . '_' . date('Ymd', $date));
 }
 
 /**
@@ -502,58 +502,43 @@ function ding_list_update_historical_loans($account = NULL) {
  * @param object $account
  *   The user to give the permissions.
  */
-function ding_list_add_permission($list, $permission, $account = NULL) {
+function ding_list_set_permission($list, $permission, $account = NULL) {
   if ($account === NULL) {
     global $user;
     $account = $user;
   }
 
-  if (!ding_list_has_permission($list, $permission, $account)) {
+  $openlist_uid = ding_provider_invoke('openlist', 'user_identifier', $account);
+  ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'setPermission', array(
+    $openlist_uid,
+    $list['list_id'],
+    $permission,
+  ));
 
-    $element = ding_list_get_permission($list, $account);
-
-    $add_to_list = FALSE;
-    if ($element === FALSE) {
-      $add_to_list = TRUE;
-      $element = entity_create('ding_type', array(
-        'type' => 'permission',
-        'title' => '[' . $list->id . ']' . $list->title . ': ' . $account->name,
-      ));
-
-      $id = $account->uid;
-      if (ding_provider_implements('openlist', 'user_identifier')) {
-        $id = ding_provider_invoke('openlist', 'user_identifier', $account);
-      }
-      $element->field_ding_list_user[LANGUAGE_NONE] = array(array('value' => $id));
-    }
-
-    $element->field_ding_list_permission[LANGUAGE_NONE] = array(array('value' => $permission));
-
-    entity_save('ding_type', $element);
-
-    if ($add_to_list) {
-      $list->field_ding_list_permissions[LANGUAGE_NONE][] = array('target_id' => $element->id);
-      $list->save();
-    }
-  }
+  drupal_static_reset('ding_list_get_permission');
 }
 
 /**
- * Simple helper to set the permission on the entity.
+ * Remove a permission.
  *
- * @param object $entity
- *   The entity to set the permission on.
- * @param string $permission
- *   The permission.
- *
- * @return object
- *   The given entity.
+ * @param object $list
+ *   The list to add the permissions to.
+ * @param object $account
+ *   The user to give the permissions.
  */
-function ding_list_set_permission($entity, $permission) {
-  $entity->field_ding_list_permission[LANGUAGE_NONE] = array(array('value' => $permission));
-  entity_save('ding_type', $entity);
+function ding_list_remove_permission($list, $account = NULL) {
+  if ($account === NULL) {
+    global $user;
+    $account = $user;
+  }
 
-  return $entity;
+  $openlist_uid = ding_provider_invoke('openlist', 'user_identifier', $account);
+  ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'removePermission', array(
+    $openlist_uid,
+    $list['list_id'],
+  ));
+
+  return TRUE;
 }
 
 /**
@@ -591,31 +576,24 @@ function ding_list_list_username($list) {
  *   The permissions entity for the user, or FALSE if there's no permission.
  */
 function ding_list_get_permission($list, $account = NULL) {
+  $permissions = &drupal_static(__FUNCTION__, array());
+
   if ($account === NULL) {
     global $user;
     $account = $user;
   }
 
-  $query = db_select('eck_ding_type', 'edt')->fields('edt', array('id'))->condition('edt.type', 'permission');
+  $key = $account->uid . '__' . $list['list_id'];
 
-  $query->join('field_data_field_ding_list_permissions', 'fdlps', 'fdlps.field_ding_list_permissions_target_id = edt.id');
-  $query->condition('fdlps.entity_id', $list->id);
-
-  $id = $account->uid;
-  if (ding_provider_implements('openlist', 'user_identifier')) {
-    $id = ding_provider_invoke('openlist', 'user_identifier', $account);
+  if (!isset($permissions[$key])) {
+    $openlist_uid = ding_provider_invoke('openlist', 'user_identifier', $account);
+    $permissions[$key] = ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'getPermission', array(
+      $openlist_uid,
+      $list['list_id'],
+    ));
   }
 
-  $query->join('field_data_field_ding_list_user', 'fdlu', 'fdlu.entity_id = edt.id');
-  $query->condition('fdlu.field_ding_list_user_value', $id);
-
-  $result = $query->execute()->fetchField();
-
-  if ($result !== FALSE) {
-    return entity_load_single('ding_type', $result);
-  }
-
-  return FALSE;
+  return $permissions[$key];
 }
 
 /**
@@ -632,54 +610,13 @@ function ding_list_get_permission($list, $account = NULL) {
  *   TRUE or FALSE depending on the permission exists.
  */
 function ding_list_has_permission($list, $permission, $account = NULL) {
-  $element = ding_list_get_permission($list, $account);
+  $user_permission = ding_list_get_permission($list, $account);
 
-  if ($element === FALSE) {
+  if (!$user_permission) {
     return FALSE;
   }
 
-  $permissions = ding_list_get_permission_permissions(ding_base_get_value('ding_type', $element, 'field_ding_list_permission'));
-  return in_array($permission, $permissions);
-}
-
-/**
- * Remove a permission (automatically remove it from the list as well).
- *
- * @param object $element
- *   The permission element.
- *
- * @retun bool
- *   If the permissions were successfully removed.
- */
-function ding_list_remove_permission($element) {
-  $query = db_select('eck_ding_type', 'edt')
-    ->fields('edt', array('id'))
-    ->condition('edt.type', 'ding_list');
-
-  $query->join('field_data_field_ding_list_permissions', 'fdlps', 'fdlps.entity_id = edt.id');
-  $query->condition('fdlps.field_ding_list_permissions_target_id', $element->id);
-
-  $result = $query->execute()->fetchField();
-  if ($result !== FALSE) {
-    $list = entity_load_single('ding_type', $result);
-  }
-  else {
-    return FALSE;
-  }
-
-  $items = ding_base_get_items('ding_type', $list, 'field_ding_list_permissions');
-  $keep = array();
-  foreach ($items as $item) {
-    if ($item['target_id'] != $element->id) {
-      $keep[] = $item;
-    }
-  }
-
-  $list->field_ding_list_permissions[LANGUAGE_NONE] = $keep;
-  entity_save('ding_type', $list);
-  entity_delete('ding_type', $element->id);
-
-  return TRUE;
+  return in_array($permission, ding_list_get_permission_permissions($user_permission['permission']));;
 }
 
 /**
@@ -792,12 +729,28 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
     return $access[$access_key];
   }
 
-  switch ($permission) {
-    case DING_LIST_PERMISSION_VIEW:
-      // @TODO Check if it's public
-      $access[$access_key] = isset($list['data']['visibility']) && $list['data']['visibility'] === 'public';
+  if (isset($list['data']['visibility']) && $list['data']['visibility'] === 'public') {
+    $access[$access_key] = TRUE;
+    return $access[$access_key];
+  }
 
-      return $access[$access_key];
+  if (!empty($token)) {
+    foreach (ding_list_get_permission_permissions() as $key => $array) {
+      if (ding_list_check_token($list, $key, $token)) {
+        $access[$access_key] = TRUE;
+
+        if (user_is_logged_in() && !ding_list_has_permission($list, $key, $account)) {
+          ding_list_set_permission($list, $key, $account);
+        }
+
+        return $access[$access_key];
+      }
+    }
+  }
+
+  if (ding_list_has_permission($list, $permission, $account)) {
+    $access[$access_key] = TRUE;
+    return $access[$access_key];
   }
 
   return $access[$access_key];
@@ -832,7 +785,7 @@ function ding_list_check_token($list, $key, $token) {
 /**
  * Get count of followers for a list.
  *
- * @param object $list
+ * @param array $list
  *   The list entity.
  *
  * @return int
@@ -840,17 +793,11 @@ function ding_list_check_token($list, $key, $token) {
  *
  * @TODO Rewrite this, to use the openlist service.
  */
-function ding_list_get_list_followers_count($list) {
-  $query = db_select('field_data_field_value', 'fv')
-    ->fields('fv', array('field_value_value'))
-    ->condition('fv.field_value_value', $list->id);
-
-  $query->join('field_data_field_element_type', 'ft', 'ft.entity_id = fv.entity_id');
-  $query->condition('ft.field_element_type_value', 'ding_list');
-
-  return $query->countQuery()
-    ->execute()
-    ->fetchField();
+function ding_list_get_list_followers_count(array $list) {
+  return count(ding_provider_invoke('openlist', 'call_module', 'Query', 'getLists', array(
+    $list['list_id'],
+    array(DING_LIST_TYPE_LISTS),
+  )));
 }
 
 /**

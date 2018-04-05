@@ -66,7 +66,7 @@ function ding_list_user_list_ctools_access_check($conf, $context) {
     $token = $_REQUEST['lazy_pane_get']['token'];
   }
 
-  $result = ding_list_user_has_access($list, $conf['visibility_settings'], $account);
+  $result = ding_list_user_has_access($list, $conf['visibility_settings'], $account, $token);
 
   if (!$result) {
     drupal_set_message(t('The list is no longer public or shared.'));

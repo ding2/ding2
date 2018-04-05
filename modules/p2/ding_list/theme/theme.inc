@@ -148,12 +148,32 @@ function template_preprocess_ding_list_list(&$variables) {
       break;
 
     default:
-      if (!empty($list['elements'])) {
-        $variables['content']['elements'] = array(
-          '#prefix' => '<div class="ding-list-list__elements">',
-          '#suffix' => '</div>',
-        );
+      if (isset($list['data']['visibility']) && $list['data']['visibility'] === 'public') {
+        $followers_count = ding_list_get_list_followers_count($list);
 
+        if ($followers_count > 0) {
+          $variables['content']['followers'] = array(
+            '#prefix' => '<div class="ding-list-list__followers">',
+            '#suffix' => '</div>',
+            '#markup' => format_plural($followers_count, '1 user following this list', '@count users following this list'),
+          );
+        }
+      }
+
+      if (!empty($list['data']['note'])) {
+        $variables['content']['note'] = array(
+          '#prefix' => '<div class="ding-list-list__note">',
+          '#suffix' => '</div>',
+          '#markup' => $list['data']['note'],
+        );
+      }
+
+      $variables['content']['elements'] = array(
+        '#prefix' => '<div class="ding-list-list__elements">',
+        '#suffix' => '</div>',
+      );
+
+      if (!empty($list['elements'])) {
         foreach ($list['elements'] as $element_key => $element) {
           $variables['content']['elements'][$element_key] = array(
             '#theme' => 'ding_list_element',
@@ -161,6 +181,9 @@ function template_preprocess_ding_list_list(&$variables) {
             '#element' => $element,
           );
         }
+      }
+      else {
+        $variables['content']['elements']['#markup'] = t('No elements in this list.');
       }
       break;
   }
@@ -243,52 +266,4 @@ function template_preprocess_ding_list_add_button(&$variables) {
       $variables['single_link'] = TRUE;
     }
   }
-}
-
-/**
- * Ding list followers preprocessor.
- */
-function template_preprocess_ding_list_followers(&$variables) {
-  $list = $variables['list'];
-  $variables['count'] = ding_list_get_list_followers_count($list);
-
-  $variables['note'] = ding_base_get_value('ding_type', $list, 'field_notes');
-  if ($variables['note'] === FALSE) {
-    $list_information = ding_list_list_operations();
-    $list_type = ding_base_get_value('ding_type', $list, 'field_list_type');
-    if (isset($list_information[$list_type])) {
-      $list_information = $list_information[$list_type];
-      if (isset($list_information['_data']['description'])) {
-        $variables['note'] = $list_information['_data']['description'];
-      }
-    }
-  }
-
-  $variables['no_objects'] = empty($list->field_list_objects);
-}
-
-/**
- * Ding list followers theme.
- */
-function theme_ding_list_followers($variables) {
-  $out = format_plural($variables['count'], '1 user following this list', '@count users following this list');
-
-  return $out;
-}
-
-/**
- * Ding list info theme.
- */
-function theme_ding_list_info($variables) {
-  $out = '';
-
-  if ($variables['note'] !== FALSE) {
-    $out .= '<div class="ding-list-note">' . $variables['note'] . '</div>';
-  }
-
-  if ($variables['no_objects']) {
-    $out .= '<div class="ding-list-no-elements">' . t('No elements in this list.') . '</div>';
-  }
-
-  return $out;
 }

@@ -471,7 +471,9 @@ function ding_list_theme($existing, $type, $theme, $path) {
         'list' => NULL,
       ),
     ),
-
+    'ding_list_shared_permissions_table' => array(
+      'render element' => 'element',
+    ),
     'ding_list_add_button' => array(
       'file' => 'theme/theme.inc',
       'template' => 'templates/ding-list-add-button',
@@ -490,14 +492,6 @@ function ding_list_theme($existing, $type, $theme, $path) {
     'ding_list_permission_description' => array(
       'file' => 'theme/theme.inc',
       'variables' => array('message' => ''),
-    ),
-    'ding_list_followers' => array(
-      'file' => 'theme/theme.inc',
-      'variables' => array('list' => NULL),
-    ),
-    'ding_list_info' => array(
-      'file' => 'theme/theme.inc',
-      'variables' => array('list' => NULL),
     ),
     'ding_list_create_info' => array(
       'file' => 'theme/theme.inc',

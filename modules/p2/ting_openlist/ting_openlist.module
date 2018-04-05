@@ -293,7 +293,7 @@ function ting_openlist_request($function, array $arguments = array(), array $set
 
   $settings += array('method' => 'GET');
   $settings += array(
-    'use_cache' => strtoupper($settings['method']) === 'POST' ? FALSE : FALSE,
+    'use_cache' => strtoupper($settings['method']) === 'POST' ? FALSE : TRUE,
     'save_cache' => strtoupper($settings['method']) === 'POST' ? FALSE : 60,
     'cache_prefix' => 'def',
   );

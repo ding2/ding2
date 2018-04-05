@@ -318,6 +318,8 @@ function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
  * This is a pure ajax interface form.
  */
 function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
+  global $user;
+
   if (!ding_list_is_owner($list)) {
     $form['unfollow_shared'] = array(
       '#type' => 'submit',
@@ -334,6 +336,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     '#description' => t('Please note: When you share a list, your name will be displayed with the list.'),
     '#options' => array(
       'private' => t('Private - The list is only accessible to you'),
+      'shared' => t('Shared - Users with the secret link can view or edit your list'),
       'public' => t('Public - Anybody can view your list from the public link'),
     ),
     '#default_value' => !empty($list['data']['visibility']) ? $list['data']['visibility'] : 'private',
@@ -342,8 +345,185 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
       'wrapper' => 'status-description',
     ),
   );
+  // Used for callback information.
+  $form['status_description'] = array(
+    '#markup' => '<div id="status-description"></div>',
+  );
+
+  // Information when shared.
+  $form['sharer'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Settings'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="status"]' => array('value' => 'shared'),
+      ),
+    ),
+  );
+
+  $permission_options = array(
+    'view' => t('Allow to view this list'),
+    'edit' => t('Allow to view and edit this list'),
+  );
+  $form['sharer']['permission'] = array(
+    '#type' => 'select',
+    '#title' => t('Select which type of access to share'),
+    '#options' => $permission_options,
+  );
+
+  // Setup the share link, with the correct token.
+  foreach ($permission_options as $key => $title) {
+    $token = ding_list_share_token($list, $key);
+    $form['sharer']['link'][$key] = array(
+      '#type' => 'textfield',
+      '#title' => t('Share link'),
+      '#value' => url('list/' . $list['list_id'], array('absolute' => TRUE, 'query' => array('token' => $token))),
+      '#states' => array(
+        'visible' => array(
+          ':input[name="permission"]' => array('value' => $key),
+        ),
+      ),
+    );
+  }
+  $form['mail_sharer'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Share'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="status"]' => array('value' => 'shared'),
+      ),
+    ),
+  );
+  $form['mail_sharer']['email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Send invitation to this email adress:'),
+    '#description' => t('At the moment only users at this library can share your lists.'),
+  );
+
+  $username = $user->name;
+  if (isset($user->data)) {
+    if (is_string($user->data)) {
+      $data = unserialize($user->data);
+    }
+    else {
+      $data = $user->data;
+    }
+    if (!empty($data) && isset($data['display_name'])) {
+      $username = $data['display_name'];
+    }
+  }
+  $form['mail_sharer']['email_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email subject.'),
+    '#default_value' => t('@user has shared a personal list with you at @library', array(
+      '@user' => $username,
+      '@library' => variable_get('site_name', ''),
+    )),
+  );
+  $form['mail_sharer']['email_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Email text'),
+    '#description' => t('The !link text will be replaced by a link to the list'),
+    '#default_value' => t('Please use the following link to access this list.
+The link is active for 7 days from today, after which it will be disabled for security reasons.
+!link'),
+    '#resizable' => FALSE,
+  );
+  $form['mail_sharer']['share'] = array(
+    '#type' => 'submit',
+    '#value' => t('Send mail invitation with share link'),
+    '#ajax' => array(
+      'callback' => 'ding_list_list_permissions_form_share_callback',
+    ),
+  );
+
+  $permissions = ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'listPermissions', array($list['list_id']));
+  if (!empty($permissions)) {
+    $form['mail_sharer']['shared'] = array(
+      '#prefix' => '<div id="shared-list">',
+      '#suffix' => '</div>',
+      '#type' => 'fieldset',
+      '#title' => t('Shared'),
+      '#description' => t('The following users has access to this shared list.'),
+      '#states' => array(
+        'visible' => array(
+          ':input[name="status"]' => array('value' => 'shared'),
+        ),
+      ),
+      '#tree' => TRUE,
+      '#theme' => 'ding_list_shared_permissions_table',
+    );
+
+    // Add an item to the shared list, for each user with access.
+    foreach ($permissions as $permission) {
+      $local_user = ding_provider_invoke('openlist', 'local_user', $permission['user']);
+      $form['mail_sharer']['shared'][$permission['user']]['user'] = array(
+        '#markup' => format_username($local_user),
+      );
+
+      $permission_options['remove'] = t('Revoke access to this list');
+      $form['mail_sharer']['shared'][$permission['user']]['permission'] = array(
+        '#type' => 'select',
+        '#options' => $permission_options,
+        '#default_value' => $permission['permission'],
+        '#ajax' => array(
+          'callback' => 'ding_list_list_permissions_form_set_permission_callback',
+          'wrapper' => 'shared-list',
+        ),
+      );
+    }
+  }
+
+  // Information when public.
+  $form['public'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Public'),
+    '#description' => t('You can find your public list under !link', array('!link' => l(t('Public lists'), 'public-lists'))),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="status"]' => array('value' => 'public'),
+      ),
+    ),
+    '#tree' => TRUE,
+  );
+  $url = url('list/' . $list['list_id'], array('absolute' => TRUE));
+  $form['public']['link'] = array(
+    '#type' => 'item',
+    '#title' => t('Share link'),
+    '#markup' => l($url, $url),
+  );
 
   return $form;
+}
+
+
+/**
+ * Ajax callback for changing a user permission.
+ */
+function ding_list_list_permissions_form_set_permission_callback($form, &$form_state) {
+  $list = $form_state['build_info']['args'][0];
+
+  // Get the permission entity id, from the triggering elements parents.
+  // The array parents will look  like: ["mail_sharer", "shared", ID,
+  // "permission"].
+  $user_id = array_slice($form_state['triggering_element']['#array_parents'], -2, 1);
+  $user_id = $user_id[0];
+  $local_user = ding_provider_invoke('openlist', 'local_user', $user_id);
+  $permission = $form_state['values']['shared'][$user_id]['permission'];
+
+  if ($permission != 'remove') {
+    ding_list_set_permission($list, $permission, $local_user);
+  }
+  else {
+    unset($form['mail_sharer']['shared'][$user_id]);
+    ding_list_remove_permission($list, $local_user);
+    if (count(element_children($form['mail_sharer']['shared'])) == 0) {
+      return array();
+    }
+  }
+  return $form['mail_sharer']['shared'];
 }
 
 /**
@@ -362,4 +542,55 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
   );
 
   return theme('ding_list_permission_description', array('message' => $output[$list['data']['visibility']]));
+}
+
+/**
+ * Callback for sending the share by mail.
+ */
+function ding_list_list_permissions_form_share_callback($form, &$form_state) {
+  global $language;
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+  if (empty($form_state['values']['email'])) {
+    $response['#commands'][] = ajax_command_ding_popup('ding_list', t('The emails field is required to send out invitations.'), t('No mails send.'));
+    return $response;
+  }
+  $list = $form_state['build_info']['args'][0];
+  $token = ding_list_share_token($list, $form_state['values']['permission']);
+  $link = l($list['title'], 'list/' . $list['list_id'], array('absolute' => TRUE, 'query' => array('token' => $token)));
+  drupal_mail('ding_list', 'share', $form_state['values']['email'], $language, array(
+    'subject' => $form_state['values']['email_subject'],
+    'text' => str_replace('!link', $link, $form_state['values']['email_text']),
+  ));
+  // Get generated message.
+  $html = theme('ding_list_message', array('message' => t('Mail sent')));
+  // Popup.
+  $response['#commands'][] = ajax_command_ding_popup('ding_list', t('Share'), $html);
+  return $response;
+}
+
+/**
+ * Theme function that makes the shared table for the permissions form.
+ */
+function theme_ding_list_shared_permissions_table($variables) {
+  $element = $variables['element'];
+  $header = array(
+    'user' => t('User'),
+    'permission' => t('Permission'),
+  );
+  $rows = array();
+  foreach (element_children($element) as $key) {
+    $row = array();
+    $row['data'] = array();
+    foreach ($header as $fieldname => $title) {
+      $row['data'][] = drupal_render($element[$key][$fieldname]);
+    }
+    $rows[] = $row;
+  }
+  return theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+  ));
 }
