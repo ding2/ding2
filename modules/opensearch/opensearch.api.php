@@ -14,7 +14,7 @@
  *
  * @param string $cid
  *   The cache key that can be altered.
- * @param $request
+ * @param \TingClientSearchRequest $request
  *   The current request object.
  */
 function hook_opensearch_cache_key_alter(&$cid, $request) {

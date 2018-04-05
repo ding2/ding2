@@ -8,7 +8,7 @@
  * Implements provider availability, items.
  */
 function alma_availability_items($data) {
-  // Filter the local/faust ids
+  // Filter the data into a single array with provider ids.
   $provider_ids = array_map(function ($ids) {
     return $ids['local'];
   }, $data);
@@ -25,7 +25,7 @@ function alma_availability_items($data) {
  * Implements provider availability, holdings.
  */
 function alma_availability_holdings($data, $reset = FALSE) {
-  // Filter the local/faust ids
+  // Filter the data into a single array with provider ids.
   $provider_ids = array_map(function ($ids) {
     return $ids['local'];
   }, $data);
