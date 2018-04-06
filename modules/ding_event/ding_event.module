@@ -193,14 +193,14 @@ function ding_event_install_menu_position($op = 'install') {
  * displayed once in related events on event page.
  */
 function ding_event_views_pre_execute(&$view) {
-  if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list'))) {
-    $view->build_info['query']->groupBy('node.nid');
-    $view->build_info['count_query']->groupBy('node.nid');
-  }
-
   // Handle the "show_all" type of events, so they filter by end date instead of
   // start date.
   if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list', 'ding_event_list_frontpage'))) {
+    if ($view->current_display == 'ding_event_list') {
+      $view->build_info['query']->groupBy('node.nid');
+      $view->build_info['count_query']->groupBy('node.nid');
+    }
+
     // Add the field_ding_event_list_filter field, so it can be used in the
     // filter.
     $view->build_info['query']->leftJoin(
@@ -210,15 +210,29 @@ function ding_event_views_pre_execute(&$view) {
       array(':entity_type' => 'node')
     );
 
+    // TODO: This one is really convoluted and should be refactored.
     // We need to place the conditions inside the start date filter, which is
     // referenced here. The reference is very specific, and changing the order
     // of the view filters might break this functionality.
-    $date_condition = &$view->build_info['query']->conditions()[0]['field']->conditions()[0]['field']->conditions()[3];
+    if (!isset($view->build_info['query']
+        ->conditions()[0]['field']
+        ->conditions()[0]['field']
+        ->conditions()[3])) {
+      return;
+    }
+
+    $date_condition = &$view->build_info['query']
+      ->conditions()[0]['field']
+      ->conditions()[0]['field']
+      ->conditions()[3];
 
     // If the value is empty we assume the exposed combined search filter has
     // content, this pushes the condition we want 1 further "down" in the array.
     if (empty($date_condition['value'])) {
-      $date_condition = &$view->build_info['query']->conditions()[0]['field']->conditions()[0]['field']->conditions()[4];
+      $date_condition = &$view->build_info['query']
+        ->conditions()[0]['field']
+        ->conditions()[0]['field']
+        ->conditions()[4];
     }
     $date_condition['field'] .= ' OR (fdelf.field_ding_event_list_filter_value = :filter'
                               . ' AND ' . str_replace('.field_ding_event_date_value,', '.field_ding_event_date_value2,', $date_condition['field']) . ')';
