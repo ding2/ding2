@@ -63,7 +63,7 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
         // on /search/ting/%key% page.
         if (empty($results)) {
           // Prepare keys.
-          $results = ting_start_query()->setFullTextQuery($keys)->execute();
+          $results = ting_start_query()->withFullTextQuery($keys)->execute();
           ting_search_current_results($results);
         }
         // Get count of total results from ting.

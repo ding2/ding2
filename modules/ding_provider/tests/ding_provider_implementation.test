@@ -595,17 +595,13 @@ abstract class DingSearchProviderImplementationTestCase extends DingProviderImpl
    * Test TingSearchRequest can include and exclude materials.
    */
   public function testMaterialFilter() {
-    $query_include = ting_start_query();
-    // We do not run this, so the ID doesn't matter.
-    $query_include->setMaterialFilter('123');
+    $query_include = ting_start_query()->withMaterialFilter('123');
 
     // Check the filter is being set to include.
     $this->assertEqual($query_include->getMaterialFilter(), ['123']);
     $this->assertTrue($query_include->isMaterialFilterInclude());
 
-    $query_exclude = ting_start_query();
-    // We do not run this, so the ID doesn't matter.
-    $query_exclude->setMaterialFilter('123', FALSE);
+    $query_exclude = ting_start_query()->withMaterialFilter('123', FALSE);
 
     // Check the filter is being set to exclude.
     $this->assertEqual($query_exclude->getMaterialFilter(), ['123']);

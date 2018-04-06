@@ -350,18 +350,19 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   $results = &drupal_static(__FUNCTION__);
   if (!isset($results)) {
     $results = array();
-    $query = ting_start_query()->setFullTextQuery($keys);
-    $query->setTermsPrFacet(variable_get('ting_search_number_of_facets', 25));
+    $query = ting_start_query()
+      ->withFullTextQuery($keys)
+      ->withTermsPrFacet(variable_get('ting_search_number_of_facets', 25));
 
     // Extend query with filters.
     if (!empty($conditions['filters'])) {
       foreach ($conditions['filters'] as $name => $filter) {
         // If no name is provided for a filter then it is a raw filter.
         if (is_int($name)) {
-          $query->addFilters(array(new TingSearchRawFilter($filter)));
+          $query = $query->withFilters(array(new TingSearchRawFilter($filter)));
         }
         else {
-          $query->addFieldFilter($name, $filter);
+          $query = $query->withFieldFilter($name, $filter);
         }
       }
     }
@@ -372,7 +373,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       foreach ($facets as $facet) {
         $facet = explode(':', $facet, 2);
         if ($facet[0]) {
-          $query->addFieldFilter($facet[0], rawurldecode($facet[1]));
+          $query = $query->withFieldFilter($facet[0], rawurldecode($facet[1]));
         }
       }
     }
@@ -386,7 +387,6 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       if (!empty($conditions['size'])) {
         $results_per_page = $conditions['size'];
       }
-
       // Set sort order.
       if (!empty($conditions['sort'])) {
         // Get all sort-options available from the provider.
@@ -396,11 +396,11 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         // TingSearchSort instance specified by the provider and add it to the
         // query.
         if (!empty($available_sort_options[$conditions['sort']]['sort'])) {
-          $query->addSorts($available_sort_options[$conditions['sort']]['sort']);
+          $query = $query->withSorts($available_sort_options[$conditions['sort']]['sort']);
         }
       }
 
-      $query->setPage($page + 1)->setCount($results_per_page);
+      $query = $query->withPage($page + 1)->withCount($results_per_page);
       $search_result = $query->execute();
 
       if ($search_result->getNumTotalCollections() > 0) {

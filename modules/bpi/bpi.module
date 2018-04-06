@@ -928,9 +928,9 @@ function bpi_workflow_by_machine_names($machine_names) {
  */
 function bpi_validate_material($id) {
   $result = ting_start_query()
-    ->setFullTextQuery($id)
-    ->setCount(1)
-    ->setPopulateCollections(FALSE)
+    ->withFullTextQuery($id)
+    ->withCount(1)
+    ->withPopulateCollections(FALSE)
     ->execute();
 
   $primary_objects = array_map(function (TingCollection $collection) {

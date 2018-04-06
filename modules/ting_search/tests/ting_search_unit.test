@@ -81,12 +81,13 @@ class DingSearchUnitTest extends DingUnitTestBase {
       new TingSearchFieldFilter('field3', 'value'),
     ], BooleanStatementInterface::OP_OR);
 
-    $query->addFilters($_1_filter_list);
-    $query->addFilters($_2_single_filter);
-    $query->addFilters($_3_filter_group);
-    // Use the shorthand for testing 4). This is basically a shorthand for 2)
-    // so we use the same field-name to be able to test it in a moment.
-    $query->addFieldFilter('field2', 'value');
+    $query = $query
+      ->withFilters($_1_filter_list)
+      ->withFilters($_2_single_filter)
+      ->withFilters($_3_filter_group)
+      // Use the shorthand for testing 4). This is basically a shorthand for 2)
+      // so we use the same field-name to be able to test it in a moment.
+      ->withFieldFilter('field2', 'value');
 
     // This should have added four boolean statement groups.
     $resulting_filters = $query->getFilters();
@@ -122,7 +123,7 @@ class DingSearchUnitTest extends DingUnitTestBase {
 
     // Test that the filter is rejected.
     try {
-      $query->addFilters($invalid);
+      $query->withFilters($invalid);
     }
     catch (UnsupportedSearchQueryException $e) {
       // All is ok.
