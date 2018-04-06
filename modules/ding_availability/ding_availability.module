@@ -94,7 +94,20 @@ function ding_availability_theme($existing, $type, $theme, $path) {
  */
 function ding_availability_js() {
   $data = isset($_POST['ids']) ? $_POST['ids'] : array();
-  drupal_json_output(ding_availability_items($data));
+
+  // Enrich the return data with ids to simplify the work need in the frontend
+  // to insert the holdings.
+  $items = ding_availability_items($data);
+  foreach ($items as $provider_id => &$item) {
+    foreach ($data as $ids) {
+      if ($ids['local'] == $provider_id) {
+        $item['ids'] = $ids;
+        break;
+      }
+    }
+  }
+
+  drupal_json_output($items);
 }
 
 /**
@@ -102,7 +115,15 @@ function ding_availability_js() {
  */
 function ding_availability_holdings_js() {
   $data = isset($_POST['ids']) ? $_POST['ids'] : array();
-  drupal_json_output(ding_availability_holdings($data));
+
+  // Enrich the return data with ids to simplify the work need in the frontend
+  // to insert the holdings.
+  $holdings = ding_availability_holdings($data);
+  foreach ($holdings as $provider_id => &$holding) {
+    $holding['ids'] = $data[$provider_id];
+  }
+
+  drupal_json_output($holdings);
 }
 
 /**

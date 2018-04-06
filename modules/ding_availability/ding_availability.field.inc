@@ -121,7 +121,8 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
             'data' => array(
               'ding_availability_mode' => 'holdings',
               'ding_availability' => array(
-                $id => array(
+                $entity->localId => array(
+                  'html_id' => $id,
                   'local' => $entity->localId,
                   'pid' => $entity->getId(),
                 ),
@@ -169,7 +170,8 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           $attached['js'][1] = array(
             'data' => array(
               'ding_availability' => array(
-                $id => array(
+                $entity->localId => array(
+                  'html_id' => $id,
                   'local' => $entity->localId,
                   'pid' => $entity->getId(),
                 ),
