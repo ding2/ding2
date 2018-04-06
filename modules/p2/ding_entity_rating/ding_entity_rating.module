@@ -53,8 +53,10 @@ function ding_entity_rating_menu() {
 function ding_entity_rating_get_user_rating_callback() {
   $ratings = array();
 
-  foreach (ding_entity_load_multiple($_GET['ids']) as $object) {
-    $ratings[$object->ding_entity_id] = ding_entity_rating_get_user_rating($object);
+  if (user_is_logged_in()) {
+    foreach (ding_entity_load_multiple($_GET['ids']) as $object) {
+      $ratings[$object->ding_entity_id] = ding_entity_rating_get_user_rating($object);
+    }
   }
 
   echo drupal_json_encode($ratings);

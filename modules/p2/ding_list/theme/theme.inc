@@ -30,7 +30,7 @@ function template_preprocess_ding_list_element(&$variables) {
       );
       $ting_object = ting_object_load(ding_list_convert_cql($element['value']));
       if ($ting_object) {
-        $variables['content']['value']['ting_object'] = ting_object_view(
+        $variables['content']['ting_object'] = ting_object_view(
           $ting_object,
           isset($view_mode_matrix[$variables['display']]) ? $view_mode_matrix[$variables['display']] : 'default'
         );
@@ -49,7 +49,7 @@ function template_preprocess_ding_list_element(&$variables) {
 
     case 'ding_list':
       $list = ding_list_get_list($element['value']);
-      $variables['content']['value'] = array(
+      $variables['content']['link'] = array(
         '#theme' => 'link',
         '#text' => check_plain($list['title']),
         '#path' => 'list/' . $element['value'],
@@ -63,7 +63,7 @@ function template_preprocess_ding_list_element(&$variables) {
     case 'search_query':
     case 'follow_author':
       $parsed = drupal_parse_url($element['value']);
-      $variables['content']['value'] = array(
+      $variables['content']['link'] = array(
         '#theme' => 'link',
         '#text' => check_plain(empty($element['extra']['title']) ? $element['value'] : $element['extra']['title']),
         '#path' => 'search/ting/' . $parsed['path'],

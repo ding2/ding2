@@ -231,7 +231,6 @@ function ding_list_get_list_types_by_operations($access) {
  *   The random ting_object. Or FALSE otherwise.
  */
 function ding_list_get_random_user_list_item() {
-
   // Select among these types.
   $lists = ding_list_get_lists(array(
     DING_LIST_TYPE_USER_LIST,

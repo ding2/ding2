@@ -293,7 +293,9 @@ function ding_serendipity_lists_loan_adhl_serendipity_add($context) {
  * Find objects matching some random author from the user lists.
  */
 function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
-  if (!isset($context['bundle']) || $context['bundle'] != 'ting_object') {
+  global $user;
+
+  if (!ding_user_is_provider_user($user) || !isset($context['bundle']) || $context['bundle'] != 'ting_object') {
     return array();
   }
 

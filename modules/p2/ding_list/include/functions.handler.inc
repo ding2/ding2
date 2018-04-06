@@ -185,6 +185,10 @@ function ding_list_get_lists($list_types, $account = NULL, $expanded = FALSE) {
     $account = $user;
   }
 
+  if ($account->uid === 0) {
+    return $lists;
+  }
+
   if (!is_array($list_types)) {
     $list_types = array($list_types);
   }

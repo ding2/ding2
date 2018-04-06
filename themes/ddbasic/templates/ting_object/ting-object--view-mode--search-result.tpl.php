@@ -15,5 +15,6 @@
       <?php print render($content['group_ting_left_col_search']); ?>
     </a>
     <?php print render($content); ?>
+    <div class="ting-object-new"><?php print t('New'); ?></div>
   </div>
 </div>

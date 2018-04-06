@@ -39,14 +39,21 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     ),
   );
 
-  // @TODO Implement notifications.
   foreach ($user_object['lists'] as $list) {
+    $notifications = ding_message_get_ding_list_notification($list);
+
+    $notification_out = '';
+    if (!empty($notifications)) {
+      $text = '<span class="notification-label">' . t('New:', array(), array('context' => 'Ding list')) . '</span>' . $notifications;
+      $notification_out = l($text, 'list/' . $list['list_id'], array('html' => TRUE, 'attributes' => array('class' => array('notification-link'))));
+    }
+
     $block->content['lists']['#items'][] = array(
       'data' =>
       l('<span class="icon"></span>' . $list['title'], 'list/' . $list['list_id'], array(
         'html' => TRUE,
         'attributes' => array('class' => 'signature-label'),
-      )),
+      )) . $notification_out,
     );
   }
 

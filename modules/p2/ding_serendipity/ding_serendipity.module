@@ -565,6 +565,10 @@ function ding_serendipity_get_existing_list_materials($account = NULL) {
     $account = $user;
   }
 
+  if (!ding_user_is_provider_user($account)) {
+    return array();
+  }
+
   $uo = ding_list_get_user_object($account);
 
   // Relevant list types.

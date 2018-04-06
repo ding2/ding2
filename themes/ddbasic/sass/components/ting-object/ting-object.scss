@@ -343,7 +343,7 @@
     }
     .ting-object-new-in-list {
       display: none;
-      width: getColumn(4 of 6);
+      width: getColumn(5 of 6);
       float: right;
       margin-top: 10px;
       color: $charcoal-opacity-dark;
@@ -399,7 +399,17 @@
       }
       .ting-object-right {
         @include span-columns(5 of 8);
-        @include omega();
+      }
+    }
+    .ting-object-new {
+      display: none;
+      width: getColumn(1 of 8);
+      float: left;
+      margin-top: 5px;
+      color: $charcoal-opacity-dark;
+
+      .new-content & {
+        display: block;
       }
     }
     .search-result--heading-type {
@@ -498,6 +508,7 @@
         }
       }
       .ting-object-left { display: none; }
+      .ting-object-new { width: 100%; }
       .field-name-ting-title { margin-top: 0; }
       .field-name-ting-series,
       .field-name-ting-abstract { margin: 0; }

@@ -11,6 +11,18 @@
   &:nth-child(2n+1) {
     background-color: $grey;
   }
+  .ding-message {
+    .ding-message-label {
+      float: left;
+      margin-top: 10px;
+      padding-right: 5px;
+      color: $charcoal-opacity-dark;
+    }
+    .entity-message {
+      float: left;
+      margin-top: 10px;
+    }
+  }
 }
 
 .ding-list-element__value {
