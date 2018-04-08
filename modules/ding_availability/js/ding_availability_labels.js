@@ -10,6 +10,41 @@
   Drupal.DADB = {};
 
   /**
+   * Add class to both an element and the reservation button.
+   *
+   * @param element
+   *   jQuery availability element to add the class to.
+   * @param btn
+   *   Reservation button to add the class to.
+   * @param status
+   *   Structure with available and reservable state.
+   */
+  function ding_availability_labels_update_availability_elements(element, btn, status) {
+    var class_name = null;
+
+    for (var i in status) {
+      if (status[i] === true) {
+        class_name = i;
+      }
+      else {
+        if (i === 'available') {
+          class_name = 'un' + i;
+        }
+        else if (i === 'reservable') {
+          class_name = 'not-' + i;
+        }
+      }
+
+      element.addClass(class_name);
+      if (btn.length) {
+        btn.addClass(class_name);
+      }
+    }
+
+    ding_availability_labels_update_availability_type(element, status);
+  }
+
+  /**
    * Update availability on the page.
    *
    * The array of entity_ids is an array as we only show one availability
@@ -119,41 +154,6 @@
   }
 
   /**
-   * Add class to both an element and the reservation button.
-   *
-   * @param element
-   *   jQuery availability element to add the class to.
-   * @param btn
-   *   Reservation button to add the class to.
-   * @param status
-   *   Structure with available and reservable state.
-   */
-  function ding_availability_labels_update_availability_elements(element, btn, status) {
-    var class_name = null;
-
-    for (var i in status) {
-      if (status[i] === true) {
-        class_name = i;
-      }
-      else {
-        if (i === 'available') {
-          class_name = 'un' + i;
-        }
-        else if (i === 'reservable') {
-          class_name = 'not-' + i;
-        }
-      }
-
-      element.addClass(class_name);
-      if (btn.length) {
-        btn.addClass(class_name);
-      }
-    }
-
-    ding_availability_labels_update_availability_type(element, status);
-  }
-
-  /**
    * Attach the availability behaviors to the page.
    *
    * The will be re-attached at every page content update.
@@ -167,7 +167,7 @@
       // id.
       if (settings.hasOwnProperty('ding_availability')) {
         $.each(settings.ding_availability, function (id, data) {
-          if (Drupal.DADB[data.html_id] === undefined) {
+          if (!Drupal.DADB.hasOwnProperty(data.html_id)) {
             Drupal.DADB[data.html_id] = null;
             ids[data.html_id] = data;
             html_ids.push(data.html_id);
