@@ -191,13 +191,13 @@
           for (var i in matches) {
             var match = matches[i];
             var id = match.substring(match.indexOf(':') + 1);
-            var pid = match.substring(match.indexOf('reservation-') + 1);
+            var pid = match.substring(match.indexOf('reservation-') + 12);
             match = match.replace('reservation', 'availability').replace(':', '');
-            Drupal.settings.ding_availability[match] = {
+            Drupal.settings.ding_availability.push({
               'html_id': match,
               'local': id,
               'pid': pid
-            };
+            });
           }
         }
 

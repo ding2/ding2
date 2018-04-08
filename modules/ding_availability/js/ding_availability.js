@@ -10,39 +10,6 @@
   Drupal.DADB = {};
 
   /**
-   * Load information from the backend.
-   *
-   * @param {string} mode
-   *   The type of information to fetch "holdings" or "items".
-   * @param {array} ids
-   *   The ids to fetch information for.
-   */
-  function ding_availability_fetch(mode, ids) {
-    var path = Drupal.settings.basePath + 'ding_availability/' + mode;
-    $.ajax({
-      type: "POST",
-      dataType: "json",
-      url: path,
-      data: { 'ids': ids },
-      success: function (data) {
-        $.each(data, function (provider_id, item) {
-          // Update cache.
-          Drupal.DADB[item.ids.html_id] = item;
-          if (mode === 'holdings') {
-            ding_availability_update_holdings(item.ids.html_id);
-          }
-          else {
-            ding_availability_update_availability(provider_id, item.ids.html_id);
-          }
-        });
-      },
-      error: function () {
-        $('div.loader').remove();
-      }
-    });
-  }
-
-  /**
    * Update availability information.
    *
    * Add classes to reservation texts and display reservation button based on
@@ -109,6 +76,39 @@
   }
 
   /**
+   * Load information from the backend.
+   *
+   * @param {string} mode
+   *   The type of information to fetch "holdings" or "items".
+   * @param {array} ids
+   *   The ids to fetch information for.
+   */
+  function ding_availability_fetch(mode, ids) {
+    var path = Drupal.settings.basePath + 'ding_availability/' + mode;
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      url: path,
+      data: { 'ids': ids },
+      success: function (data) {
+        $.each(data, function (provider_id, item) {
+          // Update cache.
+          Drupal.DADB[item.ids.html_id] = item;
+          if (mode === 'holdings') {
+            ding_availability_update_holdings(item.ids.html_id);
+          }
+          else {
+            ding_availability_update_availability(provider_id, item.ids.html_id);
+          }
+        });
+      },
+      error: function () {
+        $('div.loader').remove();
+      }
+    });
+  }
+
+  /**
    * Attach the availability behaviors to the page.
    *
    * The will be re-attached at every page content update.
@@ -119,14 +119,11 @@
       var ids = {};
       var html_ids = [];
 
-      console.log(settings.ding_availability);
-
-
       // Loop through the materials given in the settings and collect
       // id.
       if (settings.hasOwnProperty('ding_availability')) {
         $.each(settings.ding_availability, function (id, data) {
-          if (Drupal.DADB[data.html_id] === undefined) {
+          if (!Drupal.DADB.hasOwnProperty(data.html_id)) {
             Drupal.DADB[data.html_id] = null;
             ids[data.html_id] = data;
             html_ids.push(data.html_id);
