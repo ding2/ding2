@@ -163,7 +163,6 @@ function ting_reference_field_insert($entity_type, $entity, $field, $instance, $
  * Implements hook_field_update().
  */
 function ting_reference_field_update($entity_type, $entity, $field, $instance, $langcode, &$items) {
-
   // When nodes are saved problematically and edit form is not used,
   // the data structure contains the relation and not item tid's (effect
   // is that reference are remove during scheduler publishing unless handled).
@@ -180,14 +179,12 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
   else {
     _ting_reference_field_update_cron($entity_type, $entity, $items);
   }
-
 }
 
 /**
  * Field_update for edit form.
  */
 function _ting_reference_field_update($entity_type, $entity, &$items) {
-
   // Get the entity's id.
   $entity_ids = entity_extract_ids($entity_type, $entity);
   $entity_id = array_shift($entity_ids);
@@ -525,7 +522,15 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
 function ting_reference_object_id_validate($element, &$form_state, $form) {
   // Get the value entered in ting_object_id (the visible element).
   $parents = $element['#parents'];
-  $ting_object_id = $form_state['values'][$parents[0]][$parents[1]][$parents[2]]['ting_object_id'];
+  $ting_object_id = '';
+  $item = $form_state['values'];
+  foreach ($parents as $parent) {
+    $item = $item[$parent];
+    if (array_key_exists('ting_object_id', $item)) {
+      $ting_object_id = $item['ting_object_id'];
+      break;
+    }
+  }
 
   // Don't bother validating empty fields.
   if (!empty($ting_object_id)) {
