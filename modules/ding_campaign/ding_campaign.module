@@ -371,11 +371,10 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   }
 
   // Process taxonomy campaigns.
-  if ($context['taxonomy_term'] != NULL && isset($context['taxonomy_term']->tids)) {
-    $tids = $context['taxonomy_term']->tids;
+  if ($context['taxonomy_term'] != NULL && isset($context['taxonomy_term']->tid)) {
+    $tid = $context['taxonomy_term']->tid;
 
-    foreach ($tids as $tid) {
-      $result = db_query('SELECT r.cid
+    $result = db_query('SELECT r.cid
       FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
       WHERE r.nid = :tid
         AND r.type = \'rule_taxonomy\'
@@ -383,11 +382,10 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
         AND r.cid = d.cid
         AND r.cid = n.nid
       ORDER BY d.weight DESC', array(':tid' => (int) $tid))
-        ->fetchAll();
+      ->fetchAll();
 
-      foreach ($result as $key => $value) {
-        @$campaigns[$value->cid] += 3;
-      }
+    foreach ($result as $key => $value) {
+      @$campaigns[$value->cid] += 3;
     }
   }
 
@@ -708,7 +706,8 @@ function _ding_campaign_rule_by_type($node_type) {
 function ding_campaign_preprocess(&$variables, $hook) {
   switch ($hook) {
     case 'node':
-      if ($variables['view_mode'] == 'full' && ($variables['type'] == 'ding_event' || $variables['type'] == 'ding_news')) {
+      $types = array('ding_event', 'ding_news', 'ding_eresource');
+      if ($variables['view_mode'] == 'full' && in_array($variables['type'], $types)) {
         // Load panes for fetching campaign pane settings.
         $conf = [];
         $panels = panels_load_display(1);

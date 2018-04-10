@@ -6,6 +6,7 @@
 
 .field-type-text-long {
   .media-element-container {
+    display: inline-block;
     margin-right: 10px;
     margin-bottom: 5px;
     &.media-wysiwyg-align-right {
@@ -87,6 +88,7 @@
 }
 
 .field-name-field-ding-news-title-image,
+.field-name-field-ding-eresource-title-image,
 .field-name-field-ding-event-title-image {
   .field-item {
     margin-bottom: 10px;
