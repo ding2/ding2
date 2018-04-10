@@ -914,7 +914,7 @@ function _ding_campaign_plus_facet_match($keys) {
 
   if (!empty($rules_group)) {
     // Request a clone of the current search and result objects.
-    $current = ting_search_current_results(NULL, TRUE);
+    $current = ting_search_current_results();
 
     // Add all facets to the search query (or all campaign plus facets).
     $facets = _ding_campaign_plus_facet_get_facets();
@@ -922,8 +922,8 @@ function _ding_campaign_plus_facet_match($keys) {
       return $facet['facet'];
     }, $facets);
     $results = $current->getSearchRequest()
-      ->setTermsPrFacet(30)
-      ->setFacets($facets)
+      ->withTermsPrFacet(30)
+      ->withFacets($facets)
       ->execute();
     $search_facets = $results->getFacets();
 
@@ -1070,11 +1070,11 @@ function ding_campaign_plus_facet_ding_campaign_plus_validator($nid) {
       $facets = (array) unserialize($rule->value);
       $query = ting_start_query();
       foreach ($facets as $facet) {
-        $query->addFieldFilter($rule->facet, $facet);
+        $query->withFieldFilter($rule->facet, $facet);
       }
       $results = $query
-        ->setCount(0)
-        ->setPage(0)
+        ->withCount(0)
+        ->withPage(0)
         ->execute();
 
       if ($results->getNumTotalObjects() > 0) {

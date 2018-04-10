@@ -276,30 +276,6 @@ class TingSearchRequest {
   }
 
   /**
-   * The facets for set for this search.
-   *
-   * @return array
-   *   The facets.
-   */
-  public function getFacets() {
-    return $this->facets;
-  }
-
-  /**
-   * Sets the facets used for the search.
-   *
-   * @param array $facets
-   *    The facets used for the search.
-   *
-   * @return TingSearchRequest
-   *   The current query object.
-   */
-  public function setFacets(array $facets) {
-    $this->facets = $facets;
-    return $this;
-  }
-
-  /**
    * Get the page the search result should start at.
    *
    * @return int

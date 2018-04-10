@@ -244,7 +244,7 @@ function _ding_campaign_plus_search_match($keys) {
 
   if ($rules->rowCount() > 0) {
     // Request a clone of the current search and result objects.
-    $current = ting_search_current_results(NULL, TRUE);
+    $current = ting_search_current_results();
     $query = $current->getSearchRequest()->getFullTextQuery();
 
     $no_of_results = $current->getNumTotalObjects();
@@ -254,7 +254,7 @@ function _ding_campaign_plus_search_match($keys) {
         // Do combined search to get intersection between user search and
         // campaign trigger CQL string.
         $search_result = $current->getSearchRequest()
-          ->setFullTextQuery($query . ' AND (' . $rule->query . ')')
+          ->withFullTextQuery($query . ' AND (' . $rule->query . ')')
           ->execute();
 
         if (($search_result->getNumTotalObjects() / $no_of_results) * 100 >= $rule->percent) {
@@ -284,9 +284,9 @@ function ding_campaign_plus_search_ding_campaign_plus_validator($nid) {
     $active = TRUE;
     foreach ($rules as $rule) {
       $results = ting_start_query()
-        ->setFullTextQuery($rule->query)
-        ->setCount(1)
-        ->setPage(1)
+        ->withFullTextQuery($rule->query)
+        ->withCount(1)
+        ->withPage(1)
         ->execute();
       if ($results->getNumTotalObjects() > 0) {
         // No need to check more triggers as we have found one trigger that

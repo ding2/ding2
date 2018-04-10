@@ -452,26 +452,20 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
 }
 
 /**
- * Retrieve the result for a ting_search query performed in this request.
- *
- * If you need to change the search query or/and result and don't want the
- * original store objects to change use the clone parameter to get an new object
- * and not a reference to the static objects stored.
+ * Retrive the result for a ting_search query performed in this request.
  *
  * @param \Ting\Search\TingSearchResultInterface $new_search_result
  *   New search result to make globally accessible.
- * @param bool $clone
- *   Return a clone of the objects. Defaults to FALSE.
  *
  * @return \Ting\Search\TingSearchResultInterface|NULL
  *   The result or NULL if it is not available.
  */
-function ting_search_current_results(TingSearchResultInterface $new_search_result = NULL, $clone = FALSE) {
+function ting_search_current_results(TingSearchResultInterface $new_search_result = NULL) {
   $global_search_result = &drupal_static('ting_search_results');
   if (NULL !== $new_search_result) {
     $global_search_result = $new_search_result;
   }
-  return $clone ? unserialize(serialize($global_search_result)) : $global_search_result;
+  return $global_search_result;
 }
 
 /**

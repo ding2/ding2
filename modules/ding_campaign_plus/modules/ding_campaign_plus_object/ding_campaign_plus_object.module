@@ -237,9 +237,9 @@ function _ding_campaign_plus_object_match($ting_object_id) {
       // Run campaign search query combined with the object id to see if it
       // contains the current viewed ting object.
       $results = ting_start_query()
-        ->setFullTextQuery('(' . $rule->query . ') AND (' . $ting_object_id . ')')
-        ->setCount(0)
-        ->setPage(0)
+        ->withFullTextQuery('(' . $rule->query . ') AND (' . $ting_object_id . ')')
+        ->withCount(0)
+        ->withPage(0)
         ->execute();
 
       if ($results->getNumTotalObjects() > 0) {
@@ -268,9 +268,9 @@ function ding_campaign_plus_object_ding_campaign_plus_validator($nid) {
     $active = TRUE;
     foreach ($rules as $rule) {
       $results = ting_start_query()
-        ->setFullTextQuery($rule->query)
-        ->setCount(1)
-        ->setPage(1)
+        ->withFullTextQuery($rule->query)
+        ->withCount(1)
+        ->withPage(1)
         ->execute();
       if ($results->getNumTotalObjects() > 0) {
         // No need to check more rules one of theme makes hits.
