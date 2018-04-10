@@ -1,9 +1,20 @@
 @import '../../base.scss';
 
+// Ensure that the node view is show with right layout.
+.node-type-ding-campaign-plus .ding-campaign-medium-width{
+  @include span-columns(4);
+}
+
 .ding-campaign {
   @include span-columns(12);
   position: relative;
   margin-bottom: getGutter();
+  min-height: 240px;
+
+  &.ding-campaign-medium-width {
+    min-height: 202px;
+  }
+
   // general styles for all campaigns
   .ding-campaign-headline {
     @include font('display-large-bold');
@@ -43,7 +54,6 @@
     .ding-campaign-text {
       @include span-columns(7);
       position: relative;
-      min-height: 455px;
       padding: 50px 30px;
       color: $white;
       z-index: 2;

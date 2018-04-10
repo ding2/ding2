@@ -342,6 +342,14 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 }
 
 /**
+ * Implements preprocess__node__ding_campaign_plus();
+ */
+function ddbasic_preprocess__node__ding_campaign_plus(&$variables) {
+  $type = ding_base_get_value('node', $variables['node'], 'field_ding_campaign_plus_style', 'value');
+  $variables['campaign_type'] = $type == 'box' ? 'ding-campaign-medium-width' : 'ding-campaign-full-width';
+}
+
+/**
  * Ding Campaign.
  */
 function ddbasic_preprocess__node__ding_campaign(&$variables) {
