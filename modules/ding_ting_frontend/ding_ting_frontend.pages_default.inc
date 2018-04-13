@@ -630,7 +630,7 @@ search/ting
     ),
   );
   $display = new panels_display();
-  $display->layout = 'ding_single';
+  $display->layout = '25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -666,7 +666,7 @@ search/ting
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-eda37090-d344-4baa-8c21-78573268da3d';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'ting_object';
     $pane->subtype = 'ting_object';
     $pane->shown = TRUE;
@@ -686,10 +686,10 @@ search/ting
     $pane->locks = '';
     $pane->uuid = 'eda37090-d344-4baa-8c21-78573268da3d';
     $display->content['new-eda37090-d344-4baa-8c21-78573268da3d'] = $pane;
-    $display->panels['content'][0] = 'new-eda37090-d344-4baa-8c21-78573268da3d';
+    $display->panels['attachment_1_1'][0] = 'new-eda37090-d344-4baa-8c21-78573268da3d';
     $pane = new stdClass();
     $pane->pid = 'new-df83b6f7-4452-4d90-8566-5efb41b2cfbf';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'block';
     $pane->subtype = 'ting-ting_collection_types';
     $pane->shown = TRUE;
@@ -708,10 +708,10 @@ search/ting
     $pane->locks = '';
     $pane->uuid = 'df83b6f7-4452-4d90-8566-5efb41b2cfbf';
     $display->content['new-df83b6f7-4452-4d90-8566-5efb41b2cfbf'] = $pane;
-    $display->panels['content'][1] = 'new-df83b6f7-4452-4d90-8566-5efb41b2cfbf';
+    $display->panels['attachment_1_1'][1] = 'new-df83b6f7-4452-4d90-8566-5efb41b2cfbf';
     $pane = new stdClass();
     $pane->pid = 'new-1ec262e6-838d-429a-a83c-34fcb532f547';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'block';
     $pane->subtype = 'ting-ting_object_types';
     $pane->shown = TRUE;
@@ -733,10 +733,10 @@ search/ting
     $pane->locks = '';
     $pane->uuid = '1ec262e6-838d-429a-a83c-34fcb532f547';
     $display->content['new-1ec262e6-838d-429a-a83c-34fcb532f547'] = $pane;
-    $display->panels['content'][2] = 'new-1ec262e6-838d-429a-a83c-34fcb532f547';
+    $display->panels['attachment_1_1'][2] = 'new-1ec262e6-838d-429a-a83c-34fcb532f547';
     $pane = new stdClass();
     $pane->pid = 'new-6aced172-c48a-4698-b3c6-f1a820b5428b';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'serendipity_ting_object';
     $pane->subtype = 'serendipity_ting_object';
     $pane->shown = TRUE;
@@ -777,10 +777,10 @@ search/ting
     $pane->locks = array();
     $pane->uuid = '6aced172-c48a-4698-b3c6-f1a820b5428b';
     $display->content['new-6aced172-c48a-4698-b3c6-f1a820b5428b'] = $pane;
-    $display->panels['content'][3] = 'new-6aced172-c48a-4698-b3c6-f1a820b5428b';
+    $display->panels['attachment_1_1'][3] = 'new-6aced172-c48a-4698-b3c6-f1a820b5428b';
     $pane = new stdClass();
     $pane->pid = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -814,7 +814,7 @@ search/ting
     $pane->locks = '';
     $pane->uuid = '2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
     $display->content['new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a'] = $pane;
-    $display->panels['content'][4] = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
+    $display->panels['attachment_1_1'][5] = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
