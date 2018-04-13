@@ -646,66 +646,6 @@ ul.tabs.primary {
 }
 
 // ==========================================================================
-// User status
-// ==========================================================================
-.user-status {
-  position: relative;
-  display: block;
-  width: 100%;
-  padding: 30px 20px;
-  border-radius: $round-corner;
-  margin-bottom: 10px;
-
-  @include font('display-small');
-  background-color: $grey-dark;
-  color: $white;
-
-  @include media($notebook) {
-    @include font('base');
-    font-family: $font-family-bold;
-  }
-
-  //Right arrow
-  &::after {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-
-    @include transform(translateY(-50%));
-    font-family: 'icomoon';
-    content: "\e904";
-    font-size: 54px;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-  }
-
-  .user-status-amount {
-    margin-right: 20px;
-  }
-
-  &.user-status-debt {
-    background-color: $red;
-  }
-
-  &.user-status-reservation {
-    background-color: $green;
-  }
-
-  //Hover
-  &:hover {
-    @include transition(
-      background-color $speed $ease
-    );
-    background-color: $grey-medium;
-    color: $white;
-  }
-}
-
-// ==========================================================================
 // Menu item count
 // ==========================================================================
 .menu-item-count {
