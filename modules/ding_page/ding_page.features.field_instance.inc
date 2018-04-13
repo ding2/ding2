@@ -10,7 +10,7 @@
 function ding_page_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-ding_page-ding_page_group_ref'
+  // Exported field_instance: 'node-ding_page-ding_page_group_ref'.
   $field_instances['node-ding_page-ding_page_group_ref'] = array(
     'bundle' => 'ding_page',
     'default_value' => NULL,
@@ -93,7 +93,7 @@ function ding_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_page-field_ding_page_body'
+  // Exported field_instance: 'node-ding_page-field_ding_page_body'.
   $field_instances['node-ding_page-field_ding_page_body'] = array(
     'bundle' => 'ding_page',
     'default_value' => NULL,
@@ -157,7 +157,7 @@ function ding_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_page-field_ding_page_files'
+  // Exported field_instance: 'node-ding_page-field_ding_page_files'.
   $field_instances['node-ding_page-field_ding_page_files'] = array(
     'bundle' => 'ding_page',
     'deleted' => 0,
@@ -223,7 +223,7 @@ function ding_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_page-field_ding_page_lead'
+  // Exported field_instance: 'node-ding_page-field_ding_page_lead'.
   $field_instances['node-ding_page-field_ding_page_lead'] = array(
     'bundle' => 'ding_page',
     'default_value' => NULL,
@@ -290,7 +290,7 @@ function ding_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_page-field_ding_page_list_image'
+  // Exported field_instance: 'node-ding_page-field_ding_page_list_image'.
   $field_instances['node-ding_page-field_ding_page_list_image'] = array(
     'bundle' => 'ding_page',
     'deleted' => 0,
@@ -423,7 +423,7 @@ function ding_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_page-field_ding_page_materials'
+  // Exported field_instance: 'node-ding_page-field_ding_page_materials'.
   $field_instances['node-ding_page-field_ding_page_materials'] = array(
     'bundle' => 'ding_page',
     'default_value' => NULL,
@@ -483,7 +483,7 @@ function ding_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_page-field_ding_page_tags'
+  // Exported field_instance: 'node-ding_page-field_ding_page_tags'.
   $field_instances['node-ding_page-field_ding_page_tags'] = array(
     'bundle' => 'ding_page',
     'default_value' => NULL,
@@ -548,7 +548,7 @@ function ding_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_page-field_ding_page_title_image'
+  // Exported field_instance: 'node-ding_page-field_ding_page_title_image'.
   $field_instances['node-ding_page-field_ding_page_title_image'] = array(
     'bundle' => 'ding_page',
     'deleted' => 0,

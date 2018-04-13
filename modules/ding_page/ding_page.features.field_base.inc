@@ -10,21 +10,13 @@
 function ding_page_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'ding_page_group_ref'
+  // Exported field_base: 'ding_page_group_ref'.
   $field_bases['ding_page_group_ref'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'ding_page_group_ref',
-    'foreign keys' => array(
-      'node' => array(
-        'columns' => array(
-          'target_id' => 'nid',
-        ),
-        'table' => 'node',
-      ),
-    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -62,21 +54,13 @@ function ding_page_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_ding_page_body'
+  // Exported field_base: 'field_ding_page_body'.
   $field_bases['field_ding_page_body'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_page_body',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -91,21 +75,13 @@ function ding_page_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_page_files'
+  // Exported field_base: 'field_ding_page_files'.
   $field_bases['field_ding_page_files'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_page_files',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -123,21 +99,13 @@ function ding_page_field_default_field_bases() {
     'type' => 'file',
   );
 
-  // Exported field_base: 'field_ding_page_lead'
+  // Exported field_base: 'field_ding_page_lead'.
   $field_bases['field_ding_page_lead'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_page_lead',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -152,21 +120,13 @@ function ding_page_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_page_list_image'
+  // Exported field_base: 'field_ding_page_list_image'.
   $field_bases['field_ding_page_list_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_page_list_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -183,14 +143,13 @@ function ding_page_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_ding_page_materials'
+  // Exported field_base: 'field_ding_page_materials'.
   $field_bases['field_ding_page_materials'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_page_materials',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_reference',
@@ -207,21 +166,13 @@ function ding_page_field_default_field_bases() {
     'type' => 'ting_reference',
   );
 
-  // Exported field_base: 'field_ding_page_tags'
+  // Exported field_base: 'field_ding_page_tags'.
   $field_bases['field_ding_page_tags'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_page_tags',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -243,21 +194,13 @@ function ding_page_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_page_title_image'
+  // Exported field_base: 'field_ding_page_title_image'.
   $field_bases['field_ding_page_title_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_page_title_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
