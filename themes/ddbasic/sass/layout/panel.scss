@@ -62,52 +62,6 @@
       }
     }
 
-    // Ding single layout
-    //
-    // Markup:
-    // <div class="panel-pane">
-    //  <div class="pane-content">
-    //    <div class="ding-single-layout">
-    //      <div class="panel-pane">
-    //        <div class="panel-pane-inner">
-    //          Panel
-    //          <div class="dummy-content"></div>
-    //        </div>
-    //      </div>
-    //      <div class="panel-pane">
-    //        <div class="panel-pane-inner">
-    //          Panel
-    //          <div class="dummy-content"></div>
-    //        </div>
-    //      </div>
-    //    </div>
-    //  </div>
-    // </div>
-    //
-    // Styleguide 4.2
-
-    .ding-single-layout {
-      .panel-pane {
-        @include linear-gradient(to top, $white 30px, $grey-light 100%);
-        &.no-gradient {
-          background-image: none;
-          .panel-pane-inner {
-            padding-top: 20px;
-          }
-        }
-        // Has dynamic background
-        .has-dynamic-background & {
-          max-width: $dynamic-background-width;
-          margin: 0 auto;
-        }
-        .panel-pane-inner {
-          @include wrapper;
-          position: relative; // Is set to relative to position absolute elements inside panels correct
-          padding: 40px 0 30px;
-        }
-      }
-    }
-
     // Default panel layout
     //
     // Markup:
