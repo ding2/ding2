@@ -83,7 +83,7 @@ function alma_user_authenticate($uid, $pass) {
  * @return bool
  *   TRUE if user is authenticated else FALSE
  */
-function alma_user_is_authenticated($creds) {
+function alma_user_is_authenticated(array $creds) {
   return (isset($creds['name']) && isset($creds['pass']));
 }
 
@@ -106,7 +106,7 @@ function alma_user_profile_form_validate($form, $form_state) {
  *   Updated credential array.
  */
 function alma_user_update_pincode($account, $new_pincode) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   // Change the users pin code..
   if (isset($new_pincode)) {

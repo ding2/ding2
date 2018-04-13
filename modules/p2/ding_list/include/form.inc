@@ -59,18 +59,15 @@ function ding_list_remove_element_form_submit($form, &$form_state) {
  * @param string $value
  *   The value of the element, typically an identifier.
  * @param string $title
- *   If there's more than 1 list, use this as the title for the submit button,
- *   when there's only a single list use that list add text as submit text.
+ *   Title of the add button.
  */
-function ding_list_add_element_form($form, &$form_state, $type, $value, $title = 'Dinglist') {
+function ding_list_add_element_form($form, &$form_state, $type, $value, $title) {
   if (is_array($type)) {
     $type = key($type);
   }
 
   $options = ding_list_get_add_to_list_data($type, $value);
   if (count($options) > 1) {
-    $submit_title = $title;
-
     $form['list'] = array(
       '#type' => 'select',
       '#options' => array(),
@@ -93,15 +90,13 @@ function ding_list_add_element_form($form, &$form_state, $type, $value, $title =
         '#type' => 'hidden',
         '#value' => $list['list_id'],
       );
-
-      $submit_title = $list['title'];
     }
   }
 
   if (isset($form['list'])) {
     $form['submit'] = array(
       '#type' => 'submit',
-      '#value' => $submit_title,
+      '#value' => $title,
       '#ajax' => array(
         'callback' => 'ding_list_add_element_form_callback',
         'wrapper' => 'ding-list-add-element-form',
@@ -214,12 +209,14 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
     $form_state['existing'] = FALSE;
   }
 
-  $form['title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Title'),
-    '#required' => TRUE,
-    '#default_value' => isset($existing->title) ? $existing->title : '',
-  );
+  if ($existing === FALSE || ding_list_allowed($existing, DING_LIST_OPERATION_EDIT_TITLE)) {
+    $form['title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Title'),
+      '#required' => TRUE,
+      '#default_value' => isset($existing->title) ? $existing->title : '',
+    );
+  }
 
   $form['notes'] = array(
     '#type' => 'textarea',
@@ -316,9 +313,19 @@ function ding_list_create_list_form_submit_delete($form, &$form_state) {
  */
 function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
   $permission = ding_list_get_permission($form_state['build_info']['args'][0]);
-  ding_list_remove_permission($permission);
+  if ($permission) {
+    ding_list_remove_permission($permission);
+  }
 
-  $form_state['redirect'] = 'user/' . $GLOBALS['user']->uid . '/dinglists';
+  $list = ding_list_get_list(DING_LIST_TYPE_LISTS);
+  if ($list) {
+    $element = ding_list_has_ding_list_element($list, DING_LIST_TYPE_LISTS, $form_state['build_info']['args'][0]->id);
+    if ($element) {
+      ding_list_detach_ding_list_element($list, array($element->id));
+    }
+  }
+
+  $form_state['redirect'] = 'user';
 }
 
 /**
@@ -347,20 +354,20 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       return;
     }
 
-    drupal_set_message(t(
-        "You've create the list !list.<br/>Read more about how you use the lists !help",
-        array(
-          '!list' => l($list->title, 'list/' . $list->id),
-          '!help' => l(t('Here'), 'help/lists'),
-        )
-      ));
+    $out = array(
+      '#theme' => 'ding_list_create_info',
+      '#list' => $list,
+    );
+    drupal_set_message(drupal_render($out));
   }
   else {
     $list = ding_list_get_list($form_state['existing']);
 
+    $title = ding_list_allowed($list, DING_LIST_OPERATION_EDIT_TITLE) ? $form_state['values']['title'] : $list->title;
+
     ding_list_edit_ding_list(
       $list,
-      $form_state['values']['title'],
+      $title,
       NULL,
       TRUE,
       array(
@@ -386,10 +393,12 @@ function ding_list_create_list_form_submit($form, &$form_state) {
  * This is a pure ajax interface form.
  */
 function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
+  global $user;
+
   if (!ding_list_user_has_access($list, 'owner')) {
     $form['unfollow_shared'] = array(
       '#type' => 'submit',
-      '#value' => t('Unfollowed shared list'),
+      '#value' => t('Unfollow shared list'),
       '#submit' => array('ding_list_list_permissions_form_unfollow_shared'),
     );
 
@@ -399,6 +408,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   // Get the status options from the field_ding_list_status allowed values.
   $status = field_info_field('field_ding_list_status');
   $status = $status['settings']['allowed_values'];
+  $uri = entity_uri('ding_type', $list);
 
   // Translate the allowed values.
   foreach ($status as $key => &$value) {
@@ -421,6 +431,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     '#markup' => '<div id="status-description"></div>',
   );
 
+  // Information when shared.
   $form['sharer'] = array(
     '#type' => 'fieldset',
     '#title' => t('Settings'),
@@ -443,7 +454,6 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   );
 
   // Setup the share link, with the correct token.
-  $uri = entity_uri('ding_type', $list);
   foreach ($permission_options as $key => $title) {
     $token = ding_list_share_token($list, $key);
     $form['sharer']['link'][$key] = array(
@@ -474,6 +484,38 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     '#type' => 'textfield',
     '#title' => t('Send invitation to this email adress:'),
     '#description' => t('At the moment only users at this library can share your lists.'),
+  );
+
+  $username = $user->name;
+  if (isset($user->data)) {
+    if (is_string($user->data)) {
+      $data = unserialize($user->data);
+    }
+    else {
+      $data = $user->data;
+    }
+
+    if (!empty($data) && isset($data['display_name'])) {
+      $username = $data['display_name'];
+    }
+  }
+  $form['mail_sharer']['email_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email subject.'),
+    '#default_value' => t('@user has shared a personal list with you at @library', array(
+      '@user' => $username,
+      '@library' => variable_get('site_name', ''),
+    )),
+  );
+  $form['mail_sharer']['email_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Email text'),
+    '#description' => t('The [link] text will be replaced by a link to the list'),
+    '#default_value' => t('Please use the following link to access this list.
+The link is active for 7 days from today, after which it will be disabled for security reasons.
+
+!link'),
+    '#resizable' => FALSE,
   );
 
   $form['mail_sharer']['share'] = array(
@@ -536,6 +578,26 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
       );
     }
   }
+
+  // Information when public.
+  $form['public'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Public'),
+    '#description' => t('You can find your public list under !link', array('!link' => l(t('Public lists'), 'public-lists'))),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="status"]' => array('value' => 'public'),
+      ),
+    ),
+    '#tree' => TRUE,
+  );
+
+  $url = url($uri['path'], array('absolute' => TRUE));
+  $form['public']['link'] = array(
+    '#type' => 'item',
+    '#title' => t('Share link'),
+    '#markup' => l($url, $url),
+  );
 
   return $form;
 }
@@ -619,7 +681,7 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
 
   $output = array(
     'shared' => t('Your list is now shared.'),
-    'public' => t('Your list is now public. You can find it under !link', array('!link' => l(t('Public lists'), 'public-lists'))),
+    'public' => t('Your list is now public.'),
     'private' => t('Your list is now private.'),
   );
 
@@ -646,12 +708,11 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
 
   $uri = entity_uri('ding_type', $list);
   $token = ding_list_share_token($form_state['build_info']['args'][0], $form_state['values']['permission']);
-
   $link = l($list->title, $uri['path'], array('absolute' => TRUE, 'query' => array('token' => $token)));
 
   drupal_mail('ding_list', 'share', $form_state['values']['email'], $language, array(
-    'link' => $link,
-    'list' => $list,
+    'subject' => $form_state['values']['email_subject'],
+    'text' => str_replace('!link', $link, $form_state['values']['email_text']),
   ));
 
   // Get generated message.

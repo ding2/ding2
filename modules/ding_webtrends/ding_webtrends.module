@@ -101,6 +101,9 @@ EOT;
     );
     drupal_add_html_head($meta_tag, 'search_count_meta_tag');
   }
+
+  // Add JavaScript for tracking certain link buttons via webtrends.
+  drupal_add_js(drupal_get_path('module', 'ding_webtrends') . '/js/webtrends_add.js');
 }
 
 /**
@@ -144,4 +147,21 @@ function ding_webtrends_set_search_info($search_key, $count, $type) {
  */
 function ding_webtrends_get_search_info() {
   return drupal_static('ding_webtrends_set_search_info', FALSE);
+}
+
+/**
+ * Implements hook_preprocess_ding_list_add_button().
+ *
+ * The ding list add buttons is AJAX-enabled and we want to track those with
+ * dcsMultiTrack. Unfortunately, the standard classes is not enough to make the
+ * selector specific enough, so we add our own here.
+ */
+function ding_webtrends_preprocess_ding_list_add_button(&$variables) {
+  $links = &$variables['buttons']['#links'];
+  foreach ($links as $key => $link) {
+    // We only want to track dinglist attach buttons that are AJAX-enabled
+    if (strpos($link['href'], 'dinglist/attach') === 0 && in_array('use-ajax', $link['attributes']['class'])) {
+      $links[$key]['attributes']['class'][] = 'ding-webtrends-track';
+    }
+  }
 }

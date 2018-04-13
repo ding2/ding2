@@ -1,0 +1,50 @@
+//
+// Styling of provider status forms
+
+@import '../../base.scss';
+
+// ==========================================================================
+// User loans
+// ==========================================================================
+
+#ding-loan-loans-form {
+  .anchor {
+    float: left;
+  }
+
+  > div {
+    > .select-all {
+      position: relative;
+      float: left;
+      width: 100%;
+      float: left;
+      padding: 23px 20px;
+      margin: 10px 0;
+      background-color: $grey-dark;
+
+      @include media($mobile) {
+        padding: 10px;
+      }
+      .form-item {
+        margin: 0;
+        color: $white;
+        &.form-disabled {
+          label::before {
+            visibility: hidden;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// User debts
+// ==========================================================================
+#ding-debt-debts-form {
+  .material-item .item-title span {
+    display: block;
+    margin: 10px 0;
+    white-space: normal;
+  }
+}

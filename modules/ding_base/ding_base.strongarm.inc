@@ -13,20 +13,6 @@ function ding_base_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'admin_menu_components';
-  $strongarm->value = array(
-    'admin_menu.icon' => TRUE,
-    'admin_menu.menu' => TRUE,
-    'admin_menu.account' => TRUE,
-    'shortcut.links' => TRUE,
-    'admin_menu.search' => FALSE,
-    'admin_menu.users' => FALSE,
-  );
-  $export['admin_menu_components'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'autologout_enforce_admin';
   $strongarm->value = 1;
   $export['autologout_enforce_admin'] = $strongarm;
@@ -283,13 +269,7 @@ function ding_base_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'date_default_timezone';
-  $strongarm->value = 'Europe/Berlin';
-  $export['date_default_timezone'] = $strongarm;
 
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'ding_varnish_content_types';
   $strongarm->value = array(
     'ding_event' => 'ding_event',
@@ -1120,6 +1100,38 @@ temaer/*';
   $strongarm->name = 'varnish_version';
   $strongarm->value = '3';
   $export['varnish_version'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'environment_indicator_favicon_overlay';
+  $strongarm->value = 1;
+  $export['environment_indicator_favicon_overlay'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'environment_indicator_git_support';
+  $strongarm->value = 1;
+  $export['environment_indicator_git_support'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'environment_indicator_integration';
+  $strongarm->value = array(
+    'toolbar' => 'toolbar',
+    'admin_menu' => 'admin_menu',
+    'navbar' => 'navbar',
+  );
+  $export['environment_indicator_integration'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'environment_indicator_suppress_pages';
+  $strongarm->value = '';
+  $export['environment_indicator_suppress_pages'] = $strongarm;
 
   return $export;
 }

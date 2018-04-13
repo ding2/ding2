@@ -6,6 +6,12 @@
 
 include_once 'ding_user_frontend.features.inc';
 
+define('DING_USER_FRONTEND_LIST_DEPTS', 'list_depts');
+define('DING_USER_FRONTEND_LIST_RESERVATIONS_READY', 'list_reservations_ready');
+define('DING_USER_FRONTEND_LIST_RESERVATIONS', 'list_reservations');
+define('DING_USER_FRONTEND_LIST_LOANS', 'list_loans');
+define('DING_USER_FRONTEND_LIST_LOANS_OVERDUE', 'list_loans_overdue');
+
 /**
  * Implements hook_ctools_plugin_directory().
  *
@@ -122,7 +128,7 @@ function ding_user_frontend_block_view($delta) {
         // want. No credentials, no user status. (The creds are store in the
         // session, so it's a fast check, where ding_user_is_provider_user would
         // use the database.)
-        ding_user_get_creds($user);
+        ding_user_get_creds();
       }
       catch (DingProviderAuthException $e) {
         return;
@@ -138,7 +144,7 @@ function ding_user_frontend_block_view($delta) {
             'class' => 'user-status-debt',
             'label' => format_plural($count, 'Debt', 'Debts'),
             'count' => $count,
-            'link' => url($uri['path'] . '/status/debts'),
+            'link' => url($uri['path'] . '/status-debts'),
           ),
         );
       }
@@ -152,7 +158,7 @@ function ding_user_frontend_block_view($delta) {
             'class' => 'user-status-ready-pickup',
             'label' => format_plural($count, 'Reservation ready for pick-up', 'Reservations ready for pick-up'),
             'count' => $count,
-            'link' => url($uri['path'] . '/status/reservations'),
+            'link' => url($uri['path'] . '/status-reservations'),
           ),
         );
       }
@@ -184,9 +190,13 @@ function ding_user_frontend_block_view($delta) {
             'class' => 'user-status-reservation',
             'label' => format_plural($count, 'Reservation', 'Reservations'),
             'count' => $count,
-            'link' => url($uri['path'] . '/status/reservations'),
+            'link' => url($uri['path'] . '/status-reservations'),
           ),
         );
+      }
+
+      if (empty($data['content'])) {
+        $data['content'] = t('You do not currently have any loans, reservations or debts.');
       }
 
       // Build the block.
@@ -229,7 +239,7 @@ function ding_user_frontend_build_menu($path = NULL) {
 
     // Default menu item render array.
     $menu_item_defaults = array(
-      '#theme' => 'menu_link',
+      '#theme' => 'menu_link__user_menu',
       '#below' => array(),
       '#localized_options' => array(
         'attributes' => array(
@@ -321,10 +331,28 @@ function ding_user_frontend_build_menu($path = NULL) {
           }
 
           // Add current item and sub-menu to the menu.
-          $menu[] = $current;
+          $menu[$item['path']] = $current;
         }
       }
     }
+
+    // We need this menu-item in order for the menu to appear on the page.
+    // We unset this menu-item because the menu header links to the same
+    // page, and we don't want it to also be a link in the menu.
+    unset($menu['user/%/view']);
+
+    $menu['user/%/edit']['#weight'] = 7;
+
+    // Add logout to menu.
+    $logout_item = array();
+    $logout_item = $menu_item_defaults;
+    $logout_item['#title'] = t('Log out');
+    $logout_item['#href'] = 'user/logout';
+    $logout_item['#weight'] = 9;
+    $logout_item['#attributes']['class'] = 'user-log-out';
+    $menu[$logout_item['#href']] = $logout_item;
+
+    drupal_alter('ding_user_frontend_build_menu', $menu, $menu_item_defaults);
   }
 
   // Gives possibility to change user menu.
@@ -377,5 +405,20 @@ function ding_user_frontend_url_inbound_alter(&$path, $original_path, $path_lang
         $path .= '/' . $matches[1];
       }
     }
+  }
+}
+
+/**
+ * Implements hook_views_default_views_alter().
+ *
+ * Ensure the views for the default bookmarks flag are killed. We don't use
+ * them and the flag_bookmarks_tab clashes with our user-menu.
+ */
+function ding_user_frontend_views_default_views_alter(&$views) {
+  if (!empty($views['flag_bookmarks'])) {
+    unset($views['flag_bookmarks']);
+  }
+  if (!empty($views['flag_bookmarks_tab'])) {
+    unset($views['flag_bookmarks_tab']);
   }
 }

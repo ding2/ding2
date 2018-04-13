@@ -108,7 +108,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         // If item is of type 'library materials' (where we can lookup holding
         // data), prepare to check holding on the item.
         $holding_types = variable_get('ding_availability_holdings_types', _ding_availability_holdings_default_types());
-        if (in_array(strtolower($ac_source), $reservable_sources) && in_array(strtolower($entity->type), $holding_types)) {
+        if (in_array(drupal_strtolower($ac_source), $reservable_sources) && in_array(drupal_strtolower($entity->type), $holding_types)) {
           $attached['js'][] = array(
             'data' => array(
               'ding_availability_mode' => 'holdings',
@@ -199,7 +199,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $output = array(
           '#theme' => 'ding_availability_types',
           '#types' => array(),
-          '#attached' => (isset($attached)) ? $attached : '',
+          '#attached' => isset($attached) ? $attached : [],
         );
 
         // Loop over the different material types.
@@ -237,7 +237,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
               'link' => array(
                 // The online url can't be used with l(), has it will encode
                 // it.
-                '#markup' => '<a id="' . $id . '" class="search-result--availability-link availability available" href="/' . $url['path'] . '">' . check_plain($type) . '</a>',
+                '#markup' => '<a id="' . $id . '" class="js-search-result--availability-link availability available" href="/' . $url['path'] . '">' . check_plain($type) . '</a>',
               ),
             );
           }
@@ -261,7 +261,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
                 '#options' => array(
                   'attributes' => array(
                     'class' => array(
-                      'search-result--availability-link',
+                      'js-search-result--availability-link',
                       'availability',
                       'pending',
                     ),
@@ -276,7 +276,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           // If item is of type 'library materials' (where we can lookup
           // availability data), map the HTML id to the list of entity ids.
           // This is for the current material type group (book, cd, etc.).
-          if (in_array(strtolower($ac_source), $reservable_sources) && !in_array(drupal_strtolower($type), $online_types)) {
+          if (in_array(drupal_strtolower($ac_source), $reservable_sources) && !in_array(drupal_strtolower($type), $online_types)) {
             $id_mapping[$id] = array();
             foreach ($entities as $object_entity) {
               $id_mapping[$id][] = $object_entity->localId;

@@ -19,7 +19,9 @@
           $item = $(this.rowObject.element),
           self = this,
           data = {
-            previous: $item.prev().find('.views-field-id').attr('data-item-id'),
+            // The order is reversed (descending), so we use the next element
+            // as the previous instead, so it's saved properly in the db.
+            previous: $item.next().find('.views-field-id').attr('data-item-id'),
             item: $item.find('.views-field-id').attr('data-item-id')
           };
 

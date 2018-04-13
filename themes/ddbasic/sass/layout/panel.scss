@@ -1,0 +1,220 @@
+//
+// Styling of panel layouts
+
+@import '../base.scss';
+
+// Layout
+//
+// Styleguide 4.
+
+//
+// Extra facetbrowsers
+// @TODO should these be removed from the panel?
+.primary-content .pane-ding-facetbrowser,
+.primary-content .pane-search-backends {
+  display: none;
+}
+
+// ==========================================================================
+// Panel Layouts
+// ==========================================================================
+
+.content-wrapper {
+  .pane-content {
+
+    // Ding frontpage layout
+    //
+    // Markup:
+    // <div class="panel-pane">
+    //  <div class="pane-content">
+    //    <div class="frontpage-layout">
+    //      <div class="panel-pane">
+    //        <div class="panel-pane-inner">
+    //          Panel
+    //          <div class="dummy-content"></div>
+    //        </div>
+    //      </div>
+    //      <div class="panel-pane">
+    //        <div class="panel-pane-inner">
+    //          Panel
+    //          <div class="dummy-content"></div>
+    //        </div>
+    //      </div>
+    //    </div>
+    //  </div>
+    // </div>
+    //
+    // Styleguide 4.1
+
+    .frontpage-layout {
+      .panel-pane {
+        @include linear-gradient(to top, $white 30px, $grey-light 100%);
+        // Has dynamic background
+        .has-dynamic-background & {
+          max-width: $dynamic-background-width;
+          margin: 0 auto;
+        }
+        .panel-pane-inner {
+          @include wrapper;
+          position: relative; // Is set to relative to position absolute elements inside panels correct
+          padding: 40px 0 30px;
+        }
+      }
+    }
+
+    // Ding2 Site template
+    //
+    // Markup:
+    // <div class="panel-pane">
+    //  <div class="pane-content">
+    //    <div class="ding2-site-template">
+    //      <div class="panel-pane">
+    //        <div class="panel-pane-inner">
+    //          Panel
+    //          <div class="dummy-content"></div>
+    //        </div>
+    //      </div>
+    //      <div class="panel-pane">
+    //        <div class="panel-pane-inner">
+    //          Panel
+    //          <div class="dummy-content"></div>
+    //        </div>
+    //      </div>
+    //    </div>
+    //  </div>
+    // </div>
+    //
+    // Styleguide 4.2
+
+    .ding2-site-template {
+      .panel-pane {
+        @include linear-gradient(to top, $white 30px, $grey-light 100%);
+        &.no-gradient {
+          background-image: none;
+          .panel-pane-inner {
+            padding-top: 20px;
+          }
+        }
+        // Has dynamic background
+        .has-dynamic-background & {
+          max-width: $dynamic-background-width;
+          margin: 0 auto;
+        }
+        .panel-pane-inner {
+          @include wrapper;
+          position: relative; // Is set to relative to position absolute elements inside panels correct
+          padding: 40px 0 30px;
+        }
+      }
+    }
+
+    // Default panel layout
+    //
+    // Markup:
+    // <div class="panel-pane">
+    //  <div class="pane-content">
+    //    <div class="default-panel-layout">
+    //      <div class="left-and-main-content">
+    //        <div class="layout-wrapper">
+    //          <div class="secondary-content">
+    //            Secondary content
+    //            <div class="dummy-content"></div>
+    //          </div>
+    //          <div class="primary-content">
+    //            Primary content
+    //            <div class="dummy-content"></div>
+    //          </div>
+    //        </div>
+    //      </div>
+    //      <div class="attachments-wrapper">
+    //        <div class="panel-pane">
+    //          <div class="panel-pane-inner">
+    //            Attachment
+    //            <div class="dummy-content"></div>
+    //          </div>
+    //        </div>
+    //      </div>
+    //    </div>
+    //  </div>
+    // </div>
+    //
+    // Styleguide 4.3
+
+    .default-panel-layout {
+      .left-and-main-content {
+        @include linear-gradient(to top, $white 30px, $grey-light 100%);
+        padding: 40px 0 30px;
+        // Has dynamic background
+        .has-dynamic-background & {
+          max-width: $dynamic-background-width;
+          margin: 0 auto;
+        }
+        .layout-wrapper {
+          @include wrapper;
+          .secondary-content {
+            @include span-columns(4);
+            // Tablet
+            @include media($tablet) {
+              @include span-columns(12);
+              padding-bottom: 15px;
+            }
+          }
+          .primary-content {
+            @include span-columns(8);
+            @include omega;
+            float: right;
+            // Tablet
+            @include media($tablet) {
+              @include span-columns(12);
+            }
+          }
+        }
+      }
+      .attachments-wrapper {
+        .panel-pane {
+          @include linear-gradient(to top, $white 30px, $grey-light 100%);
+          &.no-gradient {
+            background-image: none;
+          }
+          // Has dynamic background
+          .has-dynamic-background & {
+            max-width: $dynamic-background-width;
+            margin: 0 auto;
+          }
+          .panel-pane-inner {
+            @include wrapper;
+            position: relative; // Is set to relative to position absolute elements inside panels correct
+            padding: 40px 0 30px;
+          }
+          &.pane-tags-list-ding-content-tags {
+            background-image: none;
+            // Has dynamic background
+            .has-dynamic-background & {
+              max-width: none;
+            }
+            .panel-pane-inner {
+              max-width: none;
+              width: 100%;
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Pages that's not at panel page
+  .page-no-panels & {
+    @include linear-gradient(to top, $white 30px, $grey-light 100%);
+    > .content-inner { // @TODO can we add a better class here?
+      @include wrapper;
+      position: relative; // Is set to relative to position absolute elements inside panels correct
+      padding: 40px 0 30px;
+    }
+  }
+  // Has dynamic background
+  .page-no-panels.has-dynamic-background & {
+    max-width: $dynamic-background-width;
+    margin: 0 auto;
+  }
+}

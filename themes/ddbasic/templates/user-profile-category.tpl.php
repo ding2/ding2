@@ -24,5 +24,4 @@
  * @see template_preprocess_user_profile_category()
  */
 ?>
-
 <?php print $profile_items; ?>

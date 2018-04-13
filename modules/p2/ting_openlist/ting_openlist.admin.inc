@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Admin related functionality.
@@ -13,11 +14,11 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#title' => t('Openlist settings'),
   );
 
-  $form['settings']['ting_openlist_wsdl'] = array(
+  $form['settings']['ting_openlist_domain'] = array(
     '#type' => 'textfield',
-    '#title' => t('URI of the WSDL file'),
-    '#description' => t("The client doesn't support non-WSDL mode, so this is required."),
-    '#default_value' => variable_get('ting_openlist_wsdl', ''),
+    '#title' => t('Openlist domain'),
+    '#description' => t("The openlist URL."),
+    '#default_value' => variable_get('ting_openlist_domain', TING_OPENLIST_DEFAULT_DOMAIN),
     '#required' => TRUE,
   );
 
@@ -34,21 +35,13 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#title' => t('Openlist prefix'),
     '#description' => t('The prefix used for creating a unique hashed user id.'),
     '#default_value' => variable_get('ting_openlist_prefix', uniqid()),
-    '#disabled' => TRUE,
   );
 
-  // Caching settings.
-  $form['caching'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Openlist WSDL caching'),
-    '#description' => t('These settings only affect the SoapClients created for openlist, and will not interfere with other SoapClients on your site.'),
-  );
-
-  $form['caching']['ting_openlist_wsdl_cache'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable WSDL caching'),
-    '#description' => '',
-    '#default_value' => variable_get('ting_openlist_wsdl_cache', TRUE),
+  $form['settings']['ting_openlist_authkey'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Openlist authkey'),
+    '#description' => t('The key that authenticates this library code towards OpenList.'),
+    '#default_value' => variable_get('ting_openlist_authkey', ''),
   );
 
   // Debugging settings.
@@ -65,32 +58,18 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_openlist_log', FALSE),
   );
 
-  // The detailed log will log the full argument list send to openlist.
-  $form['debugging']['ting_openlist_log_details'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable detailed logging'),
-    '#description' => t('If logging, this will log more details, but the log messages can get big and confusing.'),
-    '#default_value' => variable_get('ting_openlist_log_details', FALSE),
-  );
-
   $form['debugging']['ting_openlist_developer'] = array(
     '#type' => 'checkbox',
     '#title' => t('Developer'),
     '#description' => t('Send the developer cookie to the service.'),
     '#default_value' => variable_get('ting_openlist_developer', FALSE),
   );
-  
-  $form['debugging']['ting_openlist_no_wsdl_cache'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Disable WSDL caching'),
-    '#description' => t('Only disable WSDL caching when testing experimental OpenList API'),
-    '#default_value' => variable_get('ting_openlist_no_wsdl_cache', FALSE),
-  );
 
   // Statistics.
   $form['stats'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Statistics'),
+    '#title' => t('Statistics and authentication test'),
+    '#description' => t('You can check that your authkey, library code and IP is correct by fetching the OpenList statistics here.'),
   );
 
   $form['stats']['show_stats'] = array(
@@ -103,11 +82,72 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#suffix' => '<div id="show-stats-container"></div>',
   );
 
+  $form['analysis'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Analysis'),
+    '#description' => t('Show or submit local statistics to OpenList for analysis.'),
+  );
+
+  $form['analysis']['show_local_analysis'] = array(
+    '#type' => 'button',
+    '#value' => t('Show local analysis'),
+    '#ajax' => array(
+      'wrapper' => 'show-local-analysis-container',
+      'callback' => 'ting_openlist_show_local_analysis_form_callback',
+    ),
+    '#suffix' => '<div id="show-local-analysis-container"></div>',
+  );
+
+  $form['analysis']['submit_local_analysis'] = array(
+    '#type' => 'button',
+    '#value' => t('Submit local analysis'),
+    '#ajax' => array(
+      'wrapper' => 'submit-local-analysis-container',
+      'callback' => 'ting_openlist_submit_local_analysis_form_callback',
+    ),
+    '#suffix' => '<div id="submit-local-analysis-container"></div>',
+  );
+
   return system_settings_form($form);
 }
 
 /**
- * Callback for satistics.
+ * Callback for local statistics.
+ */
+function ting_openlist_show_local_analysis_form_callback($form, &$form_state) {
+  module_load_include('inc', 'ting_openlist', 'include/ting_openlist_analysis');
+  $data = ting_openlist_get_local_analysis_data();
+
+  $out = array(
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#attributes' => array('id' => 'show-local-analysis-container'),
+    '#value' => '<pre>' . htmlentities(var_export($data, TRUE)) . '</pre>',
+  );
+
+  return render($out);
+}
+
+/**
+ * Callback for submission of local statistics.
+ */
+function ting_openlist_submit_local_analysis_form_callback($form, &$form_state) {
+  module_load_include('inc', 'ting_openlist', 'include/ting_openlist_analysis');
+
+  $result = ding_provider_invoke('openlist', 'call_module', 'LocalAnalysis', 'sendData', array(ting_openlist_get_local_analysis_data()));
+
+  $out = array(
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#attributes' => array('id' => 'show-local-analysis-container'),
+    '#value' => $result ? t('Stats are sent') : t('Unknown error try again later'),
+  );
+
+  return render($out);
+}
+
+/**
+ * Callback for statistics.
  */
 function ting_openlist_show_stats_form_callback($form, &$form_state) {
   $out = array();

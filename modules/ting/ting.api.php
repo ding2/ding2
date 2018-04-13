@@ -35,3 +35,26 @@ function hook_ting_post_execute($request, $response, $raw_response) {
   // Add additional property to resulting object.
   return array('marcexchange' => array('marcxchange data'));
 }
+
+/**
+ * Allow other modules to alter the cache_key before saving and fetching results
+ * from the ting_cache.
+ *
+ * Since hook_ting_pre_execute and hook_ting_post_execute is not run for cached
+ * requests, we need this hook to give other modules, that doesn't always alter
+ * the request in the same way, a chance to modify the cache key. This enables
+ * the ting_cache system to differentiate and use the correct results from the
+ * ting_cache bin.
+ *
+ * @param string $cid.
+ *   The cache key that can be altered.
+ */
+function hook_ting_cache_key(&$cid) {
+  // Determine context.
+  $context = 'search';
+
+  // Modify cache key based on some context.
+  if ($context == 'search') {
+    $cid .= ':module';
+  }
+}

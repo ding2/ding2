@@ -11,7 +11,7 @@
 function ding_message_p2_installer_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'message-new_content-field_first_element'
+  // Exported field_instance: 'message-new_content-field_first_element'.
   $field_instances['message-new_content-field_first_element'] = array(
     'bundle' => 'new_content',
     'default_value' => NULL,
@@ -44,7 +44,7 @@ function ding_message_p2_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-new_content-field_last_check'
+  // Exported field_instance: 'message-new_content-field_last_check'.
   $field_instances['message-new_content-field_last_check'] = array(
     'bundle' => 'new_content',
     'deleted' => 0,
@@ -85,7 +85,7 @@ function ding_message_p2_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-new_content-field_last_element'
+  // Exported field_instance: 'message-new_content-field_last_element'.
   $field_instances['message-new_content-field_last_element'] = array(
     'bundle' => 'new_content',
     'default_value' => NULL,
@@ -118,7 +118,7 @@ function ding_message_p2_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-new_content-field_list_id'
+  // Exported field_instance: 'message-new_content-field_list_id'.
   $field_instances['message-new_content-field_list_id'] = array(
     'bundle' => 'new_content',
     'default_value' => NULL,
@@ -152,7 +152,7 @@ function ding_message_p2_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-new_content-field_new_count'
+  // Exported field_instance: 'message-new_content-field_new_count'.
   $field_instances['message-new_content-field_new_count'] = array(
     'bundle' => 'new_content',
     'default_value' => NULL,
@@ -186,7 +186,7 @@ function ding_message_p2_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-new_content-field_state'
+  // Exported field_instance: 'message-new_content-field_state'.
   $field_instances['message-new_content-field_state'] = array(
     'bundle' => 'new_content',
     'default_value' => NULL,

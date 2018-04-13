@@ -48,7 +48,7 @@ function ding_loan_sort_expiry($a, $b) {
  */
 function ding_loan_ding_session_cache_defaults() {
   return array(
-    'titel' => 'Ding loans',
+    'title' => 'Ding loans',
     'enabled' => TRUE,
     'expire' => 3600,
   );
@@ -62,7 +62,7 @@ function ding_loan_preprocess_material_item(&$variables) {
     $bookmark_button = ding_list_ding_entity_buttons('ding_entity', $variables['element']['#loan']);
     $variables['information']['loan_bookmark'] = array(
       'data' => drupal_render($bookmark_button),
-      'class' => 'bookmark',
+      'class' => 'field-name-ding-entity-buttons bookmark',
       '#weight' => 99,
     );
   }

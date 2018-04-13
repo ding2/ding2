@@ -1,4 +1,5 @@
-(function ($) {
+/*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
+(function($) {
   'use strict';
 
   /**
@@ -15,59 +16,57 @@
   };
 
   /**
-   * Toggle opening hours.
+   * Toggle opening hours
    */
-  function toggleOpeningHours() {
+  function toggle_opening_hours() {
     // Create toggle link
-    $('<a />', {
-      'class' : 'opening-hours-toggle js-opening-hours-toggle js-collapsed',
-      'href' : Drupal.t('#toggle-opening-hours'),
-      'text' : Drupal.t('Opening hours')
-    }).insertBefore('.js-opening-hours-toggle-element');
+    $('.js-opening-hours-toggle-element').each(function () {
+      var
+        $this = $(this),
+        text = [];
+
+      if ($this.attr('data-extended-title')) {
+        $('th', this).slice(1).each(function () {
+          text.push($(this).text());
+        });
+      } else {
+        text.push(Drupal.t('Opening hours'));
+      }
+
+      $('<a />', {
+        'class' : 'opening-hours-toggle js-opening-hours-toggle js-collapsed collapsed',
+        'href' : Drupal.t('#toggle-opening-hours'),
+        'text' : text.join(', ')
+      }).insertBefore(this);
+    });
 
     // Set variables
     var element = $('.js-opening-hours-toggle');
     var siteHeader = $('.site-header');
-    var scrollOffset = 0;
-    var scrollToTarget;
 
     // Attach click
-    element.on('click touchstart', function (event) {
+    element.on('click touchstart', function(event) {
       // Store clicked element for later use
       var element = this;
 
       // Toggle
-      $(this).next('.js-opening-hours-toggle-element').slideToggle('fast', function () {
+      $(this).next('.js-opening-hours-toggle-element').slideToggle('fast', function() {
         // Toggle class
-        $(element).toggleClass('js-collapsed js-expanded');
+        $(element)
+          .toggleClass('js-collapsed js-expanded collapsed')
 
-        // Set scroll offset
-        if ($('.site-header.js-fixed').length) {
-          // If the site header is fixed use the height
-          scrollOffset = $(siteHeader).height();
-        }
-
-        // Scroll to the top of the element
-        if ($(element).parents('.js-library-opening-hours-target').length) {
-          // If there is a wrapper element with the target class
-          scrollToTarget = $(element).parents('.js-library-opening-hours-target');
-        } else {
-          // Else let's scroll to the element clicked
-          scrollToTarget = $(element);
-        }
-
-        $.scrollTo(scrollToTarget, 500, {
-          offset: -scrollOffset,
-          axis: 'y'
-        });
-
-        // Remove focus from link
-        $(element).blur();
+          // Remove focus from link
+          .blur();
       });
 
       // Prevent default (href)
       event.preventDefault();
     });
+
+    // Expand opening hours on library pages.
+    if (Drupal.settings.ding_ddbasic_opening_hours && Drupal.settings.ding_ddbasic_opening_hours.expand_on_library) {
+      element.triggerHandler('click');
+    }
   }
 
   /**
@@ -76,15 +75,13 @@
   function autofocusInputs() {
     // Set autofocus on page load (instead of autofocus attr)
     if (!/iPad|iPhone|iPod/g.test(navigator.userAgent)) {
-      $('input[name="search_block_form"]').focus();
+      $('.search-form-extended input[name="search_block_form"]').focus();
     }
 
     // Search button click
-    $('.topbar-link-search').click(function() {
+    $('.search-form-extended .search-extended-button').click(function() {
       var input = $('input[name="search_block_form"]');
-      if ($(this).is('.active')) {
-        input.focus();
-      }
+      input.focus();
     });
 
     // Login button click
@@ -124,21 +121,8 @@
     });
   }
 
-  /**
-   * HACK: this function is used to include the gatewayf login link into the
-   *       header, so it's visible when the login tab is used. To do this any
-   *       other way would require at whole re-write of the themes header and
-   *       how it works.
-   */
-  function placement_of_wayf() {
-    var wrapper = $('<section class="wayf-wrapper"></section>');
-    $('.pane-ding-gatewayf-registration-registration').appendTo(wrapper);
-    $('.pane-ding-gatewayf-login').appendTo(wrapper);
-    wrapper.appendTo($('.header-inner'));
-  }
-
   // When ready start the magic.
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Autofocus inputs
     autofocusInputs();
 
@@ -149,7 +133,7 @@
     hideElement();
 
     // Toggle opening hours.
-    toggleOpeningHours();
+    toggle_opening_hours();
 
     // Expand block when accesed from "Opening hours" widget.
     var hash = window.location.hash;
@@ -160,16 +144,6 @@
         $('.js-opening-hours-toggle-element').css('display','block');
       };
     };
-
-    // Fix wayf login.
-    placement_of_wayf();
-
-    // Toggle footer menu.
-    $('.footer .pane-title').on('click', function() {
-      var element = $(this).parent();
-      $('.menu', element).toggle();
-      $(this).toggleClass('js-toggled');
-    });
 
     // Check an organic group and library content.
     // If a group does not contain both news and events
@@ -192,4 +166,18 @@
       }
     });
   });
+
+  // Submenus
+  Drupal.behaviors.ding_submenu = {
+    attach: function(context, settings) {
+
+      $('.sub-menu-title', context).click(function(evt) {
+        if ($('.is-tablet').is(':visible')) {
+          evt.preventDefault();
+          $(this).parent().find('ul').slideToggle("fast");
+        }
+      });
+    }
+  };
+
 })(jQuery);

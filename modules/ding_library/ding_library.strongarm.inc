@@ -102,10 +102,70 @@ function ding_library_strongarm() {
           'weight' => '30',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'opening_hours_week' => array(
+          'default' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+            'label' => 'above',
+          ),
+          'full' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+            'label' => 'above',
+          ),
+          'teaser' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+            'label' => 'above',
+          ),
+          'rss' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+            'label' => 'above',
+          ),
+          'search_index' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+            'label' => 'above',
+          ),
+          'search_result' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+            'label' => 'above',
+          ),
+          'alternative_layout_full' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+            'label' => 'above',
+          ),
+          'teaser_highlight' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+            'label' => 'above',
+          ),
+          'token' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+            'label' => 'above',
+          ),
+          'workflow_tab' => array(
+            'visible' => FALSE,
+            'weight' => 0,
+            'label' => 'above',
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__ding_library'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'flag_push_to_mongo_default_ding_library';
+  $strongarm->value = 1;
+  $export['flag_push_to_mongo_default_ding_library'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

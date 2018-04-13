@@ -121,7 +121,7 @@ function ting_reference_field_insert($entity_type, $entity, $field, $instance, $
     }
   }
   // Need to clear field cache to display fields properly.
-  field_cache_clear('field:' . $entity_type . ':' . $entity_id);
+  field_cache_clear();
 }
 
 
@@ -176,7 +176,7 @@ function _ting_reference_field_update($entity_type, $entity, &$items) {
   }
 
   // Clear cache.
-  field_cache_clear('field:' . $entity_type . ':' . $entity_id);
+  field_cache_clear();
 
 }
 
@@ -206,7 +206,7 @@ function _ting_reference_field_update_cron($entity_type, $entity, &$items) {
 
   // Clear cache if needed.
   if ($clear_cache) {
-    field_cache_clear('field:' . $entity_type . ':' . $entity_id);
+    field_cache_clear();
   }
 
   // Delete the relations that aren't present anymore.
@@ -248,6 +248,13 @@ function ting_reference_field_formatter_info() {
       'label' => t('Default'),
       'field types' => array(
         'ting_reference_reverse',
+      ),
+    ),
+    'ting_reference_carousel' => array(
+      'label' => t('Ding carousel'),
+      'field types' => array('ting_reference'),
+      'settings' => array(
+        'view_mode' => 'teaser',
       ),
     ),
   );
@@ -331,16 +338,53 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
         // Get endpoint information.
         $entity_id = $item['value']->endpoints[$langcode][0]['entity_id'];
         $entity_type = $item['value']->endpoints[$langcode][0]['entity_type'];
+        $conditions = array();
 
         // @TODO: make view mode configurable.
         // Load the entity and build it.
-        $entities = entity_load($entity_type, array($entity_id));
-        $build = entity_view($entity_type, $entities, 'search_result');
+        if ($entity_type === 'node') {
+          $conditions['status'] = NODE_PUBLISHED;
+        }
 
-        // Don't show links. Should be an option.
-        unset($build['links']);
-        $element[] = $build;
+        $entities = entity_load($entity_type, array($entity_id), $conditions);
+
+        if (!empty($entities)) {
+          $build = entity_view($entity_type, $entities, 'search_result');
+
+          // Don't show links. Should be an option.
+          unset($build['links']);
+          $element[] = $build;
+        }
       }
+      break;
+
+    case 'ting_reference_carousel':
+      $entity_ids = array();
+
+      // Extract the IDs for the ting_object entities we need to load.
+      foreach ($items as $item) {
+        $entity_id = $item['value']->endpoints[$langcode][1]['entity_id'];
+        $entity_ids[$item['value']->rid] = $entity_id;
+      }
+      // Load the ting objects found.
+      $ding_entities = entity_load('ting_object', $entity_ids);
+
+      $entities = array();
+      foreach ($ding_entities as $entity) {
+        $entities[] = ting_object_view($entity, $display['settings']['view_mode']);
+      }
+
+      // Make it a ding_carousel.
+      $element = array(
+        '#theme' => 'ding_carousel',
+        '#path' => '',
+        '#items' => $entities,
+        '#offset' => 0,
+        '#placeholders' => 0,
+        '#attached' => array(
+          'js' => array(drupal_get_path('module', 'ding_carousel') . '/js/ding_carousel.js'),
+        ),
+      );
       break;
   }
 

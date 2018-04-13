@@ -11,7 +11,6 @@
 $plugin = array(
   'title' => t('Ding interaction pane'),
   'description' => t('Displays interaction to the user'),
-  'admin info' => 'ding_interaction_admin_info',
   'single' => TRUE,
   'edit form' => 'ding_interaction_content_type_edit_form',
   'render callback' => 'ding_interaction_content_type_render',
@@ -19,31 +18,26 @@ $plugin = array(
 );
 
 /**
- * Return a summary for the administration interaction in panels.
- */
-function ding_interaction_admin_info($subtype, $conf, $context) {
-  $output = new stdClass();
-  $output->title = t('Interaction');
-  $output->content = t('Interaction count: @count', array('@count' => $conf['count'])) . '<br/>';
-  return $output;
-}
-
-/**
  * Implements hook_content_type_render().
  */
 function ding_interaction_content_type_render($subtype, $conf, $panel_args, $context) {
-  // Only show on front if serendipity is enabled for the frontpage.
-  // See ding_frontpage config at /admin/config/ding/frontend.
-  if (drupal_is_front_page() && !variable_get('ding_frontpage_serendipity') && variable_get('ding_frontpage_promoter') != 'serendipity') {
-    return;
-  }
-
   // Include the CTools tools that we need.
   ctools_include('ajax');
   // @TODO Change $output to render array and use #attached for files.
   drupal_add_js(drupal_get_path('module', 'ding_interaction') . '/js/ding_interaction.js');
   drupal_add_css(drupal_get_path('module', 'ding_interaction') . '/css/ding_interaction.css');
-  $data = ding_interaction_content(NULL, $conf['count']);
+
+  $extra = $module_list = array();
+
+  // Force select an interaction depending on get parameters.
+  if (!empty($_GET['interaction']) && user_access('administer personalisation')) {
+    $module_list[$_GET['interaction']] = module_invoke($_GET['interaction'], 'ding_interaction_info');
+    if (!empty($_GET['interaction_extra'])) {
+      $extra = $_GET['interaction_extra'];
+    }
+  }
+
+  $data = ding_interaction_content($module_list, variable_get('ding_interaction_page_count', DING_INTERACTION_DEFAULT_COUNT), $extra);
 
   $output = new stdClass();
   if ($data) {
@@ -73,6 +67,7 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
     // actually adding content.
     $output->css_class .= ' ding-interaction-true-pane';
   }
+
   return $output;
 }
 
@@ -80,26 +75,5 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
  * Implements hook_content_type_edit_form().
  */
 function ding_interaction_content_type_edit_form($form, &$form_state) {
-  $form['count'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Count'),
-    '#default_value' => (isset($form_state['conf']['count'])) ? $form_state['conf']['count'] : DING_INTERACTION_DEFAULT_COUNT,
-    '#description' => t('How many page views should there be between showing this pane.'),
-  );
-
   return $form;
-}
-
-/**
- * Implements hook_content_type_edit_form_validate().
- */
-function ding_interaction_content_type_edit_form_validate($form, &$form_state) {
-
-}
-
-/**
- * Implements hook_content_type_edit_form_submit().
- */
-function ding_interaction_content_type_edit_form_submit($form, &$form_state) {
-  $form_state['conf']['count'] = !empty($form_state['values']['count']) ? $form_state['values']['count'] : DING_INTERACTION_DEFAULT_COUNT;
 }

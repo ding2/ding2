@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Implements hook_install().
+ */
+function ding_ting_frontend_install() {
+  module_enable(array('ting_search_autocomplete'));
+}
+
+/**
  * Enable ding_ekurser and ting_oembed modules
  */
 function ding_ting_frontend_update_7001() {
@@ -11,7 +18,7 @@ function ding_ting_frontend_update_7001() {
  * Enable Ting infomedia module.
  */
 function ding_ting_frontend_update_7000(&$sandbox) {
-  module_enable(array('ting_infomedia'));
+    module_enable(array('ting_infomedia'));
 }
 
 /**
@@ -22,8 +29,8 @@ function ding_ting_frontend_uninstall() {
 }
 
 /**
- * Lock field_group component.
+ * Enable ting_field_search module.
  */
 function ding_ting_frontend_update_7002() {
-  features_feature_lock('ding_ting_frontend', 'field_group');
+  module_enable(array('ting_field_search'));
 }

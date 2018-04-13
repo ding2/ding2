@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Main panel pane template
+ * Main panel pane template.
  *
  * Variables available:
  * - $pane->type: the content type inside this pane
@@ -18,12 +19,14 @@
  */
 ?>
 <div class="<?php print $classes; ?>" <?php print $id; ?>>
-  <?php if ($admin_links): ?>
-    <?php print $admin_links; ?>
-  <?php endif; ?>
+  <div class="panel-pane-inner">
+    <?php if ($admin_links): ?>
+      <?php print $admin_links; ?>
+    <?php endif; ?>
 
-  <?php if (!empty($title)): ?>
-    <h2 class="sub-menu-title"><?php print $title; ?></h2>
-  <?php endif; ?>
-  <?php print render($content); ?>
+    <?php if (!empty($title)): ?>
+      <h2 class="sub-menu-title"><?php print $title; ?></h2>
+    <?php endif; ?>
+    <?php print render($content); ?>
+  </div>
 </div>

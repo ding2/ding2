@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_serendipity_taxonomy_term.features.field_instance.inc
@@ -10,7 +11,7 @@
 function ding_serendipity_taxonomy_term_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'taxonomy_term-ding_content_tags-field_taxonomy_ting_objects'
+  // Exported field_instance: 'taxonomy_term-ding_content_tags-field_taxonomy_ting_objects'.
   $field_instances['taxonomy_term-ding_content_tags-field_taxonomy_ting_objects'] = array(
     'bundle' => 'ding_content_tags',
     'default_value' => NULL,

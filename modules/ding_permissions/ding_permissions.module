@@ -158,6 +158,11 @@ function ding_permissions_secure_permissions($role) {
     'authenticated user' => array(
       'access comments',
       'access content',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access site-wide contact form',
       'access user profiles',
       'display EU Cookie Compliance popup',
@@ -173,6 +178,9 @@ function ding_permissions_secure_permissions($role) {
       'use personalisation',
     ),
     'administrators' => array(
+      'access media browser',
+      'use media wysiwyg',
+      'administer serendipity panes',
       'access administration pages',
       'access administration menu',
       'flush caches',
@@ -219,18 +227,23 @@ function ding_permissions_secure_permissions($role) {
       'administer ddb_cp',
       'administer dibs settings',
       'administer dibs transactions',
+      'administer ding ipe filter',
       'administer ding provider',
       'administer EU Cookie Compliance popup',
       'administer environment indicator settings',
       'administer event settings',
+      'administer news settings',
+      'administer eresource settings',
+      'administer user settings',
+      'administer social links settings',
       'administer fe promote',
       'administer features',
       'administer fieldgroups',
+      'administer fields',
       'administer file types',
       'administer files',
       'administer filters',
       'administer flags',
-      'administer frontpage settings',
       'administer group',
       'administer image styles',
       'administer languages',
@@ -335,6 +348,7 @@ function ding_permissions_secure_permissions($role) {
       'create relations',
       'create url aliases',
       'create webform content',
+      'create ding_eresource content',
       'customize shortcut links',
       'delete all webform submissions',
       'delete all blocks',
@@ -353,6 +367,7 @@ function ding_permissions_secure_permissions($role) {
       'delete any panel-nodes',
       'delete any video files',
       'delete any webform content',
+      'delete any ding_eresource content',
       'delete bpi content',
       'delete own audio files',
       'delete own ding_campaign content',
@@ -369,6 +384,7 @@ function ding_permissions_secure_permissions($role) {
       'delete own video files',
       'delete own webform content',
       'delete own webform submissions',
+      'delete own ding_eresource content',
       'delete relations',
       'delete revisions',
       'delete terms in 1',
@@ -409,6 +425,7 @@ function ding_permissions_secure_permissions($role) {
       'edit any provider_alma profile',
       'edit any video files',
       'edit any webform content',
+      'edit any ding_eresource content',
       'edit meta tags',
       'edit link settings',
       'edit opening hours for content',
@@ -429,6 +446,7 @@ function ding_permissions_secure_permissions($role) {
       'edit webform components',
       'edit own webform content',
       'edit own webform submissions',
+      'edit own ding_eresource content',
       'edit relations',
       'edit terms in 1',
       'edit terms in 2',
@@ -465,7 +483,7 @@ function ding_permissions_secure_permissions($role) {
       'pay using dibs',
       'post comments',
       'revert revisions',
-      'schedule (un)publishing of nodes',
+      'schedule publishing of nodes',
       'schedule workflow transitions',
       'search content',
       'select account cancellation method',
@@ -479,6 +497,7 @@ function ding_permissions_secure_permissions($role) {
       'use advanced search',
       'use flag import',
       'use ipe with page manager',
+      'use IPE filter menu',
       'use page manager',
       'use panels caching features',
       'use panels dashboard',
@@ -507,9 +526,13 @@ function ding_permissions_secure_permissions($role) {
       'view pane admin links',
       'view private files',
       'view revisions',
+      'view scheduled content',
       'view the administration theme',
+      'administer personalisation',
     ),
     'editor' => array(
+      'access media browser',
+      'use media wysiwyg',
       'eck add ding_type ding_interaction entities',
       'eck edit ding_type ding_interaction entities',
       'eck delete ding_type ding_interaction entities',
@@ -530,7 +553,8 @@ function ding_permissions_secure_permissions($role) {
       'access overlay',
       'access own webform results',
       'access own webform submissions',
-      'access toolbar',
+      'access administration pages',
+      'access administration menu',
       'access workbench',
       'add media from remote sources',
       'administer bpi',
@@ -559,6 +583,7 @@ function ding_permissions_secure_permissions($role) {
       'create files',
       'create url aliases',
       'create webform content',
+      'create ding_eresource content',
       'customize shortcut links',
       'delete any audio files',
       'delete any ding_campaign content',
@@ -572,6 +597,7 @@ function ding_permissions_secure_permissions($role) {
       'delete any image files',
       'delete any video files',
       'delete any webform content',
+      'delete any ding_eresource content',
       'delete bpi content',
       'delete own audio files',
       'delete own ding_campaign content',
@@ -586,6 +612,7 @@ function ding_permissions_secure_permissions($role) {
       'delete own video files',
       'delete own webform content',
       'delete own webform submissions',
+      'delete own ding_eresource content',
       'delete revisions',
       'delete terms in 1',
       'delete terms in 2',
@@ -618,6 +645,7 @@ function ding_permissions_secure_permissions($role) {
       'edit any image files',
       'edit any video files',
       'edit any webform content',
+      'edit any ding_eresource content',
       'edit opening hours for content',
       'edit own audio files',
       'edit own ding_campaign content',
@@ -633,6 +661,7 @@ function ding_permissions_secure_permissions($role) {
       'edit webform components',
       'edit own webform content',
       'edit own webform submissions',
+      'edit own ding_eresource content',
       'edit terms in 1',
       'edit terms in 2',
       'edit terms in 3',
@@ -646,7 +675,7 @@ function ding_permissions_secure_permissions($role) {
       'notify of path changes',
       'participate in workflow',
       'revert revisions',
-      'schedule (un)publishing of nodes',
+      'schedule publishing of nodes',
       'show workflow state form',
       'switch shortcut sets',
       'translate admin strings',
@@ -661,6 +690,9 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'guest blogger' => array(
+      'access media browser',
+      'use media wysiwyg',
+      'access administration pages',
       'access administration menu',
       'access environment indicator',
       'access environment indicator development',
@@ -670,7 +702,6 @@ function ding_permissions_secure_permissions($role) {
       'access ckeditor link',
       'access overlay',
       'access site-wide contact form',
-      'access toolbar',
       'access workbench',
       'administer user role 5',
       'bpi push content',
@@ -689,7 +720,7 @@ function ding_permissions_secure_permissions($role) {
       'edit own document files',
       'edit own image files',
       'edit own video files',
-      'schedule (un)publishing of nodes',
+      'schedule publishing of nodes',
       'show workflow state form',
       'use text format ding_wysiwyg',
       'view own private files',
@@ -697,6 +728,8 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'local administrator' => array(
+      'access media browser',
+      'use media wysiwyg',
       'eck add ding_type ding_interaction entities',
       'eck edit ding_type ding_interaction entities',
       'eck delete ding_type ding_interaction entities',
@@ -732,12 +765,16 @@ function ding_permissions_secure_permissions($role) {
       'administer ddb_cp',
       'administer dibs settings',
       'administer dibs transactions',
+      'administer ding ipe filter',
       'administer ding provider',
       'administer EU Cookie Compliance popup',
       'administer event settings',
+      'administer news settings',
+      'administer eresource settings',
+      'administer user settings',
+      'administer social links settings',
       'administer fe promote',
       'administer files',
-      'administer frontpage settings',
       'administer linkchecker',
       'administer menu',
       'administer meta tags',
@@ -782,6 +819,7 @@ function ding_permissions_secure_permissions($role) {
       'configure gatewayf',
       'create url aliases',
       'create webform content',
+      'create ding_eresource content',
       'customize shortcut links',
       'delete all webform submissions',
       'delete any audio files',
@@ -796,6 +834,7 @@ function ding_permissions_secure_permissions($role) {
       'delete any image files',
       'delete any video files',
       'delete any webform content',
+      'delete any ding_eresource content',
       'delete bpi content',
       'delete own audio files',
       'delete own ding_campaign content',
@@ -810,6 +849,7 @@ function ding_permissions_secure_permissions($role) {
       'delete own video files',
       'delete own webform content',
       'delete own webform submissions',
+      'delete own ding_eresource content',
       'delete revisions',
       'delete terms in 1',
       'delete terms in 2',
@@ -844,6 +884,7 @@ function ding_permissions_secure_permissions($role) {
       'edit any image files',
       'edit any video files',
       'edit any webform content',
+      'edit any ding_eresource content',
       'edit meta tags',
       'edit link settings',
       'edit opening hours for content',
@@ -861,6 +902,7 @@ function ding_permissions_secure_permissions($role) {
       'edit webform components',
       'edit own webform content',
       'edit own webform submissions',
+      'edit own ding_eresource content',
       'edit terms in 1',
       'edit terms in 2',
       'edit terms in 3',
@@ -875,7 +917,7 @@ function ding_permissions_secure_permissions($role) {
       'notify of path changes',
       'participate in workflow',
       'revert revisions',
-      'schedule (un)publishing of nodes',
+      'schedule publishing of nodes',
       'show workflow state form',
       'switch shortcut sets',
       'translate admin strings',
@@ -883,6 +925,8 @@ function ding_permissions_secure_permissions($role) {
       'translate interface',
       'translate user-defined strings',
       'use advanced search',
+      'use ipe with page manager',
+      'use IPE filter menu',
       'use panels in place editing',
       'use text format ding_wysiwyg',
       'view any provider_alma profile',
@@ -893,15 +937,19 @@ function ding_permissions_secure_permissions($role) {
       'view pane admin links',
       'view private files',
       'view revisions',
+      'view scheduled content',
       'view the administration theme',
       'administer personalisation',
     ),
     'local editor' => array(
+      'access media browser',
+      'use media wysiwyg',
       'eck add ding_type ding_interaction entities',
       'eck edit ding_type ding_interaction entities',
       'eck delete ding_type ding_interaction entities',
       'eck list ding_type ding_interaction entities',
       'eck view ding_type ding_interaction entities',
+      'access administration pages',
       'access administration menu',
       'access all webform results',
       'access campaign rules',
@@ -917,7 +965,6 @@ function ding_permissions_secure_permissions($role) {
       'access overlay',
       'access own webform results',
       'access own webform submissions',
-      'access toolbar',
       'access workbench',
       'add media from remote sources',
       'administer contact forms',
@@ -966,7 +1013,7 @@ function ding_permissions_secure_permissions($role) {
       'edit own webform submissions',
       'edit terms in 2',
       'participate in workflow',
-      'schedule (un)publishing of nodes',
+      'schedule publishing of nodes',
       'show workflow state form',
       'translate admin strings',
       'translate content',
@@ -979,6 +1026,11 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'provider' => array(
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'create files',
       'edit own provider_alma profile',
       'edit own provider_openruth profile',
@@ -998,12 +1050,15 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_staff_profile profile',
     ),
     'user administrator' => array(
+      'access administration pages',
+      'access administration menu',
       'administer users',
       'administer user role 4',
       'administer user role 5',
       'administer user role 7',
       'administer user role 9',
       'edit any ding_staff_profile profile',
+      'view the administration theme',
     ),
   );
 
@@ -1013,21 +1068,6 @@ function ding_permissions_secure_permissions($role) {
   foreach ($node_types as $node_type) {
     if (in_array('create ' . $node_type . ' content', $permissions['editor'])) {
       $permissions['editor'][] = 'override ' . $node_type . ' promote to front page option';
-    }
-  }
-
-  // Ensure that administrative users only have access to one navigation system.
-  foreach ($permissions as &$role_permissions) {
-    if (in_array('access administration pages', $role_permissions)) {
-      // Roles with this permission should have access to Admin menu.
-      $role_permissions = array_unique(array_merge($role_permissions, array('access administration menu')));
-      $role_permissions = array_diff($role_permissions, array('access toolbar'));
-    }
-    else {
-      // If the role doesn't have 'access administration pages', Admin menu is
-      // useless so we can safely remove any access to it. If they role has
-      // access to Toolbar it will fallback to that.
-      $role_permissions = array_diff($role_permissions, array('access administration menu'));
     }
   }
 
@@ -1044,5 +1084,18 @@ function ding_permissions_page_alter(&$page) {
 
   if ($user->uid == '1' && in_array('administrators', array_values($user->roles))) {
     unset($page['page_top']['toolbar']);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_permissions_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  $args = arg();
+  $role_access = (is_array($user->roles) && in_array('guest blogger', array_values($user->roles))) ? TRUE : FALSE;
+
+  if ($args[0] == 'node' && $args[1] == 'add' && $role_access) {
+    $form['options']['status']['#default_value'] = 0;
   }
 }

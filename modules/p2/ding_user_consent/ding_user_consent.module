@@ -74,15 +74,25 @@ function ding_user_consent_callback($ajax, $id, $set) {
   ding_user_consent_set(array($id => $set), $user);
 
   if ($set == '1') {
-    $output = t('You said yes');
+    $link = variable_get('ding_user_consent_' . $id . '_description_link', '');
+    if (!empty($link)) {
+      $output .= l(t('You said yes. Read more about the user consent'), $link, array(
+        'attributes' => array(
+          'class' => array('transparent-button', 'positive'),
+        ),
+      ));
+    }
+    else {
+      $output = t('You said yes');
+    }
   }
   else {
     $output = t('You said no');
   }
 
   if ($ajax) {
-    $commands[] = ajax_command_replace('.ding-user-consent-set .choice', $output);
-    ajax_deliver($commands);
+    $commands[] = ajax_command_ding_popup('ding_user_consent', t('Consent'), '<p>' . $output . '</p>', array('refresh' => TRUE));
+    ajax_deliver(array('#type' => 'ajax', '#commands' => $commands));
   }
   else {
     return $output;
@@ -158,6 +168,9 @@ function ding_user_consent_has_consent($consent_id = NULL, $account = FALSE) {
   return FALSE;
 }
 
+/**
+ * Implments hook_form_FORM_ID_alter().
+ */
 function ding_user_consent_form_profile2_form_alter(&$form, &$form_state) {
   // If consent longer than 30 days is disabled, ignore the form below.
   if (!variable_get('user_consent_activate')) {
@@ -312,7 +325,7 @@ function ding_user_consent_previously_displayed($account) {
  * @return array
  *   An ajax popup command.
  */
-function ajax_command_ding_user_consent($extra_data = array()) {
+function ajax_command_ding_user_consent(array $extra_data = array()) {
   module_load_include('inc', 'ding_user_consent', 'ding_user_consent.pages');
   $title = t('Give consent');
 
@@ -423,9 +436,8 @@ function ding_user_consent_translatables() {
  *   A valid link to the consent description page.
  */
 function ding_user_consent_get_description_link() {
-  $url = variable_get('ding_user_consent_loan_history_store_description_link', ''); 
+  $url = variable_get('ding_user_consent_loan_history_store_description_link', '');
   if (empty($url)) {
-    
     // Create a new page describing consent.
     $values = array(
       'type' => 'ding_page',
@@ -441,7 +453,7 @@ function ding_user_consent_get_description_link() {
     $n->field_ding_page_body->set(array('value' => t("Log in and edit your account to give permission to store your personal loan history extending the default 30 days. You can edit this permission at any time. Once you retract your permission previous loans older than 30 days will be permanently deleted.")));
     $n->save();
     $url = "node/" . $n->getIdentifier();
-    variable_set('ding_user_consent_loan_history_store_description_link', $url); 
+    variable_set('ding_user_consent_loan_history_store_description_link', $url);
 
   }
   return l(t("Read about storage of loan history"), $url, array('attributes' => array('target' => '_blank', 'class' => 'transparent-button positive')));
@@ -453,12 +465,12 @@ function ding_user_consent_get_description_link() {
 function ding_user_consent_ding_interaction_info() {
   global $user;
 
-  $active = user_is_logged_in()
+  $active = ding_user_is_provider_user($user)
     && !ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)
     && !ding_user_consent_previously_displayed($user);
 
   $translatables = ding_user_consent_translatables();
-  
+
   return array(
     'title' => $translatables['title'],
     'translatables' => $translatables,

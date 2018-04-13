@@ -45,40 +45,38 @@ function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
 
   // Get all lists of the list_types given.
   $lists = ding_list_get_lists($list_types);
-  if (empty($lists)) {
-    return $data;
-  }
 
-  // Fill the $data array with actions, getting one action for each list.
-  foreach ($lists as $list) {
-    $list_title = $list->title;
+  if ($lists !== FALSE) {
+    // Fill the $data array with actions, getting one action for each list.
+    foreach ($lists as $list) {
+      $list_title = $list->title;
 
-    if ($list->uid != $user->uid) {
-      if (!ding_list_user_has_access($list, DING_LIST_PERMISSION_EDIT)) {
-        continue;
+      if ($list->uid != $user->uid) {
+        if (!ding_list_user_has_access($list, DING_LIST_PERMISSION_EDIT)) {
+          continue;
+        }
+        $username = ding_list_list_username($list);
+        if ($username) {
+          $list_title .= '(' . $username . ')';
+        }
       }
-      $username = ding_list_list_username($list);
-      if ($username) {
-        $list_title .= '(' . $username . ')';
-      }
+
+      $data[] = array(
+        'list_id' => $list->id,
+        'title' => '<div class="list-title">' . $list_title . '</div><div class="add-to-list-button button">' . t('Add to list') . '</div>',
+        'value' => $value,
+        'type' => $type,
+        'value_title' => $value_title,
+      );
     }
-
-    $data[] = array(
-      'list_id' => $list->id,
-      'title' => t('Add to @list', array('@list' => $list_title)),
-      'value' => $value,
-      'type' => $type,
-      'value_title' => $value_title,
-    );
   }
 
-  // Add specific actions when the element is a ting_object.
-  if ($type === 'ting_object') {
-    $ting_object = ting_object_load($value);
-
-    // Add a follow action for authors.
-    $data = array_merge($data, ding_list_get_add_to_list_ting_object_creators($ting_object));
-  }
+  $context = array(
+    'type' => $type,
+    'value' => $value,
+    'value_title' => $value_title,
+  );
+  drupal_alter('ding_list_add_to_list_data', $data, $context);
 
   return $data;
 }
@@ -90,46 +88,56 @@ function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
  */
 function ding_list_get_add_to_list_ting_object_creators($ting_object) {
   global $user;
-
   $data = array();
-
   $creators = $ting_object->getCreators();
+  $pretty_author = implode(', ', $creators);
   foreach ($creators as & $creator) {
     $creator = 'phrase.creator="' . $creator . '"';
   }
   if (isset($creator)) {
-    $lists = ding_list_get_lists(DING_LIST_TYPE_FOLLOW_AUTHOR);
-
-    foreach ($lists as $list) {
-      if (!ding_list_has_ding_list_element($list, DING_LIST_TYPE_FOLLOW_AUTHOR, $creator)) {
-        $pretty_author = implode(', ', $ting_object->getCreators());
-        $list_title = t('Follow the author @author', array('@author' => $pretty_author));
-        if ($list->uid != $user->uid) {
-          $username = ding_list_list_username($list);
-          if ($username) {
-            $list_title .= '(' . $username . ')';
+    if (user_is_logged_in()) {
+      $lists = ding_list_get_lists(DING_LIST_TYPE_FOLLOW_AUTHOR);
+      foreach ($lists as $list) {
+        if (!ding_list_has_ding_list_element($list, DING_LIST_TYPE_FOLLOW_AUTHOR, $creator)) {
+          $list_title = '<div class="list-title">' . $pretty_author . '</div><div class="add-to-list-button button">' . t('Follow the author') . '</div>';
+          if ($list->uid != $user->uid) {
+            $username = ding_list_list_username($list);
+            if ($username) {
+              $list_title .= '(' . $username . ')';
+            }
           }
-        }
-
-        $data[] = array(
-          'list_id' => $list->id,
-          'title' => $list_title,
-          'value' => $creator,
-          'type' => DING_LIST_TYPE_FOLLOW_AUTHOR,
-          'value_title' => implode(', ', $ting_object->getCreators()),
-        );
-      }
-      else {
-        $list_title = t('Already following @author', array('@author' => implode(', ', $ting_object->getCreators())));
-        $data[] = array(
-          'custom' => array(
+          $data[] = array(
+            'list_id' => $list->id,
             'title' => $list_title,
-          ),
-        );
+            'value' => $creator,
+            'type' => DING_LIST_TYPE_FOLLOW_AUTHOR,
+            'value_title' => $pretty_author,
+          );
+        }
+        else {
+          $list_title = t('Already following @author', array('@author' => implode(', ', $ting_object->getCreators())));
+          $data[] = array(
+            'custom' => array(
+              'title' => $list_title,
+            ),
+          );
+        }
       }
     }
+    else {
+      $data[] = array(
+        'custom' => array(
+          'title' => t('Follow the author @author', array('@author' => $pretty_author)),
+          'href' => 'ding-list/login-attach/' . DING_LIST_TYPE_FOLLOW_AUTHOR . '/' . $creator,
+          'attributes' => array(
+            'class' => array('use-ajax'),
+          ),
+          'query' => array('title' => $pretty_author),
+          'html' => TRUE,
+        ),
+      );
+    }
   }
-
   return $data;
 }
 
@@ -502,7 +510,7 @@ function ding_list_update_historical_loans($account = NULL) {
   $save_list = FALSE;
   if (ding_user_is_provider_user($account)) {
     try {
-      $creds = ding_user_get_creds($account);
+      $creds = ding_user_get_creds();
       if (!empty($creds['name'])) {
         // Create a timestamp representing today.
         $today = mktime(0, 0, 0);
@@ -665,6 +673,10 @@ function ding_list_list_username($list) {
     return $owner->data['display_name'];
   }
 
+  if (!empty($owner->realname)) {
+    return $owner->realname;
+  }
+
   return t('Another loaner');
 }
 
@@ -790,8 +802,8 @@ function ding_list_get_permission_permissions($permission = FALSE) {
 /**
  * Check if a user has access to a list, with the given permissions.
  *
- * @param object $list
- *   List entity.
+ * @param object|int $list
+ *   List entity or the lists id.
  * @param string $permission
  *   The permission to check against.
  * @param object $account
@@ -811,6 +823,11 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
   $access_key = md5(serialize(func_get_args()));
   if (isset($access[$access_key])) {
     return $access[$access_key];
+  }
+
+  // If used as menu access callback the list have to be loaded.
+  if (is_numeric($list)) {
+    $list = ding_list_get_list($list);
   }
 
   if (ding_base_get_value('ding_type', $list, 'field_list_type') == DING_LIST_TYPE_LOAN_HISTORY

@@ -1,0 +1,387 @@
+//
+// Styling of content type Ding News
+
+@import '../../base.scss';
+
+.node-ding-news {
+  // ==========================================================================
+  // Teaser
+  // ==========================================================================
+  &.node-teaser {
+    position: relative;
+    a {
+      display: block;
+      color: $charcoal;
+    }
+    .ding-news-list-image {
+      &::after {
+        @include transition(background-color $speed $ease);
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+      }
+
+      // Mobile
+      @include media($mobile) {
+        .slide-on-mobile & {
+          @include aspect-ratio-background-image(16, 9);
+          overflow: hidden;
+          background-size: cover;
+        }
+      }
+    }
+    h3.title {
+      margin: 10px 0 5px;
+    }
+    .category-and-submitted {
+      float: left;
+      width: 100%;
+      color: $charcoal-opacity-dark;
+    }
+    .field-name-field-ding-news-category {
+      float: left;
+    }
+    .field-name-field-ding-news-lead {
+      @include transition(opacity $speed $ease);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 25px 15px;
+      color: $white;
+      opacity: 0;
+      overflow: hidden;
+    }
+
+    // Mobile
+    @include media($mobile) {
+      // Slide on mobile
+      .slide-on-mobile & {
+        .news-text {
+          @include linear-gradient(
+            transparent 0%,
+            $charcoal-opacity-extra-dark 100%
+          );
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          padding: 25px 15px 5px;
+        }
+        h3.title {
+          @include font('display');
+          margin-top: 0;
+          color: $white;
+        }
+        .category-and-submitted {
+          margin-bottom: 20px;
+          color: $white-opacity-dark;
+
+          @include media($mobile) {
+            margin-bottom: 5px;
+          }
+        }
+        .field-name-field-ding-news-lead {
+          @include span-columns(6 of 8);
+          @include font('display-small');
+          @include transition(
+            height $speed $ease,
+            opacity $speed $ease
+          );
+          position: static;
+          height: 0;
+          padding: 0;
+        }
+      }
+    }
+    // Hover for non touch devices
+    .no-touch & {
+      &:hover {
+        .ding-news-list-image {
+          &::after {
+            background-color: $black-overlay;
+          }
+        }
+        .field-name-field-ding-news-lead {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  // ==========================================================================
+  // Highlighted
+  // ==========================================================================
+  &.ding-news-highlighted {
+    .ding-news-list-image {
+      @include aspect-ratio-background-image(22, 9);
+      overflow: hidden;
+      background-size: cover;
+      &::after {
+        @include transition(background-color $speed $ease);
+        opacity: 1;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      // Mobile
+      @include media($mobile) {
+        @include aspect-ratio-background-image(16, 9);
+        background-size: cover;
+      }
+    }
+    .news-text {
+      @include linear-gradient(
+        transparent 0%,
+        $charcoal-opacity-extra-dark 100%
+      );
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 25px 15px 5px;
+    }
+    h3.title {
+      @include font('display');
+      margin-top: 0;
+      color: $white;
+    }
+    .category-and-submitted {
+      margin-bottom: 20px;
+      color: $white-opacity-dark;
+    }
+    .field-name-field-ding-news-lead {
+      @include span-columns(6 of 8);
+      @include font('display-small');
+      @include transition(
+        height $speed $ease,
+        opacity $speed $ease
+      );
+      position: static;
+      height: 0;
+      padding: 0;
+    }
+
+    // Mobile
+    @include media($mobile) {
+      .news-text {
+        @include linear-gradient(
+          transparent 0%,
+          transparent 100%
+        );
+        position: static;
+        padding: 0;
+      }
+      h3.title {
+        margin: 10px 0 5px;
+        color: $charcoal;
+      }
+      .category-and-submitted {
+        float: left;
+        width: 100%;
+        margin-bottom: 0;
+        color: $charcoal-opacity-dark;
+      }
+      .field-name-field-ding-news-category {
+        float: left;
+      }
+      .field-name-field-ding-news-lead {
+        display: none;
+      }
+    }
+
+    // Hover for non touch devices
+    .no-touch & {
+      &:hover {
+        .ding-news-list-image {
+          &::after {
+            background-color: $black-overlay;
+          }
+        }
+      }
+    }
+  }
+  // ==========================================================================
+  // Full
+  // ==========================================================================
+  &.node-full {
+    @include linear-gradient(to top, $white 30px, $grey-light 100%);
+    padding: 40px 0 30px;
+    // Has dynamic background
+    .has-dynamic-background & {
+      max-width: $dynamic-background-width;
+      margin: 0 auto;
+    }
+    .ding-news-inner {
+      @include wrapper();
+    }
+    .ding-news-left {
+      @include span-columns(5);
+      min-height: 1px;
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(6);
+      }
+
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(12);
+        margin-bottom: 20px;
+      }
+    }
+    .ding-news-right {
+      @include span-columns(5);
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(6);
+        margin-right: 0;
+      }
+
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(12);
+        margin-right: 0;
+      }
+    }
+    h1 {
+      @include font('display');
+      margin-bottom: 0;
+      color: $charcoal;
+    }
+    h2 {
+      @include font('display-small');
+      margin: 20px 0 5px;
+    }
+    .field-name-og-group-ref {
+      position: relative;
+      float: left;
+      padding-right: 20px;
+      &::after {
+        content: '-';
+        position: absolute;
+        top: 0;
+        right: 7px;
+      }
+      .field-item {
+        display: inline-block;
+        &::after {
+          content: ', ';
+          white-space: pre;
+        }
+        &:last-child {
+          &::after {
+            content: '';
+          }
+        }
+      }
+    }
+    .meta,
+    .field-name-field-ding-news-tags {
+      padding: 10px 0;
+      border-top: 1px solid $grey-medium;
+      border-bottom: 1px solid $grey-medium;
+      margin: 30px 0;
+
+      // Mobile
+      @include media($mobile) {
+        margin: 15px 0 30px;
+      }
+      .author {
+        margin-bottom: 5px;
+      }
+    }
+    .field-name-field-ding-news-files {
+      @include span-columns(6 of 8);
+      margin: 0 0 30px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(8 of 8);
+      }
+
+      // Mobile
+      @include media($mobile) {
+        margin: 15px 0 30px;
+      }
+      .field-label {
+        @include font('base-bold');
+      }
+      .file-type {
+        margin-left: 6px;
+      }
+    }
+    .field-name-field-ding-news-tags.field-type-taxonomy-term-reference {
+      @include span-columns(6 of 8);
+      margin: 0 0 30px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(8 of 8);
+      }
+      .field-label {
+        @include font('base-bold');
+      }
+      .field-items .field-item {
+        display: inline;
+        margin-right: 15px;
+      }
+    }
+    .field-name-field-ding-news-lead {
+      @include font('base-bold');
+      margin: 20px 0;
+    }
+    &.field-name-field-ding-news-body {
+      p {
+        margin: 20px 0;
+      }
+    }
+  }
+  // ==========================================================================
+  // Alternative layout full
+  // ==========================================================================
+  &.alternative-layout-full {
+    .ding-news-right {
+      float: right;
+      margin-right: getColumn(2) + getGutter(12);
+
+      // Tablet
+      @include media($tablet) {
+        margin-right: 0;
+      }
+    }
+    .field-name-field-ding-news-title-image {
+      margin-bottom: 30px;
+    }
+    .section.meta {
+      margin-top: 0;
+    }
+    .section.meta,
+    .field-name-field-ding-news-tags.field-type-taxonomy-term-reference {
+      padding-top: 0;
+      border-top: none;
+    }
+    .section.meta,
+    .field-name-field-ding-news-tags.field-type-taxonomy-term-reference,
+    .social-share-container {
+      @include span-columns(4 of 5);
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+  }
+}

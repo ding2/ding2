@@ -39,7 +39,15 @@
             coverData: cover_data
           },
           dataType: 'json',
-          success: ting_cover_insert
+          success: ting_cover_insert,
+          // Update processing state.
+          complete: function(request, status) {
+            var processing = $('.ting-cover-processing', context);
+            if (status === 'success') {
+              processing.addClass('ting-cover-processed');
+            }
+            processing.removeClass('ting-cover-processing');
+          }
         });
 
         // Associate the request with the context so we can abort the request if

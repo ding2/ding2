@@ -30,12 +30,6 @@ function ding_serendipity_serendipity_ting_object_admin_info($subtype, $conf, $c
  * Implements hook_content_type_render().
  */
 function ding_serendipity_serendipity_ting_object_content_type_render($subtype, $conf, $panel_args, $context) {
-  // Only show on front if serendipity is enabled for the frontpage.
-  // See ding_frontpage config at /admin/config/ding/frontend.
-  if (isset($conf['selected_keys']['frontpage']) && !variable_get('ding_frontpage_serendipity') && variable_get('ding_frontpage_promoter') != 'serendipity') {
-    return;
-  }
-
   $context_data = array();
   if (isset($conf['selected_keys'])) {
     foreach ($conf['selected_keys'] as $key => $value) {
@@ -63,7 +57,7 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
   }
 
   $context_data += array(
-    'view_mode' => isset($conf['view_mode']) ? $conf['view_mode'] : 'compact',
+    'view_mode' => isset($conf['view_mode']) ? $conf['view_mode'] : 'teaser',
     'sort_weight' => isset($conf['sort_weight']) ? $conf['sort_weight'] : FALSE,
     'max' => isset($conf['max']) ? $conf['max'] : 0,
     'min' => isset($conf['min']) ? $conf['min'] : 0,
@@ -88,15 +82,9 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
       'type' => 'setting',
     );
 
-    $tmp = array();
-    foreach ($content as $key => $item) {
-      $item['#weight'] = $key;
-      $tmp[] = $item;
-    }
-
     $output['content'][] = array(
-      '#theme' => 'ting_carousel',
-      '#objects' => $tmp,
+      '#type' => 'ding_carousel',
+      '#items' => $content,
     );
   }
 

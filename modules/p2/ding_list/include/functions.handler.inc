@@ -49,7 +49,7 @@ function ding_list_get_list_by_element($element) {
  * @return mixed
  *   An array of ding_list entities. FALSE otherwise.
  */
-function ding_list_get_lists($list_type = NULL, $account = NULL, $range = array(), $order_by = array('changed', 'DESC')) {
+function ding_list_get_lists($list_type = NULL, $account = NULL, array $range = array(), array $order_by = array('changed', 'DESC')) {
   if ($account === NULL) {
 
     // Only authenticated users can have lists.
@@ -83,10 +83,10 @@ function ding_list_get_lists($list_type = NULL, $account = NULL, $range = array(
   }
 
   // Add lists user has access to, but don't own.
-  $query = db_select('field_data_field_ding_list_permissions', 'fdlp')
-    ->fields('fdlp', array('entity_id'));
-
   if (user_is_logged_in()) {
+    $query = db_select('field_data_field_ding_list_permissions', 'fdlp')
+      ->fields('fdlp', array('entity_id'));
+
     $id = $account->uid;
     if (ding_provider_implements('openlist', 'user_identifier')) {
       $id = ding_provider_invoke('openlist', 'user_identifier', $account);
@@ -94,16 +94,16 @@ function ding_list_get_lists($list_type = NULL, $account = NULL, $range = array(
 
     $query->join('field_data_field_ding_list_user', 'fdlu', 'fdlu.entity_id = fdlp.field_ding_list_permissions_target_id');
     $query->condition('fdlu.field_ding_list_user_value', $id);
-  }
 
-  if ($list_type !== NULL) {
-    $query->join('field_data_field_list_type', 'flt', 'flt.entity_id = fdlp.entity_id');
-    $query->condition('flt.field_list_type_value', $list_type);
-  }
+    if ($list_type !== NULL) {
+      $query->join('field_data_field_list_type', 'flt', 'flt.entity_id = fdlp.entity_id');
+      $query->condition('flt.field_list_type_value', $list_type);
+    }
 
-  $result = $query->execute()->fetchAllKeyed(0, 0);
-  if (!empty($result)) {
-    $lists += $result;
+    $result = $query->execute()->fetchAllKeyed(0, 0);
+    if (!empty($result)) {
+      $lists += $result;
+    }
   }
 
   $lists = entity_load('ding_type', array_keys($lists));
@@ -215,7 +215,7 @@ function ding_list_create_ding_list_element(&$list, $type, array $values, $accou
  * @return bool|object
  *   Newly created list element, or FALSE if not created.
  */
-function ding_list_create_ding_list($title, $type = DING_LIST_TYPE_USER_LIST, $account = NULL, $more = NULL, $openlist_id = NULL, $fields = array()) {
+function ding_list_create_ding_list($title, $type = DING_LIST_TYPE_USER_LIST, $account = NULL, $more = NULL, $openlist_id = NULL, array $fields = array()) {
   $list = entity_create('ding_type', array(
     'type' => 'ding_list',
     'title' => $title,
@@ -273,24 +273,32 @@ function ding_list_create_ding_list($title, $type = DING_LIST_TYPE_USER_LIST, $a
 function ding_list_handle_fields_in_list(&$list, array $fields) {
   if (!empty($fields)) {
     foreach ($fields as $field) {
-      if (!is_array($field['value'])) {
-        if (!empty($field['value'])) {
-          $list->{$field['name']}[LANGUAGE_NONE] = array(array($field['value_type'] => $field['value']));
-        }
-        else {
-          $list->{$field['name']} = array();
-        }
-      }
-      else {
-        $list->{$field['name']}[LANGUAGE_NONE] = array();
-        foreach ($field['value'] as $value) {
-          if (!empty($value)) {
-            $list->{$field['name']}[LANGUAGE_NONE][] = array($field['value_type'] => $value);
+      switch ($field['name']) {
+        case 'field_ding_content_tags':
+          $field['value'] = ding_list_handle_taxonomy_terms([$field['value']], $field['name']);
+          $list->{$field['name']}[LANGUAGE_NONE] = $field['value'];
+          break;
+
+        default:
+          if (!is_array($field['value'])) {
+            if (!empty($field['value'])) {
+              $list->{$field['name']}[LANGUAGE_NONE] = array(array($field['value_type'] => $field['value']));
+            }
+            else {
+              $list->{$field['name']} = array();
+            }
           }
           else {
-            $list->{$field['name']} = array();
+            $list->{$field['name']}[LANGUAGE_NONE] = array();
+            foreach ($field['value'] as $value) {
+              if (!empty($value)) {
+                $list->{$field['name']}[LANGUAGE_NONE][] = array($field['value_type'] => $value);
+              }
+              else {
+                $list->{$field['name']} = array();
+              }
+            }
           }
-        }
       }
     }
   }
@@ -314,7 +322,7 @@ function ding_list_handle_fields_in_list(&$list, array $fields) {
  * @return mixed
  *   The ding_list object or FALSE if edit failed.
  */
-function ding_list_edit_ding_list(&$list, $title, $more = NULL, $tell_openlist = TRUE, $fields = array()) {
+function ding_list_edit_ding_list(&$list, $title, $more = NULL, $tell_openlist = TRUE, array $fields = array()) {
   if ($list->title === $title && ($more === NULL || $list->more === $more) && empty($fields)) {
     return $list;
   }
@@ -373,7 +381,7 @@ function ding_list_edit_ding_list(&$list, $title, $more = NULL, $tell_openlist =
  *   The count of element items actually deleted. Or FALSE if something went
  *   wrong.
  */
-function ding_list_detach_ding_list_element(&$list, $element_ids = array(), $save_list = TRUE, $tell_openlist = TRUE) {
+function ding_list_detach_ding_list_element(&$list, array $element_ids = array(), $save_list = TRUE, $tell_openlist = TRUE) {
   if (empty($element_ids)) {
     return 0;
   }

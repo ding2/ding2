@@ -20,6 +20,9 @@ function ding_ting_frontend_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
+  if ($module == "ting_field_search" && $api == "ting_field_search_default_profiles") {
+    return array("version" => "1");
+  }
 }
 
 /**
@@ -83,7 +86,7 @@ function ding_ting_frontend_image_default_styles() {
         'module' => 'manualcrop',
         'name' => 'manualcrop_crop',
         'data' => array(
-          'width' => 185,
+          'width' => 260,
           'height' => '',
           'keepproportions' => 0,
           'reuse_crop_style' => '',
@@ -101,7 +104,7 @@ function ding_ting_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => 185,
+          'width' => 260,
           'height' => '',
           'upscale' => 1,
         ),
@@ -124,7 +127,7 @@ function ding_ting_frontend_image_default_styles() {
         'module' => 'manualcrop',
         'name' => 'manualcrop_crop',
         'data' => array(
-          'width' => 120,
+          'width' => 130,
           'height' => '',
           'keepproportions' => 0,
           'reuse_crop_style' => '',
@@ -142,7 +145,7 @@ function ding_ting_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => 120,
+          'width' => 130,
           'height' => '',
           'upscale' => 1,
         ),

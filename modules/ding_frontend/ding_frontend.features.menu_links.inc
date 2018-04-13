@@ -27,8 +27,8 @@ function ding_frontend_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -48,
-    'customized' => 0,
+    'weight' => -47,
+    'customized' => 1,
   );
   // Exported menu link: menu-tabs-menu_logout:user/logout
   $menu_links['menu-tabs-menu_logout:user/logout'] = array(
@@ -47,8 +47,8 @@ function ding_frontend_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -46,
-    'customized' => 0,
+    'weight' => -45,
+    'customized' => 1,
   );
   // Exported menu link: menu-tabs-menu_menu:<front>
   $menu_links['menu-tabs-menu_menu:<front>'] = array(
@@ -69,6 +69,26 @@ function ding_frontend_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -49,
     'customized' => 0,
+  );
+  // Exported menu link: menu-tabs-menu_opening-hours:libraries
+  $menu_links['menu-tabs-menu_opening-hours:libraries'] = array(
+    'menu_name' => 'menu-tabs-menu',
+    'link_path' => 'libraries',
+    'router_path' => 'libraries',
+    'link_title' => 'Opening hours',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+      'identifier' => 'menu-tabs-menu_opening-hours:libraries',
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -48,
+    'customized' => 1,
   );
   // Exported menu link: menu-tabs-menu_search:search
   $menu_links['menu-tabs-menu_search:search'] = array(
@@ -107,14 +127,15 @@ function ding_frontend_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -47,
-    'customized' => 0,
+    'weight' => -46,
+    'customized' => 1,
   );
   // Translatables
   // Included for use with string extractors like potx.
   t('Login');
   t('Logout');
   t('Menu');
+  t('Opening hours');
   t('Search');
   t('User menu (mobile)');
 

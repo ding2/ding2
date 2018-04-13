@@ -5,7 +5,7 @@
 
 (function ($) {
   "use strict";
-  
+
   function get_url_parameter(sParam) {
     var sPageURL = window.location.search.substring(1);
     var sURLVariables = sPageURL.split('&');
@@ -41,15 +41,12 @@
           $(this).removeClass('new-content-pending');
           if($(this).attr('data-ting-object-id') === latestId) {
             return false;
-          }            
+          }
         }
       });
-      if(latestId && $('.ding-message-item', context).size() > 0) {
+      if (latestId) {
         $('.ding-message-item', context).each(function() {
-          if($(this).attr('data-ting-object-id') === latestId) {
-            isSet = true;
-          }
-          if(isSet) {
+          if (parseInt($(this).attr('data-ting-object-id'), 10) >= parseInt(latestId, 10)) {
             $(this).addClass('new-content');
           }
         });

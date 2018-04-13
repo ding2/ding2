@@ -1,0 +1,9 @@
+name = Ding IPE Filter
+description = Filter configuration box in panels of the add content functionality
+core = 7.x
+package = Ding!
+dependencies[] = ctools
+dependencies[] = panels
+dependencies[] = panels_ipe
+configure = admin/config/user-interface/ipe-filter
+files[] = includes/ding_ipe_filter.admin.inc
