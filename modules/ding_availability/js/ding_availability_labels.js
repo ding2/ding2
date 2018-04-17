@@ -159,9 +159,10 @@
    * The will be re-attached at every page content update.
    */
   Drupal.behaviors.ding_availability_labels = {
-    attach: function(context, settings) {
-      var ids = [];
+    attach: function(context) {
+      var ids = {};
       var html_ids = [];
+      var settings = Drupal.settings;
 
       // Loop through the materials given in the settings and collect
       // id.
