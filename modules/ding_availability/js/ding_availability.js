@@ -41,15 +41,10 @@
 
       classes.push(available ? 'available' : 'unavailable');
       classes.push(reservable ? 'reservable' : 'not-reservable');
+      classes = classes.join(' ');
 
-      $.each(classes, function (i, class_name) {
-        element.addClass(class_name);
-
-        // Add class to reserve button.
-        if (reserve_button.length) {
-          reserve_button.addClass(class_name);
-        }
-      });
+      element.addClass(classes);
+      reserve_button.addClass(classes);
 
       if (available && !reservable) {
         reserve_button.removeClass('available').addClass('unavailable');
@@ -158,7 +153,7 @@
           var id = holdingsId.attr('id');
           if (ids.hasOwnProperty(id)) {
             var data = {};
-            data[ids[id].local] = ids[id];
+            data[ids[id].local_id] = ids[id];
             ding_availability_fetch('holdings', data);
             delete ids[id];
           }

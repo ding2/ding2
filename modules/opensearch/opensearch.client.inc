@@ -323,7 +323,7 @@ function opensearch_get_request_factory() {
  * @return \TingClientSearchResult|bool
  *   Result of the request or false if an error occurs.
  */
-function opensearch_execute($request) {
+function opensearch_execute(TingClientRequest $request) {
   // Get additional parameters from other modules.
   $params = module_invoke_all('opensearch_pre_execute', $request);
   if (!empty($params)) {
