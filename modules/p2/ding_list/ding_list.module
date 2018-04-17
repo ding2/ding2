@@ -5,6 +5,8 @@
  * Ding list.
  */
 
+include_once 'ding_list.features.inc';
+
 // Core defined types of lists.
 // Manual user lists.
 define('DING_LIST_TYPE_USER_LIST', 'user_list');

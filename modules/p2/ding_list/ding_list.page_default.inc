@@ -1,13 +1,14 @@
 <?php
+
 /**
  * @file
- * ding_list_installer.pages_default.inc
+ * ding_list.pages_default.inc
  */
 
 /**
  * Implements hook_default_page_manager_pages().
  */
-function ding_list_installer_default_page_manager_pages() {
+function ding_list_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
