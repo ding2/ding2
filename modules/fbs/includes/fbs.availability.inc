@@ -18,8 +18,8 @@ function fbs_availability_items(array $data) {
   $avails = array();
 
   // Filter the data into a single array with provider ids.
-  $provider_ids = array_map(function ($ids) {
-    return $ids['local'];
+  $provider_ids = array_map(function ($id) {
+    return $id['local_id'];
   }, $data);
 
   try {
@@ -43,20 +43,20 @@ function fbs_availability_items(array $data) {
 /**
  * Implements provider availability, holdings.
  *
- * @param array $input_data
+ * @param array $input_ids
  *   Array of ids indexed by 'local' and 'pid'. Where local is the faust and
  *   pid is the data-well id.
  *
  * @return array
  *   Holdings info.
  */
-function fbs_availability_holdings(array $input_data) {
+function fbs_availability_holdings(array $input_ids) {
   $holdings = array();
 
   // Filter the data into a single array with provider ids.
-  $provider_ids = array_map(function ($ids) {
-    return $ids['local'];
-  }, $input_data);
+  $provider_ids = array_map(function ($id) {
+    return $id['local_id'];
+  }, $input_ids);
 
   try {
     $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids, variable_get('fbs_holdings_branches_blacklist', array()));
@@ -97,13 +97,15 @@ function fbs_availability_holdings(array $input_data) {
     // Try to get the entity id without calling the provider, which in
     // OpenSearch will trigger a search request just to get the id.
     $entity_id = '';
-    foreach ($input_data as $id) {
-      if ($id['local'] == $item->recordId) {
-        $entity_id = $id['pid'];
+    foreach ($input_ids as $id) {
+      if ($id['local_id'] == $item->recordId) {
+        $entity_id = $id['id'];
         break;
       }
-     }
+    }
 
+    // Only call ding_provider_build_entity_id() when absolutely necessary as
+    // this will trigger an very expensive facet search into the data-well.
     $entity_id = empty($entity_id) ? ding_provider_build_entity_id(reset($item->recordId)) : $entity_id;
     switch ($suffix_type) {
       case 'simple':
