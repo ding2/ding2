@@ -177,9 +177,9 @@ function ding_message_update_users(array $accounts, $debug = FALSE, $reset = FAL
       }
 
       foreach ($lists as $list) {
-        foreach ($list['elements'] as $element) {
+        foreach ($list->elements as $element) {
           // Get the message handling this specific ID.
-          $wrapper = isset($messages[$element['element_id']]) ? $messages[$element['element_id']] : NULL;
+          $wrapper = isset($messages[$element->id]) ? $messages[$element->id] : NULL;
           if ($wrapper && $wrapper->field_state->value() == DING_MESSAGE_IGNORE) {
             continue;
           }
@@ -294,7 +294,7 @@ function ding_message_check_element($uid, array $element, $message = NULL, $debu
       $list = ding_list_get_list($element['value']);
       if ($list) {
         // Get the element its.
-        $elements = array_keys($list['elements']);
+        $elements = array_keys($list->elements);
         if (!empty($elements)) {
           // Fetch the last element for comparison
           // with the current stored last element.
@@ -370,7 +370,7 @@ function ding_message_check_element($uid, array $element, $message = NULL, $debu
 
     // Set message values.
     $wrapper = entity_metadata_wrapper('message', $message);
-    $wrapper->field_list_id->set($element['element_id']);
+    $wrapper->field_list_id->set($element->id);
     $wrapper->field_last_check->set(time());
     $wrapper->field_first_element->set($first_element_id);
     $wrapper->field_last_element->set($last_element_id);
@@ -419,7 +419,7 @@ function ding_message_preprocess_ding_list_element(&$variables) {
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'message', '=')
     ->propertyCondition('type', 'new_content', '=')
-    ->fieldCondition('field_list_id', 'value', $variables['element']['element_id'], '=')
+    ->fieldCondition('field_list_id', 'value', $variables['element']->id, '=')
     ->fieldCondition('field_state', 'value', DING_MESSAGE_CLOSED, '!=')
     ->range(0, 1);
   $result = $query->execute();
@@ -434,7 +434,7 @@ function ding_message_preprocess_ding_list_element(&$variables) {
       'midc' => $message_wrapper->getIdentifier(),
     );
 
-    switch ($variables['element']['type']) {
+    switch ($variables['element']->type) {
       case 'follow_author':
       case 'search_query':
         $link_query['size'] = 50;
@@ -464,7 +464,7 @@ function ding_message_preprocess_ding_list_element(&$variables) {
 
   if (isset($_GET['message'])) {
     $variables['content']['#attached']['js'] = array(drupal_get_path('module', 'ding_message') . '/ding_message.js');
-    $variables['attributes_array']['data-ting-object-id'] = $variables['element']['element_id'];
+    $variables['attributes_array']['data-ting-object-id'] = $variables['element']->id;
     $variables['classes_array'][] = 'ding-message-item';
   }
 }
@@ -475,8 +475,8 @@ function ding_message_preprocess_ding_list_element(&$variables) {
 function ding_message_get_ding_list_notification($list) {
   $output = '';
 
-  if (ding_list_allowed($list, DING_LIST_OPERATION_FOLLOW) && !empty($list['elements'])) {
-    $result = ding_message_get_update_count($list['elements']);
+  if (ding_list_allowed($list, DING_LIST_OPERATION_FOLLOW) && !empty($list->elements)) {
+    $result = ding_message_get_update_count($list->elements);
     // If a result was found, render a message with the total amount.
     if ($result) {
       $output = $result;

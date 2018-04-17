@@ -126,11 +126,11 @@ function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
     return $results;
   }
 
-  $picked = ding_serendipity_pick_weighted_random($list['elements'], 2);
+  $picked = ding_serendipity_pick_weighted_random($list->elements, 2);
 
   foreach ($picked as $id => $item) {
     // Load source material title.
-    $source_id = $item['value'];
+    $source_id = $item->value;
     $obj = ding_entity_load($source_id, 'ting_object');
     if (empty($obj)) {
       continue;
@@ -238,14 +238,14 @@ function ding_serendipity_lists_loan_adhl_serendipity_add($context) {
       return $results;
     }
 
-    $picked = ding_serendipity_pick_weighted_random($list['elements'], 2);
+    $picked = ding_serendipity_pick_weighted_random($list->elements, 2);
 
     foreach ($picked as $element) {
       // Create structure similar to DingProviderLoan, in order to mix current
       // loans with previous loans. We just need the ding_entity_id below, for
       // loading the random picks.
       $loan = new StdClass();
-      $loan->ding_entity_id = $element['value'];
+      $loan->ding_entity_id = $element->value;
       $loans[] = $loan;
     }
   }

@@ -180,13 +180,11 @@ function ting_openlist_handler_v2_create_element(array $list, array $data, $retu
  *
  * @param array $element
  *   The element array.
- * @param array $data
- *   The Element data.
  */
-function ting_openlist_handler_v2_edit_element(array $element, array $data) {
+function ting_openlist_handler_v2_edit_element(array $element) {
   ting_openlist_request('editElement', array(
     'element_id' => $element['element_id'],
-    'data' => $data,
+    'data' => $element['data'],
   ), array('use_cache' => FALSE, 'save_cache' => FALSE));
 
   $list = ting_openlist_handler_v2_get_list($element['list_id']);

@@ -20,7 +20,7 @@ $plugin = array(
  */
 function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = $context->data;
-  $user_object = ding_list_get_user_object($account, TRUE);
+  $lists = ding_list_get_lists([], $account);
 
   $block = new stdClass();
   $block->content = array(
@@ -39,7 +39,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     ),
   );
 
-  foreach ($user_object['lists'] as $list) {
+  foreach ($lists as $list) {
     $notifications = ding_message_get_ding_list_notification($list);
 
     $notification_out = '';
@@ -50,7 +50,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
 
     $block->content['lists']['#items'][] = array(
       'data' =>
-      l('<span class="icon"></span>' . $list['title'], 'list/' . $list['list_id'], array(
+      l('<span class="icon"></span>' . $list->title, 'list/' . $list->id, array(
         'html' => TRUE,
         'attributes' => array('class' => 'signature-label'),
       )) . $notification_out,

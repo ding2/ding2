@@ -31,30 +31,32 @@ function ding_list_private_share_content_type_render($subtype, $conf, $panel_arg
   $output = new stdClass();
   $output->content = '';
 
-  if (ding_list_is_owner($list) && $list['data']['visibility'] !== 'public') {
-    foreach ($conf['communities'] as $community) {
-      $title = ucfirst($community);
-      $output->content .= l(
-        t('Share on @community', array('@community' => $title)),
-        'ding-list/private-share-message/' . $list['list_id'] . '/' . $community,
-        array(
-          'attributes' => array(
-            'class' => array(
-              'sharer-button', 'sharer-' . $community, 'use-ajax',
+  if (isset($list->data['visibility'])) {
+    if (ding_list_is_owner($list) && $list->data['visibility'] !== 'public') {
+      foreach ($conf['communities'] as $community) {
+        $title = ucfirst($community);
+        $output->content .= l(
+          t('Share on @community', array('@community' => $title)),
+          'ding-list/private-share-message/' . $list->id . '/' . $community,
+          array(
+            'attributes' => array(
+              'class' => array(
+                'sharer-button', 'sharer-' . $community, 'use-ajax',
+              ),
             ),
-          ),
-        )
+          )
+        );
+      }
+
+      $output->content = '<div class="sharer">' . $output->content . '</div>';
+    }
+    elseif ($list->data['visibility'] === 'public') {
+      $output->content = array(
+        '#theme' => 'ding_sharer',
+        '#label' => t('Share this list'),
+        '#communities' => array_map('ucfirst', $conf['communities']),
       );
     }
-
-    $output->content = '<div class="sharer">' . $output->content . '</div>';
-  }
-  elseif ($list['data']['visibility'] === 'public') {
-    $output->content = array(
-      '#theme' => 'ding_sharer',
-      '#label' => t('Share this list'),
-      '#communities' => array_map('ucfirst', $conf['communities']),
-    );
   }
 
   return $output;

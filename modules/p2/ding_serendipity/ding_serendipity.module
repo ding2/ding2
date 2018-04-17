@@ -569,7 +569,7 @@ function ding_serendipity_get_existing_list_materials($account = NULL) {
     return array();
   }
 
-  $uo = ding_list_get_user_object($account);
+  $lists = ding_list_get_lists([], $account);
 
   // Relevant list types.
   $list_types = array(
@@ -579,11 +579,11 @@ function ding_serendipity_get_existing_list_materials($account = NULL) {
   );
   $ids = array();
 
-  foreach ($uo['lists'] as $list) {
-    if (in_array($list['type'], $list_types)) {
-      foreach ($list['elements'] as $element) {
-        if (!empty($element['value'])) {
-          $ids[] = $element['value'];
+  foreach ($lists as $list) {
+    if (in_array($list->type, $list_types)) {
+      foreach ($list->elements as $element) {
+        if (!empty($element->value)) {
+          $ids[] = $element->value;
         }
       }
     }

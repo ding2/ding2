@@ -5,6 +5,8 @@
  * API Functions.
  */
 
+use DingList\DingList;
+
 require_once __DIR__ . '/functions.handler.inc';
 
 /**
@@ -45,21 +47,18 @@ function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
 
   // Fill the $data array with actions, getting one action for each list.
   foreach ($lists as $list) {
-    $list_title = $list['title'];
+    $list_title = $list->title;
 
     if (!ding_list_is_owner($list)) {
       if (!ding_list_user_has_access($list, DING_LIST_PERMISSION_EDIT)) {
         continue;
       }
 
-      $username = ding_list_list_username($list);
-      if ($username) {
-        $list_title .= ' (' . $username . ')';
-      }
+      $list_title .= ' (' . $list->getOwnerName() . ')';
     }
 
     $data[] = array(
-      'list_id' => $list['list_id'],
+      'list_id' => $list->id,
       'title' => '<div class="list-title">' . $list_title . '</div><div class="add-to-list-button button">' . t('Add to list') . '</div>',
       'value' => $value,
       'type' => $type,
@@ -96,11 +95,11 @@ function ding_list_get_add_to_list_ting_object_creators($ting_object) {
       $lists = ding_list_get_lists(DING_LIST_TYPE_FOLLOW_AUTHOR);
       if (!empty($lists)) {
         foreach ($lists as $list) {
-          if (!ding_list_has_element($list, $creator)) {
+          if (!$list->hasElement($creator)) {
             $list_title = '<div class="list-title">' . $pretty_author . '</div><div class="add-to-list-button button">' . t('Follow the author') . '</div>';
 
             $data[] = array(
-              'list_id' => $list['list_id'],
+              'list_id' => $list->id,
               'title' => $list_title,
               'value' => $creator,
               'type' => DING_LIST_TYPE_FOLLOW_AUTHOR,
@@ -138,8 +137,8 @@ function ding_list_get_add_to_list_ting_object_creators($ting_object) {
 /**
  * Create a token, used for to give users access to a list.
  *
- * @param object $list
- *   The list entity.
+ * @param \DingList\DingList $list
+ *   The list object.
  * @param string $permission
  *   The permission wanted.
  * @param int $date
@@ -148,12 +147,12 @@ function ding_list_get_add_to_list_ting_object_creators($ting_object) {
  * @return string
  *   An md5 share token.
  */
-function ding_list_share_token($list, $permission, $date = FALSE) {
+function ding_list_share_token(DingList $list, $permission, $date = FALSE) {
   if ($date === FALSE) {
     $date = REQUEST_TIME;
   }
 
-  return md5('prefix_' . $list['list_id'] . '_' . $list['owner'] . '_' . $permission . '_' . date('Ymd', $date));
+  return md5('prefix_' . $list->id . '_' . $list->owner . '_' . $permission . '_' . date('Ymd', $date));
 }
 
 /**
@@ -250,7 +249,7 @@ function ding_list_get_random_user_list_item() {
   $max_try = 10;
   foreach ($lists as $list) {
 
-    if (empty($list['elements'])) {
+    if (empty($list->elements)) {
       continue;
     }
 
@@ -260,10 +259,10 @@ function ding_list_get_random_user_list_item() {
     }
 
     // Pick randomly but weight newer elements.
-    $element = ding_serendipity_pick_weighted_random($list['elements'], 1);
+    $element = ding_serendipity_pick_weighted_random($list->elements, 1);
     $element = current($element);
 
-    $element_id = ding_list_convert_cql($element['value']);
+    $element_id = ding_list_convert_cql($element->value);
 
     $ting_entity = ting_object_load($element_id);
 
@@ -281,7 +280,7 @@ function ding_list_get_random_user_list_item() {
 /**
  * Make sure you're allowed to perform a certain action on a list.
  *
- * @param object $list
+ * @param \DingList\DingList $list
  *   The list you want to operate on.
  * @param string $operation
  *   The operation you wish to perform.
@@ -289,31 +288,9 @@ function ding_list_get_random_user_list_item() {
  * @return bool
  *   TRUE if the list has the operation, and FALSE if it doesn't.
  */
-function ding_list_allowed($list, $operation) {
+function ding_list_allowed(DingList $list, $operation) {
   $list_operations = ding_list_list_operations();
-  return isset($list_operations[$list['type']][$operation]);
-}
-
-/**
- * Check to see if a list has a specific element.
- *
- * @param object $list
- *   The ding_list to delete.
- * @param string $value
- *   The value to look for.
- *
- * @return mixed
- *   If the list has the element, return that element entity, if not return
- *   FALSE
- */
-function ding_list_has_element($list, $value) {
-  foreach ($list['elements'] as $element) {
-    if ($element['value'] == $value) {
-      return $element;
-    }
-  }
-
-  return FALSE;
+  return isset($list_operations[$list->type][$operation]);
 }
 
 /**
@@ -419,18 +396,18 @@ function ding_list_setup_autocreated($account = NULL) {
   // $auto_create variable.
   if ($lists !== FALSE) {
     foreach ($lists as $list) {
-      unset($auto_create[$list['type']]);
+      unset($auto_create[$list->type]);
     }
   }
 
   // Create all the lists in the $auto_create array.
   foreach ($auto_create as $type => $nothing) {
-    $list = array(
+    $list = new DingList(array(
       'type' => $type,
       'owner' => ding_provider_invoke('openlist', 'user_identifier', $account),
       'title' => $list_operations[$type]['_data']['default_title'],
-    );
-    ding_list_save_list($list);
+    ));
+    $list->save();
   }
 }
 
@@ -453,7 +430,7 @@ function ding_list_update_historical_loans($account = NULL) {
   $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $account);
   // Get the last update from the list, or set it to 0 if it doesn't
   // exist.
-  $latest = isset($list['data']['latest']) && is_numeric($list['data']['latest']) ? $list['data']['latest'] : 0;
+  $latest = isset($list->data['latest']) && is_numeric($list->data['latest']) ? $list->data['latest'] : 0;
 
   $save_list = FALSE;
   if (ding_user_is_provider_user($account)) {
@@ -469,7 +446,8 @@ function ding_list_update_historical_loans($account = NULL) {
           if ($loan['loan_date'] < $today) {
             $save_list = TRUE;
             $ding_entity_id = variable_get('ting_agency', '') . ':' . $loan['id'];
-            ding_list_attach_element($list, 'ting_object', array(
+            $list->attachElement(array(
+              'type' => 'ting_object',
               'value' => $ding_entity_id,
               'note' => serialize($loan),
             ));
@@ -485,8 +463,8 @@ function ding_list_update_historical_loans($account = NULL) {
 
   if ($save_list) {
     // Set the latest time to tomorrow.
-    $list['data']['latest'] = mktime(0, 0, 0, date('n', $latest), date('j', $latest) + 1, date('Y', $latest));
-    ding_list_save_list($list);
+    $list->data['latest'] = mktime(0, 0, 0, date('n', $latest), date('j', $latest) + 1, date('Y', $latest));
+    $list->save();
   }
   return TRUE;
 }
@@ -494,14 +472,14 @@ function ding_list_update_historical_loans($account = NULL) {
 /**
  * Add permissions to a list and user.
  *
- * @param object $list
+ * @param \DingList\DingList $list
  *   The list to add the permissions to.
  * @param string $permission
  *   The permission to add.
  * @param object $account
  *   The user to give the permissions.
  */
-function ding_list_set_permission($list, $permission, $account = NULL) {
+function ding_list_set_permission(DingList $list, $permission, $account = NULL) {
   if ($account === NULL) {
     global $user;
     $account = $user;
@@ -510,7 +488,7 @@ function ding_list_set_permission($list, $permission, $account = NULL) {
   $openlist_uid = ding_provider_invoke('openlist', 'user_identifier', $account);
   ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'setPermission', array(
     $openlist_uid,
-    $list['list_id'],
+    $list->id,
     $permission,
   ));
 
@@ -520,12 +498,12 @@ function ding_list_set_permission($list, $permission, $account = NULL) {
 /**
  * Remove a permission.
  *
- * @param object $list
+ * @param \DingList\DingList $list
  *   The list to add the permissions to.
  * @param object $account
  *   The user to give the permissions.
  */
-function ding_list_remove_permission($list, $account = NULL) {
+function ding_list_remove_permission(DingList $list, $account = NULL) {
   if ($account === NULL) {
     global $user;
     $account = $user;
@@ -534,47 +512,24 @@ function ding_list_remove_permission($list, $account = NULL) {
   $openlist_uid = ding_provider_invoke('openlist', 'user_identifier', $account);
   ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'removePermission', array(
     $openlist_uid,
-    $list['list_id'],
+    $list->id,
   ));
 
   return TRUE;
 }
 
 /**
- * Get owner name of the list.
- *
- * @param object $list
- *   The list entity.
- *
- * @return string
- *   The username (or an empty string if no username was retrieved).
- */
-function ding_list_list_username($list) {
-  $owner = ding_list_local_user($list['owner']);
-
-  if (!empty($owner->data) && isset($owner->data['display_name'])) {
-    return $owner->data['display_name'];
-  }
-
-  if (!empty($owner->realname)) {
-    return $owner->realname;
-  }
-
-  return t('Another loaner');
-}
-
-/**
  * Get the users permissions to a list.
  *
- * @param object $list
- *   List entity.
+ * @param \DingList\DingList $list
+ *   List object.
  * @param object $account
  *   The user.
  *
  * @return bool|object
  *   The permissions entity for the user, or FALSE if there's no permission.
  */
-function ding_list_get_permission($list, $account = NULL) {
+function ding_list_get_permission(DingList $list, $account = NULL) {
   $permissions = &drupal_static(__FUNCTION__, array());
 
   if ($account === NULL) {
@@ -582,13 +537,13 @@ function ding_list_get_permission($list, $account = NULL) {
     $account = $user;
   }
 
-  $key = $account->uid . '__' . $list['list_id'];
+  $key = $account->uid . '__' . $list->id;
 
   if (!isset($permissions[$key])) {
     $openlist_uid = ding_provider_invoke('openlist', 'user_identifier', $account);
     $permissions[$key] = ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'getPermission', array(
       $openlist_uid,
-      $list['list_id'],
+      $list->id,
     ));
   }
 
@@ -598,8 +553,8 @@ function ding_list_get_permission($list, $account = NULL) {
 /**
  * Check if the user has list permissions.
  *
- * @param object $list
- *   List entity.
+ * @param \DingList\DingList $list
+ *   List object.
  * @param string $permission
  *   The permission.
  * @param object $account
@@ -608,7 +563,7 @@ function ding_list_get_permission($list, $account = NULL) {
  * @return bool
  *   TRUE or FALSE depending on the permission exists.
  */
-function ding_list_has_permission($list, $permission, $account = NULL) {
+function ding_list_has_permission(DingList $list, $permission, $account = NULL) {
   $user_permission = ding_list_get_permission($list, $account);
 
   if (!$user_permission) {
@@ -654,7 +609,7 @@ function ding_list_local_user($owner) {
 /**
  * Check if a user is the owner of the list.
  *
- * @param array $list
+ * @param \DingList\DingList $list
  *   List.
  * @param object $account
  *   User object.
@@ -662,14 +617,10 @@ function ding_list_local_user($owner) {
  * @return bool
  *   TRUE if the user is the owner.
  */
-function ding_list_is_owner(array $list, $account = NULL) {
+function ding_list_is_owner(DingList $list, $account = NULL) {
   if ($account === NULL) {
     global $user;
     $account = $user;
-  }
-
-  if (is_numeric($list)) {
-    $list = ding_list_get_list($list);
   }
 
   $account_openlist_id = FALSE;
@@ -677,13 +628,13 @@ function ding_list_is_owner(array $list, $account = NULL) {
     $account_openlist_id = ding_provider_invoke('openlist', 'user_identifier', $account);
   }
 
-  return $account_openlist_id == $list['owner'];
+  return $account_openlist_id == $list->owner;
 }
 
 /**
  * Check if a user has access to a list, with the given permissions.
  *
- * @param array|int $list
+ * @param \DingList\DingList|int $list
  *   List or the lists id.
  * @param string $permission
  *   The permission to check against.
@@ -728,7 +679,7 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
     return $access[$access_key];
   }
 
-  if (isset($list['data']['visibility']) && $list['data']['visibility'] === 'public') {
+  if (isset($list->data['visibility']) && $list->data['visibility'] === 'public') {
     $access[$access_key] = TRUE;
     return $access[$access_key];
   }
@@ -758,7 +709,7 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
 /**
  * Check a token.
  *
- * @param object $list
+ * @param \DingList\DingList $list
  *   The List.
  * @param string $key
  *   The permission to check.
@@ -768,7 +719,7 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
  * @return bool
  *   TRUE or FALSE if token is valid.
  */
-function ding_list_check_token($list, $key, $token) {
+function ding_list_check_token(DingList $list, $key, $token) {
   // A token only works 7 days, so create a token for each of the
   // previous 7 days and test it against the given token.
   for ($i = 0; $i < 7; $i++) {
@@ -782,24 +733,6 @@ function ding_list_check_token($list, $key, $token) {
 }
 
 /**
- * Get count of followers for a list.
- *
- * @param array $list
- *   The list entity.
- *
- * @return int
- *   The followers count.
- *
- * @TODO Rewrite this, to use the openlist service.
- */
-function ding_list_get_list_followers_count(array $list) {
-  return count(ding_provider_invoke('openlist', 'call_module', 'Query', 'getLists', array(
-    $list['list_id'],
-    array(DING_LIST_TYPE_LISTS),
-  )));
-}
-
-/**
  * Get a user object, including lists.
  *
  * @param object $account
@@ -807,24 +740,24 @@ function ding_list_get_list_followers_count(array $list) {
  * @param bool $no_cache
  *   Don't use cached data.
  *
- * @return array
- *   The user object.
+ * @return \DingList\DingList[]
+ *   An array of ding lists.
  */
-function ding_list_get_user_object($account = NULL, $no_cache = FALSE) {
-  $user_object = &drupal_static(__FUNCTION__, array());
+function ding_list_get_user_lists($account = NULL, $no_cache = FALSE) {
+  $lists = &drupal_static(__FUNCTION__, array());
 
   if ($account === NULL) {
     global $user;
     $account = user_load($user->uid);
   }
 
-  if (!isset($user_object[$account->uid])) {
-    $user_object[$account->uid] = FALSE;
+  if (!isset($lists[$account->uid])) {
+    $lists[$account->uid] = FALSE;
 
     if (ding_provider_implements('openlist', 'v2_get_user')) {
-      $user_object[$account->uid] = ding_provider_invoke('openlist', 'v2_get_user', $account, $no_cache);
+      $lists[$account->uid] = ding_provider_invoke('openlist', 'v2_get_user', $account, $no_cache);
     }
   }
 
-  return $user_object[$account->uid];
+  return $lists[$account->uid];
 }

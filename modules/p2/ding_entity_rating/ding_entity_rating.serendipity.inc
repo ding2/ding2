@@ -120,9 +120,9 @@ function ding_entity_rating_get_material_by_rating() {
 
   // Filter non high rated materials away.
   $ratings = array();
-  foreach ($list['elements'] as $element) {
+  foreach ($list->elements as $element) {
 
-    if (empty($element['extra']['weight']) || $element['extra']['weight'] < $min_rating) {
+    if (empty($element->extra['weight']) || $element->extra['weight'] < $min_rating) {
       continue;
     }
 
@@ -139,8 +139,8 @@ function ding_entity_rating_get_material_by_rating() {
   $rated_element = $ratings[$random_key];
 
   // Load and return the element if any.
-  if (!empty($rated_element['value'])) {
-    return $rated_element['value'];
+  if (!empty($rated_element->value)) {
+    return $rated_element->value;
   }
   return NULL;
 }

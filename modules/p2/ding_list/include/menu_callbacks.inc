@@ -58,23 +58,26 @@ function ding_list_attach_element_callback($type, $list_id, $value) {
   $op_infos = ding_list_list_operations();
   $op = $op_infos[$type];
 
-  if (!ding_list_has_element($list, $value)) {
-    $element_data = array('value' => $value);
+  if (!$list->hasElement($value)) {
+    $element_data = array(
+      'type' => $type,
+      'value' => $value,
+    );
 
     if (isset($_GET['title'])) {
       $element_data['title'] = $_GET['title'];
     }
 
-    $element = ding_list_attach_element($list, $type, $element_data);
+    $element = $list->attachElement($element_data);;
 
     if ($element !== FALSE) {
 
       if (!empty($op['_data']['response_success'])) {
         // Translate the response.
-        $response = t($op['_data']['response_success'], array('!name' => l($list['title'], 'list/' . $list['list_id'])));
+        $response = t($op['_data']['response_success'], array('!name' => l($list->title, 'list/' . $list->id)));
       }
       else {
-        $response = t('Added to !name', array('!name' => l($list['title'], 'list/' . $list['list_id'])));
+        $response = t('Added to !name', array('!name' => l($list->title, 'list/' . $list->id)));
       }
     }
     else {
@@ -82,7 +85,7 @@ function ding_list_attach_element_callback($type, $list_id, $value) {
     }
   }
   else {
-    $response = t('Already added to !name', array('!name' => l($list['title'], 'list/' . $list['list_id'])));
+    $response = t('Already added to !name', array('!name' => l($list->title, 'list/' . $list->id)));
   }
 
   $commands[] = ajax_command_ding_popup('ding_list', t('List'), '<div class="ding-list-message">' . $response . '</div>');
@@ -129,7 +132,6 @@ function ding_list_private_share_message_callback($list_id, $community) {
   );
 }
 
-
 /**
  * Set a list share permissions.
  */
@@ -138,8 +140,8 @@ function ding_list_share_list_callback($permission, $list_id, $community) {
   $list = ding_list_get_list($list_id);
 
   if ($list) {
-    $list['data']['visibility'] = $permission;
-    ding_list_save_list($list);
+    $list->data['visibility'] = $permission;
+    $list->save();
 
     $commands[] = array(
       'command' => 'ding_list_private_sharer',
@@ -180,9 +182,8 @@ function ding_list_carousel_ajax($list_id, $offset) {
   // Check access to the list.
   if (ding_list_user_has_access($list)) {
     $object_ids = array();
-    foreach (array_slice($list['elements'], $offset, DING_LIST_CAROUSEL_CHUNK_SIZE) as $element) {
-      // $ids[] = $item['target_id'];
-      $object_ids[] = $element['value'];
+    foreach (array_slice($list->elements, $offset, DING_LIST_CAROUSEL_CHUNK_SIZE) as $element) {
+      $object_ids[] = $element->value;
     }
 
     $entities = ding_entity_load_multiple($object_ids, 'ting_object');
@@ -196,7 +197,7 @@ function ding_list_carousel_ajax($list_id, $offset) {
 
     // Calculate if there are more items in the list.
     $next_offset = -1;
-    if ($offset + DING_LIST_CAROUSEL_CHUNK_SIZE <= count($list['elements'])) {
+    if ($offset + DING_LIST_CAROUSEL_CHUNK_SIZE <= count($list->elements)) {
       $next_offset = $offset + DING_LIST_CAROUSEL_CHUNK_SIZE;
     }
 

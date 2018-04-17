@@ -5,6 +5,8 @@
  * Forms used by ding_list.
  */
 
+use DingList\DingList;
+
 /**
  * Implements hook_forms().
  */
@@ -24,7 +26,7 @@ function ding_list_forms($form_id, $args) {
  * Form to remove and element from a list.
  */
 function ding_list_remove_element_form($form, &$form_state, $element, $title = NULL) {
-  $list = ding_list_get_list($element['list_id']);
+  $list = ding_list_get_list($element->listId);
 
   // @TODO Add access checks here.
   if (!ding_list_user_has_access($list, 'edit') || !ding_list_allowed($list, DING_LIST_OPERATION_DETACH)) {
@@ -45,7 +47,7 @@ function ding_list_remove_element_form($form, &$form_state, $element, $title = N
  */
 function ding_list_remove_element_form_submit($form, &$form_state) {
   $element = $form_state['build_info']['args'][0];
-  ding_list_detach_element($element);
+  $element->delete();
 }
 
 /**
@@ -83,10 +85,10 @@ function ding_list_add_element_form($form, &$form_state, $type, $value, $title) 
   else {
     $list = current($options);
     $list = ding_list_get_list($list['list_id']);
-    if (!ding_list_has_element($list, $value)) {
+    if (!$list->hasElement($value)) {
       $form['list'] = array(
         '#type' => 'hidden',
-        '#value' => $list['list_id'],
+        '#value' => $list->id,
       );
     }
   }
@@ -127,18 +129,18 @@ function ding_list_add_element_form_submit($form, &$form_state) {
   }
 
   // Only add the new element, if it's not already added.
-  if (!ding_list_has_element($list, $value)) {
-    $element = ding_list_attach_element($list, $type, array('value' => $value));
+  if (!$list->hasElement($value)) {
+    $element = $list->attachElement(array('type' => $type, 'value' => $value));
 
     if ($element !== FALSE) {
-      $form_state['storage']['response_html'] = t('Added to !name', array('!name' => l($list['title'], 'list/' . $list['list_id'])));
+      $form_state['storage']['response_html'] = t('Added to !name', array('!name' => l($list->title, 'list/' . $list->id)));
     }
     else {
       $form_state['storage']['response_html'] = t("An error occurred, your element wasn't created. Please contact the administrator if this problem persists.");
     }
   }
   else {
-    $form_state['storage']['response_html'] = t('Already added to !name', array('!name' => l($list['title'], 'list/' . $list['list_id'])));
+    $form_state['storage']['response_html'] = t('Already added to !name', array('!name' => l($list->title, 'list/' . $list->id)));
   }
 }
 
@@ -175,9 +177,9 @@ function ding_list_edit_list_form($form, &$form_state, $existing = FALSE) {
 
     $form = confirm_form(
       $form,
-      t('Do you really want to delete !list?', array('!list' => check_plain($existing['title']))),
+      t('Do you really want to delete !list?', array('!list' => check_plain($existing->title))),
       current_path(),
-      t('Do you really want to delete !list?', array('!list' => check_plain($existing['title'])))
+      t('Do you really want to delete !list?', array('!list' => check_plain($existing->title)))
     );
 
     return $form;
@@ -187,14 +189,14 @@ function ding_list_edit_list_form($form, &$form_state, $existing = FALSE) {
     '#type' => 'textfield',
     '#title' => t('Title'),
     '#required' => TRUE,
-    '#default_value' => isset($existing['title']) ? $existing['title'] : '',
+    '#default_value' => $existing !== FALSE ? $existing->title : '',
     '#access' => $existing === FALSE || ding_list_allowed($existing, DING_LIST_OPERATION_EDIT_TITLE),
   );
 
   $form['note'] = array(
     '#type' => 'textarea',
     '#title' => t('Note'),
-    '#default_value' => isset($existing['data']['note']) ? $existing['data']['note'] : '',
+    '#default_value' => isset($existing->data['note']) ? $existing->data['note'] : '',
   );
 
   $form['actions'] = array(
@@ -248,22 +250,25 @@ function ding_list_edit_list_form_submit($form, &$form_state) {
     // Load the user object, to make sure it's complete.
     $account = user_load($GLOBALS['user']->uid);
 
-    $list = array(
+    $list = new DingList(array(
       'type' => DING_LIST_TYPE_USER_LIST,
       'owner' => ding_provider_invoke('openlist', 'user_identifier', $account),
-    );
+    ));
   }
 
-  $list['title'] = $form_state['values']['title'];
-  $list['data']['note'] = $form_state['values']['note'];
+  $list->title = $form_state['values']['title'];
+  $list->data['note'] = $form_state['values']['note'];
 
-  ding_list_save_list($list);
+  $list->save();
 
   if (isset($form_state['values']['auto_add_type'])) {
-    ding_list_attach_element($list, $form_state['values']['auto_add_type'], array('value' => $form_state['values']['auto_add_value']));
+    $list->attachElement(array(
+      'type' => $form_state['values']['auto_add_type'],
+      'value' => $form_state['values']['auto_add_value'],
+    ));
   }
 
-  $form_state['redirect'] = 'list/' . $list['list_id'];
+  $form_state['redirect'] = 'list/' . $list->id;
 }
 
 /**
@@ -277,7 +282,7 @@ function ding_list_edit_list_form_submit_delete($form, &$form_state) {
   }
 
   $list = $form_state['build_info']['args'][0];
-  ding_list_delete_list($list);
+  $list->delete();
   $form_state['redirect'] = 'user/' . $GLOBALS['user']->uid . '/dinglists';
 }
 
@@ -303,9 +308,9 @@ function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
   $list = ding_list_get_list(DING_LIST_TYPE_LISTS);
 
   if ($list) {
-    $element = ding_list_has_element($list, $form_state['build_info']['args'][0]['list_id']);
+    $element = $list->hasElement($form_state['build_info']['args'][0]['list_id']);
     if ($element) {
-      ding_list_detach_element($element);
+      $element->delete();
     }
   }
 
@@ -339,7 +344,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
       'shared' => t('Shared - Users with the secret link can view or edit your list'),
       'public' => t('Public - Anybody can view your list from the public link'),
     ),
-    '#default_value' => !empty($list['data']['visibility']) ? $list['data']['visibility'] : 'private',
+    '#default_value' => !empty($list->data['visibility']) ? $list->data['visibility'] : 'private',
     '#ajax' => array(
       'callback' => 'ding_list_list_permissions_form_state_callback',
       'wrapper' => 'status-description',
@@ -377,7 +382,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     $form['sharer']['link'][$key] = array(
       '#type' => 'textfield',
       '#title' => t('Share link'),
-      '#value' => url('list/' . $list['list_id'], array('absolute' => TRUE, 'query' => array('token' => $token))),
+      '#value' => url('list/' . $list->id, array('absolute' => TRUE, 'query' => array('token' => $token))),
       '#states' => array(
         'visible' => array(
           ':input[name="permission"]' => array('value' => $key),
@@ -439,7 +444,7 @@ The link is active for 7 days from today, after which it will be disabled for se
     ),
   );
 
-  $permissions = ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'listPermissions', array($list['list_id']));
+  $permissions = ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'listPermissions', array($list->id));
   if (!empty($permissions)) {
     $form['mail_sharer']['shared'] = array(
       '#prefix' => '<div id="shared-list">',
@@ -488,7 +493,7 @@ The link is active for 7 days from today, after which it will be disabled for se
     ),
     '#tree' => TRUE,
   );
-  $url = url('list/' . $list['list_id'], array('absolute' => TRUE));
+  $url = url('list/' . $list->id, array('absolute' => TRUE));
   $form['public']['link'] = array(
     '#type' => 'item',
     '#title' => t('Share link'),
@@ -532,16 +537,16 @@ function ding_list_list_permissions_form_set_permission_callback($form, &$form_s
 function ding_list_list_permissions_form_state_callback($form, &$form_state) {
   $list = $form_state['build_info']['args'][0];
 
-  $list['data']['visibility'] = $form_state['values']['status'];
+  $list->data['visibility'] = $form_state['values']['status'];
 
-  ding_list_save_list($list);
+  $list->save();
 
   $output = array(
     'public' => t('Your list is now public.'),
     'private' => t('Your list is now private.'),
   );
 
-  return theme('ding_list_permission_description', array('message' => $output[$list['data']['visibility']]));
+  return theme('ding_list_permission_description', array('message' => $output[$list->data['visibility']]));
 }
 
 /**
@@ -559,7 +564,7 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
   }
   $list = $form_state['build_info']['args'][0];
   $token = ding_list_share_token($list, $form_state['values']['permission']);
-  $link = l($list['title'], 'list/' . $list['list_id'], array('absolute' => TRUE, 'query' => array('token' => $token)));
+  $link = l($list->title, 'list/' . $list->id, array('absolute' => TRUE, 'query' => array('token' => $token)));
   drupal_mail('ding_list', 'share', $form_state['values']['email'], $language, array(
     'subject' => $form_state['values']['email_subject'],
     'text' => str_replace('!link', $link, $form_state['values']['email_text']),

@@ -237,10 +237,10 @@ function ding_entity_rating_field_formatter_view($entity_type, $entity, $field, 
 function ding_entity_rating_get_user_rating($entity) {
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST);
   $result = FALSE;
-  $element = ding_list_has_element($list, $entity->ding_entity_id);
+  $element = $list->hasElement($entity->ding_entity_id);
 
   if ($element !== FALSE) {
-    $result = $element['extra']['weight'];
+    $result = $element->extra['weight'];
   }
 
   return $result;
@@ -428,20 +428,17 @@ function ding_entity_rating_average($entity, $value = NULL) {
 function ding_entity_rating_add_to_list($entity, $account, $rating) {
   // Get the rating list.
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST, $account);
-  $element = ding_list_has_element($list, $entity->ding_entity_id);
+  $element = $list->hasElement($entity->ding_entity_id);
   if (!$element) {
-    $values = array(
+    return $list->attachElement(array(
+      'type' => 'ting_object',
       'value' => $entity->ding_entity_id,
-      'weight' => $rating,
-    );
-    return ding_list_attach_element($list, 'ting_object', $values);
+      'extra' => array('weight' => $rating),
+    ));
   }
   else {
-    $values = array(
-      'value' => $entity->ding_entity_id,
-      'weight' => $rating,
-    );
-    return ding_list_edit_element($element, $values);
+    $element->extra['weight'] = $rating;
+    return $element->save();
   }
 }
 
@@ -459,8 +456,8 @@ function ding_entity_rating_add_to_list($entity, $account, $rating) {
 function ding_entity_rating_remove_from_list($entity, $account) {
   // Get the rating list.
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST, $account);
-  if ($element = ding_list_has_element($list, $entity->ding_entity_id)) {
-    ding_list_detach_element($element);
+  if ($element = $list->hasElement($entity->ding_entity_id)) {
+    $element->delete();
     return TRUE;
   }
   else {
@@ -557,7 +554,7 @@ function ding_entity_rating_get_loans_not_rated() {
     $loans = ding_provider_invoke('loan', 'list', $user);
     $list = ding_list_get_list(DING_ENTITY_RATING_LIST, $user);
     foreach ($loans as $loan) {
-      if (!$element = ding_list_has_element($list, $loan->ding_entity_id)) {
+      if (!$element = $list->hasElement($loan->ding_entity_id)) {
         $unrated[] = $loan->ding_entity_id;
       }
     }
@@ -587,12 +584,12 @@ function ding_entity_rating_preprocess_material_item(&$variables) {
 function ding_entity_rating_preprocess_ding_list_element(&$variables) {
   $element = $variables['element'];
 
-  switch ($element['type']) {
+  switch ($element->type) {
     case 'ting_object':
-      if (!empty($element['extra']['weight'])) {
+      if (!empty($element->extra['weight'])) {
         $variables['content']['value']['rating'] = array(
           '#theme' => 'ding_entity_rating_average',
-          '#rating' => $element['extra']['weight'],
+          '#rating' => $element->extra['weight'],
         );
       }
       break;

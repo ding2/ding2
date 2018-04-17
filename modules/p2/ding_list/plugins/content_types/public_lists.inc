@@ -5,6 +5,8 @@
  * View all lists.
  */
 
+use DingList\DingList;
+
 $plugin = array(
   'title' => t('Public lists'),
   'description' => t('Public lists'),
@@ -27,8 +29,9 @@ function ding_list_public_lists_content_type_render($subtype, $conf, $panel_args
     $lists = ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'v2_getPublicLists');
 
     foreach ($lists as $list) {
+      $list = new DingList($list);
       if (ding_list_user_has_access($list)) {
-        $block->content[$list['list_id']] = array(
+        $block->content[$list->id] = array(
           '#theme' => 'ding_list_list',
           '#list' => $list,
           '#display' => 'public list',

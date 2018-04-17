@@ -5,6 +5,8 @@
  * Ding list.
  */
 
+use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
+
 include_once 'ding_list.features.inc';
 
 // Core defined types of lists.
@@ -373,9 +375,6 @@ function ding_list_user_login(&$edit, $account) {
   }
 
   ding_list_import_bookmarks($account);
-
-  // Refresh the user object.
-  ding_list_get_user_object($account, TRUE);
 }
 
 /**
@@ -419,7 +418,7 @@ function ding_list_import_bookmarks($account) {
     if ($list) {
       $type_info = ding_entity_info('ding_entity');
       foreach (entity_load($type_info['entity_type'], $cids) as $entity) {
-        ding_list_attach_element($list, 'ting_object', array('value' => $entity->ding_entity_id));
+        $list->attachElement(array('type' => 'ting_object', 'value' => $entity->ding_entity_id));
       }
 
       simplevar_set('ding_list_import_bookmarks', $account->uid, TRUE);
@@ -439,7 +438,7 @@ function ding_list_ding_user_consent_changed($consent) {
     if ($consent['loan_history_store'] === FALSE) {
       $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY);
       if ($list !== FALSE) {
-        ding_list_delete_list($list);
+        $list->delete();
       }
 
       drupal_set_message(t("Your historical loans list has been deleted."));
@@ -654,13 +653,13 @@ function ding_list_html_head_alter(&$head_elements) {
       ),
     );
 
-    if (isset($list['data']['note'])) {
+    if (isset($list->data['note'])) {
       $head_elements['ogdescription'] = array(
         '#type' => 'html_tag',
         '#tag' => 'meta',
         '#attributes' => array(
           'property' => 'og:description',
-          'content' => $list['data']['note'],
+          'content' => $list->data['note'],
         ),
       );
     }
@@ -744,15 +743,22 @@ function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
 function ding_list_panels_pane_content_alter($content, $pane, $args, $contexts) {
   if ($pane->type == 'user_overview' && variable_get('user_consent_activate') && ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE, $contexts['context_user_1']->data)) {
     $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $contexts['context_user_1']->data);
-    $list_label = check_plain($list['title']);
+    $list_label = check_plain($list->title);
     $loan_history_link = array(
       'data' =>
-      '<a href="' . url('list/' . $list['list_id']) . '" class="signature-label"><span class="icon"></span>' . $list_label . '</a>',
-      'class' => array(drupal_html_class($list['type'])),
+      '<a href="' . url('list/' . $list->id) . '" class="signature-label"><span class="icon"></span>' . $list_label . '</a>',
+      'class' => array(drupal_html_class($list->type)),
     );
     $items = &$content->content['#items'];
     $items = array_slice($items, 0, count($items) - 1, TRUE) +
-            array($list['type'] => $loan_history_link) +
+            array($list->type => $loan_history_link) +
             array_slice($items, count($items) - 2, count($items) - 1, TRUE);
   }
+}
+
+/**
+ * Implements hook_xautoload().
+ */
+function ding_list_xautoload(LocalDirectoryAdapter $adapter) {
+  $adapter->absolute()->addPsr4('DingList\\', drupal_get_path('module', 'ding_list') . '/src');
 }

@@ -42,15 +42,15 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
 
     if ($list) {
       $block->content['#links']['view'] = array(
-        'href' => 'list/' . $list['list_id'],
-        'title' => check_plain($list['title']),
+        'href' => 'list/' . $list->id,
+        'title' => check_plain($list->title),
         'attributes' => array('class' => array('menu-item')),
         'html' => FALSE,
       );
 
       if (ding_list_user_has_access($list, 'edit', $user)) {
         $block->content['#links']['edit'] = array(
-          'href' => 'list/' . $list['list_id'] . '/edit',
+          'href' => 'list/' . $list->id . '/edit',
           'title' => t('Rename / Delete list'),
           'attributes' => array('class' => array('menu-item')),
           'html' => FALSE,
@@ -65,14 +65,14 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
         }
         else {
           $lists_list = ding_list_get_list(DING_LIST_TYPE_LISTS);
-          if (ding_list_has_element($lists_list, $list['list_id'])) {
+          if ($lists_list->hasElement($list->id)) {
             $title = t('Unfollow list');
           }
         }
 
         if ($title !== FALSE) {
           $block->content['#links']['share'] = array(
-            'href' => 'list/' . $list['list_id'] . '/share',
+            'href' => 'list/' . $list->id . '/share',
             'title' => $title,
             'attributes' => array('class' => array('menu-item')),
             'html' => FALSE,

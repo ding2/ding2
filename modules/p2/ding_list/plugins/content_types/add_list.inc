@@ -27,11 +27,11 @@ function ding_list_add_list_content_type_render($subtype, $conf, $panel_args, $c
   // Users can only add lists they don't own.
   if (!ding_list_is_owner($list) && user_access('use personalisation')) {
     $follow_list = ding_list_get_list(DING_LIST_TYPE_LISTS);
-    if ($element = ding_list_has_element($follow_list, $list['list_id'])) {
-      $block->content = drupal_get_form('ding_list_remove_element_form__' . $element['element_id'], $element, t('Unfollow list'));
+    if ($element = $follow_list->hasElement($list->id)) {
+      $block->content = drupal_get_form('ding_list_remove_element_form__' . $element->id, $element, t('Unfollow list'));
     }
     else {
-      $block->content = drupal_get_form('ding_list_add_element_form', 'ding_list', $list['list_id'], t('Add to lists I follow'));
+      $block->content = drupal_get_form('ding_list_add_element_form', 'ding_list', $list->id, t('Add to lists I follow'));
     }
   }
 
