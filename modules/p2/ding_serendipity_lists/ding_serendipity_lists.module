@@ -14,19 +14,17 @@ use Ting\Search\TingSearchFieldFilter;
 function ding_serendipity_lists_serendipity_info() {
   $items = array();
 
-  if (ding_provider_implements('openlist', 'call_module')) {
-    $items['ting_objects_adhr'] = array(
-      'title' => t('Ting objects via openlist ADHR service.'),
-      'description' => t('Call ADHR service on the current object to find related high rated materials.'),
-      'keys' => array('ting_object', 'frontpage'),
-    );
+  $items['ting_objects_adhr'] = array(
+    'title' => t('Ting objects via openlist ADHR service.'),
+    'description' => t('Call ADHR service on the current object to find related high rated materials.'),
+    'keys' => array('ting_object', 'frontpage'),
+  );
 
-    $items['ting_objects_adhl'] = array(
-      'title' => t('Ting objects via openlist ADHL service.'),
-      'description' => t('Call ADHL service on the current object to find related materials others have loaned.'),
-      'keys' => array('ting_object', 'frontpage'),
-    );
-  }
+  $items['ting_objects_adhl'] = array(
+    'title' => t('Ting objects via openlist ADHL service.'),
+    'description' => t('Call ADHL service on the current object to find related materials others have loaned.'),
+    'keys' => array('ting_object', 'frontpage'),
+  );
 
   $items += array(
     'frontpage_search' => array(
@@ -65,11 +63,11 @@ function ding_serendipity_lists_ting_objects_adhr_serendipity_add($context) {
   }
 
   // Fetch one random high rated element.
-  $rnd_id = ding_entity_rating_get_material_by_rating();
+  $rnd_id = ding_entity_rating_get_highly_rated_material_id();
   $obj = ding_entity_load($rnd_id, 'ting_object');
 
   if (empty($obj)) {
-    return NULL;
+    return $results;
   }
 
   try {
@@ -77,6 +75,7 @@ function ding_serendipity_lists_ting_objects_adhr_serendipity_add($context) {
   }
   catch (Exception $e) {
     watchdog_exception('ding_serendipity_lists', $e);
+    return $results;
   }
 
   // Pick max 8 items primarily among the most popular.
@@ -85,19 +84,18 @@ function ding_serendipity_lists_ting_objects_adhr_serendipity_add($context) {
   $title = l($obj->getTitle(), "ting/object/" . $rnd_id);
 
   // Add serendipity suggestion.
-  $results = array();
-  foreach ($picked as $index => $row) {
+  foreach ($picked as $row) {
     $id = $row['object_id'];
-    $o = ding_entity_load($id, "ting_object");
+    $ting_object = ding_entity_load($id, 'ting_object');
 
-    if (empty($o)) {
+    if (empty($ting_object)) {
       continue;
     }
 
     $results[] = array(
       'type' => 'ting_object',
       'id' => $id,
-      'object' => $o,
+      'object' => $ting_object,
       'info' => array(
         'description' => t('Because other people who also liked !title liked this.', array('!title' => $title)),
       ),
@@ -128,7 +126,7 @@ function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
 
   $picked = ding_serendipity_pick_weighted_random($list->elements, 2);
 
-  foreach ($picked as $id => $item) {
+  foreach ($picked as $item) {
     // Load source material title.
     $source_id = $item->value;
     $obj = ding_entity_load($source_id, 'ting_object');

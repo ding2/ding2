@@ -20,7 +20,7 @@ $plugin = array(
  */
 function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = $context->data;
-  $lists = ding_list_get_lists([], $account);
+  $lists = ding_list_get_lists(array(), $account, TRUE);
 
   $block = new stdClass();
   $block->content = array(
@@ -45,7 +45,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     $notification_out = '';
     if (!empty($notifications)) {
       $text = '<span class="notification-label">' . t('New:', array(), array('context' => 'Ding list')) . '</span>' . $notifications;
-      $notification_out = l($text, 'list/' . $list['list_id'], array('html' => TRUE, 'attributes' => array('class' => array('notification-link'))));
+      $notification_out = l($text, 'list/' . $list->id, array('html' => TRUE, 'attributes' => array('class' => array('notification-link'))));
     }
 
     $block->content['lists']['#items'][] = array(

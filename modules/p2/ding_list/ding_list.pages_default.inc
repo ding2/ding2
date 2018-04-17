@@ -361,8 +361,8 @@ function ding_list_default_page_manager_pages() {
     $pane->uuid = '57afe885-c847-4468-b003-e4c593c74c6b';
     $display->content['new-57afe885-c847-4468-b003-e4c593c74c6b'] = $pane;
     $display->panels['main_content'][0] = 'new-57afe885-c847-4468-b003-e4c593c74c6b';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = '0';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-57afe885-c847-4468-b003-e4c593c74c6b';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['page_ding_list_edit'] = $page;

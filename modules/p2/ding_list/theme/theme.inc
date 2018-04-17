@@ -25,7 +25,6 @@ function template_preprocess_ding_list_element(&$variables) {
   switch ($element->type) {
     case 'ting_object':
       $view_mode_matrix = array(
-        // @TODO Constants
         'view list' => 'ting_reference_preview',
       );
       $ting_object = ting_object_load(ding_list_convert_cql($element->value));
@@ -39,11 +38,12 @@ function template_preprocess_ding_list_element(&$variables) {
         $variables['content']['value'] = array(
           '#theme' => 'html_tag',
           '#tag' => 'div',
-          '#value' => t('Missing object'),
+          '#value' => t('Missing item'),
           '#attributes' => array(
             'class' => array('ding-list-element__title'),
           ),
         );
+        drupal_set_message(t('Unable to retrieve some of the items on this list. The list may appear incomplete.'), 'status', FASE);
       }
       break;
 
@@ -169,16 +169,48 @@ function template_preprocess_ding_list_list(&$variables) {
       }
 
       $variables['content']['elements'] = array(
-        '#prefix' => '<div class="ding-list-list__elements">',
-        '#suffix' => '</div>',
+        '#theme' => 'table',
+        '#attributes' => array(
+          'id' => drupal_html_id('ding-list-list-elements'),
+          'class' => array('ding-list-list__elements'),
+          'data-list-id' => $list->id,
+        ),
+        '#rows' => array(),
+        '#attached' => array(
+          'js' => array(
+            drupal_get_path('module', 'ding_list') . '/js/ding_list_tabledrag.js',
+          ),
+          'css' => array(
+            drupal_get_path('module', 'ding_list') . '/css/ding-list-tabledrag.css',
+          ),
+        ),
+      );
+      drupal_add_tabledrag(
+        $variables['content']['elements']['#attributes']['id'],
+        'order',
+        'sibling',
+        'ding-list-list__element-delta'
       );
 
       if (!empty($list->elements)) {
-        foreach ($list->elements as $element_key => $element) {
-          $variables['content']['elements'][$element_key] = array(
-            '#theme' => 'ding_list_element',
-            '#display' => $variables['display'],
-            '#element' => $element,
+        $drag_delta = 0;
+        foreach ($list->elements as $element_id => $element) {
+          $variables['content']['elements']['#rows'][$element_id] = array(
+            'data' => array(
+              array(
+                'data' => array(
+                  '#theme' => 'ding_list_element',
+                  '#display' => $variables['display'],
+                  '#element' => $element,
+                ),
+              ),
+              array(
+                'data' => $drag_delta++,
+                'class' => array('ding-list-list__element-delta'),
+              ),
+            ),
+            'class' => array('draggable'),
+            'data-element-id' => $element_id,
           );
         }
       }

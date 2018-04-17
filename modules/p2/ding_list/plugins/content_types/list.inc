@@ -9,7 +9,6 @@ $plugin = array(
   'title' => t('View list'),
   'description' => t('Ding list.'),
   'single' => TRUE,
-  // 'content_types' => array('ding_list'),
   'category' => t('Dinglist'),
   'render callback' => 'ding_list_list_content_type_render',
   'required context' => new ctools_context_required(t('Ding list'), 'ding_list_list'),

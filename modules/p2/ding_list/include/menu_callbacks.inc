@@ -20,11 +20,9 @@ function ding_list_set_order_callback($list_id) {
       'status' => FALSE,
     ));
   }
-  $list = ding_list_get_list($list_id);
 
-  $item = entity_load_single('ding_type', $_POST['item']);
-  $previous = entity_load_single('ding_type', $_POST['previous']);
-  ding_list_set_element_position($list, $item, $previous);
+  $list = ding_list_get_list($list_id);
+  ding_list_set_element_position($list, $_POST['item'], $_POST['previous']);
 
   $html = t('List changed');
   $commands = array();

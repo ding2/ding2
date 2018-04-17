@@ -90,14 +90,10 @@ class DingList implements DingListInterface {
    */
   public function save() {
     if (!empty($this->id)) {
-      if (ding_provider_implements('openlist', 'edit_list')) {
-        ding_provider_invoke('openlist', 'v2_edit_list', $this->buildDataArray());
-      }
+      ding_provider_invoke('openlist', 'edit_list', $this->buildDataArray());
     }
     else {
-      if (ding_provider_implements('openlist', 'create_list')) {
-        $this->id = ding_provider_invoke('openlist', 'v2_create_list', $this->buildDataArray());
-      }
+      $this->id = ding_provider_invoke('openlist', 'create_list', $this->buildDataArray());
     }
   }
 
@@ -108,14 +104,12 @@ class DingList implements DingListInterface {
    *   TRUE if the list is deleted.
    */
   public function delete() {
-    if (ding_provider_implements('openlist', 'v2_delete_list')) {
-      try {
-        ding_provider_invoke('openlist', 'v2_delete_list', $this->buildDataArray());
-      }
-      catch (Exception $e) {
-        drupal_set_message(t("An error occurred while deleting your list. Please contact the administrator if this problem persists."), 'error');
-        return FALSE;
-      }
+    try {
+      ding_provider_invoke('openlist', 'delete_list', $this->buildDataArray());
+    }
+    catch (Exception $e) {
+      drupal_set_message(t("An error occurred while deleting your list. Please contact the administrator if this problem persists."), 'error');
+      return FALSE;
     }
 
     return TRUE;
@@ -132,27 +126,25 @@ class DingList implements DingListInterface {
       $element_data = $element_data->buildDataArray();
     }
 
-    if (ding_provider_implements('openlist', 'create_element')) {
-      try {
-        $result = ding_provider_invoke(
-          'openlist',
-          'v2_create_element',
-          $this->buildDataArray(),
-          $element_data,
-          TRUE
-        );
+    try {
+      $result = ding_provider_invoke(
+        'openlist',
+        'create_element',
+        $this->buildDataArray(),
+        $element_data,
+        TRUE
+      );
 
-        if ($result !== FALSE) {
-          $element = new DingListElement($result);
-          $this->elements[$element->id] = $element;
+      if ($result !== FALSE) {
+        $element = new DingListElement($result);
+        $this->elements[$element->id] = $element;
 
-          return $element;
-        }
+        return $element;
       }
-      catch (Exception $e) {
-        watchdog_exception('ding_list', $e);
-        return FALSE;
-      }
+    }
+    catch (Exception $e) {
+      watchdog_exception('ding_list', $e);
+      return FALSE;
     }
 
     return FALSE;
@@ -198,7 +190,7 @@ class DingList implements DingListInterface {
    *   The username.
    */
   public function getOwnerName() {
-    $owner = ding_list_local_user($this->owner);
+    $owner = ding_provider_invoke('openlist', 'drupal_user', $this->owner);
 
     $result = t('Another loaner');
     if (!empty($owner->data) && isset($owner->data['display_name'])) {

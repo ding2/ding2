@@ -401,17 +401,6 @@
         @include span-columns(5 of 8);
       }
     }
-    .ting-object-new {
-      display: none;
-      width: getColumn(1 of 8);
-      float: left;
-      margin-top: 5px;
-      color: $charcoal-opacity-dark;
-
-      .new-content & {
-        display: block;
-      }
-    }
     .search-result--heading-type {
       @include arrow-button(arrow-down);
 
@@ -508,7 +497,6 @@
         }
       }
       .ting-object-left { display: none; }
-      .ting-object-new { width: 100%; }
       .field-name-ting-title { margin-top: 0; }
       .field-name-ting-series,
       .field-name-ting-abstract { margin: 0; }

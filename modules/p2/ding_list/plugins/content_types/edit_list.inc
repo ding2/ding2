@@ -22,6 +22,7 @@ function ding_list_edit_list_content_type_render($subtype, $conf, $panel_args, $
   $list = $context->data;
 
   $block = new stdClass();
+  $block->title = check_plain($list->title);
   $block->content = array(drupal_get_form('ding_list_edit_list_form', $list));
 
   return $block;

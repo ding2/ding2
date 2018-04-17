@@ -5,6 +5,8 @@
  * Messages and notifications for ding users.
  */
 
+use DingList\DingListElement;
+
 define('DING_MESSAGE_ACTIVE', 1);
 define('DING_MESSAGE_CLOSED', 2);
 define('DING_MESSAGE_IGNORE', 3);
@@ -203,14 +205,14 @@ function ding_message_update_users(array $accounts, $debug = FALSE, $reset = FAL
  *
  * @param int $uid
  *   Uid of the user being checked.
- * @param array $element
+ * @param \DingList\DingListElement $element
  *   The element to check.
  * @param object $message
  *   The message object.
  * @param bool $debug
  *   Show debug information while checking.
  */
-function ding_message_check_element($uid, array $element, $message = NULL, $debug = FALSE) {
+function ding_message_check_element($uid, DingListElement $element, $message = NULL, $debug = FALSE) {
   // Set default values.
   $has_updates = FALSE;
   $status = 0;
@@ -239,14 +241,13 @@ function ding_message_check_element($uid, array $element, $message = NULL, $debu
     $new_elements_count = 0;
   }
 
-  switch ($element['type']) {
+  switch ($element->type) {
     case 'follow_author':
     case 'search_query':
       module_load_include('inc', 'opensearch', 'opensearch.client');
       // Build a search query, since the url path doesn't
       // match the query accepted by ting_do_search.
-      $query = ding_message_build_query($element['value']);
-      // TODO Port to search abstraction layer.
+      $query = ding_message_build_query($element->value);
       $result = $query->withCount(50)->execute();
       if ($result->getNumTotalCollections() > 0) {
         // Get the first element in the search result set.
@@ -291,10 +292,15 @@ function ding_message_check_element($uid, array $element, $message = NULL, $debu
       break;
 
     case 'ding_list':
-      $list = ding_list_get_list($element['value']);
+      $list = ding_list_get_list($element->value);
       if ($list) {
         // Get the element its.
-        $elements = array_keys($list->elements);
+        // @TODO Previously the lists where order by weight ascending, now it's
+        // descending, so the newest elements come first. We reverse this array
+        // so the old logic (ascending) works. This should be rewritten in the
+        // future, including other updates mentioned in older comments below.
+        $elements = array_reverse(array_keys($list->elements));
+
         if (!empty($elements)) {
           // Fetch the last element for comparison
           // with the current stored last element.
@@ -357,7 +363,7 @@ function ding_message_check_element($uid, array $element, $message = NULL, $debu
     if ($debug) {
       drupal_set_message(t('Fetched @new_elements_count new elements for list: @element. First element was: @first_element_id', array(
         '@new_elements_count' => $new_elements_count,
-        '@element' => $element['value'],
+        '@element' => $element->value,
         '@first_element_id' => $first_element_id,
       )));
     }
@@ -456,7 +462,7 @@ function ding_message_preprocess_ding_list_element(&$variables) {
         '#theme' => 'html_tag',
         '#tag' => 'div',
         '#attributes' => array('class' => array('ding-message-label')),
-        '#value' => t('New:', array(), array('context' => 'Ding list')),
+        '#value' => t('New:', array(), array('context' => 'ding_message')),
       ),
       'view' => $message->view(),
     );
@@ -476,6 +482,7 @@ function ding_message_get_ding_list_notification($list) {
   $output = '';
 
   if (ding_list_allowed($list, DING_LIST_OPERATION_FOLLOW) && !empty($list->elements)) {
+
     $result = ding_message_get_update_count($list->elements);
     // If a result was found, render a message with the total amount.
     if ($result) {

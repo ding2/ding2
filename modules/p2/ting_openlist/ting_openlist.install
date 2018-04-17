@@ -42,6 +42,15 @@ function ting_openlist_requirements($phase) {
 }
 
 /**
+ * Implements hook_schema().
+ */
+function ting_openlist_schema() {
+  $schema = array();
+  $schema['cache_openlist'] = drupal_get_schema_unprocessed('system', 'cache');
+  return $schema;
+}
+
+/**
  * Implements hook_install().
  */
 function ting_openlist_install() {
@@ -66,6 +75,7 @@ function ting_openlist_uninstall() {
   variable_del('ting_openlist_domain');
   variable_del('ting_library_code');
   variable_del('ting_openlist_prefix');
+  variable_del('ting_openlist_cache_default_ttl');
 
   db_drop_field('users', 'openlist_uid');
 }
@@ -96,13 +106,4 @@ function ting_openlist_update_7001() {
 function ting_openlist_update_7002() {
   $schema = ting_openlist_schema();
   db_create_table('cache_openlist', $schema['cache_openlist']);
-}
-
-/**
- * Implements hook_schema().
- */
-function ting_openlist_schema() {
-  $schema = array();
-  $schema['cache_openlist'] = drupal_get_schema_unprocessed('system', 'cache');
-  return $schema;
 }

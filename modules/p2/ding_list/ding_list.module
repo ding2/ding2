@@ -362,9 +362,7 @@ function ding_list_user_login(&$edit, $account) {
     return;
   }
 
-  if (ding_provider_implements('openlist', 'update_user')) {
-    ding_provider_invoke('openlist', 'update_user', $account);
-  }
+  ding_provider_invoke('openlist', 'update_user', $account);
 
   // Create any missing auto created lists.
   ding_list_setup_autocreated($account);
@@ -761,4 +759,16 @@ function ding_list_panels_pane_content_alter($content, $pane, $args, $contexts) 
  */
 function ding_list_xautoload(LocalDirectoryAdapter $adapter) {
   $adapter->absolute()->addPsr4('DingList\\', drupal_get_path('module', 'ding_list') . '/src');
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ding_list_ding_provider_user() {
+  return array(
+    'openlist' => array(
+      'required' => TRUE,
+      'install time setup' => FALSE,
+    ),
+  );
 }

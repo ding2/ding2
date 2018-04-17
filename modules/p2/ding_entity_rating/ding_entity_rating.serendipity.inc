@@ -44,7 +44,7 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
   $results = array();
   if (!isset($context['interest'])) {
     // Fetch random high rated element.
-    $rnd_id = ding_entity_rating_get_material_by_rating();
+    $rnd_id = ding_entity_rating_get_highly_rated_material_id();
     $ting_object = ding_entity_load($rnd_id);
   }
   else {
@@ -107,10 +107,10 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
  * The objects are sorted by the rating.
  * The entity is selected randomly from materials rated 4 or 5 stars.
  *
- * @return string
- *   Ting object id.
+ * @return string|null
+ *   Ting object id or NULL if this does not exist.
  */
-function ding_entity_rating_get_material_by_rating() {
+function ding_entity_rating_get_highly_rated_material_id() {
 
   // Load rating list.
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST);
@@ -138,7 +138,6 @@ function ding_entity_rating_get_material_by_rating() {
   $random_key = array_rand($ratings);
   $rated_element = $ratings[$random_key];
 
-  // Load and return the element if any.
   if (!empty($rated_element->value)) {
     return $rated_element->value;
   }

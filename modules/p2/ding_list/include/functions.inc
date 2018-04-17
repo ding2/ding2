@@ -32,7 +32,6 @@ require_once __DIR__ . '/functions.handler.inc';
  *      single link.
  */
 function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
-  // @TODO Implement permissions.
   $data = array();
 
   // Get list types that allow for attachment of the specific element type.
@@ -82,7 +81,6 @@ function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
  * @see ding_list_get_add_to_list_data()
  */
 function ding_list_get_add_to_list_ting_object_creators($ting_object) {
-  // @TODO Implement shared user lists.
   global $user;
   $data = array();
   $creators = $ting_object->getCreators();
@@ -294,85 +292,26 @@ function ding_list_allowed(DingList $list, $operation) {
 }
 
 /**
- * Get the position of an element in the list.
- *
- * @param object $list
- *   If this is a numeric value, it will automatically load the ding_list
- *   object.
- * @param object $element
- *   The element you want to move.
- *
- * @return bool|int
- *   The position of the element in the list. Or explicit FALSE if it doesn't
- *   exist in the list.
- */
-function ding_list_get_element_position(&$list, $element) {
-  $items = ding_base_get_items('ding_type', $list, 'field_list_objects');
-  foreach ($items as $key => $item) {
-    if ($item['target_id'] == $element->id) {
-      return $key;
-    }
-  }
-
-  return FALSE;
-}
-
-/**
  * Move an element in a list down below another element.
  *
- * @param object $list
- *   If this is a numeric value, it will automatically load the ding_list
- *   object.
- * @param object $element
- *   The element you want to move.
- * @param mixed $previous
- *   The element to position the element being moved after. If this is false
- *   it will move the element to the first position of the list.
- * @param bool $tell_openlist
- *   If this is true (as by default) it will tell the openlist service about
- *   the changes. When synchronizing this would be set to false.
+ * @param \DingList\DingList $list
+ *   The list.
+ * @param int $element
+ *   ID of the element ot move.
+ * @param int $previous
+ *   ID of the element to position the $element after.
+ *   If this is 0 the $element is positioned as the first element.
  *
  * @return bool
  *   If the move is successful or not.
  */
-function ding_list_set_element_position(&$list, $element, $previous = FALSE, $tell_openlist = TRUE) {
-  $transaction = db_transaction();
-
-  if (!$previous) {
-    $previous = new stdClass();
-    $previous->id = 0;
-    $previous->openlist_id = 0;
+function ding_list_set_element_position(DingList $list, $element, $previous = 0) {
+  try {
+    ding_provider_invoke('openlist', 'set_element_after', $list->buildDataArray(), $element, $previous);
   }
-
-  $items = ding_base_get_items('ding_type', $list, 'field_list_objects');
-  $new_order = array();
-  foreach ($items as $key => $item) {
-    if ($item['target_id'] !== $element->id) {
-      $new_order[] = $item;
-    }
-
-    if ($item['target_id'] === $previous->id) {
-      $new_order[] = array('target_id' => $element->id);
-    }
-  }
-  if ($previous->id == 0) {
-    array_unshift($new_order, array('target_id' => $element->id));
-  }
-
-  if ($new_order != $items) {
-    if (ding_provider_implements('openlist', 'set_element_after') && $tell_openlist === TRUE) {
-      try {
-        ding_provider_invoke('openlist', 'set_element_after', $element->openlist_id, $previous->openlist_id);
-      }
-      catch (Exception $e) {
-        $transaction->rollback();
-        drupal_set_message(t("An error occurred while sorting your elements. Please contact the administrator if this problem persists."), 'error');
-        return FALSE;
-      }
-    }
-
-    $list->field_list_objects[LANGUAGE_NONE] = $new_order;
-    $list->save();
+  catch (Exception $e) {
+    drupal_set_message(t("An error occurred while sorting your elements. Please contact the administrator if this problem persists."), 'error');
+    return FALSE;
   }
 
   return TRUE;
@@ -490,8 +429,9 @@ function ding_list_set_permission(DingList $list, $permission, $account = NULL) 
     $openlist_uid,
     $list->id,
     $permission,
-  ));
+  ), array('use_cache' => FALSE));
 
+  ding_provider_invoke('openlist', 'clear_cache', 'lp' . $list->id);
   drupal_static_reset('ding_list_get_permission');
 }
 
@@ -513,9 +453,10 @@ function ding_list_remove_permission(DingList $list, $account = NULL) {
   ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'removePermission', array(
     $openlist_uid,
     $list->id,
-  ));
+  ), array('use_cache' => FALSE));
 
-  return TRUE;
+  ding_provider_invoke('openlist', 'clear_cache', 'lp' . $list->id);
+  drupal_static_reset('ding_list_get_permission');
 }
 
 /**
@@ -544,7 +485,7 @@ function ding_list_get_permission(DingList $list, $account = NULL) {
     $permissions[$key] = ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'getPermission', array(
       $openlist_uid,
       $list->id,
-    ));
+    ), array('cache_prefix' => 'lp' . $list->id));
   }
 
   return $permissions[$key];
@@ -590,23 +531,6 @@ function ding_list_get_permission_permissions($permission = FALSE) {
 }
 
 /**
- * Get the local user from the list owner.
- *
- * @param string $owner
- *   The owner key.
- *
- * @return bool|object
- *   FALSE if no user is found, or the user object if one is.
- */
-function ding_list_local_user($owner) {
-  if (ding_provider_implements('openlist', 'local_user')) {
-    return ding_provider_invoke('openlist', 'local_user', $owner);
-  }
-
-  return FALSE;
-}
-
-/**
  * Check if a user is the owner of the list.
  *
  * @param \DingList\DingList $list
@@ -623,10 +547,7 @@ function ding_list_is_owner(DingList $list, $account = NULL) {
     $account = $user;
   }
 
-  $account_openlist_id = FALSE;
-  if (ding_provider_implements('openlist', 'user_identifier')) {
-    $account_openlist_id = ding_provider_invoke('openlist', 'user_identifier', $account);
-  }
+  $account_openlist_id = ding_provider_invoke('openlist', 'user_identifier', $account);
 
   return $account_openlist_id == $list->owner;
 }
@@ -669,7 +590,6 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
     return $access[$access_key];
   }
 
-  // If used as menu access callback the list have to be loaded.
   if (is_numeric($list)) {
     $list = ding_list_get_list($list);
   }
@@ -730,34 +650,4 @@ function ding_list_check_token(DingList $list, $key, $token) {
   }
 
   return FALSE;
-}
-
-/**
- * Get a user object, including lists.
- *
- * @param object $account
- *   The user object.
- * @param bool $no_cache
- *   Don't use cached data.
- *
- * @return \DingList\DingList[]
- *   An array of ding lists.
- */
-function ding_list_get_user_lists($account = NULL, $no_cache = FALSE) {
-  $lists = &drupal_static(__FUNCTION__, array());
-
-  if ($account === NULL) {
-    global $user;
-    $account = user_load($user->uid);
-  }
-
-  if (!isset($lists[$account->uid])) {
-    $lists[$account->uid] = FALSE;
-
-    if (ding_provider_implements('openlist', 'v2_get_user')) {
-      $lists[$account->uid] = ding_provider_invoke('openlist', 'v2_get_user', $account, $no_cache);
-    }
-  }
-
-  return $lists[$account->uid];
 }

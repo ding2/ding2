@@ -504,7 +504,7 @@ function ding_serendipity_user_audience($account = NULL) {
 /**
  * Fetch random items, but with probability 50% among first 9% of items.
  *
- * @param array $list
+ * @param array $items
  *   The array to pick from.
  * @param int $cnt
  *   Number of items to pick.
@@ -512,14 +512,15 @@ function ding_serendipity_user_audience($account = NULL) {
  * @return array
  *   Array of randomly picked items.
  */
-function ding_serendipity_pick_weighted_random(array $list, $cnt) {
-  $num = count($list);
+function ding_serendipity_pick_weighted_random(array $items, $cnt) {
+  $num = count($items);
 
   if ($cnt >= $num) {
-    return $list;
+    return $items;
   }
 
-  // Pick cnt weighted random items. Collisions may occur.
+  // Pick cnt weighted random items, with probability 50% among first 9% of
+  // items. Collisions may occur.
   $picked = array();
   for ($i = 0; $i < $cnt; $i++) {
     $rnd = mt_rand() / mt_getrandmax();
@@ -528,7 +529,7 @@ function ding_serendipity_pick_weighted_random(array $list, $cnt) {
   }
 
   // Keys can be anything.
-  $keys = array_keys($list);
+  $keys = array_keys($items);
 
   // Indices are integers matching the picked.
   $indices = array_keys($keys);
@@ -544,7 +545,7 @@ function ding_serendipity_pick_weighted_random(array $list, $cnt) {
   $picked_keys = array_intersect_key($keys, array_flip($result));
 
   // Intersect list.
-  $picked_items = array_intersect_key($list, array_flip($picked_keys));
+  $picked_items = array_intersect_key($items, array_flip($picked_keys));
 
   return $picked_items;
 }
@@ -569,7 +570,7 @@ function ding_serendipity_get_existing_list_materials($account = NULL) {
     return array();
   }
 
-  $lists = ding_list_get_lists([], $account);
+  $lists = ding_list_get_lists(array(), $account);
 
   // Relevant list types.
   $list_types = array(

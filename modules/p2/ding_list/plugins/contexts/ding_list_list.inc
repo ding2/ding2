@@ -45,6 +45,6 @@ function ding_list_list_context($empty, $data = NULL, $conf = FALSE) {
 function ding_list_list_context_convert($context, $type) {
   switch ($type) {
     case 'title':
-      return $context->data->title;
+      return $context->title;
   }
 }

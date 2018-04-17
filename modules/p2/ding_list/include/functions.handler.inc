@@ -10,8 +10,10 @@ use DingList\DingList;
 /**
  * Get a list structure.
  *
- * @param array|int|string $list
- *   The value you which to get a list from.
+ * @param int|string $list
+ *   Given an integer, we assume it's the ID of the list.
+ *   A string assumes it's a DING_LIST_TYPE. This calls teh ding_list_get_lists,
+ *   and returns the first list.
  * @param mixed $account
  *   The user which the list is connected to.
  *   This only affects the result if the $list is a DING_LIST_TYPE.
@@ -20,11 +22,6 @@ use DingList\DingList;
  *   Either FALSE or the list.
  */
 function ding_list_get_list($list, $account = NULL) {
-  // If it's an object return that object.
-  if ($list instanceof DingList) {
-    return $list;
-  }
-
   $lists = &drupal_static(__FUNCTION__, array());
 
   // Create the unique key using the list input and account uid.
@@ -37,8 +34,8 @@ function ding_list_get_list($list, $account = NULL) {
 
   try {
     // If it's a number we assume it's the ID of the list.
-    if (is_numeric($list) && ding_provider_implements('openlist', 'v2_get_list')) {
-      $lists[$key] = ding_provider_invoke('openlist', 'v2_get_list', $list);
+    if (is_numeric($list)) {
+      $lists[$key] = ding_provider_invoke('openlist', 'get_list', $list);
 
       if ($lists[$key]) {
         $lists[$key] = new DingList($lists[$key]);
@@ -80,7 +77,6 @@ function ding_list_get_list($list, $account = NULL) {
 function ding_list_get_lists($list_types, $account = NULL, $expanded = FALSE) {
   $lists = array();
 
-  // @TODO Implement permissions
   if ($account === NULL) {
     global $user;
     $account = $user;
@@ -94,13 +90,7 @@ function ding_list_get_lists($list_types, $account = NULL, $expanded = FALSE) {
     $list_types = array($list_types);
   }
 
-  if (empty($list_types)) {
-    $list_types = FALSE;
-  }
-
-  if (ding_provider_implements('openlist', 'v2_get_lists_by_type')) {
-    $lists = ding_provider_invoke('openlist', 'v2_get_lists_by_type', $list_types, $account, $expanded);
-  }
+  $lists = ding_provider_invoke('openlist', 'get_lists_by_type', $list_types, $account, $expanded);
 
   foreach ($lists as &$list) {
     $list = new DingList($list);

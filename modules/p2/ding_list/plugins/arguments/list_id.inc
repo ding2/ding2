@@ -8,11 +8,11 @@
 $plugin = array(
   'title' => t('Ding list: List ID'),
   'keyword' => 'ding_list_list_id',
-  'description' => t('Ding list object'),
+  'description' => t('Ding list object id.'),
   'context' => 'ding_list_list_id_argument_context',
   'placeholder form' => array(
     '#type' => 'textfield',
-    '#description' => t('Enter a Ting object ID for this argument'),
+    '#description' => t('Enter a ding list object ID for this argument'),
   ),
 );
 

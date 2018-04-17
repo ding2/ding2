@@ -12,8 +12,6 @@ include_once 'ding_entity_rating.serendipity.inc';
 // Ding rating list.
 define('DING_ENTITY_RATING_LIST', 'ratings');
 
-define('DING_ENTITY_RATING_MAX_RATING', 5);
-
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -53,7 +51,7 @@ function ding_entity_rating_menu() {
 function ding_entity_rating_get_user_rating_callback() {
   $ratings = array();
 
-  if (user_is_logged_in()) {
+  if (user_access('use personalisation')) {
     foreach (ding_entity_load_multiple($_GET['ids']) as $object) {
       $ratings[$object->ding_entity_id] = ding_entity_rating_get_user_rating($object);
     }
@@ -61,14 +59,6 @@ function ding_entity_rating_get_user_rating_callback() {
 
   echo drupal_json_encode($ratings);
   drupal_exit();
-}
-
-/**
- * Check access.
- */
-function ding_entity_rating_access($account) {
-  global $user;
-  return $user->uid == $account->uid && user_access('use personalisation');
 }
 
 /**
@@ -363,7 +353,7 @@ function ding_entity_rating_get_average($entity) {
 }
 
 /**
- * Set the average rating of a ting object entity.
+ * Set the average rating of a ting object entity for the current session.
  *
  * @param object $entity
  *   The ting object entity to set rating for.
@@ -378,7 +368,7 @@ function ding_entity_rating_set_average($entity, $value) {
 }
 
 /**
- * Get / Set average rating of a ting object.
+ * Get / Set (for current session) average rating of a ting object.
  *
  * @param object $entity
  *   The ting object entity to work with.

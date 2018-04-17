@@ -26,7 +26,7 @@ function ding_list_public_lists_content_type_render($subtype, $conf, $panel_args
   $block->content = array();
 
   try {
-    $lists = ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'v2_getPublicLists');
+    $lists = ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'getPublicLists');
 
     foreach ($lists as $list) {
       $list = new DingList($list);
@@ -40,7 +40,8 @@ function ding_list_public_lists_content_type_render($subtype, $conf, $panel_args
     }
   }
   catch (Exception $e) {
-    watchdog_exception('ding_entity_rating', $e);
+    watchdog_exception('ding_list', $e);
+    drupal_set_message(t("An error occurred fetching the public lists. Please contact the administrator if this problem persists."), 'error');
   }
 
   return $block;

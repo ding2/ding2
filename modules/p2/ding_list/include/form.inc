@@ -28,7 +28,6 @@ function ding_list_forms($form_id, $args) {
 function ding_list_remove_element_form($form, &$form_state, $element, $title = NULL) {
   $list = ding_list_get_list($element->listId);
 
-  // @TODO Add access checks here.
   if (!ding_list_user_has_access($list, 'edit') || !ding_list_allowed($list, DING_LIST_OPERATION_DETACH)) {
     return $form;
   }
@@ -161,25 +160,25 @@ function ding_list_add_element_form_callback($form, &$form_state) {
 }
 
 /**
- * The form used to create a ding_list object.
+ * The form used to create a list object.
  *
- * If an existing ding_list object is given, that object is editted instead
+ * If an existing list object is given, that object is editted instead
  * of creating a new object.
  *
- * @param mixed $existing
- *   This is the existing ding_list object.
- *
- * @TODO rename this to edit instead of create, and change references.
+ * @param \DingList\DingList|false $list
+ *   The existing list object, or FALSE if we're creating a new.
  */
-function ding_list_edit_list_form($form, &$form_state, $existing = FALSE) {
+function ding_list_edit_list_form($form, &$form_state, $list = FALSE) {
   if (isset($form_state['storage']['confirm'])) {
     $form['#submit'] = array('ding_list_edit_list_form_submit_delete');
 
     $form = confirm_form(
       $form,
-      t('Do you really want to delete !list?', array('!list' => check_plain($existing->title))),
+      // Even though the confirm_form tries to drupal_set_title, the panel will
+      // take over and set the title. Which is why we leave the $question blank.
+      '',
       current_path(),
-      t('Do you really want to delete !list?', array('!list' => check_plain($existing->title)))
+      t('Do you really want to delete !list?', array('!list' => check_plain($list->title)))
     );
 
     return $form;
@@ -189,14 +188,14 @@ function ding_list_edit_list_form($form, &$form_state, $existing = FALSE) {
     '#type' => 'textfield',
     '#title' => t('Title'),
     '#required' => TRUE,
-    '#default_value' => $existing !== FALSE ? $existing->title : '',
-    '#access' => $existing === FALSE || ding_list_allowed($existing, DING_LIST_OPERATION_EDIT_TITLE),
+    '#default_value' => $list !== FALSE ? $list->title : '',
+    '#access' => $list === FALSE || ding_list_allowed($list, DING_LIST_OPERATION_EDIT_TITLE),
   );
 
   $form['note'] = array(
     '#type' => 'textarea',
     '#title' => t('Note'),
-    '#default_value' => isset($existing->data['note']) ? $existing->data['note'] : '',
+    '#default_value' => isset($list->data['note']) ? $list->data['note'] : '',
   );
 
   $form['actions'] = array(
@@ -207,7 +206,7 @@ function ding_list_edit_list_form($form, &$form_state, $existing = FALSE) {
     '#value' => t('Save list'),
   );
 
-  if ($existing !== FALSE && ding_list_allowed($existing, DING_LIST_OPERATION_DELETE)) {
+  if ($list !== FALSE && ding_list_allowed($list, DING_LIST_OPERATION_DELETE)) {
     $form['actions']['delete_list'] = array(
       '#type' => 'submit',
       '#value' => t('Delete list'),
@@ -240,7 +239,7 @@ function ding_list_edit_list_form($form, &$form_state, $existing = FALSE) {
 }
 
 /**
- * The create_list_form submit handler.
+ * Edit form submit action.
  */
 function ding_list_edit_list_form_submit($form, &$form_state) {
   if (isset($form_state['build_info']['args'][0])) {
@@ -287,34 +286,18 @@ function ding_list_edit_list_form_submit_delete($form, &$form_state) {
 }
 
 /**
- * Cancel button on create submit.
+ * Edit form cancel action.
  */
 function ding_list_edit_list_form_submit_cancel($form, &$form_state) {
-  $existing = $form_state['build_info']['args'][0];
+  $list = $form_state['build_info']['args'][0];
 
   // You cancelled, nothing is happening.
-  if (!empty($existing)) {
-    $form_state['redirect'] = 'list/' . $existing['list_id'];
+  if (!empty($list)) {
+    $form_state['redirect'] = 'list/' . $list['list_id'];
   }
   else {
     $form_state['redirect'] = 'user';
   }
-}
-
-/**
- * Remove share from list.
- */
-function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
-  $list = ding_list_get_list(DING_LIST_TYPE_LISTS);
-
-  if ($list) {
-    $element = $list->hasElement($form_state['build_info']['args'][0]['list_id']);
-    if ($element) {
-      $element->delete();
-    }
-  }
-
-  $form_state['redirect'] = 'user';
 }
 
 /**
@@ -325,7 +308,7 @@ function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
 function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   global $user;
 
-  if (!ding_list_is_owner($list)) {
+  if (!ding_list_is_owner($list, $user)) {
     $form['unfollow_shared'] = array(
       '#type' => 'submit',
       '#value' => t('Unfollow shared list'),
@@ -444,7 +427,14 @@ The link is active for 7 days from today, after which it will be disabled for se
     ),
   );
 
-  $permissions = ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'listPermissions', array($list->id));
+  $permissions = ding_provider_invoke(
+    'openlist',
+    'call_module',
+    'ListPermission',
+    'listPermissions',
+    array($list->id),
+    array('cache_prefix' => 'lp' . $list->id)
+  );
   if (!empty($permissions)) {
     $form['mail_sharer']['shared'] = array(
       '#prefix' => '<div id="shared-list">',
@@ -463,7 +453,7 @@ The link is active for 7 days from today, after which it will be disabled for se
 
     // Add an item to the shared list, for each user with access.
     foreach ($permissions as $permission) {
-      $local_user = ding_provider_invoke('openlist', 'local_user', $permission['user']);
+      $local_user = ding_provider_invoke('openlist', 'drupal_user', $permission['user']);
       $form['mail_sharer']['shared'][$permission['user']]['user'] = array(
         '#markup' => format_username($local_user),
       );
@@ -477,6 +467,7 @@ The link is active for 7 days from today, after which it will be disabled for se
           'callback' => 'ding_list_list_permissions_form_set_permission_callback',
           'wrapper' => 'shared-list',
         ),
+        '#user_id' => $permission['user'],
       );
     }
   }
@@ -503,6 +494,25 @@ The link is active for 7 days from today, after which it will be disabled for se
   return $form;
 }
 
+/**
+ * Permissions form unfollow action.
+ *
+ * Note this is the action shown, for users that follow a list, not the owner
+ * of the list.
+ */
+function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
+  // Get the current user follow lists list.
+  $list = ding_list_get_list(DING_LIST_TYPE_LISTS);
+
+  if ($list) {
+    $element = $list->hasElement($form_state['build_info']['args'][0]->id);
+    if ($element) {
+      $element->delete();
+    }
+  }
+
+  $form_state['redirect'] = 'user';
+}
 
 /**
  * Ajax callback for changing a user permission.
@@ -510,12 +520,8 @@ The link is active for 7 days from today, after which it will be disabled for se
 function ding_list_list_permissions_form_set_permission_callback($form, &$form_state) {
   $list = $form_state['build_info']['args'][0];
 
-  // Get the permission entity id, from the triggering elements parents.
-  // The array parents will look  like: ["mail_sharer", "shared", ID,
-  // "permission"].
-  $user_id = array_slice($form_state['triggering_element']['#array_parents'], -2, 1);
-  $user_id = $user_id[0];
-  $local_user = ding_provider_invoke('openlist', 'local_user', $user_id);
+  $user_id = $form_state['triggering_element']['#user_id'];
+  $local_user = ding_provider_invoke('openlist', 'drupal_user', $user_id);
   $permission = $form_state['values']['shared'][$user_id]['permission'];
 
   if ($permission != 'remove') {
