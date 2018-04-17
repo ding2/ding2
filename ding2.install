@@ -816,13 +816,6 @@ function ding2_update_7070() {
  */
 function ding2_update_7071() {
   module_enable(array('ding_paragraphs'));
-}
-
-/**
- * Enable the ding_paragraphs module.
- */
-function ding2_update_7048() {
-  module_enable(array('ding_paragraphs'));
 
   // Revert features.
   module_load_include('inc', 'ding2', 'ding2.install_callbacks');
