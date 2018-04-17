@@ -123,8 +123,8 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
               'ding_availability' => array(
                 array(
                   'html_id' => $id,
-                  'local' => $entity->localId,
-                  'pid' => $entity->getId(),
+                  'local_id' => $entity->localId,
+                  'id' => $entity->getId(),
                 ),
               ),
             ),
@@ -172,8 +172,8 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
               'ding_availability' => array(
                 array(
                   'html_id' => $id,
-                  'local' => $entity->localId,
-                  'pid' => $entity->getId(),
+                  'local_id' => $entity->localId,
+                  'id' => $entity->getId(),
                 ),
               ),
             ),

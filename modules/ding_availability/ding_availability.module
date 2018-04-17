@@ -93,15 +93,15 @@ function ding_availability_theme($existing, $type, $theme, $path) {
  * Output the availability information as json.
  */
 function ding_availability_js() {
-  $data = isset($_POST['ids']) ? $_POST['ids'] : array();
+  $ids = isset($_POST['ids']) ? $_POST['ids'] : array();
 
   // Enrich the return data with ids to simplify the work need in the frontend
   // to insert the holdings.
-  $items = ding_availability_items($data);
+  $items = ding_availability_items($ids);
   foreach ($items as $provider_id => &$item) {
-    foreach ($data as $ids) {
-      if ($ids['local'] == $provider_id) {
-        $item['ids'] = $ids;
+    foreach ($ids as $id) {
+      if ($id['local_id'] == $provider_id) {
+        $item['ids'] = $id;
         break;
       }
     }
@@ -114,13 +114,13 @@ function ding_availability_js() {
  * Output holdings information as json.
  */
 function ding_availability_holdings_js() {
-  $data = isset($_POST['ids']) ? $_POST['ids'] : array();
+  $ids = isset($_POST['ids']) ? $_POST['ids'] : array();
 
   // Enrich the return data with ids to simplify the work need in the frontend
   // to insert the holdings.
-  $holdings = ding_availability_holdings($data);
+  $holdings = ding_availability_holdings($ids);
   foreach ($holdings as $provider_id => &$holding) {
-    $holding['ids'] = $data[$provider_id];
+    $holding['ids'] = $ids[$provider_id];
   }
 
   drupal_json_output($holdings);
