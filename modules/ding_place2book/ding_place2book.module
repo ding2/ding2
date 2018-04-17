@@ -148,7 +148,6 @@ function ding_place2book_theme() {
 * @param int $nid
 * @return null
 */
->>>>>>> 3296: Added on waiting list state
 function ding_place2book_get_ticketinfo($nid) {
   //get the node
   $event = node_load($nid);
