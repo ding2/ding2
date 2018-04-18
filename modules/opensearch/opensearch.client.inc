@@ -18,11 +18,12 @@
  * @param bool $with_relations
  *   Whether to return all relations. Defaults to FALSE.
  *
- * @todo Should use getObject, but the ting-client lib doesn't implement that.
- *
- * @return \TingClientObject|\TingClientObjectCollection|NULL
+ * @return bool|mixed|null|\TingClientSearchResult
  *   Ting object or object collection if $collection is TRUE and a collection
  *   was found. NULL is returned if no object or collection could be retrieved.
+ *
+ * @throws \TingClientException
+ *   This may throw this exception if the search request fails.
  */
 function opensearch_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
   if (!empty($object_id)) {
@@ -69,7 +70,7 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
  * @param string[] $ids
  *   Data-well PIDs for the objects to get.
  *
- * @return array
+ * @return bool|\TingClientSearchResult
  *   The objects fetched from the data-well.
  *
  * @throws \TingClientException
@@ -90,7 +91,7 @@ function opensearch_get_objects(array $ids) {
     $request->setProfile($profile);
   }
 
-  return opensearch_execute($request);;
+  return opensearch_execute($request);
 }
 
 /**
@@ -120,6 +121,9 @@ function opensearch_get_objects(array $ids) {
  *
  * @return TingClientSearchResult
  *   The search result.
+ *
+ * @throws \TingClientException
+ *   This may throw this exception if the search request fails.
  */
 function opensearch_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
   $request = opensearch_get_request_factory()->getSearchRequest();
@@ -235,6 +239,12 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
  *
  * @param string $object_id
  *   Object identifier.
+ *
+ * @return bool|\TingClientSearchResult
+ *   The search result.
+ *
+ * @throws \TingClientException
+ *   This may throw this exception if the search request fails.
  */
 function opensearch_get_object_marcxchange($object_id) {
   $request = opensearch_get_request_factory()->getMarcXchangeRequest();
@@ -254,8 +264,11 @@ function opensearch_get_object_marcxchange($object_id) {
  * @param int $num_results
  *   The number of results to return.
  *
- * @return array
+ * @return bool|\TingClientSearchResult
  *   An array of TingClientObjectRecommendation objects.
+ *
+ * @throws \TingClientException
+ *   This may throw this exception if the search request fails.
  */
 function opensearch_get_object_recommendations($isbn, $num_results = 10) {
   $request = opensearch_get_request_factory()->getObjectRecommendationRequest();
@@ -268,12 +281,12 @@ function opensearch_get_object_recommendations($isbn, $num_results = 10) {
 /**
  * Retrieves an initialized Ting client request factory.
  *
+ * @return TingClientRequestFactory
+ *   TingClientRequestFactory object.
+ *
  * @throws TingClientException
  *   If there is no end-point url defined in the configuration this exception is
  *   thrown.
- *
- * @return TingClientRequestFactory
- *   TingClientRequestFactory object.
  */
 function opensearch_get_request_factory() {
   static $request_factory;
@@ -414,7 +427,7 @@ function _opensearch_get_client() {
   static $client;
 
   if (!isset($client)) {
-    $logger = (variable_get('opensearch_enable_logging', FALSE)) ? new TingClientDrupalWatchDogLogger(opensearch_get_request_factory()) : new TingClientVoidLogger();
+    $logger = (variable_get('opensearch_enable_logging', FALSE)) ? new TingClientDrupalWatchDogLogger() : new TingClientVoidLogger();
     $client = new TingClient(new TingClientRequestAdapter(), $logger);
   }
 
