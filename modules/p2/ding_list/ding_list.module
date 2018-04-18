@@ -13,6 +13,7 @@ include_once 'ding_list.features.inc';
 // Manual user lists.
 define('DING_LIST_TYPE_USER_LIST', 'user_list');
 // Followed taxonomy terms.
+// @TODO In future cleanup remove all code related to this list type.
 define('DING_LIST_TYPE_FOLLOW', 'follow');
 // Search strings.
 define('DING_LIST_TYPE_SEARCHES', 'user_searches');
@@ -23,6 +24,7 @@ define('DING_LIST_TYPE_BOOKS_READ', 'books_read');
 // Check list. This is hardcoded intentionally and exceptionally.
 define('DING_LIST_TYPE_REMEMBER', 'remember');
 define('DING_LIST_TYPE_LISTS', 'lists_list');
+// @TODO In future cleanup remove all code related to this list type.
 define('DING_LIST_TYPE_FOLLOW_USER', 'follow_user');
 define('DING_LIST_TYPE_FOLLOW_AUTHOR', 'follow_author');
 
@@ -255,7 +257,6 @@ function ding_list_ding_list_operations() {
       DING_LIST_OPERATION_ATTACH => array('ding_list_user'),
       DING_LIST_OPERATION_DETACH => TRUE,
       DING_LIST_OPERATION_SORT => TRUE,
-      DING_LIST_OPERATION_AUTO_CREATE => TRUE,
       DING_LIST_OPERATION_FOLLOW => TRUE,
       '_data' => array(
         'default_title' => t('Users I follow'),
@@ -276,7 +277,6 @@ function ding_list_ding_list_operations() {
       DING_LIST_OPERATION_ATTACH => array('taxonomy_term'),
       DING_LIST_OPERATION_DETACH => TRUE,
       DING_LIST_OPERATION_SORT => TRUE,
-      DING_LIST_OPERATION_AUTO_CREATE => TRUE,
       DING_LIST_OPERATION_FOLLOW => TRUE,
       '_data' => array(
         'default_title' => t('Subjects I follow'),
