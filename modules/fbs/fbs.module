@@ -53,7 +53,7 @@ function fbs_libraries_info() {
       'name' => 'JsonMapper',
       'vendor url' => 'https://github.com/cweiske/jsonmapper',
       'download url' => 'https://github.com/cweiske/jsonmapper',
-      'version' => 'v0.4.4',
+      'version' => 'v1.4.0',
       'xautoload' => function ($adapter) {
         $adapter->addClassMap(
         // Would like to:
