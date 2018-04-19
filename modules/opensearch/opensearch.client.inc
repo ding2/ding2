@@ -394,7 +394,7 @@ function opensearch_execute(TingClientRequest $request) {
       }
     }
 
-    // Update the cache with the raw reponse object from the data well for
+    // Update the cache with the raw response object from the data well for
     // faster processing. Also set the static cache.
     $opensearch_static_fast[$cid] = $response;
     if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
