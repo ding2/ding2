@@ -2,11 +2,11 @@
 
 namespace FBS\Model;
 
-class Holdings
+class HoldingsV3
 {
 
     /**
-     * @var Material[] Materials that belongs to this placement
+     * @var MaterialV3[] Materials that belongs to this placement
      * @required
      */
     public $materials = null;

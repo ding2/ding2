@@ -2,7 +2,7 @@
 
 namespace FBS\Model;
 
-class PaymentConfirmation
+class PaymentConfirmationV2
 {
 
     /**

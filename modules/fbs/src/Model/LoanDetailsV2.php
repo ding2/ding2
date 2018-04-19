@@ -2,7 +2,7 @@
 
 namespace FBS\Model;
 
-class LoanDetails
+class LoanDetailsV2
 {
 
     /**
@@ -16,6 +16,12 @@ class LoanDetails
      * @required
      */
     public $loanType = null;
+
+    /**
+     * @var MaterialGroup Material group that the material belongs to
+     * @required
+     */
+    public $materialGroup = null;
 
     /**
      * @var Periodical|null Present if material is a periodical
@@ -39,12 +45,6 @@ class LoanDetails
      * @required
      */
     public $loanDate = null;
-
-    /**
-     * @var string Name of the material group that the material belongs to
-     * @required
-     */
-    public $materialGroupName = null;
 
     /**
      * @var string Identifies the exact material that has been loaned

@@ -2,7 +2,7 @@
 
 namespace FBS\Model;
 
-class Fee
+class FeeV2
 {
 
     /**
@@ -25,7 +25,7 @@ class Fee
     public $paidDate = null;
 
     /**
-     * @var FeeMaterial[] Set if fee covers materials
+     * @var FeeMaterialV2[] Set if fee covers materials
      * @required
      */
     public $materials = null;

@@ -32,7 +32,7 @@ class ReservationDetails
     public $reservationId = null;
 
     /**
-     * @var string Set if reserved material is available for loan
+     * @var string|null Set if reserved material is available for loan
      */
     public $pickupDeadline = null;
 
@@ -49,12 +49,12 @@ class ReservationDetails
     public $dateOfReservation = null;
 
     /**
-     * @var Periodical Present if material is a periodical
+     * @var Periodical|null Present if material is a periodical
      */
     public $periodical = null;
 
     /**
-     * @var ILLBibliographicRecord Additional bibliographic information for
+     * @var ILLBibliographicRecord|null Additional bibliographic information for
      * inter-library loans
      */
     public $ilBibliographicRecord = null;
@@ -66,13 +66,13 @@ class ReservationDetails
     public $state = null;
 
     /**
-     * @var integer The number in the reservation queue.
+     * @var integer|null The number in the reservation queue.
      */
     public $numberInQueue = null;
 
     /**
-     * @var string The reservation number. Will be present if the reservation is ready
-     * for pickup (the state is 'readyForPickup')
+     * @var string|null The reservation number. Will be present if the reservation is
+     * ready for pickup (the state is 'readyForPickup')
      */
     public $pickupNumber = null;
 

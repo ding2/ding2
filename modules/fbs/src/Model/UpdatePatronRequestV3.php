@@ -2,11 +2,11 @@
 
 namespace FBS\Model;
 
-class UpdatePatronRequest
+class UpdatePatronRequestV3
 {
 
     /**
-     * @var PatronSettings|null Set this if patron details are to be changed
+     * @var PatronSettingsV3|null Set this if patron details are to be changed
      */
     public $patron = null;
 

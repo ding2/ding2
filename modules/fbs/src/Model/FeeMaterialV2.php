@@ -2,7 +2,7 @@
 
 namespace FBS\Model;
 
-class FeeMaterial
+class FeeMaterialV2
 {
 
     /**
@@ -12,15 +12,15 @@ class FeeMaterial
     public $recordId = null;
 
     /**
+     * @var MaterialGroup The material group that the material belongs to
+     * @required
+     */
+    public $materialGroup = null;
+
+    /**
      * @var Periodical|null Present if material is a periodical
      */
     public $periodical = null;
-
-    /**
-     * @var string Name of the material group that the material belongs to
-     * @required
-     */
-    public $materialGroupName = null;
 
     /**
      * @var string Identifies the exact material covered by the fee

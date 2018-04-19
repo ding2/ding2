@@ -9,54 +9,6 @@ class ExternalMaterialLoansApi extends SwaggerApi
 {
 
     /**
-     * Get list of current loans by the patron.
-     *
-     *
-     *  Returns an array of loans.
-     *  
-     *  
-     *  If a loan is not renewable then the field renewalStatus will contain a list of one or more of these values:
-     *  
-     *  - deniedReserved
-     *  - deniedMaxRenewalsReached
-     *  - deniedLoanerIsBlocked
-     *  - deniedMaterialIsNotLoanable
-     *  - deniedMaterialIsNotFound
-     *  - deniedLoanerNotFound
-     *  - deniedLoaningProfileNotFound
-     *  - deniedOtherReason
-     *  
-     *  
-     *  If any other value is encountered then it must be treated as 'deniedOtherReason'.
-     *  
-     *  The response contains the field loanDetails.loanType, which can be any of these values:
-     *  
-     *  - loan
-     *  - interLibraryLoan
-     *  
-     *  
-     *  The values are subject to change. If an unrecognized value is encountered, it should be treated as 'other' .
-     *  
-     *
-     * @param string $agencyid ISIL of the agency (e.g. DK-761500)
-     * @param integer $patronid the patron that owns the loans
-     * @return Loan[]
-     */
-    public function getLoans($agencyid, $patronid)
-    {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/patrons/{patronid}/loans");
-        $request->addParameter("path", "agencyid", $agencyid);
-        $request->addParameter("path", "patronid", $patronid);
-
-        $request->defineResponse(200, "", array('\\FBS\\Model\\Loan'));
-        $request->defineResponse("400", 'bad request', null);
-        $request->defineResponse("401", 'client unauthorized', null);
-        $request->defineResponse("404", 'patron not found', null);
-
-        return $request->execute();
-    }
-
-    /**
      * Renew loans.
      *
      *
@@ -92,16 +44,68 @@ class ExternalMaterialLoansApi extends SwaggerApi
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the loans
      * @param array $materialLoanIds a list of loanId to be renewed
-     * @return RenewedLoan[]
+     * @return RenewedLoanV2[]
      */
-    public function renewLoans($agencyid, $patronid, $materialLoanIds)
+    public function renewLoansV2($agencyid, $patronid, $materialLoanIds)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/{patronid}/loans/renew");
+        $request = $this->newRequest("POST", "/external/{agencyid}/patrons/{patronid}/loans/renew/v2");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "materialLoanIds", $materialLoanIds);
 
-        $request->defineResponse(200, "", array('\\FBS\\Model\\RenewedLoan'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\RenewedLoanV2'));
+        $request->defineResponse("400", 'bad request', null);
+        $request->defineResponse("401", 'client unauthorized', null);
+        $request->defineResponse("404", 'patron not found', null);
+
+        return $request->execute();
+    }
+
+    /**
+     * Get list of current loans by the patron.
+     *
+     *
+     *  Returns an array of loans.
+     *  
+     *  
+     *  If a loan is not renewable then the field renewalStatus will contain a list of one or more of these values:
+     *  
+     *  - deniedReserved
+     *  - deniedMaxRenewalsReached
+     *  - deniedLoanerIsBlocked
+     *  - deniedMaterialIsNotLoanable
+     *  - deniedMaterialIsNotFound
+     *  - deniedLoanerNotFound
+     *  - deniedLoaningProfileNotFound
+     *  - deniedOtherReason
+     *  
+     *  
+     *  If any other value is encountered then it must be treated as 'deniedOtherReason'.
+     *  
+     *  The response contains the field loanDetails.loanType, which can be any of these values:
+     *  
+     *  - loan
+     *  - interLibraryLoan
+     *  
+     *  
+     *  The values are subject to change. If an unrecognized value is encountered, it should be treated as 'other' .
+     *  
+     *  
+     *  NOTE: Cicero can decide to skip evaluation of the returned loans to minimize response time for loaners with
+     *  many loans. In that case isRenewable will have the value true, as if it were a successful validation.
+     *  
+     *
+     * @param string $agencyid ISIL of the agency (e.g. DK-761500)
+     * @param integer $patronid the patron that owns the loans
+     * @return LoanV2[]
+     */
+    public function getLoansV2($agencyid, $patronid)
+    {
+        $request = $this->newRequest("GET", "/external/{agencyid}/patrons/{patronid}/loans/v2");
+        $request->addParameter("path", "agencyid", $agencyid);
+        $request->addParameter("path", "patronid", $patronid);
+
+        $request->defineResponse(200, "", array('\\FBS\\Model\\LoanV2'));
         $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
         $request->defineResponse("404", 'patron not found', null);
@@ -119,17 +123,17 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the ID of the patron that owns the bookings
-     * @param string $bookingid
-     * @return BookingLoan[]
+     * @param string $bookingid the ID of the booking
+     * @return BookingLoanV2[]
      */
-    public function getBookingLoans($agencyid, $patronid, $bookingid)
+    public function getBookingLoansV2($agencyid, $patronid, $bookingid)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/patrons/{patronid}/loans/{bookingid}");
+        $request = $this->newRequest("GET", "/external/{agencyid}/patrons/{patronid}/loans/{bookingid}/v2");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("path", "bookingid", $bookingid);
 
-        $request->defineResponse(200, "", array('\\FBS\\Model\\BookingLoan'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\BookingLoanV2'));
         $request->defineResponse("400", 'bad request com.dantek.dl.rest.RestException', null);
         $request->defineResponse("401", 'client unauthorized', null);
         $request->defineResponse("404", 'patron not found', null);
