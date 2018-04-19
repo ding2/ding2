@@ -8,13 +8,6 @@ use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
 
 define('OPENSEARCH_DEFAULT_CACHE_LIFETIME', 900);
 
-// Define the different types of data that we cache in ting_set_cache and the
-// default TTL.
-define('OPENSEARCH_CACHE_TING_OBJECT', 'ting-object');
-define('OPENSEARCH_CACHE_TING_OBJECT_FULLTEXT', 'ting-object-fulltext');
-define('OPENSEARCH_CACHE_COLLECTION', 'ting-collection');
-define('OPENSEARCH_CACHE_REPLY', 'ting-reply');
-
 /**
  * Implements hook_ding_provider().
  */
