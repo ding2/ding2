@@ -17,7 +17,7 @@
  * @param \TingClientSearchRequest $request
  *   The current request object.
  */
-function hook_opensearch_cache_key_alter(&$cid, $request) {
+function hook_opensearch_cache_key_alter(&$cid, TingClientSearchRequest $request) {
   // Determine context.
   $context = 'search';
 
