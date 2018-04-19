@@ -293,9 +293,9 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           if (in_array(drupal_strtolower($ac_source), $reservable_sources) && !in_array(drupal_strtolower($type), $online_types)) {
             foreach ($entities as $object_entity) {
               $id_mapping[] = array(
-                  'html_id' => $id,
-                  'local_id' => $object_entity->localId,
-                  'id' => $object_entity->getId(),
+                'html_id' => $id,
+                'local_id' => $object_entity->localId,
+                'id' => $object_entity->getId(),
               );
             }
           }
