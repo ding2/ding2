@@ -13,12 +13,12 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *
      *
      *  Returns an array of the updated loans.
-     *  
+     *
      *  If the materials could not be renewed, the return date will be unchanged.
-     *  
+     *
      *
      *  The response field renewalStatus will contain a list of one or more of these values:
-     *  
+     *
      *  - renewed
      *  - deniedReserved
      *  - deniedMaxRenewalsReached
@@ -28,25 +28,25 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *  - deniedLoanerNotFound
      *  - deniedLoaningProfileNotFound
      *  - deniedOtherReason
-     *  
-     *  
+     *
+     *
      *  If any other value is encountered then it must be treated as 'deniedOtherReason'.
-     *  
+     *
      *  The response contains the field loanDetails.loanType, which can be any of these values:
-     *  
+     *
      *  - loan
      *  - interLibraryLoan
-     *  
-     *  
+     *
+     *
      *  The values are subject to change. If an unrecognized value is encountered, it should be treated as 'other' .
-     *  
+     *
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the loans
      * @param array $materialLoanIds a list of loanId to be renewed
      * @return RenewedLoanV2[]
      */
-    public function renewLoansV2($agencyid, $patronid, $materialLoanIds)
+    public function renewLoans($agencyid, $patronid, $materialLoanIds)
     {
         $request = $this->newRequest("POST", "/external/{agencyid}/patrons/{patronid}/loans/renew/v2");
         $request->addParameter("path", "agencyid", $agencyid);
@@ -66,10 +66,10 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *
      *
      *  Returns an array of loans.
-     *  
-     *  
+     *
+     *
      *  If a loan is not renewable then the field renewalStatus will contain a list of one or more of these values:
-     *  
+     *
      *  - deniedReserved
      *  - deniedMaxRenewalsReached
      *  - deniedLoanerIsBlocked
@@ -78,28 +78,28 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *  - deniedLoanerNotFound
      *  - deniedLoaningProfileNotFound
      *  - deniedOtherReason
-     *  
-     *  
+     *
+     *
      *  If any other value is encountered then it must be treated as 'deniedOtherReason'.
-     *  
+     *
      *  The response contains the field loanDetails.loanType, which can be any of these values:
-     *  
+     *
      *  - loan
      *  - interLibraryLoan
-     *  
-     *  
+     *
+     *
      *  The values are subject to change. If an unrecognized value is encountered, it should be treated as 'other' .
-     *  
-     *  
+     *
+     *
      *  NOTE: Cicero can decide to skip evaluation of the returned loans to minimize response time for loaners with
      *  many loans. In that case isRenewable will have the value true, as if it were a successful validation.
-     *  
+     *
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the loans
      * @return LoanV2[]
      */
-    public function getLoansV2($agencyid, $patronid)
+    public function getLoans($agencyid, $patronid)
     {
         $request = $this->newRequest("GET", "/external/{agencyid}/patrons/{patronid}/loans/v2");
         $request->addParameter("path", "agencyid", $agencyid);
@@ -117,16 +117,16 @@ class ExternalMaterialLoansApi extends SwaggerApi
      * Retrieves material loans for the given booking ID.
      *
      *
-     *  
+     *
      *  Retrieves an array of BookingLoan corresponding to the given booking ID.
-     *  
+     *
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the ID of the patron that owns the bookings
      * @param string $bookingid the ID of the booking
      * @return BookingLoanV2[]
      */
-    public function getBookingLoansV2($agencyid, $patronid, $bookingid)
+    public function getBookingLoans($agencyid, $patronid, $bookingid)
     {
         $request = $this->newRequest("GET", "/external/{agencyid}/patrons/{patronid}/loans/{bookingid}/v2");
         $request->addParameter("path", "agencyid", $agencyid);

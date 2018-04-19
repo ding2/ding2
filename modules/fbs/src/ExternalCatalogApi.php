@@ -19,7 +19,7 @@ class ExternalCatalogApi extends SwaggerApi
      * @param array $exclude Identifies the branchIds which are excluded from the result
      * @return AvailabilityV3[]
      */
-    public function getAvailabilityV3($agencyid, $recordid, $exclude = null)
+    public function getAvailability($agencyid, $recordid, $exclude = null)
     {
         $request = $this->newRequest("GET", "/external/{agencyid}/catalog/availability/v3");
         $request->addParameter("path", "agencyid", $agencyid);
@@ -54,7 +54,7 @@ class ExternalCatalogApi extends SwaggerApi
      * @param string $recordid identifies the bibliographical record, i.e. the FAUST number
      * @return BookingBranchInfoV3[]
      */
-    public function bookingInformationV3($agencyid, $recordid)
+    public function bookingInformation($agencyid, $recordid)
     {
         $request = $this->newRequest("GET", "/external/{agencyid}/catalog/bookingInformation/{recordid}/v3");
         $request->addParameter("path", "agencyid", $agencyid);
@@ -80,7 +80,7 @@ class ExternalCatalogApi extends SwaggerApi
      * @param array $exclude Identifies the branchIds which are excluded from the result
      * @return HoldingsForBibliographicalRecordV3[]
      */
-    public function getHoldingsV3($agencyid, $recordid, $exclude = null)
+    public function getHoldings($agencyid, $recordid, $exclude = null)
     {
         $request = $this->newRequest("GET", "/external/{agencyid}/catalog/holdings/v3");
         $request->addParameter("path", "agencyid", $agencyid);

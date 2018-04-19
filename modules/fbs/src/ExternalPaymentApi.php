@@ -19,10 +19,10 @@ class ExternalPaymentApi extends SwaggerApi
      *  If the material exists no more, which is the case for fees that are related to closed interlibraryloans,
      *  then the fee is still returned, but without material information
      *  The list of available types currently is
-     *  
+     *
      *  fee
      *  compensation
-     *  
+     *
      *  While the type can be used by client systems to look up a suitable display message for the end user, it is
      *  important that unrecognized types are treated as 'other'.
      *
@@ -34,7 +34,7 @@ class ExternalPaymentApi extends SwaggerApi
      *                           only access); default=false
      * @return FeeV2[]
      */
-    public function getFeesV2($agencyid, $patronid, $includepaid, $includenonpayable)
+    public function getFees($agencyid, $patronid, $includepaid, $includenonpayable)
     {
         $request = $this->newRequest("GET", "/external/{agencyid}/patron/{patronid}/fees/v2");
         $request->addParameter("path", "agencyid", $agencyid);
@@ -59,11 +59,11 @@ class ExternalPaymentApi extends SwaggerApi
      *  fee identifiers for fees covered by the payment. It is expected that a fee has been paid in full when covered
      *  by a payment order. The client system is not allowed to offer partial payment of individual fees.
      *  The paymentStatus on the response can be any of these values:
-     *  
+     *
      *    - paymentRegistered
      *    - paymentRegisteredByDifferentOrderId
      *    - paymentNotAllowedByClient
-     *  
+     *
      *  If any other value is encountered, it should be treated as yet another reason for not registerering payment of
      *  a fee using the specified order id.
      *  Multiple calls to pay a fee with the same
@@ -78,7 +78,7 @@ class ExternalPaymentApi extends SwaggerApi
      * @param PaymentOrder $paymentOrder registration of fees covered by a payment order
      * @return PaymentConfirmationV2[]
      */
-    public function payFeesV2($agencyid, $patronid, Model\PaymentOrder $paymentOrder)
+    public function payFees($agencyid, $patronid, Model\PaymentOrder $paymentOrder)
     {
         $request = $this->newRequest("POST", "/external/{agencyid}/patron/{patronid}/payment/v2");
         $request->addParameter("path", "agencyid", $agencyid);
