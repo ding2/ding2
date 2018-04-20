@@ -461,14 +461,21 @@ function ting_reference_widget_info_alter(&$info) {
 function ting_reference_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   // Try to find the relation, if one exists for the current delta.
   $ting_object_id = '';
-  $item = FALSE;
-  if (!empty($items) && isset($items[$delta]['value'])) {
-    // Get relations to ting entity.
-    $item = relation_get_endpoints($items[$delta]['value'], 'ting_object');
-    $item = array_shift($item['ting_object']);
-
-    // Get ting object id.
-    $ting_object_id = $item->ding_entity_id;
+  $tid = FALSE;
+  if (!empty($items)) {
+    // For some reason the data structure in $items is different base on the
+    // widget is used in paragraphs or as a normal field.
+    if (isset($items[$delta]['value'])) {
+      // Get relations to ting entity.
+      $item = relation_get_endpoints($items[$delta]['value'], 'ting_object');
+      $item = array_shift($item['ting_object']);
+      $ting_object_id = $item->ding_entity_id;
+      $tid = $item->tid;
+    }
+    elseif (isset($items[$delta]['ting_object_id']) && isset($items[$delta]['tid'])) {
+      $ting_object_id = $items[$delta]['ting_object_id'];
+      $tid = $items[$delta]['tid'];
+    }
   }
 
   // Hidden field used to get the drupal entity id (tid) for a ting_object_id.
@@ -496,12 +503,9 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
       );
 
       // Load preview of the entity referenced.
-      if ($item) {
-        // Get entity type.
-        $entity_type = $items[$delta]['value']->endpoints[$langcode][1]['entity_type'];
-
+      if ($tid) {
         // Load the entity and build it in preview view mode.
-        $ding_entity = entity_load($entity_type, array($item->tid));
+        $ding_entity = entity_load('ting_object', array($tid));
         $build = ting_object_view(reset($ding_entity), 'ting_reference_preview');
 
         // Add the build to the form with some css.
@@ -562,6 +566,8 @@ function ting_reference_object_id_validate($element, &$form_state, $form) {
  *
  * @return array
  *   With loaded relation entities.
+ *
+ * @throws \EntityMalformedException
  */
 function ting_reference_get_relations($entity_type, $entity) {
   $entity_ids = entity_extract_ids($entity_type, $entity);

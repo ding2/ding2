@@ -11,3 +11,12 @@
 .view-mode-ting-reference-preview .ting-object-right {
   margin-left: 210px
 }
+
+.view-mode-ting-reference-preview .ting-cover img {
+  max-height: 140px;
+}
+
+.view-mode-ting-reference-preview .field-type-ting-cover {
+  float: left;
+  margin-right: 10px;
+}
