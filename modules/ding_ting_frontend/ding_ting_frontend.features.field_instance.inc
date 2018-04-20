@@ -623,7 +623,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting_covers',
         'settings' => array(
-          'image_style' => 'ting_cover_small',
+          'image_style' => 'ting_cover_mini',
           'link_type' => 'object',
         ),
         'type' => 'ting_cover_default',
