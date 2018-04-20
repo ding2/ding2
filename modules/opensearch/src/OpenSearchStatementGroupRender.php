@@ -148,7 +148,6 @@ class OpenSearchStatementGroupRender {
         // Notice, this may be empty if the field is not supported in which
         // case we'll end up with empty parenthesises.
         $rendered_statement .= $this->renderField($statement);
-
       }
       else {
         throw new \InvalidArgumentException('Hit unexpected element-type: ' . print_r($statement, TRUE));
@@ -198,6 +197,7 @@ class OpenSearchStatementGroupRender {
     $quoted_field = '"' . str_replace('"', '\"', $field->getValue()) . '"';
 
     // Render the full field with operator and value.
-    return $field_name . '=' . $quoted_field;
+    return $field_name . $field->getOperator() . $quoted_field;
   }
+
 }
