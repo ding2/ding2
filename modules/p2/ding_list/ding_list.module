@@ -1116,11 +1116,19 @@ function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
     case 'ting_object':
       $ting_object = ting_object_load($context['value']);
 
-      // Add a follow action for authors.
-      $data = array_merge(
-        $data,
-        ding_list_get_add_to_list_ting_object_creators($ting_object)
-      );
+      // This one expects that item is in the well, which is not always possible.
+      // Providers are able to mimic the TingObject with minimal data
+      // from the LMS system to fulfill this requirement, however current
+      // "drupal_alter" implementation used here does not allow
+      // easily to pass this pseudo-object.
+      // Therefore, "following an author" for these items would be disabled.
+      if (!empty($ting_object)) {
+        // Add a follow action for authors.
+        $data = array_merge(
+          $data,
+          ding_list_get_add_to_list_ting_object_creators($ting_object)
+        );
+      }
       break;
 
     case 'search_query':
