@@ -199,10 +199,6 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_ticket_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_ticket_link']['click_sort_column'] = 'url';
   $handler->display->display_options['fields']['field_ding_event_ticket_link']['type'] = 'link_plain';
-  /* Sort criterion: Content: Sticky */
-  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['table'] = 'node';
-  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
   /* Sort criterion: Content: Date -  start date (field_ding_event_date) */
   $handler->display->display_options['sorts']['field_ding_event_date_value']['id'] = 'field_ding_event_date_value';
   $handler->display->display_options['sorts']['field_ding_event_date_value']['table'] = 'field_data_field_ding_event_date';
@@ -309,7 +305,7 @@ function ding_app_content_rss_views_default_views() {
     'absolute_paths' => 1,
     'feed_in_links' => 0,
   );
-  $handler->display->display_options['path'] = 'ding-app-content-rss/event';
+  $handler->display->display_options['path'] = 'ding-redia-rss/event';
   $translatables['ding_app_content_event_rss'] = array(
     t('Master'),
     t('more'),
@@ -468,14 +464,11 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['field'] = 'ding_app_content_rss_handler_library_id';
   $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['label'] = '';
   $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['element_label_colon'] = FALSE;
-  /* Sort criterion: Content: Sticky */
-  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['table'] = 'node';
-  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
     2 => 'OR',
@@ -565,7 +558,7 @@ function ding_app_content_rss_views_default_views() {
     'absolute_paths' => 1,
     'feed_in_links' => 0,
   );
-  $handler->display->display_options['path'] = 'ding-app-content-rss/news';
+  $handler->display->display_options['path'] = 'ding-redia-rss/news';
   $translatables['ding_app_content_news_rss'] = array(
     t('Master'),
     t('more'),
