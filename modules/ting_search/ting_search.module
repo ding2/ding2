@@ -371,10 +371,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
       $facets = $conditions['facets'];
       foreach ($facets as $facet) {
-        $facet = explode(':', $facet, 2);
-        if ($facet[0]) {
-          $query = $query->withFieldFilter($facet[0], rawurldecode($facet[1]));
-        }
+        $query = $query->parseFacetFilter($facet);
       }
     }
 
