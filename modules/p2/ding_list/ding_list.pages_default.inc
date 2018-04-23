@@ -281,19 +281,7 @@ function ding_list_default_page_manager_pages() {
     'contexts' => array(),
     'relationships' => array(),
     'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'user_list',
-          'settings' => array(
-            'visibility_settings' => 'edit',
-          ),
-          'context' => array(
-            0 => 'logged-in-user',
-            1 => 'argument_entity_id:ding_type_1',
-          ),
-          'not' => FALSE,
-        ),
-      ),
+      'plugins' => array(),
       'logic' => 'and',
     ),
   );
@@ -384,7 +372,7 @@ function ding_list_default_page_manager_pages() {
         ),
         'context' => array(
           0 => 'logged-in-user',
-          1 => 'argument_entity_id:ding_type_1',
+          1 => 'argument_list_id_1',
         ),
         'not' => FALSE,
       ),
@@ -449,7 +437,7 @@ function ding_list_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '%ding_type:title';
+  $display->title = '%ding_list_list:title';
   $display->uuid = 'd8a80332-bb30-4fc8-8027-477a80bedc6c';
   $display->content = array();
   $display->panels = array();
@@ -650,7 +638,7 @@ function ding_list_default_page_manager_pages() {
         'facebook' => 'facebook',
         'twitter' => 'twitter',
       ),
-      'context' => 'argument_entity_id:ding_type_1',
+      'context' => 'argument_list_id_1',
       'override_title' => 0,
       'override_title_text' => '',
       'override_title_heading' => 'h2',

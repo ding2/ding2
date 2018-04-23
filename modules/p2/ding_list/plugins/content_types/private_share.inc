@@ -24,20 +24,20 @@ $plugin = array(
 function ding_list_private_share_content_type_render($subtype, $conf, $panel_args, $context) {
   $list = $context->data;
 
-  if (!ding_list_allowed($list, DING_LIST_OPERATION_SHARE)) {
+  if (!$list->allowed(DING_LIST_OPERATION_SHARE)) {
     return FALSE;
   }
 
   $output = new stdClass();
   $output->content = '';
 
-  if (isset($list->data['visibility'])) {
-    if (ding_list_is_owner($list) && $list->data['visibility'] !== 'public') {
+  if ($list->hasData('visibility')) {
+    if ($list->isOwner() && $list->getData('visibility') !== 'public') {
       foreach ($conf['communities'] as $community) {
         $title = ucfirst($community);
         $output->content .= l(
           t('Share on @community', array('@community' => $title)),
-          'ding-list/private-share-message/' . $list->id . '/' . $community,
+          'ding-list/private-share-message/' . $list->getId() . '/' . $community,
           array(
             'attributes' => array(
               'class' => array(
@@ -50,7 +50,7 @@ function ding_list_private_share_content_type_render($subtype, $conf, $panel_arg
 
       $output->content = '<div class="sharer">' . $output->content . '</div>';
     }
-    elseif ($list->data['visibility'] === 'public') {
+    elseif ($list->getData('visibility') === 'public') {
       $output->content = array(
         '#theme' => 'ding_sharer',
         '#label' => t('Share this list'),

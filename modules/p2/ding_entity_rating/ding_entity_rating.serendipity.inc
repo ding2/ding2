@@ -71,7 +71,6 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
       }
     }
 
-    // @TODO maybe restrict search to same material type
     // Perform a search for materials with any of the subjects or authors.
     $query = ting_start_query()->withFilters($field_filters, BooleanStatementInterface::OP_OR);
 
@@ -120,9 +119,9 @@ function ding_entity_rating_get_highly_rated_material_id() {
 
   // Filter non high rated materials away.
   $ratings = array();
-  foreach ($list->elements as $element) {
+  foreach ($list->getElements() as $element) {
 
-    if (empty($element->extra['weight']) || $element->extra['weight'] < $min_rating) {
+    if ($element->getData('weight', 0) < $min_rating) {
       continue;
     }
 
@@ -138,8 +137,8 @@ function ding_entity_rating_get_highly_rated_material_id() {
   $random_key = array_rand($ratings);
   $rated_element = $ratings[$random_key];
 
-  if (!empty($rated_element->value)) {
-    return $rated_element->value;
+  if (!empty($rated_element->getValue())) {
+    return $rated_element->getValue();
   }
   return NULL;
 }

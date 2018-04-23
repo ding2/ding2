@@ -179,9 +179,9 @@ function ding_message_update_users(array $accounts, $debug = FALSE, $reset = FAL
       }
 
       foreach ($lists as $list) {
-        foreach ($list->elements as $element) {
+        foreach ($list->getElements() as $element) {
           // Get the message handling this specific ID.
-          $wrapper = isset($messages[$element->id]) ? $messages[$element->id] : NULL;
+          $wrapper = isset($messages[$element->getId()]) ? $messages[$element->getId()] : NULL;
           if ($wrapper && $wrapper->field_state->value() == DING_MESSAGE_IGNORE) {
             continue;
           }
@@ -241,13 +241,10 @@ function ding_message_check_element($uid, DingListElement $element, $message = N
     $new_elements_count = 0;
   }
 
-  switch ($element->type) {
+  switch ($element->getType()) {
     case 'follow_author':
     case 'search_query':
-      module_load_include('inc', 'opensearch', 'opensearch.client');
-      // Build a search query, since the url path doesn't
-      // match the query accepted by ting_do_search.
-      $query = ding_message_build_query($element->value);
+      $query = ding_message_build_query($element->getValue());
       $result = $query->withCount(50)->execute();
       if ($result->getNumTotalCollections() > 0) {
         // Get the first element in the search result set.
@@ -292,14 +289,14 @@ function ding_message_check_element($uid, DingListElement $element, $message = N
       break;
 
     case 'ding_list':
-      $list = ding_list_get_list($element->value);
+      $list = ding_list_get_list($element->getValue());
       if ($list) {
         // Get the element its.
         // @TODO Previously the lists where order by weight ascending, now it's
         // descending, so the newest elements come first. We reverse this array
         // so the old logic (ascending) works. This should be rewritten in the
         // future, including other updates mentioned in older comments below.
-        $elements = array_reverse(array_keys($list->elements));
+        $elements = array_reverse(array_keys($list->getElements()));
 
         if (!empty($elements)) {
           // Fetch the last element for comparison
@@ -363,7 +360,7 @@ function ding_message_check_element($uid, DingListElement $element, $message = N
     if ($debug) {
       drupal_set_message(t('Fetched @new_elements_count new elements for list: @element. First element was: @first_element_id', array(
         '@new_elements_count' => $new_elements_count,
-        '@element' => $element->value,
+        '@element' => $element->getValue(),
         '@first_element_id' => $first_element_id,
       )));
     }
@@ -376,7 +373,7 @@ function ding_message_check_element($uid, DingListElement $element, $message = N
 
     // Set message values.
     $wrapper = entity_metadata_wrapper('message', $message);
-    $wrapper->field_list_id->set($element->id);
+    $wrapper->field_list_id->set($element->getId());
     $wrapper->field_last_check->set(time());
     $wrapper->field_first_element->set($first_element_id);
     $wrapper->field_last_element->set($last_element_id);
@@ -422,10 +419,12 @@ function ding_message_save_user_check($uid) {
  * Implements template_preprocess_ding_list_element().
  */
 function ding_message_preprocess_ding_list_element(&$variables) {
+  $element = $variables['element'];
+
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'message', '=')
     ->propertyCondition('type', 'new_content', '=')
-    ->fieldCondition('field_list_id', 'value', $variables['element']->id, '=')
+    ->fieldCondition('field_list_id', 'value', $element->getId(), '=')
     ->fieldCondition('field_state', 'value', DING_MESSAGE_CLOSED, '!=')
     ->range(0, 1);
   $result = $query->execute();
@@ -440,7 +439,7 @@ function ding_message_preprocess_ding_list_element(&$variables) {
       'midc' => $message_wrapper->getIdentifier(),
     );
 
-    switch ($variables['element']->type) {
+    switch ($element->getType()) {
       case 'follow_author':
       case 'search_query':
         $link_query['size'] = 50;
@@ -470,7 +469,7 @@ function ding_message_preprocess_ding_list_element(&$variables) {
 
   if (isset($_GET['message'])) {
     $variables['content']['#attached']['js'] = array(drupal_get_path('module', 'ding_message') . '/ding_message.js');
-    $variables['attributes_array']['data-ting-object-id'] = $variables['element']->id;
+    $variables['attributes_array']['data-ting-object-id'] = $element->getId();
     $variables['classes_array'][] = 'ding-message-item';
   }
 }
@@ -481,9 +480,9 @@ function ding_message_preprocess_ding_list_element(&$variables) {
 function ding_message_get_ding_list_notification($list) {
   $output = '';
 
-  if (ding_list_allowed($list, DING_LIST_OPERATION_FOLLOW) && !empty($list->elements)) {
+  if ($list->allowed(DING_LIST_OPERATION_FOLLOW) && !empty($list->getElements())) {
 
-    $result = ding_message_get_update_count($list->elements);
+    $result = ding_message_get_update_count($list->getElements());
     // If a result was found, render a message with the total amount.
     if ($result) {
       $output = $result;

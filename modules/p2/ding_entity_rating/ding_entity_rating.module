@@ -7,6 +7,8 @@
  * User rating of ting_objects with storage in OpenList.
  */
 
+use DingList\DingListElement;
+
 include_once 'ding_entity_rating.serendipity.inc';
 
 // Ding rating list.
@@ -39,7 +41,7 @@ function ding_entity_rating_menu() {
   $items['ding_entity_rating/get'] = array(
     'title' => 'Ding entity get rating',
     'page callback' => 'ding_entity_rating_get_user_rating_callback',
-    'access callback' => TRUE,
+    'access arguments' => array('use personalisation'),
   );
 
   return $items;
@@ -51,10 +53,8 @@ function ding_entity_rating_menu() {
 function ding_entity_rating_get_user_rating_callback() {
   $ratings = array();
 
-  if (user_access('use personalisation')) {
-    foreach (ding_entity_load_multiple($_GET['ids']) as $object) {
-      $ratings[$object->ding_entity_id] = ding_entity_rating_get_user_rating($object);
-    }
+  foreach (ding_entity_load_multiple($_GET['ids']) as $object) {
+    $ratings[$object->ding_entity_id] = ding_entity_rating_get_user_rating($object);
   }
 
   echo drupal_json_encode($ratings);
@@ -84,13 +84,15 @@ function ding_entity_rating_add_to_list_callback($entity, $rating) {
   }
   else {
     if ($rating > 0) {
-      ding_entity_rating_add_to_list($entity, $user, $rating);
-
       $message = array(
         '#theme' => 'ding_entity_rating_thank_you',
         '#prefix' => '<p>',
         '#suffix' => '</p>',
       );
+
+      if (!ding_entity_rating_add_to_list($entity, $user, $rating)) {
+        $message['#response'] = t('An unknown error happened trying to save your rating, try again later');
+      }
     }
     else {
       ding_entity_rating_remove_from_list($entity, $user);
@@ -230,7 +232,7 @@ function ding_entity_rating_get_user_rating($entity) {
   $element = $list->hasElement($entity->ding_entity_id);
 
   if ($element !== FALSE) {
-    $result = $element->extra['weight'];
+    $result = $element->getData('weight');
   }
 
   return $result;
@@ -412,22 +414,22 @@ function ding_entity_rating_average($entity, $value = NULL) {
  * @param int $rating
  *   The rating given to the ting object entity.
  *
- * @return object
- *   Return the added ding list element entity.
+ * @return \DingListElement\DingListElement|false
+ *   Return the added ding list element entity, or FALSE on error.
  */
 function ding_entity_rating_add_to_list($entity, $account, $rating) {
   // Get the rating list.
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST, $account);
   $element = $list->hasElement($entity->ding_entity_id);
   if (!$element) {
-    return $list->attachElement(array(
+    return $list->attachElement(DingListElement::fromDataArray(array(
       'type' => 'ting_object',
       'value' => $entity->ding_entity_id,
-      'extra' => array('weight' => $rating),
-    ));
+      'data' => array('weight' => $rating),
+    )))->save();
   }
   else {
-    $element->extra['weight'] = $rating;
+    $element->setData('weight', $rating);
     return $element->save();
   }
 }
@@ -574,12 +576,12 @@ function ding_entity_rating_preprocess_material_item(&$variables) {
 function ding_entity_rating_preprocess_ding_list_element(&$variables) {
   $element = $variables['element'];
 
-  switch ($element->type) {
+  switch ($element->getType()) {
     case 'ting_object':
-      if (!empty($element->extra['weight'])) {
+      if (!empty($element->getData('weight'))) {
         $variables['content']['value']['rating'] = array(
           '#theme' => 'ding_entity_rating_average',
-          '#rating' => $element->extra['weight'],
+          '#rating' => $element->getData('weight'),
         );
       }
       break;

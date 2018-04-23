@@ -29,9 +29,9 @@ function ding_list_public_lists_content_type_render($subtype, $conf, $panel_args
     $lists = ding_provider_invoke('openlist', 'call_module', 'ListPermission', 'getPublicLists');
 
     foreach ($lists as $list) {
-      $list = new DingList($list);
+      $list = DingList::fromDataArray($list);
       if (ding_list_user_has_access($list)) {
-        $block->content[$list->id] = array(
+        $block->content[$list->getId()] = array(
           '#theme' => 'ding_list_list',
           '#list' => $list,
           '#display' => 'public list',

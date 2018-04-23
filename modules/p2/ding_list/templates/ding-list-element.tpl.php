@@ -13,7 +13,12 @@
     print render($content);
     ?>
   </div>
-  <div class="ding-list-element__remove">
-    <?php print render($content['remove']); ?>
+
+  <?php if (!empty($remove)) {?>
+    <div class="ding-list-element__remove">
+    <?php print render($remove); ?>
   </div>
+  <?php
+}
+?>
 </div>

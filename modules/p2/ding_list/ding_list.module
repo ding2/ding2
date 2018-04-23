@@ -12,9 +12,6 @@ include_once 'ding_list.features.inc';
 // Core defined types of lists.
 // Manual user lists.
 define('DING_LIST_TYPE_USER_LIST', 'user_list');
-// Followed taxonomy terms.
-// @TODO In future cleanup remove all code related to this list type.
-define('DING_LIST_TYPE_FOLLOW', 'follow');
 // Search strings.
 define('DING_LIST_TYPE_SEARCHES', 'user_searches');
 // Loan history.
@@ -24,8 +21,6 @@ define('DING_LIST_TYPE_BOOKS_READ', 'books_read');
 // Check list. This is hardcoded intentionally and exceptionally.
 define('DING_LIST_TYPE_REMEMBER', 'remember');
 define('DING_LIST_TYPE_LISTS', 'lists_list');
-// @TODO In future cleanup remove all code related to this list type.
-define('DING_LIST_TYPE_FOLLOW_USER', 'follow_user');
 define('DING_LIST_TYPE_FOLLOW_AUTHOR', 'follow_author');
 
 // Extend here with care.
@@ -158,7 +153,7 @@ function ding_list_login_attach($type, $value) {
   $list_type = !empty($_GET['list_type']) ? $_GET['list_type'] : $type;
 
   $list = ding_list_get_list($list_type);
-  return ding_list_attach_element_callback($type, $list->id, $value);
+  return ding_list_attach_element_callback($type, $list->getId(), $value);
 }
 
 /**
@@ -251,15 +246,7 @@ function ding_list_ding_list_operations() {
         'description' =>
         t('Add objects to your own lists as you browse the website.') .
         " " . l(t("Create new lists to group objects"), "list/create"),
-      ),
-    ),
-    DING_LIST_TYPE_FOLLOW_USER => array(
-      DING_LIST_OPERATION_ATTACH => array('ding_list_user'),
-      DING_LIST_OPERATION_DETACH => TRUE,
-      DING_LIST_OPERATION_SORT => TRUE,
-      DING_LIST_OPERATION_FOLLOW => TRUE,
-      '_data' => array(
-        'default_title' => t('Users I follow'),
+
       ),
     ),
     DING_LIST_TYPE_LISTS => array(
@@ -271,15 +258,6 @@ function ding_list_ding_list_operations() {
       '_data' => array(
         'default_title' => t('Lists I follow'),
         'description' => t('When you find interesting lists other users maintain, you can follow them and recieve notifications when the author adds new materials to the list.'),
-      ),
-    ),
-    DING_LIST_TYPE_FOLLOW => array(
-      DING_LIST_OPERATION_ATTACH => array('taxonomy_term'),
-      DING_LIST_OPERATION_DETACH => TRUE,
-      DING_LIST_OPERATION_SORT => TRUE,
-      DING_LIST_OPERATION_FOLLOW => TRUE,
-      '_data' => array(
-        'default_title' => t('Subjects I follow'),
       ),
     ),
     DING_LIST_TYPE_FOLLOW_AUTHOR => array(
@@ -416,7 +394,10 @@ function ding_list_import_bookmarks($account) {
     if ($list) {
       $type_info = ding_entity_info('ding_entity');
       foreach (entity_load($type_info['entity_type'], $cids) as $entity) {
-        $list->attachElement(array('type' => 'ting_object', 'value' => $entity->ding_entity_id));
+        $list->attachElement(DingListElement::fromDataArray(array(
+          'type' => 'ting_object',
+          'value' => $entity->ding_entity_id,
+        )))->save();
       }
 
       simplevar_set('ding_list_import_bookmarks', $account->uid, TRUE);
@@ -436,7 +417,10 @@ function ding_list_ding_user_consent_changed($consent) {
     if ($consent['loan_history_store'] === FALSE) {
       $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY);
       if ($list !== FALSE) {
-        $list->delete();
+        if (!$list->delete()) {
+          drupal_set_message(t("An error occurred while deleting your list. Please contact the administrator if this problem persists."), 'error');
+          return;
+        }
       }
 
       drupal_set_message(t("Your historical loans list has been deleted."));
@@ -530,38 +514,6 @@ function ding_list_permission() {
 }
 
 /**
- * Get a ding_content_tags term.
- *
- * If the term doesn't exist yet create it.
- *
- * @param int|string $id
- *   An integer maps directly to a term ID, while a string will try to load
- *   using the name, and if it doesn't exist it will be created.
- */
-function ding_list_get_taxonomy_term($id) {
-  $term = FALSE;
-  if (is_numeric($id)) {
-    $term = taxonomy_term_load($id);
-  }
-  else {
-    $term = taxonomy_get_term_by_name($id, 'ding_content_tags');
-    if (!empty($term)) {
-      $term = current($term);
-    }
-    else {
-      $voc = taxonomy_vocabulary_machine_name_load('ding_content_tags');
-      $term = (object) array(
-        'name' => $id,
-        'vid' => $voc->vid,
-      );
-      taxonomy_term_save($term);
-    }
-  }
-
-  return $term;
-}
-
-/**
  * Implements hook_list_mail().
  */
 function ding_list_mail($key, &$message, $params) {
@@ -651,13 +603,13 @@ function ding_list_html_head_alter(&$head_elements) {
       ),
     );
 
-    if (isset($list->data['note'])) {
+    if (!empty($list->getNote())) {
       $head_elements['ogdescription'] = array(
         '#type' => 'html_tag',
         '#tag' => 'meta',
         '#attributes' => array(
           'property' => 'og:description',
-          'content' => $list->data['note'],
+          'content' => $list->getNote(),
         ),
       );
     }
@@ -741,15 +693,15 @@ function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
 function ding_list_panels_pane_content_alter($content, $pane, $args, $contexts) {
   if ($pane->type == 'user_overview' && variable_get('user_consent_activate') && ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE, $contexts['context_user_1']->data)) {
     $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $contexts['context_user_1']->data);
-    $list_label = check_plain($list->title);
+    $list_label = check_plain($list->getTitle());
     $loan_history_link = array(
       'data' =>
-      '<a href="' . url('list/' . $list->id) . '" class="signature-label"><span class="icon"></span>' . $list_label . '</a>',
-      'class' => array(drupal_html_class($list->type)),
+      '<a href="' . url('list/' . $list->getId()) . '" class="signature-label"><span class="icon"></span>' . $list_label . '</a>',
+      'class' => array(drupal_html_class($list->getType())),
     );
     $items = &$content->content['#items'];
     $items = array_slice($items, 0, count($items) - 1, TRUE) +
-            array($list->type => $loan_history_link) +
+            array($list->getType() => $loan_history_link) +
             array_slice($items, count($items) - 2, count($items) - 1, TRUE);
   }
 }

@@ -32,8 +32,8 @@ function ding_list_list_context($empty, $data = NULL, $conf = FALSE) {
 
   if (!empty($data)) {
     $context->data = $data;
-    $context->argument = $data->id;
-    $context->title = $data->title;
+    $context->argument = $data->getId();
+    $context->title = $data->getTitle();
   }
 
   return $context;

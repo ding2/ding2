@@ -9,7 +9,6 @@ $plugin = array(
   'title' => t('Ding list menu'),
   'description' => t('Ding menu.'),
   'single' => TRUE,
-  'content_types' => array('ding_type'),
   'category' => t('Dinglist'),
   'render callback' => 'ding_list_list_menu_content_type_render',
   'required context' => new ctools_context_optional(t('Ding list'), 'ding_list_list'),
@@ -42,37 +41,37 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
 
     if ($list) {
       $block->content['#links']['view'] = array(
-        'href' => 'list/' . $list->id,
-        'title' => check_plain($list->title),
+        'href' => 'list/' . $list->getId(),
+        'title' => check_plain($list->getTitle()),
         'attributes' => array('class' => array('menu-item')),
         'html' => FALSE,
       );
 
       if (ding_list_user_has_access($list, 'edit', $user)) {
         $block->content['#links']['edit'] = array(
-          'href' => 'list/' . $list->id . '/edit',
+          'href' => 'list/' . $list->getId() . '/edit',
           'title' => t('Rename / Delete list'),
           'attributes' => array('class' => array('menu-item')),
           'html' => FALSE,
         );
       }
 
-      if (ding_list_allowed($list, DING_LIST_OPERATION_SHARE)) {
+      if ($list->allowed(DING_LIST_OPERATION_SHARE)) {
         $title = FALSE;
 
-        if (ding_list_is_owner($list, $user)) {
+        if ($list->isOwner($user)) {
           $title = t('Share list');
         }
         else {
           $lists_list = ding_list_get_list(DING_LIST_TYPE_LISTS);
-          if ($lists_list->hasElement($list->id)) {
+          if ($lists_list->hasElement($list->getId())) {
             $title = t('Unfollow list');
           }
         }
 
         if ($title !== FALSE) {
           $block->content['#links']['share'] = array(
-            'href' => 'list/' . $list->id . '/share',
+            'href' => 'list/' . $list->getId() . '/share',
             'title' => $title,
             'attributes' => array('class' => array('menu-item')),
             'html' => FALSE,

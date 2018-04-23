@@ -435,19 +435,12 @@ function ding_serendipity_user_audience($account = NULL) {
   $ids = array();
   $result = FALSE;
 
-  // @TODO Rewrite when FBS is ready
   if (ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)) {
     $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $account);
 
     if (!empty($list)) {
-      $items = ding_base_get_items('ding_type', $list, 'field_list_objects');
-      $items = array_slice($items, -10);
-      foreach ($items as &$item) {
-        $item = $item['target_id'];
-      }
-
-      foreach (entity_load('ding_type', $items) as $item) {
-        $ids[] = ding_base_get_value('ding_type', $item, 'field_value');
+      foreach (array_slice($list->getElements(), -10) as $element) {
+        $ids[] = $element->getValue();
       }
     }
   }
@@ -502,7 +495,23 @@ function ding_serendipity_user_audience($account = NULL) {
 }
 
 /**
- * Fetch random items, but with probability 50% among first 9% of items.
+ * Fetch random items, but with larger probability among recent items.
+ *
+ * A method is choosen so that items among the first percentage $p in $items will
+ * have a probability of 50% being picked, recent items more probable, yet
+ * all items in the list still probable.
+ *
+ * Let $rnd be a random number in [0;1].
+ * Then w($base,$rnd) = ((pow($base,$rnd) - 1)/($base - 1) - 1) is also in [0;1].
+ *
+ * Since pow is monotonous and assumed $rnd is uniformly distributed
+ * then w in [0;w($base,0.5)] will have probability of 50%
+ *
+ * w(10,0.5) = 0.24
+ * w(100,0.5) = 0.09
+ * w(1000,0.5) = 0.03
+ *
+ * $base = 100 will select among the first 9% of items with a probability of 50%.
  *
  * @param array $items
  *   The array to pick from.
@@ -519,12 +528,14 @@ function ding_serendipity_pick_weighted_random(array $items, $cnt) {
     return $items;
   }
 
-  // Pick cnt weighted random items, with probability 50% among first 9% of
-  // items. Collisions may occur.
+  // Pick cnt weighted random items. Collisions may occur.
   $picked = array();
+  $base = 100;
   for ($i = 0; $i < $cnt; $i++) {
+    // Random number in [0;1].
     $rnd = mt_rand() / mt_getrandmax();
-    $index = round((pow(100, $rnd) - 1) * ($num - 1) / 99);
+    // Index in [0;$num -1].
+    $index = round((pow($base, $rnd) - 1) * ($num - 1) / ($base - 1));
     $picked[$index] = TRUE;
   }
 
@@ -581,10 +592,10 @@ function ding_serendipity_get_existing_list_materials($account = NULL) {
   $ids = array();
 
   foreach ($lists as $list) {
-    if (in_array($list->type, $list_types)) {
-      foreach ($list->elements as $element) {
-        if (!empty($element->value)) {
-          $ids[] = $element->value;
+    if (in_array($list->getType(), $list_types)) {
+      foreach ($list->getElements() as $element) {
+        if (!empty($element->getValue())) {
+          $ids[] = $element->getValue();
         }
       }
     }

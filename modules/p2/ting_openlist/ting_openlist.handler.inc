@@ -84,17 +84,15 @@ function ting_openlist_handler_delete_element(array $element) {
  *   List array.
  * @param array $data
  *   The element data.
- * @param bool $return_element
- *   Tells the function if it wants the entire element returned, or just the ID.
  *
  * @return mixed
  *   The element or just the element id, depending on $return_element.
  */
-function ting_openlist_handler_create_element(array $list, array $data, $return_element = FALSE) {
+function ting_openlist_handler_create_element(array $list, array $data) {
   $result = ting_openlist_request('createElement', array(
     'list_id' => $list['list_id'],
     'data' => $data,
-    'return_element' => $return_element,
+    'return_element' => TRUE,
   ), array('use_cache' => FALSE));
 
   ting_openlist_cache_clear_list($list);

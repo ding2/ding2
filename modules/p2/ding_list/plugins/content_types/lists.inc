@@ -45,12 +45,12 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     $notification_out = '';
     if (!empty($notifications)) {
       $text = '<span class="notification-label">' . t('New:', array(), array('context' => 'Ding list')) . '</span>' . $notifications;
-      $notification_out = l($text, 'list/' . $list->id, array('html' => TRUE, 'attributes' => array('class' => array('notification-link'))));
+      $notification_out = l($text, 'list/' . $list->getId(), array('html' => TRUE, 'attributes' => array('class' => array('notification-link'))));
     }
 
     $block->content['lists']['#items'][] = array(
       'data' =>
-      l('<span class="icon"></span>' . $list->title, 'list/' . $list->id, array(
+      l('<span class="icon"></span>' . $list->getTitle(), 'list/' . $list->getId(), array(
         'html' => TRUE,
         'attributes' => array('class' => 'signature-label'),
       )) . $notification_out,

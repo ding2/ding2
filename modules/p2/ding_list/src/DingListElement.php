@@ -14,66 +14,75 @@ namespace DingList;
  */
 class DingListElement {
 
-  public $listId = 0;
-  public $id = 0;
-  public $weight = 0;
-  public $value = '';
-  public $type = '';
-  public $modified = 0;
-  public $created = 0;
-  public $extra = array();
+  /**
+   * ID of the list this element it attached to.
+   *
+   * @var int
+   */
+  protected $listId = 0;
 
   /**
-   * Map keys in the data array to properties in the object.
+   * Element ID.
+   *
+   * @var int
+   */
+  protected $id = 0;
+
+  /**
+   * Element value.
+   *
+   * @var string
+   */
+  protected $value = '';
+
+  /**
+   * Element type.
+   *
+   * @var string
+   */
+  protected $type = '';
+
+  /**
+   * Extra data.
    *
    * @var array
    */
-  protected $propertyMap = array(
-    'list_id' => 'listId',
-    'element_id' => 'id',
-    'weight' => 'weight',
-    'modified' => 'modified',
-    'created' => 'created',
-  );
-
-  protected $dataMap = array(
-    'value' => 'value',
-    'type' => 'type',
-  );
+  protected $data = array();
 
   /**
-   * DingListElement constructor.
+   * Map keys to the getter/setter functions.
    *
-   * @param array|false $data
-   *   If an array is provided, it will be parsed into the object.
+   * Without the get/set prefix.
+   *
+   * @var array
    */
-  public function __construct($data = FALSE) {
-    if (is_array($data)) {
-      $this->parseDataArray($data);
-    }
-  }
+  protected static $propertyMap = array(
+    'list_id' => 'ListId',
+    'element_id' => 'Id',
+    'value' => 'Value',
+    'type' => 'Type',
+    'data' => 'Data',
+  );
 
   /**
    * Parse an array into the object properties.
    *
    * @param array $data
    *   The data array.
+   *
+   * @return DingListElement
+   *   The newly created object.
    */
-  public function parseDataArray(array $data) {
-    foreach ($this->propertyMap as $from => $to) {
+  public static function fromDataArray(array $data) {
+    $element = new DingListElement();
+
+    foreach (self::$propertyMap as $from => $fn) {
       if (isset($data[$from])) {
-        $this->{$to} = $data[$from];
+        call_user_func(array($element, 'set' . $fn), $data[$from]);
       }
     }
 
-    foreach ($data['data'] as $key => $value) {
-      if (isset($this->dataMap[$key])) {
-        $this->{$this->dataMap[$key]} = $value;
-      }
-      else {
-        $this->extra[$key] = $value;
-      }
-    }
+    return $element;
   }
 
   /**
@@ -85,15 +94,14 @@ class DingListElement {
   public function buildDataArray() {
     $data = array('data' => array());
 
-    foreach ($this->propertyMap as $from => $to) {
-      $data[$from] = $this->{$to};
+    foreach (self::$propertyMap as $from => $fn) {
+      $data[$from] = call_user_func(array($this, 'get' . $fn));
     }
 
-    foreach ($this->dataMap as $from => $to) {
-      if (!empty($this->{$to})) {
-        $data['data'][$from] = $this->{$to};
-      }
-    }
+    // Move type and value into the data property.
+    unset($data['type'], $data['value']);
+    $data['data']['type'] = $this->type;
+    $data['data']['value'] = $this->value;
 
     return $data;
   }
@@ -106,18 +114,33 @@ class DingListElement {
    */
   public function save() {
     try {
-      ding_provider_invoke('openlist', 'edit_element', $this->buildDataArray());
+      if (!empty($this->id)) {
+        ding_provider_invoke('openlist', 'edit_element', $this->buildDataArray());
+      }
+      elseif (!empty($this->listId)) {
+        $list = ding_list_get_list($this->listId);
+        $result = ding_provider_invoke(
+          'openlist',
+          'create_element',
+          $list->buildDataArray(),
+          $this->buildDataArray()['data']
+        );
+      }
+      else {
+        watchdog('ding_list', 'Trying to save element without listId', array(), WATCHDOG_ERROR);
+        return FALSE;
+      }
     }
     catch (Exception $e) {
-      drupal_set_message(t("An error occurred while editing your element. Please contact the administrator if this problem persists."), 'error');
+      watchdog_exception('ding_list', $e);
       return FALSE;
     }
 
-    return $element;
+    return $this;
   }
 
   /**
-   * Delete the list.
+   * Delete the element.
    *
    * @return bool
    *   If the elements where deleted or not.
@@ -127,11 +150,156 @@ class DingListElement {
       ding_provider_invoke('openlist', 'delete_element', $this->buildDataArray());
     }
     catch (Exception $e) {
-      drupal_set_message(t("An error occurred while deleting your element. Please contact the administrator if this problem persists."), 'error');
+      watchdog_exception('ding_list', $e);
       return FALSE;
     }
 
     return TRUE;
+  }
+
+  /**
+   * Getter for listId.
+   *
+   * @return int
+   *   The value.
+   */
+  public function getListId() {
+    return $this->listId;
+  }
+
+  /**
+   * Setter for listId.
+   *
+   * @param int $value
+   *   The new value.
+   *
+   * @return DingListElement
+   *   Chainable.
+   */
+  public function setListId($value) {
+    $this->listId = $value;
+
+    return $this;
+  }
+
+  /**
+   * Getter for id.
+   *
+   * @return int
+   *   The value.
+   */
+  public function getId() {
+    return $this->id;
+  }
+
+  /**
+   * Setter for id.
+   *
+   * @param int $value
+   *   The new value.
+   *
+   * @return DingListElement
+   *   Chainable.
+   */
+  public function setId($value) {
+    $this->id = $value;
+
+    return $this;
+  }
+
+  /**
+   * Getter for value.
+   *
+   * @return string
+   *   The value.
+   */
+  public function getValue() {
+    return $this->value;
+  }
+
+  /**
+   * Setter for value.
+   *
+   * @param string $value
+   *   The new value.
+   *
+   * @return DingListElement
+   *   Chainable.
+   */
+  public function setValue($value) {
+    $this->value = $value;
+
+    return $this;
+  }
+
+  /**
+   * Getter for type.
+   *
+   * @return string
+   *   The value.
+   */
+  public function getType() {
+    return $this->type;
+  }
+
+  /**
+   * Setter for type.
+   *
+   * @param string $value
+   *   The new value.
+   *
+   * @return DingListElement
+   *   Chainable.
+   */
+  public function setType($value) {
+    $this->type = $value;
+
+    return $this;
+  }
+
+  /**
+   * Getter for data.
+   *
+   * @param string|null $key
+   *   The specifc data key to get. Leave NULL to get the complete array.
+   * @param mixed $default
+   *   The default value, if the data doesn't contain the given key.
+   *
+   * @return string
+   *   The value.
+   */
+  public function getData($key = NULL, $default = NULL) {
+    if ($key === NULL) {
+      return $this->data;
+    }
+
+    if (isset($this->data[$key])) {
+      return $this->data[$key];
+    }
+
+    return $default;
+  }
+
+  /**
+   * Setter for data.
+   *
+   * @param array|string $key
+   *   The key to set. If an array is given the entire data array is replaced.
+   * @param mixed $value
+   *   The new value.
+   *
+   * @return DingListElement
+   *   Chainable.
+   */
+  public function setData($key, $value = NULL) {
+    if (is_array($key)) {
+      $this->data = $key;
+    }
+    else {
+      $this->data[$key] = $value;
+    }
+
+    return $this;
   }
 
 }

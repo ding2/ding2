@@ -38,7 +38,7 @@ function ding_list_get_list($list, $account = NULL) {
       $lists[$key] = ding_provider_invoke('openlist', 'get_list', $list);
 
       if ($lists[$key]) {
-        $lists[$key] = new DingList($lists[$key]);
+        $lists[$key] = DingList::fromDataArray($lists[$key]);
       }
     }
     // If it's a string, we assume it's a DING_LIST_TYPE, and we grab the first.
@@ -93,7 +93,7 @@ function ding_list_get_lists($list_types, $account = NULL, $expanded = FALSE) {
   $lists = ding_provider_invoke('openlist', 'get_lists_by_type', $list_types, $account, $expanded);
 
   foreach ($lists as &$list) {
-    $list = new DingList($list);
+    $list = DingList::fromDataArray($list);
   }
 
   return $lists;

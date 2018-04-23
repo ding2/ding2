@@ -297,7 +297,7 @@ function ting_openlist_request($function, array $arguments = array(), array $set
   timer_start(__FUNCTION__);
 
   $settings += array(
-    'use_cache' => FALSE,
+    'use_cache' => TRUE,
     'cache_prefix' => 'def',
   );
   if ($settings['use_cache'] === TRUE) {
