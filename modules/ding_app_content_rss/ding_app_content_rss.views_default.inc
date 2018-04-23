@@ -37,6 +37,18 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   $handler->display->display_options['relationships']['uid']['required'] = TRUE;
+  /* Relationship: Flags: mobile_app */
+  $handler->display->display_options['relationships']['flag_content_rel']['id'] = 'flag_content_rel';
+  $handler->display->display_options['relationships']['flag_content_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['flag_content_rel']['field'] = 'flag_content_rel';
+  $handler->display->display_options['relationships']['flag_content_rel']['flag'] = 'mobile_app';
+  $handler->display->display_options['relationships']['flag_content_rel']['user_scope'] = 'any';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -54,6 +66,22 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'r';
+  /* Field: Content: Promoted to front page */
+  $handler->display->display_options['fields']['promote']['id'] = 'promote';
+  $handler->display->display_options['fields']['promote']['table'] = 'node';
+  $handler->display->display_options['fields']['promote']['field'] = 'promote';
+  $handler->display->display_options['fields']['promote']['label'] = '';
+  $handler->display->display_options['fields']['promote']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['promote']['type'] = 'true-false';
+  $handler->display->display_options['fields']['promote']['not'] = 0;
+  /* Field: Content: Sticky */
+  $handler->display->display_options['fields']['sticky']['id'] = 'sticky';
+  $handler->display->display_options['fields']['sticky']['table'] = 'node';
+  $handler->display->display_options['fields']['sticky']['field'] = 'sticky';
+  $handler->display->display_options['fields']['sticky']['label'] = '';
+  $handler->display->display_options['fields']['sticky']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['sticky']['type'] = 'true-false';
+  $handler->display->display_options['fields']['sticky']['not'] = 0;
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
@@ -69,58 +97,6 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_lead']['label'] = '';
   $handler->display->display_options['fields']['field_ding_event_lead']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_lead']['type'] = 'text_plain';
-  /* Field: Content: Price */
-  $handler->display->display_options['fields']['field_ding_event_price']['id'] = 'field_ding_event_price';
-  $handler->display->display_options['fields']['field_ding_event_price']['table'] = 'field_data_field_ding_event_price';
-  $handler->display->display_options['fields']['field_ding_event_price']['field'] = 'field_ding_event_price';
-  $handler->display->display_options['fields']['field_ding_event_price']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_event_price']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_price']['settings'] = array(
-    'thousand_separator' => '',
-    'prefix_suffix' => 0,
-  );
-  /* Field: Content: Nid */
-  $handler->display->display_options['fields']['nid']['id'] = 'nid';
-  $handler->display->display_options['fields']['nid']['table'] = 'node';
-  $handler->display->display_options['fields']['nid']['field'] = 'nid';
-  $handler->display->display_options['fields']['nid']['label'] = '';
-  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Field: Event - Start Date */
-  $handler->display->display_options['fields']['field_ding_event_date']['id'] = 'field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date']['table'] = 'field_data_field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date']['field'] = 'field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date']['ui_name'] = 'Event - Start Date';
-  $handler->display->display_options['fields']['field_ding_event_date']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_event_date']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_date']['type'] = 'ding_app_content_rss_date_time';
-  $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
-    'fromto' => 'value',
-  );
-  /* Field: Event - End Date */
-  $handler->display->display_options['fields']['field_ding_event_date_1']['id'] = 'field_ding_event_date_1';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['table'] = 'field_data_field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['field'] = 'field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['ui_name'] = 'Event - End Date';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_date_1']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_date_1']['type'] = 'ding_app_content_rss_date_time';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['settings'] = array(
-    'fromto' => 'value2',
-  );
-  /* Field: Content: Location */
-  $handler->display->display_options['fields']['field_ding_event_location']['id'] = 'field_ding_event_location';
-  $handler->display->display_options['fields']['field_ding_event_location']['table'] = 'field_data_field_ding_event_location';
-  $handler->display->display_options['fields']['field_ding_event_location']['field'] = 'field_ding_event_location';
-  $handler->display->display_options['fields']['field_ding_event_location']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_event_location']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_location']['click_sort_column'] = 'country';
-  $handler->display->display_options['fields']['field_ding_event_location']['type'] = 'ding_app_content_rss_location';
-  $handler->display->display_options['fields']['field_ding_event_location']['settings'] = array(
-    'use_widget_handlers' => 0,
-    'format_handlers' => array(),
-  );
   /* Field: Content: Body */
   $handler->display->display_options['fields']['field_ding_event_body']['id'] = 'field_ding_event_body';
   $handler->display->display_options['fields']['field_ding_event_body']['table'] = 'field_data_field_ding_event_body';
@@ -168,22 +144,52 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['field'] = 'ding_app_content_rss_handler_library_id';
   $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['label'] = '';
   $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['element_label_colon'] = FALSE;
-  /* Field: Content: Promoted to front page */
-  $handler->display->display_options['fields']['promote']['id'] = 'promote';
-  $handler->display->display_options['fields']['promote']['table'] = 'node';
-  $handler->display->display_options['fields']['promote']['field'] = 'promote';
-  $handler->display->display_options['fields']['promote']['label'] = '';
-  $handler->display->display_options['fields']['promote']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['promote']['type'] = 'true-false';
-  $handler->display->display_options['fields']['promote']['not'] = 0;
-  /* Field: Content: Organizer */
-  $handler->display->display_options['fields']['field_ding_event_organizer']['id'] = 'field_ding_event_organizer';
-  $handler->display->display_options['fields']['field_ding_event_organizer']['table'] = 'field_data_field_ding_event_organizer';
-  $handler->display->display_options['fields']['field_ding_event_organizer']['field'] = 'field_ding_event_organizer';
-  $handler->display->display_options['fields']['field_ding_event_organizer']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_event_organizer']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_organizer']['type'] = 'taxonomy_term_reference_plain';
-  $handler->display->display_options['fields']['field_ding_event_organizer']['delta_offset'] = '0';
+  /* Field: Event - Start Date */
+  $handler->display->display_options['fields']['field_ding_event_date']['id'] = 'field_ding_event_date';
+  $handler->display->display_options['fields']['field_ding_event_date']['table'] = 'field_data_field_ding_event_date';
+  $handler->display->display_options['fields']['field_ding_event_date']['field'] = 'field_ding_event_date';
+  $handler->display->display_options['fields']['field_ding_event_date']['ui_name'] = 'Event - Start Date';
+  $handler->display->display_options['fields']['field_ding_event_date']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_date']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_date']['type'] = 'ding_app_content_rss_date_time';
+  $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
+    'fromto' => 'value',
+  );
+  /* Field: Event - End Date */
+  $handler->display->display_options['fields']['field_ding_event_date_1']['id'] = 'field_ding_event_date_1';
+  $handler->display->display_options['fields']['field_ding_event_date_1']['table'] = 'field_data_field_ding_event_date';
+  $handler->display->display_options['fields']['field_ding_event_date_1']['field'] = 'field_ding_event_date';
+  $handler->display->display_options['fields']['field_ding_event_date_1']['ui_name'] = 'Event - End Date';
+  $handler->display->display_options['fields']['field_ding_event_date_1']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_date_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_date_1']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_date_1']['type'] = 'ding_app_content_rss_date_time';
+  $handler->display->display_options['fields']['field_ding_event_date_1']['settings'] = array(
+    'fromto' => 'value2',
+  );
+  /* Field: Content: Location */
+  $handler->display->display_options['fields']['field_ding_event_location']['id'] = 'field_ding_event_location';
+  $handler->display->display_options['fields']['field_ding_event_location']['table'] = 'field_data_field_ding_event_location';
+  $handler->display->display_options['fields']['field_ding_event_location']['field'] = 'field_ding_event_location';
+  $handler->display->display_options['fields']['field_ding_event_location']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_location']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_location']['click_sort_column'] = 'country';
+  $handler->display->display_options['fields']['field_ding_event_location']['type'] = 'ding_app_content_rss_location';
+  $handler->display->display_options['fields']['field_ding_event_location']['settings'] = array(
+    'use_widget_handlers' => 0,
+    'format_handlers' => array(),
+  );
+  /* Field: Content: Price */
+  $handler->display->display_options['fields']['field_ding_event_price']['id'] = 'field_ding_event_price';
+  $handler->display->display_options['fields']['field_ding_event_price']['table'] = 'field_data_field_ding_event_price';
+  $handler->display->display_options['fields']['field_ding_event_price']['field'] = 'field_ding_event_price';
+  $handler->display->display_options['fields']['field_ding_event_price']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_price']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_price']['settings'] = array(
+    'thousand_separator' => '',
+    'prefix_suffix' => 0,
+  );
   /* Field: Content: Book ticket/Participate in event */
   $handler->display->display_options['fields']['field_ding_event_ticket_link']['id'] = 'field_ding_event_ticket_link';
   $handler->display->display_options['fields']['field_ding_event_ticket_link']['table'] = 'field_data_field_ding_event_ticket_link';
@@ -193,10 +199,6 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_ticket_link']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_ticket_link']['click_sort_column'] = 'url';
   $handler->display->display_options['fields']['field_ding_event_ticket_link']['type'] = 'link_plain';
-  /* Sort criterion: Content: Sticky */
-  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['table'] = 'node';
-  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
   /* Sort criterion: Content: Date -  start date (field_ding_event_date) */
   $handler->display->display_options['sorts']['field_ding_event_date_value']['id'] = 'field_ding_event_date_value';
   $handler->display->display_options['sorts']['field_ding_event_date_value']['table'] = 'field_data_field_ding_event_date';
@@ -220,12 +222,6 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 2;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Scheduler: Publish on */
-  $handler->display->display_options['filters']['publish_on']['id'] = 'publish_on';
-  $handler->display->display_options['filters']['publish_on']['table'] = 'scheduler';
-  $handler->display->display_options['filters']['publish_on']['field'] = 'publish_on';
-  $handler->display->display_options['filters']['publish_on']['operator'] = 'not empty';
-  $handler->display->display_options['filters']['publish_on']['group'] = 2;
   /* Filter criterion: Content: Date -  start date (field_ding_event_date) */
   $handler->display->display_options['filters']['field_ding_event_date_value']['id'] = 'field_ding_event_date_value';
   $handler->display->display_options['filters']['field_ding_event_date_value']['table'] = 'field_data_field_ding_event_date';
@@ -309,86 +305,7 @@ function ding_app_content_rss_views_default_views() {
     'absolute_paths' => 1,
     'feed_in_links' => 0,
   );
-  $handler->display->display_options['path'] = 'ding-app-content-rss/event';
-
-  /* Display: App Feed */
-  $handler = $view->new_display('feed', 'App Feed', 'feed_app');
-  $handler->display->display_options['pager']['type'] = 'none';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'rss_fields';
-  $handler->display->display_options['style_options']['channel'] = array(
-    'core' => array(
-      'views_rss_core' => array(
-        'description' => '',
-        'language' => 'da',
-        'category' => '',
-        'image' => '',
-        'copyright' => '',
-        'managingEditor' => '',
-        'webMaster' => '',
-        'generator' => '',
-        'docs' => '',
-        'cloud' => '',
-        'ttl' => '',
-        'skipHours' => '',
-        'skipDays' => '',
-      ),
-    ),
-  );
-  $handler->display->display_options['style_options']['item'] = array(
-    'core' => array(
-      'views_rss_core' => array(
-        'title' => 'title',
-        'link' => '',
-        'description' => 'field_ding_event_body',
-        'author' => 'name',
-        'category' => '',
-        'comments' => '',
-        'enclosure' => '',
-        'guid' => 'nid',
-        'pubDate' => 'field_ding_event_date',
-      ),
-    ),
-    'media' => array(
-      'views_rss_media' => array(
-        'content' => 'field_ding_event_list_image',
-        'title' => '',
-        'description' => '',
-        'keywords' => '',
-        'thumbnail' => 'field_ding_event_list_image_1',
-        'category' => '',
-      ),
-    ),
-    'content-rss' => array(
-      'ding_app_content_rss' => array(
-        'subheadline' => 'field_ding_event_lead',
-        'arrangement-starttime' => 'field_ding_event_date',
-        'arrangement-endtime' => 'field_ding_event_date_1',
-        'display-starttime' => '',
-        'display-endtime' => '',
-        'arrangement-location' => 'field_ding_event_location',
-        'arrangement-price' => 'field_ding_event_price',
-        'resources' => 'nid',
-      ),
-    ),
-  );
-  $handler->display->display_options['style_options']['feed_settings'] = array(
-    'absolute_paths' => 1,
-    'feed_in_links' => 0,
-  );
-  $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: Content: Author */
-  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
-  $handler->display->display_options['relationships']['uid']['table'] = 'node';
-  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  $handler->display->display_options['relationships']['uid']['required'] = TRUE;
-  /* Relationship: Flags: mobile_app */
-  $handler->display->display_options['relationships']['flag_content_rel']['id'] = 'flag_content_rel';
-  $handler->display->display_options['relationships']['flag_content_rel']['table'] = 'node';
-  $handler->display->display_options['relationships']['flag_content_rel']['field'] = 'flag_content_rel';
-  $handler->display->display_options['relationships']['flag_content_rel']['flag'] = 'mobile_app';
-  $handler->display->display_options['relationships']['flag_content_rel']['user_scope'] = 'any';
-  $handler->display->display_options['path'] = 'ding-app-content-rss/event/app';
+  $handler->display->display_options['path'] = 'ding-redia-rss/event';
   $translatables['ding_app_content_event_rss'] = array(
     t('Master'),
     t('more'),
@@ -405,10 +322,9 @@ function ding_app_content_rss_views_default_views() {
     t('next ›'),
     t('last »'),
     t('author'),
+    t('flag'),
     t('[field_ding_event_list_image]'),
     t('Feed'),
-    t('App Feed'),
-    t('flag'),
   );
   $export['ding_app_content_event_rss'] = $view;
 
@@ -437,6 +353,19 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
   $handler->display->display_options['relationships']['uid']['required'] = TRUE;
+  /* Relationship: Flags: mobile_app */
+  $handler->display->display_options['relationships']['flag_content_rel']['id'] = 'flag_content_rel';
+  $handler->display->display_options['relationships']['flag_content_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['flag_content_rel']['field'] = 'flag_content_rel';
+  $handler->display->display_options['relationships']['flag_content_rel']['flag'] = 'mobile_app';
+  $handler->display->display_options['relationships']['flag_content_rel']['user_scope'] = 'any';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['nid']['element_default_classes'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -455,6 +384,22 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'r';
+  /* Field: Content: Promoted to front page */
+  $handler->display->display_options['fields']['promote']['id'] = 'promote';
+  $handler->display->display_options['fields']['promote']['table'] = 'node';
+  $handler->display->display_options['fields']['promote']['field'] = 'promote';
+  $handler->display->display_options['fields']['promote']['label'] = '';
+  $handler->display->display_options['fields']['promote']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['promote']['type'] = 'true-false';
+  $handler->display->display_options['fields']['promote']['not'] = 0;
+  /* Field: Content: Sticky */
+  $handler->display->display_options['fields']['sticky']['id'] = 'sticky';
+  $handler->display->display_options['fields']['sticky']['table'] = 'node';
+  $handler->display->display_options['fields']['sticky']['field'] = 'sticky';
+  $handler->display->display_options['fields']['sticky']['label'] = '';
+  $handler->display->display_options['fields']['sticky']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['sticky']['type'] = 'true-false';
+  $handler->display->display_options['fields']['sticky']['not'] = 0;
   /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
@@ -463,6 +408,14 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['name']['label'] = '';
   $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['name']['link_to_user'] = FALSE;
+  /* Field: Content: Lead */
+  $handler->display->display_options['fields']['field_ding_news_lead']['id'] = 'field_ding_news_lead';
+  $handler->display->display_options['fields']['field_ding_news_lead']['table'] = 'field_data_field_ding_news_lead';
+  $handler->display->display_options['fields']['field_ding_news_lead']['field'] = 'field_ding_news_lead';
+  $handler->display->display_options['fields']['field_ding_news_lead']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_news_lead']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_lead']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_lead']['type'] = 'text_plain';
   /* Field: Content: Body */
   $handler->display->display_options['fields']['field_ding_news_body']['id'] = 'field_ding_news_body';
   $handler->display->display_options['fields']['field_ding_news_body']['table'] = 'field_data_field_ding_news_body';
@@ -472,21 +425,6 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_news_body']['alter']['preserve_tags'] = '<a><b><em><u><i><li><ul><ol><h2><h3><strong><p><br/><br><br />';
   $handler->display->display_options['fields']['field_ding_news_body']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_news_body']['element_default_classes'] = FALSE;
-  /* Field: Content: Nid */
-  $handler->display->display_options['fields']['nid']['id'] = 'nid';
-  $handler->display->display_options['fields']['nid']['table'] = 'node';
-  $handler->display->display_options['fields']['nid']['field'] = 'nid';
-  $handler->display->display_options['fields']['nid']['label'] = '';
-  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['nid']['element_default_classes'] = FALSE;
-  /* Field: Content: Lead */
-  $handler->display->display_options['fields']['field_ding_news_lead']['id'] = 'field_ding_news_lead';
-  $handler->display->display_options['fields']['field_ding_news_lead']['table'] = 'field_data_field_ding_news_lead';
-  $handler->display->display_options['fields']['field_ding_news_lead']['field'] = 'field_ding_news_lead';
-  $handler->display->display_options['fields']['field_ding_news_lead']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_news_lead']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_news_lead']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_news_lead']['type'] = 'text_plain';
   /* Field: Indhold: List image (content) */
   $handler->display->display_options['fields']['field_ding_news_list_image']['id'] = 'field_ding_news_list_image';
   $handler->display->display_options['fields']['field_ding_news_list_image']['table'] = 'field_data_field_ding_news_list_image';
@@ -520,46 +458,17 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_news_list_image_1']['settings'] = array(
     'image_style' => 'medium',
   );
-  /* Field: Scheduler: Publish on */
-  $handler->display->display_options['fields']['publish_on']['id'] = 'publish_on';
-  $handler->display->display_options['fields']['publish_on']['table'] = 'scheduler';
-  $handler->display->display_options['fields']['publish_on']['field'] = 'publish_on';
-  $handler->display->display_options['fields']['publish_on']['label'] = '';
-  $handler->display->display_options['fields']['publish_on']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['publish_on']['date_format'] = 'custom';
-  $handler->display->display_options['fields']['publish_on']['custom_date_format'] = 'U';
-  $handler->display->display_options['fields']['publish_on']['timezone'] = 'UTC';
-  /* Field: Scheduler: Unpublish on */
-  $handler->display->display_options['fields']['unpublish_on']['id'] = 'unpublish_on';
-  $handler->display->display_options['fields']['unpublish_on']['table'] = 'scheduler';
-  $handler->display->display_options['fields']['unpublish_on']['field'] = 'unpublish_on';
-  $handler->display->display_options['fields']['unpublish_on']['label'] = '';
-  $handler->display->display_options['fields']['unpublish_on']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['unpublish_on']['date_format'] = 'custom';
-  $handler->display->display_options['fields']['unpublish_on']['custom_date_format'] = 'U';
-  $handler->display->display_options['fields']['unpublish_on']['timezone'] = 'UTC';
   /* Field: Ding App Content RSS: Library ID */
   $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['id'] = 'ding_app_content_rss_handler_library_id';
   $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['table'] = 'ding_app_content_rss';
   $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['field'] = 'ding_app_content_rss_handler_library_id';
   $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['label'] = '';
   $handler->display->display_options['fields']['ding_app_content_rss_handler_library_id']['element_label_colon'] = FALSE;
-  /* Field: Content: Promoted to front page */
-  $handler->display->display_options['fields']['promote']['id'] = 'promote';
-  $handler->display->display_options['fields']['promote']['table'] = 'node';
-  $handler->display->display_options['fields']['promote']['field'] = 'promote';
-  $handler->display->display_options['fields']['promote']['label'] = '';
-  $handler->display->display_options['fields']['promote']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['promote']['type'] = 'true-false';
-  $handler->display->display_options['fields']['promote']['not'] = 0;
-  /* Sort criterion: Content: Sticky */
-  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['table'] = 'node';
-  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
   $handler->display->display_options['filter_groups']['groups'] = array(
     1 => 'AND',
     2 => 'OR',
@@ -579,18 +488,6 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 2;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Scheduler: Publish on */
-  $handler->display->display_options['filters']['publish_on']['id'] = 'publish_on';
-  $handler->display->display_options['filters']['publish_on']['table'] = 'scheduler';
-  $handler->display->display_options['filters']['publish_on']['field'] = 'publish_on';
-  $handler->display->display_options['filters']['publish_on']['operator'] = 'not empty';
-  $handler->display->display_options['filters']['publish_on']['group'] = 2;
-  /* Filter criterion: Flags: Flagged */
-  $handler->display->display_options['filters']['flagged']['id'] = 'flagged';
-  $handler->display->display_options['filters']['flagged']['table'] = 'flag_content';
-  $handler->display->display_options['filters']['flagged']['field'] = 'flagged';
-  $handler->display->display_options['filters']['flagged']['relationship'] = 'flag_content_rel';
-  $handler->display->display_options['filters']['flagged']['value'] = '1';
 
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'feed');
@@ -661,87 +558,7 @@ function ding_app_content_rss_views_default_views() {
     'absolute_paths' => 1,
     'feed_in_links' => 0,
   );
-  $handler->display->display_options['path'] = 'ding-app-content-rss/news';
-
-  /* Display: App Feed */
-  $handler = $view->new_display('feed', 'App Feed', 'feed_app');
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '100';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'rss_fields';
-  $handler->display->display_options['style_options']['channel'] = array(
-    'core' => array(
-      'views_rss_core' => array(
-        'description' => '',
-        'language' => 'da',
-        'category' => '',
-        'image' => '',
-        'copyright' => '',
-        'managingEditor' => '',
-        'webMaster' => '',
-        'generator' => '',
-        'docs' => '',
-        'cloud' => '',
-        'ttl' => '',
-        'skipHours' => '',
-        'skipDays' => '',
-      ),
-    ),
-  );
-  $handler->display->display_options['style_options']['item'] = array(
-    'content-rss' => array(
-      'ding_app_content_rss' => array(
-        'subheadline' => 'field_ding_news_lead',
-        'arrangement-starttime' => '',
-        'arrangement-endtime' => '',
-        'display-starttime' => '',
-        'display-endtime' => '',
-        'arrangement-location' => '',
-        'arrangement-price' => '',
-        'resources' => 'nid',
-      ),
-    ),
-    'core' => array(
-      'views_rss_core' => array(
-        'title' => 'title',
-        'link' => '',
-        'description' => 'field_ding_news_body',
-        'author' => 'name',
-        'category' => '',
-        'comments' => '',
-        'enclosure' => '',
-        'guid' => 'nid',
-        'pubDate' => 'created',
-      ),
-    ),
-    'media' => array(
-      'views_rss_media' => array(
-        'content' => '',
-        'title' => '',
-        'description' => '',
-        'keywords' => '',
-        'thumbnail' => 'field_ding_news_list_image',
-        'category' => '',
-      ),
-    ),
-  );
-  $handler->display->display_options['style_options']['feed_settings'] = array(
-    'absolute_paths' => 1,
-    'feed_in_links' => 0,
-  );
-  $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: Content: Author */
-  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
-  $handler->display->display_options['relationships']['uid']['table'] = 'node';
-  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  $handler->display->display_options['relationships']['uid']['required'] = TRUE;
-  /* Relationship: Flags: mobile_app */
-  $handler->display->display_options['relationships']['flag_content_rel']['id'] = 'flag_content_rel';
-  $handler->display->display_options['relationships']['flag_content_rel']['table'] = 'node';
-  $handler->display->display_options['relationships']['flag_content_rel']['field'] = 'flag_content_rel';
-  $handler->display->display_options['relationships']['flag_content_rel']['flag'] = 'mobile_app';
-  $handler->display->display_options['relationships']['flag_content_rel']['user_scope'] = 'any';
-  $handler->display->display_options['path'] = 'ding-app-content-rss/news/app';
+  $handler->display->display_options['path'] = 'ding-redia-rss/news';
   $translatables['ding_app_content_news_rss'] = array(
     t('Master'),
     t('more'),
@@ -758,10 +575,9 @@ function ding_app_content_rss_views_default_views() {
     t('next ›'),
     t('last »'),
     t('author'),
+    t('flag'),
     t('[field_ding_news_list_image]'),
     t('Feed'),
-    t('App Feed'),
-    t('flag'),
   );
   $export['ding_app_content_news_rss'] = $view;
 

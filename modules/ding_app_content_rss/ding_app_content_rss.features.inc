@@ -33,19 +33,17 @@ function ding_app_content_rss_flag_default_flags() {
     'unflag_long' => '',
     'unflag_message' => '',
     'unflag_denied_text' => '',
-    'link_type' => 'toggle',
+    'link_type' => 'normal',
     'roles' => array(
       'flag' => array(
-        0 => 5,
-        1 => 6,
-        2 => 7,
-        3 => 8,
+        0 => 3,
+        1 => 4,
+        2 => 6,
       ),
       'unflag' => array(
-        0 => 5,
-        1 => 6,
-        2 => 7,
-        3 => 8,
+        0 => 3,
+        1 => 4,
+        2 => 6,
       ),
     ),
     'weight' => 0,
@@ -57,7 +55,7 @@ function ding_app_content_rss_flag_default_flags() {
     'i18n' => 0,
     'module' => 'ding_app_content_rss',
     'locked' => array(
-      0 => 'name',
+      'name' => 'name',
     ),
     'api_version' => 2,
   );
