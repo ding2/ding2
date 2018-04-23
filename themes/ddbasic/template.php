@@ -34,8 +34,11 @@ function ddbasic_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'search-form-extended';
       $vars['classes_array'][] = 'show-secondary-menu';
 
-      if (menu_get_item()['path'] === 'search/ting/%') {
-        $vars['classes_array'][] = 'extended-search-is-open';
+      $path = menu_get_item()['path'];
+      switch ($path) {
+        case 'search/ting/%';
+        case 'ding_frontpage':
+          $vars['classes_array'][] = 'extended-search-is-open';
       }
       break;
   }
