@@ -216,6 +216,8 @@ projects[maintenance_mode_api][version] = "1.0-beta1"
 
 projects[media][subdir] = "contrib"
 projects[media][version] = "2.0"
+; Patch against SA-CONTRIB-2018-020
+projects[media][patches][] = "https://cgit.drupalcode.org/media/patch/?id=1cd77ffa9c2cf96d80b76d47318179a8a82f0d46"
 
 projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.0-rc1"
