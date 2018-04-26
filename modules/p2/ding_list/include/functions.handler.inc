@@ -36,10 +36,6 @@ function ding_list_get_list($list, $account = NULL) {
     // If it's a number we assume it's the ID of the list.
     if (is_numeric($list)) {
       $lists[$key] = ding_provider_invoke('openlist', 'get_list', $list);
-
-      if ($lists[$key]) {
-        $lists[$key] = DingList::fromDataArray($lists[$key]);
-      }
     }
     // If it's a string, we assume it's a DING_LIST_TYPE, and we grab the first.
     elseif (is_string($list)) {
@@ -90,11 +86,5 @@ function ding_list_get_lists($list_types, $account = NULL, $expanded = FALSE) {
     $list_types = array($list_types);
   }
 
-  $lists = ding_provider_invoke('openlist', 'get_lists_by_type', $list_types, $account, $expanded);
-
-  foreach ($lists as &$list) {
-    $list = DingList::fromDataArray($list);
-  }
-
-  return $lists;
+  return ding_provider_invoke('openlist', 'get_lists_by_type', $list_types, $account, $expanded);
 }

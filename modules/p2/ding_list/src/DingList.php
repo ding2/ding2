@@ -133,24 +133,6 @@ class DingList {
   }
 
   /**
-   * Build a data array from the current properties.
-   *
-   * @return array
-   *   The data array.
-   */
-  public function buildDataArray() {
-    $data = array();
-
-    foreach (self::$propertyMap as $from => $fn) {
-      $data[$from] = call_user_func(array($this, 'get' . $fn));
-    }
-
-    $data['data']['note'] = $this->note;
-
-    return $data;
-  }
-
-  /**
    * Save the list.
    *
    * @return DingList
@@ -158,10 +140,10 @@ class DingList {
    */
   public function save() {
     if (!empty($this->id)) {
-      ding_provider_invoke('openlist', 'edit_list', $this->buildDataArray());
+      ding_provider_invoke('openlist', 'edit_list', $this);
     }
     else {
-      $this->id = ding_provider_invoke('openlist', 'create_list', $this->buildDataArray());
+      ding_provider_invoke('openlist', 'create_list', $this);
     }
 
     return $this;
@@ -175,7 +157,7 @@ class DingList {
    */
   public function delete() {
     try {
-      ding_provider_invoke('openlist', 'delete_list', $this->buildDataArray());
+      ding_provider_invoke('openlist', 'delete_list', $this);
     }
     catch (Exception $e) {
       watchdog_exception('ding_list', $e);
@@ -266,7 +248,7 @@ class DingList {
    */
   public function setElementPosition($element_id, $previous = 0) {
     try {
-      ding_provider_invoke('openlist', 'set_element_after', $this->buildDataArray(), $element_id, $previous);
+      ding_provider_invoke('openlist', 'set_element_after', $this, $element_id, $previous);
     }
     catch (Exception $e) {
       watchdog_exception('ding_list', $e);
@@ -302,10 +284,10 @@ class DingList {
   }
 
   /**
-   * Remove a permission.
+   * Remove permissions.
    *
    * @param object $account
-   *   The user to give the permissions.
+   *   User to remove permissions from.
    */
   public function removePermission($account = NULL) {
     if ($account === NULL) {
@@ -516,6 +498,7 @@ class DingList {
    */
   public function setNote($value) {
     $this->note = $value;
+    $this->data['note'] = $value;
 
     return $this;
   }

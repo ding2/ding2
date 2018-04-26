@@ -86,27 +86,6 @@ class DingListElement {
   }
 
   /**
-   * Build a data array from the current properties.
-   *
-   * @return array
-   *   The data array.
-   */
-  public function buildDataArray() {
-    $data = array('data' => array());
-
-    foreach (self::$propertyMap as $from => $fn) {
-      $data[$from] = call_user_func(array($this, 'get' . $fn));
-    }
-
-    // Move type and value into the data property.
-    unset($data['type'], $data['value']);
-    $data['data']['type'] = $this->type;
-    $data['data']['value'] = $this->value;
-
-    return $data;
-  }
-
-  /**
    * Save the element.
    *
    * @return DingListElement|false
@@ -115,16 +94,10 @@ class DingListElement {
   public function save() {
     try {
       if (!empty($this->id)) {
-        ding_provider_invoke('openlist', 'edit_element', $this->buildDataArray());
+        ding_provider_invoke('openlist', 'edit_element', $this);
       }
       elseif (!empty($this->listId)) {
-        $list = ding_list_get_list($this->listId);
-        $result = ding_provider_invoke(
-          'openlist',
-          'create_element',
-          $list->buildDataArray(),
-          $this->buildDataArray()['data']
-        );
+        ding_provider_invoke('openlist', 'create_element', $this);
       }
       else {
         watchdog('ding_list', 'Trying to save element without listId', array(), WATCHDOG_ERROR);
@@ -147,7 +120,7 @@ class DingListElement {
    */
   public function delete() {
     try {
-      ding_provider_invoke('openlist', 'delete_element', $this->buildDataArray());
+      ding_provider_invoke('openlist', 'delete_element', $this);
     }
     catch (Exception $e) {
       watchdog_exception('ding_list', $e);

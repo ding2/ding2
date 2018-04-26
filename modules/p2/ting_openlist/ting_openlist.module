@@ -5,6 +5,8 @@
  * Provider and configuration layer for connection with the OpenList service.
  */
 
+use DingList\DingList;
+
 define('TING_OPENLIST_DEFAULT_DOMAIN', 'https://test.openlist.ddbcms.dk');
 
 require_once 'TingOpenlistRequestException.php';
@@ -247,12 +249,12 @@ function ting_openlist_field_validate($element, &$form_state, $form) {
 /**
  * Clear all caches related to a list.
  *
- * @param array $list
- *   The list array.
+ * @param DingList $list
+ *   The list.
  */
-function ting_openlist_cache_clear_list(array $list) {
-  $clear = array('l' . $list['list_id']);
-  $account = ting_openlist_drupal_user($list['owner']);
+function ting_openlist_cache_clear_list(DingList $list) {
+  $clear = array('l' . $list->getId());
+  $account = ting_openlist_drupal_user($list->getOwner());
   if ($account !== FALSE && !empty($account->uid)) {
     $clear[] = 'u' . $account->uid;
   }

@@ -5,6 +5,9 @@
  * The provider functions.
  */
 
+use DingList\DingList;
+use DingList\DingListElement;
+
 /**
  * Make a request to Openlist.
  *
@@ -65,91 +68,79 @@ function ting_openlist_handler_update_user($account) {
 /**
  * Delete element.
  *
- * @param array $element
- *   Element.
+ * @param DingList\DingListElement $element
+ *   The element.
  */
-function ting_openlist_handler_delete_element(array $element) {
+function ting_openlist_handler_delete_element(DingListElement $element) {
   ting_openlist_request('deleteElement', array(
-    'element_id' => $element['element_id'],
+    'element_id' => $element->getId(),
   ), array('use_cache' => FALSE));
 
-  $list = ting_openlist_handler_get_list($element['list_id']);
+  $list = ting_openlist_handler_get_list($element->getListId());
   ting_openlist_cache_clear_list($list);
 }
 
 /**
  * Create an element.
  *
- * @param array $list
- *   List array.
- * @param array $data
- *   The element data.
- *
- * @return mixed
- *   The element or just the element id, depending on $return_element.
+ * @param DingList\DingListElement $element
+ *   The element.
  */
-function ting_openlist_handler_create_element(array $list, array $data) {
+function ting_openlist_handler_create_element(DingListElement $element) {
+  $data = $element->getData() + array(
+    'type' => $element->getType(),
+    'value' => $element->getValue(),
+  );
+
   $result = ting_openlist_request('createElement', array(
-    'list_id' => $list['list_id'],
+    'list_id' => $element->getListId(),
     'data' => $data,
-    'return_element' => TRUE,
   ), array('use_cache' => FALSE));
 
+  $element->setId($result);
+
+  $list = ting_openlist_handler_get_list($element->getListId());
   ting_openlist_cache_clear_list($list);
-  return $result;
 }
 
 /**
  * Edit element.
  *
- * @param array $element
- *   The element array.
+ * @param DingList\DingListElement $element
+ *   The element.
  */
-function ting_openlist_handler_edit_element(array $element) {
+function ting_openlist_handler_edit_element(DingListElement $element) {
+  $data = $element->getData() + array(
+    'type' => $element->getType(),
+    'value' => $element->getValue(),
+  );
+
   ting_openlist_request('editElement', array(
-    'element_id' => $element['element_id'],
-    'data' => $element['data'],
+    'element_id' => $element->getId(),
+    'data' => $data,
   ), array('use_cache' => FALSE));
 
-  $list = ting_openlist_handler_get_list($element['list_id']);
+  $list = ting_openlist_handler_get_list($element->getListId());
   ting_openlist_cache_clear_list($list);
 }
 
 /**
  * Move an element to after another element.
  *
- * @param array $list
- *   List array.
+ * @param \DingList\DingList $list
+ *   The list.
  * @param int $id
  *   Openlist id, of the element you're moving.
  * @param int $previous_id
  *   Openlist id, of the element you're moving.
  */
-function ting_openlist_handler_set_element_after(array $list, $id, $previous_id) {
+function ting_openlist_handler_set_element_after(DingList $list, $id, $previous_id) {
   ting_openlist_request('setElementAfter', array(
     'element_id' => $id,
     'previous_id' => $previous_id,
   ), array('use_cache' => FALSE));
 
   ting_openlist_cache_clear_list($list);
-}
-
-/**
- * Get the user's lists.
- *
- * @param string $user_identifier
- *   The user.
- * @param int $from
- *   Only get lists with changes from this timestamp.
- *
- * @return array
- *   List of lists.
- */
-function ting_openlist_handler_get_lists($user_identifier, $from) {
-  return ting_openlist_request('getLists', array(
-    'owner' => $user_identifier,
-    'from' => $from,
-  ));
 }
 
 /**
@@ -181,26 +172,32 @@ function ting_openlist_handler_call_module($module, $method, array $arguments = 
  * @param int $list_id
  *   List ID.
  *
- * @return array
- *   The openlist user object.
+ * @return \DingList\DingList|false
+ *   The list or FALSE if no list exists.
  */
 function ting_openlist_handler_get_list($list_id) {
-  return ting_openlist_request('getList', array(
+  $list = ting_openlist_request('getList', array(
     'list_id' => $list_id,
   ), array('cache_prefix' => 'l' . $list_id));
+
+  if ($list === FALSE) {
+    return FALSE;
+  }
+
+  return DingList::fromDataArray($list);
 }
 
 /**
  * Get lists by type.
  *
- * @param array $list_types
+ * @param string[] $list_types
  *   The list types.
  * @param object $account
  *   User object.
  * @param bool $expanded
  *   If the list elements should be returned as well.
  *
- * @return array
+ * @return \DingList\DingList[]
  *   List of list objects.
  */
 function ting_openlist_handler_get_lists_by_type(array $list_types, $account, $expanded = FALSE) {
@@ -208,24 +205,30 @@ function ting_openlist_handler_get_lists_by_type(array $list_types, $account, $e
     $list_types = FALSE;
   }
 
-  return ting_openlist_request('getListsByType', array(
+  $lists = ting_openlist_request('getListsByType', array(
     'types' => $list_types,
     'user' => ting_openlist_user_identifier($account),
     'expanded' => $expanded,
   ), array('cache_prefix' => 'u' . $account->uid));
+
+  foreach ($lists as &$list) {
+    $list = DingList::fromDataArray($list);
+  }
+
+  return $lists;
 }
 
 /**
  * Edit list.
  *
- * @param array $list
- *   The list array.
+ * @param \DingList\DingList $list
+ *   The list.
  */
-function ting_openlist_handler_edit_list(array $list) {
+function ting_openlist_handler_edit_list(DingList $list) {
   ting_openlist_request('editList', array(
-    'list_id' => $list['list_id'],
-    'title' => $list['title'],
-    'data' => $list['data'],
+    'list_id' => $list->getId(),
+    'title' => $list->getTitle(),
+    'data' => $list->getData(),
   ), array('use_cache' => FALSE));
 
   ting_openlist_cache_clear_list($list);
@@ -244,37 +247,34 @@ function ting_openlist_handler_clear_cache($prefixes) {
 /**
  * Create a list.
  *
- * @param array $list
- *   The list array.
- *
- * @return int
- *   The list id.
+ * @param \DingList\DingList $list
+ *   The list.
  */
-function ting_openlist_handler_create_list(array $list) {
+function ting_openlist_handler_create_list(DingList $list) {
   $result = ting_openlist_request('createList', array(
-    'owner' => $list['owner'],
-    'title' => $list['title'],
-    'type' => $list['type'],
-    'data' => $list['data'],
+    'owner' => $list->getOwner(),
+    'title' => $list->getTitle(),
+    'type' => $list->getType(),
+    'data' => $list->getData(),
   ), array('use_cache' => FALSE));
 
-  $account = ting_openlist_drupal_user($list['owner']);
+  $list->setId($result);
+
+  $account = ting_openlist_drupal_user($list->getOwner());
   if ($account !== FALSE && !empty($account->uid)) {
     ting_openlist_cache_clear(['u' . $account->uid]);
   }
-
-  return $result;
 }
 
 /**
  * Detele a list.
  *
- * @param array $list
- *   The list array.
+ * @param \DingList\DingList $list
+ *   The list.
  */
-function ting_openlist_handler_delete_list(array $list) {
+function ting_openlist_handler_delete_list(DingList $list) {
   ting_openlist_request('deleteList', array(
-    'list_id' => $list['list_id'],
+    'list_id' => $list->getId(),
   ), array('use_cache' => FALSE));
   ting_openlist_cache_clear_list($list);
 }
