@@ -80,7 +80,7 @@ function ting_get_object_marcxchange($object_id) {
  */
 function ting_execute_cache($request) {
   module_load_include('inc', 'opensearch', 'opensearch.client');
-  return opensearch_execute_cache($request);
+  return opensearch_execute($request);
 }
 
 /**
