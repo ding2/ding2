@@ -642,3 +642,25 @@
   // so the backend still works with this display none.
   display: none;
 }
+
+// ==========================================================================
+// Gatewayf
+// ==========================================================================
+
+.ding-gatewayf-registration-information {
+  &--left {
+    @include span-columns(8);
+
+    @include media($tablet) {
+      width: 100%;
+    }
+  }
+  &--right {
+    @include span-columns(4);
+    margin: 18px 0 11px 0;
+    
+    @include media($tablet) {
+      width: 100%; 
+    }
+  }
+}

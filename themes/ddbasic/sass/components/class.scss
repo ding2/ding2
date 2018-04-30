@@ -162,7 +162,8 @@ body > .ding2-site-template {
   padding: 20px 80px 14px 15px;
   border-radius: $round-corner;
   &.reserve-button,
-  &.button-see-online {
+  &.button-see-online,
+  &.ding-gatewayf-link {
     color: $white;
     background-color: $black;
   }
