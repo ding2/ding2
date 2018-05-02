@@ -310,17 +310,27 @@
   // ==========================================================================
 
   &.view-mode-ting-reference-preview {
-    @include span-columns(5 of 7);
     padding: 0;
     background-color: transparent;
     .cover {
-      @include span-columns(1 of 5);
+      @include span-columns(1 of 6);
       padding-left: 0;
       min-height: 1px;
+
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(3);
+      }
     }
     .group-text {
-      @include span-columns(4 of 5);
+      @include span-columns(5 of 6);
       @include omega();
+
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(9);
+        @include omega();
+      }
     }
     h2 {
       @include font('display-small');
@@ -333,7 +343,7 @@
     }
     .ting-object-new-in-list {
       display: none;
-      width: getColumn(4 of 5);
+      width: getColumn(5 of 6);
       float: right;
       margin-top: 10px;
       color: $charcoal-opacity-dark;
@@ -389,7 +399,6 @@
       }
       .ting-object-right {
         @include span-columns(5 of 8);
-        @include omega();
       }
     }
     .search-result--heading-type {
@@ -522,7 +531,7 @@
         color: $color-standard-text;
       }
     }
-    
+
     //Mobile
     @include media($mobile) {
       > .inner {

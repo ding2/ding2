@@ -8,7 +8,6 @@ dependencies[] = ding_entity_rating_loan_history
 dependencies[] = ding_interaction
 dependencies[] = ding_interaction_manual
 dependencies[] = ding_list
-dependencies[] = ding_list_installer
 dependencies[] = ding_message
 dependencies[] = ding_message_p2_installer
 dependencies[] = ding_notifications

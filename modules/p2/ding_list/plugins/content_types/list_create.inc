@@ -26,7 +26,7 @@ function ding_list_list_create_content_type_render($subtype, $conf, $panel_args,
   $block->content[] = array(
     '#markup' => t('Create your own lists and collect books and other materials as you browse the library.'),
   );
-  $block->content[] = drupal_get_form('ding_list_create_list_form');
+  $block->content[] = drupal_get_form('ding_list_edit_list_form');
 
   return $block;
 }
