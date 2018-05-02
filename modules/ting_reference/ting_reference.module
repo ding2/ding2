@@ -22,9 +22,9 @@ function ting_reference_menu() {
   );
 
   // Callback for lazy/ajax load reference.
-  $items['ting_reference/ajax/%'] = array(
+  $items['ting_reference/ajax/%/%'] = array(
     'page callback' => '_ting_reference_ajax',
-    'page arguments' => array(2),
+    'page arguments' => array(2, 3),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -51,6 +51,7 @@ function ting_reference_theme() {
     'ting_reference_item' => array(
       'variables' => array(
         'entity_id' => NULL,
+        'view_mode' => 'teaser',
       ),
       'template' => 'templates/ting_reference_item',
     ),
@@ -347,6 +348,7 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
         $element[] = array(
           '#theme' => 'ting_reference_item',
           '#entity_id' => $item['value']->endpoints[$langcode][1]['entity_id'],
+          '#view_mode' => $display['settings']['view_mode'],
         );
       }
 
@@ -421,11 +423,13 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
  *
  * @param int $entity_id
  *   The id of the ting object entity to load.
+ * @param string $view_mode
+ *   The view mode that the ting object should be rendered.
  */
-function _ting_reference_ajax($entity_id) {
+function _ting_reference_ajax($entity_id, $view_mode = 'teaser') {
   // Load the ting objects found.
   $entity = entity_load('ting_object', array($entity_id));
-  $ting_object = ting_object_view(reset($entity), 'teaser');
+  $ting_object = ting_object_view(reset($entity), $view_mode);
 
   $build = array(
     'id' => $entity_id,
