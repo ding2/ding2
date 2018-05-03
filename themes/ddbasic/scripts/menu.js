@@ -45,8 +45,8 @@
           mobile_menu_btn = $('a.topbar-link-menu', context),
           search_btn = $('a.topbar-link-search', context),
           search_extended_btn = $('a.search-extended-button', context),
-          first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a', context),
-          second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a', context),
+          first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a .main-menu-expanded-icon', context),
+          second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a .main-menu-expanded-icon', context),
           body = $('body');
 
       mobile_menu_btn.on('click', function(evt){
@@ -86,8 +86,9 @@
       first_level_expanded.on('click', function(evt) {
         if($('.is-tablet').is(':visible')) {
           evt.preventDefault();
-          first_level_expanded.not($(this)).parent().children('.main-menu').slideUp(200);
-          $(this).parent().children('.main-menu').slideToggle(200);
+          first_level_expanded.not($(this)).parent().parent().children('.main-menu').slideUp(200);
+          $(this).toggleClass('open');
+          $(this).parent().parent().children('.main-menu').slideToggle(200);
         }
       });
 
@@ -95,9 +96,9 @@
         if($('.is-tablet').is(':visible')) {
           evt.preventDefault();
           second_level_expanded.not($(this)).removeClass('open');
-          second_level_expanded.not($(this)).parent().children('.main-menu').slideUp(200);
+          second_level_expanded.not($(this)).parent().parent().children('.main-menu').slideUp(200);
           $(this).toggleClass('open');
-          $(this).parent().children('.main-menu').slideToggle(200);
+          $(this).parent().parent().children('.main-menu').slideToggle(200);
         }
       });
 
