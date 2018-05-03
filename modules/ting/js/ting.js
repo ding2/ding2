@@ -8,6 +8,7 @@
 (function ($) {
   Drupal.behaviors.ting = {
     attach: function (context, settings) {
+      // TODO: These selectors might be outdated.
       $('a.js-search-overlay').live('click', function () {
         var link = $(this);
         if (link.attr('href').charAt(0) !== '#') {

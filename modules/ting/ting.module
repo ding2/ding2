@@ -183,7 +183,6 @@ function ting_render_ding_entity_buttons_callback($request_type, $button_type) {
           '#see-online-' . $entity->localId . '.ding-entity-button-placeholder',
           $html
         );
-
         break;
       case 'other-formats':
         $markup = ting_entity_other_formats_button($entity);
