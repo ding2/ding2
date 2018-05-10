@@ -47,7 +47,6 @@
           search_extended_btn = $('a.search-extended-button', context),
           first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a', context),
           second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a', context),
-          ipe_button = $('#panels-ipe-customize-page', context),
           body = $('body');
 
       mobile_menu_btn.on('click', function(evt){
@@ -105,11 +104,6 @@
       search_extended_btn.on('click', function(evt) {
         evt.preventDefault();
         body.toggleClass('extended-search-is-open');
-      });
-
-      ipe_button.on('click', function (evt) {
-        evt.preventDefault();
-        body.removeClass('overlay-is-active');
       });
 
       // Tablet/mobile menu logout
