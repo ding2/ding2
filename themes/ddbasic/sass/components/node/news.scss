@@ -1,5 +1,6 @@
 //
 // Styling of content type Ding News
+
 @import '../../base.scss';
 
 .node-ding-news {
@@ -8,92 +9,21 @@
   // ==========================================================================
   &.node-teaser {
     position: relative;
-    float: left;
-    width: 100%;
-
-    .inner {
-      position: absolute;
-      width: 100%;
-      top: 0;
-      left: 0;
-      padding: $box-padding $box-padding 10px $box-padding;
-    }
-    .background {
-      @include transition(
-          width $speed $ease,
-          background-color $speed $ease,
-          box-shadow $speed $ease
-      );
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background-color: $grey;
-      .button {
-        @include transition(opacity $speed $ease);
-        position: absolute;
-        right: 15px;
-        bottom: 15px;
-        width: 156px;
-        padding: 20px 15px 14px 15px;
-        opacity: 0;
-
-        // Mobile
-        @include media($mobile) {
-          display: none;
-        }
-      }
-    }
-
-    .news-text {
-      position: relative;
-      z-index: 1;
-    }
-    .title-and-lead {
-      @include transition(
-          min-height $speed $ease
-      );
-      min-height: 61px;
-      .title {
-        margin-bottom: 10px;
-      }
-    }
-    .field-name-field-ding-news-lead {
-      @include transition(
-          opacity $speed $ease
-      );
-
-      width: 100%;
-      opacity: 0;
-      height: 0;
-
-      // Mobile
-      @include media($mobile) {
-        display: none;
-      }
-    }
-    .info-bottom {
-      float: left;
-      width: 100%;
-      padding-right: 156px;
-      min-height: 60px;
-      color: $color-text;
-
-      // Mobile
-      @include media($mobile) {
-        width: 100%;
-        padding-right: 0;
-      }
+    a {
+      display: block;
+      color: $charcoal;
     }
     .ding-news-list-image {
-      position: absolute;
-      z-index: 1;
-      width: 100%;
-      height: 200px;
-      overflow: hidden;
-      background-size: cover;
-      background-position: center center;
+      &::after {
+        @include transition(background-color $speed $ease);
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+      }
 
       // Mobile
       @include media($mobile) {
@@ -104,6 +34,28 @@
         }
       }
     }
+    h3.title {
+      margin: 10px 0 5px;
+    }
+    .category-and-submitted {
+      float: left;
+      width: 100%;
+      color: $charcoal-opacity-dark;
+    }
+    .field-name-field-ding-news-category {
+      float: left;
+    }
+    .field-name-field-ding-news-lead {
+      @include transition(opacity $speed $ease);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 25px 15px;
+      color: $white;
+      opacity: 0;
+      overflow: hidden;
+    }
 
     // Mobile
     @include media($mobile) {
@@ -111,8 +63,8 @@
       .slide-on-mobile & {
         .news-text {
           @include linear-gradient(
-              transparent 0%,
-              $charcoal-opacity-extra-dark 100%
+            transparent 0%,
+            $charcoal-opacity-extra-dark 100%
           );
           position: absolute;
           bottom: 0;
@@ -136,8 +88,8 @@
           @include span-columns(6 of 8);
           @include font('display-small');
           @include transition(
-              height $speed $ease,
-              opacity $speed $ease
+            height $speed $ease,
+            opacity $speed $ease
           );
           position: static;
           height: 0;
@@ -145,65 +97,16 @@
         }
       }
     }
-
     // Hover for non touch devices
     .no-touch & {
       &:hover {
-        .background {
-          @include transition(
-              width $speed $hover-delay $ease,
-              background-color $speed $ease,
-              box-shadow $speed $ease
-          );
-          width: 115%;
-          background-color: $white;
-          box-shadow: $box-shadow;
-
-          // Tablet
-          @include media($tablet) {
-            width: 110%;
+        .ding-news-list-image {
+          &::after {
+            background-color: $black-overlay;
           }
-
-          // Mobile
-          @include media($mobile) {
-            width: 100%;
-            background-color: $grey;
-            box-shadow: none;
-          }
-        }
-        .button {
-          @include transition(
-              opacity $speed $hover-delay $ease,
-              background-color $speed $ease,
-              color $speed $ease
-          );
-          opacity: 1;
-        }
-        .title-and-lead {
-          @include transition(
-              min-height $speed $hover-delay $ease
-          );
-          min-height: 118px;
         }
         .field-name-field-ding-news-lead {
-          @include transition(
-              opacity $speed $hover-delay $ease
-          );
           opacity: 1;
-        }
-      }
-    }
-
-    &.has-image {
-      .inner {
-        padding: 0 $box-padding 10px $box-padding;
-      }
-      .news-text {
-        padding-top: 215px;
-
-        // Mobile
-        @include media($mobile) {
-          padding-top: 15px;
         }
       }
     }
@@ -234,8 +137,8 @@
     }
     .news-text {
       @include linear-gradient(
-          transparent 0%,
-          $charcoal-opacity-extra-dark 100%
+        transparent 0%,
+        $charcoal-opacity-extra-dark 100%
       );
       position: absolute;
       bottom: 0;
@@ -255,8 +158,8 @@
       @include span-columns(6 of 8);
       @include font('display-small');
       @include transition(
-          height $speed $ease,
-          opacity $speed $ease
+        height $speed $ease,
+        opacity $speed $ease
       );
       position: static;
       height: 0;
@@ -267,8 +170,8 @@
     @include media($mobile) {
       .news-text {
         @include linear-gradient(
-            transparent 0%,
-            transparent 100%
+          transparent 0%,
+          transparent 100%
         );
         position: static;
         padding: 0;

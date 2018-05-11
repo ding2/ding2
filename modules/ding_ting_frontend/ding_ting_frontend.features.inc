@@ -127,7 +127,7 @@ function ding_ting_frontend_image_default_styles() {
         'module' => 'manualcrop',
         'name' => 'manualcrop_crop',
         'data' => array(
-          'width' => 130,
+          'width' => 180,
           'height' => '',
           'keepproportions' => 0,
           'reuse_crop_style' => '',
@@ -145,7 +145,48 @@ function ding_ting_frontend_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => 130,
+          'width' => 180,
+          'height' => '',
+          'upscale' => 1,
+        ),
+        'weight' => 2,
+      ),
+    ),
+  );
+
+  // Exported image style: ting_cover_mini.
+  $styles['ting_cover_mini'] = array(
+    'name' => 'ting_cover_mini',
+    'label' => 'Ting cover mini',
+    'effects' => array(
+      1 => array(
+        'label' => 'Manual Crop: Custom crop',
+        'help' => 'Crop a freely user-selected area.',
+        'effect callback' => 'manualcrop_crop_effect',
+        'form callback' => 'manualcrop_crop_form',
+        'summary theme' => 'manualcrop_crop_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_crop',
+        'data' => array(
+          'width' => 100,
+          'height' => '',
+          'keepproportions' => 0,
+          'reuse_crop_style' => '',
+          'style_name' => 'ting_cover_mini',
+        ),
+        'weight' => 0,
+      ),
+      2 => array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 100,
           'height' => '',
           'upscale' => 1,
         ),

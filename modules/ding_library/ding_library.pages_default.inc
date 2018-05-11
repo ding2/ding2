@@ -571,6 +571,8 @@ function ding_library_default_page_manager_pages() {
   $display->cache = array();
   $display->title = 'Libraries';
   $display->uuid = '608e59aa-498b-4237-b789-65edaaf222de';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_ding_libraries_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -615,42 +617,6 @@ function ding_library_default_page_manager_pages() {
     $pane->uuid = '1e2eec2e-7d03-48ca-b59c-76ce5247dff7';
     $display->content['new-1e2eec2e-7d03-48ca-b59c-76ce5247dff7'] = $pane;
     $display->panels['content'][1] = 'new-1e2eec2e-7d03-48ca-b59c-76ce5247dff7';
-    $pane = new stdClass();
-    $pane->pid = 'new-d62be472-164d-4035-8ac5-a92a0ca855ae';
-    $pane->panel = 'content';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
-      'context' => array(
-        0 => 'empty',
-        1 => 'empty',
-        2 => 'empty',
-        3 => 'empty',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array(
-      'method' => 'simple',
-      'settings' => array(
-        'lifetime' => '3600',
-        'granularity' => 'context',
-      ),
-    );
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = '';
-    $pane->uuid = 'd62be472-164d-4035-8ac5-a92a0ca855ae';
-    $display->content['new-d62be472-164d-4035-8ac5-a92a0ca855ae'] = $pane;
-    $display->panels['content'][2] = 'new-d62be472-164d-4035-8ac5-a92a0ca855ae';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

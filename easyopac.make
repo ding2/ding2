@@ -32,6 +32,12 @@ projects[ding_bibliotek_info][download][url]    = "git@github.com:easySuite/ding
 ;projects[ding_bibliotek_info][download][tag]    = "7.x-3.0.2"
 projects[ding_bibliotek_info][download][branch] = "development"
 
+projects[ding_blog][type]             = "module"
+projects[ding_blog][subdir]           = ""
+projects[ding_blog][download][type]   = "git"
+projects[ding_blog][download][url]    = "git@github.com:easySuite/ding_blog.git"
+projects[ding_blog][download][branch] = "development"
+
 projects[ding_calendar][type]             = "module"
 projects[ding_calendar][subdir]           = ""
 projects[ding_calendar][download][type]   = "git"

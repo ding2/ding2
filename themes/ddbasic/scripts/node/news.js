@@ -14,7 +14,7 @@
   });
 
   // Call resize function when images are loaded.
-  Drupal.behaviors.ding_event_teaser_loaded = {
+  Drupal.behaviors.ding_news_teaser_loaded = {
     attach: function(context, settings) {
       if ($.isFunction($.fn.imagesLoaded)) {
         $('.view-ding-news .view-elements').imagesLoaded( function() {
@@ -31,7 +31,7 @@
           hovered;
       $('.node-ding-news.node-teaser', context).mouseenter(function() {
         // Set height for title and lead text.
-        title_and_lead_height = $(this).find('.title').outerHeight(true) + $(this).find('.field-name-field-ding-news-lead .field-items').outerHeight(true) + 20;
+        title_and_lead_height = $(this).find('.title').outerHeight(true) + $(this).find('.field-name-field-ding-news-lead .field-items').outerHeight(true) + 70;
         $(this).find('.title-and-lead').css('min-height', title_and_lead_height);
 
         // Set timeout to make shure element is still above while it animates

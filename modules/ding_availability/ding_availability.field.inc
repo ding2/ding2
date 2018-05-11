@@ -199,7 +199,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $output = array(
           '#theme' => 'ding_availability_types',
           '#types' => array(),
-          '#attached' => (isset($attached)) ? $attached : '',
+          '#attached' => isset($attached) ? $attached : [],
         );
 
         // Loop over the different material types.

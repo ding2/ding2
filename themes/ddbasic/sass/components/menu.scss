@@ -32,6 +32,8 @@ ul {
     > li {
       position: relative;
       float: left;
+      margin-right: 40px;
+
       &:last-child {
         margin-right: 0;
       }
@@ -75,7 +77,7 @@ ul {
       font-family: $font-family-bold;
     }
     > li {
-      margin-right: 40px;
+
       // Tablet
       > a {
         padding: 30px 0;
@@ -154,6 +156,7 @@ ul {
 ul.main-menu-second-level {
   li.leaf {
     padding: 20px 0;
+
     a {
       color: $white;
       &::after {
