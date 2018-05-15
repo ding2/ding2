@@ -1070,6 +1070,7 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
  *   Response from p2b.
  *
  * @return array
+ *   Returns array with booking type and url if it is available.
  */
 function _ding_place2book_status_processing($p2b_result) {
   $status_type = array();
