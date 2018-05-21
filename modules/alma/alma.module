@@ -786,3 +786,14 @@ function alma_ding_session_cache_defaults() {
     'expire' => 3600,
   );
 }
+
+/**
+ * Implements hook_ting_pre_execute().
+ */
+function alma_ting_pre_execute($request) {
+  // Since ALMA is using data-well 3.5 we need to filter local holdings for
+  // search requests.
+  if ($request instanceof TingClientSearchRequest) {
+    $request->setFilterLocalHoldings(TRUE);
+  }
+}

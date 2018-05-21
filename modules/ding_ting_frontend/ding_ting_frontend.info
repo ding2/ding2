@@ -92,6 +92,7 @@ features[field_instance][] = ting_object-ting_object-ting_type
 features[image][] = ting_cover_large
 features[image][] = ting_cover_medium
 features[image][] = ting_cover_small
+features[image][] = ting_cover_mini
 features[page_manager_existing_pages][] = fulltext
 features[page_manager_existing_pages][] = infomedia
 features[page_manager_handlers][] = pm_existing_pages_fulltext_panel_context
