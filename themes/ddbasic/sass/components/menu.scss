@@ -12,7 +12,7 @@ ul {
   &.main-menu-second-level,
   &.main-menu-third-level,
   &.secondary-menu,
-  &.topbar-menu {
+  &.site-header-topbar-menu {
     padding: 0;
     margin-bottom: 0;
     li {
@@ -305,7 +305,7 @@ ul.secondary-menu {
 // ==========================================================================
 // Top menu
 // ==========================================================================
-ul.topbar-menu {
+ul.site-header-topbar-menu {
   @include span-columns(5);
   @include omega;
   float: right;

@@ -809,6 +809,18 @@ ul.tabs.primary {
   }
 }
 
+.vertical-helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+@include media($mobile) {
+  .vertical-helper-tablet-and-above {
+    display: none;
+  }
+}
+
 .page-lead {
   margin-bottom: 20px;
 }

@@ -39,7 +39,7 @@ function ddbasic_preprocess_html(&$vars) {
 
       if (menu_get_item()['path'] === 'search/ting/%' || menu_get_item()['path'] === 'ding_frontpage') {
         $vars['classes_array'][] = 'extended-search-is-open';
-        $vars['classes_array'][] = 'extended-search-is-allways-visible';
+        $vars['classes_array'][] = 'extended-search-is-always-visible';
       }
       break;
   }
@@ -184,7 +184,7 @@ function ddbasic_menu_tree__menu_block__2($vars) {
  * Implements theme_menu_tree().
  */
 function ddbasic_menu_tree__menu_tabs_menu($vars) {
-  return '<ul class="topbar-menu">' . $vars['tree'] . '</ul>';
+  return '<ul class="site-header-topbar-menu">' . $vars['tree'] . '</ul>';
 }
 
 /**

@@ -31,7 +31,7 @@
   background-color: $grey-light;
   box-shadow: $box-shadow;
 
-  .pane-header-logo {
+  .site-header-site-name {
     @include span-columns(4);
     height: 44px;
     margin-top: 10px;
@@ -46,19 +46,63 @@
       box-shadow: $box-shadow;
       background-color: $grey-light;
       z-index: 5;
+      z-index: $z-overlay + 3;
     }
   }
 
   // Tablet
   @include media($tablet) {
     box-shadow: none;
-    .topbar-menu {
+    .site-header-topbar-menu {
       position: relative;
-      z-index: 3;
+      //z-index: 3;
+      z-index: $z-overlay + 2;
       width: 100%;
       background-color: $color-primary;
       padding: 10px 5%;
       box-shadow: $box-shadow;
+    }
+  }
+}
+
+// ==========================================================================
+// Site header site name inner
+// ==========================================================================
+.site-header-site-name-inner {
+  height: 44px;
+
+  @include media($tablet) {
+    width: 100%;
+  }
+
+  .site-name-container {
+    @include font('display-small');
+    line-height: 44px;
+    color: $charcoal;
+  }
+
+  &.logo-container {
+    .site-name-container {
+      display: none;
+    }
+
+    img {
+      display: inline-block;
+      vertical-align: middle;
+      max-height: 100%;
+      max-width: 95%;
+      width: auto;
+      height: auto;
+    }
+
+    @include media($mobile) {
+      .site-name-container {
+        display: block;
+      }
+
+      img {
+        display: none;
+      }
     }
   }
 }
@@ -74,6 +118,7 @@
     position: absolute;
     top: 0;
     z-index: 51;
+    z-index: $z-overlay + 5;
 
     // Tablet
     @include media($tablet) {
@@ -419,7 +464,7 @@
     }
 
     // Extended search is allway visible
-    .extended-search-is-allways-visible & {
+    .extended-search-is-always-visible & {
       padding-right: 0;
     }
   }

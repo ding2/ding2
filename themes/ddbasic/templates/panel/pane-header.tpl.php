@@ -17,13 +17,13 @@
  * template_preprocess_pane_header() for examples.
  */
 ?>
-<div class="pane-header-logo">
+<div class="site-header-site-name">
   <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home">
-    <div class="pane-header-logo-site-name-container<?php if ($logo): ?> pane-header-logo-container<?php endif; ?>">
-      <div class="site-name"><?php print $site_name; ?></div>
+    <div class="site-header-site-name-inner<?php if ($logo): ?> logo-container<?php endif; ?>">
+      <div class="site-name-container"><?php print $site_name; ?></div>
       <?php if ($logo): ?>
         <img src="<?php print $logo; ?>" />
-        <span class="vertical-helper"></span>
+        <span class="vertical-helper vertical-helper-tablet-and-above"></span>
       <?php endif; ?>
     </div>
   </a>

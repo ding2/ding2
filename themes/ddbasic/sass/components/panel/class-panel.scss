@@ -91,59 +91,6 @@
 }
 
 // ==========================================================================
-// Pane header logo
-// ==========================================================================
-.pane-header-logo {
-  .pane-header-logo-site-name-container {
-    height: 44px;
-
-    // Tablet
-    @include media($tablet) {
-      width: 100%;
-    }
-
-    .site-name {
-      @include font('display-small');
-      line-height: 44px;
-      color: $charcoal;
-    }
-
-    &.pane-header-logo-container {
-      .site-name {
-        display: none;
-      }
-
-      .vertical-helper {
-        display: inline-block;
-        height: 100%;
-        vertical-align: middle;
-      }
-
-      img {
-        display: inline-block;
-        vertical-align: middle;
-        max-height: 100%;
-        max-width: 95%;
-        width: auto;
-        height: auto;
-      }
-
-      // Mobile
-      @include media($mobile) {
-        .site-name {
-          display: block;
-        }
-
-        .vertical-helper,
-        img {
-          display: none;
-        }
-      }
-    }
-  }
-}
-
-// ==========================================================================
 // Ding labrary address & ding library contact
 // ==========================================================================
 .panel-pane {
