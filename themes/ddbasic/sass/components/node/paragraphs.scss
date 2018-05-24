@@ -115,7 +115,6 @@
     background-color: $grey;
     word-break: break-all; // IE - We want to break words
     word-break: break-word; // Override for webkit (It's better)
-    overflow: hidden;
 
     .paragraphs-text {
       margin: 10px 0;
