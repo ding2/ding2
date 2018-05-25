@@ -587,3 +587,17 @@ function ding2_update_7048() {
 function ding2_update_7049() {
   ding2_translation_update();
 }
+
+/**
+ * Disable and uninstall ding_mobilesearch module.
+ */
+function ding2_update_7050() {
+  if (module_exists('ding_mobilesearch')) {
+    module_disable(array('ding_mobilesearch'));
+    drupal_uninstall_modules(array('ding_mobilesearch'));
+  }
+  // Remove any traces of the module in case it has been deleted before
+  // running this hook.
+  ding2_remove_module('ding_mobilesearch');
+}
+
