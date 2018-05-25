@@ -47,12 +47,12 @@
     </section>
     <section style="top: 0px;" class="navigation-wrapper fixed">
       <div class="navigation-inner">
-        <div class="main-menu-wrapper panel-pane pane-block pane-menu-block-1">
+        <div class="site-header-navigation-main-menu panel-pane pane-block pane-menu-block-1">
           <ul class="main-menu">
             <li class="first leaf">&nbsp;</li>
           </ul>
         </div>
-        <div class="secondary-menu-wrapper panel-pane pane-block pane-menu-block-2">
+        <div class="site-header-navigation-secondary-menu panel-pane pane-block pane-menu-block-2">
           <ul class="secondary-menu">
             <li class="first leaf">&nbsp;</li>
           </ul>

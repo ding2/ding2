@@ -262,7 +262,7 @@ a.topbar-link-menu {
 //Topbar mobile search
 a.topbar-link-search {
   @include button(search, $white);
-  .mobile-search-is-open & {
+  .search-form-is-open-mobile & {
     &::after {
       content: "\e907";
     }
@@ -294,7 +294,7 @@ a.topbar-link-user-account {
 }
 
 // Search extended open button
-a.search-extended-button {
+a.search-extended-form-button {
   @include button(search, $white, $charcoal);
   width: 54px;
   height: 54px;
@@ -304,12 +304,12 @@ a.search-extended-button {
     text-indent: 0;
     right: 0;
   }
-  .extended-search-is-open & {
+  .search-form-is-open & {
     &::after {
       content: "\e907";
     }
   }
-  .extended-search-is-allways-visible & {
+  .search-form-is-always-visible & {
     display: none;
   }
 }

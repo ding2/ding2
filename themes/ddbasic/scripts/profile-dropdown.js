@@ -21,22 +21,22 @@
         if(body.hasClass('has-touch') && !ddbasic.breakpoint.is('tablet')) {
           event.preventDefault();
           if($(this).hasClass('js-active')) {
-            body.removeClass('mobile-usermenu-is-open overlay-is-active');
+            body.removeClass('usermenu-is-open-mobile overlay-is-active');
             my_account.removeClass('js-active active');
           } else {
             dropdown().css({
               'left': my_account.position().left - (dropdown().width() - my_account.width()),
             });
-            body.addClass('mobile-usermenu-is-open overlay-is-active');
+            body.addClass('usermenu-is-open-mobile overlay-is-active');
             my_account.addClass('js-active active');
           }
         }
 
         if (ddbasic.breakpoint.is('tablet')) {
           event.preventDefault();
-          body.toggleClass('mobile-usermenu-is-open');
-          body.removeClass('mobile-menu-is-open pane-login-is-open mobile-search-is-open');
-          if(body.hasClass('mobile-usermenu-is-open')) {
+          body.toggleClass('usermenu-is-open-mobile');
+          body.removeClass('mobile-menu-is-open pane-login-is-open search-form-is-open-mobile');
+          if(body.hasClass('usermenu-is-open-mobile')) {
             body.addClass('overlay-is-active');
           } else {
             body.removeClass('overlay-is-active');
@@ -51,7 +51,7 @@
             'left': my_account.offset().left - my_account.width() / 2,
             'position': 'fixed'
           });
-          body.addClass('mobile-usermenu-is-open');
+          body.addClass('usermenu-is-open-mobile');
           my_account.addClass('js-active active');
         }
       });
@@ -61,7 +61,7 @@
         if(!ddbasic.breakpoint.is('tablet')) {
           dropdown().css('left', '');
           dropdown().css('position', '');
-          body.removeClass('mobile-usermenu-is-open');
+          body.removeClass('usermenu-is-open-mobile');
           my_account.removeClass('js-active active');
         }
       });
@@ -72,7 +72,7 @@
           if (event.offsetX < 0 || event.offsetX > $(this).width()) {
             dropdown().css('left', '');
             dropdown().css('position', '');
-            body.removeClass('mobile-usermenu-is-open');
+            body.removeClass('usermenu-is-open-mobile');
             my_account.removeClass('js-active active');
           }
         }

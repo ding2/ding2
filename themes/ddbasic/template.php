@@ -31,22 +31,22 @@ function ddbasic_preprocess_html(&$vars) {
   // Search form style.
   switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
     case TING_SEARCH_FORM_STYLE_NORMAL:
-      $vars['classes_array'][] = 'search-form-default';
+      $vars['classes_array'][] = 'search-form-is-default';
       break;
     case TING_SEARCH_FORM_STYLE_EXTENDED:
-      $vars['classes_array'][] = 'search-form-extended';
+      $vars['classes_array'][] = 'search-form-is-extended';
       $vars['classes_array'][] = 'show-secondary-menu';
 
       if (menu_get_item()['path'] === 'search/ting/%' || menu_get_item()['path'] === 'ding_frontpage') {
-        $vars['classes_array'][] = 'extended-search-is-open';
-        $vars['classes_array'][] = 'extended-search-is-always-visible';
+        $vars['classes_array'][] = 'search-form-is-open';
+        $vars['classes_array'][] = 'search-form-is-always-visible';
       }
       break;
   }
 
   switch (variable_get('ting_field_search_search_style')) {
     case 'extended_with_profiles':
-      $vars['classes_array'][] = 'search-form-extended-with-profiles';
+      $vars['classes_array'][] = 'search-form-is-extended-with-profiles';
       break;
   }
 

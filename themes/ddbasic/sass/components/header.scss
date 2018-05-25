@@ -15,7 +15,6 @@
   .site-header-inner {
     @include wrapper;
 
-    // Tablet
     @include media($tablet) {
       width: 100%;
     }
@@ -36,7 +35,6 @@
     height: 44px;
     margin-top: 10px;
 
-    // Tablet
     @include media($tablet) {
       position: relative;
       width: 100%;
@@ -45,17 +43,14 @@
       padding: 10px 5%;
       box-shadow: $box-shadow;
       background-color: $grey-light;
-      z-index: 5;
       z-index: $z-overlay + 3;
     }
   }
 
-  // Tablet
   @include media($tablet) {
     box-shadow: none;
     .site-header-topbar-menu {
       position: relative;
-      //z-index: 3;
       z-index: $z-overlay + 2;
       width: 100%;
       background-color: $color-primary;
@@ -74,38 +69,42 @@
   @include media($tablet) {
     width: 100%;
   }
+}
 
-  .site-name-container {
-    @include font('display-small');
-    line-height: 44px;
-    color: $charcoal;
+// ==========================================================================
+// Site name and logo
+// ==========================================================================
+.site-header-site-name-container {
+  @include font('display-small');
+  line-height: 44px;
+  color: $charcoal;
+}
+
+.site-header-site-name-logo-container {
+  .site-header-site-name-container {
+    display: none;
   }
 
-  &.logo-container {
-    .site-name-container {
-      display: none;
+  img {
+    display: inline-block;
+    vertical-align: middle;
+    max-height: 100%;
+    max-width: 95%;
+    width: auto;
+    height: auto;
+  }
+
+  @include media($mobile) {
+    .site-header-site-name-container {
+      display: block;
     }
 
     img {
-      display: inline-block;
-      vertical-align: middle;
-      max-height: 100%;
-      max-width: 95%;
-      width: auto;
-      height: auto;
-    }
-
-    @include media($mobile) {
-      .site-name-container {
-        display: block;
-      }
-
-      img {
-        display: none;
-      }
+      display: none;
     }
   }
 }
+
 
 // ==========================================================================
 // Search and user menu
@@ -116,133 +115,194 @@
 
   .pane-user-menu {
     position: absolute;
-    top: 0;
-    z-index: 51;
-    z-index: $z-overlay + 5;
+    top: $topbar-height;
+    z-index: $z-overlay + 4;
 
-    // Tablet
     @include media($tablet) {
       @include transition(transform $speed $ease);
       @include transform(translateY(-100%));
+      top: 0;
       display: block;
       width: 100%;
       max-height: 100vh;
       padding-bottom: $header-height;
       overflow: scroll;
 
-      .mobile-usermenu-is-open & {
+      .usermenu-is-open-mobile & {
         @include transform(translateY(0));
       }
     }
   }
+}
 
-  .pane-search-form {
-    position: absolute;
-    width: 100%;
+.site-header-search-form {
+  position: absolute;
+  width: 100%;
+
+  .form-item-search-block-form {
+    float: left;
+  }
+
+  input[type="text"] {
+    border-radius: $round-corner 0 0 $round-corner;
+    &:focus {
+      box-shadow: none;
+    }
+  }
+
+  input[type="submit"] {
+    border-radius: 0 $round-corner $round-corner 0;
+  }
+}
+
+.site-header-search-form-search-field-wrapper {
+  @include wrapper;
+  position: relative;
+}
+
+.search-form-is-default {
+  .site-header-search-form-search-field-wrapper {
+    form {
+      position: absolute;
+      z-index: 1;
+      top: 15px;
+      right: 0;
+      width: getColumn(3);
+
+      @include media($tablet) {
+        position: static;
+        width: 100%;
+      }
+    }
 
     .form-item-search-block-form {
+      width: getColumn(2 of 3) + getGutter(3);
       float: left;
 
       input[type="text"] {
-        border-radius: $round-corner 0 0 $round-corner;
+        @include transition(width $speed $ease);
+        float: right;
+
         &:focus {
+          width: getColumn(4 of 2);
           box-shadow: none;
+        }
+      }
+
+      @include media($mobile) {
+        width: getColumn(9) + getGutter();
+      }
+    }
+
+    .form-actions {
+      width: getColumn(1 of 3);
+      float: left;
+
+      input[type="submit"] {
+
+        @include media($tablet) {
+          background-color: $grey;
+          color: $charcoal;
+        }
+      }
+    }
+  }
+}
+
+.search-form-is-extended {
+  .site-header-search-and-user-menu {
+    @include transition(height $speed $ease);
+    height: 0;
+  }
+
+  .site-header-search-form {
+    @include transition(box-shadow $speed $ease);
+    bottom: 0;
+    left: 0;
+    background-color: $charcoal;
+    box-shadow: none;
+    padding: 15px 0;
+
+    .search-extended-form-button {
+      position: absolute;
+      z-index: 1;
+      top: $search-form-extended-height;
+      right: 0;
+
+      @include media($tablet) {
+        display: none;
+      }
+    }
+
+    .form-item-search-block-form {
+      width: getColumn(11) + getGutter();
+
+      input[type="text"] {
+        &:focus {
+          width: 100%;
         }
       }
     }
 
     .form-actions {
+      width: getColumn(1);
+      float: right;
+
       input[type="submit"] {
-        border-radius: 0 $round-corner $round-corner 0;
-      }
-    }
-  }
-
-  .search-field-wrapper {
-    @include wrapper;
-    position: relative;
-  }
-
-  // Search form default
-  .search-form-default & {
-    .search-field-wrapper {
-      form {
-        position: absolute;
-        z-index: 1;
-        top: 15px;
-        right: 0;
-        width: getColumn(3);
-
-        // Tablet
-        @include media($tablet) {
-          position: static;
-          width: 100%;
-        }
-      }
-
-      .form-item-search-block-form {
-        width: getColumn(2 of 3) + getGutter(3);
-        float: left;
-
-        input[type="text"] {
-          @include transition(width $speed $ease);
-          float: right;
-
-          &:focus {
-            width: getColumn(4 of 2);
-            box-shadow: none;
-          }
-        }
-
-        // Mobile
-        @include media($mobile) {
-          width: getColumn(9) + getGutter();
-        }
-      }
-
-      .form-actions {
-        width: getColumn(1 of 3);
-        float: left;
-
-        input[type="submit"] {
-
-          // Tablet
-          @include media($tablet) {
-            background-color: $grey;
-            color: $charcoal;
-          }
+        background-color: $grey;
+        color: $charcoal;
+        &:hover {
+          background-color: $grey-dark;
+          color: $white;
         }
       }
     }
   }
+}
 
-  // Search form extended
-  .search-form-extended & {
-    @include transition(height $speed $ease);
-    height: 0;
+.search-form-is-extended.search-form-is-open {
+  .site-header-search-and-user-menu {
+    height: $search-form-extended-height;
 
-    .pane-search-form {
-      @include transition(box-shadow $speed $ease);
-      bottom: 0;
-      left: 0;
-      background-color: $charcoal;
+    @include media($tablet) {
+      height: auto;
+    }
+  }
+
+  .site-header-search-form {
+    box-shadow: $box-shadow;
+
+    @include media($tablet) {
       box-shadow: none;
+    }
+  }
+}
+
+.search-form-is-extended.search-form-is-open-mobile {
+  .site-header-search-form {
+    box-shadow: $box-shadow;
+  }
+}
+
+.search-form-is-extended,
+.search-form-is-default {
+
+  @include media($tablet) {
+    .site-header-search-form {
+      @include transition(
+        transform $speed $ease,
+        box-shadow $speed $ease
+      );
+      @include transform(translateY(-100%));
+      bottom: auto;
       padding: 15px 0;
+      background-color: $charcoal;
+    }
 
-      .search-extended-button {
-        position: absolute;
-        z-index: 1;
-        top: $search-form-extended-height;
-        right: 0;
-
-        // Tablet
-        @include media($tablet) {
-          display: none;
-        }
-      }
-
+    .site-header-search-form-search-field-wrapper {
       .form-item-search-block-form {
-        width: getColumn(11) + getGutter();
+        width: 100%;
+        padding-right: 70px;
 
         input[type="text"] {
           &:focus {
@@ -252,147 +312,69 @@
       }
 
       .form-actions {
-        width: getColumn(1);
-        float: right;
-
-        input[type="submit"] {
-          background-color: $grey;
-          color: $charcoal;
-          &:hover {
-            background-color: $grey-dark;
-            color: $white;
-          }
-        }
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 70px;
       }
     }
   }
+}
 
-  // Search form extended & extended search is open
-  .search-form-extended.extended-search-is-open & {
-    height: $search-form-extended-height;
+.search-form-is-extended-with-profiles {
+  .site-header-search-form {
+    .form-item-search-block-form {
+      width: getColumn(8) + getGutter();
 
-    // Tablet
-    @include media($tablet) {
-      height: auto;
-    }
-
-    .pane-search-form {
-      box-shadow: $box-shadow;
-
-      // Tablet
       @include media($tablet) {
-        box-shadow: none;
+        width: 100%;
+        padding-right: 270px;
+      }
+
+      @include media($mobile) {
+        padding-right: 70px;
+      }
+    }
+    .form-item-ting-field-search {
+      width: getColumn(3) + getGutter();
+      float: left;
+      margin-bottom: 0;
+
+      @include media($tablet) {
+        position: absolute;
+        top: 0;
+        right: 70px;
+        width: 200px;
+      }
+
+      @include media($mobile) {
+        position: static;
+        width: 100%;
+        margin-top: 10px;
+      }
+    }
+    .select-wrapper {
+      border-radius: 0;
+      border: 1px solid $white;
+      border-left: 1px solid $grey;
+
+      &::before {
+        background-color: $white;
+      }
+
+      @include media($mobile) {
+        border-radius: $round-corner;
       }
     }
   }
+}
 
-  // Search form extended & mobile search is open
-  .search-form-extended.mobile-search-is-open & {
-    .pane-search-form {
+.search-form-is-open-mobile {
+
+  @include media($tablet) {
+    .site-header-search-form {
+      @include transform(translateY(0));
       box-shadow: $box-shadow;
-    }
-  }
-
-  // Search form extended & search form default
-  .search-form-extended &,
-  .search-form-default & {
-    // Tablet
-    @include media($tablet) {
-      .pane-search-form {
-        @include transition(
-          transform $speed $ease,
-          box-shadow $speed $ease
-        );
-        @include transform(translateY(-100%));
-        bottom: auto;
-        padding: 15px 0;
-        background-color: $charcoal;
-      }
-
-      .search-field-wrapper {
-        .form-item-search-block-form {
-          width: 100%;
-          padding-right: 70px;
-
-          input[type="text"] {
-            &:focus {
-              width: 100%;
-            }
-          }
-        }
-
-        .form-actions {
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 70px;
-        }
-      }
-    }
-  }
-
-  // Search form extended with profiles
-  .search-form-extended-with-profiles & {
-    .pane-search-form {
-      .form-item-search-block-form {
-        width: getColumn(8) + getGutter();
-
-        // Tablet
-        @include media($tablet) {
-          width: 100%;
-          padding-right: 270px;
-        }
-
-        // Mobile
-        @include media($mobile) {
-          padding-right: 70px;
-        }
-      }
-      .form-item-ting-field-search {
-        width: getColumn(3) + getGutter();
-        float: left;
-        margin-bottom: 0;
-
-        // Tablet
-        @include media($tablet) {
-          position: absolute;
-          top: 0;
-          right: 70px;
-          width: 200px;
-        }
-
-        // Mobile
-        @include media($mobile) {
-          position: static;
-          width: 100%;
-          margin-top: 10px;
-        }
-      }
-      .select-wrapper {
-        border-radius: 0;
-        border: 1px solid $white;
-        border-left: 1px solid $grey;
-
-        &::before {
-          background-color: $white;
-        }
-
-        // Mobile
-        @include media($mobile) {
-          border-radius: $round-corner;
-        }
-      }
-    }
-  }
-
-  // Mobile search is open
-  .mobile-search-is-open & {
-    // Tablet
-    @include media($tablet) {
-      .pane-search-form {
-        @include transform(translateY(0));
-        box-shadow: $box-shadow;
-      }
     }
   }
 }
@@ -405,7 +387,6 @@
   background-color: $color-primary;
   box-shadow: $box-shadow;
 
-  // Tablet
   @include media($tablet) {
     @include transition(
       transform $speed $ease
@@ -421,7 +402,7 @@
     overflow: scroll;
     box-shadow: none;
 
-    .main-menu-wrapper {
+    .site-header-navigation-main-menu {
       @include transition(
         box-shadow $speed $ease
       );
@@ -430,41 +411,37 @@
       background-color: $color-primary;
     }
 
-    .secondary-menu-wrapper {
+    .site-header-navigation-secondary-menu {
       @include transition(
         box-shadow $speed $ease
       );
     }
 
-    // Mobile menu is open
     .mobile-menu-is-open & {
       @include transform(translateY(0%));
 
-      .main-menu-wrapper,
-      .secondary-menu-wrapper {
+      .site-header-navigation-main-menu,
+      .site-header-navigation-secondary-menu {
         box-shadow: $box-shadow;
       }
     }
   }
 
-  .secondary-menu-wrapper {
+  .site-header-navigation-secondary-menu {
     display: none;
 
-    // Show secondary menu
     .show-secondary-menu & {
       display: block;
       float: right;
       padding-right: 69px;
 
-      // Tablet
       @include media($tablet) {
         width: 100%;
         background-color: $grey;
       }
     }
 
-    // Extended search is allway visible
-    .extended-search-is-always-visible & {
+    .search-form-is-always-visible & {
       padding-right: 0;
     }
   }
@@ -486,7 +463,6 @@
       box-shadow: 0 5px 10px 0 $black;
     }
 
-    // Tablet
     @include media($tablet) {
       display: none;
     }
