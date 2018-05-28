@@ -27,7 +27,7 @@ function alma_availability_items($data) {
 function alma_availability_holdings($data, $reset = FALSE) {
   // Filter the data into a single array with provider ids.
   $provider_ids = array_map(function ($ids) {
-    return $ids['local'];
+    return $ids['local_id'];
   }, $data);
 
   // Create cache id.
