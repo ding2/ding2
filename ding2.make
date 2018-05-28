@@ -526,6 +526,7 @@ libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][download][branch] = "master"
 libraries[ting-client][destination] = "modules/opensearch/lib"
+libraries[ting-client][patch][] = "https://patch-diff.githubusercontent.com/raw/ding2/ting-client/pull/24.diff"
 
 libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"
