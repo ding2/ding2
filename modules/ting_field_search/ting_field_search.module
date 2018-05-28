@@ -92,16 +92,15 @@ function ting_field_search_get_active_profile() {
  * Set the current search request type when a profile was activated.
  */
 function ting_field_search_set_context($request_type) {
-  static $ting_field_search_static_fast = NULL;
-  $ting_field_search_static_fast = $request_type;
+  $static = &drupal_static(__FUNCTION__);
+  $static = $request_type;
 }
 
 /**
  * If a profile is active this returns the associated ting request type.
  */
 function ting_field_search_get_context() {
-  static $ting_field_search_static_fast;
-  return $ting_field_search_static_fast;
+  return drupal_static('ting_field_search_set_context');
 }
 
 /**
@@ -113,11 +112,11 @@ function ting_field_search_get_context() {
  * @see ting.api.php
  */
 function ting_field_search_opensearch_cache_key_alter(&$cid, $request) {
-  static $ting_field_search_static_fast = NULL;
-  if ($ting_field_search_static_fast !== NULL) {
-    if ($profile = ting_field_search_get_active_profile()) {
-      $cid .= ':' . $profile->name;
-    }
+  if (!ting_field_search_get_context()) {
+    return;
+  }
+  if ($profile = ting_field_search_get_active_profile()) {
+    $cid .= ':' . $profile->name;
   }
 }
 
