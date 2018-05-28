@@ -110,6 +110,8 @@ function opensearch_search_collection_load($id) {
  * @return \Ting\Search\TingSearchResultInterface
  *   The search result.
  *
+ * @throws \TingClientException
+ *   If an search error occurs.
  * @throws \Ting\Search\SearchProviderException
  *   If an error occurs during search.
  */
