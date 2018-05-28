@@ -10,6 +10,57 @@
   Drupal.DADB = {};
 
   /**
+   * Helper function to crate labels groups and move the materials based on
+   * availability.
+   *
+   * @param element
+   *   The target element (material that should be moved).
+   * @param status
+   *   Structure with available and reservable state.
+   */
+  function ding_availability_labels_update_availability_type(element, status) {
+    var groups_wrapper = element.closest('.search-result--availability');
+    var reservable = status['reservable'];
+    var available = status['available'];
+
+    var group = null;
+    if ($('.js-online', groups_wrapper).length !== 0) {
+      group = $('.js-online', groups_wrapper);
+    }
+    else if (available) {
+      group = $('.js-available', groups_wrapper);
+
+      if (group.length === 0) {
+        group = $('<p class="js-available">' + Drupal.t('Available') + ': </p>');
+        groups_wrapper.append(group);
+      }
+    }
+    else if (reservable) {
+      group = $('.js-reservable', groups_wrapper);
+      if (group.length === 0) {
+        group = $('<p class="js-reservable">' + Drupal.t('Reservable') + ': </p>');
+        groups_wrapper.append(group);
+      }
+    }
+    else {
+      group = $('.js-unavailable', groups_wrapper);
+
+      if (group.length === 0) {
+        group = $('<p class="js-unavailable">' + Drupal.t('Not available') + ': </p>');
+        groups_wrapper.append(group);
+      }
+    }
+
+    // Move the element into that type.
+    group.append(element);
+
+    // Remove empty groups.
+    $('.js-available, .js-reservable, .js-unavailable', groups_wrapper)
+      .not(':has(.js-search-result--availability-link)')
+      .remove();
+  }
+
+  /**
    * Add class to both an element and the reservation button.
    *
    * @param element
@@ -78,57 +129,6 @@
     var reserve_btn = element.parents('.ting-object:first').find('[id^=ding-reservation-reserve-form]');
 
     ding_availability_labels_update_availability_elements(element, reserve_btn, status);
-  }
-
-  /**
-   * Helper function to crate labels groups and move the materials based on
-   * availability.
-   *
-   * @param element
-   *   The target element (material that should be moved).
-   * @param status
-   *   Structure with available and reservable state.
-   */
-  function ding_availability_labels_update_availability_type(element, status) {
-    var groups_wrapper = element.closest('.search-result--availability');
-    var reservable = status['reservable'];
-    var available = status['available'];
-
-    var group = null;
-    if ($('.js-online', groups_wrapper).length !== 0) {
-      group = $('.js-online', groups_wrapper);
-    }
-    else if (available) {
-      group = $('.js-available', groups_wrapper);
-
-      if (group.length === 0) {
-        group = $('<p class="js-available">' + Drupal.t('Available') + ': </p>');
-        groups_wrapper.append(group);
-      }
-    }
-    else if (reservable) {
-      group = $('.js-reservable', groups_wrapper);
-      if (group.length === 0) {
-        group = $('<p class="js-reservable">' + Drupal.t('Reservable') + ': </p>');
-        groups_wrapper.append(group);
-      }
-    }
-    else {
-      group = $('.js-unavailable', groups_wrapper);
-
-      if (group.length === 0) {
-        group = $('<p class="js-unavailable">' + Drupal.t('Not available') + ': </p>');
-        groups_wrapper.append(group);
-      }
-    }
-
-    // Move the element into that type.
-    group.append(element);
-
-    // Remove empty groups.
-    $('.js-available, .js-reservable, .js-unavailable', groups_wrapper)
-      .not(':has(.js-search-result--availability-link)')
-      .remove();
   }
 
   /**
