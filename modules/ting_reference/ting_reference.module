@@ -419,7 +419,7 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
 /**
  * Ajax callback to render single reference object.
  *
- * It's returned as JSON.
+ * Returned as JSON array with entity id and rendered object keyed as content.
  *
  * @param int $entity_id
  *   The id of the ting object entity to load.
@@ -427,16 +427,7 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
  *   The view mode that the ting object should be rendered.
  */
 function _ting_reference_ajax($entity_id, $view_mode = 'teaser') {
-  // Load the ting objects found.
-  $entity = entity_load('ting_object', array($entity_id));
-  $ting_object = ting_object_view(reset($entity), $view_mode);
-
-  $build = array(
-    'id' => $entity_id,
-    'content' => render($ting_object),
-  );
-
-  drupal_json_output($build);
+  drupal_json_output(ting_single_object_render($entity_id, $view_mode));
 }
 
 /**

@@ -886,3 +886,29 @@ function ting_search_object_load($id) {
 
   return $ting_search_object;
 }
+
+/**
+ * Render single ting object with a give view mode.
+ *
+ * This can be used when ajax loading objects.
+ *
+ * @param int $entity_id
+ *   The id of the ting object entity to load.
+ * @param string $view_mode
+ *   The view mode that the ting object should be rendered.
+ *
+ * @return array
+ *   Array with the entity id and rendered object keyed as content.
+ */
+function ting_single_object_render($entity_id, $view_mode = 'teaser') {
+  // Load the ting objects found.
+  $entity = entity_load('ting_object', array($entity_id));
+  $ting_object = ting_object_view(reset($entity), $view_mode);
+
+  $build = array(
+    'id' => $entity_id,
+    'content' => render($ting_object),
+  );
+
+  return $build;
+}
