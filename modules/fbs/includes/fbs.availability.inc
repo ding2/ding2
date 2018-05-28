@@ -44,8 +44,8 @@ function fbs_availability_items(array $data) {
  * Implements provider availability, holdings.
  *
  * @param array $input_ids
- *   Array of ids indexed by 'local' and 'pid'. Where local is the faust and
- *   pid is the data-well id.
+ *   Array of ids indexed by 'local_id' and 'id'. Where local_id is the faust and
+ *   id is the data-well id.
  *
  * @return array
  *   Holdings info.
