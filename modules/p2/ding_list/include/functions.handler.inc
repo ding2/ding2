@@ -36,6 +36,10 @@ function ding_list_get_list($list, $account = NULL) {
     // If it's a number we assume it's the ID of the list.
     if (is_numeric($list)) {
       $lists[$key] = ding_provider_invoke('openlist', 'get_list', $list);
+
+      if (!ding_provider_implements('historical_loans', 'get') && $lists[$key]->getType() === 'user_loan_history') {
+        $lists[$key] = FALSE;
+      }
     }
     // If it's a string, we assume it's a DING_LIST_TYPE, and we grab the first.
     elseif (is_string($list)) {
@@ -86,5 +90,15 @@ function ding_list_get_lists($list_types, $account = NULL, $expanded = FALSE) {
     $list_types = array($list_types);
   }
 
-  return ding_provider_invoke('openlist', 'get_lists_by_type', $list_types, $account, $expanded);
+  $lists = ding_provider_invoke('openlist', 'get_lists_by_type', $list_types, $account, $expanded);
+
+  if (!ding_provider_implements('historical_loans', 'get')) {
+    foreach ($lists as $id => $list) {
+      if ($list->getType() === 'user_loan_history') {
+        unset($lists[$id]);
+      }
+    }
+  }
+
+  return $lists;
 }
