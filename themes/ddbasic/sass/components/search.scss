@@ -98,3 +98,100 @@ ol.search-results {
     }
   }
 }
+
+/* Extend search form on all pages and hidden button extend */
+
+.search-form-extended {
+  &.not-front.admin-menu-with-shortcuts,
+  &.not-front.toolbar,
+  &.page-search.admin-menu-with-shortcuts,
+  &.page-search.toolbar {
+    .site-header .header-inner .pane-search-form {
+      top: 129px
+    }
+  }
+}
+
+.search-form-extended.not-front,
+.search-form-extended.page-search {
+  .site-header .header-inner .pane-search-form {
+    box-shadow: $box-shadow;
+    top: 64px;
+
+    @include media($tablet) {
+      top: 148px;
+    }
+  }
+
+  &.mobile-search-is-open {
+    @include media($tablet) {
+      box-shadow: none;
+    }
+  }
+
+  &.admin-menu {
+    .site-header .header-inner .pane-search-form {
+      top: 93px
+    }
+  }
+}
+
+.search-form-extended.not-front, 
+.search-form-extended.page-search {
+  .site-header .header-inner .search-extended-button {
+    display: none;
+  }
+}
+
+@include media($tablet) {
+  .search-form-extended.not-front,
+  .search-form-extended.page-search {
+    .site-header .header-inner .pane-search-form {
+     box-shadow: none;
+    }
+  }
+}
+
+.search-form-extended.not-front.admin-menu .site-header>.navigation-wrapper {top: 175px;}
+.search-form-extended.not-front .site-header>.navigation-wrapper {top: 148px;}
+
+body.search-form-extended {
+
+  .page-search,
+  .not-front, 
+  .front {
+    padding-top: 213px;
+
+    @include media($tablet) {
+      padding-top: 148px;
+    }
+  }
+
+  .content-wrapper {
+    .pane-content {
+      .default-panel-layout .left-and-main-content,
+      .ding2-site-template .panel-pane .panel-pane-inner {
+        padding-top: 90px;
+
+        @include media($notebook,$mobile) {
+          padding-top: 40px;
+        }
+      }
+    }
+  }
+
+  .page-search.has-second-level-menu,
+  .not-front.has-second-level-menu,
+  .front.has-second-level-menu {
+    padding-top: 278px;
+
+    @include media($tablet) {
+      padding-top: 148px;
+    }
+
+    .default-panel-layout .left-and-main-content,
+    .ding2-site-template .panel-pane .panel-pane-inner {
+      padding-top: 40px;
+    }
+  }
+}
