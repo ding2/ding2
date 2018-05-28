@@ -401,6 +401,82 @@ function opensearch_execute(TingClientRequest $request) {
       cache_set($cid, $response, 'cache_opensearch', REQUEST_TIME + $ttl);
     }
 
+    // To speed up the entity module, which will trigger an search for each
+    // collection. Try a predict the search request an warm up the cache.
+    // Alternative rewrite the whole ting entity module, which currently is
+    // overkill.
+    if ($response instanceof TingClientSearchResult) {
+      foreach ($response->collections as $collection) {
+        $object = reset($collection->objects);
+
+        $colloction_request = opensearch_get_request_factory()->getCollectionRequest();
+        $colloction_request->setAllObjects(FALSE);
+        $colloction_request->setObjectId($object->id);
+        $colloction_request->setQuery('*:*');
+
+        // Set agency from the administration interface.
+        if ($agency = variable_get('ting_agency', FALSE)) {
+          $colloction_request->setAgency($agency);
+        }
+
+        // Set search profile from the administration interface.
+        $profile = variable_get('opensearch_search_profile', '');
+        if (!empty($profile)) {
+          $colloction_request->setProfile($profile);
+        }
+
+        // Get additional parameters from other modules.
+        $params = module_invoke_all('opensearch_pre_execute', $colloction_request);
+        if (!empty($params)) {
+          $colloction_request->setParameters($params);
+        }
+
+        // Build cache id for this request.
+        $cid = md5(serialize($colloction_request));
+        drupal_alter('opensearch_cache_key', $cid, $colloction_request);
+
+        $collection_response = new TingClientObjectCollection($collection->objects);
+        // Update the cache with the raw response object from the data well for
+        // faster processing. Also set the static cache.
+        $opensearch_static_fast[$cid] = $collection_response;
+        if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
+          cache_set($cid, $collection_response, 'cache_opensearch', REQUEST_TIME + $ttl);
+        }
+
+        /**
+         * --------------------------- =========== -----------------------
+         */
+
+        $object_request = opensearch_get_request_factory()->getObjectRequest();
+        $object_request->setObjectId($object->id);
+
+        // Set agency from the administration interface.
+        if ($agency = variable_get('ting_agency', FALSE)) {
+          $object_request->setAgency($agency);
+        }
+
+        // Set search profile from the administration interface.
+        $profile = variable_get('opensearch_search_profile', '');
+        if (!empty($profile)) {
+          $object_request->setProfile($profile);
+        }
+
+        $object_response = array();
+        $object_response[$object->id] = clone $object;
+
+        // Build cache id for this request.
+        $cid = md5(serialize($object_request));
+        drupal_alter('opensearch_cache_key', $cid, $object_response);
+
+        // Update the cache with the raw response object from the data well for
+        // faster processing. Also set the static cache.
+        $opensearch_static_fast[$cid] = $object_response;
+        if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
+          cache_set($cid, $object_response, 'cache_opensearch', REQUEST_TIME + $ttl);
+        }
+      }
+    }
+
     return $response;
   }
   catch (TingClientException $e) {
