@@ -200,9 +200,7 @@ function ding_place2book_node_view($node, $view_mode, $langcode) {
       $node->content['field_place2book_tickets'][LANGUAGE_NONE][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" data-ticket="' . $node->nid . '" value="' . $node->nid . '"/>';
     }
 
-    if (empty($node->field_ding_event_ticket_link)) {
-      ding_place2book_get_ticket_link($node);
-    }
+    ding_place2book_get_ticket_link($node);
   }
 }
 
@@ -335,17 +333,13 @@ function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
 
     $status_type = _ding_place2book_status_processing($p2b_result);
 
-    $ticket_link = field_get_items('node', $node, 'field_ding_event_ticket_link');
-
-    if (empty($ticket_link)) {
-      $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = $status_type['url'];
-      $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['place2book_id'] = $place2book_id;
-      $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['status'] = $status_type['type'];
-      field_attach_presave('node', $node);
-      field_attach_update('node', $node);
-      // Clear the static loading cache.
-      entity_get_controller('node')->resetCache(array($node->nid));
-    }
+    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = $status_type['url'];
+    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['place2book_id'] = $place2book_id;
+    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['status'] = $status_type['type'];
+    field_attach_presave('node', $node);
+    field_attach_update('node', $node);
+    // Clear the static loading cache.
+    entity_get_controller('node')->resetCache(array($node->nid));
   }
 }
 
