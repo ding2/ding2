@@ -668,6 +668,8 @@ function ding2_module_enable(&$install_state) {
     'ting_infomedia',
     'ting_field_search',
     'ding_eresource',
+    'ding_app_content_rss',
+    'ding_app_variables',
   ), $modules);
 
   $operations = ding2_module_list_as_operations($modules);
