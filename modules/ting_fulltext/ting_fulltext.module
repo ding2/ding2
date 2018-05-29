@@ -48,7 +48,9 @@ function ting_fulltext_object_load($object_id) {
     $request = opensearch_get_request_factory()->getObjectRequest();
     $request->setObjectId($object_id);
     $request->setProfile(variable_get('opensearch_search_profile', ''));
-    $request->setFormat('docbook');
+    if ($agency = variable_get('ting_agency', FALSE)) {
+      $request->setAgency($agency);
+    }
     $request->setObjectFormat('docbook');
     $request->setOutputType('xml');
     $xml = opensearch_execute_cache($request);
