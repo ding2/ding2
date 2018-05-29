@@ -56,9 +56,9 @@ function ting_field_search_panels_pane_content_alter($content, $pane, $args, $co
 /**
  * Gets the active profile if any. Any code that performs alterations based on
  * an active profile should use this to get it, since it handles the detection
- * and loading correcty and stores it in a fast static.
+ * and loading correctly and stores it in a fast static.
  *
- * The first time this functon is called on a request it will attempt to
+ * The first time this function is called on a request it will attempt to
  * activate a profile by looking for a profile GET-parameter in the URI.
  *
  * @return object $profile
@@ -104,14 +104,14 @@ function ting_field_search_get_context() {
 }
 
 /**
- * Implements hook_opensearch_cache_key().
+ * Implements hook_opensearch_cache_key_alter().
  *
  * If we have an active profile and context, we use this hook to modify the
  * cache key, so that ting_cache can fetch/save the correct result.
  *
  * @see ting.api.php
  */
-function ting_field_search_opensearch_cache_key(&$cid) {
+function ting_field_search_opensearch_cache_key_alter(&$cid, $request) {
   if (!ting_field_search_get_context()) {
     return;
   }

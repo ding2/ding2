@@ -121,7 +121,11 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
             'data' => array(
               'ding_availability_mode' => 'holdings',
               'ding_availability' => array(
-                $id => array($entity->localId),
+                array(
+                  'html_id' => $id,
+                  'local_id' => $entity->localId,
+                  'id' => $entity->getId(),
+                ),
               ),
             ),
             'type' => 'setting',
@@ -166,7 +170,11 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           $attached['js'][1] = array(
             'data' => array(
               'ding_availability' => array(
-                $id => array($entity->localId),
+                array(
+                  'html_id' => $id,
+                  'local_id' => $entity->localId,
+                  'id' => $entity->getId(),
+                ),
               ),
             ),
             'type' => 'setting',
@@ -226,7 +234,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           }
 
           // Mark as available if it is an online resource.
-          if (in_array(drupal_strtolower($type), $online_types) || $entities[0]->getOnline_url(FALSE)) {
+          if (in_array(drupal_strtolower($type), $online_types)) {
             if (!isset($output['#types']['online'])) {
               // Add label "online" to output.
               $output['#types']['online'] = array(
@@ -283,9 +291,12 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           // availability data), map the HTML id to the list of entity ids.
           // This is for the current material type group (book, cd, etc.).
           if (in_array(drupal_strtolower($ac_source), $reservable_sources) && !in_array(drupal_strtolower($type), $online_types)) {
-            $id_mapping[$id] = array();
             foreach ($entities as $object_entity) {
-              $id_mapping[$id][] = $object_entity->localId;
+              $id_mapping[] = array(
+                'html_id' => $id,
+                'local_id' => $object_entity->localId,
+                'id' => $object_entity->getId(),
+              );
             }
           }
         }
