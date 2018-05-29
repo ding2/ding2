@@ -13,6 +13,16 @@ function opensearch_install() {
 }
 
 /**
+ * Implements hook_schema().
+ */
+function opensearch_schema() {
+  $schema = array();
+  $schema['cache_opensearch'] = drupal_get_schema_unprocessed('system', 'cache');
+
+  return $schema;
+}
+
+/**
  * Rename old ting variables to opensearch scope.
  */
 function opensearch_migrate_settings() {
@@ -39,9 +49,6 @@ function opensearch_migrate_settings() {
     variable_set($new_var, variable_get($old_var));
     variable_del($old_var);
   });
-
-  // Cache table used by ting_execute_cache.
-  $schema['cache_opensearch'] = drupal_get_schema_unprocessed('system', 'cache');
 }
 
 /**
