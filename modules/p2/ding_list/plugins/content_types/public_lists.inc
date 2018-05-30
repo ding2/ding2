@@ -31,7 +31,7 @@ function ding_list_public_lists_content_type_render($subtype, $conf, $panel_args
     foreach ($lists as $list) {
       $list = DingList::fromDataArray($list);
 
-      if (ding_list_user_has_access($list) && $list->allowed(DING_LIST_OPERATION_SHARE)) {
+      if (ding_list_user_has_access($list)) {
         $block->content[$list->getId()] = array(
           '#theme' => 'ding_list_list',
           '#list' => $list,
