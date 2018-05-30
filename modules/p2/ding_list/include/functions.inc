@@ -196,18 +196,18 @@ function ding_list_get_list_types_by_operations($access) {
     // If the asked operation is in the list operations.
     if (array_intersect_key($access, $operations) === $access) {
       foreach ($access as $operation => $types) {
-        // Use the list if the list operation is TRUE, or the specific
-        // operation is TRUE and types is not false.
-        if ($types === TRUE || ($operations[$operation] === TRUE && $types !== FALSE)) {
+        // Check the types are present in the operation, If both types and
+        // operation is an array.
+        if (is_array($types) && is_array($operations[$operation]) && array_intersect($types, $operations[$operation]) === $types) {
           $use_list = TRUE;
         }
-        // Assume types is an array when it's not TRUE or FALSE.
-        // And if the array is matched with the operations use the list.
-        elseif ($types !== FALSE && array_intersect($types, $operations[$operation]) === $types) {
-          $use_list = TRUE;
-        }
+        // Check the types value is in the operation.
         else {
-          $use_list = FALSE;
+          $use_list = $operations[$operation] === $types;
+        }
+
+        // All access checks must be TRUE, so bail if one returned FALSE.
+        if ($use_list === FALSE) {
           break;
         }
       }
@@ -433,7 +433,10 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
     return $access[$access_key];
   }
 
-  if ($permission === DING_LIST_PERMISSION_VIEW && $list->getData('visibility', 'private') === 'public') {
+  if ($permission === DING_LIST_PERMISSION_VIEW
+    && $list->allowed(DING_LIST_OPERATION_SHARE)
+    && $list->getData('visibility', 'private') === 'public'
+  ) {
     $access[$access_key] = TRUE;
     return $access[$access_key];
   }
