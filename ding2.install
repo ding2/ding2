@@ -615,3 +615,12 @@ function ding2_update_7050() {
   ding2_remove_module('ding_mobilesearch');
 }
 
+/**
+ * Enable ding_app_variables module.
+ */
+function ding2_update_7051() {
+  // Rerun the update hook. Some sites may already have run 7048 but without
+  // ding2_update_dependencies and thus without ting_update_7014 and
+  // Opensearch.
+  ding2_update_7048();
+}
