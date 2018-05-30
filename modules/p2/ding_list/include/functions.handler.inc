@@ -37,7 +37,10 @@ function ding_list_get_list($list, $account = NULL) {
     if (is_numeric($list)) {
       $lists[$key] = ding_provider_invoke('openlist', 'get_list', $list);
 
-      if (!ding_provider_implements('historical_loans', 'get') && $lists[$key]->getType() === 'user_loan_history') {
+      // Filter out loan history lists.
+      // Older users, might have previously created history lists, so we need to
+      // filter them out on retrieval.
+      if (!ding_provider_implements('historical_loans', 'get') && $lists[$key]->getType() === DING_LIST_TYPE_LOAN_HISTORY) {
         $lists[$key] = FALSE;
       }
     }
@@ -94,7 +97,7 @@ function ding_list_get_lists($list_types, $account = NULL, $expanded = FALSE) {
 
   if (!ding_provider_implements('historical_loans', 'get')) {
     foreach ($lists as $id => $list) {
-      if ($list->getType() === 'user_loan_history') {
+      if ($list->getType() === DING_LIST_TYPE_LOAN_HISTORY) {
         unset($lists[$id]);
       }
     }
