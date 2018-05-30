@@ -443,8 +443,8 @@ function ting_openlist_user_identifier($account = NULL) {
       try {
         $creds = ding_user_get_creds();
 
-        if (!empty($creds['name'])) {
-          $ids[$account->uid] = ting_openlist_create_identifier($creds['name']);
+        if (!empty($creds['patronId'])) {
+          $ids[$account->uid] = ting_openlist_create_identifier($creds['patronId']);
         }
         else {
           // Standard drupal users (not loaners) will get the Ding private key
