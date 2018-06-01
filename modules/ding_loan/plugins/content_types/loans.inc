@@ -168,6 +168,8 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       $form['loans'][$gid]['title']['#prefix'] = '<a class="anchor" id="anchor-' . $group_type . '"></a>' . $form['loans'][$gid]['title']['#prefix'];
     }
 
+    $renewed_ids = ding_session_cache_get('ding_loan', 'renewed_ids', array());
+
     foreach ($group['loans'] as $loan) {
       // The default title from loan object.
       $title = $loan->display_name;
@@ -255,7 +257,14 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       }
 
       // If not renewable set message.
-      if (empty($loan->renewable)) {
+      if (in_array($loan->id, $renewed_ids)) {
+        $disabled_count++;
+        $item['#material_message'] = array(
+          'message' => t('This material was renewed'),
+          'class' => 'messages warning',
+        );
+      }
+      elseif (empty($loan->renewable)) {
         $disabled_count++;
         $item['#material_message'] = array(
           'message' => t('This material can not be renewed'),
@@ -332,7 +341,7 @@ function ding_loan_loans_form_submit($form, &$form_state) {
     DingProviderLoan::STATUS_RENEWAL_RESERVED => t('The material is reserved by another loaner'),
   );
 
-  $clear_cache = FALSE;
+  $renewed_ids = array();
 
   $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
   foreach ($result as $id => $status) {
@@ -362,7 +371,7 @@ function ding_loan_loans_form_submit($form, &$form_state) {
       case DingProviderLoan::STATUS_RENEWED:
       case DingProviderLoan::STATUS_RENEWAL_REQUESTED:
         drupal_set_message(t('"@title renewed"', array('@title' => $title)));
-        $clear_cache = TRUE;
+        $renewed_ids[] = $id;
         break;
 
       case DingProviderLoan::STATUS_NOT_RENEWED:
@@ -379,9 +388,11 @@ function ding_loan_loans_form_submit($form, &$form_state) {
     }
   }
 
-  // Clear session cache.
-  if ($clear_cache && module_exists('ding_session_cache')) {
+  // If any loans was succesfully renewed; clear session cache and remember
+  // these loans throughout the session.
+  if (!empty($renewed_ids) && module_exists('ding_session_cache')) {
     ding_session_cache_clear('ding_loan', 'list');
+    ding_session_cache_set('ding_loan', 'renewed_ids', $renewed_ids);
   }
 }
 
