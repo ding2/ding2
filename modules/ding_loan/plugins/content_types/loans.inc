@@ -256,20 +256,31 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         );
       }
 
-      // If not renewable set message.
-      if (in_array($loan->id, $renewed_ids)) {
+      // Loan is not renewable! Inform the user the best we can.
+      if (empty($loan->renewable)) {
         $disabled_count++;
-        $item['#material_message'] = array(
-          'message' => t('This material was renewed'),
-          'class' => 'messages warning',
-        );
-      }
-      elseif (empty($loan->renewable)) {
-        $disabled_count++;
-        $item['#material_message'] = array(
-          'message' => t('This material can not be renewed'),
-          'class' => 'messages warning',
-        );
+        // If already renewed this session inform the user to avoid confusion.
+        if (in_array($loan->id, $renewed_ids)) {
+          $disabled_count++;
+          $item['#material_message'] = array(
+            'message' => t('This material was renewed'),
+            'class' => 'messages warning',
+          );
+        }
+        // Material was borrowed today; show that instead.
+        if (date('Y-m-d') == date('Y-m-d', strtotime($loan->loan_date))) {
+          $item['#material_message'] = array(
+            'message' => t('This material was borrowed today'),
+            'class' => 'messages warning',
+          );
+        }
+        // As a last resort; show the not renewable warning.
+        else {
+          $item['#material_message'] = array(
+            'message' => t('This material can not be renewed'),
+            'class' => 'messages warning',
+          );
+        }
       }
 
       // Add the reservation to the form.
