@@ -168,8 +168,6 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       $form['loans'][$gid]['title']['#prefix'] = '<a class="anchor" id="anchor-' . $group_type . '"></a>' . $form['loans'][$gid]['title']['#prefix'];
     }
 
-    $renewed_ids = ding_session_cache_get('ding_loan', 'renewed_ids', array());
-
     foreach ($group['loans'] as $loan) {
       // The default title from loan object.
       $title = $loan->display_name;
@@ -256,28 +254,36 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         );
       }
 
+      // This is the same array as in loan form submit further down, but we
+      // might want different feedback messages on the list and after renew
+      // submit.
+      $error_messages = array(
+        DingProviderLoan::STATUS_NOT_RENEWED => t('This material can not be renewed'),
+        DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED => t('Maximum number of renewals reached'),
+        DingProviderLoan::STATUS_RENEWAL_RESERVED => t('The material is reserved by another loaner'),
+      );
+
       // Loan is not renewable! Inform the user the best we can.
       if (empty($loan->renewable)) {
         $disabled_count++;
         // If already renewed this session inform the user to avoid confusion.
-        if (in_array($loan->id, $renewed_ids)) {
-          $disabled_count++;
+        if ($loan->renewalStatus == DingProviderLoan::STATUS_RENEWED) {
           $item['#material_message'] = array(
             'message' => t('This material was renewed'),
             'class' => 'messages warning',
           );
         }
-        // Material was borrowed today; show that instead.
-        if (date('Y-m-d') == date('Y-m-d', strtotime($loan->loan_date))) {
+        // This is a special case. If the material was borrowed today and is
+        // not renewed/rewenable; we show this message instead.
+        elseif (date('Y-m-d') == date('Y-m-d', strtotime($loan->loan_date))) {
           $item['#material_message'] = array(
             'message' => t('This material was borrowed today'),
             'class' => 'messages warning',
           );
         }
-        // As a last resort; show the not renewable warning.
         else {
           $item['#material_message'] = array(
-            'message' => t('This material can not be renewed'),
+            'message' => $error_messages[$loan->renewalStatus],
             'class' => 'messages warning',
           );
         }
@@ -352,7 +358,7 @@ function ding_loan_loans_form_submit($form, &$form_state) {
     DingProviderLoan::STATUS_RENEWAL_RESERVED => t('The material is reserved by another loaner'),
   );
 
-  $renewed_ids = array();
+  $clear_cache = FALSE;
 
   $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
   foreach ($result as $id => $status) {
@@ -382,7 +388,7 @@ function ding_loan_loans_form_submit($form, &$form_state) {
       case DingProviderLoan::STATUS_RENEWED:
       case DingProviderLoan::STATUS_RENEWAL_REQUESTED:
         drupal_set_message(t('"@title renewed"', array('@title' => $title)));
-        $renewed_ids[] = $id;
+        $clear_cache = TRUE;
         break;
 
       case DingProviderLoan::STATUS_NOT_RENEWED:
@@ -401,9 +407,8 @@ function ding_loan_loans_form_submit($form, &$form_state) {
 
   // If any loans was succesfully renewed; clear session cache and remember
   // these loans throughout the session.
-  if (!empty($renewed_ids) && module_exists('ding_session_cache')) {
+  if ($clear_cache && module_exists('ding_session_cache')) {
     ding_session_cache_clear('ding_loan', 'list');
-    ding_session_cache_set('ding_loan', 'renewed_ids', $renewed_ids);
   }
 }
 
