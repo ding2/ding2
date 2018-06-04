@@ -108,11 +108,7 @@ function ding_toggle_format_block_info() {
  * Implements hook_block_view().
  */
 function ding_toggle_format_block_view($delta = '') {
-
-  drupal_add_js(drupal_get_path('module', 'ding_toggle_format') . '/js/ding_toggle_format.js');
-  drupal_add_js(drupal_get_path('module', 'ding_toggle_format') . '/js/js.cookie.js');
-
-  drupal_add_css(drupal_get_path('module', 'ding_toggle_format') . '/css/ding_toggle_format.css');
+  $path = drupal_get_path('module', 'ding_toggle_format');
 
   return array(
     'subject' => t('Ding toggle format'),

@@ -989,6 +989,8 @@ function ding_list_installer_default_page_manager_pages() {
   $display->cache = array();
   $display->title = '%ding_type:title';
   $display->uuid = '8128a3a2-3296-46f4-bd3f-0f34e86bcb73';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'page_page_ding_list_view_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -1073,8 +1075,9 @@ function ding_list_installer_default_page_manager_pages() {
       'pager_id' => '0',
       'items_per_page' => '10',
       'offset' => '0',
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '<none>',
+      'override_title_heading' => 'h2',
     );
     $pane->cache = array();
     $pane->style = array(
