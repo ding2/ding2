@@ -270,14 +270,14 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         if ($loan->renewalStatus == DingProviderLoan::STATUS_RENEWED) {
           $item['#material_message'] = array(
             'message' => t('This material was renewed'),
-            'class' => 'messages warning',
+            'class' => 'messages information',
           );
         }
         // Inter library loan
         elseif ($loan->renewalStatus == DingProviderLoan::STATUS_RENEWAL_REQUESTED) {
           $item['#material_message'] = array(
             'message' => t('An inter-library loan renewal was requested'),
-            'class' => 'messages warning',
+            'class' => 'messages information',
           );
         }
         // This is a special case. If the material was borrowed today and is
@@ -285,7 +285,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         elseif (date('Y-m-d') == date('Y-m-d', strtotime($loan->loan_date))) {
           $item['#material_message'] = array(
             'message' => t('This material was borrowed today'),
-            'class' => 'messages warning',
+            'class' => 'messages information',
           );
         }
         else {

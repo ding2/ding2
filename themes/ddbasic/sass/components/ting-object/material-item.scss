@@ -135,8 +135,8 @@
     }
   }
 
-  // Specific style for message warning in material item
-  .messages.warning {
+  // Specific style for messages on material item
+  .messages {
     position: absolute;
     top: 16px;
     right: 0;
@@ -144,11 +144,18 @@
     height: 28px;
     padding: 5px 10px 0 0;
     margin: 0;
-    background-color: $red;
     background-image: none;
     color: $white;
     border: 0;
     text-align: right;
+
+    &.warning {
+      background-color: $red;
+    }
+
+    &.information {
+      background-color: $green;
+    }
 
     // Mobile
     @include media($mobile) {
