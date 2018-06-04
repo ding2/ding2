@@ -66,7 +66,12 @@ function fbs_loan_list($account, $reset = FALSE) {
           // loan is here we will give it the renewed status for the rest of the
           // session
           if (in_array($id, $renewed_ids)) {
-            $loan_data['renewalStatus'] = DingProviderLoan::STATUS_RENEWED;
+            if ($loan->loanDetails->loanType === 'interLibraryLoan') {
+              $loan_data['renewalStatus'] = DingProviderLoan::STATUS_RENEWAL_REQUESTED;
+            }
+            else {
+              $loan_data['renewalStatus'] = DingProviderLoan::STATUS_RENEWED;
+            }
           }
           // Fallback to the general error messages, which is also used when
           // renewing loans.

@@ -273,6 +273,13 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
             'class' => 'messages warning',
           );
         }
+        // Inter library loan
+        elseif ($loan->renewalStatus == DingProviderLoan::STATUS_RENEWAL_REQUESTED) {
+          $item['#material_message'] = array(
+            'message' => t('An inter-library loan renewal was requested'),
+            'class' => 'messages warning',
+          );
+        }
         // This is a special case. If the material was borrowed today and is
         // not renewed/rewenable; we show this message instead.
         elseif (date('Y-m-d') == date('Y-m-d', strtotime($loan->loan_date))) {
