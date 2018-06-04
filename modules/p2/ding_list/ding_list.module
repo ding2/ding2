@@ -1116,7 +1116,7 @@ function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
     case 'ting_object':
       $ting_object = ting_object_load($context['value']);
 
-      // This one expects that item is in the well, which is not always possible.
+      // Object expects that item is in the well, which is not always possible.
       // Providers are able to mimic the TingObject with minimal data
       // from the LMS system to fulfill this requirement, however current
       // "drupal_alter" implementation used here does not allow

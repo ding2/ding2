@@ -7,9 +7,9 @@
 
 (function ($) {
   Drupal.behaviors.ting = {
-    attach: function (context, settings) {
+    attach: function (context) {
       // TODO: These selectors might be outdated.
-      $('a.js-search-overlay').live('click', function () {
+      $('a.js-search-overlay', context).live('click', function () {
         var link = $(this);
         if (link.attr('href').charAt(0) !== '#') {
           // Only show overlay for non-local links.
@@ -18,18 +18,18 @@
       });
 
       // Ensure overlay on collection view links.
-      $('.ting-collection-wrapper a[href*="/ting/"]').live('click', function () {
+      $('.ting-collection-wrapper a[href*="/ting/"]', context).live('click', function () {
         if ($(this).not('[target="_blank"]').length) {
           Drupal.TingSearchOverlay();
         }
       });
 
       // Ensure overlay on object view links.
-      $('.ting-object-wrapper a[href*="/ting/"]').live('click', function () {
+      $('.ting-object-wrapper a[href*="/ting/"]', context).live('click', function () {
         if ($(this).not('[target="_blank"]').length) {
           Drupal.TingSearchOverlay();
         }
       });
     }
-  }
+  };
 }(jQuery));

@@ -143,7 +143,7 @@ function ting_menu() {
     'title' => 'Render ding entity buttons',
     'page callback' => 'ting_render_ding_entity_buttons_callback',
     'page arguments' => array(2, 3),
-    'access arguments' => array('access content')
+    'access arguments' => array('access content'),
   );
 
   $items['ting/ding_entity_buttons/ajax/%'] = array(
@@ -184,6 +184,7 @@ function ting_render_ding_entity_buttons_callback($request_type, $button_type) {
           $html
         );
         break;
+
       case 'other-formats':
         $markup = ting_entity_other_formats_button($entity);
         $html = render($markup);
