@@ -255,12 +255,11 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       }
 
       // This is the same array as in loan form submit further down, but we
-      // might want different feedback messages on the list and after renew
-      // submit.
+      // might want different feedback messages on the list.
       $error_messages = array(
         DingProviderLoan::STATUS_NOT_RENEWED => t('This material can not be renewed'),
-        DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED => t('Maximum number of renewals reached'),
-        DingProviderLoan::STATUS_RENEWAL_RESERVED => t('The material is reserved by another loaner'),
+        DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED => t('The material can not be renewed because maximum number of renewals reached'),
+        DingProviderLoan::STATUS_RENEWAL_RESERVED => t('The material is reserved by another loaner and can not be renewed'),
       );
 
       // Loan is not renewable! Inform the user the best we can.
