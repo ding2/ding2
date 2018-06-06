@@ -141,13 +141,11 @@
     top: 16px;
     right: 0;
     width: 190px;
-    height: 28px;
-    padding: 5px 10px 0 0;
+    padding: 10px;
     margin: 0;
     background-image: none;
     color: $white;
     border: 0;
-    text-align: right;
 
     &.warning {
       background-color: $red;
