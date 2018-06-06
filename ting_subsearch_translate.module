@@ -14,11 +14,10 @@ module_load_include('inc', 'ting_subsearch_translate', 'ting_subsearch_translate
 /**
  * Implements hook_ting_search_results_prefix().
  */
-function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions, $results) {
-
+function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions, \Ting\Search\TingSearchResultInterface $results) {
   $message = '';
 
-  if (!isset($results->numTotalObjects)) {
+  if (!$results->getNumTotalObjects()) {
     return $message;
   }
 
@@ -27,30 +26,36 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
     return $message;
   }
 
+  $facets = $results->getFacets();
+
   // If any of fiction or non fiction is empty we cannot do the calculation.
   // Simply exit for now.
-  if (empty($results->facets['facet.genreCategory']->terms['nonfiktion'])
-  || empty($results->facets['facet.genreCategory']->terms['fiktion'])) {
+  if (!isset($facets['facet.genreCategory'])) {
     watchdog('subsearch_translate', 'You need to enable facet.genreCategory in order for this to work.', array(), WATCHDOG_WARNING);
     return $message;
   }
-  $nonfiction = $results->facets['facet.genreCategory']->terms['nonfiktion'];
-  $fiction = $results->facets['facet.genreCategory']->terms['fiktion'];
+
+  $terms = $facets['facet.genreCategory']->getTerms();
+  $nonfiction = $terms['nonfiktion']->getCount();
+  $fiction = $terms['fiktion']->getCount();
 
   // Less than half fiction of nonfiction.
   if (($nonfiction / variable_get('ting_subsearch_translate_factor', 2)) > $fiction) {
 
-    // Do translation.
     $translated_keys = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
-    $suggested_result = ting_subsearch_common_do_secondary_search($translated_keys);
+    if (strtolower($translated_keys) == strtolower($results->getSearchRequest()->getFullTextQuery())) {
+      // The two search are the same. So no need to do extra search query.
+      return $message;
+    }
 
-    if (!empty($suggested_result->numTotalObjects) && $suggested_result->numTotalObjects > $results->numTotalObjects) {
-      $suggestion = $translated_keys;
+    $suggested_result = ting_subsearch_common_do_secondary_search($translated_keys);
+    $num_total_objects = $suggested_result->getNumTotalObjects();
+    if (!empty($num_total_objects)) {
       $msg = t('The search for "!keys" gave !num-results hits. If you search for the English translation "!suggested-keys-link" you will get !suggested-num-results hits.', array(
-        '!suggested-keys-link' => l(strtolower($suggestion), '/search/ting/' . strtolower($suggestion), array('query' => ting_subsearch_common_query_params(variable_get('ting_subsearch_translate_additional_url_params_inlimit', '')))),
-        '!suggested-num-results' => $suggested_result->numTotalObjects,
+        '!suggested-keys-link' => l(strtolower($translated_keys), '/search/ting/'  . strtolower($translated_keys) ),
+        '!suggested-num-results' => $suggested_result->getNumTotalObjects(),
         '!keys' => $keys,
-        '!num-results' => $results->numTotalObjects,
+        '!num-results' => $results->getNumTotalObjects(),
       ));
       $message = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
     }
@@ -64,6 +69,7 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
  */
 function ting_subsearch_translate_suggest_translated_keys($keys) {
 
+  // @TODO: Don't hardcode URL to service into module.
   $url = 'https://www.googleapis.com/language/translate/v2';
 
   $params = [];
