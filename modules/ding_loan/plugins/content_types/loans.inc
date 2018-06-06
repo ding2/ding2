@@ -268,7 +268,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         // If already renewed this session inform the user to avoid confusion.
         if ($loan->renewalStatus == DingProviderLoan::STATUS_RENEWED) {
           $item['#material_message'] = array(
-            'message' => t('This material was renewed'),
+            'message' => t('This material was renewed. New return date: !due_date', array(
+              '!due_date' => format_date(strtotime(check_plain($loan->expiry)), 'ding_material_lists_date'),
+            )),
             'class' => 'messages information',
           );
         }
