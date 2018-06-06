@@ -49,11 +49,4 @@ function ting_subsearch_translate_form_ting_search_admin_settings_alter(&$form, 
     '#default_value' => variable_get('ting_subsearch_translate_factor', 2),
     '#description' => t('The condition is as following (nonfiction / factor) > fiction'),
   );
-
-  $form['subsearch_settings']['subsearch_translate']['ting_subsearch_translate_additional_url_params_inlimit'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Additional URL parameters for link in message'),
-    '#default_value' => variable_get('ting_subsearch_translate_additional_url_params_inlimit', ''),
-    '#description' => t('Parameters goes like this param1=value1&amp;param2=value2. Do not assume that the first parameter is the first actual. The system will figure it out.'),
-  );
 }
