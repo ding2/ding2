@@ -6,6 +6,7 @@
  * Available variables:
  * - $content: An rendered content field provided by CustomError module.
  */
+
 ?>
 <div class="empty-sidebars default-layout">
   <div class="layout-wrapper">
