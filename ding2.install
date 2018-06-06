@@ -623,6 +623,7 @@ function ding2_update_7051() {
   // ding2_update_dependencies and thus without ting_update_7014 and
   // Opensearch.
   ding2_update_7048();
+}
 
 /**
  * Enable CustomError modules.
