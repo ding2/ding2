@@ -196,7 +196,7 @@ function ddbasic_field__display_image_text($vars) {
     $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
     $output .= '<div class="' . $classes . '"' . $vars['item_attributes'][$delta] . '>' . drupal_render($item);
 
-    // Add title as image caption if it exists
+    // Add title as image caption if it exists.
     if (!empty($item['#item']['title'])) {
       $output .= '<div class="field-image-caption">' . $item['#item']['title'] . '</div>';
     }
