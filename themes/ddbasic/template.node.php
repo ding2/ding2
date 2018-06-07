@@ -47,7 +47,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
  * Implememnts template_process_node().
  */
 function ddbasic_process_node(&$variables, $hook) {
-  // For search result view mode add type and title
+  // For search result view mode add type and title.
   if ($variables['view_mode'] == 'search_result') {
     $node_type = node_type_get_name($variables['type']);
     $variables['content']['type'] = array(
@@ -299,7 +299,7 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
 
-  // Google maps addition to library list on teaser
+  // Google maps addition to library list on teaser.
   if ($variables['view_mode'] == 'teaser') {
     $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
 

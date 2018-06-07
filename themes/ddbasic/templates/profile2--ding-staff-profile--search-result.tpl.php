@@ -27,6 +27,7 @@
  * @see template_preprocess_entity()
  * @see template_process()
  */
+
 ?>
 <div class="<?php print $classes; ?> view-mode-search-result clearfix"<?php print $attributes; ?>>
   <div class="view-mode-search-result-content-type"><?php print t('Staff'); ?></div>

@@ -403,7 +403,7 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
     }
   }
 
-  // Create read more link for search_result view mode
+  // Create read more link for search_result view mode.
   if ($variables['profile2']->type == 'ding_staff_profile' && $variables['elements']['#view_mode'] == 'search_result') {
     $variables['read_more_link'] = l('<div class="button">' . t('Read more') . '</div>', 'user/' . $variables['elements']['#entity']->uid, array('html' => TRUE));
   }
