@@ -84,7 +84,7 @@ function template_preprocess_ding_list_element(&$variables) {
       $parsed = drupal_parse_url($element->getValue());
       $variables['content']['link'] = array(
         '#theme' => 'link',
-        '#text' => check_plain(empty($element->getData('title', $element->getValue()))),
+        '#text' => check_plain($element->getData('title', $element->getValue())),
         '#path' => 'search/ting/' . $parsed['path'],
         '#options' => array(
           'query' => $parsed['query'],
