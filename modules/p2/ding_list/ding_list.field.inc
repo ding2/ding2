@@ -57,26 +57,30 @@ function ding_list_field_formatter_view($entity_type, $entity, $field, $instance
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ding_list_in_public_lists_default':
-        $element[$delta] = array(
-          '#theme' => 'links',
-          '#links' => array(),
-        );
+        $lists = ding_list_material_in_public_lists($item['id']);
 
-        foreach (ding_list_material_in_public_lists($item['id']) as $list) {
-          $title = check_plain(entity_label('ding_type', $list));
-
-          $username = ding_list_list_username($list);
-          if ($username) {
-            $title = t('@list_title, By @list_author', array(
-              '@list_title' => $title,
-              '@list_author' => $username,
-            ));
-          }
-
-          $element[$delta]['#links'][] = array(
-            'title' => $title,
-            'href' => 'list/' . $list->id,
+        if (!empty($lists)) {
+          $element[$delta] = array(
+            '#theme' => 'links',
+            '#links' => array(),
           );
+
+          foreach ($lists as $list) {
+            $title = $list->getTitle();
+
+            $username = $list->getOwnerName();
+            if ($username) {
+              $title = t('@list_title, By @list_author', array(
+                '@list_title' => $title,
+                '@list_author' => $username,
+              ));
+            }
+
+            $element[$delta]['#links'][] = array(
+              'title' => $title,
+              'href' => 'list/' . $list->getId(),
+            );
+          }
         }
         break;
     }
