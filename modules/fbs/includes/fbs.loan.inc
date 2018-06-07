@@ -64,7 +64,7 @@ function fbs_loan_list($account, $reset = FALSE) {
 
           // We maintain a list of renewed loans in this session, and if this
           // loan is here we will give it the renewed status for the rest of the
-          // session
+          // session.
           if (in_array($id, $renewed_ids)) {
             if ($loan->loanDetails->loanType === 'interLibraryLoan') {
               $loan_data['renewalStatus'] = DingProviderLoan::STATUS_RENEWAL_REQUESTED;
@@ -173,6 +173,7 @@ function fbs_loan_renew($account, $loans) {
 /**
  * Helper function to extract renewalStatus from the FBS loan and convert it to
  * to Ding provider renewal status constants.
+ *
  * Used when renewing and showing loan list.
  */
 function _fbs_loan_get_renewal_status($loan) {
@@ -183,12 +184,4 @@ function _fbs_loan_get_renewal_status($loan) {
     return DingProviderLoan::STATUS_RENEWAL_RESERVED;
   }
   return DingProviderLoan::STATUS_NOT_RENEWED;
-  // TODO: FBS returns more reasons (on both renewal and loan list). Maybe these
-  // could be integrated in the provider layer?
-  // - deniedLoanerIsBlocked
-  // - deniedMaterialIsNotLoanable
-  // - deniedMaterialIsNotFound
-  // - deniedLoanerNotFound
-  // - deniedLoaningProfileNotFound
-  // - deniedOtherReason
 }

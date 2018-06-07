@@ -274,7 +274,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
             'class' => 'messages information',
           );
         }
-        // Inter library loan
+        // Inter library loan.
         elseif ($loan->renewalStatus == DingProviderLoan::STATUS_RENEWAL_REQUESTED) {
           $item['#material_message'] = array(
             'message' => t('An inter-library loan renewal was requested'),
