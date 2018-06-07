@@ -128,7 +128,7 @@ function fbs_availability_holdings($provider_ids) {
         // Use the 'sk' marker to determine if this is non-fiction.
         // It seems to present in both the 'm' and 'o' subfield so we check them
         // to be sure.
-        else if ($field652m !== 'sk' && $field652o !== 'sk') {
+        elseif ($field652m !== 'sk' && $field652o !== 'sk') {
           // DK5 classification.
           $suffix .= $field652m;
 
@@ -136,7 +136,7 @@ function fbs_availability_holdings($provider_ids) {
           if ($field652b = fbs_get_marc_field($entity, '652', 'b')) {
             $suffix .= ' ' . $field652b;
           }
-          else if ($field652a = fbs_get_marc_field($entity, '652', 'a')) {
+          elseif ($field652a = fbs_get_marc_field($entity, '652', 'a')) {
             $suffix .= ' ' . $field652a;
             if ($field652h = fbs_get_marc_field($entity, '652', 'h')) {
               $suffix .= ', ' . $field652h;
@@ -296,7 +296,7 @@ function fbs_translate_marc($code, $field) {
   if ($field == '039.a') {
     $translations = _fbs_get_marc_039a_translations();
   }
-  else if ($field == '039.b') {
+  elseif ($field == '039.b') {
     // This field contains ISO 3166-1 alpha-2 country codes and we can use the
     // build in list from the Drupal.
     // See: http://www.kat-format.dk/danMARC2/Danmarc2.22.htm#pgfId=1574621
@@ -351,4 +351,3 @@ function _fbs_get_marc_039a_translations() {
     'mub' => 'MUSIK. BØRN',
   );
 }
-
