@@ -134,7 +134,7 @@
       <?php print render($share_button); ?>
       <?php print render($content['group_right']);?>
     </div>
-    <?php // Render MKWS results set. ?>
+    <!-- Render MKWS results set. -->
     <?php if (!empty($content['field_mkws_node_widget'])) : ?>
       <?php print render($content['field_mkws_node_widget']); ?>
     <?php endif; ?>

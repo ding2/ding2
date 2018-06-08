@@ -77,6 +77,7 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
+
 ?>
 <?php
   // Hide elements so we can render them later.
@@ -86,13 +87,13 @@
 <div class="<?php print $classes; ?>">
   <div class="ding-campaign ding-campaign--content <?php print $type . " " . $panel_style; ?>" <?php print $background; ?>>
     <a href="<?php print $link; ?>" target="<?php print $target; ?>">
-      <?php // if campaign type is "text" or "text on image" hide image here ?>
-      <?php if ($type != "text" && $type != "text-on-image"): ?>
+      <?php /* If campaign type is "text" or "text on image" hide image here */ ?>
+      <?php if ($type != "text" && $type != "text-on-image") : ?>
         <?php print $image; ?>
       <?php endif; ?>
 
-      <?php // if campaign type is "image only" hide text here ?>
-      <?php if ($type != "image"): ?>
+      <?php /* If campaign type is "image only" hide text here */ ?>
+      <?php if ($type != "image") : ?>
         <div class="ding-campaign-text">
           <h2 class="ding-campaign-headline">
             <?php print $title; ?>
@@ -104,7 +105,7 @@
       <?php endif; ?>
     </a>
 
-    <?php // Render MKWS results set. ?>
+    <!-- Render MKWS results set. -->
     <?php if (!empty($content['field_mkws_node_widget'])) : ?>
       <?php print render($content['field_mkws_node_widget']); ?>
     <?php endif; ?>
