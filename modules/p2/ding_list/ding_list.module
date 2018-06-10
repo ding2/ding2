@@ -286,7 +286,7 @@ function ding_list_ding_list_operations() {
     ),
     DING_LIST_TYPE_LOAN_HISTORY => array(
       DING_LIST_OPERATION_DETACH => TRUE,
-      DING_LIST_OPERATION_AUTO_CREATE => ding_provider_implements('historical_loans', 'get'),
+      DING_LIST_OPERATION_AUTO_CREATE => TRUE,
       '_data' => array(
         'default_title' => t('Loan history'),
         'description' => t('Find your previous loans here. You can enable/disable the history in your profile.'),
