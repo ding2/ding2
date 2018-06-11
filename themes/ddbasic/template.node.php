@@ -182,6 +182,12 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
   $location = field_get_items('node', $variables['node'], 'field_ding_event_location');
   $variables['alt_location_is_set'] = !empty($location[0]['name_line']) || !empty($location[0]['thoroughfare']);
 
+  // Dont display location if neither name_line or thoroughfare is set.
+  // Prevents that country is printes out, without any other values.
+  if (!$variables['alt_location_is_set']) {
+    $variables['content']['field_ding_event_location']['#access'] = FALSE;
+  }
+
   switch ($variables['view_mode']) {
     case 'teaser':
       // Add class if image.
@@ -240,6 +246,33 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         $variables['event_time'] = $event_time_ra[0]['#markup'];
       }
 
+      // Place, Library, Organizer.
+      // Add the library markup to the field_ding_event_place markup.
+      if ($variables['alt_location_is_set']) {
+        $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['field_ding_event_location'][0]['name_line'];
+      }
+      else {
+        $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['content']['og_group_ref'][0]['#markup'];
+      }
+
+      // If any organizers is set - prepare the output as a string.
+      if (!empty($variables['field_ding_event_organizers'])) {
+        $organizers_elems = field_get_items('node', $variables['node'], 'field_ding_event_organizers');
+        $organizers_out  = array();
+
+        foreach ($organizers_elems as $key => $value) {
+          $term = taxonomy_term_load($value['tid']);
+          $organizers_out[] = $term->name;
+        }
+        // If alt location - add organizers to price, else add to place.
+        if ($variables['alt_location_is_set']) {
+          $variables['event_price'] .= ' - ' . t('arranged by') . ' ' . implode(', ', $organizers_out);
+        }
+        else {
+          $variables['content']['field_ding_event_place'][0]['#markup'] .= ' - ' . t('arranged by') . ' ' . implode(', ', $organizers_out);
+        }
+      }
+
       break;
 
     case 'full':
@@ -286,8 +319,36 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           ));
         }
 
-        if (!empty($location)) {
-          $variables['content']['group_left']['og_group_ref']['#access'] = FALSE;
+        // Make organizer label plural if more than one.
+        if (!empty($variables['field_ding_event_organizers']) && count($variables['field_ding_event_organizers']) > 1) {
+          $variables['content']['field_ding_event_organizers']['#title'] = t('Organizers');
+        }
+
+        // If alternate location is set, change the label of library.
+        if ($variables['alt_location_is_set']) {
+          $variables['content']['og_group_ref']['#title'] = t('Organizer');
+
+          // If field_ding_event_organizers is set, merge them into the og_ref field.
+          if (!empty($variables['field_ding_event_organizers'])) {
+            // Hide organizers from render array.
+            $variables['content']['field_ding_event_organizers']['#access'] = FALSE;
+            // Add organizers to library (og_group_ref) markup as string.
+            $organizers_elems = field_get_items('node', $variables['node'], 'field_ding_event_organizers');
+            $organizers_out  = '';
+
+            foreach ($organizers_elems as $value) {
+              $term = taxonomy_term_load($value['tid']);
+              if (!empty($term->field_event_organizer_link)) {
+                $link = field_get_items('taxonomy_term', $term, 'field_event_organizer_link');
+                  $organizers_out .= ', ' . l($term->name, $link[0]['url'], array('attributes' => array('class' => 'ding-event-organizer-link')));
+              }
+              else {
+                $organizers_out .= ', ' . $term->name;
+              }
+            }
+            $variables['content']['og_group_ref']['#title'] = t('Organizers');
+            $variables['content']['og_group_ref'][0]['#markup'] .= $organizers_out;
+          }
         }
       }
       break;
