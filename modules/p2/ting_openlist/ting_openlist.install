@@ -26,8 +26,7 @@ function ting_openlist_requirements($phase) {
         'value' => t('Not configured'),
         'severity' => REQUIREMENT_ERROR,
       );
-    }
-    else {
+    } else {
       $requirements['ting_openlist'] = array(
         'title' => 'Ting Openlist',
         'value' => t('Ting Openlist is configured OK. !check Openlist connection.', array(
@@ -39,15 +38,6 @@ function ting_openlist_requirements($phase) {
   }
 
   return $requirements;
-}
-
-/**
- * Implements hook_schema().
- */
-function ting_openlist_schema() {
-  $schema = array();
-  $schema['cache_openlist'] = drupal_get_schema_unprocessed('system', 'cache');
-  return $schema;
 }
 
 /**
@@ -75,7 +65,6 @@ function ting_openlist_uninstall() {
   variable_del('ting_openlist_domain');
   variable_del('ting_library_code');
   variable_del('ting_openlist_prefix');
-  variable_del('ting_openlist_cache_default_ttl');
 
   db_drop_field('users', 'openlist_uid');
 }
@@ -98,12 +87,4 @@ function ting_openlist_update_7001() {
   variable_del('ting_openlist_wsdl_cache');
   variable_del('ting_openlist_no_wsdl_cache');
   variable_del('ting_openlist_log_details');
-}
-
-/**
- * Create cache bin.
- */
-function ting_openlist_update_7002() {
-  $schema = ting_openlist_schema();
-  db_create_table('cache_openlist', $schema['cache_openlist']);
 }

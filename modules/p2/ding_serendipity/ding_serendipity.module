@@ -24,6 +24,7 @@
  */
 
 use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
 use Ting\Search\TingSearchRequest;
 
 include_once 'ding_serendipity.features.inc';
@@ -439,8 +440,14 @@ function ding_serendipity_user_audience($account = NULL) {
     $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $account);
 
     if (!empty($list)) {
-      foreach (array_slice($list->getElements(), -10) as $element) {
-        $ids[] = $element->getValue();
+      $items = ding_base_get_items('ding_type', $list, 'field_list_objects');
+      $items = array_slice($items, -10);
+      foreach ($items as &$item) {
+        $item = $item['target_id'];
+      }
+
+      foreach (entity_load('ding_type', $items) as $item) {
+        $ids[] = ding_base_get_value('ding_type', $item, 'field_value');
       }
     }
   }
@@ -451,31 +458,18 @@ function ding_serendipity_user_audience($account = NULL) {
   }
 
   $query = ting_start_query()->withMaterialFilter($ids);
+  if (!empty($ids)) {
+    foreach (ding_serendipity_do_search($query, count($ids)) as $collection) {
+      $entity = $collection['object']->getPrimary_object();
+      /** @var TingEntity $entity */
+      $audience = !empty($entity->getTingObject()->getAudience()) ? $entity->getTingObject()->getAudience() : FALSE;
 
-  // Skip audience for low or missing loan counts.
-  if (empty($ids) || count($ids) < 5) {
-    return FALSE;
-  }
+      if (!isset($audiences[$audience])) {
+        $audiences[$audience] = 0;
+      }
 
-  foreach (ding_serendipity_do_search($query, count($ids)) as $collection) {
-    $entity = $collection['object']->getPrimary_object();
-
-    // Skip materials with no audience.
-    if (empty($entity->getTingObject()->getAudience())) {
-      continue;
+      $audiences[$audience] += 1;
     }
-
-    /** @var TingEntity $entity */
-    $audience = !empty($entity->getTingObject()->getAudience()) ? $entity->getTingObject()->getAudience() : FALSE;
-    if (is_array($audience)) {
-      $audience = current($audience);
-    }
-
-    if (!isset($audiences[$audience])) {
-      $audiences[$audience] = 0;
-    }
-
-    $audiences[$audience] += 1;
   }
 
   $sum = array_sum($audiences);
@@ -495,73 +489,6 @@ function ding_serendipity_user_audience($account = NULL) {
 }
 
 /**
- * Fetch random items, but with larger probability among recent items.
- *
- * A method is choosen so that items among the first percentage $p in $items will
- * have a probability of 50% being picked, recent items more probable, yet
- * all items in the list still probable.
- *
- * Let $rnd be a random number in [0;1].
- * Then w($base,$rnd) = ((pow($base,$rnd) - 1)/($base - 1) - 1) is also in [0;1].
- *
- * Since pow is monotonous and assumed $rnd is uniformly distributed
- * then w in [0;w($base,0.5)] will have probability of 50%
- *
- * w(10,0.5) = 0.24
- * w(100,0.5) = 0.09
- * w(1000,0.5) = 0.03
- *
- * $base = 100 will select among the first 9% of items with a probability of 50%.
- *
- * @param array $items
- *   The array to pick from.
- * @param int $cnt
- *   Number of items to pick.
- *
- * @return array
- *   Array of randomly picked items.
- */
-function ding_serendipity_pick_weighted_random(array $items, $cnt) {
-  $num = count($items);
-
-  if ($cnt >= $num) {
-    return $items;
-  }
-
-  // Pick cnt weighted random items. Collisions may occur.
-  $picked = array();
-  $base = 100;
-  for ($i = 0; $i < $cnt; $i++) {
-    // Random number in [0;1].
-    $rnd = mt_rand() / mt_getrandmax();
-    // Index in [0;$num -1].
-    $index = round((pow($base, $rnd) - 1) * ($num - 1) / ($base - 1));
-    $picked[$index] = TRUE;
-  }
-
-  // Keys can be anything.
-  $keys = array_keys($items);
-
-  // Indices are integers matching the picked.
-  $indices = array_keys($keys);
-  $collisions = $cnt - count($picked);
-
-  // Slice a random number of indices not already picked.
-  $remaining = array_diff($indices, array_keys($picked));
-  shuffle($remaining);
-  $remaining = array_slice($remaining, 0, $collisions);
-  $result = array_merge(array_keys($picked), array_values($remaining));
-
-  // Intersect list keys.
-  $picked_keys = array_intersect_key($keys, array_flip($result));
-
-  // Intersect list.
-  $picked_items = array_intersect_key($items, array_flip($picked_keys));
-
-  return $picked_items;
-}
-
-/**
  * Get all the materials the user has in their lists.
  *
  * @param object $account
@@ -577,28 +504,49 @@ function ding_serendipity_get_existing_list_materials($account = NULL) {
     $account = $user;
   }
 
-  if (!ding_user_is_provider_user($account)) {
-    return array();
+  if (variable_get('ding_serendipity_enable_cache', FALSE)) {
+    $cache_id = "ding_serendipity_" . $account->uid . '_existing_list_materials';
+    $cache = cache_get($cache_id);
+    if (!empty($cache) && REQUEST_TIME < $cache->expire) {
+      return $cache->data;
+    }
   }
 
-  $lists = ding_list_get_lists(array(), $account);
-
-  // Relevant list types.
-  $list_types = array(
-    DING_LIST_TYPE_USER_LIST,
-    DING_LIST_TYPE_BOOKS_READ,
-    DING_LIST_TYPE_REMEMBER,
-  );
   $ids = array();
 
-  foreach ($lists as $list) {
-    if (in_array($list->getType(), $list_types)) {
-      foreach ($list->getElements() as $element) {
-        if (!empty($element->getValue())) {
-          $ids[] = $element->getValue();
-        }
-      }
+  $list_types = ding_list_get_list_types_by_operations(array(
+    DING_LIST_OPERATION_ATTACH => array('ting_object'),
+  ));
+
+  // Include the entity ratings list.
+  $list_types[] = DING_ENTITY_RATING_LIST;
+
+  // Exclude the remember list, so the user can be reminded.
+  $list_types = array_diff($list_types, array(DING_LIST_TYPE_REMEMBER));
+
+  $lists = ding_list_get_lists($list_types, $account);
+  if ($lists !== FALSE) {
+    $elements = array();
+
+    foreach ($lists as $list) {
+      $elements[] = ding_base_get_items('ding_type', $list, 'field_list_objects');
     }
+
+    // Flatten the array.
+    $elements = call_user_func_array('array_merge', $elements);
+    foreach ($elements as &$element) {
+      $element = $element['target_id'];
+    }
+
+    // Load all the elements and their ids.
+    foreach (entity_load('ding_type', $elements) as $element) {
+      $ids[] = ding_base_get_value('ding_type', $element, 'field_value');
+    }
+  }
+
+  if (variable_get('ding_serendipity_enable_cache', FALSE)) {
+    $expire = variable_get('ding_serendipity_cache_lifetime', 600);
+    cache_set($cache_id, $ids, 'cache', REQUEST_TIME + $expire);
   }
 
   return $ids;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_message_p2_installer.features.field_instance.inc
@@ -53,7 +54,7 @@ function ding_message_p2_installer_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 1,
       ),
     ),
     'entity_type' => 'message',
@@ -95,7 +96,7 @@ function ding_message_p2_installer_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 2,
       ),
     ),
     'entity_type' => 'message',
@@ -122,32 +123,32 @@ function ding_message_p2_installer_field_default_field_instances() {
     'bundle' => 'new_content',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Enter the list this message is related to.',
     'display' => array(
       'default' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 0,
       ),
     ),
     'entity_type' => 'message',
     'field_name' => 'field_list_id',
-    'label' => 'List ID',
+    'label' => 'List id',
     'required' => 0,
     'settings' => array(
-      'max' => '',
-      'min' => '',
-      'prefix' => '',
-      'suffix' => '',
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 0,
-      'module' => 'number',
-      'settings' => array(),
-      'type' => 'number',
-      'weight' => 6,
+      'active' => 1,
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => 0,
     ),
   );
 
@@ -163,7 +164,7 @@ function ding_message_p2_installer_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 0,
+        'weight' => 3,
       ),
     ),
     'entity_type' => 'message',
@@ -220,11 +221,12 @@ function ding_message_p2_installer_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Enter the list this message is related to.');
   t('Enter the time of the last check for updates as a unix timestamp.');
   t('First element');
   t('Last check');
   t('Last element');
-  t('List ID');
+  t('List id');
   t('New count');
   t('Number of new elements.');
   t('State');
