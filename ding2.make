@@ -21,6 +21,8 @@ projects[autologout][version] = "4.5"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
+; Patch to Drupal settings variable error.
+projects[autosave][patch][] = "https://www.drupal.org/files/issues/autosave-ajax-js-error-2758189-1.patch"
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.4"
