@@ -316,6 +316,12 @@ projects[easyddb_zerohit_redirect][download][url]    = "git@github.com:easySuite
 ;projects[easyddb_zerohit_redirect][download][tag]    = "7.x-3.0.2"
 projects[easyddb_zerohit_redirect][download][branch] = "development"
 
+projects[easyopac_status][type]             = "module"
+projects[easyopac_status][subdir]           = ""
+projects[easyopac_status][download][type]   = "git"
+projects[easyopac_status][download][url]    = "git@github.com:easySuite/easyopac_status.git"
+projects[easyopac_status][download][branch] = "development"
+
 projects[emailkanon][type]             = "module"
 projects[emailkanon][subdir]           = ""
 projects[emailkanon][download][type]   = "git"
