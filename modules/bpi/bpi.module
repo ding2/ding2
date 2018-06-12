@@ -382,6 +382,15 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     elseif (isset($form[$body][$current_language][0])) {
       $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
+
+    // Let others hook into the edit form.
+    $context = array(
+      'form_state' => &$form_state,
+      'bpi_form_state' => &$form_state,
+      'syndicated_images' => $syndicated_images,
+      'bpi_node' => $bpi_node,
+    );
+    drupal_alter('bpi_syndicate_node_form', $form, $context);
   }
 
   // Add BPI fields.

@@ -241,13 +241,6 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
       }
     }
   }
-  else {
-    $bpi_content['body'] = preg_replace(
-      '~(<p>)?<img.+?/>(</p>)?~is',
-      '',
-      $bpi_content['body']
-    );
-  }
 
   $tags = array();
   $tags_field_name = variable_get('bpi_field_tags', '');
@@ -264,6 +257,24 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     }
   }
   $bpi_content['tags'] = implode(',', $tags);
+
+  // Allow modules to alter the content sent to bpi.
+  $context = array(
+    'with_refs' => $with_refs,
+    'with_images' => $with_images,
+  );
+  drupal_alter('bpi_convert_to_bpi', $bpi_content, $node, $context);
+
+  // Images (assets) may have been (incorrectly) added to content by modules
+  // implementing hook_bpi_convert_to_bpi_alter().
+  if (!$with_images) {
+    $bpi_content['assets'] = array();
+    $bpi_content['body'] = preg_replace(
+      '~(<p>)?<img.+?/>(</p>)?~is',
+      '',
+      $bpi_content['body']
+    );
+  }
 
   return $bpi_content;
 }
