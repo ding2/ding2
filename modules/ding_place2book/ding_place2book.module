@@ -471,7 +471,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
  * @param int $place2book_id
  *   Place2Book identifier.
  *
- * @return int|null
+ * @return int|void
  *   Place2Book identifier.
  *
  * @todo: I see no reason why all this is contained within a single function.

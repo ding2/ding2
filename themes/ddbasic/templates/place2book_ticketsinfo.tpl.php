@@ -4,7 +4,7 @@
  * @file
  * Theme implementation for displaying place2book ticket info.
  *
- * (support for ding_place2book module)
+ * This was added for ding_place2book module.
  *
  * Variables:
  * $place2book_id: the ID for the event at place2book.com  (if it exists for
