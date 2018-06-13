@@ -471,7 +471,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
  * @param int $place2book_id
  *   Place2Book identifier.
  *
- * @return int|void
+ * @return int|null
  *   Place2Book identifier.
  *
  * @todo: I see no reason why all this is contained within a single function.
@@ -482,13 +482,13 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
   $service_settings = variable_get('ding_place2book', array());
   if (empty($service_settings)) {
     drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
-    return;
+    return NULL;
   }
 
   // Build XML headers.
   $api_key = place2book_get_api_key(ding_place2book_get_library_nid($node));
   if ($api_key == NULL) {
-    return;
+    return NULL;
   }
   $headers = array(
     'Content-Type' => 'text/xml',
