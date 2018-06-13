@@ -23,8 +23,6 @@ function ding_place2book_ctools_plugin_directory($module, $plugin) {
  *
  * @param int $nid
  *   Node id.
- *
- * @throws \Exception
  */
 function ding_place2book_get_ticketinfo($nid) {
   // Get the node.
@@ -316,8 +314,6 @@ function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
 
 /**
  * Implements hook_process_HOOK().
- *
- * @throws \Exception
  */
 function ding_place2book_process_node(&$variables) {
   if ($variables['type'] == 'ding_event' && $variables['view_mode'] == 'full') {
@@ -347,10 +343,7 @@ function ding_place2book_node_delete($node) {
      * REVIEW: Maybe a clean-up check could be execute by the
      *         administrator or cron?
      */
-    $place2book_id = db_query('SELECT place2book_id
-                               FROM {ding_place2book}
-                               WHERE nid = :nid', array(':nid' => $node->nid))
-                     ->fetchField();
+    $place2book_id = db_query('SELECT place2book_id FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $node->nid))->fetchField();
     if ($place2book_id) {
       // Get existing Place2book settings for this node.
       $settings = ding_place2book_settings($node->nid);
@@ -506,10 +499,10 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
     case 'insert':
       $xml = ding_place2book_build_xml($node, $service_settings);
       $options = array(
-                  'method' => 'POST',
-                  'data' => $xml->asXML(),
-                  'headers' => $headers,
-                );
+        'method' => 'POST',
+        'data' => $xml->asXML(),
+        'headers' => $headers,
+      );
       $req_result = drupal_http_request($service_settings['service_url'] . '/create_event', $options);
 
       // Catch insert error by checking the event id.
@@ -537,10 +530,10 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
       // @todo: No content type or API token needed here?
       $headers['X-PLACE2BOOK-EVENT-ID'] = $place2book_id;
       $options = array(
-                  'method' => 'POST',
-                  'data' => $xml->asXML(),
-                  'headers' => $headers,
-                );
+        'method' => 'POST',
+        'data' => $xml->asXML(),
+        'headers' => $headers,
+      );
       $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $options);
 
       // Catch update error by checking the return code.
@@ -562,9 +555,9 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
       $headers['X-PLACE2BOOK-EVENT-ID'] = $place2book_id;
       // @todo: No content type or API token needed here?
       $options = array(
-                  'method' => 'POST',
-                  'headers' => $headers,
-                );
+        'method' => 'POST',
+        'headers' => $headers,
+      );
       $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $options);
 
       if ($req_result->status_message != 'Accepted') {
@@ -900,14 +893,14 @@ function _ding_place2book_db_op($op, $node, $place2book_id = NULL) {
                                                 :passive,
                                                 :ticket_type)',
                                           array(
-                                                ':nid' => $node->nid,
-                                                ':place2book_id' => $place2book_id,
-                                                ':maintain_copy' => $node->place2book['maintain_copy'],
-                                                ':capacity' => $node->capacity,
-                                                ':kultunaut_export' => $node->place2book['kultunaut_export'],
-                                                ':passive' => $node->place2book['passive'],
-                                                ':ticket_type' => $node->ticket_type,
-                                                )
+                                            ':nid' => $node->nid,
+                                            ':place2book_id' => $place2book_id,
+                                            ':maintain_copy' => $node->place2book['maintain_copy'],
+                                            ':capacity' => $node->capacity,
+                                            ':kultunaut_export' => $node->place2book['kultunaut_export'],
+                                            ':passive' => $node->place2book['passive'],
+                                            ':ticket_type' => $node->ticket_type,
+                                          )
       );
       break;
 
@@ -921,25 +914,23 @@ function _ding_place2book_db_op($op, $node, $place2book_id = NULL) {
                     ticket_type = :ticket_type
                 WHERE nid = :nid',
                 array(
-                      ':place2book_id' => $place2book_id,
-                      ':maintain_copy' => $node->place2book['maintain_copy'],
-                      ':capacity' => $node->capacity,
-                      ':kultunaut_export' => $node->place2book['kultunaut_export'],
-                      ':passive' => $node->place2book['passive'],
-                      ':ticket_type' => $node->ticket_type,
-                      ':nid' => $node->nid,
-                     )
+                  ':place2book_id' => $place2book_id,
+                  ':maintain_copy' => $node->place2book['maintain_copy'],
+                  ':capacity' => $node->capacity,
+                  ':kultunaut_export' => $node->place2book['kultunaut_export'],
+                  ':passive' => $node->place2book['passive'],
+                  ':ticket_type' => $node->ticket_type,
+                  ':nid' => $node->nid,
+                )
       );
       break;
 
     case 'delete':
-      db_query('DELETE FROM {ding_place2book}
-                WHERE nid = :nid
-                AND place2book_id = :place2book_id',
+      db_query('DELETE FROM {ding_place2book} WHERE nid = :nid AND place2book_id = :place2book_id',
                 array(
-                      ':nid' => $node->nid,
-                      ':place2book_id' => $place2book_id,
-                     )
+                  ':nid' => $node->nid,
+                  ':place2book_id' => $place2book_id,
+                )
       );
       break;
 
@@ -980,8 +971,6 @@ function place2book_get_api_key($library_id = NULL) {
 
 /**
  * Rendering function for place2book tickets info.
- *
- * @throws \Exception
  */
 function ding_place2book_render_place2book_ticketsinfo($node) {
   $place2book_id = 0;
@@ -1032,9 +1021,9 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
         'X-PLACE2BOOK-EVENT-ID' => $place2book_id,
       );
       $options = array(
-                'method' => 'GET',
-                'headers' => $headers,
-              );
+        'method' => 'GET',
+        'headers' => $headers,
+      );
       $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $options);
 
       // We must have a sales-status header.
