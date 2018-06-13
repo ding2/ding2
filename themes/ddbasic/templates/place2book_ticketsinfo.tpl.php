@@ -32,7 +32,7 @@ switch ($type) {
     break;
 
   case 'order-link':
-    print l(t('Book a ticket'), $url, array('attributes' => array('class' => array('ticket-available', 'button'))));
+    print l(t('Book a ticket'), $url, array('attributes' => array('class' => array('ticket-available', 'button'), 'target' => '_blank')));
     break;
 
   case 'sale-not-started':
