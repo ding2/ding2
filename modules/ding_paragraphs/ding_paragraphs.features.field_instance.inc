@@ -37,7 +37,7 @@ function ding_paragraphs_field_default_field_instances() {
     'entity_type' => 'paragraphs_item',
     'field_name' => 'field_ding_paragraphs_material',
     'label' => 'Materiale',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
@@ -360,7 +360,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     'entity_type' => 'paragraphs_item',
     'field_name' => 'field_ding_paragraphs_material',
     'label' => 'Materiale',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
@@ -441,7 +441,7 @@ The recommended minimum width of this image is 900px to ensure images are not up
     'entity_type' => 'paragraphs_item',
     'field_name' => 'field_ding_paragraphs_single_mat',
     'label' => 'Materiale',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
