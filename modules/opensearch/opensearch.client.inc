@@ -343,6 +343,16 @@ function opensearch_execute(TingClientRequest $request) {
     $request->setParameters($params);
   }
 
+  // Due to the way the entity module is used to handle ting_objects a search
+  // with get all relations is going to be triggered for almost all requests. So
+  // to pre-heat the cache the optimal solution will be to get all relations
+  // within the first search request and predict the next request and put that
+  // result into the cache based on the first result. This will result in an
+  // slower first request but overall a lot fewer request to the data well in
+  // the search pages.
+  $request->setAllRelations(1);
+  $request->setRelationData('full');
+
   // Build cache id for this request.
   $cid = _opensearch_cache_id($request);
 
@@ -445,6 +455,10 @@ function _opensearch_predict_cache($collections, &$opensearch_static_fast) {
     $collection_request->setObjectId($object->id);
     $collection_request->setQuery('*:*');
 
+    // See opensearch_execute() for description of always getting all relations.
+    $collection_request->setAllRelations(1);
+    $collection_request->setRelationData('full');
+
     // Set agency from the administration interface.
     if ($agency = variable_get('ting_agency', FALSE)) {
       $collection_request->setAgency($agency);
@@ -468,6 +482,10 @@ function _opensearch_predict_cache($collections, &$opensearch_static_fast) {
 
     $object_request = opensearch_get_request_factory()->getObjectRequest();
     $object_request->setObjectId($object->id);
+
+    // See opensearch_execute() for description of always getting all relations.
+    $object_request->setAllRelations(1);
+    $object_request->setRelationData('full');
 
     // Set agency from the administration interface.
     if ($agency = variable_get('ting_agency', FALSE)) {
