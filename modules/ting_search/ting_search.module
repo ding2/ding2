@@ -121,6 +121,7 @@ function ting_search_ding_facetbrowser() {
   if ($search_result) {
     $results->facets = $search_result->getFacets();
     $results->searchkey = $search_result->getSearchRequest()->getFullTextQuery();
+    $results->conditions = $search_result->conditions;
     return $results;
   }
 }
@@ -399,6 +400,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
 
       $query = $query->withPage($page + 1)->withCount($results_per_page);
       $search_result = $query->execute();
+      $search_result->conditions = $conditions;
 
       if ($search_result->getNumCollections() > 0) {
         // So we got the total amount of results, but the joker here is that
