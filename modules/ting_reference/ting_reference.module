@@ -500,6 +500,7 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
         '#autocomplete_path' => 'ting_reference/autocomplete/object/js',
         '#description' => t('Enter a query to search for objects or collections to reference'),
         '#default_value' => $ting_object_id,
+        '#required' => $instance['required'],
       );
 
       // Load preview of the entity referenced.
