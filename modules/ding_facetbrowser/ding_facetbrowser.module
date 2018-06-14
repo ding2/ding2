@@ -56,6 +56,7 @@ function ding_facetbrowser_theme() {
       'variables' => array(
         'facets' => NULL,
         'searchkey' => NULL,
+        'conditions' => NULL,
       ),
     ),
     'ding_facetbrowser_settings' => array(
@@ -90,14 +91,138 @@ function ding_facetbrowser_ctools_plugin_api($module, $api) {
 }
 
 /**
- * Create a custom form with checkbox elements for facets and ajax callback
+ * Get the year_span element.
  *
- * @param array $form
- * @param array $form_state
- * @param array $facets
- * @return array $form
+ * @param string $search
+ *   The searchkey.
+ * @param array $conditions
+ *   List of conditions.
+ *
+ * @return array
+ *   A year span form element container.
  */
-function ding_facetbrowser_form($form, &$form_state, $facets = [], $search = FALSE) {
+function _ding_facetbrowser_form_year_span_element($search, array $conditions) {
+  // To get the correct counter for the span, we need to run the
+  // search without the actual date filter on, so the complete dataset
+  // is included.
+  $count_search = array(
+    'run' => FALSE,
+    'conditions' => $conditions,
+    'searchkey' => $search,
+  );
+  $range = array();
+
+  // Remove all facet.date conditions.
+  if (!empty($count_search['conditions']['facets'])) {
+    foreach ($count_search['conditions']['facets'] as $delta => $condition_facet) {
+      if (strpos($condition_facet, 'facet.date:') === 0) {
+        $parts = explode(':', $condition_facet);
+
+        // Set the range to match the year span.
+        if (isset($parts[2])) {
+          switch ($parts[2]) {
+            case '>=';
+              $range[0] = (int) $parts[1];
+              break;
+
+            case '<=';
+              $range[1] = (int) $parts[1];
+              break;
+          }
+        }
+
+        $count_search['run'] = TRUE;
+        unset($count_search['conditions']['facets'][$delta]);
+      }
+    }
+  }
+
+  // Only run the counter, if it's different from the search already
+  // performed.
+  if ($count_search['run'] === TRUE) {
+    $count_search['conditions']['result_id'] = 'ding_facetbrowser_count_search';
+    search_data($count_search['searchkey'], 'ting_search', $count_search['conditions']);
+    $count_search_result = ting_search_current_results($count_search['conditions']['result_id']);
+  }
+  else {
+    $count_search_result = ting_search_current_results(TING_SEARCH_DEFAULT_RESULT_ID);
+  }
+
+  // Set min and max values.
+  $terms = $count_search_result->getFacets()['facet.date']->getTerms();
+  ding_facetbrowser_sort_terms($terms, 'numeric');
+  $min = key($terms);
+  end($terms);
+  $max = key($terms);
+
+  // Set the range (default value).
+  if (empty($range)) {
+    $range = array($min, $max);
+  }
+
+  // Set the year count for all the years.
+  $years = array();
+  foreach ($terms as $year => $term) {
+    $years[$year] = $term->getCount();
+  }
+
+  // Create the year span container, with slider and range indicator.
+  return array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('year-span', 'js-year-span'),
+    ),
+    'slider' => array(
+      '#type' => 'container',
+      '#attributes' => array('class' => array('year-span__slider')),
+    ),
+    'start' => array(
+      '#type' => 'container',
+      '#attributes' => array('class' => array('year-span__start')),
+    ),
+    'counter' => array(
+      '#type' => 'container',
+      '#attributes' => array('class' => array('year-span__counter')),
+    ),
+    'end' => array(
+      '#type' => 'container',
+      '#attributes' => array('class' => array('year-span__end')),
+    ),
+    '#attached' => array(
+      'library' => array(
+        array('system', 'ui.slider'),
+      ),
+      'js' => array(
+        array(
+          'data' => array(
+            'ding_facetbrowser' => array(
+              'year_span' => array(
+                'years' => $years,
+                'range' => $range,
+                'min' => $min,
+                'max' => $max,
+                'uri' => $base_root . _ding_facetbrowser_parse_request_uri(),
+              ),
+            ),
+          ),
+          'type' => 'setting',
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Create a custom form with checkbox elements for facets and ajax callback.
+ *
+ * @param array $facets
+ *   List of facets to process.
+ * @param string $search
+ *   The searchkey.
+ * @param array $conditions
+ *   List of conditions.
+ */
+function ding_facetbrowser_form($form, &$form_state, array $facets = [], $search = '', array $conditions = []) {
   global $base_root;
 
   $default_values = array();
@@ -136,6 +261,14 @@ function ding_facetbrowser_form($form, &$form_state, $facets = [], $search = FAL
             ),
           ),
         );
+
+        switch ($facet->getName()) {
+          case 'facet.date':
+            $form[$facet->getName()]['year_span'] = _ding_facetbrowser_form_year_span_element($search, $conditions);
+
+            // Continue the loop, so we don't include the regular checkboxes.
+            continue 2;
+        }
 
         // Sort the list of terms.
         $terms = $facet->getTerms();
@@ -336,12 +469,10 @@ function _ding_facetbrowser_facet_string($form_state = NULL) {
  *
  * Default theme function for the facet browser.
  */
-function theme_facetbrowser($search_result = array()) {
-  $all_facets = array_shift($search_result);
-  $searchkey = array_shift($search_result);
+function theme_facetbrowser($variables) {
   $elements = array();
-  if (is_array($all_facets)) {
-    $form = drupal_get_form('ding_facetbrowser_form', $all_facets, $searchkey);
+  if (is_array($variables['facets'])) {
+    $form = drupal_get_form('ding_facetbrowser_form', $variables['facets'], $variables['searchkey'], $variables['conditions']);
     $elements[] = drupal_render($form);
   }
   return implode('', $elements);
