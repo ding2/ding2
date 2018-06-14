@@ -27,7 +27,5 @@
  */
 ?>
 <div class="<?php print $paragraph_styles; ?>">
-  <div class="inner">
-    <?php print render($content); ?>
-  </div>
+  <?php print render($content); ?>
 </div>

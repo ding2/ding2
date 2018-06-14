@@ -51,6 +51,47 @@ function ding_paragraphs_field_default_field_instances() {
   );
 
   // Exported field_instance:
+  // 'paragraphs_item-ding_paragraphs_image-field_ding_paragraphs_display'.
+  $field_instances['paragraphs_item-ding_paragraphs_image-field_ding_paragraphs_display'] = array(
+    'bundle' => 'ding_paragraphs_image',
+    'default_value' => array(
+      0 => array(
+        'value' => 'full_width',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+      'paragraphs_editor_preview' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'paragraphs_item',
+    'field_name' => 'field_ding_paragraphs_display',
+    'label' => 'Show as',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 0,
+    ),
+  );
+
+  // Exported field_instance:
   // 'paragraphs_item-ding_paragraphs_image-field_ding_paragraphs_image'.
   $field_instances['paragraphs_item-ding_paragraphs_image-field_ding_paragraphs_image'] = array(
     'bundle' => 'ding_paragraphs_image',
