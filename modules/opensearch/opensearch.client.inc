@@ -350,8 +350,10 @@ function opensearch_execute(TingClientRequest $request) {
   // result into the cache based on the first result. This will result in an
   // slower first request but overall a lot fewer request to the data well in
   // the search pages.
-  $request->setAllRelations(1);
-  $request->setRelationData('full');
+  if ($request instanceof TingClientCollectionRequest || $request instanceof TingClientObjectRequest) {
+    $request->setAllRelations(1);
+    $request->setRelationData('full');
+  }
 
   // Build cache id for this request.
   $cid = _opensearch_cache_id($request);
