@@ -7,7 +7,7 @@
       '.ding-entity-button-other-formats': 'other-formats'
     },
 
-    attach: function (context, settings) {
+    attach: function (context) {
       // Check the context, since behaviors can be attached several times.
       if (context !== document) {
         return;
@@ -53,5 +53,5 @@
       let ajax = new Drupal.ajax(null, document.body, element_settings);
       ajax.eventResponse(ajax, {});
     }
-  }
+  };
 }(jQuery));
