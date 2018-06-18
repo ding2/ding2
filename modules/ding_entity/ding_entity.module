@@ -246,6 +246,10 @@ function ding_entity_field_formatter_view($entity_type, $entity, $field, $instan
     }
   }
 
+  // Allow other modules to alter the content of the entity buttons. This is
+  // e.g. used by digital article service (gold button).
+  drupal_alter('ding_entity_buttons', $element, $entity, $display['type']);
+
   return $element;
 }
 
