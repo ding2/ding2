@@ -658,6 +658,7 @@ function _fbs_patron_info(Patron $patron) {
     'phone_notification' => $patron->receiveSms,
     'mail_notification' => $patron->receiveEmail,
     'preferred_branch' => $patron->preferredPickupBranch,
+    'resident' => $patron->resident,
     'on_hold' => NULL,
     'address' => NULL,
   );
