@@ -72,12 +72,5 @@ function ding_message_update_7001() {
  * Remove all existing messages, so new list ids wont collide.
  */
 function ding_message_update_7002() {
-  $uids = db_select('message', 'm')
-    ->fields('m', array('uid'))
-    ->condition('m.type', 'new_content')
-    ->distinct()
-    ->execute()->fetchCol();
-  foreach ($uids as $uid) {
-    ding_message_purge_messages($uid);
-  }
+  ding_message_purge_messages();
 }
