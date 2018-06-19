@@ -571,12 +571,18 @@ function fbs_form_profile2_phone_validate($element, $form_state) {
   $phone = $form_state['input']['profile_provider_fbs']['field_fbs_phone']['und'][0]['value'];
 
   if (!empty($phone)) {
-    // Preg match for danish phonenumbers
-    // Pass:
-    // (+45) 35 35 35 35 ||| +45 35 35 35 35 ||| 35 35 35 35 ||| 35353535
-    // Fail:
-    // (45)35353535 ||| 4535353535.
-    $re = '/^((\(?\+45\)?)?)(\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2})$/';
+    // Preg match for phonenumbers
+    // Allows for countrycode with, and without parenthesis.
+    // Allows for spaces between numberpairs in number
+    // Allows for / and - in number (used in foreign phonenumbers).
+    // First matching group: ([\(]{0,1}[\+][0-9]{1,3}[ \.\-]?[\)]{0,1})
+    // Matches countrycode (with and without parenthesis)
+    // Second matching group: ([\(]{1}[0-9]{1,6}[\)])
+    // Matches local area codes with upto 5 digits eg. (089)
+    // Third matching group: ([0-9 \.\-\/]{3,20})((x|ext|extension)[ ]?[0-9]{1,4})
+    // Matches main phonenumber - allowes for special characters . - / in number.
+    // Also matches phone extensions.
+    $re = '/^([\(]{0,1}[\+][0-9]{1,3}[ \.\-]?[\)]{0,1})?([\(]{1}[0-9]{1,6}[\)])?([0-9 \.\-\/]{3,20})((x|ext|extension)[ ]?[0-9]{1,4})?$/';
     preg_match_all($re, $phone, $matches, PREG_SET_ORDER, 0);
 
     if (empty($matches)) {
