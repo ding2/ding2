@@ -441,14 +441,15 @@ function opensearch_execute(TingClientRequest $request) {
  *
  * So the cache can be warm-up based on the first TingClientSearchResult object.
  *
- * @param $collections
+ * @param array $collections
  *   The collections found in TingClientSearchResult object.
- * @param $opensearch_static_fast
+ * @param array $opensearch_static_fast
  *   The fast static cache used by opensearch_execute().
  *
  * @throws \TingClientException
+ *   If the search client request fails.
  */
-function _opensearch_predict_cache($collections, &$opensearch_static_fast) {
+function _opensearch_predict_cache(array $collections, array &$opensearch_static_fast) {
   foreach ($collections as $collection) {
     $object = reset($collection->objects);
 
@@ -512,12 +513,12 @@ function _opensearch_predict_cache($collections, &$opensearch_static_fast) {
  *
  * @param TingClientRequest $request
  *   The search request that gives the response.
- * @param $response
+ * @param \TingClientObject|\TingClientObjectCollection|array $response
  *   The response to the request.
- * @param $opensearch_static_fast
+ * @param array $opensearch_static_fast
  *   The fast static cache used by opensearch_execute().
  */
-function _opensearch_cache_insert(TingClientRequest $request, $response, &$opensearch_static_fast) {
+function _opensearch_cache_insert(TingClientRequest $request, $response, array &$opensearch_static_fast) {
   $cid = _opensearch_cache_id($request);
 
   // Update the cache with the raw response object from the data well for
