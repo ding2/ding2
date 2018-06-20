@@ -304,7 +304,7 @@ projects[override_node_options][version] = "1.13"
 
 projects[quiz][subdir] = "contrib"
 projects[quiz][version] = "5.0-rc4"
-projects[quiz][patch][] = "http://storage.easyting.dk/quiz_question_pdo_exception.patch"
+projects[quiz][patch][] = "https://www.drupal.org/files/issues/2018-06-20/quiz-question_pdo_exception_v50-2980495-3-D7.patch"
 
 projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
