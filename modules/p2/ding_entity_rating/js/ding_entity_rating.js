@@ -73,7 +73,6 @@
      * Reset the stars.
      */
     reset: function () {
-      console.log(this, 'reset');
       this.element.removeClass('has-submission')
         .children().removeClass('submitted')
         .filter('.js-default-sub').addClass('submitted');
