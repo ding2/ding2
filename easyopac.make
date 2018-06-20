@@ -550,3 +550,6 @@ projects[thisted_event_import][download][type]   = "git"
 projects[thisted_event_import][download][url]    = "git@github.com:easySuite/thisted_event_import.git"
 ;projects[thisted_event_import][download][tag]    = "7.x-3.1.0"
 projects[thisted_event_import][download][branch] = "development"
+
+; Patches
+projects[quiz][patch][] = "http://storage.easyting.dk/quiz_question_pdo_exception.patch"
