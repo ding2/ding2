@@ -12,7 +12,7 @@ class BookingResponse
     public $result = null;
 
     /**
-     * @var Booking The booking data as returned by the create/update operation
+     * @var Booking|null The booking data as returned by the create/update operation
      */
     public $booking = null;
 

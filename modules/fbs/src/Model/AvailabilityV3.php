@@ -1,0 +1,36 @@
+<?php
+
+namespace FBS\Model;
+
+class AvailabilityV3
+{
+
+    /**
+     * @var string The FAUST number of the Bibliographic record
+     * @required
+     */
+    public $recordId = null;
+
+    /**
+     * @var integer Total number of current active reservations of the Bibliographic
+     * record
+     * @required
+     */
+    public $reservations = null;
+
+    /**
+     * @var boolean True if materials can be reserved
+     * @required
+     */
+    public $reservable = null;
+
+    /**
+     * @var boolean True if materials is available on-shelf at some placement, false if
+     * all materials are lent out
+     * @required
+     */
+    public $available = null;
+
+
+}
+

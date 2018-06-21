@@ -2,7 +2,7 @@
 
 namespace FBS\Model;
 
-class AuthenticatedPatron
+class AuthenticatedPatronV3
 {
 
     /**
@@ -15,7 +15,7 @@ class AuthenticatedPatron
     public $authenticated = null;
 
     /**
-     * @var Patron|null Only available if patron exists in FBS and was succesfully
+     * @var PatronV3|null Only available if patron exists in FBS and was succesfully
      * authenticated.
      */
     public $patron = null;

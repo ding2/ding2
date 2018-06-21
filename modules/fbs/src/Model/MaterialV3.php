@@ -2,7 +2,7 @@
 
 namespace FBS\Model;
 
-class Material
+class MaterialV3
 {
 
     /**
@@ -10,6 +10,12 @@ class Material
      * @required
      */
     public $itemNumber = null;
+
+    /**
+     * @var MaterialGroup Name of the material group that the material belongs to
+     * @required
+     */
+    public $materialGroup = null;
 
     /**
      * @var Periodical|null Present if material is a periodical
@@ -21,12 +27,6 @@ class Material
      * @required
      */
     public $available = null;
-
-    /**
-     * @var string Name of the material group that the material belongs to
-     * @required
-     */
-    public $materialGroupName = null;
 
 
 }

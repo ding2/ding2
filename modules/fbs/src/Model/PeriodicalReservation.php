@@ -6,17 +6,17 @@ class PeriodicalReservation
 {
 
     /**
-     * @var string
+     * @var string|null
      */
     public $volume = null;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $volumeYear = null;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $volumeNumber = null;
 

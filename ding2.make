@@ -493,7 +493,7 @@ libraries[http-message][destination] = "libraries"
 
 libraries[jsonmapper][download][type] = "git"
 libraries[jsonmapper][download][url] = "https://github.com/cweiske/jsonmapper"
-libraries[jsonmapper][download][tag] = "v0.4.4"
+libraries[jsonmapper][download][tag] = "v1.4.0"
 libraries[jsonmapper][destination] = "libraries"
 
 libraries[leaflet][download][type] = "get"

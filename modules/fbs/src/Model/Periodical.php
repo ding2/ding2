@@ -6,12 +6,12 @@ class Periodical
 {
 
     /**
-     * @var string
+     * @var string|null
      */
     public $volume = null;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $volumeYear = null;
 
@@ -23,7 +23,7 @@ class Periodical
     public $displayText = null;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $volumeNumber = null;
 

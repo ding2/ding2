@@ -2,7 +2,7 @@
 
 namespace FBS\Model;
 
-class Patron
+class PatronV3
 {
 
     /**
@@ -13,7 +13,13 @@ class Patron
     /**
      * @var Address|null
      */
-    public $coAddress = null;
+    public $secondaryAddress = null;
+
+    /**
+     * @var string|null Language in which the patron prefers the communication with the
+     * library to take place
+     */
+    public $preferredLanguage = null;
 
     /**
      * @var Address|null
@@ -72,7 +78,7 @@ class Patron
     public $name = null;
 
     /**
-     * @var boolean This field is deprecated and is no longer used
+     * @var boolean 
      * @required
      */
     public $receivePostalMail = null;

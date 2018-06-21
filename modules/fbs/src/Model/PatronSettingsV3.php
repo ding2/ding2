@@ -2,7 +2,7 @@
 
 namespace FBS\Model;
 
-class PatronSettings
+class PatronSettingsV3
 {
 
     /**
@@ -11,6 +11,13 @@ class PatronSettings
      *  If left empty existing email addresses are deleted
      */
     public $emailAddress = null;
+
+    /**
+     * @var string|null Language in which the patron prefers the communication with the
+     * library to take place
+     *  If left empty default library language will be used
+     */
+    public $preferredLanguage = null;
 
     /**
      * @var string|null Required if patron should receive SMS notifications
@@ -37,7 +44,7 @@ class PatronSettings
     public $receiveEmail = null;
 
     /**
-     * @var boolean This field is deprecated and is no longer used
+     * @var boolean 
      * @required
      */
     public $receivePostalMail = null;

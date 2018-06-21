@@ -91,7 +91,12 @@ function fbs_availability_holdings($provider_ids) {
       // Add material description.
       $material_description = $item_holding->materials;
       if (variable_get('fbs_show_material_group', 0) && $material_description[0]) {
-        $result_holding['placement'][] = $material_description[0]->materialGroupName;
+        if (variable_get('fbs_material_group_type') == 'name') {
+          $result_holding['placement'][] = $material_description[0]->materialGroup->name;
+        }
+        elseif (variable_get('fbs_material_group_type') == 'description') {
+          $result_holding['placement'][] = $material_description[0]->materialGroup->description;
+        }
       }
 
       module_load_include('client.inc', 'opensearch');

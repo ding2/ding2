@@ -6,42 +6,42 @@ class ILLBibliographicRecord
 {
 
     /**
-     * @var string The author of the material
+     * @var string|null The author of the material
      */
     public $author = null;
 
     /**
-     * @var string ISBN-information from the bibliographic record
+     * @var string|null ISBN-information from the bibliographic record
      */
     public $isbn = null;
 
     /**
-     * @var string Issue number of a periodical
+     * @var string|null Issue number of a periodical
      */
     public $periodicalNumber = null;
 
     /**
-     * @var string Edition-information from the bibliographic record
+     * @var string|null Edition-information from the bibliographic record
      */
     public $edition = null;
 
     /**
-     * @var string Language of the requested material.
+     * @var string|null Language of the requested material.
      */
     public $language = null;
 
     /**
-     * @var string Bibliographic category from danMARC2 008 *t
+     * @var string|null Bibliographic category from danMARC2 008 *t
      */
     public $bibliographicCategory = null;
 
     /**
-     * @var string The title of the material
+     * @var string|null The title of the material
      */
     public $title = null;
 
     /**
-     * @var string Publication date of an item component, or article.
+     * @var string|null Publication date of an item component, or article.
      */
     public $publicationDateOfComponent = null;
 
@@ -52,12 +52,12 @@ class ILLBibliographicRecord
     public $recordId = null;
 
     /**
-     * @var string ISSN-information from the bibliographic record
+     * @var string|null ISSN-information from the bibliographic record
      */
     public $issn = null;
 
     /**
-     * @var string
+     * @var string|null
      */
     public $placeOfPublication = null;
 
@@ -69,17 +69,17 @@ class ILLBibliographicRecord
     public $mediumType = null;
 
     /**
-     * @var string Volume name of a periodical
+     * @var string|null Volume name of a periodical
      */
     public $periodicalVolume = null;
 
     /**
-     * @var string Publisher of the requested material.
+     * @var string|null Publisher of the requested material.
      */
     public $publisher = null;
 
     /**
-     * @var string Publication date of the requested material.
+     * @var string|null Publication date of the requested material.
      */
     public $publicationDate = null;
 

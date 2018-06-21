@@ -53,7 +53,7 @@ function fbs_libraries_info() {
       'name' => 'JsonMapper',
       'vendor url' => 'https://github.com/cweiske/jsonmapper',
       'download url' => 'https://github.com/cweiske/jsonmapper',
-      'version' => 'v0.4.4',
+      'version' => 'v1.4.0',
       'xautoload' => function ($adapter) {
         $adapter->addClassMap(
         // Would like to:
@@ -620,10 +620,30 @@ function fbs_form_ding_availability_admin_holdings_settings_alter(&$form, &$form
     '#title' => t('Holdings levels display'),
     '#description' => t('Configure holdings display modes.'),
   );
-  $form['holdings']['fbs_show_material_group'] = array(
+  $form['holdings']['material_group'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Material group display'),
+    '#description' => t('Configure Material group display'),
+  );
+  $form['holdings']['material_group']['fbs_show_material_group'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Show material group description'),
+    '#title' => t('Show material group in holdings'),
     '#default_value' => variable_get('fbs_show_material_group', 0),
+  );
+  $form['holdings']['material_group']['fbs_material_group_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Material group'),
+    '#description' => t('Select whether to show material group description or name'),
+    '#default_value' => variable_get('fbs_material_group_type', 'name'),
+    '#options' => array(
+      'name' => t('Name'),
+      'description' => t('Description'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="fbs_show_material_group"]' => array('checked' => TRUE),
+      ),
+    ),
   );
   $form['holdings']['fbs_holdings_suffix_type'] = array(
     '#type' => 'radios',

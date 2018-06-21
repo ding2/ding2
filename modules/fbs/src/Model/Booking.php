@@ -18,7 +18,7 @@ class Booking
     public $preferredMaterials = null;
 
     /**
-     * @var string Additional information about this booking
+     * @var string|null Additional information about this booking
      */
     public $note = null;
 

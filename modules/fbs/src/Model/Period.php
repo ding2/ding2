@@ -6,12 +6,12 @@ class Period
 {
 
     /**
-     * @var string Open-ended if not set
+     * @var string|null Open-ended if not set
      */
     public $from = null;
 
     /**
-     * @var string Open-ended if not set
+     * @var string|null Open-ended if not set
      */
     public $to = null;
 
