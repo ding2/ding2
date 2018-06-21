@@ -36,8 +36,8 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
   }
 
   $terms = $facets['facet.genreCategory']->getTerms();
-  $nonfiction = $terms['nonfiktion']->getCount();
-  $fiction = $terms['fiktion']->getCount();
+  $nonfiction = isset($terms['nonfiktion']) ? $terms['nonfiktion']->getCount() : 0;
+  $fiction = isset($terms['fiktion']) ? $terms['fiktion']->getCount() : 0;
 
   // Less than half fiction of nonfiction.
   if (($nonfiction / variable_get('ting_subsearch_translate_factor', 2)) > $fiction) {
