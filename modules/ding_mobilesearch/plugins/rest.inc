@@ -183,7 +183,7 @@ function ding_mobilesearch_rest_config_form_validate($form, &$form_state) {
  */
 function ding_mobilesearch_rest_node_form(&$form, &$form_state) {
   $types = _ding_mobilesearch_types();
-  if (in_array($form['type']['#value'], array_keys($types), TRUE)) {
+  if (array_key_exists($form['type']['#value'], $types)) {
     foreach ($form['actions'] as &$submit_button) {
       if (!isset($submit_button['#submit']) || !is_array($submit_button['#submit'])) {
         continue;
@@ -193,7 +193,6 @@ function ding_mobilesearch_rest_node_form(&$form, &$form_state) {
         $submit_button['#submit'][] = 'ding_mobilesearch_rest_node_submit';
       }
     }
-//    $form['actions']['submit']['#submit'][] = 'ding_mobilesearch_rest_node_submit';
   }
 }
 
