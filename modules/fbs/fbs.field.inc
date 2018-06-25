@@ -178,7 +178,7 @@ function fbs_field_widget_form(&$form, &$form_state, $field, $instance, $langcod
       foreach ($fields as $key => $title) {
         $default_value = '';
         if (!empty($items[$delta][$key])) {
-          $date = new DateObject("@" . $items[$delta][$key]);
+          $date = new DateObject($items[$delta][$key]);
           $default_value = $date->format(DATE_FORMAT_DATETIME);
         }
         $element[$key] = array(
@@ -245,7 +245,7 @@ function fbs_field_property_callback(&$info, $entity_type, $field, $instance, $f
       unset($property['setter callback']);
       break;
   }
-  
+
   unset($property['query callback']);
 }
 
