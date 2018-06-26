@@ -1102,6 +1102,23 @@ function ding_user_save_creds($auth_res) {
 }
 
 /**
+ * Get a unique id from the provider.
+ */
+function ding_user_provider_id($account = NULL) {
+  global $user;
+
+  if ($account === NULL) {
+    $accout = $user;
+  }
+
+  if (ding_provider_implements('user', 'get_provider_id')) {
+    return ding_provider_invoke('user', 'get_provider_id', $account);
+  }
+
+  return NULL;
+}
+
+/**
  * Returns user login name of the current user, if available.
  *
  * Checks if provider has a get_name function, or has set name in creds.
