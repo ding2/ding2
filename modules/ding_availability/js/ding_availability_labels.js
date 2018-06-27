@@ -197,6 +197,11 @@
           }
         });
       }
+      else {
+        // No id's was added by the backend to fetch availability for. There may not be any entities or the current
+        // provider do not support availability for the material type. So clean up the pending labels.
+        ding_availability_labels_remove_pending();
+      }
     }
   };
 })(jQuery);
