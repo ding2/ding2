@@ -376,6 +376,9 @@ projects[search_api_multi][patch][] = "https://www.drupal.org/files/issues/25809
 projects[search_api_db][subdir] = "contrib"
 projects[search_api_db][version] = "1.5"
 
+projects[search_api_autocomplete][subdir] = "contrib"
+projects[search_api_autocomplete][version] = "1.5"
+
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
 

@@ -309,6 +309,13 @@ function ding_event_views_pre_build(&$view) {
 function ding_event_form_views_exposed_form_alter(&$form, &$form_state) {
   if ($form_state['view']->name == 'ding_event' && $form_state['view']->current_display == 'ding_event_list') {
 
+    // Enable Search API Autocomplete support fot custom search field.
+    $search = search_api_autocomplete_search_load('search_api_views_ding_multiple_search');
+    if ($search && $search->enabled) {
+      // Add autocomplete feature.
+      $search->alterElement($form['title']);
+    }
+
     // Add placeholder to title field.
     if (!empty($form['title'])) {
       $form['title']['#attributes']['placeholder'] = t('Search for an event');
