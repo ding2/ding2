@@ -36,7 +36,6 @@ function ting_subsearch_translate_form_ting_search_admin_settings_alter(&$form, 
   $form['subsearch_settings']['subsearch_translate']['#tree'] = FALSE;
   $form['subsearch_settings']['subsearch_translate']['#description'] = t('With translated subsearch you get the option for translated keys when the challenge is passed.');
 
-
   $form['subsearch_settings']['subsearch_translate']['ting_subsearch_translate_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Google translation service url'),

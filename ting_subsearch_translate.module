@@ -43,7 +43,7 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
   $percent = 100 - (($fiction / $nonfiction) * 100);
   if ((variable_get('ting_subsearch_translate_factor', 50)) < $percent) {
     $translated_keys = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_translate_suggest_translated_keys');
-    if (strtolower($translated_keys) == strtolower($results->getSearchRequest()->getFullTextQuery())) {
+    if (drupal_strtolower($translated_keys) == drupal_strtolower($results->getSearchRequest()->getFullTextQuery())) {
       // The two search are the same. So no need to do extra search query.
       return $message;
     }
@@ -53,7 +53,7 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
     $limit = variable_get('ting_subsearch_translate_min_hits', 0);
     if (!empty($num_total_objects) && ($limit == 0 || $num_total_objects >= $limit)) {
       $msg = t('The search for "!keys" gave !num-results hits. If you search for the English translation "!suggested-keys-link" you will get !suggested-num-results hits.', array(
-        '!suggested-keys-link' => l(strtolower($translated_keys), '/search/ting/'  . strtolower($translated_keys) ),
+        '!suggested-keys-link' => l(drupal_strtolower($translated_keys), '/search/ting/' . drupal_strtolower($translated_keys)),
         '!suggested-num-results' => $num_total_objects,
         '!keys' => $keys,
         '!num-results' => $results->getNumTotalObjects(),
