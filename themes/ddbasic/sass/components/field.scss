@@ -305,22 +305,6 @@ div.search-field-in-content--message {
 // Ting reference
 // ==========================================================================
 .ting-reference-item {
-  width: 260px;
-  margin-right: 28px;
-  text-align: left;
-
-  // Tablet
-  @include media($tablet) {
-    width: 218px;
-    margin-right: 18px;
-  }
-
-  // Mobile
-  @include media($mobile) {
-    width: 218px;
-    margin-right: 18px;
-  }
-
   .placeholder {
     @include linear-gradient(to top, $grey-light 30px, $grey-medium 100%);
     min-height: 336px;
