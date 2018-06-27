@@ -278,3 +278,32 @@ function ting_openlist_handler_delete_list(DingList $list) {
   ), array('use_cache' => FALSE));
   ting_openlist_cache_clear_list($list);
 }
+
+/**
+ * Get list elements.
+ *
+ * @param \DingList\DingList $list
+ *   The list.
+ * @param int $offset
+ *   Start position.
+ * @param int $count
+ *   Number of elements to retrieve.
+ *
+ * @return DingList\DingListElement[]
+ *   The elements.
+ */
+function ting_openlist_handler_get_list_elements(DingList $list, $offset, $count) {
+  $elements = ting_openlist_request('getListElements', array(
+    'list_id' => $list->getId(),
+    'offset' => $offset,
+    'count' => $count,
+  ), array('cache_prefix' => 'l' . $list->getId()));
+
+  $result = array();
+
+  foreach ($elements as $element_data) {
+    $result[] = DingListElement::fromDataArray($element_data);
+  }
+
+  return $result;
+}

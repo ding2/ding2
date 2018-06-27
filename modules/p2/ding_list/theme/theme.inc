@@ -5,6 +5,8 @@
  * Theme and preprocess files.
  */
 
+use DingList\DingList;
+
 /**
  * Ding list message theme.
  */
@@ -211,10 +213,14 @@ function template_preprocess_ding_list_list(&$variables) {
         'ding-list-list__element-delta'
       );
 
-      if (!empty($list->getElements())) {
+      $total = $list->getElementCount();
+      if ($total > 0) {
+        $elements_per_page = DingList::PRELOADED_ELEMENTS;
+        $current_page = pager_default_initialize($total, $elements_per_page);
+
         $drag_delta = 0;
-        foreach ($list->getElements() as $element_id => $element) {
-          $variables['content']['elements']['#rows'][$element_id] = array(
+        foreach ($list->getElements($current_page * $elements_per_page, $elements_per_page) as $element) {
+          $variables['content']['elements']['#rows'][$element->getId()] = array(
             'data' => array(
               array(
                 'data' => array(
@@ -229,9 +235,13 @@ function template_preprocess_ding_list_list(&$variables) {
               ),
             ),
             'class' => array('draggable'),
-            'data-element-id' => $element_id,
+            'data-element-id' => $element->getId(),
           );
         }
+
+        $variables['content']['pager'] = array(
+          '#theme' => 'pager',
+        );
       }
       else {
         $variables['content']['elements']['#markup'] = t('No elements in this list.');
