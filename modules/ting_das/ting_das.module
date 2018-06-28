@@ -1,0 +1,407 @@
+<?php
+
+/**
+ * @file
+ * Handle the integration of digital article service (DAS) into the CMS.
+ */
+
+/**
+ * Implements hook_das_menu().
+ */
+function ting_das_menu() {
+  $items = array();
+
+  $items['admin/config/ting/das'] = array(
+    'title' => 'Digital article service',
+    'description' => 'Configure access to DAS.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_das_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'includes/ting_das.admin.inc',
+  );
+
+  $items['das/%ting_object/order'] = array(
+    'page callback' => 'ting_das_ajax',
+    'page arguments' => array(1),
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => array('perform das request'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ting_das_permission() {
+  return array(
+    'perform das request' => array(
+      'title' => t('Perform request for Digital Article copy'),
+      'description' => t('Perform request to KB digital article service.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_libraries_info().
+ *
+ * For defining external libraries.
+ */
+function ting_das_libraries_info() {
+  return array(
+    'guzzle' => array(
+      'name' => 'Guzzle',
+      'vendor url' => 'https://github.com/guzzle/guzzle',
+      'download url' => 'https://github.com/guzzle/guzzle',
+      'version' => '6.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+  );
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ting_das_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default', $buttons = array()) {
+  if (_ting_das_show_button($type, $entity, $buttons)) {
+    switch ($widget) {
+      case 'ajax':
+        drupal_add_library('system', 'drupal.ajax');
+
+        $display_button = TRUE;
+        if (user_is_logged_in()) {
+          try {
+            $creds = ding_user_get_creds();
+            $display_button = isset($creds['resident']) && $creds['resident'];
+          }
+          catch (DingProviderAuthException $exception) {
+            // This is okay as the use simply was not logged in as an provider
+            // user. So do noting in this case.
+          }
+        }
+
+        if ($display_button) {
+          return array(
+            array(
+              '#theme' => 'link',
+              '#text' => t('Order digital copy'),
+              '#path' => 'das/' . $entity->id . '/order',
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
+                    'action-button',
+                    'button-see-online',
+                    'use-ajax',
+                  ),
+                  'id' => 'das-order-' . $entity->id,
+                  'onclick' => 'wt.sendinfo({ linkId: "open_order_digital_copy" });'
+                ),
+                'html' => FALSE,
+              ),
+              '#attached' => array(
+                'css' => array(
+                  drupal_get_path('module', 'ting_das') . '/css/ting_das.css',
+                ),
+              ),
+            ),
+          );
+        }
+        break;
+    }
+  }
+}
+
+/**
+ * Entity button ajax callback handler.
+ *
+ * @param $entity
+ *   The entity that the order is about.
+ *
+ * @return array
+ *   Ajax commands based on the current state and the entity given.
+ */
+function ting_das_ajax($entity) {
+  $commands = array();
+
+  // Check if the logged in user is a library user.
+  global $user;
+  if (!user_is_logged_in()) {
+    $commands[] = ajax_command_ding_user_authenticate('');
+  }
+  elseif (!ding_user_is_provider_user($user)) {
+    // Error not library user.
+    $commands[] = ajax_command_ding_popup('ting_das', t('Error'), '<p>' . t('Only library user can make DAS requests.') . '</p>', array('refresh' => FALSE));
+  }
+  elseif (!(is_object($entity) && $entity instanceof TingEntity)) {
+    // Error not ting entity.
+    $commands[] = ajax_command_ding_popup('ting_das', t('Error'), '<p>' . t('Unable to load information about the material.') . '</p>', array('refresh' => FALSE));
+  }
+  else {
+    $form = drupal_get_form('ting_das_order_form', $entity);
+    $content = drupal_render($form);
+    $commands[] = ajax_command_ding_popup('ting_das', t('Order digital copy'), $content, array('refresh' => TRUE));
+  }
+
+  // Return the ajax commands as an render array.
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Implements hook_form().
+ *
+ * Defines the place order form.
+ */
+function ting_das_order_form($form_id, &$form_state, TingEntity $entity) {
+  $form = array(
+    '#attributes' => array(
+      'class' => array(
+        'digital-order-form',
+      ),
+    ),
+  );
+
+  global $user;
+  $provider = _ding_provider_get_provider('user');
+  $profile = ding_user_provider_profile($user);
+  if ($profile) {
+    $profile = entity_metadata_wrapper('profile2', $profile);
+  }
+
+  $texts = variable_get('ting_das_text', array());
+  $creds = ding_user_get_creds();
+
+  if (isset($creds['resident']) && $creds['resident']) {
+    $form['title'] = array(
+      '#markup' => '<div class="popupbar-title"><strong>' . t('Fill out the form to order at digital copy') . '</strong></div>',
+    );
+
+    $form['description'] = array(
+      '#prefix' => '<div class="form-item form-type-markup description">',
+      '#markup' => check_markup($texts['description']['value'], $texts['description']['format']),
+      '#suffix' => '</div>',
+    );
+
+    $form['entity'] = array(
+      '#tree' => TRUE,
+    );
+
+    $form['entity']['pid'] = array(
+      '#type' => 'value',
+      '#value' => $entity->getId(),
+    );
+
+    $form['entity']['title'] = array(
+      '#type' => 'value',
+      '#value' => $entity->getTitle(),
+    );
+
+    $form['loaner_id'] = array(
+      '#type' => 'value',
+      '#value' => $creds['library_card_number'],
+    );
+
+    $form['name'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Name'),
+      '#default_value' => $profile ? $profile->{'field_' . $provider['module'] . '_name'}->value() : '',
+      '#required' => TRUE,
+    );
+
+    $form['mail'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Mail address'),
+      '#default_value' => $profile ? $profile->{'field_' . $provider['module'] . '_mail'}->value() : '',
+      '#element_validate' => array(
+        'ting_das_mail_validate',
+      ),
+      '#required' => TRUE,
+    );
+
+    $function = $provider['module'] . '_user_branches';
+    $preferred_branch = $profile ? $profile->{'field_' . $provider['module'] . '_preferred_branch'}->value() : '';
+    $form += ding_reservation_default_options_branch('fbs_preferred_branch', $preferred_branch, $function($user));
+
+    $default_interest_period = ding_provider_invoke('reservation', 'default_interest_period');
+    $form += ding_reservation_interest_period_selector('interest_period', $default_interest_period, _ting_das_get_interest_periods());
+
+    if (isset($texts['gdpr'])) {
+      $form['gdpr'] = array(
+        '#prefix' => '<div class="form-item form-type-markup gdpr-text">',
+        '#markup' => check_markup($texts['gdpr']['value'], $texts['gdpr']['format']),
+        '#suffix' => '</div>',
+      );
+    }
+
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#submit' => array('ting_das_order_form_submit'),
+      '#ajax' => array(
+        'callback' => 'ting_das_order_form_ajax_callback',
+      ),
+      '#value' => t('Order digital copy'),
+      '#attributes' => array(
+        'onclick' => 'wt.sendinfo({ linkId: "order_digital_copy" });',
+      ),
+    );
+  }
+  else {
+    $form['title'] = array(
+      '#markup' => '<div class="popupbar-title"><strong>' . t('Not resident in the municipality') . '</strong></div>',
+    );
+
+    $form['description'] = array(
+      '#prefix' => '<div class="form-item form-type-markup description">',
+      '#markup' => t('Only resident in the municipality is allowed to order digital copies.'),
+      '#suffix' => '</div>',
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Mail validation.
+ */
+function ting_das_mail_validate($element, $form_state) {
+  $email = $element['#value'];
+  if (!empty($email)) {
+    if (!ding_base_validate_email($email)) {
+      form_set_error($element['#name'], t('Please fill in a valid email'));
+    }
+  }
+}
+
+/**
+ * Submit handler for the order form.
+ */
+function ting_das_order_form_submit($form, &$form_state) {
+
+}
+
+/**
+ * Ajax callback for the order copy form.
+ */
+function ting_das_order_form_ajax_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  if (is_null(form_get_errors())) {
+    $values = $form_state['values'];
+    $client = _ting_das_get_client();
+
+    $client->setUserName($values['name']);
+    $client->setUserMail($values['mail']);
+    $client->setUserLoanerId($values['loaner_id']);
+    $client->setUserInterestDate($values['interest_period']);
+    $client->setPickupAgencyId($values['fbs_preferred_branch']);
+    $client->setAgencyId(variable_get('ting_agency', ''));
+
+    $client->setPid($values['entity']['pid']);
+    $status = $client->send();
+
+    if ($status) {
+      $html = theme('status_messages') . t('Your order have been placed.');
+      $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Success'), $html, array('refresh' => FALSE));
+    }
+    else {
+      $html = theme('status_messages') . t('Your order failed. Please try again.');
+      $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Error'), $html, array('refresh' => FALSE));
+    }
+  }
+  else {
+    unset($form['user_login_container']['close']);
+    $html = theme('status_messages') . drupal_render($form);
+    $response['#commands'][] = ajax_command_ding_popup('ting_das', t('Order digital copy'), $html, array('refresh' => TRUE));
+  }
+
+  return $response;
+}
+
+/**
+ * Get DAS client.
+ *
+ * @return \TingDasCopyRequest
+ *   Client to communicate with the service.
+ */
+function _ting_das_get_client() {
+  static $client;
+
+  if (!isset($client)) {
+    module_load_include('inc', 'ting_das', 'includes/ting_das.clint');
+    $config = variable_get('ting_das', FALSE);
+    if (is_array($config)) {
+      $client = new TingDasCopyRequest($config['url'], $config['username'], $config['password']);
+    }
+    else {
+      watchdog('ting_das', 'The ting_das module is missing its configuration', NULL, WATCHDOG_ERROR);
+    }
+  }
+
+  return $client;
+}
+
+/**
+ * Check if the "order" button should be shown.
+ *
+ * @param $type
+ *   The entity type.
+ * @param \TingEntity $entity
+ *   The TingEntity that should or should not have the "order" button shown.
+ * @param array $buttons
+ *   The buttons already added by other modules.
+ *
+ * @return bool
+ *   TRUE if it should be shown else FALSE.
+ */
+function _ting_das_show_button($type, TingEntity $entity, $buttons) {
+  $types = array_filter(_ting_das_get_default_well_types());
+  if ($type == 'ding_entity' && in_array(drupal_strtolower($entity->getType()), $types)) {
+    foreach ($buttons as $button) {
+      if (!empty($button) && isset($button[0]['#markup']) && strpos($button[0]['#markup'], 'button-see-online') !== FALSE) {
+        return FALSE;
+      }
+    }
+
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Get the default material types that can be ordered in DAS.
+ *
+ * @return string[]
+ *   The types
+ */
+function _ting_das_get_default_well_types() {
+  return variable_get('ting_das_data_well_types', array(
+    'tidsskriftsartikel',
+  ));
+}
+
+/**
+ * Get interest periods options for orders placed in DAS.
+ *
+ * @return array
+ *   The interest periods index by days and formatted as months.
+ */
+function _ting_das_get_interest_periods() {
+  $periods = array(
+    1 => 30,
+    2 => 60,
+    3 => 90,
+    6 => 180,
+    12 => 360,
+  );
+  $options = array();
+  foreach ($periods as $months => $days) {
+    $options[$days] = format_plural($months, '1 month', '@count months');
+  }
+
+  return $options;
+}

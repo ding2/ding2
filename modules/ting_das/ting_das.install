@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Handle the modules basic configuration.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ting_das_uninstall() {
+  variable_del('ting_das');
+}
