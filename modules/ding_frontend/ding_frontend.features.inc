@@ -1031,6 +1031,30 @@ function ding_frontend_image_default_styles() {
 }
 
 /**
+ * Implements hook_default_search_api_autocomplete_search().
+ */
+function ding_frontend_default_search_api_autocomplete_search() {
+  $items = array();
+  $items['search_api_views_ding_multiple_search'] = entity_import('search_api_autocomplete_search', '{
+    "machine_name" : "search_api_views_ding_multiple_search",
+    "name" : "Ding multiple search",
+    "index_id" : "default_multiple_index",
+    "suggester_id" : "server",
+    "type" : "search_api_views",
+    "enabled" : "1",
+    "options" : {
+      "suggester_configuration" : { "fields" : [ "node:title" ] },
+      "min_length" : "1",
+      "results" : 0,
+      "custom" : { "display" : "default" },
+      "submit_button_selector" : ":submit",
+      "autosubmit" : 1
+    }
+  }');
+  return $items;
+}
+
+/**
  * Implements hook_default_search_api_index().
  */
 function ding_frontend_default_search_api_index() {
