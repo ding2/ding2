@@ -49,6 +49,7 @@ function ding_mobilesearch_uninstall() {
   }
   variable_del('mobilesearch_rest_url');
   variable_del('mobilesearch_rest_debug');
+  variable_del('mobilesearch_rest_agency_id');
   variable_del('mobilesearch_rest_key');
 }
 
