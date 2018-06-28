@@ -148,7 +148,6 @@ function ding_mobilesearch_rest_config_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Agency ID'),
     '#default_value' => variable_get('mobilesearch_rest_agency_id', $ting_agency),
-    '#attributes' => array('disabled' => TRUE),
     '#required' => TRUE,
   );
   $form['mobilesearch_rest_key'] = array(
