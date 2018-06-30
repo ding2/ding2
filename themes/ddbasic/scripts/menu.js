@@ -44,7 +44,7 @@
           close_user_login = $('.close-user-login', context),
           mobile_menu_btn = $('a.topbar-link-menu', context),
           search_btn = $('a.topbar-link-search', context),
-          search_extended_btn = $('a.search-extended-button', context),
+          search_extended_btn = $('a.search-extended-form-button', context),
           first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a', context),
           second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a', context),
           body = $('body');
@@ -52,7 +52,7 @@
       mobile_menu_btn.on('click', function(evt){
         evt.preventDefault();
         body.toggleClass('mobile-menu-is-open');
-        body.removeClass('mobile-search-is-open pane-login-is-open mobile-usermenu-is-open');
+        body.removeClass('search-form-is-open-mobile pane-login-is-open usermenu-is-open-mobile');
         body.toggleClass('overlay-is-active');
         if(body.hasClass('mobile-menu-is-open')) {
           body.addClass('overlay-is-active');
@@ -63,9 +63,9 @@
 
       search_btn.on('click', function(evt){
         evt.preventDefault();
-        body.toggleClass('mobile-search-is-open');
-        body.removeClass('mobile-menu-is-open pane-login-is-open mobile-usermenu-is-open');
-        if(body.hasClass('mobile-search-is-open')) {
+        body.toggleClass('search-form-is-open-mobile');
+        body.removeClass('mobile-menu-is-open pane-login-is-open usermenu-is-open-mobile');
+        if(body.hasClass('search-form-is-open-mobile')) {
           body.addClass('overlay-is-active');
         } else {
           body.removeClass('overlay-is-active');
@@ -103,7 +103,7 @@
 
       search_extended_btn.on('click', function(evt) {
         evt.preventDefault();
-        body.toggleClass('extended-search-is-open');
+        body.toggleClass('search-form-is-open');
       });
 
       // Tablet/mobile menu logout

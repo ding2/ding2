@@ -22,12 +22,6 @@ body {
   color: $color-standard-text;
 }
 
-// Move content down when toolbar is enabled.
-// Why do we need to do that for toolbar and not for admin_menu?
-body.toolbar {
-  margin-top: $toolbar-height * 2;
-}
-
 body {
   @include transition(background-color $speed $ease);
   padding-top: $header-height; // Compensate for fixed header
@@ -48,8 +42,8 @@ body {
     }
   }
   // When search form is extended
-  &.search-form-extended.page-search,
-  &.search-form-extended.front {
+  &.search-form-is-extended.page-search,
+  &.search-form-is-extended.front {
     padding-top: $header-height + $search-form-extended-height; // Compensate for fixed header
     // Tablet
     @include media($tablet) {

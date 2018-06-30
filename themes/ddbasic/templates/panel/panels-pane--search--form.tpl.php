@@ -18,8 +18,8 @@
  *   data including the contexts and all of the other panes being displayed.
  */
 ?>
-<section class="search js-topbar-search <?php print $classes; ?>">
-  <div class="search-field-wrapper">
+<section class="search js-site-header-search-form site-header-search-form <?php print $classes; ?>">
+  <div class="site-header-search-form-search-field-wrapper">
     <?php if ($admin_links): ?>
       <?php print $admin_links; ?>
     <?php endif; ?>

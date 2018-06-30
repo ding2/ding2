@@ -30,19 +30,23 @@ function ddbasic_preprocess_html(&$vars) {
 
   // Search form style.
   switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
+    case TING_SEARCH_FORM_STYLE_NORMAL:
+      $vars['classes_array'][] = 'search-form-is-default';
+      break;
     case TING_SEARCH_FORM_STYLE_EXTENDED:
-      $vars['classes_array'][] = 'search-form-extended';
+      $vars['classes_array'][] = 'search-form-is-extended';
       $vars['classes_array'][] = 'show-secondary-menu';
 
-      if (menu_get_item()['path'] === 'search/ting/%') {
-        $vars['classes_array'][] = 'extended-search-is-open';
+      if (menu_get_item()['path'] === 'search/ting/%' || menu_get_item()['path'] === 'ding_frontpage') {
+        $vars['classes_array'][] = 'search-form-is-open';
+        $vars['classes_array'][] = 'search-form-is-always-visible';
       }
       break;
   }
 
   switch (variable_get('ting_field_search_search_style')) {
     case 'extended_with_profiles':
-      $vars['classes_array'][] = 'search-form-extended-with-profiles';
+      $vars['classes_array'][] = 'search-form-is-extended-with-profiles';
       break;
   }
 
@@ -180,7 +184,7 @@ function ddbasic_menu_tree__menu_block__2($vars) {
  * Implements theme_menu_tree().
  */
 function ddbasic_menu_tree__menu_tabs_menu($vars) {
-  return '<ul class="topbar-menu">' . $vars['tree'] . '</ul>';
+  return '<ul class="site-header-topbar-menu">' . $vars['tree'] . '</ul>';
 }
 
 /**

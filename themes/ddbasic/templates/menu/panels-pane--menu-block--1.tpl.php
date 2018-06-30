@@ -18,7 +18,7 @@
  *   data including the contexts and all of the other panes being displayed.
  */
 ?>
-<div class="main-menu-wrapper <?php print $classes; ?>" <?php print $id; ?>>
+<div class="site-header-navigation-main-menu <?php print $classes; ?>" <?php print $id; ?>>
   <?php if ($admin_links): ?>
     <?php print $admin_links; ?>
   <?php endif; ?>

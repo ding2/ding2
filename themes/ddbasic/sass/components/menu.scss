@@ -12,7 +12,7 @@ ul {
   &.main-menu-second-level,
   &.main-menu-third-level,
   &.secondary-menu,
-  &.topbar-menu {
+  &.site-header-topbar-menu {
     padding: 0;
     margin-bottom: 0;
     li {
@@ -66,7 +66,7 @@ ul {
 // ==========================================================================
 // Main menu
 // ==========================================================================
-.main-menu-wrapper {
+.site-header-navigation-main-menu {
   > ul.main-menu {
     @include font('display-small');
 
@@ -305,7 +305,7 @@ ul.secondary-menu {
 // ==========================================================================
 // Top menu
 // ==========================================================================
-ul.topbar-menu {
+ul.site-header-topbar-menu {
   @include span-columns(5);
   @include omega;
   float: right;
@@ -405,13 +405,13 @@ ul.topbar-menu {
 
       // Tablet
       @include media($tablet) {
-        @include span-columns(3);
+        width: 180px;
         margin-left: 0;
       }
 
       // Mobile
       @include media($mobile) {
-        @include span-columns(6);
+        width: 156px;
       }
     }
     &.topbar-link-opening-hours {
@@ -440,9 +440,9 @@ ul.topbar-menu {
 }
 
 // ==========================================================================
-// User menu in Header wrapper
+// User menu in site header search and user menu
 // ==========================================================================
-.header-wrapper .navigation-inner {
+.site-header-search-and-user-menu {
   ul.main-menu-third-level {
     //Mouseover style
     display: none;
@@ -451,12 +451,9 @@ ul.topbar-menu {
     border-radius: $round-corner;
     background-color: $white;
     box-shadow: $box-shadow;
-    top: 71px;
+    top: 7px;
     margin-top: 8px;
     padding: 10px 20px;
-    .toolbar & {
-      top: 71px + $toolbar-height;
-    }
     &::before {
       @include transform(rotate(-45deg));
       width: 18px;
@@ -476,14 +473,14 @@ ul.topbar-menu {
       height: 4px;
       content: "";
     }
-    .mobile-usermenu-is-open & {
+    .usermenu-is-open-mobile & {
       display: block;
     }
 
     // Tablet
     @include media($tablet) {
+      @include transition(box-shadow $speed $ease)
       @include font('display-small');
-      //Reset desktop styles
       display: block;
       width: auto;
       top: 0;
@@ -496,6 +493,10 @@ ul.topbar-menu {
       left: 0 !important;
       &::before {
         display: none;
+      }
+
+      .usermenu-is-open-mobile & {
+        box-shadow: $box-shadow;
       }
     }
 
@@ -599,7 +600,7 @@ ul.topbar-menu {
     content: "";
   }
 
-  .mobile-usermenu-is-open & {
+  .usermenu-is-open-mobile & {
     display: block;
   }
 }

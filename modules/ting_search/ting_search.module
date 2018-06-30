@@ -210,7 +210,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
     case TING_SEARCH_FORM_STYLE_EXTENDED:
       $form['search_extended_open_button'] = array(
-        '#markup' => '<a href="#" class="search-extended-button">Search extended button</a>',
+        '#markup' => '<a href="#" class="search-extended-form-button">Search extended form button</a>',
       );
       break;
   }
