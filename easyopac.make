@@ -423,7 +423,7 @@ projects[ting_subsearch_secondary][download][branch] = "development"
 projects[ting_subsearch_translate][type]             = "module"
 projects[ting_subsearch_translate][subdir]           = ""
 projects[ting_subsearch_translate][download][type]   = "git"
-projects[ting_subsearch_translate][download][url]    = "git@github.com:easySuite/.git"
+projects[ting_subsearch_translate][download][url]    = "git@github.com:easySuite/ting_subsearch_translate.git"
 ;projects[ting_subsearch_translate][download][tag]    = ""
 projects[ting_subsearch_translate][download][branch] = "development"
 
