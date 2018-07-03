@@ -52,8 +52,17 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
     $num_total_objects = $suggested_result->getNumTotalObjects();
     $limit = variable_get('ting_subsearch_translate_min_hits', 0);
     if (!empty($num_total_objects) && ($limit == 0 || $num_total_objects >= $limit)) {
+      $options = array();
+      if (module_exists('ting_field_search')) {
+        $profile = ting_field_search_get_active_profile();
+        if ($profile) {
+          $options['query'] = array('profile' => rawurlencode($profile->name));
+        }
+      }
+
+      $link_url = '/search/ting/' . drupal_strtolower($translated_keys);
       $msg = t('The search for "!keys" gave !num-results hits. If you search for the English translation "!suggested-keys-link" you will get !suggested-num-results hits.', array(
-        '!suggested-keys-link' => l(drupal_strtolower($translated_keys), '/search/ting/' . drupal_strtolower($translated_keys)),
+        '!suggested-keys-link' => l(drupal_strtolower($translated_keys), $link_url, $options),
         '!suggested-num-results' => $num_total_objects,
         '!keys' => $keys,
         '!num-results' => $results->getNumTotalObjects(),
