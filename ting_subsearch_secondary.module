@@ -31,7 +31,6 @@ function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions,
  * Implements hook_ting_search_results_suffix().
  */
 function ting_subsearch_secondary_search($keys, $results) {
-
   $message = '';
 
   if (!isset($results->numTotalObjects)) {
@@ -155,26 +154,13 @@ function ting_subsearch_secondary_field_formatter_view($entity_type, $entity, $f
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ting_title_minimal':
-        /*
-         * This doesn't work due to the way objects gets cached at the
-         * moment. Until that is fixed, link all objects to collections when
-         * requested, the page will redirect to ting/object/X if there is only
-         * one.
-         */
-        $type = 'ting_object';
-        if ($display['settings']['link_type'] == 'collection') {
-          $type = 'ting_collection';
-        }
-
         // Only create the link if the object is available in the data well.
         $title = check_plain($entity->title);
-
         $element[$delta] = array(
           '#prefix' => '<h2 class="ting-object-minimal-title">',
           '#suffix' => '</h2>',
           '#markup' => $title,
         );
-
         break;
 
       case 'ting_author_minimal':

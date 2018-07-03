@@ -3,6 +3,8 @@
 /**
  * @file
  * Installation of Secondary sub search module.
+ *
+ * @TODO: Missing clean up on uninstall?
  */
 
 /**
@@ -11,6 +13,7 @@
 function ting_subsearch_secondary_install() {
   // Adding fields to 'minimal' display.
   ting_subsearch_secondary_add_fields();
+
   // Install translations.
   $file = new stdClass();
   $file->uri = drupal_get_path('module', 'ting_subsearch_secondary') . '/translations/da.po';
