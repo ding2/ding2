@@ -101,14 +101,15 @@ function ting_subsearch_translate_suggest_translated_keys($keys) {
       )
     );
     $result = json_decode($response->getBody());
+
+    if (!empty($result->data->translations[0]->translatedText)) {
+      $translation = (string) $result->data->translations[0]->translatedText;
+      return html_entity_decode($translation, ENT_QUOTES);
+    }
   }
   catch (GuzzleClientException $e) {
     watchdog_exception('ting_subsearch_translate', $e);
     return FALSE;
-  }
-
-  if (!empty($result->data->translations[0]->translatedText)) {
-    return (string) $result->data->translations[0]->translatedText;
   }
 
   return FALSE;
