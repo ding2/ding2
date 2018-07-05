@@ -502,6 +502,18 @@ projects[kultur_subtheme][download][type]   = "git"
 projects[kultur_subtheme][download][url]    = "git@github.com:easySuite/kultur_subtheme.git"
 projects[kultur_subtheme][download][branch] = "develop"
 
+projects[ding_language][type]             = "module"
+projects[ding_language][subdir]           = ""
+projects[ding_language][download][type]   = "git"
+projects[ding_language][download][url]    = "git@github.com:easySuite/ding_language.git"
+projects[ding_language][download][branch] = "development"
+
+projects[gronbib_frontend][type]             = "module"
+projects[gronbib_frontend][subdir]           = ""
+projects[gronbib_frontend][download][type]   = "git"
+projects[gronbib_frontend][download][url]    = "git@github.com:easySuite/gronbib_frontend.git"
+projects[gronbib_frontend][download][branch] = "development"
+
 ; To be removed
 projects[alma_item_list][type]             = "module"
 projects[alma_item_list][subdir]           = ""
