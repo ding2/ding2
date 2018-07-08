@@ -231,6 +231,7 @@ function ting_das_order_form($form_id, &$form_state, TingEntity $entity) {
         '#prefix' => '<div class="form-item form-type-markup gdpr-text">',
         '#markup' => check_markup($texts['gdpr']['value'], $texts['gdpr']['format']),
         '#suffix' => '</div>',
+        '#weight' => isset($texts['placement']) ? $texts['placement'] : 10,
       );
     }
 
@@ -244,6 +245,7 @@ function ting_das_order_form($form_id, &$form_state, TingEntity $entity) {
       '#attributes' => array(
         'onclick' => 'wt.sendinfo({ linkId: "order_digital_copy" });',
       ),
+      '#weight' => 15,
     );
   }
   else {

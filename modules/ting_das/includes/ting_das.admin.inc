@@ -79,5 +79,16 @@ function ting_das_admin_settings_form() {
     '#default_value' => isset($defaults['gdpr']) ? $defaults['gdpr']['value'] : '',
   );
 
+  $form['ting_das_text']['placement'] = array(
+    '#type' => 'select',
+    '#title' => t('Placement'),
+    '#description' => t('The placement of the text in relation to the "Place order" button.'),
+    '#options' => array(
+      10 => t('Above'),
+      20 => t('Beneath'),
+    ),
+    '#default_value' => isset($defaults['placement']) ? $defaults['placement'] : 10,
+  );
+
   return system_settings_form($form);
 }
