@@ -20,7 +20,7 @@ function ting_subsearch_suggestions_form_ting_admin_ting_settings_alter(&$form, 
     '#title' => t('Choose suggestion service'),
     '#options' => array(
       'os' => 'Opensuggestion',
-      'kpi' => 'KPI-Webtrends',
+      'kpi' => 'KPI-Webtrekk',
     ),
     '#weight' => 0,
     '#default_value' => variable_get('ting_subsearch_suggestions_service', ''),
@@ -39,32 +39,17 @@ function ting_subsearch_suggestions_form_ting_admin_ting_settings_alter(&$form, 
 
   $form['subsearch_settings']['kpi_settings']['ting_subsearch_kpi_webservice_endpoint'] = array(
     '#type' => 'textfield',
-    '#title' => t('KPI Webtrends On-Site Searches Web Service URL'),
+    '#title' => t('KPI Webtrekk On-Site Searches Web Service URL'),
     '#default_value' => variable_get('ting_subsearch_kpi_webservice_endpoint', ''),
-    '#description' => t('This field must contain the "Web Services" URL to the "On-Site Searches" report that can be found in Webtrends Analytics in the Content category. Click the Share button on the report page to find this URL.'),
+    '#description' => t('This field must contain the "Web Services" URL to the "On-Site Searches" report that can be found in Webtrekk Analytics in the Content category. Click the Share button on the report page to find this URL.'),
   );
-  $params = array(
-    'start_period' => 'current_day-365',
-    'end_period' => 'current_day-1',
-  );
-  foreach ($params as $key => $value) {
-    $form['subsearch_settings']['kpi_settings']['ting_subsearch_kpi_' . $key] = array(
-      '#type' => 'textfield',
-      '#title' => t('Parameter: !key', array('!key' => $key)),
-      '#default_value' => variable_get('ting_subsearch_kpi_' . $key, $value),
-    );
-  }
-  $form['subsearch_settings']['kpi_settings']['ting_subsearch_kpi_account'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Account'),
-    '#default_value' => variable_get('ting_subsearch_kpi_account', ''),
-    '#description' => t('Account\Username.'),
-  );
-  $form['subsearch_settings']['kpi_settings']['ting_subsearch_kpi_password'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Password'),
-    '#default_value' => variable_get('ting_subsearch_kpi_password', ''),
-    '#description' => t('The password'),
+
+  $week_numbers = range(1, 52);
+  $form['subsearch_settings']['kpi_settings']['ting_subsearch_kpi_week_nrs'] = array(
+    '#type' => 'select',
+    '#title' => t('Weeks count'),
+    '#options' => $week_numbers,
+    '#default_value' => variable_get('ting_subsearch_kpi_week_nrs', 0),
   );
 
   $form['subsearch_settings']['kpi_settings']['ting_subsearch_kpi_distance'] = array(
@@ -78,7 +63,7 @@ function ting_subsearch_suggestions_form_ting_admin_ting_settings_alter(&$form, 
     '#type' => 'textfield',
     '#title' => t('Minimum search import limit'),
     '#default_value' => variable_get('ting_subsearch_kpi_minimum_searches', 1),
-    '#description' => t('The KPI Webtrends data has search keywords for all searches, including searches with very low frequence (eg. searched only 1 time). Enter the number of minimum searches required before a keyword is imported and used in the KPI subsearch.'),
+    '#description' => t('The KPI Webtrekk data has search keywords for all searches, including searches with very low frequence (eg. searched only 1 time). Enter the number of minimum searches required before a keyword is imported and used in the KPI subsearch.'),
   );
 
   $form['subsearch_settings']['kpi_settings']['ting_subsearch_kpi_trigger_limit'] = array(

@@ -179,44 +179,51 @@ function ting_subsearch_suggestions_cron() {
     }
 
     $url = variable_get('ting_subsearch_kpi_webservice_endpoint', NULL);
-    $params['start_period'] = variable_get('ting_subsearch_kpi_start_period', NULL);
-    $params['end_period'] = variable_get('ting_subsearch_kpi_end_period', NULL);
-    $params['format'] = variable_get('subsearch_kpi_format', NULL);
-    $params['language'] = variable_get('subsearch_kpi_language', NULL);
+    $weeks_count = variable_get('ting_subsearch_kpi_week_nrs', 1) + 1;
 
-    $account = variable_get('ting_subsearch_kpi_account', NULL);
-    $password = variable_get('ting_subsearch_kpi_password', NULL);
-
-    if (empty($url) || empty($account) || empty($password)) {
+    if (empty($url)) {
       watchdog('ting_subsearch_opensuggestions', 'KPI: Module not configured properly', array(), WATCHDOG_WARNING);
       return;
     }
 
     try {
-      $client = new HttpClient();
-      $response = $client->get(
-        $url,
-        array(
-          'query' => $params,
-          'headers' => array(
-            'Accept' => 'application/json',
-          ),
-          'auth' => array(
-            $account,
-            $password,
-          ),
-        )
-      );
-      $result = json_decode($response->getBody(), TRUE);
+      // Fetch data from feed.
+      $ch = curl_init($url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      $ret = curl_exec($ch);
+      curl_close($ch);
+
+      $results = str_getcsv($ret, "\r\n");
+      unset($results[0]);
+
+      $first_item = explode(';', trim($results[1]));
+      $limit_week = 0;
+      if ($weeks_count < $first_item[0]) {
+        $limit_week = $first_item[0] - $weeks_count;
+      }
+
+      $prepared = array();
+
+      foreach ($results as $result) {
+        $result = explode(';', trim($result));
+        if ($result[0] > $limit_week) {
+          $prepared[] = array(
+            'weekno' => $result[0],
+            'oss' => $result[1],
+            'results' => $result[2],
+            'oss_r' => $result[3],
+          );
+        }
+      }
     }
-    catch (GuzzleClientException $e) {
+    catch (Exception $e) {
       throw new Exception($e->getMessage(), $e->getCode(), $e);
     }
 
-    if (!empty($result)) {
-      ting_subsearch_suggestions_insert_records($result);
-      variable_set('subsearch_cron_run', time() + (60 * 60 * 24));
-      watchdog('ting_subsearch_suggestions', 'Data fetched from KPI. Will re-run in a day.', array(), WATCHDOG_INFO);
+    if (!empty($prepared)) {
+      ting_subsearch_suggestions_insert_records($prepared);
+      variable_set('subsearch_cron_run', time() + (60 * 60 * 24 * 7));
+      watchdog('ting_subsearch_suggestions', 'Data fetched from KPI. Will re-run in a week.', array(), WATCHDOG_INFO);
     }
     else {
       watchdog('ting_subsearch_suggestions', 'No data fetched from feed', array(), WATCHDOG_WARNING);
@@ -228,18 +235,16 @@ function ting_subsearch_suggestions_cron() {
  * Insert kpi keys into table.
  */
 function ting_subsearch_suggestions_insert_records($result) {
-
   db_truncate('ting_subsearch_kpi_index_popular_keys')->execute();
 
-  foreach ($result['data'][0]['SubRows'][0] as $keys => $data) {
-    // Avoid keys that didn't have successful searches, are longer than 255
-    // chars and have an equalsign as part of it.
-    if ($data['measures']['SuccessfulSearches'] > 0 && strlen($keys) < 255 && !strpos('=', $keys)) {
+  foreach ($result as $key => $data) {
+    if (is_numeric($data['results']) && !empty($data['oss'])) {
+      $normalized_string = mb_convert_encoding($data['oss'], 'UTF-8', 'CP850');
       $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields(
         array(
-          'id' => md5($keys),
-          'popular_keys' => $keys,
-          'numtotalsearches' => (int) $data['measures']['SuccessfulSearches'],
+          'id' => md5($key),
+          'popular_keys' => $normalized_string,
+          'numtotalsearches' => (int) $data['results'],
         )
       );
       $query->execute();
