@@ -490,7 +490,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
  * Implements hook_ding_entity_buttons().
  */
 function ding_list_ding_entity_buttons($type, $entity, $view_mode = 'default', $widget = 'default') {
-  if ($type == 'ding_entity' && user_access('use personalisation')) {
+  if ($type == 'ding_entity') {
     $return = array();
     $return[] = array(
       '#theme' => 'ding_list_add_button',

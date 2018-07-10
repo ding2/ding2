@@ -269,8 +269,6 @@ function template_preprocess_ding_list_add_button(&$variables) {
     ),
   );
 
-  $variables['single_link'] = FALSE;
-
   if ($variables['options'] === FALSE) {
     $options = ding_list_get_add_to_list_data($variables['type'], $variables['value'], $variables['value_title']);
   }
@@ -279,21 +277,33 @@ function template_preprocess_ding_list_add_button(&$variables) {
   }
 
   if ($variables['type'] == 'ting_object') {
-    $new_list = array(
-      'custom' => array(
-        'title' => '<div class="list-title">' . t('New list') . '</div><div class="add-to-list-button button">' . t('Add to new list') . '</div>',
-        'href' => 'list/create',
-        'attributes' => array(
-          'class' => array(),
+    if (user_access('use personalisation')) {
+      $new_list = array(
+        'custom' => array(
+          'title' => '<div class="list-title">' . t('New list') . '</div><div class="add-to-list-button button">' . t('Add to new list') . '</div>',
+          'href' => 'list/create',
+          'attributes' => array(
+            'class' => array(),
+          ),
+          'query' => array('at' => $variables['type'], 'av' => $variables['value']),
+          'html' => TRUE,
         ),
-        'query' => array('at' => $variables['type'], 'av' => $variables['value']),
-        'html' => TRUE,
-      ),
-    );
+      );
+    }
+    elseif (!user_is_logged_in()) {
+      $new_list = array(
+        'custom' => array(
+          'title' => '<div class="list-title">' . t('Login before you can use lists') . '</div><div class="add-to-list-button button">' . t('Login') . '</div>',
+          'href' => '#',
+          'attributes' => array(
+            'class' => array('open-login'),
+          ),
+          'external' => TRUE,
+          'html' => TRUE,
 
-    if (!user_is_logged_in()) {
-      $new_list['custom']['attributes']['class'][] = 'use-ajax';
-      $new_list['custom']['href'] = 'ding-list/login-create';
+        ),
+      );
+      $force_multiple = TRUE;
     }
 
     $options[] = $new_list;
@@ -323,8 +333,13 @@ function template_preprocess_ding_list_add_button(&$variables) {
     }
 
     $variables['buttons']['#links'][] = $l;
-    if (isset($option['#single_link'])) {
-      $variables['single_link'] = TRUE;
-    }
   }
+
+  if (count($variables['buttons']['#links']) === 1 && empty($force_multiple)) {
+    $variables['classes_array'][] = 'ding-list-add-button--single-action';
+  }
+  else {
+    $variables['classes_array'][] = 'ding-list-add-button--multiple-actions';
+  }
+
 }
