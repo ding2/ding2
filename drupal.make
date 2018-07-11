@@ -9,6 +9,7 @@ projects[drupal][patch][] = "http://drupal.org/files/ssl-socket-transports-18799
 projects[drupal][patch][] = "http://www.drupal.org/files/issues/1232416-autocomplete-for-drupal7x53.patch"
 projects[drupal][patch][] = "http://drupal.org/files/issues/translate_role_names-2205581-1.patch"
 projects[drupal][patch][] = "http://www.drupal.org/files/issues/drupal-tabledrag-scroll-2843240-36.patch"
+projects[drupal][patch][] = "patches/drupal_core.robots.txt.ding2.patch"
 
 ; Get the profile, which will contain the next makefile.
 projects[ding2][type] = "profile"
