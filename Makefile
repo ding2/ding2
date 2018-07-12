@@ -25,8 +25,8 @@ circle-setup:
 	cp -R ./* $(DRUPAL_SITE_PATH)/profiles/ding2/
 	# Install the site using the ding2 profile
 	cd $(DRUPAL_SITE_PATH) && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y ding2_module_selection_form.providers_selection=connie
-  # Apply Drupal core patches
-  git apply -v profiles/ding2/patches/drupal_core.robots.txt.ding2.patch
+	# Apply Drupal core patches
+	cd $(DRUPAL_SITE_PATH) && git apply -v $(DRUPAL_SITE_PATH)/profiles/ding2/patches/drupal_core.robots.txt.ding2.patch
 	# Notices and warnings are seen as an error from simpletests point of view
 	# and is added to the xml-output as such. Idealy we would not have any
 	# notices or warnings, but in the current state of affairs we see quite a
