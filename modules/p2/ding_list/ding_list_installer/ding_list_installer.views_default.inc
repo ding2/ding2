@@ -366,11 +366,6 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['filters']['field_ding_list_status_value']['value'] = array(
     'public' => 'public',
   );
-  /* Filter criterion: ding_type: Type (field_list_type) */
-  $handler->display->display_options['filters']['field_list_type_value']['id'] = 'field_list_type_value';
-  $handler->display->display_options['filters']['field_list_type_value']['table'] = 'field_data_field_list_type';
-  $handler->display->display_options['filters']['field_list_type_value']['field'] = 'field_list_type_value';
-  $handler->display->display_options['filters']['field_list_type_value']['value'] = 'user_list';
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');

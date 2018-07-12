@@ -29,6 +29,20 @@ function fbs_xautoload($adapter) {
 }
 
 /**
+ * Implements hook_ding_session_cache_defaults().
+ *
+ * Set default ding_session_cache settings and tell ding_session_cache that this
+ * module supports it.
+ */
+function fbs_ding_session_cache_defaults() {
+  return array(
+    'title' => 'FBS (information from FBS)',
+    'enabled' => TRUE,
+    'expire' => 3600,
+  );
+}
+
+/**
  * Implements hook_libraries_info().
  *
  * For defining external libraries.
@@ -137,7 +151,7 @@ function fbs_get_patron_info($account = NULL) {
     return $account->creds;
   }
 
-  $creds = ding_user_get_creds($user);
+  $creds = ding_user_get_creds();
   return $creds;
 }
 
@@ -343,7 +357,7 @@ function fbs_profile2_presave($entity) {
     // we wont try to update.
     return;
   }
-  $patron = ding_user_get_creds($user);
+  $patron = ding_user_get_creds();
   $wrapper = entity_metadata_wrapper('profile2', $entity);
 
   $current_on_hold = array();
@@ -357,8 +371,18 @@ function fbs_profile2_presave($entity) {
     'emailAddress' => $wrapper->field_fbs_mail->value(),
     'receiveSms' => (bool) $wrapper->field_fbs_phone_notification->value(),
     'receiveEmail' => (bool) $wrapper->field_fbs_mail_notification->value(),
-    'preferredPickupBranch' => $wrapper->field_fbs_preferred_branch->value(),
+    'preferredPickupBranch' => (string) $wrapper->field_fbs_preferred_branch->value(),
   );
+
+  // Opt out of messages if unsetting phone number.
+  if (empty($current['phoneNumber'])) {
+    $current['receiveSms'] = FALSE;
+  }
+
+  // Same for emails.
+  if (empty($current['emailAddress'])) {
+    $current['receiveEmail'] = FALSE;
+  }
 
   if ($patron['on_hold']) {
     $existing_on_hold = $patron['on_hold'];
@@ -371,7 +395,7 @@ function fbs_profile2_presave($entity) {
     'emailAddress' => $patron['mail'],
     'receiveSms' => (bool) $patron['phone_notification'],
     'receiveEmail' => (bool) $patron['mail_notification'],
-    'preferredPickupBranch' => $patron['preferred_branch'],
+    'preferredPickupBranch' => (string) $patron['preferred_branch'],
     'onHold' => $patron['on_hold'],
   );
 
@@ -452,6 +476,11 @@ function fbs_branches() {
     try {
       $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
     }
+    catch (FBSMisconfiguredException $e) {
+      // Be quiet and use an empty list if we're not configured yet.
+      $branches = array();
+      return $branches;
+    }
     catch (Exception $e) {
       watchdog_exception('fbs', $e);
     }
@@ -519,8 +548,56 @@ function fbs_form_profile2_form_alter(&$form, &$form_state) {
   $form['profile_provider_fbs']['ding_user_fee_sms'] = array(
     '#type' => 'item',
     '#markup' => $fee_sms,
-    '#weight' => 3,
+    '#weight' => $form['profile_provider_fbs']['field_fbs_phone_notification']['#weight'] + 0.1,
   );
+
+  // Add validation to email.
+  $form['profile_provider_fbs']['field_fbs_mail']['#element_validate'] = array('fbs_form_profile2_mail_validate');
+  // Add validation to phone.
+  $form['profile_provider_fbs']['field_fbs_phone']['#element_validate'] = array('fbs_form_profile2_phone_validate');
+  // Add submit handler, to redirect to same URL.
+  $form['#submit'][] = 'fbs_form_profile2_rebuild_submit';
+}
+
+/**
+ * Mail validation for fbs_form_profile2
+ */
+function fbs_form_profile2_mail_validate($element, $form_state) {
+  $email = $form_state['input']['profile_provider_fbs']['field_fbs_mail']['und'][0]['value'];
+  if (!empty($email)) {
+    if (!ding_base_validate_email($email)) {
+      form_set_error('profile_provider_fbs][field_fbs_mail', t('Please fill in a valid email'));
+    }
+  }
+}
+
+/**
+ * Phone validation for fbs_form_profile2
+ */
+function fbs_form_profile2_phone_validate($element, $form_state) {
+  $phone = $form_state['input']['profile_provider_fbs']['field_fbs_phone']['und'][0]['value'];
+
+  if (!empty($phone)) {
+    // Preg match for danish phonenumbers
+    // Pass:
+    // (+45) 35 35 35 35 ||| +45 35 35 35 35 ||| 35 35 35 35 ||| 35353535
+    // Fail:
+    // (45)35353535 ||| 4535353535.
+    $re = '/^((\(?\+45\)?)?)(\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2})$/';
+    preg_match_all($re, $phone, $matches, PREG_SET_ORDER, 0);
+
+    if (empty($matches)) {
+      form_set_error('profile_provider_fbs][field_fbs_phone', t('Please fill in a valid phonenumber'));
+    }
+  }
+}
+
+/**
+ * Submit handler for fbs_form_profile2
+ */
+function fbs_form_profile2_rebuild_submit($form, &$form_state) {
+  // Rebuilds form and stay on same page.
+  $form_state['rebuild'] = TRUE;
 }
 
 /**

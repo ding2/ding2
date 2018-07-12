@@ -106,7 +106,7 @@ function alma_user_profile_form_validate($form, $form_state) {
  *   Updated credential array.
  */
 function alma_user_update_pincode($account, $new_pincode) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   // Change the users pin code..
   if (isset($new_pincode)) {

@@ -11,7 +11,7 @@ function openruth_loan_list($account) {
   $result = array();
 
   // Get credentials and user status.
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   $status = _openruth_user_status($creds);
 
   if (isset($status->loans->loan)) {
@@ -63,7 +63,7 @@ function openruth_loan_list($account) {
  *   DingProviderLoan::STATUS_RENEWED or DingProviderLoan::STATUS_NOT_RENEWED.
  */
 function openruth_loan_renew($account, $ids) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   $result = array();
   $res = openruth_client_invoke('renew_loan', $creds['name'], $ids);

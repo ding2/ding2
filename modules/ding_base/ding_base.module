@@ -470,6 +470,26 @@ function ding_base_updated_taxonomy_aliases($node, $base, $terms, $slugs) {
 }
 
 /**
+ * Get the list of css files to process by the color module.
+ *
+ * @param string $theme
+ *   Theme name.
+ *
+ * @return array
+ *   Files list.
+ */
+function ding_base_color_css_files($theme) {
+  $files = array();
+
+  $theme_path = drupal_realpath(drupal_get_path('theme', $theme)) . '/';
+  foreach (file_scan_directory($theme_path . '/sass_css', '/\.css$/') as $file) {
+    $files[] = str_replace($theme_path, '', drupal_realpath($file->uri));
+  }
+
+  return $files;
+}
+
+/**
  * Rewrite the color generated stylesheet.
  *
  * This function is used by "drush cgen" to regenerate the color modules css
@@ -493,6 +513,8 @@ function ding_base_rewrite_color_stylesheet() {
 
   $info = color_get_info($theme);
   $palette = color_get_palette($theme);
+
+  $info['css'] = ding_base_color_css_files($theme);
 
   // Prepare target locations for generated files.
   $id = $theme . '-' . substr(hash('sha256', serialize($palette) . microtime()), 0, 8);
@@ -726,4 +748,47 @@ function ding_base_lazy_pane_ajax_deliver($page_callback_result) {
   }
 
   return ajax_deliver($page_callback_result);
+}
+
+/**
+ * Validate an email.
+ *
+ * This check uses Drupals valid_email_addess(), and makes sure the domain used
+ * is a valid top level domain.
+ *
+ * @param string $email
+ *   The email to validate.
+ *
+ * @return bool
+ *   TRUE if the address is in a valid format.
+ */
+function ding_base_validate_email($email) {
+  // If < and > are used, set the email to the data encapsulated by these
+  // characters.
+  if (preg_match('/<([^>]*)>/', $email, $matches)) {
+    $email = $matches[1];
+  }
+
+  if (!valid_email_address($email)) {
+    return FALSE;
+  }
+
+  $tld_list = array();
+  if ($cache = cache_get('ding_base:tld_list')) {
+    $tld_list = $cache->data;
+  }
+  else {
+    // We assume iana will keep the list of tlds in the same format and on the
+    // same URL. It's been the same URL and format since 2004.
+    // If the response fails the $tld_list will be empty and we'll simply skip
+    // the domain check.
+    $response = drupal_http_request('http://data.iana.org/TLD/tlds-alpha-by-domain.txt');
+    if ($response->code == 200) {
+      $tld_list = explode("\n", $response->data);
+      cache_set('ding_base:tld_list', $tld_list);
+    }
+  }
+
+  $domain = strtoupper(substr($email, strrpos($email, '.') + 1));
+  return empty($tld_list) || in_array($domain, $tld_list);
 }

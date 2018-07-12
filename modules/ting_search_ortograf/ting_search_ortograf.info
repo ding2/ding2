@@ -1,0 +1,6 @@
+name = Ting Search Ortograf
+description = Enables autocompletion for the Ting search box using the Ortograf service.
+package = Ding!
+core = 7.x
+dependencies[] = ting_search
+configure = admin/config/ting/ting_search_ortograf

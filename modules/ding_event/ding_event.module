@@ -193,9 +193,50 @@ function ding_event_install_menu_position($op = 'install') {
  * displayed once in related events on event page.
  */
 function ding_event_views_pre_execute(&$view) {
-  if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list'))) {
-    $view->build_info['query']->groupBy('node.nid');
-    $view->build_info['count_query']->groupBy('node.nid');
+  // Handle the "show_all" type of events, so they filter by end date instead of
+  // start date.
+  if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list', 'ding_event_list_frontpage'))) {
+    if ($view->current_display == 'ding_event_list') {
+      $view->build_info['query']->groupBy('node.nid');
+      $view->build_info['count_query']->groupBy('node.nid');
+    }
+
+    // Add the field_ding_event_list_filter field, so it can be used in the
+    // filter.
+    $view->build_info['query']->leftJoin(
+      'field_data_field_ding_event_list_filter',
+      'fdelf',
+      'fdelf.entity_id = node.nid AND fdelf.entity_type = :entity_type',
+      array(':entity_type' => 'node')
+    );
+
+    // TODO: This one is really convoluted and should be refactored.
+    // We need to place the conditions inside the start date filter, which is
+    // referenced here. The reference is very specific, and changing the order
+    // of the view filters might break this functionality.
+    if (!isset($view->build_info['query']
+        ->conditions()[0]['field']
+        ->conditions()[0]['field']
+        ->conditions()[3])) {
+      return;
+    }
+
+    $date_condition = &$view->build_info['query']
+      ->conditions()[0]['field']
+      ->conditions()[0]['field']
+      ->conditions()[3];
+
+    // If the value is empty we assume the exposed combined search filter has
+    // content, this pushes the condition we want 1 further "down" in the array.
+    if (empty($date_condition['value'])) {
+      $date_condition = &$view->build_info['query']
+        ->conditions()[0]['field']
+        ->conditions()[0]['field']
+        ->conditions()[4];
+    }
+    $date_condition['field'] .= ' OR (fdelf.field_ding_event_list_filter_value = :filter'
+                              . ' AND ' . str_replace('.field_ding_event_date_value,', '.field_ding_event_date_value2,', $date_condition['field']) . ')';
+    $date_condition['value'][':filter'] = 'show_all';
   }
 }
 
@@ -251,6 +292,8 @@ function ding_event_views_pre_build(&$view) {
       break;
 
     case 'ding_event ding_event_list':
+    case 'ding_event ding_event_list_library':
+    case 'ding_event ding_event_groups_list_group':
       $view->items_per_page = variable_get('ding_event_list_items_per_page', 10);
 
       if (variable_get('ding_event_list_group_by_date', FALSE)) {
@@ -266,6 +309,13 @@ function ding_event_views_pre_build(&$view) {
 function ding_event_form_views_exposed_form_alter(&$form, &$form_state) {
   if ($form_state['view']->name == 'ding_event' && $form_state['view']->current_display == 'ding_event_list') {
 
+    // Enable Search API Autocomplete support fot custom search field.
+    $search = search_api_autocomplete_search_load('search_api_views_ding_multiple_search');
+    if ($search && $search->enabled) {
+      // Add autocomplete feature.
+      $search->alterElement($form['title']);
+    }
+
     // Add placeholder to title field.
     if (!empty($form['title'])) {
       $form['title']['#attributes']['placeholder'] = t('Search for an event');
@@ -277,6 +327,18 @@ function ding_event_form_views_exposed_form_alter(&$form, &$form_state) {
     }
     if (empty($input)) {
       $form['reset']['#access'] = FALSE;
+    }
+
+    if (!empty($form['#info']['filter-field_ding_event_category_tid'])) {
+      $label = $form['#info']['filter-field_ding_event_category_tid']['label'];
+      unset($form['#info']['filter-field_ding_event_category_tid']['label']);
+      $form['field_ding_event_category_tid']['#title'] = '<h2 class="list-title sub-menu-title">' . $label . '</h2>';
+    }
+
+    if (!empty($form['#info']['filter-og_group_ref_target_id_entityreference_filter'])) {
+      $label = $form['#info']['filter-og_group_ref_target_id_entityreference_filter']['label'];
+      unset($form['#info']['filter-og_group_ref_target_id_entityreference_filter']['label']);
+      $form['og_group_ref_target_id_entityreference_filter']['#title'] = '<h2 class="list-title sub-menu-title">' . $label . '</h2>';
     }
   }
 }

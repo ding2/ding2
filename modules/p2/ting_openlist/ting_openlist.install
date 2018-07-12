@@ -14,7 +14,7 @@ function ting_openlist_requirements($phase) {
   $requirements = array();
 
   if ($phase == 'runtime') {
-    $a = variable_get('ting_openlist_wsdl');
+    $a = variable_get('ting_openlist_domain');
     $b = variable_get('ting_library_code');
     $c = variable_get('ting_openlist_authkey');
     if (empty($a) || empty($b) || empty($c)) {
@@ -51,7 +51,7 @@ function ting_openlist_install() {
   db_add_field('users', 'openlist_uid', $schema['users']['fields']['openlist_uid']);
 
   // Set default configuration (so site install will work).
-  variable_set('ting_openlist_wsdl', 'https://test.openlist.ddbcms.dk/?wsdl');
+  variable_set('ting_openlist_domain', TING_OPENLIST_DEFAULT_DOMAIN);
   variable_set('ting_openlist_prefix', uniqid());
   variable_set('ting_library_code', variable_get('ting_agency', ''));
 }
@@ -62,12 +62,29 @@ function ting_openlist_install() {
 function ting_openlist_uninstall() {
   variable_del('ting_openlist_developer');
   variable_del('ting_openlist_log');
-  variable_del('ting_openlist_wsdl');
+  variable_del('ting_openlist_domain');
   variable_del('ting_library_code');
   variable_del('ting_openlist_prefix');
-  variable_del('ting_openlist_wsdl_cache');
-  variable_del('ting_openlist_log_details');
-  variable_del('ting_openlist_developer');
 
   db_drop_field('users', 'openlist_uid');
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Remove previous SOAP related settings.
+ */
+function ting_openlist_update_7001() {
+  // Set the ting_openlist_domain to the previous openlist WSDL url. It strips
+  // the query parameters to clear the wsdl and any cache buster parameter.
+  $wsdl_url = variable_get('ting_openlist_wsdl', FALSE);
+  if (isset($wsdl_url) && valid_url($wsdl_url, TRUE)) {
+    $parsed_url = drupal_parse_url($wsdl_url);
+    variable_set('ting_openlist_domain', $parsed_url['path']);
+  }
+
+  variable_del('ting_openlist_wsdl');
+  variable_del('ting_openlist_wsdl_cache');
+  variable_del('ting_openlist_no_wsdl_cache');
+  variable_del('ting_openlist_log_details');
 }

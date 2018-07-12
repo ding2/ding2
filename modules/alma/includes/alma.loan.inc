@@ -13,7 +13,7 @@
 function alma_loan_list($account, $reset = FALSE) {
   // Get creds is outside cache function as it may throw exception if the user
   // is not longer logged in.
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   $results = &drupal_static(__FUNCTION__, FALSE);
   if (!$results || $reset) {
@@ -35,8 +35,10 @@ function alma_loan_list($account, $reset = FALSE) {
 
       $results = array();
       foreach ($loans as $loan) {
+        $translated_ids = ding_provider_build_entity_id([$loan['record_id']]);
+
         $results[$loan['id']] = new DingProviderLoan($loan['id'], array(
-          'ding_entity_id' => ding_provider_build_entity_id($loan['record_id']),
+          'ding_entity_id' => reset($translated_ids),
           'loan_date' => $loan['loan_date'],
           'expiry' => $loan['due_date'],
           'renewable' => $loan['is_renewable'],
@@ -67,7 +69,7 @@ function alma_loan_renew($account, $ids) {
     'reserved' => DingProviderLoan::STATUS_RENEWAL_RESERVED,
   );
 
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   $result = array();
   $res = alma_client_invoke('renew_loan', $creds['name'], $creds['pass'], $ids);
 

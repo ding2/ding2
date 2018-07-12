@@ -1,5 +1,5 @@
 //
-// Styling of loan form
+// Styling of provider status forms
 
 @import '../../base.scss';
 
@@ -35,5 +35,16 @@
         }
       }
     }
+  }
+}
+
+// ==========================================================================
+// User debts
+// ==========================================================================
+#ding-debt-debts-form {
+  .material-item .item-title span {
+    display: block;
+    margin: 10px 0;
+    white-space: normal;
   }
 }

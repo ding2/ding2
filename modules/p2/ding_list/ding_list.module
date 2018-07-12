@@ -32,6 +32,7 @@ define('DING_LIST_OPERATION_FOLLOW', 'follow');
 define('DING_LIST_OPERATION_AUTO_CREATE', 'auto_create');
 define('DING_LIST_OPERATION_CHECK_EXISTS', 'check_exists');
 define('DING_LIST_OPERATION_SHARE', 'share');
+define('DING_LIST_OPERATION_EDIT_TITLE', 'edit_title');
 
 // Carousel behaviour.
 define('DING_LIST_CAROUSEL_CHUNK_SIZE', 6);
@@ -337,6 +338,7 @@ function ding_list_list_operations() {
 function ding_list_ding_list_operations() {
   return array(
     DING_LIST_TYPE_USER_LIST => array(
+      DING_LIST_OPERATION_EDIT_TITLE => TRUE,
       DING_LIST_OPERATION_DELETE => TRUE,
       DING_LIST_OPERATION_ATTACH => array('ting_object'),
       DING_LIST_OPERATION_DETACH => TRUE,
@@ -901,17 +903,13 @@ function ding_list_mail($key, &$message, $params) {
         '@user' => $username,
         '@library' => variable_get('site_name', ''),
       ));
-      $message['body'][] = t('Please use the following link to access this list.
-The link is active for 7 days from today, after which it will be disabled for security reasons.
-
-!link', array('!link' => $params['link']));
 
       if (!empty($user->mail)) {
         $message['headers']['reply-to'] = $user->mail;
       }
 
       $message['subject'] = $params['subject'];
-      $message['body'][] = $params['text'];
+      $message['body'][] = nl2br($params['text']);
       break;
   }
 }
@@ -1066,6 +1064,15 @@ function ding_list_entity_load($entities, $type) {
           }
         }
       }
+
+      if ($entity->type === 'ding_list' && !ding_list_allowed($entity, DING_LIST_OPERATION_EDIT_TITLE)) {
+        $operations = ding_list_list_operations();
+        $list_type = ding_base_get_value('ding_type', $entity, 'field_list_type');
+
+        if (!empty($operations[$list_type]['_data']['default_title'])) {
+          $entity->title = $operations[$list_type]['_data']['default_title'];
+        }
+      }
     }
   }
 }
@@ -1109,11 +1116,19 @@ function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
     case 'ting_object':
       $ting_object = ting_object_load($context['value']);
 
-      // Add a follow action for authors.
-      $data = array_merge(
-        $data,
-        ding_list_get_add_to_list_ting_object_creators($ting_object)
-      );
+      // Object expects that item is in the well, which is not always possible.
+      // Providers are able to mimic the TingObject with minimal data
+      // from the LMS system to fulfill this requirement, however current
+      // "drupal_alter" implementation used here does not allow
+      // easily to pass this pseudo-object.
+      // Therefore, "following an author" for these items would be disabled.
+      if (!empty($ting_object)) {
+        // Add a follow action for authors.
+        $data = array_merge(
+          $data,
+          ding_list_get_add_to_list_ting_object_creators($ting_object)
+        );
+      }
       break;
 
     case 'search_query':

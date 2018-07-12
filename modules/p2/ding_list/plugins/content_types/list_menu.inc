@@ -41,7 +41,7 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
         ),
         'view' => array(
           'href' => $uri['path'],
-          'title' => t('View list'),
+          'title' => check_plain(entity_label('ding_type', $list)),
           'attributes' => array('class' => array('menu-item')),
           'html' => TRUE,
         ),
@@ -52,7 +52,7 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
     if (ding_list_user_has_access($list, 'edit', $user)) {
       $block->content['#links']['edit'] = array(
         'href' => $uri['path'] . '/edit',
-        'title' => t('Edit list title and note'),
+        'title' => t('Rename / Delete list'),
         'attributes' => array('class' => array('menu-item')),
         'html' => TRUE,
       );

@@ -125,7 +125,7 @@ function ddbasic_entity_view_alter(&$build, $type) {
  * Implements hook_preprocess_panels_pane().
  */
 function ddbasic_preprocess_panels_pane(&$vars) {
-  // If using lazy pane caching method, and lazy pane is returniing the rendered
+  // If using lazy pane caching method, and lazy pane is returning the rendered
   // content, set the lazy_pane_render variable, so the template can take action
   // accordingly.
   $vars['is_lazy_pane_render'] = !empty($vars['pane']->cache['method'])
@@ -292,11 +292,6 @@ function ddbasic_preprocess_views_view(&$vars) {
 
     case 'ding_news':
       switch ($vars['view']->current_display) {
-        case 'ding_news_groups_list':
-          // Add slide-on-mobile class.
-          $vars['classes_array'][] = 'slide-on-mobile';
-          break;
-
         case 'ding_news_frontpage_list':
           // Add slide-on-mobile class.
           $vars['classes_array'][] = 'slide-on-mobile';
@@ -483,12 +478,10 @@ function ddbasic_preprocess_menu_link(&$variables) {
         }
         break;
 
-      case 'view':
-        if ($path[0] === 'user') {
-          $notifications = ding_message_get_message_count();
-          if (!empty($notifications)) {
-            $variables['element']['#title'] .= ' <span class="menu-item-count">' . $notifications . '</span>';
-          }
+      case 'my-library':
+        $notifications = ding_message_get_message_count();
+        if (!empty($notifications)) {
+          $variables['element']['#title'] .= ' <span class="menu-item-count">' . $notifications . '</span>';
         }
         break;
     }
@@ -1358,18 +1351,23 @@ function ddbasic_libraries_info() {
  *
  * Rewrites view's output.
  */
-function ddbasic_views_pre_render(&$view){
+function ddbasic_views_pre_render(&$view) {
   if ($view->name == 'ding_event') {
     foreach ($view->result as &$item) {
       $node = node_load($item->nid);
 
+      // TODO: Library nodes can be encountered, which can be a view flaw.
+      if ($node->type != 'ding_event') {
+        continue;
+      }
+
       $field = $node->field_ding_event_date['und'][0];
       $val = $field['value'];
       if ($val == $field['value2']) {
-         $date = new DateTime($val, new DateTimeZone($field['timezone_db']));
-         $date->setTimezone(new DateTimeZone($field['timezone']));
-         $date = $date->format('H:i');
-         $field['rendered']['#markup'] = $date . ' - ' . t('All day');
+        $date = new DateTime($val, new DateTimeZone($field['timezone_db']));
+        $date->setTimezone(new DateTimeZone($field['timezone']));
+        $date = $date->format('H:i');
+        $field['rendered']['#markup'] = $date . ' - ' . t('All day');
       }
     }
   }

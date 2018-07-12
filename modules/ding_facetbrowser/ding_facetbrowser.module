@@ -81,6 +81,29 @@ function ding_facetbrowser_ctools_plugin_api($module, $api) {
     return array('version' => 1);
   }
 }
+
+/**
+ * Implements hook_libraries_info().
+ */
+function ding_facetbrowser_libraries_info() {
+  return array(
+    'js.cookie' => array(
+      'name' => 'JavaScript Cookie',
+      'vendor url' => 'https://github.com/js-cookie/js-cookie',
+      'download url' => 'https://github.com/js-cookie/js-cookie/releases',
+      'version arguments' => array(
+        'file' => 'js.cookie-2.1.4.min.js',
+        'pattern' => '/js-cookie v(\d+\.+\d+\.\d+)/',
+      ),
+      'files' => array(
+        'js' => array(
+          'js.cookie-2.1.4.min.js',
+        ),
+      ),
+    ),
+  );
+}
+
 /**
  * Create a custom form with checkbox elements for facets and ajax callback
  *
@@ -115,7 +138,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
       if (count($facet->terms) > 0) {
         $form[$facet->name] = array(
           '#type' => 'fieldset',
-          '#title' => check_plain($configured_facet['title']),
+          '#title' => t(check_plain($configured_facet['title'])),
           '#attributes'  => array(
             'id' => str_replace('.', '-', $facet->name),
             'data' => array(
@@ -347,17 +370,6 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   $content_in_facet = FALSE;
   $executed_search_module = FALSE;
 
-  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery.cookie.min.js');
-  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/ding_facetbrowser.js');
-
-  // @todo: Get the facet browser dom id automatic.
-  drupal_add_js(array(
-    'ding_facetbrowser' => array(
-      'selector' => '.js-facet-browser-toggle',
-      'number_of_terms' => variable_get('ding_facetbrowser_number_of_terms', 5)),
-  ), 'setting');
-
-
   // Invoke ding_facetbrowser() from executed search module.
   $executed_search = menu_get_item();
   if (!empty($executed_search['page_arguments'])) {
@@ -377,10 +389,30 @@ function ding_facetbrowser_block_view($delta = FALSE) {
       }
     }
 
+    $path = drupal_get_path('module', 'ding_facetbrowser');
     switch ($delta) {
       case 'facetbrowser':
         $block['subject'] = t('Facet browser');
-        $block['content'] = $block_content;
+        $block['content']['#markup'] = $block_content;
+        $block['content']['#attached'] = array(
+          'js' => array(
+            array(
+              'data' => $path . '/js/ding_facetbrowser.js',
+            ),
+            array(
+              'data' => array(
+                'ding_facetbrowser' => array(
+                  'selector' => '.js-facet-browser-toggle',
+                  'number_of_terms' => variable_get('ding_facetbrowser_number_of_terms', 5),
+                ),
+              ),
+              'type' => 'setting',
+            ),
+          ),
+          'libraries_load' => array(
+            array('js.cookie'),
+          ),
+        );
         break;
     }
   }

@@ -19,7 +19,8 @@ function ding_provider_menu() {
   $items['admin/config/ding/provider'] = array(
     'title' => 'Ding provider',
     'description' => 'Configure the provider used to communicate with the library system.',
-    'page callback' => 'ding_provider_admin_overview',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_provider_admin_overview'),
     'access arguments' => array('administer ding provider'),
     'type' => MENU_NORMAL_ITEM,
     'file' => 'ding_provider.admin.inc',
@@ -683,4 +684,37 @@ function ding_provider_build_entity_id($ids) {
 function ding_provider_entity_info_alter(&$entity_info) {
   $entity_info['profile2']['entity cache'] = FALSE;
   $entity_info['profile2_type']['entity cache'] = FALSE;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_provider_cron() {
+  $last_cron_time = variable_get('ding_provider_last_cron', 0);
+
+  // Run daily.
+  if ($last_cron_time < REQUEST_TIME - 86400) {
+    // Remove inactive users.
+    $inactivity_threshold = variable_get('ding_provider_users_wipe_threshold', 0);
+
+    if ($inactivity_threshold) {
+      $query = db_select('users', 'u');
+      $query->join('authmap', 'a', 'u.uid = a.uid');
+      $query
+        ->fields('u', array('uid'))
+        ->condition('u.access', REQUEST_TIME - $inactivity_threshold, '<')
+        ->range(0, 500);
+
+      $result = $query
+        ->execute()
+        ->fetchCol();
+
+      if (!empty($result)) {
+        // TODO: Maybe rework as a queue.
+        user_delete_multiple($result);
+      }
+    }
+
+    variable_set('ding_provider_last_cron', REQUEST_TIME);
+  }
 }

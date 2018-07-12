@@ -119,7 +119,7 @@ function _ting_covers_delete_old_files($time = NULL) {
  * The filename is the ID base64 encoded, so we can reverse it later.
  */
 function ting_covers_object_path($object_id) {
-  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . base64_encode($object_id) . '.jpg';
+  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . preg_replace('/[^a-z0-9]/', '-', $object_id) . '.jpg';
 }
 
 /**

@@ -302,34 +302,6 @@ function ding_staff_default_page_manager_pages() {
     $display->content['new-c33cb008-3da8-49dc-a14e-e02e9c612e72'] = $pane;
     $display->panels['left_sidebar'][0] = 'new-c33cb008-3da8-49dc-a14e-e02e9c612e72';
     $pane = new stdClass();
-    $pane->pid = 'new-3443002f-f33c-470f-a71f-060df3d51f32';
-    $pane->panel = 'left_sidebar';
-    $pane->type = 'library_list';
-    $pane->subtype = 'library_list';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'slug' => 'personale',
-      'context' => array(
-        0 => 'empty',
-        1 => 'argument_slug_1',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-      'hide_default' => 1,
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = '3443002f-f33c-470f-a71f-060df3d51f32';
-    $display->content['new-3443002f-f33c-470f-a71f-060df3d51f32'] = $pane;
-    $display->panels['left_sidebar'][1] = 'new-3443002f-f33c-470f-a71f-060df3d51f32';
-    $pane = new stdClass();
     $pane->pid = 'new-6171a17a-4789-4aac-86de-eb9c76dee003';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';

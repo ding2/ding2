@@ -10,7 +10,7 @@
  */
 function connie_loan_list($account) {
   // Throw exception if we're not logged in.
-  ding_user_get_creds($account);
+  ding_user_get_creds();
 
   $result = array();
   $i = 7;
@@ -35,7 +35,7 @@ function connie_loan_list($account) {
  *
  */
 function connie_loan_renew($account, $ids) {
-  ding_user_get_creds($account);
+  ding_user_get_creds();
 
   $result = array();
   foreach ($ids as $id) {

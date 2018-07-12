@@ -1,7 +1,7 @@
 machine:
   php:
-    # We support PHP 5.6 so choose the latest version supported by Circle.
-    version: 5.6.22
+    # We support PHP 7.0.x so choose the latest version supported by Circle.
+    version: 7.0.17
   node:
     # Our frontend asset pipeline requires 6.10.0 or greater.
     version: 6.10.0
@@ -12,9 +12,11 @@ machine:
 dependencies:
   post:
     # Increase memory limit to 512M. This is required by ding2.
-    - echo "memory_limit = 512M" > /opt/circleci/.phpenv/versions/$(phpenv global)/etc/conf.d/memory.ini
+    - echo "memory_limit = 512M" > /opt/circleci/php/$(phpenv global)/etc/conf.d/memory.ini
     # Disable mail sending. Sendmail is not working on Circle.
-    - echo "sendmail_path = /bin/true" > /opt/circleci/.phpenv/versions/$(phpenv global)/etc/conf.d/sendmail.ini
+    - echo "sendmail_path = /bin/true" > /opt/circleci/php/$(phpenv global)/etc/conf.d/sendmail.ini
+    # Increase xdebug nesting level (php7cc requires this).
+    - echo "xdebug.max_nesting_level = 1000" > /opt/circleci/php/$(phpenv global)/etc/conf.d/xdebug.ini
     # Clean up existing global composer installation. It contains dependencies
     # which do not match the PHP version we use. This prevents installation of
     # other packages.
@@ -22,6 +24,8 @@ dependencies:
     # Install drush globally using composer.
     # Use prefer-source to get around GitHub API rate limits.
     - composer global require drush/drush:6.* --prefer-source --no-interaction
+    # Install PHP 7.x Compatibility Checker.
+    - composer global require sstalle/php7cc
 
 test:
   override:
@@ -49,6 +53,8 @@ test:
     - cp -R ./* $DRUPAL_SITE_PATH/profiles/ding2/
     # Install the site using the ding2 profile
     - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y)
+    # Run PHP7 Compatibility Checker - using tee to get non-rezero exit code (see https://github.com/sstalle/php7cc/issues/102)
+    - 'php7cc --except=vendor --level=error --extensions=php,inc,module,install $DRUPAL_SITE_PATH | tee /dev/tty | grep -vq ''File: '''
   post:
     # Clean up after site install.
     # sudo is required here. The files are not writeable.

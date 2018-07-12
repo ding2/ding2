@@ -331,6 +331,17 @@
         color: $black;
       }
     }
+    .ting-object-new-in-list {
+      display: none;
+      width: getColumn(4 of 5);
+      float: right;
+      margin-top: 10px;
+      color: $charcoal-opacity-dark;
+
+      .new-content & {
+        display: block;
+      }
+    }
   }
 
   // ==========================================================================
@@ -416,9 +427,9 @@
         @include font('display-small');
         margin-bottom: 0;
         a {
-          color: $charcoal;
+          color: $color-text-link;
           &:hover {
-            color: $color-text-link;
+            color: $charcoal;
           }
         }
       }
@@ -509,6 +520,28 @@
     .field-name-ting-type {
       li {
         color: $color-standard-text;
+      }
+    }
+    
+    //Mobile
+    @include media($mobile) {
+      > .inner {
+        .ting-object-left,
+        .ting-object-right {
+          width: auto;
+          float: none;
+        }
+        .field-name-ting-type,
+        .field-name-ting-title,
+        .field-name-ting-author {
+          @include span-columns(8 of 12);
+          margin-right: 0;
+        }
+        .field-name-ting-abstract {
+          width: 100%;
+          padding: 10px 0;
+          clear: both;
+        }
       }
     }
   }

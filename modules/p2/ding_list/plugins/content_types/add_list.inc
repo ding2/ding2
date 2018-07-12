@@ -21,7 +21,10 @@ $plugin = array(
  */
 function ding_list_add_list_content_type_render($subtype, $conf, $panel_args, $context) {
   global $user;
-  $list = $context->data;
+
+  // For unknown reasons the $entity->uid is not filled, when it's loaded via
+  // the context. Which is why we reload the entity using entity_load_single.
+  $list = entity_load_single('ding_type', $context->data->id);
 
   $block = new stdClass();
   $block->content = array();

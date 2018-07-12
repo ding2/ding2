@@ -101,7 +101,7 @@ class TingObjectController extends DrupalDefaultEntityController {
     if (count($unknown)) {
       $new_ids = array();
       foreach ($unknown as $ding_entity_id) {
-        if (isset($objects[$ding_entity_id])) {
+        if (!empty($objects[$ding_entity_id])) {
           // Insert a new local proxy row.
           $ting_object = array(
             'ding_entity_id' => $ding_entity_id,
@@ -127,8 +127,15 @@ class TingObjectController extends DrupalDefaultEntityController {
       }
     }
 
-    foreach ($queried_entities as &$qe) {
-      $qe->reply = $objects[$qe->ding_entity_id];
+    foreach ($queried_entities as $k => &$qe) {
+      // In the case when the entity is not available from the well,
+      // remove it from the loading queue.
+      if (!empty($objects[$qe->ding_entity_id])) {
+        $qe->reply = $objects[$qe->ding_entity_id];
+      }
+      else {
+        unset($queried_entities[$k]);
+      }
     }
     // Pass all entities loaded from the database through $this->attachLoad(),
     // which attaches fields (if supported by the entity type) and calls the

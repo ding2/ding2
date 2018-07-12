@@ -20,11 +20,15 @@
  * Clean out the divs and matched the design.
  */
 ?>
-<section class="navigation-wrapper <?php print $classes; ?>">
-  <div class="navigation-inner">
-    <?php if ($admin_links): ?>
-      <?php print $admin_links; ?>
-    <?php endif; ?>
-    <?php print render($content); ?>
-  </div>
-</section>
+<?php if ($is_lazy_pane_render) { ?>
+  <?php print render($content); ?>
+<?php } else { ?>
+  <section class="navigation-wrapper mobile-user-menu <?php print $classes; ?>">
+    <div class="navigation-inner">
+      <?php if ($admin_links): ?>
+	    <?php print $admin_links; ?>
+      <?php endif; ?>
+      <?php print render($content); ?>
+    </div>
+  </section>
+<?php } ?>

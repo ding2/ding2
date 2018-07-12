@@ -90,6 +90,11 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
+
+// Hide fields to exclude double rendering.
+hide($content['field_ding_event_ticket_link']);
+hide($content['field_ding_event_list_filter']);
+hide($content['field_ding_event_price']);
  ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="inner">
@@ -136,5 +141,6 @@
     <?php if (!empty($content['field_mkws_node_widget'])) : ?>
       <?php print render($content['field_mkws_node_widget']); ?>
     <?php endif; ?>
+    <?php print render($content); ?>
   </div>
 </article>

@@ -222,6 +222,7 @@ function ding_permissions_secure_permissions($role) {
       'administer ddb_cp',
       'administer dibs settings',
       'administer dibs transactions',
+      'administer ding ipe filter',
       'administer ding provider',
       'administer EU Cookie Compliance popup',
       'administer environment indicator settings',
@@ -547,7 +548,8 @@ function ding_permissions_secure_permissions($role) {
       'access overlay',
       'access own webform results',
       'access own webform submissions',
-      'access toolbar',
+      'access administration pages',
+      'access administration menu',
       'access workbench',
       'add media from remote sources',
       'administer bpi',
@@ -685,6 +687,7 @@ function ding_permissions_secure_permissions($role) {
     'guest blogger' => array(
       'access media browser',
       'use media wysiwyg',
+      'access administration pages',
       'access administration menu',
       'access environment indicator',
       'access environment indicator development',
@@ -694,7 +697,6 @@ function ding_permissions_secure_permissions($role) {
       'access ckeditor link',
       'access overlay',
       'access site-wide contact form',
-      'access toolbar',
       'access workbench',
       'administer user role 5',
       'bpi push content',
@@ -758,6 +760,7 @@ function ding_permissions_secure_permissions($role) {
       'administer ddb_cp',
       'administer dibs settings',
       'administer dibs transactions',
+      'administer ding ipe filter',
       'administer ding provider',
       'administer EU Cookie Compliance popup',
       'administer event settings',
@@ -941,6 +944,7 @@ function ding_permissions_secure_permissions($role) {
       'eck delete ding_type ding_interaction entities',
       'eck list ding_type ding_interaction entities',
       'eck view ding_type ding_interaction entities',
+      'access administration pages',
       'access administration menu',
       'access all webform results',
       'access campaign rules',
@@ -956,7 +960,6 @@ function ding_permissions_secure_permissions($role) {
       'access overlay',
       'access own webform results',
       'access own webform submissions',
-      'access toolbar',
       'access workbench',
       'add media from remote sources',
       'administer contact forms',
@@ -1037,13 +1040,15 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_staff_profile profile',
     ),
     'user administrator' => array(
-      'access toolbar',
+      'access administration pages',
+      'access administration menu',
       'administer users',
       'administer user role 4',
       'administer user role 5',
       'administer user role 7',
       'administer user role 9',
       'edit any ding_staff_profile profile',
+      'view the administration theme',
     ),
   );
 
@@ -1053,21 +1058,6 @@ function ding_permissions_secure_permissions($role) {
   foreach ($node_types as $node_type) {
     if (in_array('create ' . $node_type . ' content', $permissions['editor'])) {
       $permissions['editor'][] = 'override ' . $node_type . ' promote to front page option';
-    }
-  }
-
-  // Ensure that administrative users only have access to one navigation system.
-  foreach ($permissions as &$role_permissions) {
-    if (in_array('access administration pages', $role_permissions)) {
-      // Roles with this permission should have access to Admin menu.
-      $role_permissions = array_unique(array_merge($role_permissions, array('access administration menu')));
-      $role_permissions = array_diff($role_permissions, array('access toolbar'));
-    }
-    else {
-      // If the role doesn't have 'access administration pages', Admin menu is
-      // useless so we can safely remove any access to it. If they role has
-      // access to Toolbar it will fallback to that.
-      $role_permissions = array_diff($role_permissions, array('access administration menu'));
     }
   }
 

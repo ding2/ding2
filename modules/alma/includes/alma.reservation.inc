@@ -234,7 +234,7 @@ function alma_reservation_list($account, $type = NULL) {
  * @throws DingProviderReservationNotAvailable
  */
 function alma_reservation_create($account, $id, $options = array(), $expiry = NULL) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   // Check if the users has this reservation and throw exception.
   if (alma_reservation_exists($account, $id)) {
@@ -301,6 +301,13 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
   if (is_int($result)) {
     // Reset session cache.
     alma_reservation_clear_cache();
+
+    // Force reload the holdings cache for reserved item.
+    // TODO: Implement in a more fashionable way.
+    // @see alma_availability_holdings()
+    $cid = md5(serialize(array($id)));
+    cache_clear_all($cid, 'cache');
+
     return array(
       'branch' => $branch,
       'queue_number' => $result,
@@ -325,7 +332,7 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
  *   Reservation update status.
  */
 function alma_reservation_update($account, $ids, $options) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   $reservations = alma_reservation_get_reservations($account);
   $updated = FALSE;
 
@@ -364,11 +371,17 @@ function alma_reservation_update($account, $ids, $options) {
  *   Reservation deletion.
  */
 function alma_reservation_delete($account, $id) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   $reservations = alma_reservation_get_reservations($account);
 
   alma_reservation_clear_cache();
   if (isset($reservations[(string) $id])) {
+    // Force reload the holdings cache for reserved item.
+    // TODO: Implement in a more fashionable way.
+    // @see alma_availability_holdings()
+    $cid = md5(serialize(array($reservations[(string) $id]['record_id'])));
+    cache_clear_all($cid, 'cache');
+
     return alma_client_invoke('remove_reservation', $creds['name'], $creds['pass'], $reservations[(string) $id]);
   }
 }
@@ -448,7 +461,7 @@ function alma_reservation_branch_name($branch_id) {
  *   Alma reservations.
  */
 function alma_reservation_get_reservations($account, $reset = FALSE) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   $reservations = &drupal_static(__FUNCTION__, FALSE);
   if (!$reservations || $reset) {

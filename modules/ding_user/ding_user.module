@@ -1089,20 +1089,13 @@ function ding_user_authenticate_form_callback($form, &$form_state) {
 /**
  * Retrieves the users credentials from the current session.
  *
- * @param stdClass $user
- *   A user object. The the current logged in user will be used if non is given.
- *
  * @return array
  *   Array with the user credentials.
  *
  * @throws DingProviderAuthException
  *   Throws DingProviderAuthException if not authenticated.
  */
-function ding_user_get_creds($user = NULL) {
-  if (is_null($user)) {
-    global $user;
-  }
-
+function ding_user_get_creds() {
   if (isset($_SESSION['ding_user'])) {
     // User has not timed out by auto logout module so return credentials.
     return $_SESSION['ding_user']['creds'];
@@ -1135,7 +1128,7 @@ function ding_user_name() {
     if (ding_provider_implements('user', 'get_name')) {
       return ding_provider_invoke('user', 'get_name', $user);
     }
-    $creds = ding_user_get_creds($user);
+    $creds = ding_user_get_creds();
     if (isset($creds['name'])) {
       return $creds['name'];
     }

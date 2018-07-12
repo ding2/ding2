@@ -734,6 +734,8 @@ function ding_ting_frontend_default_page_manager_handlers() {
   $display->cache = array();
   $display->title = '';
   $display->uuid = '7da7c33f-8425-44e8-a02d-0f497e4945e0';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'ting_object_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -872,43 +874,6 @@ function ding_ting_frontend_default_page_manager_handlers() {
     $pane->uuid = '8fe5bb7f-41a6-4f5a-b6d1-eed5cc759f92';
     $display->content['new-8fe5bb7f-41a6-4f5a-b6d1-eed5cc759f92'] = $pane;
     $display->panels['content'][4] = 'new-8fe5bb7f-41a6-4f5a-b6d1-eed5cc759f92';
-    $pane = new stdClass();
-    $pane->pid = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
-    $pane->panel = 'content';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
-      'context' => array(
-        0 => 'empty',
-        1 => 'empty',
-        2 => 'empty',
-        3 => 'empty',
-      ),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array(
-      'method' => 'lazy',
-      'settings' => array(
-        'load_strategy' => 'pane-visible',
-        'show_spinner' => 1,
-        'load_text' => '',
-      ),
-    );
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 5;
-    $pane->locks = '';
-    $pane->uuid = '2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
-    $display->content['new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a'] = $pane;
-    $display->panels['content'][5] = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

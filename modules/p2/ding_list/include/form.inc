@@ -209,12 +209,14 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
     $form_state['existing'] = FALSE;
   }
 
-  $form['title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Title'),
-    '#required' => TRUE,
-    '#default_value' => isset($existing->title) ? $existing->title : '',
-  );
+  if ($existing === FALSE || ding_list_allowed($existing, DING_LIST_OPERATION_EDIT_TITLE)) {
+    $form['title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Title'),
+      '#required' => TRUE,
+      '#default_value' => isset($existing->title) ? $existing->title : '',
+    );
+  }
 
   $form['notes'] = array(
     '#type' => 'textarea',
@@ -311,9 +313,19 @@ function ding_list_create_list_form_submit_delete($form, &$form_state) {
  */
 function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
   $permission = ding_list_get_permission($form_state['build_info']['args'][0]);
-  ding_list_remove_permission($permission);
+  if ($permission) {
+    ding_list_remove_permission($permission);
+  }
 
-  $form_state['redirect'] = 'user/' . $GLOBALS['user']->uid . '/dinglists';
+  $list = ding_list_get_list(DING_LIST_TYPE_LISTS);
+  if ($list) {
+    $element = ding_list_has_ding_list_element($list, DING_LIST_TYPE_LISTS, $form_state['build_info']['args'][0]->id);
+    if ($element) {
+      ding_list_detach_ding_list_element($list, array($element->id));
+    }
+  }
+
+  $form_state['redirect'] = 'user';
 }
 
 /**
@@ -351,9 +363,11 @@ function ding_list_create_list_form_submit($form, &$form_state) {
   else {
     $list = ding_list_get_list($form_state['existing']);
 
+    $title = ding_list_allowed($list, DING_LIST_OPERATION_EDIT_TITLE) ? $form_state['values']['title'] : $list->title;
+
     ding_list_edit_ding_list(
       $list,
-      $form_state['values']['title'],
+      $title,
       NULL,
       TRUE,
       array(
@@ -384,7 +398,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   if (!ding_list_user_has_access($list, 'owner')) {
     $form['unfollow_shared'] = array(
       '#type' => 'submit',
-      '#value' => t('Unfollowed shared list'),
+      '#value' => t('Unfollow shared list'),
       '#submit' => array('ding_list_list_permissions_form_unfollow_shared'),
     );
 
@@ -500,7 +514,8 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     '#default_value' => t('Please use the following link to access this list.
 The link is active for 7 days from today, after which it will be disabled for security reasons.
 
-[link]'),
+!link'),
+    '#resizable' => FALSE,
   );
 
   $form['mail_sharer']['share'] = array(
@@ -697,7 +712,7 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
 
   drupal_mail('ding_list', 'share', $form_state['values']['email'], $language, array(
     'subject' => $form_state['values']['email_subject'],
-    'text' => str_replace('[link]', $link, $form_state['values']['email_text']),
+    'text' => str_replace('!link', $link, $form_state['values']['email_text']),
   ));
 
   // Get generated message.

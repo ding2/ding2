@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Availability information for ding objects.
@@ -63,6 +64,9 @@ function ding_availability_theme($existing, $type, $theme, $path) {
         'total_count' => NULL,
         'reserved_count' => NULL,
         'total_plus_ordered_count' => NULL,
+        'reserved_text' => NULL,
+        'acquisition_text' => NULL,
+        'total_text' => NULL,
       ),
       'path' => $path . '/templates',
     ),
@@ -148,7 +152,7 @@ function ding_availability_items($provider_ids) {
  *   ID's to fetch data for.
  *
  * @return array
- *   Holdings information.
+ *   Render array with rendered holdings information.
  */
 function ding_availability_holdings($provider_ids) {
   $items = ding_provider_invoke('availability', 'holdings', $provider_ids);
@@ -183,7 +187,6 @@ function ding_availability_holdings($provider_ids) {
     if (!isset($item['html'])) {
       $header = array(
         'placement' => t('Placement'),
-        'copies' => t('Copies'),
         'available' => t('At home'),
       );
 
@@ -191,13 +194,13 @@ function ding_availability_holdings($provider_ids) {
         'class' => array('availability-holdings-table'),
       );
 
-      // check if there are items in acquisition
+      // Check if there are items in acquisition.
       foreach ($item['holdings'] as $holding) {
         $item['ordered_count'] += (isset($holding['ordered_count'])) ? (int) $holding['ordered_count'] : 0;
       }
-      // if yes, add a column
+      // If yes, add a column.
       if ($item['ordered_count']) {
-        $header['acquisition'] = t('In acquisition');
+        $header['ordered_count'] = t('In acquisition');
       }
 
       $rows = array();
@@ -215,23 +218,48 @@ function ding_availability_holdings($provider_ids) {
             $closest_loan = $next_loan_time;
           }
         }
-        $rows[] = ding_availability_holdings_row($holding, $item['ordered_count']);
+        $rows[] = ding_availability_holdings_row($holding, array_keys($header));
       }
 
-      // Theme the output.
-      $item['html'] = theme('ding_holdings', array(
+      $total_count = (int) $item['total_count'];
+      $reserved_count = (int) $item['reserved_count'];
+      $ordered_count = (int) $item['ordered_count'];
+      $total_and_ordered_count = $total_count + $ordered_count;
+      $variables = array(
         'holdings' => array(
           '#theme' => 'table',
           '#header' => $header,
           '#rows' => $rows,
           '#attributes' => $attributes,
         ),
-        'total_count' => (int) $item['total_count'],
-        'reserved_count' => (int) $item['reserved_count'],
+        'total_count' => $total_count,
+        'reserved_count' => $reserved_count,
         'closest_loan' => (count($item['holdings']) == $copies) ? ding_availability_holding_format_time($closest_loan) : NULL,
-        'ordered_count' => (int) $item['ordered_count'],
-        'total_plus_ordered_count' => (int) $item['total_count'] + (int) $item['ordered_count'],
-      ));
+        'ordered_count' => $ordered_count,
+        'total_plus_ordered_count' => $total_and_ordered_count,
+        'reserved_text' => t('Cannot be reserved.'),
+        'acquisition_text' => '',
+        'total_text' => format_plural($total_and_ordered_count,
+                      'We have 1 copy.',
+                      'We have @count copies.',
+                      array('@count' => $total_and_ordered_count)),
+      );
+
+      if ($ordered_count) {
+        $variables['acquisition_text'] = format_plural($ordered_count,
+                                         '1 copy in acquisition.',
+                                         '@count copies are in acquisition.',
+                                         array('@count' => $ordered_count));
+      }
+
+      if ($item['reservable']) {
+        $variables['reserved_text'] = format_plural($reserved_count,
+                                      'There is 1 user in queue to loan the material.',
+                                      'There are @count users in queue to loan the material.');
+      }
+
+      // Theme the output.
+      $item['html'] = theme('ding_holdings', $variables);
     }
   }
 
@@ -258,29 +286,45 @@ function ding_availability_holding_format_time($date) {
 }
 
 /**
- * @param $holding
- * @param $show_ordered_count
+ * Create a row for the holdings table.
+ *
+ * @param array $holding
+ *   Holding from provider.
+ * @param array $fields
+ *   Fields to add.
  *
  * @return array
+ *   Row suitable for theme_table.
  */
-function ding_availability_holdings_row($holding, $show_ordered_count) {
+function ding_availability_holdings_row(array $holding, array $fields) {
   $row = array();
 
-  // Create placement string.
-  $row['placement'] = implode(' > ', $holding['placement']);
+  foreach ($fields as $field) {
+    switch ($field) {
+      case 'placement':
+        // Create placement string.
+        $row['placement'] = implode(' > ', $holding['placement']);
+        break;
 
-  // Library copies.
-  $row['copies'] = isset($holding['total_count']) ? (int) $holding['total_count'] : 0;
+      case 'copies':
+        // Library copies.
+        $row['copies'] = isset($holding['total_count']) ? (int) $holding['total_count'] : 0;
+        if (in_array('ordered_count', $fields)) {
+          $ordered_count = isset($holding['ordered_count']) ? (int) $holding['ordered_count'] : 0;
+          $row['copies'] += $ordered_count;
+        }
+        break;
 
-  // Calculate copies home.
-  $row['available'] = isset($holding['available_count']) ? (int) $holding['available_count'] : 0;
-  $row['available'] += isset($holding['reference_count']) ? (int) $holding['reference_count'] : 0;
+      case 'available':
+        // Calculate copies home.
+        $row['available'] = isset($holding['available_count']) ? (int) $holding['available_count'] : 0;
+        $row['available'] += isset($holding['reference_count']) ? (int) $holding['reference_count'] : 0;
 
-  // copies in acquisition.
-  if ($show_ordered_count) {
-    $ordered_count = isset($holding['ordered_count']) ? (int) $holding['ordered_count'] : 0;
-    $row['copies'] += $ordered_count;
-    $row['ordered_count'] = $ordered_count;
+      case 'ordered_count':
+        // Copies in acquisition.
+        $row['ordered_count'] = $ordered_count;
+        break;
+    }
   }
 
   return $row;
@@ -303,7 +347,6 @@ function _ding_availability_text(&$item) {
     $item['status'] = t('unavailable');
   }
 }
-
 
 /**
  * Implements hook_block_info().
@@ -348,7 +391,8 @@ function ding_availability_render_legend() {
   // Render image html using theme_image (returns NULL if file doesn't exist).
   foreach ($availability_legend as $key => $val) {
     $format_label = '<span class="availability-label">' . $val . '</span>';
-    $format_image = theme('image', array('path' => $image_path, 'alt' => $val, 'title' => $val));
+    $image = array('path' => $image_path, 'alt' => $val, 'title' => $val);
+    $format_image = theme('image', $image);
     $format_items[] = '<div class="availability-legend-item ' . $key . '">' . $format_image . $format_label . '</div>';
   };
   $format_items[] = '<div class="clearfix"></div>';

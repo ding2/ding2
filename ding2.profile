@@ -52,7 +52,7 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
     }
 
     if ($form_id == 'ting_covers_admin_addi_settings_form') {
-      $form['addi']['addi_wsdl_url']['#default_value'] = 'http://moreinfo.addi.dk/2.1/';
+      $form['addi']['addi_wsdl_url']['#default_value'] = 'http://moreinfo.addi.dk/2.11';
     }
   }
 }
@@ -819,24 +819,4 @@ function ding2_set_cookie_page() {
   // Permissions, see: ding_permissions module
   // display EU Cookie Compliance popup: anonymous user, authenticated user
   // administer EU Cookie Compliance popup: administrators, local administrator
-}
-
-/**
- * Enabling Shortcuts plugin for Administration Menu module.
- */
-function ding2_admin_menu_shortcuts() {
-  if (module_exists('admin_menu')) {
-    $content = variable_get('admin_menu_components', array());
-
-    if (empty($content)) {
-      module_load_include('inc', 'admin_menu', 'admin_menu');
-    }
-
-    $content['icon'] = '1';
-    $content['menu'] = '1';
-    $content['account'] = '1';
-    $content['shortcut.links'] = '1';
-
-    variable_set('admin_menu_components', $content);
-  }
 }

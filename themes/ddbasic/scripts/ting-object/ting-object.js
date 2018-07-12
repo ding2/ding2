@@ -105,17 +105,20 @@
 
   // Ting scroll to other formats
   Drupal.behaviors.ding_ting_object_scrollto_other_formats = {
-    attach: function(context, settings) {
-      var other_formats_btn = $('a.other-formats', context),
-          pane_ting_object_types = $('.pane-ting-ting-object-types', context),
-          html = $('html, body');
+    attach: function (context, settings) {
+      // Context here is omitted to re-attach behaviors on DOM change.
+      // Specifically, the other-formats button is ajax-ed.
+      // See: profiles/ding2/modules/ting/js/ting_ding_entity_buttons.js
+      var other_formats_btn = $('a.other-formats');
+      var pane_ting_object_types = $('.pane-ting-ting-object-types');
+      var html = $('html, body');
 
-      other_formats_btn.on('click', function(event){
+      other_formats_btn.on('click', function (event) {
         event.preventDefault();
         html.animate({
-          scrollTop: pane_ting_object_types.offset().top - 148}, 400);
+          scrollTop: pane_ting_object_types.offset().top - 148
+        }, 400);
       });
-
     }
   };
 

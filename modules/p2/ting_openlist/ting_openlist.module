@@ -5,6 +5,10 @@
  * Provider and configuration layer for connection with the OpenList service.
  */
 
+define('TING_OPENLIST_DEFAULT_DOMAIN', 'https://test.openlist.ddbcms.dk');
+
+require_once 'TingOpenlistRequestException.php';
+
 /**
  * Implements hook_ding_provider().
  */
@@ -241,127 +245,62 @@ function ting_openlist_field_validate($element, &$form_state, $form) {
 }
 
 /**
- * Get a SoapClient.
- *
- * @param string $wsdl
- *   The wsdl file to use.
- * @param bool $trace
- *   When debugging this allows the SoapClient to trace out complete data.
- *
- * @return object
- *   The PHP SoapClient.
- */
-function ting_openlist_get_soap($wsdl = NULL, $trace = FALSE) {
-  $clients = &drupal_static(__FUNCTION__, array());
-
-  if (!isset($clients[$wsdl])) {
-    if ($wsdl === NULL) {
-      $wsdl = variable_get('ting_openlist_wsdl', '');
-    }
-
-    // Create the client, catch any error and log it.
-    try {
-      $clients[$wsdl] = @new SoapClient(
-        $wsdl, array(
-          'trace' => $trace,
-          'cache_wsdl' => variable_get('ting_openlist_wsdl_cache', TRUE) && !$trace ? WSDL_CACHE_DISK : WSDL_CACHE_NONE,
-        )
-      );
-
-      $clients[$wsdl]->__setCookie('library_code', variable_get('ting_library_code', ''));
-      $clients[$wsdl]->__setCookie('authkey', variable_get('ting_openlist_authkey', ''));
-
-      // Enable the developer cookie if specified.
-      if (variable_get('ting_openlist_developer', FALSE)) {
-        $clients[$wsdl]->__setCookie('developer', 'on');
-      }
-    }
-    catch (Exception $e) {
-      watchdog(
-        'openlist',
-        'Unable to create SoapClient(@wsdl). Exception:<br />@exception',
-        array('@wsdl' => $wsdl, '@exception' => $e->getMessage()),
-        WATCHDOG_ERROR
-      );
-
-      $clients[$wsdl] = FALSE;
-    }
-  }
-
-  return $clients[$wsdl];
-}
-
-/**
  * Call the openlist service.
  *
  * @param string $function
  *   Function name of the function to call on the service.
  * @param array $arguments
  *   Numerical array with the arguments, in their respectable order.
- * @param bool $detailed_log
- *   If set to true, the arguments send is logged by watchdog, if logging is
- *   active.
  *
  * @return mixed
  *   Response from Openlist.
  */
-function ting_openlist_request($function, array $arguments = array(), $detailed_log = FALSE) {
-  $response = FALSE;
-  $start_time = microtime(TRUE);
+function ting_openlist_request($function, array $arguments = array()) {
+  timer_start(__FUNCTION__);
 
-  if ($soap_client = ting_openlist_get_soap()) {
-    try {
-      $response = call_user_func_array(
-        array(
-          $soap_client,
-          $function,
-        ),
-        $arguments
-      );
+  $parts = array(
+    variable_get('ting_openlist_domain', TING_OPENLIST_DEFAULT_DOMAIN),
+    'json',
+    $function,
+  );
 
-      // If logging is enabled, log the function name and execution time.
-      if (variable_get('ting_openlist_log', FALSE)) {
-        $execution_time = microtime(TRUE) - $start_time;
+  $query = array(
+    'library_code' => variable_get('ting_library_code', ''),
+    'authkey' => variable_get('ting_openlist_authkey', ''),
+  );
 
-        $details = '';
-        if ($detailed_log || variable_get('ting_openlist_log_details', FALSE)) {
-          $details = "<pre>" . var_export($arguments, TRUE) . '</pre>';
-        }
-
-        watchdog(
-          'openlist',
-          '@function (@execution_time s)!details',
-          array(
-            '@function' => $function,
-            '@execution_time' => $execution_time,
-            '!details' => $details,
-          ),
-          WATCHDOG_INFO
-        );
-      }
-    }
-    catch (Exception $e) {
-      $execution_time = microtime(TRUE) - $start_time;
-      watchdog(
-        'openlist',
-        'Error (@execution_time s).<br /><strong>Function:</strong> @function.<br /><strong>Exception:</strong>@exception<hr /><pre>!details</pre>',
-        array(
-          '@function' => $function,
-          '@execution_time' => $execution_time,
-          '@exception' => $e->getMessage(),
-          '!details' => var_export($arguments, TRUE),
-        ),
-        WATCHDOG_ERROR
-      );
-
-      throw $e;
-    }
-  }
-  else {
-    throw new Exception('No soap client available.');
+  if (variable_get('ting_openlist_developer', FALSE)) {
+    $query['developer'] = 'on';
   }
 
-  return $response;
+  $query += $arguments;
+
+  $url = url(
+    implode('/', $parts),
+    array('query' => $query)
+  );
+
+  $response = drupal_http_request($url);
+  $watchdog_severity = ($response->code !== '200' || empty($response->data)) ? WATCHDOG_ERROR : WATCHDOG_INFO;
+
+  if ($watchdog_severity === WATCHDOG_ERROR || variable_get('ting_openlist_log', FALSE)) {
+    watchdog(
+      'ting_openlist',
+      '<strong>Request</strong><pre>!link</pre><strong>Execution time</strong><pre>@execution_time ms</pre><strong>Response</strong><pre>!response</pre>',
+      array(
+        '!link' => l($url, $url, array('external' => TRUE)),
+        '@execution_time' => timer_read(__FUNCTION__),
+        '!response' => htmlentities(var_export($response, TRUE)),
+      ),
+      $watchdog_severity
+    );
+
+    if ($watchdog_severity === WATCHDOG_ERROR) {
+      throw new TingOpenlistRequestException($response, $url);
+    }
+  }
+
+  return drupal_json_decode($response->data);
 }
 
 /**
@@ -434,7 +373,7 @@ function ting_openlist_user_identifier($account = NULL) {
     }
     else {
       try {
-        $creds = ding_user_get_creds($account);
+        $creds = ding_user_get_creds();
 
         if (!empty($creds['name'])) {
           $ids[$account->uid] = ting_openlist_create_identifier($creds['name']);

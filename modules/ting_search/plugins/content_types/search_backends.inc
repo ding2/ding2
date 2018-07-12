@@ -53,6 +53,37 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
     $txt = format_string('Search @backend', array('@backend' => $backend['title']));
     $title = l(t($txt), $path, array('query' => $conditions));
 
+    // Getting the count of search results for each enabled backend.
+    switch ($backend['path']) {
+      case 'ting':
+        // Using already formed search results.
+        $ting_search_results = drupal_static('ting_search_results');
+        // If search results is empty perform new ting search.
+        // This condition is putted here for getting results when not
+        // on /search/ting/%key% page.
+        if (empty($ting_search_results)) {
+          // Prepare keys.
+          $keys = '(' . _ting_search_quote($keys) . ')';
+          // Perform an search.
+          $ting_search_results = ting_do_search($keys);
+        }
+        // Get count of total results from ting.
+        $count = $ting_search_results->numTotalObjects;
+        $title = $title . ' <span class="count">(' . $count . ')</span>';
+        break;
+
+      case 'node':
+        // Load view which is rendered on node search and getting the total
+        // amount of rows returned.
+        $view = views_get_view('ding_multiple_search');
+        $view->set_display('panel_pane_1');
+        $view->set_arguments(array($keys));
+        $view->execute();
+        $count = $view->total_rows;
+        $title = $title . ' <span class="count">(' . $count . ')</span>';
+        break;
+    }
+
     // Set default value.
     if (arg(1) == $backend['path']) {
       $default_value = $backend['module'];

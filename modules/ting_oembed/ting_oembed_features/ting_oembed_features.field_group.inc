@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function ting_oembed_features_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -18,7 +18,7 @@ function ting_oembed_features_field_group_info() {
   $field_group->entity_type = 'ting_object';
   $field_group->bundle = 'ting_object';
   $field_group->mode = 'default';
-  $field_group->parent_name = '';
+  $field_group->parent_name = 'group_ting_object_right_column';
   $field_group->data = array(
     'label' => 'Material content',
     'weight' => '6',
@@ -39,7 +39,7 @@ function ting_oembed_features_field_group_info() {
       'formatter' => 'collapsible',
     ),
   );
-  $export['group_oembed|ting_object|ting_object|default'] = $field_group;
+  $field_groups['group_oembed|ting_object|ting_object|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -66,7 +66,12 @@ function ting_oembed_features_field_group_info() {
       ),
     ),
   );
-  $export['group_oembed|ting_object|ting_object|form'] = $field_group;
+  $field_groups['group_oembed|ting_object|ting_object|form'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Material content');
+  t('oEmbed');
+
+  return $field_groups;
 }

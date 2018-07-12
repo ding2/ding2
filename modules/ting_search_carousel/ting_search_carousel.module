@@ -278,6 +278,7 @@ function _ting_search_carousel_find_entities_with_covers($query, $start, $size, 
     'facets' => array(),
     'enrich' => TRUE,
     'allObjects' => FALSE,
+    'collectionType' => 'manifestation',
   );
   // Ting pages are 1, not 0, based.
   $result = ting_do_search($query, ($start++) + 1, $size, $options);

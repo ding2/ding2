@@ -113,11 +113,6 @@ msgctxt "metatag_panels:page_user_debts_panel_context:title"
 msgid "Debts | [current-page:pager][site:name]"
 msgstr "Gebyrer | [current-page:pager][site:name]"
 
-#: metatag:metatag_panels:page_user_loans_panel_context:title
-msgctxt "metatag_panels:page_user_loans_panel_context:title"
-msgid "Loans | [current-page:pager][site:name]"
-msgstr "Lån | [current-page:pager][site:name]"
-
 #: metatag:metatag_panels:page_user_reservations_panel_context:title
 msgctxt "metatag_panels:page_user_reservations_panel_context:title"
 msgid "Reservations | [current-page:pager][site:name]"
@@ -192,11 +187,6 @@ msgctxt "metatag_panels:page_ding_library_about_panel_context:title"
 msgid "%slug:title | About | [current-page:pager][site:name]"
 msgstr "%slug:title | Om | [current-page:pager][site:name]"
 
-#: metatag:metatag_panels:page_ding_news_panel_context:title
-msgctxt "metatag_panels:page_ding_news_panel_context:title"
-msgid "News | [current-page:pager][site:name]"
-msgstr "Nyheder | [current-page:pager][site:name]"
-
 #: metatag:metatag_panels:page_ding_news_library_panel_context:title
 msgctxt "metatag_panels:page_ding_news_library_panel_context:title"
 msgid "%slug:title | News | [current-page:pager][site:name]"
@@ -241,3 +231,23 @@ msgstr "[current-user:name] | Lån | [current-page:pager][site:name]"
 msgctxt "metatag_panels:page_user_reservations_panel_context:title"
 msgid "[current-user:name] | Reservations | [current-page:pager][site:name]"
 msgstr "[current-user:name] | Reservationer | [current-page:pager][site:name]"
+
+#: metatag:metatag_panels:page_user_loans_panel_context:title
+msgctxt "metatag_panels:page_user_loans_panel_context:title"
+msgid "Loans | [current-page:pager][site:name]"
+msgstr "Lån | [current-page:pager][site:name]"
+
+#: metatag:metatag_panels:page_ding_news_panel_context:title
+msgctxt "metatag_panels:page_ding_news_panel_context:title"
+msgid "News | [current-page:pager][site:name]"
+msgstr "Nyheder | [current-page:pager][site:name]"
+
+#: metatag:metatag_panels:page_user_my_library_panel:title
+msgctxt "metatag_panels:page_user_my_library_panel:title"
+msgid "My personal library | [current-page:pager][site:name]"
+msgstr "Mit personlige bibliotek | [current-page:pager][site:name]"
+
+#: metatag:metatag_panels:page_user_loans_overdue_panel_context:title
+msgctxt "metatag_panels:page_user_loans_overdue_panel_context:title"
+msgid "Overdue loans | [current-page:pager][site:name]"
+msgstr "Overskredne lån | [current-page:pager][site:name]"

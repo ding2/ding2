@@ -363,9 +363,21 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           $ting_type = $entity->getType();
           if ($collection && count($collection->types) > 1) {
             $ting_type = t('Material collection');
-            // Replace title with the more generic collection title.
-            $title = $collection->title;
           }
+
+          $collection_titles = array_map(
+            function($collection_entity) {
+              return $collection_entity->title;
+            },
+            $collection->entities
+          );
+          // If a collection has items of the same type?
+          // But with different titles, then use the generic collection title.
+          if (count(array_unique($collection_titles)) > 1) {
+            $title = $collection->title;
+            $ting_type = t('Material collection');
+          }
+
           // @todo: this could be moved into a theme function to be more
           // generic.
           $prefix = '<span class="search-result--heading-type js-toggle-info-container">' . $ting_type . ':</span>';

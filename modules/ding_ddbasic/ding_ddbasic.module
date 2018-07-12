@@ -56,7 +56,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
           ),
           '#size' => '1',
           '#default_value' => $default_value,
-        ) + $form['color']['palette']['text'];
+        ) + (isset($form['color']['palette']['text']) ? $form['color']['palette']['text'] : array());
 
         // Limit the choices on text colors.
         switch ($form['color']['palette']['text_link']['#default_value']) {
@@ -80,7 +80,35 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
           ),
           '#size' => '1',
           '#default_value' => $default_value,
-        ) + $form['color']['palette']['text_link'];
+        ) + (isset($form['color']['palette']['text_link']) ? $form['color']['palette']['text_link'] : array());
+
+        // Limit the choices on text link colors on dark background.
+        $default_value = '#ffffff';
+        if (isset($form['color']['palette']['text_link_on_dark']['#default_value'])) {
+          switch ($form['color']['palette']['text_link_on_dark']['#default_value']) {
+            case $form['color']['palette']['primary']['#default_value']:
+              $default_value = 'primary';
+              break;
+
+            case $form['color']['palette']['secondary']['#default_value']:
+              $default_value = 'secondary';
+              break;
+          }
+        }
+
+        $form['color']['palette']['text_link_on_dark'] = array(
+          '#description' => t('Choose a color that is legible on a dark background<br />Is used for text-links on dark background'),
+          '#type' => 'select',
+          '#options' => array(
+            // The primary and secondary value is handled in the theme_settings
+            // submit callback, in the ddbasic theme.
+            'primary' => t('Primary'),
+            'secondary' => t('Secondary'),
+            DING_DDBASIC_COLOR_WHITE => t('White'),
+          ),
+          '#size' => '1',
+          '#default_value' => $default_value,
+        ) + (isset($form['color']['palette']['text_link_on_dark']) ? $form['color']['palette']['text_link_on_dark'] : array());
 
         // Limit the choices on text link colors on dark background.
         switch ($form['color']['palette']['text_link_on_dark']['#default_value']) {
@@ -115,7 +143,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
             DING_DDBASIC_COLOR_BLACK => t('Black'),
           ),
           '#size' => '1',
-        ) + $form['color']['palette']['text_on_primary'];
+        ) + (isset($form['color']['palette']['text_on_primary']) ? $form['color']['palette']['text_on_primary'] : array());
 
         $form['color']['palette']['text_on_secondary'] = array(
           '#description' => t('Choose a color that is legible on the secondary color'),
@@ -125,7 +153,7 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
             DING_DDBASIC_COLOR_BLACK => t('Black'),
           ),
           '#size' => '1',
-        ) + $form['color']['palette']['text_on_secondary'];
+        ) + (isset($form['color']['palette']['text_on_secondary']) ? $form['color']['palette']['text_on_secondary'] : array());
       }
       break;
   }

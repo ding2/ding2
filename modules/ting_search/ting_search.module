@@ -842,6 +842,16 @@ function ting_search_sort_options() {
     'date_descending' => t('Date (Descending)'),
   );
 
+  // Add Acquisition Date sort for opensearch v4.3 or higher.
+  $matches = array();
+  $ting_search = variable_get('ting_search_url');
+  preg_match_all('~(\d\.\d\.?\d?)\/?$~', $ting_search, $matches);
+  $version = (float) $matches[1][0];
+  if ($version >= 4.3) {
+    $options['localAcquisitionDate_ascending'] = t('Acquisition Date (ascending)');
+    $options['localAcquisitionDate_descending'] = t('Acquisition Date (descending)');
+  }
+
   // Do not show sort-options specific for rank_frequency if
   // custom_ranking is enabled or another rank is selected.
   $default_sort = variable_get('ting_sort_default', 'rank_frequency');

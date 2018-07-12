@@ -56,7 +56,7 @@ function openruth_reservation_list($account, $type = NULL) {
       );
 
       // Get information for OpenRuth.
-      $creds = ding_user_get_creds($account);
+      $creds = ding_user_get_creds();
       $status = _openruth_user_status($creds);
 
       if (isset($status->orders->orderReady)) {
@@ -275,7 +275,7 @@ function openruth_reservation_create($account, $id, $options = array(), $expiry 
   }
 
   // Get creds and user status.
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   // Create the reservation at openruth.
   $order_res = openruth_client_invoke('order_item', $creds['name'], $id, 1, date('c', time()), date('Y-m-d', time() + $expiry), $branch);
@@ -316,7 +316,7 @@ function openruth_reservation_update($account, $res_ids, $options) {
     }
   }
   // Flush cache.
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   _openruth_user_status($creds, TRUE);
 }
 
@@ -337,7 +337,7 @@ function openruth_reservation_reservation_deletion_enabled() {
  * @param type $id
  */
 function openruth_reservation_delete($account, $id) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   $res = openruth_client_invoke('cancel_order', $id);
 

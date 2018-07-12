@@ -54,14 +54,14 @@
             }
 
             // Set cookie, so to remember if they where shown.
-            $.cookie('ding_facetbrowers_groups_shown', cookie);
+            Cookies.set('ding_facetbrowers_groups_shown', cookie);
           });
 
           return false;
         });
 
         // Check the cookie, if facet groups should be hidden or shown as default.
-        if (parseInt($.cookie('ding_facetbrowers_groups_shown'), 10) === 1) {
+        if (parseInt(Cookies.get('ding_facetbrowers_groups_shown'), 10) === 1) {
           show_more_groups.trigger('click');
         }
       });

@@ -55,7 +55,7 @@ function connie_user_authenticate($name, $pass) {
  * to in the absence of this function.
  */
 function connie_user_get_name($account) {
-  if (($creds = ding_user_get_creds($account)) && isset($creds['name'])) {
+  if (($creds = ding_user_get_creds()) && isset($creds['name'])) {
     return $creds['name'];
   }
   return NULL;
@@ -86,7 +86,7 @@ function connie_user_is_authenticated($creds) {
  */
 function connie_user_account_update($account, array $changes) {
   $result = array();
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   $res = connie_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
   if ($res !== TRUE) {
     // Call failed, throw exception.
@@ -143,7 +143,7 @@ function connie_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
  */
 function connie_user_update_pincode($account, $new_pincode) {
   $passes = variable_get('connie_user_passes', array());
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   $passes[$creds['name']] = $new_pincode;
   variable_set('connie_user_passes', $passes);
 
@@ -162,7 +162,7 @@ function connie_user_update_pincode($account, $new_pincode) {
  * @todo: move testing code to use another existing function.
  */
 function connie_user_test() {
-  ding_user_get_creds(NULL);
+  ding_user_get_creds();
 
   return "Wolla!";
 }

@@ -128,7 +128,7 @@ function ding_user_frontend_block_view($delta) {
         // want. No credentials, no user status. (The creds are store in the
         // session, so it's a fast check, where ding_user_is_provider_user would
         // use the database.)
-        ding_user_get_creds($user);
+        ding_user_get_creds();
       }
       catch (DingProviderAuthException $e) {
         return;

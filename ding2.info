@@ -3,7 +3,7 @@ description = Install a Ding based library site.
 core = 7.x
 distribution_name = "Ding 2"
 exclusive = TRUE
-version = 7.x-4.1.0+easy
+version = 7.x-4.2.1+easy
 
 ; Core modules.
 dependencies[] = block
@@ -27,7 +27,6 @@ dependencies[] = redirect
 dependencies[] = pagepreview
 dependencies[] = admin_menu
 dependencies[] = admin_menu_toolbar
-dependencies[] = toolbar
 
 ; Ding modules.
 dependencies[] = ding_base

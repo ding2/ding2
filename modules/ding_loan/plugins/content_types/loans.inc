@@ -51,14 +51,6 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
 
       $ids[] = $item->ding_entity_id;
     }
-    ding_entity_load_multiple($ids);
-
-    // Add the pre-load entity to each loan, if the entity exists.
-    foreach ($loans as $id => &$item) {
-      // Accessing the entity ref. will load the entity from the data well. So
-      // this is intentional not assigned to any thing.
-      $item->entity;
-    }
 
     // Store the loans into ding session cache.
     if (module_exists('ding_session_cache')) {
@@ -180,39 +172,23 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         // Patron have this item in loans list, but opensearch can't find this
         // record for current agencyId, so we load it separately.
         // Here we are loading TingClientObject.
-        $ting_object = ting_get_object($loan->ding_entity_id);
-
-        // But we need TingEntity instance, so here we are populating this.
-        $ting_entity = new TingEntity();
-        $ting_entity->ding_entity_id = $entity->ding_entity_id;
-        $ting_entity->reply = $ting_object;
-        $entity = $ting_entity;
+        $entity = ding_provider_get_pseudo_entity($loan->ding_entity_id);
       }
 
-      if (is_object($entity) && !empty($entity->reply)) {
-        $raw_title = $entity->getTitle();
+      // Title link.
+      $raw_title = $entity->getTitle();
+      $uri = entity_uri('ting_object', $entity);
+      $title = l($raw_title, $uri['path']);
 
-        // Add title link.
-        $uri = entity_uri('ting_object', $entity);
-        $title = l($raw_title, $uri['path']);
-
-        // Add creator(s).
-        $creators = $entity->creators;
-
-        // Add type.
-        $mat_type = $entity->type;
-
-        // Attempt to render a cover.
-        $cover = field_view_field('ting_object', $entity, 'ting_cover', 'user_list');
-      }
-
+      // Attempt to render a cover.
+      $cover = field_view_field('ting_object', $entity, 'ting_cover', 'user_list');
 
       $item = array(
         '#type' => 'material_item',
         '#loan' => $loan,
         '#id' => $loan->id,
-        '#creators' => isset($creators) ? $creators : NULL,
-        '#material_type' => isset($mat_type) ? $mat_type : NULL,
+        '#creators' => !empty($entity->creators) ? $entity->creators : NULL,
+        '#material_type' => !empty($entity->type) ? $entity->type : NULL,
         '#title' => $title,
         '#cover' => isset($cover) ? $cover : NULL,
         '#information' => array(

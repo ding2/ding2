@@ -14,7 +14,7 @@ function ding_ipe_filter_menu() {
     'weight' => 1,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_ipe_filter_admin_panes_form'),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('administer ding ipe filter'),
     'file' => 'includes/ding_ipe_filter.admin.inc',
   );
 
@@ -29,6 +29,10 @@ function ding_ipe_filter_permission() {
     'use IPE filter menu' => array(
       'title' => t('Use IPE filter menu'),
       'description' => t('Replace default administration modal window with filtered menu.'),
+    ),
+    'administer ding ipe filter' => array(
+      'title' => t('Administer Ding IPE filter'),
+      'description' => t('Administer settings for Ding IPE fitler module.'),
     ),
   );
 }

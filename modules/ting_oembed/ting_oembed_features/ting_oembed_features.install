@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Ting oEmbed Features module.
+ */
+
+/**
+ * Disable oEmbed for all providers except eKurser.
+ *
+ * Otherwise oEmbed will hijack handling by Media YouTube and Vimeo modules.
+ */
+function ting_oembed_features_update_7000(&$sandbox) {
+  variable_set('default_oembed_provider', array(
+    'youtube' => TRUE,
+    'vimeo' => TRUE,
+    'viddler' => TRUE,
+    'twitter' => TRUE,
+    'soundcloud' => TRUE,
+    'smugmug' => TRUE,
+    'slideshare' => TRUE,
+    'scribd' => TRUE,
+    'revision3' => TRUE,
+    'qik' => TRUE,
+    'flickr' => TRUE,
+  ));
+}

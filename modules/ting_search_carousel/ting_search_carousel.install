@@ -38,6 +38,9 @@ function ting_search_carousel_add_shortcut() {
         'link_path' => 'admin/config/ting/ting_search_carousel',
         'link_title' => st('Configure carousel'),
         'weight' => -14,
+        // We have to specify this, since our router path might not exist yet on
+        // fresh install.
+        'router_path' => 'admin/config/ting/ting_search_carousel'
       ),
     );
 

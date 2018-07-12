@@ -221,15 +221,19 @@ function theme_ding_list_lists($variables) {
   if ($variables['uid'] == $user->uid) {
     $render = array(
       '#theme' => 'item_list',
-      '#items' => array(
-        l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button')))),
-        l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button')))),
-        l(t('View all public lists'), 'public-lists', array('attributes' => array('class' => array('button')))),
-      ),
+      '#items' => array(),
       '#title' => "",
       '#type' => 'ul',
       '#attributes' => array('class' => array('bottom-links')),
     );
+
+    if (ding_message_get_message_count()) {
+      $render['#items'][] = l(t("Mark all notifications as read"), "ding_message/clear_user_messages", array('attributes' => array('class' => array('button'))));
+    }
+
+    $render['#items'][] = l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button'))));
+    $render['#items'][] = l(t('View all public lists'), 'public-lists', array('attributes' => array('class' => array('button'))));
+
     $out .= drupal_render($render);
   }
 

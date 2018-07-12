@@ -68,6 +68,10 @@ function ding_list_user_list_ctools_access_check($conf, $context) {
     }
   }
 
+  if ($token === FALSE && !empty($_REQUEST['lazy_pane_get']['token'])) {
+    $token = $_REQUEST['lazy_pane_get']['token'];
+  }
+
   $result = ding_list_user_has_access($list, $conf['visibility_settings'], $account, $token);
 
   if (!$result) {

@@ -706,7 +706,8 @@ function _ding_campaign_rule_by_type($node_type) {
 function ding_campaign_preprocess(&$variables, $hook) {
   switch ($hook) {
     case 'node':
-      if ($variables['view_mode'] == 'full' && ($variables['type'] == 'ding_event' || $variables['type'] == 'ding_news')) {
+      $types = array('ding_event', 'ding_news', 'ding_eresource');
+      if ($variables['view_mode'] == 'full' && in_array($variables['type'], $types)) {
         // Load panes for fetching campaign pane settings.
         $conf = [];
         $panels = panels_load_display(1);

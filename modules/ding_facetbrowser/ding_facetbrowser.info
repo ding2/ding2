@@ -6,3 +6,4 @@ package = Ding!
 files[] = ding_facetbrowser.module
 files[] = ding_facetbrowser.test
 dependencies[] = ting_search
+dependencies[] = libraries

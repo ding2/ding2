@@ -59,9 +59,9 @@ function ding_message_menu() {
     'access arguments' => array('use personalisation'),
     'type' => MENU_CALLBACK,
   );
-  $items['ding_message/purge_user_messages'] = array(
+  $items['ding_message/clear_user_messages'] = array(
     'title' => 'Purge user messages',
-    'page callback' => 'ding_message_purge_user_messages',
+    'page callback' => 'ding_message_clear_user_messages',
     'access arguments' => array('use personalisation'),
     'type' => MENU_CALLBACK,
     'file' => 'ding_message.admin.inc',
@@ -116,6 +116,7 @@ function ding_message_get_users_to_check() {
     ->orderBy('u.login', 'DESC')
     ->orderBy('dmc.time', 'ASC')
     ->range(0, variable_get('ding_message_batch_size', 50));
+  $query->where('u.login > dmc.time');
 
   $accounts = array_values($query->execute()->fetchAllKeyed(0, 0));
 
@@ -583,6 +584,11 @@ function ding_message_preprocess_entity(&$vars) {
             $term = taxonomy_term_load($tid);
             $url = 'search/ting/facet.subject=' . $term->name;
             break;
+
+          case 'ding_list':
+            $item_key = key($vars['content']['item']['ding_type']);
+            $vars['content']['item']['ding_type'][$item_key]['#url_query'] = $link_query;
+            break;
         }
 
         // Add message to content.
@@ -602,7 +608,7 @@ function ding_message_preprocess_entity(&$vars) {
         );
 
         // Add message link to title.
-        $vars['content']['query']['#options']['query'] = array('size' => 50, 'message' => $last_element);
+        $vars['content']['query']['#options']['query'] = $link_query;
         $vars['content']['query']['#options']['attributes']['data-item-id'] = $values->mid;
         $vars['content']['query']['#options']['attributes']['class'] = array('ding-message-link');
       }
@@ -622,6 +628,10 @@ function ding_message_preprocess_entity(&$vars) {
       if ($result) {
         $output = l($result, 'list/' . $entity->id, array('html' => TRUE));
         $vars['content']['message'] = array('#markup' => '<div class="ding-message label">' . $output . '</div>');
+      }
+
+      if (!empty($vars['elements']['#url_query'])) {
+        $vars['url'] = url('list/' . $entity->id, array('query' => $vars['elements']['#url_query']));
       }
     }
   }

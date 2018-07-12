@@ -68,20 +68,22 @@
 // ==========================================================================
 .pane-share-list {
   form {
-    @include span-columns(4 of 8);
-
-    // Tablet
-    @include media($tablet) {
-      @include span-columns(6);
-    }
-
-    // Mobile
-    @include media($mobile) {
-      width: 100%;
-      margin-right: 0;
-    }
+    width: 100%;
+    float: left;
     .description {
       margin-top: 5px;
+    }
+  }
+  #edit-mail-sharer {
+    .fieldset-wrapper {
+      width: 100%;
+    }
+  }
+  #shared-list {
+    tr.odd {
+      // Change background color, since the select icon has same grey color
+      // as default table background
+      background-color: $grey-light;
     }
   }
 }

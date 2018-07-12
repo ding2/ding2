@@ -88,6 +88,31 @@ function ding_frontend_image_default_styles() {
     ),
   );
 
+  // Exported image style: crop_4_3.
+  $styles['crop_4_3'] = array(
+    'name' => 'crop_4_3',
+    'label' => 'Crop 4:3',
+    'effects' => array(
+      6 => array(
+        'label' => 'Manual Crop: Custom crop',
+        'help' => 'Crop a freely user-selected area.',
+        'effect callback' => 'manualcrop_crop_effect',
+        'form callback' => 'manualcrop_crop_form',
+        'summary theme' => 'manualcrop_crop_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_crop',
+        'data' => array(
+          'width' => 200,
+          'height' => 150,
+          'keepproportions' => 1,
+          'reuse_crop_style' => '',
+          'style_name' => 'crop_4_3',
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
   // Exported image style: crop_unconstrained.
   $styles['crop_unconstrained'] = array(
     'name' => 'crop_unconstrained',
@@ -847,8 +872,23 @@ function ding_frontend_image_default_styles() {
   // Exported image style: ding_secondary_large.
   $styles['ding_secondary_large'] = array(
     'name' => 'ding_secondary_large',
+    'label' => 'ding_secondary_large',
     'effects' => array(
-      12 => array(
+      2 => array(
+        'label' => 'Manual Crop: Reuse cropped style',
+        'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
+        'effect callback' => 'manualcrop_reuse_effect',
+        'form callback' => 'manualcrop_reuse_form',
+        'summary theme' => 'manualcrop_reuse_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_reuse',
+        'data' => array(
+          'reuse_crop_style' => 'crop_unconstrained',
+          'apply_all_effects' => 0,
+        ),
+        'weight' => 0,
+      ),
+      1 => array(
         'label' => 'Scale',
         'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
         'effect callback' => 'image_scale_effect',
@@ -865,7 +905,6 @@ function ding_frontend_image_default_styles() {
         'weight' => 1,
       ),
     ),
-    'label' => 'ding_secondary_large',
   );
 
   // Exported image style: ding_secondary_medium.
@@ -989,6 +1028,30 @@ function ding_frontend_image_default_styles() {
   );
 
   return $styles;
+}
+
+/**
+ * Implements hook_default_search_api_autocomplete_search().
+ */
+function ding_frontend_default_search_api_autocomplete_search() {
+  $items = array();
+  $items['search_api_views_ding_multiple_search'] = entity_import('search_api_autocomplete_search', '{
+    "machine_name" : "search_api_views_ding_multiple_search",
+    "name" : "Ding multiple search",
+    "index_id" : "default_multiple_index",
+    "suggester_id" : "server",
+    "type" : "search_api_views",
+    "enabled" : "1",
+    "options" : {
+      "suggester_configuration" : { "fields" : [ "node:title" ] },
+      "min_length" : "1",
+      "results" : 0,
+      "custom" : { "display" : "default" },
+      "submit_button_selector" : ":submit",
+      "autosubmit" : 1
+    }
+  }');
+  return $items;
 }
 
 /**
