@@ -57,6 +57,10 @@ table {
   }
   tr.odd {
     background-color: $grey;
+
+    input.form-autocomplete {
+      background: $white;
+    }
   }
   td {
     padding-top: 20px;

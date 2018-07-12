@@ -316,6 +316,12 @@ projects[easyddb_zerohit_redirect][download][url]    = "git@github.com:easySuite
 ;projects[easyddb_zerohit_redirect][download][tag]    = "7.x-3.0.2"
 projects[easyddb_zerohit_redirect][download][branch] = "development"
 
+projects[easyopac_status][type]             = "module"
+projects[easyopac_status][subdir]           = ""
+projects[easyopac_status][download][type]   = "git"
+projects[easyopac_status][download][url]    = "git@github.com:easySuite/easyopac_status.git"
+projects[easyopac_status][download][branch] = "development"
+
 projects[emailkanon][type]             = "module"
 projects[emailkanon][subdir]           = ""
 projects[emailkanon][download][type]   = "git"
@@ -393,6 +399,34 @@ projects[ting_search_terms][download][url]    = "git@github.com:easySuite/ting_s
 ;projects[ting_search_terms][download][tag]    = "7.x-3.0.4"
 projects[ting_search_terms][download][branch] = "development"
 
+projects[ting_subsearch_suggestions][type]             = "module"
+projects[ting_subsearch_suggestions][subdir]           = ""
+projects[ting_subsearch_suggestions][download][type]   = "git"
+projects[ting_subsearch_suggestions][download][url]    = "git@github.com:easySuite/ting_subsearch_suggestions.git"
+;projects[ting_subsearch_suggestions][download][tag]    = ""
+projects[ting_subsearch_suggestions][download][branch] = "development"
+
+projects[ting_subsearch_common][type]             = "module"
+projects[ting_subsearch_common][subdir]           = ""
+projects[ting_subsearch_common][download][type]   = "git"
+projects[ting_subsearch_common][download][url]    = "git@github.com:easySuite/ting_subsearch_common.git"
+;projects[ting_subsearch_common][download][tag]    = ""
+projects[ting_subsearch_common][download][branch] = "development"
+
+projects[ting_subsearch_secondary][type]             = "module"
+projects[ting_subsearch_secondary][subdir]           = ""
+projects[ting_subsearch_secondary][download][type]   = "git"
+projects[ting_subsearch_secondary][download][url]    = "git@github.com:easySuite/ting_subsearch_secondary.git"
+;projects[ting_subsearch_secondary][download][tag]    = ""
+projects[ting_subsearch_secondary][download][branch] = "development"
+
+projects[ting_subsearch_translate][type]             = "module"
+projects[ting_subsearch_translate][subdir]           = ""
+projects[ting_subsearch_translate][download][type]   = "git"
+projects[ting_subsearch_translate][download][url]    = "git@github.com:easySuite/ting_subsearch_translate.git"
+;projects[ting_subsearch_translate][download][tag]    = ""
+projects[ting_subsearch_translate][download][branch] = "development"
+
 projects[ting_titles_decoration][type]             = "module"
 projects[ting_titles_decoration][subdir]           = ""
 projects[ting_titles_decoration][download][type]   = "git"
@@ -467,6 +501,18 @@ projects[kultur_subtheme][subdir]           = ""
 projects[kultur_subtheme][download][type]   = "git"
 projects[kultur_subtheme][download][url]    = "git@github.com:easySuite/kultur_subtheme.git"
 projects[kultur_subtheme][download][branch] = "develop"
+
+projects[ding_language][type]             = "module"
+projects[ding_language][subdir]           = ""
+projects[ding_language][download][type]   = "git"
+projects[ding_language][download][url]    = "git@github.com:easySuite/ding_language.git"
+projects[ding_language][download][branch] = "development"
+
+projects[gronbib_frontend][type]             = "module"
+projects[gronbib_frontend][subdir]           = ""
+projects[gronbib_frontend][download][type]   = "git"
+projects[gronbib_frontend][download][url]    = "git@github.com:easySuite/gronbib_frontend.git"
+projects[gronbib_frontend][download][branch] = "development"
 
 ; To be removed
 projects[alma_item_list][type]             = "module"

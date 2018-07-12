@@ -49,9 +49,12 @@ function ding_library_library_list_content_type_render($subtype, $conf, $panel_a
   $nodes = db_select('node', 'n')
     ->fields('n', array('nid', 'title'))
     ->condition('type', 'ding_library')
-    ->condition('status', '1')
-    ->execute()
-    ->fetchAll();
+    ->condition('status', '1');
+
+  if (module_exists('ding_language')) {
+    $nodes->addTag('language');
+  }
+  $nodes = $nodes->execute()->fetchAll();
 
   // Generate link for each library.
   if (!empty($nodes)) {

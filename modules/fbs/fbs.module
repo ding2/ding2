@@ -371,7 +371,7 @@ function fbs_profile2_presave($entity) {
     'emailAddress' => $wrapper->field_fbs_mail->value(),
     'receiveSms' => (bool) $wrapper->field_fbs_phone_notification->value(),
     'receiveEmail' => (bool) $wrapper->field_fbs_mail_notification->value(),
-    'preferredPickupBranch' => $wrapper->field_fbs_preferred_branch->value(),
+    'preferredPickupBranch' => (string) $wrapper->field_fbs_preferred_branch->value(),
   );
 
   // Opt out of messages if unsetting phone number.
@@ -395,7 +395,7 @@ function fbs_profile2_presave($entity) {
     'emailAddress' => $patron['mail'],
     'receiveSms' => (bool) $patron['phone_notification'],
     'receiveEmail' => (bool) $patron['mail_notification'],
-    'preferredPickupBranch' => $patron['preferred_branch'],
+    'preferredPickupBranch' => (string) $patron['preferred_branch'],
     'onHold' => $patron['on_hold'],
   );
 

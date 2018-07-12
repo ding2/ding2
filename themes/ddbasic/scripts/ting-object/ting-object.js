@@ -109,9 +109,9 @@
       // Context here is omitted to re-attach behaviors on DOM change.
       // Specifically, the other-formats button is ajax-ed.
       // See: profiles/ding2/modules/ting/js/ting_ding_entity_buttons.js
-      let other_formats_btn = $('a.other-formats');
-      let pane_ting_object_types = $('.pane-ting-ting-object-types');
-      let html = $('html, body');
+      var other_formats_btn = $('a.other-formats');
+      var pane_ting_object_types = $('.pane-ting-ting-object-types');
+      var html = $('html, body');
 
       other_formats_btn.on('click', function (event) {
         event.preventDefault();

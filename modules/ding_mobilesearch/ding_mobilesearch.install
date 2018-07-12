@@ -19,10 +19,21 @@ function ding_mobilesearch_default_config() {
 }
 
 /**
+ * Sets lowest hooks invocation priority.
+ */
+function ding_mobilesearch_default_weight() {
+  db_update('system')
+    ->fields(array('weight' => 9000))
+    ->condition('name', 'ding_mobilesearch', '=')
+    ->execute();
+}
+
+/**
  * Implements hook_install().
  */
 function ding_mobilesearch_install() {
   ding_mobilesearch_default_config();
+  ding_mobilesearch_default_weight();
 }
 
 /**
@@ -38,6 +49,7 @@ function ding_mobilesearch_uninstall() {
   }
   variable_del('mobilesearch_rest_url');
   variable_del('mobilesearch_rest_debug');
+  variable_del('mobilesearch_rest_agency_id');
   variable_del('mobilesearch_rest_key');
 }
 
@@ -73,4 +85,11 @@ function ding_mobilesearch_update_7001() {
     ))
     ->condition('name', 'push_to_mongo')
     ->execute();
+}
+
+/**
+ * Make sure hooks are called last within the system.
+ */
+function ding_mobilesearch_update_7002() {
+  ding_mobilesearch_default_weight();
 }

@@ -21,8 +21,6 @@ projects[autologout][version] = "4.5"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
-; Patch to Drupal settings variable error.
-projects[autosave][patch][] = "https://www.drupal.org/files/issues/autosave-ajax-js-error-2758189-1.patch"
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.4"
@@ -216,6 +214,8 @@ projects[maintenance_mode_api][version] = "1.0-beta1"
 
 projects[media][subdir] = "contrib"
 projects[media][version] = "2.0"
+; Patch against SA-CONTRIB-2018-020
+projects[media][patches][] = "https://cgit.drupalcode.org/media/patch/?id=1cd77ffa9c2cf96d80b76d47318179a8a82f0d46"
 
 projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.0-rc1"
@@ -304,6 +304,7 @@ projects[override_node_options][version] = "1.13"
 
 projects[quiz][subdir] = "contrib"
 projects[quiz][version] = "5.0-rc4"
+projects[quiz][patch][] = "https://www.drupal.org/files/issues/2018-06-20/quiz-question_pdo_exception_v50-2980495-3-D7.patch"
 
 projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
@@ -374,6 +375,9 @@ projects[search_api_multi][patch][] = "https://www.drupal.org/files/issues/25809
 
 projects[search_api_db][subdir] = "contrib"
 projects[search_api_db][version] = "1.5"
+
+projects[search_api_autocomplete][subdir] = "contrib"
+projects[search_api_autocomplete][version] = "1.5"
 
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
