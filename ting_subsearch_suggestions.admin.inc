@@ -48,6 +48,7 @@ function ting_subsearch_suggestions_form_ting_admin_ting_settings_alter(&$form, 
   $form['subsearch_settings']['kpi_settings']['ting_subsearch_kpi_week_nrs'] = array(
     '#type' => 'select',
     '#title' => t('Weeks count'),
+    '#description' => t('Indicates how many weeks from local storage to use in suggestion process.'),
     '#options' => $week_numbers,
     '#default_value' => variable_get('ting_subsearch_kpi_week_nrs', 0),
   );

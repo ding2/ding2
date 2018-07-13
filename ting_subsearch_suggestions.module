@@ -39,8 +39,8 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
     }
 
     if ($results->numTotalObjects == 0) {
-      // The search result returned zero-hits so we need to see if "correct" keys
-      // can yield a better result.
+      // The search result returned zero-hits so we need to see if "correct"
+      // keys can yield a better result.
       $search_result = drupal_static('ting_search_results');
       // Find suggestions for "correct" search phrase.
       $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
@@ -101,9 +101,10 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
  *
  * @return string
  *   The suggestion.
+ *
+ * @throws \Exception
  */
 function ting_subsearch_suggestions_suggest_keys($keys) {
-
   $service = variable_get('ting_subsearch_suggestions_service', '');
 
   switch ($service) {
@@ -152,6 +153,10 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
       $kpi_index = db_select('ting_subsearch_kpi_index_popular_keys', 'k')
         ->fields('k')
         ->condition('numtotalsearches', variable_get('ting_subsearch_kpi_minimum_searches', 10), '>')
+        ->condition(
+          'weekno',
+          array(1, variable_get('ting_subsearch_kpi_week_nrs', 1)),
+          'BETWEEN')
         ->orderBy('numtotalsearches', 'DESC')
         ->execute();
 
@@ -179,7 +184,6 @@ function ting_subsearch_suggestions_cron() {
     }
 
     $url = variable_get('ting_subsearch_kpi_webservice_endpoint', NULL);
-    $weeks_count = variable_get('ting_subsearch_kpi_week_nrs', 1) + 1;
 
     if (empty($url)) {
       watchdog('ting_subsearch_opensuggestions', 'KPI: Module not configured properly', array(), WATCHDOG_WARNING);
@@ -196,34 +200,52 @@ function ting_subsearch_suggestions_cron() {
       $results = str_getcsv($ret, "\r\n");
       unset($results[0]);
 
-      $first_item = explode(';', trim($results[1]));
-      $limit_week = 0;
-      if ($weeks_count < $first_item[0]) {
-        $limit_week = $first_item[0] - $weeks_count;
-      }
-
       $prepared = array();
 
       foreach ($results as $result) {
         $result = explode(';', trim($result));
-        if ($result[0] > $limit_week) {
-          $prepared[] = array(
-            'weekno' => $result[0],
-            'oss' => $result[1],
-            'results' => $result[2],
-            'oss_r' => $result[3],
-          );
-        }
+        $prepared[] = array(
+          'weekno' => $result[0],
+          'oss' => $result[1],
+          'results' => $result[2],
+          'oss_r' => $result[3],
+        );
       }
     }
     catch (Exception $e) {
-      throw new Exception($e->getMessage(), $e->getCode(), $e);
+      watchdog('cron', $e->getMessage());
     }
 
     if (!empty($prepared)) {
-      ting_subsearch_suggestions_insert_records($prepared);
+      // Check if week is already in db.
+      // If it exists - remove all rows related to this week.
+      $feed_week_nrs = array();
+      foreach ($prepared as $item) {
+        $feed_week_nrs[$item['weekno']] = TRUE;
+      }
+
+      $week_nrs_db = db_select('ting_subsearch_kpi_index_popular_keys', 'tskpi')
+        ->distinct()
+        ->fields('tskpi', array('weekno'))
+        ->execute()
+        ->fetchCol();
+
+      foreach (array_keys($feed_week_nrs) as $feed_week_nr) {
+        if (in_array($feed_week_nr, $week_nrs_db)) {
+          // Remove this week from db.
+          _ting_subsearch_suggestions_clear_passed_week($feed_week_nr);
+        }
+      }
+
+      try {
+        ting_subsearch_suggestions_insert_records($prepared);
+      }
+      catch (Exception $e) {
+        watchdog_exception('ting_subsearch_suggestions', $e->getMessage());
+      }
+
       variable_set('subsearch_cron_run', time() + (60 * 60 * 24 * 7));
-      watchdog('ting_subsearch_suggestions', 'Data fetched from KPI. Will re-run in a week.', array(), WATCHDOG_INFO);
+      watchdog_exception('ting_subsearch_suggestions', 'Data fetched from KPI. Will re-run in a week.', array(), WATCHDOG_INFO);
     }
     else {
       watchdog('ting_subsearch_suggestions', 'No data fetched from feed', array(), WATCHDOG_WARNING);
@@ -232,19 +254,35 @@ function ting_subsearch_suggestions_cron() {
 }
 
 /**
- * Insert kpi keys into table.
+ * Remove passed week from db.
+ *
+ * @param int $weeknr
+ *   Week number which have to be deleted.
  */
-function ting_subsearch_suggestions_insert_records($result) {
-  db_truncate('ting_subsearch_kpi_index_popular_keys')->execute();
+function _ting_subsearch_suggestions_clear_passed_week($weeknr) {
+  db_delete('ting_subsearch_kpi_index_popular_keys')
+    ->condition('weekno', $weeknr, '=')
+    ->execute();
+}
+
+/**
+ * Insert kpi keys into table.
+ *
+ * @param array $result
+ *   Data array with results which should be inserted into db.
+ *
+ * @throws \Exception
+ */
+function ting_subsearch_suggestions_insert_records(array $result) {
 
   foreach ($result as $key => $data) {
     if (is_numeric($data['results']) && !empty($data['oss'])) {
       $normalized_string = mb_convert_encoding($data['oss'], 'UTF-8', 'CP850');
       $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields(
         array(
-          'id' => md5($key),
           'popular_keys' => $normalized_string,
           'numtotalsearches' => (int) $data['results'],
+          'weekno' => $data['weekno'],
         )
       );
       $query->execute();
