@@ -126,8 +126,9 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
           break;
         }
 
+        // TODO Replace direct call to ADHL with abstraction layer.
         // Get the recommendations from the ting client (ADHL service).
-        $recommendations = ting_get_object_recommendations($identifier, $number_of_recommendations);
+        $recommendations = opensearch_get_object_recommendations($identifier, $number_of_recommendations);
         if (isset($recommendations) && is_array($recommendations)) {
           foreach ($recommendations as $recommendation) {
             $local_ids[$recommendation->localId] = $recommendation;

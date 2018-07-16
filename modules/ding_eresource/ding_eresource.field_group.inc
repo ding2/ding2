@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function ding_eresource_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -35,7 +35,7 @@ function ding_eresource_field_group_info() {
       ),
     ),
   );
-  $export['group_ding_eresource_attachments|node|ding_eresource|form'] = $field_group;
+  $field_groups['group_ding_eresource_attachments|node|ding_eresource|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -64,7 +64,7 @@ function ding_eresource_field_group_info() {
       ),
     ),
   );
-  $export['group_ding_eresource_cat|node|ding_eresource|form'] = $field_group;
+  $field_groups['group_ding_eresource_cat|node|ding_eresource|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -93,7 +93,7 @@ function ding_eresource_field_group_info() {
       ),
     ),
   );
-  $export['group_ding_eresource_content|node|ding_eresource|form'] = $field_group;
+  $field_groups['group_ding_eresource_content|node|ding_eresource|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -120,7 +120,7 @@ function ding_eresource_field_group_info() {
       ),
     ),
   );
-  $export['group_ding_eresource_data_well|node|ding_eresource|form'] = $field_group;
+  $field_groups['group_ding_eresource_data_well|node|ding_eresource|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -148,7 +148,7 @@ function ding_eresource_field_group_info() {
       ),
     ),
   );
-  $export['group_ding_eresource_images|node|ding_eresource|form'] = $field_group;
+  $field_groups['group_ding_eresource_images|node|ding_eresource|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -179,7 +179,7 @@ function ding_eresource_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $export['group_left_col_search|node|ding_eresource|search_result'] = $field_group;
+  $field_groups['group_left_col_search|node|ding_eresource|search_result'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -210,7 +210,7 @@ function ding_eresource_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $export['group_left|node|ding_eresource|default'] = $field_group;
+  $field_groups['group_left|node|ding_eresource|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -242,7 +242,7 @@ function ding_eresource_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $export['group_right_col_search|node|ding_eresource|search_result'] = $field_group;
+  $field_groups['group_right_col_search|node|ding_eresource|search_result'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -279,7 +279,19 @@ function ding_eresource_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $export['group_right|node|ding_eresource|default'] = $field_group;
+  $field_groups['group_right|node|ding_eresource|default'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Attachments');
+  t('Categorization');
+  t('Content');
+  t('Data well');
+  t('Images');
+  t('Left');
+  t('Left column');
+  t('Right');
+  t('Right column');
+
+  return $field_groups;
 }

@@ -2,6 +2,8 @@ name = FBS
 description = Provider for FBS.
 core = 7.x
 package = Providers
+version = 7.x-1.0-dev
+project = fbs
 dependencies[] = date_popup
 dependencies[] = ding_provider
 dependencies[] = ding_reservation
@@ -11,10 +13,18 @@ dependencies[] = entity
 dependencies[] = features
 dependencies[] = libraries
 dependencies[] = list
+dependencies[] = options
 dependencies[] = profile2
 dependencies[] = text
 dependencies[] = virtual_field
 dependencies[] = xautoload
+# Features will mark any module that implements hook_field_info() as required.
+# This causes the module to be enabled automatically during site-install, which
+# in the case of a Ding-provider is a problem.
+# To prevent "required = 1" line below has been commented out. When a future
+# feature-export reintroduce the line make sure to ignore it and keep this
+# block of comments and the out-commented line intact.
+# required = 1
 configure = admin/config/ding/provider/fbs
 explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
 features[features_api][] = api:2
@@ -49,5 +59,3 @@ files[] = includes/classes/FBSLogDrupal.php
 files[] = includes/classes/FBSLogInterface.php
 files[] = includes/classes/FBSLogStdout.php
 files[] = includes/classes/FBSMisconfiguredException.php
-mtime = 1499431707
-required = 1

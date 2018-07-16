@@ -6,19 +6,25 @@
  */
 
 /**
- * Implements hook_requirements().
+ * Implements hook_uninstall().
+ */
+function ting_infomedia_uninstall() {
+
+}
+
+/**
+ * Implementing hook_requirements()
  */
 function ting_infomedia_requirements($phase) {
   $requirements = array();
 
   if ($phase == 'runtime') {
     $url = variable_get('ting_infomedia_url');
-    if (!isset($url)) {
-      $t = get_t();
+    if( !isset($url) ) {
       $requirements['ting_infomedia_url'] = array(
-        'title' => $t('Infomedia settings'),
-        'value' => l($t('Url to infomedia webservice must be set in admin'), 'admin/config/ting/settings'),
-        'severity' => REQUIREMENT_ERROR,
+        'title' => t('Infomedia settings'),
+        'value' =>  l(t('Url to infomedia webservice must be set in admin'), 'admin/config/ting/settings'),
+        'severity' => REQUIREMENT_ERROR
       );
     }
   }

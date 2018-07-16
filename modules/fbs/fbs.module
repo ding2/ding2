@@ -260,8 +260,8 @@ function fbs_settings_form() {
     '#default_value' => variable_get('fbs_password', ''),
   );
 
-  // Add the option to select default interest period, which defaults to 180
-  // days.
+  // Add the option to select default interest period, which default as default
+  // to 180 days.
   $periods = fbs_interest_periods();
   $default = variable_get('fbs_default_interest_period', 180);
   $form['fbs'] += ding_reservation_interest_period_selector('fbs_default_interest_period', $default, $periods);
@@ -776,9 +776,9 @@ function _fbs_wayf_login($name, $value = NULL) {
 }
 
 /**
- * Implements hook_ting_pre_execute().
+ * Implements hook_opensearch_pre_execute().
  */
-function fbs_ting_pre_execute($request) {
+function fbs_opensearch_pre_execute($request) {
   // We only want to modify searches.
   if ($request instanceof TingClientSearchRequest) {
     // Filter out blacklisted branches from search.

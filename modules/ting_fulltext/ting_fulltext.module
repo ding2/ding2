@@ -7,6 +7,8 @@
  * This uses a docbook-subset for displaying content.
  */
 
+use OpenSearch\OpenSearchTingObject;
+
 /**
  * Implements hook_menu().
  */
@@ -41,15 +43,17 @@ function ting_fulltext_theme($existing, $type, $theme, $path) {
  */
 function ting_fulltext_object_load($object_id) {
   if (!empty($object_id)) {
-    module_load_include('client.inc', 'ting');
+    module_load_include('client.inc', 'opensearch');
 
-    $request = ting_get_request_factory()->getObjectRequest();
+    $request = opensearch_get_request_factory()->getObjectRequest();
     $request->setObjectId($object_id);
-    $request->setProfile(variable_get('ting_search_profile', ''));
-    $request->setFormat('docbook');
+    $request->setProfile(variable_get('opensearch_search_profile', ''));
+    if ($agency = variable_get('ting_agency', FALSE)) {
+      $request->setAgency($agency);
+    }
     $request->setObjectFormat('docbook');
     $request->setOutputType('xml');
-    $xml = ting_execute_cache($request);
+    $xml = opensearch_execute_cache($request);
 
     return $xml;
   }
@@ -61,10 +65,16 @@ function ting_fulltext_object_load($object_id) {
  * Implements hook_preprocess_ting_relation().
  */
 function ting_fulltext_preprocess_ting_relation(&$variables) {
+  /** @var \TingRelation $relation */
   $relation = $variables['relation'];
 
-  if (!$variables['online'] && (isset($relation->object->reply) && isset($relation->object->reply->formatsAvailable))) {
-    if (in_array('docbook', $relation->object->reply->formatsAvailable)) {
+  if (!$variables['online'] && (NULL !== $relation->getObject() && NULL != $relation->getObject()->getTingObject())) {
+    /** @var \OpenSearch\OpenSearchTingObject $ting_object */
+    $ting_object = $relation->getObject()->getTingObject();
+
+    // This will only work for the opensearch search provider, so check what
+    // type of object we have.
+    if ($ting_object instanceof OpenSearchTingObject && in_array('docbook', $relation->getObject()->getTingObject()->getFormatsAvailable())) {
       $variables['fulltext_link'] = l(t('See the full-text version'), 'ting/object/' . $relation->uri . '/fulltext');
     }
   }

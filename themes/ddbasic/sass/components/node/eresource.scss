@@ -40,7 +40,7 @@
       }
       .field-item {
         position: relative;
-        padding-top: 56%; // Creates a 16:9 format
+        padding-top: 75%; // Creates a 4:3 format
       }
       img {
         @include transform(translate(-50%, -50%));

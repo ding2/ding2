@@ -1,0 +1,170 @@
+<?php
+
+/**
+ * @file
+ * Smart banner module file.
+ */
+
+define('DING_APP_SMARTBANNER_MODULE_PATH', drupal_get_path('module', 'ding_app_smartbanner'));
+
+/**
+ * Implements hook_menu().
+ */
+function ding_app_smartbanner_menu() {
+  $item = array();
+
+  $item['admin/config/smartbanner'] = array(
+    'title' => 'Smart banner',
+    'description' => 'Manage smart banner configuration.',
+    'position' => 'left',
+    'weight' => 20,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $item['admin/config/smartbanner/settings'] = array(
+    'title' => 'Smart banner',
+    'description' => 'Manage smart banner configuration.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_app_smartbanner_settings_form'),
+    'access arguments' => array('access administration pages'),
+    'file' => 'ding_app_smartbanner.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $item;
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function ding_app_smartbanner_libraries_info() {
+  $libraries = array();
+
+  $libraries['smart-app-banner'] = array(
+    'name' => 'Smart App Banner',
+    'vendor url' => 'https://github.com/kudago/smart-app-banner',
+    'download url' => 'https://github.com/kudago/smart-app-banner/archive/v1.3.0.zip',
+    'version callback' => 'ding_app_smartbanner_short_circuit_version',
+    'version arguments' => array(
+      'file' => 'smart-app-banner.js',
+      'pattern' => '/v(\d+\.+\d+\.+\d+)/',
+    ),
+    'files' => array(
+      'js' => array('smart-app-banner.js'),
+      'css' => array('smart-app-banner.css'),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Short-circuit the version argument for libraries_info().
+ */
+function ding_app_smartbanner_short_circuit_version() {
+  return TRUE;
+}
+
+/**
+ * Implements hook_init().
+ */
+function ding_app_smartbanner_init() {
+  $configs = variable_get('smartbanner_config', array());
+
+  drupal_add_css(libraries_get_path('smart-app-banner') . '/smart-app-banner.css');
+  drupal_add_js(libraries_get_path('smart-app-banner') . '/smart-app-banner.js', array('type' => 'file', 'scope' => 'footer'));
+  drupal_add_js(DING_APP_SMARTBANNER_MODULE_PATH . '/js/ding_app_smartbanner.js', array('type' => 'file', 'scope' => 'footer'));
+
+  $icon_path = DING_APP_SMARTBANNER_MODULE_PATH . '/images/icon.png';
+
+  $os = array(
+    'ios' => array(
+      'store_id' => 'apple-itunes',
+    ),
+    'android' => array(
+      'store_id' => 'google-play',
+    ),
+  );
+
+  // Meta tags for Apple and Android.
+  foreach ($os as $os_mach_name => $os_conf) {
+    $os_config = $os_mach_name . '_app_config';
+    if (empty($configs['app_configs'][$os_config]['app_enabled'])) {
+      continue;
+    }
+
+    $app_conf = $configs['app_configs'][$os_mach_name . '_app_config'];
+
+    $meta_tags = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => $os_conf['store_id'] . '-app',
+        'content' => 'app-id=' . $app_conf['app_id'],
+      ),
+    );
+
+    drupal_add_html_head($meta_tags, $os_mach_name . '_meta');
+
+    $icon = $configs['base_config']['app_icon']['icon'];
+    if ($icon) {
+      $icon_path = file_create_url($icon->uri);
+    }
+    $configs['base_config']['app_icon']['icon_path'] = $icon_path;
+
+    $app_icon = array(
+      '#tag' => 'link',
+      '#attribute' => array(
+        'rel' => $os_mach_name . '-touch-icon',
+        'href' => $icon_path,
+      ),
+    );
+
+    drupal_add_html_head($app_icon, 'link_' . $os_mach_name . '_icon');
+
+    $configs['base_config'][$os_mach_name]['price'] = $app_conf['app_price'];
+    $configs['base_config'][$os_mach_name]['description'] = $app_conf['app_description'];
+  }
+
+  // Windows meta tags.
+  if (!empty($configs['app_configs']['windows_app_config']['app_enabled'])) {
+    $meta_ms_1 = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'msApplication-ID',
+        'content' => $configs['app_configs']['windows_app_config']['app_id'],
+      ),
+    );
+
+    drupal_add_html_head($meta_ms_1, 'ms_meta_1');
+
+    $meta_ms_2 = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'msApplication-PackageFamilyName',
+        'content' => $configs['app_configs']['windows_app_config']['package'],
+      ),
+    );
+
+    drupal_add_html_head($meta_ms_2, 'ms_meta_2');
+
+    $app_icon = array(
+      '#tag' => 'link',
+      '#attribute' => array(
+        'rel' => 'windows-touch-icon',
+        'href' => $icon_path,
+      ),
+    );
+
+    drupal_add_html_head($app_icon, 'link_windows_icon');
+
+    $configs['base_config']['windows']['price'] = $configs['app_configs']['windows_app_config']['app_price'];
+    $configs['base_config']['windows']['description'] = $configs['app_configs']['windows_app_config']['app_description'];
+  }
+
+  if (!empty($configs['base_config'])) {
+    drupal_add_js(array('ding_app_smartbanner' => $configs['base_config']), 'setting');
+  }
+}

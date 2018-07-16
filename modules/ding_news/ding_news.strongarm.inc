@@ -145,10 +145,6 @@ function ding_news_strongarm() {
             'weight' => '0',
             'visible' => FALSE,
           ),
-          'teaser_no_overlay' => array(
-            'weight' => '4',
-            'visible' => TRUE,
-          ),
         ),
         'ding_serendipity_info' => array(
           'alternative_layout_full' => array(
@@ -156,10 +152,6 @@ function ding_news_strongarm() {
             'visible' => TRUE,
           ),
           'default' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-          'teaser_no_overlay' => array(
             'weight' => '0',
             'visible' => TRUE,
           ),
@@ -175,6 +167,13 @@ function ding_news_strongarm() {
   $strongarm->name = 'flag_push_to_mongo_default_ding_news';
   $strongarm->value = 1;
   $export['flag_push_to_mongo_default_ding_news'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'flag_mobile_app_default_ding_news';
+  $strongarm->value = 1;
+  $export['flag_mobile_app_default_ding_news'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -196,15 +195,6 @@ function ding_news_strongarm() {
   $strongarm->name = 'menu_parent_ding_news';
   $strongarm->value = 'main-menu:0';
   $export['menu_parent_ding_news'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'node_options_ding_news';
-  $strongarm->value = array(
-    0 => 'status',
-  );
-  $export['node_options_ding_news'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

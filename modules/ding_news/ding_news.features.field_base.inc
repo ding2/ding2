@@ -10,21 +10,13 @@
 function ding_news_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'ding_news_groups_ref'
+  // Exported field_base: 'ding_news_groups_ref'.
   $field_bases['ding_news_groups_ref'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'ding_news_groups_ref',
-    'foreign keys' => array(
-      'node' => array(
-        'columns' => array(
-          'target_id' => 'nid',
-        ),
-        'table' => 'node',
-      ),
-    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -61,21 +53,13 @@ function ding_news_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_ding_news_body'
+  // Exported field_base: 'field_ding_news_body'.
   $field_bases['field_ding_news_body'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_news_body',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -90,21 +74,13 @@ function ding_news_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_news_category'
+  // Exported field_base: 'field_ding_news_category'.
   $field_bases['field_ding_news_category'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_news_category',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -125,21 +101,13 @@ function ding_news_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_news_files'
+  // Exported field_base: 'field_ding_news_files'.
   $field_bases['field_ding_news_files'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_news_files',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -157,21 +125,13 @@ function ding_news_field_default_field_bases() {
     'type' => 'file',
   );
 
-  // Exported field_base: 'field_ding_news_lead'
+  // Exported field_base: 'field_ding_news_lead'.
   $field_bases['field_ding_news_lead'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_news_lead',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -186,21 +146,13 @@ function ding_news_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_news_list_image'
+  // Exported field_base: 'field_ding_news_list_image'.
   $field_bases['field_ding_news_list_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_news_list_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -217,14 +169,13 @@ function ding_news_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_ding_news_materials'
+  // Exported field_base: 'field_ding_news_materials'.
   $field_bases['field_ding_news_materials'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_news_materials',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_reference',
@@ -241,14 +192,13 @@ function ding_news_field_default_field_bases() {
     'type' => 'ting_reference',
   );
 
-  // Exported field_base: 'field_ding_news_show_as_list'
+  // Exported field_base: 'field_ding_news_show_as_list'.
   $field_bases['field_ding_news_show_as_list'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_news_show_as_list',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -268,21 +218,13 @@ function ding_news_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'field_ding_news_tags'
+  // Exported field_base: 'field_ding_news_tags'.
   $field_bases['field_ding_news_tags'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_news_tags',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -303,21 +245,13 @@ function ding_news_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_news_title_image'
+  // Exported field_base: 'field_ding_news_title_image'.
   $field_bases['field_ding_news_title_image'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_news_title_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',

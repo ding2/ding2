@@ -250,6 +250,7 @@ function ding_permissions_secure_permissions($role) {
       'administer og menu',
       'administer og menu configuration',
       'administer opening hours configuration',
+      'administer opensearch settings',
       'administer page manager',
       'administer pane access',
       'administer panel-nodes',
@@ -517,7 +518,6 @@ function ding_permissions_secure_permissions($role) {
       'view scheduled content',
       'view the administration theme',
       'administer personalisation',
-      'reset all user lists',
     ),
     'editor' => array(
       'access media browser',
@@ -760,6 +760,7 @@ function ding_permissions_secure_permissions($role) {
       'administer meta tags',
       'administer nodes',
       'administer opening hours configuration',
+      'administer opensearch settings',
       'administer redirects',
       'administer place2book settings',
       'administer search',
@@ -914,7 +915,6 @@ function ding_permissions_secure_permissions($role) {
       'view scheduled content',
       'view the administration theme',
       'administer personalisation',
-      'reset all user lists',
     ),
     'local editor' => array(
       'access media browser',
@@ -1000,7 +1000,6 @@ function ding_permissions_secure_permissions($role) {
       'view own private files',
       'view own provider_alma profile',
       'view own provider_openruth profile',
-      'reset own lists',
     ),
     'staff' => array(
       'access environment indicator',

@@ -248,3 +248,23 @@ function ding_frontend_views_query_alter(&$view, &$query) {
       break;
   }
 }
+
+/**
+ *Implements hook_search_api_views_query_alter().
+ */
+function ding_frontend_search_api_views_query_alter(view &$view, SearchApiViewsQuery &$query) {
+  // Ensure that we use correct view.
+  if ($view->name == 'ding_multiple_search') {
+    // Look that args are not empty.
+    if (!empty($view->args[0])) {
+      // Loading original args.
+      $args = $view->args[0];
+      // Cleanup original args (search query), so the $query variable
+      // will not have to construct monstrous query to get needed records
+      // from search index.
+      $new_args = preg_replace('/(=|\.| or | and |="|")/i', ' ', $args);
+      // Return cleared search query string into view's query.
+      $query->keys($new_args);
+    }
+  }
+}

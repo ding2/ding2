@@ -10,21 +10,13 @@
 function ding_event_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'ding_event_groups_ref'
+  // Exported field_base: 'ding_event_groups_ref'.
   $field_bases['ding_event_groups_ref'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'ding_event_groups_ref',
-    'foreign keys' => array(
-      'node' => array(
-        'columns' => array(
-          'target_id' => 'nid',
-        ),
-        'table' => 'node',
-      ),
-    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -61,21 +53,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'ding_groups_ref'
+  // Exported field_base: 'ding_groups_ref'.
   $field_bases['ding_groups_ref'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'ding_groups_ref',
-    'foreign keys' => array(
-      'node' => array(
-        'columns' => array(
-          'target_id' => 'nid',
-        ),
-        'table' => 'node',
-      ),
-    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -112,21 +96,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_ding_event_body'
+  // Exported field_base: 'field_ding_event_body'.
   $field_bases['field_ding_event_body'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_body',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -141,21 +117,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_event_category'
+  // Exported field_base: 'field_ding_event_category'.
   $field_bases['field_ding_event_category'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_category',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -176,14 +144,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_event_date'
+  // Exported field_base: 'field_ding_event_date'.
   $field_bases['field_ding_event_date'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_date',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',
@@ -205,21 +172,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'field_ding_event_files'
+  // Exported field_base: 'field_ding_event_files'.
   $field_bases['field_ding_event_files'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_files',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -237,21 +196,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'file',
   );
 
-  // Exported field_base: 'field_ding_event_lead'
+  // Exported field_base: 'field_ding_event_lead'.
   $field_bases['field_ding_event_lead'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_lead',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -266,14 +217,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_event_list_filter'
+  // Exported field_base: 'field_ding_event_list_filter'.
   $field_bases['field_ding_event_list_filter'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_list_filter',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -293,21 +243,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_ding_event_list_image'
+  // Exported field_base: 'field_ding_event_list_image'.
   $field_bases['field_ding_event_list_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_list_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -324,14 +266,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_ding_event_location'
+  // Exported field_base: 'field_ding_event_location'.
   $field_bases['field_ding_event_location'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_location',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'addressfield',
@@ -342,14 +283,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'addressfield',
   );
 
-  // Exported field_base: 'field_ding_event_materials'
+  // Exported field_base: 'field_ding_event_materials'.
   $field_bases['field_ding_event_materials'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_materials',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_reference',
@@ -366,14 +306,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'ting_reference',
   );
 
-  // Exported field_base: 'field_ding_event_price'
+  // Exported field_base: 'field_ding_event_price'.
   $field_bases['field_ding_event_price'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_price',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'number',
@@ -384,21 +323,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'number_integer',
   );
 
-  // Exported field_base: 'field_ding_event_tags'
+  // Exported field_base: 'field_ding_event_tags'.
   $field_bases['field_ding_event_tags'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_tags',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -419,21 +350,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_event_target'
+  // Exported field_base: 'field_ding_event_target'.
   $field_bases['field_ding_event_target'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_target',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -454,14 +377,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_event_ticket_link'
+  // Exported field_base: 'field_ding_event_ticket_link'.
   $field_bases['field_ding_event_ticket_link'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_ticket_link',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',
@@ -485,21 +407,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'field_ding_event_title_image'
+  // Exported field_base: 'field_ding_event_title_image'.
   $field_bases['field_ding_event_title_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_event_title_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -516,21 +430,13 @@ function ding_event_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'og_group_ref'
+  // Exported field_base: 'og_group_ref'.
   $field_bases['og_group_ref'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'og_group_ref',
-    'foreign keys' => array(
-      'node' => array(
-        'columns' => array(
-          'target_id' => 'nid',
-        ),
-        'table' => 'node',
-      ),
-    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',

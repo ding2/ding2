@@ -23,6 +23,9 @@
  *   - hook_<plugin>_serendipity_add() - to add suggestions to the DS pool
  */
 
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchRequest;
+
 include_once 'ding_serendipity.features.inc';
 
 define('DING_SERENDIPITY_FUNCTION_POSTFIX', '_serendipity_add');
@@ -378,18 +381,17 @@ function ding_serendipity_validate_materials(array $keys) {
 
   $sanitized = array();
 
-  // Lookup the materials in the data well to filter out local missing
-  // materials.
-  $query = implode(" OR ", $keys);
+  // Lookup the materials to filter out local missing materials.
+  $query = ting_start_query()->withMaterialFilter($keys);
 
   // Also add the audience to the query, if the user has a clear audience.
   $audience = ding_serendipity_user_audience();
   if ($audience !== FALSE) {
-    $query = '(' . $query . ') AND facet.category=' . $audience;
+    $query = $query->withFieldFilter(TingSearchCommonFields::CATEGORY, $audience);
   }
-
+  $result = [];
   try {
-    $result = ding_serendipity_do_search($query, array('limit' => count($keys)));
+    $result = ding_serendipity_do_search($query, count($keys));
 
     foreach ($result as $item) {
       $sanitized[] = $item['id'];
@@ -437,14 +439,8 @@ function ding_serendipity_user_audience($account = NULL) {
     $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY, $account);
 
     if (!empty($list)) {
-      $items = ding_base_get_items('ding_type', $list, 'field_list_objects');
-      $items = array_slice($items, -10);
-      foreach ($items as &$item) {
-        $item = $item['target_id'];
-      }
-
-      foreach (entity_load('ding_type', $items) as $item) {
-        $ids[] = ding_base_get_value('ding_type', $item, 'field_value');
+      foreach (array_slice($list->getElements(), -10) as $element) {
+        $ids[] = $element->getValue();
       }
     }
   }
@@ -454,17 +450,32 @@ function ding_serendipity_user_audience($account = NULL) {
     }
   }
 
-  if (!empty($ids)) {
-    foreach (ding_serendipity_do_search(implode(" OR ", $ids), array('limit' => count($ids))) as $collection) {
-      $entity = $collection['object']->getPrimary_object();
-      $audience = !empty($entity->reply->record['dcterms:audience'][''][0]) ? $entity->reply->record['dcterms:audience'][''][0] : FALSE;
+  $query = ting_start_query()->withMaterialFilter($ids);
 
-      if (!isset($audiences[$audience])) {
-        $audiences[$audience] = 0;
-      }
+  // Skip audience for low or missing loan counts.
+  if (empty($ids) || count($ids) < 5) {
+    return FALSE;
+  }
 
-      $audiences[$audience] += 1;
+  foreach (ding_serendipity_do_search($query, count($ids)) as $collection) {
+    $entity = $collection['object']->getPrimary_object();
+
+    // Skip materials with no audience.
+    if (empty($entity->getTingObject()->getAudience())) {
+      continue;
     }
+
+    /** @var TingEntity $entity */
+    $audience = !empty($entity->getTingObject()->getAudience()) ? $entity->getTingObject()->getAudience() : FALSE;
+    if (is_array($audience)) {
+      $audience = current($audience);
+    }
+
+    if (!isset($audiences[$audience])) {
+      $audiences[$audience] = 0;
+    }
+
+    $audiences[$audience] += 1;
   }
 
   $sum = array_sum($audiences);
@@ -484,6 +495,73 @@ function ding_serendipity_user_audience($account = NULL) {
 }
 
 /**
+ * Fetch random items, but with larger probability among recent items.
+ *
+ * A method is choosen so that items among the first percentage $p in $items will
+ * have a probability of 50% being picked, recent items more probable, yet
+ * all items in the list still probable.
+ *
+ * Let $rnd be a random number in [0;1].
+ * Then w($base,$rnd) = ((pow($base,$rnd) - 1)/($base - 1) - 1) is also in [0;1].
+ *
+ * Since pow is monotonous and assumed $rnd is uniformly distributed
+ * then w in [0;w($base,0.5)] will have probability of 50%
+ *
+ * w(10,0.5) = 0.24
+ * w(100,0.5) = 0.09
+ * w(1000,0.5) = 0.03
+ *
+ * $base = 100 will select among the first 9% of items with a probability of 50%.
+ *
+ * @param array $items
+ *   The array to pick from.
+ * @param int $cnt
+ *   Number of items to pick.
+ *
+ * @return array
+ *   Array of randomly picked items.
+ */
+function ding_serendipity_pick_weighted_random(array $items, $cnt) {
+  $num = count($items);
+
+  if ($cnt >= $num) {
+    return $items;
+  }
+
+  // Pick cnt weighted random items. Collisions may occur.
+  $picked = array();
+  $base = 100;
+  for ($i = 0; $i < $cnt; $i++) {
+    // Random number in [0;1].
+    $rnd = mt_rand() / mt_getrandmax();
+    // Index in [0;$num -1].
+    $index = round((pow($base, $rnd) - 1) * ($num - 1) / ($base - 1));
+    $picked[$index] = TRUE;
+  }
+
+  // Keys can be anything.
+  $keys = array_keys($items);
+
+  // Indices are integers matching the picked.
+  $indices = array_keys($keys);
+  $collisions = $cnt - count($picked);
+
+  // Slice a random number of indices not already picked.
+  $remaining = array_diff($indices, array_keys($picked));
+  shuffle($remaining);
+  $remaining = array_slice($remaining, 0, $collisions);
+  $result = array_merge(array_keys($picked), array_values($remaining));
+
+  // Intersect list keys.
+  $picked_keys = array_intersect_key($keys, array_flip($result));
+
+  // Intersect list.
+  $picked_items = array_intersect_key($items, array_flip($picked_keys));
+
+  return $picked_items;
+}
+
+/**
  * Get all the materials the user has in their lists.
  *
  * @param object $account
@@ -499,49 +577,28 @@ function ding_serendipity_get_existing_list_materials($account = NULL) {
     $account = $user;
   }
 
-  if (variable_get('ding_serendipity_enable_cache', FALSE)) {
-    $cache_id = "ding_serendipity_" . $account->uid . '_existing_list_materials';
-    $cache = cache_get($cache_id);
-    if (!empty($cache) && REQUEST_TIME < $cache->expire) {
-      return $cache->data;
-    }
+  if (!ding_user_is_provider_user($account)) {
+    return array();
   }
 
+  $lists = ding_list_get_lists(array(), $account);
+
+  // Relevant list types.
+  $list_types = array(
+    DING_LIST_TYPE_USER_LIST,
+    DING_LIST_TYPE_BOOKS_READ,
+    DING_LIST_TYPE_REMEMBER,
+  );
   $ids = array();
 
-  $list_types = ding_list_get_list_types_by_operations(array(
-    DING_LIST_OPERATION_ATTACH => array('ting_object'),
-  ));
-
-  // Include the entity ratings list.
-  $list_types[] = DING_ENTITY_RATING_LIST;
-
-  // Exclude the remember list, so the user can be reminded.
-  $list_types = array_diff($list_types, array(DING_LIST_TYPE_REMEMBER));
-
-  $lists = ding_list_get_lists($list_types, $account);
-  if ($lists !== FALSE) {
-    $elements = array();
-
-    foreach ($lists as $list) {
-      $elements[] = ding_base_get_items('ding_type', $list, 'field_list_objects');
+  foreach ($lists as $list) {
+    if (in_array($list->getType(), $list_types)) {
+      foreach ($list->getElements() as $element) {
+        if (!empty($element->getValue())) {
+          $ids[] = $element->getValue();
+        }
+      }
     }
-
-    // Flatten the array.
-    $elements = call_user_func_array('array_merge', $elements);
-    foreach ($elements as &$element) {
-      $element = $element['target_id'];
-    }
-
-    // Load all the elements and their ids.
-    foreach (entity_load('ding_type', $elements) as $element) {
-      $ids[] = ding_base_get_value('ding_type', $element, 'field_value');
-    }
-  }
-
-  if (variable_get('ding_serendipity_enable_cache', FALSE)) {
-    $expire = variable_get('ding_serendipity_cache_lifetime', 600);
-    cache_set($cache_id, $ids, 'cache', REQUEST_TIME + $expire);
   }
 
   return $ids;
@@ -920,56 +977,44 @@ function ding_serendipity_entity_view($entity, $type, $view_mode, $langcode) {
 }
 
 /**
- * Wrap ting_do_search.
+ * Execute a search for serendipity results.
  *
- * Packs the result into an array readable by ding_serendipity_render().
- *
- * @param string $query
+ * @param \Ting\Search\TingSearchRequest $query
  *   The search query.
- * @param array $options
- *   Will pass page, count and options keys on to ting_do_search (in that
- *   order).
- *   The following options is for the wrapper:
- *    - limit: Max number of items.
- *    - shuffle: Randomize the items.
+ * @param int $limit
+ *   Maximum number of results to return.
+ * @param bool $shuffle
+ *   Whether the result-order should be Randomized.
+ *
+ * @return array
+ *   An array of result-item arrays.
  */
-function ding_serendipity_do_search($query, array $options = array()) {
+function ding_serendipity_do_search(TingSearchRequest $query, $limit = 4, $shuffle = FALSE) {
   $results = array();
-  // Fill in the default options.
-  $options += array(
-    'limit' => 4,
-    'shuffle' => FALSE,
-    'page' => 1,
-    'count' => 20,
-    'options' => array(
-      'sort' => '',
-    ),
-  );
 
-  module_load_include('inc', 'ting', 'ting.client');
-
-  $search_result = ting_do_search($query, $options['page'], $options['count'], $options['options']);
-
-  if (!isset($search_result->collections) || !is_array($search_result->collections)) {
-    watchdog('ding_serendipity', 'BAD Search:@query', array('@query' => $query), WATCHDOG_WARNING);
+  // Set sensible defaults for the query if the plugin did not do it.
+  if ($query->getCount() === NULL) {
+    $query = $query->withCount(20);
   }
-  else {
-    // Randomize.
-    if ($options['shuffle'] == TRUE) {
-      shuffle($search_result->collections);
-    }
 
-    // Create result array.
-    foreach ($search_result->collections as $id => $collection) {
-      $results[] = array(
-        'type' => 'ting_object',
-        'id' => $collection->ding_entity_id,
-        'object' => $collection,
-      );
-    }
+  $search_result = $query->execute();
+  if (!$search_result->getNumTotalCollections()) {
+    watchdog('ding_serendipity', 'BAD Search:@query', ['@query' => $query], WATCHDOG_WARNING);
+  }
+  $collections = $search_result->getTingEntityCollections();
 
-    // Limit output.
-    $results = array_slice($results, 0, $options['limit']);
+  // Randomize if requested to.
+  if ($shuffle === TRUE) {
+    shuffle($collections);
+  }
+
+  // Create result array, only use $limit results.
+  foreach (array_slice($collections, 0, $limit) as $collection) {
+    $results[] = array(
+      'type' => 'ting_object',
+      'id' => $collection->getId(),
+      'object' => $collection,
+    );
   }
 
   return $results;
@@ -1141,24 +1186,25 @@ function ding_serendipity_exclude(array &$list, $excludes) {
 /**
  * Callback for testing cql.
  */
-function ding_serendipity_test_cql_callback($form, &$form_state) {
-  $cql = $form_state['values'][$form_state['triggering_element']['#cql_element']];
+function ding_serendipity_test_query_callback($form, &$form_state) {
+  $query = $form_state['values'][$form_state['triggering_element']['#query_element']];
   $list = array(
     '#theme' => 'item_list',
     '#items' => array(),
   );
 
-  $results = ting_do_search($cql);
+  $results = ting_start_query()->withRawQuery($query)->withCount(10)->execute();
 
-  if ($results) {
-    $list['#items'][] = t('Total results: @count', array('@count' => $results->numTotalObjects));
+  if ($results->getNumTotalObjects()) {
+    $list['#items'][] = t('Total results: @count', array('@count' => $results->getNumTotalObjects()));
 
-    if (!empty($results->collections)) {
-      foreach ($results->collections as $id => $result) {
+    $collections = $results->getTingEntityCollections();
+    if (!empty($collections)) {
+      foreach ($collections as $id => $result) {
         $list['#items'][] = '[' . $id . '] ' . $result->getTitle();
       }
 
-      if (!empty($results->more)) {
+      if (!empty($results->hasMoreResults())) {
         $list['#items'][] = '...';
       }
     }
@@ -1167,7 +1213,7 @@ function ding_serendipity_test_cql_callback($form, &$form_state) {
     $list['#items'][] = t('Total results: @count', array('@count' => 0));
   }
 
-  return '<div id="test-cql-container">' . drupal_render($list) . '</div>';
+  return '<div id="test-query-container">' . drupal_render($list) . '</div>';
 }
 
 /**

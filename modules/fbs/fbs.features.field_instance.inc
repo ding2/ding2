@@ -10,7 +10,7 @@
 function fbs_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'profile2-provider_fbs-field_fbs_address'
+  // Exported field_instance: 'profile2-provider_fbs-field_fbs_address'.
   $field_instances['profile2-provider_fbs-field_fbs_address'] = array(
     'bundle' => 'provider_fbs',
     'default_value' => NULL,
@@ -41,14 +41,10 @@ function fbs_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-provider_fbs-field_fbs_interest_period'
+  // Exported field_instance: 'profile2-provider_fbs-field_fbs_interest_period'.
   $field_instances['profile2-provider_fbs-field_fbs_interest_period'] = array(
     'bundle' => 'provider_fbs',
-    'default_value' => array(
-      0 => array(
-        'value' => 90,
-      ),
-    ),
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -57,7 +53,7 @@ function fbs_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 6,
+        'weight' => 8,
       ),
     ),
     'entity_type' => 'profile2',
@@ -76,7 +72,7 @@ function fbs_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-provider_fbs-field_fbs_mail'
+  // Exported field_instance: 'profile2-provider_fbs-field_fbs_mail'.
   $field_instances['profile2-provider_fbs-field_fbs_mail'] = array(
     'bundle' => 'provider_fbs',
     'default_value' => NULL,
@@ -109,7 +105,8 @@ function fbs_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-provider_fbs-field_fbs_mail_notification'
+  // Exported field_instance:
+  // 'profile2-provider_fbs-field_fbs_mail_notification'.
   $field_instances['profile2-provider_fbs-field_fbs_mail_notification'] = array(
     'bundle' => 'provider_fbs',
     'default_value' => NULL,
@@ -141,7 +138,7 @@ function fbs_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-provider_fbs-field_fbs_name'
+  // Exported field_instance: 'profile2-provider_fbs-field_fbs_name'.
   $field_instances['profile2-provider_fbs-field_fbs_name'] = array(
     'bundle' => 'provider_fbs',
     'default_value' => NULL,
@@ -172,7 +169,7 @@ function fbs_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-provider_fbs-field_fbs_on_hold'
+  // Exported field_instance: 'profile2-provider_fbs-field_fbs_on_hold'.
   $field_instances['profile2-provider_fbs-field_fbs_on_hold'] = array(
     'bundle' => 'provider_fbs',
     'default_value' => NULL,
@@ -202,7 +199,7 @@ function fbs_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-provider_fbs-field_fbs_phone'
+  // Exported field_instance: 'profile2-provider_fbs-field_fbs_phone'.
   $field_instances['profile2-provider_fbs-field_fbs_phone'] = array(
     'bundle' => 'provider_fbs',
     'default_value' => NULL,
@@ -235,7 +232,8 @@ function fbs_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-provider_fbs-field_fbs_phone_notification'
+  // Exported field_instance:
+  // 'profile2-provider_fbs-field_fbs_phone_notification'.
   $field_instances['profile2-provider_fbs-field_fbs_phone_notification'] = array(
     'bundle' => 'provider_fbs',
     'default_value' => NULL,
@@ -267,7 +265,8 @@ function fbs_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-provider_fbs-field_fbs_preferred_branch'
+  // Exported field_instance:
+  // 'profile2-provider_fbs-field_fbs_preferred_branch'.
   $field_instances['profile2-provider_fbs-field_fbs_preferred_branch'] = array(
     'bundle' => 'provider_fbs',
     'default_value' => NULL,

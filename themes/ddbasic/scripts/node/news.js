@@ -11,7 +11,7 @@
       var text_element_height;
       $('.view-ding-news.first-child-large .views-row:first-child', context).mouseenter(function() {
         if(!ddbasic.breakpoint.is('mobile')) {
-          text_element_height = $(this).find('.inner').outerHeight() - $(this).find('.news-text').outerHeight();
+          text_element_height = $(this).outerHeight() - $(this).find('.news-text').outerHeight();
           $(this).find('.field-name-field-ding-news-lead').height(text_element_height);
         }
       });

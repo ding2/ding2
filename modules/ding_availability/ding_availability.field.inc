@@ -99,7 +99,8 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
 
     // Extract records' source.
     if ($field['type'] != 'ting_collection_types') {
-      $ac_source = $entity->reply->record['ac:source'][''][0];
+      /* @var \TingEntity $entity */
+      $ac_source = $entity->getAc_source();
     }
 
     switch ($display['type']) {
@@ -195,7 +196,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         $typed_entities = array();
 
         // Sort entities into type -> ids.
-        foreach ($entity->entities as $ent) {
+        foreach ($entity->getEntities() as $ent) {
           $typed_entities[$ent->type][] = $ent;
         }
 
@@ -208,11 +209,12 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
 
         // Loop over the different material types.
         foreach ($typed_entities as $type => $entities) {
+          /* @var \TingEntity[] $entities */
           // Generate an unique id.
           $id = drupal_html_id('availability-' . $entities[0]->id . '-' . $type);
 
           // Extract records' source.
-          $ac_source = $entities[0]->reply->record['ac:source'][''][0];
+          $ac_source = $entities[0]->getAc_source();
 
           // Get link to first element in the collection of the current type.
           // If more than one exists link to the collection.

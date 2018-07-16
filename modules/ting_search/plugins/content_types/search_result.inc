@@ -4,6 +4,8 @@
  * Panels render to display search results.
  */
 
+use Ting\Search\TingSearchSort;
+
 $plugin = array(
   'single' => TRUE,
   'title' => t('Ting search - Search results'),
@@ -70,9 +72,7 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
   if ($keys || !empty($conditions)) {
     // Collect the search results.
     $results = search_data($keys, $info['module'], $conditions);
-    $search_result = drupal_static('ting_search_results');
-    $prefix = implode(module_invoke_all('ting_search_results_prefix', $keys, $conditions, $search_result));
-    $suffix = implode(module_invoke_all('ting_search_results_suffix', $keys, $conditions, $search_result));
+    $search_result = ting_search_current_results();
   }
 
   if (!empty($conf['log'])) {
@@ -87,20 +87,23 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
     // Set message.
     $message = '';
 
-    $frequency_rank = array(
-      'rank_main_title' => t('Title'),
-      'rank_title' => t('Title'),
-      'rank_creator' => t('Creator'),
-      'rank_subject' => t('Subject')
-    );
+    // If it does not seem like the user picked a sort but our query has one,
+    // tell the user that we have sorted the result.
+    if (isset($search_result) && empty($conditions['sort']) && !empty($search_result->getSearchRequest()->getSorts())) {
+      $provider_sort_options = ting_search_sort_options();
 
-    if (isset($search_result) && empty($conditions['sort']) && in_array($search_result->sortUsed, array_keys($frequency_rank))) {
-      $msg = t('Records are sorted by %sortUsed . Select another sort if it is not suited', array('%sortUsed' => $frequency_rank[$search_result->sortUsed]));
+      $mapper = function(TingSearchSort $sort) use ($provider_sort_options) {
+        return isset($provider_sort_options[$sort->getField()]['label_short']) ? $provider_sort_options[$sort->getField()]['label_short'] : NULL;
+      };
+      $labels = array_filter(array_map($mapper, $search_result->getSearchRequest()->getSorts()));
+
+      $labels = implode(', ', $labels);
+      $msg = t('Records are sorted by %sortUsed . Select another sort if it is not suited', array('%sortUsed' => $labels));
       $message .= '<div class="messages status">' . $msg . '</div>';
     }
 
 
-    if (isset($search_result) && $limit < $search_result->numTotalObjects) {
+    if (isset($search_result) && $limit < $search_result->getNumTotalObjects()) {
       $msg = t('Your search gave more than %s results. Try to search more specific or use the facets to filter the result.');
       $msg = sprintf($msg, $limit);
       $message .= '<div class="messages search-field-in-content--message">' . $msg . '</div>';

@@ -523,8 +523,9 @@
     padding-top: 25px;
     .form-submit {
       margin-top: 0;
-      padding-right: 40px;
       margin-right: getGutter(4);
+      margin-bottom: 0;
+      padding-right: 40px;
     }
   }
   .views-exposed-widget {
@@ -568,7 +569,7 @@
   .views-widget-filter-field_ding_event_date_value_1 {
     @include omega();
   }
-  label {
+  label:not(.option) {
     @include font('display-small');
     font-weight: normal;
     margin-bottom: 20px;

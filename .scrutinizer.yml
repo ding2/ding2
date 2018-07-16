@@ -9,6 +9,7 @@ tools:
       - test
       - profile
       - theme
+      - php
   js_hint:
     use_native_config: true
 
@@ -27,6 +28,7 @@ filter:
         - '*.panels_default.inc'
         - '*.panelizer.inc'
         - '*.strongarm.inc'
+        - '*.ting_field_search_default_profiles.inc'
         - '*.views_default.inc'
         # Generated webservice client code for FBS
         - modules/fbs/prancer/*
@@ -35,4 +37,9 @@ filter:
         # Third party JavaScript libraries
         - themes/ddbasic/scripts/contrib/*
         # Minified JavaScript files
-        - themes/ddbasic/scripts/*.min.js
+        - themes/ddbasic/scripts/*min.js
+        # Third party JavaScript libraries used in modules
+        - modules/ding_webtrends/js/webtrends*.js
+        - modules/ting_search_carousel/js/jquery.*
+        - modules/contrib/jquery_update/replace/ui/external/jquery.cookie*.js
+        - modules/ding_tabroll/js/jquery-ui-tabs-rotate*.js

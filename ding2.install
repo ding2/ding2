@@ -190,6 +190,20 @@ function ding2_remove_module($module) {
 }
 
 /**
+ * Implements hook_update_dependencies().
+ */
+function ding2_update_dependencies() {
+  // Update hook which enables a module if opensearch is present.
+  $dependencies['ding2'][7048] = array(
+    // The update hook that enables the opensearch module if no other search
+    // provider is present.
+    'ting' => 7014,
+  );
+
+  return $dependencies;
+}
+
+/**
  * Enable new shortcuts.
  */
 function ding2_update_7000() {
@@ -563,4 +577,50 @@ function ding2_update_7045() {
  */
 function ding2_update_7046() {
   ding2_translation_update();
+}
+
+/**
+ * Enable ding_app_content_rss module.
+ */
+function ding2_update_7047() {
+  module_enable(array('ding_app_content_rss'));
+}
+
+/**
+ * Enable ding_app_variables module.
+ */
+function ding2_update_7048() {
+  if (module_exists('opensearch')) {
+    module_enable(array('ding_app_variables'));
+  }
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7049() {
+  ding2_translation_update();
+}
+
+/**
+ * Disable and uninstall ding_mobilesearch module.
+ */
+function ding2_update_7050() {
+  if (module_exists('ding_mobilesearch')) {
+    module_disable(array('ding_mobilesearch'));
+    drupal_uninstall_modules(array('ding_mobilesearch'));
+  }
+  // Remove any traces of the module in case it has been deleted before
+  // running this hook.
+  ding2_remove_module('ding_mobilesearch');
+}
+
+/**
+ * Enable ding_app_variables module.
+ */
+function ding2_update_7051() {
+  // Rerun the update hook. Some sites may already have run 7048 but without
+  // ding2_update_dependencies and thus without ting_update_7014 and
+  // Opensearch.
+  ding2_update_7048();
 }

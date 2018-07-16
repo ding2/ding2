@@ -4,6 +4,8 @@
  * Code for the Ting object reference feature.
  */
 
+use Ting\Search\TingSearchRequest;
+
 include_once 'ting_reference.features.inc';
 
 /**
@@ -22,6 +24,16 @@ function ting_reference_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ting_reference_ding_provider_user() {
+  return array(
+    'search' => array(
+      'required' => TRUE,
+    ),
+  );
+}
 
 /**
  * Implements hook_entity_info_alter().
@@ -490,8 +502,6 @@ function ting_reference_object_id_validate($element, &$form_state, $form) {
 
   // Don't bother validating empty fields.
   if (!empty($ting_object_id)) {
-    module_load_include('client.inc', 'ting');
-
     // If the colon was URL-encoded, decode it - and trim whitespace from
     // both ends of the input string.
     $ting_object_id = trim(str_replace('%3A', ':', $ting_object_id));
@@ -597,33 +607,29 @@ function ting_reference_create_relation($entity_type, $entity_id, $tid) {
 function _ting_reference_autocomplete($string) {
   $matches = array();
 
-  // Load ting client.
-  module_load_include('client.inc', 'ting');
-
   // Only use auto-complete if more that 3 chars have been written.
   if ($string && (strlen($string) > 3)) {
-    // Try to build the best search query based on the inputted string.
-    if (preg_match('/(^\d+$)|(^\d+:\d+$)|(=)/', $string)) {
-      // The query is either ISBN, tid or CQL search expression.
-      $query = $string;
+    // Let the provider build a query if it knows how to.
+    if (ding_provider_implements('search', 'prepare_reference_query')) {
+      $query = ding_provider_invoke('search', 'prepare_reference_query', $string);
     }
     else {
-      // Add wildcard to the search string.
-      $query  = _ting_search_quote($string) . '*';
+      // Else fall back to a standard freetext search.
+      $query = ting_start_query()->withFullTextQuery($string);
     }
 
-    // Search the data well.
-    $result = ting_do_search($query, 1, 10, array('facets' => array(), 'allObjects' => FALSE));
+    // Set limit and execute.
+    $result = $query->withCount(10)->execute();
 
     // If there is no usable result, exit immediately, providing no reply.
-    if ($result && $result->numTotalObjects) {
-      foreach ($result->collections as $collection) {
-        $object = array_shift($collection->reply->objects);
-        $matches[$collection->id] = t('!title (!type, !year, !id)', array(
-          '!title' => isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '',
-          '!type' => isset($object->record['dc:type']['dkdcplus:BibDK-Type'][0]) ? $object->record['dc:type']['dkdcplus:BibDK-Type'][0] : '',
-          '!year' => $object->record['dc:date'][''][0],
-          '!id' => $object->localId,
+    if ($result && $result->getNumTotalObjects()) {
+      foreach ($result->getTingEntityCollections() as $entity_collection) {
+        $object = $entity_collection->getTingObjectCollection()->getPrimaryObject();
+        $matches[$entity_collection->id] = t('!title (!type, !year, !id)', array(
+          '!title' => $object->getShortTitle() ?: '',
+          '!type' => $object->getType() ?: '',
+          '!year' => $object->getYear(),
+          '!id' => $object->getSourceId(),
         ));
       }
     }

@@ -29,13 +29,11 @@ function ting_tasks_ting_collection_id_context($arg = NULL, $conf = NULL, $empty
     // TODO: Can we do a better job of validating collection IDs?
     return FALSE;
   }
-  module_load_include('client.inc', 'ting');
-  $collection = ting_get_collection($arg);
-  if (!($collection instanceOf TingClientcollection)) {
+  $collection = ding_entity_collection_load($arg);
+  if (empty($collection)) {
     return FALSE;
   }
 
   return ctools_context_create('ting_collection', $collection);
-
 }
 

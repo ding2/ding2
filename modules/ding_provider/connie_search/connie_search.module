@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Example implementation of a search provider.
+ */
+
+use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
+
+/**
+ * Implements hook_ding_provider().
+ */
+function connie_search_ding_provider() {
+  return array(
+    'title' => 'Connie Search',
+    'provides' => array(
+      'search' => array(
+        'prefix' => 'search',
+        'file' => 'includes/connie_search.search.inc',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_xautoload().
+ *
+ * Place our OpenSearch classes in the OpenSearch namespace.
+ */
+function connie_search_xautoload(LocalDirectoryAdapter $adapter) {
+  $adapter->absolute()->addPsr4('Connie\\Search\\', drupal_get_path('module', 'connie_search') . '/src');
+}

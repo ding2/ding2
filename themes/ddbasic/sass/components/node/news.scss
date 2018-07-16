@@ -56,9 +56,6 @@
       opacity: 0;
       overflow: hidden;
     }
-    .no-overlay-text {
-      display: none;
-    }
 
     // Mobile
     @include media($mobile) {
@@ -114,102 +111,6 @@
       }
     }
   }
-
-  // ==========================================================================
-  // Teaser no overlay
-  // ==========================================================================
-  &.node-teaser-no-overlay {
-    position: relative;
-    a {
-      display: block;
-      color: $charcoal;
-    }
-    .ding-news-list-image {
-      &::after {
-        @include transition(background-color $speed $ease);
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-      }
-
-      // Mobile
-      @include media($mobile) {
-        .slide-on-mobile & {
-          @include aspect-ratio-background-image(16, 9);
-          overflow: hidden;
-          background-size: cover;
-        }
-      }
-    }
-    h3.title {
-      margin: 10px 0 5px;
-    }
-    .category-and-submitted {
-      float: left;
-      width: 100%;
-      color: $charcoal-opacity-dark;
-    }
-    .field-name-field-ding-news-category {
-      float: left;
-    }
-    .field-name-field-ding-news-lead {
-      @include transition(opacity $speed $ease);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 25px 15px;
-      color: $white;
-      opacity: 0;
-      overflow: hidden;
-    }
-    .no-overlay-text {
-      display: none;
-    }
-
-    // Mobile
-    @include media($mobile) {
-      // Slide on mobile
-      .slide-on-mobile & {
-        h3.title {
-          margin: 14px 0 0 0;
-          color: $color-standard-text;
-        }
-        .category-and-submitted {
-          color: $charcoal-opacity-dark;
-        }
-        .field-name-field-ding-news-lead {
-          @include span-columns(6 of 8);
-          @include font('display-small');
-          @include transition(
-            height $speed $ease,
-            opacity $speed $ease
-          );
-          position: static;
-          height: 0;
-          padding: 0;
-        }
-      }
-    }
-    // Hover for non touch devices
-    .no-touch & {
-      &:hover {
-        .ding-news-list-image {
-          &::after {
-            background-color: $black-overlay;
-          }
-        }
-        .field-name-field-ding-news-lead {
-          opacity: 1;
-        }
-      }
-    }
-  }
-
   // ==========================================================================
   // Highlighted
   // ==========================================================================
@@ -265,33 +166,6 @@
       padding: 0;
     }
 
-    //No-overlay
-    &.node-teaser-no-overlay {
-      .inner {
-        position: relative;
-        overflow: hidden;
-      }
-      .news-text {
-        opacity: 0;
-        h3.title,
-        .category-and-submitted {
-          display: none;
-        }
-      }
-      .no-overlay-text {
-        display: block;
-        margin-top: 14px;
-        h3.title {
-          margin: 0;
-          color: $color-standard-text;
-        }
-        .category-and-submitted {
-          margin: 0;
-          color: $charcoal-opacity-dark;
-        }
-      }
-    }
-
     // Mobile
     @include media($mobile) {
       .news-text {
@@ -323,9 +197,6 @@
     // Hover for non touch devices
     .no-touch & {
       &:hover {
-        .news-text {
-          opacity: 1;
-        }
         .ding-news-list-image {
           &::after {
             background-color: $black-overlay;

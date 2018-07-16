@@ -88,6 +88,31 @@ function ding_frontend_image_default_styles() {
     ),
   );
 
+  // Exported image style: crop_4_3.
+  $styles['crop_4_3'] = array(
+    'name' => 'crop_4_3',
+    'label' => 'Crop 4:3',
+    'effects' => array(
+      6 => array(
+        'label' => 'Manual Crop: Custom crop',
+        'help' => 'Crop a freely user-selected area.',
+        'effect callback' => 'manualcrop_crop_effect',
+        'form callback' => 'manualcrop_crop_form',
+        'summary theme' => 'manualcrop_crop_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_crop',
+        'data' => array(
+          'width' => 200,
+          'height' => 150,
+          'keepproportions' => 1,
+          'reuse_crop_style' => '',
+          'style_name' => 'crop_4_3',
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
   // Exported image style: crop_unconstrained.
   $styles['crop_unconstrained'] = array(
     'name' => 'crop_unconstrained',

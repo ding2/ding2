@@ -90,6 +90,7 @@
  * @see template_process()
  */
 ?>
+
 <article class="event">
   <h1 class="page-title"><?php print $title; ?></h1>
 

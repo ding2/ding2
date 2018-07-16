@@ -30,30 +30,33 @@ function ding_ting_frontend_menu() {
  * Implements hook_entity_info_alter().
  */
 function ding_ting_frontend_entity_info_alter(&$entity_info) {
-
-  $entity_info['ting_object']['view modes'] += array(
-    'collection_primary' => array(
-      'label' => t('Primary collection object'),
-      'custom settings' => TRUE,
-    ),
-    'collection_list' => array(
-      'label' => t('Collection listing'),
-      'custom settings' => TRUE,
-    ),
-    'search_result' => array(
-      'label' => t('Search result'),
-      'custom settings' => TRUE,
-    ),
-    'reference_teaser' => array(
-      'label' => t('Reference teaser'),
-      'custom settings' => TRUE,
-    ),
-    'teaser_no_overlay' => array(
-      'label' => t('Teaser no overlay'),
-      'custom settings' => TRUE,
-    ),
-  );
-
+  if (isset($entity_info['ting_object'])) {
+    if (isset($entity_info['ting_object']['view modes'])) {
+      $entity_info['ting_object']['view modes'] = [];
+    }
+    $entity_info['ting_object']['view modes'] += array(
+      'collection_primary' => array(
+        'label' => t('Primary collection object'),
+        'custom settings' => TRUE,
+      ),
+      'collection_list' => array(
+        'label' => t('Collection listing'),
+        'custom settings' => TRUE,
+      ),
+      'search_result' => array(
+        'label' => t('Search result'),
+        'custom settings' => TRUE,
+      ),
+      'reference_teaser' => array(
+        'label' => t('Reference teaser'),
+        'custom settings' => TRUE,
+      ),
+      'teaser' => array(
+        'label' => t('Teaser'),
+        'custom settings' => TRUE,
+      ),
+    );
+  }
 }
 
 

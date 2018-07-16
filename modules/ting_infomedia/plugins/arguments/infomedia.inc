@@ -4,7 +4,6 @@
  * @file
  * Plugin to provide an argument handler for infomedia.
  */
-
 $plugin = array(
   'title' => t("infomedia: ID"),
   'keyword' => 'infomedia',
@@ -28,7 +27,7 @@ function infomedia_arguments_context($arg = NULL, $conf = NULL, $empty = FALSE) 
     return ctools_context_create_empty('infomedia');
   }
 
-  // Do whatever error checking is required.
+  // Do whatever error checking is required
   if (empty($arg)) {
     return FALSE;
   }
