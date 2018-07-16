@@ -8,200 +8,45 @@
  * Autocomplete settings.
  */
 function opensearch_search_autocomplete_admin($form, &$form_state) {
+
   $default_settings = opensearch_search_autocomplete_settings();
-
-  // Attach the CSS to the form.
-  $path = drupal_get_path('module', 'opensearch');
-  $form['#attached'] = array(
-    'css' => array(
-      'type' => 'file',
-      'data' => $path . '/css/opensearch_autocomplete_admin_form.css',
-    ),
-  );
-
+  
   $form['opensearch_search_autocomplete_webservice'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Webservice', array(), array('context' => 'opensearch_search_autocomplete')),
+    '#title' => t('Autocomplete URL', array(), array('context' => 'ting_search_ortograf')),
     '#tree' => FALSE,
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
+  ); 
 
   $form['opensearch_search_autocomplete_webservice']['opensearch_search_autocomplete_suggestion_url'] = array(
     '#type' => 'textfield',
-    '#title' => t('URL', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 73,
-    '#description' => t('URL to Autocomplete webservice. F.ex.: http://opensuggestion.addi.dk/1.0/', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#default_value' => variable_get('opensearch_search_autocomplete_suggestion_url',
-      NULL),
-    '#required' => TRUE,
-    '#element_validate' => array('opensearch_search_autocomplete_admin_validate'),
-  );
-
-  $form['opensearch_search_autocomplete_webservice']['opensearch_search_autocomplete_method'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Method', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 73,
-    '#description' => t('The method to use. Currently there are two methods: terms and facets. Version 2.0 exposes facetSpell method', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#default_value' => variable_get('opensearch_search_autocomplete_method',
-      'facets'),
+    '#title' => t('Autocomplete URL', array(), array('context' => 'ting_search_ortograf')),
+    '#description' => t('URL to Autocomplete webservice. F.ex.: https://ortograf.dbc.dk/ortograf/suggest', array(), array('context' => 'ting_search_ortograf')),
+    '#default_value' => variable_get('opensearch_search_autocomplete_suggestion_url', NULL),
     '#required' => TRUE,
   );
 
   $form['opensearch_search_autocomplete_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Settings', array(), array('context' => 'opensearch_search_autocomplete')),
+    '#title' => t('Autocomplete settings', array(), array('context' => 'ting_search_ortograf')),
     '#tree' => TRUE,
     '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-
-  $form['opensearch_search_autocomplete_settings']['index'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Match index', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 25,
-    '#default_value' => $default_settings['index'],
-    '#required' => TRUE,
-  );
-
-  $form['opensearch_search_autocomplete_settings']['facetIndex'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Facet Index', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 25,
-    '#default_value' => $default_settings['facetIndex'],
-    '#required' => TRUE,
-  );
-
-  $form['opensearch_search_autocomplete_settings']['filterQuery'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Filter Query', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 25,
-    '#default_value' => $default_settings['filterQuery'],
-  );
-
-  $form['opensearch_search_autocomplete_settings']['sort'] = array(
-    '#type' => 'radios',
-    '#title' => t('Output sort order', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#options' => array('count' => 'count', 'index' => 'index'),
-    '#default_value' => $default_settings['sort'],
-  );
-
-  $form['opensearch_search_autocomplete_settings']['agency'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Agency', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 26,
-    '#default_value' => $default_settings['agency'],
-  );
-
-  $form['opensearch_search_autocomplete_settings']['profile'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Profile', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 26,
-    '#default_value' => $default_settings['profile'],
   );
 
   $form['opensearch_search_autocomplete_settings']['maxSuggestions'] = array(
     '#type' => 'textfield',
-    '#title' => t('Max suggestions', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 26,
+    '#title' => t('Max suggestions', array(), array('context' => 'ting_search_ortograf')),
     '#default_value' => $default_settings['maxSuggestions'],
-  );
-
-  $form['opensearch_search_autocomplete_settings']['maxTime'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Max request time', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 26,
-    '#default_value' => $default_settings['maxTime'],
-  );
-
-  $form['opensearch_search_autocomplete_settings']['highlight'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Highlight', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#description' => t('If checked, search prefix will be enclosed in highlight prefix and suffix', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#default_value' => $default_settings['highlight'],
-    '#return_value' => 'true',
-  );
-
-  $form['opensearch_search_autocomplete_settings']['highlight.pre'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Highlight prefix', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 26,
-    '#default_value' => $default_settings['highlight.pre'],
-  );
-
-  $form['opensearch_search_autocomplete_settings']['highlight.post'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Highlight suffix', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 26,
-    '#default_value' => $default_settings['highlight.post'],
+    '#element_validate' => array('element_validate_integer_positive'), 
+    '#description' => t('Maximum suggestions to return. Default 10', array(), array('context' => 'ting_search_ortograf')),
   );
 
   $form['opensearch_search_autocomplete_settings']['minimumString'] = array(
     '#type' => 'textfield',
-    '#title' => t('Minimum string', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#description' => t('Minimum characters the user has to type before the suggestion service is queried.', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#size' => 26,
+    '#title' => t('Minimum string', array(), array('context' => 'ting_search_ortograf')),
+    '#description' => t('Minimum characters the user has to type before the suggestionservice is queried. Default 3', array(), array('context' => 'ting_search_ortograf')),
     '#default_value' => $default_settings['minimumString'],
-  );
-
-  $form['opensearch_search_autocomplete_help'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Help', array(), array('context' => 'opensearch_search_autocomplete')),
-    '#tree' => TRUE,
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-
-  $form['opensearch_search_autocomplete_help']['description'] = array(
-    '#theme' => 'table',
-    '#rows' => array(
-      array(
-        t('Match index:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('The index to find word matches in.<br/>
-               If a term index, single terms are returned, while phrase indexes return entire phrases. Only entries in the specified index that begin with the specified query string are returned. For term indexes the query string can only contain one term<br/>
-               F.ex.: scanterm.mainTitle + query: "kan" will match "<b>Kan</b>dis", or scanphrase.mainTitle + query: "kan" will match "<b>Kan</b>sas city"', array(), array('context' => 'opensearch_search_autocomplete')),
-      ),
-      array(
-        t('Facet index:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('The index to get suggestions from.<br/>
-               This variant looks in the specified index for entries that contain the words from specified query string and then counts results in groups based on the specified facet index. This will also provide suggestions for phrases that contain the words from the query string.<br/>
-               Care should be taken in selecting a suitable pair of indexes. The facet index should be an index generated from the same data as the match index. The match index should be a term index and the facet index should be a phrase index<br/>
-               F.ex.: scanphrase.mainTitle (combined with match index: scanterm.mainTitle) + query: "kan" will match "From Impressionism to <b>Kan</b>dinsky"', array(), array('context' => 'opensearch_search_autocomplete')),
-      ),
-      array(
-        t('Query filter:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('A query that may be used to filter the area you want to get suggestions from. F.ex.: term.workType=literature', array(), array('context' => 'opensearch_search_autocomplete')),
-      ),
-      array(
-        t('Output sort order:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Defaults to "count"', array(), array('context' => 'opensearch_search_autocomplete')),
-      ),
-      array(
-        t('Agency:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Only get suggestions from data accessible to the specified library ID. F.ex.: 715100', array(), array('context' => 'opensearch_search_autocomplete')),
-      ),
-      array(
-        t('Profile:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Only get suggestions from data accessible to the specified search profile, as defined in the VIP database.', array(), array('context' => 'opensearch_search_autocomplete')),
-      ),
-      array(
-        t('Max request time:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Maximum request time in milliseconds. Default 2000', array(),
-          array('context' => 'opensearch_search_autocomplete')),
-      ),
-      array(
-        t('Highlight:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Add prefix and suffix around strings that match the query.', array(), array('context' => 'opensearch_search_autocomplete')),
-      ),
-      array(
-        t('Highlight prefix & suffix:', array(), array('context' => 'opensearch_search_autocomplete')),
-        t('Defaults to &lt;em&gt; & &lt;/em&gt;.', array(), array(
-          'context' => 'opensearch_search_autocomplete',
-        )),
-      ),
-    ),
-    '#attributes' => array('class' => array('table-class')),
-    '#empty' => t('Your table is empty'),
+    '#element_validate' => array('element_validate_integer_positive'), 
   );
 
   return system_settings_form($form);
