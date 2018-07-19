@@ -936,7 +936,7 @@ function ting_field_search_ting_field_search_default_profiles() {
     'search_request' => array(
       'agency' => '',
       'well_profile' => '',
-      'query' => 'term.acsource any "pressreader zinio" or (term.acsource=bibliotekskatalog and ma=pe not ma=åp not ma=ms not ma=av not term.type=bog not term.type=spil not term.type=tegneserie not ma=tb not serie)',
+      'query' => 'term.acsource any "pressreader rbdigital" or (term.acsource=bibliotekskatalog and ma=pe not ma=åp not ma=ms not ma=av not term.type=bog not term.type=spil not term.type=tegneserie not ma=tb not serie)',
       'new_materials' => '',
       'allow_empty' => 0,
     ),
