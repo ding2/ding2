@@ -611,7 +611,7 @@
     }
   }
 
-  .views-widget-filter-field_ding_event_category_tid,
+  .views-widget-filter-term_node_tid_depth,
   .views-widget-filter-og_group_ref_target_id_entityreference_filter {
     width: 100%;
     label {
@@ -619,6 +619,26 @@
         position: relative;
         border-top: 1px solid rgba(38, 38, 38, .2);
         padding-top: 25px;
+      }
+    }
+  }
+
+  .views-widget-filter-term_node_tid_depth {
+    ul {
+      list-style: none;
+      padding: 0;
+
+      .bef-all-none-nested-processed {
+        .bef-tree-child {
+          display: none;
+        }
+
+        .highlight {
+          + .bef-tree-child {
+            display: block;
+            padding-left: 40px;
+          }
+        }
       }
     }
   }
