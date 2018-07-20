@@ -83,6 +83,28 @@ function fbs_ding_provider() {
 }
 
 /**
+ * Implements hook_ding_entity_is()
+ */
+function fbs_ding_entity_is($object, $class) {
+  switch ($class) {
+    case 'reservable':
+      // Only materials from this source can be reservable in FBS, so there's
+      // no need to do any lookup if object is not from that source.
+      if (mb_strtolower($object->ac_source) !== 'bibliotekskatalog') {
+        return FALSE;
+      }
+
+      // We get the full holdings since we both need to check reservability and
+      // whether FBS considers the object a periodical. If the item is
+      // periodical, the main item is not reservable.
+      $local_id = $object->localId;
+      $holdings = ding_provider_invoke('availability', 'holdings', $local_id)[$local_id];
+
+      return ($holdings['reservable'] && !$holdings['is_periodical']);
+  }
+}
+
+/**
  * Get info for patron.
  *
  * Wrapper around ding_user_get_creds() to facilitate testing.

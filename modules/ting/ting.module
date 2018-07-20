@@ -366,12 +366,6 @@ function ting_entity_info() {
  */
 function ting_ding_entity_is($object, $class) {
   switch ($class) {
-    case 'reservable':
-    case 'cartable':
-      $sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
-      $types = variable_get('ting_reservable_types', _ting_default_reservable_types());
-      return (in_array(drupal_strtolower($object->ac_source), $sources) && in_array(drupal_strtolower($object->type), $types));
-
     case 'online':
       return !empty($object->getOnline_url());
   }
