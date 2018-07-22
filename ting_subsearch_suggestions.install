@@ -13,11 +13,10 @@ function ting_subsearch_suggestions_schema() {
   $schema['ting_subsearch_kpi_index_popular_keys'] = array(
     'fields' => array(
       'id' => array(
-        'description' => 'The keys MD5',
-        'type' => 'varchar',
-        'length' => 255,
+        'description' => 'Normal field identifier',
+        'type' => 'serial',
+        'unsigned' => TRUE,
         'not null' => TRUE,
-        'default' => '',
       ),
       'popular_keys' => array(
         'description' => 'The keys',
@@ -28,6 +27,12 @@ function ting_subsearch_suggestions_schema() {
       ),
       'numtotalsearches' => array(
         'description' => 'The number of times the keys were searched',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'weekno' => array(
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
@@ -52,7 +57,17 @@ function ting_subsearch_suggestions_schema() {
 function ting_subsearch_suggestions_install() {
   // Install translations.
   $file = new stdClass();
-  $file->uri = drupal_get_path('module', 'ting_subsearch_opensuggestion') . '/translations/da.po';
+  $file->uri = drupal_get_path('module', 'ting_subsearch_suggestions') . '/translations/da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+}
+
+/**
+ * Add "weekno" column in database.
+ */
+function ting_subsearch_suggestions_update_7001() {
+  db_drop_table('ting_subsearch_kpi_index_popular_keys');
+
+  $schema = drupal_get_schema('ting_subsearch_kpi_index_popular_keys');
+  db_create_table('ting_subsearch_kpi_index_popular_keys', $schema);
 }
