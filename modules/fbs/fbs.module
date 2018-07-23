@@ -95,12 +95,23 @@ function fbs_ding_entity_is($object, $class) {
       }
 
       // We get the full holdings since we both need to check reservability and
-      // whether FBS considers the object a periodical. If the item is
-      // periodical, the main item is not reservable.
-      $local_id = $object->localId;
-      $holdings = ding_provider_invoke('availability', 'holdings', $local_id)[$local_id];
+      // whether FBS considers the object a periodical.
+      // Invoke the call to FBS API directly, as using fbs_availability_holdings
+      // (or going through ding_provider) sets up render array for holdings
+      // display and has a chance of calling opensearch to get marc record. We
+      // need none of this and only want to know if the material is reservable
+      // and if it has any periodical information.
+      $result = reset(fbs_service()->Catalog->getHoldings(
+        fbs_service()->agencyId,
+        $object->localId
+      ));
 
-      return ($holdings['reservable'] && !$holdings['is_periodical']);
+      // Use the first material to find out if this is a periodical.
+      $holdings = reset($result->holdings);
+      $material = reset($holdings->materials);
+
+      // If the object is periodical, the main object should not be reservable.
+      return ($result->reservable && empty($material->periodical));
   }
 }
 
