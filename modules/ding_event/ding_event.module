@@ -329,10 +329,10 @@ function ding_event_form_views_exposed_form_alter(&$form, &$form_state) {
       $form['reset']['#access'] = FALSE;
     }
 
-    if (!empty($form['#info']['filter-field_ding_event_category_tid'])) {
-      $label = $form['#info']['filter-field_ding_event_category_tid']['label'];
-      unset($form['#info']['filter-field_ding_event_category_tid']['label']);
-      $form['field_ding_event_category_tid']['#title'] = '<h2 class="list-title sub-menu-title">' . $label . '</h2>';
+    if (!empty($form['#info']['filter-term_node_tid_depth'])) {
+      $label = $form['#info']['filter-term_node_tid_depth']['label'];
+      unset($form['#info']['filter-term_node_tid_depth']['label']);
+      $form['event_category_term_node_tid_depth']['#title'] = '<h2 class="list-title sub-menu-title">' . $label . '</h2>';
     }
 
     if (!empty($form['#info']['filter-og_group_ref_target_id_entityreference_filter'])) {
