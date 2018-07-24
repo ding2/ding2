@@ -780,3 +780,20 @@ function alma_ding_session_cache_defaults() {
     'expire' => 3600,
   );
 }
+
+/**
+ * Implements hook_ding_entity_is().
+ */
+function alma_ding_entity_is($object, $class) {
+  if (!$object instanceof TingEntity) {
+    return NULL;
+  }
+
+  switch ($class) {
+    case 'reservable':
+      $local_id = $object->getLocalId();
+      $result = ding_provider_invoke('availability', 'holdings', $local_id)[$local_id];
+
+      return ($result['reservable'] && !$result['is_periodical']);
+  }
+}
