@@ -369,12 +369,21 @@ function ting_ding_entity_is($object, $class) {
     return NULL;
   }
 
+  // By not returning FALSE if the object doesn't meet the requirement, we give
+  // more flexibilty to other modules.
   switch ($class) {
     case 'online':
-      return !empty($object->getOnline_url());
+      if (!empty($object->getOnline_url())) {
+        return TRUE;
+      }
+      return NULL;
     case 'library_material':
       $sources = variable_get('ting_library_material_sources', array());
-      return in_array(drupal_strtolower($object->getAc_source()), $sources);
+
+      if (in_array(drupal_strtolower($object->getAc_source()), $sources)) {
+        return TRUE;
+      }
+      return NULL;
   }
 }
 
