@@ -680,61 +680,6 @@ function _ting_default_online_types() {
 }
 
 /**
- * Default reservable sources.
- *
- * Defined as a function as a define can only be scalars.
- */
-function _ting_default_reservable_sources() {
-  return array(
-    'bibliotekskatalog',
-  );
-}
-
-/**
- * Default reservable types.
- *
- * Defined as a function as a define can only be scalars.
- */
-function _ting_default_reservable_types() {
-  return array(
-    'bog',
-    'node',
-    'dvd',
-    'billedbog',
-    'cd (musik)',
-    'lydbog (cd)',
-    'lydbog (bånd)',
-    'tegneserie',
-    'lydbog (cd-mp3)',
-    'sammensat materiale',
-    'cd',
-    'bog stor skrift',
-    'video',
-    'blu-ray',
-    'cd-rom',
-    'pc-spil',
-    'playstation 3',
-    'xbox 360',
-    'wii',
-    'playstation 2',
-    'playstation 4',
-    'graphic novel',
-    'nintendo ds',
-    'dvd-rom',
-    'kort',
-    'xbox',
-    'gameboy advance',
-    'wii u',
-    'grammofonplade',
-    'playstation',
-    'lydbog',
-    'spil',
-    'puslespil',
-    'diskette',
-  );
-}
-
-/**
  * Fetch known types from the datawell.
  *
  * @return array

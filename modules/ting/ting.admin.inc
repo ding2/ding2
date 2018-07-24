@@ -163,7 +163,6 @@ function ting_admin_reservable_settings($form_state) {
     '#description' => t('Time before an reservation expires that a message should be shown to the user.'),
   );
 
-  $types = variable_get('ting_well_types', _ting_fetch_well_types());
   $sources = variable_get('ting_well_sources', _ting_fetch_well_sources());
 
   $form['ting_library_material_sources'] = array(
@@ -174,26 +173,6 @@ function ting_admin_reservable_settings($form_state) {
     '#default_value' => variable_get('ting_library_material_sources', array()),
   );
 
-  $form['ting_reservable'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Reservation buttons'),
-    '#tree' => FALSE,
-    '#description' => t("A Ting object will get a reservation button, if it's source and type is <em>both</em> selected."),
-  );
-
-  $form['ting_reservable']['ting_reservable_sources'] = array(
-    '#type' => 'checkboxes',
-    '#title' => t('Sources'),
-    '#options' => drupal_map_assoc($sources),
-    '#default_value' => variable_get('ting_reservable_sources', _ting_default_reservable_sources()),
-  );
-
-  $form['ting_reservable']['ting_reservable_types'] = array(
-    '#type' => 'checkboxes',
-    '#title' => t('Types'),
-    '#options' => drupal_map_assoc($types),
-    '#default_value' => variable_get('ting_reservable_types', _ting_default_reservable_types()),
-  );
   // Save us the trouble of running array_filter.
   $form['array_filter'] = array('#type' => 'value', '#value' => TRUE);
 
