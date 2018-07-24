@@ -13,7 +13,7 @@
         var entityId = reserveButton.data("entity-id");
         $.ajax({
           dataType: "json",
-          url: "/ding_reservation/" + entityId + "/reservable",
+          url: "/ding_reservation/" + entityId + "/is_reservable",
           success: function(result) {
             if (result['reservable']) {
               reserveButton.addClass('reservable');
