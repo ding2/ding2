@@ -126,7 +126,7 @@ function ding_reservation_is_reservable_ajax_callback($entity) {
 function ding_reservation_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
   $button = '';
 
-  if ($type == 'ding_entity') {
+  if ($type == 'ding_entity' && $entity->is('library_material')) {
     switch ($widget) {
       case 'ajax':
         drupal_add_library('system', 'drupal.ajax');
