@@ -792,7 +792,7 @@ function alma_ding_entity_is($object, $class) {
   switch ($class) {
     case 'reservable':
       $local_id = $object->getLocalId();
-      $result = ding_provider_invoke('availability', 'holdings', $local_id)[$local_id];
+      $result = ding_provider_invoke('availability', 'holdings', array($local_id))[$local_id];
 
       return ($result['reservable'] && !$result['is_periodical']);
   }
