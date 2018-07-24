@@ -86,6 +86,10 @@ function fbs_ding_provider() {
  * Implements hook_ding_entity_is()
  */
 function fbs_ding_entity_is($object, $class) {
+  if (!$object instanceof TingEntity) {
+    return NULL;
+  }
+
   switch ($class) {
     case 'reservable':
       // Only materials from this source can be reservable in FBS, so there's
