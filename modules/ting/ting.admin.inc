@@ -136,7 +136,7 @@ function ting_admin_reservable_settings($form_state) {
   $form['reservation_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Reservation settings'),
-    '#tree' => FALSE,
+
   );
 
   $options = array();
@@ -166,9 +166,14 @@ function ting_admin_reservable_settings($form_state) {
   $sources = variable_get('ting_well_sources', _ting_fetch_well_sources());
 
   $form['ting_library_material_sources'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Library material sources'),
+    '#tree' => FALSE,
+    '#description' => t('Select which sources should be considered as library material. For library materials the system will ask the library provider for reservability, availability and holdings. So for performance reasons, only check those sources where this behaviour is needed.'),
+  );
+
+  $form['ting_library_material_sources']['ting_library_material_sources'] = array(
     '#type' => 'checkboxes',
-    '#title' => t('Sources'),
-    '#description' => t('Select which sources should be considered as library material. For library materials the system will ask the library provider for reservability, availability and holdings. So for performance reasons, only check those sources where this behaviour is needed.')
     '#options' => drupal_map_assoc($sources),
     '#default_value' => variable_get('ting_library_material_sources', array()),
   );

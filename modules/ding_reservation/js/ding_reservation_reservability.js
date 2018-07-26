@@ -15,13 +15,13 @@
           dataType: "json",
           url: "/ding_reservation/" + entityId + "/is_reservable",
           success: function(result) {
-            if (result['reservable']) {
+            if (result.reservable) {
               reserveButton.addClass('reservable');
             }
           }
         });
-      })
+      });
     }
-  }
+  };
 
 })(jQuery);

@@ -113,8 +113,7 @@ function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
 }
 
 /**
- * Check the reservability of the passed entity. Used as AJAX callback for the
- * reservation button.
+ * AJAX callback used to check the reservability of the passed entity.
  */
 function ding_reservation_is_reservable_ajax_callback($entity) {
   drupal_json_output(array('reservable' => $entity->is('reservable')));
@@ -166,11 +165,9 @@ function ding_reservation_ding_entity_buttons($type, $entity, $view_mode, $widge
         // The last parameter to the form below (TRUE) hides the provider
         // options in the form (interest period and branch).
         if ($entity->is('reservable')) {
-          $button = array(ding_provider_get_form(
-            'ding_reservation_reserve_form',
-            new DingReservationReservableEntity($entity),
-            TRUE
-          ));
+          $button = array(
+            ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE),
+          );
         }
         break;
     }

@@ -200,7 +200,7 @@ function connie_availability_periodical($provider_ids) {
 }
 
 /**
- * Implements hook_ding_entity_is()
+ * Implements hook_ding_entity_is().
  */
 function connie_ding_entity_is($object, $class) {
   switch ($class) {
