@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Features export.
+ */
+
 /**
  * Implements hook_default_services_endpoint().
  */
