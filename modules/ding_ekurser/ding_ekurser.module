@@ -97,6 +97,7 @@ function _ding_ekurser_get_subject_terms() {
     ->withCount(1)
     ->withSort('acquisitionDate_descending')
     ->withTermsPrFacet(20)
+    ->withFacets(array('facet.subject'))
     ->execute();
 
   // Extract subject facet terms.
