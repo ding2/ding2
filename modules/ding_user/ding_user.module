@@ -426,7 +426,7 @@ function ding_user_get_pincode_length() {
  */
 function ding_user_element_validate_pincode($element, &$form_state, $form) {
   if (!preg_match('/^\d{' . ding_user_get_pincode_length() . '}$/', $element['#value'])) {
-    form_error($element, t('The pincode must consist of exactly %number digits.', array('%number' => ding_user_get_pincode_length())));
+    form_error($element, t('The pincode must consist of exactly %number digits and only contain integers.', array('%number' => ding_user_get_pincode_length())));
   }
 }
 
