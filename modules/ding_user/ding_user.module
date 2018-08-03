@@ -505,6 +505,11 @@ function ding_user_form_process_password_confirm($element) {
   $element['pass1']['#title'] = t('Pincode');
   $element['pass2']['#title'] = t('Confirm pincode');
 
+  // We need to validate length and that it only contains digits. It should be
+  // enough to only validate one of the password fields, as they will have to be
+  // equal to be accepted.
+  $element['pass1']['#element_validate'][] = 'ding_user_element_validate_pincode';
+
   return $element;
 }
 
