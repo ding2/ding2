@@ -703,7 +703,7 @@ function ding_place2book_build_xml($node, $service_settings) {
   $xml->provider->email = $service_settings['provider_mail'];
 
   // Set event name with title.
-  $xml->event->name = check_plain($node->title);
+  $xml->event->name = $node->title;
 
   // Set short description.
   $field_ding_event_lead = field_get_items('node', $node, 'field_ding_event_lead');
