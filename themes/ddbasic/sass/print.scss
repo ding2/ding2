@@ -47,6 +47,14 @@
 
   //User
   .material-item {
+    width: 100%;
+
+    .item-information-list {
+      &>li.rating, &>li.bookmark {
+        display: none;
+      }
+    }
+
     .left-column {
       min-width: 0;
       .item-checkbox {
@@ -71,4 +79,6 @@
       }
     }
   }
+
+  .pane-facebookshare-facebook-share { display: none; }
 }

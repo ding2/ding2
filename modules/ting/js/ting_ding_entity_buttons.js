@@ -15,17 +15,18 @@
 
       let identifiers = {};
       let identifier = null;
-      for (let i in this.buttons) {
-        identifiers[this.buttons[i]] = [];
+      let $this = this;
+      for (let i in $this.buttons) {
+        identifiers[$this.buttons[i]] = [];
 
         // For event button type fetch it's parent ting entity id.
-        $(i, context).each((index, element) => {
+        $(i, context).each(function (index, element) {
           identifier = $(element)
             .parents('div[ting-object-id]')
             .attr('ting-object-id');
 
-          if (identifiers[this.buttons[i]].indexOf(identifier) === -1) {
-            identifiers[this.buttons[i]].push(identifier);
+          if (identifiers[$this.buttons[i]].indexOf(identifier) === -1) {
+            identifiers[$this.buttons[i]].push(identifier);
           }
         });
       }
@@ -37,7 +38,7 @@
           continue;
         }
 
-        this.renderDingEntityButtons(identifiers[i], i);
+        $this.renderDingEntityButtons(identifiers[i], i);
       }
     },
 
