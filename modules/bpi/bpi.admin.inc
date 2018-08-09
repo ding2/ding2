@@ -207,8 +207,7 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
         'bpi_content_type' => array(
           '#type' => 'select',
           '#title' => t('Content type'),
-          '#description' => t('Select a content type into which content from BPI will be syndicated.')
-          .'<br/>' . t('If you change the content type, you have to save the form before editing the field mapping.'),
+          '#description' => t('Select a content type into which content from BPI will be syndicated. If you change the content type, you have to save the form before editing the field mapping.'),
           '#options' => $node_types,
           '#default_value' => isset($default_values['bpi_content_type']) ? $default_values['bpi_content_type'] : NULL,
           '#ajax' => array(

@@ -45822,8 +45822,8 @@ msgid "Please enter a valid url."
 msgstr "Indtast venligst en korrekt URL."
 
 #: bpi.admin.inc:143
-msgid "Select a content type into which content from BPI will be syndicated."
-msgstr "Vælg den indholdstype som du ønsker at syndikere til."
+msgid "Select a content type into which content from BPI will be syndicated. If you change the content type, you have to save the form before editing the field mapping."
+msgstr "Vælg en indholdstype som du ønsker at syndikere til. Hvis du ændrer indholdstypen skal du gemme formularen før du kan redigere felttilknytningen."
 
 #: bpi.admin.inc:164
 msgid "Field mapping"
