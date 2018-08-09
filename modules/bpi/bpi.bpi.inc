@@ -17,7 +17,7 @@ function bpi_bpi_syndicate_get_bpi_types() {
  */
 function bpi_bpi_get_field_mapping_form($bpi_type, $content_type, array $field_mapping) {
   if (in_array($bpi_type, bpi_bpi_syndicate_get_bpi_types())) {
-    $field_options = array('' => '') + bpi_get_field_instances($content_type);
+    $field_options = bpi_get_field_instances($content_type);
 
     return array(
       'title' => array(
@@ -34,6 +34,7 @@ function bpi_bpi_get_field_mapping_form($bpi_type, $content_type, array $field_m
         '#title' => t('BPI teaser'),
         '#description' => t('The field to extract the teaser from. If the content type have a body summary, assign it to the body field.'),
         '#options' => $field_options,
+        '#empty_value' => '',
         '#default_value' => $field_mapping['teaser'],
       ),
 
@@ -42,6 +43,7 @@ function bpi_bpi_get_field_mapping_form($bpi_type, $content_type, array $field_m
         '#title' => t('BPI body'),
         '#description' => t('Field to extract the main content from (body field).'),
         '#options' => $field_options,
+        '#empty_value' => '',
         '#default_value' => $field_mapping['body'],
       ),
 
@@ -49,6 +51,7 @@ function bpi_bpi_get_field_mapping_form($bpi_type, $content_type, array $field_m
         '#type' => 'select',
         '#title' => t('BPI tags'),
         '#options' => $field_options,
+        '#empty_value' => '',
         '#default_value' => $field_mapping['tags'],
       ),
 
@@ -57,6 +60,7 @@ function bpi_bpi_get_field_mapping_form($bpi_type, $content_type, array $field_m
         '#title' => t('BPI materials'),
         '#description' => t('Field used to get reference to the T!NG data well.'),
         '#options' => $field_options,
+        '#empty_value' => '',
         '#default_value' => $field_mapping['materials'],
       ),
     );

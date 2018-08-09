@@ -28,7 +28,7 @@ function ding_campaign_bpi_syndicate_action_url($bpi_type, $bpi_id, array $mappi
  */
 function ding_campaign_bpi_get_field_mapping_form($bpi_type, $content_type, array $field_mapping) {
   if (in_array($bpi_type, ding_campaign_bpi_syndicate_get_bpi_types())) {
-    $field_options = array('' => '') + bpi_get_field_instances($content_type);
+    $field_options = bpi_get_field_instances($content_type);
 
     return array(
       'title' => array(
@@ -45,6 +45,7 @@ function ding_campaign_bpi_get_field_mapping_form($bpi_type, $content_type, arra
         '#title' => t('BPI body'),
         '#description' => t('Field to extract the main content from (body field).'),
         '#options' => $field_options,
+        '#empty_value' => '',
         '#default_value' => isset($field_mapping['body']) ? $field_mapping['body'] : NULL,
       ),
 
@@ -53,6 +54,7 @@ function ding_campaign_bpi_get_field_mapping_form($bpi_type, $content_type, arra
         '#title' => t('BPI url'),
         '#description' => t('Field to extract the url from.'),
         '#options' => $field_options,
+        '#empty_value' => '',
         '#default_value' => isset($field_mapping['url']) ? $field_mapping['url'] : NULL,
       ),
     );
