@@ -245,14 +245,8 @@ function bpi_get_image_type($image_field_name, $node) {
   }
 
   $hook = 'bpi_get_image_type';
-  foreach (module_implements($hook) as $module) {
-    $image_type = module_invoke($module, $hook, $image_field_name, $node);
-    if ($image_type) {
-      return $image_type;
-    }
-  }
-
-  return NULL;
+  // Get image type from first module able to handle the node.
+  return bpi_module_invoke_one($hook, $image_field_name, $node);
 }
 
 /**

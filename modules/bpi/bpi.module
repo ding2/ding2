@@ -1115,6 +1115,7 @@ function bpi_features_views_default_views_alter(&$views) {
   }
 }
 
+
 /**
  * Implements hook_preprocess_HOOK().
  *
@@ -1128,6 +1129,32 @@ function bpi_preprocess_bpi_preview_item(&$variables) {
   if ($bpi_agency_id === $bpi_item['agency_id']) {
     $variables['hide_syndicate_link'] = TRUE;
   }
+}
+
+/**
+ * Invoke hook in modules and return first non-empty result if any.
+ *
+ * @param $hook
+ *   The name of the hook to invoke.
+ * @param ...
+ *   Arguments to pass to the hook.
+ *
+ * @return mixed|null
+ */
+function bpi_module_invoke_one($hook) {
+  $args = func_get_args();
+  unset($args[0]);
+  foreach (module_implements($hook) as $module) {
+    $function = $module . '_' . $hook;
+    if (function_exists($function)) {
+      $result = call_user_func_array($function, $args);
+      if (!empty($result)) {
+        return $result;
+      }
+    }
+  }
+
+  return NULL;
 }
 
 /**

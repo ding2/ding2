@@ -689,24 +689,20 @@ function bpi_available_map() {
  * All modules implementing BPI syndication will be asked for the url used to
  * syndicate the node.
  *
- * @param string $bpi_type
- *   The bpi type.
+ * @param string $bpi_node_type
+ *   The bpi node type.
  * @param string $bpi_id
  *   The bpi node id.
  *
  * @return string|NULL
  *   The syndicate url.
  */
-function bpi_get_syndicate_url($bpi_type, $bpi_id) {
-  $mapping = bpi_get_mapping($bpi_type);
+function bpi_get_syndicate_url($bpi_node_type, $bpi_id) {
+  $mapping = bpi_get_mapping($bpi_node_type);
   if (!empty($mapping)) {
     $hook = 'bpi_syndicate_action_url';
-    foreach (module_implements($hook) as $module) {
-      $url = module_invoke($module, $hook, $bpi_type, $bpi_id, $mapping);
-      if (!empty($url)) {
-        return $url;
-      }
-    }
+    // Get syndicate url from first module able to handle the node type.
+    return bpi_module_invoke_one($hook, $bpi_node_type, $bpi_id, $mapping);
   }
 
   return NULL;

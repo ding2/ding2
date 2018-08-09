@@ -299,14 +299,7 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
  */
 function bpi_admin_get_field_mapping_form($bpi_node_type, $content_type, array $field_mapping) {
   $hook = 'bpi_get_field_mapping_form';
-  foreach (module_implements($hook) as $module) {
-    $mapping = module_invoke($module, $hook, $bpi_node_type, $content_type, $field_mapping);
-    if ($mapping) {
-      return $mapping;
-    }
-  }
-
-  return NULL;
+  return bpi_module_invoke_one($hook, $bpi_node_type, $content_type, $field_mapping);
 }
 
 /**
