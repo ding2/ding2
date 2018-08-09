@@ -286,12 +286,21 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
 }
 
 /**
- * BPI field mapping form.
+ * Get form for editing BPI field mapping.
+ *
+ * @param string $bpi_node_type
+ *   The BPI node type.
+ * @param string $content_type
+ *   The Drupal content type.
+ * @param array $field_mapping
+ *   The field mapping (@see bpi_get_mappings() for details).
+ *
+ * @return array|null
  */
-function bpi_admin_get_field_mapping_form($bpi_type, $content_type, array $field_mapping) {
+function bpi_admin_get_field_mapping_form($bpi_node_type, $content_type, array $field_mapping) {
   $hook = 'bpi_get_field_mapping_form';
   foreach (module_implements($hook) as $module) {
-    $mapping = module_invoke($module, $hook, $bpi_type, $content_type, $field_mapping);
+    $mapping = module_invoke($module, $hook, $bpi_node_type, $content_type, $field_mapping);
     if ($mapping) {
       return $mapping;
     }

@@ -23,17 +23,17 @@ function hook_bpi_syndicate_get_bpi_types() {
 /**
  * Get form for mapping a BPI node to a Drupal content type.
  *
- * @param string $bpi_type
- *   The BPI type.
+ * @param string $bpi_node_type
+ *   The BPI node type.
  * @param string $content_type
  *   The Drupal content type.
  * @param array $field_mapping
- *   The current field mapping.
+ *   The field mapping (@see bpi_get_mappings() for details).
  *
  * @return array
  *   The mapping form.
  */
-function hook_bpi_get_field_mapping_form($bpi_type, $content_type, array $field_mapping) {
+function hook_bpi_get_field_mapping_form($bpi_node_type, $content_type, array $field_mapping) {
     return array();
 }
 
