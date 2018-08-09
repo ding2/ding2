@@ -133,45 +133,48 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
 
   $bpi_content['title'] = $node->title;
 
-  $teaser_field = isset($mapping['bpi_field_mapping']['bpi_field_teaser']) ? field_view_field('node', $node, $mapping['bpi_field_mapping']['bpi_field_teaser']) : NULL;
-  $body_field = isset($mapping['bpi_field_mapping']['bpi_field_body']) ? field_view_field('node', $node, $mapping['bpi_field_mapping']['bpi_field_body']) : NULL;
+	$field_mapping = $mapping['field_mapping'];
+  $teaser_field = isset($field_mapping['teaser']) ? field_view_field('node', $node, $field_mapping['teaser']) : NULL;
+  $body_field = isset($field_mapping['body']) ? field_view_field('node', $node, $field_mapping['body']) : NULL;
   $teaser = bpi_get_field_value($teaser_field);
   $body = bpi_get_field_value($body_field);
 
   // Find the references to the ting date well.
   $materials_drupal = array();
   if ($with_refs) {
-    // Function field_get_items returns data with 2 different structure, depending from stage when it was called.
-    $items = field_get_items('node', $node, variable_get('bpi_field_materials', ''));
-    foreach ((array) $items as $item) {
-      // First case, we have completly saved node, when it returns ding_object_id.
-      if (!empty($item['ting_object_id'])) {
-        $id = $item['ting_object_id'];
-        // Filter out id's with "katalog" PID, as they only makes sens on
-        // current site.
-        if (!preg_match('/katalog/', $id)) {
-          $materials_drupal[] = $id;
-        }
-        // Second case, we used "Save and push" button and node wasn't completly saved
-        // In this case, we have object of class Relation.
-        elseif (isset($item['value']->endpoints)) {
-          $endpoints = $item['value']->endpoints;
-          $data = array_filter($endpoints[LANGUAGE_NONE], function ($i) {
-            return $i['entity_type'] == 'ting_object';
-          });
-          if (!empty($data)) {
-            $ting_data = current($data);
-            $ting_object = entity_load_single('ting_object', $ting_data['entity_id']);
-            if ($ting_object) {
-              if (!preg_match('/katalog/', $ting_object->ding_entity_id)) {
-                $materials_drupal[] = $ting_object->ding_entity_id;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+    if (isset($field_mapping['materials'])) {
+      // Function field_get_items returns data with 2 different structure, depending from stage when it was called.
+			$items = field_get_items('node', $node, $field_mapping['materials']);
+			foreach ((array) $items as $item) {
+				// First case, we have completly saved node, when it returns ding_object_id.
+				if (!empty($item['ting_object_id'])) {
+					$id = $item['ting_object_id'];
+					// Filter out id's with "katalog" PID, as they only makes sens on
+					// current site.
+					if (!preg_match('/katalog/', $id)) {
+						$materials_drupal[] = $id;
+					}
+				}
+				// Second case, we used "Save and push" button and node wasn't completly saved
+				// In this case, we have object of class Relation.
+				elseif (isset($item['value']->endpoints)) {
+					$endpoints = $item['value']->endpoints;
+					$data = array_filter($endpoints[LANGUAGE_NONE], function ($i) {
+						return $i['entity_type'] == 'ting_object';
+					});
+					if (!empty($data)) {
+						$ting_data = current($data);
+						$ting_object = entity_load_single('ting_object', $ting_data['entity_id']);
+						if ($ting_object) {
+							if (!preg_match('/katalog/', $ting_object->ding_entity_id)) {
+								$materials_drupal[] = $ting_object->ding_entity_id;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 
   // Empty the teaser, if body and teaser are mapped to same fields
   // and the values are identical.
@@ -230,15 +233,17 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   }
 
   $tags = array();
-  $tags_field_name = variable_get('bpi_field_tags', '');
-  if (!empty($tags_field_name)) {
-    // We use field_view_field (rather than field_get_items, say) to get the
-    // actual taxonomy term names which we need to push to bpi.
-    $tags_field = field_view_field('node', $node, $tags_field_name);
-    if ($tags_field && isset($tags_field['#items'])) {
-      foreach ($tags_field['#items'] as $item) {
-        if (isset($item['taxonomy_term'])) {
-          $tags[] = $item['taxonomy_term']->name;
+  if (isset($field_mapping['tags'])) {
+    $tags_field_name = $field_mapping['tags'];
+    if (!empty($tags_field_name)) {
+      // We use field_view_field (rather than field_get_items, say) to get the
+      // actual taxonomy term names which we need to push to bpi.
+      $tags_field = field_view_field('node', $node, $tags_field_name);
+      if ($tags_field && isset($tags_field['#items'])) {
+        foreach ($tags_field['#items'] as $item) {
+          if (isset($item['taxonomy_term'])) {
+            $tags[] = $item['taxonomy_term']->name;
+          }
         }
       }
     }

@@ -264,12 +264,12 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     return;
   }
 
-  $bpi_ctype = $mapping['bpi_content_type'];
+  $content_type = $mapping['content_type'];
 
   $form_state['node']->bpi_id = $bpi_id;
 
   // Checking is_new to see if it's a create node form, not edit.
-  if ($form_id == $bpi_ctype . '_node_form' && !isset($form_state['node']->is_new) && $bpi_id) {
+  if ($form_id == $content_type . '_node_form' && !isset($form_state['node']->is_new) && $bpi_id) {
     $form_state['node']->bpi_id = $bpi_id;
     try {
       $bpi = bpi_client_instance();
@@ -307,11 +307,11 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
 
       return;
     }
-    $field_mapping = $mapping['bpi_field_mapping'];
+    $field_mapping = $mapping['field_mapping'];
     $form['title']['#default_value'] = isset($bpi_content['title']) ? $bpi_content['title'] : '';
-    $teaser = isset($field_mapping['bpi_field_teaser']) ? $field_mapping['bpi_field_teaser'] : NULL;
-    $body = isset($field_mapping['bpi_field_body']) ? $field_mapping['bpi_field_body'] : NULL;
-    $materials_field = isset($field_mapping['bpi_field_materials']) ? $field_mapping['bpi_field_materials'] : NULL;
+    $teaser = isset($field_mapping['teaser']) ? $field_mapping['teaser'] : NULL;
+    $body = isset($field_mapping['body']) ? $field_mapping['body'] : NULL;
+    $materials_field = isset($field_mapping['materials']) ? $field_mapping['materials'] : NULL;
 
     // Current language will be set to undefined, because this module is
     // lexigraphically before the locale module. If e.g. the weight in the
@@ -378,9 +378,9 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       bpi_clear_syndicated_images();
     }
 
-    if (variable_get('bpi_syndicate_tags')) {
+    if (variable_get('bpi_syndicate_tags') && isset($field_mapping['tags'])) {
       $bpi_tags = $bpi_node->getTags();
-      $tags_field = variable_get('bpi_field_tags', '');
+      $tags_field = $field_mapping['tags'];
       if (!empty($bpi_tags) && !empty($tags_field) && isset($form[$tags_field][$current_language])) {
         $form[$tags_field][$current_language]['#default_value'] = implode(', ', $bpi_tags);
       }
@@ -398,7 +398,7 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
   }
 
   // Add BPI fields.
-  if ($form_id == $bpi_ctype . '_node_form') {
+  if ($form_id == $content_type . '_node_form') {
     // Don't show BPI fields if user doesn't have access to the workflow tab.
     $node = $form['#node'];
     if (!workflow_tab_access("node", $node)) {
@@ -1139,17 +1139,70 @@ function bpi_preprocess_bpi_preview_item(&$variables) {
 }
 
 /**
+ * Create a BPI mapping by merging in default values.
+ *
+ * @see bpi_get_mappings() for details on mappings.
+ *
+ * @param array $mapping
+ *   The (partial) mapping.
+ *
+ * @return array
+ *   The BPI mapping with defaults applied.
+ */
+function bpi_create_mapping(array $mapping) {
+  $default_mapping = array(
+    'bpi_node_type' => NULL,
+    'content_type' => NULL,
+    'field_mapping' => array(),
+  );
+
+  $mapping = array_merge($default_mapping, $mapping);
+
+  return $mapping;
+}
+
+/**
  * Set BPI mappings.
+ *
+ * @see bpi_get_mappings() for details on mappings.
  *
  * @param array $bpi_mappings
  *   The mappings.
  */
-function bpi_set_mappings(array $bpi_mappings) {
-  variable_set('bpi_mappings', $bpi_mappings);
+function bpi_set_mappings(array $mappings) {
+  // Make sure that all mappings have default values.
+  $mappings = array_map('bpi_create_mapping', $mappings);
+
+  variable_set('bpi_mappings', $mappings);
 }
 
 /**
  * Get all BPI mappings.
+ *
+ * A BPI mapping maps a Drupal content type to a BPI content type. A mapping
+ * is an array with the following keys
+ *
+ *   'bpi_node_type' string the BPI node type, e.g. "article" or "campaign".
+ *   'content_type' string The Drupal content type.
+ *   'field_mapping' array Mapping (string => string) from BPI node field to
+ *                         Drupal content type field
+ *
+ * The value of 'field_mapping' depends on the Drupal content type.
+ *
+ * An example mapping for the "ding_news" Drupal content type:
+ *
+ *   array(
+ *     'bpi_node_type' => 'article',
+ *     'content_type' => 'ding_news',
+ *     'field_mapping' => array(
+ *       'title' => 'title',
+ *       'teaser' => 'field_ding_news_lead',
+ *       'body' => 'field_ding_news_body',
+ *       'tags' => 'field_ding_news_tags',
+ *       'materials' => 'field_ding_news_materials',
+ *     ),
+ *   )
+ *
  *
  * @return array
  *   All defined mappings.
@@ -1160,6 +1213,8 @@ function bpi_get_mappings() {
 
 /**
  * Get mapping of a BPI node type.
+ *
+ * @see bpi_get_mappings() for details on the mapping.
  *
  * @param string $bpi_type
  *   The BPI node type.
@@ -1182,6 +1237,8 @@ function bpi_get_mapping($bpi_type) {
 /**
  * Get mapping of a BPI node type by Drupal content type.
  *
+ * @see bpi_get_mappings() for details on the mapping.
+ *
  * @param string $content_type
  *   The Drupal content type.
  *
@@ -1192,7 +1249,7 @@ function bpi_get_mapping_by_content_type($content_type) {
   $mappings = bpi_get_mappings();
 
   foreach ($mappings as $mapping) {
-    if (isset($mapping['bpi_content_type']) && $mapping['bpi_content_type'] === $content_type) {
+    if ($mapping['content_type'] === $content_type) {
       return $mapping;
     }
   }
@@ -1211,7 +1268,7 @@ function bpi_ensure_bpi_workflow_fields() {
     $mappings = bpi_get_mappings();
     foreach ($mappings as $mapping) {
       // Create workflow field.
-      $content_type = $mapping['bpi_content_type'];
+      $content_type = $mapping['content_type'];
       $field_instance = field_info_instance($entity_type, $field_name, $content_type);
       if ($field_instance === NULL) {
         $instance = array(

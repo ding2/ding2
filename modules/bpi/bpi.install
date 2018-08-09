@@ -232,13 +232,13 @@ function bpi_update_7007(&$sandbox) {
     $bpi_mappings = array(
       array(
         'bpi_node_type' => 'article',
-        'bpi_content_type' => variable_get('bpi_content_type', ''),
-        'bpi_field_mapping' => array(
-          'bpi_field_title' => variable_get('bpi_field_title', ''),
-          'bpi_field_teaser' => variable_get('bpi_field_teaser', ''),
-          'bpi_field_body' => variable_get('bpi_field_body', ''),
-          'bpi_field_tags' => variable_get('bpi_field_tags', ''),
-          'bpi_field_materials' => variable_get('bpi_field_materials', ''),
+        'content_type' => variable_get('bpi_content_type', ''),
+        'field_mapping' => array(
+          'title' => variable_get('bpi_field_title', ''),
+          'teaser' => variable_get('bpi_field_teaser', ''),
+          'body' => variable_get('bpi_field_body', ''),
+          'tags' => variable_get('bpi_field_tags', ''),
+          'materials' => variable_get('bpi_field_materials', ''),
         ),
       ),
     );

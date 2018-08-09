@@ -165,20 +165,20 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
     $form_state['deleted_mappings'] = array();
   }
   for ($i = 0; $i < $form_state['num_mappings']; $i++) {
-    $default_values = isset($bpi_mappings[$i]) ? $bpi_mappings[$i] : array();
-    $bpi_node_type = isset($default_values['bpi_node_type']) ? $default_values['bpi_node_type'] : NULL;
+    $saved_mapping = bpi_create_mapping(isset($bpi_mappings[$i]) ? $bpi_mappings[$i] : array());
+    $bpi_node_type = $saved_mapping['bpi_node_type'];
     if (isset($form_state['values']['bpi_mappings'][$i]['bpi_node_type'])) {
       $bpi_node_type = $form_state['values']['bpi_mappings'][$i]['bpi_node_type'];
     }
-    $selected_node_type = isset($default_values['bpi_content_type']) ? $default_values['bpi_content_type'] : NULL;
-    if (isset($form_state['values']['bpi_mappings'][$i]['bpi_content_type'])) {
-      $selected_node_type = $form_state['values']['bpi_mappings'][$i]['bpi_content_type'];
+    $selected_node_type = $saved_mapping['content_type'];
+    if (isset($form_state['values']['bpi_mappings'][$i]['content_type'])) {
+      $selected_node_type = $form_state['values']['bpi_mappings'][$i]['content_type'];
     }
 
     $mapping = array(
       '#type' => 'fieldset',
       '#title' => t('Mapping (@bpi_type)', array(
-        '@bpi_type' => isset($default_values['bpi_node_type']) ? t($default_values['bpi_node_type']) : '–')
+        '@bpi_type' => $saved_mapping['bpi_node_type'] ? t($saved_mapping['bpi_node_type']) : '–')
       ),
       '#collapsible' => TRUE,
     );
@@ -196,7 +196,7 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
           '#title' => t('BPI node type'),
           '#description' => t('Enter the BPI node type, e.g. ding_news, campaign, carousel.'),
           '#options' => $bpi_node_type_options,
-          '#default_value' => isset($default_values['bpi_node_type']) ? $default_values['bpi_node_type'] : NULL,
+          '#default_value' => $saved_mapping['bpi_node_type'],
           '#ajax' => array(
             'callback' => 'bpi_admin_content_mapping_form_update_bpi_type',
             'wrapper' => 'bpi-wrapper',
@@ -204,23 +204,24 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
           '#required' => TRUE,
         ),
 
-        'bpi_content_type' => array(
+        'content_type' => array(
           '#type' => 'select',
           '#title' => t('Content type'),
           '#description' => t('Select a content type into which content from BPI will be syndicated. If you change the content type, you have to save the form before editing the field mapping.'),
           '#options' => $node_types,
-          '#default_value' => isset($default_values['bpi_content_type']) ? $default_values['bpi_content_type'] : NULL,
+          '#default_value' => $saved_mapping['content_type'],
           '#ajax' => array(
             'callback' => 'bpi_admin_content_mapping_form_update_content_type_fields',
             'wrapper' => 'bpi-wrapper',
           ),
+          '#required' => TRUE,
         ),
       );
 
-      $field_mapping = isset($default_values['bpi_field_mapping']) ? $default_values['bpi_field_mapping'] : array();
+      $field_mapping = $saved_mapping['field_mapping'];
       $field_mapping_form = bpi_admin_get_field_mapping_form($bpi_node_type, $selected_node_type, $field_mapping);
       if ($field_mapping_form) {
-        $item['bpi_field_mapping'] = array(
+        $item['field_mapping'] = array(
           '#type' => 'fieldset',
           '#title' => t('Field mapping'),
           '#description' => t('Define you custom mapping rules. Each dropdown maps BPI related fields to your content fields.'),
@@ -228,18 +229,18 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
           '#suffix' => '</div>',
         );
 
-        $item['bpi_field_mapping'] += $field_mapping_form;
+        $item['field_mapping'] += $field_mapping_form;
       }
       drupal_alter('bpi_mapping_form', $bpi_node_type, $item);
 
       $mapping += $item;
 
-      if (isset($default_values['bpi_node_type'])) {
+      if ($saved_mapping['bpi_node_type']) {
         $mapping += array(
           'remove_mapping' => array(
             '#type' => 'submit',
             '#value' => t('Remove mapping of @bpi_type', array(
-              '@bpi_type' => isset($default_values['bpi_node_type']) ? t($default_values['bpi_node_type']) : '–',
+              '@bpi_type' => t($saved_mapping['bpi_node_type']),
             )),
             '#name' => 'remove_mapping_' . $i,
             '#submit' => array('bpi_admin_content_mapping_form_add_mapping_remove_one'),

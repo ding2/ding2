@@ -17,7 +17,7 @@ function ding_campaign_bpi_syndicate_get_bpi_types() {
  */
 function ding_campaign_bpi_syndicate_action_url($bpi_type, $bpi_id, array $mapping) {
   if (in_array($bpi_type, ding_campaign_bpi_syndicate_get_bpi_types())) {
-    return url(str_replace('_', '-', 'node/add/' . $mapping['bpi_content_type']), array('query' => array('bpi_type' => $bpi_type, 'bpi_id' => $bpi_id)));
+    return url(str_replace('_', '-', 'node/add/' . $mapping['content_type']), array('query' => array('bpi_type' => $bpi_type, 'bpi_id' => $bpi_id)));
   }
 
   return NULL;
@@ -31,7 +31,7 @@ function ding_campaign_bpi_get_field_mapping_form($bpi_type, $content_type, arra
     $field_options = array('' => '') + bpi_get_field_instances($content_type);
 
     return array(
-      'bpi_field_title' => array(
+      'title' => array(
         '#type' => 'select',
         '#title' => t('BPI title'),
         '#description' => t('Titles are automatically assigned.'),
@@ -40,20 +40,20 @@ function ding_campaign_bpi_get_field_mapping_form($bpi_type, $content_type, arra
         '#disabled' => TRUE,
       ),
 
-      'bpi_field_body' => array(
+      'body' => array(
         '#type' => 'select',
         '#title' => t('BPI body'),
         '#description' => t('Field to extract the main content from (body field).'),
         '#options' => $field_options,
-        '#default_value' => isset($field_mapping['bpi_field_body']) ? $field_mapping['bpi_field_body'] : NULL,
+        '#default_value' => isset($field_mapping['body']) ? $field_mapping['body'] : NULL,
       ),
 
-      'bpi_field_url' => array(
+      'url' => array(
         '#type' => 'select',
         '#title' => t('BPI url'),
         '#description' => t('Field to extract the url from.'),
         '#options' => $field_options,
-        '#default_value' => isset($field_mapping['bpi_field_url']) ? $field_mapping['bpi_field_url'] : NULL,
+        '#default_value' => isset($field_mapping['url']) ? $field_mapping['url'] : NULL,
       ),
     );
   }
@@ -65,8 +65,8 @@ function ding_campaign_bpi_get_field_mapping_form($bpi_type, $content_type, arra
  * Implements hook_bpi_convert_to_bpi_alter().
  */
 function ding_campaign_bpi_convert_to_bpi_alter(&$bpi_content, $node, $mapping) {
-  if (isset($mapping['bpi_node_type']) && in_array($mapping['bpi_node_type'], ding_campaign_bpi_syndicate_get_bpi_types())) {
-    $url_field = isset($mapping['bpi_field_mapping']['bpi_field_url']) ? field_view_field('node', $node, $mapping['bpi_field_mapping']['bpi_field_url']) : NULL;
+  if (in_array($mapping['bpi_node_type'], ding_campaign_bpi_syndicate_get_bpi_types())) {
+    $url_field = isset($mapping['field_mapping']['url']) ? field_view_field('node', $node, $mapping['field_mapping']['url']) : NULL;
     $url = bpi_get_field_value($url_field);
     $bpi_content['url'] = $url;
 

@@ -693,7 +693,7 @@ function bpi_available_map() {
 function bpi_syndicate_action($bpi_type, $bpi_id) {
   $mapping = bpi_get_mapping($bpi_type);
 
-  if (!empty($mapping) && !empty($mapping['bpi_content_type'])) {
+  if (!empty($mapping) && !empty($mapping['content_type'])) {
     $hook = 'bpi_syndicate_action_url';
     foreach (module_implements($hook) as $module) {
       $url = module_invoke($module, $hook, $bpi_type, $bpi_id, $mapping);
