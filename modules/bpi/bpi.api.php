@@ -42,10 +42,10 @@ function hook_bpi_get_field_mapping_form($bpi_type, $content_type, array $field_
  *
  * @param string $bpi_type
  *   The BPI node type.
- * @param array $form_item
+ * @param array $form
  *   The form.
  */
-function hook_bpi_mapping_form_alter($bpi_type, array &$form_item) {
+function hook_bpi_mapping_form_alter($bpi_type, array &$form) {
 }
 
 /**
