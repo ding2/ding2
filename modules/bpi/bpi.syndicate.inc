@@ -459,7 +459,9 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
     if ($bpi_agency_id != $item['agency_id']) {
 			$syndicate_url = bpi_get_syndicate_url($item['type'], $item['bpi_id']);
 			if ($syndicate_url) {
-				$actions[] = '<a href="' . check_plain($syndicate_url) . '">' . t('Syndicate') . '</a>';
+				// Handle the syndicate url as en external url to prevent encoding of
+				// the query string.
+				$actions[] = l(t('Syndicate'), $syndicate_url, array('external' => TRUE));
 			}
 		}
 
