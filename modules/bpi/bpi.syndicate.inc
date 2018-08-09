@@ -682,36 +682,6 @@ function bpi_available_map() {
 }
 
 /**
- * Prepares data before the actual syndication occurs.
- *
- * Creates a session entry, storing the BPI content, which is lately
- * inserted into an empty corresponding node form.
- *
- * @param int $bpi_id
- *   Content ID, as as stored in BPI service.
- */
-function bpi_syndicate_action($bpi_type, $bpi_id) {
-  $mapping = bpi_get_mapping($bpi_type);
-
-  if (!empty($mapping) && !empty($mapping['content_type'])) {
-    $hook = 'bpi_syndicate_action_url';
-    foreach (module_implements($hook) as $module) {
-      $url = module_invoke($module, $hook, $bpi_type, $bpi_id, $mapping);
-      if (!empty($url)) {
-        header('Location: ' . $url, TRUE, 301);
-        drupal_exit($url);
-      }
-    }
-    drupal_set_message(t('Cannot syndicate @type', array('@type' => $bpi_type)), 'warning');
-    drupal_goto('admin/bpi');
-  }
-  else {
-    drupal_set_message(t('Cannot find BPI mapping for @type', array('@type' => $bpi_type)), 'warning');
-    drupal_goto('admin/bpi');
-  }
-}
-
-/**
  * Get url for syndicating a BPI node.
  *
  * All modules implementing BPI syndication will be asked for the url used to

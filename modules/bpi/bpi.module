@@ -88,14 +88,6 @@ function bpi_menu() {
     'file' => 'bpi.preview.inc',
   );
 
-  $menu['admin/bpi/syndicate/%/%'] = array(
-    'page callback' => 'bpi_syndicate_action',
-    'page arguments' => array(3, 4),
-    'access arguments' => array('bpi syndicate content'),
-    'type' => MENU_CALLBACK,
-    'file' => 'bpi.syndicate.inc',
-  );
-
   $menu['admin/bpi/statistics/nojs'] = array(
     'title' => 'BPI statistics',
     'page callback' => 'bpi_statistics',
