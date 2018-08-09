@@ -306,9 +306,6 @@ function ding_event_field_default_field_bases() {
     'type' => 'ting_reference',
   );
 
-<<<<<<< HEAD
-  // Exported field_base: 'field_ding_event_price'.
-=======
   // Exported field_base: 'field_ding_event_organizer'
   $field_bases['field_ding_event_organizer'] = array(
     'active' => 1,
@@ -345,7 +342,6 @@ function ding_event_field_default_field_bases() {
   );
 
   // Exported field_base: 'field_ding_event_price'
->>>>>>> 3224: Added event organizer taxonomy and field
   $field_bases['field_ding_event_price'] = array(
     'active' => 1,
     'cardinality' => 1,
