@@ -13,7 +13,7 @@
 /**
  * Return a list of BPI node types a module can handle.
  *
- * @return array
+ * @return string[]
  *   An array of BPI type names.
  */
 function hook_bpi_syndicate_get_bpi_types() {
