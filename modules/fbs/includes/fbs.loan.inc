@@ -59,12 +59,11 @@ function fbs_loan_list($account, $reset = FALSE) {
         if (empty($loan->isRenewable)) {
           $renewed_ids = array();
           if (module_exists('ding_session_cache')) {
-            $renewed_ids = ding_session_cache_get('fbs', 'renewed_ids', array());
+            $renewed_ids = ding_session_cache_get('ding_loan', 'renewed_ids', array());
           }
 
-          // We maintain a list of renewed loans in this session, and if this
-          // loan is here we will give it the renewed status for the rest of the
-          // session.
+          // Ding loan maintains a list of renewed loans in this session, and if
+          // this loan is here we will use it for renewal feedback.
           if (in_array($id, $renewed_ids)) {
             if ($loan->loanDetails->loanType === 'interLibraryLoan') {
               $loan_data['renewalStatus'] = DingProviderLoan::STATUS_RENEWAL_REQUESTED;
@@ -137,11 +136,6 @@ function fbs_loan_renew($account, $loans) {
     watchdog_exception('fbs', $e);
   }
 
-  $renewed_ids = array();
-  if (module_exists('ding_session_cache')) {
-    $renewed_ids = ding_session_cache_get('fbs', 'renewed_ids', array());
-  }
-
   $result = array();
   foreach ($res as $loan) {
     // Using an array for renewalStatus is an odd choice, but we'll only
@@ -151,10 +145,6 @@ function fbs_loan_renew($account, $loans) {
         $loan->loanDetails->loanType == 'interLibraryLoan' ?
         DingProviderLoan::STATUS_RENEWAL_REQUESTED :
         DingProviderLoan::STATUS_RENEWED;
-
-      // This loan was succefully renewed. Remember this for the rest of the
-      // session.
-      $renewed_ids[] = $loan->loanDetails->loanId;
     }
     else {
       $result[$loan->loanDetails->loanId] = _fbs_loan_get_renewal_status($loan);
@@ -164,7 +154,6 @@ function fbs_loan_renew($account, $loans) {
   // Clear ding session cache.
   if (module_exists('ding_session_cache')) {
     ding_session_cache_clear('fbs', 'loans');
-    ding_session_cache_set('fbs', 'renewed_ids', $renewed_ids);
   }
 
   return $result;

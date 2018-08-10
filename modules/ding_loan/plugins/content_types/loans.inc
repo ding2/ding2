@@ -265,7 +265,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       // Loan is not renewable! Inform the user the best we can.
       if (empty($loan->renewable)) {
         $disabled_count++;
-        // If already renewed this session inform the user to avoid confusion.
+        // The provider may have returned some useful renewal status, perhaps
+        // based on the already renewed ids in this session that we maintain in
+        // this module.
         if ($loan->renewalStatus == DingProviderLoan::STATUS_RENEWED) {
           $item['#material_message'] = array(
             'message' => t('This material was renewed. New return date: !due_date', array(
@@ -368,6 +370,11 @@ function ding_loan_loans_form_submit($form, &$form_state) {
 
   $clear_cache = FALSE;
 
+  $renewed_ids = array();
+  if (module_exists('ding_session_cache')) {
+    $renewed_ids = ding_session_cache_get('ding_loan', 'renewed_ids', array());
+  }
+
   $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
   foreach ($result as $id => $status) {
     // Try to get entity for the item.
@@ -397,6 +404,10 @@ function ding_loan_loans_form_submit($form, &$form_state) {
       case DingProviderLoan::STATUS_RENEWAL_REQUESTED:
         drupal_set_message(t('"@title renewed"', array('@title' => $title)));
         $clear_cache = TRUE;
+
+        // This loan was succefully renewed. Remember this for the rest of the
+        // session.
+        $renewed_ids[] = $id;
         break;
 
       case DingProviderLoan::STATUS_NOT_RENEWED:
@@ -417,6 +428,7 @@ function ding_loan_loans_form_submit($form, &$form_state) {
   // these loans throughout the session.
   if ($clear_cache && module_exists('ding_session_cache')) {
     ding_session_cache_clear('ding_loan', 'list');
+    ding_session_cache_set('ding_loan', 'renewed_ids', $renewed_ids);
   }
 }
 
