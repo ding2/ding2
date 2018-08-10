@@ -265,10 +265,18 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       // Loan is not renewable! Inform the user the best we can.
       if (empty($loan->renewable)) {
         $disabled_count++;
-        // The provider may have returned some useful renewal status, perhaps
-        // based on the already renewed ids in this session that we maintain in
-        // this module.
-        if ($loan->renewal_status == DingProviderLoan::STATUS_RENEWED) {
+        // This is a special case. If the material was borrowed today and is
+        // not renewed/rewenable; we show this message instead. This is more
+        // useful information in this case.
+        if (date('Y-m-d') == date('Y-m-d', strtotime($loan->loan_date))) {
+          $item['#material_message'] = array(
+            'message' => t('This material was borrowed today'),
+            'class' => 'messages information',
+          );
+        }
+        // Otherwise, we will have a look at the renewal_status returned from
+        // the provider.
+        elseif ($loan->renewal_status == DingProviderLoan::STATUS_RENEWED) {
           $item['#material_message'] = array(
             'message' => t('This material was renewed. New return date: !due_date', array(
               '!due_date' => format_date(strtotime(check_plain($loan->expiry)), 'ding_material_lists_date'),
@@ -283,17 +291,24 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
             'class' => 'messages information',
           );
         }
-        // This is a special case. If the material was borrowed today and is
-        // not renewed/rewenable; we show this message instead.
-        elseif (date('Y-m-d') == date('Y-m-d', strtotime($loan->loan_date))) {
+        elseif ($loan->renewal_status == DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED) {
           $item['#material_message'] = array(
-            'message' => t('This material was borrowed today'),
-            'class' => 'messages information',
+            'message' => t('The material can not be renewed because maximum number of renewals reached'),
+            'class' => 'messages warning',
           );
         }
+        elseif ($loan->renewal_status == DingProviderLoan::STATUS_RENEWAL_RESERVED) {
+          $item['#material_message'] = array(
+            'message' => t('The material is reserved by another loaner and can not be renewed'),
+            'class' => 'messages warning',
+          );
+        }
+        // If we get here, either the provider doesn't support the renewa status
+        // or the status is STATUS_NOT_RENEWED. In any case we just fallback to
+        // the generic "can not be renewed" message.
         else {
           $item['#material_message'] = array(
-            'message' => $error_messages[$loan->renewal_status],
+            'message' => t('This material can not be renewed'),
             'class' => 'messages warning',
           );
         }
