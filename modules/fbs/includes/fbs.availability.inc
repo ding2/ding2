@@ -301,7 +301,7 @@ function fbs_translate_marc($code, $field) {
     // build in list from the Drupal.
     // See: http://www.kat-format.dk/danMARC2/Danmarc2.22.htm#pgfId=1574621
     include_once DRUPAL_ROOT . '/includes/locale.inc';
-    $translation = country_get_list();
+    $translations = country_get_list();
     $code = drupal_strtoupper($code);
   }
 
