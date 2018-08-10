@@ -452,14 +452,14 @@ function ting_field_search_preprocess_html(&$vars) {
       break;
     }
 
-    $visibility = $profile->config['user_interaction']['visibility'] == 'expect' ? 0 : 1;
+    $visibility = $profile->config['user_interaction']['visibility'] == 'except' ? 0 : 1;
     $pages = $profile->config['user_interaction']['pages'];
     $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
 
     // We have an optimization hack to speed up search (by-pass panels 2x
     // times loading). So all searches are submitted to "/search-blank",
     // which need to be added to pages to ensure no form validation errors.
-    // If visibility is "expect" it should not be added to the pages list.
+    // If visibility is "except" it should not be added to the pages list.
     if ($visibility) {
       $pages .= "\r\nsearch-blank";
     }
@@ -507,14 +507,14 @@ function ting_field_search_get_default_profile() {
         break;
       }
 
-      $visibility = $profile->config['user_interaction']['visibility'] == 'expect' ? 0 : 1;
+      $visibility = $profile->config['user_interaction']['visibility'] == 'except' ? 0 : 1;
       $pages = $profile->config['user_interaction']['pages'];
       $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
 
       // We have an optimization hack to speed up search (by-pass panels 2x
       // times loading). So all searches are submitted to "/search-blank",
       // which need to be added to pages to ensure no form validation errors.
-      // If visibility is "expect" it should not be added to the pages list.
+      // If visibility is "except" it should not be added to the pages list.
       if ($visibility) {
         $pages .= "\r\nsearch-blank";
       }
@@ -558,22 +558,22 @@ function ting_field_search_filter_profiles() {
         continue;
       }
 
-      // If the visibility is "expect" and we have a active profile that's
+      // If the visibility is "except" and we have a active profile that's
       // different that the current one (checked above). It should not be shown.
-      if ($profile->config['user_interaction']['visibility'] == 'expect' && $active_profile) {
+      if ($profile->config['user_interaction']['visibility'] == 'except' && $active_profile) {
         continue;
       }
 
       // Filter base on path.
       if ($profile->config['user_interaction']['visibility'] !== 'all') {
-        $visibility = $profile->config['user_interaction']['visibility'] == 'expect' ? 0 : 1;
+        $visibility = $profile->config['user_interaction']['visibility'] == 'except' ? 0 : 1;
         $pages = $profile->config['user_interaction']['pages'];
         $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
 
         // We have an optimization hack to speed up search (by-pass panels 2x
         // times loading). So all searches are submitted to "/search-blank",
         // which need to be added to pages to ensure no form validation errors.
-        // If visibility is "expect" it should not be added to the pages list.
+        // If visibility is "except" it should not be added to the pages list.
         if ($visibility) {
           $pages .= "\r\nsearch-blank";
         }
@@ -775,7 +775,7 @@ function ting_field_search_form_ting_search_per_page_form_alter(&$form, &$form_s
  *   A single profile object.
  */
 function ting_field_search_profiles_load($name) {
-  $profile = ting_field_search_profiles_load_mutliple(array($name));
+  $profile = ting_field_search_profiles_load_multiple(array($name));
   return array_shift($profile);
 }
 
@@ -791,7 +791,7 @@ function ting_field_search_profiles_load($name) {
 function ting_field_search_profiles_load_all($reset = FALSE) {
   $profiles = &drupal_static(__FUNCTION__);
   if (!isset($profiles) || $reset) {
-    $profiles = ting_field_search_profiles_load_mutliple();
+    $profiles = ting_field_search_profiles_load_multiple();
   }
 
   return $profiles;
@@ -806,7 +806,7 @@ function ting_field_search_profiles_load_all($reset = FALSE) {
  * @return array
  *   An array of profile objects keyed by profile machine name.
  */
-function ting_field_search_profiles_load_mutliple($names = NULL) {
+function ting_field_search_profiles_load_multiple($names = NULL) {
   ctools_include('export');
 
   $table = 'ting_field_search_profile';

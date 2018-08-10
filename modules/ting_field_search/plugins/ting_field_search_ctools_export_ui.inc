@@ -168,10 +168,10 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
   );
   $form['config']['user_interaction']['visibility'] = array(
     '#type' => 'radios',
-    '#title' => t('Show block on specific pages'),
+    '#title' => t('Show search profiles on specific pages'),
     '#options' => array(
       'all' => t('Show on all pages.'),
-      'expect' => t('All pages except those listed'),
+      'except' => t('All pages except those listed'),
       'only' => t('Only the listed pages'),
     ),
     '#default_value' => !empty($profile->config['user_interaction']['visibility']) ? $profile->config['user_interaction']['visibility'] : 'all',
