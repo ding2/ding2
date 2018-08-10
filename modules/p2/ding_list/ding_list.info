@@ -30,4 +30,4 @@ features[page_manager_pages][] = page_ding_list_create
 features[page_manager_pages][] = page_ding_list_edit
 features[page_manager_pages][] = page_ding_list_share
 features[page_manager_pages][] = page_ding_list_view
-required = 1
+# required = 1
