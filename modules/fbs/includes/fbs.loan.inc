@@ -160,10 +160,15 @@ function fbs_loan_renew($account, $loans) {
 }
 
 /**
- * Helper function to extract renewalStatus from the FBS loan and convert it to
- * to Ding provider renewal status constants.
+ * Helper function to extract renewal status from the FBS loan.
  *
- * Used when renewing and showing loan list.
+ * The renewal status is converted to Ding provider renewal status constants.
+ *
+ * @param object $loan
+ *   The loan to extract renewal status from.
+ *
+ * @return int
+ *   An integer representing a constant from DingProviderLoan.
  */
 function _fbs_loan_get_renewal_status($loan) {
   if (in_array('deniedMaxRenewalsReached', $loan->renewalStatus)) {
