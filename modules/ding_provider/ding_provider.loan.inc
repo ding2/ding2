@@ -106,7 +106,7 @@ class DingProviderLoan extends DingEntityBase {
       'loan_date',
       'expiry',
       'renewable',
-      'renewalStatus',
+      'renewal_status',
       'remote_loan',
       'notes',
       'author',

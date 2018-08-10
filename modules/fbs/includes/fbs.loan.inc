@@ -66,17 +66,17 @@ function fbs_loan_list($account, $reset = FALSE) {
           // this loan is here we will use it for renewal feedback.
           if (in_array($id, $renewed_ids)) {
             if ($loan->loanDetails->loanType === 'interLibraryLoan') {
-              $loan_data['renewalStatus'] = DingProviderLoan::STATUS_RENEWAL_REQUESTED;
+              $loan_data['renewal_status'] = DingProviderLoan::STATUS_RENEWAL_REQUESTED;
             }
             else {
-              $loan_data['renewalStatus'] = DingProviderLoan::STATUS_RENEWED;
+              $loan_data['renewal_status'] = DingProviderLoan::STATUS_RENEWED;
             }
           }
           // Fallback to the general error messages, which is also used when
           // renewing loans.
           else {
             $loan->renewalStatus = $loan->renewalStatusList;
-            $loan_data['renewalStatus'] = _fbs_loan_get_renewal_status($loan);
+            $loan_data['renewal_status'] = _fbs_loan_get_renewal_status($loan);
           }
         }
 

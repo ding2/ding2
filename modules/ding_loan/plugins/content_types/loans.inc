@@ -268,7 +268,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         // The provider may have returned some useful renewal status, perhaps
         // based on the already renewed ids in this session that we maintain in
         // this module.
-        if ($loan->renewalStatus == DingProviderLoan::STATUS_RENEWED) {
+        if ($loan->renewal_status == DingProviderLoan::STATUS_RENEWED) {
           $item['#material_message'] = array(
             'message' => t('This material was renewed. New return date: !due_date', array(
               '!due_date' => format_date(strtotime(check_plain($loan->expiry)), 'ding_material_lists_date'),
@@ -277,7 +277,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
           );
         }
         // Inter library loan.
-        elseif ($loan->renewalStatus == DingProviderLoan::STATUS_RENEWAL_REQUESTED) {
+        elseif ($loan->renewal_status == DingProviderLoan::STATUS_RENEWAL_REQUESTED) {
           $item['#material_message'] = array(
             'message' => t('An inter-library loan renewal was requested'),
             'class' => 'messages information',
@@ -293,7 +293,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         }
         else {
           $item['#material_message'] = array(
-            'message' => $error_messages[$loan->renewalStatus],
+            'message' => $error_messages[$loan->renewal_status],
             'class' => 'messages warning',
           );
         }
