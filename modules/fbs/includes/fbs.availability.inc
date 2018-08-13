@@ -7,14 +7,20 @@
 /**
  * Implements provider availability, items.
  *
- * @param array $provider_ids
- *   Array of ting object ids (faust).
+ * @param array $data
+ *   Array of ids indexed by 'local' and 'pid'. Where local is the faust and
+ *   pid is the data-well id.
  *
  * @return array
- *   Avaliability info.
+ *   Availability info.
  */
-function fbs_availability_items($provider_ids) {
+function fbs_availability_items(array $data) {
   $avails = array();
+
+  // Filter the data into a single array with provider ids.
+  $provider_ids = array_map(function ($id) {
+    return $id['local_id'];
+  }, $data);
 
   try {
     $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids, variable_get('fbs_holdings_branches_blacklist', array()));
@@ -25,7 +31,10 @@ function fbs_availability_items($provider_ids) {
 
   $result = array();
   foreach ($avails as $item) {
-    $result[$item->recordId] = array('available' => $item->available, 'reservable' => $item->reservable);
+    $result[$item->recordId] = array(
+      'available' => $item->available,
+      'reservable' => $item->reservable,
+    );
   }
 
   return $result;
@@ -34,14 +43,20 @@ function fbs_availability_items($provider_ids) {
 /**
  * Implements provider availability, holdings.
  *
- * @param array $provider_ids
- *   Array of ting object ids (faust).
+ * @param array $input_ids
+ *   Array of ids indexed by 'local_id' and 'id'. Where local_id is the faust and
+ *   id is the data-well id.
  *
  * @return array
  *   Holdings info.
  */
-function fbs_availability_holdings($provider_ids) {
+function fbs_availability_holdings(array $input_ids) {
   $holdings = array();
+
+  // Filter the data into a single array with provider ids.
+  $provider_ids = array_map(function ($id) {
+    return $id['local_id'];
+  }, $input_ids);
 
   try {
     $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids, variable_get('fbs_holdings_branches_blacklist', array()));
@@ -72,6 +87,40 @@ function fbs_availability_holdings($provider_ids) {
       'sublocation',
       'materials',
     );
+
+    // Load the entity based on the type of suffix type. It's places outside the
+    // holdings loop to prevent calling the search provider for each holdings
+    // item.
+    module_load_include('client.inc', 'opensearch');
+    $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
+
+    // Try to get the entity id without calling the provider, which in
+    // OpenSearch will trigger a search request just to get the id.
+    $entity_id = '';
+    foreach ($input_ids as $id) {
+      if ($id['local_id'] == $item->recordId) {
+        $entity_id = $id['id'];
+        break;
+      }
+    }
+
+    // Only call ding_provider_build_entity_id() when absolutely necessary as
+    // this will trigger an very expensive facet search into the data-well.
+    $entity_id = empty($entity_id) ? ding_provider_build_entity_id(reset($item->recordId)) : $entity_id;
+    switch ($suffix_type) {
+      case 'simple':
+        $entity = ding_entity_load($entity_id);
+        break;
+
+      case 'shelf_mark':
+        $entity = opensearch_get_object_marcxchange($entity_id);
+        break;
+
+      default:
+        $entity = NULL;
+        break;
+    }
+
     foreach ($item->holdings as $item_holding) {
       $result_holding = array(
         'available_count' => 0,
@@ -94,11 +143,7 @@ function fbs_availability_holdings($provider_ids) {
         $result_holding['placement'][] = $material_description[0]->materialGroupName;
       }
 
-      module_load_include('client.inc', 'opensearch');
-      $entity_id = ding_provider_build_entity_id($provider_ids[0]);
-      $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
-
-      if ($suffix_type == 'simple' && $entity = ding_entity_load($entity_id)) {
+      if ($suffix_type == 'simple') {
         // Get DK5 classification.
         if ($classification = $entity->getClassification()) {
           $result_holding['placement'][] = $classification;
@@ -109,7 +154,7 @@ function fbs_availability_holdings($provider_ids) {
           $result_holding['placement'][] = $creator[0];
         }
       }
-      elseif ($suffix_type == 'shelf_mark' && $entity = opensearch_get_object_marcxchange($entity_id)) {
+      elseif ($suffix_type == 'shelf_mark') {
         $suffix = '';
         $field652m = fbs_get_marc_field($entity, '652', 'm');
         $field652o = fbs_get_marc_field($entity, '652', 'o');
@@ -132,7 +177,7 @@ function fbs_availability_holdings($provider_ids) {
           // DK5 classification.
           $suffix .= $field652m;
 
-          // Additonal descriptors from the DK5 classification.
+          // Additional descriptors from the DK5 classification.
           if ($field652b = fbs_get_marc_field($entity, '652', 'b')) {
             $suffix .= ' ' . $field652b;
           }
@@ -253,7 +298,6 @@ function fbs_availability_holdings($provider_ids) {
       }
       $result[$item->recordId]['issues'] = $issues;
     }
-
   }
 
   return $result;

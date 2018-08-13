@@ -108,7 +108,12 @@ function ding_periodical_field_formatter_view($entity_type, $entity, $field, $in
     default:
       // Handles the default formatter.
       foreach ($items as $delta => $item) {
-        $availability = ding_provider_invoke('availability', 'holdings', array($entity->provider_id));
+        $availability = ding_provider_invoke('availability', 'holdings', array(
+          array(
+            'local_id' => $entity->provider_id,
+            'id' => $entity->getId(),
+          ),
+        ));
         if (isset($availability[$entity->provider_id])) {
           $issues = $availability[$entity->provider_id]['issues'];
           krsort($issues);

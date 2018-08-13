@@ -91,22 +91,39 @@ function ding_availability_theme($existing, $type, $theme, $path) {
 
 /**
  * Output the availability information as json.
- *
- * @param array $provider_ids
- *   Providers ID's to fetch availability information for.
  */
-function ding_availability_js($provider_ids) {
-  drupal_json_output(ding_availability_items(explode(',', $provider_ids)));
+function ding_availability_js() {
+  $ids = isset($_POST['ids']) ? $_POST['ids'] : array();
+
+  // Enrich the return data with ids to simplify the work need in the frontend
+  // to insert the holdings.
+  $items = ding_availability_items($ids);
+  foreach ($items as $provider_id => &$item) {
+    foreach ($ids as $id) {
+      if ($id['local_id'] == $provider_id) {
+        $item['ids'] = $id;
+        break;
+      }
+    }
+  }
+
+  drupal_json_output($items);
 }
 
 /**
  * Output holdings information as json.
- *
- * @param array $provider_ids
- *   Providers ID's to fetch holdings information for.
  */
-function ding_availability_holdings_js($provider_ids) {
-  drupal_json_output(ding_availability_holdings(explode(',', $provider_ids)));
+function ding_availability_holdings_js() {
+  $ids = isset($_POST['ids']) ? $_POST['ids'] : array();
+
+  // Enrich the return data with ids to simplify the work need in the frontend
+  // to insert the holdings.
+  $holdings = ding_availability_holdings($ids);
+  foreach ($holdings as $provider_id => &$holding) {
+    $holding['ids'] = $ids[$provider_id];
+  }
+
+  drupal_json_output($holdings);
 }
 
 /**
@@ -379,10 +396,10 @@ function ding_availability_render_legend() {
   $image_path = drupal_get_path('module', 'ding_availability') . '/images/blank.gif';
 
   // Make some text, image's alt & title tags (SEO, accessibility).
-  $availability_legend['available']     = t('Available');
-  $availability_legend['on-loan']       = t('On loan');
-  $availability_legend['unavailable']   = t('Unavailable');
-  $availability_legend['unreservable']   = t('Not reservable');
+  $availability_legend['available'] = t('Available');
+  $availability_legend['on-loan'] = t('On loan');
+  $availability_legend['unavailable'] = t('Unavailable');
+  $availability_legend['unreservable'] = t('Not reservable');
 
   // Render image html using theme_image (returns NULL if file doesn't exist).
   foreach ($availability_legend as $key => $val) {
