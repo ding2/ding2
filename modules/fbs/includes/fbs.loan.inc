@@ -55,6 +55,31 @@ function fbs_loan_list($account, $reset = FALSE) {
           'materials_number' => $loan->loanDetails->materialItemNumber,
         );
 
+        // Try to provide some meaningful renewal feedback.
+        if (empty($loan->isRenewable)) {
+          $renewed_ids = array();
+          if (module_exists('ding_session_cache')) {
+            $renewed_ids = ding_session_cache_get('ding_loan', 'renewed_ids', array());
+          }
+
+          // Ding loan maintains a list of renewed loans in this session, and if
+          // this loan is here we will use it for renewal feedback.
+          if (in_array($id, $renewed_ids)) {
+            if ($loan->loanDetails->loanType === 'interLibraryLoan') {
+              $loan_data['renewal_status'] = DingProviderLoan::STATUS_RENEWAL_REQUESTED;
+            }
+            else {
+              $loan_data['renewal_status'] = DingProviderLoan::STATUS_RENEWED;
+            }
+          }
+          // Fallback to the general error messages, which is also used when
+          // renewing loans.
+          else {
+            $loan->renewalStatus = $loan->renewalStatusList;
+            $loan_data['renewal_status'] = _fbs_loan_get_renewal_status($loan);
+          }
+        }
+
         // If this is a periodical, add in issue data.
         if (isset($loan->loanDetails->periodical)) {
           $periodical = $loan->loanDetails->periodical;
@@ -122,13 +147,7 @@ function fbs_loan_renew($account, $loans) {
         DingProviderLoan::STATUS_RENEWED;
     }
     else {
-      $result[$loan->loanDetails->loanId] = DingProviderLoan::STATUS_NOT_RENEWED;
-      if (in_array('deniedMaxRenewalsReached', $loan->renewalStatus)) {
-        $result[$loan->loanDetails->loanId] = DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED;
-      }
-      if (in_array('deniedReserved', $loan->renewalStatus)) {
-        $result[$loan->loanDetails->loanId] = DingProviderLoan::STATUS_RENEWAL_RESERVED;
-      }
+      $result[$loan->loanDetails->loanId] = _fbs_loan_get_renewal_status($loan);
     }
   }
 
@@ -138,4 +157,25 @@ function fbs_loan_renew($account, $loans) {
   }
 
   return $result;
+}
+
+/**
+ * Helper function to extract renewal status from the FBS loan.
+ *
+ * The renewal status is converted to Ding provider renewal status constants.
+ *
+ * @param object $loan
+ *   The loan to extract renewal status from.
+ *
+ * @return int
+ *   An integer representing a constant from DingProviderLoan.
+ */
+function _fbs_loan_get_renewal_status($loan) {
+  if (in_array('deniedMaxRenewalsReached', $loan->renewalStatus)) {
+    return DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED;
+  }
+  if (in_array('deniedReserved', $loan->renewalStatus)) {
+    return DingProviderLoan::STATUS_RENEWAL_RESERVED;
+  }
+  return DingProviderLoan::STATUS_NOT_RENEWED;
 }
