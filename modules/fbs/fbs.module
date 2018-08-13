@@ -571,12 +571,7 @@ function fbs_form_profile2_phone_validate($element, $form_state) {
   $phone = $form_state['input']['profile_provider_fbs']['field_fbs_phone']['und'][0]['value'];
 
   if (!empty($phone)) {
-    // Preg match for danish phonenumbers
-    // Pass:
-    // (+45) 35 35 35 35 ||| +45 35 35 35 35 ||| 35 35 35 35 ||| 35353535
-    // Fail:
-    // (45)35353535 ||| 4535353535.
-    $re = '/^((\(?\+45\)?)?)(\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2})$/';
+    $re = '/^[0-9\-\(\)\/\+\s]*$/';
     preg_match_all($re, $phone, $matches, PREG_SET_ORDER, 0);
 
     if (empty($matches)) {
