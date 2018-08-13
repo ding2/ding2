@@ -200,22 +200,6 @@ function ting_block_info() {
 }
 
 /**
- * Implements hook_cron().
- *
- * Ensures that all expired entries are delete form the cache on cron runes.
- */
-function ting_cron() {
-  cache_clear_all(NULL, 'cache_ting');
-}
-
-/**
- * Implements hook_flush_caches().
- */
-function ting_flush_caches() {
-  return array('cache_ting');
-}
-
-/**
  * Get relations for an ting_entity as an array ([$type] => array($relations)).
  */
 function ting_get_relations($ting_entity) {
@@ -449,7 +433,7 @@ function ting_ding_entity_is($object, $class) {
 /**
  * Implements hook_ding_entity_buttons().
  */
-function ting_ding_entity_buttons($type, $entity) {
+function ting_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
   if ($entity instanceof TingEntity) {
     $buttons = array();
 
@@ -468,20 +452,26 @@ function ting_ding_entity_buttons($type, $entity) {
       );
     }
 
-    $collection = ting_collection_load($entity->id);
-    if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
-      $buttons[] = array(
-        '#theme' => 'link',
-        '#text' => t('Other formats'),
-        '#path' => '#',
-        '#options' => array(
-          'attributes' => array(
-            'class' => array('action-button', 'other-formats'),
-          ),
-          'html' => FALSE,
-          'external' => TRUE,
-        ),
-      );
+    // Loading collection (specially on empty cache is expensive). So only load
+    // the collection when it's need and here only when this button is required
+    // in the design. Before using context it was load but not used in the
+    // design.
+    if (strpos($view_mode, 'teaser') === FALSE) {
+      $collection = ting_collection_load($entity->id);
+      if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
+        $buttons[] = [
+          '#theme' => 'link',
+          '#text' => t('Other formats'),
+          '#path' => '#',
+          '#options' => [
+            'attributes' => [
+              'class' => ['action-button', 'other-formats'],
+            ],
+            'html' => FALSE,
+            'external' => TRUE,
+          ],
+        ];
+      }
     }
 
     return $buttons;

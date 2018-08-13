@@ -56,7 +56,7 @@ function hook_ding_entity_collection_view(&$object, $view_mode) {
  *
  * Return an array of buttons to add.
  */
-function hook_ding_entity_buttons($type, $entity) {
+function hook_ding_entity_buttons($type, $entity, $view_mode, $widget) {
   if ($type == 'ding_entity' && $entity->is('reservable')) {
     return array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE));
   }

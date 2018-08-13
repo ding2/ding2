@@ -11,7 +11,7 @@
  *   Array of ting object ids (faust).
  *
  * @return array
- *   Avaliability info.
+ *   Availability info.
  */
 function fbs_availability_items($provider_ids) {
   $avails = array();
@@ -25,7 +25,10 @@ function fbs_availability_items($provider_ids) {
 
   $result = array();
   foreach ($avails as $item) {
-    $result[$item->recordId] = array('available' => $item->available, 'reservable' => $item->reservable);
+    $result[$item->recordId] = array(
+      'available' => $item->available,
+      'reservable' => $item->reservable,
+    );
   }
 
   return $result;
@@ -132,7 +135,7 @@ function fbs_availability_holdings($provider_ids) {
           // DK5 classification.
           $suffix .= $field652m;
 
-          // Additonal descriptors from the DK5 classification.
+          // Additional descriptors from the DK5 classification.
           if ($field652b = fbs_get_marc_field($entity, '652', 'b')) {
             $suffix .= ' ' . $field652b;
           }
@@ -253,7 +256,6 @@ function fbs_availability_holdings($provider_ids) {
       }
       $result[$item->recordId]['issues'] = $issues;
     }
-
   }
 
   return $result;
