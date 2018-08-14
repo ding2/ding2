@@ -679,56 +679,90 @@ function opensearch_search_object_ids($ids) {
 /**
  * Auto-complete callback for the ting search block.
  *
- * @param string $query
+ * @param string $string
  *   The string to search suggestion with.
  *
  * @return string[]
  *   Items similar to the query.
  */
-function opensearch_search_autocomplete($query) {
+function opensearch_search_autocomplete($string) {
+  $matches = array();
+  $default_settings = opensearch_search_autocomplete_settings();
+  
+  $query['q'] = check_plain(strtolower($string));
+  $query['type'] = 'all';
+  $query['rows'] = $default_settings['maxSuggestions'];
+
+  $minimum_string = $default_settings['minimumString'];
+  if (drupal_strlen($string) < $minimum_string) {
+    drupal_json_output($matches);
+    drupal_exit();
+  }
+
+  $suggestions = opensearch_search_autocomplete_suggestions($query);
+  // Maximum space in suggestions dropdown is 60 characters.
+  // Maximum characters for search query string is 256 characters.
+  foreach ($suggestions as $suggestion) {
+    $val = truncate_utf8($suggestion, 60, TRUE, TRUE, 1);
+    $key = truncate_utf8($suggestion, 256, TRUE, FALSE, 1);
+     // Trim whitespace and question mark.
+    $key = trim($key, " \t\n\r\0\x0B?");
+    $key = str_replace('"', '', $key);
+    $key = trim($key, " \t\n\r\0\x0B?");
+    if (strpos($key, ' ')) {
+      $key = '"' . $key . '"';
+    }
+    $matches[$key] = $val;
+  }
+  return $matches;
+}
+
+/**
+ * SuggestionService - retrieve suggestions with drupal_http_request() 
+ *
+ * @param array $query
+ *   Search suggestion parameters.
+ *
+ * @return array
+ *   Search suggestion results.
+ */
+function opensearch_search_autocomplete_suggestions(array $query) {
   $items = array();
-
   $rest_url = variable_get('opensearch_search_autocomplete_suggestion_url', '');
-  $method = variable_get('ting_search_autocomplete_method', 'facets');
-  $settings = opensearch_search_autocomplete_settings();
-
-  if (drupal_strlen($query) < $settings['minimumString']) {
+  if (empty($rest_url)) {
+    watchdog(
+      'opensearch_search_autocomplete',
+      "Autocomplete error: Empty opensearch autocomplete url",
+      array(),
+      $severity = WATCHDOG_ERROR
+    );
     return $items;
   }
-  unset($settings['minimumString']);
+  
+  $url = url($rest_url, array('query' => $query));
+  $headers = array('Accept' => 'application/json');
+  $result = drupal_http_request($url, $headers);
 
-  if (empty($settings['index'])) {
-    watchdog('opensearch', 'Autocomplete index not defined ', array(), $severity = WATCHDOG_WARNING);
+  if (!empty($result->error)) {
+    watchdog(
+      'opensearch_search_autocomplete',
+      "Autocomplete error: %error (%code)\nURL: !url",
+      array(
+        '%error' => $result->error,
+        '%code' => $result->code,
+        '!url' => $url,
+      ),
+      $severity = WATCHDOG_ERROR
+    );
     return $items;
   }
-
-  $rest_url = $rest_url . 'rest/' . $method;
-  $settings['query'] = $query;
-  $url = url($rest_url, array('query' => $settings));
-
-  $result = drupal_http_request($url);
 
   if (!empty($result->data)) {
     $result_data = drupal_json_decode($result->data);
-    if (empty($result->error)) {
-      if (!empty($result_data['suggestions'])) {
-        foreach ($result_data['suggestions'] as $suggestion) {
-          if ($method === 'facetSpell') {
-            $items[truncate_utf8(strip_tags($suggestion['phrase']), 256, TRUE, FALSE, 1)] = $suggestion['phrase'];
-          }
-          else {
-            $items[truncate_utf8(strip_tags($suggestion['suggestion']), 256, TRUE, FALSE, 1)] = $suggestion['suggestion'];
-          }
-        }
+    if (!empty($result_data['response']['docs'])) {
+      foreach ($result_data['response']['docs'] as $suggestion) {
+        $items[] = $suggestion['all'][0];
       }
-    }
-    else {
-      $message = t('Autocomplete error: @error (@error_code) using following URL: @url');
-      watchdog('opensearch', $message, array(
-        '@error' => $result->error,
-        '@error_code' => $result->code,
-        '@url' => $url,
-      ), WATCHDOG_ERROR);
     }
   }
 
