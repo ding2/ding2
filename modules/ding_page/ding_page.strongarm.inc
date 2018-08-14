@@ -109,11 +109,17 @@ function ding_page_strongarm() {
       'display' => array(
         'webform' => array(
           'search_result' => array(
-            'weight' => '4',
+            'weight' => '8',
             'visible' => FALSE,
           ),
           'default' => array(
             'weight' => '5',
+            'visible' => TRUE,
+          ),
+        ),
+        'ding_serendipity_info' => array(
+          'search_result' => array(
+            'weight' => '0',
             'visible' => TRUE,
           ),
         ),

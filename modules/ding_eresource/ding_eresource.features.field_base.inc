@@ -10,7 +10,7 @@
 function ding_eresource_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'comment_body'
+  // Exported field_base: 'comment_body'.
   $field_bases['comment_body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -19,14 +19,6 @@ function ding_eresource_field_default_field_bases() {
       0 => 'comment',
     ),
     'field_name' => 'comment_body',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -39,21 +31,13 @@ function ding_eresource_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_eresource_access'
+  // Exported field_base: 'field_ding_eresource_access'.
   $field_bases['field_ding_eresource_access'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_eresource_access',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -74,21 +58,13 @@ function ding_eresource_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_eresource_body'
+  // Exported field_base: 'field_ding_eresource_body'.
   $field_bases['field_ding_eresource_body'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_eresource_body',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -103,21 +79,13 @@ function ding_eresource_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_eresource_category'
+  // Exported field_base: 'field_ding_eresource_category'.
   $field_bases['field_ding_eresource_category'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_eresource_category',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -138,21 +106,13 @@ function ding_eresource_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_eresource_files'
+  // Exported field_base: 'field_ding_eresource_files'.
   $field_bases['field_ding_eresource_files'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_eresource_files',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -170,21 +130,13 @@ function ding_eresource_field_default_field_bases() {
     'type' => 'file',
   );
 
-  // Exported field_base: 'field_ding_eresource_lead'
+  // Exported field_base: 'field_ding_eresource_lead'.
   $field_bases['field_ding_eresource_lead'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_eresource_lead',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -199,14 +151,13 @@ function ding_eresource_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_eresource_link'
+  // Exported field_base: 'field_ding_eresource_link'.
   $field_bases['field_ding_eresource_link'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_eresource_link',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',
@@ -230,21 +181,13 @@ function ding_eresource_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'field_ding_eresource_list_image'
+  // Exported field_base: 'field_ding_eresource_list_image'.
   $field_bases['field_ding_eresource_list_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_eresource_list_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -261,14 +204,13 @@ function ding_eresource_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_ding_eresource_materials'
+  // Exported field_base: 'field_ding_eresource_materials'.
   $field_bases['field_ding_eresource_materials'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_eresource_materials',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_reference',
@@ -279,21 +221,13 @@ function ding_eresource_field_default_field_bases() {
     'type' => 'ting_reference',
   );
 
-  // Exported field_base: 'field_ding_eresource_tags'
+  // Exported field_base: 'field_ding_eresource_tags'.
   $field_bases['field_ding_eresource_tags'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_eresource_tags',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -314,21 +248,13 @@ function ding_eresource_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_eresource_title_image'
+  // Exported field_base: 'field_ding_eresource_title_image'.
   $field_bases['field_ding_eresource_title_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_eresource_title_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',

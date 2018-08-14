@@ -124,9 +124,8 @@ function ding_library_strongarm() {
             'label' => 'above',
           ),
           'search_result' => array(
+            'weight' => '3',
             'visible' => FALSE,
-            'weight' => 0,
-            'label' => 'above',
           ),
           'alternative_layout_full' => array(
             'visible' => FALSE,
@@ -147,6 +146,12 @@ function ding_library_strongarm() {
             'visible' => FALSE,
             'weight' => 0,
             'label' => 'above',
+          ),
+        ),
+        'ding_serendipity_info' => array(
+          'search_result' => array(
+            'weight' => '0',
+            'visible' => TRUE,
           ),
         ),
       ),

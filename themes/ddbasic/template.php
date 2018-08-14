@@ -364,6 +364,15 @@ function ddbasic_link($variables) {
  */
 function ddbasic_preprocess_user_profile(&$variables) {
   $variables['user_profile']['summary']['member_for']['#access'] = FALSE;
+
+  // Load profile and view as search_result if user view-mode is search_result
+  if ($variables['elements']['#view_mode'] == 'search_result') {
+    $user_id = $variables['elements']['#account']->uid;
+    $user_profiles = profile2_load_by_user($user_id);
+    $profile_view = profile2_view($user_profiles['ding_staff_profile'], 'search_result');
+    $variables['user_profile']['profile_ding_staff_profile']['#access'] = TRUE;
+    $variables['user_profile']['profile_ding_staff_profile']['view'] = $profile_view;
+  }
 }
 
 /**
@@ -392,6 +401,11 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
     else {
       $variables['position_no_label'] = FALSE;
     }
+  }
+
+  // Create read more link for search_result view mode.
+  if ($variables['profile2']->type == 'ding_staff_profile' && $variables['elements']['#view_mode'] == 'search_result') {
+    $variables['read_more_link'] = l('<div class="button">' . t('Read more') . '</div>', 'user/' . $variables['elements']['#entity']->uid, array('html' => TRUE));
   }
 }
 
