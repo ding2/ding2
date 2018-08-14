@@ -223,7 +223,7 @@ projects[media][version] = "2.0"
 projects[media][patches][] = "https://cgit.drupalcode.org/media/patch/?id=1cd77ffa9c2cf96d80b76d47318179a8a82f0d46"
 
 projects[media_vimeo][subdir] = "contrib"
-projects[media_vimeo][version] = "2.0-rc1"
+projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "3.0"
