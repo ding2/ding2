@@ -117,9 +117,8 @@ If you are using an deployment system you may not want to patch Drupal core
 manually in a production environment.
 ```sh
   ~$ git clone git@github.com:ding2/ding2.git ding2
-  ~$ drush make --working-copy --contrib-destination=profiles/ding2 ding2/drupal.make drupal
-  ~$ mv drupal/* drupal/.[^.]* .
-  ~$ rm -rf drupal ding2
+  ~$ drush make --working-copy --contrib-destination=profiles/ding2 ding2/drupal.make .
+  ~$ rm -rf ding2
 ```
 
 # Post installation
