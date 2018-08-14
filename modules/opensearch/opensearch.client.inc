@@ -351,7 +351,7 @@ function opensearch_execute(TingClientRequest $request) {
   // slower first request but overall a lot fewer request to the data well in
   // the search pages.
   if ($request instanceof TingClientCollectionRequest || $request instanceof TingClientObjectRequest || $request instanceof TingClientSearchRequest) {
-    $request->setAllRelations(1);
+    $request->setAllRelations(TRUE);
     $request->setRelationData('full');
   }
 
@@ -459,7 +459,7 @@ function _opensearch_predict_cache(array $collections, array &$opensearch_static
     $collection_request->setQuery('*:*');
 
     // See opensearch_execute() for description of always getting all relations.
-    $collection_request->setAllRelations(1);
+    $collection_request->setAllRelations(TRUE);
     $collection_request->setRelationData('full');
 
     // Set agency from the administration interface.
@@ -487,7 +487,7 @@ function _opensearch_predict_cache(array $collections, array &$opensearch_static
     $object_request->setObjectId($object->id);
 
     // See opensearch_execute() for description of always getting all relations.
-    $object_request->setAllRelations(1);
+    $object_request->setAllRelations(TRUE);
     $object_request->setRelationData('full');
 
     // Set agency from the administration interface.
