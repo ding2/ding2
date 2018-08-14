@@ -141,6 +141,62 @@ ul {
           }
         }
       }
+
+      // Active trail
+      @include media($tablet) {
+        &.active-trail {
+          > ul.main-menu {
+            display: block;
+            overflow: hidden;
+
+            > li {
+              &.active-trail {
+                > ul.main-menu {
+                  display: block;
+                  overflow: hidden;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Expanded
+    .main-menu-expanded-icon {
+      display: none; // hide arrow on desktop
+      @include arrow-button(arrow-down, $charcoal-opacity-light);
+
+      &.open {
+        @include arrow-button(arrow-up, $charcoal-opacity-light);
+      }
+    }
+
+    // Tablet
+    @include media($tablet) {
+      .main-menu-expanded-icon {
+        display: block;
+        position: absolute;
+        top: 12px;
+        right: 5%;
+        width: 68px;
+        height: 54px;
+        &::after {
+          color: $white;
+        }
+        &.open {
+          &::after {
+            color: $white;
+          }
+        }
+      }
+      .main-menu {
+        .main-menu-expanded-icon {
+          &::after {
+            background-color: $black;
+          }
+        }
+      }
     }
   }
 }

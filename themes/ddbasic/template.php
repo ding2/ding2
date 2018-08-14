@@ -468,7 +468,13 @@ function ddbasic_menu_link($vars) {
   // Make sure text string is treated as html by l function.
   $element['#localized_options']['html'] = TRUE;
 
-  $link = l('<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
+  // Add div for expanded icon if element has children.
+  if (!empty($vars['element']['#below'])) {
+    $link = l('<span>' . $element['#title'] . '</span><span class="main-menu-expanded-icon"></span>', $element['#href'], $element['#localized_options']);
+  }
+  else {
+    $link = l('<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
+  }
 
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . $sub_menu . "</li>\n";
 }
