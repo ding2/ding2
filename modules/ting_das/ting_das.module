@@ -64,51 +64,47 @@ function ting_das_libraries_info() {
 /**
  * Implements hook_ding_entity_buttons().
  */
-function ting_das_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default', $buttons = array()) {
-  if (_ting_das_show_button($type, $entity, $buttons)) {
-    switch ($widget) {
-      case 'ajax':
-        drupal_add_library('system', 'drupal.ajax');
+function ting_das_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
+  if (!$entity->is('online') && $widget == 'ajax') {
+    drupal_add_library('system', 'drupal.ajax');
 
-        $display_button = TRUE;
-        if (user_is_logged_in()) {
-          try {
-            $creds = ding_user_get_creds();
-            $display_button = isset($creds['resident']) && $creds['resident'];
-          }
-          catch (DingProviderAuthException $exception) {
-            // This is okay as the use simply was not logged in as an provider
-            // user. So do noting in this case.
-          }
-        }
+    $display_button = TRUE;
+    if (user_is_logged_in()) {
+      try {
+        $creds = ding_user_get_creds();
+        $display_button = isset($creds['resident']) && $creds['resident'];
+      }
+      catch (DingProviderAuthException $exception) {
+        // This is okay as the use simply was not logged in as an provider
+        // user. So do noting in this case.
+      }
+    }
 
-        if ($display_button) {
-          return array(
-            array(
-              '#theme' => 'link',
-              '#text' => t('Order digital copy'),
-              '#path' => 'das/' . $entity->id . '/order',
-              '#options' => array(
-                'attributes' => array(
-                  'class' => array(
-                    'action-button',
-                    'button-see-online',
-                    'use-ajax',
-                  ),
-                  'id' => 'das-order-' . $entity->id,
-                  'onclick' => 'wt.sendinfo({ linkId: "open_order_digital_copy" });'
-                ),
-                'html' => FALSE,
+    if ($display_button) {
+      return array(
+        array(
+          '#theme' => 'link',
+          '#text' => t('Order digital copy'),
+          '#path' => 'das/' . $entity->id . '/order',
+          '#options' => array(
+            'attributes' => array(
+              'class' => array(
+                'action-button',
+                'button-see-online',
+                'use-ajax',
               ),
-              '#attached' => array(
-                'css' => array(
-                  drupal_get_path('module', 'ting_das') . '/css/ting_das.css',
-                ),
-              ),
+              'id' => 'das-order-' . $entity->id,
+              'onclick' => 'wt.sendinfo({ linkId: "open_order_digital_copy" });'
             ),
-          );
-        }
-        break;
+            'html' => FALSE,
+          ),
+          '#attached' => array(
+            'css' => array(
+              drupal_get_path('module', 'ting_das') . '/css/ting_das.css',
+            ),
+          ),
+        ),
+      );
     }
   }
 }
@@ -344,34 +340,6 @@ function _ting_das_get_client() {
   }
 
   return $client;
-}
-
-/**
- * Check if the "order" button should be shown.
- *
- * @param $type
- *   The entity type.
- * @param \TingEntity $entity
- *   The TingEntity that should or should not have the "order" button shown.
- * @param array $buttons
- *   The buttons already added by other modules.
- *
- * @return bool
- *   TRUE if it should be shown else FALSE.
- */
-function _ting_das_show_button($type, TingEntity $entity, $buttons) {
-  $types = array_filter(_ting_das_get_default_well_types());
-  if ($type == 'ding_entity' && in_array(drupal_strtolower($entity->getType()), $types)) {
-    foreach ($buttons as $button) {
-      if (!empty($button) && isset($button[0]['#markup']) && strpos($button[0]['#markup'], 'button-see-online') !== FALSE) {
-        return FALSE;
-      }
-    }
-
-    return TRUE;
-  }
-
-  return FALSE;
 }
 
 /**
