@@ -768,7 +768,13 @@ function ding_user_user_login_validate($form, &$form_state) {
   }
   try {
     // Trying to login the user using the provider.
-    $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass'], $form_state['values']);
+    try {
+      $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass'], $form_state['values']);
+    }
+    catch(DingProviderNoProvider $exception) {
+      drupal_set_message($exception->getMessage(), 'warning');
+      return;
+    }
     if (!is_array($auth_res) || !isset($auth_res['success'])) {
       watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
       return;
