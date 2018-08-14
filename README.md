@@ -58,12 +58,18 @@ web-services that runs OpenSSL v1.0.x or newer works.
   ~$ wget -qO- http://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
 ```
 
-__Optional__,but recommended patch that ensures that Ajax errors only are
+__Optional__, but recommended patch that ensures that Ajax errors only are
 displayed when not in readystate 4. So when the user presses enter to perform a
 search before auto-complete Ajax is call is completed an error will not be
 displayed.
 ```sh
   ~$ wget -qO- http://www.drupal.org/files/issues/autocomplete-1232416-205-7x.patch | patch -p1
+```
+
+__Optional__, but recommended patch that fixes the problem with scrolls
+when dragging items within tables in the backend.
+```sh
+  ~$ wget -qO- http://www.drupal.org/files/issues/drupal-tabledrag-scroll-2843240-36.patch | patch -p1
 ```
 
 ## Build Ding2 installation profile
