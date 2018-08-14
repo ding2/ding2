@@ -447,33 +447,7 @@ function ting_field_search_preprocess_html(&$vars) {
     }
 
     // If the profile has visibility all always expand the search field.
-    if ($profile->config['user_interaction']['visibility'] === 'all') {
-      $vars['classes_array'][] = 'extended-search-is-open';
-      break;
-    }
-
-    $visibility = $profile->config['user_interaction']['visibility'] == 'except' ? 0 : 1;
-    $pages = $profile->config['user_interaction']['pages'];
-    $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
-
-    // We have an optimization hack to speed up search (by-pass panels 2x
-    // times loading). So all searches are submitted to "/search-blank",
-    // which need to be added to pages to ensure no form validation errors.
-    // If visibility is "except" it should not be added to the pages list.
-    if ($visibility) {
-      $pages .= "\r\nsearch-blank";
-    }
-
-    // Compare the lowercase internal and lowercase path alias (if any).
-    $page_match = drupal_match_path($path, $pages);
-    if ($path != $_GET['q']) {
-      $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
-    }
-
-    // When $visibility has a value of 0, the profile is displayed on
-    // all pages except those listed in $pages. When set to 1, it
-    // is displayed only on those pages listed in $pages.
-    if (!($visibility xor $page_match)) {
+    if (ting_field_search_is_profile_visible($profile)) {
       $vars['classes_array'][] = 'extended-search-is-open';
       break;
     }
@@ -501,34 +475,7 @@ function ting_field_search_get_default_profile() {
         continue;
       }
 
-      // If the profile has visibility all always expand the search field.
-      if ($profile->config['user_interaction']['visibility'] === 'all') {
-        $default_profile = $profile->name;
-        break;
-      }
-
-      $visibility = $profile->config['user_interaction']['visibility'] == 'except' ? 0 : 1;
-      $pages = $profile->config['user_interaction']['pages'];
-      $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
-
-      // We have an optimization hack to speed up search (by-pass panels 2x
-      // times loading). So all searches are submitted to "/search-blank",
-      // which need to be added to pages to ensure no form validation errors.
-      // If visibility is "except" it should not be added to the pages list.
-      if ($visibility) {
-        $pages .= "\r\nsearch-blank";
-      }
-
-      // Compare the lowercase internal and lowercase path alias (if any).
-      $page_match = drupal_match_path($path, $pages);
-      if ($path != $_GET['q']) {
-        $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
-      }
-
-      // When $visibility has a value of 0, the profile is displayed on
-      // all pages except those listed in $pages. When set to 1, it
-      // is displayed only on those pages listed in $pages.
-      if (!($visibility xor $page_match)) {
+      if (ting_field_search_is_profile_visible($profile)) {
         $default_profile = $profile->name;
         break;
       }
@@ -565,34 +512,12 @@ function ting_field_search_filter_profiles() {
       }
 
       // Filter base on path.
-      if ($profile->config['user_interaction']['visibility'] !== 'all') {
-        $visibility = $profile->config['user_interaction']['visibility'] == 'except' ? 0 : 1;
-        $pages = $profile->config['user_interaction']['pages'];
-        $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
-
-        // We have an optimization hack to speed up search (by-pass panels 2x
-        // times loading). So all searches are submitted to "/search-blank",
-        // which need to be added to pages to ensure no form validation errors.
-        // If visibility is "except" it should not be added to the pages list.
-        if ($visibility) {
-          $pages .= "\r\nsearch-blank";
-        }
-
-        // Compare the lowercase internal and lowercase path alias (if any).
-        $page_match = drupal_match_path($path, $pages);
-        if ($path != $_GET['q']) {
-          $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
-        }
-
-        // When $visibility has a value of 0, the profile is displayed on
-        // all pages except those listed in $pages. When set to 1, it
-        // is displayed only on those pages listed in $pages.
-        if (!($visibility xor $page_match)) {
+      if ($profile->config['user_interaction']['visibility'] !== 'all' &&
+        ting_field_search_profile_matches_current_path($profile)) {
           $exposed_profiles[$name] = t('Search in @profile', array(
             '@profile'  => check_plain($profile->title),
           ));
           continue;
-        }
       }
 
       // If no profile is selected. Show all profiles that are not limited to
@@ -606,6 +531,63 @@ function ting_field_search_filter_profiles() {
   }
 
   return $exposed_profiles;
+}
+
+/**
+ * Determine if a search profile should be visibility on the current path.
+ *
+ * @param object $profile
+ *   The profile object.
+ *
+ * @return bool
+ *   Whether the profile should be visibile or not.
+ */
+function ting_field_search_is_profile_visible($profile) {
+  // If the profile has visibility all then it is always visible.
+  if ($profile->config['user_interaction']['visibility'] === 'all') {
+    return TRUE;
+  }
+
+  return ting_field_search_profile_matches_current_path($profile);
+}
+
+/**
+ * Determine if the configured search profile path matches the current path.
+ *
+ * @param object $profile
+ *   The profile object.
+ *
+ * @return bool
+ *   Whether the profile matches the path.
+ */
+function ting_field_search_profile_matches_current_path($profile)
+{
+  $visibility = $profile->config['user_interaction']['visibility'] == 'except' ? 0 : 1;
+  $pages = $profile->config['user_interaction']['pages'];
+  $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
+
+  // We have an optimization hack to speed up search (by-pass panels 2x
+  // times loading). So all searches are submitted to "/search-blank",
+  // which need to be added to pages to ensure no form validation errors.
+  // If visibility is "except" it should not be added to the pages list.
+  if ($visibility) {
+    $pages .= "\r\nsearch-blank";
+  }
+
+  // Compare the lowercase internal and lowercase path alias (if any).
+  $page_match = drupal_match_path($path, $pages);
+  if ($path != $_GET['q']) {
+    $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
+  }
+
+  // When $visibility has a value of 0, the profile is displayed on
+  // all pages except those listed in $pages. When set to 1, it
+  // is displayed only on those pages listed in $pages.
+  if (!($visibility xor $page_match)) {
+    return true;
+  }
+
+  return false;
 }
 
 /**
