@@ -469,7 +469,7 @@ function ting_ding_entity_buttons($type, $entity) {
     }
 
     $collection = ting_collection_load($entity->id);
-    if (count($collection->types) > 1) {
+    if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
       $buttons[] = array(
         '#theme' => 'link',
         '#text' => t('Other formats'),
