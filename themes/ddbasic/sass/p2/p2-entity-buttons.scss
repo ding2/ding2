@@ -34,9 +34,15 @@
       left: 0;
       height: 100%;
       width: 100%;
+      padding-top: 70px;
       opacity: 0;
       background-color: $black-overlay-dark;
       overflow-y: scroll;
+
+      .topbar-up & {
+        padding-top: 0;
+      }
+
       .wrapper {
         @include wrapper;
         position: relative;

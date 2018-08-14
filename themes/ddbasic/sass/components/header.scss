@@ -653,7 +653,7 @@
     }
   }
   // Hide and show on mobile
-  &.topbar-up {
+  .topbar-up & {
     .topbar {
       @include transition(transform 600ms $ease);
       @include transform(translateY(-64px));
