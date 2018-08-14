@@ -210,3 +210,17 @@ function bpi_update_7004(&$sandbox) {
   $sandbox['current'] += $limit;
   $sandbox['#finished'] = min($sandbox['current'], $sandbox['max']) / $sandbox['max'];
 }
+
+/**
+ * Disable content view that overrides admin_views_node and enable this instead.
+ */
+function bpi_update_7005() {
+  $views_defaults = variable_get('views_defaults', array());
+  if (isset($views_defaults['admin_views_node']) && $views_defaults['admin_views_node']) {
+    $views_defaults['admin_views_node'] = FALSE;
+  }
+  if (!isset($views_defaults['content']) || !$views_defaults['content']) {
+    $views_defaults['content'] = TRUE;
+  }
+  variable_set('views_defaults', $views_defaults);
+}
