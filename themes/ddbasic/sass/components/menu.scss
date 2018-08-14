@@ -389,6 +389,7 @@ ul.topbar-menu {
       @include media($tablet) {
         display: block;
         float: right;
+        margin-left: 10px;
         a {
           background-color: $charcoal;
         }
@@ -454,10 +455,25 @@ ul.topbar-menu {
       a {
         margin: 5px 0;
       }
+      .logged-in & {
+        // We need to make room for openening hours -> 64px wide
+        // The width of the other elements is 
+        // half width minus the half the width (plus margin) of the 
+        // opening hours container.
+        width: calc(50% - 42px);
+      }
+      @include media($tablet) {
+        width: calc(50% - 42px);
+      }
     }
     &.topbar-link-user-account {
       margin-right: getGutter(4) / 2;
       margin-left: getGutter(4) / 2;
+
+      .logged-in & {
+        margin-left: 0;
+        margin-right: 10px;
+      }
 
       // Tablet
       @include media($tablet) {
@@ -468,18 +484,52 @@ ul.topbar-menu {
       // Mobile
       @include media($mobile) {
         @include span-columns(6);
+        .logged-in & {
+          width: calc(100% - 192px);
+          max-width: 226px;
+          margin: 0;
+        }
       }
     }
     &.topbar-link-opening-hours {
       margin-right: getGutter(4) / 2;
       margin-left: getGutter(4) / 2;
+      // When logged in - display the opening hours
+      // as only icon
       .logged-in & {
-        display: none;
+        width: 54px;
+        margin-left: 10px;
+        margin-right: 10px;
+        a {
+          padding: 0;
+          height: 54px;
+          &::after {
+            right: 0;
+          }
+        }
+        span {
+          display: none;
+        }
       }
 
       // Tablet
+      // When tablet and under - display the opening hours
+      // as only icon
       @include media($tablet) {
-        display: none;
+        float: right;
+        width: 54px;
+        margin-left: 10px;
+        margin-right: 10px;
+        a {
+          padding: 0;
+          height: 54px;
+          &::after {
+            right: 0;
+          }
+        }
+        span {
+          display: none;
+        } 
       }
     }
     &.topbar-link-user-account + .topbar-link-user-account {

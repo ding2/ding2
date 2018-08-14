@@ -281,6 +281,7 @@ a.topbar-link-opening-hours {
 // Topbar link signout
 a.topbar-link-signout {
   @include button(close, $charcoal-opacity-dark, $grey-medium);
+  padding-right: 14px;
 }
 
 // Topbar link user account
