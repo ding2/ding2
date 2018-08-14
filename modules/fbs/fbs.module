@@ -588,6 +588,8 @@ function fbs_form_profile2_form_alter(&$form, &$form_state) {
   $form['profile_provider_fbs']['field_fbs_mail']['#element_validate'] = array('fbs_form_profile2_mail_validate');
   // Add validation to phone.
   $form['profile_provider_fbs']['field_fbs_phone']['#element_validate'] = array('fbs_form_profile2_phone_validate');
+  // Add validation to on_hold
+  $form['profile_provider_fbs']['field_on_hold']['#element_validate'] = array('fbs_form_profile2_onhold_validate');
   // Add submit handler, to redirect to same URL.
   $form['#submit'][] = 'fbs_form_profile2_rebuild_submit';
 }
@@ -622,6 +624,32 @@ function fbs_form_profile2_phone_validate($element, $form_state) {
     if (empty($matches)) {
       form_set_error('profile_provider_fbs][field_fbs_phone', t('Please fill in a valid phonenumber'));
     }
+  }
+}
+
+/**
+ * On hold validation for fbs_form_profile2
+ */
+function fbs_form_profile2_onhold_validate($element, $form_state) {
+  $from_date = $form_state['input']['profile_provider_fbs']['field_fbs_on_hold']['und'][0]['from']['date'];
+  $from_date_stamp = strtotime($from_date);
+  $to_date = $form_state['input']['profile_provider_fbs']['field_fbs_on_hold']['und'][0]['to']['date'];
+  $to_date_stamp = strtotime($to_date);
+  $now = date('d-m-Y');
+  $now_stamp = strtotime($now);
+
+  if ($from_date_stamp < $now_stamp) {
+    form_set_error('profile_provider_fbs][field_fbs_on_hold', t('Start date must be higher than or equal to today') . ' - ' . $now . '.');
+  }
+
+  if ($to_date_stamp < $now_stamp && $to_date_stamp < $from_date_stamp) {
+    form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must both be higher than or equal to today, and be higher than the start date.'));
+  }
+  elseif ($to_date_stamp < $now_stamp && $to_date_stamp > $from_date_stamp) {
+    form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must both be higher than or equal to today') . ' - ' . $now . '.');
+  }
+  elseif ($to_date_stamp >= $now_stamp && $to_date_stamp <= $from_date_stamp) {
+    form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must higher than the from date.'));
   }
 }
 
