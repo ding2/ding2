@@ -560,8 +560,7 @@ function ting_field_search_is_profile_visible($profile) {
  * @return bool
  *   Whether the profile matches the path.
  */
-function ting_field_search_profile_matches_current_path($profile)
-{
+function ting_field_search_profile_matches_current_path($profile) {
   $visibility = $profile->config['user_interaction']['visibility'] == 'except' ? 0 : 1;
   $pages = $profile->config['user_interaction']['pages'];
   $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
@@ -584,10 +583,10 @@ function ting_field_search_profile_matches_current_path($profile)
   // all pages except those listed in $pages. When set to 1, it
   // is displayed only on those pages listed in $pages.
   if (!($visibility xor $page_match)) {
-    return true;
+    return TRUE;
   }
 
-  return false;
+  return FALSE;
 }
 
 /**
