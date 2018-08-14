@@ -404,10 +404,6 @@ function opensearch_execute(TingClientRequest $request) {
     // Update the cache with the raw response object from the data well for
     // faster processing. Also set the static cache.
     _opensearch_cache_insert($request, $response, $opensearch_static_fast);
-    $opensearch_static_fast[$cid] = $response;
-    if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
-      cache_set($cid, $response, 'cache_opensearch', REQUEST_TIME + $ttl);
-    }
 
     // To speed up the entity module, which will trigger an search for each
     // collection. Try and predict the search request an warm up the cache.
@@ -435,9 +431,9 @@ function opensearch_execute(TingClientRequest $request) {
  * Try and predict future search requests and warm up cache.
  *
  * Base on the collections given and the entity model for ting objects we expect
- * the next search requests to be getCollectionRequest and getObjectRequest
- * without relations. The information to populate the cache with response to
- * this exists in the first search request.
+ * the next search requests to be getCollectionRequest and getObjectRequest. The
+ * information to populate the cache with response to this exists in the first
+ * search request.
  *
  * So the cache can be warm-up based on the first TingClientSearchResult object.
  *
