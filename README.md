@@ -122,15 +122,10 @@ all the questions.
 If you are using an deployment system you may not want to patch Drupal core
 manually in a production environment.
 ```sh
-  ~$ wget https://raw.github.com/ding2/ding2/release/drupal.make
-  ~$ drush make --working-copy --contrib-destination=profiles/ding2/ drupal.make htdocs
-```
-
-If you want to apply our custom Drupal core robots.txt patch, you still need to
-do that manually, as it's not possible to add it to the standalone drupal.make
-file
-```sh
-  patch -p1 < profiles/ding2/patches/drupal_core.robots.txt.ding2.patch
+  ~$ git clone git@github.com:ding2/ding2.git ding2
+  ~$ drush make --working-copy --contrib-destination=profiles/ding2 ding2/drupal.make drupal
+  ~$ mv drupal/* drupal/.[^.]* .
+  ~$ rm -rf drupal ding2
 ```
 
 # Post installation
