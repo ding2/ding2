@@ -196,22 +196,6 @@ function ting_block_info() {
 }
 
 /**
- * Implements hook_cron().
- *
- * Ensures that all expired entries are delete form the cache on cron runes.
- */
-function ting_cron() {
-  cache_clear_all(NULL, 'cache_ting');
-}
-
-/**
- * Implements hook_flush_caches().
- */
-function ting_flush_caches() {
-  return array('cache_ting');
-}
-
-/**
  * Implements hook_block_view().
  */
 function ting_block_view($delta = '') {
