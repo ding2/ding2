@@ -18,6 +18,13 @@ namespace DingList;
 class DingList {
 
   /**
+   * Number of preloaded elements.
+   *
+   * @var integer
+   */
+  const PRELOADED_ELEMENTS = 25;
+
+  /**
    * List ID.
    *
    * @var int
@@ -76,6 +83,13 @@ class DingList {
   protected $permissions = array();
 
   /**
+   * If there's more elements available.
+   *
+   * @var bool
+   */
+  protected $elementCount = FALSE;
+
+  /**
    * Map keys to the getter/setter functions.
    *
    * Without the get/set prefix.
@@ -88,6 +102,7 @@ class DingList {
     'title' => 'Title',
     'owner' => 'Owner',
     'data' => 'Data',
+    'element_count' => 'ElementCount',
   );
 
   /**
@@ -121,7 +136,7 @@ class DingList {
     $list->elements = array();
     if (isset($data['elements']) && is_array($data['elements'])) {
       foreach ($data['elements'] as $element_id => $element_data) {
-        $list->attachElement(DingListElement::fromDataArray($element_data));
+        $list->attachElement(DingListElement::fromDataArray($element_data), TRUE);
       }
     }
 
@@ -564,11 +579,47 @@ class DingList {
   /**
    * Getter for elements.
    *
+   * @param int $offset
+   *   Start of the sequence.
+   * @param int|null $count
+   *   Number of elements to get.
+   *   Set this to NULL to get the rest elements.
+   *
    * @return DingListElement[]
    *   The elements.
    */
-  public function getElements() {
-    return $this->elements;
+  public function getElements($offset = 0, $count = NULL) {
+    if ($count === NULL || $count + $offset > $this->elementCount) {
+      $count = $this->elementCount - $offset;
+    }
+
+    if (count($this->elements) < $offset + $count) {
+      $service_offset = count($this->elements);
+      $service_count = ($offset + $count) - $service_offset;
+
+      $elements = ding_provider_invoke('openlist', 'get_list_elements', $this, $service_offset, $service_count);
+      foreach ($elements as $element) {
+        $this->attachElement($element, TRUE);
+      }
+    }
+    $result = array_slice($this->elements, $offset, $count);
+
+    return $result;
+  }
+
+  /**
+   * Getter for elementCount.
+   */
+  public function getElementCount() {
+    return $this->elementCount;
+  }
+
+  /**
+   * Setter for elementCount.
+   */
+  public function setElementCount($value) {
+    $this->elementCount = $value;
+    return $this;
   }
 
   /**
@@ -590,13 +641,19 @@ class DingList {
    *
    * @param DingListElement $element
    *   Elemen to add.
+   * @param bool $existing
+   *   If the element already exists at the provider set the to TRUE. This will
+   *   make sure the elementCount is correct.
    *
    * @return DingListElement
    *   Returns the same element given.
    */
-  public function attachElement(DingListElement $element) {
+  public function attachElement(DingListElement $element, $existing = FALSE) {
     $element->setListId($this->id);
     $this->elements[$element->getId()] = $element;
+    if ($existing === FALSE) {
+      $this->elementCount += 1;
+    }
     return $element;
   }
 
