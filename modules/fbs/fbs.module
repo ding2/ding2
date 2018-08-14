@@ -333,6 +333,46 @@ function fbs_settings_form_submit($form, &$form_state) {
 }
 
 /**
+ * Implements hook_form_profile2_edit_PROFILE_TYPE_form_alter().
+ *
+ * Add a validation handler for phone number.
+ */
+function fbs_form_profile2_edit_provider_fbs_form_alter(&$form, &$form_state) {
+  $form['#validate'][] = 'fbs_profile2_validate';
+}
+
+/**
+ * Validate FBS profile form.
+ */
+function fbs_profile2_validate($form, &$form_state) {
+  if (isset($form['profile_provider_fbs']['field_fbs_phone'][LANGUAGE_NONE][0]['value'])) {
+    $element =& $form['profile_provider_fbs']['field_fbs_phone'][LANGUAGE_NONE][0]['value'];
+    $phone = $form_state['values']['profile_provider_fbs']['field_fbs_phone'][LANGUAGE_NONE][0]['value'];
+
+    if (preg_match('/[^+0-9 -]/', $phone)) {
+      form_error($element, t('Phone number can only contain numbers, plus, dash and space.'));
+    }
+
+    // Start by sanitizing number.
+    $phone = preg_replace('/[^+0-9]/', '', $phone);
+
+    if (!preg_match('/^\\+?[0-9]*$/', $phone)) {
+      form_error($element, t('Plus only valid at the start of phone number.'));
+    }
+
+    if (preg_match('/^((\\+|00)45)/', $phone)) {
+      // Danish number, with or without country code.
+      if (!preg_match('/^((\\+|00)45)?[0-9]{8}$/', $phone)) {
+        form_error($element, t('Phone number must be 8 digits, excluding any country code.'));
+      }
+    }
+
+    // Save sanitized number in FBS.
+    form_set_value($element, $phone, $form_state);
+  }
+}
+
+/**
  * Implements hook_profile2_presave().
  */
 function fbs_profile2_presave($entity) {
