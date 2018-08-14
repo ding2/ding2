@@ -143,12 +143,7 @@ function bpi_admin_content_mapping_form(array $form, array &$form_state) {
 
   $bpi_types = array();
   $hook = 'bpi_syndicate_get_bpi_types';
-  foreach (module_implements($hook) as $module) {
-    $types = module_invoke($module, $hook);
-    if (is_array($types)) {
-      $bpi_types = array_merge($bpi_types, $types);
-    }
-  }
+  $bpi_types = module_invoke_all($hook);
   $bpi_types = array_unique($bpi_types);
   $bpi_node_type_options = array();
   foreach ($bpi_types as $type) {
