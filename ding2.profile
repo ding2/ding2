@@ -184,9 +184,6 @@ function ding2_import_ding2_translations(&$install_state) {
  * Reverts features and adds some basic pages.
  */
 function ding2_add_settings(&$install_state) {
-  // Set page not found.
-  ding2_set_page_not_found();
-
   // Set cookie page.
   ding2_set_cookie_page();
 
@@ -750,9 +747,6 @@ function ding2_set_page_not_found() {
   );
 
   node_save($node);
-
-  // Set the 404 page.
-  variable_set('site_404', 'siden-ikke-fundet');
 }
 
 /**
