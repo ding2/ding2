@@ -771,7 +771,20 @@ function ding_reservation_reservations_delete_submit($form, &$form_state) {
     $reservations = array_filter($form_state['values']['reservations']);
   }
   foreach ($reservations as $entity_id) {
-    ding_provider_invoke('reservation', 'delete', $user, $entity_id);
+    try {
+      ding_provider_invoke('reservation', 'delete', $user, $entity_id);
+      drupal_set_message(t('Your reservations have been deleted.'));
+    }
+    catch (DingProviderReservationUserError $e) {
+      drupal_set_message(format_plural(
+        count($reservations),
+        t('One of your reservations could not be deleted.'),
+        t('Some of your reservations could not be deleted.')
+      ) . "\n");
+      if ($error_message = $e->getMessage()) {
+        drupal_set_message(t($error_message));
+      }
+    }
 
     // Clear reservation session cache.
     ding_reservation_cache_clear();
@@ -925,8 +938,22 @@ function ding_reservation_delete_reservations_form_ajax_submit($reservation_ids,
     $reservations = array_map('rawurldecode', explode(',', $reservation_ids));
   }
 
+  $html = FALSE;
   foreach ($reservations as $reservation_id) {
-    ding_provider_invoke('reservation', 'delete', $user, $reservation_id);
+    try {
+      ding_provider_invoke('reservation', 'delete', $user, $reservation_id);
+      $html = theme('status_messages') . t('Your reservations have been deleted.');
+    }
+    catch (DingProviderReservationUserError $e) {
+      $html = theme('status_messages') . format_plural(
+        count($reservations),
+        t('One of your reservations could not be deleted.'),
+        t('Some of your reservations could not be deleted.')
+      ) . "\n";
+      if ($error_message = $e->getMessage()) {
+        $html .= theme('status_messages') . t($error_message);
+      }
+    }
 
     // Clear reservation session cache.
     ding_reservation_cache_clear();
@@ -937,7 +964,6 @@ function ding_reservation_delete_reservations_form_ajax_submit($reservation_ids,
     '#commands' => array(),
   );
 
-  $html = theme('status_messages') . t('Your reservations have been deleted.');
   $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Delete reservations'), $html, array('refresh' => TRUE));
 
   return $response;
