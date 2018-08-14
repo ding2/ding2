@@ -39,11 +39,13 @@ function ding_app_content_rss_flag_default_flags() {
         0 => 3,
         1 => 4,
         2 => 6,
+        3 => 7,
       ),
       'unflag' => array(
         0 => 3,
         1 => 4,
         2 => 6,
+        3 => 7,
       ),
     ),
     'weight' => 0,
