@@ -190,9 +190,14 @@
           }
           for (var i in matches) {
             var match = matches[i];
-            var id = match.substring(match.indexOf(':') + 1);
+            var local_id = match.substring(match.indexOf(':') + 1);
+            var id = match.match(/(\d+-\w+:\d+)$/)[0];
             match = match.replace('reservation', 'availability').replace(':', '');
-            Drupal.settings.ding_availability[match] = [ id ];
+            Drupal.settings.ding_availability.push({
+              'html_id': match,
+              'local_id': local_id,
+              'id': id
+            });
           }
         }
 
