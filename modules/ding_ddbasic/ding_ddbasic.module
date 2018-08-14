@@ -161,8 +161,22 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
           ),
           '#size' => '1',
         ) + (isset($form['color']['palette']['text_on_secondary']) ? $form['color']['palette']['text_on_secondary'] : array());
+
+        array_unshift($form['#validate'], 'ding_ddbasic_theme_settings_validate');
       }
       break;
+  }
+}
+
+/**
+ * Custom validator for the system_theme_settings form.
+ *
+ * We force the color scheme to be custom, so the elements we've changed to
+ * select types will work.
+ */
+function ding_ddbasic_theme_settings_validate($form, &$form_state) {
+  if ($form_state['values']['scheme'] === 'default') {
+    form_set_value($form['color']['scheme'], '', $form_state);
   }
 }
 
