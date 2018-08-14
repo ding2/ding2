@@ -189,6 +189,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         }
       }
 
+      // Initialize variables so that they don't carry over if this entity can't
+      // be searched.
+      $creators = $mat_type = $cover = NULL;
       if (is_object($entity) && NULL !== $entity->getTingObject()) {
         $raw_title = $entity->getTitle();
 
