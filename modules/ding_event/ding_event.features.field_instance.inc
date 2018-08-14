@@ -226,7 +226,7 @@ function ding_event_field_default_field_instances() {
         'module' => 'date',
         'settings' => array(
           'format_type' => 'ding_date_only_version2',
-          'fromto' => 'value',
+          'fromto' => 'both',
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
