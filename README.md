@@ -63,7 +63,6 @@ __Optional, but recommended patches__
 Ensures that Ajax errors only are displayed when not in readystate 4. So when
 the user presses enter to perform a search before auto-complete Ajax is call is
 completed an error will not be displayed.
->>>>>>> 2158: Update README.md with info about new patch
 ```sh
   ~$ wget -qO- http://www.drupal.org/files/issues/autocomplete-1232416-205-7x.patch | patch -p1
 ```
