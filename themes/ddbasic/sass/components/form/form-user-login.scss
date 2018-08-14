@@ -35,7 +35,11 @@
     }
 
     @include media($mobile) {
-      display: none;
+      width: 54px;
+      height: 54px;
+      margin-bottom: 15px;
+      border-radius: $round-corner;
+      background-color: $white;
     }
   }
   .form-item {
@@ -47,6 +51,14 @@
     }
     .description {
       display: none;
+    }
+    @include media($mobile) {
+      &-name {
+        width: calc(100% - 5.10949% - 54px);
+      }
+      &-pass {
+        @include span-columns(3 of 6);
+      }
     }
   }
   .form-actions {
