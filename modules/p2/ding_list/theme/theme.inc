@@ -303,6 +303,11 @@ function template_preprocess_ding_list_add_button(&$variables) {
 
         ),
       );
+
+      // This avoids the long description, from being displayed directly on the
+      // button, breaking the layout. Forcing an extra click by the user, but
+      // allows for more predefined lists being shown for anonymous users in the
+      // future.
       $force_multiple = TRUE;
     }
 
