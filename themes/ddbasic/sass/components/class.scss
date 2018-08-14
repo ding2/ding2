@@ -624,24 +624,13 @@ ul.tabs.primary {
     width: 84px;
     height: 84px;
     margin: 0 auto 20px;
-    &::after {
+    svg {
       @include animation(spin 1s linear infinite);
-      content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('../../images/spinner.png');
-      background-size: 100% auto;
-    }
-
-    // Hidpi
-    @include hidpi() {
-      &::after {
-        background-image: url('../../images/spinner@x2.png');
-        background-size: 100% auto;
-      }
     }
   }
   .search-overlay--text {
