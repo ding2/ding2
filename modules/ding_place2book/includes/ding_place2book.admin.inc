@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file ding_place2book.admin.inc
+ * @file
  * Admin forms, page callbacks and related functions.
  */
 
@@ -21,10 +21,10 @@ function ding_place2book_admin_settings_form($form_state) {
     '#markup' => t('<p>5 texts exist for displaying ticket information:</p><ul><li>"The event has already taken place"</li><li>"The event is closed for admission"</li><li>"Ticket sale has not yet started for this event"</li><li>"Sold out"</li><li>"Book a ticket"</li></ul><p>These can all be translated to local needs - just paste the exact texts into the search box at <a href="/admin/config/regional/translate/translate">/admin/config/regional/translate/translate</a>.</p>'),
   );
 
-  // Load default settings
+  // Load default settings.
   $defaults = variable_get('ding_place2book', array());
 
-  // Default settings
+  // Default settings.
   $form['ding_place2book'] = array(
     '#type' => 'fieldset',
     '#title' => t('Place2Book service'),
@@ -81,7 +81,7 @@ function ding_place2book_admin_settings_form($form_state) {
     '#collapsed' => TRUE,
   );
 
-  // Load default settings
+  // Load default settings.
   $defaults = variable_get('ding_place2book_libraries', array());
 
   // Find all libraries and order them by title.
@@ -157,7 +157,7 @@ function ding_place2book_kultunaut_form($form_state) {
 
   $kultunaut_category_options = array('' => t('Choose')) + place2book_get_kultunaut_categories();
 
-  // Find all terms in the event category vocabulary
+  // Find all terms in the event category vocabulary.
   // @todo: Please use the Drupal API to retrieve such information.
   $result = db_query("SELECT t.tid, t.name FROM {taxonomy_term_data} t JOIN {taxonomy_vocabulary} v
                       ON t.vid = v.vid
@@ -186,7 +186,7 @@ function ding_place2book_kultunaut_form($form_state) {
 
   $kultunaut_target_options = array('' => t('Choose'), 'Alle' => 'Alle', 'Børn' => 'Børn', 'Unge' => 'Unge', 'Voksne' => 'Voksne', 'Ældre' => 'Ældre');
 
-  // Find all terms in the event target vocabulary
+  // Find all terms in the event target vocabulary.
   // @todo: Please use the Drupal API to retrieve such information.
   $result = db_query("SELECT t.tid, t.name FROM {taxonomy_term_data} t JOIN {taxonomy_vocabulary} v
                       ON t.vid = v.vid
@@ -238,8 +238,10 @@ function ding_place2book_kultunaut_form_validate($form, &$form_state) {
   }
 }
 
-/*
- * Returns a JSON string containing the default Kultunaut category terms found at http://www.kultunaut.dk/perl/export/nautgenrerxml
+/**
+ * Returns a JSON string containing the default Kultunaut category
+ *
+ * Terms found at http://www.kultunaut.dk/perl/export/nautgenrerxml
  */
 function ding_place2book_kultunaut_cat_json() {
   // @todo: Why not retrieve this from
@@ -345,7 +347,7 @@ function ding_place2book_kultunaut_cat_json() {
   return $json;
 }
 
-/*
+/**
  * Returns an array of all Kultunaut category terms
  */
 function place2book_get_kultunaut_categories() {

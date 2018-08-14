@@ -1,4 +1,9 @@
 <?php
+/**
+ * @file
+ * Integration with place2book services.
+ */
+
 require_once 'includes/ding_place2book.event_validate.inc';
 
 /**
@@ -74,12 +79,75 @@ function ding_place2book_disable() {
 }
 
 /**
- * Called via AJAX/JavaScript.
- * Returns (prints) JSON containing ticket information from Place2book
- *
- * @param int $nid
- * @return null
+ * Implements hook_menu().
  */
+function ding_place2book_menu() {
+  $items = array();
+
+  $items['admin/config/ding/place2book'] = array(
+    'title' => 'Place2book settings',
+    'description' => 'Settings and defaults for Place2book integration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_admin_settings_form'),
+    'access arguments' => array('administer place2book settings'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'includes/ding_place2book.admin.inc',
+  );
+
+  $items['admin/config/ding/place2book/settings'] = array(
+    'title' => 'Place2book settings',
+    'description' => 'Settings and defaults for Place2book integration',
+    'weight' => -20,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_admin_settings_form'),
+    'access arguments' => array('administer place2book settings'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'includes/ding_place2book.admin.inc',
+  );
+
+  $items['admin/config/ding/place2book/kultunaut'] = array(
+    'title' => 'Kultunaut',
+    'description' => 'Kultunaut-specific settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_kultunaut_form'),
+    'access arguments' => array('administer place2book settings'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'includes/ding_place2book.admin.inc',
+  );
+
+  $items['ding/place2book/ticketinfo/%'] = array(
+    'title' => 'Ding Place2book ticket info',
+    'description' => 'Returns ticket info or order button from Place2book',
+    'page callback' => 'ding_place2book_get_ticketinfo',
+    'page arguments' => array(3),
+    'access arguments' => array('access content'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_place2book_theme() {
+  return array(
+    'place2book_ticketsinfo' => array(
+      'variables' => array(
+        'place2book_id' => NULL,
+        'url' => NULL,
+        'type' => NULL,
+      ),
+    ),
+  );
+}
+
+/**
+* Called via AJAX/JavaScript.
+* Returns (prints) JSON containing ticket information from Place2book
+*
+* @param int $nid
+* @return null
+*/
 function ding_place2book_get_ticketinfo($nid) {
   //get the node
   $event = node_load($nid);
@@ -132,54 +200,6 @@ function ding_place2book_permission() {
       'description' => t('Perform administration tasks for ding_place2book.'),
     ),
   );
-}
-
-/**
- * Implements hook_menu().
- */
-function ding_place2book_menu() {
-  $items = array();
-
-  $items['admin/config/ding/place2book'] = array(
-    'title' => 'Place2book settings',
-    'description' => 'Settings and defaults for Place2book integration',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_place2book_admin_settings_form'),
-    'access arguments' => array('administer place2book settings'),
-    'type' => MENU_NORMAL_ITEM,
-    'file' => 'includes/ding_place2book.admin.inc',
-  );
-
-  $items['admin/config/ding/place2book/settings'] = array(
-    'title' => 'Place2book settings',
-    'description' => 'Settings and defaults for Place2book integration',
-    'weight' => -20,
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_place2book_admin_settings_form'),
-    'access arguments' => array('administer place2book settings'),
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'file' => 'includes/ding_place2book.admin.inc',
-  );
-
-  $items['admin/config/ding/place2book/kultunaut'] = array(
-    'title' => 'Kultunaut',
-    'description' => 'Kultunaut-specific settings',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_place2book_kultunaut_form'),
-    'access arguments' => array('administer place2book settings'),
-    'type' => MENU_LOCAL_TASK,
-    'file' => 'includes/ding_place2book.admin.inc',
-  );
-
-  $items['ding/place2book/ticketinfo/%'] = array(
-    'title' => 'Ding Place2book ticket info',
-    'description' => 'Returns ticket info or order button from Place2book',
-    'page callback' => 'ding_place2book_get_ticketinfo',
-    'page arguments' => array(3),
-    'access arguments' => array('access content'),
-  );
-
-  return $items;
 }
 
 /**
@@ -367,13 +387,12 @@ function ding_place2book_process_node(&$variables) {
 function ding_place2book_node_delete($node) {
   // We only handle event nodes.
   if ($node->type == "ding_event") {
-    /**
-     * TODO: No attempt is currently made to stop the node from being
-     *       deleted if the above place2book-delete fails...
-     *
-     * REVIEW: Maybe a clean-up check could be execute by the
-     *         administrator or cron?
-     */
+    // TODO: No attempt is currently made to stop the node from being
+    //       deleted if the above place2book-delete fails...
+    //
+    // @REVIEW: Maybe a clean-up check could be execute by the
+    //          administrator or cron?
+    //
     $place2book_id = db_query('SELECT place2book_id
                                FROM {ding_place2book}
                                WHERE nid = :nid', array(':nid' => $node->nid))
@@ -492,21 +511,23 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
 }
 
 /**
- * Handles communitaction with the place2book web-services, which consists of
- * insert, update and delete opreations.
+ * Handles communication with the place2book web-services.
+ *
+ * Which consists of insert, update and delete operations.
+ *
+ * TODO: I see no reason why all this is contained within a single function.
+ *       Refactor to ding_place2book_$op().
  *
  * @param string $op
- *  The operation to preform: insert, update or delete.
+ *   The operation to preform: insert, update or delete.
  * @param object $node
- *  A node object for the event.
+ *   A node object for the event.
  * @param int $place2book_id
  *  Place2Book identifier.
  *
  * @return int
- *  Place2Book identifier.
+ *   Place2Book identifier.
  */
-// @todo: I see no reason why all this is contained within a single function.
-// Refactor to ding_place2book_$op().
 function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
   // Service settings.
   $service_settings = variable_get('ding_place2book', array());
@@ -948,10 +969,7 @@ function _ding_place2book_db_op($op, $node, $place2book_id = NULL) {
       db_query('DELETE FROM {ding_place2book}
                 WHERE nid = :nid
                 AND place2book_id = :place2book_id',
-                array(
-                      ':nid' => $node->nid,
-                      ':place2book_id' => $place2book_id
-                     )
+                array(':nid' => $node->nid, ':place2book_id' => $place2book_id)
       );
       break;
 
@@ -993,6 +1011,8 @@ function place2book_get_api_key($library_id = NULL) {
  * Rendering function for place2book tickets info
  */
 function ding_place2book_render_place2book_ticketsinfo($node) {
+  $type = '';
+  $url = '';
   $place2book_id = 0;
   $maintain_copy = 0;
   $passive = 0;
@@ -1041,76 +1061,62 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
         'X-PLACE2BOOK-EVENT-ID' => $place2book_id,
       );
       $options = array(
-                'method' => 'GET',
-                'headers' => $headers,
-              );
+        'method' => 'GET',
+        'headers' => $headers,
+      );
       $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $options);
 
       //we must have a sales-status header
-      $status_type = _ding_place2book_status_processing($p2b_result);
-    }
-  }
-  return theme('place2book_ticketsinfo', array(
-    'place2book_id' => $place2book_id,
-    'url' => $status_type['url'],
-    'type' => $status_type['type'],
-  ));
-}
+      if ($p2b_result->headers['sales-status']) {
 
-/**
- * Statuses handler.
- *
- * @param object $p2b_result
- *   Response from p2b.
- *
- * @return array
- *   Returns array with booking type and url if it is available.
- */
-function _ding_place2book_status_processing($p2b_result) {
-  $status_type = array();
-  if ($p2b_result->headers['sales-status']) {
-
-    //check if the event is closed for admissions
-    if ($p2b_result->headers['sales-status'] == 'closed') {
-      $status_type['type'] = 'closed-admission';
-    }
-    // Check if sales period is in the future and ticket sale has not started yet
-    elseif ($p2b_result->headers['sales-status'] == 'upcoming') {
-      $status_type['type'] = 'sale-not-started';
-    }
-    else {
-
-      /*
-       * check if we have no tickets left
-       * number from Available-Tickets header is a string and must be tested as such
-       * also, Available-Tickets header can have a negative value, which we also interpret as "no ticket left"
-       */
-      if ($p2b_result->headers['available-tickets'] == "0" || (int)$p2b_result->headers['available-tickets'] < 0) {
-        $status_type['type'] = 'no-tickets-left';
-      }
-      else {
-
-        /*
-         * check to see if we should present an link for ordering a ticket
-         * number from Available-Tickets header is a string and must be typecast as integer
-         * Available-Tickets header can also be the string "Ubegraenset antal" (unlimited), so we check for existence of "antal" in the string
-         * @todo Checking for "antal" seems inappropriate. If the status is
-         * "Begræset antal" we would still get the same result even though
-         * the meaning is much different.
-         */
-        if ($p2b_result->headers['sales-status'] == 'open' && ((int)$p2b_result->headers['available-tickets'] > 0 || strpos($p2b_result->headers['available-tickets'], 'antal') > 0)) {
-          $status_type['type'] = 'order-link';
-          $status_type['url'] = $p2b_result->headers['location'];
+        //check if the event is closed for admissions
+        if ($p2b_result->headers['sales-status'] == 'closed') {
+          $type = 'closed-admission';
+        }
+        // Check if sales period is in the future and ticket sale has not started yet
+        elseif ($p2b_result->headers['sales-status'] == 'upcoming') {
+          $type = 'sale-not-started';
+        }
+        else {
+          // Check if sales are open and if available tickets is 0
+          if ($p2b_result->headers['sales-status'] == 'open' && (int) $p2b_result->headers['available-tickets'] == 0) {
+            $type = 'order-waiting-list';
+            $url = $p2b_result->headers['location'];
+          }
+          /*
+           * check if we have no tickets left
+           * number from Available-Tickets header is a string and must be tested as such
+           * also, Available-Tickets header can have a negative value, which we also interpret as "no ticket left"
+           */
+          elseif ($p2b_result->headers['available-tickets'] == "0" || (int)$p2b_result->headers['available-tickets'] < 0) {
+            $type = 'no-tickets-left';
+          }
+          else {
+            // Check to see if we should present an link for ordering a ticket
+            // number from Available-Tickets header is a string and must be typecast as integer
+            // Available-Tickets header can also be the string "Ubegraenset antal" (unlimited), so we check for existence of "antal" in the string
+            // @todo Checking for "antal" seems inappropriate. If the status is
+            // "Begræset antal" we would still get the same result even though
+            // the meaning is much different.
+            if ($p2b_result->headers['sales-status'] == 'open' && ((int) $p2b_result->headers['available-tickets'] > 0 || strpos($p2b_result->headers['available-tickets'], 'antal') > 0)) {
+              $type = 'order-link';
+              $url = $p2b_result->headers['location'];
+            }
+          }
         }
       }
     }
   }
 
-  return $status_type;
+  return theme('place2book_ticketsinfo', array(
+    'place2book_id' => $place2book_id,
+    'url' => $url,
+    'type' => $type,
+  ));
 }
 
 /**
- * Ticketsinfo theme function.
+ * Default theme function for 'ticketsinfo'.
  */
 function theme_place2book_ticketsinfo($variables) {
   $url = $variables['url'];
@@ -1118,42 +1124,35 @@ function theme_place2book_ticketsinfo($variables) {
 
   switch ($type) {
     case 'event-over':
-      $output = '<div class="place2book info">' . t('The event has already taken place') . '</div>';
+      $output = '<div class="place2book-tickets-label">' . t('Tickets') . '</div><div class="place2book-tickets-info">' . t('The event has already taken place') . '</div>';
       break;
+
     case 'closed-admission':
-      $output = '<div class="place2book info">' . t('The event is closed for admission') . '</div>';
+      $output = '<div class="place2book-tickets-label">' . t('Tickets') . '</div><div class="place2book-tickets-info">' . t('Not open for ticket sale') . '</div>';
       break;
-    case 'sale-not-started':
-      $output = '<div class="place2book info">' . t('Ticket sale has not yet started for this event') . '</div>';
-      break;
+
     case 'no-tickets-left':
-      $output = '<div class="place2book info">' . t('Sold out') . '</div>';
+      $output = '<div class="place2book-tickets-label">' . t('Tickets') . '</div><div class="place2book-tickets-info">' . t('Sold out') . '</div>';
       break;
+
     case 'order-link':
-      $output = '<div class="place2book order">' . l(t('Book a ticket'), $url) . '</div>';
+      $output = l(t('Book a ticket'), $url, array('attributes' => array('class' => array('ticket-available', 'button'))));
       break;
+
+    case 'sale-not-started':
+      $output = '<div class="place2book-tickets-label">' . t('Tickets') . '</div><div class="place2book-tickets-info">' . t('Ticket sale has not yet started for this event') . '</div>';
+      break;
+
+    case 'order-waiting-list':
+      $output = l(t('Waiting list open'), $url, array('attributes' => array('class' => array('ticket-available', 'button'))));
+      break;
+
     default:
-      $output = '';
+      $output = t('-nothing-');
       break;
   }
 
   return $output;
-}
-
-/**
- * Implements hook_theme().
- */
-function ding_place2book_theme() {
-  $items = array(
-    'place2book_ticketsinfo' => array(
-      'variables' => array(
-        'place2book_id' => NULL,
-        'url' => NULL,
-        'type' => NULL,
-      ),
-    ),
-  );
-  return $items;
 }
 
 /**
