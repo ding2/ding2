@@ -538,25 +538,6 @@ function ding_library_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-265108a0-31ea-47f3-9b44-376a47724f4a';
-    $pane->panel = 'content';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'ding_library-ding_library_leaflet';
-    $pane->shown = FALSE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '265108a0-31ea-47f3-9b44-376a47724f4a';
-    $display->content['new-265108a0-31ea-47f3-9b44-376a47724f4a'] = $pane;
-    $display->panels['content'][0] = 'new-265108a0-31ea-47f3-9b44-376a47724f4a';
-    $pane = new stdClass();
     $pane->pid = 'new-1e2eec2e-7d03-48ca-b59c-76ce5247dff7';
     $pane->panel = 'content';
     $pane->type = 'views_panes';
@@ -574,11 +555,11 @@ function ding_library_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = array();
     $pane->uuid = '1e2eec2e-7d03-48ca-b59c-76ce5247dff7';
     $display->content['new-1e2eec2e-7d03-48ca-b59c-76ce5247dff7'] = $pane;
-    $display->panels['content'][1] = 'new-1e2eec2e-7d03-48ca-b59c-76ce5247dff7';
+    $display->panels['content'][0] = 'new-1e2eec2e-7d03-48ca-b59c-76ce5247dff7';
     $pane = new stdClass();
     $pane->pid = 'new-d62be472-164d-4035-8ac5-a92a0ca855ae';
     $pane->panel = 'content';
@@ -610,11 +591,11 @@ function ding_library_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 1;
     $pane->locks = '';
     $pane->uuid = 'd62be472-164d-4035-8ac5-a92a0ca855ae';
     $display->content['new-d62be472-164d-4035-8ac5-a92a0ca855ae'] = $pane;
-    $display->panels['content'][2] = 'new-d62be472-164d-4035-8ac5-a92a0ca855ae';
+    $display->panels['content'][1] = 'new-d62be472-164d-4035-8ac5-a92a0ca855ae';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

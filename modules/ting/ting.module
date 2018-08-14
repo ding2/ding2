@@ -192,37 +192,23 @@ function ting_block_info() {
       'info' => t('Ting alternative material types'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
     ),
-    'ting_relation_anchors' => array(
-      'info' => t('Ting relations for material '),
-      'cache' => DRUPAL_CACHE_PER_PAGE,
-    ),
   );
 }
 
 /**
- * Get relations for an ting_entity as an array ([$type] => array($relations)).
+ * Implements hook_cron().
+ *
+ * Ensures that all expired entries are delete form the cache on cron runes.
  */
-function ting_get_relations($ting_entity) {
-  $relations = array();
-  // Ask the provider for a list of relation-types it supports.
-  $supported_relations = array_keys(ding_provider_invoke('search', 'supported_relations'));
-  foreach ($ting_entity->relations as $relation) {
-    if (!in_array($relation->type, $supported_relations)) {
-      continue;
-    }
-    $relations[$relation->type][] = $relation;
-  }
+function ting_cron() {
+  cache_clear_all(NULL, 'cache_ting');
+}
 
-  // Get references from ting_reference.
-  if (module_exists('ting_reference')) {
-    $refs = module_invoke('ting_reference', 'get_relations', 'ting_object', $ting_entity);
-    if (!empty($refs)) {
-      foreach ($refs as $ref) {
-        $relations[$ref->relation_type][] = $ref;
-      }
-    }
-  }
-  return $relations;
+/**
+ * Implements hook_flush_caches().
+ */
+function ting_flush_caches() {
+  return array('cache_ting');
 }
 
 /**
@@ -232,29 +218,6 @@ function ting_block_view($delta = '') {
   $block = new stdClass();
 
   switch ($delta) {
-    // Render a block with links to related materials including a count of how
-    // many instances of each type is available.
-    case 'ting_relation_anchors':
-      $items = array();
-      if ($object = menu_get_object('ting_object', 2)) {
-        $relations = ting_get_relations($object);
-        if (!empty($relations)) {
-          $relation_types = module_invoke_all('ding_anchor_info');
-          $block->subject = t('About the material');
-
-          foreach ($relations as $key => $relation) {
-            if (isset($relation_types[$key])) {
-              $items[] = l($relation_types[$key] . ' (' . count($relation) . ') ', '#' . $key, array('external' => TRUE));
-            }
-          }
-          $block->content = array(
-            '#theme' => 'item_list',
-            '#items' => $items,
-          );
-        }
-      }
-      break;
-
     case 'ting_collection_types':
       if ($collection = menu_get_object('ting_collection', 2)) {
         $block->subject = t('Other materialtypes');

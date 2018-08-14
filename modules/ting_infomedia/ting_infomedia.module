@@ -185,23 +185,6 @@ function ting_infomedia_get_ting_relations() {
 }
 
 /**
- * Implements hook_ding_anchor_info().
- */
-function ting_infomedia_ding_anchor_info() {
-  $relations = ting_infomedia_get_ting_relations();
-
-  // We need to know what kind of hasOnlineAccess
-  // is provided with this object and return relevant anchor information.
-  $object = menu_get_object('ting_object', 2);
-
-  if ($object->getAc_source() != 'Artikler') {
-    unset($relations['dbcaddi:hasOnlineAccess']);
-  }
-
-  return $relations;
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Adding infomedia url form field to ting configuration form.

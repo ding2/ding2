@@ -322,31 +322,6 @@ function ding_content_default_page_manager_handlers() {
     $pane->uuid = '2cce61b7-483f-44da-b603-745b6a13ab0b';
     $display->content['new-2cce61b7-483f-44da-b603-745b6a13ab0b'] = $pane;
     $display->panels['attachment_1_1'][1] = 'new-2cce61b7-483f-44da-b603-745b6a13ab0b';
-    $pane = new stdClass();
-    $pane->pid = 'new-2a68751d-d16f-4b46-8ee7-054a37ed5f0d';
-    $pane->panel = 'left_sidebar';
-    $pane->type = 'page_title';
-    $pane->subtype = 'page_title';
-    $pane->shown = FALSE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'markup' => 'h1',
-      'class' => '',
-      'id' => '',
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '2a68751d-d16f-4b46-8ee7-054a37ed5f0d';
-    $display->content['new-2a68751d-d16f-4b46-8ee7-054a37ed5f0d'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-2a68751d-d16f-4b46-8ee7-054a37ed5f0d';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

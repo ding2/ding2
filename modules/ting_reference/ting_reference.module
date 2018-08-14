@@ -548,13 +548,6 @@ function ting_reference_object_id_validate($element, &$form_state, $form) {
 }
 
 /**
- * Implements hook_ding_anchor_info().
- */
-function ting_reference_ding_anchor_info() {
-  return array('ting_reference' => t('On this site'));
-}
-
-/**
  * Utility function to get relations for an entity.
  *
  * @param string $entity_type
