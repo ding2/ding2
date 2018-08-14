@@ -237,6 +237,7 @@ function ding_gatewayf_registration_information() {
           'class' => array(
             'form-submit',
             'ding-gatewayf-link',
+            'action-button',
           ),
         ),
         'query' => array(

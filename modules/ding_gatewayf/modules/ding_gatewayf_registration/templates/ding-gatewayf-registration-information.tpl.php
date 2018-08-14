@@ -16,11 +16,15 @@
 <div class="empty-sidebars default-layout">
   <div class="layout-wrapper">
     <div class="pane-content">
-      <div class="primary-content">
+      <div class="primary-content ding-gatewayf-registration-information">
         <h2 class="pane-title"><?php print render($title); ?></h2>
-        <?php print render($content); ?>
-        <div class="ding-gatewayf--link-wrapper">
-          <?php print render($link); ?>
+        <div class="ding-gatewayf-registration-information--left">
+          <?php print render($content); ?>
+        </div>
+        <div class="ding-gatewayf-registration-information--right">
+          <div class="ding-gatewayf--link-wrapper">
+            <?php print render($link); ?>
+          </div>
         </div>
       </div>
     </div>
