@@ -34,8 +34,11 @@ function ddbasic_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'search-form-extended';
       $vars['classes_array'][] = 'show-secondary-menu';
 
-      if (menu_get_item()['path'] === 'search/ting/%') {
-        $vars['classes_array'][] = 'extended-search-is-open';
+      $path = menu_get_item()['path'];
+      switch ($path) {
+        case 'search/ting/%';
+        case 'ding_frontpage':
+          $vars['classes_array'][] = 'extended-search-is-open';
       }
       break;
   }
@@ -67,7 +70,6 @@ function ddbasic_preprocess_html(&$vars) {
   libraries_load('jquery.imagesloaded');
   libraries_load('html5shiv');
   libraries_load('masonry');
-
 }
 
 /**
@@ -76,7 +78,6 @@ function ddbasic_preprocess_html(&$vars) {
  * Process variables for html.tpl.php.
  */
 function ddbasic_process_html(&$vars) {
-
   // Hook into color.module.
   if (module_exists('color')) {
     _color_html_alter($vars);
