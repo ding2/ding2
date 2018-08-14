@@ -1321,7 +1321,7 @@ function bpi_ensure_bpi_workflow_fields() {
           'bundle' => $content_type,
           'mode' => $mode,
           'label' => 'BPI',
-          'weight' => '100',
+          'weight' => '36',
           'children' => array($field_name),
           'format_type' => 'tab',
           'format_settings' => array(
