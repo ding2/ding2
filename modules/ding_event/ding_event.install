@@ -259,3 +259,37 @@ Tip: Indicate different ticket prices for more than one audience group by enteri
   db_add_field('field_data_field_ding_event_price', 'field_ding_event_price_format', $field);
   db_add_field('field_revision_field_ding_event_price', 'field_ding_event_price_format', $field);
 }
+
+/**
+ * Convert field_ding_event_date to the date repeat field.
+ */
+function ding_event_update_7010() {
+  // It's not possible to convert the date field to a date repeat field with the
+  // Field API. It prevents it, because it requires a change to the database
+  // table is and the field already contains existing data. We therefore
+  // circumvent the Field API and make the changes directly in the database.
+  // In this case, it's only a matter of adding an additional text column, so
+  // we wont mess with existing data.
+  $query = db_select('field_config', 'fc')
+    ->condition('fc.field_name', 'field_ding_event_date');
+  $query->addField('fc', 'data');
+  $data = $query->execute()->fetchAssoc()['data'];
+
+  $data = unserialize($data);
+  $data['settings']['repeat'] = TRUE;
+  $data = serialize($data);
+
+  $result = db_update('field_config')
+    ->fields(array('data' => $data))
+    ->condition('field_name', 'field_ding_event_date')
+    ->execute();
+
+  $field = array(
+    'type' => 'text',
+    'not null' => FALSE,
+    'sortable' => FALSE,
+    'views' => FALSE,
+  );
+  db_add_field('field_data_field_ding_event_date', 'field_ding_event_date_rrule', $field);
+  db_add_field('field_revision_field_ding_event_date', 'field_ding_event_date_rrule', $field);
+}
