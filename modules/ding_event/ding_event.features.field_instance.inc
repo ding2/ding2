@@ -10,6 +10,127 @@
 function ding_event_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-ding_event-date_repeat_entity_clone_state'.
+  $field_instances['node-ding_event-date_repeat_entity_clone_state'] = array(
+    'bundle' => 'ding_event',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 13,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'date_repeat_entity_clone_state',
+    'label' => 'Clone state (do not change)',
+    'required' => FALSE,
+    'settings' => array(
+      'allowed_values' => array(
+        0 => '',
+        1 => '',
+      ),
+      'allowed_values_function' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 0,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 42,
+    ),
+  );
+
+  // Exported field_instance: 'node-ding_event-date_repeat_entity_master_uuid'.
+  $field_instances['node-ding_event-date_repeat_entity_master_uuid'] = array(
+    'bundle' => 'ding_event',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'date_repeat_entity_master_uuid',
+    'label' => 'Master UUID (do not change)',
+    'required' => FALSE,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 41,
+    ),
+  );
+
   // Exported field_instance: 'node-ding_event-ding_event_groups_ref'.
   $field_instances['node-ding_event-ding_event_groups_ref'] = array(
     'bundle' => 'ding_event',
@@ -303,6 +424,7 @@ function ding_event_field_default_field_instances() {
         'input_format' => 'm/d/Y - H:i:s',
         'input_format_custom' => '',
         'label_position' => 'above',
+        'repeat_collapsed' => 1,
         'text_parts' => array(),
         'year_range' => '-3:+3',
       ),
@@ -1453,6 +1575,7 @@ function ding_event_field_default_field_instances() {
   t('Body');
   t('Book ticket/Participate in event');
   t('Category');
+  t('Clone state (do not change)');
   t('Date');
   t('Display this event in the selected group (temapage).');
   t('Event list filter');
@@ -1464,6 +1587,7 @@ function ding_event_field_default_field_instances() {
   t('Library');
   t('List image');
   t('Location');
+  t('Master UUID (do not change)');
   t('Materials');
   t('Optional. If provided, the location address will be shown instead of the address of the associated library when presenting info on the event.');
   t('Organizer');
