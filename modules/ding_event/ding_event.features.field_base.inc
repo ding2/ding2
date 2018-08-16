@@ -169,6 +169,7 @@ function ding_event_field_default_field_bases() {
       'timezone_db' => 'UTC',
       'todate' => 'optional',
       'tz_handling' => 'site',
+      'repeat' => TRUE,
     ),
     'translatable' => 0,
     'type' => 'datetime',
