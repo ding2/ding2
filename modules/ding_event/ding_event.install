@@ -293,3 +293,10 @@ function ding_event_update_7010() {
   db_add_field('field_data_field_ding_event_date', 'field_ding_event_date_rrule', $field);
   db_add_field('field_revision_field_ding_event_date', 'field_ding_event_date_rrule', $field);
 }
+
+/**
+ * Enable date_repeat, date_repeat_field date_repeat_entity and replicate.
+ */
+function ding_event_update_7010() {
+  module_enable(array('date_repeat_entity'));
+}

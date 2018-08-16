@@ -10,6 +10,7 @@ dependencies[] = cs_adaptive_image
 dependencies[] = ctools
 dependencies[] = date
 dependencies[] = date_all_day
+dependencies[] = date_repeat_entity
 dependencies[] = date_views
 dependencies[] = ding_base
 dependencies[] = ding_content
