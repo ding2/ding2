@@ -181,6 +181,21 @@ function ding_base_date_formats() {
       'format' => 'l, j. F, Y H:i',
       'locales' => array(),
     ),
+    array(
+      'type' => 'ding_date_only_version2',
+      'format' => 'd.m.y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'ding_date_and_time',
+      'format' => 'd.m.Y - H:i',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'month_and_year_separator',
+      'format' => 'F <\\s\\p\\a\\n>Y</\\s\\p\\a\\n>',
+      'locales' => array(),
+    ),
   );
 }
 
@@ -194,6 +209,9 @@ function ding_base_date_format_types() {
     'ding_long_date_only' => t('Long date only (mainly used in news)'),
     'ding_material_lists_date' => t('Ding marterial lists date'),
     'ding_event_lists_date' => t('Ding event lists date'),
+    'ding_date_only_version2' => t('Date only version 2'),
+    'ding_date_and_time' => t('Date and time'),
+    'month_and_year_separator' => t('Month and yeah separator'),
   );
 }
 
