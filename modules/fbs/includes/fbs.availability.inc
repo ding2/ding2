@@ -152,7 +152,7 @@ function fbs_availability_holdings($provider_ids) {
         $candidates = array(
           '100.a',
           '110.a',
-          '239.a',
+          '239.t',
           '245.a',
         );
 
