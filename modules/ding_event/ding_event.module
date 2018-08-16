@@ -457,4 +457,13 @@ function ding_event_preprocess_node(&$variables) {
   else {
     $variables['event_price'] = t('Free', array(), array('context' => 'Price'));
   }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_event_form_ding_event_node_form_alter(&$form, &$form_state) {
+  $form['#attached']['js'][] = array(
+    'type' => 'file',
+    'data' => drupal_get_path('module', 'ding_event') . '/js/ding_event_date_repeat_form.js',
+  );
 }
