@@ -204,9 +204,8 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
       break;
 
     case 'full':
+      array_push($variables['classes_array'], 'node-full');
       if (!empty($date)) {
-        array_push($variables['classes_array'], 'node-full');
-
         // Add event time to variables. A render array is created based on the
         // date format "time_only".
         $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(

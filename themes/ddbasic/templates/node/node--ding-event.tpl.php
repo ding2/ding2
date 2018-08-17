@@ -103,12 +103,14 @@
         <?php print render($content['group_left']['og_group_ref']); ?>
       <?php endif; ?>
       <!-- insert time-field markup -->
-      <div class="field field-name-field-ding-event-target field-label-inline clearfix">
-        <div class="field-label"><?php print t('Time'); ?></div>
-        <div class="field-items">
-          <div class="field-item even"><?php print $event_time; ?></div>
+      <?php if ($event_time): ?>
+        <div class="field field-name-field-ding-event-target field-label-inline clearfix">
+          <div class="field-label"><?php print t('Time'); ?></div>
+          <div class="field-items">
+            <div class="field-item even"><?php print $event_time; ?></div>
+          </div>
         </div>
-      </div>
+      <?php endif; ?>
       <!-- insert price-field markup -->
       <div class="field field-name-field-ding-event-price field-label-inline clearfix">
         <div class="field-label"><?php print t('Price'); ?></div>
