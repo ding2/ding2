@@ -310,8 +310,9 @@ function ding_campaign_plus_basic_admin_form(&$form_state) {
     }
   }
 
-  // If not a remove operation add one more element.
-  if (!isset($form_state['triggering_element'])) {
+  // If not a remove operation add one more element. The or element here is need because other ajax events may happen in
+  // the node edit form.
+  if (!isset($form_state['triggering_element']) || substr($form_state['triggering_element']['#name'], 0, 18) !== 'remove_basic_rule_') {
     $triggers['rule_' . $count] = _ding_campaign_plus_basic_rule_form($count);
   }
   elseif ($form_state['triggering_element']['#name'] === 'add_another_rule') {
