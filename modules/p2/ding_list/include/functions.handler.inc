@@ -40,7 +40,7 @@ function ding_list_get_list($list, $account = NULL) {
       // Filter out loan history lists.
       // Older users, might have previously created history lists, so we need to
       // filter them out on retrieval.
-      if (!ding_provider_implements('historical_loans', 'get') && $lists[$key]->getType() === DING_LIST_TYPE_LOAN_HISTORY) {
+      if (!empty($lists[$key]) && !ding_provider_implements('historical_loans', 'get') && $lists[$key]->getType() === DING_LIST_TYPE_LOAN_HISTORY) {
         $lists[$key] = FALSE;
       }
     }
