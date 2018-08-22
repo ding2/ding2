@@ -45,14 +45,14 @@
   }
   Drupal.behaviors.ding_ting_teaser_hover = {
     attach: function(context, settings) {
-      ting_teaser_hover($('.ting-object.view-mode-teaser > .inner', context));
+      ting_teaser_hover($('.ting-object.view-mode-teaser > .inner, .ting-object.view-mode-teaser-no-overlay > .inner', context));
     }
   };
 
   // Shorten ting object teaser titles
   Drupal.behaviors.ding_ting_teaser_short_title = {
     attach: function(context, settings) {
-      $('.ting-object.view-mode-teaser > .inner .field-name-ting-title h2').each(function(){
+      $('.ting-object.view-mode-teaser > .inner .field-name-ting-title h2, .ting-object.view-mode-teaser-no-overlay > .inner .field-name-ting-title h2').each(function(){
         this.innerText = ellipse(this.innerText, 45);
       });
     }

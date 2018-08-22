@@ -94,16 +94,25 @@
     min-height: 418px; // Prevent page from jumping when content is loaded in
     max-height: 418px;
 
+    //If ting-object-no-overlay
+    @at-root .ting-object-no-overlay#{&} {
+      max-height: none;
+    }
+
     // Tablet
     @include media($tablet) {
       padding-top: 0;
       min-height: 363px; // Prevent page from jumping when content is loaded in
       max-height: 363px;
-
     }
 
     .slick-list {
       max-height: 418px;
+
+      //If ting-object-no-overlay
+      @at-root .ting-object-no-overlay#{&} {
+        max-height: none;
+      }
 
       @include media($tablet) {
         max-height: 363px;
