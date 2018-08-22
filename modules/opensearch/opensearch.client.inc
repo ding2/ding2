@@ -387,7 +387,7 @@ function opensearch_execute(TingClientRequest $request) {
     // next part expect JSON only formatted input. So this hack simply return
     // the XML for now as later on we have to work with open format and XML
     // parsing. So for now simply return the result to fulltext.
-    if ($request instanceof TingClientObjectRequest && $request->getOutputType() == 'xml' && $request->getFormat() == 'docbook') {
+    if ($request instanceof TingClientObjectRequest && $request->getOutputType() == 'xml' && $request->getObjectFormat() == 'docbook') {
       return $res;
     }
 
