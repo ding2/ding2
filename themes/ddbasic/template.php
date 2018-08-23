@@ -741,28 +741,6 @@ function ddbasic_process_page(&$vars) {
 }
 
 /**
- * Preprocess function for ting_object theme function.
- */
-function ddbasic_preprocess_ting_object(&$vars) {
-
-  switch ($vars['elements']['#entity_type']) {
-    case 'ting_object':
-
-      switch ($vars['elements']['#view_mode']) {
-        // Teaser.
-        case 'teaser':
-
-          // Check if overlay is disabled and set class.
-          if (theme_get_setting('ting_object_disable_overlay') == TRUE) {
-            $vars['classes_array'][] = 'no-overlay';
-          }
-          break;
-      }
-      break;
-  }
-}
-
-/**
  * Implements hook_process_ting_object().
  *
  * Adds wrapper classes to the different groups on the ting object.
@@ -831,6 +809,57 @@ function ddbasic_process_ting_object(&$vars) {
               'default'
             );
           }
+          
+          //Truncate abstract
+          $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
+
+          // Check if teaser has rating function and remove abstract.
+          if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
+            unset($vars['content']['group_text']['ting_abstract']);
+          }
+
+          break;
+
+        // Teaser no overlay.
+        case 'teaser_no_overlay':
+          $vars['content']['group_text']['read_more_button'] = array(
+            array(
+              '#theme' => 'link',
+              '#text' => t('Read more'),
+              '#path' => $uri_object['path'],
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
+                    'action-button',
+                    'read-more-button',
+                  ),
+                ),
+                'html' => FALSE,
+              ),
+            ),
+            '#weight' => 9998,
+          );
+
+          if ($vars['object']->is('reservable')) {
+            $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              'ajax'
+            );
+          }
+          if ($vars['object']->online_url) {
+            // Slice the output, so it only usese the online link button.
+            $vars['content']['group_text']['online_link'] = array_slice(ting_ding_entity_buttons(
+              'ding_entity',
+              $vars['object']
+            ), 0, 1);
+          }
+
+          //Truncate default title
+          $vars['static_title'] = '<div class="field-name-ting-title"><h2>' . add_ellipsis($vars['elements']['group_text']['group_inner']['ting_title'][0]['#markup'], 40) . '</h2></div>';
+
+          //Truncate abstract
+          $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 
           // Check if teaser has rating function and remove abstract.
           if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {

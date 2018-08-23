@@ -24,6 +24,10 @@ function ding_ddbasic_entity_info_alter(&$entity_info) {
     'label' => t('Search result'),
     'custom settings' => TRUE,
   );
+  $entity_info['node']['view modes']['teaser_no_overlay'] = array(
+    'label' => t('Teaser no overlay'),
+    'custom settings' => TRUE,
+  );
 }
 
 /**
@@ -198,4 +202,25 @@ function ding_ddbasic_module_implements_alter(&$implementations, $hook) {
  */
 function ding_ddbasic_field_group_pre_render(&$element, $group, &$form) {
   $group->format_settings['instance_settings']['classes'] .= ' field-group-format ' . drupal_html_class($group->group_name);
+}
+
+/**
+ * Implements hook_entity_view_mode_alter().
+ *
+ * Change view mode on teaser if theme settings is set to no-overlay
+ */
+function ding_ddbasic_entity_view_mode_alter(&$view_mode, $context) {
+  // Change view mode on teasers if theme setting is set to no-overlay.
+  if ($context['entity_type'] == 'node' && $view_mode == 'teaser') {
+    if (theme_get_setting('ding_news_disable_overlay') && $context['entity']->type == 'ding_news') {
+      $view_mode = 'teaser_no_overlay';
+    }
+    if (theme_get_setting('ding_group_disable_overlay') && $context['entity']->type == 'ding_group') {
+      $view_mode = 'teaser_no_overlay';
+    }
+  }
+
+  if ($context['entity_type'] == 'ting_object' && $view_mode == 'teaser' && theme_get_setting('ting_object_disable_overlay')) {
+    $view_mode = 'teaser_no_overlay';
+  }
 }

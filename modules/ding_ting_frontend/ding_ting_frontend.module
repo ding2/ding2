@@ -55,6 +55,10 @@ function ding_ting_frontend_entity_info_alter(&$entity_info) {
         'label' => t('Teaser'),
         'custom settings' => TRUE,
       ),
+      'teaser_no_overlay' => array(
+        'label' => t('Teaser no overlay'),
+        'custom settings' => TRUE,
+      ),
     );
   }
 }
