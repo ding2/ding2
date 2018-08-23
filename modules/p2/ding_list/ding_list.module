@@ -106,13 +106,6 @@ function ding_list_menu() {
     'delivery callback' => 'ajax_deliver',
   ));
 
-  $items['ding-list/login-create'] = array(
-    'title' => 'Login create',
-    'page callback' => array('ding_list_login_create'),
-    'delivery callback' => 'ajax_deliver',
-    'access callback' => TRUE,
-  );
-
   $items['ding-list/login-attach/%/%'] = array(
     'title' => 'Login create',
     'page callback' => array('ding_list_login_attach'),
@@ -154,29 +147,6 @@ function ding_list_login_attach($type, $value) {
 
   $list = ding_list_get_list($list_type);
   return ding_list_attach_element_callback($type, $list->getId(), $value);
-}
-
-/**
- * Handle list creation for anonymous users.
- */
-function ding_list_login_create() {
-  $commands = array();
-
-  if (!user_is_logged_in()) {
-    $commands[] = ajax_command_ding_user_authenticate('');
-    return array('#type' => 'ajax', '#commands' => $commands);
-  }
-
-  module_load_include('inc', 'ctools', 'includes/ajax');
-  $commands[] = ctools_ajax_command_redirect(
-    'list/create',
-    0,
-    array(
-      'query' => drupal_get_query_parameters(),
-    )
-  );
-
-  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 /**
