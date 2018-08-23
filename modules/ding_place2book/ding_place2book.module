@@ -353,13 +353,26 @@ function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
 
     $status_type = _ding_place2book_status_processing($p2b_result);
 
-    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = $status_type['url'];
-    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['place2book_id'] = $place2book_id;
-    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['status'] = $status_type['type'];
-    field_attach_presave('node', $node);
-    field_attach_update('node', $node);
-    // Clear the static loading cache.
-    entity_get_controller('node')->resetCache(array($node->nid));
+    $lock_id = implode('|', [
+      'entity:' => 'node',
+      'nid:' => $node->nid,
+      'type:' => $node->type,
+    ]);
+
+    // Handle concurrency.
+    // Field save might deliver integrity constraint exceptions when invoked
+    // by numerous simultaneous requests.
+    if (lock_acquire($lock_id, 1)) {
+      $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = !empty($status_type['url']) ? $status_type['url'] : '';
+      $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['place2book_id'] = $place2book_id;
+      $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['status'] = !empty($status_type['type']) ? $status_type['type'] : '';
+      field_attach_presave('node', $node);
+      field_attach_update('node', $node);
+      // Clear the static loading cache.
+      entity_get_controller('node')->resetCache(array($node->nid));
+
+      lock_release($lock_id);
+    }
   }
 }
 
