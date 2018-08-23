@@ -653,13 +653,41 @@ function ding_list_convert_cql_replace_callback($matches) {
 function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
   switch ($context['type']) {
     case 'ting_object':
-      $ting_object = ting_object_load($context['value']);
+      if (user_access('use personalisation')) {
+        $ting_object = ting_object_load($context['value']);
 
-      // Add a follow action for authors.
-      $data = array_merge(
-        $data,
-        ding_list_get_add_to_list_ting_object_creators($ting_object)
-      );
+        // Add a follow action for authors.
+        $data = array_merge(
+          $data,
+          ding_list_get_add_to_list_ting_object_creators($ting_object)
+        );
+
+        $data[] = array(
+          'custom' => array(
+            'title' => '<div class="list-title">' . t('New list') . '</div><div class="add-to-list-button button">' . t('Add to new list') . '</div>',
+            'href' => 'list/create',
+            'attributes' => array(
+              'class' => array(),
+            ),
+            'query' => array('at' => $context['type'], 'av' => $context['value']),
+            'html' => TRUE,
+          ),
+        );
+      }
+      elseif (!user_is_logged_in()) {
+        $data[] = array(
+          'custom' => array(
+            'title' => '<div class="list-title">' . t('Add to list') . '</div>',
+            'href' => '#',
+            'attributes' => array(
+              'class' => array('open-login'),
+            ),
+            'external' => TRUE,
+            'html' => TRUE,
+
+          ),
+        );
+      }
       break;
 
     case 'search_query':

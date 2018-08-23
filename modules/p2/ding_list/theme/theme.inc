@@ -276,44 +276,6 @@ function template_preprocess_ding_list_add_button(&$variables) {
     $options = $variables['options'];
   }
 
-  if ($variables['type'] == 'ting_object') {
-    if (user_access('use personalisation')) {
-      $new_list = array(
-        'custom' => array(
-          'title' => '<div class="list-title">' . t('New list') . '</div><div class="add-to-list-button button">' . t('Add to new list') . '</div>',
-          'href' => 'list/create',
-          'attributes' => array(
-            'class' => array(),
-          ),
-          'query' => array('at' => $variables['type'], 'av' => $variables['value']),
-          'html' => TRUE,
-        ),
-      );
-    }
-    elseif (!user_is_logged_in()) {
-      $new_list = array(
-        'custom' => array(
-          'title' => '<div class="list-title">' . t('Login before you can use lists') . '</div><div class="add-to-list-button button">' . t('Login') . '</div>',
-          'href' => '#',
-          'attributes' => array(
-            'class' => array('open-login'),
-          ),
-          'external' => TRUE,
-          'html' => TRUE,
-
-        ),
-      );
-
-      // This avoids the long description, from being displayed directly on the
-      // button, breaking the layout. Forcing an extra click by the user, but
-      // allows for more predefined lists being shown for anonymous users in the
-      // future.
-      $force_multiple = TRUE;
-    }
-
-    $options[] = $new_list;
-  }
-
   foreach ($options as $option) {
     if (!isset($option['custom'])) {
       if ($option['type'] == 'search_query') {
@@ -340,7 +302,7 @@ function template_preprocess_ding_list_add_button(&$variables) {
     $variables['buttons']['#links'][] = $l;
   }
 
-  if (count($variables['buttons']['#links']) === 1 && empty($force_multiple)) {
+  if (count($variables['buttons']['#links']) === 1) {
     $variables['classes_array'][] = 'ding-list-add-button--single-action';
   }
   else {
