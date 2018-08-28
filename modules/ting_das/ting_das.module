@@ -24,22 +24,10 @@ function ting_das_menu() {
     'page callback' => 'ting_das_ajax',
     'page arguments' => array(1),
     'delivery callback' => 'ajax_deliver',
-    'access arguments' => array('perform das request'),
+    'access arguments' => array('access content'),
   );
 
   return $items;
-}
-
-/**
- * Implements hook_permission().
- */
-function ting_das_permission() {
-  return array(
-    'perform das request' => array(
-      'title' => t('Perform request for Digital Article copy'),
-      'description' => t('Perform request to KB digital article service.'),
-    ),
-  );
 }
 
 /**
@@ -94,7 +82,7 @@ function ting_das_ding_entity_buttons($type, $entity, $view_mode, $widget = 'def
                 'use-ajax',
               ),
               'id' => 'das-order-' . $entity->id,
-              'onclick' => 'wt.sendinfo({ linkId: "open_order_digital_copy" });'
+              'onclick' => 'wt.sendinfo({ linkId: "open_order_digital_copy" });',
             ),
             'html' => FALSE,
           ),
@@ -112,7 +100,7 @@ function ting_das_ding_entity_buttons($type, $entity, $view_mode, $widget = 'def
 /**
  * Entity button ajax callback handler.
  *
- * @param $entity
+ * @param TingEntity $entity
  *   The entity that the order is about.
  *
  * @return array

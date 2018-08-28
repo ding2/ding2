@@ -14,8 +14,8 @@ use GuzzleHttp\Client;
 class TingDasCopyRequest {
 
   private $url;
-  private $ws_username;
-  private $ws_password;
+  private $wsUsername;
+  private $wsPassword;
 
   private $pid = NULL;
   private $userLoanerId = NULL;
@@ -43,8 +43,8 @@ class TingDasCopyRequest {
    */
   public function __construct(string $url, string $username, string $password) {
     $this->url = $url;
-    $this->ws_username = $username;
-    $this->ws_password = $password;
+    $this->wsUsername = $username;
+    $this->wsPassword = $password;
   }
 
   /**
@@ -176,11 +176,11 @@ class TingDasCopyRequest {
   /**
    * Set the agency id for pickup.
    *
-   * @Note: Not sure why this exists as all articles are sent by mail to the
-   *        end user.
-   *
    * @param string $pickupAgencyId
    *   The pickup agency id.
+   *
+   * @Note: Not sure why this exists as all articles are sent by mail to the
+   *        end user.
    *
    * @return TingDasCopyRequest
    *   The current request object.
@@ -311,7 +311,10 @@ class TingDasCopyRequest {
   }
 
   /**
+   * Get article issue number.
    *
+   * @return string
+   *    The issue number.
    */
   public function getIssueOfComponent() {
     return $this->issueOfComponent;
@@ -405,8 +408,8 @@ class TingDasCopyRequest {
     $xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><placeCopyRequest xmlns="http://statsbiblioteket.dk/xws/elba-placecopyrequest-schema"/>');
 
     // Set required fields.
-    $xml->addChild('ws_user', $this->ws_username);
-    $xml->addChild('ws_password', $this->ws_password);
+    $xml->addChild('ws_user', $this->wsUsername);
+    $xml->addChild('ws_password', $this->wsPassword);
     $xml->addChild('pid', $this->getPid());
     $xml->addChild('user_loaner_id', $this->getUserLoanerId());
     $xml->addChild('userName', $this->getUserName());
