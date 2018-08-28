@@ -26,18 +26,6 @@ function ding_campaign_plus_menu() {
 }
 
 /**
- * Implements hook_permission().
- */
-function ding_campaign_plus_permission() {
-  return array(
-    'access campaign plus triggers' => array(
-      'title' => t('Access campaign plus triggers'),
-      'description' => t('Access to define campaign rules'),
-    ),
-  );
-}
-
-/**
  * Implements hook_ctools_plugin_directory().
  */
 function ding_campaign_plus_ctools_plugin_directory($module, $plugin) {

@@ -53,7 +53,7 @@ function ding_campaign_plus_basic_menu() {
     'description' => 'Auto complete field for campaign rule values.',
     'page callback' => '_ding_campaign_plus_basic_admin_autocomplete',
     'page arguments' => array(3),
-    'access arguments' => array('access campaign plus triggers'),
+    'access arguments' => array('administer site configuration'),
     'type' => MENU_CALLBACK,
   );
 
