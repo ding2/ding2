@@ -42,7 +42,7 @@ function ding_campaign_plus_facet_schema() {
       ),
       'operator' => array(
         'type' => 'varchar',
-        'length' => 4
+        'length' => 4,
       ),
     ),
     'primary key' => array('id'),

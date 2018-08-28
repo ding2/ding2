@@ -81,7 +81,7 @@ function hook_ding_campaign_plus_default_weights() {
  * @return array
  *   Matching the modules rules format for the module.
  */
-function hook_ding_campaign_plus_auto_trigger(array $config, $campaign_node, $node, array $subjects) {
+function hook_ding_campaign_plus_auto_trigger(array $config, $campaign_node, \Entity $node, array $subjects) {
   return array('TYPE' => array('rules' => array()));
 }
 

@@ -66,7 +66,7 @@ function ding_campaign_plus_facet_menu() {
 function ding_campaign_plus_facet_theme($existing, $type, $theme, $path) {
   $themes = array(
     'ding_campaign_plus_facet_table_drag' => array(
-      'render element' => 'element'
+      'render element' => 'element',
     ),
   );
   return $themes;
@@ -209,7 +209,7 @@ function ding_campaign_plus_facet_auto_admin_form(array &$form_state, $default =
       '#options' => drupal_map_assoc(range(1, 30)),
       '#default_value' => empty($default['default']) ? '_none_' : $default['default'],
     ),
-    'facets' =>  array(
+    'facets' => array(
       '#type' => 'radios',
       '#title' => t('Facets available'),
       '#description' => t('The contents subjects will automatically create a trigger against the selected facet type.'),
@@ -263,7 +263,7 @@ function ding_campaign_plus_facet_form_ding_campaign_plus_admin_settings_alter(&
     $form['ding_campaign_plus_facets']['facets'][$id]['action'] = array(
       '#type' => 'link',
       '#title' => t('delete'),
-      '#href' =>  'admin/config/ding/campaigns_plus/' . $facet['facet'] . '/delete',
+      '#href' => 'admin/config/ding/campaigns_plus/' . $facet['facet'] . '/delete',
       '#options' => array('attributes' => array('title' => t('Delete facet.'))),
     );
   }
@@ -308,9 +308,9 @@ function ding_campaign_plus_facet_admin_settings_form_submit($form, $form_state)
 /**
  * Menu callback for facet delete confirm.
  *
- * @param $form_id
+ * @param string $form_id
  *   ID of the form calling the delete action.
- * @param $form_state
+ * @param array $form_state
  *   The state of the form.
  * @param $facet_id
  *   The ID of the facets to remove.
@@ -318,7 +318,7 @@ function ding_campaign_plus_facet_admin_settings_form_submit($form, $form_state)
  * @return mixed
  *   Confirmation for.
  */
-function ding_campaign_plus_facet_delete($form_id, $form_state, $facet_id) {
+function ding_campaign_plus_facet_delete($form_id, array $form_state, $facet_id) {
   $form['facet_id'] = array(
     '#type' => 'value',
     '#value' => $facet_id,
@@ -350,9 +350,9 @@ function ding_campaign_plus_facet_delete_submit($form, &$form_state) {
  *   The variables for this theme function (form element).
  *
  * @return string
- *  The formatted table.
+ *   The formatted table.
  */
-function theme_ding_campaign_plus_facet_table_drag($vars) {
+function theme_ding_campaign_plus_facet_table_drag(array $vars) {
   drupal_add_tabledrag('campaign-facets', 'order', 'sibling', 'facet-weight');
 
   $rows = array();
@@ -1022,26 +1022,22 @@ function _ding_campaign_plus_facet_compare($value, array $terms, $common) {
     $value = '/' . str_replace('*', '.*', $value) . '/';
     return !empty(preg_grep($value, $terms));
   }
-  else if (preg_match('/^(<=|>=|<|>)\s*(.*)/', $value, $matches)) {
+  elseif (preg_match('/^(<=|>=|<|>)\s*(.*)/', $value, $matches)) {
     if (is_numeric($matches[2])) {
       sort($terms, SORT_NUMERIC);
       $value = floatval($matches[2]);
       switch ($matches[1]) {
         case '<':
           return end($terms) < $value;
-          break;
 
         case '>':
           return reset($terms) > $value;
-          break;
 
         case '>=':
           return end($terms) <= $value;
-          break;
 
         case '<=':
           return reset($terms) >= $value;
-          break;
 
         default:
           return FALSE;
