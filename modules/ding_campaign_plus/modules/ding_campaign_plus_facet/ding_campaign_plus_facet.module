@@ -236,8 +236,10 @@ function ding_campaign_plus_facet_form_ding_campaign_plus_admin_settings_alter(&
   );
 
   $form['ding_campaign_plus_facets']['facets'] = array(
-    '#prefix' => '<div id="facets">',
-    '#suffix' => '</div>',
+    '#type' => 'container',
+    '#attributes' => array(
+      'id' => 'facets',
+    ),
     '#theme' => 'ding_campaign_plus_facet_table_drag',
   );
 
@@ -455,8 +457,10 @@ function ding_campaign_plus_facet_admin_form(&$form_state) {
   }
 
   $triggers = array(
-    '#prefix' => '<div id="ding-campaign-facet-triggers">',
-    '#suffix' => '</div>',
+    '#type' => 'container',
+    '#attributes' => array(
+      'id' => 'ding-campaign-facet-triggers',
+    ),
     '#attached' => array(
       'js' => array(
         drupal_get_path('module', 'ding_campaign_plus_facet') . '/js/ding_campaign_plus_facet.admin.js',
@@ -992,7 +996,7 @@ function _ding_campaign_plus_facet_match($keys) {
 }
 
 /**
- * Determines if to facets is a match.
+ * Determines if two facets is a match.
  *
  * Users can use asterisk (*) and <, > operators as the facet trigger value for
  * a campaign. So this is detected here and matches are preformed.
@@ -1053,7 +1057,7 @@ function _ding_campaign_plus_facet_compare($value, array $terms, $common) {
 /**
  * Implements hook_ding_campaign_plus_validator().
  *
- * Validate that a give campaign triggers don't have 0-hits in the search
+ * Validate that a given campaign trigger don't have 0-hits in the search
  * query.
  */
 function ding_campaign_plus_facet_ding_campaign_plus_validator($nid) {

@@ -17,7 +17,7 @@
  *   The array contains node edit form elements, the title for the tab and
  *   the type that identifies this group of campaign triggers.
  */
-function hook__ding_campaign_plus_info() {
+function hook_ding_campaign_plus_info() {
   return array(
     'title' => t('Test'),
     'type' => 'test',

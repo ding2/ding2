@@ -290,7 +290,7 @@ function ding_campaign_plus_get_matches(array $contexts, $style) {
 
     // Split the array into groups base on weight and add the changed times.
     $groups = array();
-    foreach($campaigns as $key => $item) {
+    foreach ($campaigns as $key => $item) {
       $groups[$item][$key] = $times[$key];
     }
 
@@ -304,7 +304,7 @@ function ding_campaign_plus_get_matches(array $contexts, $style) {
     // of node id's.
     $campaigns = array();
     $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($groups));
-    foreach($it as $nid) {
+    foreach ($it as $nid) {
       $campaigns[] = $nid;
     }
   }
