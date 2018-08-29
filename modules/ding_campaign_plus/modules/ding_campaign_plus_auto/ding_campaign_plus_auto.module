@@ -44,7 +44,6 @@ function ding_campaign_plus_auto_form_ding_campaign_plus_admin_settings_alter(&$
     }
   }
 
-  $form += array('#submit' => array());
   $form['#submit'][] = 'ding_campaign_plus_auto_admin_settings_form_submit';
 }
 
