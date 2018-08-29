@@ -208,16 +208,29 @@ function ding_place2book_permission() {
 function ding_place2book_node_view($node, $view_mode, $langcode) {
   // We only handle event nodes.
   if ($node->type == "ding_event") {
-    // Check that node is not new and check that the place2book
-    // field should be shown this view mode.
-    if (isset($node->nid) && isset($node->content['field_place2book_tickets']) && $view_mode != 'full') {
-      // Modify the existing placeholder field_place2book_tickets
-      // @todo: Do not fiddle with field weight. We should respect the
-      // node configuration.
-      $node->content['field_place2book_tickets'][LANGUAGE_NONE]['#weight'] = 50;
-      // @todo: Replace input with a div with a data-attribute. That is a more
-      // appropriate placeholder.
-      $node->content['field_place2book_tickets'][LANGUAGE_NONE][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" data-ticket="' . $node->nid . '" value="' . $node->nid . '"/>';
+    // Check if current node have place2book id assigned.
+    if (empty($place2book_id)) {
+      $place2book_id = db_select('ding_place2book', 'dp2b')
+        ->fields('dp2b', array('place2book_id'))
+        ->condition('nid', $node->nid)
+        ->execute()
+        ->fetchField();
+    }
+
+    // Make sure that the event node contains place2book data.
+    if (int) $place2book_id > 0) {
+
+      // Check that node is not new and check that the place2book
+      // field should be shown this view mode.
+      if (isset($node->nid) && isset($node->content['field_place2book_tickets']) && $view_mode != 'full') {
+        // Modify the existing placeholder field_place2book_tickets
+        // @todo: Do not fiddle with field weight. We should respect the
+        // node configuration.
+        $node->content['field_place2book_tickets'][LANGUAGE_NONE]['#weight'] = 50;
+        // @todo: Replace input with a div with a data-attribute. That is a more
+        // appropriate placeholder.
+        $node->content['field_place2book_tickets'][LANGUAGE_NONE][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" data-ticket="' . $node->nid . '" value="' . $node->nid . '"/>';
+      }
     }
   }
 }
@@ -317,7 +330,8 @@ function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
       ->fetchField();
   }
 
-  if ($place2book_id) {
+  // Make sure that the event node contains place2book data.
+  if ((int) $place2book_id > 0) {
     $service_settings = variable_get('ding_place2book', array());
 
     // Get the library id for the event.
