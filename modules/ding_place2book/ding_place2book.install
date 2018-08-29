@@ -107,3 +107,27 @@ function ding_place2book_update_7001() {
     ->fields(array('ticket_type' => 'Adgang'))
     ->execute();
 }
+
+/**
+ * Update ding_event nodes with place2book data.
+ */
+function ding_place2book_update_7002() {
+  $queue = DrupalQueue::get('ding_place2book_update_events_queue');
+  $queue->createQueue();
+
+  $result = db_query("select n.nid from {node} n where
+    n.type = 'ding_event' and
+    n.nid not in
+    (select d.nid from {ding_place2book} d)")->fetchCol();
+
+  foreach ($result as $nid) {
+    $queue->createItem($nid);
+  }
+
+  watchdog(
+    'ding_place2book',
+    t('There are @count events that lack p2b information.'),
+    array('@count' => count($result)),
+    WATCHDOG_INFO
+  );
+}
