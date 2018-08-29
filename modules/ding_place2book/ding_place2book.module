@@ -219,8 +219,6 @@ function ding_place2book_node_view($node, $view_mode, $langcode) {
       // appropriate placeholder.
       $node->content['field_place2book_tickets'][LANGUAGE_NONE][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" data-ticket="' . $node->nid . '" value="' . $node->nid . '"/>';
     }
-
-    ding_place2book_get_ticket_link($node);
   }
 }
 
@@ -1176,5 +1174,41 @@ function ding_place2book_preprocess_node(&$variables) {
     // Hide field_place2book_tickets, because it is rendering "placeholder"
     // default value under the "Left" info group.
     $variables['content']['field_place2book_tickets']['#access'] = FALSE;
+  }
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function ding_place2book_cron_queue_info() {
+  $queue['ding_place2book_update_events_queue'] = array(
+    'worker callback' => '_ding_place2book_update_event',
+    'time' => 10,
+  );
+
+  return $queue;
+}
+
+/**
+ * Queue worker callback.
+ *
+ * This one updates nodes that lack p2b information.
+ *
+ * @param int $node_id
+ *   Node id which lacks p2b info.
+ *
+ * @see ding_place2book_cron_queue_info()
+ */
+function _ding_place2book_update_event($node_id) {
+  $node = node_load($node_id);
+
+  if ($node) {
+    $node->place2book['maintain_copy'] = 0;
+    $node->capacity = 0;
+    $node->place2book['kultunaut_export'] = 0;
+    $node->place2book['passive'] = 0;
+    $node->ticket_type = '';
+
+    _ding_place2book_db_op('insert', $node, -1);
   }
 }
