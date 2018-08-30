@@ -308,18 +308,18 @@ function fbs_availability_holdings($provider_ids) {
 }
 
 /**
- * Sort string compare function used by holdings sort.
+ * Sort holdings by library name (known as placement).
  *
  * @param array $a
- *   Holdings array,
+ *   Holdings array.
  * @param array $b
- *  Holdings array,
+ *   Holdings array.
  *
  * @return int
  *   Returns < 0 if str1 is less than str2; > 0 if str1 is greater than str2,
  *   and 0 if they are equal.
  */
-function fbs_holdings_sort_compare($a, $b) {
+function fbs_holdings_sort_compare(array $a, array $b) {
   return strcasecmp($a['placement'][0], $b['placement'][0]);
 }
 
