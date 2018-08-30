@@ -189,17 +189,14 @@ function ding_place2book_node_view($node, $view_mode, $langcode) {
   // We only handle event nodes.
   if ($node->type == "ding_event") {
     // Check if current node have place2book id assigned.
-    if (empty($place2book_id)) {
-      $place2book_id = db_select('ding_place2book', 'dp2b')
-        ->fields('dp2b', array('place2book_id'))
-        ->condition('nid', $node->nid)
-        ->execute()
-        ->fetchField();
-    }
+    $place2book_id = db_select('ding_place2book', 'dp2b')
+      ->fields('dp2b', array('place2book_id'))
+      ->condition('nid', $node->nid)
+      ->execute()
+      ->fetchField();
 
     // Make sure that the event node contains place2book data.
-    if (int) $place2book_id > 0) {
-
+    if ((int) $place2book_id > 0) {
       // Check that node is not new and check that the place2book
       // field should be shown this view mode.
       if (isset($node->nid) && isset($node->content['field_place2book_tickets']) && $view_mode != 'full') {
@@ -1176,41 +1173,5 @@ function ding_place2book_preprocess_node(&$variables) {
     // Hide field_place2book_tickets, because it is rendering "placeholder"
     // default value under the "Left" info group.
     $variables['content']['field_place2book_tickets']['#access'] = FALSE;
-  }
-}
-
-/**
- * Implements hook_cron_queue_info().
- */
-function ding_place2book_cron_queue_info() {
-  $queue['ding_place2book_update_events_queue'] = array(
-    'worker callback' => '_ding_place2book_update_event',
-    'time' => 10,
-  );
-
-  return $queue;
-}
-
-/**
- * Queue worker callback.
- *
- * This one updates nodes that lack p2b information.
- *
- * @param int $node_id
- *   Node id which lacks p2b info.
- *
- * @see ding_place2book_cron_queue_info()
- */
-function _ding_place2book_update_event($node_id) {
-  $node = node_load($node_id);
-
-  if ($node) {
-    $node->place2book['maintain_copy'] = 0;
-    $node->capacity = 0;
-    $node->place2book['kultunaut_export'] = 0;
-    $node->place2book['passive'] = 0;
-    $node->ticket_type = '';
-
-    _ding_place2book_db_op('insert', $node, -1);
   }
 }
