@@ -54,6 +54,7 @@ define('DING_LIST_PERMISSION_OWNER', 'owner');
 // Include seperate hook files.
 require_once __DIR__ . '/include/form.inc';
 require_once __DIR__ . '/include/functions.inc';
+require_once __DIR__ . '/ding_list.field.inc';
 
 /**
  * Implements hook_menu().
