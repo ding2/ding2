@@ -329,9 +329,8 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
  * Ding Library.
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
-
-  // Google maps addition to library list on teaser.
-  if ($variables['view_mode'] == 'teaser') {
+  // Google maps addition to library list.
+  if (isset($variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'])) {
     $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
 
     $street = $address['thoroughfare'];
@@ -413,7 +412,7 @@ function ddbasic_preprocess__node__ding_page(&$variables) {
 
       if (!empty($variables['field_ding_page_list_image'][0]['uri'])) {
         $variables['background_image'] = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
-      } 
+      }
       else {
         $variables['background_image'] = '';
       }
