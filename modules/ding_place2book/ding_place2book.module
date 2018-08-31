@@ -4,6 +4,9 @@
  * Integration with place2book services.
  */
 
+// Id which is used for events which do not have a place2book id.
+define('DING_PLACE2BOOK_NO_ID', -1);
+
 require_once 'includes/ding_place2book.event_validate.inc';
 
 /**
@@ -206,11 +209,11 @@ function ding_place2book_permission() {
  * Implements hook_node_view().
  */
 function ding_place2book_node_view($node, $view_mode, $langcode) {
-  // We only handle event nodes.
-  if ($node->type == "ding_event") {
-    // Check that node is not new and check that the place2book
-    // field should be shown this view mode.
-    if (isset($node->nid) && isset($node->content['field_place2book_tickets']) && $view_mode != 'full') {
+  // We only handle event nodes with place2book information.
+  if ($node->type == "ding_event"
+    && ding_place2book_get_id($node) != DING_PLACE2BOOK_NO_ID) {
+    // Check that the place2book field should be shown this view mode.
+    if (isset($node->content['field_place2book_tickets']) && $view_mode != 'full') {
       // Modify the existing placeholder field_place2book_tickets
       // @todo: Do not fiddle with field weight. We should respect the
       // node configuration.
@@ -219,8 +222,6 @@ function ding_place2book_node_view($node, $view_mode, $langcode) {
       // appropriate placeholder.
       $node->content['field_place2book_tickets'][LANGUAGE_NONE][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" data-ticket="' . $node->nid . '" value="' . $node->nid . '"/>';
     }
-
-    ding_place2book_get_ticket_link($node);
   }
 }
 
@@ -236,7 +237,7 @@ function ding_place2book_node_insert($node) {
     }
     else {
       // Insert - no copy at place2book, save settings only
-      _ding_place2book_db_op('insert', $node, -1);
+      _ding_place2book_db_op('insert', $node, DING_PLACE2BOOK_NO_ID);
     }
     // Here we know that there is a result from p2b.
     // Extract necessary ids from db and make a request to get url
@@ -287,10 +288,10 @@ function ding_place2book_node_update($node) {
       else {
         $exists = db_query('SELECT nid FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $node->nid));
         if ($exists->rowCount() > 0) {
-          _ding_place2book_db_op('update', $node, -1);
+          _ding_place2book_db_op('update', $node, DING_PLACE2BOOK_NO_ID);
         }
         else {
-          _ding_place2book_db_op('insert', $node, -1);
+          _ding_place2book_db_op('insert', $node, DING_PLACE2BOOK_NO_ID);
         }
       }
     }
@@ -312,14 +313,11 @@ function ding_place2book_node_update($node) {
  */
 function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
   if (empty($place2book_id)) {
-    $place2book_id = db_select('ding_place2book', 'dp2b')
-      ->fields('dp2b', array('place2book_id'))
-      ->condition('nid', $node->nid)
-      ->execute()
-      ->fetchField();
+    $place2book_id = ding_place2book_get_id($node);
   }
 
-  if ($place2book_id) {
+  // Make sure that the event node contains place2book data.
+  if ($place2book_id != DING_PLACE2BOOK_NO_ID) {
     $service_settings = variable_get('ding_place2book', array());
 
     // Get the library id for the event.
@@ -353,9 +351,9 @@ function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
 
     $status_type = _ding_place2book_status_processing($p2b_result);
 
-    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = $status_type['url'];
+    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = !empty($status_type['url']) ? $status_type['url'] : '';
     $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['place2book_id'] = $place2book_id;
-    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['status'] = $status_type['type'];
+    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['status'] = !empty($status_type['type']) ? $status_type['type'] : '';
     field_attach_presave('node', $node);
     field_attach_update('node', $node);
     // Clear the static loading cache.
@@ -393,11 +391,8 @@ function ding_place2book_node_delete($node) {
     // @REVIEW: Maybe a clean-up check could be execute by the
     //          administrator or cron?
     //
-    $place2book_id = db_query('SELECT place2book_id
-                               FROM {ding_place2book}
-                               WHERE nid = :nid', array(':nid' => $node->nid))
-                     ->fetchField();
-    if ($place2book_id) {
+    $place2book_id = ding_place2book_get_id($node);
+    if ($place2book_id != DING_PLACE2BOOK_NO_ID) {
       // Get existing Place2book settings for this node.
       $settings = ding_place2book_settings($node->nid);
 
@@ -438,7 +433,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
     return;
   }
 
-  if ($node_settings['place2book_id'] && $node_settings['place2book_id'] != -1) {
+  if ($node_settings['place2book_id'] && $node_settings['place2book_id'] != DING_PLACE2BOOK_NO_ID) {
     $p2b_link = l($node_settings['place2book_id'], $service_settings['event_url'] . '/' . $node_settings['place2book_id'] . '/edit', array('absolute' => TRUE));
     $p2b_info = t('If more ticket types on this event is needed, go to Place2book ID !link. (Note: You may need to log on)', array('!link' => $p2b_link));
   }
@@ -620,7 +615,7 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
       else {
         drupal_set_message(t('The related event on Place2book was deleted.'));
         // Update settings in ding_place2book table - "break the maintain_copy link"
-        _ding_place2book_db_op('update', $node, -1);
+        _ding_place2book_db_op('update', $node, DING_PLACE2BOOK_NO_ID);
       }
 
       // If server at p2b says 406 - Not Accepted, do this instead:
@@ -668,6 +663,31 @@ function ding_place2book_get_library_nid($entity) {
   }
 
   return $library_id;
+}
+
+
+/**
+ * Gets the place2book id for a node.
+ *
+ * @param object $node
+ *   The node to check.
+ *
+ * @return int
+ *   The corresponding place2book id for the node.
+ *   DING_PLACE2BOOK_NO_ID is returned for nodes without a place2book id.
+ */
+function ding_place2book_get_id($node) {
+  // New nodes will never have a place2book id.
+  if (empty($node->nid)) {
+    return DING_PLACE2BOOK_NO_ID;
+  }
+
+  $p2b_id = db_select('ding_place2book', 'dp2b')
+    ->fields('dp2b', ['place2book_id'])
+    ->condition('nid', $node->nid)
+    ->execute()
+    ->fetchField();
+  return (!empty($p2b_id)) ? (int) $p2b_id : DING_PLACE2BOOK_NO_ID;
 }
 
 /**
