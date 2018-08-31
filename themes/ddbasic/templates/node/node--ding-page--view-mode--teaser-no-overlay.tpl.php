@@ -73,17 +73,22 @@
  * language, e.g. $node->body['en'], thus overriding any language negotiation
  * rule that was previously applied.
  *
+ * ddbasic specific variables:
+ * - $background_image: Image url for group image
+ *
  * @see template_preprocess()
  * @see template_preprocess_node()
  * @see template_process()
  */
-
 ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <a href="<?php print $node_url; ?>"<?php print drupal_attributes($link_attributes); ?>>
-    <div class="group-text">
-      <h3 class="title"><?php print $title; ?></h3>
-      <?php print render($content['field_ding_group_lead']); ?>
-    </div>
+  <a href="<?php print $node_url; ?>">
+    <div class="ding-page-image">
+      <?php if (!empty($background_image)) : ?>
+        <img src="<?php print $background_image; ?>">
+      <?php endif; ?> 
+    </div>  
+    <h3 class="title"><?php print $title; ?></h3>
+    <?php print render($content['field_ding_page_lead']); ?>
   </a>
 </article>

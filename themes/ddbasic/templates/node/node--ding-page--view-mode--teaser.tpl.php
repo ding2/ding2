@@ -81,9 +81,9 @@
 ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <a href="<?php print $node_url; ?>"<?php print drupal_attributes($link_attributes); ?>>
-    <div class="group-text">
+    <div class="page-text">
       <h3 class="title"><?php print $title; ?></h3>
-      <?php print render($content['field_ding_group_lead']); ?>
+      <?php print render($content['field_ding_page_lead']); ?>
     </div>
   </a>
 </article>
