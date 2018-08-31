@@ -1031,8 +1031,6 @@ function place2book_get_api_key($library_id = NULL) {
  * Rendering function for place2book tickets info
  */
 function ding_place2book_render_place2book_ticketsinfo($node) {
-  $type = '';
-  $url = '';
   $place2book_id = 0;
   $maintain_copy = 0;
   $passive = 0;
@@ -1087,52 +1085,68 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
       $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $options);
 
       //we must have a sales-status header
-      if ($p2b_result->headers['sales-status']) {
+      $status_type = _ding_place2book_status_processing($p2b_result);
+    }
+  }
+  return theme('place2book_ticketsinfo', array(
+    'place2book_id' => $place2book_id,
+    'url' => $status_type['url'],
+    'type' => $status_type['type'],
+  ));
+}
 
-        //check if the event is closed for admissions
-        if ($p2b_result->headers['sales-status'] == 'closed') {
-          $type = 'closed-admission';
-        }
-        // Check if sales period is in the future and ticket sale has not started yet
-        elseif ($p2b_result->headers['sales-status'] == 'upcoming') {
-          $type = 'sale-not-started';
-        }
-        else {
-          // Check if sales are open and if available tickets is 0
-          if ($p2b_result->headers['sales-status'] == 'open' && (int) $p2b_result->headers['available-tickets'] == 0) {
-            $type = 'order-waiting-list';
-            $url = $p2b_result->headers['location'];
-          }
-          /*
-           * check if we have no tickets left
-           * number from Available-Tickets header is a string and must be tested as such
-           * also, Available-Tickets header can have a negative value, which we also interpret as "no ticket left"
-           */
-          elseif ($p2b_result->headers['available-tickets'] == "0" || (int)$p2b_result->headers['available-tickets'] < 0) {
-            $type = 'no-tickets-left';
-          }
-          else {
-            // Check to see if we should present an link for ordering a ticket
-            // number from Available-Tickets header is a string and must be typecast as integer
-            // Available-Tickets header can also be the string "Ubegraenset antal" (unlimited), so we check for existence of "antal" in the string
-            // @todo Checking for "antal" seems inappropriate. If the status is
-            // "Begræset antal" we would still get the same result even though
-            // the meaning is much different.
-            if ($p2b_result->headers['sales-status'] == 'open' && ((int) $p2b_result->headers['available-tickets'] > 0 || strpos($p2b_result->headers['available-tickets'], 'antal') > 0)) {
-              $type = 'order-link';
-              $url = $p2b_result->headers['location'];
-            }
-          }
+/**
+ * Statuses handler.
+ *
+ * @param object $p2b_result
+ *   Response from p2b.
+ *
+ * @return array
+ *   Returns array with booking type and url if it is available.
+ */
+function _ding_place2book_status_processing($p2b_result) {
+  $status_type = array();
+  if ($p2b_result->headers['sales-status']) {
+
+    //check if the event is closed for admissions
+    if ($p2b_result->headers['sales-status'] == 'closed') {
+      $type = 'closed-admission';
+    }
+    // Check if sales period is in the future and ticket sale has not started yet
+    elseif ($p2b_result->headers['sales-status'] == 'upcoming') {
+      $type = 'sale-not-started';
+    }
+    else {
+      // Check if sales are open and if available tickets is 0
+      if ($p2b_result->headers['sales-status'] == 'open' && (int) $p2b_result->headers['available-tickets'] == 0) {
+        $type = 'order-waiting-list';
+        $url = $p2b_result->headers['location'];
+      }
+
+      /*
+       * check if we have no tickets left
+       * number from Available-Tickets header is a string and must be tested as such
+       * also, Available-Tickets header can have a negative value, which we also interpret as "no ticket left"
+       */
+      elseif ($p2b_result->headers['available-tickets'] == "0" || (int)$p2b_result->headers['available-tickets'] < 0) {
+        $type = 'no-tickets-left';
+      }
+      else {
+        // Check to see if we should present an link for ordering a ticket
+        // number from Available-Tickets header is a string and must be typecast as integer
+        // Available-Tickets header can also be the string "Ubegraenset antal" (unlimited), so we check for existence of "antal" in the string
+        // @todo Checking for "antal" seems inappropriate. If the status is
+        // "Begræset antal" we would still get the same result even though
+        // the meaning is much different.
+        if ($p2b_result->headers['sales-status'] == 'open' && ((int) $p2b_result->headers['available-tickets'] > 0 || strpos($p2b_result->headers['available-tickets'], 'antal') > 0)) {
+          $type = 'order-link';
+          $url = $p2b_result->headers['location'];
         }
       }
     }
   }
 
-  return theme('place2book_ticketsinfo', array(
-    'place2book_id' => $place2book_id,
-    'url' => $url,
-    'type' => $type,
-  ));
+  return $status_type;
 }
 
 /**
