@@ -1114,7 +1114,7 @@ function ding_user_provider_id($account = NULL) {
   global $user;
 
   if ($account === NULL) {
-    $accout = $user;
+    $account = $user;
   }
 
   if (ding_provider_implements('user', 'get_provider_id')) {
