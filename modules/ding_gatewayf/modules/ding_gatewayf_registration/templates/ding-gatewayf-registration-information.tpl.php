@@ -19,7 +19,9 @@
       <div class="primary-content ding-gatewayf-registration-information">
         <h2 class="pane-title"><?php print render($title); ?></h2>
         <div class="ding-gatewayf-registration-information--left">
-          <?php print render($content); ?>
+          <div class="long-text-wrapper">
+            <?php print render($content); ?>
+          </div>
         </div>
         <div class="ding-gatewayf-registration-information--right">
           <div class="ding-gatewayf--link-wrapper">
