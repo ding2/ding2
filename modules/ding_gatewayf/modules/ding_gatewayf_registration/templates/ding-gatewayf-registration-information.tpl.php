@@ -18,15 +18,11 @@
     <div class="pane-content">
       <div class="primary-content ding-gatewayf-registration-information">
         <h2 class="pane-title"><?php print render($title); ?></h2>
-        <div class="ding-gatewayf-registration-information--left">
-          <div class="long-text-wrapper">
-            <?php print render($content); ?>
-          </div>
+        <div class="long-text-wrapper">
+          <?php print render($content); ?>
         </div>
-        <div class="ding-gatewayf-registration-information--right">
-          <div class="ding-gatewayf--link-wrapper">
-            <?php print render($link); ?>
-          </div>
+        <div class="ding-gatewayf--link-wrapper">
+          <?php print render($link); ?>
         </div>
       </div>
     </div>
