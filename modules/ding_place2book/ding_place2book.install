@@ -107,3 +107,36 @@ function ding_place2book_update_7001() {
     ->fields(array('ticket_type' => 'Adgang'))
     ->execute();
 }
+
+/**
+ * Update events p2b data to be stored in new field.
+ */
+function ding_place2book_update_7002(&$sandbox) {
+  if (!isset($sandbox['processed'])) {
+    $sandbox['total'] = db_query("select count(nid) as count from ding_place2book
+    where nid not in (
+      select entity_id from field_data_field_ding_event_ticket_link
+        where entity_type = 'node' and bundle = 'ding_event'
+    )")->fetchField();
+
+    $sandbox['processed'] = 0;
+  }
+
+  if ($sandbox['total']) {
+    $events = db_query("select nid, place2book_id from {ding_place2book}
+    where nid not in (
+      select entity_id from {field_data_field_ding_event_ticket_link}
+        where entity_type = 'node' and bundle = 'ding_event'
+    ) LIMIT {$sandbox['processed']}, 20")->fetchAll();
+
+    foreach ($events as $event) {
+      $event_node = node_load($event->nid);
+      if ($event_node) {
+        ding_place2book_get_ticket_link($event_node, $event->place2book_id);
+      }
+      $sandbox['processed']++;
+    }
+
+    $sandbox['finished'] = $sandbox['processed'] / $sandbox['total'];
+  }
+}
