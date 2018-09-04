@@ -335,14 +335,19 @@ function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
     );
 
     $status_type = _ding_place2book_status_processing($p2b_result);
-
-    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = !empty($status_type['url']) ? $status_type['url'] : '';
-    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['place2book_id'] = $place2book_id;
-    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['status'] = !empty($status_type['type']) ? $status_type['type'] : '';
+    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = $status_type['url'];
     field_attach_presave('node', $node);
     field_attach_update('node', $node);
     // Clear the static loading cache.
     entity_get_controller('node')->resetCache(array($node->nid));
+
+    // Update the ticket status.
+    db_update('ding_place2book')
+      ->fields(array(
+        'ticket_status' => $status_type['type'],
+      ))
+      ->condition('nid', $node->nid, '=')
+      ->execute();
   }
 }
 
@@ -351,15 +356,18 @@ function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
  */
 function ding_place2book_process_node(&$variables) {
   if ($variables['type'] == 'ding_event' && $variables['view_mode'] == 'full') {
-    $p2b_id = !empty($variables['field_ding_event_ticket_link'][0]['place2book_id']) ? $variables['field_ding_event_ticket_link'][0]['place2book_id'] : '';
-    $url = !empty($variables['field_ding_event_ticket_link'][0]['url']) ? $variables['field_ding_event_ticket_link'][0]['url'] : '';
-    $status = !empty($variables['field_ding_event_ticket_link'][0]['status']) ? $variables['field_ding_event_ticket_link'][0]['status'] : '';
-    unset($variables['book_button']);
+    $p2b_settings = ding_place2book_settings($variables['nid']);
+    $p2b_id = $p2b_settings['place2book_id'];
+    if (empty($p2b_id) || $p2b_id == DING_PLACE2BOOK_NO_ID) {
+      unset($variables['book_button']);
+      return;
+    }
 
+    $url = !empty($variables['field_ding_event_ticket_link'][0]['url']) ? $variables['field_ding_event_ticket_link'][0]['url'] : '';
     $variables['book_button'] = theme('place2book_ticketsinfo', [
-      'place2book_id' => $p2b_id,
+      'place2book_id' => $p2b_settings['place2book_id'],
       'url' => $url,
-      'type' => $status,
+      'type' => $p2b_settings['ticket_status'],
     ]);
   }
 }
@@ -1032,7 +1040,9 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
   //the function is to return nothing if we should not be rendering anything
   // @todo: Please explain why these states means that we should not render
   // anything.
-  if ($place2book_id == 0 OR $maintain_copy == 0 OR ($maintain_copy == 1 && $passive == 1)) {
+  $place2book_button_hidden = $place2book_id == DING_PLACE2BOOK_NO_ID || $maintain_copy == 0;
+  $place2book_event_passive = $maintain_copy == 1 && $passive == 1;
+  if ($place2book_button_hidden || $place2book_event_passive) {
     return;
   }
 
@@ -1043,7 +1053,7 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
 
   if (time() > $event_timestamp) {
     // @todo: Move event types into constants instead of magic string values.
-    $type = 'event-over';
+    $p2b_status_result['type'] = 'event-over';
   }
   else {
     if ($place2book_id) {
