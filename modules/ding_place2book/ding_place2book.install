@@ -55,12 +55,19 @@ function ding_place2book_schema() {
           'default' => 0,
         ),
         'ticket_type' => array(
-          'description' => t('Ticket type'),
+          'description' => 'Ticket type',
           'type' => 'varchar',
           'length' => 255,
           'not null' => TRUE,
           'default' => '',
         ),
+        'ticket_status' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+          'description' => 'Ticket status',
+        )
       ),
       'primary key' => array('nid'),
     ),
@@ -95,7 +102,7 @@ function ding_place2book_update_7000() {
     'length' => 255,
     'not null' => TRUE,
     'default' => '',
-    'description' => st('Ticket type'),
+    'description' => 'Ticket type',
   ));
 }
 
@@ -117,7 +124,7 @@ function ding_place2book_update_7002() {
     'length' => 255,
     'not null' => TRUE,
     'default' => '',
-    'description' => st('Ticket type'),
+    'description' => 'Ticket status',
   ));
 }
 
