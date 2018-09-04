@@ -56,3 +56,16 @@ function opensearch_update_7001() {
 function opensearch_update_7002() {
   variable_set('opensearch_url', 'https://opensearch.addi.dk/b3.5_5.0/');
 }
+
+/**
+ * Set default autocomplete indexes if not set.
+ */
+function opensearch_update_7004() {
+  $opensearch_search_autocomplete_settings = variable_get('opensearch_search_autocomplete_settings');
+  if (empty($opensearch_search_autocomplete_settings['index'])) {
+    variable_set('opensearch_search_autocomplete_settings', array('index' => 'scanterm.default'));
+  }
+  if (empty($opensearch_search_autocomplete_settings['facetIndex'])) {
+    variable_set('opensearch_search_autocomplete_settings', array('facetIndex' => 'scanphrase.default'));
+  }
+}
