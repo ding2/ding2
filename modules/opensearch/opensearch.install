@@ -30,7 +30,7 @@ function opensearch_migrate_settings() {
     'ting_auth_group' => 'opensearch_auth_group',
     'ting_auth_name' => 'opensearch_auth_name',
     'ting_auth_pass' => 'opensearch_auth_pass',
-    'ting_autocomplete_settings' => 'opensearch_search_autocomplete_settings',
+    'ting_search_autocomplete_settings' => 'opensearch_search_autocomplete_settings',
     'ting_boost_fields' => 'opensearch_boost_fields',
     'ting_cache_lifetime' => 'opensearch_cache_lifetime',
     'ting_enable_logging' => 'opensearch_enable_logging',
