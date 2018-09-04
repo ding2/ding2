@@ -75,12 +75,12 @@ function ding_place2book_schema() {
 }
 
 /**
- * Implementation of hook_install().
+ * Implements hook_install().
  */
 function ding_place2book_install() {
   // Set 'Maintain copy on Place2Book' as default.
   variable_set('ding_place2book_event_nodes', array('defaults' => array('maintain_copy' => 'maintain_copy')));
-  // Update moduel weight to make it heavier then CCK field groups.
+  // Update module weight to make it heavier then CCK field groups.
   db_query("UPDATE {system} SET weight = 10 WHERE name = 'ding_place2book';");
 }
 
@@ -94,7 +94,70 @@ function ding_place2book_uninstall() {
 }
 
 /**
- * Add column for storing ticket type
+ * Implements hook_enable().
+ */
+function ding_place2book_enable() {
+  /*
+   * Create a field on the Event node type as a placeholder for the
+   * order-button/info-area.
+   */
+  // Check if our field is not already created.
+  // @todo: The relationship between node, field, settings and output is very
+  // convoluted to me. I see the current situation:
+  // - field_place2book_tickets is added to event nodes. It is only used for
+  //   outputting a placeholder containing the node id.
+  // - A form_alter is used on the node edit form to add node settings.
+  // - A panel pane is used for outputting a placeholder where the content is
+  //   loaded asynchronously.
+  //
+  // One suggested approach:
+  // - Use a form alter to add settings.
+  // - Add a virtual field which renders a placeholder. Panels will
+  //   automatically provide a panel pane for rendering the field.
+  if (!field_info_field('field_place2book_tickets')) {
+    $field = array(
+      'field_name' => 'field_place2book_tickets',
+      'type' => 'text',
+    );
+    field_create_field($field);
+
+    // Create the instance on the bundle.
+    $instance = array(
+      'field_name' => 'field_place2book_tickets',
+      'entity_type' => 'node',
+      'label' => 'Place2book Tickets',
+      'bundle' => 'ding_event',
+      'required' => TRUE,
+      'default_value' => array(array('value' => 'placeholder')),
+      'description' => 'Placeholder for Place2book ticket information and/or order link',
+      'display' => array(
+        'default' => array(
+          'label' => 'hidden',
+          'settings' => array(),
+          'weight' => 10,
+        ),
+      ),
+    );
+    field_create_instance($instance);
+  }
+}
+
+/**
+ * Implements hook_disable().
+ */
+function ding_place2book_disable() {
+  field_delete_field('field_place2book_tickets');
+  // Field module prevents disabling modules
+  // when field types they provided are used in a field until it is fully
+  // purged. In the case that a field has minimal or no content, a single call
+  // to field_purge_batch() will remove it from the system. This will avoid
+  // admins having to wait for cron run before removing instances.
+  // @see field_ui_field_delete_form_submit().
+  field_purge_batch(10);
+}
+
+/**
+ * Add column for storing ticket type.
  */
 function ding_place2book_update_7000() {
   db_add_field('ding_place2book', 'ticket_type', array(
