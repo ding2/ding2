@@ -74,3 +74,16 @@ function opensearch_update_7003() {
   $schema['cache_opensearch'] = drupal_get_schema_unprocessed('system', 'cache');
   db_create_table('cache_opensearch', $schema['cache_opensearch']);
 }
+
+/**
+ * Set default autocomplete indexes if not set.
+ */
+function opensearch_update_7004() {
+  $opensearch_search_autocomplete_settings = variable_get('opensearch_search_autocomplete_settings');
+  if (empty($opensearch_search_autocomplete_settings['index'])) {
+    variable_set('opensearch_search_autocomplete_settings', array('index' => 'scanterm.default'));
+  }
+  if (empty($opensearch_search_autocomplete_settings['facetIndex'])) {
+    variable_set('opensearch_search_autocomplete_settings', array('facetIndex' => 'scanphrase.default'));
+  }
+}
