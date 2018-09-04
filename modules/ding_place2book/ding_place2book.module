@@ -287,8 +287,8 @@ function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
       $options
     );
 
-    $status_type = _ding_place2book_status_processing($p2b_result);
-    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = $status_type['url'];
+    $p2b_ticket_result = _ding_place2book_status_processing($p2b_result);
+    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = $p2b_ticket_result['url'];
     field_attach_presave('node', $node);
     field_attach_update('node', $node);
     // Clear the static loading cache.
@@ -297,7 +297,7 @@ function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
     // Update the ticket status.
     db_update('ding_place2book')
       ->fields(array(
-        'ticket_status' => $status_type['type'],
+        'ticket_status' => $p2b_ticket_result['type'],
       ))
       ->condition('nid', $node->nid, '=')
       ->execute();
@@ -1066,7 +1066,7 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
  *   Returns array with booking type and url if it is available.
  */
 function _ding_place2book_status_processing($p2b_result) {
-  $status_type = array(
+  $p2b_ticket_result = array(
     'url' => '',
     'type' => ''
   );
@@ -1074,18 +1074,18 @@ function _ding_place2book_status_processing($p2b_result) {
   if (!empty($p2b_result->headers['sales-status'])) {
     // Check if the event is closed for admissions.
     if ($p2b_result->headers['sales-status'] == 'closed') {
-      $status_type['type'] = 'closed-admission';
+      $p2b_ticket_result['type'] = 'closed-admission';
     }
     // Check if sales period is in the future and ticket sale has not
     // started yet.
     elseif ($p2b_result->headers['sales-status'] == 'upcoming') {
-      $status_type['type'] = 'sale-not-started';
+      $p2b_ticket_result['type'] = 'sale-not-started';
     }
     else {
       // Check if sales are open and if available tickets is 0
       if ($p2b_result->headers['sales-status'] == 'open' && (int) $p2b_result->headers['available-tickets'] == 0) {
-        $status_type['type'] = 'order-waiting-list';
-        $status_type['url'] = $p2b_result->headers['location'];
+        $p2b_ticket_result['type'] = 'order-waiting-list';
+        $p2b_ticket_result['url'] = $p2b_result->headers['location'];
       }
       /*
        * Check if we have no tickets left
@@ -1094,7 +1094,7 @@ function _ding_place2book_status_processing($p2b_result) {
        * we also interpret as "no ticket left".
        */
       elseif ($p2b_result->headers['available-tickets'] == "0" || (int) $p2b_result->headers['available-tickets'] < 0) {
-        $status_type['type'] = 'no-tickets-left';
+        $p2b_ticket_result['type'] = 'no-tickets-left';
       }
       else {
         // Check to see if we should present an link for ordering a ticket
@@ -1107,14 +1107,14 @@ function _ding_place2book_status_processing($p2b_result) {
         // "Begræset antal" we would still get the same result even though
         // the meaning is much different.
         if ($p2b_result->headers['sales-status'] == 'open' && ((int) $p2b_result->headers['available-tickets'] > 0 || strpos($p2b_result->headers['available-tickets'], 'antal') > 0)) {
-          $status_type['type'] = 'order-link';
-          $status_type['url'] = $p2b_result->headers['location'];
+          $p2b_ticket_result['type'] = 'order-link';
+          $p2b_ticket_result['url'] = $p2b_result->headers['location'];
         }
       }
     }
   }
 
-  return $status_type;
+  return $p2b_ticket_result;
 }
 
 /**

@@ -196,21 +196,15 @@ function ding_place2book_update_7002() {
  */
 function ding_place2book_update_7003(&$sandbox) {
   if (!isset($sandbox['processed'])) {
-    $sandbox['total'] = db_query("select count(nid) as count from ding_place2book
-    where nid not in (
-      select entity_id from field_data_field_ding_event_ticket_link
-        where entity_type = 'node' and bundle = 'ding_event'
-    )")->fetchField();
+    $sandbox['total'] = db_query("select count(nid) as count from {ding_place2book} p2b
+      where p2b.place2book_id <> -1")->fetchField();
 
     $sandbox['processed'] = 0;
   }
 
   if ($sandbox['total']) {
-    $events = db_query("select nid, place2book_id from {ding_place2book}
-    where nid not in (
-      select entity_id from {field_data_field_ding_event_ticket_link}
-        where entity_type = 'node' and bundle = 'ding_event'
-    ) LIMIT {$sandbox['processed']}, 20")->fetchAll();
+    $events = db_query("select nid, place2book_id from {ding_place2book} p2b
+      where p2b.place2book_id <> -1 LIMIT {$sandbox['processed']}, 20")->fetchAll();
 
     foreach ($events as $event) {
       $event_node = node_load($event->nid);
