@@ -61,11 +61,13 @@ function opensearch_update_7002() {
  * Set default autocomplete indexes if not set.
  */
 function opensearch_update_7004() {
-  $opensearch_search_autocomplete_settings = variable_get('opensearch_search_autocomplete_settings');
+  $opensearch_search_autocomplete_settings = variable_get('opensearch_search_autocomplete_settings', array());
   if (empty($opensearch_search_autocomplete_settings['index'])) {
-    variable_set('opensearch_search_autocomplete_settings', array('index' => 'scanterm.default'));
+    $opensearch_search_autocomplete_settings['index'] = 'scanterm.default';
   }
   if (empty($opensearch_search_autocomplete_settings['facetIndex'])) {
-    variable_set('opensearch_search_autocomplete_settings', array('facetIndex' => 'scanphrase.default'));
+    $opensearch_search_autocomplete_settings['facetIndex'] = 'scanphrase.default';
   }
+
+  variable_set('opensearch_search_autocomplete_settings', $opensearch_search_autocomplete_settings);
 }
