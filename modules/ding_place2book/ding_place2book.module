@@ -501,13 +501,12 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
 
       // Catch insert error by checking the event id.
       if (empty($req_result->headers['event-id'])) {
-        // @todo: This error handling is not appropriate for normal editors.
-        // Replace with drupal_set_message + watchdog.
         $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
-        drupal_set_message(t('INSERT was NOT PERFORMED on Place2book. Place2book returned this error:') . $p2b_error, 'error', FALSE);
+        drupal_set_message(t('Something went wrong. Event could not be created on Place2book. Useful information administrators:') . $p2b_error, 'error', FALSE);
+        watchdog('error', 'INSERT was NOT PERFORMED on Place2book: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
       }
       else {
-        drupal_set_message(t('Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['event-id'])));
+        drupal_set_message(t('Something went wrong. Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['event-id'])));
 
         // Update local database.
         if ($place2book_id != NULL) {
@@ -533,8 +532,8 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
       // Catch update error by checking the return code.
       if ($req_result->status_message != 'Accepted') {
         $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
-        drupal_set_message(t('UPDATE was NOT PERFORMED on Place2book. Place2book returned this error:') . $p2b_error, 'error', FALSE);
-        watchdog('error', 'DELETE was NOT PERFORMED on Place2book. Place2book returned this error: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
+        drupal_set_message(t('Something went wrong. Event could not be updated on Place2book. Useful information administrators:') . $p2b_error, 'error', FALSE);
+        watchdog('error', 'UPDATE was NOT PERFORMED on Place2book: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
       }
       else {
         drupal_set_message(t('Event updated on Place2book with remote ID %id', array('%id' => $place2book_id)));
@@ -554,10 +553,9 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
       $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $options);
 
       if ($req_result->status_message != 'Accepted') {
-        // @todo: This error handling is not appropriate for normal editors.
-        // Replace with drupal_set_message + watchdog.
         $p2b_error = $req_result->headers['status'];
-        drupal_set_message(t('DELETE was NOT PERFORMED on Place2book. Place2book returned this error:') . $p2b_error, 'error', FALSE);
+        drupal_set_message(t('Event could not be deleted on Place2book. Useful information administrators:') . $p2b_error, 'error', FALSE);
+        watchdog('error', 'DELETE was NOT PERFORMED on Place2book: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
       }
       else {
         drupal_set_message(t('The related event on Place2book was deleted.'));
