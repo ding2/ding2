@@ -196,7 +196,7 @@ function ding_place2book_update_7002() {
  */
 function ding_place2book_update_7003(&$sandbox) {
   if (!isset($sandbox['processed'])) {
-    $sandbox['total'] = db_query("select count(nid) as count 
+    $sandbox['total'] = db_query("select count(nid) as count
       from {ding_place2book} p2b
       where p2b.place2book_id <> :no_p2b_id", array(
         ':no_p2b_id' => DING_PLACE2BOOK_NO_ID,

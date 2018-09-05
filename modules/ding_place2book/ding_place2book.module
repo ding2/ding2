@@ -504,7 +504,7 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
         watchdog('error', 'INSERT was NOT PERFORMED on Place2book: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
       }
       else {
-        drupal_set_message(t('Something went wrong. Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['event-id'])));
+        drupal_set_message(t('Event created on Place2book with remote ID %id.', array('%id' => $req_result->headers['event-id'])));
 
         // Update local database.
         if ($place2book_id != NULL) {
