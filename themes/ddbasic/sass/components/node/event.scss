@@ -236,12 +236,50 @@
         .button {
           @include span-columns(3 of 5);
           margin: 20px 0;
-          color: $white;
-          background: $color-secondary;
+          color: $black;
 
           // Tablet
           @include media($tablet) {
             @include span-columns(5 of 5);
+          }
+
+          &.ticket-available {
+            background-color: $green;
+
+            &:hover {
+              background-color: $green-text;
+              color: lighten($black, 15);
+            }
+          }
+
+          &.ticket-notice {
+            background-color: $yellow;
+
+            &:hover {
+              background-color: $yellow;
+              color: $black;
+            }
+          }
+
+          &.ticket-warning {
+            background: $red;
+            color: $white;
+
+            &:hover {
+              background-color: $red;
+              color: $white;
+            }
+          }
+
+          &:hover {
+            background-color: $grey-medium;
+            color: $black;
+          }
+        }
+
+        a.button {
+          &:link, &:visited, &:hover, &:active {
+            text-decoration: underline;
           }
         }
       }
@@ -303,32 +341,6 @@
         @include media($tablet) {
           padding-left: getColumn(2 of 5);
         }
-      }
-    }
-    .field-name-field-place2book-tickets {
-      position: relative;
-      width: 100%;
-      float: left;
-    }
-    .place2book-tickets-label {
-      @include font('base-bold');
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100px;
-
-      // Tablet
-      @include media($tablet) {
-        @include span-columns(2 of 5);
-      }
-    }
-    .place2book-tickets-info {
-      width: 100%;
-      padding-left: 100px;
-
-      // Tablet
-      @include media($tablet) {
-        padding-left: getColumn(2 of 5);
       }
     }
     .field-name-field-ding-event-files {
