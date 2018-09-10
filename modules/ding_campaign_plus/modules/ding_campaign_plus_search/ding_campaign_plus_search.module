@@ -253,11 +253,13 @@ function _ding_campaign_plus_search_match($keys) {
       foreach ($rules as $rule) {
         // Do combined search to get intersection between user search and
         // campaign trigger CQL string.
-        $search_result = $current->getSearchRequest()
-          ->withFullTextQuery($query . ' AND (' . $rule->query . ')')
-          ->execute();
+        $cqlDoctor = new TingSearchCqlDoctor($query);
+        $query = $cqlDoctor->string_to_cql();
+        $searchRequest = $current->getSearchRequest();
+        $searchRequest = $searchRequest->withFullTextQuery('"' . $query . '" AND "' . $rule->query . '"');
+        $results = $searchRequest->execute();
 
-        if (($search_result->getNumTotalObjects() / $no_of_results) * 100 >= $rule->percent) {
+        if (($results->getNumTotalObjects() / $no_of_results) * 100 >= $rule->percent) {
           $nids[] = $rule->nid;
         }
       }
