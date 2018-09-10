@@ -115,6 +115,10 @@ function ding_groups_strongarm() {
             'weight' => '0',
             'visible' => TRUE,
           ),
+          'teaser_no_overlay' => array(
+            'weight' => '2',
+            'visible' => TRUE,
+          ),
         ),
       ),
     ),

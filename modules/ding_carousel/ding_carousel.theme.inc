@@ -54,6 +54,11 @@ function template_preprocess_ding_carousel(&$vars) {
     'outerEdgeLimit' => TRUE,
   );
 
+  // Set class if ting_objects are displayed without overlay
+  if(theme_get_setting('ting_object_disable_overlay')) {
+    $vars['classes_array'][] = 'ting-object-no-overlay';
+  }
+
   if (isset($carousel['#hidden']) && $carousel['#hidden']) {
     $vars['classes_array'][] = 'hidden';
   }

@@ -1,7 +1,7 @@
 <?php
-/**
+ /**
  * @file
- * DDBasic's theme implementation to display news nodes.
+ * DDBasic's theme implementation to display group nodes.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.
@@ -73,12 +73,7 @@
  * rule that was previously applied.
  *
  * ddbasic specific variables:
- * - $ddbasic_updated: Information about latest update on the node created from
- *   $date during ddbasic_preprocess_node().
- * - $news_full_submitted: Submitted date and time
- * - $news_full_changed: Changed date and time
- * - $news_submitted: Submitted date
- * - $news_teaser_image: Div with image as background or empty div if no image
+ * - $background_image: Image url for group image
  *
  * @see template_preprocess()
  * @see template_preprocess_node()
@@ -87,17 +82,12 @@
 ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <a href="<?php print $node_url; ?>">
-    <div class="inner">
-      <?php print $news_teaser_image; ?>
-      <div class="news-text">
-        <h3 class="title"><?php print $title; ?></h3>
-        <div class="category-and-submitted">
-          <?php print render($content['field_ding_news_category']); ?>
-          <div class="info-dash">-</div>
-          <div class="submitted"><?php print $news_submitted; ?></div>
-        </div>
-        <?php print render($content['field_ding_news_lead']); ?>
-      </div>
-    </div>
+    <div class="ding-group-image">
+      <?php if(!empty($background_image)) : ?>
+        <img src="<?php print $background_image; ?>">
+      <?php endif; ?> 
+    </div>  
+    <h3 class="title"><?php print $title; ?></h3>
+    <?php print render($content['field_ding_group_lead']); ?>
   </a>
 </article>

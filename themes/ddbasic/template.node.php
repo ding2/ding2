@@ -130,6 +130,35 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
         $variables['news_teaser_image'] = '<div class="ding-news-list-image background-image-styling-16-9"></div>';
       }
       break;
+
+    case 'teaser_no_overlay':
+      array_push($variables['classes_array'], 'node-teaser-no-overlay');
+       if (!empty($variables['field_ding_news_list_image'][0]['uri'])) {
+        // Get image url to use as background image.
+        $uri = $variables['field_ding_news_list_image'][0]['uri'];
+        $image_title = $variables['field_ding_news_list_image'][0]['title'];
+
+        // If in view with large first teaser and first in view.
+        $current_view = $variables['view']->current_display;
+        $views_with_large_first = array('ding_news_frontpage_list');
+        if (in_array($current_view, $views_with_large_first) && $variables['view']->result[0]->nid == $variables['nid']) {
+          $img_url = image_style_url('ding_panorama_list_large_wide', $uri);
+          $variables['classes_array'][] = 'ding-news-highlighted';
+        }
+        else {
+          $img_url = image_style_url('ding_panorama_list_large', $uri);
+        }
+        if (!empty($image_title)) {
+          $variables['news_teaser_image'] = '<div class="ding-news-list-image background-image-styling-16-9" style="background-image:url(' . $img_url . ')" title="' . $image_title . '"></div>';
+        }
+        else {
+          $variables['news_teaser_image'] = '<div class="ding-news-list-image background-image-styling-16-9" style="background-image:url(' . $img_url . ')"></div>';
+        }
+      }
+      else {
+        $variables['news_teaser_image'] = '<div class="ding-news-list-image background-image-styling-16-9"></div>';
+      }
+      break;
   }
 }
 
@@ -325,6 +354,14 @@ function ddbasic_preprocess__node__ding_group(&$variables) {
       $img_uri = $variables['field_ding_group_list_image'][0]['uri'];
       if (!empty($img_uri)) {
         $variables['background_image'] = image_style_url('ding_panorama_list_large_desaturate', $img_uri);
+      }
+      break;
+
+    case 'teaser_no_overlay':
+      array_push($variables['classes_array'], 'node-teaser-no-overlay');
+       $img_field = field_get_items('node', $variables['node'], 'field_ding_group_list_image', 'uri');
+      if (!empty($img_field)) {
+        $variables['background_image'] = image_style_url('ding_panorama_list_large', $img_field[0]['uri']);
       }
       break;
 

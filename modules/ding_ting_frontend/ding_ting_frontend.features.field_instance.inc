@@ -10,7 +10,8 @@
 function ding_ting_frontend_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'ting_collection-ting_collection-ting_collection_types'
+  // Exported field_instance:
+  // 'ting_collection-ting_collection-ting_collection_types'.
   $field_instances['ting_collection-ting_collection-ting_collection_types'] = array(
     'bundle' => 'ting_collection',
     'default_value' => NULL,
@@ -46,7 +47,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_collection-ting_collection-ting_entities'
+  // Exported field_instance: 'ting_collection-ting_collection-ting_entities'.
   $field_instances['ting_collection-ting_collection-ting_entities'] = array(
     'bundle' => 'ting_collection',
     'default_value' => NULL,
@@ -87,7 +88,8 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_collection-ting_collection-ting_primary_object'
+  // Exported field_instance:
+  // 'ting_collection-ting_collection-ting_primary_object'.
   $field_instances['ting_collection-ting_collection-ting_primary_object'] = array(
     'bundle' => 'ting_collection',
     'default_value' => NULL,
@@ -126,7 +128,8 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ding_availability_holdings'
+  // Exported field_instance:
+  // 'ting_object-ting_object-ding_availability_holdings'.
   $field_instances['ting_object-ting_object-ding_availability_holdings'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -177,6 +180,12 @@ function ding_ting_frontend_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 39,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 11,
+      ),
       'ting_reference_preview' => array(
         'label' => 'above',
         'settings' => array(),
@@ -205,7 +214,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ding_entity_buttons'
+  // Exported field_instance: 'ting_object-ting_object-ding_entity_buttons'.
   $field_instances['ting_object-ting_object-ding_entity_buttons'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -257,6 +266,12 @@ function ding_ting_frontend_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 3,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'ting_reference_preview' => array(
         'label' => 'above',
         'settings' => array(),
@@ -285,7 +300,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ding_periodical_issues'
+  // Exported field_instance: 'ting_object-ting_object-ding_periodical_issues'.
   $field_instances['ting_object-ting_object-ding_periodical_issues'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -336,6 +351,12 @@ function ding_ting_frontend_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 36,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
+      ),
       'ting_reference_preview' => array(
         'label' => 'above',
         'settings' => array(),
@@ -365,7 +386,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ting_abstract'
+  // Exported field_instance: 'ting_object-ting_object-ting_abstract'.
   $field_instances['ting_object-ting_object-ting_abstract'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -421,6 +442,13 @@ function ding_ting_frontend_field_default_field_instances() {
         'type' => 'ting_abstract_default',
         'weight' => 44,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'hidden',
+        'module' => 'ting',
+        'settings' => array(),
+        'type' => 'ting_abstract_default',
+        'weight' => 45,
+      ),
       'ting_reference_preview' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -449,7 +477,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ting_author'
+  // Exported field_instance: 'ting_object-ting_object-ting_author'.
   $field_instances['ting_object-ting_object-ting_author'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -506,6 +534,13 @@ function ding_ting_frontend_field_default_field_instances() {
         'type' => 'ting_author_default',
         'weight' => 47,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'hidden',
+        'module' => 'ting',
+        'settings' => array(),
+        'type' => 'ting_author_default',
+        'weight' => 7,
+      ),
       'ting_reference_preview' => array(
         'label' => 'hidden',
         'module' => 'ting',
@@ -536,7 +571,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ting_cover'
+  // Exported field_instance: 'ting_object-ting_object-ting_cover'.
   $field_instances['ting_object-ting_object-ting_cover'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -609,6 +644,16 @@ function ding_ting_frontend_field_default_field_instances() {
         'type' => 'ting_cover_default',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'module' => 'ting_covers',
+        'settings' => array(
+          'image_style' => 'medium',
+          'link_type' => 'none',
+        ),
+        'type' => 'ting_cover_default',
+        'weight' => 0,
+      ),
       'ting_reference_preview' => array(
         'label' => 'hidden',
         'module' => 'ting_covers',
@@ -645,7 +690,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ting_reference_reverse'
+  // Exported field_instance: 'ting_object-ting_object-ting_reference_reverse'.
   $field_instances['ting_object-ting_object-ting_reference_reverse'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -696,6 +741,12 @@ function ding_ting_frontend_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 38,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 14,
+      ),
       'ting_reference_preview' => array(
         'label' => 'above',
         'settings' => array(),
@@ -725,7 +776,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ting_relations'
+  // Exported field_instance: 'ting_object-ting_object-ting_relations'.
   $field_instances['ting_object-ting_object-ting_relations'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -776,6 +827,12 @@ function ding_ting_frontend_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 37,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
+      ),
       'ting_reference_preview' => array(
         'label' => 'above',
         'settings' => array(),
@@ -804,7 +861,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ting_series'
+  // Exported field_instance: 'ting_object-ting_object-ting_series'.
   $field_instances['ting_object-ting_object-ting_series'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -858,6 +915,12 @@ function ding_ting_frontend_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 10,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 16,
+      ),
       'ting_reference_preview' => array(
         'label' => 'above',
         'settings' => array(),
@@ -887,7 +950,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ting_subjects'
+  // Exported field_instance: 'ting_object-ting_object-ting_subjects'.
   $field_instances['ting_object-ting_object-ting_subjects'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -940,6 +1003,12 @@ function ding_ting_frontend_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 7,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 17,
+      ),
       'ting_reference_preview' => array(
         'label' => 'above',
         'settings' => array(),
@@ -969,7 +1038,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ting_title'
+  // Exported field_instance: 'ting_object-ting_object-ting_title'.
   $field_instances['ting_object-ting_object-ting_title'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -1047,6 +1116,16 @@ function ding_ting_frontend_field_default_field_instances() {
         'type' => 'ting_title_default',
         'weight' => 46,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'hidden',
+        'module' => 'ting',
+        'settings' => array(
+          'link_type' => 'none',
+          'prefix_type' => 'no',
+        ),
+        'type' => 'ting_title_default',
+        'weight' => 6,
+      ),
       'ting_reference_preview' => array(
         'label' => 'hidden',
         'module' => 'ting',
@@ -1083,7 +1162,7 @@ function ding_ting_frontend_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ting_type'
+  // Exported field_instance: 'ting_object-ting_object-ting_type'.
   $field_instances['ting_object-ting_object-ting_type'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -1137,6 +1216,13 @@ function ding_ting_frontend_field_default_field_instances() {
         'settings' => array(),
         'type' => 'ding_availability_type',
         'weight' => 45,
+      ),
+      'teaser_no_overlay' => array(
+        'label' => 'hidden',
+        'module' => 'ding_availability',
+        'settings' => array(),
+        'type' => 'ding_availability_type',
+        'weight' => 5,
       ),
       'ting_reference_preview' => array(
         'label' => 'above',

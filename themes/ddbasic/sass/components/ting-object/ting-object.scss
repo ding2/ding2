@@ -5,10 +5,11 @@
 
 .ting-object {
   // ==========================================================================
-  // Teaser
+  // Teaser (and Teaser no overlay)
   // ==========================================================================
 
-  &.view-mode-teaser {
+  &.view-mode-teaser,
+  &.view-mode-teaser-no-overlay {
     > .inner {
       position: relative;
       width: 100%;
@@ -75,11 +76,6 @@
               background-size: auto 100%;
             }
           }
-        }
-
-        // No overlay - when overlay is disabled in theme settings
-        @at-root .no-overlay#{&} {
-          opacity: 0;
         }
       }
       &.is-hovered {
@@ -199,14 +195,51 @@
           }
         }
       }
-      // No overlay - when overlay is disabled in theme settings
-      @at-root .no-overlay#{&} {
-        &:hover {
-          .no-touch & {
-            .group-text {
-              opacity: 1;
-            }
+    }
+  }
+
+  // ==========================================================================
+  // Teaser no overlay
+  // ==========================================================================
+  &.view-mode-teaser-no-overlay {
+    > .inner {
+      .group-text {
+        opacity: 0;
+      }
+      &:hover {
+        .no-touch & {
+          .group-text {
+            opacity: 1;
           }
+        }
+      }
+    }
+    .no-overlay-text {
+      margin-top: 10px;
+      .field-name-ting-type {
+        margin-bottom: 4px;
+        li {
+          width: 110%;
+          text-align: left;
+          color: $color-standard-text;
+        }
+      }
+      .field-name-ting-title {
+        h2 {
+          @include transition(width $speed $ease);
+          @include font('display');
+          width: 100%;
+          margin-bottom: 4px;
+          color: $color-standard-text;
+        }
+      }
+      .field-name-ting-author {
+        @include transition(width $speed $ease);
+        @include font('display-small');
+        width: 100%;
+
+        a:hover {
+          color: $color-text-link;
         }
       }
     }
