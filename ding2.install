@@ -660,3 +660,10 @@ function ding2_update_7052() {
     variable_set('site_404', 'customerror/404');
   }
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7053() {
+  ding2_translation_update();
+}

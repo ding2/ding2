@@ -32,7 +32,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_descending',
       'ranking' => 'rank_frequency',
     ),
@@ -119,7 +118,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_descending',
       'ranking' => 'rank_frequency',
     ),
@@ -234,7 +232,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_descending',
       'ranking' => 'rank_frequency',
     ),
@@ -321,7 +318,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_descending',
       'ranking' => 'rank_frequency',
     ),
@@ -394,7 +390,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_descending',
       'ranking' => 'rank_frequency',
     ),
@@ -516,7 +511,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_descending',
       'ranking' => 'rank_frequency',
     ),
@@ -624,7 +618,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_descending',
       'ranking' => 'rank_frequency',
     ),
@@ -704,7 +697,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_descending',
       'ranking' => 'rank_frequency',
     ),
@@ -812,7 +804,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_descending',
       'ranking' => 'rank_frequency',
     ),
@@ -899,7 +890,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_descending',
       'ranking' => 'rank_frequency',
     ),
@@ -979,7 +969,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_descending',
       'ranking' => 'rank_frequency',
     ),
@@ -1016,7 +1005,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'pages' => '',
     ),
     'search_result' => array(
-      'results_per_page' => '10',
       'default_sort' => 'date_ascending',
       'ranking' => 'rank_frequency',
     ),

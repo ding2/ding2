@@ -67201,3 +67201,23 @@ msgstr ""
 #: /list/240
 msgid "Rename / Delete list"
 msgstr "Omdøb eller slet liste"
+
+#: /search/ting
+msgctxt "opensearch_ranking"
+msgid "Sorted by"
+msgstr "Sortéret efter"
+
+#: /search/ting
+msgctxt "opensearch_ranking"
+msgid "Title"
+msgstr "Titel"
+
+#: /search/ting
+msgctxt "opensearch_ranking"
+msgid "Creator"
+msgstr "Forfatter"
+
+#: /search/ting
+msgctxt "opensearch_ranking"
+msgid "Subject"
+msgstr "Emne"

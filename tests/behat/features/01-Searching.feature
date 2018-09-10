@@ -98,15 +98,6 @@ Feature: SEEK redroute 01
     Then paging allows to get all the results
 
   @api @seek013 @seekNologin @regression @cci
-  Scenario: S013 Check sorting for creator by listing the results in the log
-    Given I have searched for "term.language=dansk and phrase.titleSeries=B*"
-    And I set verbose mode for "search-Results" to be "on"
-    When I sort the search result on "creator_descending"
-    Then paging allows to get all the results
-    When I sort the search result on "creator_ascending"
-    Then paging allows to get all the results
-
-  @api @seek013 @seekNologin @regression @cci
   Scenario: S013 Check sorting for published date descending
     Given I have searched for "phrase.titleSeries=B*"
     And I set control mode for "searchMaxPages" to be "2"

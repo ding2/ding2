@@ -470,8 +470,7 @@
 .pane-search-result {
   width: 100%;
   float: left;
-  padding: 40px 0;
-  border-top: 1px solid $charcoal-opacity-light;
+  padding: 20px 0;
   background-image: none;
   .pane-content {
     padding: 0;
@@ -729,9 +728,9 @@
   &--right {
     @include span-columns(4);
     margin: 18px 0 11px 0;
-    
+
     @include media($tablet) {
-      width: 100%; 
+      width: 100%;
     }
   }
 }

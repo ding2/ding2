@@ -111,7 +111,7 @@ ul {
         // Tablet
         @include media($tablet) {
           width: 100%;
-          float: left;  
+          float: left;
         }
 
         li {
@@ -465,8 +465,8 @@ ul.topbar-menu {
       }
       .logged-in & {
         // We need to make room for openening hours -> 64px wide
-        // The width of the other elements is 
-        // half width minus the half the width (plus margin) of the 
+        // The width of the other elements is
+        // half width minus the half the width (plus margin) of the
         // opening hours container.
         width: calc(50% - 42px);
       }
@@ -537,7 +537,7 @@ ul.topbar-menu {
         }
         span {
           display: none;
-        } 
+        }
       }
     }
     &.topbar-link-user-account + .topbar-link-user-account {

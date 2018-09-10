@@ -552,29 +552,13 @@ function opensearch_search_prepare_reference_query($query_string) {
  */
 function opensearch_search_sort_options() {
   $options = [
-    'title_ascending' => [
-      'label' => t('Title (Ascending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_ASCENDING),
-    ],
-      'title_descending' => [
-      'label' => t('Title (Descending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_DESCENDING),
-    ],
-    'creator_ascending' => [
-      'label' => t('Creator (Ascending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_ASCENDING),
-    ],
-    'creator_descending' => [
-      'label' => t('Creator (Descending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_DESCENDING),
+    'date_descending' => [
+      'label' => t('Date (Descending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_DESCENDING),
     ],
     'date_ascending' => [
       'label' => t('Date (Ascending)'),
       'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_ASCENDING),
-    ],
-    'date_descending' => [
-      'label' => t('Date (Descending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_DESCENDING),
     ],
   ];
 
@@ -585,18 +569,18 @@ function opensearch_search_sort_options() {
   if ($default_sort === 'rank_frequency' && empty($custom_ranking)) {
     $options = array_merge($options, [
       'rank_title' => [
-        'label' => t('Best match on title'),
-        'label_short' => t('Title'),
+        'label' => t('Title', array(), array('context' => 'opensearch_ranking')),
+        'label_short' => t('Title', array(), array('context' => 'opensearch_ranking')),
         'sort' => new TingSearchSort('rank_title'),
       ],
       'rank_creator' => [
-        'label' => t('Best match on creator'),
-        'label_short' => t('Creator'),
+        'label' => t('Creator', array(), array('context' => 'opensearch_ranking')),
+        'label_short' => t('Creator', array(), array('context' => 'opensearch_ranking')),
         'sort' => new TingSearchSort('rank_creator'),
       ],
       'rank_subject' => [
-        'label' => t('Best match on subject'),
-        'label_short' => t('Subject'),
+        'label' => t('Subject', array(), array('context' => 'opensearch_ranking')),
+        'label_short' => t('Subject', array(), array('context' => 'opensearch_ranking')),
         'sort' => new TingSearchSort('rank_subject'),
       ],
     ]);
@@ -688,7 +672,7 @@ function opensearch_search_object_ids($ids) {
 function opensearch_search_autocomplete($string) {
   $matches = array();
   $default_settings = opensearch_search_autocomplete_settings();
-  
+
   $query['q'] = check_plain(strtolower($string));
   $query['type'] = 'all';
   $query['rows'] = $default_settings['maxSuggestions'];
@@ -718,7 +702,7 @@ function opensearch_search_autocomplete($string) {
 }
 
 /**
- * SuggestionService - retrieve suggestions with drupal_http_request() 
+ * SuggestionService - retrieve suggestions with drupal_http_request()
  *
  * @param array $query
  *   Search suggestion parameters.
@@ -738,7 +722,7 @@ function opensearch_search_autocomplete_suggestions(array $query) {
     );
     return $items;
   }
-  
+
   $url = url($rest_url, array('query' => $query));
   $headers = array('Accept' => 'application/json');
   $result = drupal_http_request($url, $headers);

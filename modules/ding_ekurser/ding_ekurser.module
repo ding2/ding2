@@ -168,16 +168,9 @@ function ding_ekurser_conditions_callback($keys) {
  */
 function ding_ekurser_search_sort_options() {
   $options = array(
-    'title_ascending' => t('Title (Ascending)'),
-    'title_descending' => t('Title (Descending)'),
-    'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
     'acquisitionDate_descending' => t('Acquisition date (Descending)'),
+    'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
   );
-
-  // Add label to the front of the options.
-  foreach ($options as $key => $option) {
-    $options[$key] = t('Sort by: !sort', array('!sort' => $option));
-  }
 
   return $options;
 }
