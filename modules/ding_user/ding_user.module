@@ -78,6 +78,24 @@ function ding_user_ctools_plugin_api($module, $api) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function ding_user_menu() {
+  $items = array();
+
+  $items['ding_user/expire_sessions/cron'] = array(
+    'title' => 'Lightweight expire session cron',
+    'description' => 'Run the lightweight expire inacitve provider sessions cron job',
+    'page callback' => '_ding_user_expire_sessions_cron',
+    'access callback' => '_ding_user_expire_sessions_cron_access',
+    'access arguments' => array(3),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_permission().
  */
 function ding_user_permission() {
@@ -1187,6 +1205,28 @@ function ding_user_ding_user_block_reasons() {
  * Implements hook_cron()
  */
 function ding_user_cron() {
+  _ding_user_expire_sessions();
+}
+
+/**
+ *	Access callback for expires sessions cron endpoint.
+ */
+function _ding_user_expire_sessions_cron_access($cron_key) {
+  return variable_get('cron_key') === $cron_key;
+}
+
+/**
+ * Page callback for expires sessions lightweight cron endpoint.
+ */
+function _ding_user_expire_sessions_cron() {
+  _ding_user_expire_sessions();
+  drupal_exit();
+}
+
+/**
+ * Deletes inactive provider sessions in the database.
+ */
+function _ding_user_expire_sessions() {
   if (!$limit = variable_get('ding_user_provider_session_expire', 900)) {
     // Return now if the session expire functionality is disabled.
     return;
@@ -1215,3 +1255,5 @@ function ding_user_cron() {
     ));
   }
 }
+
+
