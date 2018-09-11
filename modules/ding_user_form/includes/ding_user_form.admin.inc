@@ -15,7 +15,17 @@ function ding_user_form_admin_setting_form($form, &$form_state) {
     '#description' => t('The link is used in the text next to the log-in form'),
   );
 
-  $limits = drupal_map_assoc(array(0, 900, 1800, 3600, 7200, 18000, 43200, 86400), 'format_interval');
+  $limits = drupal_map_assoc(array(
+    0,
+    900,
+    1800,
+    3600,
+    7200,
+    18000,
+    43200,
+    86400,
+  ), 'format_interval');
+
   $limits[0] = t('Disable');
 
   $form['ding_user_provider_session_expire'] = array(
