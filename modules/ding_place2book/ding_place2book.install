@@ -222,6 +222,6 @@ function ding_place2book_update_7003(&$sandbox) {
       $sandbox['processed']++;
     }
 
-    $sandbox['finished'] = $sandbox['processed'] / $sandbox['total'];
+    $sandbox['#finished'] = $sandbox['processed'] / $sandbox['total'];
   }
 }
