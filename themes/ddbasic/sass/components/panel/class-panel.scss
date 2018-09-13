@@ -721,6 +721,7 @@
 .ding-gatewayf-registration-information {
   &--left {
     @include span-columns(8);
+    margin-bottom: 20px;
 
     @include media($tablet) {
       width: 100%;
@@ -728,7 +729,8 @@
   }
   &--right {
     @include span-columns(4);
-    margin: 18px 0 11px 0;
+    margin: 18px 0 40px 0;
+    clear: left;
     
     @include media($tablet) {
       width: 100%; 
