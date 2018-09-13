@@ -17064,13 +17064,13 @@ msgid "Date/time on which the article will be automatically unpublished"
 msgstr "Dato/tid hvor indholdet automatisk bliver afpubliceret."
 
 msgid "Event"
-msgstr "Begivenhed"
+msgstr "Arrangement"
 
 msgid "Category"
 msgstr "Kategori"
 
 msgid "Groups"
-msgstr "Grupper"
+msgstr "Tema"
 
 msgid "Target"
 msgstr "Mål"
