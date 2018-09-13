@@ -576,22 +576,25 @@ function fbs_interest_periods() {
  * Implements hook_form_FORM_ID_alter().
  */
 function fbs_form_profile2_form_alter(&$form, &$form_state) {
-  $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
+  // Add validation to profile2 form - only on /user/me/edit
+  if ($form['#form_id'] === 'profile2_edit_provider_fbs_form') {
+    $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
 
-  $form['profile_provider_fbs']['ding_user_fee_sms'] = array(
-    '#type' => 'item',
-    '#markup' => $fee_sms,
-    '#weight' => $form['profile_provider_fbs']['field_fbs_phone_notification']['#weight'] + 0.1,
-  );
+    $form['profile_provider_fbs']['ding_user_fee_sms'] = array(
+      '#type' => 'item',
+      '#markup' => $fee_sms,
+      '#weight' => $form['profile_provider_fbs']['field_fbs_phone_notification']['#weight'] + 0.1,
+    );
 
-  // Add validation to email.
-  $form['profile_provider_fbs']['field_fbs_mail']['#element_validate'] = array('fbs_form_profile2_mail_validate');
-  // Add validation to phone.
-  $form['profile_provider_fbs']['field_fbs_phone']['#element_validate'] = array('fbs_form_profile2_phone_validate');
-  // Add validation to on_hold
-  $form['profile_provider_fbs']['field_on_hold']['#element_validate'] = array('fbs_form_profile2_onhold_validate');
-  // Add submit handler, to redirect to same URL.
-  $form['#submit'][] = 'fbs_form_profile2_rebuild_submit';
+    // Add validation to email.
+    $form['profile_provider_fbs']['field_fbs_mail']['#element_validate'] = array('fbs_form_profile2_mail_validate');
+    // Add validation to phone.
+    $form['profile_provider_fbs']['field_fbs_phone']['#element_validate'] = array('fbs_form_profile2_phone_validate');
+    // Add validation to on_hold
+    $form['profile_provider_fbs']['field_on_hold']['#element_validate'] = array('fbs_form_profile2_onhold_validate');
+    // Add submit handler, to redirect to same URL.
+    $form['#submit'][] = 'fbs_form_profile2_rebuild_submit';
+  }
 }
 
 /**
