@@ -440,31 +440,6 @@ projects[ding_uninstall_modules][subdir]           = ""
 projects[ding_uninstall_modules][download][url]    = "git@github.com:easySuite/ding_uninstall_modules.git"
 projects[ding_uninstall_modules][download][branch] = "master"
 
-; easyOPAC themes
-projects[roskilde_subtheme][type]             = "theme"
-projects[roskilde_subtheme][subdir]           = ""
-projects[roskilde_subtheme][download][type]   = "git"
-projects[roskilde_subtheme][download][url]    = "git@github.com:easySuite/roskilde_subtheme.git"
-projects[roskilde_subtheme][download][branch] = "develop"
-
-projects[thisted_theme][type]             = "theme"
-projects[thisted_theme][subdir]           = ""
-projects[thisted_theme][download][type]   = "git"
-projects[thisted_theme][download][url]    = "git@github.com:easySuite/thisted_theme.git"
-projects[thisted_theme][download][branch] = "develop"
-
-projects[hjorbib_theme][type]             = "theme"
-projects[hjorbib_theme][subdir]           = ""
-projects[hjorbib_theme][download][type]   = "git"
-projects[hjorbib_theme][download][url]    = "git@github.com:easySuite/hjorbib_theme.git"
-projects[hjorbib_theme][download][branch] = "develop"
-
-projects[herbib_theme][type]             = "theme"
-projects[herbib_theme][subdir]           = ""
-projects[herbib_theme][download][type]   = "git"
-projects[herbib_theme][download][url]    = "git@github.com:easySuite/herbib_theme.git"
-projects[herbib_theme][download][branch] = "develop"
-
 ; Social Services modules and libraries
 projects[social_services][type]             = "module"
 projects[social_services][download][type]   = "git"
