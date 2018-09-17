@@ -71,3 +71,54 @@
 .ding-list-list__title {
   @include font('display-large');
 }
+
+.search-block-form.has-add-list .form-item-search-block-form {
+  position: relative;
+
+  // Leaving space for the add-to-list star on the search input element.
+  > .form-text {
+    padding-right: 40px;
+    box-sizing: border-box;
+  }
+
+  .ding-list-add-button {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 40px;
+    transform: translateY(-50%);
+    text-align: center;
+
+    cursor: pointer;
+    font-size: 0;
+
+    &:hover {
+      &::after {
+        @extend %icon-star;
+      }
+    }
+
+    &::after {
+      @extend %icon-star-outline;
+      @extend %icomoon-base;
+
+      font-size: 25px;
+      vertical-align: middle;
+    }
+
+    .buttons {
+      margin: 0;
+      padding: 0;
+      line-height: 0;
+      list-style: none;
+    }
+
+    a {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+    }
+  }
+}

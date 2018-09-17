@@ -262,14 +262,14 @@ function template_preprocess_ding_list_add_button(&$variables) {
     '#theme' => 'links',
     '#links' => array(),
     '#attributes' => array(
-      'class' => array('buttons'),
+      'class' => array(
+        'buttons',
+      ),
     ),
     '#attached' => array(
       'library' => array(array('system', 'drupal.ajax')),
     ),
   );
-
-  $variables['single_link'] = FALSE;
 
   if ($variables['options'] === FALSE) {
     $options = ding_list_get_add_to_list_data($variables['type'], $variables['value'], $variables['value_title']);
@@ -327,4 +327,6 @@ function template_preprocess_ding_list_add_button(&$variables) {
       $variables['single_link'] = TRUE;
     }
   }
+
+  return $variables;
 }
