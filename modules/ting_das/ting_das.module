@@ -53,7 +53,7 @@ function ting_das_libraries_info() {
  * Implements hook_ding_entity_buttons().
  */
 function ting_das_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
-  if (!$entity->is('online') && !$entity->is('infomedia') && $widget == 'ajax') {
+  if (!$entity->is('online') && !$entity->is('infomedia')) {
     drupal_add_library('system', 'drupal.ajax');
 
     $display_button = TRUE;
