@@ -192,9 +192,15 @@ function ding_place2book_update_7002() {
 }
 
 /**
- * Update events p2b data to be stored in new field.
+ * Nothing is updated - legacy purpose.
  */
 function ding_place2book_update_7003(&$sandbox) {
+}
+
+/**
+ * Update events p2b data to be stored in new field.
+ */
+function ding_place2book_update_7004(&$sandbox) {
   if (!isset($sandbox['processed'])) {
     $sandbox['total'] = db_query("select count(nid) as count
       from {ding_place2book} p2b
@@ -222,6 +228,6 @@ function ding_place2book_update_7003(&$sandbox) {
       $sandbox['processed']++;
     }
 
-    $sandbox['finished'] = $sandbox['processed'] / $sandbox['total'];
+    $sandbox['#finished'] = $sandbox['processed'] / $sandbox['total'];
   }
 }
