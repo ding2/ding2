@@ -603,6 +603,21 @@ function ding2_update_7049() {
 }
 
 /**
+ * Disable and uninstall ding_mobilesearch module.
+ */
+function ding2_update_7050() {
+  // This function previously disabled, uninstalled and removed any
+  // traces of the module called ding_mobilesearch.
+  //
+  // The contents of this function has been removed due to the decision
+  // about removing the module has been reverted. Read more about this
+  // issue in https://platform.dandigbib.org/issues/3661.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
+}
+
+/**
  * Enable ding_app_variables module.
  */
 function ding2_update_7051() {
