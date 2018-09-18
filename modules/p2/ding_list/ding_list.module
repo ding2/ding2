@@ -6,6 +6,7 @@
  */
 
 use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
+use DingList\DingListElement;
 
 include_once 'ding_list.features.inc';
 
