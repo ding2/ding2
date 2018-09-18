@@ -124,7 +124,7 @@ function ding_news_default_page_manager_handlers() {
     ),
   );
   $display = new panels_display();
-  $display->layout = 'ding2_site_template';
+  $display->layout = '25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -161,7 +161,7 @@ function ding_news_default_page_manager_handlers() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-8f21a367-0964-40c8-a9c6-231278b832ee';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'block';
     $pane->subtype = 'similarterms-ding_content_tags';
     $pane->shown = TRUE;
@@ -180,10 +180,10 @@ function ding_news_default_page_manager_handlers() {
     $pane->locks = '';
     $pane->uuid = '8f21a367-0964-40c8-a9c6-231278b832ee';
     $display->content['new-8f21a367-0964-40c8-a9c6-231278b832ee'] = $pane;
-    $display->panels['content'][0] = 'new-8f21a367-0964-40c8-a9c6-231278b832ee';
+    $display->panels['attachment_1_1'][0] = 'new-8f21a367-0964-40c8-a9c6-231278b832ee';
     $pane = new stdClass();
     $pane->pid = 'new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'node_content';
     $pane->subtype = 'node_content';
     $pane->shown = TRUE;
@@ -214,10 +214,10 @@ function ding_news_default_page_manager_handlers() {
     $pane->locks = '';
     $pane->uuid = '98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
     $display->content['new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2'] = $pane;
-    $display->panels['content'][1] = 'new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
+    $display->panels['attachment_1_1'][1] = 'new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
     $pane = new stdClass();
     $pane->pid = 'new-a1c43371-47f9-4370-a57f-ccbdd958de1a';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_related_content-news_events';
     $pane->shown = TRUE;
@@ -237,7 +237,7 @@ function ding_news_default_page_manager_handlers() {
     $pane->locks = array();
     $pane->uuid = 'a1c43371-47f9-4370-a57f-ccbdd958de1a';
     $display->content['new-a1c43371-47f9-4370-a57f-ccbdd958de1a'] = $pane;
-    $display->panels['content'][2] = 'new-a1c43371-47f9-4370-a57f-ccbdd958de1a';
+    $display->panels['attachment_1_1'][2] = 'new-a1c43371-47f9-4370-a57f-ccbdd958de1a';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
   $handler->conf['display'] = $display;
@@ -339,7 +339,7 @@ function ding_news_default_page_manager_handlers() {
     ),
   );
   $display = new panels_display();
-  $display->layout = 'ding2_site_template';
+  $display->layout = '25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -376,7 +376,7 @@ function ding_news_default_page_manager_handlers() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-8f21a367-0964-40c8-a9c6-231278b832ee';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'block';
     $pane->subtype = 'similarterms-ding_content_tags';
     $pane->shown = TRUE;
@@ -395,10 +395,10 @@ function ding_news_default_page_manager_handlers() {
     $pane->locks = '';
     $pane->uuid = '8f21a367-0964-40c8-a9c6-231278b832ee';
     $display->content['new-8f21a367-0964-40c8-a9c6-231278b832ee'] = $pane;
-    $display->panels['content'][0] = 'new-8f21a367-0964-40c8-a9c6-231278b832ee';
+    $display->panels['attachment_1_1'][0] = 'new-8f21a367-0964-40c8-a9c6-231278b832ee';
     $pane = new stdClass();
     $pane->pid = 'new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'node_content';
     $pane->subtype = 'node_content';
     $pane->shown = TRUE;
@@ -428,10 +428,10 @@ function ding_news_default_page_manager_handlers() {
     $pane->locks = '';
     $pane->uuid = '98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
     $display->content['new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2'] = $pane;
-    $display->panels['content'][1] = 'new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
+    $display->panels['attachment_1_1'][1] = 'new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
     $pane = new stdClass();
     $pane->pid = 'new-64165907-ccee-4974-998a-8b306b9fee5b';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -460,10 +460,10 @@ function ding_news_default_page_manager_handlers() {
     $pane->locks = array();
     $pane->uuid = '64165907-ccee-4974-998a-8b306b9fee5b';
     $display->content['new-64165907-ccee-4974-998a-8b306b9fee5b'] = $pane;
-    $display->panels['content'][2] = 'new-64165907-ccee-4974-998a-8b306b9fee5b';
+    $display->panels['attachment_1_1'][2] = 'new-64165907-ccee-4974-998a-8b306b9fee5b';
     $pane = new stdClass();
     $pane->pid = 'new-d718e319-abdc-4688-a6ba-107c5e8f6c1e';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_related_content-news_events';
     $pane->shown = TRUE;
@@ -483,7 +483,7 @@ function ding_news_default_page_manager_handlers() {
     $pane->locks = array();
     $pane->uuid = 'd718e319-abdc-4688-a6ba-107c5e8f6c1e';
     $display->content['new-d718e319-abdc-4688-a6ba-107c5e8f6c1e'] = $pane;
-    $display->panels['content'][3] = 'new-d718e319-abdc-4688-a6ba-107c5e8f6c1e';
+    $display->panels['attachment_1_1'][3] = 'new-d718e319-abdc-4688-a6ba-107c5e8f6c1e';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
   $handler->conf['display'] = $display;
