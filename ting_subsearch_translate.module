@@ -7,6 +7,7 @@
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+use OpenSearch\OpenSearchTingSearchResult as OpenSearchTingSearchResult;
 
 // Load Field module hooks.
 module_load_include('inc', 'ting_subsearch_translate', 'ting_subsearch_translate.admin');
@@ -14,7 +15,7 @@ module_load_include('inc', 'ting_subsearch_translate', 'ting_subsearch_translate
 /**
  * Implements hook_ting_search_results_prefix().
  */
-function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions, \Ting\Search\TingSearchResultInterface $results) {
+function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions, OpenSearchTingSearchResult $results) {
   $message = '';
 
   if (!$results->getNumTotalObjects()) {
