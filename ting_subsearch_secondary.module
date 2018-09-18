@@ -5,6 +5,8 @@
  * Ting subsearch using Bibliotek.dk service.
  */
 
+use OpenSearch\OpenSearchTingSearchResult as OpenSearchTingSearchResult;
+
 // Load admin configuration.
 module_load_include('inc', 'ting_subsearch_secondary', 'ting_subsearch_secondary.admin');
 include_once 'ting_subsearch_secondary.features.inc';
@@ -30,19 +32,21 @@ function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions,
 /**
  * Implements hook_ting_search_results_suffix().
  */
-function ting_subsearch_secondary_search($keys, $results) {
+function ting_subsearch_secondary_search($keys, OpenSearchTingSearchResult $results) {
   $message = '';
 
-  if (!isset($results->numTotalObjects)) {
+  if (empty($results->getNumTotalObjects())) {
     return $message;
   }
 
-  if ($results->numTotalObjects > variable_get('ting_subsearch_secondary_min', 10) && $results->numTotalObjects < variable_get('ting_subsearch_secondary_max', 100)) {
+  if ($results->getNumTotalObjects() > variable_get('ting_subsearch_secondary_min', 10) && $results->getNumTotalObjects() < variable_get('ting_subsearch_secondary_max', 100)) {
 
+    $facets = $results->getFacets();
+    $genre_facets = $facets['facet.genreCategory']->getTerms();
     // If any of fiction or non fiction is empty we cannot do the calculation.
     // Simply exit for now.
-    if (empty($results->facets['facet.genreCategory']->terms['nonfiktion'])
-      || empty($results->facets['facet.genreCategory']->terms['fiktion'])) {
+    if (empty($genre_facets['nonfiktion'])
+      || empty($genre_facets['fiktion'])) {
       watchdog('subsearch_subsearch', 'You need to enable facet.genreCategory in order for this to work.', array(), WATCHDOG_WARNING);
       return $message;
     }
@@ -52,8 +56,8 @@ function ting_subsearch_secondary_search($keys, $results) {
       return $message;
     }
 
-    $nonfiction = $results->facets['facet.genreCategory']->terms['nonfiktion'];
-    $fiction = $results->facets['facet.genreCategory']->terms['fiktion'];
+    $nonfiction = $genre_facets['nonfiktion']->getCount();
+    $fiction = $genre_facets['fiktion']->getCount();
 
     // Less than half fiction of nonfiction.
     if (($nonfiction / variable_get('ting_subsearch_secondary_factor', 2)) > $fiction) {
@@ -63,11 +67,11 @@ function ting_subsearch_secondary_search($keys, $results) {
         'profile' => variable_get('ting_subsearch_secondary_profile', ''),
       ));
 
-      if ($secondary_result->numTotalObjects > variable_get('ting_subsearch_secondary_result_min', 100)) {
+      if ($secondary_result->getNumTotalObjects() > variable_get('ting_subsearch_secondary_result_min', 100)) {
         $items = array();
 
         $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
-        foreach ($secondary_result->collections as &$collection) {
+        foreach ($secondary_result->getTingEntityCollections() as &$collection) {
           if ($number_of_records_to_show == 0) {
             continue;
           }
@@ -82,8 +86,8 @@ function ting_subsearch_secondary_search($keys, $results) {
           '!link' => str_replace('[keys]', $keys, variable_get('ting_subsearch_secondary_search_link', '')),
           '!link-text' => variable_get('ting_subsearch_secondary_search_link_text', ''),
           '!keys' => $keys,
-          '!num-results' => $results->numTotalObjects,
-          '!bibdk-num-results' => $secondary_result->numTotalObjects,
+          '!num-results' => $results->getNumTotalObjects(),
+          '!bibdk-num-results' => $secondary_result->getNumTotalObjects(),
           '!examples' => theme('item_list', array('items' => $items)),
         );
 
