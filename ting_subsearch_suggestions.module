@@ -7,6 +7,7 @@
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
+use OpenSearch\OpenSearchTingSearchResult as OpenSearchTingSearchResult;
 
 module_load_include('inc', 'ting_subsearch_suggestions', 'ting_subsearch_suggestions.admin');
 
@@ -15,15 +16,11 @@ define('TING_SUBSEARCH_SUGGESTIONS_WEEKLY_CRON', 604800);
 /**
  * Implements hook_ting_search_results_prefix().
  */
-function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, $results) {
+function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, OpenSearchTingSearchResult $results) {
   $service = variable_get('ting_subsearch_suggestions_service', '');
 
   if (!empty($service)) {
     $message = '';
-
-    if (!isset($results->numTotalObjects)) {
-      return $message;
-    }
 
     // When a zero-hit search is executed and we're able to match "correct"
     // keys, a new search is done with the "correct" keys.
@@ -34,16 +31,13 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       $msg = t('The search for "!original-keys" returned 0 hits. Showing results for "!keys" instead, which returned !num-results hits.', array(
         '!original-keys' => $parameters['original-search'],
         '!keys' => $keys,
-        '!num-results' => $results->numTotalObjects,
+        '!num-results' => $results->getNumTotalObjects(),
       ));
 
       $message = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
     }
 
-    if ($results->numTotalObjects == 0) {
-      // The search result returned zero-hits so we need to see if "correct"
-      // keys can yield a better result.
-      $search_result = drupal_static('ting_search_results');
+    if ($results->getNumTotalObjects() == 0) {
       // Find suggestions for "correct" search phrase.
       $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
 
@@ -56,9 +50,9 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
         // Do secondary search for "correct" keys.
         $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
         // Only redirect to "correct" keys search if it has a positive result.
-        if ($secondary_result->numTotalObjects > 0) {
+        if ($secondary_result->getNumTotalObjects() > 0) {
           $additional_query = array(
-            'original-search' => $search_result->search_key,
+            'original-search' => $keys,
           );
           $params['query'] = ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_0_hit", ""), $additional_query);
           drupal_goto('search/ting/' . strtolower($suggestion), $params);
@@ -66,7 +60,7 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       }
     }
 
-    if ($results->numTotalObjects <= variable_get("ting_subsearch_{$service}_trigger_limit", 5)) {
+    if ($results->getNumTotalObjects() <= variable_get("ting_subsearch_{$service}_trigger_limit", 5)) {
       $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
 
       if ($service == 'kpi') {
@@ -78,14 +72,14 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       if ($suggestion) {
         // Do additional search.
         $suggested_result = ting_subsearch_common_do_secondary_search($suggestion);
-        if ($suggested_result->numTotalObjects >= variable_get("ting_subsearch_{$service}_message_limit", 10)) {
+        if ($suggested_result->getNumTotalObjects() >= variable_get("ting_subsearch_{$service}_message_limit", 10)) {
 
           // Set message!
           $msg = t('The search for "!keys" returned !num-results hits. Did you mean "!suggested-keys-link?" which will return !suggested-num-results hits.', array(
             '!suggested-keys-link' => l(strtolower($suggestion), '/search/ting/' . strtolower($suggestion), array('query' => ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", "")))),
-            '!suggested-num-results' => $suggested_result->numTotalObjects,
+            '!suggested-num-results' => $suggested_result->getNumTotalObjects(),
             '!keys' => $keys,
-            '!num-results' => $results->numTotalObjects,
+            '!num-results' => $results->getNumTotalObjects(),
           ));
           $message = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
         }
@@ -111,12 +105,12 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
 
   switch ($service) {
     case 'os':
-      if (!variable_get('ting_search_autocomplete_suggestion_url', FALSE)) {
+      if (!variable_get('opensearch_search_autocomplete_suggestion_url', FALSE)) {
         return FALSE;
       }
 
-      $settings = ting_search_autocomplete_settings();
-      $url = variable_get('ting_search_autocomplete_suggestion_url', FALSE) . 'rest/facetSpell';
+      $settings = opensearch_search_autocomplete_settings();
+      $url = variable_get('opensearch_search_autocomplete_suggestion_url', FALSE) . 'rest/facetSpell';
 
       $params = $options['query'] = array('query' => check_plain($keys)) + $settings;
       $options['maxTime'] = 300;
