@@ -256,7 +256,7 @@ function _ding_campaign_plus_search_match($keys) {
         $cqlDoctor = new TingSearchCqlDoctor($query);
         $query = $cqlDoctor->string_to_cql();
         $searchRequest = $current->getSearchRequest();
-        $searchRequest = $searchRequest->withFullTextQuery('"' . $query . '" AND "' . $rule->query . '"');
+        $searchRequest = $searchRequest->withFullTextQuery('"' . $query . '" AND (' . $rule->query . ')');
         $results = $searchRequest->execute();
 
         if (($results->getNumTotalObjects() / $no_of_results) * 100 >= $rule->percent) {
