@@ -3,6 +3,8 @@
 /**
  * @file
  * Installation of Suggestions sub search module.
+ *
+ * @TODO: Missing hook_uninstall to clean up after the module.
  */
 
 /**
@@ -53,6 +55,9 @@ function ting_subsearch_suggestions_schema() {
 
 /**
  * Install translations.
+ *
+ * @TODO: Do every module have this, could the function be moved into the
+ *        subsearch common module and called with the file as parameter.
  */
 function ting_subsearch_suggestions_install() {
   // Install translations.
