@@ -40,7 +40,7 @@ function template_preprocess_ding_list_element(&$variables) {
         $variables['content']['value'] = array(
           '#theme' => 'html_tag',
           '#tag' => 'div',
-          '#value' => t('Missing item'),
+          '#value' => t('This material has been deleted from the library'),
           '#attributes' => array(
             'class' => array('ding-list-element__title'),
           ),
