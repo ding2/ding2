@@ -23,6 +23,35 @@ a#ding-toggle-format {
   font-family: 'icomoon';
 }
 
+@media (min-width: 768px) and (max-width: 812px) {
+  .page-ting-object .pane-ding-toggle-format-toggle {
+    width: 500px;
+    margin: 0 auto;
+    background: transparent;
+    padding-left: 50px;
+    margin-top: 32px;
+    margin-bottom: -30px;
+  }
+}
+ @media (min-width: 812px) and (max-width: 1024px) {
+  .page-ting-object .pane-ding-toggle-format-toggle {
+    width: 500px;
+    margin: 0 auto;
+    background: transparent;
+    padding-left: 0;
+    margin-top: 32px;
+    margin-bottom: -30px;
+  }
+}
+ .page-ting-object .pane-ding-toggle-format-toggle {
+  width: 800px;
+  margin: 0 auto;
+  background: transparent;
+  padding-left: 88px;
+  margin-top: 32px;
+  margin-bottom: -30px;
+}
+
 .pane-ding-toggle-format-toggle #ding-toggle-format:before,
 .pane-ding-toggle-format-toggle #ding-toggle-format:after {
   color: #bcbcbc;
