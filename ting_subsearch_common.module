@@ -24,8 +24,8 @@ function ting_subsearch_common_do_secondary_search($keys, $options = array()) {
 
   // Load original variables to temporary before changing them.
   if (!empty($options['profile'])) {
-    $temporary_profile = variable_get('ting_search_profile', '');
-    variable_set('ting_search_profile', $options['profile']);
+    $temporary_profile = variable_get('opensearch_search_profile', '');
+    variable_set('opensearch_search_profile', $options['profile']);
   }
   if (!empty($options['agency'])) {
     $temporary_agency = variable_get('ting_agency', FALSE);
@@ -42,7 +42,7 @@ function ting_subsearch_common_do_secondary_search($keys, $options = array()) {
   $revert = $temporary_search_result;
 
   if (!empty($temporary_profile)) {
-    variable_set('ting_search_profile', $temporary_profile);
+    variable_set('opensearch_search_profile', $temporary_profile);
   }
   if (!empty($temporary_agency)) {
     variable_set('ting_agency', $temporary_agency);
