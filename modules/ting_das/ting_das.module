@@ -53,7 +53,11 @@ function ting_das_libraries_info() {
  * Implements hook_ding_entity_buttons().
  */
 function ting_das_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
-  if (!$entity->is('online') && !$entity->is('infomedia')) {
+  $type = drupal_strtolower($entity->getType());
+  $types = array_filter(_ting_das_get_default_well_types());
+
+  // Check that the entity is not already available as an online resources and is one of the configured types.
+  if (isset($types[$type]) && !$entity->is('online') && !$entity->is('infomedia')) {
     drupal_add_library('system', 'drupal.ajax');
 
     $display_button = TRUE;
@@ -123,9 +127,18 @@ function ting_das_ajax($entity) {
     $commands[] = ajax_command_ding_popup('ting_das', t('Error'), '<p>' . t('Unable to load information about the material.') . '</p>', array('refresh' => FALSE));
   }
   else {
-    $form = drupal_get_form('ting_das_order_form', $entity);
-    $content = drupal_render($form);
-    $commands[] = ajax_command_ding_popup('ting_das', t('Order digital copy'), $content, array('refresh' => TRUE));
+    $type = drupal_strtolower($entity->getType());
+    $types = array_filter(_ting_das_get_default_well_types());
+
+    // Check that no one tries to order not supported type by mistake.
+    if (isset($types[$type])) {
+      $form = drupal_get_form('ting_das_order_form', $entity);
+      $content = drupal_render($form);
+      $commands[] = ajax_command_ding_popup('ting_das', t('Order digital copy'), $content, array('refresh' => TRUE));
+    }
+    else {
+      $commands[] = ajax_command_ding_popup('ting_das', t('Error'), '<p>' . t('Material type is not available for ordering.') . '</p>', array('refresh' => FALSE));
+    }
   }
 
   // Return the ajax commands as an render array.
