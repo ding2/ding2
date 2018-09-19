@@ -603,6 +603,12 @@ function ding2_update_7049() {
 }
 
 /**
+ * Empty update hook.
+ */
+function ding2_update_7050() {
+}
+
+/**
  * Enable ding_app_variables module.
  */
 function ding2_update_7051() {
