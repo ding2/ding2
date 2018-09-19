@@ -12,7 +12,7 @@ If your change affects the user interface you should include a screenshot of the
 
 #### Checklist
 
-- [ ] My complies with [our coding guidelines](../docs/code_guidelines.md).
+- [ ] My code complies with [our coding guidelines](../docs/code_guidelines.md).
 - [ ] My code passes our static analysis suite. If not then I have added a comment explaining why this change should be exempt from the code standards and process.
 - [ ] My code passes our continuous integration process. If not then I have added a comment explaining why this change should be exempt from the code standards and process.
 
