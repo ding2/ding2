@@ -265,7 +265,7 @@
           percentPosition: true,
         })
         .on('layoutComplete', function () {
-          $(this).addClass('is-masonry-complete');
+          $('.js-masonry-view').addClass('is-masonry-complete');
         });
         break;
     }
