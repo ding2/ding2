@@ -170,16 +170,16 @@ function ding_app_content_rss_views_rss_item_elements() {
       'description' => t('Identificator of library to which this node is assigned.'),
     ),
     'content-rss:booking-url' => array(
-      'title' => t('Place2book Booking URL'),
-      'description' => t('Link to the place2book tickets.'),
-    ),
-    'content-rss:organizers' => array(
-      'title' => t('Event organizers'),
-      'description' => t('The event organizers.'),
+      'title' => t('Booking URL'),
+      'description' => t('Link to tickets.'),
     ),
     'content-rss:promoted' => array(
       'title' => t('Promoted to front page'),
       'description' => t('Boolean value for promoted to front page.'),
+    ),
+    'content-rss:sticky' => array(
+      'title' => t('Sticky'),
+      'description' => t('Boolean value for sticky.'),
     ),
   );
 }
