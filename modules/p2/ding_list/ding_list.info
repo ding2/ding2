@@ -1,22 +1,16 @@
 name = Ding list module
 description = Base and API for personal lists
-core = 7.x
 package = Ding!
-dependencies[] = ctools
+core = 7.x
+php = 5.3
+
 dependencies[] = ding_base
 dependencies[] = ding_carousel
+dependencies[] = ding_list_installer
 dependencies[] = ding_message
 dependencies[] = ding_popup
 dependencies[] = ding_provider
 dependencies[] = ding_user
 dependencies[] = ding_user_consent
-dependencies[] = page_manager
+dependencies[] = eck
 dependencies[] = simplevar
-dependencies[] = xautoload
-features[ctools][] = page_manager:pages_default:1
-features[features_api][] = api:2
-features[page_manager_pages][] = ding_list_public_lists
-features[page_manager_pages][] = page_ding_list_create
-features[page_manager_pages][] = page_ding_list_edit
-features[page_manager_pages][] = page_ding_list_share
-features[page_manager_pages][] = page_ding_list_view

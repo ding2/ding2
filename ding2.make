@@ -243,7 +243,10 @@ projects[menu_position][subdir] = "contrib"
 projects[menu_position][version] = "1.1"
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.12"
+projects[message][version] = "1.10"
+; Patch messages to make message id a NOT NULL database field.
+; https://www.drupal.org/node/2051751
+projects[message][patch][0] = "https://www.drupal.org/files/message-primary_nullable-2051751-7.patch"
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.21"
@@ -469,7 +472,7 @@ projects[wysiwyg][download][revision] = "7981731f4f3db2f932419499d2ec13a073e9b88
 
 projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
-projects[ask_vopros][download][type] = "get"
+projects[ask_vopros][download][type] = "git"
 projects[ask_vopros][download][url] = "https://github.com/vopros-dk/ask_vopros.git"
 projects[ask_vopros][download][tag] = "1.5"
 
@@ -498,7 +501,7 @@ projects[ding_spt_statistics][download][branch] = "development"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-4.3.2"
+libraries[bpi-client][download][tag] = "7.x-4.3.4"
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
@@ -559,7 +562,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][destination] = "modules/opensearch/lib"
-libraries[ting-client][download][tag] = "7.x-4.3.2"
+libraries[ting-client][download][tag] = "7.x-4.3.4"
 
 libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"

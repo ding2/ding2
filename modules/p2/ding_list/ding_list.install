@@ -10,6 +10,8 @@
  */
 function ding_list_install() {
   $schema = array();
+  ding_list_schema_alter($schema);
+  db_add_field('users', 'openlist_modified', $schema['users']['fields']['openlist_modified']);
 
   if (module_exists('ding_bookmark')) {
     module_disable(array('ding_bookmark'));
@@ -44,6 +46,13 @@ function ding_list_install() {
 }
 
 /**
+ * Implements hook_uninstall().
+ */
+function ding_list_uninstall() {
+  db_drop_field('users', 'openlist_modified');
+}
+
+/**
  * Add ding list share to HTMLMailSystem.
  */
 function ding_list_update_7001() {
@@ -61,18 +70,4 @@ function ding_list_update_7002() {
   if (!empty($page)) {
     page_manager_page_delete($page);
   }
-}
-
-/**
- * Remove the openlist_modified property used when syncing.
- */
-function ding_list_update_7003() {
-  db_drop_field('users', 'openlist_modified');
-}
-
-/**
- * Disable installer (features moved to ding_list).
- */
-function ding_list_update_7004() {
-  module_disable(array('ding_list_installer'));
 }

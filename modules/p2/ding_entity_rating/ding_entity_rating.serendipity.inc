@@ -43,9 +43,8 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
 
   $results = array();
   if (!isset($context['interest'])) {
-    // Fetch random high rated element.
-    $rnd_id = ding_entity_rating_get_highly_rated_material_id();
-    $ting_object = ding_entity_load($rnd_id);
+    // Fetch random rated element.
+    $ting_object = ding_entity_rating_get_material_by_rating();
   }
   else {
     // Get entity from context.
@@ -101,44 +100,53 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
 }
 
 /**
- * Get a random high rated material from the users ratings.
+ * Get a material from the users ratings.
  *
  * The objects are sorted by the rating.
- * The entity is selected randomly from materials rated 4 or 5 stars.
+ * The entity is selected randomly from the highest rating group.
  *
- * @return string|null
- *   Ting object id or NULL if this does not exist.
+ * @return object
+ *   Ting object entity.
  */
-function ding_entity_rating_get_highly_rated_material_id() {
-
+function ding_entity_rating_get_material_by_rating() {
   // Load rating list.
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST);
 
-  // Lower limit for high rating definition.
-  $min_rating = 4;
-
-  // Filter non high rated materials away.
-  $ratings = array();
-  foreach ($list->getElements() as $element) {
-
-    if ($element->getData('weight', 0) < $min_rating) {
-      continue;
-    }
-
-    $ratings[] = $element;
-  }
-
-  // No high ratings available.
-  if (count($ratings) == 0) {
+  // Load elements.
+  $elements = ding_list_load_elements($list);
+  if (empty($elements)) {
     return NULL;
   }
 
-  // Fetch random element.
-  $random_key = array_rand($ratings);
-  $rated_element = $ratings[$random_key];
+  // Order elements by rating.
+  $ratings = array();
+  foreach ($elements as $key => $element) {
+    $weight = ding_list_get_list_element_weight($element);
+    $ratings[$weight][] = $element;
+  }
 
-  if (!empty($rated_element->getValue())) {
-    return $rated_element->getValue();
+  // Start at 5 (the max rating).
+  // being the max rating in the codebase.
+  $rating = DING_ENTITY_RATING_MAX_RATING;
+  // And keep trying till this minimum rating.
+  $min_rating = 3;
+
+  // Fetch a rated element from the group of highest rated elements.
+  $rated_element = NULL;
+  while (is_null($rated_element) && $rating >= $min_rating) {
+    if (!empty($ratings[$rating])) {
+      $random_key = array_rand($ratings[$rating]);
+      $rated_element = $ratings[$rating][$random_key];
+      break;
+    }
+
+    $rating -= 1;
+  }
+
+  // Load and return the element if any.
+  if (is_object($rated_element)) {
+    $entity_id = ding_list_get_list_element_value($rated_element);
+    return ding_entity_load($entity_id);
   }
   return NULL;
 }

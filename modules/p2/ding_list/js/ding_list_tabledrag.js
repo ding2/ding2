@@ -10,40 +10,37 @@
 
   // Call initialize
   Drupal.behaviors.ding_list_sorting = {
+    // Notice that we don't use context, because we want to process the whole page every time.
     attach: function (context, settings) {
-      $('.ding-list-list__elements', context).each(function () {
-        var $table = $(this);
+      $('.view-id-ding_list_elements .tabledrag-toggle-weight-wrapper').hide();
 
-        if (Drupal.tableDrag[$table.attr('id')] === undefined) {
-          return;
+      Drupal.tableDrag['ding-list'].onDrop = function() {
+        var list_id = $(this.table).attr('data-list-id'),
+          $item = $(this.rowObject.element),
+          self = this,
+          data = {
+            // The order is reversed (descending), so we use the next element
+            // as the previous instead, so it's saved properly in the db.
+            previous: $item.next().find('.views-field-id').attr('data-item-id'),
+            item: $item.find('.views-field-id').attr('data-item-id')
+          };
+
+        if (!data.previous) {
+          data.previous = 0;
         }
 
-        Drupal.tableDrag[$table.attr('id')].onDrop = function () {
-          var list_id = $(this.table).attr('data-list-id'),
-            $item = $(this.rowObject.element),
-            self = this,
-            data = {
-              // The order is reversed (descending), so we use the next element
-              // as the previous instead, so it's saved properly in the db.
-              previous: $item.next().attr('data-element-id'),
-              item: $item.attr('data-element-id')
-            };
-
-          if (!data.previous) {
-            data.previous = 0;
+        $.ajax({
+          url: Drupal.settings.basePath + 'dinglist/set_order/' + list_id,
+          type: 'POST',
+          dataType: 'json',
+          data: data,
+          success: function (data, textStatus, XMLHttpRequest) {
+            $(self).children(':even').removeClass('even').addClass('odd');
+            $(self).children(':odd').removeClass('odd').addClass('even');
+            $(self.table).find('.tabledrag-changed').remove();
           }
-
-          $.ajax({
-            url: Drupal.settings.basePath + 'dinglist/set_order/' + list_id,
-            type: 'POST',
-            dataType: 'json',
-            data: data,
-            success: function (data, textStatus, XMLHttpRequest) {
-              $(self.table).find('.tabledrag-changed').remove();
-            }
-          });
-        };
-      });
+        });
+      };
     }
   };
 }(jQuery));
