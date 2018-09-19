@@ -562,9 +562,25 @@ function ding_list_get_list($list, $account = NULL) {
 
   $lists[$key] = FALSE;
 
-  // If it's a number we assume it's the ID of the list.
-  if (is_numeric($list)) {
-    $lists[$key] = entity_load_single('ding_type', $list);
+  try {
+    // If it's a number we assume it's the ID of the list.
+    if (is_numeric($list)) {
+      $lists[$key] = ding_provider_invoke('openlist', 'get_list', $list);
+
+      // Filter out loan history lists.
+      // Older users, might have previously created history lists, so we need to
+      // filter them out on retrieval.
+      if (!empty($lists[$key]) && !ding_provider_implements('historical_loans', 'get') && $lists[$key]->getType() === DING_LIST_TYPE_LOAN_HISTORY) {
+        $lists[$key] = FALSE;
+      }
+    }
+    // If it's a string, we assume it's a DING_LIST_TYPE, and we grab the first.
+    elseif (is_string($list)) {
+      $tmp = ding_list_get_lists($list, $account, TRUE);
+      if ($tmp !== FALSE) {
+        $lists[$key] = array_shift($tmp);
+      }
+    }
   }
   // If it's a string, we assume it's a DING_LIST_TYPE, and we grab the first.
   elseif (is_string($list)) {
