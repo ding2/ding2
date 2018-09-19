@@ -257,16 +257,22 @@
         }
         break;
       case ddbasic.breakpoint.OUT:
-        $('.js-masonry-view').masonry({
-          layoutInstant: false,
-          itemSelector: '.views-row',
-          columnWidth: '.grid-sizer',
-          gutter: '.grid-gutter',
-          percentPosition: true,
-        })
-        .on('layoutComplete', function () {
-          $('.js-masonry-view').addClass('is-masonry-complete');
-        });
+        var container = $('.js-masonry-view');
+        if (container.length) {
+          var $msnry = new Masonry(container[0], {
+            layoutInstant: true,
+            itemSelector: '.views-row',
+            columnWidth: '.grid-sizer',
+            gutter: '.grid-gutter',
+            percentPosition: true
+          });
+
+          $msnry.on('layoutComplete', function (items) {
+            container.addClass('is-masonry-complete');
+          });
+
+          $msnry.layout();
+        }
         break;
     }
   }
