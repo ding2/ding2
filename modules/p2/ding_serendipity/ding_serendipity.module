@@ -998,7 +998,7 @@ function ding_serendipity_do_search(TingSearchRequest $query, $limit = 4, $shuff
   }
 
   $search_result = $query->execute();
-  if ($search_result->getNumTotalCollections()) {
+  if ($search_result->getNumCollections()) {
     $collections = $search_result->getTingEntityCollections();
 
     // Randomize if requested to.

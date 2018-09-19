@@ -47,7 +47,7 @@ class ConnieSearchResult implements TingSearchResultInterface {
    * @return int
    *   The number of collections.
    */
-  public function getNumTotalCollections() {
+  public function getNumCollections() {
     return 1;
   }
 
