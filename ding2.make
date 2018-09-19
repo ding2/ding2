@@ -113,6 +113,8 @@ projects[fences][patch][0] = "http://drupal.org/files/field_for_wrapper_css_clas
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.5"
+; PHP7 - Uniform Variable Syntax updates are causing exported field_groups to not have names.
+projects[field_group][patch][] = "https://www.drupal.org/files/issues/php7_uniform_variable-2649648-5.patch"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta3"
@@ -241,10 +243,7 @@ projects[menu_position][subdir] = "contrib"
 projects[menu_position][version] = "1.1"
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.10"
-; Patch messages to make message id a NOT NULL database field.
-; https://www.drupal.org/node/2051751
-projects[message][patch][0] = "https://www.drupal.org/files/message-primary_nullable-2051751-7.patch"
+projects[message][version] = "1.12"
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.21"
@@ -499,7 +498,7 @@ projects[ding_spt_statistics][download][branch] = "development"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-4.3.1"
+libraries[bpi-client][download][tag] = "7.x-4.3.2"
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
@@ -560,7 +559,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][destination] = "modules/opensearch/lib"
-libraries[ting-client][download][tag] = "7.x-4.3.1"
+libraries[ting-client][download][tag] = "7.x-4.3.2"
 
 libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"

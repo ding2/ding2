@@ -389,19 +389,24 @@ function fbs_reservation_options_submit($account, $values) {
  * Tries to find the users default interest period based on the users profile2
  * provider profile.
  */
- function fbs_reservation_default_interest_period($account = NULL) {
+function fbs_reservation_default_interest_period($account = NULL) {
   $account = is_null($account) ? $GLOBALS['user'] : $account;
   $profile = ding_user_provider_profile($account);
 
-  // Get interest period from the profile.
-  $wrapper = entity_metadata_wrapper('profile2', $profile);
-  $value = $wrapper->field_fbs_interest_period->value();
+  // Check that an profile exists. If this is as user create process it will not
+  // exists (nemid login).
+  $value = NULL;
+  if ($profile !== FALSE) {
+    // Get interest period from the profile.
+    $wrapper = entity_metadata_wrapper('profile2', $profile);
+    $value = $wrapper->field_fbs_interest_period->value();
+  }
 
   // If no period is selected, try getting default value.
   if (is_null($value) || empty($value)) {
     $value = variable_get('fbs_default_interest_period', 180);
   }
-  
+
   return $value;
 }
 

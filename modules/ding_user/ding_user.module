@@ -575,8 +575,8 @@ function ding_user_profile_update_submit(&$form, &$form_state) {
  * @param object $account
  *   Drupal user account object.
  *
- * @return entity
- *   The profile entity provided by the current provider.
+ * @return entity|NULL
+ *   The profile entity provided by the current provider if any.
  */
 function ding_user_provider_profile($account) {
   $profile_type = ding_user_get_provider_profile_type();

@@ -49,3 +49,10 @@ function opensearch_update_7001() {
   // Rebuild registry to load it based on opensearch.info file update.
   registry_rebuild();
 }
+
+/**
+ * Ensure libraries use the latest version of opensearch (5.0).
+ */
+function opensearch_update_7002() {
+  variable_set('opensearch_url', 'https://opensearch.addi.dk/b3.5_5.0/');
+}
