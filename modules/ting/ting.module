@@ -234,7 +234,7 @@ function ting_entity_other_formats_button(TingEntity $entity) {
 
   $markup = [];
 
-  if (count($collection->types) > 1) {
+  if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
     $markup = [
       '#theme' => 'link',
       '#text' => t('Other formats'),

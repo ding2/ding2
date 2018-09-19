@@ -804,8 +804,12 @@ function fbs_opensearch_pre_execute($request) {
       $request->setQuery($query);
 
     }
-    // Since FBS is using data-well 3.5 we need to filter local holdings.
-    $request->setFilterLocalHoldings(TRUE);
+    // Since FBS is using data-well 3.5 we need to filter local holdings. We
+    // will only do this however, if it's not already set. This makes it
+    // possible to override this when searching or fetching objects.
+    if ($request->getFilterLocalHoldings() === NULL) {
+      $request->setFilterLocalHoldings(TRUE);
+    }
   }
 }
 
