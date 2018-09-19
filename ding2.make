@@ -21,6 +21,7 @@ projects[autologout][version] = "4.5"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
+projects[autosave][patch][] = "http://storage.easyting.dk/autosave_undefined_formid.patch"
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.4"
