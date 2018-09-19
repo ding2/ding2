@@ -157,8 +157,8 @@ function ding_availability_items($provider_ids) {
 function ding_availability_holdings($provider_ids) {
   $items = ding_provider_invoke('availability', 'holdings', $provider_ids);
 
-  $provider_name = ding_provider_get_provider_module_name();
-  if ($provider == 'alma') {
+  $provider_name = ding_provider_get_provider_module_name('availability');
+  if ($provider_name == 'alma') {
     $items = array_filter($items, function($v) { return $v['availability_information']; });
   }
 
@@ -323,6 +323,7 @@ function ding_availability_holdings_row(array $holding, array $fields) {
 
       case 'ordered_count':
         // Copies in acquisition.
+        $ordered_count = isset($holding['ordered_count']) ? (int) $holding['ordered_count'] : 0;
         $row['ordered_count'] = $ordered_count;
         break;
     }
