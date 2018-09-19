@@ -162,3 +162,15 @@ function alma_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
     throw new DingProviderAuthUserExistsError('User account already exists');
   }
 }
+
+/**
+ * Get the provider id.
+ */
+function alma_user_get_provider_id($account) {
+  $creds = ding_user_get_creds();
+  if (isset($creds['name'])) {
+    return $creds['name'];
+  }
+
+  return NULL;
+}

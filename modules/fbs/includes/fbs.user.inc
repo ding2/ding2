@@ -112,6 +112,19 @@ function fbs_user_get_name($account) {
 }
 
 /**
+ * Get the provider id.
+ */
+function fbs_user_get_provider_id($account) {
+  $patron_info = fbs_get_patron_info($account);
+
+  if (isset($patron_info['patronId'])) {
+    return $patron_info['patronId'];
+  }
+
+  return NULL;
+}
+
+/**
  * Implements provider user, update_pincode.
  *
  * @param string $name

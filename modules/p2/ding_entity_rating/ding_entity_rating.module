@@ -85,6 +85,11 @@ function ding_entity_rating_add_to_list_callback($entity, $rating) {
   // Grabbed from ding_reservation_reserve_ajax()
   if (!user_is_logged_in()) {
     // Trigger log-in (the link will be triggered on success).
+    $commands[] = array(
+      'command' => 'ding_entity_rating_reset',
+      'entity_id' => $entity->ding_entity_id,
+      'on_popup_close' => TRUE,
+    );
     $commands[] = ajax_command_ding_user_authenticate('');
   }
   elseif (!user_access('use personalisation')) {

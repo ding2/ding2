@@ -166,3 +166,15 @@ function connie_user_test() {
 
   return "Wolla!";
 }
+
+/**
+ * Get the provider id.
+ */
+function connie_user_get_provider_id($account) {
+  $creds = ding_user_get_creds();
+  if (isset($creds['name'])) {
+    return $creds['name'];
+  }
+
+  return NULL;
+}

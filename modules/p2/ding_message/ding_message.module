@@ -488,7 +488,7 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
     $wrapper->field_last_check->set(time());
     $wrapper->field_first_element->set($first_element_id);
     $wrapper->field_last_element->set($last_element_id);
-    $wrapper->field_new_count->set($new_elements_count);
+    $wrapper->field_new_count->set(empty($message->is_new) ? $new_elements_count : 0);
     if ($new_elements_count >= $channel_max) {
       // When a channel has max new elements, lets not waste cpu checking
       // that channel until the user checks out that channel again.

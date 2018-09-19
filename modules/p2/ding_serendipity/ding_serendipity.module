@@ -946,23 +946,22 @@ function ding_serendipity_do_search(TingSearchRequest $query, $limit = 4, $shuff
   }
 
   $search_result = $query->execute();
-  if (!$search_result->getNumTotalCollections()) {
-    watchdog('ding_serendipity', 'BAD Search:@query', ['@query' => $query], WATCHDOG_WARNING);
-  }
-  $collections = $search_result->getTingEntityCollections();
+  if ($search_result->getNumTotalCollections()) {
+    $collections = $search_result->getTingEntityCollections();
 
-  // Randomize if requested to.
-  if ($shuffle === TRUE) {
-    shuffle($collections);
-  }
+    // Randomize if requested to.
+    if ($shuffle === TRUE) {
+      shuffle($collections);
+    }
 
-  // Create result array, only use $limit results.
-  foreach (array_slice($collections, 0, $limit) as $collection) {
-    $results[] = array(
-      'type' => 'ting_object',
-      'id' => $collection->getId(),
-      'object' => $collection,
-    );
+    // Create result array, only use $limit results.
+    foreach (array_slice($collections, 0, $limit) as $collection) {
+      $results[] = array(
+        'type' => 'ting_object',
+        'id' => $collection->getId(),
+        'object' => $collection,
+      );
+    }
   }
 
   return $results;
