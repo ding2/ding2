@@ -606,13 +606,15 @@ function ding2_update_7049() {
  * Disable and uninstall ding_mobilesearch module.
  */
 function ding2_update_7050() {
-  if (module_exists('ding_mobilesearch')) {
-    module_disable(array('ding_mobilesearch'));
-    drupal_uninstall_modules(array('ding_mobilesearch'));
-  }
-  // Remove any traces of the module in case it has been deleted before
-  // running this hook.
-  ding2_remove_module('ding_mobilesearch');
+  // This function previously disabled, uninstalled and removed any
+  // traces of the module called ding_mobilesearch.
+  //
+  // The contents of this function has been removed due to the decision
+  // about removing the module has been reverted. Read more about this
+  // issue in https://platform.dandigbib.org/issues/3661.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
