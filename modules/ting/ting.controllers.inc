@@ -102,6 +102,10 @@ class TingObjectController extends DrupalDefaultEntityController {
     if (count($unknown)) {
       $new_ids = array();
       foreach ($unknown as $ding_entity_id) {
+        // The $objects array might contain the target entity, however it's
+        // ding entity id won't match, because of different owner id.
+        // Perhaps an additional search must be made through the $object
+        // variable, that might yield target object.
         if (!empty($objects[$ding_entity_id])) {
           // Insert a new local proxy row.
           $ting_object = array(
