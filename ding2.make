@@ -670,6 +670,9 @@ projects[domain_ctools][version]            = "1.3"
 projects[domain_menu_access][subdir]        = "contrib"
 projects[domain_menu_access][version]       = "1.2"
 
+projects[domain_taxonomy][subdir]           = "contrib"
+projects[domain_taxonomy][version]          = "3.x-dev"
+
 projects[domain_variable][subdir]           = "contrib"
 projects[domain_variable][version]          = "1.1"
 
