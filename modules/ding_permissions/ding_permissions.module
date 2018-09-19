@@ -158,11 +158,6 @@ function ding_permissions_secure_permissions($role) {
     'authenticated user' => array(
       'access comments',
       'access content',
-      'access environment indicator',
-      'access environment indicator development',
-      'access environment indicator default_environment',
-      'access environment indicator staging',
-      'access environment indicator overwritten_environment',
       'access site-wide contact form',
       'access user profiles',
       'display EU Cookie Compliance popup',
@@ -1028,11 +1023,6 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'provider' => array(
-      'access environment indicator',
-      'access environment indicator development',
-      'access environment indicator default_environment',
-      'access environment indicator staging',
-      'access environment indicator overwritten_environment',
       'create files',
       'edit own provider_alma profile',
       'edit own provider_openruth profile',
