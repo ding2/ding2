@@ -70304,8 +70304,8 @@ msgid ""
 msgstr "Lad biblioteks-admins indtaste CQL søgning som sender materialer ind i forsidens serendipitetspanel." 
 
 #: /lazy-pane/ajax
-msgid "Set the frontpage serendipity CQL" 
-msgstr "Angiv forsidens serendipitets CQL" 
+msgid "Set the frontpage serendipity search string"
+msgstr "Angiv forsidens serendipitets søge streng"
 
 #: /
 msgid "ADHL on random loan items"

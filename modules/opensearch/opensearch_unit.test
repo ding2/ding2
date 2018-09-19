@@ -1,0 +1,101 @@
+<?php
+/**
+ * @file
+ * Unittests for Opensearch.
+ */
+
+use Drupal\ding_test\DingUnitTestBase;
+use OpenSearch\OpenSearchStatementGroupRender;
+use Ting\Search\BooleanStatementGroup;
+use Ting\Search\BooleanStatementInterface;
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
+use Ting\Search\TingSearchStrategyInterface;
+
+/**
+ * Unit test for OpenSearch module.
+ */
+class OpensearchUnitTest extends DingUnitTestBase {
+
+  /**
+   * Return metadata about the test.
+   *
+   * @return array
+   *   Map of test metadata.
+   */
+  public static function getInfo() {
+    return [
+      'name' => 'Opensearch Unittests',
+      'description' => 'Unit-tests that tests the opensearch module.',
+      'group' => 'Opensearch',
+      'dependencies' => ['opensearch'],
+    ];
+  }
+
+  /**
+   * Setup autoloading.
+   */
+  public function setUp() {
+    // Parent sets up autoloading and our test-dependencies so get it in the
+    // loop as quickly as possible.
+    parent::setUp();
+
+    // Any subsequent setup goes here.
+  }
+
+  /**
+   * Test that the StatementGroupRender can render a nested group.
+   */
+  public function testStatementGroupRenderer() {
+    // The final query-string the arrangement of groupings and fields below
+    // should end up as. Notice that we use mapped fields.
+    $expected_result = '(test_author="1" AND test_subject="2") OR test_category="3\"" OR (test_language="4" OR test_author="5") OR (test_subject="6" OR test_category="7")';
+
+    // Build the query, use the common names that will have to be mapped in
+    // order to match the expected output.
+    // Setup an "AND" group.
+    $group1 = new BooleanStatementGroup([
+      new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, 1),
+      new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, 2),
+    ], BooleanStatementInterface::OP_AND);
+
+    // Standalone field.
+    $field2 = new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, '3"');
+
+    // Group 4 (an OR group).
+    $group3 = new BooleanStatementGroup([
+      // Test boolean field behaviour (that is: this field should be rendered
+      // without the comparison).
+      new TingSearchFieldFilter(TingSearchCommonFields::LANGUAGE, 4),
+      new TingSearchFieldFilter(TingSearchCommonFields::AUTHOR, 5),
+    ], BooleanStatementInterface::OP_OR);
+
+    // Group 5 (an AND group).
+    $group4 = new BooleanStatementGroup([
+      new TingSearchFieldFilter(TingSearchCommonFields::SUBJECT, 6),
+      new TingSearchFieldFilter(TingSearchCommonFields::CATEGORY, 7),
+    ], BooleanStatementInterface::OP_OR);
+
+    $groups = [$group1, $field2, $group3, $group4];
+
+    // Setup a renderer configured to use our own mapping of fields.
+    $strategy_double = $this->prophet->prophesize(TingSearchStrategyInterface::class);
+    $mapping = [
+      TingSearchCommonFields::AUTHOR => 'test_author',
+      TingSearchCommonFields::SUBJECT => 'test_subject',
+      TingSearchCommonFields::CATEGORY => 'test_category',
+      TingSearchCommonFields::LANGUAGE => 'test_language',
+    ];
+    $strategy = $strategy_double->reveal();
+
+    $renderer = new OpenSearchStatementGroupRender($strategy, $mapping);
+
+    // Test that adding a single group around a list does not affect rendering.
+    $filter_string_wrapped = $renderer->renderGroup((new BooleanStatementGroup($groups, BooleanStatementInterface::OP_OR)));
+    $filter_string_from_list = $renderer->renderStatements($groups, BooleanStatementInterface::OP_OR);
+    $this->assertEqual($filter_string_from_list, $filter_string_wrapped, "List of filters is rendered the same way as a list wrapped in a group.");
+
+    // Test that the query ends up as we expect.
+    $this->assertEqual($expected_result, $filter_string_wrapped);
+  }
+}

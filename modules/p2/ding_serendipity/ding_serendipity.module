@@ -23,6 +23,10 @@
  *   - hook_<plugin>_serendipity_add() - to add suggestions to the DS pool
  */
 
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
+use Ting\Search\TingSearchRequest;
+
 include_once 'ding_serendipity.features.inc';
 
 define('DING_SERENDIPITY_FUNCTION_POSTFIX', '_serendipity_add');
@@ -378,18 +382,17 @@ function ding_serendipity_validate_materials(array $keys) {
 
   $sanitized = array();
 
-  // Lookup the materials in the data well to filter out local missing
-  // materials.
-  $query = implode(" OR ", $keys);
+  // Lookup the materials to filter out local missing materials.
+  $query = ting_start_query()->withMaterialFilter($keys);
 
   // Also add the audience to the query, if the user has a clear audience.
   $audience = ding_serendipity_user_audience();
   if ($audience !== FALSE) {
-    $query = '(' . $query . ') AND facet.category=' . $audience;
+    $query = $query->withFieldFilter(TingSearchCommonFields::CATEGORY, $audience);
   }
-
+  $result = [];
   try {
-    $result = ding_serendipity_do_search($query, array('limit' => count($keys)));
+    $result = ding_serendipity_do_search($query, count($keys));
 
     foreach ($result as $item) {
       $sanitized[] = $item['id'];
@@ -454,10 +457,12 @@ function ding_serendipity_user_audience($account = NULL) {
     }
   }
 
+  $query = ting_start_query()->withMaterialFilter($ids);
   if (!empty($ids)) {
-    foreach (ding_serendipity_do_search(implode(" OR ", $ids), array('limit' => count($ids))) as $collection) {
+    foreach (ding_serendipity_do_search($query, count($ids)) as $collection) {
       $entity = $collection['object']->getPrimary_object();
-      $audience = !empty($entity->reply->record['dcterms:audience'][''][0]) ? $entity->reply->record['dcterms:audience'][''][0] : FALSE;
+      /** @var TingEntity $entity */
+      $audience = !empty($entity->getTingObject()->getAudience()) ? $entity->getTingObject()->getAudience() : FALSE;
 
       if (!isset($audiences[$audience])) {
         $audiences[$audience] = 0;
@@ -920,56 +925,44 @@ function ding_serendipity_entity_view($entity, $type, $view_mode, $langcode) {
 }
 
 /**
- * Wrap ting_do_search.
+ * Execute a search for serendipity results.
  *
- * Packs the result into an array readable by ding_serendipity_render().
- *
- * @param string $query
+ * @param \Ting\Search\TingSearchRequest $query
  *   The search query.
- * @param array $options
- *   Will pass page, count and options keys on to ting_do_search (in that
- *   order).
- *   The following options is for the wrapper:
- *    - limit: Max number of items.
- *    - shuffle: Randomize the items.
+ * @param int $limit
+ *   Maximum number of results to return.
+ * @param bool $shuffle
+ *   Whether the result-order should be Randomized.
+ *
+ * @return array
+ *   An array of result-item arrays.
  */
-function ding_serendipity_do_search($query, array $options = array()) {
+function ding_serendipity_do_search(TingSearchRequest $query, $limit = 4, $shuffle = FALSE) {
   $results = array();
-  // Fill in the default options.
-  $options += array(
-    'limit' => 4,
-    'shuffle' => FALSE,
-    'page' => 1,
-    'count' => 20,
-    'options' => array(
-      'sort' => '',
-    ),
-  );
 
-  module_load_include('inc', 'ting', 'ting.client');
-
-  $search_result = ting_do_search($query, $options['page'], $options['count'], $options['options']);
-
-  if (!isset($search_result->collections) || !is_array($search_result->collections)) {
-    watchdog('ding_serendipity', 'BAD Search:@query', array('@query' => $query), WATCHDOG_WARNING);
+  // Set sensible defaults for the query if the plugin did not do it.
+  if ($query->getCount() === NULL) {
+    $query = $query->withCount(20);
   }
-  else {
-    // Randomize.
-    if ($options['shuffle'] == TRUE) {
-      shuffle($search_result->collections);
-    }
 
-    // Create result array.
-    foreach ($search_result->collections as $id => $collection) {
-      $results[] = array(
-        'type' => 'ting_object',
-        'id' => $collection->ding_entity_id,
-        'object' => $collection,
-      );
-    }
+  $search_result = $query->execute();
+  if (!$search_result->getNumTotalCollections()) {
+    watchdog('ding_serendipity', 'BAD Search:@query', ['@query' => $query], WATCHDOG_WARNING);
+  }
+  $collections = $search_result->getTingEntityCollections();
 
-    // Limit output.
-    $results = array_slice($results, 0, $options['limit']);
+  // Randomize if requested to.
+  if ($shuffle === TRUE) {
+    shuffle($collections);
+  }
+
+  // Create result array, only use $limit results.
+  foreach (array_slice($collections, 0, $limit) as $collection) {
+    $results[] = array(
+      'type' => 'ting_object',
+      'id' => $collection->getId(),
+      'object' => $collection,
+    );
   }
 
   return $results;
@@ -1141,24 +1134,25 @@ function ding_serendipity_exclude(array &$list, $excludes) {
 /**
  * Callback for testing cql.
  */
-function ding_serendipity_test_cql_callback($form, &$form_state) {
-  $cql = $form_state['values'][$form_state['triggering_element']['#cql_element']];
+function ding_serendipity_test_query_callback($form, &$form_state) {
+  $query = $form_state['values'][$form_state['triggering_element']['#query_element']];
   $list = array(
     '#theme' => 'item_list',
     '#items' => array(),
   );
 
-  $results = ting_do_search($cql);
+  $results = ting_start_query()->withRawQuery($query)->withCount(10)->execute();
 
-  if ($results) {
-    $list['#items'][] = t('Total results: @count', array('@count' => $results->numTotalObjects));
+  if ($results->getNumTotalObjects()) {
+    $list['#items'][] = t('Total results: @count', array('@count' => $results->getNumTotalObjects()));
 
-    if (!empty($results->collections)) {
-      foreach ($results->collections as $id => $result) {
+    $collections = $results->getTingEntityCollections();
+    if (!empty($collections)) {
+      foreach ($collections as $id => $result) {
         $list['#items'][] = '[' . $id . '] ' . $result->getTitle();
       }
 
-      if (!empty($results->more)) {
+      if (!empty($results->hasMoreResults())) {
         $list['#items'][] = '...';
       }
     }
@@ -1167,7 +1161,7 @@ function ding_serendipity_test_cql_callback($form, &$form_state) {
     $list['#items'][] = t('Total results: @count', array('@count' => 0));
   }
 
-  return '<div id="test-cql-container">' . drupal_render($list) . '</div>';
+  return '<div id="test-query-container">' . drupal_render($list) . '</div>';
 }
 
 /**

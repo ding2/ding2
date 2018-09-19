@@ -21,7 +21,7 @@ function ting_collection_content_type_render($subtype, $conf, $args, $context) {
   $block = new stdClass();
   $object = isset($context->data) ? ($context->data) : NULL;
   if ($object instanceOf TingCollection) {
-    if (count($object->entities) < 2) {
+    if (count($object->getEntities()) < 2) {
       $uri = entity_uri('ting_object', $object);
       drupal_goto($uri['path'], $uri['options']);
     }

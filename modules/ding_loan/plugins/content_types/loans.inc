@@ -166,19 +166,37 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       // Try to get entity for the loan to make a better title and provide info
       // about the associated material.
+      /** @var \TingEntity $entity */
       $entity = $loan->entity;
+      if (!is_object($entity) || NULL === $entity->getTingObject()) {
+        // Patron have this item in loans list, but the search provider can't
+        // find this record for current agencyId, so we load it separately.
+        $ting_object = ting_search_object_load($loan->ding_entity_id);
 
-      if (!is_object($entity) || empty($entity->reply)) {
-        // Patron have this item in loans list, but opensearch can't find this
-        // record for current agencyId, so we load it separately.
-        // Here we are loading TingClientObject.
-        $entity = ding_provider_get_pseudo_entity($loan->ding_entity_id);
+        if (!empty($ting_object)) {
+          // But we need TingEntity instance, so here we are populating this.
+          $ting_entity = new TingEntity();
+          $ting_entity->ding_entity_id = $entity->ding_entity_id;
+          $ting_entity->setTingObject($ting_object);
+        }
       }
 
-      // Title link.
-      $raw_title = $entity->getTitle();
-      $uri = entity_uri('ting_object', $entity);
-      $title = l($raw_title, $uri['path']);
+      if (is_object($entity) && NULL !== $entity->getTingObject()) {
+        $raw_title = $entity->getTitle();
+
+        // Add title link.
+        $uri = entity_uri('ting_object', $entity);
+        $title = l($raw_title, $uri['path']);
+
+        // Add creator(s).
+        $creators = $entity->creators;
+
+        // Add type.
+        $mat_type = $entity->type;
+
+        // Attempt to render a cover.
+        $cover = field_view_field('ting_object', $entity, 'ting_cover', 'user_list');
+      }
 
       // Attempt to render a cover.
       $cover = field_view_field('ting_object', $entity, 'ting_cover', 'user_list');
@@ -313,8 +331,10 @@ function ding_loan_loans_form_submit($form, &$form_state) {
   $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
   foreach ($result as $id => $status) {
     // Try to get entity for the item.
+    /** @var \TingEntity $entity */
     $entity = $form_state['values']['items'][$id]->entity;
-    if (!is_object($entity) || $entity->reply == FALSE) {
+
+    if (!is_object($entity) || NULL === $entity->getTingObject()) {
       // Build pseudo entity based on provider information.
       $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
       $title = $entity->getTitle() ? $entity->getTitle() : $item->display_name;

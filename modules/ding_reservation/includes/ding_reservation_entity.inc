@@ -13,6 +13,13 @@ interface DingReservationReservable {
   public function getProviderId();
   // @todo, this should be optional.
   public function getEntity();
+
+  /**
+   * Returns the title of the reservable entity.
+   *
+   * @return string
+   *   Title or empty string if it cannot be determined.
+   */
   public function getTitle();
 }
 
@@ -34,7 +41,10 @@ class DingReservationReservableEntity implements DingReservationReservable {
     return $this->entity;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getTitle() {
-    return isset($this->entity->record['dc:title'][''][0]) ? $this->entity->record['dc:title'][''][0] : '';
+    return empty($this->entity->getTitle()) ? '' : $this->entity->getTitle();
   }
 }

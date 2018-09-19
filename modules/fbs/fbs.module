@@ -783,9 +783,9 @@ function _fbs_wayf_login($name, $value = NULL) {
 }
 
 /**
- * Implements hook_ting_pre_execute().
+ * Implements hook_opensearch_pre_execute().
  */
-function fbs_ting_pre_execute($request) {
+function fbs_opensearch_pre_execute($request) {
   // We only want to modify searches.
   if ($request instanceof TingClientSearchRequest) {
     // Filter out blacklisted branches from search.

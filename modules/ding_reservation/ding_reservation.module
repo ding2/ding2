@@ -513,12 +513,13 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
   }
 
   foreach ($reservations as $reservation) {
+    /** @var \TingEntity $entity */
     $entity = $reservation->entity;
-    if (!is_object($entity) || $entity->reply == FALSE) {
+    if (!is_object($entity) || NULL === $entity->getTingObject()) {
       $entity = ding_provider_get_pseudo_entity($reservation->ding_entity_id);
       // Don't link the title as the data well do not known this title. It may
       // be a inter library loan.
-      $title = $entity->getTitle() ? $entity->getTitle() : $reservation->display_name;
+      $title = (!empty($entity) && $entity->getTitle()) ? $entity->getTitle() : $reservation->display_name;
     }
     else {
       // Create title that links to the object.

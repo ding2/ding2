@@ -1,0 +1,229 @@
+<?php
+/**
+ * @file
+ * Connie test-cases.
+ */
+
+use Connie\Search\ConnieSearchResult;
+use Connie\Search\ConnieTingObject;
+use Connie\Search\ConnieTingObjectCollection;
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchRequest;
+
+/**
+ * Connie search provider test case.
+ *
+ * This test that the example provider implementation module passes the same
+ * tests as the real providers.
+ */
+class ConnieSearchSearchProviderImplementationTestCase extends DingSearchProviderImplementationTestCase {
+
+  /**
+   * Return metadata about the test.
+   *
+   * @return array
+   *   Map of test metadata.
+   */
+  public static function getInfo() {
+    return [
+      'name' => 'Connie provider example search provider',
+      'description' => 'Test Ding! provider example search functionality.',
+      'group' => 'Ding! - example provider',
+    ];
+  }
+
+  /**
+   * Indicate which modules this test-class depends on.
+   */
+  public function setUp() {
+    parent::setUp(['connie_search', 'ding_provider', 'ting', 'xautoload']);
+  }
+
+  /**
+   * Expected return-value of search_material_types.
+   *
+   * @return string[]
+   *   List of expected materials.
+   */
+  public function getMaterials() {
+    return ['material_type_1', 'material_type_2'];
+  }
+
+  /**
+   * Expected return value of search_sources.
+   *
+   * @return string[]
+   *   List of expected sources.
+   */
+  public function getSources() {
+    return ['source A', 'source B'];
+  }
+
+  /**
+   * Expected return-value of search_object_load.
+   *
+   * @return \Ting\TingObjectInterface[]
+   *   List of expected objects.
+   */
+  public function getLoadedObjects() {
+    return ['object1' => new ConnieTingObject('object1')];
+  }
+
+  /**
+   * Expected return-value of search_collection_load.
+   *
+   * @return \Ting\TingObjectCollectionInterface
+   *   The expected collection.
+   */
+  public function getLoadedCollection() {
+    return ConnieTingObjectCollection::getSingleCollection('object1');
+  }
+
+  /**
+   * Expected return-value of search_search.
+   *
+   * @param \Ting\Search\TingSearchRequest $query
+   *   The query that should produce the result.
+   *
+   * @return \Ting\Search\TingSearchResultInterface
+   *   The expected search result.
+   */
+  public function getSearchResult(TingSearchRequest $query) {
+    return new ConnieSearchResult($query);
+  }
+
+  /**
+   * Result of getAllRelations down to supported relations.
+   *
+   * @return \TingRelation[].
+   *   The relations.
+   */
+  public function getFilteredRelations() {
+    return [
+      new TingRelation('type1', 'http://example.com/1', (object) []),
+      new TingRelation('type3', 'http://example.com/3_0', (object) []),
+      new TingRelation('type3', 'http://example.com/3_1', (object) []),
+    ];
+  }
+
+  /**
+   * List of relations including some that are not supported.
+   *
+   * @return \TingRelation[].
+   *   The list.
+   */
+  public function getExampleRelations() {
+    return [
+      new TingRelation('type0', 'http://example.com/0', (object) []),
+      new TingRelation('type1', 'http://example.com/1', (object) []),
+      new TingRelation('type2', 'http://example.com/2_0', (object) []),
+      new TingRelation('type2', 'http://example.com/2_1', (object) []),
+      new TingRelation('type3', 'http://example.com/3_0', (object) []),
+      new TingRelation('type3', 'http://example.com/3_1', (object) []),
+      new TingRelation('type4', 'http://example.com/4', (object) []),
+    ];
+  }
+
+  /**
+   * Expected list of supported relations.
+   *
+   * @return string[].
+   *   List of relation titles keyed by type.
+   */
+  public function getSupportedRelations() {
+    return [
+      'type1' => 'Relation type 1',
+      'type3' => 'Relation type 3',
+    ];
+  }
+
+  /**
+   * Returns an instance of TingRelation.
+   *
+   * @return \TingRelation
+   *   The relation.
+   */
+  public function getDummyRelation() {
+    return new TingRelation('dummytype', 'http://example.com/dummy', (object) []);
+  }
+
+  /**
+   * Returns the list of all common fields.
+   *
+   * @return string[]
+   *   List of fields.
+   */
+  public function getExpectedCommonFields() {
+    return TingSearchCommonFields::getAll();
+  }
+
+  /**
+   * Return array of sample object IDs.
+   *
+   * @return string[]
+   *   Sample object IDs.
+   */
+  public function getLocalObjectIds() {
+    return array('1234', '4321', '1111');
+  }
+
+  /**
+   * Return array of translated IDs.
+   *
+   * @return array
+   *   Translated object IDs.
+   */
+  public function getTranslatedObjectIds() {
+    return array(
+      '1234' => '1337-test:1234',
+      '4321' => '1337-test:4321',
+      '1111' => '1337-test:1111',
+    );
+  }
+
+  /**
+   * Return single sample object ID.
+   *
+   * @return string
+   *   Sample object ID.
+   */
+  public function getSingleLocalObjectId() {
+    return '1111';
+  }
+
+  /**
+   * Returns a single translated object ID.
+   *
+   * @return string
+   *   Translated object ID.
+   */
+  public function getTranslatedObjectId() {
+    return '1337-test:1111';
+  }
+
+  /**
+   * Test translation of object IDs.
+   */
+  public function testObjectIds() {
+    // Test arrays.
+    $response = ding_provider_build_entity_id($this->getLocalObjectIds());
+
+    $this->assertEqual(
+      $response, $this->getTranslatedObjectIds(),
+      "Multiple object ID's are translated correctly."
+    );
+
+    $this->assertTrue(is_array($response));
+
+    // Test single value (string).
+    $response = ding_provider_build_entity_id($this->getSingleLocalObjectId());
+
+    $this->assertIdentical(
+      $response, $this->getTranslatedObjectId(),
+      'Single object ID is translated correctly.'
+    );
+
+    $this->assertTrue(is_string($response));
+  }
+
+}

@@ -1,11 +1,18 @@
 <?php
 
-/**
- * @file
- * Test provider implementation.
- */
+use Ting\Search\TingSearchRequest;
+use Ting\Search\TingSearchResultInterface;
+use Ting\Search\TingSearchSort;
 
+/**
+ * Base class for testing implementations of different types of providers.
+ *
+ * Direct child classes define tests of specific types of providers e.g.
+ * availability, loan, search or user. Second level child classes should then
+ * implement tests of specific provider implementations.
+ */
 class DingProviderImplementationTestCase extends DrupalWebTestCase {
+  protected $profile = 'ding2';
 
   function setUp() {
     $modules = func_get_args();
@@ -326,4 +333,279 @@ class DingBranchProviderImplementationTestCase extends DingProviderImplementatio
       $this->assertTrue(is_string($name), 'Name is a string');
     }
   }
+}
+
+/**
+ * Class DingSearchProviderImplementationTestCase
+ *
+ * Tests a Ding search provider.
+ */
+abstract class DingSearchProviderImplementationTestCase extends DingProviderImplementationTestCase {
+
+  /**
+   * Provide a list of expected materials.
+   *
+   * @return string[]
+   *   Simple array of material types.
+   */
+  public abstract function getMaterials();
+
+  /**
+   * Provide a list of expected sources.
+   *
+   * @return string[]
+   *   Simple array of sources.
+   */
+  public abstract function getSources();
+
+  /**
+   * Expected return-value of search_object_load.
+   *
+   * @return object[]
+   *   List of expected objects.
+   */
+  public abstract function getLoadedObjects();
+
+
+  /**
+   * Expected return-value of search_collection_load.
+   *
+   * @return \Ting\TingObjectCollectionInterface
+   *   The expected collection.
+   */
+  public abstract function getLoadedCollection();
+
+  /**
+   * Expected return-value of search_search.
+   *
+   * @param \Ting\Search\TingSearchRequest $query
+   *   The query that should produce the result.
+   *
+   * @return \Ting\Search\TingSearchResultInterface
+   *   The expected search result.
+   */
+  public abstract function getSearchResult(TingSearchRequest $query);
+
+  /**
+   * Result of getAllRelations down to supported relations.
+   *
+   * @return \TingRelation[]
+   *   The relations.
+   */
+  public abstract function getFilteredRelations();
+
+  /**
+   * List of relations including some that are not supported.
+   *
+   * @return \TingRelation[].
+   *   The list.
+   */
+  public abstract function getExampleRelations();
+
+  /**
+   * Expected list of supported relations.
+   *
+   * @return string[].
+   *   List of relation titles keyed by type.
+   */
+  public abstract function getSupportedRelations();
+
+  /**
+   * Returns an instance of TingRelation.
+   *
+   * @return \TingRelation
+   *   The relation.
+   */
+  public abstract function getDummyRelation();
+
+  /**
+   * Returns the list of all common fields.
+   *
+   * @return string[]
+   *   List of fields.
+   */
+  public abstract function getExpectedCommonFields();
+
+  /**
+   * Returns a list of translated object IDs.
+   *
+   * @return string[]
+   *   List of translated object IDs.
+   */
+  public abstract function getTranslatedObjectIds();
+
+  /**
+   * Returns a list of material IDs.
+   *
+   * @return string[]
+   *   Sample object IDs.
+   */
+  public abstract function getLocalObjectIds();
+
+  /**
+   * Returns a single translated object ID.
+   *
+   * @return string
+   *   Translated object ID.
+   */
+  public abstract function getTranslatedObjectId();
+
+  /**
+   * Returns a single material ID.
+   *
+   * @return string
+   *   Sample object ID.
+   */
+  public abstract function getSingleLocalObjectId();
+
+  /**
+   * Verify that the provider returns the expected list of material types.
+   */
+  public function testMaterialTypes() {
+    $expected_materials = $this->getMaterials();
+    $materials_from_provider = ding_provider_invoke('search', 'material_types');
+    $this->assertEqual($expected_materials, $materials_from_provider);
+  }
+
+  /**
+   * Verify that the provider returns the expected list of sources.
+   */
+  public function testSources() {
+    $expected_sources = $this->getSources();
+    $sources_from_provider = ding_provider_invoke('search', 'sources');
+    $this->assertEqual($expected_sources, $sources_from_provider);
+  }
+
+  /**
+   * Verify that the provider returns the expected list of material types.
+   */
+  public function testObjectLoad() {
+    $expected_objects = $this->getLoadedObjects();
+    $object_ids = array_keys($expected_objects);
+    $objects_from_provider = ding_provider_invoke('search', 'object_load', $object_ids);
+    $this->assertEqual($expected_objects, $objects_from_provider);
+  }
+
+  /**
+   * Verify that the provider returns the expected loaded collection.
+   */
+  public function testCollectionLoad() {
+    $expected_collection = $this->getLoadedCollection();
+    $collection_id = $expected_collection->getPrimaryObject()->getId();
+    $collection_from_provider = ding_provider_invoke('search', 'collection_load', $collection_id);
+    $this->assertEqual($expected_collection, $collection_from_provider);
+  }
+
+  /**
+   * Verify that the provider returns the expected search result.
+   */
+  public function testSearch() {
+    $query = ting_start_query();
+    $expected_search_result = $this->getSearchResult($query);
+    $search_result_from_provider = ding_provider_invoke('search', 'search', $query);
+    $this->assertEqual($expected_search_result, $search_result_from_provider);
+  }
+
+  /**
+   * Verify that the provider returns the expected search result.
+   */
+  public function testSearchFacets() {
+    $query = ting_start_query();
+    $search_result_from_provider = ding_provider_invoke('search', 'search', $query);
+    $this->assertTrue($search_result_from_provider instanceof TingSearchResultInterface);
+    /** @var TingSearchResultInterface $search_result_from_provider */
+    $facets = $search_result_from_provider->getFacets();
+    foreach ($facets as $name => $facet) {
+      $this->assertEqual($facet->getName(), $name, 'Facet list should be keyed by name.');
+    }
+  }
+
+  /**
+   * Verify that the provider returns the expected search result.
+   */
+  public function testFilterRelations() {
+    $relations = $this->getExampleRelations();
+    $expected_filtered_relations = $this->getFilteredRelations();
+    $filtered_relations = ding_provider_invoke('search', 'filter_relations', $relations);
+
+    $uri_extractor = function($relation) {
+      return $relation->getURI();
+    };
+    $expected_uris = array_map($expected_filtered_relations, $uri_extractor);
+    $filtered_uris = array_map($filtered_relations, $filtered_relations);
+
+    $this->assertEqual($expected_uris, $filtered_uris);
+  }
+
+  /**
+   * Verify that the provider returns the expected search result.
+   */
+  public function testSupportedRelations() {
+    $expected_relations = $this->getSupportedRelations();
+    $relations = ding_provider_invoke('search', 'supported_relations');
+    $this->assertEqual($expected_relations, $relations);
+  }
+
+  /**
+   * Verify that the provider can render a relation.
+   */
+  public function testRelationRendering() {
+    $dummy_relation = $this->getDummyRelation();
+    $render_array = ding_provider_invoke('search', 'render_inline_relation', $dummy_relation);
+    // Verify that the correct theme-hook is referenced.
+    $this->assertEqual('ting_relation', $render_array['#theme']);
+    // Verify that the relation is included in the render-array.
+    $this->assertEqual($dummy_relation, $render_array['#relation']);
+  }
+
+  /**
+   * Test that the provider can generate a reference query.
+   */
+  public function testPrepareReferenceQuery() {
+    $test_query_1 = 'test query';
+    $test_query_2 = 'test=query';
+    $test_query_3 = '123';
+
+    /* @var \Ting\Search\TingSearchRequest $query */
+    $query = ding_provider_invoke('search', 'prepare_reference_query', $test_query_1);
+    // Plain search should be a full text-search.
+    $this->assertEqual($query->getFullTextQuery(), $test_query_1);
+
+    $query = ding_provider_invoke('search', 'prepare_reference_query', $test_query_2);
+    $this->assertEqual($query->getRawQuery(), $test_query_2);
+
+    $query = ding_provider_invoke('search', 'prepare_reference_query', $test_query_3);
+    $this->assertEqual($query->getMaterialFilter(), [$test_query_3]);
+  }
+
+  /**
+   * Test the provider specifics custom sorting.
+   */
+  public function testProviderSpecificSort() {
+    $provider_sorts = ding_provider_invoke('search', 'sort_options');
+    $this->assertTrue(count($provider_sorts) > 0);
+
+    $sort = reset($provider_sorts);
+    $this->assertTrue($sort['sort'] instanceof TingSearchSort);
+    $this->assertTrue(!empty($sort['label']));
+    $this->assertTrue(!empty($sort['label_short']));
+  }
+
+  /**
+   * Test TingSearchRequest can include and exclude materials.
+   */
+  public function testMaterialFilter() {
+    $query_include = ting_start_query()->withMaterialFilter('123');
+
+    // Check the filter is being set to include.
+    $this->assertEqual($query_include->getMaterialFilter(), ['123']);
+    $this->assertTrue($query_include->isMaterialFilterInclude());
+
+    $query_exclude = ting_start_query()->withMaterialFilter('123', FALSE);
+
+    // Check the filter is being set to exclude.
+    $this->assertEqual($query_exclude->getMaterialFilter(), ['123']);
+    $this->assertFalse($query_exclude->isMaterialFilterInclude());
+  }
+
 }

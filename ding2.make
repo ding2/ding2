@@ -429,6 +429,20 @@ projects[views_data_export][version] = "3.1"
 projects[views_responsive_grid][subdir] = "contrib"
 projects[views_responsive_grid][version] = "1.3"
 
+projects[views_rss][subdir] = "contrib"
+projects[views_rss][version] = "2.0-rc4"
+
+; This specific checkout is only because of the module is dev branch only.
+projects[views_rss_media][type] = "module"
+projects[views_rss_media][subdir] = "contrib"
+projects[views_rss_media][download][type] = "git"
+projects[views_rss_media][download][url] = "http://git.drupal.org/project/views_rss_media.git"
+projects[views_rss_media][download][revision] = "14f7cc90d41c0186d2356ff528ac316a16eba3fd"
+; Prevents yielding strict warning about variables that should be passed by reference in views_rss_media_requirements().
+projects[views_rss_media][patch][] = "https://www.drupal.org/files/issues/strict-warning-2149287-1.patch"
+; Changing REQUIREMENT_ERROR to REQUIREMENT_WARNING so the installation of module will pass.
+projects[views_rss_media][patch][] = "https://www.drupal.org/files/issues/views_rss_media-2550589-1.patch"
+
 ; Development version where the "unpublished" status have been fixed on the content edit page.
 projects[view_unpublished][subdir] = "contrib"
 projects[view_unpublished][download][type] = "git"
@@ -456,8 +470,8 @@ projects[wysiwyg][download][revision] = "7981731f4f3db2f932419499d2ec13a073e9b88
 
 projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
-projects[ask_vopros][download][type] = "git"
-projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
+projects[ask_vopros][download][type] = "get"
+projects[ask_vopros][download][url] = "https://github.com/vopros-dk/ask_vopros.git"
 projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
@@ -484,8 +498,8 @@ projects[ding_spt_statistics][download][branch] = "development"
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
-libraries[bpi-client][download][tag] = "7.x-4.2.1"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
+libraries[bpi-client][download][tag] = "7.x-4.3.0"
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
@@ -545,9 +559,8 @@ libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][tag] = "7.x-4.2.0"
-libraries[ting-client][download][tag] = "7.x-4.2.1"
-libraries[ting-client][destination] = "modules/ting/lib"
+libraries[ting-client][destination] = "modules/opensearch/lib"
+libraries[ting-client][download][tag] = "7.x-4.3.0"
 
 libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"
@@ -586,6 +599,11 @@ libraries[masonry][download][type] = "get"
 libraries[masonry][download][url] = https://github.com/desandro/masonry/archive/v4.1.1.zip
 libraries[masonry][directory_name] = "masonry"
 libraries[masonry][destination] = "libraries"
+
+libraries[smart-app-banner][download][type] = "get"
+libraries[smart-app-banner][download][url] = https://github.com/kudago/smart-app-banner/archive/v1.3.0.zip
+libraries[smart-app-banner][directory_name] = "smart-app-banner"
+libraries[smart-app-banner][destination] = "libraries"
 
 libraries[pz2][download][type] = "get"
 libraries[pz2][download][url] = http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz
@@ -655,4 +673,3 @@ projects[domain_variable][version]          = "1.1"
 
 projects[domain_views][subdir]              = "contrib"
 projects[domain_views][version]             = "1.5"
-

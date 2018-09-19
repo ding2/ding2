@@ -794,7 +794,7 @@ function ddbasic_process_ting_object(&$vars) {
     case 'ting_collection':
       // Add a reference to the ting_object if it's included in a
       // ting_collection.
-      foreach ($vars['object']->entities as &$ting_entity) {
+      foreach ($vars['object']->getEntities() as &$ting_entity) {
         $ting_entity->in_collection = $vars['object'];
       }
       break;

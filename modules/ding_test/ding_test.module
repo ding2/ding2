@@ -1,0 +1,18 @@
+<?php
+/**
+ * @file
+ * Support functionallity for testing.
+ */
+
+use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
+
+/**
+ * Implements hook_xautoload().
+ *
+ * Have xautoload load classes from our vendor-dir.
+ */
+function ding_test_xautoload(LocalDirectoryAdapter $adapter) {
+  $adapter->absolute()->composerDir(
+    drupal_get_path('module', 'ding_test') . '/vendor/composer'
+  );
+}

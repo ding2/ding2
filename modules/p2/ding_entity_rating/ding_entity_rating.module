@@ -566,12 +566,12 @@ function ding_entity_rating_get_loans_not_rated() {
 function ding_entity_rating_preprocess_material_item(&$variables) {
   if (isset($variables['element']['#loan'])) {
     $entity = $variables['element']['#loan']->entity;
-    if (is_object($entity) && !empty($entity->reply)) {
-      $variables['information']['ding_entity_rating'] = array(
+    if (is_object($entity) && $entity instanceof \TingEntity) {
+      $variables['information']['ding_entity_rating'] = [
         'label' => t('Rate'),
-        'data' => theme('ding_entity_rating_display', array('entity' => $variables['element']['#loan']->entity)),
+        'data' => theme('ding_entity_rating_display', ['entity' => $entity]),
         'class' => 'rating',
-      );
+      ];
     }
   }
 }

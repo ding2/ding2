@@ -174,7 +174,7 @@ function ding_availability_holdings($provider_ids) {
     );
 
     // Marks internet resources as available.
-    if ($item['is_internet']) {
+    if (!empty($item['is_internet'])) {
       $item['available'] = TRUE;
     }
 
@@ -240,22 +240,22 @@ function ding_availability_holdings($provider_ids) {
         'reserved_text' => t('Cannot be reserved.'),
         'acquisition_text' => '',
         'total_text' => format_plural($total_and_ordered_count,
-                      'We have 1 copy.',
-                      'We have @count copies.',
-                      array('@count' => $total_and_ordered_count)),
+          'We have 1 copy.',
+          'We have @count copies.',
+          array('@count' => $total_and_ordered_count)),
       );
 
       if ($ordered_count) {
         $variables['acquisition_text'] = format_plural($ordered_count,
-                                         '1 copy in acquisition.',
-                                         '@count copies are in acquisition.',
-                                         array('@count' => $ordered_count));
+          '1 copy in acquisition.',
+          '@count copies are in acquisition.',
+          array('@count' => $ordered_count));
       }
 
       if ($item['reservable']) {
         $variables['reserved_text'] = format_plural($reserved_count,
-                                      'There is 1 user in queue to loan the material.',
-                                      'There are @count users in queue to loan the material.');
+          'There is 1 user in queue to loan the material.',
+          'There are @count users in queue to loan the material.');
       }
 
       // Theme the output.
@@ -319,6 +319,7 @@ function ding_availability_holdings_row(array $holding, array $fields) {
         // Calculate copies home.
         $row['available'] = isset($holding['available_count']) ? (int) $holding['available_count'] : 0;
         $row['available'] += isset($holding['reference_count']) ? (int) $holding['reference_count'] : 0;
+        break;
 
       case 'ordered_count':
         // Copies in acquisition.

@@ -1,6 +1,21 @@
 name = Ting field search
 description = Extends the search functionallity of Ting search
-package = Ding!
 core = 7.x
-
+package = Ding!
+dependencies[] = ctools
+dependencies[] = opensearch
 dependencies[] = ting_search
+features[ctools][] = ting_field_search:ting_field_search_default_profiles:1
+features[features_api][] = api:2
+features[ting_field_search_profile][] = artikler
+features[ting_field_search_profile][] = boeger
+features[ting_field_search_profile][] = boeger_fag
+features[ting_field_search_profile][] = cd
+features[ting_field_search_profile][] = dvd_bluray
+features[ting_field_search_profile][] = eboeger_danske
+features[ting_field_search_profile][] = eboeger_udenlandske
+features[ting_field_search_profile][] = lydboeger
+features[ting_field_search_profile][] = noder
+features[ting_field_search_profile][] = spil
+features[ting_field_search_profile][] = tidsskrifter
+mtime = 1511785162

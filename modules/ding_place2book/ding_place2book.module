@@ -2,7 +2,7 @@
 require_once 'includes/ding_place2book.event_validate.inc';
 
 /**
- * Implementation of hook_ctools_plugin_directory().
+ * Implements hook_ctools_plugin_directory().
  */
 function ding_place2book_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && $plugin == 'content_types') {
@@ -11,8 +11,8 @@ function ding_place2book_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
-* Implementation of hook_enable().
-*/
+ * Implements hook_enable().
+ */
 function ding_place2book_enable() {
   /*
    * Create a field on the Event nodetype as a placeholder for the order-button/info-area
@@ -60,8 +60,8 @@ function ding_place2book_enable() {
 }
 
 /**
-* Implementation of hook_disable().
-*/
+ * Implements hook_disable().
+ */
 function ding_place2book_disable() {
   field_delete_field('field_place2book_tickets');
   // Field module prevents disabling modules
@@ -74,12 +74,12 @@ function ding_place2book_disable() {
 }
 
 /**
-* Called via AJAX/JavaScript.
-* Returns (prints) JSON containing ticket information from Place2book
-*
-* @param int $nid
-* @return null
-*/
+ * Called via AJAX/JavaScript.
+ * Returns (prints) JSON containing ticket information from Place2book
+ *
+ * @param int $nid
+ * @return null
+ */
 function ding_place2book_get_ticketinfo($nid) {
   //get the node
   $event = node_load($nid);
@@ -94,7 +94,7 @@ function ding_place2book_get_ticketinfo($nid) {
 }
 
 /**
- * Implementation of hook_init().
+ * Implements hook_init().
  */
 function ding_place2book_init() {
   drupal_add_js(drupal_get_path('module', 'ding_place2book') . '/js/ding_place2book.js');
@@ -102,8 +102,8 @@ function ding_place2book_init() {
 }
 
 /**
-* Implements hook_image_default_styles().
-*/
+ * Implements hook_image_default_styles().
+ */
 function ding_place2book_image_default_styles() {
   $styles = array();
 
@@ -123,7 +123,7 @@ function ding_place2book_image_default_styles() {
 }
 
 /**
- * Implementation of hook_permission().
+ * Implements hook_permission().
  */
 function ding_place2book_permission() {
   return array(
@@ -135,7 +135,7 @@ function ding_place2book_permission() {
 }
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function ding_place2book_menu() {
   $items = array();
@@ -182,29 +182,28 @@ function ding_place2book_menu() {
   return $items;
 }
 
-/*
- * Implementation of hook_node_view()
+/**
+ * Implements hook_node_view().
  */
 function ding_place2book_node_view($node, $view_mode, $langcode) {
   // We only handle event nodes.
   if ($node->type == "ding_event") {
     // Check that node is not new and check that the place2book
     // field should be shown this view mode.
-    if (isset($node->nid) && isset($node->content['field_place2book_tickets'])) {
-
-      //modify the existing placeholder field_place2book_tickets
+    if (isset($node->nid) && isset($node->content['field_place2book_tickets']) && $view_mode != 'full') {
+      // Modify the existing placeholder field_place2book_tickets
       // @todo: Do not fiddle with field weight. We should respect the
       // node configuration.
-      $node->content['field_place2book_tickets']['#weight'] = 50;
+      $node->content['field_place2book_tickets'][LANGUAGE_NONE]['#weight'] = 50;
       // @todo: Replace input with a div with a data-attribute. That is a more
       // appropriate placeholder.
-      $node->content['field_place2book_tickets'][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" data-ticket="' . $node->nid . '" value="' . $node->nid . '"/>';
+      $node->content['field_place2book_tickets'][LANGUAGE_NONE][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" data-ticket="' . $node->nid . '" value="' . $node->nid . '"/>';
     }
   }
 }
 
-/*
- * Implementation of hook_node_insert()
+/**
+ * Implements hook_node_insert().
  */
 function ding_place2book_node_insert($node) {
   // We only handles event nodes.
@@ -217,14 +216,17 @@ function ding_place2book_node_insert($node) {
       // Insert - no copy at place2book, save settings only
       _ding_place2book_db_op('insert', $node, -1);
     }
+    // Here we know that there is a result from p2b.
+    // Extract necessary ids from db and make a request to get url
+    // and save url in the ding_event_ticket_link field.
+    ding_place2book_get_ticket_link($node);
   }
 }
 
-/*
- * Implementation of hook_node_update()
+/**
+ * Implements hook_node_update().
  */
 function ding_place2book_node_update($node) {
-
   if ($node->type == "ding_event") {
     // Continue only if node contains place2book data - they will not be there
     // when performing a bulk update, updating via scheduler module etc.
@@ -270,11 +272,79 @@ function ding_place2book_node_update($node) {
         }
       }
     }
+
+    // Here we know that there is a result from p2b.
+    // Extract necessary ids from db and make a request to get url
+    // and save url in the ding_event_ticket_link field.
+    ding_place2book_get_ticket_link($node, $place2book_id);
   }
 }
 
-/*
- * Implementation of hook_node_delete()
+/**
+ * Getting ticket link for population of ding_event ticket field.
+ *
+ * @param object $node
+ *   Current node object.
+ * @param int|null $place2book_id
+ *   Identificator of event in P2B system.
+ */
+function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
+  if (empty($place2book_id)) {
+    $place2book_id = db_select('ding_place2book', 'dp2b')
+      ->fields('dp2b', array('place2book_id'))
+      ->condition('nid', $node->nid)
+      ->execute()
+      ->fetchField();
+  }
+
+  if ($place2book_id) {
+    $service_settings = variable_get('ding_place2book', array());
+
+    // Get the library id for the event.
+    $library_id = ding_place2book_get_library_nid($node);
+
+    $api_key = place2book_get_api_key($library_id);
+    if ($api_key == NULL) {
+      return;
+    }
+
+    // Check cache for the URL.
+    if ($cache = cache_get($place2book_id . '_' . $library_id, 'cache_place2book')) {
+      return $cache->data;
+    };
+
+    // @todo: Move http requests to a shared function responsible for setting
+    // the correct headers. These bits seem to be repeated often - even with
+    // variation. This could also include error handling.
+    $headers = array(
+      'X-PLACE2BOOK-API-TOKEN' => $api_key,
+      'X-PLACE2BOOK-EVENT-ID' => $place2book_id,
+    );
+    $options = array(
+      'method' => 'GET',
+      'headers' => $headers,
+    );
+    $p2b_result = drupal_http_request(
+      $service_settings['service_url'] . '/available_tickets',
+      $options
+    );
+
+    $link = $p2b_result->headers['location'];
+
+    $ticket_link = field_get_items('node', $node, 'field_ding_event_ticket_link');
+
+    if (empty($ticket_link)) {
+      $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = $link;
+      field_attach_presave('node', $node);
+      field_attach_update('node', $node);
+      // Clear the static loading cache.
+      entity_get_controller('node')->resetCache(array($node->nid));
+    }
+  }
+}
+
+/**
+ * Implements hook_node_delete().
  */
 function ding_place2book_node_delete($node) {
   // We only handle event nodes.
@@ -306,17 +376,17 @@ function ding_place2book_node_delete($node) {
 }
 
 /**
- * Implementation of hook_node_presave().
+ * Implements hook_node_presave().
  */
 function ding_place2book_node_presave($node) {
   //make sure that the placeholder field always gets a value
   if ($node->type ==='ding_event') {
-    $node->field_place2book_tickets['und']['0']['value']= 'placeholder';
+    $node->field_place2book_tickets[LANGUAGE_NONE]['0']['value'] = 'placeholder';
   }
 }
 
 /**
- * Implementation of hook_form_FORM_ID_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
 function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $form_id) {
   // Get the nid in a PHP 5.3 safe way and load settings for this node.
@@ -342,6 +412,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
 
   //remove field_place2book_tickets from the form - it is only a placeholder and need not be seen nor edited, and it has default value
   $form['field_place2book_tickets'] = NULL;
+  $form['field_place2book_tickets']['#language'] = LANGUAGE_NONE;
 
   $form['place2book'] = array(
     '#type' => 'fieldset',
@@ -412,6 +483,7 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
  *  A node object for the event.
  * @param int $place2book_id
  *  Place2Book identifier.
+ *
  * @return int
  *  Place2Book identifier.
  */
@@ -477,7 +549,7 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
       $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $options);
 
       // Catch update error by checking the return code.
-      if ($req_result->error != 'Accepted') {
+      if ($req_result->status_message != 'Accepted') {
         // @todo: This error handling is not appropriate for normal editors.
         // Replace with drupal_set_message + watchdog.
         $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
@@ -778,11 +850,11 @@ function ding_place2book_settings($nid = NULL) {
     if ($result->rowCount() > 0) {
       $settings = $result->fetchAssoc();
     }
-    //add place2book_id to define it if no database settings found
+    // Add place2book_id to define it if no database settings found.
     else {
       $settings['place2book_id'] = NULL;
     }
-  //add place2book_id to define it if nid is not defined
+  // Add place2book_id to define it if nid is not defined.
   }
   else {
     $settings['place2book_id'] = NULL;
@@ -876,6 +948,7 @@ function _ding_place2book_db_op($op, $node, $place2book_id = NULL) {
  *
  * @param int $library_id
  *  The nid for the library that has the current event.
+ *
  * @return string
  *  API key or NULL if configuration is not found.
  */
@@ -898,7 +971,7 @@ function place2book_get_api_key($library_id = NULL) {
   return $api_key;
 }
 
-/*
+/**
  * Rendering function for place2book tickets info
  */
 function ding_place2book_render_place2book_ticketsinfo($node) {
@@ -998,15 +1071,17 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
       }
     }
   }
-  return theme('place2book_ticketsinfo', array('place2book_id' => $place2book_id, 'url' => $url, 'type' => $type));;
+  return theme('place2book_ticketsinfo', array(
+    'place2book_id' => $place2book_id,
+    'url' => $url,
+    'type' => $type,
+  ));
 }
 
-/*
- * ticketsinfo theme function
+/**
+ * Ticketsinfo theme function.
  */
 function theme_place2book_ticketsinfo($variables) {
-  $output = '';
-  $place2book_id = $variables['place2book_id'];
   $url = $variables['url'];
   $type = $variables['type'];
 
@@ -1034,7 +1109,7 @@ function theme_place2book_ticketsinfo($variables) {
   return $output;
 }
 
-/*
+/**
  * Implements hook_theme().
  */
 function ding_place2book_theme() {
@@ -1048,4 +1123,15 @@ function ding_place2book_theme() {
     ),
   );
   return $items;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_place2book_preprocess_node(&$variables) {
+  if ($variables['type'] == 'ding_event' && $variables['view_mode'] == 'full') {
+    // Hide field_place2book_tickets, because it is rendering "placeholder"
+    // default value under the "Left" info group.
+    $variables['content']['field_place2book_tickets']['#access'] = FALSE;
+  }
 }

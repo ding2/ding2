@@ -6,6 +6,8 @@
  */
 
 // Define states for ding_message:
+use Ting\Search\TingSearchCommonFields;
+
 define('DING_MESSAGE_ACTIVE', 1);
 define('DING_MESSAGE_CLOSED', 2);
 define('DING_MESSAGE_IGNORE', 3);
@@ -288,26 +290,30 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
       break;
 
     case 'taxonomy_term':
-      module_load_include('inc', 'ting', 'ting.client');
+      module_load_include('inc', 'opensearch', 'open.client');
       // Get the element value.
       $value = ding_list_get_list_element_value($element);
       // Load taxonomy term.
       $term = taxonomy_term_load($value);
       // Taxonomy terms updates are a ting search
       // for materials with the subject = term->name.
-      $query = 'dc.subject=' . check_plain($term->name);
-      // Perform search.
-      $result = ting_do_search($value, 1, 50);
-      if (is_object($result) || $result->numTotalCollections != 0) {
+      $result = ting_start_query()
+        ->withFieldFilter(TingSearchCommonFields::SUBJECT, check_plain($term->name))
+        ->withCount(50)
+        ->execute();
+      if ($result->getNumTotalCollections() > 0) {
         // Get the first element in the search result set.
-        $first_collection = current($result->collections);
+        $collections = $result->getTingEntityCollections();
+        $first_collection = current($collections);
         if (!empty($message)) {
           // If the first search result element
           // doesn't match the stored last id,
           // update the message.
-          if ($first_collection->ding_entity_id != $last_element_id) {
+          if ($first_collection->getId() != $last_element_id) {
             // Get the result set ids.
-            $collection_ids = array_keys($result->collections);
+            $collection_ids = array_map(function(\TingCollection $collection) {
+              return $collection->getId();
+            }, $collections);
             // Get the amount of new elements since last check.
             $count = array_search($last_element_id, $collection_ids);
             // Add the count to the new elements count.
@@ -315,49 +321,50 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
             if ($status != DING_MESSAGE_ACTIVE) {
               // If the messages have been seen,
               // set the last and first element ids.
-              $last_element_id = $first_collection->ding_entity_id;
-              $first_element_id = $result->collections[$collection_ids[$count - 1]]->ding_entity_id;
+              $last_element_id = $first_collection->getId();
+              $first_element_id = $collection_ids[$count - 1];
             }
             // Tell the function that there are updates to save.
             $has_updates = TRUE;
           }
         }
         else {
-          if (count($result->collections)) {
-            // Set all values for a new message to be created.
-            // First element is the first item of the search, which
-            // is actually the last in the array, and last element
-            // is therefore the first item in the array.
-            $last_element_id = $first_collection->ding_entity_id;
-            $first_element = end($result->collections);
-            $first_element_id = $first_element->ding_entity_id;
-            $new_elements_count += $result->numTotalCollections;
-            $has_updates = TRUE;
-          }
+          // Set all values for a new message to be created.
+          // First element is the first item of the search, which
+          // is actually the last in the array, and last element
+          // is therefore the first item in the array.
+          $last_element_id = $first_collection->getId();
+          $first_element = end($collections);
+          $first_element_id = $first_element->getId();
+          $new_elements_count += $result->getNumTotalCollections();
+          $has_updates = TRUE;
         }
       }
       break;
 
     case 'follow_author':
     case 'search_query':
-      module_load_include('inc', 'ting', 'ting.client');
+      module_load_include('inc', 'opensearch', 'opensearch.client');
       // Get the element value.
       $value = ding_list_get_list_element_value($element);
       if ($value) {
         // Build a search query, since the url path doesn't
         // match the query accepted by ting_do_search.
         $query = ding_message_build_query($value);
-        // Perform search.
-        $result = ting_do_search($query, 1, 50);
-        if (is_object($result) || $result->numTotalCollections > 0) {
+        // TODO Port to search abstraction layer.
+        $result = $query->withCount(50)->execute();
+        if ($result->getNumTotalCollections() > 0) {
           // Get the first element in the search result set.
-          $first_collection = current($result->collections);
+          $collections = $result->getTingEntityCollections();
+          $first_collection = current($collections);
           if (!empty($message)) {
             // If the first search result element
             // doesn't match the stored last id, update the message.
-            if ($first_collection->ding_entity_id != $last_element_id) {
+            if ($first_collection->getId() != $last_element_id) {
               // Get the result set ids.
-              $collection_ids = array_keys($result->collections);
+              $collection_ids = array_map(function (TingCollection $collection) {
+                return $collection->getId();
+              }, $collections);
               // Get the amount of new elements since last check.
               // We assume the result set is consistently ranked by date.
               $count = array_search($last_element_id, $collection_ids);
@@ -367,25 +374,23 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
                 // If the messages has been seen,
                 // set the last and first element ids.
                 // Set all values for a new message to be created.
-                $last_element_id = $first_collection->ding_entity_id;
-                $first_element_id = $result->collections[$collection_ids[$count - 1]]->ding_entity_id;
+                $last_element_id = $first_collection->getId();
+                $first_element_id = $collection_ids[$count - 1];
               }
               // Tell the function that there are updates to save.
               $has_updates = TRUE;
             }
           }
           else {
-            if (count($result->collections)) {
-              // Set all values for a new message to be created.
-              // First element is the first item of the search, which
-              // is actually the last in the array, and last element
-              // is therefore the first item in the array.
-              $last_element_id = $first_collection->ding_entity_id;
-              $first_element = end($result->collections);
-              $first_element_id = $first_element->ding_entity_id;
-              $new_elements_count += $result->numTotalCollections;
-              $has_updates = TRUE;
-            }
+            // Set all values for a new message to be created.
+            // First element is the first item of the search, which
+            // is actually the last in the array, and last element
+            // is therefore the first item in the array.
+            $last_element_id = $first_collection->getId();
+            $first_element = end($collections);
+            $first_element_id = $first_element->getId();
+            $new_elements_count += $result->getNumTotalCollections();
+            $has_updates = TRUE;
           }
         }
       }
@@ -705,7 +710,7 @@ function ding_message_preprocess_ting_object(&$vars) {
   $entity_type = $vars['elements']['#entity_type'];
   $bundle = $vars['elements']['#bundle'];
   $entity = $vars['elements']['#object'];
-  if ($entity_type == 'ting_collection') {
+  if ($entity_type === 'ting_collection') {
     if (isset($_GET['message'])) {
       // If the user is comming from a notification link add js,
       // css and html attributes.
@@ -720,36 +725,30 @@ function ding_message_preprocess_ting_object(&$vars) {
 /**
  * Build a ting search query.
  *
- * @param string $query
- *   The query string to rebuild.
+ * @param string $query_string
+ *   The url query string for which to build a search query.
  *
- * @return string
- *   A rebuild query string which matches the required structure of the ting
- *   client.
+ * @return \Ting\Search\TingSearchRequest
+ *   A search query object corresponding to the search string.
  */
-function ding_message_build_query($query) {
-  // Separate path and query.
-  $qs = explode('?', urldecode($query));
-  // Build the path as required.
-  $new_query = '(' . _ting_search_quote($qs[0]) . ')';
-  if (isset($gs[1])) {
-    // Build facets.
-    $facets = explode('&', $qs[1]);
-    $facet_array = array();
-    foreach ($facets as $facet) {
-      $fs = explode('=', $facet);
-      $fs = explode(':', $fs[1], 2);
-      if ($fs[0]) {
-        $facet_array[] = $fs[0] . '="' . rawurldecode($fs[1]) . '"';
-      }
-    }
-    // Merge facets.
-    if (count($facet_array)) {
-      $new_query .= ' AND ' . implode(' AND ', $facet_array);
+function ding_message_build_query($query_string) {
+  $search_query = ting_start_query();
+  list($path, $query) = preg_split('/\?/', urldecode($query_string), 2);
+  parse_str($query, $query_data);
+
+  if (!empty($path)) {
+    $search_query = $search_query->withFullTextQuery($path);
+  }
+
+  if (!empty($query_data['facets']) && is_array($query_data['facets'])) {
+    foreach ($query_data['facets'] as $facet) {
+      list($facet_name, $facet_value) = explode(':', $facet, 2);
+      $search_query = $search_query->withFieldFilter($facet_name, $facet_value);
     }
   }
+
   // Return the new query.
-  return $new_query;
+  return $search_query;
 }
 
 /**

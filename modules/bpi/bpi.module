@@ -927,20 +927,22 @@ function bpi_workflow_by_machine_names($machine_names) {
  *   int in case when material with same id was found.
  */
 function bpi_validate_material($id) {
-  // Load ting client.
-  module_load_include('client.inc', 'ting');
+  $result = ting_start_query()
+    ->withFullTextQuery($id)
+    ->withCount(1)
+    ->withPopulateCollections(FALSE)
+    ->execute();
 
-  // Search the data well.
-  $result = ting_do_search($id, 1, 1, array('facets' => array(), 'allObjects' => FALSE));
+  $primary_objects = array_map(function (TingCollection $collection) {
+    return $collection->getPrimary_object();
+  }, $result->getTingEntityCollections());
+  // Collections may not have a primary object. Remove such entries.
+  $primary_objects = array_filter($primary_objects);
+  $ids = array_map(function (TingEntity $object) {
+    return $object->getId();
+  }, $primary_objects);
 
-  // If there is no usable result, exit immediately, providing no reply.
-  $object = NULL;
-  if ($result && $result->numTotalObjects) {
-    foreach ($result->collections as $collection) {
-      $object = array_shift($collection->reply->objects);
-    }
-  }
-  return $object ? $object->id : FALSE;
+  return array_shift($ids);
 }
 
 /**

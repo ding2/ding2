@@ -9,8 +9,8 @@
  * Controller class for ting objects.
  */
 class TingObjectController extends DrupalDefaultEntityController {
+
   public function load($ids = array(), $conditions = array()) {
-    module_load_include('client.inc', 'ting');
     $queried_entities = array();
     // We really don't support loading of all objects. We're adding to
     // $ids depending on conditions.
@@ -94,7 +94,8 @@ class TingObjectController extends DrupalDefaultEntityController {
       $get_ids[] = $qe->ding_entity_id;
     }
     if ($get_ids && $load_ids = array_diff($get_ids, $cached_entity_ids)) {
-      $objects = ting_get_objects(array_unique($load_ids));
+      // Load the objects via the currently active search provider.
+      $objects = ding_provider_invoke('search', 'object_load', array_unique($load_ids));
     }
 
     // Not known locally. Create a proxy if it exists in the well.
@@ -131,7 +132,7 @@ class TingObjectController extends DrupalDefaultEntityController {
       // In the case when the entity is not available from the well,
       // remove it from the loading queue.
       if (!empty($objects[$qe->ding_entity_id])) {
-        $qe->reply = $objects[$qe->ding_entity_id];
+        $qe->setTingObject($objects[$qe->ding_entity_id]);
       }
       else {
         unset($queried_entities[$k]);
@@ -243,7 +244,6 @@ class TingCollectionController implements DrupalEntityControllerInterface {
    * Implements DrupalEntityControllerInterface::load().
    */
   public function load($ids = array(), $conditions = array()) {
-    module_load_include('client.inc', 'ting');
     $entities = array();
     $queried_entities = array();
     if (isset($conditions['ding_entity_id'])) {
@@ -252,17 +252,19 @@ class TingCollectionController implements DrupalEntityControllerInterface {
           $entities[$ding_entity_id] = $this->entityCache[$ding_entity_id];
         }
         else {
-          $reply = ting_get_object($ding_entity_id, TRUE);
-          $object = NULL;
-          if ($reply) {
-            $object = new TingCollection($ding_entity_id);
-            $object->reply = $reply;
-            $queried_entities[$ding_entity_id] = $object;
+          // Use the search provider to load the collection.
+          /* @var \Ting\TingObjectCollectionInterface|NULL $object_collection */
+          $object_collection = ding_provider_invoke('search', 'collection_load', $ding_entity_id);
+
+          if (empty($object_collection) || empty($object_collection->getPrimaryObject())) {
+            watchdog('ting', 'Loaded empty collection with ID @id, this could be an error. ', ['@id' => $ding_entity_id], WATCHDOG_WARNING);
+            continue;
           }
+          $object = new TingCollection($ding_entity_id, $object_collection);
+          $queried_entities[$ding_entity_id] = $object;
 
           if (isset($object)) {
             $entities[$ding_entity_id] = $object;
-            // $this->entityCache[$ding_entity_id] = $object;
           }
         }
       }
