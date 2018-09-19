@@ -562,6 +562,8 @@ search/node',
   $display->cache = array();
   $display->title = '';
   $display->uuid = '92a45db0-147b-411f-8833-8377a52f5198';
+  $display->storage_type = 'page_manager';
+  $display->storage_id = 'site_template_panel_context';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -621,7 +623,7 @@ search/node',
     $pane->cache = array(
       'method' => 'lazy',
       'settings' => array(
-        'load_strategy' => 'page-loaded',
+        'load_strategy' => 'pane-visible',
         'show_spinner' => 1,
         'load_text' => '',
       ),
@@ -661,7 +663,7 @@ search/node',
     $pane->cache = array(
       'method' => 'lazy',
       'settings' => array(
-        'load_strategy' => 'page-loaded',
+        'load_strategy' => 'pane-visible',
         'show_spinner' => 0,
         'load_text' => '',
       ),
