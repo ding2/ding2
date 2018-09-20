@@ -410,7 +410,7 @@ function opensearch_execute(TingClientRequest $request) {
     // Alternative rewrite the whole ting entity module, which currently is
     // overkill.
     if ($response instanceof TingClientSearchResult) {
-      _opensearch_predict_cache($response->collections, $opensearch_static_fast);
+      _opensearch_predict_cache($response->collections, $opensearch_static_fast, $request);
     }
 
     return $response;
@@ -441,66 +441,73 @@ function opensearch_execute(TingClientRequest $request) {
  *   The collections found in TingClientSearchResult object.
  * @param array $opensearch_static_fast
  *   The fast static cache used by opensearch_execute().
+ * @param TingClientRequest $request
+ *   The request used to get the collections.
  *
  * @throws \TingClientException
  *   If the search client request fails.
  */
-function _opensearch_predict_cache(array $collections, array &$opensearch_static_fast) {
+function _opensearch_predict_cache(array $collections, array &$opensearch_static_fast, TingClientRequest $request) {
   foreach ($collections as $collection) {
-    $object = reset($collection->objects);
+    if (is_object($collection->objects[0])) {
+      $object = reset($collection->objects);
 
-    $collection_request = opensearch_get_request_factory()->getCollectionRequest();
-    $collection_request->setAllObjects(FALSE);
-    $collection_request->setObjectId($object->id);
-    $collection_request->setQuery('*:*');
+      $collection_request = opensearch_get_request_factory()->getCollectionRequest();
+      $collection_request->setAllObjects(FALSE);
+      $collection_request->setObjectId($object->id);
+      $collection_request->setQuery('*:*');
 
-    // See opensearch_execute() for description of always getting all relations.
-    $collection_request->setAllRelations(TRUE);
-    $collection_request->setRelationData('full');
+      // See opensearch_execute() for description of always getting all relations.
+      $collection_request->setAllRelations(TRUE);
+      $collection_request->setRelationData('full');
 
-    // Set agency from the administration interface.
-    if ($agency = variable_get('ting_agency', FALSE)) {
-      $collection_request->setAgency($agency);
+      // Set agency from the administration interface.
+      if ($agency = variable_get('ting_agency', FALSE)) {
+        $collection_request->setAgency($agency);
+      }
+
+      // Set search profile from the administration interface.
+      $profile = variable_get('opensearch_search_profile', '');
+      if (!empty($profile)) {
+        $collection_request->setProfile($profile);
+      }
+
+      // Get additional parameters from other modules.
+      $params = module_invoke_all('opensearch_pre_execute', $collection_request);
+      if (!empty($params)) {
+        $collection_request->setParameters($params);
+      }
+
+      // Build the response that matches the request and put it into cache.
+      $collection_response = new TingClientObjectCollection($collection->objects);
+      _opensearch_cache_insert($collection_request, $collection_response, $opensearch_static_fast);
+
+      $object_request = opensearch_get_request_factory()->getObjectRequest();
+      $object_request->setObjectId($object->id);
+
+      // See opensearch_execute() for description of always getting all relations.
+      $object_request->setAllRelations(TRUE);
+      $object_request->setRelationData('full');
+
+      // Set agency from the administration interface.
+      if ($agency = variable_get('ting_agency', FALSE)) {
+        $object_request->setAgency($agency);
+      }
+
+      // Set search profile from the administration interface.
+      $profile = variable_get('opensearch_search_profile', '');
+      if (!empty($profile)) {
+        $object_request->setProfile($profile);
+      }
+
+      // Build the response that matches the request and put it into cache.
+      $object_response = array();
+      $object_response[$object->id] = clone $object;
+      _opensearch_cache_insert($object_request, $object_response, $opensearch_static_fast);
     }
-
-    // Set search profile from the administration interface.
-    $profile = variable_get('opensearch_search_profile', '');
-    if (!empty($profile)) {
-      $collection_request->setProfile($profile);
+    else {
+      watchdog('opensearch', 'Predict cache found collection with empty objects. Search query: @query', array('@query' => $request->getQuery()), WATCHDOG_WARNING);
     }
-
-    // Get additional parameters from other modules.
-    $params = module_invoke_all('opensearch_pre_execute', $collection_request);
-    if (!empty($params)) {
-      $collection_request->setParameters($params);
-    }
-
-    // Build the response that matches the request and put it into cache.
-    $collection_response = new TingClientObjectCollection($collection->objects);
-    _opensearch_cache_insert($collection_request, $collection_response, $opensearch_static_fast);
-
-    $object_request = opensearch_get_request_factory()->getObjectRequest();
-    $object_request->setObjectId($object->id);
-
-    // See opensearch_execute() for description of always getting all relations.
-    $object_request->setAllRelations(TRUE);
-    $object_request->setRelationData('full');
-
-    // Set agency from the administration interface.
-    if ($agency = variable_get('ting_agency', FALSE)) {
-      $object_request->setAgency($agency);
-    }
-
-    // Set search profile from the administration interface.
-    $profile = variable_get('opensearch_search_profile', '');
-    if (!empty($profile)) {
-      $object_request->setProfile($profile);
-    }
-
-    // Build the response that matches the request and put it into cache.
-    $object_response = array();
-    $object_response[$object->id] = clone $object;
-    _opensearch_cache_insert($object_request, $object_response, $opensearch_static_fast);
   }
 }
 
