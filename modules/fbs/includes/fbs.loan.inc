@@ -55,29 +55,25 @@ function fbs_loan_list($account, $reset = FALSE) {
           'materials_number' => $loan->loanDetails->materialItemNumber,
         );
 
-        // Try to provide some meaningful renewal feedback.
-        if (empty($loan->isRenewable)) {
-          $renewed_ids = array();
-          if (module_exists('ding_session_cache')) {
-            $renewed_ids = ding_session_cache_get('ding_loan', 'renewed_ids', array());
+        // Ding loan maintains a list of renewed loans in this session, and if
+        // this loan is here we will use it for renewal feedback.
+        $renewed_ids = array();
+        if (module_exists('ding_session_cache')) {
+          $renewed_ids = ding_session_cache_get('ding_loan', 'renewed_ids', array());
+        }
+        if (in_array($id, $renewed_ids)) {
+          if ($loan->loanDetails->loanType === 'interLibraryLoan') {
+            $loan_data['renewal_status'] = DingProviderLoan::STATUS_RENEWAL_REQUESTED;
           }
-
-          // Ding loan maintains a list of renewed loans in this session, and if
-          // this loan is here we will use it for renewal feedback.
-          if (in_array($id, $renewed_ids)) {
-            if ($loan->loanDetails->loanType === 'interLibraryLoan') {
-              $loan_data['renewal_status'] = DingProviderLoan::STATUS_RENEWAL_REQUESTED;
-            }
-            else {
-              $loan_data['renewal_status'] = DingProviderLoan::STATUS_RENEWED;
-            }
-          }
-          // Fallback to the general error messages, which is also used when
-          // renewing loans.
           else {
-            $loan->renewalStatus = $loan->renewalStatusList;
-            $loan_data['renewal_status'] = _fbs_loan_get_renewal_status($loan);
+            $loan_data['renewal_status'] = DingProviderLoan::STATUS_RENEWED;
           }
+        }
+        elseif (empty($loan->isRenewable)) {
+          // If loan is not renewable, see what FBS returned as renewalStatus
+          // and try to provide some meaningful feedback based on that.
+          $loan->renewalStatus = $loan->renewalStatusList;
+          $loan_data['renewal_status'] = _fbs_loan_get_renewal_status($loan);
         }
 
         // If this is a periodical, add in issue data.
