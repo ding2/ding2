@@ -33,9 +33,8 @@
 
       // Set timeout to make shure element is still above while it animates out.
       setTimeout(function(){
-        element_to_hover.removeClass('is-hovered');
+        $('.ting-object > .is-hovered').removeClass('is-hovered');
         hovered.addClass('is-hovered');
-
       }, 300);
     });
     element_to_hover.mouseleave(function() {
