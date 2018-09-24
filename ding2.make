@@ -454,12 +454,8 @@ projects[workflow][patch][] = "http://www.drupal.org/files/issues/features_impor
 ; Prevent fatal errors on cron when using Scheduler, https://www.drupal.org/node/2499193.
 projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-php_fatal_error_call-2499193-7-2.5.patch"
 
-; This revision support the CKEditor 4.x, and can be used until a new version is tagged.
-projects[wysiwyg][type] = "module"
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][download][type] = "git"
-projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
-projects[wysiwyg][download][revision] = "7981731f4f3db2f932419499d2ec13a073e9b88f"
+projects[wysiwyg][version] = "2.5"
 
 projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
@@ -477,7 +473,7 @@ libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
 libraries[bpi-client][download][branch] = "master"
 
 libraries[ckeditor][download][type] = "get"
-libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_standard.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
