@@ -29,6 +29,44 @@ function ding_base_menu() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ */
+function ding_base_menu_alter(&$items) {
+  $items['customerror/%']['page callback'] = 'ding_base_customerror_page';
+}
+
+/**
+ * Page callback for our customerror page wrapper.
+ *
+ * We use the customerror module to show special pages for 403 og 404. If an
+ * anonymous user tries to visit any page without permission, the module will
+ * try to redirect to this page, if the user logs in later. In our setup, this
+ * has some unfortunate effects:
+ *
+ * 1. Since we use AJAX in our log in process, the redirect is never triggered
+ * when the user logs in, but rather on a subsequent form submission. This can
+ * be very confusing, if the user is redirected to a seemingly unrelated after,
+ * for example, renewing a loan.
+ * 2. The session variable will cause a session cookie to be saved in the user's
+ * browser and following requests will circumvent our Varnish cache.
+ * 3. When this error manifests it will, appearently, often be because of an
+ * AJAX-request that recieved 403, adding to the user's confusing (the page
+ * is completely unrelated).
+ *
+ * We therefore use this wrapper around customerror's page callback, to ensure
+ * this functionality is disabled.
+ */
+function ding_base_customerror_page($code) {
+  // Let customerror module do it's thing.
+  $output = customerror_page($code);
+
+  // Ensure the problematic session variable is removed.
+  unset($_SESSION['customerror_destination']);
+
+  return $output;
+}
+
+/**
  * Implements hook_theme().
  */
 function ding_base_theme() {
