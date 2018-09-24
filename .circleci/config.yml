@@ -155,8 +155,9 @@ jobs:
 
   behat_tests:
     docker:
-    - image: circleci/php:7.0-apache-browsers
+    - image: circleci/php:7.0-apache
     - image: circleci/mariadb:latest-ram
+    - image: justinribeiro/chrome-headless:stable
     working_directory: ~/drupal
     parallelism: 3
     steps:
@@ -206,13 +207,6 @@ jobs:
           drush vset -y loan_history_store_title_first_time ''
           drush php-eval 'variable_set("loan_history_store_description_first_time", array("value" => ""));'
           drush php-eval 'variable_set("loan_history_store_description", array("value" => ""));'
-    - run:
-        name: Install & run Selenium
-        command: |
-          wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar
-          java -jar selenium-server-standalone-2.44.0.jar
-        background: true
-        working_directory: ~
     - run:
         name: Install Behat
         command: composer install
