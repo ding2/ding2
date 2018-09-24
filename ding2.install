@@ -632,33 +632,5 @@ function ding2_update_7051() {
  */
 function ding2_update_7052() {
   module_enable(array('customerror', 'customerroralt'));
-
-  if (module_exists('customerror')) {
-    // Set the 403 page.
-    $content_403 = array(
-      'value' => '<h3>Adgang nægtet</h3><p>Du har ikke adgang til at tilgå siden.</p>',
-      'format' => 'ding_wysiwyg',
-    );
-    variable_set('customerror_403_title', 'Adgang nægtet');
-    variable_set('customerror_403', $content_403);
-    variable_set('site_403', 'customerror/403');
-
-    // Set the 403 for authenticated users.
-    $content_403_authenticated = array(
-      'value' => '<h3>' . t('access denied: insufficient permissions') . '</h3><p>' . t('access denied: insufficient permissions') . '</p>',
-      'format' => 'plain_text',
-    );
-    variable_set('customerror_403_authenticated_title',
-      t('access denied: insufficient permissions'));
-    variable_set('customerror_403_authenticated', $content_403_authenticated);
-
-    // Set the 404 page.
-    $content_404 = array(
-      'value' => '<h3 class="field-teaser">UPS! Vi kan ikke finde den side du søger.</h3><p><strong>Hvad gik galt?</strong><br />Der kan være flere årsager til, at vi ikke kan finde det du leder efter:</p><p>- Stavefejl: Måske har du stavet forkert, da du skrev søgeordet. Eller der er en stavefejl i det link, du har fulgt.</p><p>- Siden er flyttet/slettet: Måske findes siden ikke længere eller den er blevet flyttet.</p><p><br /><strong>Bibliotek.dk</strong><br />Prøv den landsdækkende base <a href="http://bibliotek.dk/" target="_blank" title="Bibliotek.dk">bibliotek.dk</a>. Bibliotek.dk er en gratis service, hvor du kan se, hvad der er blevet udgivet i Danmark, og hvad der findes på danske biblioteker. Databasen opdateres dagligt.<br />Du kan bestille materialer til afhentning på dit lokale bibliotek. Du skal være registreret bruger på biblioteket.</p><p><br /><strong>Kom videre - kontakt dit bibliotek</strong><br />Find kontakt oplysninger på <a href="/biblioteker">\'den ønskede afdeling\'</a>.</p>',
-      'format' => 'ding_wysiwyg',
-    );
-    variable_set('customerror_404_title', 'Siden blev ikke fundet');
-    variable_set('customerror_404', $content_404);
-    variable_set('site_404', 'customerror/404');
-  }
+  ding2_set_customerror_pages();
 }
