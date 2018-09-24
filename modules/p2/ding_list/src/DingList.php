@@ -602,7 +602,7 @@ class DingList {
         $this->attachElement($element, TRUE);
       }
     }
-    $result = array_slice($this->elements, $offset, $count);
+    $result = array_slice($this->elements, $offset, $count, TRUE);
 
     return $result;
   }
