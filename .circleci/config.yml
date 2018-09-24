@@ -158,6 +158,7 @@ jobs:
     - image: circleci/php:7.0-apache-browsers
     - image: circleci/mariadb:latest-ram
     working_directory: ~/drupal
+    parallelism: 3
     steps:
     - attach_workspace:
         at: ~/
@@ -220,9 +221,11 @@ jobs:
         name: Run Behat tests
         command: |
           mkdir -p ~/tests/behat/screenshots
-          export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://localhost/" }}}'
           echo "ScrShotDir	/home/circleci/tests/behat/screenshots/" > behat.config
-          ./bin/behat --tags 'cci' --tags '~wip' --format=junit --out=/home/circleci/tests/behat/junit.xml --format=pretty --out=std -p chrome
+          export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://localhost/" }}}'
+          ./bin/behat -p chrome --tags 'cci' --tags '~wip'  --list-scenarios \
+            | circleci tests split \
+            | xargs -n 1 -I % ./bin/behat --format=junit --out=/home/circleci/tests/behat/% --format=pretty --out=std -p chrome %
         working_directory: ~/drupal/profiles/ding2/tests/behat
     - store_test_results:
         path: ~/tests/behat
