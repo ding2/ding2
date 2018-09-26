@@ -192,7 +192,7 @@ function template_preprocess_ding_list_add_button(&$variables) {
     $options[] = $new_list;
   }
   foreach ($options as $option) {
-    if ($option['type'] == 'search_query') {
+    if ($variables['type'] == 'search_query') {
       $option['title'] = t('Add to searches I follow');
     }
 
@@ -201,7 +201,7 @@ function template_preprocess_ding_list_add_button(&$variables) {
         'title' => $option['title'],
         'href' => 'dinglist/attach/' . $option['type'] . '/' . $option['list_id'] . '/' . $option['value'],
         'attributes' => array(
-          'class' => array('use-ajax', drupal_html_class($type)),
+          'class' => array('use-ajax', drupal_html_class($variables['type'])),
         ),
         'html' => TRUE,
       );
