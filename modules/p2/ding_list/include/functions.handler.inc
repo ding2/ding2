@@ -40,7 +40,7 @@ function ding_list_get_list_by_element($element) {
  * @param object $account
  *   The user account on who you want to get the reservations from (if none is
  *   given it will default to the current user).
- * @param array $range
+ * @param array|bool $range
  *   From where to where, in an array(from, length).
  * @param array $order_by
  *   Order by in an array ('what', 'direction'), is ('changed', 'DESC') by
@@ -49,7 +49,7 @@ function ding_list_get_list_by_element($element) {
  * @return mixed
  *   An array of ding_list entities. FALSE otherwise.
  */
-function ding_list_get_lists($list_type = NULL, $account = NULL, array $range = array(), array $order_by = array('changed', 'DESC')) {
+function ding_list_get_lists($list_type = NULL, $account = NULL, $range = NULL, array $order_by = array('changed', 'DESC')) {
   if ($account === NULL) {
 
     // Only authenticated users can have lists.
@@ -582,12 +582,8 @@ function ding_list_get_list($list, $account = NULL) {
       }
     }
   }
-  // If it's a string, we assume it's a DING_LIST_TYPE, and we grab the first.
-  elseif (is_string($list)) {
-    $list_element = ding_list_get_lists($list, $account, array(0, 1));
-    if ($list_element !== FALSE) {
-      $lists[$key] = array_shift($list_element);
-    }
+  catch (Exception $e) {
+    watchdog('ding_list', $e->getMessage());
   }
 
   return $lists[$key];
