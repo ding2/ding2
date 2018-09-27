@@ -209,7 +209,7 @@ function _ting_covers_get_file($id, $uri) {
     case 'public':
     case 'private':
     case 'file':
-      if (file_unmanaged_mv($uri, $path)) {
+      if (file_unmanaged_copy($uri, $path)) {
         return $path;
       }
   }
