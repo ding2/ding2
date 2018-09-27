@@ -1,0 +1,42 @@
+diff --git a/customerror.module b/customerror.module
+index e515a0a..df496e0 100644
+--- a/customerror.module
++++ b/customerror.module
+@@ -210,10 +210,6 @@ function customerror_page($code) {
+       else {
+         $_GET['destination'] = variable_get('site_frontpage', 'node');
+       }
+-      // If the user is not logged in, save destination to redirect if they do.
+-      if (!$GLOBALS['user']->uid) {
+-        $_SESSION['customerror_destination'] = $_GET['destination'];
+-      }
+     case 404:
+     default:
+       // Treat an unknown method as a 404.
+@@ -287,26 +283,6 @@ function theme_customerror(array $variables) {
+   return $content;
+ }
+ 
+-/**
+- * Implements hook_drupal_goto_alter().
+- */
+-function customerror_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+-  if (!user_is_logged_in() || !isset($_SESSION['customerror_destination'])) {
+-    return;
+-  }
+-  $dest = drupal_parse_url($_SESSION['customerror_destination']);
+-  // If the password reset token is set: user needs a chance to change password.
+-  if (isset($options['query']['pass-reset-token'])) {
+-    $options['query']['destination'] = $dest['path'];
+-  }
+-  else {
+-    $path = $dest['path'];
+-    unset($dest['path']);
+-    $options += $dest;
+-  }
+-  unset($_SESSION['customerror_destination']);
+-}
+-
+ /**
+  * Check list of redirects.
+  */
