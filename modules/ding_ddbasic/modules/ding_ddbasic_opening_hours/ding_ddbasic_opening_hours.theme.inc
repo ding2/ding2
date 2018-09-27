@@ -26,18 +26,6 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   $structured = array();
   $categories = array();
 
-  // Load all categories.
-  $machine_name = variable_get('opening_hours_category_vocabulary_ding_library', 0);
-  if (!empty($machine_name)) {
-    $vocabulary = taxonomy_vocabulary_machine_name_load($machine_name);
-
-    if ($vocabulary) {
-      foreach (taxonomy_get_tree($vocabulary->vid, 0, 1) as $term) {
-        $categories[ding_ddbasic_opening_hours_get_category_weight($term->tid)] = $term->name;
-      }
-    }
-  }
-
   if (!empty($variables['timespan'])) {
     $timespan = $variables['timespan'];
   }
@@ -137,41 +125,6 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
     '@from' => format_date($timespan[0], 'custom', 'd.m'),
     '@to' => format_date($timespan[1], 'custom', 'd.m'),
   ));
-
-  // Set first real category for "closed" days (-1).
-  $default = -1;
-  foreach ($structured as $day) {
-    $weights = array_keys($day['cols']);
-    foreach ($weights as $weight) {
-      if ($weight !== $default) {
-        $default = $weight;
-        break 2;
-      }
-    }
-  }
-
-  // Remove the -1 category.
-  unset($categories[-1]);
-
-  // Close notice.
-  $notice = '<span class="opening-hours-table-notice">' . t('Closed') . '</span>';
-
-  // Default category from found, so move data around.
-  foreach ($structured as &$day) {
-    if (array_key_exists(-1, $day['cols'])) {
-      isset($day['cols'][$default]) ? $day['cols'][$default] += $day['cols'][-1] : $day['cols'][$default] = $day['cols'][-1];
-      unset($day['cols'][-1]);
-    }
-
-    // Fill in closed in empty fields.
-    if (count($day['cols']) !== count($categories)) {
-      foreach ($categories as $key => $category) {
-        if (!isset($day['cols'][$key])) {
-          $day['cols'][$key] = $notice;
-        }
-      }
-    }
-  }
 
   $variables['table'] = ding_ddbasic_opening_hours_table(
     $title,
