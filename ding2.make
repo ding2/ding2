@@ -49,6 +49,7 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-uniform-
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 projects[customerror][patch][] = "https://www.drupal.org/files/issues/customerror-2836107-switch_between_text_formats.patch"
+projects[customerror][patch][] = "patches/customerror-disable_auto_redirect.ding2.patch"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
