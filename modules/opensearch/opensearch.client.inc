@@ -376,7 +376,7 @@ function opensearch_execute_cache($request) {
 
   // Handle fulltext vs. dkabm caching of object.
   $type = OPENSEARCH_CACHE_TING_OBJECT;
-  if ($parms['objectFormat'] == 'docbook') {
+  if ($parms['format'] == 'docbook') {
     $type = OPENSEARCH_CACHE_TING_OBJECT_FULLTEXT;
   }
 
