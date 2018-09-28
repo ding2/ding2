@@ -82,11 +82,13 @@ function ding_event_field_group_info() {
     'children' => array(
       0 => 'ding_event_groups_ref',
       1 => 'field_ding_event_date',
-      2 => 'field_ding_event_location',
-      3 => 'field_ding_event_price',
-      4 => 'field_ding_event_ticket_link',
-      5 => 'og_group_ref',
-      6 => 'field_ding_event_list_filter',
+      2 => 'field_ding_event_list_filter',
+      3 => 'field_ding_event_location',
+      4 => 'field_ding_event_price',
+      5 => 'field_ding_event_ticket_link',
+      6 => 'og_group_ref',
+      7 => 'field_ding_event_place',
+      8 => 'field_ding_event_organizers',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -236,7 +238,8 @@ function ding_event_field_group_info() {
       1 => 'field_ding_event_target',
       2 => 'field_ding_event_title_image',
       3 => 'og_group_ref',
-      4 => 'field_place2book_tickets',
+      4 => 'field_ding_event_place',
+      5 => 'field_ding_event_organizers',
     ),
     'format_type' => 'div',
     'format_settings' => array(
