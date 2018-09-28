@@ -241,8 +241,29 @@ jobs:
         command: |
           mkdir -p ~/build
           tar -zcvf ~/build/ding2-$CIRCLE_SHA1.tar.gz -C ~/drupal .
+    - persist_to_workspace:
+        root: ~/
+        paths:
+        - build
     - store_artifacts:
         path: ~/build
+
+  github_release:
+    docker:
+    - image: cibuilds/github:0.12
+    working_directory: ~/build
+    steps:
+    - checkout:
+        path: ~/project
+    - attach_workspace:
+        at: ~/
+    - run:
+        name: "Publish release on GitHub"
+        command: |
+          CIRCLE_TAG="$(cd ~/project && git tag -l --points-at HEAD)"
+          PRERELEASE=$([[ $CIRCLE_TAG =~ rc ]] && echo "-prerelease" || echo "")
+          mv ding2-$CIRCLE_SHA1.tar.gz ding2-$CIRCLE_TAG.tar.gz
+          ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${PRERELEASE} ${CIRCLE_TAG} ding2-$CIRCLE_TAG.tar.gz
 
 workflows:
   version: 2
@@ -264,3 +285,13 @@ workflows:
         requires:
           - drush_make
           - gulp
+    - github_release:
+        requires:
+          - package
+          - unit_tests
+          - behat_tests
+        filters:
+          tags:
+            only: /^7\.x\-.+/
+          branches:
+            ignore: /.*/
