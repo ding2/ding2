@@ -586,7 +586,7 @@ class DingList {
    *   Set this to NULL to get the rest elements.
    *
    * @return DingListElement[]
-   *   The elements.
+   *   The elements. Element ids are used as keys.
    */
   public function getElements($offset = 0, $count = NULL) {
     if ($count === NULL || $count + $offset > $this->elementCount) {
