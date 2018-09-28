@@ -35,50 +35,53 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
           'attributes' => array('class' => array('menu-item')),
           'html' => FALSE,
         ),
-        'view' => array(
-          'href' => 'list/' . $list->getId(),
-          'title' => t('View list'),
-          'attributes' => array('class' => array('menu-item')),
-          'html' => FALSE,
-        ),
       ),
       '#attributes' => array('class' => 'sub-menu'),
     );
 
-    if (ding_list_user_has_access($list, 'edit', $user)) {
-      $block->content['links']['#links']['edit'] = array(
-        'href' => 'list/' . $list->getId() . '/edit',
-        'title' => t('Edit list title and note'),
+    if ($list) {
+      $block->content['links']['#links']['view'] = array(
+        'href' => 'list/' . $list->getId(),
+        'title' => t('View list'),
         'attributes' => array('class' => array('menu-item')),
         'html' => FALSE,
       );
-    }
 
-    if ($list->allowed(DING_LIST_OPERATION_SHARE)) {
-      $title = FALSE;
-
-      // Check if user owns the list.
-      if ($list->isOwner($user)) {
-        $title = t('Share list');
-      }
-      else {
-        // Check if user already follows list.
-        $user_follow_list = ding_list_get_list(DING_LIST_TYPE_LISTS);
-        if ($user_follow_list->hasElement($list->getId())) {
-          $title = t('Unfollow list');
-        }
-      }
-
-      if ($title !== FALSE) {
-        $block->content['links']['#links']['share'] = array(
-          'href' => 'list/' . $list->getId() . '/share',
-          'title' => $title,
+      if (ding_list_user_has_access($list, 'edit', $user)) {
+        $block->content['links']['#links']['edit'] = array(
+          'href' => 'list/' . $list->getId() . '/edit',
+          'title' => t('Edit list title and note'),
           'attributes' => array('class' => array('menu-item')),
           'html' => FALSE,
         );
       }
-      else {
-        $block->content['addform'] = drupal_get_form('ding_list_add_element_form', 'ding_list', $list->getId(), t('Add to lists I follow'));
+
+      if ($list->allowed(DING_LIST_OPERATION_SHARE)) {
+        $title = FALSE;
+
+        // Check if user owns the list.
+        if ($list->isOwner($user)) {
+          $title = t('Share list');
+        }
+        else {
+          // Check if user already follows list.
+          $user_follow_list = ding_list_get_list(DING_LIST_TYPE_LISTS);
+          if ($user_follow_list->hasElement($list->getId())) {
+            $title = t('Unfollow list');
+          }
+        }
+
+        if ($title !== FALSE) {
+          $block->content['links']['#links']['share'] = array(
+            'href' => 'list/' . $list->getId() . '/share',
+            'title' => $title,
+            'attributes' => array('class' => array('menu-item')),
+            'html' => FALSE,
+          );
+        }
+        else {
+          $block->content['addform'] = drupal_get_form('ding_list_add_element_form', 'ding_list', $list->getId(), t('Add to lists I follow'));
+        }
       }
     }
   }
