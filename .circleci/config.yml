@@ -289,4 +289,5 @@ workflows:
         filters:
           tags:
             only: /^7\.x\-.+/
-
+          branches:
+            ignore: /.*/
