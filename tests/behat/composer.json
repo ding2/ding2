@@ -17,6 +17,14 @@
         "michaelc/intdiv-compat": "^1.0",
         "paragonie/random_compat": "^2.0",
         "liuggio/fastest": "^1.6",
-        "dmore/behat-chrome-extension": "^1.2"
+        "dmore/behat-chrome-extension": "^1.2",
+        "cweagans/composer-patches": "^1.6"
+    },
+    "extra": {
+        "patches": {
+            "behat/behat": {
+                "Use filename and linenumber as testcase name": "../../patches/behat-junit-testcase-filename-linenumber.patch"
+            }
+        }
     }
 }
