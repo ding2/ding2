@@ -16,6 +16,8 @@
         "behat/mink-selenium2-driver": "^1.3",
         "curl/curl": "^1.8",
         "michaelc/intdiv-compat": "^1.0",
-        "paragonie/random_compat": "^2.0"
+        "paragonie/random_compat": "^2.0",
+        "liuggio/fastest": "^1.6",
+        "dmore/behat-chrome-extension": "^1.2"
     }
 }

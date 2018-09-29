@@ -31,21 +31,19 @@ default:
         log_out: 'Log ud'
         username_field: 'Låner- eller CPR-nummer'
         password_field: 'Pinkode'
+    Liuggio\Fastest\Behat\ListFeaturesExtension\Extension: ~
 
 
 chrome:
   extensions:
+    DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
     Behat\MinkExtension:
-      selenium2:
-        wd_host: "http://localhost:4444/wd/hub"
-        browser: chrome
-        capabilities:
-           browser: chrome
-           chrome:
-             {switches:['--start_maximized', "--headless", "--disable-gpu", "--no-first-run", "--disable-translate"]}
-      default_session: 'selenium2'
-      browser_name: 'chrome'
-      javascript_session: selenium2
+      browser_name: chrome
+      sessions:
+        default:
+          chrome:
+            api_url: "http://localhost:9222"
+            socket_timeout: 600
 
 circleci:
   extensions:

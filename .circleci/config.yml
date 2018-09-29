@@ -1,0 +1,293 @@
+version: 2
+
+jobs:
+  drush_make:
+    docker:
+      - image: circleci/php:7.0-cli
+    steps:
+    - checkout
+    - run:
+        name: Install Drush
+        command: |
+          echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
+          source $BASH_ENV
+          composer global require drush/drush:6.* --prefer-source --no-interaction
+    - run:
+        name: Download installation profile dependencies using Drush make
+        command: drush make ding2.make --no-core --contrib-destination=. -y --concurrency=8
+    # Built an entire Drupal site with core, contrib and custom
+    # code First we build Drupal core only. Instead of using the
+    # profile specified in the make file we use the one we have
+    # just build. This way we do not have to update drupal.make
+    # for each build.
+    - run:
+        name: Download Drupal using Drush Make
+        command: drush make drupal.make --projects=drupal ~/drupal
+    - run:
+        name: Assemble Drupal site
+        command: |
+          mkdir -p ~/drupal/profiles/ding2
+          cp -R ./* ~/drupal/profiles/ding2
+    - persist_to_workspace:
+        root: ~/
+        paths:
+          - drupal
+
+  gulp:
+    docker:
+    - image: circleci/node:6.14
+    steps:
+    - checkout
+    - run:
+        name: Install theme dependencies
+        command: |
+          npm rebuild node-sass
+          npm install
+        working_directory: themes/ddbasic
+    - run:
+        name: Process theme files
+        command: node_modules/.bin/gulp uglify sass
+        working_directory: themes/ddbasic
+    - run:
+        name: Relocate theme files to built site
+        command: |
+          mkdir -p ~/drupal/profiles/ding2/themes/ddbasic/
+          cp -R sass_css ~/drupal/profiles/ding2/themes/ddbasic/
+          cp -R scripts/min ~/drupal/profiles/ding2/themes/ddbasic/
+        working_directory: themes/ddbasic
+    - persist_to_workspace:
+        root: ~/
+        paths:
+          - drupal/profiles/ding2/themes/ddbasic/sass_css
+          - drupal/profiles/ding2/themes/ddbasic/scripts/min
+
+  site_install:
+    docker:
+    - image: circleci/php:7.0-cli
+    - image: circleci/mariadb:latest-ram
+    working_directory: ~/drupal
+    steps:
+    - attach_workspace:
+        at: ~/
+    - run:
+        name: Configure PHP for Drupal
+        command: |
+          sudo apt install -y libpng-dev mysql-client
+          sudo docker-php-ext-install gd pdo_mysql
+          sudo chmod 0777 /usr/local/etc/php/conf.d
+          echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/docker-php-drupal.ini
+          echo "sendmail_path = /bin/true" >> /usr/local/etc/php/conf.d/docker-php-drupal.ini
+          php -i
+    - run:
+        name: Install Drush
+        command: |
+          echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
+          source $BASH_ENV
+          composer global require drush/drush:6.* --prefer-source --no-interaction
+    - run:
+        name: Install Ding2 site
+        command: |
+          /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" \
+          drush site-install ding2 \
+          --db-url=mysql://root@127.0.0.1/circle_test -y --debug \
+          ding2_module_selection_form.providers_selection=connie \
+          opensearch_admin_settings.opensearch_url=https://opensearch.addi.dk/b3.5_5.0/ \
+          ting_covers_addi_admin_settings_form.ting_covers_addi_wsdl_url=http://moreinfo.addi.dk/2.11 \
+          ting_covers_addi_admin_settings_form.ting_covers_addi_username=username \
+          ting_covers_addi_admin_settings_form.ting_covers_addi_group=group \
+          ting_covers_addi_admin_settings_form.ting_covers_addi_password=password
+    - run:
+        name: Dump database for installed site
+        command: |
+          mkdir ~/db
+          drush sql-dump --result-file=~/db/db.sql
+    - persist_to_workspace:
+        root: ~/
+        paths:
+        - drupal/sites/default/settings.php
+        - db
+    - store_artifacts:
+        path: ~/db/db.sql
+
+  unit_tests:
+    docker:
+    - image: circleci/php:7.0-cli
+    - image: circleci/mariadb:latest-ram
+    working_directory: ~/drupal
+    steps:
+    - attach_workspace:
+        at: ~/
+    - run:
+        name: Configure PHP for Drupal
+        command: |
+          sudo apt install -y libpng-dev mysql-client
+          sudo docker-php-ext-install gd pdo_mysql
+          sudo chmod 0777 /usr/local/etc/php/conf.d
+          echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/docker-php-drupal.ini
+          php -i
+    - run:
+        name: Install Drush
+        command: |
+          echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
+          source $BASH_ENV
+          composer global require drush/drush:6.* --prefer-source --no-interaction
+    - run:
+        name: Import database
+        command: drush sqlq --file=/home/circleci/db/db.sql
+    - run:
+        name: Install unit test dependencies
+        command: composer install
+        working_directory: ~/drupal/profiles/ding2/modules/ding_test
+    - run:
+        name: Configure site for unit tests
+        command: |
+          drush en connie ding_test -y
+          echo "ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);" | sudo tee --append ~/drupal/sites/default/settings.php
+    - run:
+        name: Run unit tests
+        command: |
+          mkdir -p ~/tests/phpunit
+          php scripts/run-tests.sh --xml ~/phpunit "Ding! - Ting search unittest"
+          php scripts/run-tests.sh --xml ~/phpunit "Opensearch"
+          php scripts/run-tests.sh --xml ~/phpunit --class ConnieSearchSearchProviderImplementationTestCase
+    - store_test_results:
+        path: ~/tests/phpunit
+
+  behat_tests:
+    docker:
+    - image: circleci/php:7.0-apache
+    - image: circleci/mariadb:latest-ram
+    - image: justinribeiro/chrome-headless:stable
+    working_directory: ~/drupal
+    parallelism: 3
+    steps:
+    - attach_workspace:
+        at: ~/
+    - run:
+        name: Configure PHP for Drupal
+        command: |
+          sudo apt install -y libpng-dev mysql-client
+          sudo docker-php-ext-install gd pdo_mysql
+          sudo chmod 0777 /usr/local/etc/php/conf.d
+          echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/docker-php-drupal.ini
+    - run:
+        name: Configure Apache
+        command: |
+          sudo rm -rf /var/www/html
+          sudo ln -s ~/drupal /var/www/html
+          sudo chmod -R 0777 /var/www/html/sites/default
+          sudo a2enmod rewrite
+          sudo service apache2 restart
+    - run:
+        name: Install Drush
+        command: |
+          echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
+          source $BASH_ENV
+          composer global require drush/drush:6.* --prefer-source --no-interaction
+    - run:
+        name: Import database
+        command: drush sqlq --file=/home/circleci/db/db.sql
+    - run:
+        name: Configure site for Behat tests
+        command: |
+          drush cc all
+          drush cgen
+          drush en -y connie
+          drush vset -y ting_agency 100200
+          drush vset -y opensearch_url 'https://oss-services.dbc.dk/opensearch/4.5/'
+          drush vset -y opensearch_search_profile test
+          drush vset -y opensearch_recommendation_url 'http://openadhl.addi.dk/1.1/'
+          drush vset -y ting_infomedia_url 'http://useraccessinfomedia.addi.dk/1.3/'
+          drush vset -y opensearch_search_autocomplete_suggestion_url 'http://opensuggestion.addi.dk/b3.5_2.0/'
+          drush vset -y opensearch_search_autocomplete_method 'facets'
+          drush vset -y ting_openlist_prefix test
+          drush vset -y ting_openlist_wsdl 'https://test.openlist.ddbcms.dk/?wsdl'
+          drush vset -y user_consent_activate true
+          drush vset -y loan_history_store_title ''
+          drush vset -y loan_history_store_title_first_time ''
+          drush php-eval 'variable_set("loan_history_store_description_first_time", array("value" => ""));'
+          drush php-eval 'variable_set("loan_history_store_description", array("value" => ""));'
+    - run:
+        name: Install Behat
+        command: composer install
+        working_directory: ~/drupal/profiles/ding2/tests/behat
+    - run:
+        name: Run Behat tests
+        command: |
+          mkdir -p ~/tests/behat/screenshots
+          echo "ScrShotDir	/home/circleci/tests/behat/screenshots/" > behat.config
+          export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://localhost/" }}}'
+          ./bin/behat -p chrome --tags 'cci' --tags '~wip'  --list-scenarios \
+            | circleci tests split \
+            | xargs -n 1 -I % ./bin/behat --format=junit --out=/home/circleci/tests/behat/% --format=pretty --out=std -p chrome %
+        working_directory: ~/drupal/profiles/ding2/tests/behat
+    - store_test_results:
+        path: ~/tests/behat
+    - store_artifacts:
+        path: ~/tests/behat
+
+  package:
+    docker:
+    - image: docker:git
+    steps:
+    - attach_workspace:
+        at: ~/
+    - run:
+        name: Package site
+        command: |
+          mkdir -p ~/build
+          tar -zcvf ~/build/ding2-$CIRCLE_SHA1.tar.gz -C ~/drupal .
+    - persist_to_workspace:
+        root: ~/
+        paths:
+        - build
+    - store_artifacts:
+        path: ~/build
+
+  github_release:
+    docker:
+    - image: cibuilds/github:0.12
+    working_directory: ~/build
+    steps:
+    - checkout:
+        path: ~/project
+    - attach_workspace:
+        at: ~/
+    - run:
+        name: "Publish release on GitHub"
+        command: |
+          CIRCLE_TAG="$(cd ~/project && git tag -l --points-at HEAD)"
+          DRAFT=$([[ $CIRCLE_TAG =~ rc ]] && echo "-draft" || echo "")
+          mv ding2-$CIRCLE_SHA1.tar.gz ding2-$CIRCLE_TAG.tar.gz
+          ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${DRAFT} ${CIRCLE_TAG} ding2-$CIRCLE_TAG.tar.gz
+
+workflows:
+  version: 2
+  build-test-package:
+    jobs:
+    - drush_make
+    - gulp
+    - site_install:
+        requires:
+          - drush_make
+          - gulp
+    - unit_tests:
+        requires:
+          - site_install
+    - behat_tests:
+        requires:
+        - site_install
+    - package:
+        requires:
+          - drush_make
+          - gulp
+    - github_release:
+        requires:
+          - package
+          - unit_tests
+          - behat_tests
+        filters:
+          tags:
+            only: /^7\.x\-.+/
+          branches:
+            ignore: /.*/
