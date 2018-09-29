@@ -224,7 +224,7 @@ jobs:
     - store_test_results:
         path: ~/tests/behat
     - store_artifacts:
-        path: ~/tests/behat/screenshots
+        path: ~/tests/behat
 
   package:
     docker:
