@@ -19,9 +19,6 @@ default:
      print_args: true
      print_outp: true
      loop_break: true
-    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
-      filename: report.xml
-      outputDir: "%paths.base%/"
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drush'
