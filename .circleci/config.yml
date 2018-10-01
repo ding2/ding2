@@ -14,7 +14,7 @@ jobs:
           composer global require drush/drush:6.* --prefer-source --no-interaction
     - run:
         name: Download installation profile dependencies using Drush make
-        command: drush make ding2.make --no-core --contrib-destination=. -y
+        command: drush make ding2.make --no-core --contrib-destination=. -y --concurrency=8
     # Built an entire Drupal site with core, contrib and custom
     # code First we build Drupal core only. Instead of using the
     # profile specified in the make file we use the one we have
