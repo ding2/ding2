@@ -767,7 +767,9 @@ function ding_list_preprocess_entity(&$variables) {
             $ting_id = ding_list_get_list_element_value($element);
             $ting_id = ding_list_convert_cql($ting_id);
             $ting_object = ting_object_load($ting_id);
-            $variables['content']['item'] = ting_object_view($ting_object, 'ting_reference_preview');
+            if ($ting_object instanceof TingEntity) {
+              $variables['content']['item'] = ting_object_view($ting_object, 'ting_reference_preview');
+            }
             break;
 
           // Display link to the search query.

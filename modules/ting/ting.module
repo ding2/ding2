@@ -234,7 +234,7 @@ function ting_entity_other_formats_button(TingEntity $entity) {
 
   $markup = [];
 
-  if (count($collection->types) > 1) {
+  if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
     $markup = [
       '#theme' => 'link',
       '#text' => t('Other formats'),
@@ -420,8 +420,12 @@ function ting_block_view($delta = '') {
         $items = array();
 
         foreach ($collection->getEntities() as $entity) {
-          $item = ting_object_view($entity, 'teaser');
-          $items[] = render($item);
+          // Exclude current page ting_object from carousel in order to avoid
+          // duplications.
+          if ($collection->ding_entity_id != $entity->ding_entity_id) {
+            $item = ting_object_view($entity, 'teaser');
+            $items[] = render($item);
+          }
         }
 
         // Only display block if there are more than one item.

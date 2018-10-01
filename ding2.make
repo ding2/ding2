@@ -21,6 +21,7 @@ projects[autologout][version] = "4.5"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
+projects[autosave][patch][] = "http://storage.easyting.dk/autosave_undefined_formid.patch"
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.4"
@@ -669,6 +670,9 @@ projects[domain_ctools][version]            = "1.3"
 
 projects[domain_menu_access][subdir]        = "contrib"
 projects[domain_menu_access][version]       = "1.2"
+
+projects[domain_taxonomy][subdir]           = "contrib"
+projects[domain_taxonomy][version]          = "3.x-dev"
 
 projects[domain_variable][subdir]           = "contrib"
 projects[domain_variable][version]          = "1.1"
