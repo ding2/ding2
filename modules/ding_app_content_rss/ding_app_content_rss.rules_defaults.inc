@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Rules configuration.
+ * ding_app_content_rss.rules_defaults.inc
  */
 
 /**
