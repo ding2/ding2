@@ -424,7 +424,9 @@ function ding_event_preprocess_node(&$variables) {
 
           case 'field_ding_event_date':
             $date_value = $variables['content']['field_ding_event_date']['#items'][0]['value'];
-            $date_value = format_date(strtotime($date_value), 'custom', 'd-m-Y');
+            $dateobject = new DateTime($date_value);
+            $dateobject->add(new DateInterval('PT2H'));
+            $date_value = format_date($dateobject->getTimestamp(), 'custom', 'd-m-Y');
 
             $attributes = array(
               'date[value][date]' => $date_value,
