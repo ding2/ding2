@@ -155,7 +155,7 @@ projects[ding_nodelist][subdir]           = ""
 projects[ding_nodelist][download][type]   = "git"
 projects[ding_nodelist][download][url]    = "git@github.com:easySuite/ding_nodelist.git"
 ;projects[ding_nodelist][download][tag]    = "7.x-3.1.0"
-projects[ding_nodelist][download][branch] = "development"
+projects[ding_nodelist][download][branch] = "development-easyopac"
 
 projects[ding_print_button][type]             = "module"
 projects[ding_print_button][subdir]           = ""
