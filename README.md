@@ -107,9 +107,34 @@ will not delete these.
 ```sh
   ~$ drush make --no-core --working-copy --contrib-destination=. ding2.make
 ```
-
-Next goto your sites URL and run the ding2 installation profile and fill out
+### Site installation 
+Go to the url for your site, run the ding2 installation profile and fill out
 all the questions.
+
+If you use [Docker](https://docs.docker.com/get-started/) you can also start a container with database server for an already installed site using the latest version of the Ding2 `master` branch:
+
+```sh
+   ~$ docker run -e MYSQL_USER=db -e MYSQL_PASSWORD=db -e MYSQL_DATABASE=db -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d ding2/ding2-mysql:master
+``` 
+
+In this case you should insert the following in your `settings.php` file:
+
+```php
+$databases = array(
+  'default' => array(
+    'default' => array(
+      'driver' => 'mysql',
+      'database' => 'db',
+      'username' => 'db',
+      'password' => 'db',
+      'host' => 'db',
+      'prefix' => '',
+    ),
+  ),
+);
+```
+
+Username/password for logging into the site is `admin`/`admin`.
 
 ## Alternative installation method
 If you are using an deployment system you may not want to patch Drupal core
