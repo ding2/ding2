@@ -546,6 +546,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       // Special placeholder for mobile user menu. Fall through to next case.
       $element['#localized_options']['attributes']['class'][] = 'default-override';
 
+    case DING_AUTH_LOGIN_URL:
     case 'user':
       $title_prefix = '<i class="icon-user"></i>';
       $title_suffix = '<i class="icon-arrow-down"></i>';
@@ -596,6 +597,15 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       else {
         $element['#attributes']['class'][] = 'topbar-link-user';
         $element['#localized_options']['attributes']['class'][] = 'topbar-link-user';
+
+        // Add destination to login link when using ding authentication.
+        if (module_exists('ding_auth')) {
+          if ($element['#href'] == DING_AUTH_LOGIN_URL) {
+            $element['#localized_options']['query'] = array(
+              drupal_get_destination(),
+            );
+          }
+        }
       }
       break;
 
@@ -809,7 +819,7 @@ function ddbasic_process_ting_object(&$vars) {
               'default'
             );
           }
-          
+
           //Truncate abstract
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 

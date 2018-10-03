@@ -10,17 +10,17 @@
 function ding_frontend_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: menu-tabs-menu_login:user.
-  $menu_links['menu-tabs-menu_login:user'] = array(
+  // Exported menu link: menu-tabs-menu_login:ding_auth/login.
+  $menu_links['menu-tabs-menu_login:ding_auth/login'] = array(
     'menu_name' => 'menu-tabs-menu',
-    'link_path' => 'user',
-    'router_path' => 'user',
+    'link_path' => 'ding_auth/login',
+    'router_path' => 'ding_auth/login',
     'link_title' => 'Login',
     'options' => array(
       'attributes' => array(
         'title' => '',
       ),
-      'identifier' => 'menu-tabs-menu_login:user',
+      'identifier' => 'menu-tabs-menu_login:ding_auth/login',
     ),
     'module' => 'menu',
     'hidden' => 0,

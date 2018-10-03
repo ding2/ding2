@@ -168,8 +168,13 @@ function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
   // Check if the logged in user is a library user.
   global $user;
   if (!user_is_logged_in()) {
-    // Trigger log-in (the reservation link will be triggered on success).
-    $commands[] = ajax_command_ding_user_authenticate('');
+    if (module_exists('ding_auth')) {
+      $uri = entity_uri('ting_object', $entity);
+      $commands[] = ajax_command_ding_auth_redirect($uri['path']);
+    }
+    else {
+      $commands[] = ajax_command_ding_user_authenticate('');
+    }
   }
   elseif (!ding_user_is_provider_user($user)) {
     // Error not library user.
@@ -208,7 +213,13 @@ function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
     catch (DingProviderAuthException $exception) {
       // The form may have thrown an Auth exception, so display login. (the
       // reservation link will be triggered on success).
-      $commands[] = ajax_command_ding_user_authenticate('');
+      if (module_exists('ding_auth')) {
+        $uri = entity_uri('ting_object', $entity);
+        $commands[] = ajax_command_ding_auth_redirect($uri['path']);
+      }
+      else {
+        $commands[] = ajax_command_ding_user_authenticate('');
+      }
     }
     catch (Exception $exception) {
       // The form may have thrown an auth exception as the login may have

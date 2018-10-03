@@ -40,9 +40,7 @@
    */
   Drupal.behaviors.menu = {
     attach: function(context, settings) {
-      var topbar_link_user = $('a.topbar-link-user', context),
-          close_user_login = $('.close-user-login', context),
-          mobile_menu_btn = $('a.topbar-link-menu', context),
+      var mobile_menu_btn = $('a.topbar-link-menu', context),
           search_btn = $('a.topbar-link-search', context),
           search_extended_btn = $('a.search-extended-button', context),
           first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a .main-menu-expanded-icon', context),
@@ -70,17 +68,6 @@
         } else {
           body.removeClass('overlay-is-active');
         }
-      });
-
-      topbar_link_user.on('click', function(evt) {
-        evt.preventDefault();
-        ddbasic.openLogin();
-      });
-
-      close_user_login.on('click', function(evt) {
-        evt.preventDefault();
-        body.removeClass('pane-login-is-open');
-        body.removeClass('overlay-is-active');
       });
 
       first_level_expanded.on('click', function(evt) {

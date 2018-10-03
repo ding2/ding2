@@ -120,6 +120,10 @@ function fbs_ding_provider() {
         'prefix' => 'wayf',
         'file' => 'includes/fbs.wayf.inc',
       ),
+      'auth' => array(
+        'prefix' => 'auth',
+        'file' => 'includes/fbs.auth.inc',
+      ),
       'user_consent' => array(
         'prefix' => 'user_consent',
         'file' => 'includes/fbs.user_consent.inc',

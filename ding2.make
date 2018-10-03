@@ -496,6 +496,16 @@ libraries[http-message][download][url] = "https://github.com/php-fig/http-messag
 libraries[http-message][download][tag] = "1.0.1"
 libraries[http-message][destination] = "libraries"
 
+libraries[random_compat][download][type] = "git"
+libraries[random_compat][download][url] = "https://github.com/paragonie/random_compat.git"
+libraries[random_compat][download][tag] = "v2.0.17"
+libraries[random_compat][destination] = "libraries"
+
+libraries[oauth2-client][download][type] = "git"
+libraries[oauth2-client][download][url] = "https://github.com/thephpleague/oauth2-client.git"
+libraries[oauth2-client][download][tag] = "2.3.0"
+libraries[oauth2-client][destination] = "libraries"
+
 libraries[jsonmapper][download][type] = "git"
 libraries[jsonmapper][download][url] = "https://github.com/cweiske/jsonmapper"
 libraries[jsonmapper][download][tag] = "v0.4.4"

@@ -1,0 +1,7 @@
+name = Ding Auth
+description = Authentication with oAuth2 (Adgangsplatform).
+package = Ding!
+core = 7.x
+dependencies[] = ctools
+dependencies[] = ding_user
+dependencies[] = ding_provider
