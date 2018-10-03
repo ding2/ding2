@@ -724,3 +724,10 @@ function ding_list_ding_provider_user() {
     ),
   );
 }
+
+/**
+ * Implements hook_user_delete().
+ */
+function ding_list_user_delete($account) {
+  ding_provider_invoke('openlist', 'reset_user', $account);
+}
