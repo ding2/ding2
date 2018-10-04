@@ -49,6 +49,9 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
             '%transaction' => $transaction['payment_transaction_id'],
             '%order' => $transaction['payment_order_id'],
           ), WATCHDOG_DEBUG);
+
+          // Allow other modules to operate on stage when payment is accepted.
+          drupal_alter('ding_dibs_capture_accepted', $transaction);
         }
         else {
           drupal_set_message(t('Failed to recieve payment at local system. Your payment of @amount was cancelled.', array('@amount' => $transaction['payment_price'])), 'error');
