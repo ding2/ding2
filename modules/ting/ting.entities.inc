@@ -298,19 +298,7 @@ class TingEntity extends DingEntity {
    *   The language, FALSE if it could not be found.
    */
   public function getLanguage() {
-    if (!isset($this->reply->record['dc:language'])) {
-      return FALSE;
-    }
-    $languages = $this->reply->record['dc:language'];
-    $languages_string = '';
-    foreach (reset($languages) as $key => $lang) {
-      if ($lang == 'mul') {
-        continue;
-      }
-      $languages_string .= ', ' . $languages[''][$key];
-    }
-    $languages_string = (!empty($languages_string)) ? ltrim($languages_string, ', ') : FALSE;
-    return $languages_string;
+    return empty($this->reply) ? FALSE : $this->reply->getLanguage();
   }
 
   /**
@@ -364,17 +352,7 @@ class TingEntity extends DingEntity {
    *   The description.
    */
   public function getDescription() {
-    $description = FALSE;
-    if (!empty($this->reply->record['dc:description'][''][0])) {
-      $description = $this->reply->record['dc:description'][''][0];
-      if (drupal_strlen($description) > TING_OBJ_DESCRIPTION_LENGTH) {
-        $description = truncate_utf8($description, TING_OBJ_DESCRIPTION_LENGTH, TRUE, TRUE);
-      }
-      else {
-        $description .= t('...');
-      }
-    }
-    return $description;
+    return empty($this->reply) ? FALSE : $this->reply->getDescription();
   }
 
   /**
@@ -396,8 +374,7 @@ class TingEntity extends DingEntity {
    *   Empty or classification text.
    */
   public function getClassificationText() {
-    $dk5_text = !empty($this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0]) ? $this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0] : '';
-    return $dk5_text;
+    return empty($this->reply) ? FALSE : $this->reply->getClassificationText();
   }
 
 }
