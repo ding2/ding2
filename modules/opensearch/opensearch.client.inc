@@ -121,7 +121,7 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
  *
  * @todo Should use getObject when getObject supports getting multiple.
  */
-function opensearch_get_objects($ids) {
+function opensearch_get_objects($ids, $filterLocalHoldings = NULL) {
   $objects = array();
   // Pre-fill from cache.
   foreach ($ids as $id) {
@@ -178,6 +178,10 @@ function opensearch_get_objects($ids) {
     $request->setNumResults(50);
     $request->setAllObjects(TRUE);
 
+    if (isset($filterLocalHoldings)) {
+      $request->setFilterLocalHoldings($filterLocalHoldings);
+    }
+
     $result = opensearch_execute_cache($request);
 
     if ($result && is_array($result->collections)) {
@@ -218,6 +222,7 @@ function opensearch_get_objects($ids) {
  *    - collectionType: The type of results to return. Single
  *      manifestions(object) or works (collections). Possible values
  *      manifestion ,work or work-1. Defaults to work.
+ *    - filterLocalHoldings: Whether to filter with local agency-id.
  *
  * @return TingClientSearchResult
  *   The search result.
@@ -231,6 +236,10 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
   }
   $request->setStart($results_per_page * ($page - 1) + 1);
   $request->setNumResults($results_per_page);
+
+  if (isset($options['filterLocalHoldings'])) {
+    $request->setFilterLocalHoldings($options['filterLocalHoldings']);
+  }
 
   if (!isset($options['facets']) and module_exists('ding_facetbrowser')) {
     $options['facets'] = array();
