@@ -586,6 +586,16 @@ function fbs_form_profile2_form_alter(&$form, &$form_state) {
       '#weight' => $form['profile_provider_fbs']['field_fbs_phone_notification']['#weight'] + 0.1,
     );
 
+    // If on_hold values are outdated (eg. to date less than today), reset on_hold default values.
+    $to_date = $form['profile_provider_fbs']['field_fbs_on_hold']['und'][0]['to']['#default_value'];
+    $to_date_stamp = strtotime($to_date);
+    $now = date('d-m-Y');
+    $now_stamp = strtotime($now);
+    if ($to_date_stamp < $now_stamp) {
+      $form['profile_provider_fbs']['field_fbs_on_hold']['und'][0]['from']['#default_value'] = '';
+      $form['profile_provider_fbs']['field_fbs_on_hold']['und'][0]['to']['#default_value'] = '';
+    }
+
     // Add validation to email.
     $form['profile_provider_fbs']['field_fbs_mail']['#element_validate'] = array('fbs_form_profile2_mail_validate');
     // Add validation to phone.
@@ -646,10 +656,6 @@ function fbs_form_profile2_onhold_validate($element, $form_state) {
   $to_date_stamp = strtotime($to_date);
   $now = date('d-m-Y');
   $now_stamp = strtotime($now);
-
-  if ($from_date_stamp < $now_stamp) {
-    form_set_error('profile_provider_fbs][field_fbs_on_hold', t('Start date must be higher than or equal to today') . ' - ' . $now . '.');
-  }
 
   if ($to_date_stamp < $now_stamp && $to_date_stamp < $from_date_stamp) {
     form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must both be higher than or equal to today, and be higher than the start date.'));
