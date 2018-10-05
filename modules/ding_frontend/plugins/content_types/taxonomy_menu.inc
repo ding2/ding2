@@ -78,6 +78,9 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
   $terms = taxonomy_get_tree($vocab->vid);
 
   foreach ($terms as $term) {
+    if (module_exists('ding_language')) {
+      $term = i18n_taxonomy_localize_terms(taxonomy_term_load($term->tid));
+    }
     // Try to find the correct uri based on the context/configuration.
     $alias = drupal_lookup_path('alias', 'taxonomy/term/' . $term->tid);
     $uri = drupal_get_path_alias($base . $conf['slug'] . '/' . $term->tid);

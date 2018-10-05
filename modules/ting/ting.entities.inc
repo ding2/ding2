@@ -366,6 +366,17 @@ class TingEntity extends DingEntity {
   public function getIsbn() {
     return empty($this->reply) ? FALSE : $this->reply->getIsbn();
   }
+
+  /**
+   * The Classification Text.
+   *
+   * @return string
+   *   Empty or classification text.
+   */
+  public function getClassificationText() {
+    return empty($this->reply) ? FALSE : $this->reply->getClassificationText();
+  }
+
 }
 
 /**
