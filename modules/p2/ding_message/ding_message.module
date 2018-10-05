@@ -116,7 +116,7 @@ function ding_message_get_users_to_check() {
     ->orderBy('u.login', 'DESC')
     ->orderBy('dmc.time', 'ASC')
     ->range(0, variable_get('ding_message_batch_size', 50));
-  $query->where('u.login > dmc.time');
+  $query->where('u.login > dmc.time OR dmc.uid IS NULL');
 
   $accounts = array_values($query->execute()->fetchAllKeyed(0, 0));
 
