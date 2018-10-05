@@ -27,6 +27,7 @@ dependencies[] = media
 dependencies[] = menu
 dependencies[] = menu_position
 dependencies[] = metatag_panels
+dependencies[] = node
 dependencies[] = number
 dependencies[] = og_ui
 dependencies[] = options
