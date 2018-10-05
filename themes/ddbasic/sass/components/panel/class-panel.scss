@@ -718,14 +718,14 @@
 // Gatewayf
 // ==========================================================================
 
-.ding-gatewayf-registration-information {
+.ding-gatewayf {
   @include span-columns(12);
 
   @include media($tablet) {
     width: 100%;
   }
 
-  .long-text-wrapper {
+  &--registration-information {
     max-height: 350px;
     max-width: 100%;
     overflow-y: scroll;
@@ -737,9 +737,9 @@
     p {
       margin: 0 0 15px;
     }
+  }
 
-    .change-me {
-      color: red;
-    }
+  &--temporary-text {
+    color: red;
   }
 }
