@@ -661,7 +661,7 @@ function ding_event_field_default_field_instances() {
           'use_widget_handlers' => 1,
         ),
         'type' => 'addressfield_default',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -711,6 +711,7 @@ function ding_event_field_default_field_instances() {
         ),
         'format_handlers' => array(
           'address' => 'address',
+          'address-hide-country' => 'address-hide-country',
           'name-oneline' => 'name-oneline',
           'organisation' => 0,
           'name-full' => 0,
@@ -800,7 +801,7 @@ function ding_event_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 13,
+        'weight' => 8,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -864,7 +865,7 @@ function ding_event_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 5,
+        'weight' => 4,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -895,7 +896,7 @@ function ding_event_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_ding_event_place',
     'label' => 'Place / Room',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'text_processing' => 0,
       'user_register_form' => FALSE,
@@ -1065,7 +1066,7 @@ function ding_event_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_plain',
-        'weight' => 6,
+        'weight' => 7,
       ),
       'rss' => array(
         'label' => 'hidden',
@@ -1320,7 +1321,7 @@ function ding_event_field_default_field_instances() {
           'link' => 1,
         ),
         'type' => 'entityreference_label',
-        'weight' => 5,
+        'weight' => 6,
       ),
       'search_result' => array(
         'label' => 'hidden',

@@ -246,31 +246,17 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         $variables['event_time'] = $event_time_ra[0]['#markup'];
       }
 
-      // Place, Library, Organizer.
-      // Add the library markup to the field_ding_event_place markup.
-      if ($variables['alt_location_is_set']) {
+      // Place, Library, Organizer markup alterations.
+      if ($variables['alt_location_is_set'] && !empty($variables['field_ding_event_place'])) {
         $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['field_ding_event_location'][0]['name_line'];
+        // Hide Location and library from render array.
+        $variables['content']['field_ding_event_location']['#access'] = FALSE;
+        $variables['content']['og_group_ref']['#access'] = FALSE;
       }
-      else {
+      elseif (!$variables['alt_location_is_set'] && !empty($variables['field_ding_event_place'])) {
         $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['content']['og_group_ref'][0]['#markup'];
-      }
-
-      // If any organizers is set - prepare the output as a string.
-      if (!empty($variables['field_ding_event_organizers'])) {
-        $organizers_elems = field_get_items('node', $variables['node'], 'field_ding_event_organizers');
-        $organizers_out  = array();
-
-        foreach ($organizers_elems as $key => $value) {
-          $term = taxonomy_term_load($value['tid']);
-          $organizers_out[] = $term->name;
-        }
-        // If alt location - add organizers to price, else add to place.
-        if ($variables['alt_location_is_set']) {
-          $variables['event_price'] .= ' - ' . t('arranged by') . ' ' . implode(', ', $organizers_out);
-        }
-        else {
-          $variables['content']['field_ding_event_place'][0]['#markup'] .= ' - ' . t('arranged by') . ' ' . implode(', ', $organizers_out);
-        }
+        // Hide library from render array.
+        $variables['content']['og_group_ref']['#access'] = FALSE;
       }
 
       break;

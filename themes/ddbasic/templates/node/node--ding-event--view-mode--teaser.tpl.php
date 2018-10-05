@@ -101,6 +101,8 @@
         </div>
         <div class="info-bottom">
           <?php print render($content['field_ding_event_place']); ?>
+          <?php print render($content['field_ding_event_location']); ?>
+          <?php print render($content['og_group_ref']); ?>
           <div class="date-time"><?php print $event_time; ?></div>
           <div class="price"><?php print $event_price; ?></div>
         </div>

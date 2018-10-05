@@ -238,8 +238,8 @@ function ding_event_field_group_info() {
       1 => 'field_ding_event_target',
       2 => 'field_ding_event_title_image',
       3 => 'og_group_ref',
-      4 => 'field_ding_event_place',
-      5 => 'field_ding_event_organizers',
+      4 => 'field_ding_event_organizers',
+      5 => 'field_ding_event_place',
     ),
     'format_type' => 'div',
     'format_settings' => array(
