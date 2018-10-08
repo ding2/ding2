@@ -146,17 +146,11 @@ function template_preprocess_ding_list_list(&$variables) {
   $variables['content'] = array();
 
   $variables['title_attributes_array']['class'][] = 'ding-list-list__title';
-  $variables['title'] = check_plain($list->getTitle());
-  if (!$list->isOwner()) {
-    $variables['title'] = t('@list_title, By @list_author', array(
-      '@list_title' => $variables['title'],
-      '@list_author' => $list->getOwnerName(),
-    ));
-  }
 
   switch ($variables['display']) {
     case 'public list':
-      $variables['title'] = l($variables['title'], 'list/' . $list->getId());
+      $list_title = ($list->isOwner()) ? $list->getTitle() : $list->getTitle() . ' - ' . $list->getOwnerName();
+      $variables['title'] = l($list_title, 'list/' . $list->getId());
       $variables['content']['carousel'] = array(
         '#type' => 'ding_carousel',
         '#items' => array(),
@@ -166,52 +160,92 @@ function template_preprocess_ding_list_list(&$variables) {
         // is more content.
         '#placeholders' => count($list->getElements()) > DING_LIST_CAROUSEL_CHUNK_SIZE ? DING_LIST_CAROUSEL_CHUNK_SIZE + 1 : count($list->getElements()),
       );
+
+      // Create Carousel actions.
+      $variables['content']['carousel_actions'] = array(
+        '#type' => 'container',
+        '#attributes' => array(
+          'class' => array(
+            'ding-carousel-actions',
+          ),
+        ),
+      );
+
+      $variables['content']['carousel_actions']['more'] = array(
+        '#theme' => 'link',
+        '#text' => t('Go to list'),
+        '#path' => 'list/' . $list->getId(),
+        '#prefix' => '<div class="more-link">',
+        '#suffix' => '</div>',
+        '#options' => array(
+          'attributes' => array(
+            'class' => array(
+              'goto-list',
+            ),
+          ),
+          'html' => FALSE,
+        ),
+      );
+      if (!$list->isOwner() && user_access('use personalisation')) {
+        $follow_list = ding_list_get_list(DING_LIST_TYPE_LISTS);
+        if ($element = $follow_list->hasElement($list->getId())) {
+          // If we have more than 1 remove form on a page Drupal will use the first
+          // occoring remove form everytime, unless they all got a unique ID, which
+          // is why the element ID is appended.
+          // See the ding_list_forms() hook in ding_list/include/form.inc.
+          $variables['content']['carousel_actions']['follow_form'] = drupal_get_form('ding_list_remove_element_form__' . $element->getId(), $element, t('Unfollow list'));
+        }
+        else {
+          $variables['content']['carousel_actions']['follow_form'] = drupal_get_form('ding_list_add_element_form', 'ding_list', $list->getId(), t('Add to lists I follow'));
+        }
+      }
       break;
 
     default:
-      if ($list->hasData('visibility') && $list->getData('visibility') === 'public') {
-        $followers_count = $list->getFollowersCount();
-
-        if ($followers_count > 0) {
-          $variables['content']['followers'] = array(
-            '#prefix' => '<div class="ding-list-list__followers">',
-            '#suffix' => '</div>',
-            '#markup' => format_plural($followers_count, '1 user following this list', '@count users following this list'),
-          );
-        }
-      }
-
-      if (!empty($list->getNote())) {
-        $variables['content']['note'] = array(
-          '#prefix' => '<div class="ding-list-list__note">',
-          '#suffix' => '</div>',
-          '#markup' => $list->getNote(),
+      if ($list->isOwner()) {
+        $variables['content']['elements'] = array(
+          '#theme' => 'table',
+          '#attributes' => array(
+            'id' => drupal_html_id('ding-list-list-elements'),
+            'class' => array(
+              'ding-list-list__elements', 
+              'ding-list-list__owner', 
+              'clearfix',
+            ),
+            'data-list-id' => $list->getId(),
+          ),
+          '#rows' => array(),
+          '#attached' => array(
+            'js' => array(
+              drupal_get_path('module', 'ding_list') . '/js/ding_list_tabledrag.js',
+            ),
+            'css' => array(
+              drupal_get_path('module', 'ding_list') . '/css/ding-list-tabledrag.css',
+            ),
+          ),
+        );
+        drupal_add_tabledrag(
+          $variables['content']['elements']['#attributes']['id'],
+          'order',
+          'sibling',
+          'ding-list-list__element-delta'
         );
       }
-
-      $variables['content']['elements'] = array(
-        '#theme' => 'table',
-        '#attributes' => array(
-          'id' => drupal_html_id('ding-list-list-elements'),
-          'class' => array('ding-list-list__elements'),
-          'data-list-id' => $list->getId(),
-        ),
-        '#rows' => array(),
-        '#attached' => array(
-          'js' => array(
-            drupal_get_path('module', 'ding_list') . '/js/ding_list_tabledrag.js',
+      else {
+        $variables['content']['elements'] = array(
+          '#theme' => 'table',
+          '#attributes' => array(
+            'id' => drupal_html_id('ding-list-list-elements'),
+            'class' => array(
+              'ding-list-list__elements', 
+              'ding-list-list__guest', 
+              'clearfix',
+            ),
+            'data-list-id' => $list->getId(),
           ),
-          'css' => array(
-            drupal_get_path('module', 'ding_list') . '/css/ding-list-tabledrag.css',
-          ),
-        ),
-      );
-      drupal_add_tabledrag(
-        $variables['content']['elements']['#attributes']['id'],
-        'order',
-        'sibling',
-        'ding-list-list__element-delta'
-      );
+          '#rows' => array(),
+        );
+      }
 
       $total = $list->getElementCount();
       if ($total > 0) {
@@ -310,6 +344,17 @@ function template_preprocess_ding_list_add_button(&$variables) {
   else {
     $variables['classes_array'][] = 'ding-list-add-button--multiple-actions';
   }
+}
 
-  return $variables;
+/**
+ * Ding list label/value theme.
+ */
+function theme_ding_list_label_value($variables) {
+  $label = '';
+  if ($variables['label']) {
+    $label = '<div class="label">' . $variables['label'] . '</div>';
+  }
+  $out = '<div class="field">' . $label . '<div class="text">' . $variables['value'] . '</div></div>';
+
+  return $out;
 }
