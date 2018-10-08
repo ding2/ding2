@@ -76,7 +76,6 @@ jobs:
           sudo docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 /usr/local/etc/php/conf.d
           echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/docker-php-drupal.ini
-          echo "sendmail_path = /bin/true" >> /usr/local/etc/php/conf.d/docker-php-drupal.ini
           rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
           php -i
     - run:
@@ -88,9 +87,9 @@ jobs:
     - run:
         name: Install Ding2 site
         command: |
-          /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" \
           drush site-install ding2 \
           --db-url=mysql://root@127.0.0.1/circle_test -y --debug \
+          install_configure_form.update_status_module='array(FALSE,FALSE)' \
           ding2_module_selection_form.providers_selection=connie \
           opensearch_admin_settings.opensearch_url=https://opensearch.addi.dk/b3.5_5.0/ \
           ting_covers_addi_admin_settings_form.ting_covers_addi_wsdl_url=http://moreinfo.addi.dk/2.11 \
