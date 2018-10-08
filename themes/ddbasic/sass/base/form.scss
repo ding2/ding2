@@ -17,6 +17,13 @@ fieldset {
   margin: 0;
   padding: 25px 0;
 
+  &.form-wrapper {
+    display: block;
+    position: relative;
+    clear: both;
+    padding: 0;
+  }
+
   &.collapsible {
     overflow: hidden;
     padding: 28px 0 26px;
