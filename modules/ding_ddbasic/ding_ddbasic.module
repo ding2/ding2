@@ -169,6 +169,12 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
         array_unshift($form['#validate'], 'ding_ddbasic_theme_settings_validate');
       }
       break;
+
+    case 'menu_edit_item':
+      if ($form_state['build_info']['args'][0] == 'add') {
+        $form['expanded']['#default_value'] = 1;
+      }
+      break;
   }
 }
 

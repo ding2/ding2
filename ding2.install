@@ -634,3 +634,13 @@ function ding2_update_7052() {
   module_enable(array('customerror', 'customerroralt'));
   ding2_set_customerror_pages();
 }
+
+/**
+ * Expand all menu items in the main menu.
+ */
+function ding2_update_7053() {
+  db_update('menu_links')
+    ->fields(array('expanded' => 1))
+    ->condition('menu_name', 'main-menu')
+    ->execute();
+}
