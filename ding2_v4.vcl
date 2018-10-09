@@ -162,11 +162,6 @@ sub vcl_backend_response {
     set beresp.ttl = 10m;
   }
 
-  if (beresp.http.x-drupal-cache == "HIT") {
-    unset beresp.http.Cache-Control;
-    set beresp.http.Cache-Control = "public,max-age=21600";
-  }
-
   # Don't allow static files to set cookies.
   # (?i) denotes case insensitive in PCRE (perl compatible regular expressions).
   # This list of extensions appears twice, once here and again in vcl_recv so
