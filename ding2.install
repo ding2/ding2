@@ -644,3 +644,10 @@ function ding2_update_7053() {
     ->condition('menu_name', 'main-menu')
     ->execute();
 }
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7054() {
+  ding2_translation_update();
+}
