@@ -9708,7 +9708,7 @@ msgid "Search service URL"
 msgstr ""
 
 #: /admin/config/ting/settings?render=overlay
-msgid "URL to the Ting search webservice, e.g. https://opensearch.addi.dk/b3.5_5.0/"
+msgid "URL to the Ting search webservice, e.g. http://opensearch.addi.dk/3.0/"
 msgstr ""
 
 #: /admin/config/ting/settings?render=overlay
@@ -41312,7 +41312,7 @@ msgstr "Menu for overordnet element"
 
 #: /user/48/status/debts
 msgid "Fee date"
-msgstr "Dato"
+msgstr "Oprettelsesdato"
 
 #: /search/ting/dc.title%3D%22%C3%98jne%20p%C3%A5%20stilke%22?facets[]=facet.acSource%3Apalles%20gavebod
 msgid "Search the library database and the website"
@@ -44502,7 +44502,7 @@ msgstr "Tidsskrift årgang og nr."
 
 #: /user/48/status/loans
 msgid "You do not currently have any loans."
-msgstr "Du har ingen lån i øjeblikket"
+msgstr "Du har ingen lån i øjeblikket."
 
 #: /user/36/status/reservations
 msgid "Delete reservations (@count)"
@@ -45168,7 +45168,7 @@ msgstr "Luk"
 
 #: /admin/config/people/accounts?render=overlay
 msgid "Notice that there is a fee for receiving a SMS"
-msgstr "Vær opmærksom på, at der er et gebyr på SMS"
+msgstr "Husk +45 foran danske telefonnumre, og at der er et gebyr på SMS"
 
 #: /search/ting/harry%20pott
 msgid "<a href=\"@url\">Search Content</a>"
@@ -67002,8 +67002,8 @@ msgid ""
 msgstr "Lad biblioteks-admins indtaste CQL søgning som sender materialer ind i forsidens serendipitetspanel."
 
 #: /lazy-pane/ajax
-msgid "Set the frontpage serendipity search string"
-msgstr "Angiv forsidens serendipitets søge streng"
+msgid "Set the frontpage serendipity CQL"
+msgstr "Angiv forsidens serendipitets CQL"
 
 #: /
 msgid "ADHL on random loan items"
@@ -67201,3 +67201,129 @@ msgstr ""
 #: /list/240
 msgid "Rename / Delete list"
 msgstr "Omdøb eller slet liste"
+
+#: /
+msgid "Pincode (@length digits)"
+msgstr "Pinkode (@length cifre)"
+
+#: /ting/object/870971-avis%3A85521667
+msgid "Read article"
+msgstr "Læs artikel"
+
+#: /list/11507202/share
+msgid "Private - The list is only accessible to you"
+msgstr "Privat - Kun du har adgang til denne liste"
+
+#: /list/11507202/share
+msgid "Shared - Users with the secret link can view or edit your list"
+msgstr "Delt - Andre kan se eller redigere"
+
+#: /list/11507202/share
+msgid "Public - Anybody can view your list from the public link"
+msgstr "Offentlig - Alle kan se listen"
+
+msgid "Book a ticket"
+msgstr "Bestil billet(ter)"
+
+msgid "Waiting list open"
+msgstr "Ventelisten er åben"
+
+msgid "Ticket sale has not yet started for this event"
+msgstr "Billetsalget åbner snart"
+
+msgid "Sold out"
+msgstr "Der er ikke flere billetter"
+
+msgid "Not open for ticket sale"
+msgstr "Billetbestilling er ikke mulig"
+
+msgid "The event has already taken place"
+msgstr "Arrangementet er slut"
+
+#: /user/me/edit
+msgid "Start date must be higher than or equal to today"
+msgstr "Startdato skal være dags dato eller senere."
+
+#: /user/me/edit
+msgid "To date must both be higher than or equal to today, and be higher than the start date."
+msgstr "Slutdato skal ligge efter startdato, og kan være dags dato eller senere."
+
+#: /user/me/edit
+msgid "To date must both be higher than or equal to today"
+msgstr "Slutdato skal ligge efter dags dato eller senere."
+
+#: /user/me/edit
+msgid "To date must higher than the from date."
+msgstr "Slutdato skal ligge efter startdato."
+
+msgid "This material has been deleted from the library"
+msgstr "Biblioteket har ikke længere dette materiale"
+
+#: /user/me/status-loans
+msgid "An inter-library loan renewal was requested"
+msgstr "Det lånte materiale er fornyet med forbehold, da det er udlånt fra et andet bibliotek"
+
+#: /user/me/status-loans
+msgid "This material was renewed. New return date: !due_date"
+msgstr "Det lånte materiale er fornyet. Ny afleveringsdato: !due_date"
+
+#: /user/me/status-loans
+msgid "This material was borrowed today"
+msgstr "Det lånte materiale er lånt eller fornyet i dag"
+
+#: /user/me/status-loans
+msgid "The material can not be renewed because maximum number of renewals reached"
+msgstr "Det lånte materiale er ikke fornyet, fordi det maksimale antal fornyelser er nået"
+
+#: /user/me/status-loans
+msgid "The material is reserved by another loaner and can not be renewed"
+msgstr "Det lånte materiale er reserveret af en anden låner, og kan derfor ikke fornyes"
+
+#: /user/me/status-loans
+msgid "This material can not be renewed"
+msgstr "Det lånte materiale kan ikke fornyes"
+
+msgid "Internal error on @title"
+msgstr "Intern fejl på @title"
+
+msgid "Your account is limited. Please contact your library for more information."
+msgstr "Din konto har begrænset adgang. Kontakt venligst biblioteket for yderligere information."
+
+msgid "Your account is limited due to outstanding debt. Please contact your library for more "
+msgstr "Din konto har begrænset adgang på grund af udestående mellemværender. Kontakt venligst biblioteket for yderligere information."
+
+msgid "Your self created account is limited. Please contact your library to get full access."
+msgstr "Din konto har begrænset adgang. Kontakt venligst dit bibliotek for at få fuld adgang."
+
+msgid "You have been excluded. Please contact your library for more information."
+msgstr "Din brugerprofil er blevet lukket. Kontakt venligst biblioteket for yderligere information."
+
+msgid "See <a href="@link">this</a> page for more information about block types."
+msgstr "Se <a href="@link">denne side</a> for at få mere information om block types"
+
+msgid "Error: %order"
+msgstr "Fejl: %order"
+
+msgid "New in list"
+msgstr "Nyt på listen"
+
+msgid "Add one or more organizer(s) to your event."
+msgstr "Tilføj en eller flere arrangører til dit arrangement."
+
+msgid "Event organizer link"
+msgstr "Link til arrangement arrangør"
+
+msgid "Place / Room"
+msgstr "Lokalitet"
+
+msgid "Use this to direct your guests to the correct place"
+msgstr "Benyttes til at dirigere dine gæster til det korrekte lokale"
+
+msgid "arranged by"
+msgstr "Arrangeret af"
+
+msgid "Organizers"
+msgstr "Arrangører"
+
+msgid "Organizer"
+msgstr "Arrangører"
