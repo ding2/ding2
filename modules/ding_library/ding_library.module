@@ -202,9 +202,10 @@ function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
 }
 
 /**
- * After build method to disable custom alias for ding library. The way we use
- * aliases depend on the prefix being /bibliotek/%slug, so changing this will
- * break some functionality.
+ * After build method to disable custom alias for ding library.
+ *
+ * The way we use aliases depend on the prefix being /bibliotek/%slug, so
+ * changing this will break some functionality.
  */
 function ding_library_disable_custom_alias($form, &$form_state) {
   if (isset($form['path']['pathauto'])) {
