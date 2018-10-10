@@ -35,19 +35,17 @@ function ding_list_private_share_content_type_render($subtype, $conf, $panel_arg
     if ($list->isOwner() && $list->getData('visibility') !== 'public') {
       foreach ($conf['communities'] as $community) {
         $title = ucfirst($community);
-        if ($title != '0') {
-          $output->content .= l(
-            t('Share on @community', array('@community' => $title)),
-            'ding-list/private-share-message/' . $list->getId() . '/' . $community,
-            array(
-              'attributes' => array(
-                'class' => array(
-                  'sharer-button', 'sharer-' . $community, 'use-ajax',
-                ),
+        $output->content .= l(
+          t('Share on @community', array('@community' => $title)),
+          'ding-list/private-share-message/' . $list->getId() . '/' . $community,
+          array(
+            'attributes' => array(
+              'class' => array(
+                'sharer-button', 'sharer-' . $community, 'use-ajax',
               ),
-            )
-          );
-        }
+            ),
+          )
+        );
       }
 
       $output->content = '<div class="sharer">' . $output->content . '</div>';
@@ -85,5 +83,5 @@ function ding_list_private_share_edit_form($form, &$form_state) {
  * Implements hook_content_type_edit_form_submit().
  */
 function ding_list_private_share_edit_form_submit($form, &$form_state) {
-  $form_state['conf']['communities'] = $form_state['values']['communities'];
+  $form_state['conf']['communities'] = array_filter($form_state['values']['communities']);
 }

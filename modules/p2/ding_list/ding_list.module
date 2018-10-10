@@ -461,6 +461,11 @@ function ding_list_theme($existing, $type, $theme, $path) {
       'file' => 'theme/theme.inc',
       'variables' => array('label' => NULL, 'value' => NULL),
     ),
+    'ding_list_data' => array(
+      'file' => 'theme/theme.inc',
+      'template' => 'templates/ding-list-data',
+      'variables' => array('list' => NULL),
+    ),
     'ding_list_create_info' => array(
       'file' => 'theme/theme.inc',
       'variables' => array('list' => NULL),

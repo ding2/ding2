@@ -668,7 +668,7 @@ function ding_list_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = '%ding_list_list:title';
   $display->uuid = '8128a3a2-3296-46f4-bd3f-0f34e86bcb73';
   $display->content = array();
   $display->panels = array();

@@ -313,11 +313,11 @@
   margin-bottom: 15px;
   border-bottom: 1px solid $grey-medium;
 
-  .ding-list-data--note {
+  .ding-list-data__note {
     margin-bottom: 15px;
   }
 
-  .list-info {
+  .ding-list-info {
     @include span-columns(6);
     margin-top: 8px;
 
@@ -331,14 +331,14 @@
       @include span-columns(3 of 6);
       float: left;
     }
-    .label {
+    .ding-list-field-label {
       @include font('base-bold');
     }
-    .text {
+    .ding-list-field-text {
       color: $color-primary;
     }
   }
-  .list-buttons {
+  .ding-list-buttons {
     float: right;
 
     // Mobile
@@ -391,4 +391,13 @@
 // ==========================================================================
 .pane-notifications-top-menu {
   display: none;
+}
+
+// ==========================================================================
+// View ding public lists
+// ==========================================================================
+.pane-public-lists {
+  .ding-list-list {
+    clear: both;
+  }
 }
