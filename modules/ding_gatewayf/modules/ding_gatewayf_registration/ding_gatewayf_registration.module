@@ -168,6 +168,12 @@ function ding_gatewayf_registration_form_ding_gatewayf_admin_settings_form_alter
     '#default_value' => $defaults['information']['link'],
   );
 
+  $form['ding_gatewayf_registration']['information']['reset'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reset to DDB default text'),
+    '#submit' => array('ding_gatewayf_registration_information_reset'),
+  );
+
   // Accepting text.
   $form['ding_gatewayf_registration']['acceptance'] = array(
     '#type' => 'fieldset',
@@ -329,6 +335,19 @@ function ding_gatewayf_registration_acceptance_form() {
 }
 
 /**
+ * Sumbut handler that resets the information text.
+ */
+function ding_gatewayf_registration_information_reset($form, $form_state) {
+  $config = variable_get('ding_gatewayf_registration', FALSE);
+  if ($config) {
+    unset($config['information']);
+  }
+  variable_set('ding_gatewayf_registration', $config);
+
+  drupal_set_message(t('Information text have been reset to DDB default text'));
+}
+
+/**
  * Submit handler for the acceptance form.
  *
  * It tries to create the user at the provider and redirect the user.
@@ -468,12 +487,15 @@ function _ding_gatewayf_registration_is_age_limit_met($cpr) {
  * Load self registration configuration with valid defaults.
  */
 function _ding_gatewayf_registration_load_config() {
+  // Load default information text from file. This text is pre-approved by DDB.
+  $info_text = file_get_contents(drupal_get_path('module', 'ding_gatewayf_registration') . '/default_information_text.html');
+
   return variable_get('ding_gatewayf_registration', array()) + array(
     'age_limit' => 18,
     'information' => array(
       'title' => t('Self registration'),
       'content' => array(
-        'value' => t("Please read the library's regulations for usage before you use self registration."),
+        'value' => $info_text,
         'format' => 'ding_wysiwyg',
       ),
       'link' => t('Start self registration'),
