@@ -626,7 +626,7 @@ function fbs_form_profile2_onhold_validate($element, &$form_state, $form) {
       t('Your reservations is already on hold from start date: %default-date. If you wish to change the start date from: %default-date, the start date must be higher than or equal to today: %now', 
       array(
         '%default-date' => format_date($default_from_date_stamp, 'custom', 'd-m-Y'), 
-        '%now' => $now),
+        '%now' => $now)
       )
     );
   }
