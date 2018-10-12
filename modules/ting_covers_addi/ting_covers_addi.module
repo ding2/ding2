@@ -62,6 +62,9 @@ function ting_covers_addi_ting_covers($entities) {
       elseif ($cover->thumbnailUrl) {
         $source_url = $cover->thumbnailUrl;
       }
+      elseif ($cover->externUrl) {
+        $source_url = $cover->externUrl;
+      }
 
       if ($source_url) {
         // Return the path to the cover.
