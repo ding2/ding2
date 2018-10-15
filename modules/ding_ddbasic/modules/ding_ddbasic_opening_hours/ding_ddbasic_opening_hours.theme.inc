@@ -156,7 +156,7 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   // Close notice.
   $notice = '<span class="opening-hours-table-notice">' . t('Closed') . '</span>';
 
-  // Default category from found, so move data around.
+  // Default category found, so move data around.
   foreach ($structured as &$day) {
     if (array_key_exists(-1, $day['cols'])) {
       isset($day['cols'][$default]) ? $day['cols'][$default] += $day['cols'][-1] : $day['cols'][$default] = $day['cols'][-1];
