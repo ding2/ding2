@@ -1,0 +1,234 @@
+<?php
+
+/**
+ * @file
+ * Ding list rescue module.
+ * Previous bugs have collided ids of different users lists.
+ * Missing lists and elements can be rescued or reimported with this tool.
+ * The module works by loading lists and elements from the previous entity 
+ * storage model and saving them to the pure remove service.
+ */
+
+use DingList\DingList;
+use DingList\DingListElement;
+
+/**
+ * Implements hook_menu().
+ */
+function ding_listrescue_menu() {
+  return array(
+    'listecheck' => array(
+      'title' => 'Rescue lists',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('ding_listrescue_form'),
+      'access arguments' => array('use personalisation'),
+    )
+  );
+}
+
+/**
+ * Rescue form.
+ */
+function ding_listrescue_form($form, &$form_state) {
+
+  $intro = array(
+    'header' => array(
+      '#type' => 'html_tag',
+      '#tag' => 'h2',
+      '#value' => t("Rescue old lists"),
+    ),
+    'content' => array(
+      '#type' => 'html_tag',
+      '#tag' => 'p',
+      '#value' => t("This is a tool to attempt recovery of old lists"),
+    ),
+  );
+
+  // Try to find elements from the previous storage model.
+  try {
+    $lists = ding_listrescue_get_local_lists();
+    $cnt = count($lists);
+    $details = array(
+      'header' => array(
+        '#type' => 'html_tag',
+        '#tag' => 'h2',
+        '#value' => t("Details"),
+      ),
+      'lists' => array (
+        '#type' => 'html_tag',
+        '#tag' => 'pre',
+        '#value' => $cnt > 0 ? t("Found @cnt lists to re-import",array("@cnt" => $cnt)) : t("No lists to re-import"),
+      ),
+    );
+
+    // Enable submit button if previous lists was found.
+    if ($cnt > 0) {
+      $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Proceed'),
+      );
+    }
+  } catch (Exception $e) {
+    $details = array(
+      'header' => array(
+        '#type' => 'html_tag',
+        '#tag' => 'h2',
+        '#value' => t("No local lists found"),
+      )
+    );
+  }
+
+  $form['#prefix'] = render($intro) . render($details);
+  
+  return $form;
+}
+
+/**
+ * Rescue form submit.
+ */
+function ding_listrescue_form_submit($form, &$form_state) {
+  global $user;
+
+  $form_state['rebuild'] = TRUE;
+
+  // Load the user object.
+  $account = user_load($user->uid);
+  ding_listrescue_log("OID:" . substr($account->openlist_uid, 0, 15));
+
+  // Fetch all old lists from local entity storage.
+  foreach (ding_listrescue_get_local_lists() as $local) {
+    ding_listrescue_log("Check list:" . $local->type);
+    $remote = ding_listrescue_get_remote_list($account, $local);
+
+    // Fetch all elements from that list.
+    foreach (ding_listrescue_get_local_elements($local) as $local_element) {
+      ding_listrescue_log("Check element:" . $local_element->value);
+  
+      // Add elements which doesn't already exist in the list.
+      if (!$remote->hasElement($local_element->value)) {
+        $remote_element = $remote->attachElement(DingListElement::fromDataArray(array(
+          'type' => $local_element->type,
+          'value' => $local_element->value,
+        )));
+
+        if ($local_element->weight !== NULL) {
+          $remote_element->setData('weight', $local_element->weight);
+        }
+
+        $remote_element->save();
+        ding_listrescue_log("Add: " . $local_element->value .  " to:" . $local->type);
+      } else {
+        ding_listrescue_log("Exists: " . $local_element->value);        
+      }
+    }
+  }
+  ding_listrescue_log("Done");
+
+  drupal_set_message(t("Your lists have been imported"));
+}
+
+function ding_listrescue_log($msg) {
+  if(!empty($_GET['debug'])) {
+    drupal_set_message($msg);
+  }
+}
+
+/**
+ * Get local elements from a local list.
+ */
+function ding_listrescue_get_local_elements($local) {
+  $max_elements = 200;
+
+  $element_query = db_select('field_data_field_list_objects', 'flo');
+  $element_query->leftJoin(
+    'field_data_field_element_type', 'fet',
+    "fet.entity_type = 'ding_type' AND fet.entity_id = flo.field_list_objects_target_id"
+  );
+  $element_query->leftJoin(
+    'field_data_field_value', 'fv',
+    "fv.entity_type = 'ding_type' AND fv.entity_id = flo.field_list_objects_target_id"
+  );
+  $element_query->leftJoin(
+    'field_data_field_weight', 'fw',
+    "fw.entity_type = 'ding_type' AND fw.entity_id = flo.field_list_objects_target_id"
+  );
+  $element_query
+    ->condition('flo.entity_id', $local->id)
+    ->condition('flo.entity_type', 'ding_type');
+
+  $element_query->addField('fet', 'field_element_type_value', 'type');
+  $element_query->addField('fv', 'field_value_value', 'value');
+  
+  // Weight is used by ratings.
+  $element_query->addField('fw', 'field_weight_value', 'weight');
+
+  return $element_query->range(0, $max_elements)->execute()->fetchAll();
+}
+
+/**
+ * Get all the local lists.
+ */
+function ding_listrescue_get_local_lists($account = NULL, $types = NULL) {
+  $max_lists = 50;
+
+  // Load account.
+  if (empty($account)) {
+    global $user;
+    $account = user_load($user->uid);    
+  }
+  
+  // Limit list types.
+  $default_valid_list_types = array(
+    DING_LIST_TYPE_USER_LIST, DING_LIST_TYPE_SEARCHES,
+    DING_LIST_TYPE_BOOKS_READ, DING_LIST_TYPE_REMEMBER,
+    DING_LIST_TYPE_FOLLOW_AUTHOR,
+    DING_ENTITY_RATING_LIST,
+  );
+
+  $types = empty($types) ? $default_valid_list_types : $types;
+
+  $list_query = db_select('eck_ding_type', 'dt');
+  $list_query->join(
+    'field_data_field_list_type', 'flt',
+    "flt.entity_type = 'ding_type' AND flt.entity_id = dt.id"
+  );
+  $list_query
+    ->fields('dt', array('id', 'title'))
+    ->condition('dt.type', 'ding_list')
+    ->condition('dt.uid', $account->uid)
+    ->condition('flt.field_list_type_value', $types);
+  $list_query->addField('flt', 'field_list_type_value', 'type');
+
+  return $list_query->range(0, $max_lists)->execute()->fetchAll();
+}
+
+/**
+ * Get a matching remote list.
+ */
+function ding_listrescue_get_remote_list($account, $local) {
+  $remote_lists = &drupal_static(__FUNCTION__, array());
+
+  if (!isset($remote_lists[$account->uid])) {
+    $remote_lists[$account->uid] = ding_list_get_lists(array(), $account, TRUE);
+  }
+
+  foreach ($remote_lists[$account->uid] as $remote) {
+    if ($local->type != DING_LIST_TYPE_USER_LIST && $remote->getType() == $local->type) {
+      return $remote;
+    }
+    elseif ($local->type == DING_LIST_TYPE_USER_LIST && $remote->getTitle() == $local->title) {
+      return $remote;
+    }
+  }
+
+  // Create the remote list if it doesn't exist.
+  $remote = DingList::fromDataArray(array(
+    'type' => $local->type,
+    'title' => $local->title,
+    'owner' => ding_provider_invoke('openlist', 'user_identifier', $account),
+  ));
+  $remote->save();
+
+  return $remote;
+
+}
