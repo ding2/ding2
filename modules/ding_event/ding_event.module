@@ -340,6 +340,12 @@ function ding_event_form_views_exposed_form_alter(&$form, &$form_state) {
       unset($form['#info']['filter-og_group_ref_target_id_entityreference_filter']['label']);
       $form['og_group_ref_target_id_entityreference_filter']['#title'] = '<h2 class="list-title sub-menu-title">' . $label . '</h2>';
     }
+
+    if (!empty($form['#info']['filter-field_ding_event_target_tid'])) {
+      $label = $form['#info']['filter-field_ding_event_target_tid']['label'];
+      unset($form['#info']['filter-field_ding_event_target_tid']['label']);
+      $form['field_ding_event_target_tid']['#title'] = '<h2 class="list-title sub-menu-title">' . $label . '</h2>';
+    }
   }
 }
 
