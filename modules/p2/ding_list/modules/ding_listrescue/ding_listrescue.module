@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Ding list rescue module.
+ * Ding list rescue module for old lists and elements.
+ * 
  * Previous bugs have collided ids of different users lists.
  * Missing lists and elements can be rescued or reimported with this tool.
  * The module works by loading lists and elements from the previous entity 
@@ -22,7 +23,7 @@ function ding_listrescue_menu() {
       'page callback' => 'drupal_get_form',
       'page arguments' => array('ding_listrescue_form'),
       'access arguments' => array('use personalisation'),
-    )
+    ),
   );
 }
 
@@ -54,10 +55,10 @@ function ding_listrescue_form($form, &$form_state) {
         '#tag' => 'h2',
         '#value' => t("Details"),
       ),
-      'lists' => array (
+      'lists' => array(
         '#type' => 'html_tag',
         '#tag' => 'pre',
-        '#value' => $cnt > 0 ? t("Found @cnt lists to re-import",array("@cnt" => $cnt)) : t("No lists to re-import"),
+        '#value' => $cnt > 0 ? t("Found @cnt lists to re-import", array("@cnt" => $cnt)) : t("No lists to re-import"),
       ),
     );
 
@@ -68,13 +69,14 @@ function ding_listrescue_form($form, &$form_state) {
         '#value' => t('Proceed'),
       );
     }
-  } catch (Exception $e) {
+  } 
+  catch (Exception $e) {
     $details = array(
       'header' => array(
         '#type' => 'html_tag',
         '#tag' => 'h2',
         '#value' => t("No local lists found"),
-      )
+      ),
     );
   }
 
@@ -117,7 +119,8 @@ function ding_listrescue_form_submit($form, &$form_state) {
 
         $remote_element->save();
         ding_listrescue_log("Add: " . $local_element->value .  " to:" . $local->type);
-      } else {
+      } 
+      else {
         ding_listrescue_log("Exists: " . $local_element->value);        
       }
     }
@@ -127,8 +130,11 @@ function ding_listrescue_form_submit($form, &$form_state) {
   drupal_set_message(t("Your lists have been imported"));
 }
 
+/**
+ * Logging of actions
+ */
 function ding_listrescue_log($msg) {
-  if(!empty($_GET['debug'])) {
+  if (!empty($_GET['debug'])) {
     drupal_set_message($msg);
   }
 }
