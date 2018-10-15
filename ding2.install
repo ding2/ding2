@@ -655,7 +655,7 @@ function ding2_update_7054() {
 /**
  * Delete {system} records for ding_wayf module.
  */
-function ding2_update_7053() {
+function ding2_update_7055() {
   variable_del('ding_wayf');
   variable_del('wayf_hash');
   ding2_remove_module('ding_wayf');
@@ -664,7 +664,7 @@ function ding2_update_7053() {
 /**
  * Disable GateWAYF modules and migrate config.
  */
-function ding2_update_7055() {
+function ding2_update_7056() {
   $config = variable_get('ding_gatewayf_registration', FALSE);
   if ($config) {
     // Migrate configuration.

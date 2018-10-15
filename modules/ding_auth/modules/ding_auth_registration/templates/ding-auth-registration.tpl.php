@@ -16,21 +16,12 @@
 <div class="empty-sidebars default-layout">
   <div class="layout-wrapper">
     <div class="pane-content">
-<<<<<<< HEAD:modules/ding_gatewayf/modules/ding_gatewayf_registration/templates/ding-gatewayf-registration-information.tpl.php
-      <div class="primary-content ding-gatewayf">
-        <h2 class="pane-title"><?php print render($title); ?></h2>
-        <div class="ding-gatewayf--registration-information">
-          <?php print render($content); ?>
-        </div>
-        <div class="ding-gatewayf--link-wrapper">
-=======
       <div class="primary-content ding-auth">
         <h2 class="pane-title"><?php print render($title); ?></h2>
         <div class="ding-auth--registration-information">
           <?php print render($content); ?>
         </div>
         <div class="ding-auth--link-wrapper">
->>>>>>> AD: Conversion from wayf to auth:modules/ding_auth/modules/ding_auth_registration/templates/ding-auth-registration.tpl.php
           <?php print render($link); ?>
         </div>
       </div>
