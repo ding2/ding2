@@ -4,9 +4,9 @@
  * Defines the main functionality for the authentication module.
  */
 
-//require __DIR__ . '/vendor/autoload.php';
 
 define('DING_AUTH_LOGIN_URL', 'ding_auth/login');
+define('DING_AUTH_LOGOUT_URL', 'ding_auth/logout');
 define('DING_AUTH_REDIRECT_URL', 'ding_auth/callback');
 
 
@@ -47,6 +47,12 @@ function ding_auth_menu() {
     'title' => 'Log in',
     'page callback' => 'ding_auth_login',
     'access callback' => 'user_is_anonymous',
+  );
+
+  $items[DING_AUTH_LOGOUT_URL] = array(
+    'title' => 'Log in',
+    'page callback' => 'ding_auth_logout',
+    'access callback' => TRUE,
   );
 
   $items[DING_AUTH_REDIRECT_URL] = array(
@@ -171,9 +177,14 @@ function ding_auth_login($redirect = TRUE, $destination = '') {
 }
 
 /**
- * Implements hook_user_logout().
+ * Logout the user from auth.
+ *
+ * This placed in this menu callback function to ensure
+ *
+ * @param bool $hooked
+ *   If TRUE new session is generated.
  */
-function ding_auth_user_logout() {
+function ding_auth_logout($hooked = FALSE) {
   $provider = ding_auth_get_provider();
   $config = ding_auth_get_configuration();
   $token = $_SESSION['oauth2token'];
@@ -181,6 +192,20 @@ function ding_auth_user_logout() {
   // Generate logout request for the authorization service and send the request.
   $request = $provider->getRequest('GET', $config['urlLogout'] . '?access_token=' . $token);
   $response = $provider->getResponse($request);
+
+  if (!$hooked) {
+    // If this was called from user registration reset the session.
+    drupal_session_regenerate();
+  }
+}
+
+/**
+ * Implements hook_user_logout().
+ *
+ * Ensure that the user is logged out off the access platform.
+ */
+function ding_auth_user_logout() {
+  ding_auth_logout(TRUE);
 }
 
 /**
@@ -213,21 +238,19 @@ function ding_auth_callback() {
       $user_info = $response->getBody();
       $user_info = drupal_json_decode($user_info);
 
-      if (module_exists('ding_auth_registration')) {
-
-
-
-        // @TODO: Handle user creation.
-
-
-
+      if (module_exists('ding_auth_registration') && ding_auth_registration_is_registration_request()) {
+        // This is an self registration request, so we store the information in
+        // the current session. So it can be used to create the user in the
+        // library system in the user creation flow in ding_auth_registration.
+        // The redirect below will start the process.
+        $_SESSION['oauth2userinfo'] = serialize($user_info);
       }
       else {
         // Login to using the provider.
         _ding_auth_provider_login($user_info);
       }
 
-      // Redirect user back.
+      // Redirect user base on values set in the current session.
       _ding_auth_redirect_user();
     }
     catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
