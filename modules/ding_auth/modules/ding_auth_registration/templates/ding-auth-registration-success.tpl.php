@@ -1,6 +1,6 @@
 <?php
 /**
- * Default template for gateway self registration information page.
+ * Default template for user self registration success page.
  *
  * Available variables:
  *  - $title: Headline and page title.

@@ -30,12 +30,17 @@ function ding_auth_menu() {
   $items = array();
 
   $items['admin/config/ding/auth'] = array(
-    'title' => 'Adgangsplatformen',
+    'title' => 'Adgangsplatform',
     'description' => 'Configure user login',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_auth_admin_settings_form'),
     'access arguments' => array('administer users'),
     'file' => 'includes/ding_auth.admin.inc',
+  );
+
+  $items['admin/config/ding/auth/settings'] = array(
+    'title' => 'Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
   );
 
   $items[DING_AUTH_LOGIN_URL] = array(
@@ -208,8 +213,19 @@ function ding_auth_callback() {
       $user_info = $response->getBody();
       $user_info = drupal_json_decode($user_info);
 
-      // Login to using the provider.
-      _ding_auth_provider_login($user_info);
+      if (module_exists('ding_auth_registration')) {
+
+
+
+        // @TODO: Handle user creation.
+
+
+
+      }
+      else {
+        // Login to using the provider.
+        _ding_auth_provider_login($user_info);
+      }
 
       // Redirect user back.
       _ding_auth_redirect_user();

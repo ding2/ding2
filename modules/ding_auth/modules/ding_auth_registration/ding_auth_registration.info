@@ -1,0 +1,5 @@
+name = Ding auth registration
+description = Allow users to preform self regristration.
+core = 7.x
+package = Ding!
+dependencies[] = ding_auth

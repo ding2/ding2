@@ -651,3 +651,31 @@ function ding2_update_7053() {
 function ding2_update_7054() {
   ding2_translation_update();
 }
+
+/**
+ * Delete {system} records for ding_wayf module.
+ */
+function ding2_update_7053() {
+  variable_del('ding_wayf');
+  variable_del('wayf_hash');
+  ding2_remove_module('ding_wayf');
+}
+
+/**
+ * Disable GateWAYF modules and migrate config.
+ */
+function ding2_update_7055() {
+  $config = variable_get('ding_gatewayf_registration', FALSE);
+  if ($config) {
+    // Migrate configuration.
+    variable_set('ding_auth_registration', $config);
+    variable_del('ding_gatewayf_registration');
+  }
+
+  // Remove config.
+  variable_del('ding_gatewayf');
+
+  // Remove modules.
+  ding2_remove_module('ding_gatewayf_registration');
+  ding2_remove_module('ding_gatewayf');
+}
