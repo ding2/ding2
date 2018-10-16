@@ -56,7 +56,7 @@ function ding_auth_registration_menu() {
  *   TRUE if values exists in the session else FALSE.
  */
 function ding_auth_registration_acceptance_access_check() {
-  return ding_auth_registration_is_registration_request() &&  isset($_SESSION['oauth2userinfo']);
+  return isset($_SESSION['oauth2userinfo']);
 }
 
 /**
@@ -80,6 +80,10 @@ function ding_auth_registration_theme($existing, $type, $theme, $path) {
         'content' => array(),
       ),
       'path' => $path . '/templates',
+    ),
+    'ding_auth_registration_acceptance' => array(
+      'render element'  => 'element',
+      'template' => 'templates/ding-auth-acceptance'
     ),
   );
 }
@@ -116,6 +120,7 @@ function ding_auth_registration_information() {
         ),
         'query' => array(
           'destination' => DING_AUTH_REGISTRATION_ACCEPTANCE_URL,
+          'idp' => 'nemid',
         ),
         'html' => TRUE,
       ),

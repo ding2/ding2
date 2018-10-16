@@ -65,6 +65,21 @@ function ding_auth_menu() {
 }
 
 /**
+ * Implements hook_preprocess_menu_link().
+ *
+ * Change the login link in the top menu to use ding_auth module. It's changed
+ * here to make it possible to still use the old "/user" login form if
+ * ding_auth is not enabled.
+ */
+function ding_auth_preprocess_menu_link(&$vars) {
+  if ($vars['element']['#original_link']['menu_name'] == 'menu-tabs-menu') {
+    if ($vars['element']['#href'] == 'user') {
+      $vars['element']['#href'] = 'ding_auth/login';
+    }
+  }
+}
+
+/**
  * Implements hook_libraries_info().
  *
  * For defining external libraries.
@@ -156,6 +171,17 @@ function ding_auth_get_configuration() {
  *
  * Will start the authentication process and redirect the user to the
  * authorization service.
+ *
+ * @param bool $redirect
+ *   Default TRUE, mainly used to get the auth url when used in ajax context
+ *   and an redirect is not desirable at this time.
+ * @param string $destination
+ *   Override the destination set in the current request. Mainly used in ajax
+ *   context.
+ * @return mixed
+ *    If $redirect is FALSE the authentication url or redirect headers.
+ *
+ * @throws Exception
  */
 function ding_auth_login($redirect = TRUE, $destination = '') {
   $provider = ding_auth_get_provider();
@@ -164,6 +190,12 @@ function ding_auth_login($redirect = TRUE, $destination = '') {
   // Get the state generated for you and store it to the session.
   $_SESSION['oauth2state'] = $provider->getState();
   $_SESSION['oauth2destination'] = empty($destination) ? $_REQUEST['destination'] : $destination;
+
+  // Check if an identity provider have been set in the request.
+  if (!empty($_REQUEST['idp'])) {
+    $authorization_url .= '&idp=' . $_REQUEST['idp'];
+  }
+
 
   if (!$redirect) {
     return $authorization_url;
@@ -183,6 +215,8 @@ function ding_auth_login($redirect = TRUE, $destination = '') {
  *
  * @param bool $hooked
  *   If TRUE new session is generated.
+ *
+ * @throws Exception
  */
 function ding_auth_logout($hooked = FALSE) {
   $provider = ding_auth_get_provider();

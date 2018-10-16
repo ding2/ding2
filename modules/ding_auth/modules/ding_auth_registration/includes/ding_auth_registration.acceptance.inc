@@ -18,7 +18,7 @@ function ding_auth_registration_acceptance_form() {
   // wrapper the form in panels. But seen form a performance point this is
   // faster and simpler.
   $form = array(
-    '#theme_wrappers' => array('form', 'ding_frontend_panel_wrapper'),
+    '#theme_wrappers' => array('form', 'ding_auth_registration_acceptance'),
   );
 
   $form['accept'] = array(
@@ -102,7 +102,7 @@ function ding_auth_registration_acceptance_form_submit($form, $form_state) {
   unset($_SESSION['oauth2userinfo']);
 
   // Check that the logged in user is over the age limit.
-  if (!_ding_auth_registration_is_age_limit_met($userinfo['schacPersonalUniqueID'])) {
+  if (!_ding_auth_registration_is_age_limit_met($userinfo['attributes']['userId'])) {
     $config = _ding_auth_registration_config();
     drupal_set_message(t('You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry.', array('!limit' => $config['age_limit'])));
 
@@ -115,7 +115,7 @@ function ding_auth_registration_acceptance_form_submit($form, $form_state) {
   // Try to create the user at the provider.
   try {
     // Create user as the provider.
-    ding_provider_invoke('user', 'create', $userinfo['schacPersonalUniqueID'], $values['pin'], $values['name'], $values['mail'], $values['branch']);
+    ding_provider_invoke('user', 'create', $userinfo['attributes']['userId'], $values['pin'], $values['name'], $values['mail'], $values['branch']);
 
     // Set redirect and try logging in the user.
     $_REQUEST['destination'] = DING_AUTH_REGISTRATION_SUCCESS_URL;
