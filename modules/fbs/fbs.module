@@ -621,7 +621,7 @@ function fbs_form_profile2_onhold_validate($element, &$form_state, $form) {
 
   if (!empty($default_from_date) && 
     $from_date_stamp != $default_from_date_stamp && 
-    $from_date_stamp <= $now_stamp) {
+    $from_date_stamp < $now_stamp) {
     form_set_error('profile_provider_fbs][field_fbs_on_hold', 
       t('Your reservations is already on hold from start date: %default-date. If you wish to change the start date from: %default-date, the start date must be higher than or equal to today: %now', 
       array(
@@ -630,17 +630,17 @@ function fbs_form_profile2_onhold_validate($element, &$form_state, $form) {
       )
     );
   }
-  if (empty($default_from_date) && $from_date_stamp <= $now_stamp) {
+  if (empty($default_from_date) && !empty($from_date) && $from_date_stamp < $now_stamp) {
     form_set_error('profile_provider_fbs][field_fbs_on_hold', t('Start date must be higher than or equal to today: %now', array('%now' => $now)));
   }
   if ($to_date_stamp < $now_stamp && $to_date_stamp < $from_date_stamp) {
-    form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must both be higher than or equal to today, and be higher than the start date.'));
+    form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must both be higher than or equal to today: %now, and be higher than the start date: %start_date', array('%now' => $now, '%start_date' => $from_date)));
   }
   elseif ($to_date_stamp < $now_stamp && $to_date_stamp > $from_date_stamp) {
     form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must both be higher than or equal to today: %now', array('%now' => $now)));
   }
   elseif ($to_date_stamp > $now_stamp && $to_date_stamp <= $from_date_stamp) {
-    form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must higher than the from date.'));
+    form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must higher than the from date: %start_date', array('%start_date' => $from_date)));
   }
 }
 
