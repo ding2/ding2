@@ -188,6 +188,9 @@ function fbs_patron_id($account = NULL) {
  *
  * @return FBS
  *   Service class.
+ *
+ * @throws Exception
+ *   If the required php libraries don't exists.
  */
 function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $serializer = NULL, $reset = FALSE) {
   // No drupal_static. We want to be callable from tests.
@@ -409,6 +412,7 @@ function fbs_profile2_presave($entity) {
       $res = fbs_service()->Patron->update(fbs_service()->agencyId, $patron['patronId'], $update);
     }
     catch (Exception $e) {
+      drupal_set_message('Your changes may not have been saved. Please try saving again or contact the library.', 'ERROR');
       watchdog_exception('fbs', $e);
     }
 
@@ -535,8 +539,7 @@ function fbs_interest_periods() {
  * Implements hook_form_FORM_ID_alter().
  */
 function fbs_form_profile2_form_alter(&$form, &$form_state) {
-  // Add validation to profile2 form - only on /user/me/edit
-  if ($form['#form_id'] === 'profile2_edit_provider_fbs_form') {
+  if (array_key_exists('profile_provider_fbs', $form)) {
     $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
 
     $form['profile_provider_fbs']['ding_user_fee_sms'] = array(
@@ -547,15 +550,20 @@ function fbs_form_profile2_form_alter(&$form, &$form_state) {
 
     // Add validation to email.
     $form['profile_provider_fbs']['field_fbs_mail']['#element_validate'] = array('fbs_form_profile2_mail_validate');
+
     // Add validation to phone.
     $form['profile_provider_fbs']['field_fbs_phone']['#element_validate'] = array('fbs_form_profile2_phone_validate');
+
+    // Add validation of on hold.
+    $form['profile_provider_fbs']['field_on_hold']['#element_validate'] = array('fbs_form_profile2_on_hold_validate');
+
     // Add submit handler, to redirect to same URL.
     $form['#submit'][] = 'fbs_form_profile2_rebuild_submit';
   }
 }
 
 /**
- * Mail validation for fbs_form_profile2
+ * Mail validation for fbs_form_profile2.
  */
 function fbs_form_profile2_mail_validate($element, $form_state) {
   $email = $form_state['input']['profile_provider_fbs']['field_fbs_mail']['und'][0]['value'];
@@ -567,7 +575,7 @@ function fbs_form_profile2_mail_validate($element, $form_state) {
 }
 
 /**
- * Phone validation for fbs_form_profile2
+ * Phone validation for fbs_form_profile2.
  */
 function fbs_form_profile2_phone_validate($element, $form_state) {
   $phone = $form_state['input']['profile_provider_fbs']['field_fbs_phone']['und'][0]['value'];
@@ -591,6 +599,94 @@ function fbs_form_profile2_phone_validate($element, $form_state) {
       form_set_error('profile_provider_fbs][field_fbs_phone', t('Please fill in a valid phonenumber'));
     }
   }
+}
+
+/**
+ * On hold data field validation.
+ *
+ * @param array $element
+ *   The form element that being validated.
+ * @param array $form_state
+ *   The current form state.
+ */
+function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) {
+  $wrapper = entity_metadata_wrapper('profile2', $form_state['profile2']);
+
+  // Get the values that should be validated.
+  $existing_on_hold = $wrapper->field_fbs_on_hold->value();
+  $new_on_hold = $form_state['values']['profile_provider_fbs']['field_fbs_on_hold'][LANGUAGE_NONE][0];
+
+  // Existing value may return NULL lets convert that to an array.
+  if (is_null($existing_on_hold)) {
+    $existing_on_hold = array(
+      'from' => NULL,
+      'to' => NULL,
+    );
+  }
+
+  // Check if the values have been changed.
+  if ($existing_on_hold['from'] != $new_on_hold['from'] || $existing_on_hold['to'] != $new_on_hold['to']) {
+    // Check that they are not empty.
+    if (empty($new_on_hold['from'])) {
+      // Help the use an ensure that the to-data is empty as well.
+      $form_state['values']['profile_provider_fbs']['field_fbs_on_hold'][LANGUAGE_NONE][0]['to'] = '';
+      $form_state['input']['profile_provider_fbs']['field_fbs_on_hold'][LANGUAGE_NONE][0]['to'] = '';
+      return;
+    }
+
+    // Check that an to/end data is set if a from data is set.
+    if (!empty($new_on_hold['from']) && empty($new_on_hold['to'])) {
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('When from data is set the to date should also be set given.'));
+      return;
+    }
+
+    // Get current data
+    $now = date('Y-m-d');
+
+    // Make comparision more readable with a function wrapper.
+    $convert = '_fbs_form_profile_validate_convert_time';
+
+    // Start date must be higher than or equal to today.
+    if (!($convert($new_on_hold['from']) >= $convert($now))) {
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('Start date must be higher than or equal to today: %now', array('%now' => date('m-d-Y'))));
+      return;
+    }
+
+    // To date must both be higher than or equal to today.
+    if (!($convert($new_on_hold['to']) >= $convert($now))) {
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must both be higher than or equal to today: %now', array('%now' => date('m-d-Y'))));
+      return;
+    }
+
+    // To date must higher than the from date.
+    if (!($convert($new_on_hold['to']) >= $convert($new_on_hold['from']))) {
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must higher than the from date or equal to.'));
+      return;
+    }
+  }
+}
+
+/**
+ * Converts profile2 (frontend) time format to unix timestamp.
+ *
+ * Uses a static cache to speed up conversion.
+ *
+ * @param string $time
+ *   With the format 'Y-m-d'.
+ *
+ * @return int
+ *   Unix timestamp.
+ */
+function _fbs_form_profile_validate_convert_time($time) {
+  $cache = &drupal_static(__FUNCTION__, array());
+  if (isset($cache[$time])) {
+    return $cache[$time];
+  }
+
+  list($year, $month, $day) = explode('-', $time);
+  $cache[$time] = mktime(0, 0, 0, $month, $day, $year);
+
+  return $cache[$time];
 }
 
 /**
