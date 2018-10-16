@@ -643,7 +643,7 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
       return;
     }
 
-    // Get current data
+    // Get current data.
     $now = date('Y-m-d');
 
     // Make comparision more readable with a function wrapper.
