@@ -627,16 +627,14 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
   // Check if the values have been changed.
   if ($existing_on_hold['from'] != $new_on_hold['from'] || $existing_on_hold['to'] != $new_on_hold['to']) {
     // Check that they are not empty.
-    if (empty($new_on_hold['from'])) {
-      // Help the use an ensure that the to-data is empty as well.
-      $form_state['values']['profile_provider_fbs']['field_fbs_on_hold'][LANGUAGE_NONE][0]['to'] = '';
-      $form_state['input']['profile_provider_fbs']['field_fbs_on_hold'][LANGUAGE_NONE][0]['to'] = '';
+    if (empty($new_on_hold['from']) && !empty($new_on_hold['to'])) {
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('When to date is set than the from date should also be set.'));
       return;
     }
 
     // Check that an to/end data is set if a from data is set.
     if (!empty($new_on_hold['from']) && empty($new_on_hold['to'])) {
-      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('When from data is set the to date should also be set given.'));
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('When from date is set than the to date should also be set.'));
       return;
     }
 
@@ -648,13 +646,13 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
 
     // Start date must be higher than or equal to today.
     if (!($convert($new_on_hold['from']) >= $convert($now))) {
-      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('Start date must be higher than or equal to today: %now', array('%now' => date('m-d-Y'))));
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('Start date must be higher than or equal to today: %now', array('%now' => date('d-m-Y'))));
       return;
     }
 
     // To date must both be higher than or equal to today.
     if (!($convert($new_on_hold['to']) >= $convert($now))) {
-      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must both be higher than or equal to today: %now', array('%now' => date('m-d-Y'))));
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must both be higher than or equal to today: %now', array('%now' => date('d-m-Y'))));
       return;
     }
 
