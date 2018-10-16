@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Default template for user self registration information page.
  *
  * Available variables:

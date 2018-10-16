@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Default template for user self registration acceptance page.
  *
  * Note: The page have pane classes to make it look correct in DDB default theme
