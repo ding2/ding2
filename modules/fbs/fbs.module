@@ -626,6 +626,11 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
 
   // Check if the values have been changed.
   if ($existing_on_hold['from'] != $new_on_hold['from'] || $existing_on_hold['to'] != $new_on_hold['to']) {
+    // Check if both new dates are empty and exit validation if they are.
+    if (empty($new_on_hold['from']) && empty($new_on_hold['to'])) {
+      return;
+    }
+
     // Check that they are not empty.
     if (empty($new_on_hold['from']) && !empty($new_on_hold['to'])) {
       form_set_error('profile_provider_fbs][field_fbs_on_hold', t('When to date is set than the from date should also be set.'));
