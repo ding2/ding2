@@ -5,8 +5,6 @@
 (function ($) {
   "use strict";
 
-  var handler;
-
   /**
    * Handle private sharer command.
    */
