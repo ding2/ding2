@@ -270,6 +270,7 @@ function bpi_get_field_instances($node_type) {
     'taxonomy_autocomplete',
     'ting_reference_simple',
     'ting_reference_advanced',
+    'paragraphs_embed',
   );
 
   $field_instances = field_info_instances('node', $node_type);
