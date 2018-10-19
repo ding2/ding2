@@ -104,6 +104,9 @@ projects[feeds][version] = "2.0-beta4"
 projects[feeds_ex][subdir] = "contrib"
 projects[feeds_ex][version] = "1.0-beta2"
 
+projects[tunit][subdir] = "contrib"
+projects[tunit][version] = "1.x-dev"
+
 projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
 

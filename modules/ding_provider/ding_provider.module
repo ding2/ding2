@@ -592,15 +592,8 @@ function ding_provider_function($type, $hook, $quiet = FALSE) {
  *   Ting entity object based on the entity ID given.
  */
 function ding_provider_get_pseudo_entity($ding_entity_id) {
-  $local_id = drupal_substr($ding_entity_id, strpos($ding_entity_id, ':') + 1);
-
   // Build entity based on available information.
-  $ting_entity = new TingEntity();
-  $ting_entity->tid = $local_id;
-  $ting_entity->localId = $local_id;
-  $ting_entity->ding_entity_id = $ding_entity_id;
-  $ting_entity->provider_id = $local_id;
-  $ting_entity->ding_entity_type = 'ding_entity';
+  $ting_entity = _ding_provider_create_pseudo_entity_stub($ding_entity_id);
 
   // Construct a Ting object that represents the data we would normally get
   // from the search provider.
@@ -621,6 +614,89 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
   $ting_entity->is_available = FALSE;
 
   return $ting_entity;
+}
+
+/**
+ * Try to get pseudo entities.
+ *
+ * Use this to try and create pseudo entities when materials are not searchable
+ * in the well with current agencyid.
+ * Note: Use this instead of ding_provider_get_pseudo_entity(), which is only
+ * kept for legacy support. This function will try
+ * ding_provider_get_pseudo_entity() if it's implemented in the provider.
+ *
+ * @param array $ding_entity_ids
+ *   Array of Ding entity ids (data-well PIDs) to try and find pseudo entities
+ *   for.
+ *
+ * @return array
+ *   Array of pseudo-entities keyed by ding_entity_id. If the function couldn't
+ *   find a pseudo entity, the corresponding entry will be NULL.
+ */
+function ding_provider_get_pseudo_entities(array $ding_entity_ids) {
+  $entities = array();
+
+  // Support providers not using well 3.5. They can implement this to provide
+  // metadata for materials from library system or else where.
+  if (ding_provider_implements('loan', 'populate_pseudo_entity')) {
+    foreach ($ding_entity_ids as $ding_entity_id) {
+      $entities[$ding_entity_id] = ding_provider_get_pseudo_entity($ding_entity_id);
+    }
+    return $entities;
+  }
+
+  // Try to fetch objects with-out applying local holdings filter. We need to
+  // manage an internal flag that we're searching without filter or else we
+  // will just get the cache from the previous request with filter, where the
+  // object wasn't searchable.
+  // (See: ding_provider_ting_cache_key())
+  $searching = &drupal_static(__FUNCTION__);
+  $searching = TRUE;
+  $objects = ting_get_objects($ding_entity_ids, FALSE);
+  $searching = FALSE;
+
+  foreach ($objects as $ding_entity_id => $object) {
+    if (!empty($object)) {
+      $ting_entity = _ding_provider_create_pseudo_entity_stub($ding_entity_id);
+      $ting_entity->reply = $object;
+      $entities[$ding_entity_id] = $ting_entity;
+    }
+    else {
+      $entities[$ding_entity_id] = NULL;
+    }
+  }
+
+  return $entities;
+}
+
+/**
+ * Create pseudo entity stub.
+ *
+ * Private helper method to create pseudo-entity with common properties. Used
+ * by both ding_provider_get_pseudo_entities() and
+ * ding_provider_get_pseudo_entity()
+ */
+function _ding_provider_create_pseudo_entity_stub($ding_entity_id) {
+  $local_id = drupal_substr($ding_entity_id, strpos($ding_entity_id, ':') + 1);
+
+  // Build entity based on available information.
+  $ting_entity = new TingEntity();
+  $ting_entity->tid = $local_id;
+  $ting_entity->localId = $local_id;
+  $ting_entity->ding_entity_id = $ding_entity_id;
+  $ting_entity->provider_id = $local_id;
+  $ting_entity->ding_entity_type = 'ding_entity';
+
+  return $ting_entity;
+}
+
+/**
+ * Implements hook_ting_cache_key().
+ */
+function ding_provider_ting_cache_key(&$cid) {
+  if (!empty(drupal_static('ding_provider_get_pseudo_entities'))) {
+    $cid .= ':ding_provider_get_pseudo_entities';
+  }
 }
 
 /**
