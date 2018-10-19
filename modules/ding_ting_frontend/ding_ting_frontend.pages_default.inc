@@ -176,12 +176,12 @@ function ding_ting_frontend_default_page_manager_handlers() {
     'relationships' => array(),
     'panels_breadcrumbs_state' => 1,
     'panels_breadcrumbs_titles' => 'Search
-  Well
-  %keywords:html_safe',
+Well
+%keywords:html_safe',
     'panels_breadcrumbs_paths' => 'search
-  search/ting
-  <none>
-  ',
+search/ting
+<none>
+',
     'metatag_panels' => array(
       'enabled' => 1,
       'metatags' => array(

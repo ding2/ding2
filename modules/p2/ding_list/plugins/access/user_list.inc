@@ -13,7 +13,7 @@ $plugin = array(
   'summary' => 'ding_list_user_list_ctools_access_summary',
   'required context' => array(
     new ctools_context_required(t('User'), 'user'),
-    new ctools_context_required(t('Dinglist'), 'ding_type'),
+    new ctools_context_required(t('Ding list'), 'ding_list_list'),
   ),
   'defaults' => array(
     'visibility_settings' => 'view',
@@ -48,12 +48,6 @@ function ding_list_user_list_ctools_access_check($conf, $context) {
 
   $account = $context[0]->data;
   $list = $context[1]->data;
-
-  // Reload the entity if the uid is missing.
-  if ($list->uid == 0) {
-    $tmp = entity_load('ding_type', array($list->id), array(), TRUE);
-    $list = reset($tmp);
-  }
 
   $token = isset($_GET['token']) ? $_GET['token'] : FALSE;
 
