@@ -1,9 +1,13 @@
 <?php
 
 /**
+ * @file
+ * Implements provider user loans list plugin.
+ *
  * Plugins are described by creating a $plugin array which will be used
  * by the system that includes this file.
  */
+
 $plugin = array(
   'title' => t('User loan list'),
   'description' => t('The current loans for a user'),
@@ -195,7 +199,6 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       // Attempt to render a cover.
       $cover = field_view_field('ting_object', $entity, 'ting_cover', 'user_list');
-
 
       $item = array(
         '#type' => 'material_item',

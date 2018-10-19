@@ -480,8 +480,6 @@ function opensearch_execute_cache($request) {
  * To retrieve an reply simple extract the params from the request object,
  * serialize them and make a MD5 hash as id.
  *
- * @see ting_execute_cache()
- *
  * @param string $id
  *   Object id or the MD5 hash of the parameters used to execute a search
  *   against the date well.
@@ -495,6 +493,8 @@ function opensearch_execute_cache($request) {
  * @return mixed
  *   The cached item based on the $type and $id given. If non found in the cache
  *   NULL is returned.
+ *
+ * @see ting_execute_cache()
  */
 function _opensearch_cache_get($id, $type = OPENSEARCH_CACHE_TING_OBJECT, $with_relations = FALSE) {
   $cid = $type . ':' . $id;
@@ -528,8 +528,6 @@ function _opensearch_cache_get($id, $type = OPENSEARCH_CACHE_TING_OBJECT, $with_
  * To store an reply simple extract the params from the request object,
  * serialize them and make a MD5 hash as id.
  *
- * @see ting_execute_cache()
- *
  * @param string $id
  *   Id that the item was cached under.
  * @param mixed $value
@@ -538,6 +536,8 @@ function _opensearch_cache_get($id, $type = OPENSEARCH_CACHE_TING_OBJECT, $with_
  *   The type of data to cache, which is used to set the cache id. It should be
  *   one off: TING_CACHE_TING_OBJECT, TING_CACHE_COLLECTION,
  *   TING_CACHE_TING_OBJECT_FULLTEXT or TING_CACHE_REPLY.
+ *
+ * @see ting_execute_cache()
  */
 function _opensearch_cache_set($id, $value, $type = OPENSEARCH_CACHE_TING_OBJECT) {
   // Define the cache id.
@@ -561,11 +561,11 @@ function _opensearch_cache_set($id, $value, $type = OPENSEARCH_CACHE_TING_OBJECT
 /**
  * Wrapper for invoking our cache_key hook, since we need to do this two places.
  *
- * @see _opensearch_cache_get()
- * @see _opensearch_cache_set()
- *
  * @param string $cid
  *   The cache_key that other modules can modify.
+ *
+ * @see _opensearch_cache_get()
+ * @see _opensearch_cache_set()
  */
 function _opensearch_cache_invoke_cache_key_hook(&$cid) {
   // We need to pass by reference, so no module_invoke_all().
