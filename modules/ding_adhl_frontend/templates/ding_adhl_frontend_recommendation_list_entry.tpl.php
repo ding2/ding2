@@ -6,7 +6,7 @@
  *
  * Available variables:
  * - $creators: The creators of the recommendation as a comma separated list or
- *   FALSE if no creators where found.
+ *   FALSE if no creators were found.
  * - $link: Array with an uri and link title for the recommend Ting entity.
  * - $item: Ting entity with all information available about the recommended
  *   object.

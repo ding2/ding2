@@ -17119,7 +17119,7 @@ msgid "See all events"
 msgstr "Se alle arrangementer"
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "No events where found."
+msgid "No events were found."
 msgstr "Ingen arrangementer"
 
 #: /index.php
@@ -17131,7 +17131,7 @@ msgid "Group events"
 msgstr "Arrangementer"
 
 #: /index.php
-msgid "No events where found in the group."
+msgid "No events were found in the group."
 msgstr "Ingen arrangementer til temaet"
 
 #: /index.php
@@ -17234,7 +17234,7 @@ msgid "See all news"
 msgstr "Se alle nyheder"
 
 #: /index.php
-msgid "No news where found."
+msgid "No news were found."
 msgstr "Ingen nyheder"
 
 #: /index.php
@@ -17246,7 +17246,7 @@ msgid "Group news"
 msgstr "Nyheder"
 
 #: /index.php
-msgid "No news where found for this group."
+msgid "No news were found for this group."
 msgstr "Ingen nyheder til temaet"
 
 msgid "nodequeue"

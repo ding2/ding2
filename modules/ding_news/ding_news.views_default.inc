@@ -52,7 +52,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['label'] = 'Empty text';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = 'No news where found.';
+  $handler->display->display_options['empty']['area']['content'] = 'No news were found.';
   $handler->display->display_options['empty']['area']['format'] = 'ding_wysiwyg';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
@@ -2149,7 +2149,7 @@ function ding_news_views_default_views() {
     t('Library news'),
     t('See all news'),
     t('Empty text'),
-    t('No news where found.'),
+    t('No news were found.'),
     t('author'),
     t('<span class="news-label">[field_ding_news_category]</span> <span class="news-date">[created]</span>  |  <span class="news-author">by [name]</span>'),
     t('News list (frontpage)'),
