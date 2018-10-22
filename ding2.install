@@ -651,3 +651,10 @@ function ding2_update_7053() {
 function ding2_update_7054() {
   ding2_translation_update();
 }
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7055() {
+  ding2_translation_update();
+}
