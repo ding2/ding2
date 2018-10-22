@@ -65,4 +65,5 @@ a#ding-toggle-format {
   text-decoration: none;
   width: 20px;
   padding-left: 10px;
+  z-index: 10;
 }
