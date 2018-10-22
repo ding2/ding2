@@ -55,3 +55,12 @@
     display: inline-block;
   }
 }
+
+.webform-component-fieldset {
+  &.form-wrapper {
+    display: block;
+    position: relative;
+    clear: both;
+    padding: 0;
+  }
+}
