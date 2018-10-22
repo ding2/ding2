@@ -3,7 +3,7 @@ api = 2
 
 ; Core
 projects[drupal][type] = core
-projects[drupal][version] = 7.59
+projects[drupal][version] = 7.60
 projects[drupal][patch][] = "http://drupal.org/files/issues/menu-get-item-rebuild-1232346-45.patch"
 projects[drupal][patch][] = "http://drupal.org/files/ssl-socket-transports-1879970-13.patch"
 projects[drupal][patch][] = "http://www.drupal.org/files/issues/1232416-autocomplete-for-drupal7x53.patch"
