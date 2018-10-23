@@ -77,6 +77,7 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
+
 ?>
 <div class="<?php print $classes; ?>">
   <div class="ding-campaign ding-campaign--content text-on-image <?php print $campaign_type; ?>" style="<?php print $image_as_background; ?>">

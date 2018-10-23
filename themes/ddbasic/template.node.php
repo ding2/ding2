@@ -367,7 +367,8 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
     switch ($type) {
       case 'image_and_text':
         $variables['image'] = '<div class="ding-campaign-image" style="background-image: url(' . $image_url . '"></div>';
-      break;
+        break;
+
       case 'image':
         $variables['image'] = theme('image_style',array(
             'style_name' => "ding_full_width",
@@ -375,7 +376,7 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
             'attributes' => array('class' => 'ding-campaign-image')
           )
         );
-      break;
+        break;
     }
   }
 }
@@ -468,7 +469,7 @@ function ddbasic_preprocess__node__ding_page(&$variables) {
 
       if (!empty($variables['field_ding_page_list_image'][0]['uri'])) {
         $variables['background_image'] = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
-      } 
+      }
       else {
         $variables['background_image'] = '';
       }

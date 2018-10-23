@@ -311,7 +311,7 @@ function ding_campaign_plus_facet_admin_settings_form_submit($form, $form_state)
  *   ID of the form calling the delete action.
  * @param array $form_state
  *   The state of the form.
- * @param $facet_id
+ * @param string $facet_id
  *   The ID of the facets to remove.
  *
  * @return mixed
