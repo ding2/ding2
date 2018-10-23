@@ -1065,6 +1065,7 @@ function ting_field_search_config_default() {
       'grouping' => 'default',
       'search_box' => 0,
       'default_profile' => 0,
+      'visibility' => 'all',
     ),
     'search_request' => array(
       'agency' => '',
