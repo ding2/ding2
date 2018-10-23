@@ -10,7 +10,6 @@
  */
 function ting_search_carousel_install() {
   @drupal_mkdir('public://ting_search_carousel');
-  ting_search_carousel_add_shortcut();
 }
 
 /**
@@ -18,54 +17,16 @@ function ting_search_carousel_install() {
  */
 function ting_search_carousel_uninstall() {
   @drupal_rmdir('public://ting_search_carousel');
-  variable_del('ting_carousel_search_queries_hidden');
-  variable_del('ting_carousel_search_queries');
-  variable_del('ting_search_carousel_tabs_position');
-  variable_del('ting_search_carousel_description_toggle');
-  variable_del('ting_search_carousel_transition');
-  variable_del('ting_search_carousel_server_render');
 }
 
 /**
- * Add a shortcut for configuring ting_search_carousel.
+ * Implements hook_enable().
  */
-function ting_search_carousel_add_shortcut() {
-  if (module_exists('shortcut')) {
-    // Add shortcut to carousel.
-    $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
-    $shortcut_set->links = array(
-      array(
-        'link_path' => 'admin/config/ting/ting_search_carousel',
-        'link_title' => st('Configure carousel'),
-        'weight' => -14,
-        // We have to specify this, since our router path might not exist yet on
-        // fresh install.
-        'router_path' => 'admin/config/ting/ting_search_carousel'
-      ),
-    );
-
-    shortcut_set_save($shortcut_set);
-  }
-}
-
-/**
- * Remove previously added shortcut and add shortcut to carousel again.
- */
-function ting_search_carousel_update_7001() {
-  db_delete('menu_links')
-    ->condition('link_path', 'admin/config/ting/ting_search_carousel')
-    ->condition('menu_name', 'shortcut-set-1')
-    ->execute();
-
-  ting_search_carousel_add_shortcut();
-}
-
-/**
- * Delete obsolete variables.
- */
-function ting_search_carousel_update_7002() {
-  variable_del('ting_search_carousel_tabs_position');
-  variable_del('ting_search_carousel_server_render');
+function ting_search_carousel_enable() {
+  // Add our view to the list of allowed panes in the IPE.
+  $selected_panes = _ding_ipe_filter_selected_panes();
+  $selected_panes['materialer:carousel'] = 'materialer:carousel';
+  variable_set('ding_ipe_filter_panes_selected', $selected_panes);
 }
 
 /**
@@ -76,20 +37,36 @@ function ting_search_carousel_update_7003() {
 }
 
 /**
- * Ensure router path for carousel shortcut menu link is correct.
+ * Migrate front page carousel.
  */
-function ting_search_carousel_update_7004() {
-  if (module_exists('shortcut')) {
-    $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+function ting_search_carousel_update_7101() {
+  // Migrate panes by updating their configuration.
+  $query = db_select('panels_pane', 'p')
+    ->condition('type', 'carousel')
+    ->condition('subtype', 'carousel')
+    ->fields('p', array('pid', 'configuration'));
 
-    foreach ($shortcut_set->links as &$link) {
-      // The router path needs to be correct for the access check for the menu
-      // link to work.
-      if ($link['link_path'] == 'admin/config/ting/ting_search_carousel') {
-        $link['router_path'] = $link['link_path'];
-      }
-    }
+  foreach ($query->execute() as $pane) {
+    $configuration = unserialize($pane->configuration);
+    $configuration['searches'] = variable_get('ting_carousel_search_queries', array());
+    $configuration['settings'] = array(
+      'transition' => variable_get('ting_search_carousel_transition', 'fade'),
+    );
 
-    shortcut_set_save($shortcut_set);
+    db_update('panels_pane')
+      ->fields(array('configuration' => serialize($configuration)))
+      ->condition('pid', $pane->pid)
+      ->execute();
   }
+
+  // Delete now obsolete variables.
+  variable_del('ting_carousel_search_queries_hidden');
+  variable_del('ting_carousel_search_queries');
+  variable_del('ting_search_carousel_tabs_position');
+  variable_del('ting_search_carousel_description_toggle');
+  variable_del('ting_search_carousel_transition');
+  variable_del('ting_search_carousel_server_render');
+
+  // Ensure that the pane can be selected in IPE.
+  ting_search_carousel_enable();
 }
