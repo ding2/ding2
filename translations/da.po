@@ -67331,3 +67331,23 @@ msgstr "Arrangører"
 #: /
 msgid "Lists that include this title"
 msgstr "Denne titel findes på følgende lister:"
+
+#: /user/me/edit
+msgid "Start date must be higher than or equal to today: %now"
+msgstr "Startdato skal være dags dato eller senere: %now"
+
+#: /user/me/edit
+msgid "To date must both be higher than or equal to today: %now"
+msgstr "Slutdato skal ligge efter dags dato eller senere: %now"
+
+#: /user/me/edit
+msgid "When from date is set than the to date should also be set."
+msgstr "Når startdato er udfyldt, så skal slutdato også udfyldes."
+
+#: /user/me/edit
+msgid "When to date is set than the from date should also be set."
+msgstr "Når slutdato er udfyldt, så skal startdato også udfyldes."
+
+#: /user/me/edit
+msgid "To date must higher than the from date or equal to."
+msgstr "Slutdato skal enten være den samme som startdato eller senere."
