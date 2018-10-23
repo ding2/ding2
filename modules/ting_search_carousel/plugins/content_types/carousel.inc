@@ -284,15 +284,17 @@ function theme_ting_search_carousel_admin_form(array $variables) {
   $header = array(t('Weight'), t('Search'), t('Operations'));
   $rows = array();
   foreach (element_children($form) as $key) {
+    $form[$key]['weight']['#attributes']['class'] = array('ting-search-carousel-element-weight');
     // Pre-render elements we want to remove from the main part.
     $weight = drupal_render($form[$key]['weight']);
     $actions = drupal_render($form[$key]['remove']);
     $rows[] = array(
       'data' => array(
-        $weight,
         drupal_render($form[$key]),
+        $weight,
         $actions,
       ),
+      'class' => array('draggable'),
     );
   }
 
@@ -306,6 +308,8 @@ function theme_ting_search_carousel_admin_form(array $variables) {
 
   // Render remaining elements.
   $output .= drupal_render_children($form);
+
+  drupal_add_tabledrag('ting-search-carousel-admin-sort', 'order', 'sibling', 'ting-search-carousel-element-weight');
 
   return $output;
 }
