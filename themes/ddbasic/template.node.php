@@ -272,6 +272,7 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
   $variables['target'] = ding_base_get_value('node', $variables['node'], 'field_camp_new_window') ? '_blank' : '';
   $variables['panel_style'] = !empty($variables['elements']['#style']) ? drupal_html_class($variables['elements']['#style']) : '';
 
+  // @todo This should be moved to separate module.
   // Display campaign if it is on the mobile browser.
   if (!empty($variables['field_show_on_mobiles'])) {
     $mobile_show = $variables['field_show_on_mobiles'][LANGUAGE_NONE][0]['value'];

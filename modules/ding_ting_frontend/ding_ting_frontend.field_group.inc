@@ -10,6 +10,7 @@
 function ding_ting_frontend_field_group_info() {
   $export = array();
 
+  // @todo This should be moved to separate module.
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;

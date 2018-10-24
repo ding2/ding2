@@ -276,6 +276,7 @@ function ding_library_field_default_field_bases() {
     'type' => 'image',
   );
 
+  // @todo This should be moved to separate module.
   // Exported field_base: 'field_hide_news_and_events'
   $field_bases['field_hide_news_and_events'] = array(
     'active' => 1,
