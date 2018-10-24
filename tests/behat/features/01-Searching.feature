@@ -47,12 +47,6 @@ Feature: SEEK redroute 01
     Then I get suggestions from openscan
 
   @api @seek005 @seekNologin @regression @cci
-  Scenario: S005 Search using typing of enter
-    Given I am on "/"
-    When I enter "larsen\n" in field "Search"
-    Then paging allows to get all the results
-
-  @api @seek005 @seekNologin @regression @cci
   Scenario: S005 Search using click search button
     Given I am on "/"
     When I enter "hansen" in field "Search"
