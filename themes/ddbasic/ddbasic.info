@@ -68,6 +68,7 @@
   stylesheets[all][] = sass_css/p2/p2-class.css
   stylesheets[all][] = sass_css/p2/p2-class-panel.css
   stylesheets[all][] = sass_css/p2/p2-entity-buttons.css
+  stylesheets[all][] = sass_css/p2/p2-list.css
   stylesheets[all][] = sass_css/p2/p2-rating.css
   stylesheets[all][] = sass_css/p2/p2-view.css
   stylesheets[all][] = sass_css/p2/p2-serendipity.css
