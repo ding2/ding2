@@ -89,25 +89,11 @@ function fbs_debt_list($account, $reset = FALSE) {
             $materials[] = l($title, $uri['path'], $uri['options']);
           }
           else {
-            // Material is not searchable with current agencyid. ding_provider
-            // might be able to help us by searching without filter.
-            $entities = ding_provider_get_pseudo_entities(array($ding_entity_id));
-            $entity = array_shift($entities);
-
-            if (!empty($entity)) {
-             // Create title that links to the object.
-              $title = t('@material_title (@material_number)', array(
-                '@material_title' => $entity->getTitle(),
-                '@material_number' => $material->materialItemNumber,
-              ));
-              $materials[] = $title;
-            }
-            else {
-              $materials[] = t('Unknown material (@material_number)', array(
-                '@material_number' => $material->materialItemNumber,
-              ));
-            }
-
+            // TODO: Maybe we can do better before falling back to this. E.g. like
+            // trying to use a pseudo entity like ding_reservation.
+            $materials[] = t('Unknown material (@material_number)', array(
+              '@material_number' => $material->materialItemNumber,
+            ));
           }
         }
 
