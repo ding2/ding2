@@ -31,15 +31,17 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
         'subtitle' => '',
         'query' => '',
         'sort' => '',
+        'available' => '',
       );
-      $query = new TingSearchCarouselQuery($search['query'], $search['sort']);
+      $query = new TingSearchCarouselQuery($search['query'], $search['sort'], $search['available']);
       $chunk = ting_search_carousel_get_entities($query, 0, TING_SEARCH_CAROUSEL_CHUNK_SIZE);
-
       $items = array();
       foreach ($chunk['entities'] as $entity) {
         $items[] = ting_object_view($entity, 'teaser');
       }
 
+      $placeholders = count($items) ? count($items) : TING_SEARCH_CAROUSEL_CHUNK_SIZE;
+      $placeholders = $chunk['next_offset'] > -1 ? ($placeholders) + 1 : 0;
       $carousels[] = array(
         '#type' => 'ding_carousel',
         '#title' => $search['title'],
@@ -48,7 +50,7 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
         '#offset' => $chunk['next_offset'],
         // Add a single placeholder to fetch more content later if there is more
         // content.
-        '#placeholders' => $chunk['next_offset'] > -1 ? TING_SEARCH_CAROUSEL_CHUNK_SIZE + 1 : 0,
+        '#placeholders' => $placeholders,
       );
     }
 
@@ -176,7 +178,7 @@ function ting_search_carousel_carousel_content_type_edit_form_submit(&$form, &$f
   // submit and the client will not have to wait until those requests are
   // happening when page is opened.
   foreach ($searches as $search) {
-    $query = new TingSearchCarouselQuery($search['query'], $search['sort']);
+    $query = new TingSearchCarouselQuery($search['query'], $search['sort'], $search['available']);
     ting_search_carousel_get_entities($query, 0, 8, FALSE);
   }
 }
@@ -236,6 +238,13 @@ function ting_search_carousel_query_form(array $item = array(), $index = 0) {
     '#default_value' => isset($item['sort']) ? $item['sort'] : '',
   );
 
+  $form['available'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Only show available materials'),
+    '#description' => t('Filter out unavailable materials when rendering carousel.'),
+    '#default_value' => isset($item['available']) ? $item['available'] : '',
+  );
+
   $form['remove'] = array(
     '#type' => 'submit',
     '#value' => t('Remove'),
@@ -280,6 +289,7 @@ function ting_search_carousel_admin_form_add_one($form, &$form_state) {
     'subtitle' => '',
     'query' => '',
     'sort' => '',
+    'available' => 0,
   );
   $form_state['rebuild'] = TRUE;
 }

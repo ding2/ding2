@@ -97,7 +97,7 @@ function ting_search_carousel_get_entities(TingSearchCarouselQuery $query, $star
     $cache_data = $cache->data;
   }
 
-  $slice = _ting_search_carousel_get_slice($cache_data, $start, $count);
+  $slice = _ting_search_carousel_filter_available(_ting_search_carousel_get_slice($cache_data, $start, $count), $query);
   if ($query_only || $slice['next_offset'] != $start) {
     return $slice;
   }
@@ -111,7 +111,7 @@ function ting_search_carousel_get_entities(TingSearchCarouselQuery $query, $star
     if ($cache = cache_get("ting_search_carousel_search_" . $query_id)) {
       if (isset($cache->data)) {
         $cache_data = $cache->data;
-        return _ting_search_carousel_get_slice($cache_data, $start, $count);
+        return _ting_search_carousel_filter_available(_ting_search_carousel_get_slice($cache_data, $start, $count), $query);
       }
     }
     // Else return an empty list with the same start offset. Should trigger a
@@ -141,7 +141,7 @@ function ting_search_carousel_get_entities(TingSearchCarouselQuery $query, $star
   cache_set("ting_search_carousel_search_" . $query_id, $cache_data);
   lock_release($lock_name);
 
-  return _ting_search_carousel_get_slice($cache_data, $start, $count);
+  return _ting_search_carousel_filter_available(_ting_search_carousel_get_slice($cache_data, $start, $count), $query);
 }
 
 /**
@@ -181,6 +181,42 @@ function _ting_search_carousel_get_slice(array $cache_data, $start, $count) {
       'next_offset' => $start,
     );
   }
+}
+
+/**
+ * Filter slice down to available entities, if the query specify so.
+ *
+ * @param array $slice
+ *   Array with an 'entities' key which is an array of ting_entiites.
+ * @param TingSearchCarouselQuery $query
+ *   The query being performed.
+ *
+ * @return array
+ *   The input slice with unavailable entities removed.
+ */
+function _ting_search_carousel_filter_available(array $slice, TingSearchCarouselQuery $query) {
+  // Soft dependency on ding_availability.
+  if ($query->getOnlyAvailable() && function_exists('ding_availability_items')) {
+    $ids = array_map(function ($entity) {
+      return $entity->localId;
+    }, $slice['entities']);
+
+    if ($ids) {
+      $available = array_map(function ($availability) {
+        return $availability['available'];
+      }, ding_availability_items($ids));
+
+      $available = array_filter($available);
+
+      if ($available) {
+        $slice['entities'] = array_filter($slice['entities'], function ($entity) use ($available) {
+          return isset($available[$entity->localId]);
+        });
+      }
+    }
+  }
+
+  return $slice;
 }
 
 /**
@@ -302,6 +338,13 @@ class TingSearchCarouselQuery {
   protected $sort = '';
 
   /**
+   * Whether to only show available materials.
+   *
+   * @var bool
+   */
+  protected $onlyAvailable = FALSE;
+
+  /**
    * Create a new query object.
    *
    * @param string $query
@@ -309,9 +352,10 @@ class TingSearchCarouselQuery {
    * @param string $sort
    *   The sort to use.
    */
-  public function __construct($query, $sort = '') {
+  public function __construct($query, $sort = '', $onlyAvailable = FALSE) {
     $this->query = $query;
     $this->sort = $sort;
+    $this->onlyAvailable = (bool) $onlyAvailable;
   }
 
   /**
@@ -329,10 +373,21 @@ class TingSearchCarouselQuery {
   }
 
   /**
+   * Get availability flag.
+   */
+  public function getOnlyAvailable() {
+    return $this->onlyAvailable;
+  }
+
+  /**
    * Convert to string representation.
    */
   public function __toString() {
-    return base64_encode(json_encode(array($this->query, $this->sort)));
+    return base64_encode(json_encode(array(
+      $this->query,
+      $this->sort,
+      $this->onlyAvailable ? 1 : 0,
+    )));
   }
 
   /**
@@ -343,9 +398,9 @@ class TingSearchCarouselQuery {
    */
   public static function fromString($string) {
     $data = json_decode(base64_decode($string));
-    $data += array('');
+    $data += array('', 0);
     if (!empty($data[0])) {
-      $query = new TingSearchCarouselQuery($data[0], $data[1]);
+      $query = new TingSearchCarouselQuery($data[0], $data[1], $data[2]);
       return $query;
     }
 
