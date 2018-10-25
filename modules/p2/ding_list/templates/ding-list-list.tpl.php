@@ -2,12 +2,16 @@
 
 /**
  * @file
- * Ding List list template.
+ * List template.
  */
+
+?>
+<div class="<?php print $classes; ?>"<?php print $attributes; ?>>
+  <?php if (!empty($title)): ?>
+    <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
+<?php
+endif;
 ?>
 
-<div <?php print ($sortable !== FALSE) ? 'ref="' . $sortable . '"' : ''; ?> class="<?php print $classes; ?>">
-  <div class="ding-list-items">
-    <?php print render($items); ?>
-  </div>
+  <?php print render($content); ?>
 </div>

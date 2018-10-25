@@ -1,0 +1,216 @@
+<?php
+
+/**
+ * @file
+ * Code for the Ding App Content RSS feature.
+ */
+
+include_once 'ding_app_content_rss.features.inc';
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Search and replace internal ting object links to bappsp links.
+ */
+function ding_app_content_rss_views_pre_render(&$view) {
+  if ($view->name == 'ding_app_content_event_rss' || $view->name == 'ding_app_content_news_rss') {
+    foreach ($view->result as $key => $result) {
+      if ($view->name == 'ding_app_content_event_rss') {
+        $view->result[$key]->field_field_ding_event_body[0]['rendered'] = preg_replace('#http://([\w\.])+(/ting)/(.+)#Ui', 'bappsp://$3', $result->field_field_ding_event_body[0]['rendered']);
+      }
+      elseif ($view->name == 'ding_app_content_news_rss') {
+        $view->result[$key]->field_field_ding_news_body[0]['rendered'] = preg_replace('#http://([\w\.])+(/ting)/(.+)#Ui', 'bappsp://$3', $result->field_field_ding_news_body[0]['rendered']);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ding_app_content_rss_field_formatter_info() {
+  return array(
+    'ding_app_content_rss_location' => array(
+      'label' => t('RSS friendly location'),
+      'field types' => array('addressfield'),
+      'description' => t('Output address information on a single HTML stripped line.'),
+    ),
+    'ding_app_content_rss_date_time' => array(
+      'label' => t('RFC-2822 formatted date'),
+      'field types' => array('datetime'),
+      'description' => t('Format date and time as RFC-2822 date/time string.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ding_app_content_rss_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'ding_app_content_rss_date_time':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#markup' => strtotime($item[$display['settings']['fromto']] . ' ' . $item['timezone_db']),
+        );
+      }
+      break;
+
+    case 'ding_app_content_rss_location':
+      foreach ($items as $delta => $item) {
+        $location = array();
+        if (!empty($item['name_line'])) {
+          foreach ($item as $part) {
+            if (!empty($part)) {
+              $location[] = $part;
+            }
+          }
+        }
+        else {
+          // Try to get library title as location.
+          $wrapper = entity_metadata_wrapper('node', $entity);
+          $libraries = $wrapper->og_group_ref->value();
+          foreach ($libraries as $library) {
+            $location[] = $library->title;
+          }
+        }
+
+        // Fallback to groups title for location.
+        if (count($location) == 0) {
+          $wrapper = entity_metadata_wrapper('node', $entity);
+          $groups = $wrapper->ding_event_groups_ref->value();
+          foreach ($groups as $group) {
+            $location[] = $group->title;
+          }
+        }
+
+        $element[$delta] = array(
+          '#markup' => implode(', ', array_reverse($location)),
+        );
+      }
+      break;
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function ding_app_content_rss_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $form = array();
+  $form['fromto'] = array(
+    '#title' => t('Display:'),
+    '#type' => 'select',
+    '#options' => array(
+      'value' => t('Start date only'),
+      'value2' => t('End date only'),
+    ),
+    '#access' => $field['settings']['todate'],
+    '#default_value' => $settings['fromto'],
+    '#weight' => 1,
+  );
+
+  return $form;
+}
+
+/**
+ * Implements hook_views_rss_namespaces().
+ */
+function ding_app_content_rss_views_rss_namespaces() {
+  $namespaces['content-rss'] = array(
+    'prefix' => 'xmlns',
+    'uri' => 'http://xml.redia.dk/rss',
+  );
+  return $namespaces;
+}
+
+/**
+ * Implements hook_views_rss_item_elements().
+ */
+function ding_app_content_rss_views_rss_item_elements() {
+  return array(
+    'content-rss:subheadline' => array(
+      'title' => t('Subheadline'),
+      'description' => t('The subheadline'),
+    ),
+    'content-rss:arrangement-starttime' => array(
+      'title' => t('Event starttime'),
+      'description' => t('When does the event start (UTC Timestamp)'),
+    ),
+    'content-rss:arrangement-endtime' => array(
+      'title' => t('Event endtime'),
+      'description' => t('When does the event end (UTC Timestamp)'),
+    ),
+    'content-rss:display-starttime' => array(
+      'title' => t('Display starttime'),
+      'description' => t('Start displaying the event at (UTC Timestamp)'),
+    ),
+    'content-rss:display-endtime' => array(
+      'title' => t('Display endtime'),
+      'description' => t('End displaying the event at (UTC Timestamp)'),
+    ),
+    'content-rss:arrangement-location' => array(
+      'title' => t('Event location'),
+      'description' => t('The location of the event'),
+    ),
+    'content-rss:arrangement-price' => array(
+      'title' => t('Event price'),
+      'description' => t('The price of the event.'),
+    ),
+    'content-rss:resources' => array(
+      'title' => t('Redia resources'),
+      'description' => t('The node id of a type which has a relation to ting objects.'),
+      'preprocess functions' => array('ding_app_content_rss_preprocess_item_resources'),
+    ),
+    'content-rss:library-id' => array(
+      'title' => t('Library ID'),
+      'description' => t('Identificator of library to which this node is assigned.'),
+    ),
+    'content-rss:booking-url' => array(
+      'title' => t('Booking URL'),
+      'description' => t('Link to tickets.'),
+    ),
+    'content-rss:promoted' => array(
+      'title' => t('Promoted to front page'),
+      'description' => t('Boolean value for promoted to front page.'),
+    ),
+    'content-rss:sticky' => array(
+      'title' => t('Sticky'),
+      'description' => t('Boolean value for sticky.'),
+    ),
+  );
+}
+
+/**
+ * Preprocess function for item <resources> elements.
+ */
+function ding_app_content_rss_preprocess_item_resources(&$variables) {
+  // Load the node via entity metadata wrapper.
+  $node = entity_metadata_wrapper('node', node_load($variables['elements'][0]['value']));
+  $value = array();
+
+  // The relation name is the same even though field names differ between
+  // content types.
+  if ($node->relation_ting_reference_ting_object) {
+    foreach ($node->relation_ting_reference_ting_object->value() as $ting_object) {
+      // The id should be in the format 870970-basis:24945669 where the
+      // last part constitutes the FAUST-number which is required by the
+      // Redia format.
+      $id_parts = explode(':', $ting_object->id);
+      $faust_number = end($id_parts);
+
+      $value[] = array(
+        // This must be the name of the tag wrapping each value.
+        'key' => 'content-rss:resource',
+        'value' => $faust_number,
+      );
+    }
+
+  }
+
+  // Replace the existing values with the new array.
+  $variables['elements']['0']['value'] = $value;
+}

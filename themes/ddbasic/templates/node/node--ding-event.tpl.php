@@ -90,12 +90,7 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
-
-// Hide fields to exclude double rendering.
-hide($content['field_ding_event_ticket_link']);
-hide($content['field_ding_event_list_filter']);
-hide($content['field_ding_event_price']);
- ?>
+?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="inner">
     <div class="left">
@@ -107,19 +102,14 @@ hide($content['field_ding_event_price']);
         <?php print render($content['group_left']['og_group_ref']); ?>
       <?php endif; ?>
       <!-- insert time-field markup -->
-      <div class="field field-name-field-ding-event-target field-label-inline clearfix">
-        <div class="field-label"><?php print t('Time'); ?></div>
-        <div class="field-items">
-          <div class="field-item even"><?php print $event_time; ?></div>
+      <?php if ($event_time): ?>
+        <div class="field field-name-field-ding-event-target field-label-inline clearfix">
+          <div class="field-label"><?php print t('Time'); ?></div>
+          <div class="field-items">
+            <div class="field-item even"><?php print $event_time; ?></div>
+          </div>
         </div>
-      </div>
-      <!-- insert price-field markup -->
-      <div class="field field-name-field-ding-event-price field-label-inline clearfix">
-        <div class="field-label"><?php print t('Price'); ?></div>
-        <div class="field-items">
-          <div class="field-item even"><?php print $event_price; ?></div>
-        </div>
-      </div>
+      <?php endif; ?>
       <?php print render($content['group_left']); ?>
       <?php
         if (!empty($book_button)):

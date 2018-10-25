@@ -648,12 +648,6 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
     }
     else {
       $info = alma_client_invoke('get_patron_info', $creds['name'], $creds['pass'], TRUE);
-
-      if (NULL === $info) {
-        drupal_set_message(t('Authorisation service not reachable. Try to login later.'), 'error');
-        drupal_goto('/');
-      }
-
       $organisation = alma_get_organisation();
       $patron = array(
         'name' => $info['user_name'],
@@ -785,15 +779,4 @@ function alma_ding_session_cache_defaults() {
     'enabled' => TRUE,
     'expire' => 3600,
   );
-}
-
-/**
- * Implements hook_ting_pre_execute().
- */
-function alma_ting_pre_execute($request) {
-  // Since ALMA is using data-well 3.5 we need to filter local holdings for
-  // search requests.
-  if ($request instanceof TingClientSearchRequest) {
-    $request->setFilterLocalHoldings(TRUE);
-  }
 }

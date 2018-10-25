@@ -57,18 +57,17 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
     switch ($backend['path']) {
       case 'ting':
         // Using already formed search results.
-        $ting_search_results = drupal_static('ting_search_results');
+        $results = ting_search_current_results();
         // If search results is empty perform new ting search.
         // This condition is putted here for getting results when not
         // on /search/ting/%key% page.
-        if (empty($ting_search_results)) {
+        if (empty($results)) {
           // Prepare keys.
-          $keys = '(' . _ting_search_quote($keys) . ')';
-          // Perform an search.
-          $ting_search_results = ting_do_search($keys);
+          $results = ting_start_query()->withFullTextQuery($keys)->execute();
+          ting_search_current_results($results);
         }
         // Get count of total results from ting.
-        $count = $ting_search_results->numTotalObjects;
+        $count = $results->getNumTotalObjects();
         $title = $title . ' <span class="count">(' . $count . ')</span>';
         break;
 

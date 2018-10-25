@@ -326,10 +326,14 @@ function fbs_reservation_branch_name($branch_id) {
  *   The default options.
  */
 function fbs_reservation_default_options($account) {
+  // Get values.
+  $interest_period = fbs_reservation_default_interest_period($account);
+
   $patron_info = fbs_get_patron_info($account);
+
   return array(
     'fbs_preferred_branch' => $patron_info['preferred_branch'],
-    'interest_period' => variable_get('fbs_default_interest_period', 180),
+    'interest_period' => $interest_period,
   );
 }
 
@@ -357,9 +361,12 @@ function fbs_reservation_options($account, $default_branch = NULL) {
     $preferred_branch = $default_branch;
   }
 
+  $interest_period = fbs_reservation_default_interest_period($account);
+  $periods = fbs_interest_periods();
+
   $form = array();
   $form += ding_reservation_default_options_branch('fbs_preferred_branch', $preferred_branch, fbs_user_branches($account));
-  $form += ding_reservation_interest_period_selector('interest_period', variable_get('fbs_default_interest_period', 180), fbs_interest_periods());
+  $form += ding_reservation_interest_period_selector('interest_period', $interest_period, $periods);
 
   return $form;
 }
@@ -377,13 +384,30 @@ function fbs_reservation_options_submit($account, $values) {
 }
 
 /**
- * Implements provider reservation, default_interst_period.
+ * Implements hook_default_interest_period().
  *
- * @return int
- *   Default interest period for user.
+ * Tries to find the users default interest period based on the users profile2
+ * provider profile.
  */
-function fbs_reservation_default_interest_period() {
-  return variable_get('fbs_default_interest_period', 180);
+function fbs_reservation_default_interest_period($account = NULL) {
+  $account = is_null($account) ? $GLOBALS['user'] : $account;
+  $profile = ding_user_provider_profile($account);
+
+  // Check that an profile exists. If this is as user create process it will not
+  // exists (nemid login).
+  $value = NULL;
+  if ($profile !== FALSE) {
+    // Get interest period from the profile.
+    $wrapper = entity_metadata_wrapper('profile2', $profile);
+    $value = $wrapper->field_fbs_interest_period->value();
+  }
+
+  // If no period is selected, try getting default value.
+  if (is_null($value) || empty($value)) {
+    $value = variable_get('fbs_default_interest_period', 180);
+  }
+
+  return $value;
 }
 
 /**

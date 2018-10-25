@@ -32,6 +32,7 @@ dependencies[] = og_ui
 dependencies[] = options
 dependencies[] = page_manager
 dependencies[] = scheduler
+dependencies[] = search_api_autocomplete
 dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = text

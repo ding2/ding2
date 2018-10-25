@@ -13,10 +13,10 @@
         return;
       }
 
-      let identifiers = {};
-      let identifier = null;
-      let $this = this;
-      for (let i in $this.buttons) {
+      var identifiers = {};
+      var identifier = null;
+      var $this = this;
+      for (var i in $this.buttons) {
         identifiers[$this.buttons[i]] = [];
 
         // For event button type fetch it's parent ting entity id.
@@ -33,7 +33,7 @@
 
       // Identifiers object is keyed with button types, therefore loop
       // the types and send ajax request for each.
-      for (let i in identifiers) {
+      for (var i in identifiers) {
         if (identifiers[i].length === 0) {
           continue;
         }
@@ -43,7 +43,7 @@
     },
 
     renderDingEntityButtons: function (identifiers, type) {
-      let element_settings = {
+      var element_settings = {
         url: '/ting/ding_entity_buttons/nojs/' + type,
         submit: {
           'js': true,
@@ -51,7 +51,7 @@
         }
       };
 
-      let ajax = new Drupal.ajax(null, document.body, element_settings);
+      var ajax = new Drupal.ajax(null, document.body, element_settings);
       ajax.eventResponse(ajax, {});
     }
   };

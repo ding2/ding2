@@ -111,9 +111,9 @@ EOT;
  */
 function ding_webtrends_panels_pane_content_alter($content, $pane, $args, $contexts) {
   if ($pane->type == 'search_result' && $pane->configuration['type'] == 'ting_search') {
-    if ($search_result = drupal_static('ting_search_results', FALSE)) {
-      $search_key = $search_result->search_key;
-      $count = $search_result->numTotalObjects;
+    if ($search_result = ting_search_current_results()) {
+      $search_key = $search_result->getSearchRequest()->getFullTextQuery();
+      $count = $search_result->getNumTotalObjects();
       ding_webtrends_set_search_info($search_key, $count, 'ting_search');
     }
   }

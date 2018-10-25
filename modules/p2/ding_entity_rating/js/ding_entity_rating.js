@@ -41,7 +41,8 @@
                 $this.nextAll('.js-rating-symbol').removeClass('submitted has-sub');
               }
             );
-          });
+          })
+          .parent().children('.submitted').addClass('js-default-sub');
 
         $('.ding-entity-rating-clear', this.element).bind('click', function (evt) {
           evt.preventDefault();
@@ -66,6 +67,15 @@
      */
     _refresh: function() {
       this._trigger( "change" );
+    },
+
+    /**
+     * Reset the stars.
+     */
+    reset: function () {
+      this.element.removeClass('has-submission')
+        .children().removeClass('submitted')
+        .filter('.js-default-sub').addClass('submitted');
     },
 
     /**
@@ -170,5 +180,21 @@
         });
       }
     }
+  };
+
+  /**
+   * Command to reset the stars on a rating.
+   */
+  Drupal.ajax.prototype.commands.ding_entity_rating_reset = function (ajax, response) {
+    var $element = $('.ding-entity-rating[data-ding-entity-rating-id="' + response.entity_id + '"]');
+
+    if (response.on_popup_close) {
+      $(window).one('dingpopup-close', function () {
+        $element.rating('reset');
+      });
+      return;
+    }
+
+    $element.rating('reset');
   };
 })(jQuery);

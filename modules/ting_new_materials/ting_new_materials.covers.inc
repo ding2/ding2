@@ -33,7 +33,7 @@ function ting_new_materials_check_covers($covers_ids, $number_of_objects) {
       break;
     }
   }
-  $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
+  $service = new AdditionalInformationService(variable_get('ting_covers_addi_wsdl_url'), variable_get('ting_covers_addi_username'), variable_get('ting_covers_addi_group'), variable_get('ting_covers_addi_password'));
   // Local ids = Faust numbers. Library object identifiers can be confusing.
   $additional_informations = $service->getByLocalIdentifier($missing_images_local_ids);
   foreach ($missing_images_local_ids as $local_id) {

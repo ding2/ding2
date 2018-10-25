@@ -1,0 +1,73 @@
+//
+// Styling of p2 lists
+
+@import '../base.scss';
+
+// ==========================================================================
+// View list
+// ==========================================================================
+.ding-list-element--display-view-list {
+  padding: 20px 0;
+  &:nth-child(2n+1) {
+    background-color: $grey;
+  }
+  .ding-message {
+    .ding-message-label {
+      float: left;
+      margin-top: 10px;
+      padding-right: 5px;
+      color: $charcoal-opacity-dark;
+    }
+    .entity-message {
+      float: left;
+      margin-top: 10px;
+    }
+  }
+}
+
+.ding-list-element__value {
+  @include span-columns(6 of 8);
+  padding-left: 15px;
+
+  .ding-entity-rating {
+    width: getColumn(5 of 6);
+    float: right;
+  }
+
+  // Mobile
+  @include media($mobile) {
+    width: 100%;
+    margin-right: 0;
+    padding-right: 15px;
+
+    .ding-entity-rating {
+      width: getColumn(9);
+    }
+  }
+
+
+}
+.ding-list-element__remove {
+  @include span-columns(2 of 8);
+  @include omega();
+  padding-right: 15px;
+
+  input[type=submit] {
+    margin-bottom: 0;
+  }
+
+  // Mobile
+  @include media($mobile) {
+    float: right;
+    width: auto;
+    margin-top: 15px;
+  }
+}
+
+.ding-list-element__title {
+  @include font('display-small');
+}
+
+.ding-list-list__title {
+  @include font('display-large');
+}

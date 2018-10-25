@@ -15,9 +15,9 @@ function ding_serendipity_fallback_serendipity_info() {
   return array(
     'ting_object' => array(
       'title' => t('Fallback materials'),
-      'description' => t('If other plugins fails to find serendipity, this plugin will return a simple CQL. Keep the weight of this plugin higher than all other plugins.'),
+      'description' => t('If other plugins fails to find serendipity, this plugin will return the result of a simple query. Keep the weight of this plugin higher than all other plugins.'),
       'keys' => array('ting_object'),
-      'settings' => l(t("Set fallback CQL"),"admin/config/ding/serendipity"),
+      'settings' => l(t("Set fallback query"),"admin/config/ding/serendipity"),
     ),
   );
 }
@@ -44,7 +44,8 @@ function ding_serendipity_fallback_ting_object_serendipity_add($context) {
 
   if (!empty($query)) {
     try {
-      $results = ding_serendipity_do_search($query, array('limit' => 8));
+      $sal_query = ting_start_query()->withRawQuery($query)->withCount(8);
+      $results = ding_serendipity_do_search($sal_query);
     }
     catch (Exception $e) {
       watchdog_exception('ding_serendipity_fallback', $e);

@@ -214,7 +214,10 @@
 
     if (!tab.data('updating')) {
       // If its the first batch or we're near the end.
-      if (tab.data('offset') === 0 || (tab.data('offset') > -1 && (slick.slideCount - slick.currentSlide) < (slick.options.slidesToScroll * 2))) {
+      if (tab.data('offset') === 0 ||
+          (tab.data('offset') > -1 &&
+           (slick.slideCount - slick.currentSlide) <
+           (slick.options.slidesToScroll * 2))) {
         // Disable updates while updating.
         tab.data('updating', true);
         // Add to queue.

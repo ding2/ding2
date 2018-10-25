@@ -194,6 +194,7 @@ function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
       $defaults = ding_provider_invoke('reservation', 'default_options', $user);
       $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
       $profile = ding_user_provider_profile($user);
+      // @todo This should be moved to separate module.
       $user_quick_reservation = $profile->field_quick_reservation[LANGUAGE_NONE][0]['value'];
       $admin_quick_reservation = variable_get('ding_quick_reservation');
       if ($admin_quick_reservation == "0") {
@@ -513,12 +514,13 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
   }
 
   foreach ($reservations as $reservation) {
+    /** @var \TingEntity $entity */
     $entity = $reservation->entity;
-    if (!is_object($entity) || $entity->reply == FALSE) {
+    if (!is_object($entity) || NULL === $entity->getTingObject()) {
       $entity = ding_provider_get_pseudo_entity($reservation->ding_entity_id);
       // Don't link the title as the data well do not known this title. It may
       // be a inter library loan.
-      $title = $entity->getTitle() ? $entity->getTitle() : $reservation->display_name;
+      $title = (!empty($entity) && $entity->getTitle()) ? $entity->getTitle() : $reservation->display_name;
     }
     else {
       // Create title that links to the object.

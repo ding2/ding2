@@ -1,14 +1,11 @@
 name = Ting Infomedia
 description = Module for linking and viewing Infomedia articles and reviews.
-core = 7.x
 package = Ding!
-version = 7.x-1.8
-project = ting_infomedia
-dependencies[] = ctools
-dependencies[] = page_manager
-dependencies[] = panels
+version = "7.x-1.8"
+core = 7.x
+
 dependencies[] = virtual_field
-features[ctools][] = page_manager:pages_default:1
-features[features_api][] = api:2
-features[page_manager_pages][] = ting_infomedia
-mtime = 1507196652
+dependencies[] = ctools
+dependencies[] = opensearch
+dependencies[] = panels
+dependencies[] = page_manager

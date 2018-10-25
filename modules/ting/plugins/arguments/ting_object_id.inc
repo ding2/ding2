@@ -26,7 +26,6 @@ function ting_tasks_ting_object_id_context($arg = NULL, $conf = NULL, $empty = F
     // TODO: Can we do a better job of validating object IDs?
     return FALSE;
   }
-  module_load_include('client.inc', 'ting');
   $object = ding_entity_load($arg, 'ting_object');
   if (!$object) {
     return FALSE;

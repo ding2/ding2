@@ -256,7 +256,8 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       // Hide titles, and add display as placeholders.
       $form['name']['#attributes']['placeholder'] = t('Loan/social security number (without dash)');
       $form['name']['#title_display'] = 'invisible';
-      $form['pass']['#attributes']['placeholder'] = t('Pincode (4 digits)');
+      $form['pass']['#attributes']['placeholder'] = t('Pincode (@length digits)',
+        ['@length' => ding_user_get_pincode_length()]);
       $form['pass']['#title_display'] = 'invisible';
 
       // Add our own validation handler, after the default Drupal login
@@ -386,14 +387,11 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
   );
 
   $form['ding_user']['ding_user_pincode_length'] = array(
-    '#type' => 'radios',
+    '#type' => 'textfield',
     '#title' => t('Pin code length'),
-    '#options' => array(
-      4 => t('Max @number chars', array('@number' => 4)),
-      5 => t('Max @number chars', array('@number' => 5)),
-      6 => t('Max @number chars', array('@number' => 6)),
-    ),
     '#default_value' => ding_user_get_pincode_length(),
+    '#description' => t('The required length of the pin code used to access the site. This must be a integer value larger than 0.'),
+    '#element_validate' => array('element_validate_integer_positive'),
   );
 
   // Blocked user information page.
@@ -577,8 +575,8 @@ function ding_user_profile_update_submit(&$form, &$form_state) {
  * @param object $account
  *   Drupal user account object.
  *
- * @return entity
- *   The profile entity provided by the current provider.
+ * @return entity|NULL
+ *   The profile entity provided by the current provider if any.
  */
 function ding_user_provider_profile($account) {
   $profile_type = ding_user_get_provider_profile_type();
@@ -701,7 +699,7 @@ function ding_user_get_private_key() {
   }
   watchdog(
     'ding_user',
-    'ding_user_private_key not found', 
+    'ding_user_private_key not found',
     array(),
     WATCHDOG_CRITICAL
   );
@@ -1115,6 +1113,23 @@ function ding_user_save_creds($auth_res) {
   if (isset($auth_res['creds'])) {
     $_SESSION['ding_user'] = $auth_res;
   }
+}
+
+/**
+ * Get a unique id from the provider.
+ */
+function ding_user_provider_id($account = NULL) {
+  global $user;
+
+  if ($account === NULL) {
+    $accout = $user;
+  }
+
+  if (ding_provider_implements('user', 'get_provider_id')) {
+    return ding_provider_invoke('user', 'get_provider_id', $account);
+  }
+
+  return NULL;
 }
 
 /**

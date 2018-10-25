@@ -207,7 +207,7 @@ function ting_search_carousel_get_entities($query, $start, $count, $query_only =
       }
     }
 
-    cache_set("ting_search_carousel_search_" . $query_id, $cache_data, 'cache');
+    cache_set("ting_search_carousel_search_" . $query_id, $cache_data);
     lock_release($lock_name);
 
     return _ting_search_carousel_get_slice($cache_data, $start, $count);
@@ -274,30 +274,35 @@ function _ting_search_carousel_find_entities_with_covers($query, $start, $size, 
   $finished = FALSE;
   $entities = array();
 
-  $options = array(
-    'facets' => array(),
-    'enrich' => TRUE,
-    'allObjects' => FALSE,
-    'collectionType' => 'manifestation',
-  );
-  // Ting pages are 1, not 0, based.
-  $result = ting_do_search($query, ($start++) + 1, $size, $options);
-
-  // Bail out if the search failed.
-  if (!$result) {
-    return array(array(), $start, TRUE);
+  // Search offset must be divisible by chunk size.
+  // We cannot map a situation where offset is not divisible by chunk size to
+  // the search abstraction layer paging model.
+  if (!$start % $size === 0) {
+    throw new InvalidArgumentException('Offset to start from % search chunk size should not have remainders left.');
   }
 
-  if (!$result->more) {
+  // Determine what page we are on based on the start position and size.
+  // Start is 0 indexed while page number is 1 indexed.
+  $page = floor($start / $size) + 1;
+
+  $sal_query = ting_start_query()
+    ->withRawQuery($query)
+    ->withPage($page)
+    ->withCount($size)
+    ->withPopulateCollections(FALSE)
+    ->withMaterialFilter($ignore, FALSE);
+
+  $results = $sal_query->execute();
+
+  if (!$results->hasMoreResults()) {
     $finished = TRUE;
   }
-  foreach ($result->collections as $collection) {
-    foreach ($collection->reply->objects as $object) {
-      // Skip ignored ids.
-      if (isset($ignore[$object->id])) {
-        break;
-      }
-      $entities[$object->id] = ding_entity_load($collection->id, 'ting_object');
+
+  $collections = $results->getTingEntityCollections();
+  foreach ($collections as $collection) {
+    foreach ($collection->getEntities() as $entity) {
+      $entity_id = $entity->getId();
+      $entities[$entity_id] = ding_entity_load($entity_id, 'ting_object');
     }
   }
 
