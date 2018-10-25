@@ -49,6 +49,16 @@ function ding_listrescue_form($form, &$form_state) {
   try {
     $lists = ding_listrescue_get_local_lists();
     $cnt = count($lists);
+
+    $list_titles = array();
+    foreach ($lists as $list) {
+      $list_titles[] = $list->title;
+    }
+
+    $list_message = $cnt > 0 ?
+      t("Found @cnt lists to re-import:", array("@cnt" => $cnt)) . "<br/>" . implode("<br/>", $list_titles) : 
+      t("No lists to re-import");
+
     $details = array(
       'header' => array(
         '#type' => 'html_tag',
@@ -57,8 +67,8 @@ function ding_listrescue_form($form, &$form_state) {
       ),
       'lists' => array(
         '#type' => 'html_tag',
-        '#tag' => 'pre',
-        '#value' => $cnt > 0 ? t("Found @cnt lists to re-import", array("@cnt" => $cnt)) : t("No lists to re-import"),
+        '#tag' => 'p',
+        '#value' => $list_message,
       ),
     );
 
@@ -141,9 +151,17 @@ function ding_listrescue_log($msg) {
 
 /**
  * Get local elements from a local list.
+ * 
+ * @param int $local
+ *   ID of the local list.
+ *
+ * @return DatabaseStatementInterface
+ *   Elements of the list.
  */
 function ding_listrescue_get_local_elements($local) {
-  $max_elements = 200;
+
+  // Limit elements to prevent certain old bad practice users to sync.
+  $max_elements = 1000;
 
   $element_query = db_select('field_data_field_list_objects', 'flo');
   $element_query->leftJoin(
@@ -173,8 +191,18 @@ function ding_listrescue_get_local_elements($local) {
 
 /**
  * Get all the local lists.
+ * 
+ * @param object $account
+ *   The Drupal account to fetch the list for.
+ * @param array $types
+ *   Array of list types to load.
+ *
+ * @return DatabaseStatementInterface
+ *   Lists belonging to the account.
  */
-function ding_listrescue_get_local_lists($account = NULL, $types = NULL) {
+function ding_listrescue_get_local_lists($account = NULL, array $types = NULL) {
+
+  // Limit lists to prevent certain old bad practice users to sync.
   $max_lists = 50;
 
   // Load account.
@@ -210,6 +238,14 @@ function ding_listrescue_get_local_lists($account = NULL, $types = NULL) {
 
 /**
  * Get a matching remote list.
+ * 
+ * @param object $account
+ *   The Drupal account to fetch the list for.
+ * @param object $local
+ *   The local old list.
+ *
+ * @return DingList
+ *   The remote new list.
  */
 function ding_listrescue_get_remote_list($account, $local) {
   $remote_lists = &drupal_static(__FUNCTION__, array());
