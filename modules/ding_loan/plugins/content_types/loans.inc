@@ -1,13 +1,9 @@
 <?php
 
 /**
- * @file
- * Implements provider user loans list plugin.
- *
  * Plugins are described by creating a $plugin array which will be used
  * by the system that includes this file.
  */
-
 $plugin = array(
   'title' => t('User loan list'),
   'description' => t('The current loans for a user'),
@@ -182,23 +178,34 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       $entity = $loan->entity;
       if (!is_object($entity) || NULL === $entity->getTingObject()) {
         // Patron have this item in loans list, but the search provider can't
-        // record for current agencyId, so ask ding_provider for help:
-        $ding_entity_id = $loan->ding_entity_id;
-        $entities = ding_provider_get_pseudo_entities(array($ding_entity_id));
-        $entity = array_shift($entities);
+        // find this record for current agencyId, so we load it separately.
+        $ting_object = ting_search_object_load($loan->ding_entity_id);
+
+        if (!empty($ting_object)) {
+          // But we need TingEntity instance, so here we are populating this.
+          $ting_entity = new TingEntity();
+          $ting_entity->ding_entity_id = $entity->ding_entity_id;
+          $ting_entity->setTingObject($ting_object);
+        }
       }
 
-      // Initialize variables so that they don't carry over if this entity can't
-      // be searched.
-      $creators = $mat_type = $cover = NULL;
+      if (is_object($entity) && NULL !== $entity->getTingObject()) {
+        $raw_title = $entity->getTitle();
 
-      // Title link.
-      $raw_title = $entity->getTitle();
-      $uri = entity_uri('ting_object', $entity);
-      $title = l($raw_title, $uri['path']);
+        // Add title link.
+        $uri = entity_uri('ting_object', $entity);
+        $title = l($raw_title, $uri['path']);
 
-      // Attempt to render a cover.
-      $cover = field_view_field('ting_object', $entity, 'ting_cover', 'user_list');
+        // Add creator(s).
+        $creators = $entity->creators;
+
+        // Add type.
+        $mat_type = $entity->type;
+
+        // Attempt to render a cover.
+        $cover = field_view_field('ting_object', $entity, 'ting_cover', 'user_list');
+      }
+
 
       $item = array(
         '#type' => 'material_item',

@@ -550,7 +550,9 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
     $element['#title'] = t($element['#title']);
   }
 
+  $title_prefix = '';
   $title_suffix = '';
+
   // Add some icons to our top-bar menu. We use system paths to check against.
   switch ($element['#href']) {
     case 'search':

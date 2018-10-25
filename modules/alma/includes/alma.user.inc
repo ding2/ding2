@@ -17,10 +17,6 @@ function alma_user_authenticate($uid, $pass) {
     if ($res) {
       $return['success'] = TRUE;
     }
-    elseif (NULL === $res) {
-      drupal_set_message(t('Authorisation service not reachable. Try to login later.'), 'error');
-      drupal_goto('/');
-    }
   }
   catch (Exception $e) {
     return $return;

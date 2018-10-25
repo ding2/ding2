@@ -212,6 +212,8 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium', $su
 
 /**
  * Implements hook_preprocess_HOOK().
+ *
+ * @todo This should be moved to separate module.
  */
 function ding_campaign_preprocess_ding_campaign(&$variables) {
   if (!empty($variables['show_on_mobiles'])) {
@@ -702,6 +704,8 @@ function _ding_campaign_rule_by_type($node_type) {
 
 /**
  * Implements hook_preprocess().
+ *
+ * @todo This should be moved to separate module.
  */
 function ding_campaign_preprocess(&$variables, $hook) {
   switch ($hook) {
