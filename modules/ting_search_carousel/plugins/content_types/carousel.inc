@@ -26,7 +26,14 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
   if (!empty($searches)) {
     $carousels = array();
     foreach ($searches as $search) {
-      $chunk = ting_search_carousel_get_entities($search['query'], 0, TING_SEARCH_CAROUSEL_CHUNK_SIZE);
+      $search += array(
+        'title' => '',
+        'subtitle' => '',
+        'query' => '',
+        'sort' => '',
+      );
+      $query = new TingSearchCarouselQuery($search['query'], $search['sort']);
+      $chunk = ting_search_carousel_get_entities($query, 0, TING_SEARCH_CAROUSEL_CHUNK_SIZE);
 
       $items = array();
       foreach ($chunk['entities'] as $entity) {
@@ -36,7 +43,7 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
       $carousels[] = array(
         '#type' => 'ding_carousel',
         '#title' => $search['title'],
-        '#path' => ting_search_carousel_ajax_path($search['query']),
+        '#path' => ting_search_carousel_ajax_path($search),
         '#items' => $items,
         '#offset' => $chunk['next_offset'],
         // Add a single placeholder to fetch more content later if there is more
@@ -141,7 +148,8 @@ function ting_search_carousel_carousel_content_type_edit_form($form, &$form_stat
  */
 function ting_search_carousel_carousel_content_type_edit_form_validate(&$form, &$form_state) {
   foreach ($form_state['values']['searches'] as $index => $search) {
-    $path = ting_search_carousel_ajax_path($search['query']);
+    $query = new TingSearchCarouselQuery($search['query'], $search['sort']);
+    $path = ting_search_carousel_ajax_path($query);
     if (strlen($path) > 2048) {
       form_error($form['searches'][$index]['query'], t('Search string too long. Please limit the lenght.'));
     }
@@ -168,7 +176,8 @@ function ting_search_carousel_carousel_content_type_edit_form_submit(&$form, &$f
   // submit and the client will not have to wait until those requests are
   // happening when page is opened.
   foreach ($searches as $search) {
-    ting_search_carousel_get_entities($search['query'], 0, 8, FALSE);
+    $query = new TingSearchCarouselQuery($search['query'], $search['sort']);
+    ting_search_carousel_get_entities($query, 0, 8, FALSE);
   }
 }
 
@@ -184,6 +193,12 @@ function ting_search_carousel_carousel_content_type_edit_form_submit(&$form, &$f
 function ting_search_carousel_query_form(array $item = array(), $index = 0) {
   $form = array();
 
+  $sort_options = array();
+
+  foreach (ting_search_sort_options() as $name => $sort) {
+    $sort_options[$name] = $sort['label'];
+  }
+
   $form['weight'] = array(
     '#type' => 'weight',
     '#delta' => 10,
@@ -197,6 +212,7 @@ function ting_search_carousel_query_form(array $item = array(), $index = 0) {
     '#default_value' => isset($item['title']) ? $item['title'] : '',
   );
 
+  // @todo kill this
   $form['subtitle'] = array(
     '#type' => 'textfield',
     '#title' => t('Description'),
@@ -210,6 +226,14 @@ function ting_search_carousel_query_form(array $item = array(), $index = 0) {
     '#maxlength' => 2048,
     '#description' => t('The query to display search results for.'),
     '#default_value' => isset($item['query']) ? $item['query'] : '',
+  );
+
+  $form['sort'] = array(
+    '#type' => 'select',
+    '#title' => t('Sort'),
+    '#options' => $sort_options,
+    '#description' => t('The sort order to use.'),
+    '#default_value' => isset($item['sort']) ? $item['sort'] : '',
   );
 
   $form['remove'] = array(
@@ -255,6 +279,7 @@ function ting_search_carousel_admin_form_add_one($form, &$form_state) {
     'title' => '',
     'subtitle' => '',
     'query' => '',
+    'sort' => '',
   );
   $form_state['rebuild'] = TRUE;
 }

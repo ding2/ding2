@@ -17,7 +17,7 @@ define('TING_SEARCH_CAROUSEL_SEARCH_SIZE', 20);
 function ting_search_carousel_menu() {
   $items = array();
 
-  $items['ting_search_carousel/results/ajax/%/%'] = array(
+  $items['ting_search_carousel/results/ajax/%ting_search_carousel_query/%'] = array(
     'title' => 'Show search carousel results',
     'page callback' => 'ting_search_carousel_result',
     'page arguments' => array(3, 4),
@@ -32,14 +32,21 @@ function ting_search_carousel_menu() {
 /**
  * Get ajax path for search.
  *
- * @param string $query
+ * @param TingSearchCarouselQuery $query
  *   Search query.
  *
  * @return string
  *   The callback path.
  */
-function ting_search_carousel_ajax_path($query) {
-  return 'ting_search_carousel/results/ajax/' . urlencode($query);
+function ting_search_carousel_ajax_path(TingSearchCarouselQuery $query) {
+  return 'ting_search_carousel/results/ajax/' . urlencode((string) $query);
+}
+
+/**
+ * Menu loader function.
+ */
+function ting_search_carousel_query_load($string) {
+  return TingSearchCarouselQuery::fromString($string);
 }
 
 /**
@@ -58,7 +65,7 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
  * materials with covers. Internally caches and processes the search result in
  * chunks as needed.
  *
- * @param string $query
+ * @param TingSearchCarouselQuery $query
  *   The query to use.
  * @param int $start
  *   Start offset.
@@ -71,8 +78,8 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
  *   Array with the keys 'entities', an array of ting entities, and
  *   'next_offset', which is the next offset to use or -1.
  */
-function ting_search_carousel_get_entities($query, $start, $count, $query_only = FALSE) {
-  $query_id = md5($query);
+function ting_search_carousel_get_entities(TingSearchCarouselQuery $query, $start, $count, $query_only = FALSE) {
+  $query_id = (string) $query;
   $cache_data = array(
     // All found covers.
     'pool' => array(),
@@ -179,7 +186,7 @@ function _ting_search_carousel_get_slice(array $cache_data, $start, $count) {
 /**
  * Find ting entities with covers from a query.
  *
- * @param string $query
+ * @param TingSearchCarouselQuery $query
  *   Query to use.
  * @param int $start
  *   Offset to start from.
@@ -192,7 +199,7 @@ function _ting_search_carousel_get_slice(array $cache_data, $start, $count) {
  *   Array of found ting entities (an array), next start to use, and whether
  *   the result end was reached.
  */
-function _ting_search_carousel_find_entities_with_covers($query, $start, $size, array $ignore) {
+function _ting_search_carousel_find_entities_with_covers(TingSearchCarouselQuery $query, $start, $size, array $ignore) {
   $entities_found_with_covers = array();
   $finished = FALSE;
   $entities = array();
@@ -209,11 +216,19 @@ function _ting_search_carousel_find_entities_with_covers($query, $start, $size, 
   $page = floor($start / $size) + 1;
 
   $sal_query = ting_start_query()
-    ->withRawQuery($query)
+    ->withRawQuery($query->getQuery())
     ->withPage($page)
     ->withCount($size)
     ->withPopulateCollections(FALSE)
     ->withMaterialFilter($ignore, FALSE);
+
+  $sort = $query->getSort();
+  if (!empty($sort)) {
+    $sort_options = ting_search_sort_options();
+    if (isset($sort_options[$sort]['sort'])) {
+      $sal_query = $sal_query->withSorts($sort_options[$sort]['sort']);
+    }
+  }
 
   $results = $sal_query->execute();
 
@@ -263,4 +278,78 @@ function ting_search_carousel_image_default_styles() {
       ),
     ),
   );
+}
+
+/**
+ * Represents a search for the carousel.
+ *
+ * Encapsulates query and sort.
+ */
+class TingSearchCarouselQuery {
+
+  /**
+   * The search query.
+   *
+   * @var string
+   */
+  protected $query;
+
+  /**
+   * The sorting identifier.
+   *
+   * @var string
+   */
+  protected $sort = '';
+
+  /**
+   * Create a new query object.
+   *
+   * @param string $query
+   *   The search query.
+   * @param string $sort
+   *   The sort to use.
+   */
+  public function __construct($query, $sort = '') {
+    $this->query = $query;
+    $this->sort = $sort;
+  }
+
+  /**
+   * Get the query string.
+   */
+  public function getQuery() {
+    return $this->query;
+  }
+
+  /**
+   * Get the sort method.
+   */
+  public function getSort() {
+    return $this->sort;
+  }
+
+  /**
+   * Convert to string representation.
+   */
+  public function __toString() {
+    return base64_encode(json_encode(array($this->query, $this->sort)));
+  }
+
+  /**
+   * Create object from string.
+   *
+   * @param string $string
+   *   The string as returned from __toString().
+   */
+  public static function fromString($string) {
+    $data = json_decode(base64_decode($string));
+    $data += array('');
+    if (!empty($data[0])) {
+      $query = new TingSearchCarouselQuery($data[0], $data[1]);
+      return $query;
+    }
+
+    return FALSE;
+  }
+
 }
