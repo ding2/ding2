@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @file
+ * Install and update routines for the OpenSearch module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function opensearch_install() {
+  opensearch_migrate_settings();
+}
+
+/**
+ * Rename old ting variables to opensearch scope.
+ */
+function opensearch_migrate_settings() {
+  $settings_map = array(
+    'ting_auth_group' => 'opensearch_auth_group',
+    'ting_auth_name' => 'opensearch_auth_name',
+    'ting_auth_pass' => 'opensearch_auth_pass',
+    'ting_autocomplete_settings' => 'opensearch_search_autocomplete_settings',
+    'ting_boost_fields' => 'opensearch_boost_fields',
+    'ting_cache_lifetime' => 'opensearch_cache_lifetime',
+    'ting_enable_logging' => 'opensearch_enable_logging',
+    'ting_ranking_custom' => 'opensearch_ranking_custom',
+    'ting_ranking_fields' => 'opensearch_ranking_fields',
+    'ting_recommendation_url' => 'opensearch_recommendation_url',
+    'ting_search_autocomplete_method' => 'opensearch_search_autocomplete_method',
+    'ting_search_autocomplete_suggestion_url' => 'opensearch_search_autocomplete_suggestion_url',
+    'ting_search_profile' => 'opensearch_search_profile',
+    'ting_search_url' => 'opensearch_url',
+    'ting_sort_default' => 'opensearch_sort_default',
+    'ting_use_auth' => 'opensearch_use_auth',
+  );
+
+  array_walk($settings_map, function($new_var, $old_var) {
+    variable_set($new_var, variable_get($old_var));
+    variable_del($old_var);
+  });
+}
+
+/**
+ * Rebuild class registry.
+ */
+function opensearch_update_7001() {
+  // We have moved the CQL Doctor class from ting_search to this module.
+  // Rebuild registry to load it based on opensearch.info file update.
+  registry_rebuild();
+}
+
+/**
+ * Ensure libraries use the latest version of opensearch (5.0).
+ */
+function opensearch_update_7002() {
+  variable_set('opensearch_url', 'https://opensearch.addi.dk/b3.5_5.0/');
+}

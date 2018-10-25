@@ -2,3 +2,5 @@
 /libraries
 themes/ddbasic/node_modules
 config.php
+tests/behat/.idea/
+.gitignore

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_message_p2_installer.strongarm.inc
@@ -12,9 +11,7 @@ function ding_message_p2_installer_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_message__new_content';
   $strongarm->value = array(
@@ -31,7 +28,7 @@ function ding_message_p2_installer_strongarm() {
       'display' => array(
         'message__message_text__0' => array(
           'default' => array(
-            'weight' => '0',
+            'weight' => '1',
             'visible' => FALSE,
           ),
         ),

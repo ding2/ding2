@@ -32,7 +32,6 @@ function alma_availability_holdings($provider_ids, $reset = FALSE) {
   else {
     $ids = implode(',', $provider_ids);
     $details = alma_client_invoke('catalogue_record_detail', $ids);
-    $availability = alma_client_invoke('get_availability', $ids);
     $result = array();
 
     if ($details && isset($details['records'])) {
@@ -49,7 +48,6 @@ function alma_availability_holdings($provider_ids, $reset = FALSE) {
           'issues' => FALSE,
           'is_periodical' => ($record['media_class'] == 'periodical'),
           'is_internet' => ($record['media_class'] == 'internet'),
-          'availability_information' => $availability[$alma_id]['availability_information'],
         );
 
         // If periodical render issue information.

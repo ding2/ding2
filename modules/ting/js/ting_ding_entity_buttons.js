@@ -13,36 +13,37 @@
         return;
       }
 
-      let identifiers = {};
-      let identifier = null;
-      for (let i in this.buttons) {
-        identifiers[this.buttons[i]] = [];
+      var identifiers = {};
+      var identifier = null;
+      var $this = this;
+      for (var i in $this.buttons) {
+        identifiers[$this.buttons[i]] = [];
 
         // For event button type fetch it's parent ting entity id.
-        $(i, context).each((index, element) => {
+        $(i, context).each(function (index, element) {
           identifier = $(element)
             .parents('div[ting-object-id]')
             .attr('ting-object-id');
 
-          if (identifiers[this.buttons[i]].indexOf(identifier) === -1) {
-            identifiers[this.buttons[i]].push(identifier);
+          if (identifiers[$this.buttons[i]].indexOf(identifier) === -1) {
+            identifiers[$this.buttons[i]].push(identifier);
           }
         });
       }
 
       // Identifiers object is keyed with button types, therefore loop
       // the types and send ajax request for each.
-      for (let i in identifiers) {
+      for (var i in identifiers) {
         if (identifiers[i].length === 0) {
           continue;
         }
 
-        this.renderDingEntityButtons(identifiers[i], i);
+        $this.renderDingEntityButtons(identifiers[i], i);
       }
     },
 
     renderDingEntityButtons: function (identifiers, type) {
-      let element_settings = {
+      var element_settings = {
         url: '/ting/ding_entity_buttons/nojs/' + type,
         submit: {
           'js': true,
@@ -50,7 +51,7 @@
         }
       };
 
-      let ajax = new Drupal.ajax(null, document.body, element_settings);
+      var ajax = new Drupal.ajax(null, document.body, element_settings);
       ajax.eventResponse(ajax, {});
     }
   };

@@ -5,6 +5,8 @@
  * Module file for Ting field search.
  */
 
+include_once 'ting_field_search.features.inc';
+
 // Separate handling of facets.
 include_once 'ting_field_search.facets.inc';
 
@@ -102,14 +104,14 @@ function ting_field_search_get_context() {
 }
 
 /**
- * Implements hook_ting_cache_key().
+ * Implements hook_opensearch_cache_key().
  *
  * If we have an active profile and context, we use this hook to modify the
  * cache key, so that ting_cache can fetch/save the correct result.
  *
  * @see ting.api.php
  */
-function ting_field_search_ting_cache_key(&$cid) {
+function ting_field_search_opensearch_cache_key(&$cid) {
   if (!ting_field_search_get_context()) {
     return;
   }
@@ -119,9 +121,9 @@ function ting_field_search_ting_cache_key(&$cid) {
 }
 
 /**
- * Implements hook_ting_pre_execute().
+ * Implements hook_opensearch_pre_execute().
  */
-function ting_field_search_ting_pre_execute($request) {
+function ting_field_search_opensearch_pre_execute($request) {
   if (!$context = ting_field_search_get_context()) {
     return;
   }
@@ -204,8 +206,9 @@ function ting_field_search_ting_pre_execute($request) {
 }
 
 /**
- * Priveat helper function to append cql to a request. Used in
- * hook_ting_pre_execute implementation.
+ * Private helper function to append cql to a request.
+ *
+ * Used in hook_opensearch_pre_execute implementation.
  */
 function _ting_field_search_append_cql($request, $cql) {
   $query = '(' . $request->getQuery() . ') and (' . $cql . ')';
@@ -226,9 +229,9 @@ function _ting_field_search_append_cql($request, $cql) {
  * to add a modifier, the sorting of results in ting_cache will get mixed up if
  * a profile is using another default sort than ting_search.
  *
- * @see ting_search_conditions_callback()
- * @see ting_search_search_execute()
- * @see ting_do_search()
+ * @see opensearch_search_conditions_callback()
+ * @see opensearch_search_search_execute()
+ * @see opensearch_do_search()
  */
 function _ting_field_search_detect_sort($profile) {
   $sort = FALSE;
@@ -397,7 +400,6 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
 function ting_field_search_form_ting_search_admin_settings_alter(&$form, &$form_state, $form_id) {
   $options = $form['ting_search']['ting_search_form_style']['#options'];
 
-  // Completely override to control order.
   $form['ting_search']['ting_search_form_style']['#options'] = array(
     TING_SEARCH_FORM_STYLE_NORMAL => $options[TING_SEARCH_FORM_STYLE_NORMAL],
     TING_SEARCH_FORM_STYLE_EXTENDED => $options[TING_SEARCH_FORM_STYLE_EXTENDED],

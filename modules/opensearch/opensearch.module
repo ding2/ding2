@@ -1,0 +1,442 @@
+<?php
+/**
+ * @file
+ * Drupal implementation of a OpenSearch search provider for the DING! project.
+ */
+
+use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
+
+define('OPENSEARCH_DEFAULT_CACHE_LIFETIME', 900);
+
+// Define the different types of data that we cache in ting_set_cache and the
+// default TTL.
+define('OPENSEARCH_CACHE_TING_OBJECT', 'ting-object');
+define('OPENSEARCH_CACHE_TING_OBJECT_FULLTEXT', 'ting-object-fulltext');
+define('OPENSEARCH_CACHE_COLLECTION', 'ting-collection');
+define('OPENSEARCH_CACHE_REPLY', 'ting-reply');
+
+/**
+ * Implements hook_ding_provider().
+ */
+function opensearch_ding_provider() {
+  return array(
+    'title' => 'Opensearch',
+    'settings' => 'opensearch_admin_settings',
+    'provides' => array(
+      'search' => array(
+        'prefix' => 'search',
+        'file' => 'includes/opensearch.search.inc',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function opensearch_theme() {
+  return array(
+    'opensearch_ranking_field' => array(
+      'arguments' => array('element' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implements hook_element_info().
+ *
+ * Define a new form element named opensearch_ranking_field.
+ *
+ * It calls the theme function theme_opensearch_ranking_field, if not defined
+ * no elements will be displayed.
+ */
+function opensearch_element_info() {
+  return array(
+    'opensearch_boost_field' => array(
+      '#input' => TRUE,
+      '#process' => array('opensearch_boost_field_element_process'),
+    ),
+    'opensearch_ranking_field' => array(
+      '#input' => TRUE,
+      '#process' => array('opensearch_ranking_field_element_process'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_permission().
+ */
+function opensearch_permission() {
+  return array(
+    'administer opensearch settings' => array(
+      'title' => t('Administer Opensearch settings'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function opensearch_menu() {
+  $items = array();
+
+  $items['admin/config/opensearch'] = array(
+    'title' => 'Opensearch',
+    'description' => 'Manage Opensearch integration settings.',
+    'position' => 'left',
+    'weight' => 20,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/opensearch/settings'] = array(
+    'title' => 'Provider settings',
+    'description' => 'Base settings for the Opensearch integration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('opensearch_admin_settings'),
+    'access arguments' => array('administer opensearch settings'),
+  );
+
+  $items['admin/config/opensearch/ranking'] = array(
+    'title' => 'Search result ranking',
+    'description' => 'Provides settings for how search results are ranked.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('opensearch_admin_ranking_settings'),
+    'access arguments' => array('administer opensearch settings'),
+    'file' => 'opensearch.admin.inc',
+  );
+
+  $items['admin/config/opensearch/boost'] = array(
+    'title' => 'Search result boost',
+    'description' => 'Enable the user to boost specific values for specific fields in search results.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('opensearch_admin_boost_settings'),
+    'access arguments' => array('administer opensearch settings'),
+    'file' => 'opensearch.admin.inc',
+  );
+
+  $items['admin/config/opensearch/autocomplete'] = array(
+    'title' => 'Opensearch search autocomplete settings',
+    'description' => 'Settings for opensearch search autocomplete',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('opensearch_search_autocomplete_admin'),
+    'access arguments' => array('administer search'),
+    'file' => 'opensearch.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Processor for the opensearch_boost_field form element.
+ */
+function opensearch_boost_field_element_process($element, $form_state) {
+  $element['#tree'] = TRUE;
+  $element['#prefix'] = '<div class="opensearch-boost-field-element clearfix">';
+  $element['#suffix'] = '</div>';
+
+  $element['field_name'] = array(
+    '#title' => t('Field name'),
+    '#type' => 'select',
+    '#options' => array(
+      '' => '- ' . t('Choose') . ' -',
+      'term.acSource' => t('Source'),
+      'term.creator' => t('Author'),
+      'term.date' => t('Year of publish'),
+      'term.language' => t('Language'),
+      'term.type' => t('Material type'),
+      'term.identifier' => t('ISBN number'),
+      'term.subject' => t('Subject'),
+      'facet.dk5' => t('Classification'),
+    ),
+    '#default_value' => (isset($element['#value']['field_name'])) ? $element['#value']['field_name'] : NULL,
+    '#attributes' => array('class' => array('field-name')),
+  );
+
+  $element['field_value'] = array(
+    '#title' => t('Value'),
+    '#type' => 'textfield',
+    '#default_value' => (isset($element['#value']['field_value'])) ? $element['#value']['field_value'] : NULL,
+  );
+
+  $element['weight'] = array(
+    '#title' => t('Weight'),
+    '#type' => 'textfield',
+    '#default_value' => (isset($element['#value']['weight'])) ? $element['#value']['weight'] : NULL,
+    '#element_validate' => array('element_validate_integer'),
+  );
+
+  return $element;
+}
+
+/**
+ * Processor for the opensearch_ranking_field form element.
+ */
+function opensearch_ranking_field_element_process($element, $form_state) {
+  $element['#tree'] = TRUE;
+  $element['#prefix'] = '<div class="opensearch-ranking-field-element clearfix">';
+  $element['#suffix'] = '</div>';
+
+  $element['field_type'] = array(
+    '#title' => t('Type'),
+    '#type' => 'select',
+    '#options' => array(
+      'phrase' => t('Phrase'),
+      'word' => t('Word'),
+    ),
+    '#default_value' => (isset($element['#value']['field_type'])) ? $element['#value']['field_type'] : NULL,
+  );
+
+  $element['field_name'] = array(
+    '#title' => t('Field name'),
+    '#type' => 'select',
+    '#options' => array(
+      '' => '- ' . t('Choose') . ' -',
+      'term.acSource' => t('Source'),
+      'term.title' => t('Title'),
+      'term.creator' => t('Author'),
+      'term.subject' => t('Subject'),
+      'term.date' => t('Year of publish'),
+      'term.type' => t('Material type'),
+    ),
+    '#default_value' => (isset($element['#value']['field_name'])) ? $element['#value']['field_name'] : NULL,
+    '#attributes' => array('class' => array('field-name')),
+  );
+
+  $element['weight'] = array(
+    '#title' => t('Weight'),
+    '#type' => 'select',
+    '#options' => drupal_map_assoc(range(1, 10)),
+    '#default_value' => (isset($element['#value']['weight'])) ? $element['#value']['weight'] : NULL,
+  );
+
+  return $element;
+}
+
+/**
+ * Theme function to format the custom form element opensearch_ranking_field.
+ */
+function theme_opensearch_ranking_field($element) {
+  return theme('form_element', $element);
+}
+
+/**
+ * Form builder; Configure Opensearch settings for this site.
+ *
+ * @ingroup forms
+ *
+ * @see system_settings_form()
+ */
+function opensearch_admin_settings($form_state) {
+  $form = array();
+
+  $form['opensearch'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Opensearch service settings'),
+    '#tree' => FALSE,
+  );
+
+  // TODO Consider alternate handling of Ting agency.
+  // This value has multiple purposes:
+  // - As configuration when accessing OpenSearch
+  // - As an unique identifier for the library organization in other parts of
+  //   the system
+  // Consider whether the variable should be kept (and moved back to the Ting
+  // module) or renamed to opensearch_agency and use cases updated so that
+  // other providers also can provide a unique identifier.
+  $form['opensearch']['ting_agency'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Library code'),
+    '#description' => t('The 6-digit code representing the library organization'),
+    '#default_value' => variable_get('ting_agency', ''),
+  );
+
+  $form['opensearch']['opensearch_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search service URL'),
+    '#description' => t('URL to the Ting search webservice, e.g. https://opensearch.addi.dk/b3.5_5.0/'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('opensearch_url', ''),
+  );
+
+  $form['opensearch']['authentification'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Authentication'),
+    '#tree' => FALSE,
+  );
+
+  $form['opensearch']['authentification']['opensearch_use_auth'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use authentication'),
+    '#default_value' => variable_get('opensearch_use_auth', FALSE),
+    '#description' => t('Use authentication rather than rely on IP granted access.'),
+  );
+
+  $auth_states = array(
+    'enabled' => array(
+      'input[name=opensearch_use_auth]' => array('checked' => TRUE),
+    ),
+  );
+
+  $form['opensearch']['authentification']['opensearch_auth_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name'),
+    '#default_value' => variable_get('opensearch_auth_name', ''),
+    '#states' => $auth_states,
+  );
+
+  $form['opensearch']['authentification']['opensearch_auth_pass'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Password'),
+    '#default_value' => variable_get('opensearch_auth_pass', ''),
+    '#states' => $auth_states,
+  );
+
+  $form['opensearch']['authentification']['opensearch_auth_group'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Group'),
+    '#default_value' => variable_get('opensearch_auth_group', ''),
+    '#states' => $auth_states,
+  );
+
+  $form['opensearch']['opensearch_recommendation_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Recommendation service URL'),
+    '#description' => t('URL to the recommendation webservice (Andre der har lånt...) , e.g. http://openadhl.addi.dk/1.1/'),
+    '#required' => FALSE,
+    '#default_value' => variable_get('opensearch_recommendation_url', ''),
+  );
+
+  $form['opensearch']['opensearch_enable_logging'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable logging'),
+    '#default_value' => variable_get('opensearch_enable_logging', FALSE),
+    '#weight' => 1,
+  );
+
+  $intervals = array(
+    60,
+    300,
+    900,
+    1800,
+    3600,
+    10800,
+    43200,
+    86400,
+    259200,
+    604800,
+  );
+
+  $options = array();
+  foreach ($intervals as $interval) {
+    $options[$interval] = format_interval($interval, 2);
+  }
+
+  $form['opensearch']['opensearch_cache_lifetime'] = array(
+    '#type' => 'select',
+    '#title' => t('Cache lifetime'),
+    '#default_value' => variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME),
+    '#options' => $options,
+    '#description' => t("Cache answers from the datawell for this time. At least a few minutes is recommended, so the same objects doesn't have to be fetched on each page request."),
+    '#weight' => 1,
+  );
+
+  $form['opensearch']['opensearch_search_profile'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search profile'),
+    '#description' => t('Profile name, used for filtering the search based on settings from vip.dbc.dk.'),
+    '#default_value' => variable_get('opensearch_search_profile', ''),
+  );
+  return system_settings_form($form);
+}
+
+/**
+ * Validation handler for opensearch_search_autocomplete_admin
+ */
+function opensearch_search_autocomplete_admin_validate($form, &$form_state) {
+  $form_state['values']['opensearch_search_autocomplete_suggestion_url'] = trim(
+    $form_state['values']['opensearch_search_autocomplete_suggestion_url']
+  );
+}
+
+/**
+ * Get settings, and merge with defaults.
+ *
+ * @return array
+ *   A map of OpenSearch autocomplete settings to use.
+ */
+function opensearch_search_autocomplete_settings() {
+  $settings = array();
+
+  $base_settings = array();
+
+  $base_settings['index'] = NULL;
+  $base_settings['facetIndex'] = NULL;
+  $base_settings['filterQuery'] = NULL;
+  $base_settings['sort'] = 'count';
+
+  $base_settings['agency'] = variable_get('ting_agency', NULL);
+  $base_settings['profile'] = variable_get('opensearch_search_profile', NULL);
+  $base_settings['maxSuggestions'] = 10;
+  $base_settings['maxTime'] = 2000;
+
+  $base_settings['highlight'] = NULL;
+  $base_settings['highlight.pre'] = NULL;
+  $base_settings['highlight.post'] = NULL;
+  $base_settings['minimumString'] = 3;
+
+  $defaults = variable_get('opensearch_search_autocomplete_settings', array());
+
+  $settings = array_merge($base_settings, $defaults);
+
+  return $settings;
+}
+
+/**
+ * Implements hook_xautoload().
+ *
+ * Place our OpenSearch classes in the OpenSearch namespace.
+ */
+function opensearch_xautoload(LocalDirectoryAdapter $adapter) {
+  $adapter->addPsr4('OpenSearch', 'src');
+}
+
+/**
+ * Implements hook_page_alter().
+ *
+ * Log, and display if the devel module is active and the user has
+ * permissions, a warning if the data well was queried more than once.
+ */
+function opensearch_page_alter(&$page) {
+  $calls = &drupal_static('opensearch_execute_cache');
+  if (count($calls) > 5) {
+    $calls_str = array();
+    foreach ($calls as $call) {
+      $calls_str[] = print_r($calls, TRUE);
+    }
+
+    watchdog('opensearch', 'Warning, opensearch_execute called @x times:<br />"@queries"', array('@x' => count($calls), '@queries' => implode('" "', $calls_str)), WATCHDOG_WARNING);
+
+    if (function_exists('dpm') && user_access('access devel information')) {
+      drupal_set_message(t('Warning, opensearch_execute called @x times.', array('@x' => count($calls))), 'error');
+      dpm($calls, 'opensearch_execute queries:');
+    }
+  }
+}
+
+/**
+ * Implements hook_ding_entity_is().
+ */
+function opensearch_ding_entity_is($object, $class) {
+  if ($object instanceof TingEntity) {
+    /* @var TingEntity $object */
+    switch ($class) {
+      case 'periodical':
+        // @todo make sure that availability information isn't displayed
+        // on the object.
+        return in_array(drupal_strtolower($object->getType()), array('tidsskrift', 'periodikum', 'årbog'));
+    }
+  }
+}

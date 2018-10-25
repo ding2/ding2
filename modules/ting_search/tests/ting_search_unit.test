@@ -1,0 +1,138 @@
+<?php
+
+/**
+ * @file
+ * Test for ting search module.
+ */
+
+use Drupal\ding_test\DingUnitTestBase;
+use Prophecy\Argument;
+use Ting\Search\BooleanStatementGroup;
+use Ting\Search\BooleanStatementInterface;
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
+use Ting\Search\TingSearchRequest;
+use Ting\Search\TingSearchStrategyInterface;
+use Ting\Search\UnsupportedSearchQueryException;
+
+/**
+ * Unit tests for searches.
+ */
+class DingSearchUnitTest extends DingUnitTestBase {
+
+  /**
+   * Return metadata about the test.
+   *
+   * @return array
+   *   Map of test metadata.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Ting search Unittests',
+      'description' => 'Unit-tests that tests the ting search module.',
+      'group' => 'Ding! - Ting search unittest',
+      'dependencies' => array('ding_test'),
+    );
+  }
+
+  /**
+   * Initial test-case for testing tests.
+   */
+  public function testOk() {
+    // Set up the response we're going to return in a moment.
+    $response = $this->prophet->prophesize("Psr\Http\Message\ResponseInterface");
+    $response->getBody()->willReturn("Hello World");
+
+    // Setup a client that will return our double.
+    $clientDouble = $this->prophet->prophesize('GuzzleHttp\Client');
+    $clientDouble->request(Argument::type('string'), Argument::type('string'))->willReturn($response->reveal());
+
+    /** @var \GuzzleHttp\Client $clientInstance */
+    $clientInstance = $clientDouble->reveal();
+    $response = $clientInstance->request("GET", "http://example.com");
+    $this->assertEqual($response->getBody(), "Hello World");
+  }
+
+  /**
+   * Test that we can add filters to a search request as expected.
+   */
+  public function testTingSearchRequestFilters() {
+    // Setup a search request with a dummy strategy that will never be used as
+    // we don't actually perform any searches.
+    $strategy_double = $this->prophet->prophesize(TingSearchStrategyInterface::class);
+    $strategy = $strategy_double->reveal();
+
+    $query = new TingSearchRequest($strategy);
+
+    // We want to test the following features of the filter-functionality of
+    // TingSearchRequest.
+    // 1) We can add a list of filters and have them wrapped in a group
+    // 2) We can add a single filter and have it wrapped in a group
+    // 3) We can construct our own group and have it added without wrapping
+    // 4) We can use a short-hand function of adding a field and it should
+    // result in the same as 2).
+    $_1_filter_list = [
+      new TingSearchFieldFilter('field1', 'value'),
+      new TingSearchFieldFilter('field1', 'value'),
+    ];
+    $_2_single_filter = new TingSearchFieldFilter('field2', 'value');
+    $_3_filter_group = new BooleanStatementGroup([
+      new TingSearchFieldFilter('field3', 'value'),
+      new TingSearchFieldFilter('field3', 'value'),
+    ], BooleanStatementInterface::OP_OR);
+
+    $query = $query
+      ->withFilters($_1_filter_list)
+      ->withFilters($_2_single_filter)
+      ->withFilters($_3_filter_group)
+      // Use the shorthand for testing 4). This is basically a shorthand for 2)
+      // so we use the same field-name to be able to test it in a moment.
+      ->withFieldFilter('field2', 'value');
+
+    // This should have added four boolean statement groups.
+    $resulting_filters = $query->getFilters();
+    $this->assertTrue((count($resulting_filters) == 4));
+    $this->assertTrue($resulting_filters[0] instanceof BooleanStatementGroup, 'Filter group 1 is a BooleanStatementGroup');
+    $this->assertTrue($resulting_filters[1] instanceof BooleanStatementGroup, 'Filter group 2 is a BooleanStatementGroup');
+    $this->assertTrue($resulting_filters[2] instanceof BooleanStatementGroup, 'Filter group 3 is a BooleanStatementGroup');
+    $this->assertTrue($resulting_filters[3] instanceof BooleanStatementGroup, 'Filter group 4 is a BooleanStatementGroup');
+
+    // The first two groups should have our first two filterlists in them.
+    $this->assertEqual($resulting_filters[0]->getStatements(), $_1_filter_list, 'Filter group 1 is the expected list');
+    $this->assertEqual($resulting_filters[1]->getStatements()[0], $_2_single_filter, 'Filter group 2 is a single filter');
+
+    // The third should be our previously added boolean group.
+    $this->assertEqual($resulting_filters[2], $_3_filter_group, 'Filter group 3 is the original group');
+
+    // The fourth group should be the same as 2).
+    $this->assertEqual($resulting_filters[3]->getStatements()[0], $_2_single_filter, 'FieldFilter shorthand should be the same as adding a TingSearchFieldFilter manually');
+  }
+
+  /**
+   * Test we can't add an invalid field filter to a statement.
+   */
+  public function testInvalidFieldFilter() {
+    $invalid = (object) [];
+
+    // Setup a search request with a dummy strategy that will never be used as
+    // we don't actually perform any searches.
+    $strategy_double = $this->prophet->prophesize(TingSearchStrategyInterface::class);
+    $strategy = $strategy_double->reveal();
+
+    $query = new TingSearchRequest($strategy);
+
+    // Test that the filter is rejected.
+    try {
+      $query->withFilters($invalid);
+    }
+    catch (UnsupportedSearchQueryException $e) {
+      // All is ok.
+      $this->pass("Expected exception is thrown");
+      return;
+    }
+
+    // The renderer should have thrown an exception.
+    $this->fail('Expected exception to be trown');
+  }
+
+}

@@ -90,8 +90,8 @@
  * @see template_process()
  */
 ?>
-<div itemscope itemtype="http://schema.org/Event">
-<article class="event">
+
+<article class="event" itemscope itemtype="http://schema.org/Event">
   <?php if (isset($content['field_ding_event_image_gallery'])) : ?>
     <?php print render($content['field_ding_event_image_gallery']); ?>
   <?php endif; ?>
@@ -211,4 +211,3 @@
 
   </footer>
 </article>
-</div>

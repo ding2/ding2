@@ -88,9 +88,7 @@ function ding_dibs_email_reports() {
     ->execute()
     ->fetchAll();
   $max_count = count($report);
-  if (!$max_count) {
-    return '<p>' . t('No transactions found.') . '</p>';
-  }
+
   for ($count = 0; $count < $max_count; $count++) {
     // As a result deliveries should fall reports from the database table
     // "dibs transactions".
@@ -108,6 +106,9 @@ function ding_dibs_email_reports() {
     )) {
       $report_valid[] = $report[$count];
     }
+  }
+  if (!$max_count || empty($report_valid)) {
+    return '<p>' . t('No transactions found.') . '</p>';
   }
   $header = array(
     array('data' => t('Order ID')),

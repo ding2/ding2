@@ -111,3 +111,15 @@ function openruth_user_update_pincode($account, $new_pincode) {
 
   return $result;
 }
+
+/**
+ * Get the provider id.
+ */
+function openruth_user_get_provider_id($account) {
+  $creds = ding_user_get_creds();
+  if (isset($creds['name'])) {
+    return $creds['name'];
+  }
+
+  return NULL;
+}

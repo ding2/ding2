@@ -5,6 +5,10 @@
  */
 
 // Path of panel page. Remember to change this constant if the panel changes.
+use Ting\Search\TingSearchFacet;
+use Ting\Search\TingSearchFacetTerm;
+use Ting\Search\TingSearchSort;
+
 define('DING_EKURSER_PATH', 'ekurser');
 
 include_once 'ding_ekurser.features.inc';
@@ -47,7 +51,7 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
 
   // Build the subjectbrowsers links.
   foreach ($terms as $term => $count) {
-   
+
     // Create options for the link.
     $options = array(
       'query' => array(),
@@ -88,24 +92,37 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
  * Ignore terms that cover more than 80% of the total resultset.
  */
 function _ding_ekurser_get_subject_terms() {
-  // Query ting.
-  module_load_include('client.inc', 'ting');
-  $search_result = ting_do_search('ekurser.nu', 0, 0, array(
-    'sort' => 'acquisitionDate_descending',
-    'facets' => array('facet.subject'),
-    'numFacets' => 20,
-  ));
+  $search_result = ting_start_query()
+    ->withFullTextQuery('ekurser.nu')
+    ->withCount(1)
+    ->withSort('acquisitionDate_descending')
+    ->withTermsPrFacet(20)
+    ->execute();
+
+  // Extract subject facets.
+  $facets = $search_result->getFacets();
+  $subject_facets = array_filter($facets, function (TingSearchFacet $facet) {
+    return $facet->getName() == 'facet.subject';
+  });
+  $subject_term_groups = array_map(function (TingSearchFacet $facet) {
+    return $facet->getTerms();
+  }, $subject_facets);
+  $subject_terms = array_merge(...$subject_term_groups);
 
   // Remove terms that covers more than 80% of the resultset.
-  $terms = $search_result->facets['facet.subject']->terms;
-  foreach ($terms as $term => $count) {
-    if ($count >= (0.8 * $search_result->numTotalObjects)) {
-      unset($terms[$term]);
-    }
-  }
+  $frequent_subject_terms = array_filter(
+    $subject_terms,
+    function(TingSearchFacetTerm $term) use ($search_result) {
+      return $term->getCount() < 0.8 * $search_result->getNumTotalObjects();
+    });
 
   // Return remaining terms and their count, plus the term 'All'.
-  return array_merge(array(t('All') => $search_result->numTotalObjects), $terms);
+  $terms = [];
+  foreach ($frequent_subject_terms as $term) {
+    /* @var TingSearchFacetTerm $term */
+    $terms[$term->getName()] = $term->getCount();
+  }
+  return array_merge(array(t('All') => $search_result->getNumTotalObjects()), $terms);
 }
 
 /**

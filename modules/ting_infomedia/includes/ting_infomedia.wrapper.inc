@@ -4,7 +4,7 @@
  * Field wrapper for infomedia.
  */
 
-module_load_include('client.inc', 'ting');
+module_load_include('client.inc', 'opensearch');
 
 /**
  * Retrieve Infomedia article identified by faust number.
@@ -17,7 +17,7 @@ module_load_include('client.inc', 'ting');
  */
 function ting_infomedia_get_article($id) {
   try {
-    $factory = ting_get_request_factory();
+    $factory = opensearch_get_request_factory();
   }
   catch (TingClientException $exception) {
     watchdog_exception('infomedia', $exception);
@@ -30,7 +30,7 @@ function ting_infomedia_get_article($id) {
   $request->setFaust($id);
 
   ting_infomedia_add_user_creds($request);
-  $ret = $request->parse(ting_execute($request->getRequest()));
+  $ret = $request->parse(opensearch_execute($request->getRequest()));
 
   return $ret;
 }
@@ -45,12 +45,12 @@ function ting_infomedia_get_article($id) {
  *   TingClientInfomediaResult for the article.
  */
 function ting_infomedia_check_article($id) {
-  $request = ting_get_request_factory()->getInfomediaArticleRequest();
+  $request = opensearch_get_request_factory()->getInfomediaArticleRequest();
   $request->makeCheck();
   $request->setFaust($id);
   $request = ting_infomedia_add_user_creds($request);
 
-  return $request->parse(ting_execute($request));
+  return $request->parse(opensearch_execute($request));
 }
 
 /**
@@ -65,7 +65,7 @@ function ting_infomedia_check_article($id) {
  *   TingClientInfomediaResult for the article.
  */
 function ting_infomedia_get_review($id, $id_is_isbn = FALSE) {
-  $request = ting_get_request_factory()->getInfomediaReviewRequest();
+  $request = opensearch_get_request_factory()->getInfomediaReviewRequest();
   $request->makeGet();
 
   if ($id_is_isbn) {
@@ -77,7 +77,7 @@ function ting_infomedia_get_review($id, $id_is_isbn = FALSE) {
 
   $request = ting_infomedia_add_user_creds($request);
 
-  return $request->parse(ting_execute($request));
+  return $request->parse(opensearch_execute($request));
 }
 
 /**
@@ -92,7 +92,7 @@ function ting_infomedia_get_review($id, $id_is_isbn = FALSE) {
  *   TingClientInfomediaResult for the article.
  */
 function ting_infomedia_check_review($id, $id_is_isbn = FALSE) {
-  $request = ting_get_request_factory()->getInfomediaReviewRequest();
+  $request = opensearch_get_request_factory()->getInfomediaReviewRequest();
   $request->makeCheck();
 
   if ($id_is_isbn) {
@@ -103,7 +103,7 @@ function ting_infomedia_check_review($id, $id_is_isbn = FALSE) {
   }
 
   $request = ting_infomedia_add_user_creds($request);
-  return $request->parse(ting_execute($request));
+  return $request->parse(opensearch_execute($request));
 }
 
 /**

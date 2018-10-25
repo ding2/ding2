@@ -700,6 +700,7 @@ function ding_library_field_default_field_instances() {
     ),
   );
 
+  // @todo This should be moved to separate module.
   // Exported field_instance: 'node-ding_library-field_hide_news_and_events'
   $field_instances['node-ding_library-field_hide_news_and_events'] = array(
     'bundle' => 'ding_library',

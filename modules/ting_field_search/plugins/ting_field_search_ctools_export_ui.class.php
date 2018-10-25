@@ -83,7 +83,7 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
       $well_profile = $profile->config['search_request']['well_profile'];
     }
     else {
-      $well_profile = variable_get('ting_search_profile', '');
+      $well_profile = variable_get('opensearch_search_profile', '');
     }
 
     $row_data[]['data'] = check_plain($well_profile);

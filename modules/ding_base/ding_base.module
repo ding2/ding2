@@ -611,7 +611,7 @@ function ding_base_file_presave($file) {
   }
 }
 
-/**     
+/**
  * Implements hook_field_widget_form_alter().
  */
 function ding_base_field_widget_form_alter(&$elements, &$form_state, $context) {
@@ -791,4 +791,47 @@ function ding_base_validate_email($email) {
 
   $domain = strtoupper(substr($email, strrpos($email, '.') + 1));
   return empty($tld_list) || in_array($domain, $tld_list);
+}
+
+/**
+ * Implements hook_views_query_alter().
+ *
+ * Enabling Domain Access module support for content views.
+ */
+function ding_base_views_query_alter(&$view, &$query) {
+  if (module_exists('domain')) {
+    $domain = domain_get_domain();
+
+    $enabled_views = views_get_enabled_views();
+
+    $content_modules = [
+      'ding_eresource',
+      'ding_event',
+      'ding_news',
+      'ding_library',
+      'ding_groups',
+    ];
+
+    $processed_views = [];
+    foreach ($enabled_views as $module) {
+      if (in_array($module->name, $content_modules)) {
+        $display_names = array_keys($module->display);
+        $processed_views[] = $display_names;
+      }
+    }
+
+    $inlined = call_user_func_array('array_merge', $processed_views);
+    foreach ($inlined as $item) {
+      if ($view->current_display == $item) {
+        $query->add_table('domain_access');
+
+        $query->add_where_expression(
+          'filter',
+          "node.nid=domain_access.nid AND ((domain_access.realm = 'domain_id' AND domain_access.gid=***CURRENT_DOMAIN***) OR (domain_access.realm = 'domain_site' AND domain_access.gid = :domain_id))",
+          ['domain_id' => $domain['domain_id']],
+          'formula'
+        );
+      }
+    }
+  }
 }

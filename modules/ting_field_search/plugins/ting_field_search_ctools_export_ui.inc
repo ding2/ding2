@@ -102,9 +102,9 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
   $form['config']['search_request']['well_profile'] = array(
     '#type' => 'textfield',
     '#title' => t('Well profile'),
-    '#description' => t('Enter the name of the well profile from VIP to use with this profile. Leave empty to use the <strong>%standard</strong> profile configured at <a href="!url">Ting search settings</a>.', array(
-        '%standard' => variable_get('ting_search_profile', ''),
-        '!url' => url('admin/config/ting/settings'),
+    '#description' => t('Enter the name of the well profile from VIP to use with this profile. Leave empty to use the <strong>%standard</strong> profile configured at <a href="!url">OpenSearch settings</a>.', array(
+        '%standard' => variable_get('opensearch_search_profile', ''),
+        '!url' => url('admin/config/ding/provider/opensearch'),
     )),
     '#default_value' => $profile->config['search_request']['well_profile'],
   );
@@ -179,7 +179,7 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#title' => t('Default sorting'),
     '#description' => t('Select the default sorting'),
     // Use a helper function from ting_search to get available sort options.
-    '#options' => ting_search_sort_options(),
+    '#options' => ting_search_sort_form_options(),
     '#default_value' => $profile->config['search_result']['default_sort'],
   );
   $form['config']['search_result']['ranking'] = array(

@@ -20,9 +20,9 @@ $plugin = array(
 function ting_search_result_count_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
 
-  $search_result = drupal_static('ting_search_results');
-  if (!empty($search_result)) {
-    $results = isset($search_result->numTotalObjects) ? (int) $search_result->numTotalObjects : 0;
+  $search_result = ting_search_current_results();
+  if (isset($search_result)) {
+    $results = $search_result->getNumTotalObjects();
     $block->content = array(
       'title' => array(
         '#theme' => 'html_tag',
@@ -34,7 +34,7 @@ function ting_search_result_count_content_type_render($subtype, $conf, $panel_ar
         '#theme' => 'html_tag',
         '#tag' => 'span',
         '#attributes' => array('class' => array('search-string')),
-        '#value' => '"' . $search_result->search_key . '"',
+        '#value' => '"' . $search_result->getSearchRequest()->getFullTextQuery() . '"',
       ),
       'count' => array(
         '#theme' => 'html_tag',

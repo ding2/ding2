@@ -684,7 +684,7 @@ temaer/*';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'imagemagick_quality';
-  $strongarm->value = '100';
+  $strongarm->value = '80';
   $export['imagemagick_quality'] = $strongarm;
 
   $strongarm = new stdClass();

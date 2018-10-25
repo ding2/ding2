@@ -4,10 +4,23 @@
  * Enables search integration with Ting.
  */
 
-require_once 'includes/TingSearchCqlDoctor.class.inc';
+use Ting\Search\TingSearchRawFilter;
+use Ting\Search\TingSearchResultInterface;
+use Ting\Search\TingSearchSort;
 
 define('TING_SEARCH_FORM_STYLE_NORMAL', 'normal');
 define('TING_SEARCH_FORM_STYLE_EXTENDED', 'extended');
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ting_search_ding_provider_user() {
+  return array(
+    'search' => array(
+      'required' => TRUE,
+    ),
+  );
+}
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -102,10 +115,10 @@ function ting_search_search_info() {
 function ting_search_ding_facetbrowser() {
   $results = new stdClass();
   $results->show_empty = FALSE;
-  $search_result = drupal_static('ting_search_results');
+  $search_result = ting_search_current_results();
   if ($search_result) {
-    $results->facets = ($search_result instanceof TingClientSearchResult) ? $search_result->facets : array();
-    $results->searchkey = $search_result->search_key;
+    $results->facets = $search_result->getFacets();
+    $results->searchkey = $search_result->getSearchRequest()->getFullTextQuery();
     return $results;
   }
 }
@@ -141,21 +154,7 @@ function ting_search_theme($existing, $type, $theme, $path) {
       'template' => 'ting-search-display-extended-query',
       'path' => $path . '/templates',
     ),
-    'ting_search_extended_search' => array(
-      'template' => 'ting-search-extended-search',
-      'path' => $path . '/templates',
-    ),
   );
-}
-
-/**
- * Returns a themed list of extended actions.
- *
- * @return string
- *   HTML ting_search_extended_search.
- */
-function ting_search_get_extended_actions() {
-  return theme('ting_search_extended_search');
 }
 
 /**
@@ -164,38 +163,12 @@ function ting_search_get_extended_actions() {
  * For the form search_block_form.
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
-  // Define advanced fields.
-  $advanced_fields = array(
-    'term.creator' => array(
-      'key' => 'creator',
-      'title' => t('Author'),
-      'description' => t('Enter the author name'),
-    ),
-    'term.title' => array(
-      'key' => 'title',
-      'title' => t('Title'),
-      'description' => t('Enter title'),
-    ),
-    'term.subject' => array(
-      'key' => 'subject',
-      'title' => t('Subject'),
-      'description' => t('Enter subject keywords'),
-    ),
-  );
-
   // Remove the form token so the form becomes cachable. If we don't, all
   // pages with the search form becomes un-cachable, as drupal_validate_form()
   // will check the token and fail if the current user is not the same as the
   // one that caused the page to be cached.
   unset($form['#token']);
   unset($form['form_token']);
-
-  // We're going to disable advanced search in
-  // the first version, and implement later on.
-  // When implementing againg, set
-  // $advanced = TRUE - just below
-  // and re-enable asserts in testTingExtended() in ting_search.test.
-  $advanced = FALSE;
 
   // Parse extended search query parameters.
   if (arg(0) == 'search') {
@@ -205,15 +178,6 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     array_shift($parts);
     $type = array_shift($parts);
     $search_query = implode('/', $parts);
-    $indexes = ting_search_extract_keys($search_query, array_keys($advanced_fields));
-    $search_query = $indexes['q'];
-    unset($indexes['q']);
-
-    if ($type != 'ting' and !empty($indexes)) {
-      $search_query .= " " . implode(' ', $indexes);
-      $indexes = array();
-      $advanced = FALSE;
-    }
 
     // Set default value to the current search query.
     $form['search_block_form']['#default_value'] = $search_query;
@@ -242,37 +206,6 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     '#default_value' => isset($_GET['size']) ? (int) $_GET['size'] : FALSE,
     '#attributes' => array('id' => 'controls_search_size'),
   );
-
-  // See line 127-130 - disabled in the first version.
-  //$form['form_id']['#suffix'] = ting_search_get_extended_actions();
-
-  if ($advanced) {
-    $form['advanced'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('Advanced search'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
-      '#weight' => 101,
-      '#prefix' => '<div id="advanced-search-wrapper">',
-      '#suffix' => '</div>',
-      '#attached' => array(
-        'js' => array(
-          drupal_get_path('module', 'ting_search') . '/js/ting_search_extendform.js',
-        ),
-      ),
-    );
-
-    foreach ($advanced_fields as $name => $field) {
-      $form['advanced'][$field['key']] = array(
-        '#type' => 'textfield',
-        '#title' => check_plain($field['title']),
-        '#size' => 30,
-        '#maxlength' => 64,
-        '#description' => check_plain($field['description']),
-        '#default_value' => isset($indexes[$name]) ? $indexes[$name] : '',
-      );
-    }
-  }
 
   switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
     case TING_SEARCH_FORM_STYLE_EXTENDED:
@@ -383,13 +316,17 @@ function ting_search_conditions_callback($keys) {
     $conditions['size'] = (int) $_REQUEST['size'];
   }
 
-
   if (!empty($_REQUEST['sort'])) {
     $conditions['sort'] = check_plain($_REQUEST['sort']);
   }
   else {
     $conditions['sort'] = variable_get('ting_search_default_sort', '');
   }
+
+  if (!empty($_REQUEST['filters'])) {
+    $conditions['filters'] = $_REQUEST['filters'];
+  }
+
   // If facets is set, check if we have to remove any, if so,
   // reload the page.
   if (!empty($_REQUEST['facets'])) {
@@ -431,11 +368,22 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   $results = &drupal_static(__FUNCTION__);
   if (!isset($results)) {
     $results = array();
-    $options = array();
-    $results = array();
-    $facet_array = array();
-    $query = '(' . _ting_search_quote($keys) . ')';
-    $options['numFacets'] = variable_get('ting_search_number_of_facets', 25);
+    $query = ting_start_query()
+      ->withFullTextQuery($keys)
+      ->withTermsPrFacet(variable_get('ting_search_number_of_facets', 25));
+
+    // Extend query with filters.
+    if (!empty($conditions['filters'])) {
+      foreach ($conditions['filters'] as $name => $filter) {
+        // If no name is provided for a filter then it is a raw filter.
+        if (is_int($name)) {
+          $query = $query->withFilters(array(new TingSearchRawFilter($filter)));
+        }
+        else {
+          $query = $query->withFieldFilter($name, $filter);
+        }
+      }
+    }
 
     // Extend query with selected facets.
     if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
@@ -443,11 +391,9 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       foreach ($facets as $facet) {
         $facet = explode(':', $facet, 2);
         if ($facet[0]) {
-          $facet_array[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
+          $query = $query->withFieldFilter($facet[0], rawurldecode($facet[1]));
         }
       }
-
-      $query .= ' AND ' . implode(' AND ', $facet_array);
     }
 
     $search_result = NULL;
@@ -459,26 +405,32 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       if (!empty($conditions['size'])) {
         $results_per_page = $conditions['size'];
       }
-
       // Set sort order.
       if (!empty($conditions['sort'])) {
-        $options['sort'] = $conditions['sort'];
+        // Get all sort-options available from the provider.
+        $available_sort_options = ting_search_sort_options();
+
+        // Determine which sort-option the user has specified, pick out the
+        // TingSearchSort instance specified by the provider and add it to the
+        // query.
+        if (!empty($available_sort_options[$conditions['sort']]['sort'])) {
+          $query = $query->withSorts($available_sort_options[$conditions['sort']]['sort']);
+        }
       }
 
-      module_load_include('client.inc', 'ting');
-      $search_result = ting_do_search($query, $page + 1, $results_per_page, $options);
-      if (isset($search_result->collections)) {
-        $search_result->search_key = $keys;
+      $query = $query->withPage($page + 1)->withCount($results_per_page);
+      $search_result = $query->execute();
 
+      if ($search_result->getNumTotalCollections() > 0) {
         // So we got the total amount of results, but the joker here is that
         // we have no clue how many collections we got.
         // Rounded up, this will display 'one more page' if $search-result->more
         // is true.
-        $total_results = ($page + 1) * $results_per_page + ($search_result->more ? 1 : 0);
+        $total_results = ($page + 1) * $results_per_page + ($search_result->hasMoreResults() ? 1 : 0);
 
         pager_default_initialize($total_results, $results_per_page);
 
-        foreach ($search_result->collections as &$collection) {
+        foreach ($search_result->getTingEntityCollections() as $collection) {
           $build = ting_collection_view($collection, 'teaser');
           $uri = entity_uri('ting_collection', $collection);
           $results[] = array(
@@ -492,20 +444,21 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         }
       }
     }
-    catch (TingClientException $e) {
+    catch (\Exception $e) {
       watchdog_exception('ting_search', $e);
       $results = array();
     }
 
     // Save search result for usage by facet modules etc.
-    $ting_search_results = &drupal_static('ting_search_results');
-    $ting_search_results = $search_result;
+    ting_search_current_results($search_result);
 
     // Add support for facet api.
     if (module_exists('ding_facets')) {
-      // @todo ITK Aarhus finish implementation of facet api to use a standard
+      // TODO: ITK Aarhus finish implementation of facet api to use a standard
       // facet module, that allows usage of modules from D.O. to improved facet
       // usage.
+      // TODO: If general facet-api support is included in core it has to be
+      // integrated with search abstraction layer as well.
       $adapter = facetapi_adapter_load('ding_facets');
       if ($adapter) {
         $adapter->addActiveFilters($query);
@@ -514,6 +467,23 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   }
 
   return $results;
+}
+
+/**
+ * Retrive the result for a ting_search query performed in this request.
+ *
+ * @param \Ting\Search\TingSearchResultInterface $new_search_result
+ *   New search result to make globally accessible.
+ *
+ * @return \Ting\Search\TingSearchResultInterface|NULL
+ *   The result or NULL if it is not available.
+ */
+function ting_search_current_results(TingSearchResultInterface $new_search_result = NULL) {
+  $global_search_result = &drupal_static('ting_search_results');
+  if (NULL !== $new_search_result) {
+    $global_search_result = $new_search_result;
+  }
+  return $global_search_result;
 }
 
 /**
@@ -785,8 +755,8 @@ function ting_search_block_view($delta = '') {
       $block['subject'] = t('Ting search sort controls');
 
       // Only display form if there are any search results.
-      $search_result = drupal_static('ting_search_results');
-      if (isset($search_result->numTotalObjects) && $search_result->numTotalObjects > 0) {
+      $search_result = ting_search_current_results();
+      if ($search_result && $search_result->getNumTotalObjects() > 0) {
         $block['content'] = drupal_get_form('ting_search_sort_form');
       }
       break;
@@ -810,10 +780,21 @@ function search_extend_content() {
 function ting_search_sort_form($form_state) {
   $form = array();
 
+  // Try to determine current sort.
+  if (NULL !== ting_search_current_results() && !empty(ting_search_current_results()->getSearchRequest()->getSorts())) {
+    // We have a search-result and the query contains a sort, use it.
+    // We can only select a single sort, so use the first.
+    $current_sort = ting_search_sort_key_from_sort(ting_search_current_results()->getSearchRequest()->getSorts()[0]);
+  }
+  else {
+    // Fall back to the configured default sort.
+    $current_sort = variable_get('ting_search_default_sort', '');
+  }
+
   $form['sort'] = array(
     '#type' => 'select',
-    '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : variable_get('ting_search_default_sort', ''),
-    '#options' => ting_search_sort_options(),
+    '#default_value' => $current_sort,
+    '#options' => ting_search_sort_form_options(),
   );
   $form['submit'] = array(
     '#type' => 'submit',
@@ -826,48 +807,66 @@ function ting_search_sort_form($form_state) {
 }
 
 /**
+ * Determines the key for an instance of TingSearchSort.
+ *
+ * The key is determined by examining sorts provided by default and by the
+ * current search-provider.
+ *
+ * Use this function for eg. determining which value of a sort <option> element
+ * corrosponds to a given TingSearchSort instance.
+ *
+ * @param \Ting\Search\TingSearchSort $sort
+ *   An instance of a sort.
+ *
+ * @return string|NULL
+ *   The key or NULL if none could be determined.
+ */
+function ting_search_sort_key_from_sort(TingSearchSort $sort) {
+  foreach (ting_search_sort_options() as $key => $info) {
+    if ($info['sort'] == $sort) {
+      return $key;
+    }
+  }
+  return NULL;
+}
+
+/**
+ * Produce a list of sort option suitable for a form options element.
+ *
+ * @return array
+ *   Machine-name -> label list.
+ */
+function ting_search_sort_form_options() {
+  $options_full = ting_search_sort_options();
+  array_walk($options_full, function (&$value, $key) {
+    return $value = $value['label'];
+  });
+
+  // Add label to the front of the options.
+  foreach ($options_full as $key => $option) {
+    $options_full[$key] = t('Sort by: !sort', array('!sort' => $option));
+  }
+
+  return $options_full;
+}
+
+/**
  * Set default sort options.
  *
  * @return array
  *   Returns an array of sort options.
  */
 function ting_search_sort_options() {
-  $options = array(
-    '' => t('Ranking'),
-    'title_ascending' => t('Title (Ascending)'),
-    'title_descending' => t('Title (Descending)'),
-    'creator_ascending' => t('Creator (Ascending)'),
-    'creator_descending' => t('Creator (Descending)'),
-    'date_ascending' => t('Date (Ascending)'),
-    'date_descending' => t('Date (Descending)'),
-  );
+  $options = [
+    '' => [
+      'label' => t('Ranking'),
+      'sort' => NULL,
+    ],
+  ];
 
-  // Add Acquisition Date sort for opensearch v4.3 or higher.
-  $matches = array();
-  $ting_search = variable_get('ting_search_url');
-  preg_match_all('~(\d\.\d\.?\d?)\/?$~', $ting_search, $matches);
-  $version = (float) $matches[1][0];
-  if ($version >= 4.3) {
-    $options['localAcquisitionDate_ascending'] = t('Acquisition Date (ascending)');
-    $options['localAcquisitionDate_descending'] = t('Acquisition Date (descending)');
-  }
-
-  // Do not show sort-options specific for rank_frequency if
-  // custom_ranking is enabled or another rank is selected.
-  $default_sort = variable_get('ting_sort_default', 'rank_frequency');
-  $custom_ranking = variable_get('ting_ranking_custom', FALSE);
-  if ($default_sort == 'rank_frequency' && empty($custom_ranking)) {
-    $more_options = array(
-      'rank_title' => t('Best match on title'),
-      'rank_creator' => t('Best match on creator'),
-      'rank_subject' => t('Best match on subject'),
-    );
-    $options += $more_options;
-  }
-
-  // Add label to the front of the options.
-  foreach ($options as $key => $option) {
-    $options[$key] = t('Sort by: !sort', array('!sort' => $option));
+  // Add provider sorts.
+  if (ding_provider_implements('search', 'sort_options')) {
+    $options += ding_provider_invoke('search', 'sort_options');
   }
 
   return $options;
@@ -897,13 +896,13 @@ function ting_search_sort_form_submit($form, &$form_state) {
  */
 function ting_search_records_per_page_controls_content() {
   // Get search results.
-  $search_result = drupal_static('ting_search_results');
+  $search_result = ting_search_current_results();
 
   // Use static as panels may call this more than once.
   $output = &drupal_static(__FUNCTION__, array());
 
   // Don't show anything if the search result is empty.
-  if (!empty($search_result->collections) && empty($output)) {
+  if (empty($output) && NULL !== $search_result && $search_result->getNumTotalCollections() > 0) {
     // Get the default results per page.
     $def_size = variable_get('ting_search_results_per_page', 10);
 
@@ -949,7 +948,6 @@ function ting_search_records_per_page_controls_content() {
  * Process a block search form submission.
  */
 function ting_search_submit($form, &$form_state) {
-  $controls = array();
   // The search form relies on control of the redirect destination for its
   // functionality, so we override any static destination set in the request,
   // for example by drupal_access_denied() or drupal_not_found()
@@ -960,58 +958,28 @@ function ting_search_submit($form, &$form_state) {
 
   $form_id = $form['form_id']['#value'];
   $keys = $form_state['values'][$form_id];
+  $filters = array();
+  $controls = array();
+
+  // Allow other modules add filters.
+  // Hook refers to fields for historical reasons.
   $fields = array();
+  drupal_alter('ting_search_fields', $fields);
 
-  if (!empty($form_state['values']['material_type'])) {
-    if (!empty($keys)) {
-      $controls['facets'] = array('facet.type:' . $form_state['values']['material_type']);
-    }
-    // If there's no search string, add the facet.type search to the actual
-    // string, or the search would return no results.
-    else {
-      $keys = 'facet.type="' . $form_state['values']['material_type'] . '"';
-      $controls['sort'] = 'date_descending';
-    }
-
-  }
-
-  $extended_fields = array(
-    'creator' => array(
-      'index' => 'term.creator',
-      'parents' => array('creator'),
-    ),
-    'title' => array(
-      'index' => 'term.title',
-      'parents' => array('title'),
-    ),
-    'subject' => array(
-      'index' => 'term.subject',
-      'parents' => array('subject'),
-    ),
-  );
-  // Allow other modules change fields.
-  drupal_alter('ting_search_fields', $extended_fields);
-
-  foreach ($extended_fields as $name => $data) {
+  foreach ($fields as $name => $data) {
     if (isset($data['value'])) {
-      $fields[] = $data['value'];
+      // Fields with a predefined value are considered raw filters. They are
+      // added without an index as a key so we can separate them from normal
+      // filters later on.
+      $filters[] = $data['value'];
     }
     else {
       $value = drupal_array_get_nested_value($form_state['values'], $data['parents']);
       if (!empty($value)) {
-        $fields[] = $data['index'] . '=' . (strpos($value, ' ') ? '"' . $value . '"' : $value);
+        $filters[$data['index']] = $value;
       }
     }
   }
-
-  $q = array();
-  if (!empty($keys)) {
-    $q[] = $keys;
-  }
-  if (!empty($fields)) {
-    $q[] = '(' . implode(' AND ', $fields) . ')';
-  }
-  $q = implode(' AND ', $q);
 
   $s = $form_state['values']['sort'];
   if ($s != "") {
@@ -1033,7 +1001,7 @@ function ting_search_submit($form, &$form_state) {
   // because that results in a confusing error message.  It would say a plain
   // "field is required" because the search keywords field has no title.
   // The error message would also complain about a missing #title field.)
-  if ($q == '') {
+  if (empty($keys) && empty($filters)) {
     form_set_error('keys', t('Please enter some keywords.'));
   }
   $search_info = array();
@@ -1052,9 +1020,9 @@ function ting_search_submit($form, &$form_state) {
   }
   if (!empty($search_info['path']) && in_array($search_info['module'], variable_get('search_active_modules', array()))) {
     $form_state['redirect'] = array(
-      'search/' . $search_info['path'] . '/' . trim($q),
+      'search/' . $search_info['path'] . '/' . trim($keys),
       array(
-        'query' => $controls,
+        'query' => array_merge($controls, array('filters' => $filters)),
       ),
     );
   }
@@ -1064,15 +1032,9 @@ function ting_search_submit($form, &$form_state) {
 }
 
 /**
- * Make sure string is strict cql
- */
-function _ting_search_quote($string) {
-  $cqlDoc = new TingSearchCqlDoctor($string);
-  return $cqlDoc->string_to_cql($string);
-}
-
-/**
  * Implements hook_preprocess_HOOK().
+ *
+ * @todo This should be moved to separate module.
  */
 function ting_search_preprocess_field(&$variables) {
   $field_name = $variables['element']['#field_name'];

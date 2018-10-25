@@ -7,6 +7,10 @@
  * This module provides serendipity content based on taxonomy terms.
  */
 
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
+use Ting\Search\TingSearchSort;
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -66,34 +70,44 @@ function ding_serendipity_taxonomy_term_recommended_objects_serendipity_add($con
  * Fetch recent content from Brønd relating to term in context.
  */
 function ding_serendipity_taxonomy_term_recent_serendipity_add($context) {
-  $term_arr = ding_serendipity_taxonomy_get_term($context);
+  $term_array = ding_serendipity_taxonomy_get_term($context);
 
   // Validate context.
-  if ($term_arr === FALSE || !isset($context['recent'])) {
+  if ($term_array === FALSE || !isset($context['recent'])) {
     return array();
   }
 
-  $facets = array();
-  $term = $term_arr['term'];
-
+  $query = _ding_serendipity_taxonomy_term_query_from_term($term_array);
   // Select content from this year.
   $limit = (is_numeric($context['max'])) ? $context['max'] : 16;
-
-  $term_arr['query'] = ding_list_convert_cql($term_arr['query']);
-
-  // Apply term query.
-  $facets[] = $term_arr['query'];
-
-  $query = implode(' AND ', $facets);
+  $query = $query->withCount($limit);
 
   // Order by date.
-  $result = ding_serendipity_do_search($query,
-    array(
-      'options' => array('sort' => 'acquisitionDate_descending'),
-      'limit' => $limit,
-    )
-  );
-  return $result;
+  $query = $query->withSort(TingSearchCommonFields::ACQUISITION_DATE, TingSearchSort::DIRECTION_DESCENDING);
+  return ding_serendipity_do_search($query);
+}
+
+/**
+ * Start a query based on a term.
+ *
+ * @param array $term_array
+ *   The term-array retrieved from ding_serendipity_taxonomy_get_term().
+ *
+ * @return \Ting\Search\TingSearchRequest
+ *   Prepared search query.
+ */
+function _ding_serendipity_taxonomy_term_query_from_term(array $term_array) {
+  $query = ting_start_query();
+  if ($term_array['has_query']) {
+    // The term has a query attached, use it.
+    $query = $query->withRawQuery(ding_list_convert_cql($term_array['query']));
+  }
+  else {
+    // Just add the term name itself as a full text search.
+    $query = $query->withFullTextQuery($term_array['term']->name);
+  }
+
+  return $query;
 }
 
 /**
@@ -104,19 +118,19 @@ function ding_serendipity_taxonomy_term_recent_serendipity_add($context) {
 function ding_serendipity_taxonomy_term_related_by_term_serendipity_add($context) {
 
   // No term no result.
-  $term_arr = ding_serendipity_taxonomy_get_term($context);
+  $term_array = ding_serendipity_taxonomy_get_term($context);
 
-  if ($term_arr === FALSE || isset($context['recent'])) {
+  if ($term_array === FALSE || isset($context['recent'])) {
     return array();
   }
 
-  $term = $term_arr['term'];
-  $query = $term_arr['query'];
-  $query = ding_list_convert_cql($query);
+  $term = $term_array['term'];
 
   $results = array();
   if ($context['bundle'] == 'ting_object') {
-    $results = ding_serendipity_do_search($query, array('limit' => $context['min']));
+    $query = _ding_serendipity_taxonomy_term_query_from_term($term_array);
+    $query = $query->withCount($context['min']);
+    $results = ding_serendipity_do_search($query);
 
     // Frontpage could be a taxonomy term.
     $description = t('This content has been promoted to you by the library.');

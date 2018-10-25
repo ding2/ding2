@@ -68,65 +68,60 @@ class AlmaClient {
    *    A DOMDocument object with the response.
    */
   public function request($method, $params = array(), $check_status = TRUE) {
-    try {
-      $start_time = explode(' ', microtime());
-      // For use with a non-Drupal-system, we should have a way to swap
-      // the HTTP client out.
-      $request = drupal_http_request(url($this->base_url . $method, array('query' => $params)), array('secure_socket_transport' => $this->ssl_version));
-      $stop_time = explode(' ', microtime());
-      // For use with a non-Drupal-system, we should have a way to swap
-      // logging and logging preferences out.
-      if (variable_get('alma_enable_logging', FALSE)) {
-        $seconds = floatval(($stop_time[1] + $stop_time[0]) - ($start_time[1] + $start_time[0]));
+    $start_time = explode(' ', microtime());
+    // For use with a non-Drupal-system, we should have a way to swap
+    // the HTTP client out.
+    $request = drupal_http_request(url($this->base_url . $method, array('query' => $params)), array('secure_socket_transport' => $this->ssl_version));
+    $stop_time = explode(' ', microtime());
+    // For use with a non-Drupal-system, we should have a way to swap
+    // logging and logging preferences out.
+    if (variable_get('alma_enable_logging', FALSE)) {
+      $seconds = floatval(($stop_time[1] + $stop_time[0]) - ($start_time[1] + $start_time[0]));
 
-        // Filter params to avoid logging sensitive data.
-        // This can be disabled by setting alma_logging_filter_params = 0. There
-        // is no UI for setting this variable
-        // It is intended for settings.php in development environments only.
-        $params = (variable_get('alma_logging_filter_params', 1)) ? self::filter_request_params($params) : $params;
+      // Filter params to avoid logging sensitive data.
+      // This can be disabled by setting alma_logging_filter_params = 0. There
+      // is no UI for setting this variable
+      // It is intended for settings.php in development environments only.
+      $params = (variable_get('alma_logging_filter_params', 1)) ? self::filter_request_params($params) : $params;
 
-        // Log the request.
-        watchdog('alma', 'Sent request: @url (@seconds s)', array('@url' => url($this->base_url . $method, array('query' => $params)), '@seconds' => $seconds), WATCHDOG_DEBUG);
-      }
+      // Log the request.
+      watchdog('alma', 'Sent request: @url (@seconds s)', array('@url' => url($this->base_url . $method, array('query' => $params)), '@seconds' => $seconds), WATCHDOG_DEBUG);
+    }
 
-      if ($request->code == 200) {
-        // Since we currently have no need for the more advanced stuff
-        // SimpleXML provides, we'll just use DOM, since that is a lot
-        // faster in most cases.
-        $doc = new DOMDocument();
-        $doc->loadXML($request->data);
-        if (!$check_status || $doc->getElementsByTagName('status')->item(0)->getAttribute('value') == 'ok') {
-          return $doc;
-        }
-        else {
-          $message = $doc->getElementsByTagName('status')->item(0)->getAttribute('key');
-          switch ($message) {
-            case '':
-            case 'borrCardNotFound':
-              throw new AlmaClientBorrCardNotFound('Invalid borrower credentials');
-
-            case 'reservationNotFound':
-              throw new AlmaClientReservationNotFound('Reservation not found');
-
-            case 'invalidPatron':
-              if ($method == 'patron/selfReg') {
-                throw new AlmaClientUserAlreadyExistsError();
-              }
-              else {
-                throw new AlmaClientInvalidPatronError();
-              }
-
-            default:
-              throw new AlmaClientCommunicationError('Status is not okay: ' . $message);
-          }
-        }
+    if ($request->code == 200) {
+      // Since we currently have no need for the more advanced stuff
+      // SimpleXML provides, we'll just use DOM, since that is a lot
+      // faster in most cases.
+      $doc = new DOMDocument();
+      $doc->loadXML($request->data);
+      if (!$check_status || $doc->getElementsByTagName('status')->item(0)->getAttribute('value') == 'ok') {
+        return $doc;
       }
       else {
-        throw new AlmaClientHTTPError('Request error: ' . $request->code . $request->error);
+        $message = $doc->getElementsByTagName('status')->item(0)->getAttribute('key');
+        switch ($message) {
+          case '':
+          case 'borrCardNotFound':
+            throw new AlmaClientBorrCardNotFound('Invalid borrower credentials');
+
+          case 'reservationNotFound':
+            throw new AlmaClientReservationNotFound('Reservation not found');
+
+          case 'invalidPatron':
+            if ($method == 'patron/selfReg') {
+              throw new AlmaClientUserAlreadyExistsError();
+            }
+            else {
+              throw new AlmaClientInvalidPatronError();
+            }
+
+          default:
+            throw new AlmaClientCommunicationError('Status is not okay: ' . $message);
+        }
       }
-    } catch (AlmaClientHTTPError $e) {
-      watchdog('alma', 'Error request: @url. Message: @msg.', array('@url' => url($this->base_url . $method, array('query' => $params)), '@msg' => $e->getMessage()), WATCHDOG_ERROR);
-      return new DOMDocument();
+    }
+    else {
+      throw new AlmaClientHTTPError('Request error: ' . $request->code . $request->error);
     }
   }
 
@@ -290,10 +285,6 @@ class AlmaClient {
     $doc = $this->request($path, array('borrCard' => $borr_card, 'pinCode' => $pin_code));
 
     $info = $doc->getElementsByTagName($info_node)->item(0);
-
-    if (NULL === $info) {
-      return NULL;
-    }
 
     $data = array(
       'user_id' => $info->getAttribute('patronId'),
@@ -951,7 +942,6 @@ class AlmaClient {
       $data[$record->getAttribute('id')] = array(
         'reservable' => ($record->getAttribute('isReservable') == 'true') ? TRUE : FALSE,
         'available' => ($record->getAttribute('isAvailable') == 'yes') ? TRUE : FALSE,
-        'availability_information' => ($record->getAttribute('availabilityInformation') == 'noHolding') ? FALSE : TRUE,
       );
     }
     return $data;
@@ -1116,62 +1106,6 @@ class AlmaClient {
 
     $doc = $this->request('patron/messageServices/remove', $params);
     return TRUE;
-  }
-
-  /**
-   * Runs search across the service.
-   *
-   * @param string $query
-   *   Query string.
-   * @param string $type
-   *   Search type, usually 'native'.
-   * @param int $start
-   *   The search offset.
-   * @param int $limit
-   *   Result set limit.
-   *
-   * @return Array
-   *   Set of items id's.
-   */
-  public function run_lms_search($query, $type, $start, $limit) {
-    $params = array(
-      'searchText' => $query,
-      'searchType' => $type,
-      'startNo' => $start,
-      'nofRecords' => $limit,
-    );
-
-    $doc = $this->request('catalogue/fulltextsearch', $params);
-
-    return $this->process_lms_search($doc);
-  }
-
-  /**
-   * Process the search response from WS.
-   *
-   * Munge the DOM structure into an array.
-   *
-   * @param DOMElement $elem
-   *   WS response in DOM format.
-   *
-   * @return Array
-   *   Array of result values.
-   */
-  private function process_lms_search($elem) {
-    $response = array(
-      'status' => $elem->getElementsByTagName('status')->item(0)->getAttribute('value'),
-      'numRecords' => $elem->getElementsByTagName('nofRecords')->item(0)->nodeValue,
-      'numrecordsTotal' => $elem->getElementsByTagName('nofRecordsTotal')->item(0)->nodeValue,
-      'start' => $elem->getElementsByTagName('startNo')->item(0)->nodeValue,
-      'limit' => $elem->getElementsByTagName('stopNo')->item(0)->nodeValue,
-      'items' => array(),
-    );
-
-    foreach ($elem->getElementsByTagName('catalogueRecord') as $record) {
-      $response['items'][] = $record->getAttribute('id');
-    }
-
-    return $response;
   }
 
   /**

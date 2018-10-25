@@ -1,0 +1,57 @@
+@startuml
+title Executing a search using the Search Abstraction Layer\n
+actor "Ding" as contrib
+participant "Search request \n(TingSearchRequest)" as search
+participant "Search result \n(TingSearchResultInterface)" as result
+participant "Ding search abstraction\n (ting.module)" as ding
+participant "Search provider strategy\n (TingSearchStrategyInterface)" as strategy
+participant "Search Provider\n (eg. opensearch.module)" as provider
+database "\nSearch system\n(e.g. Opensearch)" as search_system
+
+contrib -> ding: ting_start_query();
+note right
+1. The query object is generated.
+end note
+ding -> ding: Instantiate \nTingSearchRequest \n with a Strategy
+ding -> contrib: TingSearchRequest $request
+contrib -> search: $request->addFieldFilter();
+note right
+2. The client builds the query
+end note
+search -> search: Sets internal property
+contrib -> search: $request->execute();
+note right
+3. Actual execution is started
+end note
+search -> strategy: $strategy->executeSearch($this)
+note right
+4. The strategy decides how to
+execute the search
+end note
+strategy -> provider: eg. ding_provider_invoke(\n'search', 'search', $request)
+note right
+5. The TingSearchRequest instance
+is processed into a query that can be
+executed against the search system
+end note
+provider -> search_system: Executes search against \nexternal search system
+search_system -> provider: Provider specific results
+note right
+6. The search is executed by
+the search system and the
+result is wrapped.
+end note
+provider -> provider: Wrap provider specific results
+provider -> strategy: TingSearchResultInterface $result
+note right
+7. Search result is returned back
+to the client.
+end note
+strategy -> contrib: TingSearchResultInterface $result
+contrib -> result: $result->getTingEntityCollections()
+note right
+8. The client can access the results.
+end note
+result -> result: Accesses internal \nprovider-specific data\nand wraps it in \nTingCollection instances
+result -> contrib: TingCollection[]
+@end]

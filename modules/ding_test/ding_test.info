@@ -1,0 +1,7 @@
+name = Ding test
+description = Libraries and support-functionallity for testing.
+core = 7.x
+package = Ding!
+dependencies[] = xautoload
+dependencies[] = simpletest
+project = ding_test
