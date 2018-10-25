@@ -493,6 +493,7 @@ function ding_campaign_field_default_field_instances() {
     ),
   );
 
+  // @todo This should be moved to separate module.
   // Exported field_instance: 'node-ding_campaign-field_show_on_mobiles'
   $field_instances['node-ding_campaign-field_show_on_mobiles'] = array(
     'bundle' => 'ding_campaign',

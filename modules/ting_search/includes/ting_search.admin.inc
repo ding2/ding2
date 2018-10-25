@@ -126,6 +126,7 @@ function ting_search_admin_settings($form_state) {
     '#default_value' => variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL),
   );
 
+  // @todo This should be moved to separate module.
   // Disable types on ting objects.
   $disable_types = variable_get('ting_search_disable_type', FALSE);
 

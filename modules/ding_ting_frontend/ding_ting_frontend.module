@@ -78,6 +78,8 @@ function ding_ting_frontend_ding_entity_view($entity, $view_mode) {
 
 /**
  * Implements hook_post_features_revert().
+ *
+ * @todo This does not belong in this module.
  */
 function ding_ting_frontend_post_features_revert($component) {
   if (module_exists('easyddb_search_result_reservation')) {

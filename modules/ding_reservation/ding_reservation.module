@@ -194,6 +194,7 @@ function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
       $defaults = ding_provider_invoke('reservation', 'default_options', $user);
       $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
       $profile = ding_user_provider_profile($user);
+      // @todo This should be moved to separate module.
       $user_quick_reservation = $profile->field_quick_reservation[LANGUAGE_NONE][0]['value'];
       $admin_quick_reservation = variable_get('ding_quick_reservation');
       if ($admin_quick_reservation == "0") {
