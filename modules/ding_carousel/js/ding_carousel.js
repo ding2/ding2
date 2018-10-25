@@ -172,15 +172,15 @@
       dataType : 'json',
       success : function (data) {
         // Remove placeholders.
-        item.target.find('.ding-carousel-item.placeholder').remove();
-        item.target.slick('slickAdd', data.content);
+        item.tab.find('.ding-carousel-item.placeholder').remove();
+        item.tab.find('.carousel').slick('slickAdd', data.content);
         item.tab.data('offset', data.offset);
         item.tab.data('updating', false);
 
         // This ensures that ting objects loaded via ajax in the carousel's gets
         // reservations buttons displayed if available. So basically it finds
         // the material ids and coverts them into ding_availability format and
-        // updates the settings, which is this used when behaviors are attached
+        // updates the settings, which is then used when behaviors are attached
         // below. This is a hack, but the alternative was to re-write
         // ding_availability.
         var matches = data.content.match(/reservation-\d+-\w+:\d+/gm);
@@ -201,17 +201,15 @@
 
         // Carry on processing the queue.
         running = false;
-        update();
+        check_for_update(item.tab, item.slick);
       }
     });
   };
 
   /**
-   * Event handler for progressively loading more covers.
+   * Handler for progressively loading more covers.
    */
-  var update_handler = function (e, slick) {
-    var tab = e.data;
-
+  var check_for_update = function (tab, slick) {
     if (!tab.data('updating')) {
       // If its the first batch or we're near the end.
       if (tab.data('offset') === 0 ||
@@ -221,11 +219,18 @@
         // Disable updates while updating.
         tab.data('updating', true);
         // Add to queue.
-        queue.push({'tab': tab, 'slick': slick, 'target': $(e.target)});
+        queue.push({'tab': tab, 'slick': slick});
       }
     }
     // Run queue.
     update();
+  };
+
+  /**
+   * Event handler for progressively loading more covers.
+   */
+  var update_handler = function (e, slick) {
+    check_for_update(e.data, slick);
   };
 
   /**
