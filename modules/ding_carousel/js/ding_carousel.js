@@ -239,9 +239,8 @@
    * odd width, but we expect all slides to be pretty similar.
    */
   var update_slides_to_scroll = function (e, slick) {
-    var slidesToScroll = Math.floor(slick.$slider.width() / slick.$slides.eq(0).outerWidth(true)) - 1;
+    var slidesToScroll = Math.floor(slick.$slider.width() / slick.$slides.eq(0).outerWidth(true));
     slick.options.slidesToScroll = Math.max(slidesToScroll, 1);
-    slick.options.slidesToShow = slick.$slider.width() / slick.$slides.eq(0).outerWidth(true);
   };
 
   /**
