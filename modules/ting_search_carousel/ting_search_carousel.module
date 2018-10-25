@@ -132,9 +132,9 @@ function ting_search_carousel_get_entities(TingSearchCarouselQuery $query, $star
         $cache_data['search_page_size'],
         $ignore_ids);
 
-    foreach ($found_entities as $id => $entities) {
+    foreach ($found_entities as $id => $entity) {
       $ignore_ids[$id] = TRUE;
-      $cache_data['pool'][] = $entities;
+      $cache_data['pool'][] = $entity;
     }
   }
 
