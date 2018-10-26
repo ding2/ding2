@@ -201,7 +201,7 @@ function _ding_facetbrowser_form_year_span_element($search, array $conditions) {
                 'range' => $range,
                 'min' => $min,
                 'max' => $max,
-                'uri' => $base_root . _ding_facetbrowser_parse_request_uri(),
+                'uri' => $GLOBALS['base_root'] . _ding_facetbrowser_parse_request_uri(),
               ),
             ),
           ),
