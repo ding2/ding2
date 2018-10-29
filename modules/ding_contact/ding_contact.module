@@ -71,10 +71,10 @@ function ding_contact_contact_form_stop_redirect($form, &$form_state) {
  * Implements hook_mail_alter().
  */
 function ding_contact_mail_alter(&$message) {
-  if('contact_page_mail' === $message['id']){
+  if('contact_page_mail' == $message['id']){
     $subject = $message['subject'];
     $default_from = variable_get('site_mail', ini_get('sendmail_from'));
-    $from_value =  t('"!subject via !site_name" <!site_mail>', array(
+    $from_value = t('"!subject via !site_name" <!site_mail>', array(
       '!subject' => $subject,
       '!site_name' => variable_get('site_name', 'Drupal'),
       '!site_mail' => $default_from,
