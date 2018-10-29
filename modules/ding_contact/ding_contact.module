@@ -47,6 +47,8 @@ function ding_contact_flooded_form($form, $form_state, $message) {
  * Why ? - to make sure no cached page is delivereed
  */
 function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
+  $message['from'] = variable_get('site_mail');
+  $message['headers']['Sender'] = variable_get('site_name');
   $form['actions']['submit']['#attached'] = array(
     'drupal_add_http_header' => array(
       array('Cache-Control', 'no-cache, no-store, must-revalidate')
@@ -63,4 +65,22 @@ function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
  */
 function ding_contact_contact_form_stop_redirect($form, &$form_state) {
   unset($form_state['redirect']);
+}
+
+/**
+ * Implements hook_mail_alter().
+ */
+function ding_contact_mail_alter(&$message) {
+  if('contact_page_mail' === $message['id']){
+    $subject = $message['subject'];
+    $default_from = variable_get('site_mail', ini_get('sendmail_from'));
+    $from_value =  t('"!subject via !site_name" <!site_mail>', array(
+      '!subject' => $subject,
+      '!site_name' => variable_get('site_name', 'Drupal'),
+      '!site_mail' => $default_from,
+    ));
+    $message['from'] = $from_value;
+    $message['headers']['From'] = $from_value;
+    $message['headers']['Reply-To'] = $message['params']['mail'];
+  }
 }
