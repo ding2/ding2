@@ -48,7 +48,7 @@ function ding_contact_flooded_form($form, $form_state, $message) {
  */
 function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
   $message['from'] = variable_get('site_mail');
-  $message['headers']['Sender'] = variable_get('site_name');
+  $message['headers']['Sender'] = variable_get('site_name', 'DDB CMS');
   $form['actions']['submit']['#attached'] = array(
     'drupal_add_http_header' => array(
       array('Cache-Control', 'no-cache, no-store, must-revalidate')
@@ -76,7 +76,7 @@ function ding_contact_mail_alter(&$message) {
     $default_from = variable_get('site_mail', ini_get('sendmail_from'));
     $from_value = t('"!subject via !site_name" <!site_mail>', array(
       '!subject' => $subject,
-      '!site_name' => variable_get('site_name', 'Drupal'),
+      '!site_name' => variable_get('site_name', 'DDB CMS'),
       '!site_mail' => $default_from,
     ));
     $message['from'] = $from_value;
