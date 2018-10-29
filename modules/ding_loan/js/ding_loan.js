@@ -76,7 +76,7 @@
       $.merge(checkboxes, $('input[type=checkbox]', item)).not(':disabled');
 
       // Find all checked checkboxes found above and count theme.
-      var checked = checkboxes.find(':checked').size();
+      var checked = checkboxes.find(':checked').length;
 
       // Change the select all based on the count found above.
       item.prevAll('.select-all').find('input[type=checkbox]:not(:disabled)').prop('checked', checked === checkboxes.length);

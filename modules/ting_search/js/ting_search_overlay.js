@@ -10,7 +10,7 @@
   var keyCodes = [224, 17, 91, 93];
 
   // Do not show overlay if ctrl key is pressed.
-  $('body').live('keydown keyup', function(e) {
+  $('body').on('keydown keyup', function(e) {
 
     var keyPressState = e.type === 'keydown' ? true : false;
     if($.inArray(e.which, keyCodes) !== -1) {
@@ -43,7 +43,7 @@
 
   // Hook into the overlays "Cancel" link and stop page loading if clicked.
   $(document).ready(function() {
-    $('.search-overlay--wrapper .cancel').live('click', function() {
+    $('.search-overlay--wrapper .cancel').on('click', function() {
       window.stop();
       Drupal.TingSearchOverlay(true);
     });
