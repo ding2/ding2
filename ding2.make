@@ -415,7 +415,7 @@ projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.17"
+projects[views][version] = "3.20"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
@@ -553,7 +553,7 @@ libraries[js.cookie][directory_name] = "js.cookie"
 libraries[js.cookie][destination] = "libraries"
 
 libraries[slick][download][type] = "get"
-libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.8.0.tar.gz
+libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/v1.8.1.tar.gz
 libraries[slick][directory_name] = "slick"
 libraries[slick][destination] = "libraries"
 ; Fix variableWitdh and white space/empty slides at the end.

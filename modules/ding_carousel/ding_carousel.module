@@ -79,7 +79,7 @@ function ding_carousel_libraries_info() {
     'name' => 'Slick.js carousel library',
     'path' => 'slick',
     'vendor url' => 'https://github.com/kenwheeler/slick',
-    'download url' => 'https://github.com/kenwheeler/slick/archive/1.8.0.zip',
+    'download url' => 'https://github.com/kenwheeler/slick/archive/1.8.1.zip',
     'version arguments' => array(
       'file' => 'slick/slick.js',
       'pattern' => '/Version:\s+([0-9a-zA-Z\.-]+)/',
