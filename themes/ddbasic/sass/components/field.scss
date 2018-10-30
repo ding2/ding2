@@ -64,18 +64,16 @@
   }
 }
 
-.field-name-ting-details-subjects,
-.field-name-ting-details-contributor,
-.field-name-ting-details-tracks,
-.field-name-ting-details-genre {
-  .ting-material-detail {
+.ting-material-detail {
+  display: inline-block;
+  margin-right: 5px;
+
+  &::after {
+    content: ', ';
+  }
+  &:last-child {
     &::after {
-      content: ', ';
-    }
-    &:last-child {
-      &::after {
-        content: '';
-      }
+      content: '';
     }
   }
 }
