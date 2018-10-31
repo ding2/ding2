@@ -148,8 +148,8 @@ b {
 ul,
 ol {
   margin: 0 0 $distance-paragraph;
-  padding: 0;
-  list-style-position: inside;
+  padding-inline-start: 20px;
+  list-style-position: outside;
 }
 
 // Label
