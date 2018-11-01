@@ -122,7 +122,7 @@
     /**
      * Bind click function to show more and show less links.
      */
-    facet_browser.find('.expand').on('click', function(e) {
+    facet_browser.on('click', '.expand', function(e) {
       e.preventDefault();
 
       var clickedKey = $(this);
@@ -179,7 +179,7 @@
         element.find('input').click();
 
         // Find the facets to be deselected and generate new URL.
-        var facetMatch = element.find('a').attr('href').match(/&facets\[\]=-facet.*/);
+        var facetMatch = element.find('a').attr('href').match(/&facets%5B%5D=-facet.*/);
         checkedFacets += facetMatch[0];
         if (checkedFacets) {
           Drupal.TingSearchOverlay();

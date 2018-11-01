@@ -70,6 +70,8 @@ function ddbasic_preprocess_html(&$vars) {
   libraries_load('jquery.imagesloaded');
   libraries_load('html5shiv');
   libraries_load('masonry');
+  // We need to load the non-minified version as with patch the library.
+  libraries_load('slick', 'non-minified');
 }
 
 /**
@@ -809,7 +811,7 @@ function ddbasic_process_ting_object(&$vars) {
               'default'
             );
           }
-          
+
           //Truncate abstract
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 

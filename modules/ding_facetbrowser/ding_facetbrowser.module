@@ -99,12 +99,12 @@ function ding_facetbrowser_libraries_info() {
       'vendor url' => 'https://github.com/js-cookie/js-cookie',
       'download url' => 'https://github.com/js-cookie/js-cookie/releases',
       'version arguments' => array(
-        'file' => 'js.cookie-2.1.4.min.js',
+        'file' => 'js.cookie-2.2.0.min.js',
         'pattern' => '/js-cookie v(\d+\.+\d+\.\d+)/',
       ),
       'files' => array(
         'js' => array(
-          'js.cookie-2.1.4.min.js',
+          'js.cookie-2.2.0.min.js',
         ),
       ),
     ),

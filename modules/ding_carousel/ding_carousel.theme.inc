@@ -9,9 +9,6 @@
  * Preprocess variables for ding_carousel.tpl.php.
  */
 function template_preprocess_ding_carousel(&$vars) {
-  // We need to load the non-minified version as with patch the library.
-  libraries_load('slick', 'non-minified');
-
   $carousel = $vars['carousel'];
 
   $vars['items'] = array();
