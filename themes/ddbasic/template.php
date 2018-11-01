@@ -56,7 +56,7 @@ function ddbasic_preprocess_html(&$vars) {
     $vars['classes_array'][] = 'has-dynamic-background';
   }
 
-  // Detect if current page is a panel page and set class accordingly
+  // Detect if current page is a panel page and set class accordingly.
   $panel_page = page_manager_get_current_page();
 
   if (!empty($panel_page)) {
@@ -292,7 +292,7 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
     $vars['type_class'] = drupal_html_class($first_node->type);
   }
 
-  // Set no-masonry to true for frontpage event view
+  // Set no-masonry to true for frontpage event view.
   if ($vars['view']->name == 'ding_event' && $vars['view']->current_display == 'ding_event_list_frontpage') {
     $vars['no_masonry'] = TRUE;
   }
@@ -368,7 +368,7 @@ function ddbasic_link($variables) {
 function ddbasic_preprocess_user_profile(&$variables) {
   $variables['user_profile']['summary']['member_for']['#access'] = FALSE;
 
-  // Load profile and view as search_result if user view-mode is search_result
+  // Load profile and view as search_result if user view-mode is search_result.
   if ($variables['elements']['#view_mode'] == 'search_result') {
     $user_id = $variables['elements']['#account']->uid;
     $user_profiles = profile2_load_by_user($user_id);
@@ -547,6 +547,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
     case 'node':
       // Special placeholder for mobile user menu. Fall through to next case.
       $element['#localized_options']['attributes']['class'][] = 'default-override';
+      break;
 
     case 'user':
       $title_prefix = '<i class="icon-user"></i>';
@@ -812,7 +813,7 @@ function ddbasic_process_ting_object(&$vars) {
             );
           }
 
-          //Truncate abstract
+          // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 
           // Check if teaser has rating function and remove abstract.
@@ -857,10 +858,10 @@ function ddbasic_process_ting_object(&$vars) {
             ), 0, 1);
           }
 
-          //Truncate default title
+          // Truncate default title.
           $vars['static_title'] = '<div class="field-name-ting-title"><h2>' . add_ellipsis($vars['elements']['group_text']['group_inner']['ting_title'][0]['#markup'], 40) . '</h2></div>';
 
-          //Truncate abstract
+          // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 
           // Check if teaser has rating function and remove abstract.
@@ -1321,10 +1322,10 @@ function ddbasic_select($variables) {
 
   if (isset($variables['element']['#attributes']['multiple']) && $variables['element']['#attributes']['multiple'] == 'multiple') {
     return '<div class="select-wrapper select-wrapper-multiple"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
-  } else {
+  }
+  else {
     return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
   }
-
 }
 
 /**

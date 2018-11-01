@@ -10,7 +10,7 @@
   var keyCodes = [224, 17, 91, 93];
 
   Drupal.behaviors.ting_search_overlay = {
-    attach: function (context, settings) {
+    attach: function () {
       // console.log($('body').hasClass("page-admin"));
       if (!$('body').hasClass("page-admin")) {
         // Do not show overlay if ctrl key is pressed.
