@@ -37,6 +37,7 @@ function ddbasic_preprocess_html(&$vars) {
       $path = menu_get_item()['path'];
       switch ($path) {
         case 'search/ting/%';
+        case 'search/ting';
         case 'ding_frontpage':
           $vars['classes_array'][] = 'extended-search-is-open';
       }
@@ -809,7 +810,7 @@ function ddbasic_process_ting_object(&$vars) {
               'default'
             );
           }
-          
+
           //Truncate abstract
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 
