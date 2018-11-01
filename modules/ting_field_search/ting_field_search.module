@@ -162,7 +162,9 @@ function ting_field_search_opensearch_pre_execute($request) {
 
   // Following modification should only be made on search requests.
   if ($class == 'TingClientSearchRequest') {
-    if (empty($request->getQuery()) && $config['search_request']['allow_empty']) {
+    // Users should always be allowed to search without entering keywords when
+    // using a profile.
+    if (empty($request->getQuery())) {
       $request->setQuery('*');
     }
 
@@ -654,25 +656,22 @@ function ting_field_search_search_block_submit($form, &$form_state) {
   // Add profile machine name query to redirect URL.
   $form_state['redirect'][1]['query']['profile'] = $selected_profile;
 
-  // Ting search will flag an error in this case and we need to clear it if the
-  // profile has allow_empty activated.
+  // We need to allow users to search without keywords when using a profile, but
+  // Ting search will flag a form error in this case and we need to clear it to
+  // avoid confusion.
   if (!$form_state['values']['search_block_form']) {
-    $profile = ting_field_search_profiles_load($selected_profile);
-
-    if ($profile && $profile->config['search_request']['allow_empty']) {
-      // This is a bit hacky, but apparently the only way we can clear an error
-      // for a single form element. Using form_clear_error will just remove all
-      // errors.
-      // See: https://api.drupal.org/comment/49163#comment-49163
-      $errors = &drupal_static('form_set_error', array());
-      $messages = &$_SESSION['messages']['error'];
-      $messages = array_diff($messages, array($errors['keys']));
-      unset($errors['keys']);
-      // If there's no messages left remove it completely to avoid empty space
-      // area where messages should have been.
-      if (empty($messages)) {
-        unset($_SESSION['messages']['error']);
-      }
+    // This is a bit hacky, but apparently the only way we can clear an error
+    // for a single form element. Using form_clear_error will just remove all
+    // errors.
+    // See: https://api.drupal.org/comment/49163#comment-49163
+    $errors = &drupal_static('form_set_error', array());
+    $messages = &$_SESSION['messages']['error'];
+    $messages = array_diff($messages, array($errors['keys']));
+    unset($errors['keys']);
+    // If there's no messages left remove it completely to avoid empty space
+    // area where messages should have been.
+    if (empty($messages)) {
+      unset($_SESSION['messages']['error']);
     }
   }
 }
@@ -1070,7 +1069,6 @@ function ting_field_search_config_default() {
       'well_profile' => '',
       'query' => '',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'search_result' => array(
       'results_per_page' => 10,
