@@ -162,8 +162,7 @@ function ting_field_search_opensearch_pre_execute($request) {
 
   // Following modification should only be made on search requests.
   if ($class == 'TingClientSearchRequest') {
-    // Allow empty: ting_search adds '()' for empty queries.
-    if ($request->getQuery() == '()' && $config['search_request']['allow_empty']) {
+    if (empty($request->getQuery()) && $config['search_request']['allow_empty']) {
       $request->setQuery('*');
     }
 
