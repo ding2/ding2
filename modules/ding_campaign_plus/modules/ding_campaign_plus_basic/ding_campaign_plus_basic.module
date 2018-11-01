@@ -284,12 +284,10 @@ function ding_campaign_plus_basic_admin_form(&$form_state) {
 
   // Check if remove button has been pressed. If so remove element from
   // form_state values.
-  if (isset($form_state['triggering_element'])) {
-    if ($form_state['triggering_element']['#op'] === 'remove' && substr($form_state['triggering_element']['#name'], 0, 18) === 'remove_basic_rule_') {
-      $rule = 'rule_' . $form_state['triggering_element']['#rule'];
-      unset($values[$rule]);
-      unset($form_state['values']['tabs'][DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules'][$rule]);
-    }
+  if (isset($form_state['clicked_button']) && substr($form_state['clicked_button']['#name'], 0, 18) === 'remove_basic_rule_') {
+    $rule = 'rule_' . $form_state['clicked_button']['#rule'];
+    unset($values[$rule]);
+    unset($form_state['values']['tabs'][DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules'][$rule]);
   }
 
   $triggers = array(
@@ -310,15 +308,15 @@ function ding_campaign_plus_basic_admin_form(&$form_state) {
     }
   }
 
-  // If not a remove operation add one more element. The or element here is need because other ajax events may happen in
-  // the node edit form.
-  if (!isset($form_state['triggering_element']) || substr($form_state['triggering_element']['#name'], 0, 18) !== 'remove_basic_rule_') {
+  // Check if it was this sub-form that need another element added if not
+  // exit to prevent extra elements being generated.
+  if (isset($form_state['clicked_button']) && $form_state['clicked_button']['#name'] === 'add_another_rule') {
     $triggers['rule_' . $count] = _ding_campaign_plus_basic_rule_form($count);
-  }
-  elseif ($form_state['triggering_element']['#name'] === 'add_another_rule') {
-    // Check if it was this sub-form that need another element added if not
-    // exit to prevent extra elements being generated.
     $count++;
+  }
+
+  // Check if any rules exists (one should always be there).
+  if (!isset($triggers['rule_0'])) {
     $triggers['rule_' . $count] = _ding_campaign_plus_basic_rule_form($count);
   }
 
@@ -397,7 +395,6 @@ function _ding_campaign_plus_basic_rule_form($number = 0, array $default_values 
     '#type' => 'button',
     '#value' => t('Remove'),
     '#name' => 'remove_basic_rule_' . $number,
-    '#op' => 'remove',
     '#rule' => $number,
     '#ajax' => array(
       'callback' => '_ding_campaign_plus_basic_rule_ajax_callback',
