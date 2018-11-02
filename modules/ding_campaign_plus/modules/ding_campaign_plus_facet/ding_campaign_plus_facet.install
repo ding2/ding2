@@ -1,0 +1,64 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_campaign_plus_facet_schema() {
+  $schema = array();
+
+  $schema['ding_campaign_plus_facet'] = array(
+    'description' => 'Campaign plus facet rules',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'facet' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'value' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+      'common' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'operator' => array(
+        'type' => 'varchar',
+        'length' => 4,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_campaign_plus_facet_uninstall() {
+  drupal_uninstall_schema('ding_campaign_plus_facet');
+
+  variable_del('ding_campaign_plus_facets');
+}
