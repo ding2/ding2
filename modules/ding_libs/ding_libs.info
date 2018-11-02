@@ -1,0 +1,4 @@
+name = Ding Libs
+description = Common module for external shared libraries.
+core = 7.x
+dependencies[] = libraries
