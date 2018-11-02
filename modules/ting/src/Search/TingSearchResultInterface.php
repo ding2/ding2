@@ -66,7 +66,7 @@ interface TingSearchResultInterface {
    * The list is keyed by facet name.
    *
    * @return \Ting\Search\TingSearchFacet[]
-   *   List of facets, empty if none where found.
+   *   List of facets, empty if none were found.
    */
   public function getFacets();
 
