@@ -630,3 +630,29 @@ function theme_ding_list_shared_permissions_table($variables) {
     'rows' => $rows,
   ));
 }
+
+/**
+ * Ask user to reset their lists.
+ */
+function ding_list_reset_user_form($form, &$form_state, $account) {
+  $form['#attributes']['class'] = array('ding-list-reset-user-form');
+
+  return confirm_form(
+    $form,
+    t('Reset my lists'),
+    'user/' . $account->uid . '/my-library',
+    t('This will remove all your custom lists, and clear all lists of content.')
+  );
+}
+
+/**
+ * Submit handler for ding_list_reset_user_form.
+ */
+function ding_list_reset_user_form_submit($form, &$form_state) {
+  $account = $form_state['build_info']['args'][0];
+
+  ding_provider_invoke('openlist', 'reset_user', $account);
+  ding_list_setup_autocreated($account);
+
+  $form_state['redirect'] = 'user/' . $account->uid . '/my-library';
+}

@@ -723,3 +723,23 @@ function ding_list_ding_provider_user() {
     ),
   );
 }
+
+/**
+ * Implements hook_user_delete().
+ */
+function ding_list_user_delete($account) {
+  ding_provider_invoke('openlist', 'reset_user', $account);
+}
+
+/**
+ * Check if a user has access to reset lists on account.
+ */
+function ding_list_reset_lists_access($target_account, $account = NULL) {
+  if ($account === NULL) {
+    global $user;
+    $account = user_load($user->uid);
+  }
+
+  return user_access('ding_list administer lists', $account)
+    || ($account->uid == $target_account->uid);
+}
