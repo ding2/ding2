@@ -204,6 +204,14 @@ function ding_list_edit_list_form($form, &$form_state, $list = FALSE) {
     '#default_value' => $list !== FALSE ? $list->getNote() : '',
   );
 
+  if (user_access('ding_list administer lists')) {
+    $form['not_public'] = array(
+      '#type' => 'checkbox',
+      '#title' => t("Hide this list from public lists"),
+      '#default_value' => $list !== FALSE ? $list->getData('not_public', 0) : 0,
+    );
+  }
+
   $form['actions'] = array(
     '#type' => 'actions',
   );
@@ -259,6 +267,10 @@ function ding_list_edit_list_form_submit($form, &$form_state) {
       'type' => DING_LIST_TYPE_USER_LIST,
       'owner' => ding_provider_invoke('openlist', 'user_identifier', $account),
     ));
+  }
+
+  if (isset($form_state['values']['not_public'])) {
+    $list->setData('not_public', $form_state['values']['not_public']);
   }
 
   $list
