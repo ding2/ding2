@@ -237,10 +237,10 @@
         @include transition(width $speed $ease);
         @include font('display-small');
         width: 100%;
-        color: $color-text-link-on-dark;
-        //margin-bottom: 15px;
+        color: $charcoal-opacity-dark;
+
         a:hover {
-          color: $color-text-link-on-dark;
+          color: $charcoal-opacity-dark;
         }
       }
     }
