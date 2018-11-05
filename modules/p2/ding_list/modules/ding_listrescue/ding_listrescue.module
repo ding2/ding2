@@ -100,21 +100,16 @@ function ding_listrescue_form($form, &$form_state) {
  */
 function ding_listrescue_form_submit($form, &$form_state) {
   global $user;
+  $account = $user;
 
   $form_state['rebuild'] = TRUE;
 
-  // Load the user object.
-  $account = user_load($user->uid);
-  ding_listrescue_log("OID:" . substr($account->openlist_uid, 0, 15));
-
   // Fetch all old lists from local entity storage.
   foreach (ding_listrescue_get_local_lists() as $local) {
-    ding_listrescue_log("Check list:" . $local->type);
     $remote = ding_listrescue_get_remote_list($account, $local);
 
     // Fetch all elements from that list.
     foreach (ding_listrescue_get_local_elements($local) as $local_element) {
-      ding_listrescue_log("Check element:" . $local_element->value);
   
       // Add elements which doesn't already exist in the list.
       if (!$remote->hasElement($local_element->value)) {
@@ -128,25 +123,11 @@ function ding_listrescue_form_submit($form, &$form_state) {
         }
 
         $remote_element->save();
-        ding_listrescue_log("Add: " . $local_element->value .  " to:" . $local->type);
       } 
-      else {
-        ding_listrescue_log("Exists: " . $local_element->value);        
-      }
     }
   }
-  ding_listrescue_log("Done");
 
   drupal_set_message(t("Your lists have been imported"));
-}
-
-/**
- * Logging of actions
- */
-function ding_listrescue_log($msg) {
-  if (!empty($_GET['debug'])) {
-    drupal_set_message($msg);
-  }
 }
 
 /**
@@ -208,7 +189,7 @@ function ding_listrescue_get_local_lists($account = NULL, array $types = NULL) {
   // Load account.
   if (empty($account)) {
     global $user;
-    $account = user_load($user->uid);    
+    $account = $user;    
   }
   
   // Limit list types.
