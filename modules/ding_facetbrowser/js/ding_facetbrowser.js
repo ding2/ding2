@@ -119,7 +119,7 @@
             }
 
             // Remove previous date filters from the URL.
-            url = url.replace(/facets\[\]=facet\.date[^&]+&?/g, '');
+            url = url.replace(/facets\[\d*\]=facet\.date[^&]+&?/g, '');
 
             // Add new date filters.
             url += 'facets[]=' + encodeURIComponent('facet.date:' + ui.values[0] + ':>=');
