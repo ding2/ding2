@@ -150,10 +150,14 @@ function _ding_facetbrowser_form_year_span_element($search, array $conditions) {
 
   // Set min and max values.
   $terms = $count_search_result->getFacets()['facet.date']->getTerms();
-  ding_facetbrowser_sort_terms($terms, 'numeric');
-  $min = key($terms);
-  end($terms);
-  $max = key($terms);
+  $min = 9999;
+  $max = 0;
+  foreach ($terms as $year => $term) {
+    if (is_numeric($year)) {
+      $min = min($min, $year);
+      $max = max($max, $year);
+    }
+  }
 
   // Set the range (default value).
   if (empty($range)) {
