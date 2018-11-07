@@ -276,9 +276,14 @@ jobs:
         name: "Publish release on GitHub"
         command: |
           CIRCLE_TAG="$(cd ~/project && git tag -l --points-at HEAD)"
-          PRERELEASE=$([[ $CIRCLE_TAG =~ rc ]] && echo "-prerelease" || echo "")
-          mv ding2-$CIRCLE_SHA1.tar.gz ding2-$CIRCLE_TAG.tar.gz
-          ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${PRERELEASE} ${CIRCLE_TAG} ding2-$CIRCLE_TAG.tar.gz
+          if [ -n "${CIRCLE_TAG}" ]
+          then
+            PRERELEASE=$([[ $CIRCLE_TAG =~ rc ]] && echo "-prerelease" || echo "")
+            mv ding2-$CIRCLE_SHA1.tar.gz ding2-$CIRCLE_TAG.tar.gz
+            ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -n ${CIRCLE_TAG} -delete ${PRERELEASE} ${CIRCLE_TAG} ding2-$CIRCLE_TAG.tar.gz
+          else
+            echo "No release created. No tag detected for commit."
+          fi
 
   docker_db_image:
     docker:
@@ -340,10 +345,9 @@ workflows:
           - unit_tests
           - behat_tests
         filters:
-          tags:
-            only: /^7\.x\-.+/
           branches:
-            ignore: /.*/
+            only:
+              - /^release.*/
     - docker_db_image:
         requires:
           - site_install
@@ -351,5 +355,4 @@ workflows:
           branches:
             only:
               - master
-          tags:
-            only: /^7\.x\-.+/
+              - /^release.*/
