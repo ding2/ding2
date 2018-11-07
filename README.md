@@ -58,6 +58,12 @@ web-services that runs OpenSSL v1.0.x or newer works.
   ~$ wget -qO- http://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
 ```
 
+This [patch](https://www.drupal.org/project/drupal/issues/1079628) fixes menu item types
+shown in the frontend.
+```sh
+  ~$ wget -qO- https://www.drupal.org/files/issues/programatically_added-1079628-29-d7.patch | patch -p1
+```
+
 __Optional, but recommended patches__
 
 Ensures that Ajax errors only are displayed when not in readystate 4. So when
