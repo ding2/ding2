@@ -31,9 +31,6 @@ function ding_ting_frontend_menu() {
  */
 function ding_ting_frontend_entity_info_alter(&$entity_info) {
   if (isset($entity_info['ting_object'])) {
-    if (isset($entity_info['ting_object']['view modes'])) {
-      $entity_info['ting_object']['view modes'] = [];
-    }
     $entity_info['ting_object']['view modes'] += array(
       'collection_primary' => array(
         'label' => t('Primary collection object'),
