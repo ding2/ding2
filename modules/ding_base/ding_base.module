@@ -25,6 +25,13 @@ function ding_base_menu() {
     'file path' => drupal_get_path('module', 'system'),
   );
 
+  $items['ding_base/taxonomy/autocomplete'] = array(
+    'title' => 'Autocomplete taxonomy',
+    'page callback' => 'ding_base_taxonomy_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -749,4 +756,98 @@ function ding_base_validate_email($email) {
 
   $domain = strtoupper(substr($email, strrpos($email, '.') + 1));
   return empty($tld_list) || in_array($domain, $tld_list);
+}
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function ding_base_views_pre_view(&$view, &$display_id, &$args) {
+  if ($view->name == 'admin_views_node' && $display_id == 'system_1') {
+    $filter_options = [
+      'id' => 'ding_base_term_name',
+      'table' => 'taxonomy_term_data',
+      'field' => 'name',
+      'relationship' => 'term_node_tid',
+      'group_type' => 'group',
+      'operator' => "contains",
+      'value' => '',
+      'group' => 1,
+      'exposed' => TRUE,
+      'required' => FALSE,
+      'type' => 'text',
+      'expose' => [
+        'operator_id' => 'name_op',
+        'label' => t('Terms'),
+        'operator' => 'name_op',
+        'identifier' => 'ding_base_term_name',
+      ],
+    ];
+
+    $filters = $view->display_handler->get_option('filters');
+
+    if (empty($filters['ding_base_term_name'])) {
+      // There is no such filter so we have to add it.
+      $view->add_item(
+        $view->current_display,
+        'filter',
+        'taxonomy_term_data',
+        'name',
+        $filter_options
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_base_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'admin_views_node') {
+    $form['ding_base_term_name']['#type'] = 'textfield';
+    $form['ding_base_term_name']['#id'] = 'edit-ding-base-term-name';
+    $form['ding_base_term_name']['#attached']['js'][] = [
+      'data' => drupal_get_path('module', 'ding_base') . '/js/ding_base.prevent_auto_submit.js',
+      'type' => 'file',
+    ];
+
+    // If no vocabulary selected, disable "Terms" filter.
+    if ($form_state['input']['vid'] == 'All') {
+      $form['ding_base_term_name']['#attributes'] = [
+        'disabled' => TRUE,
+      ];
+    }
+    else {
+      $vid = $form_state['input']['vid'];
+      $form['ding_base_term_name']['#autocomplete_path'] = 'ding_base/taxonomy/autocomplete/' . $vid;
+      $form['ding_base_term_name']['#description'] = t('Autocomplete with terms of selected vocabulary');
+      $form['ding_base_term_name']['#attributes'] = [
+        'class' => [
+          'ctools-auto-submit-exclude',
+        ],
+      ];
+    }
+  }
+}
+
+/**
+ * Admin content "Terms" filter autocomplete callback.
+ */
+function ding_base_taxonomy_autocomplete($vid, $tag) {
+  if (!empty($vid)) {
+    $vocabulary = taxonomy_vocabulary_load($vid);
+
+    $tags = db_select('taxonomy_term_data', 't')
+      ->fields('t', ['tid', 'name'])
+      ->condition('vid', $vid)
+      ->condition('t.name', '%' . db_like($tag) . '%', 'LIKE')
+      ->execute()
+      ->fetchAll();
+
+    $items = [];
+    foreach ($tags as $item) {
+      $items[$item->name] = $item->name;
+    }
+
+    drupal_json_output($items);
+  }
 }
