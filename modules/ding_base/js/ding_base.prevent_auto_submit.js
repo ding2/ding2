@@ -4,15 +4,10 @@
  * Processing "Terms" filter field behavior.
  */
 (function ($) {
+  "use strict";
+
   Drupal.behaviors.prevent_auto_submit = {
     attach: function(context) {
-      function triggerSubmit (e) {
-        var $this = $(this);
-        if (!$this.hasClass('ctools-ajaxing')) {
-          $this.find('.ctools-auto-submit-click').click();
-        }
-      }
-
       // Processing autocomplete functionality for "Terms" filter field.
       $("input[name='ding_base_term_name']", context).on('change keyup', function (e) {
         if (e.type === 'change' || (e.type === 'keyup' && e.which === 13)) {
@@ -26,7 +21,11 @@
           if (selected !== '') {
             $("input[name='ding_base_term_name']").val(selected);
           }
-          triggerSubmit.call(form);
+
+          var $this = $(form);
+          if (!$this.hasClass('ctools-ajaxing')) {
+            $this.find('.ctools-auto-submit-click').click();
+          }
         }
       });
 
