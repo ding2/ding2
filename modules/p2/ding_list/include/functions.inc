@@ -436,6 +436,7 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
   if ($permission === DING_LIST_PERMISSION_VIEW
     && $list->allowed(DING_LIST_OPERATION_SHARE)
     && $list->getData('visibility', 'private') === 'public'
+    && $list->getData('not_public', 0) == 0
   ) {
     $access[$access_key] = TRUE;
     return $access[$access_key];

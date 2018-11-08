@@ -34,11 +34,11 @@ function ding_news_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Udfør';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Stigende';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Faldende';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -52,7 +52,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['label'] = 'Empty text';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = 'No news where found.';
+  $handler->display->display_options['empty']['area']['content'] = 'No news were found.';
   $handler->display->display_options['empty']['area']['format'] = 'ding_wysiwyg';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
@@ -205,7 +205,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_class'] = 'news-link';
   $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -215,7 +215,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
@@ -365,7 +365,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_wrapper_type'] = 'span';
   $handler->display->display_options['fields']['view_node']['element_wrapper_class'] = 'news-link';
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node_1']['id'] = 'view_node_1';
   $handler->display->display_options['fields']['view_node_1']['table'] = 'views_entity_node';
@@ -552,7 +552,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_wrapper_type'] = 'span';
   $handler->display->display_options['fields']['view_node']['element_wrapper_class'] = 'news-link';
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node_1']['id'] = 'view_node_1';
   $handler->display->display_options['fields']['view_node_1']['table'] = 'views_entity_node';
@@ -619,7 +619,13 @@ function ding_news_views_default_views() {
   $handler->display->display_options['link_url'] = 'nyheder';
   $handler->display->display_options['defaults']['exposed_form'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
   $handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
+  $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
   $handler->display->display_options['exposed_form']['options']['bef'] = array(
     'general' => array(
       'input_required' => 0,
@@ -678,13 +684,13 @@ function ding_news_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Antal elementer';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« første';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
+  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
+  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
+  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -856,7 +862,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_wrapper_type'] = 'span';
   $handler->display->display_options['fields']['view_node']['element_wrapper_class'] = 'news-link';
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node_1']['id'] = 'view_node_1';
   $handler->display->display_options['fields']['view_node_1']['table'] = 'views_entity_node';
@@ -873,7 +879,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
@@ -1059,13 +1065,13 @@ function ding_news_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Antal elementer';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« første';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
+  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
+  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
+  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -1232,7 +1238,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_wrapper_type'] = 'span';
   $handler->display->display_options['fields']['view_node']['element_wrapper_class'] = 'news-link';
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node_1']['id'] = 'view_node_1';
   $handler->display->display_options['fields']['view_node_1']['table'] = 'views_entity_node';
@@ -1259,7 +1265,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
@@ -1311,13 +1317,13 @@ function ding_news_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '8';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Antal elementer';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« første';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
+  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
+  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
+  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class'] = 'simple-list-item';
@@ -1344,7 +1350,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['uid']['field'] = 'uid';
   $handler->display->display_options['arguments']['uid']['relationship'] = 'uid';
   $handler->display->display_options['arguments']['uid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['uid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['uid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
@@ -1382,11 +1388,11 @@ function ding_news_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '8';
   $handler->display->display_options['pager']['options']['offset'] = '';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Antal elementer';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
+  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -1483,7 +1489,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_wrapper_type'] = 'span';
   $handler->display->display_options['fields']['view_node']['element_wrapper_class'] = 'news-link';
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node_1']['id'] = 'view_node_1';
   $handler->display->display_options['fields']['view_node_1']['table'] = 'views_entity_node';
@@ -1502,7 +1508,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['uid']['field'] = 'uid';
   $handler->display->display_options['arguments']['uid']['relationship'] = 'uid';
   $handler->display->display_options['arguments']['uid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['uid']['exception']['title'] = 'Alle';
+  $handler->display->display_options['arguments']['uid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
@@ -1654,7 +1660,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_wrapper_type'] = 'span';
   $handler->display->display_options['fields']['view_node']['element_wrapper_class'] = 'news-link';
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node_1']['id'] = 'view_node_1';
   $handler->display->display_options['fields']['view_node_1']['table'] = 'views_entity_node';
@@ -1722,13 +1728,13 @@ function ding_news_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Antal elementer';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« første';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
+  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
+  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
+  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -1895,7 +1901,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_wrapper_type'] = 'span';
   $handler->display->display_options['fields']['view_node']['element_wrapper_class'] = 'news-link';
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
+  $handler->display->display_options['fields']['view_node']['text'] = 'Read more';
   /* Field: Content: Link */
   $handler->display->display_options['fields']['view_node_1']['id'] = 'view_node_1';
   $handler->display->display_options['fields']['view_node_1']['table'] = 'views_entity_node';
@@ -2056,7 +2062,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
-  $handler->display->display_options['fields']['edit_node']['label'] = 'Rediger';
+  $handler->display->display_options['fields']['edit_node']['label'] = 'Edit';
   $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
   /* Field: Content: List image */
   $handler->display->display_options['fields']['field_ding_news_list_image']['id'] = 'field_ding_news_list_image';
@@ -2142,17 +2148,10 @@ function ding_news_views_default_views() {
     t('Master'),
     t('Library news'),
     t('See all news'),
-    t('Udfør'),
-    t('Gendan'),
-    t('Sortér efter'),
-    t('Stigende'),
-    t('Faldende'),
     t('Empty text'),
-    t('No news where found.'),
+    t('No news were found.'),
     t('author'),
-    t('<span class="news-label">[field_ding_news_category]</span> <span class="news-date">[created]</span>  |  <span class="news-author">af [name]</span>'),
-    t('Læs mere'),
-    t('Alle'),
+    t('<span class="news-label">[field_ding_news_category]</span> <span class="news-date">[created]</span>  |  <span class="news-author">by [name]</span>'),
     t('News list (frontpage)'),
     t('<i class="icon-chevron-right"></i>'),
     t('News panes'),
@@ -2170,13 +2169,6 @@ function ding_news_views_default_views() {
     t('Desc'),
     t('Select any filter and click on Apply to see results'),
     t('Advanced options'),
-    t('Antal elementer'),
-    t('- Alle -'),
-    t('Forskydning'),
-    t('« første'),
-    t('‹ forrige'),
-    t('næste ›'),
-    t('sidste »'),
     t('term from field_ding_news_category'),
     t('News category'),
     t('Select library'),
@@ -2203,10 +2195,11 @@ function ding_news_views_default_views() {
     t('Offset'),
     t('‹ previous'),
     t('next ›'),
-    t('Rediger'),
     t('Original Image'),
     t('Cropped image'),
     t('News: Libraries list'),
+    t('Read more'),
+    t('Edit'),
   );
   $export['ding_news'] = $view;
 

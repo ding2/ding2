@@ -6,6 +6,7 @@ node_modules
 
 # Compile the css via "gulp sass"
 sass_css
+sass_css_verbose_output
 
 # Compile the styleguide via "gulp kss"
 styleguide

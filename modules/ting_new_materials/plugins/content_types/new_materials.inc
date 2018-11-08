@@ -57,7 +57,7 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
         // for the current result.
         if ($search_result->getNumTotalObjects() > $num_per_page) {
           $from = ($pager_page * $num_per_page) + 1;
-          $to = $from + ($search_result->getNumTotalCollections() - 1);
+          $to = $from + ($search_result->getNumCollections() - 1);
           $total = $search_result->getNumTotalObjects();
           $legend = format_plural($total, 'Show 1 result', 'Show %from-%to of <span class="placeholder">@count</span> results', array(
             '%from' => $from,

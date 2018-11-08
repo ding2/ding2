@@ -6,6 +6,7 @@
  */
 
 use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
+use DingList\DingListElement;
 
 include_once 'ding_list.features.inc';
 
@@ -107,13 +108,6 @@ function ding_list_menu() {
     'delivery callback' => 'ajax_deliver',
   ));
 
-  $items['ding-list/login-create'] = array(
-    'title' => 'Login create',
-    'page callback' => array('ding_list_login_create'),
-    'delivery callback' => 'ajax_deliver',
-    'access callback' => TRUE,
-  );
-
   $items['ding-list/login-attach/%/%'] = array(
     'title' => 'Login create',
     'page callback' => array('ding_list_login_attach'),
@@ -155,29 +149,6 @@ function ding_list_login_attach($type, $value) {
 
   $list = ding_list_get_list($list_type);
   return ding_list_attach_element_callback($type, $list->getId(), $value);
-}
-
-/**
- * Handle list creation for anonymous users.
- */
-function ding_list_login_create() {
-  $commands = array();
-
-  if (!user_is_logged_in()) {
-    $commands[] = ajax_command_ding_user_authenticate('');
-    return array('#type' => 'ajax', '#commands' => $commands);
-  }
-
-  module_load_include('inc', 'ctools', 'includes/ajax');
-  $commands[] = ctools_ajax_command_redirect(
-    'list/create',
-    0,
-    array(
-      'query' => drupal_get_query_parameters(),
-    )
-  );
-
-  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 /**
@@ -492,7 +463,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
  * Implements hook_ding_entity_buttons().
  */
 function ding_list_ding_entity_buttons($type, $entity, $view_mode = 'default', $widget = 'default') {
-  if ($type == 'ding_entity' && user_access('use personalisation')) {
+  if ($type == 'ding_entity') {
     $return = array();
     $return[] = array(
       '#theme' => 'ding_list_add_button',
@@ -655,13 +626,40 @@ function ding_list_convert_cql_replace_callback($matches) {
 function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
   switch ($context['type']) {
     case 'ting_object':
-      $ting_object = ting_object_load($context['value']);
+      if (user_access('use personalisation')) {
+        $ting_object = ting_object_load($context['value']);
 
-      // Add a follow action for authors.
-      $data = array_merge(
-        $data,
-        ding_list_get_add_to_list_ting_object_creators($ting_object)
-      );
+        // Add a follow action for authors.
+        $data = array_merge(
+          $data,
+          ding_list_get_add_to_list_ting_object_creators($ting_object)
+        );
+
+        $data[] = array(
+          'custom' => array(
+            'title' => '<div class="list-title">' . t('New list') . '</div><div class="add-to-list-button button">' . t('Add to new list') . '</div>',
+            'href' => 'list/create',
+            'attributes' => array(
+              'class' => array(),
+            ),
+            'query' => array('at' => $context['type'], 'av' => $context['value']),
+            'html' => TRUE,
+          ),
+        );
+      }
+      elseif (!user_is_logged_in()) {
+        $data[] = array(
+          'custom' => array(
+            'title' => '<div class="list-title">' . t('Add to list') . '</div>',
+            'href' => '#',
+            'attributes' => array(
+              'class' => array('open-login'),
+            ),
+            'external' => TRUE,
+            'html' => TRUE,
+          ),
+        );
+      }
       break;
 
     case 'search_query':
@@ -725,6 +723,26 @@ function ding_list_ding_provider_user() {
       'install time setup' => FALSE,
     ),
   );
+}
+
+/**
+ * Implements hook_user_delete().
+ */
+function ding_list_user_delete($account) {
+  ding_provider_invoke('openlist', 'reset_user', $account);
+}
+
+/**
+ * Check if a user has access to reset lists on account.
+ */
+function ding_list_reset_lists_access($target_account, $account = NULL) {
+  if ($account === NULL) {
+    global $user;
+    $account = user_load($user->uid);
+  }
+
+  return user_access('ding_list administer lists', $account)
+    || ($account->uid == $target_account->uid);
 }
 
 /**

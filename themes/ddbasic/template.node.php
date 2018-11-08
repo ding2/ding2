@@ -182,6 +182,12 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
   $location = field_get_items('node', $variables['node'], 'field_ding_event_location');
   $variables['alt_location_is_set'] = !empty($location[0]['name_line']) || !empty($location[0]['thoroughfare']);
 
+  // Dont display location if neither name_line or thoroughfare is set.
+  // Prevents that country is printes out, without any other values.
+  if (!$variables['alt_location_is_set']) {
+    $variables['content']['field_ding_event_location']['#access'] = FALSE;
+  }
+
   switch ($variables['view_mode']) {
     case 'teaser':
       // Add class if image.
@@ -240,6 +246,19 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         $variables['event_time'] = $event_time_ra[0]['#markup'];
       }
 
+      // Place, Library, Organizer markup alterations.
+      if ($variables['alt_location_is_set'] && !empty($variables['field_ding_event_place'])) {
+        $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['field_ding_event_location'][0]['name_line'];
+        // Hide Location and library from render array.
+        $variables['content']['field_ding_event_location']['#access'] = FALSE;
+        $variables['content']['og_group_ref']['#access'] = FALSE;
+      }
+      elseif (!$variables['alt_location_is_set'] && !empty($variables['field_ding_event_place'])) {
+        $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['content']['og_group_ref'][0]['#markup'];
+        // Hide library from render array.
+        $variables['content']['og_group_ref']['#access'] = FALSE;
+      }
+
       break;
 
     case 'full':
@@ -286,12 +305,48 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           ));
         }
 
-        if (!empty($location)) {
-          $variables['content']['group_left']['og_group_ref']['#access'] = FALSE;
+        // Make organizer label plural if more than one.
+        if (!empty($variables['field_ding_event_organizers']) && count($variables['field_ding_event_organizers']) > 1) {
+          $variables['content']['field_ding_event_organizers']['#title'] = t('Organizers');
+        }
+
+        // If alternate location is set, change the label of library.
+        if ($variables['alt_location_is_set']) {
+          $variables['content']['og_group_ref']['#title'] = t('Organizer');
+
+          // If field_ding_event_organizers is set, merge them into the og_ref field.
+          if (!empty($variables['field_ding_event_organizers'])) {
+            // Hide organizers from render array.
+            $variables['content']['field_ding_event_organizers']['#access'] = FALSE;
+            // Add organizers to library (og_group_ref) markup as string.
+            $organizers_elems = field_get_items('node', $variables['node'], 'field_ding_event_organizers');
+            $organizers_out  = '';
+
+            foreach ($organizers_elems as $value) {
+              $term = taxonomy_term_load($value['tid']);
+              if (!empty($term->field_event_organizer_link)) {
+                $link = field_get_items('taxonomy_term', $term, 'field_event_organizer_link');
+                  $organizers_out .= ', ' . l($term->name, $link[0]['url'], array('attributes' => array('class' => 'ding-event-organizer-link')));
+              }
+              else {
+                $organizers_out .= ', ' . $term->name;
+              }
+            }
+            $variables['content']['og_group_ref']['#title'] = t('Organizers');
+            $variables['content']['og_group_ref'][0]['#markup'] .= $organizers_out;
+          }
         }
       }
       break;
   }
+}
+
+/**
+ * Implements preprocess__node__ding_campaign_plus();
+ */
+function ddbasic_preprocess__node__ding_campaign_plus(&$variables) {
+  $type = ding_base_get_value('node', $variables['node'], 'field_ding_campaign_plus_style', 'value');
+  $variables['campaign_type'] = $type == 'box' ? 'ding-campaign-medium-width' : 'ding-campaign-full-width';
 }
 
 /**
@@ -312,7 +367,8 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
     switch ($type) {
       case 'image_and_text':
         $variables['image'] = '<div class="ding-campaign-image" style="background-image: url(' . $image_url . '"></div>';
-      break;
+        break;
+
       case 'image':
         $variables['image'] = theme('image_style',array(
             'style_name' => "ding_full_width",
@@ -320,7 +376,7 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
             'attributes' => array('class' => 'ding-campaign-image')
           )
         );
-      break;
+        break;
     }
   }
 }
@@ -329,8 +385,9 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
  * Ding Library.
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
-  // Google maps addition to library list.
-  if (isset($variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'])) {
+
+  // Google maps addition to library list on teaser.
+  if ($variables['view_mode'] == 'teaser') {
     $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
 
     $street = $address['thoroughfare'];

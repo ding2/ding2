@@ -214,9 +214,15 @@ body > .ding2-site-template {
     background-color: $charcoal;
   }
   input[type="submit"] {
+    @include transition(color $speed $ease);
     position: relative;
     z-index: 2;
     background-color: transparent;
+    color: $color-text-on-secondary;
+
+    &:hover {
+      color: $white;
+    }
   }
   // Example icon
   &.example-icon {
