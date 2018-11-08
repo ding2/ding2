@@ -830,6 +830,48 @@ function ding_base_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_base_preprocess_views_exposed_form(&$variables) {
+  if (isset($variables['form']) && $variables['form']['#id'] == 'views-exposed-form-admin-views-node-system-1') {
+    $widgets = $variables['widgets'];
+
+    // Get widgets keys for further processing.
+    $widgets_keys = array_keys($widgets);
+
+    // Switch key with value, to have an numeric value.
+    $widgets_keys = array_flip($widgets_keys);
+
+    // Getting Vocabulary filter position.
+    $vid_position = $widgets_keys['filter-vid'];
+    // Set needed position to Taxonomy terms filter field.
+    $widgets_keys['filter-name'] = $vid_position + 1;
+
+    // Modifying positions.
+    foreach ($widgets_keys as $key => $pos) {
+      if ($pos >= $widgets_keys['filter-name'] && $key != 'filter-name') {
+        $widgets_keys[$key] = $pos + 1;
+      }
+    }
+
+    // Flip array to get numeric values as keys.
+    $normalize = array_flip($widgets_keys);
+
+    // Sort array by numeric keys.
+    ksort($normalize, SORT_ASC);
+
+    // Prepare ordered array.
+    $normalized = array_flip($normalize);
+
+    // Order widgets objects by correctly positioned structure.
+    $widgets = array_merge($normalized, $widgets);
+
+    // Return widgets back in variables.
+    $variables['widgets'] = $widgets;
+  }
+}
+
+/**
  * Admin content "Terms" filter autocomplete callback.
  */
 function ding_base_taxonomy_autocomplete($vid, $tag) {
