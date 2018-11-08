@@ -1011,7 +1011,7 @@ function bpi_features_views_default_views_alter(&$views) {
       'table' => 'views_entity_node',
       'field' => 'workflow_node',
       'label' => 'Operations',
-      'text' => 'change BPI state',
+      'text' => 'change the node status in BPI',
     );
 
     $style_options = &$display_options['style_options'];

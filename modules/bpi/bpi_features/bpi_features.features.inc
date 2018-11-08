@@ -18,7 +18,7 @@ function bpi_features_default_Workflow() {
     "states" : {
       "(creation)" : {"weight":"-50","sysid":"1","state":"(creation)","status":"1","name":"(creation)"},
       "local_content" : {"weight":"-19","sysid":"0","state":"Local content","status":"1","name":"local_content"},
-      "pre_bpi" : {"weight":"-18","sysid":"0","state":"Pre-sending to BPI","status":"1","name":"pre_bpi"},
+      "pre_bpi" : {"weight":"-18","sysid":"0","state":"Pre-sending to BPI","status":"0","name":"pre_bpi"},
       "sent_to_bpi" : {"weight":"-17","sysid":"0","state":"Sent to BPI","status":"1","name":"sent_to_bpi"},
       "sent_local" : {"weight":"-16","sysid":"0","state":"Sent, updated locally","status":"1","name":"sent_local"},
       "created_bpi" : {"weight":"-15","sysid":"0","state":"Created from BPI","status":"1","name":"created_bpi"},

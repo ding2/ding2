@@ -216,3 +216,17 @@ function bpi_update_7005() {
   }
   variable_set('views_defaults', $views_defaults);
 }
+
+/**
+ * Disable the 'Pre-sending to BPI' state.
+ */
+function bpi_update_7006() {
+  /** @var Workflow $workflow */
+  $workflow = workflow_load('bpi');
+  /** @var WorkflowState $pre_bpi_state */
+  $pre_bpi_state = $workflow->getState('pre_bpi');
+  /** @var WorkflowState $local_content_state */
+  $local_content_state = $workflow->getState('local_content');
+
+  $pre_bpi_state->deactivate($local_content_state->sid);
+}
