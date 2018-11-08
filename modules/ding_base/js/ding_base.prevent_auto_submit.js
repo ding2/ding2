@@ -14,18 +14,18 @@
   }
 
   Drupal.behaviors.prevent_auto_submit = {
-    attach: function() {
-
+    attach: function(context) {
       // Processing autocomplete functionality for "Terms" filter field.
-      $("input[name='ding_base_term_name']").on('change keyup', function (e) {
+      $("input[name='ding_base_term_name']", context).on('change keyup', function (e) {
         if (e.type === 'change' || (e.type === 'keyup' && e.which === 13)) {
           var form = $(this).closest('form');
           var selected;
-          if ($(form).find('#autocomplete ul li.selected') !== undefined) {
+
+          if ($(form).find('#autocomplete ul li.selected').length !== 0) {
             selected = $(form).find('#autocomplete ul li.selected')[0].textContent;
           }
 
-          if (selected !== undefined) {
+          if (selected !== '') {
             $("input[name='ding_base_term_name']").val(selected);
           }
           triggerSubmit.call(form);

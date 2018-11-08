@@ -759,10 +759,57 @@ function ding_base_validate_email($email) {
 }
 
 /**
+ * Implements hook_views_pre_view().
+ */
+function ding_base_views_pre_view(&$view, &$display_id, &$args) {
+  if ($view->name == 'admin_views_node' && $display_id == 'system_1') {
+    $filter_options = array(
+        'id' => 'ding_base_term_name',
+        'table' => 'taxonomy_term_data',
+        'field' => 'name',
+        'relationship' => 'term_node_tid',
+        'group_type' => 'group',
+        'operator' => "contains",
+        'value' => '',
+        'group' => 1,
+        'exposed' => TRUE,
+        'required' => FALSE,
+        'type' => 'text',
+        'expose' => array(
+          'operator_id' => 'name_op',
+          'label' => t('Terms'),
+          'operator' => 'name_op',
+          'identifier' => 'ding_base_term_name',
+        ),
+    );
+
+    $filters = $view->display_handler->get_option('filters');
+
+    if (empty($filters['ding_base_term_name'])) {
+      // There is no vid filter so we have to add it
+      $view->add_item(
+        $view->current_display,
+        'filter',
+        'taxonomy_term_data',
+        'name',
+        $filter_options
+      );
+    }
+  }
+}
+
+/**
  * Implements hook_form_alter().
  */
 function ding_base_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'admin_views_node') {
+    $form['ding_base_term_name']['#type'] = 'textfield';
+    $form['ding_base_term_name']['#id'] = 'edit-ding-base-term-name';
+    $form['ding_base_term_name']['#attached']['js'][] = array(
+      'data' => drupal_get_path('module', 'ding_base') . '/js/ding_base.prevent_auto_submit.js',
+      'type' => 'file',
+    );
+
     // If no vocabulary selected, disable "Terms" filter.
     if ($form_state['input']['vid'] == 'All') {
       $form['ding_base_term_name']['#attributes'] = [
@@ -777,11 +824,6 @@ function ding_base_form_alter(&$form, &$form_state, $form_id) {
         'class' => array(
           'ctools-auto-submit-exclude',
         ),
-      );
-
-      $form['ding_base_term_name']['#attached']['js'][] = array(
-        'data' => drupal_get_path('module', 'ding_base') . '/js/ding_base.prevent_auto_submit.js',
-        'type' => 'file',
       );
     }
   }
