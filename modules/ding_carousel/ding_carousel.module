@@ -46,12 +46,18 @@ function ding_carousel_element_info() {
       '#markup' => '<span class="icon-spinner"></span>',
     ),
     '#hidden' => FALSE,
+    '#attached' => array(
+      'js' => array($path . '/js/ding_carousel.js'),
+    ),
   );
 
   $types['ding_tabbed_carousel'] = array(
     '#theme' => 'ding_tabbed_carousel',
     '#tabs' => array(),
     '#transition' => 'fade',
+    '#attached' => array(
+      'js' => array($path . '/js/ding_carousel.js'),
+    ),
   );
 
   $types['ding_carousel_item'] = array(

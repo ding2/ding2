@@ -5,4 +5,3 @@ version = "7.x-1.0"
 core = "7.x"
 dependencies[] = ding_libs
 dependencies[] = libraries
-scripts[] = js/ding_carousel.js

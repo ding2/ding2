@@ -11,7 +11,6 @@
 
   Drupal.behaviors.ting_search_overlay = {
     attach: function () {
-      // console.log($('body').hasClass("page-admin"));
       if (!$('body').hasClass("page-admin")) {
         // Do not show overlay if ctrl key is pressed.
         $('body').on('keydown keyup', function (e) {

@@ -171,6 +171,8 @@ projects[languageicons][version] = "1.0"
 
 projects[lazy_pane][subdir] = "contrib"
 projects[lazy_pane][version] = "1.2"
+; Patch from https://www.drupal.org/project/lazy_pane/issues/3012604
+projects[lazy_pane][patch][] = https://www.drupal.org/files/issues/2018-11-09/change-prepended-scripts-attaching-3012604-1.patch
 
 projects[leaflet][subdir] = "contrib"
 projects[leaflet][version] = "1.1"

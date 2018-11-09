@@ -70,8 +70,6 @@ function ddbasic_preprocess_html(&$vars) {
   libraries_load('jquery.imagesloaded');
   libraries_load('html5shiv');
   libraries_load('masonry');
-  // We need to load the non-minified version as with patch the library.
-  libraries_load('slick', 'non-minified');
 }
 
 /**
@@ -547,7 +545,6 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
     case 'node':
       // Special placeholder for mobile user menu. Fall through to next case.
       $element['#localized_options']['attributes']['class'][] = 'default-override';
-      break;
 
     case 'user':
       $title_prefix = '<i class="icon-user"></i>';
