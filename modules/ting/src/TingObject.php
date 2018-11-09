@@ -25,7 +25,7 @@ class TingObject implements TingObjectInterface {
   public $description;
   public $extent;
   public $format;
-  public $genere;
+  public $genre;
   public $id;
   public $isbn;
   public $isLocal;
@@ -165,10 +165,10 @@ class TingObject implements TingObjectInterface {
   }
 
   /**
-   * Set genere.
+   * Set genre.
    */
-  public function setGenere($genere) {
-    $this->genere = $genere;
+  public function setGenre($genre) {
+    $this->genre = $genre;
   }
 
   /**
@@ -389,15 +389,15 @@ class TingObject implements TingObjectInterface {
   }
 
   /**
-   * The genere of the material.
+   * The genre of the material.
    *
    * Eg. "fantasy"
    *
    * @return string
-   *   The genere.
+   *   The genre.
    */
-  public function getGenere() {
-    return $this->genere;
+  public function getGenre() {
+    return $this->genre;
   }
 
   /**

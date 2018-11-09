@@ -1327,35 +1327,3 @@ function ddbasic_select($variables) {
     return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
   }
 }
-
-/**
- * Implements hook_libraries_info().
- */
-function ddbasic_libraries_info() {
-  return array(
-    'html5shiv' => array(
-      'name' => 'HTML5 Shiv',
-      'vendor url' => 'https://github.com/aFarkas/html5shiv',
-      'download url' => 'https://github.com/aFarkas/html5shiv/archive/3.7.3.zip',
-      'version arguments' => array(
-        'file' => 'dist/html5shiv.min.js',
-        'pattern' => '/\*.*HTML5 Shiv ([0-9a-zA-Z\.-]+)/',
-      ),
-      'files' => array(
-        'js' => array('dist/html5shiv.min.js'),
-      ),
-    ),
-    'masonry' => array(
-      'name' => 'Masonry',
-      'vendor url' => 'https://github.com/desandro/masonry',
-      'download url' => 'https://github.com/desandro/masonry/archive/v4.1.1.zip',
-      'version arguments' => array(
-        'file' => 'dist/masonry.pkgd.min.js',
-        'pattern' => '/\*.*Masonry PACKAGED v([0-9a-zA-Z\.-]+)/',
-      ),
-      'files' => array(
-        'js' => array('dist/masonry.pkgd.min.js'),
-      ),
-    ),
-  );
-}

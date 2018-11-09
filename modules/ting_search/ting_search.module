@@ -403,7 +403,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       $query = $query->withPage($page + 1)->withCount($results_per_page);
       $search_result = $query->execute();
 
-      if ($search_result->getNumTotalCollections() > 0) {
+      if ($search_result->getNumCollections() > 0) {
         // So we got the total amount of results, but the joker here is that
         // we have no clue how many collections we got.
         // Rounded up, this will display 'one more page' if $search-result->more
@@ -884,7 +884,7 @@ function ting_search_records_per_page_controls_content() {
   $output = &drupal_static(__FUNCTION__, array());
 
   // Don't show anything if the search result is empty.
-  if (empty($output) && NULL !== $search_result && $search_result->getNumTotalCollections() > 0) {
+  if (empty($output) && NULL !== $search_result && $search_result->getNumCollections() > 0) {
     // Get the default results per page.
     $def_size = variable_get('ting_search_results_per_page', 10);
 

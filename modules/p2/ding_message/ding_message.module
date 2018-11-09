@@ -246,7 +246,7 @@ function ding_message_check_element($uid, DingListElement $element, $message = N
     case 'search_query':
       $query = ding_message_build_query($element->getValue());
       $result = $query->withCount(50)->execute();
-      if ($result->getNumTotalCollections() > 0) {
+      if ($result->getNumCollections() > 0) {
         // Get the first element in the search result set.
         $collections = $result->getTingEntityCollections();
         if ($first_collection = current($collections)) {
@@ -282,7 +282,7 @@ function ding_message_check_element($uid, DingListElement $element, $message = N
             $last_element_id = $first_collection->getId();
             $first_element = end($collections);
             $first_element_id = $first_element->getId();
-            $new_elements_count += $result->getNumTotalCollections();
+            $new_elements_count += $result->getNumCollections();
             $has_updates = TRUE;
           }
         }

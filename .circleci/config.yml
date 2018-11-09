@@ -104,6 +104,7 @@ jobs:
         command: |
           drush site-install ding2 \
           --db-url=mysql://root@127.0.0.1/circle_test -y --debug \
+          --site-name=Ding2 --account-name=admin --account-pass=admin \
           install_configure_form.update_status_module='array(FALSE,FALSE)' \
           ding2_module_selection_form.providers_selection=connie \
           opensearch_admin_settings.opensearch_url=https://opensearch.addi.dk/b3.5_5.0/ \
@@ -279,6 +280,38 @@ jobs:
           mv ding2-$CIRCLE_SHA1.tar.gz ding2-$CIRCLE_TAG.tar.gz
           ghr -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${PRERELEASE} ${CIRCLE_TAG} ding2-$CIRCLE_TAG.tar.gz
 
+  docker_db_image:
+    docker:
+    - image: docker:stable-git
+    working_directory: ~/db
+    steps:
+    - checkout:
+        path: ~/project
+    - attach_workspace:
+        at: ~/
+    - setup_remote_docker
+    - run:
+        name: Build Docker database image
+        command: |
+          docker build -t mysql . -f-<<EOF
+          FROM mysql:5.7.23
+          COPY db.sql /docker-entrypoint-initdb.d/db.sql
+          EOF
+    - run:
+        name: Push image to Docker Hub
+        command: |
+          if [ -n "${DOCKER_USER}" ] && [ -n "${DOCKER_PASS}" ]
+          then
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            CIRCLE_TAG="$(cd ~/project && git tag -l --points-at HEAD)"
+            DOCKER_TAG=$([[ $CIRCLE_BRANCH == 'master' ]] && echo 'master' || echo 'latest')
+            DOCKER_TAG=$([[ -n "${CIRCLE_TAG}" ]] && echo $CIRCLE_TAG || echo $DOCKER_TAG)
+            docker tag mysql $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME-mysql:$DOCKER_TAG
+            docker push $CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME-mysql:$DOCKER_TAG
+          else
+            echo "Not pushing Docker image to Docker Hub. Environment variables DOCKER_USER and/or DOCKER_PASS are not set."
+          fi
+
 workflows:
   version: 2
   build-test-package:
@@ -311,3 +344,12 @@ workflows:
             only: /^7\.x\-.+/
           branches:
             ignore: /.*/
+    - docker_db_image:
+        requires:
+          - site_install
+        filters:
+          branches:
+            only:
+              - master
+          tags:
+            only: /^7\.x\-.+/
