@@ -665,3 +665,10 @@ function ding2_update_7055() {
 function ding2_update_7056() {
   module_enable(array('ding_libs'));
 }
+
+/**
+ * Enable Campaign plus module.
+ */
+function ding2_update_7057() {
+  module_enable(array('ding_campaign_plus'));
+}
