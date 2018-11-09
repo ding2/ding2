@@ -12,10 +12,11 @@
       $("input[name='ding_base_term_name']", context).on('change keyup', function (e) {
         if (e.type === 'change' || (e.type === 'keyup' && e.which === 13)) {
           var form = $(this).closest('form');
+          var autocomplete_value = $(form).find('#autocomplete ul li.selected');
           var selected;
 
-          if ($(form).find('#autocomplete ul li.selected').length !== 0) {
-            selected = $(form).find('#autocomplete ul li.selected')[0].textContent;
+          if (autocomplete_value.length !== 0) {
+            selected = autocomplete_value[0].textContent;
           }
 
           if (selected !== '') {

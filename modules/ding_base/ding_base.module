@@ -759,10 +759,13 @@ function ding_base_validate_email($email) {
 }
 
 /**
- * Implements hook_views_pre_view().
+ * Implements hook_views_default_views_alter().
+ *
+ * Adding custom Taxonomy Terms filter to admin_views_node view.
  */
-function ding_base_views_pre_view(&$view, &$display_id, &$args) {
-  if ($view->name == 'admin_views_node' && $display_id == 'system_1') {
+function ding_base_views_default_views_alter(&$views) {
+  if (isset($views['admin_views_node'])) {
+    $view = &$views['admin_views_node'];
     $filter_options = [
       'id' => 'ding_base_term_name',
       'table' => 'taxonomy_term_data',
@@ -783,17 +786,11 @@ function ding_base_views_pre_view(&$view, &$display_id, &$args) {
       ],
     ];
 
-    $filters = $view->display_handler->get_option('filters');
+    $filters = $view->display['default']->display_options['filters'];
 
-    if (empty($filters['ding_base_term_name'])) {
+    if (empty($filters['name'])) {
       // There is no such filter so we have to add it.
-      $view->add_item(
-        $view->current_display,
-        'filter',
-        'taxonomy_term_data',
-        'name',
-        $filter_options
-      );
+      $views['admin_views_node']->display['default']->display_options['filters']['name'] = $filter_options;
     }
   }
 }
@@ -831,6 +828,9 @@ function ding_base_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Implements hook_preprocess_HOOK().
+ *
+ * Used for changing order of filter fields, so the "Terms" filter is positioned
+ * right after "Vocabulary" filter.
  */
 function ding_base_preprocess_views_exposed_form(&$variables) {
   if (isset($variables['form']) && $variables['form']['#id'] == 'views-exposed-form-admin-views-node-system-1') {
@@ -876,8 +876,6 @@ function ding_base_preprocess_views_exposed_form(&$variables) {
  */
 function ding_base_taxonomy_autocomplete($vid, $tag) {
   if (!empty($vid)) {
-    $vocabulary = taxonomy_vocabulary_load($vid);
-
     $tags = db_select('taxonomy_term_data', 't')
       ->fields('t', ['tid', 'name'])
       ->condition('vid', $vid)
