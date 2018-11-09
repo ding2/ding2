@@ -74,6 +74,7 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
 
     $output['#attached']['library'][] = array('system', 'drupal.ajax');
     $output['#attached']['css'][] = $path . '/css/ding_serendipity.css';
+    $output['#attached']['js'][] = $path . '/js/ding_serendipity.js';
     $output['#attached']['js'][] = array(
       'data' => array(
         'ding_serendipity' => array('context' => $context_data),
