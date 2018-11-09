@@ -82,6 +82,15 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
         else {
           $block->content['addform'] = drupal_get_form('ding_list_add_element_form', 'ding_list', $list->getId(), t('Add to lists I follow'));
         }
+
+        if (user_access('ding_list administer public lists')) {
+          $block->content['links']['#links']['toggle_not_public'] = array(
+            'href' => 'list/' . $list->getId() . '/toggle-not-public',
+            'title' => $list->getData('not_public', FALSE) ? t('Enable public sharing') : t('Disable public sharing'),
+            'attributes' => array('class' => array('menu-item')),
+            'html' => FALSE,
+          );
+        }
       }
     }
   }

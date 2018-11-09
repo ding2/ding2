@@ -126,6 +126,14 @@ function ding_list_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['list/%/toggle-not-public'] = array(
+    'title' => 'Toggle public list settings',
+    'page callback' => 'ding_list_toggle_not_public',
+    'page arguments' => array(1),
+    'access arguments' => array('ding_list administer public lists'),
+    'file' => 'include/menu_callbacks.inc',
+  );
+
   return $items;
 }
 
@@ -479,8 +487,14 @@ function ding_list_ding_entity_buttons($type, $entity, $view_mode = 'default', $
  */
 function ding_list_permission() {
   return array(
-    'ding_list administer lists' => array(
-      'title' => t('Administer lists'),
+    'ding_list reset lists' => array(
+      'title' => t('Reset user lists'),
+    ),
+    'ding_list administer public lists' => array(
+      'title' => t('Administer public lists'),
+    ),
+    'ding_list view all lists' => array(
+      'title' => t('View all lists'),
     ),
   );
 }
@@ -740,6 +754,6 @@ function ding_list_reset_lists_access($target_account, $account = NULL) {
     $account = user_load($user->uid);
   }
 
-  return user_access('ding_list administer lists', $account)
+  return user_access('ding_list reset lists', $account)
     || ($account->uid == $target_account->uid);
 }

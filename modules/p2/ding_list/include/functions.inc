@@ -414,16 +414,16 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
     $account = $user;
   }
 
-  if (user_access('ding_list administer lists', $account)) {
-    $access[$access_key] = TRUE;
-    return $access[$access_key];
-  }
-
   if (is_numeric($list)) {
     $list = ding_list_get_list($list);
   }
 
   if ($list->isOwner($account)) {
+    $access[$access_key] = TRUE;
+    return $access[$access_key];
+  }
+
+  if ($permission === DING_LIST_PERMISSION_VIEW && user_access('ding_list view all lists')) {
     $access[$access_key] = TRUE;
     return $access[$access_key];
   }
