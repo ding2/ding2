@@ -69,6 +69,8 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
  *
  * @param string[] $ids
  *   Data-well PIDs for the objects to get.
+ * @param bool $local
+ *   Flag to indicate whether $ids contains pids or local ids (fausts).
  *
  * @return bool|\TingClientSearchResult
  *   The objects fetched from the data-well.
@@ -76,7 +78,7 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
  * @throws \TingClientException
  *   This may throw this exception if the search request fails.
  */
-function opensearch_get_objects(array $ids) {
+function opensearch_get_objects(array $ids, $local = FALSE) {
   $request = opensearch_get_request_factory()->getObjectRequest();
 
   // Set agency from the administration interface.
@@ -97,7 +99,12 @@ function opensearch_get_objects(array $ids) {
   // See: https://platform.dandigbib.org/issues/3828#note-16.
   $objects = [];
   foreach (array_chunk($ids, 100) as $chunk) {
-    $request->setObjectIds($chunk);
+    if ($local) {
+      $request->setLocalIds($chunk);
+    }
+    else {
+      $request->setObjectIds($chunk);
+    }
     $objects += opensearch_execute($request);
   }
 
