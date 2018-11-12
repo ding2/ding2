@@ -270,8 +270,6 @@ function ting_search_carousel_carousel_content_type_theme(&$theme, $plugin) {
 /**
  * Theme the queries form in a table.
  *
- * No tabledrag, as it doesn't seem to like CTools popup window.
- *
  * @param array $variables
  *   Theme related variables.
  *
