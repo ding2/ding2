@@ -220,7 +220,7 @@ function bpi_update_7005() {
 /**
  * Disable the 'Pre-sending to BPI' state.
  */
-function bpi_update_7006() {
+function bpi_update_7006(&$sandbox) {
   global $user;
 
   if (!isset($sandbox['processed'])) {
