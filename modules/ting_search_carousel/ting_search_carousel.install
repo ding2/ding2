@@ -30,10 +30,28 @@ function ting_search_carousel_enable() {
 }
 
 /**
+ * Obsoleted update hook.
+ */
+function ting_search_carousel_update_7001() {
+}
+
+/**
+ * Obsoleted update hook.
+ */
+function ting_search_carousel_update_7002() {
+}
+
+/**
  * Ensure ding_carousel is enabled.
  */
 function ting_search_carousel_update_7003() {
   module_enable(array('ding_carousel'));
+}
+
+/**
+ * Obsoleted update hook.
+ */
+function ting_search_carousel_update_7004() {
 }
 
 /**
