@@ -47,4 +47,35 @@
     }
   };
 
+  // Handle checkboxes click on event list exposed form.
+  Drupal.behaviors.ding_event_list_exposed_form_checkboxes = {
+    attach: function (context, settings) {
+      $(document).ready(function (e) {
+        var $this = $(this);
+        // Query param attached on page load.
+        var search_string = $this[0].location.search;
+
+        // If query param is not empty - proceed with processing.
+        if (search_string) {
+          var decoded_url = decodeURI(search_string);
+          var split = decoded_url.split('=');
+          var clean_string = split[0].replace('?', '');
+          var exposed_form = $this.find('form#views-exposed-form-ding-event-ding-event-list');
+
+          var selected_category = exposed_form.find(':input[name="' + clean_string + '"]:input[value="'+split[1]+'"]');
+          selected_category.prop('checked', true);
+
+          // Remove "checked" property from checkbox if this is already checked.
+          if (selected_category.prop('checked') === true) {
+            selected_category.on('click', function (e) {
+              e.preventDefault();
+              // Remove query param before redirect to /arrangementer.
+              $this[0].location.search = '';
+            });
+          }
+        }
+      });
+    }
+  };
+
 })(jQuery);
