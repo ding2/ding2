@@ -5,6 +5,9 @@
  * Define the administration interface for the module.
  */
 
+define('TING_DAS_PLACEMENT_WEIGHT_ABOVE', 10);
+define('TING_DAS_PLACEMENT_WEIGHT_BELOW', 20);
+
 /**
  * Admin settings form for Ting DAS integration.
  */
@@ -17,12 +20,27 @@ function ting_das_admin_settings_form() {
     '#tree' => TRUE,
   );
 
-  $defaults = variable_get('ting_das', array());
+  $defaults = variable_get('ting_das', array(
+    'url' => '',
+    'username' => '',
+    'password' => '',
+    'description' => array(
+      'format' => 'ding_wysiwyg',
+      'value' => '',
+    ),
+    'gdpr' => array(
+      'format' => 'ding_wysiwyg',
+      'value' => '',
+    ),
+    'placement' => TING_DAS_PLACEMENT_WEIGHT_ABOVE,
+  ));
+
   $form['ting_das']['url'] = array(
     '#type' => 'textfield',
     '#title' => t('End point'),
     '#description' => t('The service endpoint for "placeCopyRequest", e.g. https://developer.statsbiblioteket.dk/elba-webservices/services/placeCopyRequest'),
-    '#default_value' => isset($defaults['url']) ? $defaults['url'] : '',
+    '#default_value' => $defaults['url'],
+    '#required' => TRUE,
   );
 
   // Username / password.
@@ -30,21 +48,23 @@ function ting_das_admin_settings_form() {
     '#type' => 'textfield',
     '#title' => t('Username'),
     '#description' => t('The username required to use the web-service.'),
-    '#default_value' => isset($defaults['username']) ? $defaults['username'] : '',
+    '#default_value' => $defaults['username'],
+    '#required' => TRUE,
   );
 
   $form['ting_das']['password'] = array(
     '#type' => 'textfield',
     '#title' => t('Password'),
     '#description' => t('The password required to use the web-service.'),
-    '#default_value' => isset($defaults['password']) ? $defaults['password'] : '',
+    '#default_value' => $defaults['password'],
+    '#required' => TRUE,
   );
 
   $types = variable_get('ting_well_types', _ting_fetch_well_types());
   $form['ting_das_types'] = array(
     '#type' => 'fieldset',
     '#title' => t('Data well types'),
-    '#description' => t('Ting objects defined as being able order via the DAS service.'),
+    '#description' => t('Ting objects defined as being to able order via the DAS service.'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
@@ -67,16 +87,16 @@ function ting_das_admin_settings_form() {
     '#type' => 'text_format',
     '#title' => t('Description about the form (prefix) or service'),
     '#rows' => 8,
-    '#format' => isset($defaults['description']) ? $defaults['description']['format'] : NULL,
-    '#default_value' => isset($defaults['description']) ? $defaults['description']['value'] : '',
+    '#format' => $defaults['description']['format'],
+    '#default_value' => $defaults['description']['value'],
   );
 
   $form['ting_das_text']['gdpr'] = array(
     '#type' => 'text_format',
     '#title' => t('Description of data usage (GDPR)'),
     '#rows' => 8,
-    '#format' => isset($defaults['gdpr']) ? $defaults['gdpr']['format'] : NULL,
-    '#default_value' => isset($defaults['gdpr']) ? $defaults['gdpr']['value'] : '',
+    '#format' => $defaults['gdpr']['format'],
+    '#default_value' => $defaults['gdpr']['value'],
   );
 
   $form['ting_das_text']['placement'] = array(
@@ -84,8 +104,8 @@ function ting_das_admin_settings_form() {
     '#title' => t('Placement'),
     '#description' => t('The placement of the text in relation to the "Place order" button.'),
     '#options' => array(
-      10 => t('Above'),
-      20 => t('Beneath'),
+      TING_DAS_PLACEMENT_WEIGHT_ABOVE => t('Above'),
+      TING_DAS_PLACEMENT_WEIGHT_BELOW => t('Below'),
     ),
     '#default_value' => isset($defaults['placement']) ? $defaults['placement'] : 10,
   );
