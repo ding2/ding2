@@ -74,12 +74,11 @@ Feature: test object displays after search
     When I display random object from file
     Then it is possible to add to a list
 
-
   @api @seek026 @seekNologin @regression @cci
   Scenario: S026 Search and display material while not logged in should not show all buttons
     Given filename 'creator.dat' is used
     When I display random object from file
-    Then it is not possible to add to a list
+    Then it is possible to add to a list
 
     # Excluded from CCI because it cannot currently find the material, so probably not configured to right opensource
   @api @seek026 @seekNologin @regression

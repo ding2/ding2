@@ -70,7 +70,7 @@ class TingSearchFacet {
    * Sets one or more terms matches from the facet encountered during searching.
    *
    * @param \Ting\Search\TingSearchFacetTerm[] $terms
-   *   The list of terms, empty if none where found.
+   *   The list of terms, empty if none were found.
    */
   public function setTerms($terms) {
     $this->terms = [];

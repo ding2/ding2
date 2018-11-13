@@ -69,6 +69,4 @@ features[field_instance][] = ting_object-ting_object-ting_details_tracks
 features[field_instance][] = ting_object-ting_object-ting_details_type
 features[field_instance][] = ting_object-ting_object-ting_details_uri
 features[field_instance][] = ting_object-ting_object-ting_details_version
-features_exclude[field_group][group_ting_object_right_column|ting_object|ting_object|default] = group_ting_object_right_column|ting_object|ting_object|default
-mtime = 1487854722
 required = 1

@@ -372,7 +372,7 @@ function _ding_gatewayf_provider_login(array $attributes) {
         'values' => $credentials,
       );
 
-      // Submit login form to trigger login, where the login process goes
+      // Submit login form to trigger login, were the login process goes
       // through the whole process in ding_user.
       drupal_form_submit('user_login_block', $form_state);
 
@@ -515,7 +515,7 @@ function _ding_gatewayf_get_required_attributes(array $attributes, array $requir
     }
   }
 
-  // Check that required attributes where found. If not reset the array to be
+  // Check that required attributes were found. If not reset the array to be
   // empty as some attributes may have been found.
   if (count($required_attributes) != count($attribute_list)) {
     watchdog('ding_gatewayf', t('Not all required attributes was returned from gatewayf'), array(), WATCHDOG_ERROR);

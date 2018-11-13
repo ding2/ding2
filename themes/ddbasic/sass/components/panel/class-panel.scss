@@ -717,14 +717,13 @@
 // Gatewayf
 // ==========================================================================
 
-.ding-gatewayf-registration-information {
-  &--left {
-    @include span-columns(8);
+.ding-gatewayf {
+  @include span-columns(12);
 
-    @include media($tablet) {
-      width: 100%;
-    }
+  @include media($tablet) {
+    width: 100%;
   }
+
   &--right {
     @include span-columns(4);
     margin: 18px 0 11px 0;
@@ -732,5 +731,23 @@
     @include media($tablet) {
       width: 100%;
     }
+  }
+
+  &--registration-information {
+    max-height: 350px;
+    max-width: 100%;
+    overflow-y: scroll;
+    background: white;
+    border: 1px solid #E3E3E3;
+    padding: 20px;
+    margin-bottom: 35px;
+
+    p {
+      margin: 0 0 15px;
+    }
+  }
+
+  &--temporary-text {
+    color: red;
   }
 }

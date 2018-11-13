@@ -403,7 +403,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       $query = $query->withPage($page + 1)->withCount($results_per_page);
       $search_result = $query->execute();
 
-      if ($search_result->getNumTotalCollections() > 0) {
+      if ($search_result->getNumCollections() > 0) {
         // So we got the total amount of results, but the joker here is that
         // we have no clue how many collections we got.
         // Rounded up, this will display 'one more page' if $search-result->more
@@ -860,6 +860,65 @@ function ting_search_sort_form_submit($form, &$form_state) {
   }
 
   $form_state['redirect'] = array($_GET['q'], array('query' => $query));
+}
+
+/**
+ * Create links for changing how many records per page.
+ *
+ * This function uses the static variable "ting_search_results", so if a search
+ * result have not been render yet it will be empty. So you have to ensure that
+ * the search have been executed.
+ *
+ * In panels "render last" option can help in the plugin array.
+ */
+function ting_search_records_per_page_controls_content() {
+  // Get search results.
+  $search_result = ting_search_current_results();
+
+  // Use static as panels may call this more than once.
+  $output = &drupal_static(__FUNCTION__, array());
+
+  // Don't show anything if the search result is empty.
+  if (empty($output) && NULL !== $search_result && $search_result->getNumCollections() > 0) {
+    // Get the default results per page.
+    $def_size = variable_get('ting_search_results_per_page', 10);
+
+    // Set default as the first value.
+    $sizes = array($def_size => $def_size);
+
+    // Increment the default size by 2.5 and 5 to provide the user with three
+    // different options. Defaults to 10, 25, 50 posts per search page.
+    $size = (int) round($def_size * 2.5);
+    $sizes[$size] = $size;
+    $size = (int) round($def_size * 5);
+    $sizes[$size] = $size;
+
+    // Iterate through sizes and build the options.
+    foreach ($sizes as $number => $text) {
+      // Set the current pager page to first page (used in query).
+      $pager_page = array('page' => 0);
+
+      // Find the currently select size.
+      $keys = array_keys($sizes);
+      $selected = FALSE;
+      if (isset($_GET['size']) && $_GET['size'] == $number) {
+        $selected = TRUE;
+      }
+      elseif (!isset($_GET['size']) && $number == $keys[0]) {
+        $selected = TRUE;
+      }
+
+      // Add the result to the output.
+      $output[$text] = array(
+        'size' => $number,
+        'text' => $text,
+        'query' => array('size' => $number) + $pager_page + drupal_get_query_parameters(),
+        'selected' => $selected,
+      );
+    }
+
+    return $output;
+  }
 }
 
 /**

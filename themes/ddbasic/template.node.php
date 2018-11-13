@@ -182,6 +182,12 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
   $location = field_get_items('node', $variables['node'], 'field_ding_event_location');
   $variables['alt_location_is_set'] = !empty($location[0]['name_line']) || !empty($location[0]['thoroughfare']);
 
+  // Dont display location if neither name_line or thoroughfare is set.
+  // Prevents that country is printes out, without any other values.
+  if (!$variables['alt_location_is_set']) {
+    $variables['content']['field_ding_event_location']['#access'] = FALSE;
+  }
+
   switch ($variables['view_mode']) {
     case 'teaser':
       // Add class if image.
@@ -240,12 +246,24 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         $variables['event_time'] = $event_time_ra[0]['#markup'];
       }
 
+      // Place, Library, Organizer markup alterations.
+      if ($variables['alt_location_is_set'] && !empty($variables['field_ding_event_place'])) {
+        $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['field_ding_event_location'][0]['name_line'];
+        // Hide Location and library from render array.
+        $variables['content']['field_ding_event_location']['#access'] = FALSE;
+        $variables['content']['og_group_ref']['#access'] = FALSE;
+      }
+      elseif (!$variables['alt_location_is_set'] && !empty($variables['field_ding_event_place'])) {
+        $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['content']['og_group_ref'][0]['#markup'];
+        // Hide library from render array.
+        $variables['content']['og_group_ref']['#access'] = FALSE;
+      }
+
       break;
 
     case 'full':
+      array_push($variables['classes_array'], 'node-full');
       if (!empty($date)) {
-        array_push($variables['classes_array'], 'node-full');
-
         // Add event time to variables. A render array is created based on the
         // date format "time_only".
         $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
@@ -287,12 +305,48 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           ));
         }
 
-        if (!empty($location)) {
-          $variables['content']['group_left']['og_group_ref']['#access'] = FALSE;
+        // Make organizer label plural if more than one.
+        if (!empty($variables['field_ding_event_organizers']) && count($variables['field_ding_event_organizers']) > 1) {
+          $variables['content']['field_ding_event_organizers']['#title'] = t('Organizers');
+        }
+
+        // If alternate location is set, change the label of library.
+        if ($variables['alt_location_is_set']) {
+          $variables['content']['og_group_ref']['#title'] = t('Organizer');
+
+          // If field_ding_event_organizers is set, merge them into the og_ref field.
+          if (!empty($variables['field_ding_event_organizers'])) {
+            // Hide organizers from render array.
+            $variables['content']['field_ding_event_organizers']['#access'] = FALSE;
+            // Add organizers to library (og_group_ref) markup as string.
+            $organizers_elems = field_get_items('node', $variables['node'], 'field_ding_event_organizers');
+            $organizers_out  = '';
+
+            foreach ($organizers_elems as $value) {
+              $term = taxonomy_term_load($value['tid']);
+              if (!empty($term->field_event_organizer_link)) {
+                $link = field_get_items('taxonomy_term', $term, 'field_event_organizer_link');
+                  $organizers_out .= ', ' . l($term->name, $link[0]['url'], array('attributes' => array('class' => 'ding-event-organizer-link')));
+              }
+              else {
+                $organizers_out .= ', ' . $term->name;
+              }
+            }
+            $variables['content']['og_group_ref']['#title'] = t('Organizers');
+            $variables['content']['og_group_ref'][0]['#markup'] .= $organizers_out;
+          }
         }
       }
       break;
   }
+}
+
+/**
+ * Implements preprocess__node__ding_campaign_plus();
+ */
+function ddbasic_preprocess__node__ding_campaign_plus(&$variables) {
+  $type = ding_base_get_value('node', $variables['node'], 'field_ding_campaign_plus_style', 'value');
+  $variables['campaign_type'] = $type == 'box' ? 'ding-campaign-medium-width' : 'ding-campaign-full-width';
 }
 
 /**
@@ -313,7 +367,8 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
     switch ($type) {
       case 'image_and_text':
         $variables['image'] = '<div class="ding-campaign-image" style="background-image: url(' . $image_url . '"></div>';
-      break;
+        break;
+
       case 'image':
         $variables['image'] = theme('image_style',array(
             'style_name' => "ding_full_width",
@@ -321,7 +376,7 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
             'attributes' => array('class' => 'ding-campaign-image')
           )
         );
-      break;
+        break;
     }
   }
 }
@@ -354,9 +409,13 @@ function ddbasic_preprocess__node__ding_library(&$variables) {
 function ddbasic_preprocess__node__ding_group(&$variables) {
   switch ($variables['view_mode']) {
     case 'teaser':
-      $img_uri = $variables['field_ding_group_list_image'][0]['uri'];
-      if (!empty($img_uri)) {
-        $variables['background_image'] = image_style_url('ding_panorama_list_large_desaturate', $img_uri);
+      $variables['link_attributes'] = array(
+        'style' => '',
+      );
+
+      if (!empty($variables['field_ding_group_list_image'][0]['uri'])) {
+        $img_url = image_style_url('ding_panorama_list_large_desaturate', $variables['field_ding_group_list_image'][0]['uri']);
+        $variables['link_attributes']['style'] = 'background-image:url("' . $img_url . '");';
       }
       break;
 
@@ -385,6 +444,39 @@ function ddbasic_preprocess__node__ding_eresource(&$variables) {
       if (!empty($variables['field_ding_eresource_link'][0]['url'])) {
         $variables['link_url'] = $variables['field_ding_eresource_link'][0]['url'];
       }
+      break;
+  }
+}
+
+/**
+ * Ding Page.
+ */
+function ddbasic_preprocess__node__ding_page(&$variables) {
+  switch ($variables['view_mode']) {
+    case 'teaser':
+      $variables['link_attributes'] = array(
+        'style' => '',
+      );
+
+      if (!empty($variables['field_ding_page_list_image'][0]['uri'])) {
+        $img_url = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
+        $variables['link_attributes']['style'] = 'background-image:url("' . $img_url . '");';
+      }
+      break;
+
+    case 'teaser_no_overlay':
+      array_push($variables['classes_array'], 'node-teaser-no-overlay');
+
+      if (!empty($variables['field_ding_page_list_image'][0]['uri'])) {
+        $variables['background_image'] = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
+      }
+      else {
+        $variables['background_image'] = '';
+      }
+      break;
+
+    case 'full':
+      array_push($variables['classes_array'], 'node-full');
       break;
   }
 }

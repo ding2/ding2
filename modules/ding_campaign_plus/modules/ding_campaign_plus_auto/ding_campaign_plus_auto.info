@@ -1,0 +1,5 @@
+name = Ding Campaign Plus Auto-generate
+description = Auto-generate campaigns form page, news and event content types.
+core = 7.x
+package = Ding!
+dependencies[] = ding_campaign_plus

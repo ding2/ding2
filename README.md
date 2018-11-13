@@ -58,18 +58,24 @@ web-services that runs OpenSSL v1.0.x or newer works.
   ~$ wget -qO- http://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
 ```
 
-__Optional__, but recommended patch that ensures that Ajax errors only are
-displayed when not in readystate 4. So when the user presses enter to perform a
-search before auto-complete Ajax is call is completed an error will not be
-displayed.
+__Optional, but recommended patches__
+
+Ensures that Ajax errors only are displayed when not in readystate 4. So when
+the user presses enter to perform a search before auto-complete Ajax is call is
+completed an error will not be displayed.
 ```sh
   ~$ wget -qO- http://www.drupal.org/files/issues/autocomplete-1232416-205-7x.patch | patch -p1
 ```
 
-__Optional__, but recommended patch that fixes the problem with scrolls
-when dragging items within tables in the backend.
+Fixes the problem with scrolls when dragging items within tables in the backend.
 ```sh
   ~$ wget -qO- http://www.drupal.org/files/issues/drupal-tabledrag-scroll-2843240-36.patch | patch -p1
+```
+
+Modification to Drupal core's robots.txt that disallows gatewayf urls. So if
+you're using this module, apply this patch too.
+```sh
+  patch -p1 < profiles/ding2/patches/drupal_core.robots.txt.ding2.patch
 ```
 
 ## Build Ding2 installation profile
@@ -101,16 +107,42 @@ will not delete these.
 ```sh
   ~$ drush make --no-core --working-copy --contrib-destination=. ding2.make
 ```
-
-Next goto your sites URL and run the ding2 installation profile and fill out
+### Site installation 
+Go to the url for your site, run the ding2 installation profile and fill out
 all the questions.
+
+If you use [Docker](https://docs.docker.com/get-started/) you can also start a container with database server for an already installed site using the latest version of the Ding2 `master` branch:
+
+```sh
+   ~$ docker run -e MYSQL_USER=db -e MYSQL_PASSWORD=db -e MYSQL_DATABASE=db -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d ding2/ding2-mysql:master
+``` 
+
+In this case you should insert the following in your `settings.php` file:
+
+```php
+$databases = array(
+  'default' => array(
+    'default' => array(
+      'driver' => 'mysql',
+      'database' => 'db',
+      'username' => 'db',
+      'password' => 'db',
+      'host' => 'db',
+      'prefix' => '',
+    ),
+  ),
+);
+```
+
+Username/password for logging into the site is `admin`/`admin`.
 
 ## Alternative installation method
 If you are using an deployment system you may not want to patch Drupal core
 manually in a production environment.
 ```sh
-  ~$ wget https://raw.github.com/ding2/ding2/release/drupal.make
-  ~$ drush make --working-copy --contrib-destination=profiles/ding2/ drupal.make htdocs
+  ~$ git clone git@github.com:ding2/ding2.git ding2
+  ~$ drush make --working-copy --contrib-destination=profiles/ding2 ding2/drupal.make .
+  ~$ rm -rf ding2
 ```
 
 # Post installation
