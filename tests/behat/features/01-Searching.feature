@@ -19,7 +19,6 @@ Feature: SEEK redroute 01
   @api @seek001 @seekNologin @regression @cci
   Scenario Outline: S001 Search for special letters
     Given I have searched for "<title>"
-    When I set number of results per page to "50"
     Then I can see "<letter>" somewhere in the search result
 
     Examples:
@@ -33,7 +32,6 @@ Feature: SEEK redroute 01
   @api @seek001 @seekNologin @regression
   Scenario Outline: S001 Search for special letters
     Given I have searched for "<title>"
-    When I set number of results per page to "50"
     Then I can see "<letter>" somewhere in the search result
 
     Examples:
