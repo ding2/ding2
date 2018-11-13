@@ -1,0 +1,146 @@
+<?php
+/**
+ * @file
+ * Term panel variant generator.
+ */
+
+/**
+ * Implements hook_term_insert().
+ *
+ * Act when a term is created and trigger panel variant creation.
+ */
+function ding_sections_term_panel_taxonomy_term_insert($term) {
+  if ($term->vocabulary_machine_name == 'section') {
+    $term_page = field_get_items('taxonomy_term', $term, 'field_term_page');
+    if ($term_page[0]['value'] == 1) {
+      ding_sections_term_panel_create_term_variant($term);
+    }
+  }
+}
+
+/**
+ * Implements hook_taxonomy_term_update().
+ */
+function ding_sections_term_panel_taxonomy_term_update($term) {
+  if ($term->vocabulary_machine_name == 'section') {
+    $term_page = field_get_items('taxonomy_term', $term, 'field_term_page');
+    $term_page_old = field_get_items('taxonomy_term', $term->original, 'field_term_page');
+
+    // When unchecked.
+    if (($term_page[0]['value'] - $term_page_old[0]['value']) == -1) {
+      // Get page.
+      $page = 'term_view';
+      $page = page_manager_get_page_cache($page);
+      // @see page_manager.admin.inc
+      if (!empty($page->handler_info['term_view_panel_context_tid_' . $term->tid])) {
+        $page->handler_info['term_view_panel_context_tid_' . $term->tid]['disabled'] = TRUE;
+        $page->handler_info['term_view_panel_context_tid_' . $term->tid]['changed'] |= PAGE_MANAGER_CHANGED_STATUS;
+      }
+      if ($function = ctools_plugin_get_function($page->subtask, 'enable callback')) {
+
+        $result = $function($page, FALSE);
+        menu_rebuild();
+        page_manager_save_page_cache($page);
+      }
+    }
+    // When checked.
+    elseif (($term_page[0]['value'] - $term_page_old[0]['value']) == 1) {
+
+      // We have 2 variants:
+      // 1) handler exists then just enable him;
+      // 2) we should create new variant.
+      $page = 'term_view';
+      $task = page_manager_get_task($page);
+      ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
+      $handlers = page_manager_load_sorted_handlers($task, '', FALSE);
+      $handler_name = 'term_view_panel_context_tid_' . $term->tid;
+      $handler = isset($handlers[$handler_name]) ? $handlers[$handler_name] : NULL;
+      // Enable handler.
+      if (!empty($handler)) {
+        $page = 'term_view';
+        $page = page_manager_get_page_cache($page);
+        $page->handler_info['term_view_panel_context_tid_' . $term->tid]['disabled'] = FALSE;
+        $page->handler_info['term_view_panel_context_tid_' . $term->tid]['changed'] |= PAGE_MANAGER_CHANGED_STATUS;
+
+        if ($function = ctools_plugin_get_function($page->subtask, 'enable callback')) {
+          $result = $function($page, FALSE);
+          menu_rebuild();
+          page_manager_save_page_cache($page);
+        }
+      }
+      // Create new handler.
+      else {
+        ding_sections_term_panel_create_term_variant($term);
+      }
+    }
+  }
+}
+
+/**
+ * Create a panel variant based on the node created.
+ */
+function ding_sections_term_panel_create_term_variant($term) {
+  if (!is_object($term) || !isset($term->tid)) {
+    return FALSE;
+  }
+
+  $handler_name = 'term_section_panel_context';
+  $task = page_manager_get_task('term_view');
+
+  ctools_include('plugins');
+  ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
+
+  $handler = page_manager_load_task_handler($task, '', $handler_name);
+
+  if (empty($handler)) {
+    return FALSE;
+  }
+
+  $tid = $term->tid;
+  // Normally, panels do not support specific panel to node id mapping,
+  // so, use php code instead.
+  $php_code = '$item = menu_get_object(\'taxonomy_term\', 2); if (!empty($item->tid) && $item->tid == ' . $tid . ') {return TRUE;} return FALSE;';
+  $php_filter = array(
+    'name' => 'php',
+    'settings' => array(
+      'description' => t('Term being viewed has tid "@tid"', array('@tid' => $tid)),
+      'php' => $php_code,
+    ),
+    'not' => FALSE,
+  );
+
+  $handler_name = 'term_view_panel_context_tid_' . $tid;
+  $variant_title = t('Sections term (@term)', array('@term' => $term->name));
+  $pipeline = module_exists('panels_ipe') ? 'ipe' : 'standard';
+
+  $handler->name = $handler_name;
+  $handler->did = NULL;
+  $handler->conf['title'] = $variant_title;
+  $handler->conf['pipeline'] = $pipeline;
+  $handler->conf['access']['plugins'][] = $php_filter;
+  $handler->weight = -50;
+
+  page_manager_save_task_handler($handler);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_sections_term_panel_form_taxonomy_form_term_alter(&$form, &$form_state, $form_id) {
+  if (!isset($form['#bundle']) || $form['#bundle'] != 'section') {
+    return;
+  }
+
+  if (!isset($form_state['triggering_element'])) {
+    // Add term page into tab.
+    $form['ding_sections']['term_panel'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Term page'),
+      '#group' => 'section_tabs',
+    );
+    $form['field_term_page']['#disabled'] = TRUE;
+
+    $form['ding_sections']['term_panel']['field_term_page'] = $form['field_term_page'];
+    unset($form['field_term_page']);
+  }
+}

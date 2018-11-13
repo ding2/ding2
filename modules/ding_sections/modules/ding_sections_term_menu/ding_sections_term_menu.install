@@ -1,0 +1,75 @@
+<?php
+/**
+ * @file
+ * Code for module installation.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_sections_term_menu_schema() {
+  $schema['ding_sections_term_menu'] = array(
+    'description' => st('Map term ids to menu list id.'),
+    'fields' => array(
+      'tid' => array(
+        'description' => st('Term id.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'mlid' => array(
+        'description' => st('Menu link id.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Create table if it doesn't exits.
+ */
+function ding_sections_term_menu_update_7001() {
+  $table = 'ding_sections_term_menu';
+  if (!db_table_exists($table)) {
+    db_create_table($table, drupal_get_schema_unprocessed('ding_sections_term_menu', $table));
+    return 'Add the ding_sections_term_menu table for the ding_sections_term_menu module.';
+  }
+}
+
+/**
+ * Create relations between editorial base term ids to section menu items.
+ */
+function ding_sections_term_menu_update_7002() {
+  $vocabulary = taxonomy_vocabulary_machine_name_load('section');
+  $terms = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
+  $terms = array_map(function ($term) {
+    return "taxonomy/term/{$term->tid}";
+  }, $terms);
+
+  $links = db_select('menu_links', 'ml')
+    ->fields('ml', array('mlid', 'link_path'))
+    ->condition('link_path', $terms, 'IN')
+    ->execute()
+    ->fetchAllKeyed(1, 0);
+
+  $terms = array_flip($terms);
+  $values = array();
+  foreach ($links as $path => $link) {
+    $values[] = array(
+      'mlid' => (int) $link,
+      'tid' => $terms[$path],
+    );
+  }
+
+  db_truncate('ding_sections_term_menu')->execute();
+
+  $query = db_insert('ding_sections_term_menu ')->fields(array('mlid', 'tid'));
+  foreach ($values as $record) {
+    $query->values($record);
+  }
+  $query->execute();
+}

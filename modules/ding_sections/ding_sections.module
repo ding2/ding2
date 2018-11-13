@@ -1,0 +1,177 @@
+<?php
+/**
+ * @file
+ * Ding sections module.
+ *
+ * Provides integration with section system.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_sections_menu() {
+  $menu = array();
+
+  $menu['admin/config/section'] = array(
+    'title' => 'Ding Section',
+    'description' => 'Section settings',
+    'access arguments' => array('administer section'),
+    'page callback' => 'ding_sections_admin_menu_block_page',
+    'page arguments' => array(),
+    'file' => 'ding_sections.admin.inc',
+  );
+
+  $menu['admin/config/section/content'] = array(
+    'title' => 'Content types',
+    'description' => 'Node bundles that are a part of section system',
+    'access arguments' => array('administer section'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_sections_admin_content_types'),
+    'file' => 'ding_sections.admin.inc',
+  );
+
+  return $menu;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_sections_menu_alter(&$items) {
+  $items['admin/structure/taxonomy/%taxonomy_vocabulary_machine_name/add']['access callback'] = 'ding_sections_section_add_access';
+  $items['admin/structure/taxonomy/%taxonomy_vocabulary_machine_name/add']['access arguments'] = array(3);
+}
+
+/**
+ * Custom access callback for overriding taxonomy access rules.
+ *
+ * @param object $voc
+ *   Loaded vocabulary.
+ *
+ * @return bool
+ *   Access value.
+ */
+function ding_sections_section_add_access($voc) {
+  global $user;
+
+  if ($voc->machine_name == 'section') {
+    $access = user_access('edit terms in ' . $voc->vid, $user);
+  }
+  else {
+    $access = user_access('administer taxonomy', $user);
+  }
+
+  return $access;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_sections_permission() {
+  $perm = array();
+
+  $perm['administer section'] = array(
+    'title' => 'Administer section',
+    'description' => 'Change various section settings',
+  );
+
+  $perm['view section panels terms'] = array(
+    'title' => 'View Panel for terms',
+  );
+
+  $perm['use section panels terms'] = array(
+    'title' => 'Use the Panels In-Place Editor for terms',
+  );
+
+  return $perm;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Alter taxonomy term (section) form.
+ */
+function ding_sections_form_taxonomy_form_term_alter(&$form, &$form_state) {
+  if (!isset($form['#bundle']) || $form['#bundle'] != 'section') {
+    return;
+  }
+
+  $form['section_tabs'] = array(
+    '#type' => 'vertical_tabs',
+  );
+  $form['relations']['#access'] = FALSE;
+
+  $tabs = module_invoke_all('section_tabs');
+
+  if (is_array($tabs)) {
+    $form += $tabs;
+  }
+
+}
+
+/**
+ * Implements hook_secure_permissions().
+ */
+function ding_sections_secure_permissions($role) {
+  $permissions = array(
+    'anonymous user' => array(
+      'view section panels terms',
+    ),
+    'authenticated user' => array(
+      'view section panels terms',
+    ),
+    'administrators' => array(
+      'administer section',
+      'create section content',
+      'delete any section content',
+      'delete own section content',
+      'edit any section content',
+      'edit own section content',
+      'view section panels terms',
+    ),
+    'editor' => array(
+      'view section panels terms',
+      'use section panels terms',
+    ),
+    'guest blogger' => array(
+      'view section panels terms',
+    ),
+    'local administrator' => array(
+      'administer section',
+      'create section content',
+      'delete any section content',
+      'delete own section content',
+      'edit any section content',
+      'edit own section content',
+      'view section panels terms',
+    ),
+    'local editor' => array(
+      'view section panels terms',
+    ),
+    'provider' => array(
+      'view section panels terms',
+    ),
+    'staff' => array(
+      'view section panels terms',
+    ),
+  );
+
+  // Add permissions based on the created taxonomy term.
+  $voc = taxonomy_vocabulary_machine_name_load('section');
+  $vid = !empty($voc->vid) ? $voc->vid : FALSE;
+  if ($vid) {
+    $roles = array(
+      'administrators',
+      'editor',
+      'local administrator',
+      'local editor',
+    );
+    foreach ($roles as $r) {
+      $permissions[$r][] = 'edit terms in ' . $vid;
+      $permissions[$r][] = 'delete terms in ' . $vid;
+    }
+  }
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
