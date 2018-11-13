@@ -183,7 +183,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->drupalContext = $environment->getContext('Drupal\DrupalExtension\Context\DrupalContext');
     $this->minkContext = $environment->getContext('Drupal\DrupalExtension\Context\MinkContext');
 
-    // Try to set a default window size. 
+    // Try to set a default window size.
     try {
       $this->minkContext->getSession()
             ->getDriver()
@@ -355,7 +355,7 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Type text character by character, with support for newline, tab as \n and \t
+   * Type text character by character
    *
    * @param string $text
    *    The text to enter into the field.
@@ -372,45 +372,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     if (!$found) {
       throw new Exception("Couldn't find the field " . $field);
     }
-    $this->scrollTo($found);
-    // Click so we place the cursor in the field.
-    $found->click();
-
-    /*
-     * Now it becomes technical, because we will type each character in the $text variable one at a
-     * time, but also we want to use the escape option of f.ex. \n. So we remember if we get the \ char
-     * and then check the next character.
-     */
-    $escaped = false;
-    $length = strlen($text);
-    for ($i = 0; $i < $length; $i++) {
-      $key = substr($text, $i, 1);
-      if ($escaped) {
-        switch ($key) {
-          case 'n':
-            $key = "\r\n";
-            break;
-
-          case "t":
-            $key = "\t";
-            break;
-
-          default:
-            // We will just let $key be what it is.
-        }
-      }
-      // Unless we start an escaped character, play it through the browser.
-      if ($key == "\\") {
-        $escaped = true;
-      }
-      else {
-        $this->minkContext->getSession()
-              ->getDriver()
-              ->getWebDriverSession()
-              ->element('xpath', $found->getXpath())
-              ->postValue(['value' => [$key]]);
-      }
-    }
+    $found->setValue($text);
   }
 
   /**
@@ -483,18 +445,6 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function findAddToAList() {
     $this->check($this->objectPage->hasAddToList());
-  }
-
-  /**
-   * Check for whether the Husk / Tilføj til liste button is shown and visible
-   *
-   * @Then it is not possible to add to a list
-   *
-   * @throws Exception
-   *    In case of errors.
-   */
-  public function findAddToListNotPossible() {
-    $this->check($this->objectPage->hasNotAddToList());
   }
 
   /**

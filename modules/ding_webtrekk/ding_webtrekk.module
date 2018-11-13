@@ -94,6 +94,7 @@ function ding_webtrekk_views_post_execute(&$view) {
       'numberSearchResults' => $view->total_rows,
       'pageTitle' => 'Search content',
     ];
+
     _ding_webtrekk_set_data_layer_values($params);
   }
 }
@@ -105,6 +106,14 @@ function ding_webtrekk_views_post_execute(&$view) {
  *   Key, value collection of parameters to be considered.
  */
 function _ding_webtrekk_set_data_layer_values(array $value_map) {
+  $hook = 'ding_webtrekk_set_data_layer_values';
+  $modules = module_implements($hook);
+  foreach ($modules as $module) {
+    if (function_exists($module . '_' . $hook)) {
+      $params[] = module_invoke($module, $hook);
+    }
+  }
+
   $script_lines = array_map(function($key, $value) {
     if ($value) {
       return "window._ti['$key'] = '$value'";

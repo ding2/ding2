@@ -209,18 +209,28 @@ function ting_infomedia_form_opensearch_admin_settings_alter(&$form, &$form_stat
 function ting_infomedia_parse_article($id) {
   $obj = ting_infomedia_get_article($id);
 
-  $html = ting_infomedia_parse_for_errors($obj);
-  if (!$html) {
-    foreach ($obj->parts as $val) {
-      if ($message = ting_infomedia_parse_for_article_error($val)) {
-        $val['article'] = $message;
-      }
-      $html = $val['article'];
+  if ($obj) {
+    $html = ting_infomedia_parse_for_errors($obj);
+    if (!$html) {
+      foreach ($obj->parts as $val) {
+        if ($message = ting_infomedia_parse_for_article_error($val)) {
+          $val['article'] = $message;
+        }
+        $html = $val['article'];
 
-      // For now simply return the first article.
-      // @TODO: handle more articles
-      ting_infomedia_clean_html($html);
+        // For now simply return the first article.
+        // @TODO: handle more articles
+        ting_infomedia_clean_html($html);
+      }
     }
+  }
+  else {
+    drupal_set_message(t('Internal error please try again later'), 'warning');
+    $html = array(
+      '#prefix' => '<div class="infomedia_error">',
+      '#suffix' => '</div>',
+      '#theme' => 'status_messages',
+    );
   }
 
   return $html;

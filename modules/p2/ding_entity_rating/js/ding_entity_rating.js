@@ -155,7 +155,7 @@
       $('.ding-entity-rating, .ding-entity-rating-submitted', context).rating();
 
       var rating_ids = [];
-      $('.ding-entity-rating', context).each(function () {
+      $('.ding-entity-rating.rateable', context).each(function () {
         rating_ids.push($(this).attr('data-ding-entity-rating-id'));
       });
 

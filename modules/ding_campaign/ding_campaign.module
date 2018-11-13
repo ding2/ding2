@@ -142,7 +142,7 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
   // Get node id's for the campaign nodes matching the context.
   $campaigns = ding_campaign_get_campaigns($context, $count, $offset);
 
-  // If any campaigns where found.
+  // If any campaigns were found.
   if (!empty($campaigns)) {
     // Set outer wrapper.
     $content = array(

@@ -10,15 +10,11 @@
 function ding_content_wysiwyg_default_profiles() {
   $profiles = array();
 
-  // Exported profile: ding_wysiwyg
+  // Exported profile: ding_wysiwyg.
   $profiles['ding_wysiwyg'] = array(
     'format' => 'ding_wysiwyg',
     'editor' => 'ckeditor',
     'settings' => array(
-      'default' => 1,
-      'user_choose' => 0,
-      'show_toggle' => 1,
-      'add_to_summaries' => 1,
       'theme' => 'advanced',
       'language' => 'da',
       'buttons' => array(
@@ -66,6 +62,14 @@ function ding_content_wysiwyg_default_profiles() {
       'advanced__active_tab' => 'edit-css',
       'forcePasteAsPlainText' => 0,
     ),
+    'preferences' => array(
+      'add_to_summaries' => TRUE,
+      'default' => 1,
+      'show_toggle' => 1,
+      'user_choose' => 0,
+      'version' => '4.9.2.95e5d83',
+    ),
+    'name' => 'formatding_wysiwyg',
   );
 
   return $profiles;

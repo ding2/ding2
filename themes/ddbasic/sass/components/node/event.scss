@@ -103,19 +103,27 @@
         padding-right: 0;
       }
     }
-    .event-list-image {
+    .event-list-image-container {
       position: absolute;
       z-index: 1;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 200px;
-      overflow: hidden;
-      background-size: cover;
-      background-position: center center;
+      padding-top: 56.25%; // 16:9 format
 
-      // Mobile
       @include media($mobile) {
         display: none;
       }
+    }
+    .event-list-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center center;
     }
     .library {
       .field-item {
@@ -127,10 +135,14 @@
     }
     &.has-image {
       .inner {
-        padding: 0 $box-padding 10px $box-padding;
+        padding: 56.25% $box-padding 10px $box-padding; // 56.25% equals height of image
+
+        @include media($mobile) {
+          padding: 0 $box-padding 10px $box-padding;
+        }
       }
       .event-text {
-        padding-top: 215px;
+        padding-top: 15px;
 
         // Mobile
         @include media($mobile) {

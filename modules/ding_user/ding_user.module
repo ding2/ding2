@@ -426,7 +426,7 @@ function ding_user_get_pincode_length() {
  */
 function ding_user_element_validate_pincode($element, &$form_state, $form) {
   if (!preg_match('/^\d{' . ding_user_get_pincode_length() . '}$/', $element['#value'])) {
-    form_error($element, t('The pincode must consist of exactly %number digits.', array('%number' => ding_user_get_pincode_length())));
+    form_error($element, t('The pincode must consist of exactly %number digits and only contain integers.', array('%number' => ding_user_get_pincode_length())));
   }
 }
 
@@ -504,6 +504,11 @@ function ding_user_form_process_password_confirm($element) {
   // Fix-up titles.
   $element['pass1']['#title'] = t('Pincode');
   $element['pass2']['#title'] = t('Confirm pincode');
+
+  // We need to validate length and that it only contains digits. It should be
+  // enough to only validate one of the password fields, as they will have to be
+  // equal to be accepted.
+  $element['pass1']['#element_validate'][] = 'ding_user_element_validate_pincode';
 
   return $element;
 }
@@ -1114,7 +1119,7 @@ function ding_user_provider_id($account = NULL) {
   global $user;
 
   if ($account === NULL) {
-    $accout = $user;
+    $account = $user;
   }
 
   if (ding_provider_implements('user', 'get_provider_id')) {

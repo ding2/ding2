@@ -97,17 +97,11 @@ function _ding_ekurser_get_subject_terms() {
     ->withCount(1)
     ->withSort('acquisitionDate_descending')
     ->withTermsPrFacet(20)
+    ->withFacets(array('facet.subject'))
     ->execute();
 
-  // Extract subject facets.
-  $facets = $search_result->getFacets();
-  $subject_facets = array_filter($facets, function (TingSearchFacet $facet) {
-    return $facet->getName() == 'facet.subject';
-  });
-  $subject_term_groups = array_map(function (TingSearchFacet $facet) {
-    return $facet->getTerms();
-  }, $subject_facets);
-  $subject_terms = array_merge(...$subject_term_groups);
+  // Extract subject facet terms.
+  $subject_terms = $search_result->getFacets()['facet.subject']->getTerms();
 
   // Remove terms that covers more than 80% of the resultset.
   $frequent_subject_terms = array_filter(

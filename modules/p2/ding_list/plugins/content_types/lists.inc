@@ -64,5 +64,9 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
   $block->content['actions']['#items'][] = l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button'))));
   $block->content['actions']['#items'][] = l(t('View all public lists'), 'public-lists', array('attributes' => array('class' => array('button'))));
 
+  if (ding_list_reset_lists_access($account)) {
+    $block->content['actions']['#items'][] = l(t('Reset my lists'), 'user/' . $account->uid . '/reset-lists', array('attributes' => array('class' => array('button'))));
+  }
+
   return $block;
 }
