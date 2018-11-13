@@ -284,7 +284,7 @@ function ding_campaign_plus_facet_form_ding_campaign_plus_admin_settings_alter(&
   $form['ding_campaign_plus_facets']['description'] = array(
     '#prefix' => '<div class="description">',
     '#suffix' => '</div>',
-    '#markup' => t('All facets are explained at <a href="!url">!url</a>', array('!url' => 'https://opensearch.addi.dk/b3.5_4.5/?showCqlFile&repository=prod&cql=opensearch_cql.xml#facet')),
+    '#markup' => t('All facets are explained at <a href="!url">!url</a>', array('!url' => 'http://www.danbib.dk/brondindekser')),
   );
 
   $form['#submit'][] = 'ding_campaign_plus_facet_admin_settings_form_submit';
