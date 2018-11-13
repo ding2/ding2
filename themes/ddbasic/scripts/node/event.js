@@ -62,7 +62,7 @@
           var clean_string = split[0].replace('?', '');
           var exposed_form = $this.find('form#views-exposed-form-ding-event-ding-event-list');
 
-          var selected_category = exposed_form.find(':input[name="' + clean_string + '"]:input[value="'+split[1]+'"]');
+          var selected_category = exposed_form.find(':input[name="' + clean_string + '"]:input[value="' + split[1] + '"]');
           selected_category.prop('checked', true);
 
           // Remove "checked" property from checkbox if this is already checked.
