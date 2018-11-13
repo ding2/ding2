@@ -1,0 +1,450 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc: n/a
+#  profiles/ding2/modules/ding_nodelist/ding_nodelist.module: n/a
+#  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.carousel.tpl.php: n/a
+#  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_news.carousel.tpl.php: n/a
+#  profiles/ding2/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc: n/a
+#  profiles/ding2/modules/ding_nodelist/ding_nodelist.info: n/a
+#  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.taxonomy.tpl.php: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-07-28 11:33+0300\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:14
+msgid "No content types were found, please add one first."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:19
+msgid "Available content types"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:22
+msgid "Choose content types avaialable for display"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:30
+msgid "Default cache life time"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:32
+msgid "Lists will be cached by default for this period of time (seconds)"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:38
+msgid "Autoscroll delay"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:39
+msgid "The delay to show an item for various nodelist widgets (in milliseconds)."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:67 profiles/ding2/modules/ding_nodelist/ding_nodelist.module:53
+msgid "Templates"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:89
+msgid "Missing (@ctname)"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:95
+msgid "- select -"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:110;167
+msgid "Save"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:130
+msgid "Template settings have been saved."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:140
+msgid "Text truncation in widgets"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:141
+msgid "Define amount of chars to be shown in each widget type"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:181
+msgid "Trim settings have been saved."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:63
+msgid "Trim content"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:64
+msgid "Define title and teaser trim parameters for each widget"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:90;254
+msgid "Configure nodelist"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:91
+msgid "Configure the behavior of nodelist"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:94
+msgid "Nodelist cache"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:95
+msgid "Manage nodelist cache settings"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:229
+msgid "No eligible content types were found, please configure a few first."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:240 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.carousel.tpl.php:60 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.single.tpl.php:64 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.slider.tpl.php:52 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_news.carousel.tpl.php:35 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_news.single.tpl.php:35 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_news.slider.tpl.php:29 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_news.text.tpl.php:30
+msgid "More"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:260;1432
+msgid "Content type"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:264
+msgid "Select the content type of the list's items."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:284;1433
+msgid "List type"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:288
+msgid "- Select -"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:289
+msgid "If single item selected, only the first item will be rendered"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:310
+msgid "Delay (miliseconds)"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:312
+msgid "Time in milliseconds an item will be shown before switching to the next one"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:322
+msgid "List title"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:323
+msgid "Enter a title to be shown above the list items. Leave empty to omit the title."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:324
+msgid "You may use %keywords from contexts, as well as %title to contain the original title."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:333
+msgid "Content"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:344
+msgid "Custom / Dynamic"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:345
+msgid "All content"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:361
+msgid "Custom content?"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:370
+msgid "Custom item list"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:423
+msgid "Add content"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:437
+msgid "Dynamic content?"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:560
+msgid "Explain the OR/AND syntax."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:567
+msgid "Add filter"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:583
+msgid "Show \"Promoted to front page\" content only"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:590
+msgid "Show upcoming events only"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:591
+msgid "If checked only future events will be shown"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:600
+msgid "Various"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:616
+msgid "Item limit"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:619
+msgid "Limit amount of items displayed. This value is used only for Dynamic and All content displays."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:639
+msgid "Creation date"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:640;1431
+msgid "Title"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:641
+msgid "Sticky first"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:645
+msgid "Event date"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:650
+msgid "Sort by"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:652
+msgid "No sorting"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:661
+msgid "Sorting order"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:663
+msgid "Ascending"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:664
+msgid "Descending"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:677
+msgid "Width (columns)"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:679
+msgid "Full width"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:690
+msgid "Additional links"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:692
+msgid "List of \"read more\" links."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:733
+msgid "Add more link"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:749
+msgid "Cache settings"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:808
+msgid "Select new node to add to list"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:842
+msgid "Weight for node @label"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:842
+msgid "Weight for new choice"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:854;946
+msgid "Delete"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:879
+msgid "Link title"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:890;1406
+msgid "URL"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:893
+msgid "Local path or external URL starting with http(s). Enter \"<front>\" to link to home page."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1064
+msgid "Select at least one content pick rule (custom and/or dynamic)."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1074
+msgid "No custom list content specified."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1086
+msgid "No terms specified for dynamic list filter."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1341
+msgid "Selected content"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1341
+msgid "Weight"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1380
+msgid "Field"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1380
+msgid "Values"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1406
+msgid "Text"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1430
+msgid "Machine name"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1434
+msgid "Visible"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1456
+msgid "Widget"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1457
+msgid "Title length"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1458
+msgid "Teaser length"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1478 profiles/ding2/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc:11
+msgid "Nodelist"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1481
+msgid "Nodelist (untitled)"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1492
+msgid "No information"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2072
+msgid "Invalid term(s)."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2144
+msgid "Single item"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2145
+msgid "Carousel"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2146
+msgid "Horizontal accordion"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2148
+msgid "Slider"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2383
+msgid "Show only day."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2384
+msgid "Show only month."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:35
+msgid "Ding nodelist"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:36
+msgid "View and customize lists of content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:45
+msgid "Settings"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:46
+msgid "Configure general settings."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:54
+msgid "Manage content templates."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.info:0
+msgid "easyOPAC Nodelist"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.info:0
+msgid "Module for creating lists."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.info:0
+msgid "easyOPAC"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc:12
+msgid "Ding!"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc:13
+msgid "Allows to create highliy customizeable list of contents"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.carousel.tpl.php:38 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.image_text.tpl.php:45 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.single.tpl.php:42 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.slider.tpl.php:30 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.taxonomy.tpl.php:59
+msgid "kr."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.carousel.tpl.php:41 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.image_text.tpl.php:48 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.single.tpl.php:45 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.slider.tpl.php:33 profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.taxonomy.tpl.php:62
+msgid "Free"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.image_text.tpl.php:33
+msgid "Time:"
+msgstr ""
+

@@ -1,0 +1,285 @@
+<?php
+/**
+ * @file
+ * Installation/uninstallation functions for ding_nodelist module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_nodelist_schema() {
+  $schema['ding_nodelist_templates'] = array(
+    'description' => 'Stores nodelist templates.',
+    'fields' => array(
+      'filename' => array(
+        'description' => 'Name of the template file.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'title' => array(
+        'description' => 'Template title set by users.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'content_type' => array(
+        'description' => 'Machine name of content type to which belong template.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'widget' => array(
+        'description' => 'Widget type this template is bind to.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+      ),
+      'status' => array(
+        'description' => 'Boolean indicating whether the template is enabled by default.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+      ),
+    ),
+    'primary key' => array('filename'),
+    // @todo: define when selects become clear
+    'indexes' => array(),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function ding_nodelist_install() {
+  // Create template/wid get settings.
+  $mappings = array(
+    'ding_nodelist.ding_event.carousel' => array(
+      'widget' => 'carousel',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_news.carousel' => array(
+      'widget' => 'carousel',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_event.rolltab' => array(
+      'widget' => 'rolltab',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_news.rolltab' => array(
+      'widget' => 'rolltab',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_page.rolltab' => array(
+      'widget' => 'rolltab',
+      'content_type' => 'ding_page',
+    ),
+    'ding_nodelist.ding_event.promoted_nodes' => array(
+      'widget' => 'promoted_nodes',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_news.promoted_nodes' => array(
+      'widget' => 'promoted_nodes',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_page.promoted_nodes' => array(
+      'widget' => 'promoted_nodes',
+      'content_type' => 'ding_page',
+    ),
+    'ding_nodelist.ding_event.node_blocks' => array(
+      'widget' => 'node_blocks',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_news.node_blocks' => array(
+      'widget' => 'node_blocks',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_page.node_blocks' => array(
+      'widget' => 'node_blocks',
+      'content_type' => 'ding_page',
+    ),
+  );
+
+  foreach ($mappings as $filename => $mapping) {
+    $fields = array(
+      'filename' => $filename,
+      'title' => $filename,
+      'content_type' => $mapping['content_type'],
+      'widget' => $mapping['widget'],
+      'status' => 0,
+    );
+    db_insert('ding_nodelist_templates')->fields($fields)->execute();
+  }
+
+  // Create new "colored" css on module install.
+  _ding_nodelist_process_css_colors();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_nodelist_uninstall() {
+  variable_del('ding_nodelist_node_types');
+  variable_del('ding_nodelist_cache_default_time');
+}
+
+/**
+ * Implements new display types.
+ */
+function ding_nodelist_update_7001() {
+  // Adding "content_type" column if it's not existing.
+  if (!db_field_exists('ding_nodelist_templates', 'content_type')) {
+    $new_field = array(
+      'description' => 'Machine name of content type to which belong template.',
+      'type' => 'varchar',
+      'length' => 255,
+      'not null' => TRUE,
+      'default' => '',
+    );
+
+    db_add_field('ding_nodelist_templates', 'content_type', $new_field);
+  }
+
+  // Adding new records to db table.
+  $mappings = array(
+    'ding_nodelist.ding_event.rolltab' => array(
+      'widget' => 'rolltab',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_news.rolltab' => array(
+      'widget' => 'rolltab',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_page.rolltab' => array(
+      'widget' => 'rolltab',
+      'content_type' => 'ding_page',
+    ),
+    'ding_nodelist.ding_event.promoted_nodes' => array(
+      'widget' => 'promoted_nodes',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_news.promoted_nodes' => array(
+      'widget' => 'promoted_nodes',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_page.promoted_nodes' => array(
+      'widget' => 'promoted_nodes',
+      'content_type' => 'ding_page',
+    ),
+    'ding_nodelist.ding_event.node_blocks' => array(
+      'widget' => 'node_blocks',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_news.node_blocks' => array(
+      'widget' => 'node_blocks',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_page.node_blocks' => array(
+      'widget' => 'node_blocks',
+      'content_type' => 'ding_page',
+    ),
+  );
+
+  foreach ($mappings as $filename => $mapping) {
+    $fields = array(
+      'filename' => $filename,
+      'title' => $filename,
+      'content_type' => $mapping['content_type'],
+      'widget' => $mapping['widget'],
+      'status' => 0,
+    );
+    db_insert('ding_nodelist_templates')->fields($fields)->execute();
+  }
+}
+
+/**
+ * Update pane configuration.
+ */
+function ding_nodelist_update_7002() {
+  $query = db_select('panels_pane', 'pp');
+
+  $query->condition('type', 'ding_nodelist')
+    ->condition('subtype', 'ding_nodelist')
+    ->fields('pp', array('pid', 'configuration'));
+
+  $results = $query->execute();
+
+  foreach ($results as $result) {
+    $config = unserialize($result->configuration);
+
+    // Replace array key.
+    $array = ding_nodelist_replace_key($config, 'content_type', 'content_types');
+
+    // Forming content types array.
+    $cts = array();
+    $ct = $config['content_type'];
+    $cts[$ct] = $ct;
+
+    // Assing new content types array to configuration.
+    $array['content_types'] = $cts;
+
+    // Update db.
+    if (!isset($config['content_types'])) {
+      db_update('panels_pane')
+        ->fields(array('configuration' => serialize($array)))
+        ->condition('pid', $result->pid, '=')
+        ->execute();
+    }
+  }
+}
+
+/**
+ * Setting correct relation between content type and template.
+ */
+function ding_nodelist_update_7005() {
+  $rows = db_select('ding_nodelist_templates', 'dnt')
+    ->fields('dnt')
+    ->execute();
+
+  foreach ($rows as $row) {
+    if (empty($row->content_type)) {
+      $template = explode('.', $row->filename);
+
+      db_update('ding_nodelist_templates')
+        ->fields(array('content_type' => $template[1]))
+        ->condition('filename', $row->filename, '=')
+        ->execute();
+    }
+  }
+}
+
+/**
+ * Creating rewritten css file in order to match current site's color palette.
+ */
+function ding_nodelist_update_7006() {
+  _ding_nodelist_process_css_colors();
+}
+
+/**
+ * Helper function for replacing keys of array elements.
+ *
+ * @param array $array
+ *   Array to be processed.
+ * @param string $key1
+ *    Array key to be replaced.
+ * @param $key2
+ *    Array key to replace with.
+ *
+ * @return array
+ *   Processed array.
+ */
+function ding_nodelist_replace_key($array = array(), $key1 = '', $key2 = '') {
+  $keys = array_keys($array);
+  $index = array_search($key1, $keys);
+
+  if ($index !== FALSE) {
+    $keys[$index] = $key2;
+    $array = array_combine($keys, $array);
+  }
+
+  return $array;
+}
