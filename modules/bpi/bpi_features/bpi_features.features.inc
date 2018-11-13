@@ -26,13 +26,9 @@ function bpi_features_default_Workflow() {
     },
     "transitions" : {
       "_creation_to_local_content" : {"roles":{"-1":-1,"3":3,"4":4,"6":6,"7":7},"name":"_creation_to_local_content","label":"Save","start_state":"(creation)","end_state":"local_content"},
-      "_creation_to_pre_bpi" : {"roles":{"3":3,"4":4,"6":6,"7":7},"name":"_creation_to_pre_bpi","label":"Save and push","start_state":"(creation)","end_state":"pre_bpi"},
       "_creation_to_created_bpi" : {"roles":{"3":3,"4":4,"6":6,"7":7},"name":"_creation_to_created_bpi","label":"Save content from BPI","start_state":"(creation)","end_state":"created_bpi"},
       "local_content_to_local_content" : {"roles":{"-1":-1,"3":3,"4":4,"6":6,"7":7},"name":"local_content_to_local_content","label":"Save","start_state":"local_content","end_state":"local_content"},
       "local_content_to_sent_to_bpi" : {"roles":{"3":3,"4":4,"6":6,"7":7},"name":"local_content_to_sent_to_bpi","label":"Save and push","start_state":"local_content","end_state":"sent_to_bpi"},
-      "pre_bpi_to_local_content" : {"roles":{"3":3,"4":4,"6":6,"7":7},"name":"pre_bpi_to_local_content","label":"Save local content","start_state":"pre_bpi","end_state":"local_content"},
-      "pre_bpi_to_pre_bpi" : {"roles":{"-1":-1,"3":3,"4":4,"6":6,"7":7},"name":"pre_bpi_to_pre_bpi","label":"Save","start_state":"pre_bpi","end_state":"pre_bpi"},
-      "pre_bpi_to_sent_to_bpi" : {"roles":{"-1":-1,"3":3,"4":4,"6":6,"7":7},"name":"pre_bpi_to_sent_to_bpi","label":"Send to BPI","start_state":"pre_bpi","end_state":"sent_to_bpi"},
       "sent_to_bpi_to_sent_to_bpi" : {"roles":{"-1":-1,"3":3,"4":4,"6":6,"7":7},"name":"sent_to_bpi_to_sent_to_bpi","label":"Save and push","start_state":"sent_to_bpi","end_state":"sent_to_bpi"},
       "sent_to_bpi_to_sent_local" : {"roles":{"3":3,"4":4,"6":6,"7":7},"name":"sent_to_bpi_to_sent_local","label":"Save","start_state":"sent_to_bpi","end_state":"sent_local"},
       "sent_to_bpi_to_deleted_bpi" : {"roles":{"-1":-1,"3":3,"6":6},"name":"sent_to_bpi_to_deleted_bpi","label":"Delete from BPI","start_state":"sent_to_bpi","end_state":"deleted_bpi"},
