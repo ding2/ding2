@@ -36,7 +36,7 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
       $carousels[] = array(
         '#type' => 'ding_carousel',
         '#title' => $search['title'],
-        '#path' => 'ting_search_carousel/results/ajax/' . urlencode($search['query']),
+        '#path' => ting_search_carousel_ajax_path($search['query']),
         '#items' => $items,
         '#offset' => $chunk['next_offset'],
         // Add a single placeholder to fetch more content later if there is more
@@ -134,6 +134,18 @@ function ting_search_carousel_carousel_content_type_edit_form($form, &$form_stat
   );
 
   return $form;
+}
+
+/**
+ * Panel pane configuration form validate handler.
+ */
+function ting_search_carousel_carousel_content_type_edit_form_validate(&$form, &$form_state) {
+  foreach ($form_state['values']['searches'] as $index => $search) {
+    $path = ting_search_carousel_ajax_path($search['query']);
+    if (strlen($path) > 2048) {
+      form_error($form['searches'][$index]['query'], t('Search string too long. Please limit the lenght.'));
+    }
+  }
 }
 
 /**

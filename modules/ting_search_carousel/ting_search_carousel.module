@@ -30,6 +30,19 @@ function ting_search_carousel_menu() {
 }
 
 /**
+ * Get ajax path for search.
+ *
+ * @param string $query
+ *   Search query.
+ *
+ * @return string
+ *   The callback path.
+ */
+function ting_search_carousel_ajax_path($query) {
+  return 'ting_search_carousel/results/ajax/' . urlencode($query);
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
