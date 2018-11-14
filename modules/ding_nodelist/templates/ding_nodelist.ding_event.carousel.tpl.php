@@ -4,11 +4,14 @@
  * @file
  * Ding event image and text template.
  */
+
 ?>
 <div class="item">
   <?php if (!empty($item->image)): ?>
     <div class="event-image" style="background-image:url(<?php print $item->image; ?>);"></div>
-  <?php endif; ?>
+  <?php
+  endif;
+  ?>
   <div class="event-time">
     <div class="event-day"><?php print format_date($item->timestamp, 'custom', 'D', $item->timezone); ?></div>
     <div class="event-date"><?php print format_date($item->timestamp, 'custom', 'd', $item->timezone); ?></div>

@@ -4,15 +4,20 @@
  * @file
  * Template file for ding_news rolltab layout.
  */
+
 ?>
 <div class="ding-tabroll">
   <div class="ui-tabs-panel">
     <div class="image">
       <?php if (!$item->image): ?>
         <span class="no-image"></span>
-      <?php else: ?>
+      <?php
+        else:
+      ?>
         <?php print $item->image_link; ?>
-      <?php endif; ?>
+      <?php
+        endif;
+      ?>
     </div>
 
     <div class="info">

@@ -4,6 +4,7 @@
  * @file
  * Ctools plugin definition file.
  */
+
 define('DING_NODELIST_LIST_TYPE_DYNAMIC', 'custom-dynamic');
 define('DING_NODELIST_LIST_TYPE_ALL', 'all');
 define('DING_NODELIST_SORT_BY_CREATION_DATE', 'created');
@@ -115,7 +116,7 @@ function ding_nodelist_content_type_render($subtype, $conf, $args, $context) {
   // Init JS for widgets.
   _ding_nodelist_add_js($conf['widget_type'], $conf['autoscroll_delay'], $conf['unique_id']);
 
-   // Ensure that slick library is loaded properly.
+  // Ensure that slick library is loaded properly.
   if ($conf['widget_type'] == 'carousel' && libraries_detect('slick')) {
     libraries_load('slick');
   }
@@ -142,7 +143,7 @@ function ding_nodelist_content_type_render($subtype, $conf, $args, $context) {
  */
 function ding_nodelist_content_type_admin_title($subtype, $conf, $context = NULL) {
   if (!empty($conf['override_title_text'])) {
-    $output = t('Nodelist') . ': ' . filter_xss_admin($conf['override_title_text']);
+    $output = t('Nodelist: @override_title_text', array('@override_title_text' => filter_xss_admin($conf['override_title_text'])));
   }
   else {
     $output = t('Nodelist (untitled)');

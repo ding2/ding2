@@ -4,6 +4,7 @@
  * @file
  * Ding news image and text template.
  */
+
 ?>
 <div class="item">
   <div class="article_image">

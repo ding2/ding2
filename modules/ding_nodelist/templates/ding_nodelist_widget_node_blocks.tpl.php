@@ -9,7 +9,9 @@
 <?php if ($items): ?>
   <?php if (!empty($conf['title'])): ?>
     <h2 class="pane-title"><?php print $conf['title']; ?></h2>
-  <?php endif; ?>
+  <?php
+  endif;
+  ?>
   <div class="<?php print $conf['classes'] ?>">
     <div class="ding_nodelist-items">
       <?php
@@ -27,6 +29,10 @@
     </div>
     <?php if (!empty($links)): ?>
       <?php print theme('ding_nodelist_more_links', array('links' => $links)); ?>
-    <?php endif; ?>
+    <?php
+    endif;
+    ?>
   </div>
-<?php endif; ?>
+<?php
+endif;
+?>

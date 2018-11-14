@@ -54,11 +54,24 @@
 
       var player;
 
+      function onPlayerReady01() {
+        // bind events
+        $('.overlay', context).on("click", function () {
+          var $this = $(this);
+
+          $this.fadeOut();
+          $this.parent().find('.has-video').fadeOut();
+          if ($('.is-tablet').is(':visible') === true) {
+            player.playVideo();
+          }
+        });
+      }
+
       function initPlayer() {
         if (mediasrc === "yt") {
           window.onYouTubePlayerAPIReady = function () {
             // create the global player from the specific iframe (#video)
-            player = new YT.Player('video', {
+            player = new window.YT.Player('video', {
               events: {
                 // call this function when player is ready to use
                 'onReady': onPlayerReady01
@@ -75,7 +88,7 @@
         else {
           if (mediasrc === "vimeo") {
             var iframe = document.getElementById('video');
-            player = $f(iframe);
+            player = window.$f(iframe);
 
             $('.overlay').on("click", function () {
               var $this = $(this);
@@ -86,11 +99,10 @@
               }
             });
           }
-
           else {
             if (mediasrc === "sc") {
-              player = SC.Widget(document.getElementById('soundcloud_widget'));
-              player.bind(SC.Widget.Events.READY, function () {
+              player = window.SC.Widget(document.getElementById('soundcloud_widget'));
+              player.bind(window.SC.Widget.Events.READY, function () {
                 $('.overlay').on("click", function () {
                   var $this = $(this);
                   $this.fadeOut();
@@ -106,18 +118,7 @@
         }
       }
 
-      function onPlayerReady01() {
-        // bind events
-        $('.overlay', context).on("click", function () {
-          var $this = $(this);
 
-          $this.fadeOut();
-          $this.parent().find('.has-video').fadeOut();
-          if ($('.is-tablet').is(':visible') === true) {
-            player.playVideo();
-          }
-        });
-      }
 
       initPlayer();
 

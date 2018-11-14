@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_nodelist.features.user_permission.inc

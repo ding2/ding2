@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Administration interface for nodelist configuration.
@@ -21,11 +22,12 @@ function ding_nodelist_settings_form() {
     '#default_value' => variable_get('ding_nodelist_node_types', array()),
     '#description' => t('Choose content types avaialable for display'),
   );
-  // Options as defined by panels/plugins/cache/simple.inc
+  // Options as defined by panels/plugins/cache/simple.inc.
   $options = drupal_map_assoc(
     array(
       0, 15, 30, 60, 120, 180, 240, 300, 600, 900, 1200, 1800, 3600,
-      7200, 14400, 28800, 43200, 86400, 172800, 259200, 345600, 604800),
+      7200, 14400, 28800, 43200, 86400, 172800, 259200, 345600, 604800,
+    ),
     'format_interval');
 
   $form['ding_nodelist_cache_default_time'] = array(

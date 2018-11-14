@@ -161,7 +161,7 @@ function ding_nodelist_form_node_form_alter(&$form, &$form_state) {
  * @param array $form_state
  *   Array of states of the submitted form.
  */
-function _ding_nodelist_clear_panel_cache_submit($form = array(), &$form_state = array()) {
+function _ding_nodelist_clear_panel_cache_submit(array $form, array &$form_state) {
   $status = $form_state['values']['status'];
   if ($status == 0) {
     cache_clear_all('*', 'cache_panels', TRUE);
@@ -175,7 +175,7 @@ function _ding_nodelist_clear_panel_cache_submit($form = array(), &$form_state =
  *   Unique key for this piece.
  * @param array $types
  *   Node type.
- * @param array $node
+ * @param array|null $node
  *   Array with the node object.
  * @param int $weight
  *   Piece weight.
@@ -183,13 +183,14 @@ function _ding_nodelist_clear_panel_cache_submit($form = array(), &$form_state =
  * @return array
  *   Form structure.
  */
-function _ding_nodelist_selected_node($key, $types, $node = array(), $weight = 0) {
+function _ding_nodelist_selected_node($key, array $types, $node, $weight = 0) {
   $form = array(
     '#tree' => TRUE,
     '#weight' => $weight,
   );
 
-  // Getting content type for which will be fetched results in autocomplete field.
+  // Getting content type for which will be fetched results in autocomplete
+  // field.
   $types = urlencode(implode('|', array_filter($types, '_ding_nodelist_chosen_ct')));
 
   // Set default value for 'node'.
@@ -305,7 +306,7 @@ function _ding_nodelist_links_form($key, $link) {
  * @param string $content_type
  *   Content type machine name or 0 as value if it is unselected.
  *
- * @return boolean
+ * @return bool
  *   Return content type if not empty.
  */
 function _ding_nodelist_chosen_ct($content_type) {
@@ -318,17 +319,18 @@ function _ding_nodelist_chosen_ct($content_type) {
  * @param array $fields
  *   Array of taxonomy related fields for requested content type.
  * @param array $filter
- *   Default filter by which will be filtered records while fetching from database.
+ *   Default filter by which will be filtered records while fetching from
+ *   database.
  * @param int $key
  *   Position of element.
  *
  * @return array
  *   Form structure for current section.
  */
-function _ding_nodelist_taxonomy_filter($fields, $filter, $key) {
+function _ding_nodelist_taxonomy_filter(array $fields, array $filter, $key) {
   $filter_fields = array_map(function ($field) {
       return $field['title'];
-    },
+  },
     $fields
   );
 
@@ -430,7 +432,7 @@ function ding_nodelist_add_node_submit($form, &$form_state) {
  * @param array $form_state
  *   Collection of values of the current state of the form.
  */
-function _ding_nodelist_get_node_nid($key, $node, &$form_state) {
+function _ding_nodelist_get_node_nid($key, array $node, array &$form_state) {
   $tmp_nid = explode(':', $node['node']);
   $tmp_nid = array_pop($tmp_nid);
   $tmp_nid = substr($tmp_nid, 0, -1);
@@ -840,7 +842,7 @@ function theme_ding_nodelist_trim_text_table($variables) {
  * @return string
  *   Path to image or empty string if the image cannot be loaded.
  */
-function _ding_nodelist_get_image_path($node, $conf, $image_field) {
+function _ding_nodelist_get_image_path($node, array $conf, $image_field) {
   $image = _ding_nodelist_get_dams_image_info($node, $image_field);
   $image_path = '';
   if (isset($image['path'])) {
@@ -853,18 +855,19 @@ function _ding_nodelist_get_image_path($node, $conf, $image_field) {
 /**
  * Getting event hours.
  *
- * @param array $period
+ * @param array $event
  *   Full date array for selected event.
  *
  * @return string
+ *   Formatted time period string.
  */
-function _ding_nodelist_get_event_hours($event) {
+function _ding_nodelist_get_event_hours(array $event) {
   $start = strtotime($event[0]['value']);
   $end = strtotime($event[0]['value2']);
 
   return t('!start to !end', array(
-    '!start' => format_date($start,'custom', 'H:i', $event[0]['timezone']),
-    '!end' => format_date($end,'custom', 'H:i', $event[0]['timezone']),
+    '!start' => format_date($start, 'custom', 'H:i', $event[0]['timezone']),
+    '!end' => format_date($end, 'custom', 'H:i', $event[0]['timezone']),
   ));
 }
 
@@ -1042,7 +1045,7 @@ function _ding_nodelist_get_templates($include_hidden = TRUE, $content_type = NU
  * @return array
  *   Array of node IDs.
  */
-function _ding_nodelist_get_dynamic_list_nodes($conf = array()) {
+function _ding_nodelist_get_dynamic_list_nodes(array $conf) {
   global $language;
   // Support for slave-master DB servers.
   $query = db_select('node', 'n', array('target' => 'slave'))->fields('n', array('nid'));
@@ -1104,7 +1107,7 @@ function _ding_nodelist_get_dynamic_list_nodes($conf = array()) {
       . ' OR DATE_FORMAT(fed.field_ding_event_date_value2, :format) >= CURRENT_DATE()', array(':format' => '%Y-%m-%d'));
   }
 
-  // Insert sorting option
+  // Insert sorting option.
   _ding_nodelist_sort_query($query, $conf);
 
   // Add limit for list nodes.
@@ -1128,10 +1131,10 @@ function _ding_nodelist_get_dynamic_list_nodes($conf = array()) {
  * @return array
  *   Array of node IDs.
  */
-function _ding_nodelist_get_custom_list_nodes(&$conf = array()) {
+function _ding_nodelist_get_custom_list_nodes(array &$conf = array()) {
   $nodes = $conf['selected_nodes'];
   uasort($nodes, 'drupal_sort_weight');
-  $nodes = array_map(function($node) {
+  $nodes = array_map(function ($node) {
     return $node['nid'];
   }, $nodes);
 
@@ -1139,14 +1142,14 @@ function _ding_nodelist_get_custom_list_nodes(&$conf = array()) {
 }
 
 /**
- * Alter query object in order to insert a sorting option
+ * Alter query object in order to insert a sorting option.
  *
  * @param object $query
  *   Select query object.
  * @param array $conf
  *   Set of configs for the pane.
  */
-function _ding_nodelist_sort_query(&$query, $conf) {
+function _ding_nodelist_sort_query(&$query, array $conf) {
   if (empty($conf['sort_field'])) {
     if (count($conf['content_types']) == 1 && !empty($conf['content_types']['ding_event'])) {
       $query->join('field_data_field_ding_event_date', 'fed', 'fed.entity_id = n.nid');
@@ -1179,7 +1182,7 @@ function _ding_nodelist_sort_query(&$query, $conf) {
  * @return array
  *   Collection of sorted nodes.
  */
-function _ding_nodelist_sort_nodes($nodes = array(), $conf = array()) {
+function _ding_nodelist_sort_nodes(array $nodes, array $conf) {
   if ($conf['sort_field']) {
     $sorted_nodes = array();
     foreach ($nodes as $node) {
@@ -1245,7 +1248,7 @@ function _ding_nodelist_sort_nodes($nodes = array(), $conf = array()) {
  * @return array
  *   Sorted event nodes.
  */
-function ding_nodelist_event_date_sort($event_nodes = array(), $sorting_order = 'asc') {
+function ding_nodelist_event_date_sort(array $event_nodes = array(), $sorting_order = 'asc') {
   // This will hold the sorted events.
   $sorted_event_nodes = array();
   // Create an array of dates. Keep the $key in order
@@ -1430,7 +1433,7 @@ function _ding_nodelist_get_column_map() {
  *
  * Method used for receiving event date. Used in ding_event nodelist templates.
  *
- * @param object $event_node
+ * @param object $date
  *   Event node object.
  *
  * @return string
@@ -1452,13 +1455,13 @@ function _ding_nodelist_get_event_date($date) {
 /**
  * Return formatted time for events of the same day.
  *
- * @param array $event
+ * @param array $date
  *   Event node field.
  *
  * @return string
  *   Formatted event time period.
  */
-function _ding_nodelist_format_event_time($date) {
+function _ding_nodelist_format_event_time(array $date) {
   $start = strtotime($date[0]['value'] . ' ' . $date[0]['timezone_db']);
   $end = strtotime($date[0]['value2'] . ' ' . $date[0]['timezone_db']);
 
@@ -1487,7 +1490,7 @@ function _ding_nodelist_format_event_time($date) {
  * @return string
  *   Formatted event date period.
  */
-function _ding_nodelist_format_event_date($date) {
+function _ding_nodelist_format_event_date(array $date) {
   $start = strtotime($date[0]['value']);
   $end = strtotime($date[0]['value2']);
 
@@ -1495,7 +1498,7 @@ function _ding_nodelist_format_event_date($date) {
 
   $result = $start_string;
   if ($end - $start > 0) {
-    $end_string = format_date($end,  'custom', 'd.m.y', $date[0]['timezone']);
+    $end_string = format_date($end, 'custom', 'd.m.y', $date[0]['timezone']);
     $result = t('!start - !end', array(
       '!start' => $start_string,
       '!end' => $end_string,
@@ -1590,7 +1593,7 @@ function _ding_nodelist_trim_fields(array $nodes, array $conf) {
     else {
       $node = array_map(function ($i) use ($settings) {
           return _ding_nodelist_trim($i, $settings);
-        },
+      },
         $node
       );
     }
@@ -1609,6 +1612,7 @@ function _ding_nodelist_trim_fields(array $nodes, array $conf) {
  *   Settings for performing trim of given context.
  *
  * @return mixed
+ *   Returns trimmed content fields.
  */
 function _ding_nodelist_trim($node, array $settings) {
   foreach ($settings as $field_name => $setting) {
@@ -1723,27 +1727,27 @@ function ding_nodelist_preprocess(&$variables, $hook) {
         $library = field_view_field('node', $item, 'og_group_ref', array(
           'label' => 'hidden',
           'type' => 'entityreference_label',
-          'settings' => array('link' => FALSE)
+          'settings' => array('link' => FALSE),
         ));
         $items[$key]->library = $library;
 
         $library_link = field_view_field('node', $item, 'og_group_ref', array(
           'label' => 'hidden',
           'type' => 'entityreference_label',
-          'settings' => array('link' => TRUE)
+          'settings' => array('link' => TRUE),
         ));
         $items[$key]->library_link = $library_link;
 
         $category = field_view_field('node', $item, 'field_' . $item->type . '_category', array(
           'label' => 'hidden',
-          'type' => 'taxonomy_term_reference_plain'
+          'type' => 'taxonomy_term_reference_plain',
         ));
 
         $items[$key]->category = $category;
 
         $category_link = field_view_field('node', $item, 'field_' . $item->type . '_category', array(
           'label' => 'hidden',
-          'type' => 'taxonomy_term_reference_link'
+          'type' => 'taxonomy_term_reference_link',
         ));
         $items[$key]->category_link = $category_link;
 

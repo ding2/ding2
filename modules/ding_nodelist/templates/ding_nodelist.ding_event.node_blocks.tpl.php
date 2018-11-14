@@ -1,11 +1,11 @@
 <?php
+
 /**
  * @file
  * Ding event node blocks template.
  */
 
 ?>
-
 <article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
     class="node node-ding-event node-promoted node-teaser nb-item <?php print $item->image ? 'has-image' : ''; ?>">
   <a href="<?php print '/node/' . $item->nid; ?>">
@@ -40,6 +40,8 @@
     </div>
       <?php if (!empty($item->image)): ?>
           <div class="event-list-image nb-image" style="background-image:url(<?php print $item->image; ?>);"></div>
-      <?php endif; ?>
+      <?php
+      endif;
+      ?>
   </a>
 </article>

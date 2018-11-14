@@ -11,9 +11,13 @@
     <div class="image">
       <?php if (!$item->image): ?>
         <span class="no-image"></span>
-      <?php else: ?>
+      <?php
+        else:
+      ?>
         <?php print $item->image_link; ?>
-      <?php endif; ?>
+      <?php
+        endif;
+      ?>
     </div>
 
     <div class="info">

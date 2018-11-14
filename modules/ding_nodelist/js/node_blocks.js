@@ -13,7 +13,7 @@
 
   // Call resize function when images are loaded.
   Drupal.behaviors.ding_page_teaser_loaded = {
-    attach: function(context, settings) {
+    attach: function() {
       if ($.isFunction($.fn.imagesLoaded)) {
         $('.view-ding-page .view-elements').imagesLoaded( function() {
           $(window).triggerHandler('resize.ding_page_teaser');
@@ -33,7 +33,7 @@
   });
   // Call resize function when images are loaded.
   Drupal.behaviors.ding_nodelist_nodeblocks_loaded = {
-    attach: function(context, settings) {
+    attach: function() {
       if ($.isFunction($.fn.imagesLoaded)) {
         $('.view-ding-event .view-elements').imagesLoaded( function() {
           $(window).triggerHandler('resize.node_teaser');

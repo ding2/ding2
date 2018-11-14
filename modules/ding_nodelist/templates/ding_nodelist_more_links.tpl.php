@@ -12,6 +12,8 @@
       <li>
         <div class="more-link"><?php print $link; ?></div>
       </li>
-    <?php endforeach; ?>
+    <?php
+    endforeach;
+    ?>
   </ul>
 </div>
