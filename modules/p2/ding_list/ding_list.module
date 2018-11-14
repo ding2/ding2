@@ -753,7 +753,7 @@ function ding_list_reset_lists_access($target_account, $account = NULL) {
 function ding_list_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   $current_page = page_manager_get_current_page();
 
-  if (empty($context = reset($current_page['contexts']))) {
+  if (empty($current_page['contexts']) || empty($context = reset($current_page['contexts']))) {
     return;
   }
 
@@ -779,6 +779,7 @@ function ding_list_form_search_block_form_alter(&$form, &$form_state, $form_id) 
  */
 function ding_list_search_query_add_button($context) {
   if (!property_exists($context, 'keyword') ||
+    $context->keyword !== 'keywords' ||
     !property_exists($context, 'data')) {
     return NULL;
   }

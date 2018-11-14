@@ -153,25 +153,24 @@ function ding_webtrends_get_search_info() {
  * Implements hook_preprocess_ding_list_add_button().
  */
 function ding_webtrends_preprocess_ding_list_add_button(&$variables) {
-  $variables = _ding_webtrends_preprocess_ding_list_add_button($variables);
-
+  $variables = _ding_webtrends_prepare_ding_list_add_button($variables);
 }
 
 /**
  * Implements hook_preprocess_ding_list_add_button_simple().
  */
 function ding_webtrends_preprocess_ding_list_add_button_simple(&$variables) {
-  $variables = _ding_webtrends_preprocess_ding_list_add_button($variables);
+  $variables = _ding_webtrends_prepare_ding_list_add_button($variables);
 }
 
 /**
- * Helper function for preprocessing ding list add button.
+ * Custom helper function for preprocessing ding list add button.
  *
  * The ding list add buttons is AJAX-enabled and we want to track those with
  * dcsMultiTrack. Unfortunately, the standard classes is not enough to make the
  * selector specific enough, so we add our own here.
  */
-function _ding_webtrends_preprocess_ding_list_add_button($variables) {
+function _ding_webtrends_prepare_ding_list_add_button($variables) {
   $links = &$variables['buttons']['#links'];
   foreach ($links as $key => $link) {
     // We only want to track dinglist attach buttons that are AJAX-enabled
