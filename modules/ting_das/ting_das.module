@@ -24,10 +24,36 @@ function ting_das_menu() {
     'page callback' => 'ting_das_ajax',
     'page arguments' => array(1),
     'delivery callback' => 'ajax_deliver',
-    'access arguments' => array('access content'),
+    'access callback' => 'ting_das_access',
+    'access arguments' => array(1),
   );
 
   return $items;
+}
+
+/**
+ * Access callback. Ensure that current user is the same.
+ */
+function ting_das_access($entity) {
+  $type = drupal_strtolower($entity->getType());
+  $types = array_filter(_ting_das_get_configured_well_types());
+
+  // Check that the entity is not already available as an online resources and
+  // is one of the configured types.
+  if (isset($types[$type]) && !$entity->is('online') && !$entity->is('infomedia')) {
+    if (user_is_logged_in()) {
+      try {
+        $creds = ding_user_get_creds();
+        return isset($creds['resident']) && $creds['resident'];
+      }
+      catch (DingProviderAuthException $exception) {
+        // This is okay as the use simply was not logged in as an provider
+        // user. So do noting in this case.
+      }
+    }
+  }
+
+  return FALSE;
 }
 
 /**
@@ -37,7 +63,8 @@ function ting_das_ding_entity_buttons($type, $entity, $view_mode, $widget = 'def
   $type = drupal_strtolower($entity->getType());
   $types = array_filter(_ting_das_get_configured_well_types());
 
-  // Check that the entity is not already available as an online resources and is one of the configured types.
+  // Check that the entity is not already available as an online resources and
+  // is one of the configured types.
   if (isset($types[$type]) && !$entity->is('online') && !$entity->is('infomedia')) {
     drupal_add_library('system', 'drupal.ajax');
 
@@ -313,7 +340,8 @@ function _ting_das_get_client() {
     module_load_include('inc', 'ting_das', 'includes/ting_das.clint');
     $config = variable_get('ting_das', FALSE);
     if (is_array($config)) {
-      $client = new TingDasCopyRequest($config['url'], $config['username'], $config['password']);
+      $guzzle_client = new \GuzzleHttp\Client();
+      $client = new TingDasCopyRequest($guzzle_client, $config['url'], $config['username'], $config['password']);
     }
     else {
       watchdog('ting_das', 'The ting_das module is missing its configuration', NULL, WATCHDOG_ERROR);

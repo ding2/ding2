@@ -6,13 +6,13 @@
  */
 
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
 
 /**
  * Class TingDasCopyRequest.
  */
 class TingDasCopyRequest {
 
+  private $client;
   private $url;
   private $wsUsername;
   private $wsPassword;
@@ -34,6 +34,8 @@ class TingDasCopyRequest {
   /**
    * TingDasCopyRequest constructor.
    *
+   * @param \GuzzleHttp\ClientInterface $client
+   *   The client used to send the http request.
    * @param string $url
    *   The service endpoint for digital article service.
    * @param string $username
@@ -41,7 +43,8 @@ class TingDasCopyRequest {
    * @param string $password
    *   The password to login with.
    */
-  public function __construct(string $url, string $username, string $password) {
+  public function __construct(\GuzzleHttp\ClientInterface $client, string $url, string $username, string $password) {
+    $this->client = $client;
     $this->url = $url;
     $this->wsUsername = $username;
     $this->wsPassword = $password;
@@ -148,13 +151,13 @@ class TingDasCopyRequest {
    *
    * The date until the user is not longer interested in getting the material.
    *
-   * @param string $userInterestDays
+   * @param int $userInterestDays
    *   The users interest date in number of days.
    *
    * @return TingDasCopyRequest
    *   The current request object.
    */
-  public function setUserInterestDate(string $userInterestDays) {
+  public function setUserInterestDate(int $userInterestDays) {
     $this->userInterestDays = $userInterestDays;
     return $this;
   }
@@ -165,7 +168,7 @@ class TingDasCopyRequest {
    * @param string $format
    *   The date format to use.
    *
-   * @return string|null
+   * @return string|FALSE
    *   The users interest date in the format given from now.
    */
   public function getUserInterestDate($format = 'Y-m-d') {
@@ -178,9 +181,6 @@ class TingDasCopyRequest {
    *
    * @param string $pickupAgencyId
    *   The pickup agency id.
-   *
-   * @Note: Not sure why this exists as all articles are sent by mail to the
-   *        end user.
    *
    * @return TingDasCopyRequest
    *   The current request object.
@@ -347,13 +347,13 @@ class TingDasCopyRequest {
   /**
    * Set the page number in the publication.
    *
-   * @param string $pagesOfComponent
+   * @param int $pagesOfComponent
    *   The page number.
    *
    * @return TingDasCopyRequest
    *   The current request object.
    */
-  public function setPagesOfComponent(string $pagesOfComponent) {
+  public function setPagesOfComponent(int $pagesOfComponent) {
     $this->pagesOfComponent = $pagesOfComponent;
     return $this;
   }
@@ -383,8 +383,13 @@ class TingDasCopyRequest {
     );
 
     try {
-      $client = new Client();
-      $response = $client->request('POST', $this->url, $options);
+      $this->client->request('POST', $this->url, $options);
+
+      // We don't look at the response but assumes that everything is okay. This
+      // is do to the fact that the service at current time only returns 204
+      // regardless of what was sent as long as the XML message is correct. If
+      // the message is wrong a non 200 code will be returned, which will
+      // trigger and guzzle exception (handled below).
       return TRUE;
     }
     catch (GuzzleException $exception) {
