@@ -11,7 +11,7 @@
  *   Array of ting object ids (faust).
  *
  * @return array
- *   Avaliability info.
+ *   Availability info.
  */
 function fbs_availability_items($provider_ids) {
   $avails = array();
@@ -25,7 +25,10 @@ function fbs_availability_items($provider_ids) {
 
   $result = array();
   foreach ($avails as $item) {
-    $result[$item->recordId] = array('available' => $item->available, 'reservable' => $item->reservable);
+    $result[$item->recordId] = array(
+      'available' => $item->available,
+      'reservable' => $item->reservable,
+    );
   }
 
   return $result;
@@ -128,15 +131,15 @@ function fbs_availability_holdings($provider_ids) {
         // Use the 'sk' marker to determine if this is non-fiction.
         // It seems to present in both the 'm' and 'o' subfield so we check them
         // to be sure.
-        else if ($field652m != 'sk' && $field652o != 'sk') {
+        elseif ($field652m !== 'sk' && $field652o !== 'sk') {
           // DK5 classification.
           $suffix .= $field652m;
 
-          // Additonal descriptors from the DK5 classification.
+          // Additional descriptors from the DK5 classification.
           if ($field652b = fbs_get_marc_field($entity, '652', 'b')) {
             $suffix .= ' ' . $field652b;
           }
-          else if ($field652a = fbs_get_marc_field($entity, '652', 'a')) {
+          elseif ($field652a = fbs_get_marc_field($entity, '652', 'a')) {
             $suffix .= ' ' . $field652a;
             if ($field652h = fbs_get_marc_field($entity, '652', 'h')) {
               $suffix .= ', ' . $field652h;
@@ -253,7 +256,6 @@ function fbs_availability_holdings($provider_ids) {
       }
       $result[$item->recordId]['issues'] = $issues;
     }
-
   }
 
   return $result;
@@ -296,8 +298,13 @@ function fbs_translate_marc($code, $field) {
   if ($field == '039.a') {
     $translations = _fbs_get_marc_039a_translations();
   }
-  else if ($field == '039.b') {
-    $translations = _fbs_get_marc_039b_translations();
+  elseif ($field == '039.b') {
+    // This field contains ISO 3166-1 alpha-2 country codes and we can use the
+    // build in list from the Drupal.
+    // See: http://www.kat-format.dk/danMARC2/Danmarc2.22.htm#pgfId=1574621
+    include_once DRUPAL_ROOT . '/includes/locale.inc';
+    $translations = country_get_list();
+    $code = drupal_strtoupper($code);
   }
 
   return isset($translations[$code]) ? $translations[$code] : NULL;
@@ -344,236 +351,5 @@ function _fbs_get_marc_039a_translations() {
     'mmo' => 'MUSIC MINUS ONE',
     'hib' => 'HISTORIER. BØRN',
     'mub' => 'MUSIK. BØRN',
-  );
-}
-
-/**
- * Helper function to hold marc field 039.b machine code translations.
- *
- * See: http://www.kat-format.dk/danMARC2/Danmarc2.22.htm#pgfId=1574621
- */
-function _fbs_get_marc_039b_translations() {
-  return array(
-    'ad' => 'Andorra',
-    'ae' => 'Forenede Arabiske Emirater',
-    'af' => 'Afghanistan',
-    'ag' => 'Antigua og Barbuda',
-    'ai' => 'Anguilla',
-    'al' => 'Albanien',
-    'am' => 'Armenien',
-    'ao' => 'Angola',
-    'aq' => 'Antarktis',
-    'ar' => 'Argentina',
-    'as' => 'Amerikansk Samoa',
-    'at' => 'Østrig',
-    'au' => 'Australien',
-    'aw' => 'Aruba',
-    'az' => 'Aserbajdsjan',
-    'ba' => 'Bosnien-Hercegovina',
-    'bb' => 'Barbados',
-    'bd' => 'Bangladesh',
-    'be' => 'Belgien',
-    'bf' => 'Burkina Faso',
-    'bg' => 'Bulgarien',
-    'bh' => 'Bahrein',
-    'bi' => 'Burundi',
-    'bj' => 'Benin',
-    'bm' => 'Bermuda',
-    'bn' => 'Brunei',
-    'bo' => 'Bolivia',
-    'bq' => 'Bonaire, Sint Eustatius og  Saba',
-    'br' => 'Brasilien',
-    'bs' => 'Bahamas',
-    'bt' => 'Bhutan',
-    'bv' => 'Bouvetøen',
-    'bw' => 'Botswana',
-    'by' => 'Hviderusland (Belarus)',
-    'bz' => 'Belize',
-    'ca' => 'Canada',
-    'cc' => 'Kokosøerne',
-    'cf' => 'Centralafrikanske Republik',
-    'cg' => 'Congo',
-    'ch' => 'Svejts',
-    'ci' => 'Elfenbenskysten',
-    'ck' => 'Cookøerne',
-    'cl' => 'Chile',
-    'cm' => 'Cameroun',
-    'cn' => 'Kina',
-    'co' => 'Colombia',
-    'cr' => 'Costa Rica',
-    'cu' => 'Cuba',
-    'cv' => 'Kap Verde',
-    'cw' => 'Curaçao',
-    'cx' => 'Christmas Island',
-    'gb' => 'Storbritannien',
-    'gd' => 'Grenada',
-    'ge' => 'Georgien',
-    'gf' => 'Fransk Guyana',
-    'gh' => 'Ghana',
-    'gi' => 'Gibraltar',
-    'gl' => 'Grønland',
-    'gm' => 'Gambia',
-    'gn' => 'Guinea',
-    'gp' => 'Guadeloupe',
-    'gq' => 'Ækvatorialguinea',
-    'gr' => 'Grækenland',
-    'gs' => 'South Georgia og De Sydlige ',
-    'Sa' => 'dwichøer',
-    'gt' => 'Guatemala',
-    'gu' => 'Guam',
-    'gw' => 'Guinea-Bissau',
-    'gy' => 'Guyana',
-    'hk' => 'Hongkong',
-    'hm' => 'Heard- og McDonaldøerne',
-    'hn' => 'Honduras',
-    'hr' => 'Kroatien',
-    'ht' => 'Haiti',
-    'hu' => 'Ungarn',
-    'id' => 'Indonesien',
-    'ie' => 'Irland',
-    'il' => 'Israel',
-    'in' => 'Indien',
-    'io' => 'Britiske Territorium i Det Indiske Ocean',
-    'iq' => 'Irak',
-    'ir' => 'Iran',
-    'is' => 'Island',
-    'it' => 'Italien',
-    'jm' => 'Jamaica',
-    'jo' => 'Jordan',
-    'jp' => 'Japan',
-    'ke' => 'Kenya',
-    'kg' => 'Kirgisistan',
-    'kh' => 'Cambodja',
-    'ki' => 'Kiribati',
-    'km' => 'Comorerne',
-    'kn' => 'St. Christopher og Nevis',
-    'kp' => 'Nordkorea',
-    'kr' => 'Sydkorea',
-    'kw' => 'Kuwait',
-    'ky' => 'Caymanøerne',
-    'kz' => 'Kasakhstan',
-    'la' => 'Laos',
-    'lb' => 'Libanon',
-    'lc' => 'St. Lucia',
-    'li' => 'Liechtenstein',
-    'lk' => 'Sri Lanka',
-    'lr' => 'Liberia',
-    'ls' => 'Lesotho',
-    'lt' => 'Litauen',
-    'lu' => 'Luxembourg',
-    'lv' => 'Letland',
-    'ly' => 'Libyen',
-    'ma' => 'Marokko',
-    'mc' => 'Monaco',
-    'md' => 'Moldova',
-    'mg' => 'Madagaskar',
-    'mh' => 'Marshalløerne',
-    'mk' => 'Makedonien, Den tidligere jugoslaviske republik',
-    'ml' => 'Mali',
-    'mm' => 'Myanmar',
-    'mn' => 'Mongoliet',
-    'mo' => 'Macao',
-    'mp' => 'Nordmarianerne',
-    'mq' => 'Martinique',
-    'mr' => 'Mauretanien',
-    'ms' => 'Montserrat',
-    'mt' => 'Malta',
-    'mu' => 'Mauritius',
-    'mv' => 'Maldiverne',
-    'mw' => 'Malawi',
-    'mx' => 'Mexico',
-    'my' => 'Malaysia',
-    'mz' => 'Mozambique',
-    'na' => 'Namibia',
-    'nc' => 'Ny Caledonien',
-    'ne' => 'Niger',
-    'nf' => 'Norfolk Island',
-    'ng' => 'Nigeria',
-    'ni' => 'Nicaragua',
-    'nl' => 'Holland',
-    'no' => 'Norge',
-    'np' => 'Nepal',
-    'nr' => 'Nauru',
-    'nu' => 'Niue',
-    'nz' => 'New Zealand',
-    'om' => 'Oman',
-    'pa' => 'Panama',
-    'pe' => 'Peru',
-    'pf' => 'Fransk Polynesien',
-    'pg' => 'Papua Ny Guinea',
-    'ph' => 'Filippinerne',
-    'pk' => 'Pakistan',
-    'pl' => 'Polen',
-    'pm' => 'Saint Pierre et Miquelon',
-    'pn' => 'Pitcairn',
-    'pr' => 'Puerto Rico',
-    'ps' => 'Palæstina',
-    'pt' => 'Portugal',
-    'pw' => 'Palau',
-    'py' => 'Paraguay',
-    'qa' => 'Qatar',
-    're' => 'Réunion',
-    'ro' => 'Rumænien',
-    'ru' => 'Rusland',
-    'rw' => 'Rwanda',
-    'sa' => 'Saudi-Arabien',
-    'sb' => 'Salomonøerne',
-    'sc' => 'Seychellerne',
-    'sd' => 'Sudan',
-    'se' => 'Sverige',
-    'sg' => 'Singapore',
-    'sh' => 'Sankt Helena',
-    'si' => 'Slovenien',
-    'sj' => 'Svaldbard og Jan Mayen',
-    'sk' => 'Slovakiet',
-    'sl' => 'Sierra Leone',
-    'sm' => 'San Marino',
-    'sn' => 'Senegal',
-    'so' => 'Somalia',
-    'sr' => 'Surinam',
-    'ss' => 'Sydsudan',
-    'st' => 'Sao Tomé og Principe',
-    'sv' => 'El Salvador',
-    'sx' => 'Sint Maarten (Hollandsk del)',
-    'sy' => 'Syrien',
-    'sz' => 'Swaziland',
-    'tc' => 'Turks- og Caicosøerne',
-    'td' => 'Tchad',
-    'tf' => 'Franske Territorier, Sydlige',
-    'tg' => 'Togo',
-    'th' => 'Thailand',
-    'tj' => 'Tadsjikistan',
-    'tk' => 'Tokelau',
-    'tm' => 'Turkmenistan',
-    'tn' => 'Tunesien',
-    'to' => 'Tonga',
-    'tp' => 'Østtimor',
-    'tr' => 'Tyrkiet',
-    'tt' => 'Trinidad og Tobago',
-    'tv' => 'Tuvalu',
-    'tw' => 'Taiwan',
-    'tz' => 'Tanzania',
-    'ua' => 'Ukraine',
-    'ug' => 'Uganda',
-    'um' => 'Amerikanske Oversøiske Øer, Mindre',
-    'us' => 'USA',
-    'uy' => 'Uruguay',
-    'uz' => 'Usbekistan',
-    'va' => 'Vatikanstaten',
-    'vc' => 'St. Vincent og Grenadinerne',
-    've' => 'Venezuela',
-    'vg' => 'Jomfruøerne, Britiske',
-    'vi' => 'Jomfruøerne, Amerikanske',
-    'vn' => 'Vietnam',
-    'vu' => 'Vanuatu',
-    'wf' => 'Wallis-og Futunaøerne',
-    'ws' => 'Samoa',
-    'ye' => 'Yemen',
-    'yt' => 'Mayotte',
-    'yu' => 'Jugoslavien samt Serbien og Montenegro',
-    'za' => 'Sydafrika',
-    'zm' => 'Zambia',
-    'zr' => 'Zaire',
-    'zw' => 'Zimbabwe',
   );
 }

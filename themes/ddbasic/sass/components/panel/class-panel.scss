@@ -506,14 +506,6 @@
 }
 
 // ==========================================================================
-// User loan status panel
-// ==========================================================================
-
-.pane-ding-user-frontend-ding-user-loan-number {
-  margin-bottom: 40px;
-}
-
-// ==========================================================================
 // Pane-views-exp-ding-event-ding-event-list
 // ==========================================================================
 
@@ -612,9 +604,9 @@
     }
   }
 
+  .views-widget-filter-field_ding_event_target_tid,
   .views-widget-filter-term_node_tid_depth,
-  .views-widget-filter-og_group_ref_target_id_entityreference_filter,
-  .views-widget-filter-field_ding_event_target_tid {
+  .views-widget-filter-og_group_ref_target_id_entityreference_filter {
     width: 100%;
     margin: 0;
   }
@@ -710,6 +702,85 @@
 }
 
 // ==========================================================================
+// pane-views-exp-ding-news-ding-news-list
+// ==========================================================================
+
+.pane-views-exp-ding-news-ding-news-list {
+  .views-exposed-form {
+    border-top: 1px solid $charcoal-opacity-light;
+    padding-top: 25px;
+    .form-submit {
+      margin-top: 0;
+      padding-right: 40px;
+      margin-right: getGutter(4);
+    }
+  }
+  .views-exposed-widget {
+    padding: 0;
+    margin-bottom: 30px;
+
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 20px;
+    }
+  }
+  label:not(.option) {
+    @include font('display-small');
+    font-weight: normal;
+    margin-bottom: 20px;
+
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 10px;
+    }
+  }
+  .form-item {
+    display: block;
+    margin-right: 0;
+    .date-padding,
+    .form-item {
+      float: none;
+    }
+    input {
+      width: 100%;
+      margin-right: 0;
+      background-color: $grey;
+
+      @include placeholder {
+        color: $charcoal-opacity-dark;
+      }
+    }
+  }
+  .description {
+    display: none;
+  }
+  .views-submit-button {
+    margin-right: 20px;
+  }
+  .views-submit-button {
+    padding: 0;
+  }
+  .views-reset-button {
+    padding: 0;
+    .form-submit {
+      margin-top: 0;
+    }
+  }
+
+  .views-widget-filter-field_ding_news_category_tid,
+  .views-widget-filter-og_group_ref_target_id_entityreference_filter {
+    width: 100%;
+    label {
+      h2 {
+        position: relative;
+        border-top: 1px solid rgba(38, 38, 38, .2);
+        padding-top: 25px;
+      }
+    }
+  }
+}
+
+// ==========================================================================
 // IPE
 // ==========================================================================
 
@@ -725,4 +796,34 @@
   // The IPE module will set the display inline, when an admin is editing a page
   // so the backend still works with this display none.
   display: none;
+}
+
+// ==========================================================================
+// Gatewayf
+// ==========================================================================
+
+.ding-gatewayf {
+  @include span-columns(12);
+
+  @include media($tablet) {
+    width: 100%;
+  }
+
+  &--registration-information {
+    max-height: 350px;
+    max-width: 100%;
+    overflow-y: scroll;
+    background: white;
+    border: 1px solid #E3E3E3;
+    padding: 20px;
+    margin-bottom: 35px;
+
+    p {
+      margin: 0 0 15px;
+    }
+  }
+
+  &--temporary-text {
+    color: red;
+  }
 }

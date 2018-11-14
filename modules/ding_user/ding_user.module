@@ -398,7 +398,7 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
   $form['ding_user']['ding_user_blocked_user_node'] = array(
     '#type' => 'textfield',
     '#title' => t('Link to blocked page'),
-    '#default_value' => variable_get('ding_user_blocked_user_node', 'node/1'),
+    '#default_value' => variable_get('ding_user_blocked_user_node', variable_get('site_404', 'customerror/404')),
     '#description' => t("Link to the node containing explanation about the library's blocked user policies."),
   );
 
@@ -1122,7 +1122,7 @@ function ding_user_provider_id($account = NULL) {
   global $user;
 
   if ($account === NULL) {
-    $accout = $user;
+    $account = $user;
   }
 
   if (ding_provider_implements('user', 'get_provider_id')) {

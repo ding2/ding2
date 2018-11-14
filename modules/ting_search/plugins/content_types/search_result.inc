@@ -73,6 +73,8 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
     // Collect the search results.
     $results = search_data($keys, $info['module'], $conditions);
     $search_result = ting_search_current_results();
+    $prefix = implode(module_invoke_all('ting_search_results_prefix', $keys, $conditions, $search_result));
+    $suffix = implode(module_invoke_all('ting_search_results_suffix', $keys, $conditions, $search_result));
   }
 
   if (!empty($conf['log'])) {

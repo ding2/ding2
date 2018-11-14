@@ -40,8 +40,11 @@ function ddbasic_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'search-form-extended';
       $vars['classes_array'][] = 'show-secondary-menu';
 
-      if (menu_get_item()['path'] === 'search/ting/%') {
-        $vars['classes_array'][] = 'extended-search-is-open';
+      $path = menu_get_item()['path'];
+      switch ($path) {
+        case 'search/ting/%';
+        case 'ding_frontpage':
+          $vars['classes_array'][] = 'extended-search-is-open';
       }
       break;
   }
@@ -82,7 +85,6 @@ function ddbasic_preprocess_html(&$vars) {
  * Process variables for html.tpl.php.
  */
 function ddbasic_process_html(&$vars) {
-
   // Hook into color.module.
   if (module_exists('color')) {
     _color_html_alter($vars);
@@ -404,6 +406,15 @@ function ddbasic_link($variables) {
  */
 function ddbasic_preprocess_user_profile(&$variables) {
   $variables['user_profile']['summary']['member_for']['#access'] = FALSE;
+
+  // Load profile and view as search_result if user view-mode is search_result
+  if ($variables['elements']['#view_mode'] == 'search_result') {
+    $user_id = $variables['elements']['#account']->uid;
+    $user_profiles = profile2_load_by_user($user_id);
+    $profile_view = profile2_view($user_profiles['ding_staff_profile'], 'search_result');
+    $variables['user_profile']['profile_ding_staff_profile']['#access'] = TRUE;
+    $variables['user_profile']['profile_ding_staff_profile']['view'] = $profile_view;
+  }
 }
 
 /**
@@ -432,6 +443,11 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
     else {
       $variables['position_no_label'] = FALSE;
     }
+  }
+
+  // Create read more link for search_result view mode.
+  if ($variables['profile2']->type == 'ding_staff_profile' && $variables['elements']['#view_mode'] == 'search_result') {
+    $variables['read_more_link'] = l('<div class="button">' . t('Read more') . '</div>', 'user/' . $variables['elements']['#entity']->uid, array('html' => TRUE));
   }
 }
 
@@ -508,7 +524,13 @@ function ddbasic_menu_link($vars) {
   // Make sure text string is treated as html by l function.
   $element['#localized_options']['html'] = TRUE;
 
-  $link = l('<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
+  // Add div for expanded icon if element has children.
+  if (!empty($vars['element']['#below'])) {
+    $link = l('<span>' . $element['#title'] . '</span><span class="main-menu-expanded-icon"></span>', $element['#href'], $element['#localized_options']);
+  }
+  else {
+    $link = l('<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
+  }
 
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . $sub_menu . "</li>\n";
 }
@@ -760,28 +782,6 @@ function ddbasic_process_page(&$vars) {
 }
 
 /**
- * Preprocess function for ting_object theme function.
- */
-function ddbasic_preprocess_ting_object(&$vars) {
-
-  switch ($vars['elements']['#entity_type']) {
-    case 'ting_object':
-
-      switch ($vars['elements']['#view_mode']) {
-        // Teaser.
-        case 'teaser':
-
-          // Check if overlay is disabled and set class.
-          if (theme_get_setting('ting_object_disable_overlay') == TRUE) {
-            $vars['classes_array'][] = 'no-overlay';
-          }
-          break;
-      }
-      break;
-  }
-}
-
-/**
  * Implements hook_process_ting_object().
  *
  * Adds wrapper classes to the different groups on the ting object.
@@ -821,6 +821,55 @@ function ddbasic_process_ting_object(&$vars) {
               '#path' => $uri_object['path'],
               '#options' => array(
                 'attributes' => array(
+                  'alt' => $vars['object']->title,
+                  'class' => array(
+                    'action-button',
+                    'read-more-button',
+                  ),
+                ),
+                'html' => FALSE,
+              ),
+            ),
+            '#weight' => 9998,
+          );
+
+          if ($vars['object']->is('reservable')) {
+            $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              $vars['elements']['#view_mode'],
+              'ajax'
+            );
+          }
+          if ($vars['object']->online_url) {
+            // Slice the output, so it only usese the online link button.
+            $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              $vars['elements']['#view_mode'],
+              'default'
+            );
+          }
+          
+          //Truncate abstract
+          $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
+
+          // Check if teaser has rating function and remove abstract.
+          if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
+            unset($vars['content']['group_text']['ting_abstract']);
+          }
+
+          break;
+
+        // Teaser no overlay.
+        case 'teaser_no_overlay':
+          $vars['content']['group_text']['read_more_button'] = array(
+            array(
+              '#theme' => 'link',
+              '#text' => t('Read more'),
+              '#path' => $uri_object['path'],
+              '#options' => array(
+                'attributes' => array(
                   'class' => array(
                     'action-button',
                     'read-more-button',
@@ -847,6 +896,12 @@ function ddbasic_process_ting_object(&$vars) {
             ), 0, 1);
           }
 
+          //Truncate default title
+          $vars['static_title'] = '<div class="field-name-ting-title"><h2>' . add_ellipsis($vars['elements']['group_text']['group_inner']['ting_title'][0]['#markup'], 40) . '</h2></div>';
+
+          //Truncate abstract
+          $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
+
           // Check if teaser has rating function and remove abstract.
           if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
             unset($vars['content']['group_text']['ting_abstract']);
@@ -867,6 +922,7 @@ function ddbasic_process_ting_object(&$vars) {
               '#text' => t('Read more'),
               '#path' => $uri_object['path'],
               '#options' => array(
+                'alt' => $vars['object']->title,
                 'attributes' => array(
                   'class' => array(
                     'action-button',
@@ -882,15 +938,18 @@ function ddbasic_process_ting_object(&$vars) {
             $vars['content']['buttons']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
+              $vars['elements']['#view_mode'],
               'ajax'
             );
           }
           if ($vars['object']->online_url) {
             // Slice the output, so it only usese the online link button.
-            $vars['content']['buttons']['online_link'] = array_slice(ting_ding_entity_buttons(
+            $vars['content']['buttons']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
-              $vars['object']
-            ), 0, 1);
+              $vars['object'],
+              $vars['elements']['#view_mode'],
+              'default'
+            );
           }
 
           break;
@@ -1061,6 +1120,20 @@ function ddbasic_preprocess_form_element(&$variables) {
  * Preprocess ding_carousel.
  */
 function ddbasic_preprocess_ding_carousel(&$variables) {
+  ddbasic_add_ting_object_behaviour();
+}
+
+/**
+ * Preprocess ting_reference_item.
+ */
+function ddbasic_preprocess_ting_reference_item(&$variables) {
+  ddbasic_add_ting_object_behaviour();
+}
+
+/**
+ * Helper function to ensure correct behaviour of ting object overlay.
+ */
+function ddbasic_add_ting_object_behaviour() {
   // Add ajax to make reserve links work.
   drupal_add_library('system', 'drupal.ajax');
   drupal_add_library('system', 'ui.widget');

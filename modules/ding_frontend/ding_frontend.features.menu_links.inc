@@ -10,7 +10,7 @@
 function ding_frontend_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: menu-tabs-menu_login:user
+  // Exported menu link: menu-tabs-menu_login:user.
   $menu_links['menu-tabs-menu_login:user'] = array(
     'menu_name' => 'menu-tabs-menu',
     'link_path' => 'user',
@@ -30,7 +30,7 @@ function ding_frontend_menu_default_menu_links() {
     'weight' => -47,
     'customized' => 1,
   );
-  // Exported menu link: menu-tabs-menu_logout:user/logout
+  // Exported menu link: menu-tabs-menu_logout:user/logout.
   $menu_links['menu-tabs-menu_logout:user/logout'] = array(
     'menu_name' => 'menu-tabs-menu',
     'link_path' => 'user/logout',
@@ -50,7 +50,7 @@ function ding_frontend_menu_default_menu_links() {
     'weight' => -45,
     'customized' => 1,
   );
-  // Exported menu link: menu-tabs-menu_menu:<front>
+  // Exported menu link: menu-tabs-menu_menu:<front>.
   $menu_links['menu-tabs-menu_menu:<front>'] = array(
     'menu_name' => 'menu-tabs-menu',
     'link_path' => '<front>',
@@ -70,7 +70,7 @@ function ding_frontend_menu_default_menu_links() {
     'weight' => -49,
     'customized' => 0,
   );
-  // Exported menu link: menu-tabs-menu_opening-hours:libraries
+  // Exported menu link: menu-tabs-menu_opening-hours:libraries.
   $menu_links['menu-tabs-menu_opening-hours:libraries'] = array(
     'menu_name' => 'menu-tabs-menu',
     'link_path' => 'libraries',
@@ -90,7 +90,7 @@ function ding_frontend_menu_default_menu_links() {
     'weight' => -48,
     'customized' => 1,
   );
-  // Exported menu link: menu-tabs-menu_search:search
+  // Exported menu link: menu-tabs-menu_search:search.
   $menu_links['menu-tabs-menu_search:search'] = array(
     'menu_name' => 'menu-tabs-menu',
     'link_path' => 'search',
@@ -110,7 +110,7 @@ function ding_frontend_menu_default_menu_links() {
     'weight' => -50,
     'customized' => 0,
   );
-  // Exported menu link: menu-tabs-menu_user-menu-mobile:node
+  // Exported menu link: menu-tabs-menu_user-menu-mobile:node.
   $menu_links['menu-tabs-menu_user-menu-mobile:node'] = array(
     'menu_name' => 'menu-tabs-menu',
     'link_path' => 'node',
@@ -130,6 +130,7 @@ function ding_frontend_menu_default_menu_links() {
     'weight' => -46,
     'customized' => 1,
   );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Login');
@@ -138,7 +139,6 @@ function ding_frontend_menu_default_menu_links() {
   t('Opening hours');
   t('Search');
   t('User menu (mobile)');
-
 
   return $menu_links;
 }

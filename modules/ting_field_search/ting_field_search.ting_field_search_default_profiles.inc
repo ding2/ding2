@@ -27,6 +27,9 @@ function ting_field_search_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 0,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -111,6 +114,9 @@ function ting_field_search_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -223,6 +229,9 @@ function ting_field_search_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -307,6 +316,9 @@ function ting_field_search_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -377,6 +389,9 @@ function ting_field_search_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -496,6 +511,9 @@ function ting_field_search_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -601,6 +619,9 @@ function ting_field_search_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -678,6 +699,9 @@ function ting_field_search_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -783,6 +807,9 @@ function ting_field_search_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -867,6 +894,9 @@ function ting_field_search_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',
@@ -930,6 +960,43 @@ function ting_field_search_ting_field_search_default_profiles() {
   $profile = new stdClass();
   $profile->disabled = FALSE; /* Edit this to true to make a default profile disabled initially */
   $profile->api_version = 1;
+  $profile->name = 'tegneserier';
+  $profile->title = 'Tegneserier';
+  $profile->config = array(
+    'search_request' => array(
+      'agency' => '',
+      'well_profile' => '',
+      'query' => 'term.type=tegneserie or term.type="graphic novel"',
+      'new_materials' => '',
+      'allow_empty' => 0,
+    ),
+    'user_interaction' => array(
+      'exposed' => 1,
+      'sticky' => 1,
+      'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
+    ),
+    'search_result' => array(
+      'results_per_page' => '10',
+      'default_sort' => 'date_descending',
+      'ranking' => 'rank_frequency',
+    ),
+    'facets' => array(
+      'use_facets' => 0,
+      'number_of_facets' => 25,
+      'facet_count' => 5,
+      'term_count' => 5,
+    ),
+  );
+  $profile->weight = 11;
+  $profile->facets = array();
+  $export['tegneserier'] = $profile;
+
+  $profile = new stdClass();
+  $profile->disabled = FALSE; /* Edit this to true to make a default profile disabled initially */
+  $profile->api_version = 1;
   $profile->name = 'tidsskrifter';
   $profile->title = 'Tidsskrifter';
   $profile->config = array(
@@ -944,6 +1011,9 @@ function ting_field_search_ting_field_search_default_profiles() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'visibility' => 'all',
+      'pages' => '',
     ),
     'search_result' => array(
       'results_per_page' => '10',

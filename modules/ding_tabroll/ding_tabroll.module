@@ -52,6 +52,16 @@ function ding_tabroll_preprocess_views_view_unformatted(&$variables) {
     // Add fix to get tabs rotate back.
     // @see http://jqueryui.com/upgrade-guide/1.9/#removed-rotate-method
     drupal_add_js($path . '/js/jquery-ui-tabs-rotate.js');
+
+    // Add class if theme setting no-overlay is chosen.
+    $variables['no_overlay_class'] = '';
+    if (theme_get_setting('ding_rolltab_disable_overlay')) {
+      $variables['no_overlay_class'] = 'no-overlay';
+    }
+
+    // Set slide switching delay.
+    $switch_speed = variable_get('ding_tabroll_speed', 5000);
+    drupal_add_js(array('ding_tabroll' => array('switch_speed' => $switch_speed)), 'setting');
   }
 }
 
@@ -105,5 +115,22 @@ function ding_tabroll_node_delete($node) {
 
     // Remove the node to the queue.
     nodequeue_subqueue_remove_node($sub_queue->sqid, $node->nid);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_tabroll_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'ding_frontpage_admin_settings') {
+    // Get slide's switching speed, if variable is empty set default 5s.
+    $switch_speed = variable_get('ding_tabroll_speed', 5000);
+
+    $form['ding_frontpage']['ding_tabroll_speed'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Tabroll speed (ms)'),
+      '#description' => t('Define speed of slide switching'),
+      '#default_value' => $switch_speed,
+    );
   }
 }

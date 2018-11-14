@@ -109,11 +109,35 @@ function ding_page_strongarm() {
       'display' => array(
         'webform' => array(
           'search_result' => array(
-            'weight' => '4',
+            'weight' => '8',
             'visible' => FALSE,
           ),
           'default' => array(
             'weight' => '5',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '3',
+            'visible' => FALSE,
+          ),
+          'teaser_no_overlay' => array(
+            'weight' => '3',
+            'visible' => FALSE,
+          ),
+        ),
+        'ding_serendipity_info' => array(
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser_no_overlay' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+        'ding_serendipity_info' => array(
+          'search_result' => array(
+            'weight' => '0',
             'visible' => TRUE,
           ),
         ),
