@@ -24,15 +24,6 @@ function ting_das_admin_settings_form() {
     'url' => '',
     'username' => '',
     'password' => '',
-    'description' => array(
-      'format' => 'ding_wysiwyg',
-      'value' => '',
-    ),
-    'gdpr' => array(
-      'format' => 'ding_wysiwyg',
-      'value' => '',
-    ),
-    'placement' => TING_DAS_PLACEMENT_WEIGHT_ABOVE,
   ));
 
   $form['ting_das']['url'] = array(
@@ -72,10 +63,21 @@ function ting_das_admin_settings_form() {
   $form['ting_das_types']['ting_das_data_well_types'] = array(
     '#type' => 'checkboxes',
     '#options' => drupal_map_assoc($types),
-    '#default_value' => _ting_das_get_default_well_types(),
+    '#default_value' => _ting_das_get_configured_well_types(),
   );
 
-  $defaults = variable_get('ting_das_text', array());
+  $defaults = variable_get('ting_das_text', array(
+    'description' => array(
+      'format' => 'ding_wysiwyg',
+      'value' => '',
+    ),
+    'gdpr' => array(
+      'format' => 'ding_wysiwyg',
+      'value' => '',
+    ),
+    'placement' => TING_DAS_PLACEMENT_WEIGHT_ABOVE,
+  ));
+
   $form['ting_das_text'] = array(
     '#type' => 'fieldset',
     '#title' => t('Digital article server'),

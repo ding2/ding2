@@ -385,11 +385,7 @@ class TingDasCopyRequest {
     try {
       $client = new Client();
       $response = $client->request('POST', $this->url, $options);
-
-      if ($response->getStatusCode() == 204) {
-        watchdog('ting_das', 'Service returned: !code', array('!code' => $response->getStatusCode()), WATCHDOG_ERROR);
-        return TRUE;
-      }
+      return TRUE;
     }
     catch (GuzzleException $exception) {
       watchdog_exception('ting_das', $exception);

@@ -31,30 +31,11 @@ function ting_das_menu() {
 }
 
 /**
- * Implements hook_libraries_info().
- *
- * For defining external libraries.
- */
-function ting_das_libraries_info() {
-  return array(
-    'guzzle' => array(
-      'name' => 'Guzzle',
-      'vendor url' => 'https://github.com/guzzle/guzzle',
-      'download url' => 'https://github.com/guzzle/guzzle',
-      'version' => '6.2',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-  );
-}
-
-/**
  * Implements hook_ding_entity_buttons().
  */
 function ting_das_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
   $type = drupal_strtolower($entity->getType());
-  $types = array_filter(_ting_das_get_default_well_types());
+  $types = array_filter(_ting_das_get_configured_well_types());
 
   // Check that the entity is not already available as an online resources and is one of the configured types.
   if (isset($types[$type]) && !$entity->is('online') && !$entity->is('infomedia')) {
@@ -120,7 +101,7 @@ function ting_das_ajax($entity) {
   }
   elseif (!ding_user_is_provider_user($user)) {
     // Error not library user.
-    $commands[] = ajax_command_ding_popup('ting_das', t('Error'), '<p>' . t('Only library user can make DAS requests.') . '</p>', array('refresh' => FALSE));
+    $commands[] = ajax_command_ding_popup('ting_das', t('Error'), '<p>' . t('Only library user can make digital article requests.') . '</p>', array('refresh' => FALSE));
   }
   elseif (!(is_object($entity) && $entity instanceof TingEntity)) {
     // Error not ting entity.
@@ -128,7 +109,7 @@ function ting_das_ajax($entity) {
   }
   else {
     $type = drupal_strtolower($entity->getType());
-    $types = array_filter(_ting_das_get_default_well_types());
+    $types = array_filter(_ting_das_get_configured_well_types());
 
     // Check that no one tries to order not supported type by mistake.
     if (isset($types[$type])) {
@@ -252,7 +233,7 @@ function ting_das_order_form($form_id, &$form_state, TingEntity $entity) {
 
     $form['description'] = array(
       '#prefix' => '<div class="form-item form-type-markup description">',
-      '#markup' => t('Only resident in the municipality is allowed to order digital copies.'),
+      '#markup' => t('Only residents in the municipality are allowed to order digital copies.'),
       '#suffix' => '</div>',
     );
   }
@@ -273,13 +254,6 @@ function ting_das_mail_validate($element, $form_state) {
 }
 
 /**
- * Submit handler for the order form.
- */
-function ting_das_order_form_submit($form, &$form_state) {
-
-}
-
-/**
  * Ajax callback for the order copy form.
  */
 function ting_das_order_form_ajax_callback($form, &$form_state) {
@@ -292,23 +266,29 @@ function ting_das_order_form_ajax_callback($form, &$form_state) {
     $values = $form_state['values'];
     $client = _ting_das_get_client();
 
-    $client->setUserName($values['name']);
-    $client->setUserMail($values['mail']);
-    $client->setUserLoanerId($values['loaner_id']);
-    $client->setUserInterestDate($values['interest_period']);
-    $client->setPickupAgencyId($values['fbs_preferred_branch']);
-    $client->setAgencyId(variable_get('ting_agency', ''));
-
-    $client->setPid($values['entity']['pid']);
-    $status = $client->send();
-
-    if ($status) {
-      $html = theme('status_messages') . t('Your order have been placed.');
-      $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Success'), $html, array('refresh' => FALSE));
+    if (is_null($client)) {
+      $html = theme('status_messages') . t('The service is not avaiable at the monet.');
+      $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Error'), $html, array('refresh' => FALSE));
     }
     else {
-      $html = theme('status_messages') . t('Your order failed. Please try again.');
-      $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Error'), $html, array('refresh' => FALSE));
+      $client->setUserName($values['name']);
+      $client->setUserMail($values['mail']);
+      $client->setUserLoanerId($values['loaner_id']);
+      $client->setUserInterestDate($values['interest_period']);
+      $client->setPickupAgencyId($values['fbs_preferred_branch']);
+      $client->setAgencyId(variable_get('ting_agency', ''));
+
+      $client->setPid($values['entity']['pid']);
+      $status = $client->send();
+
+      if ($status) {
+        $html = theme('status_messages') . t('Your order have been placed.');
+        $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Success'), $html, array('refresh' => FALSE));
+      }
+      else {
+        $html = theme('status_messages') . t('Your order failed. Please try again.');
+        $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Error'), $html, array('refresh' => FALSE));
+      }
     }
   }
   else {
@@ -323,8 +303,8 @@ function ting_das_order_form_ajax_callback($form, &$form_state) {
 /**
  * Get DAS client.
  *
- * @return \TingDasCopyRequest
- *   Client to communicate with the service.
+ * @return \TingDasCopyRequest|NULL
+ *   Client to communicate with the service or NULL if not configured.
  */
 function _ting_das_get_client() {
   static $client;
@@ -344,12 +324,14 @@ function _ting_das_get_client() {
 }
 
 /**
- * Get the default material types that can be ordered in DAS.
+ * Get configured material types that can be ordered in DAS.
+ *
+ * If non configured default types are returned.
  *
  * @return string[]
  *   The types
  */
-function _ting_das_get_default_well_types() {
+function _ting_das_get_configured_well_types() {
   return variable_get('ting_das_data_well_types', array(
     'tidsskriftsartikel',
   ));
