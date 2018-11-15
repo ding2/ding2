@@ -84,22 +84,14 @@
         var
           $element = $(this).addClass('js-year-span-processed'),
           update_info = function (values) {
-            var cnt = 0;
-            for (var i in Drupal.settings.ding_facetbrowser.year_span.years) {
-              if (i >= values[0] && i <= values[1]) {
-                cnt += parseInt(Drupal.settings.ding_facetbrowser.year_span.years[i], 10);
-              }
-            }
-
-            $element.find('.year-span__start').text(values[0]);
-            $element.find('.year-span__end').text(values[1]);
-            $element.find('.year-span__counter').text('(' + cnt + ')');
+            $element.find('.year-span__start').text(Drupal.settings.ding_facetbrowser.year_span.years[values[0]]);
+            $element.find('.year-span__end').text(Drupal.settings.ding_facetbrowser.year_span.years[values[1]]);
           };
 
         $element.find('.year-span__slider').slider({
           range: true,
-          min: Drupal.settings.ding_facetbrowser.year_span.min,
-          max: Drupal.settings.ding_facetbrowser.year_span.max,
+          min: 0,
+          max: Drupal.settings.ding_facetbrowser.year_span.years.length - 1,
           values: Drupal.settings.ding_facetbrowser.year_span.range,
           slide: function (evt, ui) {
             update_info(ui.values);
@@ -122,8 +114,8 @@
             url = url.replace(/facets\[\d*\]=facet\.date[^&]+&?/g, '');
 
             // Add new date filters.
-            url += 'facets[]=' + encodeURIComponent('facet.date:' + ui.values[0] + ':>=');
-            url += '&facets[]=' + encodeURIComponent('facet.date:' + ui.values[1] + ':<=');
+            url += 'facets[]=' + encodeURIComponent('facet.date:' + Drupal.settings.ding_facetbrowser.year_span.years[ui.values[0]] + ':>=');
+            url += '&facets[]=' + encodeURIComponent('facet.date:' + Drupal.settings.ding_facetbrowser.year_span.years[ui.values[1]] + ':<=');
 
             Drupal.TingSearchOverlay();
             window.location = url;

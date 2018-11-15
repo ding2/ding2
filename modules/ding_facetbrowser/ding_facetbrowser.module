@@ -150,24 +150,23 @@ function _ding_facetbrowser_form_year_span_element($search, array $conditions) {
 
   // Set min and max values.
   $terms = $count_search_result->getFacets()['facet.date']->getTerms();
-  $min = 9999;
-  $max = 0;
   foreach ($terms as $year => $term) {
-    if (is_numeric($year)) {
-      $min = min($min, $year);
-      $max = max($max, $year);
+    if (!is_numeric($year)) {
+      unset($terms[$year]);
     }
   }
+  ding_facetbrowser_sort_terms($terms, 'numeric');
+  $years = array_keys($terms);
 
   // Set the range (default value).
   if (empty($range)) {
-    $range = array($min, $max);
+    $range = array(0, count($terms) - 1);
   }
-
-  // Set the year count for all the years.
-  $years = array();
-  foreach ($terms as $year => $term) {
-    $years[$year] = $term->getCount();
+  else {
+    $range = array(
+      array_search($range[0], $years),
+      array_search($range[1], $years),
+    );
   }
 
   // Create the year span container, with slider and range indicator.
@@ -184,10 +183,6 @@ function _ding_facetbrowser_form_year_span_element($search, array $conditions) {
       '#type' => 'container',
       '#attributes' => array('class' => array('year-span__start')),
     ),
-    'counter' => array(
-      '#type' => 'container',
-      '#attributes' => array('class' => array('year-span__counter')),
-    ),
     'end' => array(
       '#type' => 'container',
       '#attributes' => array('class' => array('year-span__end')),
@@ -203,8 +198,6 @@ function _ding_facetbrowser_form_year_span_element($search, array $conditions) {
               'year_span' => array(
                 'years' => $years,
                 'range' => $range,
-                'min' => $min,
-                'max' => $max,
                 'uri' => $GLOBALS['base_root'] . _ding_facetbrowser_parse_request_uri(),
               ),
             ),
