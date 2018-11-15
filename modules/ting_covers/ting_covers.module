@@ -252,6 +252,16 @@ function ting_covers_fetch_image($filename, $image_url) {
   }
 
   $file = file_unmanaged_save_data($result->data, $filename, FILE_EXISTS_REPLACE);
+
+  // Check that the file is an image. If not we'll remove again and return FALSE
+  // to avoid broken images in frontend.
+  if ($file) {
+    if (!exif_imagetype($file)) {
+      file_unmanaged_delete($file);
+      $file = FALSE;
+    }
+  }
+
   // Sometimes we get images in print quality, which makes imagecache run out
   // of memory in the attempt to resize it. So we check the image size and
   // scale it down to a more manageable size using the Imagemagick shell
