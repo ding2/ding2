@@ -88,7 +88,7 @@ jobs:
         name: Configure PHP for Drupal
         command: |
           sudo apt install -y libpng-dev mysql-client
-          sudo docker-php-ext-install gd pdo_mysql
+          sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 /usr/local/etc/php/conf.d
           echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/docker-php-drupal.ini
           rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
@@ -137,7 +137,7 @@ jobs:
         name: Configure PHP for Drupal
         command: |
           sudo apt install -y libpng-dev mysql-client
-          sudo docker-php-ext-install gd pdo_mysql
+          sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 /usr/local/etc/php/conf.d
           echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/docker-php-drupal.ini
           rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
@@ -184,7 +184,7 @@ jobs:
         name: Configure PHP for Drupal
         command: |
           sudo apt install -y libpng-dev mysql-client
-          sudo docker-php-ext-install gd pdo_mysql
+          sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 /usr/local/etc/php/conf.d
           echo "memory_limit = 512M" >> /usr/local/etc/php/conf.d/docker-php-drupal.ini
           rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
