@@ -226,7 +226,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           }
 
           // Mark as available if it is an online resource.
-          if (in_array(drupal_strtolower($type), $online_types) || $entities[0]->getOnline_url(FALSE)) {
+          if (in_array(drupal_strtolower($type), $online_types) || $entities[0]->isOnline()) {
             if (!isset($output['#types']['online'])) {
               // Add label "online" to output.
               $output['#types']['online'] = array(
