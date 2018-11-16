@@ -809,7 +809,7 @@ function ddbasic_process_ting_object(&$vars) {
               'default'
             );
           }
-          
+
           //Truncate abstract
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 
@@ -844,15 +844,18 @@ function ddbasic_process_ting_object(&$vars) {
             $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
+              $vars['elements']['#view_mode'],
               'ajax'
             );
           }
           if ($vars['object']->online_url) {
             // Slice the output, so it only usese the online link button.
-            $vars['content']['group_text']['online_link'] = array_slice(ting_ding_entity_buttons(
+            $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
-              $vars['object']
-            ), 0, 1);
+              $vars['object'],
+              $vars['elements']['#view_mode'],
+              'default'
+            );
           }
 
           //Truncate default title
