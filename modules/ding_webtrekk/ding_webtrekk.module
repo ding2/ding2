@@ -50,6 +50,22 @@ function ding_webtrekk_page_alter(&$page) {
     ],
   ];
 
+  // Add page parameter that tracks whether the user is logged in, and if logged
+  // in; what login provider was used.
+  if (user_is_logged_in()) {
+    $params = [];
+    // Note that this separation of logged in users might be problematic if some
+    // pages are also cached for authenticated users.
+    if (module_exists('ding_gatewayf') && _ding_gatewayf_is_logged_in_with_gatewayf()) {
+      $params['p_isloggedin'] = 'NemId';
+    }
+    // Fallback to cpr+pin if none the modules we know about was used to log in.
+    else {
+      $params['p_isloggedin'] = 'cpr+pinkode';
+    }
+    ding_webtrekk_add_page_parameters($params);
+  }
+
   // Track ting search results. We take advantage of the fact that ting_search
   // module stores the result in a static variable when search is triggered via
   // search_data() function from core search module. Since this is not tied to
