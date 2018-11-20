@@ -76,6 +76,16 @@ function ding_webtrekk_page_alter(&$page) {
         'OSS' => $search_result->getSearchRequest()->getFullTextQuery(),
         'OSSr' => $search_result->getNumTotalObjects(),
       ];
+
+      // We want to track facets that users have added themselves from the UI.
+      // Looking for the special URL parameter that is added in these cases
+      // seems to be more reliable than looking on the filters added to the
+      // search request object.
+      if (!empty($_GET['facets'])) {
+        $facets = $_GET['facets'];
+        $test = $facets;
+      }
+
       ding_webtrekk_add_page_parameters($params);
     }
   }
