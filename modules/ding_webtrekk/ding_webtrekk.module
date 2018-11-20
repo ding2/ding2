@@ -35,7 +35,7 @@ function ding_webtrekk_page_alter(&$page) {
   $params = [
     'pageTitle' => drupal_get_title(),
   ];
-  _ding_webtrekk_set_data_layer_values($params);
+  ding_webtrekk_add_page_parameters($params);
 
   // @codingStandardsIgnoreStart
   $tag_integration_logic = '/** start TagIntegration loader  */
@@ -66,7 +66,7 @@ function ding_webtrekk_page_alter(&$page) {
         'OSS' => $search_result->getSearchRequest()->getFullTextQuery(),
         'OSSr' => $search_result->getNumTotalObjects(),
       ];
-      _ding_webtrekk_set_data_layer_values($params);
+      ding_webtrekk_add_page_parameters($params);
     }
   }
 }
@@ -95,30 +95,54 @@ function ding_webtrekk_views_post_execute(&$view) {
       'pageTitle' => 'Search content',
     ];
 
-    _ding_webtrekk_set_data_layer_values($params);
+    ding_webtrekk_add_page_parameters($params);
   }
 }
 
 /**
- * Pass Tag Information variables to the inline js script.
+ * Adds Webtrekk page parameters to the current page.
  *
- * @param array $value_map
- *   Key, value collection of parameters to be considered.
+ * @see ding_webtrekk_preprocess_html().
  */
-function _ding_webtrekk_set_data_layer_values(array $value_map) {
-  $hook = 'ding_webtrekk_set_data_layer_values';
-  $modules = module_implements($hook);
-  foreach ($modules as $module) {
-    if (function_exists($module . '_' . $hook)) {
-      $params[] = module_invoke($module, $hook);
-    }
+function ding_webtrekk_add_page_parameters(array $parameters = NULL) {
+  $stored_parameters = &drupal_static(__FUNCTION__, array());
+
+  if (isset($parameters)) {
+    $stored_parameters = array_merge($stored_parameters, $parameters);
   }
 
+  return $stored_parameters;
+}
+
+/**
+ * Returns all the Webtrekk page parameteres collected during the request.
+ *
+ * @see ding_webtrekk_preprocess_html().
+ */
+function ding_webtrekk_get_page_parameters() {
+  $parameters = ding_webtrekk_add_page_parameters();
+  // Give other modules a last chance to alter the webtrekk page parameters
+  // before they are added to the current page load.
+  drupal_alter('ding_webtrekk_page_parameters', $parameters);
+  return $parameters;
+}
+
+/**
+ * Implements hook_process_html().
+ *
+ * If any Webtrekk page parameters was stored during the request, we'll apply
+ * them here. We use this hook since it's run late in the request.
+ */
+function ding_webtrekk_preprocess_html() {
+  $parameters = ding_webtrekk_get_page_parameters();
+
   $script_lines = array_map(function($key, $value) {
-    if ($value) {
+    // We require a non-empty value but would also like to track values such as
+    // 0 and '0'. For example if there was 0 search results.
+    if (!empty($value) || (string) $value === '0') {
       return "window._ti['$key'] = '$value'";
     }
-  }, array_keys($value_map), $value_map);
+  }, array_keys($parameters), $parameters);
 
   // Remove empty values.
   $script_lines = array_filter($script_lines);
