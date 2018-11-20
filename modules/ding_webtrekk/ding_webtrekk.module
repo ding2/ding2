@@ -85,6 +85,9 @@ function ding_webtrekk_page_alter(&$page) {
         $params['p_s_Facets'] = implode(',', $_GET['facets']);
       }
 
+      // Track the page of the search result.
+      $params['p_s_Page'] = $search_result->getSearchRequest()->getPage();
+
       ding_webtrekk_add_page_parameters($params);
     }
   }
@@ -112,6 +115,11 @@ function ding_webtrekk_views_post_execute(&$view) {
       'internalSearch' => array_shift($view->args),
       'numberSearchResults' => $view->total_rows,
     ];
+
+    // If using views pager; track the current search result page here also.
+    if (isset($view->query->pager->current_page)) {
+      $params['p_s_Page'] = ++$view->query->pager->current_page;
+    }
 
     ding_webtrekk_add_page_parameters($params);
   }
