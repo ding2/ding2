@@ -475,8 +475,11 @@ function opensearch_execute(TingClientRequest $request) {
  */
 function _opensearch_predict_cache(array $collections, array &$opensearch_static_fast, TingClientRequest $request) {
   foreach ($collections as $collection) {
-    if (is_object($collection->objects[0])) {
-      $object = reset($collection->objects);
+    foreach ($collection->objects as $object) {
+      if (!is_object($object)) {
+        watchdog('opensearch', 'Predict cache found collection with empty objects. Search query: @query', array('@query' => $request->getQuery()), WATCHDOG_WARNING);
+        break;
+      }
 
       $collection_request = opensearch_get_request_factory()->getCollectionRequest();
       $collection_request->setAllObjects(FALSE);
@@ -530,9 +533,6 @@ function _opensearch_predict_cache(array $collections, array &$opensearch_static
       $object_response = array();
       $object_response[$object->id] = clone $object;
       _opensearch_cache_insert($object_request, $object_response, $opensearch_static_fast);
-    }
-    else {
-      watchdog('opensearch', 'Predict cache found collection with empty objects. Search query: @query', array('@query' => $request->getQuery()), WATCHDOG_WARNING);
     }
   }
 }
