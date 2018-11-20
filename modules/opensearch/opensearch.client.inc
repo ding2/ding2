@@ -355,28 +355,48 @@ function opensearch_execute(TingClientRequest $request) {
     $request->setRelationData('full');
   }
 
-  // Build cache id for this request.
-  $cid = _opensearch_cache_id($request);
-
   // Check static cache first as this is the fasts lookup. We use the fast
   // static pattern described on drupal.org in the drupal_static
   // documentation.
   static $opensearch_static_fast = array();
-  if (array_key_exists($cid, $opensearch_static_fast)) {
-    return $opensearch_static_fast[$cid];
+
+  if ($response = _opensearch_cache_get($request, $opensearch_static_fast)) {
+    return $response;
   }
 
-  // Check the database/memcached cache for the request also check that the
-  // cache data has not expired before using it.
-  $cache = cache_get($cid, 'cache_opensearch');
-  if ($cache && ($cache->expire > REQUEST_TIME)) {
-    $data = $cache->data;
+  // If we are retrieving multiple objects then there might not be a single
+  // request for all these objects combined in the cache but they might be
+  // cached individually.
+  $cached_objects = [];
+  if ($request instanceof TingClientObjectRequest) {
+    $ids = array_combine($request->getObjectIds(), $request->getObjectIds());
 
-    // Update the static cache with the database cache content to speed up the
-    // next request for the same data.
-    $opensearch_static_fast[$cid] = $data;
+    // Try to retrieve an object for each id. Entries which does not have cached
+    // data will get the value FALSE for easy subsequent filtering.
+    $object_ids = array_map(function ($id) use ($request, $opensearch_static_fast) {
+      $object_request = clone $request;
+      $object_request->setObjectId($id);
+      if ($cached_response = _opensearch_cache_get($object_request, $opensearch_static_fast)) {
+        // A response for a single object is an array with a single object so
+        // just return the object.
+        return array_shift($cached_response);
+      }
+      else {
+        return FALSE;
+      }
+    }, $ids);
+    $cached_objects = array_filter($object_ids);
 
-    return $data;
+    // Ids that we still need to fetch will not be appearing in the list of
+    // cached objects.
+    $uncached_ids = array_diff_key($ids, $cached_objects);
+    $request->setObjectIds(array_keys($uncached_ids));
+
+    // If there are no ids to fetch then there is no need to issue a request.
+    // Just return the array of cached objects.
+    if (empty($uncached_ids)) {
+      return $cached_objects;
+    }
   }
 
   try {
@@ -392,6 +412,12 @@ function opensearch_execute(TingClientRequest $request) {
     }
 
     $response = $request->parseResponse($res);
+
+    if ($request instanceof TingClientObjectRequest) {
+      // Merge in any cached objects. The map uses ids as keys. The order does
+      // not matter for object requests.
+      $response = array_merge($cached_objects, $response);
+    }
 
     // Pass parsed results to other modules.
     $props = module_invoke_all('opensearch_post_execute', $request, $response, $res);
@@ -530,6 +556,40 @@ function _opensearch_cache_insert(TingClientRequest $request, $response, array &
   if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
     cache_set($cid, $response, 'cache_opensearch', REQUEST_TIME + $ttl);
   }
+}
+
+/**
+ * Retrieve a earch response based on a request.
+ *
+ * @param TingClientRequest $request
+ *   The search request for which to retrieve a cached response.
+ * @param array $opensearch_static_fast
+ *   The fast static cache used by opensearch_execute().
+ *
+ * @return \TingClientSearchResult|\TingClientObjectCollection|\TingClientObject[]|NULL
+ *   The cached response. NULL if no cached entry exists.
+ */
+function _opensearch_cache_get(TingClientRequest $request, array &$opensearch_static_fast) {
+  // Build cache id for this request.
+  $cid = _opensearch_cache_id($request);
+  if (array_key_exists($cid, $opensearch_static_fast)) {
+    return $opensearch_static_fast[$cid];
+  }
+
+  // Check the database/memcached cache for the request also check that the
+  // cache data has not expired before using it.
+  $cache = cache_get($cid, 'cache_opensearch');
+  if ($cache && ($cache->expire > REQUEST_TIME)) {
+    $data = $cache->data;
+
+    // Update the static cache with the database cache content to speed up the
+    // next request for the same data.
+    $opensearch_static_fast[$cid] = $data;
+
+    return $data;
+  }
+
+  return NULL;
 }
 
 /**
