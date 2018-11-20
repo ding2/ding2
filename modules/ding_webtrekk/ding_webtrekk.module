@@ -32,11 +32,6 @@ function ding_webtrekk_page_alter(&$page) {
     return;
   }
 
-  $params = [
-    'pageTitle' => drupal_get_title(),
-  ];
-  ding_webtrekk_add_page_parameters($params);
-
   // @codingStandardsIgnoreStart
   $tag_integration_logic = '/** start TagIntegration loader  */
 (function(c,d,a,f){c.wts=c.wts||[];var g=function(b){var a="";b.customDomain&&b.customPath?a=b.customDomain+"/"+b.customPath:b.tiDomain&&b.tiId&&(a=b.tiDomain+"/resp/api/get/"+b.tiId+"?url="+encodeURIComponent(c.location.href)+"&v=5");if(b.option)for(var d in b.option)a+="&"+d+"="+encodeURIComponent(b.option[d]);return a};if(-1===d.cookie.indexOf("wt_r=1")){var e=d.getElementsByTagName(a)[0];a=d.createElement(a);a.async=!0;a.onload=function(){if("undefined"!==typeof c.wt_r&&!isNaN(c.wt_r)){var b=new Date,a=b.getTime()+1E3*parseInt(c.wt_r);b.setTime(a);d.cookie="wt_r=1;path=/;expires="+b.toUTCString()}};a.onerror=function(){"undefined"!==typeof c.wt_mcp_hide&&"function"===typeof c.wt_mcp_hide.show&&(c.wt_mcp_hide.show(),c.wt_mcp_hide.show=function(){})};a.src="//"+g(f);e.parentNode.insertBefore(a,e)}})(window,document,"script",_tiConfig);
@@ -62,7 +57,6 @@ function ding_webtrekk_page_alter(&$page) {
   if (strpos(current_path(), 'search/ting') === 0) {
     if ($search_result = ting_search_current_results()) {
       $params = [
-        'pageTitle' => 'Search ting',
         'OSS' => $search_result->getSearchRequest()->getFullTextQuery(),
         'OSSr' => $search_result->getNumTotalObjects(),
       ];
@@ -92,7 +86,6 @@ function ding_webtrekk_views_post_execute(&$view) {
     $params = [
       'internalSearch' => array_shift($view->args),
       'numberSearchResults' => $view->total_rows,
-      'pageTitle' => 'Search content',
     ];
 
     ding_webtrekk_add_page_parameters($params);
