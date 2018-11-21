@@ -259,6 +259,7 @@ function ting_covers_fetch_image($filename, $image_url) {
     // FALSE to avoid broken images in frontend.
     if (!$size = getimagesize($realpath)) {
       file_unmanaged_delete($file);
+      watchdog('ting_covers', 'Discarded invalid cover file from %url', array('%url' => $image_url), WATCHDOG_ERROR);
       return FALSE;
     }
 
