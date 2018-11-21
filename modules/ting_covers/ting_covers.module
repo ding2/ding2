@@ -230,7 +230,7 @@ function _ting_covers_get_file($id, $uri) {
  *   URL for the source image file.
  *
  * @return mixed
- *   A file object or FALSE on error.
+ *   A string with the path of the image or FALSE on error.
  *
  * @see image_style_create_derivative()
  */
@@ -253,22 +253,19 @@ function ting_covers_fetch_image($filename, $image_url) {
 
   $file = file_unmanaged_save_data($result->data, $filename, FILE_EXISTS_REPLACE);
 
-  // Check that the file is an image. If not we'll remove again and return FALSE
-  // to avoid broken images in frontend.
-  if ($file) {
-    if (!exif_imagetype($file)) {
-      file_unmanaged_delete($file);
-      $file = FALSE;
-    }
-  }
-
-  // Sometimes we get images in print quality, which makes imagecache run out
-  // of memory in the attempt to resize it. So we check the image size and
-  // scale it down to a more manageable size using the Imagemagick shell
-  // command which gets around the memory limit.
   if ($file) {
     $realpath = drupal_realpath($filename);
-    $size = getimagesize($realpath);
+    // Check that the file is an image. If not we'll remove again and return
+    // FALSE to avoid broken images in frontend.
+    if (!$size = getimagesize($realpath)) {
+      file_unmanaged_delete($file);
+      return FALSE;
+    }
+
+    // Sometimes we get images in print quality, which makes imagecache run out
+    // of memory in the attempt to resize it. So we check the image size and
+    // scale it down to a more manageable size using the Imagemagick shell
+    // command which gets around the memory limit.
     if ($size[0] > TING_COVERS_MAX_SIZE || $size[1] > TING_COVERS_MAX_SIZE) {
       exec('convert ' . $realpath . ' -resize ' . TING_COVERS_MAX_SIZE . 'x ' .
            $realpath . '.tmp', $output, $rc);
