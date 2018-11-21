@@ -355,12 +355,8 @@ function opensearch_execute(TingClientRequest $request) {
     $request->setRelationData('full');
   }
 
-  // Check static cache first as this is the fasts lookup. We use the fast
-  // static pattern described on drupal.org in the drupal_static
-  // documentation.
-  static $opensearch_static_fast = array();
-
-  if ($response = _opensearch_cache_get($request, $opensearch_static_fast)) {
+  if ($response = _opensearch_cache($request)) {
+    // Exact match for request is found in cache. Return early.
     return $response;
   }
 
@@ -373,10 +369,10 @@ function opensearch_execute(TingClientRequest $request) {
 
     // Try to retrieve an object for each id. Entries which does not have cached
     // data will get the value FALSE for easy subsequent filtering.
-    $object_ids = array_map(function ($id) use ($request, $opensearch_static_fast) {
+    $object_ids = array_map(function ($id) use ($request) {
       $object_request = clone $request;
       $object_request->setObjectId($id);
-      if ($cached_response = _opensearch_cache_get($object_request, $opensearch_static_fast)) {
+      if ($cached_response = _opensearch_cache($object_request)) {
         // A response for a single object is an array with a single object so
         // just return the object.
         return array_shift($cached_response);
@@ -429,14 +425,14 @@ function opensearch_execute(TingClientRequest $request) {
 
     // Update the cache with the raw response object from the data well for
     // faster processing. Also set the static cache.
-    _opensearch_cache_insert($request, $response, $opensearch_static_fast);
+    _opensearch_cache($request, $response);
 
     // To speed up the entity module, which will trigger an search for each
     // collection. Try and predict the search request an warm up the cache.
     // Alternative rewrite the whole ting entity module, which currently is
     // overkill.
     if ($response instanceof TingClientSearchResult) {
-      _opensearch_predict_cache($response->collections, $opensearch_static_fast, $request);
+      _opensearch_predict_cache($response->collections, $request);
     }
 
     return $response;
@@ -465,15 +461,13 @@ function opensearch_execute(TingClientRequest $request) {
  *
  * @param array $collections
  *   The collections found in TingClientSearchResult object.
- * @param array $opensearch_static_fast
- *   The fast static cache used by opensearch_execute().
  * @param TingClientRequest $request
  *   The request used to get the collections.
  *
  * @throws \TingClientException
  *   If the search client request fails.
  */
-function _opensearch_predict_cache(array $collections, array &$opensearch_static_fast, TingClientRequest $request) {
+function _opensearch_predict_cache(array $collections, TingClientRequest $request) {
   foreach ($collections as $collection) {
     foreach ($collection->objects as $object) {
       if (!is_object($object)) {
@@ -509,7 +503,7 @@ function _opensearch_predict_cache(array $collections, array &$opensearch_static
 
       // Build the response that matches the request and put it into cache.
       $collection_response = new TingClientObjectCollection($collection->objects);
-      _opensearch_cache_insert($collection_request, $collection_response, $opensearch_static_fast);
+      _opensearch_cache($collection_request, $collection_response);
 
       $object_request = opensearch_get_request_factory()->getObjectRequest();
       $object_request->setObjectId($object->id);
@@ -532,64 +526,55 @@ function _opensearch_predict_cache(array $collections, array &$opensearch_static
       // Build the response that matches the request and put it into cache.
       $object_response = array();
       $object_response[$object->id] = clone $object;
-      _opensearch_cache_insert($object_request, $object_response, $opensearch_static_fast);
+      _opensearch_cache($object_request, $object_response);
     }
   }
 }
 
 /**
- * Insert search response based on request.
+ * Cache/retrieve from cache a search response based on a request.
  *
  * @param TingClientRequest $request
- *   The search request that gives the response.
- * @param \TingClientObject|\TingClientObjectCollection|array $response
- *   The response to the request.
- * @param array $opensearch_static_fast
- *   The fast static cache used by opensearch_execute().
- */
-function _opensearch_cache_insert(TingClientRequest $request, $response, array &$opensearch_static_fast) {
-  $cid = _opensearch_cache_id($request);
-
-  // Update the cache with the raw response object from the data well for
-  // faster processing. Also set the static cache.
-  $opensearch_static_fast[$cid] = $response;
-  if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
-    cache_set($cid, $response, 'cache_opensearch', REQUEST_TIME + $ttl);
-  }
-}
-
-/**
- * Retrieve a earch response based on a request.
- *
- * @param TingClientRequest $request
- *   The search request for which to retrieve a cached response.
- * @param array $opensearch_static_fast
- *   The fast static cache used by opensearch_execute().
+ *   The search request for which to set/retrieve a cached response.
+ * @param \TingClientSearchResult|\TingClientObjectCollection|\TingClientObject[]|NULL $response
+ *   The response to cache. NULL to reset the cache entry for the request.
  *
  * @return \TingClientSearchResult|\TingClientObjectCollection|\TingClientObject[]|NULL
  *   The cached response. NULL if no cached entry exists.
  */
-function _opensearch_cache_get(TingClientRequest $request, array &$opensearch_static_fast) {
-  // Build cache id for this request.
+function _opensearch_cache(TingClientRequest $request, $response = NULL) {
+  static $static_cache;
   $cid = _opensearch_cache_id($request);
-  if (array_key_exists($cid, $opensearch_static_fast)) {
-    return $opensearch_static_fast[$cid];
+
+  // Count the number of arguments to determine if $value has been provided.
+  // This allows us to distinguish between situations where $value is not set
+  // and we want to retrieve the cache value and where $value is set to NULL
+  // explicitly.
+  if (func_num_args() == 2) {
+    // Update the cache with the provided value.
+    $static_cache[$cid] = $response;
+    if ($ttl = variable_get('opensearch_cache_lifetime', OPENSEARCH_DEFAULT_CACHE_LIFETIME)) {
+      cache_set($cid, $response, 'cache_opensearch', REQUEST_TIME + $ttl);
+    }
+    return $response;
   }
+  else {
+    // Try to retrieve value from cache.
+    if (array_key_exists($cid, $static_cache)) {
+      return $static_cache[$cid];
+    }
 
-  // Check the database/memcached cache for the request also check that the
-  // cache data has not expired before using it.
-  $cache = cache_get($cid, 'cache_opensearch');
-  if ($cache && ($cache->expire > REQUEST_TIME)) {
-    $data = $cache->data;
+    $cache = cache_get($cid, 'cache_opensearch');
+    if ($cache && ($cache->expire > REQUEST_TIME)) {
+      $data = $cache->data;
 
-    // Update the static cache with the database cache content to speed up the
-    // next request for the same data.
-    $opensearch_static_fast[$cid] = $data;
+      // Update the static cache with the database cache content to speed up the
+      // next request for the same data.
+      $static_cache[$cid] = $data;
 
-    return $data;
+      return $data;
+    }
   }
-
-  return NULL;
 }
 
 /**
