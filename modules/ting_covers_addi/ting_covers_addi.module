@@ -63,6 +63,15 @@ function ting_covers_addi_ting_covers($entities) {
         $source_url = $cover->thumbnailUrl;
       }
 
+      // If we still haven't found a cover check if we can use external URL.
+      if (!$source_url && isset($cover->externUrl) && variable_get('ting_covers_addi_external_url', TRUE)) {
+        $entity = $entities[$pid];
+        $sources = variable_get('ting_covers_addi_external_url_sources', _ting_covers_addi_default_external_url_sources());
+        if (in_array(drupal_strtolower($entity->getAc_source()), $sources)) {
+          $source_url = $cover->externUrl;
+        }
+      }
+
       if ($source_url) {
         // Return the path to the cover.
         $covers[$pid] = $source_url;
@@ -78,4 +87,15 @@ function ting_covers_addi_ting_covers($entities) {
 
   // Return all image information.
   return $covers;
+}
+
+/**
+ * Default sources where external URL should be used.
+ */
+function _ting_covers_addi_default_external_url_sources() {
+  return array(
+    'ereolen global',
+    'comics plus',
+    'pressreader',
+  );
 }

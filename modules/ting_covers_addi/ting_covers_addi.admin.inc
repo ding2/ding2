@@ -59,5 +59,42 @@ function ting_covers_addi_admin_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_covers_addi_enable_logging', FALSE),
   );
 
+  $form['addi']['external_url'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('External URL'),
+    '#description' => t('For some materials without cover, the service will return an URL to an external cover supplied by the owner of the record. Use these settings enable/disable this feature and, if enabled, which sources to use them on.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['addi']['external_url']['ting_covers_addi_external_url'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable external URL'),
+    '#default_value' => variable_get('ting_covers_addi_external_url', TRUE),
+  );
+
+  $sources = variable_get('ting_well_sources', array());
+  $form['addi']['external_url']['ting_covers_addi_external_url_sources'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('External URL sources'),
+    '#options' => drupal_map_assoc($sources),
+    '#default_value' => variable_get('ting_covers_addi_external_url_sources', _ting_covers_addi_default_external_url_sources()),
+  );
+
+  $form['addi']['external_url']['update'] = array(
+    '#type' => 'submit',
+    '#value' => t('Update sources'),
+    '#submit' => array('ting_covers_addi_source_update'),
+  );
+
   return system_settings_form($form);
+}
+
+/**
+ * Submit handler.
+ *
+ * Updates the list of known sources from the data well.
+ */
+function ting_covers_addi_source_update($form, &$form_state) {
+  _ting_fetch_well_sources();
 }
