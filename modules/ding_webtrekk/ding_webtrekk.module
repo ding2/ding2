@@ -107,6 +107,14 @@ function ding_webtrekk_page_alter(&$page) {
           }
         }
       }
+
+      // Track the ting_field_search profile used in the request. Is the module
+      // enablet and is extended search with profiles activated?
+      if (module_exists('ting_field_search') && variable_get('ting_field_search_search_style', FALSE)) {
+        if ($profile = ting_field_search_get_active_profile()) {
+          $params['p_OSSprofile'] = $profile->name;
+        }
+      }
     }
   }
 
