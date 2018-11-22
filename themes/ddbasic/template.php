@@ -812,8 +812,8 @@ function ddbasic_process_ting_object(&$vars) {
               'default'
             );
           }
-          
-          //Truncate abstract
+
+          // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 
           // Check if teaser has rating function and remove abstract.
