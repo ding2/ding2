@@ -93,7 +93,7 @@
   </a>
   <div class="buttons">
     <a href="<?php print $node_url; ?>" class="read-more"><?php print t('Read more'); ?></a>
-    <?php if (!empty($link_url)) { ?>
+    <?php if (!empty($link_url)) {?>
       <a href="<?php print $link_url; ?>" class="log-on" target="_blank"><?php print t('Log on'); ?></a>
     <?php } ?>
   </div>
