@@ -19,6 +19,8 @@
    * Toggle opening hours
    */
   function toggle_opening_hours() {
+    var hasOpeningHours = Drupal.settings.hasOwnProperty('ding_ddbasic_opening_hours');
+
     // Create toggle link
     $('.js-opening-hours-toggle-element').each(function () {
       var
@@ -33,11 +35,21 @@
         text.push(Drupal.t('Opening hours'));
       }
 
-      $('<a />', {
-        'class' : 'opening-hours-toggle js-opening-hours-toggle js-collapsed collapsed',
-        'href' : Drupal.t('#toggle-opening-hours'),
-        'text' : text.join(', ')
-      }).insertBefore(this);
+      if (hasOpeningHours && Drupal.settings.ding_ddbasic_opening_hours.hasOwnProperty('expand_all_libraries')) {
+        // Expand all opening hours on library pages
+        $('<a />', {
+          'class' : 'opening-hours-toggle js-opening-hours-toggle js-collapsed js-expanded collapsed',
+          'href' : Drupal.t('#toggle-opening-hours'),
+          'text' : text.join(', ')
+        }).insertBefore(this);
+      } else {
+        // Collapse all opening hours on library pages
+        $('<a />', {
+          'class' : 'opening-hours-toggle js-opening-hours-toggle js-collapsed collapsed',
+          'href' : Drupal.t('#toggle-opening-hours'),
+          'text' : text.join(', ')
+        }).insertBefore(this);
+      }
     });
 
     // Set variables
@@ -63,8 +75,8 @@
       event.preventDefault();
     });
 
-    // Expand opening hours on library pages.
-    if (Drupal.settings.ding_ddbasic_opening_hours && Drupal.settings.ding_ddbasic_opening_hours.expand_on_library) {
+    // Expand opening hours on first library on library pages.
+    if (hasOpeningHours && Drupal.settings.ding_ddbasic_opening_hours.hasOwnProperty('expand_on_first_library')) {
       element.triggerHandler('click');
     }
   }

@@ -15,7 +15,8 @@
 }
 
 // On ting teaser
-.ting-object.view-mode-teaser {
+.ting-object.view-mode-teaser,
+.ting-object.view-mode-teaser-no-overlay {
   > .inner {
     .group-rating {
       padding: 0 20px;

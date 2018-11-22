@@ -75,6 +75,7 @@ ul {
       @include font('base');
       font-family: $font-family-bold;
     }
+
     > li {
 
       // Tablet
@@ -110,6 +111,13 @@ ul {
         color: $white;
         background-color: $charcoal;
         display: none; // Hide 2 level menu. Displayed on tablet and mobile width jQuery
+
+        // Tablet
+        @include media($tablet) {
+          width: 100%;
+          float: left;  
+        }
+
         li {
           width: 100%;
           padding: 0;
@@ -142,6 +150,62 @@ ul {
                 padding-bottom: 20px;
               }
             }
+          }
+        }
+      }
+
+      // Active trail
+      @include media($tablet) {
+        &.active-trail {
+          > ul.main-menu {
+            display: block;
+            overflow: hidden;
+
+            > li {
+              &.active-trail {
+                > ul.main-menu {
+                  display: block;
+                  overflow: hidden;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Expanded
+    .main-menu-expanded-icon {
+      display: none; // hide arrow on desktop
+      @include arrow-button(arrow-down, $charcoal-opacity-light);
+
+      &.open {
+        @include arrow-button(arrow-up, $charcoal-opacity-light);
+      }
+    }
+
+    // Tablet
+    @include media($tablet) {
+      .main-menu-expanded-icon {
+        display: block;
+        position: absolute;
+        top: 12px;
+        right: 5%;
+        width: 68px;
+        height: 54px;
+        &::after {
+          color: $white;
+        }
+        &.open {
+          &::after {
+            color: $white;
+          }
+        }
+      }
+      .main-menu {
+        .main-menu-expanded-icon {
+          &::after {
+            background-color: $black;
           }
         }
       }
@@ -337,6 +401,7 @@ ul.topbar-menu {
       @include media($tablet) {
         display: block;
         float: right;
+        margin-left: 10px;
         a {
           background-color: $charcoal;
         }
@@ -402,10 +467,25 @@ ul.topbar-menu {
       a {
         margin: 5px 0;
       }
+      .logged-in & {
+        // We need to make room for openening hours -> 64px wide
+        // The width of the other elements is 
+        // half width minus the half the width (plus margin) of the 
+        // opening hours container.
+        width: calc(50% - 42px);
+      }
+      @include media($tablet) {
+        width: calc(50% - 42px);
+      }
     }
     &.topbar-link-user-account {
       margin-right: getGutter(4) / 2;
       margin-left: getGutter(4) / 2;
+
+      .logged-in & {
+        margin-left: 0;
+        margin-right: 10px;
+      }
 
       // Tablet
       @include media($tablet) {
@@ -416,18 +496,52 @@ ul.topbar-menu {
       // Mobile
       @include media($mobile) {
         @include span-columns(6);
+        .logged-in & {
+          width: calc(100% - 192px);
+          max-width: 226px;
+          margin: 0;
+        }
       }
     }
     &.topbar-link-opening-hours {
       margin-right: getGutter(4) / 2;
       margin-left: getGutter(4) / 2;
+      // When logged in - display the opening hours
+      // as only icon
       .logged-in & {
-        display: none;
+        width: 54px;
+        margin-left: 10px;
+        margin-right: 10px;
+        a {
+          padding: 0;
+          height: 54px;
+          &::after {
+            right: 0;
+          }
+        }
+        span {
+          display: none;
+        }
       }
 
       // Tablet
+      // When tablet and under - display the opening hours
+      // as only icon
       @include media($tablet) {
-        display: none;
+        float: right;
+        width: 54px;
+        margin-left: 10px;
+        margin-right: 10px;
+        a {
+          padding: 0;
+          height: 54px;
+          &::after {
+            right: 0;
+          }
+        }
+        span {
+          display: none;
+        } 
       }
     }
     &.topbar-link-user-account + .topbar-link-user-account {

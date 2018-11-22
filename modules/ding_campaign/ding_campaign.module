@@ -420,8 +420,6 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
     unset($form['field_camp_settings'][$form['field_camp_settings']['#language']]['#options']['_none']);
     // Remove the 'None' value from weight drop-down.
     unset($form['field_camp_weight'][$form['field_camp_weight']['#language']]['#options']['_none']);
-
-    $form['#validate'] = array('ding_campaign_campaign_node_form_validate');
   }
 }
 
@@ -663,13 +661,6 @@ function ding_campaign_ctools_plugin_directory($module, $plugin) {
   }
 }
 
-function ding_campaign_campaign_node_form_validate($form, &$form_state) {
-  if ($form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'image') {
-    if (empty($form_state['input']['field_camp_link'][$form['field_camp_link']['#language']][0]['value'])) {
-      form_set_error('field_camp_link', 'Empty links are not allowed for image type campaigns.');
-    }
-  }
-}
 /**
  * Get rule name by node type.
  *

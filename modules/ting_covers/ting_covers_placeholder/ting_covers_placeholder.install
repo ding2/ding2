@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Installation and maintenance code for ting_covers_placeholder module.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function ting_covers_placeholder_enable() {
+  // Give the module a high weight to ensure that other modules get a chance to
+  // provide a proper cover first.
+  db_update('system')
+    ->fields(array('weight' => 10))
+    ->condition('type', 'module')
+    ->condition('name', 'ting_covers_placeholder')
+    ->execute();
+}

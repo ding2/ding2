@@ -488,3 +488,40 @@ function ding_list_check_token(DingList $list, $key, $token) {
 
   return FALSE;
 }
+
+/**
+ * Get public lists, the ting object is included in.
+ *
+ * @param string $ting_id
+ *   Ting id.
+ *
+ * @return array
+ *   List of lists.
+ */
+function ding_list_material_in_public_lists($ting_id) {
+  $lists = array();
+
+  $cache = cache_get(__FUNCTION__ . ':' . $ting_id);
+
+  if (!empty($cache) && REQUEST_TIME < $cache->expire) {
+    $lists = $cache->data;
+  }
+  else {
+    try {
+      $lists = ding_provider_invoke('openlist', 'call_module', 'Query', 'getLists', array(
+        $ting_id,
+      ));
+
+      foreach ($lists as &$list) {
+        $list = DingList::fromDataArray($list);
+      }
+    }
+    catch (Exception $e) {
+      watchdog_exception('ding_list', $e);
+    }
+
+    cache_set(__FUNCTION__ . ':' . $ting_id, $lists, 'cache', REQUEST_TIME + 60);
+  }
+
+  return $lists;
+}

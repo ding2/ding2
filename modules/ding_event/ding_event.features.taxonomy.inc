@@ -17,6 +17,14 @@ function ding_event_taxonomy_default_vocabularies() {
       'module' => 'taxonomy',
       'weight' => 0,
     ),
+    'event_organizer' => array(
+      'name' => 'Event organizer',
+      'machine_name' => 'event_organizer',
+      'description' => '',
+      'hierarchy' => 0,
+      'module' => 'taxonomy',
+      'weight' => 0,
+    ),
     'event_target' => array(
       'name' => 'Event target',
       'machine_name' => 'event_target',

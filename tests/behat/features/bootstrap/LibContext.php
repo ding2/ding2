@@ -183,7 +183,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->drupalContext = $environment->getContext('Drupal\DrupalExtension\Context\DrupalContext');
     $this->minkContext = $environment->getContext('Drupal\DrupalExtension\Context\MinkContext');
 
-    // Try to set a default window size. 
+    // Try to set a default window size.
     try {
       $this->minkContext->getSession()
             ->getDriver()
@@ -483,18 +483,6 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function findAddToAList() {
     $this->check($this->objectPage->hasAddToList());
-  }
-
-  /**
-   * Check for whether the Husk / Tilføj til liste button is shown and visible
-   *
-   * @Then it is not possible to add to a list
-   *
-   * @throws Exception
-   *    In case of errors.
-   */
-  public function findAddToListNotPossible() {
-    $this->check($this->objectPage->hasNotAddToList());
   }
 
   /**

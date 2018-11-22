@@ -90,17 +90,13 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
-?>
+
+ ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="inner">
     <div class="left">
       <?php print render($content['group_left']['field_ding_event_title_image']); ?>
       <h2><?php print t('Information about the event'); ?></h2>
-      <?php if ($alt_location_is_set): ?>
-        <?php print render($content['group_left']['field_ding_event_location']); ?>
-      <?php else: ?>
-        <?php print render($content['group_left']['og_group_ref']); ?>
-      <?php endif; ?>
       <!-- insert time-field markup -->
       <?php if ($event_time): ?>
         <div class="field field-name-field-ding-event-target field-label-inline clearfix">
@@ -110,6 +106,13 @@
           </div>
         </div>
       <?php endif; ?>
+      <?php 
+        if ($alt_location_is_set): 
+          print render($content['group_left']['field_ding_event_location']);
+        else:
+          print render($content['group_left']['og_group_ref']);
+        endif;
+      ?>
       <?php print render($content['group_left']); ?>
       <?php
         if (!empty($book_button)):
@@ -126,6 +129,7 @@
       <?php print render($content['group_right']['field_ding_event_date']);?>
       <?php print render($share_button); ?>
       <?php print render($content['group_right']);?>
+
     </div>
     <?php // Render MKWS results set. ?>
     <?php if (!empty($content['field_mkws_node_widget'])) : ?>

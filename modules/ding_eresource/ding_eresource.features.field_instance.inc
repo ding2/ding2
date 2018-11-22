@@ -10,7 +10,8 @@
 function ding_eresource_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'comment-comment_node_ding_eresource-comment_body'
+  // Exported field_instance:
+  // 'comment-comment_node_ding_eresource-comment_body'.
   $field_instances['comment-comment_node_ding_eresource-comment_body'] = array(
     'bundle' => 'comment_node_ding_eresource',
     'default_value' => NULL,
@@ -43,7 +44,7 @@ function ding_eresource_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_access'
+  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_access'.
   $field_instances['node-ding_eresource-field_ding_eresource_access'] = array(
     'bundle' => 'ding_eresource',
     'default_value' => NULL,
@@ -68,7 +69,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 10,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -105,7 +106,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     ),
   );
 
-  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_body'
+  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_body'.
   $field_instances['node-ding_eresource-field_ding_eresource_body'] = array(
     'bundle' => 'ding_eresource',
     'default_value' => NULL,
@@ -129,7 +130,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 9,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -169,7 +170,8 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     ),
   );
 
-  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_category'
+  // Exported field_instance:
+  // 'node-ding_eresource-field_ding_eresource_category'.
   $field_instances['node-ding_eresource-field_ding_eresource_category'] = array(
     'bundle' => 'ding_eresource',
     'default_value' => NULL,
@@ -231,7 +233,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     ),
   );
 
-  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_files'
+  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_files'.
   $field_instances['node-ding_eresource-field_ding_eresource_files'] = array(
     'bundle' => 'ding_eresource',
     'deleted' => 0,
@@ -254,7 +256,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -297,7 +299,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     ),
   );
 
-  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_lead'
+  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_lead'.
   $field_instances['node-ding_eresource-field_ding_eresource_lead'] = array(
     'bundle' => 'ding_eresource',
     'default_value' => NULL,
@@ -363,7 +365,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     ),
   );
 
-  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_link'
+  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_link'.
   $field_instances['node-ding_eresource-field_ding_eresource_link'] = array(
     'bundle' => 'ding_eresource',
     'default_value' => NULL,
@@ -387,7 +389,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -445,7 +447,8 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     ),
   );
 
-  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_list_image'
+  // Exported field_instance:
+  // 'node-ding_eresource-field_ding_eresource_list_image'.
   $field_instances['node-ding_eresource-field_ding_eresource_list_image'] = array(
     'bundle' => 'ding_eresource',
     'deleted' => 0,
@@ -465,20 +468,9 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
       ),
       'search_result' => array(
         'label' => 'hidden',
-        'module' => 'cs_adaptive_image',
-        'settings' => array(
-          'image_link' => 'content',
-          'styles' => array(
-            'breakpoint_1' => 768,
-            'breakpoint_2' => 480,
-            'fallback_style' => 'ding_list_large',
-            'max_style' => 'ding_list_large',
-            'style_1' => 'ding_list_medium',
-            'style_2' => 'ding_list_small',
-          ),
-        ),
-        'type' => 'cs_adaptive_image',
-        'weight' => 2,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -561,7 +553,8 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     ),
   );
 
-  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_materials'
+  // Exported field_instance:
+  // 'node-ding_eresource-field_ding_eresource_materials'.
   $field_instances['node-ding_eresource-field_ding_eresource_materials'] = array(
     'bundle' => 'ding_eresource',
     'default_value' => NULL,
@@ -587,7 +580,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 5,
+        'weight' => 8,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -624,7 +617,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     ),
   );
 
-  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_tags'
+  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_tags'.
   $field_instances['node-ding_eresource-field_ding_eresource_tags'] = array(
     'bundle' => 'ding_eresource',
     'default_value' => NULL,
@@ -648,7 +641,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -688,7 +681,8 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
     ),
   );
 
-  // Exported field_instance: 'node-ding_eresource-field_ding_eresource_title_image'
+  // Exported field_instance:
+  // 'node-ding_eresource-field_ding_eresource_title_image'.
   $field_instances['node-ding_eresource-field_ding_eresource_title_image'] = array(
     'bundle' => 'ding_eresource',
     'deleted' => 0,
@@ -714,7 +708,7 @@ If proxy is enabled, this category also controls whether or not prefix the e-res
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',

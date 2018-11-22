@@ -46,4 +46,15 @@
     }
   };
 
+  /**
+   * Attach close cookie notification events.
+   */
+  Drupal.behaviors.close_cookie_notification = {
+    attach: function(context, settings) {
+      $('#sliding-popup .close', context).bind('click', function () {
+        $(this).closest('#sliding-popup').slideUp();
+      });
+    }
+  };
+
 }(jQuery));

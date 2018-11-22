@@ -145,3 +145,11 @@ function ding_user_update_7009(&$sandbox) {
 function ding_user_update_7010(&$sandbox) {
   ding_user_create_private_key();
 }
+
+/**
+ * Ensure init and authname are equal for provider users.
+ */
+function ding_user_update_7011() {
+  db_query("UPDATE users a INNER JOIN authmap b ON a.uid=b.uid SET a.init=b.authname WHERE a.init<>b.authname;")
+    ->execute();
+}

@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function ting_material_details_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -64,7 +64,7 @@ function ting_material_details_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_material_details|ting_object|ting_object|default'] = $field_group;
+  $field_groups['group_material_details|ting_object|ting_object|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -117,7 +117,7 @@ function ting_material_details_field_group_info() {
       ),
     ),
   );
-  $export['group_material_details|ting_object|ting_object|form'] = $field_group;
+  $field_groups['group_material_details|ting_object|ting_object|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -133,15 +133,14 @@ function ting_material_details_field_group_info() {
     'weight' => '1',
     'children' => array(
       0 => 'ting_relations',
-      1 => 'ting_infomedia',
+      1 => 'group_in_public_lists',
       2 => 'group_holdings_available',
       3 => 'group_on_this_site',
       4 => 'group_periodical_issues',
-      5 => 'group_material_details',
-      6 => 'group_oembed',
+      5 => 'group_ting_object_meta',
+      6 => 'group_ting_object_right_a',
       7 => 'group_ting_object_right_c',
-      8 => 'group_ting_object_right_a',
-      9 => 'group_ting_object_meta',
+      8 => 'group_material_details',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -157,7 +156,12 @@ function ting_material_details_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $export['group_ting_object_right_column|ting_object|ting_object|default'] = $field_group;
+  $field_groups['group_ting_object_right_column|ting_object|ting_object|default'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Material details');
+  t('Right column');
+
+  return $field_groups;
 }

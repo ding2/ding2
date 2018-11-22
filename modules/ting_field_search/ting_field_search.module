@@ -54,14 +54,17 @@ function ting_field_search_panels_pane_content_alter($content, $pane, $args, $co
 }
 
 /**
- * Gets the active profile if any. Any code that performs alterations based on
- * an active profile should use this to get it, since it handles the detection
- * and loading correcty and stores it in a fast static.
+ * Gets the active profile if any.
  *
- * The first time this functon is called on a request it will attempt to
+ * Any code that performs alterations based on an active profile should use this
+ * to get it, since it handles the detection and loading correctly and stores it
+ * in a fast static.
+ * and loading correctly and stores it in a fast static.
+ *
+ * The first time this function is called on a request it will attempt to
  * activate a profile by looking for a profile GET-parameter in the URI.
  *
- * @return object $profile
+ * @return object
  *   If a profile is/was activated, the fully loaded object.
  *   FALSE otherwise.
  */
@@ -104,14 +107,14 @@ function ting_field_search_get_context() {
 }
 
 /**
- * Implements hook_opensearch_cache_key().
+ * Implements hook_opensearch_cache_key_alter().
  *
  * If we have an active profile and context, we use this hook to modify the
  * cache key, so that ting_cache can fetch/save the correct result.
  *
  * @see ting.api.php
  */
-function ting_field_search_opensearch_cache_key(&$cid) {
+function ting_field_search_opensearch_cache_key_alter(&$cid, $request) {
   if (!ting_field_search_get_context()) {
     return;
   }
@@ -216,8 +219,7 @@ function _ting_field_search_append_cql($request, $cql) {
 }
 
 /**
- * Helper function used in hook_ting_pre_request(), to determine if the current
- * request sort should be overriden.
+ * Determine if the current request sort should be overridden.
  *
  * Uses a modifier to bypass ting_search's handling of the default sort. This is
  * needed because of the way ting_search and ting modules handle the default
@@ -393,7 +395,7 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter()
+ * Implements hook_form_FORM_ID_alter().
  *
  * Add this module's profile search style to the current options.
  */
@@ -432,6 +434,162 @@ function ting_field_search_ting_search_settings_submit($form, &$form_state) {
 }
 
 /**
+ * Implements hook_preprocess_html().
+ *
+ * Enable the search box to be expanded based on the path of the profiles.
+ */
+function ting_field_search_preprocess_html(&$vars) {
+  $profiles = ting_field_search_profiles_load_all();
+
+  foreach ($profiles as $profile) {
+    // Expended search box not checked go to the next profile.
+    if (!array_key_exists('search_box', $profile->config['user_interaction']) || !$profile->config['user_interaction']['search_box']) {
+      continue;
+    }
+
+    // If the profile has visibility all always expand the search field.
+    if (ting_field_search_is_profile_visible($profile)) {
+      $vars['classes_array'][] = 'extended-search-is-open';
+      break;
+    }
+  }
+}
+
+/**
+ * Find the default profile for the current context.
+ *
+ * @return string
+ *   The name of the profile that is default.
+ */
+function ting_field_search_get_default_profile() {
+  // If there's an active profile and it is stick; set it as default value.
+  if ($default_profile = ting_field_search_get_active_profile()) {
+    $default_profile = $default_profile->config['user_interaction']['sticky'] ? $default_profile->name : '';
+  }
+
+  if (empty($default_profile)) {
+    $profiles = ting_field_search_profiles_load_all();
+    foreach ($profiles as $profile) {
+      // Expended search box not checked go to the next profile.
+      if (!array_key_exists('default_profile', $profile->config['user_interaction']) || !$profile->config['user_interaction']['default_profile']) {
+        continue;
+      }
+
+      if (ting_field_search_is_profile_visible($profile)) {
+        $default_profile = $profile->name;
+        break;
+      }
+    }
+  }
+  return $default_profile;
+
+}
+
+/**
+ * Filter the profiles displayed based on configuration.
+ */
+function ting_field_search_filter_profiles() {
+  $exposed_profiles = array();
+
+  $active_profile = ting_field_search_get_active_profile();
+
+  $profiles = ting_field_search_profiles_load_all();
+  foreach (ting_field_search_profiles_sort($profiles) as $name => $profile) {
+    // Only exposed and activated profiles should be shown to the user.
+    if ($profile->config['user_interaction']['exposed'] && empty($profile->disabled)) {
+      // Filter based on grouping (always show profiles from same group).
+      if ($active_profile && $active_profile->config['user_interaction']['grouping'] == $profile->config['user_interaction']['grouping']) {
+        $exposed_profiles[$name] = t('Search in @profile', array(
+          '@profile'  => check_plain($profile->title),
+        ));
+        continue;
+      }
+
+      // If the visibility is "except" and we have a active profile that's
+      // different that the current one (checked above). It should not be shown.
+      if ($profile->config['user_interaction']['visibility'] == 'except' && $active_profile) {
+        continue;
+      }
+
+      // Filter base on path.
+      if ($profile->config['user_interaction']['visibility'] !== 'all' &&
+        ting_field_search_profile_matches_current_path($profile)) {
+          $exposed_profiles[$name] = t('Search in @profile', array(
+            '@profile'  => check_plain($profile->title),
+          ));
+          continue;
+      }
+
+      // If no profile is selected. Show all profiles that are not limited to
+      // pages.
+      if (!$active_profile && $profile->config['user_interaction']['visibility'] == 'all') {
+        $exposed_profiles[$name] = t('Search in @profile', array(
+          '@profile'  => check_plain($profile->title),
+        ));
+      }
+    }
+  }
+
+  return $exposed_profiles;
+}
+
+/**
+ * Determine if a search profile should be visibility on the current path.
+ *
+ * @param object $profile
+ *   The profile object.
+ *
+ * @return bool
+ *   Whether the profile should be visibile or not.
+ */
+function ting_field_search_is_profile_visible($profile) {
+  // If the profile has visibility all then it is always visible.
+  if ($profile->config['user_interaction']['visibility'] === 'all') {
+    return TRUE;
+  }
+
+  return ting_field_search_profile_matches_current_path($profile);
+}
+
+/**
+ * Determine if the configured search profile path matches the current path.
+ *
+ * @param object $profile
+ *   The profile object.
+ *
+ * @return bool
+ *   Whether the profile matches the path.
+ */
+function ting_field_search_profile_matches_current_path($profile) {
+  $visibility = $profile->config['user_interaction']['visibility'] == 'except' ? 0 : 1;
+  $pages = $profile->config['user_interaction']['pages'];
+  $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
+
+  // We have an optimization hack to speed up search (by-pass panels 2x
+  // times loading). So all searches are submitted to "/search-blank",
+  // which need to be added to pages to ensure no form validation errors.
+  // If visibility is "except" it should not be added to the pages list.
+  if ($visibility) {
+    $pages .= "\r\nsearch-blank";
+  }
+
+  // Compare the lowercase internal and lowercase path alias (if any).
+  $page_match = drupal_match_path($path, $pages);
+  if ($path != $_GET['q']) {
+    $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
+  }
+
+  // When $visibility has a value of 0, the profile is displayed on
+  // all pages except those listed in $pages. When set to 1, it
+  // is displayed only on those pages listed in $pages.
+  if (!($visibility xor $page_match)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
@@ -439,32 +597,19 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     return;
   }
 
-  // Dont't alter the form if this is the node search page.
+  // Don't alter the form if this is the node search page.
   if (strpos(current_path(), 'search/node') === 0) {
     return;
   }
 
-  $exposed_profiles = array();
-  $profiles = ting_field_search_profiles_load_all();
-  foreach (ting_field_search_profiles_sort($profiles) as $name => $profile) {
-    // Only exposed and activated profiles should be shown to the user.
-    if ($profile->config['user_interaction']['exposed'] && empty($profile->disabled)) {
-      $exposed_profiles[$name] = t('Search in @profile', array(
-       '@profile'  => check_plain($profile->title),
-      ));
-    }
-  }
+  $exposed_profiles = ting_field_search_filter_profiles();
 
   // Don't render select if there's no exposed profiles.
   if (empty($exposed_profiles)) {
     return;
   }
 
-  // If there's an active profile and it is stick; set it as default value.
-  if ($profile = ting_field_search_get_active_profile()) {
-    $profile = $profile->config['user_interaction']['sticky'] ? $profile->name : '';
-  }
-
+  $profile = ting_field_search_get_default_profile();
   $form['ting_field_search'] = array(
     '#type' => 'select',
     '#empty_option' => t('Search in all'),
@@ -490,7 +635,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
  */
 function ting_field_search_search_block_validate($form, &$form_state) {
   // Reset the sort if the user is changing profile. This is the most intuitive
-  // and fixes several issues when the profiles is using differentdefault sort
+  // and fixes several issues when the profiles is using different default sort
   // settings.
   $previous_profile = $form_state['values']['ting_field_search_profile'];
   $selected_profile = $form_state['values']['ting_field_search'];
@@ -516,7 +661,7 @@ function ting_field_search_search_block_submit($form, &$form_state) {
     $profile = ting_field_search_profiles_load($selected_profile);
 
     if ($profile && $profile->config['search_request']['allow_empty']) {
-      // This is a bit hacky, but appearently the only way we can clear an error
+      // This is a bit hacky, but apparently the only way we can clear an error
       // for a single form element. Using form_clear_error will just remove all
       // errors.
       // See: https://api.drupal.org/comment/49163#comment-49163
@@ -548,7 +693,7 @@ function ting_field_search_form_ting_search_sort_form_alter(&$form, &$form_state
     // If the profile is using any other default sort than rank_frequency, we
     // need to bypass ting_search with our modifier.
     if (!empty($profile_default_sort)) {
-      $options[':'. $profile->name] = $options[''];
+      $options[':' . $profile->name] = $options[''];
       unset($options['']);
     }
 
@@ -607,40 +752,44 @@ function ting_field_search_form_ting_search_per_page_form_alter(&$form, &$form_s
  * @param string $name
  *   The machine name of the profile to load.
  *
- * @return object $profile
+ * @return object
  *   A single profile object.
  */
 function ting_field_search_profiles_load($name) {
-  $profile = ting_field_search_profiles_load_mutliple(array($name));
+  $profile = ting_field_search_profiles_load_multiple(array($name));
   return array_shift($profile);
 }
 
 /**
  * Loads all profiles from code or DB.
  *
- * @param bool $reset (optional)
- *   Wether or not to reset to the ctools object cache.
+ * @param bool $reset
+ *   Whether or not to reset to the ctools object cache.
  *
- * @return array $profiles.
+ * @return array
  *   An array of profile objects keyed bt profile machine name.
  */
 function ting_field_search_profiles_load_all($reset = FALSE) {
-  return ting_field_search_profiles_load_mutliple();
+  $profiles = &drupal_static(__FUNCTION__);
+  if (!isset($profiles) || $reset) {
+    $profiles = ting_field_search_profiles_load_multiple();
+  }
+
+  return $profiles;
 }
 
 /**
  * Loads multiple profiles from code or DB.
  *
- * @param string $name (optional)
+ * @param string $names
  *   Load a single profile by machine-name.
  *
- * @return array $profiles
+ * @return array
  *   An array of profile objects keyed by profile machine name.
  */
-function ting_field_search_profiles_load_mutliple($names = NULL) {
+function ting_field_search_profiles_load_multiple($names = NULL) {
   ctools_include('export');
 
-  $profiles = array();
   $table = 'ting_field_search_profile';
   if (isset($names)) {
     $profiles = ctools_export_load_object($table, 'names', $names);
@@ -663,8 +812,9 @@ function ting_field_search_profiles_load_mutliple($names = NULL) {
 }
 
 /**
- * Subrecords callback to attach facets when profiles are loaded via ctools
- * exportables API.
+ * Sub-records callback to attach facets.
+ *
+ * When profiles are loaded via ctools executables API.
  *
  * @see ting_field_search_schema()
  */
@@ -676,7 +826,7 @@ function ting_field_search_subrecords_callback(&$profiles) {
   // Collect ids of profiles that needs their facets loaded from db.
   $profiles_ids = array();
   foreach ($profiles as $profile) {
-    // Subrecords only apply to profiles which is represented in the database,
+    // Sub-records only apply to profiles which is represented in the database,
     // since facets has their own table there. Profiles purely in code will
     // always have facets attached, so we need not do anything in this case.
     if ($profile->export_type & EXPORT_IN_DATABASE) {
@@ -703,8 +853,8 @@ function ting_field_search_subrecords_callback(&$profiles) {
  *   An array representing a new or existing profile.
  *   This function can also handle updating of the profile's facets. The facet
  *   records should be passed as arrays in the 'facet' key of the profile array.
- *s
- * @return mixed $result
+ *
+ * @return mixed
  *   FALSE, if the record inserts updated or failed.
  *   SAVED_NEW or SAVED_UDPATED depending on the operations performed.
  */
@@ -754,7 +904,7 @@ function ting_field_search_profile_save($profile) {
 /**
  * Creates a new profile object with defaults.
  *
- * @return object $profile
+ * @return object
  *   The profile object.
  */
 function ting_field_search_profile_create($set_defaults = TRUE) {
@@ -783,6 +933,9 @@ function ting_field_search_profile_export($profile, $indent) {
  *
  * @param mixed $profile
  *   A profile object or the macinhe-name of the profile to delete.
+ *
+ * @return bool
+ *   TRUE if deleted else FALSE.
  */
 function ting_field_search_profile_delete($profile) {
   $transaction = db_transaction();
@@ -814,7 +967,7 @@ function ting_field_search_facet_save($facet) {
   // Merge query needs arrays.
   $facet = is_object($facet) ? (array) $facet : $facet;
 
-  // Isoloate the composite key and fields.
+  // Isolate the composite key and fields.
   $keys = array(
     'name' => $facet['name'],
     'pid' => $facet['pid'],
@@ -823,7 +976,7 @@ function ting_field_search_facet_save($facet) {
   $facet = array_intersect_key($facet, array_flip($facet_fields));
 
   // Using a merge query to ensure only one facet per profile.
-  return db_merge('ting_field_search_facet')
+  db_merge('ting_field_search_facet')
     ->key($keys)
     ->fields($facet)
     ->execute();
@@ -831,21 +984,25 @@ function ting_field_search_facet_save($facet) {
 
 /**
  * Delete facet settings associated with a profile.
+ *
+ * @param string $pid
+ *   The id of the profile to delete.
+ * @param string $facet
+ *   Facet to to used as condition for the deletions.
  */
-function ting_field_search_facets_delete($pid, $facet = NULL) {
+function ting_field_search_facets_delete($pid, $facet = '') {
   try {
     $query = db_delete('ting_field_search_facet')
       ->condition('pid', $pid);
 
-    if (isset($facet)) {
+    if (!empty($facet)) {
       $query->condition('name', $facet);
     }
 
-    return $query->execute();
+    $query->execute();
   }
   catch (Exception $e) {
     watchdog_exception('ting_field_search', $e);
-    return FALSE;
   }
 }
 
@@ -872,8 +1029,28 @@ function ting_field_search_profiles_sort(&$profiles) {
   return $profiles;
 }
 
+/**
+ * Sort profile based on weight.
+ *
+ * Modified version of drupal_sort_weight that takes objects.
+ *
+ * Callback for uasort() used in various functions.
+ *
+ * @param object $profile_a
+ *   The first profile.
+ * @param object $profile_b
+ *   The other profile.
+ *
+ * @return mixed
+ *   The sort value needed by usort.
+ */
 function _ting_field_search_profiles_weight_sort($profile_a, $profile_b) {
-  return $profile_a->weight - $profile_b->weight;
+  $a_weight = isset($profile_a->weight) ? $profile_a->weight : 0;
+  $b_weight = isset($profile_b->weight) ? $profile_b->weight : 0;
+  if ($a_weight == $b_weight) {
+    return 0;
+  }
+  return $a_weight < $b_weight ? -1 : 1;
 }
 
 /**
@@ -885,6 +1062,9 @@ function ting_field_search_config_default() {
       'exposed' => 1,
       'sticky' => 1,
       'alter_links' => 1,
+      'grouping' => 'default',
+      'search_box' => 0,
+      'default_profile' => 0,
     ),
     'search_request' => array(
       'agency' => '',
