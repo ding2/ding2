@@ -258,6 +258,13 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         // Hide library from render array.
         $variables['content']['og_group_ref']['#access'] = FALSE;
       }
+      elseif ($variables['alt_location_is_set'] && empty($variables['field_ding_event_place'])) {
+        // Hide library from render array.
+        $variables['content']['og_group_ref']['#access'] = FALSE;
+        // Only show location name, so hide locality- and street from event location.
+        $variables['content']['field_ding_event_location'][0]['locality_block']['#access'] = FALSE;
+        $variables['content']['field_ding_event_location'][0]['street_block']['#access'] = FALSE;
+      }
 
       break;
 
