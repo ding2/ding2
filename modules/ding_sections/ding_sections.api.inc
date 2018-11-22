@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Section custom hooks definition.

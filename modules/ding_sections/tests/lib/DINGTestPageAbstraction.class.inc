@@ -1,12 +1,12 @@
 <?php
+
 /**
  * @file
- *
  * Page abstractions implementation.
  */
 
 /**
- * Class DINGTestPageAbstraction
+ * Class DINGTestPageAbstraction.
  */
 class DINGTestPageAbstraction {
   private $phpunitInstance = NULL;
@@ -29,7 +29,7 @@ class DINGTestPageAbstraction {
   }
 
   /**
-   * Function user login
+   * Function user login.
    */
   public function userLogin($user, $pass) {
     $this->phpunit_instance->byLinkText("Login")->click();
@@ -61,7 +61,8 @@ class DINGTestPageAbstraction {
           return TRUE;
         }
       }
-      catch (Exception $e) {}
+      catch (Exception $e) {
+      }
       sleep(1);
     }
   }
@@ -72,4 +73,5 @@ class DINGTestPageAbstraction {
   public function waitForPage($time = self::WAIT_FOR_PAGE) {
     $this->phpunit_instance->waitForPageToLoad($time * 1000);
   }
+
 }

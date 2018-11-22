@@ -1,8 +1,21 @@
 <?php
-Class SectionsTest extends PHPUnit_Extensions_SeleniumTestCase {
+
+/**
+ * @file
+ * Ding Sections Selenium test.
+ */
+
+// @codingStandardsIgnoreStart
+/**
+ *
+ */
+class SectionsTest extends PHPUnit_Extensions_SeleniumTestCase {
   protected $abstractedPage;
   protected $config;
 
+  /**
+   *
+   */
   protected function setUp() {
     $this->abstractedPage = new DDBTestPageAbstraction($this);
     $this->config = new DDBTestConfig();
@@ -15,16 +28,16 @@ Class SectionsTest extends PHPUnit_Extensions_SeleniumTestCase {
    * Test Ding item Cache as admin.
    */
   public function testSection() {
-    // Open the ding2 site
+    // Open the ding2 site.
     $this->open("/");
-    // Login with admin user
+    // Login with admin user.
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
-    // Go to modules for enabled module ding sections
+    // Go to modules for enabled module ding sections.
     $this->open("/admin/modules");
     $this->type("id=edit-module-filter-name", "ding sections");
 
     $element = $this->isElementPresent('css=input[checked="checked"][name="modules[Ding!][ding_sections][enable]"]');
-    if ($element== FALSE) {
+    if ($element == FALSE) {
       $this->click('id=edit-modules-ding-ding-sections-enable');
       $this->click('id=edit-modules-ding-ding-sections-custom-css-enable');
       $this->click('id=edit-modules-ding-ding-sections-header-image-enable');
@@ -40,11 +53,13 @@ Class SectionsTest extends PHPUnit_Extensions_SeleniumTestCase {
     else {
       $this->assertTrue($this->isElementPresent('css=input[checked="checked"][name="modules[Ding!][ding_sections][enable]"]'));
     }
-    //Add new section link and edit and save.
+    // Add new section link and edit and save.
     $this->open("/admin/structure/taxonomy/section/add");
     $this->type("id=edit-name", "Section-term");
     $this->click("id=edit-submit");
     $this->abstractedPage->waitForPage();
     sleep(5);
   }
+
 }
+// @codingStandardsIgnoreEnd

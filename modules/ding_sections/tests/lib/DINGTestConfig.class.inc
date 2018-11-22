@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Config class implementation.
@@ -62,4 +63,5 @@ class DINGTestConfig {
   public function getPass() {
     return $this->pass;
   }
+
 }

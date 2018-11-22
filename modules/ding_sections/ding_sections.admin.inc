@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ding section dashboard administrative interface.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_sections_custom_css.features.field_base.inc
@@ -10,7 +11,7 @@
 function ding_sections_custom_css_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_ding_sections_custom_css'
+  // Exported field_base: 'field_ding_sections_custom_css'.
   $field_bases['field_ding_sections_custom_css'] = array(
     'active' => 1,
     'cardinality' => 1,

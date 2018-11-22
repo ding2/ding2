@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Provides functionality of creating menu entry for term.
