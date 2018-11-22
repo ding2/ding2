@@ -50,10 +50,13 @@ function ding_webtrekk_page_alter(&$page) {
     ],
   ];
 
-  // Add page parameter that tracks whether the user is logged in, and if logged
-  // in; what login provider was used.
+  // Here we collect and add the general page parameters that aren't dependant
+  // on data and timing from a specific hook implementation.
+  $params = [];
+
+  // Tracks whether the user is logged in and, if logged in, what login provider
+  // was used.
   if (user_is_logged_in()) {
-    $params = [];
     // Note that this separation of logged in users might be problematic if some
     // pages are also cached for authenticated users.
     if (module_exists('ding_gatewayf') && _ding_gatewayf_is_logged_in_with_gatewayf()) {
@@ -63,7 +66,6 @@ function ding_webtrekk_page_alter(&$page) {
     else {
       $params['p_isloggedin'] = 'cpr+pinkode';
     }
-    ding_webtrekk_add_page_parameters($params);
   }
 
   // Track ting search results. We take advantage of the fact that ting_search
@@ -72,7 +74,7 @@ function ding_webtrekk_page_alter(&$page) {
   // any path, we also check current_path().
   if (strpos(current_path(), 'search/ting') === 0) {
     if ($search_result = ting_search_current_results()) {
-      $params = [
+      $params += [
         'OSS' => $search_result->getSearchRequest()->getFullTextQuery(),
         'OSSr' => $search_result->getNumTotalObjects(),
       ];
@@ -105,9 +107,11 @@ function ding_webtrekk_page_alter(&$page) {
           }
         }
       }
-
-      ding_webtrekk_add_page_parameters($params);
     }
+  }
+
+  if (!empty($params)) {
+    ding_webtrekk_add_page_parameters($params);
   }
 }
 
