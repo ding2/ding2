@@ -92,7 +92,7 @@
     </div>
   </a>
   <div class="buttons">
-    <?php print l(t('Read more'), $node_url, array('attributes' => array('class' => array('read-more')))); ?>
+    <a href="<?php print $node_url; ?>" class="read-more"><?php print t('Read more'); ?></a>
     <?php if (!empty($link_url)) { ?>
       <a href="<?php print $link_url; ?>" class="log-on" target="_blank"><?php print t('Log on'); ?></a>
     <?php } ?>
