@@ -22,7 +22,10 @@ function ting_search_result_count_content_type_render($subtype, $conf, $panel_ar
 
   $search_result = ting_search_current_results();
   if (isset($search_result)) {
-    $results = $search_result->getNumTotalObjects();
+    $results = $search_result->hasMoreResults() ?
+      $search_result->getNumTotalObjects() :
+      $search_result->getNumCollections();
+
     $block->content = array(
       'title' => array(
         '#theme' => 'html_tag',
