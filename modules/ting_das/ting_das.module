@@ -24,36 +24,10 @@ function ting_das_menu() {
     'page callback' => 'ting_das_ajax',
     'page arguments' => array(1),
     'delivery callback' => 'ajax_deliver',
-    'access callback' => 'ting_das_access',
-    'access arguments' => array(1),
+    'access arguments' => array('access content'),
   );
 
   return $items;
-}
-
-/**
- * Access callback. Ensure that current user is the same.
- */
-function ting_das_access($entity) {
-  $type = drupal_strtolower($entity->getType());
-  $types = array_filter(_ting_das_get_configured_well_types());
-
-  // Check that the entity is not already available as an online resources and
-  // is one of the configured types.
-  if (isset($types[$type]) && !$entity->is('online') && !$entity->is('infomedia')) {
-    if (user_is_logged_in()) {
-      try {
-        $creds = ding_user_get_creds();
-        return isset($creds['resident']) && $creds['resident'];
-      }
-      catch (DingProviderAuthException $exception) {
-        // This is okay as the use simply was not logged in as an provider
-        // user. So do noting in this case.
-      }
-    }
-  }
-
-  return FALSE;
 }
 
 /**
