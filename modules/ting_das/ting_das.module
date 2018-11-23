@@ -215,8 +215,7 @@ function ting_das_order_form($form_id, &$form_state, TingEntity $entity) {
     }
 
     $form['submit'] = array(
-      '#type' => 'submit',
-      '#submit' => array('ting_das_order_form_submit'),
+      '#type' => 'button',
       '#ajax' => array(
         'callback' => 'ting_das_order_form_ajax_callback',
       ),
