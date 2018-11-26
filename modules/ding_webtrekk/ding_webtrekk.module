@@ -156,6 +156,25 @@ function ding_webtrekk_views_post_execute(&$view) {
 }
 
 /**
+ * Implements hook_ding_entity_view().
+ */
+function ding_webtrekk_ding_entity_view($entity, $view_mode) {
+  // We're adding page parameters to material view, so we need to make sure this
+  // is the entity being viewed in full display mode.
+  if ($view_mode != 'full' && current_path() != entity_uri('ting_object', $entity)) {
+    return;
+  }
+
+  $params = [
+    'p_mat_type' => $entity->getType(),
+    'p_mat_indexno' => $entity->getClassification(),
+    'p_mat_lang' => $entity->getLanguage(),
+    'p_mat_source' => $entity->getAc_source(),
+  ];
+  ding_webtrekk_add_page_parameters($params);
+}
+
+/**
  * Adds Webtrekk page parameters to the current page.
  *
  * @see ding_webtrekk_preprocess_html().
