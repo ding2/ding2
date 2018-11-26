@@ -212,4 +212,10 @@ function ding_webtrekk_preprocess_html() {
   drupal_add_js($script, [
     'type' => 'inline',
   ]);
+
+  // Add script that tracks Webtrekk events in client and adds URL parameters
+  // to elements which is problematic to handle on the server.
+  drupal_add_js(drupal_get_path('module', 'ding_webtrekk') . '/ding_webtrekk.js', array(
+    'scope' => 'footer'
+  ));
 }
