@@ -159,19 +159,37 @@ function ding_webtrekk_views_post_execute(&$view) {
  * Implements hook_ding_entity_view().
  */
 function ding_webtrekk_ding_entity_view($entity, $view_mode) {
-  // We're adding page parameters to material view, so we need to make sure this
-  // is the entity being viewed in full display mode.
-  if ($view_mode != 'full' && current_path() != entity_uri('ting_object', $entity)) {
-    return;
+  $entity_path = entity_uri('ting_object', $entity)['path'];
+
+  // The page parametes for the ting object view should only be added on the
+  // full page view for the material.
+  if ($view_mode == 'full' && current_path() == $entity_path) {
+    $params = [
+      'p_mat_type' => $entity->getType(),
+      'p_mat_indexno' => $entity->getClassification(),
+      'p_mat_lang' => $entity->getLanguage(),
+      'p_mat_source' => $entity->getAc_source(),
+    ];
+    ding_webtrekk_add_page_parameters($params);
   }
 
-  $params = [
-    'p_mat_type' => $entity->getType(),
-    'p_mat_indexno' => $entity->getClassification(),
-    'p_mat_lang' => $entity->getLanguage(),
-    'p_mat_source' => $entity->getAc_source(),
-  ];
-  ding_webtrekk_add_page_parameters($params);
+  // Look for at reserve button on this ding entity and setup a Webtrekk event
+  // if present. These could be added in every view_mode and page.
+  if (isset($entity->content['ding_entity_buttons'])) {
+    $delta = element_children($entity->content['ding_entity_buttons']);
+    $delta = reset($delta);
+    foreach ($entity->content['ding_entity_buttons'][$delta] as $key => &$button) {
+      if (isset($button['#path']) && $button['#path'] == $entity_path . '/reserve') {
+        $button['#options']['attributes']['class'][] = 'ding-webtrekk-event';
+        $event_data = [];
+        $event_data['type'] = 'reservation';
+        $event_data['pid'] = $entity->getId();
+        $event_data = json_encode($event_data);
+        $button['#options']['attributes']['data-ding-webtrekk-event'] = $event_data;
+        break;
+      }
+    }
+  }
 }
 
 /**

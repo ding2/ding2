@@ -27,6 +27,13 @@
 
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
+      // Attach Webtrekk events.
+      $('.ding-webtrekk-event', context).once('ding_webtrekk').on('click touchstart', function() {
+        var eventData = $(this).data('ding-webtrekk-event');
+        wt.sendinfo(eventData);
+      });
+
+      // Attach URL parameters.
       var key = 'u_navigatedby';
       // Tabbed carousels: each tab is a carousel with a title that we will use
       // for the value of the URL parameter.
