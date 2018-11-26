@@ -371,7 +371,8 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
     switch ($type) {
       case 'image_and_text':
         $variables['image'] = '<div class="ding-campaign-image" style="background-image: url(' . $image_url . '"></div>';
-      break;
+        break;
+
       case 'image':
         if (!empty($variables['elements']['#widget_type']) && $variables['elements']['#widget_type'] == 'single') {
           $variables['image'] = theme('image', [
@@ -397,7 +398,6 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
  * Ding Library.
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
-
   // Google maps addition to library list on teaser.
   if ($variables['view_mode'] == 'teaser') {
     $address = $variables['content']['field_ding_library_addresse'][0]['#address'];
@@ -481,7 +481,7 @@ function ddbasic_preprocess__node__ding_page(&$variables) {
 
       if (!empty($variables['field_ding_page_list_image'][0]['uri'])) {
         $variables['background_image'] = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
-      } 
+      }
       else {
         $variables['background_image'] = '';
       }
