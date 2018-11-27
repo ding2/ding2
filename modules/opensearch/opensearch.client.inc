@@ -69,6 +69,8 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
  *
  * @param string[] $ids
  *   Data-well PIDs for the objects to get.
+ * @param bool $local
+ *   Flag to indicate whether $ids contains pids or local ids (fausts).
  *
  * @return bool|\TingClientSearchResult
  *   The objects fetched from the data-well.
@@ -76,9 +78,8 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
  * @throws \TingClientException
  *   This may throw this exception if the search request fails.
  */
-function opensearch_get_objects(array $ids) {
+function opensearch_get_objects(array $ids, $local = FALSE) {
   $request = opensearch_get_request_factory()->getObjectRequest();
-  $request->setObjectIds($ids);
 
   // Set agency from the administration interface.
   if ($agency = variable_get('ting_agency', FALSE)) {
@@ -91,7 +92,23 @@ function opensearch_get_objects(array $ids) {
     $request->setProfile($profile);
   }
 
-  return opensearch_execute($request);
+  // Opensearch getObject complains if it has to return more than 200 records,
+  // with the message 'getObject can fetch up to 200 records. '. But it seems
+  // it also have trouble fething over 169 records, which appears to be a bug.
+  // In any case, we should be safe, if we only fetch 100 records a time.
+  // See: https://platform.dandigbib.org/issues/3828#note-16.
+  $objects = [];
+  foreach (array_chunk($ids, 100) as $chunk) {
+    if ($local) {
+      $request->setLocalIds($chunk);
+    }
+    else {
+      $request->setObjectIds($chunk);
+    }
+    $objects += opensearch_execute($request);
+  }
+
+  return $objects;
 }
 
 /**
