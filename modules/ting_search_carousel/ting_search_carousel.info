@@ -7,4 +7,3 @@ dependencies[] = libraries
 dependencies[] = ting
 dependencies[] = ting_covers
 dependencies[] = ting_search
-configure = admin/config/ting_search_carousel
