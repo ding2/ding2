@@ -446,6 +446,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
         'title' => NULL,
         'value_title' => FALSE,
         'options' => FALSE,
+        'single_link' => FALSE,
       ),
     ),
     'ding_list_message' => array(
@@ -756,4 +757,69 @@ function ding_list_reset_lists_access($target_account, $account = NULL) {
 
   return user_access('ding_list reset lists', $account)
     || ($account->uid == $target_account->uid);
+}
+
+/**
+ * Implements form_FORM_ID_alter().
+ *
+ * Preparing the "add search to list" shortcut for header search.
+ */
+function ding_list_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+  $current_page = page_manager_get_current_page();
+
+  if (empty($current_page['contexts']) || empty($context = reset($current_page['contexts']))) {
+    return;
+  }
+
+  $render_variables = ding_list_search_query_add_button($context);
+
+  if (empty($render_variables)) {
+    return;
+  }
+
+  $add_button = render($render_variables);
+
+  if (empty($add_button)) {
+    return;
+  }
+
+  $form['search_block_form']['#field_suffix'] = $add_button;
+  $form['#attributes']['class'][] = 'search-block-form';
+  $form['#attributes']['class'][] = 'has-add-list';
+}
+
+/**
+ * Custom function for preparing search_query list render array.
+ */
+function ding_list_search_query_add_button($context) {
+  if (!property_exists($context, 'keyword') ||
+    $context->keyword !== 'keywords' ||
+    !property_exists($context, 'data')) {
+    return NULL;
+  }
+
+  $keywords = $context->data;
+
+  $facets = drupal_http_build_query(drupal_get_query_parameters());
+
+  if (!empty($facets)) {
+    $keywords .= '?' . $facets;
+  }
+
+  $title = $context->data;
+  $query = drupal_get_query_parameters();
+  if (!empty($query['facets'])) {
+    foreach ($query['facets'] as &$facet) {
+      $facet = substr($facet, strpos($facet, ':') + 1);
+    }
+    $title .= ', ' . implode(', ', $query['facets']);
+  }
+
+  return array(
+    '#theme' => 'ding_list_add_button',
+    '#type' => 'search_query',
+    '#single_link' => TRUE,
+    '#value' => $keywords,
+    '#value_title' => $title,
+  );
 }
