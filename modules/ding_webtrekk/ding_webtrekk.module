@@ -176,17 +176,26 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
   // Look for at reserve button on this ding entity and setup a Webtrekk event
   // if present. These could be added in every view_mode and page.
   if (isset($entity->content['ding_entity_buttons'])) {
-    $delta = element_children($entity->content['ding_entity_buttons']);
-    $delta = reset($delta);
-    foreach ($entity->content['ding_entity_buttons'][$delta] as $key => &$button) {
-      if (isset($button['#path']) && $button['#path'] == $entity_path . '/reserve') {
-        $button['#options']['attributes']['class'][] = 'ding-webtrekk-event';
-        $event_data = [];
-        $event_data['type'] = 'reservation';
-        $event_data['pid'] = $entity->getId();
-        $event_data = json_encode($event_data);
-        $button['#options']['attributes']['data-ding-webtrekk-event'] = $event_data;
-        break;
+    foreach (element_children($entity->content['ding_entity_buttons']) as $delta) {
+      foreach ($entity->content['ding_entity_buttons'][$delta] as $key => &$button) {
+        // Reserve button.
+        if (isset($button['#path']) && $button['#path'] == $entity_path . '/reserve') {
+          $button['#options']['attributes']['class'][] = 'ding-webtrekk-event';
+          $event_data = json_encode([
+            'type' => 'e_reserver',
+            'pid' => $entity->getId(),
+          ]);
+          $button['#options']['attributes']['data-ding-webtrekk-event'] = $event_data;
+        }
+        // See online button.
+        elseif (isset($button['#attributes']) && in_array('button-see-online', $button['#attributes']['class'])) {
+          $button['#attributes']['class'][] = 'ding-webtrekk-event';
+          $event_data = json_encode([
+            'type' => 'e_online',
+            'pid' => $entity->getId(),
+          ]);
+          $button['#attributes']['data-ding-webtrekk-event'] = $event_data;
+        }
       }
     }
   }

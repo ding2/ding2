@@ -28,7 +28,7 @@
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
       // Attach Webtrekk events.
-      $('.ding-webtrekk-event', context).once('ding_webtrekk').on('click touchstart', function() {
+      $('.ding-webtrekk-event', context).once('ding_webtrekk').click(function() {
         var eventData = $(this).data('ding-webtrekk-event');
         wt.sendinfo(eventData);
       });

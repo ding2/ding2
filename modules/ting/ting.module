@@ -388,15 +388,19 @@ function ting_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default
       $settings = variable_get('ting_url_labels', _ting_default_url_labels());
       $type = drupal_strtolower($entity->type);
       $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
-      $buttons[] = array(
-        // The link can't use l() as it will encode the url from ting_proxy. Use
-        // get online as the dc:identifier in $entity->online is not always the
-        // correct url.
-        array(
-          '#type' => 'markup',
-          '#markup' => '<a class="button-see-online action-button" target="_new" href="' . $entity->getOnline_url() . '">' . $label . '</a>',
-        ),
-      );
+      // The link can't use l() as it will encode the url from ting_proxy. Use
+      // get online as the dc:identifier in $entity->online is not always the
+      // correct url.
+      $buttons[] = [
+        '#type' => 'html_tag',
+        '#tag' => 'a',
+        '#value' => $label,
+        '#attributes' => [
+          'class' => ['button-see-online', 'action-button'],
+          'href' => $entity->getOnline_url(),
+          'target' => '_new',
+        ],
+      ];
     }
 
     // Loading collection (specially on empty cache is expensive). So only load
