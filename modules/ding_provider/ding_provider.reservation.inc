@@ -241,7 +241,7 @@ class DingProviderReservation extends DingEntityBase {
 /**
  * Parent class for reservation errors.
  */
-class DingProviderReservationUserError extends DingProviderUserException { }
+class DingProviderReservationUserError extends DingProviderEnduserException { }
 
 /**
  * Exception thrown when the item is already reserved.
