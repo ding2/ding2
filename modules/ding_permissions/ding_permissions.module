@@ -173,6 +173,9 @@ function ding_permissions_secure_permissions($role) {
       'use personalisation',
     ),
     'administrators' => array(
+      'ding_list reset lists',
+      'ding_list administer public lists',
+      'ding_list view all lists',
       'access media browser',
       'use media wysiwyg',
       'administer serendipity panes',
@@ -722,6 +725,9 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'local administrator' => array(
+      'ding_list reset lists',
+      'ding_list administer public lists',
+      'ding_list view all lists',
       'access media browser',
       'use media wysiwyg',
       'eck add ding_type ding_interaction entities',

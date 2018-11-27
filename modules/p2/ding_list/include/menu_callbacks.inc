@@ -8,6 +8,29 @@
 use DingList\DingListElement;
 
 /**
+ * Toggle public sharing.
+ *
+ * @param string $list_id
+ *   The ID of the list.
+ */
+function ding_list_toggle_not_public($list_id) {
+  $list = ding_list_get_list($list_id);
+
+  $list
+    ->setData('not_public', !$list->getData('not_public', FALSE))
+    ->save();
+
+  if ($list->getData('not_public')) {
+    drupal_set_message(t('@list is removed from all public lists.', array('@list' => $list->getTitle())));
+  }
+  else {
+    drupal_set_message(t('@list is elligeable for public lists.', array('@list' => $list->getTitle())));
+  }
+
+  drupal_goto('list/' . $list->getId());
+}
+
+/**
  * Reorder a list.
  *
  * @param string $list_id
