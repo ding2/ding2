@@ -28,9 +28,24 @@
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
       // Attach Webtrekk events.
-      $('.ding-webtrekk-event', context).once('ding_webtrekk').click(function() {
-        var eventData = $(this).data('ding-webtrekk-event');
-        wt.sendinfo(eventData);
+      $('.ding-webtrekk-event', context).once('ding-webtrekk').click(function() {
+        wt.sendinfo($(this).data('ding-webtrekk-event'));
+      });
+
+      // Unfortunately we need special handling for ding entity rating event. It
+      // would require a complete rework of the ding_entity_rating_display theme
+      // hook to avoid this.
+      $('.ding-webtrekk-rating-event', context).once('ding-webtrekk', function() {
+        var contentId = $(this).data('ding-entity-rating-id');
+        $('.js-rating-symbol', this).each(function(index) {
+          $(this).click(function() {
+            wt.sendinfo({
+              type: 'e_materialrate',
+              contentId: contentId,
+              rating: ++index
+            });
+          });
+        })
       });
 
       // Attach URL parameters.
@@ -40,7 +55,7 @@
       $('.ding-tabbed-carousel .ding-carousel').each(function() {
         var value = 'tabbed-carousel:' + $(this).data('title');
 
-        $('.ding-carousel-item .ting-object a[href^="/ting/object/"]', this).once('ding_webtrekk', function() {
+        $('.ding-carousel-item .ting-object a[href^="/ting/object/"]', this).once('ding-webtrekk', function() {
           $(this).attr('href', appendQueryParameter($(this).attr('href'), key, value));
         });
       });
@@ -52,7 +67,7 @@
         if (carouselTitle.length) {
           var value = carouselTitle.html();
 
-          $('.ding-carousel-item .ting-object a[href^="/ting/object/"]', this).once('ding_webtrekk', function() {
+          $('.ding-carousel-item .ting-object a[href^="/ting/object/"]', this).once('ding-webtrekk', function() {
             $(this).attr('href', appendQueryParameter($(this).attr('href'), key, value));
           });
         }

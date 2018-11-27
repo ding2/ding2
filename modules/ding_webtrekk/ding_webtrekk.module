@@ -183,7 +183,7 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
           $button['#options']['attributes']['class'][] = 'ding-webtrekk-event';
           $event_data = json_encode([
             'type' => 'e_reserver',
-            'pid' => $entity->getId(),
+            'contentId' => $entity->getId(),
           ]);
           $button['#options']['attributes']['data-ding-webtrekk-event'] = $event_data;
         }
@@ -192,13 +192,20 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
           $button['#attributes']['class'][] = 'ding-webtrekk-event';
           $event_data = json_encode([
             'type' => 'e_online',
-            'pid' => $entity->getId(),
+            'contentId' => $entity->getId(),
           ]);
           $button['#attributes']['data-ding-webtrekk-event'] = $event_data;
         }
       }
     }
   }
+}
+
+/**
+ * Implements hook_preprocess_ding_entity_rating_display().
+ */
+function ding_webtrekk_preprocess_ding_entity_rating_display(&$variables) {
+  $variables['classes_array'][] = 'ding-webtrekk-rating-event';
 }
 
 /**
