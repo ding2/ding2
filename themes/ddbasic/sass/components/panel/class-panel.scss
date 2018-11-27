@@ -743,3 +743,16 @@
     color: red;
   }
 }
+
+// ==========================================================================
+// Pane consent text
+// ==========================================================================
+
+.pane-consent-text {
+  .pane-content {
+    .default-panel-layout .primary-content & {
+      @include span-columns(5 of 8);
+      margin-bottom: 30px;
+    }
+  }
+}
