@@ -905,6 +905,36 @@ search/ting
     $pane->uuid = '2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
     $display->content['new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a'] = $pane;
     $display->panels['attachment_1_1'][4] = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
+    $pane = new stdClass();
+    $pane->pid = 'new-0ff7e4a6-1810-4de9-84d4-fda87404376a';
+    $pane->panel = 'attachment_1_1';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'style' => 'ribbon',
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 5;
+    $pane->locks = array();
+    $pane->uuid = '0ff7e4a6-1810-4de9-84d4-fda87404376a';
+    $display->content['new-0ff7e4a6-1810-4de9-84d4-fda87404376a'] = $pane;
+    $display->panels['attachment_1_1'][5] = 'new-0ff7e4a6-1810-4de9-84d4-fda87404376a';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

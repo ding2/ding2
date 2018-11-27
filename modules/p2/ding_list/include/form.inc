@@ -204,7 +204,7 @@ function ding_list_edit_list_form($form, &$form_state, $list = FALSE) {
     '#default_value' => $list !== FALSE ? $list->getNote() : '',
   );
 
-  if (user_access('ding_list administer lists')) {
+  if (user_access('ding_list administer public lists')) {
     $form['not_public'] = array(
       '#type' => 'checkbox',
       '#title' => t("Hide this list from public lists"),

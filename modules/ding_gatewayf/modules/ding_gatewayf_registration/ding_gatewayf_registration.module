@@ -389,7 +389,7 @@ function ding_gatewayf_registration_acceptance_form_submit($form, $form_state) {
     // at once, so the login attempt above may fail. But we have tried.
     drupal_get_messages(NULL, TRUE);
   }
-  catch (DingProviderAuthUserExistsError $exception) {
+  catch (DingProviderUserExistsError $exception) {
     drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));
     _ding_gatewayf_provider_login($wayf_attributes);
   }

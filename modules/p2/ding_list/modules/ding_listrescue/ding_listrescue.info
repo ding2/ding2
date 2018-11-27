@@ -1,0 +1,5 @@
+name = Ding list rescue
+description = Recreate missing lists and elements.
+core = 7.x
+package = Ding!
+dependencies[] = ding_list
