@@ -37,6 +37,7 @@ function ddbasic_preprocess_html(&$vars) {
       $path = menu_get_item()['path'];
       switch ($path) {
         case 'search/ting/%';
+        case 'search/ting';
         case 'ding_frontpage':
           $vars['classes_array'][] = 'extended-search-is-open';
       }
@@ -809,8 +810,8 @@ function ddbasic_process_ting_object(&$vars) {
               'default'
             );
           }
-          
-          //Truncate abstract
+
+          // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 
           // Check if teaser has rating function and remove abstract.
@@ -855,10 +856,10 @@ function ddbasic_process_ting_object(&$vars) {
             ), 0, 1);
           }
 
-          //Truncate default title
+          // Truncate default title.
           $vars['static_title'] = '<div class="field-name-ting-title"><h2>' . add_ellipsis($vars['elements']['group_text']['group_inner']['ting_title'][0]['#markup'], 40) . '</h2></div>';
 
-          //Truncate abstract
+          // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 
           // Check if teaser has rating function and remove abstract.
