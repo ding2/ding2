@@ -94,6 +94,7 @@ function ding_campaign_plus_basic_node_insert($node) {
         $value = $rule['value'];
         switch ($rule['type']) {
           case 'path':
+          case 'search_term':
             $value = $rule['value'];
             break;
 
@@ -162,6 +163,26 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
       case 'path':
         $matches['path'] = _ding_campaign_plus_basic_match('path', $context->path);
         break;
+
+      case 'search_term':
+        // Get current search query and split it into array of terms.
+        $current = ting_search_current_results();
+        $value = drupal_strtolower($current->getSearchRequest()->getFullTextQuery());
+        $terms = preg_split('/,|\s/', $value);
+        $terms = array_filter($terms);
+
+        // Check if any active campaigns matches the search terms.
+        $query = db_select('ding_campaign_plus_basic', 'dcpb')
+          ->fields('dcpb', array('nid'))
+          ->condition('dcpb.type', $key)
+          ->condition('value', $terms, 'IN');
+        $query->join('node', 'n', 'dcpb.nid = n.nid');
+        $nids = $query->condition('status', 1)
+          ->execute()
+          ->fetchCol();
+
+        $matches['search_term'] = is_array($nids) ? $nids : array();
+        break;
     }
   }
 
@@ -189,6 +210,7 @@ function ding_campaign_plus_basic_auto_admin_form(array &$form_state, $default =
       'library' => t('Library'),
       'taxonomy' => t('Taxonomy term'),
       'group' => t('Group'),
+      'search_term' => t('Search term match'),
     ),
     '#default_value' => empty($default) ? '_none_' : $default,
   );
@@ -259,6 +281,13 @@ function ding_campaign_plus_basic_ding_campaign_plus_auto_trigger($config, $camp
             );
           }
         }
+        break;
+
+      case 'search_term':
+        $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules']['rule_0'] = array(
+          'type' => $config,
+          'value' => implode(' ', $subjects),
+        );
         break;
     }
   }
@@ -512,6 +541,7 @@ function _ding_campaign_plus_basic_get_types() {
     'group' => t('Group'),
     'taxonomy' => t('Taxonomy term'),
     'path' => t('Path'),
+    'search_term' => t('Search term match'),
   );
 }
 
