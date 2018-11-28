@@ -64,7 +64,7 @@
 
           $('.slick-arrow', this).once('ding-webtrekk').click(function() {
             var type = 'e_carousel_previous_click';
-            if ($(this).hassClass('slick-next')) {
+            if ($(this).hasClass('slick-next')) {
               type = 'e_carousel_next_click';
             }
             wt.sendinfo({
