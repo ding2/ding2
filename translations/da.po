@@ -10478,8 +10478,8 @@ msgid "Save content from BPI"
 msgstr "Gem indhold fra BPI"
 
 #: /index.php
-msgid "change BPI state"
-msgstr "Redigér BPI status"
+msgid "change the node status in BPI"
+msgstr "Redigér artiklens status i BPI"
 
 #: /index.php
 msgid "Workflow state"

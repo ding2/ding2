@@ -405,15 +405,13 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       array_unshift($form['#validate'], 'bpi_form_workflow_transition_form_validate');
     }
     elseif (!empty($_GET['bpi_id'])) {
-      $states = bpi_workflow_by_machine_names(array('pre_bpi', 'local_content'));
+      $states = bpi_workflow_by_machine_names(array('local_content'));
       $local_sid = $states['local_content']->sid;
-      $pre_sid = $states['pre_bpi']->sid;
 
       // Hide normal save button via css. We can't just unset it, because that
       // will result in only the normal button to be shown. That will only work
       // when removing "non-normal" buttons.
       drupal_add_css('#edit-workflow-' . $local_sid . ' { display: none; }', 'inline');
-      drupal_add_css('#edit-workflow-' . $pre_sid . ' { display: none; }', 'inline');
     }
     else {
       // Hide 'Save from BPI button'.
@@ -780,12 +778,10 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
     'sent_to_bpi',
     'deleted_bpi',
     'created_bpi',
-    'pre_bpi',
   ));
   $push_sid = $states['sent_to_bpi']->sid;
   $delete_sid = $states['deleted_bpi']->sid;
   $created_sid = $states['created_bpi']->sid;
-  $presend_sid = $states['pre_bpi']->sid;
 
   // Remove 'Save and push' button if the current state is already 'Sent to
   // BPI'. We have to do this, because it's not possible to disallow workflow
@@ -797,12 +793,6 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
   // Remove "Delete from BPI" button, when we have already deleted from BPI.
   if ($form['#default_value'] == $delete_sid) {
     unset($form['workflow']['workflow_sid']['#options'][$delete_sid]);
-  }
-
-  // Remove "Save" button (saving to same workflow state) when the node is
-  // prepared for sending to BPI.
-  if ($form['#default_value'] == $presend_sid) {
-    unset($form['workflow']['workflow_sid']['#options'][$presend_sid]);
   }
 
   // We can't get the node id directly from the form, so we get it from the
@@ -1016,7 +1006,7 @@ function bpi_features_views_default_views_alter(&$views) {
       'table' => 'views_entity_node',
       'field' => 'workflow_node',
       'label' => 'Operations',
-      'text' => 'change BPI state',
+      'text' => 'change the node status in BPI',
     );
 
     $style_options = &$display_options['style_options'];
