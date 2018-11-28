@@ -25,7 +25,7 @@
       var
         isSet = false,
         latestId = get_url_parameter('message');
-      if(latestId && $('.ting-object-collection', context).size() > 0) {
+      if(latestId && $('.ting-object-collection', context).length > 0) {
         $('.ting-object-collection', context).each(function() {
           if(!isSet) {
             if($(this).attr('data-ting-object-id') === latestId) {
