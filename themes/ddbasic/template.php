@@ -38,6 +38,7 @@ function ddbasic_preprocess_html(&$vars) {
       switch ($path) {
         case 'search/ting/%';
         case 'search/ting';
+        case 'search/node/%';
         case 'ding_frontpage':
           $vars['classes_array'][] = 'extended-search-is-open';
       }

@@ -226,25 +226,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   // information.
   $form['#action'] = url('search-blank');
 
-  // Adding content search option into ting_field_search dropdown.
-  if (!empty($form['ting_field_search'])) {
-    $node_search = array('node' => t('Search Content'));
-    $form['ting_field_search']['#options'] = $node_search + $form['ting_field_search']['#options'];
-    $form['#submit'][] = 'ting_search_content_search_submit';
-  }
-
   return $form;
-}
-
-/**
- * Form submit callback for ting_field_search site content search option.
- */
-function ting_search_content_search_submit(&$form, &$form_state) {
-  if ($form_state['input']['ting_field_search'] == 'node') {
-    unset($form_state['redirect']);
-    $form_state['action'] = "search/node";
-    $form_state['redirect'][0] = 'search/node/' . $form_state['values']['search_block_form'];
-  }
 }
 
 /**
