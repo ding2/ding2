@@ -60,13 +60,6 @@ function bpi_http_push_action_form($nid) {
     '#default_value' => FALSE,
   );
 
-  $form['configurations']['bpi_push_ccl'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('I want to be anonymous'),
-    '#description' => t('If checked the content will be pushed as anonymous to BPI.'),
-    '#default_value' => FALSE,
-  );
-
   $form['configurations']['bpi_push_refs'] = array(
     '#type' => 'checkbox',
     '#title' => t('Push with references'),
@@ -89,7 +82,6 @@ function bpi_http_push_action_form($nid) {
       $form['vocabularies']['bpi_push_category']['#default_value'] = $data['category'];
       $form['vocabularies']['bpi_push_audience']['#default_value'] = $data['audience'];
       $form['configurations']['bpi_push_images']['#default_value'] = $data['with_images'];
-      $form['configurations']['bpi_push_ccl']['#default_value'] = !$data['authorship'];
       $form['configurations']['bpi_push_refs']['#default_value'] = $data['with_refs'];
       $form['configurations']['bpi_push_editable']['#default_value'] = $data['editable'];
     }
@@ -160,7 +152,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   if ($with_refs) {
     // Function field_get_items returns data with 2 different structure, depending from stage when it was called.
     $items = field_get_items('node', $node, variable_get('bpi_field_materials', ''));
-    foreach ($items as $item) {
+    foreach ((array) $items as $item) {
       // First case, we have completly saved node, when it returns ding_object_id.
       if (!empty($item['ting_object_id'])) {
         $id = $item['ting_object_id'];
@@ -213,7 +205,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   $bpi_content['audience'] = $audience;
   $bpi_content['related_materials'] = $materials_drupal;
   $bpi_content['editable'] = (int) $editable;
-  $bpi_content['authorship'] = ($authorship) ? FALSE : TRUE;
+  $bpi_content['authorship'] = !$authorship;
   $bpi_content['assets'] = array();
 
   if ($with_images) {

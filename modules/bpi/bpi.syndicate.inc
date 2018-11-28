@@ -218,6 +218,9 @@ function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
         $bpi_query['filter'][$key] = $selected_values;
       }
     }
+
+    // Append a condition that denotes that all selected filters must apply.
+    $bpi_query['filter']['logicalOperator'] = 'and';
   }
 
   // Redirect to search results.
@@ -541,19 +544,6 @@ function _bpi_get_current_filter() {
 }
 
 /**
- * Decide if a filter is currently applied.
- *
- * @return bool
- *   Whether a filter is applied or not.
- */
-function _bpi_is_filter_applied() {
-  $filter = _bpi_get_current_filter();
-  // Filter is applied if something apart from logicalOperator is set.
-  unset($filter['logicalOperator']);
-  return !empty($filter);
-}
-
-/**
  * Get query for applying a filter.
  *
  * @param string $field
@@ -669,7 +659,6 @@ function bpi_available_map() {
     'tags' => t('Tags'),
     'agency_id' => t('Agency'),
     'agency_internal' => t('Agency internal'),
-    'logicalOperator' => t('Logical operator'),
   );
 }
 
@@ -707,7 +696,7 @@ function bpi_build_search_facets(array &$form) {
       '#type' => 'fieldset',
       '#title' => t('Filters'),
       '#collapsible' => TRUE,
-      '#collapsed' => !_bpi_is_filter_applied(),
+      '#collapsed' => FALSE,
       '#attributes' => array(
         'class' => array(
           'bpi-filters',
@@ -779,20 +768,6 @@ function bpi_build_search_facets(array &$form) {
         '#suffix' => '</div>',
       );
     }
-
-    // Add logical operator.
-    $name = 'logicalOperator';
-    $id = $name;
-    $facets_form[$id] = array(
-      '#type' => 'select',
-      '#title' => bpi_label_mapper($name) ? bpi_label_mapper($name) : $name,
-      '#options' => array(
-        'and' => t('All must apply'),
-        'or' => t('Any must apply'),
-      ),
-      '#default_value' => _bpi_get_query_parameter(array('filter', $name), 'and'),
-      '#weight' => -10,
-    );
 
     $filter_form['bpi_facets'] = $facets_form;
 

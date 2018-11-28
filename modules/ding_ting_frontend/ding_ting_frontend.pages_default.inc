@@ -341,13 +341,18 @@ search/ting
     $display->content['new-d6bca0c2-099c-4659-8fcd-69da98dbc7c9'] = $pane;
     $display->panels['main_content'][0] = 'new-d6bca0c2-099c-4659-8fcd-69da98dbc7c9';
     $pane = new stdClass();
-    $pane->pid = 'new-010d3a74-914b-41e6-a518-5e9a84eb82e4';
+    $pane->pid = 'new-47206bf0-1031-456c-9aab-96b659e54d89';
     $pane->panel = 'main_content';
-    $pane->type = 'search_query';
-    $pane->subtype = 'search_query';
+    $pane->type = 'search_per_page';
+    $pane->subtype = 'search_per_page';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'select_type' => 'dropdown',
+      'context' => 'argument_string_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -356,9 +361,9 @@ search/ting
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $pane->uuid = '010d3a74-914b-41e6-a518-5e9a84eb82e4';
-    $display->content['new-010d3a74-914b-41e6-a518-5e9a84eb82e4'] = $pane;
-    $display->panels['main_content'][1] = 'new-010d3a74-914b-41e6-a518-5e9a84eb82e4';
+    $pane->uuid = '47206bf0-1031-456c-9aab-96b659e54d89';
+    $display->content['new-47206bf0-1031-456c-9aab-96b659e54d89'] = $pane;
+    $display->panels['main_content'][1] = 'new-47206bf0-1031-456c-9aab-96b659e54d89';
     $pane = new stdClass();
     $pane->pid = 'new-dd50ebf9-a0f1-499b-b389-49f178f5e242';
     $pane->panel = 'main_content';
@@ -941,6 +946,36 @@ search/ting
     $pane->uuid = '2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
     $display->content['new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a'] = $pane;
     $display->panels['attachment_1_1'][4] = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
+    $pane = new stdClass();
+    $pane->pid = 'new-0ff7e4a6-1810-4de9-84d4-fda87404376a';
+    $pane->panel = 'attachment_1_1';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'style' => 'ribbon',
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 5;
+    $pane->locks = array();
+    $pane->uuid = '0ff7e4a6-1810-4de9-84d4-fda87404376a';
+    $display->content['new-0ff7e4a6-1810-4de9-84d4-fda87404376a'] = $pane;
+    $display->panels['attachment_1_1'][5] = 'new-0ff7e4a6-1810-4de9-84d4-fda87404376a';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

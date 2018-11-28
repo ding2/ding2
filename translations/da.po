@@ -10478,8 +10478,8 @@ msgid "Save content from BPI"
 msgstr "Gem indhold fra BPI"
 
 #: /index.php
-msgid "change BPI state"
-msgstr "Redigér BPI status"
+msgid "change the node status in BPI"
+msgstr "Redigér artiklens status i BPI"
 
 #: /index.php
 msgid "Workflow state"
@@ -46810,10 +46810,6 @@ msgstr "Lader brugerne lave redirects fra gamle URLer til nye URLer."
 #: /ding_frontpage?destination=ding_frontpage
 msgid "You cannot log in until you have allowed cookies to be used."
 msgstr "Du skal acceptere brug af cookies før du kan logge ind."
-
-#: /admin/config/ting/search?render=overlay
-msgid "Your search gave more than %s results. Try to search more specific or use the facets to filter the result."
-msgstr "Din søgning gav over %s resultater. Prøv at søge mere nøjagtigt eller brug facetterne i menuen til venstre for at afgrænse din søgning."
 
 msgid "redirect"
 msgstr "omdirigér"

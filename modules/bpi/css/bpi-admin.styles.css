@@ -13,15 +13,15 @@ div.form-item-bpi-search-query {
 }
 
 .bpi-filters {
-	clear: both;
+  clear: both;
 }
 
 #edit-bpi-search-paging-info {
-	float: left;
+  float: left;
 }
 
 .form-item-bpi-search-amount {
-	float: right;
+  float: right;
 }
 
 .bpi-filter-text {
@@ -62,53 +62,53 @@ div.form-item-bpi-search-query {
 }
 
 .bpi-query {
-	position: relative;
+  position: relative;
 }
 
 .bpi .loading {
-	display: none;
-	position: absolute;
+  display: none;
+  position: absolute;
 }
 
 .bpi.bpi-loading .loading {
-	display: block;
-	background: rgba(0, 0, 0, .75);
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 2000;
+  display: block;
+  background: rgba(0, 0, 0, .75);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2000;
 }
 
 .bpi .loading .message {
-	position: absolute;
-	top: 10%;
-	width: 100%;
-	text-align: center;
-	color: white;
+  position: absolute;
+  top: 10%;
+  width: 100%;
+  text-align: center;
+  color: white;
 }
 
 .bpi-facet {
-	display: inline-block;
-	width: 50%;
-	box-sizing: border-box;
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
 }
 
-.bpi-facet:nth-child(2n+1) {
-	padding-left: 1em;
+.bpi-facet:nth-child(2n) {
+  padding-left: 1em;
 }
 
 .bpi-facet .form-item {
-	padding-top: 0;
-	padding-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .bpi-facet .chosen-container,
 .bpi-facet .chosen-choices .default {
-	width: 100% !important;
+  width: 100% !important;
 }
 
 /* Fix (sort of) height of preview of bpi content in popup. */
 .ding-popup-content .bpi-single-preview-item {
-	max-height: 60vh;
+  max-height: 60vh;
 }

@@ -30,11 +30,5 @@ function ding_ddbasic_opening_hours_settings_form($form, &$form_state) {
     ),
   );
 
-  $form['settings']['ding_ddbasic_opening_hours_on_frontpage'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Show opening hours on frontpage'),
-    '#default_value' => variable_get('ding_ddbasic_opening_hours_on_frontpage', FALSE),
-  );
-
   return system_settings_form($form);
 }

@@ -164,13 +164,15 @@ projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.7"
+projects[jquery_update][version] = "3.0-alpha5"
 
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
 
 projects[lazy_pane][subdir] = "contrib"
 projects[lazy_pane][version] = "1.2"
+; Patch from https://www.drupal.org/project/lazy_pane/issues/3012604
+projects[lazy_pane][patch][] = https://www.drupal.org/files/issues/2018-11-09/change-prepended-scripts-attaching-3012604-1.patch
 
 projects[leaflet][subdir] = "contrib"
 projects[leaflet][version] = "1.1"
@@ -415,7 +417,7 @@ projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.17"
+projects[views][version] = "3.20"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
@@ -442,6 +444,9 @@ projects[view_unpublished][subdir] = "contrib"
 projects[view_unpublished][download][type] = "git"
 projects[view_unpublished][download][url] = "http://git.drupal.org/project/view_unpublished.git"
 projects[view_unpublished][download][revision] = "e9df1d3"
+
+projects[watchdog_filtering][subdir] = "contrib"
+projects[watchdog_filtering][version] = "1.3"
 
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.10"
@@ -559,13 +564,13 @@ libraries[jquery.imagesloaded][destination] = "libraries"
 
 ; For ding_libs.
 libraries[js.cookie][download][type] = "get"
-libraries[js.cookie][download][url] =  "https://github.com/js-cookie/js-cookie/releases/download/v2.1.4/js.cookie-2.1.4.min.js"
+libraries[js.cookie][download][url] =  "https://github.com/js-cookie/js-cookie/releases/download/v2.2.0/js.cookie-2.2.0.min.js"
 libraries[js.cookie][directory_name] = "js.cookie"
 libraries[js.cookie][destination] = "libraries"
 
 ; For ding_libs.
 libraries[slick][download][type] = "get"
-libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.8.0.tar.gz
+libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/v1.8.1.tar.gz
 libraries[slick][directory_name] = "slick"
 libraries[slick][destination] = "libraries"
 ; Fix variableWitdh and white space/empty slides at the end.

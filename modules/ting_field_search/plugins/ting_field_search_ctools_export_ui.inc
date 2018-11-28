@@ -125,12 +125,6 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#default_value' => $profile->config['search_request']['new_materials'],
     '#element_validate' => array('element_validate_integer_positive'),
   );
-  $form['config']['search_request']['allow_empty'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Allow empty'),
-    '#description' => t('Remove the default requirement for a search key.'),
-    '#default_value' => $profile->config['search_request']['allow_empty'],
-  );
 
   // User interaction.
   $form['config']['user_interaction'] = array(

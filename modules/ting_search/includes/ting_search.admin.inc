@@ -13,8 +13,6 @@
 function ting_search_admin_settings($form_state) {
   $form = array();
 
-  $display_message = 'Your search gave more than %s results. Try to search more specific or use the facets to filter the result.';
-
   $form['ting_search'] = array(
     '#type' => 'fieldset',
     '#title' => t('Ting search settings'),
@@ -86,25 +84,6 @@ function ting_search_admin_settings($form_state) {
     '#options' => ting_search_sort_form_options(),
     '#default_value' => variable_get('ting_search_default_sort', ''),
     '#description' => t('Set the default sorting for search results.'),
-  );
-
-  $form['ting_search']['ting_search_result_message'] = array(
-    '#type' => 'item',
-    '#attributes' => array('class' => array('description')),
-    '#title' => t('Display message'),
-    '#markup' => t($display_message),
-    '#description' => t('Message to display when search has more than x results. The token %s will be substituted by the number choosen.'),
-  );
-
-  if ( t($display_message) != $display_message ) {
-    $form['ting_search']['ting_search_result_message']['#description'] .= '<br/>' . t('Translated from: %n.', array('%n' => $display_message));
-  }
-
-  $form['ting_search']['ting_search_result_message_limit'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Display message at'),
-    '#default_value' => variable_get('ting_search_result_message_limit', 100),
-    '#description' => t('The limit at wich the message is to be displayed.'),
   );
 
   $form['ting_search']['ting_search_form_style'] = array(

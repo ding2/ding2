@@ -607,31 +607,13 @@ function opensearch_search_sort_options() {
  */
 function opensearch_search_object_ids($ids) {
   if (is_array($ids) && !empty($ids)) {
-    $translated_ids = array();
+    $translated_ids = [];
 
-    // Open search is limited to 50 results per call, so split up in chunks to
-    // ensure we get PIDs for all passed local IDs.
-    foreach (array_chunk($ids, 50) as $chunk) {
-      $query = 'rec.id any "' . implode(" ", $chunk) . '" AND facet.acSource=bibliotekskatalog';
-      // Ensure that the work match in opensearch doesn't hide ids for us.
-      $options['collectionType'] = 'manifestation';
-
-      // Ensure we have OpenSearch client.
-      module_load_include('inc', 'opensearch', 'opensearch.client');
-      $res = opensearch_do_search($query, 1, count($chunk), $options);
-
-      // Sometimes the well will be unreachable or not even one of the ids in
-      // chunk was searchable. In any case, this protects against a notice.
-      if (empty($res)) {
-        continue;
-      }
-
-      foreach ($res->collections as $pid => $collection) {
-        $faust = explode(':', $pid)[1];
-        if ($key = array_search($faust, $ids)) {
-          $translated_ids[$faust] = $pid;
-          unset($ids[$key]);
-        }
+    foreach (opensearch_get_objects($ids, TRUE) as $pid => $object) {
+      $faust = explode(':', $pid)[1];
+      if ($key = array_search($faust, $ids)) {
+        $translated_ids[$faust] = $pid;
+        unset($ids[$key]);
       }
     }
 
@@ -645,7 +627,6 @@ function opensearch_search_object_ids($ids) {
     // without holdingsitem.agencyid filter. This way the providers will know
     // which materials can be searched with the current agency id and generate
     // a link to them.
-    //
     foreach ($ids as $faust) {
       $translated_ids[$faust] = '870970-basis:' . $faust;
     }
@@ -653,9 +634,8 @@ function opensearch_search_object_ids($ids) {
     return $translated_ids;
   }
   elseif (is_numeric($ids)) {
-    module_load_include('client.inc', 'opensearch');
-    $obj = opensearch_do_search('rec.id=' . $ids . ' AND facet.acSource=bibliotekskatalog');
-    return !empty($obj) ? key($obj->collections) : '870970-basis:' . $ids;
+    $objects = opensearch_get_objects(array($ids), TRUE);
+    return !empty($objects) ? key($objects) : '870970-basis:' . $ids;
   }
   return FALSE;
 }
