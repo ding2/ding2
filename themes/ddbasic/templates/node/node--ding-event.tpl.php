@@ -97,18 +97,15 @@
     <div class="left">
       <?php print render($content['group_left']['field_ding_event_title_image']); ?>
       <h2><?php print t('Information about the event'); ?></h2>
-      <?php if ($alt_location_is_set): ?>
-        <?php print render($content['group_left']['field_ding_event_location']); ?>
-      <?php else: ?>
-        <?php print render($content['group_left']['og_group_ref']); ?>
-      <?php endif; ?>
       <!-- insert time-field markup -->
-      <div class="field field-name-field-ding-event-target field-label-inline clearfix">
-        <div class="field-label"><?php print t('Time'); ?></div>
-        <div class="field-items">
-          <div class="field-item even"><?php print $event_time; ?></div>
+      <?php if ($event_time): ?>
+        <div class="field field-name-field-ding-event-target field-label-inline clearfix">
+          <div class="field-label"><?php print t('Time'); ?></div>
+          <div class="field-items">
+            <div class="field-item even"><?php print $event_time; ?></div>
+          </div>
         </div>
-      </div>
+      <?php endif; ?>
       <!-- insert price-field markup -->
       <div class="field field-name-field-ding-event-price field-label-inline clearfix">
         <div class="field-label"><?php print t('Price'); ?></div>
@@ -116,6 +113,13 @@
           <div class="field-item even"><?php print $event_price; ?></div>
         </div>
       </div>
+      <?php 
+        if ($alt_location_is_set): 
+          print render($content['group_left']['field_ding_event_location']);
+        else:
+          print render($content['group_left']['og_group_ref']);
+        endif;
+      ?>
       <?php print render($content['group_left']); ?>
       <?php
         if (!empty($book_button)):

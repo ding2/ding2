@@ -10,6 +10,7 @@
     attach: function (context) {
       var tabroll = $('.ding-tabroll', context);
       var tabroll_select = $('.ding-tabroll-select-tabs', context);
+      var switch_speed = Drupal.settings.ding_tabroll.switch_speed;
 
       // Hack to check if tab have been tab_selected, as unbind event will not work.
       var tab_selected = false;
@@ -21,7 +22,7 @@
             // Update the mobile navigation drop down.
             tabroll_select.prop('selectedIndex', ui.index);
           }
-        }).tabs('rotate', 5000);
+        }).tabs('rotate', switch_speed);
 
         // Stop tabs rotate when mouse is over the tab roll.
         tabroll.mouseenter(function() {
@@ -29,10 +30,8 @@
         });
 
         // Start tabs rotate when mouse is out.
-        tabroll.mouseleave(function() {
-          if (!tab_selected) {
-            tabroll.tabs().tabs('rotate', 5000);
-          }
+        tabroll.mouseleave(function () {
+          tabroll.tabs().tabs("rotate", switch_speed);
         });
       }
 
@@ -45,7 +44,7 @@
       });
 
       // Hook into click events in the responsive mobile selector.
-      tabroll_select.live('change', function() {
+      tabroll_select.on('change', function() {
         tabroll.tabs('select', $(this).prop('selectedIndex'));
         tabroll.tabs().tabs('rotate', 0);
         tab_selected = true;

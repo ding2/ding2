@@ -46,7 +46,7 @@ function ding_frontend_default_page_manager_handlers() {
     ),
   );
   $display = new panels_display();
-  $display->layout = 'ding2_site_template';
+  $display->layout = '25_50_25';
   $display->layout_settings = array();
   $display->panel_settings = array(
     'style_settings' => array(
@@ -66,7 +66,7 @@ function ding_frontend_default_page_manager_handlers() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-145ca0a3-d464-43ee-a9e2-07ac83d1b440';
-    $pane->panel = 'content';
+    $pane->panel = 'attachment_1_1';
     $pane->type = 'node_content';
     $pane->subtype = 'node_content';
     $pane->shown = TRUE;
@@ -93,7 +93,7 @@ function ding_frontend_default_page_manager_handlers() {
     $pane->locks = array();
     $pane->uuid = '145ca0a3-d464-43ee-a9e2-07ac83d1b440';
     $display->content['new-145ca0a3-d464-43ee-a9e2-07ac83d1b440'] = $pane;
-    $display->panels['content'][0] = 'new-145ca0a3-d464-43ee-a9e2-07ac83d1b440';
+    $display->panels['attachment_1_1'][0] = 'new-145ca0a3-d464-43ee-a9e2-07ac83d1b440';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -357,7 +357,14 @@ search/node',
       'override_title_text' => '',
       'override_title_heading' => 'h2',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'lazy',
+      'settings' => array(
+        'load_strategy' => 'page-loaded',
+        'show_spinner' => 1,
+        'load_text' => '',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );

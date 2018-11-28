@@ -8,14 +8,14 @@
 /**
  * AJAX callback to retrieve carousel items.
  *
- * @param int $index
- *   Configuration index.
+ * @param string $query
+ *   The query to run.
  * @param int $offset
  *   Offset into result to fetch from.
  */
-function ting_search_carousel_result($index, $offset) {
+function ting_search_carousel_result($query, $offset) {
   $build = array();
-  $chunk = _ting_search_carousel_get_frontpage_entities($index, $offset, TING_SEARCH_CAROUSEL_CHUNK_SIZE);
+  $chunk = ting_search_carousel_get_entities($query, $offset, TING_SEARCH_CAROUSEL_CHUNK_SIZE);
   foreach ($chunk['entities'] as $entity) {
     $build[] = array(
       '#type' => 'ding_carousel_item',

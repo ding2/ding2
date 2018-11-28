@@ -81,9 +81,8 @@
   .grid-medium & {
     .views-row,
     .view-content ul li {
-      // In Ding frontpage layout & Ding2 site template
-      .frontpage-layout &,
-      .ding2-site-template .ding2-site-template & {
+      // In Ding frontpage layout & ding single layout
+      .frontpage-layout & {
         @include span-columns(4);
         @include omega(3n);
 
@@ -155,9 +154,8 @@
   .grid-sizer {
     // Medium grid
     .grid-medium & {
-      // In Ding frontpage layout & Ding2 site template
-      .frontpage-layout &,
-      .ding2-site-template .ding2-site-template & {
+      // In Ding frontpage layout & Ding single layout
+      .frontpage-layout & {
         width: getColumn(4);
       }
       // In Default panel layout (Two sidebars, content in middle)
@@ -172,9 +170,8 @@
   .grid-gutter {
     // Medium grid
     .grid-medium & {
-      // In Ding frontpage layout & Ding2 site template
-      .frontpage-layout &,
-      .ding2-site-template .ding2-site-template & {
+      // In Ding frontpage layout & Ding single layout
+      .frontpage-layout & {
         width: getGutter();
       }
       // In Default panel layout (Two sidebars, content in middle)

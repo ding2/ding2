@@ -40,7 +40,7 @@ function template_preprocess_ding_list_element(&$variables) {
         $variables['content']['value'] = array(
           '#theme' => 'html_tag',
           '#tag' => 'div',
-          '#value' => t('Missing item'),
+          '#value' => t('This material has been deleted from the library'),
           '#attributes' => array(
             'class' => array('ding-list-element__title'),
           ),
@@ -262,41 +262,20 @@ function template_preprocess_ding_list_add_button(&$variables) {
     '#theme' => 'links',
     '#links' => array(),
     '#attributes' => array(
-      'class' => array('buttons'),
+      'class' => array(
+        'buttons',
+      ),
     ),
     '#attached' => array(
       'library' => array(array('system', 'drupal.ajax')),
     ),
   );
 
-  $variables['single_link'] = FALSE;
-
   if ($variables['options'] === FALSE) {
     $options = ding_list_get_add_to_list_data($variables['type'], $variables['value'], $variables['value_title']);
   }
   else {
     $options = $variables['options'];
-  }
-
-  if ($variables['type'] == 'ting_object') {
-    $new_list = array(
-      'custom' => array(
-        'title' => '<div class="list-title">' . t('New list') . '</div><div class="add-to-list-button button">' . t('Add to new list') . '</div>',
-        'href' => 'list/create',
-        'attributes' => array(
-          'class' => array(),
-        ),
-        'query' => array('at' => $variables['type'], 'av' => $variables['value']),
-        'html' => TRUE,
-      ),
-    );
-
-    if (!user_is_logged_in()) {
-      $new_list['custom']['attributes']['class'][] = 'use-ajax';
-      $new_list['custom']['href'] = 'ding-list/login-create';
-    }
-
-    $options[] = $new_list;
   }
 
   foreach ($options as $option) {
@@ -323,8 +302,14 @@ function template_preprocess_ding_list_add_button(&$variables) {
     }
 
     $variables['buttons']['#links'][] = $l;
-    if (isset($option['#single_link'])) {
-      $variables['single_link'] = TRUE;
-    }
   }
+
+  if (count($variables['buttons']['#links']) === 1) {
+    $variables['classes_array'][] = 'ding-list-add-button--single-action';
+  }
+  else {
+    $variables['classes_array'][] = 'ding-list-add-button--multiple-actions';
+  }
+
+  return $variables;
 }

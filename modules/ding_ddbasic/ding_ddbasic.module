@@ -169,6 +169,28 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
         array_unshift($form['#validate'], 'ding_ddbasic_theme_settings_validate');
       }
       break;
+
+    case 'menu_edit_item':
+      if ($form_state['build_info']['args'][0] == 'add') {
+        $form['expanded']['#default_value'] = 1;
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * Add and autofill the expanded checkbox to the node form.
+ */
+function ding_ddbasic_form_node_form_alter(&$form, $form_state) {
+  if (isset($form['menu']['link'])) {
+    $form['menu']['link']['expanded'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Show as expanded'),
+      '#description' => t('If selected and this menu link has children, the menu will always appear expanded.'),
+      '#default_value' => !empty($form['#node']->menu['mlid']) ? $form['#node']->menu['expanded'] : 1,
+    );
   }
 }
 

@@ -20,30 +20,14 @@ $plugin = array(
  * Implements hook_content_type_render().
  */
 function ding_list_search_query_content_type_render($subtype, $conf, $panel_args, $context) {
-  $keywords = $context->data;
+  $render_variables = ding_list_search_query_add_button($context);
 
-  $facets = drupal_http_build_query(drupal_get_query_parameters());
-
-  if (!empty($facets)) {
-    $keywords .= '?' . $facets;
-  }
-
-  $title = $context->data;
-  $query = drupal_get_query_parameters();
-  if (!empty($query['facets'])) {
-    foreach ($query['facets'] as &$facet) {
-      $facet = substr($facet, strpos($facet, ':') + 1);
-    }
-    $title .= ', ' . implode(', ', $query['facets']);
+  if (empty($render_variables)) {
+    return NULL;
   }
 
   $block = new stdClass();
-  $block->content = array(
-    '#theme' => 'ding_list_add_button',
-    '#type' => 'search_query',
-    '#value' => $keywords,
-    '#value_title' => $title,
-  );
+  $block->content = $render_variables;
 
   return $block;
 }

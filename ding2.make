@@ -49,6 +49,7 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-uniform-
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 projects[customerror][patch][] = "https://www.drupal.org/files/issues/customerror-2836107-switch_between_text_formats.patch"
+projects[customerror][patch][] = "patches/customerror-disable_auto_redirect.ding2.patch"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
@@ -163,13 +164,15 @@ projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.7"
+projects[jquery_update][version] = "3.0-alpha5"
 
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
 
 projects[lazy_pane][subdir] = "contrib"
 projects[lazy_pane][version] = "1.2"
+; Patch from https://www.drupal.org/project/lazy_pane/issues/3012604
+projects[lazy_pane][patch][] = https://www.drupal.org/files/issues/2018-11-09/change-prepended-scripts-attaching-3012604-1.patch
 
 projects[leaflet][subdir] = "contrib"
 projects[leaflet][version] = "1.1"
@@ -414,7 +417,7 @@ projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.17"
+projects[views][version] = "3.20"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
@@ -442,6 +445,9 @@ projects[view_unpublished][download][type] = "git"
 projects[view_unpublished][download][url] = "http://git.drupal.org/project/view_unpublished.git"
 projects[view_unpublished][download][revision] = "e9df1d3"
 
+projects[watchdog_filtering][subdir] = "contrib"
+projects[watchdog_filtering][version] = "1.3"
+
 projects[webform][subdir] = "contrib"
 projects[webform][version] = "4.10"
 
@@ -454,12 +460,8 @@ projects[workflow][patch][] = "http://www.drupal.org/files/issues/features_impor
 ; Prevent fatal errors on cron when using Scheduler, https://www.drupal.org/node/2499193.
 projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-php_fatal_error_call-2499193-7-2.5.patch"
 
-; This revision support the CKEditor 4.x, and can be used until a new version is tagged.
-projects[wysiwyg][type] = "module"
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][download][type] = "git"
-projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
-projects[wysiwyg][download][revision] = "7981731f4f3db2f932419499d2ec13a073e9b88f"
+projects[wysiwyg][version] = "2.5"
 
 projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
@@ -471,40 +473,48 @@ projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
 
 ; Libraries
+; For ding_libs.
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
 libraries[bpi-client][download][branch] = "master"
 
+; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
-libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.9.2/ckeditor_4.9.2_standard.zip
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
+; For ding_libs.
 libraries[chosen][download][type] = "get"
 libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip"
 libraries[chosen][destination] = "libraries"
 
+; For ding_libs.
 libraries[guzzle][download][type] = "git"
 libraries[guzzle][download][url] = "https://github.com/guzzle/guzzle.git"
 libraries[guzzle][download][tag] = "6.2.2"
 libraries[guzzle][destination] = "libraries"
 
+; For ding_libs.
 libraries[http-message][download][type] = "git"
 libraries[http-message][download][url] = "https://github.com/php-fig/http-message.git"
 libraries[http-message][download][tag] = "1.0.1"
 libraries[http-message][destination] = "libraries"
 
+; For ding_libs.
 libraries[jsonmapper][download][type] = "git"
 libraries[jsonmapper][download][url] = "https://github.com/cweiske/jsonmapper"
 libraries[jsonmapper][download][tag] = "v0.4.4"
 libraries[jsonmapper][destination] = "libraries"
 
+; For leaflet.
 libraries[leaflet][download][type] = "get"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][destination] = "libraries"
 
+; For ding_libs.
 libraries[phly-http][download][type] = "git"
 libraries[phly-http][download][url] = "https://github.com/phly/http"
 libraries[phly-http][download][tag] = "0.14.1"
@@ -516,54 +526,64 @@ libraries[profiler][download][branch] = "7.x-2.0-beta1"
 ; https://drupal.org/node/1328796, keep dependency order of base profile.
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
+; For ding_libs.
 libraries[promises][download][type] = "git"
 libraries[promises][download][url] = "https://github.com/guzzle/promises.git"
 libraries[promises][download][tag] = "1.2.0"
 libraries[promises][destination] = "libraries"
 
+; For ding_libs.
 libraries[psr7][download][type] = "git"
 libraries[psr7][download][url] = "https://github.com/guzzle/psr7.git"
 libraries[psr7][download][tag] = "1.3.1"
 libraries[psr7][destination] = "libraries"
 
+; For ting.
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][download][branch] = "master"
 libraries[ting-client][destination] = "modules/opensearch/lib"
 
+; Obsoleted. Only reference is in ding_frontend.
 libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"
 libraries[zen-grids][download][tag] = "1.4"
 libraries[zen-grids][destination] = "libraries"
 
+; For manualcrop.
 libraries[jquery.imgareaselect][download][type] = "get"
 libraries[jquery.imgareaselect][download][url] =  https://github.com/odyniec/imgareaselect/archive/v0.9.11-rc.1.tar.gz
 libraries[jquery.imgareaselect][directory_name] = "jquery.imgareaselect"
 libraries[jquery.imgareaselect][destination] = "libraries"
 
+; For manualcrop and ddbasic.
 libraries[jquery.imagesloaded][download][type] = "get"
 libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
 
+; For ding_libs.
 libraries[js.cookie][download][type] = "get"
-libraries[js.cookie][download][url] =  "https://github.com/js-cookie/js-cookie/releases/download/v2.1.4/js.cookie-2.1.4.min.js"
+libraries[js.cookie][download][url] =  "https://github.com/js-cookie/js-cookie/releases/download/v2.2.0/js.cookie-2.2.0.min.js"
 libraries[js.cookie][directory_name] = "js.cookie"
 libraries[js.cookie][destination] = "libraries"
 
+; For ding_libs.
 libraries[slick][download][type] = "get"
-libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.8.0.tar.gz
+libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/v1.8.1.tar.gz
 libraries[slick][directory_name] = "slick"
 libraries[slick][destination] = "libraries"
 ; Fix variableWitdh and white space/empty slides at the end.
 ; See https://github.com/kenwheeler/slick/pull/2635
 libraries[slick][patch][] = "https://patch-diff.githubusercontent.com/raw/kenwheeler/slick/pull/2635.diff"
 
+; For ding_libs.
 libraries[html5shiv][download][type] = "get"
 libraries[html5shiv][download][url] = https://github.com/aFarkas/html5shiv/archive/3.7.3.zip
 libraries[html5shiv][directory_name] = "html5shiv"
 libraries[html5shiv][destination] = "libraries"
 
+; For ding_libs.
 libraries[masonry][download][type] = "get"
 libraries[masonry][download][url] = https://github.com/desandro/masonry/archive/v4.1.1.zip
 libraries[masonry][directory_name] = "masonry"

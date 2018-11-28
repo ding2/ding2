@@ -1,0 +1,575 @@
+<?php
+
+/**
+ * @file
+ * Defines basic campaigns triggers and handling.
+ */
+
+define('DING_CAMPAIGN_PLUS_BASIC_TYPE', 'basic');
+
+/**
+ * Implements hook_ding_campaign_plus_info().
+ */
+function ding_campaign_plus_basic_ding_campaign_plus_info() {
+  return array(
+    'title' => t('Basic'),
+    'type' => DING_CAMPAIGN_PLUS_BASIC_TYPE,
+    'form' => 'ding_campaign_plus_basic_admin_form',
+    'auto' => array(
+      'callback' => 'ding_campaign_plus_basic_auto_admin_form',
+      'default' => '',
+    ),
+    'weight' => 5,
+  );
+}
+
+/**
+ * Implements hook_ding_campaign_plus_default_weights().
+ */
+function ding_campaign_plus_basic_ding_campaign_plus_default_weights() {
+  $types = _ding_campaign_plus_basic_get_types();
+
+  $weight = -10;
+  $weights = array();
+  foreach ($types as $key => $type) {
+    $weights[$key] = array(
+      'prefix' => t('Basic'),
+      'title' => $type,
+      'weight' => $weight++,
+    );
+  }
+
+  return $weights;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_campaign_plus_basic_menu() {
+  $items = array();
+
+  $items['ding_campaign_plus/basic/autocomplete/%'] = array(
+    'title' => 'Campaign rule autocomplete',
+    'description' => 'Auto complete field for campaign rule values.',
+    'page callback' => '_ding_campaign_plus_basic_admin_autocomplete',
+    'page arguments' => array(3),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_node_load().
+ */
+function ding_campaign_plus_basic_node_load($nodes, $types) {
+  foreach ($nodes as $node) {
+    if ($node->type === 'ding_campaign_plus') {
+      $rules = db_select('ding_campaign_plus_basic', 'dcpb')
+        ->fields('dcpb')
+        ->condition('nid', $node->nid)
+        ->execute()
+        ->fetchAllAssoc('id');
+
+      if (!isset($node->ding_campaign_plus)) {
+        $node->ding_campaign_plus = array();
+      }
+      $node->ding_campaign_plus = array_merge($node->ding_campaign_plus, $rules);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Save campaign basic rules for a given campaign.
+ */
+function ding_campaign_plus_basic_node_insert($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    $triggers = $node->tabs[DING_CAMPAIGN_PLUS_BASIC_TYPE];
+
+    foreach ($triggers['rules'] as $rule) {
+      if (!empty($rule['value'])) {
+        $value = $rule['value'];
+        switch ($rule['type']) {
+          case 'path':
+          case 'search_term':
+            $value = $rule['value'];
+            break;
+
+          default:
+            // Parse the value to get faster look-up when looking up campaigns
+            // to display.
+            preg_match('/.+\[(\d+)\]$/', $value, $matches);
+            $value = is_array($matches) ? end($matches) : '';
+            break;
+        }
+
+        db_insert('ding_campaign_plus_basic')
+          ->fields(array(
+            'nid' => $node->nid,
+            'type' => $rule['type'],
+            'title' => $rule['value'],
+            'value' => $value,
+          ))->execute();
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ding_campaign_plus_basic_node_update($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    ding_campaign_plus_basic_node_delete($node);
+    ding_campaign_plus_basic_node_insert($node);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_campaign_plus_basic_node_delete($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    db_delete('ding_campaign_plus_basic')
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
+}
+
+/**
+ * Implements hook_ding_campaign_plus_matches().
+ */
+function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) {
+  $matches = array();
+
+  foreach ($contexts as $key => $context) {
+    switch ($key) {
+      case 'page':
+        $type = substr($context->type, 5);
+        $matches[$type] = _ding_campaign_plus_basic_match($type, $context->nid);
+        break;
+
+      case 'library':
+        $matches['library'] = _ding_campaign_plus_basic_match('library', $context->nid);
+        break;
+
+      case 'taxonomy_term':
+        $matches['taxonomy'] = _ding_campaign_plus_basic_match('taxonomy', $context->tid);
+        break;
+
+      case 'path':
+        $matches['path'] = _ding_campaign_plus_basic_match('path', $context->path);
+        break;
+
+      case 'search_term':
+        // Get current search query and split it into array of terms.
+        $current = ting_search_current_results();
+        $value = drupal_strtolower($current->getSearchRequest()->getFullTextQuery());
+        $terms = preg_split('/,|\s/', $value);
+        $terms = array_filter($terms);
+
+        // Check if any active campaigns matches the search terms.
+        $query = db_select('ding_campaign_plus_basic', 'dcpb')
+          ->fields('dcpb', array('nid'))
+          ->condition('dcpb.type', $key)
+          ->condition('value', $terms, 'IN');
+        $query->join('node', 'n', 'dcpb.nid = n.nid');
+        $nids = $query->condition('status', 1)
+          ->execute()
+          ->fetchCol();
+
+        $matches['search_term'] = is_array($nids) ? $nids : array();
+        break;
+    }
+  }
+
+  return $matches;
+}
+
+/**
+ * Build form options used to configure auto generated campaigns.
+ *
+ * @param array $form_state
+ *   The forms current state.
+ * @param string $default
+ *   The default configuration value.
+ *
+ * @return array
+ *   The form element send into the admin form.
+ */
+function ding_campaign_plus_basic_auto_admin_form(array &$form_state, $default = '') {
+  return array(
+    '#type' => 'radios',
+    '#title' => t('Trigger to use'),
+    '#description' => t('The contents subjects will automatically create a trigger against the selected rule type'),
+    '#options' => array(
+      '_none_' => t('None'),
+      'library' => t('Library'),
+      'taxonomy' => t('Taxonomy term'),
+      'group' => t('Group'),
+      'search_term' => t('Search term match'),
+    ),
+    '#default_value' => empty($default) ? '_none_' : $default,
+  );
+}
+
+/**
+ * Implements hook_ding_campaign_plus_auto_trigger().
+ *
+ * When auto-generating campaigns this defines the triggers for the basic
+ * module.
+ */
+function ding_campaign_plus_basic_ding_campaign_plus_auto_trigger($config, $campaign_node, $node, $subjects) {
+  $trigger = array();
+  $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE] = array('rules' => array());
+
+  if ($config != '_none_') {
+    switch ($config) {
+      case 'library':
+        $libraries = $node->og_group_ref->value();
+        foreach ($libraries as $key => $library) {
+          $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules']['rule_' . $key] = array(
+            'type' => $config,
+            'value' => $library->title . ' [' . $library->nid . ']',
+          );
+        }
+        break;
+
+      case 'group':
+        $field = $node->getBundle() . '_groups_ref';
+        $groups = $node->{$field}->value();
+        foreach ($groups as $key => $group) {
+          $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules']['rule_' . $key] = array(
+            'type' => $config,
+            'value' => $group->title . ' [' . $group->nid . ']',
+          );
+        }
+        break;
+
+      case 'taxonomy':
+        if (!empty($subjects)) {
+          foreach ($subjects as $key => $subject) {
+            // Check if term exits in the database.
+            $term = taxonomy_get_term_by_name($subject);
+            $term = reset($term);
+
+            $value = '';
+            if (!empty($term)) {
+              $value = $term->name . ' [' . $term->tid . ']';
+            }
+            else {
+              $vocab = taxonomy_vocabulary_machine_name_load('ding_content_tags');
+              // Create term in tags.
+              $term = (object) array(
+                'vid' => $vocab->vid,
+                'name' => $subject,
+              );
+
+              if (taxonomy_term_save($term)) {
+                $term = taxonomy_get_term_by_name($subject);
+                $term = reset($term);
+                $value = $term->name . ' [' . $term->tid . ']';
+              }
+            }
+
+            $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules']['rule_' . $key] = array(
+              'type' => $config,
+              'value' => $value,
+            );
+          }
+        }
+        break;
+
+      case 'search_term':
+        $trigger[DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules']['rule_0'] = array(
+          'type' => $config,
+          'value' => implode(' ', $subjects),
+        );
+        break;
+    }
+  }
+
+  return $trigger;
+}
+
+/**
+ * The node edit form callback defined in the hook_ding_campaign_plus_info.
+ */
+function ding_campaign_plus_basic_admin_form(&$form_state) {
+  $values = array();
+  if (isset($form_state['values']['tabs'][DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules'])) {
+    $values = $form_state['values']['tabs'][DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules'];
+  }
+
+  // Get campaign rule from node.
+  if (empty($values) && isset($form_state['node']->ding_campaign_plus)) {
+    $values = _ding_campaign_plus_basic_get_rules($form_state['node']->nid, $form_state['node']->ding_campaign_plus);
+    $values['count'] = count($values);
+  }
+  $count = !empty($values['count']) ? $values['count'] : 0;
+
+  // Check if remove button has been pressed. If so remove element from
+  // form_state values.
+  if (isset($form_state['clicked_button']) && substr($form_state['clicked_button']['#name'], 0, 18) === 'remove_basic_rule_') {
+    $rule = 'rule_' . $form_state['clicked_button']['#rule'];
+    unset($values[$rule]);
+    unset($form_state['values']['tabs'][DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules'][$rule]);
+  }
+
+  $triggers = array(
+    '#prefix' => '<div id="ding-campaign-triggers">',
+    '#suffix' => '</div>',
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'ding_campaign_plus_basic') . '/js/ding_campaign_plus_basic.admin.js',
+      ),
+    ),
+  );
+
+  // If this form is "add another" or "remove" build rules already form_state
+  // values.
+  foreach ($values as $key => $value) {
+    if (substr($key, 0, 4) === "rule") {
+      $triggers[$key] = _ding_campaign_plus_basic_rule_form(substr($key, 5), $value);
+    }
+  }
+
+  // Check if it was this sub-form that need another element added if not
+  // exit to prevent extra elements being generated.
+  if (isset($form_state['clicked_button']) && $form_state['clicked_button']['#name'] === 'add_another_rule') {
+    $triggers['rule_' . $count] = _ding_campaign_plus_basic_rule_form($count);
+    $count++;
+  }
+
+  // Check if any rules exists (one should always be there).
+  if (!isset($triggers['rule_0'])) {
+    $triggers['rule_' . $count] = _ding_campaign_plus_basic_rule_form($count);
+  }
+
+  $triggers['count'] = array(
+    '#type' => 'hidden',
+    '#value' => $count,
+  );
+
+  $triggers['add_rule'] = array(
+    '#type' => 'button',
+    '#value' => t('Add another'),
+    '#name' => 'add_another_rule',
+    '#ajax' => array(
+      'callback' => '_ding_campaign_plus_basic_rule_ajax_callback',
+      'wrapper' => 'ding-campaign-triggers',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+
+  return $triggers;
+}
+
+/**
+ * Return the other rules part of the form.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Form element - rule fields.
+ */
+function _ding_campaign_plus_basic_rule_ajax_callback(array $form, array $form_state) {
+  return $form['triggers']['tabs'][DING_CAMPAIGN_PLUS_BASIC_TYPE]['rules'];
+}
+
+/**
+ * Rule form fields chunk.
+ *
+ * @param int $number
+ *   The rule number (used for UI numbering).
+ * @param array $default_values
+ *   The default values for the fields.
+ *
+ * @return array
+ *   Rule fields structure.
+ */
+function _ding_campaign_plus_basic_rule_form($number = 0, array $default_values = array()) {
+  $form = array(
+    '#type' => 'fieldset',
+    '#title' => t('Rule %num', array('%num' => $number)),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+  );
+
+  $type = isset($default_values['type']) ? $default_values['type'] : 'page';
+  $form['type'] = array(
+    '#type' => 'select',
+    '#title' => t('Rule type'),
+    '#default_value' => $type,
+    '#options' => _ding_campaign_plus_basic_get_types(),
+  );
+
+  $form['value'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Rule value'),
+    '#default_value' => isset($default_values['title']) ? $default_values['title'] : '',
+    '#size' => 64,
+    '#maxlength' => 255,
+    '#autocomplete_path' => 'ding_campaign_plus/basic/autocomplete/' . $type,
+  );
+
+  $form['remove_rule_' . $number] = array(
+    '#type' => 'button',
+    '#value' => t('Remove'),
+    '#name' => 'remove_basic_rule_' . $number,
+    '#rule' => $number,
+    '#ajax' => array(
+      'callback' => '_ding_campaign_plus_basic_rule_ajax_callback',
+      'wrapper' => 'ding-campaign-triggers',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * Find "basic" rules in the current rules for a given node.
+ *
+ * @param int $nid
+ *   Node id for the node (used as index in static cache).
+ * @param array $rules
+ *   All the rules loaded for the node.
+ *
+ * @return array
+ *   The rules of the basic types.
+ */
+function _ding_campaign_plus_basic_get_rules($nid, array $rules) {
+  $filtered = &drupal_static(__FUNCTION__, array());
+
+  if (!isset($filtered[$nid])) {
+    $filtered[$nid] = array();
+
+    $types = array_keys(_ding_campaign_plus_basic_get_types());
+
+    foreach ($rules as $rule) {
+      if (in_array($rule->type, $types)) {
+        $filtered[$nid]['rule_' . count($filtered[$nid])] = array(
+          'type' => $rule->type,
+          'value' => $rule->value,
+          'title' => $rule->title,
+        );
+      }
+    }
+  }
+
+  return $filtered[$nid];
+}
+
+/**
+ * Auto complete handler for basic rules.
+ *
+ * @param string $type
+ *   The type of content to look-up.
+ * @param string $input
+ *   The input currently entered by the user.
+ */
+function _ding_campaign_plus_basic_admin_autocomplete($type, $input) {
+  $matches = array();
+
+  switch ($type) {
+    case 'page':
+      $query = db_select('node', 'n')
+        ->fields('n', array('nid', 'title'))
+        ->condition('title', '%' . db_like($input) . '%', 'LIKE')
+        ->condition('type', 'ding_campaign_plus', '!=')
+        ->range(0, 5);
+      $results = $query->execute();
+
+      foreach ($results as $node) {
+        $matches[$node->title . " [$node->nid]"] = check_plain($node->title);
+      }
+      break;
+
+    case 'event':
+    case 'news':
+    case 'library':
+    case 'group':
+      $query = db_select('node', 'n')
+        ->fields('n', array('nid', 'title'))
+        ->condition('title', '%' . db_like($input) . '%', 'LIKE')
+        ->condition('type', 'ding_' . $type)
+        ->range(0, 5);
+      $results = $query->execute();
+
+      foreach ($results as $node) {
+        $matches[$node->title . " [$node->nid]"] = check_plain($node->title);
+      }
+      break;
+
+    case 'taxonomy':
+      $query = db_select('taxonomy_term_data', 't')
+        ->fields('t', array('tid', 'name'))
+        ->condition('name', '%' . db_like($input) . '%', 'LIKE')
+        ->range(0, 5);
+      $results = $query->execute();
+
+      foreach ($results as $term) {
+        $matches[$term->name . " [$term->tid]"] = check_plain($term->name);
+      }
+      break;
+  }
+
+  drupal_json_output($matches);
+}
+
+/**
+ * Defines the "trigger" in the basic types.
+ *
+ * @return array
+ *   The triggers.
+ */
+function _ding_campaign_plus_basic_get_types() {
+  return array(
+    'page' => t('Page'),
+    'event' => t('Event'),
+    'news' => t('News'),
+    'library' => t('Library'),
+    'group' => t('Group'),
+    'taxonomy' => t('Taxonomy term'),
+    'path' => t('Path'),
+    'search_term' => t('Search term match'),
+  );
+}
+
+/**
+ * Helper function to look-up rules in the database.
+ *
+ * @param string $type
+ *   The type of basic rule to look-up.
+ * @param string $value
+ *   The value that should trigger the rule.
+ *
+ * @return array
+ *   The campaign id's that was found.
+ */
+function _ding_campaign_plus_basic_match($type, $value) {
+  // Always check the default "page" rule as well as the content type given.
+  $or = db_or()
+    ->condition('dcpb.type', 'page')
+    ->condition('dcpb.type', $type);
+
+  $query = db_select('ding_campaign_plus_basic', 'dcpb')
+    ->fields('dcpb', array('nid'))
+    ->condition($or)
+    ->condition('value', $value);
+  $query->join('node', 'n', 'dcpb.nid = n.nid');
+  $nids = $query->condition('status', 1)
+    ->execute()
+    ->fetchCol();
+
+  return is_array($nids) ? $nids : array();
+}

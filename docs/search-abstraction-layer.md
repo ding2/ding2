@@ -18,7 +18,7 @@ $results = ting_start_query()
   ->addSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_ASCENDING)
   ->execute();
 
-if ($results->getNumTotalCollections() > 0) {
+if ($results->getNumCollections() > 0) {
   foreach ($results->getTingEntityCollections() as $collection) {
     print $collection->getPrimary_object()->getTitle();
   } 

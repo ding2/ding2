@@ -81,10 +81,12 @@ function bpi_menu() {
     'page callback' => 'bpi_syndicate_action',
     'page arguments' => array(3),
     'access arguments' => array('bpi syndicate content'),
+    'type' => MENU_CALLBACK,
     'file' => 'bpi.syndicate.inc',
   );
 
   $menu['admin/bpi/statistics/nojs'] = array(
+    'title' => 'BPI statistics',
     'page callback' => 'bpi_statistics',
     'page arguments' => array(3),
     'access arguments' => array('view bpi statistics'),
@@ -93,12 +95,15 @@ function bpi_menu() {
 
   $menu['admin/bpi/statistics/ajax'] = array(
     'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
   ) + $menu['admin/bpi/statistics/nojs'];
 
   $menu['admin/bpi/images/nojs'] = array(
+    'title' => 'BPI syndicate images',
     'page callback' => 'bpi_syndicate_images',
     'page arguments' => array(3),
     'access arguments' => array('bpi syndicate content'),
+    'type' => MENU_CALLBACK,
     'file' => 'bpi.images.inc',
   );
 
@@ -400,15 +405,13 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       array_unshift($form['#validate'], 'bpi_form_workflow_transition_form_validate');
     }
     elseif (!empty($_GET['bpi_id'])) {
-      $states = bpi_workflow_by_machine_names(array('pre_bpi', 'local_content'));
+      $states = bpi_workflow_by_machine_names(array('local_content'));
       $local_sid = $states['local_content']->sid;
-      $pre_sid = $states['pre_bpi']->sid;
 
       // Hide normal save button via css. We can't just unset it, because that
       // will result in only the normal button to be shown. That will only work
       // when removing "non-normal" buttons.
       drupal_add_css('#edit-workflow-' . $local_sid . ' { display: none; }', 'inline');
-      drupal_add_css('#edit-workflow-' . $pre_sid . ' { display: none; }', 'inline');
     }
     else {
       // Hide 'Save from BPI button'.
@@ -775,12 +778,10 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
     'sent_to_bpi',
     'deleted_bpi',
     'created_bpi',
-    'pre_bpi',
   ));
   $push_sid = $states['sent_to_bpi']->sid;
   $delete_sid = $states['deleted_bpi']->sid;
   $created_sid = $states['created_bpi']->sid;
-  $presend_sid = $states['pre_bpi']->sid;
 
   // Remove 'Save and push' button if the current state is already 'Sent to
   // BPI'. We have to do this, because it's not possible to disallow workflow
@@ -792,12 +793,6 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
   // Remove "Delete from BPI" button, when we have already deleted from BPI.
   if ($form['#default_value'] == $delete_sid) {
     unset($form['workflow']['workflow_sid']['#options'][$delete_sid]);
-  }
-
-  // Remove "Save" button (saving to same workflow state) when the node is
-  // prepared for sending to BPI.
-  if ($form['#default_value'] == $presend_sid) {
-    unset($form['workflow']['workflow_sid']['#options'][$presend_sid]);
   }
 
   // We can't get the node id directly from the form, so we get it from the
@@ -854,7 +849,6 @@ function bpi_form_workflow_transition_form_submit($form, &$form_state) {
     'bpi_push_category',
     'bpi_push_audience',
     'bpi_push_images',
-    'bpi_push_ccl',
     'bpi_push_editable',
     'bpi_push_refs',
   );
@@ -868,7 +862,6 @@ function bpi_form_workflow_transition_form_submit($form, &$form_state) {
   $category = $form_state['values']['bpi_push_category'];
   $audience = $form_state['values']['bpi_push_audience'];
   $with_images = $form_state['values']['bpi_push_images'];
-  $authorship = !$form_state['values']['bpi_push_ccl'];
   $editable = $form_state['values']['bpi_push_editable'];
   $with_refs = $form_state['values']['bpi_push_refs'];
 
@@ -877,7 +870,6 @@ function bpi_form_workflow_transition_form_submit($form, &$form_state) {
     'category' => $category,
     'audience' => $audience,
     'with_images' => $with_images,
-    'authorship' => $authorship,
     'editable' => $editable,
     'with_refs' => $with_refs,
   );
@@ -946,65 +938,6 @@ function bpi_validate_material($id) {
 }
 
 /**
- * Implements hook_libraries_info().
- *
- * For defining external libraries.
- */
-function bpi_libraries_info() {
-  return array(
-    'chosen' => array(
-      'name' => 'Chosen',
-      'vendor url' => 'https://github.com/harvesthq/chosen',
-      'download url' => 'https://github.com/harvesthq/chosen/releases',
-      'version arguments' => array(
-        'file' => 'chosen.jquery.min.js',
-        'pattern' => '@(?:Chosen v|Version\s+)([0-9a-zA-Z\.-]+)@',
-      ),
-      'files' => array(
-        'css' => array('chosen.min.css'),
-        'js' => array('chosen.jquery.min.js'),
-      ),
-    ),
-    'guzzle' => array(
-      'name' => 'Guzzle',
-      'vendor url' => 'https://github.com/guzzle/guzzle',
-      'download url' => 'https://github.com/guzzle/guzzle',
-      'version' => '6.2',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-    'promises' => array(
-      'name' => 'Guzzle promises library',
-      'vendor url' => 'https://github.com/guzzle/promises',
-      'download url' => 'https://github.com/guzzle/promises',
-      'version' => '1.2',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-    'http-message' => array(
-      'name' => 'Common interface for HTTP messages',
-      'vendor url' => 'https://github.com/php-fig/http-message',
-      'download url' => 'https://github.com/php-fig/http-message',
-      'version' => '1.0',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-    'psr7' => array(
-      'name' => 'PSR-7 message implementation',
-      'vendor url' => 'https://github.com/guzzle/psr7',
-      'download url' => 'https://github.com/guzzle/psr7',
-      'version' => '1.3',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-  );
-}
-
-/**
  * Implements hook_xautoload().
  */
 function bpi_xautoload($adapter) {
@@ -1070,7 +1003,7 @@ function bpi_features_views_default_views_alter(&$views) {
       'table' => 'views_entity_node',
       'field' => 'workflow_node',
       'label' => 'Operations',
-      'text' => 'change BPI state',
+      'text' => 'change the node status in BPI',
     );
 
     $style_options = &$display_options['style_options'];

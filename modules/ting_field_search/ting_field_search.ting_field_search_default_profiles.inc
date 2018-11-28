@@ -21,7 +21,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'well_profile' => '',
       'query' => 'term.acsource any "ebsco masterfile tidsskriftsartikler biography in context avisartikler store danske science in context litteratursiden historiens verden 1001 fortællinger forfatterweb faktalink"',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,
@@ -108,7 +107,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'well_profile' => '',
       'query' => 'term.acsource=bibliotekskatalog and term.type=bog and (dk=sk or dk=82* or dk=83* or dk=84* or dk=85* or dk=86* or dk=87* or dk=88.4* or dk=88.6* or dk=88.7* or dk=88.8*)',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,
@@ -223,7 +221,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'well_profile' => '',
       'query' => 'term.acsource=bibliotekskatalog and term.type=bog not (dk=sk or dk=82* or dk=83* or dk=84* or dk=85* or dk=86* or dk=87* or dk=88.4* or dk=88.6* or dk=88.7* or dk=88.8*)',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,
@@ -310,7 +307,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'well_profile' => '',
       'query' => '(ma=xc and ma=lm) or (ma=xc and ma=th) not (ma=mu or ma=ly or ma=xk or dk=sk)',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,
@@ -383,7 +379,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'well_profile' => '',
       'query' => 'term.acsource=filmstriben or (term.acsource=bibliotekskatalog and term.workType=movie not (term.type=bog or term.type="film (net)" or ma=xc))',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,
@@ -505,7 +500,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'well_profile' => '',
       'query' => 'ma=xe and term.type=ebog and sp=dan',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,
@@ -613,7 +607,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'well_profile' => '',
       'query' => 'ma=xe and term.type=ebog not sp=dan',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,
@@ -693,7 +686,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'well_profile' => '',
       'query' => 'ma=ly not (dk=78* or em=sprog*)',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,
@@ -801,7 +793,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'well_profile' => '',
       'query' => 'ma=mu',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,
@@ -888,7 +879,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'well_profile' => '',
       'query' => 'ma=bg or term.type=spil',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,
@@ -968,7 +958,6 @@ function ting_field_search_ting_field_search_default_profiles() {
       'well_profile' => '',
       'query' => 'term.type=tegneserie or term.type="graphic novel"',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,
@@ -1003,9 +992,8 @@ function ting_field_search_ting_field_search_default_profiles() {
     'search_request' => array(
       'agency' => '',
       'well_profile' => '',
-      'query' => 'term.acsource any "pressreader zinio" or (term.acsource=bibliotekskatalog and ma=pe not ma=åp not ma=ms not ma=av not term.type=bog not term.type=spil not term.type=tegneserie not ma=tb not serie)',
+      'query' => 'term.acsource any "pressreader rbdigital" or (term.acsource=bibliotekskatalog and ma=pe not ma=åp not ma=ms not ma=av not term.type=bog not term.type=spil not term.type=tegneserie not ma=tb not serie)',
       'new_materials' => '',
-      'allow_empty' => 0,
     ),
     'user_interaction' => array(
       'exposed' => 1,

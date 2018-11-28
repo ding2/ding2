@@ -82,7 +82,7 @@
     ].forEach(function(e) {
         var selector = e;
         $(selector).each(function() {
-          if ($(this).parent().find(selector).size() < 2) {
+          if ($(this).parent().find(selector).length < 2) {
             $(this).addClass('js-og-single-content-type');
           }
       });

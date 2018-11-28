@@ -5,6 +5,7 @@ package = Providers
 version = 7.x-1.0-dev
 project = fbs
 dependencies[] = date_popup
+dependencies[] = ding_libs
 dependencies[] = ding_provider
 dependencies[] = ding_reservation
 dependencies[] = ding_session_cache

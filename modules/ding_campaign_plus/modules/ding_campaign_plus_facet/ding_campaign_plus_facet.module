@@ -1,0 +1,1090 @@
+<?php
+
+/**
+ * @file
+ * Defines basic campaigns triggers and handling.
+ */
+
+define('DING_CAMPAIGN_PLUS_FACET_TYPE', 'facet');
+
+/**
+ * Implements hook_ding_campaign_plus_info().
+ */
+function ding_campaign_plus_facet_ding_campaign_plus_info() {
+  return array(
+    'title' => t('Facets'),
+    'type' => DING_CAMPAIGN_PLUS_FACET_TYPE,
+    'form' => 'ding_campaign_plus_facet_admin_form',
+    'auto' => array(
+      'callback' => 'ding_campaign_plus_facet_auto_admin_form',
+      'default' => array(
+        'default' => 7,
+        'facets' => 'facet.subject',
+      ),
+    ),
+    'weight' => -15,
+  );
+}
+
+/**
+ * Implements hook_ding_campaign_plus_default_weights().
+ */
+function ding_campaign_plus_facet_ding_campaign_plus_default_weights() {
+  $facets = _ding_campaign_plus_facet_get_facets();
+
+  $weights = array();
+  foreach ($facets as $facet) {
+    $weights[$facet['facet']] = array(
+      'prefix' => t('Facet'),
+      'title' => $facet['title'],
+      'weight' => -15,
+    );
+  }
+
+  return $weights;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_campaign_plus_facet_menu() {
+  $items = array();
+  $items['admin/config/ding/campaigns_plus/%/delete'] = array(
+    'title' => 'Delete facets',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_campaign_plus_facet_delete', 4),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_campaign_plus_facet_theme($existing, $type, $theme, $path) {
+  $themes = array(
+    'ding_campaign_plus_facet_table_drag' => array(
+      'render element' => 'element',
+    ),
+  );
+  return $themes;
+}
+
+/**
+ * Implements hook_node_load().
+ */
+function ding_campaign_plus_facet_node_load($nodes, $types) {
+  foreach ($nodes as $node) {
+    if ($node->type === 'ding_campaign_plus') {
+      $rules = db_select('ding_campaign_plus_facet', 'dcpf')
+        ->fields('dcpf')
+        ->condition('nid', $node->nid)
+        ->execute()
+        ->fetchAllAssoc('id');
+
+      foreach ($rules as &$rule) {
+        $rule->value = unserialize($rule->value);
+
+        // Add type to easy identify this rule type.
+        $rule->type = 'facet';
+      }
+
+      if (!isset($node->ding_campaign_plus)) {
+        $node->ding_campaign_plus = array();
+      }
+      $node->ding_campaign_plus = array_merge($node->ding_campaign_plus, $rules);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_campaign_plus_facet_node_insert($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    $triggers = $node->tabs[DING_CAMPAIGN_PLUS_FACET_TYPE];
+
+    foreach ($triggers['rules'] as $rule) {
+      if (!is_array($rule)) {
+        continue;
+      }
+
+      switch ($rule['facet']) {
+        case 'facet.type':
+          $value = $rule['facet_value_select_type'];
+          $value = empty($value) ? $value : serialize($value);
+          break;
+
+        case 'facet.acSource':
+          $value = $rule['facet_value_select_source'];
+          $value = empty($value) ? $value : serialize($value);
+          break;
+
+        default:
+          $value = empty($rule['facet_value']) ? $rule['facet_value'] : serialize($rule['facet_value']);
+          break;
+      }
+
+      if (!empty($value)) {
+        db_insert('ding_campaign_plus_facet')
+          ->fields(array(
+            'nid' => $node->nid,
+            'facet' => $rule['facet'],
+            'value' => $value,
+            'common' => $rule['common'] === '_none_' ? NULL : $rule['common'],
+            'operator' => $triggers['rules']['operator'],
+          ))
+          ->execute();
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ding_campaign_plus_facet_node_update($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    ding_campaign_plus_facet_node_delete($node);
+    ding_campaign_plus_facet_node_insert($node);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_campaign_plus_facet_node_delete($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    db_delete('ding_campaign_plus_facet')
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
+}
+
+/**
+ * Implements hook_ding_campaign_plus_matches().
+ */
+function ding_campaign_plus_facet_ding_campaign_plus_matches($contexts, $style) {
+  $matches = array();
+
+  foreach ($contexts as $key => $context) {
+    switch ($key) {
+      case 'search_term':
+        $triggers = _ding_campaign_plus_facet_match($context);
+        foreach ($triggers as $facet => $nids) {
+          $matches[$facet] = $nids;
+        }
+        break;
+    }
+  }
+
+  return $matches;
+}
+
+/**
+ * Build form options used to configure auto generated campaigns.
+ *
+ * @param array $form_state
+ *   The forms current state.
+ * @param array $default
+ *   The default configuration value.
+ *
+ * @return array
+ *   The form element send into the admin form.
+ */
+function ding_campaign_plus_facet_auto_admin_form(array &$form_state, $default = array()) {
+  $options = array();
+  $facets = _ding_campaign_plus_facet_get_facets();
+  foreach ($facets as $facet) {
+    $options[$facet['facet']] = $facet['title'] . ' (' . $facet['facet'] . ')';
+  }
+
+  return array(
+    'default' => array(
+      '#type' => 'select',
+      '#title' => t('Default common number'),
+      '#description' => t('Default "Most common values" to match against.'),
+      '#options' => drupal_map_assoc(range(1, 30)),
+      '#default_value' => empty($default['default']) ? '_none_' : $default['default'],
+    ),
+    'facets' => array(
+      '#type' => 'radios',
+      '#title' => t('Facets available'),
+      '#description' => t('The contents subjects will automatically create a trigger against the selected facet type.'),
+      '#options' => array('_none_' => t('None')) + $options,
+      '#default_value' => empty($default['facets']) ? '_none_' : $default['facets'],
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_ding_campaign_plus_admin_settings_alter().
+ *
+ * Added form elements to the configuration form to define which facets should
+ * be available for facet triggers.
+ */
+function ding_campaign_plus_facet_form_ding_campaign_plus_admin_settings_alter(&$form, &$form_state, $form_id) {
+  $form['ding_campaign_plus_facets'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Facets',
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => 0,
+  );
+
+  $form['ding_campaign_plus_facets']['facets'] = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'id' => 'facets',
+    ),
+    '#theme' => 'ding_campaign_plus_facet_table_drag',
+  );
+
+  $id = 0;
+  $facets = _ding_campaign_plus_facet_get_facets();
+  foreach ($facets as $id => $facet) {
+    $form['ding_campaign_plus_facets']['facets'][$id]['facet'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Facet id'),
+      '#title_display' => 'invisible',
+      '#default_value' => $facet['facet'],
+    );
+
+    $form['ding_campaign_plus_facets']['facets'][$id]['title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Title'),
+      '#title_display' => 'invisible',
+      '#default_value' => $facet['title'],
+    );
+
+    $form['ding_campaign_plus_facets']['facets'][$id]['action'] = array(
+      '#type' => 'link',
+      '#title' => t('delete'),
+      '#href' => 'admin/config/ding/campaigns_plus/' . $facet['facet'] . '/delete',
+      '#options' => array('attributes' => array('title' => t('Delete facet.'))),
+    );
+  }
+
+  $id++;
+  $form['ding_campaign_plus_facets']['facets'][$id]['facet'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Facet id'),
+    '#default_value' => '',
+  );
+
+  $form['ding_campaign_plus_facets']['facets'][$id]['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => '',
+  );
+
+  $form['ding_campaign_plus_facets']['description'] = array(
+    '#prefix' => '<div class="description">',
+    '#suffix' => '</div>',
+    '#markup' => t('All facets are explained at <a href="!url">!url</a>', array('!url' => 'http://www.danbib.dk/brondindekser')),
+  );
+
+  $form['#submit'][] = 'ding_campaign_plus_facet_admin_settings_form_submit';
+}
+
+/**
+ * Submit handler for the administration form.
+ */
+function ding_campaign_plus_facet_admin_settings_form_submit($form, $form_state) {
+  $facets = $form_state['values']['ding_campaign_plus_facets']['facets'];
+  foreach ($facets as $id => $facet) {
+    if (empty($facet['facet'])) {
+      unset($facets[$id]);
+    }
+  }
+
+  variable_set('ding_campaign_plus_facets', $facets);
+}
+
+/**
+ * Menu callback for facet delete confirm.
+ *
+ * @param string $form_id
+ *   ID of the form calling the delete action.
+ * @param array $form_state
+ *   The state of the form.
+ * @param string $facet_id
+ *   The ID of the facets to remove.
+ *
+ * @return mixed
+ *   Confirmation for.
+ */
+function ding_campaign_plus_facet_delete($form_id, array $form_state, $facet_id) {
+  $form['facet_id'] = array(
+    '#type' => 'value',
+    '#value' => $facet_id,
+  );
+  return confirm_form($form, t("Are you sure you want to delete @facet?", array('@facet' => $facet_id)), 'admin/config/ding/campaigns_plus');
+}
+
+/**
+ * Submit handler for the delete facet confirmation form.
+ */
+function ding_campaign_plus_facet_delete_submit($form, &$form_state) {
+  $facets = variable_get('ding_campaign_plus_facets', array());
+  foreach ($facets as $key => $facet) {
+    if ($facet['facet'] == $form_state['values']['facet_id']) {
+      unset($facets[$key]);
+    }
+  }
+  variable_set('ding_campaign_plus_facets', $facets);
+  drupal_set_message(t('@facet deleted.', array('@facet' => $form_state['values']['facet_id'])));
+  $form_state['redirect'] = 'admin/config/ding/campaigns_plus';
+}
+
+/**
+ * Default theme function for facet table.
+ *
+ * Add draggable table layout to facet table.
+ *
+ * @param array $vars
+ *   The variables for this theme function (form element).
+ *
+ * @return string
+ *   The formatted table.
+ */
+function theme_ding_campaign_plus_facet_table_drag(array $vars) {
+  drupal_add_tabledrag('campaign-facets', 'order', 'sibling', 'facet-weight');
+
+  $rows = array();
+  foreach (element_children($vars['element']) as $id) {
+    $facet = $vars['element'][$id];
+    $row = array();
+    $row[] = drupal_render($facet['facet']);
+    $row[] = drupal_render($facet['title']);
+    $row[] = drupal_render($facet['action']);
+
+    $rows[] = array(
+      'data' => $row,
+      'class' => array('draggable'),
+    );
+  }
+
+  $header = array(t('Facet'), t('Title'), t('Operations'));
+  return theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+    'attributes' => array('id' => 'campaign-facets'),
+  ));
+}
+
+/**
+ * Implements hook_ding_campaign_plus_auto_trigger().
+ *
+ * When auto-generating campaigns this defines the triggers for the facet
+ * module.
+ */
+function ding_campaign_plus_facet_ding_campaign_plus_auto_trigger($config, $campaign_node, $node, $subjects) {
+  $trigger = array();
+  $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE] = array('rules' => array());
+
+  if ($config['facets'] != '_none_' && !empty($subjects)) {
+    foreach ($subjects as $key => $value) {
+      $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key] = array(
+        'facet' => $config['facets'],
+        'common' => NULL,
+      );
+
+      switch ($config['facets']) {
+        case 'facet.type':
+          $options = _ting_fetch_well_types();
+          if (in_array($value, $options)) {
+            $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value_select_type'] = $value;
+          }
+          else {
+            unset($trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]);
+          }
+          break;
+
+        case 'facet.acSource':
+          $options = _ting_fetch_well_sources();
+          if (in_array($value, $options)) {
+            $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value_select_source'] = $value;
+          }
+          else {
+            unset($trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]);
+          }
+          break;
+
+        case 'facet.subject':
+          $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['common'] = $config['default'];
+          $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value'] = $value;
+          break;
+
+        default:
+          $trigger[DING_CAMPAIGN_PLUS_FACET_TYPE]['rules']['rule_' . $key]['facet_value'] = $value;
+          break;
+      }
+    }
+  }
+
+  return $trigger;
+}
+
+/**
+ * The node edit form callback defined in the hook_ding_campaign_plus_info.
+ */
+function ding_campaign_plus_facet_admin_form(&$form_state) {
+  $values = array();
+  if (isset($form_state['values']['tabs'][DING_CAMPAIGN_PLUS_FACET_TYPE]['rules'])) {
+    $values = $form_state['values']['tabs'][DING_CAMPAIGN_PLUS_FACET_TYPE]['rules'];
+  }
+
+  // Get campaign rule from node.
+  if (empty($values) && isset($form_state['node']->ding_campaign_plus)) {
+    $values = _ding_campaign_plus_facet_get_rules($form_state['node']->nid, $form_state['node']->ding_campaign_plus);
+    $values['count'] = count($values);
+  }
+  $count = !empty($values['count']) ? $values['count'] : 0;
+
+  // Check if remove button has been pressed. If so remove element from
+  // form_state values.
+  if (isset($form_state['clicked_button']) && substr($form_state['clicked_button']['#name'], 0, 18) === 'remove_facet_rule_') {
+    $rule = 'rule_' . $form_state['clicked_button']['#rule'];
+    unset($values[$rule]);
+    unset($form_state['values']['tabs']['facet']['rules'][$rule]);
+  }
+
+  $triggers = array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'id' => 'ding-campaign-facet-triggers',
+    ),
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'ding_campaign_plus_facet') . '/js/ding_campaign_plus_facet.admin.js',
+      ),
+    ),
+  );
+
+  $triggers['operator'] = array(
+    '#type' => 'select',
+    '#title' => t('Operator'),
+    '#description' => t('Used to define the operator used between facet rules below.'),
+    '#options' => array(
+      'or' => t('or'),
+      'and' => t('and'),
+    ),
+    '#default_value' => isset($values['rule_0']['operator']) ? $values['rule_0']['operator'] : 'or',
+  );
+
+  // If this form is "add another" or "remove" build rules already form_state
+  // values.
+  foreach ($values as $key => $value) {
+    if (substr($key, 0, 4) === "rule") {
+      $triggers[$key] = _ding_campaign_plus_facet_rule_form(substr($key, 5), $value);
+    }
+  }
+
+  // Check if it was this sub-form that need another element added if not
+  // exit to prevent extra elements being generated.
+  if (isset($form_state['clicked_button']) && $form_state['clicked_button']['#name'] === 'add_another_facet') {
+    $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count);
+    $count++;
+  }
+
+  // Check if any rules exists (one should always be there).
+  if (!isset($triggers['rule_0'])) {
+    $triggers['rule_' . $count] = _ding_campaign_plus_facet_rule_form($count);
+  }
+
+  $triggers['count'] = array(
+    '#type' => 'hidden',
+    '#value' => $count,
+  );
+
+  $triggers['add_rule'] = array(
+    '#type' => 'button',
+    '#name' => 'add_another_facet',
+    '#value' => t('Add another'),
+    '#ajax' => array(
+      'callback' => '_ding_campaign_plus_facet_rule_ajax_callback',
+      'wrapper' => 'ding-campaign-facet-triggers',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+
+  return $triggers;
+}
+
+/**
+ * Return the facet rules part of the form.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Form element - rule fields.
+ */
+function _ding_campaign_plus_facet_rule_ajax_callback(array $form, array $form_state) {
+  return $form['triggers']['tabs']['facet']['rules'];
+}
+
+/**
+ * Rule form fields chunk.
+ *
+ * @param int $number
+ *   The rule number (used for UI numbering).
+ * @param array $default_values
+ *   The default values for the fields.
+ *
+ * @return array
+ *   Rule fields structure.
+ */
+function _ding_campaign_plus_facet_rule_form($number = 0, array $default_values = array()) {
+  $form = array(
+    '#type' => 'fieldset',
+    '#title' => t('Rule %num', array('%num' => $number)),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+  );
+
+  $options = array();
+  $facets = _ding_campaign_plus_facet_get_facets();
+  foreach ($facets as $facet) {
+    $options[$facet['facet']] = $facet['title'];
+  }
+
+  asort($options);
+  $form['facet'] = array(
+    '#type' => 'select',
+    '#title' => t('Facet Type'),
+    '#description' => t('All facets are explained at <a href="!url">!url</a>', array('!url' => 'https://opensearch.addi.dk/b3.5_4.5/?showCqlFile&repository=prod&cql=opensearch_cql.xml#facet')),
+    '#default_value' => isset($default_values['facet']) ? $default_values['facet'] : 'facet.type',
+    '#options' => $options,
+    '#attributes' => array(
+      'class' => array('js-fact-type'),
+    ),
+  );
+
+  // Get default "most common" from auto-generate campaign configuration. This
+  // is a lose dependency to auto generate module and should stay lose.
+  $default = variable_get('ding_campaign_plus_auto', array());
+  $default = isset($default['ding_campaign_plus_facet']['config']['default']) ? $default['ding_campaign_plus_facet']['config']['default'] : 7;
+
+  $options = drupal_map_assoc(range(1, 30));
+  $form['common'] = array(
+    '#type' => 'select',
+    '#title' => t('Most common values'),
+    '#options' => array_combine($options, $options),
+    '#default_value' => isset($default_values['common']) ? $default_values['common'] : $default,
+    '#description' => t('Number of most common values wherein facet value is contained to trigger campaign'),
+  );
+
+  $options = _ting_fetch_well_types();
+  $options = array_combine($options, $options);
+  asort($options);
+  $form['facet_value_select_type'] = array(
+    '#type' => 'select',
+    '#title' => t('Facet value'),
+    '#default_value' => isset($default_values['facet_value_select_type']) ? $default_values['facet_value_select_type'] : array(),
+    '#options' => $options,
+    '#multiple' => TRUE,
+    '#size' => min(8, count($options)),
+  );
+
+  $options = _ting_fetch_well_sources();
+  $options = array_combine($options, $options);
+  asort($options);
+  $form['facet_value_select_source'] = array(
+    '#type' => 'select',
+    '#title' => t('Facet value'),
+    '#default_value' => isset($default_values['facet_value_select_source']) ? $default_values['facet_value_select_source'] : array(),
+    '#options' => $options,
+    '#multiple' => TRUE,
+    '#size' => min(8, count($options)),
+  );
+
+  $form['facet_value'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Facet value'),
+    '#description' => t('If the facet type selected is numeric the operators "<", "<=", ">=", ">" can be used e.g. > 2015. Wildcard "*" is also supported for matching with for example DK5 e.g. 89*'),
+    '#default_value' => isset($default_values['facet_value']) ? $default_values['facet_value'] : '',
+    '#size' => 64,
+    '#maxlength' => 255,
+  );
+
+  $form['remove_rule_' . $number] = array(
+    '#type' => 'button',
+    '#value' => t('Remove'),
+    '#name' => 'remove_facet_rule_' . $number,
+    '#rule' => $number,
+    '#ajax' => array(
+      'callback' => '_ding_campaign_plus_facet_rule_ajax_callback',
+      'wrapper' => 'ding-campaign-facet-triggers',
+      'method' => 'replace',
+      'effect' => 'fade',
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * Find "facet" rules in the current rules for a given node.
+ *
+ * @param int $nid
+ *   Node id for the node (used as index in static cache).
+ * @param array $rules
+ *   All the rules loaded for the node.
+ *
+ * @return array
+ *   The rules of the basic types.
+ */
+function _ding_campaign_plus_facet_get_rules($nid, array $rules) {
+  $filtered = &drupal_static(__FUNCTION__, array());
+
+  if (!isset($filtered[$nid])) {
+    $filtered[$nid] = array();
+
+    foreach ($rules as $rule) {
+      if ($rule->type === 'facet') {
+        $value_type = array();
+        $value_source = array();
+        $value = '';
+
+        switch ($rule->facet) {
+          case 'facet.type':
+            $value_type = $rule->value;
+            break;
+
+          case 'facet.acSource':
+            $value_source = $rule->value;
+            break;
+
+          default:
+            $value = $rule->value;
+            break;
+        }
+
+        $filtered[$nid]['rule_' . count($filtered[$nid])] = array(
+          'facet' => $rule->facet,
+          'common' => $rule->common,
+          'facet_value_select_type' => $value_type,
+          'facet_value_select_source' => $value_source,
+          'facet_value' => $value,
+          'operator' => $rule->operator,
+        );
+      }
+    }
+  }
+
+  return $filtered[$nid];
+}
+
+/**
+ * Get facets.
+ *
+ * Default to facet-browser defined facets and fallback to the camping
+ * configured facets.
+ *
+ * @param bool $reset
+ *   If TRUE cache is reset (default: FALSE).
+ *
+ * @return array
+ *   The facets made available for this module.
+ */
+function _ding_campaign_plus_facet_get_facets($reset = FALSE) {
+  $facets = &drupal_static(__FUNCTION__, array());
+
+  if (empty($facets) || $reset) {
+    $facets = variable_get('ding_campaign_plus_facets', NULL);
+    if (is_null($facets)) {
+      // This list is based on the opensearch documentation for data well
+      // version b3.5_4.5. The title is in Danish an not translated as this
+      // matches the way ding_facetbrowser uses these as well.
+      $facets = array(
+        array(
+          'facet' => 'facet.access',
+          'title' => 'Adgang',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.acSource',
+          'title' => 'Kilde',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.audience',
+          'title' => 'Målgruppe',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.audienceCategory',
+          'title' => 'Brugerniveau',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.branch',
+          'title' => 'Filial',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.category',
+          'title' => 'Voksen- eller børnematerialer',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.creator',
+          'title' => 'Ophav',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.creatorFunction',
+          'title' => 'Ophav funktion',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.date',
+          'title' => 'Dato',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.dateFirstEdition',
+          'title' => 'Udgivelsesår for første udgave',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.department',
+          'title' => 'Afdeling',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.dk5',
+          'title' => 'DK5 Klassifikation',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.extraTitles',
+          'title' => 'Ekstra e-bøger',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.fictionSubject',
+          'title' => 'Skønlitterært emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.form',
+          'title' => 'Form',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.gamePlatform',
+          'title' => 'Spilplatform',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.genre',
+          'title' => 'Genre',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.genreCategory',
+          'title' => 'Genrekategori',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.geographic',
+          'title' => 'Geografisk emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.language',
+          'title' => 'Sprog',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.level',
+          'title' => 'Fagligt niveau',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.let',
+          'title' => 'Lettal',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.literaryForm',
+          'title' => 'Litterær form',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.lix',
+          'title' => 'Lix',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.musicSubject',
+          'title' => 'Musik emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.nationality',
+          'title' => 'Nationalitet for film',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.nonFictionSubject',
+          'title' => 'Fag emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.partOf',
+          'title' => 'Del af',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.period',
+          'title' => 'Periode som emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.primaryCreator',
+          'title' => 'Hovedophav',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.publisher',
+          'title' => 'Forlag',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.sheetMusic',
+          'title' => 'Noder',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.subject',
+          'title' => 'Emne',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.titleSeries',
+          'title' => 'Serietitle',
+          'weight' => 0,
+        ),
+        array(
+          'facet' => 'facet.type',
+          'title' => 'Materialetype',
+          'weight' => 0,
+        ),
+      );
+    }
+  }
+
+  return $facets;
+}
+
+/**
+ * Helper function to look-up rules in the database.
+ *
+ * @param string $keys
+ *   Search keys entered by the user.
+ *
+ * @return array
+ *   Matches indexed by facet name and contains campaign ID's.
+ */
+function _ding_campaign_plus_facet_match($keys) {
+  $triggers = array();
+
+  // Find rules that will match facet.
+  $query = db_select('ding_campaign_plus_facet', 'dcpf')
+    ->fields('dcpf');
+  $query->join('node', 'n', 'dcpf.nid = n.nid');
+  $results = $query->condition('status', 1)
+    ->execute()
+    ->fetchAll();
+
+  // Group the rules by node id.
+  $rules_group = array();
+  foreach ($results as $rule) {
+    $rules_group[$rule->nid][] = $rule;
+  }
+
+  if (!empty($rules_group)) {
+    // Request a clone of the current search and result objects.
+    $current = ting_search_current_results();
+
+    // Add all facets to the search query (or all campaign plus facets).
+    $facets = _ding_campaign_plus_facet_get_facets();
+    $facets = array_map(function ($facet) {
+      return $facet['facet'];
+    }, $facets);
+    $results = $current->getSearchRequest()
+      ->withTermsPrFacet(30)
+      ->withFacets($facets)
+      ->execute();
+    $search_facets = $results->getFacets();
+
+    // Loop rules to find most common matches in facets.
+    foreach ($rules_group as $rules) {
+      // Get the operator for the first rule as all rules in group have same
+      // operator.
+      $operator = reset($rules)->operator;
+      switch ($operator) {
+        case 'and':
+          $local_triggers = array();
+          foreach ($rules as $rule) {
+            if (isset($search_facets[$rule->facet])) {
+              $values = (array) unserialize($rule->value);
+              $terms = $search_facets[$rule->facet]->getTerms();
+
+              // Check if facets matches any of the terms left.
+              foreach ($values as $value) {
+                $value = drupal_strtolower($value);
+                if (!_ding_campaign_plus_facet_compare($value, $terms, $rule->common)) {
+                  // This is "and" operator, so if one rule is not satisfied
+                  // break out to next rules group.
+                  break 3;
+                }
+                else {
+                  if (!isset($local_triggers[$rule->facet])) {
+                    $local_triggers[$rule->facet] = array();
+                  }
+                  $local_triggers[$rule->facet][] = $rule->nid;
+                }
+              }
+            }
+          }
+
+          // If we get to this code all rules in the "and" group is satisfied.
+          $triggers = array_merge_recursive($triggers, $local_triggers);
+          break;
+
+        default:
+          // This is the "or" case and also the default operator.
+          foreach ($rules as $rule) {
+            if (isset($search_facets[$rule->facet])) {
+              $values = (array) unserialize($rule->value);
+              $terms = $search_facets[$rule->facet]->getTerms();
+
+              // Check if facets matches any of the terms left.
+              foreach ($values as $value) {
+                $value = drupal_strtolower($value);
+                if (_ding_campaign_plus_facet_compare($value, $terms, $rule->common)) {
+                  if (!isset($triggers[$rule->facet])) {
+                    $triggers[$rule->facet] = array();
+                  }
+                  $triggers[$rule->facet][] = $rule->nid;
+                  break;
+                }
+              }
+            }
+          }
+          break;
+      }
+    }
+  }
+
+  return $triggers;
+}
+
+/**
+ * Determines if two facets is a match.
+ *
+ * Users can use asterisk (*) and <, > operators as the facet trigger value for
+ * a campaign. So this is detected here and matches are preformed.
+ *
+ * @param string $value
+ *   The string/facet to test if matches the terms.
+ * @param array $terms
+ *   The terms in a given facet group from the data-well.
+ * @param int $common
+ *   The most common terms.
+ *
+ * @return bool
+ *   If matched TRUE else FALSE.
+ */
+function _ding_campaign_plus_facet_compare($value, array $terms, $common) {
+  // Cut off all terms above the current triggers "most common" limit. The
+  // array keys are extracted as some facets has numbers as keys and it's
+  // the keys that are the facet names.
+  $terms = array_keys($terms);
+  $terms = array_slice($terms, 0, $common);
+
+  if (strpos($value, '*')) {
+    $value = '/' . str_replace('*', '.*', $value) . '/';
+    return !empty(preg_grep($value, $terms));
+  }
+  elseif (preg_match('/^(<=|>=|<|>)\s*(.*)/', $value, $matches)) {
+    if (is_numeric($matches[2])) {
+      sort($terms, SORT_NUMERIC);
+      $value = floatval($matches[2]);
+      switch ($matches[1]) {
+        case '<':
+          return end($terms) < $value;
+
+        case '>':
+          return reset($terms) > $value;
+
+        case '>=':
+          return end($terms) <= $value;
+
+        case '<=':
+          return reset($terms) >= $value;
+
+        default:
+          return FALSE;
+      }
+    }
+  }
+
+  // No wild card or comparison operator, so we do a simple check for the exact
+  // value in the array.
+  return in_array($value, $terms);
+}
+
+/**
+ * Implements hook_ding_campaign_plus_validator().
+ *
+ * Validate that a given campaign trigger don't have 0-hits in the search
+ * query.
+ */
+function ding_campaign_plus_facet_ding_campaign_plus_validator($nid) {
+  $query = db_select('ding_campaign_plus_facet', 'dcpf')
+    ->fields('dcpf');
+  $query->join('node', 'n', 'dcpf.nid = n.nid');
+  $rules = $query->condition('status', 1)
+    ->execute()
+    ->fetchAll();
+
+  if ($rules) {
+    $active = TRUE;
+    module_load_include('client.inc', 'ting');
+    foreach ($rules as $rule) {
+      $facets = (array) unserialize($rule->value);
+      $query = ting_start_query();
+      foreach ($facets as $facet) {
+        $query->withFieldFilter($rule->facet, $facet);
+      }
+      $results = $query
+        ->withCount(0)
+        ->withPage(0)
+        ->execute();
+
+      if ($results->getNumTotalObjects() > 0) {
+        // No need to check more rules one of theme makes hits.
+        return TRUE;
+      }
+      else {
+        $active = FALSE;
+      }
+    }
+
+    return $active;
+  }
+
+  return NULL;
+}

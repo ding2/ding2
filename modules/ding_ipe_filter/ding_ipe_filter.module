@@ -233,8 +233,17 @@ function _ding_ipe_filter_selected_panes() {
     'event-panes:ding_event-ding_event_simple_list' => 'event-panes:ding_event-ding_event_simple_list',
     'groups-panes:ding_groups-ding_group_overview_simple' => 'groups-panes:ding_groups-ding_group_overview_simple',
     'news-panes:ding_news-ding_news_frontpage_list' => 'news-panes:ding_news-ding_news_frontpage_list',
+    'ting:carousel' => 'ting:carousel',
   );
 
   $selected = variable_get('ding_ipe_filter_panes_selected', $default);
   return array_filter($selected);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_ipe_filter_preprocess_panels_ipe_pane_wrapper(&$variables) {
+  unset($variables['links']['style']);
+  unset($variables['links']['css']);
 }

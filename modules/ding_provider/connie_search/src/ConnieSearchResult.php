@@ -47,7 +47,7 @@ class ConnieSearchResult implements TingSearchResultInterface {
    * @return int
    *   The number of collections.
    */
-  public function getNumTotalCollections() {
+  public function getNumCollections() {
     return 1;
   }
 
@@ -89,7 +89,7 @@ class ConnieSearchResult implements TingSearchResultInterface {
    * Facet matched in the result with term matches.
    *
    * @return \Ting\Search\TingSearchFacet[]
-   *   List of facets, empty if none where found.
+   *   List of facets, empty if none were found.
    */
   public function getFacets() {
     $terms = [
