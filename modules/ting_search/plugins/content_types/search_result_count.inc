@@ -22,14 +22,14 @@ function ting_search_result_count_content_type_render($subtype, $conf, $panel_ar
 
   $search_result = ting_search_current_results();
   if (isset($search_result)) {
-    // OpenSearch only delivers the number of manifestions but the search 
-    // result can also include materials. Because of this, we need to display 
+    // OpenSearch only delivers the number of manifestions but the search
+    // result can also include materials. Because of this, we need to display
     // different types of result counts based on the "more results" value,
-    // which basically checks if theres more than one page available for the 
+    // which basically checks if theres more than one page available for the
     // search result pagination.
     $results = $search_result->hasMoreResults() ?
       $search_result->getNumTotalObjects() :
-      $search_result->getNumTotalCollections();
+      $search_result->getNumCollections();
 
     $block->content = array(
       'count' => array(
