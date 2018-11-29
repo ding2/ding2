@@ -29,7 +29,9 @@
 
       // Secial handling for ding entity rating event. It would require a
       // complete rework of the ding_entity_rating_display theme hook to avoid
-      // this.
+      // this. It doesn't provide the ability to add custom attributes/classes
+      // in preprocess and is not using using render arrays for the rating
+      // elements, making it really hard to do anything with them.
       $('.ding-webtrekk-rating-event', context).once('ding-webtrekk', function() {
         var contentId = $(this).data('ding-entity-rating-id');
         $('.js-rating-symbol', this).each(function(index) {
@@ -43,36 +45,46 @@
         })
       });
 
-      // Special handling for ding_carousel.
+      // Special handling for ding_carousel. The primary reason for this is that
+      // we need the title of the carousel to pass as value in event and URL-
+      // parameter. For tabbed carousels the title of the individuals carousels
+      // in the tabs are set in the data-title attribute of the carousels. For
+      // single carousels the title is not avialable here, but instead it's
+      // controlled by the configuration on the panel pane. There are no panel
+      // hooks where we can get the title and easily change the content tree to
+      // add event and URL-parameters to elements (content is already rendered
+      // when hook is run).
       $('.ding-carousel').each(function() {
         var carouselTitle = false;
         var key = 'u_navigatedby';
 
-        if ($(this).parent().hasClass('ding-tabbed-carousel')) {
-          carouselTitle = 'tabbed-carousel:' + $(this).data('title');
+        // We need a title to send as value in the 'u_navigatedby' parameter, so
+        // if we can't find a carousel title we will just have to fallback to
+        // this generic one.
+        carouselTitle = 'unknown_carousel';
+
+        if ($(this).data('title')) {
+          carouselTitle = $(this).data('title');
         }
-        else if ($(this).parent().siblings('.pane-title')) {
+        else if ($(this).parent().siblings('.pane-title').length > 0) {
           carouselTitle = $(this).parent().siblings('.pane-title').html();
         }
 
-        if (carouselTitle) {
-          // Add tracking URL-pararmeters to items in the carousel. Since they
-          // are lazy loaded this is problematic to handle in backend.
-          $('.ding-carousel-item .ting-object a[href^="/ting/object/"]', this).once('ding-webtrekk', function() {
-            $(this).attr('href', appendQueryParameter($(this).attr('href'), key, carouselTitle));
-          });
+        // Add tracking URL-pararmeters to items in the carousel.
+        $('.ding-carousel-item .ting-object a[href^="/ting/object/"]', this).once('ding-webtrekk', function() {
+          $(this).attr('href', appendQueryParameter($(this).attr('href'), key, carouselTitle));
+        });
 
-          $('.slick-arrow', this).once('ding-webtrekk').click(function() {
-            var type = 'e_carousel_previous_click';
-            if ($(this).hasClass('slick-next')) {
-              type = 'e_carousel_next_click';
-            }
-            wt.sendinfo({
-              type: type,
-              carouselTitle: carouselTitle
-            });
+        $('.slick-arrow', this).once('ding-webtrekk').click(function() {
+          var type = 'e_carousel_previous_click';
+          if ($(this).hasClass('slick-next')) {
+            type = 'e_carousel_next_click';
+          }
+          wt.sendinfo({
+            type: type,
+            carouselTitle: carouselTitle
           });
-        }
+        });
       });
     }
   };
