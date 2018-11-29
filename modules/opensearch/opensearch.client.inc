@@ -560,7 +560,7 @@ function _opensearch_predict_cache(array $collections, TingClientRequest $reques
  *   The cached response. NULL if no cached entry exists.
  */
 function _opensearch_cache(TingClientRequest $request, $response = NULL) {
-  static $static_cache;
+  static $static_cache = array();
   $cid = _opensearch_cache_id($request);
 
   // Count the number of arguments to determine if $value has been provided.
