@@ -22,7 +22,10 @@
 
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
-      // Attach Webtrekk events.
+      // Attach Webtrekk events. This is the preffered to track events in ding
+      // webtrekk. Modules can alter elements in the backend and add the class
+      // 'ding-webtrekk-event' to enable event traking for that element. Event
+      // data is expected to be passed in the data attribute on the element.
       $('.ding-webtrekk-event', context).once('ding-webtrekk').click(function() {
         wt.sendinfo($(this).data('ding-webtrekk-event'));
       });
