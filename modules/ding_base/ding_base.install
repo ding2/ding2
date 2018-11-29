@@ -77,6 +77,21 @@ function ding_base_install() {
 }
 
 /**
+ * Implements hook_update_dependencies().
+ */
+function ding_base_update_requirements() {
+  // Update hook which sets the jQuery version to use for Seven (admin theme)
+  // with jQuery Update to the site default version.
+  $dependencies['ding_base'][7006] = array(
+    // The update hook that sets the jQuery version to use for Seven
+    // to Drupal default (1.4) if no specific admin theme version has been set.
+    'jquery_update' => 7001,
+  );
+
+  return $dependencies;
+}
+
+/**
  * Restore default dates to Drupal standard.
  */
 function ding_base_update_7000() {
@@ -168,4 +183,12 @@ function ding_base_update_7005() {
     'ding_ddbasic',
     'ding_ddbasic_opening_hours',
   ));
+}
+
+/**
+ * Use default jQuery version set by jQuery Update for admin theme.
+ */
+function ding_base_update_7006() {
+  // Use the default version by setting an falsy value.
+  _jquery_update_set_theme_version('seven', '');
 }
