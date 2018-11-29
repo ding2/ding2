@@ -398,6 +398,8 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
     return;
   }
 
+  $bpi_agency_id = variable_get('bpi_agency_id', '');
+
   $rows = array();
   foreach ($items as $i => $item) {
     $rows[$i]['title'] = sprintf(
@@ -444,10 +446,17 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
         'admin/bpi/preview/nojs/' . $item['bpi_id'],
         array('attributes' => array('class' => 'use-ajax'))
       ),
-      l(t('Syndicate'),
-        'admin/bpi/syndicate/' . $item['bpi_id']
-      ),
     );
+
+    // No need to be able to syndicate own content.
+    // The ownership is based on agency id.
+    if ($bpi_agency_id != $item['agency_id']) {
+      $actions[] = l(
+        t('Syndicate'),
+        'admin/bpi/syndicate/' . $item['bpi_id']
+      );
+    }
+
     $rows[$i]['actions'] = implode(' ', $actions);
   }
 
