@@ -61,11 +61,21 @@ function ding_webtrekk_page_alter(&$page) {
     // pages are also cached for authenticated users.
     if (module_exists('ding_gatewayf') && _ding_gatewayf_is_logged_in_with_gatewayf()) {
       $params['p_isloggedin'] = 'NemId';
+
+      // This is the landing page for successful user registration with gatewayf.
+      // If the registration was successful, the users will be automatically
+      // logged in. So by also requiring a logged in user before setting parameter
+      // we reduce the chances of false positives. For example, it will prevent
+      // random access to the URL from anonymous users, from being tracked.
+      if (strpos(current_path(), DING_GATEWAYF_REGISTRATION_SUCCESS_URL) === 0) {
+        $params['p_usercreate'] = 'NemId';
+      }
     }
     // Fallback to cpr+pin if none the modules we know about was used to log in.
     else {
       $params['p_isloggedin'] = 'cpr+pinkode';
     }
+
   }
 
   // Track ting search results. We take advantage of the fact that ting_search
@@ -117,6 +127,8 @@ function ding_webtrekk_page_alter(&$page) {
       }
     }
   }
+
+
 
   if (!empty($params)) {
     ding_webtrekk_add_page_parameters($params);
