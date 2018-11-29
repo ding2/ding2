@@ -822,14 +822,14 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
  * @param array $element
  *   The element to be validated.
  * @param array $form_state
- *   The form state
+ *   The form state.
  *
  * @see bpi_http_push_action_form()
  */
-function bpi_push_with_images_validate($element, $form_state) {
+function bpi_push_with_images_validate(array $element, array &$form_state) {
   $allowed_values = array(
     BPI_WITH_IMAGES,
-    BPI_WITHOUT_IMAGES
+    BPI_WITHOUT_IMAGES,
   );
 
   if (!in_array($form_state['values']['bpi_push_images'], $allowed_values)) {
