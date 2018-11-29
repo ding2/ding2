@@ -209,6 +209,31 @@ function ding_webtrekk_preprocess_ding_entity_rating_display(&$variables) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Attached Webtrekk events to the renew loan buttons.
+ */
+function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
+  // We'll only attach the renew events if there's loans that can be renewed.
+  // Ding loan form checks this and only sets this element if that's the case.
+  if (isset($form['actions_container']['select_all'])) {
+    return;
+  }
+
+  $renew_all = &$form['actions_container']['actions_top']['renew_all'];
+  $renew_all['#attributes']['class'][] = 'ding-webtrekk-event';
+  $renew_all['#attributes']['data-ding-webtrekk-event'] = json_encode([
+    'type' => 'e_forny_alle_materialer',
+  ]);
+
+  $renew_selected = &$form['actions_container']['actions_top']['submit_first'];
+  $renew_selected['#attributes']['class'][] = 'ding-webtrekk-event';
+  $renew_selected['#attributes']['data-ding-webtrekk-event'] = json_encode([
+    'type' => 'e_forny_valgte_materialer',
+  ]);
+}
+
+/**
  * Adds Webtrekk page parameters to the current page.
  *
  * @see ding_webtrekk_preprocess_html().
