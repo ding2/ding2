@@ -607,7 +607,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
 
   $profile = ting_field_search_get_default_profile();
 
-  if (strpos(current_path(), 'search/node') !== FALSE) {
+  if (strpos(current_path(), 'search/node') === 0) {
     $profile = 'node';
   }
 
