@@ -10,8 +10,7 @@
          class="node node-ding-event node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>">
   <a href="<?php print '/node/' . $item->nid; ?>">
     <?php if (!empty($item->image)): ?>
-      <div class="event-list-image nb-image"
-           style="background-image:url(<?php print $item->image; ?>);"></div>
+      <div class="event-list-image nb-image" style="background-image:url(<?php print $item->image; ?>);"></div>
     <?php endif; ?>
     <div class="inner">
       <div class="background">

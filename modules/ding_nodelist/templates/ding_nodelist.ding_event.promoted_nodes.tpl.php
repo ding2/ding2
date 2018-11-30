@@ -16,9 +16,7 @@ $classes = implode(" ", $classes);
   class="<?php print $classes; ?>"
   <?php if (!empty($item->image) && $position): ?>
     style="background-image: url(<?php print $item->image; ?>);"
-  <?php
-  endif;
-  ?>
+  <?php endif; ?>
 >
   <?php if (isset($item->video)): ?>
     <div class="media-container">
@@ -26,14 +24,10 @@ $classes = implode(" ", $classes);
            data-url="<?php print $item->video; ?>"></div>
       <div class="pn-close-media"><i class="icon-cross"></i></div>
     </div>
-  <?php
-  endif;
-  ?>
+  <?php endif; ?>
   <?php if (!empty($item->image) && !$position): ?>
     <div class="nb-image" style="background-image:url(<?php print $item->image; ?>);"></div>
-  <?php
-  endif;
-  ?>
+  <?php endif; ?>
   <div class="event-info">
     <h3><?php print l($item->title, 'node/' . $item->nid); ?></h3>
     <div class="item-event-body"><?php print $item->teaser_lead; ?></div>
@@ -49,8 +43,6 @@ $classes = implode(" ", $classes);
       <div class='pn-media-play'>
         <div class='pn-play pn-round'><i class='icon-play'></i></div>
       </div>
-    <?php
-    endif;
-    ?>
+    <?php endif; ?>
   </div>
 </div>
