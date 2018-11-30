@@ -94,7 +94,7 @@ function ding_webtrekk_page_alter(&$page) {
       // seems to be more reliable than looking on the filters added to the
       // search request object.
       if (!empty($_GET['facets']) && is_array($_GET['facets'])) {
-        $params['p_s_Facets'] = implode(',', $_GET['facets']);
+        $params['p_s_Facets'] = implode(';', $_GET['facets']);
       }
 
       // Track the page of the search result.
@@ -127,8 +127,6 @@ function ding_webtrekk_page_alter(&$page) {
       }
     }
   }
-
-
 
   if (!empty($params)) {
     ding_webtrekk_add_page_parameters($params);
