@@ -19,7 +19,6 @@
     return link + seperator + urlParameter;
   };
 
-
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
       // Attach Webtrekk events. This is the preffered to track events in ding
@@ -46,6 +45,18 @@
             });
           });
         })
+      });
+
+      // Track autocomplete selections.
+      $('.form-item-search-block-form .form-autocomplete', context)
+        .once('ding-webtrekk')
+        .on('autocompleteSelect', function(e, selected) {
+          if (($(selected).text())) {
+            wt.sendinfo({
+              type: 'e_autocomplete_search',
+              text: $(selected).text()
+            });
+          }
       });
 
       // Special handling for ding_carousel. The primary reason for this is that
