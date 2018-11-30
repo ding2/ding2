@@ -46,7 +46,8 @@ function ding_webtrekk_page_alter(&$page) {
         'option: {}
       };' . $tag_integration_logic,
       'type' => 'inline',
-      'scope' => 'footer',
+      'group' =>  JS_LIBRARY,
+      'weight' => -21,
     ],
   ];
 
@@ -300,6 +301,8 @@ function ding_webtrekk_preprocess_html() {
   $script = implode(";\n", $script_lines);
   drupal_add_js($script, [
     'type' => 'inline',
+    'group' => JS_LIBRARY,
+    'weight' => -22,
   ]);
 
   // Add script that tracks Webtrekk events in client and adds URL parameters
