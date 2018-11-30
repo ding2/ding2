@@ -152,8 +152,8 @@ function ding_webtrekk_views_post_execute(&$view) {
     $loaded = TRUE;
 
     $params = [
-      'internalSearch' => array_shift($view->args),
-      'numberSearchResults' => $view->total_rows,
+      'OSS' => array_shift($view->args),
+      'OSSr' => $view->total_rows,
     ];
 
     // If using views pager; track the current search result page here also.
