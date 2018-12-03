@@ -226,7 +226,6 @@
       }
       .field-name-ting-title {
         h2 {
-          @include transition(width $speed $ease);
           @include font('display');
           width: 100%;
           margin-bottom: 4px;
@@ -234,13 +233,11 @@
         }
       }
       .field-name-ting-author {
-        @include transition(width $speed $ease);
         @include font('display-small');
         width: 100%;
-        color: $color-text-link-on-dark;
-        //margin-bottom: 15px;
+        color: $charcoal-opacity-dark;
         a:hover {
-          color: $color-text-link-on-dark;
+          color: $charcoal-opacity-dark;
         }
       }
     }
