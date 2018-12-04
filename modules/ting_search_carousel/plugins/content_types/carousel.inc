@@ -43,7 +43,7 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
       $carousels[] = array(
         '#type' => 'ding_carousel',
         '#title' => $search['title'],
-        '#path' => ting_search_carousel_ajax_path($search),
+        '#path' => ting_search_carousel_ajax_path($query),
         '#items' => $items,
         '#offset' => $chunk['next_offset'],
         // Add a single placeholder to fetch more content later if there is more
