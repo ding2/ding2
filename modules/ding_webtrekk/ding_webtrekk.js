@@ -26,7 +26,9 @@
       // 'ding-webtrekk-event' to enable event traking for that element. Event
       // data is expected to be passed in the data attribute on the element.
       $('.ding-webtrekk-event', context).once('ding-webtrekk').click(function() {
-        wt.sendinfo($(this).data('ding-webtrekk-event'));
+        var eventData = $(this).data('ding-webtrekk-event');
+        console.log(eventData);
+        wts.push(['send', 'click', eventData]);
       });
 
       // Secial handling for ding entity rating event. It would require a
@@ -38,11 +40,10 @@
         var contentId = $(this).data('ding-entity-rating-id');
         $('.js-rating-symbol', this).each(function(index) {
           $(this).click(function() {
-            wt.sendinfo({
-              type: 'e_materialrate',
-              contentId: contentId,
-              rating: ++index
-            });
+            wts.push(['send', 'click', {
+              linkId:'Materiale rating',
+              customClickParameter: { 58: contentId + ';' + rating }
+            }]);
           });
         })
       });
@@ -52,10 +53,10 @@
         .once('ding-webtrekk')
         .on('autocompleteSelect', function(e, selected) {
           if (($(selected).text())) {
-            wt.sendinfo({
-              type: 'e_autocomplete_search',
-              text: $(selected).text()
-            });
+            wts.push(['send', 'click', {
+              linkId: 'Autocomplete søgning clicks',
+              customClickParameter: { 54: $(selected).text() }
+            }]);
           }
       });
 
@@ -90,14 +91,16 @@
         });
 
         $('.slick-arrow', this).once('ding-webtrekk').click(function() {
-          var type = 'e_carousel_previous_click';
+          var linkId = 'Karousel, click på forrige knappen';
+          var clickParameter = 60;
           if ($(this).hasClass('slick-next')) {
-            type = 'e_carousel_next_click';
+            linkId = 'Karousel, click på næste knappen';
+            clickParameter = 59;
           }
-          wt.sendinfo({
-            type: type,
-            carouselTitle: carouselTitle
-          });
+          wts.push(['send', 'click', {
+            linkId: linkId,
+            customClickParameter: { clickParameter: carouselTitle }
+          }]);
         });
       });
     }

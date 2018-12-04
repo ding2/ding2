@@ -194,8 +194,8 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
         if (isset($button['#path']) && $button['#path'] == $entity_path . '/reserve') {
           $button['#options']['attributes']['class'][] = 'ding-webtrekk-event';
           $event_data = json_encode([
-            'type' => 'e_reserver',
-            'contentId' => $entity->getId(),
+            'linkId' => 'Reserver',
+            'customClickParameter' => [50 => $entity->getId()],
           ]);
           $button['#options']['attributes']['data-ding-webtrekk-event'] = $event_data;
         }
@@ -203,8 +203,8 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
         elseif (isset($button['#attributes']) && in_array('button-see-online', $button['#attributes']['class'])) {
           $button['#attributes']['class'][] = 'ding-webtrekk-event';
           $event_data = json_encode([
-            'type' => 'e_online',
-            'contentId' => $entity->getId(),
+            'linkId' => 'Se online',
+            'customClickParameter' => [51 => $entity->getId()],
           ]);
           $button['#attributes']['data-ding-webtrekk-event'] = $event_data;
         }
@@ -228,20 +228,31 @@ function ding_webtrekk_preprocess_ding_entity_rating_display(&$variables) {
 function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
   // We'll only attach the renew events if there's loans that can be renewed.
   // Ding loan form checks this and only sets this element if that's the case.
-  if (isset($form['actions_container']['select_all'])) {
+  if (!isset($form['actions_container']['select_all'])) {
     return;
   }
+
+  // Ding loan stores the loans in the this form element and we take advantage
+  // of that to get the material ids for the event data.
+  $loans = $form['items']['#value'];
+  $material_ids = [];
+  foreach ($loans as $loan) {
+    $material_ids[] = $loan->getEntity()->getId();
+  }
+  $material_ids = implode(';', $material_ids);
 
   $renew_all = &$form['actions_container']['actions_top']['renew_all'];
   $renew_all['#attributes']['class'][] = 'ding-webtrekk-event';
   $renew_all['#attributes']['data-ding-webtrekk-event'] = json_encode([
-    'type' => 'e_forny_alle_materialer',
+    'linkId' => 'Forny alle materialer',
+    'customClickParameter' => [56 => $material_ids],
   ]);
 
   $renew_selected = &$form['actions_container']['actions_top']['submit_first'];
   $renew_selected['#attributes']['class'][] = 'ding-webtrekk-event';
   $renew_selected['#attributes']['data-ding-webtrekk-event'] = json_encode([
-    'type' => 'e_forny_valgte_materialer',
+    'linkId' => 'Forny valgte materialer',
+    'customClickParameter' => [55 => $material_ids]
   ]);
 }
 
