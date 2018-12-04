@@ -226,10 +226,6 @@ function ding_nodelist_content_type_edit_form($form, &$form_state) {
       unset($form_state['input']['autoscroll_delay']);
       $form_state['values']['autoscroll_delay'] = '';
 
-      // Reset nodelist title.
-      unset($form_state['input']['override_title_text']);
-      $form_state['values']['override_title_text'] = '';
-
       _ding_nodelist_content_type_form_save($form_state, TRUE);
     }
   }
@@ -300,10 +296,6 @@ function ding_nodelist_content_type_edit_form($form, &$form_state) {
   if (isset($form_state['restore'])) {
     $form = array_merge($form_state['original_form'], $form);
   }
-
-  unset($form['override_title']);
-  unset($form['override_title_text']);
-  unset($form['override_title_markup']);
 
   // Forcing form know which validation handler to use.
   $form['#validate'][] = 'ding_nodelist_content_type_edit_form_validate';
