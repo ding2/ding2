@@ -39,6 +39,7 @@
       $('.ding-webtrekk-rating-event', context).once('ding-webtrekk', function() {
         var contentId = $(this).data('ding-entity-rating-id');
         $('.js-rating-symbol', this).each(function(index) {
+          var rating = index + 1;
           $(this).click(function() {
             wts.push(['send', 'click', {
               linkId:'Materiale rating',
