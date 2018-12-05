@@ -14,7 +14,7 @@
   "use strict"
 
   var appendQueryParameter = function(link, key, value) {
-    var seperator = (link.indexOf('?') != -1) ? '&' : '?';
+    var seperator = (link.indexOf('?') !== -1) ? '&' : '?';
     var urlParameter = key + '=' + encodeURIComponent(value);
     return link + seperator + urlParameter;
   };

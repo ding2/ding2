@@ -46,7 +46,7 @@ function ding_webtrekk_page_alter(&$page) {
         'option: {}
       };' . $tag_integration_logic,
       'type' => 'inline',
-      'group' =>  JS_LIBRARY,
+      'group' => JS_LIBRARY,
       'weight' => -21,
     ],
   ];
@@ -259,7 +259,7 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
 /**
  * Adds Webtrekk page parameters to the current page.
  *
- * @see ding_webtrekk_preprocess_html().
+ * @see ding_webtrekk_preprocess_html()
  */
 function ding_webtrekk_add_page_parameters(array $parameters = NULL) {
   $stored_parameters = &drupal_static(__FUNCTION__, array());
@@ -274,7 +274,7 @@ function ding_webtrekk_add_page_parameters(array $parameters = NULL) {
 /**
  * Returns all the Webtrekk page parameteres collected during the request.
  *
- * @see ding_webtrekk_preprocess_html().
+ * @see ding_webtrekk_preprocess_html()
  */
 function ding_webtrekk_get_page_parameters() {
   $parameters = ding_webtrekk_add_page_parameters();
@@ -319,6 +319,6 @@ function ding_webtrekk_preprocess_html() {
   // Add script that tracks Webtrekk events in client and adds URL parameters
   // to elements which is problematic to handle on the server.
   drupal_add_js(drupal_get_path('module', 'ding_webtrekk') . '/ding_webtrekk.js', array(
-    'scope' => 'footer'
+    'scope' => 'footer',
   ));
 }
