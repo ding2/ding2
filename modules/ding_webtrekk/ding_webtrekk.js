@@ -21,20 +21,18 @@
 
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
-      // Attach Webtrekk events. This is the preffered to track events in ding
-      // webtrekk. Modules can alter elements in the backend and add the class
-      // 'ding-webtrekk-event' to enable event traking for that element. Event
-      // data is expected to be passed in the data attribute on the element.
+      // Send Webtrekk events attached in the backend.
       $('.ding-webtrekk-event', context).once('ding-webtrekk').click(function() {
         var eventData = $(this).data('ding-webtrekk-event');
         wts.push(['send', 'click', eventData]);
       });
 
-      // Secial handling for ding entity rating event. It would require a
-      // complete rework of the ding_entity_rating_display theme hook to avoid
-      // this. It doesn't provide the ability to add custom attributes/classes
-      // in preprocess and is not using using render arrays for the rating
-      // elements, making it really hard to do anything with them.
+      // Secial handling for ding entity rating event.
+      //
+      // It would require a complete rework of the ding_entity_rating_display
+      // theme hook to avoid this. It doesn't provide the ability to add custom
+      // attributes/classes in preprocess and is not using using render arrays
+      // for rating elements, making them problematic to modify.
       $('.ding-webtrekk-rating-event', context).once('ding-webtrekk', function() {
         var contentId = $(this).data('ding-entity-rating-id');
         $('.js-rating-symbol', this).each(function(index) {
@@ -63,9 +61,11 @@
           }
       });
 
-      // Track ding loan renew selected events. The renew all button is attached
-      // completely on the server, but for renew selected, we need information
-      // about selected loans in the UI, before we send event.
+      // Track ding loan renew selected events.
+      //
+      // The renew all button is attached completely on the server, but for
+      // renew selected, we need information about selected loans in the UI,
+      // before we send event.
       $('.ding-webtrekk-event-renew-selected', context)
         .once('ding-webtrekk')
         .click(function(e) {
@@ -81,15 +81,16 @@
           }]);
       });
 
-      // Special handling for ding_carousel. The primary reason for this is that
-      // we need the title of the carousel to pass as value in event and URL-
-      // parameter. For tabbed carousels the title of the individuals carousels
-      // in the tabs are set in the data-title attribute of the carousels. For
-      // single carousels the title is not avialable here, but instead it's
-      // controlled by the configuration on the panel pane. There are no panel
-      // hooks where we can get the title and easily change the content tree to
-      // add event and URL-parameters to elements (content is already rendered
-      // when hook is run).
+      // Special handling for ding_carousel.
+      //
+      // The primary reason for this is that we need the title of the carousel
+      // to pass as value in event and URL-parameter. For tabbed carousels the
+      // title of the individuals carousels in the tabs are set in the
+      // data-title attribute of the carousels. For single carousels the title
+      // is not avialable here, but instead it's controlled by the configuration
+      // on the panel pane. There are no panel hooks where we can get the title
+      // and easily change the content tree to add event and URL-parameters to
+      // elements (content is already rendered when hook is run).
       $('.ding-carousel').each(function() {
         var carouselTitle = false;
         var key = 'u_navigatedby';
