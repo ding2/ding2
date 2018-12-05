@@ -93,14 +93,14 @@
 
         $('.slick-arrow', this).once('ding-webtrekk').click(function() {
           var linkId = 'Karousel, click på forrige knappen';
-          var clickParameter = 60;
+          var customClickParameter = { 60: carouselTitle };
           if ($(this).hasClass('slick-next')) {
             linkId = 'Karousel, click på næste knappen';
-            clickParameter = 59;
+            var customClickParameter = { 59: carouselTitle };
           }
           wts.push(['send', 'click', {
             linkId: linkId,
-            customClickParameter: { clickParameter: carouselTitle }
+            customClickParameter: customClickParameter
           }]);
         });
       });
