@@ -42,7 +42,10 @@
           $(this).click(function() {
             wts.push(['send', 'click', {
               linkId:'Materiale rating',
-              customClickParameter: { 58: contentId + ';' + rating }
+              customClickParameter: {
+                58: rating,
+                57: contentId
+              }
             }]);
           });
         })
