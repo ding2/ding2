@@ -9,12 +9,8 @@
  * $conf - list configuration with:
  *  - classes - widget-specific CSS classes.
  */
-
 ?>
 <?php if ($items): ?>
-  <?php if (!empty($conf['title'])): ?>
-    <h2 class="pane-title"><?php print $conf['title']; ?></h2>
-  <?php endif; ?>
   <div class="<?php print $conf['classes'] ?>">
     <div class="ding_nodelist-items">
       <?php

@@ -544,24 +544,6 @@ function _ding_nodelist_plugin_widget_section(&$form, $node_type, $conf, $defaul
       '#size' => 4,
     );
   }
-
-  // Make title appear only on some widgets.
-  $widgets_with_title = array(
-    DING_NODELIST_WIDGET_CAROUSEL,
-    DING_NODELIST_WIDGET_ROLLTAB,
-    DING_NODELIST_WIDGET_PROMOTED_NODES,
-    DING_NODELIST_WIDGET_NODE_BLOCKS,
-  );
-  if (in_array($widget_type, $widgets_with_title)) {
-    $form['ding_nodelist_wrapper']['widget_dependent']['override_title_text'] = array(
-      '#type' => 'textfield',
-      '#title' => t('List title'),
-      '#description' => t('Enter a title to be shown above the list items. Leave empty to omit the title.') . ' ' .
-      t('You may use %keywords from contexts, as well as %title to contain the original title.'),
-      '#required' => FALSE,
-      '#default_value' => isset($conf['override_title_text']) ? $conf['override_title_text'] : '',
-    );
-  }
 }
 
 /**

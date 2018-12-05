@@ -905,6 +905,9 @@ $label-bg: url('../images/p.png');
       position: absolute;
       z-index: 1;
       left: 0;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
 
       &:after {
         display: none;
@@ -921,12 +924,10 @@ $label-bg: url('../images/p.png');
 
       @include media($notebook) {
         min-height: auto;
-        background: transparent;
       }
 
       @include media($tablet) {
         min-height: auto;
-        background: transparent;
       }
 
       @include media($mobile) {
@@ -943,6 +944,10 @@ $label-bg: url('../images/p.png');
 
       .text {
         position: relative;
+
+        @include media($mobile) {
+          padding-top: 15px;
+        }
       }
     }
 
