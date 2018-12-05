@@ -11,7 +11,7 @@
 
 (function($) {
 
-  "use strict"
+  "use strict";
 
   var appendQueryParameter = function(link, key, value) {
     var seperator = (link.indexOf('?') !== -1) ? '&' : '?';

@@ -267,7 +267,7 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
       // For all other elements, the key will be a loan id and we pass it to the
       // client if it's in our renewable list.
       if (isset($material_ids[$key])) {
-        $material_item['#attributes']['data-ding-webtrekk-event']= $material_ids[$key];
+        $material_item['#attributes']['data-ding-webtrekk-event'] = $material_ids[$key];
       }
     }
   }
