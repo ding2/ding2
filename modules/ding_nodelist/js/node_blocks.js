@@ -46,16 +46,14 @@
         // Set timeout to make sure element is still above while it animates
         // out.
         hovered = $(this);
-        setTimeout(function(){
-          hovered.addClass('is-hovered');
-          hovered.find('.field-type-text-long').removeClass('element-hidden');
-        }, 300);
+        hovered.toggleClass('is-hovered', true);
+        hovered.find('.field-type-text-long').toggleClass('element-hidden', false);
       });
 
       $pane.find('article').mouseleave(function() {
         $(this).find('.title-and-lead').css('min-height', '');
-        $(this).removeClass('is-hovered');
-        $(this).find('.field-type-text-long').addClass('element-hidden');
+        $(this).toggleClass('is-hovered', false);
+        $(this).find('.field-type-text-long').toggleClass('element-hidden', true);
       });
     }
   };
