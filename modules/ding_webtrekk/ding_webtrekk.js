@@ -27,7 +27,6 @@
       // data is expected to be passed in the data attribute on the element.
       $('.ding-webtrekk-event', context).once('ding-webtrekk').click(function() {
         var eventData = $(this).data('ding-webtrekk-event');
-        console.log(eventData);
         wts.push(['send', 'click', eventData]);
       });
 
@@ -96,7 +95,7 @@
           var customClickParameter = { 60: carouselTitle };
           if ($(this).hasClass('slick-next')) {
             linkId = 'Karousel, click på næste knappen';
-            var customClickParameter = { 59: carouselTitle };
+            customClickParameter = { 59: carouselTitle };
           }
           wts.push(['send', 'click', {
             linkId: linkId,
