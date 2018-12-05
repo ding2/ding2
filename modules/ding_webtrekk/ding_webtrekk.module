@@ -233,11 +233,13 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
   }
 
   // Ding loan stores the loans in the this form element and we take advantage
-  // of that to get the material ids for the event data.
+  // of that to get the material ids for the renewable loans.
   $loans = $form['items']['#value'];
   $material_ids = [];
   foreach ($loans as $loan) {
-    $material_ids[] = $loan->getEntity()->getId();
+    if ($loan->renewable) {
+      $material_ids[] = $loan->getEntity()->getId();
+    }
   }
   $material_ids = implode(';', $material_ids);
 
