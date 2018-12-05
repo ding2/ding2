@@ -63,6 +63,24 @@
           }
       });
 
+      // Track ding loan renew selected events. The renew all button is attached
+      // completely on the server, but for renew selected, we need information
+      // about selected loans in the UI, before we send event.
+      $('.ding-webtrekk-event-renew-selected', context)
+        .once('ding-webtrekk')
+        .click(function(e) {
+          var selectedMaterials = [];
+          $('.material-item input[type=checkbox]:checked').each(function() {
+            // We have collected the material ids (pids) in our event data
+            // attribute for each select box.
+            selectedMaterials.push($(this).data('ding-webtrekk-event'));
+          });
+          wts.push(['send', 'click', {
+            linkId: 'Forny valgte materialer',
+            customClickParameter: { 55: selectedMaterials.join(';') }
+          }]);
+      });
+
       // Special handling for ding_carousel. The primary reason for this is that
       // we need the title of the carousel to pass as value in event and URL-
       // parameter. For tabbed carousels the title of the individuals carousels

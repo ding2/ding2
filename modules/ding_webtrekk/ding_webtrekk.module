@@ -238,24 +238,39 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
   $material_ids = [];
   foreach ($loans as $loan) {
     if ($loan->renewable) {
-      $material_ids[] = $loan->getEntity()->getId();
+      $material_ids[$loan->id] = $loan->getEntity()->getId();
     }
   }
-  $material_ids = implode(';', $material_ids);
 
+  // The renew all button is straight forward. We can attach the event in
+  // backend and just pass all renewable ids to the event data attribute.
   $renew_all = &$form['actions_container']['actions_top']['renew_all'];
   $renew_all['#attributes']['class'][] = 'ding-webtrekk-event';
   $renew_all['#attributes']['data-ding-webtrekk-event'] = json_encode([
     'linkId' => 'Forny alle materialer',
-    'customClickParameter' => [56 => $material_ids],
+    'customClickParameter' => [
+      56 => implode(';', $material_ids),
+    ],
   ]);
 
+  // The renew selected button is more complicated, since we need data about
+  // which materials the user has selected in the UI.
   $renew_selected = &$form['actions_container']['actions_top']['submit_first'];
-  $renew_selected['#attributes']['class'][] = 'ding-webtrekk-event';
-  $renew_selected['#attributes']['data-ding-webtrekk-event'] = json_encode([
-    'linkId' => 'Forny valgte materialer',
-    'customClickParameter' => [55 => $material_ids]
-  ]);
+  $renew_selected['#attributes']['class'][] = 'ding-webtrekk-event-renew-selected';
+  $groups = _ding_loan_loans_group_loans_by_date($loans);
+  foreach ($groups as $gid => $group) {
+    foreach ($form['loans'][$gid] as $key => &$material_item) {
+      // Skip the title element.
+      if ($key === 'title') {
+        continue;
+      }
+      // For all other elements, the key will be a loan id and we pass it to the
+      // client if it's in our renewable list.
+      if (isset($material_ids[$key])) {
+        $material_item['#attributes']['data-ding-webtrekk-event']= $material_ids[$key];
+      }
+    }
+  }
 }
 
 /**

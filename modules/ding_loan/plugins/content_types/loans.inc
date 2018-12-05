@@ -233,6 +233,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
           ),
         ),
         '#disabled' => !$loan->renewable,
+        '#attributes' => [
+          'data' => ['test'],
+        ],
       );
 
       // Add material number.
