@@ -46,6 +46,12 @@ function ding_webtrekk_page_alter(&$page) {
         'option: {}
       };' . $tag_integration_logic,
       'type' => 'inline',
+      // Use the JS_LIBRARY group to add script at the top of head. Use -21 for
+      // weight to ensure it's added below the Page parameters which has -22.
+      // The weights are set above -20 to get it above core jQuery library,
+      // which is added with the weight -20.
+      // See: ding_webtrekk_preprocess_html().
+      // See: system_library().
       'group' => JS_LIBRARY,
       'weight' => -21,
     ],
@@ -107,12 +113,10 @@ function ding_webtrekk_page_alter(&$page) {
         $params['p_s_Sort'] = ting_search_sort_key_from_sort($current_sort);
       }
       else {
-        $default_sort = variable_get('ting_search_default_sort', '');
-        // If empty string the default "sort" is ranking. If search provider is
-        // opensearch we know how to get the actual ranking used. If not we will
-        // use a generic 'rank' value for the parameter.
-        if ($default_sort === '') {
-          $params['p_s_Sort'] = 'rank';
+        $params['p_s_Sort'] = variable_get('ting_search_default_sort', 'rank');
+        // If search provider is opensearch we know how to get the actual
+        // ranking used. If not the value 'rank' will need to do.
+        if ($params['p_s_Sort'] === 'rank') {
           if (ding_provider_get_provider_module_name('search') === 'opensearch') {
             $params['p_s_Sort'] = variable_get('opensearch_sort_default', 'rank_frequency');
           }
@@ -192,7 +196,7 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
       foreach ($entity->content['ding_entity_buttons'][$delta] as $key => &$button) {
         // Reserve button.
         if (isset($button['#path']) && $button['#path'] == $entity_path . '/reserve') {
-          $button['#options']['attributes']['class'][] = 'ding-webtrekk-event';
+          $button['#options']['attributes']['class'][] = 'js-ding-webtrekk-event';
           $event_data = json_encode([
             'linkId' => 'Reserver',
             'customClickParameter' => [50 => $entity->getId()],
@@ -201,7 +205,7 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
         }
         // See online button.
         elseif (isset($button['#attributes']) && in_array('button-see-online', $button['#attributes']['class'])) {
-          $button['#attributes']['class'][] = 'ding-webtrekk-event';
+          $button['#attributes']['class'][] = 'js-ding-webtrekk-event';
           $event_data = json_encode([
             'linkId' => 'Se online',
             'customClickParameter' => [51 => $entity->getId()],
@@ -217,7 +221,7 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
  * Implements hook_preprocess_ding_entity_rating_display().
  */
 function ding_webtrekk_preprocess_ding_entity_rating_display(&$variables) {
-  $variables['classes_array'][] = 'ding-webtrekk-rating-event';
+  $variables['classes_array'][] = 'js-ding-webtrekk-rating-event';
 }
 
 /**
@@ -245,7 +249,7 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
   // The renew all button is straight forward. We can attach the event in
   // backend and just pass all renewable ids to the event data attribute.
   $renew_all = &$form['actions_container']['actions_top']['renew_all'];
-  $renew_all['#attributes']['class'][] = 'ding-webtrekk-event';
+  $renew_all['#attributes']['class'][] = 'js-ding-webtrekk-event';
   $renew_all['#attributes']['data-ding-webtrekk-event'] = json_encode([
     'linkId' => 'Forny alle materialer',
     'customClickParameter' => [
@@ -256,7 +260,7 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
   // The renew selected button is more complicated, since we need data about
   // which materials the user has selected in the UI.
   $renew_selected = &$form['actions_container']['actions_top']['submit_first'];
-  $renew_selected['#attributes']['class'][] = 'ding-webtrekk-event-renew-selected';
+  $renew_selected['#attributes']['class'][] = 'js-ding-webtrekk-event-renew-selected';
   $groups = _ding_loan_loans_group_loans_by_date($loans);
   foreach ($groups as $gid => $group) {
     foreach ($form['loans'][$gid] as $key => &$material_item) {
@@ -329,6 +333,9 @@ function ding_webtrekk_preprocess_html() {
   $script = implode(";\n", $script_lines);
   drupal_add_js($script, [
     'type' => 'inline',
+    // Use the JS_LIBRARY group to add script at the top of head. Use -22 weight
+    // to ensure it's added above the Webtrekk loader which has -21.
+    // See: ding_webtrekk_page_alter()
     'group' => JS_LIBRARY,
     'weight' => -22,
   ]);

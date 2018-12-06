@@ -13,16 +13,16 @@
 
   "use strict";
 
-  var appendQueryParameter = function(link, key, value) {
-    var seperator = (link.indexOf('?') !== -1) ? '&' : '?';
+  var appendQueryParameter = function(url, key, value) {
+    var seperator = (url.indexOf('?') !== -1) ? '&' : '?';
     var urlParameter = key + '=' + encodeURIComponent(value);
-    return link + seperator + urlParameter;
+    return url + seperator + urlParameter;
   };
 
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
       // Send Webtrekk events attached in the backend.
-      $('.ding-webtrekk-event', context).once('ding-webtrekk').click(function() {
+      $('.js-ding-webtrekk-event', context).once('js-ding-webtrekk').click(function() {
         var eventData = $(this).data('ding-webtrekk-event');
         wts.push(['send', 'click', eventData]);
       });
@@ -33,13 +33,13 @@
       // theme hook to avoid this. It doesn't provide the ability to add custom
       // attributes/classes in preprocess and is not using using render arrays
       // for rating elements, making them problematic to modify.
-      $('.ding-webtrekk-rating-event', context).once('ding-webtrekk', function() {
+      $('.js-ding-webtrekk-rating-event', context).once('js-ding-webtrekk', function() {
         var contentId = $(this).data('ding-entity-rating-id');
         $('.js-rating-symbol', this).each(function(index) {
           var rating = (index + 1) + '';
           $(this).click(function() {
             wts.push(['send', 'click', {
-              linkId:'Materiale rating',
+              linkId: 'Materiale rating',
               customClickParameter: {
                 58: rating,
                 57: contentId
@@ -51,7 +51,7 @@
 
       // Track autocomplete selections.
       $('.form-item-search-block-form .form-autocomplete', context)
-        .once('ding-webtrekk')
+        .once('js-ding-webtrekk')
         .on('autocompleteSelect', function(e, selected) {
           if (($(selected).text())) {
             wts.push(['send', 'click', {
@@ -66,8 +66,8 @@
       // The renew all button is attached completely on the server, but for
       // renew selected, we need information about selected loans in the UI,
       // before we send event.
-      $('.ding-webtrekk-event-renew-selected', context)
-        .once('ding-webtrekk')
+      $('.js-ding-webtrekk-event-renew-selected', context)
+        .once('js-ding-webtrekk')
         .click(function(e) {
           // The renew-all button is implemented by checking all renewable loans
           // and then trigger a click on the renew-selected button. We can use
@@ -100,13 +100,11 @@
       // and easily change the content tree to add event and URL-parameters to
       // elements (content is already rendered when hook is run).
       $('.ding-carousel').each(function() {
-        var carouselTitle = false;
         var key = 'u_navigatedby';
-
         // We need a title to send as value in the 'u_navigatedby' parameter, so
         // if we can't find a carousel title we will just have to fallback to
         // this generic one.
-        carouselTitle = 'unknown_carousel';
+        var carouselTitle = 'unknown_carousel';
 
         if ($(this).data('title')) {
           carouselTitle = $(this).data('title');
@@ -116,11 +114,11 @@
         }
 
         // Add tracking URL-pararmeters to items in the carousel.
-        $('.ding-carousel-item .ting-object a[href^="/ting/object/"]', this).once('ding-webtrekk', function() {
+        $('.ding-carousel-item .ting-object a[href^="/ting/object/"]', this).once('js-ding-webtrekk', function() {
           $(this).attr('href', appendQueryParameter($(this).attr('href'), key, carouselTitle));
         });
 
-        $('.slick-arrow', this).once('ding-webtrekk').click(function() {
+        $('.slick-arrow', this).once('js-ding-webtrekk').click(function() {
           var linkId = 'Karousel, click på forrige knappen';
           var customClickParameter = { 60: carouselTitle };
           if ($(this).hasClass('slick-next')) {
