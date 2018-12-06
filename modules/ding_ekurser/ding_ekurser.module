@@ -168,11 +168,6 @@ function ding_ekurser_search_sort_options() {
     'date_descending' => t('Acquisition date (Descending)'),
   );
 
-  // Add label to the front of the options.
-  foreach ($options as $key => $option) {
-    $options[$key] = t('Sort by: !sort', array('!sort' => $option));
-  }
-
   return $options;
 }
 

@@ -449,6 +449,66 @@ search/ting
     $display->content['new-d9cffcd6-79d2-4516-8e2e-9d7d8232ffca'] = $pane;
     $display->panels['main_content'][5] = 'new-d9cffcd6-79d2-4516-8e2e-9d7d8232ffca';
     $pane = new stdClass();
+    $pane->pid = 'new-d9cffcd6-79d2-4516-8e2e-9d7d8232ffca';
+    $pane->panel = 'main_content';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'style' => 'ribbon',
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'argument_string_1',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 5;
+    $pane->locks = array();
+    $pane->uuid = 'd9cffcd6-79d2-4516-8e2e-9d7d8232ffca';
+    $display->content['new-d9cffcd6-79d2-4516-8e2e-9d7d8232ffca'] = $pane;
+    $display->panels['main_content'][5] = 'new-d9cffcd6-79d2-4516-8e2e-9d7d8232ffca';
+    $pane = new stdClass();
+    $pane->pid = 'new-d9cffcd6-79d2-4516-8e2e-9d7d8232ffca';
+    $pane->panel = 'main_content';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'style' => 'ribbon',
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'argument_string_1',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 5;
+    $pane->locks = array();
+    $pane->uuid = 'd9cffcd6-79d2-4516-8e2e-9d7d8232ffca';
+    $display->content['new-d9cffcd6-79d2-4516-8e2e-9d7d8232ffca'] = $pane;
+    $display->panels['main_content'][5] = 'new-d9cffcd6-79d2-4516-8e2e-9d7d8232ffca';
+    $pane = new stdClass();
     $pane->pid = 'new-7c02f708-c47f-4eb5-8958-d6279de6ade4';
     $pane->panel = 'main_content';
     $pane->type = 'search_result';

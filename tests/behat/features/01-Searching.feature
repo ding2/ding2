@@ -19,7 +19,6 @@ Feature: SEEK redroute 01
   @api @seek001 @seekNologin @regression @cci
   Scenario Outline: S001 Search for special letters
     Given I have searched for "<title>"
-    When I set number of results per page to "50"
     Then I can see "<letter>" somewhere in the search result
 
     Examples:
@@ -33,7 +32,6 @@ Feature: SEEK redroute 01
   @api @seek001 @seekNologin @regression
   Scenario Outline: S001 Search for special letters
     Given I have searched for "<title>"
-    When I set number of results per page to "50"
     Then I can see "<letter>" somewhere in the search result
 
     Examples:
@@ -89,15 +87,6 @@ Feature: SEEK redroute 01
   Scenario: S013 Check sorting for title descending
     Given I have searched for "phrase.titleSeries=B* and term.language=dansk"
     When I sort the search result on "title_descending"
-    Then paging allows to get all the results
-
-  @api @seek013 @seekNologin @regression @cci
-  Scenario: S013 Check sorting for creator by listing the results in the log
-    Given I have searched for "term.language=dansk and phrase.titleSeries=B*"
-    And I set verbose mode for "search-Results" to be "on"
-    When I sort the search result on "creator_descending"
-    Then paging allows to get all the results
-    When I sort the search result on "creator_ascending"
     Then paging allows to get all the results
 
   @api @seek013 @seekNologin @regression @cci

@@ -364,34 +364,6 @@ class SearchPage extends PageBase {
     for ($i = 1; $i < count($this->searchResults); $i++) {
       $isOK = false;
       switch ($sortOption) {
-        case 'title_ascending':
-          $isOK = (strcasecmp($this->replaceWithDoubleAa($this->searchResults[$i - 1]->title), $this->replaceWithDoubleAa($this->searchResults[$i]->title)) <= 0) ? true : false;
-          // Modify the result if one or both are missing - this is not a reason to fail the check.
-          $isOK = (strlen($this->searchResults[$i - 1]->title) == 0) ? true : $isOK;
-          $isOK = (strlen($this->searchResults[$i]->title) == 0) ? true : $isOK;
-          break;
-
-        case 'title_descending':
-          $isOK = (strcasecmp($this->replaceWithDoubleAa($this->searchResults[$i - 1]->title), $this->replaceWithDoubleAa($this->searchResults[$i]->title)) >= 0) ? true : false;
-          // Modify the result if one or both are missing - this is not a reason to fail the check.
-          $isOK = (strlen($this->searchResults[$i - 1]->title) == 0) ? true : $isOK;
-          $isOK = (strlen($this->searchResults[$i]->title) == 0) ? true : $isOK;
-          break;
-
-        case 'creator_ascending':
-          $isOK = (strcasecmp($this->replaceWithDoubleAa($this->searchResults[$i - 1]->creator), $this->replaceWithDoubleAa($this->searchResults[$i]->creator)) <= 0) ? true : false;
-          // Modify the result if one or both are missing - this is not a reason to fail the check.
-          $isOK = (strlen($this->searchResults[$i - 1]->creator) == 0) ? true : $isOK;
-          $isOK = (strlen($this->searchResults[$i]->creator) == 0) ? true : $isOK;
-          break;
-
-        case 'creator_descending':
-          $isOK = (strcasecmp($this->replaceWithDoubleAa($this->searchResults[$i - 1]->creator), $this->replaceWithDoubleAa($this->searchResults[$i]->creator)) >= 0) ? true : false;
-          // Modify the result if one or both are missing - this is not a reason to fail the check.
-          $isOK = (strlen($this->searchResults[$i - 1]->creator) == 0) ? true : $isOK;
-          $isOK = (strlen($this->searchResults[$i]->creator) == 0) ? true : $isOK;
-          break;
-
         case 'date_ascending':
           $isOK = (strcasecmp($this->searchResults[$i - 1]->published, $this->searchResults[$i]->published) <= 0) ? true : false;
           // Modify the result if one or both are missing - this is not a reason to fail the check.
@@ -1256,28 +1228,6 @@ class SearchPage extends PageBase {
   }
 
   /**
-   * Sets number of search items per page via dropdown.
-   *
-   * @param int $size
-   *    The number of items per page to set.
-   *
-   * @return string
-   *    Returns non-empty string if failing.
-   *
-   * @throws \Behat\Mink\Exception\ElementNotFoundException
-   *    In case of error.
-   */
-  public function setTheNumberOfResultsPerPageToSize($size) {
-    $found = $this->find('css', 'select#edit-size.form-select[name="size"]');
-    if (!$found) {
-      return "Did not find a dropdown for setting results per page.";
-    }
-    $found->selectOption($size, false);
-    $this->waitForPage();
-    return "";
-  }
-
-  /**
    * Set Verbose Search Result mode.
    *
    * @param string $onoff
@@ -1334,11 +1284,7 @@ class SearchPage extends PageBase {
    */
   public function sortOptionValid($sortOption) {
     // Set isValid true if it is one of the following values.
-    $isValid = ($sortOption == "title_ascending");
-    $isValid = ($sortOption == "title_descending") ? true : $isValid;
-    $isValid = ($sortOption == "creator_ascending") ? true : $isValid;
-    $isValid = ($sortOption == "creator_descending") ? true : $isValid;
-    $isValid = ($sortOption == "date_ascending") ? true : $isValid;
+    $isValid = ($sortOption == "date_ascending");
     $isValid = ($sortOption == "date_descending") ? true : $isValid;
     if (!$isValid) {
       return "Error: you ask to sort on unknown criteria: " . $sortOption;

@@ -213,13 +213,6 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#collapsed' => TRUE,
     '#weight' => -13,
   );
-  $form['config']['search_result']['results_per_page'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Results per page'),
-    '#description' => t('Enter the number of results to display on the search page by default.'),
-    '#default_value' => $profile->config['search_result']['results_per_page'],
-    '#element_validate' => array('element_validate_integer_positive'),
-  );
   $form['config']['search_result']['default_sort'] = array(
     '#type' => 'select',
     '#title' => t('Default sorting'),

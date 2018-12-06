@@ -1,0 +1,64 @@
+@import '../../base.scss';
+
+.form-search-sort {
+  .form-type-select {
+    max-width: none;
+
+    > label {
+      display: block;
+      float: left;
+
+      font-weight: bold;
+      color: $color-text;
+    }
+  }
+
+  .form-select,
+  .select-wrapper {
+    position: relative;
+    padding: 0;
+    height: auto;
+    width: auto;
+
+    color: $color-standard-text;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .select-wrapper {
+    float: left;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    line-height: 22px;
+
+    overflow: visible;
+    cursor: pointer;
+
+    &::before {
+      display: none;
+    }
+
+    &::after {
+      position: absolute;
+      line-height: 15px;
+      right: -40px;
+    }
+
+    > select {
+      cursor: pointer;
+      text-decoration: none;
+      border-bottom: 1px solid $grey-medium;
+    }
+  }
+
+  &__hidden-labels {
+    position: absolute;
+    left: -9999px;
+    visibility: hidden;
+
+    > label {
+      display: inline;
+    }
+  }
+}

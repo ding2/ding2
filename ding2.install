@@ -685,3 +685,10 @@ function ding2_update_7058() {
     'ding_campaign_plus_search',
   ));
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7059() {
+  ding2_translation_update();
+}

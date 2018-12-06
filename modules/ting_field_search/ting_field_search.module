@@ -178,14 +178,6 @@ function ting_field_search_opensearch_pre_execute($request) {
       $request->setSort($sort);
     }
 
-    // Default size (results per page).
-    if (($size = $config['search_result']['results_per_page']) && empty($_REQUEST['size'])) {
-      // Override the start posision set by Ting search.
-      $page = pager_find_page();
-      $request->setStart(($size * $page) + 1);
-      $request->setNumResults($size);
-    }
-
     // New materials.
     if ($days = $config['search_request']['new_materials']) {
       $expression = _ting_field_search_new_materials_cql($days);
@@ -712,39 +704,6 @@ function ting_field_search_form_ting_search_sort_form_alter(&$form, &$form_state
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- *
- * Modify the results per page dropdown based on the active profile.
- * There's also an alternative list based per page selection and this hook will
- * not modify that since it uses 'item_list' theme and not a form. Consider
- * supporting that as well.
- */
-function ting_field_search_form_ting_search_per_page_form_alter(&$form, &$form_state) {
-  if ($profile = ting_field_search_get_active_profile()) {
-    $def_size = $profile->config['search_result']['results_per_page'];
-    if (!empty($form['size']['#options']) && $def_size) {
-      $sizes = &$form['size']['#options'];
-
-      // Base the sizes options on the active profile's setting instead.
-      $sizes = array();
-      $sizes[$def_size] = t('Number of search result per page: !num', array('!num' => $def_size));
-      // Increment the base size by 2.5 and 5 like Ting search.
-      $size = round($def_size * 2.5);
-      $sizes[$size] = t('Number of search result per page: !num', array('!num' => $size));
-      $size = round($def_size * 5);
-      $sizes[$size] = t('Number of search result per page: !num', array('!num' => $size));
-
-      $def_value = $def_size;
-      // If there's input and it's a supported value; set as default.
-      if (!empty($_GET['size']) && isset($sizes[$_GET['size']])) {
-        $def_value = $_GET['size'];
-      }
-      $form['size']['#default_value'] = $def_value;
-    }
-  }
-}
-
-/**
  * Loads a single profile from code or DB.
  *
  * @param string $name
@@ -1072,7 +1031,6 @@ function ting_field_search_config_default() {
       'new_materials' => '',
     ),
     'search_result' => array(
-      'results_per_page' => 10,
       'default_sort' => '',
       'ranking' => 'rank_frequency',
     ),

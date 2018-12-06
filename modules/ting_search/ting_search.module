@@ -824,11 +824,6 @@ function ting_search_sort_form_options() {
     return $value = $value['label'];
   });
 
-  // Add label to the front of the options.
-  foreach ($options_full as $key => $option) {
-    $options_full[$key] = t('Sort by: !sort', array('!sort' => $option));
-  }
-
   return $options_full;
 }
 

@@ -1173,29 +1173,6 @@ class LibContext implements Context, SnippetAcceptingContext {
   }
 
   /**
-   * Implements step to set the number of results per search page.
-   *
-   * @param string $size
-   *    The number of results to set to.
-   *
-   * @When I set (the) number of results per page to :size
-   *
-   * @throws Exception
-   *   When errors occurs.
-   */
-  public function setTheNumberOfResultsPerPageToSize($size) {
-    try {
-      $this->check($this->searchPage->setTheNumberOfResultsPerPageToSize($size));
-    }
-    catch (\Behat\Mink\Exception\ElementNotFoundException $e) {
-      throw new Exception("Failed in setting number of results per page: " . $e->getMessage());
-    }
-    catch (Exception $e) {
-      throw new Exception("Failed in setting the number of results per page: " . $e->getMessage());
-    }
-  }
-
-  /**
    * Sets the control or verbose mode of the run, controlling how much info is put into the output log.
    *
    * @param string $area

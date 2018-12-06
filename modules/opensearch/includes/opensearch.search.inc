@@ -552,29 +552,13 @@ function opensearch_search_prepare_reference_query($query_string) {
  */
 function opensearch_search_sort_options() {
   $options = [
-    'title_ascending' => [
-      'label' => t('Title (Ascending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_ASCENDING),
-    ],
-      'title_descending' => [
-      'label' => t('Title (Descending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::TITLE, TingSearchSort::DIRECTION_DESCENDING),
-    ],
-    'creator_ascending' => [
-      'label' => t('Creator (Ascending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_ASCENDING),
-    ],
-    'creator_descending' => [
-      'label' => t('Creator (Descending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::AUTHOR, TingSearchSort::DIRECTION_DESCENDING),
+    'date_descending' => [
+      'label' => t('Date (Descending)'),
+      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_DESCENDING),
     ],
     'date_ascending' => [
       'label' => t('Date (Ascending)'),
       'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_ASCENDING),
-    ],
-    'date_descending' => [
-      'label' => t('Date (Descending)'),
-      'sort' => new TingSearchSort(TingSearchCommonFields::DATE, TingSearchSort::DIRECTION_DESCENDING),
     ],
   ];
 
@@ -585,18 +569,18 @@ function opensearch_search_sort_options() {
   if ($default_sort === 'rank_frequency' && empty($custom_ranking)) {
     $options = array_merge($options, [
       'rank_title' => [
-        'label' => t('Best match on title'),
-        'label_short' => t('Title'),
+        'label' => t('Title', array(), array('context' => 'opensearch_ranking')),
+        'label_short' => t('Title', array(), array('context' => 'opensearch_ranking')),
         'sort' => new TingSearchSort('rank_title'),
       ],
       'rank_creator' => [
-        'label' => t('Best match on creator'),
-        'label_short' => t('Creator'),
+        'label' => t('Creator', array(), array('context' => 'opensearch_ranking')),
+        'label_short' => t('Creator', array(), array('context' => 'opensearch_ranking')),
         'sort' => new TingSearchSort('rank_creator'),
       ],
       'rank_subject' => [
-        'label' => t('Best match on subject'),
-        'label_short' => t('Subject'),
+        'label' => t('Subject', array(), array('context' => 'opensearch_ranking')),
+        'label_short' => t('Subject', array(), array('context' => 'opensearch_ranking')),
         'sort' => new TingSearchSort('rank_subject'),
       ],
     ]);
