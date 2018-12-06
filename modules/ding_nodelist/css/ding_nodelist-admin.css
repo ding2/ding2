@@ -1,0 +1,21 @@
+.ding_nodelist-widget-config .form-item-widget-type,
+#ding_nodelist-item-template,
+#ding_nodelist-sort-field,
+#ding_nodelist-form-wrapper .form-item-sort-order {
+  float: left;
+}
+
+#ding_nodelist-item-template,
+#ding_nodelist-form-wrapper .form-item-sort-order {
+  margin-left: 20px;
+}
+
+#ding_nodelist-item-template:after,
+#ding_nodelist-form-wrapper .form-item-sort-order:after {
+  clear: both;
+  float: none;
+}
+
+#ding_nodelist-form-wrapper hr {
+  margin: 10px 0 10px 0;
+}
