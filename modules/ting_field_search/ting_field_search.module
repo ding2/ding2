@@ -590,11 +590,6 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     return;
   }
 
-  // Don't alter the form if this is the node search page.
-  if (strpos(current_path(), 'search/node') === 0) {
-    return;
-  }
-
   $exposed_profiles = ting_field_search_filter_profiles();
 
   // Don't render select if there's no exposed profiles.
@@ -603,6 +598,11 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   }
 
   $profile = ting_field_search_get_default_profile();
+
+  if (strpos(current_path(), 'search/node') === 0) {
+    $profile = 'node';
+  }
+
   $form['ting_field_search'] = array(
     '#type' => 'select',
     '#empty_option' => t('Search in all'),
@@ -616,6 +616,10 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     '#type' => 'hidden',
     '#default_value' => $profile ? $profile : '',
   );
+
+  // Adding content search option into ting_field_search dropdown.
+  $node_search = array('node' => t('Search Content'));
+  $form['ting_field_search']['#options'] = $node_search + $form['ting_field_search']['#options'];
 
   // Perform som alterations before ting_search_submit in a validate handler.
   $form['#validate'][] = 'ting_field_search_search_block_validate';
@@ -665,6 +669,11 @@ function ting_field_search_search_block_submit($form, &$form_state) {
     if (empty($messages)) {
       unset($_SESSION['messages']['error']);
     }
+  }
+
+  if ($form_state['values']['ting_field_search'] == 'node') {
+    $form_state['action'] = "search/node";
+    $form_state['redirect'] = 'search/node/' . $form_state['values']['search_block_form'];
   }
 }
 
