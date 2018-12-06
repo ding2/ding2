@@ -55,6 +55,16 @@ define('BPI_DATE_PICKER_FORMAT', 'Y-m-d');
 define('BPI_ONE_MONTH', 86400 * 30);
 
 /**
+ * Push with images identifier.
+ */
+define('BPI_WITH_IMAGES', 'with_images');
+
+/**
+ * Push without images identifier.
+ */
+define('BPI_WITHOUT_IMAGES', 'without_images');
+
+/**
  * Implements hook_menu().
  */
 function bpi_menu() {
@@ -803,6 +813,27 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
   if ($nid > 0 && $form['#default_value'] != $created_sid) {
     $form['bpi'] = bpi_http_push_action_form($nid);
     array_unshift($form['#validate'], 'bpi_form_workflow_transition_form_validate');
+  }
+}
+
+/**
+ * Validates the push with images dropdown field prior pushing content.
+ *
+ * @param array $element
+ *   The element to be validated.
+ * @param array $form_state
+ *   The form state.
+ *
+ * @see bpi_http_push_action_form()
+ */
+function bpi_push_with_images_validate(array $element, array &$form_state) {
+  $allowed_values = array(
+    BPI_WITH_IMAGES,
+    BPI_WITHOUT_IMAGES,
+  );
+
+  if (!in_array($form_state['values']['bpi_push_images'], $allowed_values)) {
+    form_error($element, t('Please choose an option.'));
   }
 }
 

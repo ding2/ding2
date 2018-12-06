@@ -71,7 +71,7 @@ function bpi_rules_push($node) {
   $data = unserialize($bpi_values->data);
   $category = $data['category'];
   $audience = $data['audience'];
-  $with_images = $data['with_images'];
+  $with_images = BPI_WITH_IMAGES === $data['with_images'];
   $editable = $data['editable'];
   $with_refs = $data['with_refs'];
 

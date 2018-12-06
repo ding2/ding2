@@ -54,10 +54,16 @@ function bpi_http_push_action_form($nid) {
   );
 
   $form['configurations']['bpi_push_images'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Push with images'),
+    '#type' => 'select',
+    '#title' => t('Push with image'),
+    '#options' => array(
+      '_none' => t('Choose'),
+      BPI_WITHOUT_IMAGES => t('Not approved for sharing'),
+      BPI_WITH_IMAGES => t('Approved for sharing'),
+    ),
     '#description' => t('You should have permission to publish the images before selecting this option.'),
-    '#default_value' => FALSE,
+    '#default_value' => '_none',
+    '#element_validate' => array('bpi_push_with_images_validate'),
   );
 
   $form['configurations']['bpi_push_refs'] = array(
