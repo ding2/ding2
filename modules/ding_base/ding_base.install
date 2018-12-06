@@ -74,6 +74,8 @@ function ding_base_install() {
   variable_set('date_format_long', 'l, j. F, Y H:i');
   variable_set('date_format_medium', 'D, d-m-Y H:i');
   variable_set('date_format_short', 'd-m-Y H:i');
+
+  _jquery_update_set_theme_version('seven', '1.7');
 }
 
 /**
@@ -191,4 +193,11 @@ function ding_base_update_7005() {
 function ding_base_update_7006() {
   // Use the default version by setting an falsy value.
   _jquery_update_set_theme_version('seven', '');
+}
+
+/**
+ * Use jQuery 1.7 for admin theme.
+ */
+function ding_base_update_7007() {
+  _jquery_update_set_theme_version('seven', '1.7');
 }
