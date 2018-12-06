@@ -50,33 +50,6 @@ function ding_campaign_plus_schema() {
     ),
   );
 
-  $schema['ding_campaign_plus_auto'] = array(
-    'description' => 'Linked auto generated campaigns',
-    'fields' => array(
-      'id' => array(
-        'type' => 'serial',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ),
-      'nid' => array(
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-        'default' => 0,
-      ),
-      'campaign_nid' => array(
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-        'default' => 0,
-      ),
-    ),
-    'primary key' => array('id'),
-    'indexes' => array(
-      'nid' => array('nid'),
-    ),
-  );
-
   return $schema;
 }
 
