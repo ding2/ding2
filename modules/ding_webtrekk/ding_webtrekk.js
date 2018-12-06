@@ -69,6 +69,14 @@
       $('.ding-webtrekk-event-renew-selected', context)
         .once('ding-webtrekk')
         .click(function(e) {
+          // The renew-all button is implemented by checking all renewable loans
+          // and then trigger a click on the renew-selected button. We can use
+          // this jQuere marker to ensure we don't send two events in this case.
+          // See: https://stackoverflow.com/a/10704256
+          if (e.isTrigger) {
+            return;
+          }
+
           var selectedMaterials = [];
           $('.material-item input[type=checkbox]:checked').each(function() {
             // We have collected the material ids (pids) in our event data
