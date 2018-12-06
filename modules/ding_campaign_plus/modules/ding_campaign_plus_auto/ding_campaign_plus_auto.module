@@ -21,27 +21,23 @@ function ding_campaign_plus_auto_form_ding_campaign_plus_admin_settings_alter(&$
     '#weight' => 10,
   );
 
-  $default = variable_get('ding_campaign_plus_auto', array());
-
   // Build options to auto generate campaigns.
-  $data = ding_campaign_plus_rules_info();
-  foreach ($data as $module => $info) {
-    if (isset($info['auto'])) {
-      $callback = $info['auto']['callback'];
-      $default_config = isset($default[$module]['config']) ? $default[$module]['config'] : $info['auto']['default'];
-      $form['ding_campaign_plus_auto'][$module] = array(
-        '#type' => 'fieldset',
-        '#title' => $info['title'],
-        '#collapsible' => TRUE,
-        '#collapsed' => TRUE,
-        '#states' => array(
-          'invisible' => array(
-            ':input[name="ding_campaign_plus_auto[enabled]"]' => array('checked' => FALSE),
-          ),
+  $config = _ding_campaign_plus_auto_get_configuration();
+  foreach ($config as $module => $info) {
+    $callback = $info['callback'];
+    $default_config = $info['default'];
+    $form['ding_campaign_plus_auto'][$module] = array(
+      '#type' => 'fieldset',
+      '#title' => $info['title'],
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#states' => array(
+        'invisible' => array(
+          ':input[name="ding_campaign_plus_auto[enabled]"]' => array('checked' => FALSE),
         ),
-        'config' => $callback($form_state, $default_config),
-      );
-    }
+      ),
+      'config' => $callback($form_state, $default_config),
+    );
   }
 
   $form['#submit'][] = 'ding_campaign_plus_auto_admin_settings_form_submit';
@@ -177,10 +173,10 @@ function ding_campaign_plus_auto_node_insert($node) {
     $campaign_wrapper->field_ding_campaign_plus_track->set($node_wrapper->label());
 
     // Add triggers for the new campaign.
-    $config = variable_get('ding_campaign_plus_auto', array());
+    $config = _ding_campaign_plus_auto_get_configuration();
     $campaign_node->tabs = array();
     foreach (module_implements('ding_campaign_plus_auto_trigger') as $module) {
-      $campaign_node->tabs += module_invoke($module, 'ding_campaign_plus_auto_trigger', $config[$module]['config'], $campaign_node, $node_wrapper, $subjects);
+      $campaign_node->tabs += module_invoke($module, 'ding_campaign_plus_auto_trigger', $config[$module]['default'], $campaign_node, $node_wrapper, $subjects);
     }
 
     // Save campaign node. Which will also trigger the node insert hook below,
@@ -240,6 +236,30 @@ function ding_campaign_plus_auto_node_delete($node) {
       ->condition('nid', $node->nid)
       ->execute();
   }
+}
+
+/**
+ * Load configuration for auto generated campaigns.
+ *
+ * If non exists in the database it falls back to default configuration defined
+ * by the modules supporting auto generated campaigns.
+ *
+ * @return array
+ *   The configuration indexed by module.
+ */
+function _ding_campaign_plus_auto_get_configuration() {
+  $config = variable_get('ding_campaign_plus_auto', array());
+
+  if (empty($config)) {
+    // Build options to auto generate campaigns.
+    $data = ding_campaign_plus_rules_info();
+    foreach ($data as $module => $info) {
+      $config[$module] = $info['auto'];
+      $config[$module]['title'] = $info['title'];
+    }
+  }
+
+  return $config;
 }
 
 /**
