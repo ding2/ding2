@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Enables integration with Ting.
@@ -78,7 +79,7 @@ function ting_menu() {
     'position' => 'left',
     'weight' => 20,
     'page callback' => 'system_admin_menu_block_page',
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('administer ting settings'),
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
   );
@@ -94,7 +95,7 @@ function ting_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
   $items['admin/config/ting/settings/general'] = array(
-    'title' => t('General settings'),
+    'title' => 'General settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
@@ -249,7 +250,6 @@ function ting_block_view($delta = '') {
 
   return $block;
 }
-
 
 /**
  * Implements hook_theme().
