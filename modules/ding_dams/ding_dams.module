@@ -313,7 +313,6 @@ function ding_dams_entity_info_alter(&$entity_info) {
  * Implements hook_media_token_to_markup_alter().
  */
 function ding_dams_media_wysiwyg_token_to_markup_alter(&$element, $tag_info, $settings) {
-  $a = 1;
   $ding_view_modes = array(
     'ding_dams_inline',
     'ding_dams_popup',
