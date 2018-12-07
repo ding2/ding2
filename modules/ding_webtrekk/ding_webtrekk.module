@@ -201,21 +201,19 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
       foreach ($entity->content['ding_entity_buttons'][$delta] as $key => &$button) {
         // Reserve button.
         if (isset($button['#path']) && $button['#path'] == $entity_path . '/reserve') {
-          $button['#options']['attributes']['class'][] = 'js-ding-webtrekk-event';
-          $event_data = json_encode([
-            'linkId' => 'Reserver',
-            'customClickParameter' => [50 => $entity->getId()],
-          ]);
-          $button['#options']['attributes']['data-ding-webtrekk-event'] = $event_data;
+          ding_webtrekk_attach_event(
+            $button['#options']['attributes'],
+            'Reserver',
+            [50 => $entity->getId()]
+          );
         }
         // See online button.
         elseif (isset($button['#attributes']) && in_array('button-see-online', $button['#attributes']['class'])) {
-          $button['#attributes']['class'][] = 'js-ding-webtrekk-event';
-          $event_data = json_encode([
-            'linkId' => 'Se online',
-            'customClickParameter' => [51 => $entity->getId()],
-          ]);
-          $button['#attributes']['data-ding-webtrekk-event'] = $event_data;
+          ding_webtrekk_attach_event(
+            $button['#attributes'],
+            'Se online',
+            [51 => $entity->getId()]
+          );
         }
       }
     }
@@ -253,14 +251,11 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
 
   // The renew all button is straight forward. We can attach the event in
   // backend and just pass all renewable ids to the event data attribute.
-  $renew_all = &$form['actions_container']['actions_top']['renew_all'];
-  $renew_all['#attributes']['class'][] = 'js-ding-webtrekk-event';
-  $renew_all['#attributes']['data-ding-webtrekk-event'] = json_encode([
-    'linkId' => 'Forny alle materialer',
-    'customClickParameter' => [
-      56 => implode(';', $material_ids),
-    ],
-  ]);
+  ding_webtrekk_attach_event(
+    $form['actions_container']['actions_top']['renew_all']['#attributes'],
+    'Forny alle materialer',
+    [56 => implode(';', $material_ids)]
+  );
 
   // The renew selected button is more complicated, since we need data about
   // which materials the user has selected in the UI.
@@ -280,6 +275,18 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
       }
     }
   }
+}
+
+/**
+ * Use this function to attach webtrekk events to an elements attribute array.
+ */
+function ding_webtrekk_attach_event(&$attributes, $link_id, $data) {
+  $event_data = [
+    'linkId' => $link_id,
+    'customClickParameter' => $data,
+  ];
+  $attributes['class'][] = 'js-ding-webtrekk-event';
+  $attributes['data-ding-webtrekk-event'] = json_encode($event_data);
 }
 
 /**
