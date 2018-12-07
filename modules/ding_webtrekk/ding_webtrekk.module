@@ -221,6 +221,13 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_webtrekk_form_search_block_form_alter(&$form, &$form_state) {
+  $form['#attributes']['class'][] = 'js-ding-webtrekk-autocomplete';
+}
+
+/**
  * Implements hook_preprocess_ding_entity_rating_display().
  */
 function ding_webtrekk_preprocess_ding_entity_rating_display(&$variables) {

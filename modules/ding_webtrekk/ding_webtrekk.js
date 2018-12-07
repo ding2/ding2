@@ -46,11 +46,11 @@
               }
             }]);
           });
-        })
+        });
       });
 
       // Track autocomplete selections.
-      $('.form-item-search-block-form .form-autocomplete', context)
+      $('.js-ding-webtrekk-autocomplete .form-autocomplete', context)
         .once('js-ding-webtrekk')
         .on('autocompleteSelect', function(e, selected) {
           if (($(selected).text())) {
