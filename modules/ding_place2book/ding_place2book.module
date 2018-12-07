@@ -316,7 +316,7 @@ function ding_place2book_process_node(&$variables) {
       return;
     }
 
-    $url = !empty($variables['field_ding_event_ticket_link'][0]['url']) ? $variables['field_ding_event_ticket_link'][0]['url'] : '';
+    $url = !empty($variables['field_ding_event_ticket_link'][LANGUAGE_NONE][0]['url']) ? $variables['field_ding_event_ticket_link'][LANGUAGE_NONE][0]['url'] : '';
     $variables['book_button'] = theme('place2book_ticketsinfo', [
       'place2book_id' => $p2b_settings['place2book_id'],
       'url' => $url,
