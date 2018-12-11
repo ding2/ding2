@@ -817,27 +817,6 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
 }
 
 /**
- * Validates the push with images dropdown field prior pushing content.
- *
- * @param array $element
- *   The element to be validated.
- * @param array $form_state
- *   The form state.
- *
- * @see bpi_http_push_action_form()
- */
-function bpi_push_with_images_validate(array $element, array &$form_state) {
-  $allowed_values = array(
-    BPI_WITH_IMAGES,
-    BPI_WITHOUT_IMAGES,
-  );
-
-  if (!in_array($form_state['values']['bpi_push_images'], $allowed_values)) {
-    form_error($element, t('Please choose an option.'));
-  }
-}
-
-/**
  * Validate handler that will add custom submit handler.
  *
  * We add the submit handler here, because we need to add the submit handler,
@@ -855,10 +834,13 @@ function bpi_form_workflow_transition_form_validate(&$form, &$form_state) {
     // The 'Save and push' button has been chosen, so we will check if the BPI
     // values are correct.
     if (empty($form_state['values']['bpi_push_category'])) {
-      form_set_error('bpi_push_category', t('Category must be set when pushing to BPI'));
+      form_set_error('bpi_push_category', t('Category must be set when pushing to BPI.'));
     }
     if (empty($form_state['values']['bpi_push_audience'])) {
-      form_set_error('bpi_push_audience', t('Audience must be set when pushing to BPI'));
+      form_set_error('bpi_push_audience', t('Audience must be set when pushing to BPI.'));
+    }
+    if (empty($form_state['values']['bpi_push_images']) || '_none' == $form_state['values']['bpi_push_images']) {
+      form_set_error('bpi_push_images', t('Image permissions should be explicitly set when pushing to BPI.'));
     }
   }
   array_unshift($form_state['submit_handlers'], 'bpi_form_workflow_transition_form_submit');
