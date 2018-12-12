@@ -28,8 +28,8 @@
     "extends": "stylelint-config-standard",
     "rules": {
       "no-invalid-double-slash-comments": null,
-      "at-rule-no-unknown": null,
-      "function-name-case": null
+      "rule-empty-line-before": null,
+      "declaration-empty-line-before": null
     }
   }
 }

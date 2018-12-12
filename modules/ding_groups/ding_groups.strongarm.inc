@@ -81,7 +81,7 @@ function ding_groups_strongarm() {
         'custom_settings' => FALSE,
       ),
       'search_result' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'diff_standard' => array(
         'custom_settings' => FALSE,
@@ -91,6 +91,9 @@ function ding_groups_strongarm() {
       ),
       'workflow_tab' => array(
         'custom_settings' => FALSE,
+      ),
+      'alternative_layout_full' => array(
+        'custom_settings' => TRUE,
       ),
     ),
     'extra_fields' => array(
@@ -102,7 +105,22 @@ function ding_groups_strongarm() {
           'weight' => '5',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'ding_serendipity_info' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'search_result' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser_no_overlay' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__ding_group'] = $strongarm;

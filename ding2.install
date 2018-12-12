@@ -603,9 +603,18 @@ function ding2_update_7049() {
 }
 
 /**
- * Empty update hook.
+ * Disable and uninstall ding_mobilesearch module.
  */
 function ding2_update_7050() {
+  // This function previously disabled, uninstalled and removed any
+  // traces of the module called ding_mobilesearch.
+  //
+  // The contents of this function has been removed due to the decision
+  // about removing the module has been reverted. Read more about this
+  // issue in https://platform.dandigbib.org/issues/3661.
+  //
+  // The function has been left empty, since some distrubitons have
+  // already had this update_hook() ran - but older sites has not.
 }
 
 /**
@@ -616,4 +625,36 @@ function ding2_update_7051() {
   // ding2_update_dependencies and thus without ting_update_7014 and
   // Opensearch.
   ding2_update_7048();
+}
+
+/**
+ * Enable CustomError modules.
+ */
+function ding2_update_7052() {
+  module_enable(array('customerror', 'customerroralt'));
+  ding2_set_customerror_pages();
+}
+
+/**
+ * Expand all menu items in the main menu.
+ */
+function ding2_update_7053() {
+  db_update('menu_links')
+    ->fields(array('expanded' => 1))
+    ->condition('menu_name', 'main-menu')
+    ->execute();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7054() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7055() {
+  ding2_translation_update();
 }

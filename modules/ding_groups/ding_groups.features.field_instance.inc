@@ -10,7 +10,7 @@
 function ding_groups_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-ding_group-field_ding_group_body'
+  // Exported field_instance: 'node-ding_group-field_ding_group_body'.
   $field_instances['node-ding_group-field_ding_group_body'] = array(
     'bundle' => 'ding_group',
     'default_value' => NULL,
@@ -48,6 +48,12 @@ function ding_groups_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_group_body',
@@ -68,7 +74,7 @@ function ding_groups_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_group-field_ding_group_category'
+  // Exported field_instance: 'node-ding_group-field_ding_group_category'.
   $field_instances['node-ding_group-field_ding_group_category'] = array(
     'bundle' => 'ding_group',
     'default_value' => NULL,
@@ -89,10 +95,9 @@ function ding_groups_field_default_field_instances() {
       ),
       'search_result' => array(
         'label' => 'hidden',
-        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 2,
+        'type' => 'hidden',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -105,6 +110,12 @@ function ding_groups_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
       ),
     ),
     'entity_type' => 'node',
@@ -123,7 +134,7 @@ function ding_groups_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_group-field_ding_group_lead'
+  // Exported field_instance: 'node-ding_group-field_ding_group_lead'.
   $field_instances['node-ding_group-field_ding_group_lead'] = array(
     'bundle' => 'ding_group',
     'default_value' => NULL,
@@ -147,7 +158,7 @@ function ding_groups_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -163,6 +174,15 @@ function ding_groups_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
+        'label' => 'hidden',
+        'module' => 'ding_base',
+        'settings' => array(
+          'body_snippet_length' => 100,
+        ),
+        'type' => 'body_snippet',
+        'weight' => 2,
       ),
     ),
     'entity_type' => 'node',
@@ -184,7 +204,7 @@ function ding_groups_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_group-field_ding_group_list_image'
+  // Exported field_instance: 'node-ding_group-field_ding_group_list_image'.
   $field_instances['node-ding_group-field_ding_group_list_image'] = array(
     'bundle' => 'ding_group',
     'deleted' => 0,
@@ -204,13 +224,9 @@ function ding_groups_field_default_field_instances() {
       ),
       'search_result' => array(
         'label' => 'hidden',
-        'module' => 'cs_adaptive_image',
-        'settings' => array(
-          'image_link' => '',
-          'styles' => '',
-        ),
-        'type' => 'cs_adaptive_image',
-        'weight' => 1,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -234,6 +250,23 @@ function ding_groups_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
+        'label' => 'hidden',
+        'module' => 'cs_adaptive_image',
+        'settings' => array(
+          'image_link' => '',
+          'styles' => array(
+            'breakpoint_1' => 768,
+            'breakpoint_2' => 500,
+            'fallback_style' => 'ding_list_large',
+            'max_style' => 'ding_list_large',
+            'style_1' => 'ding_list_large',
+            'style_2' => 'ding_list_small',
+          ),
+        ),
+        'type' => 'cs_adaptive_image',
+        'weight' => 1,
       ),
     ),
     'entity_type' => 'node',
@@ -293,7 +326,7 @@ function ding_groups_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_group-field_ding_group_title_image'
+  // Exported field_instance: 'node-ding_group-field_ding_group_title_image'.
   $field_instances['node-ding_group-field_ding_group_title_image'] = array(
     'bundle' => 'ding_group',
     'deleted' => 0,
@@ -339,6 +372,12 @@ function ding_groups_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
       ),
     ),
     'entity_type' => 'node',
@@ -402,7 +441,7 @@ function ding_groups_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_group-group_group'
+  // Exported field_instance: 'node-ding_group-group_group'.
   $field_instances['node-ding_group-group_group'] = array(
     'bundle' => 'ding_group',
     'default_value' => array(
@@ -442,6 +481,12 @@ function ding_groups_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
       ),
     ),
     'display_label' => 1,

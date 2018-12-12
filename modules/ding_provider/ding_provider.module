@@ -670,6 +670,10 @@ function ding_provider_cron() {
       $query
         ->fields('u', array('uid'))
         ->condition('u.access', REQUEST_TIME - $inactivity_threshold, '<')
+        // Ensure that we don't delete these important users.
+        ->condition('u.uid', array(0, 1), 'NOT IN')
+        // Ensure we only delete provider users created by ding_user.
+        ->condition('a.module', 'ding_user', '=')
         ->range(0, 500);
 
       $result = $query

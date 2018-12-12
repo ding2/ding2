@@ -315,53 +315,7 @@ function ting_block_info() {
       'info' => t('Ting alternative material types'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
     ),
-    'ting_relation_anchors' => array(
-      'info' => t('Ting relations for material '),
-      'cache' => DRUPAL_CACHE_PER_PAGE,
-    ),
   );
-}
-
-/**
- * Implements hook_cron().
- *
- * Ensures that all expired entries are delete form the cache on cron runes.
- */
-function ting_cron() {
-  cache_clear_all(NULL, 'cache_ting');
-}
-
-/**
- * Implements hook_flush_caches().
- */
-function ting_flush_caches() {
-  return array('cache_ting');
-}
-
-/**
- * Get relations for an ting_entity as an array ([$type] => array($relations)).
- */
-function ting_get_relations($ting_entity) {
-  $relations = array();
-  // Ask the provider for a list of relation-types it supports.
-  $supported_relations = array_keys(ding_provider_invoke('search', 'supported_relations'));
-  foreach ($ting_entity->relations as $relation) {
-    if (!in_array($relation->type, $supported_relations)) {
-      continue;
-    }
-    $relations[$relation->type][] = $relation;
-  }
-
-  // Get references from ting_reference.
-  if (module_exists('ting_reference')) {
-    $refs = module_invoke('ting_reference', 'get_relations', 'ting_object', $ting_entity);
-    if (!empty($refs)) {
-      foreach ($refs as $ref) {
-        $relations[$ref->relation_type][] = $ref;
-      }
-    }
-  }
-  return $relations;
 }
 
 /**
@@ -371,29 +325,6 @@ function ting_block_view($delta = '') {
   $block = new stdClass();
 
   switch ($delta) {
-    // Render a block with links to related materials including a count of how
-    // many instances of each type is available.
-    case 'ting_relation_anchors':
-      $items = array();
-      if ($object = menu_get_object('ting_object', 2)) {
-        $relations = ting_get_relations($object);
-        if (!empty($relations)) {
-          $relation_types = module_invoke_all('ding_anchor_info');
-          $block->subject = t('About the material');
-
-          foreach ($relations as $key => $relation) {
-            if (isset($relation_types[$key])) {
-              $items[] = l($relation_types[$key] . ' (' . count($relation) . ') ', '#' . urlencode($key), array('external' => TRUE));
-            }
-          }
-          $block->content = array(
-            '#theme' => 'item_list',
-            '#items' => $items,
-          );
-        }
-      }
-      break;
-
     case 'ting_collection_types':
       if ($collection = menu_get_object('ting_collection', 2)) {
         $block->subject = t('Other materialtypes');
@@ -576,31 +507,49 @@ function ting_ding_entity_is($object, $class) {
 /**
  * Implements hook_ding_entity_buttons().
  */
-function ting_ding_entity_buttons($type, $entity) {
-  if (!$entity instanceof TingEntity) {
-    return;
+function ting_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
+  if ($entity instanceof TingEntity) {
+    $buttons = array();
+
+    if ($entity->is('online')) {
+      $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+      $type = drupal_strtolower($entity->type);
+      $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+      $buttons[] = array(
+        // The link can't use l() as it will encode the url from ting_proxy. Use
+        // get online as the dc:identifier in $entity->online is not always the
+        // correct url.
+        array(
+          '#type' => 'markup',
+          '#markup' => '<a class="button-see-online action-button" target="_new" href="' . $entity->getOnline_url() . '">' . $label . '</a>',
+        ),
+      );
+    }
+
+    // Loading collection (specially on empty cache is expensive). So only load
+    // the collection when it's need and here only when this button is required
+    // in the design. Before using context it was load but not used in the
+    // design.
+    if (strpos($view_mode, 'teaser') === FALSE) {
+      $collection = ting_collection_load($entity->id);
+      if (is_a($collection, 'TingCollection') && count($collection->types) > 1) {
+        $buttons[] = [
+          '#theme' => 'link',
+          '#text' => t('Other formats'),
+          '#path' => '#',
+          '#options' => [
+            'attributes' => [
+              'class' => ['action-button', 'other-formats'],
+            ],
+            'html' => FALSE,
+            'external' => TRUE,
+          ],
+        ];
+      }
+    }
+
+    return $buttons;
   }
-
-  $buttons = array();
-
-  // Simply render button placeholders that would be replaced with proper
-  // buttons via ajax.
-  $buttons[] = [
-    '#type' => 'markup',
-    '#markup' => '<span id="see-online-' . $entity->localId . '" class="ding-entity-button-see-online ding-entity-button-placeholder"></span>',
-  ];
-
-  $buttons[] = [
-    '#type' => 'markup',
-    '#markup' => '<span id="other-formats-' . $entity->localId . '" class="ding-entity-button-other-formats ding-entity-button-placeholder"></span>',
-    '#attached' => [
-      'js' => [
-        drupal_get_path('module', 'ting') . '/js/ting_ding_entity_buttons.js',
-      ],
-    ],
-  ];
-
-  return $buttons;
 }
 
 /**
@@ -717,6 +666,13 @@ function ting_object_view($object, $view_mode = 'full', $langcode = NULL) {
     $langcode = $GLOBALS['language_content']->language;
   }
   $object->content = array();
+
+  // Allow modules to change the view mode
+  // If entity_entity_view_mode_prepare is called on the same object several
+  // times, the view_mode is not changed. Therefore we unset
+  // entity_view_prepared, before setting the view_mode.
+  unset($object->entity_view_prepared);
+  $view_mode = key(entity_view_mode_prepare('ting_object', array($object->id => $object), $view_mode, $langcode));
 
   // _field_invoke_multiple gets pissy if the arrays aren't indexed by the
   // local ID.
@@ -1000,4 +956,30 @@ function ting_search_object_load($id) {
   }
 
   return $ting_search_object;
+}
+
+/**
+ * Render single ting object with a give view mode.
+ *
+ * This can be used when ajax loading objects.
+ *
+ * @param int $entity_id
+ *   The id of the ting object entity to load.
+ * @param string $view_mode
+ *   The view mode that the ting object should be rendered.
+ *
+ * @return array
+ *   Array with the entity id and rendered object keyed as content.
+ */
+function ting_single_object_render($entity_id, $view_mode = 'teaser') {
+  // Load the ting objects found.
+  $entity = entity_load('ting_object', array($entity_id));
+  $ting_object = ting_object_view(reset($entity), $view_mode);
+
+  $build = array(
+    'id' => $entity_id,
+    'content' => render($ting_object),
+  );
+
+  return $build;
 }

@@ -47,9 +47,15 @@ function ddbasic_preprocess_node(&$variables, $hook) {
  * Implememnts template_process_node().
  */
 function ddbasic_process_node(&$variables, $hook) {
-  // For search result view mode move title into left col. group.
-  if (isset($variables['content']['group_right_col_search'])) {
-    $variables['content']['group_right_col_search']['title'] = array(
+  // For search result view mode add type and title.
+  if ($variables['view_mode'] == 'search_result') {
+    $node_type = node_type_get_name($variables['type']);
+    $variables['content']['type'] = array(
+      '#markup' => '<div class="view-mode-search-result-content-type">' . $node_type . '</div>',
+      '#weight' => -9999,
+    );
+
+    $variables['content']['title'] = array(
       '#theme' => 'link',
       '#text' => decode_entities($variables['title']),
       '#path' => 'node/' . $variables['nid'],
@@ -59,8 +65,9 @@ function ddbasic_process_node(&$variables, $hook) {
         ),
         'html' => FALSE,
       ),
-      '#prefix' => '<h2>',
-      '#suffix' => '</h2>',
+      '#prefix' => '<h3 class="title">',
+      '#suffix' => '</h3>',
+      '#weight' => -9998,
     );
   }
 }
@@ -123,6 +130,37 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
         $variables['news_teaser_image'] = '<div class="ding-news-list-image background-image-styling-16-9"></div>';
       }
       break;
+
+    case 'teaser_no_overlay':
+      array_push($variables['classes_array'], 'node-teaser-no-overlay');
+
+      if (!empty($variables['field_ding_news_list_image'][0]['uri'])) {
+        // Get image url to use as background image.
+        $uri = $variables['field_ding_news_list_image'][0]['uri'];
+
+        $image_title = $variables['field_ding_news_list_image'][0]['title'];
+
+        // If in view with large first teaser and first in view.
+        $current_view = $variables['view']->current_display;
+        $views_with_large_first = array('ding_news_frontpage_list');
+        if (in_array($current_view, $views_with_large_first) && $variables['view']->result[0]->nid == $variables['nid']) {
+          $img_url = image_style_url('ding_panorama_list_large_wide', $uri);
+          $variables['classes_array'][] = 'ding-news-highlighted';
+        }
+        else {
+          $img_url = image_style_url('ding_panorama_list_large', $uri);
+        }
+        if (!empty($image_title)) {
+          $variables['news_teaser_image'] = '<div class="ding-news-list-image background-image-styling-16-9" style="background-image:url(' . $img_url . ')" title="' . $image_title . '"></div>';
+        }
+        else {
+          $variables['news_teaser_image'] = '<div class="ding-news-list-image background-image-styling-16-9" style="background-image:url(' . $img_url . ')"></div>';
+        }
+      }
+      else {
+        $variables['news_teaser_image'] = '<div class="ding-news-list-image background-image-styling-16-9"></div>';
+      }
+      break;
   }
 }
 
@@ -130,6 +168,7 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
  * Ding event.
  */
 function ddbasic_preprocess__node__ding_event(&$variables) {
+
   $date = field_get_items('node', $variables['node'], 'field_ding_event_date');
 
   $price = field_get_items('node', $variables['node'], 'field_ding_event_price');
@@ -142,6 +181,12 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 
   $location = field_get_items('node', $variables['node'], 'field_ding_event_location');
   $variables['alt_location_is_set'] = !empty($location[0]['name_line']) || !empty($location[0]['thoroughfare']);
+
+  // Dont display location if neither name_line or thoroughfare is set.
+  // Prevents that country is printes out, without any other values.
+  if (!$variables['alt_location_is_set']) {
+    $variables['content']['field_ding_event_location']['#access'] = FALSE;
+  }
 
   switch ($variables['view_mode']) {
     case 'teaser':
@@ -163,7 +208,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
       // Date.
       if (!empty($date)) {
         // When the user saves the event time (e.g. danish time 2018-01-10 00:00),
-        // the value is saved in the database in UTC time 
+        // the value is saved in the database in UTC time
         // (e.g. UTC time 2018-01-09 23:00). To print out the date/time properly
         // We first need to create the dateObject with the UTC database time, and
         // afterwards we can convert the dateObject db-time to localtime.
@@ -199,6 +244,19 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 
         $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', $event_time_view_settings);
         $variables['event_time'] = $event_time_ra[0]['#markup'];
+      }
+
+      // Place, Library, Organizer markup alterations.
+      if ($variables['alt_location_is_set'] && !empty($variables['field_ding_event_place'])) {
+        $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['field_ding_event_location'][0]['name_line'];
+        // Hide Location and library from render array.
+        $variables['content']['field_ding_event_location']['#access'] = FALSE;
+        $variables['content']['og_group_ref']['#access'] = FALSE;
+      }
+      elseif (!$variables['alt_location_is_set'] && !empty($variables['field_ding_event_place'])) {
+        $variables['content']['field_ding_event_place'][0]['#markup'] .= ', ' . $variables['content']['og_group_ref'][0]['#markup'];
+        // Hide library from render array.
+        $variables['content']['og_group_ref']['#access'] = FALSE;
       }
 
       break;
@@ -247,8 +305,36 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           ));
         }
 
-        if (!empty($location)) {
-          $variables['content']['group_left']['og_group_ref']['#access'] = FALSE;
+        // Make organizer label plural if more than one.
+        if (!empty($variables['field_ding_event_organizers']) && count($variables['field_ding_event_organizers']) > 1) {
+          $variables['content']['field_ding_event_organizers']['#title'] = t('Organizers');
+        }
+
+        // If alternate location is set, change the label of library.
+        if ($variables['alt_location_is_set']) {
+          $variables['content']['og_group_ref']['#title'] = t('Organizer');
+
+          // If field_ding_event_organizers is set, merge them into the og_ref field.
+          if (!empty($variables['field_ding_event_organizers'])) {
+            // Hide organizers from render array.
+            $variables['content']['field_ding_event_organizers']['#access'] = FALSE;
+            // Add organizers to library (og_group_ref) markup as string.
+            $organizers_elems = field_get_items('node', $variables['node'], 'field_ding_event_organizers');
+            $organizers_out  = '';
+
+            foreach ($organizers_elems as $value) {
+              $term = taxonomy_term_load($value['tid']);
+              if (!empty($term->field_event_organizer_link)) {
+                $link = field_get_items('taxonomy_term', $term, 'field_event_organizer_link');
+                  $organizers_out .= ', ' . l($term->name, $link[0]['url'], array('attributes' => array('class' => 'ding-event-organizer-link')));
+              }
+              else {
+                $organizers_out .= ', ' . $term->name;
+              }
+            }
+            $variables['content']['og_group_ref']['#title'] = t('Organizers');
+            $variables['content']['og_group_ref'][0]['#markup'] .= $organizers_out;
+          }
         }
       }
       break;
@@ -312,19 +398,21 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
  * Ding Library.
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
-  // Google maps addition to library list.
-  $address = $variables['content']['field_ding_library_addresse'][0]['#address'];
+  // Google maps addition to library list on teaser.
+  if ($variables['view_mode'] == 'teaser') {
+    $address = $variables['content']['field_ding_library_addresse'][0]['#address'];
 
-  $street = $address['thoroughfare'];
-  $street = preg_replace('/\s+/', '+', $street);
-  $postal = $address['postal_code'];
-  $city = $address['locality'];
-  $country = $address['country'];
-  $url = "http://www.google.com/maps/place/" . $street . "+" . $postal . "+" . $city . "+" . $country;
-  $link = l(t("Show on map"), $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
+    $street = $address['thoroughfare'];
+    $street = preg_replace('/\s+/', '+', $street);
+    $postal = $address['postal_code'];
+    $city = $address['locality'];
+    $country = $address['country'];
+    $url = "http://www.google.com/maps/place/" . $street . "+" . $postal . "+" . $city . "+" . $country;
+    $link = l(t("Show on map"), $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
 
-  $variables['content']['maps_link']['#markup'] = $link;
-  $variables['content']['maps_link']['#weight'] = 10;
+    $variables['content']['maps_link']['#markup'] = $link;
+    $variables['content']['maps_link']['#weight'] = 10;
+  }
 }
 
 /**
@@ -333,9 +421,22 @@ function ddbasic_preprocess__node__ding_library(&$variables) {
 function ddbasic_preprocess__node__ding_group(&$variables) {
   switch ($variables['view_mode']) {
     case 'teaser':
-      $img_uri = $variables['field_ding_group_list_image'][0]['uri'];
-      if (!empty($img_uri)) {
-        $variables['background_image'] = image_style_url('ding_panorama_list_large_desaturate', $img_uri);
+      $variables['link_attributes'] = array(
+        'style' => '',
+      );
+
+      if (!empty($variables['field_ding_group_list_image'][0]['uri'])) {
+        $img_url = image_style_url('ding_panorama_list_large_desaturate', $variables['field_ding_group_list_image'][0]['uri']);
+        $variables['link_attributes']['style'] = 'background-image:url("' . $img_url . '");';
+      }
+      break;
+
+    case 'teaser_no_overlay':
+      array_push($variables['classes_array'], 'node-teaser-no-overlay');
+
+      $img_field = field_get_items('node', $variables['node'], 'field_ding_group_list_image', 'uri');
+      if (!empty($img_field)) {
+        $variables['background_image'] = image_style_url('ding_panorama_list_large', $img_field[0]['uri']);
       }
       break;
 
@@ -355,6 +456,39 @@ function ddbasic_preprocess__node__ding_eresource(&$variables) {
       if (!empty($variables['field_ding_eresource_link'][0]['url'])) {
         $variables['link_url'] = $variables['field_ding_eresource_link'][0]['url'];
       }
+      break;
+  }
+}
+
+/**
+ * Ding Page.
+ */
+function ddbasic_preprocess__node__ding_page(&$variables) {
+  switch ($variables['view_mode']) {
+    case 'teaser':
+      $variables['link_attributes'] = array(
+        'style' => '',
+      );
+
+      if (!empty($variables['field_ding_page_list_image'][0]['uri'])) {
+        $img_url = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
+        $variables['link_attributes']['style'] = 'background-image:url("' . $img_url . '");';
+      }
+      break;
+
+    case 'teaser_no_overlay':
+      array_push($variables['classes_array'], 'node-teaser-no-overlay');
+
+      if (!empty($variables['field_ding_page_list_image'][0]['uri'])) {
+        $variables['background_image'] = image_style_url('ding_list_square', $variables['field_ding_page_list_image'][0]['uri']);
+      }
+      else {
+        $variables['background_image'] = '';
+      }
+      break;
+
+    case 'full':
+      array_push($variables['classes_array'], 'node-full');
       break;
   }
 }

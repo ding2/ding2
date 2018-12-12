@@ -85,9 +85,6 @@ function ting_schema() {
     ),
   );
 
-  // Cache table used by ting_execute_cache.
-  $schema['cache_ting'] = drupal_get_schema_unprocessed('system', 'cache');
-
   return $schema;
 }
 
@@ -307,4 +304,11 @@ function ting_update_7014() {
   if (!ding_provider_implements('search', 'search')) {
     module_enable(['opensearch']);
   }
+}
+
+/**
+ * Remove old ting cache table.
+ */
+function ting_update_7015() {
+  db_drop_table('cache_ting');
 }

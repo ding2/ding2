@@ -19,10 +19,15 @@ function ding_ddbasic_opening_hours_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ding_ddbasic_opening_hours_extended_title', FALSE),
   );
 
-  $form['settings']['ding_ddbasic_opening_hours_expand_on_library'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Expand on library'),
-    '#default_value' => variable_get('ding_ddbasic_opening_hours_expand_on_library', FALSE),
+  $form['settings']['ding_ddbasic_opening_hours_expand_setting'] = array(
+    '#type' => 'select',
+    '#title' => t('Expand settings'),
+    '#default_value' => variable_get('ding_ddbasic_opening_hours_expand_setting', 'dont_expand'),
+    '#options' => array(
+      'dont_expand' => t('Dont expand'),
+      'expand_on_first' => t('Expand on first library'),
+      'expand_all' => t('Expand all libraries'),
+    ),
   );
 
   $form['settings']['ding_ddbasic_opening_hours_on_frontpage'] = array(

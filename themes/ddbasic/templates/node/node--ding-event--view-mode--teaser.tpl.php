@@ -100,11 +100,9 @@
           <?php print render($content['field_ding_event_lead']); ?>
         </div>
         <div class="info-bottom">
-          <?php if ($alt_location_is_set): ?>
-            <div class="library"><?php print $content['field_ding_event_location'][0]['#address']['name_line']; ?></div>
-          <?php else: ?>
-            <div class="library"><?php print render($content['og_group_ref']); ?></div>
-          <?php endif; ?>
+          <?php print render($content['field_ding_event_place']); ?>
+          <?php print render($content['field_ding_event_location']); ?>
+          <?php print render($content['og_group_ref']); ?>
           <div class="date-time"><?php print $event_time; ?></div>
           <div class="price"><?php print $event_price; ?></div>
         </div>

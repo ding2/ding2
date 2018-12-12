@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Class ting_field_search_ctools_export_ui.
+ *
  * Extend the ctools export UI class with our own functionality.
  */
 class ting_field_search_ctools_export_ui extends ctools_export_ui {
@@ -8,7 +10,7 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
   /**
    * Add our own admin CSS to the listing page.
    */
-  function list_css() {
+  public function list_css() {
     parent::list_css();
     $path = drupal_get_path('module', 'ting_field_search');
     drupal_add_css($path . '/css/ting_field_search.admin.css');
@@ -17,7 +19,7 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
   /**
    * Modify the profile list form.
    */
-  function list_form(&$form, &$form_state) {
+  public function list_form(&$form, &$form_state) {
     parent::list_form($form, $form_state);
 
     $all = array('all' => t('- All -'));
@@ -43,7 +45,7 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
   /**
    * Implement the filters we added in list_form().
    */
-  function list_filter($form_state, $profile) {
+  public function list_filter($form_state, $profile) {
     if ($form_state['values']['exposed'] != 'all') {
       if ($form_state['values']['exposed'] != $profile->config['user_interaction']['exposed']) {
         return TRUE;
@@ -55,7 +57,7 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
   /**
    * Provide our own sort options.
    */
-  function list_sort_options() {
+  public function list_sort_options() {
     return array(
       'title' => t('Title'),
       'name' => t('Name'),
@@ -65,10 +67,12 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
   }
 
   /**
-   * Add additional data to the rows in the profile table. Also, if one of our
-   * module specific sort options above is selected, prepare for sorting.
+   * Add additional data to the rows in the profile table.
+   *
+   * Also, if one of our module specific sort options above is selected, prepare
+   * for sorting.
    */
-  function list_build_row($profile, &$form_state, $operations) {
+  public function list_build_row($profile, &$form_state, $operations) {
     parent::list_build_row($profile, $form_state, $operations);
 
     $name = $profile->name;
@@ -100,6 +104,7 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
       case 'weight':
         $this->sorts[$name] = $weight;
         break;
+
       case 'exposed':
         $this->sorts[$name] = $exposed;
         break;
@@ -109,7 +114,7 @@ class ting_field_search_ctools_export_ui extends ctools_export_ui {
   /**
    * Modify the captions in profile table header.
    */
-  function list_table_header() {
+  public function list_table_header() {
     $header = parent::list_table_header();
 
     // Like in list_build_row() above we want the operations last in the row.

@@ -5,6 +5,8 @@
 
 Editors can manage the content of each queue at `/admin/content/nodequeue`. There is a queue, *Frontpage tabroll*, for the frontpage carousel.
 
+Also on `/admin/config/ding/frontend` local admins can set the delay time (in ms) between tabs switching.
+
 A tabroll-carousel will not repeat its cycle unless at least 5 itemsa have been added to the queue.
 
 Tabroll supports reponsive web design. The whole box will expand to its bounding container, and will maintain its width:height aspect ratio.

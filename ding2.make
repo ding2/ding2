@@ -41,6 +41,11 @@ projects[cs_adaptive_image][version] = "1.0"
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.12"
 
+projects[customerror][subdir] = "contrib"
+projects[customerror][version] = "1.4"
+projects[customerror][patch][] = "https://www.drupal.org/files/issues/customerror-2836107-switch_between_text_formats.patch"
+projects[customerror][patch][] = "patches/customerror-disable_auto_redirect.ding2.patch"
+
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 
@@ -218,10 +223,10 @@ projects[maintenance_mode_api][version] = "1.0-beta1"
 projects[media][subdir] = "contrib"
 projects[media][version] = "2.0"
 ; Patch against SA-CONTRIB-2018-020
-projects[media][patches][] = "https://cgit.drupalcode.org/media/patch/?id=1cd77ffa9c2cf96d80b76d47318179a8a82f0d46"
+projects[media][patch][] = "https://cgit.drupalcode.org/media/patch/?id=1cd77ffa9c2cf96d80b76d47318179a8a82f0d46"
 
 projects[media_vimeo][subdir] = "contrib"
-projects[media_vimeo][version] = "2.0-rc1"
+projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "3.0"
@@ -503,7 +508,7 @@ projects[ding_spt_statistics][download][branch] = "development"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-4.4.2"
+libraries[bpi-client][download][tag] = "7.x-4.5.0"
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
@@ -563,8 +568,8 @@ libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][tag] = "7.x-4.4.2"
 libraries[ting-client][destination] = "modules/opensearch/lib"
+libraries[ting-client][download][tag] = "7.x-4.5.0"
 
 libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"

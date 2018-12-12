@@ -161,8 +161,11 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   $variables['classes_array'][] = 'opening-hours-week-' . $variables['node']->nid;
   $variables['classes_array'][] = 'opening-hours-week';
 
-  if (variable_get('ding_ddbasic_opening_hours_expand_on_library', FALSE)) {
-    drupal_add_js(array('ding_ddbasic_opening_hours' => array('expand_on_library' => TRUE)), 'setting');
+  if (variable_get('ding_ddbasic_opening_hours_expand_setting') == 'expand_on_first') {
+    drupal_add_js(array('ding_ddbasic_opening_hours' => array('expand_on_first_library' => TRUE)), 'setting');
+  }
+  elseif (variable_get('ding_ddbasic_opening_hours_expand_setting') == 'expand_all') {
+    drupal_add_js(array('ding_ddbasic_opening_hours' => array('expand_all_libraries' => TRUE)), 'setting');
   }
 }
 

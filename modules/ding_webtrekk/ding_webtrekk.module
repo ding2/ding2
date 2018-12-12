@@ -60,11 +60,11 @@ function ding_webtrekk_page_alter(&$page) {
   // search_data() function from core search module. Since this is not tied to
   // any path, we also check current_path().
   if (strpos(current_path(), 'search/ting') === 0) {
-    if ($search_result = drupal_static('ting_search_results', FALSE)) {
+    if ($search_result = ting_search_current_results()) {
       $params = [
         'pageTitle' => 'Search ting',
-        'OSS' => $search_result->search_key,
-        'OSSr' => $search_result->numTotalObjects,
+        'OSS' => $search_result->getSearchRequest()->getFullTextQuery(),
+        'OSSr' => $search_result->getNumTotalObjects(),
       ];
       _ding_webtrekk_set_data_layer_values($params);
     }
