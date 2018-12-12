@@ -172,7 +172,7 @@
       dataType : 'json',
       success : function (data) {
         // Remove placeholders.
-        item.tab.find('.ding-carousel-item.placeholder').remove();
+        item.tab.find('.ding-carousel-item.placeholder').closest('.slick-slide').remove();
         item.tab.find('.carousel').slick('slickAdd', data.content);
         item.tab.data('offset', data.offset);
         item.tab.data('updating', false);
