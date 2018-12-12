@@ -83,6 +83,18 @@ function ddbasic_preprocess_field(&$vars, $hook) {
       $vars['classes_array'][] = 'field-name-ding-library-name';
     }
   }
+
+  //
+  // Set all the fields that should display image-text.
+  $display_image_text_fields = array(
+    'field_ding_page_title_image',
+    'field_ding_news_title_image',
+    'field_ding_event_title_image',
+    'field_ding_group_title_image',
+  );
+  if (in_array($vars['element']['#field_name'], $display_image_text_fields)) {
+    $vars['theme_hook_suggestions'][] = 'field__display_image_text';
+  }
 }
 
 /**
@@ -165,4 +177,35 @@ function ddbasic_preprocess__field__field_ding_news_files(&$vars) {
     $vars['items'][$delta]['#suffix'] = '<span class="file-type">(' . $file_type . ')</span>';
 
   }
+}
+
+/**
+ * Display image text
+ */
+function ddbasic_field__display_image_text($vars) {
+  $output = '';
+
+  // Render the label, if it's not hidden.
+  if (!$vars['label_hidden']) {
+    $output .= '<div class="field-label"' . $vars['title_attributes'] . '>' . $vars['label'] . ':&nbsp;</div>';
+  }
+
+  // Render the items.
+  $output .= '<div class="field-items"' . $vars['content_attributes'] . '>';
+  foreach ($vars['items'] as $delta => $item) {
+    $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
+    $output .= '<div class="' . $classes . '"' . $vars['item_attributes'][$delta] . '>' . drupal_render($item);
+
+    // Add title as image caption if it exists.
+    if (!empty($item['#item']['title'])) {
+      $output .= '<div class="field-image-caption">' . $item['#item']['title'] . '</div>';
+    }
+
+    $output .= '</div>';
+  }
+  $output .= '</div>';
+
+  // Render the top-level DIV.
+  $output = '<div class="' . $vars['classes'] . '"' . $vars['attributes'] . '>' . $output . '</div>';
+  return $output;
 }

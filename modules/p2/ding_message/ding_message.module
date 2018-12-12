@@ -116,7 +116,7 @@ function ding_message_get_users_to_check() {
     ->orderBy('u.login', 'DESC')
     ->orderBy('dmc.time', 'ASC')
     ->range(0, variable_get('ding_message_batch_size', 50));
-  $query->where('u.login > dmc.time');
+  $query->where('u.login > dmc.time OR dmc.uid IS NULL');
 
   $accounts = array_values($query->execute()->fetchAllKeyed(0, 0));
 
@@ -249,41 +249,42 @@ function ding_message_check_element($uid, DingListElement $element, $message = N
       if ($result->getNumTotalCollections() > 0) {
         // Get the first element in the search result set.
         $collections = $result->getTingEntityCollections();
-        $first_collection = current($collections);
-        if (!empty($message)) {
-          // If the first search result element
-          // doesn't match the stored last id, update the message.
-          if ($first_collection->getId() != $last_element_id) {
-            // Get the result set ids.
-            $collection_ids = array_map(function (TingCollection $collection) {
-              return $collection->getId();
-            }, $collections);
-            // Get the amount of new elements since last check.
-            // We assume the result set is consistently ranked by date.
-            $count = array_search($last_element_id, $collection_ids);
-            // Add the count to the new elements count.
-            $new_elements_count += $count;
-            if ($status != DING_MESSAGE_ACTIVE) {
-              // If the messages has been seen,
-              // set the last and first element ids.
-              // Set all values for a new message to be created.
-              $last_element_id = $first_collection->getId();
-              $first_element_id = $collection_ids[$count - 1];
+        if ($first_collection = current($collections)) {
+          if (!empty($message)) {
+            // If the first search result element
+            // doesn't match the stored last id, update the message.
+            if ($first_collection->getId() != $last_element_id) {
+              // Get the result set ids.
+              $collection_ids = array_map(function (TingCollection $collection) {
+                return $collection->getId();
+              }, $collections);
+              // Get the amount of new elements since last check.
+              // We assume the result set is consistently ranked by date.
+              $count = array_search($last_element_id, $collection_ids);
+              // Add the count to the new elements count.
+              $new_elements_count += $count;
+              if ($status != DING_MESSAGE_ACTIVE) {
+                // If the messages has been seen,
+                // set the last and first element ids.
+                // Set all values for a new message to be created.
+                $last_element_id = $first_collection->getId();
+                $first_element_id = $collection_ids[$count - 1];
+              }
+              // Tell the function that there are updates to save.
+              $has_updates = TRUE;
             }
-            // Tell the function that there are updates to save.
+          }
+          else {
+            // Set all values for a new message to be created.
+            // First element is the first item of the search, which
+            // is actually the last in the array, and last element
+            // is therefore the first item in the array.
+            $last_element_id = $first_collection->getId();
+            $first_element = end($collections);
+            $first_element_id = $first_element->getId();
+            $new_elements_count += $result->getNumTotalCollections();
             $has_updates = TRUE;
           }
-        }
-        else {
-          // Set all values for a new message to be created.
-          // First element is the first item of the search, which
-          // is actually the last in the array, and last element
-          // is therefore the first item in the array.
-          $last_element_id = $first_collection->getId();
-          $first_element = end($collections);
-          $first_element_id = $first_element->getId();
-          $new_elements_count += $result->getNumTotalCollections();
-          $has_updates = TRUE;
         }
       }
       break;

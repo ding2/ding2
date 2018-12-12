@@ -3,15 +3,15 @@
 (function($) {
   'use strict';
 
-  // Set height for news teasers.
-  $(window).bind('resize.ding_news_teaser', function (evt) {
-    var ding_news_teaser_height = 0;
+    // Set height for news teasers.
+    $(window).bind('resize.ding_news_teaser', function (evt) {
+      var ding_news_teaser_height = 0;
 
-    $('.node-ding-news.node-teaser').each(function (delta, view) {
-      ding_news_teaser_height = $(this).find('.inner').outerHeight();
-      $(this).height(ding_news_teaser_height);
+      $('.node-ding-news.node-teaser').each(function (delta, view) {
+        ding_news_teaser_height = $(this).find('.inner').outerHeight();
+        $(this).height(ding_news_teaser_height);
+      });
     });
-  });
 
   // Call resize function when images are loaded.
   Drupal.behaviors.ding_news_teaser_loaded = {
@@ -31,7 +31,8 @@
           hovered;
       $('.node-ding-news.node-teaser', context).mouseenter(function() {
         // Set height for title and lead text.
-        title_and_lead_height = $(this).find('.title').outerHeight(true) + $(this).find('.field-name-field-ding-news-lead .field-items').outerHeight(true) + 70;
+        title_and_lead_height = $(this).find('.title').outerHeight(true) + $(this).find('.field-name-field-ding-news-lead').outerHeight(true) + 50;
+
         $(this).find('.title-and-lead').css('min-height', title_and_lead_height);
 
         // Set timeout to make shure element is still above while it animates
@@ -42,9 +43,10 @@
           hovered.addClass('is-hovered');
         }, 300);
       });
-      $('.node-ding-news.node-teaser', context).mouseleave(function() {
+      $('.node-ding-news.node-teaser').mouseleave(function() {
          $(this).find('.title-and-lead').css('min-height', '');
       });
     }
   };
+
 })(jQuery);

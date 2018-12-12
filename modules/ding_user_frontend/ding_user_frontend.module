@@ -67,11 +67,6 @@ function ding_user_frontend_block_info() {
     'cache' => DRUPAL_CACHE_PER_USER,
   );
 
-  $blocks['ding-user-loan-number'] = array(
-    'info' => t('Ding loan, reservation, and debt count'),
-    'cache' => DRUPAL_NO_CACHE,
-  );
-
   $blocks['ding-user-ajax-login'] = array(
     'info' => t('Ding ajax login button'),
     'cache' => DRUPAL_NO_CACHE,
@@ -88,11 +83,6 @@ function ding_user_frontend_theme($existing, $type, $theme, $path) {
     'ding_user_frontend_user_name' => array(
       'variables' => array('account' => NULL, 'name' => NULL),
       'template' => 'ding_user_frontend_user_name',
-      'path' => $path . '/templates',
-    ),
-    'ding_user_frontend_user_status' => array(
-      'variables' => array('status' => array()),
-      'template' => 'ding_user_frontend_user_status',
       'path' => $path . '/templates',
     ),
   );
@@ -118,90 +108,6 @@ function ding_user_frontend_block_view($delta) {
           ));
         }
       }
-      break;
-
-    case 'ding-user-loan-number':
-      try {
-        // We don't really need the credentials here, but getting them
-        // causes an exception to be thrown if user is not
-        // authenticated, exiting this block of code, which is what we
-        // want. No credentials, no user status. (The creds are store in the
-        // session, so it's a fast check, where ding_user_is_provider_user would
-        // use the database.)
-        ding_user_get_creds();
-      }
-      catch (DingProviderAuthException $e) {
-        return;
-      }
-
-      // Get debts count.
-      $uri = entity_uri('user', $user);
-      $count = count(ding_provider_invoke_page('debt', 'list', $user));
-      if ($count) {
-        $content[] = array(
-          '#theme' => 'ding_user_frontend_user_status',
-          '#status' => array(
-            'class' => 'user-status-debt',
-            'label' => format_plural($count, 'Debt', 'Debts'),
-            'count' => $count,
-            'link' => url($uri['path'] . '/status-debts'),
-          ),
-        );
-      }
-
-      // Get reservations ready for pick-up.
-      $count = count(ding_provider_invoke_page('reservation', 'list', $user, DING_RESERVATION_READY));
-      if ($count) {
-        $content[] = array(
-          '#theme' => 'ding_user_frontend_user_status',
-          '#status' => array(
-            'class' => 'user-status-ready-pickup',
-            'label' => format_plural($count, 'Reservation ready for pick-up', 'Reservations ready for pick-up'),
-            'count' => $count,
-            'link' => url($uri['path'] . '/status-reservations'),
-          ),
-        );
-      }
-
-      // Get loans.
-      $count = count(ding_provider_invoke_page('loan', 'list', $user));
-      if ($count) {
-        $content[] = array(
-          '#theme' => 'ding_user_frontend_user_status',
-          '#status' => array(
-            'class' => 'user-status-loan',
-            'label' => format_plural($count, 'Loan', 'Loans'),
-            'count' => $count,
-            'link' => url($uri['path'] . '/status/'),
-          ),
-        );
-      }
-
-      // Get total reservation count.
-      $types = ding_provider_invoke_page('reservation', 'list', $user);
-      $count = 0;
-      foreach ($types as $type) {
-        $count += count($type);
-      }
-      if ($count) {
-        $content[] = array(
-          '#theme' => 'ding_user_frontend_user_status',
-          '#status' => array(
-            'class' => 'user-status-reservation',
-            'label' => format_plural($count, 'Reservation', 'Reservations'),
-            'count' => $count,
-            'link' => url($uri['path'] . '/status-reservations'),
-          ),
-        );
-      }
-
-      if (empty($data['content'])) {
-        $data['content'] = t('You do not currently have any loans, reservations or debts.');
-      }
-
-      // Build the block.
-      $block['subject'] = t('Your user loan status');
-      $block['content'] = $content;
       break;
 
     case 'ding-user-ajax-login':

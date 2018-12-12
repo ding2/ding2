@@ -385,10 +385,10 @@ function ding_availability_render_legend() {
   $image_path = drupal_get_path('module', 'ding_availability') . '/images/blank.gif';
 
   // Make some text, image's alt & title tags (SEO, accessibility).
-  $availability_legend['available']     = t('Available');
-  $availability_legend['on-loan']       = t('On loan');
-  $availability_legend['unavailable']   = t('Unavailable');
-  $availability_legend['unreservable']   = t('Not reservable');
+  $availability_legend['available'] = t('Available');
+  $availability_legend['on-loan'] = t('On loan');
+  $availability_legend['unavailable'] = t('Unavailable');
+  $availability_legend['unreservable'] = t('Not reservable');
 
   // Render image html using theme_image (returns NULL if file doesn't exist).
   foreach ($availability_legend as $key => $val) {

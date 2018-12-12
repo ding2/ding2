@@ -106,6 +106,9 @@ function ding_event_strongarm() {
       'alternative_layout_full' => array(
         'custom_settings' => TRUE,
       ),
+      'teaser_no_overlay' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -161,13 +164,6 @@ function ding_event_strongarm() {
   $strongarm->name = 'flag_push_to_mongo_default_ding_event';
   $strongarm->value = 1;
   $export['flag_push_to_mongo_default_ding_event'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'flag_mobile_app_default_ding_event';
-  $strongarm->value = 1;
-  $export['flag_mobile_app_default_ding_event'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

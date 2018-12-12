@@ -234,10 +234,12 @@ function ding_entity_rating_field_formatter_view($entity_type, $entity, $field, 
 function ding_entity_rating_get_user_rating($entity) {
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST);
   $result = FALSE;
-  $element = $list->hasElement($entity->ding_entity_id);
 
-  if ($element !== FALSE) {
-    $result = $element->getData('weight');
+  if (!is_null($list)) {
+    $element = $list->hasElement($entity->ding_entity_id);
+    if ($element !== FALSE) {
+      $result = $element->getData('weight');
+    }
   }
 
   return $result;

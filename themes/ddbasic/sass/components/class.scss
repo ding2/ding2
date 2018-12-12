@@ -162,7 +162,8 @@ body > .ding2-site-template {
   padding: 20px 80px 14px 15px;
   border-radius: $round-corner;
   &.reserve-button,
-  &.button-see-online {
+  &.button-see-online,
+  &.ding-gatewayf-link {
     color: $white;
     background-color: $black;
   }
@@ -213,9 +214,15 @@ body > .ding2-site-template {
     background-color: $charcoal;
   }
   input[type="submit"] {
+    @include transition(color $speed $ease);
     position: relative;
     z-index: 2;
     background-color: transparent;
+    color: $color-text-on-secondary;
+
+    &:hover {
+      color: $white;
+    }
   }
   // Example icon
   &.example-icon {
@@ -280,6 +287,7 @@ a.topbar-link-opening-hours {
 // Topbar link signout
 a.topbar-link-signout {
   @include button(close, $charcoal-opacity-dark, $grey-medium);
+  padding-right: 14px;
 }
 
 // Topbar link user account
@@ -366,6 +374,15 @@ a.print-button {
 
 .background-image-styling-16-9 {
   @include aspect-ratio-background-image(16, 9);
+}
+
+// ==========================================================================
+// Image caption
+// ==========================================================================
+
+.field-image-caption {
+  margin-top: 10px;
+  color: $charcoal-opacity-dark;
 }
 
 // ==========================================================================
@@ -613,24 +630,13 @@ ul.tabs.primary {
     width: 84px;
     height: 84px;
     margin: 0 auto 20px;
-    &::after {
+    svg {
       @include animation(spin 1s linear infinite);
-      content: '';
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('../../images/spinner.png');
-      background-size: 100% auto;
-    }
-
-    // Hidpi
-    @include hidpi() {
-      &::after {
-        background-image: url('../../images/spinner@x2.png');
-        background-size: 100% auto;
-      }
     }
   }
   .search-overlay--text {
@@ -642,66 +648,6 @@ ul.tabs.primary {
     a {
       color: $charcoal-opacity-dark;
     }
-  }
-}
-
-// ==========================================================================
-// User status
-// ==========================================================================
-.user-status {
-  position: relative;
-  display: block;
-  width: 100%;
-  padding: 30px 20px;
-  border-radius: $round-corner;
-  margin-bottom: 10px;
-
-  @include font('display-small');
-  background-color: $grey-dark;
-  color: $white;
-
-  @include media($notebook) {
-    @include font('base');
-    font-family: $font-family-bold;
-  }
-
-  //Right arrow
-  &::after {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-
-    @include transform(translateY(-50%));
-    font-family: 'icomoon';
-    content: "\e904";
-    font-size: 54px;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-  }
-
-  .user-status-amount {
-    margin-right: 20px;
-  }
-
-  &.user-status-debt {
-    background-color: $red;
-  }
-
-  &.user-status-reservation {
-    background-color: $green;
-  }
-
-  //Hover
-  &:hover {
-    @include transition(
-      background-color $speed $ease
-    );
-    background-color: $grey-medium;
-    color: $white;
   }
 }
 

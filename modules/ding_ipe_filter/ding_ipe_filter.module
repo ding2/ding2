@@ -225,7 +225,6 @@ function _ding_ipe_filter_selected_panes() {
   $default = array(
     'ding-ding_nodelist:' => 'ding-:ding_nodelist',
     'ding-:ding_item_list' => 'ding-:ding_item_list',
-    'ding-:campaign' => 'ding-:campaign',
     'ding-:single_campaign' => 'ding-:single_campaign',
     'ting:carousel' => 'ting:carousel',
     'miscellaneous:ding_event_calendar-ding-event-calendar' => 'miscellaneous:ding_event_calendar-ding-event-calendar',
@@ -236,6 +235,7 @@ function _ding_ipe_filter_selected_panes() {
     'menus:menu_block-3' => 'menus:menu_block-3',
     'menus:menu_block-4' => 'menus:menu_block-4',
     'easyopac:section_description_image' => 'easyopac:section_description_image',
+    'ding-:campaign' => 'ding-:campaign',
   );
 
   $selected = variable_get('ding_ipe_filter_panes_selected', $default);

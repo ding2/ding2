@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * @file
+ * Main code for ting_covers_placeholder module.
+ */
+
+/**
+ * Implements hook_ting_covers().
+ */
+function ting_covers_placeholder_ting_covers(array $entities) {
+  // Some entries refer to a non-existing entity. Remove these.
+  $entities = array_filter($entities);
+
+  return array_map(function(TingEntity $entity) {
+    // Some of the larger displays of covers are 260px wide. Lets use that.
+    // Using a very large size will make the text appear very small if the image
+    // is resized.
+    $width = 260;
+    // Many cover locations seems to assume a 13/10 ratio.
+    $height = round($width * 1.3);
+    // Text should be black.
+    $text_color_hex = ting_covers_rgb_to_hex(['r' => 0, 'b' => 0, 'g' => 0]);
+    $text = $entity->getId();
+    // Seed random background color with entity id to ensure that an entity
+    // always gets the same color. Use white as a mixer to generate nice pastel
+    // colors.
+    $background_color = ting_covers_placeholder_random_color($entity->getId());
+    $background_color_hex = ting_covers_rgb_to_hex($background_color);
+
+    return ting_covers_placeholder_cover_url($width, $height, $background_color_hex, $text_color_hex, $text);
+  }, $entities);
+}
+
+/**
+ * Generate a random color.
+ *
+ * @param string $seed
+ *   The string to seed the random generator.
+ * @param int[] $color
+ *   A base color to use as a base in RGB format. One integer entry per
+ *   component. Defaults to white.
+ *
+ * @return int[]
+ *   A random color in RGB format. One integer entry per component.
+ */
+function ting_covers_placeholder_random_color($seed = '', $color = ['r' => 255, 'g' => 255, 'b' => 255]) {
+  // We need an integer to seed the random number generator. Base 36 encoding
+  // will convert a string to an integer but we need to limit the length of the
+  // string to avoid running into the max integer limit. CRC32B will ensure that
+  // we have a 8 char string.
+  if (!empty($seed)) {
+    $seed = intval(hash('crc32b', $seed), 36);
+    mt_srand($seed);
+  }
+
+  // Generate a random color which is reasonably aesthetically pleasing.
+  // Inspired by https://stackoverflow.com/a/43235.
+  $color['r'] = ($color['r'] + mt_rand(0, 255)) / 2;
+  $color['g'] = ($color['g'] + mt_rand(0, 255)) / 2;
+  $color['b'] = ($color['b'] + mt_rand(0, 255)) / 2;
+  return array_map('round', $color);
+}
+
+/**
+ * Convert RGB color array to a HEX string.
+ *
+ * Example: yellow = [255, 255, 0] = FFFF00.
+ *
+ * @param int[] $rgb
+ *   Color in RGB format. One integer entry per component.
+ *
+ * @return string
+ *   Corresponding string representation of the color in HEX format.
+ */
+function ting_covers_rgb_to_hex(array $rgb) {
+  return implode(array_map(function($color) {
+    return str_pad(dechex($color), 2, 0);
+  }, $rgb));
+}
+
+/**
+ * Generate url to an image on placeholder.com
+ *
+ * @param int $width
+ *   The width of the image in pixels.
+ * @param int $height
+ *   The height of the image in pixels.
+ * @param string $background_color
+ *   The background color in HEX format.
+ * @param string $text_color
+ *   The text color in HEX format.
+ * @param string $text
+ *   The text to dislay on the image.
+ *
+ * @see https://placeholder.com/
+ *
+ * @return string
+ *   The url to the corresponding placeholder image.
+ */
+function ting_covers_placeholder_cover_url($width, $height, $background_color, $text_color, $text) {
+  $text = urlencode($text);
+  return "http://via.placeholder.com/{$width}x{$height}/{$background_color}/{$text_color}?text={$text}";
+}

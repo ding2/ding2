@@ -68,7 +68,7 @@ gulp.task('validate-sass', 'Validate the SCSS', function () {
  * Precompile all sass files into css files in the sass_css folder
  *
  */
-gulp.task('sass', 'Process SCSS using libsass',
+gulp.task('sass', 'Process SCSS into individual css files using libsass',
   function () {
     gulp.src(sassPath)
       .pipe(sass({outputStyle: 'nested'})
@@ -85,8 +85,10 @@ gulp.task('sass', 'Process SCSS using libsass',
   * Usage:
   * gulp kss
   *
-  * Create the KSS micro site in the stylesheets folder
+  * Create the KSS micro site in the stylesheets folder.
   * See ./sass/homepage.md
+  *
+  * To update the kss css files call gulp ksssass.
   *
   */
 gulp.task('kss', 'Process SCSS using KSS / kss-node',
@@ -100,6 +102,7 @@ gulp.task('kss', 'Process SCSS using KSS / kss-node',
 
     // Create the bundle.css
     gulp.src('./sass_css/**/*.css')
+      .pipe(cleanCSS())
       .pipe(concat('bundle.css'))
       .pipe(gulp.dest('./sass_css'));
 

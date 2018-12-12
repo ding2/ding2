@@ -52,12 +52,3 @@ function ting_relation_theme() {
     ),
   );
 }
-
-/**
- * Implements hook_ding_anchor_info().
- *
- * Builds the lists of relations to use as anchors when display a ting entity.
- */
-function ting_relation_ding_anchor_info() {
-  return ding_provider_invoke('search', 'supported_relations');
-}

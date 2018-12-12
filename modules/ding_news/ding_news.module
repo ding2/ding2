@@ -123,6 +123,19 @@ function ding_news_preprocess_views_view(&$vars) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_news_form_views_exposed_form_alter(&$form, &$form_state) {
+  if ($form_state['view']->name == 'ding_news' && $form_state['view']->current_display == 'ding_news_list') {
+    if (!empty($form['#info']['filter-og_group_ref_target_id_entityreference_filter'])) {
+      $label = $form['#info']['filter-og_group_ref_target_id_entityreference_filter']['label'];
+      unset($form['#info']['filter-og_group_ref_target_id_entityreference_filter']['label']);
+      $form['og_group_ref_target_id_entityreference_filter']['#title'] = '<h2 class="list-title sub-menu-title">' . $label . '</h2>';
+    }
+  }
+}
+
+/**
  * Implements hook_menu().
  */
 function ding_news_menu() {

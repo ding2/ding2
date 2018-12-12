@@ -58,12 +58,24 @@ web-services that runs OpenSSL v1.0.x or newer works.
   ~$ wget -qO- http://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
 ```
 
-__Optional__,but recommended patch that ensures that Ajax errors only are
-displayed when not in readystate 4. So when the user presses enter to perform a
-search before auto-complete Ajax is call is completed an error will not be
-displayed.
+__Optional, but recommended patches__
+
+Ensures that Ajax errors only are displayed when not in readystate 4. So when
+the user presses enter to perform a search before auto-complete Ajax is call is
+completed an error will not be displayed.
 ```sh
   ~$ wget -qO- http://www.drupal.org/files/issues/autocomplete-1232416-205-7x.patch | patch -p1
+```
+
+Fixes the problem with scrolls when dragging items within tables in the backend.
+```sh
+  ~$ wget -qO- http://www.drupal.org/files/issues/drupal-tabledrag-scroll-2843240-36.patch | patch -p1
+```
+
+Modification to Drupal core's robots.txt that disallows gatewayf urls. So if
+you're using this module, apply this patch too.
+```sh
+  patch -p1 < profiles/ding2/patches/drupal_core.robots.txt.ding2.patch
 ```
 
 ## Build Ding2 installation profile
@@ -103,8 +115,9 @@ all the questions.
 If you are using an deployment system you may not want to patch Drupal core
 manually in a production environment.
 ```sh
-  ~$ wget https://raw.github.com/ding2/ding2/release/drupal.make
-  ~$ drush make --working-copy --contrib-destination=profiles/ding2/ drupal.make htdocs
+  ~$ git clone git@github.com:ding2/ding2.git ding2
+  ~$ drush make --working-copy --contrib-destination=profiles/ding2 ding2/drupal.make .
+  ~$ rm -rf ding2
 ```
 
 # Post installation

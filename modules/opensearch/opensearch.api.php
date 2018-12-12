@@ -9,16 +9,15 @@
  *
  * Alter is done before saving and fetching results from the opensearch_cache.
  *
- * Since hook_opensearch_pre_execute and hook_opensearch_post_execute is not run
- * for cached requests, we need this hook to give other modules, that doesn't
- * always alter the request in the same way, a chance to modify the cache key.
- * This enables the opensearch_cache system to differentiate and use the correct
- * results from the opensearch_cache bin.
+ * Please ensure that this is as fast as possible. So use the drupal_fast_static
+ * method as this will be called for earch search request.
  *
  * @param string $cid
  *   The cache key that can be altered.
+ * @param \TingClientSearchRequest $request
+ *   The current request object.
  */
-function hook_opensearch_cache_key(&$cid) {
+function hook_opensearch_cache_key_alter(&$cid, TingClientSearchRequest $request) {
   // Determine context.
   $context = 'search';
 

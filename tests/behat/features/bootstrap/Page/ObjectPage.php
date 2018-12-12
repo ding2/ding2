@@ -108,22 +108,6 @@ class ObjectPage extends PageBase {
   }
 
   /**
-   * Hasn't add to list.
-   *
-   * @return string
-   *    Nonempty if Add to list is not found.
-   */
-  public function hasNotAddToList() {
-    $button = $this->find('xpath', "//div[contains(@class,'ding-list-add-button')]/a[contains(@class,'trigger')]");
-    if ($button) {
-      if ($button->isVisible()) {
-        return "Add To List button is visible, and it shouldn't be";
-      }
-    }
-    return "";
-  }
-
-  /**
    * Has Cover Page.
    *
    * @return string
