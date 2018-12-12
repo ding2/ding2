@@ -311,17 +311,15 @@ function ding_place2book_process_node(&$variables) {
   if ($variables['type'] == 'ding_event' && $variables['view_mode'] == 'full') {
     $p2b_settings = ding_place2book_settings($variables['nid']);
     $p2b_id = $p2b_settings['place2book_id'];
-    if (empty($p2b_id) || $p2b_id == DING_PLACE2BOOK_NO_ID) {
-      unset($variables['book_button']);
-      return;
-    }
 
-    $url = !empty($variables['field_ding_event_ticket_link'][0]['url']) ? $variables['field_ding_event_ticket_link'][0]['url'] : '';
-    $variables['book_button'] = theme('place2book_ticketsinfo', [
-      'place2book_id' => $p2b_settings['place2book_id'],
-      'url' => $url,
-      'type' => $p2b_settings['ticket_status'],
-    ]);
+    if (!empty($p2b_id) && $p2b_id != DING_PLACE2BOOK_NO_ID) {
+      $url = !empty($variables['field_ding_event_ticket_link'][0]['url']) ? $variables['field_ding_event_ticket_link'][0]['url'] : '';
+      $variables['book_button'] = theme('place2book_ticketsinfo', [
+        'place2book_id' => $p2b_settings['place2book_id'],
+        'url' => $url,
+        'type' => $p2b_settings['ticket_status'],
+      ]);
+    }
   }
 }
 
