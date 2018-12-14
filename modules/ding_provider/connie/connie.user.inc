@@ -9,9 +9,7 @@
  * Provider authenticate callback.
  */
 function connie_user_authenticate($name, $pass) {
-  $res = array(
-    'success' => FALSE,
-  );
+  $res = array();
 
   // Default password is the four last letters in the name.
   $password = drupal_substr($name, -4);
@@ -43,6 +41,8 @@ function connie_user_authenticate($name, $pass) {
     // This is how we pass data from here (where the profile2 profile
     // might not yet exist) to the profile_init callback.
     $res['private']['branch'] = 'aby';
+  } else {
+    throw new DingProviderUserAuthFailure();
   }
 
   return $res;
