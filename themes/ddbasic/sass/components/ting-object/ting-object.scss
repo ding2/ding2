@@ -226,9 +226,9 @@
       }
       .field-name-ting-title {
         h2 {
-          @include font('display');
+          @include font('display-small');
           width: 100%;
-          margin-bottom: 4px;
+          margin-bottom: 0;
           color: $color-standard-text;
         }
       }
