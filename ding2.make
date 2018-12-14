@@ -155,7 +155,7 @@ projects[htmlmail][subdir] = "contrib"
 projects[htmlmail][version] = "2.65"
 
 projects[honeypot][subdir] = "contrib"
-projects[honeypot][version] = "1.21"
+projects[honeypot][version] = "1.25"
 
 projects[image_resize_filter][subdir] = "contrib"
 projects[image_resize_filter][version] = "1.14"
