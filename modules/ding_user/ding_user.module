@@ -528,14 +528,10 @@ function ding_user_profile_update_validate($form, &$form_state) {
       }
 
       // Check the old pincode with the provider.
-      $auth_res = ding_provider_invoke('user', 'authenticate', ding_user_name(), $form_state['values']['pincode_old']);
-      if (!is_array($auth_res) || !isset($auth_res['success'])) {
-        watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
-        form_set_error('pincode_old', t('There was an error checking the old pincode. Please try again later.'));
-        return;
+      try {
+        $auth_res = ding_provider_invoke('user', 'authenticate', ding_user_name(), $form_state['values']['pincode_old']);
       }
-
-      if (!$auth_res['success']) {
+      catch (DingProviderUserAuthFailure $e) {
         form_set_error('pincode_old', t('The old pincode confirm does not match.'));
       }
     }
