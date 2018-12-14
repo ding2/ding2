@@ -18,6 +18,7 @@ features[features_api][] = api:2
 features[page_manager_handlers][] = contact_site_panel_context
 features[variable][] = honeypot_element_name
 features[variable][] = honeypot_form_contact_site_form
+features[variable][] = honeypot_form_webforms
 features[variable][] = honeypot_log
 features[variable][] = honeypot_protect_all_forms
 features[variable][] = honeypot_time_limit
