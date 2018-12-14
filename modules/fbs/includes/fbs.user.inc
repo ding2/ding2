@@ -103,8 +103,8 @@ function fbs_user_authenticate($name, $pincode) {
  */
 function fbs_user_get_name($account) {
   if (($patron_info = fbs_get_patron_info($account))
-      && isset($patron_info['name'])) {
-    return $patron_info['name'];
+      && isset($patron_info['library_card_number'])) {
+    return $patron_info['library_card_number'];
   }
 
   return NULL;
