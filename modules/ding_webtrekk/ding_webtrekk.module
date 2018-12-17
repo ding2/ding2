@@ -4,6 +4,11 @@
  * Include basic hooks for the module functionality.
  */
 
+// Constants for Webtrekk tracking parameters.
+define('DING_WEBTREKK_PARAMETER_RESERVE', 50);
+define('DING_WEBTREKK_PARAMETER_SEE_ONLINE', 51);
+define('DING_WEBTREKK_PARAMETER_RENEW_ALL', 56);
+
 /**
  * Implements hook_menu().
  */
@@ -204,7 +209,7 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
           ding_webtrekk_attach_event(
             $button['#options']['attributes'],
             'Reserver',
-            [50 => $entity->getId()]
+            [DING_WEBTREKK_PARAMETER_RESERVE => $entity->getId()]
           );
         }
         // See online button.
@@ -212,7 +217,7 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
           ding_webtrekk_attach_event(
             $button['#attributes'],
             'Se online',
-            [51 => $entity->getId()]
+            [DING_WEBTREKK_PARAMETER_SEE_ONLINE => $entity->getId()]
           );
         }
       }
@@ -261,7 +266,7 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
   ding_webtrekk_attach_event(
     $form['actions_container']['actions_top']['renew_all']['#attributes'],
     'Forny alle materialer',
-    [56 => implode(';', $material_ids)]
+    [DING_WEBTREKK_PARAMETER_RENEW_ALL => implode(';', $material_ids)]
   );
 
   // The renew selected button is more complicated, since we need data about
