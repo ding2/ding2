@@ -71,9 +71,8 @@
         .click(function(e) {
           // The renew-all button is implemented by checking all renewable loans
           // and then trigger a click on the renew-selected button. We can use
-          // this jQuere marker to ensure we don't send two events in this case.
-          // See: https://stackoverflow.com/a/10704256
-          if (e.isTrigger) {
+          // originalEvent to check for this.
+          if (e.originalEvent === undefined) {
             return;
           }
 
