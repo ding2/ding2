@@ -48,7 +48,7 @@ body {
     }
   }
   // When search form is extended
-  &.search-form-extended.extended-search-is-open {
+  &.search-form-extended {
     padding-top: $header-height + $search-form-extended-height; // Compensate for fixed header
     // Tablet
     @include media($tablet) {
