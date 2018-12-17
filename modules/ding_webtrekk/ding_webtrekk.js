@@ -111,6 +111,9 @@
       // on the panel pane. There are no panel hooks where we can get the title
       // and easily change the content tree to add event and URL-parameters to
       // elements (content is already rendered when hook is run).
+      // Note that 'once' and 'context' is left out intentionally in the outer
+      // most selector. This is because items in the carousel are lazy loaded
+      // and we want to make sure the selector applies when new items is added.
       $('.ding-carousel').each(function() {
         var key = 'u_navigatedby';
         // We need a title to send as value in the 'u_navigatedby' parameter, so

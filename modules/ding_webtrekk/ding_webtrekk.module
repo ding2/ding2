@@ -51,10 +51,10 @@ function ding_webtrekk_page_alter(&$page) {
         'option: {}
       };' . $tag_integration_logic,
       'type' => 'inline',
-      // Use the JS_LIBRARY group to add script at the top of head. Use -21 for
-      // weight to ensure it's added below the Page parameters which has -22.
-      // The weights are set above -20 to get it above core jQuery library,
-      // which is added with the weight -20.
+      // We want the webtrekk loader as high as possible in the HTML-head, as
+      // recommended in the implementation guidelines. We therefore use the
+      // JS_LIBRARY group and choose a weight lower than the weights in
+      // system_library().
       // See: ding_webtrekk_preprocess_html().
       // See: system_library().
       'group' => JS_LIBRARY,
@@ -194,7 +194,7 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
       'p_mat_indexno' => $entity->getClassification(),
       'p_mat_lang' => $entity->getLanguage(),
       'p_mat_source' => $entity->getAc_source(),
-      'p_mat_category' => implode(';', $entity->reply->getGenre()),
+      'p_mat_category' => implode(';', $entity->getTingObject()->getGenre()),
     ];
     ding_webtrekk_add_page_parameters($params);
   }
@@ -291,6 +291,13 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
 
 /**
  * Use this function to attach webtrekk events to an elements attribute array.
+ *
+ * @param array $attributes
+ *   Attributes array of the element that needs event attached.
+ * @param string $link_id
+ *   The link ID of the event. For example 'Forny alle materialer'.
+ * @param array $data
+ *   The parameter values for the event keyed by the Webtrekk parameter ID.
  */
 function ding_webtrekk_attach_event(&$attributes, $link_id, $data) {
   $event_data = [
