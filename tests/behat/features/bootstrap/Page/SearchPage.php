@@ -900,13 +900,12 @@ class SearchPage extends PageBase {
       return -1;
     }
 
-    // GetText() will here be of the form "(nnn resultater)", where nnn is what we want.
-    // So we will split the string on the space, then substr the '(' away.
+    // GetText() will here be of the form "nnn resultater", where nnn is what we want.
     $resArr = explode(' ', $found->getText());
     if (count($resArr) == 0) {
-      return "Couldn't interpret result as '(x resultater)'. All I found was this: " . $found->getText();
+      return "Couldn't interpret result as 'x resultater'. All I found was this: " . $found->getText();
     }
-    $expectCount = substr($resArr[0], 1);
+    $expectCount = $resArr[0];
 
     return $expectCount;
   }
