@@ -4,6 +4,11 @@
  * Include basic hooks for the module functionality.
  */
 
+// Constants for Webtrekk tracking parameters.
+define('DING_WEBTREKK_PARAMETER_RESERVE', 50);
+define('DING_WEBTREKK_PARAMETER_SEE_ONLINE', 51);
+define('DING_WEBTREKK_PARAMETER_RENEW_ALL', 56);
+
 /**
  * Implements hook_menu().
  */
@@ -32,11 +37,6 @@ function ding_webtrekk_page_alter(&$page) {
     return;
   }
 
-  $params = [
-    'pageTitle' => drupal_get_title(),
-  ];
-  _ding_webtrekk_set_data_layer_values($params);
-
   // @codingStandardsIgnoreStart
   $tag_integration_logic = '/** start TagIntegration loader  */
 (function(c,d,a,f){c.wts=c.wts||[];var g=function(b){var a="";b.customDomain&&b.customPath?a=b.customDomain+"/"+b.customPath:b.tiDomain&&b.tiId&&(a=b.tiDomain+"/resp/api/get/"+b.tiId+"?url="+encodeURIComponent(c.location.href)+"&v=5");if(b.option)for(var d in b.option)a+="&"+d+"="+encodeURIComponent(b.option[d]);return a};if(-1===d.cookie.indexOf("wt_r=1")){var e=d.getElementsByTagName(a)[0];a=d.createElement(a);a.async=!0;a.onload=function(){if("undefined"!==typeof c.wt_r&&!isNaN(c.wt_r)){var b=new Date,a=b.getTime()+1E3*parseInt(c.wt_r);b.setTime(a);d.cookie="wt_r=1;path=/;expires="+b.toUTCString()}};a.onerror=function(){"undefined"!==typeof c.wt_mcp_hide&&"function"===typeof c.wt_mcp_hide.show&&(c.wt_mcp_hide.show(),c.wt_mcp_hide.show=function(){})};a.src="//"+g(f);e.parentNode.insertBefore(a,e)}})(window,document,"script",_tiConfig);
@@ -51,9 +51,44 @@ function ding_webtrekk_page_alter(&$page) {
         'option: {}
       };' . $tag_integration_logic,
       'type' => 'inline',
-      'scope' => 'footer',
+      // We want the webtrekk loader as high as possible in the HTML-head, as
+      // recommended in the implementation guidelines. We therefore use the
+      // JS_LIBRARY group and choose a weight lower than the weights in
+      // system_library().
+      // See: ding_webtrekk_preprocess_html().
+      // See: system_library().
+      'group' => JS_LIBRARY,
+      'weight' => -21,
     ],
   ];
+
+  // Here we collect and add the general page parameters that aren't dependant
+  // on data and timing from a specific hook implementation.
+  $params = [];
+
+  // Tracks whether the user is logged in and, if logged in, what login provider
+  // was used.
+  if (user_is_logged_in()) {
+    // Note that this separation of logged in users might be problematic if some
+    // pages are also cached for authenticated users.
+    if (module_exists('ding_gatewayf') && _ding_gatewayf_is_logged_in_with_gatewayf()) {
+      $params['p_isloggedin'] = 'NemId';
+
+      // This is the landing page for successful user registration with gatewayf.
+      // If the registration was successful, the users will be automatically
+      // logged in. So by also requiring a logged in user before setting parameter
+      // we reduce the chances of false positives. For example, it will prevent
+      // random access to the URL from anonymous users, from being tracked.
+      if (strpos(current_path(), DING_GATEWAYF_REGISTRATION_SUCCESS_URL) === 0) {
+        $params['p_usercreate'] = 'NemId';
+      }
+    }
+    // Fallback to cpr+pin if none the modules we know about was used to log in.
+    else {
+      $params['p_isloggedin'] = 'cpr+pinkode';
+    }
+
+  }
 
   // Track ting search results. We take advantage of the fact that ting_search
   // module stores the result in a static variable when search is triggered via
@@ -61,13 +96,55 @@ function ding_webtrekk_page_alter(&$page) {
   // any path, we also check current_path().
   if (strpos(current_path(), 'search/ting') === 0) {
     if ($search_result = ting_search_current_results()) {
-      $params = [
-        'pageTitle' => 'Search ting',
+      $params += [
         'OSS' => $search_result->getSearchRequest()->getFullTextQuery(),
         'OSSr' => $search_result->getNumTotalObjects(),
       ];
-      _ding_webtrekk_set_data_layer_values($params);
+
+      // Track filters used in the search request. They are called facets, since
+      // for opensearch these will be search facet filters, selected by the user
+      // in the UI.
+      if (!empty($search_result->getSearchRequest()->getFilters())) {
+        $filters = [];
+        foreach ($search_result->getSearchRequest()->getFilters() as $filter) {
+          foreach ($filter->getStatements() as $statement) {
+            $filters[] = $statement->getName() . ':' . $statement->getValue();
+          }
+        }
+        $params['p_s_Facets'] = implode(';', $filters);
+      }
+
+      // Track the page of the search result.
+      $params['p_s_Page'] = $search_result->getSearchRequest()->getPage();
+
+      // Track the sort used in the search request.
+      if (!empty(ting_search_current_results()->getSearchRequest()->getSorts())) {
+        $current_sort = $search_result->getSearchRequest()->getSorts()[0];
+        $params['p_s_Sort'] = ting_search_sort_key_from_sort($current_sort);
+      }
+      else {
+        $params['p_s_Sort'] = variable_get('ting_search_default_sort', 'rank');
+        // If search provider is opensearch we know how to get the actual
+        // ranking used. If not the value 'rank' will need to do.
+        if ($params['p_s_Sort'] === 'rank') {
+          if (ding_provider_get_provider_module_name('search') === 'opensearch') {
+            $params['p_s_Sort'] = variable_get('opensearch_sort_default', 'rank_frequency');
+          }
+        }
+      }
+
+      // Track the ting_field_search profile used in the request. Is the module
+      // enablet and is extended search with profiles activated?
+      if (module_exists('ting_field_search') && variable_get('ting_field_search_search_style', FALSE)) {
+        if ($profile = ting_field_search_get_active_profile()) {
+          $params['p_OSSprofile'] = $profile->name;
+        }
+      }
     }
+  }
+
+  if (!empty($params)) {
+    ding_webtrekk_add_page_parameters($params);
   }
 }
 
@@ -90,35 +167,191 @@ function ding_webtrekk_views_post_execute(&$view) {
     $loaded = TRUE;
 
     $params = [
-      'internalSearch' => array_shift($view->args),
-      'numberSearchResults' => $view->total_rows,
-      'pageTitle' => 'Search content',
+      'OSS' => array_shift($view->args),
+      'OSSr' => $view->total_rows,
     ];
 
-    _ding_webtrekk_set_data_layer_values($params);
+    // If using views pager; track the current search result page here also.
+    if (isset($view->query->pager->current_page)) {
+      $params['p_s_Page'] = ++$view->query->pager->current_page;
+    }
+
+    ding_webtrekk_add_page_parameters($params);
   }
 }
 
 /**
- * Pass Tag Information variables to the inline js script.
- *
- * @param array $value_map
- *   Key, value collection of parameters to be considered.
+ * Implements hook_ding_entity_view().
  */
-function _ding_webtrekk_set_data_layer_values(array $value_map) {
-  $hook = 'ding_webtrekk_set_data_layer_values';
-  $modules = module_implements($hook);
-  foreach ($modules as $module) {
-    if (function_exists($module . '_' . $hook)) {
-      $params[] = module_invoke($module, $hook);
+function ding_webtrekk_ding_entity_view($entity, $view_mode) {
+  $entity_path = entity_uri('ting_object', $entity)['path'];
+
+  // The page parametes for the ting object view should only be added on the
+  // full page view for the material.
+  if ($view_mode == 'full' && current_path() == $entity_path) {
+    $params = [
+      'p_mat_type' => $entity->getType(),
+      'p_mat_indexno' => $entity->getClassification(),
+      'p_mat_lang' => $entity->getLanguage(),
+      'p_mat_source' => $entity->getAc_source(),
+      'p_mat_category' => implode(';', $entity->getTingObject()->getGenre()),
+    ];
+    ding_webtrekk_add_page_parameters($params);
+  }
+
+  // Look for at reserve button on this ding entity and setup a Webtrekk event
+  // if present. These could be added in every view_mode and page.
+  if (isset($entity->content['ding_entity_buttons'])) {
+    foreach (element_children($entity->content['ding_entity_buttons']) as $delta) {
+      foreach ($entity->content['ding_entity_buttons'][$delta] as $key => &$button) {
+        // Reserve button.
+        if (isset($button['#path']) && $button['#path'] == $entity_path . '/reserve') {
+          ding_webtrekk_attach_event(
+            $button['#options']['attributes'],
+            'Reserver',
+            [DING_WEBTREKK_PARAMETER_RESERVE => $entity->getId()]
+          );
+        }
+        // See online button.
+        elseif (isset($button['#attributes']) && in_array('button-see-online', $button['#attributes']['class'])) {
+          ding_webtrekk_attach_event(
+            $button['#attributes'],
+            'Se online',
+            [DING_WEBTREKK_PARAMETER_SEE_ONLINE => $entity->getId()]
+          );
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_webtrekk_form_search_block_form_alter(&$form, &$form_state) {
+  $form['#attributes']['class'][] = 'js-ding-webtrekk-autocomplete';
+}
+
+/**
+ * Implements hook_preprocess_ding_entity_rating_display().
+ */
+function ding_webtrekk_preprocess_ding_entity_rating_display(&$variables) {
+  $variables['classes_array'][] = 'js-ding-webtrekk-rating-event';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Attached Webtrekk events to the renew loan buttons.
+ */
+function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
+  // We'll only attach the renew events if there's loans that can be renewed.
+  // Ding loan form checks this and only sets this element if that's the case.
+  if (!isset($form['actions_container']['select_all'])) {
+    return;
+  }
+
+  // Ding loan stores the loans in the this form element and we take advantage
+  // of that to get the material ids for the renewable loans.
+  $loans = $form['items']['#value'];
+  $material_ids = [];
+  foreach ($loans as $loan) {
+    if ($loan->renewable) {
+      $material_ids[$loan->id] = $loan->getEntity()->getId();
     }
   }
 
+  // The renew all button is straight forward. We can attach the event in
+  // backend and just pass all renewable ids to the event data attribute.
+  ding_webtrekk_attach_event(
+    $form['actions_container']['actions_top']['renew_all']['#attributes'],
+    'Forny alle materialer',
+    [DING_WEBTREKK_PARAMETER_RENEW_ALL => implode(';', $material_ids)]
+  );
+
+  // The renew selected button is more complicated, since we need data about
+  // which materials the user has selected in the UI.
+  $renew_selected = &$form['actions_container']['actions_top']['submit_first'];
+  $renew_selected['#attributes']['class'][] = 'js-ding-webtrekk-event-renew-selected';
+  $groups = _ding_loan_loans_group_loans_by_date($loans);
+  foreach ($groups as $gid => $group) {
+    foreach ($form['loans'][$gid] as $key => &$material_item) {
+      // Skip the title element.
+      if ($key === 'title') {
+        continue;
+      }
+      // For all other elements, the key will be a loan id and we pass it to the
+      // client if it's in our renewable list.
+      if (isset($material_ids[$key])) {
+        $material_item['#attributes']['data-ding-webtrekk-event'] = $material_ids[$key];
+      }
+    }
+  }
+}
+
+/**
+ * Use this function to attach webtrekk events to an elements attribute array.
+ *
+ * @param array $attributes
+ *   Attributes array of the element that needs event attached.
+ * @param string $link_id
+ *   The link ID of the event. For example 'Forny alle materialer'.
+ * @param array $data
+ *   The parameter values for the event keyed by the Webtrekk parameter ID.
+ */
+function ding_webtrekk_attach_event(&$attributes, $link_id, $data) {
+  $event_data = [
+    'linkId' => $link_id,
+    'customClickParameter' => $data,
+  ];
+  $attributes['class'][] = 'js-ding-webtrekk-event';
+  $attributes['data-ding-webtrekk-event'] = json_encode($event_data);
+}
+
+/**
+ * Adds Webtrekk page parameters to the current page.
+ *
+ * @see ding_webtrekk_preprocess_html()
+ */
+function ding_webtrekk_add_page_parameters(array $parameters = NULL) {
+  $stored_parameters = &drupal_static(__FUNCTION__, array());
+
+  if (isset($parameters)) {
+    $stored_parameters = array_merge($stored_parameters, $parameters);
+  }
+
+  return $stored_parameters;
+}
+
+/**
+ * Returns all the Webtrekk page parameteres collected during the request.
+ *
+ * @see ding_webtrekk_preprocess_html()
+ */
+function ding_webtrekk_get_page_parameters() {
+  $parameters = ding_webtrekk_add_page_parameters();
+  // Give other modules a last chance to alter the webtrekk page parameters
+  // before they are added to the current page load.
+  drupal_alter('ding_webtrekk_page_parameters', $parameters);
+  return $parameters;
+}
+
+/**
+ * Implements hook_process_html().
+ *
+ * If any Webtrekk page parameters was stored during the request, we'll apply
+ * them here. We use this hook since it's run late in the request.
+ */
+function ding_webtrekk_preprocess_html() {
+  $parameters = ding_webtrekk_get_page_parameters();
+
   $script_lines = array_map(function($key, $value) {
-    if ($value) {
+    // We require a non-empty value but would also like to track values such as
+    // 0 and '0'. For example if there was 0 search results.
+    if (!empty($value) || (string) $value === '0') {
       return "window._ti['$key'] = '$value'";
     }
-  }, array_keys($value_map), $value_map);
+  }, array_keys($parameters), $parameters);
 
   // Remove empty values.
   $script_lines = array_filter($script_lines);
@@ -131,5 +364,16 @@ function _ding_webtrekk_set_data_layer_values(array $value_map) {
   $script = implode(";\n", $script_lines);
   drupal_add_js($script, [
     'type' => 'inline',
+    // Use the JS_LIBRARY group to add script at the top of head. Use -22 weight
+    // to ensure it's added above the Webtrekk loader which has -21.
+    // See: ding_webtrekk_page_alter()
+    'group' => JS_LIBRARY,
+    'weight' => -22,
   ]);
+
+  // Add script that tracks Webtrekk events in client and adds URL parameters
+  // to elements which is problematic to handle on the server.
+  drupal_add_js(drupal_get_path('module', 'ding_webtrekk') . '/ding_webtrekk.js', array(
+    'scope' => 'footer',
+  ));
 }
