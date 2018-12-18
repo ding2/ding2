@@ -165,6 +165,9 @@ projects[job_scheduler][version] = "2.0-alpha3"
 
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "3.0-alpha5"
+; Add permission for changing jQuery versions
+; https://www.drupal.org/project/jquery_update/issues/2621436
+projects[jquery_update][patch][] = "https://www.drupal.org/files/issues/2018-12-13/jquery_update_permissions-2621436-13.patch"
 
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
