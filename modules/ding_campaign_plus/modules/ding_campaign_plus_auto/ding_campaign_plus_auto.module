@@ -155,7 +155,7 @@ function ding_campaign_plus_auto_node_insert($node) {
     $campaign_wrapper->field_ding_campaign_plus_type->set('campaign_text_and_image');
     $campaign_wrapper->field_ding_campaign_plus_style->set('ribbon');
     $campaign_wrapper->field_ding_campaign_plus_link->set(array(
-      'url' => '/node/' . $node->nid,
+      'url' => 'node/' . $node->nid,
     ));
 
     $field = 'field_' . $node_wrapper->getBundle() . '_title_image';
