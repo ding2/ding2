@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Represents logic related to (un)installing of module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_dams_schema() {
+  // It is needed for correct execution of hook media_wysiwyg_token_to_markup.
+  db_query("UPDATE system 
+              SET weight = (SELECT q.w FROM (SELECT (weight + 2) w  FROM system WHERE name = 'media_wysiwyg_view_mode') q) 
+              WHERE name = 'ding_dams'");
+}

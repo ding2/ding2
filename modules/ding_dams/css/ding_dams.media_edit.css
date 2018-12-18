@@ -1,0 +1,50 @@
+div#modal-content form.file-form div.file-preview {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: block;
+  height: 300px;
+  width: 180px;
+  border: 1px red;
+}
+
+div#modal-content form.file-form > div {
+  width: 0;
+}
+
+div#modal-content form.file-form > div div.form-item {
+  display: block;
+  float: left;
+  position: relative;
+  overflow: hidden;
+  width: 350px;
+  margin: 0;
+  padding: 5px 0;
+}
+
+div#modal-content form.file-form .form-actions input {
+  float: right;
+}
+
+div#modal-content form.file-form div div.form-item label {
+  float: left;
+  width: 80px;
+  font-size: 12px;
+}
+div#modal-content form.file-form div div.form-item input,
+div#modal-content form.file-form div div.form-item div.form-textarea-wrapper {
+  float:left;
+  clear:right;
+  width: 260px;
+  margin: 0;
+  padding: 0;
+}
+
+div#modal-content form.file-form div div.form-item input {
+  height: 20px;
+}
+
+/* Fix for autocomplete tags */
+div#modal-content form.file-form div.field-name-field-dams-tags.field-widget-taxonomy-autocomplete div.form-item {
+  overflow: visible;
+}
