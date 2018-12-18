@@ -17,18 +17,15 @@
  *
  */
 function openruth_user_authenticate($name, $pincode) {
-  $return = array(
-    'success' => FALSE,
-  );
+  $return = array();
   $res = openruth_client_invoke('user_check', $name, $pincode);
 
   if (is_string($res)) {
     watchdog('openruth', 'Error in user_check: @error', array('@error' => $res), WATCHDOG_ERROR);
-    return $return;
+    throw new DingProviderUserAuthFailure();
   }
   elseif (!$res || !$res->userFound || !$res->userPinCodeOk) {
-    // No reply or not found.
-    return $return;
+    throw new DingProviderUserAuthFailure();
   }
 
   $return['user']['blocked'] = FALSE;

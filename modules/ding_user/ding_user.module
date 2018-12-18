@@ -426,8 +426,10 @@ function ding_user_get_pincode_length() {
  * Form element validation handler for pincode elements.
  */
 function ding_user_element_validate_pincode($element, &$form_state, $form) {
-  if (!preg_match('/^\d{' . ding_user_get_pincode_length() . '}$/', $element['#value'])) {
-    form_error($element, t('The pincode must consist of exactly %number digits and only contain integers.', array('%number' => ding_user_get_pincode_length())));
+  $pincode_length = ding_user_get_pincode_length();
+  $pincode = $element['#value'];
+  if (!empty($pincode) && !preg_match('/^\d{' . $pincode_length . '}$/', $pincode)) {
+    form_error($element, t('The pincode must consist of exactly %number digits and only contain integers.', array('%number' => $pincode_length)));
   }
 }
 
@@ -528,14 +530,10 @@ function ding_user_profile_update_validate($form, &$form_state) {
       }
 
       // Check the old pincode with the provider.
-      $auth_res = ding_provider_invoke('user', 'authenticate', ding_user_name(), $form_state['values']['pincode_old']);
-      if (!is_array($auth_res) || !isset($auth_res['success'])) {
-        watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
-        form_set_error('pincode_old', t('There was an error checking the old pincode. Please try again later.'));
-        return;
+      try {
+        $auth_res = ding_provider_invoke('user', 'authenticate', ding_user_name(), $form_state['values']['pincode_old']);
       }
-
-      if (!$auth_res['success']) {
+      catch (DingProviderUserAuthFailure $e) {
         form_set_error('pincode_old', t('The old pincode confirm does not match.'));
       }
     }
