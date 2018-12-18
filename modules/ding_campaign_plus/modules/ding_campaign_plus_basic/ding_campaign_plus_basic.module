@@ -165,21 +165,31 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
         break;
 
       case 'search_term':
-        // Get current search query and split it into array of terms.
-        $current = ting_search_current_results();
-        $value = drupal_strtolower($current->getSearchRequest()->getFullTextQuery());
-        $terms = preg_split('/,|\s/', $value);
-        $terms = array_filter($terms);
+        $nids = [];
 
-        // Check if any active campaigns matches the search terms.
-        $query = db_select('ding_campaign_plus_basic', 'dcpb')
-          ->fields('dcpb', array('nid'))
-          ->condition('dcpb.type', $key)
-          ->condition('value', $terms, 'IN');
-        $query->join('node', 'n', 'dcpb.nid = n.nid');
-        $nids = $query->condition('status', 1)
-          ->execute()
-          ->fetchCol();
+        // Get current search query and split it into array of terms.
+        $value = ting_search_current_results()
+          ->getSearchRequest()
+          ->getFullTextQuery();
+
+        // If the search string is empty we just return an empty array, since
+        // executing the query with an empty array in the IN-condition throws
+        // a PDO syntax error exception.
+        if (!empty($value)) {
+          $value = drupal_strtolower($value);
+          $terms = preg_split('/,|\s/', $value);
+          $terms = array_filter($terms);
+
+          // Check if any active campaigns matches the search terms.
+          $query = db_select('ding_campaign_plus_basic', 'dcpb')
+            ->fields('dcpb', array('nid'))
+            ->condition('dcpb.type', $key)
+            ->condition('value', $terms, 'IN');
+          $query->join('node', 'n', 'dcpb.nid = n.nid');
+          $nids = $query->condition('status', 1)
+            ->execute()
+            ->fetchCol();
+        }
 
         $matches['search_term'] = is_array($nids) ? $nids : array();
         break;
