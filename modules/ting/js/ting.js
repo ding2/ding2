@@ -6,14 +6,6 @@
   "use strict";
 
   $(document).ready(function() {
-    $('a.js-search-overlay').on('click', function() {
-      var link = $(this);
-      if (link.attr('href').charAt(0) !== '#') {
-        // Only show overlay for non-local links.
-        Drupal.TingSearchOverlay();
-      }
-    });
-
     // Ensure overlay on collection view links.
     $('.ting-collection-wrapper a[href*="/ting/"]').on('click', function() {
       if ($(this).not('[target="_blank"]').length) {
