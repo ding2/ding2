@@ -51,9 +51,9 @@
   // Hook into the overlays "Cancel" link and stop page loading if clicked.
   $(document).ready(function () {
     if (!$('body').hasClass("page-admin")) {
-      $('.search-overlay--wrapper .cancel').on('click', function () {
-        window.stop();
+      $(document.body).on('click', '.search-overlay--wrapper .cancel', function () {
         Drupal.TingSearchOverlay(true);
+        window.location.reload();
       });
 
       // Remove overlay on page unload, so it's not shown when back button is
