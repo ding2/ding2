@@ -449,12 +449,8 @@ function ding_news_default_page_manager_handlers() {
       'override_title_heading' => 'h2',
     );
     $pane->cache = array(
-      'method' => 'lazy',
-      'settings' => array(
-        'load_strategy' => 'pane-visible',
-        'show_spinner' => 1,
-        'load_text' => '',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,
@@ -701,12 +697,8 @@ taxonomy/term/%term:tid',
       'override_title_heading' => 'h2',
     );
     $pane->cache = array(
-      'method' => 'lazy',
-      'settings' => array(
-        'load_strategy' => 'pane-visible',
-        'show_spinner' => 1,
-        'load_text' => '',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,
@@ -1051,12 +1043,8 @@ news/%tid:name',
       'override_title_heading' => 'h2',
     );
     $pane->cache = array(
-      'method' => 'lazy',
-      'settings' => array(
-        'load_strategy' => 'pane-visible',
-        'show_spinner' => 1,
-        'load_text' => '',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,
@@ -1386,12 +1374,8 @@ node/%node:nid/news
       'override_title_heading' => 'h2',
     );
     $pane->cache = array(
-      'method' => 'lazy',
-      'settings' => array(
-        'load_strategy' => 'pane-visible',
-        'show_spinner' => 1,
-        'load_text' => '',
-      ),
+      'method' => '0',
+      'settings' => array(),
     );
     $pane->style = array(
       'settings' => NULL,
