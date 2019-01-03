@@ -53,6 +53,21 @@ function fbs_availability_holdings($provider_ids) {
     watchdog_exception('fbs', $e);
   }
 
+  module_load_include('inc', 'opensearch', 'opensearch.client');
+
+  // Translate all the fausts to datawell pids at once.
+  $datawell_pids = ding_provider_build_entity_id($provider_ids);
+
+  // Find out with the types of objects we need and load them all at once.
+  $entities = [];
+  $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
+  if ($suffix_type == 'simple') {
+    $entities = ding_entity_load_multiple($datawell_pids);
+  }
+  elseif ($suffix_type == 'shelf_mark') {
+    $entities = opensearch_get_objects_marcxchange($datawell_pids);
+  }
+
   $result = array();
   $tmp_issues = array();
   foreach ($holdings as $item) {
@@ -97,11 +112,8 @@ function fbs_availability_holdings($provider_ids) {
         $result_holding['placement'][] = $material_description[0]->materialGroupName;
       }
 
-      module_load_include('client.inc', 'opensearch');
-      $entity_id = ding_provider_build_entity_id($provider_ids[0]);
-      $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
-
-      if ($suffix_type == 'simple' && $entity = ding_entity_load($entity_id)) {
+      if ($suffix_type == 'simple' && isset($entities[$item->recordId])) {
+        $entity = $entities[$item->recordId];
         // Get DK5 classification.
         if ($classification = $entity->getClassification()) {
           $result_holding['placement'][] = $classification;
@@ -112,7 +124,9 @@ function fbs_availability_holdings($provider_ids) {
           $result_holding['placement'][] = $creator[0];
         }
       }
-      elseif ($suffix_type == 'shelf_mark' && $entity = opensearch_get_object_marcxchange($entity_id)) {
+      elseif ($suffix_type == 'shelf_mark' && isset($entities[$datawell_pids[$item->recordId]])) {
+        $entity = $entities[$datawell_pids[$item->recordId]];
+
         $field652m = fbs_get_marc_field($entity, '652', 'm');
         $field652o = fbs_get_marc_field($entity, '652', 'o');
 
