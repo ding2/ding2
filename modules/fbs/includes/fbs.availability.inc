@@ -62,7 +62,11 @@ function fbs_availability_holdings($provider_ids) {
   $entities = [];
   $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
   if ($suffix_type == 'simple') {
-    $entities = ding_entity_load_multiple($datawell_pids);
+    // Here the entities are keyed by local entity id, so build an array keyed
+    // by datawell pids for easier access.
+    foreach (ding_entity_load_multiple($datawell_pids) as $entity) {
+      $entities[$entity->ding_entity_id] = $entity;
+    }
   }
   elseif ($suffix_type == 'shelf_mark') {
     $entities = opensearch_get_objects_marcxchange($datawell_pids);
@@ -112,8 +116,8 @@ function fbs_availability_holdings($provider_ids) {
         $result_holding['placement'][] = $material_description[0]->materialGroupName;
       }
 
-      if ($suffix_type == 'simple' && isset($entities[$item->recordId])) {
-        $entity = $entities[$item->recordId];
+      if ($suffix_type == 'simple' && isset($entities[$datawell_pids[$item->recordId]])) {
+        $entity = $entities[$datawell_pids[$item->recordId]];
         // Get DK5 classification.
         if ($classification = $entity->getClassification()) {
           $result_holding['placement'][] = $classification;
