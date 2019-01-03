@@ -22,6 +22,16 @@ function ding_campaign_plus_menu() {
     'file' => 'includes/ding_campaign_plus.admin.inc',
   );
 
+  $items['ding_campaigns_plus/%'] = array(
+    'title' => 'Show campaign',
+    'page callback' => 'ding_campaigns_plus_campaign_ajax',
+    'page arguments' => array(1),
+    'theme callback' => 'ajax_base_page_theme',
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => array('access content'),
+    'file' => 'includes/ding_campaign_plus.pages.inc',
+  );
+
   return $items;
 }
 
@@ -380,4 +390,42 @@ function _ding_campaign_plus_cache_id(array $contexts, $style) {
   }
 
   return 'ding_campaign_plus:' . sha1($cid);
+}
+
+/**
+ * Render a campaign from context and style.
+ *
+ * @param array $context_data
+ *   Context triggers for the current page.
+ * @param string $style
+ *   The style of campaign to display.
+ *
+ * @return string
+ *   Rendered campaign, or an empty string if no campaign was found.
+ */
+function _ding_campaign_plus_render_campaign(array $context_data, $style) {
+  $campaign_nids = ding_campaign_plus_get_matches($context_data, $style);
+
+  if (!empty($campaign_nids)) {
+    $campaign = FALSE;
+    foreach ($campaign_nids as $nid) {
+      // Use the first campaign only.
+      $campaign = node_load($nid);
+
+      // Check if campaign matches style.
+      if ($campaign->field_ding_campaign_plus_style[LANGUAGE_NONE][0]['value'] === $style) {
+        // Campaign found that matches style.
+        break;
+      }
+      else {
+        $campaign = FALSE;
+      }
+    }
+
+    if ($campaign) {
+      return drupal_render(node_view($campaign, 'full'));
+    }
+  }
+
+  return '';
 }

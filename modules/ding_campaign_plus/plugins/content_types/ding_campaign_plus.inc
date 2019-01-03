@@ -49,30 +49,9 @@ function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel
     $content = $cache->data;
   }
   else {
-    $campaign_nids = ding_campaign_plus_get_matches($context_data, $style);
-
-    if (!empty($campaign_nids)) {
-      $campaign = FALSE;
-      foreach ($campaign_nids as $nid) {
-        // Use the first campaign only.
-        $campaign = node_load($nid);
-
-        // Check if campaign matches style.
-        if ($campaign->field_ding_campaign_plus_style[LANGUAGE_NONE][0]['value'] === $style) {
-          // Campaign found that matches style.
-          break;
-        }
-        else {
-          $campaign = FALSE;
-        }
-      }
-
-      if ($campaign) {
-        $content = node_view($campaign, 'full');
-      }
-    }
-
-    cache_set($cid, $content, 'cache', REQUEST_TIME + variable_get('ding_campaign_plus_expire', 900));
+    cache_set($cid . '-context', array($context_data, $style));
+    $content = '<div data-ding-campaign-plus-cid="' . $cid . '"></div>';
+    drupal_add_js(drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus.js');
   }
 
   $block->content = $content;
