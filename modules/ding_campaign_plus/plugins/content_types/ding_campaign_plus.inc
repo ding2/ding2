@@ -28,6 +28,7 @@ $plugin = array(
  */
 function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
+  $currentResult = ting_search_current_results();
   $context_data = array(
     'page' => isset($context[0]->data) ? $context[0]->data : NULL,
     'library' => isset($context[1]->data) ? $context[1]->data : NULL,
@@ -37,6 +38,7 @@ function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel
       'raw' => arg(),
       'path' => drupal_get_path_alias($_GET['q']),
     ),
+    'search_request' => $currentResult ? $currentResult->getSearchRequest() : NULL,
   );
   $style = !empty($conf['style']) ? $conf['style'] : 'ribbon';
 

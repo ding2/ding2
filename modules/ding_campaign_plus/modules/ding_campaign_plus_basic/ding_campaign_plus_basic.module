@@ -164,13 +164,11 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
         $matches['path'] = _ding_campaign_plus_basic_match('path', $context->path);
         break;
 
-      case 'search_term':
+      case 'search_request':
         $nids = [];
 
         // Get current search query and split it into array of terms.
-        $value = ting_search_current_results()
-          ->getSearchRequest()
-          ->getFullTextQuery();
+        $value = $context->getFullTextQuery();
 
         // If the search string is empty we just return an empty array, since
         // executing the query with an empty array in the IN-condition throws
@@ -191,7 +189,7 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
             ->fetchCol();
         }
 
-        $matches['search_term'] = is_array($nids) ? $nids : array();
+        $matches['search_request'] = is_array($nids) ? $nids : array();
         break;
     }
   }
