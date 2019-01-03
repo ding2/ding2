@@ -379,5 +379,5 @@ function _ding_campaign_plus_cache_id(array $contexts, $style) {
     }
   }
 
-  return sha1($cid);
+  return 'ding_campaign_plus:' . sha1($cid);
 }
