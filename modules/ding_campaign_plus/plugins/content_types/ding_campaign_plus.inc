@@ -44,35 +44,38 @@ function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel
   // context.
   $cid = _ding_campaign_plus_cache_id($context_data, $style);
   $cache = cache_get($cid);
+  $content = '';
   if (isset($cache->data) && REQUEST_TIME < $cache->expire) {
-    $campaign_nids = $cache->data;
+    $content = $cache->data;
   }
   else {
     $campaign_nids = ding_campaign_plus_get_matches($context_data, $style);
-    cache_set($cid, $campaign_nids, 'cache', REQUEST_TIME + variable_get('ding_campaign_plus_expire', 900));
-  }
 
-  $block->content = '';
-  if (!empty($campaign_nids)) {
-    $campaign = FALSE;
-    foreach ($campaign_nids as $nid) {
-      // Use the first campaign only.
-      $campaign = node_load($nid);
+    if (!empty($campaign_nids)) {
+      $campaign = FALSE;
+      foreach ($campaign_nids as $nid) {
+        // Use the first campaign only.
+        $campaign = node_load($nid);
 
-      // Check if campaign matches style.
-      if ($campaign->field_ding_campaign_plus_style[LANGUAGE_NONE][0]['value'] === $style) {
-        // Campaign found that matches style.
-        break;
+        // Check if campaign matches style.
+        if ($campaign->field_ding_campaign_plus_style[LANGUAGE_NONE][0]['value'] === $style) {
+          // Campaign found that matches style.
+          break;
+        }
+        else {
+          $campaign = FALSE;
+        }
       }
-      else {
-        $campaign = FALSE;
+
+      if ($campaign) {
+        $content = node_view($campaign, 'full');
       }
     }
 
-    if ($campaign) {
-      $block->content = node_view($campaign, 'full');
-    }
+    cache_set($cid, $content, 'cache', REQUEST_TIME + variable_get('ding_campaign_plus_expire', 900));
   }
+
+  $block->content = $content;
 
   return $block;
 }
