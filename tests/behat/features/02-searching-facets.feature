@@ -11,7 +11,6 @@ Feature: Searching with facets
   Scenario: S019 Search and use facets to find a lesser result
     Given I have searched for "term.type=bog and term.publisher=Gyldendal"
     And I accept cookies
-    When I set number of results per page to "50"
     When I use facets to reduce the search results to the highest possible
     Then I check if the right number of search results are shown
     When I deselect a facet to increase the search results
@@ -25,7 +24,6 @@ Feature: Searching with facets
   Scenario: S020 Search and use facets repeatedly three times
     Given I have searched for "term.type=bog and term.publisher=Gyldendal"
     And I accept cookies
-    When I set number of results per page to "50"
     When I use facets to reduce the search results to the highest possible
     Then I check if the right number of search results are shown
     When I use facets to reduce the search results to the highest possible

@@ -19,8 +19,8 @@ function ting_search_content_type_render($subtype, $conf, $panel_args, $context)
 
   $results = ting_search_current_results();
   if ($pager_total[0] == TRUE && $results) {
-    $from = ($pager_page_array[0] < 1 ? 1 : ($pager_page_array[0]) * $results->getNumTotalCollections() + 1);
-    $to = $from + ($results->getNumTotalCollections() - 1);
+    $from = ($pager_page_array[0] < 1 ? 1 : ($pager_page_array[0]) * $results->getNumCollections() + 1);
+    $to = $from + ($results->getNumCollections() - 1);
     $total = $results->getNumTotalObjects();
     $block->title = t('Search results text');
     $block->content = '<div class="ting-search-amount-block">' . format_plural($total,
@@ -40,4 +40,3 @@ function ting_search_content_type_render($subtype, $conf, $panel_args, $context)
 function ting_search_ting_search_content_type_edit_form($form, &$form_state) {
   return $form;
 }
-

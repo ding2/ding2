@@ -40,7 +40,7 @@ class NullSearchResult implements TingSearchResultInterface {
   /**
    * {@inheritdoc}
    */
-  public function getNumTotalCollections() {
+  public function getNumCollections() {
     return 0;
   }
 

@@ -43,3 +43,4 @@ filter:
         - modules/ting_search_carousel/js/jquery.*
         - modules/contrib/jquery_update/replace/ui/external/jquery.cookie*.js
         - modules/ding_tabroll/js/jquery-ui-tabs-rotate*.js
+        - modules/ding_nodelist/js/jquery-ui-tabs-rotate.js

@@ -216,3 +216,74 @@ function bpi_update_7005() {
   }
   variable_set('views_defaults', $views_defaults);
 }
+
+/**
+ * Disable the 'Pre-sending to BPI' state.
+ */
+function bpi_update_7006(&$sandbox) {
+  global $user;
+
+  if (!isset($sandbox['processed'])) {
+    /** @var Workflow $workflow */
+    $workflow = workflow_load('bpi');
+    /** @var WorkflowState $pre_bpi_state */
+    $pre_bpi_state = $workflow->getState('pre_bpi');
+    /** @var WorkflowState $local_content_state */
+    $local_content_state = $workflow->getState('local_content');
+
+    $query = db_select('node', 'n');
+    $query->join('field_data_field_bpi_workflow', 'bwf', 'n.nid = bwf.entity_id');
+    $query
+      ->fields('n', array('nid'))
+      ->condition('bwf.field_bpi_workflow_value', $pre_bpi_state->sid, '=');
+    $results = $query->execute()->fetchCol();
+
+    $sandbox['total'] = count($results);
+    $sandbox['processed'] = 0;
+    $sandbox['bpi'] = [
+      'pre_bpi_state' => $pre_bpi_state,
+      'local_content_state' => $local_content_state,
+    ];
+  }
+
+  if ($sandbox['total']) {
+    $query = db_select('node', 'n');
+    $query->join('field_data_field_bpi_workflow', 'bwf', 'n.nid = bwf.entity_id');
+    $query
+      ->fields('n', array('nid'))
+      ->condition('bwf.field_bpi_workflow_value', $sandbox['bpi']['pre_bpi_state']->sid, '=')
+      ->range($sandbox['processed'], 20);
+    $results = $query->execute()->fetchCol();
+
+    $field_name = 'field_bpi_workflow';
+    foreach ($results as $nid) {
+      $bpi_node = node_load($nid);
+      if ($bpi_node) {
+        $transition = new WorkflowTransition();
+        $transition->setValues(
+          'node',
+          $bpi_node,
+          $field_name,
+          $sandbox['bpi']['pre_bpi_state']->sid,
+          $sandbox['bpi']['local_content_state']->sid,
+          $user->uid,
+          REQUEST_TIME,
+          ''
+        );
+        $transition->save();
+
+        $bpi_node->{$field_name}[LANGUAGE_NONE][0]['value'] = $sandbox['bpi']['local_content_state']->sid;
+        field_attach_presave('node', $bpi_node);
+        field_attach_update('node', $bpi_node);
+        entity_get_controller('node')->resetCache(array($bpi_node->nid));
+      }
+
+      $sandbox['processed']++;
+    }
+
+    $sandbox['#finished'] = $sandbox['processed'] / $sandbox['total'];
+    if ($sandbox['#finished'] >= 1) {
+      $sandbox['bpi']['pre_bpi_state']->deactivate($sandbox['bpi']['local_content_state']->sid);
+    }
+  }
+}

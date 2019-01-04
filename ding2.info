@@ -33,6 +33,7 @@ dependencies[] = customerroralt
 ; Ding modules.
 dependencies[] = ding_auth
 dependencies[] = ding_base
+dependencies[] = ding_campaign_plus
 dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
 dependencies[] = ding_frontpage

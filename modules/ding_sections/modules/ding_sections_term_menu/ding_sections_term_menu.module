@@ -1,0 +1,270 @@
+<?php
+
+/**
+ * @file
+ * Provides functionality of creating menu entry for term.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_sections_term_menu_form_taxonomy_form_term_alter(&$form, &$form_state) {
+  if (!isset($form['#bundle']) || $form['#bundle'] != 'section') {
+    return;
+  }
+
+  if (!isset($form_state['triggering_element'])) {
+    $term = $form_state['term'];
+    // Generate a list of possible parents
+    // (not including this link or descendants).
+    $type = 'section_term';
+    $link = array(
+      'link_title' => $term->name,
+      'mlid' => 0,
+      'plid' => 0,
+      'menu_name' => 'main-menu',
+      'weight' => 0,
+      'options' => array(),
+      'module' => 'menu',
+      'expanded' => 0,
+      'hidden' => 0,
+      'has_children' => 0,
+      'customized' => 0,
+      'parent_depth_limit' => 8,
+      'path' => 'taxonomy/term/%',
+    );
+    if (!empty($form['#term']['tid'])) {
+      // Check if term already have menu.
+      $mlid = _ding_sections_menu_exist($form['#term']['tid']);
+      if ($mlid) {
+        $link = menu_link_load($mlid);
+      }
+    }
+
+    // menu_parent_options() is goofy and can actually handle either a menu link
+    // or a node type both as second argument. Pick based on whether there is
+    // a link already (menu_node_prepare() sets mlid default to 0).
+    $options = menu_parent_options(array('main-menu' => 'main-menu'), $link['mlid'], $type);
+    // If no possible parent menu items were found, there is nothing to display.
+    if (empty($options)) {
+      return;
+    }
+    $form['section'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Menu settings'),
+      '#access' => user_access('administer menu'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+      '#group' => 'section_tabs',
+      '#attached' => array(
+        'js' => array(drupal_get_path('module', 'menu') . '/menu.js'),
+      ),
+      '#tree' => TRUE,
+      '#weight' => -2,
+      '#attributes' => array('class' => array('menu-link-form')),
+    );
+    $form['section']['enabled'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Provide a menu link'),
+      '#default_value' => !empty($link['mlid']) ? !empty($link['mlid']) : TRUE,
+    );
+    $form['section']['link'] = array(
+      '#type' => 'container',
+      '#parents' => array('menu'),
+      '#states' => array(
+        'invisible' => array(
+          'input[name="section[enabled]"]' => array('checked' => FALSE),
+        ),
+      ),
+    );
+
+    // Populate the element with the link data.
+    $link_keys = array(
+      'mlid',
+      'module',
+      'hidden',
+      'has_children',
+      'customized',
+      'options',
+      'expanded',
+      'hidden',
+    );
+
+    foreach ($link_keys as $key) {
+      $form['menu']['link'][$key] = array('#type' => 'value', '#value' => $link[$key]);
+    }
+
+    $form['section']['link']['link_title'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Menu link title'),
+      '#default_value' => $term->name,
+      '#disabled' => TRUE,
+    );
+
+    $form['section']['link']['path'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Path'),
+      '#default_value' => $link['path'],
+      '#disabled' => TRUE,
+    );
+
+    $form['section']['link']['description'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Description'),
+      '#default_value' => isset($link['options']['attributes']['title']) ? $link['options']['attributes']['title'] : '',
+      '#rows' => 1,
+      '#description' => t('Shown when hovering over the menu link.'),
+    );
+
+    $default = ($link['plid'] ? $link['menu_name'] . ':' . $link['plid'] : variable_get('menu_parent_' . $type, 'main-menu:0'));
+    // If the current parent menu item is not present in options, use the first
+    // available option as default value.
+    // @todo User should not be allowed to access menu link settings in such a
+    // case.
+    if (!isset($options[$default])) {
+      $array = array_keys($options);
+      $default = reset($array);
+    }
+    $form['section']['link']['parent'] = array(
+      '#type' => 'select',
+      '#title' => t('Parent item'),
+      '#default_value' => $default,
+      '#options' => $options,
+      '#attributes' => array('class' => array('menu-parent-select')),
+    );
+    $form['section']['link']['weight'] = array(
+      '#type' => 'weight',
+      '#title' => t('Weight'),
+      '#delta' => 50,
+      '#default_value' => $link['weight'],
+      '#description' => t('Menu links with smaller weights are displayed before links with larger weights.'),
+    );
+    $form['#validate'][] = 'ding_sections_term_validate';
+    $form['#submit'][] = 'ding_sections_term_submit';
+  }
+}
+
+/**
+ * Callback function for term form enabled.
+ */
+function ding_sections_term_validate($form, &$form_state) {
+  if ($form_state['values']['section']['enabled'] == 1) {
+    $menu_parameters = array(
+      'parent' => 'Parent item',
+    );
+    $menu_vals = $form_state['values']['menu'];
+    foreach ($menu_parameters as $parameter => $parameter_name) {
+      if (empty($menu_vals[$parameter])) {
+        form_set_error($parameter, t('@parameter_name not set.', array('@parameter_name' => $parameter_name)));
+      }
+    }
+  }
+}
+
+/**
+ * Callback function for term form save.
+ */
+function ding_sections_term_submit($form, &$form_state) {
+  $term = $form_state['term'];
+  if (isset($term->tid)) {
+    $tid = $term->tid;
+    $mlid = _ding_sections_menu_exist($tid);
+    if ($form_state['values']['section']['enabled'] == 0) {
+      if ($mlid) {
+        _ding_sections_remove_term_menu($tid, $mlid);
+        drupal_set_message(t('Menu for @term was deleted.', array('@term' => $term->name)), 'status');
+      }
+    }
+    elseif ($form_state['values']['section']['enabled'] == 1) {
+      $link_path = $form_state['values']['path']['source'];
+      $vals = $form_state['values']['menu'];
+      $parent = explode(':', $vals['parent']);
+      $menu_link = array(
+        'link_path' => !empty($link_path) ? $link_path : 'taxonomy/term/' . $tid,
+        'link_title' => !empty($vals['link_title']) ? $vals['link_title'] : $term->name,
+        'menu_name' => $parent[0],
+        'weight' => $vals['weight'],
+        'mlid' => !empty($mlid) ? $mlid : NULL,
+        'plid' => $parent[1],
+        'options' => array('attributes' => array('title' => $vals['description'])),
+        'localized_options' => array(),
+      );
+
+      $new_mlid = menu_link_save($menu_link);
+      menu_cache_clear_all();
+
+      if (!$new_mlid) {
+        drupal_set_message(t("Menu wasn't created"), 'error');
+      }
+
+      if (empty($mlid)) {
+        _ding_sections_create_term_menu($tid, $new_mlid);
+      }
+
+      // Redirect to taxonomy term page.
+      $form_state['redirect'] = 'taxonomy/term/' . $tid;
+    }
+  }
+}
+
+/**
+ * Check term already have menu.
+ *
+ * @param int $tid
+ *   Term id.
+ *
+ * @return mixed
+ *   false if no menu, array with mlid if exist.
+ */
+function _ding_sections_menu_exist($tid) {
+  $mlid = 0;
+  try {
+    $mlid = db_select('ding_sections_term_menu', 'etm')
+      ->fields('etm', array('mlid'))
+      ->condition('tid', $tid)
+      ->execute()
+      ->fetchField();
+  }
+  catch (Exception $exception) {
+    watchdog_exception('ding_sections_term_menu', $exception);
+    drupal_set_message(t('There was an error on section edit, please try again later or contact the library.'), 'error');
+  }
+
+  return $mlid;
+}
+
+/**
+ * Write to database to which term menu is related.
+ *
+ * @param int $tid
+ *   Term id.
+ * @param int $mlid
+ *   Menu list id.
+ */
+function _ding_sections_create_term_menu($tid, $mlid) {
+  $fields = array(
+    'tid' => $tid,
+    'mlid' => $mlid,
+  );
+
+  db_merge('ding_sections_term_menu')
+    ->key($fields)
+    ->insertFields($fields)
+    ->updateFields($fields)
+    ->execute();
+}
+
+/**
+ * Delete term menu from database.
+ *
+ * @param int $tid
+ *   Term id.
+ * @param int $mlid
+ *   Menu list id.
+ */
+function _ding_sections_remove_term_menu($tid, $mlid) {
+  menu_link_delete($mlid);
+  db_delete('ding_sections_term_menu')
+    ->condition('tid', $tid)
+    ->execute();
+}

@@ -190,7 +190,6 @@
       @include media($tablet) {
         @include transform(translateY(-300%));
         position: fixed;
-        top: $header-height;
         width: 100%;
         background-color: $color-primary;
         padding: 15px 5%;
@@ -256,7 +255,6 @@
         );
         position: fixed;
         z-index: $z-header - 1;
-        top: -20px;
         width: 100%;
         background-color: $charcoal;
 
@@ -376,63 +374,9 @@
           }
         }
       }
-      // Admin menu
-      .admin-menu & {
-        top: $admin-menu-height;
-      }
-      // Admin menu with shortcuts and toolbar.
-      .admin-menu-with-shortcuts &,
-      .toolbar & {
-        top: $toolbar-height;
-      }
-      // Search Form Extended & admin menu
-      .search-form-extended.admin-menu & {
-        top: $admin-menu-height - 20px;
-      }
-      // Search Form Extended with admin menu shortcuts or toolbar
-      .search-form-extended.admin-menu-with-shortcuts &,
-      .search-form-extended.toolbar & {
-        top: $toolbar-height - 20px;
-      }
-      // Search Form Extended on frontpage
-      .search-form-extended.page-search &,
-      .search-form-extended.front & {
-        top: $topbar-height;
 
-        // Tablet
-        @include media($tablet) {
-          top: $header-height;
-        }
-      }
-      // Search Form Extended on frontpage with admin-menu
-      .search-form-extended.page-search.admin-menu &,
-      .search-form-extended.front.admin-menu & {
-        top: $topbar-height + $admin-menu-height;
-      }
-      // Search Form Extended on frontpage with admin menu shortcuts or toolbar
-      .search-form-extended.page-search.admin-menu-with-shortcuts &,
-      .search-form-extended.front.admin-menu-with-shortcuts &,
-      .search-form-extended.page-search.toolbar &,
-      .search-form-extended.front.toolbar &  {
-        top: $topbar-height + $toolbar-height;
-      }
-      // Extended search open
-      .extended-search-is-open & {
-        top: $topbar-height;
-        box-shadow: $box-shadow;
-      }
-      // Extended search open with admin menu
-      .extended-search-is-open.admin-menu & {
-        top: $topbar-height + $admin-menu-height;
-      }
-      // Extended search open with admin menu shortcuts or toolbar.
-      .extended-search-is-open.admin-menu-with-shortcuts &,
-      .extended-search-is-open.toolbar & {
-        top: $topbar-height + $toolbar-height;
-      }
-      // Search form extended front
-      .search-form-extended.page-search &,
-      .search-form-extended.front & {
+      // Search form extended
+      .search-form-extended & {
         box-shadow: $box-shadow;
         .search-extended-button {
           display: none;
@@ -443,17 +387,12 @@
           box-shadow: none;
         }
       }
-      // Search form extended front when mobile search is open
-      .search-form-extended.page-search.mobile-search-is-open &,
-      .search-form-extended.front.mobile-search-is-open & {
+      // Search form extended when mobile search is open
+      .search-form-extended.mobile-search-is-open & {
         // Tablet
         @include media($tablet) {
           box-shadow: $box-shadow;
         }
-      }
-      // Mobile search open
-      .mobile-search-is-open & {
-        top: $header-height;
       }
     }
   }
@@ -467,7 +406,6 @@
     );
     position: fixed;
     z-index: $z-header - 2;
-    top: $topbar-height;
     left: 0;
     width: 100%;
     background-color: $color-primary;
@@ -480,7 +418,6 @@
         top 0ms $ease $speed
       );
       @include transform(translateY(-300%));
-      top: $header-height;
       display: block;
       overflow: scroll;
       max-height: 100%;
@@ -488,18 +425,9 @@
       box-shadow: none;
       .mobile-menu-is-open & {
         @include transform(translateY(0%));
-        padding-bottom: $header-height;
       }
     }
-    // Admin menu
-    .admin-menu & {
-      top: $topbar-height + $admin-menu-height;
-    }
-    // Admin menu with shortcuts or toolbar
-    .admin-menu-with-shortcuts &,
-    .toolbar & {
-      top: $topbar-height + $toolbar-height;
-    }
+
     // Search Form Extended
     .search-form-extended & {
       @include transition(
@@ -507,51 +435,6 @@
         transform $speed $ease,
         box-shadow $speed $ease
       );
-      top: $topbar-height;
-      // Tablet
-      @include media($tablet) {
-        top: $header-height;
-      }
-    }
-    // Search Form Extended with admin-menu
-    .search-form-extended.admin-menu & {
-      top: $topbar-height + $admin-menu-height;
-    }
-    // Search Form Extended with admin menu shortcuts or toolbar
-    .search-form-extended.admin-menu-with-shortcuts &,
-    .search-form-extended.toolbar & {
-      top: $topbar-height + $toolbar-height;
-    }
-    // Search Form Extended on frontpage
-    .search-form-extended.page-search &,
-    .search-form-extended.front & {
-      top: $topbar-height + $search-form-extended-height;
-    }
-
-    // Search Form Extended on frontpage with admin-menu
-    .search-form-extended.page-search.admin-menu &,
-    .search-form-extended.front.admin-menu & {
-      top: $topbar-height + $search-form-extended-height + $admin-menu-height;
-    }
-    // Search Form Extended on frontpage with admin menu shortcuts or toolbar
-    .search-form-extended.page-search.admin-menu-with-shortcuts &,
-    .search-form-extended.front.admin-menu-with-shortcuts &,
-    .search-form-extended.page-search.toolbar &,
-    .search-form-extended.front.toolbar &{
-      top: $topbar-height + $search-form-extended-height + $toolbar-height;
-    }
-    // Extended search open
-    .extended-search-is-open & {
-      top: $topbar-height + $search-form-extended-height;
-    }
-    // Extended search open with admin-menu
-    .extended-search-is-open.admin-menu & {
-      top: $topbar-height + $search-form-extended-height + $admin-menu-height;
-    }
-    // Extended search open with admin menu shortcuts or toolbar
-    .extended-search-is-open.admin-menu-with-shortcuts &,
-    .extended-search-is-open.toolbar &{
-      top: $topbar-height + $search-form-extended-height + $toolbar-height;
     }
 
     .navigation-inner {
@@ -602,8 +485,7 @@
           }
         }
         // Search Form Extended
-        .search-form-extended.page-search &,
-        .search-form-extended.front & {
+        .search-form-extended & {
           padding-right: 0;
         }
       }
@@ -631,13 +513,11 @@
           top: $header-height + $toolbar-height;
         }
 
-        .search-form-extended.page-search &,
-        .search-form-extended.front & {
+        .search-form-extended &,
+        .search-form-extended & {
           top: $header-height + $search-form-extended-height;
         }
-        .search-form-extended.extended-search-is-open & {
-          top: $header-height + $search-form-extended-height;
-        }
+
         &::before {
           content: '';
           display: block;
@@ -673,10 +553,6 @@
               transform $speed $ease,
               top 0ms $ease
             );
-            top: $header-height - $topbar-height;
-            .mobile-usermenu-is-open & {
-              padding-bottom: $header-height - $topbar-height;
-            }
           }
         }
       }
@@ -688,17 +564,141 @@
           transform $speed $ease,
           top 0ms $ease
         );
-        top: $header-height - $topbar-height;
-
-        .mobile-menu-is-open & {
-          padding-bottom: $header-height - $topbar-height;
-        }
-
-        .search-form-extended.page-search &,
-        .search-form-extended.front & {
-          top: $header-height - $topbar-height;
-        }
       }
+    }
+  }
+
+  // Positioning the search form and the navigation wrapper.
+  // These elements are placed on the page using fixed positioning, and because
+  // of this they need to have a set height from the top.
+  .pane-search-form {
+    top: 0;
+
+    @include media($tablet) {
+      top: $header-height;
+
+      .mobile-menu-is-open & {
+        padding-bottom: $header-height;
+      }
+    }
+
+    // Admin menu
+    .admin-menu & {
+      top: $admin-menu-height;
+    }
+
+    @include media($tablet) {
+      top: $header-height;
+
+      // Admin menu
+      .admin-menu & {
+        top: $header-height + $admin-menu-height;
+      }
+    }
+
+    // Admin menu with shortcuts or toolbar
+    .admin-menu-with-shortcuts &,
+    .toolbar & {
+      top: $topbar-height + $toolbar-height;
+    }
+
+    // Search Form Extended
+    .search-form-extended & {
+      top: $topbar-height;
+
+      // Tablet
+      @include media($tablet) {
+        top: $header-height;
+      }
+    }
+
+    // Search Form Extended with admin-menu
+    .search-form-extended.admin-menu & {
+      top: $topbar-height + $admin-menu-height;
+    }
+
+    // Search Form Extended with admin menu shortcuts or toolbar
+    .search-form-extended.admin-menu-with-shortcuts &,
+    .search-form-extended.toolbar & {
+      top: $topbar-height + $toolbar-height;
+    }
+
+    .search-form-extended & {
+      top: $topbar-height + $search-form-extended-height;
+    }
+
+    // Search Form Extended with admin-menu
+    .search-form-extended.admin-menu & {
+      top: $topbar-height + $search-form-extended-height + $admin-menu-height;
+    }
+
+    // Search Form Extended with admin menu shortcuts or toolbar
+    .search-form-extended.admin-menu-with-shortcuts &,
+    .search-form-extended.toolbar &{
+      top: $topbar-height + $search-form-extended-height + $toolbar-height;
+    }
+  }
+
+  .navigation-wrapper {
+    top: $topbar-height;
+
+    @include media($mobile) {
+      top: $header-height - $topbar-height;
+      .mobile-usermenu-is-open & {
+        padding-bottom: $header-height - $topbar-height;
+      }
+    }
+
+    .search-form-extended & {
+      top: -20px;
+    }
+
+    // Admin menu
+    .admin-menu & {
+      top: $topbar-height + $admin-menu-height;
+    }
+
+    // Admin menu with shortcuts and toolbar.
+    .admin-menu-with-shortcuts &,
+    .toolbar & {
+      top: $toolbar-height;
+    }
+
+    // Search Form Extended & admin menu
+    .search-form-extended.admin-menu & {
+      top: $admin-menu-height - 20px;
+    }
+
+    // Search Form Extended with admin menu shortcuts or toolbar
+    .search-form-extended.admin-menu-with-shortcuts &,
+    .search-form-extended.toolbar & {
+      top: $toolbar-height - 20px;
+    }
+
+    // Search Form Extended
+    .search-form-extended & {
+      top: $topbar-height;
+
+      // Tablet
+      @include media($tablet) {
+        top: $header-height;
+      }
+    }
+
+    // Search Form Extended with admin-menu
+    .search-form-extended.admin-menu & {
+      top: $topbar-height + $admin-menu-height;
+    }
+
+    // Search Form Extended with admin menu shortcuts or toolbar
+    .search-form-extended.admin-menu-with-shortcuts &,
+    .search-form-extended.toolbar &  {
+      top: $topbar-height + $toolbar-height;
+    }
+
+    // Mobile search open
+    .mobile-search-is-open & {
+      top: $header-height;
     }
   }
 }

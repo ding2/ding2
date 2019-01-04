@@ -653,9 +653,50 @@ function ding2_update_7054() {
 }
 
 /**
- * Delete {system} records for ding_wayf module.
+ * Update our own translations.
  */
 function ding2_update_7055() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable ding_libs.
+ */
+function ding2_update_7056() {
+  module_enable(array('ding_libs'));
+}
+
+/**
+ * Enable Campaign plus module.
+ */
+function ding2_update_7057() {
+  module_enable(array('ding_campaign_plus'));
+}
+
+/**
+ * Enable Campaign plus extra modules.
+ */
+function ding2_update_7058() {
+  module_enable(array(
+    'ding_campaign_plus_auto',
+    'ding_campaign_plus_basic',
+    'ding_campaign_plus_facet',
+    'ding_campaign_plus_object',
+    'ding_campaign_plus_search',
+  ));
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7059() {
+  ding2_translation_update();
+}
+
+/**
+ * Delete {system} records for ding_wayf module.
+ */
+function ding2_update_7060() {
   variable_del('ding_wayf');
   variable_del('wayf_hash');
   ding2_remove_module('ding_wayf');
@@ -664,7 +705,7 @@ function ding2_update_7055() {
 /**
  * Disable GateWAYF modules and migrate config.
  */
-function ding2_update_7056() {
+function ding2_update_7061() {
   $config = variable_get('ding_gatewayf_registration', FALSE);
   if ($config) {
     // Migrate configuration.

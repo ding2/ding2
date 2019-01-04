@@ -210,14 +210,12 @@ function _ting_reference_field_update($entity_type, $entity, &$items) {
 
   // Clear cache.
   field_cache_clear();
-
 }
 
 /**
  * Field_update for cron.
  */
 function _ting_reference_field_update_cron($entity_type, $entity, &$items) {
-
   // Get existing relations.
   $relations = ting_reference_get_relations($entity_type, $entity);
 
@@ -351,10 +349,11 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
           '#view_mode' => $display['settings']['view_mode'],
         );
       }
-
-      $element['#attached']['js'] = array(
-        drupal_get_path('module', 'ting_reference') . '/js/ting_reference_ajax.js',
-      );
+      if (!empty($element)) {
+        $element['#attached']['js'] = array(
+          drupal_get_path('module', 'ting_reference') . '/js/ting_reference_ajax.js',
+        );
+      }
       break;
 
     case 'ting_reference_reverse_default':

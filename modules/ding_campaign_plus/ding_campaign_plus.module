@@ -1,0 +1,383 @@
+<?php
+
+/**
+ * @file
+ * Code for the Ding Campaign Plus feature.
+ */
+
+include_once 'ding_campaign_plus.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function ding_campaign_plus_menu() {
+  $items = array();
+
+  $items['admin/config/ding/campaigns_plus'] = array(
+    'title' => 'Campaign plus',
+    'description' => 'Configure campaign plus.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_campaign_plus_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'includes/ding_campaign_plus.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_campaign_plus_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_campaign_plus_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_campaign_plus_admin_form' => array(
+      'render element' => 'form',
+      'file' => 'includes/ding_campaign_plus.admin.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function ding_campaign_plus_cron_queue_info() {
+  $queues['ding_campaign_plus_notification'] = array(
+    'worker callback' => '_ding_campaign_plus_notification',
+    'time' => 30,
+  );
+  return $queues;
+}
+
+/**
+ * Worker callback for cron queue jobs.
+ *
+ * @param int $campaign_nid
+ *   The node id of the campaign.
+ */
+function _ding_campaign_plus_notification($campaign_nid) {
+  $triggers = TRUE;
+  foreach (module_implements('ding_campaign_plus_validator') as $module) {
+    $triggers = module_invoke($module, 'ding_campaign_plus_validator', $campaign_nid);
+    if ($triggers === TRUE) {
+      // No need to check the other triggers as one have passed.
+      break;
+    }
+  }
+
+  // If any of the modules reports "false" a no-hit-trigger is found.
+  if ($triggers === FALSE) {
+    // Send notification to site administrator.
+    $campaign = node_load($campaign_nid);
+
+    $address = variable_get('site_mail', '');
+    if (!empty($address)) {
+      $to = $address;
+      $from = $address;
+      $body = array();
+      $body[] = t('Hi');
+      $body[] = '';
+      $body[] = t('The campaign "!title" will not be shown as it do not generate any hits in the data-well.', array('!title' => $campaign->title));
+      $body[] = '';
+      $body[] = t('The campaign can be found here !url', array('!url' => url('node/' . $campaign_nid, array('absolute' => TRUE))));
+
+      $params = array('body' => implode("\n", $body));
+      drupal_mail('ding_campaign_plus', 'notification', $to, language_default(), $params, $from);
+    }
+    else {
+      watchdog('ding_campaign_plus', 'Notification mail not set as site mail is empty', array(), WATCHDOG_NOTICE);
+    }
+  }
+}
+
+/**
+ * Implements hook_mail().
+ */
+function ding_campaign_plus_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'notification':
+      $message['subject'] = t('Inactive campaign detected');
+      $message['body'][] = $params['body'];
+      break;
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_campaign_plus_cron() {
+  $last_run = variable_get('ding_campaign_plus_cron_last_run', 0);
+
+  // Only add campaigns to validation queue on different intervals.
+  if (REQUEST_TIME - $last_run >= variable_get('ding_campaign_plus_notification', 604800) || $last_run == 0) {
+    $result = db_select('node', 'n')
+      ->fields('n', array('nid'))
+      ->condition('type', 'ding_campaign_plus')
+      ->condition('status', 1)
+      ->execute();
+
+    $queue = DrupalQueue::get('ding_campaign_plus_notification');
+    foreach ($result as $info) {
+      $queue->createItem($info->nid);
+    }
+
+    variable_set('ding_campaign_plus_cron_last_run', REQUEST_TIME);
+  }
+}
+
+/**
+ * Get information about the different triggers/rules available for campaigns.
+ *
+ * @see hook_ding_campaign_plus_info()
+ *
+ * @return array
+ *   Basic information about the triggers.
+ */
+function ding_campaign_plus_rules_info() {
+  $result = &drupal_static(__FUNCTION__);
+  if (!isset($result)) {
+    $result = [];
+    foreach (module_implements('ding_campaign_plus_info') as $module) {
+      $result[$module] = module_invoke($module, 'ding_campaign_plus_info');
+    }
+  }
+
+  return $result;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$form_state) {
+  // Add states to the node form based on campaign type selection.
+  $form['field_ding_campaign_plus_text']['#states'] = array(
+    'invisible' => array(
+      ':input[name="field_ding_campaign_plus_type[und]"]' => array('value' => 'campaign_image'),
+    ),
+  );
+  $form['field_ding_campaign_plus_image']['#states'] = array(
+    'invisible' => array(
+      ':input[name="field_ding_campaign_plus_type[und]"]' => array('value' => 'campaign_text'),
+    ),
+  );
+
+  // Defines tab one.
+  $path = drupal_get_path('module', 'field_group');
+  $form['triggers'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Campaign trigger'),
+    '#weight' => 10,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#attached' => array(
+      'js' => array(
+        $path . '/horizontal-tabs/horizontal-tabs.js',
+      ),
+      'css' => array(
+        $path . '/horizontal-tabs/horizontal-tabs.css',
+      ),
+    ),
+  );
+
+  $form['triggers']['tabs'] = array(
+    '#type' => 'horizontal_tabs',
+    '#tree' => TRUE,
+  );
+
+  // Build form tabs with the triggers.
+  $data = ding_campaign_plus_rules_info();
+  foreach ($data as $module => $info) {
+    $callback = $info['form'];
+    $form['triggers']['tabs'][$info['type']] = array(
+      '#weight' => isset($info['weight']) ? $info['weight'] : 0,
+      '#type' => 'fieldset',
+      '#title' => $info['title'],
+      'rules' => $callback($form_state),
+    );
+  }
+
+  // Ensures that tracking comes after the triggers when rendered.
+  $form['field_ding_campaign_plus_track']['#weight'] = 11;
+}
+
+/**
+ * Implements hook_preprocess_node().
+ *
+ * Add theme suggestions based on campaign type for campaigns plus. Also extract
+ * image as background style (mainly used to get image and/with text).
+ */
+function ding_campaign_plus_preprocess_node(&$variables, $hook) {
+  if ($variables['type'] == 'ding_campaign_plus') {
+    $node = $variables['node'];
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $type = $wrapper->field_ding_campaign_plus_type->value();
+    $variables['theme_hook_suggestions'][] = 'node__ding_campaign_plus__' . substr($type, 9);
+
+    switch ($type) {
+      case 'campaign_text_with_image':
+      case 'campaign_text_and_image':
+        $image = $wrapper->field_ding_campaign_plus_image->value();
+        $image_url = image_style_url('ding_full_width', $image['uri']);
+        $variables['image_as_background'] = 'background-image: url(' . $image_url . ')';
+        break;
+    }
+
+    // Add campaign tracking id.
+    $variables['wt_mc_id'] = $wrapper->field_ding_campaign_plus_track->value();
+  }
+}
+
+/**
+ * Implements hook_page_alter().
+ *
+ * Add webtrekk tracking of campaigns. Campaigns are lazy loaded into a given
+ * page, so we add this to all pages as we don't known before hand if a page
+ * contains an campaign or which campaign.
+ */
+function ding_campaign_plus_page_alter(&$variables) {
+  if (module_exists('ding_webtrekk')) {
+    drupal_add_js(drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus_trekk.js');
+  }
+}
+
+/**
+ * Get campaigns that matches the current context.
+ *
+ * @param array $contexts
+ *   The current panels contexts.
+ * @param string $style
+ *   The campaign style selected in panels pane configuration.
+ *
+ * @return array
+ *   The ID's of the campaigns trigger by the context.
+ */
+function ding_campaign_plus_get_matches(array $contexts, $style) {
+  // Remove empty contexts here an not in each hook below.
+  foreach ($contexts as $key => $context) {
+    if (is_null($context)) {
+      unset($contexts[$key]);
+    }
+  }
+
+  $campaigns = array();
+  foreach (module_implements('ding_campaign_plus_matches') as $module) {
+    $matches = module_invoke($module, 'ding_campaign_plus_matches', $contexts, $style);
+    foreach ($matches as $type => $nids) {
+      ding_campaign_plus_add_campaign($campaigns, $nids, $type);
+    }
+  }
+
+  // Only if any campaigns where found in the sub-module match functions.
+  if (!empty($campaigns)) {
+    // Sort based on calculated weight.
+    asort($campaigns, SORT_NUMERIC);
+
+    // Load changed date for the campaigns triggered.
+    $nids = array_keys($campaigns);
+    $times = db_select('node', 'n')
+      ->fields('n', array('nid', 'changed'))
+      ->condition('nid', $nids, 'IN')
+      ->execute()
+      ->fetchAllKeyed(0);
+
+    // Split the array into groups base on weight and add the changed times.
+    $groups = array();
+    foreach ($campaigns as $key => $item) {
+      $groups[$item][$key] = $times[$key];
+    }
+
+    // Sort the groups based on the changed time inside each weighted group.
+    $groups = array_map(function ($values) {
+      arsort($values, SORT_NUMERIC);
+      return array_keys($values);
+    }, $groups);
+
+    // Flatten the array based on the grouping and time sort order into an list
+    // of node id's.
+    $campaigns = array();
+    $it = new RecursiveIteratorIterator(new RecursiveArrayIterator($groups));
+    foreach ($it as $nid) {
+      $campaigns[] = $nid;
+    }
+  }
+
+  return $campaigns;
+}
+
+/**
+ * Add campaign id and calculate new weight for that campaign.
+ *
+ * @param array $campaigns
+ *   Campaigns index by id and value as current weight.
+ * @param array $nids
+ *   New campaign id's.
+ * @param string $type
+ *   The type of campaigns (used to find the right weight).
+ */
+function ding_campaign_plus_add_campaign(array &$campaigns, array $nids, $type) {
+  $rule_weights = &drupal_static(__FUNCTION__, array());
+
+  if (empty($rule_weights)) {
+    $rule_weights = variable_get('ding_campaign_plus_weight', array());
+
+    if (empty($rule_weights)) {
+      foreach (module_implements('ding_campaign_plus_default_weights') as $module) {
+        $types = module_invoke($module, 'ding_campaign_plus_default_weights');
+        foreach ($types as $type => $info) {
+          $rule_weights[$type] = $info['weight'];
+        }
+      }
+    }
+  }
+
+  foreach ($nids as $nid) {
+    $campaigns[$nid] = isset($campaigns[$nid]) ? $campaigns[$nid] + (int) $rule_weights[$type] : (int) $rule_weights[$type];
+  }
+}
+
+/**
+ * Build cache id based on the current context.
+ *
+ * @param array $contexts
+ *   Context triggers for the current page.
+ * @param string $style
+ *   The style of campaign to display.
+ *
+ * @return string
+ *   Cache id.
+ */
+function _ding_campaign_plus_cache_id(array $contexts, $style) {
+  $cid = $style;
+  foreach ($contexts as $type => $context) {
+    if (is_null($context)) {
+      continue;
+    }
+
+    switch ($type) {
+      case 'library':
+      case 'page':
+      case 'taxonomy_term':
+        $cid .= $context->uuid;
+        break;
+
+      case 'search_term':
+        $conditions = ting_search_conditions_callback($context);
+        $cid .= $context . '|' . serialize($conditions);
+        break;
+
+      case 'path';
+        $cid .= $context->path;
+        break;
+    }
+  }
+
+  return sha1($cid);
+}

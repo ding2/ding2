@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Code for module installation.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_sections_term_menu_schema() {
+  $schema['ding_sections_term_menu'] = array(
+    'description' => st('Map term ids to menu list id.'),
+    'fields' => array(
+      'tid' => array(
+        'description' => st('Term id.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'mlid' => array(
+        'description' => st('Menu link id.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+    ),
+  );
+
+  return $schema;
+}

@@ -136,31 +136,32 @@ function ding_eresource_default_page_manager_handlers() {
     $pane->locks = '';
     $pane->uuid = '9585f181-cf01-4270-a7fd-b981246d6e2c';
     $display->content['new-9585f181-cf01-4270-a7fd-b981246d6e2c'] = $pane;
-    $display->panels['attachment_1_1'][1] = 'new-9585f181-cf01-4270-a7fd-b981246d6e2c';
+    $display->panels['attachment_1_1'][0] = 'new-9585f181-cf01-4270-a7fd-b981246d6e2c';
     $pane = new stdClass();
-    $pane->pid = 'new-fb3893c4-f99a-47a1-989f-46b5483382fd';
+    $pane->pid = 'new-3612f537-0123-4c9d-a1cd-36f7214176a5';
     $pane->panel = 'attachment_1_1';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
+      'style' => 'ribbon',
       'context' => array(
         0 => 'argument_entity_id:node_1',
-        1 => 'relationship_og_node_from_group_1',
+        1 => 'argument_entity_id:node_1',
         2 => 'empty',
-        3 => 'relationship_terms_from_node_1',
+        3 => 'relationship_entity_from_field:field_ding_eresource_category-node-taxonomy_term_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'override_title_heading' => 'h2',
     );
     $pane->cache = array(
-      'method' => 'simple',
+      'method' => 'lazy',
       'settings' => array(
-        'lifetime' => '600',
-        'granularity' => 'context',
+        'load_strategy' => 'pane-visible',
+        'show_spinner' => 1,
+        'load_text' => '',
       ),
     );
     $pane->style = array(
@@ -169,10 +170,10 @@ function ding_eresource_default_page_manager_handlers() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
-    $pane->locks = '';
-    $pane->uuid = 'fb3893c4-f99a-47a1-989f-46b5483382fd';
-    $display->content['new-fb3893c4-f99a-47a1-989f-46b5483382fd'] = $pane;
-    $display->panels['attachment_1_1'][2] = 'new-fb3893c4-f99a-47a1-989f-46b5483382fd';
+    $pane->locks = array();
+    $pane->uuid = '3612f537-0123-4c9d-a1cd-36f7214176a5';
+    $display->content['new-3612f537-0123-4c9d-a1cd-36f7214176a5'] = $pane;
+    $display->panels['attachment_1_1'][1] = 'new-3612f537-0123-4c9d-a1cd-36f7214176a5';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-9585f181-cf01-4270-a7fd-b981246d6e2c';
   $handler->conf['display'] = $display;
@@ -250,7 +251,14 @@ function ding_eresource_default_page_manager_handlers() {
       'override_title_text' => '',
       'override_title_heading' => 'h2',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => 'lazy',
+      'settings' => array(
+        'load_strategy' => 'page-loaded',
+        'show_spinner' => 1,
+        'load_text' => '',
+      ),
+    );
     $pane->style = array(
       'settings' => NULL,
     );

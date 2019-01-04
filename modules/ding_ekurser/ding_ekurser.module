@@ -97,17 +97,11 @@ function _ding_ekurser_get_subject_terms() {
     ->withCount(1)
     ->withSort('acquisitionDate_descending')
     ->withTermsPrFacet(20)
+    ->withFacets(array('facet.subject'))
     ->execute();
 
-  // Extract subject facets.
-  $facets = $search_result->getFacets();
-  $subject_facets = array_filter($facets, function (TingSearchFacet $facet) {
-    return $facet->getName() == 'facet.subject';
-  });
-  $subject_term_groups = array_map(function (TingSearchFacet $facet) {
-    return $facet->getTerms();
-  }, $subject_facets);
-  $subject_terms = array_merge(...$subject_term_groups);
+  // Extract subject facet terms.
+  $subject_terms = $search_result->getFacets()['facet.subject']->getTerms();
 
   // Remove terms that covers more than 80% of the resultset.
   $frequent_subject_terms = array_filter(
@@ -155,7 +149,7 @@ function ding_ekurser_search_execute($keys = NULL, $conditions = NULL) {
 function ding_ekurser_conditions_callback($keys) {
   $conditions = ting_search_conditions_callback($keys);
   if (empty($conditions['sort'])) {
-    $conditions['sort'] = 'acquisitionDate_descending';
+    $conditions['sort'] = 'date_descending';
   }
   return $conditions;
 }
@@ -170,14 +164,9 @@ function ding_ekurser_search_sort_options() {
   $options = array(
     'title_ascending' => t('Title (Ascending)'),
     'title_descending' => t('Title (Descending)'),
-    'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
-    'acquisitionDate_descending' => t('Acquisition date (Descending)'),
+    'date_ascending' => t('Acquisition date (Ascending)'),
+    'date_descending' => t('Acquisition date (Descending)'),
   );
-
-  // Add label to the front of the options.
-  foreach ($options as $key => $option) {
-    $options[$key] = t('Sort by: !sort', array('!sort' => $option));
-  }
 
   return $options;
 }
@@ -195,7 +184,7 @@ function ding_ekurser_form_ting_search_sort_form_alter(&$form, &$form_state, $fo
   // Set our own sorting options and set default sort, if it's not set.
   $form['sort']['#options'] = ding_ekurser_search_sort_options();
   if (empty($form['sort']['#default_value'])) {
-    $form['sort']['#default_value'] = 'acquisitionDate_descending';
+    $form['sort']['#default_value'] = 'date_descending';
   }
 }
 

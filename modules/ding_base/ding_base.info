@@ -105,6 +105,7 @@ features[variable][] = globalredirect_settings
 features[variable][] = i18n_language_list
 features[variable][] = jquery_update_compression_type
 features[variable][] = jquery_update_jquery_cdn
+features[variable][] = jquery_update_jquery_migrate_enable
 features[variable][] = jquery_update_jquery_version
 features[variable][] = metatag_tag_admin_pages
 features[variable][] = mmeu_urls

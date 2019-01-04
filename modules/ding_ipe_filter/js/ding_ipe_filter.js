@@ -54,6 +54,9 @@
 
         return false;
       });
+
+      // Display ipe controllers only relative to container.
+      $('body').removeClass('panels-ipe-editing');
     }
   };
 })(jQuery);

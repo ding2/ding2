@@ -1,0 +1,17 @@
+name = Ding Nodelist
+description = Module for creating lists.
+core = 7.x
+package = Ding!
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = image
+dependencies[] = panels_ipe
+dependencies[] = strongarm
+configure = admin/config/ding/ding_nodelist
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[image][] = ding_nodelist_large
+features[user_permission][] = configure nodelist
+features[user_permission][] = nodelist cache settings
+features[variable][] = ding_nodelist_cache_default_time
+features[variable][] = ding_nodelist_node_types

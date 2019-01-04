@@ -58,6 +58,7 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#description' => t('Enter a unique machine-name for this profile.'),
     '#maxlength' => 64,
     '#default_value' => $profile->name,
+    '#element_validate' => array('ting_field_search_machine_name_validate'),
     '#machine_name' => array(
       'exists' => 'ting_field_search_profile_exists',
       'source' => array('profile', 'title'),
@@ -72,7 +73,7 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
   $form['profile']['weight'] = array(
     '#type' => 'select',
     '#title' => t('Weight'),
-    '#description' => t('Determines the profile\'s position when shown in the admin UI and to the user in the select box.'),
+    '#description' => t("Determines the profile's position when shown in the admin UI and to the user in the select box."),
     '#options' => drupal_map_assoc(range(-15, 15)),
     '#default_value' => $profile->weight,
   );
@@ -105,8 +106,8 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Well profile'),
     '#description' => t('Enter the name of the well profile from VIP to use with this profile. Leave empty to use the <strong>%standard</strong> profile configured at <a href="!url">OpenSearch settings</a>.', array(
-        '%standard' => variable_get('opensearch_search_profile', ''),
-        '!url' => url('admin/config/ding/provider/opensearch'),
+      '%standard' => variable_get('opensearch_search_profile', ''),
+      '!url' => url('admin/config/ding/provider/opensearch'),
     )),
     '#default_value' => $profile->config['search_request']['well_profile'],
   );
@@ -124,12 +125,6 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#description' => t('Enter a number of days to restrict the search result to only contain new materials.'),
     '#default_value' => $profile->config['search_request']['new_materials'],
     '#element_validate' => array('element_validate_integer_positive'),
-  );
-  $form['config']['search_request']['allow_empty'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Allow empty'),
-    '#description' => t('Remove the default requirement for a search key.'),
-    '#default_value' => $profile->config['search_request']['allow_empty'],
   );
 
   // User interaction.
@@ -180,7 +175,12 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#type' => 'textarea',
     '#title' => 'Pages',
     '#default_value' => $profile->config['user_interaction']['pages'],
-    '#description' => t('Specify pages by using their paths. Enter one path per line. The \'*\' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.', array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.",
+      array(
+        '%blog' => 'blog',
+        '%blog-wildcard' => 'blog/*',
+        '%front' => '<front>',
+      )),
     '#states' => array(
       'invisible' => array(
         ':input[name="config[user_interaction][visibility]"]' => array('value' => 'all'),
@@ -218,13 +218,6 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#weight' => -13,
-  );
-  $form['config']['search_result']['results_per_page'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Results per page'),
-    '#description' => t('Enter the number of results to display on the search page by default.'),
-    '#default_value' => $profile->config['search_result']['results_per_page'],
-    '#element_validate' => array('element_validate_integer_positive'),
   );
   $form['config']['search_result']['default_sort'] = array(
     '#type' => 'select',
@@ -401,7 +394,20 @@ function ting_field_search_profile_exists($value) {
   // Retrieve existing profile names.
   $profiles = array_keys(ting_field_search_profiles_load_all());
 
+  if ($value == 'node') {
+    $profiles[] = 'node';
+  }
+
   return in_array($value, $profiles);
+}
+
+/**
+ * Custom validation callback for machine name field.
+ */
+function ting_field_search_machine_name_validate($element, &$form_state, $form) {
+  if ($element['#value'] == 'node') {
+    form_error($element, t("You can't use <strong>'node'</strong> as machine name for profile."));
+  }
 }
 
 /**

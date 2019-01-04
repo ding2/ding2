@@ -55,6 +55,12 @@ function ding_list_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'ting_reference_preview' => array(
         'label' => 'above',
         'settings' => array(),

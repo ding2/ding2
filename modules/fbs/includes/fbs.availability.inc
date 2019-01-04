@@ -113,56 +113,52 @@ function fbs_availability_holdings($provider_ids) {
         }
       }
       elseif ($suffix_type == 'shelf_mark' && $entity = opensearch_get_object_marcxchange($entity_id)) {
-        $suffix = '';
         $field652m = fbs_get_marc_field($entity, '652', 'm');
         $field652o = fbs_get_marc_field($entity, '652', 'o');
 
-        // Special handling for music:
-        // Field 039.a and 039.b is used for data about music shelf_mark, so we
-        // use this as an indicator for music materials.
+        // For music and non-fiction a special prefix is used.
+        $prefix = '';
+
+        // Music: Field 039.a is present on music materials, so we can use this
+        // is an indicator.
         if ($field039a = fbs_get_marc_field($entity, '039', 'a')) {
-          $suffix .= fbs_translate_marc($field039a, '039.a');
+          $prefix .= fbs_translate_marc($field039a, '039.a');
 
           // We'll also append additional subfields if present.
           if ($field039b = fbs_get_marc_field($entity, '039', 'b')) {
-            $suffix .= ' ' . fbs_translate_marc($field039b, '039.b');
+            $prefix .= ' ' . fbs_translate_marc($field039b, '039.b');
           }
         }
-        // Use the 'sk' marker to determine if this is non-fiction.
-        // It seems to present in both the 'm' and 'o' subfield so we check them
-        // to be sure.
+        // Non-fiction: The 'sk' marker is in DK5-classification fields, to mark
+        // fiction materials. Everything else has a classification number and is
+        // non-fiction. Subfield 'm' and 'o' can both contain this special
+        // marker, so we check them both to be more resilient against error and
+        // missing data.
         elseif ($field652m !== 'sk' && $field652o !== 'sk') {
           // DK5 classification.
-          $suffix .= $field652m;
+          $prefix .= $field652m;
 
           // Additional descriptors from the DK5 classification.
           if ($field652b = fbs_get_marc_field($entity, '652', 'b')) {
-            $suffix .= ' ' . $field652b;
+            $prefix .= ' ' . $field652b;
           }
           elseif ($field652a = fbs_get_marc_field($entity, '652', 'a')) {
-            $suffix .= ' ' . $field652a;
+            $prefix .= ' ' . $field652a;
             if ($field652h = fbs_get_marc_field($entity, '652', 'h')) {
-              $suffix .= ', ' . $field652h;
+              $prefix .= ', ' . $field652h;
             }
           }
         }
 
-        // Generate and append the standard suffix for ALMA shelf_mark. We prefer
-        // marc fields in the following order:
+        // The shelf mark is generated from a prioritized list of candidates.
         $candidates = array(
           '100.a',
           '110.a',
-          '239.a',
+          '239.t',
           '245.a',
         );
 
         if ($shelf_mark = fbs_pick_marc_field($entity, $candidates)) {
-          // If we found a shelf_mark and there's already something in suffix,
-          // remember to add a seperator.
-          if ($suffix) {
-            $suffix .= ' > ';
-          }
-
           $words = explode(' ', $shelf_mark);
           $shelf_mark = FALSE;
 
@@ -182,10 +178,11 @@ function fbs_availability_holdings($provider_ids) {
           // A neat little trick for mb_ucfirst:
           // http://stackoverflow.com/questions/2517947/ucfirst-function-for-multibyte-character-encodings#answer-14161325.
           $shelf_mark = mb_strtoupper(mb_substr($shelf_mark, 0, 1)) . mb_strtolower(mb_substr($shelf_mark, 1));
-          $suffix .= $shelf_mark;
         }
 
-        $result_holding['placement'][] = $suffix;
+        // Generate and append the final holdings suffix.
+        $holdings_suffix = ($prefix ? $prefix . ' > ' : '') . $shelf_mark;
+        $result_holding['placement'][] = $holdings_suffix;
       }
 
       $placement_string = implode(' > ', $result_holding['placement']);
