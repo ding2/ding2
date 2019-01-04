@@ -257,13 +257,13 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
  * @param array $object_ids
  *   Object identifiers.
  *
- * @return bool|\TingClientSearchResult
- *   The search result.
+ * @return array
+ *   An array of TingMarchResult objects. Empty array if nothing was found.
  *
  * @throws \TingClientException
  *   This may throw this exception if the search request fails.
  */
-function opensearch_get_objects_marcxchange($object_ids) {
+function opensearch_get_objects_marcxchange(array $object_ids) {
   $request = opensearch_get_request_factory()->getMarcXchangeRequest();
 
   $request->setAgency(variable_get('ting_agency'));
