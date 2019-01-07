@@ -416,7 +416,7 @@ function opensearch_execute(TingClientRequest $request) {
 
     // Ids that we still need to be fetched will not be appearing in the list of
     // cached objects.
-    $uncached_ids = array_diff_key($object_ids, $cached_objects);
+    $uncached_ids = array_diff_key($local_ids, $cached_objects);
     $request->setObjectIds(array_keys($uncached_ids));
 
     // If there are no ids to fetch then there is no need to issue a request.
