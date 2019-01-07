@@ -58,7 +58,14 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
     // Execute the request.
     $result = opensearch_execute($request);
 
-    return $collection || is_null($result) ? $result : reset($result);
+    if ($collection) {
+      return $result;
+    }
+
+    // An object request wil return an array.
+    if (!empty($result)) {
+      return reset($result);
+    }
   }
 
   return NULL;
