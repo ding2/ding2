@@ -401,7 +401,9 @@ function opensearch_execute(TingClientRequest $request) {
 
     // Try to retrieve a cached response for each request. Entries which does
     // not have cached data will get the value FALSE for easy subsequent
-    // filtering.
+    // filtering. Note that the input array to the map function uses "+" and not
+    // the array_merge function as merge will reset the keys when they are
+    // numeric which is the case with local_ids.
     $object_ids = array_map(function ($object_request) {
       if ($cached_response = _opensearch_cache($object_request)) {
         // A response for a single object is an array with a single object so
@@ -411,12 +413,12 @@ function opensearch_execute(TingClientRequest $request) {
       else {
         return FALSE;
       }
-    }, array_merge($object_id_requests, $local_id_requests));
+    }, $object_id_requests + $local_id_requests);
     $cached_objects = array_filter($object_ids);
 
     // Ids that we still need to be fetched will not be appearing in the list of
     // cached objects.
-    $uncached_ids = array_diff_key($local_ids, $cached_objects);
+    $uncached_ids = array_diff_key($object_ids, $cached_objects);
     $request->setObjectIds(array_keys($uncached_ids));
 
     // If there are no ids to fetch then there is no need to issue a request.
