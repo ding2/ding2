@@ -79,8 +79,8 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
  * @param bool $local
  *   Flag to indicate whether $ids contains pids or local ids (fausts).
  *
- * @return bool|\TingClientSearchResult
- *   The objects fetched from the data-well.
+ * @return array
+ *   An array of TingClientObject. Empty array if nothing was found.
  *
  * @throws \TingClientException
  *   This may throw this exception if the search request fails.
