@@ -176,7 +176,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       // about the associated material.
       /** @var \TingEntity $entity */
       $entity = $loan->entity;
-      if (!is_object($entity) || NULL === $entity->getTingObject()->data) {
+      if (!is_object($entity)) {
         // Patron have this item in loans list, but the search provider can't
         // find this record for current agencyId, so we load it separately.
         $ting_object = ting_search_object_load($loan->ding_entity_id);
@@ -192,7 +192,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       // Initialize variables so that they don't carry over if this entity can't
       // be searched.
       $creators = $mat_type = $cover = NULL;
-      if (is_object($entity) && NULL !== $entity->getTingObject()->data) {
+      if (is_object($entity)) {
         $raw_title = $entity->getTitle();
 
         // Add title link.
