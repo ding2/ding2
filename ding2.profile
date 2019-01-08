@@ -676,6 +676,7 @@ function ding2_module_enable(&$install_state) {
     'ding_campaign_plus_facet',
     'ding_campaign_plus_object',
     'ding_campaign_plus_search',
+    'ding_webtrekk',
   ), $modules);
 
   $operations = ding2_module_list_as_operations($modules);
