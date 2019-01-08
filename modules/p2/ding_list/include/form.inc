@@ -590,7 +590,7 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
     '#commands' => array(),
   );
   if (empty($form_state['values']['email'])) {
-    $response['#commands'][] = ajax_command_ding_popup('ding_list', t('The emails field is required to send out invitations.'), t('No mails send.'));
+    $response['#commands'][] = ajax_command_ding_popup('ding_list', t('The emails field is required to send out invitations.'), t('No mails sent.'));
     return $response;
   }
   $list = $form_state['build_info']['args'][0];
