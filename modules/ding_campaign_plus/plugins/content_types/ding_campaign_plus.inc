@@ -52,7 +52,7 @@ function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel
   }
   else {
     cache_set($cid . '-context', array($context_data, $style));
-    $content = '<div data-ding-campaign-plus-cid="' . $cid . '"></div>';
+    $content = '<div data-ding-campaign-plus-cid="' . $cid . '" class="ding-campaing-plus-placeholder"></div>';
     drupal_add_js(drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus.js');
   }
 
