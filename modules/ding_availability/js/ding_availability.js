@@ -68,6 +68,8 @@
                 ding_availability_update_holdings(id, entity_ids);
               }
             });
+
+            $(document).trigger('ding_availability_update_holdings');
           },
           error: function () {
             $('div.loader').remove();
