@@ -249,8 +249,6 @@ function _ding_campaign_plus_search_match(TingSearchRequest $searchRequest) {
     $query = $searchRequest->getFullTextQuery();
     $originalResults = $searchRequest->execute();
 
-    // $no_of_results = $current->getNumTotalObjects();
-    // if ($no_of_results > 0) {
     // Loop rules to find percentage match in facets.
     foreach ($rules as $rule) {
       // Do combined search to get intersection between user search and
