@@ -57,12 +57,12 @@ function bpi_http_push_action_form($nid) {
     '#type' => 'select',
     '#title' => t('Push with image'),
     '#options' => array(
-      '_none' => t('Choose'),
       BPI_WITHOUT_IMAGES => t('Not approved for sharing'),
       BPI_WITH_IMAGES => t('Approved for sharing'),
     ),
     '#description' => t('You should have permission to publish the images before selecting this option.'),
-    '#default_value' => '_none',
+    '#empty_option' => t('- choose -'),
+    '#empty_value' => '_none',
     '#required' => TRUE,
   );
 
