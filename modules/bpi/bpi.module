@@ -253,20 +253,30 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     $form_state['node']->bpi_id = $bpi_id;
     try {
       $bpi = bpi_client_instance();
+      /** @var \Bpi\Sdk\Item\Node $bpi_node */
       $bpi_node = $bpi->getNode($bpi_id);
       $bpi_content = $bpi_node->getProperties();
       $bpi_assets = $bpi_node->getAssets();
 
-      drupal_set_message(
-        t(
-          'Syndicating content <strong>@title</strong>, from category <strong>@category</strong> and audience <strong>@audience</strong>.',
-          array(
-            '@title' => $bpi_content['title'],
-            '@category' => $bpi_content['category'],
-            '@audience' => $bpi_content['audience'],
+      $bpi_agency_id = variable_get('bpi_agency_id', '');
+
+      // Avoid the ability to syndicate own content.
+      if ($bpi_agency_id === $bpi_node->getProperties()['agency_id']) {
+        bpi_error_message(new \Exception('', 406), 'error');
+        unset($form['actions']);
+      }
+      else {
+        drupal_set_message(
+          t(
+            'Syndicating content <strong>@title</strong>, from category <strong>@category</strong> and audience <strong>@audience</strong>.',
+            array(
+              '@title' => $bpi_content['title'],
+              '@category' => $bpi_content['category'],
+              '@audience' => $bpi_content['audience'],
+            )
           )
-        )
-      );
+        );
+      }
     }
     catch (Exception $e) {
       watchdog_exception('bpi', $e);
