@@ -117,6 +117,9 @@ function ding_webtrekk_page_alter(&$page) {
       // Track the page of the search result.
       $params['p_s_Page'] = $search_result->getSearchRequest()->getPage();
 
+      // Trak the size of the search result.
+      $params['p_s_Size'] = $search_result->getNumCollections();
+
       // Track the sort used in the search request.
       if (!empty(ting_search_current_results()->getSearchRequest()->getSorts())) {
         $current_sort = $search_result->getSearchRequest()->getSorts()[0];
