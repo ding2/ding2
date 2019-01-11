@@ -117,7 +117,9 @@ function ding_webtrekk_page_alter(&$page) {
       // Track the page of the search result.
       $params['p_s_Page'] = $search_result->getSearchRequest()->getPage();
 
-      // Trak the size of the search result.
+      // Track the size of the search result. We already track the total size
+      // of the search result in OSSr parameter, but this is the number of
+      // results on the current search page.
       $params['p_s_Size'] = $search_result->getNumCollections();
 
       // Track the sort used in the search request.
