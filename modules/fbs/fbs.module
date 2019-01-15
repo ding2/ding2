@@ -83,7 +83,7 @@ function fbs_ding_provider() {
 }
 
 /**
- * Implements hook_ding_entity_is()
+ * Implements hook_ding_entity_is().
  */
 function fbs_ding_entity_is($object, $class) {
   if (!$object instanceof TingEntity) {

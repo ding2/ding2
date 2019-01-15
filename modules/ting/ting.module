@@ -377,6 +377,7 @@ function ting_ding_entity_is($object, $class) {
         return TRUE;
       }
       return NULL;
+
     case 'library_material':
       $sources = variable_get('ting_library_material_sources', array());
 
