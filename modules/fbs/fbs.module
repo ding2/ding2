@@ -99,10 +99,11 @@ function fbs_ding_entity_is($object, $class) {
       // display and has a chance of calling opensearch to get marc record. We
       // need none of this and only want to know if the material is reservable
       // and if it has any periodical information.
-      $result = reset(fbs_service()->Catalog->getHoldings(
+      $result = fbs_service()->Catalog->getHoldings(
         fbs_service()->agencyId,
         $object->localId
-      ));
+      );
+      $result = reset($result);
 
       // Use the first material to find out if this is a periodical.
       $holdings = reset($result->holdings);
