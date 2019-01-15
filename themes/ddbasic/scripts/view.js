@@ -289,7 +289,14 @@
   $(function () {
     // Set and destroy slick slider on views.
     var event_view_rows = $(".view-ding-event.max-two-rows .view-elements-inner .views-row");
+
     $(window).bind('resize.ding_view_slide', function (evt) {
+      // If Slick is not loaded for whatever reason, we'll quit out to avoid errors.
+      var isSlickLoaded = (typeof $.fn.slick !== 'undefined');
+      if (!isSlickLoaded) {
+        return;
+      }
+
       switch (ddbasic.breakpoint.is('mobile', 'view_slide')) {
       case ddbasic.breakpoint.IN:
         // Event max-two-rows view.
@@ -297,6 +304,7 @@
           // Wrap slides in containers of 2.
           event_view_rows.slice(i, i + 2).wrapAll("<div class='two-slides'></div>");
         }
+
         $('.view-ding-event.max-two-rows .view-elements-inner').slick({
           arrows: true,
           infinite: false,
