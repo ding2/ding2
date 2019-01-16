@@ -792,6 +792,11 @@ function ding_base_views_default_views_alter(&$views) {
       // There is no such filter so we have to add it.
       $views['admin_views_node']->display['default']->display_options['filters']['name'] = $filter_options;
     }
+
+    // Use Views lite pager for better performance. Especially on large innodb
+    // databases the COUNT(*) query performed by standard pager can become slow.
+    // See: https://www.drupal.org/project/views_litepager
+    $views['admin_views_node']->display['default']->display_options['pager']['type'] = 'lite';
   }
 }
 

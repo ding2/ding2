@@ -201,3 +201,10 @@ function ding_base_update_7006() {
 function ding_base_update_7007() {
   _jquery_update_set_theme_version('seven', '1.7');
 }
+
+/**
+ * Enable Views litepager.
+ */
+function ding_base_update_7008() {
+  module_enable(array('views_litepager'));
+}
