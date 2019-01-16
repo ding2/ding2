@@ -47,3 +47,14 @@ function ting_infomedia_update_7000() {
 function ting_infomedia_update_7001() {
   ding_entity_unlock_fields('ting_infomedia', array('ting_infomedia'));
 }
+
+/**
+ * Remove ting_infomedia field.
+ */
+function ting_infomedia_update_7002() {
+  $field_info = field_info_field('ting_infomedia');
+
+  if (!empty($field_info)) {
+    field_delete_field($field_info['field_name']);
+  }
+}
