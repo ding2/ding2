@@ -579,4 +579,7 @@ function ding_dams_post_features_revert() {
     ->key(array('format' => 'ding_wysiwyg'))
     ->fields(array('settings' => serialize($settings)))
     ->execute();
+
+  // Clear all caches.
+  drupal_flush_all_caches();
 }
