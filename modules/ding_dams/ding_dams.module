@@ -547,3 +547,36 @@ function theme_ding_dams_download_link($variables) {
 
   return $output;
 }
+
+/**
+ * Implements hook_post_features_revert().
+ *
+ * Enable DAMS buttons on feature revert.
+ */
+function ding_dams_post_features_revert() {
+  $result = db_select('wysiwyg', 'w')
+    ->fields('w', ['settings'])
+    ->condition('format', 'ding_wysiwyg')
+    ->execute()
+    ->fetchObject();
+  if (empty($result->settings)) {
+    return;
+  }
+  $settings = unserialize($result->settings);
+
+  $dams_buttons = array(
+    'dams_document',
+    'dams_video',
+    'dams_audio',
+    'dams_image',
+  );
+
+  foreach ($dams_buttons as $dams_button) {
+    $settings['buttons']['drupal'][$dams_button] = 1;
+  }
+
+  db_merge('wysiwyg')
+    ->key(array('format' => 'ding_wysiwyg'))
+    ->fields(array('settings' => serialize($settings)))
+    ->execute();
+}
