@@ -172,6 +172,9 @@ function ding_provider_implements($type, $hook) {
  * @see ding_provider_invoke_page()
  * @see ding_provider_get_form()
  * @see ding_provider_ajax_form_callback()
+ *
+ * @throws DingProviderDoesntImplement
+ * @throws DingProviderNoProvider
  */
 function ding_provider_invoke($type, $hook) {
   $args = func_get_args();
@@ -189,6 +192,9 @@ function ding_provider_invoke($type, $hook) {
 
 /**
  * Get a form from a provider.
+ *
+ * @throws DingProviderDoesntImplement
+ * @throws DingProviderNoProvider
  */
 function ding_provider_form($type, $form_id) {
   $args = func_get_args();

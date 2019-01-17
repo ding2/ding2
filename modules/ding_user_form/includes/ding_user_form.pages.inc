@@ -14,7 +14,7 @@
  *
  * @ingroup forms
  */
-function ding_user_authenticate_form($form, &$form_state) {
+function ding_user_form_authenticate_form($form, &$form_state) {
   form_load_include($form_state, 'inc', 'ding_user', 'ding_user.pages');
 
   global $user;
@@ -63,7 +63,7 @@ function ding_user_authenticate_form($form, &$form_state) {
 /**
  * Form validator.
  */
-function ding_user_authenticate_form_validate($form, &$form_state) {
+function ding_user_form_authenticate_form_validate($form, &$form_state) {
   global $user;
   $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
   if (!is_array($auth_res) || !isset($auth_res['success'])) {
@@ -98,7 +98,7 @@ function ding_user_authenticate_form_validate($form, &$form_state) {
 /**
  * Form submit function.
  */
-function ding_user_authenticate_form_submit($form, &$form_state) {
+function ding_user_form_authenticate_form_submit($form, &$form_state) {
   if ($form_state['authentication_success']) {
     ding_user_save_creds($form_state['auth_res']);
     $form_state['redirect'] = 'user/' . $user->uid;
