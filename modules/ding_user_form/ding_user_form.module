@@ -5,33 +5,6 @@
  */
 
 /**
- * Implements hook_preprocess_html().
- */
-function ding_user_form_preprocess_html(&$variables) {
-  $args = arg();
-  if ($args[0] == 'user') {
-    // Set default title.
-    drupal_set_title('Account');
-
-    // Check if current user is logged in.
-    if (user_is_logged_in()) {
-      // Cache control for user pages.
-      drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
-      drupal_add_http_header('Pragma', 'no-cache');
-    }
-    elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
-      // Redirect anonymous user to front page login. This is to prevent the
-      // library user from seeing /user, login and password page. Unless in
-      // maintenance_mode, there's no front page login when in maintenance_mode,
-      // and a redirect prevent login.
-      if (!variable_get('maintenance_mode', 0)) {
-        drupal_goto('', array('fragment' => 'login'));
-      }
-    }
-  }
-}
-
-/**
  * Implements hook_menu().
  */
 function ding_user_form_menu() {
@@ -57,6 +30,33 @@ function ding_user_form_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function ding_user_form_preprocess_html(&$variables) {
+  $args = arg();
+  if ($args[0] == 'user') {
+    // Set default title.
+    drupal_set_title('Account');
+
+    // Check if current user is logged in.
+    if (user_is_logged_in()) {
+      // Cache control for user pages.
+      drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
+      drupal_add_http_header('Pragma', 'no-cache');
+    }
+    elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
+      // Redirect anonymous user to front page login. This is to prevent the
+      // library user from seeing /user, login and password page. Unless in
+      // maintenance_mode, there's no front page login when in maintenance_mode,
+      // and a redirect prevent login.
+      if (!variable_get('maintenance_mode', 0)) {
+        drupal_goto('', array('fragment' => 'login'));
+      }
+    }
+  }
 }
 
 /**
@@ -270,11 +270,12 @@ function ding_user_form_user_login_validate($form, &$form_state) {
     // If we reach this code the login have failed and we always want to
     // display this message.
     form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new password. Contact information can be found on the <a href="@url">library</a> page.', array('@url' => url('biblioteker'))));
+
     // Obfuscate the user name. We just set the form value to the obfuscated
     // version as user.module will log the failure with the name from the
-    // form. If the provider defines its own authnames, this wont match the
+    // form. If the provider defines its own authnames, this won't match the
     // username that the user would have, but we can't expect the provider
-    // to supply it for invalid logins.
+    // to supply it for an invalid login attempt.
     form_set_value($form['user_login_container']['name'], ding_user_default_authname($form_state['values']['name']), $form_state);
   }
   catch (Exception $e) {
@@ -285,8 +286,12 @@ function ding_user_form_user_login_validate($form, &$form_state) {
 
 /**
  * Ajax callback.
+ *
+ * Build the ajax response the login occurred in the form validation function.
  */
 function ding_user_form_authenticate_form_callback($form, &$form_state) {
+  // Figure out if the login in the validation function was a success base on
+  // which form was used.
   switch ($form['form_id']['#value']) {
     case 'ding_user_authenticate_form':
       $success = $form_state['authentication_success'];
@@ -294,6 +299,7 @@ function ding_user_form_authenticate_form_callback($form, &$form_state) {
 
     case 'user_login':
     case 'user_login_block':
+      // Normal drupal user, so if the user id is set the login was successful.
       $success = !empty($form_state['uid']);
       break;
 
@@ -309,16 +315,18 @@ function ding_user_form_authenticate_form_callback($form, &$form_state) {
   if ($success) {
     // Close the login form popup.
     $response['#commands'][] = ajax_command_ding_popup_close('ding_user_form');
+
     // Open a new popup for instant feedback, so the user knows they're being
     // logged in.
     $response['#commands'][] = ajax_command_ding_popup('ding_user_form', t('Authenticated'), t('Authenticated, refreshing page.'));
+
     // When using the refresh option with the popup_close command it will not
     // close the popup, but simply start refreshing, leaving the previously
     // opened feedback popup open.
     $response['#commands'][] = ajax_command_ding_popup_close('ding_user_form', TRUE);
   }
   else {
-    // Else redisplay form and messages.
+    // Redisplay form and messages.
     // The ding_popup automatically adds a close button, so remove the close
     // button on the user_login_block.
     unset($form['user_login_container']['close']);
