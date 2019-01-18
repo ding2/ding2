@@ -453,19 +453,6 @@ function ding_user_ding_provider_user() {
 }
 
 /**
- * Return the url to redirect user to in order to authenticate/log in.
- *
- * Used by ding_provider.
- */
-function ding_user_auth_page() {
-  global $user;
-  if (user_is_logged_in()) {
-    return 'user/' . $user->uid . '/authenticate';
-  }
-  return 'user/login';
-}
-
-/**
  * Return a local hash for the given name.
  *
  * As logins may be CPR numbers, which is really sensitive information, we use

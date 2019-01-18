@@ -10,16 +10,6 @@
 function ding_user_form_menu() {
   $items = array();
 
-  $items['user/%user/authenticate'] = array(
-    'title' => 'Authenticate',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_user_form_authenticate_form'),
-    'access callback' => 'ding_user_access',
-    'access arguments' => array(1),
-    'file' => 'includes/ding_user_form.pages.inc',
-    'type' => MENU_CALLBACK,
-  );
-
   $items['admin/config/ding/user'] = array(
     'title' => 'Ding user settings',
     'description' => 'Administer user settings.',
@@ -174,17 +164,8 @@ function ding_user_form_form_alter(&$form, $form_state, $form_id) {
     // fail.).
 
     case 'ding_user_authenticate_form':
-      $form['user_login_container']['actions']['submit']['#ajax'] = array(
-        'callback' => 'ding_user_form_authenticate_form_callback',
-        'wrapper' => drupal_html_id($form_id),
-        'event' => 'click',
-      );
 
-      // Allow user provider to alter the login form.
-      $function = ding_provider_function('user', 'form_alter', TRUE);
-      if ($function) {
-        $function($form, $form_state);
-      }
+      $t=1;
 
       break;
 
@@ -282,57 +263,4 @@ function ding_user_form_user_login_validate($form, &$form_state) {
     // Exception thrown, log error and carry on.
     watchdog_exception('ding_user_form', $e);
   }
-}
-
-/**
- * Ajax callback.
- *
- * Build the ajax response the login occurred in the form validation function.
- */
-function ding_user_form_authenticate_form_callback($form, &$form_state) {
-  // Figure out if the login in the validation function was a success base on
-  // which form was used.
-  switch ($form['form_id']['#value']) {
-    case 'ding_user_authenticate_form':
-      $success = $form_state['authentication_success'];
-      break;
-
-    case 'user_login':
-    case 'user_login_block':
-      // Normal drupal user, so if the user id is set the login was successful.
-      $success = !empty($form_state['uid']);
-      break;
-
-    default:
-      $success = FALSE;
-  }
-
-  $response = array(
-    '#type' => 'ajax',
-    '#commands' => array(),
-  );
-
-  if ($success) {
-    // Close the login form popup.
-    $response['#commands'][] = ajax_command_ding_popup_close('ding_user_form');
-
-    // Open a new popup for instant feedback, so the user knows they're being
-    // logged in.
-    $response['#commands'][] = ajax_command_ding_popup('ding_user_form', t('Authenticated'), t('Authenticated, refreshing page.'));
-
-    // When using the refresh option with the popup_close command it will not
-    // close the popup, but simply start refreshing, leaving the previously
-    // opened feedback popup open.
-    $response['#commands'][] = ajax_command_ding_popup_close('ding_user_form', TRUE);
-  }
-  else {
-    // Redisplay form and messages.
-    // The ding_popup automatically adds a close button, so remove the close
-    // button on the user_login_block.
-    unset($form['user_login_container']['close']);
-    $html = theme('status_messages') . drupal_render($form);
-    $response['#commands'][] = ajax_command_ding_popup('ding_user_form', t('Authenticate'), $html);
-  }
-
-  return $response;
 }
