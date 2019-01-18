@@ -47,12 +47,14 @@ function ding_auth_menu() {
     'title' => 'Log in',
     'page callback' => 'ding_auth_login',
     'access callback' => 'user_is_anonymous',
+    'type' => MENU_CALLBACK,
   );
 
   $items[DING_AUTH_LOGOUT_URL] = array(
     'title' => 'Log in',
     'page callback' => 'ding_auth_logout',
     'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
   );
 
   $items[DING_AUTH_REDIRECT_URL] = array(
@@ -74,7 +76,7 @@ function ding_auth_menu() {
 function ding_auth_preprocess_menu_link(&$vars) {
   if ($vars['element']['#original_link']['menu_name'] == 'menu-tabs-menu') {
     if ($vars['element']['#href'] == 'user') {
-      $vars['element']['#href'] = 'ding_auth/login';
+      $vars['element']['#href'] = DING_AUTH_LOGIN_URL;
     }
   }
 }
@@ -178,6 +180,7 @@ function ding_auth_get_configuration() {
  * @param string $destination
  *   Override the destination set in the current request. Mainly used in ajax
  *   context.
+ *
  * @return mixed
  *    If $redirect is FALSE the authentication url or redirect headers.
  *

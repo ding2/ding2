@@ -540,6 +540,12 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
   $title_prefix = '';
   $title_suffix = '';
 
+  // Create variable to make the switch statement below more dynamic.
+  $user_login_path = 'user';
+  if (module_exists('ding_auth')) {
+    $user_login_path = DING_AUTH_LOGIN_URL;
+  }
+
   // Add some icons to our top-bar menu. We use system paths to check against.
   switch ($element['#href']) {
     case 'search':
@@ -552,7 +558,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       // Special placeholder for mobile user menu. Fall through to next case.
       $element['#localized_options']['attributes']['class'][] = 'default-override';
 
-    case 'user':
+    case $user_login_path:
       $title_prefix = '<i class="icon-user"></i>';
       $title_suffix = '<i class="icon-arrow-down"></i>';
       // If a user is logged in we change the menu item title.
