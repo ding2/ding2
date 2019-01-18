@@ -160,6 +160,8 @@ function ding_user_form_form_alter(&$form, $form_state, $form_id) {
       // container.
       unset($form['links'], $form['name'], $form['pass'], $form['actions']);
 
+      // Ensure that ajax requests are continued after the login process and
+      // not redirect to the users page.
       $form['user_login_container']['actions']['submit']['#ajax'] = array(
         'callback' => 'ding_user_form_authenticate_ajax_callback',
         'wrapper' => drupal_html_id($form_id),
@@ -170,19 +172,6 @@ function ding_user_form_form_alter(&$form, $form_state, $form_id) {
       $function = ding_provider_function('user', 'form_alter', TRUE);
       if ($function) {
         $function($form, $form_state);
-      }
-      break;
-
-    case 'user_register_form':
-
-
-      // @TODO: Should this be in ding_user?
-
-
-
-      global $user;
-      if (user_access('administer users') && !in_array('administrators', $user->roles)) {
-        $form['#validate'][] = '_ding_user_roles_form_validate';
       }
       break;
   }

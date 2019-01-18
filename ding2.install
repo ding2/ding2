@@ -710,6 +710,7 @@ function ding2_update_7060() {
 }
 
 /**
+<<<<<<< HEAD
  * Ensure ding_webtrekk is activated on existing installs.
  */
 function ding2_update_7061() {
@@ -755,4 +756,39 @@ function ding2_update_7065() {
  */
 function ding2_update_7066() {
   ding2_translation_update();
+}
+
+/**
+ * Delete {system} records for ding_wayf module.
+ */
+function ding2_update_7067() {
+  variable_del('ding_wayf');
+  variable_del('wayf_hash');
+  ding2_remove_module('ding_wayf');
+}
+
+/**
+ * Disable GateWAYF modules and migrate config.
+ */
+function ding2_update_7068() {
+  $config = variable_get('ding_gatewayf_registration', FALSE);
+  if ($config) {
+    // Migrate configuration.
+    variable_set('ding_auth_registration', $config);
+    variable_del('ding_gatewayf_registration');
+  }
+
+  // Remove config.
+  variable_del('ding_gatewayf');
+
+  // Remove modules.
+  ding2_remove_module('ding_gatewayf_registration');
+  ding2_remove_module('ding_gatewayf');
+}
+
+/**
+ * Enable ding_auth module.
+ */
+function ding2_update_7069() {
+  module_enable(array('ding_auth'));
 }

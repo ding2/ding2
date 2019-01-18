@@ -788,6 +788,9 @@ function ding_user_save_creds(array $auth_res) {
  *
  * @return mixed|null
  *   The id or NULL if provider don't support it.
+ *
+ * @throws DingProviderDoesntImplement
+ * @throws DingProviderNoProvider
  */
 function ding_user_provider_id($account = NULL) {
   global $user;
@@ -963,6 +966,20 @@ function ding_user_profile2_view($profile, $view_mode, $langcode) {
     if ($int_per == 1) {
       $profile->content[$field]['#access'] = FALSE;
     }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_user_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_register_form':
+      global $user;
+      if (user_access('administer users') && !in_array('administrators', $user->roles)) {
+        $form['#validate'][] = '_ding_user_roles_form_validate';
+      }
+      break;
   }
 }
 
