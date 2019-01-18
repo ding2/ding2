@@ -160,13 +160,17 @@ function ding_user_form_form_alter(&$form, $form_state, $form_id) {
       // container.
       unset($form['links'], $form['name'], $form['pass'], $form['actions']);
 
-    // Falling through on purpose (if not reservation and login via ajax will
-    // fail.).
+      $form['user_login_container']['actions']['submit']['#ajax'] = array(
+        'callback' => 'ding_user_form_authenticate_ajax_callback',
+        'wrapper' => drupal_html_id($form_id),
+        'event' => 'click',
+      );
 
-    case 'ding_user_authenticate_form':
-
-      $t=1;
-
+      // Allow user provider to alter the login form.
+      $function = ding_provider_function('user', 'form_alter', TRUE);
+      if ($function) {
+        $function($form, $form_state);
+      }
       break;
 
     case 'user_register_form':
@@ -263,4 +267,49 @@ function ding_user_form_user_login_validate($form, &$form_state) {
     // Exception thrown, log error and carry on.
     watchdog_exception('ding_user_form', $e);
   }
+}
+
+/**
+ * Ajax callback.
+ *
+ * Used to ensure that the ajax process is continued after the login has been
+ * preformed.
+ */
+function ding_user_form_authenticate_ajax_callback($form, &$form_state) {
+  switch ($form['form_id']['#value']) {
+    case 'user_login':
+    case 'user_login_block':
+      $success = !empty($form_state['uid']);
+      break;
+
+    default:
+      $success = FALSE;
+  }
+
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  if ($success) {
+    // Close the login form popup.
+    $response['#commands'][] = ajax_command_ding_popup_close('ding_user');
+    // Open a new popup for instant feedback, so the user knows they're being
+    // logged in.
+    $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticated'), t('Authenticated, refreshing page.'));
+    // When using the refresh option with the popup_close command it will not
+    // close the popup, but simply start refreshing, leaving the previously
+    // opened feedback popup open.
+    $response['#commands'][] = ajax_command_ding_popup_close('ding_user', TRUE);
+  }
+  else {
+    // Else redisplay form and messages.
+    // The ding_popup automatically adds a close button, so remove the close
+    // button on the user_login_block.
+    unset($form['user_login_container']['close']);
+    $html = theme('status_messages') . drupal_render($form);
+    $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticate'), $html);
+  }
+
+  return $response;
 }
