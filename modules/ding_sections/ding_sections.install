@@ -13,7 +13,11 @@ function ding_sections_install() {
   _ding_sections_create_fields();
   ding_sections_section_shortcut();
 
-  variable_set('ding_section_content_types', array());
+  variable_set('ding_section_content_types', array(
+    'ding_event',
+    'ding_news',
+    'ding_page',
+  ));
 
   $submodules = array(
     'ding_sections_header_image',
