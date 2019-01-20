@@ -97,6 +97,12 @@ function ding_sections_term_panel_create_term_variant($term) {
     return FALSE;
   }
 
+  // Copy the base handler and apply its properties to the newly created one.
+  $export = page_manager_export_task_handler($handlers['term_editorial_base_panel_context']);
+  ob_start();
+  eval($export);
+  ob_end_clean();
+
   $tid = $term->tid;
   // Normally, panels do not support specific panel to node id mapping,
   // so, use php code instead.
