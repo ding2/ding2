@@ -135,8 +135,10 @@
       <?php print render($content['group_right']);?>
     </div>
     <!-- Render MKWS results set. -->
-    <?php if (!empty($content['field_mkws_node_widget'])) : ?>
-      <?php print render($content['field_mkws_node_widget']); ?>
-    <?php endif; ?>
+    <?php
+      if (!empty($content['field_mkws_node_widget'])) {
+        print render($content['field_mkws_node_widget']);
+      }
+    ?>
   </div>
 </article>
