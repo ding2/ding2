@@ -120,7 +120,6 @@ function ding_sections_term_panel_create_term_variant($term) {
   $variant_title = t('Sections term (@term)', array('@term' => $term->name));
   $pipeline = module_exists('panels_ipe') ? 'ipe' : 'standard';
 
-  $handler = new stdClass();
   $handler->name = $handler_name;
   $handler->did = NULL;
   $handler->conf['title'] = $variant_title;
