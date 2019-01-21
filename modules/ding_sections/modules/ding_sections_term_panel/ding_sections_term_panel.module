@@ -98,7 +98,7 @@ function ding_sections_term_panel_create_term_variant($term) {
   }
 
   // Copy the base handler and apply its properties to the newly created one.
-  $export = page_manager_export_task_handler($handlers['term_editorial_base_panel_context']);
+  $export = page_manager_export_task_handler($handler);
   ob_start();
   eval($export);
   ob_end_clean();
