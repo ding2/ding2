@@ -40,7 +40,7 @@
    */
   Drupal.behaviors.menu = {
     attach: function(context, settings) {
-      var topbar_link_user = $('a.topbar-link-user', context),
+      var topbar_link_user = $('a.js-topbar-link-user', context),
           main_menu_wrapper = $('.main-menu-wrapper', context),
           secondary_menu_wrapper = $('.secondary-menu-wrapper', context),
           close_user_login = $('.close-user-login', context),

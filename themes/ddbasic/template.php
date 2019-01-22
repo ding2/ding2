@@ -608,6 +608,20 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       else {
         $element['#attributes']['class'][] = 'topbar-link-user';
         $element['#localized_options']['attributes']['class'][] = 'topbar-link-user';
+
+        // Add destination to login link when using ding authentication.
+        if (module_exists('ding_auth')) {
+          if ($element['#href'] == DING_AUTH_LOGIN_URL) {
+            $element['#localized_options']['query'] = array(
+              drupal_get_destination(),
+            );
+          }
+        }
+        else {
+          // Add support for open/close login/form when ding_auth is not enabled.
+          $element['#attributes']['class'][] = 'js-topbar-link-user';
+          $element['#localized_options']['attributes']['class'][] = 'js-topbar-link-user';
+        }
       }
       break;
 
@@ -663,6 +677,9 @@ function ddbasic_theme_script($filepath) {
  *
  * @param string $theme_name
  *   Name of the current theme.
+ *
+ * @return array
+ *   The info file array for a particular theme.
  */
 function ddbasic_get_info($theme_name) {
   $info = &drupal_static(__FUNCTION__, array());
