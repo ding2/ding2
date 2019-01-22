@@ -79,7 +79,10 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
  *   'next_offset', which is the next offset to use or -1.
  */
 function ting_search_carousel_get_entities(TingSearchCarouselQuery $query, $start, $count, $query_only = FALSE) {
-  $query_id = (string) $query;
+  // Extract an id representing the carousel query to use in lock and cache id.
+  // These are restricted to 255 characters in the DB, so we use a sha1 hash
+  // which is fast and always 40 characters.
+  $query_id = sha1((string) $query);
   $cache_data = array(
     // All found covers.
     'pool' => array(),
