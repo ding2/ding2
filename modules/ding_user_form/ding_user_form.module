@@ -192,44 +192,19 @@ function ding_user_form_user_login_validate($form, &$form_state) {
   }
   try {
     // Trying to login the user using the provider.
-    try {
-      $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass'], $form_state['values']);
-    }
-    catch(DingProviderNoProvider $exception) {
-      drupal_set_message($exception->getMessage(), 'warning');
-      return;
-    }
+    $user_info = array(
+      'name' => $form_state['values']['name'],
+      'pass' => $form_state['values']['pass'],
+      'extra' => $form_state['values'],
+    );
+    $account = ding_user_authenticate($user_info);
 
-    if (!is_array($auth_res)) {
-      watchdog('ding_user_form', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
-      return;
+    if ($account !== FALSE) {
+      // Log user in.
+      $form_state['uid'] = $account->uid;
+      // We're not calling user_login_submit like user_external_login_register
+      // does, it's already the submit handler.
     }
-
-    if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
-      // If provider supplied an authname, use it.
-      $auth_name = $auth_res['authname'];
-    }
-    else {
-      // Else use a standard authname.
-      $auth_name = ding_user_default_authname($form_state['values']['name']);
-    }
-
-    // Create new account in Drupal and if one exists update it.
-    $account = _ding_user_create_account($auth_name, $auth_res);
-
-    // Check that a profile exists for the user and if not create one.
-    _ding_user_create_profile2($account);
-
-    if ($account->data['blocks']) {
-      foreach ($account->data['blocks'] as $block_code) {
-        drupal_set_message(ding_user_block_reason($block_code), 'warning');
-      }
-    }
-
-    // Log user in.
-    $form_state['uid'] = $account->uid;
-    // We're not calling user_login_submit like user_external_login_register
-    // does, it's already the submit handler.
   }
   catch (DingProviderUserAuthFailure $e) {
     // Check if name and pass where filled out. These fields are not required

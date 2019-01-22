@@ -272,7 +272,7 @@ function ding_auth_callback() {
       // getResourceOwnerDetailsUrl configuration.
       $request = $provider->getAuthenticatedRequest('POST', $provider->getResourceOwnerDetailsUrl($access_token), $access_token);
       $response = $provider->getResponse($request);
-      $user_info = $response->getBody();
+      $user_info = $response->getBody()->getContents();
       $user_info = drupal_json_decode($user_info);
 
       if (module_exists('ding_auth_registration') && ding_auth_registration_is_registration_request()) {
@@ -359,55 +359,16 @@ function _ding_auth_redirect_user($url = 'user') {
  */
 function _ding_auth_provider_login(array $user_info) {
   try {
-    // Trying to login the user using the provider.
-    try {
-      $credentials = ding_provider_invoke('auth', 'login_credentials', $user_info['attributes']['userId']);
-      $auth_res = ding_provider_invoke('user', 'authenticate', $credentials['name'], $credentials['pass'], $credentials);
-    }
-    catch (Exception $exception) {
-      drupal_set_message($exception->getMessage(), 'warning');
-      return;
-    }
+    $account = ding_user_authenticate(array(
+      'name' => $user_info['attributes']['userId'],
+      'extra' => $user_info,
+    ));
 
-    if (!is_array($auth_res) || !isset($auth_res['success'])) {
-      watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
-      return;
-    }
-
-    if ($auth_res['success']) {
-      if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
-        // If provider supplied an authname, use it.
-        $auth_name = $auth_res['authname'];
-      }
-      else {
-        // Else use a standard authname.
-        $auth_name = ding_user_default_authname($credentials['name']);
-      }
-
-      // Create new account in Drupal and if one exists update it.
-      $account = _ding_user_create_account($auth_name, $auth_res);
-
-      // Check that a profile exists for the user and if not create one.
-      _ding_user_create_profile2($account);
-
-      // Log user in.
+    if ($account !== FALSE) {
+      // Log user into drupal.
       global $user;
       $user = $account;
       user_login_finalize();
-    }
-    else {
-      // Check if any messages was returned from the provider.
-      if (isset($auth_res['messages'])) {
-        foreach ($auth_res['messages'] as $message) {
-          $type = 'warning';
-          if (is_array($message)) {
-            list($message, $type) = $message;
-          }
-          drupal_set_message(check_plain($message), $type);
-        }
-      }
-
-      drupal_set_message(t('Sorry but the current library do not have you as an user.'));
     }
   }
   catch (Exception $exception) {

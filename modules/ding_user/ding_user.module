@@ -86,6 +86,81 @@ function ding_user_menu_alter(&$items) {
 }
 
 /**
+ * Authenticate external user (provider user) and/or create drupal account.
+ *
+ * If the user info 'pass' key is not defined the provider will try to use the
+ * global pass used for single sign on.
+ *
+ * @param array $user_info
+ *   Array keyed by 'name', 'pass' and 'extra.
+ *
+ * @return bool|stdClass
+ *   An drupal user account object or FALSE on failure.
+ *
+ * @throws Exception|DingProviderUserAuthFailure
+ */
+function ding_user_authenticate(array $user_info) {
+  // Default to FALSE as this is also the default from drupal login.
+  $account = FALSE;
+
+  try {
+    if (!isset($user_info['pass'])) {
+      // No password provided, so we assume that the provider has support for
+      // this.
+      $user_info += ding_provider_invoke('auth', 'login_credentials', $user_info['name']);
+    }
+    $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass'], $user_info['extra']);
+  }
+  catch(DingProviderNoProvider $exception) {
+    drupal_set_message($exception->getMessage(), 'warning');
+    return FALSE;
+  }
+  if (!is_array($auth_res)) {
+    watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
+    return FALSE;
+  }
+
+  if ($auth_res['success']) {
+    if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
+      // If provider supplied an authentication name, use it.
+      $auth_name = $auth_res['authname'];
+    }
+    else {
+      // Else use a standard authentication name.
+      $auth_name = ding_user_default_authname($user_info['name']);
+    }
+
+    // Create new account in Drupal and if one exists update it.
+    $account = _ding_user_create_account($auth_name, $auth_res);
+
+    // Check that a profile exists for the user and if not create one.
+    _ding_user_create_profile2($account);
+
+    if ($account->data['blocks']) {
+      foreach ($account->data['blocks'] as $block_code) {
+        drupal_set_message(ding_user_block_reason($block_code), 'warning');
+      }
+    }
+  }
+  else {
+    // Check if any messages was returned from the provider.
+    if (isset($auth_res['messages'])) {
+      foreach ($auth_res['messages'] as $message) {
+        $type = 'warning';
+        if (is_array($message)) {
+          list($message, $type) = $message;
+        }
+        drupal_set_message(check_plain($message), $type);
+      }
+    }
+
+    drupal_set_message(t('Sorry but the current library do not have you as an user.'));
+  }
+
+  return $account;
+}
+
+/**
  * Implements hook_page_manager_contexts_alter().
  *
  * This is actually a Panels everywhere hook. In future it may be renamed:
@@ -565,7 +640,7 @@ function _ding_user_update_old_accounts($hash) {
  * @param array $auth_res
  *   Authentication information from the provider.
  *
- * @return entity
+ * @return stdClass
  *   Drupal user object.
  *
  * @throws Exception
