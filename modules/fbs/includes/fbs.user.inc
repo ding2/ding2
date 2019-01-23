@@ -11,22 +11,18 @@
  * @param string $name
  *   User name.
  * @param string $pincode
- *   Supplied pincode.
+ *   Supplied pin code.
+ * @param bool $sso
+ *   Used to indicate if this is single sign on and preAuthenticate should be used.
  *
  * @return array
  *   Authentication result.
+ *
+ * @throws DingProviderUserAuthFailure
  */
-function fbs_user_authenticate($name, $pincode) {
+function fbs_user_authenticate($name, $pincode, $sso = FALSE) {
   $res = new stdClass();
-  $pass = _fbs_wayf_login($name);
-  if ($pass) {
-    // Wayf login.
-    if ($pass !== $pincode) {
-      // Die if we didn't get the same pincode as we generated in
-      // wayf_login_credentials.
-      throw new DingProviderUserAuthFailure();
-    }
-
+  if ($sso) {
     try {
       $res = fbs_service()->Patron->getPreAuthenticatedPatron(fbs_service()->agencyId, $name);
     }

@@ -360,7 +360,7 @@ function _ding_auth_redirect_user($url = 'user') {
 function _ding_auth_provider_login(array $user_info) {
   try {
     $account = ding_user_authenticate(array(
-      'name' => $user_info['attributes']['userId'],
+      'name' => $user_info['attributes']['cpr'],
       'extra' => $user_info,
     ));
 

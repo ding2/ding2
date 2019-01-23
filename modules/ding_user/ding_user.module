@@ -104,12 +104,14 @@ function ding_user_authenticate(array $user_info) {
   $account = FALSE;
 
   try {
-    if (!isset($user_info['pass'])) {
+    $sso = FALSE;
+    if (!array_key_exists('pass', $user_info)) {
       // No password provided, so we assume that the provider has support for
       // this.
-      $user_info += ding_provider_invoke('auth', 'login_credentials', $user_info['name']);
+      $user_info += ding_provider_invoke('auth', 'single_sign_on', $user_info['name']);
+      $sso = TRUE;
     }
-    $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass'], $user_info['extra']);
+    $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass'], $sso);
   }
   catch(DingProviderNoProvider $exception) {
     drupal_set_message($exception->getMessage(), 'warning');

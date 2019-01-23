@@ -70,9 +70,9 @@ function fbs_ding_provider() {
         'prefix' => 'user',
         'file' => 'includes/fbs.user.inc',
       ),
-      'wayf' => array(
-        'prefix' => 'wayf',
-        'file' => 'includes/fbs.wayf.inc',
+      'auth' => array(
+        'prefix' => 'auth',
+        'file' => 'includes/fbs.auth.inc',
       ),
       'user_consent' => array(
         'prefix' => 'user_consent',
@@ -869,25 +869,6 @@ function _fbs_periodical_parse_local_id($local_id) {
   ) = $parts;
 
   return array($record_id, $periodical);
-}
-
-/**
- * Static cache for WAYF logins.
- *
- * Not pretty, but due to the way that ding_wayf is implemented, this is what we
- * need.
- */
-function _fbs_wayf_login($name, $value = NULL) {
-  $logins = &drupal_static(__FUNCTION__, array());
-  if ($value) {
-    $logins['name'] = $value;
-  }
-
-  if (isset($logins['name'])) {
-    return $logins['name'];
-  }
-
-  return NULL;
 }
 
 /**
