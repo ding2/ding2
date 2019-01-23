@@ -222,18 +222,24 @@ function ding_auth_login($redirect = TRUE, $destination = '') {
  * @throws Exception
  */
 function ding_auth_logout($hooked = FALSE) {
-  $provider = ding_auth_get_provider();
   $config = ding_auth_get_configuration();
   $token = $_SESSION['oauth2token'];
 
   // Generate logout request for the authorization service and send the request.
-  $request = $provider->getRequest('GET', $config['urlLogout'] . '?access_token=' . $token);
-  $response = $provider->getResponse($request);
+  $logout_url = $config['urlLogout'] . '?access_token=' . $token;
 
   if (!$hooked) {
     // If this was called from user registration reset the session.
     drupal_session_regenerate();
   }
+
+  // We known that we will stop the process and this module has the heights
+  // weight, so we will kill the session before redirect.
+  session_destroy();
+
+  // Redirect the user to the logout url.
+  header('Location:' . $logout_url);
+  drupal_exit($logout_url);
 }
 
 /**
