@@ -468,6 +468,8 @@ projects[workflow][version] = "2.5"
 projects[workflow][patch][] = "http://www.drupal.org/files/issues/features_import-2484297-10.patch"
 ; Prevent fatal errors on cron when using Scheduler, https://www.drupal.org/node/2499193.
 projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-php_fatal_error_call-2499193-7-2.5.patch"
+; Add index to workflow_history to reduce query time, https://www.drupal.org/project/workflow/issues/2569801
+projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-add_nid_index-2569801-3.patch"
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][version] = "2.5"
