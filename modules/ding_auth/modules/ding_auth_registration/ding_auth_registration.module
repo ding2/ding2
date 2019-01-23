@@ -83,7 +83,7 @@ function ding_auth_registration_theme($existing, $type, $theme, $path) {
     ),
     'ding_auth_registration_acceptance' => array(
       'render element'  => 'element',
-      'template' => 'templates/ding-auth-acceptance'
+      'template' => 'templates/ding-auth-acceptance',
     ),
   );
 }

@@ -94,10 +94,11 @@ function ding_user_menu_alter(&$items) {
  * @param array $user_info
  *   Array keyed by 'name', 'pass' and 'extra.
  *
- * @return bool|stdClass
+ * @return bool|object
  *   An drupal user account object or FALSE on failure.
  *
  * @throws Exception|DingProviderUserAuthFailure
+ *   Thrown when authentication fails.
  */
 function ding_user_authenticate(array $user_info) {
   // Default to FALSE as this is also the default from drupal login.
@@ -642,10 +643,11 @@ function _ding_user_update_old_accounts($hash) {
  * @param array $auth_res
  *   Authentication information from the provider.
  *
- * @return stdClass
+ * @return object
  *   Drupal user object.
  *
  * @throws Exception
+ *   If user_save fails exception is thrown.
  */
 function _ding_user_create_account($auth_name, array $auth_res) {
   // We'd like to use user_external_login_register(), but it saves the user
@@ -781,14 +783,6 @@ function ding_user_forms($form_id, $args) {
 
 /**
  * Ajax command to authenticate. Used by ding_provider.
- *
- *
- *
- *
- * @TODO: Move to user login module.
- *
- *
- *
  */
 function ajax_command_ding_user_authenticate($extra_data) {
   global $user, $language;
@@ -867,7 +861,9 @@ function ding_user_save_creds(array $auth_res) {
  *   The id or NULL if provider don't support it.
  *
  * @throws DingProviderDoesntImplement
+ *   If the provider do not implement the required 'get_provider_id' call.
  * @throws DingProviderNoProvider
+ *   If there is not provider for the 'get_provider_id' call.
  */
 function ding_user_provider_id($account = NULL) {
   global $user;

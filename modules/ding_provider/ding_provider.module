@@ -174,7 +174,9 @@ function ding_provider_implements($type, $hook) {
  * @see ding_provider_ajax_form_callback()
  *
  * @throws DingProviderDoesntImplement
+ *   If the provider do not implement the hook.
  * @throws DingProviderNoProvider
+ *   If not provider supports the hook.
  */
 function ding_provider_invoke($type, $hook) {
   $args = func_get_args();

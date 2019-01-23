@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- *
+ * Handle user login form changes.
  */
 
 /**

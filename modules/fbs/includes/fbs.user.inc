@@ -19,6 +19,7 @@
  *   Authentication result.
  *
  * @throws DingProviderUserAuthFailure
+ *   If authentication fails.
  */
 function fbs_user_authenticate($name, $pincode, $sso = FALSE) {
   $res = new stdClass();

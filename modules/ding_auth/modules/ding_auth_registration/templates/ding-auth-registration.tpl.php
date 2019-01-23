@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default template for user self registration information page.
@@ -13,6 +14,7 @@
  *       exiting_pages module to convert this to an panel page (but it seams
  *       faster for performance and easier to just use the classes).
  */
+
 ?>
 <div class="empty-sidebars default-layout">
   <div class="layout-wrapper">

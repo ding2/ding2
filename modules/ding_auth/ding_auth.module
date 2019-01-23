@@ -1,14 +1,13 @@
 <?php
+
 /**
  * @file
  * Defines the main functionality for the authentication module.
  */
 
-
 define('DING_AUTH_LOGIN_URL', 'ding_auth/login');
 define('DING_AUTH_LOGOUT_URL', 'ding_auth/logout');
 define('DING_AUTH_REDIRECT_URL', 'ding_auth/callback');
-
 
 /**
  * Implements hook_init().
@@ -185,6 +184,7 @@ function ding_auth_get_configuration() {
  *    If $redirect is FALSE the authentication url or redirect headers.
  *
  * @throws Exception
+ *   If required libraries are not loaded.
  */
 function ding_auth_login($redirect = TRUE, $destination = '') {
   $provider = ding_auth_get_provider();
@@ -198,7 +198,6 @@ function ding_auth_login($redirect = TRUE, $destination = '') {
   if (!empty($_REQUEST['idp'])) {
     $authorization_url .= '&idp=' . $_REQUEST['idp'];
   }
-
 
   if (!$redirect) {
     return $authorization_url;
@@ -218,8 +217,6 @@ function ding_auth_login($redirect = TRUE, $destination = '') {
  *
  * @param bool $hooked
  *   If TRUE new session is generated.
- *
- * @throws Exception
  */
 function ding_auth_logout($hooked = FALSE) {
   $config = ding_auth_get_configuration();

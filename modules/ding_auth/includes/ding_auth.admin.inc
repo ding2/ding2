@@ -8,7 +8,7 @@
  * Defines the administration settings form.
  */
 function ding_auth_admin_settings_form($form, &$form_state) {
-  $form =  array(
+  $form = array(
     '#tree' => TRUE,
   );
 
