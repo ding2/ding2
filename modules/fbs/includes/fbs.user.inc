@@ -48,7 +48,9 @@ function fbs_user_authenticate($name, $pincode, $sso = FALSE) {
     throw new DingProviderUserAuthFailure();
   }
 
-  $result = array();
+  $result = array(
+    'success' => $res->authenticated,
+  );
 
   // Save patron info in creds.
   $result['creds'] = _fbs_patron_info($res->patron);
