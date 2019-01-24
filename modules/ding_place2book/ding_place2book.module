@@ -311,17 +311,16 @@ function ding_place2book_process_node(&$variables) {
   if ($variables['type'] == 'ding_event' && $variables['view_mode'] == 'full') {
     $p2b_settings = ding_place2book_settings($variables['nid']);
     $p2b_id = $p2b_settings['place2book_id'];
-    if (empty($p2b_id) || $p2b_id == DING_PLACE2BOOK_NO_ID) {
-      unset($variables['book_button']);
-      return;
-    }
+    $passive = $p2b_settings['passive'];
 
-    $url = !empty($variables['field_ding_event_ticket_link'][0]['url']) ? $variables['field_ding_event_ticket_link'][0]['url'] : '';
-    $variables['book_button'] = theme('place2book_ticketsinfo', [
-      'place2book_id' => $p2b_settings['place2book_id'],
-      'url' => $url,
-      'type' => $p2b_settings['ticket_status'],
-    ]);
+    if (!empty($p2b_id) && $p2b_id != DING_PLACE2BOOK_NO_ID && !$passive) {
+      $url = !empty($variables['field_ding_event_ticket_link'][0]['url']) ? $variables['field_ding_event_ticket_link'][0]['url'] : '';
+      $variables['book_button'] = theme('place2book_ticketsinfo', [
+        'place2book_id' => $p2b_settings['place2book_id'],
+        'url' => $url,
+        'type' => $p2b_settings['ticket_status'],
+      ]);
+    }
   }
 }
 
@@ -501,7 +500,7 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
 
       // Catch insert error by checking the event id.
       if (empty($req_result->headers['event-id'])) {
-        $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
+        $p2b_error = $req_result->headers['error-message'] . ' - ' . $req_result->status_message;
         drupal_set_message(t('Event could not be created on Place2book. Message:') . $p2b_error, 'error', FALSE);
         watchdog('ding_place2book', 'INSERT was NOT PERFORMED on Place2book: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
       }
@@ -553,7 +552,7 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
       $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $options);
 
       if ($req_result->status_message != 'Accepted') {
-        $p2b_error = $req_result->headers['status'];
+        $p2b_error = $req_result->headers['error-class'];
         drupal_set_message(t('Event could not be deleted on Place2book. Message:') . $p2b_error, 'error', FALSE);
         watchdog('ding_place2book', 'DELETE was NOT PERFORMED on Place2book: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
       }
