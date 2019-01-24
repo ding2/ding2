@@ -866,9 +866,9 @@ function ding_user_save_creds(array $auth_res) {
  *   The id or NULL if provider don't support it.
  *
  * @throws DingProviderDoesntImplement
- *   If the provider do not implement the required 'get_provider_id' call.
+ *   If the provider do not implement the "get_provider_id" call.
  * @throws DingProviderNoProvider
- *   If there is not provider for the 'get_provider_id' call.
+ *   If the current provider don't supports the "get_provider_id" call.
  */
 function ding_user_provider_id($account = NULL) {
   global $user;
