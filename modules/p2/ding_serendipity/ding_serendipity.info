@@ -10,6 +10,7 @@ dependencies[] = ding_popup
 dependencies[] = ding_provider
 dependencies[] = strongarm
 dependencies[] = ting
+scripts[] = js/ding_serendipity.js
 configure = admin/config/ding/serendipity
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
