@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Provide covers from the REST coverservice.
+ * Provide cover images from the REST coverservice.
  */
 
 /**
  * Implements hook_xautoload().
  */
 function ting_covers_rest_xautoload($adapter) {
-  $adapter->absolute()->addPsr0('TingCoversRest\\', drupal_get_path('module', 'ting_covers_rest') . '/lib');
+  $adapter->absolute()->addPsr4('TingCoversRestService\\', drupal_get_path('module', 'ting_covers_rest') . '/src');
   $adapter->absolute()->composerDir(drupal_get_path('module', 'ting_covers_rest') . '/vendor/composer');
 }
 
@@ -40,15 +40,16 @@ function ting_covers_rest_menu() {
  * @param \TingEntity[] $entities
  *
  * @return array
+ *    Array of image URLs keyed by TingEntity ID.
  */
 function ting_covers_rest_ting_covers($entities) {
   $ids = array();
+  $service = ting_covers_rest_service();
 
   foreach ($entities as $entity) {
     $ids[] = $entity->getId();
   }
 
-  $service = new TingCoversRest;
   $covers = $service->getCovers(\OpenAPI\Client\Model\Type::PID, $ids);
   $cover_images = $service->getCoverImages($covers, 'jpeg', ['thumbnail']);
 
@@ -56,6 +57,16 @@ function ting_covers_rest_ting_covers($entities) {
   return $cover_images;
 }
 
+/**
+ * Instantiate TingCoversRestService from settings.
+ *
+ * @return \TingCoversRestService
+ *    The high-level TingCovers REST API client.
+ */
 function ting_covers_rest_service() {
-
+  // Initialize OpenAPI settings from admin form in Drupal.
+  return new TingCoversRestService(
+    variable_get('ting_covers_rest_url', ''),
+    variable_get('ting_covers_rest_enable_logging',FALSE)
+  );
 }

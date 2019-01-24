@@ -8,14 +8,23 @@ use OpenAPI\Client\Api\DefaultApi;
  * @file
  * High level implementation of the Ting Covers REST API.
  */
-class TingCoversRest {
+class TingCoversRestService {
   private $config;
   private $api;
 
   /**
    * Construct an API instance.
+   *
+   * @param $host
+   *    The REST service hostname.
+   *
+   * @param bool $token
+   *    The OAuth2 token.
+   *
+   * @param bool $debug
+   *    Enable/disable debugging.
    */
-  public function __construct() {
+  public function __construct($host, $token = FALSE, $debug = FALSE) {
     // Handle autoload.
     $autoload = drupal_get_path('module', 'ting_covers_rest') . '/vendor/autoload.php';
 
@@ -23,22 +32,13 @@ class TingCoversRest {
       require_once $autoload;
     }
 
-    // Initialize settings from admin form in Drupal.
     $this->config = new Configuration();
-
-    $this->config->setHost(variable_get(
-      'ting_covers_rest_url',
-      ''
-    ));
-
-    $this->config->setDebug(variable_get(
-      'ting_covers_rest_enable_logging',
-      FALSE
-    ));
+    $this->config->setHost($host)->setDebug($debug);
+    $token ?: $this->config->setAccessToken($token);
 
     $api_instance = new DefaultApi(
       new Client(),
-      $this->getConfig()
+      $this->config
     );
 
     $this->api = $api_instance;
@@ -76,7 +76,7 @@ class TingCoversRest {
   /**
    * Get cover objects by ID type and IDs.
    *
-   * @param string $type
+   * @param \OpenAPI\Client\Model\Type $type
    *    The ID type, for example 'pid' or 'issn'.
    *
    * @param array $ids
