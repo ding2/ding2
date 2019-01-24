@@ -144,7 +144,7 @@ function ding_list_login_attach($type, $value) {
   $commands = array();
 
   if (!user_is_logged_in()) {
-    $commands[] = ajax_command_ding_user_authenticate('');
+    $commands[] = ajax_command_ding_user_authenticate('', current_path());
     return array('#type' => 'ajax', '#commands' => $commands);
   }
 

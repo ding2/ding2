@@ -306,17 +306,7 @@ function ding_provider_build_form($form_id, &$form_state) {
       // Rethrow user exceptions.
       throw $e;
     }
-    elseif ($e instanceof DingProviderAuthException) {
-      if (module_exists('ding_user') && ($authpage = ding_user_auth_page())) {
-        // Something needs auth, save state and redirect to authentication page.
-        $expire = 3600;
-        $input = $form_state['method'] == 'get' ? $_GET : $_POST;
-        $input['#ding_provider_messages'] = drupal_get_messages();
-        cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
-        $options = array('query' => ding_provider_get_destination(array('dp_form_id' => $form_id)));
-        drupal_goto($authpage, $options);
-      }
-    }
+
     watchdog('ding_provider', 'Uncaught exception in ding_provider_build_form: @message', array('@message' => $e->getMessage()), WATCHDOG_ERROR);
     // Redirect to error page.
     drupal_goto('ding_provider_error');
@@ -393,7 +383,7 @@ function ding_provider_ajax_form_callback() {
         return array(
           '#type' => 'ajax',
           '#commands' => array(
-            ajax_command_ding_user_authenticate(array('dp_form_id' => $form_id)),
+            ajax_command_ding_user_authenticate(array('dp_form_id' => $form_id), current_path()),
           ),
         );
       }

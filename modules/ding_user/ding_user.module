@@ -782,41 +782,45 @@ function ding_user_forms($form_id, $args) {
 }
 
 /**
- * Ajax command to authenticate. Used by ding_provider.
+ * Ajax command to authenticate.
+ *
+ * @param $extra_data
+ *   Options to send to ding_popup.
+ * @param string $redirect_uri
+ *   Destination to redirect to after login for ding_auth.
+ *
+ * @return array
  */
-function ajax_command_ding_user_authenticate($extra_data) {
-  global $user, $language;
-  // @todo add support for user/login here.
-  module_load_include('inc', 'ding_user', 'ding_user.pages');
-  if ($user->uid) {
-    $title = t('Authenticate');
-    $form_id = 'ding_user_authenticate_form';
-  }
-  else {
-    $title = t('Login');
-    $form_id = 'user_login';
-  }
-
-  // Change default ajax action to default login form's if https is enabled.
-  if (variable_get('https', FALSE)) {
-    $form = drupal_get_form('user_login');
-    $url = parse_url($_SERVER['HTTP_REFERER']);
-    $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
-    $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
-    // Filter out any language prefixes as it will be automatically added to the
-    // URL again.
-    if (!empty($language->language) && preg_match('/' . $language->prefix . '/', $referer) > 0) {
-      $referer = preg_replace('/' . $language->prefix . '\//', '', $referer);
+function ajax_command_ding_user_authenticate($extra_data, $redirect_uri = '') {
+  if (module_exists('ding_auth')) {
+    if (empty($redirect_uri)) {
+      $url = parse_url($_SERVER['HTTP_REFERER']);
+      $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
+      $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
+      $redirect_uri = empty($referer) ? '/' : urldecode($referer);
     }
-    $form['#action'] = 'https://' . $_SERVER['SERVER_NAME'] . url('user/login') . '?destination=' . $referer;
+    $command = ajax_command_ding_auth_redirect($redirect_uri);
   }
   else {
-    $form_state = array();
-    $form = drupal_build_form($form_id, $form_state);
+    // Change default ajax action to default login form's if https is enabled.
+    if (variable_get('https', FALSE)) {
+      $form = drupal_get_form('user_login');
+      $url = parse_url($_SERVER['HTTP_REFERER']);
+      $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
+      $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
+
+      $form['#action'] = 'https://' . $_SERVER['SERVER_NAME'] . url('user/login') . '?destination=' . $referer;
+    }
+    else {
+      $form_state = array();
+      $form = drupal_build_form('user_login', $form_state);
+    }
+
+    $login_form = drupal_render($form);
+    $command = ajax_command_ding_popup('ding_user', t('Login'), $login_form, array('resubmit' => TRUE, 'extra_data' => $extra_data));
   }
 
-  $login_form = drupal_render($form);
-  return ajax_command_ding_popup('ding_user', $title, $login_form, array('resubmit' => TRUE, 'extra_data' => $extra_data));
+  return $command;
 }
 
 /**

@@ -131,7 +131,8 @@ function ding_entity_rating_add_to_list_callback($entity, $rating) {
       'entity_id' => $entity->ding_entity_id,
       'on_popup_close' => TRUE,
     );
-    $commands[] = ajax_command_ding_user_authenticate('');
+    $uri = isset($_REQUEST['destination']) ? $_REQUEST['destination'] : '';
+    $commands[] = ajax_command_ding_user_authenticate('', $uri);
   }
   elseif (!user_access('use personalisation')) {
     $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t("You don't have permissions to rate materials.") . '</p>');

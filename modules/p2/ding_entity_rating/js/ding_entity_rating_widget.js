@@ -100,7 +100,8 @@
     },
 
     sendRating: function (path, index, callback) {
-      var url = Drupal.settings.basePath + 'ding_entity_rating/' + path + '/' + index,
+      var current_path = window.location.pathname;
+      var url = Drupal.settings.basePath + 'ding_entity_rating/' + path + '/' + index + '?destination=' + current_path,
         $dummy = $('<a href="' + url + '"></a>'),
         drupal_ajax = new Drupal.ajax('fake', $dummy, {
           url: url,
