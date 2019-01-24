@@ -493,29 +493,14 @@
         @include transition(top $speed $ease);
         position: fixed;
         z-index: $z-header - 1;
-        top: $header-height;
         left: 0;
         width: 100%;
-        background-color: $charcoal;
+        background-color: $grey-darker;
         box-shadow: $box-shadow;
 
         // Tablet
         @include media($tablet) {
           display: none;
-        }
-        // Admin menu
-        .admin-menu & {
-          top: $header-height + $admin-menu-height;
-        }
-        // Admin menu with shortcuts or toolbar
-        .admin-menu-with-shortcut &,
-        .toolbar & {
-          top: $header-height + $toolbar-height;
-        }
-
-        .search-form-extended &,
-        .search-form-extended & {
-          top: $header-height + $search-form-extended-height;
         }
 
         &::before {
@@ -523,7 +508,6 @@
           display: block;
           height: 1px;
           width: 100%;
-          background-color: $black;
           box-shadow: 0 5px 10px 0 $black;
         }
         > .panel-pane-inner {
@@ -637,6 +621,21 @@
     .search-form-extended.toolbar &{
       top: $topbar-height + $search-form-extended-height + $toolbar-height;
     }
+
+    .search-form-extended.has-second-level-menu & {
+      top: $topbar-height + $search-form-extended-height + $second-level-menu-height;
+    }
+
+    // Search Form Extended with admin-menu
+    .search-form-extended.admin-menu.has-second-level-menu & {
+      top: $topbar-height + $search-form-extended-height + $admin-menu-height + $second-level-menu-height;
+    }
+
+    // Search Form Extended with admin menu shortcuts or toolbar
+    .search-form-extended.admin-menu-with-shortcuts.has-second-level-menu &,
+    .search-form-extended.toolbar.has-second-level-menu &{
+      top: $topbar-height + $search-form-extended-height + $toolbar-height + $second-level-menu-height;
+    }
   }
 
   .navigation-wrapper {
@@ -699,6 +698,20 @@
     // Mobile search open
     .mobile-search-is-open & {
       top: $header-height;
+    }
+
+    .pane-menu-block-main-menu-second-level {
+      top: $header-height;
+
+      // Admin menu
+      .admin-menu & {
+        top: $header-height + $admin-menu-height;
+      }
+      // Admin menu with shortcuts or toolbar
+      .admin-menu-with-shortcut &,
+      .toolbar & {
+        top: $header-height + $toolbar-height;
+      }
     }
   }
 }
