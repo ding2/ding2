@@ -784,12 +784,13 @@ function ding_user_forms($form_id, $args) {
 /**
  * Ajax command to authenticate.
  *
- * @param $extra_data
+ * @param mixed $extra_data
  *   Options to send to ding_popup.
  * @param string $redirect_uri
  *   Destination to redirect to after login for ding_auth.
  *
  * @return array
+ *   Ajax command array.
  */
 function ajax_command_ding_user_authenticate($extra_data, $redirect_uri = '') {
   if (module_exists('ding_auth')) {
@@ -857,7 +858,7 @@ function ding_user_save_creds(array $auth_res) {
 /**
  * Get a unique id from the provider.
  *
- * @param null $account
+ * @param object $account
  *   User account to get id for. Defaults to NULL which then results in the
  *   currently logged in user.
  *
