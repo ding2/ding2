@@ -252,13 +252,13 @@ function fbs_reservation_update($account, array $reservation_ids, array $options
  *
  * @param object $account
  *   User to delete reservations for.
- * @param array $reservation_id
- *   Reservations to delete.
+ * @param string $reservation_id
+ *   ID of the reservation to delete.
  *
  * @return bool
  *   TRUE if no errors else FALSE.
  */
-function fbs_reservation_delete($account, array $reservation_id) {
+function fbs_reservation_delete($account, $reservation_id) {
   try {
     fbs_service()->Reservations->deleteReservations(fbs_service()->agencyId, fbs_patron_id($account), $reservation_id);
 
