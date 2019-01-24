@@ -133,6 +133,10 @@ function ting_search_theme($existing, $type, $theme, $path) {
       'file'      => 'ting_search.pages.inc',
       'template'  => 'templates/ting-search-results',
     ),
+    'ting_search_results_count' => array(
+      'variables' => array('count' => NULL),
+      'template'  => 'templates/ting-search-results-count',
+    ),
     'ting_search_mini_pager' => array(
       'variables' => array(
         'tags' => array(),
