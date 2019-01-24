@@ -692,3 +692,13 @@ function ding2_update_7058() {
 function ding2_update_7059() {
   ding2_translation_update();
 }
+
+/**
+ * Remove ding_webtrends module and clean up related settings.
+ */
+function ding2_update_7060() {
+  ding2_remove_module('ding_webtrends');
+  variable_del('webtrends_domain');
+  variable_del('webtrends_onsitedoms');
+  variable_del('webtrends_dcs_id');
+}
