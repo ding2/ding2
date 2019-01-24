@@ -5,6 +5,8 @@
  * Defines basic campaigns triggers and handling.
  */
 
+use Ting\Search\TingSearchRequest;
+
 define('DING_CAMPAIGN_PLUS_SEARCH_TYPE', 'search');
 
 /**
@@ -108,7 +110,7 @@ function ding_campaign_plus_search_ding_campaign_plus_matches($contexts, $style)
 
   foreach ($contexts as $key => $context) {
     switch ($key) {
-      case 'search_term':
+      case 'search_request':
         $matches['search'] = _ding_campaign_plus_search_match($context);
         break;
     }
@@ -226,13 +228,13 @@ function _ding_campaign_plus_search_get_rules($nid, array $rules) {
 /**
  * Helper function to look-up rules in the database.
  *
- * @param string $keys
- *   Search keys entered by the user.
+ * @param Ting\Search\TingSearchRequest $searchRequest
+ *   Search executed.
  *
  * @return array
  *   Campaign ID's for triggered campaigns.
  */
-function _ding_campaign_plus_search_match($keys) {
+function _ding_campaign_plus_search_match(TingSearchRequest $searchRequest) {
   $nids = array();
 
   // Find rules that will match facet.
@@ -244,24 +246,21 @@ function _ding_campaign_plus_search_match($keys) {
 
   if ($rules->rowCount() > 0) {
     // Request a clone of the current search and result objects.
-    $current = ting_search_current_results();
-    $query = $current->getSearchRequest()->getFullTextQuery();
+    $query = $searchRequest->getFullTextQuery();
+    $originalResults = $searchRequest->execute();
 
-    $no_of_results = $current->getNumTotalObjects();
-    if ($no_of_results > 0) {
-      // Loop rules to find percentage match in facets.
-      foreach ($rules as $rule) {
-        // Do combined search to get intersection between user search and
-        // campaign trigger CQL string.
-        $cqlDoctor = new TingSearchCqlDoctor($query);
-        $query = $cqlDoctor->string_to_cql();
-        $searchRequest = $current->getSearchRequest();
-        $searchRequest = $searchRequest->withFullTextQuery('"' . $query . '" AND (' . $rule->query . ')');
-        $results = $searchRequest->execute();
+    // Loop rules to find percentage match in facets.
+    foreach ($rules as $rule) {
+      // Do combined search to get intersection between user search and
+      // campaign trigger CQL string.
+      $cqlDoctor = new TingSearchCqlDoctor($query);
+      $query = $cqlDoctor->string_to_cql();
 
-        if (($results->getNumTotalObjects() / $no_of_results) * 100 >= $rule->percent) {
-          $nids[] = $rule->nid;
-        }
+      $searchRequest = $searchRequest;
+      $searchRequest = $searchRequest->withFullTextQuery('"' . $query . '" AND (' . $rule->query . ')');
+      $results = $searchRequest->execute();
+      if (($results->getNumTotalObjects() / $originalResults->getNumTotalObjects()) * 100 >= $rule->percent) {
+        $nids[] = $rule->nid;
       }
     }
   }

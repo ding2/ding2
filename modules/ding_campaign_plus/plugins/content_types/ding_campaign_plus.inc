@@ -28,6 +28,7 @@ $plugin = array(
  */
 function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
+  $currentResult = ting_search_current_results();
   $context_data = array(
     'page' => isset($context[0]->data) ? $context[0]->data : NULL,
     'library' => isset($context[1]->data) ? $context[1]->data : NULL,
@@ -37,6 +38,7 @@ function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel
       'raw' => arg(),
       'path' => drupal_get_path_alias($_GET['q']),
     ),
+    'search_request' => $currentResult ? $currentResult->getSearchRequest() : NULL,
   );
   $style = !empty($conf['style']) ? $conf['style'] : 'ribbon';
 
@@ -44,35 +46,17 @@ function ding_campaign_plus_relevant_content_type_render($subtype, $conf, $panel
   // context.
   $cid = _ding_campaign_plus_cache_id($context_data, $style);
   $cache = cache_get($cid);
+  $content = '';
   if (isset($cache->data) && REQUEST_TIME < $cache->expire) {
-    $campaign_nids = $cache->data;
+    $content = $cache->data;
   }
   else {
-    $campaign_nids = ding_campaign_plus_get_matches($context_data, $style);
-    cache_set($cid, $campaign_nids, 'cache', REQUEST_TIME + variable_get('ding_campaign_plus_expire', 900));
+    cache_set($cid . '-context', array($context_data, $style));
+    $content = '<div data-ding-campaign-plus-cid="' . $cid . '" class="ding-campaing-plus-placeholder"></div>';
+    drupal_add_js(drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus.js');
   }
 
-  $block->content = '';
-  if (!empty($campaign_nids)) {
-    $campaign = FALSE;
-    foreach ($campaign_nids as $nid) {
-      // Use the first campaign only.
-      $campaign = node_load($nid);
-
-      // Check if campaign matches style.
-      if ($campaign->field_ding_campaign_plus_style[LANGUAGE_NONE][0]['value'] === $style) {
-        // Campaign found that matches style.
-        break;
-      }
-      else {
-        $campaign = FALSE;
-      }
-    }
-
-    if ($campaign) {
-      $block->content = node_view($campaign, 'full');
-    }
-  }
+  $block->content = $content;
 
   return $block;
 }

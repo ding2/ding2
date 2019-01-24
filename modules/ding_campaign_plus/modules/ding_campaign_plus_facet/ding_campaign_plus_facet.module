@@ -5,6 +5,8 @@
  * Defines basic campaigns triggers and handling.
  */
 
+use Ting\Search\TingSearchRequest;
+
 define('DING_CAMPAIGN_PLUS_FACET_TYPE', 'facet');
 
 /**
@@ -171,7 +173,7 @@ function ding_campaign_plus_facet_ding_campaign_plus_matches($contexts, $style) 
 
   foreach ($contexts as $key => $context) {
     switch ($key) {
-      case 'search_term':
+      case 'search_request':
         $triggers = _ding_campaign_plus_facet_match($context);
         foreach ($triggers as $facet => $nids) {
           $matches[$facet] = $nids;
@@ -890,13 +892,13 @@ function _ding_campaign_plus_facet_get_facets($reset = FALSE) {
 /**
  * Helper function to look-up rules in the database.
  *
- * @param string $keys
- *   Search keys entered by the user.
+ * @param Ting\Search\TingSearchRequest $searchRequest
+ *   Search executed.
  *
  * @return array
  *   Matches indexed by facet name and contains campaign ID's.
  */
-function _ding_campaign_plus_facet_match($keys) {
+function _ding_campaign_plus_facet_match(TingSearchRequest $searchRequest) {
   $triggers = array();
 
   // Find rules that will match facet.
@@ -914,16 +916,12 @@ function _ding_campaign_plus_facet_match($keys) {
   }
 
   if (!empty($rules_group)) {
-    // Request a clone of the current search and result objects.
-    $current = ting_search_current_results();
-
     // Add all facets to the search query (or all campaign plus facets).
     $facets = _ding_campaign_plus_facet_get_facets();
     $facets = array_map(function ($facet) {
       return $facet['facet'];
     }, $facets);
-    $results = $current->getSearchRequest()
-      ->withTermsPrFacet(30)
+    $results = $searchRequest->withTermsPrFacet(30)
       ->withFacets($facets)
       ->execute();
     $search_facets = $results->getFacets();
