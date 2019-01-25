@@ -448,20 +448,29 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
       // Go through the event state.
       switch ($meta_data->event_state) {
         case 'published':
-          // Go through the sales status.
-          switch ($meta_data->sales_status) {
-            case 'open':
-              // Check if there is any available tickets for sale.
-              if ($meta_data->available_tickets > 0 || strval($meta_data->available_tickets) == '∞') {
-                $status = 'open';
-              }
-              else {
-                $status = 'sold-out';
-              }
-              break;
+          // Check if waiting list is activated.
+          switch ($meta_data->waiting_list) {
+            case 'true':
+              $status = 'waiting-list';
+              break:
 
             default:
-              $status = 'closed';
+              // Go through the sales status.
+              switch ($meta_data->sales_status) {
+                case 'open':
+                  // Check if there is any available tickets for sale.
+                  if ($meta_data->available_tickets > 0 || strval($meta_data->available_tickets) == '∞') {
+                    $status = 'open';
+                  }
+                  else {
+                    $status = 'sold-out';
+                  }
+                  break;
+
+                default:
+                  $status = 'closed';
+                  break;
+              }
               break;
           }
           break;
@@ -509,6 +518,11 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
       case 'upcoming':
         $data = t('Ticket sale has not yet started for this event');
         $class = 'ticket-notice';
+        break;
+
+      case 'waiting-list':
+        $data = l(t('Waiting list open'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
+        $class = 'ticket-available';
         break;
 
       case 'event-over':
