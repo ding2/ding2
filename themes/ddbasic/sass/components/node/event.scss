@@ -245,8 +245,7 @@
           }
         }
 
-        .button,
-        .ding-place2book-order a {
+        .button {
           @include span-columns(3 of 5);
           margin: 20px 0;
           color: $black;
@@ -415,8 +414,4 @@
       margin: 20px 0;
     }
   }
-}
-
-.ding-place2book-order a {
-  @extend %button;
 }
