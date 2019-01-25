@@ -12,7 +12,6 @@ function ting_covers_rest_xautoload($adapter) {
   $adapter->absolute()->composerDir(drupal_get_path('module', 'ting_covers_rest') . '/vendor/composer');
 }
 
-
 /**
  * Implements hook_menu().
  */
@@ -51,7 +50,12 @@ function ting_covers_rest_ting_covers($entities) {
   }
 
   $covers = $service->getCovers(\OpenAPI\Client\Model\Type::PID, $ids);
-  $cover_images = $service->getCoverImages($covers, 'jpeg', ['thumbnail']);
+
+  $cover_images = $service->getCoverImages(
+    $covers,
+    variable_get('ting_covers_rest_format'),
+    variable_get('ting_covers_rest_size')
+  );
 
   // Return all image information.
   return $cover_images;

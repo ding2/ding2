@@ -106,8 +106,8 @@ class TingCoversRestService {
    * @param \OpenAPI\Client\Model\Cover[] $covers
    *    Array of cover objects to get cover images from.
    *
-   * @param $format
-   *    The image format.
+   * @param array $format
+   *    The image formats to return.
    *
    * @param array $size
    *    The image sizes to return.
@@ -117,15 +117,16 @@ class TingCoversRestService {
    *
    * @return array|\OpenAPI\Client\Model\CoverImageUrls[]
    */
-  public function getCoverImages($covers, $format, $size = array('default', 'original', 'thumbnail')) {
+  public function getCoverImages($covers, $format = array('jpeg', 'png'), $size = array('default', 'original', 'thumbnail')) {
     $image_urls = array();
 
     /** @var \OpenAPI\Client\Model\Cover $cover */
     foreach ($covers as $cover) {
       foreach ($cover->getImageUrls() as $imageUrl) {
         $is_correct_size = in_array($imageUrl->getSize(), $size, TRUE);
+        $is_correct_format = in_array($imageUrl->getFormat(), $format, TRUE);
         // Check for requested size and format.
-        if ($is_correct_size && $imageUrl->getFormat() === $format) {
+        if ($is_correct_size && $is_correct_format) {
           $image_urls[$cover->getId()] = $imageUrl->getUrl();
         }
       }

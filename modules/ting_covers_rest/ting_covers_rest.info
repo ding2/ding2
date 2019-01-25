@@ -6,3 +6,5 @@ core = "7.x"
 dependencies[] = ting
 dependencies[] = ting_covers
 dependencies[] = xautoload
+files[] = src/TingCoversRestService.inc
+
