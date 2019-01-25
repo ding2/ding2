@@ -452,7 +452,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
           switch ($meta_data->waiting_list) {
             case 'true':
               $status = 'waiting-list';
-              break:
+              break;
 
             default:
               // Go through the sales status.
