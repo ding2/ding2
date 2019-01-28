@@ -250,7 +250,7 @@
   &.view-mode-reference-teaser {
     padding: 15px 0;
     background-color: $grey;
-    .cover {
+    .ting-cover {
       @include span-columns(2 of 7);
       padding-left: 15px;
       min-height: 1px;
@@ -343,7 +343,7 @@
   &.view-mode-ting-reference-preview {
     padding: 0;
     background-color: transparent;
-    .cover {
+    .ting-cover {
       @include span-columns(1 of 6);
       padding-left: 0;
       min-height: 1px;
