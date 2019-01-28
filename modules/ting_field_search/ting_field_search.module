@@ -605,6 +605,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
 
   $form['ting_field_search'] = array(
     '#type' => 'select',
+    '#title' => t('Choose search category'),
     '#empty_option' => t('Search in all'),
     '#options' => $exposed_profiles,
     '#weight' => 10,

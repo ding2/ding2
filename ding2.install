@@ -702,3 +702,10 @@ function ding2_update_7060() {
   variable_del('webtrends_onsitedoms');
   variable_del('webtrends_dcs_id');
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7061() {
+  ding2_translation_update();
+}
