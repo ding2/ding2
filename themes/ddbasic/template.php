@@ -767,6 +767,8 @@ function ddbasic_process_ting_object(&$vars) {
       break;
 
     case 'ting_object':
+      $uri_object = entity_uri('ting_object', $vars['object']);
+
       switch ($vars['elements']['#view_mode']) {
 
         // Teaser.
