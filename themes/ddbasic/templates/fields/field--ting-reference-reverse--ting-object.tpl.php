@@ -17,7 +17,7 @@
 
   <div class="ting-reference-reverse-list">
     <div class="search-results">
-      <ul class="list floated">
+      <ul class="list floated clearfix">
         <?php foreach ($items as $delta => $item): ?>
           <li class="list-item search-result"><?php print render($item); ?></li>
         <?php endforeach; ?>
