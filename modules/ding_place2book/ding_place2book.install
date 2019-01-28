@@ -140,19 +140,36 @@ function ding_place2book_update_7005(&$sandbox) {
   // Remove field.
   field_delete_field('field_place2book_tickets');
 
-  // Get settings.
+  // Migrate settings.
   $ding_place2book = variable_get('ding_place2book', array());
   $ding_place2book_event_nodes = variable_get('ding_place2book_event_nodes', array());
 
-  variable_set('ding_p2b_default_kultunaut_export', $ding_place2book_event_nodes['defaults']['kultunaut_export']);
-  variable_set('ding_p2b_default_passive', $ding_place2book_event_nodes['defaults']['passive']);
-  variable_set('ding_p2b_default_synchronize', $ding_place2book_event_nodes['defaults']['maintain_copy']);
   variable_set('ding_p2b_default_capacity', $ding_place2book_event_nodes['capacity']);
   variable_set('ding_p2b_default_price_name', $ding_place2book_event_nodes['ticket_type']);
+
+  // The following settings where used in a check box list, so we use empty
+  // to ensure the values are correctly converted to booleans for a single
+  // check box.
+  variable_set('ding_p2b_default_kultunaut_export', !empty($ding_place2book_event_nodes['defaults']['kultunaut_export']));
+  variable_set('ding_p2b_default_passive', !empty($ding_place2book_event_nodes['defaults']['passive']));
+  variable_set('ding_p2b_default_synchronize', !empty($ding_place2book_event_nodes['defaults']['maintain_copy']));
+
+  // Migrate event target to kultunaut age groups mappings.
+  variable_set('ding_p2b_kultunaut_age_group', variable_get('ding_place2book_target_mappings', []));
+
+  // Note: Unfortunately it's not straightforward to also migrate the event
+  // catogory to kultunaut mappings, since the keyes and some of the categories
+  // names have changed. Furthermore, in the old module, administratores were
+  // able to change the categories, so we can't even rely on the old categories
+  // to follow kultunaut standards. In the new module they are automatically
+  // fetched from kultunaut, which is the way to go.
+  // See: _ding_place2book_load_export_category() in ding_place2book.admin.inc
 
   // Remove old variables.
   variable_del('ding_place2book');
   variable_del('ding_place2book_event_nodes');
+  variable_del('ding_place2book_target_mappings');
+  variable_del('ding_place2book_category_mappings');
 }
 
 
