@@ -62,7 +62,6 @@ function bpi_http_push_action_form($nid) {
     ),
     '#description' => t('You should have permission to publish the images before selecting this option.'),
     '#empty_option' => t('- choose -'),
-    '#required' => TRUE,
   );
 
   $form['configurations']['bpi_push_refs'] = array(
