@@ -24,7 +24,7 @@ function ting_covers_rest_admin_settings_form($form, &$form_state) {
   $form['ting_covers_rest']['ting_covers_rest_url'] = array(
     '#type' => 'textfield',
     '#title' => t('REST URL'),
-    '#description' => t('URL to the cover service, e.g. http://rest.ddb.dk/v2'),
+    '#description' => t('URL to the cover service, e.g. https://rest.ddb.dk/v2'),
     '#required' => TRUE,
     '#default_value' => variable_get('ting_covers_rest_url', ''),
   );
