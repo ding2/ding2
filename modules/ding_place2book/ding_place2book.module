@@ -471,8 +471,19 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
       // it's published it can now either be open, upcoming, closed or waiting
       // list. Find out which by looking at the tickets and ticket types.
       if ($available_tickets > 0 || strval($available_tickets) == '∞') {
-        // We have available tickets, so find out if sale is open or upcoming.
+        // We have available tickets, so we need to determine sales status.
         $prices = $p2b->getPrices($event_maker_id, $event_id);
+
+        // Some events, for example those migrated from the old API, will have
+        // sales period on the event and not on the individual tickets. We will
+        // also take this period into account by adding it as a pseudo price.
+        if (isset($event->sale_open_at) && isset($event->sale_close_at)) {
+          $prices[] = (object) [
+            'sale_begin_at' => $event->sale_open_at,
+            'sale_end_at' => $event->sale_close_at,
+          ];
+        }
+
         foreach ($prices as $price) {
           $price_sale_begin = strtotime($price->sale_begin_at);
           $price_sale_end = strtotime($price->sale_end_at);
