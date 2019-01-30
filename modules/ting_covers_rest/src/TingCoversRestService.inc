@@ -90,12 +90,7 @@ class TingCoversRestService {
       $covers = $this->api->coverTypeGet($type, $ids);
     }
     catch (Exception $e) {
-      watchdog(
-        'DDB Cover Service API',
-        'Exception when fetching covers: @error',
-        array('@error' => $e->getMessage()),
-        WATCHDOG_ERROR
-      );
+      watchdog_exception('ting_covers_rest', $e);
     }
     return $covers;
   }
