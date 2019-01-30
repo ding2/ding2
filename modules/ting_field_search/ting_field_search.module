@@ -441,8 +441,8 @@ function ting_field_search_preprocess_html(&$vars) {
     }
 
     // If the profile has visibility all always expand the search field.
-    if (ting_field_search_is_profile_visible($profile)) {
-      $vars['classes_array'][] = 'extended-search-is-open';
+    if (!ting_field_search_is_profile_visible($profile)) {
+      $vars['classes_array'][] = 'extended-search-is-not-open';
       break;
     }
   }

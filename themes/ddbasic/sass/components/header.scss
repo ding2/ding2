@@ -33,6 +33,19 @@
     .toolbar & {
       top: $toolbar-height;
     }
+
+    .search-extended-button {
+      @include media($tablet) {
+        display: block;
+      }
+
+      display: none;
+      position: absolute;
+      // 15px to position it in the middle of the bar.
+      top: $topbar-height + 15px;
+      right: 5%;
+      z-index: 5;
+    }
   }
   .topbar-inner {
     @include wrapper;
@@ -105,7 +118,6 @@
       }
     }
     .topbar-menu {
-
       // Tablet
       @include media($tablet) {
         width: 100%;
@@ -116,7 +128,6 @@
         background-color: $color-primary;
         box-shadow: $box-shadow;
       }
-
     }
     .pane-current-user-name {
       float: right;
@@ -177,7 +188,8 @@
     .pane-search-form {
       @include transition(
         transform $speed $ease,
-        top 0ms $ease $speed
+        top 0ms $ease $speed,
+        margin 0ms $ease $speed
       );
       @include span-columns(3);
       @include omega;
@@ -254,7 +266,7 @@
           box-shadow $speed $ease
         );
         position: fixed;
-        z-index: $z-header - 1;
+        z-index: $z-header - 10;
         width: 100%;
         background-color: $charcoal;
 
@@ -272,16 +284,6 @@
           @include media($tablet) {
             position: relative;
             width: 100%;
-          }
-        }
-        .search-extended-button {
-          position: absolute;
-          right: 0;
-          top: $search-form-extended-height;
-
-          // Tablet
-          @include media($tablet) {
-            display: none;
           }
         }
 
@@ -378,9 +380,6 @@
       // Search form extended
       .search-form-extended & {
         box-shadow: $box-shadow;
-        .search-extended-button {
-          display: none;
-        }
 
         // Tablet
         @include media($tablet) {
@@ -440,6 +439,7 @@
     .navigation-inner {
       @include wrapper;
       position: relative;
+      min-height: $search-form-extended-height;
 
       // Tablet
       @include media($tablet) {
@@ -451,6 +451,31 @@
           box-shadow: $box-shadow;
         }
       }
+
+      // Leaving space for .search-extended-button button.
+      .has-search-dropdown & {
+        padding-right: 69px;
+
+        @include media($tablet) {
+          padding-right: 0;
+        }
+      }
+
+      .search-extended-button {
+        .has-search-dropdown & {
+          display: block;
+
+          @include media($tablet) {
+            display: none;
+          }
+        }
+
+        display: none;
+        position: absolute;
+        top: 15px;
+        right: 0;
+      }
+
       .main-menu-wrapper {
         @include transition(
           transform $speed $ease,
@@ -471,12 +496,14 @@
         }
       }
       .secondary-menu-wrapper {
+        position: relative;
         display: none;
+
         // Search Form Extended
         .show-secondary-menu & {
           display: block;
           float: right;
-          padding-right: 69px;
+
 
           // Tablet
           @include media($tablet) {
@@ -484,10 +511,8 @@
             background-color: $grey;
           }
         }
-        // Search Form Extended
-        .search-form-extended & {
-          padding-right: 0;
-        }
+
+
       }
       .pane-menu-block-main-menu-second-level {
         @include transition(top $speed $ease);
@@ -556,153 +581,89 @@
   // These elements are placed on the page using fixed positioning, and because
   // of this they need to have a set height from the top.
   .pane-search-form {
+    // There is a lot of combinations of classes which effect the "top" property.
+    // This mixin solution was made as an alternative to having a bunch of
+    // {codeblocks} which all did basically the same thing.
+    // Using this mixin allows it to be more maintainable also.
+    // @NOTICE: for pane-search-form, it adds a base value to the values.
+    // $_base-top-value below.
+    $_base-top-value: $topbar-height;
+
+    $_selectors-top-values--search-form: (
+      // .admin-menu does not need the base value added.
+      '.admin-menu': $admin-menu-height - $_base-top-value,
+      '.admin-menu-with-shortcuts': $toolbar-height,
+      '.toolbar': $toolbar-height,
+      '.search-form-extended': $search-form-extended-height,
+      '.search-form-extended.admin-menu': $search-form-extended-height + $admin-menu-height,
+      '.search-form-extended.admin-menu-with-shortcuts': $search-form-extended-height + $toolbar-height,
+      '.search-form-extended.toolbar': $search-form-extended-height + $toolbar-height,
+      '.search-form-extended.admin-menu.has-second-level-menu': $search-form-extended-height + $admin-menu-height + $second-level-menu-height,
+      '.search-form-extended.admin-menu-with-shortcuts.has-second-level-menu': $search-form-extended-height + $toolbar-height + $second-level-menu-height,
+      '.search-form-extended.toolbar.has-second-level-menu': $search-form-extended-height + $toolbar-height + $second-level-menu-height,
+      // When the search bar is  extended, the search form will be moved out
+      // of view, below the menu above.
+      '.search-form-extended.extended-search-is-not-open': 0,
+    );
+
+    @each $_selector, $_value in $_selectors-top-values--search-form {
+      #{$_selector} & {
+        top: $_base-top-value + $_value;
+      }
+
+      @include media($tablet-min-width) {
+        #{$_selector}.has-second-level-menu & {
+          top: $_base-top-value + $_value + $second-level-menu-height;
+        }
+      }
+    }
+
     top: 0;
 
+    // For readability, we'll leave media queries out of the mixin above.
     @include media($tablet) {
       top: $header-height;
 
       .mobile-menu-is-open & {
         padding-bottom: $header-height;
       }
-    }
 
-    // Admin menu
-    .admin-menu & {
-      top: $admin-menu-height;
-    }
-
-    @include media($tablet) {
-      top: $header-height;
-
-      // Admin menu
       .admin-menu & {
         top: $header-height + $admin-menu-height;
       }
-    }
 
-    // Admin menu with shortcuts or toolbar
-    .admin-menu-with-shortcuts &,
-    .toolbar & {
-      top: $topbar-height + $toolbar-height;
-    }
-
-    // Search Form Extended
-    .search-form-extended & {
-      top: $topbar-height;
-
-      // Tablet
-      @include media($tablet) {
+      .search-form-extended.extended-search-is-not-open &,
+      .search-form-extended & {
         top: $header-height;
       }
-    }
-
-    // Search Form Extended with admin-menu
-    .search-form-extended.admin-menu & {
-      top: $topbar-height + $admin-menu-height;
-    }
-
-    // Search Form Extended with admin menu shortcuts or toolbar
-    .search-form-extended.admin-menu-with-shortcuts &,
-    .search-form-extended.toolbar & {
-      top: $topbar-height + $toolbar-height;
-    }
-
-    .search-form-extended & {
-      top: $topbar-height + $search-form-extended-height;
-    }
-
-    // Search Form Extended with admin-menu
-    .search-form-extended.admin-menu & {
-      top: $topbar-height + $search-form-extended-height + $admin-menu-height;
-    }
-
-    // Search Form Extended with admin menu shortcuts or toolbar
-    .search-form-extended.admin-menu-with-shortcuts &,
-    .search-form-extended.toolbar &{
-      top: $topbar-height + $search-form-extended-height + $toolbar-height;
-    }
-
-    .search-form-extended.has-second-level-menu & {
-      top: $topbar-height + $search-form-extended-height + $second-level-menu-height;
-    }
-
-    // Search Form Extended with admin-menu
-    .search-form-extended.admin-menu.has-second-level-menu & {
-      top: $topbar-height + $search-form-extended-height + $admin-menu-height + $second-level-menu-height;
-    }
-
-    // Search Form Extended with admin menu shortcuts or toolbar
-    .search-form-extended.admin-menu-with-shortcuts.has-second-level-menu &,
-    .search-form-extended.toolbar.has-second-level-menu &{
-      top: $topbar-height + $search-form-extended-height + $toolbar-height + $second-level-menu-height;
     }
   }
 
   .navigation-wrapper {
+    // There is a lot of combinations of classes which effect the "top" property.
+    // This mixin solution was made as an alternative to having a bunch of
+    // {codeblocks} which all did basically the same thing.
+    // Using this mixin allows it to be more maintainable also.
+    $_selectors-top-values--navigation-wrapper: (
+      '.mobile-search-is-open': $header-height,
+      '.admin-menu': $topbar-height + $admin-menu-height,
+      '.admin-menu-with-shortcuts': $toolbar-height,
+      '.toolbar': $toolbar-height,
+      '.search-form-extended.admin-menu': $topbar-height + $admin-menu-height,
+      '.search-form-extended.admin-menu-with-shortcuts': $topbar-height + $toolbar-height,
+      '.search-form-extended.toolbar': $topbar-height + $toolbar-height
+    );
+
+    @each $_selector, $_value in $_selectors-top-values--navigation-wrapper {
+      #{$_selector} & {
+        top: $_value;
+      }
+    }
+
     top: $topbar-height;
-
-    @include media($mobile) {
-      top: $header-height - $topbar-height;
-      .mobile-usermenu-is-open & {
-        padding-bottom: $header-height - $topbar-height;
-      }
-    }
-
-    .search-form-extended & {
-      top: -20px;
-    }
-
-    // Admin menu
-    .admin-menu & {
-      top: $topbar-height + $admin-menu-height;
-    }
-
-    // Admin menu with shortcuts and toolbar.
-    .admin-menu-with-shortcuts &,
-    .toolbar & {
-      top: $toolbar-height;
-    }
-
-    // Search Form Extended & admin menu
-    .search-form-extended.admin-menu & {
-      top: $admin-menu-height - 20px;
-    }
-
-    // Search Form Extended with admin menu shortcuts or toolbar
-    .search-form-extended.admin-menu-with-shortcuts &,
-    .search-form-extended.toolbar & {
-      top: $toolbar-height - 20px;
-    }
-
-    // Search Form Extended
-    .search-form-extended & {
-      top: $topbar-height;
-
-      // Tablet
-      @include media($tablet) {
-        top: $header-height;
-      }
-    }
-
-    // Search Form Extended with admin-menu
-    .search-form-extended.admin-menu & {
-      top: $topbar-height + $admin-menu-height;
-    }
-
-    // Search Form Extended with admin menu shortcuts or toolbar
-    .search-form-extended.admin-menu-with-shortcuts &,
-    .search-form-extended.toolbar &  {
-      top: $topbar-height + $toolbar-height;
-    }
-
-    // Mobile search open
-    .mobile-search-is-open & {
-      top: $header-height;
-    }
 
     .pane-menu-block-main-menu-second-level {
       top: $header-height;
-
       // Admin menu
       .admin-menu & {
         top: $header-height + $admin-menu-height;
@@ -712,6 +673,18 @@
       .toolbar & {
         top: $header-height + $toolbar-height;
       }
+    }
+
+    // For readability, we'll leave media queries out of the mixin above.
+    @include media($mobile) {
+      top: $header-height - $topbar-height;
+      .mobile-usermenu-is-open & {
+        padding-bottom: $header-height - $topbar-height;
+      }
+    }
+
+    @include media($tablet) {
+      top: $header-height;
     }
   }
 }
