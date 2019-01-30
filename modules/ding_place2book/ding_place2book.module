@@ -492,7 +492,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
         // we consider the sales status to be closed. In these cases there might
         // be a waiting list so we look for that before setting status closed.
         if (empty($status)) {
-          $status = $meta_data->waiting_list ? 'waiting-list' : 'closed';
+          $status = !empty($meta_data->waiting_list) ? 'waiting-list' : 'closed';
         }
       }
       else {
@@ -510,7 +510,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
         break;
 
       case 'closed':
-        $data = t('The event is closed for admission');
+        $data = t('Not open for ticket sale');
         $class = 'ticket-notice';
         break;
 
