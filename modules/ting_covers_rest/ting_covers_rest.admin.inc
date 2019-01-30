@@ -1,4 +1,7 @@
 <?php
+
+use \OpenAPI\Client\Model\Type;
+
 /**
  * @file
  * Administration interface for the ting_covers_rest module.
@@ -45,14 +48,14 @@ function ting_covers_rest_admin_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_covers_rest_group', ''),
   );
 
-  $allowed_types = \OpenAPI\Client\Model\Type::getAllowableEnumValues();
+  $allowed_types = Type::getAllowableEnumValues();
   $form['ting_covers_rest']['ting_covers_rest_type'] = array(
     '#type' => 'select',
     '#title' => t('Type'),
     '#description' => t('The type of cover IDs'),
     '#required' => FALSE,
     '#options' => array_combine($allowed_types, $allowed_types),
-    '#default_value' => variable_get('ting_covers_rest_type', \OpenAPI\Client\Model\Type::PID),
+    '#default_value' => variable_get('ting_covers_rest_type', Type::PID),
   );
 
   $form['ting_covers_rest']['ting_covers_rest_format'] = array(
