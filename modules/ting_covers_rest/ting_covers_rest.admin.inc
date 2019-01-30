@@ -80,10 +80,10 @@ function ting_covers_rest_admin_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_covers_rest_size', array('thumbnail', 'default', 'original')),
   );
 
-  $form['ting_covers_rest']['ting_covers_rest_enable_logging'] = array(
+  $form['ting_covers_rest']['ting_covers_rest_enable_debugging'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Enable logging'),
-    '#default_value' => variable_get('ting_covers_rest_enable_logging', FALSE),
+    '#title' => t('Enable debugging'),
+    '#default_value' => variable_get('ting_covers_rest_enable_debugging', FALSE),
   );
 
   return system_settings_form($form);

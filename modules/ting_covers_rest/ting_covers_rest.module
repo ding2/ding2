@@ -71,6 +71,6 @@ function ting_covers_rest_service() {
   // Initialize OpenAPI settings from admin form in Drupal.
   return new TingCoversRestService(
     variable_get('ting_covers_rest_url', ''),
-    variable_get('ting_covers_rest_enable_logging',FALSE)
+    variable_get('ting_covers_rest_enable_debugging', FALSE)
   );
 }
