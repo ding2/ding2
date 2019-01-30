@@ -463,9 +463,6 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
       // The event has already taking place.
       $status = 'event-over';
     }
-    elseif ($event_state === 'passive') {
-      $status = 'passive';
-    }
     elseif ($event_state === 'published') {
       // Now we know the event is not passive and is not over/taking place. If
       // it's published it can now either be open, upcoming, closed or waiting
@@ -510,7 +507,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
         $status = 'sold-out';
       }
     }
-    else {
+    elseif ($event_state === 'pause') {
       $status = 'closed';
     }
 
@@ -546,8 +543,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
         break;
     }
 
-    //
-    if ($status !== 'passive') {
+    if (!empty($status)) {
       $output = "<span class='place2book button {$class}'>{$data}</span>";
     }
   }
