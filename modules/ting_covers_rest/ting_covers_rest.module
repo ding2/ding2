@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Provide cover images from the REST coverservice.
+ * Provide cover images from the DDB Cover Service API.
  */
 
 /**
@@ -19,8 +19,8 @@ function ting_covers_rest_menu() {
   $items = array();
 
   $items['admin/config/ting/covers/rest'] = array(
-    'title' => 'REST coverservice',
-    'description' => 'Configure integration with the REST coverservice.',
+    'title' => 'DDB Cover Service API',
+    'description' => 'Configure integration with the DDB Cover Service API.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_covers_rest_admin_settings_form'),
     'access arguments' => array('administer site configuration'),
@@ -34,7 +34,7 @@ function ting_covers_rest_menu() {
 /**
  * Implements hook_ting_covers().
  *
- * Fetch covers from AdditionalInformation service.
+ * Fetch covers from DDB Cover Service API service.
  *
  * @param \TingEntity[] $entities
  *

@@ -3,7 +3,7 @@
  * @file
  * Administration interface for the ting_covers_rest module.
  *
- * Which allows configuration of the REST coverservice.
+ * Which allows configuration of the DDB Cover Service API.
  */
 
 /**
@@ -16,8 +16,8 @@
 function ting_covers_rest_admin_settings_form($form, &$form_state) {
   $form['ting_covers_rest'] = array(
     '#type' => 'fieldset',
-    '#title' => t('REST coverservice settings'),
-    '#description' => t('The REST coverservice service is used to retrieve cover images.'),
+    '#title' => t('DDB Cover Service API settings'),
+    '#description' => t('The DDB Cover Service API service is used to retrieve cover images.'),
     '#tree' => FALSE,
   );
 
