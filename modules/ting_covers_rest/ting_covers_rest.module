@@ -50,16 +50,15 @@ function ting_covers_rest_ting_covers($entities) {
     $ids[] = $entity->getId();
   }
 
-  $covers = $service->getCovers(variable_get('ting_covers_rest_type'), $ids);
-
-  $cover_images = $service->getCoverImages(
-    $covers,
-    variable_get('ting_covers_rest_format', array('jpeg', 'png')),
-    variable_get('ting_covers_rest_size', array('thumbnail', 'default', 'original'))
+  $covers = $service->getCovers(
+    variable_get('ting_covers_rest_type'),
+    $ids,
+    variable_get('ting_covers_rest_format'),
+    variable_get('ting_covers_rest_size')
   );
 
   // Return all image information.
-  return $cover_images;
+  return $service->getCoverImages($covers);
 }
 
 /**

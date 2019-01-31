@@ -84,10 +84,10 @@ class TingCoversRestService {
    *
    * @return array|\OpenAPI\Client\Model\Cover[]
    */
-  public function getCovers($type, $ids) {
+  public function getCovers($type, $ids, $format, $size) {
     $covers = array();
     try {
-      $covers = $this->api->coverTypeGet($type, $ids);
+      $covers = $this->api->coverTypeGet($type, $ids, $format = $format, $generic = true, $size, $limit = null, $offset = 0);
     }
     catch (Exception $e) {
       watchdog_exception('ting_covers_rest', $e);
@@ -112,18 +112,13 @@ class TingCoversRestService {
    *
    * @return array|\OpenAPI\Client\Model\CoverImageUrls[]
    */
-  public function getCoverImages($covers, $format = array('jpeg', 'png'), $size = array('default', 'original', 'thumbnail')) {
+  public function getCoverImages($covers) {
     $image_urls = array();
 
     /** @var \OpenAPI\Client\Model\Cover $cover */
     foreach ($covers as $cover) {
       foreach ($cover->getImageUrls() as $imageUrl) {
-        $is_correct_size = in_array($imageUrl->getSize(), $size, TRUE);
-        $is_correct_format = in_array($imageUrl->getFormat(), $format, TRUE);
-        // Check for requested size and format.
-        if ($is_correct_size && $is_correct_format) {
-          $image_urls[$cover->getId()] = $imageUrl->getUrl();
-        }
+        $image_urls[$cover->getId()] = $imageUrl->getUrl();
       }
     }
 
