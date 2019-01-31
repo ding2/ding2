@@ -10,7 +10,7 @@
  */
 function ting_covers_rest_xautoload($adapter) {
   $adapter->absolute()->addPsr4('TingCoversRestService\\', drupal_get_path('module', 'ting_covers_rest') . '/src');
-  $adapter->absolute()->composerDir(drupal_get_path('module', 'ting_covers_rest') . '/vendor/composer');
+  $adapter->absolute()->composerJson(drupal_get_path('module', 'ting_covers_rest') . '/composer.json');
 }
 
 /**
