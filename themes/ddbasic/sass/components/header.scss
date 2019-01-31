@@ -439,7 +439,6 @@
     .navigation-inner {
       @include wrapper;
       position: relative;
-      min-height: $search-form-extended-height;
 
       // Tablet
       @include media($tablet) {
@@ -482,10 +481,13 @@
           top 0ms $ease $speed
         );
         @include span-columns(9);
-        // Tablet
+
         @include media($tablet) {
           width: 100%;
         }
+
+        min-height: $search-form-extended-height;
+
         // Search form extended
         .search-form-extended & {
           width: auto;
@@ -504,7 +506,6 @@
           display: block;
           float: right;
 
-
           // Tablet
           @include media($tablet) {
             width: 100%;
@@ -512,6 +513,13 @@
           }
         }
 
+        @include media($tablet-min-width) {
+          // If there are too many links, we need to move the secondary menu
+          // down so it doesnt collide with the fixed sub menu.
+          .secondary-menu-below-main.has-second-level-menu & {
+            margin-top: $second-level-menu-height;
+          }
+        }
 
       }
       .pane-menu-block-main-menu-second-level {
@@ -612,8 +620,18 @@
       }
 
       @include media($tablet-min-width) {
+        // If there are too many links, we need to add even more padding.
+        #{$_selector}.secondary-menu-below-main & {
+          top: $_base-top-value + $_value + $search-form-extended-height;
+        }
+
         #{$_selector}.has-second-level-menu & {
           top: $_base-top-value + $_value + $second-level-menu-height;
+        }
+
+        // If there are too many links, we need to add even more padding.
+        #{$_selector}.has-second-level-menu.secondary-menu-below-main & {
+          top: $_base-top-value + $_value + $second-level-menu-height + $search-form-extended-height;
         }
       }
     }

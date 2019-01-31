@@ -41,6 +41,8 @@
   Drupal.behaviors.menu = {
     attach: function(context, settings) {
       var topbar_link_user = $('a.topbar-link-user', context),
+          main_menu_wrapper = $('.main-menu-wrapper', context),
+          secondary_menu_wrapper = $('.secondary-menu-wrapper', context),
           close_user_login = $('.close-user-login', context),
           mobile_menu_btn = $('a.topbar-link-menu', context),
           search_btn = $('a.topbar-link-search', context),
@@ -48,6 +50,17 @@
           first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a .main-menu-expanded-icon', context),
           second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a .main-menu-expanded-icon', context),
           body = $('body');
+
+      // Scope fixes for inner functions.
+      var thisScope = this;
+
+      // We need to check this initially.
+      thisScope.checkMainSecondaryMenusOffset(context);
+
+      // We also need to check it everytime we resize the screen.
+      $(window).resize(function() {
+        thisScope.checkMainSecondaryMenusOffset(context);
+      });
 
       mobile_menu_btn.on('click', function(evt){
         evt.preventDefault();
@@ -125,6 +138,24 @@
           }
         }
       });
+    },
+
+    // If there are too many links in either the main or secondary menu,
+    // we need to tell the CSS so it can adjust the fixed header elements.
+    checkMainSecondaryMenusOffset: function(context) {
+      var main_menu_wrapper = $('.main-menu-wrapper', context),
+          secondary_menu_wrapper = $('.secondary-menu-wrapper', context);
+
+      // One is missing, so we'll skip out.
+      if (!main_menu_wrapper.length || !secondary_menu_wrapper.length) {
+        return;
+      }
+
+      if (main_menu_wrapper[0].offsetTop != secondary_menu_wrapper[0].offsetTop) {
+        $('body').addClass('secondary-menu-below-main');
+      } else {
+        $('body').removeClass('secondary-menu-below-main');
+      }
     }
   };
 

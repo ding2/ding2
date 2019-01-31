@@ -64,11 +64,23 @@ body {
 
       &#{$_selector} {
         padding-top: $_value;
+
+        // If there are too many links, we need to add even more padding.
+        &.secondary-menu-below-main {
+          padding-top: $_value + $search-form-extended-height;
+        }
       }
 
       &#{$_selector}.has-second-level-menu {
         padding-top: $_value + $second-level-menu-height;
+
+        // If there are too many links, we need to add even more padding.
+        &.secondary-menu-below-main {
+          padding-top: $_value + $second-level-menu-height + $search-form-extended-height;
+        }
       }
+
+
     }
   }
 }
