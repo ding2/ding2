@@ -25,13 +25,6 @@ class TingCoversRestService {
    *    Enable/disable debugging.
    */
   public function __construct($host, $token = FALSE, $debug = FALSE) {
-    // Handle autoload.
-    $autoload = drupal_get_path('module', 'ting_covers_rest') . '/vendor/autoload.php';
-
-    if (file_exists($autoload)) {
-      require_once $autoload;
-    }
-
     $this->config = new Configuration();
     $this->config->setHost($host)->setDebug($debug);
     $token ?: $this->config->setAccessToken($token);
