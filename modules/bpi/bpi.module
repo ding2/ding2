@@ -849,6 +849,9 @@ function bpi_form_workflow_transition_form_validate(&$form, &$form_state) {
     if (empty($form_state['values']['bpi_push_audience'])) {
       form_set_error('bpi_push_audience', t('Audience must be set when pushing to BPI.'));
     }
+    if (empty($form_state['values']['bpi_push_images'])) {
+      form_set_error('bpi_push_images', t('Image permissions should be explicitly set when pushing to BPI.'));
+    }
   }
   array_unshift($form_state['submit_handlers'], 'bpi_form_workflow_transition_form_submit');
 }
