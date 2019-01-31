@@ -104,7 +104,7 @@
 
       search_extended_btn.on('click', function(evt) {
         evt.preventDefault();
-        body.toggleClass('extended-search-is-open');
+        body.toggleClass('extended-search-is-not-open');
       });
 
       // Tablet/mobile menu logout

@@ -211,14 +211,6 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     '#attributes' => array('id' => 'controls_search_size'),
   );
 
-  switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
-    case TING_SEARCH_FORM_STYLE_EXTENDED:
-      $form['search_extended_open_button'] = array(
-        '#markup' => '<a href="#" class="search-extended-button">Search extended button</a>',
-      );
-      break;
-  }
-
   // Completely take over the search form submit flow, by removing the default
   // search_box_form_submit handler replacing it with our own as the first.
   // This prevents overriding other handlers and gives other modules a chance
