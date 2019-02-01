@@ -66,8 +66,8 @@ function ting_covers_rest_ting_covers($entities) {
 function ting_covers_rest_service() {
   // Initialize OpenAPI settings from admin form in Drupal.
   return new TingCoversRestService(
-    variable_get('ting_covers_rest_oauth2_token', ''),
-    variable_get('ting_covers_rest_url'),
+    variable_get('ting_covers_rest_oauth2_token', NULL),
+    variable_get('ting_covers_rest_url', NULL),
     variable_get('ting_covers_rest_enable_debugging', FALSE)
   );
 }

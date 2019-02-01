@@ -15,16 +15,16 @@ class TingCoversRestService {
   /**
    * Construct an API instance.
    *
-   * @param string $token
+   * @param string|null $token
    *    The OAuth2 token.
    *
-   * @param string $host
+   * @param string|null $host
    *    The REST service hostname.
    *
    * @param bool $debug
    *    Enable/disable debugging.
    */
-  public function __construct($token, $host, $debug = FALSE) {
+  public function __construct($token = NULL, $host = NULL, $debug = FALSE) {
     $this->config = new Configuration();
     $this->config->setDebug($debug);
 
