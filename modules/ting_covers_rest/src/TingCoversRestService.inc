@@ -87,7 +87,9 @@ class TingCoversRestService {
   public function getCovers($type, $ids, $format, $size) {
     $covers = array();
     try {
-      $covers = $this->api->coverTypeGet($type, $ids, $format, $generic = true, $size, $limit = null, $offset = 0);
+      $covers = $this->api->coverTypeGet(
+        $type, $ids, $format, $generic = true, $size, $limit = null, $offset = 0
+      );
     }
     catch (\Exception $e) {
       watchdog_exception('ting_covers_rest', $e);
