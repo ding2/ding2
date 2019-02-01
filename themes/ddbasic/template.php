@@ -37,7 +37,8 @@ function ddbasic_preprocess_html(&$vars) {
       // The search form should only be expanded on certain pages.
       $path = menu_get_item()['path'];
 
-      if (!in_array($path, ['search/ting/%', 'search/ting', 'search/node/%', 'ding_frontpage'])) {
+      if (empty($vars['display_extended_search']) &&
+          !in_array($path, ['search/ting/%', 'search/ting', 'search/node/%', 'ding_frontpage'])) {
         $vars['classes_array'][] = 'extended-search-is-not-open';
         $vars['classes_array'][] = 'has-search-dropdown';
       }
