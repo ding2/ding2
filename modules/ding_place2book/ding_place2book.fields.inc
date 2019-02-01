@@ -390,22 +390,29 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
     case 'ding_p2b':
       if (!empty($items)) {
         $settings = reset($items);
-        if ($settings['synchronize']) {
-          if (empty($settings['event_id'])) {
-            $items = _ding_place2book_create_p2b_entities($entity, $settings);
+        // Ensure that 'capacity' key exists before trying to synchronize the
+        // event with p2b. It's required by the API and if not set. This also
+        // protects against unneeded request against API, since this key will be
+        // here when updating node from a form, but not when a node is updated
+        // programmatically.
+        if (array_key_exists('capacity', $settings)) {
+          if ($settings['synchronize']) {
+            if (empty($settings['event_id'])) {
+              $items = _ding_place2book_create_p2b_entities($entity, $settings);
+            }
+            else {
+              $items = _ding_place2book_update_p2b_entities($entity, $settings);
+            }
           }
           else {
-            $items = _ding_place2book_update_p2b_entities($entity, $settings);
+            $items = array(
+              array(
+                'event_id' => $settings['event_id'],
+                'event_maker_id' => $settings['event_maker_id'],
+                'synchronize' => $settings['synchronize'],
+              ),
+            );
           }
-        }
-        else {
-          $items = array(
-            array(
-              'event_id' => $settings['event_id'],
-              'event_maker_id' => $settings['event_maker_id'],
-              'synchronize' => $settings['synchronize'],
-            ),
-          );
         }
       }
       break;
