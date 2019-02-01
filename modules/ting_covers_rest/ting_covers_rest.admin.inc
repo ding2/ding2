@@ -1,6 +1,11 @@
 <?php
 
-use \OpenAPI\Client\Model\Type;
+/**
+ * @file
+ * Admin configuration for the DDB cover service.
+ */
+
+use OpenAPI\Client\Model\Type;
 
 /**
  * @file
@@ -80,7 +85,9 @@ function ting_covers_rest_admin_settings_form($form, &$form_state) {
       'default' => t('Default'),
       'original' => t('Original'),
     ),
-    '#default_value' => variable_get('ting_covers_rest_size', array('thumbnail', 'default', 'original')),
+    '#default_value' => variable_get('ting_covers_rest_size', array(
+      'thumbnail', 'default', 'original',
+    )),
   );
 
   $form['ting_covers_rest']['ting_covers_rest_enable_debugging'] = array(

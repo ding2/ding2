@@ -1,12 +1,17 @@
 <?php
 
-use GuzzleHttp\Client;
-use OpenAPI\Client\Configuration;
-use OpenAPI\Client\Api\DefaultApi;
-
 /**
  * @file
  * High level implementation of the Ting Covers REST API.
+ */
+
+use GuzzleHttp\Client;
+use OpenAPI\Client\Configuration;
+use OpenAPI\Client\Api\DefaultApi;
+use OpenAPI\Client\Model\Type;
+
+/**
+ * Wrapper for the OpenAPI client.
  */
 class TingCoversRestService {
   private $config;
@@ -16,13 +21,11 @@ class TingCoversRestService {
    * Construct an API instance.
    *
    * @param string|null $token
-   *    The OAuth2 token.
-   *
+   *   The OAuth2 token.
    * @param string|null $host
-   *    The REST service hostname.
-   *
+   *   The REST service hostname.
    * @param bool $debug
-   *    Enable/disable debugging.
+   *   Enable/disable debugging.
    */
   public function __construct($token = NULL, $host = NULL, $debug = FALSE) {
     $this->config = new Configuration();
@@ -48,6 +51,7 @@ class TingCoversRestService {
    * Returns the configuration object for OpenAPI.
    *
    * @return \OpenAPI\Client\Configuration
+   *   The configuration object with settings for the OpenAPI client.
    */
   public function getConfig() {
     return $this->config;
@@ -57,7 +61,7 @@ class TingCoversRestService {
    * Returns the host string for the requested API.
    *
    * @return string
-   *    The hostname for the API.
+   *   The hostname for the API.
    */
   public function getHost() {
     return $this->config->getHost();
@@ -67,7 +71,7 @@ class TingCoversRestService {
    * Returns the OAuth token used by the API.
    *
    * @return string
-   *    The OAuth token used by the API.
+   *   The OAuth token used by the API.
    */
   public function getToken() {
     return $this->config->getAccessToken();
@@ -77,18 +81,22 @@ class TingCoversRestService {
    * Get cover objects by ID type and IDs.
    *
    * @param \OpenAPI\Client\Model\Type $type
-   *    The ID type, for example 'pid' or 'issn'.
-   *
+   *   The ID type, for example 'pid' or 'issn'.
    * @param array $ids
-   *    IDs to lookup of the specified type.
+   *   IDs to lookup of the specified type.
+   * @param array $format
+   *   The image format(s) of the fetched covers.
+   * @param array $size
+   *   The size(s) of the fetched images.
    *
    * @return \OpenAPI\Client\Model\Cover[]
+   *   Array of Cover objects containing the cover image URLs.
    */
-  public function getCovers($type, $ids, $format, $size) {
+  public function getCovers(Type $type, array $ids, array $format, array $size) {
     $covers = array();
     try {
       $covers = $this->api->coverTypeGet(
-        $type, $ids, $format, $generic = true, $size, $limit = null, $offset = 0
+        $type, $ids, $format, $generic = TRUE, $size, $limit = NULL, $offset = 0
       );
     }
     catch (\Exception $e) {
@@ -101,18 +109,12 @@ class TingCoversRestService {
    * Return covers images from covers, by image format and size.
    *
    * @param \OpenAPI\Client\Model\Cover[] $covers
-   *    Array of cover objects to get cover images from.
-   *
-   * @param array $format
-   *    The image formats to return.
-   *
-   * @param array $size
-   *    The image sizes to return.
+   *   Array of cover objects to get cover images from.
    *
    * @return array
-   *    Associative array; ting object ID as key and the cover URL as value.
+   *   Associative array; ting object ID as key and the cover URL as value.
    */
-  public function getCoverImages($covers) {
+  public function getCoverImages(array $covers) {
     $image_urls = array();
 
     /** @var \OpenAPI\Client\Model\Cover $cover */
@@ -124,4 +126,5 @@ class TingCoversRestService {
 
     return $image_urls;
   }
+
 }

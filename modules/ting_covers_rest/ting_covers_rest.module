@@ -5,6 +5,8 @@
  * Provide cover images from the DDB Cover Service API.
  */
 
+use OpenAPI\Client\Model\Type;
+
 /**
  * Implements hook_xautoload().
  */
@@ -36,18 +38,13 @@ function ting_covers_rest_menu() {
  * Implements hook_ting_covers().
  *
  * Fetch covers from DDB Cover Service API service.
- *
- * @param \TingEntity[] $entities
- *
- * @return array
- *    Array of image URLs keyed by TingEntity ID.
  */
-function ting_covers_rest_ting_covers($entities) {
+function ting_covers_rest_ting_covers(array $entities) {
   $service = ting_covers_rest_service();
   $ids = array_keys($entities);
 
   $covers = $service->getCovers(
-    variable_get('ting_covers_rest_type', \OpenAPI\Client\Model\Type::PID),
+    variable_get('ting_covers_rest_type', Type::PID),
     $ids,
     variable_get('ting_covers_rest_format'),
     variable_get('ting_covers_rest_size')
@@ -61,7 +58,7 @@ function ting_covers_rest_ting_covers($entities) {
  * Instantiate TingCoversRestService from settings.
  *
  * @return \TingCoversRestService
- *    The high-level TingCovers REST API client.
+ *   The high-level TingCovers REST API client.
  */
 function ting_covers_rest_service() {
   // Initialize OpenAPI settings from admin form in Drupal.
