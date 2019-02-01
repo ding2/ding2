@@ -24,10 +24,17 @@ class TingCoversRestService {
    * @param bool $debug
    *    Enable/disable debugging.
    */
-  public function __construct($host, $token = FALSE, $debug = FALSE) {
+  public function __construct($token = FALSE, $host, $debug = FALSE) {
     $this->config = new Configuration();
-    $this->config->setHost($host)->setDebug($debug);
-    $token ?: $this->config->setAccessToken($token);
+    $this->config->setDebug($debug);
+
+    if ($token) {
+      $this->config->setAccessToken($token);
+    }
+
+    if ($host) {
+      $this->config->setHost($host);
+    }
 
     $api_instance = new DefaultApi(
       new Client(),
@@ -75,14 +82,14 @@ class TingCoversRestService {
    * @param array $ids
    *    IDs to lookup of the specified type.
    *
-   * @return array|\OpenAPI\Client\Model\Cover[]
+   * @return \OpenAPI\Client\Model\Cover[]
    */
   public function getCovers($type, $ids, $format, $size) {
     $covers = array();
     try {
-      $covers = $this->api->coverTypeGet($type, $ids, $format = $format, $generic = true, $size, $limit = null, $offset = 0);
+      $covers = $this->api->coverTypeGet($type, $ids, $format, $generic = true, $size, $limit = null, $offset = 0);
     }
-    catch (Exception $e) {
+    catch (\Exception $e) {
       watchdog_exception('ting_covers_rest', $e);
     }
     return $covers;
@@ -100,10 +107,8 @@ class TingCoversRestService {
    * @param array $size
    *    The image sizes to return.
    *
-   * @todo
-   *    Get default image sizes from generated swagger code.
-   *
-   * @return array|\OpenAPI\Client\Model\CoverImageUrls[]
+   * @return array
+   *    Associative array; ting object ID as key and the cover URL as value.
    */
   public function getCoverImages($covers) {
     $image_urls = array();

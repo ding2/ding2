@@ -43,15 +43,11 @@ function ting_covers_rest_menu() {
  *    Array of image URLs keyed by TingEntity ID.
  */
 function ting_covers_rest_ting_covers($entities) {
-  $ids = array();
   $service = ting_covers_rest_service();
-
-  foreach ($entities as $entity) {
-    $ids[] = $entity->getId();
-  }
+  $ids = array_keys($entities);
 
   $covers = $service->getCovers(
-    variable_get('ting_covers_rest_type'),
+    variable_get('ting_covers_rest_type', \OpenAPI\Client\Model\Type::PID),
     $ids,
     variable_get('ting_covers_rest_format'),
     variable_get('ting_covers_rest_size')
@@ -70,7 +66,7 @@ function ting_covers_rest_ting_covers($entities) {
 function ting_covers_rest_service() {
   // Initialize OpenAPI settings from admin form in Drupal.
   return new TingCoversRestService(
-    variable_get('ting_covers_rest_url', ''),
+    variable_get('ting_covers_rest_url'),
     variable_get('ting_covers_rest_enable_debugging', FALSE)
   );
 }
