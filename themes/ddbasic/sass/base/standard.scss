@@ -73,14 +73,14 @@ body {
 
       &#{$_selector}.has-second-level-menu {
         padding-top: $_value + $second-level-menu-height;
-
-        // If there are too many links, we need to add even more padding.
-        &.secondary-menu-below-main {
-          padding-top: $_value + $second-level-menu-height + $search-form-extended-height;
-        }
       }
 
-
+      // If there are too many links, we need to add even more padding.
+      &#{$_selector}.has-second-level-menu.secondary-menu-below-main,
+      &#{$_selector}.has-second-level-menu.has-multiline-main-menu,
+      &#{$_selector}.secondary-menu-below-main {
+        padding-top: $_value + $second-level-menu-height + $search-form-extended-height;
+      }
     }
   }
 }
