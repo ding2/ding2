@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * @file
+ * Provide cover images from the DDB Cover Service API.
+ */
+
+use OpenAPI\Client\Model\Type;
+
+/**
+ * Implements hook_xautoload().
+ */
+function ting_covers_ddb_xautoload($adapter) {
+  $adapter->absolute()->addPsr4('TingCoversDDBService\\', drupal_get_path('module', 'ting_covers_ddb') . '/src');
+  $adapter->absolute()->addPsr4('OpenAPI\\Client\\', drupal_get_path('module', 'ting_covers_ddb') . '/lib');
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ting_covers_ddb_menu() {
+  $items = array();
+
+  $items['admin/config/ting/covers/ddb'] = array(
+    'title' => 'DDB Cover Service API',
+    'description' => 'Configure integration with the DDB Cover Service API.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_covers_ddb_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_covers_ddb.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_ting_covers().
+ *
+ * Fetch covers from DDB Cover Service API service.
+ */
+function ting_covers_ddb_ting_covers(array $entities) {
+  $service = ting_covers_ddb_service();
+  $ids = array_keys($entities);
+
+  $covers = $service->getCovers(
+    variable_get('ting_covers_ddb_type', Type::PID),
+    $ids,
+    variable_get('ting_covers_ddb_format'),
+    variable_get('ting_covers_ddb_size')
+  );
+
+  // Return all image information.
+  return $service->getCoverImages($covers);
+}
+
+/**
+ * Instantiate TingCoversDDBService from settings.
+ *
+ * @return \TingCoversDDBService
+ *   The high-level TingCoversDDB REST API client.
+ */
+function ting_covers_ddb_service() {
+  // Initialize OpenAPI settings from admin form in Drupal.
+  return new TingCoversDDBService(
+    variable_get('ting_covers_ddb_oauth2_token', NULL),
+    variable_get('ting_covers_ddb_url', NULL),
+    variable_get('ting_covers_ddb_enable_debugging', FALSE)
+  );
+}

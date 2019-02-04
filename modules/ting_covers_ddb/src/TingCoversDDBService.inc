@@ -13,7 +13,7 @@ use OpenAPI\Client\Model\Type;
 /**
  * Wrapper for the OpenAPI client.
  */
-class TingCoversRestService {
+class TingCoversDDBService {
   private $config;
   private $api;
 
@@ -100,7 +100,7 @@ class TingCoversRestService {
       );
     }
     catch (\Exception $e) {
-      watchdog_exception('ting_covers_rest', $e);
+      watchdog_exception('ting_covers_ddb', $e);
     }
     return $covers;
   }

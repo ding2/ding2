@@ -1,0 +1,376 @@
+openapi: 3.0.0
+info:
+  title: 'DDB Cover Service'
+  version: '2.0.0'
+  license:
+    name: 'GNU General Public License v3.0'
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+
+paths:
+  '/cover/{type}':
+    get:
+      summary: Search covers
+      description: >-
+        # Search multiple covers
+
+        Get covers by ID in specific image format(s), specific image size(s) and with or without generic covers.
+
+        The results can be paginated by specifiying an offset and a page limit. The response will contain a "Link" HTTP header according to RFC5988 pointing to previous and/or next page of results.
+      parameters:
+        - name: type
+          description: >-
+            # ID type
+
+            The type of the ID, i.e. "isbn", "faust", "pid", "issn", or "issn-vol-nr".
+          required: true
+          in: path
+          schema:
+            $ref: '#/components/schemas/Type'
+        - name: id
+          description: >-
+            # ID
+
+            A list of IDs.
+          required: true
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Id'
+          style: form
+          explode: false
+          example:
+            - '870970-basis:26957087'
+            - '870970-basis:53969127'
+        - name: format
+          description: >-
+            # Formats
+
+            A list of image formats you want to receive the cover(s) in.
+          required: false
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - jpeg
+                - png
+            default:
+              - jpeg
+              - png
+          style: form
+          explode: false
+        - name: generic
+          description: >-
+            # Generic covers
+
+            If we should include generic front page covers or not for ressources without a cover.
+          required: false
+          in: query
+          schema:
+            type: boolean
+            default: true
+        - name: size
+          description: >-
+            # Image sizes
+
+            A list of image sizes (Cloudinary transformations) for the cover(s) you want to receive.
+          required: false
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - default
+                - original
+                - thumbnail
+            default:
+              - default
+              - original
+              - thumbnail
+          style: form
+          explode: false
+        - name: limit
+          description: >-
+            # Pagination page limit
+
+            Number of covers per page for paginated results.
+          required: false
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+        - name: offset
+          description: >-
+            # Pagination page offset
+
+            Offset for paginated results.
+          required: false
+          in: query
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+
+      security:
+        - oauth2:
+          - read:covers
+      responses:
+        200:
+          description: >-
+            # Successful
+
+            A list of covers is returned.
+
+            Notice that unknown covers will not be present in the list.
+
+            Notice that "worst case" you will receive a 200 OK with an empty list.
+          headers:
+            Link:
+              description: RFC5988 Link HTTP header pointing to "next" and "previous" pages
+              required: false
+              schema:
+                type: string
+            X-Total-Count:
+              description: Total number of covers
+              required: false
+              schema:
+                type: integer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CoverCollection'
+        401:
+          description: >-
+            # Unauthorized
+
+            Credentials are required for this operation.
+        403:
+          description: >-
+            # Forbidden
+
+            The credentials used does are not authorized for this operation.
+        default:
+          description: Undefined error
+
+  '/cover/{type}/{id}':
+    get:
+      summary: Get cover
+      description: >-
+        # Get one cover
+
+        Get one cover by type and ID in specific image format(s), specific image size(s) and with or without generic covers.
+      security:
+        - oauth2:
+          - read:covers
+      parameters:
+        - name: type
+          description: >-
+            # ID type
+
+            The type of the ID, i.e. "isbn", "faust", "pid", "issn", or "issn-vol-nr".
+          required: true
+          in: path
+          schema:
+            $ref: '#/components/schemas/Type'
+        - name: id
+          description: >-
+            # ID
+
+            The ID of the cover.
+          required: true
+          in: path
+          schema:
+            $ref: '#/components/schemas/Id'
+        - name: format
+          description: >-
+            # Formats
+
+            A list of image formats you want to receive the cover(s) in.
+          required: false
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - jpeg
+                - png
+            default:
+              - jpeg
+              - png
+          style: form
+          explode: false
+        - name: generic
+          description: >-
+            # Generic covers
+
+            If we should include generic front page covers or not for ressources without a cover.
+          required: false
+          in: query
+          schema:
+            type: boolean
+            default: true
+        - name: size
+          description: >-
+            # Image sizes
+
+            A list if image sizes (Cloudinary transformations) for the cover(s) you want to receive.
+          required: false
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - default
+                - original
+                - thumbnail
+            default:
+              - default
+              - original
+              - thumbnail
+          style: form
+          explode: false
+      responses:
+        200:
+          description: >-
+            # Successful
+
+            A list of covers is returned.
+
+            Notice that unknown covers will not be present in the list.
+
+            Notice that "worst case" you will receive a 200 OK with an empty list.
+          headers:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cover'
+        401:
+          description: >-
+            # Unauthorized
+
+            Credentials are required for this operation.
+        403:
+          description: >-
+            # Forbidden
+
+            The credentials used does are not authorized for this operation.
+        404:
+          description: >-
+            # Not found
+
+            A cover for the type / ID could not be found.
+        default:
+          description: Undefined error
+
+components:
+  schemas:
+    Type:
+      description: >-
+        An identifier URI consisting of identifier type as scheme ("isbn", "faust", "pid", "issn",  or "issn-vol-nr") and the identifier itself.
+
+        **Notice:** A cover can be known under more than one type/ID.
+      type: string
+      enum:
+        - 'faust'
+        - 'isbn'
+        - 'issn'
+        - 'issn-vol-nr'
+        - 'pid'
+      example: 'pid'
+    Id:
+      description: >-
+        An identifier URI consisting of identifier type as scheme ("isbn", "faust", "pid", "issn",  or "issn-vol-nr") and the identifier itself.
+
+        **Notice:** A cover can be known under more than one type/ID.
+      type: string
+      example: '870970-basis:26957087'
+    CoverCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/Cover'
+    Cover:
+      type: object
+      required:
+        - type
+        - id
+        - quality
+        - imageData
+        - imageUrls
+      properties:
+        type:
+          $ref: '#/components/schemas/Type'
+        id:
+          $ref: '#/components/schemas/Id'
+        quality:
+          description: The quality of the cover; digital or scanned. Only used on PUT and POST.
+          writeOnly: true
+          type: string
+          enum:
+            - digital
+            - scanned
+        copyright:
+          description: Copyright information for the cover. Only used on PUT and POST.
+          writeOnly: true
+          type: string
+          example: 'John Doe'
+        source:
+          description: Information about the origin of the image. Only used on PUT and POST.
+          writeOnly: true
+          type: string
+          example: 'Publisher Foo'
+        imageData:
+          description: Base64 encoded cover image. Only used on PUT and POST.
+          type: string
+          format: base64
+          writeOnly: true
+          example: 'iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=='
+        imageUrls:
+          type: array
+          description: A list of the all images (the formats and sizes matching the request) for the cover. Only used on GET.
+          readOnly: true
+          items:
+            type: object
+            required:
+              - url
+              - format
+              - size
+            properties:
+              url:
+                type: string
+                format: url
+                description: The URL to the image on Cloudinary
+                example: http://res.cloudinary.com/dandigbib/image/upload/t_ddb_cover/v1543609481/bogportalen.dk/9788702246841.jpg
+              format:
+                type: string
+                description: The image format
+                example: jpeg
+              size:
+                type: string
+                description: The name of the image size
+                example: thumbnail
+  securitySchemes:
+    application:
+      type: oauth2
+      description: >-
+        Authetication is done via OAuth2 against https://openplatform.dbc.dk/v3/
+      flows:
+        password:
+          tokenUrl: 'https://auth.dbc.dk/oauth/token'
+          scopes:
+            write:covers: allows creating, modifying, and deleting covers
+            read:covers: allows reading covers
+        clientCredentials:
+          tokenUrl: 'https://auth.dbc.dk/oauth/token'
+          scopes:
+            write:covers: allows creating and modifying covers
+            read:covers: allows reading covers
+
+servers:
+  - description: DDB Cover serrvice
+    url: https://cover.dandigbib.org/api
+
