@@ -24,24 +24,52 @@
   // Hover functions for event teasers.
   Drupal.behaviors.ding_event_teaser_hover = {
     attach: function(context, settings) {
-      var title_and_lead_height,
-          hovered;
-      $('.node-ding-event.node-teaser', context).mouseenter(function() {
-        // Set height for title and lead text.
-        title_and_lead_height = $(this).find('.title').outerHeight(true) + $(this).find('.field-name-field-ding-event-lead .field-items').outerHeight(true) + 20;
-        $(this).find('.title-and-lead').css('min-height', title_and_lead_height);
+      var thisScope = this;
+      var teaserSelector = '.node-ding-event.node-teaser';
 
-        // Set timeout to make shure element is still above while it animates
-        // out.
-        hovered = $(this);
-        setTimeout(function(){
-          $('.node-ding-event.node-teaser').removeClass('is-hovered');
-          hovered.addClass('is-hovered');
-        }, 300);
+      // Detecting activating events.
+
+      // Mouseenter / hover event.
+      $(teaserSelector, context).mouseenter(function() {
+        thisScope.activateTeaser(this);
       });
-      $('.node-ding-event.node-teaser', context).mouseleave(function() {
-         $(this).find('.title-and-lead').css('min-height', '');
+
+      // Focus event. We need to do this seperately, as we're actually detecting
+      // focus on an <a> tag nested within the actual teaser element.
+      $(teaserSelector + ' > a', context).focus(function() {
+        thisScope.activateTeaser($(this).parent('.node-ding-event.node-teaser'));
       });
+
+      // Detecting deactivation events.
+
+      // Mouseleave / stopping to hover event.
+      $(teaserSelector, context).mouseleave(function() {
+        thisScope.deactivateTeaser(this);
+      });
+
+      // Focusout event. We need to do this seperately, as we're actually
+      // detecting focus on an <a> tag nested within the actual teaser element.
+      $(teaserSelector + ' > a', context).focusout(function() {
+        thisScope.activateTeaser($(this).parent('.node-ding-event.node-teaser'));
+      });
+    },
+
+    activateTeaser: function(teaser) {
+      // Set height for title and lead text.
+      var title_and_lead_height = $(teaser).find('.title').outerHeight(true) + $(teaser).find('.field-name-field-ding-event-lead .field-items').outerHeight(true) + 20;
+      $(teaser).find('.title-and-lead').css('min-height', title_and_lead_height);
+
+      // Set timeout to make shure element is still above while it animates
+      // out.
+      var hovered = $(teaser);
+      setTimeout(function(){
+        $('.node-ding-event.node-teaser').removeClass('is-hovered');
+        hovered.addClass('is-hovered');
+      }, 300);
+    },
+
+    deactivateTeaser: function(teaser) {
+      $(teaser).find('.title-and-lead').css('min-height', '');
     }
   };
 
