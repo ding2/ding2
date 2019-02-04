@@ -43,6 +43,8 @@ dependencies[] = ding_p2_installer
 dependencies[] = ding_ddbasic
 dependencies[] = ding_ddbasic_opening_hours
 dependencies[] = ding_social_links
+dependencies[] = ding_sections
+dependencies[] = ding_nodelist
 
 ; Cache/performance modules
 dependencies[] = entitycache
