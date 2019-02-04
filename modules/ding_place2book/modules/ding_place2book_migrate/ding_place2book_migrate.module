@@ -61,7 +61,7 @@ function _ding_place2book_migrate_batch($events, &$context) {
       // wrapper, when field data is not available.
       // See: https://www.drupal.org/project/entity/issues/1596594
       if (field_get_items('node', $node, 'field_ding_event_ticket_link')) {
-        $node_wrapper =  entity_metadata_wrapper('node', $node);
+        $node_wrapper = entity_metadata_wrapper('node', $node);
         $ticket_url = $node_wrapper->field_ding_event_ticket_link->url->value();
         if (strpos($ticket_url, 'https://www.place2book.com') === 0) {
           $node_wrapper->field_ding_event_ticket_link->set(NULL);
