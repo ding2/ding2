@@ -77,10 +77,12 @@ ul {
     }
 
     > li {
+      min-height: $search-form-extended-height;
       padding: 30px 0;
 
       // Tablet
       @include media($tablet) {
+        min-height: 0;
         width: 100%;
         padding: 0;
         > a {

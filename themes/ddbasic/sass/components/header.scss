@@ -486,8 +486,6 @@
           width: 100%;
         }
 
-        min-height: $search-form-extended-height;
-
         // Search form extended
         .search-form-extended & {
           width: auto;
@@ -519,6 +517,11 @@
           .secondary-menu-below-main.has-second-level-menu & {
             margin-top: $second-level-menu-height;
           }
+
+          .has-multiline-main-menu &,
+          .has-multiline-main-menu.has-second-level-menu & {
+            margin-top: -$search-form-extended-height;
+          }
         }
 
       }
@@ -534,6 +537,12 @@
         // Tablet
         @include media($tablet) {
           display: none;
+        }
+
+        @include media($tablet-min-width) {
+          .has-multiline-main-menu & {
+            margin-top: $search-form-extended-height;
+          }
         }
 
         &::before {
@@ -606,9 +615,6 @@
       '.search-form-extended.admin-menu': $search-form-extended-height + $admin-menu-height,
       '.search-form-extended.admin-menu-with-shortcuts': $search-form-extended-height + $toolbar-height,
       '.search-form-extended.toolbar': $search-form-extended-height + $toolbar-height,
-      '.search-form-extended.admin-menu.has-second-level-menu': $search-form-extended-height + $admin-menu-height + $second-level-menu-height,
-      '.search-form-extended.admin-menu-with-shortcuts.has-second-level-menu': $search-form-extended-height + $toolbar-height + $second-level-menu-height,
-      '.search-form-extended.toolbar.has-second-level-menu': $search-form-extended-height + $toolbar-height + $second-level-menu-height,
       // When the search bar is  extended, the search form will be moved out
       // of view, below the menu above.
       '.search-form-extended.extended-search-is-not-open': 0,
@@ -629,9 +635,14 @@
           top: $_base-top-value + $_value + $second-level-menu-height;
         }
 
-        // If there are too many links, we need to add even more padding.
-        #{$_selector}.has-second-level-menu.secondary-menu-below-main & {
+        #{$_selector}.has-second-level-menu.secondary-menu-below-main &,
+        #{$_selector}.has-second-level-menu.has-multiline-main-menu & {
           top: $_base-top-value + $_value + $second-level-menu-height + $search-form-extended-height;
+        }
+
+        // If there are too many links, we need to add even more padding.
+        #{$_selector}.has-multiline-main-menu & {
+          top: $_base-top-value + $_value  + $search-form-extended-height;
         }
       }
     }
