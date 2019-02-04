@@ -239,32 +239,6 @@ function ding_p2b_format_options($node, array $additional) {
 }
 
 /**
- * Implements hook_node_delete().
- */
-function ding_place2book_node_delete($node) {
-  if ($node->type == 'ding_event') {
-    $field_place2book = field_get_items('node', $node, 'field_place2book');
-    if (!empty($field_place2book)) {
-      list($event_id, $event_maker_id) = array_values($field_place2book[0]);
-      try {
-        $p2b = ding_place2book_instance();
-        $prices = $p2b->getPrices($event_maker_id, $event_id);
-        foreach ($prices as $price) {
-          $p2b->deletePrice($event_maker_id, $event_id, $price->id);
-        }
-      }
-      catch (Exception $ex) {
-        watchdog_exception('ding_place2book', $ex, t('Error appeared on deleting node: nid - :nid, title - :title.', array(
-          ':nid' => $node->nid,
-          ':title' => $node->title,
-        )));
-      }
-      $p2b->deleteEvent($event_maker_id, $event_id);
-    }
-  }
-}
-
-/**
  * Collects address data from referenced library or current node.
  *
  * @param object $node

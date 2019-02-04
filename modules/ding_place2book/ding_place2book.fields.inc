@@ -425,6 +425,37 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
 }
 
 /**
+ * Implements hook_field_delete()
+ */
+function ding_place2book_field_delete($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  switch ($field['type']) {
+    case 'ding_p2b':
+      if (!empty($items)) {
+        $settings = reset($items);
+        if ($settings['synchronize'] && !empty($settings['event_id'])) {
+          $event_id = $settings['event_id'];
+          $event_maker_id = $settings['event_maker_id'];
+          try {
+            $p2b = ding_place2book_instance();
+            $prices = $p2b->getPrices($event_maker_id, $event_id);
+            foreach ($prices as $price) {
+              $p2b->deletePrice($event_maker_id, $event_id, $price->id);
+            }
+            $p2b->deleteEvent($event_maker_id, $event_id);
+          }
+          catch (Exception $ex) {
+            watchdog_exception('ding_place2book', $ex, t('Error appeared on deleting node: nid - :nid, title - :title.', array(
+              ':nid' => $node->nid,
+              ':title' => $node->title,
+            )));
+          }
+        }
+      }
+      break;
+  }
+}
+
+/**
  * Implements hook_field_formatter_info().
  */
 function ding_place2book_field_formatter_info() {
