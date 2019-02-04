@@ -218,6 +218,10 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#default_value' => !empty($price) ? $price->name : $price_name,
         );
 
+        if (!empty($price->sold_tickets)) {
+          $element['place2book']['prices_wrapper']['prices'][$key]['name']['#description'] = t('NB: This ticket type has sold tickets and can not be removed.');
+        }
+
         $element['place2book']['prices_wrapper']['prices'][$key]['value'] = array(
           '#type' => 'textfield',
           '#default_value' => !empty($price) ? $price->value : '',
@@ -250,6 +254,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#event_maker_id' => $event_maker_id,
           '#submit' => array('ding_place2book_prices_remove_submit'),
           '#limit_validation_errors' => array(),
+          '#disabled' => !empty($price->sold_tickets),
           '#ajax' => array(
             'wrapper' => 'ding-place2book-prices-wrapper',
             'callback' => 'ding_p2b_prices_remove_ajax_handler',
