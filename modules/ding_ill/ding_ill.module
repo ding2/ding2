@@ -1,0 +1,144 @@
+<?php
+
+/**
+ * @file
+ * Module for interlibrary loans.
+ */
+
+/**
+ * Implements hook_menu().
+ *
+ * Used to invoke ding_popup to tell if the order was successfull or not.
+ */
+function ding_ill_menu() {
+  $items = array();
+
+  $items['ting/ill/order/%'] = array(
+    'title' => 'Order a library material',
+    'page callback' => array('ding_ill_popup_order'),
+    'page arguments' => array(3),
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => array('perform reservation'),
+  );
+
+  return $items;
+}
+
+/**
+ * The form for the interlibrary loan.
+ */
+function ding_ill_order_form($form, &$form_state, $ting_object, $preferred_branch_set) {
+  if (ding_provider_implements('reservation', 'options') && $preferred_branch_set === FALSE) {
+    global $user;
+    $provider_form = ding_provider_invoke('reservation', 'options', $user);
+    // We only want to be able to select provider options, not any descriptions.
+    $form['provider_options'] = reset($provider_form);
+    $form['description'] = array(
+      '#markup' => '<p>' . t(
+        'You have to select the default pickup location to order "@title".',
+        array('@title' => $ting_object->getTitle())
+      ) . '</p>',
+    );
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Place order'),
+      '#ajax' => array(
+        'callback' => 'ding_ill_order',
+      ),
+    );
+  }
+
+  $form['#args'] = array('ting_object' => $ting_object);
+
+  return $form;
+}
+
+/**
+ * Checks if preferred branch is selected and creates the order.
+ */
+function ding_ill_order($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  if (form_get_errors()) {
+    // Redisplay form.
+    $html = drupal_render($form);
+  }
+  else {
+    $html = t(
+      'You have ordered "@title" from a library outside the municipality, and
+      therefore it is not possible to estimate the waiting time.
+      It can also take up to an hour before your order can be viewed at your
+      borrower\'s status.',
+      array('@title' => $form['#args']['ting_object']->getTitle())
+    );
+  }
+
+  $response['#commands'][] = ajax_command_ding_popup(
+    'ding_ill', t('Inter Library Loan'), $html
+  );
+
+  return $response;
+}
+
+/**
+ * Success/failure popup message for interlibrary loan.
+ *
+ * @param string $pid
+ *   PID for the material we try to order from another library.
+ *
+ * @var \Ting\TingObject $ting_object
+ *   The TingObject we try to loan.
+ *
+ * @return array
+ *   The form triggering the AJAX popup.
+ */
+function ding_ill_popup_order($pid) {
+  // The ting object we try to order.
+  $ting_object = ding_entity_load($pid);
+  // Load the global user in order to load the patrons profile2.
+  global $user;
+
+  // Check if user have preferred branch and interest period, if so
+  // submit the reservation form. If not display another form for with
+  // the options to select branch and period.
+  $defaults = ding_provider_invoke('reservation', 'default_options', $user);
+  $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
+  $preferred_branch_set = !empty($defaults[array_shift($matches)]) ? TRUE : FALSE;
+
+  $form = ding_provider_get_form('ding_ill_order_form', $ting_object, $preferred_branch_set);
+
+  $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), render($form));
+
+  // Return the ajax commands as an render array.
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ding_ill_ding_entity_buttons($type, $entity) {
+  /** @var \OpenSearch\OpenSearchTingObject $entity */
+  $build = array();
+  $options = array(
+    'attributes' => array(
+      'class' => 'action-button button-see-online use-ajax',
+    ),
+  );
+
+  $build[] = array(
+    '#type' => 'markup',
+    '#ajax' => array(
+      'callback' => 'ding_ill_popup',
+    ),
+    '#markup' => l(
+      t('Order from another library'),
+      '/ting/ill/order/' . $entity->getId(),
+      $options
+    ),
+  );
+
+  return $build;
+}

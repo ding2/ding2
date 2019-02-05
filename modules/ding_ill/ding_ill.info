@@ -1,0 +1,4 @@
+name = Ding Interlibrary Loan
+description = Provides interlibrary loan functionality
+core = 7.x
+package = Ding!
