@@ -5,7 +5,6 @@
  * Admin configuration for the DDB cover service.
  */
 
-use OpenAPI\Client\Configuration;
 use OpenAPI\Client\Model\Type;
 
 /**

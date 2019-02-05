@@ -1,4 +1,4 @@
-# Ting Covers Rest
+# Ting Covers DDB
 
 ## Requirements
 

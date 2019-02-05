@@ -1,2 +1,2 @@
-modules/ting_covers_rest/lib/* linguist-generated=true
-modules/ting_covers_rest/.openapi-generator/* linguist-generated=true
+modules/ting_covers_ddb/lib/* linguist-generated=true
+modules/ting_covers_ddb/.openapi-generator/* linguist-generated=true
