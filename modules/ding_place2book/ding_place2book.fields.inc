@@ -425,7 +425,7 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
 }
 
 /**
- * Implements hook_field_delete()
+ * Implements hook_field_delete().
  */
 function ding_place2book_field_delete($entity_type, $entity, $field, $instance, $langcode, &$items) {
   switch ($field['type']) {
