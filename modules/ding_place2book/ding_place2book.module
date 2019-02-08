@@ -158,6 +158,56 @@ function ding_place2book_permission() {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_place2book_form_node_delete_confirm_alter(&$form, &$form_state, $form_id) {
+  $node = $form['#node'];
+  $field_place2book = field_get_items('node', $node, 'field_place2book');
+
+  if (empty($field_place2book) || !$field_place2book[0]['synchronize']) {
+    return;
+  }
+
+  // This event is synchronized with p2b. Deleting it might have unexpected
+  // consequences. Since this is a single node deletion we can afford to fetch
+  // the p2b event and display a detailed warning message.
+  list($event_id, $event_maker_id) = array_values($field_place2book[0]);
+
+  // The default behavior is to try to delete the p2b event.
+  $warning_message = t('This event is synchronized with place2book and deleting it will also delete the corresponding event at place2book.');
+
+  try {
+    $p2b = ding_place2book_instance();
+    $event = $p2b->getEvent($event_maker_id, $event_id);
+
+    // We check for the held/completed state first since it should take
+    // precedens and will also possibly save us from fetching the prices to
+    // check for sold tickets.
+    if (in_array($event->meta_data->event_state, ['held', 'completed'])) {
+      $warning_message = t("This event is held/completed and can't be deleted from place2book. Deleting this event will therefore destroy the link to the place2book event and it's not possible to re-establish again via the administrative UI");
+    }
+    else {
+      $prices = $p2b->getPrices($event_maker_id, $event_id);
+      foreach ($prices as $price) {
+        if (!empty($price->sold_tickets)) {
+          $warning_message = t("This event has sold tickets and can't be deleted from place2book. Deleting this event will therefore destroy the link to the place2book event and it's not possible to re-establish again via the administrative UI");
+          break;
+        }
+      }
+    }
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
+    $warning_message = t("This event is synchronized with place2book, but something went wrong fetching event data from place2book. Deleting this event could possibly destroy the link or remove the event completely from place2book.");
+  }
+
+  // We could use drupal_set_message(), but we want to make sure that the
+  // warning is seen and that it's not getting buried in other drupal messages
+  // or overloooked.
+  $form['ding_place2book_warning']['#markup'] = '<p><strong>' . t('WARNING') . ': ' . $warning_message . '</strong></p>';
+}
+
+/**
  * Creates and initializes instance of P2b class.
  *
  * @return object
