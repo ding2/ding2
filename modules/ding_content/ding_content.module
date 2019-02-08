@@ -22,7 +22,6 @@ function ding_content_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'ding_content.admin.inc',
   );
-  
 
   return $items;
 }
@@ -89,4 +88,43 @@ function ding_content_wysiwyg_editor_settings_alter(&$settings, $context) {
     $path = drupal_get_path('module', 'ding_content');
     $settings['customConfig'] = '/' . $path . '/js/ding_content.editor_config.js';
   }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_content_preprocess_media_views_view_media_browser(&$vars) {
+  $rows = $vars['rows'];
+
+  foreach ($rows as $key => $row) {
+    $filesize = format_size($row->filesize);
+    $upload_date = format_date($row->timestamp, 'short');
+
+    $container = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => [
+          'file-meta',
+        ],
+      ],
+      'filesize' => [
+        '#prefix' => '<div class="item-size description">',
+        '#suffix' => '</div>',
+        '#type' => 'markup',
+        '#markup' => '<strong>' . t('Size:') . '</strong>&nbsp;' . $filesize,
+      ],
+      'upload_date' => [
+        '#prefix' => '<div class="item-date description">',
+        '#suffix' => '</div>',
+        '#type' => 'markup',
+        '#markup' => '<strong>' . t('Uploaded:') . '</strong>&nbsp;' . $upload_date,
+      ],
+    ];
+
+    $rendered = render($container);
+
+    $rows[$key]->preview .= $rendered;
+  }
+
+  $vars['rows'] = $rows;
 }
