@@ -42,10 +42,12 @@ function ding_serendipity_fallback_ting_object_serendipity_add($context) {
   // ding_serendipity.
   $query = variable_get('ding_serendipity_search_string_final', DING_SERENDIPITY_DEFAULT_FALLBACK_STRING);
 
-  if (!empty($query)) {
+  $limit = $context['min'] - $context['count'];
+
+  if (!empty($query) && $limit > 0) {
     try {
-      $sal_query = ting_start_query()->withRawQuery($query)->withCount(8);
-      $results = ding_serendipity_do_search($sal_query);
+      $sal_query = ting_start_query()->withRawQuery($query)->withCount($limit);
+      $results = ding_serendipity_do_search($sal_query, $limit);
     }
     catch (Exception $e) {
       watchdog_exception('ding_serendipity_fallback', $e);

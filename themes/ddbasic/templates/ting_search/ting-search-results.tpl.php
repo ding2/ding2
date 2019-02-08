@@ -26,6 +26,11 @@
     <ol class="search-results <?php print $module; ?>-results">
       <?php print $search_results; ?>
     </ol>
+
+    <?php if (isset($search_results_count)): ?>
+      <?php print $search_results_count; ?>
+    <?php endif ?>
+
     <?php print $pager; ?>
   </div>
 <?php else : ?>

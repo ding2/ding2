@@ -1,9 +1,20 @@
 @import '../../base.scss';
 
+// Ensure that the node view is show with right layout.
+.node-type-ding-campaign-plus .ding-campaign-medium-width{
+  @include span-columns(4);
+}
+
 .ding-campaign {
   @include span-columns(12);
   position: relative;
   margin-bottom: getGutter();
+  min-height: 240px;
+
+  &.ding-campaign-medium-width {
+    min-height: 202px;
+  }
+
   // general styles for all campaigns
   .ding-campaign-headline {
     @include font('display-large-bold');
@@ -44,10 +55,13 @@
     .ding-campaign-text {
       @include span-columns(7);
       position: relative;
-      min-height: 455px;
       padding: 50px 30px;
       color: $white;
       z-index: 2;
+      @include media($mobile) {
+        @include span-columns(12);
+        min-height: auto;
+      }
     }
     &.ding-campaign-medium-width {
       .ding-campaign-text {
@@ -61,6 +75,21 @@
         }
       }
     }
+    // if layout in aside panel
+    .secondary-content & {
+      .ding-campaign-text {
+        @include span-columns(12);
+        min-height: auto;
+        .ding-campaign-headline, .ding-campaign-description {
+          @include span-columns(12);
+        }
+      }
+    }
+    @include media($mobile) {
+      .secondary-content & {
+        margin-top: getGutter();
+      }
+    }
   }
   //image and text in two columns layout
   &.image-and-text {
@@ -71,12 +100,12 @@
       float: right;
       padding: 40px 30px 40px 0;
       min-height: 380px;
-
       @include media($mobile) {
         @include span-columns(12);
-        float: none;
-        display: block;
+        padding: 40px 30px;
+        min-height: auto;
       }
+
     }
     .ding-campaign-image {
       @include span-columns(6);
@@ -86,13 +115,23 @@
       height: 100%;
       background-size: cover;
       background-position: center center;
-
       @include media($mobile) {
         @include span-columns(12);
-        float: none;
-        position: relative;
-        display: block;
-        min-height: 375px;
+        position: static;
+        height: 230px;
+      }
+    }
+    // If layout in aside panel
+    .secondary-content & {
+      .ding-campaign-text {
+        @include span-columns(12);
+        padding: 40px 30px;
+        min-height: auto;
+      }
+      .ding-campaign-image {
+        @include span-columns(12);
+        position: static;
+        height: 230px;
       }
     }
     .no-touch & {
@@ -100,21 +139,30 @@
         background: $grey-dark;
       }
     }
+
+    @include media($mobile) {
+      .secondary-content & {
+        margin-top: getGutter();
+      }
+    }
   }
   // text only layout
   &.text {
     background: $color-primary;
-
     .ding-campaign-text {
       @include span-columns(12);
       padding: 40px 30px;
-
       .ding-campaign-headline {
         @include span-columns(8);
+        @include media($mobile) {
+          @include span-columns(12);
+        }
       }
-
       .ding-campaign-description {
         @include span-columns(6);
+        @include media($mobile) {
+          @include span-columns(12);
+        }
       }
     }
     // if text-only layout in medium-width panel
@@ -133,6 +181,19 @@
         background: $grey-dark;
       }
     }
+    // if text-only layout in aside panel
+    .secondary-content & {
+      .ding-campaign-text {
+        .ding-campaign-headline, .ding-campaign-description {
+          @include span-columns(12);
+        }
+      }
+    }
+    @include media($mobile) {
+      .secondary-content & {
+        margin-top: getGutter();
+      }
+    }
   }
   // image only layout
   &.image {
@@ -144,6 +205,14 @@
 
     img {
       width: 100%;
+    }
+
+  }
+  &.campaign-image {
+    @include media($mobile) {
+      .secondary-content & {
+        margin-top: getGutter();
+      }
     }
   }
 }

@@ -322,6 +322,39 @@ function ding_content_default_page_manager_handlers() {
     $pane->uuid = '2cce61b7-483f-44da-b603-745b6a13ab0b';
     $display->content['new-2cce61b7-483f-44da-b603-745b6a13ab0b'] = $pane;
     $display->panels['attachment_1_1'][1] = 'new-2cce61b7-483f-44da-b603-745b6a13ab0b';
+    $pane = new stdClass();
+    $pane->pid = 'new-79fb4e41-549a-44d4-bc27-dc72474362b2';
+    $pane->panel = 'attachment_1_1';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'style' => 'ribbon',
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'argument_string_1',
+        3 => 'argument_term_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array(
+      'method' => '0',
+      'settings' => array(),
+    );
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '79fb4e41-549a-44d4-bc27-dc72474362b2';
+    $display->content['new-79fb4e41-549a-44d4-bc27-dc72474362b2'] = $pane;
+    $display->panels['attachment_1_1'][2] = 'new-79fb4e41-549a-44d4-bc27-dc72474362b2';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

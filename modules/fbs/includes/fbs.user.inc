@@ -24,9 +24,7 @@ function fbs_user_authenticate($name, $pincode) {
     if ($pass !== $pincode) {
       // Die if we didn't get the same pincode as we generated in
       // wayf_login_credentials.
-      return array(
-        'success' => FALSE,
-      );
+      throw new DingProviderUserAuthFailure();
     }
 
     try {
@@ -50,45 +48,46 @@ function fbs_user_authenticate($name, $pincode) {
     }
   }
 
-  $result = array(
-    'success' => FALSE,
+  if (empty($res->authenticated)) {
+    throw new DingProviderUserAuthFailure();
+  }
+
+  $result = array();
+
+  // Save patron info in creds.
+  $result['creds'] = _fbs_patron_info($res->patron);
+
+  // We have to save the library card number/CPR number, as the pincode
+  // change call uses it.
+  $result['creds']['library_card_number'] = $name;
+
+  $result['user'] = array(
+    'mail' => $res->patron->emailAddress,
+    'data' => array(
+      'display_name' => $res->patron->name,
+    ),
+    'private' => array(
+      'branch' => $res->patron->preferredPickupBranch,
+    ),
   );
-  if (!empty($res->authenticated)) {
-    $result['success'] = TRUE;
 
-    // Save patron info in creds.
-    $result['creds'] = _fbs_patron_info($res->patron);
-
-    // We have to save the library card number/CPR number, as the pincode
-    // change call uses it.
-    $result['creds']['library_card_number'] = $name;
-
-    $result['user'] = array(
-      'mail' => $res->patron->emailAddress,
-      'data' => array(
-        'display_name' => $res->patron->name,
-      ),
-      'private' => array(
-        'branch' => $res->patron->preferredPickupBranch,
-      ),
-      'blocked' => !empty($res->patron->blockStatus),
+  if ($res->patron->blockStatus) {
+    $block_resons = array(
+      'F' => 'ding_user_blocked_excluded',
+      'E' => 'ding_user_blocked_debt',
+      'W' => 'ding_user_blocked_self_created',
+      'U' => 'ding_user_blocked_excluded',
     );
-
-    if ($res->patron->blockStatus) {
-      $denied = FALSE;
-      $result['user']['blocks'] = array();
-      foreach ($res->patron->blockStatus as $block) {
-        $result['user']['blocked'] = TRUE;
-        $result['user']['blocks'][] = $block->message;
-        // Don't allow users blocked by "O" (library card stolen) or "S"
-        // (blocked by self service automation) statusses log in.
-        if (in_array($block->blockedReason, array('O', 'S'))) {
-          $denied = TRUE;
-        }
+    $result['user']['blocks'] = array();
+    foreach ($res->patron->blockStatus as $block) {
+      $result['user']['blocks'][] = $block->message;
+      // Don't allow users blocked by "O" (library card stolen),"S" (blocked
+      // by self service automation) or "D" (deceased) statusses log in.
+      if (in_array($block->blockedReason, array('O', 'S', 'D'))) {
+        throw new DingProviderUserAuthFailure();
       }
-      if ($denied) {
-        $result['messages'] = $result['user']['blocks'];
-        $result['success'] = FALSE;
+      else {
+        $result['user']['blocks'][] = isset($block_resons[$block->blockedReason]) ? $block_resons[$block->blockedReason] : 'default';
       }
     }
   }
@@ -103,9 +102,9 @@ function fbs_user_authenticate($name, $pincode) {
  * to in the absence of this function.
  */
 function fbs_user_get_name($account) {
-  if ($patron_info = fbs_get_patron_info($account)
-      && isset($patron_info['name'])) {
-    return $patron_info['name'];
+  if (($patron_info = fbs_get_patron_info($account))
+      && isset($patron_info['library_card_number'])) {
+    return $patron_info['library_card_number'];
   }
 
   return NULL;
@@ -127,7 +126,7 @@ function fbs_user_get_provider_id($account) {
 /**
  * Implements provider user, update_pincode.
  *
- * @param string $name
+ * @param string $account
  *   User name.
  * @param string $new_pincode
  *   New pincode.
@@ -200,7 +199,7 @@ function fbs_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
   }
   catch (\Reload\Prancer\SwaggerApiExtendedError $exception) {
     if ($exception->payload->errorCode == 'CPR_NUMBER_EXISTS') {
-      throw new DingProviderAuthUserExistsError('User account already exists');
+      throw new DingProviderUserExistsError('User account already exists');
     }
     // Re-throw other errors.
     throw $exception;

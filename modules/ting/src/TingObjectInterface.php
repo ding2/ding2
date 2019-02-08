@@ -139,14 +139,14 @@ interface TingObjectInterface {
   public function getFormat();
 
   /**
-   * The genere of the material.
+   * The genre of the material.
    *
    * Eg. "fantasy"
    *
    * @return string|FALSE
-   *   The genere, or FALSE if it could not be determined.
+   *   The genre, or FALSE if it could not be determined.
    */
-  public function getGenere();
+  public function getGenre();
 
   /**
    * The ISBN of the material.

@@ -54,7 +54,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['label'] = 'Empty text';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = 'No events where found.';
+  $handler->display->display_options['empty']['area']['content'] = 'No events were found.';
   $handler->display->display_options['empty']['area']['format'] = 'ding_wysiwyg';
   /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
@@ -806,6 +806,16 @@ function ding_event_views_default_views() {
     'multiple_from' => '',
     'multiple_to' => '',
   );
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Sticky */
+  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
+  $handler->display->display_options['sorts']['sticky']['table'] = 'node';
+  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
+  $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
+  /* Sort criterion: Content: Date -  start date (field_ding_event_date) */
+  $handler->display->display_options['sorts']['field_ding_event_date_value']['id'] = 'field_ding_event_date_value';
+  $handler->display->display_options['sorts']['field_ding_event_date_value']['table'] = 'field_data_field_ding_event_date';
+  $handler->display->display_options['sorts']['field_ding_event_date_value']['field'] = 'field_ding_event_date_value';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
@@ -1236,7 +1246,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['label'] = 'Empty text';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = 'No events where found in the group.';
+  $handler->display->display_options['empty']['area']['content'] = 'No events were found in the group.';
   $handler->display->display_options['empty']['area']['format'] = 'ding_wysiwyg';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: OG membership group */
@@ -1746,7 +1756,7 @@ function ding_event_views_default_views() {
     t('Stigende'),
     t('Faldende'),
     t('Empty text'),
-    t('No events where found.'),
+    t('No events were found.'),
     t('OG membership from node'),
     t('<div class="event-list-date-wrapper">
   <span class="event-list-day">[field_ding_event_date]</span>
@@ -1805,7 +1815,7 @@ function ding_event_views_default_views() {
     t('« first'),
     t('next ›'),
     t('last »'),
-    t('No events where found in the group.'),
+    t('No events were found in the group.'),
     t('RSS library event list'),
     t('Simple event list'),
     t('RSS event list'),

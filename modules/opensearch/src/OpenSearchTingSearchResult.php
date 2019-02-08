@@ -60,7 +60,7 @@ class OpenSearchTingSearchResult implements TingSearchResultInterface {
   /**
    * {@inheritdoc}
    */
-  public function getNumTotalCollections() {
+  public function getNumCollections() {
     return $this->openSearchResult->numTotalCollections;
   }
 

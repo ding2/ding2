@@ -43,52 +43,6 @@ function fbs_ding_session_cache_defaults() {
 }
 
 /**
- * Implements hook_libraries_info().
- *
- * For defining external libraries.
- */
-function fbs_libraries_info() {
-  return array(
-    'jsonmapper' => array(
-      'name' => 'JsonMapper',
-      'vendor url' => 'https://github.com/cweiske/jsonmapper',
-      'download url' => 'https://github.com/cweiske/jsonmapper',
-      'version' => 'v0.4.4',
-      'xautoload' => function ($adapter) {
-        $adapter->addClassMap(
-        // Would like to:
-        // $adapter->composerJson('composer.json');
-        // But xautoload can't figure it out.
-          array(
-            'JsonMapper' => 'src/JsonMapper.php',
-            'JsonMapper_Exception' => 'src/JsonMapper/Exception.php',
-          )
-        );
-
-      },
-    ),
-    'http-message' => array(
-      'name' => 'Common interface for HTTP messages',
-      'vendor url' => 'https://github.com/php-fig/http-message',
-      'download url' => 'https://github.com/php-fig/http-message',
-      'version' => '1.0',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-    'phly-http' => array(
-      'name' => 'PSR-7 message implementation',
-      'vendor url' => 'https://github.com/phly/http',
-      'download url' => 'https://github.com/phly/http',
-      'version' => '0.11.1',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-  );
-}
-
-/**
  * Implements hook_ding_provider().
  */
 function fbs_ding_provider() {
@@ -621,8 +575,6 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
 
   // Get the values that should be validated.
   $existing_on_hold = $wrapper->field_fbs_on_hold->value();
-  $new_on_hold = $form_state['values']['profile_provider_fbs']['field_fbs_on_hold'][LANGUAGE_NONE][0];
-
   // Existing value may return NULL lets convert that to an array.
   if (is_null($existing_on_hold)) {
     $existing_on_hold = array(
@@ -630,6 +582,12 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
       'to' => NULL,
     );
   }
+
+  // New values are in the format Y-m-d while existing values are timestamps.
+  // Convert new values to timestamps to make them comparable.
+  $new_on_hold = array_map(function ($time_string) {
+    return _fbs_form_profile_validate_convert_time($time_string);
+  }, $form_state['values']['profile_provider_fbs']['field_fbs_on_hold'][LANGUAGE_NONE][0]);
 
   // Check if the values have been changed.
   if ($existing_on_hold['from'] != $new_on_hold['from'] || $existing_on_hold['to'] != $new_on_hold['to']) {

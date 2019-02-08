@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Ting search carousel module main file.
+ * Ting search carousel panels pane.
  */
 
 // The number of covers returned in each chunk.
@@ -17,7 +17,7 @@ define('TING_SEARCH_CAROUSEL_SEARCH_SIZE', 20);
 function ting_search_carousel_menu() {
   $items = array();
 
-  $items['ting_search_carousel/results/ajax/%/%/%'] = array(
+  $items['ting_search_carousel/results/ajax/%ting_search_carousel_query/%'] = array(
     'title' => 'Show search carousel results',
     'page callback' => 'ting_search_carousel_result',
     'page arguments' => array(3, 4, 5),
@@ -30,51 +30,23 @@ function ting_search_carousel_menu() {
 }
 
 /**
- * Implements hook_permission().
- */
-function ting_search_carousel_permission() {
-  return array(
-    'configure carousel' => array(
-      'title' => t('Configure carousel'),
-      'description' => t('Allow role to configure carousel.'),
-    ),
-  );
-}
-
-/**
- * Implements hook_theme().
- */
-function ting_search_carousel_theme($existing, $type, $theme, $path) {
-  return array(
-    'ting_search_carousel_admin_form' => array(
-      'render element' => 'form',
-    ),
-  );
-}
-
-/**
- * Implements hook_block_info().
- */
-function ting_search_carousel_block_info() {
-  return array(
-    'ting_search_carousel' => array(
-      'info' => 'Ting search carousel, block',
-    ),
-  );
-}
-
-/**
- * Implements hook_block_view().
+ * Get ajax path for search.
  *
- * We ignore delta in this block view, as we only have one block.
+ * @param TingSearchCarouselQuery $query
+ *   Search query.
+ *
+ * @return string
+ *   The callback path.
  */
-function ting_search_carousel_block_view($delta) {
-  return array(
-    'content' => theme('ting_search_carousel', array(
-      'searches' => variable_get('ting_carousel_search_queries', array()),
-      'tab_position' => variable_get('ting_search_carousel_tabs_position'),
-    )),
-  );
+function ting_search_carousel_ajax_path(TingSearchCarouselQuery $query) {
+  return 'ting_search_carousel/results/ajax/' . urlencode((string) $query);
+}
+
+/**
+ * Menu loader function.
+ */
+function ting_search_carousel_query_load($string) {
+  return TingSearchCarouselQuery::fromString($string);
 }
 
 /**
@@ -87,57 +59,13 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Get front page entities.
- *
- * @param int $index
- *   The ting_carousel_search_queries index to get.
- * @param int $start
- *   Start offset.
- * @param int $count
- *   Number to return.
- * @param string $hash
- *   MD5 formed from search query.
- * @param bool $query_only
- *   Whether to only consult the already cached data.
- *
- * @return array
- *   Array with the keys 'entities', an array of covers, and 'next_offset',
- *   which is the next offset to use or -1.
- */
-function _ting_search_carousel_get_frontpage_entities($index, $start, $count, $hash, $query_only = FALSE) {
-  $queries = array();
-  $panes = db_select('panels_pane', 'pp')
-    ->fields('pp')
-    ->condition('type', 'carousel')
-    ->condition('subtype', 'carousel')
-    ->execute()
-    ->fetchAll();
-
-  foreach ($panes as $item) {
-    $conf = unserialize($item->configuration);
-    $compare_hash = md5(drupal_json_encode($conf['ting_searches']));
-
-    if ($hash == $compare_hash) {
-      $queries = $conf['ting_searches'];
-    }
-  }
-
-  $query = isset($queries[$index]) ? $queries[$index] : FALSE;
-  if (!$query) {
-    return array();
-  }
-
-  return ting_search_carousel_get_entities($query['query'], $start, $count, $query_only);
-}
-
-/**
  * Get ting entities that has covers.
  *
  * Returns sets of entities by looping through search result and collecting
  * materials with covers. Internally caches and processes the search result in
  * chunks as needed.
  *
- * @param string $query
+ * @param TingSearchCarouselQuery $query
  *   The query to use.
  * @param int $start
  *   Start offset.
@@ -150,8 +78,11 @@ function _ting_search_carousel_get_frontpage_entities($index, $start, $count, $h
  *   Array with the keys 'entities', an array of ting entities, and
  *   'next_offset', which is the next offset to use or -1.
  */
-function ting_search_carousel_get_entities($query, $start, $count, $query_only = FALSE) {
-  $query_id = md5($query);
+function ting_search_carousel_get_entities(TingSearchCarouselQuery $query, $start, $count, $query_only = FALSE) {
+  // Extract an id representing the carousel query to use in lock and cache id.
+  // These are restricted to 255 characters in the DB, so we use a sha1 hash
+  // which is fast and always 40 characters.
+  $query_id = sha1((string) $query);
   $cache_data = array(
     // All found covers.
     'pool' => array(),
@@ -169,49 +100,51 @@ function ting_search_carousel_get_entities($query, $start, $count, $query_only =
     $cache_data = $cache->data;
   }
 
-  $slice = _ting_search_carousel_get_slice($cache_data, $start, $count);
+  $slice = _ting_search_carousel_filter_available(_ting_search_carousel_get_slice($cache_data, $start, $count), $query);
   if ($query_only || $slice['next_offset'] != $start) {
     return $slice;
   }
-  else {
-    $lock_name = 'ting_search_carousel_index_' . $query_id;
-    // Use a lock to avoid stampedes.
-    if (!lock_acquire($lock_name, 30)) {
-      // We don't care if the lock is available or not, we'll just check if the
-      // desired chunk has appeared or return an empty result.
-      lock_wait($lock_name, 5);
-      if ($cache = cache_get("ting_search_carousel_search_" . $query_id)) {
-        if (isset($cache->data)) {
-          $cache_data = $cache->data;
-          return _ting_search_carousel_get_slice($cache_data, $start, $count);
-        }
+
+  $lock_name = 'ting_search_carousel_index_' . $query_id;
+  // Use a lock to avoid stampedes.
+  if (!lock_acquire($lock_name, 30)) {
+    // We don't care if the lock is available or not, we'll just check if the
+    // desired chunk has appeared or return an empty result.
+    lock_wait($lock_name, 5);
+    if ($cache = cache_get("ting_search_carousel_search_" . $query_id)) {
+      if (isset($cache->data)) {
+        $cache_data = $cache->data;
+        return _ting_search_carousel_filter_available(_ting_search_carousel_get_slice($cache_data, $start, $count), $query);
       }
     }
-
-    // If the pool exactly matches the requested items, we'll fetch the next
-    // chunk. Else search_page wouldn't get incremented.
-    while ((count($cache_data['pool']) <= $start + $count) &&
-      !$cache_data['finished']) {
-      $ignore_ids = $cache_data['all_ids'];
-
-      // Search well for materials with covers.
-      list($found_entities, $cache_data['search_page'], $cache_data['finished'])
-        = _ting_search_carousel_find_entities_with_covers($query,
-          $cache_data['search_page'],
-          $cache_data['search_page_size'],
-          $ignore_ids);
-
-      foreach ($found_entities as $id => $entities) {
-        $ignore_ids[$id] = TRUE;
-        $cache_data['pool'][] = $entities;
-      }
-    }
-
-    cache_set("ting_search_carousel_search_" . $query_id, $cache_data);
-    lock_release($lock_name);
-
-    return _ting_search_carousel_get_slice($cache_data, $start, $count);
+    // Else return an empty list with the same start offset. Should trigger a
+    // retry further out.
+    return $slice;
   }
+
+  // If the pool exactly matches the requested items, we'll fetch the next
+  // chunk. Else search_page wouldn't get incremented.
+  while ((count($cache_data['pool']) <= $start + $count) &&
+    !$cache_data['finished']) {
+    $ignore_ids = $cache_data['all_ids'];
+
+    // Search well for materials with covers.
+    list($found_entities, $cache_data['search_page'], $cache_data['finished'])
+      = _ting_search_carousel_find_entities_with_covers($query,
+        $cache_data['search_page'],
+        $cache_data['search_page_size'],
+        $ignore_ids);
+
+    foreach ($found_entities as $id => $entity) {
+      $ignore_ids[$id] = TRUE;
+      $cache_data['pool'][] = $entity;
+    }
+  }
+
+  cache_set("ting_search_carousel_search_" . $query_id, $cache_data);
+  lock_release($lock_name);
+
+  return _ting_search_carousel_filter_available(_ting_search_carousel_get_slice($cache_data, $start, $count), $query);
 }
 
 /**
@@ -254,9 +187,45 @@ function _ting_search_carousel_get_slice(array $cache_data, $start, $count) {
 }
 
 /**
+ * Filter slice down to available entities, if the query specify so.
+ *
+ * @param array $slice
+ *   Array with an 'entities' key which is an array of ting_entiites.
+ * @param TingSearchCarouselQuery $query
+ *   The query being performed.
+ *
+ * @return array
+ *   The input slice with unavailable entities removed.
+ */
+function _ting_search_carousel_filter_available(array $slice, TingSearchCarouselQuery $query) {
+  // Soft dependency on ding_availability.
+  if ($query->getOnlyAvailable() && function_exists('ding_availability_items')) {
+    $ids = array_map(function ($entity) {
+      return $entity->localId;
+    }, $slice['entities']);
+
+    if ($ids) {
+      $available = array_map(function ($availability) {
+        return $availability['available'];
+      }, ding_availability_items($ids));
+
+      $available = array_filter($available);
+
+      if ($available) {
+        $slice['entities'] = array_filter($slice['entities'], function ($entity) use ($available) {
+          return isset($available[$entity->localId]);
+        });
+      }
+    }
+  }
+
+  return $slice;
+}
+
+/**
  * Find ting entities with covers from a query.
  *
- * @param string $query
+ * @param TingSearchCarouselQuery $query
  *   Query to use.
  * @param int $start
  *   Offset to start from.
@@ -269,7 +238,7 @@ function _ting_search_carousel_get_slice(array $cache_data, $start, $count) {
  *   Array of found ting entities (an array), next start to use, and whether
  *   the result end was reached.
  */
-function _ting_search_carousel_find_entities_with_covers($query, $start, $size, array $ignore) {
+function _ting_search_carousel_find_entities_with_covers(TingSearchCarouselQuery $query, $start, $size, array $ignore) {
   $entities_found_with_covers = array();
   $finished = FALSE;
   $entities = array();
@@ -286,11 +255,19 @@ function _ting_search_carousel_find_entities_with_covers($query, $start, $size, 
   $page = floor($start / $size) + 1;
 
   $sal_query = ting_start_query()
-    ->withRawQuery($query)
+    ->withRawQuery($query->getQuery())
     ->withPage($page)
     ->withCount($size)
     ->withPopulateCollections(FALSE)
     ->withMaterialFilter($ignore, FALSE);
+
+  $sort = $query->getSort();
+  if (!empty($sort)) {
+    $sort_options = ting_search_sort_options();
+    if (isset($sort_options[$sort]['sort'])) {
+      $sal_query = $sal_query->withSorts($sort_options[$sort]['sort']);
+    }
+  }
 
   $results = $sal_query->execute();
 
@@ -343,58 +320,94 @@ function ting_search_carousel_image_default_styles() {
 }
 
 /**
- * Theme the queries form, mainly adding a table drag-n-drop feature.
+ * Represents a search for the carousel.
  *
- * @param array $variables
- *   Theme related variables.
- *
- * @return string
- *   Themed form output.
+ * Encapsulates query and sort.
  */
-function theme_ting_search_carousel_admin_form(array $variables) {
-  $form = $variables['form'];
-  drupal_add_tabledrag('ting-search-carousel-admin-sort', 'order', 'sibling', 'sort');
+class TingSearchCarouselQuery {
 
-  $header = array('Searches', '');
-  $rows = array();
-  foreach (element_children($form['ting_searches']) as $key) {
-    // Add class to group weight fields for drag and drop.
-    $form['ting_searches'][$key]['sort[]']['#attributes']['class'][] = 'sort';
+  /**
+   * The search query.
+   *
+   * @var string
+   */
+  protected $query;
 
-    // Get sort element.
-    $sort = $form['ting_searches'][$key]['sort[]'];
-    unset($form['ting_searches'][$key]['sort[]']);
+  /**
+   * The sorting identifier.
+   *
+   * @var string
+   */
+  protected $sort = '';
 
-    // Build rows.
-    $classes = array('draggable');
-    if (isset($form['ting_searches'][$key]['#prefix'])) {
-      $classes[] = 'search-query-hidden';
-    }
+  /**
+   * Whether to only show available materials.
+   *
+   * @var bool
+   */
+  protected $onlyAvailable = FALSE;
 
-    if (!empty($form['ting_searches'][$key]['title[]']['#value'])) {
-      $rows[] = array(
-        'data' => array(
-          drupal_render($form['ting_searches'][$key]),
-          drupal_render($sort),
-        ),
-        'class' => $classes,
-      );
-    }
+  /**
+   * Create a new query object.
+   *
+   * @param string $query
+   *   The search query.
+   * @param string $sort
+   *   The sort to use.
+   */
+  public function __construct($query, $sort = '', $onlyAvailable = FALSE) {
+    $this->query = $query;
+    $this->sort = $sort;
+    $this->onlyAvailable = (bool) $onlyAvailable;
   }
 
-  $table_vars = array(
-    'header' => $header,
-    'rows' => $rows,
-    'attributes' => array('id' => 'ting-search-carousel-admin-sort'),
-    'caption' => '',
-    'colgroups' => array(),
-    'sticky' => FALSE,
-    'empty' => 'EMPTY',
-  );
-  $output = theme('table', $table_vars);
+  /**
+   * Get the query string.
+   */
+  public function getQuery() {
+    return $this->query;
+  }
 
-  // Render remaining elements.
-  $output .= drupal_render_children($form);
+  /**
+   * Get the sort method.
+   */
+  public function getSort() {
+    return $this->sort;
+  }
 
-  return $output;
+  /**
+   * Get availability flag.
+   */
+  public function getOnlyAvailable() {
+    return $this->onlyAvailable;
+  }
+
+  /**
+   * Convert to string representation.
+   */
+  public function __toString() {
+    return base64_encode(json_encode(array(
+      $this->query,
+      $this->sort,
+      $this->onlyAvailable ? 1 : 0,
+    )));
+  }
+
+  /**
+   * Create object from string.
+   *
+   * @param string $string
+   *   The string as returned from __toString().
+   */
+  public static function fromString($string) {
+    $data = json_decode(base64_decode($string));
+    $data += array('', 0);
+    if (!empty($data[0])) {
+      $query = new TingSearchCarouselQuery($data[0], $data[1], $data[2]);
+      return $query;
+    }
+
+    return FALSE;
+  }
+
 }

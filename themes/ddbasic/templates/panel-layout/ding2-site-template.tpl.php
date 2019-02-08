@@ -16,6 +16,15 @@
         </section>
       <?php endif; ?>
 
+      <?php if (!empty($content['navigation'])): ?>
+        <section class="navigation-wrapper js-topbar-menu">
+          <div class="navigation-inner">
+            <?php print render($content['navigation']); ?>
+            <a href="#" class="search-extended-button"></a>
+          </div>
+        </section>
+      <?php endif; ?>
+
       <?php if (!empty($content['header'])): ?>
         <section class="header-wrapper">
           <div class="header-inner">
@@ -24,13 +33,6 @@
         </section>
       <?php endif; ?>
 
-      <?php if (!empty($content['navigation'])): ?>
-        <section class="navigation-wrapper js-topbar-menu">
-          <div class="navigation-inner">
-            <?php print render($content['navigation']); ?>
-          </div>
-        </section>
-      <?php endif; ?>
     </header>
   <?php endif; ?>
 

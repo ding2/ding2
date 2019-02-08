@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_user_consent.strongarm.inc

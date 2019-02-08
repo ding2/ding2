@@ -83,36 +83,6 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
   }
 
   if (!empty($results['#results'])) {
-    // Get message limit and raw data well search results.
-    $limit = variable_get('ting_search_result_message_limit', 100);
-
-    // Set message.
-    $message = '';
-
-    // If it does not seem like the user picked a sort but our query has one,
-    // tell the user that we have sorted the result.
-    if (isset($search_result) && empty($conditions['sort']) && !empty($search_result->getSearchRequest()->getSorts())) {
-      $provider_sort_options = ting_search_sort_options();
-
-      $mapper = function(TingSearchSort $sort) use ($provider_sort_options) {
-        return isset($provider_sort_options[$sort->getField()]['label_short']) ? $provider_sort_options[$sort->getField()]['label_short'] : NULL;
-      };
-      $labels = array_filter(array_map($mapper, $search_result->getSearchRequest()->getSorts()));
-
-      $labels = implode(', ', $labels);
-      $msg = t('Records are sorted by %sortUsed . Select another sort if it is not suited', array('%sortUsed' => $labels));
-      $message .= '<div class="messages status">' . $msg . '</div>';
-    }
-
-
-    if (isset($search_result) && $limit < $search_result->getNumTotalObjects()) {
-      $msg = t('Your search gave more than %s results. Try to search more specific or use the facets to filter the result.');
-      $msg = sprintf($msg, $limit);
-      $message .= '<div class="messages search-field-in-content--message">' . $msg . '</div>';
-    }
-
-    $prefix .= $message;
-
     $block->title = t('Search results');
     $block->content = $prefix . theme('ting_search_results', array('results' => $results['#results'], 'module' => $conf['type'])) . $suffix;
   }

@@ -658,7 +658,7 @@ function ding2_module_list_as_operations($module_list) {
  */
 function ding2_module_enable(&$install_state) {
   $modules = variable_get('ding_module_selected', array());
-  // Modules we dont have an explicit dependency on but still want enabled by
+  // Modules we don't have an explicit dependency on but still want enabled by
   // default. If the user later on does not need the module it can be disabled
   // manually.
   $modules = array_merge(array(
@@ -670,6 +670,13 @@ function ding2_module_enable(&$install_state) {
     'ding_eresource',
     'ding_app_content_rss',
     'ding_app_variables',
+    'ding_campaign_plus',
+    'ding_campaign_plus_auto',
+    'ding_campaign_plus_basic',
+    'ding_campaign_plus_facet',
+    'ding_campaign_plus_object',
+    'ding_campaign_plus_search',
+    'ding_webtrekk',
   ), $modules);
 
   $operations = ding2_module_list_as_operations($modules);

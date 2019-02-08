@@ -110,7 +110,7 @@
     </div>
     <?php
       if (!empty($event_background_image)):
-        print '<div class="event-list-image" style="background-image:url(' . $event_background_image . ');"' . $image_title . '></div>';
+        print '<div class="event-list-image-container"><div class="event-list-image" style="background-image:url(' . $event_background_image . ');"' . $image_title . '></div></div>';
       endif;
     ?>
   </a>

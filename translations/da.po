@@ -66556,7 +66556,7 @@ msgstr "Mere..."
 
 #: /admin/config/ding/interaction
 msgid "About consent and storage of previous loans"
-msgstr "Samtykke og opbevaring af information tidligere lån"
+msgstr "Samtykke og opbevaring af information om tidligere lån"
 
 #: /admin/config/ding/interaction
 msgid ""
@@ -66660,6 +66660,10 @@ msgstr "Låner- eller CPR-nummer"
 #: /
 msgid "Pincode (4 digits)"
 msgstr "Pinkode"
+
+#: /
+msgid "Pincode (@length digits)"
+msgstr "Pinkode (@length cifre)"
 
 #: /user/me/view
 msgctxt "Ding list"
@@ -70592,6 +70596,11 @@ msgid "Your account is limited. Please contact your library for more information
 msgstr "Din konto har begrænset adgang. Kontakt venligst biblioteket for yderligere information."
 
 msgid "Your account is limited due to outstanding debt. Please contact your library for more "
+msgstr "Din konto har begrænset adgang på grund af et mellemværende. Kontakt venligst biblioteket for yderligere information."
+
+#: /system/ajax
+msgid ""
+"Your account is limited due to outstanding debt. Please contact your library for more information."
 msgstr "Din konto har begrænset adgang på grund af udestående mellemværender. Kontakt venligst biblioteket for yderligere information."
 
 msgid "Your self created account is limited. Please contact your library to get full access."
@@ -70601,7 +70610,7 @@ msgid "You have been excluded. Please contact your library for more information.
 msgstr "Din brugerprofil er blevet lukket. Kontakt venligst biblioteket for yderligere information."
 
 msgid "See <a href="@link">this</a> page for more information about block types."
-msgstr "Se <a href="@link">denne side</a> for at få mere information om block types"
+msgstr "Se siden <a href="@link">årsager til at min konto er blokeret</a> for at få mere information."
 
 msgid "Error: %order"
 msgstr "Fejl: %order"
@@ -70653,3 +70662,179 @@ msgstr "Når slutdato er udfyldt, så skal startdato også udfyldes."
 #: /user/me/edit
 msgid "To date must higher than the from date or equal to."
 msgstr "Slutdato skal enten være den samme som startdato eller senere."
+
+#: /user/me/edit
+msgid "The pincode must consist of exactly %number digits and only contain integers."
+msgstr "Pinkoden skal bestå af %number cifre."
+
+#: /user/me/my-library
+msgid "Reset my lists"
+msgstr "Slet mine lister"
+
+#: /user/me/reset-lists
+msgid "This will remove all your custom lists, and clear all lists of content."
+msgstr "Denne handling vil slette alle de lister du har oprettet og de materialer du har indsat på dem."
+
+#: /user/me/reset-lists
+msgid "User: reset list"
+msgstr "Bruger: nulstil liste"
+
+#: /user/me/reset-lists
+msgid "Control list resets."
+msgstr "Kontrollér liste nulstilling"
+
+#: /index.php
+msgid "Reset user lists"
+msgstr "Nulstil brugerlister"
+
+#: /index.php
+msgid "Reset all lists."
+msgstr "Nulstil alle lister"
+
+
+#: /admin/config/ding/campaigns_plus
+msgid "Set the weight for the different triggers. If more campaigns are triggered by the same triggers these weights are used to determined which should be displayed."
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Notification scan interval"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Campaign cache expire"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Campaign selection is cached to boost performance. This is the number of seconds before campaigns should be reselected base on triggers for a give context."
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Trigger to use"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "The contents subjects will automatically create a trigger against the selected rule type"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Default common number"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Default \"Most common values\" to match against."
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Facets available"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "The contents subjects will automatically create a trigger against the selected facet type."
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Activate trigger on object view based on matching subjects from content."
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Activate search trigger based on matching subjects from content."
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Campaign trigger"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Facets"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Object view"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Rule %num"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Add another"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Used to define the operator used between facet rules below."
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Facet Type"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "All facets are explained at <a href=\"!url\">!url</a>"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Most common values"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Number of most common values wherein facet value is contained to trigger campaign"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Facet value"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "If the facet type selected is numeric the operators \"<\", \"<=\", \">=\", \">\" can be used e.g. > 2015. Wildcard \"*\" is also supported for matching with for example DK5 e.g. 89*"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Search query"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Search query that should trigger the campaign"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Percent of the results"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "The percent of the results in the search result."
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Search query that should trigger the campaign."
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Auto complete field for campaign rule values."
+msgstr ""
+
+#: /list/12391117/share
+msgid ""
+"Please use the following link to access this list.\n"
+"The link is active for 7 days from today, after which it will be "
+"disabled for security reasons.\n"
+"!link"
+msgstr ""
+"Brug linket til at tilgå listen.\n"
+"Linket er aktivt i 7 dage fra dags dato. Derefter kan man ikke bruge det til at tilgå listen, af hensyn til din sikkerhed."
+"!link"
+
+#: /list/12391117/share
+msgid "The !link text will be replaced by a link to the list"
+msgstr "!link teksten bliver erstattet med et link til listen"
+
+#: /user/me/my-library
+msgid "Reset my lists"
+msgstr "Slet mine lister"
+
+#: /user/me/reset-lists
+msgid "This will remove all your custom lists, and clear all lists of content."
+msgstr "Denne handling vil slette alle de lister du har oprettet, samt indholdet på dem."
+
+#: /index.php
+msgid "change the node status in BPI"
+msgstr "Redigér artiklens status i BPI"

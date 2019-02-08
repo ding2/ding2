@@ -289,7 +289,7 @@ function openruth_reservation_create($account, $id, $options = array(), $expiry 
     throw new DingProviderReservationExists();
   }
   else {
-    throw new DingProviderUserException(t('Error: %order', array('%order', $order)));
+    throw new DingProviderEnduserException(t('Error: %order', array('%order', $order)));
   }
 }
 

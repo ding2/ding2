@@ -34,11 +34,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -52,7 +47,7 @@ function ding_news_views_default_views() {
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['label'] = 'Empty text';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = 'No news where found.';
+  $handler->display->display_options['empty']['area']['content'] = 'No news were found.';
   $handler->display->display_options['empty']['area']['format'] = 'ding_wysiwyg';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
@@ -215,7 +210,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
@@ -617,14 +611,11 @@ function ding_news_views_default_views() {
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['link_url'] = 'nyheder';
+  $handler->display->display_options['defaults']['group_by'] = FALSE;
+  $handler->display->display_options['group_by'] = TRUE;
   $handler->display->display_options['defaults']['exposed_form'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sort by';
   $handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
   $handler->display->display_options['exposed_form']['options']['bef'] = array(
     'general' => array(
@@ -684,13 +675,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -879,7 +863,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
@@ -906,15 +889,6 @@ function ding_news_views_default_views() {
     'ding_news' => 'ding_news',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Type */
-  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
-  $handler->display->display_options['filters']['type_1']['table'] = 'node';
-  $handler->display->display_options['filters']['type_1']['field'] = 'type';
-  $handler->display->display_options['filters']['type_1']['relationship'] = 'og_membership_related_node_group';
-  $handler->display->display_options['filters']['type_1']['value'] = array(
-    'ding_library' => 'ding_library',
-  );
-  $handler->display->display_options['filters']['type_1']['group'] = 1;
   /* Filter criterion: Content: Category (field_ding_news_category) */
   $handler->display->display_options['filters']['field_ding_news_category_tid']['id'] = 'field_ding_news_category_tid';
   $handler->display->display_options['filters']['field_ding_news_category_tid']['table'] = 'field_data_field_ding_news_category';
@@ -1065,13 +1039,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -1265,7 +1232,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
@@ -1317,13 +1283,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '8';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['row_class'] = 'simple-list-item';
@@ -1350,7 +1309,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['uid']['field'] = 'uid';
   $handler->display->display_options['arguments']['uid']['relationship'] = 'uid';
   $handler->display->display_options['arguments']['uid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['uid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
@@ -1388,11 +1346,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '8';
   $handler->display->display_options['pager']['options']['offset'] = '';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -1508,7 +1461,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['uid']['field'] = 'uid';
   $handler->display->display_options['arguments']['uid']['relationship'] = 'uid';
   $handler->display->display_options['arguments']['uid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['uid']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
@@ -1728,13 +1680,6 @@ function ding_news_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '';
   $handler->display->display_options['pager']['options']['id'] = '0';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -2148,27 +2093,35 @@ function ding_news_views_default_views() {
     t('Master'),
     t('Library news'),
     t('See all news'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
     t('Empty text'),
-    t('No news where found.'),
+    t('No news were found.'),
     t('author'),
-    t('<span class="news-label">[field_ding_news_category]</span> <span class="news-date">[created]</span>  |  <span class="news-author">by [name]</span>'),
+    t('<span class="news-label">[field_ding_news_category]</span> <span class="news-date">[created]</span>  |  <span class="news-author">af [name]</span>'),
+    t('Read more'),
+    t('All'),
     t('News list (frontpage)'),
     t('<i class="icon-chevron-right"></i>'),
     t('News panes'),
     t('Library news list'),
     t('OG membership from node'),
     t('OG node group'),
-    t('All'),
     t('Library panes'),
     t('News list'),
     t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
     t('Select any filter and click on Apply to see results'),
     t('Advanced options'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('term from field_ding_news_category'),
     t('News category'),
     t('Select library'),
@@ -2181,8 +2134,6 @@ function ding_news_views_default_views() {
     t('simple news list by user'),
     t('User news list'),
     t('news list by user'),
-    t('« first'),
-    t('last »'),
     t('Groups news list'),
     t('Group news'),
     t('.'),
@@ -2190,16 +2141,10 @@ function ding_news_views_default_views() {
     t('News list (groups)'),
     t('News Image Crop list'),
     t('News Image Crop Overview'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('‹ previous'),
-    t('next ›'),
+    t('Edit'),
     t('Original Image'),
     t('Cropped image'),
     t('News: Libraries list'),
-    t('Read more'),
-    t('Edit'),
   );
   $export['ding_news'] = $view;
 

@@ -40,12 +40,15 @@ function ddbasic_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'search-form-extended';
       $vars['classes_array'][] = 'show-secondary-menu';
 
+      // The search form should only be expanded on certain pages.
       $path = menu_get_item()['path'];
-      switch ($path) {
-        case 'search/ting/%';
-        case 'ding_frontpage':
-          $vars['classes_array'][] = 'extended-search-is-open';
+
+      if (empty($vars['display_extended_search']) &&
+          !in_array($path, ['search/ting/%', 'search/ting', 'search/node/%', 'ding_frontpage'])) {
+        $vars['classes_array'][] = 'extended-search-is-not-open';
+        $vars['classes_array'][] = 'has-search-dropdown';
       }
+
       break;
   }
 
@@ -62,7 +65,7 @@ function ddbasic_preprocess_html(&$vars) {
     $vars['classes_array'][] = 'has-dynamic-background';
   }
 
-  // Detect if current page is a panel page and set class accordingly
+  // Detect if current page is a panel page and set class accordingly.
   $panel_page = page_manager_get_current_page();
 
   if (!empty($panel_page)) {
@@ -167,7 +170,9 @@ function ddbasic_preprocess_panels_pane(&$vars) {
     }
     elseif(is_array($vars['content'])) {
       // OG menu.
-      $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
+      if (is_array($vars['content'])) {
+        $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
+      }
     }
   }
 
@@ -331,7 +336,7 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
 
   $vars['no_masonry'] = FALSE;
 
-  // Set no-masonry to true for frontpage event view
+  // Set no-masonry to true for frontpage event view.
   if ($vars['view']->name == 'ding_event' && $vars['view']->current_display == 'ding_event_list_frontpage') {
     $vars['no_masonry'] = TRUE;
   }
@@ -407,7 +412,7 @@ function ddbasic_link($variables) {
 function ddbasic_preprocess_user_profile(&$variables) {
   $variables['user_profile']['summary']['member_for']['#access'] = FALSE;
 
-  // Load profile and view as search_result if user view-mode is search_result
+  // Load profile and view as search_result if user view-mode is search_result.
   if ($variables['elements']['#view_mode'] == 'search_result') {
     $user_id = $variables['elements']['#account']->uid;
     $user_profiles = profile2_load_by_user($user_id);
@@ -850,8 +855,8 @@ function ddbasic_process_ting_object(&$vars) {
               'default'
             );
           }
-          
-          //Truncate abstract
+
+          // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 
           // Check if teaser has rating function and remove abstract.
@@ -885,21 +890,24 @@ function ddbasic_process_ting_object(&$vars) {
             $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
+              $vars['elements']['#view_mode'],
               'ajax'
             );
           }
           if ($vars['object']->online_url) {
             // Slice the output, so it only usese the online link button.
-            $vars['content']['group_text']['online_link'] = array_slice(ting_ding_entity_buttons(
+            $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
-              $vars['object']
-            ), 0, 1);
+              $vars['object'],
+              $vars['elements']['#view_mode'],
+              'default'
+            );
           }
 
-          //Truncate default title
+          // Truncate default title.
           $vars['static_title'] = '<div class="field-name-ting-title"><h2>' . add_ellipsis($vars['elements']['group_text']['group_inner']['ting_title'][0]['#markup'], 40) . '</h2></div>';
 
-          //Truncate abstract
+          // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 
           // Check if teaser has rating function and remove abstract.
@@ -1361,65 +1369,10 @@ function ddbasic_select($variables) {
 
   if (!empty($multiple) && $multiple == 'multiple') {
     return '<div class="select-wrapper select-wrapper-multiple"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
-  } else {
+  }
+  else {
     return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
   }
-
-}
-
-/**
- * Implements hook_libraries_info().
- */
-function ddbasic_libraries_info() {
-  return array(
-    'html5shiv' => array(
-      'name' => 'HTML5 Shiv',
-      'vendor url' => 'https://github.com/aFarkas/html5shiv',
-      'download url' => 'https://github.com/aFarkas/html5shiv/archive/3.7.3.zip',
-      'version arguments' => array(
-        'file' => 'dist/html5shiv.min.js',
-        'pattern' => '/\*.*HTML5 Shiv ([0-9a-zA-Z\.-]+)/',
-      ),
-      'files' => array(
-        'js' => array('dist/html5shiv.min.js'),
-      ),
-    ),
-    'masonry' => array(
-      'name' => 'Masonry',
-      'vendor url' => 'https://github.com/desandro/masonry',
-      'download url' => 'https://github.com/desandro/masonry/archive/v4.1.1.zip',
-      'version arguments' => array(
-        'file' => 'dist/masonry.pkgd.min.js',
-        'pattern' => '/\*.*Masonry PACKAGED v([0-9a-zA-Z\.-]+)/',
-      ),
-      'files' => array(
-        'js' => array('dist/masonry.pkgd.min.js'),
-      ),
-    ),
-    'slick' => array(
-      'name' => 'Slick.js carousel library',
-      'path' => 'slick',
-      'vendor url' => 'https://github.com/kenwheeler/slick',
-      'download url' => 'https://github.com/kenwheeler/slick/archive/1.8.0.zip',
-      'version arguments' => array(
-        'file' => 'slick/slick.js',
-        'pattern' => '/Version:\s+([0-9a-zA-Z\.-]+)/',
-        'lines' => 15,
-      ),
-      'files' => array(
-        'js' => array('slick.min.js'),
-        'css' => array('slick.css'),
-      ),
-      'variants' => array(
-        'non-minified' => array(
-          'files' => array(
-            'js' => array('slick.js'),
-            'css' => array('slick.css'),
-          ),
-        ),
-      ),
-    ),
-  );
 }
 
 /**

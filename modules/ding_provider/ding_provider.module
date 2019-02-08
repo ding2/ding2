@@ -223,7 +223,7 @@ function ding_provider_invoke_page($type, $hook) {
     }
   }
   catch (Exception $e) {
-    if ($e instanceof DingProviderUserException) {
+    if ($e instanceof DingProviderEnduserException) {
       // Rethrow user exceptions.
       throw $e;
     }
@@ -301,7 +301,7 @@ function ding_provider_build_form($form_id, &$form_state) {
     return $form;
   }
   catch (Exception $e) {
-    if ($e instanceof DingProviderUserException) {
+    if ($e instanceof DingProviderEnduserException) {
       // Rethrow user exceptions.
       throw $e;
     }
@@ -375,7 +375,7 @@ function ding_provider_ajax_form_callback() {
     }
   }
   catch (Exception $e) {
-    if ($e instanceof DingProviderUserException) {
+    if ($e instanceof DingProviderEnduserException) {
       // Rethrow user exceptions.
       throw $e;
     }

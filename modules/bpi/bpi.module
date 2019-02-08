@@ -55,6 +55,16 @@ define('BPI_DATE_PICKER_FORMAT', 'Y-m-d');
 define('BPI_ONE_MONTH', 86400 * 30);
 
 /**
+ * Push with images identifier.
+ */
+define('BPI_WITH_IMAGES', 'with_images');
+
+/**
+ * Push without images identifier.
+ */
+define('BPI_WITHOUT_IMAGES', 'without_images');
+
+/**
  * Implements hook_menu().
  */
 function bpi_menu() {
@@ -81,10 +91,12 @@ function bpi_menu() {
     'page callback' => 'bpi_syndicate_action',
     'page arguments' => array(3),
     'access arguments' => array('bpi syndicate content'),
+    'type' => MENU_CALLBACK,
     'file' => 'bpi.syndicate.inc',
   );
 
   $menu['admin/bpi/statistics/nojs'] = array(
+    'title' => 'BPI statistics',
     'page callback' => 'bpi_statistics',
     'page arguments' => array(3),
     'access arguments' => array('view bpi statistics'),
@@ -93,12 +105,15 @@ function bpi_menu() {
 
   $menu['admin/bpi/statistics/ajax'] = array(
     'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
   ) + $menu['admin/bpi/statistics/nojs'];
 
   $menu['admin/bpi/images/nojs'] = array(
+    'title' => 'BPI syndicate images',
     'page callback' => 'bpi_syndicate_images',
     'page arguments' => array(3),
     'access arguments' => array('bpi syndicate content'),
+    'type' => MENU_CALLBACK,
     'file' => 'bpi.images.inc',
   );
 
@@ -248,20 +263,30 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     $form_state['node']->bpi_id = $bpi_id;
     try {
       $bpi = bpi_client_instance();
+      /** @var \Bpi\Sdk\Item\Node $bpi_node */
       $bpi_node = $bpi->getNode($bpi_id);
       $bpi_content = $bpi_node->getProperties();
       $bpi_assets = $bpi_node->getAssets();
 
-      drupal_set_message(
-        t(
-          'Syndicating content <strong>@title</strong>, from category <strong>@category</strong> and audience <strong>@audience</strong>.',
-          array(
-            '@title' => $bpi_content['title'],
-            '@category' => $bpi_content['category'],
-            '@audience' => $bpi_content['audience'],
+      $bpi_agency_id = variable_get('bpi_agency_id', '');
+
+      // Avoid the ability to syndicate own content.
+      if ($bpi_agency_id === $bpi_node->getProperties()['agency_id']) {
+        bpi_error_message(new \Exception('', 406), 'error');
+        unset($form['actions']);
+      }
+      else {
+        drupal_set_message(
+          t(
+            'Syndicating content <strong>@title</strong>, from category <strong>@category</strong> and audience <strong>@audience</strong>.',
+            array(
+              '@title' => $bpi_content['title'],
+              '@category' => $bpi_content['category'],
+              '@audience' => $bpi_content['audience'],
+            )
           )
-        )
-      );
+        );
+      }
     }
     catch (Exception $e) {
       watchdog_exception('bpi', $e);
@@ -836,10 +861,13 @@ function bpi_form_workflow_transition_form_validate(&$form, &$form_state) {
     // The 'Save and push' button has been chosen, so we will check if the BPI
     // values are correct.
     if (empty($form_state['values']['bpi_push_category'])) {
-      form_set_error('bpi_push_category', t('Category must be set when pushing to BPI'));
+      form_set_error('bpi_push_category', t('Category must be set when pushing to BPI.'));
     }
     if (empty($form_state['values']['bpi_push_audience'])) {
-      form_set_error('bpi_push_audience', t('Audience must be set when pushing to BPI'));
+      form_set_error('bpi_push_audience', t('Audience must be set when pushing to BPI.'));
+    }
+    if (empty($form_state['values']['bpi_push_images'])) {
+      form_set_error('bpi_push_images', t('Image permissions should be explicitly set when pushing to BPI.'));
     }
   }
   array_unshift($form_state['submit_handlers'], 'bpi_form_workflow_transition_form_submit');
@@ -861,7 +889,6 @@ function bpi_form_workflow_transition_form_submit($form, &$form_state) {
     'bpi_push_category',
     'bpi_push_audience',
     'bpi_push_images',
-    'bpi_push_ccl',
     'bpi_push_editable',
     'bpi_push_refs',
   );
@@ -875,7 +902,6 @@ function bpi_form_workflow_transition_form_submit($form, &$form_state) {
   $category = $form_state['values']['bpi_push_category'];
   $audience = $form_state['values']['bpi_push_audience'];
   $with_images = $form_state['values']['bpi_push_images'];
-  $authorship = !$form_state['values']['bpi_push_ccl'];
   $editable = $form_state['values']['bpi_push_editable'];
   $with_refs = $form_state['values']['bpi_push_refs'];
 
@@ -884,7 +910,6 @@ function bpi_form_workflow_transition_form_submit($form, &$form_state) {
     'category' => $category,
     'audience' => $audience,
     'with_images' => $with_images,
-    'authorship' => $authorship,
     'editable' => $editable,
     'with_refs' => $with_refs,
   );
@@ -950,65 +975,6 @@ function bpi_validate_material($id) {
   }, $primary_objects);
 
   return array_shift($ids);
-}
-
-/**
- * Implements hook_libraries_info().
- *
- * For defining external libraries.
- */
-function bpi_libraries_info() {
-  return array(
-    'chosen' => array(
-      'name' => 'Chosen',
-      'vendor url' => 'https://github.com/harvesthq/chosen',
-      'download url' => 'https://github.com/harvesthq/chosen/releases',
-      'version arguments' => array(
-        'file' => 'chosen.jquery.min.js',
-        'pattern' => '@(?:Chosen v|Version\s+)([0-9a-zA-Z\.-]+)@',
-      ),
-      'files' => array(
-        'css' => array('chosen.min.css'),
-        'js' => array('chosen.jquery.min.js'),
-      ),
-    ),
-    'guzzle' => array(
-      'name' => 'Guzzle',
-      'vendor url' => 'https://github.com/guzzle/guzzle',
-      'download url' => 'https://github.com/guzzle/guzzle',
-      'version' => '6.2',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-    'promises' => array(
-      'name' => 'Guzzle promises library',
-      'vendor url' => 'https://github.com/guzzle/promises',
-      'download url' => 'https://github.com/guzzle/promises',
-      'version' => '1.2',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-    'http-message' => array(
-      'name' => 'Common interface for HTTP messages',
-      'vendor url' => 'https://github.com/php-fig/http-message',
-      'download url' => 'https://github.com/php-fig/http-message',
-      'version' => '1.0',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-    'psr7' => array(
-      'name' => 'PSR-7 message implementation',
-      'vendor url' => 'https://github.com/guzzle/psr7',
-      'download url' => 'https://github.com/guzzle/psr7',
-      'version' => '1.3',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-  );
 }
 
 /**
@@ -1148,5 +1114,20 @@ function bpi_features_views_default_views_alter(&$views) {
     // Autosubmit.
     $display_options['exposed_form']['options']['reset_button'] = FALSE;
     $display_options['exposed_form']['options']['autosubmit'] = TRUE;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Decide whether to show the syndication link when previewing content.
+ */
+function bpi_preprocess_bpi_preview_item(&$variables) {
+  $bpi_item = $variables['item'];
+
+  $variables['hide_syndicate_link'] = FALSE;
+  $bpi_agency_id = variable_get('bpi_agency_id', '');
+  if ($bpi_agency_id === $bpi_item['agency_id']) {
+    $variables['hide_syndicate_link'] = TRUE;
   }
 }
