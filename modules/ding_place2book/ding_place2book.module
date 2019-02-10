@@ -158,6 +158,40 @@ function ding_place2book_permission() {
 }
 
 /**
+ * Implements hook_views_bulk_operations_form_alter().
+ */
+function ding_place2book_views_bulk_operations_form_alter(&$form, &$form_state, $vbo) {
+  if ($vbo->view->name == 'admin_views_node' && $form_state['step'] == 'views_bulk_operations_confirm_form') {
+    // Ensure that this is the node delete action.
+    if ($form_state['operation']->operationId != 'action::views_bulk_operations_delete_item') {
+      return;
+    }
+
+    $selection = $form_state['selection'];
+    $p2b_nodes = [];
+
+    foreach (node_load_multiple(array_values($selection)) as $node) {
+      $field_place2book = field_get_items('node', $node, 'field_place2book');
+      if (!empty($field_place2book) && $field_place2book[0]['synchronize']) {
+        $p2b_nodes[] = $node;
+      }
+    }
+
+    if (empty($p2b_nodes)) {
+      return;
+    }
+
+    $warning_message = format_plural(
+      count($p2b_nodes),
+      "One of the nodes marked for deletion is synchronized with place2book. Deleting it will also delete the corresponding event on place2book or destroy the link if the event can't be deleted",
+      "@count of the nodes marked for deletion is synchronized with place2book. Deleting those will also delete the corresponding events on place2book or destroy the links for events that can't be deleted"
+    );
+
+    _ding_place2book_attach_node_deletion_warning($form, $warning_message);
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_place2book_form_node_delete_confirm_alter(&$form, &$form_state, $form_id) {
@@ -201,10 +235,21 @@ function ding_place2book_form_node_delete_confirm_alter(&$form, &$form_state, $f
     $warning_message = t("This event is synchronized with place2book, but something went wrong fetching event data from place2book. Deleting this event could possibly destroy the link or remove the event completely from place2book.");
   }
 
+  _ding_place2book_attach_node_deletion_warning($form, $warning_message);
+}
+
+/**
+ * Helper function to attach warning to a node deletion confirm form.
+ */
+function _ding_place2book_attach_node_deletion_warning(&$form, $warning_message) {
   // We could use drupal_set_message(), but we want to make sure that the
   // warning is seen and that it's not getting buried in other drupal messages
   // or overloooked.
-  $form['ding_place2book_warning']['#markup'] = '<p><strong>' . t('WARNING') . ': ' . $warning_message . '</strong></p>';
+  $markup = '<p><strong>';
+  $markup .= t('WARNING') . ': ';
+  $markup .= $warning_message;
+  $markup .= '</strong></p>';
+  $form['ding_place2book_warning']['#markup'] = $markup;
 }
 
 /**
