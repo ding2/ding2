@@ -521,7 +521,7 @@ projects[ding_spt_statistics][download][branch] = "development"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-4.6.0"
+libraries[bpi-client][download][tag] = "7.x-4.6.1"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
@@ -592,7 +592,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][destination] = "modules/opensearch/lib"
-libraries[ting-client][download][tag] = "7.x-4.6.0"
+libraries[ting-client][download][tag] = "7.x-4.6.1"
 
 ; Obsoleted. Only reference is in ding_frontend.
 libraries[zen-grids][download][type] = "git"
