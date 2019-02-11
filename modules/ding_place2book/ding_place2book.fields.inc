@@ -47,7 +47,6 @@ function ding_place2book_field_widget_info() {
  */
 function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   $event = $event_id = $event_maker_id = $synchronize = NULL;
-  $node_id = isset($form_state['node']->nid) ? $form_state['node']->nid : NULL;
   if (!empty($items)) {
     list($event_id, $event_maker_id, $synchronize) = array_values(reset($items));
     try {
@@ -269,7 +268,6 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#value' => t('Remove'),
           '#name' => 'prices_remove_' . $key,
           '#price_key' => $key,
-          '#node_id' => $node_id,
           '#price_id' => isset($price->id) ? $price->id : NULL,
           '#event_id' => $event_id,
           '#event_maker_id' => $event_maker_id,
