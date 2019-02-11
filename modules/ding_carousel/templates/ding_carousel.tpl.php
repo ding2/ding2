@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Defoult carousel template.
+ * Default carousel template.
  *
  * Available variables:
  * - $title: Title of carousel.
@@ -10,6 +10,7 @@
  * - $offset: Ajax callback offset to start at. -1 for no ajax.
  * - $path: Ajax path for getting more content.
  */
+
 ?>
 <div class="<?php print $classes; ?>"
   data-title="<?php print $title ?>"

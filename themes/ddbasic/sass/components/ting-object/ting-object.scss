@@ -100,6 +100,7 @@
         }
       }
       .field-name-ting-title {
+        h3,
         h2 {
           @include transition(width $speed $ease);
           @include font('display-small');
@@ -153,6 +154,7 @@
             @include transition(opacity $speed $hover-delay $ease);
             opacity: 0;
           }
+          .field-name-ting-title h3,
           .field-name-ting-title h2,
           .field-name-ting-author {
             @include transition (
@@ -225,6 +227,7 @@
         }
       }
       .field-name-ting-title {
+        h3,
         h2 {
           @include font('display-small');
           width: 100%;
@@ -324,6 +327,7 @@
       }
     }
     .field-name-ting-title {
+      h3,
       h2 {
         margin: 0;
       }
@@ -363,6 +367,7 @@
         @include omega();
       }
     }
+    h3,
     h2 {
       @include font('display-small');
       margin-bottom: 0;
@@ -463,6 +468,7 @@
     }
     .field-name-ting-title {
       margin-top: 5px;
+      h3,
       h2 {
         @include font('display-small');
         margin-bottom: 0;
@@ -676,7 +682,8 @@
           }
         }
       }
-      .field-name-ting-title h2 {
+      .field-name-ting-title h2,
+      .field-name-ting-title h3 {
         @include font('display');
         margin-bottom: 5px;
       }

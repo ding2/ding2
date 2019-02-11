@@ -15,8 +15,19 @@ function template_preprocess_ding_carousel(&$vars) {
   $carousel = $vars['carousel'];
 
   $vars['items'] = array();
-  // Wrap items in ding_carousel_item.
+
   foreach ($carousel['#items'] as $item) {
+    // Making sure the prefix is a h3 instead of h2 for WCAG reasons.
+    // We need to use str_replace as its possible for the element to contain
+    // more than just a <h2> tag.
+    // @see: https://github.com/ding2/ding2/blob/16ee7ee2063ade17ed3c2efae255304f6828a61d/modules/ting/ting.field.inc#L410
+    if (!empty($item['ting_title'][0]['#prefix']) &&
+        !empty($item['ting_title'][0]['#suffix'])) {
+      $item['ting_title'][0]['#prefix'] = str_replace('<h2', '<h3', $item['ting_title'][0]['#prefix']);
+      $item['ting_title'][0]['#suffix'] = str_replace('</h2', '</h3', $item['ting_title'][0]['#suffix']);
+    }
+
+    // Wrap items in ding_carousel_item.
     $vars['items'][] = array(
       '#type' => 'ding_carousel_item',
       '#content' => $item,
