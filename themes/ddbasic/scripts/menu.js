@@ -49,7 +49,22 @@
           search_extended_btn = $('a.search-extended-button', context),
           first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a .main-menu-expanded-icon', context),
           second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a .main-menu-expanded-icon', context),
-          body = $('body');
+          body = $('body'),
+          userPaneForm = $('.js-topbar-user.pane-user-login #user-login-form'),
+          userPaneFocusElements = userPaneForm.find(':focusable'),
+          userPaneFirstInput = userPaneForm.find('input:focusable').first();
+
+      // By default, the user login pane is hidden, so focusable elements should
+      // not be allowed to have tab-focus.
+      userPaneFocusElements.attr('tabindex', '-1');
+
+      // By default the user form is hidden, so we need to tell that to screen
+      // readers too.
+      // We're adding this through Javascript rather than PHP because the
+      // aria-hidden property is controlled by Javascript and if for some reason
+      // this Javascript file doesnt get added/triggered, the form is still
+      // accessible for screenreaders.
+      userPaneForm.attr('aria-hidden', true);
 
       // Scope fixes for inner functions.
       var thisScope = this;
@@ -88,12 +103,29 @@
       topbar_link_user.on('click', function(evt) {
         evt.preventDefault();
         ddbasic.openLogin();
+
+        // Showing the pane for screenreaders also.
+        userPaneForm.removeAttr('aria-hidden');
+
+        // Making sure the inputs are tab-able.
+        userPaneFocusElements.removeAttr('tabindex');
+
+        // Setting tab focus to the first input element in the login form.
+        if (userPaneFirstInput.length) {
+          userPaneFirstInput.focus();
+        }
       });
 
       close_user_login.on('click', function(evt) {
         evt.preventDefault();
         body.removeClass('pane-login-is-open');
         body.removeClass('overlay-is-active');
+
+        // Hiding the pane for screenreaders also.
+        userPaneForm.attr('aria-hidden', 'true');
+
+        // Making sure the inputs are not tab-able (As they are by default)
+        userPaneFocusElements.attr('tabindex', '-1');
       });
 
       first_level_expanded.on('click', function(evt) {
