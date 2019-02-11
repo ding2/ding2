@@ -500,11 +500,8 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($event_maker_id, $event_id);
     $meta_data = $event->meta_data;
-    $event_state = $meta_data->event_state;
-    $start = strtotime($event->begin_at);
-    $end = strtotime($event->end_at);
+    $event_state = $event->state;
     $available_tickets = $meta_data->available_tickets;
-    $now = time();
 
     // Try to derive an event status for the event by looking at the p2b event
     // state, start date, available tickets and ticket types sales periods.
@@ -513,13 +510,12 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     $status = '';
     // Start out by rulling out some easy conditions looking at the events start
     // and end date.
-    if ($now >= $start && $now <= $end) {
+    if (in_array($event_state, ['held', 'completed'])) {
       // The event is currently taking place and ticket sales is over.
-      $status = 'closed';
-    }
-    elseif ($now > $end) {
-      // The event has already taking place.
       $status = 'event-over';
+    }
+    elseif ($event_state === 'pause') {
+      $status = 'closed';
     }
     elseif ($event_state === 'published') {
       // Now we know the event is not passive and is not over/taking place. If
@@ -558,57 +554,53 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
         // we consider the sales status to be closed. In these cases there might
         // be a waiting list so we look for that before setting status closed.
         if (empty($status)) {
-          $status = !empty($meta_data->waiting_list) ? 'waiting-list' : 'closed';
+          $status = !empty($event->waiting_list) ? 'waiting-list' : 'closed';
         }
       }
       else {
         $status = 'sold-out';
       }
     }
-    elseif ($event_state === 'pause') {
-      $status = 'closed';
-    }
-
-    switch ($status) {
-      case 'open':
-        $data = l(t('Book a ticket'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
-        $class = 'ticket-available';
-        break;
-
-      case 'closed':
-        $data = t('Not open for ticket sale');
-        $class = 'ticket-notice';
-        break;
-
-      case 'sold-out':
-        $data = t('Sold out');
-        $class = 'ticket-warning';
-        break;
-
-      case 'upcoming':
-        $data = t('Ticket sale has not yet started for this event');
-        $class = 'ticket-notice';
-        break;
-
-      case 'waiting-list':
-        $data = l(t('Waiting list open'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
-        $class = 'ticket-available';
-        break;
-
-      case 'event-over':
-        $data = t('The event has already taken place');
-        $class = '';
-        break;
-    }
 
     if (!empty($status)) {
+      switch ($status) {
+        case 'open':
+          $data = l(t('Book a ticket'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
+          $class = 'ticket-available';
+          break;
+
+        case 'closed':
+          $data = t('Not open for ticket sale');
+          $class = 'ticket-notice';
+          break;
+
+        case 'sold-out':
+          $data = t('Sold out');
+          $class = 'ticket-warning';
+          break;
+
+        case 'upcoming':
+          $data = t('Ticket sale has not yet started for this event');
+          $class = 'ticket-notice';
+          break;
+
+        case 'waiting-list':
+          $data = l(t('Waiting list open'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
+          $class = 'ticket-available';
+          break;
+
+        case 'event-over':
+          $data = t('The event has already taken place');
+          $class = '';
+          break;
+      }
       $output = "<span class='place2book button {$class}'>{$data}</span>";
+      print ajax_render($output);
     }
   }
   catch (Exception $ex) {
     watchdog_exception('ding_place2book', $ex);
   }
-  print ajax_render($output);
   exit();
 }
 
