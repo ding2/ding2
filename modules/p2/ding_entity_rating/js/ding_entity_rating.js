@@ -27,6 +27,8 @@
         .disableSelection();
       if(this.options.submitted === false) {
         $('.js-rating-symbol', this.element)
+          .focusin(this.starMouseIn)
+          .focusout(this.starMouseOut)
           .hover(this.starMouseIn, this.starMouseOut)
           .bind('click', function (evt) {
             evt.preventDefault();

@@ -45,7 +45,9 @@
         var contentId = $(this).data('ding-entity-rating-id');
         $('.js-rating-symbol', this).each(function(index) {
           var rating = (index + 1) + '';
-          $(this).click(function() {
+          $(this).click(function(e) {
+            e.preventDefault();
+
             wts.push(['send', 'click', {
               linkId: 'Materiale rating',
               customClickParameter: {
