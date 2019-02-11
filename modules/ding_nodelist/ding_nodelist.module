@@ -1440,11 +1440,14 @@ function _ding_nodelist_get_column_map() {
  *   Event date as a string.
  */
 function _ding_nodelist_get_event_date($date) {
-  $start = strtotime($date[0]['value']);
-  $end = strtotime($date[0]['value2']);
+  $start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
+  $start->setTimezone(new DateTimeZone($date[0]['timezone']));
 
-  $result = $start;
-  $now = time();
+  $end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
+  $end->setTimezone(new DateTimeZone($date[0]['timezone']));
+  $result = $start->getTimestamp();
+
+  $now = new DateObject();
   if ($start <= $now && $now <= $end) {
     $result = $now;
   }
@@ -1462,19 +1465,24 @@ function _ding_nodelist_get_event_date($date) {
  *   Formatted event time period.
  */
 function _ding_nodelist_format_event_time(array $date) {
-  $start = strtotime($date[0]['value'] . ' ' . $date[0]['timezone_db']);
-  $end = strtotime($date[0]['value2'] . ' ' . $date[0]['timezone_db']);
+  $start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
+  // Set timezone to local timezone
+  $start->setTimezone(new DateTimeZone($date[0]['timezone']));
+  $start_string = $start->format('H:i');
 
-  $start_string = format_date($start, 'custom', 'H:i', $date[0]['timezone']);
+  // Create a dateObject from enddate, set base timezone to UTC
+  $end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
+  // Set timezone to local timezone
+  $end->setTimezone(new DateTimeZone($date[0]['timezone']));
 
-  if ($end - $start > 86400) {
-    $result = $start_string;
-  }
-  elseif ($start_string == '00:00') {
+  if ($start_string == '00:00') {
     $result = t('All day');
   }
+  elseif ($end->difference($start) > 86400) {
+    $result = $start_string;
+  }
   else {
-    $end_string = format_date($end, 'custom', 'H:i', $date[0]['timezone']);
+    $end_string = $end->format('H:i');
     $result = t('!start - !end', array('!start' => $start_string, '!end' => $end_string));
   }
 
@@ -1491,14 +1499,19 @@ function _ding_nodelist_format_event_time(array $date) {
  *   Formatted event date period.
  */
 function _ding_nodelist_format_event_date(array $date) {
-  $start = strtotime($date[0]['value']);
-  $end = strtotime($date[0]['value2']);
+  $start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
+  // Set timezone to local timezone
+  $start->setTimezone(new DateTimeZone($date[0]['timezone']));
+  $start_string = $start->format('d.m.y');
 
-  $start_string = format_date($start, 'custom', 'd.m.y', $date[0]['timezone']);
+  // Create a dateObject from enddate, set base timezone to UTC
+  $end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
+  // Set timezone to local timezone
+  $end->setTimezone(new DateTimeZone($date[0]['timezone']));
 
   $result = $start_string;
-  if ($end - $start > 0) {
-    $end_string = format_date($end, 'custom', 'd.m.y', $date[0]['timezone']);
+  if ($end->difference($start) > 0) {
+    $end_string = $end->format('d.m.y');
     $result = t('!start - !end', array(
       '!start' => $start_string,
       '!end' => $end_string,
