@@ -496,12 +496,6 @@ function theme_ding_p2b_prices_table($variables) {
  *   Event id of remote service.
  */
 function ding_place2book_get_event_state($event_maker_id, $event_id) {
-  $node = node_load(45);
-
-  $node->field_place2book[LANGUAGE_NONE][0]['do_sync'] = TRUE;
-
-  node_save($node);
-
   try {
     $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($event_maker_id, $event_id);

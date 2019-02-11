@@ -81,6 +81,25 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         '#default_value' => $synchronize !== NULL ? $synchronize : variable_get('ding_p2b_default_synchronize', FALSE),
       );
 
+      // The value/presence of this element is what actually determines whether
+      // an update will be performed if 'synchronize' above is selected. This is
+      // to protect against unwanted/needed request against p2b API, when nodes
+      // are updated programmatically or in a bulk operation from the UI. In
+      // these cases it's almost never the intention to sync with p2b and it
+      // will also result in potentially lots of un-needed separated requests
+      // against p2b API. These requests would also generate errors since
+      // required values like 'capacity' or 'address' is missing.
+      // If the intention IS to update to events also, the caller would have to
+      // supply the 'do_sync' setting itself on the p2b field on the entity
+      // (together with the required fields).
+      // From this field widget form, the event should be synchronized with p2b
+      // every time (if synchronize is selected), so to ensure this we attach
+      // the 'do_sync' setting here manually as an internal form value.
+      $element['place2book']['do_sync'] = array(
+        '#type' => 'value',
+        '#value' => TRUE,
+      );
+
       if (!empty($event)) {
         $begin_at = date('d/m/Y H:i:s', strtotime($event->begin_at));
         $end_at = date('d/m/Y H:i:s', strtotime($event->end_at));
@@ -397,29 +416,27 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
     case 'ding_p2b':
       if (!empty($items)) {
         $settings = reset($items);
-        // Ensure that 'capacity' key exists before trying to synchronize the
-        // event with p2b. It's required by the API and if not set. This also
-        // protects against unneeded request against API, since this key will be
-        // here when updating node from a form, but not when a node is updated
-        // programmatically.
-        if (array_key_exists('capacity', $settings)) {
-          if ($settings['synchronize']) {
-            if (empty($settings['event_id'])) {
-              $items = _ding_place2book_create_p2b_entities($entity, $settings);
-            }
-            else {
-              $items = _ding_place2book_update_p2b_entities($entity, $settings);
-            }
+        // Ensure that both 'synchronize' and 'do_sync' is set and TRUE, before
+        // making any requests to p2b API. This is to ensure we don't make lots
+        // of unneeded requests when nodes are saved programmatically or updated
+        // in bulk via the UI.
+        // See ding_place2book_field_widget_form() for more info.
+        if ($settings['synchronize'] && !empty($settings['do_sync'])) {
+          if (empty($settings['event_id'])) {
+            $items = _ding_place2book_create_p2b_entities($entity, $settings);
           }
           else {
-            $items = array(
-              array(
-                'event_id' => $settings['event_id'],
-                'event_maker_id' => $settings['event_maker_id'],
-                'synchronize' => $settings['synchronize'],
-              ),
-            );
+            $items = _ding_place2book_update_p2b_entities($entity, $settings);
           }
+        }
+        else {
+          $items = array(
+            array(
+              'event_id' => $settings['event_id'],
+              'event_maker_id' => $settings['event_maker_id'],
+              'synchronize' => $settings['synchronize'],
+            ),
+          );
         }
       }
       break;

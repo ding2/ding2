@@ -45,6 +45,18 @@ function _ding_place2book_migrate_batch($events, &$context) {
         'event_maker_id' => $event_maker_id,
         'synchronize' => $event->maintain_copy,
       );
+      // Note that we will not supply the 'do_sync' parameter like the example
+      // below. This ensures that we don't make a lot of not needed requests
+      // during this migration. If wanted to update in p2b also we would write
+      // somehting like:
+      // $node->field_place2book[LANGUAGE_NONE][0] = array(
+      //   'event_id' => $event->place2book_id,
+      //   'event_maker_id' => $event_maker_id,
+      //   'synchronize' => $event->maintain_copy,
+      //   'do_sync' => TRUE,
+      //   'capacity' => 100,
+      //   'address' => [...],
+      // );
 
       // In the old version of p2b integration module, the field for external
       // ticket link was used by p2b also. In the new version the module has
