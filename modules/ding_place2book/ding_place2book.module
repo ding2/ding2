@@ -204,30 +204,19 @@ function ding_place2book_form_node_delete_confirm_alter(&$form, &$form_state, $f
 
   // This event is synchronized with p2b. Deleting it might have unexpected
   // consequences. Since this is a single node deletion we can afford to fetch
-  // the p2b event and display a detailed warning message.
+  // the p2b event and display a more detailed warning message.
   list($event_id, $event_maker_id) = array_values($field_place2book[0]);
 
-  // The default behavior is to try to delete the p2b event.
+  // The default behavior is to try to delete the p2b event, but it might not be
+  // possible which is reflected in deletable paramater on the p2b-event.
   $warning_message = t('This event is synchronized with place2book and deleting it will also delete the corresponding event at place2book.');
 
   try {
     $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($event_maker_id, $event_id);
 
-    // We check for the held/completed state first since it should take
-    // precedens and will also possibly save us from fetching the prices to
-    // check for sold tickets.
-    if (in_array($event->meta_data->event_state, ['held', 'completed'])) {
-      $warning_message = t("This event is held/completed and can't be deleted from place2book. Deleting this event will therefore destroy the link to the place2book event and it's not possible to re-establish again via the administrative UI");
-    }
-    else {
-      $prices = $p2b->getPrices($event_maker_id, $event_id);
-      foreach ($prices as $price) {
-        if (!empty($price->sold_tickets)) {
-          $warning_message = t("This event has sold tickets and can't be deleted from place2book. Deleting this event will therefore destroy the link to the place2book event and it's not possible to re-establish again via the administrative UI");
-          break;
-        }
-      }
+    if (empty($event->meta_data->deletable)) {
+      $warning_message = t("This event can't be deleted from place2book. Proceeding with deletion will therefore destroy the link to the place2book event and it's not possible to re-establish it again via the administrative UI. The reason for this might be that it has sold ticket and/or the event is already completed.");
     }
   }
   catch (Exception $ex) {
@@ -507,6 +496,12 @@ function theme_ding_p2b_prices_table($variables) {
  *   Event id of remote service.
  */
 function ding_place2book_get_event_state($event_maker_id, $event_id) {
+  $node = node_load(45);
+
+  $node->field_place2book[LANGUAGE_NONE][0]['do_sync'] = TRUE;
+
+  node_save($node);
+
   try {
     $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($event_maker_id, $event_id);

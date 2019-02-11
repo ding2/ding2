@@ -72,6 +72,8 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         '#tree' => TRUE,
       );
 
+      // This setting determines whether the event should be synchronized with
+      // p2b every time an administrator updates the entity from an entity form.
       $element['place2book']['synchronize'] = array(
         '#type' => 'checkbox',
         '#title' => t('Synchronize event with Place2book service'),
@@ -218,8 +220,8 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#default_value' => !empty($price) ? $price->name : $price_name,
         );
 
-        if (!empty($price->sold_tickets)) {
-          $element['place2book']['prices_wrapper']['prices'][$key]['name']['#description'] = t('NB: This ticket type has sold tickets and can not be removed.');
+        if (empty($price->deletable)) {
+          $element['place2book']['prices_wrapper']['prices'][$key]['name']['#description'] = t('NB: This ticket type can not be deleted (most likely because of sold tickets).');
         }
 
         $element['place2book']['prices_wrapper']['prices'][$key]['value'] = array(
@@ -254,7 +256,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#event_maker_id' => $event_maker_id,
           '#submit' => array('ding_place2book_prices_remove_submit'),
           '#limit_validation_errors' => array(),
-          '#disabled' => !empty($price->sold_tickets),
+          '#disabled' => empty($price->deletable),
           '#ajax' => array(
             'wrapper' => 'ding-place2book-prices-wrapper',
             'callback' => 'ding_p2b_prices_remove_ajax_handler',
