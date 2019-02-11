@@ -1466,13 +1466,13 @@ function _ding_nodelist_get_event_date($date) {
  */
 function _ding_nodelist_format_event_time(array $date) {
   $start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
-  // Set timezone to local timezone
+  // Set timezone to local timezone.
   $start->setTimezone(new DateTimeZone($date[0]['timezone']));
   $start_string = $start->format('H:i');
 
-  // Create a dateObject from enddate, set base timezone to UTC
+  // Create a dateObject from enddate, set base timezone to UTC.
   $end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
-  // Set timezone to local timezone
+  // Set timezone to local timezone.
   $end->setTimezone(new DateTimeZone($date[0]['timezone']));
 
   if ($start_string == '00:00') {
@@ -1500,13 +1500,13 @@ function _ding_nodelist_format_event_time(array $date) {
  */
 function _ding_nodelist_format_event_date(array $date) {
   $start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
-  // Set timezone to local timezone
+  // Set timezone to local timezone.
   $start->setTimezone(new DateTimeZone($date[0]['timezone']));
   $start_string = $start->format('d.m.y');
 
-  // Create a dateObject from enddate, set base timezone to UTC
+  // Create a dateObject from enddate, set base timezone to UTC.
   $end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
-  // Set timezone to local timezone
+  // Set timezone to local timezone.
   $end->setTimezone(new DateTimeZone($date[0]['timezone']));
 
   $result = $start_string;
