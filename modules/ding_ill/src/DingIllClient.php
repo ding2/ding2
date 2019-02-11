@@ -52,14 +52,26 @@ class DingIllClient {
   }
 
   /**
-   * Undocumented function.
+   * Make a request to the OpenPlatform API with the token.
    *
+   * @param string $method
+   *   The HTTP request method. For example, 'GET'.
+   * @param string $type
+   *   The type of the request. For example, 'order'.
    * @param DingIllRequest $request
-   * @return void
+   *   The Ding ILL request object.
+   *
+   * @return Psr\Http\Message\ResponseInterface|RequestException
+   *   The GuzzleHttp response or an exception.
    */
-  public function order(DingIllRequest $request) {
+  public function request($method, $type, DingIllRequest $request) {
     try {
-      return $this->client->request('POST', '/order', (array) $request);
+      $response = $this->client->request($method, '/' . $type, array(
+        'access_token' => $this->token,
+        'body' => (array) $request,
+      ));
+
+      return $response->getBody();
     }
     catch (RequestException $e) {
       watchdog_exception('ding_ill', $e);

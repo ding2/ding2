@@ -21,7 +21,27 @@ function ding_ill_menu() {
     'access arguments' => array('perform reservation'),
   );
 
+  $items['admin/config/ding/ill'] = array(
+    'title' => 'Ding Ill settings',
+    'description' => 'Administer interlibrary loan settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_ill_admin_setting_form'),
+    'access arguments' => array('administer ill settings'),
+    'file' => 'ding_ill.admin.inc',
+  );
+
   return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_ill_permission() {
+  return array(
+    'administer ill settings' => array(
+      'title' => t('Administer interlibrary loan settings'),
+    ),
+  );
 }
 
 /**
