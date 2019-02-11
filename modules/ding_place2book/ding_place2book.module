@@ -535,6 +535,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
           ];
         }
 
+        $now = time();
         foreach ($sale_periods as $sale_period) {
           if ($now >= $sale_period['begin'] && $now <= $sale_period['end']) {
             // We have found an open sales period. No need to continue iterating
