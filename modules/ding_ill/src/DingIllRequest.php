@@ -21,7 +21,7 @@ class DingIllRequest {
    * Set the ILL request order ID.
    *
    * @var string $order_id
-   *   The ILL request order ID returned from OpenPlatform on a successfull
+   *   The ILL request order ID returned from OpenPlatform on a successful
    *   request.
    */
   public function setId($order_id) {
@@ -32,7 +32,7 @@ class DingIllRequest {
    * Get the ILL request order ID.
    *
    * @var string
-   *   The order ID of the ILL request from a successfull OpenPlatform order
+   *   The order ID of the ILL request from a successful OpenPlatform order
    *   request.
    */
   public function getId() {

@@ -8,7 +8,7 @@
 /**
  * Implements hook_menu().
  *
- * Used to invoke ding_popup to tell if the order was successfull or not.
+ * Used to invoke ding_popup to tell if the order was successful or not.
  */
 function ding_ill_menu() {
   $items = array();
