@@ -29,6 +29,7 @@ function bpi_features_field_default_field_bases() {
       'allowed_values_function' => 'workflowfield_allowed_values',
       'allowed_values_string' => '1 | (creation)
 2 | Local content
+3 | Pre-sending to BPI
 4 | Sent to BPI
 5 | Sent, updated locally
 6 | Created from BPI

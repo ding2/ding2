@@ -33,5 +33,17 @@ function bpi_features_default_rules_configuration() {
       "DO" : [ { "bpi_rules_delete" : { "entity" : [ "node" ] } } ]
     }
   }');
+  $items['rules_new_content_with_save_and_push_'] = entity_import('rules_config', '{ "rules_new_content_with_save_and_push_" : {
+      "LABEL" : "New content with \\u0027Save and push\\u0027",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "rules" ],
+      "ON" : { "node_insert--ding_news" : { "bundle" : "ding_news" } },
+      "IF" : [
+        { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "3" } }
+      ],
+      "DO" : [ { "redirect" : { "url" : "node\\/[node:nid]\\/workflow" } } ]
+    }
+  }');
   return $items;
 }

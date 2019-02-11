@@ -34,14 +34,15 @@ function ddbasic_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'search-form-extended';
       $vars['classes_array'][] = 'show-secondary-menu';
 
+      // The search form should only be expanded on certain pages.
       $path = menu_get_item()['path'];
-      switch ($path) {
-        case 'search/ting/%';
-        case 'search/ting';
-        case 'search/node/%';
-        case 'ding_frontpage':
-          $vars['classes_array'][] = 'extended-search-is-open';
+
+      if (empty($vars['display_extended_search']) &&
+          !in_array($path, ['search/ting/%', 'search/ting', 'search/node/%', 'ding_frontpage'])) {
+        $vars['classes_array'][] = 'extended-search-is-not-open';
+        $vars['classes_array'][] = 'has-search-dropdown';
       }
+
       break;
   }
 

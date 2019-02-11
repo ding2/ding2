@@ -349,50 +349,6 @@ search/ting
     $display->content['new-97add5d5-2b7f-4520-8ffb-12e238153621'] = $pane;
     $display->panels['main_content'][0] = 'new-97add5d5-2b7f-4520-8ffb-12e238153621';
     $pane = new stdClass();
-    $pane->pid = 'new-dd50ebf9-a0f1-499b-b389-49f178f5e242';
-    $pane->panel = 'main_content';
-    $pane->type = 'block';
-    $pane->subtype = 'ting_search-sort_form';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = '';
-    $pane->uuid = 'dd50ebf9-a0f1-499b-b389-49f178f5e242';
-    $display->content['new-dd50ebf9-a0f1-499b-b389-49f178f5e242'] = $pane;
-    $display->panels['main_content'][1] = 'new-dd50ebf9-a0f1-499b-b389-49f178f5e242';
-    $pane = new stdClass();
-    $pane->pid = 'new-d6bca0c2-099c-4659-8fcd-69da98dbc7c9';
-    $pane->panel = 'main_content';
-    $pane->type = 'search_backends';
-    $pane->subtype = 'search_backends';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'js-mobile-facets',
-    );
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $pane->uuid = 'd6bca0c2-099c-4659-8fcd-69da98dbc7c9';
-    $display->content['new-d6bca0c2-099c-4659-8fcd-69da98dbc7c9'] = $pane;
-    $display->panels['main_content'][2] = 'new-d6bca0c2-099c-4659-8fcd-69da98dbc7c9';
-    $pane = new stdClass();
     $pane->pid = 'new-e073b3fd-5958-404c-b629-ba0f4428eb22';
     $pane->panel = 'main_content';
     $pane->type = 'campaign';
@@ -419,11 +375,55 @@ search/ting
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = 'e073b3fd-5958-404c-b629-ba0f4428eb22';
     $display->content['new-e073b3fd-5958-404c-b629-ba0f4428eb22'] = $pane;
-    $display->panels['main_content'][3] = 'new-e073b3fd-5958-404c-b629-ba0f4428eb22';
+    $display->panels['main_content'][1] = 'new-e073b3fd-5958-404c-b629-ba0f4428eb22';
+    $pane = new stdClass();
+    $pane->pid = 'new-dd50ebf9-a0f1-499b-b389-49f178f5e242';
+    $pane->panel = 'main_content';
+    $pane->type = 'block';
+    $pane->subtype = 'ting_search-sort_form';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = '';
+    $pane->uuid = 'dd50ebf9-a0f1-499b-b389-49f178f5e242';
+    $display->content['new-dd50ebf9-a0f1-499b-b389-49f178f5e242'] = $pane;
+    $display->panels['main_content'][2] = 'new-dd50ebf9-a0f1-499b-b389-49f178f5e242';
+    $pane = new stdClass();
+    $pane->pid = 'new-d6bca0c2-099c-4659-8fcd-69da98dbc7c9';
+    $pane->panel = 'main_content';
+    $pane->type = 'search_backends';
+    $pane->subtype = 'search_backends';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'js-mobile-facets',
+    );
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = 'd6bca0c2-099c-4659-8fcd-69da98dbc7c9';
+    $display->content['new-d6bca0c2-099c-4659-8fcd-69da98dbc7c9'] = $pane;
+    $display->panels['main_content'][3] = 'new-d6bca0c2-099c-4659-8fcd-69da98dbc7c9';
     $pane = new stdClass();
     $pane->pid = 'new-7c02f708-c47f-4eb5-8958-d6279de6ade4';
     $pane->panel = 'main_content';

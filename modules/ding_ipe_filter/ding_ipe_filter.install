@@ -74,3 +74,14 @@ function ding_ipe_filter_update_7102(&$sandbox) {
     variable_set('ding_ipe_filter_panes_selected', $selected);
   }
 }
+
+/**
+ * Select ding nodelist.
+ */
+function ding_ipe_filter_update_7103(&$sandbox) {
+  $selected = _ding_ipe_filter_selected_panes();
+  if (!isset($selected['ding-:ding_nodelist'])) {
+    $selected['ding-:ding_nodelist'] = 'ding-:ding_nodelist';
+    variable_set('ding_ipe_filter_panes_selected', $selected);
+  }
+}

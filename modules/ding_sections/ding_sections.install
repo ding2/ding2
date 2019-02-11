@@ -20,7 +20,7 @@ function ding_sections_install() {
   ));
 
   $submodules = array(
-    'ding_sections_header_image',
+    'ding_sections_custom_css',
     'ding_sections_term_menu',
     'ding_sections_term_panel',
   );

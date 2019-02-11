@@ -20,6 +20,7 @@
         <section class="navigation-wrapper js-topbar-menu">
           <div class="navigation-inner">
             <?php print render($content['navigation']); ?>
+            <a href="#" class="search-extended-button"></a>
           </div>
         </section>
       <?php endif; ?>

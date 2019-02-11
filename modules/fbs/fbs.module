@@ -568,8 +568,6 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
 
   // Get the values that should be validated.
   $existing_on_hold = $wrapper->field_fbs_on_hold->value();
-  $new_on_hold = $form_state['values']['profile_provider_fbs']['field_fbs_on_hold'][LANGUAGE_NONE][0];
-
   // Existing value may return NULL lets convert that to an array.
   if (is_null($existing_on_hold)) {
     $existing_on_hold = array(
@@ -577,6 +575,12 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
       'to' => NULL,
     );
   }
+
+  // New values are in the format Y-m-d while existing values are timestamps.
+  // Convert new values to timestamps to make them comparable.
+  $new_on_hold = array_map(function ($time_string) {
+    return _fbs_form_profile_validate_convert_time($time_string);
+  }, $form_state['values']['profile_provider_fbs']['field_fbs_on_hold'][LANGUAGE_NONE][0]);
 
   // Check if the values have been changed.
   if ($existing_on_hold['from'] != $new_on_hold['from'] || $existing_on_hold['to'] != $new_on_hold['to']) {

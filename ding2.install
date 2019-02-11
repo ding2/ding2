@@ -704,8 +704,32 @@ function ding2_update_7060() {
 }
 
 /**
- * Update translations.
+ * Ensure ding_webtrekk is activated on existing installs.
  */
 function ding2_update_7061() {
+  module_enable(array('ding_webtrekk'));
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7062() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable Section and Nodelist modules.
+ */
+function ding2_update_7063() {
+  module_enable(array(
+    'ding_sections',
+    'ding_nodelist',
+  ));
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7064() {
   ding2_translation_update();
 }

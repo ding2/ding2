@@ -434,6 +434,8 @@ function ting_field_search_ting_search_settings_submit($form, &$form_state) {
 function ting_field_search_preprocess_html(&$vars) {
   $profiles = ting_field_search_profiles_load_all();
 
+  $vars['display_extended_search'] = FALSE;
+
   foreach ($profiles as $profile) {
     // Expended search box not checked go to the next profile.
     if (!array_key_exists('search_box', $profile->config['user_interaction']) || !$profile->config['user_interaction']['search_box']) {
@@ -442,7 +444,7 @@ function ting_field_search_preprocess_html(&$vars) {
 
     // If the profile has visibility all always expand the search field.
     if (ting_field_search_is_profile_visible($profile)) {
-      $vars['classes_array'][] = 'extended-search-is-open';
+      $vars['display_extended_search'] = TRUE;
       break;
     }
   }
