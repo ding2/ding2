@@ -550,15 +550,20 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
           }
         }
         // If no upcoming or open sales period was found for the published event
-        // we consider the sales status to be closed. In these cases there might
-        // be a waiting list so we look for that before setting status closed.
+        // we consider the sales status to be closed.
         if (empty($status)) {
-          $status = !empty($event->waiting_list) ? 'waiting-list' : 'closed';
+          $status = 'closed';
         }
       }
       else {
+        // No tickets available.
         $status = 'sold-out';
       }
+    }
+
+    // In these sitautions the event might provide a waiting list.
+    if (in_array($status, ['upcoming', 'sold-out']) && !empty($event->waiting_list)) {
+      $status = 'waiting-list';
     }
 
     if (!empty($status)) {
