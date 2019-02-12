@@ -11,7 +11,6 @@ dependencies[] = page_manager
 dependencies[] = strongarm
 dependencies[] = xautoload
 configure = admin/config/ding/place2book
-explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
 features[field_base][] = field_place2book
