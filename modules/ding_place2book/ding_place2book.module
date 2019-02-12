@@ -516,54 +516,47 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     elseif ($state === 'published') {
       // If event is publihshed we need to look at ticket types and sale
       // periods.
-      if ($available_tickets > 0 || strval($available_tickets) == '∞') {
-        // Collect all sale periods for the event and look for an open or
-        // upcoming.
-        $sale_periods = [];
-        foreach ($p2b->getPrices($event_maker_id, $event_id) as $price) {
-          $sale_periods[] = [
-            'begin' => strtotime($price->sale_begin_at),
-            'end' => strtotime($price->sale_end_at),
-          ];
-        }
-        // Some events, for example those migrated from the old API, will have
-        // sales period on the event and not on the individual tickets.
-        if (isset($event->sale_open_at) && isset($event->sale_close_at)) {
-          $sale_periods[] = [
-            'begin' => strtotime($event->sale_open_at),
-            'end' => strtotime($event->sale_close_at),
-          ];
-        }
+      $sale_periods = [];
+      foreach ($p2b->getPrices($event_maker_id, $event_id) as $price) {
+        $sale_periods[] = [
+          'begin' => strtotime($price->sale_begin_at),
+          'end' => strtotime($price->sale_end_at),
+        ];
+      }
+      // Some events, for example those migrated from the old API, will have
+      // sales period on the event and not on the individual tickets.
+      if (isset($event->sale_open_at) && isset($event->sale_close_at)) {
+        $sale_periods[] = [
+          'begin' => strtotime($event->sale_open_at),
+          'end' => strtotime($event->sale_close_at),
+        ];
+      }
 
-        $now = time();
-        foreach ($sale_periods as $sale_period) {
-          if ($now >= $sale_period['begin'] && $now <= $sale_period['end']) {
-            // We have found an open sales period. No need to continue iterating
-            // the ticket types.
-            $ticket_link_status = 'open';
-            break;
-          }
-          elseif ($now < $sale_period['begin']) {
-            // We haven't found any open sales period yet,q but at least there's
-            // an upcoming, so set that status for now.
-            $ticket_link_status = 'upcoming';
-          }
+      $now = time();
+      foreach ($sale_periods as $sale_period) {
+        if ($now >= $sale_period['begin'] && $now <= $sale_period['end']) {
+          // We have found an open sales period. No need to continue iterating
+          // the ticket types.
+          $ticket_link_status = 'open';
+          break;
         }
-        // If no upcoming or open sales period was found for the published event
-        // we consider the sales status to be closed.
-        if (empty($status)) {
-          $ticket_link_status = 'closed';
+        elseif ($now < $sale_period['begin']) {
+          // We haven't found any open sales period yet,q but at least there's
+          // an upcoming, so set that status for now.
+          $ticket_link_status = 'upcoming';
         }
       }
-      else {
-        // No tickets available.
-        $ticket_link_status = 'sold-out';
+      // If no upcoming or open sales period was found for the published event
+      // we consider the sales status to be closed.
+      if (empty($status)) {
+        $ticket_link_status = 'closed';
       }
-    }
-
-    // In these sitautions the event might provide a waiting list.
-    if (in_array($status, ['upcoming', 'sold-out']) && !empty($event->waiting_list)) {
-      $ticket_link_status = 'waiting-list';
+      // Else if status was upcoming or open there might not be any available
+      // tickets. In these cases the event is sold out, but there might be a
+      // waiting list.
+      elseif (empty($available_tickets)) {
+        $ticket_link_status = !empty($event->waiting_list) ? 'waiting-list' : 'sold-out';
+      }
     }
 
     if (!empty($ticket_link_status)) {
