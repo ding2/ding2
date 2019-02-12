@@ -58,7 +58,7 @@ function opensearch_get_object($object_id, $collection = FALSE, $with_relations 
     // Execute the request.
     $result = opensearch_execute($request);
 
-    return $collection || is_null($result) ? $result : reset($result);
+    return ($collection || is_null($result)) ? $result : $result[$object_id];
   }
 
   return NULL;
@@ -419,13 +419,17 @@ function opensearch_execute(TingClientRequest $request) {
     // Ids that we still need to be fetched will not be appearing in the list of
     // cached objects.
     $uncached_ids = array_diff_key($object_ids, $cached_objects);
-    $request->setObjectIds(array_keys($uncached_ids));
 
     // If there are no ids to fetch then there is no need to issue a request.
     // Just return the array of cached objects.
     if (empty($uncached_ids)) {
+      _opensearch_cache($request, $cached_objects);
       return $cached_objects;
     }
+
+    // Re-set uncached ids in the request so the missing will be fetched from
+    // the data-well.
+    $request->setObjectIds(array_keys($uncached_ids));
   }
 
   try {
@@ -442,18 +446,21 @@ function opensearch_execute(TingClientRequest $request) {
 
     $response = $request->parseResponse($res);
 
-    if ($request instanceof TingClientObjectRequest) {
-      // Merge in any cached objects. The map uses ids as keys. The order does
-      // not matter for object requests.
-      $response = array_merge($cached_objects, $response);
-    }
-
     // Pass parsed results to other modules.
     $props = module_invoke_all('opensearch_post_execute', $request, $response, $res);
     if (!empty($props)) {
       foreach ($props as $property => $value) {
         $response->{$property} = $value;
       }
+    }
+
+    // This have to be execute after the post_execute hook as the $res and
+    // $response may not match i size and give some strange requirements in the
+    // hooks.
+    if ($request instanceof TingClientObjectRequest) {
+      // Merge in any cached objects. The map uses ids as keys. The order does
+      // not matter for object requests.
+      $response = array_merge($cached_objects, $response);
     }
 
     // Update the cache with the raw response object from the data well for
@@ -513,7 +520,8 @@ function _opensearch_predict_cache(array $collections, TingClientRequest $reques
       $collection_request->setObjectId($object->id);
       $collection_request->setQuery('*:*');
 
-      // See opensearch_execute() for description of always getting all relations.
+      // See opensearch_execute() for description of always getting all
+      // relations.
       $collection_request->setAllRelations(TRUE);
       $collection_request->setRelationData('full');
 
@@ -538,8 +546,11 @@ function _opensearch_predict_cache(array $collections, TingClientRequest $reques
       $collection_response = new TingClientObjectCollection($collection->objects);
       _opensearch_cache($collection_request, $collection_response);
 
+      // Create cache entry for the object as well.
       $object_request = opensearch_get_request_factory()->getObjectRequest();
-      // See opensearch_execute() for description of always getting all relations.
+
+      // See opensearch_execute() for description of always getting all
+      // relations.
       $object_request->setAllRelations(TRUE);
       $object_request->setRelationData('full');
 
@@ -554,6 +565,7 @@ function _opensearch_predict_cache(array $collections, TingClientRequest $reques
         $object_request->setProfile($profile);
       }
 
+      // Build both requests for local id and PID.
       $object_id_request = clone $object_request;
       $object_id_request->setObjectId($object->id);
       $local_id_request = clone $object_request;
@@ -561,6 +573,10 @@ function _opensearch_predict_cache(array $collections, TingClientRequest $reques
 
       // Build the response that matches the request and put it into cache.
       array_map(function (TingClientObjectRequest $object_request) use ($object) {
+        $params = module_invoke_all('opensearch_pre_execute', $object_request);
+        if (!empty($params)) {
+          $object_request->setParameters($params);
+        }
         $object_response = array();
         $object_response[$object->id] = clone $object;
         _opensearch_cache($object_request, $object_response);
