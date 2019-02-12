@@ -500,20 +500,20 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($event_maker_id, $event_id);
     $meta_data = $event->meta_data;
-    $event_state = $event->state;
+    $state = $event->state;
     $available_tickets = $meta_data->available_tickets;
 
     // Try to derive a status for the ticket link in frontend by looking at the
     // p2b event's state, ticket types and sale periods.
     // See: http://developer.place2book.com/v1/events/
-    $status = '';
-    if (in_array($event_state, ['held', 'completed'])) {
-      $status = 'event-over';
+    $ticket_link_status = '';
+    if (in_array($state, ['held', 'completed'])) {
+      $ticket_link_status = 'event-over';
     }
-    elseif ($event_state === 'pause') {
-      $status = 'closed';
+    elseif ($state === 'pause') {
+      $ticket_link_status = 'closed';
     }
-    elseif ($event_state === 'published') {
+    elseif ($state === 'published') {
       // If event is publihshed we need to look at ticket types and sale
       // periods.
       if ($available_tickets > 0 || strval($available_tickets) == '∞') {
@@ -540,34 +540,34 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
           if ($now >= $sale_period['begin'] && $now <= $sale_period['end']) {
             // We have found an open sales period. No need to continue iterating
             // the ticket types.
-            $status = 'open';
+            $ticket_link_status = 'open';
             break;
           }
           elseif ($now < $sale_period['begin']) {
             // We haven't found any open sales period yet,q but at least there's
             // an upcoming, so set that status for now.
-            $status = 'upcoming';
+            $ticket_link_status = 'upcoming';
           }
         }
         // If no upcoming or open sales period was found for the published event
         // we consider the sales status to be closed.
         if (empty($status)) {
-          $status = 'closed';
+          $ticket_link_status = 'closed';
         }
       }
       else {
         // No tickets available.
-        $status = 'sold-out';
+        $ticket_link_status = 'sold-out';
       }
     }
 
     // In these sitautions the event might provide a waiting list.
     if (in_array($status, ['upcoming', 'sold-out']) && !empty($event->waiting_list)) {
-      $status = 'waiting-list';
+      $ticket_link_status = 'waiting-list';
     }
 
-    if (!empty($status)) {
-      switch ($status) {
+    if (!empty($ticket_link_status)) {
+      switch ($ticket_link_status) {
         case 'open':
           $data = l(t('Book a ticket'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
           $class = 'ticket-available';
