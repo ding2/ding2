@@ -510,52 +510,61 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     if (in_array($state, ['held', 'completed'])) {
       $ticket_link_status = 'event-over';
     }
-    elseif ($state === 'pause') {
+    elseif (!$event->active) {
       $ticket_link_status = 'closed';
     }
     elseif ($state === 'published') {
-      // If event is publihshed we need to look at ticket types and sale
-      // periods.
-      $sale_periods = [];
-      foreach ($p2b->getPrices($event_maker_id, $event_id) as $price) {
-        $sale_periods[] = [
-          'begin' => strtotime($price->sale_begin_at),
-          'end' => strtotime($price->sale_end_at),
-        ];
+      // If event is published we first check to see if there's any available
+      // tickets at all. If not the event is sold out and we can avoid fething
+      // ticket types and sale periods. There might be a waiting-list so we
+      // check for that first before setting sold out.
+      if (empty($available_tickets)) {
+        if (empty($event->waiting_list)) {
+          $status = 'waiting-list';
+        }
+        else {
+          $status = 'sold-out';
+        }
       }
-      // Some events, for example those migrated from the old API, will have
-      // sales period on the event and not on the individual tickets.
-      if (isset($event->sale_open_at) && isset($event->sale_close_at)) {
-        $sale_periods[] = [
-          'begin' => strtotime($event->sale_open_at),
-          'end' => strtotime($event->sale_close_at),
-        ];
-      }
+      else {
+        // Else we have no other options than to fetchs the tickets and look
+        // for open or upcoming sale periods.
+        $sale_periods = [];
+        foreach ($p2b->getPrices($event_maker_id, $event_id) as $price) {
+          $sale_periods[] = [
+            'begin' => strtotime($price->sale_begin_at),
+            'end' => strtotime($price->sale_end_at),
+          ];
+        }
+        // Some events, for example those migrated from the old API, will have
+        // sales period on the event and not on the individual tickets.
+        if (isset($event->sale_open_at) && isset($event->sale_close_at)) {
+          $sale_periods[] = [
+            'begin' => strtotime($event->sale_open_at),
+            'end' => strtotime($event->sale_close_at),
+          ];
+        }
 
-      $now = time();
-      foreach ($sale_periods as $sale_period) {
-        if ($now >= $sale_period['begin'] && $now <= $sale_period['end']) {
-          // We have found an open sales period. No need to continue iterating
-          // the ticket types.
-          $ticket_link_status = 'open';
-          break;
+        $now = time();
+        foreach ($sale_periods as $sale_period) {
+          if ($now >= $sale_period['begin'] && $now <= $sale_period['end']) {
+            // We have found an open sales period. No need to continue iterating
+            // the ticket types.
+            $ticket_link_status = 'open';
+            break;
+          }
+          elseif ($now < $sale_period['begin']) {
+            // We haven't found any open sales period yet,q but at least there's
+            // an upcoming, so set that status for now.
+            $ticket_link_status = 'upcoming';
+          }
         }
-        elseif ($now < $sale_period['begin']) {
-          // We haven't found any open sales period yet,q but at least there's
-          // an upcoming, so set that status for now.
-          $ticket_link_status = 'upcoming';
+        // If no upcoming or open sales period was found for the published event
+        // we consider the sales status to be closed.
+        if (empty($status)) {
+          $ticket_link_status = 'closed';
         }
-      }
-      // If no upcoming or open sales period was found for the published event
-      // we consider the sales status to be closed.
-      if (empty($status)) {
-        $ticket_link_status = 'closed';
-      }
-      // Else if status was upcoming or open there might not be any available
-      // tickets. In these cases the event is sold out, but there might be a
-      // waiting list.
-      elseif (empty($available_tickets)) {
-        $ticket_link_status = !empty($event->waiting_list) ? 'waiting-list' : 'sold-out';
+
       }
     }
 
