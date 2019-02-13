@@ -650,13 +650,12 @@ taxonomy/term/%term:tid',
     $pane = new stdClass();
     $pane->pid = 'new-f761af87-a40a-4bcf-99c2-0320ab254d4e';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
+      'style' => 'ribbon',
       'context' => array(
         0 => 'empty',
         1 => 'empty',
@@ -666,7 +665,10 @@ taxonomy/term/%term:tid',
       'override_title' => 0,
       'override_title_text' => '',
     );
-    $pane->cache = array();
+    $pane->cache = array(
+      'method' => '0',
+      'settings' => array(),
+    );
     $pane->style = array(
       'settings' => NULL,
     );
@@ -990,13 +992,12 @@ news/%tid:name',
     $pane = new stdClass();
     $pane->pid = 'new-ed3bd36b-3b75-4103-8826-db8e20c8b8d6';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
+      'style' => 'ribbon',
       'context' => array(
         0 => 'empty',
         1 => 'empty',
@@ -1320,13 +1321,12 @@ node/%node:nid/news
     $pane = new stdClass();
     $pane->pid = 'new-f6b51cdf-2a4b-43bf-b075-b9acbc768fba';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
+      'style' => 'ribbon',
       'context' => array(
         0 => 'empty',
         1 => 'argument_slug_1',
@@ -1335,7 +1335,6 @@ node/%node:nid/news
       ),
       'override_title' => 0,
       'override_title_text' => '',
-      'ding_campaign_image_style' => 'medium',
     );
     $pane->cache = array(
       'method' => 'simple',
