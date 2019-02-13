@@ -519,11 +519,11 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
       // ticket types and sale periods. There might be a waiting-list so we
       // check for that first before setting sold out.
       if (empty($available_tickets)) {
-        if (empty($event->waiting_list)) {
-          $status = 'waiting-list';
+        if (!empty($event->waiting_list)) {
+          $ticket_link_status = 'waiting-list';
         }
         else {
-          $status = 'sold-out';
+          $ticket_link_status = 'sold-out';
         }
       }
       else {
@@ -561,7 +561,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
         }
         // If no upcoming or open sales period was found for the published event
         // we consider the sales status to be closed.
-        if (empty($status)) {
+        if (empty($ticket_link_status)) {
           $ticket_link_status = 'closed';
         }
 
