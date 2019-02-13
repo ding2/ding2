@@ -24,7 +24,7 @@ function ding_ill_admin_setting_form(array $form, array &$form_state) {
     '#type' => 'textfield',
     '#title' => t('API URL'),
     '#description' => t('The OpenPlatform API URL'),
-    '#default_value' => variable_get('ding_ill_api_url', 'https://openplatform.dbc.dk/v3'),
+    '#default_value' => $api_url,
   );
 
   $form['ding_ill_token_fieldset'] = array(
