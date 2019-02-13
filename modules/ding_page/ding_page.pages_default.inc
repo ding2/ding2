@@ -215,13 +215,12 @@ function ding_page_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-0c1b010b-aad2-4a5e-badd-f2fe5334a80c';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
+    $pane->type = 'ding_campaign_plus';
+    $pane->subtype = 'ding_campaign_plus';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ding_campaign_count' => 3,
-      'ding_campaign_offset' => 0,
+      'style' => 'ribbon',
       'context' => array(
         0 => 'argument_entity_id:node_1',
         1 => 'relationship_og_node_from_group_1',
