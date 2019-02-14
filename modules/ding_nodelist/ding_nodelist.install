@@ -63,9 +63,41 @@ function ding_nodelist_install() {
       'widget' => 'carousel',
       'content_type' => 'ding_event',
     ),
+    'ding_nodelist.ding_event.horizontal_accordion' => array(
+      'widget' => 'horizontal_accordion',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_event.slider' => array(
+      'widget' => 'slider',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_event.taxonomy' => array(
+      'widget' => 'taxonomy',
+      'content_type' => 'ding_event',
+    ),
     'ding_nodelist.ding_news.carousel' => array(
       'widget' => 'carousel',
       'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_news.horizontal_accordion' => array(
+      'widget' => 'horizontal_accordion',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_news.taxonomy' => array(
+      'widget' => 'taxonomy',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_news.text' => array(
+      'widget' => 'carousel',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_news.slider' => array(
+      'widget' => 'slider',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_page.taxonomy' => array(
+      'widget' => 'taxonomy',
+      'content_type' => 'ding_page',
     ),
     'ding_nodelist.ding_event.rolltab' => array(
       'widget' => 'rolltab',
@@ -101,6 +133,30 @@ function ding_nodelist_install() {
     ),
     'ding_nodelist.ding_page.node_blocks' => array(
       'widget' => 'node_blocks',
+      'content_type' => 'ding_page',
+    ),
+    'ding_nodelist.ding_event.minimal_display' => array(
+      'widget' => 'minimal_display',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_news.minimal_display' => array(
+      'widget' => 'minimal_display',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_page.minimal_display' => array(
+      'widget' => 'minimal_display',
+      'content_type' => 'ding_page',
+    ),
+    'ding_nodelist.ding_event.grid_images' => array(
+      'widget' => 'grid_images',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_news.grid_images' => array(
+      'widget' => 'grid_images',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_page.grid_images' => array(
+      'widget' => 'grid_images',
       'content_type' => 'ding_page',
     ),
   );
@@ -195,6 +251,24 @@ function ding_nodelist_update_7001() {
     );
     db_insert('ding_nodelist_templates')->fields($fields)->execute();
   }
+
+  // Correcting "Horizontal accordion" records.
+  $values = array(
+    'ding_nodelist.ding_event.image_text' => 'ding_nodelist.ding_event.horizontal_accordion',
+    'ding_nodelist.ding_news.haccordion' => 'ding_nodelist.ding_news.horizontal_accordion',
+  );
+
+  foreach ($values as $key => $value) {
+    db_update('ding_nodelist_templates')
+      ->fields(
+        array(
+          'filename' => $value,
+          'title' => $value,
+        )
+      )
+      ->condition('filename', $key, '=')
+      ->execute();
+  }
 }
 
 /**
@@ -231,6 +305,50 @@ function ding_nodelist_update_7002() {
         ->execute();
     }
   }
+}
+
+/**
+ * Adding 'Minimal display' display type.
+ */
+function ding_nodelist_update_7003() {
+  $mappings = array(
+    'ding_nodelist.ding_event.minimal_display' => array(
+      'widget' => 'minimal_display',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_news.minimal_display' => array(
+      'widget' => 'minimal_display',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_page.minimal_display' => array(
+      'widget' => 'minimal_display',
+      'content_type' => 'ding_page',
+    ),
+  );
+
+  foreach ($mappings as $filename => $mapping) {
+    $fields = array(
+      'filename' => $filename,
+      'title' => $filename,
+      'content_type' => $mapping['content_type'],
+      'widget' => $mapping['widget'],
+      'status' => 0,
+    );
+    db_insert('ding_nodelist_templates')->fields($fields)->execute();
+  }
+}
+
+/**
+ * Fixing CT for page taxonomy like display.
+ */
+function ding_nodelist_update_7004() {
+  db_update('ding_nodelist_templates')
+    ->fields(array(
+      'content_type' => 'ding_page',
+    ))
+    ->condition('filename', 'ding_nodelist.ding_page.taxonomy', '=')
+    ->condition('content_type', 'ding_news', '=')
+    ->execute();
 }
 
 /**
@@ -283,4 +401,35 @@ function ding_nodelist_replace_key(array $array = array(), $key1 = '', $key2 = '
   }
 
   return $array;
+}
+
+/**
+ * Adding 'Grid Images' display type.
+ */
+function ding_nodelist_update_7007() {
+  $mappings = array(
+    'ding_nodelist.ding_event.grid_images' => array(
+      'widget' => 'grid_images',
+      'content_type' => 'ding_event',
+    ),
+    'ding_nodelist.ding_news.grid_images' => array(
+      'widget' => 'grid_images',
+      'content_type' => 'ding_news',
+    ),
+    'ding_nodelist.ding_page.grid_images' => array(
+      'widget' => 'grid_images',
+      'content_type' => 'ding_page',
+    ),
+  );
+
+  foreach ($mappings as $filename => $mapping) {
+    db_update('ding_nodelist_templates')
+      ->fields(array(
+        'content_type' => $mapping['content_type'],
+        'widget' => $mapping['widget'],
+        'status' => 0,
+      ))
+      ->condition('filename', $filename)
+      ->execute();
+  }
 }

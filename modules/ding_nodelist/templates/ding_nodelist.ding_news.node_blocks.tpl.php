@@ -21,7 +21,7 @@
         <div class="title-and-lead">
           <h3 class="title"><?php print $item->title; ?></h3>
           <div
-                  class="field field-name-field-ding-news-lead field-type-text-long field-label-hidden">
+                  class="field field-name-field-ding-news-lead field-type-text-long field-label-hidden element-hidden">
             <div class="field-items">
               <div class="field-item">
                 <?php print $item->teaser_lead; ?>
