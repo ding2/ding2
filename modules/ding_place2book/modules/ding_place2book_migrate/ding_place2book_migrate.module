@@ -20,6 +20,14 @@ function ding_place2book_migrate_menu() {
     'file' => 'ding_place2book_migrate.admin.inc',
   );
 
+  $items['admin/config/ding/place2book/migrate/approve'] = array(
+    'title' => 'Approve migration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_migrate_approve_form'),
+    'access arguments' => array('administer place2book settings'),
+    'file' => 'ding_place2book_migrate.admin.inc',
+  );
+
   return $items;
 }
 
