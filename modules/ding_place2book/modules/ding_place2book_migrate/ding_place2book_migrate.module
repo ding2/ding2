@@ -20,6 +20,14 @@ function ding_place2book_migrate_menu() {
     'file' => 'ding_place2book_migrate.admin.inc',
   );
 
+  $items['admin/config/ding/place2book/migrate/approve'] = array(
+    'title' => 'Approve migration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_migrate_approve_form'),
+    'access arguments' => array('administer place2book settings'),
+    'file' => 'ding_place2book_migrate.admin.inc',
+  );
+
   return $items;
 }
 
@@ -71,7 +79,20 @@ function _ding_place2book_migrate_batch($events, &$context) {
         }
       }
 
-      node_save($node);
+      try {
+        node_save($node);
+        // If we get here it means that no exception was thrown and we update
+        // the migation status to TRUE which indicates completed.
+        db_update('ding_place2book')
+          ->fields(['migration_status' => 1])
+          ->condition('nid', $node->nid)
+          ->execute();
+      }
+      catch(Exception $e) {
+        // No need to do anything here really. The node module logs a watchdog
+        // exception if something went wrong, so we just continue with the
+        // migration and display a status when it's done.
+      }
     }
     $context['message'] = t('Processing: <em>@title</em> (@current/@total).', array(
       '@title' => $node->title,
@@ -92,17 +113,6 @@ function _ding_place2book_migrate_batch($events, &$context) {
  * @see ding_place2book_migrate_admin_form_submit()
  */
 function _ding_place2book_migrate_batch_finished($success, $results, $operations) {
-  $message = t('Finished with an error.');
-  if ($success) {
-    $message = t('Events migration completed.');
-    // Drop table.
-    if (db_table_exists('ding_place2book')) {
-      db_drop_table('ding_place2book');
-    }
-
-    // Disable module.
-    module_disable(array('ding_place2book_migrate'), TRUE);
-  }
-
+  $message = $success ? t('Events migration completed.') : t('Finished with an error.');
   drupal_set_message($message);
 }
