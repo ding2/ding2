@@ -8,137 +8,120 @@
  * Form handler for configuration service settings.
  */
 function ding_place2book_service_admin_form($form, &$form_state) {
-  $form['#tree'] = TRUE;
   $settings = variable_get('ding_place2book_settings', array());
 
-  $form['ding_place2book'] = array(
+  $form['ding_place2book_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Place2Book service'),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
+    '#tree' => TRUE,
   );
 
-  $form['ding_place2book']['url'] = array(
+  $form['ding_place2book_settings']['base_url'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book service URL'),
-    '#default_value' => isset($settings['url']) ? $settings['url'] : 'https://api.place2book.com',
-    '#description' => t('Enter a valid Place2book service endpoint, such as https://www.place2book.com/da/event_api'),
+    '#title' => t('Place2Book service base URL'),
+    '#default_value' => isset($settings['base_url']) ? $settings['base_url'] : 'https://api.place2book.com',
+    '#description' => t('Enter a valid base URL without trailing slash for the Place2book service.'),
     '#size' => 100,
   );
 
-  $form['ding_place2book']['token'] = array(
+  $form['ding_place2book_settings']['token'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book authorisation token'),
     '#default_value' => isset($settings['token']) ? $settings['token'] : '',
     '#description' => t('This is the default API key used when connecting to Place2book.'),
   );
 
-  $form['ding_place2book']['eventMakers'] = array(
+  $form['ding_place2book_settings']['eventMakers'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book event makers URL'),
-    '#default_value' => isset($settings['eventMakers']) ? $settings['eventMakers'] : 'https://api.place2book.com/event_makers',
+    '#title' => t('Insert Place2Book event makers path without leading slash.'),
+    '#default_value' => isset($settings['eventMakers']) ? $settings['eventMakers'] : 'event_makers',
     '#required' => TRUE,
     '#size' => 100,
   );
 
-  $form['ding_place2book']['editEvent'] = array(
+  $form['ding_place2book_settings']['editEvent'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book edit event URL'),
-    '#default_value' => isset($settings['editEvent']) ? $settings['editEvent'] : 'https://api.place2book.com/event_makers/:event_maker_id/events/:event_id',
+    '#title' => t('Insert Place2Book edit event path without leading slash.'),
+    '#default_value' => isset($settings['editEvent']) ? $settings['editEvent'] : 'event_makers/:event_maker_id/events/:event_id',
     '#required' => TRUE,
     '#size' => 100,
   );
 
-  $form['ding_place2book']['getEvent'] = array(
+  $form['ding_place2book_settings']['getEvent'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book get event URL'),
-    '#default_value' => isset($settings['getEvent']) ? $settings['getEvent'] : 'https://api.place2book.com/event_makers/:event_maker_id/events/:event_id',
+    '#title' => t('Insert Place2Book get event path without leading slash.'),
+    '#default_value' => isset($settings['getEvent']) ? $settings['getEvent'] : 'event_makers/:event_maker_id/events/:event_id',
     '#required' => TRUE,
     '#size' => 100,
   );
 
-  $form['ding_place2book']['updateEvent'] = array(
+  $form['ding_place2book_settings']['updateEvent'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book update event URL'),
-    '#default_value' => isset($settings['updateEvent']) ? $settings['updateEvent'] : 'https://api.place2book.com/event_makers/:event_maker_id/events/:event_id',
+    '#title' => t('Insert Place2Book update event path without leading slash.'),
+    '#default_value' => isset($settings['updateEvent']) ? $settings['updateEvent'] : 'event_makers/:event_maker_id/events/:event_id',
     '#required' => TRUE,
     '#size' => 100,
   );
 
-  $form['ding_place2book']['deleteEvent'] = array(
+  $form['ding_place2book_settings']['deleteEvent'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book delete event URL'),
-    '#default_value' => isset($settings['deleteEvent']) ? $settings['deleteEvent'] : 'https://api.place2book.com/event_makers/:event_maker_id/events/:event_id',
+    '#title' => t('Insert Place2Book delete event path without leading slash.'),
+    '#default_value' => isset($settings['deleteEvent']) ? $settings['deleteEvent'] : 'event_makers/:event_maker_id/events/:event_id',
     '#required' => TRUE,
     '#size' => 100,
   );
 
-  $form['ding_place2book']['createEvent'] = array(
+  $form['ding_place2book_settings']['createEvent'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book create event URL'),
-    '#default_value' => isset($settings['createEvent']) ? $settings['createEvent'] : 'https://api.place2book.com/event_makers/:event_maker_id/events',
+    '#title' => t('Insert Place2Book create event path without leading slash.'),
+    '#default_value' => isset($settings['createEvent']) ? $settings['createEvent'] : 'event_makers/:event_maker_id/events',
     '#required' => TRUE,
     '#size' => 100,
   );
 
-  $form['ding_place2book']['createPrice'] = array(
+  $form['ding_place2book_settings']['createPrice'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book create price URL'),
-    '#default_value' => isset($settings['createPrice']) ? $settings['createPrice'] : 'https://api.place2book.com/event_makers/:event_maker_id/events/:event_id/prices',
+    '#title' => t('Insert Place2Book create price path without leading slash.'),
+    '#default_value' => isset($settings['createPrice']) ? $settings['createPrice'] : 'event_makers/:event_maker_id/events/:event_id/prices',
     '#required' => TRUE,
     '#size' => 100,
   );
 
-  $form['ding_place2book']['getPrices'] = array(
+  $form['ding_place2book_settings']['getPrices'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book get prices of event URL'),
-    '#default_value' => isset($settings['getPrices']) ? $settings['getPrices'] : 'https://api.place2book.com//event_makers/:event_maker_id/events/:event_id/prices',
+    '#title' => t('Insert Place2Book get prices path without leading slash.'),
+    '#default_value' => isset($settings['getPrices']) ? $settings['getPrices'] : 'event_makers/:event_maker_id/events/:event_id/prices',
     '#required' => TRUE,
     '#size' => 100,
   );
 
-  $form['ding_place2book']['getPrice'] = array(
+  $form['ding_place2book_settings']['getPrice'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book get price URL'),
-    '#default_value' => isset($settings['getPrice']) ? $settings['getPrice'] : 'https://api.place2book.com//event_makers/:event_maker_id/events/:event_id/prices/:price_id',
+    '#title' => t('Insert Place2Book get price path without leading slash.'),
+    '#default_value' => isset($settings['getPrice']) ? $settings['getPrice'] : 'event_makers/:event_maker_id/events/:event_id/prices/:price_id',
     '#required' => TRUE,
     '#size' => 100,
   );
 
-  $form['ding_place2book']['updatePrice'] = array(
+  $form['ding_place2book_settings']['updatePrice'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book update price URL'),
-    '#default_value' => isset($settings['updatePrice']) ? $settings['updatePrice'] : 'https://api.place2book.com//event_makers/:event_maker_id/events/:event_id/prices/:price_id',
+    '#title' => t('Insert Place2Book update price path without leading slash.'),
+    '#default_value' => isset($settings['updatePrice']) ? $settings['updatePrice'] : 'event_makers/:event_maker_id/events/:event_id/prices/:price_id',
     '#required' => TRUE,
     '#size' => 100,
   );
 
-  $form['ding_place2book']['deletePrice'] = array(
+  $form['ding_place2book_settings']['deletePrice'] = array(
     '#type' => 'textfield',
-    '#title' => t('Place2Book delete price URL'),
-    '#default_value' => isset($settings['deletePrice']) ? $settings['deletePrice'] : 'https://api.place2book.com//event_makers/:event_maker_id/events/:event_id/prices/:price_id',
+    '#title' => t('Insert Place2Book delete price path without leading slash.'),
+    '#default_value' => isset($settings['deletePrice']) ? $settings['deletePrice'] : 'event_makers/:event_maker_id/events/:event_id/prices/:price_id',
     '#required' => TRUE,
     '#size' => 100,
   );
 
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save'),
-    '#submit' => array('ding_place2book_service_admin_form_submit'),
-  );
-
-  return $form;
-}
-
-/**
- * Submit handler for configuration page of p2b library.
- */
-function ding_place2book_service_admin_form_submit($form, &$form_state) {
-  $values = $form_state['values'];
-  $settings = $values['ding_place2book'];
-  variable_set('ding_place2book_settings', $settings);
-
-  drupal_set_message(t('Configuration successfully saved'));
+  return system_settings_form($form);
 }
 
 /**
