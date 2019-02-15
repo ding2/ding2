@@ -27,16 +27,64 @@ function ding_place2book_migrate_admin_form($form, &$form_state) {
     ]);
   }
 
-  $form['pre_migration_tests'] = array(
+  $form['pre_migration_tests'] = [
     '#type' => 'fieldset',
     '#title' => t('Pre-migration tests'),
-  );
+  ];
 
   $form['pre_migration_tests']['result'] = [
     '#theme' => 'item_list',
     '#list_type' => 'ul',
-    '#items' => !empty($failed_tests) ? $failed_tests : t('Configuration is OK! Migration is ready to be started.'),
+    '#items' => !empty($failed_tests) ? $failed_tests : [t('Configuration is OK! Migration is ready to be started.')],
   ];
+
+  $query = db_select('ding_place2book', 'd');
+  $query->join('node', 'n', 'n.nid=d.nid');
+  $query->fields('n', ['nid', 'title'])
+    ->fields('d', ['place2book_id'])
+    ->condition('d.migration_status', 0);
+
+  $migration_count = $query->countQuery()->execute()->fetchField();
+
+  $migration_status_text = format_plural(
+    $migration_count,
+    'One node to be migrated. You can see it below.',
+    '@count nodes to be migrated. You can browse them below.'
+  );
+
+  $form['migration_status'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Migration status'),
+    '#description' => $migration_status_text,
+  ];
+
+  $header = [
+    ['data' => t('Event')],
+    ['data' => t('Place2book ID')],
+  ];
+
+  $pager_query = $query->extend('PagerDefault');
+  $results = $pager_query
+    ->limit(10)
+    ->orderBy('n.created')
+    ->execute();
+
+  $rows = [];
+  foreach ($results as $result) {
+    $row = [];
+    $row['event'] = l($result->title, 'node/' . $result->nid . '/edit', ['query' => drupal_get_destination()]);
+    $row['place2book_id'] = $result->place2book_id;
+    $rows[] = ['data' => $row];
+  }
+
+  $form['migration_status']['table'] = [
+    '#theme' => 'table',
+    '#header' => $header,
+    '#rows' => $rows,
+    '#empty' => t('Migration complete.'),
+  ];
+
+  $form['migration_status']['pager'] = ['#theme' => 'pager'];
 
   $form['start'] = array(
     '#type' => 'submit',
