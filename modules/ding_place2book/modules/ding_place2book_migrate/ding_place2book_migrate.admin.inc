@@ -88,14 +88,20 @@ function ding_place2book_migrate_admin_form($form, &$form_state) {
 
   $form['start'] = array(
     '#type' => 'submit',
-    '#value' => t('Start'),
+    '#value' => t('Start migration'),
     '#disabled' => !empty($failed_tests),
-    '#suffix' => t('Starting migration event to new api. This operation can not be canceled.'),
+    '#suffix' => t('Start migration of events to new api. You can re-run the migration as many times as you like until migration is approved below.') . '<br>',
   );
-
   if (!empty($failed_tests)) {
-    $form['start']['#suffix'] =  t('Some tests failed which need to be sorted out before migration can be started. See above.');
+    $form['start']['#suffix'] =  t('Some tests failed which need to be sorted out before migration can be started. See above.') . '<br>';
   }
+
+  $form['approve'] = [
+    '#type' => 'submit',
+    '#value' => t('Approve migration'),
+    '#suffix' => t(' WARNING: The old place2book data will be removed and it will not be possible to run the migration again.'),
+    '#submit' => ['ding_placebook_migrate_approve_migration_submit'],
+  ];
 
   return $form;
 }
@@ -120,4 +126,22 @@ function ding_place2book_migrate_admin_form_submit($form, &$form_state) {
   );
 
   batch_set($batch);
+}
+
+/**
+ * Submit hanlder for approve migration button.
+ */
+function ding_placebook_migrate_approve_migration_submit($form, &$form_state) {
+  if (db_table_exists('ding_place2book')) {
+    db_drop_table('ding_place2book');
+  }
+
+  // Disable and uninstall module.
+  module_disable(array('ding_place2book_migrate'), TRUE);
+  drupal_uninstall_modules(array('ding_place2book_migrate'));
+
+  // Rebuild to remove migration tab and redirect to the main page of p2b admin
+  // settings.
+  menu_rebuild();
+  $form_state['redirect'] = 'admin/config/ding/place2book';
 }

@@ -105,17 +105,6 @@ function _ding_place2book_migrate_batch($events, &$context) {
  * @see ding_place2book_migrate_admin_form_submit()
  */
 function _ding_place2book_migrate_batch_finished($success, $results, $operations) {
-  $message = t('Finished with an error.');
-  if ($success) {
-    $message = t('Events migration completed.');
-    // Drop table.
-    if (db_table_exists('ding_place2book')) {
-      db_drop_table('ding_place2book');
-    }
-
-    // Disable module.
-    module_disable(array('ding_place2book_migrate'), TRUE);
-  }
-
+  $message = $success ? t('Events migration completed.') : t('Finished with an error.');
   drupal_set_message($message);
 }
