@@ -18,10 +18,10 @@ function ding_place2book_service_admin_form($form, &$form_state) {
     '#tree' => TRUE,
   );
 
-  $form['ding_place2book_settings']['base_url'] = array(
+  $form['ding_place2book_settings']['baseUrl'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book service base URL'),
-    '#default_value' => isset($settings['base_url']) ? $settings['base_url'] : 'https://api.place2book.com',
+    '#default_value' => isset($settings['baseUrl']) ? $settings['baseUrl'] : 'https://api.place2book.com',
     '#description' => t('Enter a valid base URL without trailing slash for the Place2book service.'),
     '#size' => 100,
   );

@@ -42,7 +42,7 @@ class P2b {
    *
    * @var string
    */
-  private $base_url;
+  private $baseUrl;
 
   /**
    * Url on remote service for getting list of event makers.
@@ -635,7 +635,7 @@ class P2b {
     foreach ($placeholders as $placeholder => $value) {
       $url = str_replace($placeholder, $value, $url);
     }
-    return $this->base_url . '/' . $url;
+    return $this->baseUrl . '/' . $url;
   }
 
   /**
