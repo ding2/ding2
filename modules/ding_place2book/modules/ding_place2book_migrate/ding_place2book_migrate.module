@@ -1,0 +1,108 @@
+<?php
+/**
+ * @file
+ * Represents hook definition and common methods.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_place2book_migrate_menu() {
+  $items = array();
+
+  $items['admin/config/ding/place2book/migrate'] = array(
+    'title' => 'Migrate',
+    'description' => 'Migrating events to new api.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_migrate_admin_form'),
+    'access arguments' => array('administer place2book settings'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_place2book_migrate.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Creates a batch for event migration.
+ */
+function _ding_place2book_migrate_batch($events, &$context) {
+  if (empty($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['offset'] = 1;
+    $context['sandbox']['max'] = count($events);
+  }
+  $part = array_slice($events, $context['sandbox']['progress'], 20);
+  $context['sandbox']['progress'] += count($part);
+  foreach ($part as $event) {
+    $node = node_load($event->nid);
+    if (!empty($event->place2book_id) && $event->place2book_id != -1) {
+      $event_maker_id = _ding_place2book_get_event_maker($node);
+
+      // Migrate the node's p2b event data to the new p2b field. Note that we do
+      // not supply the 'do_sync' parameter. This ensures that we don't try to
+      // synchronize to events with p2b during migration. We only want to
+      // transfer the p2b ids to the new field without updating anything in p2b.
+      $node->field_place2book[LANGUAGE_NONE][0] = array(
+        'event_id' => $event->place2book_id,
+        'event_maker_id' => $event_maker_id,
+        'synchronize' => $event->maintain_copy,
+      );
+
+      // In the old version of p2b integration module, the field for external
+      // ticket link was used by p2b also. In the new version the module has
+      // it's own dedicated field with widget and formatter, and the formatter
+      // outputs its own ticket link button. Unfortunately this will result in
+      // double ticket buttons in frontend for migrated events, since they will
+      // still have the p2b ticket URL in the ticket_link field. The easiest
+      // solution at this point seems to be to keep the fields separated, so
+      // here we ensure that existing nodes with p2b data don't also have the
+      // p2b ticket URL in the ticket_link field, to avoid double ticket buttons
+      // in frontend.
+      // Note that the initial field_get_items check is used to avoid having to
+      // deal with the "Parent Data Structure Not Set" exception thrown by the
+      // wrapper, when field data is not available.
+      // See: https://www.drupal.org/project/entity/issues/1596594
+      if (field_get_items('node', $node, 'field_ding_event_ticket_link')) {
+        $node_wrapper = entity_metadata_wrapper('node', $node);
+        $ticket_url = $node_wrapper->field_ding_event_ticket_link->url->value();
+        if (strpos($ticket_url, 'https://www.place2book.com') === 0) {
+          $node_wrapper->field_ding_event_ticket_link->set(NULL);
+        }
+      }
+
+      node_save($node);
+    }
+    $context['message'] = t('Processing: <em>@title</em> (@current/@total).', array(
+      '@title' => $node->title,
+      '@current' => $context['sandbox']['progress'],
+      '@total' => $context['sandbox']['max'],
+    ));
+  }
+
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Finish callback for the migration batch operation.
+ *
+ * @see _ding_place2book_migrate_batch()
+ * @see ding_place2book_migrate_admin_form_submit()
+ */
+function _ding_place2book_migrate_batch_finished($success, $results, $operations) {
+  $message = t('Finished with an error.');
+  if ($success) {
+    $message = t('Events migration completed.');
+    // Drop table.
+    if (db_table_exists('ding_place2book')) {
+      db_drop_table('ding_place2book');
+    }
+
+    // Disable module.
+    module_disable(array('ding_place2book_migrate'), TRUE);
+  }
+
+  drupal_set_message($message);
+}
