@@ -533,6 +533,9 @@ function opensearch_execute(TingClientRequest $request) {
 function _opensearch_predict_cache(array $collections, TingClientRequest $request) {
   foreach ($collections as $collection) {
     foreach ($collection->objects as $object) {
+      // This is temporary debug code to investigate problematic collections
+      // from search results, that contain non-object ting objects.
+      // See: https://platform.dandigbib.org/issues/3736
       if (!is_object($object)) {
         watchdog('opensearch', 'Predict cache found collection with empty objects. Search query: @query', array('@query' => $request->getQuery()), WATCHDOG_WARNING);
         break;
