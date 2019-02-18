@@ -248,6 +248,36 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
     }
   }
 
+  // This is temporary debug code to investigate problems with the collections
+  // returned by search request when using opensearch. The problem can either be
+  // caused by an empty collection array on a search result which reports a non
+  // zero numTotalCollection or when some of the collections are not the correct
+  // type of object.
+  // In an attempt to get some insight into when the problem occurs we look for
+  // both of these situations below and write it with relevant data to watchdog.
+  // See: https://platform.dandigbib.org/issues/3736
+  $actual_collection_count = count($search_result->collections);
+  $reported_collection_count = $search_result->numTotalCollections;
+  if ($actual_collection_count != $reported_collection_count) {
+    // We are on the look out for empty collection array with non-zero
+    // numTotalCollections, but every case where these two doesn't match is
+    // interesting.
+    watchdog('opensearch', 'The reported number of collections (@reported) does not match the actual number (@actual) in opensearch_do_search. Search query: @query', [
+      '@reported' => $reported_collection_count,
+      '@actual' => $actual_collection_count,
+      '@query' => $query,
+    ]);
+  }
+  $filtered_collections = array_filter($search_result->collections, function($collection) {
+    return is_object($collection);
+  });
+  if (count($filtered_collections) != $collection_count) {
+    // Some of the collections were not objects.
+    watchdog('opensearch', 'Found non-object collections on search result in opensearch_do_search. Search query: @query', [
+      '@query' => $query,
+    ]);
+  }
+
   return $search_result;
 }
 
