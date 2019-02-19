@@ -428,7 +428,21 @@ function ding_user_get_pincode_length() {
 function ding_user_element_validate_pincode($element, &$form_state, $form) {
   $pincode_length = ding_user_get_pincode_length();
   $pincode = $element['#value'];
+  $error = FALSE;
   if (!empty($pincode) && !preg_match('/^\d{' . $pincode_length . '}$/', $pincode)) {
+    // Check that this is not an WAYF login as is uses a non pin-code type
+    // login token.
+    if (module_exists('ding_gatewayf')) {
+      if (!_ding_gatewayf_is_logged_in_with_gatewayf()) {
+        $error = TRUE;
+      }
+    }
+    else {
+      $error = TRUE;
+    }
+  }
+
+  if ($error) {
     form_error($element, t('The pincode must consist of exactly %number digits and only contain integers.', array('%number' => $pincode_length)));
   }
 }
