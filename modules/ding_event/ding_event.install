@@ -297,6 +297,6 @@ function ding_event_update_7010() {
 /**
  * Enable date_repeat, date_repeat_field date_repeat_entity and replicate.
  */
-function ding_event_update_7010() {
+function ding_event_update_7011() {
   module_enable(array('date_repeat_entity'));
 }
