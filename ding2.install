@@ -726,3 +726,10 @@ function ding2_update_7063() {
     'ding_nodelist',
   ));
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7064() {
+  ding2_translation_update();
+}
