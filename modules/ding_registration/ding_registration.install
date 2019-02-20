@@ -7,7 +7,7 @@
 /**
  * Implements hook_uninstall().
  */
-function ding_auth_registration_uninstall() {
+function ding_registration_uninstall() {
   // Remove configuration variable.
-  variable_del('ding_auth_registration');
+  variable_del('ding_registration');
 }

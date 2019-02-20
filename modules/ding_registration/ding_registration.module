@@ -4,41 +4,41 @@
  * Handle user self registration.
  */
 
-define('DING_AUTH_REGISTRATION_INFORMATION_URL', 'ding_auth/registration');
-define('DING_AUTH_REGISTRATION_ACCEPTANCE_URL', 'ding_auth/registration/acceptance');
-define('DING_AUTH_REGISTRATION_SUCCESS_URL', 'ding_auth/registration/success');
+define('DING_REGISTRATION_INFORMATION_URL', 'registration');
+define('DING_REGISTRATION_ACCEPTANCE_URL', 'registration/acceptance');
+define('DING_REGISTRATION_SUCCESS_URL', 'registration/success');
 
 /**
  * Implements hook_menu().
  */
-function ding_auth_registration_menu() {
+function ding_registration_menu() {
   $items = array();
 
   $items['admin/config/ding/auth/registration'] = array(
     'title' => 'Registration',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_auth_registration_admin_settings_form'),
+    'page arguments' => array('ding_registration_admin_settings_form'),
     'access arguments' => array('administer users'),
-    'file' => 'includes/ding_auth_registration.admin.inc',
+    'file' => 'includes/ding_registration.admin.inc',
     'type' => MENU_LOCAL_TASK,
   );
 
-  $items[DING_AUTH_REGISTRATION_INFORMATION_URL] = array(
-    'page callback' => 'ding_auth_registration_information',
+  $items[DING_REGISTRATION_INFORMATION_URL] = array(
+    'page callback' => 'ding_registration_information',
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
 
-  $items[DING_AUTH_REGISTRATION_ACCEPTANCE_URL] = array(
+  $items[DING_REGISTRATION_ACCEPTANCE_URL] = array(
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_auth_registration_acceptance_form'),
-    'access callback' => 'ding_auth_registration_acceptance_access_check',
-    'file' => 'includes/ding_auth_registration.acceptance.inc',
+    'page arguments' => array('ding_registration_acceptance_form'),
+    'access callback' => 'ding_registration_acceptance_access_check',
+    'file' => 'includes/ding_registration.acceptance.inc',
     'type' => MENU_CALLBACK,
   );
 
-  $items[DING_AUTH_REGISTRATION_SUCCESS_URL] = array(
-    'page callback' => 'ding_auth_registration_success',
+  $items[DING_REGISTRATION_SUCCESS_URL] = array(
+    'page callback' => 'ding_registration_success',
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
@@ -55,17 +55,20 @@ function ding_auth_registration_menu() {
  * @return bool
  *   TRUE if values exists in the session else FALSE.
  */
-function ding_auth_registration_acceptance_access_check() {
+function ding_registration_acceptance_access_check() {
+
+  // @TODO: abstract to ding_user_is_logged_in().
+
   return isset($_SESSION['oauth2userinfo']);
 }
 
 /**
  * Implements hook_theme().
  */
-function ding_auth_registration_theme($existing, $type, $theme, $path) {
+function ding_registration_theme($existing, $type, $theme, $path) {
   return array(
-    'ding_auth_registration' => array(
-      'template' => 'ding-auth-registration',
+    'ding_registration' => array(
+      'template' => 'ding-registration',
       'variables' => array(
         'title' => array(),
         'content' => array(),
@@ -73,17 +76,17 @@ function ding_auth_registration_theme($existing, $type, $theme, $path) {
       ),
       'path' => $path . '/templates',
     ),
-    'ding_auth_registration_success' => array(
-      'template' => 'ding-auth-registration-success',
+    'ding_registration_success' => array(
+      'template' => 'ding-registration-success',
       'variables' => array(
         'title' => array(),
         'content' => array(),
       ),
       'path' => $path . '/templates',
     ),
-    'ding_auth_registration_acceptance' => array(
+    'ding_registration_acceptance' => array(
       'render element'  => 'element',
-      'template' => 'templates/ding-auth-acceptance',
+      'template' => 'templates/ding-acceptance',
     ),
   );
 }
@@ -94,14 +97,14 @@ function ding_auth_registration_theme($existing, $type, $theme, $path) {
  * @return array
  *   Render array with the page content.
  */
-function ding_auth_registration_information() {
-  $config = _ding_auth_registration_config();
+function ding_registration_information() {
+  $config = _ding_registration_config();
 
   // Set page title to the same as the pages headline.
   drupal_set_title($config['information']['title']);
 
   return array(
-    '#theme' => 'ding_auth_registration',
+    '#theme' => 'ding_registration',
     '#title' => $config['information']['title'],
     '#content' => $config['information']['content']['value'],
     '#link' => array(
@@ -119,7 +122,7 @@ function ding_auth_registration_information() {
           ),
         ),
         'query' => array(
-          'destination' => DING_AUTH_REGISTRATION_ACCEPTANCE_URL,
+          'destination' => DING_REGISTRATION_ACCEPTANCE_URL,
           'idp' => 'nemid',
         ),
         'html' => TRUE,
@@ -134,11 +137,11 @@ function ding_auth_registration_information() {
  * @return array
  *   Render array with the page to display.
  */
-function ding_auth_registration_success() {
-  $config = _ding_auth_registration_config();
+function ding_registration_success() {
+  $config = _ding_registration_config();
 
   return array(
-    '#theme' => 'ding_auth_registration_success',
+    '#theme' => 'ding_registration_success',
     '#title' => $config['success']['title'],
     '#content' => $config['success']['content']['value'],
   );
@@ -147,7 +150,7 @@ function ding_auth_registration_success() {
 /**
  * Implements hook_ding_provider_user().
  */
-function ding_auth_registration_ding_provider_user() {
+function ding_registration_ding_provider_user() {
   return array(
     'user' => array(
       'required' => TRUE,
@@ -166,8 +169,8 @@ function ding_auth_registration_ding_provider_user() {
  *   If the age limit is given and met TRUE else FALSE. If age limit is not
  *   given TRUE will always be returned.
  */
-function _ding_auth_registration_is_age_limit_met($cpr) {
-  $config = _ding_auth_registration_config();
+function _ding_registration_is_age_limit_met($cpr) {
+  $config = _ding_registration_config();
 
   // Check if age limit should be set.
   $limit = $config['age_limit'];
@@ -215,11 +218,11 @@ function _ding_auth_registration_is_age_limit_met($cpr) {
 /**
  * Load self registration configuration with valid defaults.
  */
-function _ding_auth_registration_config() {
+function _ding_registration_config() {
   // Load default information text from file. This text is pre-approved by DDB.
-  $info_text = file_get_contents(drupal_get_path('module', 'ding_auth_registration') . '/ding_auth_registration_text.html');
+  $info_text = file_get_contents(drupal_get_path('module', 'ding_auth_registration') . '/ding_registration_text.html');
 
-  return variable_get('ding_auth_registration', array()) + array(
+  return variable_get('ding_registration', array()) + array(
     'age_limit' => 18,
     'information' => array(
       'title' => t('Self registration'),
@@ -251,6 +254,6 @@ function _ding_auth_registration_config() {
  * @return bool
  *   TRUE if the destination in the session is correct else FALSE.
  */
-function ding_auth_registration_is_registration_request() {
-  return isset($_SESSION['oauth2destination']) && $_SESSION['oauth2destination'] == DING_AUTH_REGISTRATION_ACCEPTANCE_URL;
+function ding_registration_is_registration_request() {
+  return isset($_SESSION['oauth2destination']) && $_SESSION['oauth2destination'] == DING_REGISTRATION_ACCEPTANCE_URL;
 }

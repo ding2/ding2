@@ -1,0 +1,6 @@
+name = Ding registration
+description = Allow users to preform self registration (user creation).
+core = 7.x
+package = Ding!
+dependencies[] = ding_provider
+dependencies[] = ding_user

@@ -7,8 +7,8 @@
 /**
  * Implements hook_form().
  */
-function ding_auth_registration_acceptance_form() {
-  $config = _ding_auth_registration_config();
+function ding_registration_acceptance_form() {
+  $config = _ding_registration_config();
 
   // @TODO: use defaults.
   $userinfo = unserialize($_SESSION['oauth2userinfo']);
@@ -95,15 +95,15 @@ function ding_auth_registration_acceptance_form() {
  *
  * It tries to create the user at the provider and redirect the user.
  */
-function ding_auth_registration_acceptance_form_submit($form, $form_state) {
+function ding_registration_acceptance_form_submit($form, $form_state) {
   $values = $form_state['values'];
 
   $user_info = unserialize($_SESSION['oauth2userinfo']);
   unset($_SESSION['oauth2userinfo']);
 
   // Check that the logged in user is over the age limit.
-  if (!_ding_auth_registration_is_age_limit_met($user_info['attributes']['userId'])) {
-    $config = _ding_auth_registration_config();
+  if (!_ding_registration_is_age_limit_met($user_info['attributes']['userId'])) {
+    $config = _ding_registration_config();
     drupal_set_message(t('You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry.', array('!limit' => $config['age_limit'])));
 
     // Logout the user from auth.
@@ -118,7 +118,7 @@ function ding_auth_registration_acceptance_form_submit($form, $form_state) {
     ding_provider_invoke('user', 'create', $user_info['attributes']['userId'], $values['pin'], $values['name'], $values['mail'], $values['branch']);
 
     // Set redirect and try logging in the user.
-    $_REQUEST['destination'] = DING_AUTH_REGISTRATION_SUCCESS_URL;
+    $_REQUEST['destination'] = DING_REGISTRATION_SUCCESS_URL;
     _ding_auth_provider_login($user_info);
   }
   catch (Exception $exception) {
