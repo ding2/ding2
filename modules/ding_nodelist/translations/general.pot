@@ -6,9 +6,13 @@
 #  profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc: n/a
 #  profiles/ding2/modules/ding_nodelist/ding_nodelist.module: n/a
 #  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.carousel.tpl.php: n/a
+#  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.slider.tpl.php: n/a
 #  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_news.carousel.tpl.php: n/a
+#  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_news.slider.tpl.php: n/a
+#  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_news.text.tpl.php: n/a
 #  profiles/ding2/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc: n/a
 #  profiles/ding2/modules/ding_nodelist/ding_nodelist.info: n/a
+#  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.horizontal_accordion.tpl.php: n/a
 #  profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.taxonomy.tpl.php: n/a
 #
 #, fuzzy
@@ -386,6 +390,10 @@ msgstr ""
 
 #: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2148
 msgid "Slider"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2149
+msgid "Taxonomy like"
 msgstr ""
 
 #: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2383

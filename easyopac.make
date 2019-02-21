@@ -159,13 +159,6 @@ projects[ding_nis][download][url]    = "git@github.com:easySuite/ding_nis.git"
 ;projects[ding_nis][download][tag]    = "7.x-3.1.0"
 projects[ding_nis][download][branch] = "development"
 
-projects[ding_nodelist][type]             = "module"
-projects[ding_nodelist][subdir]           = ""
-projects[ding_nodelist][download][type]   = "git"
-projects[ding_nodelist][download][url]    = "git@github.com:easySuite/ding_nodelist.git"
-;projects[ding_nodelist][download][tag]    = "7.x-3.1.0"
-projects[ding_nodelist][download][branch] = "development-easyopac"
-
 projects[ding_print_button][type]             = "module"
 projects[ding_print_button][subdir]           = ""
 projects[ding_print_button][download][type]   = "git"
