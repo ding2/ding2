@@ -134,11 +134,16 @@ function ding_sections_og_integration_form_taxonomy_form_term_alter(&$form, &$fo
       ),
     );
   }
-  $form['#submit'] = array('ding_sections_og_integration_term_presave', 'taxonomy_form_term_submit', 'ding_sections_og_integration_auto_create_og_submit');
+  $form['#submit'] = array(
+    'ding_sections_og_integration_term_presave',
+    'taxonomy_form_term_submit',
+    'ding_sections_og_integration_auto_create_og_submit',
+  );
 }
 
 /**
- * Submit before main submit. Is needed for correction of form_state['values'] structure.
+ * Submit before main submit. Is needed for correction of form_state['values']
+ * structure.
  *
  * @todo Find better solution.
  */
@@ -180,7 +185,8 @@ function ding_sections_og_integration_auto_create_og_submit(&$form, &$form_state
     "membership type"   => OG_MEMBERSHIP_TYPE_DEFAULT,
   ));
 
-  // Changes the users role in the group (1 = non-member, 2 = member, 3 = administrator member)
+  // Changes the users role in the group
+  // (1 = non-member, 2 = member, 3 = administrator member).
   og_role_grant('node', $node->nid, $user->uid, 2);
 
   og_group('node', $node->nid, array(

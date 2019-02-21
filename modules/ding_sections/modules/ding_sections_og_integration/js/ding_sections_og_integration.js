@@ -1,4 +1,6 @@
 (function($) {
+  'use strict';
+
   $(document).ready(function() {
     $('#edit-field-editorial-base select option').each(function(index, data) {
       var $option_id = $(data).attr('value');
