@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Ding Section og integration feature.
@@ -98,14 +99,14 @@ function ding_sections_og_integration_page_alter(&$page) {
 }
 
 /**
- *  Implements hook_form_FORM_ID_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
 function ding_sections_og_integration_form_taxonomy_form_term_alter(&$form, &$form_state, $form_id) {
   if (!isset($form['#bundle']) || $form['#bundle'] != 'section') {
     return;
   }
   if (!isset($form_state['triggering_element'])) {
-      $form['ding_sections']['term_panel'] = array(
+    $form['ding_sections']['term_panel'] = array(
       '#type' => 'fieldset',
       '#title' => t('Term page'),
       '#group' => 'section_tabs',
@@ -115,8 +116,8 @@ function ding_sections_og_integration_form_taxonomy_form_term_alter(&$form, &$fo
     $form['og_wrapper']['#title'] = t('Groups audience');
     $form['og_wrapper']['#group'] = 'section_tabs';
     $form['og_wrapper']['#tree'] = TRUE;
-    $form['og_wrapper']['field_eb_autocreate_og'] =  $form['field_eb_autocreate_og'];
-    $form['og_wrapper']['og_group_ref_eb'] =  $form['og_group_ref_eb'];
+    $form['og_wrapper']['field_eb_autocreate_og'] = $form['field_eb_autocreate_og'];
+    $form['og_wrapper']['og_group_ref_eb'] = $form['og_group_ref_eb'];
     unset($form['og_group_ref_eb']);
     unset($form['field_eb_autocreate_og']);
 
@@ -138,18 +139,20 @@ function ding_sections_og_integration_form_taxonomy_form_term_alter(&$form, &$fo
 
 /**
  * Submit before main submit. Is needed for correction of form_state['values'] structure.
+ *
  * @todo Find better solution.
  */
 function ding_sections_og_integration_term_presave(&$form, &$form_state) {
-  $form_state['values']['field_eb_autocreate_og'] =  $form_state['values']['og_wrapper']['field_eb_autocreate_og'];
-  $form_state['values']['og_group_ref_eb'] =  $form_state['values']['og_wrapper']['og_group_ref_eb'];
-  $form_state['values']['og_wrapper']['og_group_ref_eb'] =  $form_state['values']['og_group_ref_eb'];
+  $form_state['values']['field_eb_autocreate_og'] = $form_state['values']['og_wrapper']['field_eb_autocreate_og'];
+  $form_state['values']['og_group_ref_eb'] = $form_state['values']['og_wrapper']['og_group_ref_eb'];
+  $form_state['values']['og_wrapper']['og_group_ref_eb'] = $form_state['values']['og_group_ref_eb'];
   unset($form_state['values']['og_wrapper']);
 }
 
 /**
  * Submit function for creating OG on term creation.
- * @see ding_sections_og_integration_form_taxonomy_form_term_alter().
+ *
+ * @see ding_sections_og_integration_form_taxonomy_form_term_alter()
  */
 function ding_sections_og_integration_auto_create_og_submit(&$form, &$form_state) {
   $values = $form_state['values'];
@@ -170,7 +173,7 @@ function ding_sections_og_integration_auto_create_og_submit(&$form, &$form_state
   $node = node_submit($node);
   node_save($node);
 
-  // Add the user to the group
+  // Add the user to the group.
   og_group('node', $node->nid, array(
     "entity type"       => "user",
     "entity"        => $user,
