@@ -1,0 +1,50 @@
+<?php
+/**
+ * @file
+ * Perform install/uninstall functionality.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_sections_og_integration_uninstall() {
+  $type = 'section';
+  if (node_type_load($type)) {
+    // Remove all related nodes.
+    $results = db_select('node', 'n')
+      ->fields('n', array('nid'))
+      ->condition('type', $type)
+      ->execute();
+    foreach ($results as $result) {
+      $nids[] = $result->nid;
+    }
+
+    if (!empty($nids)) {
+      node_delete_multiple($nids);
+    }
+
+    // Remove CT.
+    node_type_delete('section');
+    variable_del('node_preview_' . $type);
+  }
+}
+
+/**
+ * Update OG
+ */
+function ding_sections_og_integration_update_7001() {
+  $roles = array(
+    array(
+      'rid' => 7,
+      'permission' => 'subscribe without approval',
+      'module' => 'og_ui',
+    ),
+  );
+
+  foreach ($roles as $role) {
+    db_insert('og_role_permission')
+      ->fields($role)
+      ->execute();
+  }
+
+}
