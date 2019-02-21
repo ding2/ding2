@@ -143,6 +143,7 @@ function ding_sections_og_integration_form_taxonomy_form_term_alter(&$form, &$fo
 
 /**
  * Submit before main submit.
+ *
  * Is needed for correction of form_state['values'] structure.
  *
  * @todo Find better solution.
