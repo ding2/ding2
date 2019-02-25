@@ -45,8 +45,7 @@ function ting_subsearch_secondary_search($keys, OpenSearchTingSearchResult $resu
     $genre_facets = $facets['facet.genreCategory']->getTerms();
     // If any of fiction or non fiction is empty we cannot do the calculation.
     // Simply exit for now.
-    if (empty($genre_facets['nonfiktion'])
-      || empty($genre_facets['fiktion'])) {
+    if (empty($facets['facet.genreCategory'])) {
       watchdog('subsearch_subsearch', 'You need to enable facet.genreCategory in order for this to work.', array(), WATCHDOG_WARNING);
       return $message;
     }
@@ -56,8 +55,15 @@ function ting_subsearch_secondary_search($keys, OpenSearchTingSearchResult $resu
       return $message;
     }
 
-    $nonfiction = $genre_facets['nonfiktion']->getCount();
-    $fiction = $genre_facets['fiktion']->getCount();
+    $nonfiction = 0;
+    if (!empty($genre_facets['nonfiktion'])) {
+      $nonfiction = $genre_facets['nonfiktion']->getCount();
+    }
+
+    $fiction = 0;
+    if (!empty($genre_facets['fiktion'])) {
+      $fiction = $genre_facets['fiktion']->getCount();
+    }
 
     // Less than half fiction of nonfiction.
     if (($nonfiction / variable_get('ting_subsearch_secondary_factor', 2)) > $fiction) {
