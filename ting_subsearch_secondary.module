@@ -92,16 +92,17 @@ function ting_subsearch_secondary_search($keys, OpenSearchTingSearchResult $resu
         );
 
         if (variable_get('ting_subsearch_secondary_number_of_results', 4) == 0) {
-          $msg = t('If you search for "!keys" on <a href="!link">!link-text</a> instead you will get !bibdk-num-results hits',
+          $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits',
             $options
           );
         }
         else {
-          $msg = t('If you search for "!keys" on <a href="!link">!link-text</a> instead you will get !bibdk-num-results hits where some of them is the following: !examples',
+          $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits where some of them is the following: !examples',
             $options
           );
         }
-        $message = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
+        $wrapper = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
+        $message = l($wrapper, $options['!link'], ['html' => TRUE, 'absolute' => TRUE, 'attributes' => ['target' => 'blank']]);
         drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/ting_subsearch_secondary.css');
       }
     }
