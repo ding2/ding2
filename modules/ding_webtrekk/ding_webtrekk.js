@@ -46,12 +46,12 @@
         $('.js-rating-symbol', this).each(function(index) {
           var rating = (index + 1) + '';
           $(this).click(function() {
+            var customClickParameter = {};
+            customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING] = rating;
+            customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING_ID] = contentId;
             wts.push(['send', 'click', {
               linkId: 'Materiale rating',
-              customClickParameter: {
-                DING_WEBTREKK_PARAMETER_RENEW_RATING: rating,
-                DING_WEBTREKK_PARAMETER_RENEW_RATING_ID: contentId
-              }
+              customClickParameter: customClickParameter
             }]);
           });
         });
@@ -62,12 +62,11 @@
         .once('js-ding-webtrekk')
         .on('autocompleteSelect', function(e, selected) {
           if (($(selected).text())) {
-            console.log($(selected).text());
+            var customClickParameter = {};
+            customClickParameter[DING_WEBTREKK_PARAMETER_AUTOCOMPLETE] = $(selected).text();
             wts.push(['send', 'click', {
               linkId: 'Autocomplete søgning clicks',
-              customClickParameter: {
-                DING_WEBTREKK_PARAMETER_AUTOCOMPLETE: $(selected).text()
-              }
+              customClickParameter: customClickParameter
             }]);
           }
       });
@@ -93,11 +92,11 @@
             // attribute for each select box.
             selectedMaterials.push($(this).data('ding-webtrekk-event'));
           });
+          var customClickParameter = {};
+          customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_SELECTED] = selectedMaterials.join(';');
           wts.push(['send', 'click', {
             linkId: 'Forny valgte materialer',
-            customClickParameter: {
-              DING_WEBTREKK_PARAMETER_RENEW_SELECTED: selectedMaterials.join(';')
-            }
+            customClickParameter: customClickParameter
           }]);
       });
 
@@ -135,15 +134,15 @@
 
         $('.slick-arrow', this).once('js-ding-webtrekk').click(function() {
           var linkId = 'Karousel, click på forrige knappen';
-          var customClickParameter = {
-            DING_WEBTREKK_PARAMETER_CAROUSEL_PREV: carouselTitle
-          };
+          var wtkId = DING_WEBTREKK_PARAMETER_CAROUSEL_PREV;
+
           if ($(this).hasClass('slick-next')) {
             linkId = 'Karousel, click på næste knappen';
-            customClickParameter = {
-              DING_WEBTREKK_PARAMETER_CAROUSEL_NEXT: carouselTitle
-            };
+            wtkId = DING_WEBTREKK_PARAMETER_CAROUSEL_NEXT;
           }
+
+          var customClickParameter = {};
+          customClickParameter[wtkId] = carouselTitle;
           wts.push(['send', 'click', {
             linkId: linkId,
             customClickParameter: customClickParameter
