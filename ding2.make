@@ -191,11 +191,11 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.4"
+projects[link][version] = "1.6"
 ; Link sanitizes external URLs too much, rendering some external links broken.
 ; Patch changes external URL handling to pass it through unmolested.
 ; Patch from https://www.drupal.org/files/issues/link-external-1914072-22.patch
-projects[link][patch][] = "https://www.drupal.org/files/issues/link_module_displays-1914072-28.patch"
+projects[link][patch][] = "https://www.drupal.org/files/issues/link_module_displays-1914072-34.patch"
 
 projects[l10n_update][type] = "module"
 projects[l10n_update][subdir] = "contrib"
