@@ -5,9 +5,9 @@
  * Defines the main functionality for the authentication module.
  */
 
-define('DING_ADGANGSPLATFORMEN_LOGIN_URL', 'ding_auth/login');
-define('DING_ADGANGSPLATFORMEN_LOGOUT_URL', 'ding_auth/logout');
-define('DING_ADGANGSPLATFORMEN_REDIRECT_URL', 'ding_auth/callback');
+define('DING_ADGANGSPLATFORMEN_LOGIN_URL', 'adgangsplatformen/login');
+define('DING_ADGANGSPLATFORMEN_LOGOUT_URL', 'adgangsplatformen/logout');
+define('DING_ADGANGSPLATFORMEN_REDIRECT_URL', 'adgangsplatformen/callback');
 
 /**
  * Implements hook_init().
@@ -68,9 +68,9 @@ function ding_adgangsplatformen_menu() {
 /**
  * Implements hook_preprocess_menu_link().
  *
- * Change the login link in the top menu to use ding_auth module. It's changed
- * here to make it possible to still use the old "/user" login form if
- * ding_auth is not enabled.
+ * Change the login link in the top menu to use adgangsplatformen module. It's
+ * changed here to make it possible to still use the old "/user" login form if
+ * ding_adgangsplatformen is not enabled.
  */
 function ding_adgangsplatformen_preprocess_menu_link(&$vars) {
   if ($vars['element']['#original_link']['menu_name'] == 'menu-tabs-menu') {
@@ -246,7 +246,10 @@ function ding_adgangsplatformen_logout($hooked = FALSE) {
  * Ensure that the user is logged out off the access platform.
  */
 function ding_adgangsplatformen_user_logout() {
-  ding_adgangsplatformen_logout(TRUE);
+  global $user;
+  if (ding_user_is_provider_user($user)) {
+    ding_adgangsplatformen_logout(TRUE);
+  }
 }
 
 /**

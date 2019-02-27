@@ -17,7 +17,7 @@ function ding_registration_acceptance_form($form_state) {
   // wrapper the form in panels. But seen form a performance point this is
   // faster and simpler.
   $form = array(
-    '#theme_wrappers' => array('form', 'ding_auth_registration_acceptance'),
+    '#theme_wrappers' => array('form', 'ding_registration_acceptance'),
   );
 
   $form['accept'] = array(
@@ -122,7 +122,7 @@ function ding_registration_acceptance_form_submit($form, $form_state) {
     _ding_adgangsplatformen_provider_login($user_info);
   }
   catch (Exception $exception) {
-    watchdog_exception('ding_auth_registration', $exception);
+    watchdog_exception('ding_registration', $exception);
     drupal_set_message(t('There was an error creating your account, please try again later or contact the library.'), 'error');
   }
 }

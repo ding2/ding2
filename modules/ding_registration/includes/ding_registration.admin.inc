@@ -62,7 +62,7 @@ function ding_registration_admin_settings_form($form, &$form_state) {
   $form['ding_registration']['information']['reset'] = array(
     '#type' => 'submit',
     '#value' => t('Reset to DDB default text'),
-    '#submit' => array('ding_auth_registration_information_reset'),
+    '#submit' => array('ding_registration_information_reset'),
   );
 
   // Accepting text.

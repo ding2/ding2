@@ -220,7 +220,7 @@ function _ding_registration_is_age_limit_met($cpr) {
  */
 function _ding_registration_config() {
   // Load default information text from file. This text is pre-approved by DDB.
-  $info_text = file_get_contents(drupal_get_path('module', 'ding_auth_registration') . '/ding_registration_text.html');
+  $info_text = file_get_contents(drupal_get_path('module', 'ding_registration') . '/ding_registration_text.html');
 
   return variable_get('ding_registration', array()) + array(
     'age_limit' => 18,

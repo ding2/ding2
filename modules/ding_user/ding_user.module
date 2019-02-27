@@ -813,7 +813,7 @@ function ding_user_forms($form_id, $args) {
  * @param mixed $extra_data
  *   Options to send to ding_popup.
  * @param string $redirect_uri
- *   Destination to redirect to after login for ding_auth.
+ *   Destination to redirect to after login for ding_adgangsplatformen.
  *
  * @return array
  *   Ajax command array.

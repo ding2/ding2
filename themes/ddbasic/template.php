@@ -542,7 +542,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
 
   // Create variable to make the switch statement below more dynamic.
   $user_login_path = 'user';
-  if (module_exists('ding_auth')) {
+  if (module_exists('ding_adgangsplatformen')) {
     $user_login_path = DING_ADGANGSPLATFORMEN_LOGIN_URL;
   }
 
@@ -610,7 +610,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
         $element['#localized_options']['attributes']['class'][] = 'topbar-link-user';
 
         // Add destination to login link when using ding authentication.
-        if (module_exists('ding_auth')) {
+        if (module_exists('ding_adgangsplatformen')) {
           if ($element['#href'] == DING_ADGANGSPLATFORMEN_LOGIN_URL) {
             $element['#localized_options']['query'] = array(
               drupal_get_destination(),
@@ -618,7 +618,8 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
           }
         }
         else {
-          // Add support for open/close login/form when ding_auth is not enabled.
+          // Add support for open/close login/form when ding_adgangsplaformen is
+          // not enabled.
           $element['#attributes']['class'][] = 'js-topbar-link-user';
           $element['#localized_options']['attributes']['class'][] = 'js-topbar-link-user';
         }

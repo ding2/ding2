@@ -501,13 +501,13 @@ libraries[chosen][download][type] = "get"
 libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip"
 libraries[chosen][destination] = "libraries"
 
-; For ding_auth.
+; For ding_adgangsplatformen.
 libraries[random_compat][download][type] = "git"
 libraries[random_compat][download][url] = "https://github.com/paragonie/random_compat.git"
 libraries[random_compat][download][tag] = "v2.0.17"
 libraries[random_compat][destination] = "libraries"
 
-; For ding_auth.
+; For ding_adgangsplatformen.
 libraries[oauth2-client][download][type] = "git"
 libraries[oauth2-client][download][url] = "https://github.com/thephpleague/oauth2-client.git"
 libraries[oauth2-client][download][tag] = "2.3.0"
