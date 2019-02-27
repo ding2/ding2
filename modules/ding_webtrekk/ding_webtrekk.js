@@ -27,12 +27,19 @@
     return url + seperator + urlParameter;
   };
 
+  var pushEvent = function(event, eventData) {
+    // Ensure that the Webtrekk object is defined before pushing event.
+    if (typeof wts !== 'undefined') {
+      wts.push(['send', event, eventData]);
+    }
+  };
+
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
       // Send Webtrekk events attached in the backend.
       $('.js-ding-webtrekk-event', context).once('js-ding-webtrekk').click(function() {
         var eventData = $(this).data('ding-webtrekk-event');
-        wts.push(['send', 'click', eventData]);
+        pushEvent('click', eventData);
       });
 
       // Secial handling for ding entity rating event.
@@ -46,13 +53,13 @@
         $('.js-rating-symbol', this).each(function(index) {
           var rating = (index + 1) + '';
           $(this).click(function() {
-            var customClickParameter = {};
-            customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING] = rating;
-            customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING_ID] = contentId;
-            wts.push(['send', 'click', {
+            var eventData = {
               linkId: 'Materiale rating',
-              customClickParameter: customClickParameter
-            }]);
+              customClickParameter: {}
+            };
+            eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING] = rating;
+            eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING_ID] = contentId;
+            pushEvent('click', eventData);
           });
         });
       });
@@ -62,12 +69,12 @@
         .once('js-ding-webtrekk')
         .on('autocompleteSelect', function(e, selected) {
           if (($(selected).text())) {
-            var customClickParameter = {};
-            customClickParameter[DING_WEBTREKK_PARAMETER_AUTOCOMPLETE] = $(selected).text();
-            wts.push(['send', 'click', {
+            var eventData = {
               linkId: 'Autocomplete søgning clicks',
-              customClickParameter: customClickParameter
-            }]);
+              customClickParameter: {}
+            };
+            eventData.customClickParameter[DING_WEBTREKK_PARAMETER_AUTOCOMPLETE] = $(selected).text();
+            pushEvent('click', eventData);
           }
       });
 
@@ -92,12 +99,13 @@
             // attribute for each select box.
             selectedMaterials.push($(this).data('ding-webtrekk-event'));
           });
-          var customClickParameter = {};
-          customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_SELECTED] = selectedMaterials.join(';');
-          wts.push(['send', 'click', {
+
+          var eventData = {
             linkId: 'Forny valgte materialer',
-            customClickParameter: customClickParameter
-          }]);
+            customClickParameter: {}
+          };
+          eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_SELECTED] = selectedMaterials.join(';');
+          pushEvent('click', eventData);
       });
 
       // Special handling for ding_carousel.
@@ -141,12 +149,12 @@
             wtkId = DING_WEBTREKK_PARAMETER_CAROUSEL_NEXT;
           }
 
-          var customClickParameter = {};
-          customClickParameter[wtkId] = carouselTitle;
-          wts.push(['send', 'click', {
+          var eventData = {
             linkId: linkId,
-            customClickParameter: customClickParameter
-          }]);
+            customClickParameter: {}
+          };
+          eventData.customClickParameter[wtkId] = carouselTitle;
+          pushEvent('click', eventData);
         });
       });
     }
