@@ -164,6 +164,32 @@ function ding_user_authenticate(array $user_info) {
 }
 
 /**
+ * Get user redirect destination.
+ *
+ * Mainly used by single sign on login to handle redirect after redirect to
+ * the SSO service provider.
+ *
+ * @return string|null
+ *   The destination as an URI set in the session or NULL if non is set.
+ */
+function ding_user_get_destination() {
+  return isset($_SESSION['ding_user_destination']) ? $_SESSION['ding_user_destination'] : NULL;
+}
+
+/**
+ * Set user redirect destination.
+ *
+ * Mainly used by single sign on login to handle redirect after redirect to
+ * the SSO service provider.
+ *
+ * @param string $destination
+ *   The destination to set in the session, normally an URI.
+ */
+function ding_user_set_destination($destination) {
+  $_SESSION['ding_user_destination'] = $destination;
+}
+
+/**
  * Implements hook_page_manager_contexts_alter().
  *
  * This is actually a Panels everywhere hook. In future it may be renamed:

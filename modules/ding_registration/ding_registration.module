@@ -56,10 +56,7 @@ function ding_registration_menu() {
  *   TRUE if values exists in the session else FALSE.
  */
 function ding_registration_acceptance_access_check() {
-
-  // @TODO: abstract to ding_user_is_logged_in().
-
-  return isset($_SESSION['oauth2userinfo']);
+  return !is_null(ding_registration_get_user_information());
 }
 
 /**
@@ -110,7 +107,7 @@ function ding_registration_information() {
     '#link' => array(
       '#theme' => 'link',
       '#text' => $config['information']['link'],
-      '#path' => DING_AUTH_LOGIN_URL,
+      '#path' => DING_ADGANGSPLATFORMEN_LOGIN_URL,
       '#options' => array(
         'attributes' => array(
           // This class "form-submit" is used to make the link look and behave
@@ -168,6 +165,9 @@ function ding_registration_ding_provider_user() {
  * @return bool
  *   If the age limit is given and met TRUE else FALSE. If age limit is not
  *   given TRUE will always be returned.
+ *
+ * @throws Exception
+ *   If data time object fails. Should never happen.
  */
 function _ding_registration_is_age_limit_met($cpr) {
   $config = _ding_registration_config();
@@ -255,5 +255,34 @@ function _ding_registration_config() {
  *   TRUE if the destination in the session is correct else FALSE.
  */
 function ding_registration_is_registration_request() {
-  return isset($_SESSION['oauth2destination']) && $_SESSION['oauth2destination'] == DING_REGISTRATION_ACCEPTANCE_URL;
+  return ding_user_get_destination() == DING_REGISTRATION_ACCEPTANCE_URL;
+}
+
+/**
+ * Store user information in sessions.
+ *
+ * Used to keep information obtained from Single Sign On (SSO) between redirects
+ * from consumer end-point to registrations URL.
+ *
+ * @param array $user_info
+ *   Information about the user.
+ */
+function ding_registration_set_user_information($user_info) {
+  $_SESSION['ding_registration_user_information'] = is_null($user_info) ? NULL : serialize($user_info);
+}
+
+/**
+ * Information about the user.
+ *
+ * @return mixed|null
+ *   The information or NULL if not set.
+ */
+function ding_registration_get_user_information() {
+  $info = NULL;
+  if (isset($_SESSION['ding_registration_user_information'])) {
+    $info = unserialize($_SESSION['ding_registration_user_information']);
+    $info = $info === FALSE ? NULL : $info;
+  }
+
+  return $info;
 }

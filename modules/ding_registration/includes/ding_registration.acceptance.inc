@@ -7,11 +7,10 @@
 /**
  * Implements hook_form().
  */
-function ding_registration_acceptance_form() {
-  $config = _ding_registration_config();
+function ding_registration_acceptance_form($form_state) {
+  form_load_include($form_state, 'inc', 'ding_registration', 'ding_registration.acceptance');
 
-  // @TODO: use defaults.
-  $userinfo = unserialize($_SESSION['oauth2userinfo']);
+  $config = _ding_registration_config();
 
   // This is a little style hack to get around the panels design requirements of
   // the DDB default theme. The module existing_pages could have been used to
@@ -84,7 +83,7 @@ function ding_registration_acceptance_form() {
   // Link cancel button to auth logout to ensure that the user is signed
   // out correctly.
   $form['cancel'] = array(
-    '#markup' => l(t('Cancel'), DING_AUTH_LOGOUT_URL, array('attributes' => array('class' => 'ding-auth--cancel'))),
+    '#markup' => l(t('Cancel'), DING_ADGANGSPLATFORMEN_LOGOUT_URL, array('attributes' => array('class' => 'ding-auth--cancel'))),
   );
 
   return $form;
@@ -98,8 +97,9 @@ function ding_registration_acceptance_form() {
 function ding_registration_acceptance_form_submit($form, $form_state) {
   $values = $form_state['values'];
 
-  $user_info = unserialize($_SESSION['oauth2userinfo']);
-  unset($_SESSION['oauth2userinfo']);
+  // Get user information from current session and remove it.
+  $user_info = ding_registration_get_user_information();
+  ding_registration_set_user_information(NULL);
 
   // Check that the logged in user is over the age limit.
   if (!_ding_registration_is_age_limit_met($user_info['attributes']['userId'])) {
@@ -107,8 +107,8 @@ function ding_registration_acceptance_form_submit($form, $form_state) {
     drupal_set_message(t('You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry.', array('!limit' => $config['age_limit'])));
 
     // Logout the user from auth.
-    ding_auth_logout();
-    _ding_auth_redirect_user('<front>');
+    ding_adgangsplatformen_logout();
+    _ding_adgangsplatformen_redirect_user('<front>');
     return;
   }
 
@@ -119,7 +119,7 @@ function ding_registration_acceptance_form_submit($form, $form_state) {
 
     // Set redirect and try logging in the user.
     $_REQUEST['destination'] = DING_REGISTRATION_SUCCESS_URL;
-    _ding_auth_provider_login($user_info);
+    _ding_adgangsplatformen_provider_login($user_info);
   }
   catch (Exception $exception) {
     watchdog_exception('ding_auth_registration', $exception);

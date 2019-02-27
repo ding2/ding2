@@ -186,13 +186,14 @@ function ding_adgangsplatformen_get_configuration() {
  * @throws Exception
  *   If required libraries are not loaded.
  */
-function ding_adgangsplatformen_login($redirect = TRUE, $destination = '') {
+function ding_adgangsplatformen_login($redirect = TRUE, $destination = NULL) {
   $provider = ding_adgangsplatformen_get_provider();
   $authorization_url = $provider->getAuthorizationUrl();
 
   // Get the state generated for you and store it to the session.
   $_SESSION['oauth2state'] = $provider->getState();
-  $_SESSION['oauth2destination'] = empty($destination) ? $_REQUEST['destination'] : $destination;
+  $destination = empty($destination) ? $_REQUEST['destination'] : NULL;
+  ding_user_set_destination($destination);
 
   // Check if an identity provider have been set in the request.
   if (!empty($_REQUEST['idp'])) {
@@ -283,7 +284,7 @@ function ding_adgangsplatformen_callback() {
         // the current session. So it can be used to create the user in the
         // library system in the user creation flow in ding_auth_registration.
         // The redirect below will start the process.
-        $_SESSION['oauth2userinfo'] = serialize($user_info);
+        ding_registration_set_user_information($user_info);
       }
       else {
         // Login to using the provider.
@@ -339,9 +340,9 @@ function ding_adgangsplatformen_get_provider() {
  *   to /user.
  */
 function _ding_adgangsplatformen_redirect_user($url = 'user') {
-  if (!empty($_SESSION['oauth2destination'])) {
-    $url = $_SESSION['oauth2destination'];
-    unset($_SESSION['oauth2destination']);
+  if (!is_null(ding_user_get_destination())) {
+    $url = ding_user_get_destination();
+    ding_user_set_destination(NULL);
   }
 
   // Add fragment to the redirect if this was started as an ajax auth redirect.
