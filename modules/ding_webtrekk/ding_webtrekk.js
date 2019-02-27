@@ -34,6 +34,11 @@
     }
   };
 
+  // Other modules dealing with client side webtrekk tracking might find these
+  // functions useful, so make them available on the global Drupal object.
+  Drupal.dingWebtrekkAppendQueryParameter = appendQueryParameter;
+  Drupal.dingWebtrekkPushEvent = pushEvent;
+
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
       // Send Webtrekk events attached in the backend.
