@@ -710,7 +710,6 @@ function ding2_update_7060() {
 }
 
 /**
-<<<<<<< HEAD
  * Ensure ding_webtrekk is activated on existing installs.
  */
 function ding2_update_7061() {
