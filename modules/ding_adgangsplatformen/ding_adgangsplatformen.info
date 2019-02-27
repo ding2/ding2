@@ -1,5 +1,5 @@
-name = Ding Auth
-description = Authentication with oAuth2 (Adgangsplatform).
+name = Ding Adgangsplatformen
+description = Authentication with oAuth2 through Adgangsplatform.
 package = Ding!
 core = 7.x
 dependencies[] = ctools

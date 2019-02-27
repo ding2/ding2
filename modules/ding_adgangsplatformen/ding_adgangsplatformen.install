@@ -7,10 +7,10 @@
 /**
  * Implements hook_install().
  */
-function ding_auth_install() {
+function ding_adgangsplatformen_install() {
   // Set module weight to ensure that hook_logout is call last.
   db_update('system')
     ->fields(array('weight' => 9999))
-    ->condition('name', 'ding_auth', '=')
+    ->condition('name', 'ding_adgangsplatformen', '=')
     ->execute();
 }

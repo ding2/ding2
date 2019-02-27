@@ -543,7 +543,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
   // Create variable to make the switch statement below more dynamic.
   $user_login_path = 'user';
   if (module_exists('ding_auth')) {
-    $user_login_path = DING_AUTH_LOGIN_URL;
+    $user_login_path = DING_ADGANGSPLATFORMEN_LOGIN_URL;
   }
 
   // Add some icons to our top-bar menu. We use system paths to check against.
@@ -611,7 +611,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
 
         // Add destination to login link when using ding authentication.
         if (module_exists('ding_auth')) {
-          if ($element['#href'] == DING_AUTH_LOGIN_URL) {
+          if ($element['#href'] == DING_ADGANGSPLATFORMEN_LOGIN_URL) {
             $element['#localized_options']['query'] = array(
               drupal_get_destination(),
             );

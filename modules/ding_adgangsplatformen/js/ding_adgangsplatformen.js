@@ -10,7 +10,7 @@
 (function ($) {
   "use strict";
 
-  Drupal.behaviors.ding_auth = {
+  Drupal.behaviors.ding_adgangsplatformen = {
     attach: function (context, settings) {
       // We use the body as the ajax element as this is required to
       // programmatically send an Drupal Ajax request. So we use the once
