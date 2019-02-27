@@ -774,7 +774,7 @@ function ding2_update_7068() {
   $config = variable_get('ding_gatewayf_registration', FALSE);
   if ($config) {
     // Migrate configuration.
-    variable_set('ding_auth_registration', $config);
+    variable_set('ding_registration', $config);
     variable_del('ding_gatewayf_registration');
   }
 
@@ -787,8 +787,8 @@ function ding2_update_7068() {
 }
 
 /**
- * Enable ding_auth module.
+ * Enable ding_adgangsplatformen module.
  */
 function ding2_update_7069() {
-  module_enable(array('ding_auth'));
+  module_enable(array('ding_adgangsplatformen'));
 }
