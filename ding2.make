@@ -370,7 +370,7 @@ projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_permissions-dont_disable_all_permissions-2499607-3.patch"
 
 projects[services][subdir] = "contrib"
-projects[services][version] = "3.14"
+projects[services][version] = "3.22"
 
 projects[services_views][subdir] = "contrib"
 projects[services_views][version] = "1.1"
