@@ -27,12 +27,24 @@
     return url + seperator + urlParameter;
   };
 
+  var pushEvent = function(event, eventData) {
+    // Ensure that the Webtrekk object is defined before pushing event.
+    if (typeof wts !== 'undefined') {
+      wts.push(['send', event, eventData]);
+    }
+  };
+
+  // Other modules dealing with client side webtrekk tracking might find these
+  // functions useful, so make them available on the global Drupal object.
+  Drupal.dingWebtrekkAppendQueryParameter = appendQueryParameter;
+  Drupal.dingWebtrekkPushEvent = pushEvent;
+
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
       // Send Webtrekk events attached in the backend.
       $('.js-ding-webtrekk-event', context).once('js-ding-webtrekk').click(function() {
         var eventData = $(this).data('ding-webtrekk-event');
-        wts.push(['send', 'click', eventData]);
+        pushEvent('click', eventData);
       });
 
       // Secial handling for ding entity rating event.
@@ -46,13 +58,13 @@
         $('.js-rating-symbol', this).each(function(index) {
           var rating = (index + 1) + '';
           $(this).click(function() {
-            wts.push(['send', 'click', {
+            var eventData = {
               linkId: 'Materiale rating',
-              customClickParameter: {
-                DING_WEBTREKK_PARAMETER_RENEW_RATING: rating,
-                DING_WEBTREKK_PARAMETER_RENEW_RATING_ID: contentId
-              }
-            }]);
+              customClickParameter: {}
+            };
+            eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING] = rating;
+            eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING_ID] = contentId;
+            pushEvent('click', eventData);
           });
         });
       });
@@ -62,13 +74,12 @@
         .once('js-ding-webtrekk')
         .on('autocompleteSelect', function(e, selected) {
           if (($(selected).text())) {
-            console.log($(selected).text());
-            wts.push(['send', 'click', {
+            var eventData = {
               linkId: 'Autocomplete søgning clicks',
-              customClickParameter: {
-                DING_WEBTREKK_PARAMETER_AUTOCOMPLETE: $(selected).text()
-              }
-            }]);
+              customClickParameter: {}
+            };
+            eventData.customClickParameter[DING_WEBTREKK_PARAMETER_AUTOCOMPLETE] = $(selected).text();
+            pushEvent('click', eventData);
           }
       });
 
@@ -93,12 +104,13 @@
             // attribute for each select box.
             selectedMaterials.push($(this).data('ding-webtrekk-event'));
           });
-          wts.push(['send', 'click', {
+
+          var eventData = {
             linkId: 'Forny valgte materialer',
-            customClickParameter: {
-              DING_WEBTREKK_PARAMETER_RENEW_SELECTED: selectedMaterials.join(';')
-            }
-          }]);
+            customClickParameter: {}
+          };
+          eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_SELECTED] = selectedMaterials.join(';');
+          pushEvent('click', eventData);
       });
 
       // Special handling for ding_carousel.
@@ -135,19 +147,19 @@
 
         $('.slick-arrow', this).once('js-ding-webtrekk').click(function() {
           var linkId = 'Karousel, click på forrige knappen';
-          var customClickParameter = {
-            DING_WEBTREKK_PARAMETER_CAROUSEL_PREV: carouselTitle
-          };
+          var wtkId = DING_WEBTREKK_PARAMETER_CAROUSEL_PREV;
+
           if ($(this).hasClass('slick-next')) {
             linkId = 'Karousel, click på næste knappen';
-            customClickParameter = {
-              DING_WEBTREKK_PARAMETER_CAROUSEL_NEXT: carouselTitle
-            };
+            wtkId = DING_WEBTREKK_PARAMETER_CAROUSEL_NEXT;
           }
-          wts.push(['send', 'click', {
+
+          var eventData = {
             linkId: linkId,
-            customClickParameter: customClickParameter
-          }]);
+            customClickParameter: {}
+          };
+          eventData.customClickParameter[wtkId] = carouselTitle;
+          pushEvent('click', eventData);
         });
       });
     }
