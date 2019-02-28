@@ -429,6 +429,20 @@ function ding_place2book_clone_node_alter(&$node, $context) {
 }
 
 /**
+ * Implements hook_replicate_field_FIELD_TYPE().
+ *
+ * If an entity with ding_p2b field is replicated, ensure that any reference to
+ * a p2b event is unset, so that the replicated entity doesn't point to the
+ * same p2b event.
+ */
+function ding_place2book_replicate_field_ding_p2b(&$replica, $entity_type, $field_name) {
+  $field_language = field_language($entity_type, $replica, $field_name);
+  if (isset($replica->{$field_name}[$field_language])) {
+    $replica->{$field_name}[$field_language][0]['event_id'] = NULL;
+  }
+}
+
+/**
  * Creates and initializes instance of P2b class.
  *
  * @return object
