@@ -105,7 +105,10 @@ function opensearch_get_objects(array $ids, $local = FALSE) {
     else {
       $request->setObjectIds($chunk);
     }
-    $objects += opensearch_execute($request);
+    $result = opensearch_execute($request);
+    if (is_array($result)) {
+      $objects += $result;
+    }
   }
 
   return $objects;
