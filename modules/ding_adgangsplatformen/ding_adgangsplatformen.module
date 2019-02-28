@@ -282,7 +282,7 @@ function ding_adgangsplatformen_callback() {
       $user_info = $response->getBody()->getContents();
       $user_info = drupal_json_decode($user_info);
 
-      if (module_exists('ding_adgangsplatformen_registration') && ding_registration_is_registration_request()) {
+      if (module_exists('ding_registration') && ding_registration_is_registration_request()) {
         // This is an self registration request, so we store the information in
         // the current session. So it can be used to create the user in the
         // library system in the user creation flow in ding_auth_registration.
@@ -367,7 +367,7 @@ function _ding_adgangsplatformen_redirect_user($url = 'user') {
 function _ding_adgangsplatformen_provider_login(array $user_info) {
   try {
     $account = ding_user_authenticate(array(
-      'name' => $user_info['attributes']['cpr'],
+      'name' => $user_info['attributes']['userId'],
       'extra' => $user_info,
     ));
 

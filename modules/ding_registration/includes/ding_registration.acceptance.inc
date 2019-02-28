@@ -118,8 +118,8 @@ function ding_registration_acceptance_form_submit($form, $form_state) {
     ding_provider_invoke('user', 'create', $user_info['attributes']['userId'], $values['pin'], $values['name'], $values['mail'], $values['branch']);
 
     // Set redirect and try logging in the user.
-    $_REQUEST['destination'] = DING_REGISTRATION_SUCCESS_URL;
     _ding_adgangsplatformen_provider_login($user_info);
+    _ding_adgangsplatformen_redirect_user(DING_REGISTRATION_SUCCESS_URL);
   }
   catch (Exception $exception) {
     watchdog_exception('ding_registration', $exception);
