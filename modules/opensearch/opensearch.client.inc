@@ -401,9 +401,7 @@ function opensearch_execute(TingClientRequest $request) {
 
     // Try to retrieve a cached response for each request. Entries which does
     // not have cached data will get the value FALSE for easy subsequent
-    // filtering. Note that the input array to the map function uses "+" and not
-    // the array_merge function as merge will reset the keys when they are
-    // numeric which is the case with local_ids.
+    // filtering.
     $object_ids = array_map(function ($object_request) {
       if ($cached_response = _opensearch_cache($object_request)) {
         // A response for a single object is an array with a single object so
@@ -413,16 +411,33 @@ function opensearch_execute(TingClientRequest $request) {
       else {
         return FALSE;
       }
-    }, $object_id_requests + $local_id_requests);
-    $cached_objects = array_filter($object_ids);
+    }, $object_id_requests);
+    $cached_object_ids = array_filter($object_ids);
 
-    // Ids that we still need to be fetched will not be appearing in the list of
-    // cached objects.
-    $uncached_ids = array_diff_key($object_ids, $cached_objects);
+    $local_ids = array_map(function ($object_request) {
+      if ($cached_response = _opensearch_cache($object_request)) {
+        // A response for a single object is an array with a single object so
+        // just return the object.
+        return array_shift($cached_response);
+      }
+      else {
+        return FALSE;
+      }
+    }, $local_id_requests);
+    $cached_local_ids = array_filter($local_ids);
+
+    // Ids that we still need to be fetched will not be appearing in the lists
+    // of cached objects.
+    $uncached_object_ids = array_diff_key($object_ids, $cached_object_ids);
+    $request->setObjectIds(array_keys($uncached_object_ids));
+    $uncached_local_ids = array_diff_key($local_ids, $cached_local_ids);
+    $request->setLocalIds(array_keys($uncached_local_ids));
+
+    $cached_objects = $cached_object_ids + $cached_local_ids;
 
     // If there are no ids to fetch then there is no need to issue a request.
     // Just return the array of cached objects.
-    if (empty($uncached_ids)) {
+    if (empty($uncached_object_ids) && empty($uncached_local_ids)) {
       _opensearch_cache($request, $cached_objects);
       return $cached_objects;
     }
