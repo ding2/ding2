@@ -23,8 +23,8 @@ define('DING_ADGANGSPLATFORMEN_REDIRECT_URL', 'adgangsplatformen/callback');
 function ding_adgangsplatformen_init() {
   if (user_is_anonymous()) {
     ctools_add_js('ajax-responder');
-    drupal_add_js(drupal_get_path('module', 'ding_adgangsplatformen') . '/js/ding_adgangsplatformen.js', 'file');
   }
+  drupal_add_js(drupal_get_path('module', 'ding_adgangsplatformen') . '/js/ding_adgangsplatformen.js', 'file');
 }
 
 /**
@@ -197,7 +197,7 @@ function ding_adgangsplatformen_login($redirect = TRUE, $destination = NULL) {
 
   // Get the state generated for you and store it to the session.
   $_SESSION['oauth2state'] = $provider->getState();
-  $destination = empty($destination) ? $_REQUEST['destination'] : NULL;
+  $destination = empty($destination) ? $_REQUEST['destination'] : $destination;
   ding_user_set_destination($destination);
 
   // Check if an identity provider have been set in the request.
