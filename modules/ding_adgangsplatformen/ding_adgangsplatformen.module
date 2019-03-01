@@ -15,11 +15,16 @@ define('DING_ADGANGSPLATFORMEN_REDIRECT_URL', 'adgangsplatformen/callback');
  * Adds simple JS script that detects if the ajax auth redirect has placed a
  * fragment to redo an ajax request.
  *
+ * Also added ctools JS need to do ajax redirect commends.
+ *
  * We don't known which pages this will happen one, so we add the script to
  * every page.
  */
 function ding_adgangsplatformen_init() {
-  drupal_add_js(drupal_get_path('module', 'ding_adgangsplatformen') . '/js/ding_adgangsplatformen.js', 'file');
+  if (user_is_anonymous()) {
+    ctools_add_js('ajax-responder');
+    drupal_add_js(drupal_get_path('module', 'ding_adgangsplatformen') . '/js/ding_adgangsplatformen.js', 'file');
+  }
 }
 
 /**
@@ -73,7 +78,7 @@ function ding_adgangsplatformen_menu() {
  * ding_adgangsplatformen is not enabled.
  */
 function ding_adgangsplatformen_preprocess_menu_link(&$vars) {
-  if ($vars['element']['#original_link']['menu_name'] == 'menu-tabs-menu') {
+  if (isset($vars['element']['#original_link']['menu_name']) && $vars['element']['#original_link']['menu_name'] == 'menu-tabs-menu') {
     if ($vars['element']['#href'] == 'user') {
       $vars['element']['#href'] = DING_ADGANGSPLATFORMEN_LOGIN_URL;
     }
@@ -135,8 +140,8 @@ function ding_adgangsplatformen_ding_provider_user() {
  * Ajax command to authenticate (redirect).
  */
 function ajax_command_ding_adgangsplatformen_redirect($path) {
+  // Javascript need to do the redirect is loaded in the init hook.
   ctools_include('ajax');
-  ctools_add_js('ajax-responder');
 
   // Get authentication url and set the path to be redirected back to.
   $url = ding_adgangsplatformen_login(FALSE, $path);
@@ -285,7 +290,7 @@ function ding_adgangsplatformen_callback() {
       if (module_exists('ding_registration') && ding_registration_is_registration_request()) {
         // This is an self registration request, so we store the information in
         // the current session. So it can be used to create the user in the
-        // library system in the user creation flow in ding_auth_registration.
+        // library system in the user creation flow in ding_registration.
         // The redirect below will start the process.
         ding_registration_set_user_information($user_info);
       }
