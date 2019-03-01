@@ -360,6 +360,15 @@ function _ding_adgangsplatformen_redirect_user($url = 'user') {
     unset($_SESSION['oauth2ajax']);
   }
 
+  // The redirect url may contain query parameters from tracking etc. but this
+  // be encoded in drupal_goto below, so we need to split it into an query
+  // option.
+  $info = drupal_parse_url($url);
+  if (array_key_exists('query', $info)) {
+    $options['query'] = $info['query'];
+  }
+  $url = $info['path'];
+
   drupal_goto($url, $options);
 }
 
