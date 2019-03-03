@@ -267,7 +267,7 @@ function ding_registration_is_registration_request() {
  * @param array $user_info
  *   Information about the user.
  */
-function ding_registration_set_user_information($user_info) {
+function ding_registration_set_user_information(array $user_info) {
   $_SESSION['ding_registration_user_information'] = is_null($user_info) ? NULL : serialize($user_info);
 }
 
