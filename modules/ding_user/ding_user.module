@@ -819,14 +819,19 @@ function ding_user_forms($form_id, $args) {
  *   Ajax command array.
  */
 function ajax_command_ding_user_authenticate($extra_data, $redirect_uri = '') {
-  if (module_exists('ding_adgangsplatformen')) {
+  $hook = 'ajax_login_command';
+  $modules = module_implements($hook);
+  if (count($modules) > 0) {
     if (empty($redirect_uri)) {
       $url = parse_url($_SERVER['HTTP_REFERER']);
       $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
       $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
       $redirect_uri = empty($referer) ? '/' : urldecode($referer);
     }
-    $command = ajax_command_ding_adgangsplatformen_redirect($redirect_uri);
+
+    foreach ($modules as $module) {
+      $command = module_invoke($module, $hook, $redirect_uri);
+    }
   }
   else {
     // Change default ajax action to default login form's if https is enabled.

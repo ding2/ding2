@@ -137,9 +137,9 @@ function ding_adgangsplatformen_ding_provider_user() {
 }
 
 /**
- * Ajax command to authenticate (redirect).
+ * Implements hook_ajax_login_command().
  */
-function ajax_command_ding_adgangsplatformen_redirect($path) {
+function ding_adgangsplatformen_ajax_login_command($path) {
   // Javascript need to do the redirect is loaded in the init hook.
   ctools_include('ajax');
 
