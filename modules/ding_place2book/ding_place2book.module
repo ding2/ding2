@@ -242,6 +242,46 @@ function _ding_place2book_attach_node_deletion_warning(&$form, $warning_message)
 }
 
 /**
+ * Implements hook_process_node().
+ *
+ * For the p2b-field added to ding_event nodes by this module, we do not use our
+ * field formatter. Instead we use a hidden formatter and hook into the existing
+ * book button in this hook.
+ */
+function ding_place2book_process_node(&$variables) {
+  // Return early if this is not a ding_event or there's no book button.
+  if ($variables['type'] != 'ding_event' || !isset($variables['book_button'])) {
+    return;
+  }
+
+  $node = node_load($variables['nid']);
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($node)) {
+    return;
+  }
+
+  // This ding_event node is synchronized with p2b, so we replace the existing
+  // book button to one that can show the correct p2b-status.
+  $variables['book_button'] = [
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#value' => '',
+    '#attributes' => [
+      'class' => 'place2book',
+      'data-event-id' => $field_place2book['event_id'],
+      'data-event-maker-id' => $field_place2book['event_maker_id'],
+    ],
+    '#attached' => [
+      'css' => [
+        drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css',
+      ],
+      'js' => [
+        drupal_get_path('module', 'ding_place2book') . '/js/ding_place2book.js',
+      ]
+    ],
+  ];
+}
+
+/**
  * Creates and initializes instance of P2b class.
  *
  * @return object
@@ -255,6 +295,39 @@ function ding_place2book_instance() {
   }
 
   return $p2b;
+}
+
+/**
+ * Determines whether a given (ding_event) node is synchronized with p2b.
+ *
+ * Note that this function only works on ding_event nodes with the p2b field
+ * named field_place2book that this module provides out of the box, and is
+ * therefore name accordingly.
+ *
+ * @param object $node
+ *   A node of ding_event type.
+ *
+ * @return mixed|bool|array
+ *   Returns FALSE if $node is not synchronized with p2b.
+ *   Returns array with p2b-data for the node's corresponding p2b-event, if
+ *   $node was synchronized with p2b.
+ */
+function ding_place2book_is_ding_event_node_synchronized($node) {
+  if (!$field_place2book = field_get_items('node', $node, 'field_place2book')) {
+    return FALSE;
+  }
+
+  $field_place2book = $field_place2book[0];
+  if (empty($field_place2book['synchronize'])) {
+    return FALSE;
+  }
+  // The event is synchronized and this is just a safety check to ensure these
+  // important values is present and non-empty.
+  if (empty($field_place2book['event_id']) || empty($field_place2book['event_maker_id'])) {
+    return FALSE;
+  }
+
+  return $field_place2book;
 }
 
 /**
