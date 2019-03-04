@@ -57,28 +57,6 @@ function _ding_place2book_migrate_batch($events, &$context) {
         'synchronize' => $event->maintain_copy,
       );
 
-      // In the old version of p2b integration module, the field for external
-      // ticket link was used by p2b also. In the new version the module has
-      // it's own dedicated field with widget and formatter, and the formatter
-      // outputs its own ticket link button. Unfortunately this will result in
-      // double ticket buttons in frontend for migrated events, since they will
-      // still have the p2b ticket URL in the ticket_link field. The easiest
-      // solution at this point seems to be to keep the fields separated, so
-      // here we ensure that existing nodes with p2b data don't also have the
-      // p2b ticket URL in the ticket_link field, to avoid double ticket buttons
-      // in frontend.
-      // Note that the initial field_get_items check is used to avoid having to
-      // deal with the "Parent Data Structure Not Set" exception thrown by the
-      // wrapper, when field data is not available.
-      // See: https://www.drupal.org/project/entity/issues/1596594
-      if (field_get_items('node', $node, 'field_ding_event_ticket_link')) {
-        $node_wrapper = entity_metadata_wrapper('node', $node);
-        $ticket_url = $node_wrapper->field_ding_event_ticket_link->url->value();
-        if (strpos($ticket_url, 'https://www.place2book.com') === 0) {
-          $node_wrapper->field_ding_event_ticket_link->set(NULL);
-        }
-      }
-
       try {
         node_save($node);
         // If we get here it means that no exception was thrown and we update
