@@ -243,6 +243,8 @@ function _ding_place2book_attach_node_deletion_warning(&$form, $warning_message)
  * For the p2b-field added to ding_event nodes by this module, we do not use our
  * field formatter. Instead we use a hidden formatter and hook into the existing
  * book button in this hook.
+ *
+ * @see ding_place2book_node_presave()
  */
 function ding_place2book_process_node(&$variables) {
   // Return early if this is not a ding_event or there's no book button.
@@ -275,6 +277,41 @@ function ding_place2book_process_node(&$variables) {
       ]
     ],
   ];
+}
+
+/**
+ * Implements hook_node_presave().
+ *
+ * For nodes of ding_event type synchronized wiht p2b we ensure that the ticket
+ * link field is kept updated with the sales location URL from p2b everytime
+ * a node is saved. This ensures better compatibility with the rest of the
+ * system.
+ *
+ * @see ding_place2book_process_node()
+ */
+function ding_place2book_node_presave($node) {
+  if ($node->type != 'ding_event') {
+    return;
+  }
+
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($node)) {
+    return;
+  }
+
+  list($event_id, $event_maker_id) = array_values($field_place2book);
+  try {
+    $p2b = ding_place2book_instance();
+    $event = $p2b->getEvent($event_maker_id, $event_id);
+
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $node_wrapper
+      ->field_ding_event_ticket_link
+      ->url
+      ->set($event->links->sales_location);
+  }
+  catch (Exception $e) {
+    watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
+  }
 }
 
 /**
