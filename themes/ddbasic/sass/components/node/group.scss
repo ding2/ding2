@@ -5,6 +5,11 @@
 
 .node-ding-group {
 
+  // Display links in body text with underline.
+  .field-name-field-ding-group-body a {
+    text-decoration: underline;
+  }
+
   // ==========================================================================
   // Teaser
   // ==========================================================================
