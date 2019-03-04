@@ -171,8 +171,7 @@ function ding_place2book_views_bulk_operations_form_alter(&$form, &$form_state, 
     $p2b_nodes = [];
 
     foreach (node_load_multiple(array_values($selection)) as $node) {
-      $field_place2book = field_get_items('node', $node, 'field_place2book');
-      if (!empty($field_place2book) && $field_place2book[0]['synchronize']) {
+      if (ding_place2book_is_ding_event_node_synchronized($node)) {
         $p2b_nodes[] = $node;
       }
     }
@@ -195,17 +194,14 @@ function ding_place2book_views_bulk_operations_form_alter(&$form, &$form_state, 
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_place2book_form_node_delete_confirm_alter(&$form, &$form_state, $form_id) {
-  $node = $form['#node'];
-  $field_place2book = field_get_items('node', $node, 'field_place2book');
-
-  if (empty($field_place2book) || !$field_place2book[0]['synchronize']) {
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($form['#node'])) {
     return;
   }
 
   // This event is synchronized with p2b. Deleting it might have unexpected
   // consequences. Since this is a single node deletion we can afford to fetch
   // the p2b event and display a more detailed warning message.
-  list($event_id, $event_maker_id) = array_values($field_place2book[0]);
+  list($event_id, $event_maker_id) = array_values($field_place2book);
 
   // The default behavior is to try to delete the p2b event, but it might not be
   // possible which is reflected in deletable paramater on the p2b-event.
