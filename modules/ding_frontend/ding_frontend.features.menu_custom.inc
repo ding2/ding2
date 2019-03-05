@@ -21,6 +21,5 @@ function ding_frontend_menu_default_menu_custom() {
   t('This menu is used to display tabs that let the user change between navigational elements.');
   t('Topbar menu');
 
-
   return $menus;
 }

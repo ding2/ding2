@@ -27,6 +27,10 @@ function ding_user_profile2_form_content_type_render($subtype, $conf, $panel_arg
   $block = new stdClass();
   $form = array();
 
+  // Reuse profile2 page extension code. If not loaded here and error on submit
+  // will happen.
+  include_once drupal_get_path('module', 'profile2') . '/contrib/profile2_page.inc';
+
   // If profile context exists, try getting the form for that profile.
   if (isset($context[1]->data->profile_name)) {
     $profile_type = $context[1]->data;

@@ -57,22 +57,11 @@ function admin_bpi_preview_ajax_callback($type, $bpi_id) {
  */
 function _admin_bpi_preview_output($type, $output) {
   if ($type == 'ajax') {
-    drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup.js');
+    ctools_include('modal');
+    ctools_modal_add_js();
 
     $commands = array();
-    $commands[] = ajax_command_ding_popup(
-      'bpi-preview',
-      t('BPI Preview'),
-      $output,
-      array(
-        'refresh' => TRUE,
-        'extra_data' => array(
-          'dialog_options' => array(
-            'width' => '80%',
-          ),
-        ),
-      )
-    );
+    $commands[] = ctools_modal_command_display(t('BPI Preview'), $output);
     $page = array('#type' => 'ajax', '#commands' => $commands);
     ajax_deliver($page);
   }

@@ -127,7 +127,7 @@ function alma_settings_form() {
       'tls'  => 'Transport Layer Security (TLS)',
     ),
     '#required' => TRUE,
-    '#default_value' => variable_get('alma_ssl_version', 'sslv3'),
+    '#default_value' => variable_get('alma_ssl_version', 'tls'),
   );
 
   // Add the option to select a default interest period for reservations, if not
@@ -165,7 +165,7 @@ function alma_client() {
   static $client;
   if (!isset($client)) {
     try {
-      $client = new AlmaClient(variable_get('alma_base_url', ''), variable_get('alma_ssl_version', 'sslv3'));
+      $client = new AlmaClient(variable_get('alma_base_url', ''), variable_get('alma_ssl_version', 'tls'));
     }
     catch (Exception $e) {
       watchdog('alma', 'Constructor error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
@@ -379,7 +379,7 @@ function alma_profile2_presave($entity) {
 
       // Update local drupal user (mail and display name).
       if (isset($changes['mail'])) {
-        $creds = ding_user_get_creds($entity);
+        $creds = ding_user_get_creds();
         $auth_name = ding_user_default_authname($creds['name']);
         _ding_user_create_account($auth_name, array(
           'user' => array(
@@ -413,7 +413,7 @@ function alma_update_provider($changes, $entity) {
   $error_message = t('Error communicating with library system.');
 
   try {
-    $creds = ding_user_get_creds($entity);
+    $creds = ding_user_get_creds();
   }
   catch (Exception $exception) {
     watchdog_exception('Alma provider', $exception);
@@ -592,8 +592,10 @@ function alma_update_provider($changes, $entity) {
       user_save($user);
     }
   }
-  else {
-    // Delete the email from ALMA and database.
+  elseif (array_key_exists('mail', $changes) && empty($changes['mail'])) {
+    // Delete the email from ALMA and database but only if we have a change to
+    // the mail setting it to empty. Check for key existence as isset will
+    // return false for null values.
     global $user;
 
     $res = TRUE;
@@ -634,8 +636,7 @@ function alma_update_provider($changes, $entity) {
 function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
   if (is_null($creds)) {
     // Get creds, which may throw an exception that login is required.
-    global $user;
-    $creds = ding_user_get_creds($user);
+    $creds = ding_user_get_creds();
   }
 
   // Try static cache.
@@ -694,9 +695,8 @@ function alma_profile2_load($entities) {
       $patron = &drupal_static(__FUNCTION__);
       if (!isset($patron)) {
         // Get information from alma about the current user.
-        global $user;
         try {
-          $creds = ding_user_get_creds($user);
+          $creds = ding_user_get_creds();
         }
         catch (DingProviderAuthException $e) {
           // The user was not logged in, hence we can't fill out the profile.
@@ -775,7 +775,7 @@ function alma_field_attach_view_alter(&$output, $context) {
  */
 function alma_ding_session_cache_defaults() {
   return array(
-    'titel' => 'Alma (reservations, loans)',
+    'title' => 'Alma (reservations, loans)',
     'enabled' => TRUE,
     'expire' => 3600,
   );

@@ -1,0 +1,120 @@
+//
+// Styling of user login form
+
+@import '../../base.scss';
+
+// ==========================================================================
+// User login form
+// ==========================================================================
+
+.user-login-form {
+  @include transition(margin-bottom $speed $ease);
+  width: 100%;
+  float: left;
+  // When topbar is open
+  .topbar-is-open & {
+    margin-bottom: 45px;
+  }
+  .close-user-login {
+    @include place-icon(close);
+    width: 24px;
+    height: 24px;
+    float: right;
+    margin-bottom: 30px;
+    cursor: pointer;
+    &::after {
+      @include transform(translate(-50%, -50%));
+      @include transition(color $speed $ease);
+      top: 50%;
+      left: 50%;
+    }
+    &:hover {
+      &::after {
+        color: $color-text-link;
+      }
+    }
+
+    @include media($mobile) {
+      width: 54px;
+      height: 54px;
+      margin-bottom: 15px;
+      border-radius: $round-corner;
+      background-color: $white;
+    }
+  }
+  .form-item {
+    width: 100%;
+    float: left;
+    margin: 0 0 15px;
+    > label {
+      display: none;
+    }
+    .description {
+      display: none;
+    }
+    @include media($mobile) {
+      &-name {
+        width: calc(100% - 5.10949% - 54px);
+      }
+      &-pass {
+        @include span-columns(3 of 6);
+      }
+    }
+  }
+  .form-actions {
+    margin-bottom: 20px;
+  }
+  .submit-button-with-icon {
+    .color-and-icon {
+      @include button(profile);
+      position: absolute;
+    }
+
+    .ajax-progress-throbber {
+      @include animation(spin 1s linear infinite, fadein $speed $ease);
+      @include transition(background-color $speed $ease);
+
+      display: block;
+      position: absolute;
+      top: 11px;
+      right: 17px;
+      z-index: 2;
+      background-image: url('../../../images/spinner.png');
+      background-size: 100% auto;
+      background-color: $color-secondary;
+      width: 35px;
+      height: 35px;
+
+      .throbber,
+      .message {
+        display: none;
+      }
+    }
+
+    // Hover for non touch devices
+    .no-touch & {
+      &:hover {
+        .ajax-progress-throbber,
+        .color-and-icon {
+          background-color: $grey-dark;
+        }
+
+        .color-and-icon::after {
+          color: $white;
+        }
+      }
+    }
+  }
+  .ding-gatewayf--login-block {
+    margin-top: 10px;
+    a {
+      @include button(nemid, $charcoal-opacity-dark, $grey-medium);
+    }
+  }
+  .sign-up-link {
+    clear: both;
+    a {
+      float: right;
+    }
+  }
+}

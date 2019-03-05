@@ -17,11 +17,11 @@ function ting_search_content_type_render($subtype, $conf, $panel_args, $context)
   global $pager_page_array, $pager_total;
   $block = new stdClass();
 
-  if ($pager_total[0] == TRUE) {
-    $results = drupal_static('ting_search_results');
-    $from = ($pager_page_array[0] < 1 ? 1 : ($pager_page_array[0]) * $results->numTotalCollections + 1);
-    $to = $from + ($results->numTotalCollections - 1);
-    $total = $results->numTotalObjects;
+  $results = ting_search_current_results();
+  if ($pager_total[0] == TRUE && $results) {
+    $from = ($pager_page_array[0] < 1 ? 1 : ($pager_page_array[0]) * $results->getNumCollections() + 1);
+    $to = $from + ($results->getNumCollections() - 1);
+    $total = $results->getNumTotalObjects();
     $block->title = t('Search results text');
     $block->content = '<div class="ting-search-amount-block">' . format_plural($total,
       'Show %from-%to of 1 result',
@@ -40,4 +40,3 @@ function ting_search_content_type_render($subtype, $conf, $panel_args, $context)
 function ting_search_ting_search_content_type_edit_form($form, &$form_state) {
   return $form;
 }
-

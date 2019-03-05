@@ -4,6 +4,8 @@
  * Implements handling of loans through OpenRuth.
  */
 
+use Ting\TingObject;
+
 /**
  * Get list of user loans.
  */
@@ -11,7 +13,7 @@ function openruth_loan_list($account) {
   $result = array();
 
   // Get credentials and user status.
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   $status = _openruth_user_status($creds);
 
   if (isset($status->loans->loan)) {
@@ -63,7 +65,7 @@ function openruth_loan_list($account) {
  *   DingProviderLoan::STATUS_RENEWED or DingProviderLoan::STATUS_NOT_RENEWED.
  */
 function openruth_loan_renew($account, $ids) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
 
   $result = array();
   $res = openruth_client_invoke('renew_loan', $creds['name'], $ids);
@@ -84,23 +86,27 @@ function openruth_loan_renew($account, $ids) {
 }
 
 /**
- * Replace entity for the reservation in the case object in not in Ting anymore
- * or the reservation is an remote reservation.
+ * Replace entity for the reservation.
  *
- * @param DingEntity $ting_entity
+ * In the case object in not in Ting anymore or the reservation is an remote
+ * reservation.
+ *
+ * @param TingEntity $ting_entity
  *   Provider reservation object.
+ * @param \Ting\TingObject $ting_object
+ *   Mutable ting object that represents the raw search result from the search
+ *   provider.
  *
- * @return DingEntity
+ * @return TingEntity
  *   Ting entity object, filled with data from provider service.
  */
-function openruth_loan_populate_pseudo_entity($ting_entity) {
+function openruth_loan_populate_pseudo_entity(TingEntity $ting_entity, TingObject $ting_object) {
   $openruth_object = openruth_seek_reserved_item($ting_entity->localId);
 
   if (is_object($openruth_object)) {
-    $ting_entity->reply->record['dc:title']['dkdcplus:full'] = array($openruth_object->title);;
-    $ting_entity->reply->record['dc:date'][''] = array($openruth_object['publication_year']);
-    $ting_entity->reply->record['dc:creator']['dkdcplus:aut'] = array($openruth_object->author);
-    $ting_entity->reply->record['dc:date'][''] = array($openruth_object->publication_year);
+    $ting_object->setTitle($openruth_object->title);
+    $ting_object->setYear($openruth_object['publication_year']);
+    $ting_object->setCreatorsFormatDefault($openruth_object->author);
 
     $ting_entity->ting_title = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));
     $ting_entity->ting_type = array(LANGUAGE_NONE => array(array('id' => $ting_entity->ding_entity_id)));

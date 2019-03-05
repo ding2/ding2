@@ -101,10 +101,11 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
     ),
     'ding_campaign' => array(
       'variables' => array(
+        'title' => NULL,
         'type' => NULL,
         'link' => NULL,
         'image' => NULL,
-        'text' => NULL,
+        'text' => NULL
       ),
       'template' => 'ding-campaign',
       'path' => $path . '/templates',
@@ -138,11 +139,10 @@ function template_preprocess_ding_campaign(&$variables) {
  */
 function ding_campaign_display($context, $count, $offset, $style = 'medium') {
   $content = array();
-
   // Get node id's for the campaign nodes matching the context.
   $campaigns = ding_campaign_get_campaigns($context, $count, $offset);
 
-  // If any campaigns where found.
+  // If any campaigns were found.
   if (!empty($campaigns)) {
     // Set outer wrapper.
     $content = array(
@@ -155,75 +155,10 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
 
     // Loop through campaigns.
     foreach ($campaigns as $campaign) {
-      // User entity wrapper to access fields.
-      $wrapper = entity_metadata_wrapper('node', $campaign);
-
-      // Get campaign type.
-      $type = $wrapper->field_camp_settings->value();
-
-      // Default render array.
-      $current = array(
-        '#theme' => 'ding_campaign',
-        '#type' => $type,
-      );
-
-      // Get link value.
-      $link = $wrapper->field_camp_link->value();
-
-      if (!empty($link)) {
-        $current['#link'] = array(
-          '#theme' => 'link',
-          '#text' => $campaign->title,
-          '#path' => $link,
-          '#options' => array(
-            'attributes' => array(
-              'class' => array(
-                'ding-campaing--link',
-              ),
-            ),
-            'html' => FALSE,
-            'absolute' => TRUE,
-          ),
-        );
-
-        if ($wrapper->field_camp_behavior->value()) {
-          $current['#link']['#options']['attributes']['target'] = '_blank';
-        }
-      }
-
-      // Get text both plain and full.
-      $text = $wrapper->field_camp_text_plain->value();
-      $text = (!empty($text)) ? $text : $wrapper->field_camp_text_full->value();
-      if (!empty($text)) {
-        $current['#text'] = array(
-          '#markup' => (is_array($text) && isset($text['safe_value'])) ? $text['safe_value'] : $text,
-        );
-        unset($current['#link']);
-      }
-
-      // Get image.
-      $image = $wrapper->field_camp_image->value();
-      if (!empty($image)) {
-        $current['#image'] = array(
-          '#theme' => 'image_style',
-          '#style_name' => $style,
-          '#path' => $image['uri'],
-          '#title' => isset($image['title']) ? $image['title'] : $campaign->title,
-          '#alt' => isset($image['alt']) ? $image['alt'] : $campaign->title,
-        );
-
-        // Check if a link around the image is possible.
-        if (!empty($link)) {
-          // Sadly the link theme function do not generate children.
-          $image = $current['#image'];
-          $current['#image'] = (isset($current['#link'])) ? $current['#link'] : NULL;
-          $current['#image']['#text'] = drupal_render($image);
-          $current['#image']['#options']['html'] = TRUE;
-        }
-      }
-
       // Add current campaign to content array.
-      $content['#content'][] = $current;
+      $node_view = node_view($campaign, 'full');
+      $node_view['#style'] = $style;
+      $content['#content'][] = $node_view;
     }
   }
 
@@ -382,10 +317,11 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
   }
 
   // Process taxonomy campaigns.
-  if ($context['taxonomy_term'] != NULL && isset($context['taxonomy_term']->tid)) {
-    $tid = $context['taxonomy_term']->tid;
+  if ($context['taxonomy_term'] != NULL && isset($context['taxonomy_term']->tids)) {
+    $tids = $context['taxonomy_term']->tids;
 
-    $result = db_query('SELECT r.cid
+    foreach ($tids as $tid) {
+      $result = db_query('SELECT r.cid
       FROM {ding_campaign_rules} r, {ding_campaign} d, {node} n
       WHERE r.nid = :tid
         AND r.type = \'rule_taxonomy\'
@@ -393,10 +329,11 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
         AND r.cid = d.cid
         AND r.cid = n.nid
       ORDER BY d.weight DESC', array(':tid' => (int) $tid))
-      ->fetchAll();
+        ->fetchAll();
 
-    foreach ($result as $key => $value) {
-      @$campaigns[$value->cid] += 3;
+      foreach ($result as $key => $value) {
+        @$campaigns[$value->cid] += 3;
+      }
     }
   }
 
@@ -429,8 +366,6 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
     unset($form['field_camp_settings'][$form['field_camp_settings']['#language']]['#options']['_none']);
     // Remove the 'None' value from weight drop-down.
     unset($form['field_camp_weight'][$form['field_camp_weight']['#language']]['#options']['_none']);
-
-    $form['#validate'] = array('ding_campaign_campaign_node_form_validate');
   }
 }
 
@@ -440,23 +375,13 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
 function ding_campaign_form_ding_campaign_node_form_alter(&$form, &$form_state) {
   // Add states for form elements based on Campaign settings selected options.
   $form['field_camp_text_full']['#states'] = array(
-    'visible' => array(
-      ':input[name="field_camp_settings[und]"]' => array('value' => 'full'),
-    ),
-  );
-  $form['field_camp_text_plain']['#states'] = array(
-    'visible' => array(
-      ':input[name="field_camp_settings[und]"]' => array('value' => 'plain'),
-    ),
-  );
-  $form['field_camp_image']['#states'] = array(
-    'visible' => array(
+    'invisible' => array(
       ':input[name="field_camp_settings[und]"]' => array('value' => 'image'),
     ),
   );
-  $form['field_camp_link']['#states'] = array(
-    'visible' => array(
-      ':input[name"field_camp_settings[und]"]' => array('value' => 'image'),
+  $form['field_camp_image']['#states'] = array(
+    'invisible' => array(
+      ':input[name="field_camp_settings[und]"]' => array('value' => 'text'),
     ),
   );
   array_unshift($form['actions']['submit']['#submit'], 'ding_campaign_form_ding_campaign_node_form_submit');
@@ -682,13 +607,6 @@ function ding_campaign_ctools_plugin_directory($module, $plugin) {
   }
 }
 
-function ding_campaign_campaign_node_form_validate($form, &$form_state) {
-  if ($form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'image') {
-    if (empty($form_state['input']['field_camp_link'][$form['field_camp_link']['#language']][0]['value'])) {
-      form_set_error('field_camp_link', 'Empty links are not allowed for image type campaigns.');
-    }
-  }
-}
 /**
  * Get rule name by node type.
  *

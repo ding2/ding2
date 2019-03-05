@@ -15,7 +15,7 @@ include_once 'plugins/rest.inc';
 function ding_mobilesearch_permission() {
   return array(
     'administer mobilesearch' => array(
-      'title' => t('Administer mobilesearch'),
+      'title' => t('Administer Mobilesearch'),
     ),
   );
 }
@@ -129,6 +129,8 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
     ->execute()
     ->fetchField();
 
+  $tz = date_default_timezone(FALSE);
+
   $mapping = array(
     'fields' => array(
       'title' => array(
@@ -143,12 +145,12 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
       ),
       'created' => array(
         'name' => t('Created'),
-        'value' => $node->created,
+        'value' => ding_mobilesearch_format_date($node->created, $tz),
         'attr' => array(),
       ),
       'changed' => array(
         'name' => t('Updated'),
-        'value' => $node->changed,
+        'value' => ding_mobilesearch_format_date($node->changed, $tz),
         'attr' => array(),
       ),
       'status' => array(
@@ -257,8 +259,18 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         if (is_array($items)) {
           foreach ($items as $row) {
             if (!empty($row['tid'])) {
-              $term = taxonomy_term_load($row['tid']);
-              $mapping['taxonomy'][$machine_name]['terms'][] = $term->name;
+              $terms = taxonomy_get_parents_all($row['tid']);
+
+              $mapping['taxonomy'][$machine_name]['terms'] = array();
+              if (!empty($terms)) {
+                $parents = array();
+                $parents[$terms[0]->name] = array();
+                for ($i = 1; $i < count($terms); $i++) {
+                  $parents[$terms[$i]->name] = $parents;
+                  unset($parents[$terms[$i - 1]->name]);
+                }
+                $mapping['taxonomy'][$machine_name]['terms'] = $parents;
+              }
             }
           }
         }
@@ -267,13 +279,25 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         }
 
         if ($info['type'] == 'entityreference') {
+          $target = $info['settings']['target_type'];
+
           $mapping['fields'][$machine_name] = array(
             'name' => $field['label'],
             'value' => array(),
             'attr' => array(),
           );
+
           foreach ($items as $item) {
-            $mapping['fields'][$machine_name]['value'][] = $item['target_id'];
+            $entity = entity_load_single($target, $item['target_id']);
+            if ($entity) {
+              if ($target == 'node') {
+                $value = $entity->title;
+              }
+
+              if (!empty($value)) {
+                $mapping['fields'][$machine_name]['value'][] = $value;
+              }
+            }
           }
         }
         break;
@@ -285,11 +309,25 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
           'value' => array(),
           'attr' => array(),
         );
+
         foreach ($items as $item) {
-          $mapping['fields'][$machine_name]['value'][] = $item['ting_object_id'];
+          $mapping['fields'][$machine_name]['value']['materials'] = $item;
         }
-        if (count($mapping['fields'][$machine_name]['value']) == 1) {
-          $mapping['fields'][$machine_name]['value'] = reset($mapping['fields'][$machine_name]['value']);
+
+        $relations = ting_reference_get_relations($field['entity_type'], $node);
+        if (!empty($mapping['fields'][$machine_name]['value']['materials'])) {
+          if (!empty($relations)) {
+            $eids = array();
+
+            foreach ($relations as $relation) {
+              $eids[] = $relation->endpoints['und'][1]['entity_id'];
+            }
+            $ting_objects = entity_load('ting_object', $eids);
+            foreach ($ting_objects as $ting_object) {
+              $materials[] = $ting_object->ding_entity_id;
+            }
+            $mapping['fields'][$machine_name]['value']['materials'] = $materials;
+          }
         }
         break;
 
@@ -317,8 +355,19 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
       ->fields('oh')
       ->condition('oh.nid', $node->nid)
       ->execute();
+
+    // Push only opening hours from current week till 10 weeks ahead.
+    // It's barely possible that a certain user would be interested
+    // in opening hours for a certain library further than 10 weeks ahead.
+    $start_date = strtotime('last monday');
+    $end_date = strtotime('last monday + 10 weeks');
+
     foreach ($result as $row) {
-      $mapping['fields']['opening_hours'][] = (array) $row;
+      $row = (array) $row;
+      $date_stamp = strtotime($row['date']);
+      if ($date_stamp >= $start_date && $date_stamp <= $end_date) {
+        $mapping['fields']['opening_hours'][] = $row;
+      }
     }
   }
 
@@ -329,13 +378,26 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
       $items = field_get_items('node', $node, 'field_ding_event_date');
       if (is_array($items) && !empty($items)) {
         $item = reset($items);
+
+        $field_field = field_info_field('field_ding_event_date');
+        $field_instance = field_info_instance('node', 'field_ding_event_date', 'ding_event');
+
+        $from_object = new DateObject($item['value'], 'UTC', date_type_format($field_field['type']));
+        $from_object->setTimezone(new DateTimeZone($tz));
+        $to_object = new DateObject($item['value2'], 'UTC', date_type_format($field_field['type']));
+        $to_object->setTimezone(new DateTimeZone($tz));
+
+        $all_day = date_all_day_field($field_field, $field_instance, $from_object, $to_object);
+
         $mapping['fields']['field_ding_event_date'] = array(
           'name' => 'Event date',
           'value' => array(
-            'from' => $item['value'],
-            'to' => $item['value2'],
+            'from' => ding_mobilesearch_format_date($from_object->getTimestamp(), $item['timezone']),
+            'to' => ding_mobilesearch_format_date($to_object->getTimestamp(), $item['timezone']),
           ),
-          'attr' => array(),
+          'attr' => array(
+            'all_day' => $all_day,
+          ),
         );
       }
       $tag_field = 'field_ding_event_tags';
@@ -365,6 +427,21 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
   }
 
   return $mapping;
+}
+
+/**
+ * Represents a timestamp in ISO-8601 format.
+ *
+ * @param int $timestamp
+ *   Unix timestamp.
+ * @param string $timezone
+ *   Target timezone.
+ *
+ * @return string
+ *   Date formatted using ISO-8601 notation.
+ */
+function ding_mobilesearch_format_date($timestamp, $timezone) {
+  return format_date($timestamp, 'custom', 'c', $timezone);
 }
 
 /**
@@ -425,10 +502,12 @@ function ding_mobilesearch_flag_default_flags() {
       'flag' => array(
         0 => 3,
         1 => 4,
+        2 => 6,
       ),
       'unflag' => array(
         0 => 3,
         1 => 4,
+        2 => 6,
       ),
     ),
     'weight' => 0,
@@ -484,4 +563,54 @@ function theme_ding_mobilesearch_types_table(array $variables) {
   $output .= drupal_render_children($form);
 
   return $output;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_mobilesearch_cron() {
+  $last_cron = variable_get('ding_mobilesearch_opening_hours_update', 0);
+
+  // Update weekly.
+  if ($last_cron + 604800 <= REQUEST_TIME) {
+    variable_set('ding_mobilesearch_opening_hours_update', REQUEST_TIME);
+
+    $flag_items = flag_get_flagged_content('push_to_mongo');
+
+    foreach ($flag_items as $item) {
+      if ($item->content_type == 'node') {
+        DrupalQueue::get('ding_mobilesearch_opening_hours_update')->createItem($item->content_id);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function ding_mobilesearch_cron_queue_info() {
+  // Mobilesearch update opening hours.
+  $queue['ding_mobilesearch_opening_hours_update'] = array(
+    'worker callback' => '_ding_mobilesearch_opening_hours_update_worker',
+    'time'            => 30,
+    'skip on cron'    => FALSE,
+  );
+
+  return $queue;
+}
+
+/**
+ * Custom queue worker, loads and pushes content to mobilesearch.
+ *
+ * @param int $nid
+ *   Node id.
+ *
+ * @see ding_mobilesearch_cron_queue_info()
+ */
+function _ding_mobilesearch_opening_hours_update_worker($nid) {
+  $node = node_load($nid);
+
+  if ($node) {
+    ding_mobilesearch_rest_exec('hook_node_update', 'node', $node);
+  }
 }

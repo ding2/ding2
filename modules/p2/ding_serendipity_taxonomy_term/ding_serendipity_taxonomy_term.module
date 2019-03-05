@@ -4,8 +4,12 @@
  * @file
  * Ding serendipity taxonomy term plugin.
  *
- * This module provides serendipity content based on taxonomy terms
+ * This module provides serendipity content based on taxonomy terms.
  */
+
+use Ting\Search\TingSearchCommonFields;
+use Ting\Search\TingSearchFieldFilter;
+use Ting\Search\TingSearchSort;
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -22,23 +26,23 @@ function ding_serendipity_taxonomy_term_ctools_plugin_directory($owner, $plugin_
 function ding_serendipity_taxonomy_term_serendipity_info() {
   return array(
     'recent' => array(
-      'title' => 'Recent content of current term',
-      'description' => 'Fetch objects from this year matching term.',
+      'title' => t('Recent content of current term'),
+      'description' => t('Fetch objects from this year matching term.'),
       'keys' => array('taxonomy_tid', 'recent'),
     ),
     'related_by_term' => array(
-      'title' => 'Content with similar term',
-      'description' => 'Fetch nodes or materials with similar term.',
+      'title' => t('Content with similar term'),
+      'description' => t('Fetch nodes or materials with similar term.'),
       'keys' => array('taxonomy_tid', 'related'),
     ),
     'recommended_objects' => array(
-      'title' => 'Objects in taxonomy term recommended field',
-      'description' => 'On each taxonomy term a list of recommended objects may be suggested.',
+      'title' => t('Objects in taxonomy term recommended field'),
+      'description' => t('On each taxonomy term a list of recommended objects may be suggested.'),
       'keys' => array('taxonomy_tid', 'recommended'),
     ),
     'popular_objects' => array(
-      'title' => 'Objects in taxonomy term popular field',
-      'description' => 'On each taxonomy term a list of popular objects may be suggested.',
+      'title' => t('Objects in taxonomy term popular field'),
+      'description' => t('On each taxonomy term a list of popular objects may be suggested.'),
       'keys' => array('taxonomy_tid', 'popular'),
     ),
   );
@@ -66,34 +70,44 @@ function ding_serendipity_taxonomy_term_recommended_objects_serendipity_add($con
  * Fetch recent content from Brønd relating to term in context.
  */
 function ding_serendipity_taxonomy_term_recent_serendipity_add($context) {
-  $term_arr = ding_serendipity_taxonomy_get_term($context);
-  
+  $term_array = ding_serendipity_taxonomy_get_term($context);
+
   // Validate context.
-  if ($term_arr === FALSE || !isset($context['recent'])) {
+  if ($term_array === FALSE || !isset($context['recent'])) {
     return array();
   }
 
-  $facets = array();
-  $term = $term_arr['term'];
-
+  $query = _ding_serendipity_taxonomy_term_query_from_term($term_array);
   // Select content from this year.
   $limit = (is_numeric($context['max'])) ? $context['max'] : 16;
-
-  $term_arr['query'] = ding_list_convert_cql($term_arr['query']);
-
-  // Apply term query.
-  $facets[] = $term_arr['query'];
-
-  $query = implode(' AND ', $facets);
+  $query = $query->withCount($limit);
 
   // Order by date.
-  $result = ding_serendipity_do_search($query,
-    array(
-      'options' => array('sort' => 'acquisitionDate_descending'),
-      'limit' => $limit,
-    )
-  );
-  return $result;
+  $query = $query->withSort(TingSearchCommonFields::ACQUISITION_DATE, TingSearchSort::DIRECTION_DESCENDING);
+  return ding_serendipity_do_search($query);
+}
+
+/**
+ * Start a query based on a term.
+ *
+ * @param array $term_array
+ *   The term-array retrieved from ding_serendipity_taxonomy_get_term().
+ *
+ * @return \Ting\Search\TingSearchRequest
+ *   Prepared search query.
+ */
+function _ding_serendipity_taxonomy_term_query_from_term(array $term_array) {
+  $query = ting_start_query();
+  if ($term_array['has_query']) {
+    // The term has a query attached, use it.
+    $query = $query->withRawQuery(ding_list_convert_cql($term_array['query']));
+  }
+  else {
+    // Just add the term name itself as a full text search.
+    $query = $query->withFullTextQuery($term_array['term']->name);
+  }
+
+  return $query;
 }
 
 /**
@@ -104,19 +118,19 @@ function ding_serendipity_taxonomy_term_recent_serendipity_add($context) {
 function ding_serendipity_taxonomy_term_related_by_term_serendipity_add($context) {
 
   // No term no result.
-  $term_arr = ding_serendipity_taxonomy_get_term($context);
+  $term_array = ding_serendipity_taxonomy_get_term($context);
 
-  if ($term_arr === FALSE || isset($context['recent'])) {
+  if ($term_array === FALSE || isset($context['recent'])) {
     return array();
   }
 
-  $term = $term_arr['term'];
-  $query = $term_arr['query'];
-  $query = ding_list_convert_cql($query);
+  $term = $term_array['term'];
 
   $results = array();
   if ($context['bundle'] == 'ting_object') {
-    $results = ding_serendipity_do_search($query, array('limit' => $context['min']));
+    $query = _ding_serendipity_taxonomy_term_query_from_term($term_array);
+    $query = $query->withCount($context['min']);
+    $results = ding_serendipity_do_search($query);
 
     // Frontpage could be a taxonomy term.
     $description = t('This content has been promoted to you by the library.');
@@ -181,7 +195,7 @@ function ding_serendipity_taxonomy_term_related_by_term_serendipity_add($context
 /**
  * Implements hook_serendipity_PLUG_IN_serendipity_add().
  *
- * Fetch content referenced in field_popular_ting_objects of the tem in context
+ * Fetch content referenced in field_popular_ting_objects of the tem in context.
  */
 function ding_serendipity_taxonomy_term_popular_objects_serendipity_add($context) {
   $term = taxonomy_term_load($context['taxonomy_tid']);
@@ -205,7 +219,7 @@ function ding_serendipity_taxonomy_term_popular_objects_serendipity_add($context
 function ding_serendipity_taxonomy_term_fetch_ting_objects($field, $term) {
   $result = array();
 
-  // Extract id's from field_taxonomy_ting_objects
+  // Extract id's from field_taxonomy_ting_objects.
   $items = field_get_items('taxonomy_term', $term, $field);
   if (!empty($items)) {
     foreach ($items as $item) {

@@ -1,0 +1,62 @@
+//
+// Styling of News- and Event-teasers in specific panel
+
+@import '../base.scss';
+
+.pane-ding-node-panel-pane-ding-node {
+  // News tesers are styled different inside this panel
+  .node-ding-news.node-teaser a {
+    .news-text .field-name-field-ding-news-lead {
+      position: static;
+      float: left;
+      padding: 0;
+      margin-top: 10px;
+      opacity: 1;
+      color: $color-standard-text;
+    }
+    .ding-news-list-image {
+      @include transition(
+        box-shadow $speed $ease
+      );
+    }
+    // Hover
+    .no-touch & {
+      &:hover {
+        .ding-news-list-image {
+          box-shadow: $box-shadow;
+          &::after {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+  // Event tesers are styled different inside this panel
+  .node-ding-event.node-teaser {
+    .title-and-lead {
+      min-height: auto !important;
+      margin-bottom: 10px;
+    }
+    // Hover
+    .no-touch & {
+      &:hover {
+        .background {
+          width: 100%;
+          // Tablet
+          @include media($tablet) {
+            width: 100%;
+          }
+          .button {
+            opacity: 0;
+          }
+        }
+        .title-and-lead {
+          min-height: auto !important;
+          .field-name-field-ding-event-lead {
+            opacity: 0;
+          }
+        }
+      }
+    }
+  }
+}

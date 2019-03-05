@@ -24,9 +24,9 @@ function ding_entity_rating_loan_history_ding_interaction_info() {
       );
     }
   }
-  
+
   $translatables = ding_entity_rating_loan_history_translatables();
-  
+
   return array(
     'title' => $translatables['title'],
     'translatables' => $translatables,
@@ -50,19 +50,22 @@ function ding_entity_rating_loan_history_translatables() {
 /**
  * Implements hook_ding_interaction_view().
  */
-function ding_entity_rating_loan_history_ding_interaction_view($count = DING_ENTITY_RATING_LOAN_HISTORY_MAX_AMOUNT) {
+function ding_entity_rating_loan_history_ding_interaction_view($extra) {
   global $user;
   if (ding_user_is_provider_user($user)) {
     // Get entities to rate based on loan history.
-    $objects = ding_entity_rating_loan_history_get_suggested_entities($count);
+    $objects = ding_entity_rating_loan_history_get_suggested_entities();
     if (!empty($objects)) {
       $view_objects = array();
       foreach ($objects as $obj) {
         $view_objects[] = ding_entity_view($obj, 'compact');
       }
 
-      $car = array('#theme' => 'ting_carousel', '#objects' => $view_objects);
-      return render($car);
+      $carousel = array(
+        '#type' => 'ding_carousel',
+        '#items' => $view_objects,
+      );
+      return drupal_render($carousel);
     }
   }
   return '';

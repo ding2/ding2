@@ -1,0 +1,27 @@
+From 3f6d8ea62343c38a4db89dff7a84c5b1b755380a Mon Sep 17 00:00:00 2001
+From: Kasper Garnaes <kasper.garnaes@gmail.com>
+Date: Sun, 30 Sep 2018 02:11:13 +0200
+Subject: [PATCH] Use filename and line number as test case name
+
+This will allow CircleCI to match individual features reported by
+liuggio/fastest with time reported running them by Behat when using
+the split by timings option.
+---
+ src/Behat/Behat/Output/Node/Printer/JUnit/JUnitScenarioPrinter.php | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/Behat/Behat/Output/Node/Printer/JUnit/JUnitScenarioPrinter.php b/src/Behat/Behat/Output/Node/Printer/JUnit/JUnitScenarioPrinter.php
+index 57f8906e..fe98151e 100644
+--- a/src/Behat/Behat/Output/Node/Printer/JUnit/JUnitScenarioPrinter.php
++++ b/src/Behat/Behat/Output/Node/Printer/JUnit/JUnitScenarioPrinter.php
+@@ -77,7 +77,7 @@ final class JUnitScenarioPrinter
+         $outputPrinter = $formatter->getOutputPrinter();
+
+         $outputPrinter->addTestcase(array(
+-            'name' => $name,
++            'name' => $feature->getFile() . ':' . $scenario->getLine(),
+             'status' => $this->resultConverter->convertResultToString($result),
+             'time' => $this->durationListener ? $this->durationListener->getDuration($scenario) : ''
+         ));
+--
+2.15.0+GitX

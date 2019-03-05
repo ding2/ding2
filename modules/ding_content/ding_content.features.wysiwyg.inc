@@ -10,22 +10,17 @@
 function ding_content_wysiwyg_default_profiles() {
   $profiles = array();
 
-  // Exported profile: ding_wysiwyg
+  // Exported profile: ding_wysiwyg.
   $profiles['ding_wysiwyg'] = array(
     'format' => 'ding_wysiwyg',
     'editor' => 'ckeditor',
     'settings' => array(
-      'default' => 1,
-      'user_choose' => 0,
-      'show_toggle' => 1,
-      'add_to_summaries' => 1,
       'theme' => 'advanced',
       'language' => 'da',
       'buttons' => array(
         'default' => array(
           'Bold' => 1,
           'Italic' => 1,
-          'Underline' => 1,
           'JustifyLeft' => 1,
           'JustifyCenter' => 1,
           'JustifyRight' => 1,
@@ -61,12 +56,20 @@ function ding_content_wysiwyg_default_profiles() {
       'acf_mode' => 0,
       'acf_allowed_content' => '',
       'css_setting' => 'self',
-      'css_path' => '/profiles/ding2/themes/ddbasic/css/ddbasic.wysiwyg.min.css',
+      'css_path' => '/profiles/ding2/themes/ddbasic/sass_css/wysiwyg.css',
       'stylesSet' => '',
       'block_formats' => 'p,h2,h3,div',
-      'advanced__active_tab' => 'edit-basic',
+      'advanced__active_tab' => 'edit-css',
       'forcePasteAsPlainText' => 0,
     ),
+    'preferences' => array(
+      'add_to_summaries' => TRUE,
+      'default' => 1,
+      'show_toggle' => 1,
+      'user_choose' => 0,
+      'version' => '4.9.2.95e5d83',
+    ),
+    'name' => 'formatding_wysiwyg',
   );
 
   return $profiles;

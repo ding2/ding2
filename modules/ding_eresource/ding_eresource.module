@@ -1,0 +1,72 @@
+<?php
+/**
+ * @file
+ * Code for the Ding! E-resource feature.
+ */
+
+include_once 'ding_eresource.features.inc';
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_eresource_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_eresource_menu() {
+  $items['admin/config/ding/eresource'] = array(
+    'title' => 'Ding eresource settings',
+    'description' => 'Administer eresource settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_eresource_admin_setting_form'),
+    'access arguments' => array('administer eresource settings'),
+    'file' => 'ding_eresource.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_eresource_permission() {
+  return array(
+    'administer eresource settings' => array(
+      'title' => t('Administer e-resource settings'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_eresource_form_alter(&$form, &$form_state, $form_id) {
+  // Change all-text in select list in exposed filter for e-resources.
+  if ($form['#id'] == 'views-exposed-form-ding-eresource-ding-eresource-list') {
+    if (!empty($form['access']['#options']['All'])) {
+      $form['access']['#options']['All'] = t('Access: All e-materials');
+    }
+  }
+}
+
+/**
+ * Implements hook_pre_build().
+ */
+function ding_eresource_views_pre_build(&$view) {
+  switch ($view->name . ' ' . $view->current_display) {
+    case 'ding_eresource ding_eresource_category':
+      $default_category_text_overwrite = variable_get('ding_eresource_default_category_text_overwrite');
+      if (!empty($default_category_text_overwrite['value'])) {
+        $view->display_handler->handlers['empty']['area_text_custom']->options['content'] = $default_category_text_overwrite['value'];
+      }
+      break;
+  }
+}

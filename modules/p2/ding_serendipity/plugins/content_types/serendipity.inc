@@ -34,16 +34,16 @@ function ding_serendipity_serendipity_content_type_render($subtype, $conf, $pane
     $context_data['node'] = $context[0]->data;
     $context_data['node_nid'] = $panel_args[0];
   }
-  
+
   if (!empty($context[1]->data)) {
     $context_data['search_term'] = $context[1]->data;
   }
-  
+
   if (!empty($context[2]->data)) {
     $context_data['taxonomy_term'] = $context[2]->data;
     $context_data['taxonomy_tid'] = $panel_args[0];
   }
-  
+
   $context_data += array(
     'view_mode' => isset($conf['view_mode']) ? $conf['view_mode'] : 'teaser',
     'sort_weight' => isset($conf['sort_weight']) ? $conf['sort_weight'] : FALSE,
@@ -51,7 +51,7 @@ function ding_serendipity_serendipity_content_type_render($subtype, $conf, $pane
     'min' => isset($conf['min']) ? $conf['min'] : 0,
     'random' => isset($conf['random']) ? $conf['random'] : FALSE,
   );
-  
+
   if (isset($conf['selected_keys'])) {
     foreach ($conf['selected_keys'] as $key => $value) {
       $context_data[$key] = TRUE;
@@ -67,7 +67,7 @@ function ding_serendipity_serendipity_content_type_render($subtype, $conf, $pane
       $output['content'][] = $item;
     }
   }
-  
+
   $block = new stdClass();
   $block->title = t('Serendipity content');
   $block->content = $output;
@@ -78,7 +78,7 @@ function ding_serendipity_serendipity_content_type_render($subtype, $conf, $pane
  * Implements hook_content_type_edit_form().
  */
 function ding_serendipity_serendipity_content_type_edit_form($form, &$form_state) {
-  
+
   $form += ding_serendipity_form_base($form_state);
   $form += ding_serendipity_form_base_keys($form_state);
 

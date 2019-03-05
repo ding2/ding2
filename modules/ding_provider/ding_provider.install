@@ -56,3 +56,14 @@ function ding_provider_requirements($phase) {
   }
   return $requirements;
 }
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_provider_uninstall() {
+  $variables = array('ding_provider_last_cron');
+
+  foreach ($variables as $variable) {
+    variable_del($variable);
+  }
+}

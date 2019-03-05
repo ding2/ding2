@@ -24,18 +24,18 @@
  * @ingroup views_templates
  */
 
-// check for well-formed html - position, phone og email may be null.
+// Check for well-formed html - position, phone og email may be null.
 $name_title_wrapper = $contact_wrapper = FALSE;
 
 foreach ($fields as $id => $field) {
 
-  if ( ($id == 'field_ding_staff_surname' || $id == 'field_ding_staff_position') && !$name_title_wrapper ) {
+  if (($id == 'field_ding_staff_surname' || $id == 'field_ding_staff_position') && !$name_title_wrapper) {
     print '<div class="staff-name-title">';
     $name_title_wrapper = TRUE;
   }
 
-  if ( ($id == 'field_ding_staff_phone' || $id == 'field_ding_staff_email') && !$contact_wrapper ) {
-    if ( $name_title_wrapper ) {
+  if (($id == 'field_ding_staff_phone' || $id == 'field_ding_staff_email') && !$contact_wrapper) {
+    if ($name_title_wrapper) {
       print "</div>";
     }
     print '<div class="staff-contact">';
@@ -53,7 +53,7 @@ foreach ($fields as $id => $field) {
 
 }
 
-if ( $contact_wrapper ) {
+if ($contact_wrapper) {
   print "</div>";
 }
 

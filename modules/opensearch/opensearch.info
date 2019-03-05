@@ -1,0 +1,13 @@
+name = Opensearch
+description = A search-provider that enables searching via a DBC OpenSearch instance. See https://opensource.dbc.dk/services/open-search-web-service
+core = 7.x
+package = Providers
+version = 7.x-1.0-dev
+project = opensearch
+dependencies[] = nanosoap
+dependencies[] = ding_provider
+dependencies[] = xautoload
+files[] = lib/ting-client/**
+files[] = opensearch_unit.test
+files[] = includes/TingSearchCqlDoctor.class.inc
+configure = admin/config/opensearch

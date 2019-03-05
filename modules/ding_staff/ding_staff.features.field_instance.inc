@@ -10,7 +10,8 @@
 function ding_staff_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_department'
+  // Exported field_instance:
+  // 'profile2-ding_staff_profile-field_ding_staff_department'.
   $field_instances['profile2-ding_staff_profile-field_ding_staff_department'] = array(
     'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
@@ -30,6 +31,12 @@ function ding_staff_field_default_field_instances() {
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 2,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -55,7 +62,8 @@ function ding_staff_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_description'
+  // Exported field_instance:
+  // 'profile2-ding_staff_profile-field_ding_staff_description'.
   $field_instances['profile2-ding_staff_profile-field_ding_staff_description'] = array(
     'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
@@ -74,6 +82,12 @@ function ding_staff_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
+        'weight' => 8,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 5,
       ),
       'token' => array(
@@ -103,7 +117,8 @@ function ding_staff_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_email'
+  // Exported field_instance:
+  // 'profile2-ding_staff_profile-field_ding_staff_email'.
   $field_instances['profile2-ding_staff_profile-field_ding_staff_email'] = array(
     'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
@@ -123,6 +138,13 @@ function ding_staff_field_default_field_instances() {
         'settings' => array(),
         'type' => 'email_default',
         'weight' => 3,
+      ),
+      'search_result' => array(
+        'label' => 'inline',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 2,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -150,7 +172,8 @@ function ding_staff_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_forename'
+  // Exported field_instance:
+  // 'profile2-ding_staff_profile-field_ding_staff_forename'.
   $field_instances['profile2-ding_staff_profile-field_ding_staff_forename'] = array(
     'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
@@ -166,9 +189,17 @@ function ding_staff_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'text_default',
         'weight' => 4,
+      ),
+      'search_result' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -197,7 +228,8 @@ function ding_staff_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_image'
+  // Exported field_instance:
+  // 'profile2-ding_staff_profile-field_ding_staff_image'.
   $field_instances['profile2-ding_staff_profile-field_ding_staff_image'] = array(
     'bundle' => 'ding_staff_profile',
     'deleted' => 0,
@@ -215,20 +247,19 @@ function ding_staff_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'hidden',
-        'module' => 'cs_adaptive_image',
+        'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'styles' => array(
-            'breakpoint_1' => 768,
-            'breakpoint_2' => 500,
-            'fallback_style' => 'ding_list_large',
-            'max_style' => 'ding_list_large',
-            'style_1' => 'ding_list_medium',
-            'style_2' => 'ding_list_small',
-          ),
+          'image_style' => 'ding_panorama_list_large',
         ),
-        'type' => 'cs_adaptive_image',
+        'type' => 'image',
         'weight' => 3,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -262,6 +293,8 @@ function ding_staff_field_default_field_instances() {
       'settings' => array(
         'allowed_schemes' => array(
           'public' => 'public',
+          'vimeo' => 0,
+          'youtube' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -273,28 +306,31 @@ function ding_staff_field_default_field_instances() {
           'ding_content' => 0,
           'media_default--media_browser_1' => 0,
           'media_default--media_browser_my_files' => 0,
+          'media_internet' => 0,
           'upload' => 0,
         ),
-        'manualcrop_crop_info' => TRUE,
-        'manualcrop_default_crop_area' => TRUE,
-        'manualcrop_enable' => FALSE,
-        'manualcrop_inline_crop' => FALSE,
+        'manualcrop_crop_info' => 1,
+        'manualcrop_default_crop_area' => 1,
+        'manualcrop_enable' => 1,
+        'manualcrop_inline_crop' => 0,
         'manualcrop_instant_crop' => FALSE,
-        'manualcrop_instant_preview' => TRUE,
-        'manualcrop_keyboard' => TRUE,
-        'manualcrop_maximize_default_crop_area' => FALSE,
+        'manualcrop_instant_preview' => 1,
+        'manualcrop_keyboard' => 1,
+        'manualcrop_maximize_default_crop_area' => 0,
         'manualcrop_require_cropping' => array(),
-        'manualcrop_styles_list' => array(),
+        'manualcrop_styles_list' => array(
+          'crop_16_9' => 'crop_16_9',
+        ),
         'manualcrop_styles_mode' => 'include',
-        'manualcrop_thumblist' => FALSE,
-        'progress_indicator' => 'throbber',
+        'manualcrop_thumblist' => 0,
       ),
       'type' => 'media_generic',
       'weight' => 1,
     ),
   );
 
-  // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_phone'
+  // Exported field_instance:
+  // 'profile2-ding_staff_profile-field_ding_staff_phone'.
   $field_instances['profile2-ding_staff_profile-field_ding_staff_phone'] = array(
     'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
@@ -316,6 +352,13 @@ function ding_staff_field_default_field_instances() {
         ),
         'type' => 'body_snippet',
         'weight' => 4,
+      ),
+      'search_result' => array(
+        'label' => 'inline',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
       ),
       'token' => array(
         'label' => 'above',
@@ -344,7 +387,8 @@ function ding_staff_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_position'
+  // Exported field_instance:
+  // 'profile2-ding_staff_profile-field_ding_staff_position'.
   $field_instances['profile2-ding_staff_profile-field_ding_staff_position'] = array(
     'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
@@ -363,7 +407,13 @@ function ding_staff_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_plain',
-        'weight' => 2,
+        'weight' => 6,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -392,7 +442,8 @@ function ding_staff_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_surname'
+  // Exported field_instance:
+  // 'profile2-ding_staff_profile-field_ding_staff_surname'.
   $field_instances['profile2-ding_staff_profile-field_ding_staff_surname'] = array(
     'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
@@ -408,9 +459,16 @@ function ding_staff_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 5,
+      ),
+      'search_result' => array(
+        'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 8,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -439,7 +497,8 @@ function ding_staff_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_work_areas'
+  // Exported field_instance:
+  // 'profile2-ding_staff_profile-field_ding_staff_work_areas'.
   $field_instances['profile2-ding_staff_profile-field_ding_staff_work_areas'] = array(
     'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
@@ -452,6 +511,12 @@ function ding_staff_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 5,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 9,
       ),
     ),
     'entity_type' => 'profile2',
@@ -473,7 +538,7 @@ function ding_staff_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-ding_staff_profile-og_group_ref'
+  // Exported field_instance: 'profile2-ding_staff_profile-og_group_ref'.
   $field_instances['profile2-ding_staff_profile-og_group_ref'] = array(
     'bundle' => 'ding_staff_profile',
     'default_value' => NULL,
@@ -481,7 +546,16 @@ function ding_staff_field_default_field_instances() {
     'description' => 'Select the libraries this content should be associated with.',
     'display' => array(
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 1,
+      ),
+      'search_result' => array(
+        'label' => 'inline',
         'module' => 'entityreference',
         'settings' => array(
           'link' => 1,

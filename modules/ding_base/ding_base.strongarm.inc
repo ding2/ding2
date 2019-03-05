@@ -13,20 +13,6 @@ function ding_base_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'admin_menu_components';
-  $strongarm->value = array(
-    'admin_menu.icon' => TRUE,
-    'admin_menu.menu' => TRUE,
-    'admin_menu.account' => TRUE,
-    'shortcut.links' => TRUE,
-    'admin_menu.search' => FALSE,
-    'admin_menu.users' => FALSE,
-  );
-  $export['admin_menu_components'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'autologout_enforce_admin';
   $strongarm->value = 1;
   $export['autologout_enforce_admin'] = $strongarm;
@@ -283,13 +269,7 @@ function ding_base_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'date_default_timezone';
-  $strongarm->value = 'Europe/Berlin';
-  $export['date_default_timezone'] = $strongarm;
 
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'ding_varnish_content_types';
   $strongarm->value = array(
     'ding_event' => 'ding_event',
@@ -696,8 +676,15 @@ temaer/*';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'jquery_update_jquery_migrate_enable';
+  $strongarm->value = 1;
+  $export['jquery_update_jquery_migrate_enable'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'jquery_update_jquery_version';
-  $strongarm->value = '1.7';
+  $strongarm->value = '3.1';
   $export['jquery_update_jquery_version'] = $strongarm;
 
   $strongarm = new stdClass();

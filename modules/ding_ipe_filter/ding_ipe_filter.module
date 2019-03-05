@@ -1,0 +1,250 @@
+<?php
+/**
+ * @file
+ * Provide IPE Filter menu functionality.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_ipe_filter_menu() {
+  $items['admin/config/user-interface/ipe-filter'] = array(
+    'title' => 'IPE pane filter settings',
+    'description' => 'Configure IPE filter default options.',
+    'weight' => 1,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_ipe_filter_admin_panes_form'),
+    'access arguments' => array('administer ding ipe filter'),
+    'file' => 'includes/ding_ipe_filter.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_ipe_filter_permission() {
+  return array(
+    'use IPE filter menu' => array(
+      'title' => t('Use IPE filter menu'),
+      'description' => t('Replace default administration modal window with filtered menu.'),
+    ),
+    'administer ding ipe filter' => array(
+      'title' => t('Administer Ding IPE filter'),
+      'description' => t('Administer settings for Ding IPE fitler module.'),
+    ),
+  );
+}
+
+/**
+ * Check if user has necessary permissions to access the IPE filter menu.
+ *
+ * @return array
+ *   If empty array, then user has all the necessary permissions.
+ */
+function ding_ipe_filter_use_menu() {
+  $permissions = array(
+    'use IPE filter menu',
+    'use panels in place editing',
+    'use ipe with page manager',
+  );
+
+  return array_filter($permissions, function ($permission) {
+    if (!user_access($permission)) {
+      return TRUE;
+    }
+    return FALSE;
+  });
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_ipe_filter_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_ipe_filter_selection' => array(
+      'template' => 'ding-ipe-filter-selection',
+      'variables' => array(
+        'region_id' => NULL,
+        'links' => array(),
+        'selections' => array(),
+      ),
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * Add pane buttons on IPE filter menus.
+ */
+function ding_ipe_filter_theme_registry_alter(&$registry = array()) {
+  $registry['panels_ipe_add_pane_button']['function'] = '_ding_ipe_filter_callback';
+}
+
+/**
+ * Filter panes callback.
+ *
+ * @param array $variables
+ *   Theme registry variables.
+ *
+ * @return string
+ *   Output IPE menu.
+ */
+function _ding_ipe_filter_callback($variables = array()) {
+  $path = drupal_get_path('module', 'ding_ipe_filter');
+  $region_id  = $variables['region_id'];
+
+  $output = array(
+    '#theme' => 'ding_ipe_filter_selection',
+    '#region_id' => $region_id,
+    '#links' => array(
+      '#theme' => 'link',
+      '#text' => t('Add', array(), array('context' => 'ding_ipe')),
+      '#path' => NULL,
+      '#options' => array(
+        'attributes' => array(
+          'class' => array('ipe-trigger'),
+          'target_region' => $region_id,
+        ),
+        'html' => FALSE,
+      ),
+    ),
+    '#selections' => array(
+      '#theme' => 'item_list',
+      '#items' => array(),
+    ),
+    '#attached' => array(
+      'js' => array(
+        $path . '/js/ding_ipe_filter.js',
+      ),
+      'css' => array(
+        $path . '/css/ding_ipe_filter.css',
+      ),
+    ),
+  );
+
+  // Check if permission is set or the configuration is not set to show filtered
+  // list of pane fallback to IPE default behaviour.
+  $permissions = ding_ipe_filter_use_menu();
+  if (_ding_ipe_filter_show_for_admin() || !empty($permissions)) {
+    $output['#links'] = array(
+      '#theme' => 'links',
+      '#links' => $variables['links'],
+      '#attributes' => array(
+        'class' => array('panels-ipe-linkbar', 'inline'),
+      ),
+    );
+    $output['#selections'] = array();
+    $output['#attached'] = array();
+  }
+  else {
+    // Filter panes available based on the configuration.
+    $selections = _ding_ipe_filter_selected_panes();
+    foreach ($selections as $selection) {
+      list($category, $subtype_name) = explode(':', $selection);
+      $pane = _ding_ipe_filter_get_pane_info($category, $subtype_name);
+      if (is_array($pane)) {
+        $url = $variables['renderer']->get_url('add-pane', $region_id, $pane['type_name'], $pane['subtype_name']);
+        $output['#selections']['#items'][] = l(t($pane['title']), $url, array(
+          'attributes' => array(
+            'class' => 'ctools-use-modal ding-ipe-menu-item',
+          ),
+        ));
+      }
+    }
+  }
+
+  return drupal_render($output);
+}
+
+/**
+ * Get pane information about a given pane.
+ *
+ * This is also used to check if a given pane is available in the current
+ * codebase, hence preventing the user form adding old removed panel panes.
+ *
+ * @param string $category
+ *   The pane category to find the pane.
+ * @param string $subtype_name
+ *   The panes subtype name used to identify the pane.
+ *
+ * @return array|bool
+ *   If pane information is found an array with the information else FALSE.
+ */
+function _ding_ipe_filter_get_pane_info($category, $subtype_name) {
+  $categories = &drupal_static(__FUNCTION__);
+  if (!isset($categories)) {
+    ctools_include('content');
+    $content_types = ctools_content_get_available_types();
+    $panel_editor = new panels_renderer_editor();
+    $categories = $panel_editor->get_categories($content_types);
+  }
+
+  if (!empty($categories[$category]['content'])) {
+    foreach ($categories[$category]['content'] as $pane) {
+      if ($pane['subtype_name'] == $subtype_name) {
+        return $pane;
+      }
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Helper function to check availability of the IPE menu for super admin.
+ *
+ * @return bool
+ *   Show ipe menu for the super admin.
+ */
+function _ding_ipe_filter_show_for_admin() {
+  global $user;
+
+  $show_for_admin = FALSE;
+  if ($user->uid == 1) {
+    $configs = variable_get('ding_ipe_filter_settings', array());
+    $show_for_admin = !empty($configs['admin_display']) ? $configs['admin_display'] : FALSE;
+  }
+
+  return $show_for_admin;
+}
+
+/**
+ * Get the current filter list.
+ *
+ * The panel panes selected in the administration UI and if not configured yet
+ * the default selections is used.
+ *
+ * @return array
+ *   The selected panes indexed by "category:subtype-name".
+ */
+function _ding_ipe_filter_selected_panes() {
+  $default = array(
+    'ding-:ding_nodelist' => 'ding-:ding_nodelist',
+    'ding-:all_opening_hours' => 'ding-:all_opening_hours',
+    'ding-:popular' => 'ding-:popular',
+    'ding-:interaction_pane' => 'ding-:interaction_pane',
+    'ding-:serendipity_ting_object' => 'ding-:serendipity_ting_object',
+    'ding-:ding_tabroll-ding_frontpage_tabroll' => 'ding-:ding_tabroll-ding_frontpage_tabroll',
+    'ding-:campaign' => 'ding-:campaign',
+    'event-panes:ding_event-ding_event_list_frontpage' => 'event-panes:ding_event-ding_event_list_frontpage',
+    'event-panes:ding_event-ding_event_simple_list' => 'event-panes:ding_event-ding_event_simple_list',
+    'groups-panes:ding_groups-ding_group_overview_simple' => 'groups-panes:ding_groups-ding_group_overview_simple',
+    'news-panes:ding_news-ding_news_frontpage_list' => 'news-panes:ding_news-ding_news_frontpage_list',
+    'ting:carousel' => 'ting:carousel',
+  );
+
+  $selected = variable_get('ding_ipe_filter_panes_selected', $default);
+  return array_filter($selected);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_ipe_filter_preprocess_panels_ipe_pane_wrapper(&$variables) {
+  unset($variables['links']['style']);
+  unset($variables['links']['css']);
+}

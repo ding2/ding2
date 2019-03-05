@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_interaction.strongarm.inc
@@ -19,7 +20,7 @@ function ding_interaction_strongarm() {
     'ding_list' => 'ding_list',
     'ding_entity_rating' => 0,
     'ding_entity_rating_loan_history' => 0,
-    'ding_user_consent' => 0, 
+    'ding_user_consent' => 0,
   );
   $export['ding_interaction_callbacks'] = $strongarm;
 

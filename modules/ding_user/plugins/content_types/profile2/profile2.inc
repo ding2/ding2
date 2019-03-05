@@ -1,12 +1,12 @@
 <?php
+
 /**
  * @file
  * Wrappers profile2 provider profile into a panels pane.
  */
 
 /**
- * Plugins are described by creating a $plugin array which will be used
- * by the system that includes this file.
+ * Plugin definition.
  */
 $plugin = array(
   'title' => t('Provider profile'),
@@ -36,9 +36,12 @@ function ding_user_profile2_type_render($subtype, $conf, $panel_args, $context) 
     $block->content = $profile->view('account');
 
     global $user;
-    if ($user->data['blocked']) {
-      $link = variable_get('ding_user_blocked_user_node', 'node/1');
-      drupal_set_message(t('Your user account is blocked in the library system. See <a href="@link">this</a> page for more information.', array('@link' => $link)), 'error');
+    if ($user->data['blocks']) {
+      $link = variable_get('ding_user_blocked_user_node', variable_get('site_404', 'customerror/404'));
+      foreach ($user->data['blocks'] as $block_code) {
+        drupal_set_message(ding_user_block_reason($block_code), 'warning');
+      }
+      drupal_set_message(t('See <a href="@link">this</a> page for more information about block types.', array('@link' => $link)), 'error');
     }
   }
 

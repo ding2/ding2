@@ -33,7 +33,7 @@ function ding_user_consent_form($form, &$form_state) {
       $title = variable_get($id . '_title', $values['title']);
       $description = variable_get($id . '_description', $values['description']);
     }
-    
+
     $form['content'][$id] = array(
       '#type' => 'checkbox',
       '#title' => check_plain($title),
@@ -59,8 +59,8 @@ function ding_user_consent_form_submit($form, &$form_state) {
     global $user;
     $account = $user;
   }
-  
+
   ding_user_consent_set($form_state['values'], $account);
-  
+
   $form_state['redirect'] = 'user/' . $account->uid;
 }

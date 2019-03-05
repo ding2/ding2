@@ -61,4 +61,3 @@ class ExternalCatalogApi extends SwaggerApi
 
 
 }
-

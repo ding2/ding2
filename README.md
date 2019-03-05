@@ -9,7 +9,7 @@ of the [TING concept](http://ting.dk).
 
 # Installation
 This README assumes that you have install a configured your server with a
-working Apache/Nginx, APC, Memcached, PHP 5.4 and Varnish 3.x (optional). The
+working Apache/Nginx, APC, Memcached, PHP 5.6 or 7.0 and Varnish 3.x (optional). The
 stack should be optimized to run a Drupal site.
 
 If you want to try out Ding2 you can download [the latest release](https://github.com/ding2/ding2/releases/latest). The `ding2-7.x-[version].tar.gz` file contain a full Drupal installation including Drupal Core, third party modules and Ding2 code needed to run the site.
@@ -19,7 +19,7 @@ The reset of this document explains how to download Drupal and patch the core
 to run a Ding2 based site.
 
 ## Dependencies
-* [Drupal 7.43](https://drupal.org/drupal-7.43-release-notes) - latest stable
+* [Drupal 7.56](https://www.drupal.org/project/drupal/releases/7.56) - latest stable
   version of Drupal Core that ding2 have been tested on and the last stable
   release when this was written.
 * [Drush 6.1.0](https://github.com/drush-ops/drush) - latest release when this
@@ -27,13 +27,13 @@ to run a Ding2 based site.
 
 ## Drupal
 Go into your web-root (from now on named DRUPAL) and execute this drush command
-to download a fresh copy of Drupal version 7.43. If you omit the version number
+to download a fresh copy of Drupal version 7.56. If you omit the version number
 the newest version of Drupal will be downloaded.
 ```sh
-  ~$ drush dl drupal-7.43
-  ~$ mv drupal-7.43/* .
-  ~$ mv drupal-7.43/.* .
-  ~$ rm -r drupal-7.43
+  ~$ drush dl drupal-7.56
+  ~$ mv drupal-7.56/* .
+  ~$ mv drupal-7.56/.* .
+  ~$ rm -r drupal-7.56
 ```
 
 ### Patches
@@ -43,7 +43,7 @@ root path and execute the commands below.
 
 This [patch](https://drupal.org/node/1232346) fixes a problem with recursive menu rebuilds.
 ```sh
-  ~$ wget -qO- http://drupal.org/files/menu-get-item-rebuild-1232346-22_0.patch | patch -p1
+  ~$ wget -qO- http://drupal.org/files/issues/menu-get-item-rebuild-1232346-45.patch | patch -p1
 ```
 
 This [patch](https://drupal.org/node/2205581) fixes issue with permissions and
@@ -58,12 +58,30 @@ web-services that runs OpenSSL v1.0.x or newer works.
   ~$ wget -qO- http://drupal.org/files/ssl-socket-transports-1879970-13.patch | patch -p1
 ```
 
-__Optional__,but recommended patch that ensures that Ajax errors only are
-displayed when not in readystate 4. So when the user presses enter to perform a
-search before auto-complete Ajax is call is completed an error will not be
-displayed.
+This [patch](https://www.drupal.org/project/drupal/issues/1079628) fixes menu item types
+shown in the frontend.
 ```sh
-  ~$ wget -qO- https://drupal.org/files/issues/autocomplete-1232416-17-7x.patch | patch -p1
+  ~$ wget -qO- https://www.drupal.org/files/issues/programatically_added-1079628-29-d7.patch | patch -p1
+```
+
+__Optional, but recommended patches__
+
+Ensures that Ajax errors only are displayed when not in readystate 4. So when
+the user presses enter to perform a search before auto-complete Ajax is call is
+completed an error will not be displayed.
+```sh
+  ~$ wget -qO- http://www.drupal.org/files/issues/autocomplete-1232416-205-7x.patch | patch -p1
+```
+
+Fixes the problem with scrolls when dragging items within tables in the backend.
+```sh
+  ~$ wget -qO- http://www.drupal.org/files/issues/drupal-tabledrag-scroll-2843240-36.patch | patch -p1
+```
+
+Modification to Drupal core's robots.txt that disallows gatewayf urls. So if
+you're using this module, apply this patch too.
+```sh
+  patch -p1 < profiles/ding2/patches/drupal_core.robots.txt.ding2.patch
 ```
 
 ## Build Ding2 installation profile
@@ -95,16 +113,42 @@ will not delete these.
 ```sh
   ~$ drush make --no-core --working-copy --contrib-destination=. ding2.make
 ```
-
-Next goto your sites URL and run the ding2 installation profile and fill out
+### Site installation 
+Go to the url for your site, run the ding2 installation profile and fill out
 all the questions.
+
+If you use [Docker](https://docs.docker.com/get-started/) you can also start a container with database server for an already installed site using the latest version of the Ding2 `master` branch:
+
+```sh
+   ~$ docker run -e MYSQL_USER=db -e MYSQL_PASSWORD=db -e MYSQL_DATABASE=db -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d ding2/ding2-mysql:master
+``` 
+
+In this case you should insert the following in your `settings.php` file:
+
+```php
+$databases = array(
+  'default' => array(
+    'default' => array(
+      'driver' => 'mysql',
+      'database' => 'db',
+      'username' => 'db',
+      'password' => 'db',
+      'host' => 'db',
+      'prefix' => '',
+    ),
+  ),
+);
+```
+
+Username/password for logging into the site is `admin`/`admin`.
 
 ## Alternative installation method
 If you are using an deployment system you may not want to patch Drupal core
 manually in a production environment.
 ```sh
-  ~$ wget https://raw.github.com/ding2/ding2/release/drupal.make
-  ~$ drush make --working-copy --contrib-destination=profiles/ding2/ drupal.make htdocs
+  ~$ git clone git@github.com:ding2/ding2.git ding2
+  ~$ drush make --working-copy --contrib-destination=profiles/ding2 ding2/drupal.make .
+  ~$ rm -rf ding2
 ```
 
 # Post installation
@@ -247,7 +291,7 @@ The installation profile also contains a Vanish configuration file (_ding2.vcl_)
 
 The configuration file also limits which server are authenticated/allowed to be upstream proxy for Varnish. This is to ensure that sensitive information is not forwarded to an un-secure proxy as until the SSL proxy the information is not encrypted.
 
-## Apache 
+## Apache
 Apache do not have the SSL module enabled, so it will not set the "_X-Forwarded-Proto_" header from the SSL proxy and Drupal will not be able to detect that it's behind a SSL Proxy. So you have to set the HTTPS flag in your vhost configuration file as shown below.
 
 <pre>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default implementation of the ding-wayf-login-tpl, which provides a link to

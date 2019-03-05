@@ -1,8 +1,15 @@
 <?php
+
 /**
  * @file
  * Provider and configuration layer for connection with the OpenList service.
  */
+
+use DingList\DingList;
+
+define('TING_OPENLIST_DEFAULT_DOMAIN', 'https://test.openlist.ddbcms.dk');
+
+require_once 'TingOpenlistRequestException.php';
 
 /**
  * Implements hook_ding_provider().
@@ -145,10 +152,10 @@ function ting_openlist_autocomplete_list($string) {
   $buffer = array();
 
   $lists = ding_provider_invoke('openlist', 'request', 'callModule', array(
-      'ListPermission',
-      'getPublicLists',
+    'ListPermission',
+    'getPublicLists',
       array($string),
-    ));
+  ));
 
   foreach ($lists as $list) {
     $buffer[$list['title'] . ' [' . $list['list_id'] . ']'] = $list['title'];
@@ -203,7 +210,7 @@ function ting_openlist_field_add_elements_submit($form, &$form_state) {
  * Ajax update the reference field.
  *
  * This is stolen from the field.form.inc module, it's basically the
- * field_add_more_js
+ * field_add_more_js.
  */
 function ting_openlist_field_add_elements_js($form, &$form_state) {
   $button = $form_state['triggering_element'];
@@ -233,60 +240,41 @@ function ting_openlist_field_add_elements_js($form, &$form_state) {
  * Validate function for the ting_openlist_id textfield.
  */
 function ting_openlist_field_validate($element, &$form_state, $form) {
-  // The format of a valid openlist id input is "ANYTHING SPACE [DIGIT]"
+  // The format of a valid openlist id input is "ANYTHING SPACE [DIGIT]".
   if (!empty($element['#value']) && !preg_match('/^.+\s\[\d*\]$/', $element['#value'], $matches)) {
     form_error($element, t('Invalid openlist list'));
   }
 }
 
 /**
- * Get a SoapClient.
+ * Clear all caches related to a list.
  *
- * @param string $wsdl
- *   The wsdl file to use.
- * @param bool $trace
- *   When debugging this allows the SoapClient to trace out complete data.
- *
- * @return object
- *   The PHP SoapClient.
+ * @param DingList $list
+ *   The list.
  */
-function ting_openlist_get_soap($wsdl = NULL, $trace = FALSE) {
-  $clients = &drupal_static(__FUNCTION__, array());
+function ting_openlist_cache_clear_list(DingList $list) {
+  $clear = array('l' . $list->getId());
+  $account = ting_openlist_drupal_user($list->getOwner());
+  if ($account !== FALSE && !empty($account->uid)) {
+    $clear[] = 'u' . $account->uid;
+  }
+  ting_openlist_cache_clear($clear);
+}
 
-  if (!isset($clients[$wsdl])) {
-    if ($wsdl === NULL) {
-      $wsdl = variable_get('ting_openlist_wsdl', '');
-    }
-
-    // Create the client, catch any error and log it.
-    try {
-      $clients[$wsdl] = @new SoapClient(
-        $wsdl, array(
-          'trace' => $trace,
-          'cache_wsdl' => variable_get('ting_openlist_wsdl_cache', TRUE) && !$trace ? WSDL_CACHE_DISK : WSDL_CACHE_NONE,
-        )
-      );
-
-      $clients[$wsdl]->__setCookie('library_code', variable_get('ting_library_code', ''));
-
-      // Enable the developer cookie if specified.
-      if (variable_get('ting_openlist_developer', FALSE)) {
-        $clients[$wsdl]->__setCookie('developer', 'on');
-      }
-    }
-    catch (Exception $e) {
-      watchdog(
-        'openlist',
-        'Unable to create SoapClient(@wsdl). Exception:<br />@exception',
-        array('@wsdl' => $wsdl, '@exception' => $e->getMessage()),
-        WATCHDOG_ERROR
-      );
-
-      $clients[$wsdl] = FALSE;
-    }
+/**
+ * Clear openlist caches with a specfic prefix.
+ *
+ * @param string|array $prefixes
+ *   The prefixes or single prefix to clear.
+ */
+function ting_openlist_cache_clear($prefixes) {
+  if (!is_array($prefixes)) {
+    $prefixes = array($prefixes);
   }
 
-  return $clients[$wsdl];
+  foreach ($prefixes as $prefix) {
+    cache_clear_all($prefix . '_', 'cache_openlist', TRUE);
+  }
 }
 
 /**
@@ -296,70 +284,92 @@ function ting_openlist_get_soap($wsdl = NULL, $trace = FALSE) {
  *   Function name of the function to call on the service.
  * @param array $arguments
  *   Numerical array with the arguments, in their respectable order.
- * @param bool $detailed_log
- *   If set to true, the arguments send is logged by watchdog, if logging is
- *   active.
+ * @param array $settings
+ *   Settings for the request:
+ *   - use_cache: If the request should use the local cache, TRUE will fallback
+ *     on the default cachetimeout, while an integer represents TTL.
+ *   - cache_prefix: Cache key prefix.
  *
  * @return mixed
  *   Response from Openlist.
  */
-function ting_openlist_request($function, $arguments = array(), $detailed_log = FALSE) {
-  $response = FALSE;
-  $start_time = microtime(TRUE);
+function ting_openlist_request($function, array $arguments = array(), array $settings = array()) {
+  $static_cache = &drupal_static(__FUNCTION__, array());
 
-  if ($soap_client = ting_openlist_get_soap()) {
-    try {
-      $response = call_user_func_array(
-        array(
-          $soap_client,
-          $function,
-        ),
-        $arguments
-      );
+  timer_start(__FUNCTION__);
 
-      // If logging is enabled, log the function name and execution time.
-      if (variable_get('ting_openlist_log', FALSE)) {
-        $execution_time = microtime(TRUE) - $start_time;
-
-        $details = '';
-        if ($detailed_log || variable_get('ting_openlist_log_details', FALSE)) {
-          $details = "<pre>" . var_export($arguments, TRUE) . '</pre>';
-        }
-
-        watchdog(
-          'openlist',
-          '@function (@execution_time s)!details',
-          array(
-            '@function' => $function,
-            '@execution_time' => $execution_time,
-            '!details' => $details,
-          ),
-          WATCHDOG_INFO
-        );
-      }
-    }
-    catch (Exception $e) {
-      $execution_time = microtime(TRUE) - $start_time;
-      watchdog(
-        'openlist',
-        'Error (@execution_time s).<br /><strong>Function:</strong> @function.<br /><strong>Exception:</strong>@exception<hr /><pre>!details</pre>',
-        array(
-          '@function' => $function,
-          '@execution_time' => $execution_time,
-          '@exception' => $e->getMessage(),
-          '!details' => var_export($arguments, TRUE),
-        ),
-        WATCHDOG_ERROR
-      );
-
-      throw $e;
-    }
+  $settings += array(
+    'use_cache' => TRUE,
+    'cache_prefix' => 'def',
+  );
+  if ($settings['use_cache'] === TRUE) {
+    $settings['use_cache'] = variable_get('ting_openlist_cache_default_ttl', 60);
   }
-  else {
-    throw new Exception('No soap client available.');
+  $method = $settings['use_cache'] !== FALSE ? 'GET' : 'POST';
+
+  $parts = array(
+    variable_get('ting_openlist_domain', TING_OPENLIST_DEFAULT_DOMAIN),
+    'json',
+    $function,
+  );
+
+  $query = array(
+    'library_code' => variable_get('ting_library_code', ''),
+    'authkey' => variable_get('ting_openlist_authkey', ''),
+  );
+
+  if (variable_get('ting_openlist_developer', FALSE)) {
+    $query['developer'] = 'on';
   }
 
-  return $response;
+  $query += $arguments;
+
+  $url = url(
+    implode('/', $parts),
+    array('query' => $query)
+  );
+
+  $cache_key = $settings['cache_prefix'] . '_' . md5($url);
+  if (!empty($settings['use_cache'])) {
+    if (isset($static_cache[$cache_key])) {
+      return $static_cache[$cache_key];
+    }
+
+    if (($cache = cache_get($cache_key, 'cache_openlist')) && REQUEST_TIME < $cache->expire) {
+      return $cache->data;
+    }
+  }
+
+  $response = drupal_http_request($url, array(
+    'method' => $method,
+  ));
+  $watchdog_severity = ($response->code !== '200') ? WATCHDOG_ERROR : WATCHDOG_INFO;
+
+  if ($watchdog_severity === WATCHDOG_ERROR || variable_get('ting_openlist_log', FALSE)) {
+    watchdog(
+      'ting_openlist',
+      '<strong>Request</strong><pre>!link</pre><strong>Execution time</strong><pre>@execution_time ms</pre><strong>Response</strong><pre>!response</pre>',
+      array(
+        '!link' => l($url, $url, array('external' => TRUE)),
+        '@execution_time' => timer_read(__FUNCTION__),
+        '!response' => htmlentities(var_export($response, TRUE)),
+      ),
+      $watchdog_severity
+    );
+
+    if ($watchdog_severity === WATCHDOG_ERROR) {
+      throw new TingOpenlistRequestException($response, $url);
+    }
+  }
+
+  $data = drupal_json_decode($response->data);
+  if (!empty($settings['use_cache'])) {
+    $expire = ($settings['use_cache'] === -1 ? CACHE_PERMANENT : REQUEST_TIME + $settings['use_cache']);
+    cache_set($cache_key, $data, 'cache_openlist', $expire);
+    $static_cache[$cache_key] = $data;
+  }
+
+  return $data;
 }
 
 /**
@@ -386,10 +396,10 @@ function ting_openlist_update_user($account = NULL) {
  * @param string $openlist_uid
  *   The openlist user id.
  *
- * @return object
- *   The user account.
+ * @return object|false
+ *   The user account or FALSE if the account doesn't exist.
  */
-function ting_openlist_get_user($openlist_uid) {
+function ting_openlist_drupal_user($openlist_uid) {
   $result = db_select('users', 'u')
     ->fields('u', array('uid'))
     ->condition('u.openlist_uid', $openlist_uid)
@@ -401,8 +411,7 @@ function ting_openlist_get_user($openlist_uid) {
     $account = user_load($result['uid']);
   }
   else {
-    $account = new stdClass();
-    $account->name = $account->mail = t('User missing');
+    $account = FALSE;
   }
 
   return $account;
@@ -432,21 +441,21 @@ function ting_openlist_user_identifier($account = NULL) {
     }
     else {
       try {
-        $creds = ding_user_get_creds($account);
+        $provider_id = ding_user_provider_id($account);
 
-        if (!empty($creds['name'])) {
-          $ids[$account->uid] = ting_openlist_create_identifier($creds['name']);
+        if (!empty($provider_id)) {
+          $ids[$account->uid] = ting_openlist_create_identifier($provider_id);
         }
         else {
-          // Standard drupal users (not loaners) will get the drupal private key
+          // Standard drupal users (not loaners) will get the Ding private key
           // prepended so they're unique across sites.
-          $ids[$account->uid] = ting_openlist_create_identifier(drupal_get_private_key() . $account->name);
+          $ids[$account->uid] = ting_openlist_create_identifier(ding_user_get_private_key() . $account->name);
         }
       }
       catch (Exception $e) {
-        // Standard drupal users (not loaners) will get the drupal private key
+        // Standard drupal users (not loaners) will get the Ding private key
         // prepended so they're unique across sites.
-        $ids[$account->uid] = ting_openlist_create_identifier(drupal_get_private_key() . $account->name);
+        $ids[$account->uid] = ting_openlist_create_identifier(ding_user_get_private_key() . $account->name);
       }
     }
   }
@@ -473,4 +482,11 @@ function ting_openlist_create_identifier($name) {
     variable_set('ting_openlist_prefix', $prefix);
   }
   return hash('sha512', $prefix . $name);
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function ting_openlist_flush_caches() {
+  return array('cache_openlist');
 }

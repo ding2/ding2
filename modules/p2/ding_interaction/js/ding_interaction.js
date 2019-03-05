@@ -6,7 +6,7 @@
 
 (function ($) {
   "use strict";
-  
+
   $.widget("ding.interaction", {
     // the constructor
     _create: function() {
@@ -17,7 +17,7 @@
         .disableSelection();
 
       this.closer = $('.close-btn', this.element).addClass('icon-remove-sign button');
-      
+
       // bind click events on the changer button to the random method
       $(this.closer).on('click', function(e) {
         e.preventDefault();
@@ -25,7 +25,7 @@
       });
     },
   });
-  
+
   Drupal.behaviors.ding_interaction = {
     attach: function (context) {
       $('.ding-interaction-pane', context).interaction();

@@ -63,21 +63,6 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = FALSE;
-  /* Field: List image */
-  $handler->display->display_options['fields']['field_ding_library_list_image']['id'] = 'field_ding_library_list_image';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['table'] = 'field_data_field_ding_library_list_image';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['field'] = 'field_ding_library_list_image';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['ui_name'] = 'List image';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['element_class'] = 'photo';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_library_list_image']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_library_list_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['settings'] = array(
-    'image_style' => '',
-    'image_link' => 'content',
-  );
   /* Field: Content: Address */
   $handler->display->display_options['fields']['field_ding_library_addresse']['id'] = 'field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['table'] = 'field_data_field_ding_library_addresse';
@@ -167,6 +152,8 @@ function ding_library_views_default_views() {
 
   /* Display: Libraries list */
   $handler = $view->new_display('panel_pane', 'Libraries list', 'ding_library_libraries_list');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Libraries';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['row_class'] = 'js-library-opening-hours-target';
@@ -193,6 +180,28 @@ function ding_library_views_default_views() {
   $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
   $handler->display->display_options['sorts']['position']['field'] = 'position';
   $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 0;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ding_library' => 'ding_library',
+  );
+  /* Filter criterion: Nodequeue: In queue */
+  $handler->display->display_options['filters']['in_queue']['id'] = 'in_queue';
+  $handler->display->display_options['filters']['in_queue']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['filters']['in_queue']['field'] = 'in_queue';
+  $handler->display->display_options['filters']['in_queue']['relationship'] = 'nodequeue_rel';
+  $handler->display->display_options['filters']['in_queue']['value'] = '1';
   $handler->display->display_options['pane_category']['name'] = 'Library panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
@@ -324,6 +333,7 @@ function ding_library_views_default_views() {
     t('E-mail'),
     t('<i class="icon-chevron-right"></i> [title_1]'),
     t('Libraries list'),
+    t('Libraries'),
     t('more'),
     t('queue'),
     t('Library panes'),

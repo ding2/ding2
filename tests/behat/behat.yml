@@ -1,0 +1,43 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - LibContext:
+            NoScreenDump: "false"
+        - StepsContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MarkupContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    SensioLabs\Behat\PageObjectExtension: ~
+    emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
+     name: html
+     renderer: Behat2
+     file_name: Index
+     print_args: true
+     print_outp: true
+     loop_break: true
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drush'
+      drush:
+        root: '../../../../../web'
+      text:
+        log_out: 'Log ud'
+        username_field: 'Låner- eller CPR-nummer'
+        password_field: 'Pinkode'
+    Liuggio\Fastest\Behat\ListFeaturesExtension\Extension: ~
+
+
+chrome:
+  extensions:
+    DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
+    Behat\MinkExtension:
+      browser_name: chrome
+      sessions:
+        default:
+          chrome:
+            api_url: "http://localhost:9222"
+            socket_timeout: 600

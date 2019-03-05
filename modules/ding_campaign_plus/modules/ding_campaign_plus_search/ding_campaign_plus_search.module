@@ -1,0 +1,306 @@
+<?php
+
+/**
+ * @file
+ * Defines basic campaigns triggers and handling.
+ */
+
+use Ting\Search\TingSearchRequest;
+
+define('DING_CAMPAIGN_PLUS_SEARCH_TYPE', 'search');
+
+/**
+ * Implements hook_ding_campaign_plus_info().
+ */
+function ding_campaign_plus_search_ding_campaign_plus_info() {
+  return array(
+    'title' => t('Search'),
+    'type' => DING_CAMPAIGN_PLUS_SEARCH_TYPE,
+    'form' => 'ding_campaign_plus_search_admin_form',
+    'auto' => array(
+      'callback' => 'ding_campaign_plus_search_auto_admin_form',
+      'default' => FALSE,
+    ),
+    'weight' => 15,
+  );
+}
+
+/**
+ * Implements hook_ding_campaign_plus_default_weights().
+ */
+function ding_campaign_plus_search_ding_campaign_plus_default_weights() {
+  return array(
+    'search' => array(
+      'prefix' => t('Search'),
+      'title' => t('CQL statement'),
+      'weight' => 15,
+    ),
+  );
+}
+
+/**
+ * Implements hook_node_load().
+ */
+function ding_campaign_plus_search_node_load($nodes, $types) {
+  foreach ($nodes as $node) {
+    if ($node->type === 'ding_campaign_plus') {
+      $rules = db_select('ding_campaign_plus_search', 'dcps')
+        ->fields('dcps')
+        ->condition('nid', $node->nid)
+        ->execute()
+        ->fetchAllAssoc('id');
+
+      // Add type to easy identify this rule type.
+      foreach ($rules as &$rule) {
+        $rule->type = 'search';
+      }
+
+      if (!isset($node->ding_campaign_plus)) {
+        $node->ding_campaign_plus = array();
+      }
+      $node->ding_campaign_plus = array_merge($node->ding_campaign_plus, $rules);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_campaign_plus_search_node_insert($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    $triggers = $node->tabs[DING_CAMPAIGN_PLUS_SEARCH_TYPE];
+
+    if (!empty($triggers['rules']['query'])) {
+      db_insert('ding_campaign_plus_search')
+        ->fields(array(
+          'nid' => $node->nid,
+          'query' => $triggers['rules']['query'],
+          'percent' => $triggers['rules']['percent'],
+        ))->execute();
+    }
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ding_campaign_plus_search_node_update($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    ding_campaign_plus_search_node_delete($node);
+    ding_campaign_plus_search_node_insert($node);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_campaign_plus_search_node_delete($node) {
+  if ($node->type === 'ding_campaign_plus') {
+    db_delete('ding_campaign_plus_search')
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
+}
+
+/**
+ * Implements hook_ding_campaign_plus_matches().
+ */
+function ding_campaign_plus_search_ding_campaign_plus_matches($contexts, $style) {
+  $matches = array();
+
+  foreach ($contexts as $key => $context) {
+    switch ($key) {
+      case 'search_request':
+        $matches['search'] = _ding_campaign_plus_search_match($context);
+        break;
+    }
+  }
+
+  return $matches;
+}
+
+/**
+ * Implements hook_ding_campaign_plus_auto_trigger().
+ *
+ * When auto-generating campaigns this defines the triggers for the search
+ * module.
+ */
+function ding_campaign_plus_search_ding_campaign_plus_auto_trigger($config, $campaign_node, $node, $subjects) {
+  $trigger = array();
+  $trigger[DING_CAMPAIGN_PLUS_SEARCH_TYPE] = array('rules' => array());
+
+  if ($config && !empty($subjects)) {
+    $value = '"' . implode('" or "', $subjects) . '"';
+    $trigger[DING_CAMPAIGN_PLUS_SEARCH_TYPE]['rules'] = array(
+      'query' => $value,
+      'percent' => '30',
+    );
+  }
+
+  return $trigger;
+}
+
+/**
+ * Build form options used to configure auto generated campaigns.
+ *
+ * @param array $form_state
+ *   The forms current state.
+ * @param bool $default
+ *   The default configuration value.
+ *
+ * @return array
+ *   The form element send into the admin form.
+ */
+function ding_campaign_plus_search_auto_admin_form(array &$form_state, $default = FALSE) {
+  return array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable'),
+    '#description' => t('Activate search trigger based on matching subjects from content.'),
+    '#default_value' => empty($default) ? FALSE : $default,
+  );
+}
+
+/**
+ * The node edit form callback defined in the hook_ding_campaign_plus_info.
+ */
+function ding_campaign_plus_search_admin_form(&$form_state) {
+  $triggers = array();
+
+  $values = array();
+  if (isset($form_state['values']['tabs'][DING_CAMPAIGN_PLUS_SEARCH_TYPE]['rules'])) {
+    $values = $form_state['values']['tabs'][DING_CAMPAIGN_PLUS_SEARCH_TYPE]['rules'];
+  }
+
+  // Get campaign rule from node.
+  if (empty($values) && isset($form_state['node']->ding_campaign_plus)) {
+    $values = _ding_campaign_plus_search_get_rules($form_state['node']->nid, $form_state['node']->ding_campaign_plus);
+  }
+
+  $triggers['percent'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Percent of the results'),
+    '#size' => 4,
+    '#description' => t('The percent of the results in the search result.'),
+    '#default_value' => isset($values['percent']) ? $values['percent'] : '30',
+  );
+
+  $triggers['query'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search query'),
+    '#description' => t('Search query that should trigger the campaign.'),
+    '#default_value' => isset($values['query']) ? $values['query'] : '',
+    '#maxlength' => 2048,
+  );
+
+  return $triggers;
+}
+
+/**
+ * Find "facet" rules in the current rules for a given node.
+ *
+ * @param int $nid
+ *   Node id for the node (used as index in static cache).
+ * @param array $rules
+ *   All the rules loaded for the node.
+ *
+ * @return array
+ *   The rules of the basic types.
+ */
+function _ding_campaign_plus_search_get_rules($nid, array $rules) {
+  $filtered = &drupal_static(__FUNCTION__, array());
+
+  if (!isset($filtered[$nid])) {
+    $filtered[$nid] = array();
+
+    foreach ($rules as $rule) {
+      if ($rule->type === 'search') {
+        $filtered[$nid] = array(
+          'percent' => $rule->percent,
+          'query' => $rule->query,
+        );
+      }
+    }
+  }
+
+  return $filtered[$nid];
+}
+
+/**
+ * Helper function to look-up rules in the database.
+ *
+ * @param Ting\Search\TingSearchRequest $searchRequest
+ *   Search executed.
+ *
+ * @return array
+ *   Campaign ID's for triggered campaigns.
+ */
+function _ding_campaign_plus_search_match(TingSearchRequest $searchRequest) {
+  $nids = array();
+
+  // Find rules that will match facet.
+  $query = db_select('ding_campaign_plus_search', 'dcps')
+    ->fields('dcps');
+  $query->join('node', 'n', 'dcps.nid = n.nid');
+  $rules = $query->condition('status', 1)
+    ->execute();
+
+  if ($rules->rowCount() > 0) {
+    // Request a clone of the current search and result objects.
+    $query = $searchRequest->getFullTextQuery();
+    $originalResults = $searchRequest->execute();
+
+    // Loop rules to find percentage match in facets.
+    foreach ($rules as $rule) {
+      // Do combined search to get intersection between user search and
+      // campaign trigger CQL string.
+      $cqlDoctor = new TingSearchCqlDoctor($query);
+      $query = $cqlDoctor->string_to_cql();
+
+      $searchRequest = $searchRequest;
+      $searchRequest = $searchRequest->withFullTextQuery('"' . $query . '" AND (' . $rule->query . ')');
+      $results = $searchRequest->execute();
+      if (($results->getNumTotalObjects() / $originalResults->getNumTotalObjects()) * 100 >= $rule->percent) {
+        $nids[] = $rule->nid;
+      }
+    }
+  }
+
+  return $nids;
+}
+
+/**
+ * Implements hook_ding_campaign_plus_validator().
+ *
+ * Validate that a give campaign triggers don't have 0-hits in the search
+ * query.
+ */
+function ding_campaign_plus_search_ding_campaign_plus_validator($nid) {
+  $query = db_select('ding_campaign_plus_search', 'dcps')
+    ->fields('dcps');
+  $query->join('node', 'n', 'dcps.nid = n.nid');
+  $rules = $query->condition('status', 1)
+    ->execute();
+
+  if ($rules->rowCount() > 0) {
+    $active = TRUE;
+    foreach ($rules as $rule) {
+      $results = ting_start_query()
+        ->withFullTextQuery($rule->query)
+        ->withCount(1)
+        ->withPage(1)
+        ->execute();
+      if ($results->getNumTotalObjects() > 0) {
+        // No need to check more triggers as we have found one trigger that
+        // generates hits in the data-well.
+        return TRUE;
+      }
+      else {
+        $active = FALSE;
+      }
+    }
+
+    return $active;
+  }
+
+  return NULL;
+}

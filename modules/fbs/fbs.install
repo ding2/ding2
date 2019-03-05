@@ -48,3 +48,10 @@ function fbs_update_7001() {
   field_delete_field('field_fbs_interest_period');
   field_purge_batch(1);
 }
+
+/**
+ * Ensure shelf_mark is selected for holdings suffix.
+ */
+function fbs_update_7002() {
+  variable_set('fbs_holdings_suffix_type', 'shelf_mark');
+}

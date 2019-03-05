@@ -1,0 +1,93 @@
+@import '../../base.scss';
+
+.form-search-sort {
+  .form-type-select {
+    max-width: none;
+
+    > label {
+      display: block;
+      float: left;
+
+      font-weight: bold;
+      color: $color-text;
+    }
+  }
+
+  .form-select,
+  .select-wrapper {
+    position: relative;
+    padding: 0;
+    height: auto;
+    width: auto;
+
+    color: $color-standard-text;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .select-wrapper {
+    float: left;
+    margin-left: 10px;
+    margin-bottom: 20px;
+    line-height: 22px;
+
+    overflow: visible;
+    cursor: pointer;
+
+    // A pseudo grey underline under the select.
+    // By making it pseudo, we can control it more with padding.
+    &::before {
+      display: block;
+      position: absolute;
+      height: auto;
+      width: auto;
+      bottom: 0;
+      left: 0;
+
+      // Making sure the line doesnt expand underneath
+      // the .select-wrapper::before icon.
+      right: 20px;
+
+      border-bottom: 1px solid $grey-medium;
+      background: none;
+      z-index: 1;
+    }
+
+    &::after {
+      position: absolute;
+
+      line-height: 15px;
+      right: -20px;
+    }
+
+    > select {
+      cursor: pointer;
+      text-decoration: none;
+      box-sizing: content-box;
+
+      // Leaving space for .select-wrapper::before icon.
+      padding-right: 20px;
+    }
+  }
+
+  &__hidden-labels {
+    position: absolute;
+    left: -9999px;
+    visibility: hidden;
+
+    > label {
+      display: inline;
+
+      // Some browsers, such as firefox, adds a unstyleable left padding on
+      // <select>'s which is around 4px wide.
+      // We add a little extra spacing on the right of the labels, so the
+      // JS includes this width.
+      // By doing this hack in CSS, we atleast keep the labels and select
+      // size consistent.
+      // We don't need to make this hack browser-specific, as the extra 4px
+      // only really is visible when its missing, rather than when its there.
+      padding-right: 4px;
+    }
+  }
+}

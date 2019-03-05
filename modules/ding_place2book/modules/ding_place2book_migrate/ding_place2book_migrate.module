@@ -20,6 +20,14 @@ function ding_place2book_migrate_menu() {
     'file' => 'ding_place2book_migrate.admin.inc',
   );
 
+  $items['admin/config/ding/place2book/migrate/approve'] = array(
+    'title' => 'Approve migration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_migrate_approve_form'),
+    'access arguments' => array('administer place2book settings'),
+    'file' => 'ding_place2book_migrate.admin.inc',
+  );
+
   return $items;
 }
 
@@ -36,14 +44,55 @@ function _ding_place2book_migrate_batch($events, &$context) {
   $context['sandbox']['progress'] += count($part);
   foreach ($part as $event) {
     $node = node_load($event->nid);
-    $event_maker_id = _ding_place2book_get_event_maker($node);
     if (!empty($event->place2book_id) && $event->place2book_id != -1) {
+      $event_maker_id = _ding_place2book_get_event_maker($node);
+
+      // Migrate the node's p2b event data to the new p2b field. Note that we do
+      // not supply the 'do_sync' parameter. This ensures that we don't try to
+      // synchronize to events with p2b during migration. We only want to
+      // transfer the p2b ids to the new field without updating anything in p2b.
       $node->field_place2book[LANGUAGE_NONE][0] = array(
         'event_id' => $event->place2book_id,
         'event_maker_id' => $event_maker_id,
         'synchronize' => $event->maintain_copy,
       );
-      node_save($node);
+
+      // In the old version of p2b integration module, the field for external
+      // ticket link was used by p2b also. In the new version the module has
+      // it's own dedicated field with widget and formatter, and the formatter
+      // outputs its own ticket link button. Unfortunately this will result in
+      // double ticket buttons in frontend for migrated events, since they will
+      // still have the p2b ticket URL in the ticket_link field. The easiest
+      // solution at this point seems to be to keep the fields separated, so
+      // here we ensure that existing nodes with p2b data don't also have the
+      // p2b ticket URL in the ticket_link field, to avoid double ticket buttons
+      // in frontend.
+      // Note that the initial field_get_items check is used to avoid having to
+      // deal with the "Parent Data Structure Not Set" exception thrown by the
+      // wrapper, when field data is not available.
+      // See: https://www.drupal.org/project/entity/issues/1596594
+      if (field_get_items('node', $node, 'field_ding_event_ticket_link')) {
+        $node_wrapper = entity_metadata_wrapper('node', $node);
+        $ticket_url = $node_wrapper->field_ding_event_ticket_link->url->value();
+        if (strpos($ticket_url, 'https://www.place2book.com') === 0) {
+          $node_wrapper->field_ding_event_ticket_link->set(NULL);
+        }
+      }
+
+      try {
+        node_save($node);
+        // If we get here it means that no exception was thrown and we update
+        // the migation status to TRUE which indicates completed.
+        db_update('ding_place2book')
+          ->fields(['migration_status' => 1])
+          ->condition('nid', $node->nid)
+          ->execute();
+      }
+      catch(Exception $e) {
+        // No need to do anything here really. The node module logs a watchdog
+        // exception if something went wrong, so we just continue with the
+        // migration and display a status when it's done.
+      }
     }
     $context['message'] = t('Processing: <em>@title</em> (@current/@total).', array(
       '@title' => $node->title,
@@ -64,17 +113,6 @@ function _ding_place2book_migrate_batch($events, &$context) {
  * @see ding_place2book_migrate_admin_form_submit()
  */
 function _ding_place2book_migrate_batch_finished($success, $results, $operations) {
-  $message = t('Finished with an error.');
-  if ($success) {
-    $message = t('Events migration completed.');
-    // Drop table.
-    if (db_table_exists('ding_place2book')) {
-      db_drop_table('ding_place2book');
-    }
-
-    // Disable module.
-    module_disable(array('ding_place2book_migrate'), TRUE);
-  }
-
+  $message = $success ? t('Events migration completed.') : t('Finished with an error.');
   drupal_set_message($message);
 }

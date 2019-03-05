@@ -2,7 +2,6 @@
 
 /**
  * @file
- *
  * API documentation.
  */
 
@@ -23,16 +22,16 @@ function hook_ding_list_operations() {
     'my_list_type' => array(
       // The list is deleteable.
       DING_LIST_OPERATION_DELETE => TRUE,
-      
+
       // The ding list elements type allowed to attach to this list.
       DING_LIST_OPERATION_ATTACH => array('some_type', 'another_type'),
-      
+
       // And it's allowed to detach elements again.
       DING_LIST_OPERATION_DETACH => TRUE,
-      
+
       // A custom operation, that needs logic in the custom module.
       'my_list_operation_change_owner' => TRUE,
-      
+
       // The _data can contain some default information, but it can also hold
       // information used specifically by my_list_type.
       '_data' => array(

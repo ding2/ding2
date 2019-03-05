@@ -5,6 +5,16 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function ding_event_install() {
+  variable_set('node_options_ding_event', array(
+    0 => 'status',
+    1 => 'promote',
+  ));
+}
+
+/**
  * Remove old ting reference field table from events.
  */
 function ding_event_update_7000() {

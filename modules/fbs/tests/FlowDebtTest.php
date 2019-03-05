@@ -34,7 +34,7 @@ class FlowDebtTest extends ProviderTestCase {
     $this->provider = 'user';
     // Define DingEntity.
     $this->requireDing('ding_entity', 'ding_entity.module');
-    // // Define DingProviderUserException.
+    // // Define DingProviderEnduserException.
     // $this->requireDing('ding_provider', 'ding_provider.exceptions.inc');
     // Define DingProviderLoan.
     $this->requireDing('ding_provider', 'ding_provider.debt.inc');

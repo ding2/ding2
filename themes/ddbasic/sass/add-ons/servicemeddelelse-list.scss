@@ -1,0 +1,58 @@
+//
+// Styling of Servicemeddelelse-list
+
+@import '../base.scss';
+
+.servicemeddelelse-list {
+  .news-list-item {
+    @include span-columns(3);
+    @include omega(4n);
+    position: relative;
+    margin-bottom: getGutter();
+    // Tablet
+    @include media($tablet) {
+      @include omega-reset(4n, 12);
+      @include span-columns(6);
+      @include omega(2n);
+    }
+    // Mobile
+    @include media($mobile) {
+      @include omega-reset(2n, 12);
+      width: 100%;
+      margin-right: 0;
+    }
+    .servicemeddelelse-heading {
+      display: block;
+      a {
+        @include transition(
+          background-color $speed $ease,
+          color $speed $ease
+        );
+        @include font('display-small');
+        display: block;
+        padding: $box-padding $box-padding 40px $box-padding;
+        background-color: $grey;
+        min-height: 130px;
+        // Tablet
+        @include media($tablet) {
+          min-height: 110px;
+        }
+        // Mobile
+        @include media($mobile) {
+          min-height: 0;
+        }
+        .no-touch & {
+          &:hover {
+            background-color: $white;
+          }
+        }
+      }
+    }
+    .servicemeddelelse-date {
+      position: absolute;
+      left: $box-padding;
+      bottom: $box-padding;
+      color: $color-text;
+    }
+  }
+}

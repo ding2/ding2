@@ -1,8 +1,12 @@
 <?php
+
 /**
  * @file
  * Enable DIBS as a payment provider for Ding!
  */
+
+// URL used for capturing payments.
+define('DING_DIBS_CAPTURE_URL', 'https://payment.architrade.com/cgi-bin/capture.cgi');
 
 /**
  * Implements hook_dibsapi().
@@ -35,7 +39,12 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
         if ($status == TRUE) {
           // Update user status cache.
           ding_provider_invoke('user', 'clear_cache', $user);
-          drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.', array('@amount' => $transaction['payment_price'], '@order' => $transaction['payment_order_id'], '@transaction' => $transaction['payment_transaction_id'])));
+          drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.',
+              array(
+                '@amount' => $transaction['payment_price'],
+                '@order' => $transaction['payment_order_id'],
+                '@transaction' => $transaction['payment_transaction_id'],
+              )));
           watchdog('ding_dibs', 'Confirmation for DIBS transaction %transaction, order %order was displayed.', array(
             '%transaction' => $transaction['payment_transaction_id'],
             '%order' => $transaction['payment_order_id'],
@@ -44,7 +53,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
         else {
           drupal_set_message(t('Failed to recieve payment at local system. Your payment of @amount was cancelled.', array('@amount' => $transaction['payment_price'])), 'error');
         }
-        drupal_goto('user/' . $user->uid . '/status/debts');
+        drupal_goto('user/' . $user->uid . '/status-debts');
       }
       else {
         drupal_set_message(t('Payment not verified by DIBS. This indicates a problem with the network. Please try again and contact the system administrator if it persists'), 'error');
@@ -53,7 +62,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
           '%order' => $transaction['payment_order_id'],
           '!data' => '<pre>' . check_plain(print_r($transaction, TRUE)) . '</pre>',
         ), WATCHDOG_CRITICAL);
-        drupal_goto('user/' . $user->uid . '/status/debts');
+        drupal_goto('user/' . $user->uid . '/status-debts');
       }
       break;
 
@@ -82,7 +91,7 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
             session_start();
             // Set the user (session_start might have set it to anonymous).
             $user = $my_user;
-            // Load the session variables into $_SESSION
+            // Load the session variables into $_SESSION.
             session_decode($row->session);
           }
 
@@ -154,7 +163,7 @@ function ding_dibs_ding_provider() {
  * @return mixed
  *   If $redirect is set to FALSE, will the api_hash value be returned.
  */
-function ding_dibs_payment_prepare($amount, $params, $callback, $redirect = TRUE) {
+function ding_dibs_payment_prepare($amount, array $params, $callback, $redirect = TRUE) {
   global $user;
   $params['payment_price'] = $amount;
   $params['api_module'] = 'ding_dibs';
@@ -180,28 +189,21 @@ function ding_dibs_payment_prepare($amount, $params, $callback, $redirect = TRUE
   return dibs_payment_prepare($params, $redirect);
 }
 
-
 /**
- * Capture the payment
+ * Capture the payment.
  *
  * @param string $delta
+ *   DIBS payment settings delta (ie. identifier).
  * @param array $transaction
+ *   Transaction to capture.
  */
-function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
-
-  $url = trim(variable_get('url_dibs_capture'));
-
-  if (!$url) {
-    watchdog('ding_dibs', 'DIBS automatic capture URL is not configured.', array(), WATCHDOG_CRITICAL);
-    return FALSE;
-  }
-
+function ding_dibs_capture($delta = NULL, array &$transaction = NULL) {
   $module = 'ding_dibs';
   $delta = 1;
   $settings = (array) variable_get('dibs_settings_' . $module . '_' . $delta, array());
 
   $param['merchant'] = isset($settings['general']['merchant']) ? $settings['general']['merchant'] : NULL;
-  $param['account'] = $account = isset($settings['general']['account']) ? $settings['general']['account'] : NULL;
+  $param['account'] = isset($settings['general']['account']) ? $settings['general']['account'] : NULL;
 
   // DIBS' parameter amount contains the price measured in the smallest unit,
   // eg. ore in DK.
@@ -230,7 +232,7 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
     $params[] = $key . '=' . $val;
   }
 
-  $dibs_reply = drupal_http_request($url . '?' . implode('&', $params));
+  $dibs_reply = drupal_http_request(DING_DIBS_CAPTURE_URL . '?' . implode('&', $params));
 
   $capture_data = explode('&', $dibs_reply->data);
   foreach ($capture_data as $key => $val) {
@@ -255,16 +257,16 @@ function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
     return TRUE;
   }
   else {
-    watchdog('ding_dibs', 'DIBS capture failed:<br/>URL: %url<br/>DIBS reply: %reply.', array(
-      '%url' => $url . '?' . implode('&', $params),
+    $variables = array(
+      '%url' => DING_DIBS_CAPTURE_URL . '?' . implode('&', $params),
       '%reply' => '<pre>' . print_r($capture_status['capture_reply'], 1) . '</pre>',
-    ), WATCHDOG_CRITICAL);
+    );
+    watchdog('ding_dibs', 'DIBS capture failed:<br/>URL: %url<br/>DIBS reply: %reply.', $variables, WATCHDOG_CRITICAL);
   }
 
   return FALSE;
 
 }
-
 
 /**
  * Implements hook_block_info().
@@ -295,17 +297,17 @@ function ding_dibs_block_view($delta = '') {
   drupal_add_css(drupal_get_path('module', 'ding_dibs') . '/css/ding_dibs.css');
   $cards = ding_dibs_cards();
   if (is_array(variable_get('cards_supported'))) {
-    foreach (variable_get('cards_supported') as $key => $card) {
+    foreach (variable_get('cards_supported') as $card) {
       if ($card) {
         if (array_key_exists($card, $cards)) {
-          $supported_cards[] = theme_image(array(
-              'path' => base_path() . drupal_get_path('module', 'ding_dibs') . '/img/card_logos/' . $cards[$card],
-              'height' => '33px',
-              'alt' => $card,
-              'title' => $card,
-              'attributes' => array('class' => 'card-logo'),
-            )
-          ) . '<span class="card-name">' . $card . '</span></p>';
+          $params = array(
+            'path' => base_path() . drupal_get_path('module', 'ding_dibs') . '/img/card_logos/' . $cards[$card],
+            'height' => '33px',
+            'alt' => $card,
+            'title' => $card,
+            'attributes' => array('class' => 'card-logo'),
+          );
+          $supported_cards[] = theme('image', $params) . '<span class="card-name">' . $card . '</span></p>';
         }
       }
     }
@@ -345,7 +347,6 @@ function ding_dibs_theme($existing, $type, $theme, $path) {
     ),
   );
 }
-
 
 /**
  * Implements hook_menu().
@@ -469,7 +470,6 @@ function ding_dibs_cron() {
     if (!empty($ding_dibs_email)) {
       $emails_array = preg_split("/\,|\r\n|\n/", $ding_dibs_email);
       if (count($emails_array) >= 1) {
-        variable_set('ding_dibs_last_cron', REQUEST_TIME);
         $id = _ding_dibs_insert_table(variable_get('ding_dibs_last_cron', REQUEST_TIME));
         for ($count = 0; $count < count($emails_array); $count++) {
           if (!empty($emails_array[$count])) {
@@ -482,6 +482,28 @@ function ding_dibs_cron() {
         }
       }
     }
+
+    // Wipe out old dibs transactions.
+    $wipe_dibs_transactions_threshold = variable_get('ding_dibs_wipe_transaction_threshold', 0);
+    if ($wipe_dibs_transactions_threshold) {
+      $threshold = REQUEST_TIME - $wipe_dibs_transactions_threshold;
+      $query = db_select('dibs_transactions', dt)
+        ->fields('dt', array('tid'))
+        ->where('UNIX_TIMESTAMP(dt.payment_time) < :threshold', array(':threshold' => $threshold))
+        ->execute();
+
+      $wipe_target = $query->fetchCol();
+
+      db_delete('dibs_transactions')
+        ->condition('tid', $wipe_target, 'IN')
+        ->execute();
+
+      db_delete('dibs_transactions_log')
+        ->condition('tid', $wipe_target, 'IN')
+        ->execute();
+    }
+
+    variable_set('ding_dibs_last_cron', REQUEST_TIME);
   }
 }
 

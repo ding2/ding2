@@ -6,6 +6,7 @@
  * Defines BPI specific constants, menu, theme and node hooks.
  */
 
+include_once drupal_get_path('module', 'bpi') . '/bpi.images.inc';
 include_once drupal_get_path('module', 'bpi') . '/bpi.push.inc';
 
 /**
@@ -54,6 +55,16 @@ define('BPI_DATE_PICKER_FORMAT', 'Y-m-d');
 define('BPI_ONE_MONTH', 86400 * 30);
 
 /**
+ * Push with images identifier.
+ */
+define('BPI_WITH_IMAGES', 'with_images');
+
+/**
+ * Push without images identifier.
+ */
+define('BPI_WITHOUT_IMAGES', 'without_images');
+
+/**
  * Implements hook_menu().
  */
 function bpi_menu() {
@@ -80,10 +91,12 @@ function bpi_menu() {
     'page callback' => 'bpi_syndicate_action',
     'page arguments' => array(3),
     'access arguments' => array('bpi syndicate content'),
+    'type' => MENU_CALLBACK,
     'file' => 'bpi.syndicate.inc',
   );
 
   $menu['admin/bpi/statistics/nojs'] = array(
+    'title' => 'BPI statistics',
     'page callback' => 'bpi_statistics',
     'page arguments' => array(3),
     'access arguments' => array('view bpi statistics'),
@@ -92,12 +105,15 @@ function bpi_menu() {
 
   $menu['admin/bpi/statistics/ajax'] = array(
     'delivery callback' => 'ajax_deliver',
+    'type' => MENU_CALLBACK,
   ) + $menu['admin/bpi/statistics/nojs'];
 
   $menu['admin/bpi/images/nojs'] = array(
+    'title' => 'BPI syndicate images',
     'page callback' => 'bpi_syndicate_images',
     'page arguments' => array(3),
     'access arguments' => array('bpi syndicate content'),
+    'type' => MENU_CALLBACK,
     'file' => 'bpi.images.inc',
   );
 
@@ -247,20 +263,30 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     $form_state['node']->bpi_id = $bpi_id;
     try {
       $bpi = bpi_client_instance();
+      /** @var \Bpi\Sdk\Item\Node $bpi_node */
       $bpi_node = $bpi->getNode($bpi_id);
       $bpi_content = $bpi_node->getProperties();
       $bpi_assets = $bpi_node->getAssets();
 
-      drupal_set_message(
-        t(
-          'Syndicating content <strong>@title</strong>, from category <strong>@category</strong> and audience <strong>@audience</strong>.',
-          array(
-            '@title' => $bpi_content['title'],
-            '@category' => $bpi_content['category'],
-            '@audience' => $bpi_content['audience'],
+      $bpi_agency_id = variable_get('bpi_agency_id', '');
+
+      // Avoid the ability to syndicate own content.
+      if ($bpi_agency_id === $bpi_node->getProperties()['agency_id']) {
+        bpi_error_message(new \Exception('', 406), 'error');
+        unset($form['actions']);
+      }
+      else {
+        drupal_set_message(
+          t(
+            'Syndicating content <strong>@title</strong>, from category <strong>@category</strong> and audience <strong>@audience</strong>.',
+            array(
+              '@title' => $bpi_content['title'],
+              '@category' => $bpi_content['category'],
+              '@audience' => $bpi_content['audience'],
+            )
           )
-        )
-      );
+        );
+      }
     }
     catch (Exception $e) {
       watchdog_exception('bpi', $e);
@@ -318,14 +344,17 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
 
     // Guessing where to put 'body' text in the form.
     $bpi_body = isset($bpi_content['body']) ? $bpi_content['body'] : '';
-    if (isset($form[$body][$current_language][0]['value'])) {
-      $form[$body][$current_language][0]['value']['#default_value'] = $bpi_body;
-    }
-    elseif (isset($form[$body][$current_language][0])) {
-      $form[$body][$current_language][0]['#default_value'] = $bpi_body;
-    }
 
-    if ($bpi_id) {
+    $syndicated_images = bpi_get_syndicated_images();
+    if (is_array($syndicated_images)) {
+      // We have syndicated images from popup.
+      bpi_place_images($form, $current_language, $syndicated_images);
+      $bpi_body = bpi_place_inline_images($body, $bpi_body, $current_language, $syndicated_images);
+      bpi_clear_syndicated_images();
+    }
+    elseif ($syndicated_images === NULL) {
+      // Signal that we're syndicating images.
+      bpi_set_syndicated_images(FALSE);
       drupal_add_library('system', 'drupal.ajax');
       drupal_add_library('system', 'jquery.form');
       drupal_add_library('system', 'ui.dialog');
@@ -333,6 +362,25 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup.js', 'file');
       drupal_add_css(drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css', 'file');
       $_SESSION['bpi']['assets'] = $bpi_assets;
+    }
+    elseif ($syndicated_images === FALSE) {
+      // No images syndicated from popup.
+      bpi_clear_syndicated_images();
+    }
+
+    if (variable_get('bpi_syndicate_tags')) {
+      $bpi_tags = $bpi_node->getTags();
+      $tags_field = variable_get('bpi_field_tags', '');
+      if (!empty($bpi_tags) && !empty($tags_field) && isset($form[$tags_field][$current_language])) {
+        $form[$tags_field][$current_language]['#default_value'] = implode(', ', $bpi_tags);
+      }
+    }
+
+    if (isset($form[$body][$current_language][0]['value'])) {
+      $form[$body][$current_language][0]['value']['#default_value'] = $bpi_body;
+    }
+    elseif (isset($form[$body][$current_language][0])) {
+      $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
   }
 
@@ -394,6 +442,120 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$frombpi_sid]);
     }
   }
+}
+
+/**
+ * Decide if the given field is a container for the given bpi image type.
+ *
+ * @param string $field_name
+ *   The field name.
+ * @param stdClass $node
+ *   The node.
+ * @param string $image_type
+ *   The bpi image type.
+ *
+ * @return bool
+ *   True if the field is a container for the the bpi image type.
+ */
+function bpi_is_bpi_image_field($field_name, $node, $image_type) {
+  return bpi_get_image_type($field_name, $node) == $image_type;
+}
+
+/**
+ * Place syndicated images in node edit form.
+ *
+ * @param array $form
+ *   The form.
+ * @param string $current_language
+ *   The current language.
+ * @param array $syndicated_images
+ *   The syndicated images.
+ */
+function bpi_place_images(array &$form, $current_language, array $syndicated_images) {
+  $node = $form['#node'];
+  $image_field_names = bpi_fetch_image_fields($node->type);
+  if (!empty($image_field_names)) {
+    foreach ($syndicated_images as $image_type => $images) {
+      foreach ($image_field_names as $image_field_name) {
+        if (bpi_is_bpi_image_field($image_field_name, $node, $image_type)) {
+          $field = &$form[$image_field_name][$current_language];
+          $cardinality = isset($field['#cardinality']) ? $field['#cardinality'] : 1;
+          // The cardinality of a field with an unlimited number of values is -1.
+          if ($cardinality < 0) {
+            $cardinality = PHP_INT_MAX;
+          }
+          $number_of_images_to_place = min(count($images), $cardinality);
+          for ($i = 0; $i < $number_of_images_to_place; $i++) {
+            if (is_object($images[$i]['@managed_file'])) {
+              $field[$i]['#default_value'] = array('fid' => $images[$i]['@managed_file']->fid);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Replace inline images in content with references to syndicated images.
+ *
+ * @param string $field_name
+ *   The field name.
+ * @param string $content
+ *   The content.
+ * @param string $current_language
+ *    The current language.
+ * @param array $syndicated_images
+ *   The syndicated images.
+ *
+ * @return string
+ *   The content with inline images replaced by references to syndicated images.
+ */
+function bpi_place_inline_images($field_name, $content, $current_language, array $syndicated_images) {
+  if (!empty($syndicated_images)) {
+    $url_to_image_map = array();
+    foreach ($syndicated_images as $type => $images) {
+      foreach ($images as $image) {
+        $url_to_image_map[$image['path']] = $image;
+      }
+    }
+
+    // Find <img/> elements in content and replace with file placeholders.
+    $image_pattern = '@<img\s*[^>]*\ssrc=[\'"](?<url>[^\'">]+)[\'"][^>]*>@i';
+
+    $content = preg_replace_callback($image_pattern, function($matches) use ($current_language, $url_to_image_map) {
+      $url = $matches['url'];
+      if (isset($url_to_image_map[$url])) {
+        $image = $url_to_image_map[$url];
+        $file = $image['@managed_file'];
+
+        // Build file placeholder as used by the media_wysiwyg module.
+        $data = array(
+          'fid' => $file->fid,
+          'view_mode' => 'default',
+          'fields' => array(
+            'format' => 'default',
+            'field_file_image_alt_text[' . $current_language . '][0][value]' => isset($image['alt']) ? $image['alt'] : $image['name'],
+            'field_file_image_title_text[' . $current_language . '][0][value]' => isset($image['title']) ? $image['title'] : $image['name'],
+          ),
+          'type' => 'media',
+          'attributes' => array(
+            'width' => $image['width'],
+            'height' => $image['height'],
+            'alt' => isset($image['alt']) ? $image['alt'] : $image['name'],
+            'title' => isset($image['title']) ? $image['title'] : $image['name'],
+            'class' => 'media-element file-default',
+          ),
+        );
+
+        return '[[' . drupal_json_encode($data) . ']]';
+      }
+
+      return $matches[0];
+    }, $content);
+  }
+
+  return $content;
 }
 
 /**
@@ -692,10 +854,13 @@ function bpi_form_workflow_transition_form_validate(&$form, &$form_state) {
     // The 'Save and push' button has been chosen, so we will check if the BPI
     // values are correct.
     if (empty($form_state['values']['bpi_push_category'])) {
-      form_set_error('bpi_push_category', t('Category must be set when pushing to BPI'));
+      form_set_error('bpi_push_category', t('Category must be set when pushing to BPI.'));
     }
     if (empty($form_state['values']['bpi_push_audience'])) {
-      form_set_error('bpi_push_audience', t('Audience must be set when pushing to BPI'));
+      form_set_error('bpi_push_audience', t('Audience must be set when pushing to BPI.'));
+    }
+    if (empty($form_state['values']['bpi_push_images'])) {
+      form_set_error('bpi_push_images', t('Image permissions should be explicitly set when pushing to BPI.'));
     }
   }
   array_unshift($form_state['submit_handlers'], 'bpi_form_workflow_transition_form_submit');
@@ -717,7 +882,6 @@ function bpi_form_workflow_transition_form_submit($form, &$form_state) {
     'bpi_push_category',
     'bpi_push_audience',
     'bpi_push_images',
-    'bpi_push_ccl',
     'bpi_push_editable',
     'bpi_push_refs',
   );
@@ -731,7 +895,6 @@ function bpi_form_workflow_transition_form_submit($form, &$form_state) {
   $category = $form_state['values']['bpi_push_category'];
   $audience = $form_state['values']['bpi_push_audience'];
   $with_images = $form_state['values']['bpi_push_images'];
-  $authorship = !$form_state['values']['bpi_push_ccl'];
   $editable = $form_state['values']['bpi_push_editable'];
   $with_refs = $form_state['values']['bpi_push_refs'];
 
@@ -740,7 +903,6 @@ function bpi_form_workflow_transition_form_submit($form, &$form_state) {
     'category' => $category,
     'audience' => $audience,
     'with_images' => $with_images,
-    'authorship' => $authorship,
     'editable' => $editable,
     'with_refs' => $with_refs,
   );
@@ -790,79 +952,22 @@ function bpi_workflow_by_machine_names($machine_names) {
  *   int in case when material with same id was found.
  */
 function bpi_validate_material($id) {
-  // Load ting client.
-  module_load_include('client.inc', 'ting');
+  $result = ting_start_query()
+    ->withFullTextQuery($id)
+    ->withCount(1)
+    ->withPopulateCollections(FALSE)
+    ->execute();
 
-  // Search the data well.
-  $result = ting_do_search($id, 1, 1, array('facets' => array(), 'allObjects' => FALSE));
+  $primary_objects = array_map(function (TingCollection $collection) {
+    return $collection->getPrimary_object();
+  }, $result->getTingEntityCollections());
+  // Collections may not have a primary object. Remove such entries.
+  $primary_objects = array_filter($primary_objects);
+  $ids = array_map(function (TingEntity $object) {
+    return $object->getId();
+  }, $primary_objects);
 
-  // If there is no usable result, exit immediately, providing no reply.
-  $object = NULL;
-  if ($result && $result->numTotalObjects) {
-    foreach ($result->collections as $collection) {
-      $object = array_shift($collection->reply->objects);
-    }
-  }
-  return $object ? $object->id : FALSE;
-}
-
-/**
- * Implements hook_libraries_info().
- *
- * For defining external libraries.
- */
-function bpi_libraries_info() {
-  return array(
-    'chosen' => array(
-      'name' => 'Chosen',
-      'vendor url' => 'https://github.com/harvesthq/chosen',
-      'download url' => 'https://github.com/harvesthq/chosen/releases',
-      'version arguments' => array(
-        'file' => 'chosen.jquery.min.js',
-        'pattern' => '@(?:Chosen v|Version\s+)([0-9a-zA-Z\.-]+)@',
-      ),
-      'files' => array(
-        'css' => array('chosen.min.css'),
-        'js' => array('chosen.jquery.min.js'),
-      ),
-    ),
-    'guzzle' => array(
-      'name' => 'Guzzle',
-      'vendor url' => 'https://github.com/guzzle/guzzle',
-      'download url' => 'https://github.com/guzzle/guzzle',
-      'version' => '6.2',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-    'promises' => array(
-      'name' => 'Guzzle promises library',
-      'vendor url' => 'https://github.com/guzzle/promises',
-      'download url' => 'https://github.com/guzzle/promises',
-      'version' => '1.2',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-    'http-message' => array(
-      'name' => 'Common interface for HTTP messages',
-      'vendor url' => 'https://github.com/php-fig/http-message',
-      'download url' => 'https://github.com/php-fig/http-message',
-      'version' => '1.0',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-    'psr7' => array(
-      'name' => 'PSR-7 message implementation',
-      'vendor url' => 'https://github.com/guzzle/psr7',
-      'download url' => 'https://github.com/guzzle/psr7',
-      'version' => '1.3',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-  );
+  return array_shift($ids);
 }
 
 /**
@@ -874,4 +979,148 @@ function bpi_xautoload($adapter) {
     'Bpi\Sdk\\',
     drupal_get_path('module', 'bpi') . '/lib/bpi-client/Bpi/Sdk/'
   );
+}
+
+/**
+ * Implements hook_views_default_views_alter().
+ *
+ * Add BPI column, option to change BPI state, and language to content view.
+ */
+function bpi_features_views_default_views_alter(&$views) {
+  if (isset($views['admin_views_node'])) {
+    $display_default = &$views['admin_views_node']->display['default'];
+    $display_options = &$display_default->display_options;
+    $fields = &$display_options['fields'];
+
+    // We want to move operations column to the right (down in the array), so we
+    // unset them here and insert them later.
+    $edit_node = $fields['edit_node'];
+    $delete_node = $fields['delete_node'];
+    unset($fields['edit_node']);
+    unset($fields['delete_node']);
+    $clone_node = NULL;
+    if (!isset($fields['clone_node'])) {
+      $clone_node = array(
+        'id' => 'clone_node',
+        'table' => 'node',
+        'field' => 'clone_node',
+        'label' => 'Clone',
+      );
+    }
+    else {
+      $clone_node = $fields['clone_node'];
+    }
+    unset($fields['clone_node']);
+
+    // Add language and workflow state.
+    $fields['language'] = array(
+      'id' => 'language',
+      'table' => 'node',
+      'field' => 'language',
+    );
+    $fields['sid'] = array(
+      'id' => 'sid',
+      'table' => 'workflow_node_current',
+      'field' => 'sid',
+      'label' => 'BPI State',
+    );
+
+    // Insert operations here.
+    $fields['edit_node'] = $edit_node;
+    $fields['clone_node'] = $clone_node;
+    $fields['delete_node'] = $delete_node;
+
+    // Add workflow.
+    $fields['workflow_node'] = array(
+      'id' => 'workflow_node',
+      'table' => 'views_entity_node',
+      'field' => 'workflow_node',
+      'label' => 'Operations',
+      'text' => 'change BPI state',
+    );
+
+    $style_options = &$display_options['style_options'];
+
+    // Put sid and workflow_node in the correct columns.
+    $style_options['columns']['sid'] = 'sid';
+    $style_options['columns']['workflow_node'] = 'edit_node';
+    $style_options['columns']['clone_node'] = 'edit_node';
+
+    // Add sortable to columns.
+    $sortable = array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    );
+    $style_options['info']['language'] = $sortable;
+    $style_options['info']['sid'] = $sortable;
+    $non_sortable = array(
+      'align' => '',
+      'separator' => '&emsp;',
+      'empty_column' => 0,
+    );
+    $style_options['info']['clone_node'] = $non_sortable;
+    $style_options['info']['workflow_node'] = $non_sortable;
+
+    // Add filter for workflow.
+    $display_options['filters']['sid'] = array(
+      'id' => 'sid',
+      'table' => 'workflow_node_current',
+      'field' => 'sid',
+      'exposed' => TRUE,
+      'expose' => array(
+        'operator_id' => 'sid_op',
+        'label' => 'Workflow state',
+        'operator' => 'sid_op',
+        'identifier' => 'sid',
+        'workflow_reduce_wid' => 1,
+        'workflow_include_all' => TRUE,
+      ),
+    );
+    // Add language filter.
+    $display_options['filters']['language'] = array(
+      'id' => 'language',
+      'table' => 'node',
+      'field' => 'language',
+      'exposed' => TRUE,
+      'expose' => array(
+        'operator_id' => 'language_op',
+        'label' => 'Language',
+        'operator' => 'language_op',
+        'identifier' => 'language',
+      ),
+    );
+
+    // Clone node bulk operation.
+    $fields['views_bulk_operations']['vbo_operations'] += array(
+      'action::clone_action_clone' => array(
+        'selected' => 1,
+        'skip_confirmation' => 0,
+        'override_label' => 1,
+        'label' => 'Clone node',
+        'postpone_processing' => 0,
+      ),
+    );
+
+    // Autosubmit.
+    $display_options['exposed_form']['options']['reset_button'] = FALSE;
+    $display_options['exposed_form']['options']['autosubmit'] = TRUE;
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Decide whether to show the syndication link when previewing content.
+ */
+function bpi_preprocess_bpi_preview_item(&$variables) {
+  $bpi_item = $variables['item'];
+
+  $variables['hide_syndicate_link'] = FALSE;
+  $bpi_agency_id = variable_get('bpi_agency_id', '');
+  if ($bpi_agency_id === $bpi_item['agency_id']) {
+    $variables['hide_syndicate_link'] = TRUE;
+  }
 }

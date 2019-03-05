@@ -38,11 +38,11 @@ class P2b {
   private $token;
 
   /**
-   * Url of remote service.
+   * Base url of remote service.
    *
    * @var string
    */
-  private $url;
+  private $baseUrl;
 
   /**
    * Url on remote service for getting list of event makers.
@@ -174,7 +174,8 @@ class P2b {
    */
   public function getEventMakers() {
     $event_makers = array();
-    $result = $this->p2bRequest($this->eventMakers, 'GET');
+    $url = $this->p2bFormatUrl($this->eventMakers);
+    $result = $this->p2bRequest($url, 'GET');
     foreach ($result as $item) {
       $event_makers[$item->id] = $item;
     }
@@ -620,7 +621,7 @@ class P2b {
   }
 
   /**
-   * Replace placholders with actual values in string.
+   * Prepend base URL and replace any placholders with actual values in string.
    *
    * @param string $url
    *   String with placeholders.
@@ -630,11 +631,11 @@ class P2b {
    * @return string
    *   Formated string with actual values.
    */
-  private function p2bFormatUrl($url, array $placeholders) {
+  private function p2bFormatUrl($url, array $placeholders = []) {
     foreach ($placeholders as $placeholder => $value) {
       $url = str_replace($placeholder, $value, $url);
     }
-    return $url;
+    return $this->baseUrl . '/' . $url;
   }
 
   /**

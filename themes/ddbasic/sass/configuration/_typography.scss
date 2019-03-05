@@ -1,0 +1,78 @@
+//
+// Font settings and mixin
+
+// Font
+$font-family: 'FaktPro-Normal', sans-serif;
+$font-family-light: 'FaktPro-Light', sans-serif;
+$font-family-bold: 'FaktPro-SemiBold', sans-serif;
+
+// Font-weight
+$weight-normal: 400;
+
+// Font
+//
+// Mixin for setting typography
+//
+// font($name)
+//
+// $name  - Name of typography setting - is a string, possible string-values are:
+//        - 'base'
+//        - 'base-bold'
+//        - 'display-large'
+//        - 'display'
+//        - 'display-small'
+//
+// Styleguide 3.1.1
+
+// Mixin for setting typography style
+@mixin font($name) {
+  @if $name == 'base' {
+    font-family: $font-family;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: $weight-normal;
+  }
+
+  @if $name == 'base-bold' {
+    font-family: $font-family-bold;
+  }
+
+  @if $name == 'display-large-bold' {
+    font-family: $font-family-bold;
+    font-size: 40px;
+    line-height: 44px;
+    // Mobile
+    @include media($mobile) {
+      font-size: 30px;
+      line-height: 36px;
+    }
+  }
+
+  @if $name == 'display-large' {
+    font-family: $font-family-light;
+    font-size: 40px;
+    line-height: 44px;
+    // Mobile
+    @include media($mobile) {
+      font-size: 30px;
+      line-height: 36px;
+    }
+  }
+
+  @if $name == 'display' {
+    font-family: $font-family-bold;
+    font-size: 30px;
+    line-height: 34px;
+    // Mobile
+    @include media($mobile) {
+      font-size: 18px;
+      line-height: 24px;
+    }
+  }
+
+  @if $name == 'display-small' {
+    font-family: $font-family-bold;
+    font-size: 18px;
+    line-height: 24px;
+  }
+}

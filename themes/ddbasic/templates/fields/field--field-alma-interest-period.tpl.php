@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file field--field-alma-interest-period.tpl.php
+ * @file
  * Ensured that the field value is translated. It should be but it's not.
  *
  * Available variables:

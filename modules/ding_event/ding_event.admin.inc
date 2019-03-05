@@ -25,17 +25,51 @@ function ding_event_admin_setting_form(array $form, array &$form_state) {
     '#description' => t("Select which currency to use on events"),
   );
 
-  $view = views_get_view('ding_event');
-  $view_items_per_page = $view->display['ding_event_list_frontpage']->display_options['pager']['options']['items_per_page'];
-  $default_items_per_page = variable_get('ding_event_frontpage_items_per_page', $view_items_per_page);
+  $form['ding_event_frontpage'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Frontpage'),
+  );
+  $form['ding_event_frontpage']['ding_event_frontpage_items_per_page'] = array(
+    '#type' => 'select',
+    '#title' => t('Events in frontpage list'),
+    '#options' => array(
+      '6' => '3 - 6',
+      '12' => '6 - 12',
+      '18' => '9 - 18',
+    ),
+    '#default_value' => variable_get('ding_event_frontpage_items_per_page', 6),
+  );
+  $form['ding_event_frontpage']['ding_event_frontpage_promoted'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Only promoted events'),
+    '#default_value' => variable_get('ding_event_frontpage_promoted', TRUE),
+  );
 
-  $form['ding_event']['ding_event_frontpage_items_per_page'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Maximum number of events on front page.'),
-    '#size' => 4,
-    '#description' => t('Maximum number of events on front page.'),
-    '#default_value' => $default_items_per_page,
-    '#element_validate' => array('element_validate_integer_positive'),
+  $form['ding_event_list'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Event list'),
+  );
+
+  $form['ding_event_list']['ding_event_list_items_per_page'] = array(
+    '#type' => 'select',
+    '#title' => t('Number of events'),
+    '#description' => t('Choose how many events items you want on each page in the event list'),
+    '#default_value' => variable_get('ding_event_list_items_per_page', 10),
+    '#options' => array(
+      '10' => '10',
+      '12' => '12',
+      '14' => '14',
+      '16' => '16',
+      '18' => '18',
+      '20' => '20',
+    ),
+  );
+
+  $form['ding_event_list']['ding_event_list_group_by_date'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Group events by date'),
+    '#description' => t('Group events by date instead of month'),
+    '#default_value' => variable_get('ding_event_list_group_by_date', FALSE),
   );
 
 // Save us the trouble of running array_filter.

@@ -10,7 +10,7 @@
  */
 function connie_reservation_pickup_branches($account) {
   // Throw exception if we're not logged in.
-  ding_user_get_creds($account);
+  ding_user_get_creds();
   return array(
     'aby' => 'Andeby bibliotek',
     'grd' => 'Gåserød bibliotek',
@@ -22,9 +22,22 @@ function connie_reservation_pickup_branches($account) {
  */
 function connie_reservation_set_preferred_branch($account, $branch) {
   // Throw exception if we're not logged in.
-  ding_user_get_creds($account);
+  ding_user_get_creds();
   // Do nothing, ding_reservation will update local user if we don't throw an
   // exception.
+}
+
+/**
+ * Implements provider reservation default branch.
+ *
+ * @params object $account
+ *   The user to get the default branch for.
+ *
+ * @return array
+ *   An empty array mimicking a default branch is not selected.
+ */
+function connie_reservation_default_options($account) {
+  return array();
 }
 
 /**
@@ -32,7 +45,7 @@ function connie_reservation_set_preferred_branch($account, $branch) {
  */
 function connie_reservation_list($account, $type = NULL) {
   // Throw exception if we're not logged in.
-  ding_user_get_creds($account);
+  ding_user_get_creds();
   $result = array(
     DING_RESERVATION_READY => array(),
     DING_RESERVATION_NOT_READY => array(),
@@ -41,7 +54,7 @@ function connie_reservation_list($account, $type = NULL) {
   if (isset($_SESSION['connie_reservations'])) {
     foreach ($_SESSION['connie_reservations'] as $id => $res) {
       $result[DING_RESERVATION_READY][$id] = new DingProviderReservation($id, array(
-        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res[0],
+        'ding_entity_id' => ding_provider_build_entity_id($res[0]),
         'display_name' => $res[1],
         'pickup_branch_id' => $res[2],
         'expiry' => $res[3],
@@ -74,7 +87,7 @@ function connie_reservation_list($account, $type = NULL) {
 /**
  * Provide options for reservation.
  */
-function connie_reservation_options($account, $default_value = '') {
+function connie_reservation_options($account, $default_branch = NULL) {
   /*
    * While we use ding_reservation for branch handling, we don't want to
    * depend on the module, as it would mean that ding_reservation can't be
@@ -83,11 +96,22 @@ function connie_reservation_options($account, $default_value = '') {
   if (!module_exists('ding_reservation')) {
     throw new Exception('Connie reservation options requires ding_reservation.');
   }
+  $preferred_branch = NULL;
+
+  if (ding_user_is_provider_user($account)) {
+    $profile = ding_user_provider_profile($account);
+    if (isset($profile->connie_preferred_branch[LANGUAGE_NONE][0]['value'])) {
+      $preferred_branch = $profile->connie_preferred_branch[LANGUAGE_NONE][0]['value'];
+    }
+    elseif (!empty($default_branch)) {
+      $preferred_branch = $default_branch;
+    }
+  }
 
   $form = array();
   $form += ding_reservation_default_options_branch(
     'connie_preferred_branch',
-    NULL,
+    $preferred_branch,
     connie_allowed_branches()
   );
 
@@ -104,10 +128,10 @@ function connie_reservation_options_validate($type, $account, $reservables, $val
 /**
  * Submit handler for reservations options.
  */
-function connie_reservation_options_submit($type, $account, $reservables, $values) {
+function connie_reservation_options_submit($account, $update) {
   $profile = ding_user_provider_profile($account);
   $field_language = field_language('profile2', $profile);
-  $update = ding_reservation_default_options_branch_submit($type, 'openruth_preferred_branch', $profile->connie_preferred_branch[$field_language['connie_preferred_branch']][0]['value'], $values);
+
   if (!empty($update['connie_preferred_branch'])) {
     $profile->connie_preferred_branch[$field_language['connie_preferred_branch']][0]['value'] = $update['connie_preferred_branch'];
     $profile->save();
@@ -121,7 +145,7 @@ function connie_reservation_create($account, $id, $options) {
   $branch = $options['connie_preferred_branch'];
   $expiry = REQUEST_TIME + 180;
   // Throw exception if we're not logged in.
-  ding_user_get_creds($account);
+  ding_user_get_creds();
   // Fake it.
   if (!isset($_SESSION['connie_reservations'])) {
     $_SESSION['connie_reservations'] = array();
@@ -140,7 +164,7 @@ function connie_reservation_create($account, $id, $options) {
  */
 function connie_reservation_delete($account, $id) {
   // Throw exception if we're not logged in.
-  ding_user_get_creds($account);
+  ding_user_get_creds();
   if (isset($_SESSION['connie_reservations']) && isset($_SESSION['connie_reservations'][$id])) {
     unset($_SESSION['connie_reservations'][$id]);
   }

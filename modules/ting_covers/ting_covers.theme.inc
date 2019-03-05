@@ -14,6 +14,7 @@
 function template_preprocess_ting_object_cover(&$variables) {
   $object = $variables['object'] = $variables['elements']['#object'];
   $variables['image_style'] = $variables['elements']['#image_style'];
+  $variables['link'] = !empty($variables['elements']['#link']) ? $variables['elements']['#link'] : FALSE;
 
   // Set initial values required by the template.
   $variables['classes'] = array(
@@ -59,5 +60,10 @@ function theme_ting_object_cover($variables) {
   foreach ($variables['data'] as $name => $value) {
     $data .= 'data-' . $name . '="' . htmlentities($value) . '" ';
   }
-  return '<div class="' . implode(' ', $variables['classes']) . '" ' . trim($data) . '>' . $variables['image'] . '</div>';
+
+  if ($variables['link'] === FALSE) {
+    return '<div class="' . implode(' ', $variables['classes']) . '" ' . trim($data) . '>' . $variables['image'] . '</div>';
+  }
+
+  return '<a href="' . url($variables['link']) . '" class="' . implode(' ', $variables['classes']) . '" ' . trim($data) . '>' . $variables['image'] . '</a>';
 }

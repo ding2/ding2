@@ -1,0 +1,45 @@
+//
+// Styling og Profile2 entity type
+
+@import '../base.scss';
+
+// ==========================================================================
+// Entity Profile
+// ==========================================================================
+.entity-profile2 {
+  .field-name-field-ding-staff-position {
+    @include font('display-small');
+    @include span-columns(4 of 4);
+    float: none;
+    padding-bottom: 20px;
+    margin: 20px 0 30px;
+    border-bottom: 1px solid $grey-medium;
+  }
+  .field-name-og-group-ref,
+  .field-name-field-ding-staff-department,
+  .field-name-field-ding-staff-email,
+  .field-name-field-ding-staff-phone,
+  .field-name-field-ding-staff-work-areas {
+    position: relative;
+    width: 100%;
+    float: left;
+    .field-label {
+      @include font('base-bold');
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 120px;
+    }
+    .field-items {
+      padding-left: 120px;
+      word-break: break-all;
+    }
+  }
+  .field-name-field-ding-staff-description {
+    float: left;
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid $grey-medium;
+  }
+}

@@ -5,6 +5,7 @@ version = "7.x-0.26"
 core = 7.x
 files[] = ting_search.module
 files[] = tests/ting_search.test
+files[] = tests/ting_search_unit.test
 dependencies[] = ting
 dependencies[] = search
 scripts[] = js/ting_search_overlay.js

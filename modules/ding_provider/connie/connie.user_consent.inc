@@ -87,3 +87,19 @@ function connie_user_consent_remove($account, $consent, $previous_consents) {
   unset($account->data['connie_consent'][$consent]);
   return (bool) user_save($account);
 }
+
+/**
+ * Get the category which matches the current when changing.
+ *
+ * @param string $category
+ *   Category.
+ *
+ * @return string
+ *   Category name.
+ */
+function connie_user_consent_get_category_change($category) {
+  $consent_categories = array(
+    'loan_history_store' => 'keepLoan',
+  );
+  return $consent_categories[$category];
+}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_message_p2_installer.features.field_instance.inc
@@ -11,7 +10,7 @@
 function ding_message_p2_installer_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'message-new_content-field_first_element'
+  // Exported field_instance: 'message-new_content-field_first_element'.
   $field_instances['message-new_content-field_first_element'] = array(
     'bundle' => 'new_content',
     'default_value' => NULL,
@@ -44,7 +43,7 @@ function ding_message_p2_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-new_content-field_last_check'
+  // Exported field_instance: 'message-new_content-field_last_check'.
   $field_instances['message-new_content-field_last_check'] = array(
     'bundle' => 'new_content',
     'deleted' => 0,
@@ -54,7 +53,7 @@ function ding_message_p2_installer_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 1,
+        'weight' => 3,
       ),
     ),
     'entity_type' => 'message',
@@ -85,7 +84,7 @@ function ding_message_p2_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-new_content-field_last_element'
+  // Exported field_instance: 'message-new_content-field_last_element'.
   $field_instances['message-new_content-field_last_element'] = array(
     'bundle' => 'new_content',
     'default_value' => NULL,
@@ -96,7 +95,7 @@ function ding_message_p2_installer_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 4,
       ),
     ),
     'entity_type' => 'message',
@@ -118,41 +117,41 @@ function ding_message_p2_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-new_content-field_list_id'
+  // Exported field_instance: 'message-new_content-field_list_id'.
   $field_instances['message-new_content-field_list_id'] = array(
     'bundle' => 'new_content',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Enter the list this message is related to.',
+    'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 2,
       ),
     ),
     'entity_type' => 'message',
     'field_name' => 'field_list_id',
-    'label' => 'List id',
+    'label' => 'List ID',
     'required' => 0,
     'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
-      'module' => 'entityreference',
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-        'path' => '',
-        'size' => 60,
-      ),
-      'type' => 'entityreference_autocomplete',
-      'weight' => 0,
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 6,
     ),
   );
 
-  // Exported field_instance: 'message-new_content-field_new_count'
+  // Exported field_instance: 'message-new_content-field_new_count'.
   $field_instances['message-new_content-field_new_count'] = array(
     'bundle' => 'new_content',
     'default_value' => NULL,
@@ -164,7 +163,7 @@ function ding_message_p2_installer_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 0,
       ),
     ),
     'entity_type' => 'message',
@@ -186,7 +185,7 @@ function ding_message_p2_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'message-new_content-field_state'
+  // Exported field_instance: 'message-new_content-field_state'.
   $field_instances['message-new_content-field_state'] = array(
     'bundle' => 'new_content',
     'default_value' => NULL,
@@ -221,12 +220,11 @@ function ding_message_p2_installer_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Enter the list this message is related to.');
   t('Enter the time of the last check for updates as a unix timestamp.');
   t('First element');
   t('Last check');
   t('Last element');
-  t('List id');
+  t('List ID');
   t('New count');
   t('Number of new elements.');
   t('State');

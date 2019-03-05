@@ -1,0 +1,109 @@
+//
+// Styling of the footer
+
+@import '../base.scss';
+
+.footer {
+  background-color: $charcoal;
+  color: $white;
+  a,
+  a.active {
+    @include transition(color $speed $ease);
+    color: $white;
+    &:hover {
+      color: $white-opacity-dark;
+    }
+  }
+}
+
+.footer-inner {
+  @include wrapper;
+  padding: 50px 0;
+
+  // Mobile
+  @include media($mobile) {
+    width: auto;
+    padding: 0;
+  }
+  > .panel-pane {
+    @include span-columns(3);
+    @include omega(4n);
+    margin-bottom: 50px;
+    .pane-title {
+      @include font('display-small');
+      @include arrow-button(arrow-down);
+      pointer-events: none;
+      &.open {
+        @include arrow-button(arrow-up);
+        &::after {
+          background-color: $black;
+          color: $white;
+          display: none;
+        }
+      }
+      &::after {
+        display: none; // hide arrow on desktop
+      }
+    }
+    .pane-content {
+      ul {
+        display: block;
+      }
+      .icon {
+        line-height: 30px;
+        span {
+          margin-left: 30px;
+        }
+        &.facebook {
+          @include place-icon-before('facebook-with-circle');
+        }
+        &.twitter {
+          @include place-icon-before('twitter-with-circle');
+        }
+        &.instagram {
+          @include place-icon-before('instagram-with-circle');
+        }
+      }
+    }
+
+    // Mobile
+    @include media($mobile) {
+      @include span-columns(12);
+      margin-bottom: 0;
+      .pane-title {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        padding: 12px 5%;
+        margin-bottom: 0;
+        line-height: 54px;
+        border-bottom: 1px solid black;
+        pointer-events: all;
+        h2 {
+          margin-bottom: 0;
+        }
+        &::after { // show arrow on mobile
+          display: inline;
+          top: 12px;
+          right: 5%;
+          background: $black;
+          color: $white;
+        }
+        &.open { // js toggled arrow colors on hover
+          &::after {
+            display: inline;
+          }
+        }
+      }
+      .pane-content {
+        position: relative;
+        display: none;
+        border-bottom: 1px solid $black;
+        padding: 20px;
+        ul li {
+          line-height: 30px;
+        }
+      }
+    }
+  }
+}

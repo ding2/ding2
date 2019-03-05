@@ -1,0 +1,17 @@
+//
+// Add-ons for Bourbon Neat
+
+// Get the gutter %
+@function getGutter($container-columns: $fg-max-columns) {
+  $parent-columns: get-parent-columns($container-columns) !global;
+
+  @return flex-gutter($container-columns);
+}
+
+// Get the column %
+@function getColumn($span: $columns of $container-columns) {
+  $columns: nth($span, 1);
+  $container-columns: container-span($span);
+
+  @return flex-grid($columns, $container-columns);
+}

@@ -5,6 +5,13 @@
  * FBS provider module.
  */
 
+use FBS\Model\Patron;
+use FBS\Model\PatronSettings;
+use FBS\Model\Period;
+use FBS\Model\Periodical;
+use FBS\Model\PeriodicalReservation;
+use FBS\Model\UpdatePatronRequest;
+
 include_once 'fbs.features.inc';
 
 // Load Field module hooks. Wrapping in function exists, so we'll still be
@@ -22,48 +29,16 @@ function fbs_xautoload($adapter) {
 }
 
 /**
- * Implements hook_libraries_info().
+ * Implements hook_ding_session_cache_defaults().
  *
- * For defining external libraries.
+ * Set default ding_session_cache settings and tell ding_session_cache that this
+ * module supports it.
  */
-function fbs_libraries_info() {
+function fbs_ding_session_cache_defaults() {
   return array(
-    'jsonmapper' => array(
-      'name' => 'JsonMapper',
-      'vendor url' => 'https://github.com/cweiske/jsonmapper',
-      'download url' => 'https://github.com/cweiske/jsonmapper',
-      'version' => 'v0.4.4',
-      'xautoload' => function ($adapter) {
-        // Would like to:
-        // $adapter->composerJson('composer.json');
-        // But xautoload can't figure it out.
-        $adapter->addClassMap(
-          array(
-            'JsonMapper' => 'src/JsonMapper.php',
-            'JsonMapper_Exception' => 'src/JsonMapper/Exception.php',
-          )
-        );
-
-      },
-    ),
-    'http-message' => array(
-      'name' => 'Common interface for HTTP messages',
-      'vendor url' => 'https://github.com/php-fig/http-message',
-      'download url' => 'https://github.com/php-fig/http-message',
-      'version' => '1.0',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
-    'phly-http' => array(
-      'name' => 'PSR-7 message implementation',
-      'vendor url' => 'https://github.com/phly/http',
-      'download url' => 'https://github.com/phly/http',
-      'version' => '0.11.1',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
+    'title' => 'FBS (information from FBS)',
+    'enabled' => TRUE,
+    'expire' => 3600,
   );
 }
 
@@ -130,10 +105,9 @@ function fbs_get_patron_info($account = NULL) {
     return $account->creds;
   }
 
-  $creds = ding_user_get_creds($user);
+  $creds = ding_user_get_creds();
   return $creds;
 }
-
 
 /**
  * Return patron id for user.
@@ -168,6 +142,9 @@ function fbs_patron_id($account = NULL) {
  *
  * @return FBS
  *   Service class.
+ *
+ * @throws Exception
+ *   If the required php libraries don't exists.
  */
 function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $serializer = NULL, $reset = FALSE) {
   // No drupal_static. We want to be callable from tests.
@@ -253,6 +230,52 @@ function fbs_settings_form() {
     '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
   );
 
+  // Branches and blacklisted branches.
+  $form['branches'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Search Branches Blacklist'),
+    '#description' => t('Choose which branches to blacklist from searches'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['branches']['fbs_branches_blacklist'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Branches blacklist'),
+    '#options' => fbs_branches(),
+    '#default_value' => variable_get('fbs_branches_blacklist', array()),
+  );
+
+  $form['user_branches'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('User Branches Blacklist'),
+    '#description' => t('Choose which branches to blacklist from user profile.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['user_branches']['fbs_user_branches_blacklist'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('User branch blacklist'),
+    '#options' => fbs_branches(),
+    '#default_value' => variable_get('fbs_user_branches_blacklist', array()),
+  );
+
+  $form['holding_branches'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Holdings Branches Blacklist'),
+    '#description' => t('Choose which branches to blacklist from availability lists.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['holding_branches']['fbs_holdings_branches_blacklist'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Holdings branch blacklist'),
+    '#options' => fbs_branches(),
+    '#default_value' => variable_get('fbs_holdings_branches_blacklist', array()),
+  );
+
   return system_settings_form($form);
 }
 
@@ -284,10 +307,9 @@ function fbs_profile2_presave($entity) {
     // we wont try to update.
     return;
   }
-  $patron = ding_user_get_creds($user);
+  $patron = ding_user_get_creds();
   $wrapper = entity_metadata_wrapper('profile2', $entity);
 
-  $current_on_hold = array();
   $current_on_hold = $wrapper->field_fbs_on_hold->value();
   if (!$current_on_hold) {
     $current_on_hold = array('from' => '', 'to' => '');
@@ -300,6 +322,16 @@ function fbs_profile2_presave($entity) {
     'receiveEmail' => (bool) $wrapper->field_fbs_mail_notification->value(),
     'preferredPickupBranch' => $wrapper->field_fbs_preferred_branch->value(),
   );
+
+  // Opt out of messages if unsetting phone number.
+  if (empty($current['phoneNumber'])) {
+    $current['receiveSms'] = FALSE;
+  }
+
+  // Same for emails.
+  if (empty($current['emailAddress'])) {
+    $current['receiveEmail'] = FALSE;
+  }
 
   if ($patron['on_hold']) {
     $existing_on_hold = $patron['on_hold'];
@@ -317,12 +349,12 @@ function fbs_profile2_presave($entity) {
   );
 
   if (array_diff_assoc($current, $existing) || array_diff_assoc($current_on_hold, $existing_on_hold)) {
-    $period = new FBS\Model\Period();
+    $period = new Period();
     $period->from = $current_on_hold['from'];
     $period->to = $current_on_hold['to'];
 
-    $update = new FBS\Model\UpdatePatronRequest();
-    $patron_settings = new FBS\Model\PatronSettings();
+    $update = new UpdatePatronRequest();
+    $patron_settings = new PatronSettings();
     foreach ($current as $key => $val) {
       $patron_settings->{$key} = $val;
     }
@@ -334,6 +366,7 @@ function fbs_profile2_presave($entity) {
       $res = fbs_service()->Patron->update(fbs_service()->agencyId, $patron['patronId'], $update);
     }
     catch (Exception $e) {
+      drupal_set_message('Your changes may not have been saved. Please try saving again or contact the library.', 'ERROR');
       watchdog_exception('fbs', $e);
     }
 
@@ -367,6 +400,13 @@ function fbs_update_preferred_branch($account, $branch_id) {
 
   if (!$wrapper->field_fbs_preferred_branch->value()) {
     $wrapper->field_fbs_preferred_branch->set($branch_id);
+    $current_on_hold = $wrapper->field_fbs_on_hold->value();
+    if (!empty($current_on_hold['from'])) {
+      $wrapper->field_fbs_on_hold->set(array(
+        'from' => date('Y-m-d', $current_on_hold['from']),
+        'to' => date('Y-m-d', $current_on_hold['to']),
+      ));
+    }
 
     $profile->save();
   }
@@ -386,6 +426,11 @@ function fbs_branches() {
     try {
       $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
     }
+    catch (FBSMisconfiguredException $e) {
+      // Be quiet and use an empty list if we're not configured yet.
+      $branches = array();
+      return $branches;
+    }
     catch (Exception $e) {
       watchdog_exception('fbs', $e);
     }
@@ -397,7 +442,30 @@ function fbs_branches() {
 
     asort($branches);
   }
+
   return $branches;
+}
+
+/**
+ * Get user select-able branches.
+ */
+function fbs_user_branches($account) {
+  $branches = fbs_branches();
+  $blacklist = array_filter(variable_get('fbs_user_branches_blacklist', array()));
+
+  if (ding_user_is_provider_user($account)) {
+    $patron_info = fbs_get_patron_info($account);
+
+    $preferred_branch = $patron_info['preferred_branch'];
+
+    // If users preferred branch is blacklisted, remove it from the blacklist to
+    // allow the user to keep their old preference.
+    if ($preferred_branch && isset($blacklist[$preferred_branch])) {
+      unset($blacklist[$preferred_branch]);
+    }
+  }
+
+  return array_diff_key($branches, $blacklist);
 }
 
 /**
@@ -422,6 +490,175 @@ function fbs_interest_periods() {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function fbs_form_profile2_form_alter(&$form, &$form_state) {
+  if (array_key_exists('profile_provider_fbs', $form)) {
+    $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
+
+    $form['profile_provider_fbs']['ding_user_fee_sms'] = array(
+      '#type' => 'item',
+      '#markup' => $fee_sms,
+      '#weight' => $form['profile_provider_fbs']['field_fbs_phone_notification']['#weight'] + 0.1,
+    );
+
+    // Add validation to email.
+    $form['profile_provider_fbs']['field_fbs_mail']['#element_validate'] = array('fbs_form_profile2_mail_validate');
+
+    // Add validation to phone.
+    $form['profile_provider_fbs']['field_fbs_phone']['#element_validate'] = array('fbs_form_profile2_phone_validate');
+
+    // Add validation of on hold.
+    $form['profile_provider_fbs']['field_on_hold']['#element_validate'] = array('fbs_form_profile2_on_hold_validate');
+
+    // Add submit handler, to redirect to same URL.
+    $form['#submit'][] = 'fbs_form_profile2_rebuild_submit';
+  }
+}
+
+/**
+ * Mail validation for fbs_form_profile2.
+ */
+function fbs_form_profile2_mail_validate($element, $form_state) {
+  $email = $form_state['input']['profile_provider_fbs']['field_fbs_mail']['und'][0]['value'];
+  if (!empty($email)) {
+    if (!ding_base_validate_email($email)) {
+      form_set_error('profile_provider_fbs][field_fbs_mail', t('Please fill in a valid email'));
+    }
+  }
+}
+
+/**
+ * Phone validation for fbs_form_profile2.
+ */
+function fbs_form_profile2_phone_validate($element, $form_state) {
+  $phone = $form_state['input']['profile_provider_fbs']['field_fbs_phone']['und'][0]['value'];
+
+  if (!empty($phone)) {
+    // Preg match for phonenumbers
+    // Allows for countrycode with, and without parenthesis.
+    // Allows for spaces between numberpairs in number
+    // Allows for / and - in number (used in foreign phonenumbers).
+    // First matching group: ([\(]{0,1}[\+][0-9]{1,3}[ \.\-]?[\)]{0,1})
+    // Matches countrycode (with and without parenthesis)
+    // Second matching group: ([\(]{1}[0-9]{1,6}[\)])
+    // Matches local area codes with upto 5 digits eg. (089)
+    // Third matching group: ([0-9 \.\-\/]{3,20})((x|ext|extension)[ ]?[0-9]{1,4})
+    // Matches main phonenumber - allowes for special characters . - / in number.
+    // Also matches phone extensions.
+    $re = '/^([\(]{0,1}[\+][0-9]{1,3}[ \.\-]?[\)]{0,1})?([\(]{1}[0-9]{1,6}[\)])?([0-9 \.\-\/]{3,20})((x|ext|extension)[ ]?[0-9]{1,4})?$/';
+    preg_match_all($re, $phone, $matches, PREG_SET_ORDER, 0);
+
+    if (empty($matches)) {
+      form_set_error('profile_provider_fbs][field_fbs_phone', t('Please fill in a valid phonenumber'));
+    }
+  }
+}
+
+/**
+ * On hold data field validation.
+ *
+ * @param array $element
+ *   The form element that being validated.
+ * @param array $form_state
+ *   The current form state.
+ */
+function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) {
+  $wrapper = entity_metadata_wrapper('profile2', $form_state['profile2']);
+
+  // Get the values that should be validated.
+  $existing_on_hold = $wrapper->field_fbs_on_hold->value();
+  // Existing value may return NULL lets convert that to an array.
+  if (is_null($existing_on_hold)) {
+    $existing_on_hold = array(
+      'from' => NULL,
+      'to' => NULL,
+    );
+  }
+
+  // New values are in the format Y-m-d while existing values are timestamps.
+  // Convert new values to timestamps to make them comparable.
+  $new_on_hold = array_map(function ($time_string) {
+    return _fbs_form_profile_validate_convert_time($time_string);
+  }, $form_state['values']['profile_provider_fbs']['field_fbs_on_hold'][LANGUAGE_NONE][0]);
+
+  // Check if the values have been changed.
+  if ($existing_on_hold['from'] != $new_on_hold['from'] || $existing_on_hold['to'] != $new_on_hold['to']) {
+    // Check if both new dates are empty and exit validation if they are.
+    if (empty($new_on_hold['from']) && empty($new_on_hold['to'])) {
+      return;
+    }
+
+    // Check that they are not empty.
+    if (empty($new_on_hold['from']) && !empty($new_on_hold['to'])) {
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('When to date is set than the from date should also be set.'));
+      return;
+    }
+
+    // Check that an to/end data is set if a from data is set.
+    if (!empty($new_on_hold['from']) && empty($new_on_hold['to'])) {
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('When from date is set than the to date should also be set.'));
+      return;
+    }
+
+    // Get current data.
+    $now = date('Y-m-d');
+
+    // Make comparision more readable with a function wrapper.
+    $convert = '_fbs_form_profile_validate_convert_time';
+
+    // Start date must be higher than or equal to today.
+    if (!($convert($new_on_hold['from']) >= $convert($now))) {
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('Start date must be higher than or equal to today: %now', array('%now' => date('d-m-Y'))));
+      return;
+    }
+
+    // To date must both be higher than or equal to today.
+    if (!($convert($new_on_hold['to']) >= $convert($now))) {
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must both be higher than or equal to today: %now', array('%now' => date('d-m-Y'))));
+      return;
+    }
+
+    // To date must higher than the from date.
+    if (!($convert($new_on_hold['to']) >= $convert($new_on_hold['from']))) {
+      form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must higher than the from date or equal to.'));
+      return;
+    }
+  }
+}
+
+/**
+ * Converts profile2 (frontend) time format to unix timestamp.
+ *
+ * Uses a static cache to speed up conversion.
+ *
+ * @param string $time
+ *   With the format 'Y-m-d'.
+ *
+ * @return int
+ *   Unix timestamp.
+ */
+function _fbs_form_profile_validate_convert_time($time) {
+  $cache = &drupal_static(__FUNCTION__, array());
+  if (isset($cache[$time])) {
+    return $cache[$time];
+  }
+
+  list($year, $month, $day) = explode('-', $time);
+  $cache[$time] = mktime(0, 0, 0, $month, $day, $year);
+
+  return $cache[$time];
+}
+
+/**
+ * Submit handler for fbs_form_profile2
+ */
+function fbs_form_profile2_rebuild_submit($form, &$form_state) {
+  // Rebuilds form and stay on same page.
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
  * Implements hook_form_FORM_ID_form_alter().
  *
  * Remove order_nr from the reservation listing. We don't have anything sane to
@@ -437,6 +674,33 @@ function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state)
   }
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Access options for the attributes in the holdings field.
+ */
+function fbs_form_ding_availability_admin_holdings_settings_alter(&$form, &$form_state, $form_id) {
+  $form['holdings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Holdings levels display'),
+    '#description' => t('Configure holdings display modes.'),
+  );
+  $form['holdings']['fbs_show_material_group'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show material group description'),
+    '#default_value' => variable_get('fbs_show_material_group', 0),
+  );
+  $form['holdings']['fbs_holdings_suffix_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Holdings suffix'),
+    '#description' => t('Select which type of suffix to use for holdings. Simple shows a mix between DK5 and inverted creator, while Shelf mark simulates the shelf mark from ALMA using marc-data from the well.'),
+    '#default_value' => variable_get('fbs_holdings_suffix_type', 'shelf_mark'),
+    '#options' => array(
+      'simple' => t('Simple'),
+      'shelf_mark' => t('Shelf mark'),
+    ),
+  );
+}
 
 /**
  * Pack patron info in an array.
@@ -450,7 +714,7 @@ function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state)
  * @return array
  *   Data to save.
  */
-function _fbs_patron_info(FBS\Model\Patron $patron) {
+function _fbs_patron_info(Patron $patron) {
   $creds = array(
     'patronId' => $patron->patronId,
     'name' => $patron->name,
@@ -459,6 +723,7 @@ function _fbs_patron_info(FBS\Model\Patron $patron) {
     'phone_notification' => $patron->receiveSms,
     'mail_notification' => $patron->receiveEmail,
     'preferred_branch' => $patron->preferredPickupBranch,
+    'resident' => $patron->resident,
     'on_hold' => NULL,
     'address' => NULL,
   );
@@ -496,7 +761,7 @@ function _fbs_patron_info(FBS\Model\Patron $patron) {
  * @return string
  *   The pseudo id.
  */
-function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodical) {
+function _fbs_periodical_get_local_id($record_id, Periodical $periodical) {
   // We're using - as a placeholder for empty values, it ensures that there'll
   // be something between the colons, which in turn means we don't have to
   // deal with the possibility of two colons in a row.
@@ -507,7 +772,7 @@ function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodic
     $record_id,
   );
 
-  $parts = array_map(function($part) {
+  $parts = array_map(function ($part) {
     // "Escape" the colons, so we can split on ":" later.
     return strtr($part, array(':' => '::'));
   }, $parts);
@@ -541,12 +806,12 @@ function _fbs_periodical_parse_local_id($local_id) {
     $parts = preg_split('/(?<!:):(?!:)/', $matches[1]);
 
     // Replace '-' with NULL and reverse the "escaping" of colon.
-    $parts = array_map(function($part) {
+    $parts = array_map(function ($part) {
       return $part === '-' ? NULL : strtr($part, array('::' => ':'));
     }, $parts);
   }
 
-  $periodical = new FBS\Model\PeriodicalReservation();
+  $periodical = new PeriodicalReservation();
   list(
     $periodical->volume,
     $periodical->volumeYear,
@@ -574,4 +839,40 @@ function _fbs_wayf_login($name, $value = NULL) {
   }
 
   return NULL;
+}
+
+/**
+ * Implements hook_opensearch_pre_execute().
+ */
+function fbs_opensearch_pre_execute($request) {
+  // We only want to modify searches.
+  if ($request instanceof TingClientSearchRequest) {
+    // Filter out blacklisted branches from search.
+    $branches_blacklist = array_filter(variable_get('fbs_branches_blacklist', array()));
+
+    if (!empty($branches_blacklist)) {
+      $query = $request->getQuery();
+      $allowed_branches = [];
+      foreach (fbs_branches() as $id => $branch) {
+        if (!in_array($id, $branches_blacklist)) {
+          $allowed_branches[] = _fbs_cql_quote_string($branch);
+        }
+      }
+      $query .= ' AND (holdingsitem.branch = (' . implode(' OR ',
+          $allowed_branches) . '))';
+      $request->setQuery($query);
+
+    }
+    // Since FBS is using data-well 3.5 we need to filter local holdings.
+    $request->setFilterLocalHoldings(TRUE);
+  }
+}
+
+/**
+ * Quote string for use in CQL.
+ *
+ * Adds " around the string and escapes inline ".
+ */
+function _fbs_cql_quote_string($name) {
+  return '"' . preg_replace('/"/', '\\"', $name) . '"';
 }

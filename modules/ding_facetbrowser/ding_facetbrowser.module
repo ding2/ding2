@@ -1,4 +1,11 @@
 <?php
+/**
+ * @file
+ * The ding_facetbrowser module.
+ */
+
+use Ting\Search\TingSearchFacet;
+use Ting\Search\TingSearchFacetTerm;
 
 /**
  * Implements hook_block_info().
@@ -81,6 +88,7 @@ function ding_facetbrowser_ctools_plugin_api($module, $api) {
     return array('version' => 1);
   }
 }
+
 /**
  * Create a custom form with checkbox elements for facets and ajax callback
  *
@@ -89,7 +97,7 @@ function ding_facetbrowser_ctools_plugin_api($module, $api) {
  * @param array $facets
  * @return array $form
  */
-function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = FALSE) {
+function ding_facetbrowser_form($form, &$form_state, $facets = [], $search = FALSE) {
   global $base_root;
 
   $default_values = array();
@@ -106,72 +114,46 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
   $facet_show_count = variable_get('ding_facetbrowser_showcount', count($facets));
   foreach (variable_get('ding_facetbrowser_facets', array()) as $configured_facet) {
 
-    if (isset($facets[$configured_facet['name']])) {
+    if (!empty($facets[$configured_facet['name']])) {
+      /** @var TingSearchFacet $facet */
       $facet = $facets[$configured_facet['name']];
 
       // Decide if the facet is to have the hidden class or not.
       $facet_class = ($i >= $facet_show_count) ? 'js-hidden' : 'js-visible';
 
-      if (count($facet->terms) > 0) {
-        $form[$facet->name] = array(
+      if (count($facet->getTerms()) > 0) {
+        $form[$facet->getName()] = array(
           '#type' => 'fieldset',
           '#title' => check_plain($configured_facet['title']),
           '#attributes'  => array(
-            'id' => str_replace('.', '-', $facet->name),
+            'id' => str_replace('.', '-', $facet->getName()),
             'data' => array(
-              $facet->name,
+              $facet->getName(),
             ),
-            'count' => count($facet->terms),
+            'count' => count($facet->getTerms()),
             'class' => array(
               $facet_class,
             ),
           ),
         );
 
+        // Sort the list of terms.
+        $terms = $facet->getTerms();
         if (!empty($configured_facet['sorting'])) {
-          switch ($configured_facet['sorting']) {
-            case 'alphabetical':
-              ksort($facet->terms);
-              break;
-
-            case 'alphabetical_reverse':
-              krsort($facet->terms);
-              break;
-
-            case 'numeric':
-              ksort($facet->terms, SORT_NUMERIC);
-              break;
-
-            case 'numeric_reverse':
-              krsort($facet->terms, SORT_NUMERIC);
-              break;
-
-            default:
-              break;
-          }
+          ding_facetbrowser_sort_terms($terms, $configured_facet['sorting']);
         }
 
-        foreach ($facet->terms as $term_name => $term_count) {
-          $facet_name = explode('.', $facet->name);
-          $element_name = end($facet_name);
-          $facets_string = $facet->name . ':' . $term_name;
+        foreach ($terms as $term_name => $term) {
+          $facets_string = $facet->getName() . ':' . $term_name;
           $term_name_title = $term_name;
-          // Check if term name is longer than 14 chars,
-          // if so, short it down to fit facet browser.
-          $substr_length = 19
-            + substr_count(drupal_substr($term_name, 0, 20), 'l')
-            + substr_count(drupal_substr($term_name, 0, 20), 'i')
-            - drupal_strlen((string)$term_count);
-          if (drupal_strlen($term_name) > $substr_length + 3) {
-            $term_name_title = drupal_substr($term_name, 0, $substr_length) . '...';
-          }
+          ding_facetbrowser_format_term_name($term_name, $term->getCount());
 
-          if (_ding_facetbrowser_is_facet_set($facet->name, $term_name) === TRUE) {
+          if (_ding_facetbrowser_is_facet_set($facet->getName(), $term_name) === TRUE) {
             $default_values[] = $term_name;
             $facets_string = '-' . $facets_string;
 
             $uri = $base_root . _ding_facetbrowser_parse_request_uri();
-            $selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>', $uri, array(
+            $selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term->getCount() . ')</span>', $uri, array(
               'html' => TRUE,
               'query' => array(
                 'facets' => array('' => $facets_string),
@@ -183,7 +165,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           }
           else {
             $uri = $base_root . _ding_facetbrowser_parse_request_uri();
-            $not_selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>', $uri, array(
+            $not_selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term->getCount() . ')</span>', $uri, array(
               'html' => TRUE,
               'query' => array(
                 'facets' => array('' => $facets_string),
@@ -194,7 +176,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
             ));
           }
 
-          $form[$facet->name][$element_name] = array(
+          $form[$facet->getName()][$facet->getName()] = array(
             '#type' => 'checkboxes',
             '#options' => $selected + $not_selected,
             '#default_value' => $default_values,
@@ -212,6 +194,62 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
   }
 
   return $form;
+}
+
+/**
+ * Sorts facet terms with the specified sorting.
+ */
+function ding_facetbrowser_sort_terms(&$terms, $sorting) {
+  switch ($sorting) {
+    case 'alphabetical':
+      ksort($terms);
+      break;
+
+    case 'alphabetical_reverse':
+      krsort($terms);
+      break;
+
+    case 'numeric':
+      ksort($terms, SORT_NUMERIC);
+      break;
+
+    case 'numeric_reverse':
+      krsort($terms, SORT_NUMERIC);
+      break;
+
+    default:
+      break;
+  }
+}
+
+/**
+ * The sort options we support for facet terms.
+ */
+function ding_facetbrowser_sort_terms_options() {
+  return array(
+    'default' => t('Ranking (default)'),
+    'alphabetical' => t('Alphabetic'),
+    'aphabetical_reverse' => t('Alphabetic (reverse)'),
+    'numeric' => t('Numeric'),
+    'numeric_reverse' => t('Numeric (reverse)'),
+  );
+}
+
+/**
+ * Helper function to format term name title, if it's too long to display in
+ * the facetbrowser window.
+ *
+ * @See: ding_facetbrowser_form()
+ */
+function ding_facetbrowser_format_term_name($term_name, $term_count) {
+  $substr_length = 19
+    + substr_count(drupal_substr($term_name, 0, 20), 'l')
+    + substr_count(drupal_substr($term_name, 0, 20), 'i')
+    - drupal_strlen((string)$term_count);
+  if (drupal_strlen($term_name) > $substr_length) {
+    return drupal_substr($term_name, 0, $substr_length) . '...';
+  }
+  return $term_name;
 }
 
 /**
@@ -318,17 +356,6 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   $content_in_facet = FALSE;
   $executed_search_module = FALSE;
 
-  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery.cookie.min.js');
-  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/ding_facetbrowser.js');
-
-  // @todo: Get the facet browser dom id automatic.
-  drupal_add_js(array(
-    'ding_facetbrowser' => array(
-      'selector' => '.js-facet-browser-toggle',
-      'number_of_terms' => variable_get('ding_facetbrowser_number_of_terms', 5)),
-  ), 'setting');
-
-
   // Invoke ding_facetbrowser() from executed search module.
   $executed_search = menu_get_item();
   if (!empty($executed_search['page_arguments'])) {
@@ -348,14 +375,33 @@ function ding_facetbrowser_block_view($delta = FALSE) {
       }
     }
 
+    $path = drupal_get_path('module', 'ding_facetbrowser');
     switch ($delta) {
       case 'facetbrowser':
         $block['subject'] = t('Facet browser');
-        $block['content'] = $block_content;
+        $block['content']['#markup'] = $block_content;
+        $block['content']['#attached'] = array(
+          'js' => array(
+            array(
+              'data' => $path . '/js/ding_facetbrowser.js',
+            ),
+            array(
+              'data' => array(
+                'ding_facetbrowser' => array(
+                  'selector' => '.js-facet-browser-toggle',
+                  'number_of_terms' => variable_get('ding_facetbrowser_number_of_terms', 5),
+                ),
+              ),
+              'type' => 'setting',
+            ),
+          ),
+          'libraries_load' => array(
+            array('js.cookie'),
+          ),
+        );
         break;
     }
   }
 
   return $block;
 }
-

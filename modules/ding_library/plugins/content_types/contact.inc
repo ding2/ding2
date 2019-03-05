@@ -17,19 +17,32 @@ function ding_library_contact_content_type_render($subtype, $conf, $panel_args, 
   }
   $node = $context->data;
 
+  $phone = ding_base_get_value('node', $node, 'field_ding_library_phone_number');
+  $fax = ding_base_get_value('node', $node, 'field_ding_library_fax_number');
+  $mail = ding_base_get_value('node', $node, 'field_ding_library_mail', 'email');
+
   $content = ' <div class="library-contact">';
-  if (!empty($node->field_ding_library_phone_number['und'])) {
+
+  if (!empty($phone)) {
     $content .= '
       <div class="library-contact-phone">
         <span class="library-contact-phone-label">' . t('Phone:') . '</span>
-        <span class="library-contact-phone">' . $node->field_ding_library_phone_number['und'][0]['value'] . '</span>
+        <span class="library-contact-phone">' . $phone . '</span>
       </div>';
   }
-  if (!empty($node->field_ding_library_mail['und'])) {
+  if (!empty($fax)) {
+    $content .= '
+        <div class="library-contact-fax">
+          <span class="library-contact-fax-label">' . t('Fax:') . '</span>
+          <span class="library-contact-fax">' . $fax . '</span>
+        </div>
+    ';
+  }
+  if (!empty($mail)) {
     $content .= '
         <div class="library-contact-email">
           <span class="library-contact-email-label">' . t('Email:') . '</span>
-          <span class="library-contact-phone">' . l($node->field_ding_library_mail['und'][0]['email'], 'mailto:' . $node->field_ding_library_mail['und'][0]['email']) . '</span>
+          <span class="library-contact-phone">' . l($mail, 'mailto:' . $mail) . '</span>
         </div>
     ';
   }
@@ -47,5 +60,3 @@ function ding_library_contact_content_type_render($subtype, $conf, $panel_args, 
 function ding_library_contact_content_type_edit_form($form, &$form_state) {
   return $form;
 }
-
-

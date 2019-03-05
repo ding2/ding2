@@ -23,7 +23,7 @@ $plugin = array(
  * Check the access.
  */
 function ding_user_external_user_access_check($conf, $context) {
-  if (empty($context) || empty($context[0]->data) || user_is_anonymous()) {
+  if (empty($context) || empty($context[0]->data) || !user_is_logged_in()) {
     return FALSE;
   }
   return (user_get_authmaps($context[0]->data->init) xor $conf);

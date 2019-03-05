@@ -1,0 +1,102 @@
+//
+// Styling of panel menus
+
+@import '../../base.scss';
+
+// ==========================================================================
+// Specific styles for menu panes and taxonomy facet browser
+// ==========================================================================
+
+.pane-menu-block-3,
+.pane-og-menu-og-single-menu-block,
+.pane-user-menu {
+  .sub-menu-title {
+    border-bottom: 1px solid $charcoal-opacity-light;
+    padding-bottom: 25px;
+  }
+}
+// Tablet
+@include media($tablet) {
+  .pane-menu-block-3,
+  .pane-user-menu {
+    display: none;
+  }
+}
+
+.pane-taxonomy-menu,
+.pane-library-list,
+.pane-og-menu-og-single-menu-block,
+.pane-ding-facetbrowser {
+  position: relative;
+  margin-bottom: 25px;
+
+  // Tablet
+  @include media($tablet) {
+    cursor: pointer;
+  }
+  .sub-menu-title {
+    position: relative;
+    border-top: 1px solid $charcoal-opacity-light;
+    padding-top: 25px;
+
+    // Tablet
+    @include media($tablet) {
+      padding-right: 78px;
+    }
+
+    // Mobile
+    @include media($mobile) {
+      padding-right: 64px;
+    }
+
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    @include arrow-button(arrow-down);
+    &::after {
+      display: none;
+    }
+
+    // Tablet
+    @include media($tablet) {
+      margin-bottom: 25px;
+      &::after {
+        display: block;
+        right: 0;
+        top: 10px;
+      }
+    }
+  }
+  &:first-child {
+    .sub-menu-title {
+      border-top: none;
+      padding-top: 0;
+
+      // Tablet
+      @include media($tablet) {
+        padding-top: 25px;
+      }
+    }
+  }
+  ul.sub-menu,
+  ul.list-items,
+  ul.main-menu-third-level {
+    display: block;
+
+    // Tablet
+    @include media($tablet) {
+      display: none;
+    }
+  }
+
+  &:last-child {
+    @include media($tablet) {
+      border-bottom: 1px solid $charcoal-opacity-light;
+      &.pane-og-menu-og-single-menu-block {
+        border-bottom: none;
+      }
+    }
+  }
+}

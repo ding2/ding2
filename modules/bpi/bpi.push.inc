@@ -4,6 +4,8 @@
  * Syndication logic here.
  */
 
+include_once drupal_get_path('module', 'bpi') . '/bpi.images.inc';
+
 /**
  * BPI http push form, used in save and push on node/edit page.
  *
@@ -52,17 +54,14 @@ function bpi_http_push_action_form($nid) {
   );
 
   $form['configurations']['bpi_push_images'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Push with images'),
+    '#type' => 'select',
+    '#title' => t('Push with image'),
+    '#options' => array(
+      BPI_WITHOUT_IMAGES => t('Not approved for sharing'),
+      BPI_WITH_IMAGES => t('Approved for sharing'),
+    ),
     '#description' => t('You should have permission to publish the images before selecting this option.'),
-    '#default_value' => FALSE,
-  );
-
-  $form['configurations']['bpi_push_ccl'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('I want to be anonymous'),
-    '#description' => t('If checked the content will be pushed as anonymous to BPI.'),
-    '#default_value' => FALSE,
+    '#empty_option' => t('- choose -'),
   );
 
   $form['configurations']['bpi_push_refs'] = array(
@@ -87,7 +86,6 @@ function bpi_http_push_action_form($nid) {
       $form['vocabularies']['bpi_push_category']['#default_value'] = $data['category'];
       $form['vocabularies']['bpi_push_audience']['#default_value'] = $data['audience'];
       $form['configurations']['bpi_push_images']['#default_value'] = $data['with_images'];
-      $form['configurations']['bpi_push_ccl']['#default_value'] = !$data['authorship'];
       $form['configurations']['bpi_push_refs']['#default_value'] = $data['with_refs'];
       $form['configurations']['bpi_push_editable']['#default_value'] = $data['editable'];
     }
@@ -126,6 +124,8 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   $bpi_content['agency_id'] = variable_get('bpi_agency_id', '');
   $bpi_content['local_id'] = $node->nid;
   $bpi_content['bpi_id'] = isset($node->bpi_id) ? $node->bpi_id : NULL;
+  $bpi_content['url'] = url('node/' . $node->nid, array('absolute' => TRUE, 'alias' => TRUE));
+  $bpi_content['data'] = '';
 
   $user = user_load($node->uid);
   $bpi_content['firstname'] = $user->name;
@@ -156,7 +156,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   if ($with_refs) {
     // Function field_get_items returns data with 2 different structure, depending from stage when it was called.
     $items = field_get_items('node', $node, variable_get('bpi_field_materials', ''));
-    foreach ($items as $item) {
+    foreach ((array) $items as $item) {
       // First case, we have completly saved node, when it returns ding_object_id.
       if (!empty($item['ting_object_id'])) {
         $id = $item['ting_object_id'];
@@ -209,25 +209,33 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   $bpi_content['audience'] = $audience;
   $bpi_content['related_materials'] = $materials_drupal;
   $bpi_content['editable'] = (int) $editable;
-  $bpi_content['authorship'] = ($authorship) ? FALSE : TRUE;
-  $bpi_content['images'] = array();
+  $bpi_content['authorship'] = !$authorship;
+  $bpi_content['assets'] = array();
 
   if ($with_images) {
     $image_fields = bpi_fetch_image_fields($node->type);
 
     if (!empty($image_fields)) {
       foreach ($image_fields as $field_name) {
-        $field_value = field_view_field('node', $node, $field_name);
-
-        if (!empty($field_value['#items'][0]['uri'])) {
-          $file_url = file_create_url($field_value['#items'][0]['uri']);
-          // Image pseudo-check.
-          if (@getimagesize($file_url)) {
-            $bpi_content['images'][] = array(
-              'path' => $file_url,
-              'alt' => '',
-              'title' => '',
-            );
+        $image_type = bpi_get_image_type($field_name, $node);
+        if (!empty($image_type)) {
+          $field_items = field_get_items('node', $node, $field_name);
+          if (is_array($field_items)) {
+            foreach ($field_items as $item) {
+              if (isset($item['fid'])) {
+                $file = file_load($item['fid']);
+                if (is_object($file)) {
+                  $bpi_content['assets'][] = array(
+                    'path' => file_create_url($file->uri),
+                    'alt' => $file->alt ?: $file->filename,
+                    'title' => $file->title ?: $file->filename,
+                    'type' => $image_type,
+                    'name' => $file->filename,
+                    'extension' => pathinfo($file->uri, PATHINFO_EXTENSION),
+                  );
+                }
+              }
+            }
           }
         }
       }
@@ -240,6 +248,22 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
       $bpi_content['body']
     );
   }
+
+  $tags = array();
+  $tags_field_name = variable_get('bpi_field_tags', '');
+  if (!empty($tags_field_name)) {
+    // We use field_view_field (rather than field_get_items, say) to get the
+    // actual taxonomy term names which we need to push to bpi.
+    $tags_field = field_view_field('node', $node, $tags_field_name);
+    if ($tags_field && isset($tags_field['#items'])) {
+      foreach ($tags_field['#items'] as $item) {
+        if (isset($item['taxonomy_term'])) {
+          $tags[] = $item['taxonomy_term']->name;
+        }
+      }
+    }
+  }
+  $bpi_content['tags'] = implode(',', $tags);
 
   return $bpi_content;
 }

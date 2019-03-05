@@ -49,6 +49,7 @@ function ting_covers_field_formatter_info() {
       'field types' => array('ting_cover'),
       'settings' => array(
         'image_style' => 'medium',
+        'link_type' => 'none',
       ),
     ),
   );
@@ -72,6 +73,17 @@ function ting_covers_field_formatter_settings_form($field, $instance, $view_mode
     '#options' => $image_styles,
   );
 
+  $element['link_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Link title to'),
+    '#options' => array(
+      'none' => t("Don't link"),
+      'object' => t('Object'),
+      'collection' => t('Collection, if part of a collection'),
+    ),
+    '#default_value' => $settings['link_type'],
+  );
+
   return $element;
 }
 
@@ -93,6 +105,9 @@ function ting_covers_field_formatter_settings_summary($field, $instance, $view_m
   else {
     $summary = t('Original image');
   }
+
+  $summary .= '<br/>';
+  $summary .= t('<strong>Link type:</strong> @type', array('@type' => $settings['link_type']));
   return $summary;
 }
 
@@ -101,6 +116,7 @@ function ting_covers_field_formatter_settings_summary($field, $instance, $view_m
  */
 function ting_covers_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
+  $settings = $display['settings'];
 
   foreach ($items as $delta => $item) {
     $element[$delta] = array(
@@ -111,6 +127,16 @@ function ting_covers_field_formatter_view($entity_type, $entity, $field, $instan
         'js' => array(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js'),
       ),
     );
+
+    switch ($display['settings']['link_type']) {
+      case 'collection':
+        $element[$delta]['#link'] = entity_uri('ting_collection', $entity)['path'];
+        break;
+
+      case 'object':
+        $element[$delta]['#link'] = entity_uri('ting_object', $entity)['path'];
+        break;
+    }
   }
 
   return $element;

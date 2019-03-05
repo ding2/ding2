@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Serendipity taxonomy term ctools content_type
+ * Serendipity taxonomy term ctools content_type.
  */
 
 $plugin = array(
@@ -56,8 +57,8 @@ function ding_serendipity_term_content_type_edit_form($form, &$form_state) {
     '#states' => array(
       'visible' => array(
         ':input[name="entity_type"]' => array('value' => 'node'),
-      )
-    )
+      ),
+    ),
   );
   return $form;
 }

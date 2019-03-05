@@ -1,0 +1,274 @@
+<?php
+
+/**
+ * @file
+ * Code for the Ding Campaign Plus Auto generate module.
+ */
+
+/**
+ * Implements hook_form_ding_campaign_plus_admin_settings_alter().
+ *
+ * Add auto-generate campaign configuration options to campaign administration
+ * form.
+ */
+function ding_campaign_plus_auto_form_ding_campaign_plus_admin_settings_alter(&$form, &$form_state, $form_id) {
+  $form['ding_campaign_plus_auto'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Auto generated campaigns',
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#weight' => 10,
+  );
+
+  // Build options to auto generate campaigns.
+  $config = _ding_campaign_plus_auto_get_configuration();
+  foreach ($config as $module => $info) {
+    $callback = $info['callback'];
+    $default_config = isset($info['config']) ? $info['config'] : $info['default'];
+    $form['ding_campaign_plus_auto'][$module] = array(
+      '#type' => 'fieldset',
+      '#title' => $info['title'],
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#states' => array(
+        'invisible' => array(
+          ':input[name="ding_campaign_plus_auto[enabled]"]' => array('checked' => FALSE),
+        ),
+      ),
+      'config' => $callback($form_state, $default_config),
+    );
+  }
+
+  $form['#submit'][] = 'ding_campaign_plus_auto_admin_settings_form_submit';
+}
+
+/**
+ * Submit handler for the admin form.
+ */
+function ding_campaign_plus_auto_admin_settings_form_submit(&$form, &$form_state) {
+  variable_set('ding_campaign_plus_auto', $form_state['values']['ding_campaign_plus_auto']);
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Add auto-generate options to content types that we support. Only for new
+ * content.
+ */
+function ding_campaign_plus_auto_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['#node_edit_form']) && $form['#node_edit_form']) {
+    if (in_array($form['#node']->type, _ding_campaign_plus_auto_content_types())) {
+      $form['ding_campaign_plus_auto_generate'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Campaign'),
+        '#collapsible' => TRUE,
+        '#collapsed' => FALSE,
+        '#weight' => 50,
+        '#tree' => TRUE,
+        // Attache JS to hide the states fields, as it don't work i node edit
+        // alters. So this JS hides theme, states takes over to display theme.
+        '#attached' => array(
+          'js' => array(
+            drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus.js',
+          ),
+        ),
+      );
+
+      if (isset($form_state['node']->nid) && !empty($form_state['node']->ding_campaign_plus_auto)) {
+        $campaign = node_load($form_state['node']->ding_campaign_plus_auto);
+        $link = l($campaign->title, 'node/' . $campaign->nid, array(
+          'attributes' => array(
+            'target' => 'blank',
+          ),
+        ));
+        $form['ding_campaign_plus_auto_generate']['info'] = array(
+          '#type' => 'markup',
+          '#markup' => t('This node is linked to campaign') . ' - ' . $link,
+        );
+      }
+      else {
+        $form['ding_campaign_plus_auto_generate']['enable'] = array(
+          '#type' => 'checkbox',
+          '#title' => t('Generate campaign'),
+          '#desecription' => t('Generate campaign based on the current content.'),
+          '#default_value' => FALSE,
+        );
+
+        $form['ding_campaign_plus_auto_generate']['keywords'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Campaign keywords (subjects)'),
+          '#description' => t('This comma separated list of keywords/subjects are used to trigger campaigns'),
+          '#default_value' => '',
+          '#states' => array(
+            'visible' => array(
+              ':input[name^="ding_campaign_plus_auto_generate"]' => array('checked' => TRUE),
+            ),
+          ),
+        );
+
+        $form += array('#submit' => array());
+        array_unshift($form['#submit'], 'ding_campaign_plus_auto_form_submit');
+      }
+    }
+  }
+}
+
+/**
+ * Submit handler for the auto-generate campaign form.
+ */
+function ding_campaign_plus_auto_form_submit($form, &$form_state) {
+  if ($form_state['values']['ding_campaign_plus_auto_generate']['enable']) {
+    // Filter subjects.
+    $subjects = explode(',', $form_state['values']['ding_campaign_plus_auto_generate']['keywords']);
+    if (is_array($subjects)) {
+      $subjects = array_map('trim', $subjects);
+      $subjects = array_unique($subjects);
+      $subjects = array_values($subjects);
+
+      // Store subjects for later use in hook_load.
+      $campaign_subjects = &drupal_static(__FILE__, array());
+      $campaign_subjects = $subjects;
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_campaign_plus_auto_node_insert($node) {
+  $subjects = &drupal_static(__FILE__);
+  if (in_array($node->type, _ding_campaign_plus_auto_content_types()) && !empty($subjects)) {
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+
+    // Create campaign.
+    global $user;
+    $campaign_node = new stdClass();
+    $campaign_node->title = $node_wrapper->label();
+    $campaign_node->type = "ding_campaign_plus";
+    node_object_prepare($campaign_node);
+    $campaign_node->language = LANGUAGE_NONE;
+    $campaign_node->uid = $user->uid;
+    $campaign_node->status = 1;
+
+    $campaign_wrapper = entity_metadata_wrapper('node', $campaign_node);
+    $campaign_wrapper->field_ding_campaign_plus_type->set('campaign_text_and_image');
+    $campaign_wrapper->field_ding_campaign_plus_style->set('ribbon');
+    $campaign_wrapper->field_ding_campaign_plus_link->set(array(
+      'url' => 'node/' . $node->nid,
+    ));
+
+    $field = 'field_' . $node_wrapper->getBundle() . '_title_image';
+    $image = $node_wrapper->{$field}->value();
+    if (isset($image) && $image['fid'] !== 0) {
+      $campaign_wrapper->field_ding_campaign_plus_image->set($image);
+    }
+    else {
+      $campaign_wrapper->field_ding_campaign_plus_type->set('campaign_text');
+    }
+
+    $field = 'field_' . $node_wrapper->getBundle() . '_lead';
+    $lead = $node_wrapper->{$field}->value();
+    $campaign_wrapper->field_ding_campaign_plus_text->set($lead);
+    $campaign_wrapper->field_ding_campaign_plus_track->set($node_wrapper->label());
+
+    // Add triggers for the new campaign.
+    $config = _ding_campaign_plus_auto_get_configuration();
+    $campaign_node->tabs = array();
+    foreach (module_implements('ding_campaign_plus_auto_trigger') as $module) {
+      $campaign_node->tabs += module_invoke($module, 'ding_campaign_plus_auto_trigger', $config[$module]['default'], $campaign_node, $node_wrapper, $subjects);
+    }
+
+    // Save campaign node. Which will also trigger the node insert hook below,
+    // which will save the campaign nid for the actual insert of the content
+    // this campaign is generate for. This can then be used to link the content
+    // and this campaign.
+    $campaign_node = node_submit($campaign_node);
+    node_save($campaign_node);
+
+    // Set message that campaign have been created.
+    $node_link = l(t('view'), 'node/' . $campaign_node->nid);
+    $node_edit_link = l(t('link'), 'node/' . $campaign_node->nid . '/edit');
+    $watchdog_args = array('@type' => $campaign_node->type, '%title' => $campaign_node->title);
+    $t_args = array(
+      '@type' => node_type_get_name($campaign_node),
+      '%title' => $campaign_node->title,
+      '!link' => $node_edit_link,
+    );
+    watchdog('content', '@type: added %title.', $watchdog_args, WATCHDOG_NOTICE, $node_link);
+
+    drupal_set_message(t('@type %title has been created. You can edit it using this !link', $t_args));
+
+    db_insert('ding_campaign_plus_auto')
+      ->fields(array('nid', 'campaign_nid'), array($node->nid, $campaign_node->nid))
+      ->execute();
+
+    // Reset campaign static.
+    $subjects = NULL;
+  }
+}
+
+/**
+ * Implements hook_node_load().
+ */
+function ding_campaign_plus_auto_node_load($nodes, $types) {
+  foreach ($nodes as &$node) {
+    if (in_array($node->type, _ding_campaign_plus_auto_content_types())) {
+      $nid = db_select('ding_campaign_plus_auto', 'dcpa')
+        ->fields('dcpa', array('campaign_nid'))
+        ->condition('nid', $node->nid)
+        ->execute()
+        ->fetchCol();
+
+      if ($nid) {
+        $node->ding_campaign_plus_auto = reset($nid);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_campaign_plus_auto_node_delete($node) {
+  if (in_array($node->type, _ding_campaign_plus_auto_content_types())) {
+    db_delete('ding_campaign_plus_auto')
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
+}
+
+/**
+ * Load configuration for auto generated campaigns.
+ *
+ * If non exists in the database it falls back to default configuration defined
+ * by the modules supporting auto generated campaigns.
+ *
+ * @return array
+ *   The configuration indexed by module.
+ */
+function _ding_campaign_plus_auto_get_configuration() {
+  $config = variable_get('ding_campaign_plus_auto', array());
+
+  // Build options to auto generate campaigns.
+  $data = ding_campaign_plus_rules_info();
+  foreach ($data as $module => $info) {
+    $config[$module] = (empty($config[$module]) ? $info['auto'] : $config[$module] + $info['auto']);
+    $config[$module]['title'] = $info['title'];
+  }
+
+  return $config;
+}
+
+/**
+ * Node edit forms that should have the auto-generated campaign checkbox.
+ *
+ * @return array
+ *   The form ID's for the edit forms.
+ */
+function _ding_campaign_plus_auto_content_types() {
+  return array(
+    'ding_event',
+    'ding_news',
+  );
+}

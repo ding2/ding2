@@ -1,0 +1,21 @@
+//
+// Styling of Fakta box field collection
+
+@import '../base.scss';
+
+.field-collection-item-field-collection-fakta-box {
+  float: left;
+  width: 100%;
+  background-color: $grey;
+  padding: 25px $box-padding;
+  margin-top: 30px;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+  // Mobile
+  @include media($mobile) {
+    margin-bottom: 30px;
+  }
+}

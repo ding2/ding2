@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @file
+ * Adds links to the library's social media platforms.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_social_links_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_social_links_menu() {
+  $items['admin/config/ding/social_links'] = array(
+    'title' => 'Ding social links settings',
+    'description' => 'Administer social links settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_social_links_admin_setting_form'),
+    'access arguments' => array('administer social links settings'),
+    'file' => 'ding_social_links.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_social_links_permission() {
+  return array(
+    'administer social links settings' => array(
+      'title' => t('Administer social links settings'),
+    ),
+  );
+}

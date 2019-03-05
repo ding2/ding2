@@ -11,13 +11,13 @@
  *   Array of ting object ids (faust).
  *
  * @return array
- *   Avaliability info.
+ *   Availability info.
  */
 function fbs_availability_items($provider_ids) {
   $avails = array();
 
   try {
-    $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids);
+    $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids, variable_get('fbs_holdings_branches_blacklist', array()));
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
@@ -25,7 +25,10 @@ function fbs_availability_items($provider_ids) {
 
   $result = array();
   foreach ($avails as $item) {
-    $result[$item->recordId] = array('available' => $item->available, 'reservable' => $item->reservable);
+    $result[$item->recordId] = array(
+      'available' => $item->available,
+      'reservable' => $item->reservable,
+    );
   }
 
   return $result;
@@ -44,10 +47,29 @@ function fbs_availability_holdings($provider_ids) {
   $holdings = array();
 
   try {
-    $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids);
+    $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids, variable_get('fbs_holdings_branches_blacklist', array()));
   }
   catch (Exception $e) {
     watchdog_exception('fbs', $e);
+  }
+
+  module_load_include('inc', 'opensearch', 'opensearch.client');
+
+  // Translate all the fausts to datawell pids at once.
+  $datawell_pids = ding_provider_build_entity_id($provider_ids);
+
+  // Find out with the types of objects we need and load them all at once.
+  $entities = [];
+  $suffix_type = variable_get('fbs_holdings_suffix_type', 'shelf_mark');
+  if ($suffix_type == 'simple') {
+    // Here the entities are keyed by local entity id, so build an array keyed
+    // by datawell pids for easier access.
+    foreach (ding_entity_load_multiple($datawell_pids) as $entity) {
+      $entities[$entity->ding_entity_id] = $entity;
+    }
+  }
+  elseif ($suffix_type == 'shelf_mark') {
+    $entities = opensearch_get_objects_marcxchange($datawell_pids);
   }
 
   $result = array();
@@ -65,7 +87,13 @@ function fbs_availability_holdings($provider_ids) {
       'is_periodical' => FALSE,
     );
 
-    $placement_parts = array('branch', 'department', 'location', 'sublocation');
+    $placement_parts = array(
+      'branch',
+      'department',
+      'location',
+      'sublocation',
+      'materials',
+    );
     foreach ($item->holdings as $item_holding) {
       $result_holding = array(
         'available_count' => 0,
@@ -81,7 +109,102 @@ function fbs_availability_holdings($provider_ids) {
           $result_holding['placement'][] = $item_holding->{$part}->title;
         }
       }
+
+      // Add material description.
+      $material_description = $item_holding->materials;
+      if (variable_get('fbs_show_material_group', 0) && $material_description[0]) {
+        $result_holding['placement'][] = $material_description[0]->materialGroupName;
+      }
+
+      if ($suffix_type == 'simple' && isset($entities[$datawell_pids[$item->recordId]])) {
+        $entity = $entities[$datawell_pids[$item->recordId]];
+        // Get DK5 classification.
+        if ($classification = $entity->getClassification()) {
+          $result_holding['placement'][] = $classification;
+        }
+
+        // Get inverted author.
+        if ($creator = $entity->getInvertedCreators()) {
+          $result_holding['placement'][] = $creator[0];
+        }
+      }
+      elseif ($suffix_type == 'shelf_mark' && isset($entities[$datawell_pids[$item->recordId]])) {
+        $entity = $entities[$datawell_pids[$item->recordId]];
+
+        $field652m = fbs_get_marc_field($entity, '652', 'm');
+        $field652o = fbs_get_marc_field($entity, '652', 'o');
+
+        // For music and non-fiction a special prefix is used.
+        $prefix = '';
+
+        // Music: Field 039.a is present on music materials, so we can use this
+        // is an indicator.
+        if ($field039a = fbs_get_marc_field($entity, '039', 'a')) {
+          $prefix .= fbs_translate_marc($field039a, '039.a');
+
+          // We'll also append additional subfields if present.
+          if ($field039b = fbs_get_marc_field($entity, '039', 'b')) {
+            $prefix .= ' ' . fbs_translate_marc($field039b, '039.b');
+          }
+        }
+        // Non-fiction: The 'sk' marker is in DK5-classification fields, to mark
+        // fiction materials. Everything else has a classification number and is
+        // non-fiction. Subfield 'm' and 'o' can both contain this special
+        // marker, so we check them both to be more resilient against error and
+        // missing data.
+        elseif ($field652m !== 'sk' && $field652o !== 'sk') {
+          // DK5 classification.
+          $prefix .= $field652m;
+
+          // Additional descriptors from the DK5 classification.
+          if ($field652b = fbs_get_marc_field($entity, '652', 'b')) {
+            $prefix .= ' ' . $field652b;
+          }
+          elseif ($field652a = fbs_get_marc_field($entity, '652', 'a')) {
+            $prefix .= ' ' . $field652a;
+            if ($field652h = fbs_get_marc_field($entity, '652', 'h')) {
+              $prefix .= ', ' . $field652h;
+            }
+          }
+        }
+
+        // The shelf mark is generated from a prioritized list of candidates.
+        $candidates = array(
+          '100.a',
+          '110.a',
+          '239.t',
+          '245.a',
+        );
+
+        if ($shelf_mark = fbs_pick_marc_field($entity, $candidates)) {
+          $words = explode(' ', $shelf_mark);
+          $shelf_mark = FALSE;
+
+          // Prefer words marked with a special sign.
+          foreach ($words as &$word) {
+            $word = trim($word);
+            if (strpos($word, '¤') === 0) {
+              $shelf_mark = mb_substr($word, 1);
+            }
+          }
+
+          // If no special mark; use the first word.
+          if (!$shelf_mark) {
+            $shelf_mark = array_values($words)[0];
+          }
+
+          // A neat little trick for mb_ucfirst:
+          // http://stackoverflow.com/questions/2517947/ucfirst-function-for-multibyte-character-encodings#answer-14161325.
+          $shelf_mark = mb_strtoupper(mb_substr($shelf_mark, 0, 1)) . mb_strtolower(mb_substr($shelf_mark, 1));
+        }
+
+        // Generate and append the final holdings suffix.
+        $holdings_suffix = ($prefix ? $prefix . ' > ' : '') . $shelf_mark;
+        $result_holding['placement'][] = $holdings_suffix;
+      }
+
       $placement_string = implode(' > ', $result_holding['placement']);
+
       // Count available materials.
       foreach ($item_holding->materials as $material) {
         $result[$item->recordId]['total_count']++;
@@ -124,19 +247,22 @@ function fbs_availability_holdings($provider_ids) {
       $issues = array();
       $result[$item->recordId]['is_periodical'] = TRUE;
       foreach ($tmp_issues as $issue) {
-        if (!isset($issues[$issue['year']])) {
-          $issues[$issue['year']] = array();
+        // ding_periodical does not like null values.
+        $year = isset($issue['year']) ? $issue['year'] : '0';
+        if (!isset($issues[$year])) {
+          $issues[$year] = array();
         }
 
-        $year = &$issues[$issue['year']];
+        $year_collection = &$issues[$year];
 
-        if (!isset($year[$issue['vol']])) {
-          $year[$issue['vol']] = array(
+        $vol = !empty($issue['vol']) ? $issue['vol'] : '0';
+        if (!isset($year_collection[$vol])) {
+          $year_collection[$vol] = array(
             'local_id' => $issue['local_id'],
             'placement' => array(),
           );
         }
-        $year[$issue['vol']]['placement'][] = array(
+        $year_collection[$vol]['placement'][] = array(
           'reservable' => $item->reservable,
           'available_count' => $issue['available'],
           'location' => $issue['placement'],
@@ -145,8 +271,100 @@ function fbs_availability_holdings($provider_ids) {
       }
       $result[$item->recordId]['issues'] = $issues;
     }
-
   }
 
   return $result;
+}
+
+/**
+ *  Helper to get the value of the specified marc field.
+ */
+function fbs_get_marc_field($entity, $field, $subfield = NULL) {
+  $value = $entity->getValue($field, $subfield);
+
+  // Ensure single value returned if subfield is specified.
+  if (isset($subfield) && is_array($value)) {
+    $value = reset($value);
+  }
+
+  return $value ? $value : NULL;
+}
+
+/**
+ * Helper function to pick marc subfield from a range of candidates.
+ */
+function fbs_pick_marc_field($entity, array $candidates) {
+  foreach ($candidates as $candidate) {
+    list($field, $subfield) = explode('.', $candidate);
+
+    if ($field_value = fbs_get_marc_field($entity, $field, $subfield)) {
+      return $field_value;
+    }
+  }
+  return NULL;
+}
+
+/**
+ * Tranlate a marc string code to a human readable label.
+ */
+function fbs_translate_marc($code, $field) {
+  $translations = _fbs_get_marc_039a_translations();
+
+  if ($field == '039.a') {
+    $translations = _fbs_get_marc_039a_translations();
+  }
+  elseif ($field == '039.b') {
+    // This field contains ISO 3166-1 alpha-2 country codes and we can use the
+    // build in list from the Drupal.
+    // See: http://www.kat-format.dk/danMARC2/Danmarc2.22.htm#pgfId=1574621
+    include_once DRUPAL_ROOT . '/includes/locale.inc';
+    $translations = country_get_list();
+    $code = drupal_strtoupper($code);
+  }
+
+  return isset($translations[$code]) ? $translations[$code] : NULL;
+}
+
+/**
+ * Helper function to hold marc field 039.a machine code translations.
+ *
+ * See: http://www.kat-format.dk/danMARC2/Danmarc2.22.htm#pgfId=1574621
+ */
+function _fbs_get_marc_039a_translations() {
+  return array (
+    'sam' => 'SAMLINGER',
+    'mir' => 'MIDDELALDER/RENÆSSANCE',
+    'mia' => 'MIDDELALDER/RENÆSSANCE. ANTOLOGIER',
+    'avg' => 'AVANTGARDE',
+    'ava' => 'AVANTGARDE. ANTOLOGIER',
+    'ork' => 'ORKESTERMUSIK',
+    'ora' => 'ORKESTERMUSIK. ANTOLOGIER',
+    'kam' => 'KAMMERMUSIK',
+    'kaa' => 'KAMMERMUSIK. ANTOLOGIER',
+    'eti' => 'ET INSTRUMENT',
+    'eta' => 'ET INSTRUMENT. ANTOLOGIER',
+    'vok' => 'VOKALMUSIK',
+    'voa' => 'VOKALMUSIK. ANTOLOGIERø',
+    'opr' => 'OPERAER',
+    'opa' => 'OPERAER. ANTOLOGIER',
+    'otm' => 'OPERETTER/MUSICALS',
+    'ota' => 'OPERETTER/MUSICALS. ANTOLOGIER',
+    'new' => 'NEW AGE',
+    'fol' => 'FOLKEMUSIK',
+    'blu' => 'BLUES',
+    'bla' => 'BLUES. ANTOLOGIER',
+    'jaz' => 'JAZZ',
+    'jaa' => 'JAZZ. ANTOLOGIER',
+    'bef' => 'ROCK',
+    'bea' => 'ROCK. ANTOLOGIER',
+    'und' => 'UNDERHOLDNING',
+    'dau' => 'DANSK UNDERHOLDNING',
+    'fau' => '**FÆRØSK UNDERHOLDNING',
+    'jul' => 'JULEMUSIK',
+    'fil' => 'FILMMUSIK',
+    'tes' => 'TESTPLADER',
+    'mmo' => 'MUSIC MINUS ONE',
+    'hib' => 'HISTORIER. BØRN',
+    'mub' => 'MUSIK. BØRN',
+  );
 }

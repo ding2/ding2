@@ -1,0 +1,248 @@
+<?php
+
+/**
+ * @file
+ * Ding DDBasic.
+ */
+
+define('DING_DDBASIC_COLOR_WHITE', '#ffffff');
+define('DING_DDBASIC_COLOR_BLACK', '#262626');
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function ding_ddbasic_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['alternative_layout_full'] = array(
+    'label' => t('Alternative layout full'),
+    'custom settings' => TRUE,
+  );
+  $entity_info['user']['view modes']['search_result'] = array(
+    'label' => t('Search result'),
+    'custom settings' => TRUE,
+  );
+  $entity_info['profile2']['view modes']['search_result'] = array(
+    'label' => t('Search result'),
+    'custom settings' => TRUE,
+  );
+  $entity_info['node']['view modes']['teaser_no_overlay'] = array(
+    'label' => t('Teaser no overlay'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    // Make changes to the theme_settings.
+    // This alter is placed in the ding_ddbasic module to make sure it's run
+    // after the color module (see ding_ddbasic_module_implements_alter).
+    case 'system_theme_settings':
+      if (isset($form_state['build_info']['args'][0]) && $form_state['build_info']['args'][0] === 'ddbasic') {
+        $form['color']['palette']['primary']['#description'] = t('Is used e.g. as background-color for the main menu, checkboxes and radio-buttons');
+        $form['color']['palette']['secondary']['#description'] = t('Is used e.g. as background-color for the log-in button, read-more buttons');
+
+        // Limit the choices on text colors.
+        $default_value = DING_DDBASIC_COLOR_BLACK;
+        switch ($form['color']['palette']['text']['#default_value']) {
+          case $form['color']['palette']['primary']['#default_value']:
+            $default_value = 'primary';
+            break;
+
+          case $form['color']['palette']['secondary']['#default_value']:
+            $default_value = 'secondary';
+            break;
+        }
+
+        $form['color']['palette']['text'] = array(
+          '#description' => t('Choose a color that is legible on a white background<br />Is used e.g. for panel headers'),
+          '#type' => 'select',
+          '#options' => array(
+            // The primary and secondary value is handled in the theme_settings
+            // submit callback, in the ddbasic theme.
+            'primary' => t('Primary'),
+            'secondary' => t('Secondary'),
+            DING_DDBASIC_COLOR_BLACK => t('Black'),
+          ),
+          '#size' => '1',
+          '#default_value' => $default_value,
+        ) + (isset($form['color']['palette']['text']) ? $form['color']['palette']['text'] : array());
+
+        // Limit the choices on text colors.
+        switch ($form['color']['palette']['text_link']['#default_value']) {
+          case $form['color']['palette']['primary']['#default_value']:
+            $default_value = 'primary';
+            break;
+
+          case $form['color']['palette']['secondary']['#default_value']:
+            $default_value = 'secondary';
+            break;
+        }
+
+        $form['color']['palette']['text_link'] = array(
+          '#description' => t('Choose a color that is legible on a white background<br />Is used for text-links'),
+          '#type' => 'select',
+          '#options' => array(
+            // The primary and secondary value is handled in the theme_settings
+            // submit callback, in the ddbasic theme.
+            'primary' => t('Primary'),
+            'secondary' => t('Secondary'),
+          ),
+          '#size' => '1',
+          '#default_value' => $default_value,
+        ) + (isset($form['color']['palette']['text_link']) ? $form['color']['palette']['text_link'] : array());
+
+        // Limit the choices on text link colors on dark background.
+        $default_value = '#ffffff';
+        if (isset($form['color']['palette']['text_link_on_dark']['#default_value'])) {
+          switch ($form['color']['palette']['text_link_on_dark']['#default_value']) {
+            case $form['color']['palette']['primary']['#default_value']:
+              $default_value = 'primary';
+              break;
+
+            case $form['color']['palette']['secondary']['#default_value']:
+              $default_value = 'secondary';
+              break;
+          }
+        }
+
+        $form['color']['palette']['text_link_on_dark'] = array(
+          '#description' => t('Choose a color that is legible on a dark background<br />Is used for text-links on dark background'),
+          '#type' => 'select',
+          '#options' => array(
+            // The primary and secondary value is handled in the theme_settings
+            // submit callback, in the ddbasic theme.
+            'primary' => t('Primary'),
+            'secondary' => t('Secondary'),
+            DING_DDBASIC_COLOR_WHITE => t('White'),
+          ),
+          '#size' => '1',
+          '#default_value' => $default_value,
+        ) + (isset($form['color']['palette']['text_link_on_dark']) ? $form['color']['palette']['text_link_on_dark'] : array());
+
+        // Limit the choices on text link colors on dark background.
+        switch ($form['color']['palette']['text_link_on_dark']['#default_value']) {
+          case $form['color']['palette']['primary']['#default_value']:
+            $default_value = 'primary';
+            break;
+
+          case $form['color']['palette']['secondary']['#default_value']:
+            $default_value = 'secondary';
+            break;
+        }
+
+        $form['color']['palette']['text_link_on_dark'] = array(
+          '#description' => t('Choose a color that is legible on a dark background<br />Is used for text-links on dark background'),
+          '#type' => 'select',
+          '#options' => array(
+            // The primary and secondary value is handled in the theme_settings
+            // submit callback, in the ddbasic theme.
+            'primary' => t('Primary'),
+            'secondary' => t('Secondary'),
+            DING_DDBASIC_COLOR_WHITE => t('White'),
+          ),
+          '#size' => '1',
+          '#default_value' => $default_value,
+        ) + $form['color']['palette']['text_link_on_dark'];
+
+        $form['color']['palette']['text_on_primary'] = array(
+          '#description' => t('Choose a color that is legible on the primary color'),
+          '#type' => 'select',
+          '#options' => array(
+            DING_DDBASIC_COLOR_WHITE => t('White'),
+            DING_DDBASIC_COLOR_BLACK => t('Black'),
+          ),
+          '#size' => '1',
+        ) + (isset($form['color']['palette']['text_on_primary']) ? $form['color']['palette']['text_on_primary'] : array());
+
+        $form['color']['palette']['text_on_secondary'] = array(
+          '#description' => t('Choose a color that is legible on the secondary color'),
+          '#type' => 'select',
+          '#options' => array(
+            DING_DDBASIC_COLOR_WHITE => t('White'),
+            DING_DDBASIC_COLOR_BLACK => t('Black'),
+          ),
+          '#size' => '1',
+        ) + (isset($form['color']['palette']['text_on_secondary']) ? $form['color']['palette']['text_on_secondary'] : array());
+
+        array_unshift($form['#validate'], 'ding_ddbasic_theme_settings_validate');
+      }
+      break;
+
+    case 'menu_edit_item':
+      if ($form_state['build_info']['args'][0] == 'add') {
+        $form['expanded']['#default_value'] = 1;
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * Add and autofill the expanded checkbox to the node form.
+ */
+function ding_ddbasic_form_node_form_alter(&$form, $form_state) {
+  if (isset($form['menu']['link'])) {
+    $form['menu']['link']['expanded'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Show as expanded'),
+      '#description' => t('If selected and this menu link has children, the menu will always appear expanded.'),
+      '#default_value' => !empty($form['#node']->menu['mlid']) ? $form['#node']->menu['expanded'] : 1,
+    );
+  }
+}
+
+/**
+ * Custom validator for the system_theme_settings form.
+ *
+ * We force the color scheme to be custom, so the elements we've changed to
+ * select types will work.
+ */
+function ding_ddbasic_theme_settings_validate($form, &$form_state) {
+  if ($form_state['values']['scheme'] === 'default') {
+    form_set_value($form['color']['scheme'], '', $form_state);
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function ding_ddbasic_module_implements_alter(&$implementations, $hook) {
+  // Make sure the ding_ddbasic_form_alter comes after the color module's
+  // form_alter, so it can modify the color fields.
+  if ($hook === 'form_alter') {
+    $group = $implementations['ding_ddbasic'];
+    unset($implementations['ding_ddbasic']);
+    $implementations['ding_ddbasic'] = $group;
+  }
+}
+
+/**
+ * Implements hook_field_group_pre_render().
+ */
+function ding_ddbasic_field_group_pre_render(&$element, $group, &$form) {
+  $group->format_settings['instance_settings']['classes'] .= ' field-group-format ' . drupal_html_class($group->group_name);
+}
+
+/**
+ * Implements hook_entity_view_mode_alter().
+ *
+ * Change view mode on teaser if theme settings is set to no-overlay
+ */
+function ding_ddbasic_entity_view_mode_alter(&$view_mode, $context) {
+  // Change view mode on teasers if theme setting is set to no-overlay.
+  if ($context['entity_type'] == 'node' && $view_mode == 'teaser') {
+    if (theme_get_setting('ding_news_disable_overlay') && $context['entity']->type == 'ding_news') {
+      $view_mode = 'teaser_no_overlay';
+    }
+    if (theme_get_setting('ding_group_disable_overlay') && $context['entity']->type == 'ding_group') {
+      $view_mode = 'teaser_no_overlay';
+    }
+  }
+
+  if ($context['entity_type'] == 'ting_object' && $view_mode == 'teaser' && theme_get_setting('ting_object_disable_overlay')) {
+    $view_mode = 'teaser_no_overlay';
+  }
+}

@@ -20,15 +20,24 @@ function ding_toggle_format_block_info() {
  * Implements hook_block_view().
  */
 function ding_toggle_format_block_view($delta = '') {
-
-  drupal_add_js(drupal_get_path('module', 'ding_toggle_format') . '/js/ding_toggle_format.js');
-  drupal_add_js(drupal_get_path('module', 'ding_toggle_format') . '/js/jquery.cookie.min.js');
-
-  drupal_add_css(drupal_get_path('module', 'ding_toggle_format') . '/css/ding_toggle_format.css');
+  $path = drupal_get_path('module', 'ding_toggle_format');
 
   return array(
     'subject' => t('Ding toggle format'),
-    'content' => ding_toggle_format_render_link(),
+    'content' => array(
+      '#markup' => ding_toggle_format_render_link(),
+      '#attached' => array(
+        'css' => array(
+          $path . '/css/ding_toggle_format.css',
+        ),
+        'js' => array(
+          $path . '/js/ding_toggle_format.js',
+        ),
+        'libraries_load' => array(
+          array('js.cookie'),
+        ),
+      ),
+    ),
   );
 }
 

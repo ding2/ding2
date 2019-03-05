@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Handle module updates.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_app_content_rss_install() {
+  db_update('system')
+    ->fields(array('weight' => 10))
+    ->condition('name', 'ding_app_content_rss', '=')
+    ->execute();
+}
+
+/**
+ * Update module weight.
+ */
+function ding_app_content_rss_update_7001(&$sandbox) {
+  ding_app_content_rss_install();
+}
+
+/**
+ * Remove old non-global flags.
+ */
+function ding_app_content_rss_update_7002(&$sandbox) {
+  db_query("DELETE fc FROM flag_content fc
+      JOIN node n ON n.nid = fc.content_id
+      WHERE n.type = 'ding_news' and fc.fid = 3")
+    ->execute();
+
+  db_query("DELETE fc FROM flag_counts fc
+      JOIN node n ON n.nid = fc.content_id
+      WHERE n.type = 'ding_news' and fc.fid = 3")
+    ->execute();
+}

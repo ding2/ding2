@@ -6,43 +6,70 @@
  */
 (function ($) {
   "use strict";
-  
+
+  window.sharer = function (community) {
+    var
+      share_url = encodeURIComponent(location.href),
+      title = encodeURIComponent(document.title),
+      options = {},
+      window_name = 'socials',
+      url = '';
+
+    switch (community) {
+      case 'facebook':
+        url = 'http://www.facebook.com/sharer/sharer.php?' +
+            'u=' + share_url +
+            '&amp;t=' + title;
+        options.width = 720;
+        options.height = 460;
+        break;
+
+      case 'twitter':
+        url = 'https://twitter.com/share?' +
+            'url=' + share_url +
+            '&amp;text=' + title;
+
+        options.width = 720;
+        options.height = 460;
+        break;
+
+      case 'mail':
+        window_name = false;
+        document.location.href = "mailto:?subject=" + title + "&body=" + title + "%0D%0A"+ share_url;
+        break;
+    }
+
+    if (window_name !== false) {
+      var window_features = [];
+      for (var i in options) {
+        window_features.push(i + '=' + options[i]);
+      }
+
+      window.open(url, window_name, window_features.join(','));
+    }
+};
+
   Drupal.behaviors.ding_sharer = {
     attach: function(context) {
-    
-      $('a.sharer-button', context).bind('click', function (evt) {
+
+      $('.share-buttons a', context).bind('click', function (evt) {
+        var community = '';
+
         evt.preventDefault();
-        var
-          share_url = encodeURIComponent(location.href),
-          title = encodeURIComponent(document.title),
-          options = {},
-          window_name = 'socials',
-          
-          url = '';
-          
-        if ($(this).hasClass('sharer-facebook')) {
-          url = 'http://www.facebook.com/sharer/sharer.php?' +
-              'u=' + share_url +
-              '&amp;t=' + title;
-          options.width = 720;
-          options.height = 460;
-        } else if ($(this).hasClass('sharer-twitter')) {
-          url = 'https://twitter.com/share?' +
-              'url=' + share_url +
-              '&amp;text=' + title;
 
-          options.width = 720;
-          options.height = 460;
+        if ($(this).hasClass('facebook-share')) {
+          community = 'facebook';
         }
-        
-        var window_features = [];
-        for (var i in options) {
-          window_features.push(i + '=' + options[i]);
+        else if ($(this).hasClass('twitter-share')) {
+          community = 'twitter';
+        }
+        else if ($(this).hasClass('mail-share')) {
+          community = 'mail';
         }
 
-        window.open(url, window_name, window_features.join(','));
+        sharer(community);
       });
     }
   };
-  
+
 }(jQuery));

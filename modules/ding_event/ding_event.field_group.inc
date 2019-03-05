@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function ding_event_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -24,7 +24,6 @@ function ding_event_field_group_info() {
     'weight' => '6',
     'children' => array(
       0 => 'field_ding_event_files',
-      1 => 'field_ding_event_materials',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -37,7 +36,7 @@ function ding_event_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_ding_event_attachments|node|ding_event|form'] = $field_group;
+  $field_groups['group_ding_event_attachments|node|ding_event|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -66,7 +65,7 @@ function ding_event_field_group_info() {
       'formatter' => 'collapsible',
     ),
   );
-  $export['group_ding_event_content|node|ding_event|form'] = $field_group;
+  $field_groups['group_ding_event_content|node|ding_event|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -81,11 +80,15 @@ function ding_event_field_group_info() {
     'label' => 'Date, location and price',
     'weight' => '4',
     'children' => array(
-      0 => 'field_ding_event_date',
-      1 => 'field_ding_event_location',
-      2 => 'field_ding_event_price',
-      3 => 'og_group_ref',
-      4 => 'ding_event_groups_ref',
+      0 => 'ding_event_groups_ref',
+      1 => 'field_ding_event_date',
+      2 => 'field_ding_event_list_filter',
+      3 => 'field_ding_event_location',
+      4 => 'field_ding_event_price',
+      5 => 'field_ding_event_ticket_link',
+      6 => 'og_group_ref',
+      7 => 'field_ding_event_place',
+      8 => 'field_ding_event_organizers',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -98,7 +101,7 @@ function ding_event_field_group_info() {
       'formatter' => 'collapsible',
     ),
   );
-  $export['group_ding_event_date_loc_price|node|ding_event|form'] = $field_group;
+  $field_groups['group_ding_event_date_loc_price|node|ding_event|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -127,7 +130,7 @@ function ding_event_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_ding_event_images|node|ding_event|form'] = $field_group;
+  $field_groups['group_ding_event_images|node|ding_event|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -143,8 +146,8 @@ function ding_event_field_group_info() {
     'weight' => '3',
     'children' => array(
       0 => 'field_ding_event_category',
-      1 => 'field_ding_event_target',
-      2 => 'field_ding_event_tags',
+      1 => 'field_ding_event_tags',
+      2 => 'field_ding_event_target',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -157,7 +160,7 @@ function ding_event_field_group_info() {
       'formatter' => 'collapsible',
     ),
   );
-  $export['group_ding_event_tagging|node|ding_event|form'] = $field_group;
+  $field_groups['group_ding_event_tagging|node|ding_event|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -185,7 +188,7 @@ function ding_event_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_ding_event_ting|node|ding_event|form'] = $field_group;
+  $field_groups['group_ding_event_ting|node|ding_event|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -216,7 +219,43 @@ function ding_event_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $export['group_left_col_search|node|ding_event|search_result'] = $field_group;
+  $field_groups['group_left_col_search|node|ding_event|search_result'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_left|node|ding_event|default';
+  $field_group->group_name = 'group_left';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'ding_event';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Left',
+    'weight' => '2',
+    'children' => array(
+      0 => 'field_ding_event_location',
+      1 => 'field_ding_event_target',
+      2 => 'field_ding_event_title_image',
+      3 => 'og_group_ref',
+      4 => 'field_ding_event_organizers',
+      5 => 'field_ding_event_place',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Left',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_left|node|ding_event|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -234,7 +273,6 @@ function ding_event_field_group_info() {
       0 => 'field_ding_event_date',
       1 => 'field_ding_event_lead',
       2 => 'field_ding_event_tags',
-      3 => 'field_place2book',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -250,7 +288,56 @@ function ding_event_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $export['group_right_col_search|node|ding_event|search_result'] = $field_group;
+  $field_groups['group_right_col_search|node|ding_event|search_result'] = $field_group;
 
-  return $export;
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_right|node|ding_event|default';
+  $field_group->group_name = 'group_right';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'ding_event';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Right',
+    'weight' => '3',
+    'children' => array(
+      0 => 'field_ding_event_body',
+      1 => 'field_ding_event_date',
+      2 => 'field_ding_event_files',
+      3 => 'field_ding_event_lead',
+      4 => 'field_ding_event_tags',
+      5 => 'webform',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Right',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_right|node|ding_event|default'] = $field_group;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Attachments');
+  t('Content');
+  t('Date, location and price');
+  t('Images');
+  t('Left');
+  t('Left column');
+  t('Right');
+  t('Right column');
+  t('Tagging');
+  t('Ting');
+
+  return $field_groups;
 }

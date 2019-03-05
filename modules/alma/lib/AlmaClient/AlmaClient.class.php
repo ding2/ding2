@@ -669,19 +669,22 @@ class AlmaClient {
           // successful. Even if this is not the case any error in the current
           // renewal is irrelevant as the loan has previously been renewed so
           // don't report it as such.
-          // Also renewalIsDenied marked as 'no' is considered a successful
-          // renewal.
-          if ($message == 'isRenewedToday' || $renewable == 'yes' || ($message == 'renewalIsDenied' && $renewable == 'no')) {
+          if ($message == 'isRenewedToday' || $renewable == 'yes') {
             $reservations[$id] = TRUE;
           }
+          // When renewalIsDenied marked as 'no' it is probably a ILL loan
+          // which has been successfully requested to be renewed.
+          elseif ($message == 'renewalIsDenied' && $renewable == 'no') {
+            $reservations[$id] = 'requested';
+          }
           elseif ($message == 'maxNofRenewals') {
-            $reservations[$id] = t('Maximum number of renewals reached');
+            $reservations[$id] = 'maxnum';
           }
           elseif ($message == 'copyIsReserved') {
-            $reservations[$id] = t('The material is reserved by another loaner');
+            $reservations[$id] = 'reserved';
           }
           else {
-            $reservations[$id] = t('Unable to renew material');
+            $reservations[$id] = FALSE;
           }
         }
       }
@@ -1162,4 +1165,3 @@ class AlmaClientUserAlreadyExistsError extends Exception { }
 class AlmaClientBorrCardNotFound extends Exception { }
 
 class AlmaClientReservationNotFound extends Exception { }
-

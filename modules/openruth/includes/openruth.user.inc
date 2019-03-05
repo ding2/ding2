@@ -17,18 +17,15 @@
  *
  */
 function openruth_user_authenticate($name, $pincode) {
-  $return = array(
-    'success' => FALSE,
-  );
+  $return = array();
   $res = openruth_client_invoke('user_check', $name, $pincode);
 
   if (is_string($res)) {
     watchdog('openruth', 'Error in user_check: @error', array('@error' => $res), WATCHDOG_ERROR);
-    return $return;
+    throw new DingProviderUserAuthFailure();
   }
   elseif (!$res || !$res->userFound || !$res->userPinCodeOk) {
-    // No reply or not found.
-    return $return;
+    throw new DingProviderUserAuthFailure();
   }
 
   $return['user']['blocked'] = FALSE;
@@ -68,7 +65,7 @@ function openruth_user_authenticate($name, $pincode) {
  *   Drupal user account object.
  */
 function openruth_user_clear_cache($account) {
-  $creds = ding_user_get_creds($account);
+  $creds = ding_user_get_creds();
   // Update user status cache.
   _openruth_user_status($creds, TRUE);
 }
@@ -88,7 +85,7 @@ function openruth_user_update_pincode($account, $new_pincode) {
   $result = array();
 
   if (isset($new_pincode)) {
-    $creds = ding_user_get_creds($account);
+    $creds = ding_user_get_creds();
     $res = openruth_client_invoke('update_userinfo', $creds['name'], $creds['pass'], array('pass' => $new_pincode));
     if ($res !== TRUE) {
       // Call failed, throw exception.
@@ -110,4 +107,16 @@ function openruth_user_update_pincode($account, $new_pincode) {
   }
 
   return $result;
+}
+
+/**
+ * Get the provider id.
+ */
+function openruth_user_get_provider_id($account) {
+  $creds = ding_user_get_creds();
+  if (isset($creds['name'])) {
+    return $creds['name'];
+  }
+
+  return NULL;
 }

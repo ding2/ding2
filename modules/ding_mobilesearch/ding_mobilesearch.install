@@ -47,3 +47,30 @@ function ding_mobilesearch_uninstall() {
 function ding_mobilesearch_update_7000() {
   ding_mobilesearch_default_config();
 }
+
+/**
+ * Adding permissions for local administrator.
+ */
+function ding_mobilesearch_update_7001() {
+  // Fetching flag options.
+  $options = db_select('flags', 'f')
+    ->fields('f', array('options'))
+    ->condition('name', 'push_to_mongo')
+    ->execute()
+    ->fetchField();
+
+  $options = unserialize($options);
+  // Setting local admin role.
+  $options['roles']['flag'][] = '6';
+  $options['roles']['unflag'][] = '6';
+
+  $new_options = serialize($options);
+
+  // Updating flag options with new permissions.
+  db_update('flags')
+    ->fields(array(
+      'options' => $new_options,
+    ))
+    ->condition('name', 'push_to_mongo')
+    ->execute();
+}

@@ -1,10 +1,10 @@
 (function ($) {
 
-  Drupal.behaviors.ding_campaing_init = {
+  Drupal.behaviors.ding_campaign_init = {
       bindAutocomplete: function(obj, type) {
         // Add autocomplete behavior to 'rule value' input.
         $(obj).find('input.autocomplete')
-        .val(Drupal.settings.ding_campaing_init.autocompleteUrl + type)
+        .val(Drupal.settings.ding_campaign_init.autocompleteUrl + type)
         .removeClass('autocomplete-processed')
         .end()
         .find('input.form-text')
@@ -25,7 +25,7 @@
 
         if (value == 'rule_page' || value == 'rule_event' || value == 'rule_news' || value == 'rule_taxonomy' || value == 'rule_library') {
           // Add autocomplete.
-          Drupal.behaviors.ding_campaing_init.bindAutocomplete($context, value);
+          Drupal.behaviors.ding_campaign_init.bindAutocomplete($context, value);
         }
       },
 
@@ -34,7 +34,7 @@
         $('.ding-campaign-rule', context).once('ding_campaign_init_start').each(function(){
           var $context = $(this);
           // Rebuild autocomplete.
-          Drupal.behaviors.ding_campaing_init.rebuildAutocomplete($context);
+          Drupal.behaviors.ding_campaign_init.rebuildAutocomplete($context);
 
           // Hide rule value for generic type.
           if ($('select option:selected', $context).val() == 'rule_generic') {
@@ -56,7 +56,7 @@
 
             // Remove autocomplete.
             // Needed to prevent duplicating autocomplete behavior.
-            Drupal.behaviors.ding_campaing_init.rebuildAutocomplete($context, value);
+            Drupal.behaviors.ding_campaign_init.rebuildAutocomplete($context, value);
           }
 
           // Clear rule value on rule type change.

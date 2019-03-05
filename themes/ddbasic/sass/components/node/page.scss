@@ -1,0 +1,176 @@
+//
+// Styling of content type Ding Page
+
+@import '../../base.scss';
+
+.node-ding-page {
+
+  // ==========================================================================
+  // Teaser
+  // ==========================================================================
+
+  &.node-teaser {
+    a {
+      @include aspect-ratio-background-image(1, 1);
+      border-radius: $round-corner;
+      &::before {
+        @include transition(background-color $speed $ease);
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $charcoal-opacity-light;
+        border-radius: $round-corner;
+      }
+      // Hover
+      &:hover {
+        &::before {
+          background-color: $charcoal-opacity-dark;
+        }
+      }
+    }
+    .page-text {
+      @include linear-gradient(
+        transparent 0%,
+        $charcoal-opacity-extra-dark 100%
+      );
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      padding: 25px $box-padding $box-padding;
+      color: $white;
+      border-bottom-right-radius: $round-corner;
+      border-bottom-left-radius: $round-corner;
+    }
+    h3.title {
+      @include font('display');
+      margin-bottom: 0;
+      // Tablet
+      @include media($tablet) {
+        @include font('display-small');
+      }
+    }
+  }
+
+  // ==========================================================================
+  // Teaser no overlay
+  // ==========================================================================
+
+  &.node-teaser-no-overlay {
+    .ding-page-image {
+      @include aspect-ratio-background-image(1,1);
+      margin-bottom: 14px;
+      overflow: hidden;
+      border-radius: $round-corner;
+      img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+      }
+    }
+
+    h3.title {
+      @include transition(color $speed $ease);
+      @include font('display');
+      color: $color-standard-text;
+      // Tablet
+      @include media($tablet) {
+        @include font('display-small');
+      }
+    }
+    a:hover {
+      h3.title {
+        color: $color-text-link;
+      }
+    }
+  }
+
+  // ==========================================================================
+  // Full
+  // ==========================================================================
+
+  &.node-full {
+    .field-name-field-ding-page-title-image {
+      margin-bottom: 25px;
+    }
+    .field-name-field-ding-page-lead,
+    .field-name-field-ding-page-body {
+      @include span-columns(5 of 8);
+      margin-bottom: 30px;
+      p:last-child {
+        margin-bottom: 0;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(8);
+      }
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+    .field-name-field-ding-page-files {
+      @include span-columns(6 of 8);
+      margin: 0 0 30px;
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(8 of 8);
+      }
+
+      // Mobile
+      @include media($mobile) {
+        margin: 15px 0 30px;
+      }
+
+      .field-label {
+        @include font('base-bold');
+      }
+      .file-type {
+        margin-left: 6px;
+      }
+    }
+    .field-name-field-ding-page-tags {
+      @include span-columns(6 of 8);
+      padding: 10px 0;
+      border-top: 1px solid $grey-medium;
+      border-bottom: 1px solid $grey-medium;
+      margin-bottom: 30px;
+
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(8 of 8);
+      }
+      .field-label {
+        @include font('base-bold');
+      }
+      .field-items .field-item {
+        display: inline;
+        margin-right: 15px;
+      }
+    }
+    .webform-client-form {
+      @include span-columns(5 of 8);
+      clear: left;
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(8);
+      }
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+  }
+}

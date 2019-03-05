@@ -1,0 +1,44 @@
+//
+// Styling of p2 views
+
+@import '../base.scss';
+
+// ==========================================================================
+// Draggable views
+// ==========================================================================
+tr.draggable {
+  td:first-child {
+    width: getColumn(1 of 8);
+  }
+  .element-hidden:first-child + td {
+    padding-left: 15px;
+  }
+  .tabledrag-handle {
+    width: 20px;
+    height: 20px;
+    margin-left: 0;
+    .handle {
+      position: relative;
+      background: none;
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      padding: 0;
+      &::before {
+        content: "\e917";
+        position: absolute;
+        right: 0;
+        top: 0;
+        font-family: 'icomoon';
+        font-size: 20px;
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        color: $charcoal-opacity-dark;
+      }
+    }
+  }
+}

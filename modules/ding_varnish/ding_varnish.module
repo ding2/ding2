@@ -87,6 +87,7 @@ function ding_varnish_init() {
   if (empty($_POST) && user_is_logged_in()) {
     // Get the roles selected.
     $ding_varnish_role = variable_get('ding_varnish_role', 2);
+
     if (isset($user->roles[$ding_varnish_role]) && count($user->roles) == 2) {
       // Role was cacheable.
       $cacheable = TRUE;
@@ -139,6 +140,21 @@ function ding_varnish_page_build() {
       // Set header to mark this as candidate for caching.
       drupal_add_http_header('X-Drupal-Varnish-Cache', '1');
     }
+  }
+
+  // There are two cases where we shouldn't instruct external proxies to cache
+  // with max-age property in the Cache-Control header:
+  // 1. If any mesagges was set during the request with drupal_set_message, to
+  // avoid these messages being permanently cached in Varnish.
+  // 2. If current user is the anonymous user and Drupal or some other module,
+  // has marked this page as uncacheable. We need to make sure to only check
+  // drupal_page_is_cacheable(), when to user is anonymous, as it will always
+  // be set to FALSE by Drupal for authenticated users. But when user is
+  // anonymous, we need to respect it. For example, the honeypot module will
+  // try to make pages with honeypot enabled forms non-cacheable by using
+  // drupal_page_is_cacheable().
+  if (drupal_get_messages(NULL, FALSE) || (!user_is_logged_in() && !drupal_page_is_cacheable())) {
+    $max_age = 0;
   }
 
   // Add header "no-cache" to make sure that the browser re-checks Varnish for

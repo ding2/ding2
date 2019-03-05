@@ -42,7 +42,7 @@ function ding_library_library_list_content_type_render($subtype, $conf, $panel_a
   if (isset($context[1]->data)) {
     $library = $context[1]->data;
     $uri = entity_uri('node', $library);
-    $selected_url = drupal_lookup_path('alias', $uri['path']) . '/' . $conf['slug']  . $suffix;
+    $selected_url = drupal_lookup_path('alias', $uri['path']) . '/' . $conf['slug'] . $suffix;
   }
 
   // Get all active library title and nid's.
@@ -66,12 +66,35 @@ function ding_library_library_list_content_type_render($subtype, $conf, $panel_a
     }
 
     foreach ($nodes as $node) {
-      $uri = drupal_lookup_path('alias', 'node/' . $node->nid) . '/' . $conf['slug']  . $suffix;
+      $uri = drupal_lookup_path('alias', 'node/' . $node->nid) . '/' . $conf['slug'] . $suffix;
       $items[$uri] = $node->title;
     }
 
     // Generate the select box form.
-    $block->content = drupal_get_form('ding_library_library_list_select_library', $items, $context, $selected_url);
+    $links = array();
+
+    foreach ($items as $href => $title) {
+      $links[] = array(
+        'title' => $title,
+        'href' => $href,
+        'attributes' => array('class' => array('list-item')),
+      );
+    }
+
+    $block->content = array(
+      '#theme' => 'links',
+      '#links' => $links,
+      '#attributes' => array(
+        'class' => array('list-items'),
+      ),
+      '#heading' => array(
+        'text' => t('Select library'),
+        'level' => 'h2',
+        'class' => array('list-title', 'sub-menu-title'),
+      ),
+      '#prefix' => '<div class="select-list">',
+      '#suffix' => '</div>',
+    );
   }
 
   return $block;
@@ -90,39 +113,6 @@ function ding_library_library_list_sort_title($a, $b) {
   }
 
   return strcasecmp($a->title, $b->title);
-}
-
-/**
- * Form which creates a select box with available libraries.
- */
-function ding_library_library_list_select_library($form, &$form_state, $items, $context, $selected_url) {
-  $form = array();
-
-  $form['select_library'] = array(
-    '#type' => 'select',
-    '#title' => t('Choose library'),
-    '#options' => $items,
-    '#attributes' => array('onchange' => "form.submit('select_library');"),
-    '#default_value' => $selected_url,
-  );
-
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#attributes' => array(
-      'class' => array('button'),
-      'style' => array('display: none;'),
-    ),
-    '#value' => t('Show'),
-  );
-  
-  return $form;
-}
-
-/**
- * Submit handler for the libraries list form.
- */
-function ding_library_library_list_select_library_submit($form, &$form_state) {
-  drupal_goto($form_state['values']['select_library']);
 }
 
 /**
@@ -161,4 +151,3 @@ function ding_library_library_list_content_type_edit_form_submit(&$form, &$form_
     $form_state['conf'][$key] = $form_state['values'][$key];
   }
 }
-

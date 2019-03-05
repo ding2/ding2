@@ -21,10 +21,18 @@ function ding_notifications_ctools_plugin_directory($owner, $plugin_type) {
  */
 function ding_notifications_clear_cache($account = NULL) {
   global $user;
-  
+
   if ($account === NULL) {
     $account = $user;
   }
-  
+
   return cache_clear_all(DING_NOTIFICATIONS_CACHE_PREFIX . ':' . $account->uid, 'cache');
+}
+
+/**
+ * Implements hook_ding_user_frontend_build_menu_alter().
+ */
+function ding_notifications_ding_user_frontend_build_menu_alter(&$menu, $menu_item_defaults) {
+  $menu['user/%/view']['#title'] = t('My library');
+  $menu['user/%/view']['#weight'] = 3;
 }

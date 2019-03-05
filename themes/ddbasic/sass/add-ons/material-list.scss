@@ -1,0 +1,79 @@
+//
+// Styling of material lists in specific panels
+
+@import '../base.scss';
+
+.pane-top-recommendation-list,
+.pane-recommendation-list,
+.pane-new-materials-covers,
+.pane-inspiration-page-covers {
+  .search-results {
+    ul.list {
+      float: left;
+      width: 100%;
+      li.list-item {
+        @include span-columns(1.7142857);
+        @include omega(7n);
+        margin-bottom: getGutter();
+        background-color: $black;
+        // Tablet
+        @include media($tablet) {
+          @include omega-reset(7n, 12);
+          @include span-columns(2.4);
+          @include omega(5n);
+        }
+
+        // Mobil
+        @include media($mobile) {
+          @include omega-reset(5n, 12);
+          @include span-columns(6);
+          @include omega(2n);
+        }
+        img {
+          @include transition(opacity $speed $ease);
+          box-shadow: #000 0 0 0; // Fixes width error on hover
+        }
+        .no-touch & {
+          a:hover {
+            img {
+              opacity: 0.3;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.pane-new-materials-covers,
+.pane-inspiration-page-covers {
+  .new-materials-title {
+    h1 {
+      margin-bottom: 20px;
+      // Mobile
+      @include media($mobile) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+.pane-top-recommendation-list,
+.pane-recommendation-list {
+  // ==========================================================================
+  // ADHL
+  // ==========================================================================
+  .adhl-header {
+    .adhl-title {
+      h2 {
+        @include font('display-large');
+        color: $color-text;
+        margin-bottom: 20px;
+        // Mobile
+        @include media($mobile) {
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}

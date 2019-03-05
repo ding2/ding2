@@ -30,24 +30,38 @@ function ding_ting_frontend_menu() {
  * Implements hook_entity_info_alter().
  */
 function ding_ting_frontend_entity_info_alter(&$entity_info) {
-
-  $entity_info['ting_object']['view modes'] += array(
-    'collection_primary' => array(
-      'label' => t('Primary collection object'),
-      'custom settings' => TRUE,
-    ),
-    'collection_list' => array(
-      'label' => t('Collection listing'),
-      'custom settings' => TRUE,
-    ),
-    'search_result' => array(
-      'label' => t('Search result'),
-      'custom settings' => TRUE,
-    ),
-  );
-
+  if (isset($entity_info['ting_object'])) {
+    if (isset($entity_info['ting_object']['view modes'])) {
+      $entity_info['ting_object']['view modes'] = [];
+    }
+    $entity_info['ting_object']['view modes'] += array(
+      'collection_primary' => array(
+        'label' => t('Primary collection object'),
+        'custom settings' => TRUE,
+      ),
+      'collection_list' => array(
+        'label' => t('Collection listing'),
+        'custom settings' => TRUE,
+      ),
+      'search_result' => array(
+        'label' => t('Search result'),
+        'custom settings' => TRUE,
+      ),
+      'reference_teaser' => array(
+        'label' => t('Reference teaser'),
+        'custom settings' => TRUE,
+      ),
+      'teaser' => array(
+        'label' => t('Teaser'),
+        'custom settings' => TRUE,
+      ),
+      'teaser_no_overlay' => array(
+        'label' => t('Teaser no overlay'),
+        'custom settings' => TRUE,
+      ),
+    );
+  }
 }
-
 
 /**
  * Implements hook_ding_entity_view().
@@ -62,5 +76,33 @@ function ding_ting_frontend_ding_entity_view($entity, $view_mode) {
   }
 
   $entity->content['#groups']['group_holdings_available']->format_settings['formatter'] = $modified_view_mode;
+}
 
+/**
+ * Implements form_FORM_ID_alter().
+ *
+ * Altering the sort form element to streamline the design.
+ */
+function ding_ting_frontend_form_ting_search_sort_form_alter(&$form, &$form_state, $form_id) {
+  $form['#attributes']['class'][] = 'form-search-sort';
+  $form['#attributes']['class'][] = 'js-form-search-sort';
+
+  $form['sort']['#title'] = t('Sorted by', array(), array('context' => 'opensearch_ranking'));
+
+  // We need to create an element containing all the select options as HTML
+  // elements. This is used by Javascript to adjust the select box size, which
+  // cant be done just with CSS. These labels are hidden with CSS, and we're
+  // adding aria-hidden to make sure these elements doesnt get read by
+  // by screen-readers.
+  $hidden_labels_html = '<div class="form-search-sort__hidden-labels js-form-search-sort-labels" aria-hidden="true">';
+
+  foreach ($form['sort']['#options'] as $option) {
+    $hidden_labels_html .= '<label aria-hidden="true">' . $option . '</label>';
+  }
+
+  $hidden_labels_html .= '</div>';
+
+  $form['sort']['#suffix'] = $hidden_labels_html;
+
+  drupal_add_js(drupal_get_path('module', 'ding_ting_frontend') . '/js/select_autosize.js');
 }

@@ -3132,7 +3132,7 @@ msgstr ""
 
 #: /index.php
 msgid "My files"
-msgstr ""
+msgstr "Mine filer"
 
 #: /index.php
 msgid "Display a list of all nodes in queue '@queue'"
@@ -3340,10 +3340,6 @@ msgstr ""
 
 #: /index.php
 msgid "Management"
-msgstr ""
-
-#: /index.php
-msgid "User menu"
 msgstr ""
 
 #: /index.php
@@ -7639,10 +7635,6 @@ msgid "Taxonomy term id"
 msgstr ""
 
 #: /index.php
-msgid "All terms"
-msgstr ""
-
-#: /index.php
 msgid "Ding library address info"
 msgstr ""
 
@@ -9901,7 +9893,7 @@ msgstr ""
 
 #: /user
 msgid "Lånerstatus"
-msgstr "Lånerstatus"
+msgstr "Mine sider"
 
 #: /?q=autologout_ahah_set_last
 msgid "JS Logout AHAH Set Last"
@@ -9917,7 +9909,7 @@ msgstr "Total"
 
 #: /user/6/status/debts
 msgid "Mellemværende"
-msgstr "Mellemværende"
+msgstr "Betal gebyrer"
 
 #: /user/6/status/debts
 msgid "Betalingsbetingelser"
@@ -9929,11 +9921,11 @@ msgstr "Vi modtager følgende kort"
 
 #: /user/6/status/debts
 msgid "Payment of library dues:"
-msgstr ""
+msgstr "Betaling af gebyrer"
 
 #: /user/6/status/debts
 msgid "Payment of library dues"
-msgstr ""
+msgstr "Betaling af gebyrer"
 
 #: /user/6/status/debts /admin/config/payment/dibs?render=overlay
 msgid "Ding DIBS debts payment"
@@ -9941,7 +9933,7 @@ msgstr ""
 
 #: /payment/dibs/redirect/94646b95c1f0bdff451f29e4903e97894673e254
 msgid "Redirecting to DIBS payment"
-msgstr ""
+msgstr "Omdirigerer til DIBS"
 
 #: /user/6/edit
 #: /user/5/edit?destination=admin%2Fpeople%3Frender%3Doverlay&render=overlay
@@ -10153,7 +10145,7 @@ msgstr ""
 
 #: /node/26/edit?render=overlay /node/add/ding-event
 msgid "Images"
-msgstr ""
+msgstr "Billeder"
 
 #: profiles/ding2/modules/contrib/autosave/autosave.js
 msgid "Ignore/Delete saved form"
@@ -13203,7 +13195,7 @@ msgid "Large filetype icon"
 msgstr "Stort filtypeikon"
 
 msgid "Link"
-msgstr "Link"
+msgstr "Se online"
 
 msgid "Plain text"
 msgstr "Ren tekst"
@@ -14447,7 +14439,7 @@ msgid "The URL of the site's login page."
 msgstr "URLen til sitets login-side."
 
 msgid "Logged in user"
-msgstr "Brugeren som er logget ind"
+msgstr "Velkommen"
 
 msgid "Current date"
 msgstr "Aktuel dato"
@@ -19269,7 +19261,7 @@ msgid "n/a"
 msgstr "n/a"
 
 msgid "Upload"
-msgstr "Upload"
+msgstr "Hent"
 
 msgid "type"
 msgstr "type"
@@ -21767,7 +21759,7 @@ msgid "Clean URLs"
 msgstr "Rene URLer"
 
 msgid "My account"
-msgstr "Min konto"
+msgstr "Mine sider"
 
 msgid "Number of topics"
 msgstr "Antal emner"
@@ -27790,9 +27782,6 @@ msgstr "Udvid søgemodulet"
 msgid "By default, the Search module only supports exact keyword matching in content searches. You can modify this behavior by installing a language-specific stemming module for your language (such as <a href=\"http://drupal.org/project/porterstemmer\">Porter Stemmer</a> for American English), which allows words such as walk, walking, and walked to be matched in the Search module. Another approach is to use a third-party search technology with stemming or partial word matching features built in, such as <a href=\"http://drupal.org/project/apachesolr\">Apache Solr</a> or <a href=\"http://drupal.org/project/sphinx\">Sphinx</a>. These and other <a href=\"@contrib-search\">search-related contributed modules</a> can be downloaded by visiting Drupal.org."
 msgstr "Som standard understøtter Search-modulet kun eksakte matches på nøgleord når der søges efter indhold. Du kan ændre denne opførsel ved at installere et sprog-specifikt stemming-module (som f.eks. <a href=\"http://drupal.org/project/danishstemmer\">Danish stemmer</a> hvis dit site er på dansk), som gør at ord som bygning, bygninger og bygningerne alle bliver fundet af Search-modulet hvis du søger efter bygninger. En anden tilgang er at bruge en ekstern søgemaskine med indbyggede muligheder for stemming eller match på dele af ord, som f.eks. <a href=\"http://drupal.org/project/apachesolr\">Apache Solr</a> eller <a href=\"http://drupal.org/project/sphinx\">Sphinx</a>. Disse og andre <a href=\"@contrib-search\">søge-related tredjepartsmoduler</a> kan downloaded fra Drupal.org."
 
-msgid "<ul> li>Check if your spelling is correct.</li> li>Remove quotes around phrases to search for each word individually. <em>bike shed</em> will often show more results than <em>&quot;bike shed&quot;</em>.</li> li>Consider loosening your query with <em>OR</em>. <em>bike OR shed</em> will often show more results than <em>bike shed</em>.</li> ul>"
-msgstr "<ul>\r li>Undersøg om stavemåden er korrekt.</li>\r li>Fjern anførselstegn omkring udtryk for at søge efter de enkelte ord: <em>bike shed</em> vil ofte give flere resultater end <em>\"bike shed\"</em>.</li>\r li>Overvej at udvide din søging med <em>OR</em>. <em>bike OR shed</em> vil ofte give flere resultater end <em>bike shed</em>.</li>\r ul>"
-
 msgid "Configure relevance settings for search and other indexing options."
 msgstr "Tilpas relevansindstillinger for søgning og andre indekseringsmuligheder."
 
@@ -30875,7 +30864,7 @@ msgstr "Tilføj fil"
 
 #: /user
 msgid "Search the library"
-msgstr "Skriv f.eks. Harry Potter, krimi eller lign."
+msgstr "Skriv en titel, emne eller navnet på en forfatter"
 
 msgid "Activity"
 msgstr "Aktivitet"
@@ -31216,7 +31205,7 @@ msgstr "Ikke tilgængelig"
 
 #: /da/admin/modules?render=overlay
 msgid "Alma preferred branch"
-msgstr "Mit bibliotek"
+msgstr "Mit personlige bibliotek"
 
 #: /index.php
 msgid "Mobile phone"
@@ -31802,7 +31791,7 @@ msgid "Font style"
 msgstr "Skriftstil"
 
 msgid "Select all"
-msgstr "Markér alt"
+msgstr "Vælg alle"
 
 msgid "Replace"
 msgstr "Erstat"
@@ -32447,7 +32436,11 @@ msgstr "Lån"
 
 #: /da/ding_frontpage
 msgid "Reservations"
-msgstr "Reserveringer"
+msgstr "Reserveringer i kø"
+
+#: /nyheder
+msgid "Reservations in queue"
+msgstr "Reserveringer i kø"
 
 #: /da/ding_frontpage
 msgid "Debts"
@@ -32455,7 +32448,7 @@ msgstr "mellemværende"
 
 #: /da/user
 msgid "My library"
-msgstr "Mit bibliotek"
+msgstr "Mit personlige bibliotek"
 
 #: /da/user
 msgid "Pickup branch"
@@ -32467,11 +32460,11 @@ msgstr "Lån"
 
 #: /da/user
 msgid "Mine reserveringer"
-msgstr "Reserveringer"
+msgstr "Mine reserveringer"
 
 #: /da/user
 msgid "Mine bøder"
-msgstr "Mellemværende"
+msgstr "Betal gebyrer"
 
 #: /da/user/36/edit
 msgid "To change the current pincode, enter the new pincode in both fields."
@@ -40918,7 +40911,7 @@ msgstr "Se hele beskrivelsen"
 
 #: /user/36/status/debts
 msgid "My debts"
-msgstr "Mellemværende"
+msgstr "Betal gebyrer"
 
 #: /user/36/status/debts
 msgid "No debts"
@@ -41319,7 +41312,7 @@ msgstr "Menu for overordnet element"
 
 #: /user/48/status/debts
 msgid "Fee date"
-msgstr "Dato"
+msgstr "Oprettelsesdato"
 
 #: /search/ting/dc.title%3D%22%C3%98jne%20p%C3%A5%20stilke%22?facets[]=facet.acSource%3Apalles%20gavebod
 msgid "Search the library database and the website"
@@ -41622,11 +41615,11 @@ msgstr "Log ind"
 
 #: /ding_frontpage
 msgid "My Account"
-msgstr "Min konto"
+msgstr "Mine sider"
 
 #: /user
 msgid "Your user loan status"
-msgstr "Lånerstatus"
+msgstr "Mine sider"
 
 msgid "This field supports tokens."
 msgstr "Feltet understøtter tokens."
@@ -41640,7 +41633,7 @@ msgstr "Reserveringer klar til afhentning"
 
 #: /user
 msgid "Debt"
-msgstr "Mellemværende"
+msgstr "Betal gebyrer"
 
 #: /user/94/status/debts
 msgid "overdueFeeDebt"
@@ -44485,11 +44478,11 @@ msgstr "Søger efter et alias for den aktuelle URL og laver en 301-omdirigering 
 
 #: /user/36/status
 msgid "Loans overdue"
-msgstr "Overskredne lån"
+msgstr "Overskredne lån - gebyr kan forekomme, også ved fornyelse"
 
 #: /user/36/status
 msgid "Due in @count, @date"
-msgstr "Aflevér senest <B>@date</B>"
+msgstr "Aflevér senest den <B>@date</B>"
 
 #: /user/36/status
 msgid "Material no."
@@ -44509,7 +44502,7 @@ msgstr "Tidsskrift årgang og nr."
 
 #: /user/48/status/loans
 msgid "You do not currently have any loans."
-msgstr "Du har ingen lån i øjeblikket"
+msgstr "Du har ingen lån i øjeblikket."
 
 #: /user/36/status/reservations
 msgid "Delete reservations (@count)"
@@ -45175,7 +45168,7 @@ msgstr "Luk"
 
 #: /admin/config/people/accounts?render=overlay
 msgid "Notice that there is a fee for receiving a SMS"
-msgstr "Vær opmærksom på, at der er et gebyr på SMS"
+msgstr "Husk +45 foran danske telefonnumre, og at der er et gebyr på SMS"
 
 #: /search/ting/harry%20pott
 msgid "<a href=\"@url\">Search Content</a>"
@@ -45207,15 +45200,15 @@ msgstr "Resultater fra:"
 
 #: /ding_availability/holdings/29913900
 msgid "We have @count copies."
-msgstr "Vi har indkøbt @count eksemplarer."
+msgstr "Vi har @count eksemplarer."
 
 #: /ding_availability/holdings/29913900
 msgid "There are @count users in queue to loan the material."
-msgstr "Der er @count reserveringer til dette materiale."
+msgstr "Der er @count reserveringer på materialet."
 
 #: /ding_availability/holdings/20188383
 msgid "We have 1 copy."
-msgstr "Vi har indkøbt et eksemplar."
+msgstr "Vi har et eksemplar."
 
 #: /ding_availability/holdings/50520552
 msgid "There is 1 user in queue to loan the material."
@@ -48227,21 +48220,17 @@ msgstr "Slet liste"
 msgid "An error occurred, your list wasn't created. Please contact the administrator if this problem persists."
 msgstr "Der opstod en fejl, din liste blev ikke oprettet. Kontakt venligst sidens administrator hvis problemet vedbliver."
 
-#: /list/create?at=ting_object&av=870970-basis%3A25741420
-msgid "You've create the list !list.<br/>Read more about how you use the lists !help"
-msgstr "Du har nu oprettet din egen liste !list.<br />Læs mere om hvordan du kan bruge lister !help"
-
 #: /list/17/share
 msgid "Allow to view this list"
-msgstr "Giv adgang til at se listens indhold"
+msgstr "Se listen"
 
 #: /list/17/share
 msgid "Allow to view and edit this list"
-msgstr "Giv adgang til at se og redigere listens indhold"
+msgstr "Se og redigere listen"
 
 #: /list/17/share
 msgid "Select which type of access to share"
-msgstr "Vælg om der skal deles adgang til at se listen, eller også til at redigere listen"
+msgstr "Modtagere af linket skal kunne: "
 
 #: /list/17/share
 msgid "Share link"
@@ -48257,7 +48246,7 @@ msgstr "Send en invitation med den delte liste til følgende email adresse:"
 
 #: /list/17/share
 msgid "Send mail invitation with share link"
-msgstr "Send mail invitation med ovenstående deling af listen"
+msgstr "Send invitation til at se listen"
 
 #: /list/298/share
 msgid "Shared"
@@ -48321,11 +48310,11 @@ msgstr "Lister"
 
 #: /user
 msgid "Library user status"
-msgstr "Lånerstatus"
+msgstr "Mine sider"
 
 #: /user
 msgid "Fines"
-msgstr "Ubetalte gebyrer"
+msgstr "Betal gebyrer"
 
 #: /index.php
 msgid "Add search to list"
@@ -48375,7 +48364,12 @@ msgstr "Alle dine beskeder er nu markeret som læst. Der kommer nye beskeder ige
 
 #: /
 msgid "Notifications: @count"
-msgstr "Notifikationer: @count"
+msgstr "Mit personlige bibliotek (@count)"
+
+
+#: /ding_frontpage?destination=ding_frontpage%3Fautologout_timeout%3D1
+msgid "Notifications (@count)"
+msgstr "Mit personlige bibliotek (@count)"
 
 #: /
 msgid "Ready to Pickup: @count"
@@ -53197,11 +53191,11 @@ msgstr ""
 
 #: /index.php
 msgid "Crop images"
-msgstr ""
+msgstr "Beskær billeder"
 
 #: /index.php
 msgid "Crop images using Manual Crop."
-msgstr ""
+msgstr "Beskær billeder manuelt"
 
 #: /index.php
 msgid "Administer Manual Crop"
@@ -53289,7 +53283,7 @@ msgstr ""
 
 #: /index.php
 msgid "Manual Crop"
-msgstr ""
+msgstr "Manuel beskæring"
 
 #: /index.php
 msgid "File id"
@@ -53301,75 +53295,75 @@ msgstr ""
 
 #: /index.php
 msgid "The image style of the cropped image."
-msgstr ""
+msgstr "Billedformatet af det beskårne billede"
 
 #: /index.php
 msgid "Crop area: X offset"
-msgstr ""
+msgstr "Beskæringsområde: X offset"
 
 #: /index.php
 msgid "X coordinate of the crop area."
-msgstr ""
+msgstr "X koordinat af det beskårne område"
 
 #: /index.php
 msgid "Crop area: Y offset"
-msgstr ""
+msgstr "Beskæringsområde: Y offset"
 
 #: /index.php
 msgid "Y coordinate of the crop area."
-msgstr ""
+msgstr "Y koordinat af det beskårne område"
 
 #: /index.php
 msgid "Crop area: width"
-msgstr ""
+msgstr "Beskæringsområde: bredde"
 
 #: /index.php
 msgid "Width of the crop area."
-msgstr ""
+msgstr "Bredde af beskæringsområde"
 
 #: /index.php
 msgid "Crop area: height"
-msgstr ""
+msgstr "Beskæringsområde: højde"
 
 #: /index.php
 msgid "Height of the crop area."
-msgstr ""
+msgstr "Højde af beskæringsområde"
 
 #: /index.php
 msgid "Manual crop"
-msgstr ""
+msgstr "Manuel beskæring"
 
 #: /index.php
 msgid "Manualcrop data for this file."
-msgstr ""
+msgstr "Beskæringsdata for denne fil"
 
 #: /index.php
 msgid "manualcrop"
-msgstr ""
+msgstr "manuel beskæring"
 
 #: /index.php
 msgid "Manual Crop: Crop and scale"
-msgstr ""
+msgstr "Manuel beskæring: Beskær og skalér"
 
 #: /index.php
 msgid "\"Crop and scale a user-selected area, respecting the ratio of the \"destination width and height."
-msgstr ""
+msgstr "Beskær og skalérdet valgte område, med respekt for det valgte højde/breddeforhold."
 
 #: /index.php
 msgid "Manual Crop: Custom crop"
-msgstr ""
+msgstr "Manuel beskæring: tilpasset beskæring"
 
 #: /index.php
 msgid "Crop a freely user-selected area."
-msgstr ""
+msgstr "Beskær et vilkårligt brugervalgt område."
 
 #: /index.php
 msgid "Manual Crop: Reuse cropped style"
-msgstr ""
+msgstr "Manuel beskæring: genbrug indstillinger for beskæring af billede"
 
 #: /index.php
 msgid "Manual Crop: Automatically reuse cropped style"
-msgstr ""
+msgstr "Manuel beskæring: genbrug automatisk indstillinger for beskæring af billede"
 
 #: /admin/modules?render=overlay
 msgid "Settings for expiration of cached pages."
@@ -53405,7 +53399,7 @@ msgstr ""
 
 #: /admin/modules?render=overlay
 msgid "Lets you manually crop an image based upon the image style effects."
-msgstr ""
+msgstr "Lader dig manuelt beskære et billede baseret på foruddefinerede billedformater"
 
 #: /admin/modules?render=overlay
 msgid "Allows node previews to be viewed as fully-rendered pages."
@@ -56119,22 +56113,6 @@ msgstr "Forside fallback indhold"
 msgid "\"Allow the library admin to enter a search string which pulls materials \"to be pushed to the front page."
 msgstr ""
 
-#: /
-msgid "ADHL on random loan items"
-msgstr "ADHL på et tilfældigt hjemlån"
-
-#: /
-msgid "Check a random current loan via ADHL for serendipity."
-msgstr "Forslå hvad andre også har lånt (ADHL) på baggrund af et tilfældigt nuværende hjemlån."
-
-#: /
-msgid "Objects matching random author from lists"
-msgstr "Forslag af samme forfatter som materialer i egne lister"
-
-#: /
-msgid "Objects matching random author from lists."
-msgstr "Forslag af samme forfatter som et tilfældigt materiale i egne lister."
-
 #: /index.php
 msgid "\"This is the list of materials you have rated. Rate materials and get \"recommendations for similar content."
 msgstr ""
@@ -56869,19 +56847,19 @@ msgstr ""
 
 #: /media/browser?render=media-popup&types%5Bimage%5D=image&schemes%5Bpublic%5D=public&file_directory=title_image%2Fnews&file_extensions=png+gif+jpg+jpeg&max_filesize=&uri_scheme=public&manualcrop%5Bentity_type%5D=node&manualcrop%5Bbundle%5D=ding_news&manualcrop%5Bfield_name%5D=field_ding_news_title_image&plugins=undefined
 msgid "Select a style to crop"
-msgstr ""
+msgstr "Vælg højde/breddeforhold for beskæring"
 
 #: profiles/ding2/modules/contrib/manualcrop/manualcrop.js
 msgid "(cropped)"
-msgstr ""
+msgstr "(beskåret)"
 
 #: profiles/ding2/modules/contrib/manualcrop/manualcrop.js
 msgid "\"It appears that some of the images could not be loaded for cropping, \"please try again in another browser."
-msgstr ""
+msgstr "Nogle af billederne kunne ikke beskæres. Prøv venligst igen i en anden browser."
 
 #: /media/browser?render=media-popup&types%5Bimage%5D=image&schemes%5Bpublic%5D=public&file_directory=title_image%2Fnews&file_extensions=png+gif+jpg+jpeg&max_filesize=&uri_scheme=public&manualcrop%5Bentity_type%5D=node&manualcrop%5Bbundle%5D=ding_news&manualcrop%5Bfield_name%5D=field_ding_news_title_image&plugins=undefined
 msgid "The crop selections have been saved."
-msgstr ""
+msgstr "Beskæringen et blevet gemt."
 
 #: profiles/ding2/modules/contrib/redirect/redirect.js
 msgid "1 enabled redirect"
@@ -59165,7 +59143,7 @@ msgstr ""
 
 #: /admin/content?status=All&type=ding_campaign&sid=All&language=All
 msgid "You selected the following <strong>!count</strong>:"
-msgstr ""
+msgstr "Du har valgt følgende <strong>!count</strong>:"
 
 #: /admin/content?status=All&type=ding_campaign&sid=All&language=All
 msgid "Performing %operation on the selected items..."
@@ -59863,19 +59841,19 @@ msgstr ""
 
 #: /list/14/edit
 msgid "Forfattere jeg følger"
-msgstr ""
+msgstr "Forfattere jeg følger"
 
 #: /list/16/edit
 msgid "Tidligere lån"
-msgstr ""
+msgstr "Tidligere lån"
 
 #: /user/me/status/loans
 msgid "Loans due today"
-msgstr ""
+msgstr "Afleveres i dag"
 
 #: /list/15/edit
 msgid "Søgninger jeg følger"
-msgstr ""
+msgstr "Søgninger jeg følger"
 
 #: /index.php
 msgid "\"Control when the browser's internal cache of the current page should \"expire. The date must to be an <a \"href=\"http://www.csgnetwork.com/timerfc1123calc.html\">RFC-1123</a>-compliant \"date string that is represented in Greenwich Mean Time (GMT), e.g. \"'Fri, 11 Nov 2016 09:44:00 GMT'. Set to '0' to stop the page being \"cached entirely."
@@ -61994,6 +61972,10 @@ msgstr "\"Som standard understøtter Search-modulet kun eksakte matches på \"n�
 
 msgid "\"<ul> li>Check if your spelling is correct.</li> li>Remove quotes around phrases to search for each word individually. \"<em>bike shed</em> will often show more results than <em>&quot;bike \"shed&quot;</em>.</li> li>Consider loosening your query with <em>OR</em>. <em>bike OR \"shed</em> will often show more results than <em>bike shed</em>.</li> ul>"
 msgstr "\"<ul>\r li>Undersøg om stavemåden er korrekt.</li>\r li>Fjern anførselstegn omkring udtryk for at søge efter de enkelte \"ord: <em>bike shed</em> vil ofte give flere resultater end <em>\"bike \"shed\"</em>.</li>\r li>Overvej at udvide din søging med <em>OR</em>. <em>bike OR \"shed</em> vil ofte give flere resultater end <em>bike \"shed</em>.</li>\r ul>"
+
+
+msgid "<ul> li>Check if your spelling is correct.</li> li>Remove quotes around phrases to search for each word individually. <em>bike shed</em> will often show more results than <em>&quot;bike shed&quot;</em>.</li> li>Consider loosening your query with <em>OR</em>. <em>bike OR shed</em> will often show more results than <em>bike shed</em>.</li> ul>"
+msgstr "<ul>\r li>Undersøg om stavemåden er korrekt.</li>\r li>Fjern anførselstegn omkring udtryk for at søge efter de enkelte ord: <em>bike shed</em> vil ofte give flere resultater end <em>\"bike shed\"</em>.</li>\r li>Overvej at udvide din søging med <em>OR</em>. <em>bike OR shed</em> vil ofte give flere resultater end <em>bike shed</em>.</li>\r ul>"
 
 msgid "\"You are now using the new %set_name shortcut set. You can edit it from \"this page or <a href=\"@switch-url\">switch back to a different \"one.</a>"
 msgstr "\"Du bruger nu genvejsgruppen %set_name. Du kan redigere den fra denne \"side eller <a href=\"@switch-url\">skifte til en anden</a>."
@@ -65957,17 +65939,13 @@ msgstr "\"Du kan oprette dine egne lister og fremover gemme og inddele \"materia
 msgid "\"An error occurred, your list wasn't created. Please contact the \"administrator if this problem persists."
 msgstr "\"Der opstod en fejl, din liste blev ikke oprettet. Kontakt venligst \"sidens administrator hvis problemet vedbliver."
 
-#: /list/create?at=ting_object&av=870970-basis%3A25741420
-msgid "\"You've create the list !list.<br/>Read more about how you use the \"lists !help"
-msgstr "\"Du har nu oprettet din egen liste !list.<br />Læs mere om hvordan du \"kan bruge lister !help"
-
 #: /list/38
 msgid "Edit list title and note"
 msgstr "Redigér liste"
 
 #: /user/me/status
 msgid "Unable to renew material"
-msgstr "Materialet kunne ikke fornys"
+msgstr "Materialet kunne ikke fornyes"
 
 #: /user/me/status
 msgid "\"@title: @message\""
@@ -66576,24 +66554,9 @@ msgstr "Bøger jeg har læst"
 msgid "More..."
 msgstr "Mere..."
 
-#: /search/ting/findus
-msgid ""
-"<ul>\n"
-"<li>Check if your spelling is correct.</li>\n"
-"<li>Remove quotes around phrases to search for each word individually. "
-"<em>bike shed</em> will often show more results than <em>&quot;bike "
-"shed&quot;</em>.</li>\n"
-"<li>Consider loosening your query with <em>OR</em>. <em>bike OR "
-"shed</em> will often show more results than <em>bike shed</em>.</li>\n"
-"</ul>"
-msgstr ""
-"<p>Din søgning desværre ikke gav noget resultat, men vi vil gerne hjælpe dig med at komme videre!</p>"
-"<p>Spørg os på biblioteket eller få hjælp på <a href="http://biblioteksvagten.dk/">Biblioteksvagten.dk</a></p>"
-"<p>Du kan også søge videre på <a href="http://bibliotek.dk/">Bibliotek.dk</a></p>"
-
 #: /admin/config/ding/interaction
 msgid "About consent and storage of previous loans"
-msgstr "Samtykke og opbevaring af information tidligere lån"
+msgstr "Samtykke og opbevaring af information om tidligere lån"
 
 #: /admin/config/ding/interaction
 msgid ""
@@ -66613,7 +66576,7 @@ msgstr ""
 
 #: /index.php
 msgid "Events show the value ”Free” if text field is set to 0.\nTip: Indicate different ticket prices for more than one audience group by entering a lowest – highest price in text field fx. “30 - 50”"
-msgstr "Arrangementer viser værdien \"Gratis\" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. \"30 - 50\""
+msgstr "Arrangementer viser værdien "Gratis" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. "30 - 50""
 
 #: /node/add/ding-event?render=overlay
 msgid "Date, location and price"
@@ -66631,18 +66594,6 @@ msgstr "Søg i biblioteksbasen"
 msgid "Because you have a list with materials by the author !author."
 msgstr "Fordi du har en liste med materialer af forfatteren !author"
 
-#: /system/ajax
-msgid ""
-"Please use the following link to access this list.\n"
-"The link is active for 7 days from today, after which it will be "
-"disabled for security reasons.\n"
-"\n"
-"!link."
-msgstr ""
-"Åbn !link for at få adgang til listen. \r\n"
-"Linket er aktivt i 7 dage, hvorefter det vil blive deaktiveret af "
-"sikkerhedshensyn."
-
 #: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
 msgid ""
 "You do not have an user account at the public library. If you wish you "
@@ -66653,3 +66604,935 @@ msgstr ""
 "kan du oprette dig som låner nedenfor.</br>\r\n"
 "Du er stadig logget ind ved NemID. Hvis du vil logge ud så "
 "!logout."
+
+#: /
+msgid "View all opening hours"
+msgstr "Se alle åbningstider"
+
+#: /index.php
+msgid "See all themes"
+msgstr "Se alle temaer"
+
+#: /search/ting/findus
+msgid "Borrowing options"
+msgstr "Lånemuligheder"
+
+#: /ting/object/870970-basis%3A28645597
+msgid "Other formats"
+msgstr "Andre materialetyper"
+
+#: /search/ting/findus
+msgid "Add to list"
+msgstr "Tilføj til liste"
+
+#: /
+msgid "Login with"
+msgstr "Log ind med"
+
+#: /
+msgid "If you want to see what you have borrowed, reserve books or edit your user profile, you must be logged in."
+msgstr "Hvis du vil se, hvad du har lånt, reservere bøger eller redigere din brugerprofil, skal du være logget ind."
+
+#: /
+msgid "If you are not a registered user, you can sign up in person at your local library."
+msgstr "Hvis du ikke er oprettet som bruger, kan du tilmelde dig på biblioteket."
+
+#: /arrangementer/boern/fars-legestue
+msgid "Share this event"
+msgstr "Del dette arrangement"
+
+#: /user/me/status-reservations
+msgid "Delete all"
+msgstr "Slet alle reserveringer"
+
+#: /
+msgid "All material types"
+msgstr "Alle materialetyper"
+
+#: /search/ting/findus
+msgid "Limit search to:"
+msgstr "Afgræns din søgning:"
+
+#: /
+msgid "Loan/social security number (without dash)"
+msgstr "Låner- eller CPR-nummer"
+
+#: /
+msgid "Pincode (4 digits)"
+msgstr "Pinkode"
+
+#: /
+msgid "Pincode (@length digits)"
+msgstr "Pinkode (@length cifre)"
+
+#: /user/me/view
+msgctxt "Ding list"
+msgid "New:"
+msgstr "Nyt i listen:"
+
+#: /ding_entity_rating/870971-avis:70863928/0
+msgid "Rating cleared"
+msgstr "Bedømmelse fjernet"
+
+#: /search/ting/findus
+msgid "Your lists"
+msgstr "Dine lister"
+
+#: /arrangementer
+msgid "Search for an event"
+msgstr "Søg efter et arrangement"
+
+#: /arrangementer
+msgid "Select library"
+msgstr "Vælg bibliotek"
+
+#: /arrangementer/boern/fars-legestue
+msgid "Information about the event"
+msgstr "Om dette arrangement"
+
+
+#: /index.php
+msgid "User menu"
+msgstr "Mine sider"
+
+#: /list/create?at=ting_object&av=870970-basis%3A25741420
+msgid "You've create the list !list."
+msgstr "Du har nu oprettet din egen liste !list."
+
+#: /list/24
+msgid "Read more about how you use the lists !help"
+msgstr "Læs mere om hvordan du kan bruge lister !help"
+
+#: /list/create?at=ting_object&av=870970-basis%3A25741420
+msgid "You can search after materials !search, that you can add to the list."
+msgstr "Du kan søge efter materialer !search, som du kan føje til listen"
+
+#: /list/create?at=ting_object&av=870970-basis%3A25741420
+msgid "\"You've create the list !list.<br/>Read more about how you use the \"lists !help"
+msgstr "\"Du har nu oprettet din egen liste !list.<br />Læs mere om hvordan du \"kan bruge lister !help"
+
+#: /list/create?at=ting_object&av=870970-basis%3A25741420
+msgid "You've create the list !list.<br/>Read more about how you use the lists !help"
+msgstr "Du har nu oprettet din egen liste !list.<br />Læs mere om hvordan du kan bruge lister !help"
+
+#: /
+msgid "Register as a user"
+msgstr "Opret bruger"
+
+#: /
+msgid "If you are not a registered user, you can register !link, or you can sign up in person at your local library."
+msgstr "Hvis du ikke er oprettet som bruger, kan du oprette dig !link, eller du kan blive oprettet på biblioteket."
+
+#: /index.php
+msgid "Ding Interaction Access"
+msgstr "Ding Interaction Visning"
+
+#: /user/me/status-loans
+msgid "Renew all"
+msgstr "Forny alle"
+
+#: /biblioteker
+msgid "Show on map"
+msgstr "Vis på kort"
+
+#: /index.php
+msgid "All terms"
+msgstr "Alle kategorier"
+
+#: /list/create?at=ting_object&av=870970-basis%3A25741420
+msgid "Use the \"More\" button on materials, to add them to the list."
+msgstr "Brug \"Mere\" knappen på materialer for at tilføje dem til en liste."
+
+#: /arrangementer/boern/fars-legestue
+msgid "Participate in the event"
+msgstr "Køb billet(ter)"
+
+#: /search/ting/findus
+msgid "@count Results"
+msgstr "@count resultater"
+
+#: /list/107/share
+msgid "Email subject."
+msgstr "Emne:"
+
+#: /list/107/share
+msgid "Email text"
+msgstr "Indhold:"
+
+#: /list/107/share
+msgid "The [link] text will be replaced by a link to the list"
+msgstr "Teksten [link] bliver erstattet af et link til din liste."
+
+#: /ting/collection/870970-basis%3A27193382
+msgid "New list"
+msgstr "Ny liste"
+
+#: /
+msgid "Create my own list"
+msgstr "Opret min egen liste"
+
+#: /ting/collection/870970-basis%3A27193382
+msgid "Follow the author"
+msgstr "Følg forfatteren"
+
+#: /panels/ajax/ipe/add-pane/panel_context%3Apage-ding_frontpage%3A%3Apage_ding_frontpage_panel_context%3A%3A%3A%3A/primary/all_opening_hours/all_opening_hours
+msgid "Today: @date"
+msgstr "I dag: @date"
+
+#: /biblioteker
+msgid "Week @week, @from - @to"
+msgstr "Uge:  @week, @from - @to"
+
+#: /list/27
+msgid "Share this list"
+msgstr "Del denne liste"
+
+#: /admin/modules/list/confirm
+msgid ""
+"For an e-resource with free access, leave this field empty. Otherwise "
+"the chosen access category is displayed to the user. \r\n"
+"If proxy is enabled, this category also controls whether or not prefix "
+"the e-resource link with the proxy. "
+msgstr ""
+
+#: /admin/modules/list/confirm
+msgid "E-resource"
+msgstr "E-resurse"
+
+#: /admin/modules/list/confirm
+msgid "titel"
+msgstr "titel"
+
+#: /varnish/roles
+msgid "Ding e-resource alfabetical index"
+msgstr "Alfabetisk indeks over e-resurser"
+
+#: /varnish/roles
+msgid "Provides alfabetical index links to e-resource titles."
+msgstr "Alfabetisk indeks over links til e-resurser"
+
+#: /admin/modules
+msgid "E-resources"
+msgstr "E-bøger og medier"
+
+#: /admin/modules
+msgid "E-resources list"
+msgstr "Liste over e-resurser"
+
+#: /admin/modules
+msgid "Category description"
+msgstr "Kategori beskrivelse"
+
+#: /admin/modules
+msgid "Standardtekst for E-ressourcer"
+msgstr "Standard tekst for e-resurser"
+
+#: /admin/modules
+msgid ""
+"\n"
+"<p>E-resurser er elektroniske opslagsværker, aviser og tidsskrifter, "
+"e-bøger og andre netmedier, som biblioteket stiller gratis til "
+"rådighed for borgerne. Brug e-resurserne til at låne netmedier eller "
+"søge i databaser efter alverdens emner. De fleste e-resurser har "
+"fjernadgang. Det betyder, at du kan anvende dem hjemmefra fra en "
+"hvilken som helst internet-adgang. Det kræver blot, at du er bosat i "
+"kommunen og er indmeldt som låner på et af bibliotekerne. Alle kan "
+"benytte e-resurserne på biblioteket.</p>"
+msgstr ""
+"\n"
+"<p>E-bøger og medier er elektroniske opslagsværker, aviser og tidsskrifter, "
+"e-bøger samt andre netmedier hvor du kan søge efter alverdens emner, som biblioteket stiller frit til "
+"rådighed. </p>Det betyder, at du kan anvende dem alle steder blot du har internet-adgang. Det kræver blot, at du er bosat i "
+"kommunen og er indmeldt som låner på et af bibliotekerne.</p>"
+
+#: /admin/modules
+msgid "<h2>E-resurser (no results text)<h/2>"
+msgstr "<h2>E-resurser (ingen resultater)<h/2>"
+
+#: /node/add/ding-eresource
+msgid "%element_title field is required."
+msgstr "%element_title feltet er påkrævet"
+
+#: /e-materialer/infomedia
+msgid "FAQ"
+msgstr "FAQ"
+
+#: /e-materialer
+msgid "E-resource category"
+msgstr "Kategorier"
+
+#: /e-materialer
+msgid "Beskrivelse af term"
+msgstr "Beskrivelse af term"
+
+#: /e-materialer
+msgid "term fra field_ding_eresource_category"
+msgstr ""
+
+#: /e-materialer
+msgid "Access: All e-materials"
+msgstr "Alle materialer"
+
+#: /e-materialer
+msgid "Log on"
+msgstr "Se online"
+
+#: /e-materialer
+msgid "E-resurse kategori"
+msgstr "Kategori"
+
+#: /search/ting/findus
+msgid ""
+"<ul>\n"
+"<li>Check if your spelling is correct.</li>\n"
+"<li>Remove quotes around phrases to search for each word individually. "
+"<em>bike shed</em> will often show more results than <em>&quot;bike "
+"shed&quot;</em>.</li>\n"
+"<li>Consider loosening your query with <em>OR</em>. <em>bike OR "
+"shed</em> will often show more results than <em>bike shed</em>.</li>\n"
+"</ul>"
+msgstr "<p>Din søgning desværre ikke gav noget resultat, men vi vil gerne hjælpe dig med at komme videre!</p><p>Spørg os på biblioteket eller se kontaktoplysningerne til biblioteket nederst på siden.</p><p>Du "
+"kan også søge videre på <a href=\"http://bibliotek.dk/\">Bibliotek.dk</a></p>"
+
+#: /list/107/share
+msgid ""
+"Please use the following link to access this list.\n"
+"The link is active for 7 days from today, after which it will be "
+"disabled for security reasons.\n"
+"\n"
+"[link]"
+msgstr ""
+"Åbn !link for at få adgang til listen. \r\n"
+"Linket er aktivt i 7 dage, hvorefter det vil blive deaktiveret af "
+"sikkerhedshensyn."
+
+#: /
+msgid "Search in @profile"
+msgstr "Søg i @profile"
+
+#: /
+msgid "Search in all"
+msgstr "Søg i alle"
+
+#: /index.php
+msgid "Related news"
+msgstr "Relaterede nyheder"
+
+#: /nyheder/kort-nyt/med-youtube-indlejret
+msgid "Share this news"
+msgstr "Del denne nyhed"
+
+#: /lazy-pane/ajax
+msgid "Read about storage of loan history"
+msgstr "Læs om opbevaring af lånehistorik"
+
+#: /user/me/status-reservations
+msgid "Reservation date"
+msgstr "Reserveringsdato"
+
+#: /index.php
+msgid "Cropped Image"
+msgstr ""
+
+#: /node/add/ding-news
+msgid "Attach media"
+msgstr "Vedhæft mediefil"
+
+#: /node/5/edit?destination=admin/content%3Fstatus%3DAll%26type%3Dding_library%26sid%3DAll%26language%3DAll
+msgid "Select the image style to crop, the corresponding cropping tool will open."
+msgstr "Vælg højde/breddeforhold for beskæring."
+
+#: /system/ajax
+msgid "Authenticated, refreshing page."
+msgstr "Du er nu logget ind! Vent venligst på at siden opdateres."
+
+#: /
+msgid "Overdue loans"
+msgstr "Overskredne lån"
+
+#: /
+msgid "Unknown material (@material_number)"
+msgstr "Slettet eller kasseret materiale (@material_number)"
+
+#: /lazy-pane/ajax
+msgid "Materials by ratings" 
+msgstr "Materialer som andre også har anbefalet" 
+
+#: /lazy-pane/ajax
+msgid "" 
+"Get materials based on author or subject from users top rated " 
+"materials" 
+msgstr "Materialer med samme forfatter eller emneord som brugerens favoritter" 
+
+#: /lazy-pane/ajax
+msgid "Fallback materials" 
+msgstr "Bibliotekets grundlæggende anbefalinger" 
+
+#: /lazy-pane/ajax
+msgid "" 
+"If other plugins fails to find serendipity, this plugin will return a " 
+"simple CQL. Keep the weight of this plugin higher than all other " 
+"plugins." 
+msgstr "Hvis andre plugins ikke finder materialer nok, så vil dette plugin returnere et CQL opslag. Holf vægten af dætte plugin højere end andre så det kun benyttes som sidste udvej." 
+
+#: /lazy-pane/ajax
+msgid "Set fallback CQL" 
+msgstr "Angiv CQL til sidste udvejs opslag" 
+
+#: /lazy-pane/ajax
+msgid "Ting objects via openlist ADHR service." 
+msgstr "Materialer via ADHR - Hvad andre også har ratet højt baseret på egne favoritter." 
+
+#: /lazy-pane/ajax
+msgid "" 
+"Call ADHR service on the current object to find related high rated " 
+"materials." 
+msgstr "Benyt ADHR (Andre har også anbefalet) på det aktuelle materiale" 
+
+#: /lazy-pane/ajax
+msgid "Ting objects via openlist ADHL service." 
+msgstr "Materialer via OpenList ADHL service (Andre har også lånt)" 
+
+#: /lazy-pane/ajax
+msgid "" 
+"Call ADHL service on the current object to find related materials " 
+"others have loaned." 
+msgstr "Benyt ADHL (Andre har også lånt) på det aktuelle materiale." 
+
+#: /lazy-pane/ajax
+msgid "" 
+"Allow the library admin to enter a search string which pulls materials " 
+"to be pushed to the serendipity box on the front page." 
+msgstr "Lad biblioteks-admins indtaste CQL søgning som sender materialer ind i forsidens serendipitetspanel." 
+
+#: /lazy-pane/ajax
+msgid "Set the frontpage serendipity CQL" 
+msgstr "Angiv forsidens serendipitets CQL" 
+
+#: /
+msgid "ADHL on random loan items"
+msgstr "ADHL på et tilfældigt hjemlån"
+
+#: /
+msgid "Check a random current loan via ADHL for serendipity."
+msgstr ""
+"Forslå hvad andre også har lånt (ADHL) på baggrund af et "
+"tilfældigt nuværende hjemlån."
+
+#: /
+msgid "Objects matching random author from lists"
+msgstr "Forslag af samme forfatter som materialer i egne lister"
+
+#: /
+msgid "Objects matching random author from lists."
+msgstr "Forslag af samme forfatter som et tilfældigt materiale i egne lister."
+
+#: /lazy-pane/ajax
+msgid "Node related material" 
+msgstr "Materialer relateret til aktuel side (node)"
+
+#: /lazy-pane/ajax
+msgid "" 
+"Returns nodes linked to through the node reference field " 
+"\"field_related_content\"" 
+msgstr "Sider som er angivet via fields_related_content" 
+
+#: /lazy-pane/ajax
+msgid "Node related content" 
+msgstr "Indhold relateret til aktuel side" 
+
+#: /lazy-pane/ajax
+msgid "" 
+"Returns ting objects linked to nodes through the ting reference field " 
+"\"field_materials\"" 
+msgstr "Hent materialer fra sider (nodes) via referencefeltet field_materials" 
+
+#: /lazy-pane/ajax
+msgid "Recent content of current term" 
+msgstr "Nyt indhold via aktuelt emneord" 
+
+#: /lazy-pane/ajax
+msgid "Fetch objects from this year matching term." 
+msgstr "Hent materialer fra i år som matcher aktuelt emneord" 
+
+#: /lazy-pane/ajax
+msgid "Content with similar term" 
+msgstr "Indhold med lignende emneord" 
+
+#: /lazy-pane/ajax
+msgid "Fetch nodes or materials with similar term." 
+msgstr "Hent indhold (nodes) eller materialer med lignende emneord." 
+
+#: /lazy-pane/ajax
+msgid "Objects in taxonomy term recommended field" 
+msgstr "Materialer som er angivet i emneordets anbefalinger" 
+
+#: /lazy-pane/ajax
+msgid "On each taxonomy term a list of recommended objects may be suggested." 
+msgstr "På hvert emneord kan der angives en liste med anbefalede materialer." 
+
+#: /lazy-pane/ajax
+msgid "Objects in taxonomy term popular field" 
+msgstr "Materialer fra emneordets felt med populære materialer." 
+
+#: /lazy-pane/ajax
+msgid "On each taxonomy term a list of popular objects may be suggested." 
+msgstr "På hvert emneord kan der angives en liste med populære materialer." 
+
+#: /lazy-pane/ajax
+msgid "Ting Objects related by same author" 
+msgstr "Materialer som har samme forfatter" 
+
+#: /lazy-pane/ajax
+msgid "Search for Ting objects with same author" 
+msgstr "Find materialer med samme forfatter" 
+
+#: /lazy-pane/ajax
+msgid "Ting Objects related by same subject" 
+msgstr "Materialer med samme emneord" 
+
+#: /lazy-pane/ajax
+msgid "Search for Ting  objects with same subject" 
+msgstr "Find materialer med samme emneord" 
+
+#: /lazy-pane/ajax
+msgid "Ting Objects related by same type" 
+msgstr "Materialer med samme materialetype" 
+
+#: /lazy-pane/ajax
+msgid "Search for Ting objects with same type" 
+msgstr "Find materiale med samme materialetype" 
+
+#: /lazy-pane/ajax
+msgid "Ting objects via ADHL service on current object" 
+msgstr "Find materialer via ADHL (Andre har også lånt) på det aktuelle materiale" 
+
+#: /lazy-pane/ajax
+msgid "Call ADHL service on the current object" 
+msgstr "Benyt ADHL service (Andre har også lånt) på det aktuelle materiale" 
+
+#: /lazy-pane/ajax
+msgid "Call Openlist ADHR service on the current object" 
+msgstr "Benyt OpenList ADHR (Andre har også anbefalet) på det aktuelle materiale." 
+
+#: /ding-list/private-share-message/147/facebook
+msgid "Yes - make my list public, and share it."
+msgstr "Ja - offentliggør min liste og del den."
+
+#: /ding-list/private-share-message/147/facebook
+msgid "No - not right now."
+msgstr "Nej - ikke lige nu."
+
+#: /user/me/my-library
+msgid "View all public lists"
+msgstr "Se alle offentlige lister"
+
+#: /list/92/share
+msgid "Public"
+msgstr "Offentlig liste"
+
+#: /list/92/share
+msgid "You can find your public list under !link"
+msgstr "Listen vises under"
+
+#: /da/user
+msgid "My library"
+msgstr "Mit personlige bibliotek"
+
+#: /search/ting/hunde
+msgid "Add to searches I follow"
+msgstr "Føj til søgninger jeg følger"
+
+#: /arrangementer/internet-undervisning/moed-forfatteren-elsebeth-egholm
+msgid "Related"
+msgstr "Se mere ..."
+
+#: /varnish/roles
+msgid "Push to Mongo"
+msgstr "Send til CMS Content"
+
+#: /ding-list/private-share-message/147/facebook
+msgid ""
+"You need to make your list public, before you can share it on social "
+"media."
+msgstr ""
+"Du skal offentliggøre din liste, før du kan dele den med andre.\r\n"
+"\r\n"
+"<p>Husk at tillade pop-vinduer i browserens adresselinje for at godkende deling af listen i Facebook eller Twitter!</p>"
+
+#: /node/add/ding-event
+msgid ""
+"Problem connecting to the REST service. We have unchecked your \"Push "
+"to Mongo\" flag. Please check your !settings."
+msgstr "DDB CMS kunne ikke få forbindelse til CMS Content servicen. Markeringen ved Send til CMS Content er fjernet. Undersøg venligst modulets !settings."
+
+#: /tags/rejse
+msgid "@type in the category @term"
+msgstr "@type i kategorien @term"
+
+#: /tags/rejse
+msgctxt "pluralis"
+msgid "News"
+msgstr "Nyheder"
+
+#: /ting/object/725300-katalog%3A22718584/reserve
+msgid "Only library user can make reservations."
+msgstr "Kun biblioteksbrugere kan reservere materialer."
+
+#: /search/ting/den%20store%20danske
+msgid "Acquisition Date (ascending)"
+msgstr "Anskaffelsesdato - ældste først"
+
+#: /search/ting/den%20store%20danske
+msgid "Acquisition Date (descending)"
+msgstr "Anskaffelsesdato - nyeste først"
+
+#: /system/ajax
+msgid "Unknown error from library system while attempting to reserve."
+msgstr "Reservering ikke mulig. Kontakt biblioteket."
+
+#: /system/ajax
+msgid ""
+"Please use the following link to access this list.\n"
+"The link is active for 7 days from today, after which it will be "
+"disabled for security reasons.\n"
+"\n"
+"!link"
+msgstr ""
+"Åbn !link for at få adgang til listen. \r\n"
+"Linket er aktivt i 7 dage, hvorefter det vil blive deaktiveret af sikkerhedshensyn."
+
+#: /list/240
+msgid "Rename / Delete list"
+msgstr "Omdøb eller slet liste"
+
+#: /
+msgid "Pincode (@length digits)"
+msgstr "Pinkode (@length cifre)"
+
+#: /ting/object/870971-avis%3A85521667
+msgid "Read article"
+msgstr "Læs artikel"
+
+#: /list/11507202/share
+msgid "Private - The list is only accessible to you"
+msgstr "Privat - Kun du har adgang til denne liste"
+
+#: /list/11507202/share
+msgid "Shared - Users with the secret link can view or edit your list"
+msgstr "Delt - Andre kan se eller redigere"
+
+#: /list/11507202/share
+msgid "Public - Anybody can view your list from the public link"
+msgstr "Offentlig - Alle kan se listen"
+
+msgid "Book a ticket"
+msgstr "Bestil billet(ter)"
+
+msgid "Waiting list open"
+msgstr "Ventelisten er åben"
+
+msgid "Ticket sale has not yet started for this event"
+msgstr "Billetsalget åbner snart"
+
+msgid "Sold out"
+msgstr "Der er ikke flere billetter"
+
+msgid "Not open for ticket sale"
+msgstr "Billetbestilling er ikke mulig"
+
+msgid "The event has already taken place"
+msgstr "Arrangementet er slut"
+
+#: /user/me/edit
+msgid "Start date must be higher than or equal to today"
+msgstr "Startdato skal være dags dato eller senere."
+
+#: /user/me/edit
+msgid "To date must both be higher than or equal to today, and be higher than the start date."
+msgstr "Slutdato skal ligge efter startdato, og kan være dags dato eller senere."
+
+#: /user/me/edit
+msgid "To date must both be higher than or equal to today"
+msgstr "Slutdato skal ligge efter dags dato eller senere."
+
+#: /user/me/edit
+msgid "To date must higher than the from date."
+msgstr "Slutdato skal ligge efter startdato."
+
+msgid "This material has been deleted from the library"
+msgstr "Biblioteket har ikke længere dette materiale"
+
+#: /user/me/status-loans
+msgid "An inter-library loan renewal was requested"
+msgstr "Det lånte materiale er fornyet med forbehold, da det er udlånt fra et andet bibliotek"
+
+#: /user/me/status-loans
+msgid "This material was renewed. New return date: !due_date"
+msgstr "Det lånte materiale er fornyet. Ny afleveringsdato: !due_date"
+
+#: /user/me/status-loans
+msgid "This material was borrowed today"
+msgstr "Det lånte materiale er lånt eller fornyet i dag"
+
+#: /user/me/status-loans
+msgid "The material can not be renewed because maximum number of renewals reached"
+msgstr "Det lånte materiale er ikke fornyet, fordi det maksimale antal fornyelser er nået"
+
+#: /user/me/status-loans
+msgid "The material is reserved by another loaner and can not be renewed"
+msgstr "Det lånte materiale er reserveret af en anden låner, og kan derfor ikke fornyes"
+
+#: /user/me/status-loans
+msgid "This material can not be renewed"
+msgstr "Det lånte materiale kan ikke fornyes"
+
+msgid "Internal error on @title"
+msgstr "Intern fejl på @title"
+
+msgid "Your account is limited. Please contact your library for more information."
+msgstr "Din konto har begrænset adgang. Kontakt venligst biblioteket for yderligere information."
+
+msgid "Your account is limited due to outstanding debt. Please contact your library for more "
+msgstr "Din konto har begrænset adgang på grund af et mellemværende. Kontakt venligst biblioteket for yderligere information."
+
+#: /system/ajax
+msgid ""
+"Your account is limited due to outstanding debt. Please contact your library for more information."
+msgstr "Din konto har begrænset adgang på grund af udestående mellemværender. Kontakt venligst biblioteket for yderligere information."
+
+msgid "Your self created account is limited. Please contact your library to get full access."
+msgstr "Din konto har begrænset adgang. Kontakt venligst dit bibliotek for at få fuld adgang."
+
+msgid "You have been excluded. Please contact your library for more information."
+msgstr "Din brugerprofil er blevet lukket. Kontakt venligst biblioteket for yderligere information."
+
+msgid "See <a href="@link">this</a> page for more information about block types."
+msgstr "Se siden <a href="@link">årsager til at min konto er blokeret</a> for at få mere information."
+
+msgid "Error: %order"
+msgstr "Fejl: %order"
+
+msgid "New in list"
+msgstr "Nyt på listen"
+
+msgid "Add one or more organizer(s) to your event."
+msgstr "Tilføj en eller flere arrangører til dit arrangement."
+
+msgid "Event organizer link"
+msgstr "Link til arrangement arrangør"
+
+msgid "Place / Room"
+msgstr "Lokalitet"
+
+msgid "Use this to direct your guests to the correct place"
+msgstr "Benyttes til at dirigere dine gæster til det korrekte lokale"
+
+msgid "arranged by"
+msgstr "Arrangeret af"
+
+msgid "Organizers"
+msgstr "Arrangører"
+
+msgid "Organizer"
+msgstr "Arrangører"
+
+#: /
+msgid "Lists that include this title"
+msgstr "Denne titel findes på følgende lister:"
+
+#: /user/me/edit
+msgid "Start date must be higher than or equal to today: %now"
+msgstr "Startdato skal være dags dato eller senere: %now"
+
+#: /user/me/edit
+msgid "To date must both be higher than or equal to today: %now"
+msgstr "Slutdato skal ligge efter dags dato eller senere: %now"
+
+#: /user/me/edit
+msgid "When from date is set than the to date should also be set."
+msgstr "Når startdato er udfyldt, så skal slutdato også udfyldes."
+
+#: /user/me/edit
+msgid "When to date is set than the from date should also be set."
+msgstr "Når slutdato er udfyldt, så skal startdato også udfyldes."
+
+#: /user/me/edit
+msgid "To date must higher than the from date or equal to."
+msgstr "Slutdato skal enten være den samme som startdato eller senere."
+
+#: /user/me/edit
+msgid "The pincode must consist of exactly %number digits and only contain integers."
+msgstr "Pinkoden skal bestå af %number cifre."
+
+#: /user/me/my-library
+msgid "Reset my lists"
+msgstr "Slet mine lister"
+
+#: /user/me/reset-lists
+msgid "This will remove all your custom lists, and clear all lists of content."
+msgstr "Denne handling vil slette alle de lister du har oprettet og de materialer du har indsat på dem."
+
+#: /user/me/reset-lists
+msgid "User: reset list"
+msgstr "Bruger: nulstil liste"
+
+#: /user/me/reset-lists
+msgid "Control list resets."
+msgstr "Kontrollér liste nulstilling"
+
+#: /index.php
+msgid "Reset user lists"
+msgstr "Nulstil brugerlister"
+
+#: /index.php
+msgid "Reset all lists."
+msgstr "Nulstil alle lister"
+
+
+#: /admin/config/ding/campaigns_plus
+msgid "Set the weight for the different triggers. If more campaigns are triggered by the same triggers these weights are used to determined which should be displayed."
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Notification scan interval"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Campaign cache expire"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Campaign selection is cached to boost performance. This is the number of seconds before campaigns should be reselected base on triggers for a give context."
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Trigger to use"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "The contents subjects will automatically create a trigger against the selected rule type"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Default common number"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Default \"Most common values\" to match against."
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Facets available"
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "The contents subjects will automatically create a trigger against the selected facet type."
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Activate trigger on object view based on matching subjects from content."
+msgstr ""
+
+#: /admin/config/ding/campaigns_plus
+msgid "Activate search trigger based on matching subjects from content."
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Campaign trigger"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Facets"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Object view"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Rule %num"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Add another"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Used to define the operator used between facet rules below."
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Facet Type"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "All facets are explained at <a href=\"!url\">!url</a>"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Most common values"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Number of most common values wherein facet value is contained to trigger campaign"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Facet value"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "If the facet type selected is numeric the operators \"<\", \"<=\", \">=\", \">\" can be used e.g. > 2015. Wildcard \"*\" is also supported for matching with for example DK5 e.g. 89*"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Search query"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Search query that should trigger the campaign"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Percent of the results"
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "The percent of the results in the search result."
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Search query that should trigger the campaign."
+msgstr ""
+
+#: /node/52/edit?destination=admin/content
+msgid "Auto complete field for campaign rule values."
+msgstr ""
+
+#: /list/12391117/share
+msgid ""
+"Please use the following link to access this list.\n"
+"The link is active for 7 days from today, after which it will be "
+"disabled for security reasons.\n"
+"!link"
+msgstr ""
+"Brug linket til at tilgå listen.\n"
+"Linket er aktivt i 7 dage fra dags dato. Derefter kan man ikke bruge det til at tilgå listen, af hensyn til din sikkerhed."
+"!link"
+
+#: /list/12391117/share
+msgid "The !link text will be replaced by a link to the list"
+msgstr "!link teksten bliver erstattet med et link til listen"
+
+#: /user/me/my-library
+msgid "Reset my lists"
+msgstr "Slet mine lister"
+
+#: /user/me/reset-lists
+msgid "This will remove all your custom lists, and clear all lists of content."
+msgstr "Denne handling vil slette alle de lister du har oprettet, samt indholdet på dem."
+
+#: /index.php
+msgid "change the node status in BPI"
+msgstr "Redigér artiklens status i BPI"

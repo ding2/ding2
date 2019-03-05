@@ -41,7 +41,7 @@
     <?php print render($title_prefix); ?>
     <h2 class="comment-title"><?php print t('Comments'); ?></h2>
     <?php print render($title_suffix); ?>
-  <?php endif; ?>
+    <?php endif; ?>
   </div>
 
   <div class="comment-content"><?php print render($content['comments']); ?></div>

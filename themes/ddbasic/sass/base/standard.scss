@@ -1,0 +1,178 @@
+//
+// Styling of standard HTML elements
+
+@import '../base.scss';
+
+// Base
+//
+// Styleguide 1.
+
+// Standard elements
+//
+// Styleguide 1.1
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  @include font('base');
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $color-standard-text;
+}
+
+// Move content down when toolbar is enabled.
+// Why do we need to do that for toolbar and not for admin_menu?
+body.toolbar {
+  margin-top: $toolbar-height * 2;
+}
+
+body {
+  @include transition(background-color $speed $ease);
+  padding-top: $header-height; // Compensate for fixed header
+  background-color: $white;
+  // When topbar is open
+  &.topbar-is-open,
+  &.overlay-is-active {
+    @include transition(background-color 0 $ease);
+    background-color: $charcoal;
+    overflow: hidden;
+  }
+
+  &.has-second-level-menu,
+  &.search-form-extended {
+    @include media($tablet) {
+      padding-top: $header-height; // Compensate for fixed header
+    }
+  }
+
+  @include media($tablet-min-width) {
+    &.has-second-level-menu {
+      padding-top: $header-height + $second-level-menu-height;
+    }
+  }
+
+
+  $_selectors-padding-top-values--body: (
+    '.search-form-extended': $header-height + $search-form-extended-height,
+    '.search-form-extended.extended-search-is-not-open': $header-height
+  );
+
+  @each $_selector, $_value in $_selectors-padding-top-values--body {
+    @include media($tablet-min-width) {
+
+      &#{$_selector} {
+        padding-top: $_value;
+
+        // If there are too many links, we need to add even more padding.
+        &.secondary-menu-below-main {
+          padding-top: $_value + $search-form-extended-height;
+        }
+      }
+
+      &#{$_selector}.has-second-level-menu {
+        padding-top: $_value + $second-level-menu-height;
+      }
+
+      // If there are too many links, we need to add even more padding.
+      &#{$_selector}.has-second-level-menu.secondary-menu-below-main,
+      &#{$_selector}.has-second-level-menu.has-multiline-main-menu,
+      &#{$_selector}.secondary-menu-below-main {
+        padding-top: $_value + $second-level-menu-height + $search-form-extended-height;
+      }
+    }
+  }
+}
+
+// Headers
+//
+// Markup:
+// <h1>Header h1</h1>
+// <h2>Header h2</h2>
+// <h3>Header h3</h3>
+//
+// Styleguide 1.1.1
+
+h1,
+h2,
+h3,
+h4 {
+  margin-top: 0;
+  font-weight: $weight-normal;
+}
+
+h1 {
+  @include font('display-large');
+  color: $color-primary;
+  margin-bottom: 30px;
+}
+
+h2 {
+  @include font('display');
+  margin-bottom: 30px;
+}
+
+h3 {
+  @include font('display-small');
+  margin-bottom: 20px;
+}
+
+h4 {
+  @include font('base-bold');
+  margin-bottom: 20px;
+}
+
+// Paragraph
+p {
+  margin: 0 0 $distance-paragraph;
+}
+
+// Images
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+img.file-icon {
+  display: none;
+}
+
+// Links
+//
+// :hover   - hover
+//
+// Markup:
+// <a class="{{modifier_class}}">Link</a>
+//
+// Styleguide 1.1.2
+
+a {
+  @include transition(color $speed $ease);
+  text-decoration: none;
+  color: $color-text-link;
+  &:hover {
+    color: $charcoal;
+  }
+}
+
+// Strong and bold
+strong,
+b {
+  @include font('base-bold');
+  font-weight: normal;
+}
+
+// Lists
+ul,
+ol {
+  margin: 0 0 $distance-paragraph;
+  padding-left: 20px;
+  list-style-position: outside;
+}
+
+// Label
+label {
+  font-weight: normal;
+}

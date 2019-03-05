@@ -85,9 +85,6 @@ function ting_schema() {
     ),
   );
 
-  // Cache table used by ting_execute_cache.
-  $schema['cache_ting'] = drupal_get_schema_unprocessed('system', 'cache');
-
   return $schema;
 }
 
@@ -261,4 +258,57 @@ function ting_update_7010() {
     'ting_entities',
     'ting_collection_types',
   ));
+}
+
+/**
+ * Remove ting_filter_by_local_holdings variable.
+ */
+function ting_update_7011() {
+  variable_del('ting_filter_by_local_holdings');
+}
+
+/**
+ * Convert material types and sources to new structure.
+ */
+function ting_update_7012() {
+  // Variables currently contain maps of names to frequencies. Going forward
+  // we only require the names so convert each to an array of names.
+  $var_names = array('ting_well_types', 'ting_well_sources');
+  array_map(function($var_name) {
+    $var_value = variable_get($var_name, []);
+    if (!empty($var_value)) {
+      variable_set($var_name, array_keys($var_value));
+    }
+  }, $var_names);
+}
+
+/**
+ * Configure book types to have non-default languages shown as title suffix.
+ */
+function ting_update_7013() {
+  variable_set('ting_language_default', 'Dansk');
+
+  $language_suffix_types = array_filter(
+    _ting_fetch_well_types(),
+    function($type) {
+      return (bool) preg_match('/\bBog\b/i', $type);
+    }
+  );
+  variable_set('ting_language_type_title_suffix', $language_suffix_types);
+}
+
+/**
+ * Enable OpenSearch module if no other search provider is active.
+ */
+function ting_update_7014() {
+  if (!ding_provider_implements('search', 'search')) {
+    module_enable(['opensearch']);
+  }
+}
+
+/**
+ * Remove old ting cache table.
+ */
+function ting_update_7015() {
+  db_drop_table('cache_ting');
 }

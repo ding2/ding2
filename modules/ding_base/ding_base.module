@@ -25,6 +25,13 @@ function ding_base_menu() {
     'file path' => drupal_get_path('module', 'system'),
   );
 
+  $items['ding_base/taxonomy/autocomplete'] = array(
+    'title' => 'Autocomplete taxonomy',
+    'page callback' => 'ding_base_taxonomy_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -470,6 +477,26 @@ function ding_base_updated_taxonomy_aliases($node, $base, $terms, $slugs) {
 }
 
 /**
+ * Get the list of css files to process by the color module.
+ *
+ * @param string $theme
+ *   Theme name.
+ *
+ * @return array
+ *   Files list.
+ */
+function ding_base_color_css_files($theme) {
+  $files = array();
+
+  $theme_path = drupal_realpath(drupal_get_path('theme', $theme)) . '/';
+  foreach (file_scan_directory($theme_path . '/sass_css', '/\.css$/') as $file) {
+    $files[] = str_replace($theme_path, '', drupal_realpath($file->uri));
+  }
+
+  return $files;
+}
+
+/**
  * Rewrite the color generated stylesheet.
  *
  * This function is used by "drush cgen" to regenerate the color modules css
@@ -493,6 +520,8 @@ function ding_base_rewrite_color_stylesheet() {
 
   $info = color_get_info($theme);
   $palette = color_get_palette($theme);
+
+  $info['css'] = ding_base_color_css_files($theme);
 
   // Prepare target locations for generated files.
   $id = $theme . '-' . substr(hash('sha256', serialize($palette) . microtime()), 0, 8);
@@ -550,9 +579,23 @@ function ding_base_rewrite_color_stylesheet() {
 /**
  * Implements hook_field_widget_form_alter().
  */
-function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
-  // Our goal only image fields.
-  if (isset($element['#type']) && $element['#type'] == 'media') {
+function ding_base_field_widget_form_alter(&$elements, &$form_state, $context) {
+  // Add help text describing resizing/cropping to image fields.
+  $description = NULL;
+
+  // First extract all indexes of image fields.
+  $image_indexes = array_filter(element_children($elements),
+    function($i) use ($elements) {
+      return isset($elements[$i]['#type']) && $elements[$i]['#type'] == 'media';
+    }
+  );
+
+  foreach ($elements as $i => &$element) {
+    // Skip non-image elements.
+    if (!in_array($i, $image_indexes)) {
+      continue;
+    }
+
     $display = NULL;
     $displays = $context['instance']['display'];
     // By default we trying to get default display.
@@ -592,13 +635,17 @@ function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
           $i =  "{$i}px {$k}";
         });
 
-        $text = t("The image will automatically be resized. The maximum dimensions are %dimensions (Original: {$original_sample['width']}x{$original_sample['height']}).", array(
+        $description = t("The image will automatically be resized. The maximum dimensions are %dimensions (Original: {$original_sample['width']}x{$original_sample['height']}).", array(
           '%dimensions' => implode(' and ', $dimensions),
         ));
-        $element['#suffix'] = '<div class="description">' . $text . '</div>';
       }
     }
   }
+
+  if (!empty($description)) {
+    $elements['#suffix'] = $description;
+  }
+
 }
 
 /**
@@ -637,5 +684,210 @@ function ding_base_get_items($entity_type, $entity, $field_name) {
 function ding_base_js_alter(&$javascript) {
   if (isset($javascript['profiles/ding2/modules/contrib/lazy_pane/js/lazy-pane.js'])) {
     drupal_add_js(drupal_get_path('module', 'ding_base') . '/js/lazy-pane-fix.js');
+  }
+}
+
+/**
+ * Implement hook_page_delivery_callback_alter()
+ *
+ * Override the default ajax_deliver callback on lazy_pane requests, so we can
+ * handle empty panes.
+ */
+function ding_base_page_delivery_callback_alter(&$callback) {
+  if (lazy_pane_is_lazy_request()) {
+    $callback = 'ding_base_lazy_pane_ajax_deliver';
+  }
+}
+
+/**
+ * This callback is used on lazy_pane requests.
+ *
+ * It will look for empty inserts, and change the command to use the
+ * ding_base_lazy_pan_remove_pane (see js/lazy-pane-fix.js) instead.
+ */
+function ding_base_lazy_pane_ajax_deliver($page_callback_result) {
+  foreach ($page_callback_result['#commands'] as &$command) {
+    if ($command['command'] === 'insert' && $command['data'] === NULL) {
+      $command['command'] = 'ding_base_lazy_pane_remove_pane';
+    }
+  }
+
+  return ajax_deliver($page_callback_result);
+}
+
+/**
+ * Validate an email.
+ *
+ * This check uses Drupals valid_email_addess(), and makes sure the domain used
+ * is a valid top level domain.
+ *
+ * @param string $email
+ *   The email to validate.
+ *
+ * @return bool
+ *   TRUE if the address is in a valid format.
+ */
+function ding_base_validate_email($email) {
+  // If < and > are used, set the email to the data encapsulated by these
+  // characters.
+  if (preg_match('/<([^>]*)>/', $email, $matches)) {
+    $email = $matches[1];
+  }
+
+  if (!valid_email_address($email)) {
+    return FALSE;
+  }
+
+  $tld_list = array();
+  if ($cache = cache_get('ding_base:tld_list')) {
+    $tld_list = $cache->data;
+  }
+  else {
+    // We assume iana will keep the list of tlds in the same format and on the
+    // same URL. It's been the same URL and format since 2004.
+    // If the response fails the $tld_list will be empty and we'll simply skip
+    // the domain check.
+    $response = drupal_http_request('http://data.iana.org/TLD/tlds-alpha-by-domain.txt');
+    if ($response->code == 200) {
+      $tld_list = explode("\n", $response->data);
+      cache_set('ding_base:tld_list', $tld_list);
+    }
+  }
+
+  $domain = strtoupper(substr($email, strrpos($email, '.') + 1));
+  return empty($tld_list) || in_array($domain, $tld_list);
+}
+
+/**
+ * Implements hook_views_default_views_alter().
+ *
+ * Adding custom Taxonomy Terms filter to admin_views_node view.
+ */
+function ding_base_views_default_views_alter(&$views) {
+  if (isset($views['admin_views_node'])) {
+    $view = &$views['admin_views_node'];
+    $filter_options = [
+      'id' => 'ding_base_term_name',
+      'table' => 'taxonomy_term_data',
+      'field' => 'name',
+      'relationship' => 'term_node_tid',
+      'group_type' => 'group',
+      'operator' => "contains",
+      'value' => '',
+      'group' => 1,
+      'exposed' => TRUE,
+      'required' => FALSE,
+      'type' => 'text',
+      'expose' => [
+        'operator_id' => 'name_op',
+        'label' => t('Terms'),
+        'operator' => 'name_op',
+        'identifier' => 'ding_base_term_name',
+      ],
+    ];
+
+    $filters = $view->display['default']->display_options['filters'];
+
+    if (empty($filters['name'])) {
+      // There is no such filter so we have to add it.
+      $views['admin_views_node']->display['default']->display_options['filters']['name'] = $filter_options;
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_base_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'views_exposed_form' && $form_state['view']->name == 'admin_views_node') {
+    $form['ding_base_term_name']['#type'] = 'textfield';
+    $form['ding_base_term_name']['#id'] = 'edit-ding-base-term-name';
+    $form['ding_base_term_name']['#attached']['js'][] = [
+      'data' => drupal_get_path('module', 'ding_base') . '/js/ding_base.prevent_auto_submit.js',
+      'type' => 'file',
+    ];
+
+    // If no vocabulary selected, disable "Terms" filter.
+    if ($form_state['input']['vid'] == 'All') {
+      $form['ding_base_term_name']['#attributes'] = [
+        'disabled' => TRUE,
+      ];
+    }
+    else {
+      $vid = $form_state['input']['vid'];
+      $form['ding_base_term_name']['#autocomplete_path'] = 'ding_base/taxonomy/autocomplete/' . $vid;
+      $form['ding_base_term_name']['#description'] = t('Autocomplete with terms of selected vocabulary');
+      $form['ding_base_term_name']['#attributes'] = [
+        'class' => [
+          'ctools-auto-submit-exclude',
+        ],
+      ];
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Used for changing order of filter fields, so the "Terms" filter is positioned
+ * right after "Vocabulary" filter.
+ */
+function ding_base_preprocess_views_exposed_form(&$variables) {
+  if (isset($variables['form']) && $variables['form']['#id'] == 'views-exposed-form-admin-views-node-system-1') {
+    $widgets = $variables['widgets'];
+
+    // Get widgets keys for further processing.
+    $widgets_keys = array_keys($widgets);
+
+    // Switch key with value, to have an numeric value.
+    $widgets_keys = array_flip($widgets_keys);
+
+    // Getting Vocabulary filter position.
+    $vid_position = $widgets_keys['filter-vid'];
+    // Set needed position to Taxonomy terms filter field.
+    $widgets_keys['filter-name'] = $vid_position + 1;
+
+    // Modifying positions.
+    foreach ($widgets_keys as $key => $pos) {
+      if ($pos >= $widgets_keys['filter-name'] && $key != 'filter-name') {
+        $widgets_keys[$key] = $pos + 1;
+      }
+    }
+
+    // Flip array to get numeric values as keys.
+    $normalize = array_flip($widgets_keys);
+
+    // Sort array by numeric keys.
+    ksort($normalize, SORT_ASC);
+
+    // Prepare ordered array.
+    $normalized = array_flip($normalize);
+
+    // Order widgets objects by correctly positioned structure.
+    $widgets = array_merge($normalized, $widgets);
+
+    // Return widgets back in variables.
+    $variables['widgets'] = $widgets;
+  }
+}
+
+/**
+ * Admin content "Terms" filter autocomplete callback.
+ */
+function ding_base_taxonomy_autocomplete($vid, $tag) {
+  if (!empty($vid)) {
+    $tags = db_select('taxonomy_term_data', 't')
+      ->fields('t', ['tid', 'name'])
+      ->condition('vid', $vid)
+      ->condition('t.name', '%' . db_like($tag) . '%', 'LIKE')
+      ->execute()
+      ->fetchAll();
+
+    $items = [];
+    foreach ($tags as $item) {
+      $items[$item->name] = $item->name;
+    }
+
+    drupal_json_output($items);
   }
 }

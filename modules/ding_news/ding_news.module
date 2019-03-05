@@ -121,3 +121,53 @@ function ding_news_preprocess_views_view(&$vars) {
     }
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_news_form_views_exposed_form_alter(&$form, &$form_state) {
+  if ($form_state['view']->name == 'ding_news' && $form_state['view']->current_display == 'ding_news_list') {
+    if (!empty($form['#info']['filter-og_group_ref_target_id_entityreference_filter'])) {
+      $label = $form['#info']['filter-og_group_ref_target_id_entityreference_filter']['label'];
+      unset($form['#info']['filter-og_group_ref_target_id_entityreference_filter']['label']);
+      $form['og_group_ref_target_id_entityreference_filter']['#title'] = '<h2 class="list-title sub-menu-title">' . $label . '</h2>';
+    }
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_news_menu() {
+  $items['admin/config/ding/news'] = array(
+    'title' => 'Ding news settings',
+    'description' => 'Administer news settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_news_admin_setting_form'),
+    'access arguments' => array('administer news settings'),
+    'file' => 'ding_news.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_news_permission() {
+  return array(
+    'administer news settings' => array(
+      'title' => t('Administer news settings'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_pre_build().
+ */
+function ding_news_views_pre_build(&$view) {
+  switch ($view->name . ' ' . $view->current_display) {
+    case 'ding_news ding_news_list':
+      $view->items_per_page = variable_get('ding_news_list_items_per_page', 10);
+      break;
+  }
+}

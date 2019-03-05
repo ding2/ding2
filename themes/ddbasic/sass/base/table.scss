@@ -1,0 +1,69 @@
+//
+// Styling of table elements
+
+@import '../base.scss';
+// Table
+//
+// Markup:
+// <table>
+//  <thead>
+//    <tr><th>Table head</th><th>Table head</th><th>Table head</th></tr>
+//  </thead>
+//  <tbody>
+//    <tr class="odd"><td>td</td><td>td</td><td>td</td></tr>
+//    <tr class="even"><td>td</td><td>td</td><td>td</td></tr>
+//    <tr class="odd"><td>td</td><td>td</td><td>td</td></tr>
+//    <tr class="even"><td>td</td><td>td</td><td>td</td></tr>
+//  </tbody>
+// </table>
+//
+// Styleguide 1.3
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  thead {
+    @include font('base-bold');
+    tr {
+      &:nth-child(2n + 1) {
+        background-color: transparent;
+      }
+    }
+  }
+  th {
+    padding-bottom: 10px;
+    padding-right: 15px;
+    border-bottom: none;
+    font-weight: normal;
+    text-align: left;
+  }
+  tbody {
+    border-top: none;
+  }
+  tr {
+    border-bottom: none;
+    padding: 0;
+    &:nth-child(2n + 1) {
+      background-color: $grey;
+    }
+  }
+  tr.even,
+  tr.odd {
+    border-bottom: none;
+    padding: 0;
+  }
+  tr.even {
+    background-color: transparent;
+  }
+  tr.odd {
+    background-color: $grey;
+  }
+  td {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 15px;
+    &:first-child {
+      padding-left: $box-padding;
+    }
+  }
+}

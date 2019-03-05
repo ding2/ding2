@@ -218,6 +218,9 @@ function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
         $bpi_query['filter'][$key] = $selected_values;
       }
     }
+
+    // Append a condition that denotes that all selected filters must apply.
+    $bpi_query['filter']['logicalOperator'] = 'and';
   }
 
   // Redirect to search results.
@@ -395,6 +398,8 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
     return;
   }
 
+  $bpi_agency_id = variable_get('bpi_agency_id', '');
+
   $rows = array();
   foreach ($items as $i => $item) {
     $rows[$i]['title'] = sprintf(
@@ -441,10 +446,17 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
         'admin/bpi/preview/nojs/' . $item['bpi_id'],
         array('attributes' => array('class' => 'use-ajax'))
       ),
-      l(t('Syndicate'),
-        'admin/bpi/syndicate/' . $item['bpi_id']
-      ),
     );
+
+    // No need to be able to syndicate own content.
+    // The ownership is based on agency id.
+    if ($bpi_agency_id != $item['agency_id']) {
+      $actions[] = l(
+        t('Syndicate'),
+        'admin/bpi/syndicate/' . $item['bpi_id']
+      );
+    }
+
     $rows[$i]['actions'] = implode(' ', $actions);
   }
 
@@ -538,19 +550,6 @@ function _bpi_get_current_filter() {
     unset($value['agency_internal']);
   }
   return $value;
-}
-
-/**
- * Decide if a filter is currently applied.
- *
- * @return bool
- *   Whether a filter is applied or not.
- */
-function _bpi_is_filter_applied() {
-  $filter = _bpi_get_current_filter();
-  // Filter is applied if something apart from logicalOperator is set.
-  unset($filter['logicalOperator']);
-  return !empty($filter);
 }
 
 /**
@@ -669,7 +668,6 @@ function bpi_available_map() {
     'tags' => t('Tags'),
     'agency_id' => t('Agency'),
     'agency_internal' => t('Agency internal'),
-    'logicalOperator' => t('Logical operator'),
   );
 }
 
@@ -707,7 +705,7 @@ function bpi_build_search_facets(array &$form) {
       '#type' => 'fieldset',
       '#title' => t('Filters'),
       '#collapsible' => TRUE,
-      '#collapsed' => !_bpi_is_filter_applied(),
+      '#collapsed' => FALSE,
       '#attributes' => array(
         'class' => array(
           'bpi-filters',
@@ -780,20 +778,6 @@ function bpi_build_search_facets(array &$form) {
       );
     }
 
-    // Add logical operator.
-    $name = 'logicalOperator';
-    $id = $name;
-    $facets_form[$id] = array(
-      '#type' => 'select',
-      '#title' => bpi_label_mapper($name) ? bpi_label_mapper($name) : $name,
-      '#options' => array(
-        'and' => t('All must apply'),
-        'or' => t('Any must apply'),
-      ),
-      '#default_value' => _bpi_get_query_parameter(array('filter', $name), 'and'),
-      '#weight' => -10,
-    );
-
     $filter_form['bpi_facets'] = $facets_form;
 
     $filter_form['bpi_actions'] = array(
@@ -840,9 +824,10 @@ function bpi_get_facets() {
   }
 
   if ($reload) {
-    $response = bpi_search_content();
-    if (!empty($response)) {
-      $facets = $response->getFacets();
+    $bpi = bpi_client_instance();
+    $result = $bpi->searchNodes();
+    if (!empty($result)) {
+      $facets = $result->getFacets();
       $_SESSION[BPI_ALL_FACETS_KEY] = bpi_facets_to_array($facets);
     }
     else {

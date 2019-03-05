@@ -14,7 +14,7 @@ function ding_user_frontend_install() {
 /**
  */
 function ding_user_frontend_update_7001() {
-  // delete userfields 
+  // delete userfields
     // @todo field exists?
   // mark fields for deletion
   field_delete_field('field_period_of_interest');
@@ -23,6 +23,18 @@ function ding_user_frontend_update_7001() {
   //actually delete the fields
   field_purge_batch(100);
   // todo return something
-  
+
   return t('deleted field_period_of_interest and field_reservation_pause from user');
+}
+
+/**
+ * Delete flag module's default views from the database if they are present.
+ */
+function ding_user_frontend_update_7002() {
+  if ($view = views_get_view('flag_bookmarks_tab')) {
+    views_delete_view($view);
+  }
+  if ($view = views_get_view('flag_bookmarks')) {
+    views_delete_view($view);
+  }
 }

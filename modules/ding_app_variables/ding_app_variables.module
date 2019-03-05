@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file
+ * Define modules hooks.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_app_variables_menu() {
+  $items = array();
+
+  $items['ding/variables'] = array(
+    'title' => 'Display variables as JSON output',
+    'access callback' => TRUE,
+    'delivery callback' => 'drupal_json_output',
+    'page callback' => 'ding_app_variables_display',
+  );
+
+  return $items;
+}
+
+/**
+ * Provide variables to the json output.
+ *
+ * @return array
+ *   List of all variables to the output.
+ */
+function ding_app_variables_display() {
+  $carousel_configs = variable_get('ting_carousel_search_queries');
+
+  $variables = array(
+    'opensearch_search_profile',
+    'ting_search_results_per_page',
+    'opensearch_url',
+    'opensearch_sort_default',
+    'opensearch_ranking_custom',
+    'opensearch_ranking_fields',
+    'opensearch_boost_fields',
+    'ting_agency',
+  );
+  $variables_configs = array();
+  foreach ($variables as $variable) {
+    $variables_configs[$variable] = variable_get($variable, '');
+  }
+
+  return array(
+    'variables' => $variables_configs,
+    'carousels' => $carousel_configs,
+  );
+}

@@ -1,0 +1,95 @@
+//
+// Styling of datepicker
+
+@import '../base.scss';
+
+#ui-datepicker-div {
+  z-index: $z-overlay !important; // Z-index is set as a inline style to 1 by, which is not enough
+  border: none;
+  background-color: $grey-light;
+  padding: 5px 8px;
+  margin-top: 20px;
+  box-shadow: $box-shadow;
+  .ui-datepicker-header {
+    border-radius: 0;
+    border: none;
+    background: none;
+    height: 30px;
+    border-bottom: 1px solid $grey;
+  }
+  .ui-datepicker-title {
+    width: 100%;
+    height: 30px;
+    padding: 0 25px;
+    margin: 3px 0 0;
+    select {
+      @include font('base');
+      cursor: pointer;
+      color: $charcoal;
+      line-height: normal;
+      position: static;
+      height: auto;
+      padding: 0 10px;
+    }
+  }
+  .ui-corner-all {
+    cursor: pointer;
+    .ui-icon {
+      background: $color-primary;
+      background-image: none;
+      border-radius: 50%;
+      &.ui-icon-circle-triangle-w {
+        @include place-icon('arrow-left', $white, 24px);
+      }
+      &.ui-icon-circle-triangle-e {
+        @include place-icon('arrow-right', $white, 24px);
+      }
+      &.ui-icon-circle-triangle-w,
+      &.ui-icon-circle-triangle-e {
+        &::after {
+          text-indent: 0;
+          top: -3px;
+          left: -4px;
+          font-weight: 700;
+        }
+      }
+    }
+    &.ui-state-hover {
+      border: none;
+      background: transparent;
+      .ui-icon {
+        background-color: $white;
+        &::after {
+          color: $color-primary;
+        }
+      }
+    }
+  }
+  .ui-datepicker-calendar {
+    th {
+      @include font('base');
+      color: $charcoal;
+    }
+    td:first-child {
+      padding-left: 0;
+    }
+    td a {
+      @include transition(background-color $speed $ease, color $speed $ease, border-color $speed $ease);
+      @include font('base');
+      padding-top: 0.35em;
+      color: $charcoal;
+      background: transparent;
+      background-image: none;
+      &.ui-state-highlight {
+        border-color: $color-primary;
+        background-color: $color-primary;
+        color: $white;
+      }
+      &:hover {
+        border-color: $color-secondary;
+        background-color: $color-secondary;
+        color: $white;
+      }
+    }
+  }
+}

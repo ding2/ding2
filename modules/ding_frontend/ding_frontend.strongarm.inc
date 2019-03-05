@@ -13,6 +13,20 @@ function ding_frontend_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'admin_menu_components';
+  $strongarm->value = array(
+    'admin_menu.icon' => TRUE,
+    'admin_menu.menu' => TRUE,
+    'admin_menu.users' => TRUE,
+    'admin_menu.account' => TRUE,
+    'shortcut.links' => TRUE,
+    'admin_menu.search' => FALSE,
+  );
+  $export['admin_menu_components'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'cs_adaptive_image_breakpoint_count';
   $strongarm->value = 2;
   $export['cs_adaptive_image_breakpoint_count'] = $strongarm;
@@ -20,9 +34,30 @@ function ding_frontend_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_ding_date_and_time';
+  $strongarm->value = 'd.m.Y - H:i';
+  $export['date_format_ding_date_and_time'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_ding_date_only_version2';
+  $strongarm->value = 'd.m.y';
+  $export['date_format_ding_date_only_version2'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'date_format_month_and_year_separator';
+  $strongarm->value = 'F <\\s\\p\\a\\n>Y</\\s\\p\\a\\n>';
+  $export['date_format_month_and_year_separator'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'dynamic_background_css';
   $strongarm->value = array(
-    'selector' => '#page.ding2-site-template',
+    'selector' => 'body > #page.ding2-site-template',
     'css' => 'background-size: cover;
 background-attachment: fixed;',
   );
@@ -123,7 +158,7 @@ background-attachment: fixed;',
     'domain' => '',
     'prefix' => 'da',
     'weight' => '0',
-    'javascript' => 'MCHIQJ7ZJ9LKx7dqsQAD4mx7uk7AMRr7-_F3jAKnZ3k',
+    'javascript' => '3HbjO4oLxJTJtrMRbGIS0xQpg6csrg__esXQvPTP_q8',
   );
   $export['language_default'] = $strongarm;
 

@@ -1,0 +1,85 @@
+//
+// Styling of the KSS page
+
+@import '../base.scss';
+
+#kss-node {
+  // Headers
+  .kss-title {
+    margin-bottom: 20px;
+  }
+  .kss-style {
+    h1,
+    h2,
+    h3,
+    h4 {
+      .kss-title__ref {
+        margin-bottom: 5px;
+      }
+    }
+    h1 {
+      font-size: 50px;
+      &.kss-doc-title {
+        font-size: 28px;
+      }
+    }
+    h2 {
+      font-size: 40px;
+    }
+    h3 {
+      font-size: 28px;
+    }
+  }
+
+  // Sections
+  .kss-section {
+    padding-bottom: 30px;
+    border-bottom: 1px solid $grey;
+  }
+
+  // Navigation
+  .kss-nav {
+    > .kss-nav__menu {
+      > .kss-nav__menu-item {
+        > .kss-nav__menu-child {
+          font-size: 14px;
+        }
+      }
+    }
+    .kss-nav__menu-link {
+      color: $charcoal;
+      &:visited {
+        color: $charcoal;
+      }
+    }
+  }
+  // Modifier wrapper
+  .kss-modifier__wrapper {
+    background-color: #f5f5f5;
+  }
+  // Modifier example
+  .kss-modifier__example {
+    &:last-child {
+      margin-bottom: 23px;
+    }
+  }
+  // Clearfixes
+  .kss-modifier__wrapper,
+  .kss-modifier__example {
+    @include clearfix();
+  }
+
+  // Dummy content
+  .dummy-content {
+    height: 200px;
+    width: 100%;
+    background-color: #ccc;
+    margin-top: 10px;
+  }
+  // Dummy content
+  .dummy-row {
+    height: 100px;
+    background-color: #ccc;
+    margin-top: 10px;
+  }
+}

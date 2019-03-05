@@ -47,7 +47,6 @@ function ding_place2book_field_widget_info() {
  */
 function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   $event = $event_id = $event_maker_id = $synchronize = NULL;
-  $node_id = isset($form_state['node']->nid) ? $form_state['node']->nid : NULL;
   if (!empty($items)) {
     list($event_id, $event_maker_id, $synchronize) = array_values(reset($items));
     try {
@@ -72,11 +71,32 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         '#tree' => TRUE,
       );
 
+      // This setting determines whether the event should be synchronized with
+      // p2b every time an administrator updates the entity from an entity form.
       $element['place2book']['synchronize'] = array(
         '#type' => 'checkbox',
         '#title' => t('Synchronize event with Place2book service'),
         '#description' => t('If checked, then event on Place2book will be updated with data from local event.'),
         '#default_value' => $synchronize !== NULL ? $synchronize : variable_get('ding_p2b_default_synchronize', FALSE),
+      );
+
+      // The value/presence of this element is what actually determines whether
+      // an update will be performed if 'synchronize' above is selected. This is
+      // to protect against unwanted/needed request against p2b API, when nodes
+      // are updated programmatically or in a bulk operation from the UI. In
+      // these cases it's almost never the intention to sync with p2b and it
+      // will also result in potentially lots of un-needed separated requests
+      // against p2b API. These requests would also generate errors since
+      // required values like 'capacity' or 'address' is missing.
+      // If the intention IS to update to events also, the caller would have to
+      // supply the 'do_sync' setting itself on the p2b field on the entity
+      // (together with the required fields).
+      // From this field widget form, the event should be synchronized with p2b
+      // every time (if synchronize is selected), so to ensure this we attach
+      // the 'do_sync' setting here manually as an internal form value.
+      $element['place2book']['do_sync'] = array(
+        '#type' => 'value',
+        '#value' => TRUE,
       );
 
       if (!empty($event)) {
@@ -218,17 +238,21 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#default_value' => !empty($price) ? $price->name : $price_name,
         );
 
+        if (empty($price->meta_data->deletable)) {
+          $element['place2book']['prices_wrapper']['prices'][$key]['name']['#description'] = t('NB: This ticket type can not be deleted (most likely because of sold tickets).');
+        }
+
         $element['place2book']['prices_wrapper']['prices'][$key]['value'] = array(
           '#type' => 'textfield',
           '#default_value' => !empty($price) ? $price->value : '',
         );
-        $sale_begin_at = !empty($price->sale_begin_at) ? date('Y-m-d H:i:s', strtotime($price->sale_begin_at)) : date('Y-m-d H:i:s');
+        $sale_begin_at = !empty($price->sale_begin_at) ? date('Y-m-d H:i:s', strtotime($price->sale_begin_at)) : '';
         $element['place2book']['prices_wrapper']['prices'][$key]['sale_begin_at'] = array(
           '#type' => 'date_popup',
           '#default_value' => $sale_begin_at,
         );
 
-        $sale_end_at = !empty($price->sale_end_at) ? date('Y-m-d H:i:s', strtotime($price->sale_end_at)) : date('Y-m-d H:i:s');
+        $sale_end_at = !empty($price->sale_end_at) ? date('Y-m-d H:i:s', strtotime($price->sale_end_at)) : '';
         $element['place2book']['prices_wrapper']['prices'][$key]['sale_end_at'] = array(
           '#type' => 'date_popup',
           '#default_value' => $sale_end_at,
@@ -244,12 +268,12 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#value' => t('Remove'),
           '#name' => 'prices_remove_' . $key,
           '#price_key' => $key,
-          '#node_id' => $node_id,
           '#price_id' => isset($price->id) ? $price->id : NULL,
           '#event_id' => $event_id,
           '#event_maker_id' => $event_maker_id,
           '#submit' => array('ding_place2book_prices_remove_submit'),
           '#limit_validation_errors' => array(),
+          '#disabled' => empty($price->meta_data->deletable),
           '#ajax' => array(
             'wrapper' => 'ding-place2book-prices-wrapper',
             'callback' => 'ding_p2b_prices_remove_ajax_handler',
@@ -318,9 +342,8 @@ function ding_place2book_widget_validate($form, &$form_state) {
     if (!$place2book['passive'] && isset($place2book['prices_wrapper']['prices'])) {
       $prices = $place2book['prices_wrapper']['prices'];
       $prices = array_filter($prices, function ($i) {
-        return !empty($i['name']) && !empty($i['value']);
+        return !empty($i['name']) && (!empty($i['value']) || $i['value'] === '0');
       });
-
       if (empty($prices)) {
         form_set_error('field_place2book][und][place2book][prices_wrapper][prices', t('At least one price should exist.'));
       }
@@ -391,13 +414,13 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
     case 'ding_p2b':
       if (!empty($items)) {
         $settings = reset($items);
-        if ($settings['synchronize']) {
-          if (empty($settings['event_id'])) {
-            $items = _ding_place2book_create_p2b_entities($entity, $settings);
-          }
-          else {
-            $items = _ding_place2book_update_p2b_entities($entity, $settings);
-          }
+        // Ensure that both 'synchronize' and 'do_sync' is set and TRUE, before
+        // making any requests to p2b API. This is to ensure we don't make lots
+        // of unneeded requests when nodes are saved programmatically or updated
+        // in bulk via the UI.
+        // See ding_place2book_field_widget_form() for more info.
+        if ($settings['synchronize'] && !empty($settings['do_sync'])) {
+          $items = _ding_place2book_sync_p2b_entities($entity, $settings);
         }
         else {
           $items = array(
@@ -407,6 +430,37 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
               'synchronize' => $settings['synchronize'],
             ),
           );
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_field_delete().
+ */
+function ding_place2book_field_delete($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  switch ($field['type']) {
+    case 'ding_p2b':
+      if (!empty($items)) {
+        $settings = reset($items);
+        if ($settings['synchronize'] && !empty($settings['event_id'])) {
+          $event_id = $settings['event_id'];
+          $event_maker_id = $settings['event_maker_id'];
+          try {
+            $p2b = ding_place2book_instance();
+            $prices = $p2b->getPrices($event_maker_id, $event_id);
+            foreach ($prices as $price) {
+              $p2b->deletePrice($event_maker_id, $event_id, $price->id);
+            }
+            $p2b->deleteEvent($event_maker_id, $event_id);
+          }
+          catch (Exception $ex) {
+            watchdog_exception('ding_place2book', $ex, t('Error appeared on deleting node: nid - :nid, title - :title.', array(
+              ':nid' => $node->nid,
+              ':title' => $node->title,
+            )));
+          }
         }
       }
       break;
@@ -455,22 +509,34 @@ function ding_place2book_field_formatter_view($entity_type, $entity, $field, $in
 }
 
 /**
- * Helper function for creating p2b entities.
+ * Helper function for synchronizing p2b entities.
  *
  * @param object $entity
- *   Object of node.
+ *   Entity with p2b field.
  * @param array $settings
  *   Represents array of data and settings.
  *
  * @return array
  *   Array of items for field_place2book.
  */
-function _ding_place2book_create_p2b_entities($entity, array $settings) {
-  $items = array();
-  $event_maker_id = _ding_place2book_get_event_maker($entity);
+function _ding_place2book_sync_p2b_entities($entity, array $settings) {
+  $items = [];
+
+  $event_id = !empty($settings['event_id']) ? $settings['event_id'] : FALSE;
+  $event_maker_id = FALSE;
+  // For clarity.
+  $is_new = !$event_id;
+
+  if ($is_new) {
+    $event_maker_id = _ding_place2book_get_event_maker($entity);
+  }
+  elseif (isset($settings['event_maker_id'])) {
+    $event_maker_id = $settings['event_maker_id'];
+  }
+
   if ($event_maker_id) {
     $p2b = ding_place2book_instance();
-    // Collect data for creating event.
+    // Collect data for synchronizing event.
     $prices = $settings['prices_wrapper']['prices'];
     unset($settings['prices_wrapper']);
     unset($settings['synchronize']);
@@ -479,7 +545,12 @@ function _ding_place2book_create_p2b_entities($entity, array $settings) {
     $options['event'] = ding_p2b_format_options($entity, $settings);
 
     try {
-      $event = $p2b->createEvent($event_maker_id, $options);
+      if ($is_new) {
+        $event = $p2b->createEvent($event_maker_id, $options);
+      }
+      else {
+        $event = $p2b->updateEvent($event_maker_id, $event_id, $options);
+      }
     }
     catch (Exception $ex) {
       watchdog_exception('ding_place2book', $ex);
@@ -488,89 +559,27 @@ function _ding_place2book_create_p2b_entities($entity, array $settings) {
     }
 
     foreach ($prices as $price) {
-      if (empty($price['name']) || empty($price['value'])) {
+      if (empty($price['name']) || (empty($price['value']) && $price['value'] !== '0')) {
         continue;
       }
 
-      $sale_begin = format_date(strtotime($price['sale_begin_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
-      $sale_end = format_date(strtotime($price['sale_end_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
-      $data = array(
-        'name' => $price['name'],
-        'value' => $price['value'],
-        'sale_begin_at' => $sale_begin,
-        'sale_end_at' => $sale_end,
-      );
-
-      try {
-        $p2b->createPrice($event_maker_id, $event->id, array('price' => $data));
+      $sale_begin = NULL;
+      if ($price['sale_begin_at']) {
+        $sale_begin = format_date(strtotime($price['sale_begin_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
       }
-      catch (Exception $ex) {
-        watchdog_exception('ding_place2book', $ex);
-        drupal_set_message($ex->getMessage(), 'error');
+      else {
+        // If sale begin was left empty use current time.
+        $sale_begin = date('Y-m-d\TH:i:sO');
       }
-    }
-    $items = array(
-      array(
-        'event_id' => $event->id,
-        'event_maker_id' => $event_maker_id,
-        'synchronize' => 1,
-      ),
-    );
-    drupal_set_message(t('Event was successfully created.'));
-  }
-
-  return $items;
-}
-
-/**
- * Helper function for creating p2b entities.
- *
- * @param object $entity
- *   Object of node.
- * @param array $settings
- *   Represents array of data and settings.
- *
- * @return array
- *   Array of items for field_place2book.
- */
-function _ding_place2book_update_p2b_entities($entity, array $settings) {
-  $p2b = ding_place2book_instance();
-
-  // Current state.
-  $items = array(
-    array(
-      'event_id' => $settings['event_id'],
-      'event_maker_id' => $settings['event_maker_id'],
-      'synchronize' => 1,
-    ),
-  );
-
-  if ($settings['event_maker_id']) {
-    // Collect data for updating event.
-    $prices = $settings['prices_wrapper']['prices'];
-    $event_id = $settings['event_id'];
-    $event_maker_id = $settings['event_maker_id'];
-    unset($settings['prices_wrapper']);
-    unset($settings['synchronize']);
-    unset($settings['event_id']);
-    unset($settings['event_maker_id']);
-    $options['event'] = ding_p2b_format_options($entity, $settings);
-    try {
-      $event = $p2b->updateEvent($event_maker_id, $event_id, $options);
-    }
-    catch (Exception $ex) {
-      watchdog_exception('ding_place2book', $ex);
-      drupal_set_message($ex->getMessage(), 'error');
-      return $items;
-    }
-
-    foreach ($prices as $key => $price) {
-      if (empty($price['name']) || empty($price['value'])) {
-        continue;
+      $sale_end = NULL;
+      if ($price['sale_end_at']) {
+        $sale_end = format_date(strtotime($price['sale_end_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
+      }
+      else {
+        // If sale end was left empty use events start date.
+        $sale_end = $event->begin_at;
       }
 
-      $sale_begin = format_date(strtotime($price['sale_begin_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
-      $sale_end = format_date(strtotime($price['sale_end_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
       $data = array(
         'name' => $price['name'],
         'value' => $price['value'],
@@ -590,16 +599,21 @@ function _ding_place2book_update_p2b_entities($entity, array $settings) {
         watchdog_exception('ding_place2book', $ex);
         drupal_set_message($ex->getMessage(), 'error');
       }
-
-      $items = array(
-        array(
-          'event_id' => $event->id,
-          'event_maker_id' => $event_maker_id,
-          'synchronize' => 1,
-        ),
-      );
     }
-    drupal_set_message(t('Event was successfully updated.'));
+    $items = array(
+      array(
+        'event_id' => $event->id,
+        'event_maker_id' => $event_maker_id,
+        'synchronize' => 1,
+      ),
+    );
+
+    if ($is_new) {
+      drupal_set_message(t('Event was successfully created.'));
+    }
+    else {
+      drupal_set_message(t('Event was successfully updated.'));
+    }
   }
   return $items;
 }

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Ding sharer
+ * Ding sharer.
  */
 
 /**
@@ -38,7 +39,7 @@ function ding_sharer_html_head_alter(&$head_elements) {
  */
 function ding_sharer_image_default_styles() {
   $styles = array();
-  
+
   $styles['ding_sharer'] = array(
     'name' => 'ding_sharer',
     'effects' => array(
@@ -62,4 +63,55 @@ function ding_sharer_image_default_styles() {
     'label' => 'ding_sharer',
   );
   return $styles;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_sharer_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_sharer' => array(
+      'variables' => array(
+        'label' => t('Share on'),
+        'communities' => array(
+          'facebook' => 'Facebook',
+          'twitter' => 'Twitter',
+          'mail' => 'E-mail',
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Preprocess ding_sharer.
+ */
+function template_preprocess_ding_sharer(&$variables) {
+  drupal_add_js(drupal_get_path('module', 'ding_sharer') . '/ding-sharer.js');
+}
+
+/**
+ * Share links theme.
+ */
+function theme_ding_sharer($variables) {
+  $out = '';
+
+  if (!empty($variables['label'])) {
+    $out .= '<div class="label">' . $variables['label'] . '</div>';
+  }
+
+  $out .= '<div class="share-buttons">';
+  foreach ($variables['communities'] as $community => $text) {
+    $out .= l(
+      $text,
+      '#',
+      array(
+        'attributes' => array('class' => array($community . '-share')),
+        'external' => TRUE,
+      )
+    );
+  }
+  $out .= '</div>';
+
+  return '<div class="social-share-container">' . $out . '</div>';
 }

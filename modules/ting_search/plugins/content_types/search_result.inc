@@ -4,6 +4,8 @@
  * Panels render to display search results.
  */
 
+use Ting\Search\TingSearchSort;
+
 $plugin = array(
   'single' => TRUE,
   'title' => t('Ting search - Search results'),
@@ -64,11 +66,15 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
   $block->module = 'search';
   $block->delta = 'result';
 
-  $results = '';
+  $suffix = $prefix = $results = '';
+
   // Only search if there are keywords or non-empty conditions.
   if ($keys || !empty($conditions)) {
     // Collect the search results.
     $results = search_data($keys, $info['module'], $conditions);
+    $search_result = ting_search_current_results();
+    $prefix = implode(module_invoke_all('ting_search_results_prefix', $keys, $conditions, $search_result));
+    $suffix = implode(module_invoke_all('ting_search_results_suffix', $keys, $conditions, $search_result));
   }
 
   if (!empty($conf['log'])) {
@@ -77,34 +83,8 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
   }
 
   if (!empty($results['#results'])) {
-    // Get message limit and raw data well search results.
-    $limit = variable_get('ting_search_result_message_limit', 100);
-    $search_result = drupal_static('ting_search_results');
-
-    // Set message.
-    $message = '';
-
-    $frequency_rank = array(
-      'rank_main_title' => t('Title'),
-      'rank_title' => t('Title'),
-      'rank_creator' => t('Creator'),
-      'rank_subject' => t('Subject')
-    );
-
-    if (isset($search_result) && empty($conditions['sort']) && in_array($search_result->sortUsed, array_keys($frequency_rank))) {
-      $msg = t('Records are sorted by %sortUsed . Select another sort if it is not suited', array('%sortUsed' => $frequency_rank[$search_result->sortUsed]));
-      $message .= '<div class="messages status">' . $msg . '</div>';
-    }
-
-
-    if (isset($search_result) && $limit < $search_result->numTotalObjects) {
-      $msg = t('Your search gave more than %s results. Try to search more specific or use the facets to filter the result.');
-      $msg = sprintf($msg, $limit);
-      $message .= '<div class="messages search-field-in-content--message">' . $msg . '</div>';
-    }
-
     $block->title = t('Search results');
-    $block->content = $message . theme('ting_search_results', array('results' => $results['#results'], 'module' => $conf['type']));;
+    $block->content = $prefix . theme('ting_search_results', array('results' => $results['#results'], 'module' => $conf['type'])) . $suffix;
   }
   else {
     if (empty($conf['override_empty'])) {

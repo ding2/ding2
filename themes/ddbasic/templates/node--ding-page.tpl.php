@@ -78,62 +78,21 @@
  *  from $date during ddbasic_preprocess_node().
  * - $ddbasic_ding_content_tags: Tags, as a comma-separated list of
  *  links with leading text "Tags: " as relevant for the event node
- * - $ddbasic_byline: outputs byline to be used before $name
  *
  * @see template_preprocess()
  * @see template_preprocess_node()
  * @see template_process()
  */
 ?>
-<article class="page">
-  <header class="page-header">
-    <div class="page-image"><?php print render($content['field_ding_page_title_image']); ?></div>
-    <div class="super-heading">
-      <?php if (isset($content['field_ding_page_tags'])) : ?>
-        <span class="page-tags">
-          <?php print render($content['field_ding_page_tags']); ?>
-        </span>
-      <?php endif; ?>
-    </div>
-    <h1 class="page-title"><?php print $title; ?></h1>
-    <div class="page-lead"><?php print render($content['field_ding_page_lead']); ?></div>
-  </header>
-  <section class="page-content">
-    <?php
-      // Hide fields that will be displayed as panel panes instead.
-      hide($content['comments']);
+<article class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
-      // Hide fields now so that we can render them later.
-      hide($content['links']);
-      hide($content['field_ding_page_tags']);
-    ?>
-    <?php print render($content); ?>
-  </section>
-  <footer class="page-footer">
-    <?php
-      // Remove the "Add new comment" link on the teaser page or if the comment
-      // form is being displayed on the same page.
-      if ($teaser || !empty($content['comments']['comment_form'])) :
-        unset($content['links']['comment']['#links']['comment-add']);
-      endif;
-    ?>
+  <h1 class="page-title"><?php print $title; ?></h1>
 
-    <?php if ($content['links']): ?>
-      <section class="links">
-        <?php print render($content['links']); ?>
-      </section>
-    <?php endif; ?>
+  <?php
+    // Hide fields.
+    hide($content['comments']);
+    hide($content['links']);
+  ?>
 
-    <?php if ($display_submitted): ?>
-     <section class="signature">
-        <div class="page-user-picture"><?php print $user_picture; ?></div>
-        <div class=""><?php print $ddbasic_byline; ?></div>
-        <span class="page-author"><?php print $name; ?></span>
-        <span class="page-submitted"><?php print $submitted; ?></span>
-        <span class="page-updated"><?php print $ddbasic_updated; ?></span>
-      </section>
-    <?php endif; ?>
-
-    <?php print render($content['comments']); ?>
-  </footer>
+  <?php print render($content); ?>
 </article>

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Main panel pane template
+ * Main panel pane template.
  *
  * Variables available:
  * - $pane->type: the content type inside this pane
@@ -15,15 +16,19 @@
  * - $feeds: Any feed icons or associated with the content
  * - $display: The complete panels display object containing all kinds of
  *   data including the contexts and all of the other panes being displayed.
- * 
+ *
  * Clean out the divs and matched the design.
  */
 ?>
-<section class="navigation-wrapper <?php print $classes; ?>">
-  <div class="navigation-inner">
-    <?php if ($admin_links): ?>
-      <?php print $admin_links; ?>
-    <?php endif; ?>
-    <?php print render($content); ?>
-  </div>
-</section>
+<?php if ($is_lazy_pane_render) { ?>
+  <?php print render($content); ?>
+<?php } else { ?>
+  <section class="navigation-wrapper mobile-user-menu <?php print $classes; ?>">
+    <div class="navigation-inner">
+      <?php if ($admin_links): ?>
+	    <?php print $admin_links; ?>
+      <?php endif; ?>
+      <?php print render($content); ?>
+    </div>
+  </section>
+<?php } ?>

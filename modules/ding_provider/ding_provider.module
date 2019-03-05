@@ -4,6 +4,8 @@
  * Implements a common interface to backend providers.
  */
 
+use Ting\TingObject;
+
 /**
  * Implements hook_menu().
  */
@@ -19,7 +21,8 @@ function ding_provider_menu() {
   $items['admin/config/ding/provider'] = array(
     'title' => 'Ding provider',
     'description' => 'Configure the provider used to communicate with the library system.',
-    'page callback' => 'ding_provider_admin_overview',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_provider_admin_overview'),
     'access arguments' => array('administer ding provider'),
     'type' => MENU_NORMAL_ITEM,
     'file' => 'ding_provider.admin.inc',
@@ -84,6 +87,17 @@ function ding_provider_permission() {
     'administer ding provider' => array(
       'title' => t('Administer Ding provider'),
       'description' => t('Allow role to configure provider settings.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ding_provider_ding_provider_user() {
+  return array(
+    'search' => array(
+      'required' => TRUE,
     ),
   );
 }
@@ -169,7 +183,7 @@ function ding_provider_invoke($type, $hook) {
     return call_user_func_array($function, $args);
   }
   else {
-    watchdog('ding_provider', 'Provider invoke request to unknown fucntion (%function)', array('%function' => $function), WATCHDOG_ERROR);
+    watchdog('ding_provider', 'Provider invoke request to unknown function (%function)', array('%function' => $function), WATCHDOG_ERROR);
   }
 }
 
@@ -209,7 +223,7 @@ function ding_provider_invoke_page($type, $hook) {
     }
   }
   catch (Exception $e) {
-    if ($e instanceof DingProviderUserException) {
+    if ($e instanceof DingProviderEnduserException) {
       // Rethrow user exceptions.
       throw $e;
     }
@@ -287,7 +301,7 @@ function ding_provider_build_form($form_id, &$form_state) {
     return $form;
   }
   catch (Exception $e) {
-    if ($e instanceof DingProviderUserException) {
+    if ($e instanceof DingProviderEnduserException) {
       // Rethrow user exceptions.
       throw $e;
     }
@@ -361,7 +375,7 @@ function ding_provider_ajax_form_callback() {
     }
   }
   catch (Exception $e) {
-    if ($e instanceof DingProviderUserException) {
+    if ($e instanceof DingProviderEnduserException) {
       // Rethrow user exceptions.
       throw $e;
     }
@@ -587,16 +601,21 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
   $ting_entity->ding_entity_id = $ding_entity_id;
   $ting_entity->provider_id = $local_id;
   $ting_entity->ding_entity_type = 'ding_entity';
-  $ting_entity->reply = new TingClientObject();
-  $ting_entity->reply->id = $ding_entity_id;
-  $ting_entity->reply->localId = $local_id;
-  $ting_entity->reply->relations = array();
-  $ting_entity->reply->ownerId = drupal_substr($ding_entity_id, 0, strpos($ding_entity_id, '-'));
+
+  // Construct a Ting object that represents the data we would normally get
+  // from the search provider.
+  $ting_object = new TingObject();
+
+  $ting_object->setId($ding_entity_id);
+  $ting_object->setSourceId($local_id);
+  $ting_object->setOwnerId(drupal_substr($ding_entity_id, 0, strpos($ding_entity_id, '-')));
 
   // See if the provider have any information about the entity.
   if (ding_provider_implements('loan', 'populate_pseudo_entity')) {
-    $ting_entity = ding_provider_invoke('loan', 'populate_pseudo_entity', $ting_entity);
+    $ting_entity = ding_provider_invoke('loan', 'populate_pseudo_entity', $ting_entity, $ting_object);
   }
+
+  $ting_entity->setTingObject($ting_object);
 
   // Mark this object as pseudo, so formatters can take action.
   $ting_entity->is_available = FALSE;
@@ -605,151 +624,21 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
 }
 
 /**
- * Helper function to create data well 3 PID's.
+ * Helper function to create data well 3 PID's from faust/record id.
  *
  * This function is placed in the provider and not "ting" module as the
  * providers uses it and we don't want to have a binding from providers to ting.
  *
- * @param string $id
- *   The materials local id number (faust).
- * @param string $agency
- *   Agency ID to which the entity belongs.
+ * @param mixed $ids
+ *   A string with a single faust to be translated.
+ *   An array with multiple faust to be translated.
  *
- * @return string
- *   The PID for the faust in the data well.
+ * @return mixed
+ *   Single faust: A string with data well PID.
+ *   Array of fausts: An array with data well PIDs keyed be the original faust.
  */
-function ding_provider_build_entity_id($id, $agency = -1) {
-  $ting_entity_id = FALSE;
-
-  // Get local library faust ID range.
-  $local_range = '9';
-
-  // Get agency ID.
-  $local_agency = variable_get('ting_agency', '');
-
-  switch ($agency) {
-    case $local_agency:
-    case -1:
-      if (preg_match('/^' . $local_range . '/', $id)) {
-        // If agency is not given fallback to local agency.
-        if (empty($agency) || $agency == -1) {
-          $agency = $local_agency;
-        }
-
-        // Local posts.
-        $ting_entity_id = $agency . '-katalog:' . $id;
-      }
-      else {
-        // Global posts.
-        $ting_entity_id = '870970-basis:' . $id;
-      }
-      break;
-
-    case '150021':
-      $ting_entity_id = '150021-bibliotek:' . $id;
-      break;
-
-    case '150027':
-      $ting_entity_id = '150021-fjern:' . $id;
-      break;
-
-    case '150030':
-      $ting_entity_id = '870970-spilmedier:' . $id;
-      break;
-
-    case '870973':
-      $ting_entity_id = '870973-anmeld:' . $id;
-      break;
-
-    case '150039':
-      $ting_entity_id = '150015-forlag:' . $id;
-      break;
-
-    case '870976':
-      $ting_entity_id = '870976-anmeld:' . $id;
-      break;
-
-    case '150048':
-      $ting_entity_id = '870970-basis:' . $id;
-      break;
-
-    case '150028':
-      $ting_entity_id = '870970-basis:' . $id;
-      break;
-
-    case '150015':
-      $ting_entity_id = '870970-basis:' . $id;
-      break;
-
-    case '150033':
-      $ting_entity_id = '150033-dandyr:' . $id;
-      break;
-
-    case '150040':
-      $ting_entity_id = '150040-verdyr:' . $id;
-      break;
-
-    case '150018':
-      $ting_entity_id = '150018-danhist:' . $id;
-      break;
-
-    case '150032':
-      $ting_entity_id = '150018-samfund:' . $id;
-      break;
-
-    case '150034':
-      $ting_entity_id = '150018-religion:' . $id;
-      break;
-
-    case '150054':
-      $ting_entity_id = '150018-biologi:' . $id;
-      break;
-
-    case '150055':
-      $ting_entity_id = '150018-fysikkemi:' . $id;
-      break;
-
-    case '150056':
-      $ting_entity_id = '150056-geografi:' . $id;
-      break;
-
-    case '150008':
-      $ting_entity_id = '150008-academic:' . $id;
-      break;
-
-    case '150043':
-      $ting_entity_id = '150043-atlas:' . $id;
-      break;
-
-    case '150023':
-      $ting_entity_id = '150023-sicref:' . $id;
-      break;
-
-    case '150025':
-      $ting_entity_id = '150008-public:' . $id;
-      break;
-
-    case '150052':
-      $ting_entity_id = '870970-basis:' . $id;
-      break;
-
-    case '159002':
-      $ting_entity_id = '159002-lokalbibl:' . $id;
-      break;
-
-    case '150012':
-      $ting_entity_id = '150012-leksikon:' . $id;
-      break;
-
-    default:
-      // The agency ID was not translatable, do to one-to-may match from old pid
-      // to new pid. Or the agency ID is not known. So simply log it under a
-      // filterable type.
-      watchdog('ding_provider_pid', 'PID creation failed with agency (%agency) and ID (%id)', array('%agency' => $agency, '%id' => $id), WATCHDOG_ERROR);
-      break;
-  }
-
-  return $ting_entity_id;
+function ding_provider_build_entity_id($ids) {
+  return ding_provider_invoke('search', 'object_ids', $ids);
 }
 
 /**
@@ -762,4 +651,41 @@ function ding_provider_build_entity_id($id, $agency = -1) {
 function ding_provider_entity_info_alter(&$entity_info) {
   $entity_info['profile2']['entity cache'] = FALSE;
   $entity_info['profile2_type']['entity cache'] = FALSE;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_provider_cron() {
+  $last_cron_time = variable_get('ding_provider_last_cron', 0);
+
+  // Run daily.
+  if ($last_cron_time < REQUEST_TIME - 86400) {
+    // Remove inactive users.
+    $inactivity_threshold = variable_get('ding_provider_users_wipe_threshold', 0);
+
+    if ($inactivity_threshold) {
+      $query = db_select('users', 'u');
+      $query->join('authmap', 'a', 'u.uid = a.uid');
+      $query
+        ->fields('u', array('uid'))
+        ->condition('u.access', REQUEST_TIME - $inactivity_threshold, '<')
+        // Ensure that we don't delete these important users.
+        ->condition('u.uid', array(0, 1), 'NOT IN')
+        // Ensure we only delete provider users created by ding_user.
+        ->condition('a.module', 'ding_user', '=')
+        ->range(0, 500);
+
+      $result = $query
+        ->execute()
+        ->fetchCol();
+
+      if (!empty($result)) {
+        // TODO: Maybe rework as a queue.
+        user_delete_multiple($result);
+      }
+    }
+
+    variable_set('ding_provider_last_cron', REQUEST_TIME);
+  }
 }

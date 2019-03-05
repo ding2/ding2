@@ -1,0 +1,87 @@
+<?php
+/**
+ * @file
+ * Define functions on module install/uninstall.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Change the front page panel renderer so the IPE is used.
+ */
+function ding_ipe_filter_install() {
+  $task = page_manager_get_task('page');
+  ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
+  $handlers = page_manager_load_sorted_handlers($task);
+
+  foreach ($handlers as &$handler) {
+    $save = FALSE;
+
+    if ($handler->name == 'page_ding_frontpage_panel_context') {
+      $handler->conf['pipeline'] = 'ipe';
+      $save = TRUE;
+    }
+
+    // Only save the display if changes were actually made.
+    if ($save) {
+      page_manager_save_task_handler($handler);
+    }
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_ipe_filter_uninstall() {
+  variable_del('ding_ipe_filter_panes_selected');
+  variable_del('ding_ipe_filter_settings');
+}
+
+/**
+ * Upgrade configuration to new data structure.
+ */
+function ding_ipe_filter_update_7100(&$sandbox) {
+  $selections = variable_get('ding_ipe_filter_table');
+
+  $new_selections = array();
+  foreach ($selections as $selection) {
+    $id = $selection['category'] . ':' . $selection['subtype'];
+    $new_selections[$id] = $id;
+  }
+
+  variable_set('ding_ipe_filter_panes_selected', $new_selections);
+  variable_del('ding_ipe_filter_table');
+}
+
+/**
+ * Select ding campaign.
+ */
+function ding_ipe_filter_update_7101(&$sandbox) {
+  $selected = _ding_ipe_filter_selected_panes();
+  if (!isset($selected['ding-:campaign'])) {
+    $selected['ding-:campaign'] = 'ding-:campaign';
+    variable_set('ding_ipe_filter_panes_selected', $selected);
+  }
+}
+
+/**
+ * Select ting carousel.
+ */
+function ding_ipe_filter_update_7102(&$sandbox) {
+  $selected = _ding_ipe_filter_selected_panes();
+  if (!isset($selected['ting:carousel'])) {
+    $selected['ting:carousel'] = 'ting:carousel';
+    variable_set('ding_ipe_filter_panes_selected', $selected);
+  }
+}
+
+/**
+ * Select ding nodelist.
+ */
+function ding_ipe_filter_update_7103(&$sandbox) {
+  $selected = _ding_ipe_filter_selected_panes();
+  if (!isset($selected['ding-:ding_nodelist'])) {
+    $selected['ding-:ding_nodelist'] = 'ding-:ding_nodelist';
+    variable_set('ding_ipe_filter_panes_selected', $selected);
+  }
+}

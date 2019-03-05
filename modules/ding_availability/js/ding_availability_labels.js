@@ -145,6 +145,11 @@
 
         // Move the element into that type.
         group.append(element);
+
+        // Remove empty groups.
+        $('.js-available, .js-reservable, .js-unavailable', groups_wrapper)
+          .not(':has(.js-search-result--availability-link)')
+          .remove();
       }
 
       /**

@@ -5,6 +5,10 @@
  */
 
 // Path of panel page. Remember to change this constant if the panel changes.
+use Ting\Search\TingSearchFacet;
+use Ting\Search\TingSearchFacetTerm;
+use Ting\Search\TingSearchSort;
+
 define('DING_EKURSER_PATH', 'ekurser');
 
 include_once 'ding_ekurser.features.inc';
@@ -47,7 +51,7 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
 
   // Build the subjectbrowsers links.
   foreach ($terms as $term => $count) {
-   
+
     // Create options for the link.
     $options = array(
       'query' => array(),
@@ -88,24 +92,31 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
  * Ignore terms that cover more than 80% of the total resultset.
  */
 function _ding_ekurser_get_subject_terms() {
-  // Query ting.
-  module_load_include('client.inc', 'ting');
-  $search_result = ting_do_search('ekurser.nu', 0, 0, array(
-    'sort' => 'acquisitionDate_descending',
-    'facets' => array('facet.subject'),
-    'numFacets' => 20,
-  ));
+  $search_result = ting_start_query()
+    ->withFullTextQuery('ekurser.nu')
+    ->withCount(1)
+    ->withSort('acquisitionDate_descending')
+    ->withTermsPrFacet(20)
+    ->withFacets(array('facet.subject'))
+    ->execute();
+
+  // Extract subject facet terms.
+  $subject_terms = $search_result->getFacets()['facet.subject']->getTerms();
 
   // Remove terms that covers more than 80% of the resultset.
-  $terms = $search_result->facets['facet.subject']->terms;
-  foreach ($terms as $term => $count) {
-    if ($count >= (0.8 * $search_result->numTotalObjects)) {
-      unset($terms[$term]);
-    }
-  }
+  $frequent_subject_terms = array_filter(
+    $subject_terms,
+    function(TingSearchFacetTerm $term) use ($search_result) {
+      return $term->getCount() < 0.8 * $search_result->getNumTotalObjects();
+    });
 
   // Return remaining terms and their count, plus the term 'All'.
-  return array_merge(array(t('All') => $search_result->numTotalObjects), $terms);
+  $terms = [];
+  foreach ($frequent_subject_terms as $term) {
+    /* @var TingSearchFacetTerm $term */
+    $terms[$term->getName()] = $term->getCount();
+  }
+  return array_merge(array(t('All') => $search_result->getNumTotalObjects()), $terms);
 }
 
 /**
@@ -138,7 +149,7 @@ function ding_ekurser_search_execute($keys = NULL, $conditions = NULL) {
 function ding_ekurser_conditions_callback($keys) {
   $conditions = ting_search_conditions_callback($keys);
   if (empty($conditions['sort'])) {
-    $conditions['sort'] = 'acquisitionDate_descending';
+    $conditions['sort'] = 'date_descending';
   }
   return $conditions;
 }
@@ -153,14 +164,9 @@ function ding_ekurser_search_sort_options() {
   $options = array(
     'title_ascending' => t('Title (Ascending)'),
     'title_descending' => t('Title (Descending)'),
-    'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
-    'acquisitionDate_descending' => t('Acquisition date (Descending)'),
+    'date_ascending' => t('Acquisition date (Ascending)'),
+    'date_descending' => t('Acquisition date (Descending)'),
   );
-
-  // Add label to the front of the options.
-  foreach ($options as $key => $option) {
-    $options[$key] = t('Sort by: !sort', array('!sort' => $option));
-  }
 
   return $options;
 }
@@ -178,7 +184,7 @@ function ding_ekurser_form_ting_search_sort_form_alter(&$form, &$form_state, $fo
   // Set our own sorting options and set default sort, if it's not set.
   $form['sort']['#options'] = ding_ekurser_search_sort_options();
   if (empty($form['sort']['#default_value'])) {
-    $form['sort']['#default_value'] = 'acquisitionDate_descending';
+    $form['sort']['#default_value'] = 'date_descending';
   }
 }
 

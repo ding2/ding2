@@ -16,7 +16,7 @@ function ding_message_schema() {
   // 3 Using simplevar (or similar)
   // I do not see any argumentation for using one approach over the other
   // and I would think we could drop at least one. I would prefer to keep
-  // 2 and 3. @MSD
+  // 2 and 3. @MSD.
   $schema['ding_message_check'] = array(
     'description' => 'Record when users where updated with messages',
     'fields' => array(
@@ -58,4 +58,19 @@ function ding_message_schema() {
     'primary key' => array('id'),
   );
   return $schema;
+}
+
+/**
+ * Remove the list_id field, so the type can be changed by features.
+ */
+function ding_message_update_7001() {
+  field_delete_field('field_list_id');
+  field_purge_batch(1000);
+}
+
+/**
+ * Remove all existing messages, so new list ids wont collide.
+ */
+function ding_message_update_7002() {
+  ding_message_purge_messages();
 }

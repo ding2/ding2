@@ -53,6 +53,36 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
     $txt = format_string('Search @backend', array('@backend' => $backend['title']));
     $title = l(t($txt), $path, array('query' => $conditions));
 
+    // Getting the count of search results for each enabled backend.
+    switch ($backend['path']) {
+      case 'ting':
+        // Using already formed search results.
+        $results = ting_search_current_results();
+        // If search results is empty perform new ting search.
+        // This condition is putted here for getting results when not
+        // on /search/ting/%key% page.
+        if (empty($results)) {
+          // Prepare keys.
+          $results = ting_start_query()->withFullTextQuery($keys)->execute();
+          ting_search_current_results($results);
+        }
+        // Get count of total results from ting.
+        $count = $results->getNumTotalObjects();
+        $title = $title . ' <span class="count">(' . $count . ')</span>';
+        break;
+
+      case 'node':
+        // Load view which is rendered on node search and getting the total
+        // amount of rows returned.
+        $view = views_get_view('ding_multiple_search');
+        $view->set_display('panel_pane_1');
+        $view->set_arguments(array($keys));
+        $view->execute();
+        $count = $view->total_rows;
+        $title = $title . ' <span class="count">(' . $count . ')</span>';
+        break;
+    }
+
     // Set default value.
     if (arg(1) == $backend['module']) {
       $default_value = $backend['module'];

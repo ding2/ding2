@@ -467,107 +467,111 @@ function ting_material_details_field_formatter_settings_summary($field, $instanc
 }
 
 /**
- * Helper function for retrieving record-field.
+ * Retrieves a virtual field value from the Ting object embedded in the entity.
  *
- * It maps field name to record structure.
+ * @param string $field_name
+ *   The name of the field we want to retrieve data for.
+ * @param \TingEntity $entity
+ *   A TingEntity with a TingObjectInterface instance embedded.
+ *
+ * @return mixed|FALSE
+ *   The virtual field value, or FALSE if it can not be determined.
  */
-function ting_material_details_record_info() {
-  $ret = array();
+function ting_material_details_get_object_property($field_name, TingEntity $entity) {
+  if (NULL === $entity->getTingObject()) {
+    return FALSE;
+  }
+  // Switch on the name and get the value from either a property on the entity
+  // or the embedded Ting object.
+  switch ($field_name) {
+    case 'ting_details_type':
+      return $entity->type;
 
-  $ret['ting_details_type'] = 'type';
-  $ret['ting_details_format'] = array('dc:format');
-  $ret['ting_details_ispartof'] = array('dcterms:isPartOf');
-  $ret['ting_details_language'] = 'language';
-  $ret['ting_details_spoken'] = array('dc:language' => 'dkdcplus:spoken');
-  $ret['ting_details_subtitles'] = array('dc:language' => 'dkdcplus:subtitles');
-  $ret['ting_details_genre'] = array('dc:subject' => 'dkdcplus:genre');
-  $ret['ting_details_subjects'] = 'subjects';
-  $ret['ting_details_classification'] = 'classification';
-  $ret['ting_details_spatial'] = array('dcterms:spatial');
-  $ret['ting_details_contributor'] = 'contributors';
-  $ret['ting_details_musician'] = array('dc:contributor' => 'dkdcplus:mus');
-  $ret['ting_details_tracks'] = array('dcterms:hasPart' => 'dkdcplus:track');
-  $ret['ting_details_referenced'] = array('dcterms:isReferencedBy');
-  $ret['ting_details_seriesdescription'] = array('dc:description' => 'dkdcplus:series');
-  $ret['ting_details_description'] = array('dc:description');
-  $ret['ting_details_source'] = array('dc:source');
-  $ret['ting_details_replaces'] = array('dcterms:replaces');
-  $ret['ting_details_replaced_by'] = array('dcterms:replacedBy');
-  $ret['ting_details_isbn'] = array('dc:identifier' => 'dkdcplus:ISBN');
-  $ret['ting_details_uri'] = array('dc:identifier' => 'dcterms:URI');
-  $ret['ting_details_version'] = array('dkdcplus:version');
-  $ret['ting_details_extent'] = array('dcterms:extent');
-  $ret['ting_details_publisher'] = array('dc:publisher');
-  $ret['ting_details_rights'] = array('dc:rights');
-  $ret['ting_details_age'] = array('dcterms:audience' => 'dkdcplus:age');
-  $ret['ting_details_audience'] = array('dcterms:audience');
-  $ret['ting_details_pegi'] = array('dcterms:audience' => 'dkdcplus:pegi');
+    case 'ting_details_language':
+      return $entity->language;
 
-  return $ret;
-}
+    case 'ting_details_subjects':
+      return $entity->subjects;
 
-/**
- * Gets the field value of a ting record for a given field type.
- *
- * @param string $field_type
- *   The name of the field that should have its value extracted.
- * @oaram TingEntity $entity
- *   The ting entity the contains the field and value.
- *
- * @return mixed
- *   The fields value or FALSE if field do not exists or is empty.
- */
-function ting_material_details_get_record_value($field_type, TingEntity $entity) {
-  $rec_info = ting_material_details_record_info();
-  $rec = isset($rec_info[$field_type]) ? $rec_info[$field_type] : FALSE;
-  $value = FALSE;
+    case 'ting_details_classification':
+      return $entity->getClassification();
 
-  if ($rec) {
-    // If it's a string simply use it.
-    if (is_string($rec)) {
-      $value = $entity->$rec;
-    }
+    case 'ting_details_contributor':
+      // The plural is not a typo.
+      return $entity->contributors;
 
-    if (is_array($rec)) {
-      foreach ($rec as $key => $val) {
-        if ($key) {
-          $value = isset($entity->record[$key][$val]) ? $entity->record[$key][$val] : FALSE;
-        }
-        else {
-          $value = isset($entity->record[$val]['']) ? $entity->record[$val][''] : FALSE;
-        }
-      }
-    }
+    case 'ting_details_format':
+      return $entity->getTingObject()->getFormat();
+
+    case 'ting_details_ispartof':
+      return $entity->getTingObject()->isPartOf();
+
+    case 'ting_details_spoken':
+      return $entity->getTingObject()->getSpoken();
+
+    case 'ting_details_subtitles':
+      return $entity->getTingObject()->getSubTitles();
+
+    case 'ting_details_genre':
+      return $entity->getTingObject()->getGenre();
+
+    case 'ting_details_spatial':
+      return $entity->getTingObject()->getSpatial();
+
+    case 'ting_details_musician':
+      return $entity->getTingObject()->getMusician();
+
+    case 'ting_details_tracks':
+      return $entity->getTingObject()->getTracks();
+
+    case 'ting_details_referenced':
+      return $entity->getTingObject()->getReferenced();
+
+    case 'ting_details_seriesdescription':
+      return $entity->getTingObject()->getSeriesDescription();
+
+    case 'ting_details_description':
+      return $entity->getTingObject()->getDescription();
+
+    case 'ting_details_source':
+      return $entity->getTingObject()->getSource();
+
+    case 'ting_details_replaces':
+      return $entity->getTingObject()->getReplaces();
+
+    case 'ting_details_replaced_by':
+      return $entity->getTingObject()->getReplacedBy();
+
+    case 'ting_details_isbn':
+      return $entity->getTingObject()->getIsbn();
+
+    case 'ting_details_uri':
+      return $entity->getTingObject()->getURI();
+
+    case 'ting_details_version':
+      return $entity->getTingObject()->getVersion();
+
+    case 'ting_details_extent':
+      return $entity->getTingObject()->getExtent();
+
+    case 'ting_details_publisher':
+      return $entity->getTingObject()->getPublisher();
+
+    case 'ting_details_rights':
+      return $entity->getTingObject()->getRights();
+
+    case 'ting_details_age':
+      return $entity->getTingObject()->getAge();
+
+    case 'ting_details_audience':
+      return $entity->getTingObject()->getAudience();
+
+    case 'ting_details_pegi':
+      return $entity->getTingObject()->getPegi();
   }
 
-  return ting_material_details_parse($field_type, $value);
-}
-
-/**
- * Parse ting entity field value based on field type.
- *
- * @param string $field_type
- *   The name of the field that should have its value extracted.
- * @oaram mixed $value
- *   The fields value.
- *
- * @return mixed
- *   The fields value or FALSE.
- */
-function ting_material_details_parse($field_type, $value) {
-  $ret = $value;
-
-  if ($value) {
-    switch ($field_type) {
-      case 'ting_details_uri':
-        foreach ($value as $val) {
-          $ret[] = l($val, $val);
-        }
-        break;
-    }
-  }
-
-  return $ret;
+  // In case we can't match the field, default to FALSE.
+  return FALSE;
 }
 
 /**
@@ -575,8 +579,9 @@ function ting_material_details_parse($field_type, $value) {
  */
 function ting_material_details_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  foreach ($items as $delta => $items) {
-    if ($val = ting_material_details_get_record_value($field['type'], $entity)) {
+  foreach (array_keys($items) as $delta) {
+    // Attempt to match virtual field.
+    if ($val = ting_material_details_get_object_property($field['type'], $entity)) {
       switch ($display['type']) {
         case 'ting_details_single':
           $details = '';

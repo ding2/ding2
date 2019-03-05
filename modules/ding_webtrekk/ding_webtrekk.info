@@ -1,0 +1,4 @@
+name = Ding Webtrekk
+description = Provide integration with the Webtrekk service.
+core = 7.x
+package = Ding!

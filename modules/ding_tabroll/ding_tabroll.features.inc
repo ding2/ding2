@@ -26,12 +26,12 @@ function ding_tabroll_views_api($module = NULL, $api = NULL) {
 function ding_tabroll_image_default_styles() {
   $styles = array();
 
-  // Exported image style: ding_tabroll_large.
-  $styles['ding_tabroll_large'] = array(
-    'name' => 'ding_tabroll_large',
-    'label' => 'ding_tabroll_large',
+  // Exported image style: crop_3_1.
+  $styles['crop_3_1'] = array(
+    'name' => 'crop_3_1',
+    'label' => 'Crop 3:1',
     'effects' => array(
-      46 => array(
+      29 => array(
         'label' => 'Manual Crop: Custom crop',
         'help' => 'Crop a freely user-selected area.',
         'effect callback' => 'manualcrop_crop_effect',
@@ -40,15 +40,37 @@ function ding_tabroll_image_default_styles() {
         'module' => 'manualcrop',
         'name' => 'manualcrop_crop',
         'data' => array(
-          'width' => 1200,
-          'height' => 400,
+          'width' => 1124,
+          'height' => 375,
           'keepproportions' => 1,
           'reuse_crop_style' => '',
-          'style_name' => 'ding_tabroll_large',
+          'style_name' => 'crop_3_1',
         ),
         'weight' => 0,
       ),
-      45 => array(
+    ),
+  );
+
+  // Exported image style: ding_tabroll_large.
+  $styles['ding_tabroll_large'] = array(
+    'name' => 'ding_tabroll_large',
+    'label' => 'ding_tabroll_large',
+    'effects' => array(
+      32 => array(
+        'label' => 'Manual Crop: Reuse cropped style',
+        'help' => 'Reuse a crop selection from another Manual Crop enabled image style.',
+        'effect callback' => 'manualcrop_reuse_effect',
+        'form callback' => 'manualcrop_reuse_form',
+        'summary theme' => 'manualcrop_reuse_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_reuse',
+        'data' => array(
+          'reuse_crop_style' => 'crop_3_1',
+          'apply_all_effects' => 0,
+        ),
+        'weight' => 0,
+      ),
+      31 => array(
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
@@ -58,8 +80,8 @@ function ding_tabroll_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
-          'width' => 1200,
-          'height' => 400,
+          'width' => 1124,
+          'height' => 375,
         ),
         'weight' => 1,
       ),

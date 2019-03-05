@@ -1,0 +1,125 @@
+//
+// Styling of different genre lists in specific panels and nodes
+
+@import '../base.scss';
+
+.pane-top-recommendation-list,
+.node-oversigtsside {
+  .genre-list-big,
+  .genre-list {
+    .group-blocks--inner {
+      > div {
+        @include span-columns(3);
+        position: relative;
+        margin-bottom: getGutter();
+        // Mobile
+        @include media($mobile) {
+          width: 100%;
+          margin-right: 0;
+        }
+        &::before {
+          content: '';
+          position: absolute;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: $charcoal;
+          border-radius: $round-corner;
+        }
+        h2 {
+          @include linear-gradient(
+            transparent 0%,
+            $charcoal-opacity-extra-dark 100%
+          );
+          border-radius: $round-corner;
+          position: absolute;
+          z-index: $z-content;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          margin-bottom: 0;
+          a {
+            display: block;
+            width: 100%;
+            padding: 40px $box-padding $box-padding;
+            color: $white;
+          }
+          // Tablet
+          @include media($tablet) {
+            @include font('display-small');
+          }
+        }
+        p {
+          margin-bottom: 0;
+        }
+        a {
+          img {
+            @include transition(opacity $speed $ease);
+            border-radius: $round-corner;
+
+            @include filter(grayscale(100%));
+            position: relative;
+            z-index: $z-content - 2;
+          }
+        }
+        .no-touch & {
+          &:hover {
+            a {
+              img {
+                opacity: 0.5;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .genre-list-big + .genre-list-detail-wrapper {
+    margin-top: 40px;
+  }
+  .genre-list-detail-wrapper {
+    float: left;
+    width: 100%;
+    .group-blocks--inner {
+      > div {
+        > div {
+          @include span-columns(3);
+          &:last-child {
+            margin-right: getGutter();
+          }
+          // Mobile
+          @include media($mobile) {
+            width: 100%;
+            margin-right: 0;
+          }
+          h2 {
+            @include font('display-small');
+            color: $charcoal;
+          }
+          ul.sub-menu {
+            margin-bottom: 50px;
+            li {
+              list-style: none;
+            }
+          }
+        }
+        &:last-child {
+          > div {
+            &:last-child {
+              margin-right: 0;
+            }
+          }
+        }
+        &:first-child {
+          > div {
+            &:first-child {
+              clear: left;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Implements hook_install().
+ */
+function ding_ting_frontend_install() {
+  module_enable(array('ting_search_autocomplete'));
+}
+
+/**
  * Enable ding_ekurser and ting_oembed modules
  */
 function ding_ting_frontend_update_7001() {
@@ -19,4 +26,11 @@ function ding_ting_frontend_update_7000(&$sandbox) {
  */
 function ding_ting_frontend_uninstall() {
   variable_del('ding_ting_frontend_group_holdings_available');
+}
+
+/**
+ * Enable ting_field_search module.
+ */
+function ding_ting_frontend_update_7002() {
+  module_enable(array('ting_field_search'));
 }

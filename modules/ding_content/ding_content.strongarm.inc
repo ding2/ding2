@@ -13,6 +13,13 @@ function ding_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'media_wysiwyg_default_render';
+  $strongarm->value = 'file_entity';
+  $export['media_wysiwyg_default_render'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'media_wysiwyg_wysiwyg_browser_plugins';
   $strongarm->value = array(
     0 => 'ding_content',

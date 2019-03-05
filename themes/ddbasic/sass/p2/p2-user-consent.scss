@@ -1,0 +1,29 @@
+//
+// Styling of user consent
+
+@import '../base.scss';
+
+.ding-user-consent-set {
+  .choice {
+    width: 100%;
+    float: left;
+    clear: left;
+    margin-bottom: -10px;
+    a {
+      @extend %button;
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 10px;
+      &.negative {
+        &:hover {
+          background-color: $red;
+        }
+      }
+      &.positive {
+        &:hover {
+          background-color: $green;
+        }
+      }
+    }
+  }
+}

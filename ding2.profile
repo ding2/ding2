@@ -14,23 +14,14 @@ profiler_v2('ding2');
  *
  * Allows the profile to alter the site configuration form.
  */
-if (!function_exists("system_form_install_configure_form_alter")) {
-  function system_form_install_configure_form_alter(&$form, $form_state) {
-    $form['site_information']['site_name']['#default_value'] = 'ding2';
-  }
-}
+function ding2_form_install_configure_form_alter(&$form, $form_state) {
+  $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
 
-/**
- * Implements hook_form_alter().
- *
- * Select the current install profile by default.
- */
-if (!function_exists("system_form_install_select_profile_form_alter")) {
-  function system_form_install_select_profile_form_alter(&$form, $form_state) {
-    foreach ($form['profile'] as $key => $element) {
-      $form['profile'][$key]['#value'] = 'ding2';
-    }
-  }
+  $form['server_settings']['site_default_country']['#default_value'] = 'DK';
+  $form['server_settings']['date_default_timezone']['#default_value'] = 'Europe/Copenhagen';
+  // Remove the timezone-detect class to stop auto detection (which guesses
+  // Berlin, not Copenhagen).
+  unset($form['server_settings']['date_default_timezone']['#attributes']);
 }
 
 /**
@@ -55,13 +46,13 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
     array_walk_recursive($form, '_ding2_remove_form_requirements');
 
     // Set default values in ting search form to help aegir/bulk installations.
-    if ($form_id == 'ting_admin_ting_settings') {
-      $form['ting']['ting_search_url']['#default_value'] = 'http://opensearch.addi.dk/3.0/';
-      $form['ting']['ting_recommendation_url']['#default_value'] = 'http://openadhl.addi.dk/1.1/';
+    if ($form_id == 'opensearch_admin_settings') {
+      $form['opensearch']['opensearch_url']['#default_value'] = 'https://opensearch.addi.dk/b3.5_5.0/';
+      $form['opensearch']['opensearch_recommendation_url']['#default_value'] = 'http://openadhl.addi.dk/1.1/';
     }
 
-    if ($form_id == 'ting_covers_admin_addi_settings_form') {
-      $form['addi']['addi_wsdl_url']['#default_value'] = 'http://moreinfo.addi.dk/2.1/';
+    if ($form_id == 'ting_covers_addi_admin_settings_form') {
+      $form['addi']['ting_covers_addi_wsdl_url']['#default_value'] = 'http://moreinfo.addi.dk/2.11';
     }
   }
 }
@@ -124,7 +115,7 @@ function ding2_install_tasks(&$install_state) {
       'type' => 'batch',
     ),
 
-    // Configure and revert features.
+    // Set up menu.
     'ding2_render_og_menus' => array(
       'display_name' => st('OG Menus'),
       'display' => module_exists('ding_example_content'),
@@ -145,7 +136,6 @@ function ding2_install_tasks(&$install_state) {
 
   return $ret;
 }
-
 
 /**
  * Translation callback.
@@ -194,8 +184,8 @@ function ding2_import_ding2_translations(&$install_state) {
  * Reverts features and adds some basic pages.
  */
 function ding2_add_settings(&$install_state) {
-  // Set page not found.
-  ding2_set_page_not_found();
+  // Add customerror pages.
+  ding2_set_customerror_pages();
 
   // Set cookie page.
   ding2_set_cookie_page();
@@ -221,7 +211,6 @@ function ding2_add_settings(&$install_state) {
     'ting_material_details',
     'ding_base',
     'ding_user_frontend',
-    'ding_path_alias',
     'ding_content',
     'ding_page',
     'ding_frontend',
@@ -261,7 +250,7 @@ function ding2_render_og_menus(&$install_state) {
   }
 
   $batch = array(
-    'title' => t('Updating Default link'),
+    'title' => st('Updating Default link'),
     'operations' => array(
       array('og_menu_default_links_batch_default_links_process', array($menus)),
     ),
@@ -318,8 +307,9 @@ function _ding2_remove_form_requirements(&$value, $key) {
 function ding2_module_selection_form($form, &$form_state) {
   // Available providers.
   $providers = array(
+    'fbs' => 'FBS',
     'alma' => 'Alma',
-    'openruth' => 'Openruth',
+    'connie' => 'Connie (for testing without a library system)',
   );
 
   $form['providers'] = array(
@@ -333,7 +323,7 @@ function ding2_module_selection_form($form, &$form_state) {
     '#title' => '',
     '#type' => 'radios',
     '#options' => $providers,
-    '#default_value' => 'alma',
+    '#default_value' => 'fbs',
   );
 
   //
@@ -348,21 +338,21 @@ function ding2_module_selection_form($form, &$form_state) {
   $form['proxy']['sslproxy_enable'] = array(
     '#type' => 'checkbox',
     '#title' => 'Enable SSL proxy',
-    '#description' => 'Enable the SSL proxy module.',
+    '#description' => st('Enable the SSL proxy module.'),
     '#default_value' => TRUE,
   );
 
   $form['proxy']['sslproxy_var'] = array(
     '#type' => 'textfield',
-    '#title' => t('SSL Proxy Variable'),
-    '#description' => t('The variable being set by the SSL proxy server.'),
+    '#title' => st('SSL Proxy Variable'),
+    '#description' => st('The variable being set by the SSL proxy server.'),
     '#default_value' => 'X-FORWARDED-PROTO',
   );
 
   $form['proxy']['sslproxy_var_value'] = array(
     '#type' => 'textfield',
-    '#title' => t('SSL Proxy Variable Value'),
-    '#description' => t('The value of the variable being set by the SSL proxy server.'),
+    '#title' => st('SSL Proxy Variable Value'),
+    '#description' => st('The value of the variable being set by the SSL proxy server.'),
     '#default_value' => 'https',
   );
 
@@ -546,7 +536,7 @@ function ding2_module_selection_form_validate($form, &$form_state) {
     }
     else {
       // File upload failed.
-      form_set_error('iosicon_upload', t('The iOS icon could not be uploaded.'));
+      form_set_error('iosicon_upload', st('The iOS icon could not be uploaded.'));
     }
   }
 
@@ -555,7 +545,7 @@ function ding2_module_selection_form_validate($form, &$form_state) {
   if ($form_state['values']['iosicon_path']) {
     $path = _system_theme_settings_validate_path($form_state['values']['iosicon_path']);
     if (!$path) {
-      form_set_error('iosicon_path', t('The custom iOS icon path is invalid.'));
+      form_set_error('iosicon_path', st('The custom iOS icon path is invalid.'));
     }
   }
 }
@@ -668,8 +658,26 @@ function ding2_module_list_as_operations($module_list) {
  */
 function ding2_module_enable(&$install_state) {
   $modules = variable_get('ding_module_selected', array());
-  $modules[] = 'l10n_update';
-  $modules[] = 'ting_infomedia';
+  // Modules we don't have an explicit dependency on but still want enabled by
+  // default. If the user later on does not need the module it can be disabled
+  // manually.
+  $modules = array_merge(array(
+    'opensearch',
+    'l10n_update',
+    'ting_fulltext',
+    'ting_infomedia',
+    'ting_field_search',
+    'ding_eresource',
+    'ding_app_content_rss',
+    'ding_app_variables',
+    'ding_campaign_plus',
+    'ding_campaign_plus_auto',
+    'ding_campaign_plus_basic',
+    'ding_campaign_plus_facet',
+    'ding_campaign_plus_object',
+    'ding_campaign_plus_search',
+    'ding_webtrekk',
+  ), $modules);
 
   $operations = ding2_module_list_as_operations($modules);
 
@@ -713,45 +721,6 @@ function ding2_add_administrators_role($uid) {
     $rid => 'administrators',
   );
   user_save($account, $edit);
-}
-
-/**
- * Adds a new static page to the site and set it as the default 404 page.
- */
-function ding2_set_page_not_found() {
-  $node = new stdClass();
-  $node->uid = 1;
-
-  $node->title = 'Siden blev ikke fundet';
-  $node->type = 'ding_page';
-  $node->language = 'und';
-  $node->field_ding_page_body = array(
-    'und' => array(
-      array(
-        'value' => '<div class="field-teaser">UPS! Vi kan ikke finde den side du søger.</div><p><strong>Hvad gik galt?</strong><br />Der kan være flere årsager til, at vi ikke kan finde det du leder efter:</p><p>- Stavefejl: Måske har du stavet forkert, da du skrev søgeordet. Eller der er en stavefejl i det link, du har fulgt.</p><p>- Siden er flyttet/slettet: Måske findes siden ikke længere eller den er blevet&nbsp;flyttet.</p><p><br /><strong>Bibliotek.dk</strong><br />Prøv den landsdækkende base <a href="http://bibliotek.dk/" target="_blank" title="Bibliotek.dk">bibliotek.dk</a>. Bibliotek.dk er en gratis service, hvor du kan se, hvad der er blevet udgivet i Danmark, og hvad der findes på danske biblioteker. Databasen opdateres dagligt.<br />Du kan bestille materialer til afhentning på dit lokale bibliotek. Du skal være registreret bruger på Odense Centralbibliotek.</p><p><br /><strong>Kom videre -&nbsp;kontakt&nbsp;dit bibliotek</strong><br />Vælg <a href="http://oc.fynbib.dk/biblioteker">&#39;Biblioteker&#39;</a> i menuen ovenfor og find kontakt oplysninger på den ønskede afdeling.</p>',
-        'format' => 'ding_wysiwyg',
-        'safe_value' => '<div class="field-teaser">UPS! Vi kan ikke finde den side du søger.</div><p><strong>Hvad gik galt?</strong><br />Der kan være flere årsager til, at vi ikke kan finde det du leder efter:</p><p>- Stavefejl: Måske har du stavet forkert, da du skrev søgeordet. Eller der er en stavefejl i det link, du har fulgt.</p><p>- Siden er flyttet/slettet: Måske findes siden ikke længere eller den er blevet flyttet.</p><p><br /><strong>Bibliotek.dk</strong><br />Prøv den landsdækkende base <a href="http://bibliotek.dk/" target="_blank" title="Bibliotek.dk">bibliotek.dk</a>. Bibliotek.dk er en gratis service, hvor du kan se, hvad der er blevet udgivet i Danmark, og hvad der findes på danske biblioteker. Databasen opdateres dagligt.<br />Du kan bestille materialer til afhentning på dit lokale bibliotek. Du skal være registreret bruger på Odense Centralbibliotek.</p><p><br /><strong>Kom videre - kontakt dit bibliotek</strong><br />Vælg <a href="http://oc.fynbib.dk/biblioteker">\'Biblioteker\'</a> i menuen ovenfor og find kontakt oplysninger på den ønskede afdeling.</p>',
-      ),
-    ),
-  );
-  $node->field_ding_page_lead = array(
-    'und' => array(
-      array(
-        'value' => '- men denne side kan måske hjælpe dig videre',
-        'format' => NULL,
-        'safe_value' => '- men denne side kan måske hjælpe dig videre',
-      ),
-    ),
-  );
-  $node->path = array(
-    'alias' => 'siden-ikke-fundet',
-    'language' => 'und',
-  );
-
-  node_save($node);
-
-  // Set the 404 page.
-  variable_set('site_404', 'siden-ikke-fundet');
 }
 
 /**
@@ -831,21 +800,33 @@ function ding2_set_cookie_page() {
 }
 
 /**
- * Enabling Shortcuts plugin for Administration Menu module.
+ * Setup customerror pages for 403 and 404 status codes.
  */
-function ding2_admin_menu_shortcuts() {
-  if (module_exists('admin_menu')) {
-    $content = variable_get('admin_menu_components', array());
+function ding2_set_customerror_pages() {
+  // Set the 403 page.
+  $content_403 = array(
+    'value' => '<h3>Adgang nægtet</h3><p>Du har ikke adgang til at tilgå siden.</p>',
+    'format' => 'ding_wysiwyg',
+  );
+  variable_set('customerror_403_title', 'Adgang nægtet');
+  variable_set('customerror_403', $content_403);
+  variable_set('site_403', 'customerror/403');
 
-    if (empty($content)) {
-      module_load_include('inc', 'admin_menu', 'admin_menu');
-    }
+  // Set the 403 for authenticated users.
+  $content_403_authenticated = array(
+    'value' => '<h3>' . t('access denied: insufficient permissions') . '</h3><p>' . t('access denied: insufficient permissions') . '</p>',
+    'format' => 'plain_text',
+  );
+  variable_set('customerror_403_authenticated_title',
+    t('access denied: insufficient permissions'));
+  variable_set('customerror_403_authenticated', $content_403_authenticated);
 
-    $content['icon'] = '1';
-    $content['menu'] = '1';
-    $content['account'] = '1';
-    $content['shortcut.links'] = '1';
-
-    variable_set('admin_menu_components', $content);
-  }
+  // Set the 404 page.
+  $content_404 = array(
+    'value' => '<h3 class="field-teaser">UPS! Vi kan ikke finde den side du søger.</h3><p><strong>Hvad gik galt?</strong><br />Der kan være flere årsager til, at vi ikke kan finde det du leder efter:</p><p>- Stavefejl: Måske har du stavet forkert, da du skrev søgeordet. Eller der er en stavefejl i det link, du har fulgt.</p><p>- Siden er flyttet/slettet: Måske findes siden ikke længere eller den er blevet flyttet.</p><p><br /><strong>Bibliotek.dk</strong><br />Prøv den landsdækkende base <a href="http://bibliotek.dk/" target="_blank" title="Bibliotek.dk">bibliotek.dk</a>. Bibliotek.dk er en gratis service, hvor du kan se, hvad der er blevet udgivet i Danmark, og hvad der findes på danske biblioteker. Databasen opdateres dagligt.<br />Du kan bestille materialer til afhentning på dit lokale bibliotek. Du skal være registreret bruger på biblioteket.</p><p><br /><strong>Kom videre - kontakt dit bibliotek</strong><br />Find kontakt oplysninger på <a href="/biblioteker">\'den ønskede afdeling\'</a>.</p>',
+    'format' => 'ding_wysiwyg',
+  );
+  variable_set('customerror_404_title', 'Siden blev ikke fundet');
+  variable_set('customerror_404', $content_404);
+  variable_set('site_404', 'customerror/404');
 }

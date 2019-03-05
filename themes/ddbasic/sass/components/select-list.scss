@@ -1,0 +1,54 @@
+//
+// Styling of ul list in select-list class
+
+@import '../base.scss';
+
+// Select list
+//
+// Markup:
+// <div class="select-list">
+//   <h2 class="list-title sub-menu-title">Select library</h2>
+//   <ul class="list-items">
+//     <li><a href="#linkone" class="list-item">Somelink</a></li>
+//     <li><a href="#linktwo" class="list-item active">Anotherlink (active)</a></li>
+//     <li><a href="#linkthree" class="list-item">Last link</a></li>
+//   </ul>
+// </div>
+//
+// Styleguide 2.1.8
+
+.select-list {
+  ul.list-items {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    li {
+      margin-bottom: 15px;
+      .list-item {
+        position: relative;
+        display: inline-block;
+        padding: 7px 0 1px 42px;
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 28px;
+          height: 28px;
+          margin: 0 10px 5px 0;
+          border-radius: $round-corner;
+          background-color: $grey;
+        }
+        &.active {
+          @include place-icon(check, $color-text-on-primary, 28px);
+          &::after {
+            left: 0;
+          }
+          &::before {
+            background-color: $color-primary;
+          }
+        }
+      }
+    }
+  }
+}

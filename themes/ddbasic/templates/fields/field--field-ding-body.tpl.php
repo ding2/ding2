@@ -1,6 +1,7 @@
 <?php
+
 /**
- * @file field-ding-body.tpl.php
+ * @file
  * Removed all field wrappers.
  *
  * Available variables:
@@ -39,4 +40,3 @@
  */
 ?>
 <?php print render($items[0]); ?>
- 

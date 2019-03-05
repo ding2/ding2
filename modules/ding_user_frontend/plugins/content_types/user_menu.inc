@@ -32,7 +32,7 @@ function ding_user_frontend_user_menu_content_type_render($subtype, $conf, $pane
     $path = token_replace($conf['path'], array('user' => $user));
   }
 
-  $block->title = '<a href="/user">' . t('My account') . '</a>';
+  $block->title = l(t('My account'), 'user/me/view');
   $block->content = ding_user_frontend_build_menu($path);
 
   return $block;

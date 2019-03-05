@@ -36,28 +36,28 @@ function ding_serendipity_serendipity_ting_object_related_content_type_render($s
       $context_data[$key] = TRUE;
     }
   }
-  
+
   if (!empty($context[0]->data)) {
     $context_data['node'] = $context[0]->data;
     $context_data['node_nid'] = $panel_args[0];
   }
-  
+
   if (!empty($context[1]->data)) {
     $context_data['search_term'] = $context[1]->data;
   }
-  
+
   if (!empty($context[2]->data)) {
     $context_data['taxonomy_term'] = $context[2]->data;
     $context_data['taxonomy_tid'] = $panel_args[0];
   }
-  
+
   if (!empty($context[3]->data)) {
     $context_data['ting_object'] = $context[2]->data;
     $context_data['ting_object_id'] = $panel_args[0];
   }
-  
+
   $context_data += array(
-    'view_mode' => isset($conf['view_mode']) ? $conf['view_mode'] : 'compact',
+    'view_mode' => isset($conf['view_mode']) ? $conf['view_mode'] : 'teaser',
     'sort_weight' => isset($conf['sort_weight']) ? $conf['sort_weight'] : FALSE,
     'max' => isset($conf['max']) ? $conf['max'] : 0,
     'min' => isset($conf['min']) ? $conf['min'] : 0,
@@ -80,7 +80,7 @@ function ding_serendipity_serendipity_ting_object_related_content_type_render($s
       ),
       'type' => 'setting',
     );
-    
+
     $tmp = array();
     foreach ($content as $key => $item) {
       $item['#weight'] = $key;
@@ -92,7 +92,7 @@ function ding_serendipity_serendipity_ting_object_related_content_type_render($s
   $block = new stdClass();
   $block->title = t('Serendipity related materials');
   $block->content = $output;
-  
+
   return $block;
 }
 
@@ -103,7 +103,7 @@ function ding_serendipity_serendipity_ting_object_related_content_type_edit_form
 
   $form += ding_serendipity_form_base($form_state);
   $form += ding_serendipity_form_base_keys($form_state);
-    
+
   return $form;
 }
 

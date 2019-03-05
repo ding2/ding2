@@ -5,19 +5,33 @@ package = Providers
 version = 7.x-1.0-dev
 project = fbs
 dependencies[] = date_popup
+dependencies[] = ding_libs
 dependencies[] = ding_provider
 dependencies[] = ding_reservation
+dependencies[] = ding_session_cache
 dependencies[] = ding_user
 dependencies[] = entity
 dependencies[] = features
 dependencies[] = libraries
+dependencies[] = list
+dependencies[] = options
+dependencies[] = opensearch
 dependencies[] = profile2
 dependencies[] = text
 dependencies[] = virtual_field
 dependencies[] = xautoload
+# Features will mark any module that implements hook_field_info() as required.
+# This causes the module to be enabled automatically during site-install, which
+# in the case of a Ding-provider is a problem.
+# To prevent "required = 1" line below has been commented out. When a future
+# feature-export reintroduce the line make sure to ignore it and keep this
+# block of comments and the out-commented line intact.
+# required = 1
 configure = admin/config/ding/provider/fbs
+explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
 features[features_api][] = api:2
 features[field_base][] = field_fbs_address
+features[field_base][] = field_fbs_interest_period
 features[field_base][] = field_fbs_mail
 features[field_base][] = field_fbs_mail_notification
 features[field_base][] = field_fbs_name
@@ -26,6 +40,7 @@ features[field_base][] = field_fbs_phone
 features[field_base][] = field_fbs_phone_notification
 features[field_base][] = field_fbs_preferred_branch
 features[field_instance][] = profile2-provider_fbs-field_fbs_address
+features[field_instance][] = profile2-provider_fbs-field_fbs_interest_period
 features[field_instance][] = profile2-provider_fbs-field_fbs_mail
 features[field_instance][] = profile2-provider_fbs-field_fbs_mail_notification
 features[field_instance][] = profile2-provider_fbs-field_fbs_name
@@ -34,6 +49,7 @@ features[field_instance][] = profile2-provider_fbs-field_fbs_phone
 features[field_instance][] = profile2-provider_fbs-field_fbs_phone_notification
 features[field_instance][] = profile2-provider_fbs-field_fbs_preferred_branch
 features[profile2_type][] = provider_fbs
+files[] = includes/classes/FBS.php
 files[] = includes/classes/FBSAuthenticationHandler.php
 files[] = includes/classes/FBSCacheDrupal.php
 files[] = includes/classes/FBSCacheInterface.php
@@ -44,4 +60,4 @@ files[] = includes/classes/FBSGuzzleHttpClient.php
 files[] = includes/classes/FBSLogDrupal.php
 files[] = includes/classes/FBSLogInterface.php
 files[] = includes/classes/FBSLogStdout.php
-files[] = includes/classes/FBS.php
+files[] = includes/classes/FBSMisconfiguredException.php

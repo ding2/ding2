@@ -10,21 +10,13 @@
 function ding_staff_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_ding_staff_department'
+  // Exported field_base: 'field_ding_staff_department'.
   $field_bases['field_ding_staff_department'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_staff_department',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -45,21 +37,13 @@ function ding_staff_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_staff_description'
+  // Exported field_base: 'field_ding_staff_description'.
   $field_bases['field_ding_staff_description'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_staff_description',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -74,14 +58,13 @@ function ding_staff_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_staff_email'
+  // Exported field_base: 'field_ding_staff_email'.
   $field_bases['field_ding_staff_email'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_staff_email',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'email',
@@ -92,21 +75,13 @@ function ding_staff_field_default_field_bases() {
     'type' => 'email',
   );
 
-  // Exported field_base: 'field_ding_staff_forename'
+  // Exported field_base: 'field_ding_staff_forename'.
   $field_bases['field_ding_staff_forename'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_staff_forename',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -122,21 +97,13 @@ function ding_staff_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_ding_staff_image'
+  // Exported field_base: 'field_ding_staff_image'.
   $field_bases['field_ding_staff_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_staff_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -153,21 +120,13 @@ function ding_staff_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_ding_staff_phone'
+  // Exported field_base: 'field_ding_staff_phone'.
   $field_bases['field_ding_staff_phone'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_staff_phone',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -183,21 +142,13 @@ function ding_staff_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_ding_staff_position'
+  // Exported field_base: 'field_ding_staff_position'.
   $field_bases['field_ding_staff_position'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_staff_position',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -213,21 +164,13 @@ function ding_staff_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_ding_staff_surname'
+  // Exported field_base: 'field_ding_staff_surname'.
   $field_bases['field_ding_staff_surname'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_staff_surname',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -243,21 +186,13 @@ function ding_staff_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_ding_staff_work_areas'
+  // Exported field_base: 'field_ding_staff_work_areas'.
   $field_bases['field_ding_staff_work_areas'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_staff_work_areas',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',

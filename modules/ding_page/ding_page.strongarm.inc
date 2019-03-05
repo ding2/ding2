@@ -93,6 +93,9 @@ function ding_page_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'workflow_tab' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -106,8 +109,36 @@ function ding_page_strongarm() {
       'display' => array(
         'webform' => array(
           'search_result' => array(
-            'weight' => '10',
+            'weight' => '8',
             'visible' => FALSE,
+          ),
+          'default' => array(
+            'weight' => '5',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '3',
+            'visible' => FALSE,
+          ),
+          'teaser_no_overlay' => array(
+            'weight' => '3',
+            'visible' => FALSE,
+          ),
+        ),
+        'ding_serendipity_info' => array(
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser_no_overlay' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+        'ding_serendipity_info' => array(
+          'search_result' => array(
+            'weight' => '0',
+            'visible' => TRUE,
           ),
         ),
       ),
@@ -152,7 +183,7 @@ function ding_page_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_preview_ding_page';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['node_preview_ding_page'] = $strongarm;
 
   $strongarm = new stdClass();
