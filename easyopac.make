@@ -291,6 +291,13 @@ projects[easyddb_xml_events][download][url]    = "git@github.com:easySuite/easyd
 ;projects[easyddb_xml_events][download][tag]    = "7.x-3.0.2"
 projects[easyddb_xml_events][download][branch] = "development"
 
+projects[easyddb_wayfinder][type]             = "module"
+projects[easyddb_wayfinder][subdir]           = ""
+projects[easyddb_wayfinder][download][type]   = "git"
+projects[easyddb_wayfinder][download][url]    = "git@github.com:easySuite/easyddb_wayfinder.git"
+;projects[easyddb_wayfinder][download][tag]    = ""
+projects[easyddb_wayfinder][download][branch] = "development"
+
 projects[easyddb_zerohit_redirect][type]             = "module"
 projects[easyddb_zerohit_redirect][subdir]           = ""
 projects[easyddb_zerohit_redirect][download][type]   = "git"
