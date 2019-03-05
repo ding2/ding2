@@ -1,0 +1,46 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Ding2Context
+        # - Ding2MessagesContext
+        - P2Context
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    SensioLabs\Behat\PageObjectExtension: ~
+    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
+      filename: report.xml
+      outputDir: "%paths.base%/"
+    Behat\MinkExtension:
+      goutte: ~
+      selenium2: ~
+      browser_name: 'phantomjs'
+      base_url: http://p2.dev
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drupal'
+      drupal:
+        drupal_root: '../../../'
+      text:
+        log_out: 'Log ud'
+        username_field: 'Låner- eller cpr-nr.'
+        password_field: 'Pinkoden er på 4 cifre'
+      region_map:
+        messages: '.messages'
+
+chrome:
+  extensions:
+    Behat\MinkExtension:
+      selenium2: ~
+      default_session: 'selenium2'
+      browser_name: 'chrome'
+
+firefox:
+  extensions:
+    Behat\MinkExtension:
+      selenium2: ~
+      default_session: 'selenium2'
+      browser_name: 'firefox'
