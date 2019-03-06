@@ -46,7 +46,7 @@ msgstr "Mindste antal resultater"
 
 #: modules/subsearch_secondary/subsearch_secondary.admin.inc:30
 msgid "How few is minimum in order to trigger secondary search."
-msgstr "For at udløse en Open Suggestion subsearch, der kan give brugeren et alternativt søgeforslag, skal brugerens søgeterm(er) højst generere dette antal resultater. BEMÆRK: 0-hits-søgninger udløser altid en subsearch."
+msgstr "For at udløse en Open Suggestion subsearch, der kan give brugeren et alternativt søgeforslag, skal brugerens søgeterm(er) mindst generere dette antal resultater. BEMÆRK: 0-hits-søgninger udløser altid en subsearch."
 
 #: modules/subsearch_secondary/subsearch_secondary.admin.inc:36
 msgid "Maximum number of results"
