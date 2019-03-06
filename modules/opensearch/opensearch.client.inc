@@ -447,6 +447,16 @@ function opensearch_execute(TingClientRequest $request) {
       $request->setLocalIds(array_keys($uncached_local_ids));
     }
 
+    // The $cached_local_ids array is now keyed by local id and we needed that
+    // to get the uncached local ids. But in the response all objects should be
+    // keyed PID, so here we convert the array of cached "local" objects to be
+    // keyed by their PID.
+    $local_object_pids = [];
+    foreach ($cached_local_ids as $object) {
+      $local_object_pids[] = $object->id;
+    }
+    $cached_local_ids = array_combine($local_object_pids, $cached_local_ids);
+
     $cached_objects = $cached_object_ids + $cached_local_ids;
 
     // If there are no ids to fetch then there is no need to issue a request.
@@ -455,10 +465,6 @@ function opensearch_execute(TingClientRequest $request) {
       _opensearch_cache($request, $cached_objects);
       return $cached_objects;
     }
-
-    // Re-set uncached ids in the request so the missing will be fetched from
-    // the data-well.
-    $request->setObjectIds(array_keys($uncached_ids));
   }
 
   try {
