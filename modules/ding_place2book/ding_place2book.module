@@ -322,7 +322,7 @@ function ding_place2book_node_presave($node) {
 }
 
 /**
- * hook_field_widget_form_alter().
+ * Implements hook_field_widget_form_alter().
  */
 function ding_place2book_field_widget_form_alter(&$element, &$form_state, $context) {
   $node = $context['form']['#node'];
