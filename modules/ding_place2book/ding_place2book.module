@@ -294,6 +294,13 @@ function ding_place2book_node_presave($node) {
     return;
   }
 
+  // We'll only act on node inserts. For existing nodes we will instead rely
+  // on our form alter which disables the ticket link field for p2b-nodes. This
+  // way we avoid making requests when multiple nodes are updated in bulk.
+  if (!$node->is_new) {
+    return;
+  }
+
   if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($node)) {
     return;
   }
@@ -312,6 +319,27 @@ function ding_place2book_node_presave($node) {
   catch (Exception $e) {
     watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
   }
+}
+
+/**
+ * hook_field_widget_form_alter().
+ */
+function ding_place2book_field_widget_form_alter(&$element, &$form_state, $context) {
+  $node = $context['form']['#node'];
+  $field_name = $context['field']['field_name'];
+
+  if ($node->type != 'ding_event' || $field_name != 'field_ding_event_ticket_link') {
+    return;
+  }
+
+  if (!ding_place2book_is_ding_event_node_synchronized($node)) {
+    return;
+  }
+
+  // Disable the formatter element for the ticket link field if this ding_event
+  // node synchronizes with p2b.
+  $element['#disabled'] = TRUE;
+  $element['#description'] = t('This field is currently controlled by place2book and is therefore disabled. Disable place2book synchronization to enable it and use a custom external ticket link.');
 }
 
 /**
