@@ -9,7 +9,7 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Page\CreateListPage;
 use Page\ListPage;
-use Page\SearchPage;
+use Page\P2SearchPage as SearchPage;
 use Page\MyListsPage;
 
 /**

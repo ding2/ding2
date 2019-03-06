@@ -3,6 +3,9 @@ default:
     default:
       contexts:
         - FeatureContext
+        - Ding2Context
+        # - Ding2MessagesContext
+        - P2Context
         - LibContext:
             NoScreenDump: "false"
         - StepsContext
@@ -29,6 +32,11 @@ default:
         username_field: 'Låner- eller CPR-nummer'
         password_field: 'Pinkode'
     Liuggio\Fastest\Behat\ListFeaturesExtension\Extension: ~
+    Behat\MinkExtension:
+      goutte: ~
+      selenium2: ~
+      browser_name: 'phantomjs'
+      base_url: http://p2.dev
 
 
 chrome:

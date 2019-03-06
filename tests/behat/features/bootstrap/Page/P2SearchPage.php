@@ -4,7 +4,7 @@ namespace Page;
 
 use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\UnexpectedPageException;
 
-class SearchPage extends PageBase
+class P2SearchPage extends PageBase
 {
     /**
      * @var string $path
