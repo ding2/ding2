@@ -92,6 +92,13 @@ function opensearch_get_objects(array $ids, $local = FALSE) {
     $request->setProfile($profile);
   }
 
+  if ($local) {
+    // Ensure local ids are integer values and not strings. Else we will not
+    // hit the cache, since they will be converted to integers in our caching
+    // logic in opensearch_execute(), if they are passed as strings.
+    $ids = array_map('intval', $ids);
+  }
+
   // Opensearch getObject complains if it has to return more than 200 records,
   // with the message 'getObject can fetch up to 200 records. '. But it seems
   // it also have trouble fething over 169 records, which appears to be a bug.
