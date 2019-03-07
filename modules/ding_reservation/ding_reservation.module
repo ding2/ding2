@@ -490,7 +490,8 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
   }
 
   foreach ($reservations as $reservation) {
-    $mat_type = $creators = $title = NULL;
+    $title = t('Title not available');
+    $creators = $mat_type = $cover = NULL;
 
     // If the provider was able to produce an entity we'll use that since we can
     // show more information and link to the entity.
@@ -501,6 +502,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
       $title = l($entity->getTitle(), $uri['path']);
       $creators = $entity->getCreators();
       $mat_type = $entity->getType();
+      $cover = field_view_field('ting_object', $entity, 'ting_cover', 'user_list');
     }
     // Else the provider has the option to supply a display name and author.
     elseif (!empty($reservation->display_name)) {
@@ -521,7 +523,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
           '#creators' => $creators,
           '#material_type' => $mat_type,
           '#title' => $title,
-          '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+          '#cover' => $cover,
           '#information' => array(
             'pickup_id' => array(
               'label' => t('Pickup id'),

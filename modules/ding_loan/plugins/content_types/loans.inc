@@ -171,7 +171,8 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     }
 
     foreach ($group['loans'] as $loan) {
-      $title = $creators = $mat_type = $cover = NULL;
+      $title = t('Title not available');
+      $creators = $mat_type = $cover = NULL;
 
       // If the provider was able to produce an entity we'll use that since we can
       // show more information and link to the entity.
@@ -189,18 +190,15 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         $title = $loan->display_name;
         $creators = $loan->author;
       }
-      else {
-        $title = t('Title not available');
-      }
 
       $item = array(
         '#type' => 'material_item',
         '#loan' => $loan,
         '#id' => $loan->id,
-        '#creators' => isset($creators) ? $creators : NULL,
-        '#material_type' => isset($mat_type) ? $mat_type : NULL,
+        '#creators' => $creators,
+        '#material_type' => $mat_type,
         '#title' => $title,
-        '#cover' => isset($cover) ? $cover : NULL,
+        '#cover' => $cover,
         '#information' => array(
           'loan_date' => array(
             'label' => t('Loan date'),

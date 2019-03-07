@@ -68,7 +68,7 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
           $ding_reservation['display_name'] = $reservation->ilBibliographicRecord->title;
           $ding_reservation['author'] = $reservation->ilBibliographicRecord->author;
         }
-        else {
+        elseif (isset($ids[$reservation->recordId])) {
           $ding_reservation['ding_entity_id'] = $ids[$reservation->recordId];
         }
 
