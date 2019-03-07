@@ -48,12 +48,21 @@ function fbs_loan_list($account, $reset = FALSE) {
         $id = $loan->loanDetails->loanId;
 
         $loan_data = array(
-          'ding_entity_id' => $ids[$loan->loanDetails->recordId],
           'loan_date' => $loan->loanDetails->loanDate,
           'expiry' => $loan->loanDetails->dueDate,
           'renewable' => $loan->isRenewable,
           'materials_number' => $loan->loanDetails->materialItemNumber,
         );
+
+        // With the FBS provider we have to use FBS data for ILL, since we can't
+        // rely on the record ID being unique in these cases.
+        if (!empty($loan->loanDetails->ilBibliographicRecord)) {
+          $loan_data['display_name'] = $loan->loanDetails->ilBibliographicRecord->title;
+          $loan_data['author'] = $loan->loanDetails->ilBibliographicRecord->author;
+        }
+        elseif (isset($ids[$loan->loanDetails->recordId])) {
+          $loan_data['ding_entity_id'] = $ids[$loan->loanDetails->recordId];
+        }
 
         // Ding loan maintains a list of renewed loans in this session, and if
         // this loan is here we will use it for renewal feedback.
@@ -92,11 +101,6 @@ function fbs_loan_list($account, $reset = FALSE) {
           else {
             $loan_data['notes'] = t('Issue @vol', array('@vol' => $vol));
           }
-        }
-
-        // Handle inter library loans.
-        if (!empty($loan->loanDetails->ilBibliographicRecord)) {
-          $loan_data['display_name'] = $loan->loanDetails->ilBibliographicRecord->title;
         }
 
         $results[$id] = new DingProviderLoan($id, $loan_data);
