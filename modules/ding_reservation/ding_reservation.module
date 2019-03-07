@@ -561,7 +561,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
           '#creators' => $creators,
           '#material_type' => $mat_type,
           '#title' => $title,
-          '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+          '#cover' => $cover,
           '#information' => array(
             'queue_number' => array(
               'label' => t('Queue number'),
@@ -609,7 +609,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
           '#creators' => $creators,
           '#material_type' => $mat_type,
           '#title' => $title,
-          '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+          '#cover' => $cover,
           '#information' => array(
             'ill_status' => array(
               'label' => t('Status'),
