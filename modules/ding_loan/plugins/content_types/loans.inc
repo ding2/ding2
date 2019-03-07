@@ -176,7 +176,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       // If the provider was able to produce an entity we'll use that since we can
       // show more information and link to the entity.
-      if (!empty($loan->ding_entity_id)) {
+      if (is_object($loan->entity)) {
         $entity = $loan->entity;
 
         $uri = entity_uri('ting_object', $entity);

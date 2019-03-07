@@ -495,7 +495,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
 
     // If the provider was able to produce an entity we'll use that since we can
     // show more information and link to the entity.
-    if (!empty($reservation->ding_entity_id)) {
+    if (is_object($reservation->entity)) {
       $entity = $reservation->entity;
 
       $uri = entity_uri('ting_object', $entity);
