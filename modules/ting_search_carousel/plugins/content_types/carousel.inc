@@ -18,10 +18,10 @@ $plugin = array(
  */
 function ting_search_carousel_carousel_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
-  if (!isset($conf['ting_searches'])) {
+  if (!isset($conf['searches'])) {
     return $block;
   }
-  $searches = $conf['ting_searches'];
+  $searches = $conf['searches'];
 
   if (!empty($searches)) {
     $carousels = array();
@@ -93,7 +93,7 @@ function ting_search_carousel_carousel_content_type_edit_form($form, &$form_stat
   ctools_form_include($form_state, 'carousel', 'ting_search_carousel', 'plugins/content_types');
   module_load_include('module', 'ting_search_carousel');
 
-  $form['ting_searches'] = array(
+  $form['searches'] = array(
     '#type' => 'fieldset',
     '#title' => 'Searches',
     '#prefix' => '<div id="ting-search-carousel-queries">',
@@ -102,11 +102,11 @@ function ting_search_carousel_carousel_content_type_edit_form($form, &$form_stat
     '#tree' => TRUE,
   );
   $i = 0;
-  foreach ($form_state['conf']['ting_searches'] as $search) {
+  foreach ($form_state['conf']['searches'] as $search) {
     // Removed searches are replaced with null values, in order to retain the
     // indexing between form rebuilds.
     if ($search) {
-      $form['ting_searches'][$i] = ting_search_carousel_query_form($search, $i);
+      $form['searches'][$i] = ting_search_carousel_query_form($search, $i);
     }
     $i++;
   }
@@ -149,7 +149,7 @@ function ting_search_carousel_carousel_content_type_edit_form($form, &$form_stat
  * Panel pane configuration form validate handler.
  */
 function ting_search_carousel_carousel_content_type_edit_form_validate(&$form, &$form_state) {
-  foreach ($form_state['values']['ting_searches'] as $index => $search) {
+  foreach ($form_state['values']['searches'] as $index => $search) {
     $query = new TingSearchCarouselQuery($search['query'], $search['sort']);
     $path = ting_search_carousel_ajax_path($query);
     if (strlen($path) > 2048) {
@@ -162,7 +162,7 @@ function ting_search_carousel_carousel_content_type_edit_form_validate(&$form, &
  * Panel pane configuration form submit handler.
  */
 function ting_search_carousel_carousel_content_type_edit_form_submit(&$form, &$form_state) {
-  $sorted = $form_state['values']['ting_searches'];
+  $sorted = $form_state['values']['searches'];
   uasort($sorted, 'drupal_sort_weight');
 
   $searches = array();
@@ -172,8 +172,8 @@ function ting_search_carousel_carousel_content_type_edit_form_submit(&$form, &$f
       $searches[] = $search;
     }
   }
-  $form_state['conf']['ting_searches'] = $searches;
-  $form_state['conf']['ting_searches'] = $form_state['values']['settings'];
+  $form_state['conf']['searches'] = $searches;
+  $form_state['conf']['settings'] = $form_state['values']['settings'];
   // Pre-request first set of results so the caching will be done while form
   // submit and the client will not have to wait until those requests are
   // happening when page is opened.
@@ -277,14 +277,14 @@ function ting_search_carousel_query_form(array $item = array(), $index = 0) {
  *   Changed field to be updated.
  */
 function ting_search_carousel_admin_form_callback(array $form, array &$form_state) {
-  return $form['ting_searches'];
+  return $form['searches'];
 }
 
 /**
  * AJAX callback for adding searches.
  */
 function ting_search_carousel_admin_form_add_one($form, &$form_state) {
-  $form_state['conf']['ting_searches'][] = array(
+  $form_state['conf']['searches'][] = array(
     'title' => '',
     'subtitle' => '',
     'query' => '',
