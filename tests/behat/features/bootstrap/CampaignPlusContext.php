@@ -19,6 +19,7 @@ class CampaignPlusContext implements Context {
    * CampaignPlusContext constructor.
    *
    * @param CreateCampaignPlusPage $createCampaignPage
+   *   A 'Create Campaign' page object.
    */
   public function __construct(CreateCampaignPlusPage $createCampaignPage) {
     $this->createCampaignPage = $createCampaignPage;

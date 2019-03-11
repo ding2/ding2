@@ -1658,7 +1658,7 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @Then :txt should not appear within :seconds seconds
    *
    * @throws \Behat\Mink\Exception\ElementTextException
-   *  If text does appear.
+   *    If text does appear.
    */
   public function waitAndLookForText($txt, $seconds) {
     sleep($seconds);

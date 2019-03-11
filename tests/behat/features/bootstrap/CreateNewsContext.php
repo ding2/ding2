@@ -19,6 +19,7 @@ class CreateNewsContext implements Context {
    * CreateNewsContext constructor.
    *
    * @param CreateNewsPage $createNewsPage
+   *   A 'Create News Page' page object.
    */
   public function __construct(CreateNewsPage $createNewsPage) {
     $this->createNewsPage = $createNewsPage;

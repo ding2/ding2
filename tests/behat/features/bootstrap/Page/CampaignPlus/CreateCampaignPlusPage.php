@@ -149,7 +149,7 @@ class CreateCampaignPlusPage extends Page {
    * @param string $type
    *   The type of facet.
    * @param string $ruleValue
-   *   The facet value
+   *   The facet value.
    * @param string $commmonValue
    *   The common value wherein facet value is contained to trigger campaign.
    *

@@ -19,6 +19,7 @@ class LoginContext extends RawDrupalContext {
    * LoginContext constructor.
    *
    * @param LoginPage $loginPage
+   *   A 'Login Page' page object.
    */
   public function __construct(LoginPage $loginPage) {
     $this->loginPage = $loginPage;
@@ -30,7 +31,7 @@ class LoginContext extends RawDrupalContext {
    * @Given I am logged in as a cms user with the :roleList role(s)
    */
   public function assertAuthenticatedByRole($roleList) {
-    $user = (object)array(
+    $user = (object) array(
       'name' => $this->getRandom()->name(8),
       'pass' => $this->getRandom()->name(16),
       'role' => $roleList,
