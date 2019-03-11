@@ -1605,7 +1605,7 @@ class LibContext implements Context, SnippetAcceptingContext {
       $wait = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
       if ($wait) {
         try {
-          $continueWaiting = ($wait->isVisible()) ? true : false;
+          $continueWaiting = $wait->isVisible();
         }
         catch (Exception $e) {
           // Ignore.
@@ -1615,5 +1615,57 @@ class LibContext implements Context, SnippetAcceptingContext {
         $continueWaiting = false;
       }
     }
+  }
+
+  /**
+   * Implements step to wait until text appears.
+   *
+   * @param string $txt
+   *    Text that we wait for will appear.
+   * @param int $seconds
+   *    Number of seconds to wait.
+   *
+   * @Then :txt should appear within :seconds seconds
+   *
+   * @throws \WebDriver\Exception\NoSuchElement
+   *    If text does not appear
+   */
+  public function waitUntilTextAppears(string $txt, int $seconds) {
+    $end = microtime(true) + $seconds;
+    do {
+      $textElement = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+      if ($textElement && $textElement->isVisible()) {
+        return;
+      }
+      usleep(300);
+    } while (microtime(true) < $end);
+
+    throw new \WebDriver\Exception\NoSuchElement(sprintf('Text "%s" not found after %d seconds', $txt, $seconds));
+  }
+
+  /**
+   * Implements step to wait a given number of seconds, then test that text is not visible.
+   *
+   * Using this step will always cause the execution to be paused for the given number of
+   * seconds so use sparingly. The reason is that we have no way to detect when ajax loads
+   * are finished and therefore no way to know when it is "safe" to look for the text.
+   *
+   * @Then :txt should not appear within :seconds seconds
+   *
+   * @param string $txt
+   *    Text that must not appear.
+   * @param int $seconds
+   *    Number of seconds to wait.
+   *
+   * @throws \Behat\Mink\Exception\ElementTextException
+   */
+  public function waitAndLookForText(string $txt, int $seconds) {
+    sleep($seconds);
+    $textElement = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+    if(!$textElement) {
+      return;
+    }
+
+    throw new \Behat\Mink\Exception\ElementTextException(sprintf('Text "%s" was found after %d seconds, but should NOT appear', $txt, $seconds));
   }
 }

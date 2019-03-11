@@ -283,8 +283,40 @@ class PageBase extends LogMessages {
       $continueWaiting = ($wait === null);
     }
     if ($waitmax > 0) {
-      return "";
+      return '';
     }
-    return "Failed - " . $txt . " is still on page.";
+    return 'Failed - ' . $txt . ' is still on page.';
+  }
+
+  /**
+   * Wait until text appears.
+   *
+   * @param int $waitmax
+   *    Number of waits of 300 ms.
+   * @param string $txt
+   *    Text that we wait for to appear.
+   *
+   * @When I wait up to :waitmax until :txt appears
+   *
+   * @return string
+   *    Return status of operation.
+   */
+  public function waitUntilTextAppears($waitmax, $txt) {
+    // First see if we can find the element.
+    $wait = $this->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+    $continueWaiting = true;
+    if ($wait) {
+      return '';
+    }
+    // Now wait for the assigned time until we can find txt on the page.
+    while ($continueWaiting and --$waitmax > 0) {
+      usleep(300);
+      $wait = $this->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+      $continueWaiting = ($wait !== null);
+    }
+    if ($waitmax > 0) {
+      return '';
+    }
+    return 'Failed - ' . $txt . ' never appeared on page';
   }
 }

@@ -2,32 +2,40 @@ default:
   suites:
     default:
       contexts:
+        - CampaignPlusContext
+        - CreateNewsContext
         - FeatureContext
         - LibContext:
             NoScreenDump: "false"
         - StepsContext
+        - LoginContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\DrupalExtension\Context\DrushContext
   extensions:
-    SensioLabs\Behat\PageObjectExtension: ~
+    SensioLabs\Behat\PageObjectExtension:
+      namespaces:
+        page: [Page, Page\CampaignPlus, Page\Common]
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
-     name: html
-     renderer: Behat2
-     file_name: Index
-     print_args: true
-     print_outp: true
-     loop_break: true
+      name: html
+      renderer: Behat2
+      file_name: Index
+      print_args: true
+      print_outp: true
+      loop_break: true
     Drupal\DrupalExtension:
       blackbox: ~
-      api_driver: 'drush'
+      api_driver: 'drupal'
       drush:
         root: '../../../../../web'
+      drupal:
+        drupal_root: '../../../../'
       text:
+        log_in: 'Log ind'
         log_out: 'Log ud'
         username_field: 'Låner- eller CPR-nummer'
-        password_field: 'Pinkode'
+        password_field: 'Pinkode (4 cifre)'
     Liuggio\Fastest\Behat\ListFeaturesExtension\Extension: ~
 
 

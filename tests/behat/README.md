@@ -2,6 +2,9 @@
 
 Suite for automated checking of DDB CMS.
 
+#### Docs
+Guidelines: `profiles/ding2/tests/behat/docs/Guidelines.md`  
+Maintenance: `profiles/ding2/tests/behat/docs/Maintenance.md`
 
 ## Preparation
 
@@ -37,7 +40,7 @@ the code that will run, and which is mapped to the Gherkin methods/steps
     - Windows: `start chrome --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222`
 2. Set up an environment variable `BEHAT_PARAMS` containing the URL of the 
 website you want to test
-3. Select the tags (`@xxx) from the scenarios you want to run in the 
+3. Select the tags (`@xyz) from the scenarios you want to run in the 
 `.feature-files`
 4. Run `behat` by giving the tags and the browser config you want to use as
 parameters
@@ -46,7 +49,7 @@ parameters
 
 ```sh
 % export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://localhost/"}}}'
-% behat --tags=@simplesmoketest,@anothertag -p chrome
+% behat --tags=@simplesmoke,@anothertag -p chrome
 ```
 
 #### Tips

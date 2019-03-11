@@ -1,7 +1,7 @@
 {
     "require-dev": {
         "sensiolabs/behat-page-object-extension": "^2.1",
-        "Drupal/Drupal-Extension": "^3.3",
+        "drupal/drupal-extension": "^3.3",
         "emuse/behat-html-formatter": "^0.1.0"
     },
     "config": {
