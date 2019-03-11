@@ -39,27 +39,47 @@ body {
     background-color: $charcoal;
     overflow: hidden;
   }
-  // When second level menu is visible
-  &.has-second-level-menu {
-    padding-top: $header-height + $second-level-menu-height; // Compensate for fixed header
-    // Tablet
+
+  &.has-second-level-menu,
+  &.search-form-extended {
     @include media($tablet) {
       padding-top: $header-height; // Compensate for fixed header
     }
   }
-  // When search form is extended
-  &.search-form-extended.extended-search-is-open {
-    padding-top: $header-height + $search-form-extended-height; // Compensate for fixed header
-    // Tablet
-    @include media($tablet) {
-      padding-top: $header-height; // Compensate for fixed header
-    }
-    // When second level menu is visible & search form is extended
+
+  @include media($tablet-min-width) {
     &.has-second-level-menu {
-      padding-top: $header-height + $search-form-extended-height + $second-level-menu-height; // Compensate for fixed header
-      // Tablet
-      @include media($tablet) {
-        padding-top: $header-height; // Compensate for fixed header
+      padding-top: $header-height + $second-level-menu-height;
+    }
+  }
+
+
+  $_selectors-padding-top-values--body: (
+    '.search-form-extended': $header-height + $search-form-extended-height,
+    '.search-form-extended.extended-search-is-not-open': $header-height
+  );
+
+  @each $_selector, $_value in $_selectors-padding-top-values--body {
+    @include media($tablet-min-width) {
+
+      &#{$_selector} {
+        padding-top: $_value;
+
+        // If there are too many links, we need to add even more padding.
+        &.secondary-menu-below-main {
+          padding-top: $_value + $search-form-extended-height;
+        }
+      }
+
+      &#{$_selector}.has-second-level-menu {
+        padding-top: $_value + $second-level-menu-height;
+      }
+
+      // If there are too many links, we need to add even more padding.
+      &#{$_selector}.has-second-level-menu.secondary-menu-below-main,
+      &#{$_selector}.has-second-level-menu.has-multiline-main-menu,
+      &#{$_selector}.secondary-menu-below-main {
+        padding-top: $_value + $second-level-menu-height + $search-form-extended-height;
       }
     }
   }
@@ -148,8 +168,8 @@ b {
 ul,
 ol {
   margin: 0 0 $distance-paragraph;
-  padding: 0;
-  list-style-position: inside;
+  padding-left: 20px;
+  list-style-position: outside;
 }
 
 // Label

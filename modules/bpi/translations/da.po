@@ -187,9 +187,21 @@ msgstr "Kategori"
 msgid "Audience"
 msgstr "Målgruppe"
 
-#: bpi.push.inc:108;230
-msgid "Push with images"
-msgstr "Inkludér billeder"
+#: bpi.push.inc:58
+msgid "Push with image"
+msgstr "Inkludér billede"
+
+#: bpi.push.inc:60
+msgid "Choose"
+msgstr "Vælg"
+
+#: bpi.push.inc:61
+msgid "Not approved for sharing"
+msgstr "Ikke godkendt til deling"
+
+#: bpi.push.inc:62
+msgid "Approved for sharing"
+msgstr "Godkendt til deling"
 
 #: bpi.push.inc:118;240
 msgid ""

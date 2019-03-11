@@ -180,6 +180,22 @@ function ding_ddbasic_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * Add and autofill the expanded checkbox to the node form.
+ */
+function ding_ddbasic_form_node_form_alter(&$form, $form_state) {
+  if (isset($form['menu']['link'])) {
+    $form['menu']['link']['expanded'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Show as expanded'),
+      '#description' => t('If selected and this menu link has children, the menu will always appear expanded.'),
+      '#default_value' => !empty($form['#node']->menu['mlid']) ? $form['#node']->menu['expanded'] : 1,
+    );
+  }
+}
+
+/**
  * Custom validator for the system_theme_settings form.
  *
  * We force the color scheme to be custom, so the elements we've changed to

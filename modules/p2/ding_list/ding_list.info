@@ -27,6 +27,7 @@ features[field_base][] = field_ding_list_in_public_lists
 features[field_group][] = group_in_public_lists|ting_object|ting_object|default
 features[field_instance][] = ting_object-ting_object-field_ding_list_in_public_lists
 features[page_manager_pages][] = ding_list_public_lists
+features[page_manager_pages][] = ding_list_reset_user
 features[page_manager_pages][] = page_ding_list_create
 features[page_manager_pages][] = page_ding_list_edit
 features[page_manager_pages][] = page_ding_list_share

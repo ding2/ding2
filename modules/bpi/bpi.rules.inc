@@ -71,8 +71,7 @@ function bpi_rules_push($node) {
   $data = unserialize($bpi_values->data);
   $category = $data['category'];
   $audience = $data['audience'];
-  $with_images = $data['with_images'];
-  $authorship = $data['authorship'];
+  $with_images = BPI_WITH_IMAGES === $data['with_images'];
   $editable = $data['editable'];
   $with_refs = $data['with_refs'];
 
@@ -87,7 +86,7 @@ function bpi_rules_push($node) {
     return FALSE;
   }
 
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable, $with_refs);
+  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, FALSE, $editable, $with_refs);
 
   $bpi = bpi_client_instance();
   $push_result = $bpi->push($bpi_content)->getProperties();

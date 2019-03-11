@@ -218,3 +218,10 @@ function ding_contact_info() {
     ),
   );
 }
+
+/**
+ * Enable antibot module.
+ */
+function ding_contact_update_7000() {
+  module_enable(array('antibot'));
+}

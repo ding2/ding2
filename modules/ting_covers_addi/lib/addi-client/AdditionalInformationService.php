@@ -192,12 +192,16 @@ class AdditionalInformationService {
     $additional_informations = array();
 
     foreach ($response->identifierInformation as $info) {
+      // To avoid unnecessary downloads we also check that the identifier from
+      // the result is of the expected type (e.g. $id_name = 'pid').
+      if (empty($info->identifierKnown) && !isset($info->identifier->$id_name)) {
+        continue;
+      }
+
+      // First check for an internal moreinfo cover image.
       $thumbnail_url = $detail_url = NULL;
       $cover_image = isset($info->coverImage) ? $info->coverImage : FALSE;
-
-      // To avoid unnecessary downloads we also check that the identifier from
-      // the result is of the expected type ($id_name).
-      if (!empty($info->identifierKnown) && $cover_image && isset($info->identifier->$id_name)) {
+      if ($cover_image) {
         if (!is_array($cover_image)) {
           $cover_image = array($cover_image);
         }
@@ -217,10 +221,29 @@ class AdditionalInformationService {
               // now.
           }
         }
-
-        $additional_info = new AdditionalInformation($thumbnail_url, $detail_url);
-        $additional_informations[$info->identifier->$id_name] = $additional_info;
       }
+
+      // In some cases moreinfo will return external URLs to a covers supplied
+      // by the owner of the record.
+      $extern_url = NULL;
+      if (isset($info->externUrl)) {
+        // Sometimes moreinfo will provide several links. Since it's external we
+        // have no general way of detecting the quality/size of each image link
+        // and therefore we will just have to pick the first one.
+        if (is_array($info->externUrl)) {
+          $extern_url = $info->externUrl[0]->_;
+        }
+        else {
+          $extern_url = $info->externUrl->_;
+        }
+      }
+
+      $additional_info = new AdditionalInformation(
+        $thumbnail_url,
+        $detail_url,
+        $extern_url
+      );
+      $additional_informations[$info->identifier->$id_name] = $additional_info;
     }
 
     return $additional_informations;

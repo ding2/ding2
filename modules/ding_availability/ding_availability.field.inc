@@ -225,7 +225,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           // not always predefined online type we need to check if the entity
           // has an online URL. Please not tht that this in most cases will
           // trigger a search request with get all relations.
-          if (in_array(drupal_strtolower($type), $online_types) || $entities[0]->getOnline_url()) {
+          if (in_array(drupal_strtolower($type), $online_types) || $entities[0]->isOnline()) {
             if (!isset($output['#types']['online'])) {
               // Add label "online" to output.
               $output['#types']['online'] = array(

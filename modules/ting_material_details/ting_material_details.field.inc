@@ -519,7 +519,7 @@ function ting_material_details_get_object_property($field_name, TingEntity $enti
       return $entity->getTingObject()->getSubTitles();
 
     case 'ting_details_genre':
-      return $entity->getTingObject()->getGenere();
+      return $entity->getTingObject()->getGenre();
 
     case 'ting_details_spatial':
       return $entity->getTingObject()->getSpatial();

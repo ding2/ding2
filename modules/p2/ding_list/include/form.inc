@@ -204,6 +204,14 @@ function ding_list_edit_list_form($form, &$form_state, $list = FALSE) {
     '#default_value' => $list !== FALSE ? $list->getNote() : '',
   );
 
+  if (user_access('ding_list administer public lists')) {
+    $form['not_public'] = array(
+      '#type' => 'checkbox',
+      '#title' => t("Hide this list from public lists"),
+      '#default_value' => $list !== FALSE ? $list->getData('not_public', 0) : 0,
+    );
+  }
+
   $form['actions'] = array(
     '#type' => 'actions',
   );
@@ -259,6 +267,10 @@ function ding_list_edit_list_form_submit($form, &$form_state) {
       'type' => DING_LIST_TYPE_USER_LIST,
       'owner' => ding_provider_invoke('openlist', 'user_identifier', $account),
     ));
+  }
+
+  if (isset($form_state['values']['not_public'])) {
+    $list->setData('not_public', $form_state['values']['not_public']);
   }
 
   $list
@@ -617,4 +629,30 @@ function theme_ding_list_shared_permissions_table($variables) {
     'header' => $header,
     'rows' => $rows,
   ));
+}
+
+/**
+ * Ask user to reset their lists.
+ */
+function ding_list_reset_user_form($form, &$form_state, $account) {
+  $form['#attributes']['class'] = array('ding-list-reset-user-form');
+
+  return confirm_form(
+    $form,
+    t('Reset my lists'),
+    'user/' . $account->uid . '/my-library',
+    t('This will remove all your custom lists, and clear all lists of content.')
+  );
+}
+
+/**
+ * Submit handler for ding_list_reset_user_form.
+ */
+function ding_list_reset_user_form_submit($form, &$form_state) {
+  $account = $form_state['build_info']['args'][0];
+
+  ding_provider_invoke('openlist', 'reset_user', $account);
+  ding_list_setup_autocreated($account);
+
+  $form_state['redirect'] = 'user/' . $account->uid . '/my-library';
 }

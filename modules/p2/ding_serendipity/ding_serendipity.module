@@ -271,9 +271,9 @@ function ding_serendipity_fetch(array $context = NULL) {
   // The is_slow variable is set TRUE, if fetching the results takes longer
   // time than the given ding_serendipity_isslow_timeout allows.
   $is_slow = FALSE;
-  $count = 0;
   $slow_timeout = variable_get('ding_serendipity_isslow_timeout', 10);
 
+  $context['count'] = 0;
   // Collect serendipity from each weight pool of plugins.
   foreach ($ordered_info as $weight => $plugin) {
     // Stop consecutive collection when max has been reached.
@@ -317,10 +317,10 @@ function ding_serendipity_fetch(array $context = NULL) {
       foreach ($content as $index => $item) {
         $content[$index]['source'] = $values;
         $content[$index]['source']['info'] = isset($content[$index]['info']) ? $content[$index]['info'] : array();
+        $context['count']++;
       }
 
       $weight_results = array_merge($weight_results, $content);
-      $count++;
     }
 
     if (empty($context['not_random'])) {
@@ -998,7 +998,7 @@ function ding_serendipity_do_search(TingSearchRequest $query, $limit = 4, $shuff
   }
 
   $search_result = $query->execute();
-  if ($search_result->getNumTotalCollections()) {
+  if ($search_result->getNumCollections()) {
     $collections = $search_result->getTingEntityCollections();
 
     // Randomize if requested to.

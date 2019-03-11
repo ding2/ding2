@@ -18,3 +18,10 @@ function ding_ddbasic_install() {
 function ding_ddbasic_update_7000() {
   variable_del('color_ddbasic_palette');
 }
+
+/**
+ * Clear unneeded variables.
+ */
+function ding_ddbasic_update_7001() {
+  variable_del('ding_ddbasic_opening_hours_on_frontpage');
+}

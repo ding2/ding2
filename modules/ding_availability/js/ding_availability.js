@@ -37,7 +37,7 @@
       // holdings in order to determine whether the material is a
       // periodical. This is a bit of a hack, but it's the quickest way
       // of fixing the problem right now.
-      if ($('.reserve-button').size() > 0) {
+      if ($('.reserve-button').length > 0) {
         settings.ding_availability_mode = 'holdings';
       }
 
@@ -68,6 +68,8 @@
                 ding_availability_update_holdings(id, entity_ids);
               }
             });
+
+            $(document).trigger('ding_availability_update_holdings');
           },
           error: function () {
             $('div.loader').remove();

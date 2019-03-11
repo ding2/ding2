@@ -48,7 +48,7 @@ function bpi_features_field_default_field_bases() {
       'watchdog_log' => 1,
       'wid' => 1,
       'widget' => array(
-        'comment' => 1,
+        'comment' => 0,
         'hide' => 0,
         'name_as_title' => 1,
         'options' => 'buttons',

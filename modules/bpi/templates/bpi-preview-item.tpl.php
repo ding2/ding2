@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Single item preview template.
@@ -35,7 +36,9 @@
       </p>
     </div>
   </div>
+  <?php if (!$hide_syndicate_link): ?>
   <p class="item-action item-action-syndicate">
     <?php echo l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['id']); ?>
   </p>
+  <?php endif; ?>
 </div>

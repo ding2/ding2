@@ -66,7 +66,11 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
  */
 function ting_get_object_marcxchange($object_id) {
   module_load_include('inc', 'opensearch', 'opensearch.client');
-  return opensearch_get_object_marcxchange($object_id);
+  $result = opensearch_get_objects_marcxchange([$object_id]);
+  if (!empty($result)) {
+    return reset($result);
+  }
+  return $result;
 }
 
 /**

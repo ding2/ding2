@@ -1,0 +1,137 @@
+<?php
+
+/**
+ * @file
+ * Install/uninstall routine.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_sections_install() {
+  _ding_sections_create_base();
+  _ding_sections_create_fields();
+  ding_sections_section_shortcut();
+
+  variable_set('ding_section_content_types', array(
+    'ding_event',
+    'ding_news',
+    'ding_page',
+  ));
+
+  $submodules = array(
+    'ding_sections_term_menu',
+    'ding_sections_term_panel',
+  );
+  module_enable($submodules);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_sections_uninstall() {
+  _ding_sections_purge_fields();
+  _ding_sections_purge_base();
+
+  variable_del('ding_section_content_types');
+}
+
+/**
+ * Create editorial base (Section) vocabulary.
+ */
+function _ding_sections_create_base() {
+  $voc = new stdClass();
+  $voc->name = st('Section');
+  $voc->machine_name = 'section';
+
+  taxonomy_vocabulary_save($voc);
+}
+
+/**
+ * Create custom section field.
+ *
+ * The field to be used in node bundles,
+ * to link content to section vocabulary.
+ */
+function _ding_sections_create_fields() {
+  $field_definition = array(
+    'field_name' => 'field_ding_section',
+    'type' => 'taxonomy_term_reference',
+    'module' => 'taxonomy',
+    'active' => '1',
+    'locked' => '0',
+    'cardinality' => '1',
+    'deleted' => '0',
+    'settings' => array(
+      'allowed_values' => array(
+        array(
+          'vocabulary' => 'section',
+          'parent' => '0',
+        ),
+      ),
+    ),
+  );
+
+  field_create_field($field_definition);
+}
+
+/**
+ * Remove all fields regarding section.
+ */
+function _ding_sections_purge_fields() {
+  $node_types = node_type_get_types();
+
+  foreach ($node_types as $type) {
+    $instance = field_read_instance('node', 'field_ding_section', $type->type);
+    field_delete_instance($instance);
+  }
+
+  field_delete_field('field_ding_section');
+}
+
+/**
+ * Remove section vocabulary.
+ */
+function _ding_sections_purge_base() {
+  $voc = taxonomy_vocabulary_machine_name_load('section');
+  if (isset($voc->vid)) {
+    taxonomy_vocabulary_delete($voc->vid);
+  }
+}
+
+/**
+ * Create a link in shortcut menu bar.
+ */
+function ding_sections_section_shortcut() {
+  if (ding_sections_section_shortcut_exists()) {
+    return;
+  }
+
+  $t = get_t();
+
+  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+  $shortcut_set->links[] = array(
+    'link_path' => 'admin/structure/taxonomy/section',
+    'link_title' => $t('Sections'),
+  );
+
+  shortcut_set_save($shortcut_set);
+}
+
+/**
+ * Check if section shortcut link already exists.
+ *
+ * @return bool
+ *   TRUE if the link exists, FALSE otherwise.
+ */
+function ding_sections_section_shortcut_exists() {
+  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+
+  foreach ($shortcut_set->links as $link) {
+    if ($link['link_path'] == 'admin/structure/taxonomy/section') {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}

@@ -117,8 +117,6 @@ function _ding_mobilesearch_types() {
   return $types;
 }
 
-
-
 /**
  * Implements hook_mobilesearch_node_export_mapping().
  */
@@ -612,5 +610,17 @@ function _ding_mobilesearch_opening_hours_update_worker($nid) {
 
   if ($node) {
     ding_mobilesearch_rest_exec('hook_node_update', 'node', $node);
+  }
+}
+
+/**
+ * Implements hook_scheduler_api().
+ */
+function ding_mobilesearch_scheduler_api($node, $action) {
+  switch ($action) {
+    case 'publish':
+    case 'unpublish':
+      ding_mobilesearch_rest_exec('hook_node_update', 'node', $node);
+      break;
   }
 }
