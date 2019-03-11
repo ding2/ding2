@@ -66,7 +66,7 @@ function ting_search_carousel_update_7101() {
 
   foreach ($query->execute() as $pane) {
     $configuration = unserialize($pane->configuration);
-    $configuration['searches'] = array_merge($configuration['ting_searches'], variable_get('ting_carousel_search_queries', array()));
+    $configuration['searches'] = variable_get('ting_carousel_search_queries', array());
     $configuration['settings'] = array(
       'transition' => variable_get('ting_search_carousel_transition', 'fade'),
     );
