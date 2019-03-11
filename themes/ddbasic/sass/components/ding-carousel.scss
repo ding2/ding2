@@ -14,6 +14,9 @@
     width: auto;
     padding-top: 0;
   }
+  ul {
+    padding-left: 0;
+  }
   .carousel-list-tabs {
     margin: 0;
     text-align: left;
@@ -87,7 +90,9 @@
   &.hidden {
     display: none;
   }
-
+  ul {
+    padding-left: 0;
+  }
   .slick-slider {
     position: relative;
     clear: left;
@@ -125,7 +130,7 @@
         margin-right: 28px;
         text-align: left;
         margin-bottom: 0;
-				
+
         &:last-child {
           margin-right: 0;
         }

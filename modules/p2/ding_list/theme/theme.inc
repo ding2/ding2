@@ -262,7 +262,9 @@ function template_preprocess_ding_list_add_button(&$variables) {
     '#theme' => 'links',
     '#links' => array(),
     '#attributes' => array(
-      'class' => array('buttons'),
+      'class' => array(
+        'buttons',
+      ),
     ),
     '#attached' => array(
       'library' => array(array('system', 'drupal.ajax')),
@@ -309,4 +311,5 @@ function template_preprocess_ding_list_add_button(&$variables) {
     $variables['classes_array'][] = 'ding-list-add-button--multiple-actions';
   }
 
+  return $variables;
 }

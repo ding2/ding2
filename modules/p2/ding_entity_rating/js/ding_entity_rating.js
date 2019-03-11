@@ -160,7 +160,9 @@
       });
 
       if (rating_ids.length > 0) {
-        $.ajax('/ding_entity_rating/get', {
+        var url = Drupal.settings.basePath + Drupal.settings.pathPrefix + 'ding_entity_rating/get';
+        $.ajax({
+          url: url,
           data: {ids: rating_ids},
           dataType: 'json',
           method: 'get',

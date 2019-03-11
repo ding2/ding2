@@ -21,14 +21,16 @@ interface TingSearchResultInterface {
   public function getNumTotalObjects();
 
   /**
-   * Total number of collections in the search-result.
+   * Number of collections in the search-result.
    *
    * A Collection contains one or more objects.
+   *
+   * Note that this is limited by paging.
    *
    * @return int
    *   The number of collections.
    */
-  public function getNumTotalCollections();
+  public function getNumCollections();
 
   /**
    * Returns a list of loaded TingCollections.
@@ -64,7 +66,7 @@ interface TingSearchResultInterface {
    * The list is keyed by facet name.
    *
    * @return \Ting\Search\TingSearchFacet[]
-   *   List of facets, empty if none where found.
+   *   List of facets, empty if none were found.
    */
   public function getFacets();
 

@@ -130,13 +130,12 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
  *
  * @param object $account
  *   User to reserve for.
- * @param string $record_ids
+ * @param string $record_id
  *   Id of ting object to reserve.
  * @param array $options
  *   Reservation options.
- *
  */
-function fbs_reservation_create($account, $record_id, $options) {
+function fbs_reservation_create($account, $record_id, array $options) {
   $batch = new FBS\Model\CreateReservationBatch();
   $batch->reservations = array();
 
@@ -202,7 +201,7 @@ function fbs_reservation_create($account, $record_id, $options) {
       case 'success':
       default:
         watchdog('fbs', 'Unexpected state "@state" on failed reservaiton', array('@state' => $result->result), WATCHDOG_WARNING);
-        throw new DingProviderUserException(t('Unknown error from library system while attempting to reserve.'));
+        throw new DingProviderEnduserException(t('Unknown error from library system while attempting to reserve.'));
     };
   }
 }
@@ -220,7 +219,7 @@ function fbs_reservation_create($account, $record_id, $options) {
  * @return bool
  *   TRUE if no errors else FALSE.
  */
-function fbs_reservation_update($account, $reservation_ids, $options) {
+function fbs_reservation_update($account, array $reservation_ids, array $options) {
   $batch = new FBS\Model\UpdateReservationBatch();
   $batch->reservations = array();
   foreach ($reservation_ids as $reservation_id) {
@@ -253,8 +252,8 @@ function fbs_reservation_update($account, $reservation_ids, $options) {
  *
  * @param object $account
  *   User to delete reservations for.
- * @param array $reservation_id
- *   Reservations to delete.
+ * @param string $reservation_id
+ *   ID of the reservation to delete.
  *
  * @return bool
  *   TRUE if no errors else FALSE.
@@ -379,7 +378,7 @@ function fbs_reservation_options($account, $default_branch = NULL) {
  * @param array $values
  *   Form values.
  */
-function fbs_reservation_options_submit($account, $values) {
+function fbs_reservation_options_submit($account, array $values) {
   fbs_update_preferred_branch($account, $values['fbs_preferred_branch']);
 }
 

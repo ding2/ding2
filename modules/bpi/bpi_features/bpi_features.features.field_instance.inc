@@ -53,7 +53,7 @@ function bpi_features_field_default_field_instances() {
       'active' => 1,
       'module' => 'workflowfield',
       'settings' => array(
-        'comment' => 1,
+        'comment' => 0,
         'name_as_title' => 1,
       ),
       'type' => 'workflow_default',

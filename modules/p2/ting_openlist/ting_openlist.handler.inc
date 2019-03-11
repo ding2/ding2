@@ -307,3 +307,18 @@ function ting_openlist_handler_get_list_elements(DingList $list, $offset, $count
 
   return $result;
 }
+
+/**
+ * Reset an openlist user.
+ *
+ * @param object $account
+ *   The user account to reset.
+ */
+function ting_openlist_handler_reset_user($account) {
+  $user_identifier = ting_openlist_user_identifier($account);
+  return ting_openlist_request('callModule', array(
+    'module_name' => 'ResetUser',
+    'method' => 'reset',
+    'args' => array($user_identifier),
+  ));
+}

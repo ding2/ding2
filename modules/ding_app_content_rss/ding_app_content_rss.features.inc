@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_app_content_rss.features.inc
@@ -57,9 +56,10 @@ function ding_app_content_rss_flag_default_flags() {
     'i18n' => 0,
     'module' => 'ding_app_content_rss',
     'locked' => array(
-      'name' => 'name',
+      0 => 'name',
     ),
     'api_version' => 2,
   );
   return $flags;
+
 }

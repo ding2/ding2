@@ -258,6 +258,13 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         // Hide library from render array.
         $variables['content']['og_group_ref']['#access'] = FALSE;
       }
+      elseif ($variables['alt_location_is_set'] && empty($variables['field_ding_event_place'])) {
+        // Hide library from render array.
+        $variables['content']['og_group_ref']['#access'] = FALSE;
+        // Only show location name, so hide locality- and street from event location.
+        $variables['content']['field_ding_event_location'][0]['locality_block']['#access'] = FALSE;
+        $variables['content']['field_ding_event_location'][0]['street_block']['#access'] = FALSE;
+      }
 
       break;
 
@@ -342,6 +349,14 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 }
 
 /**
+ * Implements preprocess__node__ding_campaign_plus();
+ */
+function ddbasic_preprocess__node__ding_campaign_plus(&$variables) {
+  $type = ding_base_get_value('node', $variables['node'], 'field_ding_campaign_plus_style', 'value');
+  $variables['campaign_type'] = $type == 'box' ? 'ding-campaign-medium-width' : 'ding-campaign-full-width';
+}
+
+/**
  * Ding Campaign.
  */
 function ddbasic_preprocess__node__ding_campaign(&$variables) {
@@ -398,6 +413,7 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
  * Ding Library.
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
+
   // Google maps addition to library list on teaser.
   if ($variables['view_mode'] == 'teaser') {
     $address = $variables['content']['field_ding_library_addresse'][0]['#address'];

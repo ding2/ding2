@@ -243,51 +243,6 @@ function ding_frontend_image_default_styles() {
     ),
   );
 
-  // Exported image style: ding_panorama_attachment_large.
-  $styles['ding_panorama_attachment_large'] = array(
-    'effects' => array(
-      11 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 500,
-          'height' => 125,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_panorama_attachment_large',
-  );
-
-  // Exported image style: ding_panorama_attachment_medium.
-  $styles['ding_panorama_attachment_medium'] = array(
-    'effects' => array(
-      12 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 500,
-          'height' => 125,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_panorama_attachment_medium',
-  );
-
-  // Exported image style: ding_panorama_attachment_small.
-  $styles['ding_panorama_attachment_small'] = array(
-    'effects' => array(
-      13 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 500,
-          'height' => 125,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_panorama_attachment_small',
-  );
-
   // Exported image style: ding_panorama_list_large.
   $styles['ding_panorama_list_large'] = array(
     'label' => 'ding_panorama_list_large',
@@ -432,96 +387,6 @@ function ding_frontend_image_default_styles() {
     ),
   );
 
-  // Exported image style: ding_panorama_secondary_large.
-  $styles['ding_panorama_secondary_large'] = array(
-    'effects' => array(
-      5 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 900,
-          'height' => 225,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_panorama_secondary_large',
-  );
-
-  // Exported image style: ding_panorama_secondary_medium.
-  $styles['ding_panorama_secondary_medium'] = array(
-    'effects' => array(
-      6 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 900,
-          'height' => 225,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_panorama_secondary_medium',
-  );
-
-  // Exported image style: ding_panorama_secondary_small.
-  $styles['ding_panorama_secondary_small'] = array(
-    'effects' => array(
-      7 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 500,
-          'height' => 125,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_panorama_secondary_small',
-  );
-
-  // Exported image style: ding_panorama_tetiary_large.
-  $styles['ding_panorama_tetiary_large'] = array(
-    'effects' => array(
-      8 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 600,
-          'height' => 150,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_panorama_tetiary_large',
-  );
-
-  // Exported image style: ding_panorama_tetiary_medium.
-  $styles['ding_panorama_tetiary_medium'] = array(
-    'effects' => array(
-      9 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 600,
-          'height' => 150,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_panorama_tetiary_medium',
-  );
-
-  // Exported image style: ding_panorama_tetiary_small.
-  $styles['ding_panorama_tetiary_small'] = array(
-    'effects' => array(
-      10 => array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 500,
-          'height' => 125,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_panorama_tetiary_small',
-  );
-
   // Exported image style: ding_primary_large.
   $styles['ding_primary_large'] = array(
     'label' => 'ding_primary_large',
@@ -648,54 +513,6 @@ function ding_frontend_image_default_styles() {
       ),
     ),
     'label' => 'ding_secondary_small',
-  );
-
-  // Exported image style: ding_tetiary_large.
-  $styles['ding_tetiary_large'] = array(
-    'effects' => array(
-      9 => array(
-        'name' => 'image_scale',
-        'data' => array(
-          'width' => 600,
-          'height' => '',
-          'upscale' => 1,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_tetiary_large',
-  );
-
-  // Exported image style: ding_tetiary_medium.
-  $styles['ding_tetiary_medium'] = array(
-    'effects' => array(
-      10 => array(
-        'name' => 'image_scale',
-        'data' => array(
-          'width' => 600,
-          'height' => '',
-          'upscale' => 1,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_tetiary_medium',
-  );
-
-  // Exported image style: ding_tetiary_small.
-  $styles['ding_tetiary_small'] = array(
-    'effects' => array(
-      11 => array(
-        'name' => 'image_scale',
-        'data' => array(
-          'width' => 500,
-          'height' => '',
-          'upscale' => 0,
-        ),
-        'weight' => 1,
-      ),
-    ),
-    'label' => 'ding_tetiary_small',
   );
 
   return $styles;

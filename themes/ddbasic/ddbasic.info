@@ -37,6 +37,7 @@
   stylesheets[all][] = sass_css/components/form/form-user-profile.css
   stylesheets[all][] = sass_css/components/form/form-status.css
   stylesheets[all][] = sass_css/components/form/form-class.css
+  stylesheets[all][] = sass_css/components/form/form-search-sort.css
 
   stylesheets[all][] = sass_css/components/node/campaign.css
   stylesheets[all][] = sass_css/components/node/eresource.css

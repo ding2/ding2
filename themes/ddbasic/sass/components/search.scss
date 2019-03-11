@@ -55,31 +55,6 @@
 }
 
 // ==========================================================================
-// Search options
-// ==========================================================================
-
-.pane-search-per-page {
-  @include span-columns(4 of 8);
-  clear: both;
-
-  // Tablet
-  @include media($tablet) {
-    @include span-columns(12);
-  }
-}
-
-.pane-ting-search-sort-form {
-  @include span-columns(4 of 8);
-  @include omega();
-
-  // Tablet
-  @include media($tablet) {
-    @include span-columns(12);
-    padding-bottom: 40px;
-  }
-}
-
-// ==========================================================================
 // Search results
 // ==========================================================================
 

@@ -5,3 +5,5 @@ version = "7.x-0.4"
 core = 7.x
 files[] = ding_popup.module
 files[] = ding_popup.test
+scripts[] = ding_popup-popupbar.js
+scripts[] = ding_popup.js

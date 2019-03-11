@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ding user handling module.
@@ -23,8 +24,9 @@ function ding_user_preprocess_html(&$variables) {
     }
     elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
       // Redirect anonymous user to front page login. This is to prevent the
-      // library user from seeing /user, login and password page.
-      // Unless in maintenance_mode: There's no front page login when in maintenance_mode, and a redirect prevent login.
+      // library user from seeing /user, login and password page. Unless in
+      // maintenance_mode, there's no front page login when in maintenance_mode,
+      // and a redirect prevent login.
       if (!variable_get('maintenance_mode', 0)) {
         drupal_goto('', array('fragment' => 'login'));
       }
@@ -64,7 +66,7 @@ function ding_user_ctools_plugin_directory($owner, $plugin_type) {
  * Implements hook_ctools_plugin_api().
  *
  * If you do this, CTools will pick up default panels pages in
- * ding_user.pages_default.inc
+ * ding_user.pages_default.inc.
  */
 function ding_user_ctools_plugin_api($module, $api) {
   if ($module == 'page_manager' && $api == 'pages_default') {
@@ -138,7 +140,6 @@ function ding_user_menu_alter(&$items) {
   $items['user']['delivery callback'] = 'ding_user_deliver_html_page';
 }
 
-
 /**
  * Implements hook_page_manager_contexts_alter().
  *
@@ -159,7 +160,7 @@ function ding_user_menu_alter(&$items) {
  * @See function panels_render_display()
  */
 function ding_user_page_manager_contexts_alter(&$contexts, $placeholders) {
-  foreach ($contexts as $id => $context) {
+  foreach ($contexts as $context) {
     if (!empty($context->form_id)) {
       unset($context->form_id);
     }
@@ -343,8 +344,8 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       // container.
       unset($form['links'], $form['name'], $form['pass'], $form['actions']);
 
-    // Falling through on purpose (if not reservation and login via ajax will
-    // fail.).
+      // Falling through on purpose (if not reservation and login via ajax will
+      // fail.).
 
     case 'ding_user_authenticate_form':
       $form['user_login_container']['actions']['submit']['#ajax'] = array(
@@ -425,8 +426,10 @@ function ding_user_get_pincode_length() {
  * Form element validation handler for pincode elements.
  */
 function ding_user_element_validate_pincode($element, &$form_state, $form) {
-  if (!preg_match('/^\d{' . ding_user_get_pincode_length() . '}$/', $element['#value'])) {
-    form_error($element, t('The pincode must consist of exactly %number digits.', array('%number' => ding_user_get_pincode_length())));
+  $pincode_length = ding_user_get_pincode_length();
+  $pincode = $element['#value'];
+  if (!empty($pincode) && !preg_match('/^\d{' . $pincode_length . '}$/', $pincode)) {
+    form_error($element, t('The pincode must consist of exactly %number digits and only contain integers.', array('%number' => $pincode_length)));
   }
 }
 
@@ -505,6 +508,11 @@ function ding_user_form_process_password_confirm($element) {
   $element['pass1']['#title'] = t('Pincode');
   $element['pass2']['#title'] = t('Confirm pincode');
 
+  // We need to validate length and that it only contains digits. It should be
+  // enough to only validate one of the password fields, as they will have to be
+  // equal to be accepted.
+  $element['pass1']['#element_validate'][] = 'ding_user_element_validate_pincode';
+
   return $element;
 }
 
@@ -522,14 +530,10 @@ function ding_user_profile_update_validate($form, &$form_state) {
       }
 
       // Check the old pincode with the provider.
-      $auth_res = ding_provider_invoke('user', 'authenticate', ding_user_name(), $form_state['values']['pincode_old']);
-      if (!is_array($auth_res) || !isset($auth_res['success'])) {
-        watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
-        form_set_error('pincode_old', t('There was an error checking the old pincode. Please try again later.'));
-        return;
+      try {
+        $auth_res = ding_provider_invoke('user', 'authenticate', ding_user_name(), $form_state['values']['pincode_old']);
       }
-
-      if (!$auth_res['success']) {
+      catch (DingProviderUserAuthFailure $e) {
         form_set_error('pincode_old', t('The old pincode confirm does not match.'));
       }
     }
@@ -783,73 +787,60 @@ function ding_user_user_login_validate($form, &$form_state) {
       drupal_set_message($exception->getMessage(), 'warning');
       return;
     }
-    if (!is_array($auth_res) || !isset($auth_res['success'])) {
+    if (!is_array($auth_res)) {
       watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
       return;
     }
 
-    if ($auth_res['success']) {
-      if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
-        // If provider supplied an authname, use it.
-        $auth_name = $auth_res['authname'];
-      }
-      else {
-        // Else use a standard authname.
-        $auth_name = ding_user_default_authname($form_state['values']['name']);
-      }
-
-      // Create new account in Drupal and if one exists update it.
-      $account = _ding_user_create_account($auth_name, $auth_res);
-
-      // Check that a profile exists for the user and if not create one.
-      _ding_user_create_profile2($account);
-
-      // Log user in.
-      $form_state['uid'] = $account->uid;
-      // We're not calling user_login_submit like user_external_login_register
-      // does, it's already the submit handler.
-      //
-      //  @TODO: Do we still need this ?
-      //
-      if (ding_provider_implements('user', 'authenticate_finalize')) {
-        ding_provider_invoke('user', 'authenticate_finalize', $account);
-      }
+    if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
+      // If provider supplied an authname, use it.
+      $auth_name = $auth_res['authname'];
     }
     else {
-      // Check if any messages was returned from the provider.
-      if (isset($auth_res['messages'])) {
-        foreach ($auth_res['messages'] as $message) {
-          $type = 'warning';
-          if (is_array($message)) {
-            list($message, $type) = $message;
-          }
-          drupal_set_message(check_plain($message), $type);
-        }
-      }
-
-      // Check if name and pass where filled out. These fields are not required
-      // in the form to prevent the default form validation from displaying the
-      // reset password link, which would not make sens for provider users.
-      foreach (array('name', 'pass') as $field) {
-        if (empty($form_state['values'][$field])) {
-          form_set_error($field, t('!name field is required.', array('!name' => $form['user_login_container'][$field]['#title'])));
-        }
-      }
-
-      // If we reach this code the login have failed and we always want to
-      // display this message.
-      form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new password. Contact information can be found on the <a href="@url">library</a> page.', array('@url' => url('biblioteker'))));
-      // Obfuscate the user name. We just set the form value to the obfuscated
-      // version as user.module will log the failure with the name from the
-      // form. If the provider defines its own authnames, this wont match the
-      // username that the user would have, but we can't expect the provider
-      // to supply it for invalid logins.
-      form_set_value($form['user_login_container']['name'], ding_user_default_authname($form_state['values']['name']), $form_state);
+      // Else use a standard authname.
+      $auth_name = ding_user_default_authname($form_state['values']['name']);
     }
+
+    // Create new account in Drupal and if one exists update it.
+    $account = _ding_user_create_account($auth_name, $auth_res);
+
+    // Check that a profile exists for the user and if not create one.
+    _ding_user_create_profile2($account);
+
+    if ($account->data['blocks']) {
+      foreach ($account->data['blocks'] as $block_code) {
+        drupal_set_message(ding_user_block_reason($block_code), 'warning');
+      }
+    }
+
+    // Log user in.
+    $form_state['uid'] = $account->uid;
+    // We're not calling user_login_submit like user_external_login_register
+    // does, it's already the submit handler.
   }
-  catch (Exception $exception) {
+  catch (DingProviderUserAuthFailure $e) {
+    // Check if name and pass where filled out. These fields are not required
+    // in the form to prevent the default form validation from displaying the
+    // reset password link, which would not make sens for provider users.
+    foreach (array('name', 'pass') as $field) {
+      if (empty($form_state['values'][$field])) {
+        form_set_error($field, t('!name field is required.', array('!name' => $form[$field]['#title'])));
+      }
+    }
+
+    // If we reach this code the login have failed and we always want to
+    // display this message.
+    form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new password. Contact information can be found on the <a href="@url">library</a> page.', array('@url' => url('biblioteker'))));
+    // Obfuscate the user name. We just set the form value to the obfuscated
+    // version as user.module will log the failure with the name from the
+    // form. If the provider defines its own authnames, this wont match the
+    // username that the user would have, but we can't expect the provider
+    // to supply it for invalid logins.
+    form_set_value($form['user_login_container']['name'], ding_user_default_authname($form_state['values']['name']), $form_state);
+  }
+  catch (Exception $e) {
     // Exception thrown, log error and carry on.
-    watchdog_exception('ding_user', $exception);
+    watchdog_exception('ding_user', $e);
   }
 }
 
@@ -857,7 +848,7 @@ function ding_user_user_login_validate($form, &$form_state) {
  * Create a provider account for drupal.
  *
  * The username will be a hash value of authname. This account will be coupled
- * with the provider user via the authmap table
+ * with the provider user via the authmap table.
  *
  * @param string $auth_name
  *   Name used to authenticate the user.
@@ -867,7 +858,7 @@ function ding_user_user_login_validate($form, &$form_state) {
  * @return entity
  *   Drupal user object.
  */
-function _ding_user_create_account($auth_name, $auth_res) {
+function _ding_user_create_account($auth_name, array $auth_res) {
   // We'd like to use user_external_login_register(), but it saves the user
   // and invokes hook_user_login before we have a chance to mess with it. So
   // we do what it would do.
@@ -875,7 +866,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
 
   $mail = NULL;
   $display_name = '';
-  $blocked = FALSE;
+  $blocks = FALSE;
   if (isset($auth_res['user'])) {
     if (isset($auth_res['user']['mail'])) {
       $mail = $auth_res['user']['mail'];
@@ -885,8 +876,8 @@ function _ding_user_create_account($auth_name, $auth_res) {
       $display_name = $auth_res['user']['data']['display_name'];
     }
 
-    if (isset($auth_res['user']['blocked'])) {
-      $blocked = $auth_res['user']['blocked'];
+    if (!empty($auth_res['user']['blocks'])) {
+      $blocks = array_unique($auth_res['user']['blocks']);
     }
   }
 
@@ -908,7 +899,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
     }
     $fields['data'] = array(
       'display_name' => $display_name,
-      'blocked' => $blocked,
+      'blocks' => $blocks,
     );
 
     // Set provider role.
@@ -937,7 +928,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
     }
     $edit['data'] = array(
       'display_name' => $display_name,
-      'blocked' => $blocked,
+      'blocks' => $blocks,
     );
     user_save($account, $edit);
   }
@@ -948,14 +939,13 @@ function _ding_user_create_account($auth_name, $auth_res) {
   return $account;
 }
 
-
 /**
  * Create a profile2 provider profile for the account, if one do not exists.
  *
- * @param entity $account
+ * @param object $account
  *   Drupal user account object.
  *
- * @return entity
+ * @return object
  *   The newly create profile entity or the existing one.
  */
 function _ding_user_create_profile2($account) {
@@ -1109,7 +1099,7 @@ function ding_user_get_creds() {
  *   Array with authentication information used to communicate with the
  *   provider.
  */
-function ding_user_save_creds($auth_res) {
+function ding_user_save_creds(array $auth_res) {
   if (isset($auth_res['creds'])) {
     $_SESSION['ding_user'] = $auth_res;
   }
@@ -1306,4 +1296,33 @@ function _ding_user_roles_form_validate(array $form, array &$form_state) {
   if (!array_filter($form_state['values']['roles_change'])) {
     form_set_error('roles', t('Roles field is required.'));
   }
+}
+
+/**
+ * Returns the message for the block type.
+ */
+function ding_user_block_reason($type) {
+  $reasons = &drupal_static(__FUNCTION__);
+  if (empty($reasons)) {
+    $reasons = module_invoke_all('ding_user_block_reasons');
+    // Fallback message.
+    $reasons['default'] = t('Your account is limited. Please contact your library for more information.');
+  }
+
+  if (!isset($reasons[$type])) {
+    $type = 'default';
+  }
+
+  return $reasons[$type];
+}
+
+/**
+ * Implements hook_ding_user_block_reasons().
+ */
+function ding_user_ding_user_block_reasons() {
+  return array(
+    'ding_user_blocked_debt' => t('Your account is limited due to outstanding debt. Please contact your library for more information.'),
+    'ding_user_blocked_self_created' => t('Your self created account is limited. Please contact your library to get full access.'),
+    'ding_user_blocked_excluded' => t('You have been excluded. Please contact your library for more information.'),
+  );
 }

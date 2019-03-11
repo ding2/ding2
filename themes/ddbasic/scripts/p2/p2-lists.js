@@ -20,5 +20,4 @@
   $(window).on('dingpopup-close', function () {
     $('.ding-list-add-button').removeClass('open-overlay');
   });
-
 })(jQuery);

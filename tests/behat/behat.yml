@@ -19,9 +19,6 @@ default:
      print_args: true
      print_outp: true
      loop_break: true
-    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
-      filename: report.xml
-      outputDir: "%paths.base%/"
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drush'
@@ -31,56 +28,16 @@ default:
         log_out: 'Log ud'
         username_field: 'Låner- eller CPR-nummer'
         password_field: 'Pinkode'
+    Liuggio\Fastest\Behat\ListFeaturesExtension\Extension: ~
 
 
 chrome:
   extensions:
+    DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
     Behat\MinkExtension:
-      selenium2:
-        wd_host: "http://localhost:4444/wd/hub"
-        browser: chrome
-        capabilities:
-           browser: chrome
-           chrome:
-             {switches:['--start_maximized', "--headless", "--disable-gpu", "--no-first-run", "--disable-translate"]}
-      default_session: 'selenium2'
-      browser_name: 'chrome'
-      javascript_session: selenium2
-
-circleci:
-  extensions:
-    Behat\MinkExtension:
-      selenium2:
-        wd_host: "http://localhost:4444/wd/hub"
-        browser: chrome
-        capabilities:
-           browser: chrome
-           marionette: true
-           chrome:
-             {switches:['--start_maximized', "--headless", "--disable-gpu", "--no-first-run", "--disable-translate"]}
-      default_session: 'selenium2'
-      browser_name: 'chrome'
-      javascript_session: selenium2
-
-visible:
-  extensions:
-    Behat\MinkExtension:
-      selenium2:
-         wd_host: "http://localhost:4445/wd/hub"
-         browser: chrome
-         capabilities:
-           browser: chrome
-           chrome:
-             {switches:['--start_maximized', "--disable-gpu", "--no-first-run", "--disable-translate"]}
-      default_session: 'selenium2'
-      browser_name: 'chrome'
-      javascript_session: selenium2
-
-firefox:
-  extensions:
-    Behat\MinkExtension:
-      selenium2:
-        browser: 'firefox'
-        wd_host: "http://localhost:4444/wd/hub"
-      default_session: 'selenium2'
-      browser_name: 'firefox'
+      browser_name: chrome
+      sessions:
+        default:
+          chrome:
+            api_url: "http://localhost:9222"
+            socket_timeout: 600

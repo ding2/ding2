@@ -90,28 +90,6 @@ function ding_facetbrowser_ctools_plugin_api($module, $api) {
 }
 
 /**
- * Implements hook_libraries_info().
- */
-function ding_facetbrowser_libraries_info() {
-  return array(
-    'js.cookie' => array(
-      'name' => 'JavaScript Cookie',
-      'vendor url' => 'https://github.com/js-cookie/js-cookie',
-      'download url' => 'https://github.com/js-cookie/js-cookie/releases',
-      'version arguments' => array(
-        'file' => 'js.cookie-2.1.4.min.js',
-        'pattern' => '/js-cookie v(\d+\.+\d+\.\d+)/',
-      ),
-      'files' => array(
-        'js' => array(
-          'js.cookie-2.1.4.min.js',
-        ),
-      ),
-    ),
-  );
-}
-
-/**
  * Create a custom form with checkbox elements for facets and ajax callback
  *
  * @param array $form

@@ -350,7 +350,7 @@ class OpenSearchTingObject implements TingObjectInterface {
   /**
    * {@inheritdoc}
    */
-  public function getGenere() {
+  public function getGenre() {
     return $this->getRecordEntry('dc:subject', 'dkdcplus:genre');
   }
 

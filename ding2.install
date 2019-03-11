@@ -658,3 +658,71 @@ function ding2_update_7054() {
 function ding2_update_7055() {
   ding2_translation_update();
 }
+
+/**
+ * Enable ding_libs.
+ */
+function ding2_update_7056() {
+  module_enable(array('ding_libs'));
+}
+
+/**
+ * Enable Campaign plus module.
+ */
+function ding2_update_7057() {
+  module_enable(array('ding_campaign_plus'));
+}
+
+/**
+ * Enable Campaign plus extra modules.
+ */
+function ding2_update_7058() {
+  module_enable(array(
+    'ding_campaign_plus_auto',
+    'ding_campaign_plus_basic',
+    'ding_campaign_plus_facet',
+    'ding_campaign_plus_object',
+    'ding_campaign_plus_search',
+  ));
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7059() {
+  ding2_translation_update();
+}
+
+/**
+ * Remove ding_webtrends module and clean up related settings.
+ */
+function ding2_update_7060() {
+  ding2_remove_module('ding_webtrends');
+  variable_del('webtrends_domain');
+  variable_del('webtrends_onsitedoms');
+  variable_del('webtrends_dcs_id');
+}
+
+/**
+ * Ensure ding_webtrekk is activated on existing installs.
+ */
+function ding2_update_7061() {
+  module_enable(array('ding_webtrekk'));
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7062() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable Section and Nodelist modules.
+ */
+function ding2_update_7063() {
+  module_enable(array(
+    'ding_sections',
+    'ding_nodelist',
+  ));
+}

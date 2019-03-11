@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Setup the fields needed for ding list.
+ */
+
+/**
+ * Delete user consent node and ding_user_consent_loan_history_store_description_link variable
+ */
+function ding_user_consent_update_7001() {
+  $url = variable_get('ding_user_consent_loan_history_store_description_link', '');
+  $nid = arg(1, $url);
+  node_delete($nid);
+  variable_del('ding_user_consent_loan_history_store_description_link');
+}

@@ -4,7 +4,7 @@ description = Install a Ding based library site.
 core = 7.x
 distribution_name = "Ding 2"
 exclusive = TRUE
-version = 7.x-4.5.0
+version = 7.x-4.6.1
 
 ; Core modules.
 dependencies[] = block
@@ -33,6 +33,7 @@ dependencies[] = customerroralt
 
 ; Ding modules.
 dependencies[] = ding_base
+dependencies[] = ding_campaign_plus
 dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
 dependencies[] = ding_frontpage
@@ -43,6 +44,8 @@ dependencies[] = ding_p2_installer
 dependencies[] = ding_ddbasic
 dependencies[] = ding_ddbasic_opening_hours
 dependencies[] = ding_social_links
+dependencies[] = ding_sections
+dependencies[] = ding_nodelist
 
 ; Cache/performance modules
 dependencies[] = entitycache

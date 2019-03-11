@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_campaign_plus_schema() {
+  $schema = array();
+
+  $schema['ding_campaign_plus'] = array(
+    'description' => 'Campaign plus rules',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'type' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'rule' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'title' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+      ),
+      'value' => array(
+        'type' => 'text',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_campaign_plus_uninstall() {
+  drupal_uninstall_schema('ding_campaign_plus');
+  drupal_uninstall_schema('ding_campaign_plus_auto');
+
+  variable_del('ding_campaign_plus_weight');
+  variable_del('ding_campaign_plus_expire');
+  variable_del('ding_campaign_plus_auto');
+
+  variable_del('ding_campaign_plus_cron_last_run');
+}

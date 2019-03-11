@@ -70,39 +70,6 @@ function ding_carousel_element_info() {
 }
 
 /**
- * Implements hook_libraries_info().
- */
-function ding_carousel_libraries_info() {
-  $libraries = array();
-
-  $libraries['slick'] = array(
-    'name' => 'Slick.js carousel library',
-    'path' => 'slick',
-    'vendor url' => 'https://github.com/kenwheeler/slick',
-    'download url' => 'https://github.com/kenwheeler/slick/archive/1.8.0.zip',
-    'version arguments' => array(
-      'file' => 'slick/slick.js',
-      'pattern' => '/Version:\s+([0-9a-zA-Z\.-]+)/',
-      'lines' => 15,
-    ),
-    'files' => array(
-      'js' => array('slick.min.js'),
-      'css' => array('slick.css'),
-    ),
-    'variants' => array(
-      'non-minified' => array(
-        'files' => array(
-          'js' => array('slick.js'),
-          'css' => array('slick.css'),
-        ),
-      ),
-    ),
-  );
-
-  return $libraries;
-}
-
-/**
  * Implements hook_ding_carousel_transitions().
  */
 function ding_carousel_ding_carousel_transitions() {

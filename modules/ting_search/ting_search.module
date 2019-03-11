@@ -133,6 +133,10 @@ function ting_search_theme($existing, $type, $theme, $path) {
       'file'      => 'ting_search.pages.inc',
       'template'  => 'templates/ting-search-results',
     ),
+    'ting_search_results_count' => array(
+      'variables' => array('count' => NULL),
+      'template'  => 'templates/ting-search-results-count',
+    ),
     'ting_search_mini_pager' => array(
       'variables' => array(
         'tags' => array(),
@@ -206,14 +210,6 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     '#default_value' => isset($_GET['size']) ? (int) $_GET['size'] : FALSE,
     '#attributes' => array('id' => 'controls_search_size'),
   );
-
-  switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
-    case TING_SEARCH_FORM_STYLE_EXTENDED:
-      $form['search_extended_open_button'] = array(
-        '#markup' => '<a href="#" class="search-extended-button">Search extended button</a>',
-      );
-      break;
-  }
 
   // Completely take over the search form submit flow, by removing the default
   // search_box_form_submit handler replacing it with our own as the first.
@@ -421,7 +417,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       $query = $query->withPage($page + 1)->withCount($results_per_page);
       $search_result = $query->execute();
 
-      if ($search_result->getNumTotalCollections() > 0) {
+      if ($search_result->getNumCollections() > 0) {
         // So we got the total amount of results, but the joker here is that
         // we have no clue how many collections we got.
         // Rounded up, this will display 'one more page' if $search-result->more
@@ -842,11 +838,6 @@ function ting_search_sort_form_options() {
     return $value = $value['label'];
   });
 
-  // Add label to the front of the options.
-  foreach ($options_full as $key => $option) {
-    $options_full[$key] = t('Sort by: !sort', array('!sort' => $option));
-  }
-
   return $options_full;
 }
 
@@ -902,7 +893,7 @@ function ting_search_records_per_page_controls_content() {
   $output = &drupal_static(__FUNCTION__, array());
 
   // Don't show anything if the search result is empty.
-  if (empty($output) && NULL !== $search_result && $search_result->getNumTotalCollections() > 0) {
+  if (empty($output) && NULL !== $search_result && $search_result->getNumCollections() > 0) {
     // Get the default results per page.
     $def_size = variable_get('ting_search_results_per_page', 10);
 

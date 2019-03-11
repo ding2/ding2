@@ -202,21 +202,18 @@ function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
 }
 
 /**
- * After build method. Add javascript to simulate disabled checkbox.
+ * After build method to disable custom alias for ding library.
  *
- * Eplanation for this procedure: Ding2 (mis)uses pathauto module to change an
- * url eg . node/4 -> bibliotek/hest. Pathauto also offers editors the ability
- * to CHANGE the url - but due to the way ding2 uses pathauto that causes the
- * url to be wrong... if we #disable the 'custom alias' checkbox from pathauto
- * functionality fails completely...
- * So we fake a disabled checkbox by javascript.
+ * The way we use aliases depend on the prefix being /bibliotek/%slug, so
+ * changing this will break some functionality.
  */
 function ding_library_disable_custom_alias($form, &$form_state) {
   if (isset($form['path']['pathauto'])) {
-    $form['path']['pathauto']['#description'] = t('Custom alias has been disabled');
-    $form['path']['pathauto']['#attached']['js'][] = drupal_get_path('module', 'ding_library') . '/ding_library.js';
-
-    $form['path']['alias']['#access'] = FALSE;
+    $form['path']['#access'] = FALSE;
+    // Setting #access to FALSE on the path element, results in pathauto not
+    // deriving an alias automatically. We therefore tell pathauto explicitly
+    // to do this.
+    $form_state['values']['path']['pathauto'] = 1;
   }
   return $form;
 }

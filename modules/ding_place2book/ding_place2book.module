@@ -311,17 +311,16 @@ function ding_place2book_process_node(&$variables) {
   if ($variables['type'] == 'ding_event' && $variables['view_mode'] == 'full') {
     $p2b_settings = ding_place2book_settings($variables['nid']);
     $p2b_id = $p2b_settings['place2book_id'];
-    if (empty($p2b_id) || $p2b_id == DING_PLACE2BOOK_NO_ID) {
-      unset($variables['book_button']);
-      return;
-    }
+    $passive = $p2b_settings['passive'];
 
-    $url = !empty($variables['field_ding_event_ticket_link'][LANGUAGE_NONE][0]['url']) ? $variables['field_ding_event_ticket_link'][LANGUAGE_NONE][0]['url'] : '';
-    $variables['book_button'] = theme('place2book_ticketsinfo', [
-      'place2book_id' => $p2b_settings['place2book_id'],
-      'url' => $url,
-      'type' => $p2b_settings['ticket_status'],
-    ]);
+    if (!empty($p2b_id) && $p2b_id != DING_PLACE2BOOK_NO_ID && !$passive) {
+      $url = !empty($variables['field_ding_event_ticket_link'][LANGUAGE_NONE][0]['url']) ? $variables['field_ding_event_ticket_link'][LANGUAGE_NONE][0]['url'] : '';
+      $variables['book_button'] = theme('place2book_ticketsinfo', [
+        'place2book_id' => $p2b_settings['place2book_id'],
+        'url' => $url,
+        'type' => $p2b_settings['ticket_status'],
+      ]);
+    }
   }
 }
 
@@ -501,7 +500,7 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
 
       // Catch insert error by checking the event id.
       if (empty($req_result->headers['event-id'])) {
-        $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
+        $p2b_error = $req_result->headers['error-message'] . ' - ' . $req_result->status_message;
         drupal_set_message(t('Event could not be created on Place2book. Message:') . $p2b_error, 'error', FALSE);
         watchdog('ding_place2book', 'INSERT was NOT PERFORMED on Place2book: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
       }
@@ -553,7 +552,7 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
       $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $options);
 
       if ($req_result->status_message != 'Accepted') {
-        $p2b_error = $req_result->headers['status'];
+        $p2b_error = $req_result->headers['error-class'];
         drupal_set_message(t('Event could not be deleted on Place2book. Message:') . $p2b_error, 'error', FALSE);
         watchdog('ding_place2book', 'DELETE was NOT PERFORMED on Place2book: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
       }
@@ -1072,27 +1071,43 @@ function _ding_place2book_status_processing($p2b_result) {
   if (!empty($p2b_result->headers['sales-status'])) {
     // Check if the event is closed for admissions.
     if ($p2b_result->headers['sales-status'] == 'closed') {
-      $p2b_ticket_result['type'] = 'closed-admission';
+      // Check if waiting list is activated.
+      if ($p2b_result->headers['waiting-list'] == 'true') {
+        $p2b_ticket_result['type'] = 'order-waiting-list';
+        $p2b_ticket_result['url'] = $p2b_result->headers['location'];
+      }
+      else {
+        $p2b_ticket_result['type'] = 'closed-admission';
+      }
     }
     // Check if sales period is in the future and ticket sale has not
     // started yet.
     elseif ($p2b_result->headers['sales-status'] == 'upcoming') {
-      $p2b_ticket_result['type'] = 'sale-not-started';
-    }
-    else {
-      // Check if sales are open and if available tickets is 0
-      if ($p2b_result->headers['sales-status'] == 'open' && (int) $p2b_result->headers['available-tickets'] == 0) {
+      // Check if waiting list is activated.
+      if ($p2b_result->headers['waiting-list'] == 'true') {
         $p2b_ticket_result['type'] = 'order-waiting-list';
         $p2b_ticket_result['url'] = $p2b_result->headers['location'];
       }
+      else {
+        $p2b_ticket_result['type'] = 'sale-not-started';
+      }
+    }
+    else {
       /*
        * Check if we have no tickets left
        * number from Available-Tickets header is a string and must be tested as
        * such. Also Available-Tickets header can have a negative value, which
        * we also interpret as "no ticket left".
        */
-      elseif ($p2b_result->headers['available-tickets'] == "0" || (int) $p2b_result->headers['available-tickets'] < 0) {
-        $p2b_ticket_result['type'] = 'no-tickets-left';
+      if ($p2b_result->headers['available-tickets'] == "0" || (int) $p2b_result->headers['available-tickets'] < 0) {
+        // Check if waiting list is activated.
+        if ($p2b_result->headers['waiting-list'] == 'true') {
+          $p2b_ticket_result['type'] = 'order-waiting-list';
+          $p2b_ticket_result['url'] = $p2b_result->headers['location'];
+        }
+        else {
+          $p2b_ticket_result['type'] = 'no-tickets-left';
+        }
       }
       else {
         // Check to see if we should present an link for ordering a ticket
@@ -1107,6 +1122,13 @@ function _ding_place2book_status_processing($p2b_result) {
         if ($p2b_result->headers['sales-status'] == 'open' && ((int) $p2b_result->headers['available-tickets'] > 0 || strpos($p2b_result->headers['available-tickets'], 'antal') > 0)) {
           $p2b_ticket_result['type'] = 'order-link';
           $p2b_ticket_result['url'] = $p2b_result->headers['location'];
+        }
+        else {
+          // Check if waiting list is activated.
+          if ($p2b_result->headers['waiting-list'] == 'true') {
+            $p2b_ticket_result['type'] = 'order-waiting-list';
+            $p2b_ticket_result['url'] = $p2b_result->headers['location'];
+          }
         }
       }
     }
@@ -1124,15 +1146,15 @@ function theme_place2book_ticketsinfo($variables) {
 
   switch ($type) {
     case 'event-over':
-      $output = '<div class="field-label-inline"><div class="place2book-tickets-label">' . t('Tickets') . '</div><div class="place2book-tickets-info">' . t('The event has already taken place') . '</div></div>';
+      $output = '<span class="button">' . t('The event has already taken place') . '</span>';
       break;
 
     case 'closed-admission':
-      $output = '<div class="field-label-inline"><div class="place2book-tickets-label">' . t('Tickets') . '</div><div class="place2book-tickets-info">' . t('Not open for ticket sale') . '</div></div>';
+      $output = '<span class="button ticket-notice">' . t('Not open for ticket sale') . '</span>';
       break;
 
     case 'no-tickets-left':
-      $output = '<div class="field-label-inline"><div class="place2book-tickets-label">' . t('Tickets') . '</div><div class="place2book-tickets-info">' . t('Sold out') . '</div></div>';
+      $output = '<span class="button ticket-warning">' . t('Sold out') . '</span>';
       break;
 
     case 'order-link':
@@ -1140,7 +1162,7 @@ function theme_place2book_ticketsinfo($variables) {
       break;
 
     case 'sale-not-started':
-      $output = '<div class="field-label-inline"><div class="place2book-tickets-label">' . t('Tickets') . '</div><div class="place2book-tickets-info">' . t('Ticket sale has not yet started for this event') . '</div></div>';
+      $output = '<span class="button ticket-notice">' . t('Ticket sale has not yet started for this event') . '</span>';
       break;
 
     case 'order-waiting-list':

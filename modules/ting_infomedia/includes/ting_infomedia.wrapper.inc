@@ -19,19 +19,23 @@ module_load_include('client.inc', 'opensearch');
 function ting_infomedia_get_article($id) {
   try {
     $factory = opensearch_get_request_factory();
+    $request = $factory->getInfomediaArticleRequest();
+    $request->makeGet();
+    $request->setFaust($id);
+
+    ting_infomedia_add_user_creds($request);
+    $ret = opensearch_execute($request->getRequest());
+    if (is_string($ret)) {
+      $ret = FALSE;
+    }
+    else {
+      $ret = $request->parse($ret);
+    }
   }
   catch (TingClientException $exception) {
     watchdog_exception('infomedia', $exception);
-
     return FALSE;
   }
-
-  $request = $factory->getInfomediaArticleRequest();
-  $request->makeGet();
-  $request->setFaust($id);
-
-  ting_infomedia_add_user_creds($request);
-  $ret = $request->parse(opensearch_execute($request->getRequest()));
 
   return $ret;
 }
@@ -129,8 +133,10 @@ function ting_infomedia_add_user_creds(TingClientInfomediaRequest $request) {
     else {
       $userid = $creds['name'];
     }
+    $pass = isset($creds['pass']) ? $creds['pass'] : '';
+
     $request->setUser($userid);
-    $request->setPin($creds['pass']);
+    $request->setPin($pass);
     if ($agency = variable_get('ting_agency', FALSE)) {
       $request->setAgency($agency);
     }
@@ -140,7 +146,6 @@ function ting_infomedia_add_user_creds(TingClientInfomediaRequest $request) {
   }
 
   $name = isset($creds['name']) ? $creds['name'] : '';
-  $pass = isset($creds['pass']) ? $creds['pass'] : '';
 
   // Check if user is authenticated.
   ding_provider_invoke_page('user', 'authenticate', $name, $pass);
