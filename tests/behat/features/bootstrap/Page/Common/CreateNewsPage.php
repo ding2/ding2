@@ -9,8 +9,10 @@ namespace Page\Common;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\ElementNotFoundException;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 
-class CreateNewsPage extends Page
-{
+/**
+ * Class CreateNewsPage
+ */
+class CreateNewsPage extends Page {
   protected $path = '/node/add/ding-news';
 
   protected $elements = array(
@@ -22,8 +24,7 @@ class CreateNewsPage extends Page
   /**
    * Open news page
    */
-  public function openNewsPage()
-  {
+  public function openNewsPage() {
     $this->open();
   }
 
@@ -31,14 +32,18 @@ class CreateNewsPage extends Page
    * Fill news content
    *
    * @param string $title
+   *   The news title.
    * @param string $lead
+   *   The news lead.
    * @param string $body
+   *   The new body.
    * @param string $category
+   *   The news category.
    *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   If any of the form elements are not found.
    */
-  public function fillNewsContent(string $title, string $lead, string $body, string $category)
-  {
+  public function fillNewsContent($title, $lead, $body, $category) {
     $form = $this->getElement('Create form');
 
     $form->fillField('edit-title', $title);
@@ -57,11 +62,12 @@ class CreateNewsPage extends Page
    * Set campaign keywords
    *
    * @param string $keywords
+   *   The campaign keywords in a comma separated list.
    *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   If the form element is not found.
    */
-  public function setCampaignKeywords(string $keywords)
-  {
+  public function setCampaignKeywords($keywords) {
     $form = $this->getElement('Create form');
 
     $form->checkField('edit-ding-campaign-plus-auto-generate-enable');
@@ -72,9 +78,9 @@ class CreateNewsPage extends Page
    * Save news page
    *
    * @return mixed
+   *   A 'Content Page' object.
    */
-  public function submitNewsPage()
-  {
+  public function submitNewsPage() {
     $submit = $this->getElement('Submit');
     $submit->click();
 

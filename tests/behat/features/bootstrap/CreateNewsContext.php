@@ -1,15 +1,26 @@
 <?php
 
+/**
+ * @file
+ * Create News Context defining relevant steps for news creation.
+ */
+
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Page\Common\CreateNewsPage;
 
-class CreateNewsContext implements Context
-{
+/**
+ * Class CreateNewsContext
+ */
+class CreateNewsContext implements Context {
   private $createNewsPage;
 
-  public function __construct(CreateNewsPage $createNewsPage)
-  {
+  /**
+   * CreateNewsContext constructor.
+   *
+   * @param CreateNewsPage $createNewsPage
+   */
+  public function __construct(CreateNewsPage $createNewsPage) {
     $this->createNewsPage = $createNewsPage;
   }
 
@@ -18,13 +29,13 @@ class CreateNewsContext implements Context
    *
    * @When /^(?:|I )go to the create news page$/
    */
-  public function iGoToCreateNewsPage()
-  {
+  public function iGoToCreateNewsPage() {
     $this->createNewsPage->open();
   }
 
   /**
    * Fill a news page with values from the provided table
+   *
    * Example: When I fill a news page with the following"
    *  | Title     | Batman            |
    *  | Lead      | Superhero returns |
@@ -33,22 +44,25 @@ class CreateNewsContext implements Context
    *
    * @When /^(?:|I )fill a news page with the following:$/
    */
-  public function iFillANewsPageWithTheFollowing(TableNode $table)
-  {
+  public function iFillANewsPageWithTheFollowing(TableNode $table) {
     foreach ($table->getRowsHash() as $field => $value) {
       switch ($field) {
         case 'Title':
           $title = $value;
           break;
+
         case 'Lead':
           $lead = $value;
           break;
+
         case 'Body':
           $body = $value;
           break;
+
         case 'Category':
           $category = $value;
           break;
+
         default:
           throw new UnexpectedValueException('Unknown News Page Field: ' . $field);
       }
@@ -62,8 +76,7 @@ class CreateNewsContext implements Context
    *
    * @When I set the campaign keywords to :keywords
    */
-  public function iSetCampaignKeywords(string $keywords)
-  {
+  public function iSetCampaignKeywords(string $keywords) {
     $this->createNewsPage->setCampaignKeywords($keywords);
   }
 
@@ -72,8 +85,7 @@ class CreateNewsContext implements Context
    *
    * @When /^(?:|I )save the news page$/
    */
-  public function iSaveTheNewsPage()
-  {
+  public function iSaveTheNewsPage() {
     $this->createNewsPage->submitNewsPage();
   }
 

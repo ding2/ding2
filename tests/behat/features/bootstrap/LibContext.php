@@ -1628,9 +1628,9 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @Then :txt should appear within :seconds seconds
    *
    * @throws \WebDriver\Exception\NoSuchElement
-   *    If text does not appear
+   *    If text does not appear.
    */
-  public function waitUntilTextAppears(string $txt, int $seconds) {
+  public function waitUntilTextAppears($txt, $seconds) {
     $end = microtime(true) + $seconds;
     do {
       $textElement = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
@@ -1650,19 +1650,20 @@ class LibContext implements Context, SnippetAcceptingContext {
    * seconds so use sparingly. The reason is that we have no way to detect when ajax loads
    * are finished and therefore no way to know when it is "safe" to look for the text.
    *
-   * @Then :txt should not appear within :seconds seconds
-   *
    * @param string $txt
    *    Text that must not appear.
    * @param int $seconds
    *    Number of seconds to wait.
    *
+   * @Then :txt should not appear within :seconds seconds
+   *
    * @throws \Behat\Mink\Exception\ElementTextException
+   *  If text does appear.
    */
-  public function waitAndLookForText(string $txt, int $seconds) {
+  public function waitAndLookForText($txt, $seconds) {
     sleep($seconds);
     $textElement = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
-    if(!$textElement) {
+    if (!$textElement) {
       return;
     }
 

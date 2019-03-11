@@ -9,8 +9,11 @@ namespace Page\CampaignPlus;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\ElementNotFoundException;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 
-class CreateCampaignPlusPage extends Page
-{
+/**
+ * Class CreateCampaignPlusPage
+ */
+class CreateCampaignPlusPage extends Page {
+
   private $basicCampaignTriggersAdded = 0;
   private $facetCampaignTriggersAdded = 0;
 
@@ -24,8 +27,7 @@ class CreateCampaignPlusPage extends Page
   /**
    * Open Create Campaign page
    */
-  public function openCampaign()
-  {
+  public function openCampaign() {
     $this->open();
   }
 
@@ -33,16 +35,22 @@ class CreateCampaignPlusPage extends Page
    * Fill Campaign content
    *
    * @param string $title
+   *   The campaign title.
    * @param string $type
+   *   The campaign type.
    * @param string $text
+   *   The campaign text.
    * @param string $link
+   *   The campaign link.
    * @param string $style
+   *   The campaign style.
    * @param array $tags
+   *   The campaign tags.
    *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   If any of the forms elements are not found.
    */
-  public function fillCampaignContent(string $title, string $type, string $text, string $link, string $style, array $tags = ['campaign'])
-  {
+  public function fillCampaignContent($title, $type, $text, $link, $style, array $tags = ['campaign']) {
     $form = $this->getElement('Create form');
     $typeSelect = $this->getElement('Type select');
     $typeSelect->selectOption($type);
@@ -63,27 +71,31 @@ class CreateCampaignPlusPage extends Page
    * Select campaign type
    *
    * @param string $type
+   *   The type of campaign.
    */
-  public function selectCampaignType(string $type)
-  {
+  public function selectCampaignType($type) {
     switch ($type) {
       case 'facet':
         $tabButtonNumber = 0;
         break;
+
       case 'basic':
         $tabButtonNumber = 1;
         break;
+
       case 'object_view':
         $tabButtonNumber = 2;
         break;
+
       case 'search':
         $tabButtonNumber = 3;
         break;
+
       default:
         throw new UnexpectedValueException('Unknown Campaign Type: ' . $type);
     }
 
-    $tab = $this->find('css', '.horizontal-tab-button-' . $tabButtonNumber );
+    $tab = $this->find('css', '.horizontal-tab-button-' . $tabButtonNumber);
     $tab->click();
   }
 
@@ -91,19 +103,21 @@ class CreateCampaignPlusPage extends Page
    * Add basic campaign trigger
    *
    * @param string $type
+   *   The rule type of the basic campaign.
    * @param string $ruleValue
+   *   The value of the rule.
    *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   If the either of the form rule elements are not found.
    */
-  public function addBasicCampaignTrigger(string $type, string $ruleValue)
-  {
+  public function addBasicCampaignTrigger($type, $ruleValue) {
     $this->selectCampaignType('basic');
 
     if ($this->basicCampaignTriggersAdded > 0) {
       $addAnother = $this->find('xpath', '//input[contains(@id,\'edit-tabs-basic-rules-add-rule\')]');
       $addAnother->click();
 
-      // Wait for ajax call to complete for new element to be availiable
+      // Wait for ajax call to complete for new element to be available.
       $ruleElement = $this->waitFor(1, function ($page) {
         return $page->find('css', '.edit-tabs-basic-rules-rule-' . $this->basicCampaignTriggersAdded);
       });
@@ -133,20 +147,23 @@ class CreateCampaignPlusPage extends Page
    * Add facet campaign trigger
    *
    * @param string $type
+   *   The type of facet.
    * @param string $ruleValue
+   *   The facet value
    * @param string $commmonValue
+   *   The common value wherein facet value is contained to trigger campaign.
    *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   If either of the from elements are not found.
    */
-  public function addFacetCampaignTrigger(string $type, string $ruleValue, string $commmonValue)
-  {
+  public function addFacetCampaignTrigger($type, $ruleValue, $commmonValue) {
     $this->selectCampaignType('facet');
 
     if ($this->facetCampaignTriggersAdded > 0) {
       $addAnother = $this->find('xpath', '//input[contains(@id,\'edit-tabs-basic-rules-add-rule\')]');
       $addAnother->click();
 
-      // Wait for ajax call to complete for new element to be availiable
+      // Wait for ajax call to complete for new element to be available.
       $ruleElement = $this->waitFor(2, function ($page) {
         return $page->find('css', '.edit-tabs-facet-rules-rule-' . $this->facetCampaignTriggersAdded);
       });
@@ -166,7 +183,7 @@ class CreateCampaignPlusPage extends Page
     $form->selectFieldOption($selectLocator, $type);
     $form->selectFieldOption($commonLocator, $commmonValue);
 
-    // Form is dynamic. For 'Materialetype' a multiselect field is shown, otherwise a text field
+    // Form is dynamic. For 'Materialetype' a multiselect field is shown, otherwise a text field.
     if($type === 'Materialetype') {
       $form->selectFieldOption($valueSelectLocator, $ruleValue);
     } else {
@@ -180,11 +197,12 @@ class CreateCampaignPlusPage extends Page
    * Set operand for facet campaign triggers
    *
    * @param string $operand
+   *   The operand whereby facet triggers are combined.
    *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   If either form element is not found.
    */
-  public function setFacetCampaignTriggerOperand(string $operand)
-  {
+  public function setFacetCampaignTriggerOperand($operand) {
     if(!in_array($operand, ['og', 'eller'])) {
       throw new UnexpectedValueException('Unknown operand: ' . $operand);
     }
@@ -196,11 +214,12 @@ class CreateCampaignPlusPage extends Page
    * Set object view trigger
    *
    * @param string $query
+   *   The query that should trigger campaign on object view.
    *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   If the form element is not found.
    */
-  public function setObjectViewCampaignTrigger(string $query)
-  {
+  public function setObjectViewCampaignTrigger($query) {
     $this->selectCampaignType('object_view');
 
     $form = $this->getElement('Create form');
@@ -211,11 +230,12 @@ class CreateCampaignPlusPage extends Page
    * Set search campaign trigger
    *
    * @param string $query
+   *   The query that should trigger the campaign.
    *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   If the form element is not found.
    */
-  public function setSearchCampaignTrigger(string $query)
-  {
+  public function setSearchCampaignTrigger($query) {
     $this->selectCampaignType('search');
 
     $form = $this->getElement('Create form');
@@ -227,8 +247,7 @@ class CreateCampaignPlusPage extends Page
    *
    * @return mixed
    */
-  public function submitCampaign()
-  {
+  public function submitCampaign() {
     $form = $this->getElement('Create form');
     $form->submit();
 

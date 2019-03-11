@@ -8,8 +8,10 @@ namespace Page\Common;
 
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 
-class LoginPage extends Page
-{
+/**
+ * Class LoginPage
+ */
+class LoginPage extends Page {
   protected $path = '/';
 
   protected $elements = array(
@@ -20,13 +22,15 @@ class LoginPage extends Page
    * Perform login with given user
    *
    * @param \stdClass $user
+   *   A std objecy containing 'name' and 'pass' properties.
    *
    * @return mixed
+   *   A 'Login Page' object.
    *
    * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   If login form elements not found.
    */
-  public function login(\stdClass $user)
-  {
+  public function login(\stdClass $user) {
     $this->open();
 
     $this->waitFor(3, function ($page) {
