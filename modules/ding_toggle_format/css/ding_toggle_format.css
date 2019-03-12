@@ -3,9 +3,14 @@ div.pane-ding-toggle-format-toggle div.pane-content {
   padding-bottom: 0;
 }
 
+.pane-ding-toggle-format-toggle {
+  margin-top: -8px;
+}
+
 .pane-ding-toggle-format-toggle span.ding-toggle-format-label {
   display: inline-block;
   width: auto;
+  margin-left: 10px;
 }
 
 a#ding-toggle-format {
