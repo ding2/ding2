@@ -5,6 +5,8 @@
  * Field hook implementations.
  */
 
+use Ting\TingObjectInterface;
+
 /**
  * Implements hook_field_info().
  */
@@ -427,28 +429,9 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         break;
 
       case 'ting_series_default':
-        if ($entity->getSeriesTitles()) {
-          // The search string used is configurable because the data well is not
-          // fully implemented regarding series. As default we search both in
-          // the series title register and the description field because many
-          // series only have data in the description field. This will probably
-          // change with new versions of the data well.
-          foreach ($entity->getSeriesTitles() as $title) {
-            $series_title = $title[0];
-            $series_number = isset($title[1]) ? ' : ' . check_plain($title[1]) . ' ; ' : ' ; ';
-
-            $replacement = array('@serietitle' => drupal_strtolower($series_title));
-            $search_string = variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"');
-            $link = ting_field_search_link(trim($series_title), $search_string, $replacement, array('attributes' => array('class' => array('series'))));
-            $element[$delta][] = array(
-              '#markup' => $link . $series_number,
-            );
-          }
-        }
-        elseif ($entity->serieDescription) {
-          $element[$delta] = array(
-            '#markup' => $entity->serieDescription,
-          );
+        $series = ting_field_series($entity->getTingObject());
+        if (!empty($series)) {
+          $element[$delta] = $series;
         }
         break;
 
@@ -547,6 +530,42 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
   }
 
   return $element;
+}
+
+/**
+ * Build a render array for series information.
+ *
+ * @param \Ting\TingObjectInterface $object
+ *   The object.
+ *
+ * @return array
+ *   The render array.
+ */
+function ting_field_series(TingObjectInterface $object) {
+  $build = [];
+  if ($object->getSeriesTitles()) {
+    // The search string used is configurable because the data well is not
+    // fully implemented regarding series. As default we search both in
+    // the series title register and the description field because many
+    // series only have data in the description field. This will probably
+    // change with new versions of the data well.
+    foreach ($object->getSeriesTitles() as $title) {
+      $series_title = $title[0];
+      $series_number = isset($title[1]) ? ' : ' . check_plain($title[1]) . ' ; ' : ' ; ';
+
+      $replacement = ['@serietitle' => drupal_strtolower($series_title)];
+      $search_string = variable_get('ting_search_register_serie_title',
+        'phrase.titleSeries="@serietitle"');
+      $link = ting_field_search_link(trim($series_title), $search_string,
+        $replacement, ['attributes' => ['class' => ['series']]]);
+      $build[] = [
+        '#markup' => $link . $series_number,
+      ];
+    }
+  } elseif ($object->getSeriesDescription()) {
+    $build['#markup'] = $object->getSeriesDescription();
+  }
+  return $build;
 }
 
 /**

@@ -114,30 +114,11 @@ function ting_search_fast_get_cover(TingObjectCollectionInterface $collection) {
 }
 
 function ting_search_fast_get_series(TingObjectCollectionInterface $collection) {
-  $object = $collection->getPrimaryObject();
-
   $markup = '';
-  if ($object->getSeriesTitles()) {
-    // The search string used is configurable because the data well is not
-    // fully implemented regarding series. As default we search both in
-    // the series title register and the description field because many
-    // series only have data in the description field. This will probably
-    // change with new versions of the data well.
-    foreach ($object->getSeriesTitles() as $title) {
-      $series_title = $title[0];
-      $series_number = isset($title[1]) ? ' : ' . check_plain($title[1]) . ' ; ' : ' ; ';
 
-      $replacement = array('@serietitle' => drupal_strtolower($series_title));
-      $search_string = variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"');
-      $link = ting_field_search_link(trim($series_title), $search_string, $replacement, array('attributes' => array('class' => array('series'))));
-
-      $markup = $link . $series_number;
-    }
-  } elseif ($object->serieDescription) {
-    $markup = $object->serieDescription;
-  }
-  if (isset($markup)) {
-    $markup = theme('ting_search_fast_series', array('series' => $markup));
+  $series = ting_field_series($collection->getPrimaryObject());
+  if (!empty($series)) {
+    $markup = theme('ting_search_fast_series', array('series' => drupal_render($series)));
   }
   return $markup;
 }
