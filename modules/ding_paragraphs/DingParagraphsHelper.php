@@ -40,7 +40,7 @@ class DingParagraphsHelper {
     if ($include_materials) {
       $this->traverse($paragraphs_data, function ($key, &$item) use (&$materials) {
         if (is_array($item) && !empty($item['ting_object_id'])) {
-          $ding_entity_id = null;
+          $ding_entity_id = NULL;
           $id = $item['ting_object_id'];
           // Filter out id's with "katalog" PID, as they only makes sens on
           // current site.
@@ -49,12 +49,14 @@ class DingParagraphsHelper {
             $materials[] = $id;
           }
           $item = array(self::DING_ENTITY_ID => $ding_entity_id);
-        } elseif (isset($item->endpoints)) {
-          $ding_entity_id = null;
+        }
+        elseif (isset($item->endpoints)) {
+          $ding_entity_id = NULL;
           $endpoints = $item->endpoints;
           $data = array_filter($endpoints[LANGUAGE_NONE], function ($i) {
             return $i['entity_type'] == 'ting_object';
           });
+
           if (!empty($data)) {
             $ting_data = current($data);
             $ting_object = entity_load_single('ting_object', $ting_data['entity_id']);
@@ -65,7 +67,7 @@ class DingParagraphsHelper {
               }
             }
           }
-          $item = (object)array(self::DING_ENTITY_ID => $ding_entity_id);
+          $item = (object) array(self::DING_ENTITY_ID => $ding_entity_id);
         }
       });
     }
@@ -130,24 +132,41 @@ class DingParagraphsHelper {
 
                 // Order any existing paragraphs in a form we can use to set
                 // the default value.
-                foreach ($paragraphs as $paragraphs_item) {
-                  $items[]['entity'] = $paragraphs_item;
-                }
+                $items = array_map(function ($item) {
+                  return ['entity' => $item];
+                }, $paragraphs);
+
                 $paragraphs_field_form = field_default_form($entity_type, $entity, $field, $instance, LANGUAGE_NONE, $items, $form, $form_state);
 
                 // Place ding entity ids into default values.
                 $this->traverse($paragraphs_field_form, function ($key, &$value, &$data) use ($field_name) {
-                  if (is_array($value) && isset($value['value']['#value']['ding_entity_id'], $value['ting_object_id'])) {
+                  if (is_array($value) && isset($value['#entity'], $value['ting_object_id'], $value['#bundle'])) {
+                    $entity = $value['#entity'];
+                    $delta = $value['#delta'];
                     $field = &$value['ting_object_id'];
-                    $material_number = $value['value']['#value']['ding_entity_id'];
-                    preg_match('/[^\:]+\:\s?(.*)/', $material_number, $matches);
-                    $id = bpi_validate_material($matches[1]);
-                    if (!$id) {
-                      $id = $material_number;
-                      $field['#attributes'] = array('class' => array('error'));
-                      drupal_set_message(t('These materials doesn\'t exists.'), 'error', FALSE);
+
+                    switch ($value['#bundle']) {
+                      case 'ding_paragraphs_single_material':
+                        // Apparently, fields of type "Ting reference" do not
+                        // work with entity_metadata_wrapper so we get the
+                        // data in the old fashioned way.
+                        $material_id = $entity->field_ding_paragraphs_single_mat[LANGUAGE_NONE][0]['value']['ding_entity_id'];
+                        $this->setMaterialId($field, $material_id);
+                        break;
+
+                      case 'ding_paragraphs_material_list':
+                      case 'ding_paragraphs_carousel':
+                        $material_ids = array_map(function ($item) {
+                          return $item['value']['ding_entity_id'];
+                        },
+                          $entity->field_ding_paragraphs_material[LANGUAGE_NONE]);
+
+                        if (isset($material_ids[$delta])) {
+                          $material_id = $material_ids[$delta];
+                          $this->setMaterialId($field, $material_id);
+                        }
+                        break;
                     }
-                    $field['#default_value'] = $id;
                   }
                 });
 
@@ -161,7 +180,43 @@ class DingParagraphsHelper {
   }
 
   /**
+   * Validate and set material id (as default value) in a form field.
    *
+   * @param array $field
+   *   The field.
+   * @param string $material_id
+   *   The material id.
+   */
+  private function setMaterialId(array &$field, $material_id) {
+    $id = $this->validateMaterialId($material_id);
+    if (!$id) {
+      $id = $material_id;
+      $field['#attributes'] = ['class' => ['error']];
+      drupal_set_message(t('The material %material does not exist.',
+        ['%material' => $material_id]), 'error', FALSE);
+    }
+    $field['#default_value'] = $id;
+  }
+
+  /**
+   * Validate a material id.
+   *
+   * @param string $material_id
+   *   The material id.
+   *
+   * @return bool|int
+   *   Id of validated material or FALSE on invalid material.
+   */
+  private function validateMaterialId($material_id) {
+    preg_match('/[^\:]+\:\s?(?P<id>.*)/', $material_id, $matches);
+    if (!isset($matches['id'])) {
+      return FALSE;
+    }
+    return bpi_validate_material($matches['id']);
+  }
+
+  /**
+   * Get BPI paragraphs items.
    */
   private function getBpiParagraphsItems($entity_type, $entity, $bpi_node, $syndicated_images) {
     if (empty($bpi_node)) {
@@ -196,8 +251,9 @@ class DingParagraphsHelper {
           $url = $value[self::BPI_FILE_URL];
           if (isset($paragraphs_assets[$url], $paragraphs_assets[$url]['@managed_file'])) {
             // Inject the file object (as an array).
-            $value = (array)$paragraphs_assets[$url]['@managed_file'];
-          } else {
+            $value = (array) $paragraphs_assets[$url]['@managed_file'];
+          }
+          else {
             // No syndicated file found. Remove the data entry.
             unset($data[$key]);
           }
