@@ -67,8 +67,27 @@ class OpenSearchTingSearchResult implements TingSearchResultInterface {
   /**
    * {@inheritdoc}
    */
+  public function getCollections() {
+    $collections = $this->openSearchResult->collections ?? [];
+    return array_map(function (\TingClientObjectCollection $collection) {
+      return new OpenSearchTingObjectCollection($collection);
+    }, $collections);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getTingEntityCollections() {
-    return $this->openSearchResult->collections;
+    static $collections;
+
+    if ($collections === NULL) {
+      $ids = array_map(function (OpenSearchTingObjectCollection $collection) {
+        return $collection->getPrimaryObject()->getId();
+      }, $this->getCollections());
+      $collections = entity_load('ting_collection', array(), array('ding_entity_id' => $ids));
+    }
+
+    return $collections;
   }
 
   /**

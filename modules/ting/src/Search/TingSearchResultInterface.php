@@ -33,6 +33,15 @@ interface TingSearchResultInterface {
   public function getNumCollections();
 
   /**
+   * Returns a list of the collections contained within this search result.
+   *
+   * Note that this is not entities but plain old PHP objects.
+   *
+   * @return \Ting\TingObjectCollectionInterface[]
+   */
+  public function getCollections();
+
+  /**
    * Returns a list of loaded TingCollections.
    *
    * Notice that TingCollection is actually a collection of Ting Entities.

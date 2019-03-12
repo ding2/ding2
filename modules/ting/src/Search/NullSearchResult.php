@@ -47,6 +47,13 @@ class NullSearchResult implements TingSearchResultInterface {
   /**
    * {@inheritdoc}
    */
+  public function getCollections() {
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getTingEntityCollections() {
     return [];
   }

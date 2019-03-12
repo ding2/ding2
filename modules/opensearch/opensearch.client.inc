@@ -236,22 +236,7 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
     $request->userDefinedBoost = $uboosts;
   }
 
-  $search_result = opensearch_execute($request);
-
-  // Replace collections with proper TingCollection objects.
-  if ($search_result && is_array($search_result->collections)) {
-    $ids = array();
-    foreach ($search_result->collections as &$collection) {
-      if (isset($collection->objects[0])) {
-        $ids[] = $collection->objects[0]->id;
-      }
-    }
-    if (!isset($options['reply_only']) || !$options['reply_only']) {
-      $search_result->collections = entity_load('ting_collection', array(), array('ding_entity_id' => $ids));
-    }
-  }
-
-  return $search_result;
+  return opensearch_execute($request);
 }
 
 /**
