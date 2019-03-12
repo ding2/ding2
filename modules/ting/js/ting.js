@@ -9,7 +9,7 @@
   Drupal.behaviors.ting = {
     attach: function (context) {
       // TODO: These selectors might be outdated.
-      $('a.js-search-overlay', context).live('click', function () {
+      $('a.js-search-overlay', context).on('click', function () {
         var link = $(this);
         if (link.attr('href').charAt(0) !== '#') {
           // Only show overlay for non-local links.

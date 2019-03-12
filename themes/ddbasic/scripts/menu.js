@@ -153,7 +153,7 @@
         return;
       }
 
-      if (main_menu_wrapper[0].offsetTop != secondary_menu_wrapper[0].offsetTop) {
+      if (main_menu_wrapper[0].offsetTop !== secondary_menu_wrapper[0].offsetTop) {
         $('body').addClass('secondary-menu-below-main');
       } else {
         $('body').removeClass('secondary-menu-below-main');
@@ -163,7 +163,7 @@
     // If there are too many links in the main menu, so it breaks into
     // two lines, we need to tell CSS to adjust.
     checkMainLinksOffset: function(context) {
-      var main_menu_links = $('.main-menu > li', context);
+      var main_menu_links = $('.main-menu-wrapper > .main-menu > li', context);
 
       // We have less than 2 elements, it doesnt make sense to compare anything.
       if (main_menu_links.length < 2) {
@@ -171,7 +171,7 @@
       }
 
       // Checking if the first and last elements are on the same line.
-      if (main_menu_links.first().offset().top != main_menu_links.last().offset().top) {
+      if (main_menu_links.first().offset().top !== main_menu_links.last().offset().top) {
         $('body').addClass('has-multiline-main-menu');
       } else {
         $('body').removeClass('has-multiline-main-menu');
