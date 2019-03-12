@@ -43,16 +43,21 @@ function _opensearch_get_facet_values($facet_name) {
 
   // Get a list of types by executing a null query and look at the facets
   // result.
-  $options = [
-    'facets' => [$facet_name],
-    'numFacets' => 99,
-    'reply_only' => TRUE,
-  ];
-  $result = opensearch_do_search("*", 0, 0, $options);
+  $query = ting_start_query()
+    ->withRawQuery('*')
+    ->withFacets([$facet_name])
+    ->withTermsPrFacet(99)
+    ->withCount(0);
+  $result = opensearch_search_search($query);
 
-  // Terms is a map from term names to result frequencies.
-  $term_names = array_keys($result->facets[$facet_name]->terms);
-  return array_map('drupal_strtolower', $term_names);
+  $term_names = [];
+  $facets = $result->getFacets();
+  if ($facet = array_shift($facets)) {
+    foreach ($facet->getTerms() as $term) {
+      $term_names[drupal_strtolower($term->getName())] = $term->getName();
+    }
+  }
+  return $term_names;
 }
 
 /**

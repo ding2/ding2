@@ -134,7 +134,6 @@ function opensearch_get_objects(array $ids, $local = FALSE) {
  *    - rank: The ranking type, as defined in the XSD.
  *    - supportingTypes: Whether to include supporting types such as reviews.
  *      Default: false
- *    - reply_only: Don't change the result objects to TingCollection objects.
  *    - collectionType: The type of results to return. Single
  *      manifestions(object) or works (collections). Possible values
  *      manifestion ,work or work-1. Defaults to work.
