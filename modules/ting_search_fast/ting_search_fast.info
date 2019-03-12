@@ -1,0 +1,5 @@
+name = Ting Search Fast
+description = Faster search results for Ting by limiting customization options
+package = Ding!
+core = 7.x
+files[] = ting_fast_search.module
