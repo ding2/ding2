@@ -163,7 +163,7 @@
     // If there are too many links in the main menu, so it breaks into
     // two lines, we need to tell CSS to adjust.
     checkMainLinksOffset: function(context) {
-      var main_menu_links = $('.main-menu > li', context);
+      var main_menu_links = $('.main-menu-wrapper > .main-menu > li', context);
 
       // We have less than 2 elements, it doesnt make sense to compare anything.
       if (main_menu_links.length < 2) {
