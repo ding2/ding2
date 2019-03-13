@@ -153,7 +153,7 @@
         return;
       }
 
-      if (main_menu_wrapper[0].offsetTop !== secondary_menu_wrapper[0].offsetTop) {
+      if (main_menu_wrapper[0].offsetTop != secondary_menu_wrapper[0].offsetTop) {
         $('body').addClass('secondary-menu-below-main');
       } else {
         $('body').removeClass('secondary-menu-below-main');
@@ -171,7 +171,7 @@
       }
 
       // Checking if the first and last elements are on the same line.
-      if (main_menu_links.first().offset().top !== main_menu_links.last().offset().top) {
+      if (main_menu_links.first().offset().top != main_menu_links.last().offset().top) {
         $('body').addClass('has-multiline-main-menu');
       } else {
         $('body').removeClass('has-multiline-main-menu');
