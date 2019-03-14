@@ -207,14 +207,6 @@
                 has_image = false;
               }
 
-              // If odd and has image.
-              if (row_total % 2 === 1 && has_image === true) {
-                row_order = row_order - 1;
-              }
-              else {
-                row_order = row_order + 1;
-              }
-
               // Set css order on rows.
               $(this).attr('style',  'order:' + row_order);
 
