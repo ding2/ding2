@@ -1018,34 +1018,11 @@ function ding_event_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'alternative_layout_full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 5,
-      ),
-      'block_feature' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 3,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 3,
-      ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 3,
-      ),
-      'search_result' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 17,
       ),
       'teaser' => array(
         'label' => 'above',
