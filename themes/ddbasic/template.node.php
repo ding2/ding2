@@ -188,6 +188,14 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
   $date = field_get_items('node', $variables['node'], 'field_ding_event_date');
   $variables['event_submitted'] = format_date($variables['created'], 'ding_date_only_version2');
 
+  $price = field_get_items('node', $variables['node'], 'field_ding_event_price');
+  if (!empty($price)) {
+    $variables['event_price'] = $price[0]['value'] . ' ' . variable_get('ding_event_currency_type', 'Kr');
+  }
+  else {
+    $variables['event_price'] = t('Free');
+  }
+
   $location = field_get_items('node', $variables['node'], 'field_ding_event_location');
   $variables['alt_location_is_set'] = !empty($location[0]['name_line']) || !empty($location[0]['thoroughfare']);
 
