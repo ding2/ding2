@@ -131,40 +131,63 @@ function fbs_availability_holdings($provider_ids) {
       elseif ($suffix_type == 'shelf_mark' && isset($entities[$datawell_pids[$item->recordId]])) {
         $entity = $entities[$datawell_pids[$item->recordId]];
 
-        $field652m = fbs_get_marc_field($entity, '652', 'm');
-        $field652o = fbs_get_marc_field($entity, '652', 'o');
-
-        // For music and non-fiction a special prefix is used.
+        // For non-fiction and music a special prefix is used.
         $prefix = '';
 
+        // The DK5 classification that we need to consider can both be present
+        // in subfield 'm' and 'o' of field 652. So we extract them both here
+        // for later use.
+        $field652 = fbs_get_marc_field($entity, '652');
+        $field652m = $field652o = '';
+        // There can be multiple 652 fields each with their own subfields. It's
+        // important that we use data from the same 652 field that we use the
+        // classification from, so remember the index of the field we end up
+        // using.
+        $field652index = NULL;
+        if (!empty($field652['m'])) {
+          $field652m = reset($field652['m']);
+          $field652index = key($field652['m']);
+        }
+
+        if (!empty($field652['o'])) {
+          $field652o = reset($field652['o']);
+          // We need to look in both 'm' and 'o' subfield for the 'sk' marker
+          // but we only need to use data from one of the fields. We prefer the
+          // 'm' subfield, but if for some reason there was no data we will use
+          // the 'o' field. So in these cases use remember the index of 'o'.
+          if (empty($field652['m'])) {
+            $field652index = key($field652['o']);
+          }
+        }
+        // Non-fiction: Look for the 'sk' marker in both 'm' and 'o' subfield.
+        // If it's not present in any of these, we consider the material be to
+        // be non-fiction and we should use the special prefix for non-fiction
+        // materials.
+        if ($field652m !== 'sk' && $field652o !== 'sk') {
+          // DK5 classification.
+          $prefix .= $field652m;
+
+          // Additional descriptors from the DK5 classification. Note that we
+          // ensure to use data from the correct subfield where we also got the
+          // DK5-classification from.
+          if (!empty($field652['b'][$field652index])) {
+            $prefix .= ' ' . $field652['b'][$field652index];
+          }
+          elseif (!empty($field652['a'][$field652index])) {
+            $prefix .= ' ' . $field652['a'][$field652index];
+            if (!empty($field652['h'][$field652index])) {
+              $prefix .= ', ' . $field652['h'][$field652index];
+            }
+          }
+        }
         // Music: Field 039.a is present on music materials, so we can use this
         // is an indicator.
-        if ($field039a = fbs_get_marc_field($entity, '039', 'a')) {
+        elseif ($field039a = fbs_get_marc_field($entity, '039', 'a')) {
           $prefix .= fbs_translate_marc($field039a, '039.a');
 
           // We'll also append additional subfields if present.
           if ($field039b = fbs_get_marc_field($entity, '039', 'b')) {
             $prefix .= ' ' . fbs_translate_marc($field039b, '039.b');
-          }
-        }
-        // Non-fiction: The 'sk' marker is in DK5-classification fields, to mark
-        // fiction materials. Everything else has a classification number and is
-        // non-fiction. Subfield 'm' and 'o' can both contain this special
-        // marker, so we check them both to be more resilient against error and
-        // missing data.
-        elseif ($field652m !== 'sk' && $field652o !== 'sk') {
-          // DK5 classification.
-          $prefix .= $field652m;
-
-          // Additional descriptors from the DK5 classification.
-          if ($field652b = fbs_get_marc_field($entity, '652', 'b')) {
-            $prefix .= ' ' . $field652b;
-          }
-          elseif ($field652a = fbs_get_marc_field($entity, '652', 'a')) {
-            $prefix .= ' ' . $field652a;
-            if ($field652h = fbs_get_marc_field($entity, '652', 'h')) {
-              $prefix .= ', ' . $field652h;
-            }
           }
         }
 
