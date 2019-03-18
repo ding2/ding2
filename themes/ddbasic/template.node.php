@@ -500,5 +500,15 @@ function ddbasic_preprocess__node__ding_page(&$variables) {
     case 'full':
       array_push($variables['classes_array'], 'node-full');
       break;
+
+    case 'alternative_layout_full':
+      array_push($variables['classes_array'], 'node-full', 'alternative-layout-full');
+
+      // Make social-share button.
+      $variables['content']['group_left']['share_button'] = array(
+        '#theme' => 'ding_sharer',
+        '#label' => t('Share this news'),
+      );
+      break;
   }
 }
