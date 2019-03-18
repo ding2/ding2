@@ -278,6 +278,227 @@ function ding_event_default_page_manager_handlers() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
+  $handler->name = 'node_view__event-story-alternative-layout';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -28;
+  $handler->conf = array(
+    'title' => 'Event story alternative layout',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'User',
+        'keyword' => 'user',
+        'name' => 'user',
+        'type' => 'current',
+        'uid' => NULL,
+        'id' => 1,
+      ),
+    ),
+    'relationships' => array(
+      2 => array(
+        'identifier' => 'All terms from node',
+        'keyword' => 'terms',
+        'name' => 'terms_from_node',
+        'context' => 'argument_entity_id:node_1',
+        'vid' => array(
+          1 => '1',
+          2 => '2',
+        ),
+        'concatenator' => ',',
+        'id' => 1,
+      ),
+      3 => array(
+        'identifier' => 'Taxonomy term from Node (on Node: Category [field_ding_event_category])',
+        'keyword' => 'taxonomy_term',
+        'name' => 'entity_from_field:field_ding_event_category-node-taxonomy_term',
+        'delta' => 0,
+        'context' => 'argument_entity_id:node_1',
+        'id' => 1,
+      ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'node_type',
+          'settings' => array(
+            'type' => array(
+              'ding_event' => 'ding_event',
+            ),
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'entity_field_value:node:ding_event:field_ding_event_show_as_list',
+          'settings' => array(
+            'field_ding_event_show_as_list' => array(
+              'und' => array(
+                0 => array(
+                  'value' => 1,
+                ),
+              ),
+            ),
+            'field_ding_event_show_as_list_value' => array(
+              0 => 1,
+            ),
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+    'panels_breadcrumbs_state' => 1,
+    'panels_breadcrumbs_titles' => 'News
+%node:title',
+    'panels_breadcrumbs_paths' => 'news
+<none>',
+    'name' => 'event-story-alternative-layout',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => '[node:title] | [current-page:pager][site:name]',
+        ),
+        'description' => array(
+          'value' => '[node:field_ding_news_lead]',
+        ),
+        'image_src' => array(
+          'value' => '[node:field_ding_news_title_image]',
+        ),
+      ),
+    ),
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left' => NULL,
+      'middle' => NULL,
+      'right' => NULL,
+      'top' => NULL,
+      'bottom' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+      'branding' => NULL,
+      'header' => NULL,
+      'navigation' => NULL,
+      'content' => NULL,
+      'footer' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = '6f0ec498-237a-4aab-a29c-376d9fac2cc6';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-8f21a367-0964-40c8-a9c6-231278b832ee';
+    $pane->panel = 'attachment_1_1';
+    $pane->type = 'block';
+    $pane->subtype = 'similarterms-ding_content_tags';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = '';
+    $pane->uuid = '8f21a367-0964-40c8-a9c6-231278b832ee';
+    $display->content['new-8f21a367-0964-40c8-a9c6-231278b832ee'] = $pane;
+    $display->panels['attachment_1_1'][0] = 'new-8f21a367-0964-40c8-a9c6-231278b832ee';
+    $pane = new stdClass();
+    $pane->pid = 'new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
+    $pane->panel = 'attachment_1_1';
+    $pane->type = 'node_content';
+    $pane->subtype = 'node_content';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'links' => 1,
+      'no_extras' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'identifier' => '',
+      'link' => 0,
+      'leave_node_title' => 1,
+      'build_mode' => 'alternative_layout_full',
+      'context' => 'argument_entity_id:node_1',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array(
+      'method' => '0',
+      'settings' => array(),
+    );
+    $pane->style = array(
+      'settings' => NULL,
+      'style' => 'naked',
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = '';
+    $pane->uuid = '98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
+    $display->content['new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2'] = $pane;
+    $display->panels['attachment_1_1'][1] = 'new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
+    $pane = new stdClass();
+    $pane->pid = 'new-a1c43371-47f9-4370-a57f-ccbdd958de1a';
+    $pane->panel = 'attachment_1_1';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_related_content-news_events';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'Related',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = 'a1c43371-47f9-4370-a57f-ccbdd958de1a';
+    $display->content['new-a1c43371-47f9-4370-a57f-ccbdd958de1a'] = $pane;
+    $display->panels['attachment_1_1'][2] = 'new-a1c43371-47f9-4370-a57f-ccbdd958de1a';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-98fddea0-c7eb-4b7c-82a3-be24fe3a73c2';
+  $handler->conf['display'] = $display;
+  $export['node_view__event-story-alternative-layout'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
   $handler->name = 'term_view_panel_context';
   $handler->task = 'term_view';
   $handler->subtask = '';

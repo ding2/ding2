@@ -2,7 +2,7 @@
 
 /**
  * @file
- * DDBasic's theme implementation to display news nodes.
+ * DDBasic's theme implementation to display event nodes.
  *
  * Available variables:
  * - $title: the (sanitized) title of the node.
@@ -76,9 +76,9 @@
  * ddbasic specific variables:
  * - $ddbasic_updated: Information about latest update on the node created from
  *   $date during ddbasic_preprocess_node().
- * - $news_full_submitted: Submitted date and time
- * - $news_full_changed: Changed date and time
- * - §news_submitted: Submitted date
+ * - $event_full_submitted: Submitted date and time
+ * - $event_full_changed: Changed date and time
+ * - §event_submitted: Submitted date
  *
  * @see template_preprocess()
  * @see template_preprocess_node()
@@ -86,19 +86,21 @@
  */
 ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
-  <div class="ding-event-inner">
-    <div class="ding-event-right">
+  <div class="inner">
+    <div class="left">
+      <?php print render($content['group_left']['field_ding_event_title_image']); ?>
+      <h2><?php print t('Information about the event'); ?></h2>
+      <div class="section meta">
+        <div class="author"><?php print t("By"); ?> <?php print $name; ?></div>
+        <div class="created"><?php print $event_submitted ?></div>
+      </div>
+      <?php print render($content['group_left']); ?>
+    </div>
+    <div class="right">
           <h1><?php print $title; ?></h1>
           <?php print render($content['group_right']); ?>
       </div>
-      <div class="ding-event-left">
-        <?php print render($content['group_left']['field_ding_event_title_image']); ?>
-        <div class="section meta">
-              <div class="author"><?php print t("By"); ?> <?php print $name; ?></div>
-              <div class="created"><?php print $news_submitted ?></div>
-          </div>
-          <?php print render($content['group_left']); ?>
-      </div>
+
     <?php print render($content); ?>
   </div>
 </article>
