@@ -164,8 +164,8 @@ function fbs_availability_holdings($provider_ids) {
         // be non-fiction and we should use the special prefix for non-fiction
         // materials.
         if ($field652m !== 'sk' && $field652o !== 'sk') {
-          // DK5 classification.
-          $prefix .= $field652m;
+          // DK5 classification. Prefer subfield 'm'. Fallback to 'o'.
+          $prefix .= $field652m ? $field652m : $field652o;
 
           // Additional descriptors from the DK5 classification. Note that we
           // ensure to use data from the correct subfield where we also got the
