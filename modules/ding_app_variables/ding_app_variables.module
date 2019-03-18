@@ -78,10 +78,12 @@ function _ding_redia_variables_get_carousel_configs($carousel) {
   $carousels = array();
   foreach ($result as $settings) {
     $configs = unserialize($settings->configuration);
-    $carousels[] = array(
-      'name' => $carousel,
-      'configs' => $configs['ting_searches'],
-    );
+    if (!empty($configs['searches'])) {
+      $carousels[] = array(
+        'name' => $carousel,
+        'configs' => $configs['searches'],
+      );
+    }
   }
 
   return $carousels;
