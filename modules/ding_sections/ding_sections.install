@@ -18,13 +18,6 @@ function ding_sections_install() {
     'ding_news',
     'ding_page',
   ));
-
-  $submodules = array(
-    'ding_sections_custom_css',
-    'ding_sections_term_menu',
-    'ding_sections_term_panel',
-  );
-  module_enable($submodules);
 }
 
 /**

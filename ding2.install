@@ -718,11 +718,29 @@ function ding2_update_7062() {
 }
 
 /**
- * Enable Section and Nodelist modules.
+ * Enable the Nodelist module.
  */
 function ding2_update_7063() {
-  module_enable(array(
-    'ding_sections',
-    'ding_nodelist',
-  ));
+  module_enable(array('ding_nodelist'));
+}
+
+/**
+ * Enable the Section module.
+ */
+function ding2_update_7064() {
+  module_enable(array('ding_sections'));
+}
+
+/**
+ * Enable Section term menu submodule.
+ */
+function ding2_update_7065() {
+  module_enable(array('ding_sections_term_menu'));
+}
+
+/**
+ * Enable Section term panel submodule.
+ */
+function ding2_update_7066() {
+  module_enable(array('ding_sections_term_panel'));
 }
