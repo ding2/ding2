@@ -138,38 +138,34 @@ function fbs_availability_holdings($provider_ids) {
         // in subfield 'm' and 'o' of field 652. So we extract them both here
         // for later use.
         $field652 = fbs_get_marc_field($entity, '652');
-        $field652m = $field652o = '';
-        // There can be multiple 652 fields each with their own subfields. It's
-        // important that we use data from the same 652 field that we use the
-        // classification from, so remember the index of the field we end up
-        // using.
-        $field652index = NULL;
-        if (!empty($field652['m'])) {
-          $field652m = reset($field652['m']);
-          $field652index = key($field652['m']);
-        }
+        $field652m = !empty($field652['m']) ? reset($field652['m']) : '';
+        $field652o = !empty($field652['o']) ? reset($field652['o']) : '';
 
-        if (!empty($field652['o'])) {
-          $field652o = reset($field652['o']);
-          // We need to look in both 'm' and 'o' subfield for the 'sk' marker
-          // but we only need to use data from one of the fields. We prefer the
-          // 'm' subfield, but if for some reason there was no data we will use
-          // the 'o' field. So in these cases use remember the index of 'o'.
-          if (empty($field652['m'])) {
-            $field652index = key($field652['o']);
-          }
-        }
         // Non-fiction: Look for the 'sk' marker in both 'm' and 'o' subfield.
         // If it's not present in any of these, we consider the material be to
         // be non-fiction and we should use the special prefix for non-fiction
         // materials.
         if ($field652m !== 'sk' && $field652o !== 'sk') {
-          // DK5 classification. Prefer subfield 'm'. Fallback to 'o'.
-          $prefix .= $field652m ? $field652m : $field652o;
+          // There can be multiple 652 fields with their own subfields and some
+          // of them will have the same subfields. It's therefore important that
+          // we use data from the subfields of the same field that we got the
+          // DK5 classification from. We can achieve this be remembering the
+          // index of 652 field we end up using.
+          // See: TingMarcResult::process()
+          $field652index = 0;
+          // Get the DK5 classification. Prefer subfield 'm'. Fallback to 'o'.
+          if ($field652m) {
+            $prefix .= $field652m;
+            $field652index = key($field652['m']);
+          }
+          elseif ($field652o) {
+            $prefix .= $field652o;
+            $field652index = key($field652['o']);
+          }
 
           // Additional descriptors from the DK5 classification. Note that we
-          // ensure to use data from the correct subfield where we also got the
-          // DK5-classification from.
+          // ensure to use data from the correct subfields of the field we got
+          // the DK5 classification from.
           if (!empty($field652['b'][$field652index])) {
             $prefix .= ' ' . $field652['b'][$field652index];
           }
