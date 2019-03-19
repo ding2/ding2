@@ -40,6 +40,12 @@ function ting_subsearch_suggestions_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
+      'year' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
     ),
     'unique keys' => array(
       'id' => array(
@@ -48,6 +54,13 @@ function ting_subsearch_suggestions_schema() {
     ),
     'primary key' => array(
       'id',
+    ),
+    'indexes' => array(
+      'kpi_popular_keys' => array('popular_keys'),
+      'kpi_numtotalsearches' => array('numtotalsearches'),
+      'kpi_weekno' => array('weekno'),
+      'kpi_year' => array('year'),
+      'kpi_weekno_year' => array('weekno', 'year'),
     ),
   );
   return $schema;
@@ -75,4 +88,20 @@ function ting_subsearch_suggestions_update_7001() {
 
   $schema = drupal_get_schema('ting_subsearch_kpi_index_popular_keys');
   db_create_table('ting_subsearch_kpi_index_popular_keys', $schema);
+}
+
+/**
+ * Add "year" column in database and set indexes.
+ */
+function ting_subsearch_suggestions_update_7002() {
+  db_drop_table('ting_subsearch_kpi_index_popular_keys');
+
+  $schema = drupal_get_schema('ting_subsearch_kpi_index_popular_keys');
+  db_create_table('ting_subsearch_kpi_index_popular_keys', $schema);
+
+  db_add_index('ting_subsearch_kpi_index_popular_keys', 'kpi_popular_keys', array('popular_keys'));
+  db_add_index('ting_subsearch_kpi_index_popular_keys', 'kpi_numtotalsearches', array('numtotalsearches'));
+  db_add_index('ting_subsearch_kpi_index_popular_keys', 'kpi_weekno', array('weekno'));
+  db_add_index('ting_subsearch_kpi_index_popular_keys', 'kpi_year', array('year'));
+  db_add_index('ting_subsearch_kpi_index_popular_keys', 'kpi_weekno_year', array('weekno', 'year'));
 }
