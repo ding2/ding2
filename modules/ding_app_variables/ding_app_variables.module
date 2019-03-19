@@ -34,7 +34,7 @@ function ding_app_variables_display() {
 
   $carousel_configs = array();
   foreach ($carousels as $carousel) {
-    $carousel_configs[] = _ding_redia_variables_get_carousel_configs($carousel);
+    $carousel_configs[] = _ding_app_variables_get_carousel_configs($carousel);
   }
 
   $variables = array(
@@ -67,7 +67,7 @@ function ding_app_variables_display() {
  * @return array
  *   List of carousels pane configurations.
  */
-function _ding_redia_variables_get_carousel_configs($carousel) {
+function _ding_app_variables_get_carousel_configs($carousel) {
   $query = db_select('panels_pane', 'pp');
   $result = $query
     ->fields('pp', array('subtype', 'configuration'))
