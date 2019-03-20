@@ -193,6 +193,7 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
  */
 function ting_subsearch_suggestions_cron() {
   $service = variable_get('ting_subsearch_suggestions_service', '');
+  $prepared = FALSE;
 
   if (!empty($service) && $service == 'kpi') {
     // Ensure that local data is only renewed once a day.
@@ -219,30 +220,25 @@ function ting_subsearch_suggestions_cron() {
 
     $file = fopen(drupal_realpath("public://subsearch_kpi/temp_file.csv"), "r");
 
-    print_r("Start feed data collecting.\n");
+    print_r("Insert feed data into database.\n");
     while (($data = fgetcsv($file))) {
-      $results[] = $data;
+      if ($data[0] != 'year') {
+        $normalized_string = mb_convert_encoding($data[2], 'UTF-8', 'ISO-8859-15');
+        $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields(
+          [
+            'popular_keys' => $normalized_string,
+            'numtotalsearches' => (int) $data[3],
+            'weekno' => $data[1],
+            'year' => $data[0],
+          ]
+        );
+        $query->execute();
+      }
     }
+    $prepared = TRUE;
     fclose($file);
 
-    print_r("Results to be prepared: " . count($results) . "\n");
-    $prepared = [];
-
-    print_r("Start preparing data.\n");
-    foreach ($results as $result) {
-      $prepared[] = [
-        'year' => $result[0],
-        'weekno' => $result[1],
-        'oss' => $result[2],
-        'results' => $result[3],
-        'oss_r' => $result[4],
-      ];
-    }
-
     if (!empty($prepared)) {
-      print_r("Start inserting data into database.\n");
-      ting_subsearch_suggestions_insert_records($prepared);
-
       print_r("Start database cleaning.\n");
       // Get general "meta" present in db.
       $min_year = db_query("SELECT MIN(year) FROM {ting_subsearch_kpi_index_popular_keys}")->fetchField();
