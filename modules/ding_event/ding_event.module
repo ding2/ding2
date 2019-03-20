@@ -216,6 +216,13 @@ function ding_event_views_query_alter(&$view, &$query) {
     // SQL to the date filters.
     foreach ($query->where as &$condition_group) {
       foreach ($condition_group['conditions'] as &$condition) {
+        // Ensure that condition field is string to avoid "__toString() must
+        // return a string value" fatal PHP error.
+        // See: https://www.drupal.org/project/drupal/issues/3040999
+        if (!is_string($condition['field'])) {
+          continue;
+        }
+
         // Note that this field could also be the second exposed date filter,
         // which is used only on ding_event_list. It wont have any effect though
         // since this filters on start date less than input date.
