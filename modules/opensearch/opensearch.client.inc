@@ -271,7 +271,7 @@ function opensearch_do_search($query, $page = 1, $results_per_page = 10, $option
   $filtered_collections = array_filter($search_result->collections, function($collection) {
     return is_object($collection);
   });
-  if (count($filtered_collections) != $collection_count) {
+  if (count($filtered_collections) != $actual_collection_count) {
     // Some of the collections were not objects.
     watchdog('opensearch', 'Found non-object collections on search result in opensearch_do_search. Search query: @query', [
       '@query' => $query,
