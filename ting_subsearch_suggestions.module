@@ -179,7 +179,13 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
       }
 
       foreach ($best_results as $best_result) {
-        $distance = levenshtein(strtolower($keys), strtolower($best_result->popular_keys));
+        if (strpos($best_result->popular_keys, '_')) {
+          $popular_keys = strtolower(str_replace('_', '.', $best_result->popular_keys));
+        }
+        else {
+          $popular_keys = $best_result->popular_keys;
+        }
+        $distance = levenshtein(strtolower($keys), $popular_keys);
 
         if ($distance > 0 && $distance < variable_get('ting_subsearch_kpi_distance', 0)) {
           return $best_result->popular_keys;
@@ -211,7 +217,7 @@ function ting_subsearch_suggestions_cron() {
     $temp_files_folder = 'public://subsearch_kpi/';
 
     if (!is_dir($temp_files_folder)) {
-      file_prepare_directory($temp_files_folder);
+      file_prepare_directory($temp_files_folder, FILE_CREATE_DIRECTORY);
     }
 
     $path_to_file = drupal_realpath("public://subsearch_kpi/temp_file.csv");
