@@ -4,6 +4,10 @@
  * Represents hook definition and common methods.
  */
 
+// Id which was used in the old module for events which is not synchronized with
+// place2book.
+define('DING_PLACE2BOOK_NO_ID', -1);
+
 /**
  * Implements hook_menu().
  */
