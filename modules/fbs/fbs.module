@@ -104,9 +104,17 @@ function fbs_ding_entity_is($object, $class) {
         $object->localId
       );
       $result = reset($result);
-
-      // Use the first material to find out if this is a periodical.
       $holdings = reset($result->holdings);
+
+      // If the record doesn't have any materials there's nothing to reserve and
+      // we can return FALSE early. This can happen for online posts from the
+      // library catalog.
+      if (empty($holdings->materials)) {
+        return FALSE;
+      }
+
+      // To determine if this is a periodical we extract the first material and
+      // look for periodical information.
       $material = reset($holdings->materials);
 
       // If the object is periodical, the main object should not be reservable.
