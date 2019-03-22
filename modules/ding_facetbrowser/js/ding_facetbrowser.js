@@ -1,4 +1,5 @@
 /**escape*/
+/**globals Cookies */
 /**
  * @file
  * Implementation of the facet browser front-end to make the facet collapsible.
@@ -7,7 +8,7 @@
 (function($) {
 
   Drupal.behaviors.ding_facetbrowser = {
-    attach: function(context, settings) {
+    attach: function(context) {
       // Fold facet groups as default.
       ding_facetbrowser_fold_facet_group(context);
 
