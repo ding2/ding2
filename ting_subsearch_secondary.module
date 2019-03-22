@@ -35,84 +35,102 @@ function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions,
 function ting_subsearch_secondary_search($keys, OpenSearchTingSearchResult $results) {
   $message = '';
 
-  if (empty($results->getNumTotalObjects())) {
-    return $message;
-  }
+  if (!empty($results->getNumTotalObjects())) {
+    if ($results->getNumTotalObjects() > variable_get('ting_subsearch_secondary_min', 10) && $results->getNumTotalObjects() < variable_get('ting_subsearch_secondary_max', 100)) {
+      $facets = $results->getFacets();
+      $genre_facets = $facets['facet.genreCategory']->getTerms();
+      // If any of fiction or non fiction is empty we cannot do the calculation.
+      // Simply exit for now.
+      if (empty($facets['facet.genreCategory'])) {
+        watchdog('subsearch_subsearch', 'You need to enable facet.genreCategory in order for this to work.', [], WATCHDOG_WARNING);
+        return $message;
+      }
 
-  if ($results->getNumTotalObjects() > variable_get('ting_subsearch_secondary_min', 10) && $results->getNumTotalObjects() < variable_get('ting_subsearch_secondary_max', 100)) {
+      if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
+        watchdog('subsearch_subsearch', 'Missing secondary agency or profile.', [], WATCHDOG_WARNING);
+        return $message;
+      }
 
-    $facets = $results->getFacets();
-    $genre_facets = $facets['facet.genreCategory']->getTerms();
-    // If any of fiction or non fiction is empty we cannot do the calculation.
-    // Simply exit for now.
-    if (empty($facets['facet.genreCategory'])) {
-      watchdog('subsearch_subsearch', 'You need to enable facet.genreCategory in order for this to work.', array(), WATCHDOG_WARNING);
-      return $message;
-    }
+      $nonfiction = 0;
+      if (!empty($genre_facets['nonfiktion'])) {
+        $nonfiction = $genre_facets['nonfiktion']->getCount();
+      }
 
-    if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
-      watchdog('subsearch_subsearch', 'Missing secondary agency or profile.', array(), WATCHDOG_WARNING);
-      return $message;
-    }
+      $fiction = 0;
+      if (!empty($genre_facets['fiktion'])) {
+        $fiction = $genre_facets['fiktion']->getCount();
+      }
 
-    $nonfiction = 0;
-    if (!empty($genre_facets['nonfiktion'])) {
-      $nonfiction = $genre_facets['nonfiktion']->getCount();
-    }
-
-    $fiction = 0;
-    if (!empty($genre_facets['fiktion'])) {
-      $fiction = $genre_facets['fiktion']->getCount();
-    }
-
-    // Less than half fiction of nonfiction.
-    if (($nonfiction / variable_get('ting_subsearch_secondary_factor', 2)) > $fiction) {
-
-      $secondary_result = ting_subsearch_common_do_secondary_search($keys, array(
-        'agency' => variable_get('ting_subsearch_secondary_agency', ''),
-        'profile' => variable_get('ting_subsearch_secondary_profile', ''),
-      ));
-
-      if ($secondary_result->getNumTotalObjects() > variable_get('ting_subsearch_secondary_result_min', 100)) {
-        $items = array();
-
-        $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
-        foreach ($secondary_result->getTingEntityCollections() as &$collection) {
-          if ($number_of_records_to_show == 0) {
-            continue;
-          }
-          else {
-            $number_of_records_to_show--;
-          }
-          $build = ting_collection_view($collection, 'minimal');
-          $items[] = drupal_render($build);
-        }
-
-        $options = array(
-          '!link' => str_replace('[keys]', $keys, variable_get('ting_subsearch_secondary_search_link', '')),
-          '!link-text' => variable_get('ting_subsearch_secondary_search_link_text', ''),
-          '!keys' => $keys,
-          '!num-results' => $results->getNumTotalObjects(),
-          '!bibdk-num-results' => $secondary_result->getNumTotalObjects(),
-          '!examples' => theme('item_list', array('items' => $items)),
-        );
-
-        if (variable_get('ting_subsearch_secondary_number_of_results', 4) == 0) {
-          $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits',
-            $options
-          );
-        }
-        else {
-          $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits where some of them is the following: !examples',
-            $options
-          );
-        }
-        $wrapper = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
-        $message = l($wrapper, $options['!link'], ['html' => TRUE, 'absolute' => TRUE, 'attributes' => ['target' => 'blank']]);
-        drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/ting_subsearch_secondary.css');
+      // Less than half fiction of nonfiction.
+      if (($nonfiction / variable_get('ting_subsearch_secondary_factor', 2)) > $fiction) {
+        $message = ting_subsearch_secondary_execute_secondary_search($keys, $results);
       }
     }
   }
+  else {
+    $message = ting_subsearch_secondary_execute_secondary_search($keys, $results);
+  }
+  return $message;
+}
+
+/**
+ * Execute secondary search.
+ * @param $keys
+ * @param $results
+ *
+ * @return string
+ * @throws \Exception
+ */
+function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
+  $message = '';
+  $secondary_result = ting_subsearch_common_do_secondary_search($keys, [
+    'agency' => variable_get('ting_subsearch_secondary_agency', ''),
+    'profile' => variable_get('ting_subsearch_secondary_profile', ''),
+  ]);
+
+  if ($secondary_result->getNumTotalObjects() > variable_get('ting_subsearch_secondary_result_min', 100)) {
+    $items = [];
+
+    $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
+    foreach ($secondary_result->getTingEntityCollections() as &$collection) {
+      if ($number_of_records_to_show == 0) {
+        continue;
+      }
+      else {
+        $number_of_records_to_show--;
+      }
+      $build = ting_collection_view($collection, 'minimal');
+      $items[] = drupal_render($build);
+    }
+
+    $options = [
+      '!link' => str_replace('[keys]', $keys, variable_get('ting_subsearch_secondary_search_link', '')),
+      '!link-text' => variable_get('ting_subsearch_secondary_search_link_text', ''),
+      '!keys' => $keys,
+      '!num-results' => $results->getNumTotalObjects(),
+      '!bibdk-num-results' => $secondary_result->getNumTotalObjects(),
+      '!examples' => theme('item_list', ['items' => $items]),
+    ];
+
+    if (variable_get('ting_subsearch_secondary_number_of_results', 4) == 0) {
+      $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits',
+        $options
+      );
+    }
+    else {
+      $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits where some of them is the following: !examples',
+        $options
+      );
+    }
+    $wrapper = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
+    $message = l($wrapper, $options['!link'], [
+      'html' => TRUE,
+      'absolute' => TRUE,
+      'attributes' => ['target' => 'blank']
+    ]);
+    drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/ting_subsearch_secondary.css');
+  }
+
   return $message;
 }
 
