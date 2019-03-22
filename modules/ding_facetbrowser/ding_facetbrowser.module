@@ -105,8 +105,8 @@ function _ding_facetbrowser_form_year_span_element($search, array $conditions) {
   // To get the correct counter for the span, we need to run the
   // search without the actual date filter on, so the complete dataset
   // is included.
+  $run_search = FALSE;
   $count_search = array(
-    'run' => FALSE,
     'conditions' => $conditions,
     'searchkey' => $search,
   );
@@ -131,18 +131,35 @@ function _ding_facetbrowser_form_year_span_element($search, array $conditions) {
           }
         }
 
-        $count_search['run'] = TRUE;
+        $run_search = TRUE;
         unset($count_search['conditions']['facets'][$delta]);
       }
     }
+
+    // Make sure the key values of the facets are re-numbered, so the hash will
+    // match later on.
+    $count_search['conditions']['facets'] = array_values($count_search['conditions']['facets']);
+  }
+
+  if (empty($count_search['conditions']['facets'])) {
+    unset($count_search['conditions']['facets']);
   }
 
   // Only run the counter, if it's different from the search already
   // performed.
-  if ($count_search['run'] === TRUE) {
-    $count_search['conditions']['result_id'] = 'ding_facetbrowser_count_search';
-    search_data($count_search['searchkey'], 'ting_search', $count_search['conditions']);
-    $count_search_result = ting_search_current_results($count_search['conditions']['result_id']);
+  if ($run_search === TRUE) {
+    $cache_key = 'ding_facetbrowser:yearspan:' . md5(serialize($count_search));
+    $cache = cache_get($cache_key);
+
+    if (!$cache) {
+      $count_search['conditions']['result_id'] = 'ding_facetbrowser_count_search';
+      search_data($count_search['searchkey'], 'ting_search', $count_search['conditions']);
+      $count_search_result = ting_search_current_results($count_search['conditions']['result_id']);
+      cache_set($cache_key, $count_search_result, 'cache', CACHE_TEMPORARY);
+    }
+    else {
+      $count_search_result = $cache->data;
+    }
   }
   else {
     $count_search_result = ting_search_current_results(TING_SEARCH_DEFAULT_RESULT_ID);
@@ -160,12 +177,12 @@ function _ding_facetbrowser_form_year_span_element($search, array $conditions) {
 
   // Set the range (default value).
   if (empty($range)) {
-    $range = array(0, count($terms) - 1);
+    $range = array(0, count($years) - 1);
   }
   else {
     $range = array(
-      array_search($range[0], $years),
-      array_search($range[1], $years),
+      array_search($range[0], $years) ?: 0,
+      array_search($range[1], $years) ?: count($years) - 1,
     );
   }
 
