@@ -41,7 +41,7 @@ function ting_subsearch_suggestions_form_opensearch_admin_settings_alter(&$form,
     '#type' => 'textfield',
     '#title' => t('KPI Webtrekk On-Site Searches Web Service URL'),
     '#default_value' => variable_get('ting_subsearch_kpi_webservice_endpoint', ''),
-    '#description' => t('This field must contain the "Web Services" URL to the "On-Site Searches" report that can be found in Webtrekk Analytics in the Content category. Click the Share button on the report page to find this URL.'),
+    '#description' => t('The URL can be found in the DDB CMS manual.'),
   );
 
   $week_numbers = range(1, 52);
