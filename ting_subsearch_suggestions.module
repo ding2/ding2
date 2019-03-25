@@ -84,7 +84,7 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
           if (!empty(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", "")) && !empty($options)) {
             $options['query'] += ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", ""));
           }
-          else {
+          else if (empty($options)) {
             $options['query'] = ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", ""));
           }
 
