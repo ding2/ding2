@@ -81,7 +81,7 @@ function ding_base_install() {
 /**
  * Implements hook_update_dependencies().
  */
-function ding_base_update_requirements() {
+function ding_base_update_dependencies() {
   // Update hook which sets the jQuery version to use for Seven (admin theme)
   // with jQuery Update to the site default version.
   $dependencies['ding_base'][7006] = array(
