@@ -25,7 +25,7 @@ function ding_campaign_plus_auto_form_ding_campaign_plus_admin_settings_alter(&$
   $config = _ding_campaign_plus_auto_get_configuration();
   foreach ($config as $module => $info) {
     $callback = $info['callback'];
-    $default_config = $info['default'];
+    $default_config = isset($info['config']) ? $info['config'] : $info['default'];
     $form['ding_campaign_plus_auto'][$module] = array(
       '#type' => 'fieldset',
       '#title' => $info['title'],
@@ -250,13 +250,11 @@ function ding_campaign_plus_auto_node_delete($node) {
 function _ding_campaign_plus_auto_get_configuration() {
   $config = variable_get('ding_campaign_plus_auto', array());
 
-  if (empty($config)) {
-    // Build options to auto generate campaigns.
-    $data = ding_campaign_plus_rules_info();
-    foreach ($data as $module => $info) {
-      $config[$module] = $info['auto'];
-      $config[$module]['title'] = $info['title'];
-    }
+  // Build options to auto generate campaigns.
+  $data = ding_campaign_plus_rules_info();
+  foreach ($data as $module => $info) {
+    $config[$module] = (empty($config[$module]) ? $info['auto'] : $config[$module] + $info['auto']);
+    $config[$module]['title'] = $info['title'];
   }
 
   return $config;
