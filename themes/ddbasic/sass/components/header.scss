@@ -698,7 +698,7 @@
         top: $header-height + $admin-menu-height;
       }
       // Admin menu with shortcuts or toolbar
-      .admin-menu-with-shortcut &,
+      .admin-menu-with-shortcuts &,
       .toolbar & {
         top: $header-height + $toolbar-height;
       }
