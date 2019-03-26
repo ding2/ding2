@@ -497,18 +497,19 @@ function opensearch_execute(TingClientRequest $request) {
       }
     }
 
-    // This have to be execute after the post_execute hook as the $res and
-    // $response may not match i size and give some strange requirements in the
-    // hooks.
-    if ($request instanceof TingClientObjectRequest) {
-      // Merge in any cached objects. The map uses ids as keys. The order does
-      // not matter for object requests.
-      $response = array_merge($cached_objects, $response);
-    }
-
     // Update the cache with the raw response object from the data well for
     // faster processing. Also set the static cache.
     _opensearch_cache($request, $response);
+
+    // Merge any cached objecst that we found earlier with the result from the
+    // request. Note that we do this after invoking post_execute and setting the
+    // cache. When invoking post_execute() the $response and $res need to
+    // correspond. When setting cache the $response needs to match $request, so
+    // that futures requests doesn't get the wrong response from cache.
+    if ($request instanceof TingClientObjectRequest) {
+      // The map uses ids as keys. Order does not matter for object requests.
+      $response = array_merge($cached_objects, $response);
+    }
 
     // To speed up the entity module, which will trigger an search for each
     // collection. Try and predict the search request an warm up the cache.
