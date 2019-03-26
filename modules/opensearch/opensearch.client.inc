@@ -360,8 +360,14 @@ function opensearch_get_request_factory() {
  * @param \TingClientRequest $request
  *   The request.
  *
- * @return \TingClientSearchResult|bool
+ * @return \TingClientSearchResult|\TingClientObjectCollection|array|bool|null
  *   Result of the request or false if an error occurs.
+ *   If $request is a TingClientSearchRequest a TingClientSearchResult result
+ *   object is returned.
+ *   If $request is a TingClientCollectionRequest a TingClientObjectCollection
+ *   result object is returned.
+ *   If $request is a TingClientObjectRequest an array of TingClientObject
+ *   result objects is returned or NULL if nothing was found.
  */
 function opensearch_execute(TingClientRequest $request) {
   // Get additional parameters from other modules.
