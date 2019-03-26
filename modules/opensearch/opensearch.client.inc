@@ -92,13 +92,6 @@ function opensearch_get_objects(array $ids, $local = FALSE) {
     $request->setProfile($profile);
   }
 
-  if ($local) {
-    // Ensure local ids are integer values and not strings. Else we will not
-    // hit the cache, since they will be converted to integers in our caching
-    // logic in opensearch_execute(), if they are passed as strings.
-    $ids = array_map('intval', $ids);
-  }
-
   // Opensearch getObject complains if it has to return more than 200 records,
   // with the message 'getObject can fetch up to 200 records. '. But it seems
   // it also have trouble fething over 169 records, which appears to be a bug.
@@ -450,7 +443,16 @@ function opensearch_execute(TingClientRequest $request) {
     }
     $uncached_local_ids = array_diff_key($local_ids, $cached_local_ids);
     if (!empty($uncached_local_ids)) {
-      $request->setLocalIds(array_keys($uncached_local_ids));
+      $uncached_local_ids = array_keys($uncached_local_ids);
+      // Datawell ids needs to be strings, since for example the id '06606059'
+      // is not the same as '6606059'. But PHP might have converted some of the
+      // local ids to integers when using them as array keys. For example the id
+      // '20174870' would be converted to integer when using as key. It's
+      // important that the request object is exactly the same when using it as
+      // a base for cache ID, so here we ensure that all local ids are added to
+      // the request as string values.
+      $uncached_local_ids = array_map('strval', $uncached_local_ids);
+      $request->setLocalIds($uncached_local_ids);
     }
 
     // The $cached_local_ids array is now keyed by local id and we needed that
