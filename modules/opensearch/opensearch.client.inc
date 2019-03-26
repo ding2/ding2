@@ -118,15 +118,15 @@ function opensearch_get_objects(array $ids, $local = FALSE) {
  * Performs a search against the well.
  *
  * @param string $query
- *   The search query
+ *   The search query.
  * @param int $page
- *   The page number to retrieve search results for
+ *   The page number to retrieve search results for.
  * @param int $results_per_page
- *   The number of results to include per page
+ *   The number of results to include per page.
  * @param array $options
  *   Options to pass to the search. Possible options are:
  *    - facets: Array of facet names for which to return results. Default:
- *      facet.subject, facet.creator, facet.type, facet.date, facet.language
+ *      facet.subject, facet.creator, facet.type, facet.date, facet.language.
  *    - numFacets: The number of terms to include with each facet. Default: 10
  *    - sort: The key to sort the results by. Default: "" (corresponds to
  *      relevance). The possible values are defined by the sortType type
