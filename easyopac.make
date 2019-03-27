@@ -489,6 +489,7 @@ projects[easyddb_editorial_dashboard][download][type]   = "git"
 projects[easyddb_editorial_dashboard][download][url]    = "git@github.com:easySuite/easyddb_editorial_dashboard.git"
 ;projects[easyddb_editorial_dashboard][download][tag]    = ""
 projects[easyddb_editorial_dashboard][download][branch] = "development"
+<<<<<<< HEAD
 
 projects[easyddb_editorial_base][type]             = "module"
 projects[easyddb_editorial_base][subdir]           = ""
@@ -503,3 +504,5 @@ projects[ding_event_rooms][download][type]   = "git"
 projects[ding_event_rooms][download][url]    = "git@github.com:easySuite/ding_event_rooms.git"
 ;projects[ding_event_rooms][download][tag]    = "7.x-3.1.0"
 projects[ding_event_rooms][download][branch] = "development"
+=======
+>>>>>>> EASYOPAC-1067 - Remove migrated module.
