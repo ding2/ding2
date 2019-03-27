@@ -9,7 +9,7 @@
  * Implements hook_install().
  */
 function ding_sections_term_panel_install() {
-  $term_page_field = field_info_instance('taxonomy_term', 'field_term_page', 'section');
+  $term_page_field = field_info_instance('taxonomy_term', 'field_term_page', 'editorial_base');
 
   if (empty($term_page_field)) {
     ding_sections_term_panel_create_fields();
