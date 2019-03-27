@@ -96,12 +96,6 @@ function ting_subsearch_suggestions_update_7001() {
 function ting_subsearch_suggestions_update_7002() {
   db_drop_table('ting_subsearch_kpi_index_popular_keys');
 
-  $schema = drupal_get_schema('ting_subsearch_kpi_index_popular_keys');
+  $schema = drupal_get_schema_unprocessed('ting_subsearch_suggestions', 'ting_subsearch_kpi_index_popular_keys');
   db_create_table('ting_subsearch_kpi_index_popular_keys', $schema);
-
-  db_add_index('ting_subsearch_kpi_index_popular_keys', 'kpi_popular_keys', array('popular_keys'));
-  db_add_index('ting_subsearch_kpi_index_popular_keys', 'kpi_numtotalsearches', array('numtotalsearches'));
-  db_add_index('ting_subsearch_kpi_index_popular_keys', 'kpi_weekno', array('weekno'));
-  db_add_index('ting_subsearch_kpi_index_popular_keys', 'kpi_year', array('year'));
-  db_add_index('ting_subsearch_kpi_index_popular_keys', 'kpi_weekno_year', array('weekno', 'year'));
 }
