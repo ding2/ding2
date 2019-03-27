@@ -390,9 +390,23 @@ function opensearch_execute(TingClientRequest $request) {
   // request for all these objects combined in the cache but they might be
   // cached individually.
   $cached_objects = [];
+  $original_object_ids = [];
+  $original_local_ids = [];
   if ($request instanceof TingClientObjectRequest) {
-    // Build maps of singular requests for objects by id or local id.
     $object_ids = !empty($request->getObjectIds()) ? $request->getObjectIds() : array();
+    $local_ids = !empty($request->getLocalIds()) ? $request->getLocalIds() : array();
+
+    // Store the original object_ids and local_ids identifier arrays, so that we
+    // can reconstruct the original request later on when genrating cache key
+    // for the response.
+    if ($object_ids) {
+      $original_object_ids = $request->getObjectIds();
+    }
+    if ($local_ids) {
+      $original_local_ids = $request->getLocalIds();
+    }
+
+    // Build maps of singular requests for objects by id or local id.
     $object_ids = array_combine($object_ids, $object_ids);
     $object_id_requests = array_map(function($id) use ($request) {
       $object_request = clone $request;
@@ -400,7 +414,6 @@ function opensearch_execute(TingClientRequest $request) {
       return $object_request;
     }, $object_ids);
 
-    $local_ids = !empty($request->getLocalIds()) ? $request->getLocalIds() : array();
     $local_ids = array_combine($local_ids, $local_ids);
     $local_id_requests = array_map(function($id) use ($request) {
       $object_request = clone $request;
@@ -443,16 +456,7 @@ function opensearch_execute(TingClientRequest $request) {
     }
     $uncached_local_ids = array_diff_key($local_ids, $cached_local_ids);
     if (!empty($uncached_local_ids)) {
-      $uncached_local_ids = array_keys($uncached_local_ids);
-      // Datawell ids needs to be strings, since for example the id '06606059'
-      // is not the same as '6606059'. But PHP might have converted some of the
-      // local ids to integers when using them as array keys. For example the id
-      // '20174870' would be converted to integer when using as key. It's
-      // important that the request object is exactly the same when using it as
-      // a base for cache ID, so here we ensure that all local ids are added to
-      // the request as string values.
-      $uncached_local_ids = array_map('strval', $uncached_local_ids);
-      $request->setLocalIds($uncached_local_ids);
+      $request->setLocalIds(array_keys($uncached_local_ids));
     }
 
     // The $cached_local_ids array is now keyed by local id and we needed that
@@ -497,19 +501,26 @@ function opensearch_execute(TingClientRequest $request) {
       }
     }
 
-    // Update the cache with the raw response object from the data well for
-    // faster processing. Also set the static cache.
-    _opensearch_cache($request, $response);
-
     // Merge any cached objecst that we found earlier with the result from the
-    // request. Note that we do this after invoking post_execute and setting the
-    // cache. When invoking post_execute() the $response and $res need to
-    // correspond. When setting cache the $response needs to match $request, so
-    // that futures requests doesn't get the wrong response from cache.
+    // request. Note that we do this after invoking post_execute, since the
+    // $response and $res need to correspond.
     if ($request instanceof TingClientObjectRequest) {
       // The map uses ids as keys. Order does not matter for object requests.
       $response = array_merge($cached_objects, $response);
+
+      // Restore the original ids on the request so that our generated cache id
+      // will point to the correct response.
+      if ($original_object_ids) {
+        $request->setObjectIds($original_object_ids);
+      }
+      if ($original_local_ids) {
+        $request->setLocalIds($original_local_ids);
+      }
     }
+
+    // Update the cache with the raw response object from the data well for
+    // faster processing. Also set the static cache.
+    _opensearch_cache($request, $response);
 
     // To speed up the entity module, which will trigger an search for each
     // collection. Try and predict the search request an warm up the cache.
