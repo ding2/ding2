@@ -28,11 +28,11 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
     // the visitor.
     $parameters = drupal_get_query_parameters();
     if (isset($parameters['original-search'])) {
-      $msg = t('The search for "!original-keys" returned 0 hits. Showing results for "!keys" instead, which returned !num-results hits.', array(
+      $msg = t('The search for "!original-keys" returned 0 hits. Showing results for "!keys" instead, which returned !num-results hits.', [
         '!original-keys' => $parameters['original-search'],
         '!keys' => $keys,
         '!num-results' => $results->getNumTotalObjects(),
-      ));
+      ]);
 
       $message = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
     }
@@ -51,9 +51,9 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
         $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
         // Only redirect to "correct" keys search if it has a positive result.
         if ($secondary_result->getNumTotalObjects() > 0) {
-          $additional_query = array(
+          $additional_query = [
             'original-search' => $keys,
-          );
+          ];
           $params['query'] = ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_0_hit", ""), $additional_query);
           drupal_goto('search/ting/' . strtolower($suggestion), $params);
         }
@@ -73,14 +73,28 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
         // Do additional search.
         $suggested_result = ting_subsearch_common_do_secondary_search($suggestion);
         if ($suggested_result->getNumTotalObjects() >= variable_get("ting_subsearch_{$service}_message_limit", 10)) {
+          $options = [];
+          if (module_exists('ting_field_search')) {
+            $profile = ting_field_search_get_active_profile();
+            if ($profile) {
+              $options['query'] = ['profile' => rawurlencode($profile->name)];
+            }
+          }
+
+          if (!empty(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", "")) && !empty($options)) {
+            $options['query'] += ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", ""));
+          }
+          else if (empty($options)) {
+            $options['query'] = ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", ""));
+          }
 
           // Set message!
-          $msg = t('The search for "!keys" returned !num-results hits. Did you mean "!suggested-keys-link?" which will return !suggested-num-results hits.', array(
-            '!suggested-keys-link' => l(strtolower($suggestion), '/search/ting/' . strtolower($suggestion), array('query' => ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_inlimit", "")))),
+          $msg = t('The search for "!keys" returned !num-results hits. Did you mean "!suggested-keys-link?" which will return !suggested-num-results hits.', [
+            '!suggested-keys-link' => l(strtolower($suggestion), '/search/ting/' . strtolower($suggestion), $options),
             '!suggested-num-results' => $suggested_result->getNumTotalObjects(),
             '!keys' => $keys,
             '!num-results' => $results->getNumTotalObjects(),
-          ));
+          ]);
           $message = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
         }
       }
@@ -112,27 +126,26 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
       $settings = opensearch_search_autocomplete_settings();
       $url = variable_get('opensearch_search_autocomplete_suggestion_url', FALSE) . 'rest/facetSpell';
 
-      $params = $options['query'] = array('query' => check_plain($keys)) + $settings;
+      $params = $options['query'] = ['query' => check_plain($keys)] + $settings;
       $options['maxTime'] = 300;
 
       try {
         $client = new HttpClient();
         $response = $client->get(
           $url,
-          array(
+          [
             'query' => $params,
-            'headers' => array(
+            'headers' => [
               'Accept' => 'application/json',
-            ),
-          )
+            ],
+          ]
         );
         $result = json_decode($response->getBody());
-      }
-      catch (GuzzleClientException $e) {
+      } catch (GuzzleClientException $e) {
         throw new Exception($e->getMessage(), $e->getCode(), $e);
       }
 
-      $items = array();
+      $items = [];
       // First child of $result changes name from suggestions to suggestion when
       // switching between version 3.0 and 3.5.
       if (!empty(current($result))) {
@@ -146,24 +159,52 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
       break;
 
     case 'kpi':
-      $kpi_index = db_select('ting_subsearch_kpi_index_popular_keys', 'k')
-        ->fields('k')
-        ->condition('numtotalsearches', variable_get('ting_subsearch_kpi_minimum_searches', 10), '>')
-        ->condition(
-          'weekno',
-          array(1, variable_get('ting_subsearch_kpi_week_nrs', 1)),
-          'BETWEEN')
-        ->orderBy('numtotalsearches', 'DESC')
-        ->execute();
+      $weeks_selected = variable_get('ting_subsearch_kpi_week_nrs', 1);
 
-      while ($record = $kpi_index->fetchAssoc()) {
-        $distance = levenshtein(strtolower($keys), strtolower($record['popular_keys']));
+      $weeks_in_db = db_select('ting_subsearch_kpi_index_popular_keys', 'tskipk')
+        ->fields('tskipk', ['weekno', 'year'])
+        ->distinct()
+        ->orderBy('year', 'DESC')
+        ->orderBy('weekno', 'DESC')
+        ->execute()
+        ->fetchAll();
 
-        if ($distance > 0 && $distance < variable_get('ting_subsearch_kpi_distance', 0)) {
-          return $record['popular_keys'];
+      $weeks_for_processing = array_slice($weeks_in_db, 0, $weeks_selected + 1);
+
+      $items = [];
+      foreach ($weeks_for_processing as $data) {
+        $items[] = db_select('ting_subsearch_kpi_index_popular_keys', 'k')
+          ->fields('k')
+          ->condition('numtotalsearches', variable_get('ting_subsearch_kpi_minimum_searches', 10), '>')
+          ->condition('year', $data->year)
+          ->condition('weekno', $data->weekno)
+          ->orderBy('numtotalsearches', 'DESC')
+          ->execute()
+          ->fetchAll();
+      }
+
+      $best_results = [];
+      foreach ($items as $item) {
+        if (!empty($item)) {
+          foreach ($item as $i) {
+            $best_results[] = $i;
+          }
         }
       }
-      break;
+
+      foreach ($best_results as $best_result) {
+        if (strpos($best_result->popular_keys, '_')) {
+          $popular_keys = strtolower(str_replace('_', '.', $best_result->popular_keys));
+        }
+        else {
+          $popular_keys = $best_result->popular_keys;
+        }
+        $distance = levenshtein(strtolower($keys), $popular_keys);
+
+        if ($distance > 0 && $distance < variable_get('ting_subsearch_kpi_distance', 0)) {
+          return $best_result->popular_keys;
+        }
+      }
   }
 }
 
@@ -172,6 +213,7 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
  */
 function ting_subsearch_suggestions_cron() {
   $service = variable_get('ting_subsearch_suggestions_service', '');
+  $prepared = FALSE;
 
   if (!empty($service) && $service == 'kpi') {
     // Ensure that local data is only renewed once a day.
@@ -182,57 +224,60 @@ function ting_subsearch_suggestions_cron() {
     $url = variable_get('ting_subsearch_kpi_webservice_endpoint', NULL);
 
     if (empty($url)) {
-      watchdog('ting_subsearch_opensuggestions', 'KPI: Module not configured properly', array(), WATCHDOG_WARNING);
+      watchdog('ting_subsearch_opensuggestions', 'KPI: Module not configured properly', [], WATCHDOG_WARNING);
       return;
     }
 
-    // Fetch data from feed.
-    $request = drupal_http_request($url);
+    $temp_files_folder = 'public://subsearch_kpi/';
 
-    $results = str_getcsv($request->data, "\r\n");
-    unset($results[0]);
-
-    $prepared = array();
-
-    foreach ($results as $result) {
-      $result = explode(';', trim($result));
-      $prepared[] = array(
-        'weekno' => $result[0],
-        'oss' => $result[1],
-        'results' => $result[2],
-        'oss_r' => $result[3],
-      );
+    if (!is_dir($temp_files_folder)) {
+      file_prepare_directory($temp_files_folder, FILE_CREATE_DIRECTORY);
     }
 
-    if (!empty($prepared)) {
-      // Check if week is already in db.
-      // If it exists - remove all rows related to this week.
-      $feed_week_numbers = array();
-      foreach ($prepared as $item) {
-        $feed_week_numbers[$item['weekno']] = TRUE;
+    $path_to_file = drupal_realpath("public://subsearch_kpi/temp_file.csv");
+    copyfile_chunked($url, $path_to_file);
+    print_r("File downloaded.\n");
+
+    $file = fopen(drupal_realpath("public://subsearch_kpi/temp_file.csv"), "r");
+
+    print_r("Insert feed data into database.\n");
+    while (($data = fgetcsv($file))) {
+      if ($data[0] != 'year') {
+        $normalized_string = mb_convert_encoding($data[2], 'UTF-8', 'ISO-8859-15');
+        $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields(
+          [
+            'popular_keys' => $normalized_string,
+            'numtotalsearches' => (int) $data[3],
+            'weekno' => $data[1],
+            'year' => $data[0],
+          ]
+        );
+        $query->execute();
       }
+    }
+    $prepared = TRUE;
+    fclose($file);
 
-      $db_week_numbers = db_select('ting_subsearch_kpi_index_popular_keys', 'tskpi')
-        ->distinct()
-        ->fields('tskpi', array('weekno'))
-        ->execute()
-        ->fetchCol();
+    if (!empty($prepared)) {
+      print_r("Start database cleaning.\n");
+      // Get general "meta" present in db.
+      $min_year = db_query("SELECT MIN(year) FROM {ting_subsearch_kpi_index_popular_keys}")->fetchField();
+      $min_week = db_query("SELECT MIN(weekno) FROM {ting_subsearch_kpi_index_popular_keys} WHERE year = {$min_year}")->fetchField();
+      $max_year = db_query("SELECT MAX(year) FROM {ting_subsearch_kpi_index_popular_keys}")->fetchField();
+      $max_week = db_query("SELECT MAX(weekno) FROM {ting_subsearch_kpi_index_popular_keys} WHERE year = {$max_year}")->fetchField();
 
-      $common_week_nubers = array_intersect(array_keys($feed_week_numbers), $db_week_numbers);
-
-      if ($common_week_nubers) {
+      foreach (range($min_week, $max_week - 1) as $week) {
         db_delete('ting_subsearch_kpi_index_popular_keys')
-          ->condition('weekno', $common_week_nubers, 'IN')
+          ->condition('weekno', $week)
+          ->condition('year', $min_year)
           ->execute();
       }
 
-      ting_subsearch_suggestions_insert_records($prepared);
-
       variable_set('subsearch_kpi_cron_run', REQUEST_TIME + TING_SUBSEARCH_SUGGESTIONS_WEEKLY_CRON);
-      watchdog('ting_subsearch_suggestions', 'Data fetched from KPI. Will re-run in a week.', array(), WATCHDOG_INFO);
+      watchdog('ting_subsearch_suggestions', 'Data fetched from KPI. Will re-run in a week.', [], WATCHDOG_INFO);
     }
     else {
-      watchdog('ting_subsearch_suggestions', 'No data fetched from feed', array(), WATCHDOG_WARNING);
+      watchdog('ting_subsearch_suggestions', 'No data fetched from feed', [], WATCHDOG_WARNING);
     }
   }
 }
@@ -247,15 +292,107 @@ function ting_subsearch_suggestions_insert_records(array $result) {
 
   foreach ($result as $key => $data) {
     if (is_numeric($data['results']) && !empty($data['oss'])) {
-      $normalized_string = mb_convert_encoding($data['oss'], 'UTF-8', 'CP850');
+      $normalized_string = mb_convert_encoding($data['oss'], 'UTF-8', 'ISO-8859-15');
       $query = db_insert('ting_subsearch_kpi_index_popular_keys')->fields(
-        array(
+        [
           'popular_keys' => $normalized_string,
           'numtotalsearches' => (int) $data['results'],
           'weekno' => $data['weekno'],
-        )
+          'year' => $data['year'],
+        ]
       );
       $query->execute();
     }
   }
+}
+
+/**
+ * Copy remote file over HTTP one small chunk at a time.
+ *
+ * @param string $infile
+ *   The full URL to the remote file
+ * @param string $outfile
+ *   The path where to save the file
+ *
+ * @return $cnt
+ */
+function copyfile_chunked($infile, $outfile) {
+  $chunksize = 10 * (1024 * 1024); // 10 Megs
+
+  /**
+   * parse_url breaks a part a URL into it's parts, i.e. host, path,
+   * query string, etc.
+   */
+  $parts = parse_url($infile);
+  $i_handle = fsockopen($parts['host'], 80, $errstr, $errcode, 5);
+  $o_handle = fopen($outfile, 'wb');
+
+  if ($i_handle == FALSE || $o_handle == FALSE) {
+    return FALSE;
+  }
+
+  if (!empty($parts['query'])) {
+    $parts['path'] .= '?' . $parts['query'];
+  }
+
+  /**
+   * Send the request to the server for the file
+   */
+  $request = "GET {$parts['path']} HTTP/1.1\r\n";
+  $request .= "Host: {$parts['host']}\r\n";
+  $request .= "User-Agent: Mozilla/5.0\r\n";
+  $request .= "Keep-Alive: 115\r\n";
+  $request .= "Connection: keep-alive\r\n\r\n";
+  fwrite($i_handle, $request);
+
+  /**
+   * Now read the headers from the remote server. We'll need
+   * to get the content length.
+   */
+  $headers = [];
+  while (!feof($i_handle)) {
+    $line = fgets($i_handle);
+    if ($line == "\r\n") {
+      break;
+    }
+    $headers[] = $line;
+  }
+
+  /**
+   * Look for the Content-Length header, and get the size
+   * of the remote file.
+   */
+  $length = 0;
+  foreach ($headers as $header) {
+    if (stripos($header, 'Content-Length:') === 0) {
+      $length = (int) str_replace('Content-Length: ', '', $header);
+      break;
+    }
+  }
+
+  /**
+   * Start reading in the remote file, and writing it to the
+   * local file one chunk at a time.
+   */
+  $cnt = 0;
+  while (!feof($i_handle)) {
+    $buf = '';
+    $buf = fread($i_handle, $chunksize);
+    $bytes = fwrite($o_handle, $buf);
+    if ($bytes == FALSE) {
+      return FALSE;
+    }
+    $cnt += $bytes;
+
+    /**
+     * We're done reading when we've reached the content length
+     */
+    if ($cnt >= $length) {
+      break;
+    }
+  }
+
+  fclose($i_handle);
+  fclose($o_handle);
+  return $cnt;
 }
