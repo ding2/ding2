@@ -466,27 +466,6 @@ projects[gronbib_frontend][download][tag]    = "7.x-4.2.1"
 ;projects[gronbib_frontend][download][branch] = "development"
 
 ; To be removed
-projects[ding_redia_rss][type]             = "module"
-projects[ding_redia_rss][subdir]           = ""
-projects[ding_redia_rss][download][type]   = "git"
-projects[ding_redia_rss][download][url]    = "git@github.com:easySuite/ding_redia_rss.git"
-projects[ding_redia_rss][download][tag]    = "7.x-4.1.0"
-;projects[ding_redia_rss][download][branch] = "develop"
-
-projects[ding_redia_variables][type]             = "module"
-projects[ding_redia_variables][subdir]           = ""
-projects[ding_redia_variables][download][type]   = "git"
-projects[ding_redia_variables][download][url]    = "git@github.com:easySuite/ding_redia_variables.git"
-projects[ding_redia_variables][download][tag]    = "7.x-4.2.1"
-;projects[ding_redia_variables][download][branch] = "development"
-
-projects[easyddb_smartbanner][type]             = "module"
-projects[easyddb_smartbanner][subdir]           = ""
-projects[easyddb_smartbanner][download][type]   = "git"
-projects[easyddb_smartbanner][download][url]    = "git@github.com:easySuite/easyddb_smartbanner.git"
-projects[easyddb_smartbanner][download][tag]    = "7.x-4.1.0"
-;projects[easyddb_smartbanner][download][branch] = "development"
-
 projects[easyddb_search_expand][type]             = "module"
 projects[easyddb_search_expand][subdir]           = ""
 projects[easyddb_search_expand][download][type]   = "git"
