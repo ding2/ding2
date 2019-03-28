@@ -515,7 +515,7 @@ function ddbasic_preprocess__node__ding_page(&$variables) {
       // Make social-share button.
       $variables['content']['group_left']['share_button'] = array(
         '#theme' => 'ding_sharer',
-        '#label' => t('Share this news'),
+        '#label' => t('Share this page'),
       );
       break;
   }
