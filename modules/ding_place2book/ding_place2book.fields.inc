@@ -414,13 +414,19 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
     case 'ding_p2b':
       if (!empty($items)) {
         $settings = reset($items);
+        $synchronized_items = [];
         // Ensure that both 'synchronize' and 'do_sync' is set and TRUE, before
         // making any requests to p2b API. This is to ensure we don't make lots
         // of unneeded requests when nodes are saved programmatically or updated
         // in bulk via the UI.
         // See ding_place2book_field_widget_form() for more info.
         if ($settings['synchronize'] && !empty($settings['do_sync'])) {
-          $items = _ding_place2book_sync_p2b_entities($entity, $settings);
+          $synchronized_items = _ding_place2book_sync_p2b_entities($entity, $settings);
+        }
+
+        // Only update field data if synchronizationn was successful.
+        if (!empty($synchronized_items)) {
+          $items = $synchronized_items;
         }
         else {
           $items = array(
@@ -551,6 +557,14 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
       else {
         $event = $p2b->updateEvent($event_maker_id, $event_id, $options);
       }
+
+      $items = array(
+        array(
+          'event_id' => $event->id,
+          'event_maker_id' => $event_maker_id,
+          'synchronize' => 1,
+        ),
+      );
     }
     catch (Exception $ex) {
       watchdog_exception('ding_place2book', $ex);
@@ -598,15 +612,9 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
       catch (Exception $ex) {
         watchdog_exception('ding_place2book', $ex);
         drupal_set_message($ex->getMessage(), 'error');
+        return $items;
       }
     }
-    $items = array(
-      array(
-        'event_id' => $event->id,
-        'event_maker_id' => $event_maker_id,
-        'synchronize' => 1,
-      ),
-    );
 
     if ($is_new) {
       drupal_set_message(t('Event was successfully created.'));
