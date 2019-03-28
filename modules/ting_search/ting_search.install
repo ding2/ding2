@@ -9,5 +9,5 @@
  * Removing unused 'ting_search_result_message_limit' variable.
  */
 function ting_search_update_7001() {
-  variable_delete('ting_search_result_message_limit');
+  variable_del('ting_search_result_message_limit');
 }
