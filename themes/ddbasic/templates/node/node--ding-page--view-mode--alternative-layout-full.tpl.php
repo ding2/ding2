@@ -83,6 +83,7 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
+
 ?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
 
