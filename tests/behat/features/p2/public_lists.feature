@@ -16,7 +16,7 @@ Feature: Public lists
     When I make the list "My Harry Potter books" public
     Then I should see that the list "My Harry Potter books" is marked as public
 
-  @api @javascript @disabled
+  @api @javascript @no_ci
   # Disabled as the pager on public-lists is broken, and we need it to find our test list.
   Scenario: See public list on public-lists
     Given I have created a list "My Sci Fi novels"
@@ -56,7 +56,7 @@ Feature: Public lists
     Then I should be able to see the list "My favorite books" with the "read" link
     And I should not be able to add material "The raven" to the list "My favorite books"
 
-  @api @javascript @regression @disabled
+  @api @javascript @regression @no_ci
   # Disabled, regression resurfaced while our tests was in review.
   Scenario: Make list (with appostrophe) shared for other users to read
     Given I have created a list "My family's vacation books"

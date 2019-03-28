@@ -6,14 +6,14 @@ Feature: Consent to save loan history
   Background:
     Given I am logged in as a library user
 
-  @api @disabled
+  @api @no_ci
   # Setting consent causes fatal error on subsequent requests.
   Scenario: Check that my loan history exists
     Given I have given consent to save my loan history
     When I am on my user page
     Then I should see the list of previous loans
 
-  @api @disabled
+  @api @no_ci
   # Setting consent causes fatal error on subsequent requests.
   Scenario: Check that my loan history list is deleted when consent is withdrawn
     Given I have withdrawn consent to save loan history
