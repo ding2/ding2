@@ -190,7 +190,7 @@ The following conventions are used:
 
 @regression - all scenarios which should run for normal regression testing. This will be pretty much all scenarios.
 
-@cci - all scenarios that run during the automatic test on circleCI. See paragraph on CircleCI.
+@no_ci - don't run these scenarios during the automatic test on circleCI. See paragraph on CircleCI.
 
 @api - indicates that the chrome browser is to be used. This is put on all scenarios.
 
