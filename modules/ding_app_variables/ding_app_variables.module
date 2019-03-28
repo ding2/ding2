@@ -28,14 +28,7 @@ function ding_app_variables_menu() {
  *   List of all variables to the output.
  */
 function ding_app_variables_display() {
-  $carousels = array(
-    'carousel',
-  );
-
-  $carousel_configs = array();
-  foreach ($carousels as $carousel) {
-    $carousel_configs[] = _ding_app_variables_get_carousel_configs($carousel);
-  }
+  $carousel_configs[] = _ding_app_variables_get_carousel_configs('carousel');
 
   $variables = array(
     'opensearch_search_profile',
@@ -68,21 +61,16 @@ function ding_app_variables_display() {
  *   List of carousels pane configurations.
  */
 function _ding_app_variables_get_carousel_configs($carousel) {
-  $query = db_select('panels_pane', 'pp');
-  $result = $query
-    ->fields('pp', array('subtype', 'configuration'))
-    ->condition('subtype', $carousel)
-    ->execute()
-    ->fetchAll();
+  module_load_include('inc', 'panels', 'plugins/task_handlers/panel_context');
+  module_load_include('inc', 'panels', 'includes/plugins');
 
+  $ding_frontpage = page_manager_get_page_cache('page-ding_frontpage');
+  $handler = reset($ding_frontpage->handlers);
+  $display = panels_panel_context_get_display($handler);
   $carousels = array();
-  foreach ($result as $settings) {
-    $configs = unserialize($settings->configuration);
-    if (!empty($configs['searches'])) {
-      $carousels[] = array(
-        'name' => $carousel,
-        'configs' => $configs['searches'],
-      );
+  foreach ($display->content as &$pane) {
+    if ($pane->type == 'carousel' && $pane->subtype == $carousel) {
+      $carousels[] = array($carousel => $pane->configuration);
     }
   }
 
