@@ -19,7 +19,8 @@ Feature: Follow author
     When I remove the author "George Orwell" from followed authors
     Then I should not see "George Orwell" on followed authors
 
-  @api @javascript
+  @api @javascript @disabled
+  # Currently untestable, as we can't fudge new materials from "the outside".
   Scenario: There are new materials for author
     Given I have followed the author "Rune T. Kidde"
     When there are "2" new materials for the author "Rune T. Kidde"

@@ -7,7 +7,7 @@ class CreateListForm extends ElementBase
     /**
      * @var array|string $selector
      */
-    protected $selector = '#ding-list-create-list-form';
+    protected $selector = '#ding-list-edit-list-form';
 
     /**
      * @param string $keywords
@@ -17,10 +17,9 @@ class CreateListForm extends ElementBase
     public function createList($title, $description = '')
     {
         $this->fillField('edit-title', $title);
-        $this->fillField('edit-notes', $description);
+        $this->fillField('edit-note', $description);
 
-        $button = $this->findButton('edit-add-list');
-        $this->scrollTo($button);
+        $button = $this->findButton('edit-save');
         $button->press();
 
         return $this->getPage('List page');

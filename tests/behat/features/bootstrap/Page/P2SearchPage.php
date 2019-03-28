@@ -37,7 +37,7 @@ class P2SearchPage extends PageBase
             throw new \Exception('Could not find search result on page');
         }
 
-        $results = $resultContainer->findAll('css', '.ting-object .heading h2 a');
+        $results = $resultContainer->findAll('css', '.ting-object .field-type-ting-title h2 a');
         if (!$results) {
             throw new \Exception('Could not find first search result on page');
         }

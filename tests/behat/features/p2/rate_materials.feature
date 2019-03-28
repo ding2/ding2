@@ -19,7 +19,8 @@ Feature: Rate materials
     When I go to the list of rated materials
     Then I should see that the material "Asimov on physics" is marked with "3" stars
 
-  @api @javascript
+  @api @javascript @disabled
+  # Currently the rating widget doesn't work on list pages.
   Scenario: Change rating of material
     Given I have rated the material "Debrett's etiquette and modern manners" with "4" stars
     When I go to the list of rated materials

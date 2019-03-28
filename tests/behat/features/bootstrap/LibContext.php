@@ -639,6 +639,7 @@ class LibContext implements Context, SnippetAcceptingContext {
     $this->logMsg(($this->searchPage->getVerboseSearchResult() == "on"), "Searches for " . urlencode($searchString) . "\n");
     $this->lastSearchString = $searchString;
     $this->gotoPage('/search/ting/' . urlencode($searchString));
+    $this->waitForPage();
   }
 
 
@@ -810,73 +811,73 @@ class LibContext implements Context, SnippetAcceptingContext {
    * @throws Exception
    *   In case of error.
    */
-  public function iAmLoggedInAsALibraryUser() {
-    // If for some reason Mink has not started us up on the site, then navigate there.
-    if (strstr($this->minkContext->getSession()->getDriver()->getContent(), "Drupal") == 0) {
-      $this->minkContext->getSession()->visit($this->minkContext->getMinkParameter('base_url'));
-    };
-    // Temporary solution, setting up hardcoded username list. Password is last 4 for Connie Provider.
-    $userlist = array();
-    $userlist[] = 'Lillekvak';
-    $userlist[] = 'Supermand';
-    $userlist[] = 'Fernando';
-    $userlist[] = 'Georgina';
-    $userlist[] = 'Henrietta';
-    $userlist[] = 'Ibenholt';
-    $userlist[] = 'Jepardy';
-    $userlist[] = 'Karolina';
-    $userlist[] = 'Louisette';
-    $userlist[] = 'Marionette';
-    $userlist[] = 'Nielsette';
-    $userlist[] = 'Ottomand';
-    $userlist[] = 'Pegonia';
+  // public function iAmLoggedInAsALibraryUser() {
+  //   // If for some reason Mink has not started us up on the site, then navigate there.
+  //   if (strstr($this->minkContext->getSession()->getDriver()->getContent(), "Drupal") == 0) {
+  //     $this->minkContext->getSession()->visit($this->minkContext->getMinkParameter('base_url'));
+  //   };
+  //   // Temporary solution, setting up hardcoded username list. Password is last 4 for Connie Provider.
+  //   $userlist = array();
+  //   $userlist[] = 'Lillekvak';
+  //   $userlist[] = 'Supermand';
+  //   $userlist[] = 'Fernando';
+  //   $userlist[] = 'Georgina';
+  //   $userlist[] = 'Henrietta';
+  //   $userlist[] = 'Ibenholt';
+  //   $userlist[] = 'Jepardy';
+  //   $userlist[] = 'Karolina';
+  //   $userlist[] = 'Louisette';
+  //   $userlist[] = 'Marionette';
+  //   $userlist[] = 'Nielsette';
+  //   $userlist[] = 'Ottomand';
+  //   $userlist[] = 'Pegonia';
 
-    // Now pick a random one.
-    $name = $userlist[random_int(0, count($userlist) - 1)];
+  //   // Now pick a random one.
+  //   $name = $userlist[random_int(0, count($userlist) - 1)];
 
-    // Set up the user.
-    $user = (object) array(
-      'name' => $name,
-      'pass' => substr($name, -4),
-    );
-    $this->drupalUser = $user;
-    $this->login();
+  //   // Set up the user.
+  //   $user = (object) array(
+  //     'name' => $name,
+  //     'pass' => substr($name, -4),
+  //   );
+  //   $this->drupalUser = $user;
+  //   $this->login();
 
-    /*
-     * We need the user uid for various reasons, however it's not easily
-     * available. Apparently the only place it makes an appearance
-     * nowadays is in a class on the body element of the user page. So try
-     * to dig it out from there.
-     */
-    $this->drupalContext->getSession()->visit($this->drupalContext->locatePath('/user'));
+  //   /*
+  //    * We need the user uid for various reasons, however it's not easily
+  //    * available. Apparently the only place it makes an appearance
+  //    * nowadays is in a class on the body element of the user page. So try
+  //    * to dig it out from there.
+  //    */
+  //   $this->drupalContext->getSession()->visit($this->drupalContext->locatePath('/user'));
 
-    $body = $this->getPage()->find('css', 'body');
-    if (!$body) {
-      throw new Exception("Couldn't find the users own page.");
-    }
-    $classes = explode(' ', $body->getAttribute('class'));
-    foreach ($classes as $class) {
-      if (preg_match('{^page-user-(\d+)$}', $class, $matches)) {
-        $user->uid = $matches[1];
-        break;
-      }
-    }
-    if (!$user->uid) {
-      throw new Exception("Couldn't find the users UID from the users page");
-    }
+  //   $body = $this->getPage()->find('css', 'body');
+  //   if (!$body) {
+  //     throw new Exception("Couldn't find the users own page.");
+  //   }
+  //   $classes = explode(' ', $body->getAttribute('class'));
+  //   foreach ($classes as $class) {
+  //     if (preg_match('{^page-user-(\d+)$}', $class, $matches)) {
+  //       $user->uid = $matches[1];
+  //       break;
+  //     }
+  //   }
+  //   if (!$user->uid) {
+  //     throw new Exception("Couldn't find the users UID from the users page");
+  //   }
 
-    /*
-     * In addition, make a note of the "id" that is used in paths (which
-     * is most often "me"), so we can construct paths as would be
-     * expected. We're sniffing this rather than hardcoding it because
-     * some users are except from the "me" replacement.
-     */
-    $link = $this->drupalContext->getSession()->getPage()->findLink('Brugerprofil');
-    if (!$link) {
-      throw new Exception("Couldn't find link to user profile on the users page");
-    }
-    $this->user = $user;
-  }
+  //   /*
+  //    * In addition, make a note of the "id" that is used in paths (which
+  //    * is most often "me"), so we can construct paths as would be
+  //    * expected. We're sniffing this rather than hardcoding it because
+  //    * some users are except from the "me" replacement.
+  //    */
+  //   $link = $this->drupalContext->getSession()->getPage()->findLink('Brugerprofil');
+  //   if (!$link) {
+  //     throw new Exception("Couldn't find link to user profile on the users page");
+  //   }
+  //   $this->user = $user;
+  // }
 
 
   /**

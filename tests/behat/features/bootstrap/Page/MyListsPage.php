@@ -7,7 +7,7 @@ class MyListsPage extends PageBase
     /**
      * @var string $path
      */
-    protected $path = '/user';
+    protected $path = '/user/me/my-library';
 
     public function getLists()
     {

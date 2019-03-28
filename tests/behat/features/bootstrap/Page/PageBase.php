@@ -13,6 +13,7 @@ use Behat\Mink\Session;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\UnexpectedPageException;
 use Behat\Mink\Element\ElementInterface;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
+use Exception;
 
 /**
  * Class PageBase
@@ -241,6 +242,21 @@ class PageBase extends LogMessages {
     $this->waitFor(10, function ($page) {
       return $page->find('css', '.ui-dialog');
     });
+  }
+
+  /**
+   * Wait for popupbar.
+   */
+  public function waitForPopupbar() {
+    $popupbar = $this->waitFor(10, function ($page) {
+      return $page->find('css', '#popupbar');
+    });
+
+    if (!$popupbar) {
+      throw new Exception('Popupbar not shown.');
+    }
+
+    return $this->getElement('Popupbar');
   }
 
   /**

@@ -30,14 +30,8 @@ default:
       text:
         log_out: 'Log ud'
         username_field: 'Låner- eller CPR-nummer'
-        password_field: 'Pinkode'
+        password_field: 'Pinkode (4 cifre)'
     Liuggio\Fastest\Behat\ListFeaturesExtension\Extension: ~
-    Behat\MinkExtension:
-      goutte: ~
-      selenium2: ~
-      browser_name: 'phantomjs'
-      base_url: http://p2.dev
-
 
 chrome:
   extensions:

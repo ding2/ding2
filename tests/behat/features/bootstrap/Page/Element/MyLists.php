@@ -7,7 +7,7 @@ class MyLists extends ElementBase
     /**
      * @var array|string $selector
      */
-    protected $selector = '.ding-user-lists';
+    protected $selector = '.list-links.userlists';
 
     public function getListIdOf($title)
     {

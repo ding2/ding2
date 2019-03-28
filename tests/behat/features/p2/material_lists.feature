@@ -7,8 +7,8 @@ Feature: Material lists
     Given I am logged in as a library user
 
   @api
-  Scenario: "Create a new list" link should be available on user page
-    Given I am on my user page
+  Scenario: "Create a new list" link should be available on my personal library page
+    Given I am on my personal library page
     Then I should see a link to the create list page
 
   @api
