@@ -180,14 +180,13 @@ jQuery._data(jQuery("a.topbar-link-user").get(0), "events").hasOwnProperty("clic
         // Log in.
         $submit->click();
 
-        // Wait for logout link to appear.
-        $logoutLink = $page->waitFor(15, function ($page) {
+        $logoutLink = $page->waitFor(30, function ($page) {
             // As the login is posted via ajax, and the page is reloaded by
             // JS, there's a chance it haven't done that yet when we get here.
             // Mink/ChromeDriver might throw an exception when an element
             // disappears from under it, so catch any exceptions and try again.
             try {
-                return $page->find('css', 'a[href="/user/logout"]');
+                return $page->find('css', 'body.logged-in');
             } catch (Throwable $e) {
                 return false;
             }
