@@ -32,20 +32,6 @@ class LibContext implements Context, SnippetAcceptingContext
     public $cssStr;
 
     /**
-     * Holds the name of the current feature being run
-     *
-     * @var string $currentFeature
-     */
-    private $currentFeature;
-
-    /**
-     * Holds the name of the current scenario being run
-     *
-     * @var string $currentScenario
-     */
-    private $currentScenario;
-
-    /**
      * Holds the drupal Context
      *
      * @var \Drupal\DrupalExtension\Context\DrupalContext $drupalContext
@@ -74,12 +60,11 @@ class LibContext implements Context, SnippetAcceptingContext
     public $minkContext;
 
     /**
-     * Hold the flag for whether screendumps are created or not. Default they are, but for circleCI they should not be.
+     * For saving screenshots.
      *
-     * @var bool $takeScreenDumps
+     * @var ScreenshotsContext $screenshotsContext
      */
-    public $takeScreenDumps;
-
+    public $screenshotsContext;
 
     /**
      * Current authenticated user. A value of FALSE denotes an anonymous user.
@@ -109,39 +94,20 @@ class LibContext implements Context, SnippetAcceptingContext
      *    Injects the dataManager class.
      * @param ObjectPage $objectPage
      *    Injects the objectPage class.
-     * @param string $NoScreenDump
-     *    Retrieved from behat.yml to indicate if screendumps are to be made or not.
      */
     public function __construct(
         SearchPage $searchPage,
         DataManager $dataManager,
-        ObjectPage $objectPage,
-        $NoScreenDump
+        ObjectPage $objectPage
     ) {
         $this->searchPage = $searchPage;
         $this->dataMgr = $dataManager;
         $this->objectPage = $objectPage;
-        $this->takeScreenDumps = true;
-        if ($NoScreenDump == "true") {
-            $this->takeScreenDumps = false;
-        }
 
         // Initialise the verbose structure. These are default settings.
         $this->verbose = (object) array(
             'loginInfo' => true,
-            'ScrShotDir' => "",
-            'ScrShotUseFeatureFolder' => false,
         );
-
-        $scrShotDir = getenv('SCREENSHOT_DIR');
-        if ($scrShotDir) {
-            $this->verbose->ScrShotDir = $scrShotDir;
-        }
-
-        $scrShotFeatureFolder = getenv('SCREENSHOT_FEATURE_FOLDER');
-        if ($scrShotFeatureFolder) {
-            $this->verbose->ScrShotUseFeatureFolder = (bool) preg_match('/^(t(rue)?|y(es)?)$/i', $scrShotFeatureFolder);
-        }
     }
 
     /**
@@ -159,11 +125,10 @@ class LibContext implements Context, SnippetAcceptingContext
     {
         // Gather contexts.
         $environment = $scope->getEnvironment();
-        $this->currentFeature = $scope->getFeature()->getTitle();
-        $this->currentScenario = $scope->getScenario()->getTitle();
 
         $this->drupalContext = $environment->getContext('Drupal\DrupalExtension\Context\DrupalContext');
         $this->minkContext = $environment->getContext('Drupal\DrupalExtension\Context\MinkContext');
+        $this->screenshotsContext = $environment->getContext('ScreenshotsContext');
 
         // Try to set a default window size.
         try {
@@ -174,74 +139,6 @@ class LibContext implements Context, SnippetAcceptingContext
             // Ignore, but make a note of it for the tester.
             print_r("Before Scenario: resizeWindow failed. \n");
         }
-    }
-
-    /**
-     * Runs after each scenario.
-     *
-     * If scenario failed: place screenshots in the assigned folder, after resizing window appropriately.
-     *
-     * @param \Behat\Behat\Hook\Scope\AfterScenarioScope $scope
-     *    Built-in parameter.
-     *
-     * @AfterScenario
-     *
-     * @throws Exception
-     *   When errors happens during screenshot.
-     */
-    public function afterScenario(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope)
-    {
-        if ($scope->getTestResult()->getResultCode() > 0) {
-            // Allow animations to settle.
-            sleep(3);
-            $this->saveScreenshot();
-        }
-    }
-
-    /**
-     * Step to save a screenshot on demand
-     *
-     * @Then I save (a) screenshot
-     */
-    public function saveScreenshot()
-    {
-        // Initially check if we are taking screenshots at all. The setting is in the behat.yml file.
-        if (!$this->takeScreenDumps) {
-            print_r("Due to screendump setting in behat.yml, screendumps are currently not being saved.\n");
-            return;
-        }
-
-        // Setup folders and make sure the folders exists.
-        $screenShotDir = $this->verbose->ScrShotDir;
-        $featureFolder = "";
-        if ($this->verbose->ScrShotUseFeatureFolder) {
-            $featureFolder = preg_replace('/\W/', '', ucwords(strtolower($this->currentFeature)));
-            if (!file_exists($screenShotDir . $featureFolder)) {
-                mkdir($screenShotDir . $featureFolder);
-            }
-            // Add the slash to make the following code work in all circumstances.
-            $featureFolder = $featureFolder . "/";
-        }
-
-        // Setup filename and make sure it is unique, by adding a postfix (simple number).
-        $fileName = $screenShotDir . $featureFolder
-            . preg_replace('/\W/', '', ucwords(strtolower($this->currentScenario)));
-        $fileNamePostfix = "";
-        while (file_exists($fileName . $fileNamePostfix . '.png')) {
-            $fileNamePostfix++;
-        }
-        $fileName = $fileName . $fileNamePostfix . '.png';
-
-        // Log the filename of the screenshot to notify the user.
-        print_r("Screenshot in: " . $fileName . "\n");
-
-        // Now find the actual height of the shown page.
-        $height = $this->minkContext->getSession()->evaluateScript("return document.body.scrollHeight;");
-        // Save the screenshot.
-        $this->minkContext->getSession()
-            ->getDriver()
-            ->resizeWindow(1280, $height, 'current');
-        file_put_contents($fileName, $this->minkContext->getSession()->getDriver()->getScreenshot());
     }
 
     /**
@@ -416,7 +313,7 @@ class LibContext implements Context, SnippetAcceptingContext
                     print_r("Failed\n");
                 } else {
                     print_r("OK\n");
-                    $this->saveScreenshot();
+                    $this->screenshotsContext->saveScreenshot();
                 }
             }
         }

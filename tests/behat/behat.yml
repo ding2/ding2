@@ -6,9 +6,10 @@ default:
         - Ding2Context
         # - Ding2MessagesContext
         - P2Context
-        - LibContext:
-            NoScreenDump: "false"
+        - LibContext
         - StepsContext
+        - ScreenshotsContext:
+            NoScreenDump: false
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MarkupContext
