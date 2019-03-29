@@ -503,6 +503,7 @@ a.opening-hours-toggle {
   width: 100%;
   padding: 28px 0 26px;
   border-top: 1px solid $charcoal-opacity-light;
+  overflow: hidden;
   > h2 {
     @include font('base');
     margin-bottom: 0;
