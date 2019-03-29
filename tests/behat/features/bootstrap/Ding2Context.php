@@ -180,7 +180,7 @@ jQuery._data(jQuery("a.topbar-link-user").get(0), "events").hasOwnProperty("clic
         // Log in.
         $submit->click();
 
-        $logoutLink = $page->waitFor(30, function ($page) {
+        $loggedIn = $page->waitFor(30, function ($page) {
             // As the login is posted via ajax, and the page is reloaded by
             // JS, there's a chance it haven't done that yet when we get here.
             // Mink/ChromeDriver might throw an exception when an element
@@ -192,11 +192,10 @@ jQuery._data(jQuery("a.topbar-link-user").get(0), "events").hasOwnProperty("clic
             }
         });
 
-        if (!$logoutLink) {
-            throw new Exception("No logout link after logging in");
+        if (!$loggedIn) {
+            throw new Exception("Not logged in after logging in?");
         }
 
-        //print $logoutLink->getParent()->getHtml();
         if ($this->ding2MessagesContext) {
             $this->ding2MessagesContext->collectMessages();
         }
