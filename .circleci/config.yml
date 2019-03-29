@@ -235,7 +235,7 @@ jobs:
         name: Run Behat tests
         command: |
           mkdir -p ~/tests/behat/screenshots
-          echo "ScrShotDir	/home/circleci/tests/behat/screenshots/" > behat.config
+          export SCREENSHOT_DIR="/home/circleci/tests/behat/screenshots/"
           export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://localhost/" }}}'
           ./bin/behat -p chrome --tags '~no_ci' --tags '~wip'  --list-scenarios \
             | circleci tests split --split-by=timings --timings-type=testname \

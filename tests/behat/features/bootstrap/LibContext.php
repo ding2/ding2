@@ -133,34 +133,14 @@ class LibContext implements Context, SnippetAcceptingContext
             'ScrShotUseFeatureFolder' => false,
         );
 
-        // Read in parameters from config-file. Notice its name is hard coded and must be
-        // placed in the behat root directory.
-        $filename = "behat.config";
-        if (is_readable($filename)) {
-            // Now open, and read in all lines until no more data is returned.
-            $mfilehandle = fopen($filename, "r");
-            while (($fline = fgets($mfilehandle)) !== false) {
-                if ($fline != "") {
-                    // Format should be key <tab> value.
-                    $columns = explode("\t", $fline);
-                    if (count($columns) != 2) {
-                        print_r("Error: File '" . $filename . "' is expected to have two columns.");
-                    }
-                    if (ord(substr($columns[1], strlen($columns[1]), 1)) < 32) {
-                        $columns[1] = substr($columns[1], 0, strlen($columns[1]) - 1);
-                    }
-                    switch (strtolower($columns[0])) {
-                        case "scrshotdir":
-                            $this->verbose->ScrShotDir = $columns[1];
-                            break;
+        $scrShotDir = getenv('SCREENSHOT_DIR');
+        if ($scrShotDir) {
+            $this->verbose->ScrShotDir = $scrShotDir;
+        }
 
-                        case "screenshotusefeaturefolder":
-                            $this->verbose->ScrShotUseFeatureFolder = $columns[1];
-                            break;
-                    }
-                }
-            }
-            fclose($mfilehandle);
+        $scrShotFeatureFolder = getenv('SCREENSHOT_FEATURE_FOLDER');
+        if ($scrShotFeatureFolder) {
+            $this->verbose->ScrShotUseFeatureFolder = (bool) preg_match('/^(t(rue)?|y(es)?)$/i', $scrShotFeatureFolder);
         }
     }
 
