@@ -221,6 +221,7 @@ jobs:
           drush vset -y opensearch_search_autocomplete_method 'facets'
           drush vset -y ting_openlist_prefix test
           drush vset -y ting_openlist_wsdl 'https://test.openlist.ddbcms.dk/?wsdl'
+          drush vset -y ting_library_code 100200
           drush vset -y user_consent_activate true
           drush vset -y loan_history_store_title ''
           drush vset -y loan_history_store_title_first_time ''
