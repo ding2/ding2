@@ -210,6 +210,8 @@ class LibContext implements Context, SnippetAcceptingContext {
    */
   public function afterScenario(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope) {
     if ($scope->getTestResult()->getResultCode() > 0) {
+      // Allow animations to settle.
+      sleep(3);
       $this->saveScreenshot();
     }
   }
