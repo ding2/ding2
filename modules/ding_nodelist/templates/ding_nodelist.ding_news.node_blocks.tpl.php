@@ -20,6 +20,7 @@
         </div>
         <div class="title-and-lead">
           <h3 class="title"><?php print $item->title; ?></h3>
+          <div class="date"><?php print $item->date; ?></div>
           <div
                   class="field field-name-field-ding-news-lead field-type-text-long field-label-hidden">
             <div class="field-items">

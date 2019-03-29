@@ -36,6 +36,7 @@ $classes = implode(" ", $classes);
   <div class="news-info">
     <h3><?php print l($item->title, 'node/' . $item->nid); ?></h3>
     <?php print drupal_render($item->category_link); ?>
+    <div class="date"><?php print $item->date; ?></div>
     <div class="item-body"><?php print $item->teaser_lead; ?></div>
     <div class="read-more">
       <?php print l(t('Read more'), 'node/' . $item->nid); ?>

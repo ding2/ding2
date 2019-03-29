@@ -31,7 +31,7 @@ $classes = implode(" ", $classes);
   <div class="event-info">
     <h3><?php print l($item->title, 'node/' . $item->nid); ?></h3>
     <div class="item-event-body"><?php print $item->teaser_lead; ?></div>
-    <div class="item-date"><?php print drupal_render($item->formated_date); ?></div>
+    <div class="item-date"><?php print $item->formated_date; ?></div>
     <div>
       <span class="library"><?php print drupal_render($item->library_link); ?></span>
       <span class="item-price"><?php print $item->price; ?></span>
