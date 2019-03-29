@@ -325,6 +325,10 @@ function ding_place2book_node_presave($node) {
  * Implements hook_field_widget_form_alter().
  */
 function ding_place2book_field_widget_form_alter(&$element, &$form_state, $context) {
+  if (empty($context['form']['#node'])) {
+    return;
+  }
+
   $node = $context['form']['#node'];
   $field_name = $context['field']['field_name'];
 
