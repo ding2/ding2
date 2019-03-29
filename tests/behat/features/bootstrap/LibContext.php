@@ -129,7 +129,6 @@ class LibContext implements Context, SnippetAcceptingContext
         // Initialise the verbose structure. These are default settings.
         $this->verbose = (object) array(
             'loginInfo' => true,
-            'loginTimingInfo' => false,
             'ScrShotDir' => "",
             'ScrShotUseFeatureFolder' => false,
         );
@@ -157,10 +156,6 @@ class LibContext implements Context, SnippetAcceptingContext
 
                         case "screenshotusefeaturefolder":
                             $this->verbose->ScrShotUseFeatureFolder = $columns[1];
-                            break;
-
-                        case "logintiminginfo":
-                            $this->verbose->loginTimingInfo = $columns[1];
                             break;
                     }
                 }
