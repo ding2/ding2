@@ -388,7 +388,20 @@ function ding_place2book_is_ding_event_node_synchronized($node) {
   }
   // The event is synchronized and this is just a safety check to ensure these
   // important values is present and non-empty.
-  if (empty($field_place2book['event_id']) || empty($field_place2book['event_maker_id'])) {
+  $missing = [];
+  if (empty($field_place2book['event_id'])) {
+    $missing[] = 'event_id';
+  }
+  if (empty($field_place2book['event_maker_id'])) {
+    $missing[] = 'event_maker_id';
+  }
+  if (!empty($missing)) {
+    // If for some reason one of these is not set, we'll log it in watchdog to
+    // ease debugging.
+    watchdog('ding_place2book', "Event %title is synchronized with place2book but is missing !missing", [
+      '%title' => $node->title,
+      '!missing' => implode(', ', $missing),
+    ], WATCHDOG_WARNING, l(t('Edit event'), 'node/' . $node->nid . '/edit'));
     return FALSE;
   }
 
