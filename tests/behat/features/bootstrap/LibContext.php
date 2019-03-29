@@ -361,13 +361,7 @@ class LibContext implements Context, SnippetAcceptingContext
      */
     public function checkPaginationOnAllPages()
     {
-        try {
-            $this->check($this->searchPage->checkPaginationOnAllPages(), $this->searchPage->getAndClearMessages());
-        } catch (Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        } catch (\Page\Exception $e) {
-            throw new Exception("Failed getting pages: " . $e->getMessage());
-        }
+        $this->check($this->searchPage->checkPaginationOnAllPages(), $this->searchPage->getAndClearMessages());
     }
 
     /**
@@ -898,16 +892,10 @@ class LibContext implements Context, SnippetAcceptingContext
      */
     public function pagingAllowsToGetAllResults()
     {
-        try {
-            $this->check(
-                $this->searchPage->getEntireSearchResult(),
-                ($this->searchPage->getVerboseSearchResult() == "on") ? $this->searchPage->getAndClearMessages() : ''
-            );
-        } catch (Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        } catch (\Page\Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        }
+        $this->check(
+            $this->searchPage->getEntireSearchResult(),
+            ($this->searchPage->getVerboseSearchResult() == "on") ? $this->searchPage->getAndClearMessages() : ''
+        );
     }
 
     /**
@@ -920,15 +908,8 @@ class LibContext implements Context, SnippetAcceptingContext
      */
     public function reserveTheMaterial()
     {
-
-        try {
-            $this->findReserveMaterialButton();
-            $this->check($this->objectPage->makeReservation());
-        } catch (Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        } catch (\Page\Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        }
+        $this->findReserveMaterialButton();
+        $this->check($this->objectPage->makeReservation());
     }
 
     /**
@@ -1029,13 +1010,7 @@ class LibContext implements Context, SnippetAcceptingContext
      */
     public function searchOnHomePage()
     {
-        try {
-            $this->check($this->searchPage->searchOnHomePage());
-        } catch (Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        } catch (\Page\Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        }
+        $this->check($this->searchPage->searchOnHomePage());
     }
 
     /**
@@ -1177,16 +1152,8 @@ class LibContext implements Context, SnippetAcceptingContext
     public function sortTheSearchResultOnOption($sortOption)
     {
         // Check that the user asked for a valid sort-option.
-        try {
-            $this->check($this->searchPage->sortOptionValid($sortOption));
-            $this->check($this->searchPage->sort($sortOption));
-        } catch (\Behat\Mink\Exception\ElementNotFoundException $e) {
-            throw new Exception("Failed in sorting: " . $e->getMessage());
-        } catch (Exception $e) {
-            throw new Exception("Failed in sorting: " . $e->getMessage());
-        } catch (\Page\Exception $e) {
-            throw new Exception("Failed in sorting: " . $e->getMessage());
-        }
+        $this->check($this->searchPage->sortOptionValid($sortOption));
+        $this->check($this->searchPage->sort($sortOption));
     }
 
     /**
@@ -1309,16 +1276,10 @@ class LibContext implements Context, SnippetAcceptingContext
         print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
         print_r("Expecting now: " . $this->searchPage->getExpectedSearchResultSize(true) . "\n");
 
-        try {
-            $this->check(
-                $this->searchPage->useFacetsToIncreaseSearchResults(),
-                $this->searchPage->getAndClearMessages()
-            );
-        } catch (Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        } catch (\Page\Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        }
+        $this->check(
+            $this->searchPage->useFacetsToIncreaseSearchResults(),
+            $this->searchPage->getAndClearMessages()
+        );
     }
 
     /**
@@ -1335,24 +1296,14 @@ class LibContext implements Context, SnippetAcceptingContext
     public function usePaginationToGoToPageN($toPage)
     {
         // Start by scrolling to the footer so if we fail the screendump will tell us something.
-        try {
-            $this->searchPage->scrollToBottom();
-        } catch (\Page\Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        }
+        $this->searchPage->scrollToBottom();
 
         // This will return the page number.
         $curpg = $this->searchPage->getCurrentPage();
 
         // Only change page if we are not already on it.
         if ($curpg != $toPage) {
-            try {
-                $this->check($this->searchPage->goToPage($toPage));
-            } catch (Exception $e) {
-                throw new Exception("Failed in go to Page " . $e->getMessage());
-            } catch (\Page\Exception $e) {
-                throw new Exception("Failed in going to Page: " . $e->getMessage());
-            }
+            $this->check($this->searchPage->goToPage($toPage));
         }
     }
 
@@ -1372,16 +1323,10 @@ class LibContext implements Context, SnippetAcceptingContext
         }
         print_r("Current number of results: " . $this->searchPage->getShownSizeOfSearchResult() . "\n");
 
-        try {
-            $this->check(
-                $this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible(),
-                $this->searchPage->getAndClearMessages()
-            );
-        } catch (Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        } catch (\Page\Exception $e) {
-            throw new Exception("Failed: " . $e->getMessage());
-        }
+        $this->check(
+            $this->searchPage->useFacetsToReduceSearchResultsToTheHighestPossible(),
+            $this->searchPage->getAndClearMessages()
+        );
     }
 
     /**
@@ -1398,7 +1343,7 @@ class LibContext implements Context, SnippetAcceptingContext
         } catch (UnsupportedDriverActionException $e) {
             // Ignore.
         } catch (Exception $e) {
-            throw new Exception("Unknown error while awaiting page to load:" . $e);
+            throw new Exception("Unknown error while awaiting page to load:" . $e->getMessage());
         }
     }
 
@@ -1417,14 +1362,8 @@ class LibContext implements Context, SnippetAcceptingContext
     public function checkSearchResultIsSortedOnSortOption($sortOption)
     {
         // Check that the user asked for a valid sort-option.
-        try {
-            $this->check($this->searchPage->sortOptionValid($sortOption));
-            $this->check($this->searchPage->checkSorting($sortOption), $this->searchPage->getAndClearMessages());
-        } catch (Exception $e) {
-            throw new Exception("Failed " . $e->getMessage());
-        } catch (\Page\Exception $e) {
-            throw new Exception("Failed with " . $e->getMessage());
-        }
+        $this->check($this->searchPage->sortOptionValid($sortOption));
+        $this->check($this->searchPage->checkSorting($sortOption), $this->searchPage->getAndClearMessages());
     }
 
     /**
