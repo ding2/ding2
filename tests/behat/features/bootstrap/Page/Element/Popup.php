@@ -26,5 +26,4 @@ class Popup extends ElementBase
         }
         return $contentElement->getText();
     }
-
 }

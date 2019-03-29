@@ -17,5 +17,4 @@ class Popupbar extends ElementBase
         }
         return $contentElement->getText();
     }
-
 }

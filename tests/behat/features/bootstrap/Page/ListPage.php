@@ -36,7 +36,8 @@ class ListPage extends PageBase
         throw new Exception('Not on a list page.');
     }
 
-    public function getMaterial($title) {
+    public function getMaterial($title)
+    {
         foreach ($this->getItems() as $material) {
             $material_title = $material->find('css', '.field-type-ting-title h2');
             if (!$material_title) {
@@ -56,8 +57,7 @@ class ListPage extends PageBase
         try {
             $this->getMaterial($title);
             return true;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return false;
         }
     }
@@ -128,7 +128,8 @@ class ListPage extends PageBase
         }
     }
 
-    public function getItems() {
+    public function getItems()
+    {
         $list = $this->getList();
 
         return $list->findAll('css', 'tr');
