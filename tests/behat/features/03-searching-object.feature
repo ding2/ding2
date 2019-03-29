@@ -91,7 +91,7 @@ Feature: test object displays after search
     Then I am prompted to login
     Then I save screenshot
 
-  @api @seek027 @seekNologin @regression @no_ci
+  @api @seek027 @seekNologin @regression
   Scenario: S027 Search and display material should show cover page
     Given I have searched for "term.type=Bog and term.date='2016' and term.language='dansk'"
     When I open a random search result with a cover page to show the post

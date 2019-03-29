@@ -9,7 +9,7 @@ namespace Page;
 
 use Behat\Mink\Session;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Factory;
-use WebDriver\Exception;
+use Exception;
 
 /**
  * Class SearchPage
@@ -1083,12 +1083,6 @@ class SearchPage extends PageBase
      *
      * @param string $criteria
      *    Can be coverpage to select only post with cover page, or any other value to not care about that.
-     *
-     * @return string
-     *    Nonempty in case of failure.
-     *
-     * @throws \Exception
-     *    In case an error occurs.
      */
     public function getRandomSearchResultToShowPost($criteria)
     {
@@ -1097,34 +1091,46 @@ class SearchPage extends PageBase
         if (!$pageRes) {
             return "Is not on a search result page with any results";
         }
-        // Choose a random title.
-        $i = random_int(0, count($pageRes) - 1);
+
+        // Shuffle the list so we'll try them in random order.
+        shuffle($pageRes);
+
+        $result = null;
 
         if ($criteria == "coverpage") {
-            // Attempt max 50 times to find a random post with cover page on it.
-            $max = 50;
-            while (--$max > 0 && !$pageRes[$i]->find('css', '.ting-object .ting-cover img')) {
-                usleep(100);
-                $i = random_int(0, count($pageRes) - 1);
+            // Wait for 5 seconds for the first try.
+            $wait = 5;
+            foreach ($pageRes as $item) {
+                $cover = $this->waitFor($wait, function ($element) {
+                    return $element->find('css', '.ting-object .ting-cover img');
+                });
+                if ($cover) {
+                    $result = $item;
+                    break;
+                }
+                // Don't really wait for the subsequent tries.
+                $wait = 0;
             }
-            if (!$pageRes[$i]->find('css', '.ting-object .ting-cover img')) {
-                return "Could not find a result with a cover page.";
-            }
+        } else {
+            $result = array_shift($pageRes);
         }
 
-        $linkObj = $pageRes[$i]->find('css', '.ting-object h2 a');
+        if (!$result) {
+            throw new Exception('No matching search result found');
+        }
+
+        $linkObj = $result->find('css', '.ting-object h2 a');
         if (!$linkObj) {
-            return "Did not find a link to the item " . $i . " on the page.";
+            throw new Exception("Did not find a link to the material on the result");
         }
         // Open that page by clicking on the link.
         try {
             $this->scrollTo($linkObj);
             $linkObj->click();
             $this->waitForPage();
-        } catch (\Exception $e) {
-            throw new \Exception("Could not go to the page.");
+        } catch (Exception $e) {
+            throw new Exception("Could not go to the page.");
         }
-        return "";
     }
 
     /**
@@ -1363,7 +1369,7 @@ class SearchPage extends PageBase
 
             try {
                 $found->click();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // If we end here, it's likely something is blocking for the control.
                 // We can try to scroll a bit more, try to recapture and click again.
                 $this->scrollABit(200);

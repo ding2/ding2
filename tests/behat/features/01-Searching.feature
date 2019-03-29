@@ -114,7 +114,7 @@ Feature: SEEK redroute 01
     When paging allows to get all the results
     Then there are posts with "collection" in the search results
 
-  @api @seek016 @seekNologin @regression @no_ci
+  @api @seek016 @seekNologin @regression
   Scenario: S016 Check forsidebillede is shown on search result
     Given I have searched for "term.type=Bog and term.date='2014' and holdingsitem.accessionDate>='NOW-300DAYS'"
     When paging allows to get all the results

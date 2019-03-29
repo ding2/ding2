@@ -211,7 +211,7 @@ jobs:
         command: |
           drush cc all
           drush cgen
-          drush en -y connie
+          drush en -y connie ting_covers_placeholder
           drush vset -y ting_agency 100200
           drush vset -y opensearch_url 'https://oss-services.dbc.dk/opensearch/4.5/'
           drush vset -y opensearch_search_profile test
