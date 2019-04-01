@@ -15,10 +15,6 @@
 }
 
 @media screen and (min-width: 600px) {
-  .popupbar .digital-order-form > div > p {
-    display: none;
-  }
-
   .popupbar .digital-order-form .form-item.form-item-name,.popupbar .digital-order-form .form-item.form-item-mail {
     width:48.5%;
     float: left;
