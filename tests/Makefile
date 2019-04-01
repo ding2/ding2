@@ -10,7 +10,8 @@ setup-modules:
 	# We use the connie test provider for testing. Enable it and
 	# disable the default alma.
 	drush en -y connie ting_covers_placeholder
-	drush dis -y alma
+	drush dis -y alma ting_covers_addi
+
 
 	# Enable mocking openlist provider.
 	drush en -y connie_openlist
