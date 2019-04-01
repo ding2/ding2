@@ -109,7 +109,7 @@ function ting_das_admin_settings_form() {
       TING_DAS_PLACEMENT_WEIGHT_ABOVE => t('Above'),
       TING_DAS_PLACEMENT_WEIGHT_BELOW => t('Below'),
     ),
-    '#default_value' => isset($defaults['placement']) ? $defaults['placement'] : 10,
+    '#default_value' => isset($defaults['placement']) ? $defaults['placement'] : TING_DAS_PLACEMENT_WEIGHT_ABOVE,
   );
 
   return system_settings_form($form);

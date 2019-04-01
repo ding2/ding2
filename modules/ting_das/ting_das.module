@@ -279,7 +279,12 @@ function ting_das_order_form_ajax_callback($form, &$form_state) {
       $client->setAgencyId(variable_get('ting_agency', ''));
 
       $client->setPid($values['entity']['pid']);
-      $status = $client->send();
+
+      try {
+        $status = $client->send();
+      } catch (Exception $exception) {
+        watchdog_exception('ting_das', $exception);
+      }
 
       if ($status) {
         $html = theme('status_messages') . t('Your order have been placed.');
@@ -310,7 +315,7 @@ function _ting_das_get_client() {
   static $client;
 
   if (!isset($client)) {
-    module_load_include('inc', 'ting_das', 'includes/ting_das.clint');
+    module_load_include('inc', 'ting_das', 'includes/ting_das.client');
     $config = variable_get('ting_das', FALSE);
     if (is_array($config)) {
       $guzzle_client = new \GuzzleHttp\Client();
