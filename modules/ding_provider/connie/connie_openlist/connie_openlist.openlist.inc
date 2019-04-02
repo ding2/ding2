@@ -18,6 +18,7 @@ function connie_openlist_openlist_request($function, $arguments, $detailed_log =
     return call_user_func_array($function_name, $arguments);
   }
   if (function_exists('dpm')) {
+    // @codingStandardsIgnoreLine
     dpm($arguments, 'Unimplemented Openlist function called: ' . $function);
   }
   else {
