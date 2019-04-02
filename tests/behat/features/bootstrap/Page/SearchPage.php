@@ -604,6 +604,11 @@ class SearchPage extends PageBase
 
             // Go to the page we want to look at.
             $this->goToPage($currentPageNumber);
+            // Wait for covers to be loaded.
+            $this->waitFor(15, function ($page) {
+                return $this->find('xpath', '//div[contains(@class,"ting-cover")]/img');
+            });
+
             // Rescan the search results on this page.
             $founds = $this->findAll('css', '.search-results li.list-item');
 
