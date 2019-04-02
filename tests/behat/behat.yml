@@ -14,6 +14,13 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\DrupalExtension\Context\DrushContext
+  formatters:
+    pretty:
+      output_styles:
+        # Make comments (which contains the location of steps) visible
+        # on terminals with black backgrounds.
+        comment: [ ~, ~ ]
+
   extensions:
     SensioLabs\Behat\PageObjectExtension: ~
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
