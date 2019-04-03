@@ -5,6 +5,6 @@ package = Ding!
 project = ting_das
 files[] = includes/ting_das.client.inc
 dependencies[] = ding_libs
-dependencies[] = ding_webtrends
+dependencies[] = ding_webtrekk
 dependencies[] = fbs
 dependencies[] = ting
