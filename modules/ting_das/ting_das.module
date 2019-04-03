@@ -282,7 +282,8 @@ function ting_das_order_form_ajax_callback($form, &$form_state) {
 
       try {
         $status = $client->send();
-      } catch (Exception $exception) {
+      } 
+      catch (Exception $exception) {
         watchdog_exception('ting_das', $exception);
       }
 
