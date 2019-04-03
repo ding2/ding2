@@ -175,7 +175,7 @@ $label-bg: url('../images/p.png');
       a.label-info,
       .library a,
       .item-price {
-        color: $color-text-link;
+        color: $white;
       }
     }
 
@@ -202,8 +202,8 @@ $label-bg: url('../images/p.png');
 
     &:after {
       transform: rotate(180deg);
-      text-align: center;
       @extend %icomoon-base;
+      line-height: 2;
     }
   }
 
@@ -212,8 +212,8 @@ $label-bg: url('../images/p.png');
     @include place-icon(arrow-right-small, $color-primary);
 
     &:after {
-      text-align: center;
       @extend %icomoon-base;
+      line-height: 1;
     }
   }
 
@@ -223,14 +223,17 @@ $label-bg: url('../images/p.png');
     font-style: normal;
     position: absolute;
     text-indent: 0px;
-    top: 30%;
+    top: calc(50% - 67px);
 
     &:after {
       display: inline-block;
-      line-height: 2;
       width: 50px;
       height: 50px;
       font-size: 30px;
+      left: 0;
+      bottom: 0;
+      top: 0;
+      right: 0;
     }
 
     &.slick-disabled {

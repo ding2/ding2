@@ -298,7 +298,7 @@
 .ding_nodelist-carousel .item .article-info a.label-info,
 .ding_nodelist-carousel .item .article-info .library a,
 .ding_nodelist-carousel .item .article-info .item-price {
-  color: #4d898f;
+  color: #fff;
 }
 .ding_nodelist-carousel .item .item-date {
   color: #fff;
@@ -327,7 +327,7 @@
 }
 .ding_nodelist-carousel .icon-prev:after {
   transform: rotate(180deg);
-  text-align: center;
+  line-height: 2;
 }
 .ding_nodelist-carousel .icon-next {
   right: 10px;
@@ -342,7 +342,7 @@
   top: 0;
 }
 .ding_nodelist-carousel .icon-next:after {
-  text-align: center;
+  line-height: 1;
 }
 .ding_nodelist-carousel .icon-next.slick-arrow,
 .ding_nodelist-carousel .icon-prev.slick-arrow {
@@ -350,15 +350,18 @@
   font-style: normal;
   position: absolute;
   text-indent: 0px;
-  top: 30%;
+  top: calc(50% - 67px);
 }
 .ding_nodelist-carousel .icon-next.slick-arrow:after,
 .ding_nodelist-carousel .icon-prev.slick-arrow:after {
   display: inline-block;
-  line-height: 2;
   width: 50px;
   height: 50px;
   font-size: 30px;
+  left: 0;
+  bottom: 0;
+  top: 0;
+  right: 0;
 }
 .ding_nodelist-carousel .icon-next.slick-arrow.slick-disabled,
 .ding_nodelist-carousel .icon-prev.slick-arrow.slick-disabled {
