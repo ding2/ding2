@@ -751,7 +751,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
 
         case 'waiting-list':
           $data = l(t('Waiting list open'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
-          $class = 'ticket-available';
+          $class = 'ticket-notice';
           break;
 
         case 'event-over':
