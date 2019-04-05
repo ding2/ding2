@@ -280,7 +280,15 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
   $material_ids = [];
   foreach ($loans as $loan) {
     if ($loan->renewable) {
-      $material_ids[$loan->id] = $loan->getEntity()->getId();
+      if (is_object($loan->entity)) {
+        $material_ids[$loan->id] = $loan->entity->getId();
+      }
+      // For interlibrary loans the material may not reachable in the well and
+      // therefore we can't get a well ID to display. We'll note that it's an
+      // ILL and use the title instead.
+      else {
+        $material_ids[$loan->id] = 'Interlibrary Loan: ' . $loan->display_name;
+      }
     }
   }
 
