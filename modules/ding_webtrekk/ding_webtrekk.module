@@ -287,7 +287,9 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
       // therefore we can't get a well ID to display. We'll note that it's an
       // ILL and use the title instead.
       else {
-        $material_ids[$loan->id] = 'Interlibrary Loan: ' . $loan->display_name;
+        $material_ids[$loan->id] = t('Interlibrary Loan: %title', [
+          '%title' => $loan->display_name,
+        ]);
       }
     }
   }
