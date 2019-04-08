@@ -121,13 +121,13 @@ function fbs_loan_list($account, $reset = FALSE) {
  *
  * @param object $account
  *   User to renew loan for.
- * @param array $loan
+ * @param array $loans
  *   Loan ids to renew.
  *
  * @return array
  *   Result of revewals.
  */
-function fbs_loan_renew($account, $loans) {
+function fbs_loan_renew($account, array $loans) {
   $res = array();
   try {
     $res = fbs_service()->MaterialLoans->renewLoans(fbs_service()->agencyId, fbs_patron_id($account), $loans);
