@@ -28,7 +28,7 @@ function ding_app_variables_menu() {
  *   List of all variables to the output.
  */
 function ding_app_variables_display() {
-  $carousel_configs = variable_get('ting_carousel_search_queries');
+  $carousel_configs[] = _ding_app_variables_get_carousel_configs('carousel');
 
   $variables = array(
     'opensearch_search_profile',
@@ -49,4 +49,30 @@ function ding_app_variables_display() {
     'variables' => $variables_configs,
     'carousels' => $carousel_configs,
   );
+}
+
+/**
+ * Get panels configurations.
+ *
+ * @param string $carousel
+ *   Pass subtype of panel pane.
+ *
+ * @return array
+ *   List of carousels pane configurations.
+ */
+function _ding_app_variables_get_carousel_configs($carousel) {
+  module_load_include('inc', 'panels', 'plugins/task_handlers/panel_context');
+  module_load_include('inc', 'panels', 'includes/plugins');
+
+  $ding_frontpage = page_manager_get_page_cache('page-ding_frontpage');
+  $handler = reset($ding_frontpage->handlers);
+  $display = panels_panel_context_get_display($handler);
+  $carousels = array();
+  foreach ($display->content as &$pane) {
+    if ($pane->type == 'carousel' && $pane->subtype == $carousel) {
+      $carousels[] = array($carousel => $pane->configuration);
+    }
+  }
+
+  return $carousels;
 }
