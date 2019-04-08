@@ -10,14 +10,13 @@
 function ding_place2book_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_place2book'
+  // Exported field_base: 'field_place2book'.
   $field_bases['field_place2book'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_place2book',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ding_place2book',

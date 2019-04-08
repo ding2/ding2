@@ -42,7 +42,8 @@ function ding_place2book_migrate_admin_form($form, &$form_state) {
   $query->join('node', 'n', 'n.nid=d.nid');
   $query->fields('n', ['nid', 'title'])
     ->fields('d', ['place2book_id'])
-    ->condition('d.migration_status', 0);
+    ->condition('d.migration_status', 0)
+    ->condition('d.place2book_id', DING_PLACE2BOOK_NO_ID, '!=');
 
   $migration_count = $query->countQuery()->execute()->fetchField();
 
@@ -113,6 +114,7 @@ function ding_place2book_migrate_admin_form_submit($form, &$form_state) {
   $query = db_select('ding_place2book', 'd');
   $query->join('node', 'n', 'n.nid=d.nid');
   $query->fields('d');
+  $query->condition('d.place2book_id', DING_PLACE2BOOK_NO_ID, '!=');
   $result = $query->execute()->fetchAll();
   $operations = array(array('_ding_place2book_migrate_batch', array($result)));
 
