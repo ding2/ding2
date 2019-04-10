@@ -46,57 +46,6 @@
     }
   }
 
-  &.one_third_left {
-    float: left;
-    padding-right: 3%;
-    width: 33%;
-
-    .field-name-ting-abstract {
-      display: none;
-    }
-
-    .ting-object {
-      display: block;
-
-      .ting-object-left {
-        float: left;
-        margin-bottom: 10px;
-        width: 100%;
-      }
-
-      .ting-object-right {
-        float: left;
-        width: 100%;
-      }
-    }
-  }
-
-  &.one_third_right {
-    float: right;
-    padding-left: 3%;
-    width: 33%;
-
-    .field-name-ting-abstract {
-      display: none;
-    }
-
-    .ting-object {
-      display: block;
-
-      .ting-object-left {
-        float: left;
-        margin-bottom: 10px;
-        width: 100%;
-      }
-
-      .ting-object-right {
-        float: left;
-        width: 100%;
-      }
-    }
-
-  }
-
   h2 {
     font-size: 18px;
     line-height: 24px;

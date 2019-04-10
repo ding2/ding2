@@ -87,10 +87,16 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
             // so we grab the image entity from elsewhere.
             $wrapper = entity_metadata_wrapper('paragraphs_item', $value['field_ding_paragraphs_image'][LANGUAGE_NONE]['0']['#entity']);
             // Add image.
-            $image = $wrapper->field_ding_paragraphs_image->value()['0'];
-            $image['style_name'] = 'thumbnail';
-            $image['path'] = $image['uri'];
-            $output = theme_image_style($image);
+            $image_field = $wrapper->field_ding_paragraphs_image->value();
+            if (!empty($image_field)) {
+              $image = $image_field['0'];
+              $image['style_name'] = 'thumbnail';
+              $image['path'] = $image['uri'];
+              $output = theme_image_style($image);
+            }
+            else {
+              $output = t('No image has been set.');
+            }
             break;
 
           case 'ding_paragraphs_text':

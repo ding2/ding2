@@ -50,8 +50,6 @@ function ding_paragraphs_field_default_field_bases() {
         'full_width' => 'Full width',
         'half_right' => '1/2 width (aligned right)',
         'half_left' => '1/2 width (aligned left)',
-        'one_third_right' => '1/3 width (aligned right)',
-        'one_third_left' => '1/3 width (aligned left)',
       ),
       'allowed_values_function' => '',
       'profile2_private' => FALSE,

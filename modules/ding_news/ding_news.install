@@ -22,8 +22,7 @@ function ding_news_update_dependencies() {
   // Ding_news_update_7007 must run after ding2_update_7044
   // and ting_reference_7003.
   $dependencies['ding_news'][7007] = array(
-    'ding2' => 7044,
-    'ting_reference' => 7003,
+    'ding2' => 7064,
   );
 
   return $dependencies;
