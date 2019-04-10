@@ -28,16 +28,3 @@ function ding_eresource_update_7000() {
   // Finally we can update term aliases.
   pathauto_taxonomy_term_update_alias_multiple($tids, 'bulkupdate');
 }
-
-/**
- * Change ting_reference field storage type.
- */
-function ding_eresource_update_7001() {
-  db_update('field_config')
-    ->fields(array(
-      'storage_type' => 'virtual_field',
-      'storage_module' => 'virtual_field',
-    ))
-    ->condition('field_name', 'field_ding_eresource_materials')
-    ->execute();
-}
