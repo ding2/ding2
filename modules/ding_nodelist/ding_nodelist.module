@@ -1615,11 +1615,14 @@ function _ding_nodelist_trim_fields(array $nodes, array $conf) {
       'field_' . $node->type . '_lead' => array(
         'length' => $body_length,
         'column' => 'value',
-      ),
-      'title' => array(
-        'length' => $title_length,
-      ),
+      )
     );
+
+    if ($conf['widget_type'] != 'rolltab') {
+      $settings['title'] = array(
+        'length' => $title_length,
+      );
+    }
 
     if (!is_array($node)) {
       $node = _ding_nodelist_trim($node, $settings);
