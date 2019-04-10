@@ -1615,7 +1615,7 @@ function _ding_nodelist_trim_fields(array $nodes, array $conf) {
       'field_' . $node->type . '_lead' => array(
         'length' => $body_length,
         'column' => 'value',
-      )
+      ),
     );
 
     if ($conf['widget_type'] != 'rolltab') {
