@@ -194,21 +194,12 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
   // The page parametes for the ting object view should only be added on the
   // full page view for the material.
   if ($view_mode == 'full' && current_path() == $entity_path) {
-    // Get classification now as we also need it to determine category.
-    $classification = $entity->getClassification();
-
-    // The only reliable way to determine whether the material is fiction or
-    // non-fiction, is by using the 'sk' marker from the DK5 classification.
-    $fic_nonfic = FALSE;
-    // If classification is 'sk' OpenSearchTingObject returns empty string.
-    // See: OpenSearchTingObject::getClassification().
-    if ($classification === '') {
-      $fic_nonfic = 'fiktion';
-    }
-    // Else, if not FALSE, the material has a DK5 classification and is
-    // nonfiction.
-    elseif ($classification !== FALSE) {
-      $fic_nonfic = 'nonfiktion';
+    // TingObjectInterface doesn't allow us determine fiction/nonfiction in a
+    // clean way, but if the search provider is opensearch we can use a provider
+    // specific mehtod to get value.
+    $p_mat_ficnonfic = FALSE;
+    if (module_exists('opensearch')) {
+      $p_mat_ficnonfic = $entity->getTingObject()->isFiction() ? 'fiktion' : 'nonfiktion';
     }
 
     // Process array values so they are ready to be inserted in parameter.
@@ -228,7 +219,7 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
 
     $params = [
       'p_mat_type' => $entity->getType(),
-      'p_mat_indexno' => $classification,
+      'p_mat_indexno' =>  $entity->getClassification(),
       'p_mat_lang' => $entity->getLanguage(),
       'p_mat_source' => $entity->getAc_source(),
       'p_mat_ficnonfic' => $fic_nonfic,

@@ -18,7 +18,6 @@ use TingRelation;
  * @package OpenSearch
  */
 class OpenSearchTingObject implements TingObjectInterface {
-
   /**
    * @var string[] list of property-names that can be found directly on $this
    *   and should not be delegated to $this->clientObject.
@@ -506,6 +505,48 @@ class OpenSearchTingObject implements TingObjectInterface {
    */
   public function getFormatsAvailable() {
     return $this->openSearchObject->formatsAvailable;
+  }
+
+  /**
+   * Returns whether the material is fiction/nonfiction.
+   */
+  public function isFiction() {
+    /**
+     * @var array $fiction_classifications
+     *
+     * An array with DK5 values/prefixes for fiction classifications.
+     *
+     * sk : Danish fiction (translated and danish authors).
+     * 82*: French fiction.
+     * 83*: English fiction.
+     * 84*: German fiction.
+     * 85*: Norwegian fiction.
+     * 86*: Danish fiction (danish authors).
+     * 87*: Swedish fiction.
+     * 88*: Misc. language fiction.
+     */
+    $fiction_classifications = [
+      'sk',
+      '82',
+      '83',
+      '84',
+      '85',
+      '86',
+      '87',
+      '88',
+    ];
+
+    // Note that we get classification directly from the reply as
+    // getClassification() removes the 'sk' marker which we need.
+    $classification = $this->firstEntry(
+      $this->getRecordEntry('dc:subject', 'dkdcplus:DK5')
+    );
+    foreach ($fiction_classifications as $fiction_classification) {
+      if (strpos($classification, $fiction_classification) === 0) {
+        return TRUE;
+      }
+    }
+    return FALSE;
   }
 
   /**
