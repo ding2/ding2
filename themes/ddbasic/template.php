@@ -429,16 +429,19 @@ function ddbasic_preprocess_entity_paragraphs_item(&$variables) {
         $variables['content']['field_ding_paragraphs_image']['#weight'] = 0;
         $variables['content']['field_ding_paragraphs_text']['#weight'] = 1;
         break;
+
       case 'image_bottom':
         $variables['content']['field_ding_paragraphs_image']['#weight'] = 1;
         $variables['content']['field_ding_paragraphs_text']['#weight'] = 0;
         break;
+
       case 'ting_object_left':
         $variables['content']['field_ding_paragraphs_image']['#weight'] = 0;
         $variables['content']['field_ding_paragraphs_text']['#weight'] = 1;
         $variables['content']['field_ding_paragraphs_image']['attributes']['class'] = 'object-left';
         $variables['content']['field_ding_paragraphs_text']['attributes']['class'] = 'object-right';
         break;
+      
     }
   }
 
