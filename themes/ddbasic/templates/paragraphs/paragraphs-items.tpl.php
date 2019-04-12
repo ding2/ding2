@@ -23,8 +23,8 @@
  * @see template_preprocess_paragraphs_items()
  * @see template_process()
  */
+
 ?>
 <?php
   print render($content);
 ?>
-

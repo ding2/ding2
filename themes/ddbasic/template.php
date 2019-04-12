@@ -441,13 +441,13 @@ function ddbasic_preprocess_entity_paragraphs_item(&$variables) {
         $variables['content']['field_ding_paragraphs_image']['attributes']['class'] = 'object-left';
         $variables['content']['field_ding_paragraphs_text']['attributes']['class'] = 'object-right';
         break;
-      
+
     }
   }
 
   $wrapper = $variables['paragraphs_item']->wrapper();
   $paragraph_styles = array('paragraphs-block');
-  if(isset($wrapper->getPropertyInfo()['field_ding_paragraphs_display'])) {
+  if (isset($wrapper->getPropertyInfo()['field_ding_paragraphs_display'])) {
     $paragraph_styles[] = $wrapper->field_ding_paragraphs_display->value();
   }
   $variables['paragraph_styles'] = implode(' ', $paragraph_styles);
@@ -944,6 +944,7 @@ function ddbasic_process_ting_object(&$vars) {
           }
 
           break;
+        
         case 'paragraphs_teaser':
           if ($vars['object']->is('reservable')) {
             $vars['content']['group_ting_right_col_collection']['reserve_button'] = ding_reservation_ding_entity_buttons(

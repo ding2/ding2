@@ -381,7 +381,7 @@ function ding2_update_7015() {
     'search_api',
     'search_api_multi',
     'search_api_db',
-    'search_api_views'
+    'search_api_views',
   ));
 }
 

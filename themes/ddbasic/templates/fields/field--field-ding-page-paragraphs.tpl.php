@@ -43,6 +43,7 @@
  * @see theme_field()
  *
  */
+
 ?>
 <div class="field-name-field-ding-page-body">
   <?php if (!$label_hidden): ?>

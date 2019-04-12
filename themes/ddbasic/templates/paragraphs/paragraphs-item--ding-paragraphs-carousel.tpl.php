@@ -25,6 +25,7 @@
  * @see template_preprocess_entity()
  * @see template_process()
  */
+
 ?>
 <div class="<?php print $paragraph_styles; ?> carousel">
   <?php print render($content); ?>

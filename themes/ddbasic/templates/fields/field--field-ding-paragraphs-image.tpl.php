@@ -41,6 +41,7 @@
  * @see template_preprocess_field()
  * @see theme_field()
  */
+
 ?>
 <div class="<?php print $image_paragraph_styles; ?>">
   <p>

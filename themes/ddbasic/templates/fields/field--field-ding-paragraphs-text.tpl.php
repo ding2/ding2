@@ -41,6 +41,7 @@
  * @see template_preprocess_field()
  * @see theme_field()
  */
+
 ?>
 <div class="<?php print $text_paragraph_styles; ?>">
   <?php if (!$label_hidden): ?>

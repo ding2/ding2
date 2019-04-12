@@ -41,6 +41,7 @@
  * @see template_preprocess_field()
  * @see theme_field()
  */
+
 ?>
 <?php if (!$label_hidden): ?>
   <?php print $label ?>
@@ -48,4 +49,3 @@
 <?php foreach ($items as $delta => $item): ?>
   <?php print render($item); ?>
 <?php endforeach; ?>
-
