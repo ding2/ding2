@@ -2,6 +2,7 @@
 
 /**
  * @file
+ *
  * Default template implementation to display the value of a field.
  *
  * This file is not used and is here as a starting point for customization only.
@@ -40,6 +41,7 @@
  *
  * @see template_preprocess_field()
  * @see theme_field()
+ *
  */
 ?>
 <div class="field-name-field-ding-page-body">

@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Code for the Ding paragraphs helper class.
+ */
+
+/**
  * Helper for paragraphs content in bpi.
  */
 class DingParagraphsHelper {

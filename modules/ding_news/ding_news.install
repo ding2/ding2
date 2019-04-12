@@ -15,7 +15,8 @@ function ding_news_install() {
 }
 
 /**
- * Remove old ting reference field table from news.
+ * Require ding_paragraphs module to be enabled.
+ *
  * Implements hook_update_dependencies().
  */
 function ding_news_update_dependencies() {

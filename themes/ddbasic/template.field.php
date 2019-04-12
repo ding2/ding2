@@ -210,11 +210,13 @@ function ddbasic_field__display_image_text($vars) {
 }
 
 /**
- * Implements hook_preprocess__field__field_ding_paragraphs_image()
+ * Implements hook_preprocess__field__field_ding_paragraphs_image().
+ *
+ * Expose paragraph image classes to template.
  */
 function ddbasic_preprocess__field__field_ding_paragraphs_image(&$vars) {
   $image_paragraph_styles = array(
-    'paragraphs-image'
+    'paragraphs-image',
   );
   if (isset($vars['element']['attributes']['class'])) {
     $image_paragraph_styles[] = $vars['element']['attributes']['class'];
@@ -224,11 +226,13 @@ function ddbasic_preprocess__field__field_ding_paragraphs_image(&$vars) {
 }
 
 /**
- * Implements hook_preprocess__field__field_ding_paragraphs_text()
+ * Implements hook_preprocess__field__field_ding_paragraphs_text().
+ *
+ * Expose paragraph text classes to template.
  */
 function ddbasic_preprocess__field__field_ding_paragraphs_text(&$vars) {
   $text_paragraph_styles = array(
-    'paragraphs-text'
+    'paragraphs-text',
   );
   if (isset($vars['element']['attributes']['class'])) {
     $text_paragraph_styles[] = $vars['element']['attributes']['class'];

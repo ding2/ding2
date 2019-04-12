@@ -6,8 +6,9 @@
 
 (function ($) {
   Drupal.behaviors.ding_paragraphs_form = {
-    attach: function (context) {
+    attach: function () {
       'use strict';
+
       // Hide table drag on page load and ajax load.
       if ($("input[name$='collapse_button']").length > 0) {
         $(".field-type-paragraphs .field-multiple-drag").hide();
@@ -30,7 +31,7 @@
               $(".field-type-paragraphs .field-multiple-drag").show();
             }
           }
-        })
+        });
       });
     }
   }

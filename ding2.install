@@ -326,8 +326,7 @@ function ding2_update_7009() {
 }
 
 /**
- * Disable the cookiecontrol module.
- * Enable and configure the eu-cookie-compliance module.
+ * Disable the cookiecontrol and enable and configure eu-cookie module.
  */
 function ding2_update_7010() {
   if (module_exists('cookiecontrol')) {
@@ -378,7 +377,12 @@ function ding2_update_7014() {
  * Enable search_api modules.
  */
 function ding2_update_7015() {
-  module_enable(array('search_api', 'search_api_multi', 'search_api_db', 'search_api_views'));
+  module_enable(array(
+    'search_api',
+    'search_api_multi',
+    'search_api_db',
+    'search_api_views'
+  ));
 }
 
 /**

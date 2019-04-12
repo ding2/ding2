@@ -5,9 +5,12 @@
  */
 
 (function ($) {
+  "use strict";
+
   Drupal.behaviors.ding_paragraphs = {
-    attach: function (context) {
+    attach: function () {
       "use strict";
+      
       $('.paragraphs-block .view-mode-paragraphs-teaser').once(function () {
         // This ensures that ting objects loaded via ajax in the carousel's gets
         // reservations buttons displayed if available.

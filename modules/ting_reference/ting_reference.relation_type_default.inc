@@ -24,7 +24,7 @@ function ting_reference_relation_default_relation_types() {
   $relation_type->source_bundles = array(
     0 => 'node:*',
     1 => 'user:*',
-    2 => 'paragraphs_item:*'
+    2 => 'paragraphs_item:*',
   );
   $relation_type->target_bundles = array(
     0 => 'ting_object:ting_object',
