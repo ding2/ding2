@@ -211,14 +211,29 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
       $fic_nonfic = 'nonfiktion';
     }
 
+    // Process array values so they are ready to be inserted in parameter.
+    $p_mat_audience = FALSE;
+    if (!empty($entity->getTingObject()->getAudience())) {
+      $p_mat_audience = $entity->getTingObject()->getAudience();
+      // Here we can only have one value so we need to pick the first element
+      // out of the array.
+      $p_mat_audience = reset($p_mat_audience);
+    }
+    $p_mat_category = FALSE;
+    if (!empty($entity->getTingObject()->getGenre())) {
+      // Here we can have multiple values so we implode the values to a comma
+      // separated list.
+      $p_mat_category = implode(', ', $entity->getTingObject()->getGenre());
+    }
+
     $params = [
       'p_mat_type' => $entity->getType(),
       'p_mat_indexno' => $classification,
       'p_mat_lang' => $entity->getLanguage(),
       'p_mat_source' => $entity->getAc_source(),
       'p_mat_ficnonfic' => $fic_nonfic,
-      'p_mat_category' => $entity->getGenre(),
-      'p_mat_audience' => $entity->getAudience(),
+      'p_mat_category' => $p_mat_category,
+      'p_mat_audience' => $p_mat_audience,
     ];
     ding_webtrekk_add_page_parameters($params);
   }
