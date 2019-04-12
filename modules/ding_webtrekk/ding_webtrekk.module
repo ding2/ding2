@@ -218,6 +218,7 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
       'p_mat_source' => $entity->getAc_source(),
       'p_mat_ficnonfic' => $fic_nonfic,
       'p_mat_category' => $entity->getGenre(),
+      'p_mat_audience' => $entity->getAudience(),
     ];
     ding_webtrekk_add_page_parameters($params);
   }
