@@ -197,19 +197,18 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
     // Get classification now as we also need it to determine category.
     $classification = $entity->getClassification();
 
-    // Here category refers to whether the material is fiction/non-fiction. The
-    // only reliable way to determine this, is by using the 'sk' marker from
-    // the DK5 classification.
-    $category = FALSE;
+    // The only reliable way to determine whether the material is fiction or
+    // non-fiction, is by using the 'sk' marker from the DK5 classification.
+    $fic_nonfic = FALSE;
     // If classification is 'sk' OpenSearchTingObject returns empty string.
     // See: OpenSearchTingObject::getClassification().
     if ($classification === '') {
-      $category = 'fiktion';
+      $fic_nonfic = 'fiktion';
     }
     // Else, if not FALSE, the material has a DK5 classification and is
     // nonfiction.
     elseif ($classification !== FALSE) {
-      $category = 'nonfiktion';
+      $fic_nonfic = 'nonfiktion';
     }
 
     $params = [
@@ -217,7 +216,7 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
       'p_mat_indexno' => $classification,
       'p_mat_lang' => $entity->getLanguage(),
       'p_mat_source' => $entity->getAc_source(),
-      'p_mat_category' => $category,
+      'p_mat_ficnonfic' => $fic_nonfic,
     ];
     ding_webtrekk_add_page_parameters($params);
   }
