@@ -664,6 +664,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     $data = '';
     $class = '';
     $type = '';
+    $min_period = [];
 
     // Try to derive a status for the ticket link in frontend by looking at the
     // p2b event's state, ticket types and sale periods.
@@ -698,29 +699,37 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
             'end' => strtotime($price->sale_end_at),
           ];
         }
+
         // Some events, for example those migrated from the old API, will have
         // sales period on the event and not on the individual tickets.
-        if (isset($event->sale_open_at) && isset($event->sale_close_at)) {
+        if (isset($event->sale_open_at) && isset($event->sale_close_at) && !$sale_periods) {
           $sale_periods[] = [
             'begin' => strtotime($event->sale_open_at),
             'end' => strtotime($event->sale_close_at),
           ];
         }
 
+        // Find the closest sale period.
+        $begin_values = array_column($sale_periods, 'begin');
+        $min_period_begin = min($begin_values);
+        $min_period = array_filter($sale_periods, function ($sale_period) use ($min_period_begin) {
+          return ($sale_period['begin']) == $min_period_begin;
+        });
+        $min_period = array_shift($min_period);
+
         $now = time();
-        foreach ($sale_periods as $sale_period) {
-          if ($now >= $sale_period['begin'] && $now <= $sale_period['end']) {
-            // We have found an open sales period. No need to continue iterating
-            // the ticket types.
-            $ticket_link_status = 'open';
-            break;
-          }
-          elseif ($now < $sale_period['begin']) {
-            // We haven't found any open sales period yet,q but at least there's
-            // an upcoming, so set that status for now.
-            $ticket_link_status = 'upcoming';
-          }
+
+        if ($now >= $min_period['begin'] && $now <= $min_period['end']) {
+          // We have found an open sales period. No need to continue iterating
+          // the ticket types.
+          $ticket_link_status = 'open';
         }
+        elseif ($now < $min_period['begin']) {
+          // We haven't found any open sales period yet,q but at least there's
+          // an upcoming, so set that status for now.
+          $ticket_link_status = 'upcoming';
+        }
+
         // If no upcoming or open sales period was found for the published event
         // we consider the sales status to be closed.
         if (empty($ticket_link_status)) {
@@ -756,9 +765,9 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
           break;
 
         case 'upcoming':
-          $sale_start = $price->sale_begin_at;
-          $date = date('d.m.Y', strtotime($sale_start));
-          $time = date('H:i', strtotime($sale_start));
+          $sale_start = $min_period['begin'];
+          $date = date('d.m.Y', $sale_start);
+          $time = date('H:i', $sale_start);
           $class = 'ticket-notice';
           $data = t("Ticket sale starts @date at @time", array(
             '@date' => $date,
