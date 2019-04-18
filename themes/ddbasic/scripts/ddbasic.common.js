@@ -200,17 +200,6 @@
       var offset = $('#page')[0].offsetTop;
       var queryString = window.location.hash;
 
-      if (queryString !== "") {
-        scrollToAnchor(queryString);
-      }
-
-      $('article a[href^="#"]').click(function (event) {
-        event.preventDefault();
-        var anchorId = $(this).attr('href');
-        scrollToAnchor(anchorId);
-        return false;
-      });
-
       function scrollToAnchor(anchorId) {
         var target, anchorObject = $(anchorId);
         if (anchorObject.length !== 0) {
@@ -224,7 +213,18 @@
           window.location.hash = anchorId;
         });
       }
+
+      if (queryString !== "") {
+        scrollToAnchor(queryString);
+      }
+
+      $('article a[href^="#"]').click(function (event) {
+        event.preventDefault();
+        var anchorId = $(this).attr('href');
+        scrollToAnchor(anchorId);
+        return false;
+      });
     }
-  }
+  };
 
 })(jQuery);
