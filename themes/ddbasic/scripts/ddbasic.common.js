@@ -192,4 +192,39 @@
     }
   };
 
+  /**
+   * Make clicks on anchor links to stop on correct position.
+   */
+  Drupal.behaviors.findTopForAnchor = {
+    attach: function (context, settings) {
+      var offset = $('#page')[0].offsetTop;
+      var queryString = window.location.hash;
+
+      if (queryString !== "") {
+        scrollToAnchor(queryString);
+      }
+
+      $('article a[href^="#"]').click(function (event) {
+        event.preventDefault();
+        var anchorId = $(this).attr('href');
+        scrollToAnchor(anchorId);
+        return false;
+      });
+
+      function scrollToAnchor(anchorId) {
+        var target, anchorObject = $(anchorId);
+        if (anchorObject.length !== 0) {
+          target = anchorObject.offset().top - offset - 61;
+        }
+        else {
+          return false;
+        }
+
+        $('html, body').animate({scrollTop: target}, 'fast', function () {
+          window.location.hash = anchorId;
+        });
+      }
+    }
+  }
+
 })(jQuery);
