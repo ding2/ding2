@@ -38,6 +38,7 @@ function ting_search_fast_theme_registry_alter(&$theme_registry) {
 function ting_search_fast_ting_search_collection_snippet(array $variables) {
   /* @var \Ting\TingObjectCollectionInterface $collection */
   $collection = $variables['collection'];
+  $object = $collection->getPrimaryObject();
 
   return [
     '#theme' => 'ting_search_fast_item',
@@ -51,7 +52,11 @@ function ting_search_fast_ting_search_collection_snippet(array $variables) {
         'prefix_type' => TRUE,
       ]
     ),
-    '#creators' => ting_search_fast_get_creators($collection),
+    '#creators' => theme('ting_creators',
+      [
+        'object' => $object
+      ]
+    ),
     '#cover' => ting_search_fast_get_cover($collection),
     '#abstract' => ting_search_fast_get_abstract($collection),
     '#series' => ting_search_fast_get_series($collection),
@@ -60,38 +65,6 @@ function ting_search_fast_ting_search_collection_snippet(array $variables) {
       'js' => [ drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js' ]
     ]
   ];
-}
-
-function ting_search_fast_get_creators(TingObjectCollectionInterface $collection) {
-  $search_string = variable_get('ting_search_register_author', 'phrase.creator="@author"');
-  $creators = $collection->getPrimaryObject()->getCreators();
-
-  $creator_links = array();
-  foreach ($creators  as $creator) {
-    $creator_links[] = ting_field_search_link($creator, $search_string, array('@author' => $creator), array(
-      'attributes' => array(
-        'class' => array('author'),
-      ),
-    ));
-  }
-  $date = $collection->getPrimaryObject()->getYear();
-  $markup_string = '';
-  if (count($creators)) {
-    if ($date  != '') {
-      $markup_string = t('By !author_link (@year)', array(
-        '!author_link' => implode(', ', $creator_links),
-        // So wrong, but appears to be the way the data is.
-        '@year' => $date ,
-      ));
-    } else {
-      $markup_string = t('By !author_link', array(
-        '!author_link' => implode(', ', $creator_links),
-      ));
-    }
-  } elseif ($date  != '') {
-    $markup_string = t('(@year)', array('@year' => $date ));
-  }
-  return $markup_string;
 }
 
 function ting_search_fast_get_abstract(TingObjectCollectionInterface $collection) {

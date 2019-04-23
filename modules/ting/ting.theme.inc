@@ -102,3 +102,66 @@ function template_preprocess_ting_title(&$variables) {
     'language' => $language,
   ];
 }
+
+/**
+ * Theme function for rendering Ting object creators.
+ *
+ * @param array $variables The theme variables.
+ *
+ * @return string
+ *   The resulting markup.
+ */
+function theme_ting_creators(&$variables) {
+  /** @var \Ting\TingObjectInterface $object */
+  $object = $variables['object'];
+
+  // Build an array containing different formats of each creator name.
+  // This will allow administrators to use the format that suits their
+  // needs best e.g. if one wants to use a facet where the name is
+  // inverted.
+  $creators = array_map(function ($creator, $inverted_creator) {
+    return ['default' => $creator, 'inverted' => $inverted_creator];
+  }, $object->getCreators(), $object->getCreators(TingObjectInterface::NAME_FORMAT_SURNAME_FIRST));
+
+  // Array mapped with replacement string as key and the author name as
+  // the value.
+  $replace_array = array_map(function ($creator) {
+    return [
+      '@author' => $creator['default'],
+      '@author_inverted' => $creator['inverted'],
+    ];
+  }, $creators);
+  $search_string = variable_get('ting_search_register_author', 'phrase.creator="@author"');
+
+  // The links with the correct author name depending on the whether
+  // @author or @author_inverted is used.
+  $creator_links = array_map(function($creator, $replacements) use ($search_string) {
+    return ting_field_search_link($creator['default'], $search_string, $replacements, array(
+      'attributes' => array(
+        'class' => array('author'),
+      ),
+    ));
+  }, $creators, $replace_array);
+
+  $year = $object->getYear();
+  $markup_string = '';
+  if (count($creators) > 0) {
+    if (!empty($year)) {
+      $markup_string = t('By !author_link (@year)', array(
+        '!author_link' => implode(', ', $creator_links),
+        // So wrong, but appears to be the way the data is.
+        '@year' => $year,
+      ));
+    }
+    else {
+      $markup_string = t('By !author_link', array(
+        '!author_link' => implode(', ', $creator_links),
+      ));
+    }
+  }
+  elseif (!empty($year)) {
+    $markup_string = t('(@year)', array('@year' => $year));
+  }
+
+  return $markup_string;
+}

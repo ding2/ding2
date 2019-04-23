@@ -385,54 +385,10 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         break;
 
       case 'ting_author_default':
-        // Build an array containing different formats of each creator name.
-        // This will allow administrators to use the format that suits their
-        // needs best e.g. if one wants to use a facet where the name is
-        // inverted.
-        $creators = array_map(function ($creator, $inverted_creator) {
-          return ['default' => $creator, 'inverted' => $inverted_creator];
-        }, $entity->getCreators(), $entity->getInvertedCreators());
-
-        // Array mapped with replacement string as key and the author name as
-        // the value.
-        $replace_array = array_map(function ($creator) {
-          return [
-            '@author' => $creator['default'],
-            '@author_inverted' => $creator['inverted'],
-          ];
-        }, $creators);
-        $search_string = variable_get('ting_search_register_author', 'phrase.creator="@author"');
-
-        // The links with the correct author name depending on the whether
-        // @author or @author_inverted is used.
-        $creator_links = array_map(function($creator, $replacements) use ($search_string) {
-          return ting_field_search_link($creator['default'], $search_string, $replacements, array(
-            'attributes' => array(
-              'class' => array('author'),
-            ),
-          ));
-        }, $creators, $replace_array);
-
-        $markup_string = '';
-        if (count($creators)) {
-          if ($entity->date != '') {
-            $markup_string = t('By !author_link (@year)', array(
-              '!author_link' => implode(', ', $creator_links),
-              // So wrong, but appears to be the way the data is.
-              '@year' => $entity->date,
-              ));
-          }
-          else {
-            $markup_string = t('By !author_link', array(
-              '!author_link' => implode(', ', $creator_links),
-            ));
-          }
-        }
-        elseif ($entity->date != '') {
-          $markup_string = t('(@year)', array('@year' => $entity->date));
-        }
+        $object = $entity->getTingObject();
         $element[$delta] = array(
-          '#markup' => $markup_string,
+          '#theme' => 'ting_creators',
+          '#object' => $object,
         );
         break;
 

@@ -270,6 +270,13 @@ function ting_theme() {
       'template' => 'ting_title',
       'file' => 'ting.theme.inc',
     ),
+    'ting_creators' => array(
+      'variables' => array(
+        'object' => NULL,
+      ),
+      'function' => 'theme_ting_creators',
+      'file' => 'ting.theme.inc',
+    ),
   );
 }
 
