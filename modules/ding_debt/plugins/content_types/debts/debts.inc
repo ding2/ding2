@@ -124,7 +124,7 @@ function ding_debt_form_details(&$form, $debts, $has_invoiced_fees, $total_amoun
         ),
         'amount' => array(
           'label' => t('Amount'),
-          'data' => $debt->is_invoice ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' ' . t('kr.') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' ' . t(''),
+          'data' => $debt->is_invoice ? number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' ' . t('kr.') . ' <span class="note">*</span>' : number_format(($debt->amount - $debt->amount_paid), 2, ',', ' ') . ' ' . t('kr.'),
           'class' => 'fee_amount',
           '#weight' => 8,
         ),
