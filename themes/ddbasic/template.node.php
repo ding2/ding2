@@ -173,7 +173,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 
   $price = field_get_items('node', $variables['node'], 'field_ding_event_price');
   if (!empty($price)) {
-    $variables['event_price'] = $price[0]['value'] . ' ' . variable_get('ding_event_currency_type', 'Kr');
+    $variables['event_price'] = $price[0]['value'] . ' ' . variable_get('ding_event_currency_type', 'kr.');
   }
   else {
     $variables['event_price'] = t('Free');

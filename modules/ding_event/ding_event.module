@@ -424,7 +424,7 @@ function ding_event_metatag_metatags_view_alter(&$output, $instance, $options) {
     // Price.
     $price = field_get_items('node', $node, 'field_ding_event_price', 'value');
     if (!empty($price)) {
-      $metatag['price_out'] = $price[0]['value'] . ' ' . variable_get('ding_event_currency_type', 'Kr');
+      $metatag['price_out'] = $price[0]['value'] . ' ' . variable_get('ding_event_currency_type', 'kr.');
     }
 
     $output['description']['#attached']['drupal_add_html_head'][0][0]['#value'] = implode(', ', array_filter($metatag));
