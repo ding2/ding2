@@ -103,18 +103,9 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 function ddbasic_preprocess__field__ting_abstract(&$vars) {
   switch ($vars['element']['#view_mode']) {
     case 'search_result':
-      $text = $vars['items'][0]['#markup'];
-      $vars['items'][0]['#markup'] = truncate_utf8($text, 120, FALSE, TRUE);
-      break;
-
     case 'teaser':
-      $text = $vars['items'][0]['#markup'];
-      $vars['items'][0]['#markup'] = truncate_utf8($text, 120, FALSE, TRUE);
-      break;
-
     case 'ting_reference_preview':
-      $text = $vars['items'][0]['#markup'];
-      $vars['items'][0]['#markup'] = truncate_utf8($text, 120, FALSE, TRUE);
+      $vars['items'][0]['#max_length'] = 120;
       break;
   }
 }

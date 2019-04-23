@@ -58,17 +58,18 @@ function ting_search_fast_ting_search_collection_snippet(array $variables) {
       ]
     ),
     '#cover' => ting_search_fast_get_cover($collection),
-    '#abstract' => ting_search_fast_get_abstract($collection),
+    '#abstract' => theme('ting_abstract',
+      [
+        'object' => $object,
+        'max_length' => 120
+      ]
+    ),
     '#series' => ting_search_fast_get_series($collection),
     '#types' => ting_search_fast_get_types($collection),
     '#attached' => [
       'js' => [ drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js' ]
     ]
   ];
-}
-
-function ting_search_fast_get_abstract(TingObjectCollectionInterface $collection) {
-  return add_ellipsis($collection->getPrimaryObject()->getAbstract(), 330);
 }
 
 function ting_search_fast_get_cover(TingObjectCollectionInterface $collection) {

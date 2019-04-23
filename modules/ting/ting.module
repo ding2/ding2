@@ -277,6 +277,14 @@ function ting_theme() {
       'function' => 'theme_ting_creators',
       'file' => 'ting.theme.inc',
     ),
+    'ting_abstract' => array(
+      'variables' => array(
+        'object' => NULL,
+        'max_length' => NULL,
+      ),
+      'function' => 'theme_ting_abstract',
+      'file' => 'ting.theme.inc',
+    ),
   );
 }
 

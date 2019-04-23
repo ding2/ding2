@@ -165,3 +165,17 @@ function theme_ting_creators(&$variables) {
 
   return $markup_string;
 }
+
+/**
+ * Theme function for rendering the abstract for a Ting object.
+ *
+ * @param array $variables The theme variables.
+ *
+ * @return string
+ *   The resulting markup.
+ */
+function theme_ting_abstract(&$variables) {
+  /** @var \Ting\TingObjectInterface $object */
+  $object = $variables['object'];
+  return check_plain($object->getAbstract());
+}

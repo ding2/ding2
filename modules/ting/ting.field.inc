@@ -379,8 +379,10 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         break;
 
       case 'ting_abstract_default':
+        $object = $entity->getTingObject();
         $element[$delta] = array(
-          '#markup' => check_plain($entity->abstract),
+          '#theme' => 'ting_abstract',
+          '#object' => $object,
         );
         break;
 
