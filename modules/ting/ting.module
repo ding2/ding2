@@ -285,6 +285,13 @@ function ting_theme() {
       'function' => 'theme_ting_abstract',
       'file' => 'ting.theme.inc',
     ),
+    'ting_series' => array(
+      'variables' => array(
+        'object' => NULL,
+      ),
+      'function' => 'theme_ting_series',
+      'file' => 'ting.theme.inc'
+    )
   );
 }
 

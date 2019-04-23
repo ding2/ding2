@@ -177,5 +177,51 @@ function theme_ting_creators(&$variables) {
 function theme_ting_abstract(&$variables) {
   /** @var \Ting\TingObjectInterface $object */
   $object = $variables['object'];
-  return check_plain($object->getAbstract());
+
+  $abstract = $object->getAbstract();
+  if (!empty($variables['max_length'])) {
+    $abstract = truncate_utf8($abstract, $variables['max_length'], FALSE, TRUE);
+  }
+  return check_plain($abstract);
+}
+
+
+/**
+ * Theme function for rendering the abstract for a Ting object.
+ *
+ * @param array $variables The theme variables.
+ *
+ * @return string
+ *   Rendered series information.
+ */
+function theme_ting_series(&$variables) {
+  /** @var \Ting\TingObjectInterface $object */
+  $object = $variables['object'];
+
+  $series_markup = '';
+  if ($object->getSeriesTitles()) {
+    // The search string used is configurable because the data well is not
+    // fully implemented regarding series. As default we search both in
+    // the series title register and the description field because many
+    // series only have data in the description field. This will probably
+    // change with new versions of the data well.
+    $series_info = array_map(function ($title) {
+      $series_title = $title[0];
+      $series_number = isset($title[1]) ? ' : ' . check_plain($title[1]) . ' ; ' : ' ; ';
+
+      $replacement = ['@serietitle' => drupal_strtolower($series_title)];
+      $search_string = variable_get('ting_search_register_serie_title',
+        'phrase.titleSeries="@serietitle"');
+      $link = ting_field_search_link(trim($series_title), $search_string,
+        $replacement, ['attributes' => ['class' => ['series']]]);
+
+      return $link . $series_number;
+    }, $object->getSeriesTitles());
+
+    $series_markup = implode(' ', $series_info);
+  } elseif ($object->getSeriesDescription()) {
+    $series_markup = $object->getSeriesDescription();
+  }
+
+  return $series_markup;
 }

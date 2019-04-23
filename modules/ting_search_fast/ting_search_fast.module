@@ -17,14 +17,6 @@ function ting_search_fast_theme($existing, $type, $theme, $path) {
       'template' => 'ting-search-fast-item',
       'path' => $path . '/templates',
     ),
-    'ting_search_fast_series' => array(
-      'variables' => array(
-        'cover' => NULL,
-        'series' => NULL,
-      ),
-      'template' => 'ting-search-fast-series',
-      'path' => $path . '/templates',
-    ),
   );
 }
 
@@ -64,37 +56,16 @@ function ting_search_fast_ting_search_collection_snippet(array $variables) {
         'max_length' => 120
       ]
     ),
-    '#series' => ting_search_fast_get_series($collection),
+    '#series' => theme('ting_series',
+      [
+        'object' => $object
+      ]
+    ),
     '#types' => ting_search_fast_get_types($collection),
     '#attached' => [
       'js' => [ drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js' ]
     ]
   ];
-}
-
-function ting_search_fast_get_cover(TingObjectCollectionInterface $collection) {
-  $object = $collection->getPrimaryObject();
-  $genericObject = new stdClass();
-  $genericObject->id = $object->getId();
-  $genericObject->title = $object->getShortTitle();
-  $genericObject->creators = $object->getCreators();
-  $image = theme('ting_object_cover', array('elements' => array('#object' => $genericObject, '#image_style' => 'ding_list_medium')));
-  $options = array(
-    'html' => TRUE,
-    'attributes' => array('title' => $object->getShortTitle()),
-  );
-  $image = '<div id="ting-object-ting-object-search-result-group-ting-left-col-search" class="ting-object-left group-ting-left-col-search field-group-div field-group-format group-ting-left-col-search">' . $image . '</div>';
-  return l($image, ting_search_fast_collection_path($collection), $options);
-}
-
-function ting_search_fast_get_series(TingObjectCollectionInterface $collection) {
-  $markup = '';
-
-  $series = ting_field_series($collection->getPrimaryObject());
-  if (!empty($series)) {
-    $markup = theme('ting_search_fast_series', array('series' => drupal_render($series)));
-  }
-  return $markup;
 }
 
 function ting_search_fast_get_types(TingObjectCollectionInterface $collection) {
