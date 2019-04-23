@@ -228,7 +228,7 @@ jobs:
           drush vset -y loan_history_store_title_first_time ''
           drush php-eval 'variable_set("loan_history_store_description_first_time", array("value" => ""));'
           drush php-eval 'variable_set("loan_history_store_description", array("value" => ""));'
-          sudo chown -R 33.33 /var/www/html/sites/default/files
+          sudo chown -R 33:33 /var/www/html/sites/default/files
     - run:
         name: Install Behat
         command: composer install
