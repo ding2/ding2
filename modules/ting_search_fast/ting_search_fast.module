@@ -13,7 +13,6 @@ function ting_search_fast_theme($existing, $type, $theme, $path) {
         'cover' => NULL,
         'series' => NULL,
         'types' => NULL,
-        'maintype' => NULL,
       ),
       'template' => 'ting-search-fast-item',
       'path' => $path . '/templates',
@@ -42,24 +41,25 @@ function ting_search_fast_ting_search_collection_snippet(array $variables) {
 
   return [
     '#theme' => 'ting_search_fast_item',
-    '#title' => ting_search_fast_get_title($collection),
+    '#title' => theme('ting_title',
+      [
+        'collection' => $collection,
+        'uri' => [
+          'path' => ting_search_fast_collection_path($collection),
+          'options' => [],
+        ],
+        'prefix_type' => TRUE,
+      ]
+    ),
     '#creators' => ting_search_fast_get_creators($collection),
     '#cover' => ting_search_fast_get_cover($collection),
     '#abstract' => ting_search_fast_get_abstract($collection),
     '#series' => ting_search_fast_get_series($collection),
     '#types' => ting_search_fast_get_types($collection),
-    '#maintype' => ting_search_fast_get_main_type($collection),
     '#attached' => [
       'js' => [ drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js' ]
     ]
   ];
-}
-
-function ting_search_fast_get_title(TingObjectCollectionInterface $collection) {
-  return l(
-    $collection->getPrimaryObject()->getTitle(),
-    ting_search_fast_collection_path($collection)
-  );
 }
 
 function ting_search_fast_get_creators(TingObjectCollectionInterface $collection) {
@@ -138,13 +138,6 @@ function ting_search_fast_get_types(TingObjectCollectionInterface $collection) {
     }
     return l($type, $url);
   }, $type_object_map, array_keys($type_object_map));
-}
-
-function ting_search_fast_get_main_type(TingObjectCollectionInterface $collection) {
-  $types = array_unique(array_map(function (TingObjectInterface $object) {
-    return $object->getType();
-  }, $collection->getObjects()));
-  return (count($types) > 1) ? t('Material collection') : $types[0];
 }
 
 function ting_search_fast_collection_path(TingObjectCollectionInterface $collection) {

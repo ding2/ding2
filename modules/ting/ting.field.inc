@@ -341,77 +341,20 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ting_title_default':
-        /*
-         * This doesn't work due to the way objects gets cached at the
-         * moment. Until that is fixed, link all objects to collections when
-         * requested, the page will redirect to ting/object/X if there is only
-         * one.
-         */
-        $type = 'ting_object';
-        if ($display['settings']['link_type'] == 'collection') {
-          $type = 'ting_collection';
-        }
-
-        $link = FALSE;
-        $title = $entity->title;
-        $prefix = '';
+        $collection = ting_collection_load($entity->id);
         // Only create the link if the object is available in the data well.
+        $uri = [];
         if ($display['settings']['link_type'] != 'none' && !isset($entity->is_available)) {
-          $link = TRUE;
+          $uri = entity_uri('ting_collection', $entity);
         }
-
         // Check if element should be prefixed with type.
-        if ($display['settings']['prefix_type'] == 'yes') {
-          $collection = ting_collection_load($entity->id);
-          $ting_type = $entity->getType();
-          if (count($collection->types) > 1) {
-            $ting_type = t('Material collection');
-          }
-
-          $collection_titles = array_map(
-            function($collection_entity) {
-              return $collection_entity->title;
-            },
-            $collection->entities
-          );
-          // If a collection has items of the same type?
-          // But with different titles, then use the generic collection title.
-          if (count(array_unique($collection_titles)) > 1) {
-            $title = $collection->title;
-            $ting_type = t('Material collection');
-          }
-
-          // @todo: this could be moved into a theme function to be more
-          // generic.
-          $prefix = '<span class="search-result--heading-type js-toggle-info-container">' . $ting_type . ':</span>';
-        }
-
-        if ($link) {
-          $url = entity_uri($type, $entity);
-          $title = l($title, $url['path'], $url['options']);
-        }
-        else {
-          $title = check_plain($title);
-        }
-
-        // Append the language as a suffix to the title for certain material
-        // types if the material language is not the default language.
-        /* @var \TingEntity $entity */
-        $title_suffix_types = variable_get('ting_language_type_title_suffix', []);
-        $default_language = variable_get('ting_language_default');
-        $is_title_suffix_type = (!empty($title_suffix_types[strtolower($entity->getType())]));
-        $language = $entity->getLanguage();
-        $has_language = !empty($language);
-        $is_default_language = $language == $default_language;
-
-        if ($is_title_suffix_type && $has_language && !$is_default_language) {
-          $title .= " ($language)";
-        }
+        $prefix_type = $display['settings']['prefix_type'] == 'yes';
 
         $element[$delta] = array(
-          '#prefix' => $prefix . '<h2>',
-          '#suffix' => '</h2>',
-          '#markup' => $title,
+          '#theme' => 'ting_title',
+          '#collection' => $collection->getTingObjectCollection(),
+          '#uri' => $uri,
+          '#prefix_type' => $prefix_type,
         );
 
         break;
