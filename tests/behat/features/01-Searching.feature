@@ -116,6 +116,6 @@ Feature: SEEK redroute 01
 
   @api @seek016 @seekNologin @regression
   Scenario: S016 Check forsidebillede is shown on search result
-    Given I have searched for "term.type=Bog and term.date='2014' and holdingsitem.accessionDate>='NOW-300DAYS'"
+    Given I have searched for "term.type=Bog and term.date='2014'"
     When paging allows to get all the results
     Then there are posts with "cover" in the search results

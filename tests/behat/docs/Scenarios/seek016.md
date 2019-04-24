@@ -11,10 +11,6 @@ configuration requires credentials. Also, the search string used
 currently seems to be best for finding cover pages. This may change
 over time.
 
-__"term.type=Bog and term.date='2014' and
-holdingsitem.accessionDate>='NOW-300DAYS'"__ works well in December
-2017.
-
 ## Notes
 
 We use ting_covers_placeholder to populate materials with placeholder
