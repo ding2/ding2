@@ -1,7 +1,9 @@
 <div class="ting-object view-mode-teaser clearfix">
   <div class="ting-object view-mode-search-result imagestyle-ding-list-medium list-item-style clearfix">
     <div class="inner">
-      <?php print $cover; ?>
+      <div id="ting-object-ting-object-search-result-group-ting-left-col-search" class="ting-object-left group-ting-left-col-search field-group-div field-group-format group-ting-left-col-search">
+        <?php print $cover; ?>
+      </div>
       <div id="ting-object-ting-object-search-result-group-ting-right-col-search" class="ting-object-right group-ting-right-col-search field-group-div field-group-format group-ting-right-col-search">
         <div class="field field-name-ting-title field-type-ting-title field-label-hidden">
           <?php print $title; ?>

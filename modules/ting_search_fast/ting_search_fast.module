@@ -32,6 +32,13 @@ function ting_search_fast_ting_search_collection_snippet(array $variables) {
   $collection = $variables['collection'];
   $object = $collection->getPrimaryObject();
 
+  // The covers module does not use the search abstraction layer so instead we
+  // create a dummy object with the required properties.
+  $cover_object = new stdClass();
+  $cover_object->id = $object->getId();
+  $cover_object->title = $object->getShortTitle();
+  $cover_object->creators = $object->getCreators();
+
   return [
     '#theme' => 'ting_search_fast_item',
     '#title' => theme('ting_title',
@@ -49,7 +56,15 @@ function ting_search_fast_ting_search_collection_snippet(array $variables) {
         'object' => $object
       ]
     ),
-    '#cover' => ting_search_fast_get_cover($collection),
+    '#cover' => theme('ting_object_cover',
+      [
+        'elements' => [
+          '#object' => $cover_object,
+          '#image_style' => 'ding_list_medium',
+          '#link' => ting_search_fast_collection_path($collection)
+        ],
+      ]
+    ),
     '#abstract' => theme('ting_abstract',
       [
         'object' => $object,
