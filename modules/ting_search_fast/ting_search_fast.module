@@ -44,10 +44,7 @@ function ting_search_fast_ting_search_collection_snippet(array $variables) {
     '#title' => theme('ting_title',
       [
         'collection' => $collection,
-        'uri' => [
-          'path' => ting_search_fast_collection_path($collection),
-          'options' => [],
-        ],
+        'uri' => ting_ting_collection_uri($collection),
         'prefix_type' => TRUE,
       ]
     ),
@@ -61,7 +58,7 @@ function ting_search_fast_ting_search_collection_snippet(array $variables) {
         'elements' => [
           '#object' => $cover_object,
           '#image_style' => 'ding_list_medium',
-          '#link' => ting_search_fast_collection_path($collection)
+          '#link' => ting_ting_collection_uri($collection)['path'],
         ],
       ]
     ),
@@ -98,12 +95,4 @@ function ting_search_fast_get_types(TingObjectCollectionInterface $collection) {
     }
     return l($type, $url);
   }, $type_object_map, array_keys($type_object_map));
-}
-
-function ting_search_fast_collection_path(TingObjectCollectionInterface $collection) {
-  return 'ting/collection/' . $collection->getPrimaryObject()->getId();
-}
-
-function ting_search_fast_object_path(TingObjectInterface $object) {
-  return 'ting/object/' . $object->getId();
 }

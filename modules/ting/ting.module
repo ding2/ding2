@@ -8,6 +8,7 @@
 use Drupal\xautoload\Adapter\LocalDirectoryAdapter;
 use Ting\Search\DingProviderStrategy;
 use Ting\Search\TingSearchRequest;
+use Ting\TingObjectCollectionInterface;
 use Ting\TingObjectInterface;
 
 // Load Field module hooks.
@@ -864,6 +865,64 @@ function ting_search_object_load($id) {
   }
 
   return $ting_search_object;
+}
+
+/**
+ * Returns URI elements for a Ting object.
+ *
+ * This mimics the functionality of entity_uri() and ting_object_uri() but for
+ * objects instead of requiring an actual Drupal entity.
+ *
+ * @param \Ting\TingObjectInterface $object
+ *   The object for which to generate a path.
+ *
+ * @return array
+ *   An array containing the 'path' and 'options' keys used to build the URI of
+ *   the object, and matching the signature of url().
+ */
+function ting_ting_object_uri(TingObjectInterface $object) {
+  return array(
+    'path' => 'ting/object/' . $object->getId(),
+    'options' => array()
+  );
+}
+
+/**
+ * Returns URI elements for a Ting collection based on a Ting object.
+ *
+ * This mimics the functionality of entity_uri() and ting_object_uri() but for
+ * objects instead of requiring an actual Drupal entity.
+ *
+ * @param \Ting\TingObjectInterface $object
+ *   The object for which to generate a path.
+ *
+ * @return array
+ *   An array containing the 'path' and 'options' keys used to build the URI of
+ *   the collection, and matching the signature of url().
+ */
+function ting_ting_object_collection_uri(TingObjectInterface $object) {
+  return array(
+    'path' => 'ting/collection/' . $object->getId(),
+    'options' => array()
+  );
+}
+
+
+/**
+ * Returns URI elements for a Ting collection.
+ *
+ * This mimics the functionality of entity_uri() and ting_object_uri() but for
+ * objects instead of requiring an actual Drupal entity.
+ *
+ * @param \Ting\TingObjectCollectionInterface $collection
+ *   The object for which to generate a path.
+ *
+ * @return array
+ *   An array containing the 'path' and 'options' keys used to build the URI of
+ *   the collection, and matching the signature of url().
+ */
+function ting_ting_collection_uri(TingObjectCollectionInterface $collection) {
+  return ting_ting_object_collection_uri($collection->getPrimaryObject());
 }
 
 /**
