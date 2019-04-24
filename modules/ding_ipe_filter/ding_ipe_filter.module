@@ -212,8 +212,6 @@ function _ding_ipe_filter_show_for_admin() {
 /**
  * Get the current filter list.
  *
-
- *
  * @return array
  *   The selected panes indexed by "category:subtype-name".
  */

@@ -90,7 +90,7 @@ function ding_ipe_filter_update_7103(&$sandbox) {
  * Remove category from selection identifiers.
  */
 function ding_ipe_filter_update_7104(&$sandbox) {
-  /**
+  /*
    * Category key is loaded based on the active language. It needs to have the
    * same set for all languages. Uniqueness is kept based on the pane sub-type.
    */
