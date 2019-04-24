@@ -45,4 +45,4 @@ service is that we have no way of knowing, when the service will be
 restarted or updated or for other reasons be unavailable at certain
 times.
 
-Currently using http://oss-services.dbc.dk/opensearch/4.0.1/
+Currently using http://oss-services.dbc.dk/opensearch/5.0/

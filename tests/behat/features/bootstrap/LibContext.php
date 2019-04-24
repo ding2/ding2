@@ -583,7 +583,7 @@ class LibContext implements Context, SnippetAcceptingContext
     private function ICreateFilesForRelationChunk($mfile, $relation, $start)
     {
         // Set up the search as URL.
-        $url = "https://oss-services.dbc.dk/opensearch/4.5/";
+        $url = "https://oss-services.dbc.dk/opensearch/5.0/";
         $url_search = "?action=search&query=%22term.type=Bog%22";
         $url_params = "&relationData=full";
         $url_auth = "&agency=100200&profile=test&start=" . $start . "&stepValue=50&sort=date_descending";
