@@ -15,9 +15,9 @@ function ding_place2book_form_ding_event_admin_currency_setting_form_alter(&$for
  */
 function ding_place2book_form_ding_event_admin_currency_setting_validate($form, &$form_state){
   $currency = $form_state['values']['ding_event_currency_type'];
-  if (module_exists('ding_place2book') && $currency != 'kr') {
+  if (module_exists('ding_place2book') && $currency != 'kr.') {
     drupal_set_message(t('place2book does not support currencies other than Kr. disable ding_place2book module to continue'), 'warning');
-    $form_state['input']['ding_event_currency_type'] = 'kr';
+    $form_state['input']['ding_event_currency_type'] = 'kr.';
     $form_state['rebuild'] = TRUE;
     return;
   }

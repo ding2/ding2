@@ -44,7 +44,7 @@ function ding_dibs_admin_settings($form, &$form_state) {
         Once the fee is paid, it is not possible to cancel the payment.<br/>
         The amount is not withdrawn from the account, until it is confirmed that the amount owed is paid in local system.<br/>
         Please note: PBS charges a transaction fee to handle your payment. The amount is 1.45 kr. + 0.1% of the fee.<br/>
-        For example: A fee of 15.00 kr. rises for PBS to 16.47 Kr.'),
+        For example: A fee of 15.00 kr. rises for PBS to 16.47 kr.'),
     '#suffix' => '</div>',
   );
 
