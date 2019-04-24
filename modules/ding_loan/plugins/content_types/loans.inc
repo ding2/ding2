@@ -343,14 +343,14 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     '#type' => 'html_tag',
     '#tag' => 'div',
     '#value' => '<a href="#">' . t('Renew all') . '</a>',
-    '#attributes' => [
-      'class' => [
+    '#attributes' => array(
+      'class' => array(
         'renew-all',
         'action-all',
         'action-button',
         'js-renew-all',
-      ],
-    ],
+      ),
+    ),
   );
 
   return $form;
