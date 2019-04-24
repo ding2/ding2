@@ -702,7 +702,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
 
         // Some events, for example those migrated from the old API, will have
         // sales period on the event and not on the individual tickets.
-        if (isset($event->sale_open_at) && isset($event->sale_close_at) && !$sale_periods) {
+        if (isset($event->sale_open_at) && isset($event->sale_close_at)) {
           $sale_periods[] = [
             'begin' => strtotime($event->sale_open_at),
             'end' => strtotime($event->sale_close_at),
