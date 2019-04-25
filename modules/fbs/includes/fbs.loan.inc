@@ -141,8 +141,8 @@ function fbs_loan_renew($account, array $loans) {
     // Using an array for renewalStatus is an odd choice, but we'll only
     // consider the loan renewed if 'renewed' is the only status.
     if ($loan->renewalStatus == array('renewed')) {
-      $result[$loan->loanDetails->loanId] =
-        $loan->loanDetails->loanType == 'interLibraryLoan' ?
+      $result[$loan->loanDetails->loanId]
+        = $loan->loanDetails->loanType == 'interLibraryLoan' ?
         DingProviderLoan::STATUS_RENEWAL_REQUESTED :
         DingProviderLoan::STATUS_RENEWED;
     }
