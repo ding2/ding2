@@ -25,9 +25,7 @@
           <?php endif; ?>
           <div class="availability search-result--availability">
             <strong><?php print t('Borrowing options') ?></strong>
-            <p class="js-online">
-              <?php print implode($types); ?>
-            </p>
+            <?php print $availability; ?>
           </div>
         </div>
       </div>

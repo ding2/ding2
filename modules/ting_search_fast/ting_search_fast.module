@@ -12,7 +12,7 @@ function ting_search_fast_theme($existing, $type, $theme, $path) {
         'abstract' => NULL,
         'cover' => NULL,
         'series' => NULL,
-        'types' => NULL,
+        'availability' => NULL,
       ),
       'template' => 'ting-search-fast-item',
       'path' => $path . '/templates',
@@ -73,26 +73,13 @@ function ting_search_fast_ting_search_collection_snippet(array $variables) {
         'object' => $object
       ]
     ),
-    '#types' => ting_search_fast_get_types($collection),
+    '#availability' => theme('ding_availability_collection_labels',
+      [
+        'collection' => $collection,
+      ]
+    ),
     '#attached' => [
       'js' => [ drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js' ]
     ]
   ];
-}
-
-function ting_search_fast_get_types(TingObjectCollectionInterface $collection) {
-  // Sort entities into type -> objects.
-  $type_object_map = array();
-  foreach ($collection->getObjects() as $object) {
-    $type_object_map[$object->getType()][] = $object;
-  }
-
-  return array_map(function(array $objects, $type) use ($collection) {
-    if (count($objects) == 1) {
-      $url = ting_search_fast_object_path($objects[0]);
-    } else {
-      $url = ting_search_fast_collection_path($collection);
-    }
-    return l($type, $url);
-  }, $type_object_map, array_keys($type_object_map));
 }
