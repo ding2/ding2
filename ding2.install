@@ -199,6 +199,12 @@ function ding2_update_dependencies() {
     // provider is present.
     'ting' => 7014,
   );
+  // Update hook which sets custom configuration for EU Cookie Compliance.
+  $dependencies['ding2'][7064] = array(
+    // Update hook that updates the configuration format for EU Cookie
+    // Compliance module.
+    'eu_cookie_compliance' => 7010,
+  );
 
   return $dependencies;
 }
@@ -725,4 +731,14 @@ function ding2_update_7063() {
     'ding_sections',
     'ding_nodelist',
   ));
+}
+
+/**
+ * Update EU Cookie Compliance settings.
+ */
+function ding2_update_7064() {
+  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da');
+  $ecc_settings['method'] = 'default';
+  $ecc_settings['show_disagree_button'] = 0;
+  i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
 }
