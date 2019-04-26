@@ -14,13 +14,13 @@
  * @return mixed
  */
 function ding_event_admin_setting_form(array $form, array &$form_state) {
-  $currency = variable_get('ding_event_currency_type', 'Kr');
+  $currency = variable_get('ding_event_currency_type', 'kr.');
   $form['#submit'][] = 'ding_event_admin_submit';
 
   $form['ding_event']['ding_event_currency_type'] = array(
     '#type' => 'radios',
     '#title' => t('Currency'),
-    '#options' => drupal_map_assoc(array('Kr', '€')),
+    '#options' => drupal_map_assoc(array('kr.', '€')),
     '#default_value' => $currency,
     '#description' => t("Select which currency to use on events"),
   );
