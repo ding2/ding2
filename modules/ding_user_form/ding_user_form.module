@@ -62,6 +62,9 @@ function ding_user_form_form_alter(&$form, $form_state, $form_id) {
     case 'user_login_block':
       $form['#attributes']['class'][] = 'user-login-form';
 
+      // Add js to handle user login form open/close.
+      $form['#attached']['js'][] = drupal_get_path('module', 'ding_user_form') . '/js/ding_user_form.js';
+
       // Change input type on name field to password as the user may enter CPR.
       $form['name']['#type'] = 'password';
 

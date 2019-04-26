@@ -40,11 +40,7 @@
    */
   Drupal.behaviors.menu = {
     attach: function(context, settings) {
-      var topbar_link_user = $('a.js-topbar-link-user', context),
-          main_menu_wrapper = $('.main-menu-wrapper', context),
-          secondary_menu_wrapper = $('.secondary-menu-wrapper', context),
-          close_user_login = $('.close-user-login', context),
-          mobile_menu_btn = $('a.topbar-link-menu', context),
+      var mobile_menu_btn = $('a.topbar-link-menu', context),
           search_btn = $('a.topbar-link-search', context),
           search_extended_btn = $('a.search-extended-button', context),
           first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a .main-menu-expanded-icon', context),
@@ -100,34 +96,6 @@
         } else {
           body.removeClass('overlay-is-active');
         }
-      });
-
-      topbar_link_user.on('click', function(evt) {
-        evt.preventDefault();
-        ddbasic.openLogin();
-
-        // Showing the pane for screenreaders also.
-        userPaneForm.removeAttr('aria-hidden');
-
-        // Making sure the inputs are tab-able.
-        userPaneFocusElements.removeAttr('tabindex');
-
-        // Setting tab focus to the first input element in the login form.
-        if (userPaneFirstInput.length) {
-          userPaneFirstInput.focus();
-        }
-      });
-
-      close_user_login.on('click', function(evt) {
-        evt.preventDefault();
-        body.removeClass('pane-login-is-open');
-        body.removeClass('overlay-is-active');
-
-        // Hiding the pane for screenreaders also.
-        userPaneForm.attr('aria-hidden', 'true');
-
-        // Making sure the inputs are not tab-able (As they are by default)
-        userPaneFocusElements.attr('tabindex', '-1');
       });
 
       first_level_expanded.on('click', function(evt) {
