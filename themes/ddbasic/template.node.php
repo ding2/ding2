@@ -280,22 +280,18 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           '#label' => t('Share this event'),
         );
 
-        // Make book/participate in event button.
-        $price = ding_base_get_value('node', $variables['node'], 'field_ding_event_price');
-        $participate = t('Participate in the event');
-        $book = t('Book a ticket');
-
-        if (empty($price)) {
-          $text = $participate;
-        }
-        else {
-          $text = $book;
+        $book_button_text = t('Participate in the event');
+        // If the event has a numeric price show an alternative text. If the
+        // price is not numeric we can't make any assumption about whether the
+        // event is free or not.
+        if (is_numeric($variables['event_price'])) {
+          $book_button_text = t('Book a ticket');
         }
 
         $link_url = ding_base_get_value('node', $variables['node'], 'field_ding_event_ticket_link', 'url');
 
         if (!empty($link_url)) {
-          $variables['book_button'] = l($text, $link_url, array(
+          $variables['book_button'] = l($book_button_text, $link_url, array(
             'attributes' => array(
               'class' => array('ticket', 'button'),
               'target' => '_blank',
