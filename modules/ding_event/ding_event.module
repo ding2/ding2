@@ -389,7 +389,12 @@ function ding_event_preprocess_node(&$variables) {
   $price = $node_wrapper->field_ding_event_price->value();
 
   if (!empty($price)) {
-    $variables['event_price'] = $price . ' ' . variable_get('ding_event_currency_type', 'Kr');
+    $variables['event_price'] = $price;
+    // The price field is a text field and we should only show currency if the
+    // price is numeric.
+    if (is_numeric($price)) {
+      $variables['event_price'] .= ' ' . variable_get('ding_event_currency_type', 'Kr');
+    }
   }
   // If the price is empty use "Free" text instead.
   else {
