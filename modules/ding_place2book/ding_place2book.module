@@ -467,6 +467,14 @@ function ding_p2b_format_options($node, array $additional) {
     if ($field) {
       $additional['kultunaut_age_group'] = _ding_place2book_get_age_group($field[0]['tid']);
     }
+
+    $field = field_get_items('node', $node, 'field_ding_event_list_image');
+    if ($field) {
+      $list_image = file_load($field[0]['fid']);
+      if (!empty($list_image->uri)) {
+        $additional['kultunaut_picture_uri'] = image_style_url('ding_place2book_kultunaut_square', $list_image->uri);
+      }
+    }
   }
   $additional['capacity'] = $additional['capacity'] === '0' ? '∞' : $additional['capacity'];
   $options += $additional;
