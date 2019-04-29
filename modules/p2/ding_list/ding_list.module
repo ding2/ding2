@@ -144,7 +144,7 @@ function ding_list_login_attach($type, $value) {
   $commands = array();
 
   if (!user_is_logged_in()) {
-    $commands[] = ajax_command_ding_user_authenticate('', current_path());
+    $commands[] = ajax_command_ding_user_authenticate('');
     return array('#type' => 'ajax', '#commands' => $commands);
   }
 
@@ -675,7 +675,7 @@ function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
               'class' => array('open-login'),
             ),
             'query' => array(drupal_get_destination()),
-            'external' => TRUE,
+            'external' => FALSE,
             'html' => TRUE,
           ),
         );

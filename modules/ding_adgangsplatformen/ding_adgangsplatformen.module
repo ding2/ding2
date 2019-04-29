@@ -147,7 +147,9 @@ function ding_adgangsplatformen_ajax_login_command($path) {
   $url = ding_adgangsplatformen_login(FALSE, $path);
 
   // Store the ajax callback url that triggered the ajax auth redirect.
-  $_SESSION['oauth2ajax'] = $_GET['q'];
+  $parameters = $_GET;
+  unset($parameters['q']);
+  $_SESSION['oauth2ajax'] = $_GET['q'] . '?' . drupal_http_build_query($parameters);
 
   return ctools_ajax_command_redirect($url);
 }
