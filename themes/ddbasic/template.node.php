@@ -203,15 +203,14 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         // (e.g. UTC time 2018-01-09 23:00). To print out the date/time properly
         // We first need to create the dateObject with the UTC database time, and
         // afterwards we can convert the dateObject db-time to localtime.
-
-        // Create a dateObject from startdate, set base timezone to UTC
+        // Create a dateObject from startdate, set base timezone to UTC.
         $date_start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
-        // Set timezone to local timezone
+        // Set timezone to local timezone.
         $date_start->setTimezone(new DateTimeZone($date[0]['timezone']));
 
-        // Create a dateObject from enddate, set base timezone to UTC
+        // Create a dateObject from enddate, set base timezone to UTC.
         $date_end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
-        // Set timezone to local timezone
+        // Set timezone to local timezone.
         $date_end->setTimezone(new DateTimeZone($date[0]['timezone']));
 
         $variables['event_date'] = date_format_date($date_start, 'ding_date_only_version2');
@@ -364,10 +363,10 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
         break;
 
       case 'image':
-        $variables['image'] = theme('image_style',array(
+        $variables['image'] = theme('image_style', array(
             'style_name' => "ding_full_width",
             'path' => $image_uri,
-            'attributes' => array('class' => 'ding-campaign-image')
+            'attributes' => array('class' => 'ding-campaign-image'),
           )
         );
         break;
