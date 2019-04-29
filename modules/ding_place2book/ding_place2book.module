@@ -78,30 +78,6 @@ function ding_place2book_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_image_default_styles().
- */
-function ding_place2book_image_default_styles() {
-  $styles = array();
-
-  $styles['ding_place2book_kultunaut_square'] = array(
-    'name' => 'ding_place2book_kultunaut_square',
-    'effects' => array(
-      array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 1200,
-          'height' => '',
-          'upscale' => 0,
-        ),
-        'weight' => 0,
-      ),
-    ),
-  );
-
-  return $styles;
-}
-
-/**
  * Implements hook_libraries_info().
  */
 function ding_place2book_libraries_info() {
