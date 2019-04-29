@@ -219,10 +219,10 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
 
     $params = [
       'p_mat_type' => $entity->getType(),
-      'p_mat_indexno' =>  $entity->getClassification(),
+      'p_mat_indexno' => $entity->getClassification(),
       'p_mat_lang' => $entity->getLanguage(),
       'p_mat_source' => $entity->getAc_source(),
-      'p_mat_ficnonfic' => $fic_nonfic,
+      'p_mat_ficnonfic' => $p_mat_ficnonfic,
       'p_mat_category' => $p_mat_category,
       'p_mat_audience' => $p_mat_audience,
     ];

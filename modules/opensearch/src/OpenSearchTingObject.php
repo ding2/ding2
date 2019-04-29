@@ -19,19 +19,21 @@ use TingRelation;
  */
 class OpenSearchTingObject implements TingObjectInterface {
   /**
-   * @var string[] list of property-names that can be found directly on $this
-   *   and should not be delegated to $this->clientObject.
+   * @var string[]
+   *   List of property-names that can be found directly on $this and should not
+   *   be delegated to $this->clientObject.
    */
   protected $localProperties = ['openSearchObject'];
 
   /**
-   * @var TingClientObject an object from the Ting Client that represents a
-   *   material search object.
+   * @var TingClientObject
+   *   An object from the Ting Client that represents a material search object.
    */
   protected $openSearchObject;
 
   /**
-   * @var string Id of the owner of the object, eg. the Agency.
+   * @var string
+   *   Id of the owner of the object, eg. the Agency.
    */
   protected $ownerId;
 
@@ -41,7 +43,8 @@ class OpenSearchTingObject implements TingObjectInterface {
    * The property needs to be local as the __get() magic functions won't be
    * able to properly handle arrays as they need to be passed by reference.
    *
-   * @var TingRelation[] list of materials related to this material.
+   * @var TingRelation[]
+   *   List of materials related to this material.
    */
   protected $relations = [];
 
@@ -511,20 +514,16 @@ class OpenSearchTingObject implements TingObjectInterface {
    * Returns whether the material is fiction/nonfiction.
    */
   public function isFiction() {
-    /**
-     * @var array $fiction_classifications
-     *
-     * An array with DK5 values/prefixes for fiction classifications.
-     *
-     * sk : Danish fiction (translated and danish authors).
-     * 82*: French fiction.
-     * 83*: English fiction.
-     * 84*: German fiction.
-     * 85*: Norwegian fiction.
-     * 86*: Danish fiction (danish authors).
-     * 87*: Swedish fiction.
-     * 88*: Misc. language fiction.
-     */
+    // An array with DK5 values/prefixes for fiction classifications.
+    //
+    // sk : Danish fiction (translated and danish authors).
+    // 82*: French fiction.
+    // 83*: English fiction.
+    // 84*: German fiction.
+    // 85*: Norwegian fiction.
+    // 86*: Danish fiction (danish authors).
+    // 87*: Swedish fiction.
+    // 88*: Misc. language fiction.
     $fiction_classifications = [
       'sk',
       '82',
@@ -556,7 +555,7 @@ class OpenSearchTingObject implements TingObjectInterface {
    *   Key for the first level of value to fetch.
    * @param string $l2_key
    *   Key for the second level of value to fetch. If not specified it is
-   *   assumed that the value can be fetched via $array[$l1_key]['']
+   *   assumed that the value can be fetched via $array[$l1_key][''].
    *
    * @return string|array|false
    *   The value from the open search object or FALSE if not found
@@ -585,14 +584,13 @@ class OpenSearchTingObject implements TingObjectInterface {
    *
    * @param array $records
    *   Associative list of records.
-   *
    * @param array $blacklist
    *   List of keys that should be removed from the list of records.
    *
    * @return array
    *   The filtered list of records.
    */
-  protected function filterRecordsExclude($records, $blacklist = []) {
+  protected function filterRecordsExclude(array $records, array $blacklist = []) {
     return array_filter($records, function ($key) use ($blacklist) {
       return !in_array($key, $blacklist);
     }, ARRAY_FILTER_USE_KEY);
@@ -609,7 +607,7 @@ class OpenSearchTingObject implements TingObjectInterface {
    * @return array
    *   List of all unique values of the nested arrays.
    */
-  protected function recordsFlatten($records) {
+  protected function recordsFlatten(array $records) {
     if (!is_array($records)) {
       return $records;
     }
