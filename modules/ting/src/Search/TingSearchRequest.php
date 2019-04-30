@@ -572,33 +572,4 @@ class TingSearchRequest {
     ]);
   }
 
-  /**
-   * Parse a string, assuming [name]:[value]:[compare operator].
-   *
-   * @param string $facet
-   *   The string to parse.
-   *
-   * @return TingSearchRequest
-   *   Updated search request object.
-   */
-  public function parseFacetFilter($facet) {
-    $parts = explode(':', $facet);
-
-    if ($parts[0]) {
-      $operator = TingSearchFieldFilter::DEFAULT_OPERATOR;
-      if (count($parts) > 2) {
-        if (TingSearchFieldFilter::validOperator(end($parts))) {
-          $operator = array_pop($parts);
-        }
-      }
-
-      $name = array_shift($parts);
-      $value = implode('', $parts);
-
-      return $this->withFieldFilter($name, rawurldecode($value), $operator);
-    }
-
-    return $this;
-  }
-
 }
