@@ -28,7 +28,7 @@ default:
       blackbox: ~
       api_driver: 'drush'
       drush:
-        root: '../../../../../web'
+        root: '../../../../'
       text:
         log_out: 'Log ud'
         username_field: 'Låner- eller CPR-nummer'
