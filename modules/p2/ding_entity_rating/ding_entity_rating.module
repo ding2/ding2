@@ -255,12 +255,13 @@ function ding_entity_rating_field_formatter_view($entity_type, $entity, $field, 
     array('system', 'ui.widget'),
   );
 
+  /* @var \TingEntity $entity */
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ding_entity_rating_action_default':
         $element[$delta] = array(
-          '#theme' => 'ding_entity_rating_display',
-          '#entity' => $entity,
+          '#theme' => 'ding_entity_rating_ting_object_display',
+          '#ting_object' => $entity->getTingObject(),
           '#attached' => array(
             'js' => array(
               array(
@@ -281,8 +282,8 @@ function ding_entity_rating_field_formatter_view($entity_type, $entity, $field, 
 
       case 'ding_entity_rating_action_ajax_load':
         $element[$delta] = array(
-          '#theme' => 'ding_entity_rating_display_ajax',
-          '#entity' => $entity,
+          '#theme' => 'ding_entity_rating_ting_object_display_ajax',
+          '#ting_object' => $entity->getTingObject(),
           '#attached' => array(
             'js' => array(
               array(
@@ -357,7 +358,18 @@ function ding_entity_rating_theme($existing, $type, $theme, $path) {
     'ding_entity_rating_promote_ratings' => array(
       'variables' => array('history_list' => NULL, 'account' => NULL),
     ),
-
+    'ding_entity_rating_ting_object_display' => array(
+      'variables' => array(
+        'ting_object' => NULL,
+        'avg' => NULL,
+        'user_rated' => FALSE,
+      ),
+    ),
+    'ding_entity_rating_ting_object_display_ajax' => array(
+      'template' => 'ding-entity-rating-ting-object-display-ajax',
+      'variables' => array('ting_object' => NULL),
+      'path' => $path . '/templates',
+    ),
   );
 }
 
@@ -410,6 +422,48 @@ function theme_ding_entity_rating_display($variables) {
 }
 
 /**
+ * Preprocessor for ding_entity_rating_display.
+ */
+function template_preprocess_ding_entity_rating_ting_object_display(&$variables) {
+  /* @var \Ting\TingObjectInterface $object */
+  $object = $variables['ting_object'];
+
+  $variables['classes_array'][] = 'ding-entity-rating';
+
+  if (user_access('use personalisation')) {
+    $variables['classes_array'][] = 'rateable';
+
+    // If this is an user rated element set the has-submission class to allow
+    // the theme to change look of the rating.
+    if ($variables['user_rated'] === TRUE) {
+      $variables['classes_array'][] = 'has-submission';
+    }
+  }
+
+  $variables['path'] = $object->getId();
+
+  // This theme function is used both by standard and ajax formatter, so this
+  // ensures that the rating is loaded correctly.
+  if (is_null($variables['avg'])) {
+    $variables['avg'] = ding_entity_rating_average($object->getId());
+  }
+
+  $variables['rating'] = ($variables['avg']) ? round($variables['avg']) : -1;
+}
+
+/**
+ * Theme function for ding_entity_rating_display.
+ */
+function theme_ding_entity_rating_ting_object_display($variables) {
+  $output = '<div class="' . implode(' ', $variables['classes_array']) . '" data-ding-entity-rating-id="' . $variables['ting_object']->getId() . '" data-ding-entity-rating-path="' . $variables['path'] . '">';
+
+  $output .= ding_entity_rating_build_theme_list($variables['rating']);
+  $output .= '<a href="#" class="ding-entity-rating-clear" data-ding-entity-rating-value="0">' . t('Clear') . '</a>';
+
+  return $output . '</div>';
+}
+
+/**
  * Theme function for ding_entity_rating_average.
  */
 function theme_ding_entity_rating_average($variables) {
@@ -447,7 +501,7 @@ function ding_entity_rating_build_theme_list($rating) {
  *   The average rating of the given entity.
  */
 function ding_entity_rating_get_average($entity) {
-  return ding_entity_rating_average($entity);
+  return ding_entity_rating_average($entity->ding_entity_id);
 }
 
 /**
@@ -462,23 +516,22 @@ function ding_entity_rating_get_average($entity) {
  *   The average rating of the given entity.
  */
 function ding_entity_rating_set_average($entity, $value) {
-  return ding_entity_rating_average($entity, $value);
+  return ding_entity_rating_average($entity->ding_entity_id, $value);
 }
 
 /**
- * Get / Set (for current session) average rating of a ting object.
+ * Get / Set (for current session) average rating for a specific id.
  *
- * @param object $entity
- *   The ting object entity to work with.
+ * @param string $id
+ *   Id to work with. This could either be the id of an entity or a Ting object.
  * @param mixed $value
  *   Set the average if this value is set.
  *
  * @return int
  *   The average rating of the given entity.
  */
-function ding_entity_rating_average($entity, $value = NULL) {
+function ding_entity_rating_average($id, $value = NULL) {
   $averages = &drupal_static(__FUNCTION__, array());
-  $id = $entity->ding_entity_id;
 
   if ($value !== NULL) {
     $averages[$id] = $value;

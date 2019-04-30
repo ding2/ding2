@@ -13,6 +13,7 @@ function ting_search_fast_theme($existing, $type, $theme, $path) {
         'cover' => NULL,
         'series' => NULL,
         'availability' => NULL,
+        'rating' => NULL,
       ),
       'template' => 'ting-search-fast-item',
       'path' => $path . '/templates',
@@ -78,8 +79,21 @@ function ting_search_fast_ting_search_collection_snippet(array $variables) {
         'collection' => $collection,
       ]
     ),
+    '#rating' => theme('ding_entity_rating_ting_object_display_ajax',
+      [
+        'ting_object' => $object,
+      ]
+    ),
     '#attached' => [
-      'js' => [ drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js' ]
+      'js' => [
+          drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js',
+          drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_widget.js',
+          drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_ajax.js',
+      ],
+      'library' => array(
+        array('system', 'drupal.ajax'),
+        array('system', 'ui.widget'),
+      ),
     ]
   ];
 }

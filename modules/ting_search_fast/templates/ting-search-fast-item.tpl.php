@@ -27,6 +27,14 @@
             <strong><?php print t('Borrowing options') ?></strong>
             <?php print $availability; ?>
           </div>
+          <div class="group-rating field-group-div field-group-format group-rating field-group-format group-rating field-group-format group-rating field-group-format group-rating">
+            <div class="field field-name-ding-entity-rating-action field-type-ding-entity-rating-action field-label-hidden">
+              <div class="field-items">
+                <div class="field-item even">
+                  <?php print $rating ?>
+                </div>
+              </div>
+            </div>
         </div>
       </div>
     </div>
