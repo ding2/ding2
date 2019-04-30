@@ -18,6 +18,11 @@ From a working Ding2 environment:
 2. Go to the `profiles/ding2/tests/behat` directory
 3. Run `path/to/composer install`
 
+#### Behat Version Notes
+Behat version is currently locked at `3.3.1` and Gherkin at `4.4.5`. There is and open bug 
+([#1085](https://github.com/Behat/Behat/issues/1085)) in later versions that result in a 
+"No specifications found at path" error when using the Drupal API driver.
+
 #### Install browser-support
 
 Ensure that you have a recent version of the Chrome browser available 
