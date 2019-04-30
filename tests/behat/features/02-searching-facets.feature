@@ -7,7 +7,7 @@ Feature: Searching with facets
   Numbering refers to the lines in the redroute spreadsheet for testing searching (seek004 is line 4)
 
 
-  @api @seek019 @seekNologin @regression @cci
+  @api @seek019 @seekNologin @regression
   Scenario: S019 Search and use facets to find a lesser result
     Given I have searched for "term.type=bog and term.publisher=Gyldendal"
     And I accept cookies
@@ -20,7 +20,7 @@ Feature: Searching with facets
 
     # notice that we will not check facet results while deselecting because we cannot control
     # the sequence it will deselect in.
-  @api @seek020 @seekNologin @regression @cci
+  @api @seek020 @seekNologin @regression
   Scenario: S020 Search and use facets repeatedly three times
     Given I have searched for "term.type=bog and term.publisher=Gyldendal"
     And I accept cookies
