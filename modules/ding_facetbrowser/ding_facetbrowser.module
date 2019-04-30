@@ -6,6 +6,7 @@
 
 use Ting\Search\TingSearchFacet;
 use Ting\Search\TingSearchFacetTerm;
+use Ting\Search\TingSearchResultInterface;
 
 /**
  * Implements hook_block_info().
@@ -54,9 +55,7 @@ function ding_facetbrowser_theme() {
   return array(
     'facetbrowser' => array(
       'variables' => array(
-        'facets' => NULL,
-        'searchkey' => NULL,
-        'conditions' => NULL,
+        'search_result' => NULL,
       ),
     ),
     'ding_facetbrowser_settings' => array(
@@ -93,22 +92,20 @@ function ding_facetbrowser_ctools_plugin_api($module, $api) {
 /**
  * Get the year_span element.
  *
- * @param string $search
- *   The searchkey.
- * @param array $conditions
- *   List of conditions.
+ * @param \Ting\Search\TingSearchResultInterface $search_result
+ *   Search result.
  *
  * @return array
  *   A year span form element container.
  */
-function _ding_facetbrowser_form_year_span_element($search, array $conditions) {
+function _ding_facetbrowser_form_year_span_element(TingSearchResultInterface $search_result) {
   // To get the correct counter for the span, we need to run the
   // search without the actual date filter on, so the complete dataset
   // is included.
   $run_search = FALSE;
   $count_search = array(
-    'conditions' => $conditions,
-    'searchkey' => $search,
+    'conditions' => $search_result->conditions,
+    'searchkey' => $search_result->getSearchRequest()->getFullTextQuery(),
   );
   $range = array();
 
@@ -229,15 +226,13 @@ function _ding_facetbrowser_form_year_span_element($search, array $conditions) {
 /**
  * Create a custom form with checkbox elements for facets and ajax callback.
  *
- * @param array $facets
- *   List of facets to process.
- * @param string $search
- *   The searchkey.
- * @param array $conditions
- *   List of conditions.
+ * @param \Ting\Search\TingSearchResultInterface $search_result
+ *   Search result.
  */
-function ding_facetbrowser_form($form, &$form_state, array $facets = [], $search = '', array $conditions = []) {
+function ding_facetbrowser_form($form, &$form_state, TingSearchResultInterface $search_result) {
   global $base_root;
+
+  $facets = $search_result->getFacets();
 
   $default_values = array();
   $selected = array();
@@ -245,7 +240,7 @@ function ding_facetbrowser_form($form, &$form_state, array $facets = [], $search
 
   $form['search_key'] = array(
     '#type'  => 'hidden',
-    '#value' => $search,
+    '#value' => $search_result->getSearchRequest()->getFullTextQuery(),
   );
 
   // Building the facets field sets.
@@ -278,7 +273,7 @@ function ding_facetbrowser_form($form, &$form_state, array $facets = [], $search
 
         switch ($facet->getName()) {
           case 'facet.date':
-            $form[$facet->getName()]['year_span'] = _ding_facetbrowser_form_year_span_element($search, $conditions);
+            $form[$facet->getName()]['year_span'] = _ding_facetbrowser_form_year_span_element($search_result);
 
             // Continue the loop, so we don't include the regular checkboxes.
             continue 2;
@@ -485,8 +480,8 @@ function _ding_facetbrowser_facet_string($form_state = NULL) {
  */
 function theme_facetbrowser($variables) {
   $elements = array();
-  if (is_array($variables['facets'])) {
-    $form = drupal_get_form('ding_facetbrowser_form', $variables['facets'], $variables['searchkey'], $variables['conditions']);
+  if (!empty($variables['search_result'])) {
+    $form = drupal_get_form('ding_facetbrowser_form', $variables['search_result']);
     $elements[] = drupal_render($form);
   }
   return implode('', $elements);
