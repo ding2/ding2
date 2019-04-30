@@ -25,13 +25,6 @@ class CreateCampaignPlusPage extends Page {
   );
 
   /**
-   * Open Create Campaign page
-   */
-  public function openCampaign() {
-    $this->open();
-  }
-
-  /**
    * Fill Campaign content
    *
    * @param string $title
@@ -59,7 +52,7 @@ class CreateCampaignPlusPage extends Page {
     $form->fillField('edit-field-ding-campaign-plus-text-und-0-value', $text);
     $form->fillField('edit-field-ding-campaign-plus-link-und-0-url', $link);
 
-    $radioButton = $this->find('named', ['radio', $style]);
+    $radioButton = $form->find('named', ['radio', $style]);
     $select = $radioButton->getAttribute('name');
     $option = $radioButton->getAttribute('value');
     $this->selectFieldOption($select, $option);
