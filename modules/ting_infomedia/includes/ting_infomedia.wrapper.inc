@@ -25,12 +25,7 @@ function ting_infomedia_get_article($id) {
 
     ting_infomedia_add_user_creds($request);
     $ret = opensearch_execute($request->getRequest());
-    if (is_string($ret)) {
-      $ret = FALSE;
-    }
-    else {
-      $ret = $request->parse($ret);
-    }
+    $ret = $request->parse($ret);
   }
   catch (TingClientException $exception) {
     watchdog_exception('infomedia', $exception);
@@ -145,9 +140,5 @@ function ting_infomedia_add_user_creds(TingClientInfomediaRequest $request) {
     // Do nothing.
   }
 
-  $name = isset($creds['name']) ? $creds['name'] : '';
-
-  // Check if user is authenticated.
-  ding_provider_invoke_page('user', 'authenticate', $name, $pass);
   return $request;
 }
