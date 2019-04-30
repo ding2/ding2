@@ -26,18 +26,14 @@ default:
       loop_break: true
     Drupal\DrupalExtension:
       blackbox: ~
-      api_driver: 'drupal'
+      api_driver: 'drush'
       drush:
         root: '../../../../../web'
-      drupal:
-        drupal_root: '../../../../'
       text:
-        log_in: 'Log ind'
         log_out: 'Log ud'
         username_field: 'Låner- eller CPR-nummer'
         password_field: 'Pinkode (4 cifre)'
     Liuggio\Fastest\Behat\ListFeaturesExtension\Extension: ~
-
 
 chrome:
   extensions:
