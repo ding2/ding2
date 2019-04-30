@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Testing Openlist provider.
+ */
+
+/**
+ * Implements hook_ding_provider().
+ */
+function connie_openlist_ding_provider() {
+  return array(
+    'title' => 'Connie Openlist provider',
+    'provides' => array(
+      'openlist' => array(
+        'prefix' => 'openlist',
+        'file' => 'connie_openlist.openlist.inc',
+      ),
+    ),
+  );
+}
