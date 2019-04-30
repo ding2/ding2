@@ -26,9 +26,9 @@ default:
       loop_break: true
     Drupal\DrupalExtension:
       blackbox: ~
-      api_driver: 'drush'
-      drush:
-        root: '../../../../'
+      api_driver: 'drupal'
+      drupal:
+        drupal_root: '../../../..'
       text:
         log_out: 'Log ud'
         username_field: 'Låner- eller CPR-nummer'
