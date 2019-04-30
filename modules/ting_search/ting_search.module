@@ -120,9 +120,7 @@ function ting_search_ding_facetbrowser() {
   $results->show_empty = FALSE;
   $search_result = ting_search_current_results();
   if ($search_result) {
-    $results->facets = $search_result->getFacets();
-    $results->searchkey = $search_result->getSearchRequest()->getFullTextQuery();
-    $results->conditions = $search_result->conditions;
+    $results->search_result = $search_result;
     return $results;
   }
 }
