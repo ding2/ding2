@@ -103,7 +103,7 @@ class CampaignPlusContext implements Context {
           break;
 
         default:
-          throw new UnexpectedValueException('Unknown Campaign Field: ' . $field);
+          throw new UnexpectedValueException('Unknown basic trigger field: ' . $field);
       }
     }
 
@@ -135,7 +135,7 @@ class CampaignPlusContext implements Context {
           break;
 
         default:
-          throw new UnexpectedValueException('Unknown Campaign Field: ' . $field);
+          throw new UnexpectedValueException('Unknown facet trigger field: ' . $field);
       }
     }
 
