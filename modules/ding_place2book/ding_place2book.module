@@ -678,7 +678,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     }
     elseif ($state === 'published') {
       // If event is published we first check to see if there's any available
-      // tickets at all. If not the event is sold out and we can avoid fething
+      // tickets at all. If not the event is sold out and we can avoid fetching
       // ticket types and sale periods. There might be a waiting-list so we
       // check for that first before setting sold out.
       if (empty($available_tickets)) {
@@ -709,6 +709,13 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
           ];
         }
 
+        $now = time();
+
+        // Filter out periods which are already over.
+        $sale_periods = array_filter($sale_periods, function ($p) use ($now) {
+          return $p['end'] >= $now;
+        });
+
         // Find the closest sale period.
         $begin_values = array_column($sale_periods, 'begin');
         $min_period_begin = min($begin_values);
@@ -717,15 +724,13 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
         });
         $min_period = array_shift($min_period);
 
-        $now = time();
-
         if ($now >= $min_period['begin'] && $now <= $min_period['end']) {
           // We have found an open sales period. No need to continue iterating
           // the ticket types.
           $ticket_link_status = 'open';
         }
         elseif ($now < $min_period['begin']) {
-          // We haven't found any open sales period yet,q but at least there's
+          // We haven't found any open sales period yet, but at least there's
           // an upcoming, so set that status for now.
           $ticket_link_status = 'upcoming';
         }
@@ -766,8 +771,8 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
 
         case 'upcoming':
           $sale_start = $min_period['begin'];
-          $date = date('d.m.Y', $sale_start);
-          $time = date('H:i', $sale_start);
+          $date = format_date($sale_start, 'ding_date_only');
+          $time = format_date($sale_start, 'ding_time_only');
           $class = 'ticket-notice';
           $data = t("Ticket sale starts @date at @time", array(
             '@date' => $date,
