@@ -3,24 +3,13 @@ default:
     default:
       contexts:
         - FeatureContext
-        - Ding2Context
-        # - Ding2MessagesContext
-        - P2Context
-        - LibContext
+        - LibContext:
+            NoScreenDump: "false"
         - StepsContext
-        - ScreenshotsContext:
-            NoScreenDump: false
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\DrupalExtension\Context\DrushContext
-  formatters:
-    pretty:
-      output_styles:
-        # Make comments (which contains the location of steps) visible
-        # on terminals with black backgrounds.
-        comment: [ ~, ~ ]
-
   extensions:
     SensioLabs\Behat\PageObjectExtension: ~
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
@@ -38,8 +27,9 @@ default:
       text:
         log_out: 'Log ud'
         username_field: 'Låner- eller CPR-nummer'
-        password_field: 'Pinkode (4 cifre)'
+        password_field: 'Pinkode'
     Liuggio\Fastest\Behat\ListFeaturesExtension\Extension: ~
+
 
 chrome:
   extensions:

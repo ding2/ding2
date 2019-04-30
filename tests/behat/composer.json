@@ -5,10 +5,7 @@
         "emuse/behat-html-formatter": "^0.1.0"
     },
     "config": {
-        "bin-dir": "bin/",
-        "platform": {
-            "php": "7.0.33"
-        }
+        "bin-dir": "bin/"
     },
     "require": {
         "behat/behat": "^3.5",
@@ -21,8 +18,7 @@
         "paragonie/random_compat": "^2.0",
         "liuggio/fastest": "^1.6",
         "dmore/behat-chrome-extension": "^1.2",
-        "cweagans/composer-patches": "^1.6",
-        "bossa/phpspec2-expect": "^3.0"
+        "cweagans/composer-patches": "^1.6"
     },
     "extra": {
         "patches": {

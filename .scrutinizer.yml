@@ -19,8 +19,6 @@ build_failure_conditions:
 
 filter:
     excluded_paths:
-        # Behat context classes uses PSR2 codestyle.
-        - 'tests/behat/features/bootstrap/*'
         # Generated Features code
         - '*.features.*'
         - '*.feeds_importer_default.inc'
