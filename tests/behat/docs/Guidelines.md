@@ -70,14 +70,33 @@ be missing, because those checks are not
 selected for implementation or not valid for
 different reasons.
 
-### Environment variables
+### behat.config file - parameter transfer
+To make setup of parameters to the behat suite easier a file called behat.config
+which must be placed in the behat-root directory (just under features), is used.
 
-The behaviour of the behat test suite can be influenced with certain
-environment variables:
+If the file does not exist, default values are being used.
 
-- `SCREENSHOT_DIR`: Directory to save screenshots to.
-- `SCREENSHOT_FEATURE_FOLDER`: If `true`/`yes`, create a directory for
-  each feature.
+If the file exists, it will be read, and any parameter which is included in it
+will have its value set accordingly.
+
+The format of the behat.config file is simple:
+- one line per parameter
+- each line consists of parameter name <tab> value
+
+The following example will direct screenshots to the results-directory (default it will be
+placed the behat-root-dir), 
+and have the screenshots placed in a subfolder named by the feature file (default it won't).
+Also logintiming information verbose mode will be set to false (which is also the default value).
+```sh
+scrshotdir  results/
+screenshotusefeaturefolder  true
+logintiminginfo false
+```
+(These are the currently the only parameters that can be set in this way).
+
+This is used on circleCI by having the makefile create the behat.config file,
+to redirect the screenshots directly to the artefact-folder.
+The above example is good for local use.
 
 ### Injecting classes into context-file
 
@@ -171,7 +190,7 @@ The following conventions are used:
 
 @regression - all scenarios which should run for normal regression testing. This will be pretty much all scenarios.
 
-@no_ci - don't run these scenarios during the automatic test on circleCI. See paragraph on CircleCI.
+@cci - all scenarios that run during the automatic test on circleCI. See paragraph on CircleCI.
 
 @api - indicates that the chrome browser is to be used. This is put on all scenarios.
 
