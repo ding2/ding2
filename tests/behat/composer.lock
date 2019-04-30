@@ -52,7 +52,9 @@
                 "branch-alias": {
                     "dev-master": "3.2.x-dev"
                 },
-                "patches_applied": []
+                "patches_applied": {
+                    "Use filename and linenumber as testcase name": "../../patches/behat-junit-testcase-filename-linenumber.patch"
+                }
             },
             "autoload": {
                 "psr-0": {

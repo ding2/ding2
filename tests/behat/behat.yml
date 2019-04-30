@@ -5,14 +5,25 @@ default:
         - CampaignPlusContext
         - CreateNewsContext
         - FeatureContext
-        - LibContext:
-            NoScreenDump: "false"
+        - Ding2Context
+        # - Ding2MessagesContext
+        - P2Context
+        - LibContext
         - StepsContext
         - LoginContext
+        - ScreenshotsContext:
+            NoScreenDump: false
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\DrupalExtension\Context\DrushContext
+  formatters:
+    pretty:
+      output_styles:
+        # Make comments (which contains the location of steps) visible
+        # on terminals with black backgrounds.
+        comment: [ ~, ~ ]
+
   extensions:
     SensioLabs\Behat\PageObjectExtension:
       namespaces:

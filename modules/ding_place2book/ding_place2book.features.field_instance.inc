@@ -10,18 +10,23 @@
 function ding_place2book_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-ding_event-field_place2book'
+  // Exported field_instance: 'node-ding_event-field_place2book'.
   $field_instances['node-ding_event-field_place2book'] = array(
     'bundle' => 'ding_event',
     'default_value' => array(),
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'hidden',
-        'module' => 'ding_place2book',
         'settings' => array(),
-        'type' => 'ding_p2b_formatter_default',
+        'type' => 'hidden',
         'weight' => 14,
       ),
       'search_result' => array(
@@ -37,6 +42,12 @@ function ding_place2book_field_default_field_instances() {
         'weight' => 0,
       ),
       'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_no_overlay' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',

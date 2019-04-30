@@ -121,6 +121,9 @@
       left: 0;
       margin: 0;
       background: transparent;
+      // Override the default 80px padding of buttons so the star
+      // doesn't overlap the search button.
+      padding-right: 15px;
 
       &:hover {
         background: transparent;

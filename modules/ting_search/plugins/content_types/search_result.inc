@@ -89,7 +89,7 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
   else {
     if (empty($conf['override_empty'])) {
       $block->title = t('Your search yielded no results');
-      $block->content = search_help('search#noresults', drupal_help_arg());
+      $block->content = $prefix . search_help('search#noresults', drupal_help_arg()) . $suffix;
     }
     else {
       $block->title = $conf['empty_title'];

@@ -4,6 +4,10 @@
  * Represents hook definition and common methods.
  */
 
+// Id which was used in the old module for events which is not synchronized with
+// place2book.
+define('DING_PLACE2BOOK_NO_ID', -1);
+
 /**
  * Implements hook_menu().
  */
@@ -44,7 +48,7 @@ function _ding_place2book_migrate_batch($events, &$context) {
   $context['sandbox']['progress'] += count($part);
   foreach ($part as $event) {
     $node = node_load($event->nid);
-    if (!empty($event->place2book_id) && $event->place2book_id != -1) {
+    if (!empty($event->place2book_id)) {
       $event_maker_id = _ding_place2book_get_event_maker($node);
 
       // Migrate the node's p2b event data to the new p2b field. Note that we do
@@ -57,29 +61,43 @@ function _ding_place2book_migrate_batch($events, &$context) {
         'synchronize' => $event->maintain_copy,
       );
 
-      // In the old version of p2b integration module, the field for external
-      // ticket link was used by p2b also. In the new version the module has
-      // it's own dedicated field with widget and formatter, and the formatter
-      // outputs its own ticket link button. Unfortunately this will result in
-      // double ticket buttons in frontend for migrated events, since they will
-      // still have the p2b ticket URL in the ticket_link field. The easiest
-      // solution at this point seems to be to keep the fields separated, so
-      // here we ensure that existing nodes with p2b data don't also have the
-      // p2b ticket URL in the ticket_link field, to avoid double ticket buttons
-      // in frontend.
+      // In ding_place2book_update_7004() all p2b events got their ticket order
+      // URL inserted in the ding_event ticket url field to better integrate
+      // p2b events with the rest of the system. If this update wasn't run with
+      // the old version of the module the p2b URL hasn't been updated, since
+      // the update function was using a function only present in the old
+      // module. We could have rewritten the function to work with in the new
+      // module, but it's easier to just handle it here during migration. So
+      // here we ensure that the ticket URL field is in fact synchronized with
+      // the p2b sales location.
+      $ticket_url_synchronized = FALSE;
+
+      $node_wrapper = entity_metadata_wrapper('node', $node);
       // Note that the initial field_get_items check is used to avoid having to
       // deal with the "Parent Data Structure Not Set" exception thrown by the
       // wrapper, when field data is not available.
       // See: https://www.drupal.org/project/entity/issues/1596594
       if (field_get_items('node', $node, 'field_ding_event_ticket_link')) {
-        $node_wrapper = entity_metadata_wrapper('node', $node);
         $ticket_url = $node_wrapper->field_ding_event_ticket_link->url->value();
+        // If the field already contains a p2b URL we can avoid making a request
+        // to API. This will be the case if the update function was run in the
+        // old version of this module.
         if (strpos($ticket_url, 'https://www.place2book.com') === 0) {
-          $node_wrapper->field_ding_event_ticket_link->set(NULL);
+          $ticket_url_synchronized = TRUE;
         }
       }
 
       try {
+        if (!$ticket_url_synchronized) {
+          $p2b = ding_place2book_instance();
+          $event = $p2b->getEvent($event_maker_id, $event->place2book_id);
+
+          $node_wrapper
+            ->field_ding_event_ticket_link
+            ->url
+            ->set($event->links->sales_location);
+        }
+
         node_save($node);
         // If we get here it means that no exception was thrown and we update
         // the migation status to TRUE which indicates completed.

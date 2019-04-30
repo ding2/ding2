@@ -78,30 +78,6 @@ function ding_place2book_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_image_default_styles().
- */
-function ding_place2book_image_default_styles() {
-  $styles = array();
-
-  $styles['ding_place2book_kultunaut_square'] = array(
-    'name' => 'ding_place2book_kultunaut_square',
-    'effects' => array(
-      array(
-        'name' => 'image_scale_and_crop',
-        'data' => array(
-          'width' => 1200,
-          'height' => '',
-          'upscale' => 0,
-        ),
-        'weight' => 0,
-      ),
-    ),
-  );
-
-  return $styles;
-}
-
-/**
  * Implements hook_libraries_info().
  */
 function ding_place2book_libraries_info() {
@@ -171,8 +147,7 @@ function ding_place2book_views_bulk_operations_form_alter(&$form, &$form_state, 
     $p2b_nodes = [];
 
     foreach (node_load_multiple(array_values($selection)) as $node) {
-      $field_place2book = field_get_items('node', $node, 'field_place2book');
-      if (!empty($field_place2book) && $field_place2book[0]['synchronize']) {
+      if (ding_place2book_is_ding_event_node_synchronized($node)) {
         $p2b_nodes[] = $node;
       }
     }
@@ -195,17 +170,14 @@ function ding_place2book_views_bulk_operations_form_alter(&$form, &$form_state, 
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_place2book_form_node_delete_confirm_alter(&$form, &$form_state, $form_id) {
-  $node = $form['#node'];
-  $field_place2book = field_get_items('node', $node, 'field_place2book');
-
-  if (empty($field_place2book) || !$field_place2book[0]['synchronize']) {
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($form['#node'])) {
     return;
   }
 
   // This event is synchronized with p2b. Deleting it might have unexpected
   // consequences. Since this is a single node deletion we can afford to fetch
   // the p2b event and display a more detailed warning message.
-  list($event_id, $event_maker_id) = array_values($field_place2book[0]);
+  list($event_id, $event_maker_id) = array_values($field_place2book);
 
   // The default behavior is to try to delete the p2b event, but it might not be
   // possible which is reflected in deletable paramater on the p2b-event.
@@ -242,6 +214,115 @@ function _ding_place2book_attach_node_deletion_warning(&$form, $warning_message)
 }
 
 /**
+ * Implements hook_process_node().
+ *
+ * For the p2b-field added to ding_event nodes by this module, we do not use our
+ * field formatter. Instead we use a hidden formatter and hook into the existing
+ * book button in this hook.
+ *
+ * @see ding_place2book_node_presave()
+ */
+function ding_place2book_process_node(&$variables) {
+  // Return early if this is not a ding_event or there's no book button.
+  if ($variables['type'] != 'ding_event' || !isset($variables['book_button'])) {
+    return;
+  }
+
+  $node = node_load($variables['nid']);
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($node)) {
+    return;
+  }
+
+  // This ding_event node is synchronized with p2b, so we replace the existing
+  // book button to one that can show the correct p2b-status.
+  $variables['book_button'] = [
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#value' => '',
+    '#attributes' => [
+      'class' => 'place2book',
+      'data-event-id' => $field_place2book['event_id'],
+      'data-event-maker-id' => $field_place2book['event_maker_id'],
+    ],
+    '#attached' => [
+      'css' => [
+        drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css',
+      ],
+      'js' => [
+        drupal_get_path('module', 'ding_place2book') . '/js/ding_place2book.js',
+      ]
+    ],
+  ];
+}
+
+/**
+ * Implements hook_node_presave().
+ *
+ * For nodes of ding_event type synchronized wiht p2b we ensure that the ticket
+ * link field is kept updated with the sales location URL from p2b everytime
+ * a node is saved. This ensures better compatibility with the rest of the
+ * system.
+ *
+ * @see ding_place2book_process_node()
+ */
+function ding_place2book_node_presave($node) {
+  if ($node->type != 'ding_event') {
+    return;
+  }
+
+  // We'll only act on node inserts. For existing nodes we will instead rely
+  // on our form alter which disables the ticket link field for p2b-nodes. This
+  // way we avoid making requests when multiple nodes are updated in bulk.
+  if (!$node->is_new) {
+    return;
+  }
+
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($node)) {
+    return;
+  }
+
+  list($event_id, $event_maker_id) = array_values($field_place2book);
+  try {
+    $p2b = ding_place2book_instance();
+    $event = $p2b->getEvent($event_maker_id, $event_id);
+
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $node_wrapper
+      ->field_ding_event_ticket_link
+      ->url
+      ->set($event->links->sales_location);
+  }
+  catch (Exception $e) {
+    watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
+  }
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function ding_place2book_field_widget_form_alter(&$element, &$form_state, $context) {
+  if (empty($context['form']['#node'])) {
+    return;
+  }
+
+  $node = $context['form']['#node'];
+  $field_name = $context['field']['field_name'];
+
+  if ($node->type != 'ding_event' || $field_name != 'field_ding_event_ticket_link') {
+    return;
+  }
+
+  if (!ding_place2book_is_ding_event_node_synchronized($node)) {
+    return;
+  }
+
+  // Disable the formatter element for the ticket link field if this ding_event
+  // node synchronizes with p2b.
+  $element['#disabled'] = TRUE;
+  $element['#description'] = t('This field is currently controlled by place2book and is therefore disabled. Disable place2book synchronization to enable it and use a custom external ticket link.');
+}
+
+/**
  * Creates and initializes instance of P2b class.
  *
  * @return object
@@ -255,6 +336,52 @@ function ding_place2book_instance() {
   }
 
   return $p2b;
+}
+
+/**
+ * Determines whether a given (ding_event) node is synchronized with p2b.
+ *
+ * Note that this function only works on ding_event nodes with the p2b field
+ * named field_place2book that this module provides out of the box, and is
+ * therefore name accordingly.
+ *
+ * @param object $node
+ *   A node of ding_event type.
+ *
+ * @return mixed|bool|array
+ *   Returns FALSE if $node is not synchronized with p2b.
+ *   Returns array with p2b-data for the node's corresponding p2b-event, if
+ *   $node was synchronized with p2b.
+ */
+function ding_place2book_is_ding_event_node_synchronized($node) {
+  if (!$field_place2book = field_get_items('node', $node, 'field_place2book')) {
+    return FALSE;
+  }
+
+  $field_place2book = $field_place2book[0];
+  if (empty($field_place2book['synchronize'])) {
+    return FALSE;
+  }
+  // The event is synchronized and this is just a safety check to ensure these
+  // important values is present and non-empty.
+  $missing = [];
+  if (empty($field_place2book['event_id'])) {
+    $missing[] = 'event_id';
+  }
+  if (empty($field_place2book['event_maker_id'])) {
+    $missing[] = 'event_maker_id';
+  }
+  if (!empty($missing)) {
+    // If for some reason one of these is not set, we'll log it in watchdog to
+    // ease debugging.
+    watchdog('ding_place2book', "Event %title is synchronized with place2book but is missing !missing", [
+      '%title' => $node->title,
+      '!missing' => implode(', ', $missing),
+    ], WATCHDOG_WARNING, l(t('Edit event'), 'node/' . $node->nid . '/edit'));
+    return FALSE;
+  }
+
+  return $field_place2book;
 }
 
 /**
@@ -315,6 +442,14 @@ function ding_p2b_format_options($node, array $additional) {
     $field = field_get_items('node', $node, 'field_ding_event_target');
     if ($field) {
       $additional['kultunaut_age_group'] = _ding_place2book_get_age_group($field[0]['tid']);
+    }
+
+    $field = field_get_items('node', $node, 'field_ding_event_list_image');
+    if ($field) {
+      $list_image = file_load($field[0]['fid']);
+      if (!empty($list_image->uri)) {
+        $additional['kultunaut_picture_uri'] = image_style_url('ding_place2book_kultunaut', $list_image->uri);
+      }
     }
   }
   $additional['capacity'] = $additional['capacity'] === '0' ? '∞' : $additional['capacity'];
