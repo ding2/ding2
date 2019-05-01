@@ -90,17 +90,19 @@ function ding_facetbrowser_ctools_plugin_api($module, $api) {
 }
 
 /**
- * Get the year_span element.
+ * Get the interval element.
  *
+ * @param \Ting\Search\TingSearchFacet $facet
+ *   The facet.
  * @param \Ting\Search\TingSearchResultInterface $search_result
  *   Search result.
  *
  * @return array
- *   A year span form element container.
+ *   An interval form element container.
  */
-function _ding_facetbrowser_form_year_span_element(TingSearchResultInterface $search_result) {
+function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSearchResultInterface $search_result) {
   // To get the correct counter for the span, we need to run the
-  // search without the actual date filter on, so the complete dataset
+  // search without the actual interval filter on, so the complete dataset
   // is included.
   $run_search = FALSE;
   $range = array();
@@ -111,14 +113,14 @@ function _ding_facetbrowser_form_year_span_element(TingSearchResultInterface $se
     'filters' => [],
   ];
 
-  // Check if the date facet is used, and remove it from the count_request.
+  // Check if the facet is used, and remove it from the count_request.
   $count_request = clone $search_result->getSearchRequest();
   $filters = &$count_request->getFilters();
   foreach ($filters as $filter_delta => $filter) {
     $statements = &$filter->getStatements();
     foreach ($statements as $statement_delta => $statement) {
-      // Remove all facet.date conditions.
-      if ($statement->getName() === 'facet.date') {
+      // Remove all facet conditions.
+      if ($statement->getName() === $facet->getName()) {
         switch ($statement->getOperator()) {
           case $statement::OP_GT_EQUAL:
             $range[0] = (int) $statement->getValue();
@@ -150,13 +152,13 @@ function _ding_facetbrowser_form_year_span_element(TingSearchResultInterface $se
   // Only run the counter, if it's different from the search already
   // performed.
   if ($run_search === TRUE) {
-    $cache_key = 'ding_facetbrowser:yearspan:' . md5(serialize($checksum));
+    $cache_key = 'ding_facetbrowser:interval:' . md5(serialize($checksum));
     $cache = cache_get($cache_key);
 
     if (!$cache) {
       $count_search_result = $count_request
         ->withCount(0)
-        ->withFacets(['facet.date'])
+        ->withFacets([$facet->getName()])
         ->withTermsPrFacet(999)
         ->execute();
 
@@ -171,43 +173,44 @@ function _ding_facetbrowser_form_year_span_element(TingSearchResultInterface $se
   }
 
   // Set min and max values.
-  $terms = $count_search_result->getFacets()['facet.date']->getTerms();
-  foreach ($terms as $year => $term) {
-    if (!is_numeric($year)) {
-      unset($terms[$year]);
+  $terms = $count_search_result->getFacets()[$facet->getName()]->getTerms();
+  foreach ($terms as $value => $term) {
+    if (!is_numeric($value)) {
+      unset($terms[$value]);
     }
   }
   ding_facetbrowser_sort_terms($terms, 'numeric');
-  $years = array_keys($terms);
+  $interval = array_keys($terms);
 
   // Set the range (default value).
   if (empty($range)) {
-    $range = array(0, count($years) - 1);
+    $range = array(0, count($interval) - 1);
   }
   else {
     $range = array(
-      array_search($range[0], $years) ?: 0,
-      array_search($range[1], $years) ?: count($years) - 1,
+      array_search($range[0], $interval) ?: 0,
+      array_search($range[1], $interval) ?: count($interval) - 1,
     );
   }
 
-  // Create the year span container, with slider and range indicator.
+  // Create the interval container, with slider and range indicator.
   return array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('year-span', 'js-year-span'),
+      'class' => array('ding-facetbrowser-interval', 'js-ding-facetbrowser-interval'),
+      'data-facet-name' => $facet->getName(),
     ),
     'slider' => array(
       '#type' => 'container',
-      '#attributes' => array('class' => array('year-span__slider')),
+      '#attributes' => array('class' => array('ding-facetbrowser-interval__slider')),
     ),
     'start' => array(
       '#type' => 'container',
-      '#attributes' => array('class' => array('year-span__start')),
+      '#attributes' => array('class' => array('ding-facetbrowser-interval__start')),
     ),
     'end' => array(
       '#type' => 'container',
-      '#attributes' => array('class' => array('year-span__end')),
+      '#attributes' => array('class' => array('ding-facetbrowser-interval__end')),
     ),
     '#attached' => array(
       'library' => array(
@@ -217,10 +220,12 @@ function _ding_facetbrowser_form_year_span_element(TingSearchResultInterface $se
         array(
           'data' => array(
             'ding_facetbrowser' => array(
-              'year_span' => array(
-                'years' => $years,
-                'range' => $range,
-                'uri' => $GLOBALS['base_root'] . _ding_facetbrowser_parse_request_uri(),
+              'intervals' => array(
+                $facet->getName() => array(
+                  'interval' => $interval,
+                  'range' => $range,
+                  'uri' => $GLOBALS['base_root'] . _ding_facetbrowser_parse_request_uri(),
+                ),
               ),
             ),
           ),
@@ -279,9 +284,9 @@ function ding_facetbrowser_form($form, &$form_state, TingSearchResultInterface $
           ),
         );
 
-        switch ($facet->getName()) {
-          case 'facet.date':
-            $form[$facet->getName()]['year_span'] = _ding_facetbrowser_form_year_span_element($search_result);
+        switch ($facet->getType()) {
+          case $facet::TYPE_INTERVAL:
+            $form[$facet->getName()]['interval'] = _ding_facetbrowser_form_interval_element($facet, $search_result);
 
             // Continue the loop, so we don't include the regular checkboxes.
             continue 2;

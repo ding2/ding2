@@ -731,21 +731,21 @@ ul.tabs.primary {
 // ==========================================================================
 // Year span
 // ==========================================================================
-.year-span {
+.ding-facetbrowser-interval {
   margin: 6px 2px 0;
 }
 
-.year-span__slider {
+.ding-facetbrowser-interval__slider {
   margin-bottom: 8px;
 }
 
-.year-span__start,
-.year-span__end {
+.ding-facetbrowser-interval__start,
+.ding-facetbrowser-interval__end {
   width: 50%;
   float: left;
 }
 
-.year-span__end {
+.ding-facetbrowser-interval__end {
   text-align: right;
 }
 

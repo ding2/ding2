@@ -13,6 +13,9 @@ namespace Ting\Search;
  */
 class TingSearchFacet {
 
+  const TYPE_DEFAULT = 'default';
+  const TYPE_INTERVAL = 'interval';
+
   /**
    * @var string
    */
@@ -42,6 +45,15 @@ class TingSearchFacet {
     $this->name = $name;
     // Set via setter to store the terms by their names.
     $this->setTerms($terms);
+  }
+
+  public function getType() {
+    switch ($this->getName()) {
+      case 'facet.date':
+        return self::TYPE_INTERVAL;
+    }
+
+    return self::TYPE_DEFAULT;
   }
 
   /**

@@ -80,48 +80,53 @@
         }
       });
 
-      facet_browsers.find('.js-year-span').not('.js-year-span-processed').each(function () {
+      facet_browsers.find('.js-ding-facetbrowser-interval').not('.js-ding-facetbrowser-interval-processed').each(function () {
         var
-          $element = $(this).addClass('js-year-span-processed'),
+          $this = $(this),
+          facet_name = $this.attr('data-facet-name'),
+          interval_settings = Drupal.settings.ding_facetbrowser.intervals[facet_name],
+          $element = $this.addClass('js-ding-facetbrowser-interval-processed'),
           update_info = function (values) {
-            $element.find('.year-span__start').text(Drupal.settings.ding_facetbrowser.year_span.years[values[0]]);
-            $element.find('.year-span__end').text(Drupal.settings.ding_facetbrowser.year_span.years[values[1]]);
+            $element.find('.ding-facetbrowser-interval__start').text(interval_settings.interval[values[0]]);
+            $element.find('.ding-facetbrowser-interval__end').text(interval_settings.interval[values[1]]);
           };
 
-        $element.find('.year-span__slider').slider({
+        $element.find('.ding-facetbrowser-interval__slider').slider({
           range: true,
           min: 0,
-          max: Drupal.settings.ding_facetbrowser.year_span.years.length - 1,
-          values: Drupal.settings.ding_facetbrowser.year_span.range,
+          max: interval_settings.interval.length - 1,
+          values: interval_settings.range,
           slide: function (evt, ui) {
             update_info(ui.values);
           },
           change: function (evt, ui) {
             var
-              append = Drupal.settings.ding_facetbrowser.year_span.uri.indexOf('?') === -1 ? '?' : '&',
-              url = Drupal.settings.ding_facetbrowser.year_span.uri + append,
+              append = interval_settings.uri.indexOf('?') === -1 ? '?' : '&',
+              url = interval_settings.uri + append,
               range = [
-                parseInt(Drupal.settings.ding_facetbrowser.year_span.range[0], 10),
-                parseInt(Drupal.settings.ding_facetbrowser.year_span.range[1], 10)
-              ];
+                parseInt(interval_settings.range[0], 10),
+                parseInt(interval_settings.range[1], 10)
+              ],
+              url_replace_regex;
 
             // Don't refresh the page, if the values did not change.
             if (range[0] === ui.values[0] && range[1] === ui.values[1]) {
               return;
             }
 
-            // Remove previous date filters from the URL.
-            url = url.replace(/facets\[\d*\]=facet\.date[^&]+&?/g, '');
+            // Remove previous interval filters from the URL.
+            url_replace_regex = new RegExp('facets\\[\\d*\\]=' + facet_name.replace(/\./g, '\\$&') + '[^&]+&?', 'g');
+            url = url.replace(url_replace_regex, '');
 
-            // Add new date filters.
-            url += 'facets[]=' + encodeURIComponent('facet.date:' + Drupal.settings.ding_facetbrowser.year_span.years[ui.values[0]] + ':>=');
-            url += '&facets[]=' + encodeURIComponent('facet.date:' + Drupal.settings.ding_facetbrowser.year_span.years[ui.values[1]] + ':<=');
+            // Add new interval filters.
+            url += 'facets[]=' + encodeURIComponent(facet_name + ':' + interval_settings.interval[ui.values[0]] + ':>=');
+            url += '&facets[]=' + encodeURIComponent(facet_name + ':' + interval_settings.interval[ui.values[1]] + ':<=');
 
             Drupal.TingSearchOverlay();
             window.location = url;
           },
           create: function () {
-            update_info(Drupal.settings.ding_facetbrowser.year_span.range);
+            update_info(interval_settings.range);
           }
         });
       });
