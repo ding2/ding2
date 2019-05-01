@@ -120,11 +120,11 @@ function _ding_facetbrowser_form_year_span_element(TingSearchResultInterface $se
       // Remove all facet.date conditions.
       if ($statement->getName() === 'facet.date') {
         switch ($statement->getOperator()) {
-          case '>=':
+          case $statement::OP_GT_EQUAL:
             $range[0] = (int) $statement->getValue();
             break;
 
-          case '<=':
+          case $statement::OP_LT_EQUAL:
             $range[1] = (int) $statement->getValue();
             break;
         }
