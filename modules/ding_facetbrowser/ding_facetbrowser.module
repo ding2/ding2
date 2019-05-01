@@ -1,11 +1,11 @@
 <?php
+
 /**
  * @file
  * The ding_facetbrowser module.
  */
 
 use Ting\Search\TingSearchFacet;
-use Ting\Search\TingSearchFacetTerm;
 use Ting\Search\TingSearchResultInterface;
 
 /**
@@ -262,7 +262,7 @@ function ding_facetbrowser_form($form, &$form_state, TingSearchResultInterface $
   foreach (variable_get('ding_facetbrowser_facets', array()) as $configured_facet) {
 
     if (!empty($facets[$configured_facet['name']])) {
-      /** @var TingSearchFacet $facet */
+      /** @var Ting\Search\TingSearchFacet $facet */
       $facet = $facets[$configured_facet['name']];
 
       // Decide if the facet is to have the hidden class or not.
@@ -391,16 +391,15 @@ function ding_facetbrowser_sort_terms_options() {
 }
 
 /**
- * Helper function to format term name title, if it's too long to display in
- * the facetbrowser window.
+ * Helper function to format term name title.
  *
  * @See: ding_facetbrowser_form()
  */
 function ding_facetbrowser_format_term_name($term_name, $term_count) {
-  $substr_length = 19
-    + substr_count(drupal_substr($term_name, 0, 20), 'l')
-    + substr_count(drupal_substr($term_name, 0, 20), 'i')
-    - drupal_strlen((string)$term_count);
+  $substr_length = 19 +
+    substr_count(drupal_substr($term_name, 0, 20), 'l') +
+    substr_count(drupal_substr($term_name, 0, 20), 'i') -
+    drupal_strlen((string) $term_count);
   if (drupal_strlen($term_name) > $substr_length) {
     return drupal_substr($term_name, 0, $substr_length) . '...';
   }
@@ -410,11 +409,14 @@ function ding_facetbrowser_format_term_name($term_name, $term_count) {
 /**
  * Check if selected facet from url matches the one from params.
  *
- * @param String $term_cat
- * @param String $term_name
- * @return Boolean
+ * @param string $term_cat
+ *   Term category.
+ * @param string $term_name
+ *   Term name.
+ *
+ * @return bool
+ *   If the facet is set.
  */
-
 function _ding_facetbrowser_is_facet_set($term_cat, $term_name) {
   $facets = &drupal_static('ding_facetbrowser_facets');
   if (!isset($facets)) {
@@ -433,7 +435,8 @@ function _ding_facetbrowser_is_facet_set($term_cat, $term_name) {
 /**
  * Check the URI and drop pager parameter, if available.
  *
- * @return String
+ * @return string
+ *   Cleaned URI.
  */
 function _ding_facetbrowser_parse_request_uri() {
   $new_query_part = array();
@@ -463,14 +466,15 @@ function _ding_facetbrowser_parse_request_uri() {
 }
 
 /**
- * Parse the selected facets from the $form_state to a readable string for the
- * ting_search.
+ * Parse the facets from the $form_state to a ting_search readable string.
  *
  * @param array $form_state
+ *   The form_state array.
  *
  * @return string
+ *   Parsed string.
  */
-function _ding_facetbrowser_facet_string($form_state = NULL) {
+function _ding_facetbrowser_facet_string(array $form_state = NULL) {
   $facets = array();
   if (!empty($form_state['values']) && is_array($form_state['values'])) {
     foreach ($form_state['values'] as $name => $data) {
@@ -512,7 +516,7 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   // Invoke ding_facetbrowser() from executed search module.
   $executed_search = menu_get_item();
   if (!empty($executed_search['page_arguments'])) {
-    list($executed_search_module, ) = $executed_search['page_arguments'];
+    list($executed_search_module,) = $executed_search['page_arguments'];
   }
   if (is_string($executed_search_module)) {
     $results = module_invoke($executed_search_module, 'ding_facetbrowser');
