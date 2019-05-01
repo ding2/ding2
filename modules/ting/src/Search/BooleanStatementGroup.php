@@ -67,7 +67,7 @@ class BooleanStatementGroup implements BooleanStatementInterface, FilterStatemen
    * @return TingSearchFieldFilter[]
    *   One or more instances of TingSearchFieldFilter.
    */
-  public function getStatements() {
+  public function &getStatements() {
     return $this->statements;
   }
 

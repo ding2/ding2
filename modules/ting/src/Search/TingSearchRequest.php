@@ -114,7 +114,7 @@ class TingSearchRequest {
    *   List of grouped BooleanStatementGroup and TingSearchFieldFilter
    *   instances.
    */
-  protected $filters;
+  protected $filters = [];
 
   /**
    * The part of the query that should be interpreted as a fulltext search.
@@ -486,7 +486,7 @@ class TingSearchRequest {
    * @return FilterStatementInterface[]
    *   List of BooleanStatementGroup instances used to filter field.
    */
-  public function getFilters() {
+  public function &getFilters() {
     return $this->filters;
   }
 
