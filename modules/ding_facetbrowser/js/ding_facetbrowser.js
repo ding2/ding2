@@ -1,5 +1,4 @@
-/**escape*/
-/**globals Cookies */
+/*globals Cookies */
 /**
  * @file
  * Implementation of the facet browser front-end to make the facet collapsible.
