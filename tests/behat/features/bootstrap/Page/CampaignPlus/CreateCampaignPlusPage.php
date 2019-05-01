@@ -21,6 +21,10 @@ class CreateCampaignPlusPage extends Page {
 
   protected $elements = array(
     'Create form' => 'form#ding-campaign-plus-node-form',
+    'Campaign Title' => 'input#edit-title',
+    'Campaign Text' => 'textarea#edit-field-ding-campaign-plus-text-und-0-value',
+    'Campaign Link' => 'input#edit-field-ding-campaign-plus-link-und-0-url',
+    'Campaign Tags' => 'input#edit-field-ding-campaign-plus-track-und-0-value',
     'Type select' => 'select#edit-field-ding-campaign-plus-type-und',
   );
 
@@ -48,16 +52,16 @@ class CreateCampaignPlusPage extends Page {
     $typeSelect = $this->getElement('Type select');
     $typeSelect->selectOption($type);
 
-    $form->fillField('edit-title', $title);
-    $form->fillField('edit-field-ding-campaign-plus-text-und-0-value', $text);
-    $form->fillField('edit-field-ding-campaign-plus-link-und-0-url', $link);
+    $this->getElement('Campaign Title')->set  Value($title);
+    $this->getElement('Campaign Text')->setValue($text);
+    $this->getElement('Campaign Link')->setValue($link);
 
     $radioButton = $form->find('named', ['radio', $style]);
     $select = $radioButton->getAttribute('name');
     $option = $radioButton->getAttribute('value');
     $this->selectFieldOption($select, $option);
 
-    $form->fillField('edit-field-ding-campaign-plus-track-und-0-value', implode(',', $tags));
+    $this->getElement('Campaign Tags')->setValue(implode(',', $tags));
   }
 
   /**
