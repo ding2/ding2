@@ -52,7 +52,7 @@ class CreateCampaignPlusPage extends Page {
     $typeSelect = $this->getElement('Type select');
     $typeSelect->selectOption($type);
 
-    $this->getElement('Campaign Title')->set  Value($title);
+    $this->getElement('Campaign Title')->setValue($title);
     $this->getElement('Campaign Text')->setValue($text);
     $this->getElement('Campaign Link')->setValue($link);
 
