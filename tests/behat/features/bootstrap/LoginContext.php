@@ -5,6 +5,9 @@
  * Login Context defining relevant steps for login by role.
  */
 
+use Behat\Mink\Exception\DriverException;
+use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Page\Common\LoginPage;
 
@@ -28,9 +31,16 @@ class LoginContext extends RawDrupalContext {
   /**
    * Creates and authenticates a cms user with the given role(s).
    *
+   * @param string $roleList
+   *   A comma separated string of the roles the user needs, e.g. 'administrators, editor'
+   *
+   * @throws DriverException
+   * @throws ElementNotFoundException
+   * @throws UnsupportedDriverActionException
+   *
    * @Given I am logged in as a cms user with the :roleList role(s)
    */
-  public function assertAuthenticatedByRole($roleList) {
+  public function assertAuthenticatedByRole(string $roleList) {
     $user = (object) array(
       'name' => $this->getRandom()->name(8),
       'pass' => $this->getRandom()->name(16),
@@ -49,6 +59,6 @@ class LoginContext extends RawDrupalContext {
       }
     }
 
-    $this->loginPage->login($user);
+    $this->loginPage->login($user->name, $user->pass);
   }
 }

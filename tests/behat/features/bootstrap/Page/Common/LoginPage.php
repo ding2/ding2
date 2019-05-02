@@ -6,6 +6,10 @@
 
 namespace Page\Common;
 
+use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Exception\DriverException;
+use Behat\Mink\Exception\ElementNotFoundException;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 
 /**
@@ -21,37 +25,34 @@ class LoginPage extends Page {
   /**
    * Perform login with given user
    *
-   * @param \stdClass $user
-   *   A std objecy containing 'name' and 'pass' properties.
+   * @param string $username
+   *   The username of the account
+   * @param string $password
+   *   The password for the account
    *
-   * @return mixed
-   *   A 'Login Page' object.
+   * @return NodeElement
    *
-   * @throws \Behat\Mink\Exception\ElementNotFoundException
-   *   If login form elements not found.
+   * @throws DriverException
+   * @throws ElementNotFoundException
+   * @throws UnsupportedDriverActionException
    */
-  public function login(\stdClass $user) {
+  public function login(string $username, string $password) {
     $this->open();
 
-    $this->waitFor(3, function ($page) {
-      $jsButton = $page->find('css', 'a.js-topbar-link.topbar-link-user');
-      if (!empty($jsButton) && $jsButton->isVisible()) {
-        // We need to wait further for javascript to attach and intercept the click
-        // event on the link.
-        // @TODO find a condition we van test for?
-        usleep(500000);
-        $jsButton->mouseOver();
-        $jsButton->click();
-      }
-
-      $form = $page->find('css', 'form#user-login-form');
-
-      return $form->isVisible();
+    // All forms are protected by the antibot module. The module uses
+    // javascript to set all form actions to '/antibot', then reset
+    // them to the original value when 'human' interaction is detected.
+    // Given that behat/mink interaction doesn't qualify as 'human' we
+    // need to wait for the antibot javascript module to load, then call
+    // its 'unlockForms()' before we submit the login form.
+    $this->waitFor(3, function (Page $page) {
+      return $page->getDriver()->evaluateScript('Drupal !== undefined && Drupal.antibot !== undefined');
     });
+    $this->getDriver()->evaluateScript('Drupal.antibot.unlockForms()');
 
     $form = $this->getElement('Login Form');
-    $form->fillField('edit-name', $user->name);
-    $form->fillField('edit-pass', $user->pass);
+    $form->fillField('edit-name', $username);
+    $form->fillField('edit-pass', $password);
     $form->submit();
 
     return $this->getPage('Login Page')->waitFor(3, function ($page) {
