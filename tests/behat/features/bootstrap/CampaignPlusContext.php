@@ -156,7 +156,7 @@ class CampaignPlusContext extends RawMinkContext {
   /**
    * Add object view trigger with values from the provided table
    *
-   * @When /^(?:|I )set the object view trigger with the search query :query
+   * @When /^(?:|I )set the object view trigger with the search query "(?P<query>[^"]+)"$/
    */
   public function iSetTheObjectViewTrigger(string $query) {
     $this->createCampaignPage->setObjectViewCampaignTrigger($query);
@@ -165,7 +165,7 @@ class CampaignPlusContext extends RawMinkContext {
   /**
    * Add object view trigger with values from the provided table
    *
-   * @When /^(?:|I )set the search trigger with the search query :query
+   * @When /^(?:|I )set the search trigger with the search query "(?P<query>[^"]+)"$/
    */
   public function iSetTheSearchTrigger(string $query) {
     $this->createCampaignPage->setSearchCampaignTrigger($query);
