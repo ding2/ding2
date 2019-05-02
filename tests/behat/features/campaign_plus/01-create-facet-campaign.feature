@@ -1,8 +1,8 @@
 Feature: Creation of facet campaigns
   In order to create facet campaigns in DDB CMS
-  As an editor
+  As an administrator
   I want to create campaigns and verify that they are triggered correctly when users
-  browse and search the site
+  search the site
 
   Background:
     Given I am logged in as a cms user with the administrators role
@@ -16,7 +16,7 @@ Feature: Creation of facet campaigns
       | Tags  | campaign, super heroes |
 
   @api @campaign_plus @regression @cci
-  Scenario: Create a 'facet' campaign and show it on subject search result
+  Scenario: Subject search - Create a 'facet' campaign that only shows on search for "subject=børn"
     When I add a facet trigger with the following:
       | Facet type   | Emne |
       | Facet value  | Børn |
@@ -28,17 +28,19 @@ Feature: Creation of facet campaigns
     Then the campaign "Behatman & Robin" should not appear on the page
 
   @api @campaign_plus @regression @cci
-  Scenario: Create a 'facet' campaign and show it on material type search result
+  Scenario: Material type search - Create a 'facet' campaign that only shows on search for "type=bog"
     When I add a facet trigger with the following:
       | Facet type   | Materialetype |
       | Facet value  | bog           |
       | Common value | 1             |
     And I save the campaign
-    And I have searched for "term.subject=film"
+    And I have searched for "facet.type=bog"
+    Then the campaign "Behatman & Robin" should appear on the page
+    And I have searched for "facet.type=film"
     Then the campaign "Behatman & Robin" should not appear on the page
 
   @api @campaign_plus @regression @cci
-  Scenario: Create a 'facet' campaign and show it on material type search result
+  Scenario: Publisher search - Create a 'facet' campaign that only shows on search for "publisher=gyldendal"
     When I add a facet trigger with the following:
       | Facet type   | Forlag    |
       | Facet value  | gyldendal |
