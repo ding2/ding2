@@ -20,6 +20,6 @@ Feature: Creation of search campaigns
     And I set the search trigger with the search query Batman
     And I save the campaign
     And I have searched for "Batman"
-    Then "Behatman & Robin" should appear within 5 seconds
+    Then the campaign "Behatman & Robin" should appear on the page
     And I have searched for "Robin"
-    Then "Behatman & Robin" should not appear within 3 seconds
+    Then the campaign "Behatman & Robin" should not appear on the page

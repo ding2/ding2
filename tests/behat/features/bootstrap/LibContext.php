@@ -13,6 +13,7 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\ElementInterface;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Mink\Driver\Selenium2Driver;
+use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
 use Page\SearchPage;
 use Page\ObjectPage;
@@ -1312,6 +1313,9 @@ class LibContext implements Context, SnippetAcceptingContext
     /**
      * Implements step to wait until text appears.
      *
+     * Uses the 'jQuery.active' property to test if there are outstanding
+     * ajax requests. Once all requests complete look for the text.
+     *
      * @param string $txt
      *    Text that we wait for will appear.
      * @param int $seconds
@@ -1319,46 +1323,50 @@ class LibContext implements Context, SnippetAcceptingContext
      *
      * @Then :txt should appear within :seconds seconds
      *
-     * @throws \WebDriver\Exception\NoSuchElement
+     * @throws ExpectationException
      *    If text does not appear.
      */
-    public function waitUntilTextAppears($txt, $seconds) {
-        $end = microtime(true) + $seconds;
-        do {
-            $textElement = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
-            if ($textElement && $textElement->isVisible()) {
-              return;
-            }
-            usleep(300);
-        } while (microtime(true) < $end);
+    public function assertTextAppears($txt, $seconds) {
+        $this->getPage()->waitFor($seconds, function () {
+            // jQuery.active holds the number of outstanding ajax requests
+            return $this->getSession()->getDriver()->evaluateScript('jQuery.active === 0');
+        });
 
-        throw new \WebDriver\Exception\NoSuchElement(sprintf('Text "%s" not found after %d seconds', $txt, $seconds));
+        $textElement = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+        if ($textElement && $textElement->isVisible()) {
+            return;
+        }
+
+        throw new ExpectationException(sprintf('Text "%s" not found after %d seconds', $txt, $seconds), $this->getSession()->getDriver());
     }
 
-      /**
-       * Implements step to wait a given number of seconds, then test that text is not visible.
-       *
-       * Using this step will always cause the execution to be paused for the given number of
-       * seconds so use sparingly. The reason is that we have no way to detect when ajax loads
-       * are finished and therefore no way to know when it is "safe" to look for the text.
-       *
-       * @param string $txt
-       *    Text that must not appear.
-       * @param int $seconds
-       *    Number of seconds to wait.
-       *
-       * @Then :txt should not appear within :seconds seconds
-       *
-       * @throws \Behat\Mink\Exception\ElementTextException
-       *    If text does appear.
-       */
-      public function waitAndLookForText($txt, $seconds) {
-          sleep($seconds);
-          $textElement = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
-          if (!$textElement) {
-              return;
-          }
+    /**
+     * Implements step to wait a given number of seconds, then test that text is not visible.
+     *
+     * Uses the 'jQuery.active' property to test if there are outstanding
+     * ajax requests. Once all requests complete look for the text.
+     *
+     * @param string $txt
+     *    Text that must not appear.
+     * @param int $seconds
+     *    Number of seconds to wait.
+     *
+     * @Then :txt should not appear within :seconds seconds
+     *
+     * @throws ExpectationException
+     *    If text does appear.
+     */
+    public function assertTextDoesNotAppear($txt, $seconds) {
+        $this->getSession()->getPage()->waitFor(3, function () {
+            // jQuery.active holds the number of outstanding ajax requests
+            return $this->getSession()->getDriver()->evaluateScript('jQuery.active === 0');
+        });
 
-          throw new \Behat\Mink\Exception\ElementTextException(sprintf('Text "%s" was found after %d seconds, but should NOT appear', $txt, $seconds));
-      }
+        $textElement = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+        if (!$textElement) {
+            return;
+        }
+
+        throw new ExpectationException(sprintf('Text "%s" was found after %d seconds, but should NOT appear', $txt, $seconds), $this->getSession()->getDriver());
+    }
 }

@@ -27,8 +27,9 @@ Feature: Creation of basic campaigns
     And I save the campaign
     When I go to "admin/content"
     And I click "Campaign Page"
-    Then "Behatman & Robin" should appear within 2 seconds
-    And "Bats 4ever" should appear within 2 seconds
+    Then the campaign "Behatman & Robin" should appear on the page within 2 seconds
+    Then the campaign "Behatman & Robin" should appear on the page
     When I go to "admin/content"
-    And I click "Other Page"
-    Then "Behatman & Robin" should not appear within 2 seconds
+    And I click "Page without campaign"
+    Then the campaign "Behatman & Robin" should not appear on the page
+    And I am on "published-page"

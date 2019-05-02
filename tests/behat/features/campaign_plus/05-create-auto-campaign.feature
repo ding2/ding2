@@ -18,8 +18,8 @@ Feature: Automatic creation of campaigns
     And I set the campaign keywords to "superhelte, usa"
     And I save the news page
     And I have searched for "term.subject=superhelte"
-    Then "Behatman is back" should appear within 2 seconds
+    Then the campaign "Behatman is back" should appear on the page
     And I have searched for "term.subject=usa"
-    Then "Behatman is back" should appear within 2 seconds
+    Then the campaign "Behatman is back" should appear on the page
     Given I have searched for "term.subject=biler"
-    Then "Behatman is back" should not appear within 2 seconds
+    Then the campaign "Behatman is back" should not appear on the page

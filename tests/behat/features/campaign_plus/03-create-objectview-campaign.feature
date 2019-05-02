@@ -19,9 +19,9 @@ Feature: Creation of object view campaigns
       | Tags  | campaign, super heroes |
     And I set the object view trigger with the search query Batman
     And I save the campaign
-    And I have searched for "Batman"
-    And I click "Batman"
-    Then "Behatman & Robin" should appear within 2 seconds
-    And I have searched for "Robin"
-    And I click "Robin"
-    Then "Behatman & Robin" should not appear within 2 seconds
+    # View "Batman - Af Tim Burton (2013)"
+    And I am on "ting/object/870970-basis%3A50711161"
+    Then the campaign "Behatman & Robin" should appear on the page
+    # View "Superman IV - Af Sidney J. Furie (2014)"
+    And I am on "ting/object/870970-basis%3A51191331"
+    Then the campaign "Behatman & Robin" should not appear on the page

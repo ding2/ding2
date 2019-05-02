@@ -5,14 +5,16 @@
  * Campaign Plus Context defining relevant steps for campaign creation.
  */
 
-use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Exception\ExpectationException;
+use Behat\MinkExtension\Context\RawMinkContext;
 use Page\CampaignPlus\CreateCampaignPlusPage;
+use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 
 /**
  * Class CampaignPlusContext
  */
-class CampaignPlusContext implements Context {
+class CampaignPlusContext extends RawMinkContext {
   private $createCampaignPage;
 
   /**
@@ -178,4 +180,64 @@ class CampaignPlusContext implements Context {
     $this->createCampaignPage->submitCampaign();
   }
 
+  /**
+   * Implements step to check if a campaign is shown.
+   *
+   * Uses the 'jQuery.active' property to test if there are outstanding
+   * ajax requests. Once all requests complete look for campaign.
+   *
+   * @param string $title
+   *    The title of the campaign to wait for.
+   *
+   * @throws ExpectationException
+   *    If the campaign does not appear.
+   *
+   * @Then the campaign :title should appear on the page
+   */
+  public function assertCampaignAppears(string $title) {
+    $this->getSession()->getPage()->waitFor(3, function () {
+      // jQuery.active holds the number of outstanding ajax requests
+      return $this->getSession()->getDriver()->evaluateScript('jQuery.active === 0');
+    });
+
+    $campaignHeadings = $this->getSession()->getPage()->findAll('css', '.ding-campaign-headline');
+    foreach ($campaignHeadings as $campaignHeading) {
+      $textElement = $campaignHeading->find('xpath', "//text()[contains(.,'" . $title . "')]/..");
+      if ($textElement && $textElement->isVisible()) {
+        return;
+      }
+    }
+
+    throw new ExpectationException(sprintf('The campaign "%s" did not appear on the page', $title), $this->getSession()->getDriver());
+  }
+
+  /**
+   * Implements step to check if a campaign is not shown.
+   *
+   * Uses the 'jQuery.active' property to test if there are outstanding
+   * ajax requests. Once all requests complete look for campaign.
+   *
+   * @param string $title
+   *    The title of the campaign to wait for.
+
+   *
+   * @throws ExpectationException
+   *    If the campaign does not appear.
+   *
+   * @Then the campaign :title should not appear on the page
+   */
+  public function assertCampaignDoesNotAppears(string $title) {
+    $this->getSession()->getPage()->waitFor(3, function () {
+      // jQuery.active holds the number of outstanding ajax requests
+      return $this->getSession()->getDriver()->evaluateScript('jQuery.active === 0');
+    });
+
+    $campaignHeadings = $this->getSession()->getPage()->findAll('css', '.ding-campaign-headline');
+    foreach ($campaignHeadings as $campaignHeading) {
+      $textElement = $campaignHeading->find('xpath', "//text()[contains(.,'" . $title . "')]/..");
+      if ($textElement && $textElement->isVisible()) {
+        throw new ExpectationException(sprintf('The campaign "%s" was found , but should NOT appear', $title), $this->getSession()->getDriver());
+      }
+    }
+  }
 }

@@ -23,10 +23,9 @@ Feature: Creation of facet campaigns
       | Common value | 7    |
     And I save the campaign
     And I have searched for "term.subject=børn"
-    Then "Behatman & Robin" should appear within 2 seconds
-    And "Bats 4ever" should appear within 2 seconds
+    Then the campaign "Behatman & Robin" should appear on the page
     Given I have searched for "term.subject=biler"
-    Then "Behatman & Robin" should not appear within 2 seconds
+    Then the campaign "Behatman & Robin" should not appear on the page
 
   @api @campaign_plus @regression @cci
   Scenario: Create a 'facet' campaign and show it on material type search result
@@ -36,7 +35,7 @@ Feature: Creation of facet campaigns
       | Common value | 1             |
     And I save the campaign
     And I have searched for "term.subject=film"
-    Then "Behatman & Robin" should not appear within 2 seconds
+    Then the campaign "Behatman & Robin" should not appear on the page
 
   @api @campaign_plus @regression @cci
   Scenario: Create a 'facet' campaign and show it on material type search result
@@ -46,6 +45,6 @@ Feature: Creation of facet campaigns
       | Common value | 1         |
     And I save the campaign
     And I have searched for "facet.publisher=gyldendal"
-    Then "Behatman & Robin" should appear within 2 seconds
+    Then the campaign "Behatman & Robin" should appear on the page
     And I have searched for "facet.publisher=systime"
-    Then "Behatman & Robin" should not appear within 2 seconds
+    Then the campaign "Behatman & Robin" should not appear on the page
