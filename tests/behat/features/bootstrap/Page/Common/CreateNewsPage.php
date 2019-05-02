@@ -6,6 +6,7 @@
 
 namespace Page\Common;
 
+use Behat\Mink\Element\NodeElement;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\ElementNotFoundException;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 
@@ -77,8 +78,7 @@ class CreateNewsPage extends Page {
   /**
    * Save news page
    *
-   * @return mixed
-   *   A 'Content Page' object.
+   * @return NodeElement
    */
   public function submitNewsPage() {
     $submit = $this->getElement('Submit');
