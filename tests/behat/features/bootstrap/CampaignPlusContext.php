@@ -109,7 +109,7 @@ class CampaignPlusContext extends RawMinkContext {
       }
     }
 
-    $this->createCampaignPage->addBasicCampaignTrigger($ruleType, $ruleValue);
+    $this->createCampaignPage->addBasicCampaignTriggerRule($ruleType, $ruleValue);
   }
 
   /**
@@ -141,13 +141,13 @@ class CampaignPlusContext extends RawMinkContext {
       }
     }
 
-    $this->createCampaignPage->addFacetCampaignTrigger($facetType, $facetValue, $commonValue);
+    $this->createCampaignPage->addFacetCampaignTriggerRule($facetType, $facetValue, $commonValue);
   }
 
   /**
    * Set facet trigger operand
    *
-   * @When /^(?:|I )set the facet trigger operand to :operand
+   * @When /^(?:|I )set the facet trigger operand to "(?P<operand>[^"]+)"$/
    */
   public function iChooseFacetTriggerOperand(string $operand) {
     $this->createCampaignPage->setFacetCampaignTriggerOperand($operand);
