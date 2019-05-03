@@ -46,7 +46,7 @@ class LoginPage extends Page {
     // need to wait for the antibot javascript module to load, then call
     // its 'unlockForms()' before we submit the login form.
     $this->waitFor(3, function (Page $page) {
-      return $page->getDriver()->evaluateScript('Drupal !== undefined && Drupal.antibot !== undefined');
+      return $page->getDriver()->evaluateScript('typeof(Drupal) !== "undefined" && typeof(Drupal.antibot) !== "undefined"');
     });
     $this->getDriver()->evaluateScript('Drupal.antibot.unlockForms()');
 
