@@ -42,17 +42,17 @@ function _ding2_insert_translation($type, $translation_file, &$context) {
 /**
  * Reverts a given feature module.
  *
- * @param string $feature
+ * @param string $feature_name
  *   Name of the module to revert.
  */
-function _ding2_features_revert($feature) {
+function _ding2_features_revert($feature_name) {
   // Load the feature.
-  if (($feature = features_load_feature($feature, TRUE)) && module_exists($feature)) {
+  if (($feature = features_load_feature($feature_name, TRUE)) && module_exists($feature_name)) {
     // Get all components of the feature.
     foreach (array_keys($feature->info['features']) as $component) {
       if (features_hook($component, 'features_revert')) {
         // Revert each component (force).
-        features_revert(array($feature => array($component)));
+        features_revert(array($feature_name => array($component)));
       }
     }
   }
