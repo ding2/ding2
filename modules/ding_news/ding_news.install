@@ -180,6 +180,6 @@ function ding_news_update_7007(&$sandbox) {
   if ($sandbox['#finished'] === 1) {
     drupal_set_message(t('We processed @nodes nodes. Deleting field_ding_news_body...', array('@nodes' => $sandbox['total'])));
     field_delete_field('field_ding_news_body');
-    field_purge_batch(1);
+    field_purge_batch(1000);
   }
 }
