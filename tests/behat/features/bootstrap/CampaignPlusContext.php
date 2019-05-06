@@ -195,7 +195,7 @@ class CampaignPlusContext extends RawMinkContext {
    * @Then the campaign :title should appear on the page
    */
   public function assertCampaignAppears(string $title) {
-    $this->getSession()->getPage()->waitFor(3, function () {
+    $this->getSession()->getPage()->waitFor(5, function () {
       // jQuery.active holds the number of outstanding ajax requests
       return $this->getSession()->getDriver()->evaluateScript('jQuery.active === 0');
     });
@@ -227,7 +227,7 @@ class CampaignPlusContext extends RawMinkContext {
    * @Then the campaign :title should not appear on the page
    */
   public function assertCampaignDoesNotAppears(string $title) {
-    $this->getSession()->getPage()->waitFor(3, function () {
+    $this->getSession()->getPage()->waitFor(5, function () {
       // jQuery.active holds the number of outstanding ajax requests
       return $this->getSession()->getDriver()->evaluateScript('jQuery.active === 0');
     });
