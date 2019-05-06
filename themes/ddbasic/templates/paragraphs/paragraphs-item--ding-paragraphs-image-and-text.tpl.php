@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation for a single paragraph item.
+ * Theme implementation for a paragraph item displayed as image and text.
  *
  * Available variables:
  * - $content: An array of content items. Use render($content) to print them

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation for a single paragraph item.
+ * Default theme implementation for a paragraph item displayed as carousel.
  *
  * Available variables:
  * - $content: An array of content items. Use render($content) to print them
