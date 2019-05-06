@@ -22,6 +22,8 @@
 // phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 class DataManager extends \Page\PageBase
 {
+    const BASE_PATH = 'profiles/ding2/tests/behat/';
+
     /**
      * Filename - holds the filename for the current chosen data file.
      *
@@ -211,7 +213,7 @@ class DataManager extends \Page\PageBase
      */
     public function setFilename($setFilename)
     {
-        $this->filename = $setFilename;
+        $this->filename = self::BASE_PATH . $setFilename;
     }
 
     /**
