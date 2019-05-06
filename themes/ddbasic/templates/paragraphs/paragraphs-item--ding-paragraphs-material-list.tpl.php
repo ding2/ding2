@@ -20,7 +20,8 @@
  * Other variables:
  * - $classes_array: Array of html class attribute values. It is flattened into
  *   a string within the variable $classes.
- *
+ * - $paragraph_styles: Specific styles depending on paragraph type field.
+ * 
  * @see template_preprocess()
  * @see template_preprocess_entity()
  * @see template_process()
