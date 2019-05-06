@@ -20,8 +20,8 @@ function ding_news_install() {
  * Implements hook_update_dependencies().
  */
 function ding_news_update_dependencies() {
-  // Ding_news_update_7007 must run after ding2_update_7044
-  // and ting_reference_7003.
+  // Ding_news_update_7007 requires ding_paragraphs module to be enabled in
+  // ding2
   $dependencies['ding_news'][7007] = array(
     'ding2' => 7064,
   );
