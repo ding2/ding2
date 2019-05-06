@@ -726,3 +726,11 @@ function ding2_update_7063() {
     'ding_nodelist',
   ));
 }
+
+/**
+ * Revert Ding Entity Rating feature to hide ratings on search results.
+ */
+function ding2_update_7065() {
+  require_once drupal_get_path('profile', 'ding2') . '/ding2.install_callbacks.inc';
+  _ding2_features_revert('ding_entity_rating');
+}
