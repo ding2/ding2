@@ -4,7 +4,9 @@
  * Template to render objects from the Ting database.
  *
  * Available variables:
- * - $object: The TingClientObject instance we're rendering.
+ * - $classes: The classes for the the paragraph.
+ * - $attributes: The view mode attributes.
+ * - $ting_object_url_object: A url reference to the ting object
  * - $content: Render array of content.
  */
 ?>
