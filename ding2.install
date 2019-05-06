@@ -120,11 +120,6 @@ function ding2_install() {
  * Implements hook_update_dependencies().
  */
 function ding2_update_dependencies() {
-  // Ding2_7044 must run after ting_reference_7003.
-  $dependencies['ding2'][7044] = array(
-    'ting_reference' => 7003,
-  );
-
   // Update hook which enables a module if opensearch is present.
   $dependencies['ding2'][7048] = array(
     // The update hook that enables the opensearch module if no other search
