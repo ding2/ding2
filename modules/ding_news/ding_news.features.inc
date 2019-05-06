@@ -67,7 +67,7 @@ function ding_news_node_info() {
     'ding_news' => array(
       'name' => t('Nyhed'),
       'base' => 'node_content',
-      'description' => t('Nyheder er en indholdstyper der kan tilføjes til forsiden, den generelle nyhedsliste eller de enkelte bibliotekers nyhedslister.'),
+      'description' => t('A content type for news concerning libraries.'),
       'has_title' => '1',
       'title_label' => t('Overskrift'),
       'help' => '',
