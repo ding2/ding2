@@ -272,27 +272,15 @@ function ding_ting_frontend_field_group_info() {
   $field_group->entity_type = 'ting_object';
   $field_group->bundle = 'ting_object';
   $field_group->mode = 'search_result';
-  $field_group->parent_name = 'group_info';
+  $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Rating',
     'weight' => '23',
-    'children' => array(
-      0 => 'ding_entity_rating_action',
-      1 => 'ding_entity_rating_result',
-    ),
-    'format_type' => 'div',
+    'children' => array(),
+    'format_type' => 'hidden',
     'format_settings' => array(
-      'label' => 'Rating',
-      'instance_settings' => array(
-        'classes' => 'group-rating field-group-div',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-        'id' => 'ting_object_ting_object_search_result_group_rating',
-      ),
-      'formatter' => 'open',
+      'formatter' => '',
+      'instance_settings' => array(),
     ),
   );
   $field_groups['group_rating|ting_object|ting_object|search_result'] = $field_group;
