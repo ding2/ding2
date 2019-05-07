@@ -145,6 +145,8 @@
     }
   }
 
+  // The carousel and materials list need additional room so we break the
+  // container width.
   &.carousel,
   &.materials-list {
     width: 150%;
