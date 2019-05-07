@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @file field.tpl.php
- * Default template implementation to display the value of a field.
+ * @file
+ * Display of a paragraph field image.
  *
  * This file is not used by Drupal core, which uses theme functions instead for
  * performance reasons. The markup is the same, though, so if you want to use
@@ -39,11 +39,12 @@
  * - $field_type_css: The css-compatible field type.
  * - $classes_array: Array of html class attribute values. It is flattened
  *   into a string within the variable $classes.
+ * - $image_paragraph_styles: Image specific styles to paragraph field.
  *
  * @see template_preprocess_field()
  * @see theme_field()
+ * @see ddbasic_preprocess__field__field_ding_paragraphs_image()
  *
- * @ingroup themeable
  */
 ?>
 <div class="<?php print $image_paragraph_styles; ?>">

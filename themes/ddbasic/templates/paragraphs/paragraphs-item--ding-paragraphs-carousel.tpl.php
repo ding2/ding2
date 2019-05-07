@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation for a paragraph item displayed as carousel.
+ * Theme implementation for a paragraph item displayed as carousel.
  *
  * Available variables:
  * - $content: An array of content items. Use render($content) to print them
@@ -25,6 +25,7 @@
  * @see template_preprocess()
  * @see template_preprocess_entity()
  * @see template_process()
+ * @see ddbasic_preprocess_entity_paragraphs_item()
  */
 
 ?>

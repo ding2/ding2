@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @file field.tpl.php
- * Default template implementation to display the value of a field.
+ * @file
+ * Display of a paragraph taext field.
  *
  * This file is not used by Drupal core, which uses theme functions instead for
  * performance reasons. The markup is the same, though, so if you want to use
@@ -42,8 +42,7 @@
  *
  * @see template_preprocess_field()
  * @see theme_field()
- *
- * @ingroup themeable
+ * @see ddbasic_preprocess__field__field_ding_paragraphs_text()
  */
 ?>
 <div class="<?php print $text_paragraph_styles; ?>">
