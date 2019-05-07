@@ -53,8 +53,11 @@ function ding_entity_rating_menu() {
 function ding_entity_rating_get_user_rating_callback() {
   $ratings = array();
 
-  foreach (ding_entity_load_multiple($_GET['ids']) as $object) {
-    $ratings[$object->ding_entity_id] = ding_entity_rating_get_user_rating($object);
+  $entities = ding_entity_load_multiple($_GET['ids']);
+  if (is_array($entities)) {
+    foreach ($entities as $object) {
+      $ratings[$object->ding_entity_id] = ding_entity_rating_get_user_rating($object);
+    }
   }
 
   echo drupal_json_encode($ratings);
@@ -68,6 +71,9 @@ function ding_entity_rating_get_user_rating_callback() {
  *   The ting object to rate.
  * @param int $rating
  *   The given rating / weight.
+ *
+ * @return array
+ *   AJAX command array.
  */
 function ding_entity_rating_add_to_list_callback($entity, $rating) {
   global $user;
@@ -142,13 +148,6 @@ function ding_entity_rating_ding_list_operations() {
 function ding_entity_rating_field_info() {
   // Add the rating form and options to ting objects display.
   $extra = array(
-    'ding_entity_rating_result' => array(
-      'label' => t('Average rating'),
-      'description' => t('Average result of all ratings given to this entity'),
-      'default_widget' => 'hidden',
-      'default_formatter' => 'ding_entity_rating_result_default',
-    ),
-
     'ding_entity_rating_action' => array(
       'label' => t('Rate this'),
       'description' => t('Enables the users to rate this entity'),
@@ -167,7 +166,6 @@ function ding_entity_rating_widget_info_alter(&$info) {
   if (isset($info['hidden'])) {
     $info['hidden']['field types'] += array(
       'ding_entity_rating_action',
-      'ding_entity_rating_result',
     );
   }
 }
@@ -188,12 +186,6 @@ function ding_entity_rating_field_load($entity_type, $entities, $field, $instanc
  */
 function ding_entity_rating_field_formatter_info() {
   return array(
-    'ding_entity_rating_result_default' => array(
-      'label' => t('Default'),
-      'field types' => array(
-        'ding_entity_rating_result',
-      ),
-    ),
     'ding_entity_rating_action_default' => array(
       'label' => t('Default'),
       'field types' => array(
@@ -213,7 +205,8 @@ function ding_entity_rating_field_formatter_view($entity_type, $entity, $field, 
     switch ($display['type']) {
       case 'ding_entity_rating_action_default':
         $element[$delta] = array(
-          '#markup' => theme('ding_entity_rating_display', array('entity' => $entity)),
+          '#theme' => 'ding_entity_rating_display',
+          '#entity' => $entity,
         );
         break;
     }
@@ -311,13 +304,6 @@ function theme_ding_entity_rating_display($variables) {
   $output .= '<a href="#" class="ding-entity-rating-clear" data-ding-entity-rating-value="0">' . t('Clear') . '</a>';
 
   return $output . '</div>';
-}
-
-/**
- * Preprocessor for ding_entity_rating_average.
- */
-function template_preprocess_ding_entity_rating_average(&$variables) {
-  drupal_add_css(drupal_get_path('module', 'ding_entity_rating') . '/css/ding_entity_rating.css');
 }
 
 /**

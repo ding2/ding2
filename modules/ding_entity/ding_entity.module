@@ -114,6 +114,7 @@ function ding_entity_load_multiple($ids, $type = NULL) {
   if ($type) {
     return entity_load($type, FALSE, $conditions);
   }
+
   return FALSE;
 }
 
