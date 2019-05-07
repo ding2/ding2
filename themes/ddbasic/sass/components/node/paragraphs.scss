@@ -62,6 +62,8 @@
     padding: 15px;
     box-sizing: border-box;
     background-color: $grey;
+    // Using tiny boxes for content means, we need to allow for word breaks
+    //to prevent text overflow.
     word-break: break-all; // IE - We want to break words
     word-break: break-word; // Override for webkit (It's better)
 
@@ -106,10 +108,10 @@
 
       .field-name-ting-title h2 {
         margin: 0;
+        // Using tiny boxes for content means, we need to allow for word breaks
+        //to prevent text overflow.
         -ms-word-break: break-all;
         word-break: break-all;
-
-        /* Non standard for WebKit */
         word-break: break-word;
 
         -webkit-hyphens: auto;
