@@ -37,12 +37,12 @@ function ding_paragraphs_paragraphs_info() {
       'locked' => '1',
     ),
     'ding_paragraphs_material_list' => array(
-      'name' => 'Materialeliste',
+      'name' => 'Materials list',
       'bundle' => 'ding_paragraphs_material_list',
       'locked' => '1',
     ),
     'ding_paragraphs_single_material' => array(
-      'name' => 'Enkelt materiale',
+      'name' => 'Single material',
       'bundle' => 'ding_paragraphs_single_material',
       'locked' => '1',
     ),
