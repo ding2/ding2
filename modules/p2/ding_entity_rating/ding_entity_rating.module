@@ -38,10 +38,16 @@ function ding_entity_rating_menu() {
     'delivery callback' => 'ajax_deliver',
   );
 
-  $items['ding_entity_rating/get'] = array(
-    'title' => 'Ding entity get rating',
-    'page callback' => 'ding_entity_rating_get_user_rating_callback',
+  $items['ding_entity_rating/user/get'] = array(
+    'title' => 'Ding entity get user ratings',
+    'page callback' => 'ding_entity_rating_get_user_ratings_callback',
     'access arguments' => array('use personalisation'),
+  );
+
+  $items['ding_entity_rating/get'] = array(
+    'title' => 'Ding entity get ratings',
+    'page callback' => 'ding_entity_rating_get_ratings_ajax_callback',
+    'access callback' => TRUE,
   );
 
   return $items;
@@ -50,7 +56,7 @@ function ding_entity_rating_menu() {
 /**
  * Menu hook callback for getting rating.
  */
-function ding_entity_rating_get_user_rating_callback() {
+function ding_entity_rating_get_user_ratings_callback() {
   $ratings = array();
 
   $entities = ding_entity_load_multiple($_GET['ids']);
@@ -60,7 +66,44 @@ function ding_entity_rating_get_user_rating_callback() {
     }
   }
 
-  echo drupal_json_encode($ratings);
+  drupal_json_output($ratings);
+  drupal_exit();
+}
+
+/**
+ * Ajax callback function that build ratings HTML.
+ *
+ * Using POST to prevent the max URL length being an problem in page with may
+ * ratings in lists.
+ */
+function ding_entity_rating_get_ratings_ajax_callback() {
+  $ratings = array();
+  $entities = ding_entity_load_multiple($_POST['ids']);
+
+  // Build ratings HTML.
+  if (is_array($entities)) {
+    foreach ($entities as $entity) {
+      $rating = FALSE;
+      $user_rated = FALSE;
+      if (user_is_logged_in()) {
+        $rating = ding_entity_rating_get_user_rating($entity);
+        $user_rated = TRUE;
+      }
+
+      if ($rating === FALSE) {
+        $rating = ding_entity_rating_get_average($entity);
+        $user_rated = FALSE;
+      }
+
+      $ratings[$entity->ding_entity_id] = theme('ding_entity_rating_display', array(
+        'entity' => $entity,
+        'avg' => $rating,
+        'user_rated' => $user_rated,
+      ));
+    }
+  }
+
+  drupal_json_output($ratings);
   drupal_exit();
 }
 
@@ -146,8 +189,7 @@ function ding_entity_rating_ding_list_operations() {
  * Implements hook_field_info().
  */
 function ding_entity_rating_field_info() {
-  // Add the rating form and options to ting objects display.
-  $extra = array(
+  return array(
     'ding_entity_rating_action' => array(
       'label' => t('Rate this'),
       'description' => t('Enables the users to rate this entity'),
@@ -155,8 +197,6 @@ function ding_entity_rating_field_info() {
       'default_formatter' => 'ding_entity_rating_action_default',
     ),
   );
-
-  return $extra;
 }
 
 /**
@@ -192,6 +232,12 @@ function ding_entity_rating_field_formatter_info() {
         'ding_entity_rating_action',
       ),
     ),
+    'ding_entity_rating_action_ajax_load' => array(
+      'label' => t('Ajax load'),
+      'field types' => array(
+        'ding_entity_rating_action',
+      ),
+    ),
   );
 }
 
@@ -201,12 +247,57 @@ function ding_entity_rating_field_formatter_info() {
 function ding_entity_rating_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
 
+  $path = drupal_get_path('module', 'ding_entity_rating');
+
+  // System libraries required by the formatters.
+  $libraries = array(
+    array('system', 'drupal.ajax'),
+    array('system', 'ui.widget'),
+  );
+
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ding_entity_rating_action_default':
         $element[$delta] = array(
           '#theme' => 'ding_entity_rating_display',
           '#entity' => $entity,
+          '#attached' => array(
+            'js' => array(
+              array(
+                'type' => 'file',
+                'data' => $path . '/js/ding_entity_rating_widget.js',
+                'weight' => 0,
+              ),
+              array(
+                'type' => 'file',
+                'data' => $path . '/js/ding_entity_rating_default.js',
+                'weight' => 5,
+              ),
+            ),
+            'library' => $libraries,
+          ),
+        );
+        break;
+
+      case 'ding_entity_rating_action_ajax_load':
+        $element[$delta] = array(
+          '#theme' => 'ding_entity_rating_display_ajax',
+          '#entity' => $entity,
+          '#attached' => array(
+            'js' => array(
+              array(
+                'type' => 'file',
+                'data' => $path . '/js/ding_entity_rating_widget.js',
+                'weight' => 0,
+              ),
+              array(
+                'type' => 'file',
+                'data' => $path . '/js/ding_entity_rating_ajax.js',
+                'weight' => 5,
+              ),
+            ),
+            'library' => $libraries,
+          ),
         );
         break;
     }
@@ -244,7 +335,16 @@ function ding_entity_rating_get_user_rating($entity) {
 function ding_entity_rating_theme($existing, $type, $theme, $path) {
   return array(
     'ding_entity_rating_display' => array(
+      'variables' => array(
+        'entity' => NULL,
+        'avg' => NULL,
+        'user_rated' => FALSE,
+      ),
+    ),
+    'ding_entity_rating_display_ajax' => array(
+      'template' => 'ding-entity-rating-display-ajax',
       'variables' => array('entity' => NULL),
+      'path' => $path . '/templates',
     ),
     'ding_entity_rating_average' => array(
       'variables' => array('rating' => NULL),
@@ -274,23 +374,26 @@ function theme_ding_entity_rating_thank_you($variables) {
 function template_preprocess_ding_entity_rating_display(&$variables) {
   $entity = $variables['entity'];
 
-  // Add styling and javascript.
-  // Since we don't use render here, we attach them old fashioned way.
-  drupal_add_library('system', 'drupal.ajax');
-  drupal_add_library('system', 'ui.widget');
-  $module_path = drupal_get_path('module', 'ding_entity_rating');
-  drupal_add_css($module_path . '/css/ding_entity_rating.css');
-  drupal_add_js($module_path . '/js/ding_entity_rating.js');
-
   $variables['classes_array'][] = 'ding-entity-rating';
 
   if (user_access('use personalisation')) {
     $variables['classes_array'][] = 'rateable';
+
+    // If this is an user rated element set the has-submission class to allow
+    // the theme to change look of the rating.
+    if ($variables['user_rated'] === TRUE) {
+      $variables['classes_array'][] = 'has-submission';
+    }
   }
 
   $variables['path'] = $entity->ding_entity_id;
 
-  $variables['avg'] = ding_entity_rating_get_average($entity);
+  // This theme function is used both by standard and ajax formatter, so this
+  // ensures that the rating is loaded correctly.
+  if (is_null($variables['avg'])) {
+    $variables['avg'] = ding_entity_rating_get_average($entity);
+  }
+
   $variables['rating'] = ($variables['avg']) ? round($variables['avg']) : -1;
 }
 
@@ -501,6 +604,7 @@ function ding_entity_rating_ding_interaction_view() {
   global $user;
   $history_list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY);
 
+  // @TODO: convert to render array.
   return theme('ding_entity_rating_promote_ratings', array('history_list' => $history_list, 'account' => $user));
 }
 
