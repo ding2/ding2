@@ -1,13 +1,8 @@
 <?php
 
 /**
- * @file field.tpl.php
- * Default template implementation to display the value of a field.
- *
- * This file is not used by Drupal core, which uses theme functions instead for
- * performance reasons. The markup is the same, though, so if you want to use
- * template files rather than functions to extend field theming, copy this to
- * your custom theme. See theme_field() for a discussion of performance.
+ * @file
+ * Display of paragraphs on the news content type.
  *
  * Available variables:
  * - $items: An array of field values. Use render() to output them.
@@ -42,8 +37,6 @@
  *
  * @see template_preprocess_field()
  * @see theme_field()
- *
- * @ingroup themeable
  */
 ?>
 <?php if (!$label_hidden) : ?>
