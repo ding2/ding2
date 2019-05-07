@@ -192,7 +192,7 @@ function ddbasic_field__display_image_text($vars) {
   // Render the items.
   $output .= '<div class="field-items"' . $vars['content_attributes'] . '>';
   foreach ($vars['items'] as $delta => $item) {
-    $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even'); 
+    $classes = 'field-item ' . ($delta % 2 ? 'odd' : 'even');
     $output .= '<div class="' . $classes . '"' . $vars['item_attributes'][$delta] . '>' . drupal_render($item);
 
     // Add title as image caption if it exists.
