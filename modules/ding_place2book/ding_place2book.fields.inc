@@ -235,7 +235,9 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
 
         $element['place2book']['prices_wrapper']['prices'][$key]['name'] = array(
           '#type' => 'textfield',
+          '#title' => t('Name'),
           '#default_value' => !empty($price) ? $price->name : $price_name,
+          '#required' => TRUE,
         );
 
         if (empty($price->meta_data->deletable)) {
@@ -244,7 +246,9 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
 
         $element['place2book']['prices_wrapper']['prices'][$key]['value'] = array(
           '#type' => 'textfield',
+          '#title' => t('Price'),
           '#default_value' => !empty($price) ? $price->value : '',
+          '#required' => TRUE,
         );
         $sale_begin_at = !empty($price->sale_begin_at) ? date('Y-m-d H:i:s', strtotime($price->sale_begin_at)) : '';
         $element['place2book']['prices_wrapper']['prices'][$key]['sale_begin_at'] = array(
@@ -337,15 +341,6 @@ function ding_place2book_widget_validate($form, &$form_state) {
 
       if (empty($address[0]['locality'])) {
         form_set_error('field_ding_event_location][und][0][locality', t('City is required for creating event on P2b.'));
-      }
-    }
-    if (!$place2book['passive'] && isset($place2book['prices_wrapper']['prices'])) {
-      $prices = $place2book['prices_wrapper']['prices'];
-      $prices = array_filter($prices, function ($i) {
-        return !empty($i['name']) && (!empty($i['value']) || $i['value'] === '0');
-      });
-      if (empty($prices)) {
-        form_set_error('field_place2book][und][place2book][prices_wrapper][prices', t('At least one price should exist.'));
       }
     }
 
