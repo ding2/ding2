@@ -34,14 +34,14 @@ function ding_entity_rating_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
-        'type' => 'ding_entity_rating_action_default',
+        'type' => 'ding_entity_rating_action_ajax_load',
         'weight' => 2,
       ),
       'default' => array(
         'label' => 'above',
         'module' => 'ding_entity_rating',
         'settings' => array(),
-        'type' => 'ding_entity_rating_action_default',
+        'type' => 'ding_entity_rating_action_ajax_load',
         'weight' => 79,
       ),
       'reference_teaser' => array(
@@ -54,14 +54,14 @@ function ding_entity_rating_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
-        'type' => 'ding_entity_rating_action_default',
+        'type' => 'ding_entity_rating_action_ajax_load',
         'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
-        'type' => 'ding_entity_rating_action_default',
+        'type' => 'ding_entity_rating_action_ajax_load',
         'weight' => 46,
       ),
       'ting_reference_preview' => array(
