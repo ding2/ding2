@@ -59,7 +59,7 @@
 
         .group-inner {
           position: relative;
-          background: linear-gradient($charcoal 0%, $charcoal-opacity-extra-dark 100%);
+          background: linear-gradient($charcoal 0%, $charcoal-opacity-dark 100%);
           &::after {
             @include transition(opacity $speed $ease);
             content: '';
