@@ -240,7 +240,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#required' => TRUE,
         );
 
-        if (empty($price->meta_data->deletable)) {
+        if (isset($price->id) && empty($price->meta_data->deletable)) {
           $element['place2book']['prices_wrapper']['prices'][$key]['name']['#description'] = t('NB: This ticket type can not be deleted (most likely because of sold tickets).');
         }
 
