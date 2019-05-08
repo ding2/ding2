@@ -73,7 +73,7 @@ function ding_entity_rating_get_user_ratings_callback() {
 /**
  * Ajax callback function that build ratings HTML.
  *
- * Using POST to prevent the max URL length being an problem in page with may
+ * Using POST to prevent the max URL length being an problem in page with many
  * ratings in lists.
  */
 function ding_entity_rating_get_ratings_ajax_callback() {
