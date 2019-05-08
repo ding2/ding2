@@ -344,3 +344,25 @@ div.search-field-in-content--message {
     }
   }
 }
+
+// ==========================================================================
+// Rating ajax loading
+// ==========================================================================
+.ding-entity-rating-display-ajax {
+  .icon-spinner {
+    position: relative;
+    display: block;
+    width: 25px;
+    height: 25px;
+
+    &::after {
+      @include animation(spin 1s linear infinite);
+      content: '';
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: url('../../images/spinner.png') no-repeat;
+      background-size: 100% auto;
+    }
+  }
+}

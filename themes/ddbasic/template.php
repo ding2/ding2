@@ -1111,9 +1111,8 @@ function ddbasic_add_ting_object_behaviour() {
   drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js');
   drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
 
-  // @TODO: why is this need here.
   drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_widget.js');
-  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_default.js');
+  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_ajax.js');
 }
 
 /**
