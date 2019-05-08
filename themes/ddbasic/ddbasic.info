@@ -61,6 +61,8 @@
 
   stylesheets[all][] = sass_css/components/view/view.css
 
+  stylesheets[all][] = sass_css/components/skip-link.css
+
   stylesheets[all][] = sass_css/layout/panel.css
 
   stylesheets[all][] = sass_css/p2/p2-ding-interaction.css
