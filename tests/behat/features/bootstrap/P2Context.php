@@ -1093,16 +1093,20 @@ class P2Context implements Context, SnippetAcceptingContext
         // can't make an element that's not unique on the page, and rating
         // widgets aren't on the list page.
         $page = $this->ding2Context->minkContext->getSession()->getPage();
-        $rater = $page->find('css', '.ding-rating');
-        if (!$rater) {
+        $page->waitFor(5, function ($page) use ($stars) {
+          $rater = $page->find('css', '.ding-rating');
+          if (!$rater) {
             throw new Exception("Couldn't find rating stars on material");
-        }
-        $star = $rater->find('css', '.star:nth-child(' . $stars . ')');
-        if (!$star) {
+          }
+          $star = $rater->find('css', '.star:nth-child(' . $stars . ')');
+          if (!$star) {
             throw new Exception("Couldn't find star");
-        }
-        $this->ding2Context->scrollTo($star);
-        $star->click();
+          }
+          $this->ding2Context->scrollTo($star);
+          $star->click();
+
+          return TRUE;
+        });
 
         // Wait for Ajax to finish.
         $page->waitFor(5, function ($page) {
