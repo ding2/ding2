@@ -237,7 +237,13 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#type' => 'textfield',
           '#title' => t('Name'),
           '#default_value' => !empty($price) ? $price->name : $price_name,
-          '#required' => TRUE,
+          '#states' => array(
+            'required' => array(
+              ':input[name="field_place2book[und][place2book][passive]"]' => array(
+                'checked' => FALSE
+              ),
+            ),
+          ),
         );
 
         if (isset($price->id) && empty($price->meta_data->deletable)) {
@@ -248,7 +254,13 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#type' => 'textfield',
           '#title' => t('Price'),
           '#default_value' => !empty($price) ? $price->value : '',
-          '#required' => TRUE,
+          '#states' => array(
+            'required' => array(
+              ':input[name="field_place2book[und][place2book][passive]"]' => array(
+                'checked' => FALSE
+              ),
+            ),
+          ),
         );
         $sale_begin_at = !empty($price->sale_begin_at) ? date('Y-m-d H:i:s', strtotime($price->sale_begin_at)) : '';
         $element['place2book']['prices_wrapper']['prices'][$key]['sale_begin_at'] = array(
