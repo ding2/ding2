@@ -148,42 +148,6 @@
     }
   });
 
-  // Drupal behavior.
-  Drupal.behaviors.ding_entity_rating = {
-    attach: function (context) {
-      // Attach rating widget.
-      $('.ding-entity-rating, .ding-entity-rating-submitted', context).rating();
-
-      var rating_ids = [];
-      $('.ding-entity-rating.rateable', context).each(function () {
-        rating_ids.push($(this).attr('data-ding-entity-rating-id'));
-      });
-
-      if (rating_ids.length > 0) {
-        var url = Drupal.settings.basePath + Drupal.settings.pathPrefix + 'ding_entity_rating/get';
-        $.ajax({
-          url: url,
-          data: {ids: rating_ids},
-          dataType: 'json',
-          method: 'get',
-          success: function (data) {
-            for (var i in data) {
-              if (data[i] !== false) {
-                $('.ding-entity-rating[data-ding-entity-rating-id="' + i + '"] .js-rating-symbol')
-                  .eq(data[i])
-                  .removeClass('submitted')
-                  .prevAll().addClass('submitted')
-                  .end().nextAll().removeClass('submitted')
-                  .end().parent().addClass('has-submission')
-                  .find('.ding-entity-rating-avg').remove();
-              }
-            }
-          }
-        });
-      }
-    }
-  };
-
   /**
    * Command to reset the stars on a rating.
    */
