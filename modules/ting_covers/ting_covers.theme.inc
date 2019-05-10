@@ -35,7 +35,7 @@ function template_preprocess_ting_object_cover(&$variables) {
     $path = ting_covers_object_path($object->id);
     if (file_exists($path)) {
       // Generate an alt tag.
-      $alt = implode(', ', $object->creators) . ': ' . $object->title;
+      $alt = implode(', ', $object->getCreators()) . ': ' . $object->getTitle();
 
       // Render the img element.
       $variables['image'] = theme('image_style', array(
