@@ -159,6 +159,7 @@ function ting_field_formatter_info() {
       'settings' => array(
         'link_type' => 'none',
         'prefix_type' => 'no',
+        'element' => 'h2',
       ),
     ),
     'ting_type_default' => array(
@@ -229,6 +230,22 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
 
   switch ($field['type']) {
     case 'ting_title':
+      // Provide default for fields that predate the element_type option.
+      $settings += array(
+        'element' => 'h2',
+      );
+
+      $element['element'] = array(
+        '#type' => 'radios',
+        '#title' => t('HTML element'),
+        '#options' => array(
+          'h2' => 'H2',
+          'h3' => 'H3',
+          '' => t('None'),
+        ),
+        '#default_value' => $settings['element'],
+      );
+
       $element['link_type'] = array(
         '#type' => 'radios',
         '#title' => t('Link title to'),
@@ -249,6 +266,7 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
         ),
         '#default_value' => $settings['prefix_type'],
       );
+
       break;
 
     case 'ting_entities':
@@ -287,6 +305,12 @@ function ting_field_formatter_settings_summary($field, $instance, $view_mode) {
   $summary = '';
   switch ($field['type']) {
     case 'ting_title':
+      // Provide default for fields that predate the element_type option.
+      $settings += array(
+        'element' => 'h2',
+      );
+      $summary .= t('<strong>Element:</strong> @element', array('@element' => $settings['element']));
+      $summary .= '</br>';
       $summary .= t('<strong>Link type:</strong> @type', array('@type' => $settings['link_type']));
       $summary .= '</br>';
       $summary .= t('<strong>Prefix with type</strong>: @type', array('@type' => $settings['prefix_type']));
@@ -339,6 +363,10 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ting_title_default':
+        // Provide default for fields that predate the element_type option.
+        $display['settings'] += array(
+          'element' => 'h2',
+        );
         /*
          * This doesn't work due to the way objects gets cached at the
          * moment. Until that is fixed, link all objects to collections when
@@ -407,10 +435,15 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         }
 
         $element[$delta] = array(
-          '#prefix' => $prefix . '<h2>',
-          '#suffix' => '</h2>',
+          '#prefix' => $prefix,
           '#markup' => $title,
         );
+
+        if (!empty($display['settings']['element'])) {
+          $element_name = $display['settings']['element'];
+          $element[$delta]['#prefix'] .= '<' . $element_name . '>';
+          $element[$delta]['#suffix'] = '</' . $element_name . '>';
+        }
 
         break;
 
