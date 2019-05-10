@@ -289,7 +289,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#event_maker_id' => $event_maker_id,
           '#submit' => array('ding_place2book_prices_remove_submit'),
           '#limit_validation_errors' => array(),
-          '#disabled' => empty($price->meta_data->deletable),
+          '#disabled' => isset($price->id) && empty($price->meta_data->deletable),
           '#ajax' => array(
             'wrapper' => 'ding-place2book-prices-wrapper',
             'callback' => 'ding_p2b_prices_remove_ajax_handler',
