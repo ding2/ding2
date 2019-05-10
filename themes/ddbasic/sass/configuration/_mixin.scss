@@ -115,6 +115,7 @@
   }
   // Hover for non touch devices
   .no-touch & {
+    &:focus,
     &:hover {
       background-color: $background-color-hover;
       color: $color-hover;
