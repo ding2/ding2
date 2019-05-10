@@ -230,6 +230,20 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         $form_state['prices_count'] = empty($prices) ? range(0, 0) : range(0, count($prices));
       }
       $price_name = variable_get('ding_p2b_default_price_name', '');
+
+      // We have elements that are required depending on other fields. This
+      // doesn't goes well with the states API, so we theme our own required
+      // marker, use states API and do the validation ourselves.
+      // See: https://www.drupal.org/project/drupal/issues/2855139#comment-12472554
+      $required_marker = array('#theme' => 'form_required_marker');
+      $required_marker = drupal_render($required_marker);
+      $required_state = array(
+        'required' => array(
+          ':input[name="field_place2book[und][place2book][passive]"]' => array(
+            'checked' => FALSE,
+          ),
+        ),
+      );
       foreach ($form_state['prices_count'] as $key) {
         $price = isset($prices[$key]) ? $prices[$key] : NULL;
 
@@ -237,13 +251,6 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#type' => 'textfield',
           '#title' => t('Name'),
           '#default_value' => !empty($price) ? $price->name : $price_name,
-          '#states' => array(
-            'required' => array(
-              ':input[name="field_place2book[und][place2book][passive]"]' => array(
-                'checked' => FALSE
-              ),
-            ),
-          ),
         );
 
         if (isset($price->id) && empty($price->meta_data->deletable)) {
@@ -254,14 +261,17 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#type' => 'textfield',
           '#title' => t('Price'),
           '#default_value' => !empty($price) ? $price->value : '',
-          '#states' => array(
-            'required' => array(
-              ':input[name="field_place2book[und][place2book][passive]"]' => array(
-                'checked' => FALSE
-              ),
-            ),
-          ),
         );
+
+        // Only show required marker and add required state for existing prices
+        // unless no prices exists in p2b, since we need at least one price.
+        if (isset($price->id) || empty($prices)) {
+          foreach (array('name', 'value') as $field) {
+            $element['place2book']['prices_wrapper']['prices'][$key][$field]['#title'] .= ' ' . $required_marker;
+            $element['place2book']['prices_wrapper']['prices'][$key][$field]['#states'] = $required_state;
+          }
+        }
+
         $sale_begin_at = !empty($price->sale_begin_at) ? date('Y-m-d H:i:s', strtotime($price->sale_begin_at)) : '';
         $element['place2book']['prices_wrapper']['prices'][$key]['sale_begin_at'] = array(
           '#type' => 'date_popup',
@@ -353,6 +363,26 @@ function ding_place2book_widget_validate($form, &$form_state) {
 
       if (empty($address[0]['locality'])) {
         form_set_error('field_ding_event_location][und][0][locality', t('City is required for creating event on P2b.'));
+      }
+    }
+
+    if (!$place2book['passive'] && isset($place2book['prices_wrapper']['prices'])) {
+      $prices = $place2book['prices_wrapper']['prices'];
+      $prices = array_filter($prices, function ($price, $key) {
+        $has_values = !empty($price['name']) && (!empty($price['value']) || $price['value'] === '0');
+        // For existing prices we need both name and value, so flag an error if
+        // this is not the case. If price ID is not set it's not an existing
+        // price and just "the add one" more price, which admin can fill out if
+        // they want to add another price. We require at least one price to
+        // exist though (see below).
+        if (isset($price['id']) && !$has_values) {
+          form_set_error("field_place2book][und][place2book][prices_wrapper][prices][$key", t('Both Name and price value is required for prices'));
+        }
+        return $has_values;
+      }, ARRAY_FILTER_USE_BOTH);
+
+      if (empty($prices)) {
+        form_set_error('field_place2book][und][place2book][prices_wrapper][prices', t('At least one price should exist and botn name and price value is required.'));
       }
     }
 
