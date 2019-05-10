@@ -10,7 +10,7 @@
  */
 function ting_field_info() {
   return array(
-    // ting_object
+    // ting_object.
     'ting_title' => array(
       'label' => t('Ting object title'),
       'description' => t('Ting object title'),
@@ -71,7 +71,7 @@ function ting_field_info() {
         'add_widget' => TRUE,
       ),
     ),
-    // ting_collection
+    // ting_collection.
     'ting_primary_object' => array(
       'label' => t('Ting collection primary object'),
       'description' => t('Ting collection primary object'),
@@ -395,7 +395,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           }
 
           $collection_titles = array_map(
-            function($collection_entity) {
+            function ($collection_entity) {
               return $collection_entity->title;
             },
             $collection->entities
@@ -510,24 +510,26 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         }, $creators);
         $search_string = variable_get('ting_search_register_author', 'phrase.creator="@author"');
 
-        // The links with the correct author name depending on the whether
-        // @author or @author_inverted is used.
-        $creator_links = array_map(function($creator, $replacements) use ($search_string) {
-          return ting_field_search_link($creator['default'], $search_string, $replacements, array(
+        // The links with the correct author name depending on whether @author
+        // or @author_inverted is used.
+        $creator_links = array_map(function ($creator, $replacements) use ($search_string) {
+          $options = array(
             'attributes' => array(
               'class' => array('author'),
             ),
-          ));
+          );
+          return ting_field_search_link($creator['default'], $search_string, $replacements, $options);
         }, $creators, $replace_array);
 
         $markup_string = '';
         if (count($creators)) {
           if ($entity->date != '') {
-            $markup_string = t('By !author_link (@year)', array(
+            $replacements = array(
               '!author_link' => implode(', ', $creator_links),
               // So wrong, but appears to be the way the data is.
               '@year' => $entity->date,
-              ));
+            );
+            $markup_string = t('By !author_link (@year)', $replacements);
           }
           else {
             $markup_string = t('By !author_link', array(
@@ -546,11 +548,12 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
       case 'ting_subjects_default':
         if (!empty($entity->getSubjects())) {
           $search_string = variable_get('ting_search_register_subject', 'phrase.subject="@subject"');
-          $subject_links = array_map(function($subject) use ($search_string) {
+          $subject_links = array_map(function ($subject) use ($search_string) {
             $replacement = array('@subject' => $subject);
-            return ting_field_search_link($subject, $search_string, $replacement, array(
+            $options = array(
               'attributes' => array('class' => array('subject')),
-            ));
+            );
+            return ting_field_search_link($subject, $search_string, $replacement, $options);
           }, $entity->getSubjects());
 
           $element[$delta] = array(
