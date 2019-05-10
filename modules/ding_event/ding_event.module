@@ -387,6 +387,9 @@ function ding_event_date_popup_process_alter(&$element, &$form_state, $context) 
   }
 }
 
+/**
+ * Implements hook_metatag_metatags_view_alter().
+ */
 function ding_event_metatag_metatags_view_alter(&$output, $instance, $options) {
   if ($instance == 'panels:ding_event_node_view') {
     $node = menu_get_object();
@@ -435,6 +438,27 @@ function ding_event_metatag_metatags_view_alter(&$output, $instance, $options) {
  * Implements hook_preprocess_HOOK().
  */
 function ding_event_preprocess_node(&$variables) {
+  if ($variables['type'] != 'ding_event') {
+    return;
+  }
+
+  // Handle display of event price.
+  $node_wrapper = entity_metadata_wrapper('node', $variables['node']);
+  $price = $node_wrapper->field_ding_event_price->value();
+
+  if (!empty($price)) {
+    $variables['event_price'] = $price;
+    // The price field is a text field and we should only show currency if the
+    // price is numeric.
+    if (is_numeric($price)) {
+      $variables['event_price'] .= ' ' . variable_get('ding_event_currency_type', 'kr.');
+    }
+  }
+  // If the price is empty use "Free" text instead.
+  else {
+    $variables['event_price'] = t('Free');
+  }
+
   if ($variables['type'] == 'ding_event' && $variables['view_mode'] == 'full') {
     // Fields to be processed.
     $fields = array(

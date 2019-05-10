@@ -929,16 +929,13 @@ function ding_event_field_default_field_instances() {
         'weight' => 0,
       ),
       'default' => array(
-        'label' => 'inline',
-        'module' => 'number',
-        'settings' => array(
-          'decimal_separator' => '.',
-          'prefix_suffix' => TRUE,
-          'scale' => 0,
-          'thousand_separator' => ' ',
-        ),
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
         'type' => 'number_integer',
-        'weight' => 7,
+        'weight' => 8,
+        'type' => 'text_default',
+        'weight' => 3,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -968,20 +965,20 @@ function ding_event_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_ding_event_price',
     'label' => 'Price',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
-      'max' => '',
-      'min' => '',
-      'prefix' => '',
       'suffix' => ' kr.',
+      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 0,
-      'module' => 'number',
-      'settings' => array(),
-      'type' => 'number',
-      'weight' => 9,
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 8,
     ),
   );
 
