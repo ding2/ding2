@@ -386,7 +386,6 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     // Let others hook into the edit form.
     $context = array(
       'form_state' => &$form_state,
-      'bpi_form_state' => &$form_state,
       'syndicated_images' => $syndicated_images,
       'bpi_node' => $bpi_node,
     );

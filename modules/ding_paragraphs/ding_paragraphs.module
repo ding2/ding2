@@ -117,7 +117,11 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
 /**
  * Implements hook_bpi_convert_to_bpi_alter().
  *
- * @see https://github.com/rimi-itk/ding2/blob/Issue-3062-syndicate-campaign/modules/ding_campaign/ding_campaign.bpi.inc
+ * Adds serialized paragraphs data to the content sent to BPI, making it
+ * possible to later restore the paragraphs and their content.
+ *
+ * Also renders the paragraphs and stores the result as "body" in BPI to make
+ * it possible for sites without paragraphs to syndicate paragraphs content.
  */
 function ding_paragraphs_bpi_convert_to_bpi_alter(&$bpi_content, $entity, array $context) {
   $entity_type = 'node';
@@ -129,8 +133,6 @@ function ding_paragraphs_bpi_convert_to_bpi_alter(&$bpi_content, $entity, array 
       'entity_type' => $entity_type,
       'bundle' => $bundle_name,
     ));
-    // @FIXME: What language to use?
-    // $lang = $entity->language;
     $lang = LANGUAGE_NONE;
 
     $paragraphs_data = array();
