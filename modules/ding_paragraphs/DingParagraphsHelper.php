@@ -324,6 +324,9 @@ class DingParagraphsHelper {
   /**
    * Depth-first descend into array with callback (by reference).
    *
+   * This is basically a usable version of `array_walk_recursive` which visits
+   * all nodes (array_walk_recursive only visits leafs!)
+   *
    * @param array $data
    *   The data.
    * @param callable $callback
@@ -331,6 +334,8 @@ class DingParagraphsHelper {
    *   - $key: the current key.
    *   - $value: the current value.
    *   - $data: the full data object being traversed.
+   *
+   * @see https://www.php.net/manual/en/function.array-walk-recursive.php
    */
   private function traverse(array &$data, callable $callback) {
     foreach ($data as $key => &$value) {
