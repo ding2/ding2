@@ -174,7 +174,9 @@ function ding_paragraphs_bpi_convert_to_bpi_alter(&$bpi_content, $entity, array 
         }
       }
 
-      $helper->processMaterials($paragraphs_data, $context['with_refs']);
+      if ($context['with_refs']) {
+        $helper->processMaterials($paragraphs_data);
+      }
 
       $bpi_content['data'] = json_encode($paragraphs_data);
       $bpi_content['body'] = $body;

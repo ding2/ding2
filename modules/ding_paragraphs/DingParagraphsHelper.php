@@ -38,46 +38,41 @@ class DingParagraphsHelper {
    * Process material references in paragraphs data.
    *
    * Stores the actual ding entity id in the data.
+   *
+   * @param array $paragraphs_data
+   *   The paragraphs data.
    */
-  public function processMaterials(array &$paragraphs_data, $include_materials) {
-    $materials = [];
-
-    if ($include_materials) {
-      $this->traverse($paragraphs_data, function ($key, &$item) use (&$materials) {
-        if (is_array($item) && !empty($item['ting_object_id'])) {
-          $ding_entity_id = NULL;
-          $id = $item['ting_object_id'];
-          // Filter out id's with "katalog" PID, as they only makes sens on
-          // current site.
-          if (!preg_match('/katalog/', $id)) {
-            $ding_entity_id = $id;
-            $materials[] = $id;
-          }
-          $item = array(self::DING_ENTITY_ID => $ding_entity_id);
+  public function processMaterials(array &$paragraphs_data) {
+    $this->traverse($paragraphs_data, function ($key, &$item) {
+      if (is_array($item) && !empty($item['ting_object_id'])) {
+        $ding_entity_id = NULL;
+        $id = $item['ting_object_id'];
+        // Filter out id's with "katalog" PID, as they only makes sense on
+        // current site.
+        if (!preg_match('/katalog/', $id)) {
+          $ding_entity_id = $id;
         }
-        elseif (isset($item->endpoints)) {
-          $ding_entity_id = NULL;
-          $endpoints = $item->endpoints;
-          $data = array_filter($endpoints[LANGUAGE_NONE], function ($i) {
-            return $i['entity_type'] == 'ting_object';
-          });
+        $item = array(self::DING_ENTITY_ID => $ding_entity_id);
+      }
+      elseif (isset($item->endpoints)) {
+        $ding_entity_id = NULL;
+        $endpoints = $item->endpoints;
+        $data = array_filter($endpoints[LANGUAGE_NONE], function ($i) {
+          return $i['entity_type'] == 'ting_object';
+        });
 
-          if (!empty($data)) {
-            $ting_data = current($data);
-            $ting_object = entity_load_single('ting_object', $ting_data['entity_id']);
-            if ($ting_object) {
-              if (!preg_match('/katalog/', $ting_object->ding_entity_id)) {
-                $ding_entity_id = $ting_object->ding_entity_id;
-                $materials[] = $ting_object->ding_entity_id;
-              }
+        if (!empty($data)) {
+          $ting_data = current($data);
+          $ting_object = entity_load_single('ting_object', $ting_data['entity_id']);
+          if ($ting_object) {
+            if (!preg_match('/katalog/', $ting_object->ding_entity_id)) {
+              $ding_entity_id = $ting_object->ding_entity_id;
             }
           }
-          $item = (object) array(self::DING_ENTITY_ID => $ding_entity_id);
         }
-      });
-    }
-
-    return $materials;
+        $item = (object) array(self::DING_ENTITY_ID => $ding_entity_id);
+      }
+    });
   }
 
   /**
