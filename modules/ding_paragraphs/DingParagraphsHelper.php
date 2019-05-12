@@ -5,6 +5,8 @@
  * Code for the Ding paragraphs helper class.
  */
 
+use Bpi\Sdk\Item\Node;
+
 /**
  * Helper for paragraphs content in bpi.
  */
@@ -17,11 +19,17 @@ class DingParagraphsHelper {
    *
    * Stores the full file url in the data for later retrieval when syndicating
    * paragraphs.
+   *
+   * @param array $paragraphs_data
+   *   The paragraphs data.
+   *
+   * @return array
+   *   The BPI assets.
    */
-  public function replaceFilesWithUrls(array &$data) {
+  public function replaceFilesWithUrls(array &$paragraphs_data) {
     $files = [];
 
-    $this->traverse($data, function ($key, &$value, &$data) use (&$files) {
+    $this->traverse($paragraphs_data, function ($key, &$value, &$data) use (&$files) {
       if (is_array($value) && isset($value['fid'], $value['uri'])) {
         $file = file_load($value['fid']);
         if ($file) {
@@ -77,6 +85,12 @@ class DingParagraphsHelper {
 
   /**
    * Convert a list of files (used in paragraphs) to bpi assets.
+   *
+   * @param array $files
+   *   The files.
+   *
+   * @return array
+   *   The BPI assets.
    */
   private function getBpiAssets(array $files) {
     $assets = [];
@@ -100,8 +114,17 @@ class DingParagraphsHelper {
    *
    * This is heavily inspired by paragraphs_defaults_form_alter
    * (cf. http://cgit.drupalcode.org/paragraphs_defaults/tree/paragraphs_defaults.module#n96)
+   *
+   * @param array $form
+   *   The form.
+   * @param array $form_state
+   *   The form state.
+   * @param \Bpi\Sdk\Item\Node $bpi_node
+   *   The BPI node.
+   * @param array|bool|null $syndicated_images
+   *   The syndicated images if any.
    */
-  public function addBpiParagraphs(array &$form, array &$form_state, $bpi_node, $syndicated_images) {
+  public function addBpiParagraphs(array &$form, array &$form_state, Node $bpi_node, $syndicated_images) {
     // We don't want to alter the form after an ajax call.
     if (empty($form_state['input'])) {
       // There's also no use if the form doesn't have these properties.
@@ -217,8 +240,20 @@ class DingParagraphsHelper {
 
   /**
    * Get BPI paragraphs items.
+   *
+   * @param string $entity_type
+   *   The entity type.
+   * @param array $entity
+   *   The entity.
+   * @param \Bpi\Sdk\Item\Node $bpi_node
+   *   The BPI node.
+   * @param array|bool|null $syndicated_images
+   *   The syndicated images.
+   *
+   * @return array|null
+   *   The paragraph items.
    */
-  private function getBpiParagraphsItems($entity_type, $entity, $bpi_node, $syndicated_images) {
+  private function getBpiParagraphsItems($entity_type, array $entity, Node $bpi_node, $syndicated_images) {
     if (empty($bpi_node)) {
       return NULL;
     }
@@ -290,8 +325,16 @@ class DingParagraphsHelper {
 
   /**
    * Depth-first descend into array with callback (by reference).
+   *
+   * @param array $data
+   *   The data.
+   * @param callable $callback
+   *   The callback acception three parameters:
+   *   - $key: the current key.
+   *   - $value: the current value.
+   *   - $data: the full data object being traversed.
    */
-  private function traverse(array &$data, $callback) {
+  private function traverse(array &$data, callable $callback) {
     foreach ($data as $key => &$value) {
       if (is_array($value)) {
         $this->traverse($value, $callback);
