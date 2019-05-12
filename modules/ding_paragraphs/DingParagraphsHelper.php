@@ -55,9 +55,7 @@ class DingParagraphsHelper {
       if (is_array($item) && !empty($item['ting_object_id'])) {
         $ding_entity_id = NULL;
         $id = $item['ting_object_id'];
-        // Filter out id's with "katalog" PID, as they only makes sense on
-        // current site.
-        if (!preg_match('/katalog/', $id)) {
+        if (bpi_material_is_sharable($id)) {
           $ding_entity_id = $id;
         }
         $item = array(self::DING_ENTITY_ID => $ding_entity_id);
@@ -73,7 +71,7 @@ class DingParagraphsHelper {
           $ting_data = current($data);
           $ting_object = entity_load_single('ting_object', $ting_data['entity_id']);
           if ($ting_object) {
-            if (!preg_match('/katalog/', $ting_object->ding_entity_id)) {
+            if (bpi_material_is_sharable($ting_object->ding_entity_id)) {
               $ding_entity_id = $ting_object->ding_entity_id;
             }
           }

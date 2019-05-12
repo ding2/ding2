@@ -160,9 +160,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
       // First case, we have completly saved node, when it returns ding_object_id.
       if (!empty($item['ting_object_id'])) {
         $id = $item['ting_object_id'];
-        // Filter out id's with "katalog" PID, as they only makes sens on
-        // current site.
-        if (!preg_match('/katalog/', $id)) {
+        if (bpi_material_is_sharable($id)) {
           $materials_drupal[] = $id;
         }
       }
@@ -177,7 +175,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
           $ting_data = current($data);
           $ting_object = entity_load_single('ting_object', $ting_data['entity_id']);
           if ($ting_object) {
-            if (!preg_match('/katalog/', $ting_object->ding_entity_id)) {
+            if (bpi_material_is_sharable($ting_object->ding_entity_id)) {
               $materials_drupal[] = $ting_object->ding_entity_id;
             }
           }

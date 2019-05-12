@@ -1132,3 +1132,16 @@ function bpi_preprocess_bpi_preview_item(&$variables) {
     $variables['hide_syndicate_link'] = TRUE;
   }
 }
+
+/**
+ * Decide if a material can be shared between different BPI agencies.
+ *
+ * @param string $material_id
+ *   The material id.
+ *
+ * @return bool
+ *   True iff the material is shareable.
+ */
+function bpi_material_is_sharable($material_id) {
+  return !preg_match('/katalog/', $material_id);
+}
