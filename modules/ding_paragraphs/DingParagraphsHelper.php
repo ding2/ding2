@@ -246,10 +246,10 @@ class DingParagraphsHelper {
       }
 
       // Replace file urls with references to syndicated files.
-      $this->traverse($bpi_data, function ($key, &$value, &$data) use (&$paragraphs_assets) {
+      $this->traverse($bpi_data, function ($key, &$value, &$data) use ($paragraphs_assets) {
         if (is_array($value) && isset($value[self::BPI_FILE_URL])) {
           $url = $value[self::BPI_FILE_URL];
-          if (isset($paragraphs_assets[$url], $paragraphs_assets[$url]['@managed_file'])) {
+          if (isset($paragraphs_assets[$url]['@managed_file'])) {
             // Inject the file object (as an array).
             $value = (array) $paragraphs_assets[$url]['@managed_file'];
           }
