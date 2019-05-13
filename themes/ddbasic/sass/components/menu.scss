@@ -569,11 +569,15 @@ ul.topbar-menu {
     border-radius: $round-corner;
     background-color: $white;
     box-shadow: $box-shadow;
-    top: 7px;
+    top: 71px;
     margin-top: 8px;
     padding: 10px 20px;
     .toolbar & {
       top: 7px + $toolbar-height;
+    }
+    .admin-menu-with-shortcuts &,
+    .admin-menu & {
+      top: 7px;
     }
     &::before {
       @include transform(rotate(-45deg));

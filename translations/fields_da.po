@@ -1275,11 +1275,6 @@ msgctxt "field_ding_list_user:permission:label"
 msgid "Ding List User"
 msgstr ""
 
-#: field:ding_entity_rating_result:ting_object:label
-msgctxt "ding_entity_rating_result:ting_object:label"
-msgid "Average rating"
-msgstr ""
-
 #: field:field_ding_interaction_status:#allowed_values:1
 msgctxt "field_ding_interaction_status:#allowed_values:1"
 msgid "1"

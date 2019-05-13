@@ -168,16 +168,7 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
  * Ding event.
  */
 function ddbasic_preprocess__node__ding_event(&$variables) {
-
   $date = field_get_items('node', $variables['node'], 'field_ding_event_date');
-
-  $price = field_get_items('node', $variables['node'], 'field_ding_event_price');
-  if (!empty($price)) {
-    $variables['event_price'] = $price[0]['value'] . ' ' . variable_get('ding_event_currency_type', 'Kr');
-  }
-  else {
-    $variables['event_price'] = t('Free');
-  }
 
   $location = field_get_items('node', $variables['node'], 'field_ding_event_location');
   $variables['alt_location_is_set'] = !empty($location[0]['name_line']) || !empty($location[0]['thoroughfare']);
@@ -212,15 +203,14 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         // (e.g. UTC time 2018-01-09 23:00). To print out the date/time properly
         // We first need to create the dateObject with the UTC database time, and
         // afterwards we can convert the dateObject db-time to localtime.
-
-        // Create a dateObject from startdate, set base timezone to UTC
+        // Create a dateObject from startdate, set base timezone to UTC.
         $date_start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
-        // Set timezone to local timezone
+        // Set timezone to local timezone.
         $date_start->setTimezone(new DateTimeZone($date[0]['timezone']));
 
-        // Create a dateObject from enddate, set base timezone to UTC
+        // Create a dateObject from enddate, set base timezone to UTC.
         $date_end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
-        // Set timezone to local timezone
+        // Set timezone to local timezone.
         $date_end->setTimezone(new DateTimeZone($date[0]['timezone']));
 
         $variables['event_date'] = date_format_date($date_start, 'ding_date_only_version2');
@@ -289,22 +279,18 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           '#label' => t('Share this event'),
         );
 
-        // Make book/participate in event button.
-        $price = ding_base_get_value('node', $variables['node'], 'field_ding_event_price');
-        $participate = t('Participate in the event');
-        $book = t('Book a ticket');
-
-        if (empty($price)) {
-          $text = $participate;
-        }
-        else {
-          $text = $book;
+        $book_button_text = t('Participate in the event');
+        // If the event has a numeric price show an alternative text. If the
+        // price is not numeric we can't make any assumption about whether the
+        // event is free or not.
+        if (is_numeric($variables['event_price'])) {
+          $book_button_text = t('Book a ticket');
         }
 
         $link_url = ding_base_get_value('node', $variables['node'], 'field_ding_event_ticket_link', 'url');
 
         if (!empty($link_url)) {
-          $variables['book_button'] = l($text, $link_url, array(
+          $variables['book_button'] = l($book_button_text, $link_url, array(
             'attributes' => array(
               'class' => array('ticket', 'button'),
               'target' => '_blank',
@@ -389,21 +375,12 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
         break;
 
       case 'image':
-        if (!empty($variables['elements']['#widget_type']) && $variables['elements']['#widget_type'] == 'single') {
-          $variables['image'] = theme('image', [
-              'path' => $image_uri,
-              'attributes' => ['class' => 'ding-campaign-image'],
-            ]
-          );
-        }
-        else {
-          $variables['image'] = theme('image_style', [
-              'style_name' => $image_style,
-              'path' => $image_uri,
-              'attributes' => ['class' => 'ding-campaign-image'],
-            ]
-          );
-        }
+        $variables['image'] = theme('image_style', array(
+            'style_name' => "ding_full_width",
+            'path' => $image_uri,
+            'attributes' => array('class' => 'ding-campaign-image'),
+          )
+        );
         break;
     }
   }

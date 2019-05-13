@@ -79,6 +79,8 @@ projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.8"
+; https://www.drupal.org/node/2829437
+projects[entity][patch][0] = "https://www.drupal.org/files/issues/entity-rebuild-2829437-4.patch"
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = "1.2"
@@ -326,7 +328,9 @@ projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.9"
+projects[panels][version] = "3.4"
+; Fix PHP7 errors - PHP 4 style constructors - (https://www.drupal.org/node/2557061)
+projects[panels][patch][] = "https://www.drupal.org/files/issues/deprecated-constructor-in-php-7-2557061-3.patch"
 
 projects[panels_breadcrumbs][subdir] = "contrib"
 projects[panels_breadcrumbs][version] = "2.1"
@@ -521,7 +525,7 @@ projects[ding_spt_statistics][download][branch] = "development"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-4.6.2"
+libraries[bpi-client][download][tag] = "7.x-4.7.0"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
@@ -592,7 +596,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][destination] = "modules/opensearch/lib"
-libraries[ting-client][download][tag] = "7.x-4.6.2"
+libraries[ting-client][download][tag] = "7.x-4.7.0"
 
 ; Obsoleted. Only reference is in ding_frontend.
 libraries[zen-grids][download][type] = "git"

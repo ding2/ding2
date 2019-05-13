@@ -139,7 +139,7 @@
             <div class="event-date">
               <?php print $event->date; ?>
               <?php if (isset($event->fee)) :?>
-                - <?php print $event->fee; ?> KR.
+                - <?php print $event->fee; ?> kr.
               <?php endif; ?>
             </div>
           </div>

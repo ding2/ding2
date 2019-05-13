@@ -1,0 +1,136 @@
+<?php
+/**
+ * @file
+ * Represents hook definition and common methods.
+ */
+
+// Id which was used in the old module for events which is not synchronized with
+// place2book.
+define('DING_PLACE2BOOK_NO_ID', -1);
+
+/**
+ * Implements hook_menu().
+ */
+function ding_place2book_migrate_menu() {
+  $items = array();
+
+  $items['admin/config/ding/place2book/migrate'] = array(
+    'title' => 'Migrate',
+    'description' => 'Migrating events to new api.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_migrate_admin_form'),
+    'access arguments' => array('administer place2book settings'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_place2book_migrate.admin.inc',
+  );
+
+  $items['admin/config/ding/place2book/migrate/approve'] = array(
+    'title' => 'Approve migration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_migrate_approve_form'),
+    'access arguments' => array('administer place2book settings'),
+    'file' => 'ding_place2book_migrate.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Creates a batch for event migration.
+ */
+function _ding_place2book_migrate_batch($events, &$context) {
+  if (empty($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['offset'] = 1;
+    $context['sandbox']['max'] = count($events);
+  }
+  $part = array_slice($events, $context['sandbox']['progress'], 20);
+  $context['sandbox']['progress'] += count($part);
+  foreach ($part as $event) {
+    $node = node_load($event->nid);
+    if (!empty($event->place2book_id)) {
+      $event_maker_id = _ding_place2book_get_event_maker($node);
+
+      // Migrate the node's p2b event data to the new p2b field. Note that we do
+      // not supply the 'do_sync' parameter. This ensures that we don't try to
+      // synchronize to events with p2b during migration. We only want to
+      // transfer the p2b ids to the new field without updating anything in p2b.
+      $node->field_place2book[LANGUAGE_NONE][0] = array(
+        'event_id' => $event->place2book_id,
+        'event_maker_id' => $event_maker_id,
+        'synchronize' => $event->maintain_copy,
+      );
+
+      // In ding_place2book_update_7004() all p2b events got their ticket order
+      // URL inserted in the ding_event ticket url field to better integrate
+      // p2b events with the rest of the system. If this update wasn't run with
+      // the old version of the module the p2b URL hasn't been updated, since
+      // the update function was using a function only present in the old
+      // module. We could have rewritten the function to work with in the new
+      // module, but it's easier to just handle it here during migration. So
+      // here we ensure that the ticket URL field is in fact synchronized with
+      // the p2b sales location.
+      $ticket_url_synchronized = FALSE;
+
+      $node_wrapper = entity_metadata_wrapper('node', $node);
+      // Note that the initial field_get_items check is used to avoid having to
+      // deal with the "Parent Data Structure Not Set" exception thrown by the
+      // wrapper, when field data is not available.
+      // See: https://www.drupal.org/project/entity/issues/1596594
+      if (field_get_items('node', $node, 'field_ding_event_ticket_link')) {
+        $ticket_url = $node_wrapper->field_ding_event_ticket_link->url->value();
+        // If the field already contains a p2b URL we can avoid making a request
+        // to API. This will be the case if the update function was run in the
+        // old version of this module.
+        if (strpos($ticket_url, 'https://www.place2book.com') === 0) {
+          $ticket_url_synchronized = TRUE;
+        }
+      }
+
+      try {
+        if (!$ticket_url_synchronized) {
+          $p2b = ding_place2book_instance();
+          $event = $p2b->getEvent($event_maker_id, $event->place2book_id);
+
+          $node_wrapper
+            ->field_ding_event_ticket_link
+            ->url
+            ->set($event->links->sales_location);
+        }
+
+        node_save($node);
+        // If we get here it means that no exception was thrown and we update
+        // the migation status to TRUE which indicates completed.
+        db_update('ding_place2book')
+          ->fields(['migration_status' => 1])
+          ->condition('nid', $node->nid)
+          ->execute();
+      }
+      catch(Exception $e) {
+        // No need to do anything here really. The node module logs a watchdog
+        // exception if something went wrong, so we just continue with the
+        // migration and display a status when it's done.
+      }
+    }
+    $context['message'] = t('Processing: <em>@title</em> (@current/@total).', array(
+      '@title' => $node->title,
+      '@current' => $context['sandbox']['progress'],
+      '@total' => $context['sandbox']['max'],
+    ));
+  }
+
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Finish callback for the migration batch operation.
+ *
+ * @see _ding_place2book_migrate_batch()
+ * @see ding_place2book_migrate_admin_form_submit()
+ */
+function _ding_place2book_migrate_batch_finished($success, $results, $operations) {
+  $message = $success ? t('Events migration completed.') : t('Finished with an error.');
+  drupal_set_message($message);
+}

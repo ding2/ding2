@@ -30,7 +30,7 @@
       // Fetch availability.
       if (ids.length > 0) {
         var mode = settings.ding_availability_mode ? settings.ding_availability_mode : 'items';
-        var path = settings.basePath + 'ding_availability/' + mode + '/' + ids.join(',');
+        var path = settings.basePath + settings.pathPrefix + 'ding_availability/' + mode + '/' + ids.join(',');
         $.ajax({
           dataType: "json",
           url: path,
