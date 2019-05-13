@@ -193,7 +193,7 @@ function ting_infomedia_form_opensearch_admin_settings_alter(&$form, &$form_stat
   $form['opensearch']['ting_infomedia_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Infomedia web service URL'),
-    '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. http://useraccessinfomedia.addi.dk/1.4/'),
+    '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. https://useraccessinfomedia.addi.dk/1.4/'),
     '#default_value' => variable_get('ting_infomedia_url', ''),
   );
 }

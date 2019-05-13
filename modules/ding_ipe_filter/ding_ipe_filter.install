@@ -85,3 +85,24 @@ function ding_ipe_filter_update_7103(&$sandbox) {
     variable_set('ding_ipe_filter_panes_selected', $selected);
   }
 }
+
+/**
+ * Remove category from selection identifiers.
+ */
+function ding_ipe_filter_update_7104(&$sandbox) {
+  /*
+   * Category key is loaded based on the active language. It needs to have the
+   * same set for all languages. Uniqueness is kept based on the pane sub-type.
+   */
+  $selected = _ding_ipe_filter_selected_panes();
+  $new_selections = array();
+  foreach ($selected as $value) {
+    $matches = array();
+    preg_match('/(\S+):(\S+)/', $value, $matches);
+    if (!empty($matches[2])) {
+      $new_selections[$matches[2]] = $matches[2];
+    }
+  }
+
+  variable_set('ding_ipe_filter_panes_selected', $new_selections);
+}

@@ -45,7 +45,7 @@ function ding_ipe_filter_admin_panes_form($form, $form_state) {
   $options = array();
   foreach ($categories as $key => $category) {
     foreach ($category['content'] as $content) {
-      $options[$key . ':' . $content['subtype_name']] = array(
+      $options[$content['subtype_name']] = array(
         'category' => $category['title'],
         'type' => $content['subtype_name'],
         'title' => $content['title'],

@@ -475,7 +475,7 @@ msgstr "Gør det muligt at lave yderst tilpassede lister af indhold"
 #: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.slider.tpl.php:30
 #: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.taxonomy.tpl.php:59
 msgid "kr."
-msgstr ""
+msgstr "kr."
 
 #: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.carousel.tpl.php:41
 #: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.image_text.tpl.php:48

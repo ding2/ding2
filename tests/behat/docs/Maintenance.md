@@ -22,7 +22,7 @@ some data may still be in the refreshed well data set.
 
 ### Procedure to refresh
 
-There is a maintenance scenario in simple_smoketests.feature: Update files after well is refreshed.
+There is a maintenance scenario in 99-maintanance.feature: Update files after well is refreshed.
 This scenario extracts data from the test webservice. This is currently hard coded in the "ICreateFilesForRelationChunk" 
 function in LibContext.php, so that reference needs to be updated (variable $url) to the new
 test service, if the endpoint changes.
@@ -49,7 +49,4 @@ chmod +x reduceFileSize.sh
 
 
 After this update, test run the suite. If data is now found, then these new files can be checked into git, and the maintanance is complete.
-Run the @specialtests in the simple_smoke_tests.feature to check that the files are valid.
-Note that it might be necessary to temporarily include that scenario in the CCI suite
-(by adding the @cci tag to it), to check the data source there. Don't forget to remove it
-again from @cci.
+Run the @specialtests in the 99-maintanance.feature to check that the files are valid.

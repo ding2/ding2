@@ -5,7 +5,6 @@
  * This module provides serendipity functions based on user lists and loans.
  */
 
-use Ting\Search\BooleanStatementGroup;
 use Ting\Search\BooleanStatementInterface;
 use Ting\Search\TingSearchCommonFields;
 use Ting\Search\TingSearchFieldFilter;
@@ -33,6 +32,8 @@ function ding_entity_rating_serendipity_info() {
  *
  * @return array
  *   A serendipity results array.
+ *
+ * @throws \Ting\Search\UnsupportedSearchQueryException
  */
 function ding_entity_rating_materials_by_rating_serendipity_add(array $context) {
   global $user;

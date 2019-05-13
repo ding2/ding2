@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Install file for the ding_place2book migrate module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_place2book_migrate_install() {
+  db_add_field('ding_place2book', 'migration_status', [
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'size' => 'tiny',
+    'default' => 0,
+  ]);
+}

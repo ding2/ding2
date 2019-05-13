@@ -106,8 +106,15 @@
           </div>
         </div>
       <?php endif; ?>
-      <?php 
-        if ($alt_location_is_set): 
+      <!-- insert price-field markup -->
+      <div class="field field-name-field-ding-event-price field-label-inline clearfix">
+        <div class="field-label"><?php print t('Price'); ?></div>
+        <div class="field-items">
+          <div class="field-item even"><?php print $event_price; ?></div>
+        </div>
+      </div>
+      <?php
+        if ($alt_location_is_set):
           print render($content['group_left']['field_ding_event_location']);
         else:
           print render($content['group_left']['og_group_ref']);
@@ -116,7 +123,7 @@
       <?php print render($content['group_left']); ?>
       <?php
         if (!empty($book_button)):
-          print $book_button;
+          print render($book_button);
         endif;
       ?>
       <?php if (!empty($campaigns)): ?>

@@ -278,7 +278,6 @@ function ding_ting_frontend_field_group_info() {
     'weight' => '78',
     'children' => array(
       0 => 'ding_entity_rating_action',
-      1 => 'ding_entity_rating_result',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -311,7 +310,6 @@ function ding_ting_frontend_field_group_info() {
     'weight' => '23',
     'children' => array(
       0 => 'ding_entity_rating_action',
-      1 => 'ding_entity_rating_result',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -344,7 +342,6 @@ function ding_ting_frontend_field_group_info() {
     'weight' => '45',
     'children' => array(
       0 => 'ding_entity_rating_action',
-      1 => 'ding_entity_rating_result',
     ),
     'format_type' => 'div',
     'format_settings' => array(

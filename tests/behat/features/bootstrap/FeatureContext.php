@@ -17,7 +17,9 @@ use Behat\Gherkin\Node\TableNode;
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext implements Context, SnippetAcceptingContext {
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+class FeatureContext implements Context, SnippetAcceptingContext
+{
     /**
      * Initializes context.
      *
@@ -25,6 +27,7 @@ class FeatureContext implements Context, SnippetAcceptingContext {
      * You can also pass arbitrary arguments to the
      * context constructor through behat.yml.
      */
-    public function __construct() {
+    public function __construct()
+    {
     }
 }

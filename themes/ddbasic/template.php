@@ -1150,7 +1150,9 @@ function ddbasic_add_ting_object_behaviour() {
   // automatically include availability, covers and rating handling.
   drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js');
   drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
-  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating.js');
+
+  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_widget.js');
+  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_ajax.js');
 }
 
 /**
