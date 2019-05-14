@@ -166,7 +166,6 @@ function ding_adgangsplatformen_get_configuration() {
   return variable_get('ding_adgangsplatformen_settings', array(
     'clientId' => '',
     'clientSecret' => '',
-    'redirectUri' => $base_url . '/' . DING_ADGANGSPLATFORMEN_REDIRECT_URL,
     'urlAuthorize' => 'https://oauth.login.bib.dk/oauth/authorize',
     'urlAccessToken' => 'https://oauth.login.bib.dk/oauth/token/',
     'urlResourceOwnerDetails' => 'https://oauth.login.bib.dk/userinfo/',
