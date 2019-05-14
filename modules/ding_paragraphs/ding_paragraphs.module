@@ -58,6 +58,8 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
     );
 
     // Add information for each paragraph in backend.
+    // Provide more accurate information about each paragraph than default
+    // (preview mode).
     foreach ($form[$paragraph_field][LANGUAGE_NONE] as $key => $value) {
       if (is_array($value) && isset($value['#entity_type']) && $value['#entity_type'] == 'paragraphs_item') {
         $wrapper = entity_metadata_wrapper($value['#entity_type'], $value['#entity']);
@@ -111,6 +113,7 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
         }
       }
     }
+
   }
 }
 
