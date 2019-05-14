@@ -644,10 +644,13 @@ function ding_news_field_default_field_instances() {
     'description' => 'Close all paragraphs to change the order',
     'display' => array(
       'alternative_layout_full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'label' => 'hidden',
+        'module' => 'paragraphs',
+        'settings' => array(
+          'view_mode' => 'full',
+        ),
+        'type' => 'paragraphs_view',
+        'weight' => 6,
       ),
       'default' => array(
         'label' => 'hidden',

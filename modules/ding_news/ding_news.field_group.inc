@@ -352,6 +352,7 @@ function ding_news_field_group_info() {
       2 => 'field_ding_news_lead',
       3 => 'field_ding_news_materials',
       4 => 'og_group_ref',
+      5 => 'field_ding_news_paragraphs',
     ),
     'format_type' => 'div',
     'format_settings' => array(
