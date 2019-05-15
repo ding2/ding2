@@ -61,8 +61,11 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
     // Provide more accurate information about each paragraph than default
     // (preview mode).
     foreach ($form[$paragraph_field][LANGUAGE_NONE] as $key => $value) {
-      if (is_array($value) && isset($value['#entity_type']) && $value['#entity_type'] == 'paragraphs_item') {
-        $wrapper = entity_metadata_wrapper($value['#entity_type'], $value['#entity']);
+      if (is_array($value) && isset($value['#entity_type']) && $value['#entity_type'] == 'paragraphs_item' && isset($value['paragraph_bundle_preview'])) {
+        // Create entity wrapper from paragraph preview.
+        foreach ($value['paragraph_bundle_preview']['preview']['paragraphs_item'] as $paragraph_item) {
+          $wrapper = entity_metadata_wrapper($value['#entity_type'], $paragraph_item['#entity']);
+        }
         $output = FALSE;
         switch ($value['#bundle']) {
           case 'ding_paragraphs_image_and_text':
@@ -85,9 +88,6 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
             break;
 
           case 'ding_paragraphs_image':
-            // For some unknown reason the previously defined wrapper is off,
-            // so we grab the image entity from elsewhere.
-            $wrapper = entity_metadata_wrapper('paragraphs_item', $value['field_ding_paragraphs_image'][LANGUAGE_NONE]['0']['#entity']);
             // Add image.
             $image_field = $wrapper->field_ding_paragraphs_image->value();
             if (!empty($image_field)) {
