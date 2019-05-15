@@ -382,7 +382,7 @@ function ding_place2book_widget_validate($form, &$form_state) {
       }, ARRAY_FILTER_USE_BOTH);
 
       if (empty($prices)) {
-        form_set_error('field_place2book][und][place2book][prices_wrapper][prices', t('At least one price should exist and botn name and price value is required.'));
+        form_set_error('field_place2book][und][place2book][prices_wrapper][prices', t('At least one price should exist and both name and price value is required.'));
       }
     }
 
