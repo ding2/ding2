@@ -1665,7 +1665,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
-  $handler->display->display_options['relationships']['nodequeue_rel']['label'] = 'kø';
+  $handler->display->display_options['relationships']['nodequeue_rel']['label'] = 'library listing';
   $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
     'ding_library_listing' => 'ding_library_listing',
@@ -1794,7 +1794,7 @@ function ding_event_views_default_views() {
     t('Original Image'),
     t('Cropped Image'),
     t('Event: Libraries list'),
-    t('kø'),
+    t('library listing'),
   );
   $export['ding_event'] = $view;
 
