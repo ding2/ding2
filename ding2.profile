@@ -365,6 +365,7 @@ function ding2_module_selection_form($form, &$form_state) {
     'bpi' => st('BPI'),
     'ding_debt' => st('Ding payment'),
     'ding_dibs' => st('Dibs payment gateway'),
+    'ding_adgangsplatformen' => st('Single Sign on with adgangsplatformen'),
   );
 
   $form['modules'] = array(
@@ -382,6 +383,7 @@ function ding2_module_selection_form($form, &$form_state) {
       'ding_contact',
       'ding_debt',
       'ding_dibs',
+      'ding_adgangsplatformen',
     ),
   );
 
