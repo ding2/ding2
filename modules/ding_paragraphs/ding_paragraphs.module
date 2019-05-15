@@ -20,18 +20,6 @@ function ding_paragraphs_preprocess_node(&$variables) {
 }
 
 /**
- * Implements hook_entity_info_alter().
- */
-function ding_paragraphs_entity_info_alter(&$entity_info) {
-  $entity_info['ting_object']['view modes'] += array(
-    'paragraphs_teaser' => array(
-      'label' => t('Paragraphs teaser'),
-      'custom settings' => TRUE,
-    ),
-  );
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Add js for form.

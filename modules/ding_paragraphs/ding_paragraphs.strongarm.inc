@@ -180,9 +180,6 @@ function ding_paragraphs_strongarm() {
       'teaser' => array(
         'custom_settings' => TRUE,
       ),
-      'paragraphs_teaser' => array(
-        'custom_settings' => TRUE,
-      ),
       'collection_primary' => array(
         'custom_settings' => TRUE,
       ),
@@ -212,10 +209,6 @@ function ding_paragraphs_strongarm() {
       'form' => array(),
       'display' => array(
         'ding_serendipity_info' => array(
-          'paragraphs_teaser' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
           'reference_teaser' => array(
             'weight' => '0',
             'visible' => TRUE,

@@ -947,18 +947,18 @@ function ddbasic_process_ting_object(&$vars) {
         
         case 'paragraphs_teaser':
           if ($vars['object']->is('reservable')) {
-            $vars['content']['group_ting_right_col_collection']['reserve_button'] = ding_reservation_ding_entity_buttons(
+            $vars['content']['group_ting_right_col_collection']['reserve_button'] = ting_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
               'ajax'
             );
           }
           if ($vars['object']->online_url) {
-            // Slice the output, so it only usese the online link button.
-            $vars['content']['group_ting_right_col_collection']['online_link'] = array_slice(ting_ding_entity_buttons(
+            // Slice the output, so it only uses the online link button.
+            $vars['content']['group_ting_right_col_collection']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
               $vars['object']
-            ), 0, 1);
+            );
           }
 
           // Check if teaser has rating function and remove abstract.
