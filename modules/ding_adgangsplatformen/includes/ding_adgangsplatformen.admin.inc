@@ -22,6 +22,7 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
   $form['ding_adgangsplatformen_settings']['clientId'] = array(
     '#type' => 'textfield',
     '#title' => t('Client ID'),
+    '#size' => 35,
     '#description' => t('The client id should be obtained at the auth provider - DBC.'),
     '#default_value' => $default['clientId'],
   );
@@ -29,6 +30,7 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
   $form['ding_adgangsplatformen_settings']['clientSecret'] = array(
     '#type' => 'textfield',
     '#title' => t('Client secret'),
+    '#size' => 63,
     '#description' => t('Get this form the provider - DBC.'),
     '#default_value' => $default['clientSecret'],
   );

@@ -311,6 +311,10 @@ function ding_adgangsplatformen_callback() {
 
       drupal_set_message(t('Failed to login and get user details for the user.'), 'warning');
 
+      // Clean up session variables to prevent redirects loop.
+      unset($_SESSION['oauth2token']);
+      unset($_SESSION['oauth2state']);
+
       // Redirect user back.
       _ding_adgangsplatformen_redirect_user();
     }
