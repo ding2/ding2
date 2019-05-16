@@ -186,3 +186,71 @@ function ding_paragraphs_bpi_syndicate_node_form_alter(&$form, &$context) {
   $helper = new DingParagraphsHelper();
   $helper->addBpiParagraphs($form, $form_state, $bpi_node, $syndicated_images);
 }
+
+/**
+ * Helper function to migrate from an old content body field to a new paragraphs field.
+ *
+ * @param $old_content_field
+ *   Field name of the old node body field.
+ * @param $new_content_field
+ *   Field name og the new paragraphs field where the body content should be stored.
+ * @param $paragraphs_ref_field
+ *   Field name of the nodes paragraphs reference.
+ * @param $paragraphs_type
+ *   The machine name of the paragraphs bundle that contains the new field.
+ * @param $content_type
+ *   The content type that is being migrated on.
+ * @throws \DrupalUpdateException
+ *   Exception thrown if a field is missing.
+ */
+function _ding_paragraphs_migrate_content_body_field($old_content_field, $new_content_field, $paragraphs_ref_field, $paragraphs_type, $content_type) {
+  // Make sure we have somewhere to save the old body field.
+  $empty_body = empty(field_info_instance('node', $old_content_field, $content_type));
+  $empty_paragraphs_text = empty(field_info_instance('paragraphs_item', $new_content_field, $paragraphs_type));
+  $empty_reference = empty(field_info_instance('node', $paragraphs_ref_field, $content_type));
+
+  if ($empty_body || $empty_paragraphs_text || $empty_reference) {
+    throw new DrupalUpdateException(
+      t('This update requires the fields @name_new_field and @name_old_field @name_ref_field to exist. Perhaps you need to revert a feature.'),
+      array(
+        '@name_old_field' => $old_content_field,
+        '@name_new_field' => $new_content_field,
+        '@name_ref_field' => $paragraphs_ref_field,
+      )
+    );
+  }
+
+  if (!isset($sandbox['total'])) {
+    $query = db_select('field_data_' . $old_content_field, 'f');
+    $query->fields('f');
+    $result = $query->execute();
+    $sandbox['total'] = $result->rowCount();
+    $sandbox['current'] = 0;
+  }
+
+  $nodes_per_pass = 30;
+
+  $query = db_select('field_data_' . $old_content_field, 'f');
+  $query->fields('f');
+  $query->range($sandbox['current'], $nodes_per_pass);
+  $result = $query->execute();
+
+  while ($value = $result->fetchAssoc()) {
+    $node = node_load($value['entity_id']);
+    $paragraph = new ParagraphsItemEntity(array('field_name' => $paragraphs_ref_field, 'bundle' => $paragraphs_type));
+    $paragraph->is_new = TRUE;
+    $paragraph->$new_content_field[$value['language']][0]['value'] = $value[$old_content_field . '_value'];
+    $paragraph->$new_content_field[$value['language']][0]['format'] = $value[$old_content_field . '_format'];
+    $paragraph->setHostEntity('node', $node);
+    $paragraph->save();
+    $sandbox['current']++;
+  }
+
+  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+
+  if ($sandbox['#finished'] === 1) {
+    drupal_set_message(t('We processed @nodes nodes with body fields. Deleting @name...', array('@nodes' => $sandbox['total'], '@name' => $old_content_field)));
+    field_delete_field($old_content_field);
+    field_purge_batch(1000);
+  }
+}

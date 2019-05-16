@@ -140,46 +140,5 @@ function ding_news_update_7006() {
  * Migrate news body field to paragraph and delete field.
  */
 function ding_news_update_7007(&$sandbox) {
-  // Make sure we have somewhere to save the old body field.
-  if (empty(field_info_instance('node', 'field_ding_news_body', 'ding_news')) || empty(field_info_instance('paragraphs_item', 'field_ding_paragraphs_text', 'ding_paragraphs_text')) || empty(field_info_instance('node', 'field_ding_news_paragraphs', 'ding_news'))) {
-    throw new DrupalUpdateException(t('This update requires the fields field_ding_paragraphs_text, field_ding_news_paragraphs and field_ding_news_body to exist. Perhaps you need to revert a feature.'));
-  }
-
-  if (!isset($sandbox['total'])) {
-    $query = db_select('field_data_field_ding_news_body', 'f');
-    $query->fields('f');
-    $result = $query->execute();
-    $sandbox['total'] = $result->rowCount();
-    $sandbox['current'] = 0;
-  }
-
-  $nodes_per_pass = 30;
-
-  $query = db_select('field_data_field_ding_news_body', 'f');
-  $query->fields('f');
-  $query->range($sandbox['current'], $nodes_per_pass);
-  $result = $query->execute();
-
-  while ($value = $result->fetchAssoc()) {
-    $node = node_load($value['entity_id']);
-    $paragraph = new ParagraphsItemEntity(array('field_name' => 'field_ding_news_paragraphs', 'bundle' => 'ding_paragraphs_text'));
-    $paragraph->is_new = TRUE;
-    $paragraph->field_ding_paragraphs_text[$value['language']][0]['value'] = $value['field_ding_news_body_value'];
-    $paragraph->field_ding_paragraphs_text[$value['language']][0]['format'] = $value['field_ding_news_body_format'];
-    $paragraph->setHostEntity('node', $node);
-    $paragraph->save();
-    $sandbox['current']++;
-  }
-  if ($sandbox['total'] > 0) {
-    $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
-  }
-  else {
-    $sandbox['#finished'] = 1;
-  }
-
-  if ($sandbox['#finished'] === 1) {
-    drupal_set_message(t('We processed @nodes nodes. Deleting field_ding_news_body...', array('@nodes' => $sandbox['total'])));
-    field_delete_field('field_ding_news_body');
-    field_purge_batch(1000);
-  }
+  _ding_paragraphs_migrate_content_body_field('field_ding_news_body', 'field_ding_paragraphs_text','field_ding_news_paragraphs', 'ding_paragraphs_text', 'ding_news');
 }
