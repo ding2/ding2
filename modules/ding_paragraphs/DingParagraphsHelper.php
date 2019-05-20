@@ -243,7 +243,7 @@ class DingParagraphsHelper {
    *
    * @param string $entity_type
    *   The entity type.
-   * @param array $entity
+   * @param object $entity
    *   The entity.
    * @param \Bpi\Sdk\Item\Node $bpi_node
    *   The BPI node.
@@ -253,7 +253,7 @@ class DingParagraphsHelper {
    * @return array|null
    *   The paragraph items.
    */
-  private function getBpiParagraphsItems($entity_type, array $entity, Node $bpi_node, $syndicated_images) {
+  private function getBpiParagraphsItems($entity_type, $entity, Node $bpi_node, $syndicated_images) {
     if (empty($bpi_node)) {
       return NULL;
     }
