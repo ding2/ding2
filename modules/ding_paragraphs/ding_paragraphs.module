@@ -134,8 +134,7 @@ function ding_paragraphs_bpi_convert_to_bpi_alter(&$bpi_content, $entity, array 
         $field = $entity->$paragraphs_field_name;
         if (isset($field[$lang]) && is_array($field[$lang])) {
           $ids = paragraphs_field_item_to_ids($field[$lang]);
-          // We have to reset cache when loading paragraphs items.
-          $paragraphs_items = paragraphs_item_load_multiple($ids, NULL, TRUE);
+          $paragraphs_items = paragraphs_item_load_multiple($ids);
           if (is_array($paragraphs_items)) {
             foreach ($paragraphs_items as $paragraphs_item) {
               $fields = field_info_instances($paragraphs_item->entityType(), $paragraphs_item->bundle());
