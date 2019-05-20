@@ -22,6 +22,7 @@ function ding_tabroll_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'I fokus';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'See more';
   $handler->display->display_options['access']['type'] = 'none';
@@ -193,6 +194,7 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['allow']['fields_override'] = 0;
   $translatables['ding_tabroll'] = array(
     t('Master'),
+    t('I fokus'),
     t('See more'),
     t('Apply'),
     t('Revert'),
