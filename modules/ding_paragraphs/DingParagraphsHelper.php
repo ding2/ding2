@@ -160,7 +160,7 @@ class DingParagraphsHelper {
                 $paragraphs_field_form = field_default_form($entity_type, $entity, $field, $instance, LANGUAGE_NONE, $items, $form, $form_state);
 
                 // Place ding entity ids into default values.
-                $this->traverse($paragraphs_field_form, function ($key, &$value, &$data) use ($field_name) {
+                $this->traverse($paragraphs_field_form, function ($key, &$value, &$data) {
                   if (is_array($value) && isset($value['#entity'], $value['ting_object_id'], $value['#bundle'])) {
                     $entity = $value['#entity'];
                     $delta = $value['#delta'];
@@ -322,10 +322,10 @@ class DingParagraphsHelper {
   }
 
   /**
-   * Depth-first descend into array with callback (by reference).
+   * Descend (depth-first) into array with callback (by reference).
    *
    * This is basically a usable version of `array_walk_recursive` which visits
-   * all nodes (array_walk_recursive only visits leafs!)
+   * all nodes (`array_walk_recursive` only visits leafs!)
    *
    * @param array $data
    *   The data.
