@@ -9,6 +9,16 @@ use Bpi\Sdk\Item\Node;
 
 /**
  * Helper for paragraphs content in bpi.
+ *
+ * The public methods are called from BPI api hooks (cf. implementation of
+ * bpi.api.php in ding_paragraphs.module).
+ *
+ * The code looks complex in some places, but it is basically just runs
+ * through paragraphs structures to collect and serialize data to send to BPI,
+ * or runs through serialized data for rebuilding paragraphs when syndicating from BPI.
+ *
+ * Most of the code * inside the loops are similar to the code in the bpi
+ * module when pushing and syndicating content.
  */
 class DingParagraphsBPIHelper {
   const BPI_FILE_URL = 'bpi_file_url';
@@ -239,7 +249,7 @@ class DingParagraphsBPIHelper {
   }
 
   /**
-   * Get BPI paragraphs items.
+   * Get BPI paragraphs items from a BPI node.
    *
    * @param string $entity_type
    *   The entity type.
@@ -295,6 +305,7 @@ class DingParagraphsBPIHelper {
         }
       });
 
+      // Build the final list of paragraphs.
       foreach ($paragraphs_fields as $paragraphs_field_name => $paragraphs_field) {
         if (isset($bpi_data[$paragraphs_field_name]) && is_array($bpi_data[$paragraphs_field_name])) {
           foreach ($bpi_data[$paragraphs_field_name] as $item) {
@@ -305,7 +316,10 @@ class DingParagraphsBPIHelper {
     }
 
     if (empty($paragraphs_items)) {
-      // Put bpi body into default paragraph item.
+      // If we don't have any paragraphs items, we create a single paragraph
+      // and set its body to the full body content from the BPI node.
+      // This should only happen in the unlikely event that we're syndicating
+      // paragraphs that do not exists on the target site.
       $paragraphs_items[] = new ParagraphsItemEntity(array(
         'field_name' => 'field_ding_news_paragraphs',
         'bundle' => 'ding_paragraphs_text',
