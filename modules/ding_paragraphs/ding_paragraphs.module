@@ -156,7 +156,7 @@ function ding_paragraphs_bpi_convert_to_bpi_alter(&$bpi_content, $entity, array 
         }
       }
 
-      $helper = new DingParagraphsHelper();
+      $helper = new DingParagraphsBPIHelper();
 
       if (isset($context['with_images'])) {
         $assets = $helper->replaceFilesWithUrls($paragraphs_data);
@@ -183,7 +183,7 @@ function ding_paragraphs_bpi_syndicate_node_form_alter(&$form, &$context) {
   $bpi_node = $context['bpi_node'];
   $syndicated_images = $context['syndicated_images'];
 
-  $helper = new DingParagraphsHelper();
+  $helper = new DingParagraphsBPIHelper();
   $helper->addBpiParagraphs($form, $form_state, $bpi_node, $syndicated_images);
 }
 

@@ -51,4 +51,4 @@ features[variable][] = field_bundle_settings_paragraphs_item__ding_paragraphs_si
 features[variable][] = field_bundle_settings_paragraphs_item__ding_paragraphs_text
 features[variable][] = field_bundle_settings_paragraphs_item__ding_paragraphs_text_box
 features[variable][] = field_bundle_settings_ting_object__ting_object
-files[] = DingParagraphsHelper.php
+files[] = DingParagraphsBPIHelper.php

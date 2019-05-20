@@ -10,7 +10,7 @@ use Bpi\Sdk\Item\Node;
 /**
  * Helper for paragraphs content in bpi.
  */
-class DingParagraphsHelper {
+class DingParagraphsBPIHelper {
   const BPI_FILE_URL = 'bpi_file_url';
   const DING_ENTITY_ID = 'ding_entity_id';
 
