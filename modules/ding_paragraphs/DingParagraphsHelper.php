@@ -177,10 +177,12 @@ class DingParagraphsHelper {
 
                       case 'ding_paragraphs_material_list':
                       case 'ding_paragraphs_carousel':
-                        $material_ids = array_map(function ($item) {
-                          return $item['value']['ding_entity_id'];
-                        },
-                          $entity->field_ding_paragraphs_material[LANGUAGE_NONE]);
+                        $material_ids = array_map(
+                          function ($item) {
+                            return $item['value']['ding_entity_id'];
+                          },
+                          $entity->field_ding_paragraphs_material[LANGUAGE_NONE]
+                        );
 
                         if (isset($material_ids[$delta])) {
                           $material_id = $material_ids[$delta];
