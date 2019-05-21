@@ -52,6 +52,17 @@ class ConnieSearchResult implements TingSearchResultInterface {
   }
 
   /**
+   * Returns a list of the collections contained within this search result.
+   *
+   * Note that this is not entities but plain old PHP objects.
+   *
+   * @return \Ting\TingObjectCollectionInterface[]
+   */
+  public function getCollections() {
+    return [ConnieTingObjectCollection::getSingleCollection('object1')];
+  }
+
+  /**
    * Returns a list of loaded TingCollections.
    *
    * Notice that TingCollection is actually a collection of Ting Entities.

@@ -4,6 +4,8 @@
  * Theming functions for ting.
  */
 
+use Ting\TingObjectInterface;
+
 /**
  * Template preprocessor for ting objects.
  */
@@ -43,4 +45,183 @@ function template_preprocess_ting_object(&$variables) {
       );
     }
   }
+}
+
+/**
+ * Template preprocessor for ting titles.
+ *
+ * @param array $variables Template variables.
+ */
+function template_preprocess_ting_title(&$variables) {
+  /** @var \Ting\TingObjectCollectionInterface $collection */
+  $collection = $variables['collection'];
+  /** @var array $uri */
+  $uri = $variables['uri'];
+
+  $object = $collection->getPrimaryObject();
+  $type = $object->getType();
+  $types = array_unique(array_map(function(TingObjectInterface $object) {
+    return $object->getType();
+  }, $collection->getObjects()));
+
+  $title = $object->getTitle();
+  $titles = array_unique(array_map(function(TingObjectInterface $object) {
+    return $object->getTitle();
+  }, $collection->getObjects()));
+
+  // Use the generic collection title if:
+  // - A collection has items with different types
+  // - A collection has items of the same type but with different titles
+  // Note that this intentionally disregards collections with multiple objects
+  // with the same type and title.
+  if (count($types) > 1 || count($titles) > 1) {
+    $type = t('Material collection');
+  }
+
+  if (!empty($uri)) {
+    $title = l($title, $uri['path'], $uri['options']);
+  } else {
+    $title = check_plain($title);
+  }
+
+  // Append the language as a suffix to the title for certain material
+  // types if the material language is not the default language.
+  $title_suffix_types = variable_get('ting_language_type_title_suffix', []);
+  $default_language = variable_get('ting_language_default');
+  $is_title_suffix_type = (!empty($title_suffix_types[strtolower($object->getType())]));
+  $language = $object->getLanguage();
+  $has_language = !empty($language);
+  $is_default_language = $language == $default_language;
+
+  $show_language = $is_title_suffix_type && $has_language && !$is_default_language;
+
+  $variables += [
+    'title' => $title,
+    'type' => $type,
+    'show_language' => $show_language,
+    'language' => $language,
+  ];
+}
+
+/**
+ * Theme function for rendering Ting object creators.
+ *
+ * @param array $variables The theme variables.
+ *
+ * @return string
+ *   The resulting markup.
+ */
+function theme_ting_creators(&$variables) {
+  /** @var \Ting\TingObjectInterface $object */
+  $object = $variables['object'];
+
+  // Build an array containing different formats of each creator name.
+  // This will allow administrators to use the format that suits their
+  // needs best e.g. if one wants to use a facet where the name is
+  // inverted.
+  $creators = array_map(function ($creator, $inverted_creator) {
+    return ['default' => $creator, 'inverted' => $inverted_creator];
+  }, $object->getCreators(), $object->getCreators(TingObjectInterface::NAME_FORMAT_SURNAME_FIRST));
+
+  // Array mapped with replacement string as key and the author name as
+  // the value.
+  $replace_array = array_map(function ($creator) {
+    return [
+      '@author' => $creator['default'],
+      '@author_inverted' => $creator['inverted'],
+    ];
+  }, $creators);
+  $search_string = variable_get('ting_search_register_author', 'phrase.creator="@author"');
+
+  // The links with the correct author name depending on the whether
+  // @author or @author_inverted is used.
+  $creator_links = array_map(function($creator, $replacements) use ($search_string) {
+    return ting_field_search_link($creator['default'], $search_string, $replacements, array(
+      'attributes' => array(
+        'class' => array('author'),
+      ),
+    ));
+  }, $creators, $replace_array);
+
+  $year = $object->getYear();
+  $markup_string = '';
+  if (count($creators) > 0) {
+    if (!empty($year)) {
+      $markup_string = t('By !author_link (@year)', array(
+        '!author_link' => implode(', ', $creator_links),
+        // So wrong, but appears to be the way the data is.
+        '@year' => $year,
+      ));
+    }
+    else {
+      $markup_string = t('By !author_link', array(
+        '!author_link' => implode(', ', $creator_links),
+      ));
+    }
+  }
+  elseif (!empty($year)) {
+    $markup_string = t('(@year)', array('@year' => $year));
+  }
+
+  return $markup_string;
+}
+
+/**
+ * Theme function for rendering the abstract for a Ting object.
+ *
+ * @param array $variables The theme variables.
+ *
+ * @return string
+ *   The resulting markup.
+ */
+function theme_ting_abstract(&$variables) {
+  /** @var \Ting\TingObjectInterface $object */
+  $object = $variables['object'];
+
+  $abstract = $object->getAbstract();
+  if (!empty($variables['max_length'])) {
+    $abstract = truncate_utf8($abstract, $variables['max_length'], FALSE, TRUE);
+  }
+  return check_plain($abstract);
+}
+
+
+/**
+ * Theme function for rendering the abstract for a Ting object.
+ *
+ * @param array $variables The theme variables.
+ *
+ * @return string
+ *   Rendered series information.
+ */
+function theme_ting_series(&$variables) {
+  /** @var \Ting\TingObjectInterface $object */
+  $object = $variables['object'];
+
+  $series_markup = '';
+  if ($object->getSeriesTitles()) {
+    // The search string used is configurable because the data well is not
+    // fully implemented regarding series. As default we search both in
+    // the series title register and the description field because many
+    // series only have data in the description field. This will probably
+    // change with new versions of the data well.
+    $series_info = array_map(function ($title) {
+      $series_title = $title[0];
+      $series_number = isset($title[1]) ? ' : ' . check_plain($title[1]) . ' ; ' : ' ; ';
+
+      $replacement = ['@serietitle' => drupal_strtolower($series_title)];
+      $search_string = variable_get('ting_search_register_serie_title',
+        'phrase.titleSeries="@serietitle"');
+      $link = ting_field_search_link(trim($series_title), $search_string,
+        $replacement, ['attributes' => ['class' => ['series']]]);
+
+      return $link . $series_number;
+    }, $object->getSeriesTitles());
+
+    $series_markup = implode(' ', $series_info);
+  } elseif ($object->getSeriesDescription()) {
+    $series_markup = $object->getSeriesDescription();
+  }
+
+  return $series_markup;
 }

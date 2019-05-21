@@ -158,6 +158,9 @@ function ting_search_theme($existing, $type, $theme, $path) {
       'template' => 'ting-search-display-extended-query',
       'path' => $path . '/templates',
     ),
+    'ting_search_collection_snippet' => array(
+      'variables' => array('collection' => NULL)
+    )
   );
 }
 
@@ -408,13 +411,14 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
 
         pager_default_initialize($total_results, $results_per_page);
 
-        foreach ($search_result->getTingEntityCollections() as $collection) {
-          $build = ting_collection_view($collection, 'teaser');
-          $uri = entity_uri('ting_collection', $collection);
+        foreach ($search_result->getCollections() as $collection) {
+          $build = theme('ting_search_collection_snippet', array(
+            'collection' => $collection
+          ));
           $results[] = array(
-            'link' => url($uri['path'], $uri['options']),
+            'link' => url('ting/collection/' . $collection->getPrimaryObject()->getId()),
             'type' => '',
-            'title' => $collection->title,
+            'title' => $collection->getPrimaryObject()->getTitle(),
             'user' => '',
             'date' => '',
             'snippet' => drupal_render($build),
@@ -704,6 +708,27 @@ function theme_ting_search_mini_pager($variables) {
   }
 }
 
+/**
+ * Theme function for rendering a snippet of a collection in a search result.
+ *
+ * A snippet is the markup rendered for representing an item in a search result.
+ * It is up to the individual implementation to decide how that should be
+ * interpreted.
+ *
+ * This renders the teaser view of the corresponding entity.
+ *
+ * @param array $variables
+ *   Theme variables.
+ *
+ * @return array
+ *   A render array for the snippet.
+ */
+function theme_ting_search_collection_snippet(array $variables) {
+  /* @var \Ting\TingObjectCollectionInterface $collection */
+  $collection = $variables['collection'];
+  $collection_entity = ding_entity_load($collection->getPrimaryObject()->getId(), 'ting_collection');
+  return ting_collection_view($collection_entity, 'teaser');
+}
 
 /**
  * Implements hook_block_info().

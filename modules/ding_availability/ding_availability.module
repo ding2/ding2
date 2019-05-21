@@ -86,6 +86,12 @@ function ding_availability_theme($existing, $type, $theme, $path) {
       ),
       'path' => $path . '/templates',
     ),
+    'ding_availability_collection_labels' => array(
+      'variables' => array(
+        'collection' => NULL
+      ),
+      'function' => 'theme_ding_availability_collection_labels',
+    )
   );
 }
 
@@ -475,4 +481,136 @@ function _ding_availability_holdings_default_types() {
     'spolelydbånd',
     'udstillingsmontage',
   );
+}
+
+/**
+ * Theme function for rendering collection availability.
+ *
+ * @param array $variables
+ *   Theme variables.
+ *
+ * @return string
+ *   The rendered output.
+ */
+function theme_ding_availability_collection_labels(&$variables) {
+  /* @var \Ting\TingObjectCollectionInterface $collection */
+  $collection = $variables['collection'];
+
+  $online_types = array_filter(variable_get('ting_online_types', _ting_default_online_types()));
+  $reservable_sources = array_filter(variable_get('ting_reservable_sources', _ting_default_reservable_sources()));
+
+  $id_mapping = array();
+
+  $typed_objects = array();
+  // Sort objects by type.
+  foreach ($collection->getObjects() as $object) {
+    $typed_objects[$object->getType()][] = $object;
+  }
+
+  // Build basic output render array.
+  $output = array(
+    '#theme' => 'ding_availability_types',
+    '#types' => array(),
+    '#attached' => array(
+      'css' => array(
+        drupal_get_path('module', 'ding_availability') . '/css/ding_availability.css',
+      ),
+    )
+  );
+
+  // Loop over the different material types.
+  foreach ($typed_objects as $type => $objects) {
+    /* @var \Ting\TingObjectInterface[] $objects */
+    $sample_object = $objects[0];
+    // Generate an unique id.
+    $id = drupal_html_id('availability-' . $sample_object->getId() . '-' . $type);
+
+    // Get link to first element in the collection of the current type.
+    // If more than one exists link to the collection.
+    if (count($objects) == 1) {
+      $uri = ting_ting_object_uri($sample_object);
+    }
+    else {
+      $uri = ting_ting_object_collection_uri($sample_object);
+    }
+
+    // Mark as available if it is an online resource. As some types are
+    // not always predefined online type we need to check if the entity
+    // has an online URL. Please not tht that this in most cases will
+    // trigger a search request with get all relations.
+    if (in_array(drupal_strtolower($type), $online_types) || $sample_object->isOnline()) {
+      if (!isset($output['#types']['online'])) {
+        // Add label "online" to output.
+        $output['#types']['online'] = array(
+          '#theme' => 'ding_availability_type',
+          '#class' => 'js-online',
+          '#label' => t('Online'),
+          '#links' => array(),
+        );
+      }
+      // Add it to the online label.
+      $output['#types']['online']['#links'][] = array(
+        'status' => 'available',
+        'type' => $type,
+        'link' => array(
+          // The online url can't be used with l(), has it will encode
+          // it.
+          '#markup' => '<a id="' . $id . '" class="js-search-result--availability-link availability available" href="/' . $uri['path'] . '">' . check_plain($type) . '</a>',
+        ),
+      );
+    }
+    else {
+      if (!isset($output['#types']['pending'])) {
+        // Add label "Pending" to output as in waiting for information.
+        $output['#types']['pending'] = array(
+          '#theme' => 'ding_availability_type',
+          '#class' => 'js-pending',
+          '#label' => t('Pending availability'),
+          '#links' => array(),
+        );
+      }
+      $output['#types']['pending']['#links'][] = array(
+        'status' => 'pending',
+        'type' => $type,
+        'link' => array(
+          '#theme' => 'link',
+          '#text' => check_plain($type),
+          '#path' => $uri['path'],
+          '#options' => array(
+            'attributes' => array(
+              'class' => array(
+                'js-search-result--availability-link',
+                'availability',
+                'pending',
+              ),
+              'id' => $id,
+            ),
+            'html' => FALSE,
+          ),
+        ),
+      );
+    }
+
+    // If item is of type 'library materials' (where we can lookup
+    // availability data), map the HTML id to the list of source ids.
+    // This is for the current material type group (book, cd, etc.).
+    $source = $sample_object->getMaterialSource();
+    if (in_array(drupal_strtolower($source), $reservable_sources) && !in_array(drupal_strtolower($type), $online_types)) {
+      foreach ($objects as $object) {
+        $id_mapping[$id][] = $object->getSourceId();
+      }
+    }
+  }
+
+  // Prepare to check holding on the item.
+  // It's important that this is attached even if empty, else javascript
+  // will fail because it gets an empty object.
+  $output['#attached']['js'][] = array(
+    'data' => array(
+      'ding_availability' => $id_mapping,
+    ), 'type' => 'setting',
+  );
+  $output['#attached']['js'][] = drupal_get_path('module', 'ding_availability') . '/js/ding_availability_labels.js';
+
+  return drupal_render($output);
 }

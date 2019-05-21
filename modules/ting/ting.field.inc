@@ -5,6 +5,8 @@
  * Field hook implementations.
  */
 
+use Ting\TingObjectInterface;
+
 /**
  * Implements hook_field_info().
  */
@@ -339,77 +341,20 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ting_title_default':
-        /*
-         * This doesn't work due to the way objects gets cached at the
-         * moment. Until that is fixed, link all objects to collections when
-         * requested, the page will redirect to ting/object/X if there is only
-         * one.
-         */
-        $type = 'ting_object';
-        if ($display['settings']['link_type'] == 'collection') {
-          $type = 'ting_collection';
-        }
-
-        $link = FALSE;
-        $title = $entity->title;
-        $prefix = '';
+        $collection = ting_collection_load($entity->id);
         // Only create the link if the object is available in the data well.
+        $uri = [];
         if ($display['settings']['link_type'] != 'none' && !isset($entity->is_available)) {
-          $link = TRUE;
+          $uri = entity_uri('ting_collection', $entity);
         }
-
         // Check if element should be prefixed with type.
-        if ($display['settings']['prefix_type'] == 'yes') {
-          $collection = ting_collection_load($entity->id);
-          $ting_type = $entity->getType();
-          if (count($collection->types) > 1) {
-            $ting_type = t('Material collection');
-          }
-
-          $collection_titles = array_map(
-            function($collection_entity) {
-              return $collection_entity->title;
-            },
-            $collection->entities
-          );
-          // If a collection has items of the same type?
-          // But with different titles, then use the generic collection title.
-          if (count(array_unique($collection_titles)) > 1) {
-            $title = $collection->title;
-            $ting_type = t('Material collection');
-          }
-
-          // @todo: this could be moved into a theme function to be more
-          // generic.
-          $prefix = '<span class="search-result--heading-type js-toggle-info-container">' . $ting_type . ':</span>';
-        }
-
-        if ($link) {
-          $url = entity_uri($type, $entity);
-          $title = l($title, $url['path'], $url['options']);
-        }
-        else {
-          $title = check_plain($title);
-        }
-
-        // Append the language as a suffix to the title for certain material
-        // types if the material language is not the default language.
-        /* @var \TingEntity $entity */
-        $title_suffix_types = variable_get('ting_language_type_title_suffix', []);
-        $default_language = variable_get('ting_language_default');
-        $is_title_suffix_type = (!empty($title_suffix_types[strtolower($entity->getType())]));
-        $language = $entity->getLanguage();
-        $has_language = !empty($language);
-        $is_default_language = $language == $default_language;
-
-        if ($is_title_suffix_type && $has_language && !$is_default_language) {
-          $title .= " ($language)";
-        }
+        $prefix_type = $display['settings']['prefix_type'] == 'yes';
 
         $element[$delta] = array(
-          '#prefix' => $prefix . '<h2>',
-          '#suffix' => '</h2>',
-          '#markup' => $title,
+          '#theme' => 'ting_title',
+          '#collection' => $collection->getTingObjectCollection(),
+          '#uri' => $uri,
+          '#prefix_type' => $prefix_type,
         );
 
         break;
@@ -427,86 +372,28 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         break;
 
       case 'ting_series_default':
-        if ($entity->getSeriesTitles()) {
-          // The search string used is configurable because the data well is not
-          // fully implemented regarding series. As default we search both in
-          // the series title register and the description field because many
-          // series only have data in the description field. This will probably
-          // change with new versions of the data well.
-          foreach ($entity->getSeriesTitles() as $title) {
-            $series_title = $title[0];
-            $series_number = isset($title[1]) ? ' : ' . check_plain($title[1]) . ' ; ' : ' ; ';
-
-            $replacement = array('@serietitle' => drupal_strtolower($series_title));
-            $search_string = variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"');
-            $link = ting_field_search_link(trim($series_title), $search_string, $replacement, array('attributes' => array('class' => array('series'))));
-            $element[$delta][] = array(
-              '#markup' => $link . $series_number,
-            );
-          }
-        }
-        elseif ($entity->serieDescription) {
+        $object = $entity->getTingObject();
+        $series_info = theme('ting_series', array('object' => $object));
+        if (!empty($series_info)) {
           $element[$delta] = array(
-            '#markup' => $entity->serieDescription,
+            '#markup' => $series_info
           );
         }
         break;
 
       case 'ting_abstract_default':
+        $object = $entity->getTingObject();
         $element[$delta] = array(
-          '#markup' => check_plain($entity->abstract),
+          '#theme' => 'ting_abstract',
+          '#object' => $object,
         );
         break;
 
       case 'ting_author_default':
-        // Build an array containing different formats of each creator name.
-        // This will allow administrators to use the format that suits their
-        // needs best e.g. if one wants to use a facet where the name is
-        // inverted.
-        $creators = array_map(function ($creator, $inverted_creator) {
-          return ['default' => $creator, 'inverted' => $inverted_creator];
-        }, $entity->getCreators(), $entity->getInvertedCreators());
-
-        // Array mapped with replacement string as key and the author name as
-        // the value.
-        $replace_array = array_map(function ($creator) {
-          return [
-            '@author' => $creator['default'],
-            '@author_inverted' => $creator['inverted'],
-          ];
-        }, $creators);
-        $search_string = variable_get('ting_search_register_author', 'phrase.creator="@author"');
-
-        // The links with the correct author name depending on the whether
-        // @author or @author_inverted is used.
-        $creator_links = array_map(function($creator, $replacements) use ($search_string) {
-          return ting_field_search_link($creator['default'], $search_string, $replacements, array(
-            'attributes' => array(
-              'class' => array('author'),
-            ),
-          ));
-        }, $creators, $replace_array);
-
-        $markup_string = '';
-        if (count($creators)) {
-          if ($entity->date != '') {
-            $markup_string = t('By !author_link (@year)', array(
-              '!author_link' => implode(', ', $creator_links),
-              // So wrong, but appears to be the way the data is.
-              '@year' => $entity->date,
-              ));
-          }
-          else {
-            $markup_string = t('By !author_link', array(
-              '!author_link' => implode(', ', $creator_links),
-            ));
-          }
-        }
-        elseif ($entity->date != '') {
-          $markup_string = t('(@year)', array('@year' => $entity->date));
-        }
+        $object = $entity->getTingObject();
         $element[$delta] = array(
-          '#markup' => $markup_string,
+          '#theme' => 'ting_creators',
+          '#object' => $object,
         );
         break;
 
