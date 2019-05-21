@@ -31,8 +31,16 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Client secret'),
     '#size' => 63,
-    '#description' => t('Get this form the provider - DBC.'),
+    '#description' => t('Get this from the provider - DBC.'),
     '#default_value' => $default['clientSecret'],
+  );
+
+  $form['ding_adgangsplatformen_settings']['redirectUri'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Redirect URL'),
+    '#description' => t('The URL to be redirected to after login - you should not change this URL as it has to match the provider configuration at DBC.'),
+    '#default_value' => $default['redirectUri'],
+    '#disabled' => TRUE,
   );
 
   $form['ding_adgangsplatformen_settings']['urlAuthorize'] = array(
