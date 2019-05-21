@@ -7,6 +7,7 @@
  * @var array $item
  * @var string $column
  */
+
 ?>
 <article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
          class="node node-ding-eresource node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>">

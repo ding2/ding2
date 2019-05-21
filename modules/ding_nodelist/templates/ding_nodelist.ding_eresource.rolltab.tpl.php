@@ -6,6 +6,7 @@
  *
  * @var array $item
  */
+
 ?>
 <div class="ding-tabroll">
   <div class="ui-tabs-panel">

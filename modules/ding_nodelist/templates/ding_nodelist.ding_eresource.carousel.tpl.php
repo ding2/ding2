@@ -6,6 +6,7 @@
  *
  * @var array $item
  */
+
 ?>
 <div class="item">
   <div class="article_image">
