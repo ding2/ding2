@@ -7,7 +7,7 @@
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
-use OpenSearch\OpenSearchTingSearchResult as OpenSearchTingSearchResult;
+use Ting\Search\NullSearchResult;
 
 module_load_include('inc', 'ting_subsearch_suggestions', 'ting_subsearch_suggestions.admin');
 
@@ -16,8 +16,11 @@ define('TING_SUBSEARCH_SUGGESTIONS_WEEKLY_CRON', 604800);
 /**
  * Implements hook_ting_search_results_prefix().
  */
-function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, OpenSearchTingSearchResult $results) {
+function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, $results) {
   $service = variable_get('ting_subsearch_suggestions_service', '');
+  if ($results instanceof NullSearchResult) {
+    return;
+  }
 
   if (!empty($service)) {
     $message = '';
