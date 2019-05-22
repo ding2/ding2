@@ -11,6 +11,10 @@ setup-modules:
 	$(DRUSH) en -y connie
 	$(DRUSH) dis -y fbs
 
+	# Disable adgangsplatformen and switch to login form to allow "normal" login.
+	$(DRUSH) pm-uninstall ding_adgangsplatformen -y
+	$(DRUSH) en ding_user_form -y
+
 	# Enable mocking openlist provider.
 	# Currently disabled as the API has changed and Connie haven't been updated.
 	# $(DRUSH) en -y connie_openlist
