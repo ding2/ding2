@@ -7,7 +7,7 @@
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as GuzzleClientException;
-use OpenSearch\OpenSearchTingSearchResult as OpenSearchTingSearchResult;
+use Ting\Search\NullSearchResult;
 
 // Load Field module hooks.
 module_load_include('inc', 'ting_subsearch_translate', 'ting_subsearch_translate.admin');
@@ -15,8 +15,12 @@ module_load_include('inc', 'ting_subsearch_translate', 'ting_subsearch_translate
 /**
  * Implements hook_ting_search_results_prefix().
  */
-function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions, OpenSearchTingSearchResult $results) {
+function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions, $results) {
   $message = '';
+
+  if ($results instanceof NullSearchResult) {
+    return;
+  }
 
   // If no google api key is set we cannot translate.
   if (empty(variable_get('ting_subsearch_translate_google_key', ''))) {
