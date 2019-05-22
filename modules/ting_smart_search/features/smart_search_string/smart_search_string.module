@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Smart search string feature.
+ */
+
+include_once 'smart_search_string.features.inc';

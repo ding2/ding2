@@ -1,0 +1,266 @@
+.pane-smart-search-form {
+  clear: both;
+}
+
+#eck-entity-form-edit-ting-type-smart-search-string {
+  background-color: white;
+  padding: 15px;
+}
+
+/**
+ * Form elements.
+ */
+
+.content-wrapper .pane-smart-search-form input[type="text"],
+.content-wrapper .pane-smart-search-form .select-wrapper {
+     font-family: FaktPro-Normal,sans-serif;
+     font-size: 14px;
+     line-height: 20px;
+     font-weight: 400;
+     width: 100%;
+     height: 23px;
+     padding: 5px;
+     border-radius: 0px;
+     line-height: 1.1em;
+     background-color: #fff;
+ }
+
+.content-wrapper .pane-smart-search-form .select-wrapper {
+  padding: 0px;
+}
+
+.content-wrapper .pane-smart-search-form .form-wrapper {
+  margin-right: 10px;
+}
+
+.content-wrapper .pane-smart-search-form .select-wrapper::before,
+.content-wrapper .pane-smart-search-form .select-wrapper::after  {
+    content: '';
+    display: none;
+    background-color: #e5e5e5;
+    background-repeat: no-repeat;
+    background-position: right 4px center;
+    width: 54px;
+    height: 54px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.content-wrapper .pane-smart-search-form select {
+    height: 23px;
+}
+
+.content-wrapper .pane-smart-search-form .form-actions {
+    clear: left;
+}
+.content-wrapper .pane-smart-search-form .form-actions input.form-submit,
+.content-wrapper .pane-smart-search-form .field-add-more-submit,
+.content-wrapper .pane-smart-search-form input.form-submit {
+    cursor: pointer;
+    height: 30px;
+    padding: 0px 17px;
+    margin-bottom: 0em;
+    margin-right: 10px;
+    float: left;
+    color: #5a5a5a;
+    text-align: center;
+    font-weight: normal;
+    font-size: 1.077em;
+    font-family: "Lucida Grande", Verdana, sans-serif;
+    border: 1px solid #e4e4e4 !important;
+        border-bottom-width: 1px !important;
+        border-bottom-style: solid !important;
+        border-right-color: rgb(228, 228, 228) !important;
+        border-bottom-color: rgb(228, 228, 228) !important;
+        border-left-color: rgb(228, 228, 228) !important;
+    border-bottom: 1px solid #b4b4b4 !important;
+    border-left-color: #d2d2d2 !important;
+    border-right-color: #d2d2d2 !important;
+    background: url(images/buttons.png) 0 0 repeat-x;
+    -moz-border-radius: 5px !important;
+    -webkit-border-radius: 5px !important;
+    border-radius: 5px !important;
+}
+
+.content-wrapper .pane-smart-search-form .form-actions input.form-submit {
+  background-color: #ccc;
+}
+
+.content-wrapper .pane-smart-search-form .form-actions input.form-submit:hover,
+.content-wrapper .pane-smart-search-form input.form-submit:hover {
+  background-color: #bbb;
+}
+
+.content-wrapper .pane-smart-search-form .field-name-field-sss-boost-materials .form-item {
+  max-width: 100%;
+}
+
+.content-wrapper .pane-smart-search-form .form-item {
+  max-width: 190px;
+  min-width: 120px;
+  float: left;
+  margin-right: 50px;
+  margin-bottom: 0px;
+}
+
+.content-wrapper .pane-smart-search-form .form-item-title,
+.content-wrapper .pane-smart-search-form .form-item-field-alternate-search-string-und-0-value {
+  max-width: 100%;
+}
+
+.content-wrapper .pane-smart-search-form fieldset .fieldset-wrapper {
+  width: 100%;
+}
+
+.content-wrapper .pane-smart-search-form table td {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.content-wrapper .pane-smart-search-form .tabledrag-toggle-weight-wrapper {
+  display: none;
+}
+
+.pane-smart-search-form .form-item {
+  padding: 9px 0;
+  margin: 0 0 10px;
+}
+.pane-smart-search-form .filter-wrapper .form-item,
+.pane-smart-search-form div.teaser-checkbox .form-item,
+.pane-smart-search-form .form-item .form-item {
+  padding: 5px 0;
+  margin: 0;
+  border: 0;
+}
+.pane-smart-search-form .form-type-checkbox {
+  padding: 0;
+}
+.pane-smart-search-form .text-format-wrapper .form-item {
+  padding-bottom: 0;
+}
+.pane-smart-search-form .form-item label {
+  margin: 0;
+  padding: 0;
+}
+.pane-smart-search-form .form-item label.option {
+  font-size: 0.923em;
+  text-transform: none;
+}
+.pane-smart-search-form .form-item label.option input {
+  vertical-align: middle;
+}
+.pane-smart-search-form .form-disabled input.form-autocomplete,
+.pane-smart-search-form .form-disabled input.form-text,
+.pane-smart-search-form .form-disabled input.form-file,
+.pane-smart-search-form .form-disabled textarea.form-textarea,
+.pane-smart-search-form .form-disabled select.form-select {
+  background-color: #eee;
+  color: #777;
+}
+
+/** from line 654 in style.css in seven theme */
+
+.pane-smart-search-form input.form-submit,
+.pane-smart-search-form a.button {
+  cursor: pointer;
+  padding: 4px 17px;
+  margin-bottom: 1em;
+  margin-right: 1em; /* LTR */
+  color: #5a5a5a;
+  text-align: center;
+  font-weight: normal;
+  font-size: 1.077em;
+  font-family: "Lucida Grande", Verdana, sans-serif;
+  border: 1px solid #e4e4e4;
+  border-bottom: 1px solid #b4b4b4;
+  border-left-color: #d2d2d2;
+  border-right-color: #d2d2d2;
+  background: url(images/buttons.png) 0 0 repeat-x;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+}
+.pane-smart-search-form a.button:link,
+.pane-smart-search-form a.button:visited,
+.pane-smart-search-form a.button:hover,
+.pane-smart-search-form a.button:active {
+  text-decoration: none;
+  color: #5a5a5a;
+}
+.pane-smart-search-form input.form-submit:active {
+  background: #666;
+  color: #fff;
+  border-color: #555;
+  text-shadow: #222 0 -1px 0;
+}
+.pane-smart-search-form input.form-button-disabled,
+.pane-smart-search-form input.form-button-disabled:active {
+  background: #eee none;
+  border-color: #eee;
+  text-shadow: none;
+  color: #999;
+}
+.pane-smart-search-form input.form-autocomplete,
+.pane-smart-search-form input.form-text,
+.pane-smart-search-form input.form-file,
+.pane-smart-search-form textarea.form-textarea,
+.pane-smart-search-form select.form-select {
+  width: 100%;
+  padding: 2px;
+  border: 1px solid #ccc;
+  border-top-color: #999;
+  background: #fff;
+  color: #333;
+}
+.pane-smart-search-form input.form-text:focus,
+.pane-smart-search-form input.form-file:focus,
+.pane-smart-search-form textarea.form-textarea:focus,
+.pane-smart-search-form select.form-select:focus {
+  color: #000;
+  border-color: #ace;
+}
+
+.content-wrapper .pane-smart-search-form div#edit-field-custom-boost-values > div > div.form-item {
+  width: 577px !important;
+  max-width: 100% !important;
+}
+
+.content-wrapper .pane-smart-search-form div#edit-field-custom-boost-values div.form-item {
+  margin-right: 20px;
+}
+
+#field-sss-date-add-more-wrapper legend {
+  display: none;
+}
+
+#edit-field-sss-date .date-float,
+#edit-field-sss-date .date-no-float,
+#edit-field-sss-date .container-inline-date {
+  clear: none;
+  float: left;
+  padding-top: 0px;
+  width: auto;
+}
+
+#edit-field-sss-date .date-float .form-item,
+#edit-field-sss-date .date-no-float .form-item,
+#edit-field-sss-date .container-inline-date {
+  margin-right: 0px;
+}
+
+#edit-field-sss-date .date-no-float div {
+  padding-top: 0px;
+}
+
+#edit-field-sss-date .date-no-float label {
+  display: none;
+}
+
+#edit-field-sss-date .form-type-checkbox label {
+  padding-left: 30px;
+}
+
+#edit-field-sss-import-update {
+  display: none;
+}

@@ -1,0 +1,16 @@
+<?php
+/**
+ * @file
+ * Handles installation/un-installation of smart search terms by the module.
+ */
+
+ /**
+  * Implements hook_install().
+  *
+  * Creates some default entries on this module custom table.
+  *
+  * @see hook_install()
+  */
+ function ting_smart_search_install() {
+   //TODO tada
+}
