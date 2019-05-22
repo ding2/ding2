@@ -5,7 +5,7 @@
  * Ting subsearch using Bibliotek.dk service.
  */
 
-use OpenSearch\OpenSearchTingSearchResult as OpenSearchTingSearchResult;
+use Ting\Search\NullSearchResult;
 
 // Load admin configuration.
 module_load_include('inc', 'ting_subsearch_secondary', 'ting_subsearch_secondary.admin');
@@ -32,8 +32,12 @@ function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions,
 /**
  * Implements hook_ting_search_results_suffix().
  */
-function ting_subsearch_secondary_search($keys, OpenSearchTingSearchResult $results) {
+function ting_subsearch_secondary_search($keys, $results) {
   $message = '';
+
+  if ($results instanceof NullSearchResult) {
+    return;
+  }
 
   if (!empty($results->getNumTotalObjects())) {
     if ($results->getNumTotalObjects() > variable_get('ting_subsearch_secondary_min', 10) && $results->getNumTotalObjects() < variable_get('ting_subsearch_secondary_max', 100)) {
