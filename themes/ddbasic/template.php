@@ -612,8 +612,20 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
         // Add destination to login link when using ding authentication.
         if (module_exists('ding_adgangsplatformen')) {
           if ($element['#href'] == DING_ADGANGSPLATFORMEN_LOGIN_URL) {
+            $destination = drupal_get_destination();
+
+            // Handle issues with lazy-pane and destination.
+            if ($destination['destination'] === 'lazy-pane/ajax') {
+              $path = $_GET['q'];
+              $query = drupal_http_build_query(drupal_get_query_parameters());
+              if ($query != '') {
+                $path .= '?' . $query;
+              }
+              $destination = array('destination' => $path);
+            }
+
             $element['#localized_options']['query'] = array(
-              drupal_get_destination(),
+              $destination,
             );
           }
         }

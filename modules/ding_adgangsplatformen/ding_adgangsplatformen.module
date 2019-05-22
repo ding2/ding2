@@ -299,8 +299,11 @@ function ding_adgangsplatformen_callback() {
         ding_registration_set_user_information($user_info);
       }
       else {
-        // Login to using the provider.
-        _ding_adgangsplatformen_provider_login($user_info);
+        // Login using the provider.
+        if (!_ding_adgangsplatformen_provider_login($user_info)) {
+          ding_adgangsplatformen_logout();
+          _ding_adgangsplatformen_redirect_user('<front>');
+        }
       }
 
       // Redirect user base on values set in the current session.
@@ -385,8 +388,13 @@ function _ding_adgangsplatformen_redirect_user($url = 'user') {
  *
  * @param array $user_info
  *   User information from the resource service.
+ *
+ * @return bool
+ *   TRUE if successful else FALSE.
  */
 function _ding_adgangsplatformen_provider_login(array $user_info) {
+  $success = FALSE;
+
   try {
     $account = ding_user_authenticate(array(
       'name' => $user_info['attributes']['userId'],
@@ -394,10 +402,13 @@ function _ding_adgangsplatformen_provider_login(array $user_info) {
     ));
 
     if ($account !== FALSE) {
-      // Log user into drupal.
       global $user;
       $user = $account;
+
+      // Ensure that the user hooks are called.
       user_login_finalize();
+
+      $success = TRUE;
     }
   }
   catch (Exception $exception) {
@@ -405,4 +416,6 @@ function _ding_adgangsplatformen_provider_login(array $user_info) {
     watchdog_exception('ding_user', $exception);
     drupal_set_message(t('Unknown error. Please contact the library for help'));
   }
+
+  return $success;
 }
