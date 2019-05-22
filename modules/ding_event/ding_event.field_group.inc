@@ -240,7 +240,6 @@ function ding_event_field_group_info() {
       3 => 'og_group_ref',
       4 => 'field_ding_event_organizers',
       5 => 'field_ding_event_place',
-      6 => 'field_ding_event_price',
     ),
     'format_type' => 'div',
     'format_settings' => array(
