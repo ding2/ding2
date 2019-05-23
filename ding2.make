@@ -484,10 +484,10 @@ projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
 
 projects[field_collection][subdir] = "contrib"
-projects[field_collection][version] = "7.x-1.0-beta12"
+projects[field_collection][version] = "1.0-beta12"
 
 projects[paragraphs][subdir] = "contrib"
-projects[paragraphs][version] = "7.x-1.0-beta13"
+projects[paragraphs][version] = "1.0-beta13"
 
 ; Libraries
 ; For ding_libs.
