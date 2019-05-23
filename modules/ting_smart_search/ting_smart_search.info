@@ -1,14 +1,11 @@
 name = Ting Smart Search
-description = Smarter searching for Ting.
+description = Smarter search for Ting
 package = Ding!
-version = "7.x-1.x-dev"
+version = "7.x-1.x-rc1"
 core = 7.x
 files[] = ting_smart_search.module
-# files[] = tests/ting_smart_search.test
-# files[] = tests/ting_smart_search_unit.test
 dependencies[] = entity
 dependencies[] = ting
 dependencies[] = search
 dependencies[] = smart_search_string
 dependencies[] = field_collection
-# scripts[] = js/ting_search_overlay.js
