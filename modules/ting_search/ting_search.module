@@ -12,8 +12,6 @@ use Ting\Search\TingSearchFieldFilter;
 define('TING_SEARCH_FORM_STYLE_NORMAL', 'normal');
 define('TING_SEARCH_FORM_STYLE_EXTENDED', 'extended');
 
-define('TING_SEARCH_DEFAULT_RESULT_ID', 'ting_search_default');
-
 /**
  * Implements hook_ding_provider_user().
  */
@@ -345,11 +343,9 @@ function ting_search_conditions_callback($keys) {
  */
 function ting_search_search_execute($keys = NULL, $conditions = NULL) {
   // Use static variable to ensure that this is only executed once.
-  $results = &drupal_static(__FUNCTION__, array());
-  $static_key = md5(serialize(func_get_args()));
-
-  if (!isset($results[$static_key])) {
-    $results[$static_key] = array();
+  $results = &drupal_static(__FUNCTION__);
+  if (!isset($results)) {
+    $results = array();
     $query = ting_start_query()
       ->withFullTextQuery($keys)
       ->withTermsPrFacet(variable_get('ting_search_number_of_facets', 25));
@@ -426,7 +422,7 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
         foreach ($search_result->getTingEntityCollections() as $collection) {
           $build = ting_collection_view($collection, 'teaser');
           $uri = entity_uri('ting_collection', $collection);
-          $results[$static_key][] = array(
+          $results[] = array(
             'link' => url($uri['path'], $uri['options']),
             'type' => '',
             'title' => $collection->title,
@@ -439,14 +435,11 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     }
     catch (\Exception $e) {
       watchdog_exception('ting_search', $e);
-      $results[$static_key] = array();
+      $results = array();
     }
 
     // Save search result for usage by facet modules etc.
-    ting_search_current_results(
-      !empty($conditions['result_id']) ? $conditions['result_id'] : TING_SEARCH_DEFAULT_RESULT_ID,
-      $search_result
-    );
+    ting_search_current_results($search_result);
 
     // Add support for facet api.
     if (module_exists('ding_facets')) {
@@ -462,26 +455,24 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     }
   }
 
-  return $results[$static_key];
+  return $results;
 }
 
 /**
  * Retrive the result for a ting_search query performed in this request.
  *
- * @param string $result_id
- *   The search result id.
  * @param \Ting\Search\TingSearchResultInterface $new_search_result
  *   New search result to make globally accessible.
  *
  * @return \Ting\Search\TingSearchResultInterface|NULL
  *   The result or NULL if it is not available.
  */
-function ting_search_current_results($result_id = TING_SEARCH_DEFAULT_RESULT_ID, TingSearchResultInterface $new_search_result = NULL) {
-  $global_search_results = &drupal_static(__FUNCTION__, array());
+function ting_search_current_results(TingSearchResultInterface $new_search_result = NULL) {
+  $global_search_result = &drupal_static('ting_search_results');
   if (NULL !== $new_search_result) {
-    $global_search_results[$result_id] = $new_search_result;
+    $global_search_result = $new_search_result;
   }
-  return isset($global_search_results[$result_id]) ? $global_search_results[$result_id] : NULL;
+  return $global_search_result;
 }
 
 /**

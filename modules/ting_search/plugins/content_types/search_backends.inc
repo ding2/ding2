@@ -64,7 +64,7 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
         if (empty($results)) {
           // Prepare keys.
           $results = ting_start_query()->withFullTextQuery($keys)->execute();
-          ting_search_current_results(TING_SEARCH_DEFAULT_RESULT_ID, $results);
+          ting_search_current_results($results);
         }
         // Get count of total results from ting.
         $count = $results->getNumTotalObjects();
@@ -144,3 +144,4 @@ function ting_search_backend_engines_form($form, &$form_state, $options, $defaul
 function ting_search_backend_engines_content_type_edit_form($form, &$form_state) {
   return $form;
 }
+
