@@ -55,7 +55,7 @@ function ting_subsearch_secondary_search($keys, $results) {
         return $message;
       }
 
-      $nonfiction = 0;
+      $nonfiction = 1;
       if (!empty($genre_facets['nonfiktion'])) {
         $nonfiction = $genre_facets['nonfiktion']->getCount();
       }
