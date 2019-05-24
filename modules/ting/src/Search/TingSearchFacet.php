@@ -35,6 +35,8 @@ class TingSearchFacet {
    */
   protected $terms = [];
 
+  protected $type = self::TYPE_DEFAULT;
+
   /**
    * TingSearchFacet constructor.
    *
@@ -56,12 +58,17 @@ class TingSearchFacet {
    *   The type.
    */
   public function getType() {
-    switch ($this->getName()) {
-      case 'facet.date':
-        return self::TYPE_INTERVAL;
-    }
+    return $this->type;
+  }
 
-    return self::TYPE_DEFAULT;
+  /**
+   * Set the facet type.
+   *
+   * @param string $type
+   *   The type.
+   */
+  public function setType($type) {
+    $this->type = $type;
   }
 
   /**
