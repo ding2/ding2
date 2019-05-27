@@ -107,12 +107,6 @@ function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSe
   $run_search = FALSE;
   $range = array();
 
-  // The checksum is used as a cache key for the count request.
-  $checksum = [
-    'key' => $search_result->getSearchRequest()->getFullTextQuery(),
-    'filters' => [],
-  ];
-
   // Check if the facet is used, and remove it from the count_request.
   $count_request = clone $search_result->getSearchRequest();
   $filters = &$count_request->getFilters();
@@ -134,14 +128,6 @@ function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSe
         $run_search = TRUE;
         unset($statements[$statement_delta]);
       }
-      // Add any other condition to the checksum.
-      else {
-        $checksum['filters'][] = [
-          'name' => $statement->getName(),
-          'value' => $statement->getValue(),
-          'operator' => $statement->getOperator(),
-        ];
-      }
     }
 
     if (empty($filter->getStatements())) {
@@ -152,7 +138,7 @@ function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSe
   // Only run the counter, if it's different from the search already
   // performed.
   if ($run_search === TRUE) {
-    $cache_key = 'ding_facetbrowser:interval:' . md5(serialize($checksum));
+    $cache_key = 'ding_facetbrowser:interval:' . md5(serialize($count_request));
     $cache = cache_get($cache_key);
 
     if (!$cache) {
