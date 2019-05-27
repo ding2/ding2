@@ -67,7 +67,7 @@ class BooleanStatementGroup implements BooleanStatementInterface, FilterStatemen
    * @return TingSearchFieldFilter[]
    *   One or more instances of TingSearchFieldFilter.
    */
-  public function &getStatements() {
+  public function getStatements() {
     return $this->statements;
   }
 
@@ -82,6 +82,21 @@ class BooleanStatementGroup implements BooleanStatementInterface, FilterStatemen
       $statements = [$statements];
     }
     $this->statements = $statements;
+  }
+
+  /**
+   * Sets the statements.
+   *
+   * @param TingSearchFieldFilter[] $statements
+   *   One or more instances of \Ting\Search\TingSearchFieldFilter.
+   *
+   * @return BooleanStatementGroup
+   *   Updated BOoleanStatementGroup.
+   */
+  public function withStatements(array $statements) {
+    $clone = $this;
+    $clone->statements = $statements;
+    return $clone;
   }
 
 }

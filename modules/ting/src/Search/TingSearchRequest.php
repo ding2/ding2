@@ -486,7 +486,7 @@ class TingSearchRequest {
    * @return FilterStatementInterface[]
    *   List of BooleanStatementGroup instances used to filter field.
    */
-  public function &getFilters() {
+  public function getFilters() {
     return $this->filters;
   }
 
@@ -502,13 +502,16 @@ class TingSearchRequest {
    * @param string $logic_operator
    *   Logical operator to use for joining filters together if $filters contains
    *   more than one filter. See BooleanStatementInterface::OP_*.
+   * @param boolean $append
+   *   When TRUE the filters are added to the existing filters, if false the
+   *   existing filters are cleared before adding the new ones.
    *
    * @return TingSearchRequest
    *   Updated search request object.
    *
    * @throws \Ting\Search\UnsupportedSearchQueryException
    */
-  public function withFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
+  public function withFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND, $append = TRUE) {
     // First off, protect against silly code.
     if (empty($filters)) {
       return $this;
@@ -545,6 +548,11 @@ class TingSearchRequest {
     }
 
     $clone = clone $this;
+
+    if ($append !== TRUE) {
+      $clone->filters = [];
+    }
+
     $clone->filters[] = $filters;
     return $clone;
   }

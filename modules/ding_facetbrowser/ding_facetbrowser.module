@@ -7,6 +7,7 @@
 
 use Ting\Search\TingSearchFacet;
 use Ting\Search\TingSearchResultInterface;
+use Ting\Search\BooleanStatementInterface;
 
 /**
  * Implements hook_block_info().
@@ -109,9 +110,9 @@ function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSe
 
   // Check if the facet is used, and remove it from the count_request.
   $count_request = clone $search_result->getSearchRequest();
-  $filters = &$count_request->getFilters();
+  $filters = $count_request->getFilters();
   foreach ($filters as $filter_delta => $filter) {
-    $statements = &$filter->getStatements();
+    $statements = $filter->getStatements();
     foreach ($statements as $statement_delta => $statement) {
       // Remove all facet conditions.
       if ($statement->getName() === $facet->getName()) {
@@ -130,10 +131,15 @@ function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSe
       }
     }
 
-    if (empty($filter->getStatements())) {
+    if (empty($statements)) {
       unset($filters[$filter_delta]);
     }
+    else {
+      $filter = $filter->withStatements($statements);
+    }
   }
+
+  $count_request = $count_request->withFilters($filters, BooleanStatementInterface::OP_AND, FALSE);
 
   // Only run the counter, if it's different from the search already
   // performed.
