@@ -169,7 +169,7 @@ function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSe
     }
   }
   else {
-    $count_search_result = ting_search_current_results(TING_SEARCH_DEFAULT_RESULT_ID);
+    $count_search_result = ting_search_current_results();
   }
 
   // Set min and max values.
