@@ -502,7 +502,7 @@ class TingSearchRequest {
    * @param string $logic_operator
    *   Logical operator to use for joining filters together if $filters contains
    *   more than one filter. See BooleanStatementInterface::OP_*.
-   * @param boolean $append
+   * @param bool $append
    *   When TRUE the filters are added to the existing filters, if false the
    *   existing filters are cleared before adding the new ones.
    *
@@ -510,6 +510,7 @@ class TingSearchRequest {
    *   Updated search request object.
    *
    * @throws \Ting\Search\UnsupportedSearchQueryException
+   *   When encountering an unknown filter type.
    */
   public function withFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND, $append = TRUE) {
     // First off, protect against silly code.
