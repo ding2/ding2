@@ -3,13 +3,14 @@
 /**
  * @file
  * Ding news image and text template.
+ *
+ * @var array $item
  */
-
 ?>
 <div class="item">
-  <div class="article_image">
-    <?php print $item->image_link; ?>
-  </div>
+  <?php if (!empty($item->image)): ?>
+    <div class="article_image" style="background-image:url(<?php print $item->image; ?>);"></div>
+  <?php endif; ?>
   <div class="article-info">
     <div class="label-wrapper"><?php print drupal_render($item->category_link); ?></div>
     <div class="node">
