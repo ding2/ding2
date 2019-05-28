@@ -13,7 +13,7 @@ if (!empty($item->image)) {
 }
 ?>
 <div class="item">
-  <?php print $image ;?>
+  <?php print $image; ?>
   <div class="article-info">
     <div class="label-wrapper"><?php print drupal_render($item->category_link); ?></div>
     <div class="node">
