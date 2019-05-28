@@ -231,10 +231,12 @@ class DingParagraphsBPIHelper {
   private function setMaterialId(array &$field, $material_id) {
     $id = $this->validateMaterialId($material_id);
     if (!$id) {
-      $id = $material_id;
-      $field['#attributes'] = ['class' => ['error']];
-      drupal_set_message(t('The material %material does not exist.',
-        ['%material' => $material_id]), 'error', FALSE);
+      // We cannot use `form_set_error` (or similar means) to inform the user
+      // of invalid materials, so we add a message in the field value itself.
+      $id = t('Invalid material id: @id', ['@id' => $material_id]);
+      // Add a global error message informing the user that a material is
+      // invalid.
+      drupal_set_message(t('The material %id does not exist.', ['%id' => $material_id]), 'error', FALSE);
     }
     $field['#default_value'] = $id;
   }
