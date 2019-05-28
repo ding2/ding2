@@ -55,7 +55,7 @@ function ding_adgangsplatformen_menu() {
   );
 
   $items[DING_ADGANGSPLATFORMEN_LOGOUT_URL] = array(
-    'title' => 'Log in',
+    'title' => 'Log out',
     'page callback' => 'ding_adgangsplatformen_logout',
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
