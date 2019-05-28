@@ -14,7 +14,7 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
 
   $form['ding_adgangsplatformen_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Access platform configuration'),
+    '#title' => t('Adgangsplatformen configuration'),
   );
 
   $default = ding_adgangsplatformen_get_configuration();
