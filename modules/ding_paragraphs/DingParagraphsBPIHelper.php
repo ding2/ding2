@@ -28,7 +28,7 @@ class DingParagraphsBPIHelper {
    * Process all files references from paragraphs.
    *
    * Stores the full file url in the data for later retrieval when syndicating
-   * paragraphs.
+   * paragraphs. The files themselves are returned for further processing.
    *
    * @param array $paragraphs_data
    *   The paragraphs data.
@@ -39,6 +39,8 @@ class DingParagraphsBPIHelper {
   public function replaceFilesWithUrls(array &$paragraphs_data) {
     $files = [];
 
+    // Run through the paragraps structure and replace file references with
+    // file urls. As a side effect we collect the actual files in array.
     $this->traverse($paragraphs_data, function ($key, &$value, &$data) use (&$files) {
       if (is_array($value) && isset($value['fid'], $value['uri'])) {
         $file = file_load($value['fid']);
