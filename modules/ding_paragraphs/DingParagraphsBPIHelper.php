@@ -104,14 +104,20 @@ class DingParagraphsBPIHelper {
     $assets = [];
 
     foreach ($files as $file) {
-      $assets[] = array(
+      $asset = array(
         'path' => file_create_url($file->uri),
-        'alt' => $file->alt ?: $file->filename,
-        'title' => $file->title ?: $file->filename,
         'type' => 'paragraphs_image',
         'name' => $file->filename,
         'extension' => pathinfo($file->uri, PATHINFO_EXTENSION),
       );
+      if (!empty($file->alt)) {
+        $asset['alt'] = $file->alt;
+      }
+      if (!empty($file->title)) {
+        $asset['title'] = $file->title;
+      }
+
+      $assets[] = $asset;
     }
 
     return $assets;
