@@ -260,7 +260,7 @@ class DingParagraphsBPIHelper {
    * @param array|bool|null $syndicated_images
    *   The syndicated images.
    *
-   * @return array|null
+   * @return ParagraphsItemEntity[]|null
    *   The paragraph items.
    */
   private function getBpiParagraphsItems($entity_type, $entity, Node $bpi_node, $syndicated_images) {

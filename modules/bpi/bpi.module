@@ -1140,7 +1140,7 @@ function bpi_preprocess_bpi_preview_item(&$variables) {
  *   The material id.
  *
  * @return bool
- *   True iff the material is shareable.
+ *   True if the material is shareable.
  */
 function bpi_material_is_sharable($material_id) {
   return !preg_match('/katalog/', $material_id);
