@@ -3,6 +3,7 @@ description = Paragraph bundles for Ding!
 core = 7.x
 package = Ding!
 dependencies[] = ctools
+dependencies[] = ding_base
 dependencies[] = ding_entity
 dependencies[] = features
 dependencies[] = image

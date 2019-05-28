@@ -704,7 +704,7 @@ function ding_news_field_default_field_instances() {
         'ding_paragraphs_text' => -6,
         'ding_paragraphs_text_box' => 5,
       ),
-      'default_edit_mode' => 'closed',
+      'default_edit_mode' => 'preview',
       'title' => 'Paragraph',
       'title_multiple' => 'Paragraphs',
       'user_register_form' => FALSE,

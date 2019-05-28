@@ -44,64 +44,6 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
         ),
       ),
     );
-
-    // Add information for each paragraph in backend.
-    // Provide more accurate information about each paragraph than default
-    // (preview mode).
-    foreach ($form[$paragraph_field][LANGUAGE_NONE] as $key => $value) {
-      if (is_array($value) && isset($value['#entity_type']) && $value['#entity_type'] == 'paragraphs_item' && isset($value['paragraph_bundle_preview'])) {
-        // Create entity wrapper from paragraph preview.
-        foreach ($value['paragraph_bundle_preview']['preview']['paragraphs_item'] as $paragraph_item) {
-          $wrapper = entity_metadata_wrapper($value['#entity_type'], $paragraph_item['#entity']);
-        }
-        $output = FALSE;
-        switch ($value['#bundle']) {
-          case 'ding_paragraphs_image_and_text':
-            $image_wrapper = $wrapper->field_ding_paragraphs_image->value();
-            // Add image and text snippet.
-            $image_display = '';
-            if (isset($image_wrapper['0'])) {
-              $image = $wrapper->field_ding_paragraphs_image->value()['0'];
-              $image['style_name'] = 'thumbnail';
-              $image['path'] = $image['uri'];
-              $image_display = theme_image_style($image);
-            }
-
-            $output = $image_display . ' - ' . mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_text->value()['value']), 0, 30, "...");
-            break;
-
-          case 'ding_paragraphs_text_box':
-            // Add text snippet.
-            $output = mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_box_text->value()['value']), 0, 30, "...");
-            break;
-
-          case 'ding_paragraphs_image':
-            // Add image.
-            $image_field = $wrapper->field_ding_paragraphs_image->value();
-            if (!empty($image_field)) {
-              $image = $image_field['0'];
-              $image['style_name'] = 'thumbnail';
-              $image['path'] = $image['uri'];
-              $output = theme_image_style($image);
-            }
-            else {
-              $output = t('No image has been set.');
-            }
-            break;
-
-          case 'ding_paragraphs_text':
-            // Add text snippet.
-            // A little more letters since this is the wrapping text.
-            $output = mb_strimwidth(strip_tags($wrapper->field_ding_paragraphs_text->value()['value']), 0, 50, "...");
-            break;
-        }
-        // Alter markup of each paragraph.
-        if ($output) {
-          $form[$paragraph_field][LANGUAGE_NONE][$key]['paragraph_bundle_title']['info']['#markup'] .= ' - ' . $output;
-        }
-      }
-    }
-
   }
 }
 
