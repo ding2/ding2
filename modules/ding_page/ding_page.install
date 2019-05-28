@@ -11,8 +11,7 @@
  * Implements hook_update_dependencies().
  */
 function ding_page_update_dependencies() {
-  // Ding_page_update_7004 requires ding_paragraphs module to be enabled in
-  // ding2
+  // Ding_page_update_7004 requires ding_paragraphs for the migration to work.
   $dependencies['ding_page'][7004] = array(
     'ding2' => 7064,
   );
