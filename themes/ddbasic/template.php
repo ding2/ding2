@@ -448,7 +448,7 @@ function ddbasic_preprocess_entity_paragraphs_item(&$variables) {
   $wrapper = $variables['paragraphs_item']->wrapper();
   $paragraph_styles = array('paragraphs-block');
   if (isset($wrapper->getPropertyInfo()['field_ding_paragraphs_display'])) {
-    $paragraph_styles[] = $wrapper->field_ding_paragraphs_display->value();
+    $paragraph_styles[] = 'paragraphs-block--' .str_replace('_', '-', $wrapper->field_ding_paragraphs_display->value());
   }
   $variables['paragraph_styles'] = implode(' ', $paragraph_styles);
 }

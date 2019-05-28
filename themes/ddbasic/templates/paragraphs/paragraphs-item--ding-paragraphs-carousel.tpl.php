@@ -29,6 +29,6 @@
  */
 
 ?>
-<div class="<?php print $paragraph_styles; ?> carousel">
+<div class="<?php print $paragraph_styles; ?> paragraphs-block--carousel">
   <?php print render($content); ?>
 </div>

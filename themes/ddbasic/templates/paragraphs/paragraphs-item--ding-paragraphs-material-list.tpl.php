@@ -29,6 +29,6 @@
  */
 
 ?>
-<div class="<?php print $paragraph_styles; ?> materials-list">
+<div class="<?php print $paragraph_styles; ?> paragraphs-block--materials-list">
   <?php print render($content); ?>
 </div>

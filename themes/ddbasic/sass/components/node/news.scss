@@ -390,6 +390,7 @@
         @include span-columns(12);
         margin-right: 0;
 
+        // Override tablet layout.
         &.has-paragraphs {
           @include span-columns(12);
         }

@@ -30,7 +30,7 @@
 
 ?>
 <div class="<?php print $paragraph_styles; ?>">
-  <div class="inner">
+  <div class="paragraphs-block--inner">
     <?php print render($content); ?>
   </div>
 </div>

@@ -10,42 +10,6 @@
   margin: 0 0 $distance-paragraph;
   width: 100%;
 
-  &.half_left {
-    float: left;
-    padding-right: 3%;
-    width: 50%;
-
-    @include media($notebook) {
-      width: 100%;
-    }
-
-    @include media($tablet) {
-      width: 100%;
-    }
-
-    @include media($mobile) {
-      width: 100%;
-    }
-  }
-
-  &.half_right {
-    float: right;
-    padding-left: 3%;
-    width: 50%;
-
-    @include media($notebook) {
-      width: 100%;
-    }
-
-    @include media($tablet) {
-      width: 100%;
-    }
-
-    @include media($mobile) {
-      width: 100%;
-    }
-  }
-
   h2 {
     font-size: 18px;
     line-height: 24px;
@@ -53,35 +17,6 @@
 
   p:last-child {
     margin: 0;
-  }
-
-  .inner {
-    cursor: auto;
-    width: 100%;
-    float: left;
-    padding: 15px;
-    box-sizing: border-box;
-    background-color: $grey;
-    // Using tiny boxes for content means, we need to allow for word breaks
-    //to prevent text overflow.
-    word-break: break-all; // IE - We want to break words
-    word-break: break-word; // Override for webkit (It's better)
-
-    .paragraphs-text {
-      margin: 10px 0;
-    }
-
-    .object-left {
-      float: left;
-      width: 40%;
-      margin-right: 5%;
-    }
-
-    .object-right {
-      float: left;
-      margin: 0;
-      width: 55%;
-    }
   }
 
   .ting-object {
@@ -144,28 +79,93 @@
       }
     }
   }
+}
 
-  // The carousel and materials list need additional room so we break the
-  // container width.
-  &.carousel,
-  &.materials-list {
-    width: 150%;
+.paragraphs-block--half-left {
+  float: left;
+  padding-right: 3%;
+  width: 50%;
 
-    @include media($notebook) {
-      width: 163%;
-    }
+  @include media($notebook) {
+    width: 100%;
+  }
 
-    @include media($tablet) {
-      width: 152%;
-    }
+  @include media($tablet) {
+    width: 100%;
+  }
 
-    @include media($mobile) {
-      width: 100%;
-    }
+  @include media($mobile) {
+    width: 100%;
+  }
+}
 
-    .ting-object {
-      margin-bottom: 10px;
-    }
+.paragraphs-block--half-right {
+  float: right;
+  padding-left: 3%;
+  width: 50%;
+
+  @include media($notebook) {
+    width: 100%;
+  }
+
+  @include media($tablet) {
+    width: 100%;
+  }
+
+  @include media($mobile) {
+    width: 100%;
+  }
+}
+
+.paragraphs-block--inner {
+  cursor: auto;
+  width: 100%;
+  float: left;
+  padding: 15px;
+  box-sizing: border-box;
+  background-color: $grey;
+  // Using tiny boxes for content means, we need to allow for word breaks
+  //to prevent text overflow.
+  word-break: break-all; // IE - We want to break words
+  word-break: break-word; // Override for webkit (It's better)
+
+  .paragraphs-text {
+    margin: 10px 0;
+  }
+
+  .object-left {
+    float: left;
+    width: 40%;
+    margin-right: 5%;
+  }
+
+  .object-right {
+    float: left;
+    margin: 0;
+    width: 55%;
+  }
+}
+
+// The carousel and materials list need additional room so we break the
+// container width.
+.paragraphs-block--carousel,
+.paragraphs-block--materials-list {
+  width: 150%;
+
+  @include media($notebook) {
+    width: 163%;
+  }
+
+  @include media($tablet) {
+    width: 152%;
+  }
+
+  @include media($mobile) {
+    width: 100%;
+  }
+
+  .ting-object {
+    margin-bottom: 10px;
   }
 }
 
