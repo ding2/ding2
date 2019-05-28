@@ -23,7 +23,7 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Client ID'),
     '#size' => 35,
-    '#description' => t('The client id should be obtained at the auth provider - DBC.'),
+    '#description' => t('The client id should be obtained from the authentication provider - DBC.'),
     '#default_value' => $default['clientId'],
   );
 
