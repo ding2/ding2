@@ -3,6 +3,9 @@
 /**
  * @file
  * Display of paragraphs on the page content type.
+ * Reuse the default field wrapper class to copy css behavior, but exclude the
+ * classes array to not have other field effects take place without explicitly
+ * choosing to do so.
  *
  * Available variables:
  * - $items: An array of field values. Use render() to output them.
