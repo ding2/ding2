@@ -139,5 +139,5 @@ function ding_news_update_7006() {
  * Migrate news body field to paragraph and delete field.
  */
 function ding_news_update_7007(&$sandbox) {
-  _ding_paragraphs_migrate_content_body_field('field_ding_news_body', 'field_ding_paragraphs_text','field_ding_news_paragraphs', 'ding_paragraphs_text', 'ding_news');
+  ding_paragraphs_migrate_content_body_field('field_ding_news_body', 'field_ding_paragraphs_text','field_ding_news_paragraphs', 'ding_paragraphs_text', 'ding_news', $sandbox);
 }

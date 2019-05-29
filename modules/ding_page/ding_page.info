@@ -9,6 +9,7 @@ dependencies[] = cs_adaptive_image
 dependencies[] = ctools
 dependencies[] = ding_base
 dependencies[] = ding_content
+dependencies[] = ding_paragraphs
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = field_group
