@@ -22,7 +22,7 @@ function ding_paragraphs_preprocess_node(&$variables) {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Add js for form.
+ * Add js for form to disable dragging of paragraphs when opened.
  */
 function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
   // Check for field existence.
@@ -35,8 +35,7 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
   }
 
   if ($paragraph_field) {
-    // Attach js to form.
-    $form['#attached'] = array(
+     $form['#attached'] = array(
       'js' => array(
         array(
           'type' => 'file',

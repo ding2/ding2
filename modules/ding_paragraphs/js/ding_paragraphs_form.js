@@ -3,8 +3,10 @@
  *
  * Disables dragging in paragraphs when any paragraphs are open.
  */
+
 (function ($) {
   'use strict';
+
   Drupal.behaviors.ding_paragraphs_form = {
     attach: function () {
       // Hide table drag on page load and ajax load.
@@ -16,5 +18,5 @@
         $(".field-type-paragraphs .field-multiple-drag").show();
       }
     }
-  }
+  };
 })(jQuery);

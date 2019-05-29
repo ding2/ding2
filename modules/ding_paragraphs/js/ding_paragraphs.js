@@ -1,11 +1,11 @@
 /**
  * @file
- * Make ding availibility work and fetch material availability.
+ * Make ding availability work and fetch material availability.
  * For more information see ding_carousel.js.
  */
 
 (function ($) {
-  "use strict";
+  'use strict';
 
   Drupal.behaviors.ding_paragraphs = {
     attach: function () {
@@ -29,5 +29,6 @@
         // Ensure that behaviors are attached to the new content.
         Drupal.attachBehaviors($('.paragraphs-block .view-mode-paragraphs-teaser'));
       });
-    }}
+    }
+  };
 })(jQuery);
