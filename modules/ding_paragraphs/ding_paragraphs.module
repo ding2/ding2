@@ -36,13 +36,13 @@ function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
 
   if ($paragraph_field) {
      $form['#attached'] = array(
-      'js' => array(
-        array(
-          'type' => 'file',
-          'data' => drupal_get_path('module', 'ding_paragraphs') . '/js/ding_paragraphs_form.js',
-        ),
-      ),
-    );
+       'js' => array(
+         array(
+           'type' => 'file',
+           'data' => drupal_get_path('module', 'ding_paragraphs') . '/js/ding_paragraphs_form.js',
+         ),
+       ),
+     );
   }
 }
 
@@ -128,21 +128,22 @@ function ding_paragraphs_bpi_syndicate_node_form_alter(&$form, &$context) {
 }
 
 /**
- * Helper function to migrate from an old content body field to a new paragraphs
- * field.
+ * Helper function to migrate content.
  *
- * @param $old_content_field
- *   Field name of the old node body field.
- * @param $new_content_field
- *   Field name og the new paragraphs field where the body content should be
- *   stored.
- * @param $paragraphs_ref_field
+ * Mainly used to migrate content from old content body field(s) to a new
+ * paragraphs body field.
+ *
+ * @param string $old_content_field
+ *   Field name of the old node field.
+ * @param string $new_content_field
+ *   Field name og the new paragraphs field where the content should be stored.
+ * @param string $paragraphs_ref_field
  *   Field name of the nodes paragraphs reference.
- * @param $paragraphs_type
+ * @param string $paragraphs_type
  *   The machine name of the paragraphs bundle that contains the new field.
- * @param $content_type
+ * @param string $content_type
  *   The content type that is being migrated on.
- * @param $sandbox
+ * @param array $sandbox
  *   The sandbox array from update hooks. Used to batch the updates.
  *
  * @throws \DrupalUpdateException

@@ -51,5 +51,5 @@ function ding_page_update_7003() {
  * Migrate page body field to paragraph and delete field.
  */
 function ding_page_update_7004(&$sandbox) {
-  ding_paragraphs_migrate_content_body_field('field_ding_page_body', 'field_ding_paragraphs_text','field_ding_page_paragraphs', 'ding_paragraphs_text', 'ding_page', $sandbox);
+  ding_paragraphs_migrate_content_body_field('field_ding_page_body', 'field_ding_paragraphs_text', 'field_ding_page_paragraphs', 'ding_paragraphs_text', 'ding_page', $sandbox);
 }

@@ -569,6 +569,8 @@ function ting_reference_object_id_validate($element, &$form_state, $form) {
  *   With loaded relation entities.
  *
  * @throws \EntityMalformedException
+ *   If the bundle property on the entity type is missing (thrown by
+ *   entity_extract_ids() function).
  */
 function ting_reference_get_relations($entity_type, $entity) {
   $entity_ids = entity_extract_ids($entity_type, $entity);
