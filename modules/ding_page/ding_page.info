@@ -18,6 +18,7 @@ dependencies[] = manualcrop
 dependencies[] = media
 dependencies[] = menu
 dependencies[] = menu_block
+dependencies[] = node
 dependencies[] = og
 dependencies[] = og_menu
 dependencies[] = og_ui

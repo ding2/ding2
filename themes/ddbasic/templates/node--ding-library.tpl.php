@@ -18,6 +18,8 @@
  * - $display_submitted: Whether submission information should be displayed.
  * - $submitted: Submission information created from $name and $date during
  *   template_preprocess_node().
+ * - $attributes: String of attributes to be added to a HTML element.
+ * - $content_attributes: String of attributes to be added to a HTML element.
  * - $classes: String of classes that can be used to style contextually through
  *   CSS. It can be manipulated through the variable $classes_array from
  *   preprocess functions. The default values can be one or more of the

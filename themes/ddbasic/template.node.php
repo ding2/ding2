@@ -11,7 +11,22 @@
  * Override or insert variables into the node templates.
  */
 function ddbasic_preprocess_node(&$variables, $hook) {
-  //
+  $installed_languages = language_list();
+
+  // If the node has a language associated, and its part of our installed
+  // languages (The value can also be LANGUAGE_NONE), then we will add the
+  // lang="LANGCODE" attribute to the attributes/content_attributes.
+  // This way, if the screenreader reads it, it will read the content in the
+  // correct prounication.
+  if (!empty($variables['language']) &&
+      !empty($installed_languages[$variables['language']])) {
+    // We're doing it to both attributes and content_attributes as it seems
+    // fairly random whether or not a template uses both or not.
+    // Even if a template does use both, it does no damage.
+    $variables['attributes_array']['lang'] = 'en';
+    $variables['content_attributes_array']['lang'] = 'en';
+  }
+
   // Add tpl suggestions for node view modes.
   if (isset($variables['view_mode'])) {
     $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];

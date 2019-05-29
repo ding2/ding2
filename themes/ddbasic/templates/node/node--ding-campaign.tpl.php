@@ -18,6 +18,8 @@
  * - $display_submitted: Whether submission information should be displayed.
  * - $submitted: Submission information created from $name and $date during
  *   template_preprocess_node().
+ * - $attributes: String of attributes to be added to a HTML element.
+ * - $content_attributes: String of attributes to be added to a HTML element.
  * - $classes: String of classes that can be used to style contextually through
  *   CSS. It can be manipulated through the variable $classes_array from
  *   preprocess functions. The default values can be one or more of the
@@ -77,21 +79,22 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
+
 ?>
 <?php
   // Hide elements so we can render them later.
   hide($content['comments']);
   hide($content['links']);
 ?>
-<div class="<?php print $classes; ?>">
+<div class="<?php print $classes; ?>" <?php print $attributes; ?>>
   <div class="ding-campaign ding-campaign--content <?php print $type . " " . $panel_style; ?>" <?php print $background; ?>>
     <a href="<?php print $link; ?>" target="<?php print $target; ?>">
-      <?php // if campaign type is "text" or "text on image" hide image here ?>
+      <?php // If campaign type is "text" or "text on image" hide image here. ?>
       <?php if ($type != "text" && $type != "text-on-image"): ?>
         <?php print $image; ?>
       <?php endif; ?>
 
-      <?php // if campaign type is "image only" hide text here ?>
+      <?php // If campaign type is "image only" hide text here. ?>
       <?php if ($type != "image"): ?>
         <div class="ding-campaign-text">
           <h2 class="ding-campaign-headline">
