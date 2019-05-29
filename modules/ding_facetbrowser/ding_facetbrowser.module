@@ -135,7 +135,7 @@ function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSe
       unset($filters[$filter_delta]);
     }
     else {
-      $filter = $filter->withStatements($statements);
+      $filter->add($statements);
     }
   }
 

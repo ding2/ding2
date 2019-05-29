@@ -84,19 +84,4 @@ class BooleanStatementGroup implements BooleanStatementInterface, FilterStatemen
     $this->statements = $statements;
   }
 
-  /**
-   * Sets the statements.
-   *
-   * @param TingSearchFieldFilter[] $statements
-   *   One or more instances of \Ting\Search\TingSearchFieldFilter.
-   *
-   * @return BooleanStatementGroup
-   *   Updated BOoleanStatementGroup.
-   */
-  public function withStatements(array $statements) {
-    $clone = $this;
-    $clone->statements = $statements;
-    return $clone;
-  }
-
 }
