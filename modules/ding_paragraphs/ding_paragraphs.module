@@ -188,7 +188,7 @@ function ding_paragraphs_migrate_content_body_field($old_content_field, $new_con
 
     $paragraph = new ParagraphsItemEntity(array(
       'field_name' => $paragraphs_ref_field,
-      'bundle' => $paragraphs_type
+      'bundle' => $paragraphs_type,
     ));
     $paragraph->is_new = TRUE;
     $paragraph->$new_content_field[$node->language][0]['value'] = $data['value'];
