@@ -167,29 +167,43 @@ function ding_paragraphs_migrate_content_body_field($old_content_field, $new_con
   }
 
   if (!isset($sandbox['total'])) {
-    $query = db_select('field_data_' . $old_content_field, 'f');
-    $query->fields('f');
-    $result = $query->execute();
-    $sandbox['total'] = $result->rowCount();
+    $query = db_select('field_data_' . $old_content_field, 'f')
+      ->fields('f', array('entity_id'))
+      ->condition($old_content_field . '_value', '', '<>');
+    $sandbox['total'] = $query->countQuery()->execute()->fetchField();
     $sandbox['current'] = 0;
   }
 
-  $nodes_per_pass = 30;
-
-  $query = db_select('field_data_' . $old_content_field, 'f');
-  $query->fields('f');
-  $query->range($sandbox['current'], $nodes_per_pass);
+  $batch_size = 30;
+  $query = db_select('field_data_' . $old_content_field, 'f')
+    ->fields('f', array('entity_id'))
+    ->condition($old_content_field . '_value', '', '<>')
+    ->range($sandbox['current'], $batch_size);
   $result = $query->execute();
 
   while ($value = $result->fetchAssoc()) {
     $node = node_load($value['entity_id']);
-    $paragraph = new ParagraphsItemEntity(array('field_name' => $paragraphs_ref_field, 'bundle' => $paragraphs_type));
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $data = $wrapper->{$old_content_field}->value();
+
+    $paragraph = new ParagraphsItemEntity(array(
+      'field_name' => $paragraphs_ref_field,
+      'bundle' => $paragraphs_type
+    ));
     $paragraph->is_new = TRUE;
-    $paragraph->$new_content_field[$value['language']][0]['value'] = $value[$old_content_field . '_value'];
-    $paragraph->$new_content_field[$value['language']][0]['format'] = $value[$old_content_field . '_format'];
+    $paragraph->$new_content_field[$node->language][0]['value'] = $data['value'];
+    $paragraph->$new_content_field[$node->language][0]['format'] = $data['format'];
     $paragraph->setHostEntity('node', $node);
     $paragraph->save();
     $sandbox['current']++;
+
+    // Set the old field content to empty to filter it out if the update process
+    // was halt before it was finished and restarted.
+    $wrapper->{$old_content_field}->set(array(
+      'value' => '',
+      'format' => $data['format'],
+    ));
+    $wrapper->save();
   }
 
   $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
