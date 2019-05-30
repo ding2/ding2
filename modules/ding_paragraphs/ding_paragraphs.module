@@ -191,8 +191,8 @@ function ding_paragraphs_migrate_content_body_field($old_content_field, $new_con
       'bundle' => $paragraphs_type,
     ));
     $paragraph->is_new = TRUE;
-    $paragraph->$new_content_field[$node->language][0]['value'] = $data['value'];
-    $paragraph->$new_content_field[$node->language][0]['format'] = $data['format'];
+    $paragraph->{$new_content_field}[LANGUAGE_NONE][0]['value'] = $data['value'];
+    $paragraph->{$new_content_field}[LANGUAGE_NONE][0]['format'] = $data['format'];
     $paragraph->setHostEntity('node', $node);
     $paragraph->save();
     $sandbox['current']++;
