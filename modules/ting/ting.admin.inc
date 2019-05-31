@@ -136,7 +136,7 @@ function ting_admin_reservable_settings($form_state) {
   $form['reservation_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Reservation settings'),
-    '#tree' => FALSE,
+
   );
 
   $options = array();
@@ -163,29 +163,21 @@ function ting_admin_reservable_settings($form_state) {
     '#description' => t('Time before an reservation expires that a message should be shown to the user.'),
   );
 
-  $types = variable_get('ting_well_types', _ting_fetch_well_types());
   $sources = variable_get('ting_well_sources', _ting_fetch_well_sources());
 
-  $form['ting_reservable'] = array(
+  $form['ting_library_material_sources'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Reservation buttons'),
+    '#title' => t('Library material sources'),
     '#tree' => FALSE,
-    '#description' => t("A Ting object will get a reservation button, if it's source and type is <em>both</em> selected."),
+    '#description' => t('Select which sources should be considered as library material. For library materials the system will ask the library provider for reservability, availability and holdings. So for performance reasons, only check those sources where this behaviour is needed.'),
   );
 
-  $form['ting_reservable']['ting_reservable_sources'] = array(
+  $form['ting_library_material_sources']['ting_library_material_sources'] = array(
     '#type' => 'checkboxes',
-    '#title' => t('Sources'),
     '#options' => drupal_map_assoc($sources),
-    '#default_value' => variable_get('ting_reservable_sources', _ting_default_reservable_sources()),
+    '#default_value' => variable_get('ting_library_material_sources', array()),
   );
 
-  $form['ting_reservable']['ting_reservable_types'] = array(
-    '#type' => 'checkboxes',
-    '#title' => t('Types'),
-    '#options' => drupal_map_assoc($types),
-    '#default_value' => variable_get('ting_reservable_types', _ting_default_reservable_types()),
-  );
   // Save us the trouble of running array_filter.
   $form['array_filter'] = array('#type' => 'value', '#value' => TRUE);
 

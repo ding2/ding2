@@ -67,6 +67,14 @@ function ding_reservation_menu() {
     'access arguments' => array('perform reservation'),
   );
 
+  $items['ding_reservation/%ding_entity/is_reservable'] = array(
+    'title' => 'Check ding entity reservability',
+    'page callback' => 'ding_reservation_is_reservable_ajax_callback',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -105,16 +113,25 @@ function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
 }
 
 /**
+ * AJAX callback used to check the reservability of the passed entity.
+ */
+function ding_reservation_is_reservable_ajax_callback($entity) {
+  drupal_json_output(array('reservable' => $entity->is('reservable')));
+}
+
+/**
  * Implements hook_ding_entity_buttons().
  */
 function ding_reservation_ding_entity_buttons($type, $entity, $view_mode, $widget = 'default') {
   $button = '';
 
-  if ($type == 'ding_entity' && $entity->is('reservable')) {
+  if ($type == 'ding_entity' && $entity->is('library_material')) {
     switch ($widget) {
       case 'ajax':
         drupal_add_library('system', 'drupal.ajax');
 
+        // The AJAX-widget will use AJAX-request for checking reservability and
+        // also when performing the reservation.
         $button = array(
           array(
             '#theme' => 'link',
@@ -128,8 +145,17 @@ function ding_reservation_ding_entity_buttons($type, $entity, $view_mode, $widge
                   'use-ajax',
                 ),
                 'id' => 'reservation-' . $entity->id,
+                'data-entity-id' => $entity->id,
               ),
               'html' => FALSE,
+            ),
+            '#attached' => array(
+              'js' => array(
+                array(
+                  'type' => 'file',
+                  'data' => drupal_get_path('module', 'ding_reservation') . '/js/ding_reservation_reservability.js',
+                ),
+              ),
             ),
           ),
         );
@@ -138,7 +164,11 @@ function ding_reservation_ding_entity_buttons($type, $entity, $view_mode, $widge
       default:
         // The last parameter to the form below (TRUE) hides the provider
         // options in the form (interest period and branch).
-        $button = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE));
+        if ($entity->is('reservable')) {
+          $button = array(
+            ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE),
+          );
+        }
         break;
     }
   }
