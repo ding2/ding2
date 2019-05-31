@@ -164,18 +164,20 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
         $matches['path'] = _ding_campaign_plus_basic_match('path', $context->path);
         break;
 
-      case 'search_request':
+      case 'search_term':
         $nids = [];
 
-        // Get current search query and split it into array of terms.
-        $value = $context->getFullTextQuery();
+        // For the search term basic campaign the ctools string context is used,
+        // which means that $context will just be a string with the search term.
+        // We re-assign it here for clarity.
+        $search_term = $context;
 
-        // If the search string is empty we just return an empty array, since
+        // If the search term is empty we just return an empty array, since
         // executing the query with an empty array in the IN-condition throws
         // a PDO syntax error exception.
-        if (!empty($value)) {
-          $value = drupal_strtolower($value);
-          $terms = preg_split('/,|\s/', $value);
+        if (!empty($search_term)) {
+          $search_term = drupal_strtolower($search_term);
+          $terms = preg_split('/,|\s/', $search_term);
           $terms = array_filter($terms);
 
           // Check if any active campaigns matches the search terms.
@@ -189,7 +191,7 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
             ->fetchCol();
         }
 
-        $matches['search_request'] = is_array($nids) ? $nids : array();
+        $matches['search_term'] = is_array($nids) ? $nids : array();
         break;
     }
   }
