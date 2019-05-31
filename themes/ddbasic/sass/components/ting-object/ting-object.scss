@@ -100,7 +100,7 @@
         }
       }
       .field-name-ting-title {
-        h2 {
+        h3 {
           @include transition(width $speed $ease);
           @include font('display-small');
           width: 100%;
@@ -153,7 +153,7 @@
             @include transition(opacity $speed $hover-delay $ease);
             opacity: 0;
           }
-          .field-name-ting-title h2,
+          .field-name-ting-title h3,
           .field-name-ting-author {
             @include transition (
               width $speed-fast $hover-delay $ease
@@ -225,7 +225,7 @@
         }
       }
       .field-name-ting-title {
-        h2 {
+        h3 {
           @include font('display-small');
           width: 100%;
           margin-bottom: 0;

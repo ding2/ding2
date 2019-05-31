@@ -1050,6 +1050,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting',
         'settings' => array(
+          'element' => 'h2',
           'link_type' => 'object',
           'prefix_type' => 'no',
         ),
@@ -1060,6 +1061,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting',
         'settings' => array(
+          'element' => 'h2',
           'link_type' => 'object',
           'prefix_type' => 'no',
         ),
@@ -1070,6 +1072,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting',
         'settings' => array(
+          'element' => 'h2',
           'link_type' => 'none',
           'prefix_type' => 'no',
         ),
@@ -1080,6 +1083,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting',
         'settings' => array(
+          'element' => 'h2',
           'link_type' => 'none',
           'prefix_type' => 'no',
         ),
@@ -1090,6 +1094,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting',
         'settings' => array(
+          'element' => 'h2',
           'link_type' => 'none',
           'prefix_type' => 'no',
         ),
@@ -1100,6 +1105,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting',
         'settings' => array(
+          'element' => 'h2',
           'link_type' => 'collection',
           'prefix_type' => 'yes',
         ),
@@ -1110,6 +1116,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting',
         'settings' => array(
+          'element' => 'h3',
           'link_type' => 'none',
           'prefix_type' => 'no',
         ),
@@ -1120,6 +1127,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting',
         'settings' => array(
+          'element' => 'h3',
           'link_type' => 'none',
           'prefix_type' => 'no',
         ),
@@ -1130,6 +1138,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting',
         'settings' => array(
+          'element' => 'h2',
           'link_type' => 'object',
           'prefix_type' => 'no',
         ),
@@ -1140,6 +1149,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ting',
         'settings' => array(
+          'element' => 'h2',
           'link_type' => 'object',
           'prefix_type' => 'no',
         ),
