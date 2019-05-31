@@ -77,12 +77,6 @@ function ting_search_carousel_carousel_content_type_admin_title($subtype, $conf,
 function ting_search_carousel_carousel_content_type_edit_form($form, &$form_state) {
   ctools_form_include($form_state, 'carousel', 'ting_search_carousel', 'plugins/content_types');
 
-  // Hide the title override settings.
-  $form['override_title']['#access'] = FALSE;
-  $form['override_title_text']['#access'] = FALSE;
-  $form['override_title_heading']['#access'] = FALSE;
-  $form['override_title_markup']['#access'] = FALSE;
-
   // Add defoults.
   $form_state['conf'] += array(
     'searches' => array(),
