@@ -149,6 +149,7 @@
       h3 {
         @include font('display');
         @include span-columns(6);
+        float: none;
         margin-bottom: 0;
 
         // Tablet
