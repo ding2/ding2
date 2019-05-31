@@ -49,7 +49,9 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
         continue;
       }
 
-      $ids[] = $item->ding_entity_id;
+      if (isset($item->ding_entity_id)) {
+        $ids[] = $item->ding_entity_id;
+      }
     }
     ding_entity_load_multiple($ids);
 
@@ -169,55 +171,34 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     }
 
     foreach ($group['loans'] as $loan) {
-      // The default title from loan object.
-      $title = $loan->display_name;
-
-      // Try to get entity for the loan to make a better title and provide info
-      // about the associated material.
-      /** @var \TingEntity $entity */
-      $entity = $loan->entity;
-      if (!is_object($entity) || NULL === $entity->getTingObject()) {
-        // Patron have this item in loans list, but the search provider can't
-        // find this record for current agencyId, so we load it separately.
-        $ting_object = ting_search_object_load($loan->ding_entity_id);
-
-        if (!empty($ting_object)) {
-          // But we need TingEntity instance, so here we are populating this.
-          $ting_entity = new TingEntity();
-          $ting_entity->ding_entity_id = $entity->ding_entity_id;
-          $ting_entity->setTingObject($ting_object);
-        }
-      }
-
-      // Initialize variables so that they don't carry over if this entity can't
-      // be searched.
+      $title = t('Title not available');
       $creators = $mat_type = $cover = NULL;
-      if (is_object($entity) && NULL !== $entity->getTingObject()) {
-        $raw_title = $entity->getTitle();
 
-        // Add title link.
+      // If the provider was able to produce an entity we'll use that since we can
+      // show more information and link to the entity.
+      if (is_object($loan->entity)) {
+        $entity = $loan->entity;
+
         $uri = entity_uri('ting_object', $entity);
-        $title = l($raw_title, $uri['path']);
-
-        // Add creator(s).
-        $creators = $entity->creators;
-
-        // Add type.
-        $mat_type = $entity->type;
-
-        // Attempt to render a cover.
+        $title = l($entity->getTitle(), $uri['path']);
+        $creators = $entity->getCreators();
+        $mat_type = $entity->getType();
         $cover = field_view_field('ting_object', $entity, 'ting_cover', 'user_list');
       }
-
+      // Else the provider has the option to supply a display name and author.
+      elseif (!empty($loan->display_name)) {
+        $title = $loan->display_name;
+        $creators = $loan->author;
+      }
 
       $item = array(
         '#type' => 'material_item',
         '#loan' => $loan,
         '#id' => $loan->id,
-        '#creators' => isset($creators) ? $creators : NULL,
-        '#material_type' => isset($mat_type) ? $mat_type : NULL,
+        '#creators' => $creators,
+        '#material_type' => $mat_type,
         '#title' => $title,
-        '#cover' => isset($cover) ? $cover : NULL,
+        '#cover' => $cover,
         '#information' => array(
           'loan_date' => array(
             'label' => t('Loan date'),
@@ -362,14 +343,14 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     '#type' => 'html_tag',
     '#tag' => 'div',
     '#value' => '<a href="#">' . t('Renew all') . '</a>',
-    '#attributes' => [
-      'class' => [
+    '#attributes' => array(
+      'class' => array(
         'renew-all',
         'action-all',
         'action-button',
         'js-renew-all',
-      ],
-    ],
+      ),
+    ),
   );
 
   return $form;

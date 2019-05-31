@@ -490,25 +490,25 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
   }
 
   foreach ($reservations as $reservation) {
-    /** @var \TingEntity $entity */
-    $entity = $reservation->entity;
-    if (!is_object($entity) || NULL === $entity->getTingObject()) {
-      $entity = ding_provider_get_pseudo_entity($reservation->ding_entity_id);
-      // Don't link the title as the data well do not known this title. It may
-      // be a inter library loan.
-      $title = (!empty($entity) && $entity->getTitle()) ? $entity->getTitle() : $reservation->display_name;
-    }
-    else {
-      // Create title that links to the object.
+    $title = t('Title not available');
+    $creators = $mat_type = $cover = NULL;
+
+    // If the provider was able to produce an entity we'll use that since we can
+    // show more information and link to the entity.
+    if (is_object($reservation->entity)) {
+      $entity = $reservation->entity;
+
       $uri = entity_uri('ting_object', $entity);
       $title = l($entity->getTitle(), $uri['path']);
+      $creators = $entity->getCreators();
+      $mat_type = $entity->getType();
+      $cover = field_view_field('ting_object', $entity, 'ting_cover', 'user_list');
     }
-
-    // Add creator(s).
-    $creators = $entity->creators;
-
-    // Add type.
-    $mat_type = $entity->type;
+    // Else the provider has the option to supply a display name and author.
+    elseif (!empty($reservation->display_name)) {
+      $title = $reservation->display_name;
+      $creators = $reservation->author;
+    }
 
     $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $reservation->pickup_branch_id);
     switch ($reservation->reservation_type) {
@@ -520,7 +520,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
           '#creators' => $creators,
           '#material_type' => $mat_type,
           '#title' => $title,
-          '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+          '#cover' => $cover,
           '#information' => array(
             'pickup_id' => array(
               'label' => t('Pickup id'),
@@ -558,7 +558,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
           '#creators' => $creators,
           '#material_type' => $mat_type,
           '#title' => $title,
-          '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+          '#cover' => $cover,
           '#information' => array(
             'queue_number' => array(
               'label' => t('Queue number'),
@@ -606,7 +606,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
           '#creators' => $creators,
           '#material_type' => $mat_type,
           '#title' => $title,
-          '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+          '#cover' => $cover,
           '#information' => array(
             'ill_status' => array(
               'label' => t('Status'),

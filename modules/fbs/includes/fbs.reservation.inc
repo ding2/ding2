@@ -54,7 +54,6 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
         $type = $reservation->state == 'interLibraryReservation' ? DING_RESERVATION_INTERLIBRARY_LOANS : $type;
 
         $ding_reservation = array(
-          'ding_entity_id' => $ids[$reservation->recordId],
           'id' => $reservation->reservationId,
           'pickup_branch_id' => $reservation->pickupBranch,
           'created' => $reservation->dateOfReservation,
@@ -62,6 +61,16 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
           // Required by ding_reservation.
           'reservation_type' => $type,
         );
+
+        // With the FBS provider we have to use FBS data for ILL, since we can't
+        // rely on the record ID being unique in these cases.
+        if (isset($reservation->ilBibliographicRecord)) {
+          $ding_reservation['display_name'] = $reservation->ilBibliographicRecord->title;
+          $ding_reservation['author'] = $reservation->ilBibliographicRecord->author;
+        }
+        elseif (isset($ids[$reservation->recordId])) {
+          $ding_reservation['ding_entity_id'] = $ids[$reservation->recordId];
+        }
 
         if ($type === DING_RESERVATION_READY) {
           $ding_reservation['pickup_date'] = $reservation->pickupDeadline;
@@ -94,11 +103,6 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
           else {
             $ding_reservation['notes'] = t('Issue @vol', array('@vol' => $vol));
           }
-        }
-
-        // Handle inter library loans.
-        if (!empty($reservation->ilBibliographicRecord)) {
-          $ding_reservation['display_name'] = $reservation->ilBibliographicRecord->title;
         }
 
         $results[$type][$ding_reservation['id']] = new DingProviderReservation($ding_reservation['id'], $ding_reservation);

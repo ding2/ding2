@@ -48,12 +48,21 @@ function fbs_loan_list($account, $reset = FALSE) {
         $id = $loan->loanDetails->loanId;
 
         $loan_data = array(
-          'ding_entity_id' => $ids[$loan->loanDetails->recordId],
           'loan_date' => $loan->loanDetails->loanDate,
           'expiry' => $loan->loanDetails->dueDate,
           'renewable' => $loan->isRenewable,
           'materials_number' => $loan->loanDetails->materialItemNumber,
         );
+
+        // With the FBS provider we have to use FBS data for ILL, since we can't
+        // rely on the record ID being unique in these cases.
+        if (!empty($loan->loanDetails->ilBibliographicRecord)) {
+          $loan_data['display_name'] = $loan->loanDetails->ilBibliographicRecord->title;
+          $loan_data['author'] = $loan->loanDetails->ilBibliographicRecord->author;
+        }
+        elseif (isset($ids[$loan->loanDetails->recordId])) {
+          $loan_data['ding_entity_id'] = $ids[$loan->loanDetails->recordId];
+        }
 
         // Ding loan maintains a list of renewed loans in this session, and if
         // this loan is here we will use it for renewal feedback.
@@ -94,11 +103,6 @@ function fbs_loan_list($account, $reset = FALSE) {
           }
         }
 
-        // Handle inter library loans.
-        if (!empty($loan->loanDetails->ilBibliographicRecord)) {
-          $loan_data['display_name'] = $loan->loanDetails->ilBibliographicRecord->title;
-        }
-
         $results[$id] = new DingProviderLoan($id, $loan_data);
       }
 
@@ -117,13 +121,13 @@ function fbs_loan_list($account, $reset = FALSE) {
  *
  * @param object $account
  *   User to renew loan for.
- * @param array $loan
+ * @param array $loans
  *   Loan ids to renew.
  *
  * @return array
  *   Result of revewals.
  */
-function fbs_loan_renew($account, $loans) {
+function fbs_loan_renew($account, array $loans) {
   $res = array();
   try {
     $res = fbs_service()->MaterialLoans->renewLoans(fbs_service()->agencyId, fbs_patron_id($account), $loans);
@@ -137,8 +141,8 @@ function fbs_loan_renew($account, $loans) {
     // Using an array for renewalStatus is an odd choice, but we'll only
     // consider the loan renewed if 'renewed' is the only status.
     if ($loan->renewalStatus == array('renewed')) {
-      $result[$loan->loanDetails->loanId] =
-        $loan->loanDetails->loanType == 'interLibraryLoan' ?
+      $result[$loan->loanDetails->loanId]
+        = $loan->loanDetails->loanType == 'interLibraryLoan' ?
         DingProviderLoan::STATUS_RENEWAL_REQUESTED :
         DingProviderLoan::STATUS_RENEWED;
     }
