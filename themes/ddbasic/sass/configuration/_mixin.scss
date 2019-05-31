@@ -96,7 +96,7 @@
   $color: $color-text-on-secondary,
   $background-color: $color-secondary,
   $color-hover: $white,
-  $background-color-hover: $grey-dark
+  $background-color-hover: $grey-darker
 ) {
   @include place-icon($icon, $color);
   @include transition(
@@ -138,7 +138,7 @@
 
 @mixin arrow-button(
   $icon,
-  $background-color: $grey
+  $background-color: $grey-darker
 ) {
   &::after {
     @extend %icon-#{$icon};

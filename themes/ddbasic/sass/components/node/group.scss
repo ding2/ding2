@@ -40,7 +40,7 @@
     .group-text {
       @include linear-gradient(
         transparent 0%,
-        $charcoal-opacity-extra-dark 100%
+        $charcoal-opacity-dark 100%
       );
       position: absolute;
       left: 0;
