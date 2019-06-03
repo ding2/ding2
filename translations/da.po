@@ -66914,6 +66914,10 @@ msgstr "Søg i @profile"
 msgid "Search in all"
 msgstr "Søg i alle"
 
+#: /
+msgid "Choose search category"
+msgstr "Vælg søgekategori"
+
 #: /index.php
 msgid "Related news"
 msgstr "Relaterede nyheder"
