@@ -83,5 +83,5 @@ function ding_list_private_share_edit_form($form, &$form_state) {
  * Implements hook_content_type_edit_form_submit().
  */
 function ding_list_private_share_edit_form_submit($form, &$form_state) {
-  $form_state['conf']['communities'] = array_filter($form_state['values']['communities']);
+  $form_state['conf']['communities'] = $form_state['values']['communities'];
 }

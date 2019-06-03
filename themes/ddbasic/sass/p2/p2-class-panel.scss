@@ -89,41 +89,6 @@
 }
 
 // ==========================================================================
-// Pane sharer pane
-// ==========================================================================
-.pane-sharer-pane {
-  width: 100%;
-  float: right;
-
-  // Mobile
-  @include media($mobile) {
-    width: 100%;
-  }
-  // Overwrite deafult styles for the social share container on list-page
-  .page-list & {
-    .social-share-container {
-      width: auto;
-      float: right;
-      padding-bottom: 0;
-      border-bottom: none;
-      margin-bottom: 0;
-      a {
-        margin-bottom: 15px;
-        padding-right: 15px;
-        &:last-child {
-          margin-right: 0;
-        }
-
-        //Mobile
-        @include media($mobile) {
-          width: 171px;
-        }
-      }
-    }
-  }
-}
-
-// ==========================================================================
 // Pane edit list
 // ==========================================================================
 .pane-edit-list {
@@ -287,102 +252,21 @@
 }
 
 // ==========================================================================
-// Pane list
+// Pane lists followers
 // ==========================================================================
-.pane-list {
-  margin-bottom: 45px;
-}
-
-
-// ==========================================================================
-// Pane lists info
-// ==========================================================================
-.pane-list-info {
-  margin-bottom: 15px;
-  .ding-list-note {
-    margin-bottom: 5px;
-  }
-}
-
-// ==========================================================================
-// Pane lists data
-// ==========================================================================
-.pane-list-data {
-  @include clearfix();
-  padding-bottom: 15px;
-  margin-bottom: 15px;
-  border-bottom: 1px solid $grey-medium;
-
-  .ding-list-data__note {
-    margin-bottom: 15px;
-  }
-
-  .ding-list-info {
-    @include span-columns(6);
-    margin-top: 8px;
-
-    // Mobile
-    @include media($mobile) {
-      width: 100%;
-      margin-top: 0;
-      margin-bottom: 15px;
-    }
-    > div {
-      @include span-columns(3 of 6);
-      float: left;
-    }
-    .ding-list-field-label {
-      @include font('base-bold');
-    }
-    .ding-list-field-text {
-      color: $color-primary;
-    }
-  }
-  .ding-list-buttons {
-    float: right;
-
-    // Mobile
-    @include media($mobile) {
-      float: left;
-    }
-
-    input[type="submit"] {
-      .content-wrapper & {
-        margin-bottom: 0;
-      }
-    }
-  }
+.pane-list-followers {
+  margin-bottom: 60px;
 }
 
 // ==========================================================================
 // Pane add list
 // ==========================================================================
 .pane-add-list {
-  float: right;
-  margin-bottom: 30px;
-  //Mobile
-  @include media($mobile) {
+  width: 100%;
+  float: left;
+  margin: 40px 0;
+  form {
     float: left;
-    margin-right: 0;
-  }
-  input[type=submit] {
-    margin-bottom: 0;
-    //Mobile
-    @include media($mobile) {
-      width: 171px;
-    }
-  }
-}
-
-// ==========================================================================
-// Pane private share
-// ==========================================================================
-.pane-private-share {
-  float: right;
-  margin-bottom: 15px;
-  //Mobile
-  @include media($mobile) {
-    width: 100%;
   }
 }
 
@@ -391,13 +275,4 @@
 // ==========================================================================
 .pane-notifications-top-menu {
   display: none;
-}
-
-// ==========================================================================
-// View ding public lists
-// ==========================================================================
-.pane-public-lists {
-  .ding-list-list {
-    clear: both;
-  }
 }

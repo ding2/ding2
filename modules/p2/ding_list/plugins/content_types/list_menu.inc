@@ -55,6 +55,43 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
           'html' => FALSE,
         );
       }
+
+      if ($list->allowed(DING_LIST_OPERATION_SHARE)) {
+        $title = FALSE;
+
+        // Check if user owns the list.
+        if ($list->isOwner($user)) {
+          $title = t('Share list');
+        }
+        else {
+          // Check if user already follows list.
+          $user_follow_list = ding_list_get_list(DING_LIST_TYPE_LISTS);
+          if ($user_follow_list->hasElement($list->getId())) {
+            $title = t('Unfollow list');
+          }
+        }
+
+        if ($title !== FALSE) {
+          $block->content['links']['#links']['share'] = array(
+            'href' => 'list/' . $list->getId() . '/share',
+            'title' => $title,
+            'attributes' => array('class' => array('menu-item')),
+            'html' => FALSE,
+          );
+        }
+        else {
+          $block->content['addform'] = drupal_get_form('ding_list_add_element_form', 'ding_list', $list->getId(), t('Add to lists I follow'));
+        }
+
+        if (user_access('ding_list administer public lists')) {
+          $block->content['links']['#links']['toggle_not_public'] = array(
+            'href' => 'list/' . $list->getId() . '/toggle-not-public',
+            'title' => $list->getData('not_public', FALSE) ? t('Enable public sharing') : t('Disable public sharing'),
+            'attributes' => array('class' => array('menu-item')),
+            'html' => FALSE,
+          );
+        }
+      }
     }
   }
 
