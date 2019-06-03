@@ -21,6 +21,16 @@
           select: function(event, ui) {
             // Update the mobile navigation drop down.
             tabroll_select.prop('selectedIndex', ui.index);
+          },
+          // The jQuery UI tabs adds a negative tabindex on the tab anchors
+          // which we are not interested in having.
+          // We'll remove them when the tab is created.
+          create: function() {
+            var tab_anchors = $('.ui-tabs-anchor', context);
+
+            $(tab_anchors).each(function() {
+              $(this).removeAttr('tabindex');
+            });
           }
         }).tabs('rotate', switch_speed);
 
@@ -31,7 +41,17 @@
 
         // Start tabs rotate when mouse is out.
         tabroll.mouseleave(function () {
-          tabroll.tabs().tabs("rotate", switch_speed);
+          tabroll.tabs().tabs('rotate', switch_speed);
+        });
+
+        // Stops tabs rotation when an element within it is in focus.
+        tabroll.find(':focusable').focusout(function () {
+          tabroll.tabs().tabs('rotate', switch_speed);
+        });
+
+        // Starts tabs rotation when an element within it is out of focus.
+        tabroll.find(':focusable').focusin(function () {
+          tabroll.tabs('rotate', 0);
         });
       }
 
