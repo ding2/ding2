@@ -250,7 +250,7 @@
         // (obviously in hindsight).
         $('.carousel', this).on('init reInit afterChange', carousel, update_handler)
           .on('setPosition', carousel, update_slides_to_scroll)
-          .slick(settings);
+          .not('.slick-initialized').slick(settings);
       });
 
       // Initialize tab behavior on tabbed carousels.

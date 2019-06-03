@@ -1135,7 +1135,7 @@ function ding_serendipity_form_base_keys($form_state) {
     '#title' => t('Selected'),
     '#options' => array_unique($options),
     '#multiple' => TRUE,
-    '#default_value' => !empty($form_state['conf']['selected_keys']) ? $form_state['conf']['selected_keys'] : array('ting_object' => TRUE, 'frontpage' => TRUE),
+    '#default_value' => !empty($form_state['conf']['selected_keys']) ? $form_state['conf']['selected_keys'] : array('ting_object' => 'ting_object', 'frontpage' => 'frontpage'),
     '#description' => t('Select any additional keys which apply to the serendipity display you wish to present.'),
     '#access' => user_access('administer serendipity panes'),
   );
