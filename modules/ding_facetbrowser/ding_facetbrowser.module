@@ -1,11 +1,13 @@
 <?php
+
 /**
  * @file
  * The ding_facetbrowser module.
  */
 
 use Ting\Search\TingSearchFacet;
-use Ting\Search\TingSearchFacetTerm;
+use Ting\Search\TingSearchResultInterface;
+use Ting\Search\BooleanStatementInterface;
 
 /**
  * Implements hook_block_info().
@@ -54,8 +56,7 @@ function ding_facetbrowser_theme() {
   return array(
     'facetbrowser' => array(
       'variables' => array(
-        'facets' => NULL,
-        'searchkey' => NULL,
+        'search_result' => NULL,
       ),
     ),
     'ding_facetbrowser_settings' => array(
@@ -90,15 +91,153 @@ function ding_facetbrowser_ctools_plugin_api($module, $api) {
 }
 
 /**
- * Create a custom form with checkbox elements for facets and ajax callback
+ * Get the interval element.
  *
- * @param array $form
- * @param array $form_state
- * @param array $facets
- * @return array $form
+ * @param \Ting\Search\TingSearchFacet $facet
+ *   The facet.
+ * @param \Ting\Search\TingSearchResultInterface $search_result
+ *   Search result.
+ *
+ * @return array
+ *   An interval form element container.
  */
-function ding_facetbrowser_form($form, &$form_state, $facets = [], $search = FALSE) {
+function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSearchResultInterface $search_result) {
+  // To get the correct counter for the span, we need to run the
+  // search without the actual interval filter on, so the complete dataset
+  // is included.
+  $run_search = FALSE;
+  $range = array();
+
+  // Check if the facet is used, and remove it from the count_request.
+  $count_request = clone $search_result->getSearchRequest();
+  $filters = $count_request->getFilters();
+  foreach ($filters as $filter_delta => $filter) {
+    $statements = $filter->getStatements();
+    foreach ($statements as $statement_delta => $statement) {
+      // Remove all facet conditions.
+      if ($statement->getName() === $facet->getName()) {
+        switch ($statement->getOperator()) {
+          case $statement::OP_GT_EQUAL:
+            $range[0] = (int) $statement->getValue();
+            break;
+
+          case $statement::OP_LT_EQUAL:
+            $range[1] = (int) $statement->getValue();
+            break;
+        }
+
+        $run_search = TRUE;
+        unset($statements[$statement_delta]);
+      }
+    }
+
+    if (empty($statements)) {
+      unset($filters[$filter_delta]);
+    }
+    else {
+      $filter->add($statements);
+    }
+  }
+
+  $count_request = $count_request->withFilters($filters, BooleanStatementInterface::OP_AND, FALSE);
+
+  // Only run the counter, if it's different from the search already
+  // performed.
+  if ($run_search === TRUE) {
+    $cache_key = 'ding_facetbrowser:interval:' . md5(serialize($count_request));
+    $cache = cache_get($cache_key);
+
+    if (!$cache) {
+      $count_search_result = $count_request
+        ->withCount(0)
+        ->withFacets([$facet->getName()])
+        ->withTermsPrFacet(999)
+        ->execute();
+
+      cache_set($cache_key, $count_search_result, 'cache', CACHE_TEMPORARY);
+    }
+    else {
+      $count_search_result = $cache->data;
+    }
+  }
+  else {
+    $count_search_result = ting_search_current_results();
+  }
+
+  // Set min and max values.
+  $terms = $count_search_result->getFacets()[$facet->getName()]->getTerms();
+  foreach ($terms as $value => $term) {
+    if (!is_numeric($value)) {
+      unset($terms[$value]);
+    }
+  }
+  ding_facetbrowser_sort_terms($terms, 'numeric');
+  $interval = array_keys($terms);
+
+  // Set the range (default value).
+  if (empty($range)) {
+    $range = array(0, count($interval) - 1);
+  }
+  else {
+    $range = array(
+      array_search($range[0], $interval) ?: 0,
+      array_search($range[1], $interval) ?: count($interval) - 1,
+    );
+  }
+
+  // Create the interval container, with slider and range indicator.
+  return array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('ding-facetbrowser-interval', 'js-ding-facetbrowser-interval'),
+      'data-facet-name' => $facet->getName(),
+    ),
+    'slider' => array(
+      '#type' => 'container',
+      '#attributes' => array('class' => array('ding-facetbrowser-interval__slider')),
+    ),
+    'start' => array(
+      '#type' => 'container',
+      '#attributes' => array('class' => array('ding-facetbrowser-interval__start')),
+    ),
+    'end' => array(
+      '#type' => 'container',
+      '#attributes' => array('class' => array('ding-facetbrowser-interval__end')),
+    ),
+    '#attached' => array(
+      'library' => array(
+        array('system', 'ui.slider'),
+      ),
+      'js' => array(
+        array(
+          'data' => array(
+            'ding_facetbrowser' => array(
+              'intervals' => array(
+                $facet->getName() => array(
+                  'interval' => $interval,
+                  'range' => $range,
+                  'uri' => $GLOBALS['base_root'] . _ding_facetbrowser_parse_request_uri(),
+                ),
+              ),
+            ),
+          ),
+          'type' => 'setting',
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Create a custom form with checkbox elements for facets and ajax callback.
+ *
+ * @param \Ting\Search\TingSearchResultInterface $search_result
+ *   Search result.
+ */
+function ding_facetbrowser_form($form, &$form_state, TingSearchResultInterface $search_result) {
   global $base_root;
+
+  $facets = $search_result->getFacets();
 
   $default_values = array();
   $selected = array();
@@ -106,7 +245,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = [], $search = FAL
 
   $form['search_key'] = array(
     '#type'  => 'hidden',
-    '#value' => $search,
+    '#value' => $search_result->getSearchRequest()->getFullTextQuery(),
   );
 
   // Building the facets field sets.
@@ -115,7 +254,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = [], $search = FAL
   foreach (variable_get('ding_facetbrowser_facets', array()) as $configured_facet) {
 
     if (!empty($facets[$configured_facet['name']])) {
-      /** @var TingSearchFacet $facet */
+      /** @var Ting\Search\TingSearchFacet $facet */
       $facet = $facets[$configured_facet['name']];
 
       // Decide if the facet is to have the hidden class or not.
@@ -136,6 +275,14 @@ function ding_facetbrowser_form($form, &$form_state, $facets = [], $search = FAL
             ),
           ),
         );
+
+        switch ($facet->getType()) {
+          case $facet::TYPE_INTERVAL:
+            $form[$facet->getName()]['interval'] = _ding_facetbrowser_form_interval_element($facet, $search_result);
+
+            // Continue the loop, so we don't include the regular checkboxes.
+            continue 2;
+        }
 
         // Sort the list of terms.
         $terms = $facet->getTerms();
@@ -236,16 +383,15 @@ function ding_facetbrowser_sort_terms_options() {
 }
 
 /**
- * Helper function to format term name title, if it's too long to display in
- * the facetbrowser window.
+ * Helper function to format term name title.
  *
  * @See: ding_facetbrowser_form()
  */
 function ding_facetbrowser_format_term_name($term_name, $term_count) {
-  $substr_length = 19
-    + substr_count(drupal_substr($term_name, 0, 20), 'l')
-    + substr_count(drupal_substr($term_name, 0, 20), 'i')
-    - drupal_strlen((string)$term_count);
+  $substr_length = 19 +
+    substr_count(drupal_substr($term_name, 0, 20), 'l') +
+    substr_count(drupal_substr($term_name, 0, 20), 'i') -
+    drupal_strlen((string) $term_count);
   if (drupal_strlen($term_name) > $substr_length) {
     return drupal_substr($term_name, 0, $substr_length) . '...';
   }
@@ -255,11 +401,14 @@ function ding_facetbrowser_format_term_name($term_name, $term_count) {
 /**
  * Check if selected facet from url matches the one from params.
  *
- * @param String $term_cat
- * @param String $term_name
- * @return Boolean
+ * @param string $term_cat
+ *   Term category.
+ * @param string $term_name
+ *   Term name.
+ *
+ * @return bool
+ *   If the facet is set.
  */
-
 function _ding_facetbrowser_is_facet_set($term_cat, $term_name) {
   $facets = &drupal_static('ding_facetbrowser_facets');
   if (!isset($facets)) {
@@ -278,7 +427,8 @@ function _ding_facetbrowser_is_facet_set($term_cat, $term_name) {
 /**
  * Check the URI and drop pager parameter, if available.
  *
- * @return String
+ * @return string
+ *   Cleaned URI.
  */
 function _ding_facetbrowser_parse_request_uri() {
   $new_query_part = array();
@@ -308,14 +458,15 @@ function _ding_facetbrowser_parse_request_uri() {
 }
 
 /**
- * Parse the selected facets from the $form_state to a readable string for the
- * ting_search.
+ * Parse the facets from the $form_state to a ting_search readable string.
  *
  * @param array $form_state
+ *   The form_state array.
  *
  * @return string
+ *   Parsed string.
  */
-function _ding_facetbrowser_facet_string($form_state = NULL) {
+function _ding_facetbrowser_facet_string(array $form_state = NULL) {
   $facets = array();
   if (!empty($form_state['values']) && is_array($form_state['values'])) {
     foreach ($form_state['values'] as $name => $data) {
@@ -336,12 +487,10 @@ function _ding_facetbrowser_facet_string($form_state = NULL) {
  *
  * Default theme function for the facet browser.
  */
-function theme_facetbrowser($search_result = array()) {
-  $all_facets = array_shift($search_result);
-  $searchkey = array_shift($search_result);
+function theme_facetbrowser($variables) {
   $elements = array();
-  if (is_array($all_facets)) {
-    $form = drupal_get_form('ding_facetbrowser_form', $all_facets, $searchkey);
+  if (!empty($variables['search_result'])) {
+    $form = drupal_get_form('ding_facetbrowser_form', $variables['search_result']);
     $elements[] = drupal_render($form);
   }
   return implode('', $elements);
@@ -359,7 +508,7 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   // Invoke ding_facetbrowser() from executed search module.
   $executed_search = menu_get_item();
   if (!empty($executed_search['page_arguments'])) {
-    list($executed_search_module, ) = $executed_search['page_arguments'];
+    list($executed_search_module,) = $executed_search['page_arguments'];
   }
   if (is_string($executed_search_module)) {
     $results = module_invoke($executed_search_module, 'ding_facetbrowser');

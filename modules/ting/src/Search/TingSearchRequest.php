@@ -114,7 +114,7 @@ class TingSearchRequest {
    *   List of grouped BooleanStatementGroup and TingSearchFieldFilter
    *   instances.
    */
-  protected $filters;
+  protected $filters = [];
 
   /**
    * The part of the query that should be interpreted as a fulltext search.
@@ -502,13 +502,17 @@ class TingSearchRequest {
    * @param string $logic_operator
    *   Logical operator to use for joining filters together if $filters contains
    *   more than one filter. See BooleanStatementInterface::OP_*.
+   * @param bool $append
+   *   When TRUE the filters are added to the existing filters, if false the
+   *   existing filters are cleared before adding the new ones.
    *
    * @return TingSearchRequest
    *   Updated search request object.
    *
    * @throws \Ting\Search\UnsupportedSearchQueryException
+   *   When encountering an unknown filter type.
    */
-  public function withFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND) {
+  public function withFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND, $append = TRUE) {
     // First off, protect against silly code.
     if (empty($filters)) {
       return $this;
@@ -545,6 +549,11 @@ class TingSearchRequest {
     }
 
     $clone = clone $this;
+
+    if ($append !== TRUE) {
+      $clone->filters = [];
+    }
+
     $clone->filters[] = $filters;
     return $clone;
   }
@@ -560,12 +569,16 @@ class TingSearchRequest {
    *   The field name.
    * @param mixed $value
    *   Expected field-value.
+   * @param string $operator
+   *   The comparison operator to use.
    *
    * @return TingSearchRequest
    *   Updated search request object.
    */
-  public function withFieldFilter($name, $value) {
-    return $this->withFilters([new TingSearchFieldFilter($name, $value)]);
+  public function withFieldFilter($name, $value, $operator = TingSearchFieldFilter::DEFAULT_OPERATOR) {
+    return $this->withFilters([
+      new TingSearchFieldFilter($name, $value, $operator),
+    ]);
   }
 
 }

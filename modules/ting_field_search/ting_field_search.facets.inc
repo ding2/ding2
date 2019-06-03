@@ -63,6 +63,18 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
 
       // No need to do anything if the profile facet wasn't returned.
       if ($facet && count($facet->getTerms())) {
+        switch ($facet->getType()) {
+          case $facet::TYPE_INTERVAL:
+            $form[$name] = array(
+              '#weight' => $profile_facet['weight'],
+              '#collapsible' => TRUE,
+              '#collapsed' => $count > $facet_count,
+            ) + $form[$name];
+
+            // Continue the loop, so we don't include the regular checkboxes.
+            continue 2;
+        }
+
         // Get the element name - i.e. the part of the facet name after the '.'
         $facet_class = ($count > $facet_count) ? 'js-hidden' : 'js-visible';
 

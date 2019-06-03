@@ -25,6 +25,7 @@
   stylesheets[all][] = sass_css/components/cookie.css
   stylesheets[all][] = sass_css/components/ui-datepicker.css
   stylesheets[all][] = sass_css/components/ui-dialog.css
+  stylesheets[all][] = sass_css/components/ui-slider.css
   stylesheets[all][] = sass_css/components/entity-profile2.css
   stylesheets[all][] = sass_css/components/messages.css
   stylesheets[all][] = sass_css/components/webform.css
