@@ -108,7 +108,7 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
     }
 
     $options = [
-      '!link' => str_replace('[keys]', $keys, variable_get('ting_subsearch_secondary_search_link', '')),
+      '!link' => str_replace('[keys]', urlencode($keys), variable_get('ting_subsearch_secondary_search_link', '')),
       '!link-text' => variable_get('ting_subsearch_secondary_search_link_text', ''),
       '!keys' => $keys,
       '!num-results' => $results->getNumTotalObjects(),
