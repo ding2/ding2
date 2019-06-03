@@ -115,6 +115,7 @@ features[variable][] = comment_preview_ding_event
 features[variable][] = comment_subject_ding_event
 features[variable][] = comment_subject_field_ding_event
 features[variable][] = field_bundle_settings_node__ding_event
+features[variable][] = flag_mobile_app_default_ding_event
 features[variable][] = flag_push_to_mongo_default_ding_event
 features[variable][] = language_content_type_ding_event
 features[variable][] = menu_options_ding_event
