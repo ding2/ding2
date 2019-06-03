@@ -172,23 +172,31 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
         // We re-assign it here for clarity.
         $search_term = $context;
 
-        // If the search term is empty we just return an empty array, since
-        // executing the query with an empty array in the IN-condition throws
-        // a PDO syntax error exception.
+        // If the search term is empty we just return an empty array.
         if (!empty($search_term)) {
-          $search_term = drupal_strtolower($search_term);
-          $terms = preg_split('/,|\s/', $search_term);
-          $terms = array_filter($terms);
+          _ding_campaign_plus_basic_normalize_search_term($search_term);
 
-          // Check if any active campaigns matches the search terms.
+          // Fetch all basic campaigns of type search term.
           $query = db_select('ding_campaign_plus_basic', 'dcpb')
-            ->fields('dcpb', array('nid'))
+            ->fields('dcpb', array('nid', 'value'))
             ->condition('dcpb.type', $key)
-            ->condition('value', $terms, 'IN');
+            ->condition('status', 1);
           $query->join('node', 'n', 'dcpb.nid = n.nid');
-          $nids = $query->condition('status', 1)
-            ->execute()
-            ->fetchCol();
+          $campaigns = $query->execute()->fetchAllKeyed(0, 1);
+
+          // See if any of them matches the users search term.
+          foreach ($campaigns as $nid => $value) {
+            _ding_campaign_plus_basic_normalize_search_term($value);
+
+            // The match value for this campaign type can contain several comma
+            // separated values.
+            $values = array_map('trim', explode(',', $value));
+            $values = array_filter($values);
+
+            if (in_array($search_term, $values)) {
+              $nids[] = $nid;
+            }
+          }
         }
 
         $matches['search_term'] = is_array($nids) ? $nids : array();
@@ -197,6 +205,15 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
   }
 
   return $matches;
+}
+
+/**
+ * Helper function to normalize input and stored search terms before matching.
+ */
+function _ding_campaign_plus_basic_normalize_search_term(&$term) {
+  // Normalize whitespaces (replace 2 or more space with 1).
+  $term = preg_replace('/ {2,}/', ' ', trim($term));
+  $term = drupal_strtolower($term);
 }
 
 /**
