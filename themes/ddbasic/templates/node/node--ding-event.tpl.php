@@ -133,7 +133,12 @@
       <?php print render($content['group_right']['field_ding_event_date']);?>
       <?php print render($share_button); ?>
       <?php print render($content['group_right']);?>
-
     </div>
+    <!-- Render MKWS results set. -->
+    <?php
+      if (!empty($content['field_mkws_node_widget'])) {
+        print render($content['field_mkws_node_widget']);
+      }
+    ?>
   </div>
 </article>

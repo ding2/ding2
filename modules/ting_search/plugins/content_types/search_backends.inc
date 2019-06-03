@@ -67,7 +67,7 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
           ting_search_current_results($results);
         }
         // Get count of total results from ting.
-        $count = $results->getNumTotalObjects();
+        $count = !empty($results->getNumTotalObjects()) ? $results->getNumTotalObjects() : 0;
         $title = $title . ' <span class="count">(' . $count . ')</span>';
         break;
 
@@ -84,7 +84,7 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
     }
 
     // Set default value.
-    if (arg(1) == $backend['module']) {
+    if (arg(1) == $backend['path']) {
       $default_value = $backend['module'];
     }
 
