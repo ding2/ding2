@@ -10,8 +10,6 @@
  */
 ?>
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-  <a href="<?php print $ting_object_url_object; ?>" class="cover">
-    <?php print render($content['ting_cover']); ?>
-  </a>
+  <?php print render($content['ting_cover']); ?>
   <?php print render($content); ?>
 </div>

@@ -296,8 +296,12 @@ ul.main-menu-third-level {
             color: $charcoal;
           }
         }
+        > ul.menu {
+	        display: block;
+        }
       }
       ul.menu {
+	      display: none;
         margin-top: 20px;
         padding-left: 20px;
       }
@@ -433,7 +437,7 @@ ul.topbar-menu {
         min-width: 0;
         float: left;
         a {
-          background-color: $grey-medium;
+          background-color: $charcoal-opacity-dark;
         }
       }
     }

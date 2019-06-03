@@ -423,9 +423,8 @@ function _opensearch_search_relation_render_online_url(\TingRelation $relation) 
         break;
       }
 
-      // Reservable sources is library material.
-      $reservable_sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
-      if (in_array(strtolower($object->getAc_source()), $reservable_sources)) {
+      // If library material show the entity with availability, holdings, etc.
+      if ($object->is('library_material')) {
         $title = t('Read more about the material');
         $url = '/ting/object/' . $object->id;
       }

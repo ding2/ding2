@@ -433,3 +433,24 @@ function opensearch_ding_entity_is($object, $class) {
     }
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function opensearch_form_ting_admin_reservable_settings_alter(&$form, &$form_state) {
+  $form['ting_library_material_sources']['#default_value'] = variable_get(
+    'ting_reservable_sources',
+    _opensearch_default_library_material_sources()
+  );
+}
+
+/**
+ * Default library material sources.
+ *
+ * Defined as a function as a define can only be scalars.
+ */
+function _opensearch_default_library_material_sources() {
+  return array(
+    'bibliotekskatalog',
+  );
+}

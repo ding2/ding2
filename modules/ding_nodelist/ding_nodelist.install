@@ -67,6 +67,10 @@ function ding_nodelist_install() {
       'widget' => 'carousel',
       'content_type' => 'ding_news',
     ),
+    'ding_nodelist.ding_eresource.carousel' => array(
+      'widget' => 'carousel',
+      'content_type' => 'ding_eresource',
+    ),
     'ding_nodelist.ding_event.rolltab' => array(
       'widget' => 'rolltab',
       'content_type' => 'ding_event',
@@ -78,6 +82,10 @@ function ding_nodelist_install() {
     'ding_nodelist.ding_page.rolltab' => array(
       'widget' => 'rolltab',
       'content_type' => 'ding_page',
+    ),
+    'ding_nodelist.ding_eresource.rolltab' => array(
+      'widget' => 'rolltab',
+      'content_type' => 'ding_eresource',
     ),
     'ding_nodelist.ding_event.promoted_nodes' => array(
       'widget' => 'promoted_nodes',
@@ -91,6 +99,10 @@ function ding_nodelist_install() {
       'widget' => 'promoted_nodes',
       'content_type' => 'ding_page',
     ),
+    'ding_nodelist.ding_eresource.promoted_nodes' => array(
+      'widget' => 'promoted_nodes',
+      'content_type' => 'ding_eresource',
+    ),
     'ding_nodelist.ding_event.node_blocks' => array(
       'widget' => 'node_blocks',
       'content_type' => 'ding_event',
@@ -102,6 +114,10 @@ function ding_nodelist_install() {
     'ding_nodelist.ding_page.node_blocks' => array(
       'widget' => 'node_blocks',
       'content_type' => 'ding_page',
+    ),
+    'ding_nodelist.ding_eresource.node_blocks' => array(
+      'widget' => 'node_blocks',
+      'content_type' => 'ding_eresource',
     ),
   );
 
@@ -258,6 +274,42 @@ function ding_nodelist_update_7005() {
  */
 function ding_nodelist_update_7006() {
   _ding_nodelist_process_css_colors();
+}
+
+/**
+ * Implements new display for "Eresource" CT.
+ */
+function ding_nodelist_update_7007() {
+  // Adding new records to db table.
+  $mappings = array(
+    'ding_nodelist.ding_eresource.carousel' => array(
+      'widget' => 'carousel',
+      'content_type' => 'ding_eresource',
+    ),
+    'ding_nodelist.ding_eresource.rolltab' => array(
+      'widget' => 'rolltab',
+      'content_type' => 'ding_eresource',
+    ),
+    'ding_nodelist.ding_eresource.promoted_nodes' => array(
+      'widget' => 'promoted_nodes',
+      'content_type' => 'ding_eresource',
+    ),
+    'ding_nodelist.ding_eresource.node_blocks' => array(
+      'widget' => 'node_blocks',
+      'content_type' => 'ding_eresource',
+    ),
+  );
+
+  foreach ($mappings as $filename => $mapping) {
+    $fields = array(
+      'filename' => $filename,
+      'title' => $filename,
+      'content_type' => $mapping['content_type'],
+      'widget' => $mapping['widget'],
+      'status' => 0,
+    );
+    db_insert('ding_nodelist_templates')->fields($fields)->execute();
+  }
 }
 
 /**

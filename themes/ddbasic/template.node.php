@@ -50,6 +50,8 @@ function ddbasic_process_node(&$variables, $hook) {
   // For search result view mode add type and title.
   if ($variables['view_mode'] == 'search_result') {
     $node_type = node_type_get_name($variables['type']);
+
+    // Create markup.
     $variables['content']['type'] = array(
       '#markup' => '<div class="view-mode-search-result-content-type">' . $node_type . '</div>',
       '#weight' => -9999,
@@ -378,21 +380,22 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
  * Ding Library.
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
-
   // Google maps addition to library list on teaser.
   if ($variables['view_mode'] == 'teaser') {
-    $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
+    if (isset($variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'])) {
+      $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
 
-    $street = $address['thoroughfare'];
-    $street = preg_replace('/\s+/', '+', $street);
-    $postal = $address['postal_code'];
-    $city = $address['locality'];
-    $country = $address['country'];
-    $url = "http://www.google.com/maps/place/" . $street . "+" . $postal . "+" . $city . "+" . $country;
-    $link = l(t("Show on map"), $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
+      $street = $address['thoroughfare'];
+      $street = preg_replace('/\s+/', '+', $street);
+      $postal = $address['postal_code'];
+      $city = $address['locality'];
+      $country = $address['country'];
+      $url = "http://www.google.com/maps/place/" . $street . "+" . $postal . "+" . $city . "+" . $country;
+      $link = l(t("Show on map"), $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
 
-    $variables['content']['group_ding_library_right_column']['maps_link']['#markup'] = $link;
-    $variables['content']['group_ding_library_right_column']['maps_link']['#weight'] = 10;
+      $variables['content']['group_ding_library_right_column']['maps_link']['#markup'] = $link;
+      $variables['content']['group_ding_library_right_column']['maps_link']['#weight'] = 10;
+    }
   }
 }
 

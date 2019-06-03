@@ -17,6 +17,7 @@
   }
   .close-user-login {
     @include place-icon(close);
+    display: block;
     width: 24px;
     height: 24px;
     float: right;
