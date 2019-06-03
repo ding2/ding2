@@ -15,6 +15,14 @@
       width: 100%;
       padding-top: 130%;
       background: $grey-dark;
+
+      > a:focus {
+        .ting-cover {
+          border: 3px solid $charcoal;
+          box-sizing: border-box;
+        }
+      }
+
       .ting-cover {
         position: absolute;
         top: 0;
@@ -143,6 +151,11 @@
         &.reserve-button,
         &.button-see-online {
           right: 20px;
+        }
+
+        // Make sure that if we have keyboard focus on the element, we can see it.
+        &:focus {
+          opacity: 1;
         }
       }
 
