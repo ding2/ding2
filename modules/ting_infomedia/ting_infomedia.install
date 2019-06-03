@@ -49,12 +49,11 @@ function ting_infomedia_update_7001() {
 }
 
 /**
- * Remove ting_infomedia field.
+ * Delete left over ting_infomedia field and instances from DB.
  */
 function ting_infomedia_update_7002() {
-  $field_info = field_info_field('ting_infomedia');
-
-  if (!empty($field_info)) {
-    field_delete_field($field_info['field_name']);
-  }
+  field_delete_field('ting_infomedia');
+  // It's now marked for deletion, but since this was a virtual field with no
+  // data in db we can easily purge it right away.
+  field_purge_batch(1);
 }

@@ -11,3 +11,13 @@
 function ding_entity_rating_update_7001() {
   variable_del('ding_entity_rating_popular_on_frontpage');
 }
+
+/**
+ * Delete left over ding_entity_rating_result field and its intances.
+ */
+function ding_entity_rating_update_7002() {
+  field_delete_field('ding_entity_rating_result');
+  // It's now marked for deletion, but since this was a virtual field with no
+  // data in db we can easily purge it right away.
+  field_purge_batch(1);
+}
