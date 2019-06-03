@@ -756,10 +756,3 @@ function ding2_update_7065() {
 function ding2_update_7066() {
   ding2_translation_update();
 }
-
-/**
- * Update our own translations.
- */
-function ding2_update_7053() {
-  ding2_translation_update();
-}
