@@ -1,0 +1,21 @@
+// This is a visually hidden link which skips to the main content of the page.
+// It's placed at the top of the page, and it's useful for screenreader-users
+// as a way of skipping past any base layout, such as the header.
+// The styling which hides it visually is based on the same way that core themes
+// usually do it.
+.skip-link {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+  word-wrap: normal;
+
+  &:focus {
+    position: static;
+    clip: auto;
+    overflow: visible;
+    height: auto;
+    width: auto;
+  }
+}
