@@ -162,6 +162,12 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
 
       case 'path':
         $matches['path'] = _ding_campaign_plus_basic_match('path', $context->path);
+        // Allow administrators to use the special '<front>' value to target the
+        // frontpage. Note that we still check the "normal" path in these cases,
+        // to maintain support of direct insertion of frontpage path.
+        if ($context->path == variable_get('site_frontpage', 'ding_frontpage')) {
+          $matches['path'] += _ding_campaign_plus_basic_match('path', '<front>');
+        }
         break;
 
       case 'search_term':
@@ -179,12 +185,12 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
           // Fetch all basic campaigns of type search term.
           $query = db_select('ding_campaign_plus_basic', 'dcpb')
             ->fields('dcpb', array('nid', 'value'))
-            ->condition('dcpb.type', $key)
+            ->condition('dcpb.type', 'search_term')
             ->condition('status', 1);
           $query->join('node', 'n', 'dcpb.nid = n.nid');
           $campaigns = $query->execute()->fetchAllKeyed(0, 1);
 
-          // See if any of them matches the users search term.
+          // See if any of them have value that matches the users search term.
           foreach ($campaigns as $nid => $value) {
             _ding_campaign_plus_basic_normalize_search_term($value);
 
@@ -199,7 +205,7 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
           }
         }
 
-        $matches['search_term'] = is_array($nids) ? $nids : array();
+        $matches['search_term'] = $nids;
         break;
     }
   }
