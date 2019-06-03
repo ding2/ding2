@@ -11,7 +11,6 @@
  *  - title - list title
  * $links - list of links (array)
  */
-
 ?>
 <?php if ($items): ?>
   <div class="<?php print $conf['classes'] ?>">
@@ -25,7 +24,7 @@
             <?php foreach ($chunck as $key => $item): ?>
               <?php $block_classes = ($key % 2 == 0 ? 'left' : 'right'); ?>
               <div
-                class="<?php print $row_classes . '-' . $block_classes; ?>-block">
+                class="<?php print $row_classes . '-' . $block_classes; ?>-block" data-href="<?php print url('node/' . $item->nid, ['absolute' => TRUE]); ?>">
                 <?php print theme($item->item_template, array(
                   'item' => $item,
                   'conf' => $conf,
