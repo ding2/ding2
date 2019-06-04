@@ -417,7 +417,7 @@ function template_preprocess_ding_list_data(&$variables) {
   }
   elseif ($list->allowed(DING_LIST_OPERATION_SHARE)) {
     $variables['button_items'][] = array(
-      '#markup' => l(t('Share list'), 'list/' . $list->getId() . '/share', array('attributes' => array('class' => array('button')))),
+      '#markup' => l(t('Share list'), 'list/' . $list->getId() . '/share', array('attributes' => array('class' => array('ding-list-buttons__share-button button')))),
     );
   }
 }

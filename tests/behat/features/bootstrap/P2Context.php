@@ -564,7 +564,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iGoToTheShareLink()
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
-        $found = $page->find('css', '.share .menu-item');
+        $found = $page->find('css', '.ding-list-buttons__share-button');
         if (!$found) {
             throw new \Exception("Couldn't find link to share list");
         }
