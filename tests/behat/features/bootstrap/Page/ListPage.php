@@ -14,7 +14,7 @@ class ListPage extends PageBase
     public function isListPageFor($title)
     {
         // @todo check URL.
-        $header = $this->find('css', '.ding-list-list__title');
+        $header = $this->find('css', '.pane-list-info .pane-title');
         return $header ? $header->getText() == $title : false;
     }
 

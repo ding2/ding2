@@ -804,7 +804,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->gotoPage($link);
         $this->ding2Context->waitForPage();
 
-        $found = $page->find('css', '.ding-list-list__title');
+        $found = $page->find('css', '.pane-list-info .pane-title');
         if (!$found) {
             throw new Exception("Couldn't find shared list");
         }
