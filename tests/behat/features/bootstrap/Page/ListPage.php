@@ -11,11 +11,14 @@ class ListPage extends PageBase
      */
     protected $path = '/list/{listId}';
 
-    public function isListPageFor($title)
+    public function getListTitle()
     {
         // @todo check URL.
         $header = $this->find('css', '.pane-list-info .pane-title');
-        return $header ? $header->getText() == $title : false;
+        if (!$header) {
+          throw new Exception('Unable to locate list page title');
+        }
+        return $header->getText();
     }
 
     protected function getList()

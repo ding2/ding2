@@ -26,6 +26,9 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     private $dataRegistry = array();
 
+    /** @var \Page\CreateListPage */
+    private $createListPage;
+
     function __construct(ListPage $listPage, CreateListPage $createListPage, SearchPage $searchPage, MyListsPage $myListsPage)
     {
         $this->listPage = $listPage;
@@ -530,9 +533,11 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iCreateANewListWithDescription($title, $description = '')
     {
         $this->createListPage->verifyCurrentPage();
+        /* @var \Page\Element\CreateListForm $createForm */
         $createForm = $this->createListPage->getElement('Create list form');
+        /* @var \Page\ListPage $listPage */
         $listPage = $createForm->createList($title, $description);
-        expect($listPage->isListPageFor($title))->shouldBe(true);
+        expect($listPage->getListTitle())->shouldBe($title);
         $this->dataRegistry['list:' . $title] = $listPage->getListId();
     }
 
