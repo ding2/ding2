@@ -227,6 +227,8 @@ function theme_ding_ddbasic_opening_hours_all($variables) {
  * Preprocessor for ding_ddbasic_opening_hours_all.
  */
 function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
+  module_load_include('inc', 'opening_hours', 'includes/opening_hours.pages');
+
   $today = strtotime('today');
 
   if (!empty($variables['today'])) {
@@ -250,6 +252,7 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
     date('Y-m-d', $today),
     date('Y-m-d', $today)
   );
+  $instances = array_filter($instances, '_opening_hours_exclude_blocked');
 
   // Fill in closed instances.
   foreach ($order as $library_nid) {
