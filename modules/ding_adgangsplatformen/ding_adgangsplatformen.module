@@ -163,7 +163,7 @@ function ding_adgangsplatformen_ajax_login_command($path) {
  */
 function ding_adgangsplatformen_get_configuration() {
   global $base_url;
-  return variable_get('ding_adgangsplatformen_settings', array(
+  $config = variable_get('ding_adgangsplatformen_settings', array(
     'clientId' => '',
     'clientSecret' => '',
     'redirectUri' => $base_url . '/' . DING_ADGANGSPLATFORMEN_REDIRECT_URL,
@@ -172,6 +172,11 @@ function ding_adgangsplatformen_get_configuration() {
     'urlResourceOwnerDetails' => 'https://login.bib.dk/userinfo/',
     'urlLogout' => 'https://login.bib.dk/logout/',
   ));
+
+  // All-ways set redirect url (editing not allowed) in admin.
+   $config['redirectUri'] = $base_url . '/' . DING_ADGANGSPLATFORMEN_REDIRECT_URL;
+
+   return $config;
 }
 
 /**

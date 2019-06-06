@@ -111,6 +111,10 @@ function ding_user_authenticate(array $user_info) {
       // this.
       $user_info += ding_provider_invoke('auth', 'single_sign_on', $user_info['name']);
       $sso = TRUE;
+
+      // Store value in session to be used later on to check if user was signed
+      // in with SSO.
+      $_SESSION['ding_user_sso'] = TRUE;
     }
     $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass'], $sso);
   }
@@ -362,7 +366,8 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
       );
-      if (ding_user_name() && !isset($_SESSION['wayf_login'])) {
+
+      if (ding_user_name() && !ding_user_is_logged_in_with_sso()) {
         $form['pass']['pincode_old'] = array(
           '#type' => 'password',
           '#title' => t('Confirm old pincode'),
@@ -371,6 +376,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
           '#attributes' => array('class' => array('password-confirm')),
         );
       }
+
       $form['pass']['pincode'] = array(
         '#type' => 'password_confirm',
         '#size' => $maxlength,
@@ -967,6 +973,16 @@ function ding_user_is_provider_user($account, $reset = FALSE) {
   }
 
   return !empty($names);
+}
+
+/**
+ * Check if user was singed in using single-sign-on.
+ *
+ * @return bool
+ *   If logged in with SSO TRUE else FALSE.
+ */
+function ding_user_is_logged_in_with_sso() {
+  return isset($_SESSION['ding_user_sso']) ? $_SESSION['ding_user_sso'] : FALSE;
 }
 
 /**
