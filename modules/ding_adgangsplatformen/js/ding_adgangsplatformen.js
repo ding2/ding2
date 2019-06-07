@@ -4,7 +4,7 @@
  * Drupal ajax request to that url.
  *
  * It's use to re-start an ajax command after an redirect to the oAuth login
- * where the ajax request was not completed do to login redirect.
+ * where the ajax request was not completed due to login redirect.
  */
 
 (function ($) {

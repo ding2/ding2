@@ -13,7 +13,8 @@
  * @param string $pincode
  *   Supplied pin code.
  * @param bool $sso
- *   Used to indicate if this is single sign on and preAuthenticate should be used.
+ *   Used to indicate if this is single sign on and preAuthenticate should be
+ *   used.
  *
  * @return array
  *   Authentication result.
