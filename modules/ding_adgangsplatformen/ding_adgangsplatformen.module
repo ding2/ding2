@@ -9,6 +9,10 @@ define('DING_ADGANGSPLATFORMEN_LOGIN_URL', 'adgangsplatformen/login');
 define('DING_ADGANGSPLATFORMEN_LOGOUT_URL', 'adgangsplatformen/logout');
 define('DING_ADGANGSPLATFORMEN_REDIRECT_URL', 'adgangsplatformen/callback');
 
+
+use \League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use \League\OAuth2\Client\Provider\GenericProvider;
+
 /**
  * Implements hook_init().
  *
@@ -318,7 +322,7 @@ function ding_adgangsplatformen_callback() {
       // Redirect user base on values set in the current session.
       _ding_adgangsplatformen_redirect_user();
     }
-    catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
+    catch (IdentityProviderException $e) {
       // Failed to get the access token or user details.
       watchdog_exception('ding_adgangsplatformen', $e);
 
@@ -354,7 +358,7 @@ function ding_adgangsplatformen_get_provider() {
   }
 
   $configuration = ding_adgangsplatformen_get_configuration();
-  return new \League\OAuth2\Client\Provider\GenericProvider($configuration);
+  return new GenericProvider($configuration);
 }
 
 /**
