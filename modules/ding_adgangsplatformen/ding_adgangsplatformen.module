@@ -110,15 +110,6 @@ function ding_adgangsplatformen_libraries_info() {
         $adapter->composerJson('composer.json');
       },
     ),
-    'http-message' => array(
-      'name' => 'Common interface for HTTP messages',
-      'vendor url' => 'https://github.com/php-fig/http-message',
-      'download url' => 'https://github.com/php-fig/http-message',
-      'version' => '1.0.1',
-      'xautoload' => function ($adapter) {
-        $adapter->composerJson('composer.json');
-      },
-    ),
   );
 }
 
@@ -144,7 +135,7 @@ function ding_adgangsplatformen_ajax_login_command($path) {
   ctools_include('ajax');
 
   // Get authentication url and set the path to be redirected back to.
-  $url = ding_adgangsplatformen_login(FALSE, $path);
+  $url = ding_adgangsplatformen_generate_login_url($path);
 
   // Store the ajax callback url that triggered the ajax auth redirect.
   $parameters = $_GET;
@@ -180,25 +171,19 @@ function ding_adgangsplatformen_get_configuration() {
 }
 
 /**
- * Login menu callback.
+ * Generate login url endpoint at the IDP.
  *
- * Will start the authentication process and redirect the user to the
- * authorization service.
- *
- * @param bool $redirect
- *   Default TRUE, mainly used to get the auth url when used in ajax context
- *   and an redirect is not desirable at this time.
  * @param string $destination
  *   Override the destination set in the current request. Mainly used in ajax
- *   context.
+ *   context. Defaults to empty string.
  *
- * @return mixed
- *    If $redirect is FALSE the authentication url or redirect headers.
+ * @return string
+ *   URL to redirect to at the IDP.
  *
  * @throws Exception
  *   If required libraries are not loaded.
  */
-function ding_adgangsplatformen_login($redirect = TRUE, $destination = NULL) {
+function ding_adgangsplatformen_generate_login_url($destination = '') {
   $provider = ding_adgangsplatformen_get_provider();
   $authorization_url = $provider->getAuthorizationUrl();
 
@@ -212,9 +197,23 @@ function ding_adgangsplatformen_login($redirect = TRUE, $destination = NULL) {
     $authorization_url .= '&idp=' . $_REQUEST['idp'];
   }
 
-  if (!$redirect) {
-    return $authorization_url;
-  }
+  return $authorization_url;
+}
+
+/**
+ * Login menu callback.
+ *
+ * Will start the authentication process and redirect the user to the
+ * authorization service.
+ *
+ * @return mixed
+ *    If $redirect is FALSE the authentication url or redirect headers.
+ *
+ * @throws Exception
+ *   If required libraries are not loaded.
+ */
+function ding_adgangsplatformen_login() {
+  $authorization_url = ding_adgangsplatformen_generate_login_url();
 
   // Redirect the user to the authorization URL. We don't use drupal_goto as it
   // looks into the destination in the current URL and preforms some magic with
@@ -224,9 +223,7 @@ function ding_adgangsplatformen_login($redirect = TRUE, $destination = NULL) {
 }
 
 /**
- * Logout the user from auth.
- *
- * This placed in this menu callback function to ensure
+ * Logout the user from adgangsplatformen.
  *
  * @param bool $hooked
  *   If TRUE new session is generated.
@@ -306,6 +303,13 @@ function ding_adgangsplatformen_callback() {
       else {
         // Login using the provider.
         if (!_ding_adgangsplatformen_provider_login($user_info)) {
+          // This can happen if the user is not synced correctly between the
+          // local library system (FBS) and CURL at DBC. Then in some special
+          // cases you can login at adgangsplatformen, but the not the local
+          // library system (have happened with "fake" test users in the library
+          // system).
+          drupal_set_message(t('Login into the local library system failed and you have been signed out. Places try again or contact your local library.'));
+
           ding_adgangsplatformen_logout();
           _ding_adgangsplatformen_redirect_user('<front>');
         }
