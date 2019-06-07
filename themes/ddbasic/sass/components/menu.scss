@@ -134,6 +134,7 @@ ul {
           }
           // 3rd level men
           .main-menu {
+            @include clearfix;
             background-color: $white;
             display: none; // Hide 2nd level menu. Displayed on tablet and mobile width jQuery
             li {
