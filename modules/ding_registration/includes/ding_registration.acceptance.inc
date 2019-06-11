@@ -104,7 +104,7 @@ function ding_registration_acceptance_form_submit($form, $form_state) {
   // Check that the logged in user is over the age limit.
   if (!_ding_registration_is_age_limit_met($user_info['attributes']['userId'])) {
     $config = _ding_registration_config();
-    drupal_set_message(t('You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry.', array('!limit' => $config['age_limit'])));
+    drupal_set_message(t('You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry.', array('!limit' => $config['age_limit'])), 'error');
 
     // Logout the user from auth.
     ding_adgangsplatformen_logout();

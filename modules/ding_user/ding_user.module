@@ -118,7 +118,7 @@ function ding_user_authenticate(array $user_info) {
     }
     $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass'], $sso);
   }
-  catch(DingProviderNoProvider $exception) {
+  catch (DingProviderNoProvider $exception) {
     drupal_set_message($exception->getMessage(), 'warning');
     return FALSE;
   }
@@ -819,7 +819,7 @@ function ding_user_forms($form_id, $args) {
  * @param mixed $extra_data
  *   Options to send to ding_popup.
  * @param string $redirect_uri
- *   Destination to redirect to after login for ding_adgangsplatformen.
+ *   Destination to redirect to after login is completed.
  *
  * @return array
  *   Ajax command array.
