@@ -348,15 +348,6 @@ function ding_adgangsplatformen_callback() {
  *   If required libraries are not loaded.
  */
 function ding_adgangsplatformen_get_provider() {
-  // The oAuth2 library also uses guzzle.
-  foreach (array('random_compat', 'oauth2-client') as $lib) {
-    // Checking for FALSE, as it's actually a count of how many files was
-    // included, and none is included for our libraries.
-    if (!($library = libraries_load($lib)) || $library['loaded'] === FALSE) {
-      throw new Exception($lib . ' library not installed');
-    }
-  }
-
   $configuration = ding_adgangsplatformen_get_configuration();
   return new GenericProvider($configuration);
 }
