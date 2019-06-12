@@ -145,7 +145,6 @@ function ding_reservation_ding_entity_buttons($type, $entity, $view_mode, $widge
                   'use-ajax',
                   'check-reservability',
                 ),
-                'id' => 'reservation-' . $entity->id,
                 'data-entity-id' => $entity->id,
               ),
               'html' => FALSE,
