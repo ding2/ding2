@@ -51,8 +51,9 @@
           second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a .main-menu-expanded-icon', context),
           body = $('body'),
           userPaneForm = $('.js-topbar-user.pane-user-login #user-login-form'),
-          userPaneFocusElements = userPaneForm.find(':focusable'),
-          userPaneFirstInput = userPaneForm.find('input:focusable').first();
+          // Selectors below basically means to get any items that are focusable.
+          userPaneFocusElements = userPaneForm.find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]'),
+          userPaneFirstInput = userPaneForm.find('input').first();
 
       // By default, the user login pane is hidden, so focusable elements should
       // not be allowed to have tab-focus.
