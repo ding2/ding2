@@ -8,7 +8,7 @@
 
   Drupal.behaviors.ding_reservation = {
     attach: function(context) {
-      $(".ting-object .reserve-button", context).once('check-reservability', function() {
+      $(".ting-object .reserve-button.check-reservability", context).once('check-reservability', function() {
         var reserveButton = $(this);
         var entityId = reserveButton.data("entity-id");
         $.ajax({
