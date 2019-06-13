@@ -345,7 +345,7 @@ function ding_event_metatag_metatags_view_alter(&$output, $instance, $options) {
     $metatag['lead_out'] = $node->title;
     $metatag['location_out'] = '';
     $metatag['date_out'] = '';
-    $metatag['price_out'] = t('free', array(), array('context' => 'Price'));
+    $metatag['price_out'] = t('Free', array(), array('context' => 'Price'));
 
     // Lead.
     $lead = field_get_items('node', $node, 'field_ding_event_lead');
@@ -366,13 +366,35 @@ function ding_event_metatag_metatags_view_alter(&$output, $instance, $options) {
     }
 
     // Date.
-    $date = field_get_items('node', $node, 'field_ding_event_date');
-    $metatag['date_out'] = $date ? format_date(strtotime($date[0]['value']), 'ding_date_and_time') : '';
+    // Getting the time as a rendered field.
+    // This takes care of the actual "styling" of the date, such as creating
+    // an interval between two times (15:00 - 16:00) if necessary and also
+    // takes care of timezones.
+    $date = field_view_field('node', $node, 'field_ding_event_date', array(
+      'label' => 'hidden',
+      'type' => 'date_default',
+      'settings' => array(
+        'format_type' => 'ding_date_and_time',
+        'fromto' => 'both',
+      ),
+    ));
+
+    // Seeing as we're only interested in a string, we'll strip out any HTML.
+    if (!empty($date[0]['#markup'])) {
+      $metatag['date_out'] = strip_tags($date[0]['#markup']);
+    }
 
     // Price.
     $price = field_get_items('node', $node, 'field_ding_event_price', 'value');
-    if (!empty($price)) {
-      $metatag['price_out'] = $price[0]['value'] . ' ' . variable_get('ding_event_currency_type', 'Kr');
+
+    if (!empty($price[0]['value'])) {
+      $metatag['price_out'] = t('Price') . ': ' . $price[0]['value'];
+
+      // If its a numeric price, we'll suffix the currency also.
+      // Seeing as its a textfield it could technically be anything.
+      if (is_numeric($price[0]['value'])) {
+        $metatag['price_out'] .= ' ' . variable_get('ding_event_currency_type', 'kr.');
+      }
     }
 
     $output['description']['#attached']['drupal_add_html_head'][0][0]['#value'] = implode(', ', array_filter($metatag));
@@ -401,6 +423,6 @@ function ding_event_preprocess_node(&$variables) {
   }
   // If the price is empty use "Free" text instead.
   else {
-    $variables['event_price'] = t('Free');
+    $variables['event_price'] = t('Free', array(), array('context' => 'Price'));
   }
 }

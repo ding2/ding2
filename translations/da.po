@@ -67536,3 +67536,8 @@ msgstr "Denne handling vil slette alle de lister du har oprettet, samt indholdet
 #: /index.php
 msgid "change the node status in BPI"
 msgstr "Redigér artiklens status i BPI"
+
+#: /arrangementer/boern/moed-forfatteren-tom-buk-swienty
+msgctxt "Price"
+msgid "Free"
+msgstr "Gratis"
