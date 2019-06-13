@@ -275,15 +275,15 @@ function ding_entity_entities_is(array $ding_entities, $class) {
   // each module for that entity.
   $results = [];
   foreach (module_implements('ding_entity_entities_is') as $module) {
-    $function = $module . '_' . 'ding_entity_entities_is';
+    $function = "{$module}_ding_entity_entities_is";
     if (function_exists($function)) {
-      foreach($function($ding_entities, $class) as $ding_entity_id => $result) {
+      foreach ($function($ding_entities, $class) as $ding_entity_id => $result) {
         $results[$ding_entity_id][] = $result;
       }
     }
   }
 
-  // Loop through the results and build a return array
+  // Loop through the results and build a return array.
   $return = [];
   foreach ($results as $ding_entity_id => $result) {
     // Return true if anyone returned true, and nobody returned false.
