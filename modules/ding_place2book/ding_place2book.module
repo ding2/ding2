@@ -1,22 +1,14 @@
 <?php
 /**
  * @file
- * Integration with place2book services.
+ * Represents hooks implementations and definitions.
  */
 
-// Id which is used for events which do not have a place2book id.
-define('DING_PLACE2BOOK_NO_ID', -1);
+use P2b\P2b;
 
-require_once 'includes/ding_place2book.event_validate.inc';
-
-/**
- * Implements hook_ctools_plugin_directory().
- */
-function ding_place2book_ctools_plugin_directory($module, $plugin) {
-  if ($module == 'ctools' && $plugin == 'content_types') {
-    return 'plugins/' . $plugin;
-  }
-}
+include_once 'ding_place2book.features.inc';
+require_once 'ding_place2book.fields.inc';
+require_once "lib/p2b/P2b.php";
 
 /**
  * Implements hook_menu().
@@ -28,10 +20,10 @@ function ding_place2book_menu() {
     'title' => 'Place2book settings',
     'description' => 'Settings and defaults for Place2book integration',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_place2book_admin_settings_form'),
+    'page arguments' => array('ding_place2book_service_admin_form'),
     'access arguments' => array('administer place2book settings'),
     'type' => MENU_NORMAL_ITEM,
-    'file' => 'includes/ding_place2book.admin.inc',
+    'file' => 'ding_place2book.admin.inc',
   );
 
   $items['admin/config/ding/place2book/settings'] = array(
@@ -42,24 +34,32 @@ function ding_place2book_menu() {
     'page arguments' => array('ding_place2book_admin_settings_form'),
     'access arguments' => array('administer place2book settings'),
     'type' => MENU_DEFAULT_LOCAL_TASK,
-    'file' => 'includes/ding_place2book.admin.inc',
+    'file' => 'ding_place2book.admin.inc',
   );
 
-  $items['admin/config/ding/place2book/kultunaut'] = array(
-    'title' => 'Kultunaut',
-    'description' => 'Kultunaut-specific settings',
+  $items['admin/config/ding/place2book/mappings'] = array(
+    'title' => 'Mappings',
+    'description' => 'Mappings for P2b service.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_place2book_kultunaut_form'),
+    'page arguments' => array('ding_place2book_mappings_admin_form'),
     'access arguments' => array('administer place2book settings'),
     'type' => MENU_LOCAL_TASK,
-    'file' => 'includes/ding_place2book.admin.inc',
+    'file' => 'ding_place2book.admin.inc',
   );
 
-  $items['ding/place2book/ticketinfo/%'] = array(
-    'title' => 'Ding Place2book ticket info',
-    'description' => 'Returns ticket info or order button from Place2book',
-    'page callback' => 'ding_place2book_get_ticketinfo',
-    'page arguments' => array(3),
+  $items['admin/config/ding/place2book/defaults'] = array(
+    'title' => 'Defaults',
+    'description' => 'Configuration form for P2b default values',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_place2book_defaults_admin_form'),
+    'access arguments' => array('administer place2book settings'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_place2book.admin.inc',
+  );
+
+  $items['ding/p2b/event_maker/%/event/%'] = array(
+    'page callback' => 'ding_place2book_get_event_state',
+    'page arguments' => array(3, 5),
     'access arguments' => array('access content'),
   );
 
@@ -69,66 +69,56 @@ function ding_place2book_menu() {
 /**
  * Implements hook_theme().
  */
-function ding_place2book_theme() {
+function ding_place2book_theme($existing, $type, $theme, $path) {
   return array(
-    'place2book_ticketsinfo' => array(
-      'variables' => array(
-        'place2book_id' => NULL,
-        'url' => NULL,
-        'type' => NULL,
-      ),
+    'ding_p2b_prices_table' => array(
+      'render element' => 'form',
     ),
   );
 }
 
 /**
- * Called via AJAX/JavaScript.
- *
- * Returns (prints) JSON containing ticket information from Place2book
- *
- * @param int $nid
- *   Node id.
+ * Implements hook_libraries_info().
  */
-function ding_place2book_get_ticketinfo($nid) {
-  // Get the node.
-  $event = node_load($nid);
-
-  $result = array();
-  $result['nid'] = $nid;
-  $result['markup'] = ding_place2book_render_place2book_ticketsinfo($event);
-
-  drupal_add_http_header('Content-Type', 'application/json; utf-8');
-  echo json_encode($result);
-  drupal_exit();
-}
-
-/**
- * Implements hook_init().
- */
-function ding_place2book_init() {
-  drupal_add_js(drupal_get_path('module', 'ding_place2book') . '/js/ding_place2book.js');
-  drupal_add_css(drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css');
-}
-
-/**
- * Implements hook_image_default_styles().
- */
-function ding_place2book_image_default_styles() {
-  $styles = array();
-
-  // Exported image style: ding_kultunaut_square.
-  $styles['ding_place2book_kultunaut_square'] = array(
-    'name' => 'ding_place2book_kultunaut_square',
-    'effects' => array(
-      array(
-        'name' => 'image_scale_and_crop',
-        'data' => array('width' => 120, 'height' => 120),
-        'weight' => 0,
-      ),
+function ding_place2book_libraries_info() {
+  return array(
+    'guzzle' => array(
+      'name' => 'Guzzle',
+      'vendor url' => 'https://github.com/guzzle/guzzle',
+      'download url' => 'https://github.com/guzzle/guzzle',
+      'version' => '6.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'promises' => array(
+      'name' => 'Guzzle promises library',
+      'vendor url' => 'https://github.com/guzzle/promises',
+      'download url' => 'https://github.com/guzzle/promises',
+      'version' => '1.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'http-message' => array(
+      'name' => 'Common interface for HTTP messages',
+      'vendor url' => 'https://github.com/php-fig/http-message',
+      'download url' => 'https://github.com/php-fig/http-message',
+      'version' => '1.0',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'psr7' => array(
+      'name' => 'PSR-7 message implementation',
+      'vendor url' => 'https://github.com/guzzle/psr7',
+      'download url' => 'https://github.com/guzzle/psr7',
+      'version' => '1.3',
+      'xautoload' => function ($adapter) {
+      $adapter->composerJson('composer.json');
+      },
     ),
   );
-
-  return $styles;
 }
 
 /**
@@ -144,1046 +134,622 @@ function ding_place2book_permission() {
 }
 
 /**
- * Implements hook_node_view().
+ * Implements hook_views_bulk_operations_form_alter().
  */
-function ding_place2book_node_view($node, $view_mode, $langcode) {
-  // We only handle event nodes with place2book information.
-  if ($node->type == "ding_event"
-    && ding_place2book_get_id($node) != DING_PLACE2BOOK_NO_ID) {
-    // Check that the place2book field should be shown this view mode.
-    if (isset($node->content['field_place2book_tickets']) && $view_mode != 'full') {
-      // Modify the existing placeholder field_place2book_tickets.
-      // @todo: Do not fiddle with field weight. We should respect the
-      // node configuration.
-      $node->content['field_place2book_tickets'][LANGUAGE_NONE]['#weight'] = 50;
-      // @todo: Replace input with a div with a data-attribute. That is a more
-      // appropriate placeholder.
-      $node->content['field_place2book_tickets'][LANGUAGE_NONE][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" data-ticket="' . $node->nid . '" value="' . $node->nid . '"/>';
-    }
-  }
-}
-
-/**
- * Implements hook_node_insert().
- */
-function ding_place2book_node_insert($node) {
-  // We only handles event nodes.
-  if ($node->type == "ding_event") {
-    if ($node->place2book['maintain_copy'] == 1) {
-      // Insert - maintain_copy and new event node.
-      ding_place2book_event_op('insert', $node);
-    }
-    else {
-      // Insert - no copy at place2book, save settings only.
-      _ding_place2book_db_op('insert', $node, DING_PLACE2BOOK_NO_ID);
-    }
-    // Here we know that there is a result from p2b.
-    // Extract necessary ids from db and make a request to get url
-    // and save url in the ding_event_ticket_link field.
-    ding_place2book_get_ticket_link($node);
-  }
-}
-
-/**
- * Implements hook_node_update().
- */
-function ding_place2book_node_update($node) {
-  if ($node->type == "ding_event") {
-    // Continue only if node contains place2book data - they will not be there
-    // when performing a bulk update, updating via scheduler module etc.
-    if (empty($node->place2book)) {
+function ding_place2book_views_bulk_operations_form_alter(&$form, &$form_state, $vbo) {
+  if ($vbo->view->name == 'admin_views_node' && $form_state['step'] == 'views_bulk_operations_confirm_form') {
+    // Ensure that this is the node delete action.
+    if ($form_state['operation']->operationId != 'action::views_bulk_operations_delete_item') {
       return;
     }
 
-    // Get existing Place2book settings for this node.
-    $settings = ding_place2book_settings($node->nid);
-    $place2book_id = $settings['place2book_id'];
+    $selection = $form_state['selection'];
+    $p2b_nodes = [];
 
-    // Figure out if this is an update, delete or create. This is some what
-    // complex because node may exists before this module is introduced.
-    // maintain_copy is set on node edit page.
-    if ($node->place2book['maintain_copy'] == 1) {
-      // current maintain_copy continues the previous state
-      // - which means we perform an update
-      if (isset($settings['maintain_copy']) && $settings['maintain_copy'] == 1) {
-        ding_place2book_event_op('update', $node, $place2book_id);
-      }
-      // Current maintain_copy differs from previous state and is now on
-      // - which means we perform an insert.
-      else {
-        ding_place2book_event_op('insert', $node, $place2book_id);
-      }
-    }
-    // maintain_copy is unset on node edit page
-    else {
-      // maintain_copy was on before and is now off
-      // - which means we perform a delete.
-      if ($settings['maintain_copy'] == 1) {
-        ding_place2book_event_op('delete', $node, $place2book_id);
-      }
-      // maintain_copy continues previous state and is still off
-      // - which means we only update the ding_place2book table
-      else {
-        $exists = db_query('SELECT nid FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $node->nid));
-        if ($exists->rowCount() > 0) {
-          _ding_place2book_db_op('update', $node, DING_PLACE2BOOK_NO_ID);
-        }
-        else {
-          _ding_place2book_db_op('insert', $node, DING_PLACE2BOOK_NO_ID);
-        }
+    foreach (node_load_multiple(array_values($selection)) as $node) {
+      if (ding_place2book_is_ding_event_node_synchronized($node)) {
+        $p2b_nodes[] = $node;
       }
     }
 
-    // Here we know that there is a result from p2b.
-    // Extract necessary ids from db and make a request to get url
-    // and save url in the ding_event_ticket_link field.
-    ding_place2book_get_ticket_link($node);
-  }
-}
-
-/**
- * Getting ticket link for population of ding_event ticket field.
- *
- * @param object $node
- *   Current node object.
- * @param int|null $place2book_id
- *   Identifier of event in P2B system.
- */
-function ding_place2book_get_ticket_link($node, $place2book_id = NULL) {
-  if (empty($place2book_id)) {
-    $place2book_id = ding_place2book_get_id($node);
-  }
-
-  // Make sure that the event node contains place2book data.
-  if ($place2book_id != DING_PLACE2BOOK_NO_ID) {
-    $service_settings = variable_get('ding_place2book', array());
-
-    // Get the library id for the event.
-    $library_id = ding_place2book_get_library_nid($node);
-
-    $api_key = place2book_get_api_key($library_id);
-    if ($api_key == NULL) {
+    if (empty($p2b_nodes)) {
       return;
     }
 
-    // Check cache for the URL.
-    if ($cache = cache_get($place2book_id . '_' . $library_id, 'cache_place2book')) {
-      return $cache->data;
-    };
-
-    // @todo: Move http requests to a shared function responsible for setting
-    // the correct headers. These bits seem to be repeated often - even with
-    // variation. This could also include error handling.
-    $headers = array(
-      'X-PLACE2BOOK-API-TOKEN' => $api_key,
-      'X-PLACE2BOOK-EVENT-ID' => $place2book_id,
-    );
-    $options = array(
-      'method' => 'GET',
-      'headers' => $headers,
-    );
-    $p2b_result = drupal_http_request(
-      $service_settings['service_url'] . '/available_tickets',
-      $options
+    $warning_message = format_plural(
+      count($p2b_nodes),
+      "One of the nodes marked for deletion is synchronized with place2book. Deleting it will also delete the corresponding event on place2book or destroy the link if the event can't be deleted",
+      "@count of the nodes marked for deletion is synchronized with place2book. Deleting those will also delete the corresponding events on place2book or destroy the links for events that can't be deleted"
     );
 
-    $p2b_ticket_result = _ding_place2book_status_processing($p2b_result);
-    $node->field_ding_event_ticket_link[LANGUAGE_NONE][0]['url'] = $p2b_ticket_result['url'];
-    field_attach_presave('node', $node);
-    field_attach_update('node', $node);
-    // Clear the static loading cache.
-    entity_get_controller('node')->resetCache(array($node->nid));
-
-    // Update the ticket status.
-    db_update('ding_place2book')
-      ->fields(array(
-        'ticket_status' => $p2b_ticket_result['type'],
-      ))
-      ->condition('nid', $node->nid, '=')
-      ->execute();
-  }
-}
-
-/**
- * Implements hook_process_HOOK().
- */
-function ding_place2book_process_node(&$variables) {
-  if ($variables['type'] == 'ding_event' && $variables['view_mode'] == 'full') {
-    $p2b_settings = ding_place2book_settings($variables['nid']);
-    $p2b_id = $p2b_settings['place2book_id'];
-    $passive = $p2b_settings['passive'];
-
-    if (!empty($p2b_id) && $p2b_id != DING_PLACE2BOOK_NO_ID && !$passive) {
-      $url = !empty($variables['field_ding_event_ticket_link'][0]['url']) ? $variables['field_ding_event_ticket_link'][0]['url'] : '';
-      $variables['book_button'] = theme('place2book_ticketsinfo', [
-        'place2book_id' => $p2b_settings['place2book_id'],
-        'url' => $url,
-        'type' => $p2b_settings['ticket_status'],
-      ]);
-    }
-  }
-}
-
-/**
- * Implements hook_node_delete().
- */
-function ding_place2book_node_delete($node) {
-  // We only handle event nodes.
-  if ($node->type == "ding_event") {
-    // TODO: No attempt is currently made to stop the node from being
-    //       deleted if the above place2book-delete fails...
-    //
-    // @REVIEW: Maybe a clean-up check could be execute by the
-    //          administrator or cron?
-    //
-    $place2book_id = ding_place2book_get_id($node);
-    if ($place2book_id != DING_PLACE2BOOK_NO_ID) {
-      // Get existing Place2book settings for this node.
-      $settings = ding_place2book_settings($node->nid);
-
-      // Insert the place2book settings and special fields into the node object
-      // before proceeding with delete.
-      $node->place2book = $settings;
-      $node->capacity = $settings['capacity'];
-      $node->ticket_type = $settings['ticket_type'];
-
-      ding_place2book_event_op('delete', $node, $place2book_id);
-      _ding_place2book_db_op('delete', $node, $place2book_id);
-    }
-  }
-}
-
-/**
- * Implements hook_node_presave().
- */
-function ding_place2book_node_presave($node) {
-  // Make sure that the placeholder field always gets a value.
-  if ($node->type == 'ding_event') {
-    $node->field_place2book_tickets[LANGUAGE_NONE]['0']['value'] = 'placeholder';
+    _ding_place2book_attach_node_deletion_warning($form, $warning_message);
   }
 }
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $form_id) {
-  // Get the nid in a PHP 5.3 safe way and load settings for this node.
-  $nid = isset($form['nid']['#value']) ? $form['nid']['#value'] : NULL;
-  $node_settings = ding_place2book_settings($nid);
-
-  // Service settings.
-  $service_settings = variable_get('ding_place2book', array());
-  if (empty($service_settings)) {
-    // @todo: Move this to hook_requirements.
-    drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
+function ding_place2book_form_node_delete_confirm_alter(&$form, &$form_state, $form_id) {
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($form['#node'])) {
     return;
   }
 
-  if ($node_settings['place2book_id'] && $node_settings['place2book_id'] != DING_PLACE2BOOK_NO_ID) {
-    $p2b_link = l($node_settings['place2book_id'], $service_settings['event_url'] . '/' . $node_settings['place2book_id'] . '/edit', array('absolute' => TRUE));
-    $p2b_info = t('If more ticket types on this event is needed, go to Place2book ID !link. (Note: You may need to log on)', array('!link' => $p2b_link));
+  // This event is synchronized with p2b. Deleting it might have unexpected
+  // consequences. Since this is a single node deletion we can afford to fetch
+  // the p2b event and display a more detailed warning message.
+  list($event_id, $event_maker_id) = array_values($field_place2book);
+
+  // The default behavior is to try to delete the p2b event, but it might not be
+  // possible which is reflected in deletable paramater on the p2b-event.
+  $warning_message = t('This event is synchronized with place2book and deleting it will also delete the corresponding event at place2book.');
+
+  try {
+    $p2b = ding_place2book_instance();
+    $event = $p2b->getEvent($event_maker_id, $event_id);
+
+    if (empty($event->meta_data->deletable)) {
+      $warning_message = t("This event can't be deleted from place2book. Proceeding with deletion will therefore destroy the link to the place2book event and it's not possible to re-establish it again via the administrative UI. The reason for this might be that it has sold ticket and/or the event is already completed.");
+    }
   }
-  else {
-    $p2b_link = t('None');
-    $p2b_info = t('If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
+  catch (Exception $ex) {
+    watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
+    $warning_message = t("This event is synchronized with place2book, but something went wrong fetching event data from place2book. Deleting this event could possibly destroy the link or remove the event completely from place2book.");
   }
 
-  // Remove field_place2book_tickets from the form - it is only a placeholder
-  // and need not be seen nor edited, and it has default value.
-  $form['field_place2book_tickets'] = NULL;
-  $form['field_place2book_tickets']['#language'] = LANGUAGE_NONE;
-
-  $form['place2book'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Place2Book'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    '#group' => 'additional_settings',
-    '#tree' => TRUE,
-  );
-
-  $form['field_ding_event_price']['und'][0]['value']['#description'] = $p2b_info;
-
-  // @todo: Why is this not in the place2book fieldset?
-  $form['capacity'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Event capacity'),
-    '#size' => 5,
-    '#maxlength' => 5,
-    '#default_value' => isset($node_settings['capacity']) ? $node_settings['capacity'] : $node_settings['defaults']['capacity'],
-    '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
-  );
-
-  $form['ticket_type'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Ticket type'),
-    '#size' => 30,
-    '#maxlength' => 255,
-    '#default_value' => isset($node_settings['ticket_type']) ? $node_settings['ticket_type'] : $node_settings['defaults']['ticket_type'],
-    '#description' => t('E. g. Adult, Child or Standard. Adgang is the default ticket type.') . " " . $p2b_info,
-  );
-
-  $form['place2book']['maintain_copy'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Maintain copy on Place2Book'),
-    '#default_value' => isset($node_settings['maintain_copy']) ? $node_settings['maintain_copy'] : (bool) $node_settings['defaults']['maintain_copy'],
-    '#description' => t('When set, a corresponding event is created and updated on the ticket booking service Place2Book.com.'),
-  );
-
-  $form['place2book']['place2book_id'] = array(
-    '#type' => 'item',
-    '#title' => t('Place2Book ID'),
-    '#markup' => $p2b_link,
-    '#description' => t('An ID-reference to the corresponding event on the ticket booking service Place2Book'),
-  );
-
-  $form['place2book']['kultunaut_export'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Kultunaut export'),
-    '#default_value' => isset($node_settings['kultunaut_export']) ? $node_settings['kultunaut_export'] : (bool) $node_settings['defaults']['kultunaut_export'],
-    '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
-  );
-
-  $form['place2book']['passive'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Passive event'),
-    '#default_value' => isset($node_settings['passive']) ? $node_settings['passive'] : (bool) $node_settings['defaults']['passive'],
-    '#description' => t('If checked, Place2book flags the event as passive with no ticket sale. This can be useful for sending events to Kultunaut without actually using Place2book, or using Place2book for keeping record of all events with or without tickets.'),
-  );
+  _ding_place2book_attach_node_deletion_warning($form, $warning_message);
 }
 
 /**
- * Handles communication with the place2book web-services.
- *
- * Which consists of insert, update and delete operations.
- *
- * TODO: I see no reason why all this is contained within a single function.
- *       Refactor to ding_place2book_$op().
- *
- * @param string $op
- *   The operation to preform: insert, update or delete.
- * @param object $node
- *   A node object for the event.
- * @param int $place2book_id
- *  Place2Book identifier.
- *
- * @return int|null
- *   Place2Book identifier.
+ * Helper function to attach warning to a node deletion confirm form.
  */
-function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
-  // Service settings.
-  $service_settings = variable_get('ding_place2book', array());
-  if (empty($service_settings)) {
-    drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
-    return NULL;
-  }
-
-  // Build XML headers.
-  $api_key = place2book_get_api_key(ding_place2book_get_library_nid($node));
-  if ($api_key == NULL) {
-    return NULL;
-  }
-  $headers = array(
-    'Content-Type' => 'text/xml',
-    'X-PLACE2BOOK-API-TOKEN' => $api_key,
-  );
-
-  switch ($op) {
-    case 'insert':
-      $xml = ding_place2book_build_xml($node, $service_settings);
-      $options = array(
-                  'method' => 'POST',
-                  'data' => $xml->asXML(),
-                  'headers' => $headers,
-                );
-      $req_result = drupal_http_request($service_settings['service_url'] . '/create_event', $options);
-
-      // Catch insert error by checking the event id.
-      if (empty($req_result->headers['event-id'])) {
-        $p2b_error = $req_result->headers['error-message'] . ' - ' . $req_result->status_message;
-        drupal_set_message(t('Event could not be created on Place2book. Message:') . $p2b_error, 'error', FALSE);
-        watchdog('ding_place2book', 'INSERT was NOT PERFORMED on Place2book: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
-      }
-      else {
-        drupal_set_message(t('Event created on Place2book with remote ID %id', array('%id' => $req_result->headers['event-id'])));
-
-        // Update local database.
-        if ($place2book_id != NULL) {
-          _ding_place2book_db_op('update', $node, $req_result->headers['event-id']);
-        }
-        else {
-          _ding_place2book_db_op('insert', $node, $req_result->headers['event-id']);
-        }
-      }
-      break;
-
-    case 'update':
-      $xml = ding_place2book_build_xml($node, $service_settings);
-      // @todo: No content type or API token needed here?
-      $headers['X-PLACE2BOOK-EVENT-ID'] = $place2book_id;
-      $options = array(
-                  'method' => 'POST',
-                  'data' => $xml->asXML(),
-                  'headers' => $headers,
-                );
-      $req_result = drupal_http_request($service_settings['service_url'] . '/update_event', $options);
-
-      // Catch update error by checking the return code.
-      if ($req_result->status_message != 'Accepted') {
-        $p2b_error = $req_result->headers['status'] . ' - ' . $req_result->status_message;
-        drupal_set_message(t('Event could not be updated on Place2book. Message:') . $p2b_error, 'error', FALSE);
-        watchdog('ding_place2book', 'UPDATE was NOT PERFORMED on Place2book: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
-      }
-      else {
-        drupal_set_message(t('Event updated on Place2book with remote ID %id', array('%id' => $place2book_id)));
-
-        // Update place2book settings table.
-        _ding_place2book_db_op('update', $node, $place2book_id);
-      }
-      break;
-
-    case 'delete':
-      $headers['X-PLACE2BOOK-EVENT-ID'] = $place2book_id;
-      // @todo: No content type or API token needed here?
-      $options = array(
-                  'method' => 'POST',
-                  'headers' => $headers,
-                );
-      $req_result = drupal_http_request($service_settings['service_url'] . '/delete_event', $options);
-
-      if ($req_result->status_message != 'Accepted') {
-        $p2b_error = $req_result->headers['error-class'];
-        drupal_set_message(t('Event could not be deleted on Place2book. Message:') . $p2b_error, 'error', FALSE);
-        watchdog('ding_place2book', 'DELETE was NOT PERFORMED on Place2book: @p2b_error', array('@p2b_error' => $p2b_error), WATCHDOG_ERROR);
-      }
-      else {
-        drupal_set_message(t('The related event on Place2book was deleted.'));
-        // Update settings in ding_place2book table
-        // - "break the maintain_copy link".
-        _ding_place2book_db_op('update', $node, DING_PLACE2BOOK_NO_ID);
-      }
-
-      // If server at p2b says 406 - Not Accepted, do this instead:
-      // don't delete from ding_place2book
-      // update table, set maintain_copy back to selected
-      // message to user: server says no, some have already bought tickets.
-      break;
-
-    default:
-      watchdog('place2book', 'Unknown operation to ding_place2book_event_op(): @op', array('@op' => $op), WATCHDOG_ERROR);
-  }
-
-  // Return a place2book_id.
-  // @todo: Whether we return an event id should depend on the op - not the
-  // return value of a request.
-  if (isset($req_result->headers['event-id'])) {
-    return $req_result->headers['event-id'];
-  }
-  else {
-    return NULL;
-  }
+function _ding_place2book_attach_node_deletion_warning(&$form, $warning_message) {
+  // We could use drupal_set_message(), but we want to make sure that the
+  // warning is seen and that it's not getting buried in other drupal messages
+  // or overloooked.
+  $markup = '<p><strong>';
+  $markup .= t('WARNING') . ': ';
+  $markup .= $warning_message;
+  $markup .= '</strong></p>';
+  $form['ding_place2book_warning']['#markup'] = $markup;
 }
 
 /**
- * Gets the library node id from event entity.
+ * Implements hook_process_node().
  *
- * @param object $entity
- *   The entity to find library node id for.
+ * For the p2b-field added to ding_event nodes by this module, we do not use our
+ * field formatter. Instead we use a hidden formatter and hook into the existing
+ * book button in this hook.
  *
- * @return null|int
- *   If the no library is selected on the entity NULL is returned else the
- *   entity id (nid) for the first library found.
+ * @see ding_place2book_node_presave()
  */
-function ding_place2book_get_library_nid($entity) {
-  // Get the library id for the event using entity metadata wrappers.
-  $node_wrapper = entity_metadata_wrapper('node', $entity);
-
-  // This will work even if no library is selected (og wrapper returns FALSE).
-  $library_id = NULL;
-  $libraries = $node_wrapper->og_group_ref->value();
-  if (!empty($libraries)) {
-    // More than one library may be selected to default to the first in the
-    // list.
-    $library_id = reset($libraries)->nid;
-  }
-
-  return $library_id;
-}
-
-
-/**
- * Gets the place2book id for a node.
- *
- * @param object $node
- *   The node to check.
- *
- * @return int
- *   The corresponding place2book id for the node.
- *   DING_PLACE2BOOK_NO_ID is returned for nodes without a place2book id.
- */
-function ding_place2book_get_id($node) {
-  // New nodes will never have a place2book id.
-  if (empty($node->nid)) {
-    return DING_PLACE2BOOK_NO_ID;
-  }
-
-  $p2b_id = db_select('ding_place2book', 'dp2b')
-    ->fields('dp2b', ['place2book_id'])
-    ->condition('nid', $node->nid)
-    ->execute()
-    ->fetchField();
-  return (!empty($p2b_id)) ? (int) $p2b_id : DING_PLACE2BOOK_NO_ID;
-}
-
-/**
- * Builds XML message used to send to the place2book web-service.
- *
- * @param object $node
- *   A node object of node event type.
- * @param array $service_settings
- *   Service configuration settings.
- *
- * @return object $xml
- *   SimpleXML object.
- */
-function ding_place2book_build_xml($node, array $service_settings) {
-  // Load xml string.
-  $event_create_str = '<?xml version="1.0" encoding="UTF-8"?>
-<data>
-  <provider>
-    <name></name>
-    <email></email>
-    <phone></phone>
-  </provider>
-  <event>
-    <name></name>
-    <description_short></description_short>
-    <description_long></description_long>
-    <begin_at></begin_at>
-    <end_at></end_at>
-    <sale_open></sale_open>
-    <sale_close></sale_close>
-    <venue>
-      <name></name>
-      <address1></address1>
-      <address2></address2>
-      <postal></postal>
-      <city></city>
-      <country_code></country_code>
-    </venue>
-    <capacity></capacity>
-    <unlimited_capacity>1</unlimited_capacity>
-    <price>
-      <name>Adgang</name>
-      <value>0</value>
-    </price>
-    <kultunaut_export></kultunaut_export>
-    <kultunaut_age_group></kultunaut_age_group>
-    <kultunaut_picture_uri></kultunaut_picture_uri>
-    <kultunaut_export_category></kultunaut_export_category>
-  </event>
-    </data>';
-  $xml = simplexml_load_string($event_create_str);
-
-  // Set provider data from the settings.
-  $xml->provider->name = $service_settings['provider_name'];
-  $xml->provider->email = $service_settings['provider_mail'];
-
-  // Set event name with title.
-  $xml->event->name = check_plain($node->title);
-
-  // Set short description.
-  $field_ding_event_lead = field_get_items('node', $node, 'field_ding_event_lead');
-  $xml->event->description_short = $field_ding_event_lead[0]['value'];
-
-  // Set long description. We use field_view_value to make sure the field value
-  // is taken through the media_filter to convert special media tags to markup.
-  $field_ding_event_body = field_get_items('node', $node, 'field_ding_event_body');
-  $render_array = field_view_value('node', $node, 'field_ding_event_body', $field_ding_event_body[0]);
-  $xml->event->description_long = drupal_render($render_array);
-
-  // Set sales window times empty - and they will use the defaults in
-  // place2book.
-  $xml->event->sale_open = '';
-  $xml->event->sale_close = '';
-
-  // Set location data.
-  // If library has been selected, use location data from the library.
-  $library_id = ding_place2book_get_library_nid($node);
-
-  if ($library_id) {
-    $libloc_result = db_query('SELECT   n.title,
-                  a.field_ding_library_addresse_thoroughfare AS street,
-                  a.field_ding_library_addresse_premise AS additional,
-                                a.field_ding_library_addresse_postal_code AS postal_code,
-                                a.field_ding_library_addresse_locality AS city,
-                                UPPER(a.field_ding_library_addresse_country) AS country
-                        FROM node n JOIN field_data_field_ding_library_addresse a
-                        ON n.nid = a.entity_id
-                        WHERE n.nid = :nid', array(':nid' => $library_id));
-
-    foreach ($libloc_result as $libloc) {
-      $xml->event->venue->name = $libloc->title;
-      $xml->event->venue->address1 = $libloc->street;
-      $xml->event->venue->address2 = $libloc->additional;
-      $xml->event->venue->postal = $libloc->postal_code;
-      $xml->event->venue->city = $libloc->city;
-      $xml->event->venue->country_code = $libloc->country;
-    }
-  }
-
-  // If node provides other location data, override the above location data
-  // where possible
-  //
-  // The check is only made for venue street address - if it is not there,
-  // the rest is not used either.
-  $field_address = field_get_items('node', $node, 'field_ding_event_location');
-  if (!empty($field_address[0]['thoroughfare'])) {
-    $xml->event->venue->name = $field_address[0]['name_line'];
-    $xml->event->venue->address1 = $field_address[0]['thoroughfare'];
-    $xml->event->venue->address2 = $field_address[0]['premise'];
-    $xml->event->venue->postal = $field_address[0]['postal_code'];
-    $xml->event->venue->city = $field_address[0]['locality'];
-    $xml->event->venue->country_code = drupal_strtoupper($field_address[0]['country']);
-  }
-
-  // Set capacity - and if provided, unflag unlimited_capacity.
-  if (isset($node->capacity) && $node->capacity > 0) {
-    $xml->event->capacity = $node->capacity;
-    $xml->event->unlimited_capacity = 0;
-  }
-
-  // Set ticket price - multiplied by 100, Place2book receives amount in oere
-  // instead of kr.
-  $field_ding_event_price = field_get_items('node', $node, 'field_ding_event_price');
-  if (isset($field_ding_event_price[0]['value'])) {
-    $xml->event->price->value = $field_ding_event_price[0]['value'] * 100;
-  }
-
-  // Set ticket type.
-  if (isset($node->ticket_type)) {
-    $xml->event->price->name = $node->ticket_type;
-  }
-
-  // Set event times.
-  $field_ding_event_date = field_get_items('node', $node, 'field_ding_event_date');
-  // Set event time to begin.
-  $xml->event->begin_at = $field_ding_event_date[0]['value'] . ' ' . $field_ding_event_date[0]['timezone_db'];
-  // Set event time to end.
-  $xml->event->end_at = $field_ding_event_date[0]['value2'] . ' ' . $field_ding_event_date[0]['timezone_db'];
-
-  // Set kultunaut_export setting.
-  $xml->event->kultunaut_export = $node->place2book['kultunaut_export'];
-
-  // Set passive setting (events with no ticket sale).
-  if (isset($node->place2book['passive']) && $node->place2book['passive'] == '1') {
-    $xml->event->addAttribute('passive', '1');
-  }
-
-  // Set kultunaut terms.
-  // Set kultunaut age group.
-  $field_ding_event_target = field_get_items('node', $node, 'field_ding_event_target');
-  // I have the term ids already, so the following query will give
-  // me term name to use on kultunaut_age_group.
-  // @todo: No more db_queries unless needed please.
-  if (isset($field_ding_event_target[0])) {
-    $event_target_result = db_query('SELECT tid, name
-                                FROM {taxonomy_term_data}
-                                WHERE tid = :term_id', array(':term_id' => $field_ding_event_target[0]['tid']));
-    foreach ($event_target_result as $event_target) {
-      $event_target_tid = $event_target->tid;
-      $event_target_name = $event_target->name;
-    }
-
-    // Check configuration if we should map the event target to a
-    // kultunaut age group/target.
-    $target_map_array = variable_get('ding_place2book_target_mappings', array());
-    if (empty($target_map_array[$event_target_tid])) {
-      $xml->event->kultunaut_age_group = $event_target_name;
-    }
-    else {
-      $xml->event->kultunaut_age_group = $target_map_array[$event_target_tid];
-    }
-  }
-
-  // Set kultunaut export category.
-  $field_ding_event_category = field_get_items('node', $node, 'field_ding_event_category');
-  // I have the term ids already, so the following query will give
-  // me term name to use on kultunaut_export_category.
-  if (isset($field_ding_event_category[0])) {
-    $event_category_result = db_query('SELECT tid, name
-                                FROM {taxonomy_term_data}
-                                WHERE tid = :term_id', array(':term_id' => $field_ding_event_category[0]['tid']));
-    foreach ($event_category_result as $event_category) {
-      $event_category_tid = $event_category->tid;
-      $event_category_name = $event_category->name;
-    }
-
-    // Check configuration if we should map the event category to a
-    // kultunaut category.
-    $category_map_array = variable_get('ding_place2book_category_mappings', array());
-    if (empty($category_map_array[$event_category_tid])) {
-      $xml->event->kultunaut_export_category = $event_category_name;
-    }
-    else {
-      $xml->event->kultunaut_export_category = $category_map_array[$event_category_tid];
-    }
-  }
-
-  // Set kultunaut picture URL.
-  $field_ding_event_list_image = field_get_items('node', $node, 'field_ding_event_list_image');
-  // The uri of the image file is not found in the updated node object
-  // - we retrieve it with file_load.
-  if (!empty($field_ding_event_list_image)) {
-    $list_image_fileinfo = file_load($field_ding_event_list_image[0]['fid']);
-    if (!empty($list_image_fileinfo->uri)) {
-      // This module provides a style, ding_place2book_kultunaut_square,
-      // which we invoke here.
-      $xml->event->kultunaut_picture_uri = image_style_url('ding_place2book_kultunaut_square', $list_image_fileinfo->uri);
-    }
-  }
-
-  return $xml;
-}
-
-/**
- * Loads default settings.
- *
- * If the an event already exists with the nid given the settings for the event
- * is loaded.
- */
-function ding_place2book_settings($nid = NULL) {
-  // Get default values.
-  $settings = variable_get('ding_place2book_event_nodes', array());
-
-  // Check database for node specific settings, if nid is defined.
-  if ($nid) {
-    $result = db_query('SELECT * FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $nid));
-    if ($result->rowCount() > 0) {
-      $settings = $result->fetchAssoc();
-    }
-    // Add place2book_id to define it if no database settings found.
-    else {
-      $settings['place2book_id'] = NULL;
-    }
-  // Add place2book_id to define it if nid is not defined.
-  }
-  else {
-    $settings['place2book_id'] = NULL;
-  }
-  return $settings;
-}
-
-/**
- * Helper function.
- *
- * Handles insert, update and delete database operations
- * for the local place2book settings table.
- *
- * @param string $op
- *   Operation to preform insert, update or delete.
- * @param object $node
- *   Node event object.
- * @param int $place2book_id
- *   Place2book identifier.
- *
- * @todo: Refactor into _ding_place2book_db_$op(). There is no reason to keep
- * all the ops in the same function. Consider adding
- * _ding_place2book_db_select() to contain elements.
- */
-function _ding_place2book_db_op($op, $node, $place2book_id = NULL) {
-  switch ($op) {
-    case 'insert':
-      db_query('INSERT INTO {ding_place2book} ( nid,
-                                                place2book_id,
-                                                maintain_copy,
-                                                capacity,
-                                                kultunaut_export,
-                                                passive,
-                                                ticket_type)
-                                        VALUES (:nid,
-                                                :place2book_id,
-                                                :maintain_copy,
-                                                :capacity,
-                                                :kultunaut_export,
-                                                :passive,
-                                                :ticket_type)',
-                                          array(
-                                                ':nid' => $node->nid,
-                                                ':place2book_id' => $place2book_id,
-                                                ':maintain_copy' => $node->place2book['maintain_copy'],
-                                                ':capacity' => $node->capacity,
-                                                ':kultunaut_export' => $node->place2book['kultunaut_export'],
-                                                ':passive' => $node->place2book['passive'],
-                                                ':ticket_type' => $node->ticket_type,
-                                                )
-      );
-      break;
-
-    case 'update':
-      db_query('UPDATE {ding_place2book}
-                SET place2book_id = :place2book_id,
-                    maintain_copy = :maintain_copy,
-                    capacity = :capacity,
-                    kultunaut_export = :kultunaut_export,
-                    passive = :passive,
-                    ticket_type = :ticket_type
-                WHERE nid = :nid',
-                array(
-                      ':place2book_id' => $place2book_id,
-                      ':maintain_copy' => $node->place2book['maintain_copy'],
-                      ':capacity' => $node->capacity,
-                      ':kultunaut_export' => $node->place2book['kultunaut_export'],
-                      ':passive' => $node->place2book['passive'],
-                      ':ticket_type' => $node->ticket_type,
-                      ':nid' => $node->nid,
-                     )
-      );
-      break;
-
-    case 'delete':
-      db_query('DELETE FROM {ding_place2book} WHERE nid = :nid AND place2book_id = :place2book_id',
-                array(
-                  ':nid' => $node->nid,
-                  ':place2book_id' => $place2book_id,
-                )
-      );
-      break;
-
-    default:
-      watchdog('place2book', 'Unknown operation to _ding_place2book_db_op(): @op', array('@op' => $op), WATCHDOG_ERROR);
-  }
-}
-
-/**
- * Load the API key for a given library, defined by the parameter.
- *
- * If non is given the default API key is returned.
- *
- * @param int $library_id
- *   The nid for the library that has the current event.
- *
- * @return string
- *   API key or NULL if configuration is not found.
- */
-function place2book_get_api_key($library_id = NULL) {
-  // Load configuration an the place2book global API key.
-  $service_settings = variable_get('ding_place2book', array());
-  if (empty($service_settings)) {
-    drupal_set_message(t('You have not yet configured the Place2Book module'), 'WARNING', FALSE);
-    return NULL;
-  }
-
-  // Check if the library as overriden the global API key.
-  $api_key = $service_settings['api_key'];
-  if ($library_id) {
-    $library_keys = variable_get('ding_place2book_libraries', array());
-    if (!empty($library_keys[$library_id])) {
-      $api_key = $library_keys[$library_id];
-    }
-  }
-  return $api_key;
-}
-
-/**
- * Rendering function for place2book tickets info.
- */
-function ding_place2book_render_place2book_ticketsinfo($node) {
-  $place2book_id = 0;
-  $maintain_copy = 0;
-  $passive = 0;
-
-  // Get data from ding_place2book table.
-  $place2book_result = db_query('SELECT place2book_id, maintain_copy, passive FROM {ding_place2book} WHERE nid = :nid', array(':nid' => $node->nid));
-  foreach ($place2book_result as $place2book) {
-    $place2book_id = $place2book->place2book_id;
-    $maintain_copy = $place2book->maintain_copy;
-    $passive = $place2book->passive;
-  }
-
-  // The function is to return nothing if we should not be rendering anything.
-  // @todo: Please explain why these states means that we should not render
-  // anything.
-  $place2book_button_hidden = $place2book_id == DING_PLACE2BOOK_NO_ID || $maintain_copy == 0;
-  $place2book_event_passive = $maintain_copy == 1 && $passive == 1;
-  if ($place2book_button_hidden || $place2book_event_passive) {
+function ding_place2book_process_node(&$variables) {
+  // Return early if this is not a ding_event or there's no book button.
+  if ($variables['type'] != 'ding_event' || !isset($variables['book_button'])) {
     return;
   }
 
-  // Variables for a date comparison.
-  // @todo Use entity_metadata_wrapper to extract information.
-  $field_ding_event_date = field_get_items('node', $node, 'field_ding_event_date');
-  $event_timestamp = strtotime($field_ding_event_date[0]['value'] . ' ' . $field_ding_event_date[0]['timezone_db']);
-
-  if (time() > $event_timestamp) {
-    // @todo: Move event types into constants instead of magic string values.
-    $p2b_status_result['type'] = 'event-over';
-  }
-  else {
-    if ($place2book_id) {
-      $service_settings = variable_get('ding_place2book', array());
-
-      // Get the library id for the event.
-      $library_id = ding_place2book_get_library_nid($node);
-
-      $api_key = place2book_get_api_key($library_id);
-      if ($api_key == NULL) {
-        return;
-      }
-
-      // @todo: Move http requests to a shared function responsible for setting
-      // the correct headers. These bits seem to be repeated often - even with
-      // variation. This could also include error handling.
-      $headers = array(
-        'X-PLACE2BOOK-API-TOKEN' => $api_key,
-        'X-PLACE2BOOK-EVENT-ID' => $place2book_id,
-      );
-      $options = array(
-        'method' => 'GET',
-        'headers' => $headers,
-      );
-      $p2b_result = drupal_http_request($service_settings['service_url'] . '/available_tickets', $options);
-
-      $p2b_status_result = _ding_place2book_status_processing($p2b_result);
-    }
+  $node = node_load($variables['nid']);
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($node)) {
+    return;
   }
 
-  return theme('place2book_ticketsinfo', array(
-    'place2book_id' => $place2book_id,
-  ) + $p2b_status_result);
+  // This ding_event node is synchronized with p2b, so we replace the existing
+  // book button to one that can show the correct p2b-status.
+  $variables['book_button'] = [
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#value' => '',
+    '#attributes' => [
+      'class' => 'place2book',
+      'data-event-id' => $field_place2book['event_id'],
+      'data-event-maker-id' => $field_place2book['event_maker_id'],
+    ],
+    '#attached' => [
+      'css' => [
+        drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css',
+      ],
+      'js' => [
+        drupal_get_path('module', 'ding_place2book') . '/js/ding_place2book.js',
+      ]
+    ],
+  ];
 }
 
 /**
- * Statuses handler.
+ * Implements hook_node_presave().
  *
- * @param object $p2b_result
- *   Response from p2b.
+ * For nodes of ding_event type synchronized wiht p2b we ensure that the ticket
+ * link field is kept updated with the sales location URL from p2b everytime
+ * a node is saved. This ensures better compatibility with the rest of the
+ * system.
+ *
+ * @see ding_place2book_process_node()
+ */
+function ding_place2book_node_presave($node) {
+  if ($node->type != 'ding_event') {
+    return;
+  }
+
+  // We'll only act on node inserts. For existing nodes we will instead rely
+  // on our form alter which disables the ticket link field for p2b-nodes. This
+  // way we avoid making requests when multiple nodes are updated in bulk.
+  if (!$node->is_new) {
+    return;
+  }
+
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($node)) {
+    return;
+  }
+
+  list($event_id, $event_maker_id) = array_values($field_place2book);
+  try {
+    $p2b = ding_place2book_instance();
+    $event = $p2b->getEvent($event_maker_id, $event_id);
+
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $node_wrapper
+      ->field_ding_event_ticket_link
+      ->url
+      ->set($event->links->sales_location);
+  }
+  catch (Exception $e) {
+    watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
+  }
+}
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function ding_place2book_field_widget_form_alter(&$element, &$form_state, $context) {
+  if (empty($context['form']['#node'])) {
+    return;
+  }
+
+  $node = $context['form']['#node'];
+  $field_name = $context['field']['field_name'];
+
+  if ($node->type != 'ding_event' || $field_name != 'field_ding_event_ticket_link') {
+    return;
+  }
+
+  if (!ding_place2book_is_ding_event_node_synchronized($node)) {
+    return;
+  }
+
+  // Disable the formatter element for the ticket link field if this ding_event
+  // node synchronizes with p2b.
+  $element['#disabled'] = TRUE;
+  $element['#description'] = t('This field is currently controlled by place2book and is therefore disabled. Disable place2book synchronization to enable it and use a custom external ticket link.');
+}
+
+/**
+ * Creates and initializes instance of P2b class.
+ *
+ * @return object
+ *   Instance of P2b class.
+ */
+function ding_place2book_instance() {
+  $p2b = drupal_static(__FUNCTION__, NULL);
+  if (empty($p2b)) {
+    $settings = variable_get('ding_place2book_settings', array());
+    $p2b = P2b::getInstance($settings);
+  }
+
+  return $p2b;
+}
+
+/**
+ * Determines whether a given (ding_event) node is synchronized with p2b.
+ *
+ * Note that this function only works on ding_event nodes with the p2b field
+ * named field_place2book that this module provides out of the box, and is
+ * therefore name accordingly.
+ *
+ * @param object $node
+ *   A node of ding_event type.
+ *
+ * @return mixed|bool|array
+ *   Returns FALSE if $node is not synchronized with p2b.
+ *   Returns array with p2b-data for the node's corresponding p2b-event, if
+ *   $node was synchronized with p2b.
+ */
+function ding_place2book_is_ding_event_node_synchronized($node) {
+  if (!$field_place2book = field_get_items('node', $node, 'field_place2book')) {
+    return FALSE;
+  }
+
+  $field_place2book = $field_place2book[0];
+  if (empty($field_place2book['synchronize'])) {
+    return FALSE;
+  }
+  // The event is synchronized and this is just a safety check to ensure these
+  // important values is present and non-empty.
+  $missing = [];
+  if (empty($field_place2book['event_id'])) {
+    $missing[] = 'event_id';
+  }
+  if (empty($field_place2book['event_maker_id'])) {
+    $missing[] = 'event_maker_id';
+  }
+  if (!empty($missing)) {
+    // If for some reason one of these is not set, we'll log it in watchdog to
+    // ease debugging.
+    watchdog('ding_place2book', "Event %title is synchronized with place2book but is missing !missing", [
+      '%title' => $node->title,
+      '!missing' => implode(', ', $missing),
+    ], WATCHDOG_WARNING, l(t('Edit event'), 'node/' . $node->nid . '/edit'));
+    return FALSE;
+  }
+
+  return $field_place2book;
+}
+
+/**
+ * Collects all needed information for request from node.
+ *
+ * @param object $node
+ *   Node object.
+ * @param array $additional
+ *   Additional settings.
  *
  * @return array
- *   Returns array with booking type and url if it is available.
+ *   Array with need for request data.
  */
-function _ding_place2book_status_processing($p2b_result) {
-  $p2b_ticket_result = array(
-    'url' => '',
-    'type' => ''
+function ding_p2b_format_options($node, array $additional) {
+  $options = array(
+    "name" => array('title'),
+    "description_short" => array(
+      'field_ding_event_lead',
+      LANGUAGE_NONE,
+      0,
+      'value',
+    ),
+    "description_long" => array(
+      'field_ding_event_body',
+      LANGUAGE_NONE,
+      0,
+      'value',
+    ),
+    "begin_at" => array('field_ding_event_date', LANGUAGE_NONE, 0, 'value'),
+    "end_at" => array('field_ding_event_date', LANGUAGE_NONE, 0, 'value2'),
   );
+  $data = (array) $node;
+  foreach ($options as $name => $option) {
 
-  if (!empty($p2b_result->headers['sales-status'])) {
-    // Check if the event is closed for admissions.
-    if ($p2b_result->headers['sales-status'] == 'closed') {
-      // Check if waiting list is activated.
-      if ($p2b_result->headers['waiting-list'] == 'true') {
-        $p2b_ticket_result['type'] = 'order-waiting-list';
-        $p2b_ticket_result['url'] = $p2b_result->headers['location'];
-      }
-      else {
-        $p2b_ticket_result['type'] = 'closed-admission';
-      }
-    }
-    // Check if sales period is in the future and ticket sale has not
-    // started yet.
-    elseif ($p2b_result->headers['sales-status'] == 'upcoming') {
-      // Check if waiting list is activated.
-      if ($p2b_result->headers['waiting-list'] == 'true') {
-        $p2b_ticket_result['type'] = 'order-waiting-list';
-        $p2b_ticket_result['url'] = $p2b_result->headers['location'];
-      }
-      else {
-        $p2b_ticket_result['type'] = 'sale-not-started';
-      }
+    if (in_array($name, array(
+      'begin_at',
+      'end_at',
+      'sale_open_at',
+      'sale_close_at',
+    ))) {
+      $date = (string) drupal_array_get_nested_value($data, $option);
+      array_pop($option);
+      $option[] = 'timezone_db';
+      $timezone = $options[$name] = (string) drupal_array_get_nested_value($data, $option);
+      $options[$name] = format_date(strtotime($date . ' ' . $timezone), 'custom', 'Y-m-d\TH:i:sO');
     }
     else {
-      /*
-       * Check if we have no tickets left
-       * number from Available-Tickets header is a string and must be tested as
-       * such. Also Available-Tickets header can have a negative value, which
-       * we also interpret as "no ticket left".
-       */
-      if ($p2b_result->headers['available-tickets'] == "0" || (int) $p2b_result->headers['available-tickets'] < 0) {
-        // Check if waiting list is activated.
-        if ($p2b_result->headers['waiting-list'] == 'true') {
-          $p2b_ticket_result['type'] = 'order-waiting-list';
-          $p2b_ticket_result['url'] = $p2b_result->headers['location'];
-        }
-        else {
-          $p2b_ticket_result['type'] = 'no-tickets-left';
-        }
-      }
-      else {
-        // Check to see if we should present an link for ordering a ticket
-        // number from Available-Tickets header is a string and must be typecast
-        // as integer.
-        // Available-Tickets header can also be the string "Ubegraenset antal"
-        // (unlimited), so we check for existence of "antal" in the string.
-        //
-        // @todo Checking for "antal" seems inappropriate. If the status is
-        // "Begræset antal" we would still get the same result even though
-        // the meaning is much different.
-        if ($p2b_result->headers['sales-status'] == 'open' && ((int) $p2b_result->headers['available-tickets'] > 0 || strpos($p2b_result->headers['available-tickets'], 'antal') > 0)) {
-          $p2b_ticket_result['type'] = 'order-link';
-          $p2b_ticket_result['url'] = $p2b_result->headers['location'];
-        }
-        else {
-          // Check if waiting list is activated.
-          if ($p2b_result->headers['waiting-list'] == 'true') {
-            $p2b_ticket_result['type'] = 'order-waiting-list';
-            $p2b_ticket_result['url'] = $p2b_result->headers['location'];
-          }
-        }
+      $options[$name] = (string) drupal_array_get_nested_value($data, $option);
+    }
+  }
+  $options['address'] = _ding_p2b_get_address_data($node);
+  if ($additional['kultunaut_export']) {
+    $field = field_get_items('node', $node, 'field_ding_event_category');
+    if ($field) {
+      $additional['kultunaut_export_category'] = _ding_place2book_get_export_category($field[0]['tid']);
+    }
+
+    $field = field_get_items('node', $node, 'field_ding_event_target');
+    if ($field) {
+      $additional['kultunaut_age_group'] = _ding_place2book_get_age_group($field[0]['tid']);
+    }
+
+    $field = field_get_items('node', $node, 'field_ding_event_list_image');
+    if ($field) {
+      $list_image = file_load($field[0]['fid']);
+      if (!empty($list_image->uri)) {
+        $additional['kultunaut_picture_uri'] = image_style_url('ding_place2book_kultunaut', $list_image->uri);
       }
     }
   }
-
-  return $p2b_ticket_result;
+  $additional['capacity'] = $additional['capacity'] === '0' ? '∞' : $additional['capacity'];
+  $options += $additional;
+  return $options;
 }
 
 /**
- * Default theme function for 'ticketsinfo'.
+ * Collects address data from referenced library or current node.
+ *
+ * @param object $node
+ *   Object of node.
+ *
+ * @return array
+ *   Array with addresses.
  */
-function theme_place2book_ticketsinfo($variables) {
-  $url = $variables['url'];
-  $type = $variables['type'];
+function _ding_p2b_get_address_data($node) {
+  $field = field_get_items('node', $node, 'og_group_ref');
+  $node = (array) $node;
+  $lib = FALSE;
+  if ($field) {
+    $lib = (array) node_load($field[0]['target_id']);
+  }
+  $options = array(
+    "address1" => array(
+      'field_ding_event_location',
+      LANGUAGE_NONE,
+      0,
+      'thoroughfare',
+    ),
+    "address2" => array(
+      'field_ding_event_location',
+      LANGUAGE_NONE,
+      0,
+      'premise',
+    ),
+    "postal_code" => array(
+      'field_ding_event_location',
+      LANGUAGE_NONE,
+      0,
+      'postal_code',
+    ),
+    "city" => array('field_ding_event_location', LANGUAGE_NONE, 0, 'locality'),
+    "country" => array(
+      'field_ding_event_location',
+      LANGUAGE_NONE,
+      0,
+      'country',
+    ),
+    "phone" => array(
+      'field_ding_library_phone_number',
+      LANGUAGE_NONE,
+      0,
+      'value',
+    ),
+    "name" => array(
+      'field_ding_event_location',
+      LANGUAGE_NONE,
+      0,
+      'name_line',
+    ),
+  );
 
-  switch ($type) {
-    case 'event-over':
-      $output = '<span class="button">' . t('The event has already taken place') . '</span>';
-      break;
+  $data = array();
+  foreach ($options as $name => $option) {
+    $result = NULL;
+    $data[$name] = drupal_array_get_nested_value($node, $option, $result);
+    if (($result === FALSE || empty($data[$name])) && $lib) {
+      if ($name == 'name') {
+        $option = array('title');
+      }
+      else {
+        $option[0] = 'field_ding_library_addresse';
+      }
+      $data[$name] = drupal_array_get_nested_value($lib, $option);
+    }
+  }
+  $data['phone'] = empty($data['phone']) ? t('None') : $data['phone'];
+  $data['address2'] = '';
 
-    case 'closed-admission':
-      $output = '<span class="button ticket-notice">' . t('Not open for ticket sale') . '</span>';
-      break;
+  return $data;
+}
 
-    case 'no-tickets-left':
-      $output = '<span class="button ticket-warning">' . t('Sold out') . '</span>';
-      break;
-
-    case 'order-link':
-      $output = l(t('Book a ticket'), $url, array('attributes' => array('class' => array('ticket-available', 'button'))));
-      break;
-
-    case 'sale-not-started':
-      $output = '<span class="button ticket-notice">' . t('Ticket sale has not yet started for this event') . '</span>';
-      break;
-
-    case 'order-waiting-list':
-      $output = l(t('Waiting list open'), $url, array('attributes' => array('class' => array('ticket-available', 'button'))));
-      break;
-
-    default:
-      $output = '';
-      break;
+/**
+ * Gets library id from node and returns associated eventMaker or default.
+ *
+ * @param object $node
+ *    Object of node for which  we tries to get eventMaker.
+ *
+ * @return string
+ *   Id of eventMaker.
+ */
+function _ding_place2book_get_event_maker($node) {
+  $default = variable_get('ding_p2b_default_event_maker', FALSE);
+  $field = field_get_items('node', $node, 'og_group_ref');
+  if ($field) {
+    $event_makers = variable_get('ding_p2b_library_event_makers', array());
+    $event_maker_id = isset($event_makers[$field[0]['target_id']]) ? $event_makers[$field[0]['target_id']] : $default;
+  }
+  else {
+    $event_maker_id = $default;
   }
 
+  return $event_maker_id;
+}
+
+/**
+ * Get associated export category by tid.
+ *
+ * @param string $tid
+ *   Tid of event category.
+ *
+ * @return string
+ *   Export category or empty.
+ *
+ * @see ding_p2b_format_options()
+ */
+function _ding_place2book_get_export_category($tid) {
+  $mappings = variable_get('ding_p2b_kultunaut_export_category', array());
+  return isset($mappings[$tid]) ? $mappings[$tid] : '';
+}
+
+/**
+ * Get associated  category by tid.
+ *
+ * @param string $tid
+ *   Tid of event age group.
+ *
+ * @return string
+ *   Export category or empty.
+ *
+ * @see ding_p2b_format_options()
+ */
+function _ding_place2book_get_age_group($tid) {
+  $mappings = variable_get('ding_p2b_kultunaut_age_group', array());
+  return isset($mappings[$tid]) ? $mappings[$tid] : '';
+}
+
+/**
+ * Custom theme handler for rendering prices as table.
+ */
+function theme_ding_p2b_prices_table($variables) {
+  $form = $variables['form'];
+  $rows = array();
+  foreach (element_children($form['prices']) as $id) {
+    $rows[] = array(
+      'name' => drupal_render($form['prices'][$id]['name']),
+      'value' => drupal_render($form['prices'][$id]['value']),
+      'sale_begin' => drupal_render($form['prices'][$id]['sale_begin_at']),
+      'sale_end' => drupal_render($form['prices'][$id]['sale_end_at']),
+      'remove' => drupal_render($form['prices'][$id]['remove']),
+    );
+  }
+
+  $header = array(
+    t('Name'),
+    t('Price'),
+    t('Sale start'),
+    t('Sale end'),
+    t('Remove'),
+  );
+
+  $output = theme('table', array(
+    'rows' => $rows,
+    'header' => $header,
+    'empty' => t('Click to add more for adding a row.'),
+    'attributes' => array('id' => 'p2b-prices-table'),
+  ));
+  $output .= drupal_render_children($form);
   return $output;
 }
 
 /**
- * Implements hook_preprocess_HOOK().
+ * Ajax callback for fetching event state from P2b.
+ *
+ * @param string $event_maker_id
+ *   EventMaker id on remote service.
+ * @param string $event_id
+ *   Event id of remote service.
  */
-function ding_place2book_preprocess_node(&$variables) {
-  if ($variables['type'] == 'ding_event' && $variables['view_mode'] == 'full') {
-    // Hide field_place2book_tickets, because it is rendering "placeholder"
-    // default value under the "Left" info group.
-    $variables['content']['field_place2book_tickets']['#access'] = FALSE;
+function ding_place2book_get_event_state($event_maker_id, $event_id) {
+  try {
+    $p2b = ding_place2book_instance();
+    $event = $p2b->getEvent($event_maker_id, $event_id);
+    $meta_data = $event->meta_data;
+    $state = $event->state;
+    $available_tickets = $meta_data->available_tickets;
+
+    // Try to derive a status for the ticket link in frontend by looking at the
+    // p2b event's state, ticket types and sale periods.
+    // See: http://developer.place2book.com/v1/events/
+    $ticket_link_status = '';
+    if (in_array($state, ['held', 'completed'])) {
+      $ticket_link_status = 'event-over';
+    }
+    elseif (!$event->active) {
+      $ticket_link_status = 'closed';
+    }
+    elseif ($state === 'published') {
+      // If event is published we first check to see if there's any available
+      // tickets at all. If not the event is sold out and we can avoid fething
+      // ticket types and sale periods. There might be a waiting-list so we
+      // check for that first before setting sold out.
+      if (empty($available_tickets)) {
+        if (!empty($event->waiting_list)) {
+          $ticket_link_status = 'waiting-list';
+        }
+        else {
+          $ticket_link_status = 'sold-out';
+        }
+      }
+      else {
+        // Else we have no other options than to fetchs the tickets and look
+        // for open or upcoming sale periods.
+        $sale_periods = [];
+        foreach ($p2b->getPrices($event_maker_id, $event_id) as $price) {
+          $sale_periods[] = [
+            'begin' => strtotime($price->sale_begin_at),
+            'end' => strtotime($price->sale_end_at),
+          ];
+        }
+        // Some events, for example those migrated from the old API, will have
+        // sales period on the event and not on the individual tickets.
+        if (isset($event->sale_open_at) && isset($event->sale_close_at)) {
+          $sale_periods[] = [
+            'begin' => strtotime($event->sale_open_at),
+            'end' => strtotime($event->sale_close_at),
+          ];
+        }
+
+        $now = time();
+        foreach ($sale_periods as $sale_period) {
+          if ($now >= $sale_period['begin'] && $now <= $sale_period['end']) {
+            // We have found an open sales period. No need to continue iterating
+            // the ticket types.
+            $ticket_link_status = 'open';
+            break;
+          }
+          elseif ($now < $sale_period['begin']) {
+            // We haven't found any open sales period yet,q but at least there's
+            // an upcoming, so set that status for now.
+            $ticket_link_status = 'upcoming';
+          }
+        }
+        // If no upcoming or open sales period was found for the published event
+        // we consider the sales status to be closed.
+        if (empty($ticket_link_status)) {
+          $ticket_link_status = 'closed';
+        }
+
+      }
+    }
+
+    if (!empty($ticket_link_status)) {
+      switch ($ticket_link_status) {
+        case 'open':
+          $data = l(t('Book a ticket'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
+          $class = 'ticket-available';
+          break;
+
+        case 'closed':
+          $data = t('Not open for ticket sale');
+          $class = 'ticket-notice';
+          break;
+
+        case 'sold-out':
+          $data = t('Sold out');
+          $class = 'ticket-warning';
+          break;
+
+        case 'upcoming':
+          $data = t('Ticket sale has not yet started for this event');
+          $class = 'ticket-notice';
+          break;
+
+        case 'waiting-list':
+          $data = l(t('Waiting list open'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
+          $class = 'ticket-available';
+          break;
+
+        case 'event-over':
+          $data = t('The event has already taken place');
+          $class = '';
+          break;
+      }
+      $output = "<span class='place2book button {$class}'>{$data}</span>";
+      print ajax_render($output);
+    }
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding_place2book', $ex);
+  }
+  exit();
+}
+
+/**
+ * Implements hook_field_group_info_alter().
+ */
+function ding_place2book_field_group_info_alter(&$groups) {
+  if (!empty($groups['group_left|node|ding_event|default'])) {
+    $groups['group_left|node|ding_event|default']->data['children'][] = 'field_place2book';
   }
 }

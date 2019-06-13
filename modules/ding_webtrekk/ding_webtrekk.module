@@ -194,30 +194,37 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
   // The page parametes for the ting object view should only be added on the
   // full page view for the material.
   if ($view_mode == 'full' && current_path() == $entity_path) {
-    // Get classification now as we also need it to determine category.
-    $classification = $entity->getClassification();
-
-    // Here category refers to whether the material is fiction/non-fiction. The
-    // only reliable way to determine this, is by using the 'sk' marker from
-    // the DK5 classification.
-    $category = FALSE;
-    // If classification is 'sk' OpenSearchTingObject returns empty string.
-    // See: OpenSearchTingObject::getClassification().
-    if ($classification === '') {
-      $category = 'fiktion';
+    // TingObjectInterface doesn't allow us determine fiction/nonfiction in a
+    // clean way, but if the search provider is opensearch we can use a provider
+    // specific mehtod to get value.
+    $p_mat_ficnonfic = FALSE;
+    if (module_exists('opensearch')) {
+      $p_mat_ficnonfic = $entity->getTingObject()->isFiction() ? 'fiktion' : 'nonfiktion';
     }
-    // Else, if not FALSE, the material has a DK5 classification and is
-    // nonfiction.
-    elseif ($classification !== FALSE) {
-      $category = 'nonfiktion';
+
+    // Process array values so they are ready to be inserted in parameter.
+    $p_mat_audience = FALSE;
+    if (!empty($entity->getTingObject()->getAudience())) {
+      $p_mat_audience = $entity->getTingObject()->getAudience();
+      // Here we can only have one value so we need to pick the first element
+      // out of the array.
+      $p_mat_audience = reset($p_mat_audience);
+    }
+    $p_mat_category = FALSE;
+    if (!empty($entity->getTingObject()->getGenre())) {
+      // Here we can have multiple values so we implode the values to a comma
+      // separated list.
+      $p_mat_category = implode(', ', $entity->getTingObject()->getGenre());
     }
 
     $params = [
       'p_mat_type' => $entity->getType(),
-      'p_mat_indexno' => $classification,
+      'p_mat_indexno' => $entity->getClassification(),
       'p_mat_lang' => $entity->getLanguage(),
       'p_mat_source' => $entity->getAc_source(),
-      'p_mat_category' => $category,
+      'p_mat_ficnonfic' => $p_mat_ficnonfic,
+      'p_mat_category' => $p_mat_category,
+      'p_mat_audience' => $p_mat_audience,
     ];
     ding_webtrekk_add_page_parameters($params);
   }
@@ -280,7 +287,17 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
   $material_ids = [];
   foreach ($loans as $loan) {
     if ($loan->renewable) {
-      $material_ids[$loan->id] = $loan->getEntity()->getId();
+      if (is_object($loan->entity)) {
+        $material_ids[$loan->id] = $loan->entity->getId();
+      }
+      // For interlibrary loans the material may not reachable in the well and
+      // therefore we can't get a well ID to display. We'll note that it's an
+      // ILL and use the title instead.
+      else {
+        $material_ids[$loan->id] = t('Interlibrary Loan: %title', array(
+          '%title' => $loan->display_name,
+        ));
+      }
     }
   }
 

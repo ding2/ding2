@@ -10,7 +10,7 @@
  */
 function ting_field_info() {
   return array(
-    // ting_object
+    // ting_object.
     'ting_title' => array(
       'label' => t('Ting object title'),
       'description' => t('Ting object title'),
@@ -71,7 +71,7 @@ function ting_field_info() {
         'add_widget' => TRUE,
       ),
     ),
-    // ting_collection
+    // ting_collection.
     'ting_primary_object' => array(
       'label' => t('Ting collection primary object'),
       'description' => t('Ting collection primary object'),
@@ -159,6 +159,7 @@ function ting_field_formatter_info() {
       'settings' => array(
         'link_type' => 'none',
         'prefix_type' => 'no',
+        'element' => 'h2',
       ),
     ),
     'ting_type_default' => array(
@@ -229,6 +230,22 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
 
   switch ($field['type']) {
     case 'ting_title':
+      // Provide default for fields that predate the element_type option.
+      $settings += array(
+        'element' => 'h2',
+      );
+
+      $element['element'] = array(
+        '#type' => 'radios',
+        '#title' => t('HTML element'),
+        '#options' => array(
+          'h2' => 'H2',
+          'h3' => 'H3',
+          '' => t('None'),
+        ),
+        '#default_value' => $settings['element'],
+      );
+
       $element['link_type'] = array(
         '#type' => 'radios',
         '#title' => t('Link title to'),
@@ -249,6 +266,7 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
         ),
         '#default_value' => $settings['prefix_type'],
       );
+
       break;
 
     case 'ting_entities':
@@ -287,6 +305,12 @@ function ting_field_formatter_settings_summary($field, $instance, $view_mode) {
   $summary = '';
   switch ($field['type']) {
     case 'ting_title':
+      // Provide default for fields that predate the element_type option.
+      $settings += array(
+        'element' => 'h2',
+      );
+      $summary .= t('<strong>Element:</strong> @element', array('@element' => $settings['element']));
+      $summary .= '</br>';
       $summary .= t('<strong>Link type:</strong> @type', array('@type' => $settings['link_type']));
       $summary .= '</br>';
       $summary .= t('<strong>Prefix with type</strong>: @type', array('@type' => $settings['prefix_type']));
@@ -339,6 +363,10 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ting_title_default':
+        // Provide default for fields that predate the element_type option.
+        $display['settings'] += array(
+          'element' => 'h2',
+        );
         /*
          * This doesn't work due to the way objects gets cached at the
          * moment. Until that is fixed, link all objects to collections when
@@ -367,7 +395,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           }
 
           $collection_titles = array_map(
-            function($collection_entity) {
+            function ($collection_entity) {
               return $collection_entity->title;
             },
             $collection->entities
@@ -407,10 +435,15 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         }
 
         $element[$delta] = array(
-          '#prefix' => $prefix . '<h2>',
-          '#suffix' => '</h2>',
+          '#prefix' => $prefix,
           '#markup' => $title,
         );
+
+        if (!empty($display['settings']['element'])) {
+          $element_name = $display['settings']['element'];
+          $element[$delta]['#prefix'] .= '<' . $element_name . '>';
+          $element[$delta]['#suffix'] = '</' . $element_name . '>';
+        }
 
         break;
 
@@ -477,24 +510,26 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         }, $creators);
         $search_string = variable_get('ting_search_register_author', 'phrase.creator="@author"');
 
-        // The links with the correct author name depending on the whether
-        // @author or @author_inverted is used.
-        $creator_links = array_map(function($creator, $replacements) use ($search_string) {
-          return ting_field_search_link($creator['default'], $search_string, $replacements, array(
+        // The links with the correct author name depending on whether @author
+        // or @author_inverted is used.
+        $creator_links = array_map(function ($creator, $replacements) use ($search_string) {
+          $options = array(
             'attributes' => array(
               'class' => array('author'),
             ),
-          ));
+          );
+          return ting_field_search_link($creator['default'], $search_string, $replacements, $options);
         }, $creators, $replace_array);
 
         $markup_string = '';
         if (count($creators)) {
           if ($entity->date != '') {
-            $markup_string = t('By !author_link (@year)', array(
+            $replacements = array(
               '!author_link' => implode(', ', $creator_links),
               // So wrong, but appears to be the way the data is.
               '@year' => $entity->date,
-              ));
+            );
+            $markup_string = t('By !author_link (@year)', $replacements);
           }
           else {
             $markup_string = t('By !author_link', array(
@@ -513,11 +548,12 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
       case 'ting_subjects_default':
         if (!empty($entity->getSubjects())) {
           $search_string = variable_get('ting_search_register_subject', 'phrase.subject="@subject"');
-          $subject_links = array_map(function($subject) use ($search_string) {
+          $subject_links = array_map(function ($subject) use ($search_string) {
             $replacement = array('@subject' => $subject);
-            return ting_field_search_link($subject, $search_string, $replacement, array(
+            $options = array(
               'attributes' => array('class' => array('subject')),
-            ));
+            );
+            return ting_field_search_link($subject, $search_string, $replacement, $options);
           }, $entity->getSubjects());
 
           $element[$delta] = array(

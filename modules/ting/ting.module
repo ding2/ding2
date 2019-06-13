@@ -365,15 +365,26 @@ function ting_entity_info() {
  * Implements hook_ding_entity_is().
  */
 function ting_ding_entity_is($object, $class) {
-  switch ($class) {
-    case 'reservable':
-    case 'cartable':
-      $sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
-      $types = variable_get('ting_reservable_types', _ting_default_reservable_types());
-      return (in_array(drupal_strtolower($object->ac_source), $sources) && in_array(drupal_strtolower($object->type), $types));
+  if (!$object instanceof TingEntity) {
+    return NULL;
+  }
 
+  // By not returning FALSE if the object doesn't meet the requirement, we give
+  // more flexibilty to other modules.
+  switch ($class) {
     case 'online':
-      return !empty($object->getOnline_url());
+      if (!empty($object->getOnline_url())) {
+        return TRUE;
+      }
+      return NULL;
+
+    case 'library_material':
+      $sources = variable_get('ting_library_material_sources', array());
+
+      if (in_array(drupal_strtolower($object->getAc_source()), $sources)) {
+        return TRUE;
+      }
+      return NULL;
   }
 }
 
@@ -675,61 +686,6 @@ function _ting_default_online_types() {
     'pc-spil (net)',
     'avis (net)',
     'e-node',
-  );
-}
-
-/**
- * Default reservable sources.
- *
- * Defined as a function as a define can only be scalars.
- */
-function _ting_default_reservable_sources() {
-  return array(
-    'bibliotekskatalog',
-  );
-}
-
-/**
- * Default reservable types.
- *
- * Defined as a function as a define can only be scalars.
- */
-function _ting_default_reservable_types() {
-  return array(
-    'bog',
-    'node',
-    'dvd',
-    'billedbog',
-    'cd (musik)',
-    'lydbog (cd)',
-    'lydbog (bånd)',
-    'tegneserie',
-    'lydbog (cd-mp3)',
-    'sammensat materiale',
-    'cd',
-    'bog stor skrift',
-    'video',
-    'blu-ray',
-    'cd-rom',
-    'pc-spil',
-    'playstation 3',
-    'xbox 360',
-    'wii',
-    'playstation 2',
-    'playstation 4',
-    'graphic novel',
-    'nintendo ds',
-    'dvd-rom',
-    'kort',
-    'xbox',
-    'gameboy advance',
-    'wii u',
-    'grammofonplade',
-    'playstation',
-    'lydbog',
-    'spil',
-    'puslespil',
-    'diskette',
   );
 }
 

@@ -4,6 +4,11 @@
 @import '../../base.scss';
 
 .node-ding-event {
+  // Display links in body text with underline.
+  .field-name-field-ding-event-body a {
+    text-decoration: underline;
+  }
+
   // ==========================================================================
   // Teaser
   // ==========================================================================
@@ -152,6 +157,7 @@
     }
     // Hover for non touch devices
     .no-touch & {
+      &.is-hovered,
       &:hover {
         .background {
           @include transition(

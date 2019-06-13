@@ -199,7 +199,7 @@ class DingProviderReservation extends DingEntityBase {
 
   function getEntity() {
     if (!isset($this->entity) || $this->entity === self::NULL) {
-      if (!empty($this->ding_entity_id)) {
+      if (!empty($this->ding_entity_id) && $this->ding_entity_id !== self::NULL) {
         $this->entity = ding_entity_load($this->ding_entity_id);
       }
       else {

@@ -15,6 +15,14 @@
       width: 100%;
       padding-top: 130%;
       background: $grey-dark;
+
+      > a:focus {
+        .ting-cover {
+          border: 3px solid $charcoal;
+          box-sizing: border-box;
+        }
+      }
+
       .ting-cover {
         position: absolute;
         top: 0;
@@ -59,7 +67,7 @@
 
         .group-inner {
           position: relative;
-          background: linear-gradient($charcoal 0%, $charcoal-opacity-extra-dark 100%);
+          background: linear-gradient($charcoal 0%, $charcoal-opacity-dark 100%);
           &::after {
             @include transition(opacity $speed $ease);
             content: '';
@@ -100,7 +108,7 @@
         }
       }
       .field-name-ting-title {
-        h2 {
+        h3 {
           @include transition(width $speed $ease);
           @include font('display-small');
           width: 100%;
@@ -144,6 +152,11 @@
         &.button-see-online {
           right: 20px;
         }
+
+        // Make sure that if we have keyboard focus on the element, we can see it.
+        &:focus {
+          opacity: 1;
+        }
       }
 
       // Hover for non touch devices
@@ -153,7 +166,7 @@
             @include transition(opacity $speed $hover-delay $ease);
             opacity: 0;
           }
-          .field-name-ting-title h2,
+          .field-name-ting-title h3,
           .field-name-ting-author {
             @include transition (
               width $speed-fast $hover-delay $ease
@@ -225,7 +238,7 @@
         }
       }
       .field-name-ting-title {
-        h2 {
+        h3 {
           @include font('display-small');
           width: 100%;
           margin-bottom: 0;
@@ -250,7 +263,7 @@
   &.view-mode-reference-teaser {
     padding: 15px 0;
     background-color: $grey;
-    .cover {
+    .ting-cover {
       @include span-columns(2 of 7);
       padding-left: 15px;
       min-height: 1px;
@@ -343,7 +356,7 @@
   &.view-mode-ting-reference-preview {
     padding: 0;
     background-color: transparent;
-    .cover {
+    .ting-cover {
       @include span-columns(1 of 6);
       padding-left: 0;
       min-height: 1px;

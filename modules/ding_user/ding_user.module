@@ -311,7 +311,7 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
 
       // Only add a close button to the block form.
       if ($form_id === 'user_login_block') {
-        $form['user_login_container']['close']['#markup'] = '<div class="close-user-login"></div>';
+        $form['user_login_container']['close']['#markup'] = '<a class="close-user-login" href="#"></a>';
       }
 
       $form['user_login_container']['name'] = $form['name'];

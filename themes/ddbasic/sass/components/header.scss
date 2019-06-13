@@ -331,6 +331,17 @@
           width: getColumn(3) + getGutter();
           margin-right: 0;
           margin-bottom: 0;
+
+          > label[for="edit-ting-field-search"] {
+            // This label is hidden, but it needs to still be visible for
+            // screenreaders. We'll hide it by placing it to the left of the
+            // screen canvas.
+            position: absolute;
+            left: -9999px;
+            height: 0;
+            width: 0;
+          }
+
           .select-wrapper {
             border-radius: 0;
             border: 1px solid $white;
@@ -698,7 +709,7 @@
         top: $header-height + $admin-menu-height;
       }
       // Admin menu with shortcuts or toolbar
-      .admin-menu-with-shortcut &,
+      .admin-menu-with-shortcuts &,
       .toolbar & {
         top: $header-height + $toolbar-height;
       }

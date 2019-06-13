@@ -768,12 +768,7 @@ function ddbasic_process_ting_object(&$vars) {
       break;
 
     case 'ting_object':
-
-      $uri_collection = entity_uri('ting_collection', $vars['object']);
-      $vars['ting_object_url_collection'] = url($uri_collection['path']);
-
       $uri_object = entity_uri('ting_object', $vars['object']);
-      $vars['ting_object_url_object'] = url($uri_object['path']);
 
       switch ($vars['elements']['#view_mode']) {
 
@@ -1110,7 +1105,9 @@ function ddbasic_add_ting_object_behaviour() {
   // automatically include availability, covers and rating handling.
   drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js');
   drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
-  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating.js');
+
+  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_widget.js');
+  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_ajax.js');
 }
 
 /**

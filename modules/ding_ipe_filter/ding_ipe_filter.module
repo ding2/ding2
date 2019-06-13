@@ -248,3 +248,12 @@ function ding_ipe_filter_preprocess_panels_ipe_pane_wrapper(&$variables) {
   unset($variables['links']['style']);
   unset($variables['links']['css']);
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_ipe_filter_form_alter(&$form, &$form_state, $form_id) {
+  if (strpos($form['#action'], '/panels/ajax/ipe/') !== FALSE && $form_state['modal'] == TRUE) {
+    $form['#attached']['css'][] = drupal_get_path('module', 'ding_ipe_filter') . '/css/ding_ipe_filter.modal.css';
+  }
+}

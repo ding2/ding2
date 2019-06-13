@@ -83,6 +83,46 @@ function fbs_ding_provider() {
 }
 
 /**
+ * Implements hook_ding_entity_is().
+ */
+function fbs_ding_entity_is($object, $class) {
+  if (!$object instanceof TingEntity) {
+    return NULL;
+  }
+
+  switch ($class) {
+    case 'reservable':
+      // We get the full holdings since we both need to check reservability and
+      // whether FBS considers the object a periodical.
+      // Invoke the call to FBS API directly, as using fbs_availability_holdings
+      // (or going through ding_provider) sets up render array for holdings
+      // display and has a chance of calling opensearch to get marc record. We
+      // need none of this and only want to know if the material is reservable
+      // and if it has any periodical information.
+      $result = fbs_service()->Catalog->getHoldings(
+        fbs_service()->agencyId,
+        $object->localId
+      );
+      $result = reset($result);
+      $holdings = reset($result->holdings);
+
+      // If the record doesn't have any materials there's nothing to reserve and
+      // we can return FALSE early. This can happen for online posts from the
+      // library catalog.
+      if (empty($holdings->materials)) {
+        return FALSE;
+      }
+
+      // To determine if this is a periodical we extract the first material and
+      // look for periodical information.
+      $material = reset($holdings->materials);
+
+      // If the object is periodical, the main object should not be reservable.
+      return ($result->reservable && empty($material->periodical));
+  }
+}
+
+/**
  * Get info for patron.
  *
  * Wrapper around ding_user_get_creds() to facilitate testing.
@@ -568,6 +608,7 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
 
   // Get the values that should be validated.
   $existing_on_hold = $wrapper->field_fbs_on_hold->value();
+
   // Existing value may return NULL lets convert that to an array.
   if (is_null($existing_on_hold)) {
     $existing_on_hold = array(
@@ -575,11 +616,16 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
       'to' => NULL,
     );
   }
+  else {
+    $existing_on_hold = array_map(function ($time_string) {
+      return is_null($time_string) ? NULL : _fbs_form_profile_validate_convert_time($time_string);
+    }, $existing_on_hold);
+  }
 
   // New values are in the format Y-m-d while existing values are timestamps.
   // Convert new values to timestamps to make them comparable.
   $new_on_hold = array_map(function ($time_string) {
-    return _fbs_form_profile_validate_convert_time($time_string);
+    return is_null($time_string) ? NULL : _fbs_form_profile_validate_convert_time($time_string);
   }, $form_state['values']['profile_provider_fbs']['field_fbs_on_hold'][LANGUAGE_NONE][0]);
 
   // Check if the values have been changed.
@@ -603,24 +649,22 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
 
     // Get current data.
     $now = date('Y-m-d');
-
-    // Make comparision more readable with a function wrapper.
-    $convert = '_fbs_form_profile_validate_convert_time';
+    $now = _fbs_form_profile_validate_convert_time($now);
 
     // Start date must be higher than or equal to today.
-    if (!($convert($new_on_hold['from']) >= $convert($now))) {
+    if (!($new_on_hold['from'] >= $now)) {
       form_set_error('profile_provider_fbs][field_fbs_on_hold', t('Start date must be higher than or equal to today: %now', array('%now' => date('d-m-Y'))));
       return;
     }
 
     // To date must both be higher than or equal to today.
-    if (!($convert($new_on_hold['to']) >= $convert($now))) {
+    if (!($new_on_hold['to'] >= $now)) {
       form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must both be higher than or equal to today: %now', array('%now' => date('d-m-Y'))));
       return;
     }
 
     // To date must higher than the from date.
-    if (!($convert($new_on_hold['to']) >= $convert($new_on_hold['from']))) {
+    if (!($new_on_hold['to'] >= $new_on_hold['from'])) {
       form_set_error('profile_provider_fbs][field_fbs_on_hold', t('To date must higher than the from date or equal to.'));
       return;
     }
@@ -639,6 +683,11 @@ function fbs_form_profile2_on_hold_validate(array $element, array &$form_state) 
  *   Unix timestamp.
  */
 function _fbs_form_profile_validate_convert_time($time) {
+  // Check that the format matches else return value.
+  if (!preg_match('/\d{4}-\d{2}-\d{2}/', $time)) {
+    return $time;
+  }
+
   $cache = &drupal_static(__FUNCTION__, array());
   if (isset($cache[$time])) {
     return $cache[$time];
