@@ -116,10 +116,16 @@ function fbs_ding_entity_entities_is(array $entities, $class) {
   // display and has a chance of calling opensearch to get marc record. We
   // need none of this and only want to know if the material is reservable
   // and if it has any periodical information.
-  $results = fbs_service()->Catalog->getHoldings(
-    fbs_service()->agencyId,
-    $reservability_check
-  );
+  try {
+    $results = fbs_service()->Catalog->getHoldings(
+      fbs_service()->agencyId,
+      $reservability_check
+    );
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+    return $return;
+  }
 
   foreach ($results as $result) {
     $ding_entity_id = array_search($result->recordId, $reservability_check);
