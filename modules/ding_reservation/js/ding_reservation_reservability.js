@@ -20,7 +20,10 @@
           url: "/ding_reservation/" + entityIds.join(',') + "/is_reservable",
           success: function(result) {
             $.each(result, function(entityId, reservability) {
-              $(selector + '[data-entity-id="' + entityId + '"]', context).addClass('reservable');
+              if (reservability) {
+                $(selector + '[data-entity-id="' + entityId + '"]', context)
+                  .addClass('reservable');
+              }
             });
           }
         });
