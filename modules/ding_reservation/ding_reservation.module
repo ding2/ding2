@@ -116,13 +116,13 @@ function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
  * AJAX callback used to check the reservability of the passed entity ids.
  */
 function ding_reservation_is_reservable_ajax_callback($ding_entity_ids) {
-  $entity_ids = explode(',', $dign_entity_ids);
+  $ding_entity_ids = explode(',', $ding_entity_ids);
   $entities = ding_entity_load_multiple($ding_entity_ids);
-  $result = [];
-  foreach ($entities as $entity) {
-    $result[$entity->ding_entity_id] = $entity->is('reservable');
-  }
+  // Use the multiple version of $ding_entity->is() to allow providers to check
+  // reservability for multiple materials at once.
+  $result = ding_entity_entities_is($entities, 'reservable');
   drupal_json_output($result);
+  drupal_exit();
 }
 
 /**

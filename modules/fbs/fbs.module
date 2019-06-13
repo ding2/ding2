@@ -85,48 +85,62 @@ function fbs_ding_provider() {
 /**
  * Implements hook_ding_entity_is().
  */
-function fbs_ding_entity_is($object, $class) {
-  if (!$object instanceof TingEntity) {
-    return NULL;
+function fbs_ding_entity_is($entity, $class) {
+  $return = fbs_ding_entity_entities_is([$entity], $class);
+  return reset($return);
+}
+
+/**
+ * Implements hook_ding_entity_entities_is().
+ */
+function fbs_ding_entity_entities_is(array $entities, $class) {
+  $return = [];
+  $reservability_check = [];
+
+  foreach ($entities as $entity) {
+    $return[$entity->ding_entity_id] = NULL;
+    // We can only check reservability for ting entities.
+    if ($entity instanceof TingEntity) {
+      $reservability_check[$entity->ding_entity_id] = $entity->localId;
+    }
   }
 
-  switch ($class) {
-    case 'reservable':
-      // We get the full holdings since we both need to check reservability and
-      // whether FBS considers the object a periodical.
-      // Invoke the call to FBS API directly, as using fbs_availability_holdings
-      // (or going through ding_provider) sets up render array for holdings
-      // display and has a chance of calling opensearch to get marc record. We
-      // need none of this and only want to know if the material is reservable
-      // and if it has any periodical information.
-      try {
-        $result = fbs_service()->Catalog->getHoldings(
-          fbs_service()->agencyId,
-          $object->localId
-        );
-      }
-      catch (Exception $e) {
-        watchdog_exception('fbs', $e);
-        return NULL;
-      }
+  if (empty($reservability_check) || $class != 'reservable') {
+    return $return;
+  }
 
-      $result = reset($result);
-      $holdings = reset($result->holdings);
+  // We get the full holdings since we both need to check reservability and
+  // whether FBS considers the object a periodical.
+  // Invoke the call to FBS API directly, as using fbs_availability_holdings
+  // (or going through ding_provider) sets up render array for holdings
+  // display and has a chance of calling opensearch to get marc record. We
+  // need none of this and only want to know if the material is reservable
+  // and if it has any periodical information.
+  $results = fbs_service()->Catalog->getHoldings(
+    fbs_service()->agencyId,
+    $reservability_check
+  );
 
-      // If the record doesn't have any materials there's nothing to reserve and
-      // we can return FALSE early. This can happen for online posts from the
-      // library catalog.
-      if (empty($holdings->materials)) {
-        return FALSE;
-      }
+  foreach ($results as $result) {
+    $ding_entity_id = array_search($result->recordId, $reservability_check);
 
+    $holdings = reset($result->holdings);
+    // If the record doesn't have any materials there's nothing to reserve and
+    // we can safely set FALSE This can happen for online posts from the library
+    // catalog.
+    if (empty($holdings->materials)) {
+      $return[$ding_entity_id] = FALSE;
+    }
+    else {
       // To determine if this is a periodical we extract the first material and
       // look for periodical information.
       $material = reset($holdings->materials);
-
       // If the object is periodical, the main object should not be reservable.
-      return ($result->reservable && empty($material->periodical));
+      $return[$ding_entity_id] = ($result->reservable && empty($material->periodical));
+    }
   }
+
+  return $return;
 }
 
 /**
