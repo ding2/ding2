@@ -105,7 +105,6 @@ function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSe
   // To get the correct counter for the span, we need to run the
   // search without the actual interval filter on, so the complete dataset
   // is included.
-  $run_search = FALSE;
   $range = array();
 
   // Check if the facet is used, and remove it from the count_request.
@@ -126,7 +125,6 @@ function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSe
             break;
         }
 
-        $run_search = TRUE;
         unset($statements[$statement_delta]);
       }
     }
@@ -141,27 +139,20 @@ function _ding_facetbrowser_form_interval_element(TingSearchFacet $facet, TingSe
 
   $count_request = $count_request->withFilters($filters, BooleanStatementInterface::OP_AND, FALSE);
 
-  // Only run the counter, if it's different from the search already
-  // performed.
-  if ($run_search === TRUE) {
-    $cache_key = 'ding_facetbrowser:interval:' . md5(serialize($count_request));
-    $cache = cache_get($cache_key);
+  $cache_key = 'ding_facetbrowser:interval:' . md5(serialize($count_request));
+  $cache = cache_get($cache_key);
 
-    if (!$cache) {
-      $count_search_result = $count_request
-        ->withCount(0)
-        ->withFacets([$facet->getName()])
-        ->withTermsPrFacet(999)
-        ->execute();
+  if (!$cache) {
+    $count_search_result = $count_request
+      ->withCount(0)
+      ->withFacets([$facet->getName()])
+      ->withTermsPrFacet(999)
+      ->execute();
 
-      cache_set($cache_key, $count_search_result, 'cache', CACHE_TEMPORARY);
-    }
-    else {
-      $count_search_result = $cache->data;
-    }
+    cache_set($cache_key, $count_search_result, 'cache', CACHE_TEMPORARY);
   }
   else {
-    $count_search_result = ting_search_current_results();
+    $count_search_result = $cache->data;
   }
 
   // Set min and max values.
