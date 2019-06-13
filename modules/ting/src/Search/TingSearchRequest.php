@@ -515,6 +515,12 @@ class TingSearchRequest {
   public function withFilters($filters, $logic_operator = BooleanStatementInterface::OP_AND, $append = TRUE) {
     // First off, protect against silly code.
     if (empty($filters)) {
+      if ($append !== TRUE) {
+        $clone = clone $this;
+        $clone->filters = [];
+        return $clone;
+      }
+
       return $this;
     }
 
