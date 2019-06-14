@@ -246,7 +246,7 @@ function _ting_search_carousel_find_entities_with_covers(TingSearchCarouselQuery
   // Search offset must be divisible by chunk size.
   // We cannot map a situation where offset is not divisible by chunk size to
   // the search abstraction layer paging model.
-  if (!$start % $size === 0) {
+  if ($start % $size !== 0) {
     throw new InvalidArgumentException('Offset to start from % search chunk size should not have remainders left.');
   }
 
