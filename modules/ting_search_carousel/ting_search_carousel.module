@@ -291,7 +291,7 @@ function _ting_search_carousel_find_entities_with_covers(TingSearchCarouselQuery
     $entities_found_with_covers[$id] = $entities[$id];
   }
 
-  return array($entities_found_with_covers, $start, $finished);
+  return array($entities_found_with_covers, $start + $size, $finished);
 }
 
 /**
