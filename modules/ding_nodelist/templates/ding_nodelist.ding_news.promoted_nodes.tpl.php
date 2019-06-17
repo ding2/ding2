@@ -3,6 +3,9 @@
 /**
  * @file
  * Ding news promoted nodes template.
+ *
+ * @var object $item
+ * @var array $class
  */
 
 $position = ($class[0] == 'first' && $class[1] == 'left' || $class[0] == 'last' && $class[1] == 'right');
@@ -10,15 +13,12 @@ $classes = array("ding_nodelist-pn-item");
 $classes[] = (empty($item->image) ? 'no-bgimage' : NULL);
 $classes[] = (isset($item->video) ? 'has-video' : NULL);
 $classes = implode(" ", $classes);
-
 ?>
 <div
   class="<?php print $classes; ?>"
   <?php if (!empty($item->image) && $position): ?>
     style="background-image: url(<?php print $item->image; ?>);"
-  <?php
-  endif;
-  ?>
+  <?php endif; ?>
 >
   <?php if (isset($item->video)): ?>
     <div class="media-container">
@@ -30,9 +30,7 @@ $classes = implode(" ", $classes);
   ?>
   <?php if (!empty($item->image) && !$position): ?>
     <div class="nb-image" style="background-image:url(<?php print $item->image; ?>);"></div>
-  <?php
-  endif;
-  ?>
+  <?php endif; ?>
   <div class="news-info">
     <h3><?php print l($item->title, 'node/' . $item->nid); ?></h3>
     <?php print drupal_render($item->category_link); ?>
@@ -45,8 +43,6 @@ $classes = implode(" ", $classes);
       <div class='pn-media-play'>
         <div class='pn-play pn-round'><i class='icon-play'></i></div>
       </div>
-    <?php
-    endif;
-    ?>
+    <?php endif; ?>
   </div>
 </div>
