@@ -618,7 +618,7 @@ function theme_ding_entity_rating_promote_ratings($variables) {
   $history_button = '';
   $translatables = ding_entity_rating_ding_interaction_view();
 
-  if (count(ding_provider_invoke_page('loan', 'list', $variables['account'])) > 0) {
+  if (count(ding_provider_invoke('loan', 'list', $variables['account'])) > 0) {
     $loan_button = "<li>" . l($translatables['current_loans'], "user/$uid/status/loans") . "</li>";
   }
 

@@ -169,7 +169,6 @@ function ding_provider_implements($type, $hook) {
  * the provider function, or throws DingProviderAuthException if not
  * authenticated.
  *
- * @see ding_provider_invoke_page()
  * @see ding_provider_get_form()
  * @see ding_provider_ajax_form_callback()
  *
@@ -270,7 +269,6 @@ function ding_provider_invoke_page($type, $hook) {
  * thrown, and restart form processing on successful authentication.
  *
  * @see ding_provider_invoke()
- * @see ding_provider_invoke_page()
  * @see ding_provider_ajax_form_callback()
  */
 function ding_provider_get_form($form_id) {
@@ -337,7 +335,7 @@ function ding_provider_build_form($form_id, &$form_state) {
  * the AJAX request on successful submission.
  *
  * @see ding_provider_invoke()
- * @see ding_provider_invoke_page()
+ * @see ding_provider_invoke()
  * @see ding_provider_get_form()
  */
 function ding_provider_ajax_form_callback() {
