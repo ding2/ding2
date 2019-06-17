@@ -211,8 +211,6 @@ jobs:
         command: |
           drush cc all
           drush cgen
-          drush dis -y ding_adgangsplatformen
-          drush en -y ding_user_form
           drush en -y connie ting_covers_placeholder
           drush dis -y ting_covers_addi
           drush vset -y ting_agency 100200

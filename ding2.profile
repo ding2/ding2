@@ -365,6 +365,7 @@ function ding2_module_selection_form($form, &$form_state) {
     'bpi' => st('BPI'),
     'ding_debt' => st('Ding payment'),
     'ding_dibs' => st('Dibs payment gateway'),
+    'ding_user_form' => st('Enable normal user login (you should only select this if you are not using adgangsplatformen)'),
     'ding_adgangsplatformen' => st('Single sign-on with Adgangsplatformen'),
   );
 
@@ -383,7 +384,7 @@ function ding2_module_selection_form($form, &$form_state) {
       'ding_contact',
       'ding_debt',
       'ding_dibs',
-      'ding_adgangsplatformen',
+      'ding_user_form',
     ),
   );
 
