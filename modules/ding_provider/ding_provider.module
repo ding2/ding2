@@ -335,7 +335,6 @@ function ding_provider_build_form($form_id, &$form_state) {
  * the AJAX request on successful submission.
  *
  * @see ding_provider_invoke()
- * @see ding_provider_invoke()
  * @see ding_provider_get_form()
  */
 function ding_provider_ajax_form_callback() {
