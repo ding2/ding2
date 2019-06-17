@@ -1466,19 +1466,27 @@ function _ding_nodelist_get_event_date($date) {
  *   Formatted event time period.
  */
 function _ding_nodelist_format_event_time(array $date) {
-  $start = strtotime($date[0]['value'] . ' ' . $date[0]['timezone_db']);
-  $end = strtotime($date[0]['value2'] . ' ' . $date[0]['timezone_db']);
+  $start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
+  // Set timezone to local timezone.
+  $start->setTimezone(new DateTimeZone($date[0]['timezone']));
+  $start_string = $start->format('H:i');
 
-  $start_string = format_date($start, 'custom', 'H:i', $date[0]['timezone']);
-  $end_string = format_date($end, 'custom', 'H:i', $date[0]['timezone']);
+  // Create a dateObject from enddate, set base timezone to UTC.
+  $end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
+  // Set timezone to local timezone.
+  $end->setTimezone(new DateTimeZone($date[0]['timezone']));
 
-  if ($start_string == $end_string) {
-    $result = $start_string;
-  }
-  elseif ($start_string == '00:00') {
+  if ($start_string == '00:00') {
     $result = t('All day');
   }
+  elseif ($start_string == $end->format('H:i')) {
+    $result = $start_string;
+  }
+  elseif ($end->difference($start) > 86400) {
+    $result = $start_string;
+  }
   else {
+    $end_string = $end->format('H:i');
     $result = t('!start - !end', array('!start' => $start_string, '!end' => $end_string));
   }
 
@@ -1498,13 +1506,18 @@ function _ding_nodelist_format_event_time(array $date) {
  */
 function _ding_nodelist_format_event_date(array $date, $format = 'composed') {
   $result = '';
-  $start = strtotime($date[0]['value'] . ' ' . $date[0]['timezone_db']);
-  $end = strtotime($date[0]['value2'] . ' ' . $date[0]['timezone_db']);
+  $start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
+  // Set timezone to local timezone.
+  $start->setTimezone(new DateTimeZone($date[0]['timezone']));
+  $start_date = $start->format('d.m.y');
+  $start_time = $start->format('H:i');
 
-  $start_date = format_date($start, 'custom', 'd.m.y', $date[0]['timezone']);
-  $start_time = format_date($start, 'custom', 'H:i', $date[0]['timezone']);
-  $end_date = format_date($end, 'custom', 'd.m.y', $date[0]['timezone']);
-  $end_time = format_date($end, 'custom', 'H:i', $date[0]['timezone']);
+  // Create a dateObject from enddate, set base timezone to UTC.
+  $end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
+  // Set timezone to local timezone.
+  $end->setTimezone(new DateTimeZone($date[0]['timezone']));
+  $end_date = $end->format('d.m.y');
+  $end_time = $end->format('H:i');
 
   if ($format == 'composed') {
     if ($start_date == $end_date) {
