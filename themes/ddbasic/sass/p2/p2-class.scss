@@ -11,21 +11,10 @@
   .sharer-button {
     @extend %button;
     float: left;
-    margin-right: 15px;
-    padding-right: 15px;
-    &:last-of-type {
+    margin-top: 20px;
+    margin-right: 20px;
+    &:last-child {
       margin-right: 0;
-    }
-    //Mobile
-    @include media($mobile) {
-      float: right;
-      width: 171px;
-      &:last-of-type {
-        margin-right: 15px;
-      }
-      &:first-of-type {
-        margin-right: 0;
-      }
     }
   }
 }

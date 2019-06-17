@@ -161,6 +161,13 @@ function ding_event_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'flag_mobile_app_default_ding_event';
+  $strongarm->value = 1;
+  $export['flag_mobile_app_default_ding_event'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'flag_push_to_mongo_default_ding_event';
   $strongarm->value = 1;
   $export['flag_push_to_mongo_default_ding_event'] = $strongarm;

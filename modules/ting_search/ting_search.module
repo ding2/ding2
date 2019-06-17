@@ -7,6 +7,7 @@
 use Ting\Search\TingSearchRawFilter;
 use Ting\Search\TingSearchResultInterface;
 use Ting\Search\TingSearchSort;
+use Ting\Search\TingSearchFieldFilter;
 
 define('TING_SEARCH_FORM_STYLE_NORMAL', 'normal');
 define('TING_SEARCH_FORM_STYLE_EXTENDED', 'extended');
@@ -117,8 +118,7 @@ function ting_search_ding_facetbrowser() {
   $results->show_empty = FALSE;
   $search_result = ting_search_current_results();
   if ($search_result) {
-    $results->facets = $search_result->getFacets();
-    $results->searchkey = $search_result->getSearchRequest()->getFullTextQuery();
+    $results->search_result = $search_result;
     return $results;
   }
 }
@@ -167,6 +167,10 @@ function ting_search_theme($existing, $type, $theme, $path) {
  * For the form search_block_form.
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+  // Screenreaders and SEO uses the role attribute to know that this is a
+  // search form. This means hidden headings are not necessary.
+  $form['#attributes']['role'] = 'search';
+
   // Remove the form token so the form becomes cachable. If we don't, all
   // pages with the search form becomes un-cachable, as drupal_validate_form()
   // will check the token and fail if the current user is not the same as the
@@ -367,9 +371,20 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
     if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
       $facets = $conditions['facets'];
       foreach ($facets as $facet) {
-        $facet = explode(':', $facet, 2);
-        if ($facet[0]) {
-          $query = $query->withFieldFilter($facet[0], rawurldecode($facet[1]));
+        // Parse a facet, assuming [name]:[value]:[compare operator].
+        $parts = explode(':', $facet);
+        if ($parts[0]) {
+          $operator = TingSearchFieldFilter::DEFAULT_OPERATOR;
+          if (count($parts) > 2) {
+            if (TingSearchFieldFilter::validOperator(end($parts))) {
+              $operator = array_pop($parts);
+            }
+          }
+
+          $name = array_shift($parts);
+          $value = implode('', $parts);
+
+          $query = $query->withFieldFilter($name, rawurldecode($value), $operator);
         }
       }
     }

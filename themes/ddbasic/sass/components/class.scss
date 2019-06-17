@@ -730,6 +730,27 @@ ul.tabs.primary {
 }
 
 // ==========================================================================
+// Year span
+// ==========================================================================
+.ding-facetbrowser-interval {
+  margin: 6px 2px 0;
+}
+
+.ding-facetbrowser-interval__slider {
+  margin-bottom: 8px;
+}
+
+.ding-facetbrowser-interval__start,
+.ding-facetbrowser-interval__end {
+  width: 50%;
+  float: left;
+}
+
+.ding-facetbrowser-interval__end {
+  text-align: right;
+}
+
+// ==========================================================================
 // Misc
 // ==========================================================================
 

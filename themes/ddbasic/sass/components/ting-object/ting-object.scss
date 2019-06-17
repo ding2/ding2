@@ -15,6 +15,14 @@
       width: 100%;
       padding-top: 130%;
       background: $grey-dark;
+
+      > a:focus {
+        .ting-cover {
+          border: 3px solid $charcoal;
+          box-sizing: border-box;
+        }
+      }
+
       .ting-cover {
         position: absolute;
         top: 0;
@@ -144,6 +152,11 @@
         &.button-see-online {
           right: 20px;
         }
+
+        // Make sure that if we have keyboard focus on the element, we can see it.
+        &:focus {
+          opacity: 1;
+        }
       }
 
       // Hover for non touch devices
@@ -250,7 +263,7 @@
   &.view-mode-reference-teaser {
     padding: 15px 0;
     background-color: $grey;
-    .cover {
+    .ting-cover {
       @include span-columns(2 of 7);
       padding-left: 15px;
       min-height: 1px;
@@ -343,7 +356,7 @@
   &.view-mode-ting-reference-preview {
     padding: 0;
     background-color: transparent;
-    .cover {
+    .ting-cover {
       @include span-columns(1 of 6);
       padding-left: 0;
       min-height: 1px;

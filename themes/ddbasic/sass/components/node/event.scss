@@ -157,6 +157,7 @@
     }
     // Hover for non touch devices
     .no-touch & {
+      &.is-hovered,
       &:hover {
         .background {
           @include transition(

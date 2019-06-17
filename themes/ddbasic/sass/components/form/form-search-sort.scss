@@ -68,6 +68,11 @@
 
       // Leaving space for .select-wrapper::before icon.
       padding-right: 20px;
+
+      &:focus {
+        font-weight: bold;
+        color: $color-text-link;
+      }
     }
   }
 

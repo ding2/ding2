@@ -742,3 +742,17 @@ function ding2_update_7064() {
   $ecc_settings['show_disagree_button'] = 0;
   i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
 }
+
+/**
+  * Update translations.
+ */
+function ding2_update_7065() {
+  ding2_translation_update();
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7066() {
+  ding2_translation_update();
+}

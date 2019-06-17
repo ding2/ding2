@@ -50,6 +50,8 @@ function ddbasic_process_node(&$variables, $hook) {
   // For search result view mode add type and title.
   if ($variables['view_mode'] == 'search_result') {
     $node_type = node_type_get_name($variables['type']);
+
+    // Create markup.
     $variables['content']['type'] = array(
       '#markup' => '<div class="view-mode-search-result-content-type">' . $node_type . '</div>',
       '#weight' => -9999,

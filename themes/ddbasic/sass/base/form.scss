@@ -320,6 +320,7 @@ select {
   border: none;
   background-color: transparent;
   &:focus {
+    text-decoration: underline;
     outline: none;
   }
   &::-ms-expand {

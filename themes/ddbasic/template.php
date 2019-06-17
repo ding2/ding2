@@ -768,12 +768,7 @@ function ddbasic_process_ting_object(&$vars) {
       break;
 
     case 'ting_object':
-
-      $uri_collection = entity_uri('ting_collection', $vars['object']);
-      $vars['ting_object_url_collection'] = url($uri_collection['path']);
-
       $uri_object = entity_uri('ting_object', $vars['object']);
-      $vars['ting_object_url_object'] = url($uri_object['path']);
 
       switch ($vars['elements']['#view_mode']) {
 

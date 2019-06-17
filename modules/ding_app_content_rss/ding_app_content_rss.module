@@ -181,6 +181,14 @@ function ding_app_content_rss_views_rss_item_elements() {
       'title' => t('Sticky'),
       'description' => t('Boolean value for sticky.'),
     ),
+    'content-rss:place_room' => array(
+      'title' => t('Place/Room'),
+      'description' => t('Use this to direct your guests to the correct place'),
+    ),
+    'content-rss:organizers' => array(
+      'title' => t('Organizers'),
+      'description' => t('One or more organizers of the event.'),
+    ),
   );
 }
 

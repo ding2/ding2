@@ -214,6 +214,13 @@
           text-indent: 0;
         }
 
+        &:focus {
+          // Mimicking native outline styling.
+          outline: 1px dotted $color-primary;
+          outline: 5px auto -webkit-focus-ring-color;
+        }
+
+        &:focus,
         &:hover {
           cursor: pointer;
           &::after {
@@ -226,6 +233,7 @@
           cursor: default;
           opacity: $disabled;
 
+          &:focus,
           &:hover {
             &::after {
               background-color: $color-secondary;
@@ -234,20 +242,6 @@
           }
         }
       }
-    }
-  }
-}
-
-.ding-carousel-actions {
-  position: relative;
-  width: calc(100% - 166px);
-  bottom: 84px;
-  .more-link {
-    margin-right: 15px;
-  }
-  form {
-    @include media($mobile) {
-      display: none;
     }
   }
 }
