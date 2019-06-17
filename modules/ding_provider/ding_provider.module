@@ -220,6 +220,10 @@ function ding_provider_form($type, $form_id) {
  * @see ding_provider_invoke()
  * @see ding_provider_get_form()
  * @see ding_provider_ajax_form_callback()
+ *
+ * @deprecated Use ding_provider_invoke() as the user authentication redirect do
+ * not work correctly due to changes in the frontend. Also the default
+ * authentication page is now used for non-provider users login.
  */
 function ding_provider_invoke_page($type, $hook) {
   $args = func_get_args();
@@ -236,6 +240,17 @@ function ding_provider_invoke_page($type, $hook) {
     if ($e instanceof DingProviderEnduserException) {
       // Rethrow user exceptions.
       throw $e;
+    }
+    elseif ($e instanceof DingProviderAuthException) {
+      // Redirect to auth page.
+      if (module_exists('ding_user')) {
+        $authpage = 'user/login';
+        if (user_is_logged_in()) {
+          global $user;
+          $authpage = 'user/' . $user->uid . '/authenticate';
+        }
+        drupal_goto($authpage, array('query' => ding_provider_get_destination()));
+      }
     }
     if (arg(0) != 'ding_provider_error') {
       watchdog('ding_provider', 'Uncaught exception in ding_provider_invoke_page: @message', array('@message' => $e->getMessage()), WATCHDOG_ERROR);

@@ -510,7 +510,7 @@ function ding_user_provider_profile($account) {
  *
  * @todo: Implement hook in the providers that returns the name.
  *
- * @return ProfileType[]|bool
+ * @return ProfileType|bool
  *   The profile type entity or FALSE if not found.
  */
 function ding_user_get_provider_profile_type() {
