@@ -7,6 +7,7 @@
  * @var object $item
  * @var string $column
  */
+
 $image = '';
 if (!empty($item->image)) {
   $image = '<div class="ding-news-list-image nb-image" style="background-image:url(' . $item->image . ');"></div>';
