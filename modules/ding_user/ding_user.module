@@ -518,6 +518,7 @@ function ding_user_get_provider_profile_type() {
   $provider = _ding_provider_get_provider('user');
 
   // Load provider profile type.
+  /* @var ProfileType|FALSE $profile_type */
   $profile_type = profile2_type_load('provider_' . $provider['module']);
 
   // Return the profile type entity.
