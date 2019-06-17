@@ -5,23 +5,30 @@
  */
 
 /**
- * Implements hook_auth_login_credentials().
+ * Implements hook_auth_single_sign_on().
  *
  * @oaram string $uuid
  *   Unique id for the person that's should be generated credentials for.
  *
- * Used to set the name and password to log into the library system after auth
- * login.
+ * @throws DingProviderUserAuthFailure
+ *   If authentication fails.
  */
 function fbs_auth_single_sign_on($uuid) {
-  // Generate a one time password for this request. Shouldn't really be needed
-  // as we'll check in the login function that auth was called for the user, but
-  // it'll add some randomness to the procedure.
-  $pass = user_password(16);
-  $credentials = array(
-    'name' => $uuid,
-    'pass' => $pass,
-  );
+  $res = new stdClass();
+  try {
+    $res = fbs_service()->Patron->getPreAuthenticatedPatron(fbs_service()->agencyId, $uuid);
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+  }
 
-  return $credentials;
+  if (empty($res->authenticated)) {
+    throw new DingProviderUserAuthFailure();
+  }
+
+  // Parse/transform patron into user info array.
+  $result = _fbs_patron_transform($uuid, $res->patron);
+  $result['success'] = $res->authenticated;
+
+  return $result;
 }
