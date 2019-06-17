@@ -18,24 +18,27 @@ $case_one = '';
 if (!empty($item->image) && $position) {
   $case_one = 'style="background-image: url(' . $item->image . ');"';
 }
+
 $case_two = '';
 if (!empty($item->image) && !$position) {
   $case_two = '<div class="nb-image" style="background-image:url(' . $item->image . ');"></div>';
 }
+
+$video_player = '';
+if (isset($item->video)) {
+  $video_player = '<div class="media-container">';
+  $video_player .= '<div class="media-content" data-url="' . $item->video . '"></div>';
+  $video_player .= '<div class="pn-close-media"><i class="icon-cross"></i></div>';
+  $video_player .= '</div>';
+}
+
 $video_play_btn = '';
 if (isset($item->video)) {
   $video_play_btn = "<div class='pn-media-play'><div class='pn-play pn-round'><i class='icon-play'></i></div></div>";
 }
 ?>
 <div class="<?php print $classes; ?>" <?php print $case_one; ?>>
-  <?php if (isset($item->video)): ?>
-    <div class="media-container">
-      <div class="media-content" data-url="<?php print $item->video; ?>"></div>
-      <div class="pn-close-media"><i class="icon-cross"></i></div>
-    </div>
-  <?php
-  endif;
-  ?>
+  <?php print $video_player; ?>
   <?php print $case_two; ?>
   <div class="news-info">
     <h3><?php print l($item->title, 'node/' . $item->nid); ?></h3>
