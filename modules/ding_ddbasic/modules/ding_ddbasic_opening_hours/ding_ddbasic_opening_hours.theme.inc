@@ -159,7 +159,12 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   // Default category found, so move data around.
   foreach ($structured as &$day) {
     if (array_key_exists(-1, $day['cols'])) {
-      isset($day['cols'][$default]) ? $day['cols'][$default] += $day['cols'][-1] : $day['cols'][$default] = $day['cols'][-1];
+      if (isset($day['cols'][$default]) && is_numeric($day['cols'][-1])) {
+        $day['cols'][$default] += $day['cols'][-1];
+      }
+      else {
+        $day['cols'][$default] = $day['cols'][-1];
+      }
       unset($day['cols'][-1]);
     }
 
