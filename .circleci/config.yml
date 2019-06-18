@@ -224,8 +224,8 @@ jobs:
           drush vset -y ting_openlist_wsdl 'https://test.openlist.ddbcms.dk/?wsdl'
           drush vset -y ting_library_code 100200
           drush vset -y user_consent_activate true
-          drush vset -y loan_history_store_title ''
-          drush vset -y loan_history_store_title_first_time ''
+          drush php-eval 'variable_set("loan_history_store_title", array("value" => ""));'
+          drush php-eval 'variable_set("loan_history_store_title_first_time", array("value" => ""));'
           drush php-eval 'variable_set("loan_history_store_description_first_time", array("value" => ""));'
           drush php-eval 'variable_set("loan_history_store_description", array("value" => ""));'
           sudo chown -R 33:33 /var/www/html/sites/default/files

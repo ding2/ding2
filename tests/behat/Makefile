@@ -36,7 +36,7 @@ setup-config:
 
 	# Activate consent and set config.
 	$(DRUSH) vset -y user_consent_activate true
-	$(DRUSH) vset -y loan_history_store_title ''
-	$(DRUSH) vset -y loan_history_store_title_first_time ''
+	$(DRUSH) php-eval 'variable_set("loan_history_store_title", array("value" => ""));'
+	$(DRUSH) php-eval 'variable_set("loan_history_store_title_first_time", array("value" => ""));'
 	$(DRUSH) php-eval 'variable_set("loan_history_store_description_first_time", array("value" => ""));'
 	$(DRUSH) php-eval 'variable_set("loan_history_store_description", array("value" => ""));'
