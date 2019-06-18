@@ -3,7 +3,7 @@ version: 2
 jobs:
   drush_make:
     docker:
-      - image: circleci/php:7.0-cli
+      - image: circleci/php:7.2-cli
     steps:
     - checkout
     - run:
@@ -11,7 +11,7 @@ jobs:
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
           source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+          composer global require drush/drush:8.* --prefer-source --no-interaction
     - run:
         name: Download installation profile dependencies using Drush make
         command: drush make ding2.make --no-core --contrib-destination=. -y --concurrency=8
@@ -63,7 +63,7 @@ jobs:
 
   php_lint:
     docker:
-    - image: circleci/php:7.0-cli
+    - image: circleci/php:7.2-cli
     steps:
     - checkout
     - run:
@@ -78,7 +78,7 @@ jobs:
 
   site_install:
     docker:
-    - image: circleci/php:7.0-cli
+    - image: circleci/php:7.2-cli
     - image: circleci/mysql:5.7.20-ram
     working_directory: ~/drupal
     steps:
@@ -98,7 +98,7 @@ jobs:
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
           source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+          composer global require drush/drush:8.* --prefer-source --no-interaction
     - run:
         name: Install Ding2 site
         command: |
@@ -127,7 +127,7 @@ jobs:
 
   unit_tests:
     docker:
-    - image: circleci/php:7.0-cli
+    - image: circleci/php:7.2-cli
     - image: circleci/mysql:5.7.20-ram
     working_directory: ~/drupal
     steps:
@@ -147,7 +147,7 @@ jobs:
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
           source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+          composer global require drush/drush:8.* --prefer-source --no-interaction
     - run:
         name: Import database
         command: drush sqlq --file=$HOME/db/db.sql
@@ -172,7 +172,7 @@ jobs:
 
   behat_tests:
     docker:
-    - image: circleci/php:7.0-apache
+    - image: circleci/php:7.2-apache
     - image: circleci/mysql:5.7.20-ram
     - image: justinribeiro/chrome-headless:stable
     working_directory: ~/drupal
@@ -202,7 +202,7 @@ jobs:
         command: |
           echo 'export PATH=~/.composer/vendor/bin:$PATH'  >> $BASH_ENV
           source $BASH_ENV
-          composer global require drush/drush:6.* --prefer-source --no-interaction
+          composer global require drush/drush:8.* --prefer-source --no-interaction
     - run:
         name: Import database
         command: drush sqlq --file=$HOME/db/db.sql
@@ -224,8 +224,8 @@ jobs:
           drush vset -y ting_openlist_wsdl 'https://test.openlist.ddbcms.dk/?wsdl'
           drush vset -y ting_library_code 100200
           drush vset -y user_consent_activate true
-          drush vset -y loan_history_store_title ''
-          drush vset -y loan_history_store_title_first_time ''
+          drush php-eval 'variable_set("loan_history_store_title", array("value" => ""));'
+          drush php-eval 'variable_set("loan_history_store_title_first_time", array("value" => ""));'
           drush php-eval 'variable_set("loan_history_store_description_first_time", array("value" => ""));'
           drush php-eval 'variable_set("loan_history_store_description", array("value" => ""));'
           sudo chown -R 33:33 /var/www/html/sites/default/files

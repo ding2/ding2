@@ -404,7 +404,7 @@ function opensearch_xautoload(LocalDirectoryAdapter $adapter) {
  */
 function opensearch_page_alter(&$page) {
   $calls = &drupal_static('opensearch_execute_cache');
-  if (count($calls) > 5) {
+  if (is_array($calls) && count($calls) > 5) {
     $calls_str = array();
     foreach ($calls as $call) {
       $calls_str[] = print_r($call, TRUE);

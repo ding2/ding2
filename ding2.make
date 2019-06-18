@@ -41,13 +41,7 @@ projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.9"
-; Fix regression. See https://www.drupal.org/node/2209775
-projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-readd_access_callback_params-2209775-24.patch"
-; Fix PHP7 errors - PHP 4 style constructors - https://www.drupal.org/node/2528736
-projects[ctools][patch][] = "https://www.drupal.org/files/issues/deprecating_php4_style-2528736-23.patch"
-; PHP7 - Uniform Variable Syntax updates are causing exported pages to not have names.
-projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-uniform-variable-syntax-2635876-6.patch"
+projects[ctools][version] = "1.15"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -105,7 +99,7 @@ projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.10"
+projects[features][version] = "2.11"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
@@ -267,7 +261,7 @@ projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
 
 projects[module_filter][subdir] = "contrib"
-projects[module_filter][version] = "2.0"
+projects[module_filter][version] = "2.2"
 
 ; NanoSOAP is currently not placed in contrib at this was not the case
 ; when using recursive make files.
@@ -318,17 +312,13 @@ projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.4"
-; Fix PHP7 errors - PHP 4 style constructors - (https://www.drupal.org/node/2557061)
-projects[panels][patch][] = "https://www.drupal.org/files/issues/deprecated-constructor-in-php-7-2557061-3.patch"
-
+projects[panels][version] = "3.9"
 
 projects[panels_breadcrumbs][subdir] = "contrib"
-projects[panels_breadcrumbs][version] = "2.1"
+projects[panels_breadcrumbs][version] = "2.4"
 
 projects[panels_everywhere][subdir] = "contrib"
-projects[panels_everywhere][version] = "1.0-rc1"
-projects[panels_everywhere][type] = "module"
+projects[panels_everywhere][version] = "1.0"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
@@ -355,7 +345,7 @@ projects[role_delegation][subdir] = "contrib"
 projects[role_delegation][version] = "1.1"
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.7"
+projects[rules][version] = "2.12"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.5"
@@ -458,7 +448,7 @@ projects[watchdog_filtering][subdir] = "contrib"
 projects[watchdog_filtering][version] = "1.3"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.10"
+projects[webform][version] = "4.19"
 
 projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
