@@ -31,4 +31,3 @@ Feature: Creation of basic campaigns
     When I go to "admin/content"
     And I click "Page without campaign"
     Then the campaign "Behatman & Robin" should not appear on the page
-    And I am on "published-page"

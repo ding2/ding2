@@ -29,10 +29,11 @@ class LoginPage extends Page {
    *   The password for the account
    *
    * @return NodeElement
+   *   The node element of containing the username.
    *
    * @throws ElementNotFoundException
    */
-  public function login(string $username, string $password): NodeElement
+  public function login(string $username, string $password)
   {
     $this->open();
 

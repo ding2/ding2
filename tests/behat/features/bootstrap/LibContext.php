@@ -1272,45 +1272,6 @@ class LibContext implements Context, SnippetAcceptingContext
     }
 
     /**
-     * Implements step to wait until a text disappears.
-     *
-     * @param int $waitmax
-     *    Number of waits of 300 ms.
-     * @param string $txt
-     *    Text that we wait for will disappear.
-     *
-     * @When waiting up to :waitmax until :txt goes away
-     */
-    public function waitUntilTextIsGone($waitmax, $txt)
-    {
-        $wait = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
-        $continueWaiting = true;
-        if (!$wait) {
-            return;
-        }
-
-        try {
-            $continueWaiting = ($wait->isVisible()) ? true : false;
-        } catch (Exception $e) {
-            // Ignore.
-        }
-
-        while ($continueWaiting and --$waitmax > 0) {
-            usleep(300);
-            $wait = $this->getPage()->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
-            if ($wait) {
-                try {
-                    $continueWaiting = ($wait->isVisible()) ? true : false;
-                } catch (Exception $e) {
-                    // Ignore.
-                }
-            } else {
-                $continueWaiting = false;
-            }
-        }
-    }
-
-    /**
      * Implements step to wait until text appears.
      *
      * Uses the 'jQuery.active' property to test if there are outstanding
