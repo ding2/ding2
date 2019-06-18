@@ -1357,7 +1357,7 @@ class LibContext implements Context, SnippetAcceptingContext
      *    If text does appear.
      */
     public function assertTextDoesNotAppear($txt, $seconds) {
-        $this->getSession()->getPage()->waitFor(3, function () {
+        $this->getSession()->getPage()->waitFor($seconds, function () {
             // jQuery.active holds the number of outstanding ajax requests
             return $this->getSession()->getDriver()->evaluateScript('jQuery.active === 0');
         });
