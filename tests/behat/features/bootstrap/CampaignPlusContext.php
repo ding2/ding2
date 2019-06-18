@@ -9,12 +9,14 @@ use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\MinkExtension\Context\RawMinkContext;
 use Page\CampaignPlus\CreateCampaignPlusPage;
-use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 
 /**
  * Class CampaignPlusContext
  */
 class CampaignPlusContext extends RawMinkContext {
+
+  use AjaxCompleteTrait;
+
   private $createCampaignPage;
 
   /**
@@ -195,10 +197,7 @@ class CampaignPlusContext extends RawMinkContext {
    * @Then the campaign :title should appear on the page
    */
   public function assertCampaignAppears(string $title) {
-    $this->getSession()->getPage()->waitFor(5, function () {
-      // jQuery.active holds the number of outstanding ajax requests
-      return $this->getSession()->getDriver()->evaluateScript('jQuery.active === 0');
-    });
+    $this->waitForAjaxCalls();
 
     $campaignHeadings = $this->getSession()->getPage()->findAll('css', '.ding-campaign-headline');
     foreach ($campaignHeadings as $campaignHeading) {
@@ -219,7 +218,6 @@ class CampaignPlusContext extends RawMinkContext {
    *
    * @param string $title
    *    The title of the campaign to wait for.
-
    *
    * @throws ExpectationException
    *    If the campaign does not appear.
@@ -227,10 +225,7 @@ class CampaignPlusContext extends RawMinkContext {
    * @Then the campaign :title should not appear on the page
    */
   public function assertCampaignDoesNotAppears(string $title) {
-    $this->getSession()->getPage()->waitFor(5, function () {
-      // jQuery.active holds the number of outstanding ajax requests
-      return $this->getSession()->getDriver()->evaluateScript('jQuery.active === 0');
-    });
+    $this->waitForAjaxCalls();
 
     $campaignHeadings = $this->getSession()->getPage()->findAll('css', '.ding-campaign-headline');
     foreach ($campaignHeadings as $campaignHeading) {
