@@ -38,7 +38,7 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
   }
 
   if (!$loans) {
-    $loans = ding_provider_invoke_page('loan', 'list', $account);
+    $loans = ding_provider_invoke('loan', 'list', $account);
     $today = date('Y-m-d', REQUEST_TIME);
 
     // Pre-load all entities to speed up the page.

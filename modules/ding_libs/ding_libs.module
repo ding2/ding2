@@ -148,5 +148,23 @@ function ding_libs_libraries_info() {
         ),
       ),
     ),
+    'random_compat' => array(
+      'name' => 'random_compat',
+      'vendor url' => 'https://github.com/paragonie/random_compat',
+      'download url' => 'https://github.com/paragonie/random_compat',
+      'version' => 'v2.0.17',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'oauth2-client' => array(
+      'name' => 'oauth2-client',
+      'vendor url' => 'https://github.com/thephpleague/oauth2-client',
+      'download url' => 'https://github.com/thephpleague/oauth2-client',
+      'version' => '2.3.0',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
   );
 }

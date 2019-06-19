@@ -48,13 +48,9 @@ function connie_ding_provider() {
         'prefix' => 'debt',
         'file' => 'connie.debt.inc',
       ),
-      'wayf' => array(
-        'prefix' => 'wayf',
-        'file' => 'connie.wayf.inc',
-      ),
-      'user_consent' => array(
-        'prefix' => 'user_consent',
-        'file' => 'connie.user_consent.inc',
+      'auth' => array(
+        'prefix' => 'auth',
+        'file' => 'connie.auth.inc',
       ),
     ),
   );

@@ -27,7 +27,7 @@ function template_preprocess_ting_object_cover(&$variables) {
   );
   $variables['image'] = '';
 
-  $variables['title'] = implode(', ', $object->creators) . ': ' . $object->title;
+  $variables['title'] = implode(', ', $object->getCreators()) . ': ' . $object->getTitle();
 
   if (cache_get('ting_covers:' . $object->id)) {
     // We know that there is no cover available for this object so avoid

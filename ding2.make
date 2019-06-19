@@ -370,7 +370,7 @@ projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_permissions-dont_disable_all_permissions-2499607-3.patch"
 
 projects[services][subdir] = "contrib"
-projects[services][version] = "3.22"
+projects[services][version] = "3.24"
 
 projects[services_views][subdir] = "contrib"
 projects[services_views][version] = "1.1"
@@ -426,7 +426,7 @@ projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.20"
+projects[views][version] = "3.23"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
@@ -500,6 +500,18 @@ libraries[ckeditor][destination] = "libraries"
 libraries[chosen][download][type] = "get"
 libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip"
 libraries[chosen][destination] = "libraries"
+
+; For ding_adgangsplatformen.
+libraries[random_compat][download][type] = "git"
+libraries[random_compat][download][url] = "https://github.com/paragonie/random_compat.git"
+libraries[random_compat][download][tag] = "v2.0.17"
+libraries[random_compat][destination] = "libraries"
+
+; For ding_adgangsplatformen.
+libraries[oauth2-client][download][type] = "git"
+libraries[oauth2-client][download][url] = "https://github.com/thephpleague/oauth2-client.git"
+libraries[oauth2-client][download][tag] = "2.3.0"
+libraries[oauth2-client][destination] = "libraries"
 
 ; For ding_libs.
 libraries[guzzle][download][type] = "git"

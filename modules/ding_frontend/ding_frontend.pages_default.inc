@@ -942,28 +942,6 @@ search/node',
     $display->content['new-f06a4c37-1ed2-4a64-8502-7b8d4d0619b0'] = $pane;
     $display->panels['header'][1] = 'new-f06a4c37-1ed2-4a64-8502-7b8d4d0619b0';
     $pane = new stdClass();
-    $pane->pid = 'new-37d18c98-64ec-448f-ac62-ad0cc199fe06';
-    $pane->panel = 'header';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_wayf-login';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $pane->uuid = '37d18c98-64ec-448f-ac62-ad0cc199fe06';
-    $display->content['new-37d18c98-64ec-448f-ac62-ad0cc199fe06'] = $pane;
-    $display->panels['header'][2] = 'new-37d18c98-64ec-448f-ac62-ad0cc199fe06';
-    $pane = new stdClass();
     $pane->pid = 'new-94a239e5-00e0-4807-917f-df52c53405e7';
     $pane->panel = 'navigation';
     $pane->type = 'block';

@@ -162,39 +162,64 @@ function ding_campaign_plus_basic_ding_campaign_plus_matches($contexts, $style) 
 
       case 'path':
         $matches['path'] = _ding_campaign_plus_basic_match('path', $context->path);
+        // Allow administrators to use the special '<front>' value to target the
+        // frontpage. Note that we still check the "normal" path in these cases,
+        // to maintain support of direct insertion of frontpage path.
+        if ($context->path == variable_get('site_frontpage', 'ding_frontpage')) {
+          $matches['path'] += _ding_campaign_plus_basic_match('path', '<front>');
+        }
         break;
 
-      case 'search_request':
+      case 'search_term':
         $nids = [];
 
-        // Get current search query and split it into array of terms.
-        $value = $context->getFullTextQuery();
+        // For the search term basic campaign the ctools string context is used,
+        // which means that $context will just be a string with the search term.
+        // We re-assign it here for clarity.
+        $search_term = $context;
 
-        // If the search string is empty we just return an empty array, since
-        // executing the query with an empty array in the IN-condition throws
-        // a PDO syntax error exception.
-        if (!empty($value)) {
-          $value = drupal_strtolower($value);
-          $terms = preg_split('/,|\s/', $value);
-          $terms = array_filter($terms);
+        // If the search term is empty we just return an empty array.
+        if (!empty($search_term)) {
+          _ding_campaign_plus_basic_normalize_search_term($search_term);
 
-          // Check if any active campaigns matches the search terms.
+          // Fetch all basic campaigns of type search term.
           $query = db_select('ding_campaign_plus_basic', 'dcpb')
-            ->fields('dcpb', array('nid'))
-            ->condition('dcpb.type', $key)
-            ->condition('value', $terms, 'IN');
+            ->fields('dcpb', array('nid', 'value'))
+            ->condition('dcpb.type', 'search_term')
+            ->condition('status', 1);
           $query->join('node', 'n', 'dcpb.nid = n.nid');
-          $nids = $query->condition('status', 1)
-            ->execute()
-            ->fetchCol();
+          $campaigns = $query->execute()->fetchAllKeyed(0, 1);
+
+          // See if any of them have value that matches the users search term.
+          foreach ($campaigns as $nid => $value) {
+            _ding_campaign_plus_basic_normalize_search_term($value);
+
+            // The match value for this campaign type can contain several comma
+            // separated values.
+            $values = array_map('trim', explode(',', $value));
+            $values = array_filter($values);
+
+            if (in_array($search_term, $values)) {
+              $nids[] = $nid;
+            }
+          }
         }
 
-        $matches['search_request'] = is_array($nids) ? $nids : array();
+        $matches['search_term'] = $nids;
         break;
     }
   }
 
   return $matches;
+}
+
+/**
+ * Helper function to normalize input and stored search terms before matching.
+ */
+function _ding_campaign_plus_basic_normalize_search_term(&$term) {
+  // Normalize whitespaces (replace 2 or more space with 1).
+  $term = preg_replace('/ {2,}/', ' ', trim($term));
+  $term = drupal_strtolower($term);
 }
 
 /**

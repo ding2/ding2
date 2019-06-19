@@ -26,7 +26,7 @@ function ding_debt_debts_content_type_render($subtype, $conf, $panel_args, $cont
   $block->delta  = 'debts';
   $block->title = t('My debts');
 
-  $debts = ding_provider_invoke_page('debt', 'list', $account);
+  $debts = ding_provider_invoke('debt', 'list', $account);
 
   if (count($debts) == TRUE) {
     foreach ($debts as $debt) {

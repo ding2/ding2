@@ -163,10 +163,6 @@ body > .ding2-site-template {
   border-radius: $round-corner;
   &.reserve-button,
   &.button-see-online,
-  &.ding-gatewayf-link {
-    color: $white;
-    background-color: $black;
-  }
   &:hover {
     background-color: $grey-dark;
     color: $white;

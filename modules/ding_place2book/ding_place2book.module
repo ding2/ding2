@@ -270,23 +270,47 @@ function ding_place2book_node_presave($node) {
     return;
   }
 
-  // We'll only act on node inserts. For existing nodes we will instead rely
-  // on our form alter which disables the ticket link field for p2b-nodes. This
-  // way we avoid making requests when multiple nodes are updated in bulk.
-  if (!$node->is_new) {
-    return;
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  // Get the URL from the ticket link field now. The field_get_items check is
+  // used to avoid having to deal with the "Parent Data Structure Not Set"
+  // exception thrown by the wrapper, when field data is not available.
+  // See: https://www.drupal.org/project/entity/issues/1596594
+  $ticket_url = '';
+  if (field_get_items('node', $node, 'field_ding_event_ticket_link')) {
+    $ticket_url = $node_wrapper->field_ding_event_ticket_link->url->value();
   }
 
   if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($node)) {
+    // If this is an existing event and the p2b-sync has been removed, ensure
+    // that the p2b-URL is removed from the ticket link field if it still
+    // contains an p2b-URL.
+    if (!$node->is_new && ding_place2book_is_ding_event_node_synchronized($node->original)) {
+      if (strpos($ticket_url, 'https://www.place2book.com') === 0) {
+        $node_wrapper->field_ding_event_ticket_link->set(NULL);
+      }
+    }
     return;
   }
 
+  // This could be invoked from a batch operation saving multiple nodes, so try
+  // to keep the request against p2b API to a minimum. So if the node already
+  // has a p2b ticket URL, we avoid making the request. Ideally we should only
+  // make request when event is created or if p2b-sync is added to an existing
+  // event. For existing p2b-synced events, we disable the ticket link field on
+  // the widget form to prevent it from being removed/changed.
+  if (strpos($ticket_url, 'https://www.place2book.com') === 0) {
+    // The event already has p2b-URL. Nothing to do.
+    return;
+  }
+
+  // The event is p2b-synced but does not a p2b ticket URL. Fetch the event from
+  // p2b API and update it.
   list($event_id, $event_maker_id) = array_values($field_place2book);
   try {
     $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($event_maker_id, $event_id);
 
-    $node_wrapper = entity_metadata_wrapper('node', $node);
     $node_wrapper
       ->field_ding_event_ticket_link
       ->url
