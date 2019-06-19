@@ -432,7 +432,7 @@ function ding_entity_rating_build_theme_list($rating) {
     if ($i <= $rating) {
       $classes[] = 'submitted';
     }
-    $output .= '<i class="' . implode(' ', $classes) . '"></i>';
+    $output .= '<a class="' . implode(' ', $classes) . '" href="#"></a>';
   }
 
   return $output;
