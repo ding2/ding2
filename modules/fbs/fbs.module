@@ -105,8 +105,8 @@ function fbs_ding_entity_is($object, $class) {
           $object->localId
         );
       }
-      catch(Exception $e) {
-	watchdog_exception('fbs', $e);
+      catch (Exception $e) {
+        watchdog_exception('fbs', $e);
         return FALSE;
       }
 
