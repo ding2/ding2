@@ -28,7 +28,6 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
     foreach ($searches as $search) {
       $search += array(
         'title' => '',
-        'subtitle' => '',
         'query' => '',
         'sort' => '',
         'available' => '',
@@ -208,14 +207,6 @@ function ting_search_carousel_query_form(array $item = array(), $index = 0) {
     '#default_value' => isset($item['title']) ? $item['title'] : '',
   );
 
-  // @todo kill this
-  $form['subtitle'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Description'),
-    '#description' => t('The subtitle displayed next to the search results.'),
-    '#default_value' => isset($item['subtitle']) ? $item['subtitle'] : '',
-  );
-
   $form['query'] = array(
     '#type' => 'textfield',
     '#title' => t('Query'),
@@ -280,7 +271,6 @@ function ting_search_carousel_admin_form_callback(array $form, array &$form_stat
 function ting_search_carousel_admin_form_add_one($form, &$form_state) {
   $form_state['conf']['searches'][] = array(
     'title' => '',
-    'subtitle' => '',
     'query' => '',
     'sort' => '',
     'available' => 0,

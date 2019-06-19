@@ -23,8 +23,8 @@ Feature: SEEK redroute 01
 
     Examples:
       | title                                                      | letter |
-      | term.language=dansk AND term.type=bog  AND term.title=Æ*   | Æ      |
-      | term.language=dansk AND term.type=bog  AND term.title=Ø*   | Ø      |
+      | term.language=dansk AND term.type=bog  AND term.title=Æ*   | [Ææ]  |
+      | term.language=dansk AND term.type=bog  AND term.title=Ø*   | [Øø]  |
       | term.language=dansk AND term.type=bog  AND term.title=?æ*  | æ      |
       | term.language=dansk AND term.type=bog  AND term.title=?ø*  | ø      |
       | term.language=dansk AND term.type=bog  AND term.title=?å*  | å      |
