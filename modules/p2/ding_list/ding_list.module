@@ -662,14 +662,20 @@ function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
         );
       }
       elseif (!user_is_logged_in()) {
+        $login_path = '#';
+        if (module_exists('ding_adgangsplatformen')) {
+          $login_path = '/' . DING_ADGANGSPLATFORMEN_LOGIN_URL;
+        }
+
         $data[] = array(
           'custom' => array(
             'title' => '<div class="list-title">' . t('Add to list') . '</div>',
-            'href' => '#',
+            'href' => $login_path,
             'attributes' => array(
               'class' => array('open-login'),
             ),
-            'external' => TRUE,
+            'query' => array(drupal_get_destination()),
+            'external' => FALSE,
             'html' => TRUE,
           ),
         );

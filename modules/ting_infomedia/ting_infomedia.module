@@ -75,7 +75,7 @@ function ting_infomedia_view($id) {
 function ting_infomedia_ajax($id) {
   global $user;
   if (!ding_user_is_provider_user($user)) {
-    $commands[] = ajax_command_ding_user_authenticate('');
+    $commands[] = ajax_command_ding_user_authenticate('', 'ting/object/infomedia/' . $id);
   }
   else {
     ctools_include('ajax');

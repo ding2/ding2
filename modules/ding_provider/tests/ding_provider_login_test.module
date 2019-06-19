@@ -37,7 +37,7 @@ function ding_provider_login_test_menu() {
  * A page that requires that user is logged into backend.
  */
 function ding_provider_login_test_page() {
-  $string = ding_provider_invoke_page('user', 'test');
+  $string = ding_provider_invoke('user', 'test');
   return $string;
 }
 

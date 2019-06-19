@@ -1,0 +1,395 @@
+<?php
+
+/**
+ * @file
+ * Defines the main functionality for the authentication module.
+ */
+
+define('DING_ADGANGSPLATFORMEN_LOGIN_URL', 'adgangsplatformen/login');
+define('DING_ADGANGSPLATFORMEN_LOGOUT_URL', 'adgangsplatformen/logout');
+define('DING_ADGANGSPLATFORMEN_REDIRECT_URL', 'adgangsplatformen/callback');
+
+
+use \League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use \League\OAuth2\Client\Provider\GenericProvider;
+
+/**
+ * Implements hook_init().
+ *
+ * Adds simple JS script that detects if the ajax auth redirect has placed a
+ * fragment to redo an ajax request.
+ *
+ * Also added ctools JS need to do ajax redirect commends.
+ *
+ * We don't known which pages this will happen one, so we add the script to
+ * every page.
+ */
+function ding_adgangsplatformen_init() {
+  if (user_is_anonymous()) {
+    ctools_add_js('ajax-responder');
+  }
+  drupal_add_js(drupal_get_path('module', 'ding_adgangsplatformen') . '/js/ding_adgangsplatformen.js', 'file');
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_adgangsplatformen_menu() {
+  $items = array();
+
+  $items['admin/config/ding/auth'] = array(
+    'title' => 'Adgangsplatform',
+    'description' => 'Configure adgangsplatformen login',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_adgangsplatformen_admin_settings_form'),
+    'access arguments' => array('administer users'),
+    'file' => 'includes/ding_adgangsplatformen.admin.inc',
+  );
+
+  $items['admin/config/ding/auth/settings'] = array(
+    'title' => 'Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+
+  $items[DING_ADGANGSPLATFORMEN_LOGIN_URL] = array(
+    'title' => 'Log in',
+    'page callback' => 'ding_adgangsplatformen_login',
+    'access callback' => 'user_is_anonymous',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items[DING_ADGANGSPLATFORMEN_LOGOUT_URL] = array(
+    'title' => 'Log out',
+    'page callback' => 'ding_adgangsplatformen_logout',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items[DING_ADGANGSPLATFORMEN_REDIRECT_URL] = array(
+    'page callback' => 'ding_adgangsplatformen_callback',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_preprocess_menu_link().
+ *
+ * Change the login link in the top menu to use adgangsplatformen module. It's
+ * changed here to make it possible to still use the old "/user" login form if
+ * ding_adgangsplatformen is not enabled.
+ */
+function ding_adgangsplatformen_preprocess_menu_link(&$vars) {
+  if (isset($vars['element']['#original_link']['menu_name']) && $vars['element']['#original_link']['menu_name'] == 'menu-tabs-menu') {
+    if ($vars['element']['#href'] == 'user') {
+      $vars['element']['#href'] = DING_ADGANGSPLATFORMEN_LOGIN_URL;
+    }
+  }
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ *
+ * This module requires that the provider has authentication support.
+ */
+function ding_adgangsplatformen_ding_provider_user() {
+  return array(
+    'auth' => array(
+      'required' => TRUE,
+      'install time setup' => FALSE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_ajax_login_command().
+ */
+function ding_adgangsplatformen_ajax_login_command($path) {
+  // Javascript need to do the redirect is loaded in the init hook.
+  ctools_include('ajax');
+
+  // Get authentication url and set the path to be redirected back to.
+  $url = ding_adgangsplatformen_generate_login_url($path);
+
+  // Store the ajax callback url that triggered the ajax auth redirect.
+  $_SESSION['oauth2ajax'] = request_path() . '?' . drupal_http_build_query(drupal_get_query_parameters());
+
+  return ctools_ajax_command_redirect($url);
+}
+
+/**
+ * Get the authentication configuration.
+ *
+ * @return array
+ *   With the default parameters if not overridden in the administration
+ *   settings form.
+ */
+function ding_adgangsplatformen_get_configuration() {
+  global $base_url;
+  $config = variable_get('ding_adgangsplatformen_settings', array(
+    'clientId' => '',
+    'clientSecret' => '',
+    'redirectUri' => $base_url . '/' . DING_ADGANGSPLATFORMEN_REDIRECT_URL,
+    'urlAuthorize' => 'https://login.bib.dk/oauth/authorize',
+    'urlAccessToken' => 'https://login.bib.dk/oauth/token/',
+    'urlResourceOwnerDetails' => 'https://login.bib.dk/userinfo/',
+    'urlLogout' => 'https://login.bib.dk/logout/',
+  ));
+
+  // All-ways set redirect url (editing not allowed) in admin.
+   $config['redirectUri'] = $base_url . '/' . DING_ADGANGSPLATFORMEN_REDIRECT_URL;
+
+   return $config;
+}
+
+/**
+ * Generate login url endpoint at the IDP.
+ *
+ * @param string $destination
+ *   Override the destination set in the current request. Mainly used in ajax
+ *   context. Defaults to empty string.
+ *
+ * @return string
+ *   URL to redirect to at the IDP.
+ *
+ * @throws Exception
+ *   If required libraries are not loaded.
+ */
+function ding_adgangsplatformen_generate_login_url($destination = '') {
+  $provider = ding_adgangsplatformen_get_provider();
+  $authorization_url = $provider->getAuthorizationUrl();
+
+  // Get the state generated for you and store it to the session.
+  $_SESSION['oauth2state'] = $provider->getState();
+  $destination = empty($destination) ? $_REQUEST['destination'] : $destination;
+  ding_user_set_destination($destination);
+
+  // Check if an identity provider have been set in the request.
+  if (!empty($_REQUEST['idp'])) {
+    $authorization_url .= '&idp=' . $_REQUEST['idp'];
+  }
+
+  return $authorization_url;
+}
+
+/**
+ * Login menu callback.
+ *
+ * Will start the authentication process and redirect the user to the
+ * authorization service.
+ *
+ * @return mixed
+ *    If $redirect is FALSE the authentication url or redirect headers.
+ *
+ * @throws Exception
+ *   If required libraries are not loaded.
+ */
+function ding_adgangsplatformen_login() {
+  $authorization_url = ding_adgangsplatformen_generate_login_url();
+
+  // Redirect the user to the authorization URL. We don't use drupal_goto as it
+  // looks into the destination in the current URL and preforms some magic with
+  // it that we don't want.
+  header('Location:' . $authorization_url);
+  drupal_exit($authorization_url);
+}
+
+/**
+ * Logout the user from adgangsplatformen.
+ *
+ * @param bool $hooked
+ *   If TRUE new session is generated.
+ */
+function ding_adgangsplatformen_logout($hooked = FALSE) {
+  global $base_url;
+
+  $config = ding_adgangsplatformen_get_configuration();
+  $token = $_SESSION['oauth2token'];
+
+  // Generate logout request for the authorization service and send the request.
+  $logout_url = $config['urlLogout'] . '?access_token=' . $token . '&redirect_uri=' . $base_url;
+
+  if (!$hooked) {
+    // If this was called from user registration reset the session.
+    drupal_session_regenerate();
+  }
+
+  // We known that we will stop the process and this module has the heights
+  // weight, so we will kill the session before redirect.
+  session_destroy();
+
+  // Redirect the user to the logout url.
+  header('Location:' . $logout_url);
+  drupal_exit($logout_url);
+}
+
+/**
+ * Implements hook_user_logout().
+ *
+ * Ensure that the user is logged out off the access platform.
+ */
+function ding_adgangsplatformen_user_logout() {
+  global $user;
+  if (ding_user_is_provider_user($user)) {
+    ding_adgangsplatformen_logout(TRUE);
+  }
+}
+
+/**
+ * Redirect menu callback.
+ *
+ * This is the end-point used when coming back from the access platform login
+ * and this will try to log the user into the provider and Drupal.
+ */
+function ding_adgangsplatformen_callback() {
+  if (empty($_GET['state']) || empty($_SESSION['oauth2state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
+    unset($_SESSION['oauth2state']);
+    unset($_SESSION['oauth2ajax']);
+
+    drupal_set_message(t('Invalid state detected. Login failed'));
+    _ding_adgangsplatformen_redirect_user();
+  }
+  else {
+    try {
+      // Try to get an access token using the authorization code grant.
+      $provider = ding_adgangsplatformen_get_provider();
+      $access_token = $provider->getAccessToken('authorization_code', ['code' => $_GET['code']]);
+
+      // Store access token for later usage.
+      $_SESSION['oauth2token'] = $access_token->getToken();
+
+      // Get information about the user. This is a mis-use of the
+      // getResourceOwnerDetailsUrl configuration.
+      $request = $provider->getAuthenticatedRequest('POST', $provider->getResourceOwnerDetailsUrl($access_token), $access_token);
+      $response = $provider->getResponse($request);
+      $user_info = $response->getBody()->getContents();
+      $user_info = drupal_json_decode($user_info);
+
+      if (module_exists('ding_registration') && ding_registration_is_registration_request()) {
+        // This is an self registration request, so we store the information in
+        // the current session. So it can be used to create the user in the
+        // library system in the user creation flow in ding_registration.
+        // The redirect below will start the process.
+        ding_registration_set_user_information($user_info);
+      }
+      else {
+        // Login using the provider.
+        if (!_ding_adgangsplatformen_provider_login($user_info)) {
+          // This can happen if the user is not synced correctly between the
+          // local library system (FBS) and CURL at DBC. Then in some special
+          // cases you can login at adgangsplatformen, but the not the local
+          // library system (have happened with "fake" test users in the library
+          // system).
+          drupal_set_message(t('Login into the local library system failed and you have been signed out. Places try again or contact your local library.'));
+
+          ding_adgangsplatformen_logout();
+          _ding_adgangsplatformen_redirect_user('<front>');
+        }
+      }
+
+      // Redirect user base on values set in the current session.
+      _ding_adgangsplatformen_redirect_user();
+    }
+    catch (IdentityProviderException $e) {
+      // Failed to get the access token or user details.
+      watchdog_exception('ding_adgangsplatformen', $e);
+
+      drupal_set_message(t('Failed to login and get user details for the user.'), 'warning');
+
+      // Clean up session variables to prevent redirects loop.
+      unset($_SESSION['oauth2token']);
+      unset($_SESSION['oauth2state']);
+
+      // Redirect user back.
+      _ding_adgangsplatformen_redirect_user();
+    }
+  }
+}
+
+/**
+ * Get oAuth2 provider.
+ *
+ * @return \League\OAuth2\Client\Provider\GenericProvider
+ *   Provider with basic configuration.
+ *
+ * @throws Exception
+ *   If required libraries are not loaded.
+ */
+function ding_adgangsplatformen_get_provider() {
+  $configuration = ding_adgangsplatformen_get_configuration();
+  return new GenericProvider($configuration);
+}
+
+/**
+ * Redirect the user.
+ *
+ * If destination exists in the current session the user is redirect to it else
+ * send to profile page.
+ *
+ * @param string $url
+ *   The url to redirect to if destination is not set in the request. Defaults
+ *   to /user.
+ */
+function _ding_adgangsplatformen_redirect_user($url = 'user') {
+  if (!is_null(ding_user_get_destination())) {
+    $url = ding_user_get_destination();
+    ding_user_set_destination(NULL);
+  }
+
+  // Add fragment to the redirect if this was started as an ajax auth redirect.
+  $options = array();
+  if (!empty($_SESSION['oauth2ajax'])) {
+    $options['fragment'] = 'redo=' . $_SESSION['oauth2ajax'];
+    unset($_SESSION['oauth2ajax']);
+  }
+
+  // The redirect url may contain query parameters from tracking etc. but this
+  // be encoded in drupal_goto below, so we need to split it into an query
+  // option.
+  $info = drupal_parse_url($url);
+  if (array_key_exists('query', $info)) {
+    $options['query'] = $info['query'];
+  }
+  $url = $info['path'];
+
+  drupal_goto($url, $options);
+}
+
+/**
+ * Login the user into the library system and Drupal.
+ *
+ * @param array $user_info
+ *   User information from the resource service.
+ *
+ * @return bool
+ *   TRUE if successful else FALSE.
+ */
+function _ding_adgangsplatformen_provider_login(array $user_info) {
+  $success = FALSE;
+
+  try {
+    $account = ding_user_authenticate(array(
+      'name' => $user_info['attributes']['userId'],
+      'extra' => $user_info,
+    ));
+
+    if ($account !== FALSE) {
+      global $user;
+      $user = $account;
+
+      // Ensure that the user hooks are called.
+      user_login_finalize();
+
+      $success = TRUE;
+    }
+  }
+  catch (Exception $exception) {
+    // Exception thrown, log error and carry on.
+    watchdog_exception('ding_user', $exception);
+    drupal_set_message(t('Unknown error. Please contact the library for help'));
+  }
+
+  return $success;
+}

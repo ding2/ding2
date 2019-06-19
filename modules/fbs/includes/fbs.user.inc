@@ -11,86 +11,35 @@
  * @param string $name
  *   User name.
  * @param string $pincode
- *   Supplied pincode.
+ *   Supplied pin code.
  *
  * @return array
  *   Authentication result.
+ *
+ * @throws DingProviderUserAuthFailure
+ *   If authentication fails.
  */
 function fbs_user_authenticate($name, $pincode) {
   $res = new stdClass();
-  $pass = _fbs_wayf_login($name);
-  if ($pass) {
-    // Wayf login.
-    if ($pass !== $pincode) {
-      // Die if we didn't get the same pincode as we generated in
-      // wayf_login_credentials.
-      throw new DingProviderUserAuthFailure();
-    }
 
-    try {
-      $res = fbs_service()->Patron->getPreAuthenticatedPatron(fbs_service()->agencyId, $name);
-    }
-    catch (Exception $e) {
-      watchdog_exception('fbs', $e);
-    }
+  $auth = new FBS\Model\AuthenticationRequest();
+  $auth->libraryCardNumber = $name;
+  $auth->pincode = $pincode;
+
+  try {
+    $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
   }
-  else {
-    // Normal login.
-    $auth = new FBS\Model\AuthenticationRequest();
-    $auth->libraryCardNumber = $name;
-    $auth->pincode = $pincode;
-
-    try {
-      $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
-    }
-    catch (Exception $e) {
-      watchdog_exception('fbs', $e);
-    }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
   }
 
   if (empty($res->authenticated)) {
     throw new DingProviderUserAuthFailure();
   }
 
-  $result = array();
-
-  // Save patron info in creds.
-  $result['creds'] = _fbs_patron_info($res->patron);
-
-  // We have to save the library card number/CPR number, as the pincode
-  // change call uses it.
-  $result['creds']['library_card_number'] = $name;
-
-  $result['user'] = array(
-    'mail' => $res->patron->emailAddress,
-    'data' => array(
-      'display_name' => $res->patron->name,
-    ),
-    'private' => array(
-      'branch' => $res->patron->preferredPickupBranch,
-    ),
-  );
-
-  if ($res->patron->blockStatus) {
-    $block_resons = array(
-      'F' => 'ding_user_blocked_excluded',
-      'E' => 'ding_user_blocked_debt',
-      'W' => 'ding_user_blocked_self_created',
-      'U' => 'ding_user_blocked_excluded',
-    );
-    $result['user']['blocks'] = array();
-    foreach ($res->patron->blockStatus as $block) {
-      $result['user']['blocks'][] = $block->message;
-      // Don't allow users blocked by "O" (library card stolen),"S" (blocked
-      // by self service automation) or "D" (deceased) statusses log in.
-      if (in_array($block->blockedReason, array('O', 'S', 'D'))) {
-        throw new DingProviderUserAuthFailure();
-      }
-      else {
-        $result['user']['blocks'][] = isset($block_resons[$block->blockedReason]) ? $block_resons[$block->blockedReason] : 'default';
-      }
-    }
-  }
+  // Parse/transform patron into user info array.
+  $result = _fbs_patron_transform($name, $res->patron);
+  $result['success'] = $res->authenticated;
 
   return $result;
 }
