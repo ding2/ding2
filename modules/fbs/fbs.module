@@ -107,7 +107,7 @@ function fbs_ding_entity_is($object, $class) {
       }
       catch (Exception $e) {
         watchdog_exception('fbs', $e);
-        return FALSE;
+        return NULL;
       }
 
       $result = reset($result);
