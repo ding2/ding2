@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * The TingSearchFacet class.
@@ -14,12 +13,7 @@ namespace Ting\Search;
  */
 class TingSearchFacet {
 
-  const TYPE_DEFAULT = 'default';
-  const TYPE_INTERVAL = 'interval';
-
   /**
-   * Name of the facet.
-   *
    * @var string
    */
   protected $name;
@@ -35,40 +29,19 @@ class TingSearchFacet {
    */
   protected $terms = [];
 
-  protected $type = self::TYPE_DEFAULT;
-
   /**
    * TingSearchFacet constructor.
    *
    * @param string $name
    *   Name of the facet.
+   *
    * @param TingSearchFacetTerm[] $terms
    *   Optional list of terms.
    */
-  public function __construct($name, array $terms = []) {
+  public function __construct($name, $terms = []) {
     $this->name = $name;
     // Set via setter to store the terms by their names.
     $this->setTerms($terms);
-  }
-
-  /**
-   * Get the facet type.
-   *
-   * @return string
-   *   The type.
-   */
-  public function getType() {
-    return $this->type;
-  }
-
-  /**
-   * Set the facet type.
-   *
-   * @param string $type
-   *   The type.
-   */
-  public function setType($type) {
-    $this->type = $type;
   }
 
   /**
@@ -99,7 +72,7 @@ class TingSearchFacet {
    * @param \Ting\Search\TingSearchFacetTerm[] $terms
    *   The list of terms, empty if none were found.
    */
-  public function setTerms(array $terms) {
+  public function setTerms($terms) {
     $this->terms = [];
     // Make sure to store the terms keyed by their names.
     foreach ($terms as $term) {
@@ -113,8 +86,7 @@ class TingSearchFacet {
    * @param \Ting\Search\TingSearchFacetTerm $term
    *   The term.
    */
-  public function addTerm(TingSearchFacetTerm $term) {
+  public function addTerm($term) {
     $this->terms[$term->getName()] = $term;
   }
-
 }
