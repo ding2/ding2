@@ -13,10 +13,18 @@
     attach: function (context) {
       $('[data-ding-campaign-plus-cid]', context).once(function () {
         var campaign = $(this);
+        // Hide the wrapper by default. We do not know if we have any actual
+        // content to insert yet.
+        var wrapper = campaign.parents('.pane-ding-campaign-plus').hide();
         var cid = campaign.data('ding-campaign-plus-cid');
         var url = Drupal.settings.basePath + Drupal.settings.pathPrefix + 'ding_campaigns_plus/' + cid;
         $.get(url, {}, function (response) {
-          campaign.replaceWith(response);
+          // Only show the campaign wrapper if there are any campaigns to be
+          // displayed.
+          if (response) {
+            campaign.replaceWith(response);
+            wrapper.slideDown('fast');
+          }
         });
 
       });
