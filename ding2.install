@@ -791,3 +791,11 @@ function ding2_update_7068() {
 function ding2_update_7069() {
   module_enable(array('ding_adgangsplatformen'));
 }
+
+/**
+ * Update translations.
+ */
+function ding2_update_7070() {
+  ding2_translation_update();
+}
+
