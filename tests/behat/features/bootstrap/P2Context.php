@@ -26,6 +26,9 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     private $dataRegistry = array();
 
+    /** @var \Page\CreateListPage */
+    private $createListPage;
+
     function __construct(ListPage $listPage, CreateListPage $createListPage, SearchPage $searchPage, MyListsPage $myListsPage)
     {
         $this->listPage = $listPage;
@@ -530,9 +533,11 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iCreateANewListWithDescription($title, $description = '')
     {
         $this->createListPage->verifyCurrentPage();
+        /* @var \Page\Element\CreateListForm $createForm */
         $createForm = $this->createListPage->getElement('Create list form');
+        /* @var \Page\ListPage $listPage */
         $listPage = $createForm->createList($title, $description);
-        expect($listPage->isListPageFor($title))->shouldBe(true);
+        expect($listPage->getListTitle())->shouldBe($title);
         $this->dataRegistry['list:' . $title] = $listPage->getListId();
     }
 
@@ -559,7 +564,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iGoToTheShareLink()
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
-        $found = $page->find('css', '.share .menu-item');
+        $found = $page->find('css', '.ding-list-buttons__share-button');
         if (!$found) {
             throw new \Exception("Couldn't find link to share list");
         }
@@ -804,7 +809,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->gotoPage($link);
         $this->ding2Context->waitForPage();
 
-        $found = $page->find('css', '.ding-list-list__title');
+        $found = $page->find('css', '.pane-list-info .pane-title');
         if (!$found) {
             throw new Exception("Couldn't find shared list");
         }

@@ -212,6 +212,7 @@ class DingList {
     return count(ding_provider_invoke('openlist', 'call_module', 'Query', 'getLists', array(
       $this->id,
       array(DING_LIST_TYPE_LISTS),
+      FALSE,
     )));
   }
 

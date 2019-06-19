@@ -245,3 +245,17 @@
     }
   }
 }
+
+.ding-carousel-actions {
+  position: relative;
+  width: calc(100% - 166px);
+  bottom: 84px;
+  .more-link {
+    margin-right: 15px;
+  }
+  form {
+    @include media($mobile) {
+      display: none;
+    }
+  }
+}

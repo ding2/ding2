@@ -19,6 +19,7 @@ dependencies[] = simplevar
 dependencies[] = ting_material_details
 dependencies[] = virtual_field
 dependencies[] = xautoload
+# required = 1
 explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
 features[ctools][] = field_group:field_group:1
 features[ctools][] = page_manager:pages_default:1
