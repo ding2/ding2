@@ -1,0 +1,25 @@
+{
+  "id" : "968f6413-23a0-4013-b565-c496f6134b16",
+  "name" : "opensearch_50",
+  "request" : {
+    "url" : "/opensearch/5.0/",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalTo" : "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\n<SOAP-ENV:Body>\n<searchRequest><format>dkabm</format><query/><start>1</start><stepValue>20</stepValue><sort>rank_frequency</sort><allObjects/><allRelations>1</allRelations><relationData>full</relationData><agency>100200</agency><profile>test</profile><facets><facetName>facet.type</facetName><facetName>facet.creator</facetName><facetName>facet.subject</facetName><facetName>facet.language</facetName><facetName>facet.category</facetName><facetName>facet.date</facetName><facetName>facet.acSource</facetName><numberOfTerms>10</numberOfTerms></facets><outputType>json</outputType></searchRequest></SOAP-ENV:Body>\n</SOAP-ENV:Envelope>\n"
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"searchResponse\":{\"error\":{\"$\":\"Error: No query found in request\"}},\"@namespaces\":{\"ac\":\"http:\\/\\/biblstandard.dk\\/ac\\/namespace\\/\",\"dbcaddi\":\"http:\\/\\/oss.dbc.dk\\/rdf\\/dbcaddi#\",\"dbcbib\":\"http:\\/\\/oss.dbc.dk\\/rdf\\/dbcbib#\",\"dc\":\"http:\\/\\/purl.org\\/dc\\/elements\\/1.1\\/\",\"dcmitype\":\"http:\\/\\/purl.org\\/dc\\/dcmitype\\/\",\"dcterms\":\"http:\\/\\/purl.org\\/dc\\/terms\\/\",\"dkabm\":\"http:\\/\\/biblstandard.dk\\/abm\\/namespace\\/dkabm\\/\",\"dkdcplus\":\"http:\\/\\/biblstandard.dk\\/abm\\/namespace\\/dkdcplus\\/\",\"docbook\":\"http:\\/\\/docbook.org\\/ns\\/docbook\",\"kml\":\"http:\\/\\/www.opengis.net\\/kml\\/2.2\",\"marcx\":\"info:lc\\/xmlns\\/marcxchange-v1\",\"mx\":\"http:\\/\\/www.loc.gov\\/MARC21\\/slim\",\"of\":\"http:\\/\\/oss.dbc.dk\\/ns\\/openformat\",\"ofo\":\"http:\\/\\/oss.dbc.dk\\/ns\\/openformatoutput\",\"os\":\"http:\\/\\/oss.dbc.dk\\/ns\\/opensearch\",\"oso\":\"http:\\/\\/oss.dbc.dk\\/ns\\/opensearchobjects\",\"oss\":\"http:\\/\\/oss.dbc.dk\\/ns\\/osstypes\",\"xs\":\"http:\\/\\/www.w3.org\\/2001\\/XMLSchema\",\"xsi\":\"http:\\/\\/www.w3.org\\/2001\\/XMLSchema-instance\"}}",
+    "headers" : {
+      "Date" : "Fri, 21 Jun 2019 12:50:35 GMT",
+      "Server" : "Apache/2.4.25 (Debian)",
+      "Content-Type" : "application/json",
+      "Keep-Alive" : "timeout=15, max=97",
+      "Connection" : "Keep-Alive"
+    }
+  },
+  "uuid" : "968f6413-23a0-4013-b565-c496f6134b16",
+  "persistent" : true,
+  "insertionIndex" : 1916
+}

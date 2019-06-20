@@ -175,6 +175,8 @@ jobs:
     - image: circleci/php:7.0-apache
     - image: circleci/mysql:5.7.20-ram
     - image: justinribeiro/chrome-headless:stable
+    - image: rodolpheche/wiremock
+      command: ["--proxy-all=https://oss-services.dbc.dk", "--root-dir=~/drupal/profiles/ding2/tests/wiremock", --verbose]
     working_directory: ~/drupal
     parallelism: 3
     steps:
@@ -214,7 +216,7 @@ jobs:
           drush en -y connie ting_covers_placeholder
           drush dis -y ting_covers_addi
           drush vset -y ting_agency 100200
-          drush vset -y opensearch_url 'https://oss-services.dbc.dk/opensearch/5.0/'
+          drush vset -y opensearch_url 'http://localhost:8080/opensearch/5.0/'
           drush vset -y opensearch_search_profile test
           drush vset -y opensearch_recommendation_url 'http://openadhl.addi.dk/1.1/'
           drush vset -y ting_infomedia_url 'http://useraccessinfomedia.addi.dk/1.3/'
