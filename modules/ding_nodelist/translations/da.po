@@ -279,10 +279,6 @@ msgstr "Stigende"
 msgid "Descending"
 msgstr "Faldende"
 
-#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:677
-msgid "Width (columns)"
-msgstr "Bredde"
-
 #: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:679
 msgid "Full width"
 msgstr "Fuld bredde"
