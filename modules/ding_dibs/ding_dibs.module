@@ -211,6 +211,10 @@ function ding_dibs_capture($delta = NULL, array &$transaction = NULL) {
   $param['orderid'] = $transaction['payment_order_id'];
   $param['transact'] = $transaction['payment_transaction_id'];
   $param['textreply'] = TRUE;
+  // If this parameter is present, the parameter orderid has to be unique
+  // compared to all other orderid's used by the merchant.
+  // If the orderid isn't unique, the call will be declined by a reason=7.
+  $param['uniqueoid'] = 'yes';
 
   $md5 = isset($settings['general']['md5']) ? $settings['general']['md5'] : FALSE;
   if ($md5) {
@@ -222,7 +226,8 @@ function ding_dibs_capture($delta = NULL, array &$transaction = NULL) {
         "merchant=" . $param['merchant'] .
         "&orderid=" . $param['orderid'] .
         "&transact=" . $param['transact'] .
-        "&amount=" . $param['amount']
+        "&amount=" . $param['amount'] .
+        "&uniqueoid=" . $param['uniqueoid']
       )
     );
   }
