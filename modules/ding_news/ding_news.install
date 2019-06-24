@@ -22,7 +22,7 @@ function ding_news_install() {
 function ding_news_update_dependencies() {
   // Ding_news_update_7007 requires ding_paragraphs for the migration to work.
   $dependencies['ding_news'][7007] = array(
-    'ding2' => 7064,
+    'ding2' => 7071,
   );
 
   return $dependencies;
