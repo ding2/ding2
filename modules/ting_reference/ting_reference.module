@@ -369,6 +369,22 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
 
         $entities = entity_load($entity_type, array($entity_id), $conditions);
 
+        // Handle ting_reference in paragraphs, which will link back to the
+        // paragraph (giving a reference loop) and not the host node.
+        if ($entity_type === 'paragraphs_item') {
+          // It should only be possible to link back to one entity per item.
+          $entity = reset($entities);
+
+          // Side effect of calling hostEntity type is that the host is actually
+          // loaded. Trying to get anything from the entity before this will
+          // result in NULL.
+          $host = $entity->hostEntity();
+          $entity_type = $entity->hostEntityType();
+          $host_wrapper = entity_metadata_wrapper($entity->hostEntityType(), $host);
+          $entities = entity_load($entity->hostEntityType(), array($host_wrapper->getIdentifier()), $conditions);
+        }
+
+
         if (!empty($entities)) {
           $build = entity_view($entity_type, $entities, 'search_result');
 
