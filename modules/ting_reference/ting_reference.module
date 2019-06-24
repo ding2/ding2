@@ -384,7 +384,6 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
           $entities = entity_load($entity->hostEntityType(), array($host_wrapper->getIdentifier()), $conditions);
         }
 
-
         if (!empty($entities)) {
           $build = entity_view($entity_type, $entities, 'search_result');
 
@@ -623,7 +622,7 @@ function ting_reference_get_relations($entity_type, $entity) {
  * @param int $tid
  *   The ting object entity id (Primary key).
  *
- * @return stdClass
+ * @return object
  *   The created and saved relation entity.
  */
 function ting_reference_create_relation($entity_type, $entity_id, $tid) {
