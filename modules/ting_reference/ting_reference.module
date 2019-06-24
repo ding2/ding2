@@ -302,7 +302,6 @@ function ting_reference_field_formatter_settings_form($field, $instance, $view_m
         '#type' => 'select',
         '#default_value' => $settings['view_mode'],
         '#options' => $view_modes,
-        '#multiple' => TRUE,
       );
       break;
   }
@@ -463,16 +462,15 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
   $ting_object_id = '';
   $tid = FALSE;
   if (!empty($items)) {
-    // For some reason the data structure in $items is different base on the
-    // widget is used in paragraphs or as a normal field.
     if (isset($items[$delta]['value'])) {
-      // Get relations to ting entity.
       $item = relation_get_endpoints($items[$delta]['value'], 'ting_object');
       $item = array_shift($item['ting_object']);
       $ting_object_id = $item->ding_entity_id;
       $tid = $item->tid;
     }
     elseif (isset($items[$delta]['ting_object_id']) && isset($items[$delta]['tid'])) {
+      // When using paragraphs the data structure is different when you click on
+      // the edit button to expand the paragraph to edit existing paragraphs.
       $ting_object_id = $items[$delta]['ting_object_id'];
       $tid = $items[$delta]['tid'];
     }
@@ -609,7 +607,7 @@ function ting_reference_get_relations($entity_type, $entity) {
  * @param int $tid
  *   The ting object entity id (Primary key).
  *
- * @return entity
+ * @return stdClass
  *   The created and saved relation entity.
  */
 function ting_reference_create_relation($entity_type, $entity_id, $tid) {
