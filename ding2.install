@@ -127,6 +127,20 @@ function ding2_update_dependencies() {
     'ting' => 7014,
   );
 
+  // Update hook which enables a module if opensearch is present.
+  $dependencies['ding2'][7048] = array(
+    // The update hook that enables the opensearch module if no other search
+    // provider is present.
+    'ting' => 7014,
+  );
+
+  // Update hook which sets custom configuration for EU Cookie Compliance.
+  $dependencies['ding2'][7064] = array(
+    // Update hook that updates the configuration format for EU Cookie
+    // Compliance module.
+    'eu_cookie_compliance' => 7010,
+  );
+
   return $dependencies;
 }
 
@@ -201,26 +215,6 @@ function ding2_remove_module($module) {
     ->condition('name', $module)
     ->condition('type', 'module')
     ->execute();
-}
-
-/**
- * Implements hook_update_dependencies().
- */
-function ding2_update_dependencies() {
-  // Update hook which enables a module if opensearch is present.
-  $dependencies['ding2'][7048] = array(
-    // The update hook that enables the opensearch module if no other search
-    // provider is present.
-    'ting' => 7014,
-  );
-  // Update hook which sets custom configuration for EU Cookie Compliance.
-  $dependencies['ding2'][7064] = array(
-    // Update hook that updates the configuration format for EU Cookie
-    // Compliance module.
-    'eu_cookie_compliance' => 7010,
-  );
-
-  return $dependencies;
 }
 
 /**
