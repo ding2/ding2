@@ -200,6 +200,7 @@ function ding_sections_secure_permissions($role) {
       'edit any section content',
       'edit own section content',
       'view section panels terms',
+      'use section panels terms',
     ),
     'local editor' => array(
       'view section panels terms',
