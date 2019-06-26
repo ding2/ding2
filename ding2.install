@@ -799,3 +799,11 @@ function ding2_update_7070() {
   ding2_translation_update();
 }
 
+
+/**
+ * Update translations.
+ */
+function ding2_update_7071() {
+  ding2_translation_update();
+}
+

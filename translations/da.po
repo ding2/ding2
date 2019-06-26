@@ -67541,3 +67541,8 @@ msgstr "Redigér artiklens status i BPI"
 msgctxt "Price"
 msgid "Free"
 msgstr "Gratis"
+
+#: /search/ting
+msgctxt "Rating"
+msgid "Rate this !number / 5 stars"
+msgstr "Bedøm dette !number / 5 stjerner"
