@@ -99,7 +99,8 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         '#value' => TRUE,
       );
 
-      if (!empty($event)) {
+      // Hide prepopulated form if this is clone of the event.
+      if (!empty($event) && arg(2) != 'clone') {
         $begin_at = date('d/m/Y H:i:s', strtotime($event->begin_at));
         $end_at = date('d/m/Y H:i:s', strtotime($event->end_at));
         $element['place2book']['event_data'] = array(
@@ -461,7 +462,7 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
           $synchronized_items = _ding_place2book_sync_p2b_entities($entity, $settings);
         }
 
-        // Only update field data if synchronizationn was successful.
+        // Only update field data if synchronization was successful.
         if (!empty($synchronized_items)) {
           $items = $synchronized_items;
         }
@@ -567,8 +568,8 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
 
   $event_id = !empty($settings['event_id']) ? $settings['event_id'] : FALSE;
   $event_maker_id = FALSE;
-  // For clarity.
-  $is_new = !$event_id;
+  // For clarity and make if clone the event.
+  $is_new = !$event_id || arg(2) == 'clone';
 
   if ($is_new) {
     $event_maker_id = _ding_place2book_get_event_maker($entity);
