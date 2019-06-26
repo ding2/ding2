@@ -201,7 +201,7 @@ function ding_place2book_update_7007() {
   foreach ($fields as $field) {
     $tables = array(
       _field_sql_storage_tablename($field),
-      _field_sql_storage_revision_tablename($field)
+      _field_sql_storage_revision_tablename($field),
     );
     $field_name = $field['field_name'];
 
