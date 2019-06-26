@@ -817,7 +817,6 @@ function ddbasic_process_ting_object(&$vars) {
               '#path' => $uri_object['path'],
               '#options' => array(
                 'attributes' => array(
-                  'alt' => $vars['object']->title,
                   'class' => array(
                     'action-button',
                     'read-more-button',
@@ -921,7 +920,6 @@ function ddbasic_process_ting_object(&$vars) {
               '#text' => t('Read more'),
               '#path' => $uri_object['path'],
               '#options' => array(
-                'alt' => $vars['object']->title,
                 'attributes' => array(
                   'class' => array(
                     'action-button',
