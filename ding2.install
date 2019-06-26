@@ -726,3 +726,10 @@ function ding2_update_7063() {
     'ding_nodelist',
   ));
 }
+
+/**
+ * Enable 'Mimemail' module.
+ */
+function ding2_update_7064() {
+  module_enable(array('mimemail'));
+}
