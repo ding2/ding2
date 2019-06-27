@@ -567,9 +567,19 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
   $items = [];
 
   $event_id = !empty($settings['event_id']) ? $settings['event_id'] : FALSE;
+  $prices = $settings['prices_wrapper']['prices'];
   $event_maker_id = FALSE;
-  // For clarity and make if clone the event.
-  $is_new = !$event_id || arg(2) == 'clone';
+
+  // For clarity.
+  $is_new = !$event_id;
+  if (arg(2) == 'clone') {
+    $is_new = TRUE;
+    $prices = array_map(function ($price) {
+      unset($price['id']);
+
+      return $price;
+    }, $prices);
+  }
 
   if ($is_new) {
     $event_maker_id = _ding_place2book_get_event_maker($entity);
@@ -581,7 +591,6 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
   if ($event_maker_id) {
     $p2b = ding_place2book_instance();
     // Collect data for synchronizing event.
-    $prices = $settings['prices_wrapper']['prices'];
     unset($settings['prices_wrapper']);
     unset($settings['synchronize']);
     unset($settings['event_id']);
