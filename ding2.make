@@ -267,6 +267,9 @@ projects[message][version] = "1.12"
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.21"
 
+projects[mimemail][subdir] = "contrib"
+projects[mimemail][version] = "1.1"
+
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
 
