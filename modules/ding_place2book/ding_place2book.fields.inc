@@ -99,8 +99,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         '#value' => TRUE,
       );
 
-      // Hide prepopulated form if this is clone of the event.
-      if (!empty($event) && arg(2) != 'clone') {
+      if (!empty($event)) {
         $begin_at = date('d/m/Y H:i:s', strtotime($event->begin_at));
         $end_at = date('d/m/Y H:i:s', strtotime($event->end_at));
         $element['place2book']['event_data'] = array(
