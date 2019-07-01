@@ -13,6 +13,8 @@ include_once 'ting_subsearch_secondary.features.inc';
 
 /**
  * Implements hook_ting_search_results_prefix().
+ *
+ * @throws \Exception
  */
 function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions, $results) {
   if (variable_get('ting_subsearch_secondary_position', 'before') == 'before') {
@@ -22,6 +24,8 @@ function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions,
 
 /**
  * Implements hook_ting_search_results_suffix().
+ *
+ * @throws \Exception
  */
 function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions, $results) {
   if (variable_get('ting_subsearch_secondary_position', 'before') == 'after') {
@@ -31,6 +35,8 @@ function ting_subsearch_secondary_ting_search_results_suffix($keys, $conditions,
 
 /**
  * Implements hook_ting_search_results_suffix().
+ *
+ * @throws \Exception
  */
 function ting_subsearch_secondary_search($keys, $results) {
   $message = '';
@@ -39,8 +45,8 @@ function ting_subsearch_secondary_search($keys, $results) {
     return;
   }
 
-  if (!empty($results->getNumTotalObjects())) {
-    if ($results->getNumTotalObjects() > variable_get('ting_subsearch_secondary_min', 10) && $results->getNumTotalObjects() < variable_get('ting_subsearch_secondary_max', 100)) {
+  if (!empty($results->numTotalObjects)) {
+    if ($results->numTotalObjects > variable_get('ting_subsearch_secondary_min', 10) && $results->numTotalObjects < variable_get('ting_subsearch_secondary_max', 100)) {
       $facets = $results->getFacets();
       $genre_facets = $facets['facet.genreCategory']->getTerms();
       // If any of fiction or non fiction is empty we cannot do the calculation.
@@ -92,11 +98,11 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
     'profile' => variable_get('ting_subsearch_secondary_profile', ''),
   ]);
 
-  if ($secondary_result->getNumTotalObjects() > variable_get('ting_subsearch_secondary_result_min', 100)) {
+  if ($secondary_result->numTotalObjects > variable_get('ting_subsearch_secondary_result_min', 100)) {
     $items = [];
 
     $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
-    foreach ($secondary_result->getTingEntityCollections() as &$collection) {
+    foreach ($secondary_result->collections as &$collection) {
       if ($number_of_records_to_show == 0) {
         continue;
       }
@@ -112,7 +118,7 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
       '!link-text' => variable_get('ting_subsearch_secondary_search_link_text', ''),
       '!keys' => $keys,
       '!num-results' => $results->getNumTotalObjects(),
-      '!bibdk-num-results' => $secondary_result->getNumTotalObjects(),
+      '!bibdk-num-results' => $secondary_result->numTotalObjects,
       '!examples' => theme('item_list', ['items' => $items]),
     ];
 
