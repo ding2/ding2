@@ -121,11 +121,8 @@ function ding_ill_order($form, &$form_state) {
 
     if ($ill_response->getStatusCode() === 200) {
       $html = '<p>' . t(
-        'You have ordered "@title" from a library outside the municipality, and
-        therefore it is not possible to estimate the waiting time.
-        It can also take up to an hour before your order can be viewed at your
-        borrower\'s status.',
-        array('@title' => $ting_object->getTitle())
+        '@title has been ordered from another library for pickup at @branch. The order will appear on your loan status soon.',
+        array('@title' => $ting_object->getTitle(), '@branch' => $form['provider_options']['#options'][$request->getPickUpBranch()])
       ) . '</p>';
       $html .= '<p>' . t('Your order id: @order_id', array(
         '@order_id' => $ill_response->getOrderId(),
