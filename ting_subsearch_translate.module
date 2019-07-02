@@ -54,7 +54,7 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
         }
 
         $suggested_result = ting_subsearch_common_do_secondary_search($translated_keys);
-        $num_total_objects = $suggested_result->getNumTotalObjects();
+        $num_total_objects = $suggested_result->numTotalObjects;
         $limit = variable_get('ting_subsearch_translate_min_hits', 0);
         if (!empty($num_total_objects) && ($limit == 0 || $num_total_objects >= $limit)) {
           $options = [];
@@ -82,7 +82,7 @@ function ting_subsearch_translate_ting_search_results_prefix($keys, $conditions,
 
     if ($translated_keys) {
       $suggested_result = ting_subsearch_common_do_secondary_search($translated_keys);
-      $num_total_objects = $suggested_result->getNumTotalObjects();
+      $num_total_objects = $suggested_result->numTotalObjects;
 
       $options = [];
       if (module_exists('ting_field_search')) {
