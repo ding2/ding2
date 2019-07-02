@@ -53,7 +53,7 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
         // Do secondary search for "correct" keys.
         $secondary_result = ting_subsearch_common_do_secondary_search($suggestion);
         // Only redirect to "correct" keys search if it has a positive result.
-        if ($secondary_result->getNumTotalObjects() > 0) {
+        if (!empty($secondary_result) && $secondary_result->numTotalObjects > 0) {
           $additional_query = [
             'original-search' => $keys,
           ];
@@ -75,7 +75,7 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       if ($suggestion) {
         // Do additional search.
         $suggested_result = ting_subsearch_common_do_secondary_search($suggestion);
-        if ($suggested_result->getNumTotalObjects() >= variable_get("ting_subsearch_{$service}_message_limit", 10)) {
+        if (!empty($suggested_result) && $suggested_result->numTotalObjects >= variable_get("ting_subsearch_{$service}_message_limit", 10)) {
           $options = [];
           if (module_exists('ting_field_search')) {
             $profile = ting_field_search_get_active_profile();
