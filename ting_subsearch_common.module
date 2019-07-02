@@ -5,50 +5,221 @@
  * Ting Subsearch Common.
  */
 
+use OpenSearch\OpenSearchStatementGroupRender;
+use Ting\Search\DingProviderStrategy;
+use Ting\Search\SearchProviderException;
+
 /**
- * Do a secondary search juggling around the drupal static.
+ * Do a separate secondary search request.
  *
  * @param string $keys
  *   The search phrase.
+ * @param array $options
+ *   Search options. Basically credentials for secondary search.
  *
  * @return TingClientSearchResult
  *   The search result of the secondary search.
+ * @throws \TingClientException
+ * @throws \Ting\Search\SearchProviderException
  */
 function ting_subsearch_common_do_secondary_search($keys, $options = array()) {
+  $page = 1;
+  $results_per_page = 10;
 
-  // Store search result temporarily. We need to make seconday search.
-  $temporary_search_result = drupal_static('ting_search_results');
-
-  // Reset the static containing search result to be able do new search.
-  drupal_static_reset('ting_search_search_execute');
-
-  // Load original variables to temporary before changing them.
-  if (!empty($options['profile'])) {
-    $temporary_profile = variable_get('opensearch_search_profile', '');
-    variable_set('opensearch_search_profile', $options['profile']);
-  }
-  if (!empty($options['agency'])) {
-    $temporary_agency = variable_get('ting_agency', FALSE);
-    variable_set('ting_agency', $options['agency']);
+  if (empty($options)) {
+    $options = [
+      'agency' => variable_get('ting_agency', FALSE),
+      'profile' => variable_get('opensearch_search_profile', ''),
+    ];
   }
 
-  // Search for the secondary keys.
-  ting_search_search_execute($keys, array('sort' => ''));
+  module_load_include('inc', 'opensearch', 'opensearch.client');
 
-  $secondary_result = drupal_static('ting_search_results');
+  $request = opensearch_get_request_factory()->getSearchRequest();
 
-  // Overwrite the static with the original search.
-  $revert = &drupal_static('ting_search_results');
-  $revert = $temporary_search_result;
+  $query = ting_subsearch_common_build_search_query($keys);
 
-  if (!empty($temporary_profile)) {
-    variable_set('opensearch_search_profile', $temporary_profile);
+  $request->setQuery($query);
+
+  if ($agency = $options['agency']) {
+    $request->setAgency($agency);
   }
-  if (!empty($temporary_agency)) {
-    variable_set('ting_agency', $temporary_agency);
+  $request->setStart($results_per_page * ($page - 1) + 1);
+  $request->setNumResults($results_per_page);
+
+  if (!isset($options['facets']) and module_exists('ding_facetbrowser')) {
+    $options['facets'] = array();
+    // Populate facets with configured facets.
+    foreach (variable_get('ding_facetbrowser_facets', array()) as $facet) {
+      $options['facets'][] = $facet['name'];
+    }
   }
 
-  return $secondary_result;
+  $default_facets = array(
+    'facet.subject',
+    'facet.creator',
+    'facet.type',
+    'facet.category',
+    'facet.language',
+    'facet.date',
+    'facet.acSource',
+  );
+  $request->setFacets((isset($options['facets'])) ? $options['facets'] : $default_facets);
+  $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((count($request->getFacets()) == 0) ? 0 : 10));
+  if (isset($options['sort']) && $options['sort']) {
+    $request->setSort($options['sort']);
+  }
+  else {
+    $sort = variable_get('opensearch_sort_default', 'rank_frequency');
+    $request->setSort($sort);
+  }
+
+  if (isset($options['collectionType'])) {
+    $request->setCollectionType($options['collectionType']);
+  }
+  $request->setAllObjects(isset($options['allObjects']) ? $options['allObjects'] : FALSE);
+
+  // Set search profile, if applicable.
+  $profile = $options['profile'];
+  if (!empty($profile)) {
+    $request->setProfile($profile);
+  }
+
+  // Apply custom ranking if enabled.
+  if (variable_get('opensearch_ranking_custom', FALSE) && variable_get('opensearch_ranking_fields', array()) && !isset($options['sort'])) {
+    $fields = array();
+    foreach (variable_get('opensearch_ranking_fields', array()) as $field) {
+      $fields[] = array(
+        'fieldName' => $field['field_name'],
+        'fieldType' => $field['field_type'],
+        'weight' => $field['weight'],
+      );
+    }
+
+    if (!empty($fields)) {
+      // Add the default anyIndex boosts.
+      $fields[] = array(
+        'fieldName' => 'term.default',
+        'fieldType' => 'phrase',
+        'weight' => 2,
+      );
+
+      $fields[] = array(
+        'fieldName' => 'term.default',
+        'fieldType' => 'word',
+        'weight' => 1,
+      );
+
+      $request->userDefinedRanking = array('tieValue' => 0.1, 'rankField' => $fields);
+    }
+  }
+  // Apply custom boosts if any.
+  $boosts = variable_get('opensearch_boost_fields', array());
+
+  if ($boosts) {
+    $uboosts = array();
+    foreach ($boosts as $boost_field) {
+      $uboosts[] = array(
+        'fieldName' => $boost_field['field_name'],
+        'fieldValue' => $boost_field['field_value'],
+        'weight' => $boost_field['weight'],
+      );
+    }
+    $request->userDefinedBoost = $uboosts;
+  }
+
+  $search_result = opensearch_execute($request);
+
+  // Replace collections with proper TingCollection objects.
+  if ($search_result && is_array($search_result->collections)) {
+    $ids = array();
+    foreach ($search_result->collections as &$collection) {
+      if (isset($collection->objects[0])) {
+        $ids[] = $collection->objects[0]->id;
+      }
+    }
+    if (!isset($options['reply_only']) || !$options['reply_only']) {
+      $search_result->collections = entity_load('ting_collection', array(), array('ding_entity_id' => $ids));
+    }
+  }
+
+  return $search_result;
+}
+
+/**
+ * Prepare query string.
+ *
+ * @param string $keys
+ *   Search keys.
+ *
+ * @return string|\Ting\Search\TingSearchRequest|\Ting\Search\TingSearchResultInterface
+ * @throws \Ting\Search\SearchProviderException
+ */
+function ting_subsearch_common_build_search_query($keys) {
+  $query = ting_start_query()->withFullTextQuery($keys)->execute();
+  $query = $query->getSearchRequest();
+
+  $query_parts = [];
+  // Start off with an empty query, then attempt to construct it from what we
+  // can find in $query.
+  // Provider-specific raw query.
+  if (!empty($query->getRawQuery())) {
+    $query_parts[] = $query->getRawQuery();
+  }
+
+  // Add a general quoted free text search.
+  if (!empty($free_text_query = $query->getFullTextQuery())) {
+    $cqlDoctor = new TingSearchCqlDoctor($free_text_query);
+    $query_parts[] = $cqlDoctor->string_to_cql();
+  }
+
+  // Add field filter.
+  if (!empty($query->getFilters())) {
+    $render = new OpenSearchStatementGroupRender(new DingProviderStrategy());
+    try {
+      $field_filters = $render->renderStatements(
+        $query->getFilters()
+      );
+    }
+    catch (InvalidArgumentException $e) {
+      throw new SearchProviderException("Unable to render statements", 0, $e);
+    }
+    $query_parts[] = $field_filters;
+  }
+
+  // Add material filter, this has to be the very last thing we do as we have
+  // to handle the filter differently if $query_parts is empty.
+  $material_filter = $query->getMaterialFilter();
+  if (!empty($material_filter)) {
+    if ($query->isMaterialFilterInclude()) {
+      // The material filter is a list of IDs to include. Add OR conditions.
+      $query_parts[] = implode(' OR ', $material_filter);
+    }
+    else {
+      // We're excluding, meaning we need a NOT in front of all id's. We can't
+      // start the query with a NOT so we add a wildcard match to the start of
+      // the filter if query is empty.
+      if (empty($query_parts)) {
+        $query_parts[] = '* NOT ' . implode(' NOT ', $material_filter);
+      }
+      else {
+        $query_parts[] = implode(' NOT ', $material_filter);
+      }
+    }
+  }
+
+  // Join all query-parts together, wrap each part in a parentheses.
+  if (!empty($query_parts)) {
+    $param_wrapper = function ($part) {
+      return '(' . $part . ')';
+    };
+    $query = implode(' AND ', array_map($param_wrapper, $query_parts));
+  }
+  else {
+    $query = '';
+  }
+
+  return $query;
 }
 
 /**
