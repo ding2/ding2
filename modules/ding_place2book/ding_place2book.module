@@ -292,7 +292,7 @@ function ding_place2book_node_presave($node) {
       ->url
       ->set($event->links->sales_location);
   }
-  catch (Exception $e) {
+  catch (Exception $ex) {
     watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
   }
 }

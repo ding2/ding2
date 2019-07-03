@@ -177,7 +177,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         ),
       );
 
-      $passive = 0;
+      $passive = $event->passive ?? 0;
       if (!isset($meta_data->event_state)) {
         $passive = variable_get('ding_p2b_default_passive', FALSE);
       }
@@ -276,12 +276,14 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         $element['place2book']['prices_wrapper']['prices'][$key]['sale_begin_at'] = array(
           '#type' => 'date_popup',
           '#default_value' => $sale_begin_at,
+          '#states' => $required_state,
         );
 
         $sale_end_at = !empty($price->sale_end_at) ? date('Y-m-d H:i:s', strtotime($price->sale_end_at)) : '';
         $element['place2book']['prices_wrapper']['prices'][$key]['sale_end_at'] = array(
           '#type' => 'date_popup',
           '#default_value' => $sale_end_at,
+          '#states' => $required_state,
         );
 
         $element['place2book']['prices_wrapper']['prices'][$key]['id'] = array(
