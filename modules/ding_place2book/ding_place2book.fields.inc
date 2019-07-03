@@ -276,14 +276,12 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         $element['place2book']['prices_wrapper']['prices'][$key]['sale_begin_at'] = array(
           '#type' => 'date_popup',
           '#default_value' => $sale_begin_at,
-          '#states' => $required_state,
         );
 
         $sale_end_at = !empty($price->sale_end_at) ? date('Y-m-d H:i:s', strtotime($price->sale_end_at)) : '';
         $element['place2book']['prices_wrapper']['prices'][$key]['sale_end_at'] = array(
           '#type' => 'date_popup',
           '#default_value' => $sale_end_at,
-          '#states' => $required_state,
         );
 
         $element['place2book']['prices_wrapper']['prices'][$key]['id'] = array(
