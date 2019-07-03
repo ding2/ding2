@@ -46,9 +46,9 @@ function ding_place2book_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  $event = $event_id = $event_maker_id = $synchronize = $passive = NULL;
+  $event = $event_id = $event_maker_id = $synchronize = NULL;
   if (!empty($items)) {
-    list($event_id, $event_maker_id, $synchronize, $passive) = array_values(reset($items));
+    list($event_id, $event_maker_id, $synchronize) = array_values(reset($items));
     try {
       $p2b = ding_place2book_instance();
       $event = $p2b->getEvent($event_maker_id, $event_id);
@@ -177,7 +177,8 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         ),
       );
 
-      if ($passive === NULL) {
+      $passive = 0;
+      if (!isset($meta_data->event_state)) {
         $passive = variable_get('ding_p2b_default_passive', FALSE);
       }
       elseif ($meta_data->event_state == 'passive') {
@@ -473,7 +474,6 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
             ),
           );
         }
-        $items[0]['passive'] = $settings['passive'];
       }
       break;
   }

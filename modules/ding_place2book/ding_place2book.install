@@ -30,13 +30,7 @@ function ding_place2book_field_schema($field) {
           'size' => 'tiny',
           'not null' => TRUE,
           'default' => 0,
-        ),
-        'passive' => array(
-          'type' => 'int',
-          'size' => 'tiny',
-          'not null' => TRUE,
-          'default' => 0,
-        ),
+        )
       );
       break;
   }
@@ -190,40 +184,4 @@ function ding_place2book_update_7005(&$sandbox) {
  */
 function ding_place2book_update_7006() {
   module_enable(array('ding_place2book_migrate'));
-}
-
-/**
- * Extend field table with markers.
- */
-function ding_place2book_update_7007() {
-  $fields = ding_place2book_get_p2b_fields();
-
-  foreach ($fields as $field) {
-    $tables = array(
-      _field_sql_storage_tablename($field),
-      _field_sql_storage_revision_tablename($field),
-    );
-    $field_name = $field['field_name'];
-
-    foreach ($tables as $table) {
-      db_add_field($table, $field_name . '_passive', array(
-        'type' => 'int',
-        'size' => 'tiny',
-      ));
-    }
-  }
-}
-
-/**
- * Returns all fields created on the system of the type defined in mymodule.
- */
-function ding_place2book_get_p2b_fields() {
-  $types = ['ding_p2b'];
-  $fields = array();
-  foreach (field_info_fields() as $field) {
-    if (in_array($field['type'], $types)) {
-      $fields[] = $field;
-    }
-  }
-  return $fields;
 }
