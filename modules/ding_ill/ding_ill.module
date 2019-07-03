@@ -152,30 +152,36 @@ function ding_ill_order($form, &$form_state) {
  *   The form triggering the AJAX popup.
  */
 function ding_ill_popup_order($pid) {
-  // The ting object we try to order.
-  $ting_object = ding_entity_load($pid);
-  // Load the global user in order to get the patrons preferred branch.
+  // Check if the logged in user is a library user.
   global $user;
+  if (!user_is_logged_in()) {
+    // Trigger log-in (the reservation link will be triggered on success).
+    $commands[] = ajax_command_ding_user_authenticate('');
+  }
+  else {
+    // The ting object we try to order.
+    $ting_object = ding_entity_load($pid);
 
-  // Check if user have preferred branch and interest period, if so
-  // submit the reservation form. If not display another form for with
-  // the options to select branch and period.
-  $defaults = ding_provider_invoke('reservation', 'default_options', $user);
-  $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
-  $preferred_branch_set = !empty($defaults[array_shift($matches)]) ? TRUE : FALSE;
+    // Check if user have preferred branch and interest period, if so
+    // submit the reservation form. If not display another form for with
+    // the options to select branch and period.
+    $defaults = ding_provider_invoke('reservation', 'default_options', $user);
+    $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
+    $preferred_branch_set = !empty($defaults[array_shift($matches)]) ? TRUE : FALSE;
 
-  $form = ding_provider_get_form(
-    'ding_ill_order_form',
-    /** @var \Ting\TingObject $ting_object */
-    $ting_object,
-    $preferred_branch_set
-  );
+    $form = ding_provider_get_form(
+      'ding_ill_order_form',
+      /** @var \Ting\TingObject $ting_object */
+      $ting_object,
+      $preferred_branch_set
+    );
 
-  $commands[] = ajax_command_ding_popup(
-    'ding_ill',
-    t('Interlibrary loan'),
-    render($form)
-  );
+    $commands[] = ajax_command_ding_popup(
+      'ding_ill',
+      t('Interlibrary loan'),
+      render($form)
+    );
+  }
 
   // Return the ajax commands as an render array.
   return array('#type' => 'ajax', '#commands' => $commands);
