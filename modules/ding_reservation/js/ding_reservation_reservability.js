@@ -10,7 +10,7 @@
     attach: function(context) {
       var localIds = [];
       var selector = '.js-check-reservability';
-      $(selector, context).once('check-reservability', function() {
+      $(selector, context).once('js-check-reservability', function() {
         localIds.push($(this).data("local-id"));
       });
 
