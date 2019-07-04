@@ -250,54 +250,6 @@ function ding_entity_field_formatter_view($entity_type, $entity, $field, $instan
 }
 
 /**
- * Returns whether the entities is of the given pseudo-class.
- *
- * This is the multiple version of DingEntity::is, which should be used if the
- * module implementing can achieve better performance by acting on all entities
- * at once.
- *
- * @param array $ding_entities
- *   The entities that needs to be checked against the pseudo-class.
- * @param string $class
- *   The pseudo class to check for.
- *
- * @return array
- *   An array with an entry for each passed entity keyed by ding_entity_id.
- *   Each entry will be an array with assessments from each module for that
- *   entity.
- *
- * @see DingEntity:is()
- */
-function ding_entity_entities_is(array $ding_entities, $class) {
-  // First collect the "entity_is" results from every implementing module for
-  // every entity. The result array will be keyed by ding_entity_id and have an
-  // entry for each entity. Each entry will be an array with assessments from
-  // each module for that entity.
-  $results = [];
-  foreach (module_implements('ding_entity_entities_is') as $module) {
-    $function = "{$module}_ding_entity_entities_is";
-    if (function_exists($function)) {
-      foreach ($function($ding_entities, $class) as $ding_entity_id => $result) {
-        $results[$ding_entity_id][] = $result;
-      }
-    }
-  }
-
-  // Loop through the results and build a return array.
-  $return = [];
-  foreach ($results as $ding_entity_id => $result) {
-    // Return true if anyone returned true, and nobody returned false.
-    if (!in_array(FALSE, $result) && in_array(TRUE, $result)) {
-      $return[$ding_entity_id] = TRUE;
-    }
-    else {
-      $return[$ding_entity_id] = FALSE;
-    }
-  }
-  return $return;
-}
-
-/**
  * Base class for Ding entity types.
  *
  * Implements getters for properties.
