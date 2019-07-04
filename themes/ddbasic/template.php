@@ -874,7 +874,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
@@ -922,7 +922,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
@@ -985,7 +985,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['buttons']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
