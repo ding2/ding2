@@ -866,7 +866,7 @@ function ddbasic_process_ting_object(&$vars) {
             '#weight' => 9998,
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
@@ -914,7 +914,7 @@ function ddbasic_process_ting_object(&$vars) {
             '#weight' => 9998,
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
@@ -977,7 +977,7 @@ function ddbasic_process_ting_object(&$vars) {
             ),
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['buttons']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
