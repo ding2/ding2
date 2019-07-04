@@ -9,7 +9,7 @@
   Drupal.behaviors.ding_reservation = {
     attach: function(context) {
       var localIds = [];
-      var selector = '.ting-object .reserve-button.check-reservability';
+      var selector = '.js-check-reservability';
       $(selector, context).once('check-reservability', function() {
         localIds.push($(this).data("local-id"));
       });
@@ -21,8 +21,7 @@
           success: function(result) {
             $.each(result, function(localId, reservable) {
               if (reservable) {
-                $(selector + '[data-local-id="' + localId + '"]', context)
-                  .addClass('reservable');
+                $(selector + '[data-local-id="' + localId + '"]', context).addClass('reservable');
               }
             });
           }
