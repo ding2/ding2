@@ -83,14 +83,6 @@ function fbs_ding_provider() {
 }
 
 /**
- * Implements hook_ding_entity_is().
- */
-function fbs_ding_entity_is($entity, $class) {
-  $return = fbs_ding_entity_entities_is([$entity], $class);
-  return reset($return);
-}
-
-/**
  * Get info for patron.
  *
  * Wrapper around ding_user_get_creds() to facilitate testing.
