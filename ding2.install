@@ -737,6 +737,9 @@ function ding2_update_7063() {
  * Update EU Cookie Compliance settings.
  */
 function ding2_update_7064() {
+  if (!module_exists('i18n_variable')) {
+    module_enable(array('i18n_variable'));
+  }
   $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da');
   $ecc_settings['method'] = 'default';
   $ecc_settings['show_disagree_button'] = 0;
