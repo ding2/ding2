@@ -305,6 +305,12 @@ projects[easyddb_zerohit_redirect][download][url]    = "git@github.com:easySuite
 ;projects[easyddb_zerohit_redirect][download][tag]    = "7.x-3.0.2"
 projects[easyddb_zerohit_redirect][download][branch] = "development"
 
+projects[easyopac_facets][type]             = "module"
+projects[easyopac_facets][subdir]           = ""
+projects[easyopac_facets][download][type]   = "git"
+projects[easyopac_facets][download][url]    = "git@github.com:easySuite/easyopac_facets.git"
+projects[easyopac_facets][download][branch] = "development"
+
 projects[easyopac_status][type]             = "module"
 projects[easyopac_status][subdir]           = ""
 projects[easyopac_status][download][type]   = "git"
