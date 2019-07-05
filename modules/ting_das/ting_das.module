@@ -281,20 +281,14 @@ function ting_das_order_form_ajax_callback($form, &$form_state) {
       $client->setPid($values['entity']['pid']);
 
       try {
-        $status = $client->send();
+        $client->send();
       } 
       catch (Exception $exception) {
         watchdog_exception('ting_das', $exception);
       }
 
-      if ($status) {
-        $html = theme('status_messages') . t('Your order have been placed.');
-        $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Success'), $html, array('refresh' => FALSE));
-      }
-      else {
-        $html = theme('status_messages') . t('Your order failed. Please try again.');
-        $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Error'), $html, array('refresh' => FALSE));
-      }
+      $html = theme('status_messages') . t('Your order have been placed.');
+      $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Success'), $html, array('refresh' => FALSE));
     }
   }
   else {
