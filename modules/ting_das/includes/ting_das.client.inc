@@ -267,25 +267,25 @@ class TingDasCopyRequest {
     $xml = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><placeCopyRequest xmlns="http://statsbiblioteket.dk/xws/elba-placecopyrequest-schema"/>');
 
     // Format date to match the one required by the service.
-    $user_interest_date = strtotime('+' . $this->userInterestDate() . ' day');
+    $user_interest_date = strtotime('+' . $this->userInterestDays . ' day');
     $user_interest_date = date('Y-m-d', $user_interest_date);
 
     // Set required fields.
     $xml->addChild('ws_user', $this->wsUsername);
     $xml->addChild('ws_password', $this->wsPassword);
-    $xml->addChild('pid', $this->pid());
-    $xml->addChild('user_loaner_id', $this->userLoanerId());
-    $xml->addChild('userName', $this->userName());
-    $xml->addChild('userMail', $this->userMail());
+    $xml->addChild('pid', $this->pid);
+    $xml->addChild('user_loaner_id', $this->userLoanerId);
+    $xml->addChild('userName', $this->userName);
+    $xml->addChild('userMail', $this->mail);
     $xml->addChild('user_interest_date', $user_interest_date);
-    $xml->addChild('pickupAgencyId', $this->pickupAgencyId());
-    $xml->addChild('agencyId', $this->agencyId());
-    $xml->addChild('publicationTitle', $this->publicationTitle());
-    $xml->addChild('publicationDateOfComponent', $this->publicationDateOfComponent());
-    $xml->addChild('publicationYearOfComponent', $this->publicationYearOfComponent());
-    $xml->addChild('issueOfComponent', $this->issueOfComponent());
-    $xml->addChild('volumeOfComponent', $this->volumeOfComponent());
-    $xml->addChild('pagesOfComponent', $this->pagesOfComponent());
+    $xml->addChild('pickupAgencyId', $this->pickupAgencyId);
+    $xml->addChild('agencyId', $this->agencyId);
+    $xml->addChild('publicationTitle', $this->publicationTitle);
+    $xml->addChild('publicationDateOfComponent', $this->publicationDateOfComponent);
+    $xml->addChild('publicationYearOfComponent', $this->publicationYearOfComponent);
+    $xml->addChild('issueOfComponent', $this->issueOfComponent);
+    $xml->addChild('volumeOfComponent', $this->volumeOfComponent);
+    $xml->addChild('pagesOfComponent', $this->pagesOfComponent);
 
     return $xml->asXML();
   }
