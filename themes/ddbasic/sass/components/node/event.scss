@@ -269,13 +269,6 @@
               background-color: $green-text;
               color: lighten($white, 15);
             }
-
-            a {
-              &:link, &:visited, &:hover, &:active {
-                color: $white;
-                text-decoration: underline;
-              }
-            }
           }
 
           &.ticket-notice {
