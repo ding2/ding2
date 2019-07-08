@@ -8,6 +8,9 @@
 define('DING_WEBTREKK_PARAMETER_RESERVE', 50);
 define('DING_WEBTREKK_PARAMETER_SEE_ONLINE', 51);
 define('DING_WEBTREKK_PARAMETER_RENEW_ALL', 56);
+define('DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_TITLE', 62);
+define('DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_ID', 63);
+define('DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_TAG', 64);
 
 /**
  * Implements hook_menu().
@@ -256,6 +259,36 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
 }
 
 /**
+ * Implements hook_preprocess_node().
+ */
+function ding_webtrekk_preprocess_node(&$variables) {
+  $node = $variables['node'];
+  if ($node->type == 'ding_campaign_plus') {
+    $wrapper = entity_metadata_wrapper('node', $node);
+
+    // Extract tracking tags for the campaign.
+    // TODO: Are they comma-separated and how should mutliple tags be send to
+    // Webtrekk? Do we even support this?
+    $tracking_tags = $wrapper->field_ding_campaign_plus_track->value([
+      'sanitize' => TRUE
+    ]);
+
+    $event_data = ding_webtrekk_create_event_data('Kampagne', [
+      DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_TITLE => check_plain($node->title),
+      DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_ID => $node->nid,
+      DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_TAG => $tracking_tags,
+    ]);
+
+    // We can't use the cacth-all event handler for this, since it relies on
+    // being triggered by a user interaction. Instead our JS behavior attach
+    // function will take care of sending the event data, when the campaign is
+    // attached in frontend.
+    $event_data = json_encode($event_data);
+    $variables['attributes_array']['data-ding-webtrekk-event'] = $event_data;
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_webtrekk_form_search_block_form_alter(&$form, &$form_state) {
@@ -340,12 +373,27 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
  *   The parameter values for the event keyed by the Webtrekk parameter ID.
  */
 function ding_webtrekk_attach_event(&$attributes, $link_id, $data) {
-  $event_data = [
+  $event_data = ding_webtrekk_create_event_data($link_id, $data);
+  $attributes['class'][] = 'js-ding-webtrekk-event';
+  $attributes['data-ding-webtrekk-event'] = json_encode($event_data);
+}
+
+/**
+ * Sets up an event data array with the correct structure required by Webtrekk.
+ *
+ * @param string $linkd_id
+ *   The link ID of the event. For example 'Forny alle materialer'.
+ * @param array $data
+ *   The parameter values for the event keyed by the Webtrekk parameter ID.
+ *
+ * @return array $event_data
+ *   Event data array.
+ */
+function ding_webtrekk_create_event_data($link_id, $data) {
+  return [
     'linkId' => $link_id,
     'customClickParameter' => $data,
   ];
-  $attributes['class'][] = 'js-ding-webtrekk-event';
-  $attributes['data-ding-webtrekk-event'] = json_encode($event_data);
 }
 
 /**

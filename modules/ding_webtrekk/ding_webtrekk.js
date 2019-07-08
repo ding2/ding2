@@ -165,6 +165,18 @@
           pushEvent('click', eventData);
         });
       });
+
+      // Track loaded ding_campaign_plus campaigns.
+      //
+      // Sometimes campaigns are loaded asynchronously if they are not in cache.
+      // In these cases we can't use page parameters, since we don't have the
+      // required information at initial page load and we'll have to use an
+      // event. To be consistent we track every campaign with event.
+      $('.node-ding-campaign-plus', context) .once('js-ding-webtrekk', function() {
+        var eventData = $(this).data('ding-webtrekk-event');
+        // TODO: Is 'click' appropiate here? If not what else to send?
+        pushEvent('click', eventData);
+      });
     }
   };
 
