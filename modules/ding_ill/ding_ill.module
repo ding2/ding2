@@ -191,11 +191,22 @@ function ding_ill_popup_order($pid) {
  * Implements hook_ding_entity_buttons().
  */
 function ding_ill_ding_entity_buttons($type, $entity) {
-  /** @var \OpenSearch\OpenSearchTingObject $entity */
+  /** @var \TingEntity $entity */
   $build = array();
+
+  $ting_object = $entity->getTingObject();
+  $local_id = $entity->getLocalId();
+  $holdings = ding_availability_holdings([$local_id]);
+
+  $available = $holdings[$local_id]['total_count'] > 0 ? TRUE : FALSE;
+
+  if ($ting_object->isOnline() || $available) {
+    return $build;
+  }
+
   $options = array(
     'attributes' => array(
-      'class' => 'action-button reserve-button use-ajax',
+      'class' => 'action-button use-ajax',
     ),
   );
 
