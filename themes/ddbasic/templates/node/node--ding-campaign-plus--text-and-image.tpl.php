@@ -95,10 +95,4 @@
       </div>
     </a>
   </div>
-  <script type="text/javascript">
-    (function ($) {
-      'use strict';
-      $(document).trigger('campaignPlusLoaded', [ '<?php print $wt_mc_id ?>' ]);
-    })(jQuery);
-  </script>
 </div>

@@ -87,10 +87,4 @@
       <?php print render($content['field_ding_campaign_plus_image'])?>
     </a>
   </div>
-  <script type="text/javascript">
-    (function ($) {
-      'use strict';
-      $(document).trigger('campaignPlusLoaded', [ '<?php print $wt_mc_id ?>' ]);
-    })(jQuery);
-  </script>
 </div>
