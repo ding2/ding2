@@ -690,7 +690,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
         }
       }
       else {
-        // Else we have no other options than to fetchs the tickets and look
+        // Else we have no other options than to fetch the tickets and look
         // for open or upcoming sale periods.
         $sale_periods = [];
         foreach ($p2b->getPrices($event_maker_id, $event_id) as $price) {
@@ -716,23 +716,27 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
           return $p['end'] >= $now;
         });
 
-        // Find the closest sale period.
-        $begin_values = array_column($sale_periods, 'begin');
-        $min_period_begin = min($begin_values);
-        $min_period = array_filter($sale_periods, function ($sale_period) use ($min_period_begin) {
-          return ($sale_period['begin']) == $min_period_begin;
-        });
-        $min_period = array_shift($min_period);
+        // Check if we still have any active sale periods. If such are - go on!
+        if (!empty($sale_periods)) {
+          // Find the closest sale period.
+          $begin_values = array_column($sale_periods, 'begin');
+          // Get the closest sale period. In case when event has upcoming sales,
+          // its start value will be used in button label.
+          $min_period_begin = min($begin_values);
+          $min_period = array_filter($sale_periods, function ($sale_period) use ($min_period_begin) {
+            return ($sale_period['begin']) == $min_period_begin;
+          });
+          $min_period = array_shift($min_period);
 
-        if ($now >= $min_period['begin'] && $now <= $min_period['end']) {
-          // We have found an open sales period. No need to continue iterating
-          // the ticket types.
+          // We have found an open sales period.
           $ticket_link_status = 'open';
-        }
-        elseif ($now < $min_period['begin']) {
-          // We haven't found any open sales period yet, but at least there's
-          // an upcoming, so set that status for now.
-          $ticket_link_status = 'upcoming';
+
+          // Check for 'upcoming' sale.
+          if ($now < $min_period['begin']) {
+            // We haven't found any open sales period yet, but at least there's
+            // an upcoming, so set that status for now.
+            $ticket_link_status = 'upcoming';
+          }
         }
 
         // If no upcoming or open sales period was found for the published event
