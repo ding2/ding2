@@ -28,6 +28,10 @@
   };
 
   var pushEvent = function(event, eventData) {
+    if (Drupal.settings.dingWebtrekk.debugMode) {
+      console.log('Ding webtrekk - Pushing "' + event +  '"-event with data:');
+      console.log(JSON.stringify(eventData, null, 2))
+    }
     // Ensure that the Webtrekk object is defined before pushing event.
     if (typeof wts !== 'undefined') {
       wts.push(['send', event, eventData]);

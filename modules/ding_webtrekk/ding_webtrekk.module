@@ -464,4 +464,10 @@ function ding_webtrekk_preprocess_html() {
   drupal_add_js(drupal_get_path('module', 'ding_webtrekk') . '/ding_webtrekk.js', array(
     'scope' => 'footer',
   ));
+
+  drupal_add_js([
+    'dingWebtrekk' => [
+      'debugMode' => variable_get('webtrekk_debug', FALSE)
+    ],
+  ], 'setting');
 }
