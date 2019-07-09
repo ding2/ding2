@@ -24,9 +24,8 @@
           if (response) {
             campaign.replaceWith(response);
             wrapper.slideDown('fast');
-            // We add new content so attach behaviors. Note that the wrapper
-            // selector is the context. Not the actual content.
-            Drupal.attachBehaviors($('.pane-ding-campaign-plus'));
+            // We add new content so attach behaviors.
+            Drupal.attachBehaviors($('<div></div>').html(response));
           }
         });
 
