@@ -177,7 +177,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         ),
       );
 
-      $passive = $event->passive ?? 0;
+      $passive = 0;
       if (!isset($meta_data->event_state)) {
         $passive = variable_get('ding_p2b_default_passive', FALSE);
       }
