@@ -310,11 +310,12 @@ function ding_place2book_node_presave($node) {
   try {
     $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($event_maker_id, $event_id);
-
-    $node_wrapper
-      ->field_ding_event_ticket_link
-      ->url
-      ->set($event->links->sales_location);
+    if (!$event->passive) {
+      $node_wrapper
+        ->field_ding_event_ticket_link
+        ->url
+        ->set($event->links->sales_location);
+    }
   }
   catch (Exception $e) {
     watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
