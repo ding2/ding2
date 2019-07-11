@@ -56,6 +56,13 @@ function ting_subsearch_translate_form_opensearch_admin_settings_alter(&$form, &
     '#default_value' => variable_get('ting_subsearch_translate_factor', 50),
   );
 
+  $form['subsearch_settings']['subsearch_translate']['ting_subsearch_translate_ps_factor'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Ratio between primary and secondary searches'),
+    '#description' => t('The ratio between primary and secondary searches to trigger the translation.'),
+    '#default_value' => variable_get('ting_subsearch_translate_ps_factor', 10),
+  );
+
   $form['subsearch_settings']['subsearch_translate']['ting_subsearch_translate_min_hits'] = array(
     '#type' => 'textfield',
     '#title' => t('Minimum translations hits'),
