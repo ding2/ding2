@@ -307,6 +307,7 @@ projects[og][patch][] = "https://www.drupal.org/files/membership-data-loss-user-
 
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][version] = "3.0"
+projects[og_menu][patch][] = "http://storage.easyting.dk/og_menu-make_links_persistent.patch"
 
 projects[opening_hours][subdir] = "contrib"
 projects[opening_hours][version] = "1.6"
