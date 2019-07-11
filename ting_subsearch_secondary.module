@@ -46,7 +46,7 @@ function ting_subsearch_secondary_search($keys, $results) {
   }
 
   if (!empty($results->numTotalObjects)) {
-    if ($results->numTotalObjects > variable_get('ting_subsearch_secondary_min', 10) && $results->numTotalObjects < variable_get('ting_subsearch_secondary_max', 100)) {
+    if ($results->numTotalObjects > 0 && $results->numTotalObjects < variable_get('ting_subsearch_secondary_max', 100)) {
       $facets = $results->getFacets();
       $genre_facets = $facets['facet.genreCategory']->getTerms();
       // If any of fiction or non fiction is empty we cannot do the calculation.
@@ -99,46 +99,52 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
   ]);
 
   if ($secondary_result->numTotalObjects > variable_get('ting_subsearch_secondary_result_min', 100)) {
-    $items = [];
+    $ratio = $secondary_result->numTotalObjects / $results->getNumTotalObjects();
+    if ($ratio > variable_get('ting_subsearch_secondary_ps_factor', 2)) {
+      $items = [];
+      $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
+      foreach ($secondary_result->collections as &$collection) {
+        $build = ting_collection_view($collection, 'minimal');
+        $markup = drupal_render($build);
+        $return = l($markup, 'https://bibliotek.dk/work/' . $collection->ding_entity_id, [
+          'html' => TRUE,
+          'absolute' => TRUE,
+          'attributes' => ['target' => 'blank']
+        ]);
 
-    $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
-    foreach ($secondary_result->collections as &$collection) {
-      if ($number_of_records_to_show == 0) {
-        continue;
+        $items[] = $return;
+        if (count($items) == $number_of_records_to_show){
+          break;
+        }
+      }
+
+      $options = [
+        '!link' => str_replace('[keys]', urlencode($keys), variable_get('ting_subsearch_secondary_search_link', '')),
+        '!link-text' => variable_get('ting_subsearch_secondary_search_link_text', ''),
+        '!keys' => $keys,
+        '!num-results' => $results->getNumTotalObjects(),
+        '!bibdk-num-results' => $secondary_result->numTotalObjects,
+        '!examples' => theme('item_list', ['items' => $items]),
+      ];
+
+      if (variable_get('ting_subsearch_secondary_number_of_results', 4) == 0) {
+        $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits',
+          $options
+        );
       }
       else {
-        $number_of_records_to_show--;
+        $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits where some of them is the following: !examples',
+          $options
+        );
       }
-      $build = ting_collection_view($collection, 'minimal');
-      $items[] = drupal_render($build);
+      $wrapper = '<div class="messages search-field-in-content--message subsearch-secondary">' . $msg . '</div>';
+      $message = l($wrapper, $options['!link'], [
+        'html' => TRUE,
+        'absolute' => TRUE,
+        'attributes' => ['target' => 'blank']
+      ]);
+      drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/ting_subsearch_secondary.css');
     }
-
-    $options = [
-      '!link' => str_replace('[keys]', urlencode($keys), variable_get('ting_subsearch_secondary_search_link', '')),
-      '!link-text' => variable_get('ting_subsearch_secondary_search_link_text', ''),
-      '!keys' => $keys,
-      '!num-results' => $results->getNumTotalObjects(),
-      '!bibdk-num-results' => $secondary_result->numTotalObjects,
-      '!examples' => theme('item_list', ['items' => $items]),
-    ];
-
-    if (variable_get('ting_subsearch_secondary_number_of_results', 4) == 0) {
-      $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits',
-        $options
-      );
-    }
-    else {
-      $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits where some of them is the following: !examples',
-        $options
-      );
-    }
-    $wrapper = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
-    $message = l($wrapper, $options['!link'], [
-      'html' => TRUE,
-      'absolute' => TRUE,
-      'attributes' => ['target' => 'blank']
-    ]);
-    drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/ting_subsearch_secondary.css');
   }
 
   return $message;
@@ -183,7 +189,6 @@ function ting_subsearch_secondary_field_formatter_info() {
   );
 }
 
-
 /**
  * Implements hook_field_formatter_view().
  */
@@ -194,7 +199,7 @@ function ting_subsearch_secondary_field_formatter_view($entity_type, $entity, $f
     switch ($display['type']) {
       case 'ting_title_minimal':
         // Only create the link if the object is available in the data well.
-        $title = check_plain($entity->title);
+        $title = truncate_utf8(check_plain($entity->title), 80, FALSE, TRUE);
         $element[$delta] = array(
           '#prefix' => '<h2 class="ting-object-minimal-title">',
           '#suffix' => '</h2>',

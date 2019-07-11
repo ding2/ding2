@@ -45,14 +45,6 @@ function ting_subsearch_secondary_form_opensearch_admin_settings_alter(&$form, &
     '#title' => t('Trigger'),
   );
 
-  $form['subsearch_settings']['secondary_settings']['trigger']['ting_subsearch_secondary_min'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Minimum number of results'),
-    '#default_value' => variable_get('ting_subsearch_secondary_min', 10),
-    '#description' => t('How few is minimum in order to trigger secondary search.'),
-
-  );
-
   $form['subsearch_settings']['secondary_settings']['trigger']['ting_subsearch_secondary_max'] = array(
     '#type' => 'textfield',
     '#title' => t('Maximum number of results'),
@@ -71,6 +63,13 @@ function ting_subsearch_secondary_form_opensearch_admin_settings_alter(&$form, &
     '#type' => 'textfield',
     '#title' => t('Minimum number of results for secondary search'),
     '#default_value' => variable_get('ting_subsearch_secondary_result_min', 100),
+  );
+
+  $form['subsearch_settings']['secondary_settings']['trigger']['ting_subsearch_secondary_ps_factor'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Ratio between primary and secondary searches'),
+    '#default_value' => variable_get('ting_subsearch_secondary_ps_factor', 2),
+    '#description' => t('Factor between amount of results from primary and secondary search.'),
   );
 
   $form['subsearch_settings']['secondary_settings']['ting_subsearch_secondary_agency'] = array(
