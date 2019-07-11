@@ -311,6 +311,12 @@ projects[easyopac_facets][download][type]   = "git"
 projects[easyopac_facets][download][url]    = "git@github.com:easySuite/easyopac_facets.git"
 projects[easyopac_facets][download][branch] = "development"
 
+projects[easyopac_facets_translate][type]             = "module"
+projects[easyopac_facets_translate][subdir]           = ""
+projects[easyopac_facets_translate][download][type]   = "git"
+projects[easyopac_facets_translate][download][url]    = "git@github.com:easySuite/easyopac_facets_translate.git"
+projects[easyopac_facets_translate][download][branch] = "development"
+
 projects[easyopac_status][type]             = "module"
 projects[easyopac_status][subdir]           = ""
 projects[easyopac_status][download][type]   = "git"
