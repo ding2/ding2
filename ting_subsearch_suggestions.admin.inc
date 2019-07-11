@@ -138,6 +138,13 @@ function ting_subsearch_suggestions_form_opensearch_admin_settings_alter(&$form,
     '#description' => t('Parameters goes like this param1=value1&amp;param2=value2. Do not assume that the first parameter is the first actual. The system will figure it out.'),
   );
 
+  $form['subsearch_settings']['ting_subsearch_suggestions_ps_factor'] = [
+    '#type' => 'textfield',
+    '#title' => t('Ratio between primary and secondary searches for suggestions'),
+    '#default_value' => variable_get('ting_subsearch_suggestions_ps_factor', 10),
+    '#description' => t('Factor between amount of results from primary and secondary search for displaying suggestions.'),
+  ];
+
   // Reordering fieldsets.
   $form['subsearch_settings']['secondary_settings']['#weight'] = 3;
   $form['subsearch_settings']['subsearch_translate']['#weight'] = 4;
