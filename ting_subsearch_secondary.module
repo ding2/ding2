@@ -101,20 +101,21 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
   if ($secondary_result->numTotalObjects > variable_get('ting_subsearch_secondary_result_min', 100)) {
     $ratio = $secondary_result->numTotalObjects / $results->getNumTotalObjects();
     if ($ratio > variable_get('ting_subsearch_secondary_ps_factor', 2)) {
-
       $items = [];
       $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
       foreach ($secondary_result->collections as &$collection) {
-        if ($number_of_records_to_show == 0) {
-          continue;
-        }
-        else {
-          $number_of_records_to_show--;
-        }
         $build = ting_collection_view($collection, 'minimal');
         $markup = drupal_render($build);
-        $return = '<a target="_blank" href="https://bibliotek.dk/work/' . $collection->ding_entity_id . '">' . $markup . '</a>';
+        $return = l($markup, 'https://bibliotek.dk/work/' . $collection->ding_entity_id, [
+          'html' => TRUE,
+          'absolute' => TRUE,
+          'attributes' => ['target' => 'blank']
+        ]);
+
         $items[] = $return;
+        if (count($items) == $number_of_records_to_show){
+          break;
+        }
       }
 
       $options = [
