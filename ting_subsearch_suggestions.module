@@ -108,7 +108,7 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
 
             $url = url('/search/ting/' . strtolower($suggestion), [
               'query' => $options['query'],
-              'absolute' => TRUE
+              'absolute' => TRUE,
             ]);
 
             $message = l($wrapper, $url, [
