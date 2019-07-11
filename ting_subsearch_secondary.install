@@ -83,3 +83,10 @@ function ting_subsearch_secondary_update_7001() {
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
 }
+
+/**
+ * Remove unneeded variables.
+ */
+function ting_subsearch_secondary_update_7002() {
+  variable_del('ting_subsearch_secondary_min');
+}
