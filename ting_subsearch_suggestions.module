@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Ting subsearch using suggestion services: Opensuggestion and KPI-Webtrends.
+ * Ting subsearch using suggestion services: Opensuggestion and KPI-Webtrekk.
  */
 
 use GuzzleHttp\Client as HttpClient;

@@ -30,12 +30,12 @@ msgid "KPI settings"
 msgstr "Indstillinger af supplerende søgning i KPI indekset"
 
 #: modules/subsearch_kpi/subsearch_kpi.admin.inc:23
-msgid "KPI Webtrends On-Site Searches Web Service URL"
-msgstr "URL til Web Service: On-Site Searches fra KPI Webtrends"
+msgid "KPI Webtrekk On-Site Searches Web Service URL"
+msgstr "URL til Web Service: On-Site Searches fra KPI Webtrekk"
 
 #: modules/subsearch_kpi/subsearch_kpi.admin.inc:25
-msgid "This field must contain the \"Web Services\" URL to the \"On-Site Searches\" report that can be found in Webtrends Analytics in the Content category. Click the Share button on the report page to find this URL."
-msgstr "Her skrives URL’en til webservicen \”On-Site Searches\”, der kan findes på Webtrends Analytics under \”Content\”. Klik på Share->Webservices og vælg JSON-format."
+msgid "This field must contain the \"Web Services\" URL to the \"On-Site Searches\" report that can be found in Webtrekk Analytics in the Content category. Click the Share button on the report page to find this URL."
+msgstr "Her skrives URL’en til webservicen \”On-Site Searches\”, der kan findes på Webtrekk Analytics under \”Content\”. Klik på Share->Webservices og vælg JSON-format."
 
 #: modules/subsearch_kpi/subsearch_kpi.admin.inc:34
 msgid "Parameter: !key"
@@ -55,7 +55,7 @@ msgstr "Adgangskode"
 
 #: modules/subsearch_kpi/subsearch_kpi.admin.inc:49
 msgid "The password"
-msgstr "Adgangskode til Webtrends"
+msgstr "Adgangskode til Webtrekk"
 
 #: modules/subsearch_kpi/subsearch_kpi.admin.inc:54
 msgid "Levenshtein distance"
@@ -70,12 +70,12 @@ msgid "Minimum search import limit"
 msgstr "Mindste antal gange, en søgning er foretaget"
 
 #: modules/subsearch_kpi/subsearch_kpi.admin.inc:63
-msgid "The KPI Webtrends data has search keywords for all searches, including searches with very low frequence (eg. searched only 1 time). Enter the number of minimum searches required before a keyword is imported and used in the KPI subsearch."
+msgid "The KPI Webtrekk data has search keywords for all searches, including searches with very low frequence (eg. searched only 1 time). Enter the number of minimum searches required before a keyword is imported and used in the KPI subsearch."
 msgstr "Angiv her det mindste antal gange en søgning skal være foretaget, for at den kan benyttes som forslag."
 
 #: modules/subsearch_kpi/subsearch_kpi.admin.inc:68
 msgid "Number of hits to trigger KPI subsearch"
-msgstr "Mindste antal resultater, der udløser KPI subsearch"
+msgstr "Største antal resultater, der udløser KPI subsearch"
 
 #: modules/subsearch_kpi/subsearch_kpi.admin.inc:70 modules/subsearch_opensuggestion/subsearch_opensuggestion.admin.inc:24
 msgid "In order to trigger a subsearch which will provide a suggestion to the user, the user-provided search string must trigger at most this number of hits. NOTE: User-provided searches that trigger 0 hits always trigger a subsearch."
@@ -114,8 +114,8 @@ msgid "No data fetched from feed"
 msgstr "Ingen data modtaget fra feed"
 
 #: modules/subsearch_kpi/subsearch_kpi.info:0
-msgid "Ting Subsearch - KPI Webtrends suggestions from imported keys"
-msgstr "Ting Subsearch – KPI Webtrends forslag fra importerede keys"
+msgid "Ting Subsearch - KPI Webtrekk suggestions from imported keys"
+msgstr "Ting Subsearch – KPI Webtrekk forslag fra importerede keys"
 
 #: modules/subsearch_kpi/subsearch_kpi.info:0 modules/subsearch_opensuggestion/subsearch_opensuggestion.info:0 modules/subsearch_secondary/subsearch_secondary.info:0
 msgid "Extend Ting Search with secondary search"
