@@ -178,7 +178,11 @@
       // event. To be consistent we track every campaign with event.
       $('.node-ding-campaign-plus', context) .once('js-ding-webtrekk', function() {
         var eventData = $(this).data('ding-webtrekk-event');
-        // TODO: Is 'click' appropiate here? If not what else to send?
+        // Sending a 'click'-event to webtrekk in this case may seem weird, but
+        // currently our Webtrekk setup only supports this type of event. If our
+        // setup is changed in the future it may be more appropiate to send
+        // another type of event. The important thing now is that we get the
+        // data to Webtrekk.
         pushEvent('click', eventData);
       });
     }
