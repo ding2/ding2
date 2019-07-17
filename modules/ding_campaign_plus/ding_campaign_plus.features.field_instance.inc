@@ -45,6 +45,12 @@ function ding_campaign_plus_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_campaign_plus_image',
@@ -133,6 +139,12 @@ function ding_campaign_plus_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_campaign_plus_link',
@@ -210,6 +222,12 @@ Campaign box is located at the bottom of the left column, on the page types wher
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_campaign_plus_style',
@@ -260,6 +278,12 @@ Campaign box is located at the bottom of the left column, on the page types wher
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_campaign_plus_text',
@@ -290,7 +314,7 @@ Campaign box is located at the bottom of the left column, on the page types wher
       ),
     ),
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Insert a tracking tag to help identify this campaign or a series of campaigns in web analytics (like Webtrekk for example).',
     'display' => array(
       'alternative_layout_full' => array(
         'label' => 'above',
@@ -316,10 +340,16 @@ Campaign box is located at the bottom of the left column, on the page types wher
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_campaign_plus_track',
-    'label' => 'Tracking tags',
+    'label' => 'Tracking tag',
     'required' => 1,
     'settings' => array(
       'text_processing' => 0,
@@ -372,6 +402,12 @@ Campaign box is located at the bottom of the left column, on the page types wher
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'teaser_no_overlay' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_campaign_plus_type',
@@ -383,7 +419,9 @@ Campaign box is located at the bottom of the left column, on the page types wher
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 7,
     ),
@@ -397,10 +435,11 @@ Campaign ribbon are placed according to the page\'s primary content on eg. mater
 <b>Box</b>:<br />
 Campaign box is located at the bottom of the left column, on the page types where there are 2 columns. This view will be e.g. used when searching. Use pictures of the list image or a more square image if you want to utilize something more of the height.');
   t('Image');
+  t('Insert a tracking tag to help identify this campaign or a series of campaigns in web analytics (like Webtrekk for example).');
   t('Link');
   t('Style');
   t('Text');
-  t('Tracking tags');
+  t('Tracking tag');
   t('Type');
 
   return $field_instances;
