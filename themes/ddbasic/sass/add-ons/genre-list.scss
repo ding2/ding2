@@ -31,7 +31,7 @@
         h2 {
           @include linear-gradient(
             transparent 0%,
-            $charcoal-opacity-extra-dark 100%
+            $charcoal-opacity-dark 100%
           );
           border-radius: $round-corner;
           position: absolute;

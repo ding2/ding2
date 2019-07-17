@@ -15,6 +15,9 @@ $plugin = array(
   'edit form' => 'ding_sharer_content_type_edit_form',
   'render callback' => 'ding_sharer_content_type_render',
   'category' => t('Ding!'),
+  'defaults' => array(
+    'share_type' => 'normal',
+  ),
 );
 
 /**
@@ -40,6 +43,7 @@ function ding_sharer_content_type_render($subtype, $conf, $panel_args, $context)
       '#theme' => 'ding_sharer',
       '#label' => t('Share this list'),
       '#communities' => array_map('ucfirst', $conf['communities']),
+      '#type' => $conf['share_type'],
     );
   }
 
@@ -59,6 +63,15 @@ function ding_sharer_content_type_edit_form($form, &$form_state) {
     ),
     '#default_value' => $form_state['conf']['communities'],
   );
+  $form['share_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Display type'),
+    '#options' => array(
+      'normal' => 'Normal',
+      'buttons' => 'Buttons',
+    ),
+    '#default_value' => $form_state['conf']['share_type'],
+  );
 
   return $form;
 }
@@ -67,5 +80,6 @@ function ding_sharer_content_type_edit_form($form, &$form_state) {
  * Implements hook_content_type_edit_form_submit().
  */
 function ding_sharer_content_type_edit_form_submit($form, &$form_state) {
-  $form_state['conf']['communities'] = $form_state['values']['communities'];
+  $form_state['conf']['communities'] = array_filter($form_state['values']['communities']);
+  $form_state['conf']['share_type'] = $form_state['values']['share_type'];
 }

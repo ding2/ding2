@@ -23,7 +23,8 @@
         "liuggio/fastest": "^1.6",
         "dmore/behat-chrome-extension": "^1.2",
         "cweagans/composer-patches": "^1.6",
-        "bossa/phpspec2-expect": "^3.0"
+        "bossa/phpspec2-expect": "^3.0",
+        "dmore/chrome-mink-driver": "^2.7"
     },
     "extra": {
         "patches": {

@@ -18,6 +18,8 @@
  * - $display_submitted: Whether submission information should be displayed.
  * - $submitted: Submission information created from $name and $date during
  *   template_preprocess_node().
+ * - $attributes: String of attributes to be added to a HTML element.
+ * - $content_attributes: String of attributes to be added to a HTML element.
  * - $classes: String of classes that can be used to style contextually through
  *   CSS. It can be manipulated through the variable $classes_array from
  *   preprocess functions. The default values can be one or more of the
@@ -81,7 +83,7 @@
 // Hide elements we don't want displayed.
 hide($content['comments']);
 hide($content['links']);
-if ($content['opening_hours_week']) {
+if (isset($content['opening_hours_week'])) {
   hide($content['opening_hours_week']);
 }
 
@@ -91,7 +93,7 @@ if ($content['opening_hours_week']) {
 if ($view_mode == 'teaser') {
   $content['group_ding_library_right_column']['title'][0]['#markup'] = '<h2 class="page-title library-title"><a href="' . $node_url . '">' . $title . '</a></h2>';
   $content['group_ding_library_right_column']['title']['#weight'] = '0';
-  if ($content['opening_hours_week']) {
+  if (isset($content['opening_hours_week'])) {
     $content['opening_hours_week']['#label_display'] = 'hidden';
   }
 }

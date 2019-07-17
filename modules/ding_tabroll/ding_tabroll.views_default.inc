@@ -22,12 +22,13 @@ function ding_tabroll_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'In focus';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'See more';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
-  $handler->display->display_options['query']['options']['query_comment'] = FALSE;
+  $handler->display->display_options['query']['options']['disable_sql_rewrite'] = TRUE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Revert';
   $handler->display->display_options['pager']['type'] = 'some';
@@ -193,6 +194,7 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['allow']['fields_override'] = 0;
   $translatables['ding_tabroll'] = array(
     t('Master'),
+    t('In focus'),
     t('See more'),
     t('Apply'),
     t('Revert'),

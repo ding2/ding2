@@ -199,6 +199,12 @@ function ding2_update_dependencies() {
     // provider is present.
     'ting' => 7014,
   );
+  // Update hook which sets custom configuration for EU Cookie Compliance.
+  $dependencies['ding2'][7064] = array(
+    // Update hook that updates the configuration format for EU Cookie
+    // Compliance module.
+    'eu_cookie_compliance' => 7010,
+  );
 
   return $dependencies;
 }
@@ -726,3 +732,70 @@ function ding2_update_7063() {
     'ding_nodelist',
   ));
 }
+
+/**
+ * Update EU Cookie Compliance settings.
+ */
+function ding2_update_7064() {
+  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da');
+  $ecc_settings['method'] = 'default';
+  $ecc_settings['show_disagree_button'] = 0;
+  i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
+}
+
+/**
+  * Update translations.
+ */
+function ding2_update_7065() {
+  ding2_translation_update();
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7066() {
+  ding2_translation_update();
+}
+
+/**
+ * Delete {system} records for ding_wayf module.
+ */
+function ding2_update_7067() {
+  variable_del('ding_wayf');
+  variable_del('wayf_hash');
+  ding2_remove_module('ding_wayf');
+}
+
+/**
+ * Disable GateWAYF modules and migrate config.
+ */
+function ding2_update_7068() {
+  $config = variable_get('ding_gatewayf_registration', FALSE);
+  if ($config) {
+    // Migrate configuration.
+    variable_set('ding_registration', $config);
+    variable_del('ding_gatewayf_registration');
+  }
+
+  // Remove config.
+  variable_del('ding_gatewayf');
+
+  // Remove modules.
+  ding2_remove_module('ding_gatewayf_registration');
+  ding2_remove_module('ding_gatewayf');
+}
+
+/**
+ * Enable adgangsplatformen module.
+ */
+function ding2_update_7069() {
+  module_enable(array('ding_adgangsplatformen'));
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7070() {
+  ding2_translation_update();
+}
+

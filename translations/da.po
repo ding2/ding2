@@ -17064,13 +17064,13 @@ msgid "Date/time on which the article will be automatically unpublished"
 msgstr "Dato/tid hvor indholdet automatisk bliver afpubliceret."
 
 msgid "Event"
-msgstr "Begivenhed"
+msgstr "Arrangement"
 
 msgid "Category"
 msgstr "Kategori"
 
 msgid "Groups"
-msgstr "Grupper"
+msgstr "Tema"
 
 msgid "Target"
 msgstr "Mål"
@@ -66914,6 +66914,10 @@ msgstr "Søg i @profile"
 msgid "Search in all"
 msgstr "Søg i alle"
 
+#: /
+msgid "Choose search category"
+msgstr "Vælg søgekategori"
+
 #: /index.php
 msgid "Related news"
 msgstr "Relaterede nyheder"
@@ -66955,59 +66959,59 @@ msgid "Unknown material (@material_number)"
 msgstr "Slettet eller kasseret materiale (@material_number)"
 
 #: /lazy-pane/ajax
-msgid "Materials by ratings" 
-msgstr "Materialer som andre også har anbefalet" 
+msgid "Materials by ratings"
+msgstr "Materialer som andre også har anbefalet"
 
 #: /lazy-pane/ajax
-msgid "" 
-"Get materials based on author or subject from users top rated " 
-"materials" 
-msgstr "Materialer med samme forfatter eller emneord som brugerens favoritter" 
+msgid ""
+"Get materials based on author or subject from users top rated "
+"materials"
+msgstr "Materialer med samme forfatter eller emneord som brugerens favoritter"
 
 #: /lazy-pane/ajax
-msgid "Fallback materials" 
-msgstr "Bibliotekets grundlæggende anbefalinger" 
+msgid "Fallback materials"
+msgstr "Bibliotekets grundlæggende anbefalinger"
 
 #: /lazy-pane/ajax
-msgid "" 
-"If other plugins fails to find serendipity, this plugin will return a " 
-"simple CQL. Keep the weight of this plugin higher than all other " 
-"plugins." 
-msgstr "Hvis andre plugins ikke finder materialer nok, så vil dette plugin returnere et CQL opslag. Holf vægten af dætte plugin højere end andre så det kun benyttes som sidste udvej." 
+msgid ""
+"If other plugins fails to find serendipity, this plugin will return a "
+"simple CQL. Keep the weight of this plugin higher than all other "
+"plugins."
+msgstr "Hvis andre plugins ikke finder materialer nok, så vil dette plugin returnere et CQL opslag. Holf vægten af dætte plugin højere end andre så det kun benyttes som sidste udvej."
 
 #: /lazy-pane/ajax
-msgid "Set fallback CQL" 
-msgstr "Angiv CQL til sidste udvejs opslag" 
+msgid "Set fallback CQL"
+msgstr "Angiv CQL til sidste udvejs opslag"
 
 #: /lazy-pane/ajax
-msgid "Ting objects via openlist ADHR service." 
-msgstr "Materialer via ADHR - Hvad andre også har ratet højt baseret på egne favoritter." 
+msgid "Ting objects via openlist ADHR service."
+msgstr "Materialer via ADHR - Hvad andre også har ratet højt baseret på egne favoritter."
 
 #: /lazy-pane/ajax
-msgid "" 
-"Call ADHR service on the current object to find related high rated " 
-"materials." 
-msgstr "Benyt ADHR (Andre har også anbefalet) på det aktuelle materiale" 
+msgid ""
+"Call ADHR service on the current object to find related high rated "
+"materials."
+msgstr "Benyt ADHR (Andre har også anbefalet) på det aktuelle materiale"
 
 #: /lazy-pane/ajax
-msgid "Ting objects via openlist ADHL service." 
-msgstr "Materialer via OpenList ADHL service (Andre har også lånt)" 
+msgid "Ting objects via openlist ADHL service."
+msgstr "Materialer via OpenList ADHL service (Andre har også lånt)"
 
 #: /lazy-pane/ajax
-msgid "" 
-"Call ADHL service on the current object to find related materials " 
-"others have loaned." 
-msgstr "Benyt ADHL (Andre har også lånt) på det aktuelle materiale." 
+msgid ""
+"Call ADHL service on the current object to find related materials "
+"others have loaned."
+msgstr "Benyt ADHL (Andre har også lånt) på det aktuelle materiale."
 
 #: /lazy-pane/ajax
-msgid "" 
-"Allow the library admin to enter a search string which pulls materials " 
-"to be pushed to the serendipity box on the front page." 
-msgstr "Lad biblioteks-admins indtaste CQL søgning som sender materialer ind i forsidens serendipitetspanel." 
+msgid ""
+"Allow the library admin to enter a search string which pulls materials "
+"to be pushed to the serendipity box on the front page."
+msgstr "Lad biblioteks-admins indtaste CQL søgning som sender materialer ind i forsidens serendipitetspanel."
 
 #: /lazy-pane/ajax
-msgid "Set the frontpage serendipity CQL" 
-msgstr "Angiv forsidens serendipitets CQL" 
+msgid "Set the frontpage serendipity CQL"
+msgstr "Angiv forsidens serendipitets CQL"
 
 #: /
 msgid "ADHL on random loan items"
@@ -67028,92 +67032,92 @@ msgid "Objects matching random author from lists."
 msgstr "Forslag af samme forfatter som et tilfældigt materiale i egne lister."
 
 #: /lazy-pane/ajax
-msgid "Node related material" 
+msgid "Node related material"
 msgstr "Materialer relateret til aktuel side (node)"
 
 #: /lazy-pane/ajax
-msgid "" 
-"Returns nodes linked to through the node reference field " 
-"\"field_related_content\"" 
-msgstr "Sider som er angivet via fields_related_content" 
+msgid ""
+"Returns nodes linked to through the node reference field "
+"\"field_related_content\""
+msgstr "Sider som er angivet via fields_related_content"
 
 #: /lazy-pane/ajax
-msgid "Node related content" 
-msgstr "Indhold relateret til aktuel side" 
+msgid "Node related content"
+msgstr "Indhold relateret til aktuel side"
 
 #: /lazy-pane/ajax
-msgid "" 
-"Returns ting objects linked to nodes through the ting reference field " 
-"\"field_materials\"" 
-msgstr "Hent materialer fra sider (nodes) via referencefeltet field_materials" 
+msgid ""
+"Returns ting objects linked to nodes through the ting reference field "
+"\"field_materials\""
+msgstr "Hent materialer fra sider (nodes) via referencefeltet field_materials"
 
 #: /lazy-pane/ajax
-msgid "Recent content of current term" 
-msgstr "Nyt indhold via aktuelt emneord" 
+msgid "Recent content of current term"
+msgstr "Nyt indhold via aktuelt emneord"
 
 #: /lazy-pane/ajax
-msgid "Fetch objects from this year matching term." 
-msgstr "Hent materialer fra i år som matcher aktuelt emneord" 
+msgid "Fetch objects from this year matching term."
+msgstr "Hent materialer fra i år som matcher aktuelt emneord"
 
 #: /lazy-pane/ajax
-msgid "Content with similar term" 
-msgstr "Indhold med lignende emneord" 
+msgid "Content with similar term"
+msgstr "Indhold med lignende emneord"
 
 #: /lazy-pane/ajax
-msgid "Fetch nodes or materials with similar term." 
-msgstr "Hent indhold (nodes) eller materialer med lignende emneord." 
+msgid "Fetch nodes or materials with similar term."
+msgstr "Hent indhold (nodes) eller materialer med lignende emneord."
 
 #: /lazy-pane/ajax
-msgid "Objects in taxonomy term recommended field" 
-msgstr "Materialer som er angivet i emneordets anbefalinger" 
+msgid "Objects in taxonomy term recommended field"
+msgstr "Materialer som er angivet i emneordets anbefalinger"
 
 #: /lazy-pane/ajax
-msgid "On each taxonomy term a list of recommended objects may be suggested." 
-msgstr "På hvert emneord kan der angives en liste med anbefalede materialer." 
+msgid "On each taxonomy term a list of recommended objects may be suggested."
+msgstr "På hvert emneord kan der angives en liste med anbefalede materialer."
 
 #: /lazy-pane/ajax
-msgid "Objects in taxonomy term popular field" 
-msgstr "Materialer fra emneordets felt med populære materialer." 
+msgid "Objects in taxonomy term popular field"
+msgstr "Materialer fra emneordets felt med populære materialer."
 
 #: /lazy-pane/ajax
-msgid "On each taxonomy term a list of popular objects may be suggested." 
-msgstr "På hvert emneord kan der angives en liste med populære materialer." 
+msgid "On each taxonomy term a list of popular objects may be suggested."
+msgstr "På hvert emneord kan der angives en liste med populære materialer."
 
 #: /lazy-pane/ajax
-msgid "Ting Objects related by same author" 
-msgstr "Materialer som har samme forfatter" 
+msgid "Ting Objects related by same author"
+msgstr "Materialer som har samme forfatter"
 
 #: /lazy-pane/ajax
-msgid "Search for Ting objects with same author" 
-msgstr "Find materialer med samme forfatter" 
+msgid "Search for Ting objects with same author"
+msgstr "Find materialer med samme forfatter"
 
 #: /lazy-pane/ajax
-msgid "Ting Objects related by same subject" 
-msgstr "Materialer med samme emneord" 
+msgid "Ting Objects related by same subject"
+msgstr "Materialer med samme emneord"
 
 #: /lazy-pane/ajax
-msgid "Search for Ting  objects with same subject" 
-msgstr "Find materialer med samme emneord" 
+msgid "Search for Ting  objects with same subject"
+msgstr "Find materialer med samme emneord"
 
 #: /lazy-pane/ajax
-msgid "Ting Objects related by same type" 
-msgstr "Materialer med samme materialetype" 
+msgid "Ting Objects related by same type"
+msgstr "Materialer med samme materialetype"
 
 #: /lazy-pane/ajax
-msgid "Search for Ting objects with same type" 
-msgstr "Find materiale med samme materialetype" 
+msgid "Search for Ting objects with same type"
+msgstr "Find materiale med samme materialetype"
 
 #: /lazy-pane/ajax
-msgid "Ting objects via ADHL service on current object" 
-msgstr "Find materialer via ADHL (Andre har også lånt) på det aktuelle materiale" 
+msgid "Ting objects via ADHL service on current object"
+msgstr "Find materialer via ADHL (Andre har også lånt) på det aktuelle materiale"
 
 #: /lazy-pane/ajax
-msgid "Call ADHL service on the current object" 
-msgstr "Benyt ADHL service (Andre har også lånt) på det aktuelle materiale" 
+msgid "Call ADHL service on the current object"
+msgstr "Benyt ADHL service (Andre har også lånt) på det aktuelle materiale"
 
 #: /lazy-pane/ajax
-msgid "Call Openlist ADHR service on the current object" 
-msgstr "Benyt OpenList ADHR (Andre har også anbefalet) på det aktuelle materiale." 
+msgid "Call Openlist ADHR service on the current object"
+msgstr "Benyt OpenList ADHR (Andre har også anbefalet) på det aktuelle materiale."
 
 #: /ding-list/private-share-message/147/facebook
 msgid "Yes - make my list public, and share it."
@@ -67293,12 +67297,8 @@ msgstr "Intern fejl på @title"
 msgid "Your account is limited. Please contact your library for more information."
 msgstr "Din konto har begrænset adgang. Kontakt venligst biblioteket for yderligere information."
 
-msgid "Your account is limited due to outstanding debt. Please contact your library for more "
-msgstr "Din konto har begrænset adgang på grund af et mellemværende. Kontakt venligst biblioteket for yderligere information."
-
 #: /system/ajax
-msgid ""
-"Your account is limited due to outstanding debt. Please contact your library for more information."
+msgid "Your account is limited due to outstanding debt. Please contact your library for more information."
 msgstr "Din konto har begrænset adgang på grund af udestående mellemværender. Kontakt venligst biblioteket for yderligere information."
 
 msgid "Your self created account is limited. Please contact your library to get full access."
@@ -67536,3 +67536,8 @@ msgstr "Denne handling vil slette alle de lister du har oprettet, samt indholdet
 #: /index.php
 msgid "change the node status in BPI"
 msgstr "Redigér artiklens status i BPI"
+
+#: /arrangementer/boern/moed-forfatteren-tom-buk-swienty
+msgctxt "Price"
+msgid "Free"
+msgstr "Gratis"

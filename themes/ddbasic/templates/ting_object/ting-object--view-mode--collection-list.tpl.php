@@ -11,9 +11,7 @@
 ?>
 <div class="<?php print $classes; ?> list-item-style clearfix"<?php print $attributes; ?>>
   <div class="inner">
-    <a href="<?php print $ting_object_url_object; ?>">
-      <?php print render($content['group_ting_left_col_collection']); ?>
-    </a>
+    <?php print render($content['group_ting_left_col_collection']); ?>
     <?php print render($content); ?>
   </div>
 </div>

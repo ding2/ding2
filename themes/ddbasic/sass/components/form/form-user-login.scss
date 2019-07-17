@@ -17,6 +17,7 @@
   }
   .close-user-login {
     @include place-icon(close);
+    display: block;
     width: 24px;
     height: 24px;
     float: right;
@@ -103,18 +104,6 @@
           color: $white;
         }
       }
-    }
-  }
-  .ding-gatewayf--login-block {
-    margin-top: 10px;
-    a {
-      @include button(nemid, $charcoal-opacity-dark, $grey-medium);
-    }
-  }
-  .sign-up-link {
-    clear: both;
-    a {
-      float: right;
     }
   }
 }

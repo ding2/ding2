@@ -66,7 +66,7 @@ function ding_sections_term_menu_form_taxonomy_form_term_alter(&$form, &$form_st
     $form['section']['enabled'] = array(
       '#type' => 'checkbox',
       '#title' => t('Provide a menu link'),
-      '#default_value' => !empty($link['mlid']) ? !empty($link['mlid']) : TRUE,
+      '#default_value' => !empty($link['mlid']) ? !empty($link['mlid']) : FALSE,
     );
     $form['section']['link'] = array(
       '#type' => 'container',

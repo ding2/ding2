@@ -3,10 +3,16 @@
 /**
  * @file
  * Ding news node blocks template.
+ *
+ * @var object $item
+ * @var string $column
  */
 
+$image = '';
+if (!empty($item->image)) {
+  $image = '<div class="ding-news-list-image nb-image" style="background-image:url(' . $item->image . ');"></div>';
+}
 ?>
-
 <article data-row="<?php print $row; ?>" data-column="<?php print $column; ?>"
          class="node node-ding-news node-promoted nb-item <?php print $item->image ? 'has-image' : ''; ?>">
   <a href="<?php print '/node/' . $item->nid; ?>">
@@ -20,6 +26,7 @@
         </div>
         <div class="title-and-lead">
           <h3 class="title"><?php print $item->title; ?></h3>
+          <div class="date"><?php print $item->date; ?></div>
           <div
                   class="field field-name-field-ding-news-lead field-type-text-long field-label-hidden">
             <div class="field-items">
@@ -31,8 +38,6 @@
         </div>
       </div>
     </div>
-    <?php if (!empty($item->image)): ?>
-      <div class="ding-news-list-image nb-image" style="background-image:url(<?php print $item->image; ?>);"></div>
-    <?php endif; ?>
+    <?php print $image; ?>
   </a>
 </article>

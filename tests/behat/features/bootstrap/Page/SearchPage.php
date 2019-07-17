@@ -606,7 +606,7 @@ class SearchPage extends PageBase
             $this->goToPage($currentPageNumber);
             // Wait for covers to be loaded.
             $this->waitFor(15, function ($page) {
-                return $this->find('xpath', '//div[contains(@class,"ting-cover")]/img');
+                return $this->find('css', '.ting-cover img');
             });
 
             // Rescan the search results on this page.
@@ -686,7 +686,7 @@ class SearchPage extends PageBase
                 }
 
                 // And finally grab out the cover image, if present.
-                $coverImageHolder = $srItem->find('xpath', '//div[contains(@class,"ting-cover")]/img');
+                $coverImageHolder = $srItem->find('css', '.ting-cover img');
                 $foundCoverImage = "";
                 if ($coverImageHolder) {
                     $foundCoverImage = $coverImageHolder->getAttribute('src');

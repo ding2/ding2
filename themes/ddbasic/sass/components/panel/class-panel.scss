@@ -272,6 +272,10 @@
   .hidden-facets-group {
     display: none;
   }
+
+  .fieldset-wrapper {
+    width: 100%;
+  }
 }
 
 // ==========================================================================
@@ -604,7 +608,8 @@
   }
 
   .views-widget-filter-field_ding_event_category_tid,
-  .views-widget-filter-og_group_ref_target_id_entityreference_filter {
+  .views-widget-filter-og_group_ref_target_id_entityreference_filter,
+  .views-widget-filter-field_ding_event_target_tid {
     width: 100%;
     label {
       h2 {
@@ -711,45 +716,6 @@
   // The IPE module will set the display inline, when an admin is editing a page
   // so the backend still works with this display none.
   display: none;
-}
-
-// ==========================================================================
-// Gatewayf
-// ==========================================================================
-
-.ding-gatewayf {
-  @include span-columns(12);
-
-  @include media($tablet) {
-    width: 100%;
-  }
-
-  &--right {
-    @include span-columns(4);
-    margin: 18px 0 11px 0;
-
-    @include media($tablet) {
-      width: 100%;
-    }
-  }
-
-  &--registration-information {
-    max-height: 350px;
-    max-width: 100%;
-    overflow-y: scroll;
-    background: white;
-    border: 1px solid #E3E3E3;
-    padding: 20px;
-    margin-bottom: 35px;
-
-    p {
-      margin: 0 0 15px;
-    }
-  }
-
-  &--temporary-text {
-    color: red;
-  }
 }
 
 // ==========================================================================

@@ -163,10 +163,6 @@ body > .ding2-site-template {
   border-radius: $round-corner;
   &.reserve-button,
   &.button-see-online,
-  &.ding-gatewayf-link {
-    color: $white;
-    background-color: $black;
-  }
   &:hover {
     background-color: $grey-dark;
     color: $white;
@@ -503,6 +499,7 @@ a.opening-hours-toggle {
   width: 100%;
   padding: 28px 0 26px;
   border-top: 1px solid $charcoal-opacity-light;
+  overflow: hidden;
   > h2 {
     @include font('base');
     margin-bottom: 0;
@@ -726,6 +723,27 @@ ul.tabs.primary {
     width: 100%;
     height: 100%;
   }
+}
+
+// ==========================================================================
+// Year span
+// ==========================================================================
+.ding-facetbrowser-interval {
+  margin: 6px 2px 0;
+}
+
+.ding-facetbrowser-interval__slider {
+  margin-bottom: 8px;
+}
+
+.ding-facetbrowser-interval__start,
+.ding-facetbrowser-interval__end {
+  width: 50%;
+  float: left;
+}
+
+.ding-facetbrowser-interval__end {
+  text-align: right;
 }
 
 // ==========================================================================

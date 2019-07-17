@@ -540,6 +540,12 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
   $title_prefix = '';
   $title_suffix = '';
 
+  // Create variable to make the switch statement below more dynamic.
+  $user_login_path = 'user';
+  if (module_exists('ding_adgangsplatformen')) {
+    $user_login_path = DING_ADGANGSPLATFORMEN_LOGIN_URL;
+  }
+
   // Add some icons to our top-bar menu. We use system paths to check against.
   switch ($element['#href']) {
     case 'search':
@@ -552,7 +558,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       // Special placeholder for mobile user menu. Fall through to next case.
       $element['#localized_options']['attributes']['class'][] = 'default-override';
 
-    case 'user':
+    case $user_login_path:
       $title_prefix = '<i class="icon-user"></i>';
       $title_suffix = '<i class="icon-arrow-down"></i>';
       // If a user is logged in we change the menu item title.
@@ -602,6 +608,33 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       else {
         $element['#attributes']['class'][] = 'topbar-link-user';
         $element['#localized_options']['attributes']['class'][] = 'topbar-link-user';
+
+        // Add destination to login link when using ding authentication.
+        if (module_exists('ding_adgangsplatformen')) {
+          if ($element['#href'] == DING_ADGANGSPLATFORMEN_LOGIN_URL) {
+            $destination = drupal_get_destination();
+
+            // Handle issues with lazy-pane and destination.
+            if ($destination['destination'] === 'lazy-pane/ajax') {
+              $path = $_GET['q'];
+              $query = drupal_http_build_query(drupal_get_query_parameters());
+              if ($query != '') {
+                $path .= '?' . $query;
+              }
+              $destination = array('destination' => $path);
+            }
+
+            $element['#localized_options']['query'] = array(
+              $destination,
+            );
+          }
+        }
+        else {
+          // Add support for open/close login/form when ding_adgangsplaformen is
+          // not enabled.
+          $element['#attributes']['class'][] = 'js-topbar-link-user';
+          $element['#localized_options']['attributes']['class'][] = 'js-topbar-link-user';
+        }
       }
       break;
 
@@ -657,6 +690,9 @@ function ddbasic_theme_script($filepath) {
  *
  * @param string $theme_name
  *   Name of the current theme.
+ *
+ * @return array
+ *   The info file array for a particular theme.
  */
 function ddbasic_get_info($theme_name) {
   $info = &drupal_static(__FUNCTION__, array());
@@ -768,12 +804,7 @@ function ddbasic_process_ting_object(&$vars) {
       break;
 
     case 'ting_object':
-
-      $uri_collection = entity_uri('ting_collection', $vars['object']);
-      $vars['ting_object_url_collection'] = url($uri_collection['path']);
-
       $uri_object = entity_uri('ting_object', $vars['object']);
-      $vars['ting_object_url_object'] = url($uri_object['path']);
 
       switch ($vars['elements']['#view_mode']) {
 
@@ -1110,7 +1141,9 @@ function ddbasic_add_ting_object_behaviour() {
   // automatically include availability, covers and rating handling.
   drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js');
   drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
-  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating.js');
+
+  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_widget.js');
+  drupal_add_js(drupal_get_path('module', 'ding_entity_rating') . '/js/ding_entity_rating_ajax.js');
 }
 
 /**

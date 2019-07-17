@@ -14,14 +14,14 @@
         <li class="ui-tabs-nav-item count-<?php print $i; ?>"><a href="#fragment-<?php print $i; ?>"><span><?php print $result->node_title; ?></span></a></li>
       <?php endforeach; ?>
     </ul>
-  
+
     <?php foreach ($rows as $id => $row): ?>
       <div id="fragment-<?php print $id; ?>" class="ui-tabs-panel<?php if ($id >= "1") { print " ui-tabs-hide"; } ?>">
         <?php print $row; ?>
       </div>
     <?php endforeach; ?>
   </div>
-  
+
   <!-- Used for responsive -->
   <select class="ding-tabroll-select-tabs">
     <?php foreach ($view->result as $id => $result) : ?>

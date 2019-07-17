@@ -40,16 +40,27 @@
    */
   Drupal.behaviors.menu = {
     attach: function(context, settings) {
-      var topbar_link_user = $('a.topbar-link-user', context),
-          main_menu_wrapper = $('.main-menu-wrapper', context),
-          secondary_menu_wrapper = $('.secondary-menu-wrapper', context),
-          close_user_login = $('.close-user-login', context),
-          mobile_menu_btn = $('a.topbar-link-menu', context),
+      var mobile_menu_btn = $('a.topbar-link-menu', context),
           search_btn = $('a.topbar-link-search', context),
           search_extended_btn = $('a.search-extended-button', context),
           first_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > a .main-menu-expanded-icon', context),
           second_level_expanded = $('.main-menu-wrapper > .main-menu > .expanded > .main-menu > .expanded > a .main-menu-expanded-icon', context),
-          body = $('body');
+          body = $('body'),
+          userPaneForm = $('.js-topbar-user.pane-user-login #user-login-form'),
+          userPaneFocusElements = userPaneForm.find(':focusable'),
+          userPaneFirstInput = userPaneForm.find('input:focusable').first();
+
+      // By default, the user login pane is hidden, so focusable elements should
+      // not be allowed to have tab-focus.
+      userPaneFocusElements.attr('tabindex', '-1');
+
+      // By default the user form is hidden, so we need to tell that to screen
+      // readers too.
+      // We're adding this through Javascript rather than PHP because the
+      // aria-hidden property is controlled by Javascript and if for some reason
+      // this Javascript file doesnt get added/triggered, the form is still
+      // accessible for screenreaders.
+      userPaneForm.attr('aria-hidden', true);
 
       // Scope fixes for inner functions.
       var thisScope = this;
@@ -85,17 +96,6 @@
         } else {
           body.removeClass('overlay-is-active');
         }
-      });
-
-      topbar_link_user.on('click', function(evt) {
-        evt.preventDefault();
-        ddbasic.openLogin();
-      });
-
-      close_user_login.on('click', function(evt) {
-        evt.preventDefault();
-        body.removeClass('pane-login-is-open');
-        body.removeClass('overlay-is-active');
       });
 
       first_level_expanded.on('click', function(evt) {

@@ -47,3 +47,13 @@ function ting_infomedia_update_7000() {
 function ting_infomedia_update_7001() {
   ding_entity_unlock_fields('ting_infomedia', array('ting_infomedia'));
 }
+
+/**
+ * Delete left over ting_infomedia field and instances from DB.
+ */
+function ting_infomedia_update_7002() {
+  field_delete_field('ting_infomedia');
+  // It's now marked for deletion, but since this was a virtual field with no
+  // data in db we can easily purge it right away.
+  field_purge_batch(1);
+}

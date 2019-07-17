@@ -91,7 +91,7 @@
         clear: left;
       }
 
-      #edit-pass--2 {
+      fieldset[id^='edit-pass'] {
         width: 100%;
         float: left;
         padding: 20px 0;
@@ -109,6 +109,10 @@
           @include media($mobile) {
             width: 100%;
           }
+        }
+        .description {
+          width: 100%;
+          float: left;
         }
       }
 

@@ -54,5 +54,4 @@ chrome:
       sessions:
         default:
           chrome:
-            api_url: "http://localhost:9222"
             socket_timeout: 600

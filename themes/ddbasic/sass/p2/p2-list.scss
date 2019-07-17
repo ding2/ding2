@@ -8,8 +8,10 @@
 // ==========================================================================
 .ding-list-element--display-view-list {
   padding: 20px 0;
-  &:nth-child(2n+1) {
-    background-color: $grey;
+  .ding-list-list__owner & {
+    &:nth-child(2n+1) {
+      background-color: $grey;
+    }
   }
   .ding-message {
     .ding-message-label {
@@ -44,9 +46,8 @@
       width: getColumn(9);
     }
   }
-
-
 }
+
 .ding-list-element__remove {
   @include span-columns(2 of 8);
   @include omega();
@@ -70,6 +71,12 @@
 
 .ding-list-list__title {
   @include font('display-large');
+}
+
+.ding-list-list__guest {
+  .ding-list-list__element-delta {
+    display: none;
+  }
 }
 
 .search-block-form.has-add-list .form-item-search-block-form {
