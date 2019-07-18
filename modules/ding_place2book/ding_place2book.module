@@ -374,10 +374,10 @@ function ding_place2book_clone_node_alter(&$node, $context) {
     return;
   }
 
-  // If prepopulate the node form is populated without saving cloned node first,
+  // In prepopulate the node form is populated without saving cloned node first,
   // so we need to clone the p2b event and prices and pass them along to the
   // widget form.
-  if (variable_get('clone_method', 'prepopulate') == 'prepopulate') {
+  if ($context['method'] == 'prepopulate') {
     $event_clone = clone $event;
     $event_clone->id = NULL;
     $field_place2book['event_clone'] = $event_clone;
@@ -389,8 +389,8 @@ function ding_place2book_clone_node_alter(&$node, $context) {
     // Signal to the widget that a clone should be performed.
     $field_place2book['do_clone'] = TRUE;
   }
-  // Otherwise save-edit method is used and we need to simulate the items array
-  // passed to our field presave implementation.
+  // Otherwise save-edit or action method is used and we need to simulate the
+  // items array passed to our field presave implementation.
   else {
     $field_place2book['capacity'] = $event->capacity;
     $field_place2book['kultunaut_export'] = $event->kultunaut_export;
