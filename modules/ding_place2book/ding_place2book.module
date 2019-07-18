@@ -369,7 +369,12 @@ function ding_place2book_clone_node_alter(&$node, $context) {
   try {
     $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($field_place2book['event_maker_id'], $original_event_id);
-    $prices = $p2b->getPrices($field_place2book['event_maker_id'], $original_event_id);
+
+    $prices = [];
+    // Only fetch prices for non-passive events.
+    if (!$event->passive) {
+      $prices = $p2b->getPrices($field_place2book['event_maker_id'], $original_event_id);
+    }
   }
   catch (Exception $ex) {
     watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
@@ -399,6 +404,7 @@ function ding_place2book_clone_node_alter(&$node, $context) {
   else {
     $field_place2book['capacity'] = $event->capacity;
     $field_place2book['kultunaut_export'] = $event->kultunaut_export;
+    $field_place2book['passive'] = $event->passive;
 
     $field_place2book['prices_wrapper']['prices'] = [];
     foreach ($prices as $price) {
