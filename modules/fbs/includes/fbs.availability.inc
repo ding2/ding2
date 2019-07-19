@@ -340,11 +340,12 @@ function fbs_translate_marc($code, $field) {
     $translations = _fbs_get_marc_039a_translations();
   }
   elseif ($field == '039.b') {
-    // This field contains ISO 3166-1 alpha-2 country codes and we can use the
-    // build in list from the Drupal.
+    // Danmarc only defines a few custom codes for areas that are not country.
+    // The rest of the codes are ISO 3166-1 alpha-2, which we can get from
+    // Drupal.
     // See: http://www.kat-format.dk/danMARC2/Danmarc2.22.htm#pgfId=1574621
     include_once DRUPAL_ROOT . '/includes/locale.inc';
-    $translations = country_get_list();
+    $translations = array_merge(_fbs_get_marc_039b_translations(), country_get_list());
     $code = drupal_strtoupper($code);
   }
 
@@ -370,7 +371,7 @@ function _fbs_get_marc_039a_translations() {
     'eti' => 'ET INSTRUMENT',
     'eta' => 'ET INSTRUMENT. ANTOLOGIER',
     'vok' => 'VOKALMUSIK',
-    'voa' => 'VOKALMUSIK. ANTOLOGIERø',
+    'voa' => 'VOKALMUSIK. ANTOLOGIER',
     'opr' => 'OPERAER',
     'opa' => 'OPERAER. ANTOLOGIER',
     'otm' => 'OPERETTER/MUSICALS',
@@ -392,5 +393,30 @@ function _fbs_get_marc_039a_translations() {
     'mmo' => 'MUSIC MINUS ONE',
     'hib' => 'HISTORIER. BØRN',
     'mub' => 'MUSIK. BØRN',
+  );
+}
+
+/**
+ * Helper function to hold additional country codes defined by marc.
+ *
+ * See: http://www.kat-format.dk/danMARC2/Danmarc2.22.htm#pgfId=1574621
+ * Note that we have them capitalized to be able treat them the same way as the
+ * capitalized country codes we get from Drupal.
+ */
+function _fbs_get_marc_039b_translations() {
+  return array (
+    'ÅB' => 'De Små Antiller',
+    'ÅC' => 'Oceanien',
+    'ÅE' => 'Europa',
+    'ÅF' => 'Forindien',
+    'ÅH' => 'Hawaii',
+    'ÅI' => 'Asien',
+    'ÅM' => 'Mellemamerika',
+    'ÅN' => 'Norden',
+    'ÅO' => 'Nordameria',
+    'ÅR' => 'Afrika',
+    'ÅS' => 'Skotland',
+    'ÅT' => 'Tibet',
+    'ÅY' => 'Sydamerika',
   );
 }
