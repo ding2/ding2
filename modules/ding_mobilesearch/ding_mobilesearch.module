@@ -156,6 +156,11 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         'value' => $node->status,
         'attr' => array(),
       ),
+      'language' => array(
+        'name' => t('Language'),
+        'value' => !empty($node->language) ? $node->language : 'en',
+        'attr' => array(),
+      ),
     ),
     'taxonomy' => array(),
   );
