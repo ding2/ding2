@@ -406,15 +406,14 @@ function ding_place2book_clone_node_alter(&$node, $context) {
     $field_place2book['kultunaut_export'] = $event->kultunaut_export;
     $field_place2book['passive'] = $event->passive;
 
-    $field_place2book['prices_wrapper']['prices'] = [];
-    foreach ($prices as $price) {
-      $field_place2book['prices_wrapper']['prices'][] = [
+    $field_place2book['prices_wrapper']['prices'] = array_map(function($price) {
+      return [
         'name' => $price->name,
         'value' => $price->value,
         'sale_begin_at' => date('Y-m-d H:i:s', strtotime($price->sale_begin_at)),
         'sale_end_at' => date('Y-m-d H:i:s', strtotime($price->sale_end_at)),
       ];
-    }
+    }, $prices);
 
     // Need to set this otherwise event will not be sync'ed by our presave
     // implementation. The widget form takes care of setting it also, but in
