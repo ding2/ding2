@@ -697,7 +697,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     '#empty_option' => t('Search in all'),
     '#options' => $exposed_profiles,
     '#weight' => 10,
-    '#default_value' => $default_profile,
+    '#default_value' => $profile ? $profile : '',
   );
 
   // Store the active profile for later in form submission.
