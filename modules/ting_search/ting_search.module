@@ -1007,12 +1007,17 @@ function ting_search_submit($form, &$form_state) {
     }
   }
   if (!empty($search_info['path']) && in_array($search_info['module'], variable_get('search_active_modules', array()))) {
-    $form_state['redirect'] = array(
-      'search/' . $search_info['path'] . '/' . trim($keys),
-      array(
-        'query' => array_merge($controls, array('filters' => $filters)),
-      ),
-    );
+    // By always using an array it makes it easier for other modules to add
+    // options to the redirect.
+    $form_state['redirect'] = [
+     'search/' . $search_info['path'] . '/' . trim($keys),
+     [],
+    ];
+    // Avoid adding a query parameter if there are no filters to prevent
+    // unecessary '?' in search URI.
+    if (!empty($filters)) {
+      $form_state['redirect'][1]['query'] = array_merge($controls, array('filters' => $filters));
+    }
   }
   else {
     form_set_error(NULL, t('Search is currently disabled.'), 'error');
