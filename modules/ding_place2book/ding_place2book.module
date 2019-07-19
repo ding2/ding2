@@ -359,10 +359,12 @@ function ding_place2book_clone_node_alter(&$node, $context) {
   $original_event_id = $field_place2book['event_id'];
   $field_place2book['event_id'] = NULL;
 
-  // Clear the ticket link, so that our node_presave implementation will fetch
-  // a new sales URL.
-  $node_wrapper = entity_metadata_wrapper('node', $node);
-  $node_wrapper->field_ding_event_ticket_link->set(NULL);
+  // For ding_event nodes clear the ticket link, so that our node_presave
+  // implementation will fetch a new sales URL.
+  if ($node->type = 'ding_event') {
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $node_wrapper->field_ding_event_ticket_link->set(NULL);
+  }
 
   // Fetch the p2b-event and prices associated with the original node. We need
   // the data to replicate p2b-event on the cloned node.
