@@ -703,13 +703,13 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   // Store the active profile for later in form submission.
   $form['ting_field_search_profile'] = array(
     '#type' => 'hidden',
-    '#default_value' => $profile ? $profile->name : '',
+    '#default_value' => is_object($profile) ? $profile->name : '',
   );
 
   // Store whether the profile has fields, so we don't load it unnecessarily.
   $form['ting_field_search_profile_has_fields'] = array(
     '#type' => 'hidden',
-    '#default_value' => $profile ? !empty($profile->fields) : FALSE,
+    '#default_value' => is_object($profile) ? !empty($profile->fields) : FALSE,
   );
 
   // Adding content search option into ting_field_search dropdown.
