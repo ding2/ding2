@@ -264,17 +264,9 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
 function ding_webtrekk_preprocess_node(&$variables) {
   $node = $variables['node'];
   if ($node->type == 'ding_campaign_plus') {
-    $wrapper = entity_metadata_wrapper('node', $node);
-
-    // Extract tracking tag for the campaign.
-    $tracking_tag = $wrapper->field_ding_campaign_plus_track->value([
-      'sanitize' => TRUE
-    ]);
-
     $event_data = ding_webtrekk_create_event_data('Kampagne', [
       DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_TITLE => check_plain($node->title),
       DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_ID => $node->nid,
-      DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_TAG => $tracking_tag,
     ]);
 
     // We can't use the cacth-all event handler for this, since it relies on
