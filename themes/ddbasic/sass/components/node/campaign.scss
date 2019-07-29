@@ -52,13 +52,15 @@
       z-index: 1;
     }
     .ding-campaign-text {
-      @include span-columns(7);
+      @include span-columns(10);
       position: relative;
       padding: 50px 30px;
       color: $white;
       z-index: 2;
-      @include media($mobile) {
+      @include media($tablet) {
         @include span-columns(12);
+      }
+      @include media($mobile) {
         min-height: auto;
       }
     }
