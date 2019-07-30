@@ -733,3 +733,70 @@ function ding2_update_7063() {
 function ding2_update_7064() {
   module_enable(array('mimemail'));
 }
+
+/**
+ * Migrate ding_event_rooms field's data to ding_event_place field.
+ */
+function ding2_update_7065() {
+  $entity_type = 'node';
+  $rooms_field_name = 'field_ding_event_rooms';
+  $bundle = 'ding_event';
+  // Check if rooms field exists.
+  $rooms_field_instance = field_info_instance($entity_type, $rooms_field_name, $bundle);
+
+  if ($rooms_field_instance) {
+    // Fetch nids which have 'rooms' field relation.
+    $entities = db_select('field_data_field_ding_event_rooms', 'rooms')
+      ->fields('rooms')
+      ->execute()
+      ->fetchAll();
+
+    if ($entities) {
+      // Collect all 'rooms' vocabulary tids used in ding_event node CT.
+      $tids = [];
+      foreach ($entities as $item) {
+        $tids[$item->field_ding_event_rooms_tid] = $item->field_ding_event_rooms_tid;
+      }
+
+      // Load terms data.
+      $loaded_terms = taxonomy_term_load_multiple($tids);
+
+      // Insert data into 'place' field.
+      $tables = [
+        'field_data_field_ding_event_place',
+        'field_revision_field_ding_event_place',
+      ];
+
+      foreach ($entities as $entity) {
+        foreach ($tables as $table) {
+          db_insert($table)
+            ->fields([
+              'entity_type' => $entity->entity_type,
+              'bundle' => $entity->bundle,
+              'deleted' => $entity->deleted,
+              'entity_id' => $entity->entity_id,
+              'revision_id' => $entity->revision_id,
+              'language' => $entity->language,
+              'delta' => $entity->delta,
+              'field_ding_event_place_value' => $loaded_terms[$entity->field_ding_event_rooms_tid]->name,
+              'field_ding_event_place_format' => NULL,
+            ])
+            ->execute();
+        }
+      }
+
+      // Remove 'rooms' fields.
+      field_delete_instance($rooms_field_instance, TRUE);
+      field_delete_field($rooms_field_name);
+      field_cron();
+
+      // Remove 'rooms' taxonomy vocabulary.
+      $rooms_vocabulary = taxonomy_vocabulary_machine_name_load('rooms');
+      taxonomy_vocabulary_delete($rooms_vocabulary->vid);
+
+      // Disable and uninstall ding_event_rooms module.
+      module_disable(['ding_event_rooms']);
+      drupal_uninstall_modules(['ding_event_rooms']);
+    }
+  }
+}
