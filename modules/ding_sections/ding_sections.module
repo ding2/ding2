@@ -116,7 +116,9 @@ function ding_sections_preprocess(&$variables, $hook) {
   // Process nodes with sections.
   if ($hook == 'node') {
     if (!empty($variables['field_ding_section'])) {
-      $tid = $variables['field_ding_section'][LANGUAGE_NONE][0]['tid'];
+      $node_entity = $variables['node'];
+      $field_entity = field_get_items('node', $node_entity, 'field_ding_section');
+      $tid = $field_entity[0]['tid'];
       $nid = $variables['nid'];
       $variables['classes_array'][] = 'section-' . $tid . '-' . $nid;
     }
