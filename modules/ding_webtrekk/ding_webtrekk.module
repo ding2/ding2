@@ -264,17 +264,33 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
 function ding_webtrekk_preprocess_node(&$variables) {
   $node = $variables['node'];
   if ($node->type == 'ding_campaign_plus') {
+    // Create event that tracks when a campaign is viewed sending the title and
+    // internal ID.
     $event_data = ding_webtrekk_create_event_data('Kampagne', [
       DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_TITLE => check_plain($node->title),
       DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_ID => $node->nid,
     ]);
 
     // We can't use the cacth-all event handler for this, since it relies on
-    // being triggered by a user interaction. Instead our JS behavior attach
-    // function will take care of sending the event data, when the campaign is
-    // attached in frontend.
+    // being triggered by a user interaction. Instead we send event when
+    // behavoirs are attached in frontend.
     $event_data = json_encode($event_data);
     $variables['attributes_array']['data-ding-webtrekk-event'] = $event_data;
+  }
+}
+
+/**
+ * Implements hook_process_node().
+ */
+function ding_webtrekk_process_node(&$variables) {
+  $node = $variables['node'];
+  if ($node->type == 'ding_campaign_plus') {
+    // Add u_navigatedby URL-parameter to campaign URLs, to be able to track
+    // page views triggered from campaigns. We use a process for this because
+    // campaign plus adds the variable in preprocess.
+    $url = &$variables['campaign_url'];
+    $url .= parse_url($url, PHP_URL_QUERY) !== NULL ? '&' : '?';
+    $url .= 'u_navigatedby=' . check_plain(rawurlencode($node->title));
   }
 }
 
