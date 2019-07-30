@@ -242,6 +242,9 @@ function ding_campaign_plus_preprocess_node(&$variables, $hook) {
 
     // Add campaign tracking id.
     $variables['wt_mc_id'] = $wrapper->field_ding_campaign_plus_track->value();
+
+    // Add campaign URL.
+    $variables['campaign_url'] = $wrapper->field_ding_campaign_plus_link->url->value();
   }
 }
 
