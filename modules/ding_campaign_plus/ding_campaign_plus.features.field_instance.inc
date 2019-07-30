@@ -281,62 +281,6 @@ Campaign box is located at the bottom of the left column, on the page types wher
   );
 
   // Exported field_instance:
-  // 'node-ding_campaign_plus-field_ding_campaign_plus_track'.
-  $field_instances['node-ding_campaign_plus-field_ding_campaign_plus_track'] = array(
-    'bundle' => 'ding_campaign_plus',
-    'default_value' => array(
-      0 => array(
-        'value' => 'campaign',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'alternative_layout_full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 5,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser_highlight' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_ding_campaign_plus_track',
-    'label' => 'Tracking tags',
-    'required' => 1,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 2,
-    ),
-  );
-
-  // Exported field_instance:
   // 'node-ding_campaign_plus-field_ding_campaign_plus_type'.
   $field_instances['node-ding_campaign_plus-field_ding_campaign_plus_type'] = array(
     'bundle' => 'ding_campaign_plus',
