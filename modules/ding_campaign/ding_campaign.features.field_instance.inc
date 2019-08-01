@@ -535,62 +535,6 @@ function ding_campaign_field_default_field_instances() {
     ),
   );
 
-  // @todo This should be moved to separate module.
-  // Exported field_instance: 'node-ding_campaign-field_show_on_mobiles'
-  $field_instances['node-ding_campaign-field_show_on_mobiles'] = array(
-    'bundle' => 'ding_campaign',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 9,
-      ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser_highlight' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_show_on_mobiles',
-    'label' => 'Show on mobile?',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 41,
-    ),
-  );
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Campaign image');
@@ -600,7 +544,6 @@ function ding_campaign_field_default_field_instances() {
   t('Campaign text');
   t('Libraries and Groups');
   t('Open in new tab/window');
-  t('Show on mobile?');
   t('Weight');
 
   return $field_instances;
