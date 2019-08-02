@@ -12,6 +12,27 @@ module_load_include('inc', 'ting_subsearch_secondary', 'ting_subsearch_secondary
 include_once 'ting_subsearch_secondary.features.inc';
 
 /**
+ * Implements hook_theme().
+ */
+function ting_subsearch_secondary_theme($existing, $type, $theme, $path) {
+  return [
+    'tss_message_box' => [
+      'variables' => [
+        'items' => NULL,
+        'message' => NULL,
+        'bibdk_url' => NULL,
+        'bibdk_url_text' => NULL,
+      ],
+      'template' => 'templates/ting-subsearch-secondary--message-box',
+    ],
+    'tss_items_list' => [
+      'variables' => ['items' => NULL],
+      'template' => 'templates/ting-subsearch-secondary--message-box--items-list',
+    ],
+  ];
+}
+
+/**
  * Implements hook_ting_search_results_prefix().
  *
  * @throws \Exception
@@ -112,7 +133,10 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
           'attributes' => ['target' => 'blank']
         ]);
 
-        $items[] = $return;
+        $items[] = [
+          'markup' => $markup,
+          'url' => 'https://bibliotek.dk/work/' . $collection->ding_entity_id,
+        ];
         if (count($items) == $number_of_records_to_show){
           break;
         }
@@ -124,7 +148,6 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
         '!keys' => $keys,
         '!num-results' => $results->getNumTotalObjects(),
         '!bibdk-num-results' => $secondary_result->numTotalObjects,
-        '!examples' => theme('item_list', ['items' => $items]),
       ];
 
       if (variable_get('ting_subsearch_secondary_number_of_results', 4) == 0) {
@@ -133,17 +156,19 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
         );
       }
       else {
-        $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits where some of them is the following: !examples',
+        $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits where some of them is the following:',
           $options
         );
       }
-      $wrapper = '<div class="messages search-field-in-content--message subsearch-secondary">' . $msg . '</div>';
-      $message = l($wrapper, $options['!link'], [
-        'html' => TRUE,
-        'absolute' => TRUE,
-        'attributes' => ['target' => 'blank']
+
+      $message = theme('tss_message_box', [
+        'items' => theme('tss_items_list', ['items' => $items]),
+        'message' => $msg,
+        'bibdk_url' => $options['!link'],
+        'bibdk_url_text' => t('See more materials at <span class="accent">bibliotek.dk</span>'),
       ]);
-      drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/ting_subsearch_secondary.css');
+      drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/css/ting_subsearch_secondary.css');
+      drupal_add_js(drupal_get_path('module', 'ting_subsearch_secondary') . '/js/ting_subsearch_secondary.js', 'file');
     }
   }
 
