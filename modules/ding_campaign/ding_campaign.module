@@ -114,7 +114,6 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
         'link' => NULL,
         'image' => NULL,
         'text' => NULL,
-        'show_on_mobiles' => NULL,
       ),
       'template' => 'ding-campaign',
       'path' => $path . '/templates',
@@ -208,17 +207,6 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium', $su
   }
 
   return $content;
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- *
- * @todo This should be moved to separate module.
- */
-function ding_campaign_preprocess_ding_campaign(&$variables) {
-  if (!empty($variables['show_on_mobiles'])) {
-    $variables['classes_array'][] = 'ding-campaign-mobile-display';
-  }
 }
 
 /**
