@@ -1,0 +1,69 @@
+.ting-object.view-mode-minimal .field-name-ting-author,
+.ting-object.view-mode-minimal .field-name-ting-type {
+  display: inline-block;
+  color: #e5e5e5;
+}
+
+.message-box {
+  padding: 15px 12px;
+  cursor: pointer;
+
+  .message-box--title {
+    margin-bottom: 12px;
+    &:hover {
+      color: #fffff1;
+    }
+  }
+
+  .message-box--list-item {
+    border: 1px solid #fff;
+    margin-bottom: 5px;
+    padding: 10px 25px 10px 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: space-between;
+    height: 56px;
+
+    .message-box--content {
+      .field-name-ting-title h2 {
+        font-size: 100%;
+        font-weight: bold;
+        margin-bottom: 0;
+        line-height: unset;
+      }
+    }
+
+    .message-box--see-more {
+      border: 1px solid rgba(38, 38, 38, .2);
+      height: 36px;
+      padding: 8px;
+
+      @media screen and(max-width: 950px) {
+        display: none;
+      }
+    }
+  }
+
+  .message-box--external-search {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .message-box--external-search a {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid rgba(38, 38, 38, .2);
+    margin-top: 15px;
+    padding: 8px 20px 5px 20px;
+
+    &:hover {
+      border: 1px solid silver;
+    }
+  }
+}
+
