@@ -143,6 +143,7 @@ function ding_adgangsplatformen_get_configuration() {
     'urlAccessToken' => 'https://login.bib.dk/oauth/token/',
     'urlResourceOwnerDetails' => 'https://login.bib.dk/userinfo/',
     'urlLogout' => 'https://login.bib.dk/logout/',
+    'singleLogout' => true,
   ));
 
   // All-ways set redirect url (editing not allowed) in admin.
@@ -213,6 +214,7 @@ function ding_adgangsplatformen_logout($hooked = FALSE) {
   global $base_url;
 
   $config = ding_adgangsplatformen_get_configuration();
+  $singleLogout = $config['singleLogout'] ? 'true' : 'false';
   $token = $_SESSION['oauth2token'];
 
   // Generate logout request for the authorization service and send the request.
@@ -221,7 +223,7 @@ function ding_adgangsplatformen_logout($hooked = FALSE) {
     array(
       'external' => true,
       'query' => array(
-        'singlelogout' => 'true',
+        'singlelogout' => $singleLogout,
         'access_token' => $token,
         'redirect_uri' => $base_url,
       ),

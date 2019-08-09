@@ -71,5 +71,13 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
     '#default_value' => $default['urlLogout'],
   );
 
+  $form['ding_adgangsplatformen_settings']['singleLogout'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Single logout'),
+    '#description' => t('Use single logout when a user logs out of the site. This will log the user out of all sites where they are currently logged in using Adgangsplatformen.'),
+    '#return_value' => true,
+    '#default_value' => $default['singleLogout'],
+  );
+
   return system_settings_form($form);
 }
