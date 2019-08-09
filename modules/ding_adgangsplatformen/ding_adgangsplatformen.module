@@ -8,7 +8,7 @@
 define('DING_ADGANGSPLATFORMEN_LOGIN_URL', 'adgangsplatformen/login');
 define('DING_ADGANGSPLATFORMEN_LOGOUT_URL', 'adgangsplatformen/logout');
 define('DING_ADGANGSPLATFORMEN_REDIRECT_URL', 'adgangsplatformen/callback');
-
+define('DING_ADGANGSPLATFORMEN_LOGOUT_IFRAME_URL', 'adgangsplaformen/logout/iframe');
 
 use \League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use \League\OAuth2\Client\Provider\GenericProvider;
@@ -61,6 +61,13 @@ function ding_adgangsplatformen_menu() {
   $items[DING_ADGANGSPLATFORMEN_LOGOUT_URL] = array(
     'title' => 'Log out',
     'page callback' => 'ding_adgangsplatformen_logout',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items[DING_ADGANGSPLATFORMEN_LOGOUT_IFRAME_URL] = array(
+    'title' => 'Log out iframe',
+    'page callback' => 'ding_adgangsplatformen_logout_iframe',
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
@@ -223,6 +230,41 @@ function ding_adgangsplatformen_logout($hooked = FALSE) {
   // Redirect the user to the logout url.
   header('Location:' . $logout_url);
   drupal_exit($logout_url);
+}
+
+/**
+ * Menu callback for iframes used by the single logout functionality.
+ *
+ * @see https://github.com/DBCDK/hejmdal/blob/master/docs/single-logout.md
+ */
+function ding_adgangsplatformen_logout_iframe() {
+  // Sites which iframe the single logout url can only access the content
+  // of the url. We cannot use default access control for this se we setup a
+  // response where the return code is mirrored in the content.
+  $status_code = 403;
+  $reason = 'Forbidden';
+  // Only log out SSO users. The user could in theory be logged in as normal.
+  // In this case Adgangsplatformen should not be allowed to logout the user.
+  if (ding_user_is_logged_in_with_sso()) {
+    $status_code = 200;
+    $reason = 'OK';
+
+    // We do not call user_logout_current_user() directly as this would cause
+    // ding_adgangsplatformen_logout() to redirect back to Adgangsplatformen.
+    session_destroy();
+  }
+
+  // Logout requests must never be cached. A cached response would cause
+  // Adgangsplatformen to think the user was logged out when it fact they were
+  // not.
+  drupal_page_is_cacheable(FALSE);
+  drupal_add_http_header('Status', "$status_code $reason");
+  drupal_add_http_header(
+    'X-Frame-Options',
+    'allow-from https://login.bib.dk'
+  );
+
+  drupal_json_output(array('statusCode' => $status_code));
 }
 
 /**
