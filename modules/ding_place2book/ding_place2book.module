@@ -347,6 +347,87 @@ function ding_place2book_field_widget_form_alter(&$element, &$form_state, $conte
 }
 
 /**
+ * Implements hook_clone_node_alter().
+ */
+function ding_place2book_clone_node_alter(&$node, $context) {
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($node)) {
+    return;
+  }
+
+  // Reset p2b event ID, so that the cloned ding_event doesn't point to the same
+  // event in p2b as the original.
+  $original_event_id = $field_place2book['event_id'];
+  $field_place2book['event_id'] = NULL;
+
+  // For ding_event nodes clear the ticket link, so that our node_presave
+  // implementation will fetch a new sales URL.
+  if ($node->type = 'ding_event') {
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $node_wrapper->field_ding_event_ticket_link->set(NULL);
+  }
+
+  // Fetch the p2b-event and prices associated with the original node. We need
+  // the data to replicate p2b-event on the cloned node.
+  try {
+    $p2b = ding_place2book_instance();
+    $event = $p2b->getEvent($field_place2book['event_maker_id'], $original_event_id);
+
+    $prices = [];
+    // Only fetch prices for non-passive events.
+    if (!$event->passive) {
+      $prices = $p2b->getPrices($field_place2book['event_maker_id'], $original_event_id);
+    }
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
+    // If can't get the data from p2b API we can't setup the clone perfectly. At
+    // least we removed the event_id, so just return now.
+    $node->field_place2book[LANGUAGE_NONE][0] = $field_place2book;
+    return;
+  }
+
+  // In prepopulate the node form is populated without saving cloned node first,
+  // so we need to clone the p2b event and prices and pass them along to the
+  // widget form.
+  if ($context['method'] == 'prepopulate') {
+    $event_clone = clone $event;
+    $event_clone->id = NULL;
+    $field_place2book['event_clone'] = $event_clone;
+    $field_place2book['prices_clone'] = array_map(function($price) {
+      $price_clone = clone $price;
+      $price_clone->id = NULL;
+      return $price_clone;
+    }, $prices);
+    // Signal to the widget that a clone should be performed.
+    $field_place2book['do_clone'] = TRUE;
+  }
+  // Otherwise save-edit or action method is used and we need to simulate the
+  // items array passed to our field presave implementation.
+  else {
+    $field_place2book['capacity'] = $event->capacity;
+    $field_place2book['kultunaut_export'] = $event->kultunaut_export;
+    $field_place2book['passive'] = $event->passive;
+
+    $field_place2book['prices_wrapper']['prices'] = array_map(function($price) {
+      return [
+        'name' => $price->name,
+        'value' => $price->value,
+        'sale_begin_at' => date('Y-m-d H:i:s', strtotime($price->sale_begin_at)),
+        'sale_end_at' => date('Y-m-d H:i:s', strtotime($price->sale_end_at)),
+      ];
+    }, $prices);
+
+    // Need to set this otherwise event will not be sync'ed by our presave
+    // implementation. The widget form takes care of setting it also, but in
+    // this clone method we skip the form and save the node immediatly, so we
+    // need to set it here.
+    $field_place2book['do_sync'] = TRUE;
+  }
+
+  $node->field_place2book[LANGUAGE_NONE][0] = $field_place2book;
+}
+
+/**
  * Creates and initializes instance of P2b class.
  *
  * @return object
