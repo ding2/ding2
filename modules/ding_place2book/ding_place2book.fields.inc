@@ -392,13 +392,15 @@ function ding_place2book_widget_validate($form, &$form_state) {
         // they want to add another price. We require at least one price to
         // exist though (see below).
         if (isset($price['id']) && !$has_values) {
-          form_set_error("field_place2book][und][place2book][prices_wrapper][prices][$key", t('Both Name and price value is required for prices'));
+          form_set_error("field_place2book][und][place2book][prices_wrapper][prices][$key][name", t('Both Name and price value is required for prices'));
+          form_set_error("field_place2book][und][place2book][prices_wrapper][prices][$key][value");
         }
         return $has_values;
       }, ARRAY_FILTER_USE_BOTH);
 
       if (empty($prices)) {
-        form_set_error('field_place2book][und][place2book][prices_wrapper][prices', t('At least one price should exist and both name and price value is required.'));
+        form_set_error('field_place2book][und][place2book][prices_wrapper][prices][0][name', t('At least one price should exist and both name and price value is required.'));
+        form_set_error('field_place2book][und][place2book][prices_wrapper][prices][0][value');
       }
     }
 
