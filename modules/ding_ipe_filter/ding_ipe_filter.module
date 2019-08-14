@@ -257,18 +257,4 @@ function ding_ipe_filter_form_alter(&$form, &$form_state, $form_id) {
   if (strpos($form['#action'], '/panels/ajax/ipe/') !== FALSE && $form_state['modal'] == TRUE) {
     $form['#attached']['css'][] = drupal_get_path('module', 'ding_ipe_filter') . '/css/ding_ipe_filter.modal.css';
   }
-
-  // Process panels pane settings form.
-  if (isset($form_state["wrapper_callback"]) && $form_state["wrapper_callback"] == 'ctools_wizard_wrapper') {
-    // Hide "Title heading" select.
-    $form['override_title_heading']['#access'] = FALSE;
-    // Remove CTools "#dependecy" property.
-    unset($form['override_title_text']['#dependency']);
-    // Add native "#states" functionality.
-    $form['override_title_text']['#states'] = [
-      'visible' => [
-        ':input[name="override_title"]' => ['checked' => TRUE],
-      ],
-    ];
-  }
 }
