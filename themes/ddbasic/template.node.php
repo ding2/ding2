@@ -313,7 +313,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         if (!empty($link_url)) {
           $variables['book_button'] = l($book_button_text, $link_url, array(
             'attributes' => array(
-              'class' => array('ticket', 'button'),
+              'class' => array('ticket-available', 'button'),
               'target' => '_blank',
             ),
           ));

@@ -293,10 +293,11 @@
 
           &.ticket-available {
             background-color: $green;
+            color: $white;
 
             &:hover {
               background-color: $green-text;
-              color: lighten($black, 15);
+              color: lighten($white, 15);
             }
           }
 
@@ -322,12 +323,6 @@
           &:hover {
             background-color: $grey-medium;
             color: $black;
-          }
-        }
-
-        a.button {
-          &:link, &:visited, &:hover, &:active {
-            text-decoration: underline;
           }
         }
       }
