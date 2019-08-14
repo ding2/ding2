@@ -700,16 +700,10 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     '#default_value' => $profile ? $profile : '',
   );
 
-  // Store the active profile for later in form submission.
-  $form['ting_field_search_profile'] = array(
-    '#type' => 'hidden',
-    '#default_value' => is_object($profile) ? $profile->name : '',
-  );
-
-  // Store whether the profile has fields, so we don't load it unnecessarily.
-  $form['ting_field_search_profile_has_fields'] = array(
-    '#type' => 'hidden',
-    '#default_value' => is_object($profile) ? !empty($profile->fields) : FALSE,
+  // Store the default profile for later in form submission.
+  $form['ting_field_search_default_profile'] = array(
+    '#type' => 'value',
+    '#value' => $profile ? $profile : FALSE,
   );
 
   // Adding content search option into ting_field_search dropdown.
@@ -734,10 +728,14 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
  * doesn't include profile field values.
  */
 function ting_field_search_search_block_form_after_build($form, &$form_state) {
-  if (!$form_state['values']['ting_field_search_profile_has_fields']) {
+  $profile = $form_state['values']['ting_field_search_default_profile'];
+
+  // Ensure we have a profile and it's not the node pseudo profile.
+  if (!$profile || $profile == 'node') {
     return $form;
   }
-  $profile = $form_state['values']['ting_field_search_profile'];
+
+  // It's just the name of the default profile. Load it to access the fields.
   $profile = ting_field_search_profiles_load($profile);
   if ($profile && !empty($profile->fields)) {
     $query = $form['search_block_form']['#default_value'];
@@ -775,7 +773,7 @@ function ting_field_search_search_block_validate($form, &$form_state) {
   // Reset the sort if the user is changing profile. This is the most intuitive
   // and fixes several issues when the profiles is using different default sort
   // settings.
-  $previous_profile = $form_state['values']['ting_field_search_profile'];
+  $previous_profile = $form_state['values']['ting_field_search_default_profile'];
   $selected_profile = $form_state['values']['ting_field_search'];
   if ($previous_profile != $selected_profile) {
     $form_state['values']['sort'] = '';
