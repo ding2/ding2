@@ -85,3 +85,14 @@ function ding_ipe_filter_update_7103(&$sandbox) {
     variable_set('ding_ipe_filter_panes_selected', $selected);
   }
 }
+
+/**
+ * Select ding campaign plus.
+ */
+function ding_ipe_filter_update_7104(&$sandbox) {
+  $selected = _ding_ipe_filter_selected_panes();
+  if (!isset($selected['ding-:ding_campaign_plus'])) {
+    $selected['ding-:ding_campaign_plus'] = 'ding-:ding_campaign_plus';
+    variable_set('ding_ipe_filter_panes_selected', $selected);
+  }
+}
