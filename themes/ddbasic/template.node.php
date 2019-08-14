@@ -23,8 +23,8 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     // We're doing it to both attributes and content_attributes as it seems
     // fairly random whether or not a template uses both or not.
     // Even if a template does use both, it does no damage.
-    $variables['attributes_array']['lang'] = 'en';
-    $variables['content_attributes_array']['lang'] = 'en';
+    $variables['attributes_array']['lang'] = $variables['language'];
+    $variables['content_attributes_array']['lang'] = $variables['language'];
   }
 
   // Add tpl suggestions for node view modes.
