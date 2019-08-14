@@ -7,7 +7,7 @@
 /**
  * Implements hook_auth_single_sign_on().
  */
-function fbs_auth_single_sign_on($name) {
+function connie_auth_single_sign_on($name) {
   $res = array();
 
   // Default password is the four last letters in the name.
