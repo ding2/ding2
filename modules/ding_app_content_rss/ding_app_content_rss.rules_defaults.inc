@@ -24,7 +24,7 @@ function ding_app_content_rss_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_views_display_cache" : { "displays" : { "value" : { "ding_app_content_event_rss:feed_app" : "ding_app_content_event_rss:feed_app" } } } }
+        { "cache_actions_action_clear_views_display_cache" : { "displays" : { "value" : { "ding_app_content_event_rss:feed" : "ding_app_content_event_rss:feed" } } } }
       ]
     }
   }');
@@ -44,8 +44,7 @@ function ding_app_content_rss_default_rules_configuration() {
       ],
       "DO" : [
         { "cache_actions_action_clear_views_display_cache" : { "displays" : { "value" : {
-                "ding_app_content_event_rss:feed" : "ding_app_content_event_rss:feed",
-                "ding_app_content_event_rss:feed_app" : "ding_app_content_event_rss:feed_app"
+                "ding_app_content_event_rss:feed" : "ding_app_content_event_rss:feed"
               }
             }
           }
@@ -68,7 +67,7 @@ function ding_app_content_rss_default_rules_configuration() {
         }
       ],
       "DO" : [
-        { "cache_actions_action_clear_views_display_cache" : { "displays" : { "value" : { "ding_app_content_news_rss:feed_app" : "ding_app_content_news_rss:feed_app" } } } }
+        { "cache_actions_action_clear_views_display_cache" : { "displays" : { "value" : { "ding_app_content_news_rss:feed" : "ding_app_content_news_rss:feed" } } } }
       ]
     }
   }');
@@ -88,8 +87,7 @@ function ding_app_content_rss_default_rules_configuration() {
       ],
       "DO" : [
         { "cache_actions_action_clear_views_display_cache" : { "displays" : { "value" : {
-                "ding_app_content_news_rss:feed" : "ding_app_content_news_rss:feed",
-                "ding_app_content_news_rss:feed_app" : "ding_app_content_news_rss:feed_app"
+                "ding_app_content_news_rss:feed" : "ding_app_content_news_rss:feed"
               }
             }
           }
