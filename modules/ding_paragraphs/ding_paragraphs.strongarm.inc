@@ -180,6 +180,9 @@ function ding_paragraphs_strongarm() {
       'teaser' => array(
         'custom_settings' => TRUE,
       ),
+      'teaser_no_overlay' => array(
+        'custom_settings' => TRUE,
+      ),
       'collection_primary' => array(
         'custom_settings' => TRUE,
       ),
