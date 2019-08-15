@@ -369,7 +369,7 @@
       }
     }
     .ding-news-right {
-      @include span-columns(5);
+      @include span-columns(6);
 
       // Tablet
       @include media($tablet) {
