@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Handles update tasks for the module.
@@ -11,6 +12,20 @@ function ding_news_install() {
   variable_set('node_options_ding_news', array(
     0 => 'status',
   ));
+}
+
+/**
+ * Require ding_paragraphs module to be enabled.
+ *
+ * Implements hook_update_dependencies().
+ */
+function ding_news_update_dependencies() {
+  // Ding_news_update_7007 requires ding_paragraphs for the migration to work.
+  $dependencies['ding_news'][7007] = array(
+    'ding2' => 7071,
+  );
+
+  return $dependencies;
 }
 
 /**
@@ -118,4 +133,11 @@ function ding_news_update_7006() {
   variable_del('pathauto_node_ding_news_da_pattern');
   variable_del('pathauto_node_ding_news_en_pattern');
   variable_del('pathauto_node_ding_news_und_pattern');
+}
+
+/**
+ * Migrate news body field to paragraph and delete field.
+ */
+function ding_news_update_7007(&$sandbox) {
+  ding_paragraphs_migrate_content_body_field('field_ding_news_body', 'field_ding_paragraphs_text', 'field_ding_news_paragraphs', 'ding_paragraphs_text', 'ding_news', $sandbox);
 }

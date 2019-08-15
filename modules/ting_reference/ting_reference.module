@@ -163,7 +163,6 @@ function ting_reference_field_insert($entity_type, $entity, $field, $instance, $
  * Implements hook_field_update().
  */
 function ting_reference_field_update($entity_type, $entity, $field, $instance, $langcode, &$items) {
-
   // When nodes are saved problematically and edit form is not used,
   // the data structure contains the relation and not item tid's (effect
   // is that reference are remove during scheduler publishing unless handled).
@@ -180,14 +179,12 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
   else {
     _ting_reference_field_update_cron($entity_type, $entity, $items);
   }
-
 }
 
 /**
  * Field_update for edit form.
  */
 function _ting_reference_field_update($entity_type, $entity, &$items) {
-
   // Get the entity's id.
   $entity_ids = entity_extract_ids($entity_type, $entity);
   $entity_id = array_shift($entity_ids);
@@ -372,6 +369,21 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
 
         $entities = entity_load($entity_type, array($entity_id), $conditions);
 
+        // Handle ting_reference in paragraphs, which will link back to the
+        // paragraph (giving a reference loop) and not the host node.
+        if ($entity_type === 'paragraphs_item') {
+          // It should only be possible to link back to one entity per item.
+          $entity = reset($entities);
+
+          // Side effect of calling hostEntity type is that the host is actually
+          // loaded. Trying to get anything from the entity before this will
+          // result in NULL.
+          $host = $entity->hostEntity();
+          $entity_type = $entity->hostEntityType();
+          $host_wrapper = entity_metadata_wrapper($entity->hostEntityType(), $host);
+          $entities = entity_load($entity->hostEntityType(), array($host_wrapper->getIdentifier()), $conditions);
+        }
+
         if (!empty($entities)) {
           $build = entity_view($entity_type, $entities, 'search_result');
 
@@ -463,14 +475,20 @@ function ting_reference_widget_info_alter(&$info) {
 function ting_reference_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   // Try to find the relation, if one exists for the current delta.
   $ting_object_id = '';
-  $item = FALSE;
-  if (!empty($items) && isset($items[$delta]['value'])) {
-    // Get relations to ting entity.
-    $item = relation_get_endpoints($items[$delta]['value'], 'ting_object');
-    $item = array_shift($item['ting_object']);
-
-    // Get ting object id.
-    $ting_object_id = $item->ding_entity_id;
+  $tid = FALSE;
+  if (!empty($items)) {
+    if (isset($items[$delta]['value'])) {
+      $item = relation_get_endpoints($items[$delta]['value'], 'ting_object');
+      $item = array_shift($item['ting_object']);
+      $ting_object_id = $item->ding_entity_id;
+      $tid = $item->tid;
+    }
+    elseif (isset($items[$delta]['ting_object_id']) && isset($items[$delta]['tid'])) {
+      // When using paragraphs the data structure is different when you click on
+      // the edit button to expand the paragraph to edit existing paragraphs.
+      $ting_object_id = $items[$delta]['ting_object_id'];
+      $tid = $items[$delta]['tid'];
+    }
   }
 
   // Hidden field used to get the drupal entity id (tid) for a ting_object_id.
@@ -495,15 +513,13 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
         '#autocomplete_path' => 'ting_reference/autocomplete/object/js',
         '#description' => t('Enter a query to search for objects or collections to reference'),
         '#default_value' => $ting_object_id,
+        '#required' => $instance['required'],
       );
 
       // Load preview of the entity referenced.
-      if ($item) {
-        // Get entity type.
-        $entity_type = $items[$delta]['value']->endpoints[$langcode][1]['entity_type'];
-
+      if ($tid) {
         // Load the entity and build it in preview view mode.
-        $ding_entity = entity_load($entity_type, array($item->tid));
+        $ding_entity = entity_load('ting_object', array($tid));
         $build = ting_object_view(reset($ding_entity), 'ting_reference_preview');
 
         // Add the build to the form with some css.
@@ -524,7 +540,15 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
 function ting_reference_object_id_validate($element, &$form_state, $form) {
   // Get the value entered in ting_object_id (the visible element).
   $parents = $element['#parents'];
-  $ting_object_id = $form_state['values'][$parents[0]][$parents[1]][$parents[2]]['ting_object_id'];
+  $ting_object_id = '';
+  $item = $form_state['values'];
+  foreach ($parents as $parent) {
+    $item = $item[$parent];
+    if (array_key_exists('ting_object_id', $item)) {
+      $ting_object_id = $item['ting_object_id'];
+      break;
+    }
+  }
 
   // Don't bother validating empty fields.
   if (!empty($ting_object_id)) {
@@ -556,6 +580,10 @@ function ting_reference_object_id_validate($element, &$form_state, $form) {
  *
  * @return array
  *   With loaded relation entities.
+ *
+ * @throws \EntityMalformedException
+ *   If the bundle property on the entity type is missing (thrown by
+ *   entity_extract_ids() function).
  */
 function ting_reference_get_relations($entity_type, $entity) {
   $entity_ids = entity_extract_ids($entity_type, $entity);
@@ -594,7 +622,7 @@ function ting_reference_get_relations($entity_type, $entity) {
  * @param int $tid
  *   The ting object entity id (Primary key).
  *
- * @return entity
+ * @return object
  *   The created and saved relation entity.
  */
 function ting_reference_create_relation($entity_type, $entity_id, $tid) {

@@ -381,6 +381,14 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     elseif (isset($form[$body][$current_language][0])) {
       $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
+
+    // Let others hook into the edit form.
+    $context = array(
+      'form_state' => &$form_state,
+      'syndicated_images' => $syndicated_images,
+      'bpi_node' => $bpi_node,
+    );
+    drupal_alter('bpi_syndicate_node_form', $form, $context);
   }
 
   // Add BPI fields.
@@ -1116,4 +1124,17 @@ function bpi_preprocess_bpi_preview_item(&$variables) {
   if ($bpi_agency_id === $bpi_item['agency_id']) {
     $variables['hide_syndicate_link'] = TRUE;
   }
+}
+
+/**
+ * Decide if a material can be shared between different BPI agencies.
+ *
+ * @param string $material_id
+ *   The material id.
+ *
+ * @return bool
+ *   TRUE if the material is shareable else FALSE.
+ */
+function bpi_material_is_sharable($material_id) {
+  return !preg_match('/katalog/', $material_id);
 }
