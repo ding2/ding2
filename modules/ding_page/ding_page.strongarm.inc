@@ -96,9 +96,6 @@ function ding_page_strongarm() {
       'workflow_tab' => array(
         'custom_settings' => FALSE,
       ),
-      'alternative_layout_full' => array(
-        'custom_settings' => TRUE,
-      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -127,16 +124,8 @@ function ding_page_strongarm() {
             'weight' => '3',
             'visible' => FALSE,
           ),
-          'alternative_layout_full' => array(
-            'weight' => '9',
-            'visible' => TRUE,
-          ),
         ),
         'ding_serendipity_info' => array(
-          'alternative_layout_full' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
           'teaser' => array(
             'weight' => '0',
             'visible' => TRUE,

@@ -224,45 +224,6 @@ function ding_event_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_left|node|ding_event|alternative_layout_full';
-  $field_group->group_name = 'group_left';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'ding_event';
-  $field_group->mode = 'alternative_layout_full';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Left',
-    'weight' => '2',
-    'children' => array(
-      0 => 'field_ding_event_location',
-      1 => 'field_ding_event_price',
-      2 => 'field_ding_event_target',
-      3 => 'field_ding_event_title_image',
-      4 => 'og_group_ref',
-      5 => 'field_ding_event_organizers',
-      6 => 'field_ding_event_place',
-      7 => 'field_ding_event_ticket_link',
-    ),
-    'format_type' => 'div',
-    'format_settings' => array(
-      'label' => 'Left',
-      'instance_settings' => array(
-        'id' => '',
-        'classes' => '',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-      ),
-      'formatter' => 'open',
-    ),
-  );
-  $field_groups['group_left|node|ding_event|alternative_layout_full'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
   $field_group->identifier = 'group_left|node|ding_event|default';
   $field_group->group_name = 'group_left';
   $field_group->entity_type = 'node';
@@ -328,45 +289,6 @@ function ding_event_field_group_info() {
     ),
   );
   $field_groups['group_right_col_search|node|ding_event|search_result'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_right|node|ding_event|alternative_layout_full';
-  $field_group->group_name = 'group_right';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'ding_event';
-  $field_group->mode = 'alternative_layout_full';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Right',
-    'weight' => '3',
-    'children' => array(
-      0 => 'field_ding_event_body',
-      1 => 'field_ding_event_category',
-      2 => 'field_ding_event_date',
-      3 => 'field_ding_event_files',
-      4 => 'field_ding_event_lead',
-      5 => 'field_ding_event_materials',
-      6 => 'field_ding_event_tags',
-      7 => 'webform',
-    ),
-    'format_type' => 'div',
-    'format_settings' => array(
-      'label' => 'Right',
-      'instance_settings' => array(
-        'id' => '',
-        'classes' => '',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-      ),
-      'formatter' => 'open',
-    ),
-  );
-  $field_groups['group_right|node|ding_event|alternative_layout_full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */

@@ -186,7 +186,6 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
  */
 function ddbasic_preprocess__node__ding_event(&$variables) {
   $date = field_get_items('node', $variables['node'], 'field_ding_event_date');
-  $variables['event_submitted'] = format_date($variables['created'], 'ding_date_only_version2');
 
   $location = field_get_items('node', $variables['node'], 'field_ding_event_location');
   $variables['alt_location_is_set'] = !empty($location[0]['name_line']) || !empty($location[0]['thoroughfare']);
@@ -216,14 +215,11 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
 
       // Date.
       if (!empty($date)) {
-        /*
-        * When the user saves the event time (e.g. danish time 2018-01-10 00:00),
-        * the value is saved in the database in UTC time
-        * (e.g. UTC time 2018-01-09 23:00). To print out the date/time properly
-        * We first need to create the dateObject with the UTC database time, and
-        * afterwards we can convert the dateObject db-time to localtime.
-        */
-
+        // When the user saves the event time (e.g. danish time 2018-01-10 00:00),
+        // the value is saved in the database in UTC time
+        // (e.g. UTC time 2018-01-09 23:00). To print out the date/time properly
+        // We first need to create the dateObject with the UTC database time, and
+        // afterwards we can convert the dateObject db-time to localtime.
         // Create a dateObject from startdate, set base timezone to UTC.
         $date_start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
         // Set timezone to local timezone.
@@ -351,16 +347,6 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           }
         }
       }
-      break;
-
-    case 'alternative_layout_full':
-      array_push($variables['classes_array'], 'node-full', 'alternative-layout-full');
-
-      // Make social-share button.
-      $variables['content']['group_left']['share_button'] = array(
-        '#theme' => 'ding_sharer',
-        '#label' => t('Share this event'),
-      );
       break;
   }
 }
@@ -502,16 +488,6 @@ function ddbasic_preprocess__node__ding_page(&$variables) {
 
     case 'full':
       array_push($variables['classes_array'], 'node-full');
-      break;
-
-    case 'alternative_layout_full':
-      array_push($variables['classes_array'], 'node-full', 'alternative-layout-full');
-
-      // Make social-share button.
-      $variables['content']['group_left']['share_button'] = array(
-        '#theme' => 'ding_sharer',
-        '#label' => t('Share this page'),
-      );
       break;
   }
 }
