@@ -190,38 +190,6 @@ function ding_page_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_left|node|ding_page|alternative_layout_full';
-  $field_group->group_name = 'group_left';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'ding_page';
-  $field_group->mode = 'alternative_layout_full';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Left',
-    'weight' => '1',
-    'children' => array(
-      0 => 'field_ding_page_title_image',
-    ),
-    'format_type' => 'div',
-    'format_settings' => array(
-      'label' => 'Left',
-      'instance_settings' => array(
-        'id' => '',
-        'classes' => '',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-      ),
-      'formatter' => 'open',
-    ),
-  );
-  $field_groups['group_left|node|ding_page|alternative_layout_full'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
   $field_group->identifier = 'group_right_col_search|node|ding_page|search_result';
   $field_group->group_name = 'group_right_col_search';
   $field_group->entity_type = 'node';
@@ -256,7 +224,6 @@ function ding_page_field_group_info() {
   t('Attachments');
   t('Content');
   t('Images');
-  t('Left');
   t('Left column');
   t('Right column');
   t('Tagging');

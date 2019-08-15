@@ -19,18 +19,15 @@ function ding_page_field_default_field_instances() {
     'display' => array(
       'alternative_layout_full' => array(
         'label' => 'above',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 2,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 9,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -90,9 +87,7 @@ function ding_page_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(
-        'match_operator' => 'CONTAINS',
-      ),
+      'settings' => array(),
       'type' => 'options_select',
       'weight' => 7,
     ),
@@ -106,11 +101,10 @@ function ding_page_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'alternative_layout_full' => array(
-        'label' => 'hidden',
-        'module' => 'text',
+        'label' => 'above',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 4,
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'hidden',
@@ -171,17 +165,16 @@ function ding_page_field_default_field_instances() {
     'display' => array(
       'alternative_layout_full' => array(
         'label' => 'above',
-        'module' => 'file',
         'settings' => array(),
-        'type' => 'file_default',
-        'weight' => 6,
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'hidden',
         'module' => 'file',
         'settings' => array(),
         'type' => 'file_default',
-        'weight' => 6,
+        'weight' => 5,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -238,11 +231,10 @@ function ding_page_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'alternative_layout_full' => array(
-        'label' => 'hidden',
-        'module' => 'text',
+        'label' => 'above',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 3,
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'hidden',
@@ -310,13 +302,13 @@ function ding_page_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 8,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -434,19 +426,16 @@ function ding_page_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'alternative_layout_full' => array(
-        'label' => 'hidden',
-        'module' => 'ting_reference',
-        'settings' => array(
-          'view_mode' => 'reference_teaser',
-        ),
-        'type' => 'ting_reference_default',
-        'weight' => 7,
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 7,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -489,72 +478,6 @@ function ding_page_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_page-field_ding_page_show_as_list'.
-  $field_instances['node-ding_page-field_ding_page_show_as_list'] = array(
-    'bundle' => 'ding_page',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'alternative_layout_full' => array(
-        'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 10,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 7,
-      ),
-      'search_result' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser_highlight' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser_no_overlay' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_ding_page_show_as_list',
-    'label' => 'Show as material list',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'display_label' => 1,
-      ),
-      'type' => 'options_onoff',
-      'weight' => 41,
-    ),
-  );
-
   // Exported field_instance: 'node-ding_page-field_ding_page_tags'.
   $field_instances['node-ding_page-field_ding_page_tags'] = array(
     'bundle' => 'ding_page',
@@ -564,10 +487,9 @@ function ding_page_field_default_field_instances() {
     'display' => array(
       'alternative_layout_full' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 5,
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'default' => array(
         'label' => 'hidden',
@@ -628,13 +550,9 @@ function ding_page_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'alternative_layout_full' => array(
-        'label' => 'hidden',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => 'ding_secondary_large',
-        ),
-        'type' => 'image',
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'default' => array(
@@ -744,7 +662,6 @@ function ding_page_field_default_field_instances() {
   t('Libraries and Groups');
   t('List image');
   t('Materials');
-  t('Show as material list');
   t('Tags');
   t('Title image');
 
