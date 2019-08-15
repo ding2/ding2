@@ -6,7 +6,8 @@ Feature: Automatic creation of campaigns
   Background:
     Given I am logged in as a cms user with the administrators role
 
-  @api @campaign_plus @regression @cci
+  @api @campaign_plus @regression @no_ci
+  # Disabled because our step definition currently does not support paragraphs
   Scenario: Create a news page with automatic campaign and show it on search results
     Given a "News Category" term with the name superhelte
     And I go to the create news page
