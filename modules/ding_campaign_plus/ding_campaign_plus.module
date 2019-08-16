@@ -249,19 +249,6 @@ function ding_campaign_plus_preprocess_node(&$variables, $hook) {
 }
 
 /**
- * Implements hook_page_alter().
- *
- * Add webtrekk tracking of campaigns. Campaigns are lazy loaded into a given
- * page, so we add this to all pages as we don't known before hand if a page
- * contains an campaign or which campaign.
- */
-function ding_campaign_plus_page_alter(&$variables) {
-  if (module_exists('ding_webtrekk')) {
-    drupal_add_js(drupal_get_path('module', 'ding_campaign_plus') . '/js/ding_campaign_plus_trekk.js');
-  }
-}
-
-/**
  * Get campaigns that matches the current context.
  *
  * @param array $contexts
