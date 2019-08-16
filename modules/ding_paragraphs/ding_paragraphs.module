@@ -206,7 +206,14 @@ function ding_paragraphs_migrate_content_body_field($old_content_field, $new_con
     $wrapper->save();
   }
 
-  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  if ($sandbox['total'] != 0) {
+    $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  }
+  else {
+    // Handle case where the database don't have any content of the type given
+    // to the function. This will prevent never ending update loop.
+    $sandbox['#finished'] = 1;
+  }
 
   if ($sandbox['#finished'] === 1) {
     drupal_set_message(t('We processed @nodes nodes with body fields. Deleting @name...', array('@nodes' => $sandbox['total'], '@name' => $old_content_field)));
