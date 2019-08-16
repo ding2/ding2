@@ -145,7 +145,6 @@ function ting_field_search_panels_pane_content_alter($content, $pane, $args, $co
  * Any code that performs alterations based on an active profile should use this
  * to get it, since it handles the detection and loading correctly and stores it
  * in a fast static.
- * and loading correctly and stores it in a fast static.
  *
  * The first time this function is called on a request it will attempt to
  * activate a profile by looking for a profile GET-parameter in the URI.
@@ -175,6 +174,49 @@ function ting_field_search_get_active_profile() {
   }
 
   return $profile;
+}
+
+/**
+ * Returns field input values and config from the active profile.
+ *
+ * If a profile is active and there's field input data for any of the fields
+ * configured on the profile, an array with input and configuration data for
+ * each of the fields is returned.
+ *
+ * @return array
+ *   An array of field values and configuration data keyed be field index.
+ *   Empty array if no active profile and/or field input data.
+ */
+function ting_field_search_get_active_fields() {
+  $fields = &drupal_static(__FUNCTION__);
+
+  if (!isset($fields)) {
+    $fields = !empty($_GET['fields']) ? $_GET['fields'] : [];
+
+    if (empty($fields) || !$profile = ting_field_search_get_active_profile()) {
+      return $fields;
+    }
+
+    $indexes = [];
+    $fields = array_map(function($field) use ($profile, &$indexes) {
+      $field = explode(':', $field);
+
+      // Ensure that parameter has correct format and is present on profile.
+      if (count($field) != 2 || !isset($profile->fields[$field[0]])) {
+        return FALSE;
+      }
+
+      // Remember each index in same order so we can use them as keyes.
+      $indexes[] = $field[0];
+      return [
+        'value' => $field[1],
+        'config' => $profile->fields[$field[0]],
+      ];
+    }, $fields);
+    $fields = array_combine($indexes, array_filter($fields));
+  }
+
+  return $fields;
 }
 
 /**
@@ -246,44 +288,61 @@ function ting_field_search_opensearch_pre_execute($request) {
     $request->setProfile($well_profile);
   }
 
-  // Following modification should only be made on search requests.
-  if ($class == 'TingClientSearchRequest') {
-    // Users should always be allowed to search without entering keywords when
-    // using a profile.
-    if (empty($request->getQuery())) {
-      $request->setQuery('*');
-    }
+  // The rest of the modification only apply to search requests.
+  if ($class != 'TingClientSearchRequest') {
+    return;
+  }
 
-    // Additional CQL.
-    if ($cql = $config['search_request']['query']) {
-      _ting_field_search_append_cql($request, $cql);
-    }
+  // Empty searches are allowed when using a profile.
+  if (empty($request->getQuery())) {
+    $request->setQuery('*');
+  }
 
-    // Default sort.
-    if ($sort = _ting_field_search_detect_sort($profile)) {
-      $request->setSort($sort);
+  // If any profile field query parameters are presnet transform them to cql
+  // and append to query.
+  $field_query = [];
+  foreach(ting_field_search_get_active_fields() as $index => $field) {
+    if (in_array($field['config']['type'], ['radios', 'select', 'textfield'])) {
+      $field_query[] = $index . '="' . $field['value']. '"';
     }
-
-    // New materials.
-    if ($days = $config['search_request']['new_materials']) {
-      $expression = _ting_field_search_new_materials_cql($days);
-      _ting_field_search_append_cql($request, $expression);
+    else {
+      $field_query[] = $index . ' any "' . $field['value']. '"';
     }
+  }
 
-    // Handle facets.
-    if ($config['facets']['use_facets']) {
-      // Ensure that the profile's facets is returned from the well.
-      $profile_facets = array();
-      foreach ($profile->facets as $facet) {
-        $profile_facets[$facet['name']] = $facet;
-      }
-      $request_facets = array_flip($request->getFacets()) + $profile_facets;
-      // Need the keys as values for the request object.
-      $request_facets = array_keys($request_facets);
-      $request->setFacets($request_facets);
+  if (!empty($field_query)) {
+    _ting_field_search_append_cql($request, implode(' and ', $field_query));
+  }
 
-      $request->setNumFacets($config['facets']['number_of_facets']);
+  // Additional CQL.
+  if ($cql = $config['search_request']['query']) {
+    _ting_field_search_append_cql($request, $cql);
+  }
+
+  // Default sort.
+  if ($sort = _ting_field_search_detect_sort($profile)) {
+    $request->setSort($sort);
+  }
+
+  // New materials.
+  if ($days = $config['search_request']['new_materials']) {
+    $expression = _ting_field_search_new_materials_cql($days);
+    _ting_field_search_append_cql($request, $expression);
+  }
+
+  // Handle facets.
+  if ($config['facets']['use_facets']) {
+    // Ensure that the profile's facets is returned from the well.
+    $profile_facets = array();
+    foreach ($profile->facets as $facet) {
+      $profile_facets[$facet['name']] = $facet;
     }
+    $request_facets = array_flip($request->getFacets()) + $profile_facets;
+    // Need the keys as values for the request object.
+    $request_facets = array_keys($request_facets);
+    $request->setFacets($request_facets);
+
+    $request->setNumFacets($config['facets']['number_of_facets']);
   }
 }
 
@@ -714,56 +773,6 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   $form['#validate'][] = 'ting_field_search_search_block_validate';
   // Redirect if an exposed profile was selected.
   $form['#submit'][] = 'ting_field_search_search_block_submit';
-
-  // Use an #after_build to remove our profile field queries from the main
-  // query.
-  $form['#after_build'][] = 'ting_field_search_search_block_form_after_build';
-}
-
-/**
- * Form after build for search_block_form.
- *
- * This seems to be the only reliable way (with out changing module system
- * weight) to override the default_value on search block form, such that it
- * doesn't include profile field values.
- */
-function ting_field_search_search_block_form_after_build($form, &$form_state) {
-  $profile = $form_state['values']['ting_field_search_default_profile'];
-
-  // Ensure we have a profile and it's not the node pseudo profile.
-  if (!$profile || $profile == 'node') {
-    return $form;
-  }
-
-  // It's just the name of the default profile. Load it to access the fields.
-  $profile = ting_field_search_profiles_load($profile);
-  if ($profile && !empty($profile->fields)) {
-    $query = $form['search_block_form']['#default_value'];
-    $keys = ting_field_search_extract_keys($query, array_keys($profile->fields));
-    // This seems to be run after default values are applied, so use #value.
-    $form['search_block_form']['#value'] = $keys['q'];
-  }
-  return $form;
-}
-
-/**
- * Wrapper around ting_search_extract_keys() to add support for additional
- * CQL operators.
- */
-function ting_field_search_extract_keys($search_query, $keys) {
-  foreach ($keys as $key) {
-    // TOOO: Extract the indexes here and merge with the result from
-    // ting_search_extract_keys().
-    $search = $key . ' any ';
-    $replace = $key . '=';
-    // To be safe we make sure to replace the last occurrence of ' any ' with
-    // the index. This should be owned by our field.
-    // See: https://pageconfig.com/post/replace-last-occurrence-of-a-string-php
-    if (($pos = strpos($search_query, $search)) !== FALSE) {
-      $search_query = substr_replace($search_query, $replace, $pos, strlen($search));
-    }
-  }
-  return ting_search_extract_keys($search_query, $keys);
 }
 
 /**
@@ -827,11 +836,6 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
     '#value' => $profile,
   );
 
-  // Extract our fields and their values from the search query.
-  $values = ting_field_search_extract_keys($query, array_keys($profile->fields));
-  $query = $values['q'];
-  unset($values['q']);
-
   $form['sort'] = array(
     '#type' => 'hidden',
     '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : FALSE,
@@ -852,11 +856,13 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
     ))),
   );
 
+  $active_fields = ting_field_search_get_active_fields();
+
   $form['ting_field_search_fields'] = array(
     '#type' => 'fieldset',
     '#title' => t('Additional search options'),
     '#collapsible' => TRUE,
-    '#collapsed' => empty($values),
+    '#collapsed' => empty($active_fields),
     '#tree' => TRUE,
   );
 
@@ -869,7 +875,7 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
       '#type' => $field['type'],
       '#title' => check_plain($field['title']),
       '#title_display' => $field['title_display'] ? 'before' : 'invisible',
-      '#default_value' => isset($values[$index]) ? $values[$index] : '',
+      '#default_value' => isset($active_fields[$index]) ? $active_fields[$index]['value'] : '',
       '#weight' => $field['weight'],
     );
 
@@ -896,15 +902,15 @@ function ting_field_search_fields_form($form, &$form_state, $profile, $query = '
       // Checkboxes can accept multiple values.
       if ($field['type'] == 'checkboxes') {
         $defaults = array();
-        if (isset($values[$index])) {
-          $defaults = explode(' ', trim($values[$index]));
+        if (isset($active_fields[$index])) {
+          $defaults = explode(' ', trim($active_fields[$index]['value']));
         }
         $field_element['#default_value'] = $defaults;
       }
 
       // Radios and select supports a specail 'all' defaul value.
       if (in_array($field['type'], array('radios', 'select'))) {
-        if (empty($values[$index]) && isset($options['all'])) {
+        if (empty($active_fields[$index]) && isset($options['all'])) {
           $field_element['#default_value'] = 'all';
         }
       }
@@ -996,11 +1002,10 @@ function ting_field_search_fields_form_submit($form, &$form_state) {
 
   $params['profile'] = $profile->name;
 
-  // Build a query from the profile fields to append to the main query.
+  // Build field query parameters.
   $field_values = $form_state['values']['ting_field_search_fields'];
-  $field_query = array();
+  $params['fields'] = [];
   foreach ($profile->fields as $index => $field) {
-    $field_value = $field_values[$field['group_name']][$index];
     $field_value = $field_values[$field['group_name']][$index];
     switch ($field['type']) {
       case 'radios':
@@ -1013,38 +1018,26 @@ function ting_field_search_fields_form_submit($form, &$form_state) {
         if (is_array($field_value)) {
           $field_value = array_shift($field_value);
         }
-        if ($field_value = trim($field_value)) {
-          $field_query[] = $field['index'] . '="' . $field_value. '"';
-        }
+        $field_value = trim($field_value);
         break;
       case 'checkboxes':
-        if ($field_value = array_filter($field_value)) {
-          $field_query[] = $field['index'] . ' any "' . implode(" ", $field_value) . '"';
-        }
+        $field_value = array_filter($field_value);
         break;
+    }
+    if ($field_value) {
+      $params['fields'][] = $field['index'] . ':' . $field_value;
     }
   }
 
-  // Build final query.
-  $query = array();
-  if (!empty($form_state['values']['query'])) {
-    $query[] = $form_state['values']['query'];
-  }
-  if (!empty($field_query)) {
-    $query[] = '(' . implode(' and ', $field_query) . ')';
-  }
-
-  if (empty($query)) {
+  $query = trim($form_state['values']['query']);
+  if (empty($query) && empty($params['fields']) && empty($params['profile'])) {
     form_set_error('keys', t('Please enter some keywords.'));
   }
-  else {
-    $query = implode(' and ', $query);
-    $query = trim($query);
-    // Redirect and let ting_search page handle the rest.
-    $form_state['redirect'] = array('search/ting/' . $query, array(
-      'query' => $params,
-    ));
-  }
+
+  // Redirect and let ting_search page handle the rest.
+  $form_state['redirect'] = array('search/ting/' . $query, array(
+    'query' => $params,
+  ));
 }
 
 /**
