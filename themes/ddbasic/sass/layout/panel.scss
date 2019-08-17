@@ -155,7 +155,43 @@
         }
       }
     }
+
+    .ting-field-search-panel-layout {
+      .layout-wrapper {
+        @include wrapper;
+        padding: 40px 0 30px;
+        .header-content,
+        .top-content,
+        .footer-content {
+          @include span-columns(12);
+          // Tablet
+          @include media($tablet) {
+            padding-bottom: 15px;
+          }
+        }
+        .primary-content {
+          @include span-columns(8);
+          @include omega;
+          // Tablet
+          @include media($tablet) {
+            @include span-columns(12);
+          }
+        }
+        .right-content {
+          @include span-columns(4);
+          @include omega;
+          float: right;
+          // Tablet
+          @include media($tablet) {
+            @include span-columns(12);
+            padding-bottom: 15px;
+          }
+        }
+      }
+    }
   }
+
+
 
   // Pages that's not at panel page
   .page-no-panels & {

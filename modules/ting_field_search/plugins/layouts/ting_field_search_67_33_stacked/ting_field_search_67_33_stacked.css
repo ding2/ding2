@@ -1,0 +1,24 @@
+.ting-field-search-panel-layout .header-content,
+.ting-field-search-panel-layout .top-content,
+.ting-field-search-panel-layout .footer-content {
+  width: 100%;
+  clear: both;
+  margin-bottom: 1em;
+}
+
+.ting-field-search-panel-layout .primary-content {
+  float: left;
+  width: 66.66667%;
+  box-sizing: border-box;
+  padding-right: 1em;
+}
+
+.ting-field-search-panel-layout .right-content {
+  float: left;
+  width: 33.33333%;
+}
+
+.ting-field-search-panel-layout .footer-content {
+  padding-top: 1em;
+}
+
