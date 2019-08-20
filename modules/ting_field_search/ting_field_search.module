@@ -110,23 +110,15 @@ function ting_field_search_forms() {
 
 /**
  * Implements hook_panels_pane_prerender().
- *
- * We use this hook as a main entry for activating profiles. All the targeted
- * request-types are made from panel panes and this panels hook has the perfect
- * timing while also being invoked for cached panes.
  */
 function ting_field_search_panels_pane_prerender($pane) {
-  $supported = array('search_result', 'ting_collection', 'ting_object');
-
-  if (in_array($pane->type, $supported)) {
-    $context = $pane->type;
-  }
-
-  // If we have a supported context, attempt to activate a profile.
-  if (isset($context) && ting_field_search_get_active_profile()) {
-    // Initialize the alteration of the ting request and cache_ting by also
-    // activating the context.
-    ting_field_search_set_context($context);
+  // On search pages we want to alter the main search request of the page and
+  // Also want to ensure every material request in result get its request
+  // altered. The most convenient way is to se the alter_request static variable
+  // to TRUE, while the search result pane is being renered and usnet when it's
+  // done in ting_field_search_panels_pane_content_alter().
+  if ($pane->type == 'search_result') {
+    ting_field_search_set_alter_request(TRUE);
   }
 }
 
@@ -134,12 +126,80 @@ function ting_field_search_panels_pane_prerender($pane) {
  * Implements hook_panels_panel_content_alter().
  */
 function ting_field_search_panels_pane_content_alter($content, $pane, $args, $contexts) {
-  if (ting_field_search_get_context()) {
-    // If we have an active context; end it now that the related content has
-    // been rendered. This prevents unwanted tampering with requests initiated
-    // by other panel panes, blocks etc.
-    ting_field_search_set_context(NULL);
+  if ($pane->type == 'search_result') {
+    ting_field_search_set_alter_request(NULL);
   }
+}
+
+/**
+ * Helper function to set/unset the alter_request static variable.
+ *
+ * @param mixed $alter_request
+ *   bool indication whether opensearch requests should be altered.
+ *   NULL to unset again.
+ */
+function ting_field_search_set_alter_request($alter_request) {
+  $static = &drupal_static('ting_field_search_alter_request', NULL);
+  $static = $alter_request;
+}
+
+/**
+ * Implements hook_ting_field_search_alter_request().
+ *
+ * @see ting_field_search_opensearch_pre_execute()
+ */
+function ting_field_search_ting_field_search_alter_request($request) {
+  $alter_request = NULL;
+
+  // For new we only support alteration of the following types of requests, so
+  // return early if it's not one of these.
+  $class = get_class($request);
+  $supported_classes = array(
+    'TingClientObjectRequest',
+    'TingClientCollectionRequest',
+    'TingClientSearchRequest',
+  );
+  if (!in_array($class, $supported_classes)) {
+    return FALSE;
+  }
+
+  // First check if the static alter_request variable is set. This can be
+  // switched on/off with ting_field_search_set_alter_request(). If alteration
+  // is dependent on timing from some hook, this can be more handy instead of
+  // implementing hook_ting_field_search_alter_request().
+  $alter_request = drupal_static('ting_field_search_alter_request', NULL);
+  if (isset($alter_request)) {
+    return $alter_request;
+  }
+
+  // Special handling for object and collection requests. The request should be
+  // altered if it's for the main material of the page.
+  if ($class == 'TingClientObjectRequest' || $class == 'TingClientCollectionRequest') {
+    $path = current_path();
+    if (strpos($path, 'ting/object') === 0 || strpos($path, 'ting/collection') === 0) {
+      $parts = explode('/', $path);
+      // Require precise path and non-empty id.
+      if (count($parts) == 3 && !empty($parts[2])) {
+        $path_pid = $parts[2];
+
+        // Different ways to get the pid from request.
+        $request_pid = NULL;
+        if ($class == 'TingClientObjectRequest') {
+          if (!empty($request->getObjectIds())) {
+            $object_ids = $request->getObjectIds();
+            $request_pid = array_shift($object_ids);
+          }
+        }
+        else {
+          $request_pid = $request->getObjectId();
+        }
+
+        $alter_request = ($path_pid === $request_pid);
+      }
+    }
+  }
+
+  return $alter_request;
 }
 
 /**
@@ -223,21 +283,6 @@ function ting_field_search_get_active_fields() {
 }
 
 /**
- * Set the current search request type when a profile was activated.
- */
-function ting_field_search_set_context($request_type) {
-  $static = &drupal_static(__FUNCTION__);
-  $static = $request_type;
-}
-
-/**
- * If a profile is active this returns the associated ting request type.
- */
-function ting_field_search_get_context() {
-  return drupal_static('ting_field_search_set_context');
-}
-
-/**
  * Implements hook_opensearch_cache_key_alter().
  *
  * If we have an active profile and context, we use this hook to modify the
@@ -246,9 +291,6 @@ function ting_field_search_get_context() {
  * @see ting.api.php
  */
 function ting_field_search_opensearch_cache_key_alter(&$cid, $request) {
-  if (!ting_field_search_get_context()) {
-    return;
-  }
   if ($profile = ting_field_search_get_active_profile()) {
     $cid .= ':' . $profile->name;
   }
@@ -258,18 +300,10 @@ function ting_field_search_opensearch_cache_key_alter(&$cid, $request) {
  * Implements hook_opensearch_pre_execute().
  */
 function ting_field_search_opensearch_pre_execute($request) {
-  if (!$context = ting_field_search_get_context()) {
-    return;
-  }
-
-  // Do we support the class of this request?
-  $class = get_class($request);
-  $supported_classes = array(
-    'TingClientObjectRequest',
-    'TingClientCollectionRequest',
-    'TingClientSearchRequest',
-  );
-  if (!in_array($class, $supported_classes)) {
+  // Find out if we should alter the request.
+  $result = module_invoke_all('ting_field_search_alter_request', $request);
+  // Return if anyone returned false or nobody returned true,
+  if (in_array(FALSE, $result) || !in_array(TRUE, $result)) {
     return;
   }
 
@@ -292,7 +326,7 @@ function ting_field_search_opensearch_pre_execute($request) {
   }
 
   // The rest of the modification only apply to search requests.
-  if ($class != 'TingClientSearchRequest') {
+  if (get_class($request) != 'TingClientSearchRequest') {
     return;
   }
 
