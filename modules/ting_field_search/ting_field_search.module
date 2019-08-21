@@ -152,20 +152,6 @@ function ting_field_search_get_active_profile() {
 }
 
 /**
- * Implements hook_opensearch_cache_key_alter().
- *
- * If we have an active profile and context, we use this hook to modify the
- * cache key, so that ting_cache can fetch/save the correct result.
- *
- * @see ting.api.php
- */
-function ting_field_search_opensearch_cache_key_alter(&$cid, $request) {
-  if ($profile = ting_field_search_get_active_profile()) {
-    $cid .= ':' . $profile->name;
-  }
-}
-
-/**
  * Implements hook_opensearch_pre_execute().
  */
 function ting_field_search_opensearch_pre_execute($request) {
