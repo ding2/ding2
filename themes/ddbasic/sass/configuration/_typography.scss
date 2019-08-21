@@ -28,7 +28,7 @@ $weight-normal: 400;
 @mixin font($name) {
   @if $name == 'base' {
     font-family: $font-family;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 20px;
     font-weight: $weight-normal;
   }

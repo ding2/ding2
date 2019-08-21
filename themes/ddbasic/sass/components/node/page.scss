@@ -100,7 +100,7 @@
     }
     .field-name-field-ding-page-lead,
     .field-name-field-ding-page-body {
-      @include span-columns(5 of 8);
+      @include span-columns(7 of 8);
       margin-bottom: 30px;
       p:last-child {
         margin-bottom: 0;
