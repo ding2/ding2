@@ -65,9 +65,9 @@ function ting_subsearch_secondary_search($keys, $results) {
   if ($results instanceof NullSearchResult) {
     return;
   }
-
-  if (!empty($results->numTotalObjects)) {
-    if ($results->numTotalObjects > 0 && $results->numTotalObjects < variable_get('ting_subsearch_secondary_max', 100)) {
+  $num_total_objects = $results->getNumTotalObjects();
+  if (!empty($num_total_objects)) {
+    if ($results->getNumTotalObjects() > 0 && $results->getNumTotalObjects() < variable_get('ting_subsearch_secondary_max', 100)) {
       $facets = $results->getFacets();
       $genre_facets = $facets['facet.genreCategory']->getTerms();
       // If any of fiction or non fiction is empty we cannot do the calculation.
