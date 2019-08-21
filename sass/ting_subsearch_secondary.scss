@@ -65,5 +65,11 @@
       border: 1px solid silver;
     }
   }
+
+  .field-name-ting-author {
+    @media screen and(max-width: 950px){
+      display: none !important;
+    }
+  }
 }
 
