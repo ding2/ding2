@@ -150,6 +150,14 @@ function ding_paragraphs_bpi_syndicate_node_form_alter(&$form, &$context) {
  *   Exception thrown if a field is missing.
  */
 function ding_paragraphs_migrate_content_body_field($old_content_field, $new_content_field, $paragraphs_ref_field, $paragraphs_type, $content_type, &$sandbox = array()) {
+  global $user;
+  // Run updates as user 1 to ensure workflow transitions are allowed when nodes
+  // are saved. Update hooks usually run as an anonymous user. Clear static cache
+  // to ensure that nothing belonging to the previous user lingers.
+  $current_user = $user;
+  $user = user_load(1);
+  drupal_static_reset();
+
   // Make sure we have somewhere to save the old body field.
   $empty_body = empty(field_info_instance('node', $old_content_field, $content_type));
   $empty_paragraphs_text = empty(field_info_instance('paragraphs_item', $new_content_field, $paragraphs_type));
@@ -220,4 +228,7 @@ function ding_paragraphs_migrate_content_body_field($old_content_field, $new_con
     field_delete_field($old_content_field);
     field_purge_batch(1000);
   }
+
+  $user = $current_user;
+  drupal_static_reset();
 }
