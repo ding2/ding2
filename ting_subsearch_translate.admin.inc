@@ -52,7 +52,7 @@ function ting_subsearch_translate_form_opensearch_admin_settings_alter(&$form, &
   $form['subsearch_settings']['subsearch_translate']['ting_subsearch_translate_factor'] = array(
     '#type' => 'textfield',
     '#title' => t('Ratio between nonfiction and fiction'),
-    '#description' => t('The percent of nonfiction more than fiction to trigger the translation'),
+    '#description' => t('The ratio of nonfiction more than fiction to trigger the translation'),
     '#default_value' => variable_get('ting_subsearch_translate_factor', 50),
   );
 
