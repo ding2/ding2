@@ -148,12 +148,12 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
       ];
 
       if (variable_get('ting_subsearch_secondary_number_of_results', 4) == 0) {
-        $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits',
+        $msg = t('If you search for "<strong>!keys</strong>" on !link-text instead you will get <strong>!bibdk-num-results hits</strong>',
           $options
         );
       }
       else {
-        $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits where some of them is the following:',
+        $msg = t('If you search for "<strong>!keys</strong>" on !link-text instead you will get <strong>!bibdk-num-results hits</strong> where some of them is the following:',
           $options
         );
       }
@@ -237,14 +237,14 @@ function ting_subsearch_secondary_field_formatter_view($entity_type, $entity, $f
         $markup_string = '';
         if (count($creators)) {
           if ($entity->date != '') {
-            $markup_string = t('By !author_link (@year)', [
+            $markup_string = t('by !author_link (@year)', [
               '!author_link' => implode(', ', $creators),
               // So wrong, but appears to be the way the data is.
               '@year' => $entity->date,
             ]);
           }
           else {
-            $markup_string = t('By !author_link', [
+            $markup_string = t('by !author_link', [
               '!author_link' => implode(', ', $creators),
             ]);
           }
