@@ -46,7 +46,7 @@ function ting_field_search_panels_pane_content_alter($content, $pane, $args, $co
  * Helper function to set/unset the alter_request static variable.
  *
  * @param mixed $alter_request
- *   bool indication whether opensearch requests should be altered.
+ *   A boolean indication whether opensearch requests should be altered.
  *   NULL to unset again.
  */
 function ting_field_search_set_alter_request($alter_request) {
@@ -157,7 +157,7 @@ function ting_field_search_get_active_profile() {
 function ting_field_search_opensearch_pre_execute($request) {
   // Find out if we should alter the request.
   $result = module_invoke_all('ting_field_search_alter_request', $request);
-  // Return if anyone returned false or nobody returned true,
+  // Return if anyone returned false or nobody returned true.
   if (in_array(FALSE, $result) || !in_array(TRUE, $result)) {
     return;
   }
