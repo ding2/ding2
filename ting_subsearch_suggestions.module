@@ -31,13 +31,12 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
     // the visitor.
     $parameters = drupal_get_query_parameters();
     if (isset($parameters['original-search'])) {
-      $msg = t('The search for "!original-keys" returned 0 hits. Showing results for "!keys" instead, which returned !num-results hits.', [
+      $msg = t('See results for "!keys", the search for "!original-keys" returned 0 hits.', [
         '!original-keys' => $parameters['original-search'],
         '!keys' => $keys,
-        '!num-results' => $results->getNumTotalObjects(),
       ]);
 
-      $message = '<div class="messages search-field-in-content--message subsearch-suggestions-first">' . $msg . '</div>';
+      $message = '<div id="subsearch-suggestions-first">' . $msg . '</div>';
     }
 
     if ($results->getNumTotalObjects() == 0) {
@@ -83,7 +82,7 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
             if (module_exists('ting_field_search')) {
               $profile = ting_field_search_get_active_profile();
               if ($profile) {
-                $options['query'] = ['profile' => rawurlencode($profile->name)];
+                $options['query'] = ['profile' => $profile->name];
               }
             }
 
@@ -97,14 +96,12 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
             }
 
             // Set message!
-            $msg = t('The search for "!keys" returned !num-results hits. Did you mean "!suggested-key?" which will return !suggested-num-results hits.', [
+            $msg = t('Search for <strong>"!suggested-key"</strong> (!suggested-num-results)', [
               '!suggested-key' => strtolower($suggestion),
               '!suggested-num-results' => $suggested_result->numTotalObjects,
-              '!keys' => $keys,
-              '!num-results' => $results->getNumTotalObjects(),
             ]);
 
-            $wrapper = '<div class="messages search-field-in-content--message subsearch-suggestions-second">' . $msg . '</div>';
+            $wrapper = '<div id="subsearch-suggestions-second">' . $msg . '</div>';
 
             $url = url('/search/ting/' . strtolower($suggestion), [
               'query' => $options['query'],
@@ -120,7 +117,7 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
         }
       }
     }
-    return $message;
+    drupal_set_message($message, 'status', TRUE);
   }
 }
 
