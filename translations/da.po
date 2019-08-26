@@ -110,12 +110,12 @@ msgstr "Hvor mange resultater skal der vises fra den sekundære søgning."
 
 
 #: modules/subsearch_secondary/subsearch_secondary.module:92
-msgid "If you search for \"!keys\" on !link-text instead you will get !bibdk-num-results hits"
-msgstr "Hvis du søger efter \"!keys\" på !link-text i stedet, får du !bibdk-num-results resultater."
+msgid "If you search for \"<strong>!keys<strong>\" on !link-text instead you will get <strong>!bibdk-num-results hits<strong>"
+msgstr "Hvis du søger efter \"<strong>!keys</strong>\" på !link-text i stedet, får du <strong>!bibdk-num-results resultater<strong>."
 
 #: modules/subsearch_secondary/subsearch_secondary.module:67
-msgid "If you search for \"!keys\" on !link-text instead you will get !bibdk-num-results hits where some of them is the following: !examples"
-msgstr "Hvis du søger efter \"!keys\" på !link-text i stedet, får du !bibdk-num-results resultater. Se nogle af dem her: !examples"
+msgid "If you search for \"<strong>!keys<strong>\" on !link-text instead you will get <strong>!bibdk-num-results hits<strong> where some of them is the following: !examples"
+msgstr "Hvis du søger efter \"<strong>!keys<strong>\" på !link-text i stedet, får du <strong>!bibdk-num-results resultater</strong>. Se nogle af dem her: !examples"
 
 #: modules/subsearch_secondary/subsearch_secondary.module:88;92
 msgid "Minimal"

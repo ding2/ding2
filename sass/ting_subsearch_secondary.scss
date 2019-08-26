@@ -1,7 +1,6 @@
 .ting-object.view-mode-minimal .field-name-ting-author,
 .ting-object.view-mode-minimal .field-name-ting-type {
   display: inline-block;
-  color: #e5e5e5;
 }
 
 .message-box {
@@ -10,13 +9,9 @@
 
   .message-box--title {
     margin-bottom: 12px;
-    &:hover {
-      color: #fffff1;
-    }
   }
 
   .message-box--list-item {
-    border: 1px solid #fff;
     margin-bottom: 5px;
     padding: 10px 25px 10px 10px;
     display: flex;
@@ -24,6 +19,7 @@
     justify-content: space-between;
     align-content: space-between;
     height: 56px;
+    background-color: #f1f2f2;
 
     .message-box--content {
       .field-name-ting-title h2 {
@@ -35,9 +31,16 @@
     }
 
     .message-box--see-more {
-      border: 1px solid rgba(38, 38, 38, .2);
+      transition: background-color .3s cubic-bezier(.165,.84,.44,1),color .3s cubic-bezier(.165,.84,.44,1);
+      background-color: #e5e5e5;
+      color: #262626;
       height: 36px;
-      padding: 8px;
+      padding: 10px 16px;
+      border-radius: 5px;
+      &:hover {
+        background-color: #808285;
+        color: #fff;
+      }
 
       @media screen and(max-width: 950px) {
         display: none;
@@ -57,13 +60,44 @@
     position: relative;
     display: inline-block;
     text-align: center;
-    border: 1px solid rgba(38, 38, 38, .2);
     margin-top: 15px;
-    padding: 8px 20px 5px 20px;
+    padding: 12px 25px 7px 25px;
+    background-color: #000;
+    border-radius: 5px;
+    color: #fffff2;
 
     &:hover {
-      border: 1px solid silver;
+      color: #fffff2;
+    }
+  }
+
+  .field-name-ting-author {
+    @media screen and(max-width: 950px){
+      display: none !important;
     }
   }
 }
 
+div.search-field-in-content--message-tss {
+  width: 100%;
+  float: left;
+  border: none;
+  padding: 20px 15px;
+  margin-bottom: 30px;
+  background-color: #4d898e;
+  color: #fffff1;
+
+  a,
+  a.active {
+    &:hover {
+      color: #262626;
+    }
+  }
+}
+
+.pane-search-result .pane-content .message-box--title strong {
+  font-family: FaktPro-SemiBold,sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}

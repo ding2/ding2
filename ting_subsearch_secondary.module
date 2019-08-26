@@ -65,9 +65,9 @@ function ting_subsearch_secondary_search($keys, $results) {
   if ($results instanceof NullSearchResult) {
     return;
   }
-
-  if (!empty($results->numTotalObjects)) {
-    if ($results->numTotalObjects > 0 && $results->numTotalObjects < variable_get('ting_subsearch_secondary_max', 100)) {
+  $num_total_objects = $results->getNumTotalObjects();
+  if (!empty($num_total_objects)) {
+    if ($results->getNumTotalObjects() > 0 && $results->getNumTotalObjects() < variable_get('ting_subsearch_secondary_max', 100)) {
       $facets = $results->getFacets();
       $genre_facets = $facets['facet.genreCategory']->getTerms();
       // If any of fiction or non fiction is empty we cannot do the calculation.
@@ -106,6 +106,7 @@ function ting_subsearch_secondary_search($keys, $results) {
 
 /**
  * Execute secondary search.
+ *
  * @param $keys
  * @param $results
  *
@@ -119,25 +120,21 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
     'profile' => variable_get('ting_subsearch_secondary_profile', ''),
   ]);
 
-  if ($secondary_result->numTotalObjects > variable_get('ting_subsearch_secondary_result_min', 100)) {
+  if ($secondary_result->numTotalObjects > variable_get('ting_subsearch_secondary_result_min', 100) && $secondary_result->numTotalObjects < variable_get('ting_subsearch_secondary_max', 100)) {
     $ratio = $secondary_result->numTotalObjects / $results->getNumTotalObjects();
+
     if ($ratio > variable_get('ting_subsearch_secondary_ps_factor', 2)) {
       $items = [];
       $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
       foreach ($secondary_result->collections as &$collection) {
         $build = ting_collection_view($collection, 'minimal');
         $markup = drupal_render($build);
-        $return = l($markup, 'https://bibliotek.dk/work/' . $collection->ding_entity_id, [
-          'html' => TRUE,
-          'absolute' => TRUE,
-          'attributes' => ['target' => 'blank']
-        ]);
 
         $items[] = [
           'markup' => $markup,
           'url' => 'https://bibliotek.dk/work/' . $collection->ding_entity_id,
         ];
-        if (count($items) == $number_of_records_to_show){
+        if (count($items) == $number_of_records_to_show) {
           break;
         }
       }
@@ -151,12 +148,12 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
       ];
 
       if (variable_get('ting_subsearch_secondary_number_of_results', 4) == 0) {
-        $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits',
+        $msg = t('If you search for "<strong>!keys</strong>" on !link-text instead you will get <strong>!bibdk-num-results hits</strong>',
           $options
         );
       }
       else {
-        $msg = t('If you search for "!keys" on !link-text instead you will get !bibdk-num-results hits where some of them is the following:',
+        $msg = t('If you search for "<strong>!keys</strong>" on !link-text instead you will get <strong>!bibdk-num-results hits</strong> where some of them is the following:',
           $options
         );
       }
@@ -179,85 +176,85 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
  * Implements hook_entity_info_alter().
  */
 function ting_subsearch_secondary_entity_info_alter(&$entity_info) {
-  $entity_info['ting_object']['view modes']['minimal'] = array(
+  $entity_info['ting_object']['view modes']['minimal'] = [
     'label' => t('Minimal'),
     'custom settings' => TRUE,
-  );
-  $entity_info['ting_collection']['view modes']['minimal'] = array(
+  ];
+  $entity_info['ting_collection']['view modes']['minimal'] = [
     'label' => t('Minimal'),
     'custom settings' => TRUE,
-  );
+  ];
 }
 
 /**
  * Implements hook_field_formatter_info().
  */
 function ting_subsearch_secondary_field_formatter_info() {
-  return array(
-    'ting_title_minimal' => array(
+  return [
+    'ting_title_minimal' => [
       'label' => t('Minimal Title'),
-      'field types' => array(
+      'field types' => [
         'ting_title',
-      ),
-      'settings' => array(
+      ],
+      'settings' => [
         'link_type' => 'none',
         'prefix_type' => 'no',
-      ),
-    ),
+      ],
+    ],
 
-    'ting_author_minimal' => array(
+    'ting_author_minimal' => [
       'label' => t('Minimal author'),
-      'field types' => array(
+      'field types' => [
         'ting_author',
-      ),
-    ),
-  );
+      ],
+    ],
+  ];
 }
 
 /**
  * Implements hook_field_formatter_view().
  */
 function ting_subsearch_secondary_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  $element = array();
+  $element = [];
 
   foreach ($items as $delta => $item) {
     switch ($display['type']) {
       case 'ting_title_minimal':
         // Only create the link if the object is available in the data well.
         $title = truncate_utf8(check_plain($entity->title), 80, FALSE, TRUE);
-        $element[$delta] = array(
+        $element[$delta] = [
           '#prefix' => '<h2 class="ting-object-minimal-title">',
           '#suffix' => '</h2>',
           '#markup' => $title,
-        );
+        ];
         break;
 
       case 'ting_author_minimal':
-        $creators = array();
+        $creators = [];
         foreach ($entity->creators as $i => $creator) {
           $creators[] = $creator;
         }
         $markup_string = '';
         if (count($creators)) {
           if ($entity->date != '') {
-            $markup_string = t('By !author_link (@year)', array(
+            $markup_string = t('by !author_link (@year)', [
               '!author_link' => implode(', ', $creators),
               // So wrong, but appears to be the way the data is.
               '@year' => $entity->date,
-            ));
+            ]);
           }
           else {
-            $markup_string = t('By !author_link', array(
+            $markup_string = t('by !author_link', [
               '!author_link' => implode(', ', $creators),
-            ));
+            ]);
           }
         }
         elseif ($entity->date != '') {
-          $markup_string = t('(@year)', array('@year' => $entity->date));
+          $markup_string = t('(@year)', ['@year' => $entity->date]);
         }
-        $element[$delta] = array(
-          '#markup' => $markup_string,
-        );
+        $element[$delta] = [
+          '#markup' => truncate_utf8(check_plain($markup_string), 70, FALSE, TRUE),
+        ];
         break;
 
     }
