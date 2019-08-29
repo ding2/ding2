@@ -24,33 +24,6 @@ function ding_user_form_menu() {
 }
 
 /**
- * Implements hook_preprocess_html().
- */
-function ding_user_form_preprocess_html(&$variables) {
-  $args = arg();
-  if ($args[0] == 'user') {
-    // Set default title.
-    drupal_set_title('Account');
-
-    // Check if current user is logged in.
-    if (user_is_logged_in()) {
-      // Cache control for user pages.
-      drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
-      drupal_add_http_header('Pragma', 'no-cache');
-    }
-    elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
-      // Redirect anonymous user to front page login. This is to prevent the
-      // library user from seeing /user, login and password page. Unless in
-      // maintenance_mode, there's no front page login when in maintenance_mode,
-      // and a redirect prevent login.
-      if (!variable_get('maintenance_mode', 0)) {
-        drupal_goto('', array('fragment' => 'login'));
-      }
-    }
-  }
-}
-
-/**
  * Implements hook_form_alter().
  *
  * Modify user login form to use our backend and changes the form fields types
