@@ -83,7 +83,7 @@
 ?>
 <div class="<?php print $classes; ?>" <?php print $attributes; ?>>
   <div class="ding-campaign ding-campaign--content text  <?php print $campaign_type; ?>">
-    <a href="<?php print $field_ding_campaign_plus_link[LANGUAGE_NONE][0]['url']; ?>?wt_mc=<?php print $wt_mc_id; ?>" target="__blank">
+    <a href="<?php print $campaign_url; ?>" target="__blank">
       <div class="ding-campaign-text">
         <h2 class="ding-campaign-headline">
           <?php print $title; ?>
@@ -94,10 +94,4 @@
       </div>
     </a>
   </div>
-  <script type="text/javascript">
-    (function ($) {
-      'use strict';
-      $(document).trigger('campaignPlusLoaded', [ '<?php print $wt_mc_id ?>' ]);
-    })(jQuery);
-  </script>
 </div>

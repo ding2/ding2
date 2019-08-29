@@ -28,6 +28,11 @@
   };
 
   var pushEvent = function(event, eventData) {
+    if (Drupal.settings.dingWebtrekk.debugMode) {
+      console.log('Ding webtrekk - Pushing ' + event + ' event with data: ',
+        JSON.stringify(eventData, null, 2)
+      );
+    }
     // Ensure that the Webtrekk object is defined before pushing event.
     if (typeof wts !== 'undefined') {
       wts.push(['send', event, eventData]);
@@ -164,6 +169,22 @@
           eventData.customClickParameter[wtkId] = carouselTitle;
           pushEvent('click', eventData);
         });
+      });
+
+      // Track loaded ding_campaign_plus campaigns.
+      //
+      // Sometimes campaigns are loaded asynchronously if they are not in cache.
+      // In these cases we can't use page parameters, since we don't have the
+      // required information at initial page load and we'll have to use an
+      // event. To be consistent we track every campaign with event.
+      $('.node-ding-campaign-plus', context) .once('js-ding-webtrekk', function() {
+        var eventData = $(this).data('ding-webtrekk-event');
+        // Sending a 'click'-event to webtrekk in this case may seem weird, but
+        // currently our Webtrekk setup only supports this type of event. If our
+        // setup is changed in the future it may be more appropiate to send
+        // another type of event. The important thing now is that we get the
+        // data to Webtrekk.
+        pushEvent('click', eventData);
       });
     }
   };

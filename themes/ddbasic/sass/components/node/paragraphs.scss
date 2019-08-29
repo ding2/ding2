@@ -1,0 +1,180 @@
+//
+// Styling of paragraphs
+
+@import '../../base.scss';
+
+// Paragraphs block display
+.paragraphs-block {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 $distance-paragraph;
+  width: 100%;
+
+  h2 {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  p:last-child {
+    margin: 0;
+  }
+
+  .ting-object {
+    @include display(flex);
+    
+    .ting-object-left {
+      margin-right: 2%;
+      @include flex(0 1 auto);
+
+      .ting-cover > img {
+        min-width: 50px;
+        width: 100%;
+      }
+    }
+
+    .ting-object-right {
+      @include display(flex);
+      @include flex-wrap(wrap);
+      @include flex(1 1 auto);
+
+      .field-name-ting-type {
+        display: none;
+      }
+
+      .field-name-ting-title h2 {
+        margin: 0;
+        // Using tiny boxes for content means, we need to allow for word breaks
+        //to prevent text overflow.
+        -ms-word-break: break-all;
+        word-break: break-all;
+        word-break: break-word;
+
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        hyphens: auto;
+
+        a {
+          color: $color-text;
+
+          &:hover {
+            color: $color-text-link;
+          }
+        }
+      }
+
+      .field-name-ting-abstract {
+        margin: 10px 0;
+        max-width: 100%;
+      }
+
+      .button-see-online,
+      .reserve-button {
+        @include order(10);
+      }
+
+      .action-button {
+        padding: 10px 60px 8px 15px;
+        margin-top: 10px;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+.paragraphs-block--half-left {
+  float: left;
+  padding-right: 3%;
+  width: 50%;
+
+  @include media($notebook) {
+    width: 100%;
+  }
+
+  @include media($tablet) {
+    width: 100%;
+  }
+
+  @include media($mobile) {
+    width: 100%;
+  }
+}
+
+.paragraphs-block--half-right {
+  float: right;
+  padding-left: 3%;
+  width: 50%;
+
+  @include media($notebook) {
+    width: 100%;
+  }
+
+  @include media($tablet) {
+    width: 100%;
+  }
+
+  @include media($mobile) {
+    width: 100%;
+  }
+}
+
+.paragraphs-block--inner {
+  cursor: auto;
+  width: 100%;
+  float: left;
+  padding: 15px;
+  box-sizing: border-box;
+  background-color: $grey;
+  // Using tiny boxes for content means, we need to allow for word breaks
+  //to prevent text overflow.
+  word-break: break-all; // IE - We want to break words
+  word-break: break-word; // Override for webkit (It's better)
+
+  .paragraphs-text {
+    margin: 10px 0;
+
+    .media-element-container {
+      margin-right: 10px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .object-left {
+    float: left;
+    width: 40%;
+    margin-right: 5%;
+  }
+
+  .object-right {
+    float: left;
+    margin: 0;
+    width: 55%;
+  }
+}
+
+// The carousel and materials list need additional room so we break the
+// container width.
+.paragraphs-block--carousel,
+.paragraphs-block--materials-list {
+  width: 150%;
+
+  @include media($notebook) {
+    width: 163%;
+  }
+
+  @include media($tablet) {
+    width: 152%;
+  }
+
+  @include media($mobile) {
+    width: 100%;
+  }
+
+  .ting-object {
+    margin-bottom: 10px;
+  }
+}
+
+// Override existing css from different files.
+.node-ding-page .field-name-field-ding-page-body > .paragraphs-text p:last-child {
+  margin-bottom: 30px;
+}

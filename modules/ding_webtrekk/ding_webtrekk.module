@@ -8,6 +8,8 @@
 define('DING_WEBTREKK_PARAMETER_RESERVE', 50);
 define('DING_WEBTREKK_PARAMETER_SEE_ONLINE', 51);
 define('DING_WEBTREKK_PARAMETER_RENEW_ALL', 56);
+define('DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_TITLE', 62);
+define('DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_ID', 63);
 
 /**
  * Implements hook_menu().
@@ -256,6 +258,45 @@ function ding_webtrekk_ding_entity_view($entity, $view_mode) {
 }
 
 /**
+ * Implements hook_preprocess_node().
+ */
+function ding_webtrekk_preprocess_node(&$variables) {
+  $node = $variables['node'];
+  if ($node->type == 'ding_campaign_plus') {
+    // Create event that tracks when a campaign is viewed sending the title and
+    // internal ID.
+    $event_data = ding_webtrekk_create_event_data('Kampagne', [
+      DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_TITLE => check_plain($node->title),
+      DING_WEBTREKK_PARAMETER_CAMPAIGN_PLUS_ID => $node->nid,
+    ]);
+
+    // We can't use the cacth-all event handler for this, since it relies on
+    // being triggered by a user interaction. Instead we send event when
+    // behavoirs are attached in frontend.
+    $event_data = json_encode($event_data);
+    $variables['attributes_array']['data-ding-webtrekk-event'] = $event_data;
+  }
+}
+
+/**
+ * Implements hook_process_node().
+ */
+function ding_webtrekk_process_node(&$variables) {
+  $node = $variables['node'];
+  if ($node->type == 'ding_campaign_plus') {
+    // Add u_navigatedby URL-parameter to campaign URLs, to be able to track
+    // page views triggered from campaigns. We use a process for this because
+    // campaign plus adds the variable in preprocess.
+    $url = drupal_parse_url($variables['campaign_url']);
+    $url['query']['u_navigatedby'] = check_plain($node->title);
+    $variables['campaign_url'] = url($url['path'], [
+      'query' => $url['query'],
+      'fragment' => $url['fragment'],
+    ]);
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_webtrekk_form_search_block_form_alter(&$form, &$form_state) {
@@ -339,13 +380,28 @@ function ding_webtrekk_form_ding_loan_loans_form_alter(&$form, &$form_state) {
  * @param array $data
  *   The parameter values for the event keyed by the Webtrekk parameter ID.
  */
-function ding_webtrekk_attach_event(&$attributes, $link_id, $data) {
-  $event_data = [
+function ding_webtrekk_attach_event(&$attributes, $link_id, array $data) {
+  $event_data = ding_webtrekk_create_event_data($link_id, $data);
+  $attributes['class'][] = 'js-ding-webtrekk-event';
+  $attributes['data-ding-webtrekk-event'] = json_encode($event_data);
+}
+
+/**
+ * Sets up an event data array with the correct structure required by Webtrekk.
+ *
+ * @param string $link_id
+ *   The link ID of the event. For example 'Forny alle materialer'.
+ * @param array $data
+ *   The parameter values for the event keyed by the Webtrekk parameter ID.
+ *
+ * @return array
+ *   Event data array.
+ */
+function ding_webtrekk_create_event_data($link_id, array $data) {
+  return [
     'linkId' => $link_id,
     'customClickParameter' => $data,
   ];
-  $attributes['class'][] = 'js-ding-webtrekk-event';
-  $attributes['data-ding-webtrekk-event'] = json_encode($event_data);
 }
 
 /**
@@ -416,4 +472,10 @@ function ding_webtrekk_preprocess_html() {
   drupal_add_js(drupal_get_path('module', 'ding_webtrekk') . '/ding_webtrekk.js', array(
     'scope' => 'footer',
   ));
+
+  drupal_add_js([
+    'dingWebtrekk' => [
+      'debugMode' => variable_get('webtrekk_debug', FALSE),
+    ],
+  ], 'setting');
 }

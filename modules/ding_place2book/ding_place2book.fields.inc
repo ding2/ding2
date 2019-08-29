@@ -48,15 +48,26 @@ function ding_place2book_field_widget_info() {
 function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   $event = $event_id = $event_maker_id = $synchronize = NULL;
   if (!empty($items)) {
-    list($event_id, $event_maker_id, $synchronize) = array_values(reset($items));
-    try {
-      $p2b = ding_place2book_instance();
-      $event = $p2b->getEvent($event_maker_id, $event_id);
+    // If items is non-empty we might be on a node clone form.
+    // See: ding_place2book_clone_node_alter()
+    if ($items[$delta]['do_clone']) {
+      $event = $items[$delta]['event_clone'];
       $meta_data = isset($event->meta_data) ? $event->meta_data : NULL;
-      $prices = $p2b->getPrices($event_maker_id, $event_id);
+      $prices = $items[$delta]['prices_clone'];
+      $synchronize = $items[$delta]['synchronize'];
     }
-    catch (Exception $ex) {
-      watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
+    // Otherwise this an existing p2b-synced entity.
+    else {
+      list($event_id, $event_maker_id, $synchronize) = array_values(reset($items));
+      try {
+        $p2b = ding_place2book_instance();
+        $event = $p2b->getEvent($event_maker_id, $event_id);
+        $meta_data = isset($event->meta_data) ? $event->meta_data : NULL;
+        $prices = $p2b->getPrices($event_maker_id, $event_id);
+      }
+      catch (Exception $ex) {
+        watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
+      }
     }
   }
 
@@ -97,6 +108,11 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
       $element['place2book']['do_sync'] = array(
         '#type' => 'value',
         '#value' => TRUE,
+      );
+
+      $element['place2book']['original_event'] = array(
+        '#type' => 'value',
+        '#value' => $event,
       );
 
       if (!empty($event)) {
@@ -284,9 +300,9 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#default_value' => $sale_end_at,
         );
 
-        $element['place2book']['prices_wrapper']['prices'][$key]['id'] = array(
-          '#type' => 'hidden',
-          '#value' => isset($price->id) ? $price->id : NULL,
+        $element['place2book']['prices_wrapper']['prices'][$key]['original_price'] = array(
+          '#type' => 'value',
+          '#value' => $price,
         );
 
         $element['place2book']['prices_wrapper']['prices'][$key]['remove'] = array(
@@ -376,13 +392,15 @@ function ding_place2book_widget_validate($form, &$form_state) {
         // they want to add another price. We require at least one price to
         // exist though (see below).
         if (isset($price['id']) && !$has_values) {
-          form_set_error("field_place2book][und][place2book][prices_wrapper][prices][$key", t('Both Name and price value is required for prices'));
+          form_set_error("field_place2book][und][place2book][prices_wrapper][prices][$key][name", t('Both Name and price value is required for prices'));
+          form_set_error("field_place2book][und][place2book][prices_wrapper][prices][$key][value");
         }
         return $has_values;
       }, ARRAY_FILTER_USE_BOTH);
 
       if (empty($prices)) {
-        form_set_error('field_place2book][und][place2book][prices_wrapper][prices', t('At least one price should exist and both name and price value is required.'));
+        form_set_error('field_place2book][und][place2book][prices_wrapper][prices][0][name', t('At least one price should exist and both name and price value is required.'));
+        form_set_error('field_place2book][und][place2book][prices_wrapper][prices][0][value');
       }
     }
 
@@ -581,7 +599,9 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
     $p2b = ding_place2book_instance();
     // Collect data for synchronizing event.
     $prices = $settings['prices_wrapper']['prices'];
+    $original_event = $settings['original_event'];
     unset($settings['prices_wrapper']);
+    unset($settings['original_event']);
     unset($settings['synchronize']);
     unset($settings['event_id']);
     unset($settings['event_maker_id']);
@@ -592,6 +612,10 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
         $event = $p2b->createEvent($event_maker_id, $options);
       }
       else {
+        // Ensure that we are not missing data on the event by merging the
+        // original event with the data we send p2b API. If something is
+        // missing it may remove data or give other unexpected behavior.
+        $options['event'] = array_merge((array) $original_event, $options['event']);
         $event = $p2b->updateEvent($event_maker_id, $event_id, $options);
       }
 
@@ -639,8 +663,15 @@ function _ding_place2book_sync_p2b_entities($entity, array $settings) {
       );
 
       try {
-        if (!empty($price['id'])) {
-          $p2b->updatePrice($event_maker_id, $event->id, $price['id'], array('price' => $data));
+        if (isset($price['original_price'])) {
+          $original_price = (array) $price['original_price'];
+          $price_id = $original_price['id'];
+          unset($original_price['id']);
+          // Ensure that we are not missing data on the price by merging the
+          // original price with the data we send p2b API. If somethins is
+          // missing it may remove data or give other unexpected behavior.
+          $data = array_merge($original_price, $data);
+          $p2b->updatePrice($event_maker_id, $event->id, $price_id, array('price' => $data));
         }
         else {
           $p2b->createPrice($event_maker_id, $event->id, array('price' => $data));
