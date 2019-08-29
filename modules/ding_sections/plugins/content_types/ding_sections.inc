@@ -1,7 +1,13 @@
 <?php
+
+/**
+ * @file
+ */
+
 /**
  * Custom display for sections.
  */
+
 $plugin = [
   'title' => t('Section Group'),
   'description' => t('Display Sections in a "Themes"-like manner.'),
@@ -31,7 +37,6 @@ function ding_sections_content_type_edit_form($form, &$form_state) {
   $weight = 0;
   $max_weight = $weight;
   $section_count = NULL;
-  $filter_count = NULL;
 
   if (isset($form_state['values']['selected_sections_count'])) {
     $section_count = $form_state['values']['selected_sections_count'];
@@ -121,7 +126,6 @@ function ding_sections_content_type_render($subtype, $conf, $args, $context) {
   array_multisort(array_map(function ($element) {
     return $element->weight;
   }, $data), SORT_ASC, $data);
-
 
   $view->result = $data;
   $result = $view->preview();

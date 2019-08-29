@@ -46,7 +46,7 @@ function ding_sections_menu() {
     'title' => 'Autocomplete',
     'page callback' => 'ding_sections_autocomplete',
     'access arguments' => array('administer section'),
-    'type' => MENU_CALLBACK
+    'type' => MENU_CALLBACK,
   );
 
   return $menu;
@@ -199,6 +199,7 @@ function ding_sections_secure_permissions($role) {
  * Custom autocomplete menu callback.
  *
  * @param string $keys
+ *   Keys to be searched in database table.
  */
 function ding_sections_autocomplete($keys = '') {
   $results = [];
@@ -376,9 +377,12 @@ function ding_sections_add_section_submit($form, &$form_state) {
 /**
  * Extract term tid.
  *
- * @param $key
+ * @param integer $key
+ *   Position of element.
  * @param array $term
+ *   Term value from form.
  * @param array $form_state
+ *   Form state.
  */
 function _ding_sections_get_term_tid($key, array $term, array &$form_state) {
   $tmp_tid = explode(':', $term['term']);
@@ -460,7 +464,7 @@ function ding_sections_preprocess_views_view_fields(&$vars) {
       }
     }
 
-    // another part.
+    // Processing item's image.
     $vars['link_attributes'] = [
       'style' => '',
     ];
