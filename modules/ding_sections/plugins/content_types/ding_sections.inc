@@ -2,9 +2,6 @@
 
 /**
  * @file
- */
-
-/**
  * Custom display for sections.
  */
 

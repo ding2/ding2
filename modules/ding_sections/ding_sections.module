@@ -377,7 +377,7 @@ function ding_sections_add_section_submit($form, &$form_state) {
 /**
  * Extract term tid.
  *
- * @param integer $key
+ * @param int $key
  *   Position of element.
  * @param array $term
  *   Term value from form.
