@@ -18,8 +18,9 @@
     flex-wrap: wrap;
     justify-content: space-between;
     align-content: space-between;
-    height: 56px;
+    min-height: 56px;
     background-color: #f1f2f2;
+    overflow: hidden;
 
     .message-box--content {
       .field-name-ting-title h2 {
@@ -42,7 +43,7 @@
         color: #fff;
       }
 
-      @media screen and(max-width: 950px) {
+      @media screen and(max-width: 1200px) {
         display: none;
       }
     }
@@ -71,8 +72,8 @@
     }
   }
 
-  .field-name-ting-author {
-    @media screen and(max-width: 950px){
+  .field-name-ting-type {
+    @media screen and(max-width: 970px){
       display: none !important;
     }
   }
