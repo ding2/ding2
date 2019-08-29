@@ -143,7 +143,8 @@ function ding_adgangsplatformen_get_configuration() {
     'urlAccessToken' => 'https://login.bib.dk/oauth/token/',
     'urlResourceOwnerDetails' => 'https://login.bib.dk/userinfo/',
     'urlLogout' => 'https://login.bib.dk/logout/',
-    'singleLogout' => true,
+    'singleLogout' => TRUE,
+    'automaticallyAgency' => TRUE,
     'singleLogoutOrigin' => 'https://login.bib.dk/',
   ));
 
@@ -167,6 +168,8 @@ function ding_adgangsplatformen_get_configuration() {
  *   If required libraries are not loaded.
  */
 function ding_adgangsplatformen_generate_login_url($destination = '') {
+  $configuration = ding_adgangsplatformen_get_configuration();
+
   $provider = ding_adgangsplatformen_get_provider();
   $authorization_url = $provider->getAuthorizationUrl();
 
@@ -178,6 +181,14 @@ function ding_adgangsplatformen_generate_login_url($destination = '') {
   // Check if an identity provider have been set in the request.
   if (!empty($_REQUEST['idp'])) {
     $authorization_url .= '&idp=' . $_REQUEST['idp'];
+  }
+
+  // Add agency to the URL.
+  if (isset($configuration['automaticallyAgency']) && $configuration['automaticallyAgency']) {
+    $agency = variable_get('ting_agency', '');
+    if (!empty($agency)) {
+      $authorization_url .= '&agency=' . $agency;
+    }
   }
 
   return $authorization_url;
