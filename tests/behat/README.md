@@ -2,6 +2,9 @@
 
 Suite for automated checking of DDB CMS.
 
+#### Docs
+Guidelines: `profiles/ding2/tests/behat/docs/Guidelines.md`  
+Maintenance: `profiles/ding2/tests/behat/docs/Maintenance.md`
 
 ## Preparation
 
@@ -14,6 +17,11 @@ From a working Ding2 environment:
 1. Make sure that [Composer is installed](https://getcomposer.org/download/)
 2. Go to the `profiles/ding2/tests/behat` directory
 3. Run `path/to/composer install`
+
+#### Behat Version Notes
+Behat version is currently locked at `3.3.1` and Gherkin at `4.4.5`. There is and open bug 
+([#1085](https://github.com/Behat/Behat/issues/1085)) in later versions that result in a 
+"No specifications found at path" error when using the Drupal API driver.
 
 #### Install browser-support
 
@@ -37,7 +45,7 @@ the code that will run, and which is mapped to the Gherkin methods/steps
     - Windows: `start chrome --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222`
 2. Set up an environment variable `BEHAT_PARAMS` containing the URL of the 
 website you want to test
-3. Select the tags (`@xxx) from the scenarios you want to run in the 
+3. Select the tags (`@xyz) from the scenarios you want to run in the 
 `.feature-files`
 4. Run `behat` by giving the tags and the browser config you want to use as
 parameters
@@ -46,7 +54,7 @@ parameters
 
 ```sh
 % export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://localhost/"}}}'
-% behat --tags=@simplesmoketest,@anothertag -p chrome
+% behat --tags=@simplesmoke,@anothertag -p chrome
 ```
 
 #### Tips

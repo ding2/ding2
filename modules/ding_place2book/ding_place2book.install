@@ -185,4 +185,3 @@ function ding_place2book_update_7005(&$sandbox) {
 function ding_place2book_update_7006() {
   module_enable(array('ding_place2book_migrate'));
 }
-

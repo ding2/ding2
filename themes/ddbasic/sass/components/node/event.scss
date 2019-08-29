@@ -263,10 +263,11 @@
 
           &.ticket-available {
             background-color: $green;
+            color: $white;
 
             &:hover {
               background-color: $green-text;
-              color: lighten($black, 15);
+              color: lighten($white, 15);
             }
           }
 
@@ -294,15 +295,9 @@
             color: $black;
           }
         }
-
-        a.button {
-          &:link, &:visited, &:hover, &:active {
-            text-decoration: underline;
-          }
-        }
       }
       > .right {
-        @include span-columns(5);
+        @include span-columns(6);
 
         // Tablet
         @include media($tablet) {

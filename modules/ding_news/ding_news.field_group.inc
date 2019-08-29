@@ -80,6 +80,7 @@ function ding_news_field_group_info() {
     'children' => array(
       0 => 'field_ding_news_body',
       1 => 'field_ding_news_lead',
+      2 => 'group_ding_news_paragraphs',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -147,6 +148,35 @@ function ding_news_field_group_info() {
     ),
   );
   $field_groups['group_ding_news_images|node|ding_news|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_ding_news_paragraphs|node|ding_news|form';
+  $field_group->group_name = 'group_ding_news_paragraphs';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'ding_news';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_ding_news_content';
+  $field_group->data = array(
+    'label' => 'Paragraphs',
+    'weight' => '7',
+    'children' => array(
+      0 => 'field_ding_news_paragraphs',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Paragraphs',
+      'instance_settings' => array(
+        'required_fields' => 0,
+        'id' => '',
+        'classes' => '',
+        'description' => '',
+      ),
+      'formatter' => 'collapsible',
+    ),
+  );
+  $field_groups['group_ding_news_paragraphs|node|ding_news|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -322,6 +352,7 @@ function ding_news_field_group_info() {
       2 => 'field_ding_news_lead',
       3 => 'field_ding_news_materials',
       4 => 'og_group_ref',
+      5 => 'field_ding_news_paragraphs',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -352,13 +383,14 @@ function ding_news_field_group_info() {
     'label' => 'Right',
     'weight' => '1',
     'children' => array(
-      0 => 'field_ding_news_body',
-      1 => 'field_ding_news_category',
-      2 => 'field_ding_news_files',
-      3 => 'field_ding_news_lead',
-      4 => 'field_ding_news_tags',
-      5 => 'og_group_ref',
-      6 => 'webform',
+      0 => 'field_ding_news_paragraphs',
+      1 => 'field_ding_news_body',
+      2 => 'field_ding_news_category',
+      3 => 'field_ding_news_files',
+      4 => 'field_ding_news_lead',
+      5 => 'field_ding_news_tags',
+      6 => 'og_group_ref',
+      7 => 'webform',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -385,6 +417,7 @@ function ding_news_field_group_info() {
   t('Images');
   t('Left');
   t('Left column');
+  t('Paragraphs');
   t('Relations');
   t('Right');
   t('Right column');

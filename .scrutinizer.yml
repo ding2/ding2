@@ -1,17 +1,10 @@
-tools:
-  php_code_sniffer:
-    config:
-      standard: Drupal
-    extensions:
-      - module
-      - inc
-      - install
-      - test
-      - profile
-      - theme
-      - php
-  js_hint:
-    use_native_config: true
+build:
+  nodes:
+    analysis:
+      tests:
+        override:
+          - phpcs-run
+          - jshint-run
 
 build_failure_conditions:
   # No new issues allowed.

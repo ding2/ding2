@@ -770,15 +770,6 @@ function ding2_set_cookie_page() {
   $node->title = 'Cookies på hjemmesiden';
   $node->type = 'ding_page';
   $node->language = 'und';
-  $node->field_ding_page_body = array(
-    'und' => array(
-      array(
-        'value' => $body,
-        'format' => 'ding_wysiwyg',
-        'safe_value' => $body,
-      ),
-    ),
-  );
   $node->field_ding_page_lead = array(
     'und' => array(
       array(
@@ -795,6 +786,13 @@ function ding2_set_cookie_page() {
 
   // Create the node.
   node_save($node);
+
+  $paragraph = new ParagraphsItemEntity(array('field_name' => 'field_ding_page_paragraphs', 'bundle' => 'ding_paragraphs_text'));
+  $paragraph->is_new = TRUE;
+  $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['value'] = $body;
+  $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['format'] = 'ding_wysiwyg';
+  $paragraph->setHostEntity('node', $node);
+  $paragraph->save();
 
   // Permissions, see: ding_permissions module
   // display EU Cookie Compliance popup: anonymous user, authenticated user

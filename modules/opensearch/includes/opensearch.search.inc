@@ -610,7 +610,8 @@ function opensearch_search_object_ids($ids) {
 
     foreach (opensearch_get_objects($ids, TRUE) as $pid => $object) {
       $faust = explode(':', $pid)[1];
-      if ($key = array_search($faust, $ids)) {
+      $key = array_search($faust, $ids);
+      if ($key !== FALSE) {
         $translated_ids[$faust] = $pid;
         unset($ids[$key]);
       }

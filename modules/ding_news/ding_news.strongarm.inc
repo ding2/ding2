@@ -114,6 +114,9 @@ function ding_news_strongarm() {
         'redirect' => array(
           'weight' => '9',
         ),
+        'metatags' => array(
+          'weight' => '40',
+        ),
       ),
       'display' => array(
         'webform' => array(
@@ -126,7 +129,7 @@ function ding_news_strongarm() {
             'visible' => TRUE,
           ),
           'default' => array(
-            'weight' => '12',
+            'weight' => '13',
             'visible' => TRUE,
           ),
           'search_result' => array(

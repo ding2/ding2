@@ -48,6 +48,8 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-readd_ac
 projects[ctools][patch][] = "https://www.drupal.org/files/issues/deprecating_php4_style-2528736-23.patch"
 ; PHP7 - Uniform Variable Syntax updates are causing exported pages to not have names.
 projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-uniform-variable-syntax-2635876-6.patch"
+; Check for jQuery differences regarding prop() vs attr().
+projects[ctools][patch][] = "https://git.drupalcode.org/project/ctools/commit/18385421a277097d8a92672808f656cc7470b69d.patch"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -341,6 +343,9 @@ projects[proj4js][version] = "1.2"
 
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
+
+projects[paragraphs][subdir] = "contrib"
+projects[paragraphs][version] = "1.0-rc5"
 
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.2"

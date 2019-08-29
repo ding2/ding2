@@ -388,6 +388,26 @@ function opensearch_search_autocomplete_settings() {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function opensearch_form_ding_facetbrowser_settings_alter(&$form, &$form_state) {
+  if (!$opensearch_url =  variable_get('opensearch_url', '')) {
+    return;
+  }
+
+  // If we have an opensearch URL add additional description giving link to
+  // supported facet names for the currents opensearch version.
+  // See: https://platform.dandigbib.org/issues/4169#note-6
+  $description = t('Supported facet names can be found at <a href="@url">DBC wiki</a> and is usually named <em>facet.something</em>.', [
+    '@url' => url($opensearch_url, [
+      'query' => [ 'showCqlFile' => TRUE ],
+      'fragment' => 'facet',
+    ])
+  ]);
+  $form['description']['#markup'] .= '<p>' . $description . '</p>';
+}
+
+/**
  * Implements hook_xautoload().
  *
  * Place our OpenSearch classes in the OpenSearch namespace.

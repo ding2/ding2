@@ -24,6 +24,14 @@
           if (response) {
             campaign.replaceWith(response);
             wrapper.slideDown('fast');
+            // Find the most direct parent of the campaign we added and use that
+            // as context in attachBehaviors. The reason for this being the way
+            // the context arguments is used with selectors is equivalent of
+            // doing $(context).find(selector) and the find() method ignores the
+            // root element. Hence the root can not be the outer most of div of
+            // the campaign or it will fail to be detected in selectors using
+            // the context.
+            Drupal.attachBehaviors(wrapper.find('.node-ding-campaign-plus').parent());
           }
         });
 

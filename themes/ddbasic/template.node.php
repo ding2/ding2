@@ -23,8 +23,8 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     // We're doing it to both attributes and content_attributes as it seems
     // fairly random whether or not a template uses both or not.
     // Even if a template does use both, it does no damage.
-    $variables['attributes_array']['lang'] = 'en';
-    $variables['content_attributes_array']['lang'] = 'en';
+    $variables['attributes_array']['lang'] = $variables['language'];
+    $variables['content_attributes_array']['lang'] = $variables['language'];
   }
 
   // Add tpl suggestions for node view modes.
@@ -309,7 +309,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         if (!empty($link_url)) {
           $variables['book_button'] = l($book_button_text, $link_url, array(
             'attributes' => array(
-              'class' => array('ticket', 'button'),
+              'class' => array('ticket-available', 'button'),
               'target' => '_blank',
             ),
           ));

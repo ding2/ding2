@@ -310,13 +310,14 @@ function ding_place2book_node_presave($node) {
   try {
     $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($event_maker_id, $event_id);
-
-    $node_wrapper
-      ->field_ding_event_ticket_link
-      ->url
-      ->set($event->links->sales_location);
+    if (!$event->passive) {
+      $node_wrapper
+        ->field_ding_event_ticket_link
+        ->url
+        ->set($event->links->sales_location);
+    }
   }
-  catch (Exception $e) {
+  catch (Exception $ex) {
     watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
   }
 }
@@ -344,6 +345,87 @@ function ding_place2book_field_widget_form_alter(&$element, &$form_state, $conte
   // node synchronizes with p2b.
   $element['#disabled'] = TRUE;
   $element['#description'] = t('This field is currently controlled by place2book and is therefore disabled. Disable place2book synchronization to enable it and use a custom external ticket link.');
+}
+
+/**
+ * Implements hook_clone_node_alter().
+ */
+function ding_place2book_clone_node_alter(&$node, $context) {
+  if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($node)) {
+    return;
+  }
+
+  // Reset p2b event ID, so that the cloned ding_event doesn't point to the same
+  // event in p2b as the original.
+  $original_event_id = $field_place2book['event_id'];
+  $field_place2book['event_id'] = NULL;
+
+  // For ding_event nodes clear the ticket link, so that our node_presave
+  // implementation will fetch a new sales URL.
+  if ($node->type = 'ding_event') {
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $node_wrapper->field_ding_event_ticket_link->set(NULL);
+  }
+
+  // Fetch the p2b-event and prices associated with the original node. We need
+  // the data to replicate p2b-event on the cloned node.
+  try {
+    $p2b = ding_place2book_instance();
+    $event = $p2b->getEvent($field_place2book['event_maker_id'], $original_event_id);
+
+    $prices = [];
+    // Only fetch prices for non-passive events.
+    if (!$event->passive) {
+      $prices = $p2b->getPrices($field_place2book['event_maker_id'], $original_event_id);
+    }
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding_place2book', $ex, t('Error appeared on getting data from p2b.'));
+    // If can't get the data from p2b API we can't setup the clone perfectly. At
+    // least we removed the event_id, so just return now.
+    $node->field_place2book[LANGUAGE_NONE][0] = $field_place2book;
+    return;
+  }
+
+  // In prepopulate the node form is populated without saving cloned node first,
+  // so we need to clone the p2b event and prices and pass them along to the
+  // widget form.
+  if ($context['method'] == 'prepopulate') {
+    $event_clone = clone $event;
+    $event_clone->id = NULL;
+    $field_place2book['event_clone'] = $event_clone;
+    $field_place2book['prices_clone'] = array_map(function($price) {
+      $price_clone = clone $price;
+      $price_clone->id = NULL;
+      return $price_clone;
+    }, $prices);
+    // Signal to the widget that a clone should be performed.
+    $field_place2book['do_clone'] = TRUE;
+  }
+  // Otherwise save-edit or action method is used and we need to simulate the
+  // items array passed to our field presave implementation.
+  else {
+    $field_place2book['capacity'] = $event->capacity;
+    $field_place2book['kultunaut_export'] = $event->kultunaut_export;
+    $field_place2book['passive'] = $event->passive;
+
+    $field_place2book['prices_wrapper']['prices'] = array_map(function($price) {
+      return [
+        'name' => $price->name,
+        'value' => $price->value,
+        'sale_begin_at' => date('Y-m-d H:i:s', strtotime($price->sale_begin_at)),
+        'sale_end_at' => date('Y-m-d H:i:s', strtotime($price->sale_end_at)),
+      ];
+    }, $prices);
+
+    // Need to set this otherwise event will not be sync'ed by our presave
+    // implementation. The widget form takes care of setting it also, but in
+    // this clone method we skip the form and save the node immediatly, so we
+    // need to set it here.
+    $field_place2book['do_sync'] = TRUE;
+  }
+
+  $node->field_place2book[LANGUAGE_NONE][0] = $field_place2book;
 }
 
 /**
@@ -661,6 +743,10 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     $meta_data = $event->meta_data;
     $state = $event->state;
     $available_tickets = $meta_data->available_tickets;
+    $data = '';
+    $class = '';
+    $type = '';
+    $min_period = [];
 
     // Try to derive a status for the ticket link in frontend by looking at the
     // p2b event's state, ticket types and sale periods.
@@ -674,7 +760,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     }
     elseif ($state === 'published') {
       // If event is published we first check to see if there's any available
-      // tickets at all. If not the event is sold out and we can avoid fething
+      // tickets at all. If not the event is sold out and we can avoid fetching
       // ticket types and sale periods. There might be a waiting-list so we
       // check for that first before setting sold out.
       if (empty($available_tickets)) {
@@ -686,7 +772,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
         }
       }
       else {
-        // Else we have no other options than to fetchs the tickets and look
+        // Else we have no other options than to fetch the tickets and look
         // for open or upcoming sale periods.
         $sale_periods = [];
         foreach ($p2b->getPrices($event_maker_id, $event_id) as $price) {
@@ -695,6 +781,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
             'end' => strtotime($price->sale_end_at),
           ];
         }
+
         // Some events, for example those migrated from the old API, will have
         // sales period on the event and not on the individual tickets.
         if (isset($event->sale_open_at) && isset($event->sale_close_at)) {
@@ -705,19 +792,35 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
         }
 
         $now = time();
-        foreach ($sale_periods as $sale_period) {
-          if ($now >= $sale_period['begin'] && $now <= $sale_period['end']) {
-            // We have found an open sales period. No need to continue iterating
-            // the ticket types.
-            $ticket_link_status = 'open';
-            break;
-          }
-          elseif ($now < $sale_period['begin']) {
-            // We haven't found any open sales period yet,q but at least there's
+
+        // Filter out periods which are already over.
+        $sale_periods = array_filter($sale_periods, function ($p) use ($now) {
+          return $p['end'] >= $now;
+        });
+
+        // Check if we still have any active sale periods. If such are - go on!
+        if (!empty($sale_periods)) {
+          // Find the closest sale period.
+          $begin_values = array_column($sale_periods, 'begin');
+          // Get the closest sale period. In case when event has upcoming sales,
+          // its start value will be used in button label.
+          $min_period_begin = min($begin_values);
+          $min_period = array_filter($sale_periods, function ($sale_period) use ($min_period_begin) {
+            return ($sale_period['begin']) == $min_period_begin;
+          });
+          $min_period = array_shift($min_period);
+
+          // We have found an open sales period.
+          $ticket_link_status = 'open';
+
+          // Check for 'upcoming' sale.
+          if ($now < $min_period['begin']) {
+            // We haven't found any open sales period yet, but at least there's
             // an upcoming, so set that status for now.
             $ticket_link_status = 'upcoming';
           }
         }
+
         // If no upcoming or open sales period was found for the published event
         // we consider the sales status to be closed.
         if (empty($ticket_link_status)) {
@@ -730,36 +833,63 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     if (!empty($ticket_link_status)) {
       switch ($ticket_link_status) {
         case 'open':
-          $data = l(t('Book a ticket'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
           $class = 'ticket-available';
+          $data = l(t('Book a ticket'), $event->links->sales_location, array(
+            'attributes' => array(
+              'target' => '_blank',
+              'class' => array('button', $class),
+            ),
+          ));
+          $type = 'link';
           break;
 
         case 'closed':
-          $data = t('Not open for ticket sale');
           $class = 'ticket-notice';
+          $data = t('Not open for ticket sale');
+          $type = 'markup';
           break;
 
         case 'sold-out':
-          $data = t('Sold out');
           $class = 'ticket-warning';
+          $data = t('Sold out');
+          $type = 'markup';
           break;
 
         case 'upcoming':
-          $data = t('Ticket sale has not yet started for this event');
+          $sale_start = $min_period['begin'];
+          $date = format_date($sale_start, 'ding_date_only');
+          $time = format_date($sale_start, 'ding_time_only');
           $class = 'ticket-notice';
+          $data = t("Ticket sale starts @date at @time", array(
+            '@date' => $date,
+            '@time' => $time,
+          ));
+          $type = 'markup';
           break;
 
         case 'waiting-list':
-          $data = l(t('Waiting list open'), $event->links->sales_location, array('attributes' => array('target' => '_blank')));
-          $class = 'ticket-available';
+          $class = 'ticket-notice';
+          $data = l(t('Waiting list open'), $event->links->sales_location, array(
+            'attributes' => array(
+              'target' => '_blank',
+              'class' => array('button', $class),
+            ),
+          ));
+          $type = 'link';
           break;
 
         case 'event-over':
           $data = t('The event has already taken place');
-          $class = '';
+          $type = 'markup';
           break;
       }
-      $output = "<span class='place2book button {$class}'>{$data}</span>";
+
+      if ($type == 'link') {
+        $output = $data;
+      }
+      elseif ($type == 'markup') {
+        $output = "<div class='place2book button {$class}'>{$data}</div>";
+      }
       print ajax_render($output);
     }
   }

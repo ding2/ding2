@@ -71,5 +71,25 @@ function ding_adgangsplatformen_admin_settings_form($form, &$form_state) {
     '#default_value' => $default['urlLogout'],
   );
 
+  $form['ding_adgangsplatformen_settings']['singleLogout'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable single logout'),
+    '#return_value' => TRUE,
+    '#default_value' => $default['singleLogout'],
+  );
+
+  $form['ding_adgangsplatformen_settings']['singleLogoutOrigin'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Iframe url'),
+    '#description' => t('The URI from which single logout can be performed.'),
+    '#default_value' => $default['singleLogoutOrigin'],
+    '#disabled' => TRUE,
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="ding_adgangsplatformen_settings[singleLogout]"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
+
   return system_settings_form($form);
 }
