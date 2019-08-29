@@ -37,7 +37,7 @@ function ding_adgangsplatformen_init() {
 function ding_adgangsplatformen_menu() {
   $items = array();
 
-  $items['admin/config/ding/auth'] = array(
+  $items['admin/config/ding/adgangsplatformen'] = array(
     'title' => 'Adgangsplatform',
     'description' => 'Configure adgangsplatformen login',
     'page callback' => 'drupal_get_form',
@@ -46,7 +46,7 @@ function ding_adgangsplatformen_menu() {
     'file' => 'includes/ding_adgangsplatformen.admin.inc',
   );
 
-  $items['admin/config/ding/auth/settings'] = array(
+  $items['admin/config/ding/adgangsplatformen/settings'] = array(
     'title' => 'Settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
   );
