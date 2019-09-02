@@ -300,10 +300,14 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#default_value' => $sale_end_at,
         );
 
-        $element['place2book']['prices_wrapper']['prices'][$key]['original_price'] = array(
-          '#type' => 'value',
-          '#value' => $price,
-        );
+        // If existing price: store the original on an internal form value for
+        // later use in submission.
+        if (isset($price->id)) {
+          $element['place2book']['prices_wrapper']['prices'][$key]['original_price'] = array(
+            '#type' => 'value',
+            '#value' => $price,
+          );
+        }
 
         $element['place2book']['prices_wrapper']['prices'][$key]['remove'] = array(
           '#type' => 'submit',
