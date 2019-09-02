@@ -671,6 +671,13 @@ function ting_field_search_search_block_submit($form, &$form_state) {
     // area where messages should have been.
     if (empty($messages)) {
       unset($_SESSION['messages']['error']);
+
+      // If there's no other types of messages left, ensure that the session
+      // variable is removed completely to avoid creation of unwanted session
+      // cookie.
+      if (empty($_SESSION['messages'])) {
+        unset($_SESSION['messages']);
+      }
     }
   }
 
