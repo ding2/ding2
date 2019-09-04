@@ -59,12 +59,9 @@ function hook_ding_entity_collection_view(&$object, $view_mode) {
 function hook_ding_entity_buttons($type, $entity, $view_mode, $widget) {
   // Adds resevation buttons is entity is resevable.
   if ($type == 'ding_entity' && $entity->is('library_material')) {
-    if (ding_provider_implements('reservation', 'is_reservable')) {
-      $reservable = ding_provider_invoke('reservation', 'is_reservable', [$entity->localId]);
-      $reservable = reset($reservable);
-      if ($reservable) {
-        return array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE));
-      }
+    $reservable = ding_provider_invoke('reservation', 'is_reservable', [$entity->localId]);
+    if (!empty($reservable[$entity->localId])) {
+      return array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE));
     }
   }
 }
