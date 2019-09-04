@@ -16,8 +16,12 @@
 
       if (localIds.length) {
         $.ajax({
-          dataType: "json",
-          url: "/ding_reservation/" + localIds.join(',') + "/is_reservable",
+          dataType: 'json',
+          type: 'POST',
+          url: '/ding_reservation/is_reservable',
+          data: {
+            localIds: localIds
+          },
           success: function(result) {
             $.each(result, function(localId, reservable) {
               if (reservable) {

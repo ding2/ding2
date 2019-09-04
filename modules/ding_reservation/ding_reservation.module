@@ -67,7 +67,7 @@ function ding_reservation_menu() {
     'access arguments' => array('perform reservation'),
   );
 
-  $items['ding_reservation/%/is_reservable'] = array(
+  $items['ding_reservation/is_reservable'] = array(
     'title' => 'Check ding entity reservability',
     'page callback' => 'ding_reservation_is_reservable_ajax_callback',
     'page arguments' => array(1),
@@ -116,11 +116,12 @@ function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
  * AJAX callback used to check the reservability of the passed entity ids.
  */
 function ding_reservation_is_reservable_ajax_callback($local_ids) {
-  $local_ids = explode(',', $local_ids);
   $result = [];
 
-  // The reservation provider decides reservability.
-  $result = ding_provider_invoke('reservation', 'is_reservable', $local_ids);
+  if (!empty($_POST['localIds']) && is_array($_POST['localIds'])) {
+    // The reservation provider decides reservability.
+    $result = ding_provider_invoke('reservation', 'is_reservable', $_POST['localIds']);
+  }
 
   drupal_json_output($result);
   drupal_exit();
