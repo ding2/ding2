@@ -193,7 +193,5 @@ function connie_reservation_branch_name($branch_id) {
  */
 function connie_reservation_is_reservable($provider_ids) {
   // Make everything reservable.
-  $return = array_fill(0, count($provider_ids), TRUE);
-  $return = array_combine($provider_ids, $return);
-  return $return;
+  return array_fill_keys($provider_ids, TRUE);
 }
