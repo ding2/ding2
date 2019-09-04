@@ -18,6 +18,7 @@ function ting_reference_menu() {
   $items['ting_reference/autocomplete/object/js'] = array(
     'page callback' => '_ting_reference_autocomplete',
     'access arguments' => array('access content'),
+    'delivery callback' => 'ajax_deliver',
     'type' => MENU_CALLBACK,
   );
 
@@ -349,6 +350,13 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
       if (!empty($element)) {
         $element['#attached']['js'] = array(
           drupal_get_path('module', 'ting_reference') . '/js/ting_reference_ajax.js',
+          // If we have at least one item there may be library materials, for
+          // which we need to check reservability. since we use a custom
+          // AJAX-callback, that doesn't add new javascript to the page, we
+          // include it manually. We could try to load the entities to check if
+          // one of them is in fact library material, but that would defeat the
+          // purpose of doing this asynchronously.
+          drupal_get_path('module', 'ding_reservation') . '/js/ding_reservation_reservability.js',
         );
       }
       break;
