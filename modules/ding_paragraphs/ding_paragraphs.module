@@ -101,7 +101,7 @@ function ding_paragraphs_bpi_convert_to_bpi_alter(&$bpi_content, $entity, array 
       if (isset($context['with_images'])) {
         $assets = $helper->replaceFilesWithUrls($paragraphs_data);
         if (!empty($assets)) {
-          $bpi_content['assets'] += $assets;
+          $bpi_content['assets'] = array_merge($bpi_content['assets'], $assets);
         }
       }
 
