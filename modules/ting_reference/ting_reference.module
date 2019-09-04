@@ -18,7 +18,6 @@ function ting_reference_menu() {
   $items['ting_reference/autocomplete/object/js'] = array(
     'page callback' => '_ting_reference_autocomplete',
     'access arguments' => array('access content'),
-    'delivery callback' => 'ajax_deliver',
     'type' => MENU_CALLBACK,
   );
 
