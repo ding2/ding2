@@ -25,26 +25,36 @@ function ding_ill_admin_setting_form(array $form, array &$form_state) {
     '#title' => t('API URL'),
     '#description' => t('The OpenPlatform API URL'),
     '#default_value' => $api_url,
+    '#required' => TRUE,
   );
 
   $form['ding_ill_token_fieldset'] = array(
     '#type' => 'fieldset',
+    '#title' => t('Information related to generation of API tokens.'),
   );
 
-  $form['ding_ill_token_fieldset']['ding_ill_description'] = array(
-    '#type' => 'link',
-    '#title' => t('Generate OpenPlatform token here'),
-    '#href' => $api_url,
-    '#attributes' => array('target' => '_blank'),
-  );
-
-  $form['ding_ill_token_fieldset']['ding_ill_token'] = array(
+  $form['ding_ill_token_fieldset']['ding_ill_token_url'] = array(
     '#type' => 'textfield',
-    '#title' => t('API token'),
-    '#description' => t('OpenPlatform token can be generated here: @url', array(
-      '@url' => $api_url,
-    )),
-    '#default_value' => variable_get('ding_ill_token'),
+    '#title' => t('Token URL'),
+    '#description' => t('The URL for token requests (https://auth.dbc.dk/oauth/token)'),
+    '#default_value' => variable_get('ding_ill_token_url', 'https://auth.dbc.dk/oauth/token'),
+    '#required' => TRUE,
+  );
+
+  $form['ding_ill_token_fieldset']['ding_ill_client_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Client ID'),
+    '#description' => t('OpenPlatform client ID'),
+    '#default_value' => variable_get('ding_ill_client_id'),
+    '#required' => TRUE,
+  );
+
+  $form['ding_ill_token_fieldset']['ding_ill_client_secret'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Client Secret'),
+    '#description' => t('OpenPlatform client secret'),
+    '#default_value' => variable_get('ding_ill_client_secret'),
+    '#required' => TRUE,
   );
 
   return system_settings_form($form);

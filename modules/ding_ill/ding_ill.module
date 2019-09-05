@@ -62,18 +62,24 @@ function ding_ill_permission() {
 /**
  * The form for the interlibrary loan.
  */
-function ding_ill_order_form($form, &$form_state, $ting_object, $preferred_branch_set) {
-  if (ding_provider_implements('reservation', 'options') && $preferred_branch_set === FALSE) {
+function ding_ill_order_form($form, &$form_state, $ting_object) {
+  if (ding_provider_implements('reservation', 'options')) {
     global $user;
     $provider_form = ding_provider_invoke('reservation', 'options', $user);
     // We only want to be able to select provider options, not any descriptions.
-    $form['provider_options'] = reset($provider_form);
     $form['description'] = array(
       '#markup' => '<p>' . t(
-        'You have to select the default pickup location to order "@title".',
+        'You have to enter pin, select the default pickup and interest period location to order "@title".',
         array('@title' => $ting_object->getTitle())
       ) . '</p>',
     );
+
+    $form['pin'] = [
+      '#type' => 'password',
+      '#title' => t('Pin code'),
+      '#required' => TRUE,
+    ];
+    $form['provider_options'] = $provider_form;
     $form['submit'] = array(
       '#type' => 'submit',
       '#value' => t('Place order'),
@@ -114,15 +120,16 @@ function ding_ill_order($form, &$form_state) {
     $request->setMaterials(array($ting_object->getId()));
     // Remove 'DK-' from the branch ID.
     // OpenPlatform expects the branch ID without the 'DK-' prefix.
-    $branch_id = str_replace('DK-', '', $form['provider_options']['#value']);
+    $branch_id = str_replace('DK-', '', $form['provider_options']['fbs_preferred_branch']['#value']);
     $request->setPickupBranch($branch_id);
+    $request->setPin($form['pin']['#value']);
 
     $ill_response = $client->request('GET', 'order', $request);
 
     if ($ill_response->getStatusCode() === 200) {
       $html = '<p>' . t(
         '@title has been ordered from another library for pickup at @branch. The order will appear on your loan status soon.',
-        array('@title' => $ting_object->getTitle(), '@branch' => $form['provider_options']['#options'][$request->getPickUpBranch()])
+        array('@title' => $ting_object->getTitle(), '@branch' => $form['provider_options']['fbs_preferred_branch']['#options'][$request->getPickUpBranch()])
       ) . '</p>';
       $html .= '<p>' . t('Your order id: @order_id', array(
         '@order_id' => $ill_response->getOrderId(),
@@ -162,18 +169,10 @@ function ding_ill_popup_order($pid) {
     // The ting object we try to order.
     $ting_object = ding_entity_load($pid);
 
-    // Check if user have preferred branch and interest period, if so
-    // submit the reservation form. If not display another form for with
-    // the options to select branch and period.
-    $defaults = ding_provider_invoke('reservation', 'default_options', $user);
-    $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
-    $preferred_branch_set = !empty($defaults[array_shift($matches)]) ? TRUE : FALSE;
-
-    $form = ding_provider_get_form(
+    $form[] = ding_provider_get_form(
       'ding_ill_order_form',
       /** @var \Ting\TingObject $ting_object */
-      $ting_object,
-      $preferred_branch_set
+      $ting_object
     );
 
     $commands[] = ajax_command_ding_popup(
@@ -232,9 +231,14 @@ function ding_ill_ding_entity_buttons($type, $entity) {
  *   The ding_ill client.
  */
 function ding_ill_client() {
+  $creds = ding_user_get_creds();
   return new DingIllClient(
     variable_get('ding_ill_api_url'),
-    variable_get('ding_ill_token')
+    variable_get('ding_ill_token_url'),
+    variable_get('ding_ill_client_id'),
+    variable_get('ding_ill_client_secret'),
+    $creds['library_card_number'],
+    variable_get('ting_agency', FALSE)
   );
 }
 

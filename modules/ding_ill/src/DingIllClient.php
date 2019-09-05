@@ -7,6 +7,7 @@
 
 use DingIllRequest;
 use GuzzleHttp\Client;
+
 use GuzzleHttp\Exception\RequestException;
 
 /**
@@ -31,25 +32,65 @@ class DingIllClient {
   private $client;
 
   /**
-   * The OpenPlatform API token.
+   * The OpenPlatform API token URL.
    *
    * @var string
-   *   The token used for authentication against the OpenPlatform API.
+   *   The URL used for token generation for authentication against the OpenPlatform API.
+   */
+  private $tokenUrl;
+
+  /**
+   * The generated token from OpenPlatform.
+   *
+   * @var string
+   *   Generated token from OpenPlatform.
    */
   private $token;
+
+  private $clientId;
+
+  private $clientSecret;
+  private $patronId;
+  private $agency;
 
   /**
    * Constructor.
    *
    * Constructs the OpenPlatform API client.
    */
-  public function __construct($hostname, $token) {
+  public function __construct($hostname, $tokenUrl, $clientId, $clientSecret, $patronId, $agency) {
     // Initialize properties.
     $this->hostname = $hostname;
-    $this->token = $token;
+    $this->tokenUrl = $tokenUrl;
+    $this->clientId = $clientId;
+    $this->clientSecret = $clientSecret;
+    $this->agency = $agency;
+    $this->patronId = $patronId;
 
     // Initialize the instantiated GuzzleHttp Client.
     $this->client = new Client();
+  }
+
+  /**
+   * Request a token for OpenPlatform with authenticated user.
+   *
+   * @param string $patron_pin
+   *   The patron's pin code.
+   *
+   * @return string
+   *   The OpenPlatform access token for an authenticated user.
+   */
+  protected function requestToken($patron_pin) {
+    $response = $this->client->request('POST', $this->tokenUrl, [
+      'auth' => [$this->clientId, $this->clientSecret],
+      'form_params' => [
+        'grant_type' => 'password',
+        'username' => $this->patronId . '@DK-' . $this->agency,
+        'password' => $patron_pin,
+      ],
+    ])->getBody();
+    $data = json_decode($response);
+    return $data->access_token;
   }
 
   /**
@@ -67,6 +108,7 @@ class DingIllClient {
    */
   public function request($method, $type, DingIllRequest $request) {
     $response_object = new DingIllResponse();
+    $this->token = $this->requestToken($request->getPin());
 
     try {
       $response = $this->client->request($method, $this->hostname . '/' . $type,
