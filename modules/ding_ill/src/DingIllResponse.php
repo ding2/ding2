@@ -26,7 +26,7 @@ class DingIllResponse {
    * @param string $error
    *   Error if exception was thrown.
    */
-  public function __construct($statusCode, $orderId, $error) {
+  public function __construct($statusCode = NULL, $orderId = NULL, $error = NULL) {
     $this->statusCode = $statusCode;
     $this->orderId = $orderId;
     $this->error = $error;
