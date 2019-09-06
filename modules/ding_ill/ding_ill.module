@@ -231,3 +231,12 @@ function ding_ill_opensearch_pre_execute($request) {
     $request->setFilterLocalHoldings(FALSE);
   }
 }
+
+/**
+ * Implements hook_init().
+ *
+ * Add JS variable to determine if the ding_ill module is enabled.
+ */
+function ding_ill_init() {
+  drupal_add_js(array('ding_ill' => array('enabled' => TRUE)), 'setting');
+}
