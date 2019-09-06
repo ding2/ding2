@@ -197,9 +197,14 @@ function ding_place2book_update_7007(&$sandbox) {
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'ding_event')
-    ->fieldCondition('field_ding_event_date', 'value2', gmdate('Y-m-d H:i:s'), '>');
+    ->fieldCondition('field_ding_event_date', 'value2', gmdate('Y-m-d H:i:s'), '>')
+    ->fieldCondition('field_place2book', 'synchronize', '1', '=')
+    ->fieldCondition('field_place2book', 'event_id', 'NULL', '!=')
+    ->fieldCondition('field_place2book', 'event_maker_id', 'NULL', '!=');
 
   $result = $query->execute();
+  file_put_contents('/app/debug/result-2.txt', print_r($result, TRUE), FILE_APPEND);
+
   if (isset($result['node'])) {
     $nodes = entity_load('node', array_keys($result['node']));
   }
@@ -215,11 +220,6 @@ function ding_place2book_update_7007(&$sandbox) {
   $chunk = array_slice($nodes, $sandbox['processed'], $limit);
 
   foreach($chunk as $nid => $node) {
-    // Avoid making request if this node isn't synchronized.
-    if (!$field_place2book = ding_place2book_is_ding_event_node_synchronized($node)) {
-      continue;
-    }
-
     list($event_id, $event_maker_id) = array_values($field_place2book);
     try {
       $p2b = ding_place2book_instance();
