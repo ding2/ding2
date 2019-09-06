@@ -9,6 +9,13 @@
  * Admin form.
  */
 function ding_ill_admin_setting_form(array $form, array &$form_state) {
+  $form['ding_ill_enabled'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable interlibrary loans'),
+    '#description' => t('Makes it possible to see materials from other libraries'),
+    '#default_value' => variable_get('ding_ill_enabled', TRUE),
+  );
+
   $api_url = variable_get(
     'ding_ill_api_url', 'https://openplatform.dbc.dk/v3'
   );
