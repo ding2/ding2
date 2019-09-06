@@ -219,7 +219,7 @@ function ding_place2book_update_7007(&$sandbox) {
   $limit = 10;
   $chunk = array_slice($nodes, $sandbox['processed'], $limit);
 
-  foreach($chunk as $nid => $node) {
+  foreach ($chunk as $nid => $node) {
     list($event_id, $event_maker_id) = array_values($field_place2book);
     try {
       $p2b = ding_place2book_instance();
@@ -235,7 +235,7 @@ function ding_place2book_update_7007(&$sandbox) {
       watchdog_exception('ding_place2book', $ex, t('Error appeared when removing ticket link for existing passive event. Event ID: !event_id, Event Maker ID: !event_maker_id, NID: !nid'), [
         '!event_id' => $event_id,
         '!event_maker_id' => $event_maker_id,
-        '!nid' => $node->nid,
+        '!nid' => $nid,
       ]);
     }
   }
@@ -246,7 +246,7 @@ function ding_place2book_update_7007(&$sandbox) {
     $sandbox['#finished'] = $sandbox['processed'] / $sandbox['total'];
   }
   else {
-    $sandbox['#finished'] =  TRUE;
+    $sandbox['#finished'] = TRUE;
   }
 
   return t('Status: !processed / !total', [
