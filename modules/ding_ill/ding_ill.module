@@ -206,7 +206,7 @@ function ding_ill_ding_entity_buttons($type, $entity) {
 
   $options = array(
     'attributes' => array(
-      'class' => 'action-button use-ajax',
+      'class' => 'action-button button-order use-ajax',
     ),
   );
 
