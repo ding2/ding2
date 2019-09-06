@@ -124,12 +124,16 @@ function ding_ill_order($form, &$form_state) {
     $request->setPickupBranch($branch_id);
     $request->setPin($form['pin']['#value']);
 
+    $expiration = new DateTime('now');
+    $expiration->add(new DateInterval('P' . $form['provider_options']['interest_period']['#value'] . 'D'));
+    $request->setExpiration($expiration->format('Y-m-d'));
+
     $ill_response = $client->request('GET', 'order', $request);
 
     if ($ill_response->getStatusCode() === 200) {
       $html = '<p>' . t(
         '@title has been ordered from another library for pickup at @branch. The order will appear on your loan status soon.',
-        array('@title' => $ting_object->getTitle(), '@branch' => $form['provider_options']['fbs_preferred_branch']['#options'][$request->getPickUpBranch()])
+        array('@title' => $ting_object->getTitle(), '@branch' => $form['provider_options']['fbs_preferred_branch']['#options']['DK-' . $request->getPickUpBranch()])
       ) . '</p>';
       $html .= '<p>' . t('Your order id: @order_id', array(
         '@order_id' => $ill_response->getOrderId(),

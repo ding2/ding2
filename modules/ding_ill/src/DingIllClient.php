@@ -117,6 +117,7 @@ class DingIllClient {
             'access_token' => $this->token,
             'pids' => $request->getMaterials(),
             'pickUpBranch' => $request->getPickupBranch(),
+            'expires' => $request->getExpiration(),
           ),
         )
       );

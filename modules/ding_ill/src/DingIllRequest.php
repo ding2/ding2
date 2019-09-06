@@ -222,4 +222,24 @@ class DingIllRequest {
     return $this->pin;
   }
 
+  /**
+   * Set the expiration date and time for the request.
+   *
+   * @param string $date
+   *   The expiration date and time for the request.
+   */
+  public function setExpiration($date) {
+    $this->expiration = $date;
+  }
+
+  /**
+   * Get the expiration date for the request.
+   *
+   * @return string
+   *   The expiration date and time for the request.
+   */
+  public function getExpiration() {
+    return $this->expiration;
+  }
+
 }
