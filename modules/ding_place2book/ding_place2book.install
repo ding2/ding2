@@ -203,7 +203,6 @@ function ding_place2book_update_7007(&$sandbox) {
     ->fieldCondition('field_place2book', 'event_maker_id', 'NULL', '!=');
 
   $result = $query->execute();
-  file_put_contents('/app/debug/result-2.txt', print_r($result, TRUE), FILE_APPEND);
 
   if (isset($result['node'])) {
     $nodes = entity_load('node', array_keys($result['node']));
