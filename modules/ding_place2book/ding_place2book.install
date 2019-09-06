@@ -197,7 +197,7 @@ function ding_place2book_update_7007(&$sandbox) {
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'ding_event')
-    ->fieldCondition('field_ding_event_date', 'value2', gmdate('Y-m-d H:i:s'), '>')
+    ->fieldCondition('field_ding_event_date', 'value2', gmdate(DATE_FORMAT_DATETIME), '>')
     ->fieldCondition('field_place2book', 'synchronize', '1', '=')
     ->fieldCondition('field_place2book', 'event_id', 'NULL', '!=')
     ->fieldCondition('field_place2book', 'event_maker_id', 'NULL', '!=');
