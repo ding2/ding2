@@ -177,7 +177,7 @@ function ding_ill_ding_entity_buttons($type, $entity) {
   $build = array();
   $options = array(
     'attributes' => array(
-      'class' => 'action-button button-see-online use-ajax',
+      'class' => 'action-button button-black use-ajax',
     ),
   );
 
