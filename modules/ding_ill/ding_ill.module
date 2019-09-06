@@ -34,6 +34,21 @@ function ding_ill_menu() {
 }
 
 /**
+ * Implements hook_module_implements_alter().
+ *
+ * Ensure ding_ill's implmentation of opensearch_pre_execute runs after the
+ * providers.
+ */
+function ding_ill_module_implements_alter(&$implementations, $hook) {
+  if ($hook != 'opensearch_pre_execute') {
+    return;
+  }
+  $ding_ill_implementation = $implementations['ding_ill'];
+  unset($implementations['ding_ill']);
+  $implementations['ding_ill'] = $ding_ill_implementation;
+}
+
+/**
  * Implements hook_permission().
  */
 function ding_ill_permission() {
@@ -121,7 +136,6 @@ function ding_ill_order($form, &$form_state) {
         '@error' => $ill_response->getError(),
       ));
     }
-
   }
 
   $response['#commands'][] = ajax_command_ding_popup(
@@ -208,4 +222,15 @@ function ding_ill_client() {
     variable_get('ding_ill_api_url'),
     variable_get('ding_ill_token')
   );
+}
+
+/**
+ * Implements hook_opensearch_pre_execute().
+ *
+ * When interlibrary loans are enabled, don't filter for local holdings.
+ */
+function ding_ill_opensearch_pre_execute($request) {
+  if ($request instanceof TingClientSearchRequest && variable_get('ding_ill_enabled')) {
+    $request->setFilterLocalHoldings(FALSE);
+  }
 }
