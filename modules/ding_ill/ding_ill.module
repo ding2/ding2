@@ -192,7 +192,7 @@ function ding_ill_ding_entity_buttons($type, $entity) {
   $build = array();
   $options = array(
     'attributes' => array(
-      'class' => 'action-button button-black use-ajax',
+      'class' => 'action-button reserve-button use-ajax',
     ),
   );
 
