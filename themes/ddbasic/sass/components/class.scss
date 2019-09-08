@@ -467,19 +467,19 @@ a.opening-hours-toggle {
   &::after {
     right: 0;
     top: 0;
-    background-color: $grey-dark;
-    color: $white-opacity-dark;
+    background-color: $grey-darker;
+    color: $white;
   }
   &.collapsed {
     &::after {
       content: "\e901";
       background-color: $grey;
-      color: $charcoal-opacity-dark;
+      color: $charcoal;
     }
     &:hover {
       &::after {
-        background-color: $grey-dark;
-        color: $white-opacity-dark;
+        background-color: $grey-darker;
+        color: $white;
       }
     }
   }
