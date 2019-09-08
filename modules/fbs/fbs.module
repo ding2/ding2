@@ -83,53 +83,6 @@ function fbs_ding_provider() {
 }
 
 /**
- * Implements hook_ding_entity_is().
- */
-function fbs_ding_entity_is($object, $class) {
-  if (!$object instanceof TingEntity) {
-    return NULL;
-  }
-
-  switch ($class) {
-    case 'reservable':
-      // We get the full holdings since we both need to check reservability and
-      // whether FBS considers the object a periodical.
-      // Invoke the call to FBS API directly, as using fbs_availability_holdings
-      // (or going through ding_provider) sets up render array for holdings
-      // display and has a chance of calling opensearch to get marc record. We
-      // need none of this and only want to know if the material is reservable
-      // and if it has any periodical information.
-      try {
-        $result = fbs_service()->Catalog->getHoldings(
-          fbs_service()->agencyId,
-          $object->localId
-        );
-      }
-      catch (Exception $e) {
-        watchdog_exception('fbs', $e);
-        return NULL;
-      }
-
-      $result = reset($result);
-      $holdings = reset($result->holdings);
-
-      // If the record doesn't have any materials there's nothing to reserve and
-      // we can return FALSE early. This can happen for online posts from the
-      // library catalog.
-      if (empty($holdings->materials)) {
-        return FALSE;
-      }
-
-      // To determine if this is a periodical we extract the first material and
-      // look for periodical information.
-      $material = reset($holdings->materials);
-
-      // If the object is periodical, the main object should not be reservable.
-      return ($result->reservable && empty($material->periodical));
-  }
-}
-
-/**
  * Get info for patron.
  *
  * Wrapper around ding_user_get_creds() to facilitate testing.

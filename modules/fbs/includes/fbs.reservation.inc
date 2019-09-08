@@ -412,3 +412,42 @@ function fbs_reservation_default_interest_period($account = NULL) {
 
   return $value;
 }
+
+/**
+ * Implements provider reservation, is_reservable.
+ */
+function fbs_reservation_is_reservable($provider_ids) {
+  $return = [];
+
+  // We get the full holdings since we both need to check reservability and
+  // whether FBS considers the object a periodical.
+  try {
+    $results = fbs_service()->Catalog->getHoldings(
+      fbs_service()->agencyId,
+      $provider_ids
+    );
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+    return $return;
+  }
+
+  foreach ($results as $result) {
+    $holdings = reset($result->holdings);
+    // If the record doesn't have any materials there's nothing to reserve and
+    // we can safely set FALSE This can happen for online posts from the library
+    // catalog.
+    if (empty($holdings->materials)) {
+      $return[$result->recordId] = FALSE;
+    }
+    else {
+      // To determine if this is a periodical we extract the first material and
+      // look for periodical information.
+      $material = reset($holdings->materials);
+      // If the object is periodical, the main object should not be reservable.
+      $return[$result->recordId] = ($result->reservable && empty($material->periodical));
+    }
+  }
+
+  return $return;
+}

@@ -866,7 +866,7 @@ function ddbasic_process_ting_object(&$vars) {
             '#weight' => 9998,
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
@@ -874,7 +874,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
@@ -914,7 +914,7 @@ function ddbasic_process_ting_object(&$vars) {
             '#weight' => 9998,
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
@@ -922,7 +922,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
@@ -977,7 +977,7 @@ function ddbasic_process_ting_object(&$vars) {
             ),
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['buttons']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
@@ -985,7 +985,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['buttons']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',

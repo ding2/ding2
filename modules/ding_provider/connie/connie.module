@@ -200,7 +200,8 @@ function connie_availability_periodical($provider_ids) {
  */
 function connie_ding_entity_is($object, $class) {
   switch ($class) {
-    case 'reservable':
+    // Ensure that every entity is identified as library material, so that we
+    // can get reservation buttons when testing.
     case 'library_material':
       return TRUE;
   }
