@@ -953,7 +953,7 @@ function bpi_workflow_by_machine_names($machine_names) {
  * Makes request to ting and checks exist material with such id.
  *
  * @param string $ting_object_id
- *   Faust number.
+ *   The Ting object id.
  *
  * @return mixed
  *   FALSE in case when id not exist
