@@ -415,7 +415,7 @@ function template_preprocess_ding_list_data(&$variables) {
       $variables['button_items'][] = drupal_get_form('ding_list_add_element_form', 'ding_list', $list->getId(), t('Add to lists I follow'));
     }
   }
-  elseif ($list->allowed(DING_LIST_OPERATION_SHARE)) {
+  elseif ($list->allowed(DING_LIST_OPERATION_SHARE) && $list->isOwner()) {
     $variables['button_items'][] = array(
       '#markup' => l(t('Share list'), 'list/' . $list->getId() . '/share', array('attributes' => array('class' => array('ding-list-buttons__share-button button')))),
     );

@@ -63,6 +63,9 @@ function ding_list_remove_element_form_submit($form, &$form_state) {
  *   Title of the add button.
  */
 function ding_list_add_element_form($form, &$form_state, $type, $value, $title) {
+  // Add class to select form in ajax callback.
+  $form['#attributes']['class'][] = $type . '-' . $value;
+
   if (is_array($type)) {
     $type = key($type);
   }
@@ -137,6 +140,8 @@ function ding_list_add_element_form_submit($form, &$form_state) {
       'value' => $value,
     )))->save();
 
+    $form_state['storage']['list_element'] = $element;
+
     if ($element !== FALSE) {
       $form_state['storage']['response_html'] = t('Added to !name', array('!name' => l($list->getTitle(), 'list/' . $list->getId())));
     }
@@ -158,9 +163,18 @@ function ding_list_add_element_form_callback($form, &$form_state) {
     '#commands' => array(),
   );
 
+  // Add popup message.
   $html = theme('ding_list_message', array('message' => $form_state['storage']['response_html']));
-  // Popup.
   $response['#commands'][] = ajax_command_ding_popup('ding_list', t('List'), $html);
+
+  // Replace follow form with unfollow form.
+  if (isset($form_state['storage']['list_element'])) {
+    $element = $form_state['storage']['list_element'];
+    $unfollow_form = drupal_get_form('ding_list_remove_element_form__' . $element->getId(), $element, t('Unfollow list'));
+    $unfollow_form['#action'] = $form['#action'];
+    $unfollow_form_selector = '.' . $form['#attributes']['class'][0];
+    $response['#commands'][] = ajax_command_replace($unfollow_form_selector, render($unfollow_form));
+  }
 
   return $response;
 }
