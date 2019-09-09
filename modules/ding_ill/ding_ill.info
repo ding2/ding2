@@ -2,6 +2,7 @@ name = Ding Interlibrary Loan
 description = Provides interlibrary loan functionality
 core = 7.x
 package = Ding!
+dependencies[] = fbs
 dependencies[] = ding_provider
 dependencies[] = ding_reservation
 files[] = src/DingIllClient.php
