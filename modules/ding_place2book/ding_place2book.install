@@ -219,7 +219,8 @@ function ding_place2book_update_7007(&$sandbox) {
   $chunk = array_slice($nodes, $sandbox['processed'], $limit);
 
   foreach ($chunk as $nid => $node) {
-    list($event_id, $event_maker_id) = array_values($field_place2book);
+    $field_place2book = field_get_items('node', $node, 'field_place2book');
+    list($event_id, $event_maker_id) = array_values($field_place2book[0]);
     try {
       $p2b = ding_place2book_instance();
       $event = $p2b->getEvent($event_maker_id, $event_id);
