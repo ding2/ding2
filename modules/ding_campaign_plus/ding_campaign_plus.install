@@ -72,4 +72,6 @@ function ding_campaign_plus_uninstall() {
  */
 function ding_campaign_plus_update_7001() {
   field_delete_field('field_ding_campaign_plus_track');
+  // Do a lightweight purge to catch any issues early in the deployment.
+  field_purge_batch(10);
 }
