@@ -194,18 +194,23 @@ function ding_place2book_update_7007(&$sandbox) {
   // Get the ding_event nodes we need to consider. We only consider those with
   // an event end-date that hasn't passed. We can't make any assumptions about
   // whether the nodes are publsihed or not, so no condition on $node->status.
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'ding_event')
-    ->fieldCondition('field_ding_event_date', 'value2', gmdate(DATE_FORMAT_DATETIME), '>')
-    ->fieldCondition('field_place2book', 'synchronize', '1', '=')
-    ->fieldCondition('field_place2book', 'event_id', 'NULL', '!=')
-    ->fieldCondition('field_place2book', 'event_maker_id', 'NULL', '!=');
+  if (!isset($sandbox['nodes'])) {
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'ding_event')
+      ->fieldCondition('field_ding_event_date', 'value2', gmdate(DATE_FORMAT_DATETIME), '>')
+      ->fieldCondition('field_place2book', 'synchronize', '1', '=')
+      ->fieldCondition('field_place2book', 'event_id', 'NULL', '!=')
+      ->fieldCondition('field_place2book', 'event_maker_id', 'NULL', '!=');
 
-  $result = $query->execute();
+    $result = $query->execute();
 
-  if (isset($result['node'])) {
-    $nodes = entity_load('node', array_keys($result['node']));
+    if (isset($result['node'])) {
+      $nodes = array_keys($result['node']);
+    }
+  }
+  else {
+    $nodes = $sandbox['nodes'];
   }
 
   if (!isset($sandbox['processed'])) {
@@ -217,6 +222,7 @@ function ding_place2book_update_7007(&$sandbox) {
   // so keep the amount of nodes we process each run low.
   $limit = 10;
   $chunk = array_slice($nodes, $sandbox['processed'], $limit);
+  $chunk = entity_load('node', $chunk);
 
   foreach ($chunk as $nid => $node) {
     $field_place2book = field_get_items('node', $node, 'field_place2book');
