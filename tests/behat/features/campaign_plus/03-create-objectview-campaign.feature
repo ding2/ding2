@@ -18,7 +18,6 @@ Feature: Creation of object view campaigns
       | Text  | Bats 4ever             |
       | Link  | <front>                |
       | Style | Bånd                   |
-      | Tags  | campaign, super heroes |
     And I set the object view trigger with the search query "Batman"
     And I save the campaign
     # View "Batman - Af Tim Burton (2013)"
