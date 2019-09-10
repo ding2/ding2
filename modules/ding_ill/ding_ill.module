@@ -191,6 +191,16 @@ function ding_ill_popup_order($pid) {
 }
 
 /**
+ * Implements hook_preprocess_html().
+ */
+function ding_ill_preprocess_html(&$variables) {
+  // If the material is unavailable, add a class to the body.
+  if ($GLOBALS['ding_ill_material_available'] === FALSE) {
+    $variables['classes_array'][] = 'no-holdings';
+  }
+}
+
+/**
  * Implements hook_ding_entity_buttons().
  */
 function ding_ill_ding_entity_buttons($type, $entity) {
@@ -205,6 +215,10 @@ function ding_ill_ding_entity_buttons($type, $entity) {
 
   if ($ting_object->isOnline() || $available) {
     return $build;
+  }
+  else {
+    // Add global variable to add body class when material is unavailable.
+    $GLOBALS['ding_ill_material_available'] = FALSE;
   }
 
   $options = array(
