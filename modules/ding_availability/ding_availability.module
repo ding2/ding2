@@ -251,10 +251,6 @@ function ding_availability_holdings($provider_ids) {
           'There are @count users in queue to loan the material.');
       }
 
-      if ($total_and_ordered_count == 0) {
-        ddbasic_body_class('no-holdings');
-      }
-
       // Theme the output.
       $item['html'] = theme('ding_holdings', $variables);
     }
