@@ -42,9 +42,9 @@ div.ipe-popup .item-list ul li {
 #ding-ipe-throbber {
   display: block !important;
   background: url("../images/throbber.gif") no-repeat center center;
-  width: 48px;
-  height: 48px;
-  left: 49%;
+  width: 64px;
+  height: 64px;
+  left: 47%;
   top: 48.5%;
   z-index: 1001;
   position: fixed;
