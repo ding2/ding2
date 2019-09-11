@@ -225,3 +225,13 @@ function ding_contact_info() {
 function ding_contact_update_7000() {
   module_enable(array('antibot'));
 }
+
+/**
+ * Update antibot configuration.
+ */
+function ding_contact_update_7001() {
+  variable_set('antibot_form_ids', 'comment_node_*
+user_register_form
+contact_site_form
+webform_client_form_*');
+}
