@@ -16,7 +16,7 @@ build:
 # The build-time dependencies of the app.
 dependencies:
   php:
-    "drush/drush": "^8.0"
+    "drush/drush": "^6.1"
 
 # The relationships of the application with services or other applications.
 #
