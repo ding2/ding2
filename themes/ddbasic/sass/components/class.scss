@@ -162,15 +162,17 @@ body > .ding2-site-template {
   padding: 20px 80px 14px 15px;
   border-radius: $round-corner;
   &.reserve-button,
-  &.button-see-online {
+  &.button-see-online,
+  &.button-order {
     background-color: $black;
     color: $white;
-  }
-  &:hover {
-    background-color: $grey-dark;
-    color: $white;
+    &:hover {
+      background-color: $grey-dark;
+      color: $white;
+    }
   }
   &.button-see-online,
+  &.button-order,
   &.other-formats {
     display: block;
   }
