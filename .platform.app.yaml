@@ -9,6 +9,10 @@ name: 'app'
 # The runtime the application uses.
 type: 'php:7.2'
 
+variables:
+  php:
+    memory_limit: 512M
+
 # Configuration of the build of this application.
 build:
   flavor: drupal
