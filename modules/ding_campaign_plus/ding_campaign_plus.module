@@ -213,9 +213,6 @@ function ding_campaign_plus_form_ding_campaign_plus_node_form_alter(&$form, &$fo
       'rules' => $callback($form_state),
     );
   }
-
-  // Ensures that tracking comes after the triggers when rendered.
-  $form['field_ding_campaign_plus_track']['#weight'] = 11;
 }
 
 /**
@@ -239,9 +236,6 @@ function ding_campaign_plus_preprocess_node(&$variables, $hook) {
         $variables['image_as_background'] = 'background-image: url(' . $image_url . ')';
         break;
     }
-
-    // Add campaign tracking id.
-    $variables['wt_mc_id'] = $wrapper->field_ding_campaign_plus_track->value();
 
     // Add campaign URL.
     $variables['campaign_url'] = $wrapper->field_ding_campaign_plus_link->url->value();

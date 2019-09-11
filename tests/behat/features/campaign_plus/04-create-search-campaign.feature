@@ -16,7 +16,6 @@ Feature: Creation of search campaigns
       | Text  | Bats 4ever             |
       | Link  | <front>                |
       | Style | Bånd                   |
-      | Tags  | campaign, super heroes |
     And I set the search trigger with the search query "Batman"
     And I save the campaign
     And I have searched for "Batman"

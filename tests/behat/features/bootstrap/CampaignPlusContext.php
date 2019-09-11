@@ -47,7 +47,6 @@ class CampaignPlusContext extends RawMinkContext {
    *  | Text  | Go Batman!      |
    *  | Link  | <front>         |
    *  | Style | Bånd            |
-   *  | Tags  | Superheroes     |
    *
    * @When /^(?:|I )fill a campaign with the following:$/
    */
@@ -74,16 +73,12 @@ class CampaignPlusContext extends RawMinkContext {
           $style = $value;
           break;
 
-        case 'Tags':
-          $tags = explode(',', $value);
-          break;
-
         default:
           throw new UnexpectedValueException('Unknown Campaign Field: ' . $field);
       }
     }
 
-    $this->createCampaignPage->fillCampaignContent($title, $type, $text, $link, $style, $tags);
+    $this->createCampaignPage->fillCampaignContent($title, $type, $text, $link, $style);
   }
 
   /**

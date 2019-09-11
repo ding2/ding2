@@ -13,7 +13,6 @@ Feature: Creation of facet campaigns
       | Text  | Bats 4ever             |
       | Link  | <front>                |
       | Style | Boks                   |
-      | Tags  | campaign, super heroes |
 
   @api @campaign_plus @regression @cci
   Scenario: Subject search - Create a 'facet' campaign that only shows on search for "subject=børn"

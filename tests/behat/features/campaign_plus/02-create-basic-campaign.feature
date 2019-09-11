@@ -20,7 +20,6 @@ Feature: Creation of basic campaigns
       | Text  | Bats 4ever             |
       | Link  | <front>                |
       | Style | Boks                   |
-      | Tags  | campaign, super heroes |
     And I add a basic trigger with the following:
       | Rule type  | Side               |
       | Rule value | Page with campaign |
