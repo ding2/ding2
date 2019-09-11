@@ -139,7 +139,7 @@
 
           if (group.length === 0) {
             var msg = Drupal.t('Not available');
-            if (Drupal.settings.ding_ill) {
+            if (Drupal.settings.hasOwnProperty('ding_ill')) {
               var msg = Drupal.t('Order from another library');
             }
             group = $('<p class="js-unavailable">' + msg + ': </p>');
