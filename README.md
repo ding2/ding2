@@ -102,7 +102,7 @@ process using drush make. It will download all the modules and the theme from
 the different repositories at http://github.com/ding2
 ```sh
   ~$ cd DRUPAL/profiles/ding2
-  ~$ drush make --no-core --contrib-destination=. ding2.make
+  ~$ drush make --no-core --contrib-destination=. project.make
 ```
 
 ### Development
@@ -111,7 +111,7 @@ run this command instead. It is because drush automatically deletes _.git_
 folders after it has cloned the repositories and by adding _--working-copy_, it
 will not delete these.
 ```sh
-  ~$ drush make --no-core --working-copy --contrib-destination=. ding2.make
+  ~$ drush make --no-core --working-copy --contrib-destination=. project.make
 ```
 ### Site installation 
 Go to the url for your site, run the ding2 installation profile and fill out
@@ -147,7 +147,7 @@ If you are using an deployment system you may not want to patch Drupal core
 manually in a production environment.
 ```sh
   ~$ git clone git@github.com:ding2/ding2.git ding2
-  ~$ drush make --working-copy --contrib-destination=profiles/ding2 ding2/drupal.make .
+  ~$ drush make --working-copy --contrib-destination=profiles/ding2 ding2/project.make .
   ~$ rm -rf ding2
 ```
 
