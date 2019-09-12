@@ -61388,6 +61388,9 @@ msgstr "\"Hvis du ønsker at der skal vises yderligere tekst på den globale \"e
 msgid "\"!sender-name (!sender-url) sent a message using the contact form at \"!form-url."
 msgstr "\"!sender-name (!sender-url) sendte en besked via kontaktformularen på \"!form-url."
 
+msgid "The user's email is !sender-mail."
+msgstr "Brugerens email er !sender-mail."
+
 msgid "\"!sender-name (!sender-url) has sent you a message via your contact \"form (!form-url) at !site-name."
 msgstr "\"!sender-name (!sender-url) har sendt dig en besked via din \"kontaktformular (!form-url) på !site-name."
 

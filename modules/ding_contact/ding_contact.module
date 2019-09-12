@@ -84,6 +84,21 @@ function ding_contact_mail_alter(&$message) {
       $message['headers']['From'] = $from_value;
       $message['headers']['Reply-To'] = $message['params']['mail'];
       $message['headers']['Sender'] = $sitename;
+
+      // If it is not an anonymous user that has filled out the form,
+      // we want ot make sure their email is included in the message.
+      if (!empty($message['params']['sender']->uid)) {
+        $message['body'][0] .= ' ' . t(
+          "The user's email is !sender-mail.",
+          array(
+            '!sender-mail' => $message['params']['sender']->mail,
+          ),
+          array(
+            'langcode' => $message['language']->language,
+          )
+        );
+      }
+
       break;
   }
 }
