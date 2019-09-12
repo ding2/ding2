@@ -49,8 +49,6 @@ function ding_user_preprocess_html(&$variables) {
           // If user forms are enabled goto the login dropdown.
           drupal_goto('', array('fragment' => 'login'));
         }
-
-        drupal_goto('<front>');
       }
     }
   }
