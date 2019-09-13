@@ -14,3 +14,23 @@ function ding_adgangsplatformen_install() {
     ->condition('name', 'ding_adgangsplatformen', '=')
     ->execute();
 }
+
+/**
+ * Implements hook_enable().
+ *
+ * Disable ding_user_form to ensure that non-provider users can login.
+ */
+function ding_adgangsplatformen_enable() {
+  if (module_exists('ding_user_form')) {
+    module_disable(array('ding_user_form'), TRUE);
+  }
+}
+
+/**
+ * Disable ding_user_forms, if enabled.
+ */
+function ding_adgangsplatformen_update_7100() {
+  if (module_exists('ding_user_form')) {
+    module_disable(array('ding_user_form'), TRUE);
+  }
+}

@@ -1,0 +1,16 @@
+<?php
+/**
+ * @file
+ * Handle module installation.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Disable ding_adgangsplatformen to ensure that non-provider users can login.
+ */
+function ding_user_form_enable() {
+  if (module_exists('ding_adgangsplatformen')) {
+    module_disable(array('ding_adgangsplatformen'), TRUE);
+  }
+}
