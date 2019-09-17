@@ -265,7 +265,7 @@ function opensearch_admin_settings($form_state) {
   $form['opensearch']['opensearch_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Search service URL'),
-    '#description' => t('URL to the Ting search webservice, e.g. https://opensearch.addi.dk/b3.5_5.0/'),
+    '#description' => t('URL to the Ting search webservice, e.g. https://opensearch.addi.dk/b3.5_5.2/'),
     '#required' => TRUE,
     '#default_value' => variable_get('opensearch_url', ''),
   );
