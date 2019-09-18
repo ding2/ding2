@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ding user settings.
@@ -38,6 +39,3 @@ function ding_user_admin_setting_form($form, &$form_state) {
 
   return system_settings_form($form);
 }
-
-
-
