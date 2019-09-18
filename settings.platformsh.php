@@ -64,3 +64,28 @@ if (isset($_ENV['PLATFORM_VARIABLES'])) {
 if (isset($_ENV['PLATFORM_PROJECT_ENTROPY']) && empty($drupal_hash_salt)) {
   $drupal_hash_salt = $_ENV['PLATFORM_PROJECT_ENTROPY'];
 }
+
+// Setup Memcache
+if (!empty($_ENV['PLATFORM_RELATIONSHIPS']) && extension_loaded('memcached')) {
+  $relationships = json_decode(base64_decode($_ENV['PLATFORM_RELATIONSHIPS']), true);
+
+  // If you named your memcached relationship something other than "cache", set that here.
+  $relationship_name = 'cache';
+
+  if (!empty($relationships[$relationship_name])) {
+    // These lines tell Drupal to use memcached as a backend.
+    // Comment out just these lines if you need to disable it for some reason and
+    // fall back to the default database cache.
+    $conf['cache_backends'][] = 'profiles/ding2/modules/contrib/memcache/memcache.inc';
+    $conf['cache_default_class'] = 'MemCacheDrupal';
+    $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
+
+    // While we're at it, use Memcache for locking, too.
+    $conf['lock_inc'] = 'profiles/ding2/modules/contrib/memcache/memcache-lock.inc';
+
+    foreach ($relationships[$relationship_name] as $endpoint) {
+      $host = sprintf("%s:%d", $endpoint['host'], $endpoint['port']);
+      $conf['memcache_servers'][$host] = 'default';
+    }
+  }
+}
