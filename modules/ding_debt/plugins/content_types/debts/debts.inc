@@ -234,4 +234,3 @@ function ding_debt_debts_perform_payment($debts, $amount, &$form_state) {
     }
   }
 }
-
