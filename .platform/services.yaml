@@ -7,6 +7,9 @@ mysqldb:
   type: mysql:10.2
   disk: 2048
 
+memcached:
+  type: memcached:1.4
+
 #rediscache:
 #    type: redis:3.0
 #

@@ -9,6 +9,10 @@ name: 'app'
 # The runtime the application uses.
 type: 'php:7.0'
 
+runtime:
+  extensions:
+    - memcached
+
 variables:
   php:
     memory_limit: 512M
@@ -29,6 +33,7 @@ dependencies:
 # side is in the form `<service name>:<endpoint name>`.
 relationships:
   database: 'mysqldb:mysql'
+  cache: "memcached:memcached"
 #    solr: 'solrsearch:solr'
 #    redis: 'rediscache:redis'
 
