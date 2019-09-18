@@ -83,6 +83,15 @@ function ding_user_ctools_plugin_api($module, $api) {
 function ding_user_menu() {
   $items = array();
 
+  $items['admin/config/ding/user'] = array(
+    'title' => 'Ding user settings',
+    'description' => 'Administer ding_user settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_user_admin_setting_form'),
+    'access arguments' => array('administer user settings'),
+    'file' => 'ding_user.admin.inc',
+  );
+
   $items['ding_user/expire_sessions/cron'] = array(
     'title' => 'Lightweight expire session cron',
     'description' => 'Run the lightweight expire inacitve provider sessions cron job',
