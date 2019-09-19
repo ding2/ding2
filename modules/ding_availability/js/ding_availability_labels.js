@@ -43,7 +43,7 @@
             $.each(settings.ding_availability, function(id, entity_ids) {
               if (id.match(/^availability-/)) {
                 // Update availability indicators.
-                update_availability(id, entity_ids);
+                update_availability(id, entity_ids[0]);
               }
             });
             update_availability_remove_pending();
@@ -57,7 +57,7 @@
         // Apply already fetched availability, if any.
         if (settings.hasOwnProperty('ding_availability')) {
           $.each(settings.ding_availability, function(id, entity_ids) {
-            update_availability(id, entity_ids);
+            update_availability(id, entity_ids[0]);
           });
           update_availability_remove_pending();
         }
@@ -72,10 +72,10 @@
        *
        * @param id
        *   The element id that this should target.
-       * @param entity_ids
-       *   Array of entities.
+       * @param entity_id
+       *   Updated entity.
        */
-      function update_availability(id, entity_ids) {
+      function update_availability(id, entity_id) {
         // Default the status to not available and not reservable.
         var status = {
           available: false,
@@ -84,15 +84,15 @@
 
         // Loop over the entity ids and if one has available or reservable
         // true save that value.
-        $.each(entity_ids, function(index, entity_id) {
-          if (Drupal.DADB[entity_id]) {
-            status.available = status.available || Drupal.DADB[entity_id]['available'];
-            status.reservable = status.reservable || Drupal.DADB[entity_id]['reservable'];
-          }
-        });
+        if (Drupal.DADB[entity_id]) {
+          status.available = status.available || Drupal.DADB[entity_id].available;
+          status.reservable = status.reservable || Drupal.DADB[entity_id].reservable;
+        }
 
         var element = $('#' + id);
-        element.removeClass('pending').addClass('processed');
+        if (element.hasClass('pending')) {
+          element.removeClass('pending').addClass('processed');
+        }
 
         // Get hold of the reserve button (it hidden as default, so we may need
         // to show it).
@@ -112,8 +112,8 @@
        */
       function update_availability_type(element, status) {
         var groups_wrapper = element.closest('.search-result--availability');
-        var reservable = status['reservable'];
-        var available = status['available'];
+        var reservable = status.reservable;
+        var available = status.available;
 
         var group = null;
         if (available) {
@@ -121,11 +121,8 @@
 
           if (group.length === 0) {
             group = $('<p class="js-available">' + Drupal.t('Available') + ': </p>');
-            groups_wrapper.append(group);
           }
-          else if ($('.js-online', groups_wrapper).length !== 0) {
-            group = $('.js-online', groups_wrapper);
-          }
+          groups_wrapper.append(group);
         }
         else if (reservable) {
           group = $('.js-reservable', groups_wrapper);
@@ -191,15 +188,6 @@
           if (status[i] === true) {
             class_name = i;
           }
-          else {
-            if (i === 'available') {
-              class_name = 'un' + i;
-            }
-            else if (i === 'reservable') {
-              class_name = 'not-' + i;
-            }
-          }
-
           element.addClass(class_name);
           if (btn.length) {
             btn.addClass(class_name);
