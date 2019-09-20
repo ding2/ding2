@@ -13,23 +13,21 @@
           }
         });
 
-        if ($(this).find('.ding_nodelist-items').hasClass('slick-initialized') === false) {
-          $(this).find('.ding_nodelist-items').slick({
-            nextArrow: '<i class="icon-next"></i>',
-            prevArrow: '<i class="icon-prev"></i>',
-            autoplay: true,
-            speed: 500,
-            autoplaySpeed: delay,
-            responsive: true,
-            dots: true,
-            infinite: true,
-            slidesToScroll: 1,
-            slidesToShow: 1,
-            customPaging: function (slick, index) {
-              return '<a>' + (index + 1) + '</a>';
-            }
-          });
-        }
+        $(this).find('.ding_nodelist-items:not(.slick-initialized)').slick({
+          nextArrow: '<i class="icon-next"></i>',
+          prevArrow: '<i class="icon-prev"></i>',
+          autoplay: true,
+          speed: 500,
+          autoplaySpeed: delay,
+          responsive: true,
+          dots: true,
+          infinite: true,
+          slidesToScroll: 1,
+          slidesToShow: 1,
+          customPaging: function (slick, index) {
+            return '<a>' + (index + 1) + '</a>';
+          }
+        });
       });
     }
   };
