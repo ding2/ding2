@@ -79,6 +79,7 @@ function ding_debt_debts_form($form, &$form_state, $debts, $has_invoiced_fees, $
     $form['accept_terms'] = array(
       '#type' => 'checkbox',
       '#title' => t('I accept the terms of service'),
+      '#required' => TRUE,
     );
 
     $provider = ding_provider_get_provider_module_name('payment');
