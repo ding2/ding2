@@ -1,0 +1,4 @@
+name = Ding SEO
+description = Provides various SEO functionality to ding2
+package = Ding!
+core = "7.x"
