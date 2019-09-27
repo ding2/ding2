@@ -365,6 +365,9 @@ projects[rules][version] = "2.7"
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.5"
 
+projects[schema_metatag][subdir] = "contrib"
+projects[schema_metatag][version] = "1.3"
+
 ; Patched with "Secure Permissions fails with features and multilingual"
 projects[secure_permissions][type] = "module"
 projects[secure_permissions][subdir] = "contrib"
