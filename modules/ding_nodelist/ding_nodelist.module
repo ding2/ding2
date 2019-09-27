@@ -1885,7 +1885,7 @@ function ding_nodelist_preprocess(&$variables, $hook) {
 
       $links = array();
       foreach ($variables['links'] as $link) {
-        $links[] = l(t('@text', array('@text' => $link['text'])), $link['links']);
+        $links[] = l(t($link['text']), $link['links']);
       }
       $variables['links'] = $links;
       $variables['items'] = $items;
