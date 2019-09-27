@@ -4,3 +4,29 @@
  * @file
  * Ding SEO module file.
  */
+
+ /**
+ * Implements hook_metatag_get_entity_metatags_instance_alter().
+ *
+ * Note: appearently this hook has to reside in module file and can not be in
+ * ding_seo.metatag.inc. or else it will ONLY be called on first page load
+ * after a cache clear. Investigate why this happens?
+ */
+function ding_seo_metatag_get_entity_metatags_instance_alter(&$instance, $entity, $entity_type, $bundle) {
+  if ($entity_type == 'ting_object') {
+    // TODO: The mapping from schema types to material types should be decided
+    // by the search provider. There's possible mutliple material types that can
+    // map to a schema type and the values can vary between providers.
+    // Solutions:
+    // 1. A hook named something like material_schema_type($types, $entity)
+    // 2. A new search provider hook (ding_provider).
+    switch (drupal_strtolower($entity->getType())) {
+      case 'bog':
+        $instance = 'ting_object:book';
+        break;
+      case 'film (net)':
+        $instance = 'ting_object:movie';
+        break;
+    }
+  }
+}

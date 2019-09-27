@@ -4,3 +4,11 @@
  * @file
  * Ding SEO install file.
  */
+
+/**
+ * Implements hook_install().
+ */
+function ding_seo_install() {
+  // Ensure the ting_object global metatag config is enabled.
+  variable_set('metatag_enable_ting_object', TRUE);
+}
