@@ -996,4 +996,27 @@ function ding2_update_7085() {
 function ding2_update_7086() {
   module_disable(['ting_covers_addi']);
   module_enable(['ting_covers_ddb']);
+
+/**
+ * Remove Webtrends specific info from cookie page.
+ */
+function ding2_update_7087() {
+  // If we can find the old cookie information page make a backup, so we don't
+  // lose any information added by administrative users.
+  if ($path = drupal_lookup_path('source', 'cookies')) {
+    $path = explode('/', $path);
+    $node = node_load($path[1]);
+    $node->is_new = TRUE;
+    $node->title .= ' (BACKUP)';
+    unset($node->nid);
+    unset($node->vid);
+    unset($node->tnid);
+    // Also handle modules that attach a UUID to the node.
+    unset($node->uuid);
+    unset($node->vuuid);
+    node_save($node);
+  }
+  // Set a new generic cookie information page. This time without any specific
+  // information about which analytics tool we use.
+  ding2_set_cookie_page();
 }
