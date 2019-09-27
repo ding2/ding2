@@ -37,6 +37,10 @@ function ting_token_info() {
     'name' => t('Author inverted'),
     'description' => t('The author of the material inverted'),
   ];
+  $info['tokens']['ting_object']['abstract'] = [
+    'name' => t('Abstract'),
+    'description' => t('A short resume of the material'),
+  ];
 
   return $info;
 }
@@ -62,6 +66,10 @@ function ting_tokens($type, $tokens, array $data, array $options) {
           break;
         case 'author_inverted':
           $replacements[$original] = implode(', ', $ting_object->getInvertedCreators());
+          break;
+        case 'abstract':
+          $replacements[$original] = $ting_object->getAbstract();
+          break;
       }
 
       if ($sanitize) {
