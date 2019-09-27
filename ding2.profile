@@ -774,6 +774,23 @@ function ding2_set_cookie_page() {
 }
 
 /**
+ * Get the nid of the current node used as cookie page.
+ *
+ * @return mixed $nid
+ *  The node ID of the cookie page node.
+ *  FALSE if no cookie page node was found.
+ */
+function ding2_get_cookie_node_nid() {
+  $nid = FALSE;
+  $path = drupal_lookup_path('source', 'cookies');
+  if ($path && strpos($path, 'node/') === 0) {
+    $path = explode('/', $path);
+    $nid = $path[1];
+  }
+  return $nid;
+}
+
+/**
  * Sets the standard ding2 settings for EU cookie compliance module.
  */
 function ding2_set_eu_cookie_compliance_settings() {

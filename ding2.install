@@ -1003,9 +1003,8 @@ function ding2_update_7086() {
 function ding2_update_7087() {
   // If we can find the old cookie information page make a backup, so we don't
   // lose any information added by administrative users.
-  if ($path = drupal_lookup_path('source', 'cookies')) {
-    $path = explode('/', $path);
-    $node = node_load($path[1]);
+  if ($nid = ding2_get_cookie_node_nid()) {
+    $node = node_load($nid);
     $node->is_new = TRUE;
     $node->title .= ' (BACKUP)';
     unset($node->nid);
