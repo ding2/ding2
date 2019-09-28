@@ -14,19 +14,40 @@
  */
 function ding_seo_metatag_get_entity_metatags_instance_alter(&$instance, $entity, $entity_type, $bundle) {
   if ($entity_type == 'ting_object') {
-    // TODO: The mapping from schema types to material types should be decided
-    // by the search provider. There's possible mutliple material types that can
-    // map to a schema type and the values can vary between providers.
-    // Solutions:
-    // 1. A hook named something like material_schema_type($types, $entity)
-    // 2. A new search provider hook (ding_provider).
-    switch (drupal_strtolower($entity->getType())) {
-      case 'bog':
-        $instance = 'ting_object:book';
-        break;
-      case 'film (net)':
-        $instance = 'ting_object:movie';
-        break;
+    // Use simple material type checking for now to decide a ting objects schema
+    // type. We will have to get more complex in the future, when we have to
+    // distinguish between movies and tv-series for example. Also if we wish to
+    // be provider independant we need a mechanism to avoid hard coded values.
+    // For now this is opensearch speficic anb based and DKABM types:
+    // http://www.danbib.dk/docs/abm/types.xml
+    $material_type = drupal_strtolower($entity->getType());
+
+    $schema_type_mapping = [
+      'book' => [
+        'bog',
+        'bog stor skrift',
+        'billedbog',
+        'ebog',
+        'lydbog (bånd)',
+        'lydbog (cd)',
+        'lydbog (net)',
+        'lydbog (cd-mp3)',
+        'årbog',
+      ],
+      'movie' => [
+        'dvd',
+        'dvd (film)',
+        'blu-ray',
+        'film',
+        'film (net)',
+      ]
+    ];
+
+    foreach ($schema_type_mapping as $schema_type => $material_types) {
+      if (in_array($material_type, $material_types)) {
+        $instance = 'ting_object:' . $schema_type;
+        return;
+      }
     }
   }
 }
