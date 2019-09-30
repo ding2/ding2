@@ -106,6 +106,13 @@ function ding2_install() {
     module_disable(array('overlay'));
   }
 
+  // Enable ding_user_form to allow provider login. It's enabled here as
+  //new/local sites should use "user form" and updated production should via
+  // update hooks turn on adgangsplatformen.
+  if (module_exists('ding_user_form')) {
+    module_enable(array('ding_user_form'));
+  }
+
   // Ignore any rebuild messages.
   node_access_needs_rebuild(FALSE);
 

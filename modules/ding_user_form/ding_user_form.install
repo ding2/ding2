@@ -6,7 +6,7 @@
  */
 
 /**
- * Implements hook_install().
+ * Implements hook_enable().
  *
  * Disable ding_adgangsplatformen to ensure that non-provider users can login.
  */
