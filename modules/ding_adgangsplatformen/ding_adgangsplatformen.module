@@ -334,6 +334,18 @@ function ding_adgangsplatformen_callback() {
       $user_info = $response->getBody()->getContents();
       $user_info = drupal_json_decode($user_info);
 
+      //
+      // HACK: this invalidates the access token and should be removed later on.
+      //       This only exists to get around pre-authentication issues
+      //       currently in FBS.
+      //
+      $request = $provider->getAuthenticatedRequest('DELETE', 'https://login.bib.dk/oauth/revoke', $access_token);
+      $response = $provider->getResponse($request);
+      if ($response->getStatusCode() != 200) {
+        watchdog('ding_adgangsplatformen', "https://login.bib.dk/oauth/revoke returned status code: %code", array('%code' => $response->getStatusCode()), WATCHDOG_CRITICAL);
+      }
+      unset($_SESSION['oauth2token']);
+
       if (module_exists('ding_registration') && ding_registration_is_registration_request()) {
         // This is an self registration request, so we store the information in
         // the current session. So it can be used to create the user in the
@@ -439,7 +451,14 @@ function _ding_adgangsplatformen_provider_login(array $user_info) {
   try {
     $account = ding_user_authenticate(array(
       'name' => $user_info['attributes']['userId'],
+      //
+      // HACK: The pincode used here should be removed later on.
+      //       This only exists to get around pre-authentication issues
+      //       currently in FBS.
+      //
+      'pass' => isset($user_info['attributes']['pincode']) ?? $user_info['attributes']['pincode'],
       'extra' => $user_info,
+      'single_sign_on' => !is_null($user_info['attributes']['cpr']),
     ));
 
     if ($account !== FALSE) {
