@@ -88,51 +88,6 @@ function ding_campaign_admin_paths() {
 }
 
 /**
- * Implements hook_theme().
- */
-function ding_campaign_theme($existing, $type, $theme, $path) {
-  return array(
-    'ding_campaign_wrapper' => array(
-      'variables' => array(
-        'content' => NULL,
-      ),
-      'template' => 'ding-campaign-wrapper',
-      'path' => $path . '/templates',
-    ),
-    'ding_campaign_grid_wrapper' => array(
-      'variables' => array(
-        'content' => NULL,
-        'more_link' => NULL,
-      ),
-      'template' => 'ding-campaign-grid-wrapper',
-      'path' => $path . '/templates',
-    ),
-    'ding_campaign' => array(
-      'variables' => array(
-        'title' => NULL,
-        'type' => NULL,
-        'link' => NULL,
-        'image' => NULL,
-        'text' => NULL,
-      ),
-      'template' => 'ding-campaign',
-      'path' => $path . '/templates',
-    ),
-    'ding_campaign_grid' => array(
-      'variables' => array(
-        'title' => NULL,
-        'image' => NULL,
-        'description' => NULL,
-        'link' => NULL,
-        'options' => NULL,
-      ),
-      'template' => 'ding-campaign-grid',
-      'path' => $path . '/templates',
-    ),
-  );
-}
-
-/**
  * Implements hook_preprocess_ding_campaign().
  *
  * Add template suggestions that can be used by the base theme.
