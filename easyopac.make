@@ -47,6 +47,12 @@ projects[ding_calendar][download][url]    = "git@github.com:easySuite/ding_calen
 ;projects[ding_calendar][download][tag]    = "7.x-3.0.2"
 projects[ding_calendar][download][branch] = "development"
 
+projects[ding_campaign_plus_extra][type]             = "module"
+projects[ding_campaign_plus_extra][subdir]           = ""
+projects[ding_campaign_plus_extra][download][type]   = "git"
+projects[ding_campaign_plus_extra][download][url]    = "git@github.com:easySuite/ding_campaign_plus_extra.git"
+projects[ding_campaign_plus_extra][download][branch] = "development"
+
 projects[ding_collection_reservation][type]             = "module"
 projects[ding_collection_reservation][subdir]           = ""
 projects[ding_collection_reservation][download][type]   = "git"
