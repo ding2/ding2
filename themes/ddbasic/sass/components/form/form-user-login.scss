@@ -45,7 +45,6 @@
   }
   .form-item {
     width: 100%;
-    float: left;
     margin: 0 0 15px;
     > label {
       display: none;
@@ -64,6 +63,7 @@
   }
   .form-actions {
     margin-bottom: 20px;
+    max-width: 400px;
   }
   .submit-button-with-icon {
     .color-and-icon {
