@@ -463,8 +463,12 @@ function ding_news_field_default_field_instances() {
       ),
       'search_result' => array(
         'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'ting_cover_small',
+        ),
+        'type' => 'image',
         'weight' => 4,
       ),
       'teaser' => array(

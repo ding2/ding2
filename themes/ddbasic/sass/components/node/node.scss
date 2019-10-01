@@ -20,9 +20,23 @@
     padding: 15px;
     box-sizing: border-box;
     background-color: $grey;
+
+    div.search-left {
+      float: left;
+      margin-top: 10px;
+      width: getColumn(2 of 7);
+    }
+
+    div.search-right {
+      float: right;
+      margin-top: 10px;
+      width: getColumn(5 of 7);
+      word-wrap: break-word;
+    }
   }
   .view-mode-search-result-content-type {
     margin-bottom: 10px;
+    float: right;
   }
   h3.title {
     width: getColumn(6 of 8);

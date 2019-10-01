@@ -76,6 +76,19 @@
 
     .view-mode-search-result-content-type {
       margin-bottom: 10px;
+      float: right;
+    }
+
+    div.search-left {
+      float: left;
+      margin-top: 10px;
+      width: getColumn(2 of 7);
+    }
+
+    div.search-right {
+      float: right;
+      margin-top: 10px;
+      width: getColumn(5 of 7);
     }
 
     h2 {
