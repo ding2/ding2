@@ -871,38 +871,6 @@
       margin-bottom: 20px;
     }
   }
-  .views-widget-filter-combine {
-    width: 100%;
-
-    // Tablet
-    @include media($tablet) {
-      @include span-columns(4);
-    }
-
-    // Mobile
-    @include media($mobile) {
-      width: 100%;
-      margin-right: 0;
-    }
-  }
-  .views-widget-filter-field_ding_event_date_value,
-  .views-widget-filter-field_ding_event_date_value_1 {
-    @include span-columns(2 of 4);
-
-    // Tablet
-    @include media($tablet) {
-      @include span-columns(4);
-    }
-
-    // Mobile
-    @include media($mobile) {
-      width: 100%;
-      margin-right: 0;
-    }
-  }
-  .views-widget-filter-field_ding_event_date_value_1 {
-    @include omega();
-  }
   label:not(.option) {
     @include font('display-small');
     font-weight: normal;

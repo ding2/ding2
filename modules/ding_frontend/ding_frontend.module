@@ -62,12 +62,6 @@ function ding_frontend_menu() {
     'type' => MENU_NORMAL_ITEM,
   );
 
-  $items['ding-frontend/tags-autocomplete'] = array(
-    'page callback' => 'ding_frontend_tags_autocomplete',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK
-  );
-
   return $items;
 }
 
@@ -208,13 +202,6 @@ function ding_frontend_query_alter($query) {
  */
 function ding_frontend_change_maintenance_mode($maintenance_mode) {
   cache_clear_all();
-}
-
-/**
- * Implements hook_views_pre_execute().
- */
-function ding_frontend_views_pre_execute(&$view) {
-  $a =1;
 }
 
 /**
