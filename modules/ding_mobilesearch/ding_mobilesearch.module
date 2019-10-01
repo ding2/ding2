@@ -622,6 +622,14 @@ function _ding_mobilesearch_opening_hours_update_worker($nid) {
  * Implements hook_scheduler_api().
  */
 function ding_mobilesearch_scheduler_api($node, $action) {
+  /** @var \flag_flag $flag */
+  $flag = flag_get_flag('push_to_mongo');
+  $needs_update = $flag && $flag->is_flagged($node->nid);
+
+  if (!$needs_update) {
+    return;
+  }
+
   switch ($action) {
     case 'publish':
     case 'unpublish':
