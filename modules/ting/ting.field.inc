@@ -403,7 +403,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         $is_default_language = $language == $default_language;
 
         if ($is_title_suffix_type && $has_language && !$is_default_language) {
-          $title .= " ($language)";
+          $title .= ' (' . t($language) . ')';
         }
 
         $element[$delta] = array(
