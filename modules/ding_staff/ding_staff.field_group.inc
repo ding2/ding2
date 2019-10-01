@@ -134,6 +134,38 @@ function ding_staff_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_left_col_search|profile2|ding_staff_profile|search_result';
+  $field_group->group_name = 'group_left_col_search';
+  $field_group->entity_type = 'profile2';
+  $field_group->bundle = 'ding_staff_profile';
+  $field_group->mode = 'search_result';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Left column',
+    'weight' => '1',
+    'children' => array(
+      0 => 'field_ding_staff_image',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Left column',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'search-left',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_left_col_search|profile2|ding_staff_profile|search_result'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_left|profile2|ding_staff_profile|default';
   $field_group->group_name = 'group_left';
   $field_group->entity_type = 'profile2';
@@ -161,6 +193,40 @@ function ding_staff_field_group_info() {
     ),
   );
   $field_groups['group_left|profile2|ding_staff_profile|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_right_col_search|profile2|ding_staff_profile|search_result';
+  $field_group->group_name = 'group_right_col_search';
+  $field_group->entity_type = 'profile2';
+  $field_group->bundle = 'ding_staff_profile';
+  $field_group->mode = 'search_result';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Right column',
+    'weight' => '2',
+    'children' => array(
+      0 => 'field_ding_staff_email',
+      1 => 'field_ding_staff_phone',
+      2 => 'og_group_ref',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Right column',
+      'instance_settings' => array(
+        'id' => '',
+        'classes' => 'search-right',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $field_groups['group_right_col_search|profile2|ding_staff_profile|search_result'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -201,6 +267,7 @@ function ding_staff_field_group_info() {
   // Included for use with string extractors like potx.
   t('Contact');
   t('Contact info');
+  t('Left column');
   t('Name');
   t('Organisation');
   t('Right column');
