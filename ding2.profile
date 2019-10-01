@@ -781,13 +781,12 @@ function ding2_set_cookie_page() {
  *  FALSE if no cookie page node was found.
  */
 function ding2_get_cookie_node_nid() {
-  $nid = FALSE;
   $path = drupal_lookup_path('source', 'cookies');
   if ($path && strpos($path, 'node/') === 0) {
     $path = explode('/', $path);
-    $nid = $path[1];
+    return $path[1];
   }
-  return $nid;
+  return FALSE;
 }
 
 /**
