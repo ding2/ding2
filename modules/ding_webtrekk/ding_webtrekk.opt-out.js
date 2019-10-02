@@ -7,7 +7,7 @@
 
   "use strict";
 
-  Drupal.behaviors.ding_webtrekk = {
+  Drupal.behaviors.ding_webtrekk_opt_out = {
     attach: function(context) {
       $('.webtrekk-opt-out', context).click(function(e) {
         e.preventDefault();
