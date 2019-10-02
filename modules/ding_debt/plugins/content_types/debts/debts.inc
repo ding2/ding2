@@ -76,6 +76,12 @@ function ding_debt_debts_form($form, &$form_state, $debts, $has_invoiced_fees, $
       '#value' => $debts,
     );
 
+    $form['accept_terms'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('I accept the terms of service'),
+      '#required' => TRUE,
+    );
+
     $provider = ding_provider_get_provider_module_name('payment');
     if (!empty($provider)) {
       $form['pay_selected'] = array(
@@ -84,6 +90,11 @@ function ding_debt_debts_form($form, &$form_state, $debts, $has_invoiced_fees, $
         '#value' => t('Pay selected debts'),
         '#suffix' => '</div>',
         '#submit' => array('ding_debt_debts_form_submit_pay_selected'),
+        '#states' => array(
+          'disabled' => array(
+            ':input[name="accept_terms"]' => array('checked' => FALSE),
+          ),
+        ),
       );
 
       $form['pay_all'] = array(
@@ -92,6 +103,11 @@ function ding_debt_debts_form($form, &$form_state, $debts, $has_invoiced_fees, $
         '#value' => t('Pay all debts'),
         '#suffix' => '</div>',
         '#submit' => array('ding_debt_debts_form_submit_pay_all'),
+        '#states' => array(
+          'disabled' => array(
+            ':input[name="accept_terms"]' => array('checked' => FALSE),
+          ),
+        ),
       );
     }
   }
@@ -219,4 +235,3 @@ function ding_debt_debts_perform_payment($debts, $amount, &$form_state) {
     }
   }
 }
-

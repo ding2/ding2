@@ -67546,3 +67546,7 @@ msgstr "Gratis"
 msgctxt "Rating"
 msgid "Rate this !number / 5 stars"
 msgstr "Bedøm dette !number / 5 stjerner"
+
+#: /user/me/status-debts
+msgid "I accept the terms of service"
+msgstr "Jeg accepterer betalingsbetingelserne"
