@@ -135,7 +135,7 @@ function ding_user_authenticate(array $user_info) {
   $account = FALSE;
 
   try {
-    if (!array_key_exists('pass', $user_info)) {
+    if (array_key_exists('single_sign_on', $user_info) && $user_info['single_sign_on'] == TRUE) {
       // No password provided by the authentication request (not even the empty
       // string), so we assume that this is a single-sign-on request.
       $auth_res = ding_provider_invoke('auth', 'single_sign_on', $user_info['name']);
@@ -146,7 +146,7 @@ function ding_user_authenticate(array $user_info) {
     }
     else {
       // Normal user log in request.
-      $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass'], $sso);
+      $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass']);
     }
   }
   catch (DingProviderNoProvider $exception) {
