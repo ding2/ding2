@@ -32,6 +32,9 @@ function ding_seo_metatag_export_default() {
       'schema_book.description' => array(
         'value' => '[ting_object:ting_abstract]',
       ),
+      'schema_book.image' => array(
+        'value' => 'a:5:{s:5:"@type";s:11:"ImageObject";s:20:"representativeOfPage";s:4:"True";s:3:"url";s:42:"[ting_object:ding_seo_ting_cover_path:url]";s:5:"width";s:44:"[ting_object:ding_seo_ting_cover_path:width]";s:6:"height";s:45:"[ting_object:ding_seo_ting_cover_path:height]";}',
+      ),
       'schema_book.url' => array(
         'value' => '[current-page:url]',
       ),

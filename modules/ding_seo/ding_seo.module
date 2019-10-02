@@ -5,7 +5,7 @@
  * Ding SEO module file.
  */
 
- /**
+/**
  * Implements hook_metatag_get_entity_metatags_instance_alter().
  *
  * Note: appearently this hook has to reside in module file and can not be in
@@ -21,6 +21,8 @@ function ding_seo_metatag_get_entity_metatags_instance_alter(&$instance, $entity
     // For now this is opensearch speficic anb based and DKABM types:
     // http://www.danbib.dk/docs/abm/types.xml
     $material_type = drupal_strtolower($entity->getType());
+
+    $test = field_info_instance('ting_object', 'ting_cover', 'ting_object');
 
     $schema_type_mapping = [
       'book' => [

@@ -50,7 +50,7 @@ function ting_token_info() {
  */
 function ting_tokens($type, $tokens, array $data, array $options) {
   $sanitize = !empty($options['sanitize']);
-  $replacements = array();
+  $replacements = [];
 
   // Ting object tokens.
   if ($type == 'ting_object' && !empty($data['ting_object'])) {
