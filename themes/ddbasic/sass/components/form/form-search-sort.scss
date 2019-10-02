@@ -2,13 +2,15 @@
 
 .form-search-sort {
   .form-type-select {
+    float: left;
     max-width: none;
+    width: 100%;
 
     > label {
       display: block;
       float: left;
 
-      font-weight: bold;
+      font-family: $font-family-bold;
       color: $color-text;
     }
   }
@@ -29,7 +31,6 @@
   .select-wrapper {
     float: left;
     margin-left: 10px;
-    margin-bottom: 20px;
     line-height: 22px;
 
     overflow: visible;
