@@ -776,9 +776,9 @@ function ding2_set_cookie_page() {
 /**
  * Get the nid of the current node used as cookie page.
  *
- * @return mixed $nid
- *  The node ID of the cookie page node.
- *  FALSE if no cookie page node was found.
+ * @return mixed
+ *   The node ID of the cookie page node.
+ *   FALSE if no cookie page node was found.
  */
 function ding2_get_cookie_node_nid() {
   $path = drupal_lookup_path('source', 'cookies');
