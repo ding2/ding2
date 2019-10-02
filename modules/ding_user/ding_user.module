@@ -39,18 +39,6 @@ function ding_user_preprocess_html(&$variables) {
       drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
       drupal_add_http_header('Pragma', 'no-cache');
     }
-    elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
-      // Redirect anonymous user to front page login. This is to prevent the
-      // library user from seeing /user, login and password page. Unless in
-      // maintenance_mode, there's no front page login when in maintenance_mode,
-      // and a redirect prevent login.
-      if (!variable_get('maintenance_mode', 0)) {
-        if (module_exists('ding_user_form')) {
-          // If user forms are enabled goto the login dropdown.
-          drupal_goto('', array('fragment' => 'login'));
-        }
-      }
-    }
   }
 }
 
