@@ -456,7 +456,7 @@ function _ding_adgangsplatformen_provider_login(array $user_info) {
       //       This only exists to get around pre-authentication issues
       //       currently in FBS.
       //
-      'pass' => isset($user_info['attributes']['pincode']) ?? $user_info['attributes']['pincode'],
+      'pass' => isset($user_info['attributes']['pincode']) ? $user_info['attributes']['pincode'] : '',
       'extra' => $user_info,
       'single_sign_on' => !is_null($user_info['attributes']['cpr']),
     ));
