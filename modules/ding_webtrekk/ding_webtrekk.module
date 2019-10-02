@@ -483,7 +483,11 @@ function ding_webtrekk_preprocess_html() {
 /**
  * Implements hook_paragraphs_item_view().
  */
-function ding_webtrekk_paragraphs_item_view(ParagraphsItemEntity $entity) {
+function ding_webtrekk_paragraphs_item_view(ParagraphsItemEntity $entity, $view_mode) {
+  if ($view_mode == 'paragraphs_editor_preview') {
+    return;
+  }
+
   $nid = ding2_get_cookie_node_nid();
   $node = $entity->hostEntity();
   if ($node->nid === $nid && !empty($entity->field_ding_paragraphs_text)) {
