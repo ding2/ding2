@@ -495,6 +495,5 @@ function ding_webtrekk_paragraphs_item_view(ParagraphsItemEntity $entity) {
 
     // Add scripts for opt-out functionality.
     drupal_add_js(drupal_get_path('module', 'ding_webtrekk') . '/ding_webtrekk.opt-out.js');
-    drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup-popupbar.js');
   }
 }
