@@ -224,7 +224,8 @@ class OpenSearchTingObject implements TingObjectInterface {
       if ($lang == 'mul') {
         continue;
       }
-      $languages_string .= ', ' . $languages[''][$key];
+      $translated_lang = i18n_string('ting:title:language', $languages[''][$key], array('update' => TRUE));
+      $languages_string .= ', ' . $translated_lang;
     }
     $languages_string = (!empty($languages_string)) ? ltrim($languages_string, ', ') : FALSE;
     return $languages_string;
