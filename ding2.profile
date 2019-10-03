@@ -791,10 +791,19 @@ function ding2_set_eu_cookie_compliance_settings() {
 
   // Set cookie compliance variables.
   $eu_cookie_compliance = i18n_variable_get('eu_cookie_compliance', 'da', []);
+  // Ensure we don't override any whitelisted cookies added by administrators or
+  // other modules.
+  // Note: if ding2 should whitelist more cookies separate by new line.
+  $whitelisted_cookies = 'has_js';
+  if (!empty($eu_cookie_compliance['whitelisted_cookies']) && strpos($eu_cookie_compliance['whitelisted_cookies'], $whitelisted_cookies) === FALSE) {
+    $eu_cookie_compliance['whitelisted_cookies'] .= "\r\n" . $whitelisted_cookies;
+  }
+  else {
+    $eu_cookie_compliance['whitelisted_cookies'] = $whitelisted_cookies;
+  }
   $eu_cookie_compliance = array_merge($eu_cookie_compliance, [
-    'method' => 'opt_in',
+    'method' => 'opt_out',
     'show_disagree_button' => 1,
-    'whitelisted_cookies' => 'has_js',
     'popup_info' => [
       'value' => '<h2>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse.</h2>',
       'format' => 'ding_wysiwyg',
