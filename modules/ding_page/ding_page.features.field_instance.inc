@@ -314,8 +314,12 @@ function ding_page_field_default_field_instances() {
       ),
       'search_result' => array(
         'label' => 'hidden',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'ting_cover_small',
+        ),
+        'type' => 'image',
         'weight' => 3,
       ),
       'teaser' => array(

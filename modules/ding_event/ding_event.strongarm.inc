@@ -152,6 +152,10 @@ function ding_event_strongarm() {
             'weight' => '0',
             'visible' => TRUE,
           ),
+          'search_result' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
         ),
       ),
     ),

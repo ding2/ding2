@@ -140,6 +140,7 @@ function ding_entity_rating_add_to_list_callback($entity, $rating) {
     if ($rating > 0) {
       $message = array(
         '#theme' => 'ding_entity_rating_thank_you',
+        '#response' => t('Thank you for your input'),
         '#prefix' => '<p>',
         '#suffix' => '</p>',
       );
@@ -351,7 +352,7 @@ function ding_entity_rating_theme($existing, $type, $theme, $path) {
     ),
     'ding_entity_rating_thank_you' => array(
       'variables' => array(
-        'response' => t('Thank you for your input'),
+        'response' => NULL,
       ),
     ),
     'ding_entity_rating_promote_ratings' => array(

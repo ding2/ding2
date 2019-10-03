@@ -36,7 +36,7 @@ function ding_staff_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 6,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -56,7 +56,9 @@ function ding_staff_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 2,
     ),
@@ -88,7 +90,7 @@ function ding_staff_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 5,
+        'weight' => 7,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -144,7 +146,7 @@ function ding_staff_field_default_field_instances() {
         'module' => 'email',
         'settings' => array(),
         'type' => 'email_default',
-        'weight' => 2,
+        'weight' => 4,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -256,10 +258,14 @@ function ding_staff_field_default_field_instances() {
         'weight' => 3,
       ),
       'search_result' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 6,
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'ting_cover_small',
+        ),
+        'type' => 'image',
+        'weight' => 2,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -358,7 +364,7 @@ function ding_staff_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 5,
       ),
       'token' => array(
         'label' => 'above',
@@ -413,7 +419,7 @@ function ding_staff_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 8,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -468,7 +474,7 @@ function ding_staff_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 9,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -516,7 +522,7 @@ function ding_staff_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 10,
       ),
     ),
     'entity_type' => 'profile2',
@@ -561,7 +567,7 @@ function ding_staff_field_default_field_instances() {
           'link' => 1,
         ),
         'type' => 'entityreference_label',
-        'weight' => 1,
+        'weight' => 3,
       ),
     ),
     'entity_type' => 'profile2',
@@ -574,7 +580,9 @@ function ding_staff_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 1,
     ),

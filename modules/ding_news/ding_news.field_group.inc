@@ -358,7 +358,8 @@ function ding_news_field_group_info() {
       3 => 'field_ding_news_lead',
       4 => 'field_ding_news_tags',
       5 => 'og_group_ref',
-      6 => 'webform',
+      6 => 'field_ding_section',
+      7 => 'webform',
     ),
     'format_type' => 'div',
     'format_settings' => array(

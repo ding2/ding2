@@ -91,6 +91,14 @@ function ding_frontend_theme() {
       'render element'  => 'element',
       'template' => 'templates/ding-frontend-panel-wrapper'
     ),
+    'views_exposed_form_widgets' => array(
+      'variables' => array(
+        'title' => NULL,
+        'items' => NULL,
+        'element' => NULL,
+      ),
+      'template' => 'templates/ding-frontpage--views-exposed-form-widget',
+    ),
   );
 }
 
@@ -265,6 +273,63 @@ function ding_frontend_search_api_views_query_alter(view &$view, SearchApiViewsQ
       $new_args = preg_replace('/(!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\"|\&|\#|\[|\]|~|$|_| or | and |-)/i', ' ', $args);
       // Return cleared search query string into view's query.
       $query->keys($new_args);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_frontend_form_alter(&$form, &$form_state, $form_id) {
+  if ($form['#id'] == 'views-exposed-form-ding-multiple-search-panel-pane-1') {
+    $options = $form['ct']['#options'];
+    $default_values = $form['ct']['#default_value'];
+
+    $cleared = array_filter($options, function ($key) use ($default_values) {
+      if (in_array($key, array_keys($default_values))) {
+        return $key;
+      }
+    }, ARRAY_FILTER_USE_KEY);
+
+    $form['ct']['#options'] = $cleared;
+    $form['ct']['#default_value'] = [];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_frontend_preprocess_views_exposed_form(&$variables) {
+  if ($variables['form']['#id'] == 'views-exposed-form-ding-multiple-search-panel-pane-1') {
+    $form = $variables['form'];
+    $excluded_widgets = ['node_field_ding_page_tags', 'node_field_ding_event_tags', 'node_field_ding_news_tags'];
+    foreach ($form['#info'] as $widget => $item) {
+      if (!in_array($item['value'], $excluded_widgets)) {
+        $items = [];
+        $title = $item['label'];
+        unset($variables['widgets'][$widget]->label);
+
+        $items_list = $form[$item['value']]['#options'];
+        foreach ($items_list as $id => $option) {
+          if (is_object($option)) {
+            $clean_option = array_keys($option->option);
+            $key = array_shift($clean_option);
+            $items[$key] = $option->option[$key];
+          }
+          else {
+            $items[$id] = $option;
+          }
+        }
+
+        $render = theme('views_exposed_form_widgets', [
+            'title' => $title,
+            'items' => $items,
+            'element' => $form[$item['value']],
+          ]
+        );
+
+        $variables['widgets'][$widget]->widget = $render;
+      }
     }
   }
 }
