@@ -944,3 +944,10 @@ function ding2_update_7080() {
 function ding2_update_7081() {
   ding2_translation_update();
 }
+
+/**
+ * Update EU cookie compliance settings.
+ */
+function ding2_update_7082() {
+  ding2_set_eu_cookie_compliance_settings();
+}
