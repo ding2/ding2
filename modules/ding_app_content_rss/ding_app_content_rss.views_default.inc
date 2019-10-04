@@ -531,7 +531,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Relationship: Content: Author */
+  /* Relationship: Content: Content author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
@@ -567,7 +567,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'r';
-  /* Field: Content: Promoted to front page */
+  /* Field: Content: Promoted to front page status */
   $handler->display->display_options['fields']['promote']['id'] = 'promote';
   $handler->display->display_options['fields']['promote']['table'] = 'node';
   $handler->display->display_options['fields']['promote']['field'] = 'promote';
@@ -575,7 +575,7 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['promote']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['promote']['type'] = 'true-false';
   $handler->display->display_options['fields']['promote']['not'] = 0;
-  /* Field: Content: Sticky */
+  /* Field: Content: Sticky status */
   $handler->display->display_options['fields']['sticky']['id'] = 'sticky';
   $handler->display->display_options['fields']['sticky']['table'] = 'node';
   $handler->display->display_options['fields']['sticky']['field'] = 'sticky';
@@ -608,6 +608,16 @@ function ding_app_content_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_news_body']['alter']['preserve_tags'] = '<a><b><em><u><i><li><ul><ol><h2><h3><strong><p><br/><br><br />';
   $handler->display->display_options['fields']['field_ding_news_body']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_news_body']['element_default_classes'] = FALSE;
+  /* Field: Content: Paragraphs */
+  $handler->display->display_options['fields']['field_ding_news_paragraphs']['id'] = 'field_ding_news_paragraphs';
+  $handler->display->display_options['fields']['field_ding_news_paragraphs']['table'] = 'field_data_field_ding_news_paragraphs';
+  $handler->display->display_options['fields']['field_ding_news_paragraphs']['field'] = 'field_ding_news_paragraphs';
+  $handler->display->display_options['fields']['field_ding_news_paragraphs']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_news_paragraphs']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_paragraphs']['settings'] = array(
+    'view_mode' => 'full',
+  );
+  $handler->display->display_options['fields']['field_ding_news_paragraphs']['delta_offset'] = '0';
   /* Field: Indhold: List image (content) */
   $handler->display->display_options['fields']['field_ding_news_list_image']['id'] = 'field_ding_news_list_image';
   $handler->display->display_options['fields']['field_ding_news_list_image']['table'] = 'field_data_field_ding_news_list_image';
@@ -664,7 +674,7 @@ function ding_app_content_rss_views_default_views() {
     'ding_news' => 'ding_news',
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Content: Published */
+  /* Filter criterion: Content: Published status */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -698,26 +708,11 @@ function ding_app_content_rss_views_default_views() {
     ),
   );
   $handler->display->display_options['style_options']['item'] = array(
-    'content-rss' => array(
-      'ding_app_content_rss' => array(
-        'subheadline' => 'field_ding_news_lead',
-        'arrangement-starttime' => '',
-        'arrangement-endtime' => '',
-        'display-starttime' => '',
-        'display-endtime' => '',
-        'arrangement-location' => '',
-        'arrangement-price' => '',
-        'resources' => 'nid',
-        'library-id' => 'ding_app_content_rss_handler_library_id',
-        'library-title' => 'ding_app_content_rss_handler_library_title',
-        'promoted' => 'promote',
-      ),
-    ),
     'core' => array(
       'views_rss_core' => array(
         'title' => 'title',
         'link' => '',
-        'description' => 'field_ding_news_body',
+        'description' => 'field_ding_news_paragraphs',
         'author' => 'name',
         'category' => '',
         'comments' => '',
@@ -736,13 +731,31 @@ function ding_app_content_rss_views_default_views() {
         'category' => '',
       ),
     ),
+    'content-rss' => array(
+      'ding_app_content_rss' => array(
+        'subheadline' => 'field_ding_news_lead',
+        'arrangement-starttime' => '',
+        'arrangement-endtime' => '',
+        'display-starttime' => '',
+        'display-endtime' => '',
+        'arrangement-location' => '',
+        'arrangement-price' => '',
+        'resources' => 'nid',
+        'library-id' => 'ding_app_content_rss_handler_library_id',
+        'booking-url' => '',
+        'promoted' => 'promote',
+        'sticky' => '',
+        'place_room' => '',
+        'organizers' => '',
+      ),
+    ),
   );
   $handler->display->display_options['style_options']['feed_settings'] = array(
     'absolute_paths' => 1,
     'feed_in_links' => 0,
   );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Content: Sticky */
+  /* Sort criterion: Content: Sticky status */
   $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
   $handler->display->display_options['sorts']['sticky']['table'] = 'node';
   $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
