@@ -1009,7 +1009,7 @@ function ding2_update_7087() {
     node_save($node);
     // Delete "cookies" alias.
     $path = path_load([
-      'source' => 'node/'.$node->nid,
+      'source' => 'node/'. $node->nid,
       'alias' => 'cookies',
     ]);
     if ($path) {
@@ -1020,4 +1020,3 @@ function ding2_update_7087() {
   // information about which analytics tool we use.
   ding2_set_cookie_page();
 }
-
