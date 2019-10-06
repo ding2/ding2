@@ -109,11 +109,12 @@ function theme_ding_sharer($variables) {
       $anchor_class = 'button';
     }
     $out .= l(
-      $text,
+      '<span>' . $text . '</span>',
       '#',
       array(
-        'attributes' => array('class' => array($community . '-share', $anchor_class)),
+        'attributes' => array('class' => array('icon ' . $community . '-share', $anchor_class)),
         'external' => TRUE,
+        'html' => TRUE,
       )
     );
   }
