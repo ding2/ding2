@@ -708,6 +708,33 @@ ul.tabs.primary {
     float: left;
     margin-right: 16px;
   }
+
+  .share-buttons {
+    margin-top: 10px;
+
+    .facebook-share::after,
+    .twitter-share::after,
+    .mail-share::after {
+      background: transparent;
+      color: $color-primary;
+      width: auto;
+      display: flex;
+      font-size: 25px;
+      padding: 0 5px 0 0;
+    }
+
+    .facebook-share::after {
+      @include button(facebook-with-circle);
+    }
+  
+    .twitter-share::after {
+      @include button(twitter-with-circle);
+    }
+  
+    .mail-share::after {
+      @include button(instagram-with-circle);
+    }
+  }
 }
 
 // ==========================================================================
