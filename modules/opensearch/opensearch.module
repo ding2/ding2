@@ -172,6 +172,7 @@ function opensearch_boost_field_element_process($element, $form_state) {
 
   $element['weight'] = array(
     '#title' => t('Weight'),
+    '#description' => t('Must be a positive number with dot as decimal separator. Use values between 0 and 1 to downgrade.'),
     '#type' => 'textfield',
     '#default_value' => (isset($element['#value']['weight'])) ? $element['#value']['weight'] : NULL,
     '#element_validate' => array('opensearch_boost_validate_weight'),
