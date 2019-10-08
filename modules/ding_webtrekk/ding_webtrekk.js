@@ -159,11 +159,11 @@
         });
 
         $('.slick-arrow', this).once('js-ding-webtrekk').click(function() {
-          var linkId = Drupal.t('Carousel, clicked on previous link');
+          var linkId = 'Karousel, click på forrige knappen';
           var wtkId = DING_WEBTREKK_PARAMETER_CAROUSEL_PREV;
 
           if ($(this).hasClass('slick-next')) {
-            linkId =  Drupal.t('Carousel, clicked on next link');
+            linkId = 'Karousel, click på næste knappen';
             wtkId = DING_WEBTREKK_PARAMETER_CAROUSEL_NEXT;
           }
 
