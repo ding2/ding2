@@ -53,14 +53,14 @@ function _ding_varnish_header() {
   global $user;
 
   // Cache response for 3 minutes to reduce request load on roll requests.
-  header('Cache-Control:public,max-age=180');
+  header('Cache-Control: public, max-age=180');
 
   // Change the cache of this response on any criteria that may determine this
   // user is coming from a different device.
-  header('Vary: Accept-Encoding,Cookie,User-Agent');
+  header('Vary: Accept-Encoding, Cookie, User-Agent');
 
   // Set custom X-Drupal-Roles header.
-  header('X-Drupal-Roles: ' . implode(',', array_keys($user->roles)));
+  header('X-Drupal-Roles: ' . implode(', ', array_keys($user->roles)));
 
   // No need to render any content. Just die.
   echo '';
@@ -125,7 +125,9 @@ function ding_varnish_init() {
 /**
  * Implements hook_page_build().
  */
-function ding_varnish_page_build() {
+function ding_varnish_page_build(&$page) {
+  global $user;
+
   // Check the static variable form init.
   $cacheable = &drupal_static('ding_varnish_init', FALSE);
   $hook_boot_headers = drupal_get_http_header();
@@ -161,10 +163,13 @@ function ding_varnish_page_build() {
   // changes after a login and not server browser cached pages. We have to set
   // the header as Drupal do in bootstrap, as this will override the default
   // header for not logged in users.
-  drupal_add_http_header('Cache-Control', 'public,max-age=' . $max_age . ',no-cache');
+  drupal_add_http_header('Cache-Control', 'public, max-age=' . $max_age . ', no-cache');
 
   // Regardless, always vary on X-Drupal-Roles.
-  drupal_add_http_header('Vary', 'X-Drupal-Roles,Accept-Encoding');
+  drupal_add_http_header('Vary', 'X-Drupal-Roles, Accept-Encoding');
+
+  // Set custom X-Drupal-Roles header.
+  header('X-Drupal-Roles: ' . implode(', ', array_keys($user->roles)));
 }
 
 /**
