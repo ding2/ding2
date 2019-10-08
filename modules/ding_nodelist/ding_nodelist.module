@@ -963,7 +963,6 @@ function _ding_nodelist_add_js($widget, $autoscroll_delay = NULL, $unique_id = N
       break;
 
     case DING_NODELIST_WIDGET_HOR_ACCORDION:
-      drupal_add_js($mod_path . '/js/jquery.easing.1.3.js', 'file');
       drupal_add_js($mod_path . '/js/jquery.zaccordion.min.js', 'file');
       drupal_add_js(array('ding_nodelist' => array($unique_id => $autoscroll_delay)), 'setting');
       drupal_add_js($mod_path . '/js/haccordion.js', 'file');
