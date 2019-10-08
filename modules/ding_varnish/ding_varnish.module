@@ -184,11 +184,7 @@ function ding_varnish_flush_caches() {
 /**
  * Implements hook_change_maintenance_mode().
  *
- * @param Boolean $maintenance_mode
- * TRUE if the site is being set into maintenance mode.
- * FALSE if maintenance mode is being deactivated.
- *
- * Clear page cache if maintainance status has changed.
+ * Clear page cache in varnish if maintenance status has changed.
  */
 function ding_varnish_change_maintenance_mode($maintenance_mode) {
   varnish_purge_all_pages();
