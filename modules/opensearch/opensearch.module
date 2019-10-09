@@ -423,7 +423,7 @@ function opensearch_xautoload(LocalDirectoryAdapter $adapter) {
  * permissions, a warning if the data well was queried more than once.
  */
 function opensearch_page_alter(&$page) {
-  $calls = &drupal_static('opensearch_execute_cache');
+  $calls = &drupal_static('opensearch_execute_cache', array());
   if (count($calls) > 5) {
     $calls_str = array();
     foreach ($calls as $call) {
