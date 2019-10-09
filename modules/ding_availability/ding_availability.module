@@ -166,6 +166,9 @@ function ding_availability_holdings($provider_ids) {
     return array();
   }
   foreach ($items as &$item) {
+    // Allow alteration of item array by other modules.
+    drupal_alter('ding_availability_item_data', $item);
+
     $item += array(
       'reservable' => FALSE,
       'available' => FALSE,

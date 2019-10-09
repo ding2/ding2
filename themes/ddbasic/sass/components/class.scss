@@ -724,7 +724,7 @@ ul.tabs.primary {
         @include place-icon-before(twitter-with-circle, $color-primary, 25px);
       }
       &.mail-share {
-        @include place-icon-before(mail-with-circle, $color-primary, 25px);
+        @include place-icon-before(instagram-with-circle, $color-primary, 25px);
       }
     }
   }
