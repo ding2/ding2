@@ -33,7 +33,6 @@ features[field_instance][] = node-ding_campaign-field_camp_new_window
 features[field_instance][] = node-ding_campaign-field_camp_settings
 features[field_instance][] = node-ding_campaign-field_camp_text_full
 features[field_instance][] = node-ding_campaign-field_camp_weight
-features[image][] = ding_campaign_grid
 features[node][] = ding_campaign
 features[variable][] = comment_anonymous_ding_campaign
 features[variable][] = comment_default_mode_ding_campaign
