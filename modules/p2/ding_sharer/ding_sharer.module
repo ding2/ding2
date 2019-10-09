@@ -103,11 +103,12 @@ function theme_ding_sharer($variables) {
   $out .= '<div class="share-buttons">';
   foreach ($variables['communities'] as $community => $text) {
     $out .= l(
-      $text,
+      '<span>' . $text . '</span>',
       '#',
       array(
-        'attributes' => array('class' => array($community . '-share')),
+        'attributes' => array('class' => array('icon ' . $community . '-share')),
         'external' => TRUE,
+        'html' => TRUE,
       )
     );
   }

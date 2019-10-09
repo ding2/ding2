@@ -712,27 +712,20 @@ ul.tabs.primary {
   .share-buttons {
     margin-top: 10px;
 
-    .facebook-share::after,
-    .twitter-share::after,
-    .mail-share::after {
-      background: transparent;
-      color: $color-primary;
-      width: auto;
-      display: flex;
-      font-size: 25px;
-      padding: 0 5px 0 0;
-    }
+    .icon {
+      span {
+        margin-left: 30px;
+      }
 
-    .facebook-share::after {
-      @include button(facebook-with-circle);
-    }
-  
-    .twitter-share::after {
-      @include button(twitter-with-circle);
-    }
-  
-    .mail-share::after {
-      @include button(instagram-with-circle);
+      &.facebook-share {
+        @include place-icon-before(facebook-with-circle, $color-primary, 25px);
+      }
+      &.twitter-share {
+        @include place-icon-before(twitter-with-circle, $color-primary, 25px);
+      }
+      &.mail-share {
+        @include place-icon-before(instagram-with-circle, $color-primary, 25px);
+      }
     }
   }
 }
