@@ -10,7 +10,6 @@
  */
 
 (function($) {
-
   "use strict";
 
   // Webtrekk tracking parameters.
@@ -21,13 +20,13 @@
   var DING_WEBTREKK_PARAMETER_CAROUSEL_NEXT = 59;
   var DING_WEBTREKK_PARAMETER_CAROUSEL_PREV = 60;
 
-  var appendQueryParameter = function(url, key, value) {
+  var appendQueryParameter = function appendQueryParameter(url, key, value) {
     var seperator = (url.indexOf('?') !== -1) ? '&' : '?';
     var urlParameter = key + '=' + encodeURIComponent(value);
     return url + seperator + urlParameter;
   };
 
-  var pushEvent = function(event, eventData) {
+  var pushEvent = function pushEvent(event, eventData) {
     if (Drupal.settings.dingWebtrekk.debugMode) {
       console.log('Ding webtrekk - Pushing ' + event + ' event with data: ',
         JSON.stringify(eventData, null, 2)
@@ -47,35 +46,40 @@
   Drupal.behaviors.ding_webtrekk = {
     attach: function(context) {
       // Send Webtrekk events attached in the backend.
-      $('.js-ding-webtrekk-event', context).once('js-ding-webtrekk').click(function() {
-        var eventData = $(this).data('ding-webtrekk-event');
-        pushEvent('click', eventData);
-      });
+      $('.js-ding-webtrekk-event', context)
+        .once('js-ding-webtrekk')
+        .click(function() {
+          var eventData = $(this).data('ding-webtrekk-event');
+          pushEvent('click', eventData);
+        }
+      );
 
-      // Secial handling for ding entity rating event.
+      // Special handling for ding entity rating event.
       //
       // It would require a complete rework of the ding_entity_rating_display
       // theme hook to avoid this. It doesn't provide the ability to add custom
       // attributes/classes in preprocess and is not using using render arrays
       // for rating elements, making them problematic to modify.
-      $('.js-ding-webtrekk-rating-event', context).once('js-ding-webtrekk', function() {
-        var contentId = $(this).data('ding-entity-rating-id');
-        $('.js-rating-symbol', this).each(function(index) {
-          var rating = (index + 1) + '';
-          $(this).click(function(e) {
-            e.preventDefault();
+      $('.js-ding-webtrekk-rating-event', context)
+        .once('js-ding-webtrekk', function() {
+          var contentId = $(this).data('ding-entity-rating-id');
+          $('.js-rating-symbol', this).each(function(index) {
+            var rating = (index + 1) + '';
+            $(this).click(function(e) {
+              e.preventDefault();
 
-            var eventData = {
+              var eventData = {
 
-              linkId: 'Materiale rating',
-              customClickParameter: {}
-            };
-            eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING] = rating;
-            eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING_ID] = contentId;
-            pushEvent('click', eventData);
+                linkId: 'Materiale rating',
+                customClickParameter: {}
+              };
+              eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING] = rating;
+              eventData.customClickParameter[DING_WEBTREKK_PARAMETER_RENEW_RATING_ID] = contentId;
+              pushEvent('click', eventData);
+            });
           });
-        });
-      });
+        }
+      );
 
       // Track autocomplete selections.
       $('.js-ding-webtrekk-autocomplete .form-autocomplete', context)
@@ -89,7 +93,8 @@
             eventData.customClickParameter[DING_WEBTREKK_PARAMETER_AUTOCOMPLETE] = $(selected).text();
             pushEvent('click', eventData);
           }
-      });
+        }
+      );
 
       // Track ding loan renew selected events.
       //
@@ -127,7 +132,7 @@
       // to pass as value in event and URL-parameter. For tabbed carousels the
       // title of the individuals carousels in the tabs are set in the
       // data-title attribute of the carousels. For single carousels the title
-      // is not avialable here, but instead it's controlled by the configuration
+      // is not available here, but instead it's controlled by the configuration
       // on the panel pane. There are no panel hooks where we can get the title
       // and easily change the content tree to add event and URL-parameters to
       // elements (content is already rendered when hook is run).
@@ -181,7 +186,7 @@
         var eventData = $(this).data('ding-webtrekk-event');
         // Sending a 'click'-event to webtrekk in this case may seem weird, but
         // currently our Webtrekk setup only supports this type of event. If our
-        // setup is changed in the future it may be more appropiate to send
+        // setup is changed in the future it may be more appropriate to send
         // another type of event. The important thing now is that we get the
         // data to Webtrekk.
         pushEvent('click', eventData);
