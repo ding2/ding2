@@ -450,7 +450,13 @@ function _ding_adgangsplatformen_provider_login(array $user_info) {
 
   try {
     $account = ding_user_authenticate(array(
-      'name' => $user_info['attributes']['userId'],
+      //
+      // HACK: Use CPR when exists as users may have both (CPR and card no.)
+      //       attached to their FBS user and both can then be used to login at
+      //       adgangsplatformen. But pre-authenticate can't use the card no.
+      //       so fallback to CPR if it's given.
+      //
+      'name' => is_null($user_info['attributes']['cpr']) ? $user_info['attributes']['userId'] : $user_info['attributes']['cpr'],
       //
       // HACK: The pincode used here should be removed later on.
       //       This only exists to get around pre-authentication issues
