@@ -101,20 +101,11 @@ class OpenSearchTingSearchResult implements TingSearchResultInterface {
     foreach ($this->openSearchResult->facets as $open_search_facet) {
       // For each facet, extract data on the facet itself and its terms.
       $facet = new TingSearchFacet($open_search_facet->name);
-
       $terms = [];
       foreach ($open_search_facet->terms as $term_name => $term_count) {
         $terms[] = new TingSearchFacetTerm($term_name, $term_count);
       }
       $facet->setTerms($terms);
-
-      // Set the facet type, depending on it's name.
-      switch ($facet->getName()) {
-        case 'facet.date':
-          $facet->setType($facet::TYPE_INTERVAL);
-          break;
-      }
-
       // Finish off by adding the facet to the list, keyed by its name as
       // required by the interface.
       $facets[$open_search_facet->name] = $facet;
