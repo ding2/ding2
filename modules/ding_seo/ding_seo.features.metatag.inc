@@ -24,7 +24,7 @@ function ding_seo_metatag_export_default() {
         'value' => '[ting_object:title]',
       ),
       'schema_book.author' => array(
-        'value' => 'a:4:{s:5:"@type";s:6:"Person";s:3:"@id";s:20:"[ting_object:author]";s:4:"name";s:20:"[ting_object:author]";s:3:"url";s:18:"[current-page:url]";}',
+        'value' => 'a:2:{s:5:"@type";s:6:"Person";s:4:"name";s:22:"[ting_object:creators]";}',
       ),
       'schema_book.@id' => array(
         'value' => '[current-page:url]',

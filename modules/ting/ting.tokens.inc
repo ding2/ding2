@@ -19,7 +19,7 @@ function ting_token_info() {
   // See: token_token_info_alter().
   $info['types']['ting_object'] = [
     'name' => t('Ting object'),
-    'description' => t('Tokens related to Ting object entities (data well materials).'),
+    'description' => t('Tokens related to Ting object entities (data well materials)'),
     'needs-data' => 'ting_object',
   ];
   // All field type names are prefixed with "ting_" which will be used for the
@@ -29,13 +29,13 @@ function ting_token_info() {
     'name' => t('Title'),
     'description' => t('The title of the material'),
   ];
-  $info['tokens']['ting_object']['author'] = [
+  $info['tokens']['ting_object']['creators'] = [
     'name' => t('Author'),
-    'description' => t('The author of the material'),
+    'description' => t('The creators of the material (comma separated)'),
   ];
-  $info['tokens']['ting_object']['author_inverted'] = [
+  $info['tokens']['ting_object']['creators_inverted'] = [
     'name' => t('Author inverted'),
-    'description' => t('The author of the material inverted'),
+    'description' => t('The creators of the material inverted (comma separated)'),
   ];
   $info['tokens']['ting_object']['abstract'] = [
     'name' => t('Abstract'),
@@ -61,10 +61,10 @@ function ting_tokens($type, $tokens, array $data, array $options) {
         case 'title':
           $replacements[$original] = $ting_object->getTitle();
           break;
-        case 'author':
+        case 'creators':
           $replacements[$original] = implode(', ', $ting_object->getCreators());
           break;
-        case 'author_inverted':
+        case 'creators_inverted':
           $replacements[$original] = implode(', ', $ting_object->getInvertedCreators());
           break;
         case 'abstract':
