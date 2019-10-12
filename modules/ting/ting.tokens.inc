@@ -37,6 +37,14 @@ function ting_token_info() {
     'name' => t('Author inverted'),
     'description' => t('The creators of the material inverted (comma separated)'),
   ];
+  $info['tokens']['ting_object']['contributers'] = [
+    'name' => t('Contributers'),
+    'description' => t('Contributers to the material (comma separated)'),
+  ];
+  $info['tokens']['ting_object']['creators_contributers'] = [
+    'name' => t('Contributers and Contributers'),
+    'description' => t('Creators of and contributers to the material combined (comma separated)'),
+  ];
   $info['tokens']['ting_object']['abstract'] = [
     'name' => t('Abstract'),
     'description' => t('A short resume of the material'),
@@ -66,6 +74,12 @@ function ting_tokens($type, $tokens, array $data, array $options) {
           break;
         case 'creators_inverted':
           $replacements[$original] = implode(', ', $ting_object->getInvertedCreators());
+          break;
+        case 'contributers':
+          $replacements[$original] = implode(', ', $ting_object->getContributors());
+          break;
+        case 'creators_contributers':
+          $replacements[$original] = implode(', ', array_merge($ting_object->getCreators(), $ting_object->getContributors()));
           break;
         case 'abstract':
           $replacements[$original] = $ting_object->getAbstract();
