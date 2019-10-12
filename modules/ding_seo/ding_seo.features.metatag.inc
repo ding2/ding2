@@ -13,6 +13,7 @@ function ding_seo_metatag_export_default() {
   // Exported Metatag config instance: ting_object:book.
   $config['ting_object:book'] = array(
     'instance' => 'ting_object:book',
+    'disabled' => FALSE,
     'config' => array(
       'title' => array(
         'value' => '',
@@ -24,7 +25,7 @@ function ding_seo_metatag_export_default() {
         'value' => '[ting_object:title]',
       ),
       'schema_book.author' => array(
-        'value' => 'a:2:{s:5:"@type";s:6:"Person";s:4:"name";s:22:"[ting_object:creators]";}',
+        'value' => 'a:3:{s:5:"pivot";s:1:"1";s:5:"@type";s:6:"Person";s:4:"name";s:36:"[ting_object:creators_contributers],";}',
       ),
       'schema_book.@id' => array(
         'value' => '[current-page:url]',
@@ -44,6 +45,7 @@ function ding_seo_metatag_export_default() {
   // Exported Metatag config instance: ting_object:movie.
   $config['ting_object:movie'] = array(
     'instance' => 'ting_object:movie',
+    'disabled' => FALSE,
     'config' => array(
       'title' => array(
         'value' => '',
