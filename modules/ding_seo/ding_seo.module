@@ -22,8 +22,6 @@ function ding_seo_metatag_get_entity_metatags_instance_alter(&$instance, $entity
     // http://www.danbib.dk/docs/abm/types.xml
     $material_type = drupal_strtolower($entity->getType());
 
-    $test = field_info_instance('ting_object', 'ting_cover', 'ting_object');
-
     $schema_type_mapping = [
       'book' => [
         'bog',
