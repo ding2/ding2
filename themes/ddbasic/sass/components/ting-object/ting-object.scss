@@ -159,6 +159,10 @@
           opacity: 1;
         }
       }
+      // Hide ding list add entity button in teaser view modes.
+      .ding-list-add-button {
+        display: none;
+      }
 
       // Hover for non touch devices
       &:hover {
@@ -330,6 +334,9 @@
         @include media($tablet) {
           width: 42%;
         }
+      }
+      .ding-list-add-button {
+        display: none;
       }
     }
     .field-name-ting-type {
