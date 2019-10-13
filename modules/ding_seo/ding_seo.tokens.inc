@@ -9,27 +9,35 @@
  * Implements hook_token_info()
  */
 function ding_seo_token_info() {
-  $info['types']['ding_seo_ting_cover_path'] = [
-    'name' => t('Ding SEO ting cover path'),
-    'description' => t('Path to the downloaded cover for a ting object'),
-    'needs-data' => 'ding_seo_ting_cover_path',
+  // Define a pseudo token type for covers on ting_object entities. Note that
+  // we do not supply a separate description and needs-data, since this token
+  // type is only added to ting_cover tokens and is not meant to be used on
+  // its own.
+  $info['types']['ding_seo_ting_cover'] = [
+    'name' => t('Ding SEO ting cover'),
   ];
-  $info['tokens']['ding_seo_ting_cover_path']['url'] = [
+  $info['tokens']['ting_object']['ding_seo_ting_cover'] = [
+    'name' => t('Ding SEO ting cover'),
+    'description' => t('Pseudo token type for ting object covers'),
+    'type' => 'ding_seo_ting_cover',
+  ];
+
+  // Define the tokens supported on our pseudo token type.
+  $info['tokens']['ding_seo_ting_cover']['path'] = [
+    'name' => t('Path'),
+    'description' => t('Path of the cover'),
+  ];
+  $info['tokens']['ding_seo_ting_cover']['url'] = [
     'name' => t('URL'),
     'description' => t('External URL to the cover'),
   ];
-  $info['tokens']['ding_seo_ting_cover_path']['width'] = [
+  $info['tokens']['ding_seo_ting_cover']['width'] = [
     'name' => t('Width'),
     'description' => t('Width of the cover'),
   ];
-  $info['tokens']['ding_seo_ting_cover_path']['height'] = [
+  $info['tokens']['ding_seo_ting_cover']['height'] = [
     'name' => t('Height'),
     'description' => t('Height of the cover'),
-  ];
-  $info['tokens']['ting_object']['ding_seo_ting_cover_path'] = [
-    'name' => t('Ding SEO ting cover path'),
-    'description' => t('Path to the downloaded cover for a ting object'),
-    'type' => 'ding_seo_ting_cover_path',
   ];
 
   return $info;
@@ -43,27 +51,13 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
 
   if ($type == 'ting_object' && !empty($data['ting_object'])) {
     $ting_object = $data['ting_object'];
-    foreach ($tokens as $name => $original) {
-      if ($name == 'ding_seo_ting_cover_path') {
-        // Maybe the ting object has no cover, so we're taking a guess here.
-        // Find out how search engines will handle the 404. Maybe a file_exists
-        // is more appropiate.
-        $replacements[$original] = ting_covers_object_path($ting_object->getId());
-      }
-    }
-    // Handle chained token.
-    if ($cover_tokens = token_find_with_prefix($tokens, 'ding_seo_ting_cover_path')) {
-      $path = ting_covers_object_path($ting_object->getId());
-      $replacements += token_generate('ding_seo_ting_cover_path', $cover_tokens, array(
-        'ding_seo_ting_cover_path' => ting_covers_object_path($ting_object->getId()),
-      ), $options);
-    }
-  }
+    $path = ting_covers_object_path($ting_object->getId());
 
-  if ($type == 'ding_seo_ting_cover_path' && !empty($data['ding_seo_ting_cover_path'])) {
-    $path = $data['ding_seo_ting_cover_path'];
-    foreach ($tokens as $name => $original) {
-      if ($name == 'url') {
+    foreach (token_find_with_prefix($tokens, 'ding_seo_ting_cover') as $name => $original) {
+      if ($name == 'path') {
+        $replacements[$original] = $path;
+      }
+      elseif ($name == 'url') {
         $replacements[$original] = file_create_url($path);
       }
       elseif ($name == 'width' || $name == 'height') {
