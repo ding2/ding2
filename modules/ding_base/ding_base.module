@@ -603,7 +603,7 @@ function ding_base_file_presave($file) {
         case IMAGETYPE_PNG:
           $image = imagecreatefrompng($file->destination);
           imagedestroy(imagecreatefrompng($file->destination));
-          imagepng($image, $file->destination, 100);
+          imagepng($image, $file->destination, 7);
           break;
         default:
           break;
