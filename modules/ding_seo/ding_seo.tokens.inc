@@ -45,6 +45,10 @@ function ding_seo_token_info() {
     'name' => t('Ding SEO work URL'),
     'description' => t('External URL to the ting_collection for this ting_object')
   ];
+  $info['tokens']['ting_object']['ding_seo_book_format'] = [
+    'name' => t('Ding SEO bookFormat'),
+    'description' => t('The schema.org the bookFormat of the ting_object (if any)')
+  ];
 
   return $info;
 }
@@ -85,11 +89,20 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
 
     // Handle SEO-related tokens on ting_object.
     foreach ($tokens as $name => $original) {
-      if ($name == 'ding_seo_work_url') {
-        $collection_path = entity_uri('ting_collection', $ting_object)['path'];
-        $replacements[$original] = url($collection_path, [
-          'absolute' => TRUE,
-        ]);
+      switch ($name) {
+        case 'ding_seo_work_url':
+          $collection_path = entity_uri('ting_collection', $ting_object)['path'];
+          $replacements[$original] = url($collection_path, [
+            'absolute' => TRUE,
+          ]);
+          break;
+        case 'ding_seo_book_format':
+          $book_format = ding_seo_get_schema_book_format($ting_object);
+          // Maybe return NULL if not set is more appropiate?
+          if (isset($book_format)) {
+            $replacements[$original] = $book_format;
+          }
+          break;
       }
     }
   }

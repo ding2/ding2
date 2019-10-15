@@ -51,3 +51,47 @@ function ding_seo_metatag_get_entity_metatags_instance_alter(&$instance, $entity
     }
   }
 }
+
+/**
+ * Determine the schema.org bookFormat for a ting_object.
+ *
+ * We aim to support the format types supported by Google;
+ * https://developers.google.com/search/docs/data-types/book#work-example
+ *
+ * @param $ting_object
+ *   The ting_object to determine book format for.
+ *
+ * @return mixed
+ *   One of the supported book format types as string. NULL if no book format
+ *   could be determined for the $ting_object.
+ */
+function ding_seo_get_schema_book_format($ting_object) {
+  $material_type = drupal_strtolower($ting_object->getType());
+
+  $schema_book_format_mapping = [
+    'EBook' => [
+      'ebog'
+    ],
+    // TODO: Can differentiaie between Hardcove and Paperback?
+    // For now use map all physical books to Hardcover.
+    'Paperback' => [],
+    'Hardcover' => [
+      'bog',
+      'bog stor skrift',
+      'billedbog',
+    ],
+    'AudioBook' => [
+      'lydbog (bånd)',
+      'lydbog (cd)',
+      'lydbog (net)',
+      'lydbog (cd-mp3)',
+    ],
+  ];
+
+  foreach ($schema_book_format_mapping as $book_format => $material_types) {
+    if (in_array($material_type, $material_types)) {
+      return $book_format;
+    }
+  }
+  return NULL;
+}

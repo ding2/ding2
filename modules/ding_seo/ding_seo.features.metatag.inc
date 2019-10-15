@@ -39,6 +39,9 @@ function ding_seo_metatag_export_default() {
       'schema_book.url' => array(
         'value' => '[ting_object:ding_seo_work_url]',
       ),
+      'schema_book.workExample' => array(
+        'value' => 'a:7:{s:5:"@type";s:4:"Book";s:3:"@id";s:27:"[current-page:url:absolute]";s:3:"url";s:27:"[current-page:url:absolute]";s:13:"datePublished";s:18:"[ting_object:year]";s:4:"isbn";s:18:"[ting_object:isbn]";s:11:"bookEdition";s:21:"[ting_object:version]";s:10:"bookFormat";s:34:"[ting_object:ding_seo_book_format]";}',
+      ),
     ),
   );
 

@@ -49,6 +49,22 @@ function ting_token_info() {
     'name' => t('Abstract'),
     'description' => t('A short resume of the material'),
   ];
+  $info['tokens']['ting_object']['isbn'] = [
+    'name' => t('ISBN'),
+    'description' => t('ISBN number of the ting_object material'),
+  ];
+  $info['tokens']['ting_object']['isbn'] = [
+    'name' => t('ISBN'),
+    'description' => t('ISBN number of the ting_object material'),
+  ];
+  $info['tokens']['ting_object']['year'] = [
+    'name' => t('Year'),
+    'description' => t('The year the material was published'),
+  ];
+  $info['tokens']['ting_object']['version'] = [
+    'name' => t('Version'),
+    'description' => t('The revision of the material'),
+  ];
 
   return $info;
 }
@@ -83,6 +99,15 @@ function ting_tokens($type, $tokens, array $data, array $options) {
           break;
         case 'abstract':
           $replacements[$original] = $ting_object->getAbstract();
+          break;
+        case 'isbn':
+          $replacements[$original] = implode(', ', $ting_object->getIsbn());
+          break;
+        case 'year':
+          $replacements[$original] = $ting_object->getTingObject()->getYear();
+          break;
+        case 'version':
+          $replacements[$original] = implode(', ', $ting_object->getTingObject()->getVersion());
           break;
       }
 
