@@ -40,6 +40,12 @@ function ding_seo_token_info() {
     'description' => t('Height of the cover'),
   ];
 
+  // SEO-related tokens on ting_object.
+  $info['tokens']['ting_object']['ding_seo_work_url'] = [
+    'name' => t('Ding SEO work URL'),
+    'description' => t('External URL to the ting_collection for this ting_object')
+  ];
+
   return $info;
 }
 
@@ -74,6 +80,16 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
             $replacements[$original] = $size[1];
           }
         }
+      }
+    }
+
+    // Handle SEO-related tokens on ting_object.
+    foreach ($tokens as $name => $original) {
+      if ($name == 'ding_seo_work_url') {
+        $collection_path = entity_uri('ting_collection', $ting_object)['path'];
+        $replacements[$original] = url($collection_path, [
+          'absolute' => TRUE,
+        ]);
       }
     }
   }
