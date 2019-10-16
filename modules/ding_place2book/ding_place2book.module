@@ -623,11 +623,15 @@ function _ding_p2b_get_address_data($node) {
   foreach ($options as $name => $option) {
     $result = NULL;
     $data[$name] = drupal_array_get_nested_value($node, $option, $result);
+
+    // If we couldn't find the required data on the event node, we'll have a
+    // look at the library node.
     if (($result === FALSE || empty($data[$name])) && $lib) {
       if ($name == 'name') {
         $option = array('title');
       }
-      else {
+      // The field for location data is named differently on ding_library nodes.
+      elseif ($option[0] == 'field_ding_event_location') {
         $option[0] = 'field_ding_library_addresse';
       }
       $data[$name] = drupal_array_get_nested_value($lib, $option);
