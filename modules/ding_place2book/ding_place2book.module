@@ -637,7 +637,7 @@ function _ding_p2b_get_address_data($node) {
       $data[$name] = drupal_array_get_nested_value($lib, $option);
     }
   }
-  $data['phone'] = empty($data['phone']) ? t('None') : $data['phone'];
+  $data['phone'] = empty($data['phone']) ? 'None' : $data['phone'];
   $data['address2'] = '';
 
   return $data;
