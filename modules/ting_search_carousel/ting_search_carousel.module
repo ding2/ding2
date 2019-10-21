@@ -20,7 +20,7 @@ function ting_search_carousel_menu() {
   $items['ting_search_carousel/results/ajax/%ting_search_carousel_query/%'] = array(
     'title' => 'Show search carousel results',
     'page callback' => 'ting_search_carousel_result',
-    'page arguments' => array(3, 4, 5),
+    'page arguments' => array(3, 4),
     'access arguments' => array('access content'),
     'file' => 'ting_search_carousel.pages.inc',
     'type' => MENU_CALLBACK,

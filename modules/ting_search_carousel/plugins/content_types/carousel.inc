@@ -179,7 +179,7 @@ function ting_search_carousel_carousel_content_type_edit_form_submit(&$form, &$f
   // happening when page is opened.
   foreach ($searches as $search) {
     $query = new TingSearchCarouselQuery($search['query'], $search['sort'], $search['available']);
-    ting_search_carousel_get_entities($query, 0, 8, FALSE);
+    ting_search_carousel_get_entities($query, 0, TING_SEARCH_CAROUSEL_CHUNK_SIZE, FALSE);
   }
 }
 
