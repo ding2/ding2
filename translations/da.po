@@ -17064,13 +17064,13 @@ msgid "Date/time on which the article will be automatically unpublished"
 msgstr "Dato/tid hvor indholdet automatisk bliver afpubliceret."
 
 msgid "Event"
-msgstr "Arrangement"
+msgstr "Begivenhed"
 
 msgid "Category"
 msgstr "Kategori"
 
 msgid "Groups"
-msgstr "Tema"
+msgstr "Grupper"
 
 msgid "Target"
 msgstr "Mål"
@@ -37752,6 +37752,26 @@ msgstr "Stort begyndelsesbogstav"
 msgid "sorted by"
 msgstr "sorteret efter"
 
+#: /search/ting/bog?
+msgctxt "opensearch_ranking"
+msgid "Sorted by"
+msgstr "Jeg søger efter"
+
+#: /
+msgctxt "opensearch_ranking"
+msgid "Title"
+msgstr "titlen"
+
+#: /
+msgctxt "opensearch_ranking"
+msgid "Creator"
+msgstr "forfatteren"
+
+#: /
+msgctxt "opensearch_ranking"
+msgid "Subject"
+msgstr "emnet"
+
 msgid "Custom URL"
 msgstr "Brugerdefineret URL"
 
@@ -50959,7 +50979,7 @@ msgstr ""
 
 #: /admin/config/ting/facets?render=overlay
 msgid "\"Configure facets shown in the facetbrowser. Facet names can be found \"at <a \"href=\"http://oss.dbc.dk/wiki/bin/view/Databroend/OpenSearchDocIndexes\">DBC \"wiki</a> and is usually named <em>facet.something</em>."
-msgstr ""
+msgstr "Konfigurér facetter vist i facetbrowseren. Facetnavne findes under <a href="http://oss.dbc.dk/wiki/bin/view/Databroend/OpenSearchDocIndexes">DBC wiki</a> og er typisk udformet som <em>facet.date</em>."
 
 #: /admin/config/ting/facets?render=overlay
 msgid "Visible facets amount"
@@ -66914,10 +66934,6 @@ msgstr "Søg i @profile"
 msgid "Search in all"
 msgstr "Søg i alle"
 
-#: /
-msgid "Choose search category"
-msgstr "Vælg søgekategori"
-
 #: /index.php
 msgid "Related news"
 msgstr "Relaterede nyheder"
@@ -67297,15 +67313,18 @@ msgstr "Intern fejl på @title"
 msgid "Your account is limited. Please contact your library for more information."
 msgstr "Din konto har begrænset adgang. Kontakt venligst biblioteket for yderligere information."
 
+msgid "Your account is limited due to outstanding debt. Please contact your library for more "
+msgstr "Din konto har begrænset adgang på grund af et mellemværende. Kontakt venligst biblioteket for yderligere information."
+
 #: /system/ajax
 msgid "Your account is limited due to outstanding debt. Please contact your library for more information."
 msgstr "Din konto har begrænset adgang på grund af udestående mellemværender. Kontakt venligst biblioteket for yderligere information."
 
 msgid "Your self created account is limited. Please contact your library to get full access."
-msgstr "Din konto har begrænset adgang. Kontakt venligst dit bibliotek for at få fuld adgang."
+msgstr "Din konto har begrænset adgang. For at få fuld adgang skal du kontakte dit bibliotek."
 
 msgid "You have been excluded. Please contact your library for more information."
-msgstr "Din brugerprofil er blevet lukket. Kontakt venligst biblioteket for yderligere information."
+msgstr "Din konto er lukket. Kontakt venligst biblioteket for yderligere information."
 
 msgid "See <a href="@link">this</a> page for more information about block types."
 msgstr "Se siden <a href="@link">årsager til at min konto er blokeret</a> for at få mere information."
@@ -67314,7 +67333,7 @@ msgid "Error: %order"
 msgstr "Fejl: %order"
 
 msgid "New in list"
-msgstr "Nyt på listen"
+msgstr "Ny på listen"
 
 msgid "Add one or more organizer(s) to your event."
 msgstr "Tilføj en eller flere arrangører til dit arrangement."
@@ -67537,16 +67556,22 @@ msgstr "Denne handling vil slette alle de lister du har oprettet, samt indholdet
 msgid "change the node status in BPI"
 msgstr "Redigér artiklens status i BPI"
 
-#: /arrangementer/boern/moed-forfatteren-tom-buk-swienty
-msgctxt "Price"
-msgid "Free"
-msgstr "Gratis"
-
-#: /search/ting
-msgctxt "Rating"
-msgid "Rate this !number / 5 stars"
-msgstr "Bedøm dette !number / 5 stjerner"
-
 #: /user/me/status-debts
 msgid "I accept the terms of service"
 msgstr "Jeg accepterer betalingsbetingelserne"
+
+#: /list/12391117
+msgid "Created by"
+msgstr "Oprettet af"
+
+#: /list/12391117
+msgid "Number of followers"
+msgstr "Antal følgere"
+
+#: /list/14341156
+msgid "Share list on"
+msgstr "Del listen på"
+
+#: /ding/p2b/event_maker/5213/event/168247
+msgid "Ticket sale starts @date at @time"
+msgstr "Billetsalget starter @date kl. @time"
