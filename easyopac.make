@@ -234,6 +234,12 @@ projects[easyddb_facebookshare][download][url]    = "git@github.com:easySuite/ea
 ;projects[easyddb_facebookshare][download][tag]    = "7.x-3.0.2"
 projects[easyddb_facebookshare][download][branch] = "development"
 
+projects[easyddb_ee_import][type]             = "module"
+projects[easyddb_ee_import][subdir]           = ""
+projects[easyddb_ee_import][download][type]   = "git"
+projects[easyddb_ee_import][download][url]    = "git@github.com:easySuite/easyddb_ee_import.git"
+projects[easyddb_ee_import][download][branch] = "development"
+
 projects[easyddb_dams][type]             = "module"
 projects[easyddb_dams][subdir]           = ""
 projects[easyddb_dams][download][type]   = "git"
