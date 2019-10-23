@@ -102,14 +102,6 @@ function ding_eresource_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_eresource' => 'ding_eresource',
   );
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
-  );
   /* Filter criterion: Content: Access (field_ding_eresource_access) */
   $handler->display->display_options['filters']['field_ding_eresource_access_tid']['id'] = 'field_ding_eresource_access_tid';
   $handler->display->display_options['filters']['field_ding_eresource_access_tid']['table'] = 'field_data_field_ding_eresource_access';

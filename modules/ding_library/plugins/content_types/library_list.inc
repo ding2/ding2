@@ -47,6 +47,7 @@ function ding_library_library_list_content_type_render($subtype, $conf, $panel_a
 
   // Get all active library title and nid's.
   $nodes = db_select('node', 'n')
+    ->addTag('library_list')
     ->fields('n', array('nid', 'title'))
     ->condition('type', 'ding_library')
     ->condition('status', '1');
