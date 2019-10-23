@@ -117,16 +117,6 @@ function ding_page_strongarm() {
             'visible' => TRUE,
           ),
         ),
-        'language' => array(
-          'default' => array(
-            'weight' => '7',
-            'visible' => FALSE,
-          ),
-          'teaser' => array(
-            'weight' => '4',
-            'visible' => FALSE,
-          ),
-        ),
       ),
     ),
   );
