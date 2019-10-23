@@ -21,7 +21,7 @@ function ding_frontend_locale_default_languages() {
     'formula' => '',
     'domain' => '',
     'prefix' => 'en',
-    'weight' => -9,
+    'weight' => -8,
   );
   return $languages;
 }

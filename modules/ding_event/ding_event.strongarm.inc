@@ -130,8 +130,16 @@ function ding_event_strongarm() {
             'visible' => TRUE,
           ),
           'search_result' => array(
-            'weight' => '4',
+            'weight' => '8',
             'visible' => FALSE,
+          ),
+          'alternative_layout_full' => array(
+            'weight' => '1',
+            'visible' => TRUE,
+          ),
+          'teaser_highlight' => array(
+            'weight' => '1',
+            'visible' => TRUE,
           ),
         ),
         'ding_serendipity_info' => array(
@@ -142,6 +150,40 @@ function ding_event_strongarm() {
           'teaser' => array(
             'weight' => '0',
             'visible' => TRUE,
+          ),
+'search_result' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'alternative_layout_full' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'teaser_highlight' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+        'language' => array(
+          'default' => array(
+            'weight' => '7',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '7',
+            'visible' => FALSE,
+          ),
+          'search_result' => array(
+            'weight' => '3',
+            'visible' => FALSE,
+          ),
+          'alternative_layout_full' => array(
+            'weight' => '2',
+            'visible' => FALSE,
+          ),
+          'teaser_highlight' => array(
+            'weight' => '2',
+            'visible' => FALSE,
           ),
         ),
       ),
@@ -160,7 +202,7 @@ function ding_event_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_ding_event';
-  $strongarm->value = '0';
+  $strongarm->value = '2';
   $export['language_content_type_ding_event'] = $strongarm;
 
   $strongarm = new stdClass();

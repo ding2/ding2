@@ -15,6 +15,8 @@ function ding_page_menu_default_menu_custom() {
     'menu_name' => 'menu-secondary-menu',
     'title' => 'Secondary menu',
     'description' => '',
+    'language' => 'und',
+    'i18n_mode' => 0,
   );
   // Translatables
   // Included for use with string extractors like potx.

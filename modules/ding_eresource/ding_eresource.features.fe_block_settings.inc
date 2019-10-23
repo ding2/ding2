@@ -16,6 +16,8 @@ function ding_eresource_default_fe_block_settings() {
     'cache' => -1,
     'custom' => 0,
     'delta' => '98880b6fbff6f74deeae473932e04e0b',
+    'i18n_block_language' => array(),
+    'i18n_mode' => 0,
     'module' => 'views',
     'node_types' => array(),
     'pages' => '',

@@ -314,6 +314,15 @@ function ddbasic_preprocess_views_view(&$vars) {
           break;
       }
       break;
+
+    case 'ding_library':
+      switch ($vars['view']->current_display) {
+        case 'ding_library_frontpage_list':
+          // Add slide-on-mobile class.
+          $vars['classes_array'][] = 'slide-on-mobile';
+          break;
+      }
+      break;
   }
 }
 

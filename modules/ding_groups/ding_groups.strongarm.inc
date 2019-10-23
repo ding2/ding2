@@ -102,7 +102,26 @@ function ding_groups_strongarm() {
           'weight' => '5',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'language' => array(
+          'teaser_highlight' => array(
+            'weight' => '0',
+            'visible' => FALSE,
+          ),
+          'alternative_layout_full' => array(
+            'weight' => '0',
+            'visible' => FALSE,
+          ),
+          'default' => array(
+            'weight' => '4',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '4',
+            'visible' => FALSE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__ding_group'] = $strongarm;
@@ -111,7 +130,7 @@ function ding_groups_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_ding_group';
-  $strongarm->value = '0';
+  $strongarm->value = '2';
   $export['language_content_type_ding_group'] = $strongarm;
 
   $strongarm = new stdClass();

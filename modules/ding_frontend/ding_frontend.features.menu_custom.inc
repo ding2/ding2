@@ -15,6 +15,8 @@ function ding_frontend_menu_default_menu_custom() {
     'menu_name' => 'menu-tabs-menu',
     'title' => 'Topbar menu',
     'description' => 'This menu is used to display tabs that let the user change between navigational elements.',
+    'language' => 'und',
+    'i18n_mode' => 0,
   );
   // Translatables
   // Included for use with string extractors like potx.
