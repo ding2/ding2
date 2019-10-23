@@ -40,6 +40,5 @@ function ding_event_node_info() {
       'help' => t('This is the heading usually displayed with a big font size (h1) on the top of the page.'),
     ),
   );
-  drupal_alter('node_info', $items);
   return $items;
 }

@@ -43,6 +43,5 @@ function ding_library_node_info() {
       'help' => '',
     ),
   );
-  drupal_alter('node_info', $items);
   return $items;
 }

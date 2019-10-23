@@ -69,7 +69,6 @@ function ding_groups_field_default_field_bases() {
         ),
       ),
       'profile2_private' => FALSE,
-      'options_list_callback' => 'i18n_taxonomy_allowed_values',
     ),
     'translatable' => 0,
     'type' => 'taxonomy_term_reference',

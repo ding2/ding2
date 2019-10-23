@@ -64,7 +64,6 @@ function ding_event_field_default_field_instances() {
           'status' => TRUE,
         ),
       ),
-      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'view modes' => array(
@@ -1091,7 +1090,6 @@ function ding_event_field_default_field_instances() {
           'status' => TRUE,
         ),
       ),
-      'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
     ),
     'view modes' => array(

@@ -29,8 +29,6 @@ function ding_frontend_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -47,
     'customized' => 1,
-    'language' => 'und',
-    'menu_links_customized' => 1,
   );
   // Exported menu link: menu-tabs-menu_logout:user/logout
   $menu_links['menu-tabs-menu_logout:user/logout'] = array(
@@ -51,8 +49,6 @@ function ding_frontend_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -45,
     'customized' => 1,
-    'language' => 'und',
-    'menu_links_customized' => 1,
   );
   // Exported menu link: menu-tabs-menu_menu:<front>
   $menu_links['menu-tabs-menu_menu:<front>'] = array(
@@ -93,8 +89,6 @@ function ding_frontend_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -48,
     'customized' => 1,
-    'language' => 'und',
-    'menu_links_customized' => 1,
   );
   // Exported menu link: menu-tabs-menu_search:search
   $menu_links['menu-tabs-menu_search:search'] = array(
@@ -115,8 +109,6 @@ function ding_frontend_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -50,
     'customized' => 0,
-    'language' => 'und',
-    'menu_links_customized' => 1,
   );
   // Exported menu link: menu-tabs-menu_user-menu-mobile:node
   $menu_links['menu-tabs-menu_user-menu-mobile:node'] = array(
@@ -137,8 +129,6 @@ function ding_frontend_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -46,
     'customized' => 1,
-    'language' => 'und',
-    'menu_links_customized' => 1,
   );
   // Translatables
   // Included for use with string extractors like potx.
