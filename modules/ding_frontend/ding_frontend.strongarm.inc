@@ -91,7 +91,7 @@ background-attachment: fixed;',
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'languageicons_path';
-  $strongarm->value = 'http://storage.easyting.dk/icons/*.png';
+  $strongarm->value = 'profiles/ding2/modules/contrib/languageicons/flags/*.png';
   $export['languageicons_path'] = $strongarm;
 
   $strongarm = new stdClass();
