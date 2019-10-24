@@ -407,6 +407,12 @@ projects[ting_search_terms][download][url]    = "git@github.com:easySuite/ting_s
 ;projects[ting_search_terms][download][tag]    = "7.x-3.0.4"
 projects[ting_search_terms][download][branch] = "development"
 
+projects[ting_search_subject][type]             = "module"
+projects[ting_search_subject][subdir]           = ""
+projects[ting_search_subject][download][type]   = "git"
+projects[ting_search_subject][download][url]    = "git@github.com:easySuite/ting_search_subject.git"
+projects[ting_search_subject][download][branch] = "development"
+
 projects[ting_subjects_override][type]             = "module"
 projects[ting_subjects_override][subdir]           = ""
 projects[ting_subjects_override][download][type]   = "git"
