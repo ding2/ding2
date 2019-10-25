@@ -35,6 +35,13 @@ function ding_event_menu() {
 }
 
 /**
+ * Implements hook_menu_alter().
+ */
+function ding_event_menu_alter(&$items) {
+  $items['node/%node/clone/%clone_token']['type'] = MENU_LOCAL_TASK;
+}
+
+/**
  * Implements hook_field_formatter_info().
  */
 function ding_event_field_formatter_info() {

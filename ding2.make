@@ -286,7 +286,7 @@ projects[nodequeue][subdir] = "contrib"
 projects[nodequeue][version] = "2.1"
 
 projects[node_clone][subdir] = "contrib"
-projects[node_clone][version] = "1.0-rc2"
+projects[node_clone][version] = "1.0"
 
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
