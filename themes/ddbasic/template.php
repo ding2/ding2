@@ -99,27 +99,27 @@ function ddbasic_process_html(&$vars) {
  */
 function ddbasic_entity_view_alter(&$build, $type) {
   if (in_array($build['#view_mode'], array('full', 'search_result'))) {
-    if (isset($build['field_editorial_base'])) {
-      $items = field_get_items('node', $build['#node'], 'field_editorial_base', LANGUAGE_NONE);
+    if (isset($build['field_ding_section'])) {
+      $items = field_get_items('node', $build['#node'], 'field_ding_section', LANGUAGE_NONE);
       if (!empty($items)) {
-        $build['field_editorial_base'] = array($build['field_editorial_base']);
-        $build['field_editorial_base']['#theme'] = 'field';
-        $build['field_editorial_base']['#view_mode'] = $build['#view_mode'];
-        $build['field_editorial_base']['#field_name'] = 'field_editorial_base';
-        $build['field_editorial_base']['#field_type'] = 'taxonomy_term_reference';
-        $build['field_editorial_base']['#formatter '] = 'taxonomy_term_reference_link';
-        $build['field_editorial_base']['#label_display'] = 'hidden';
-        $build['field_editorial_base']['#title'] = t('Section');
-        $build['field_editorial_base']['#language '] = LANGUAGE_NONE;
-        $build['field_editorial_base']['#field_translatable'] = 0 ;
-        $build['field_editorial_base']['#entity_type'] = 'node';
-        $build['field_editorial_base']['#bundle'] = $build['#node']->type;
-        $build['field_editorial_base']['#weight'] = isset($build['field_' . $build['#node']->type . '_tags']['#weight']) ?
+        $build['field_ding_section'] = array($build['field_ding_section']);
+        $build['field_ding_section']['#theme'] = 'field';
+        $build['field_ding_section']['#view_mode'] = $build['#view_mode'];
+        $build['field_ding_section']['#field_name'] = 'field_ding_section';
+        $build['field_ding_section']['#field_type'] = 'taxonomy_term_reference';
+        $build['field_ding_section']['#formatter '] = 'taxonomy_term_reference_link';
+        $build['field_ding_section']['#label_display'] = 'hidden';
+        $build['field_ding_section']['#title'] = t('Section');
+        $build['field_ding_section']['#language '] = LANGUAGE_NONE;
+        $build['field_ding_section']['#field_translatable'] = 0 ;
+        $build['field_ding_section']['#entity_type'] = 'node';
+        $build['field_ding_section']['#bundle'] = $build['#node']->type;
+        $build['field_ding_section']['#weight'] = isset($build['field_' . $build['#node']->type . '_tags']['#weight']) ?
           $build['field_' . $build['#node']->type . '_tags']['#weight'] + 1  : 7;
-        $build['field_editorial_base']['#access'] = TRUE;
+        $build['field_ding_section']['#access'] = TRUE;
         foreach ($items as $item) {
-          $term = field_view_value('node', $build['#node'], 'field_editorial_base', $item);
-          $build['field_editorial_base']['#items'][] = array('tid' => $item, 'taxonomy_term' => $term);
+          $term = field_view_value('node', $build['#node'], 'field_ding_section', $item);
+          $build['field_ding_section']['#items'][] = array('tid' => $item, 'taxonomy_term' => $term);
         }
       }
     }
@@ -459,6 +459,43 @@ function ddbasic_preprocess_entity_profile2(&$variables) {
 }
 
 /**
+ * Paragraphs item specific implementation of template_preprocess_entity().
+ */
+function ddbasic_preprocess_entity_paragraphs_item(&$variables) {
+  // Image and text positioning for image and text paragraph box.
+  if ($variables['elements']['#bundle'] == 'ding_paragraphs_image_and_text') {
+    $wrapper = entity_metadata_wrapper('paragraphs_item', $variables['paragraphs_item']);
+    $position = $wrapper->field_ding_paragraphs_position->value();
+    switch ($position) {
+      case 'image_top':
+        $variables['content']['field_ding_paragraphs_image']['#weight'] = 0;
+        $variables['content']['field_ding_paragraphs_text']['#weight'] = 1;
+        break;
+
+      case 'image_bottom':
+        $variables['content']['field_ding_paragraphs_image']['#weight'] = 1;
+        $variables['content']['field_ding_paragraphs_text']['#weight'] = 0;
+        break;
+
+      case 'ting_object_left':
+        $variables['content']['field_ding_paragraphs_image']['#weight'] = 0;
+        $variables['content']['field_ding_paragraphs_text']['#weight'] = 1;
+        $variables['content']['field_ding_paragraphs_image']['attributes']['class'] = 'object-left';
+        $variables['content']['field_ding_paragraphs_text']['attributes']['class'] = 'object-right';
+        break;
+
+    }
+  }
+
+  $wrapper = $variables['paragraphs_item']->wrapper();
+  $paragraph_styles = array('paragraphs-block');
+  if (isset($wrapper->getPropertyInfo()['field_ding_paragraphs_display'])) {
+    $paragraph_styles[] = 'paragraphs-block--' . str_replace('_', '-', $wrapper->field_ding_paragraphs_display->value());
+  }
+  $variables['paragraph_styles'] = implode(' ', $paragraph_styles);
+}
+
+/**
  * Implements template_preprocess_menu_links().
  */
 function ddbasic_preprocess_menu_link(&$variables) {
@@ -582,6 +619,12 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
   $title_prefix = '';
   $title_suffix = '';
 
+  // Create variable to make the switch statement below more dynamic.
+  $user_login_path = 'user';
+  if (module_exists('ding_adgangsplatformen')) {
+    $user_login_path = DING_ADGANGSPLATFORMEN_LOGIN_URL;
+  }
+
   // Add some icons to our top-bar menu. We use system paths to check against.
   switch ($element['#href']) {
     case 'search':
@@ -594,7 +637,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       // Special placeholder for mobile user menu. Fall through to next case.
       $element['#localized_options']['attributes']['class'][] = 'default-override';
 
-    case 'user':
+    case $user_login_path:
       $title_prefix = '<i class="icon-user"></i>';
       $title_suffix = '<i class="icon-arrow-down"></i>';
       // If a user is logged in we change the menu item title.
@@ -644,6 +687,33 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       else {
         $element['#attributes']['class'][] = 'topbar-link-user';
         $element['#localized_options']['attributes']['class'][] = 'topbar-link-user';
+
+        // Add destination to login link when using ding authentication.
+        if (module_exists('ding_adgangsplatformen')) {
+          if ($element['#href'] == DING_ADGANGSPLATFORMEN_LOGIN_URL) {
+            $destination = drupal_get_destination();
+
+            // Handle issues with lazy-pane and destination.
+            if ($destination['destination'] === 'lazy-pane/ajax') {
+              $path = $_GET['q'];
+              $query = drupal_http_build_query(drupal_get_query_parameters());
+              if ($query != '') {
+                $path .= '?' . $query;
+              }
+              $destination = array('destination' => $path);
+            }
+
+            $element['#localized_options']['query'] = array(
+              $destination,
+            );
+          }
+        }
+        else {
+          // Add support for open/close login/form when ding_adgangsplaformen is
+          // not enabled.
+          $element['#attributes']['class'][] = 'js-topbar-link-user';
+          $element['#localized_options']['attributes']['class'][] = 'js-topbar-link-user';
+        }
       }
       break;
 
@@ -699,6 +769,9 @@ function ddbasic_theme_script($filepath) {
  *
  * @param string $theme_name
  *   Name of the current theme.
+ *
+ * @return array
+ *   The info file array for a particular theme.
  */
 function ddbasic_get_info($theme_name) {
   $info = &drupal_static(__FUNCTION__, array());
@@ -810,12 +883,7 @@ function ddbasic_process_ting_object(&$vars) {
       break;
 
     case 'ting_object':
-
-      $uri_collection = entity_uri('ting_collection', $vars['object']);
-      $vars['ting_object_url_collection'] = url($uri_collection['path']);
-
       $uri_object = entity_uri('ting_object', $vars['object']);
-      $vars['ting_object_url_object'] = url($uri_object['path']);
 
       switch ($vars['elements']['#view_mode']) {
 
@@ -840,7 +908,7 @@ function ddbasic_process_ting_object(&$vars) {
             '#weight' => 9998,
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
@@ -848,7 +916,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
@@ -888,7 +956,7 @@ function ddbasic_process_ting_object(&$vars) {
             '#weight' => 9998,
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
@@ -896,7 +964,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['group_text']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',
@@ -912,6 +980,13 @@ function ddbasic_process_ting_object(&$vars) {
           // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
 
+          // Check if teaser has rating function and remove abstract.
+          if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
+            unset($vars['content']['group_text']['ting_abstract']);
+          }
+
+          break;
+        
           // Check if teaser has rating function and remove abstract.
           if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
             unset($vars['content']['group_text']['ting_abstract']);
@@ -944,7 +1019,7 @@ function ddbasic_process_ting_object(&$vars) {
             ),
           );
 
-          if ($vars['object']->is('reservable')) {
+          if ($vars['object']->is('library_material')) {
             $vars['content']['buttons']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
@@ -952,7 +1027,7 @@ function ddbasic_process_ting_object(&$vars) {
               'ajax'
             );
           }
-          if ($vars['object']->online_url) {
+          if ($vars['object']->is('online')) {
             // Slice the output, so it only usese the online link button.
             $vars['content']['buttons']['online_link'] = ting_ding_entity_buttons(
               'ding_entity',

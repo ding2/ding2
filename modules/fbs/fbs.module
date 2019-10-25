@@ -70,9 +70,9 @@ function fbs_ding_provider() {
         'prefix' => 'user',
         'file' => 'includes/fbs.user.inc',
       ),
-      'wayf' => array(
-        'prefix' => 'wayf',
-        'file' => 'includes/fbs.wayf.inc',
+      'auth' => array(
+        'prefix' => 'auth',
+        'file' => 'includes/fbs.auth.inc',
       ),
       'user_consent' => array(
         'prefix' => 'user_consent',
@@ -764,6 +764,66 @@ function _fbs_patron_info(Patron $patron) {
 }
 
 /**
+ * Transforms the FBS patron object into ding user array.
+ *
+ * @param string $name
+ *   User name.
+ * @param \FBS\Model\Patron $patron
+ *   The FBS Patron object to transform.
+ *
+ * @return array
+ *   Ding user array with information about the patron.
+ *
+ * @throws \DingProviderUserAuthFailure
+ *   If the authenticated patron has been blocked. Don't allow users blocked by
+ *   library card stolen, blocked by self service automation or deceased to log
+ *   in.
+ */
+function _fbs_patron_transform(string $name, Patron $patron) {
+  $result = array(
+    'creds' => _fbs_patron_info($patron),
+  );
+
+  // We have to save the library card number/CPR number, as the pin code change
+  // call uses it.
+  $result['creds']['library_card_number'] = $name;
+
+  $result['user'] = array(
+    'mail' => $patron->emailAddress,
+    'data' => array(
+      'display_name' => $patron->name,
+    ),
+    'private' => array(
+      'branch' => $patron->preferredPickupBranch,
+    ),
+  );
+
+  if ($patron->blockStatus) {
+    $block_reasons = array(
+      'F' => 'ding_user_blocked_excluded',
+      'E' => 'ding_user_blocked_debt',
+      'W' => 'ding_user_blocked_self_created',
+      'U' => 'ding_user_blocked_excluded',
+    );
+    $result['user']['blocks'] = array();
+
+    foreach ($patron->blockStatus as $block) {
+      $result['user']['blocks'][] = $block->message;
+      // Don't allow users blocked by "O" (library card stolen),"S" (blocked
+      // by self service automation) or "D" (deceased) statuses log in.
+      if (in_array($block->blockedReason, array('O', 'S', 'D'))) {
+        throw new DingProviderUserAuthFailure();
+      }
+      else {
+        $result['user']['blocks'][] = isset($block_reasons[$block->blockedReason]) ? $block_reasons[$block->blockedReason] : 'default';
+      }
+    }
+  }
+
+  return $result;
+}
+
+/**
  * Return a reversible local_id for a periodical.
  *
  * Ding wants an unique id for a periodical. We don't have that, so we pack the
@@ -836,25 +896,6 @@ function _fbs_periodical_parse_local_id($local_id) {
   ) = $parts;
 
   return array($record_id, $periodical);
-}
-
-/**
- * Static cache for WAYF logins.
- *
- * Not pretty, but due to the way that ding_wayf is implemented, this is what we
- * need.
- */
-function _fbs_wayf_login($name, $value = NULL) {
-  $logins = &drupal_static(__FUNCTION__, array());
-  if ($value) {
-    $logins['name'] = $value;
-  }
-
-  if (isset($logins['name'])) {
-    return $logins['name'];
-  }
-
-  return NULL;
 }
 
 /**

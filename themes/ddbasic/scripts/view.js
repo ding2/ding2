@@ -187,7 +187,6 @@
         $('.view-ding-event.max-two-rows .view-elements .view-elements-inner .group-row').each(function () {
           var rows = $(this).children('.views-row'),
               row_total = 0,
-              row_order = 0,
               has_image,
               doc_style = document.documentElement.style;
 
@@ -206,17 +205,6 @@
                 row_total = row_total + 1;
                 has_image = false;
               }
-
-              // If odd and has image.
-              if (row_total % 2 === 1 && has_image === true) {
-                row_order = row_order - 1;
-              }
-              else {
-                row_order = row_order + 1;
-              }
-
-              // Set css order on rows.
-              $(this).attr('style',  'order:' + row_order);
 
             });
           }

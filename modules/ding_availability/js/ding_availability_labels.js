@@ -135,7 +135,11 @@
           group = $('.js-unavailable', groups_wrapper);
 
           if (group.length === 0) {
-            group = $('<p class="js-unavailable">' + Drupal.t('Not available') + ': </p>');
+            var msg = Drupal.t('Not available');
+            if (Drupal.settings.hasOwnProperty('ding_ill')) {
+              var msg = Drupal.t('Order from another library');
+            }
+            group = $('<p class="js-unavailable">' + msg + ': </p>');
             groups_wrapper.append(group);
           }
         }

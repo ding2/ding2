@@ -4,6 +4,11 @@
 @import '../../base.scss';
 
 .node-ding-event {
+  // Display links in body text with underline.
+  .field-name-field-ding-event-body a {
+    text-decoration: underline;
+  }
+
   // ==========================================================================
   // Teaser
   // ==========================================================================
@@ -152,6 +157,7 @@
     }
     // Hover for non touch devices
     .no-touch & {
+      &.is-hovered,
       &:hover {
         .background {
           @include transition(
@@ -257,10 +263,11 @@
 
           &.ticket-available {
             background-color: $green;
+            color: $white;
 
             &:hover {
               background-color: $green-text;
-              color: lighten($black, 15);
+              color: lighten($white, 15);
             }
           }
 
@@ -288,15 +295,9 @@
             color: $black;
           }
         }
-
-        a.button {
-          &:link, &:visited, &:hover, &:active {
-            text-decoration: underline;
-          }
-        }
       }
       > .right {
-        @include span-columns(5);
+        @include span-columns(6);
 
         // Tablet
         @include media($tablet) {

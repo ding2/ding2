@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="ding2">
+  <description>PHP CodeSniffer configuration ding2.</description>
+  <!-- Check all files in the current directory and below. -->
+  <file>.</file>
+  <arg name="extensions" value="php,module,inc,install,test,profile,theme,css,info,txt,md"/>
+  <config name="drupal_core_version" value="7"/>
+  <rule ref="Drupal"/>
+  <rule ref="DrupalPractice"/>
+</ruleset>

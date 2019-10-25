@@ -17,6 +17,7 @@
   }
   .close-user-login {
     @include place-icon(close);
+    display: block;
     width: 24px;
     height: 24px;
     float: right;
@@ -44,7 +45,6 @@
   }
   .form-item {
     width: 100%;
-    float: left;
     margin: 0 0 15px;
     > label {
       display: none;
@@ -63,6 +63,7 @@
   }
   .form-actions {
     margin-bottom: 20px;
+    max-width: 400px;
   }
   .submit-button-with-icon {
     .color-and-icon {
@@ -103,18 +104,6 @@
           color: $white;
         }
       }
-    }
-  }
-  .ding-gatewayf--login-block {
-    margin-top: 10px;
-    a {
-      @include button(nemid, $charcoal-opacity-dark, $grey-medium);
-    }
-  }
-  .sign-up-link {
-    clear: both;
-    a {
-      float: right;
     }
   }
 }

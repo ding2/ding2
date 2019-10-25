@@ -3,7 +3,21 @@
 /**
  * @file
  * Template file for rolltab page layout.
+ *
+ * Notice: This file is also used by
+ * - ding_nodelist.ding_news.rolltab.tpl.php
+ * - ding_nodelist.ding_event.rolltab.tpl.php
  */
+
+// We need to make sure that the content is wrapped in a <p> tag,
+// however sometimes the content already comes with <p> tag, so we'll check for
+// that, to avoid any W3C errors by having multiple p tags.
+$body = $item->teaser_lead;
+$p_body_wrapper = TRUE;
+
+if (!empty($body) && substr($body, 0, 2) === '<p') {
+  $p_body_wrapper = FALSE;
+}
 
 ?>
 <div class="ding-tabroll">
@@ -22,8 +36,16 @@
 
     <div class="info">
       <h3><?php print l($item->title, 'node/' . $item->nid); ?></h3>
-      <p> <?php print $item->teaser_lead; ?>
-      </p>
+
+      <?php if ($p_body_wrapper): ?>
+        <p>
+      <?php endif; ?>
+
+      <?php print $body; ?>
+
+      <?php if ($p_body_wrapper): ?>
+        </p>
+      <?php endif; ?>
     </div>
   </div>
 </div>

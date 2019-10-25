@@ -218,18 +218,19 @@ function _ding_ipe_filter_show_for_admin() {
 function _ding_ipe_filter_selected_panes() {
   $default = array(
     'ding_nodelist' => 'ding_nodelist',
-    'ding_item_list' => 'ding_item_list',
-    'campaign' => 'campaign',
-    'single_campaign' => 'single_campaign',
-    'carousel' => 'carousel',
-    'ding_event_calendar-ding-event-calendar' => 'ding_event_calendar-ding-event-calendar',
+    'ding_campaign_plus' => 'ding_campaign_plus',
     'all_opening_hours' => 'all_opening_hours',
     'popular' => 'popular',
     'interaction_pane' => 'interaction_pane',
     'serendipity_ting_object' => 'serendipity_ting_object',
+    'campaign' => 'campaign',
+    'single_campaign' => 'single_campaign',
+    'carousel' => 'carousel',
+    'ding_item_list' => 'ding_item_list',
     'menu_block-3' => 'menu_block-3',
     'menu_block-4' => 'menu_block-4',
     'section_description_image' => 'section_description_image',
+    'ding_event_calendar-ding-event-calendar' => 'ding_event_calendar-ding-event-calendar',
   );
 
   $selected = variable_get('ding_ipe_filter_panes_selected', $default);
@@ -242,4 +243,13 @@ function _ding_ipe_filter_selected_panes() {
 function ding_ipe_filter_preprocess_panels_ipe_pane_wrapper(&$variables) {
   unset($variables['links']['style']);
   unset($variables['links']['css']);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_ipe_filter_form_alter(&$form, &$form_state, $form_id) {
+  if (strpos($form['#action'], '/panels/ajax/ipe/') !== FALSE && $form_state['modal'] == TRUE) {
+    $form['#attached']['css'][] = drupal_get_path('module', 'ding_ipe_filter') . '/css/ding_ipe_filter.modal.css';
+  }
 }

@@ -324,8 +324,7 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
 
       // Loop over materials from BPI inserting new default field for each.
       foreach ($bpi_content['material'] as $key => $material_number) {
-        preg_match('/[^\:]+\:\s?(.*)/', $material_number, $matches);
-        $id = bpi_validate_material($matches[1]);
+        $id = bpi_validate_material($material_number);
         $form[$materials_field][$current_language][$key] = $default_field;
         if (!$id) {
           $id = $material_number;
@@ -389,6 +388,14 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     elseif (isset($form[$body][$current_language][0])) {
       $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
+
+    // Let others hook into the edit form.
+    $context = array(
+      'form_state' => &$form_state,
+      'syndicated_images' => $syndicated_images,
+      'bpi_node' => $bpi_node,
+    );
+    drupal_alter('bpi_syndicate_node_form', $form, $context);
   }
 
   // Add BPI fields.
@@ -952,29 +959,23 @@ function bpi_workflow_by_machine_names($machine_names) {
 /**
  * Makes request to ting and checks exist material with such id.
  *
- * @param $id
+ * @param string $ting_object_id
+ *   The Ting object id.
  *
  * @return mixed
  *   FALSE in case when id not exist
  *   int in case when material with same id was found.
  */
-function bpi_validate_material($id) {
-  $result = ting_start_query()
-    ->withFullTextQuery($id)
-    ->withCount(1)
-    ->withPopulateCollections(FALSE)
-    ->execute();
+function bpi_validate_material($ting_object_id) {
+  // If the colon was URL-encoded, decode it - and trim whitespace from
+  // both ends of the input string.
+  $ting_object_id = trim(str_replace('%3A', ':', $ting_object_id));
 
-  $primary_objects = array_map(function (TingCollection $collection) {
-    return $collection->getPrimary_object();
-  }, $result->getTingEntityCollections());
-  // Collections may not have a primary object. Remove such entries.
-  $primary_objects = array_filter($primary_objects);
-  $ids = array_map(function (TingEntity $object) {
-    return $object->getId();
-  }, $primary_objects);
+  // Load the object to validate it exists.
+  // Loading it should make it available for use with ting_get_object().
+  $ting_entity = ting_object_load($ting_object_id);
 
-  return array_shift($ids);
+  return $ting_entity ? $ting_object_id : FALSE;
 }
 
 /**
@@ -1130,4 +1131,17 @@ function bpi_preprocess_bpi_preview_item(&$variables) {
   if ($bpi_agency_id === $bpi_item['agency_id']) {
     $variables['hide_syndicate_link'] = TRUE;
   }
+}
+
+/**
+ * Decide if a material can be shared between different BPI agencies.
+ *
+ * @param string $material_id
+ *   The material id.
+ *
+ * @return bool
+ *   TRUE if the material is shareable else FALSE.
+ */
+function bpi_material_is_sharable($material_id) {
+  return !preg_match('/katalog/', $material_id);
 }

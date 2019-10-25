@@ -287,7 +287,7 @@ function ding_user_frontend_url_outbound_alter(&$path, &$options, $original_path
   }
 
   // Fix user path (only for better paths to the user) for provider users.
-  if (preg_match('/^user\/(\d+)$/', $path, $matches) && $user->uid == $matches[0]) {
+  if (preg_match('/^user\/(\d+)$/', $path, $matches) && $user->uid == $matches[1]) {
     $path = 'user/me';
   }
 }

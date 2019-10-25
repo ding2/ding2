@@ -625,7 +625,7 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
           }
           $links = array();
           foreach ($val as $value) {
-            $links[] = l($value, 'search/ting/phrase.creator="' . $value .'"');
+            $links[] = l($value, 'search/ting/phrase.creator="' . $value . '"');
           }
           $element[$delta] = array(
             '#markup' => implode(', ', $links),

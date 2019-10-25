@@ -445,7 +445,32 @@ function ding_user_consent_translatables() {
  *   A valid link to the consent description page.
  */
 function ding_user_consent_get_description_link() {
-  $url = 'privatlivspolitik';
+  $url = variable_get('ding_user_consent_loan_history_store_description_link', '');
+  if (empty($url)) {
+    // Create a new page describing consent.
+    $values = array(
+      'type' => 'ding_page',
+      'uid' => 1,
+      'status' => 1,
+      'promote' => 0,
+    );
+    $entity = entity_create('node', $values);
+    entity_save('node', $entity);
+    // Attach paragraph to consent node.
+    $paragraph = new ParagraphsItemEntity(array('field_name' => 'field_ding_page_paragraphs', 'bundle' => 'ding_paragraphs_text'));
+    $paragraph->is_new = TRUE;
+    $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['value'] = t("Log in and edit your account to give permission to store your personal loan history extending the default 30 days. You can edit this permission at any time. Once you retract your permission previous loans older than 30 days will be permanently deleted.");
+    $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['format'] = 'ding_wysiwyg';
+    $paragraph->setHostEntity('node', $entity);
+    $paragraph->save();
+
+    $n = entity_metadata_wrapper('node', $entity);
+    $n->title->set(t("About consent and storage of previous loans"));
+    $n->field_ding_page_lead = t("The library will only store your previous loans in 30 days, unless you give us permission to keep them longer for you.");
+    $n->save();
+    $url = "node/" . $n->getIdentifier();
+    variable_set('ding_user_consent_loan_history_store_description_link', $url);
+  }
 
   return l(t("Read about storage of loan history"), $url, array('attributes' => array('target' => '_blank', 'class' => 'transparent-button positive')));
 }

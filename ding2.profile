@@ -365,6 +365,8 @@ function ding2_module_selection_form($form, &$form_state) {
     'bpi' => st('BPI'),
     'ding_debt' => st('Ding payment'),
     'ding_dibs' => st('Dibs payment gateway'),
+    'ding_user_form' => st('Enable normal user login (you should only select this if you are not using adgangsplatformen)'),
+    'ding_adgangsplatformen' => st('Single sign-on with Adgangsplatformen'),
   );
 
   $form['modules'] = array(
@@ -382,6 +384,7 @@ function ding2_module_selection_form($form, &$form_state) {
       'ding_contact',
       'ding_debt',
       'ding_dibs',
+      'ding_user_form',
     ),
   );
 
@@ -728,30 +731,29 @@ function ding2_add_administrators_role($uid) {
  * Add page with std. cookie information.
  */
 function ding2_set_cookie_page() {
-
-  $eu_cookie_compliance_da['popup_enabled'] = TRUE;
-  $eu_cookie_compliance_da['popup_clicking_confirmation'] = FALSE;
-  $eu_cookie_compliance_da['popup_info']['value'] = '<p>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse.</p><p>Læs mere her: <a href="' . url('cookies') . '">Hvad er cookies?</a></p>';
-  $eu_cookie_compliance_da['popup_info']['format'] = 'ding_wysiwyg';
-  $eu_cookie_compliance_da['popup_agree_button_message'] = 'Jeg accepterer brugen af cookies';
-  $eu_cookie_compliance_da['popup_disagree_button_message'] = 'Læs mere';
-  $eu_cookie_compliance_da['popup_find_more_button_message'] = 'Mere info';
-  $eu_cookie_compliance_da['popup_hide_button_message'] = 'Luk';
-  $eu_cookie_compliance_da['popup_agreed'][value] = '<p>Tak fordi du accepterer cookies</p><p>Du kan nu lukke denne besked, eller læse mere om cookies.</p>';
-  $eu_cookie_compliance_da['popup_agreed']['format'] = 'ding_wysiwyg';
-  $eu_cookie_compliance_da['popup_link'] = 'cookies';
-  $eu_cookie_compliance_da['popup_link_new_window'] = FALSE;
-  $eu_cookie_compliance_da['popup_bg_hex'] = '0D0D26';
-  $eu_cookie_compliance_da['popup_text_hex'] = 'FFFFFF';
-  $eu_cookie_compliance_da['popup_position'] = FALSE;
-  $eu_cookie_compliance_da['popup_agreed_enabled'] = FALSE;
-  $eu_cookie_compliance_da['popup_height'] = '';
-  $eu_cookie_compliance_da['popup_width'] = '100%';
-  $eu_cookie_compliance_da['popup_delay'] = 1;
+  // Enable translation variables for EU Cookie Compliance.
+  $controller = variable_realm_controller('language');
+  $old_variables = $controller->getEnabledVariables();
+  $old_list = variable_children($old_variables);
+  $variables = array_merge($old_list, array('eu_cookie_compliance'));
+  $controller->setRealmVariable('list', $variables);
 
   // Set cookie compliance variables
-  variable_set('eu_cookie_compliance_da', $eu_cookie_compliance_da);
-  variable_set('eu_cookie_compliance_cookie_lifetime', 365);
+  $eu_cookie_compliance = i18n_variable_get('eu_cookie_compliance', 'da', variable_get('eu_cookie_compliance', array()));
+  $eu_cookie_compliance = array_merge($eu_cookie_compliance, array(
+    'method' => 'default',
+    'popup_info' => array(
+      'value' => '<p>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse.</p><p>Læs mere her: <a href="' . url('cookies') . '">Hvad er cookies?</a></p>',
+      'format' => 'ding_wysiwyg',
+    ),
+    'popup_agree_button_message' => 'Jeg accepterer brugen af cookies',
+    'show_disagree_button' => 0,
+    'popup_link' => 'cookies',
+    'popup_bg_hex' => '0D0D26',
+    'popup_text_hex' => 'FFFFFF',
+    'popup_delay' => 1000,
+  ));
+  i18n_variable_set('eu_cookie_compliance', $eu_cookie_compliance, 'da');
 
   $body = '<p><strong>Hvad er cookies?</strong></p>
           <p>En cookie er en lille tekstfil, som lægges på din computer, smartphone, ipad eller lignende med det formål at indhente data. Den gør det muligt for os at måle trafikken på vores site og opsamle viden om f.eks. antal besøg på vores hjemmeside, hvilken browser der bliver brugt, hvilke sider der bliver klikket på, og hvor lang tid der bruges på siden. Alt sammen for at vi kan forbedre brugeroplevelsen og udvikle nye services.</p>
@@ -769,15 +771,6 @@ function ding2_set_cookie_page() {
   $node->title = 'Cookies på hjemmesiden';
   $node->type = 'ding_page';
   $node->language = 'und';
-  $node->field_ding_page_body = array(
-    'und' => array(
-      array(
-        'value' => $body,
-        'format' => 'ding_wysiwyg',
-        'safe_value' => $body,
-      ),
-    ),
-  );
   $node->field_ding_page_lead = array(
     'und' => array(
       array(
@@ -794,6 +787,13 @@ function ding2_set_cookie_page() {
 
   // Create the node.
   node_save($node);
+
+  $paragraph = new ParagraphsItemEntity(array('field_name' => 'field_ding_page_paragraphs', 'bundle' => 'ding_paragraphs_text'));
+  $paragraph->is_new = TRUE;
+  $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['value'] = $body;
+  $paragraph->field_ding_paragraphs_text[LANGUAGE_NONE][0]['format'] = 'ding_wysiwyg';
+  $paragraph->setHostEntity('node', $node);
+  $paragraph->save();
 
   // Permissions, see: ding_permissions module
   // display EU Cookie Compliance popup: anonymous user, authenticated user

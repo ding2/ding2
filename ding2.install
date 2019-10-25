@@ -117,6 +117,27 @@ function ding2_install() {
 }
 
 /**
+ * Implements hook_update_dependencies().
+ */
+function ding2_update_dependencies() {
+  // Update hook which enables a module if opensearch is present.
+  $dependencies['ding2'][7048] = array(
+    // The update hook that enables the opensearch module if no other search
+    // provider is present.
+    'ting' => 7014,
+  );
+
+  // Update hook which sets custom configuration for EU Cookie Compliance.
+  $dependencies['ding2'][7064] = array(
+    // Update hook that updates the configuration format for EU Cookie
+    // Compliance module.
+    'eu_cookie_compliance' => 7010,
+  );
+
+  return $dependencies;
+}
+
+/**
  * Set default theme setting for ddbasic.
  *
  * @return array
@@ -187,20 +208,6 @@ function ding2_remove_module($module) {
     ->condition('name', $module)
     ->condition('type', 'module')
     ->execute();
-}
-
-/**
- * Implements hook_update_dependencies().
- */
-function ding2_update_dependencies() {
-  // Update hook which enables a module if opensearch is present.
-  $dependencies['ding2'][7048] = array(
-    // The update hook that enables the opensearch module if no other search
-    // provider is present.
-    'ting' => 7014,
-  );
-
-  return $dependencies;
 }
 
 /**
@@ -301,8 +308,7 @@ function ding2_update_7009() {
 }
 
 /**
- * Disable the cookiecontrol module.
- * Enable and configure the eu-cookie-compliance module.
+ * Disable the cookiecontrol and enable and configure eu-cookie module.
  */
 function ding2_update_7010() {
   if (module_exists('cookiecontrol')) {
@@ -353,7 +359,12 @@ function ding2_update_7014() {
  * Enable search_api modules.
  */
 function ding2_update_7015() {
-  module_enable(array('search_api', 'search_api_multi', 'search_api_db', 'search_api_views'));
+  module_enable(array(
+    'search_api',
+    'search_api_multi',
+    'search_api_db',
+    'search_api_views',
+  ));
 }
 
 /**
@@ -728,75 +739,100 @@ function ding2_update_7063() {
 }
 
 /**
- * Enable 'Mimemail' module.
+ * Update EU Cookie Compliance settings.
  */
 function ding2_update_7064() {
-  module_enable(array('mimemail'));
+  if (!module_exists('i18n_variable')) {
+    module_enable(array('i18n_variable'));
+  }
+  $ecc_settings = i18n_variable_get('eu_cookie_compliance', 'da');
+  $ecc_settings['method'] = 'default';
+  $ecc_settings['show_disagree_button'] = 0;
+  i18n_variable_set('eu_cookie_compliance', $ecc_settings, 'da');
 }
 
 /**
- * Migrate ding_event_rooms field's data to ding_event_place field.
+  * Update translations.
  */
 function ding2_update_7065() {
-  $entity_type = 'node';
-  $rooms_field_name = 'field_ding_event_rooms';
-  $bundle = 'ding_event';
-  // Check if rooms field exists.
-  $rooms_field_instance = field_info_instance($entity_type, $rooms_field_name, $bundle);
+  ding2_translation_update();
+}
 
-  if ($rooms_field_instance) {
-    // Fetch nids which have 'rooms' field relation.
-    $entities = db_select('field_data_field_ding_event_rooms', 'rooms')
-      ->fields('rooms')
-      ->execute()
-      ->fetchAll();
+/**
+ * Update translations.
+ */
+function ding2_update_7066() {
+  ding2_translation_update();
+}
 
-    if ($entities) {
-      // Collect all 'rooms' vocabulary tids used in ding_event node CT.
-      $tids = [];
-      foreach ($entities as $item) {
-        $tids[$item->field_ding_event_rooms_tid] = $item->field_ding_event_rooms_tid;
-      }
+/**
+ * Delete {system} records for ding_wayf module.
+ */
+function ding2_update_7067() {
+  variable_del('ding_wayf');
+  variable_del('wayf_hash');
+  ding2_remove_module('ding_wayf');
+}
 
-      // Load terms data.
-      $loaded_terms = taxonomy_term_load_multiple($tids);
-
-      // Insert data into 'place' field.
-      $tables = [
-        'field_data_field_ding_event_place',
-        'field_revision_field_ding_event_place',
-      ];
-
-      foreach ($entities as $entity) {
-        foreach ($tables as $table) {
-          db_insert($table)
-            ->fields([
-              'entity_type' => $entity->entity_type,
-              'bundle' => $entity->bundle,
-              'deleted' => $entity->deleted,
-              'entity_id' => $entity->entity_id,
-              'revision_id' => $entity->revision_id,
-              'language' => $entity->language,
-              'delta' => $entity->delta,
-              'field_ding_event_place_value' => $loaded_terms[$entity->field_ding_event_rooms_tid]->name,
-              'field_ding_event_place_format' => NULL,
-            ])
-            ->execute();
-        }
-      }
-
-      // Remove 'rooms' fields.
-      field_delete_instance($rooms_field_instance, TRUE);
-      field_delete_field($rooms_field_name);
-      field_cron();
-
-      // Remove 'rooms' taxonomy vocabulary.
-      $rooms_vocabulary = taxonomy_vocabulary_machine_name_load('rooms');
-      taxonomy_vocabulary_delete($rooms_vocabulary->vid);
-
-      // Disable and uninstall ding_event_rooms module.
-      module_disable(['ding_event_rooms']);
-      drupal_uninstall_modules(['ding_event_rooms']);
-    }
+/**
+ * Disable GateWAYF modules and migrate config.
+ */
+function ding2_update_7068() {
+  $config = variable_get('ding_gatewayf_registration', FALSE);
+  if ($config) {
+    // Migrate configuration.
+    variable_set('ding_registration', $config);
+    variable_del('ding_gatewayf_registration');
   }
+
+  // Remove config.
+  variable_del('ding_gatewayf');
+
+  // Remove modules.
+  ding2_remove_module('ding_gatewayf_registration');
+  ding2_remove_module('ding_gatewayf');
+}
+
+/**
+ * Enable adgangsplatformen module.
+ */
+function ding2_update_7069() {
+  module_enable(array('ding_adgangsplatformen'));
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7070() {
+  ding2_translation_update();
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7071() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable Ding paragraphs module.
+ */
+function ding2_update_7072() {
+  module_enable(array('ding_paragraphs'));
+
+  // Revert features.
+  module_load_include('inc', 'ding2', 'ding2.install_callbacks');
+  _ding2_features_revert('ding_paragraphs');
+  _ding2_features_revert('ding_page');
+  _ding2_features_revert('ding_news');
+
+  // Clear cache before continuing update.
+  drupal_flush_all_caches();
+}
+
+/**
+ * Update translations.
+ */
+function ding2_update_7073() {
+  ding2_translation_update();
 }

@@ -4,6 +4,11 @@
 @import '../../base.scss';
 
 .node-ding-news {
+  // Display links in body text with underline.
+  .field-name-field-ding-news-body a {
+    text-decoration: underline;
+  }
+
   // ==========================================================================
   // Teaser
   // ==========================================================================
@@ -67,7 +72,7 @@
         .news-text {
           @include linear-gradient(
             transparent 0%,
-            $charcoal-opacity-extra-dark 100%
+            $charcoal-opacity-dark 100%
           );
           position: absolute;
           bottom: 0;
@@ -237,7 +242,7 @@
     .news-text {
       @include linear-gradient(
         transparent 0%,
-        $charcoal-opacity-extra-dark 100%
+        $charcoal-opacity-dark 100%
       );
       position: absolute;
       bottom: 0;
@@ -355,6 +360,10 @@
       // Tablet
       @include media($tablet) {
         @include span-columns(6);
+
+        &.has-paragraphs {
+          width: 100%;
+        }
       }
 
       // Mobile
@@ -364,7 +373,7 @@
       }
     }
     .ding-news-right {
-      @include span-columns(5);
+      @include span-columns(6);
 
       // Tablet
       @include media($tablet) {

@@ -559,7 +559,7 @@ class P2b {
     );
 
     if (!empty($params)) {
-      if ($type == 'POST') {
+      if ($type == 'POST' || $type == 'PUT') {
         $options['json'] = $params;
       }
       else {

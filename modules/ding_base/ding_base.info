@@ -2,7 +2,6 @@ name = Ding base
 core = 7.x
 package = Ding!
 project = ding_base
-dependencies[] = autologout
 dependencies[] = ctools
 dependencies[] = environment_indicator
 dependencies[] = environment_indicator_variable

@@ -47,15 +47,15 @@ function _ding2_insert_translation($type, $translation_file, &$context) {
  */
 function _ding2_features_revert($feature) {
   // Load the feature.
-  if (($feature = features_load_feature($feature, TRUE)) && module_exists($feature)) {
+  if (module_exists($feature) && ($feature = features_load_feature($feature, TRUE))) {
     // Get all components of the feature.
     foreach (array_keys($feature->info['features']) as $component) {
       if (features_hook($component, 'features_revert')) {
         // Revert each component (force).
-        features_revert(array($feature => array($component)));
+        features_revert(array($feature->name => array($component)));
       }
     }
   }
 
-  $context['message'] = st('Reverted %feature.', array('%feature' => $feature));
+  $context['message'] = st('Reverted %feature.', array('%feature' => $feature->info['name']));
 }

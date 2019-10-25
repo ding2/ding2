@@ -131,7 +131,8 @@ function ding_entity_rating_add_to_list_callback($entity, $rating) {
       'entity_id' => $entity->ding_entity_id,
       'on_popup_close' => TRUE,
     );
-    $commands[] = ajax_command_ding_user_authenticate('');
+    $uri = isset($_REQUEST['destination']) ? $_REQUEST['destination'] : '';
+    $commands[] = ajax_command_ding_user_authenticate('', $uri);
   }
   elseif (!user_access('use personalisation')) {
     $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t("You don't have permissions to rate materials.") . '</p>');
@@ -432,7 +433,14 @@ function ding_entity_rating_build_theme_list($rating) {
     if ($i <= $rating) {
       $classes[] = 'submitted';
     }
-    $output .= '<i class="' . implode(' ', $classes) . '"></i>';
+
+    $title = t(
+      'Rate this !number / 5 stars',
+      array('!number' => $i),
+      array('context' => 'Rating')
+    );
+
+    $output .= '<a class="' . implode(' ', $classes) . '" href="#" title="' . $title . '"></a>';
   }
 
   return $output;
@@ -618,7 +626,7 @@ function theme_ding_entity_rating_promote_ratings($variables) {
   $history_button = '';
   $translatables = ding_entity_rating_ding_interaction_view();
 
-  if (count(ding_provider_invoke_page('loan', 'list', $variables['account'])) > 0) {
+  if (count(ding_provider_invoke('loan', 'list', $variables['account'])) > 0) {
     $loan_button = "<li>" . l($translatables['current_loans'], "user/$uid/status/loans") . "</li>";
   }
 

@@ -1,0 +1,234 @@
+<?php
+
+/**
+ * @file
+ * Code for the Ding paragraphs feature.
+ */
+
+include_once 'ding_paragraphs.features.inc';
+
+/**
+ * Implements hook_preprocess_entity().
+ */
+function ding_paragraphs_preprocess_node(&$variables) {
+  if (isset($variables['field_ding_news_paragraphs']) || isset($variables['field_ding_page_paragraphs'])) {
+    drupal_add_library('system', 'drupal.ajax');
+    drupal_add_library('system', 'ui.widget');
+    drupal_add_js(drupal_get_path('module', 'ding_paragraphs') . '/js/ding_paragraphs.js', 'file');
+    drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js', 'file');
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add js for form to disable dragging of paragraphs when opened.
+ */
+function ding_paragraphs_form_node_form_alter(&$form, $form_state) {
+  // Check for field existence.
+  $paragraph_field = FALSE;
+  if (isset($form['field_ding_page_paragraphs'])) {
+    $paragraph_field = 'field_ding_page_paragraphs';
+  }
+  if (isset($form['field_ding_news_paragraphs'])) {
+    $paragraph_field = 'field_ding_news_paragraphs';
+  }
+
+  if ($paragraph_field) {
+     $form['#attached'] = array(
+       'js' => array(
+         array(
+           'type' => 'file',
+           'data' => drupal_get_path('module', 'ding_paragraphs') . '/js/ding_paragraphs_form.js',
+         ),
+       ),
+     );
+  }
+}
+
+/**
+ * Implements hook_bpi_convert_to_bpi_alter().
+ *
+ * Adds serialized paragraphs data to the content sent to BPI, making it
+ * possible to later restore the paragraphs and their content.
+ *
+ * Also renders the paragraphs and stores the result as "body" in BPI to make
+ * it possible for sites without paragraphs to syndicate paragraphs content.
+ */
+function ding_paragraphs_bpi_convert_to_bpi_alter(&$bpi_content, $entity, array $context) {
+  $entity_type = 'node';
+  list($id, , $bundle_name) = entity_extract_ids($entity_type, $entity);
+
+  if (isset($id)) {
+    $paragraphs_fields = field_read_fields(array(
+      'type' => 'paragraphs',
+      'entity_type' => $entity_type,
+      'bundle' => $bundle_name,
+    ));
+    $lang = LANGUAGE_NONE;
+
+    $paragraphs_data = array();
+    $body = '';
+
+    foreach ($paragraphs_fields as $paragraphs_field_name => $paragraphs_field) {
+      if (isset($entity->$paragraphs_field_name)) {
+        $field = $entity->$paragraphs_field_name;
+        if (isset($field[$lang]) && is_array($field[$lang])) {
+          $ids = paragraphs_field_item_to_ids($field[$lang]);
+          $paragraphs_items = paragraphs_item_load_multiple($ids);
+          if (is_array($paragraphs_items)) {
+            foreach ($paragraphs_items as $paragraphs_item) {
+              $fields = field_info_instances($paragraphs_item->entityType(), $paragraphs_item->bundle());
+              $item = array(
+                'field_name' => $paragraphs_field_name,
+                'bundle' => $paragraphs_item->bundle(),
+              );
+              foreach ($fields as $field) {
+                $item[$field['field_name']] = $paragraphs_item->{$field['field_name']};
+              }
+              $paragraphs_data[$paragraphs_field_name][] = $item;
+            }
+
+            // Render the paragraph content.
+            $view = field_view_field($entity_type, $entity, $paragraphs_field_name, array('label' => 'hidden'));
+            $body .= drupal_render($view);
+          }
+        }
+      }
+
+      $helper = new DingParagraphsBPIHelper();
+
+      if (isset($context['with_images'])) {
+        $assets = $helper->replaceFilesWithUrls($paragraphs_data);
+        if (!empty($assets)) {
+          $bpi_content['assets'] = array_merge($bpi_content['assets'], $assets);
+        }
+      }
+
+      if ($context['with_refs']) {
+        $helper->processMaterials($paragraphs_data);
+      }
+
+      $bpi_content['data'] = json_encode($paragraphs_data);
+      $bpi_content['body'] = $body;
+    }
+  }
+}
+
+/**
+ * Implements hook_bpi_syndicate_node_form_alter().
+ */
+function ding_paragraphs_bpi_syndicate_node_form_alter(&$form, &$context) {
+  $form_state = &$context['form_state'];
+  $bpi_node = $context['bpi_node'];
+  $syndicated_images = $context['syndicated_images'];
+
+  $helper = new DingParagraphsBPIHelper();
+  $helper->addBpiParagraphs($form, $form_state, $bpi_node, $syndicated_images);
+}
+
+/**
+ * Helper function to migrate content.
+ *
+ * Mainly used to migrate content from old content body field(s) to a new
+ * paragraphs body field.
+ *
+ * @param string $old_content_field
+ *   Field name of the old node field.
+ * @param string $new_content_field
+ *   Field name og the new paragraphs field where the content should be stored.
+ * @param string $paragraphs_ref_field
+ *   Field name of the nodes paragraphs reference.
+ * @param string $paragraphs_type
+ *   The machine name of the paragraphs bundle that contains the new field.
+ * @param string $content_type
+ *   The content type that is being migrated on.
+ * @param array $sandbox
+ *   The sandbox array from update hooks. Used to batch the updates.
+ *
+ * @throws \DrupalUpdateException
+ *   Exception thrown if a field is missing.
+ */
+function ding_paragraphs_migrate_content_body_field($old_content_field, $new_content_field, $paragraphs_ref_field, $paragraphs_type, $content_type, &$sandbox = array()) {
+  global $user;
+  // Run updates as user 1 to ensure workflow transitions are allowed when nodes
+  // are saved. Update hooks usually run as an anonymous user. Clear static cache
+  // to ensure that nothing belonging to the previous user lingers.
+  $current_user = $user;
+  $user = user_load(1);
+  drupal_static_reset();
+
+  // Make sure we have somewhere to save the old body field.
+  $empty_body = empty(field_info_instance('node', $old_content_field, $content_type));
+  $empty_paragraphs_text = empty(field_info_instance('paragraphs_item', $new_content_field, $paragraphs_type));
+  $empty_reference = empty(field_info_instance('node', $paragraphs_ref_field, $content_type));
+
+  if ($empty_body || $empty_paragraphs_text || $empty_reference) {
+    throw new DrupalUpdateException(
+      t('This update requires the fields @name_new_field and @name_old_field @name_ref_field to exist. Perhaps you need to revert a feature.'),
+      array(
+        '@name_old_field' => $old_content_field,
+        '@name_new_field' => $new_content_field,
+        '@name_ref_field' => $paragraphs_ref_field,
+      )
+    );
+  }
+
+  if (!isset($sandbox['total'])) {
+    $query = db_select('field_data_' . $old_content_field, 'f')
+      ->fields('f', array('entity_id'))
+      ->condition($old_content_field . '_value', '', '<>');
+    $sandbox['total'] = $query->countQuery()->execute()->fetchField();
+    $sandbox['current'] = 0;
+  }
+
+  $batch_size = 30;
+  $query = db_select('field_data_' . $old_content_field, 'f')
+    ->fields('f', array('entity_id'))
+    ->condition($old_content_field . '_value', '', '<>')
+    ->range(0, $batch_size);
+  $result = $query->execute();
+
+  while ($value = $result->fetchAssoc()) {
+    $node = node_load($value['entity_id']);
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $data = $wrapper->{$old_content_field}->value();
+
+    $paragraph = new ParagraphsItemEntity(array(
+      'field_name' => $paragraphs_ref_field,
+      'bundle' => $paragraphs_type,
+    ));
+    $paragraph->is_new = TRUE;
+    $paragraph->{$new_content_field}[LANGUAGE_NONE][0]['value'] = $data['value'];
+    $paragraph->{$new_content_field}[LANGUAGE_NONE][0]['format'] = $data['format'];
+    $paragraph->setHostEntity('node', $node);
+    $paragraph->save();
+    $sandbox['current']++;
+
+    // Set the old field content to empty to filter it out if the update process
+    // was halt before it was finished and restarted.
+    $wrapper->{$old_content_field}->set(array(
+      'value' => '',
+      'format' => $data['format'],
+    ));
+    $wrapper->save();
+  }
+
+  if ($sandbox['total'] != 0) {
+    $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  }
+  else {
+    // Handle case where the database don't have any content of the type given
+    // to the function. This will prevent never ending update loop.
+    $sandbox['#finished'] = 1;
+  }
+
+  if ($sandbox['#finished'] === 1) {
+    drupal_set_message(t('We processed @nodes nodes with body fields. Deleting @name...', array('@nodes' => $sandbox['total'], '@name' => $old_content_field)));
+    field_delete_field($old_content_field);
+    field_purge_batch(1000);
+  }
+
+  $user = $current_user;
+  drupal_static_reset();
+}

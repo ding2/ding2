@@ -26,6 +26,7 @@ function ding_nodelist_strongarm() {
     'ding_event' => 'ding_event',
     'ding_news' => 'ding_news',
     'ding_page' => 'ding_page',
+    'ding_eresource' => 'ding_eresource',
     'ding_campaign' => 0,
     'ding_library' => 0,
     'newsletter' => 0,

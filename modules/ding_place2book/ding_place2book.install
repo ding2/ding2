@@ -178,7 +178,6 @@ function ding_place2book_update_7005(&$sandbox) {
   variable_del('ding_place2book_category_mappings');
 }
 
-
 /**
  * Enable migration module for existing sites.
  */
@@ -186,3 +185,78 @@ function ding_place2book_update_7006() {
   module_enable(array('ding_place2book_migrate'));
 }
 
+/**
+ * Remove ticket links from existing passive events.
+ */
+function ding_place2book_update_7007(&$sandbox) {
+  $nodes = [];
+
+  // Get the ding_event nodes we need to consider. We only consider those with
+  // an event end-date that hasn't passed. We can't make any assumptions about
+  // whether the nodes are publsihed or not, so no condition on $node->status.
+  if (!isset($sandbox['nodes'])) {
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'ding_event')
+      ->fieldCondition('field_ding_event_date', 'value2', gmdate(DATE_FORMAT_DATETIME), '>')
+      ->fieldCondition('field_place2book', 'synchronize', '1', '=')
+      ->fieldCondition('field_place2book', 'event_id', 'NULL', '!=')
+      ->fieldCondition('field_place2book', 'event_maker_id', 'NULL', '!=');
+
+    $result = $query->execute();
+
+    if (isset($result['node'])) {
+      $nodes = array_keys($result['node']);
+    }
+  }
+  else {
+    $nodes = $sandbox['nodes'];
+  }
+
+  if (!isset($sandbox['processed'])) {
+    $sandbox['processed'] = 0;
+    $sandbox['total'] = count($nodes);
+  }
+
+  // Potentially we have to make request to p2b for all fetched ding_event nodes
+  // so keep the amount of nodes we process each run low.
+  $limit = 10;
+  $chunk = array_slice($nodes, $sandbox['processed'], $limit);
+  $chunk = entity_load('node', $chunk);
+
+  foreach ($chunk as $nid => $node) {
+    $field_place2book = field_get_items('node', $node, 'field_place2book');
+    list($event_id, $event_maker_id) = array_values($field_place2book[0]);
+    try {
+      $p2b = ding_place2book_instance();
+      $event = $p2b->getEvent($event_maker_id, $event_id);
+
+      if (!empty($event->passive)) {
+        $node_wrapper = entity_metadata_wrapper('node', $node);
+        $node_wrapper->field_ding_event_ticket_link->set(NULL);
+        node_save($node);
+      }
+    }
+    catch (Exception $ex) {
+      watchdog_exception('ding_place2book', $ex, t('Error appeared when removing ticket link for existing passive event. Event ID: !event_id, Event Maker ID: !event_maker_id, NID: !nid'), [
+        '!event_id' => $event_id,
+        '!event_maker_id' => $event_maker_id,
+        '!nid' => $nid,
+      ]);
+    }
+  }
+
+  $sandbox['processed'] += count($chunk);
+
+  if (!empty($nodes)) {
+    $sandbox['#finished'] = $sandbox['processed'] / $sandbox['total'];
+  }
+  else {
+    $sandbox['#finished'] = TRUE;
+  }
+
+  return t('Status: !processed / !total', [
+    '!processed' => $sandbox['processed'],
+    '!total' => $sandbox['total'],
+  ]);
+}

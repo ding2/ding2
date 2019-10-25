@@ -18,6 +18,8 @@
  * - $display_submitted: Whether submission information should be displayed.
  * - $submitted: Submission information created from $name and $date during
  *   template_preprocess_node().
+ * - $attributes: String of attributes to be added to a HTML element.
+ * - $content_attributes: String of attributes to be added to a HTML element.
  * - $classes: String of classes that can be used to style contextually through
  *   CSS. It can be manipulated through the variable $classes_array from
  *   preprocess functions. The default values can be one or more of the
@@ -79,9 +81,9 @@
  */
 
 ?>
-<div class="<?php print $classes; ?>">
+<div class="<?php print $classes; ?>" <?php print $attributes; ?>>
   <div class="ding-campaign ding-campaign--content text  <?php print $campaign_type; ?>">
-    <a href="<?php print $field_ding_campaign_plus_link[LANGUAGE_NONE][0]['url']; ?>?wt_mc=<?php print $wt_mc_id; ?>" target="__blank">
+    <a href="<?php print $campaign_url; ?>" target="__blank">
       <div class="ding-campaign-text">
         <h2 class="ding-campaign-headline">
           <?php print $title; ?>
@@ -92,10 +94,4 @@
       </div>
     </a>
   </div>
-  <script type="text/javascript">
-    (function ($) {
-      'use strict';
-      $(document).trigger('campaignPlusLoaded', [ '<?php print $wt_mc_id ?>' ]);
-    })(jQuery);
-  </script>
 </div>

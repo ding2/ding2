@@ -54,7 +54,6 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
         $type = $reservation->state == 'interLibraryReservation' ? DING_RESERVATION_INTERLIBRARY_LOANS : $type;
 
         $ding_reservation = array(
-          'ding_entity_id' => $ids[$reservation->recordId],
           'id' => $reservation->reservationId,
           'pickup_branch_id' => $reservation->pickupBranch,
           'created' => $reservation->dateOfReservation,
@@ -62,6 +61,16 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
           // Required by ding_reservation.
           'reservation_type' => $type,
         );
+
+        // With the FBS provider we have to use FBS data for ILL, since we can't
+        // rely on the record ID being unique in these cases.
+        if (isset($reservation->ilBibliographicRecord)) {
+          $ding_reservation['display_name'] = $reservation->ilBibliographicRecord->title;
+          $ding_reservation['author'] = $reservation->ilBibliographicRecord->author;
+        }
+        elseif (isset($ids[$reservation->recordId])) {
+          $ding_reservation['ding_entity_id'] = $ids[$reservation->recordId];
+        }
 
         if ($type === DING_RESERVATION_READY) {
           $ding_reservation['pickup_date'] = $reservation->pickupDeadline;
@@ -94,11 +103,6 @@ function fbs_reservation_list($account, $requested_type = NULL, $reset = FALSE) 
           else {
             $ding_reservation['notes'] = t('Issue @vol', array('@vol' => $vol));
           }
-        }
-
-        // Handle inter library loans.
-        if (!empty($reservation->ilBibliographicRecord)) {
-          $ding_reservation['display_name'] = $reservation->ilBibliographicRecord->title;
         }
 
         $results[$type][$ding_reservation['id']] = new DingProviderReservation($ding_reservation['id'], $ding_reservation);
@@ -419,4 +423,43 @@ function fbs_reservation_pickup_branches() {
   $branches = fbs_branches();
 
   return $branches;
+}
+
+/**
+ * Implements provider reservation, is_reservable.
+ */
+function fbs_reservation_is_reservable($provider_ids) {
+  $return = [];
+
+  // We get the full holdings since we both need to check reservability and
+  // whether FBS considers the object a periodical.
+  try {
+    $results = fbs_service()->Catalog->getHoldings(
+      fbs_service()->agencyId,
+      $provider_ids
+    );
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+    return $return;
+  }
+
+  foreach ($results as $result) {
+    $holdings = reset($result->holdings);
+    // If the record doesn't have any materials there's nothing to reserve and
+    // we can safely set FALSE This can happen for online posts from the library
+    // catalog.
+    if (empty($holdings->materials)) {
+      $return[$result->recordId] = FALSE;
+    }
+    else {
+      // To determine if this is a periodical we extract the first material and
+      // look for periodical information.
+      $material = reset($holdings->materials);
+      // If the object is periodical, the main object should not be reservable.
+      $return[$result->recordId] = ($result->reservable && empty($material->periodical));
+    }
+  }
+
+  return $return;
 }

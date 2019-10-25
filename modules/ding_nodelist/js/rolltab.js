@@ -45,7 +45,7 @@
       });
 
       // Add click event on selected tab to redirect user to selected tab node.
-      $(".ui-tabs-nav-item span").click(function () {
+      $(".ui-tabs-nav-item span[datasrc]").click(function () {
         window.location.href = $(this).attr('datasrc');
         return false;
       });

@@ -284,36 +284,35 @@ class PageBase extends LogMessages
         }
     }
 
-    /**
-     * Wait Until Text is gone.
-     *
-     * @param int $waitmax
-     *    Number of waits of 300 ms.
-     * @param string $txt
-     *    Text that we wait for will disappear.
-     *
-     * @When waiting up to :waitmax until :txt goes away
-     *
-     * @return string
-     *    Return status of operation.
-     */
-    public function waitUntilTextIsGone($waitmax, $txt)
-    {
-        // First see if we can find the element.
-        $wait = $this->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
-        $continueWaiting = true;
-        if (!$wait) {
-            return "";
-        }
-        // Now wait for the assigned time until we no longer can find txt on the page.
-        while ($continueWaiting and --$waitmax > 0) {
-            usleep(300);
-            $wait = $this->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
-            $continueWaiting = ($wait === null);
-        }
-        if ($waitmax > 0) {
-            return "";
-        }
-        return "Failed - " . $txt . " is still on page.";
-    }
+  /**
+   * Wait Until Text is gone.
+   *
+   * @param int $waitmax
+   *    Number of waits of 300 ms.
+   * @param string $txt
+   *    Text that we wait for will disappear.
+   *
+   * @When waiting up to :waitmax until :txt goes away
+   *
+   * @return string
+   *    Return status of operation.
+   */
+  public function waitUntilTextIsGone($waitmax, $txt) {
+      // First see if we can find the element.
+      $wait = $this->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+      $continueWaiting = true;
+      if (!$wait) {
+          return "";
+      }
+      // Now wait for the assigned time until we no longer can find txt on the page.
+      while ($continueWaiting and --$waitmax > 0) {
+          usleep(300);
+          $wait = $this->find('xpath', "//text()[contains(.,'" . $txt . "')]/..");
+          $continueWaiting = ($wait === null);
+      }
+      if ($waitmax > 0) {
+          return '';
+      }
+      return 'Failed - ' . $txt . ' is still on page.';
+  }
 }
