@@ -265,6 +265,9 @@ projects[message][version] = "1.12"
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.21"
 
+projects[metatag_schema][subdir] = "contrib"
+projects[metatag_schema][version] = "1.3"
+
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
 

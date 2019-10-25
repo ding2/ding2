@@ -1,0 +1,11 @@
+name = Ding Seo
+description = Ding Seo
+core = 7.x
+package = Ding!
+version = 7.x-1.0
+dependencies[] = metatag
+features[features_api][] = api:2
+features[metatag][] = node
+features[metatag][] = node:ding_event
+features[metatag][] = node:ding_library
+features[metatag][] = node:ding_news

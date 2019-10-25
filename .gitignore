@@ -6,3 +6,4 @@ themes/ddbasic/scripts/min/
 config.php
 tests/behat/.idea/
 .gitignore
+/cygdrive

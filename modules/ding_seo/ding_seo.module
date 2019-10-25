@@ -4,3 +4,13 @@
  * @file
  * Ding SEO module file.
  */
+
+ /* */
+//include_once 'ding_seo.features.inc';
+
+/* */
+include_once 'ding_seo.tokens.inc';
+
+/* */
+
+
