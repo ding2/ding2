@@ -78,6 +78,7 @@ function ding_sharer_theme($existing, $type, $theme, $path) {
           'twitter' => 'Twitter',
           'mail' => 'E-mail',
         ),
+        'type' => 'normal',
       ),
     ),
   );
@@ -95,19 +96,25 @@ function template_preprocess_ding_sharer(&$variables) {
  */
 function theme_ding_sharer($variables) {
   $out = '';
+  $anchor_class = '';
 
-  if (!empty($variables['label'])) {
+  if (!empty($variables['label']) && $variables['type'] == 'normal') {
     $out .= '<div class="label">' . $variables['label'] . '</div>';
   }
 
   $out .= '<div class="share-buttons">';
   foreach ($variables['communities'] as $community => $text) {
+    if ($variables['type'] == 'buttons') {
+      $text = t('Share list on') . ' ' . $text;
+      $anchor_class = 'button';
+    }
     $out .= l(
-      $text,
+      '<span>' . $text . '</span>',
       '#',
       array(
-        'attributes' => array('class' => array($community . '-share')),
+        'attributes' => array('class' => array('icon ' .$community . '-share', $anchor_class)),
         'external' => TRUE,
+        'html' => TRUE,
       )
     );
   }

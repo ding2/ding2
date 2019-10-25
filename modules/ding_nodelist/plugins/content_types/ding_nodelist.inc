@@ -34,36 +34,15 @@ function ding_nodelist_content_type_render($subtype, $conf, $args, $context) {
   $block = new stdClass();
 
   // Prepare classes for widget container.
-  $columns = $conf['columns'];
   $classes = array();
   $classes[] = 'ding_nodelist';
   $classes[] = 'ding_nodelist-' . $conf['widget_type'];
-  $classes[] = 'ding_nodelist-col-' . $columns;
   $classes[] = $conf['unique_id'];
 
   // Build title.
   $title = NULL;
   if (!empty($conf['override_title_text'])) {
     $title = t('!title', array('!title' => check_plain($conf['override_title_text'])));
-  }
-
-  // Create proper layout for variable-width lists.
-  $map = _ding_nodelist_get_column_map();
-  $columns_layout = &drupal_static('ding_nodelist_cols', 0);
-  if (!$columns_layout) {
-    $classes[] = 'ding_nodelist-col-first';
-    $columns_layout += $map[$columns];
-  }
-  else {
-    // Maximum of 4 sub-columns is reached.
-    $expected_width = $columns_layout + $map[$columns];
-    if ($expected_width == 1) {
-      $classes[] = 'ding_nodelist-col-last';
-      $columns_layout = 0;
-    }
-    else {
-      $columns_layout += $map[$columns];
-    }
   }
 
   // Load default CSS.
@@ -260,7 +239,6 @@ function ding_nodelist_content_type_edit_form($form, &$form_state) {
   $default_conf = array(
     'content_type' => $node_type,
     'widget_type' => DING_NODELIST_WIDGET_CAROUSEL,
-    'columns' => DING_NODELIST_COL_FULL,
     'sort_field' => DING_NODELIST_SORT_BY_CREATION_DATE,
     'limit' => 5,
     'more_text' => t('More'),
@@ -417,7 +395,6 @@ function _ding_nodelist_content_type_form_save(&$form_state, $rebuild = FALSE) {
   $form_state['conf']['nodes_switch'] = ($form_state['conf']['list_type'] === DING_NODELIST_LIST_TYPE_DYNAMIC) ? $form_state['values']['nodes_switch'] : 0;
 
   $form_state['conf']['autoscroll_delay'] = $form_state['values']['autoscroll_delay'];
-  $form_state['conf']['columns'] = $form_state['values']['columns'];
   $form_state['conf']['content_filter_promoted'] = $form_state['values']['content_filter_promoted'];
   $form_state['conf']['content_filter_date'] = $form_state['values']['content_filter_date'];
   $form_state['conf']['content_types'] = $form_state['values']['content_types'];
@@ -928,18 +905,6 @@ function _ding_nodelist_plugin_various_section(&$form = array(), $node_type = ar
         ':input[name="sort_field"]' => array(array('value' => ''), array('value' => DING_NODELIST_SORT_BY_STICKY)),
       ),
     ),
-  );
-
-  $form['ding_nodelist_wrapper']['nodelist_various_settings']['columns'] = array(
-    '#type' => 'select',
-    '#title' => t('Width (columns)'),
-    '#options' => array(
-      DING_NODELIST_COL_FULL => t('Full width'),
-      DING_NODELIST_COL_HALF => '1/2',
-      DING_NODELIST_COL_THIRD => '1/3',
-      DING_NODELIST_COL_QRT => '1/4',
-    ),
-    '#default_value' => isset($conf['columns']) ? $conf['columns'] : $default_conf['columns'],
   );
 }
 

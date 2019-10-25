@@ -1,0 +1,10 @@
+name = Ding user form
+description = Defines the user login form (optional)
+package = Ding!
+core = 7.x
+dependencies[] = ding_provider
+dependencies[] = ding_popup
+dependencies[] = ding_user
+dependencies[] = ctools
+files[] = includes/ding_user_form.pages.inc
+files[] = includes/ding_user_form.admin.inc

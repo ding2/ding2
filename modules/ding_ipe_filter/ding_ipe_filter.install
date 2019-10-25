@@ -87,9 +87,42 @@ function ding_ipe_filter_update_7103(&$sandbox) {
 }
 
 /**
- * Remove category from selection identifiers.
+ * Select ding campaign plus.
  */
 function ding_ipe_filter_update_7104(&$sandbox) {
+  $selected = _ding_ipe_filter_selected_panes();
+  if (!isset($selected['ding-:ding_campaign_plus'])) {
+    $selected['ding-:ding_campaign_plus'] = 'ding-:ding_campaign_plus';
+    variable_set('ding_ipe_filter_panes_selected', $selected);
+  }
+}
+
+/**
+ * Remove unused widgets from IPE menu.
+ */
+function ding_ipe_filter_update_7105(&$sandbox) {
+  $widgets = [
+    'event-panes:ding_event-ding_event_list_frontpage',
+    'event-panes:ding_event-ding_event_simple_list',
+    'groups-panes:ding_groups-ding_group_overview_simple',
+    'news-panes:ding_news-ding_news_frontpage_list',
+  ];
+
+  $enabled_widgets = variable_get('ding_ipe_filter_panes_selected', []);
+
+  $filtered_widgets = array_filter($enabled_widgets, function ($item) use ($widgets) {
+    if (!in_array($item, $widgets)) {
+      return $item;
+    }
+  });
+
+  variable_set('ding_ipe_filter_panes_selected', $filtered_widgets);
+}
+
+/**
+ * Remove category from selection identifiers.
+ */
+function ding_ipe_filter_update_7106(&$sandbox) {
   /*
    * Category key is loaded based on the active language. It needs to have the
    * same set for all languages. Uniqueness is kept based on the pane sub-type.
@@ -106,3 +139,4 @@ function ding_ipe_filter_update_7104(&$sandbox) {
 
   variable_set('ding_ipe_filter_panes_selected', $new_selections);
 }
+

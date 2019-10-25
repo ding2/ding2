@@ -13,7 +13,7 @@
  * field_materials
  * group_audience.
  */
-$edbase = field_view_field('node', $item, 'field_editorial_base_n', 'teaser');
+$edbase = field_view_field('node', $item, 'field_ding_section', 'teaser');
 ?>
 <div class="item">
   <span class="date-created">

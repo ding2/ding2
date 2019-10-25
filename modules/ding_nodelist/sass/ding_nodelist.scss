@@ -27,10 +27,12 @@ $label-bg: url('../images/p.png');
   }
 
   .node-title {
-    text-decoration: underline;
+    text-decoration: none;
 
     a {
       color: $white;
+      font-size: 30px;
+
     }
   }
 
@@ -149,7 +151,7 @@ $label-bg: url('../images/p.png');
   .label-wrapper a,
   .field-name-field-ding-event-category {
     margin-left: 10px;
-    color: $color-standard-text;
+    color: $white;
   }
 
   .item {
@@ -177,7 +179,7 @@ $label-bg: url('../images/p.png');
       a.label-info,
       .library a,
       .item-price {
-        color: $color-text-link;
+        color: $white;
       }
 
       .library,
@@ -211,8 +213,8 @@ $label-bg: url('../images/p.png');
 
     &:after {
       transform: rotate(180deg);
-      text-align: center;
       @extend %icomoon-base;
+      line-height: 2;
     }
   }
 
@@ -221,8 +223,8 @@ $label-bg: url('../images/p.png');
     @include place-icon(arrow-right-small, $color-primary);
 
     &:after {
-      text-align: center;
       @extend %icomoon-base;
+      line-height: 1;
     }
   }
 
@@ -232,14 +234,18 @@ $label-bg: url('../images/p.png');
     font-style: normal;
     position: absolute;
     text-indent: 0px;
-    top: 30%;
+    top: calc(50% - 67px);
 
     &:after {
       display: inline-block;
-      line-height: 1.5;
+//      line-height: 1.5;
       width: 50px;
       height: 50px;
       font-size: 30px;
+      left: 0;
+      bottom: 0;
+      top: 0;
+      right: 0;
     }
 
     &.slick-disabled {
@@ -485,7 +491,7 @@ $label-bg: url('../images/p.png');
 
     h3 {
       font-size: 120%;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
 
       @include media($mobile) {
         font-size: 100%;
@@ -546,16 +552,21 @@ $label-bg: url('../images/p.png');
 
     .field-name-field-ding-news-category a {
       display: block;
-      color: $color-text;
+      color: $white;
+      font-size: 16px;
+
     }
 
     h3 a {
       color: $white;
-      font-size: 100%;
+      font-size: 30px;
+      top: 15px;
+      position: relative;
     }
 
     &:hover {
       .news-info,
+      .eresource-info,
       .event-info,
       .page-info {
         padding-top: 30px;
@@ -600,18 +611,19 @@ $label-bg: url('../images/p.png');
     }
 
     .news-info,
+    .eresource-info,
     .event-info,
     .page-info {
       @include transition(height $speed $ease);
       background-color: transparent;
-      background-image: -webkit-linear-gradient(transparent 0%, $grey-transparent-bg 100%);
+      background-image: -webkit-linear-gradient(transparent 0%, $grey-transparent-bg 17%);
       font-size: 100%;
       line-height: 24px;
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 100px;
+      height: 120px;
       padding-bottom: 25px;
       padding-left: 10px;
 
@@ -676,6 +688,7 @@ $label-bg: url('../images/p.png');
       }
 
       .news-info,
+      .eresource-info,
       .event-info,
       .page-info {
         @include transition(height $speed $ease);
@@ -776,7 +789,8 @@ $label-bg: url('../images/p.png');
         }
       }
 
-      .news-info {
+      .news-info,
+      .eresource-info {
         margin-top: 10px;
       }
 
@@ -791,6 +805,7 @@ $label-bg: url('../images/p.png');
 
       &:hover {
         .news-info,
+        .eresource-info,
         .event-info,
         .page-info {
           &::after {
@@ -830,6 +845,7 @@ $label-bg: url('../images/p.png');
       margin-top: 5px;
       a {
         color: $color-text;
+        font-size: 20px;
       }
     }
 
@@ -878,8 +894,7 @@ $label-bg: url('../images/p.png');
 
       .field-name-field-ding-news-category a {
         display: block;
-        color: $color-text;
-        font-size: 100%;
+        color: $white;
       }
     }
   }
@@ -936,6 +951,7 @@ $label-bg: url('../images/p.png');
       }
 
       &.page-list-image,
+      &.ding-eresource-list-image,
       &.ding-news-list-image {
         width: 100%;
         height: 200px;
@@ -1117,6 +1133,7 @@ $label-bg: url('../images/p.png');
       }
 
       .field-name-field-ding-page-lead,
+      .field-name-field-ding-eresource-lead,
       .field-name-field-ding-news-lead {
         position: relative;
         padding-bottom: 10px;

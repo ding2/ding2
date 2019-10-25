@@ -10,14 +10,13 @@
 function ding_tabroll_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_ding_tabroll_ext'
+  // Exported field_base: 'field_ding_tabroll_ext'.
   $field_bases['field_ding_tabroll_ext'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_tabroll_ext',
-    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',
@@ -41,21 +40,13 @@ function ding_tabroll_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'field_ding_tabroll_image'
+  // Exported field_base: 'field_ding_tabroll_image'.
   $field_bases['field_ding_tabroll_image'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_tabroll_image',
-    'foreign keys' => array(
-      'fid' => array(
-        'columns' => array(
-          'fid' => 'fid',
-        ),
-        'table' => 'file_managed',
-      ),
-    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -72,21 +63,13 @@ function ding_tabroll_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_ding_tabroll_lead'
+  // Exported field_base: 'field_ding_tabroll_lead'.
   $field_bases['field_ding_tabroll_lead'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_tabroll_lead',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -101,21 +84,13 @@ function ding_tabroll_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_tabroll_link'
+  // Exported field_base: 'field_ding_tabroll_link'.
   $field_bases['field_ding_tabroll_link'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_tabroll_link',
-    'foreign keys' => array(
-      'node' => array(
-        'columns' => array(
-          'target_id' => 'nid',
-        ),
-        'table' => 'node',
-      ),
-    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',

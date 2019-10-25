@@ -457,6 +457,15 @@ function ding_list_theme($existing, $type, $theme, $path) {
       'file' => 'theme/theme.inc',
       'variables' => array('message' => ''),
     ),
+    'ding_list_label_value' => array(
+      'file' => 'theme/theme.inc',
+      'variables' => array('label' => NULL, 'value' => NULL),
+    ),
+    'ding_list_data' => array(
+      'file' => 'theme/theme.inc',
+      'template' => 'templates/ding-list-data',
+      'variables' => array('list' => NULL),
+    ),
     'ding_list_create_info' => array(
       'file' => 'theme/theme.inc',
       'variables' => array('list' => NULL),
@@ -670,14 +679,20 @@ function ding_list_ding_list_add_to_list_data_alter(&$data, $context) {
         }
       }
       elseif (!user_is_logged_in()) {
+        $login_path = '#';
+        if (module_exists('ding_adgangsplatformen')) {
+          $login_path = '/' . DING_ADGANGSPLATFORMEN_LOGIN_URL;
+        }
+
         $data[] = array(
           'custom' => array(
             'title' => '<div class="list-title">' . t('Add to list') . '</div>',
-            'href' => '#',
+            'href' => $login_path,
             'attributes' => array(
               'class' => array('open-login'),
             ),
-            'external' => TRUE,
+            'query' => array(drupal_get_destination()),
+            'external' => FALSE,
             'html' => TRUE,
           ),
         );

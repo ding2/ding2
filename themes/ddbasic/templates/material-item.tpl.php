@@ -7,7 +7,6 @@
  * Variables available:
  * - $zebra: odd/even class
  * - $checkbox: Checkbox
- * - $ting_object_url_object: Url to Ting object
  * - $cover: Cover-image for material
  * - $information: Array of informations
  * - $material_message: Material message.

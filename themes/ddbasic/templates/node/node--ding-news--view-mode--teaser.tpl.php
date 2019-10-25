@@ -94,8 +94,8 @@
         <h3 class="title"><?php print $title; ?></h3>
         <div class="category-and-submitted">
           <?php print render($content['field_ding_news_category']); ?>
-          <?php if (isset($content['field_editorial_base'])) : ?>
-            <?php print render($content['field_editorial_base']); ?>
+          <?php if (isset($content['field_ding_section'])) : ?>
+            <?php print render($content['field_ding_section']); ?>
           <?php endif; ?>
           <div class="info-dash">-</div>
           <div class="submitted"><?php print $news_submitted; ?></div>

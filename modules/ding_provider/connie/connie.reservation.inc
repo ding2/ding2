@@ -187,3 +187,11 @@ function connie_reservation_branch_name($branch_id) {
   }
   return NULL;
 }
+
+/**
+ * Implements provider reservation, is_reservable.
+ */
+function connie_reservation_is_reservable($provider_ids) {
+  // Make everything reservable.
+  return array_fill_keys($provider_ids, TRUE);
+}

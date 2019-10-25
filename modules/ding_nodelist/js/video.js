@@ -151,6 +151,7 @@
           top.children('.news-info').fadeOut();
           top.children('.event-info').fadeOut();
           top.children('.page-info').fadeOut();
+          top.children('.eresource-info').fadeOut();
           //append the video
           top.children('.media-container')
             .children('.media-content')
@@ -172,6 +173,7 @@
             top.children('.news-info').fadeOut();
             top.children('.event-info').fadeOut();
             top.children('.page-info').fadeOut();
+            top.children('.eresource-info').fadeOut();
             top.children('.media-container')
               .children('.media-content')
               .append(iframe);
@@ -188,6 +190,7 @@
               top.children('.news-info').fadeOut();
               top.children('.event-info').fadeOut();
               top.children('.page-info').fadeOut();
+              top.children('.eresource-info').fadeOut();
               top.children('.media-container')
                 .children('.media-content')
                 .append(iframe);
@@ -206,6 +209,7 @@
         $this.parent().parent().children('.news-info').fadeIn();
         $this.parent().parent().children('.event-info').fadeIn();
         $this.parent().parent().children('.page-info').fadeIn();
+        $this.parent().parent().children('.eresource-info').fadeIn();
       });
     }
   };

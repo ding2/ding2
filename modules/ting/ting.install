@@ -312,3 +312,11 @@ function ting_update_7014() {
 function ting_update_7015() {
   db_drop_table('cache_ting');
 }
+
+/**
+ * Delete now unused variables (because of reservable changes).
+ */
+function ting_update_7016() {
+  variable_del('ting_reservable_sources');
+  variable_del('ting_reservable_types');
+}

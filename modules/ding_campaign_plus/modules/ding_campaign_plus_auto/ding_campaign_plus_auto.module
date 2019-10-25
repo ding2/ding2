@@ -170,7 +170,6 @@ function ding_campaign_plus_auto_node_insert($node) {
     $field = 'field_' . $node_wrapper->getBundle() . '_lead';
     $lead = $node_wrapper->{$field}->value();
     $campaign_wrapper->field_ding_campaign_plus_text->set($lead);
-    $campaign_wrapper->field_ding_campaign_plus_track->set($node_wrapper->label());
 
     // Add triggers for the new campaign.
     $config = _ding_campaign_plus_auto_get_configuration();

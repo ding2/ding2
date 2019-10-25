@@ -10,6 +10,7 @@
  */
 function opensearch_install() {
   opensearch_migrate_settings();
+  variable_set('ting_library_material_sources', _opensearch_default_library_material_sources());
 }
 
 /**
@@ -73,4 +74,11 @@ function opensearch_update_7002() {
 function opensearch_update_7003() {
   $schema['cache_opensearch'] = drupal_get_schema_unprocessed('system', 'cache');
   db_create_table('cache_opensearch', $schema['cache_opensearch']);
+}
+
+/**
+ * Ensure the default library material source for opensearch is set.
+ */
+function opensearch_update_7004() {
+  variable_set('ting_library_material_sources', _opensearch_default_library_material_sources());
 }

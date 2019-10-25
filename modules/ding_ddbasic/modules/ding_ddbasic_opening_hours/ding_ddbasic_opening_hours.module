@@ -70,7 +70,7 @@ function ding_ddbasic_opening_hours_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Turn a structrued "opening hours" array into a table theme render array.
+ * Turn a structured "opening hours" array into a table theme render array.
  *
  * @param string $title
  *   Title of the opening hours table. In this case it's the value of the first
@@ -161,12 +161,8 @@ function ding_ddbasic_opening_hours_get_category_weight($category_tid) {
       $weight[$category_tid] = -1;
     }
     else {
-      foreach (taxonomy_get_tree(taxonomy_term_load($category_tid)->vid) as $delta => $term) {
-        if ($term->tid == $category_tid) {
-          $weight[$category_tid] = $delta;
-          break;
-        }
-      }
+      $term = taxonomy_term_load($category_tid);
+      $weight[$category_tid] = $term->weight;
     }
   }
   return $weight[$category_tid];

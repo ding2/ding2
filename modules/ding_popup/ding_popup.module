@@ -5,9 +5,39 @@
  * Common popup functionality for Ding!
  */
 
-/* Attached scripts is handled via jquery AJAX call from jQuery.ajaxTransport, 
-   where async is set to false, and will trigger a warning in Gecko 30.0;
-   For now, add javascripts in module.info */
+/**
+ * Implements hook_library().
+ */
+function ding_popup_library() {
+  $path = drupal_get_path('module', 'ding_popup');
+  return array(
+    'ding_popup' => array(
+      'title' => 'Ding popup',
+      'version' => '1.x',
+      'js' => array(
+        $path . '/ding_popup-popupbar.js' => array(
+          'scope' => 'footer',
+        ),
+        $path . '/ding_popup.js' => array(
+          'scope' => 'footer',
+        ),
+      ),
+      'dependencies' => array(
+        array(
+          'system',
+          'drupal.ajax',
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function ding_popup_preprocess_html() {
+  drupal_add_library('ding_popup', 'ding_popup', true);
+}
 
 /**
  * Ajax command to open a popup.

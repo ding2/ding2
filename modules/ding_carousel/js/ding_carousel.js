@@ -177,25 +177,6 @@
         item.tab.data('offset', data.offset);
         item.tab.data('updating', false);
 
-        // This ensures that ting objects loaded via ajax in the carousel's gets
-        // reservations buttons displayed if available. So basically it finds
-        // the material ids and coverts them into ding_availability format and
-        // updates the settings, which is then used when behaviors are attached
-        // below. This is a hack, but the alternative was to re-write
-        // ding_availability.
-        var matches = data.content.match(/reservation-\d+-\w+:\d+/gm);
-        if (matches instanceof Array) {
-          if (!Drupal.settings.hasOwnProperty('ding_availability')) {
-            Drupal.settings.ding_availability = {};
-          }
-          for (var i in matches) {
-            var match = matches[i];
-            var id = match.substring(match.indexOf(':') + 1);
-            match = match.replace('reservation', 'availability').replace(':', '');
-            Drupal.settings.ding_availability[match] = [ id ];
-          }
-        }
-
         // Ensure that behaviors are attached to the new content.
         Drupal.attachBehaviors($('.ding-carousel-item'));
 
@@ -274,7 +255,7 @@
         // (obviously in hindsight).
         $('.carousel', this).on('init reInit afterChange', carousel, update_handler)
           .on('setPosition', carousel, update_slides_to_scroll)
-          .slick(settings);
+          .not('.slick-initialized').slick(settings);
       });
 
       // Initialize tab behavior on tabbed carousels.

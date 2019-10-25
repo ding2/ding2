@@ -11,7 +11,22 @@
  * Override or insert variables into the node templates.
  */
 function ddbasic_preprocess_node(&$variables, $hook) {
-  //
+  $installed_languages = language_list();
+
+  // If the node has a language associated, and its part of our installed
+  // languages (The value can also be LANGUAGE_NONE), then we will add the
+  // lang="LANGCODE" attribute to the attributes/content_attributes.
+  // This way, if the screenreader reads it, it will read the content in the
+  // correct prounication.
+  if (!empty($variables['language']) &&
+      !empty($installed_languages[$variables['language']])) {
+    // We're doing it to both attributes and content_attributes as it seems
+    // fairly random whether or not a template uses both or not.
+    // Even if a template does use both, it does no damage.
+    $variables['attributes_array']['lang'] = $variables['language'];
+    $variables['content_attributes_array']['lang'] = $variables['language'];
+  }
+
   // Add tpl suggestions for node view modes.
   if (isset($variables['view_mode'])) {
     $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];
@@ -50,6 +65,8 @@ function ddbasic_process_node(&$variables, $hook) {
   // For search result view mode add type and title.
   if ($variables['view_mode'] == 'search_result') {
     $node_type = node_type_get_name($variables['type']);
+
+    // Create markup.
     $variables['content']['type'] = array(
       '#markup' => '<div class="view-mode-search-result-content-type">' . $node_type . '</div>',
       '#weight' => -9999,
@@ -292,7 +309,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         if (!empty($link_url)) {
           $variables['book_button'] = l($book_button_text, $link_url, array(
             'attributes' => array(
-              'class' => array('ticket', 'button'),
+              'class' => array('ticket-available', 'button'),
               'target' => '_blank',
             ),
           ));
@@ -359,15 +376,6 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
   $variables['target'] = ding_base_get_value('node', $variables['node'], 'field_camp_new_window') ? '_blank' : '';
   $variables['panel_style'] = !empty($variables['elements']['#style']) ? drupal_html_class($variables['elements']['#style']) : '';
 
-  // @todo This should be moved to separate module.
-  // Display campaign if it is on the mobile browser.
-  if (!empty($variables['field_show_on_mobiles'])) {
-    $mobile_show = $variables['field_show_on_mobiles'][LANGUAGE_NONE][0]['value'];
-    if ($mobile_show) {
-      $variables['classes_array'][] = 'mobile-show';
-    }
-  }
-
   if (isset($type)) {
     switch ($type) {
       case 'image_and_text':
@@ -390,21 +398,22 @@ function ddbasic_preprocess__node__ding_campaign(&$variables) {
  * Ding Library.
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
-
   // Google maps addition to library list on teaser.
   if ($variables['view_mode'] == 'teaser') {
-    $address = $variables['content']['field_ding_library_addresse'][0]['#address'];
+    if (isset($variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'])) {
+      $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
 
-    $street = $address['thoroughfare'];
-    $street = preg_replace('/\s+/', '+', $street);
-    $postal = $address['postal_code'];
-    $city = $address['locality'];
-    $country = $address['country'];
-    $url = "http://www.google.com/maps/place/" . $street . "+" . $postal . "+" . $city . "+" . $country;
-    $link = l(t("Show on map"), $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
+      $street = $address['thoroughfare'];
+      $street = preg_replace('/\s+/', '+', $street);
+      $postal = $address['postal_code'];
+      $city = $address['locality'];
+      $country = $address['country'];
+      $url = "http://www.google.com/maps/place/" . $street . "+" . $postal . "+" . $city . "+" . $country;
+      $link = l(t("Show on map"), $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
 
-    $variables['content']['maps_link']['#markup'] = $link;
-    $variables['content']['maps_link']['#weight'] = 10;
+      $variables['content']['group_ding_library_right_column']['maps_link']['#markup'] = $link;
+      $variables['content']['group_ding_library_right_column']['maps_link']['#weight'] = 10;
+    }
   }
 }
 

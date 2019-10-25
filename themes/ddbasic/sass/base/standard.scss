@@ -53,7 +53,6 @@ body {
     }
   }
 
-
   $_selectors-padding-top-values--body: (
     '.search-form-extended': $header-height + $search-form-extended-height,
     '.search-form-extended.extended-search-is-not-open': $header-height
@@ -80,6 +79,67 @@ body {
       &#{$_selector}.has-second-level-menu.has-multiline-main-menu,
       &#{$_selector}.secondary-menu-below-main {
         padding-top: $_value + $second-level-menu-height + $search-form-extended-height;
+      }
+    }
+  }
+}
+
+// Ensure that our fixed header elements doesn't overlap in-page anchors. We use
+// the ':target' selector, which represents a unique element (the target
+// element) with an id matching the URL's fragment.
+// See: https://stackoverflow.com/a/28824157
+:target::before {
+  display: block;
+  content: " ";
+
+  // Note that we use the spacing between paragraphs in the base offset, to give
+  // some air above the anchor.
+  $_base-offset: $distance-paragraph + $header-height;
+
+  margin-top: -($_base-offset);
+  height: $_base-offset;
+
+  // Use the same selector mapping as body padding above, but here we also need
+  // every possible combination with admin menu. Admin menu module adds a top
+  // margin to the body itself, but here we can use that, since we need to
+  // include the admin menu height in the margin-top/height offset on :target.
+  $_selectors-offset-values--target: (
+    '.search-form-extended': $search-form-extended-height,
+    '.search-form-extended.extended-search-is-not-open': 0,
+    '.admin-menu.search-form-extended': $search-form-extended-height + $admin-menu-height,
+    '.admin-menu.search-form-extended.extended-search-is-not-open': $admin-menu-height,
+    '.admin-menu-with-shortcuts.search-form-extended': $search-form-extended-height + $toolbar-height,
+    '.admin-menu-with-shortcuts.search-form-extended.extended-search-is-not-open': $toolbar-height
+  );
+
+  @each $_selector, $_value in $_selectors-offset-values--target {
+    @include media($tablet-min-width) {
+      $_offset: $_value + $_base-offset;
+
+      #{$_selector} & {
+        margin-top: -$_offset;
+        height: $_offset;
+      }
+
+      // If there are too many links in secondary or main menu, we need to add
+      // even more padding.
+      #{$_selector}.secondary-menu-below-main &,
+      #{$_selector}.has-multiline-main-menu & {
+        margin-top: -($_offset + $search-form-extended-height);
+        height: $_offset + $search-form-extended-height;
+      }
+
+      // If the main menu has a second level submenu visible.
+      #{$_selector}.has-second-level-menu & {
+        margin-top: -($_offset + $second-level-menu-height);
+        height: $_offset + $second-level-menu-height;
+      }
+
+      // Combination of the two cases above.
+      #{$_selector}.has-second-level-menu.secondary-menu-below-main &,
+      #{$_selector}.has-second-level-menu.has-multiline-main-menu & {
+        margin-top: -($_offset + $second-level-menu-height + $search-form-extended-height);
+        height: $_offset + $second-level-menu-height + $search-form-extended-height;
       }
     }
   }

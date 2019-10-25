@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Theme function default implementation for the module.
@@ -26,6 +27,8 @@ function template_preprocess_ting_object_cover(&$variables) {
   );
   $variables['image'] = '';
 
+  $variables['title'] = implode(', ', $object->getCreators()) . ': ' . $object->getTitle();
+
   if (cache_get('ting_covers:' . $object->id)) {
     // We know that there is no cover available for this object so avoid
     // further javascript processing.
@@ -34,17 +37,15 @@ function template_preprocess_ting_object_cover(&$variables) {
   else {
     $path = ting_covers_object_path($object->id);
     if (file_exists($path)) {
-      // Generate an alt tag.
-      $alt = implode(', ', $object->creators) . ': ' . $object->title;
-
       // Render the img element.
-      $variables['image'] = theme('image_style', array(
-                              'style_name' => $variables['image_style'],
-                              'path' => $path,
-                              'alt' => $alt,
-                            ));
+      $params = array(
+        'style_name' => $variables['image_style'],
+        'path' => $path,
+        'alt' => $variables['title'],
+      );
+      $variables['image'] = theme('image_style', $params);
 
-      // Avoid further javascript processing. Just load the image.
+      // Avoid further javascriqpt processing. Just load the image.
       $variables['classes'][] = 'ting-cover-processed';
     }
   }
@@ -57,13 +58,20 @@ function template_preprocess_ting_object_cover(&$variables) {
  */
 function theme_ting_object_cover($variables) {
   $data = "";
+  $attributes = array(
+    'class' => $variables['classes'],
+  );
   foreach ($variables['data'] as $name => $value) {
     $data .= 'data-' . $name . '="' . htmlentities($value) . '" ';
+    $attributes['data-' . $name] = $value;
   }
 
   if ($variables['link'] === FALSE) {
-    return '<div class="' . implode(' ', $variables['classes']) . '" ' . trim($data) . '>' . $variables['image'] . '</div>';
+    return '<div ' . drupal_attributes($attributes) . '>' . $variables['image'] . '</div>';
   }
 
-  return '<a href="' . url($variables['link']) . '" class="' . implode(' ', $variables['classes']) . '" ' . trim($data) . '>' . $variables['image'] . '</a>';
+  $attributes['href'] = url($variables['link']);
+  $attributes['title'] = $variables['title'];
+
+  return '<a ' . drupal_attributes($attributes) . '>' . $variables['image'] . '</a>';
 }

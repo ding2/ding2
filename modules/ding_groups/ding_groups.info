@@ -13,6 +13,7 @@ dependencies[] = list
 dependencies[] = manualcrop
 dependencies[] = media
 dependencies[] = menu_position
+dependencies[] = node
 dependencies[] = nodequeue
 dependencies[] = og_context
 dependencies[] = og_menu

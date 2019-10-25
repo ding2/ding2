@@ -89,6 +89,13 @@ function ding_base_update_dependencies() {
     // to Drupal default (1.4) if no specific admin theme version has been set.
     'jquery_update' => 7001,
   );
+  // Disable Autologout module. Autologout combined with single signout from
+  // Adgangsplatformen will log the user out of all platforms automatically when
+  // inactive on one of them.
+  $dependencies['ding_base'][7008] = array(
+    // Enables Adgangsplatformen.
+    'ding2' => 7069,
+  );
 
   return $dependencies;
 }
@@ -200,4 +207,11 @@ function ding_base_update_7006() {
  */
 function ding_base_update_7007() {
   _jquery_update_set_theme_version('seven', '1.7');
+}
+
+/**
+ * Disable Autologout module.
+ */
+function ding_base_update_7008() {
+  module_disable(['autologout']);
 }

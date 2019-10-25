@@ -134,6 +134,7 @@ ul {
           }
           // 3rd level men
           .main-menu {
+            @include clearfix;
             background-color: $white;
             display: none; // Hide 2nd level menu. Displayed on tablet and mobile width jQuery
             li {
@@ -296,8 +297,12 @@ ul.main-menu-third-level {
             color: $charcoal;
           }
         }
+        > ul.menu {
+	        display: block;
+        }
       }
       ul.menu {
+	      display: none;
         margin-top: 20px;
         padding-left: 20px;
       }
@@ -433,7 +438,7 @@ ul.topbar-menu {
         min-width: 0;
         float: left;
         a {
-          background-color: $grey-medium;
+          background-color: $charcoal-opacity-dark;
         }
       }
     }

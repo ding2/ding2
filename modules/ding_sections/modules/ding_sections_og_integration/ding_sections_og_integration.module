@@ -42,7 +42,7 @@ function ding_sections_og_integration_form_alter(&$form, &$form_state, $form_id)
   }
   if (in_array($form_id, $eb_cts_form)) {
     $user_og_groups = og_get_entity_groups('user');
-    $eb_term_ids = $form['field_editorial_base'][LANGUAGE_NONE]['#options'];
+    $eb_term_ids = $form['field_ding_section'][LANGUAGE_NONE]['#options'];
     unset($eb_term_ids['_none']);
 
     // Check if user have rights to use terms.

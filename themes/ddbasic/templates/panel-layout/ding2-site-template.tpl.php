@@ -5,6 +5,9 @@
  * Ddbasic implementation to present a Panels layout.
  */
 ?>
+<a href="#main-content" class="skip-link">
+  <?php print t('Skip to main content'); ?>
+</a>
 <div id="page<?php print $css_id ? " $css_id" : ''; ?>" class="<?php print $classes; ?>">
   <?php if (!empty($content['branding']) || !empty($content['header']) || !empty($content['navigation'])): ?>
     <header class="site-header">
@@ -36,7 +39,7 @@
     </header>
   <?php endif; ?>
 
-  <div class="content-wrapper js-content-wrapper">
+  <div class="content-wrapper js-content-wrapper" id="main-content" role="main">
     <div class="content-inner">
       <?php print render($content['content']); ?>
     </div>

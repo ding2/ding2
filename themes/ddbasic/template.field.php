@@ -21,7 +21,6 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   $view_mode = $vars['element']['#view_mode'];
   $field_name = $vars['element']['#field_name'];
 
-  //
   // Call our own custom preprocess functions.
   $preprocess_function = 'ddbasic_preprocess__field__' . $vars['element']['#field_name'];
   if (function_exists($preprocess_function)) {
@@ -81,6 +80,14 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 
     if ($field_name == 'og_group_ref') {
       $vars['classes_array'][] = 'field-name-ding-library-name';
+
+      // Show libraries inline.
+      $inline = [];
+      foreach ($vars['items'] as $item) {
+        $inline[] = $item['#markup'];
+      }
+
+      $vars['inlined_libraries'] = implode(', ', $inline);
     }
   }
 
@@ -162,8 +169,10 @@ function ddbasic_preprocess__field__ting_author(&$vars) {
  * Ding news list image.
  */
 function ddbasic_preprocess__field__field_ding_news_list_image(&$vars) {
-  // Set image styling class.
-  $vars['classes_array'][] = 'image-styling-16-9';
+  if ($vars['element']['#view_mode'] != 'search_result') {
+    // Set image styling class.
+    $vars['classes_array'][] = 'image-styling-16-9';
+  }
 }
 
 /**
@@ -208,4 +217,36 @@ function ddbasic_field__display_image_text($vars) {
   // Render the top-level DIV.
   $output = '<div class="' . $vars['classes'] . '"' . $vars['attributes'] . '>' . $output . '</div>';
   return $output;
+}
+
+/**
+ * Implements hook_preprocess__field__field_ding_paragraphs_image().
+ *
+ * Expose paragraph image classes to template.
+ */
+function ddbasic_preprocess__field__field_ding_paragraphs_image(&$vars) {
+  $image_paragraph_styles = array(
+    'paragraphs-image',
+  );
+  if (isset($vars['element']['attributes']['class'])) {
+    $image_paragraph_styles[] = $vars['element']['attributes']['class'];
+  }
+
+  $vars['image_paragraph_styles'] = implode(' ', $image_paragraph_styles);
+}
+
+/**
+ * Implements hook_preprocess__field__field_ding_paragraphs_text().
+ *
+ * Expose paragraph text classes to template.
+ */
+function ddbasic_preprocess__field__field_ding_paragraphs_text(&$vars) {
+  $text_paragraph_styles = array(
+    'paragraphs-text',
+  );
+  if (isset($vars['element']['attributes']['class'])) {
+    $text_paragraph_styles[] = $vars['element']['attributes']['class'];
+  }
+
+  $vars['text_paragraph_styles'] = implode(' ', $text_paragraph_styles);
 }

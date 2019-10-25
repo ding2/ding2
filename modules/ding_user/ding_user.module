@@ -8,6 +8,23 @@
 include_once 'ding_user_comments.inc';
 
 /**
+ * Implements hook_pathauto_alias_alter().
+ *
+ * Ensures that provider user don't have aliases create for their accounts.
+ */
+function ding_user_pathauto_alias_alter(&$alias, $context) {
+  if ($context['module'] == 'user') {
+    $user = reset($context['data']);
+    // The function ding_user_is_provider_user can not be used here. Because if
+    // the user is logging in for the first time the "authmap" table have not
+    // been populated when this alias function is called.
+    if (in_array('provider', $user->roles)) {
+      $alias = '';
+    }
+  }
+}
+
+/**
  * Implements hook_preprocess_html().
  */
 function ding_user_preprocess_html(&$variables) {
@@ -21,32 +38,6 @@ function ding_user_preprocess_html(&$variables) {
       // Cache control for user pages.
       drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
       drupal_add_http_header('Pragma', 'no-cache');
-    }
-    elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
-      // Redirect anonymous user to front page login. This is to prevent the
-      // library user from seeing /user, login and password page. Unless in
-      // maintenance_mode, there's no front page login when in maintenance_mode,
-      // and a redirect prevent login.
-      if (!variable_get('maintenance_mode', 0)) {
-        drupal_goto('', array('fragment' => 'login'));
-      }
-    }
-  }
-}
-
-/**
- * Implements hook_pathauto_alias_alter().
- *
- * Ensures that provider user don't have aliases create for their accounts.
- */
-function ding_user_pathauto_alias_alter(&$alias, $context) {
-  if ($context['module'] == 'user') {
-    $user = reset($context['data']);
-    // The function ding_user_is_provider_user can not be used here. Because if
-    // the user is logging in for the first time the "authmap" table have not
-    // been populated when this alias function is called.
-    if (in_array('provider', $user->roles)) {
-      $alias = '';
     }
   }
 }
@@ -72,34 +63,6 @@ function ding_user_ctools_plugin_api($module, $api) {
   if ($module == 'page_manager' && $api == 'pages_default') {
     return array('version' => 1);
   }
-}
-
-/**
- * Implements hook_menu().
- */
-function ding_user_menu() {
-  $items = array();
-
-  $items['user/%user/authenticate'] = array(
-    'title' => 'Authenticate',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_user_authenticate_form'),
-    'access callback' => 'ding_user_access',
-    'access arguments' => array(1),
-    'file' => 'ding_user.pages.inc',
-    'type' => MENU_CALLBACK,
-  );
-
-  $items['admin/config/ding/user'] = array(
-    'title' => 'Ding user settings',
-    'description' => 'Administer user settings.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_user_admin_setting_form'),
-    'access arguments' => array('administer user settings'),
-    'file' => 'ding_user.admin.inc',
-  );
-
-  return $items;
 }
 
 /**
@@ -138,6 +101,115 @@ function ding_user_menu_alter(&$items) {
   $items['user/%user']['access arguments'] = array(1);
 
   $items['user']['delivery callback'] = 'ding_user_deliver_html_page';
+}
+
+/**
+ * Authenticate external user (provider user) and/or create drupal account.
+ *
+ * If the user info 'pass' key is not defined the provider will try to use the
+ * global pass used for single sign on.
+ *
+ * @param array $user_info
+ *   Array keyed by 'name', 'pass' and 'extra.
+ *
+ * @return bool|object
+ *   An drupal user account object or FALSE on failure.
+ *
+ * @throws Exception|DingProviderUserAuthFailure
+ *   Thrown when authentication fails.
+ */
+function ding_user_authenticate(array $user_info) {
+  // Default to FALSE as this is also the default from drupal login.
+  $account = FALSE;
+
+  try {
+    if (array_key_exists('single_sign_on', $user_info) && $user_info['single_sign_on'] == TRUE) {
+      // No password provided by the authentication request (not even the empty
+      // string), so we assume that this is a single-sign-on request.
+      $auth_res = ding_provider_invoke('auth', 'single_sign_on', $user_info['name']);
+
+      // Store value in session to be used later on to check if user was signed
+      // in with SSO.
+      $_SESSION['ding_user_sso'] = TRUE;
+    }
+    else {
+      // Normal user log in request.
+      $auth_res = ding_provider_invoke('user', 'authenticate', $user_info['name'], $user_info['pass']);
+    }
+  }
+  catch (DingProviderNoProvider $exception) {
+    drupal_set_message($exception->getMessage(), 'warning');
+    return FALSE;
+  }
+  if (!is_array($auth_res)) {
+    watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
+    return FALSE;
+  }
+
+  if ($auth_res['success']) {
+    if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
+      // If provider supplied an authentication name, use it.
+      $auth_name = $auth_res['authname'];
+    }
+    else {
+      // Else use a standard authentication name.
+      $auth_name = ding_user_default_authname($user_info['name']);
+    }
+
+    // Create new account in Drupal and if one exists update it.
+    $account = _ding_user_create_account($auth_name, $auth_res);
+
+    // Check that a profile exists for the user and if not create one.
+    _ding_user_create_profile2($account);
+
+    if ($account->data['blocks']) {
+      foreach ($account->data['blocks'] as $block_code) {
+        drupal_set_message(ding_user_block_reason($block_code), 'warning');
+      }
+    }
+  }
+  else {
+    // Check if any messages was returned from the provider.
+    if (isset($auth_res['messages'])) {
+      foreach ($auth_res['messages'] as $message) {
+        $type = 'warning';
+        if (is_array($message)) {
+          list($message, $type) = $message;
+        }
+        drupal_set_message(check_plain($message), $type);
+      }
+    }
+
+    drupal_set_message(t('Sorry but the current library do not have you as an user.'));
+  }
+
+  return $account;
+}
+
+/**
+ * Get user redirect destination.
+ *
+ * Mainly used by single sign on login to handle redirect after redirect to
+ * the SSO service provider.
+ *
+ * @return string|null
+ *   The destination as an URI set in the session or NULL if non is set.
+ */
+function ding_user_get_destination() {
+  return isset($_SESSION['ding_user_destination']) ? $_SESSION['ding_user_destination'] : NULL;
+}
+
+/**
+ * Set user redirect destination.
+ *
+ * Mainly used by single sign on login to handle redirect after redirect to
+ * the SSO service provider.
+ *
+ * @param string $destination
+ *   The destination to set in the session, normally an URI.
+ */
+function ding_user_set_destination($destination) {
+  $_SESSION['ding_user_destination'] = $destination;
 }
 
 /**
@@ -234,144 +306,6 @@ function ding_user_access($account) {
 }
 
 /**
- * Implements hook_form_alter().
- *
- * Modify user login form to use our backend and changes the form fields types
- * to password.
- */
-function ding_user_form_alter(&$form, $form_state, $form_id) {
-  switch ($form_id) {
-    case 'user_login':
-    case 'user_login_block':
-      $form['#attributes']['class'][] = 'user-login-form';
-
-      // Change input type on name field to password as the user may enter CPR.
-      $form['name']['#type'] = 'password';
-
-      // Make the name and password not required to by-pass error handling in
-      // default validation function. To prevent the "request new password"
-      // message.
-      $form['name']['#required'] = FALSE;
-      $form['pass']['#required'] = FALSE;
-
-      // Hide titles, and add display as placeholders.
-      $form['name']['#attributes']['placeholder'] = t('Loan/social security number (without dash)');
-      $form['name']['#title_display'] = 'invisible';
-      $form['pass']['#attributes']['placeholder'] = t('Pincode (@length digits)',
-        ['@length' => ding_user_get_pincode_length()]);
-      $form['pass']['#title_display'] = 'invisible';
-
-      // Add our own validation handler, after the default Drupal login
-      // validator.
-      $pos = array_search('user_login_authenticate_validate', $form['#validate']);
-      if ($pos === FALSE) {
-        // Not found, insert as next to last.
-        $pos = count($form['#validate']) - 1;
-      }
-      else {
-        // After, not before.
-        $pos += 1;
-      }
-      array_splice($form['#validate'], $pos, 0, 'ding_user_user_login_validate');
-
-      // Add introduction text to the form.
-      $form['intro_text'] = array(
-        '#type' => 'container',
-        '#attributes' => array('class' => array('intro-text')),
-        'lead' => array(
-          '#type' => 'container',
-          '#attributes' => array('class' => array('lead')),
-          array('#markup' => t('If you want to see what you have borrowed, reserve books or edit your user profile, you must be logged in.')),
-        ),
-        'text' => array(
-          '#type' => 'container',
-          '#attributes' => array('class' => array('text')),
-        ),
-      );
-
-      $user_signup_link = variable_get('ding_user_signup_link', '');
-      if (!empty($user_signup_link)) {
-        $form['intro_text']['text'] = array(
-          '#markup' => t('If you are not a registered user, you can register !link, or you can sign up in person at your local library.', array(
-            '!link' => l(t('here'), $user_signup_link, array('external' => TRUE)),
-          )),
-        );
-      }
-      else {
-        $form['intro_text']['text'] = array(
-          '#markup' => t('If you are not a registered user, you can sign up in person at your local library.'),
-        );
-      }
-
-      // The container holds the form elements and actions.
-      $form['user_login_container'] = array(
-        '#type' => 'container',
-        '#attributes' => array('class' => array('user-login-container')),
-      );
-
-      // Only add a close button to the block form.
-      if ($form_id === 'user_login_block') {
-        $form['user_login_container']['close']['#markup'] = '<div class="close-user-login"></div>';
-      }
-
-      $form['user_login_container']['name'] = $form['name'];
-      $form['user_login_container']['pass'] = $form['pass'];
-
-      if (!empty($user_signup_link)) {
-        $form['user_login_container']['sign_up_link'] = array(
-          '#markup' => l(t('Register as a user'), $user_signup_link, array('external' => TRUE)),
-          '#weight' => 9999,
-          '#prefix' => '<div class="sign-up-link">',
-          '#suffix' => '</div>',
-        );
-      }
-
-      // Wrap the submit button so it can get an icon.
-      $form['actions']['submit']['#prefix'] = '<div class="submit-button-with-icon"><div class="color-and-icon"></div>';
-      $form['actions']['submit']['#suffix'] = '</div>';
-
-      // Add NemID if the gatewayf module exists.
-      if (module_exists('ding_gatewayf')) {
-        $form['#attributes']['class'][] = 'has-nemid-login';
-        $block = module_invoke('ding_gatewayf', 'block_view', 'login');
-        $block->content['#link']['#text'] = t('Login with');
-        $form['actions']['nemid'] = array('#markup' => render($block->content));
-      }
-
-      $form['user_login_container']['actions'] = $form['actions'];
-
-      // Remove links and all the elements that are now in the elements
-      // container.
-      unset($form['links'], $form['name'], $form['pass'], $form['actions']);
-
-      // Falling through on purpose (if not reservation and login via ajax will
-      // fail.).
-
-    case 'ding_user_authenticate_form':
-      $form['user_login_container']['actions']['submit']['#ajax'] = array(
-        'callback' => 'ding_user_authenticate_form_callback',
-        'wrapper' => drupal_html_id($form_id),
-        'event' => 'click',
-      );
-
-      // Allow user provider to alter the login form.
-      $function = ding_provider_function('user', 'form_alter', TRUE);
-      if ($function) {
-        $function($form, $form_state);
-      }
-
-      break;
-
-    case 'user_register_form':
-      global $user;
-      if (user_access('administer users') && !in_array('administrators', $user->roles)) {
-        $form['#validate'][] = '_ding_user_roles_form_validate';
-      }
-      break;
-  }
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Add setting for pin code length under admin/config/people/accounts, which
@@ -451,7 +385,8 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
       );
-      if (ding_user_name() && !isset($_SESSION['wayf_login'])) {
+
+      if (ding_user_name() && !ding_user_is_logged_in_with_sso()) {
         $form['pass']['pincode_old'] = array(
           '#type' => 'password',
           '#title' => t('Confirm old pincode'),
@@ -460,6 +395,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
           '#attributes' => array('class' => array('password-confirm')),
         );
       }
+
       $form['pass']['pincode'] = array(
         '#type' => 'password_confirm',
         '#size' => $maxlength,
@@ -593,7 +529,7 @@ function ding_user_provider_profile($account) {
  *
  * @todo: Implement hook in the providers that returns the name.
  *
- * @return entity
+ * @return ProfileType|bool
  *   The profile type entity or FALSE if not found.
  */
 function ding_user_get_provider_profile_type() {
@@ -601,6 +537,7 @@ function ding_user_get_provider_profile_type() {
   $provider = _ding_provider_get_provider('user');
 
   // Load provider profile type.
+  /* @var ProfileType|FALSE $profile_type */
   $profile_type = profile2_type_load('provider_' . $provider['module']);
 
   // Return the profile type entity.
@@ -646,19 +583,6 @@ function ding_user_ding_provider_user() {
 }
 
 /**
- * Return the url to redirect user to in order to authenticate/log in.
- *
- * Used by ding_provider.
- */
-function ding_user_auth_page() {
-  global $user;
-  if (user_is_logged_in()) {
-    return 'user/' . $user->uid . '/authenticate';
-  }
-  return 'user/login';
-}
-
-/**
  * Return a local hash for the given name.
  *
  * As logins may be CPR numbers, which is really sensitive information, we use
@@ -696,6 +620,9 @@ function ding_user_default_authname($name) {
  *
  * @return string
  *   The private key.
+ *
+ * @throws Exception
+ *   If private key is not found.
  */
 function ding_user_get_private_key() {
   if ($key = variable_get('ding_user_private_key', 0)) {
@@ -766,85 +693,6 @@ function _ding_user_update_authname($authname) {
 }
 
 /**
- * Custom validator for the login form.
- *
- * Handles authentication with provider, and setting up a profile2 for the
- * user/provider.
- */
-function ding_user_user_login_validate($form, &$form_state) {
-  // If $form_state['uid'] is set and has a true value, Drupal already found a
-  // user, so we don't bother. Also, we require name and pass.
-  if (isset($form_state['uid']) && $form_state['uid']) {
-    // Normal Drupal user have been logged in.
-    return;
-  }
-  try {
-    // Trying to login the user using the provider.
-    try {
-      $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass'], $form_state['values']);
-    }
-    catch(DingProviderNoProvider $exception) {
-      drupal_set_message($exception->getMessage(), 'warning');
-      return;
-    }
-    if (!is_array($auth_res)) {
-      watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
-      return;
-    }
-
-    if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
-      // If provider supplied an authname, use it.
-      $auth_name = $auth_res['authname'];
-    }
-    else {
-      // Else use a standard authname.
-      $auth_name = ding_user_default_authname($form_state['values']['name']);
-    }
-
-    // Create new account in Drupal and if one exists update it.
-    $account = _ding_user_create_account($auth_name, $auth_res);
-
-    // Check that a profile exists for the user and if not create one.
-    _ding_user_create_profile2($account);
-
-    if ($account->data['blocks']) {
-      foreach ($account->data['blocks'] as $block_code) {
-        drupal_set_message(ding_user_block_reason($block_code), 'warning');
-      }
-    }
-
-    // Log user in.
-    $form_state['uid'] = $account->uid;
-    // We're not calling user_login_submit like user_external_login_register
-    // does, it's already the submit handler.
-  }
-  catch (DingProviderUserAuthFailure $e) {
-    // Check if name and pass where filled out. These fields are not required
-    // in the form to prevent the default form validation from displaying the
-    // reset password link, which would not make sens for provider users.
-    foreach (array('name', 'pass') as $field) {
-      if (empty($form_state['values'][$field])) {
-        form_set_error($field, t('!name field is required.', array('!name' => $form[$field]['#title'])));
-      }
-    }
-
-    // If we reach this code the login have failed and we always want to
-    // display this message.
-    form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new password. Contact information can be found on the <a href="@url">library</a> page.', array('@url' => url('biblioteker'))));
-    // Obfuscate the user name. We just set the form value to the obfuscated
-    // version as user.module will log the failure with the name from the
-    // form. If the provider defines its own authnames, this wont match the
-    // username that the user would have, but we can't expect the provider
-    // to supply it for invalid logins.
-    form_set_value($form['user_login_container']['name'], ding_user_default_authname($form_state['values']['name']), $form_state);
-  }
-  catch (Exception $e) {
-    // Exception thrown, log error and carry on.
-    watchdog_exception('ding_user', $e);
-  }
-}
-
-/**
  * Create a provider account for drupal.
  *
  * The username will be a hash value of authname. This account will be coupled
@@ -855,8 +703,11 @@ function ding_user_user_login_validate($form, &$form_state) {
  * @param array $auth_res
  *   Authentication information from the provider.
  *
- * @return entity
+ * @return object
  *   Drupal user object.
+ *
+ * @throws Exception
+ *   If user_save fails exception is thrown.
  */
 function _ding_user_create_account($auth_name, array $auth_res) {
   // We'd like to use user_external_login_register(), but it saves the user
@@ -991,87 +842,51 @@ function ding_user_forms($form_id, $args) {
 }
 
 /**
- * Ajax command to authenticate. Used by ding_provider.
+ * Ajax command to authenticate.
+ *
+ * @param mixed $extra_data
+ *   Options to send to ding_popup.
+ * @param string $redirect_uri
+ *   Destination to redirect to after login is completed.
+ *
+ * @return array
+ *   Ajax command array.
  */
-function ajax_command_ding_user_authenticate($extra_data) {
-  global $user, $language;
-  // @todo add support for user/login here.
-  module_load_include('inc', 'ding_user', 'ding_user.pages');
-  if ($user->uid) {
-    $title = t('Authenticate');
-    $form_id = 'ding_user_authenticate_form';
-  }
-  else {
-    $title = t('Login');
-    $form_id = 'user_login';
-  }
-
-  // Change default ajax action to default login form's if https is enabled.
-  if (variable_get('https', FALSE)) {
-    $form = drupal_get_form('user_login');
-    $url = parse_url($_SERVER['HTTP_REFERER']);
-    $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
-    $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
-    // Filter out any language prefixes as it will be automatically added to the
-    // URL again.
-    if (!empty($language->language) && preg_match('/' . $language->prefix . '/', $referer) > 0) {
-      $referer = preg_replace('/' . $language->prefix . '\//', '', $referer);
+function ajax_command_ding_user_authenticate($extra_data, $redirect_uri = '') {
+  $hook = 'ajax_login_command';
+  $modules = module_implements($hook);
+  if (count($modules) > 0) {
+    if (empty($redirect_uri)) {
+      $url = parse_url($_SERVER['HTTP_REFERER']);
+      $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
+      $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
+      $redirect_uri = empty($referer) ? '/' : urldecode($referer);
     }
-    $form['#action'] = 'https://' . $_SERVER['SERVER_NAME'] . url('user/login') . '?destination=' . $referer;
+
+    foreach ($modules as $module) {
+      $command = module_invoke($module, $hook, $redirect_uri);
+    }
   }
   else {
-    $form_state = array();
-    $form = drupal_build_form($form_id, $form_state);
+    // Change default ajax action to default login form's if https is enabled.
+    if (variable_get('https', FALSE)) {
+      $form = drupal_get_form('user_login');
+      $url = parse_url($_SERVER['HTTP_REFERER']);
+      $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
+      $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
+
+      $form['#action'] = 'https://' . $_SERVER['SERVER_NAME'] . url('user/login') . '?destination=' . $referer;
+    }
+    else {
+      $form_state = array();
+      $form = drupal_build_form('user_login', $form_state);
+    }
+
+    $login_form = drupal_render($form);
+    $command = ajax_command_ding_popup('ding_user', t('Login'), $login_form, array('resubmit' => TRUE, 'extra_data' => $extra_data));
   }
 
-  $login_form = drupal_render($form);
-  return ajax_command_ding_popup('ding_user', $title, $login_form, array('resubmit' => TRUE, 'extra_data' => $extra_data));
-}
-
-/**
- * Ajax callback.
- */
-function ding_user_authenticate_form_callback($form, &$form_state) {
-  switch ($form['form_id']['#value']) {
-    case 'ding_user_authenticate_form':
-      $success = $form_state['authentication_success'];
-      break;
-
-    case 'user_login':
-    case 'user_login_block':
-      $success = !empty($form_state['uid']);
-      break;
-
-    default:
-      $success = FALSE;
-  }
-
-  $response = array(
-    '#type' => 'ajax',
-    '#commands' => array(),
-  );
-
-  if ($success) {
-    // Close the login form popup.
-    $response['#commands'][] = ajax_command_ding_popup_close('ding_user');
-    // Open a new popup for instant feedback, so the user knows they're being
-    // logged in.
-    $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticated'), t('Authenticated, refreshing page.'));
-    // When using the refresh option with the popup_close command it will not
-    // close the popup, but simply start refreshing, leaving the previously
-    // opened feedback popup open.
-    $response['#commands'][] = ajax_command_ding_popup_close('ding_user', TRUE);
-  }
-  else {
-    // Else redisplay form and messages.
-    // The ding_popup automatically adds a close button, so remove the close
-    // button on the user_login_block.
-    unset($form['user_login_container']['close']);
-    $html = theme('status_messages') . drupal_render($form);
-    $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticate'), $html);
-  }
-
-  return $response;
+  return $command;
 }
 
 /**
@@ -1107,6 +922,18 @@ function ding_user_save_creds(array $auth_res) {
 
 /**
  * Get a unique id from the provider.
+ *
+ * @param object $account
+ *   User account to get id for. Defaults to NULL which then results in the
+ *   currently logged in user.
+ *
+ * @return mixed|null
+ *   The id or NULL if provider don't support it.
+ *
+ * @throws DingProviderDoesntImplement
+ *   If the provider do not implement the "get_provider_id" call.
+ * @throws DingProviderNoProvider
+ *   If the current provider don't supports the "get_provider_id" call.
  */
 function ding_user_provider_id($account = NULL) {
   global $user;
@@ -1172,7 +999,18 @@ function ding_user_is_provider_user($account, $reset = FALSE) {
       ->condition('uid', $account->uid)
       ->execute()->fetchAll();
   }
+
   return !empty($names);
+}
+
+/**
+ * Check if user was singed in using single-sign-on.
+ *
+ * @return bool
+ *   If logged in with SSO TRUE else FALSE.
+ */
+function ding_user_is_logged_in_with_sso() {
+  return isset($_SESSION['ding_user_sso']) ? $_SESSION['ding_user_sso'] : FALSE;
 }
 
 /**
@@ -1285,6 +1123,20 @@ function ding_user_profile2_view($profile, $view_mode, $langcode) {
 }
 
 /**
+ * Implements hook_form_alter().
+ */
+function ding_user_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_register_form':
+      global $user;
+      if (user_access('administer users') && !in_array('administrators', $user->roles)) {
+        $form['#validate'][] = '_ding_user_roles_form_validate';
+      }
+      break;
+  }
+}
+
+/**
  * Check if newly created user has assigned new roles.
  *
  * @param array $form
@@ -1299,7 +1151,7 @@ function _ding_user_roles_form_validate(array $form, array &$form_state) {
 }
 
 /**
- * Returns the message for the block type.
+ * Returns the message for the "block" type.
  */
 function ding_user_block_reason($type) {
   $reasons = &drupal_static(__FUNCTION__);

@@ -264,6 +264,7 @@ function ding_permissions_secure_permissions($role) {
       'administer panel-nodes',
       'administer panels layouts',
       'administer panels styles',
+      'administer paragraphs bundles',
       'administer pathauto',
       'administer permissions',
       'administer place2book settings',

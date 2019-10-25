@@ -167,6 +167,10 @@ function ting_search_theme($existing, $type, $theme, $path) {
  * For the form search_block_form.
  */
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+  // Screenreaders and SEO uses the role attribute to know that this is a
+  // search form. This means hidden headings are not necessary.
+  $form['#attributes']['role'] = 'search';
+
   // Remove the form token so the form becomes cachable. If we don't, all
   // pages with the search form becomes un-cachable, as drupal_validate_form()
   // will check the token and fail if the current user is not the same as the
