@@ -28,7 +28,6 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
     foreach ($searches as $search) {
       $search += array(
         'title' => '',
-        'subtitle' => '',
         'query' => '',
         'sort' => '',
         'available' => '',
@@ -76,12 +75,6 @@ function ting_search_carousel_carousel_content_type_admin_title($subtype, $conf,
  */
 function ting_search_carousel_carousel_content_type_edit_form($form, &$form_state) {
   ctools_form_include($form_state, 'carousel', 'ting_search_carousel', 'plugins/content_types');
-
-  // Hide the title override settings.
-  $form['override_title']['#access'] = FALSE;
-  $form['override_title_text']['#access'] = FALSE;
-  $form['override_title_heading']['#access'] = FALSE;
-  $form['override_title_markup']['#access'] = FALSE;
 
   // Add defoults.
   $form_state['conf'] += array(
@@ -179,7 +172,7 @@ function ting_search_carousel_carousel_content_type_edit_form_submit(&$form, &$f
   // happening when page is opened.
   foreach ($searches as $search) {
     $query = new TingSearchCarouselQuery($search['query'], $search['sort'], $search['available']);
-    ting_search_carousel_get_entities($query, 0, 8, FALSE);
+    ting_search_carousel_get_entities($query, 0, TING_SEARCH_CAROUSEL_CHUNK_SIZE, FALSE);
   }
 }
 
@@ -212,14 +205,6 @@ function ting_search_carousel_query_form(array $item = array(), $index = 0) {
     '#title' => t('Title'),
     '#description' => t('The title of the search is used for the tab in the carousel. Keep it short.'),
     '#default_value' => isset($item['title']) ? $item['title'] : '',
-  );
-
-  // @todo kill this
-  $form['subtitle'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Description'),
-    '#description' => t('The subtitle displayed next to the search results.'),
-    '#default_value' => isset($item['subtitle']) ? $item['subtitle'] : '',
   );
 
   $form['query'] = array(
@@ -286,7 +271,6 @@ function ting_search_carousel_admin_form_callback(array $form, array &$form_stat
 function ting_search_carousel_admin_form_add_one($form, &$form_state) {
   $form_state['conf']['searches'][] = array(
     'title' => '',
-    'subtitle' => '',
     'query' => '',
     'sort' => '',
     'available' => 0,

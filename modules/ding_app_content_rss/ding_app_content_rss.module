@@ -60,9 +60,11 @@ function ding_app_content_rss_field_formatter_view($entity_type, $entity, $field
     case 'ding_app_content_rss_location':
       foreach ($items as $delta => $item) {
         $location = array();
+
+        $accepted_fields = ['name_line', 'thoroughfare', 'postal_code', 'locality', 'country'];
         if (!empty($item['name_line'])) {
-          foreach ($item as $part) {
-            if (!empty($part)) {
+          foreach ($item as $key => $part) {
+            if (!empty($part) && in_array($key, $accepted_fields)) {
               $location[] = $part;
             }
           }
@@ -180,6 +182,14 @@ function ding_app_content_rss_views_rss_item_elements() {
     'content-rss:sticky' => array(
       'title' => t('Sticky'),
       'description' => t('Boolean value for sticky.'),
+    ),
+    'content-rss:place_room' => array(
+      'title' => t('Place/Room'),
+      'description' => t('Use this to direct your guests to the correct place'),
+    ),
+    'content-rss:organizers' => array(
+      'title' => t('Organizers'),
+      'description' => t('One or more organizers of the event.'),
     ),
   );
 }

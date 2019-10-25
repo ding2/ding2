@@ -2,12 +2,15 @@ default:
   suites:
     default:
       contexts:
+        - CampaignPlusContext
+        - CreateNewsContext
         - FeatureContext
         - Ding2Context
         # - Ding2MessagesContext
         - P2Context
         - LibContext
         - StepsContext
+        - LoginContext
         - ScreenshotsContext:
             NoScreenDump: false
         - Drupal\DrupalExtension\Context\DrupalContext
@@ -22,19 +25,21 @@ default:
         comment: [ ~, ~ ]
 
   extensions:
-    SensioLabs\Behat\PageObjectExtension: ~
+    SensioLabs\Behat\PageObjectExtension:
+      namespaces:
+        page: [Page, Page\CampaignPlus, Page\Common]
     emuse\BehatHTMLFormatter\BehatHTMLFormatterExtension:
-     name: html
-     renderer: Behat2
-     file_name: Index
-     print_args: true
-     print_outp: true
-     loop_break: true
+      name: html
+      renderer: Behat2
+      file_name: Index
+      print_args: true
+      print_outp: true
+      loop_break: true
     Drupal\DrupalExtension:
       blackbox: ~
-      api_driver: 'drush'
-      drush:
-        root: '../../../../../web'
+      api_driver: 'drupal'
+      drupal:
+        drupal_root: '../../../..'
       text:
         log_out: 'Log ud'
         username_field: 'Låner- eller CPR-nummer'
@@ -49,5 +54,4 @@ chrome:
       sessions:
         default:
           chrome:
-            api_url: "http://localhost:9222"
             socket_timeout: 600

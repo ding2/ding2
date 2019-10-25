@@ -114,6 +114,9 @@ function ding_news_strongarm() {
         'redirect' => array(
           'weight' => '9',
         ),
+        'metatags' => array(
+          'weight' => '40',
+        ),
       ),
       'display' => array(
         'webform' => array(
@@ -126,7 +129,7 @@ function ding_news_strongarm() {
             'visible' => TRUE,
           ),
           'default' => array(
-            'weight' => '12',
+            'weight' => '13',
             'visible' => TRUE,
           ),
           'search_result' => array(
@@ -163,18 +166,15 @@ function ding_news_strongarm() {
             'weight' => '0',
             'visible' => TRUE,
           ),
+          'search_result' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
         ),
       ),
     ),
   );
   $export['field_bundle_settings_node__ding_news'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'flag_push_to_mongo_default_ding_news';
-  $strongarm->value = 1;
-  $export['flag_push_to_mongo_default_ding_news'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -186,8 +186,15 @@ function ding_news_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'flag_push_to_mongo_default_ding_news';
+  $strongarm->value = 1;
+  $export['flag_push_to_mongo_default_ding_news'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_ding_news';
-  $strongarm->value = '0';
+  $strongarm->value = '1';
   $export['language_content_type_ding_news'] = $strongarm;
 
   $strongarm = new stdClass();

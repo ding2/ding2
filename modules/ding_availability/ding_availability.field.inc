@@ -87,7 +87,6 @@ function ding_availability_field_formatter_info() {
 function ding_availability_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   $online_types = array_filter(variable_get('ting_online_types', _ting_default_online_types()));
-  $reservable_sources = array_filter(variable_get('ting_reservable_sources', _ting_default_reservable_sources()));
 
   foreach ($items as $delta => $item) {
     // Extract records' source.
@@ -108,8 +107,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
 
         // If item is of type 'library materials' (where we can lookup holding
         // data), prepare to check holding on the item.
-        $holding_types = variable_get('ding_availability_holdings_types', _ding_availability_holdings_default_types());
-        if (in_array(drupal_strtolower($ac_source), $reservable_sources) && in_array(drupal_strtolower($entity->type), $holding_types)) {
+        if ($entity->is('library_material')) {
           $attached['js'][] = array(
             'data' => array(
               'ding_availability_mode' => 'holdings',
@@ -155,7 +153,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
 
         // If item is of type 'library materials' (where we can lookup holding
         // data), prepare to check holding on the item.
-        if (in_array(strtolower($ac_source), $reservable_sources)) {
+        if ($entity->is('library_material')) {
           $attached['js'][1] = array(
             'data' => array(
               'ding_availability' => array(
@@ -281,7 +279,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           // If item is of type 'library materials' (where we can lookup
           // availability data), map the HTML id to the list of entity ids.
           // This is for the current material type group (book, cd, etc.).
-          if (in_array(drupal_strtolower($ac_source), $reservable_sources) && !in_array(drupal_strtolower($type), $online_types)) {
+          if ($entities[0]->is('library_material')) {
             foreach ($entities as $object_entity) {
               $id_mapping[$id][] = $object_entity->localId;
             }

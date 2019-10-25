@@ -22,9 +22,6 @@ div.ipe-popup ul {
 .ding-ipe-popup-left {
   left: 245px;
 }
-.ding-ipe-popup-top {
-  top: -48px !important;
-}
 
 div.ipe-popup .item-list ul li {
   margin: 0;
@@ -40,4 +37,15 @@ div.ipe-popup .item-list ul li {
 .ding-ipe-menu-item {
   width: 100%;
   height: auto;
+}
+
+#ding-ipe-throbber {
+  display: block !important;
+  background: url("../images/throbber.gif") no-repeat center center;
+  width: 64px;
+  height: 64px;
+  left: 47%;
+  top: 48.5%;
+  z-index: 1001;
+  position: fixed;
 }

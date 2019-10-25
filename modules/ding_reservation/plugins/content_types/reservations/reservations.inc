@@ -38,7 +38,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
 
   if (empty($content) || !isset($content[$form_id])) {
     // Get the reservations lists.
-    $reservations = ding_provider_invoke_page('reservation', 'list', $account);
+    $reservations = ding_provider_invoke('reservation', 'list', $account);
 
     // Filter items base on configuration and pre-load ting entities.
     $preloaded_reservations = &drupal_static(__FUNCTION__, array());

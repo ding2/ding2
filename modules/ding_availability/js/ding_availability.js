@@ -29,18 +29,6 @@
         });
       }
 
-      // If there's any reservation buttons, switch to holdings. We have
-      // periodicals that's a bit off an odd one in that they can both
-      // have issues, which means that the reservation button for the
-      // main object should be disabled, or not have any issues, which
-      // means that it should be left alone. So we need to fetch full
-      // holdings in order to determine whether the material is a
-      // periodical. This is a bit of a hack, but it's the quickest way
-      // of fixing the problem right now.
-      if ($('.reserve-button').length > 0) {
-        settings.ding_availability_mode = 'holdings';
-      }
-
       $.each(html_ids, function (index, id) {
         $('#' + id).addClass('pending');
       });
@@ -105,40 +93,9 @@
     element.removeClass('pending').addClass('processed');
 
     $.each(entity_ids, function (index, entity_id) {
-      // Reserve button.
-      var reserve_button = element.parents('.ting-object:first, .material-item:first').find('a[id$=' + entity_id + '].reserve-button');
-
       if (Drupal.DADB[entity_id]) {
         var available = available || Drupal.DADB[entity_id]['available'];
-        var reservable = reservable || Drupal.DADB[entity_id]['reservable'];
-
-        // Special handling for periodicals.
-        if (typeof Drupal.DADB[entity_id]['is_periodical'] !== 'undefined' &&
-            Drupal.DADB[entity_id]['is_periodical']) {
-          // The main object of a periodical is neither available nor
-          // reservable, the individual issues is.
-          available = reservable = false;
-        }
-        var classes = [];
-
-        classes.push(available ? 'available' : 'unavailable');
-        classes.push(reservable ? 'reservable' : 'not-reservable');
-
-        $.each(classes, function (i, class_name) {
-          element.addClass(class_name);
-
-          // Add class to reserve button.
-          if (reserve_button.length) {
-            reserve_button.addClass(class_name);
-          }
-        });
-
-        if (available && !reservable) {
-          reserve_button.removeClass('available').addClass('unavailable');
-        }
-      }
-      else {
-        reserve_button.addClass('not-reservable');
+        element.addClass(available ? 'available' : 'unavailable');
       }
     });
   }

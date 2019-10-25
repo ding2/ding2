@@ -1,0 +1,26 @@
+#modalContent .modal-content input[type=text] {
+  border: 1px solid #c6c6c6;
+  background-color: #fff;
+}
+#modalContent .select-wrapper {
+  width: 300px;
+}
+#modalContent input[type=submit] {
+  margin: 10px 0;
+}
+#modalContent table td {
+  vertical-align: top;
+}
+#modalContent table td.choice-flag {
+  vertical-align: middle !important;
+}
+#modalContent table td input[type=submit] {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+#modalContent table td .select-wrapper {
+  border: 1px solid #c6c6c6;
+}
+#modalContent table td .select-wrapper select {
+  padding: 0 10px;
+}

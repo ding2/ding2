@@ -330,6 +330,17 @@
           width: getColumn(3) + getGutter();
           margin-right: 0;
           margin-bottom: 0;
+
+          > label[for="edit-ting-field-search"] {
+            // This label is hidden, but it needs to still be visible for
+            // screenreaders. We'll hide it by placing it to the left of the
+            // screen canvas.
+            position: absolute;
+            left: -9999px;
+            height: 0;
+            width: 0;
+          }
+
           .select-wrapper {
             border-radius: 0;
             border: 1px solid $white;
@@ -608,7 +619,7 @@
     $_selectors-top-values--search-form: (
       // .admin-menu does not need the base value added.
       '.admin-menu': $admin-menu-height - $_base-top-value,
-      '.admin-menu-with-shortcuts': $toolbar-height,
+      '.admin-menu-with-shortcuts': 0,
       '.toolbar': $toolbar-height,
       '.search-form-extended': $search-form-extended-height,
       '.search-form-extended.admin-menu': $search-form-extended-height + $admin-menu-height,
@@ -675,7 +686,7 @@
     $_selectors-top-values--navigation-wrapper: (
       '.mobile-search-is-open': $header-height,
       '.admin-menu': $topbar-height + $admin-menu-height,
-      '.admin-menu-with-shortcuts': $toolbar-height,
+      '.admin-menu-with-shortcuts': $topbar-height * 2,
       '.toolbar': $toolbar-height,
       '.search-form-extended.admin-menu': $topbar-height + $admin-menu-height,
       '.search-form-extended.admin-menu-with-shortcuts': $topbar-height + $toolbar-height,

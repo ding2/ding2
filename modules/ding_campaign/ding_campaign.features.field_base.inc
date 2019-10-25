@@ -253,33 +253,5 @@ function ding_campaign_field_default_field_bases() {
     'type' => 'list_integer',
   );
 
-  // @todo This should be moved to separate module.
-  // Exported field_base: 'field_show_on_mobiles'
-  $field_bases['field_show_on_mobiles'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_show_on_mobiles',
-    'foreign keys' => array(),
-    'indexes' => array(
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'list',
-    'settings' => array(
-      'allowed_values' => array(
-        0 => '',
-        1 => '',
-      ),
-      'allowed_values_function' => '',
-      'profile2_private' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'list_boolean',
-  );
-
   return $field_bases;
 }

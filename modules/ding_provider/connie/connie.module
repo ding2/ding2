@@ -48,13 +48,9 @@ function connie_ding_provider() {
         'prefix' => 'debt',
         'file' => 'connie.debt.inc',
       ),
-      'wayf' => array(
-        'prefix' => 'wayf',
-        'file' => 'connie.wayf.inc',
-      ),
-      'user_consent' => array(
-        'prefix' => 'user_consent',
-        'file' => 'connie.user_consent.inc',
+      'auth' => array(
+        'prefix' => 'auth',
+        'file' => 'connie.auth.inc',
       ),
     ),
   );
@@ -197,4 +193,16 @@ function connie_availability_periodical($provider_ids) {
     );
   }
   return $res;
+}
+
+/**
+ * Implements hook_ding_entity_is().
+ */
+function connie_ding_entity_is($object, $class) {
+  switch ($class) {
+    // Ensure that every entity is identified as library material, so that we
+    // can get reservation buttons when testing.
+    case 'library_material':
+      return TRUE;
+  }
 }

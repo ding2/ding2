@@ -27,7 +27,7 @@ define('DING_NODELIST_TPL_ACTIVE', 0);
 define('DING_NODELIST_TPL_HIDDEN', 1);
 
 define('DING_NODELIST_CACHE_LIFETIME', 1800);
-define('DING_NODELIST_TITLE_SIZE', 25);
+define('DING_NODELIST_TITLE_SIZE', 50);
 define('DING_NODELIST_BODY_SIZE', 100);
 
 /**
@@ -963,7 +963,6 @@ function _ding_nodelist_add_js($widget, $autoscroll_delay = NULL, $unique_id = N
       break;
 
     case DING_NODELIST_WIDGET_HOR_ACCORDION:
-      drupal_add_js($mod_path . '/js/jquery.easing.1.3.js', 'file');
       drupal_add_js($mod_path . '/js/jquery.zaccordion.min.js', 'file');
       drupal_add_js(array('ding_nodelist' => array($unique_id => $autoscroll_delay)), 'setting');
       drupal_add_js($mod_path . '/js/haccordion.js', 'file');
@@ -1573,6 +1572,9 @@ function _ding_nodelist_format_event_time(array $date) {
   if ($start_string == '00:00') {
     $result = t('All day');
   }
+  elseif ($start_string == $end->format('H:i')) {
+    $result = $start_string;
+  }
   elseif ($end->difference($start) > 86400) {
     $result = $start_string;
   }
@@ -1589,28 +1591,58 @@ function _ding_nodelist_format_event_time(array $date) {
  *
  * @param array $date
  *   Ding event date field.
+ * @param string $format
+ *   Requested output format.
  *
  * @return string
  *   Formatted event date period.
  */
-function _ding_nodelist_format_event_date(array $date) {
+function _ding_nodelist_format_event_date(array $date, $format = 'composed') {
+  $result = '';
   $start = new DateObject($date[0]['value'], new DateTimeZone($date[0]['timezone_db']));
   // Set timezone to local timezone.
   $start->setTimezone(new DateTimeZone($date[0]['timezone']));
-  $start_string = $start->format('d.m.y');
+  $start_date = $start->format('d.m.y');
+  $start_time = $start->format('H:i');
 
   // Create a dateObject from enddate, set base timezone to UTC.
   $end = new DateObject($date[0]['value2'], new DateTimeZone($date[0]['timezone_db']));
   // Set timezone to local timezone.
   $end->setTimezone(new DateTimeZone($date[0]['timezone']));
+  $end_date = $end->format('d.m.y');
+  $end_time = $end->format('H:i');
 
-  $result = $start_string;
-  if ($end->difference($start) > 0) {
-    $end_string = $end->format('d.m.y');
-    $result = t('!start - !end', array(
-      '!start' => $start_string,
-      '!end' => $end_string,
-    ));
+  if ($format == 'composed') {
+    if ($start_date == $end_date) {
+      $time_range = _ding_nodelist_format_event_time($date);
+      $result = t('!start_date kl. !time_range', [
+        '!start_date' => $start_date,
+        '!time_range' => $time_range,
+      ]);
+    }
+    else {
+      $first_part = $start_date . ' kl. ' . $start_time;
+      $last_part = $end_date . ' kl. ' . $end_time;
+
+      $result = t('!first_part - !last_part', [
+        '!first_part' => $first_part,
+        '!last_part' => $last_part,
+      ]);
+    }
+  }
+
+  if ($format == 'date_only') {
+    if ($start_date == $end_date) {
+      $result = t('!start_date', array(
+        '!start_date' => $start_date,
+      ));
+    }
+    else {
+      $result = t('!start_date - !end_date', array(
+        '!start_date' => $start_date,
+        '!end_date' => $end_date,
+      ));
+    }
   }
 
   return $result;
@@ -1690,10 +1722,13 @@ function _ding_nodelist_trim_fields(array $nodes, array $conf) {
         'length' => $body_length,
         'column' => 'value',
       ),
-      'title' => array(
-        'length' => $title_length,
-      ),
     );
+
+    if ($conf['widget_type'] != 'rolltab') {
+      $settings['title'] = array(
+        'length' => $title_length,
+      );
+    }
 
     if (!is_array($node)) {
       $node = _ding_nodelist_trim($node, $settings);
@@ -1865,14 +1900,17 @@ function ding_nodelist_preprocess(&$variables, $hook) {
         ));
         $items[$key]->category_link = $category_link;
 
-        $date = field_get_items('node', $item, 'field_ding_event_date');
-        if ($date) {
-          $event_date = field_view_value('node', $item, 'field_ding_event_date', $date[0], array('type' => 'ding_event_date'));
-          $items[$key]->formated_date = $event_date;
-          $items[$key]->date = _ding_nodelist_format_event_date($date);
-          $items[$key]->hours = _ding_nodelist_format_event_time($date);
-          $items[$key]->timestamp = _ding_nodelist_get_event_date($date);
-          $items[$key]->timezone = $date[0]['timezone'];
+        $event_date = field_get_items('node', $item, 'field_ding_event_date');
+        if ($event_date) {
+          $items[$key]->formated_date = _ding_nodelist_format_event_date($event_date);
+          $items[$key]->date = _ding_nodelist_format_event_date($event_date, 'date_only');
+          $items[$key]->hours = _ding_nodelist_format_event_time($event_date);
+          $items[$key]->timestamp = _ding_nodelist_get_event_date($event_date);
+          $items[$key]->timezone = $event_date[0]['timezone'];
+        }
+
+        if ($item->type == 'ding_news') {
+          $items[$key]->date = format_date($item->created, 'custom', 'd.m.Y');
         }
 
         $fee_field = field_get_items('node', $item, 'field_ding_event_price');
@@ -1885,7 +1923,7 @@ function ding_nodelist_preprocess(&$variables, $hook) {
 
       $links = array();
       foreach ($variables['links'] as $link) {
-        $links[] = l(t('@text', array('@text' => $link['text'])), $link['links']);
+        $links[] = l(t($link['text']), $link['links']);
       }
       $variables['links'] = $links;
       $variables['items'] = $items;

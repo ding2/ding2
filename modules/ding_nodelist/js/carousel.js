@@ -13,7 +13,7 @@
           }
         });
 
-        $(this).find('.ding_nodelist-items').slick({
+        $(this).find('.ding_nodelist-items:not(.slick-initialized)').slick({
           nextArrow: '<i class="icon-next"></i>',
           prevArrow: '<i class="icon-prev"></i>',
           autoplay: true,
@@ -24,7 +24,7 @@
           infinite: true,
           slidesToScroll: 1,
           slidesToShow: 1,
-          customPaging: function(slick, index) {
+          customPaging: function (slick, index) {
             return '<a>' + (index + 1) + '</a>';
           }
         });

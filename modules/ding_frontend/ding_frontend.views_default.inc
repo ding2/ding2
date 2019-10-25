@@ -66,10 +66,259 @@ function ding_frontend_views_default_views() {
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  $handler->display->display_options['defaults']['use_ajax'] = FALSE;
+  $handler->display->display_options['use_ajax'] = TRUE;
+  $handler->display->display_options['defaults']['exposed_form'] = FALSE;
+  $handler->display->display_options['exposed_form']['type'] = 'better_exposed_filters';
+  $handler->display->display_options['exposed_form']['options']['expose_sort_order'] = FALSE;
+  $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
+  $handler->display->display_options['exposed_form']['options']['bef'] = array(
+    'general' => array(
+      'input_required' => 0,
+      'text_input_required' => array(
+        'text_input_required' => array(
+          'value' => 'Select any filter and click on Apply to see results',
+          'format' => 'ding_wysiwyg',
+        ),
+      ),
+      'allow_secondary' => 0,
+      'secondary_label' => 'Advanced options',
+      'secondary_collapse_override' => '0',
+    ),
+    'item_bundle' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'autosubmit' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'node_field_ding_event_category' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'autosubmit' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'node_field_ding_event_target' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'autosubmit' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'node_field_ding_news_category' => array(
+      'bef_format' => 'bef',
+      'more_options' => array(
+        'bef_select_all_none' => 0,
+        'bef_collapsible' => 0,
+        'autosubmit' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+    'combine' => array(
+      'bef_format' => 'default',
+      'more_options' => array(
+        'autosubmit' => 0,
+        'is_secondary' => 0,
+        'any_label' => '',
+        'bef_filter_description' => '',
+        'tokens' => array(
+          'available' => array(
+            0 => 'global_types',
+          ),
+        ),
+        'rewrite' => array(
+          'filter_rewrite_values' => '',
+        ),
+      ),
+    ),
+  );
+  $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Indexed Multiple types: Node */
+  $handler->display->display_options['fields']['node']['id'] = 'node';
+  $handler->display->display_options['fields']['node']['table'] = 'search_api_index_default_multiple_index';
+  $handler->display->display_options['fields']['node']['field'] = 'node';
+  $handler->display->display_options['fields']['node']['label'] = '';
+  $handler->display->display_options['fields']['node']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['node']['link_to_entity'] = 1;
+  $handler->display->display_options['fields']['node']['display'] = 'view';
+  $handler->display->display_options['fields']['node']['view_mode'] = 'search_result';
+  $handler->display->display_options['fields']['node']['bypass_access'] = 0;
+  /* Field: Indexed Multiple types: User */
+  $handler->display->display_options['fields']['user']['id'] = 'user';
+  $handler->display->display_options['fields']['user']['table'] = 'search_api_index_default_multiple_index';
+  $handler->display->display_options['fields']['user']['field'] = 'user';
+  $handler->display->display_options['fields']['user']['label'] = '';
+  $handler->display->display_options['fields']['user']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['user']['link_to_entity'] = 1;
+  $handler->display->display_options['fields']['user']['display'] = 'view';
+  $handler->display->display_options['fields']['user']['view_mode'] = 'search_result';
+  $handler->display->display_options['fields']['user']['bypass_access'] = 0;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Search: Fulltext search */
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['table'] = 'search_api_index_default_multiple_index';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['not'] = 0;
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['conjunction'] = 'OR';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Indexed Multiple types: Bundle */
+  $handler->display->display_options['filters']['item_bundle']['id'] = 'item_bundle';
+  $handler->display->display_options['filters']['item_bundle']['table'] = 'search_api_index_default_multiple_index';
+  $handler->display->display_options['filters']['item_bundle']['field'] = 'item_bundle';
+  $handler->display->display_options['filters']['item_bundle']['value'] = array(
+    'node:ding_event' => 'node:ding_event',
+    'node:ding_news' => 'node:ding_news',
+    'node:ding_page' => 'node:ding_page',
+    'user:user' => 'user:user',
+  );
+  $handler->display->display_options['filters']['item_bundle']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['item_bundle']['expose']['operator_id'] = 'item_bundle_op';
+  $handler->display->display_options['filters']['item_bundle']['expose']['label'] = 'Content type';
+  $handler->display->display_options['filters']['item_bundle']['expose']['operator'] = 'item_bundle_op';
+  $handler->display->display_options['filters']['item_bundle']['expose']['identifier'] = 'ct';
+  $handler->display->display_options['filters']['item_bundle']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['item_bundle']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    3 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+    10 => 0,
+  );
+  $handler->display->display_options['filters']['item_bundle']['expose']['reduce'] = 0;
+  /* Filter criterion: Node: Category (indexed) */
+  $handler->display->display_options['filters']['node_field_ding_event_category']['id'] = 'node_field_ding_event_category';
+  $handler->display->display_options['filters']['node_field_ding_event_category']['table'] = 'search_api_index_default_multiple_index';
+  $handler->display->display_options['filters']['node_field_ding_event_category']['field'] = 'node_field_ding_event_category';
+  $handler->display->display_options['filters']['node_field_ding_event_category']['value'] = array();
+  $handler->display->display_options['filters']['node_field_ding_event_category']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['node_field_ding_event_category']['expose']['operator_id'] = 'node_field_ding_event_category_op';
+  $handler->display->display_options['filters']['node_field_ding_event_category']['expose']['label'] = 'Event category';
+  $handler->display->display_options['filters']['node_field_ding_event_category']['expose']['operator'] = 'node_field_ding_event_category_op';
+  $handler->display->display_options['filters']['node_field_ding_event_category']['expose']['identifier'] = 'node_field_ding_event_category';
+  $handler->display->display_options['filters']['node_field_ding_event_category']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['node_field_ding_event_category']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    3 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+    10 => 0,
+  );
+  $handler->display->display_options['filters']['node_field_ding_event_category']['expose']['reduce'] = 0;
+  /* Filter criterion: Node: Target (indexed) */
+  $handler->display->display_options['filters']['node_field_ding_event_target']['id'] = 'node_field_ding_event_target';
+  $handler->display->display_options['filters']['node_field_ding_event_target']['table'] = 'search_api_index_default_multiple_index';
+  $handler->display->display_options['filters']['node_field_ding_event_target']['field'] = 'node_field_ding_event_target';
+  $handler->display->display_options['filters']['node_field_ding_event_target']['value'] = array();
+  $handler->display->display_options['filters']['node_field_ding_event_target']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['node_field_ding_event_target']['expose']['operator_id'] = 'node_field_ding_event_target_op';
+  $handler->display->display_options['filters']['node_field_ding_event_target']['expose']['label'] = 'Event target';
+  $handler->display->display_options['filters']['node_field_ding_event_target']['expose']['operator'] = 'node_field_ding_event_target_op';
+  $handler->display->display_options['filters']['node_field_ding_event_target']['expose']['identifier'] = 'node_field_ding_event_target';
+  $handler->display->display_options['filters']['node_field_ding_event_target']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['node_field_ding_event_target']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    3 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+    10 => 0,
+  );
+  $handler->display->display_options['filters']['node_field_ding_event_target']['expose']['reduce'] = 0;
+  /* Filter criterion: Node: Category (indexed) */
+  $handler->display->display_options['filters']['node_field_ding_news_category']['id'] = 'node_field_ding_news_category';
+  $handler->display->display_options['filters']['node_field_ding_news_category']['table'] = 'search_api_index_default_multiple_index';
+  $handler->display->display_options['filters']['node_field_ding_news_category']['field'] = 'node_field_ding_news_category';
+  $handler->display->display_options['filters']['node_field_ding_news_category']['value'] = array();
+  $handler->display->display_options['filters']['node_field_ding_news_category']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['node_field_ding_news_category']['expose']['operator_id'] = 'node_field_ding_news_category_op';
+  $handler->display->display_options['filters']['node_field_ding_news_category']['expose']['label'] = 'News category';
+  $handler->display->display_options['filters']['node_field_ding_news_category']['expose']['operator'] = 'node_field_ding_news_category_op';
+  $handler->display->display_options['filters']['node_field_ding_news_category']['expose']['identifier'] = 'node_field_ding_news_category';
+  $handler->display->display_options['filters']['node_field_ding_news_category']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['node_field_ding_news_category']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    3 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+    10 => 0,
+  );
+  $handler->display->display_options['filters']['node_field_ding_news_category']['expose']['reduce'] = 0;
   $handler->display->display_options['argument_input'] = array(
     'search_api_views_fulltext' => array(
-      'type' => 'panel',
-      'context' => 'entity:comment.author',
+      'type' => 'user',
+      'context' => 'string.raw',
       'context_optional' => 0,
       'panel' => '2',
       'fixed' => '',
@@ -93,6 +342,12 @@ function ding_frontend_views_default_views() {
     t('last »'),
     t('All'),
     t('Content pane'),
+    t('Select any filter and click on Apply to see results'),
+    t('Advanced options'),
+    t('Content type'),
+    t('Event category'),
+    t('Event target'),
+    t('News category'),
     t('View panes'),
   );
   $export['ding_multiple_search'] = $view;

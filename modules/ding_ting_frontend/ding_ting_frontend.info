@@ -8,6 +8,7 @@ dependencies[] = ding_availability
 dependencies[] = ding_entity
 dependencies[] = ding_facetbrowser
 dependencies[] = ding_frontend
+dependencies[] = ding_paragraphs
 dependencies[] = ding_periodical
 dependencies[] = ding_toggle_format
 dependencies[] = features

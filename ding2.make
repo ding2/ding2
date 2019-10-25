@@ -94,7 +94,7 @@ projects[entityreference_filter][subdir] = "contrib"
 projects[entityreference_filter][version] = "1.7"
 
 projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.14"
+projects[eu_cookie_compliance][version] = "1.28"
 
 projects[environment_indicator][subdir] = "contrib"
 projects[environment_indicator][version] = "2.8"
@@ -267,6 +267,9 @@ projects[message][version] = "1.12"
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.21"
 
+projects[mimemail][subdir] = "contrib"
+projects[mimemail][version] = "1.1"
+
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
 
@@ -283,7 +286,7 @@ projects[nodequeue][subdir] = "contrib"
 projects[nodequeue][version] = "2.1"
 
 projects[node_clone][subdir] = "contrib"
-projects[node_clone][version] = "1.0-rc2"
+projects[node_clone][version] = "1.0"
 
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
@@ -304,6 +307,7 @@ projects[og][patch][] = "https://www.drupal.org/files/membership-data-loss-user-
 
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][version] = "3.0"
+projects[og_menu][patch][] = "http://storage.easyting.dk/og_menu-make_links_persistent.patch"
 
 projects[opening_hours][subdir] = "contrib"
 projects[opening_hours][version] = "1.6"
@@ -351,6 +355,9 @@ projects[proj4js][version] = "1.2"
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
 
+projects[paragraphs][subdir] = "contrib"
+projects[paragraphs][version] = "1.0-rc5"
+
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.2"
 
@@ -379,7 +386,7 @@ projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_permissions-dont_disable_all_permissions-2499607-3.patch"
 
 projects[services][subdir] = "contrib"
-projects[services][version] = "3.22"
+projects[services][version] = "3.24"
 
 projects[services_views][subdir] = "contrib"
 projects[services_views][version] = "1.1"
@@ -442,7 +449,7 @@ projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.20"
+projects[views][version] = "3.23"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
@@ -525,7 +532,7 @@ projects[ding_spt_statistics][download][branch] = "development"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-4.7.1"
+libraries[bpi-client][download][tag] = "7.x-5.0.0"
 
 ; For wysiwyg.
 libraries[ckeditor][download][type] = "get"
@@ -537,6 +544,18 @@ libraries[ckeditor][destination] = "libraries"
 libraries[chosen][download][type] = "get"
 libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip"
 libraries[chosen][destination] = "libraries"
+
+; For ding_adgangsplatformen.
+libraries[random_compat][download][type] = "git"
+libraries[random_compat][download][url] = "https://github.com/paragonie/random_compat.git"
+libraries[random_compat][download][tag] = "v2.0.17"
+libraries[random_compat][destination] = "libraries"
+
+; For ding_adgangsplatformen.
+libraries[oauth2-client][download][type] = "git"
+libraries[oauth2-client][download][url] = "https://github.com/thephpleague/oauth2-client.git"
+libraries[oauth2-client][download][tag] = "2.3.0"
+libraries[oauth2-client][destination] = "libraries"
 
 ; For ding_libs.
 libraries[guzzle][download][type] = "git"
@@ -596,7 +615,7 @@ libraries[psr7][destination] = "libraries"
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][destination] = "modules/opensearch/lib"
-libraries[ting-client][download][tag] = "7.x-4.7.1"
+libraries[ting-client][download][tag] = "7.x-5.0.0"
 
 ; Obsoleted. Only reference is in ding_frontend.
 libraries[zen-grids][download][type] = "git"

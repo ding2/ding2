@@ -87,6 +87,7 @@ jobs:
     - run:
         name: Configure PHP for Drupal
         command: |
+          sudo apt-get update
           sudo apt install -y libpng-dev mysql-client
           sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 $PHP_INI_DIR/conf.d
@@ -136,6 +137,7 @@ jobs:
     - run:
         name: Configure PHP for Drupal
         command: |
+          sudo apt-get update
           sudo apt install -y libpng-dev mysql-client
           sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 $PHP_INI_DIR/conf.d
@@ -183,6 +185,7 @@ jobs:
     - run:
         name: Configure PHP for Drupal
         command: |
+          sudo apt-get update
           sudo apt install -y libpng-dev mysql-client
           sudo -E docker-php-ext-install gd pdo_mysql
           sudo chmod 0777 $PHP_INI_DIR/conf.d
@@ -238,7 +241,7 @@ jobs:
         command: |
           mkdir -p ~/tests/behat/screenshots
           export SCREENSHOT_DIR="/home/circleci/tests/behat/screenshots/"
-          export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://localhost/" }}}'
+          export BEHAT_PARAMS='{"extensions" : {"Behat\\MinkExtension" : {"base_url" : "http://localhost/", "sessions" : { "default": { "chrome": { "api_url": "http://localhost:9222" }}}}}}'
           ./bin/behat -p chrome --tags '~no_ci' --tags '~wip'  --list-scenarios \
             | circleci tests split --split-by=timings --timings-type=testname \
             | xargs -n 1 -I % ./bin/behat --format=junit --out=$HOME/tests/behat/% --format=pretty --out=std -p chrome %

@@ -20,7 +20,7 @@ function ting_search_carousel_menu() {
   $items['ting_search_carousel/results/ajax/%ting_search_carousel_query/%'] = array(
     'title' => 'Show search carousel results',
     'page callback' => 'ting_search_carousel_result',
-    'page arguments' => array(3, 4, 5),
+    'page arguments' => array(3, 4),
     'access arguments' => array('access content'),
     'file' => 'ting_search_carousel.pages.inc',
     'type' => MENU_CALLBACK,
@@ -246,7 +246,7 @@ function _ting_search_carousel_find_entities_with_covers(TingSearchCarouselQuery
   // Search offset must be divisible by chunk size.
   // We cannot map a situation where offset is not divisible by chunk size to
   // the search abstraction layer paging model.
-  if (!$start % $size === 0) {
+  if ($start % $size !== 0) {
     throw new InvalidArgumentException('Offset to start from % search chunk size should not have remainders left.');
   }
 
@@ -291,7 +291,7 @@ function _ting_search_carousel_find_entities_with_covers(TingSearchCarouselQuery
     $entities_found_with_covers[$id] = $entities[$id];
   }
 
-  return array($entities_found_with_covers, $start, $finished);
+  return array($entities_found_with_covers, $start + $size, $finished);
 }
 
 /**
