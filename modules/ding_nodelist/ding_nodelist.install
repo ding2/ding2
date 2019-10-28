@@ -458,7 +458,7 @@ function ding_nodelist_replace_key(array $array = array(), $key1 = '', $key2 = '
 /**
  * Adding 'Grid Images' display type.
  */
-function ding_nodelist_update_7007() {
+function ding_nodelist_update_7008() {
   $mappings = array(
     'ding_nodelist.ding_event.grid_images' => array(
       'widget' => 'grid_images',
