@@ -586,12 +586,6 @@ function _ding_p2b_get_address_data($node) {
       0,
       'thoroughfare',
     ),
-    "address2" => array(
-      'field_ding_event_location',
-      LANGUAGE_NONE,
-      0,
-      'premise',
-    ),
     "postal_code" => array(
       'field_ding_event_location',
       LANGUAGE_NONE,
@@ -643,7 +637,6 @@ function _ding_p2b_get_address_data($node) {
       }
     }
   }
-  $data['address2'] = '';
 
   return $data;
 }
