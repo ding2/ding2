@@ -78,6 +78,7 @@ function ting_subsearch_suggestions_install() {
   $file->uri = drupal_get_path('module', 'ting_subsearch_suggestions') . '/translations/da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+  variable_set('ting_subsearch_suggestions_service', 'kpi');
 }
 
 /**
@@ -98,4 +99,11 @@ function ting_subsearch_suggestions_update_7002() {
 
   $schema = drupal_get_schema_unprocessed('ting_subsearch_suggestions', 'ting_subsearch_kpi_index_popular_keys');
   db_create_table('ting_subsearch_kpi_index_popular_keys', $schema);
+}
+
+/**
+ * Set KPI as default suggestion service.
+ */
+function ting_subsearch_suggestions_update_7003(&$sandbox) {
+  variable_set('ting_subsearch_suggestions_service', 'kpi');
 }

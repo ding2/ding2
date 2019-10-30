@@ -15,25 +15,9 @@ function ting_subsearch_suggestions_form_opensearch_admin_settings_alter(&$form,
   $form['subsearch_settings']['#description'] = t('Feature modules allow additional searches to be made based on predefined conditions.');
   $form['subsearch_settings']['#tree'] = FALSE;
 
-  $form['subsearch_settings']['ting_subsearch_suggestions_service'] = array(
-    '#type' => 'radios',
-    '#title' => t('Choose suggestion service'),
-    '#options' => array(
-      'os' => 'Opensuggestion',
-      'kpi' => 'KPI-Webtrekk',
-    ),
-    '#weight' => 0,
-    '#default_value' => variable_get('ting_subsearch_suggestions_service', ''),
-  );
-
   $form['subsearch_settings']['kpi_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('KPI settings'),
-    '#states' => array(
-      'visible' => array(
-        'input[name=ting_subsearch_suggestions_service]' => array('value' => 'kpi'),
-      ),
-    ),
     '#weight' => 1,
   );
 
@@ -108,6 +92,7 @@ function ting_subsearch_suggestions_form_opensearch_admin_settings_alter(&$form,
         'input[name=ting_subsearch_suggestions_service]' => array('value' => 'os'),
       ),
     ),
+    '#access' => FALSE,
     '#weight' => 2,
   );
 
