@@ -70,6 +70,7 @@ function ting_openlist_install() {
  * Implements hook_uninstall().
  */
 function ting_openlist_uninstall() {
+  variable_del('ting_openlist_authkey');
   variable_del('ting_openlist_developer');
   variable_del('ting_openlist_log');
   variable_del('ting_openlist_domain');

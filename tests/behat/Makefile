@@ -28,15 +28,3 @@ setup-config:
 	# Configure autocomplete
 	$(DRUSH) vset -y opensearch_search_autocomplete_suggestion_url 'http://opensuggestion.addi.dk/b3.5_2.0/'
 	$(DRUSH) vset -y opensearch_search_autocomplete_method 'facets'
-
-	# Configure openlist.
-	$(DRUSH) vset -y ting_openlist_prefix test
-	$(DRUSH) vset -y ting_openlist_wsdl 'https://test.openlist.ddbcms.dk/?wsdl'
-	$(DRUSH) vset -y ting_library_code 100200
-
-	# Activate consent and set config.
-	$(DRUSH) vset -y user_consent_activate true
-	$(DRUSH) vset -y loan_history_store_title ''
-	$(DRUSH) vset -y loan_history_store_title_first_time ''
-	$(DRUSH) php-eval 'variable_set("loan_history_store_description_first_time", array("value" => ""));'
-	$(DRUSH) php-eval 'variable_set("loan_history_store_description", array("value" => ""));'

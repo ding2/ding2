@@ -61,6 +61,17 @@ function ding_message_schema() {
 }
 
 /**
+ * Implements hook_uninstall().
+ */
+function ding_message_uninstall() {
+  variable_get('ding_message_login_delay');
+  variable_get('ding_message_batch_size');
+  variable_get('ding_message_list_check_size');
+  variable_get('ding_message_search_size');
+  variable_get('ding_message_channel_max');
+}
+
+/**
  * Remove the list_id field, so the type can be changed by features.
  */
 function ding_message_update_7001() {
