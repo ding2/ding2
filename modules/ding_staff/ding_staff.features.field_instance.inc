@@ -56,7 +56,9 @@ function ding_staff_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 2,
     ),
@@ -574,7 +576,9 @@ function ding_staff_field_default_field_instances() {
     'widget' => array(
       'active' => 1,
       'module' => 'options',
-      'settings' => array(),
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+      ),
       'type' => 'options_select',
       'weight' => 1,
     ),
