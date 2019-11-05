@@ -22,14 +22,16 @@ use Ting\Search\SearchProviderException;
  * @throws \TingClientException
  * @throws \Ting\Search\SearchProviderException
  */
-function ting_subsearch_common_do_secondary_search($keys, $options = array()) {
+function ting_subsearch_common_do_secondary_search($keys, $options = []) {
   $page = 1;
   $results_per_page = 10;
+  $agency = variable_get('ting_agency', FALSE);
+  $profile = variable_get('opensearch_search_profile', '');
 
   if (empty($options)) {
     $options = [
-      'agency' => variable_get('ting_agency', FALSE),
-      'profile' => variable_get('opensearch_search_profile', ''),
+      'agency' => $agency,
+      'profile' => $profile,
     ];
   }
 
@@ -48,14 +50,14 @@ function ting_subsearch_common_do_secondary_search($keys, $options = array()) {
   $request->setNumResults($results_per_page);
 
   if (!isset($options['facets']) and module_exists('ding_facetbrowser')) {
-    $options['facets'] = array();
+    $options['facets'] = [];
     // Populate facets with configured facets.
-    foreach (variable_get('ding_facetbrowser_facets', array()) as $facet) {
+    foreach (variable_get('ding_facetbrowser_facets', []) as $facet) {
       $options['facets'][] = $facet['name'];
     }
   }
 
-  $default_facets = array(
+  $default_facets = [
     'facet.subject',
     'facet.creator',
     'facet.type',
@@ -63,7 +65,7 @@ function ting_subsearch_common_do_secondary_search($keys, $options = array()) {
     'facet.language',
     'facet.date',
     'facet.acSource',
-  );
+  ];
   $request->setFacets((isset($options['facets'])) ? $options['facets'] : $default_facets);
   $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((count($request->getFacets()) == 0) ? 0 : 10));
   if (isset($options['sort']) && $options['sort']) {
@@ -86,44 +88,47 @@ function ting_subsearch_common_do_secondary_search($keys, $options = array()) {
   }
 
   // Apply custom ranking if enabled.
-  if (variable_get('opensearch_ranking_custom', FALSE) && variable_get('opensearch_ranking_fields', array()) && !isset($options['sort'])) {
-    $fields = array();
-    foreach (variable_get('opensearch_ranking_fields', array()) as $field) {
-      $fields[] = array(
+  if (variable_get('opensearch_ranking_custom', FALSE) && variable_get('opensearch_ranking_fields', []) && !isset($options['sort'])) {
+    $fields = [];
+    foreach (variable_get('opensearch_ranking_fields', []) as $field) {
+      $fields[] = [
         'fieldName' => $field['field_name'],
         'fieldType' => $field['field_type'],
         'weight' => $field['weight'],
-      );
+      ];
     }
 
     if (!empty($fields)) {
       // Add the default anyIndex boosts.
-      $fields[] = array(
+      $fields[] = [
         'fieldName' => 'term.default',
         'fieldType' => 'phrase',
         'weight' => 2,
-      );
+      ];
 
-      $fields[] = array(
+      $fields[] = [
         'fieldName' => 'term.default',
         'fieldType' => 'word',
         'weight' => 1,
-      );
+      ];
 
-      $request->userDefinedRanking = array('tieValue' => 0.1, 'rankField' => $fields);
+      $request->userDefinedRanking = [
+        'tieValue' => 0.1,
+        'rankField' => $fields,
+      ];
     }
   }
   // Apply custom boosts if any.
-  $boosts = variable_get('opensearch_boost_fields', array());
+  $boosts = variable_get('opensearch_boost_fields', []);
 
   if ($boosts) {
-    $uboosts = array();
+    $uboosts = [];
     foreach ($boosts as $boost_field) {
-      $uboosts[] = array(
+      $uboosts[] = [
         'fieldName' => $boost_field['field_name'],
         'fieldValue' => $boost_field['field_value'],
         'weight' => $boost_field['weight'],
-      );
+      ];
     }
     $request->userDefinedBoost = $uboosts;
   }
@@ -132,14 +137,14 @@ function ting_subsearch_common_do_secondary_search($keys, $options = array()) {
 
   // Replace collections with proper TingCollection objects.
   if ($search_result && is_array($search_result->collections)) {
-    $ids = array();
+    $ids = [];
     foreach ($search_result->collections as &$collection) {
       if (isset($collection->objects[0])) {
         $ids[] = $collection->objects[0]->id;
       }
     }
     if (!isset($options['reply_only']) || !$options['reply_only']) {
-      $search_result->collections = entity_load('ting_collection', array(), array('ding_entity_id' => $ids));
+      $search_result->collections = entity_load('ting_collection', [], ['ding_entity_id' => $ids]);
     }
   }
 
@@ -180,8 +185,7 @@ function ting_subsearch_common_build_search_query($keys) {
       $field_filters = $render->renderStatements(
         $query->getFilters()
       );
-    }
-    catch (InvalidArgumentException $e) {
+    } catch (InvalidArgumentException $e) {
       throw new SearchProviderException("Unable to render statements", 0, $e);
     }
     $query_parts[] = $field_filters;
@@ -244,7 +248,7 @@ function ting_subsearch_common_suggested_keys($keys, $callback) {
 /**
  * Split query string.
  */
-function ting_subsearch_common_query_params($query, $original_query = array()) {
+function ting_subsearch_common_query_params($query, $original_query = []) {
   $result = array_merge($original_query, drupal_get_query_array($query));
   return $result;
 }
@@ -253,8 +257,8 @@ function ting_subsearch_common_query_params($query, $original_query = array()) {
  * Implements hook_libraries_info().
  */
 function ting_subsearch_common_libraries_info() {
-  return array(
-    'guzzle' => array(
+  return [
+    'guzzle' => [
       'name' => 'Guzzle',
       'vendor url' => 'https://github.com/guzzle/guzzle',
       'download url' => 'https://github.com/guzzle/guzzle',
@@ -262,8 +266,8 @@ function ting_subsearch_common_libraries_info() {
       'xautoload' => function ($adapter) {
         $adapter->composerJson('composer.json');
       },
-    ),
-    'promises' => array(
+    ],
+    'promises' => [
       'name' => 'Guzzle promises library',
       'vendor url' => 'https://github.com/guzzle/promises',
       'download url' => 'https://github.com/guzzle/promises',
@@ -271,8 +275,8 @@ function ting_subsearch_common_libraries_info() {
       'xautoload' => function ($adapter) {
         $adapter->composerJson('composer.json');
       },
-    ),
-    'http-message' => array(
+    ],
+    'http-message' => [
       'name' => 'Common interface for HTTP messages',
       'vendor url' => 'https://github.com/php-fig/http-message',
       'download url' => 'https://github.com/php-fig/http-message',
@@ -280,8 +284,8 @@ function ting_subsearch_common_libraries_info() {
       'xautoload' => function ($adapter) {
         $adapter->composerJson('composer.json');
       },
-    ),
-    'psr7' => array(
+    ],
+    'psr7' => [
       'name' => 'PSR-7 message implementation',
       'vendor url' => 'https://github.com/guzzle/psr7',
       'download url' => 'https://github.com/guzzle/psr7',
@@ -289,6 +293,6 @@ function ting_subsearch_common_libraries_info() {
       'xautoload' => function ($adapter) {
         $adapter->composerJson('composer.json');
       },
-    ),
-  );
+    ],
+  ];
 }
