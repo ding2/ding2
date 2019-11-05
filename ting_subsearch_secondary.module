@@ -12,6 +12,35 @@ module_load_include('inc', 'ting_subsearch_secondary', 'ting_subsearch_secondary
 include_once 'ting_subsearch_secondary.features.inc';
 
 /**
+ * Implements hook_menu().
+ */
+function ting_subsearch_secondary_menu() {
+  $items['subsearch_secondary'] = [
+    'title' => 'Subsearch Secondary Suggestions',
+    'description' => 'AJAXify request for subsearch secondary suggestions',
+    'page callback' => 'ting_subsearch_secondary_ajax_callback',
+    'access callback' => TRUE,
+  ];
+
+  return $items;
+}
+
+/**
+ * Custom AJAX menu callback.
+ */
+function ting_subsearch_secondary_ajax_callback() {
+  $message = '';
+  if (!empty($_POST)) {
+    $keys = $_POST['keys'];
+    $results = unserialize($_POST['results']);
+    $message = ting_subsearch_secondary_search($keys, $results);
+  }
+
+  drupal_json_output($message);
+  drupal_exit();
+}
+
+/**
  * Implements hook_theme().
  */
 function ting_subsearch_secondary_theme($existing, $type, $theme, $path) {
@@ -38,8 +67,28 @@ function ting_subsearch_secondary_theme($existing, $type, $theme, $path) {
  * @throws \Exception
  */
 function ting_subsearch_secondary_ting_search_results_prefix($keys, $conditions, $results) {
-  if (variable_get('ting_subsearch_secondary_position', 'before') == 'before') {
-    return ting_subsearch_secondary_search($keys, $results);
+  if (!empty($results->getNumTotalObjects())) {
+    if (variable_get('ting_subsearch_secondary_position', 'before') == 'before') {
+      drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/css/ting_subsearch_secondary.css');
+      drupal_add_js(drupal_get_path('module', 'ting_subsearch_secondary') . '/js/ting_subsearch_secondary.js', 'file');
+      drupal_add_js(
+        [
+          'subsearch_secondary' => [
+            'keys' => $keys,
+            'conditions' => $conditions,
+            'results' => serialize($results),
+          ],
+        ],
+        'setting'
+      );
+
+      drupal_add_js(drupal_get_path('module', 'ting_subsearch_secondary') . '/js/subsearch_secondary.js', [
+        'type' => 'file',
+        'scope' => 'footer',
+      ]);
+
+      return '<div id="subsearch-secondary"></div>';
+    }
   }
 }
 
@@ -67,7 +116,7 @@ function ting_subsearch_secondary_search($keys, $results) {
   }
   $num_total_objects = $results->getNumTotalObjects();
   if (!empty($num_total_objects)) {
-    if ($results->getNumTotalObjects() > 0 && $results->getNumTotalObjects() < variable_get('ting_subsearch_secondary_max', 100)) {
+    if ($num_total_objects > 0 && $num_total_objects < variable_get('ting_subsearch_secondary_max', 100)) {
       $facets = $results->getFacets();
       $genre_facets = $facets['facet.genreCategory']->getTerms();
       // If any of fiction or non fiction is empty we cannot do the calculation.
@@ -115,13 +164,18 @@ function ting_subsearch_secondary_search($keys, $results) {
  */
 function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
   $message = '';
+  $secondary_result_min = variable_get('ting_subsearch_secondary_result_min', 100);
+  $secondary_max = variable_get('ting_subsearch_secondary_max', 100);
+
   $secondary_result = ting_subsearch_common_do_secondary_search($keys, [
     'agency' => variable_get('ting_subsearch_secondary_agency', ''),
     'profile' => variable_get('ting_subsearch_secondary_profile', ''),
   ]);
+  $secondary_num_objects = $secondary_result->numTotalObjects;
+  $num_total_objects = $results->getNumTotalObjects();
 
-  if ($secondary_result->numTotalObjects > variable_get('ting_subsearch_secondary_result_min', 100) && $secondary_result->numTotalObjects < variable_get('ting_subsearch_secondary_max', 100)) {
-    $ratio = $secondary_result->numTotalObjects / $results->getNumTotalObjects();
+  if ($secondary_num_objects > $secondary_result_min && $secondary_num_objects < $secondary_max) {
+    $ratio = $secondary_num_objects / $num_total_objects;
 
     if ($ratio > variable_get('ting_subsearch_secondary_ps_factor', 2)) {
       $items = [];
@@ -143,8 +197,8 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
         '!link' => str_replace('[keys]', urlencode($keys), variable_get('ting_subsearch_secondary_search_link', '')),
         '!link-text' => variable_get('ting_subsearch_secondary_search_link_text', ''),
         '!keys' => $keys,
-        '!num-results' => $results->getNumTotalObjects(),
-        '!bibdk-num-results' => $secondary_result->numTotalObjects,
+        '!num-results' => $num_total_objects,
+        '!bibdk-num-results' => $secondary_num_objects,
       ];
 
       if (variable_get('ting_subsearch_secondary_number_of_results', 4) == 0) {
@@ -164,8 +218,6 @@ function ting_subsearch_secondary_execute_secondary_search($keys, $results) {
         'bibdk_url' => $options['!link'],
         'bibdk_url_text' => t('See more materials at <span class="accent">bibliotek.dk</span>'),
       ]);
-      drupal_add_css(drupal_get_path('module', 'ting_subsearch_secondary') . '/css/ting_subsearch_secondary.css');
-      drupal_add_js(drupal_get_path('module', 'ting_subsearch_secondary') . '/js/ting_subsearch_secondary.js', 'file');
     }
   }
 
@@ -221,7 +273,7 @@ function ting_subsearch_secondary_field_formatter_view($entity_type, $entity, $f
     switch ($display['type']) {
       case 'ting_title_minimal':
         // Only create the link if the object is available in the data well.
-        $title = truncate_utf8(check_plain($entity->title), 80, FALSE, TRUE);
+        $title = truncate_utf8(check_plain($entity->title), 70, FALSE, TRUE);
         $element[$delta] = [
           '#prefix' => '<h2 class="ting-object-minimal-title">',
           '#suffix' => '</h2>',
@@ -256,7 +308,6 @@ function ting_subsearch_secondary_field_formatter_view($entity_type, $entity, $f
           '#markup' => truncate_utf8(check_plain($markup_string), 70, FALSE, TRUE),
         ];
         break;
-
     }
   }
 
