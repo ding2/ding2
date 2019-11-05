@@ -210,18 +210,7 @@ function ding_paragraphs_strongarm() {
     ),
     'extra_fields' => array(
       'form' => array(),
-      'display' => array(
-        'ding_serendipity_info' => array(
-          'reference_teaser' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-          'default' => array(
-            'weight' => '0',
-            'visible' => TRUE,
-          ),
-        ),
-      ),
+      'display' => array(),
     ),
   );
   $export['field_bundle_settings_ting_object__ting_object'] = $strongarm;

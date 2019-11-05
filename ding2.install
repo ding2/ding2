@@ -883,3 +883,22 @@ function ding2_update_7075() {
   module_disable($modules);
   drupal_uninstall_modules($modules);
 }
+
+/**
+ * Revert modules to remove traces of p2.
+ */
+function ding2_update_7076() {
+  // Need to revert variables for these modules to get rid of the
+  // ding_serendipity_info extra field.
+  $modules = [
+    'ding_campaign_plus' => ['variable'],
+    'ding_paragraphs' => ['variable'],
+    'ding_page' => ['variable'],
+    'ding_event' => ['variable'],
+    'ding_library' => ['variable'],
+    'ding_groups' => ['variable'],
+    'ding_eresource' => ['variable'],
+    'ding_news' => ['variable'],
+  ];
+  features_revert($modules);
+}
