@@ -225,6 +225,8 @@ function opensearch_search_search(TingSearchRequest $ting_query) {
   if ($ting_query->useCollectionType(TingSearchRequest::COLLECTION_TYPE_SINGLE_OBJECT)) {
     $options['collectionType'] = 'manifestation';
   }
+  
+  $options['fullTextQuery'] = $ting_query->getFullTextQuery();
 
   // Ensure we have OpenSearch client.
   module_load_include('inc', 'opensearch', 'opensearch.client');
