@@ -14,13 +14,54 @@ module_load_include('inc', 'ting_subsearch_suggestions', 'ting_subsearch_suggest
 define('TING_SUBSEARCH_SUGGESTIONS_WEEKLY_CRON', 604800);
 
 /**
- * Implements hook_ting_search_results_prefix().
+ * Implements hook_menu().
  */
-function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, $results) {
+function ting_subsearch_suggestions_menu() {
+  $items['subsearch_suggestions'] = [
+    'title' => 'Subsearch Suggestions',
+    'description' => 'AJAXify request for subsearch suggestions',
+    'page callback' => 'ting_subsearch_suggestions_ajax_callback',
+    'access callback' => TRUE,
+  ];
+
+  return $items;
+}
+
+/**
+ * Custom AJAX menu callback.
+ */
+function ting_subsearch_suggestions_ajax_callback() {
+  $message = '';
+  if (!empty($_POST)) {
+    $keys = $_POST['keys'];
+    $conditions = $_POST['conditions'];
+    $results = unserialize($_POST['results']);
+
+    $message = ting_subsearch_suggestions_get_message($keys, $conditions, $results);
+  }
+
+  drupal_json_output($message);
+  drupal_exit();
+}
+
+/**
+ * Generation of suggestion message.
+ *
+ * @param $keys
+ * @param $conditions
+ * @param $results
+ *
+ * @return string|void
+ * @throws \TingClientException
+ * @throws \Ting\Search\SearchProviderException
+ */
+function ting_subsearch_suggestions_get_message($keys, $conditions, $results) {
   $service = variable_get('ting_subsearch_suggestions_service', 'kpi');
   if ($results instanceof NullSearchResult) {
     return;
   }
+
+  $num_total_objects = $results->getNumTotalObjects();
 
   if (!empty($service)) {
     $message = '';
@@ -30,6 +71,7 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
     // Then use the query-parameter original-keys to display what was done to
     // the visitor.
     $parameters = drupal_get_query_parameters();
+
     if (isset($parameters['original-search'])) {
       $msg = t('See results for "!keys", the search for "!original-keys" returned 0 hits.', [
         '!original-keys' => $parameters['original-search'],
@@ -39,7 +81,7 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       $message = '<div id="subsearch-suggestions-first">' . $msg . '</div>';
     }
 
-    if ($results->getNumTotalObjects() == 0) {
+    if ($num_total_objects == 0) {
       // Find suggestions for "correct" search phrase.
       $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
 
@@ -57,12 +99,15 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
             'original-search' => $keys,
           ];
           $params['query'] = ting_subsearch_common_query_params(variable_get("ting_subsearch_{$service}_additional_url_params_0_hit", ""), $additional_query);
-          drupal_goto('search/ting/' . strtolower($suggestion), $params);
+          global $base_url;
+          $url = $base_url . '/search/ting/' . strtolower($suggestion) . '?' . drupal_http_build_query($params['query']);
+
+          header('Location: ' . $url, TRUE, 301);
         }
       }
     }
 
-    if ($results->getNumTotalObjects() <= variable_get("ting_subsearch_{$service}_trigger_limit", 5)) {
+    if ($num_total_objects <= variable_get("ting_subsearch_{$service}_trigger_limit", 5)) {
       $suggestion = ting_subsearch_common_suggested_keys($keys, 'ting_subsearch_suggestions_suggest_keys');
 
       if ($service == 'kpi') {
@@ -74,8 +119,9 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
       if ($suggestion) {
         // Do additional search.
         $suggested_result = ting_subsearch_common_do_secondary_search($suggestion);
-        if (!empty($suggested_result) && $suggested_result->numTotalObjects >= variable_get("ting_subsearch_{$service}_message_limit", 10)) {
-          $ratio = $suggested_result->numTotalObjects / $results->getNumTotalObjects();
+        $sug_total_number = $suggested_result->numTotalObjects;
+        if (!empty($suggested_result) && $sug_total_number >= variable_get("ting_subsearch_{$service}_message_limit", 10)) {
+          $ratio = $sug_total_number / $num_total_objects;
 
           if ($ratio > variable_get('ting_subsearch_suggestions_ps_factor')) {
             $options = [];
@@ -117,7 +163,35 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
         }
       }
     }
-    drupal_set_message($message, 'status', TRUE);
+
+    return $message;
+  }
+}
+
+/**
+ * Implements hook_ting_search_results_prefix().
+ */
+function ting_subsearch_suggestions_ting_search_results_prefix($keys, $conditions, $results) {
+  if ($results->getNumTotalObjects() != 0) {
+    drupal_add_js(
+      [
+        'subsearch_suggestions' => [
+          'keys' => $keys,
+          'conditions' => $conditions,
+          'results' => serialize($results),
+        ],
+      ],
+      'setting'
+    );
+
+    drupal_add_js(drupal_get_path('module', 'ting_subsearch_suggestions') . '/js/subsearch_suggestions.js', [
+      'type' => 'file',
+      'scope' => 'footer',
+    ]);
+    drupal_set_message('<div id="subsearch-suggestions"></div>', 'status', FALSE);
+  }
+  else {
+    ting_subsearch_suggestions_get_message($keys, $conditions, $results);
   }
 }
 
@@ -134,7 +208,6 @@ function ting_subsearch_suggestions_ting_search_results_prefix($keys, $condition
  */
 function ting_subsearch_suggestions_suggest_keys($keys) {
   $service = variable_get('ting_subsearch_suggestions_service', 'kpi');
-
   switch ($service) {
     case 'os':
       if (!variable_get('opensearch_search_autocomplete_suggestion_url', FALSE)) {
@@ -177,28 +250,28 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
       break;
 
     case 'kpi':
+      $keys_lowered = strtolower($keys);
+      $ting_kpi_minimum_searches = variable_get('ting_subsearch_kpi_minimum_searches', 10);
+      $ting_kpi_distance = variable_get('ting_subsearch_kpi_distance', 0);
       $weeks_selected = variable_get('ting_subsearch_kpi_week_nrs', 1);
 
-      $weeks_in_db = db_select('ting_subsearch_kpi_index_popular_keys', 'tskipk')
-        ->fields('tskipk', ['weekno', 'year'])
-        ->distinct()
-        ->orderBy('year', 'DESC')
-        ->orderBy('weekno', 'DESC')
-        ->execute()
-        ->fetchAll();
+      $weeks_in_db = db_query('SELECT DISTINCT tyw.weekno, tyw.year FROM {ting_subsearch_kpi_index_popular_keys} tyw ORDER BY tyw.year DESC, tyw.weekno DESC')->fetchAll();
 
       $weeks_for_processing = array_slice($weeks_in_db, 0, $weeks_selected + 1);
 
+      $grouped_array = [];
+      foreach ($weeks_for_processing as $item) {
+        $grouped_array[$item->year][] = $item->weekno;
+      }
+
       $items = [];
-      foreach ($weeks_for_processing as $data) {
-        $items[] = db_select('ting_subsearch_kpi_index_popular_keys', 'k')
-          ->fields('k')
-          ->condition('numtotalsearches', variable_get('ting_subsearch_kpi_minimum_searches', 10), '>')
-          ->condition('year', $data->year)
-          ->condition('weekno', $data->weekno)
-          ->orderBy('numtotalsearches', 'DESC')
-          ->execute()
-          ->fetchAll();
+
+      foreach ($grouped_array as $year => $weeks) {
+        $items[] = db_query('SELECT k.popular_keys FROM {ting_subsearch_kpi_index_popular_keys} k WHERE k.numtotalsearches > :numtotalsearches AND k.year = :year AND k.weekno IN (:weekno) ORDER BY k.weekno DESC', [
+          ':numtotalsearches' => $ting_kpi_minimum_searches,
+          ':year' => $year,
+          ':weekno' => $weeks,
+        ])->fetchCol();
       }
 
       $best_results = [];
@@ -211,18 +284,20 @@ function ting_subsearch_suggestions_suggest_keys($keys) {
       }
 
       foreach ($best_results as $best_result) {
-        if (strpos($best_result->popular_keys, '_')) {
-          $popular_keys = strtolower(str_replace('_', '.', $best_result->popular_keys));
+        if (strpos($best_result, '_')) {
+          $popular_keys = strtolower(str_replace('_', '.', $best_result));
         }
         else {
-          $popular_keys = $best_result->popular_keys;
+          $popular_keys = $best_result;
         }
-        $distance = levenshtein(strtolower($keys), $popular_keys);
+        $distance = levenshtein($keys_lowered, $popular_keys);
 
-        if ($distance > 0 && $distance < variable_get('ting_subsearch_kpi_distance', 0)) {
-          return $best_result->popular_keys;
+        if ($distance > 0 && $distance < $ting_kpi_distance) {
+          return $best_result;
         }
       }
+
+      break;
   }
 }
 
