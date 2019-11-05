@@ -902,3 +902,14 @@ function ding2_update_7076() {
   ];
   features_revert($modules);
 }
+
+/**
+ * Remove old eck tables.
+ */
+function ding2_update_7077() {
+  // Eck doesn't drop it's dynamically created tables, so we'll do it here,
+  // just in case.
+  foreach (db_query('SHOW TABLES LIKE :pattern', [':pattern' => 'eck_%'])->fetchCol() as $table) {
+    db_drop_table($table);
+  }
+}
