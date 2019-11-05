@@ -24,7 +24,6 @@ dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = panels_node
 dependencies[] = pm_existing_pages
-dependencies[] = similarterms
 dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = translation
