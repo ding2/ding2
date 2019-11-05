@@ -58,7 +58,9 @@ function ting_openlist_install() {
   $schema = array();
   ting_openlist_schema_alter($schema);
 
-  db_add_field('users', 'openlist_uid', $schema['users']['fields']['openlist_uid']);
+  // This would be the proper thing to do when uninstalling, but we need the uid
+  // to migrate lists to the new system, so leave it in place.
+  // db_add_field('users', 'openlist_uid', $schema['users']['fields']['openlist_uid']);
 
   // Set default configuration (so site install will work).
   variable_set('ting_openlist_domain', TING_OPENLIST_DEFAULT_DOMAIN);
