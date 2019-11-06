@@ -181,7 +181,7 @@
       // Slide on mobile
       .slide-on-mobile & {
         h3.title {
-          margin: 14px 0 0 0;
+          margin: 14px 0 0;
           color: $color-standard-text;
         }
         .category-and-submitted {
@@ -492,7 +492,7 @@
   &.alternative-layout-full {
     .ding-news-right {
       float: right;
-      margin-right: getColumn(2) + getGutter(12);
+      margin-right: 8%;
 
       // Tablet
       @include media($tablet) {
