@@ -1,0 +1,36 @@
+div.pane-smart-search-content div.node-smart-search-content {
+  padding: 15px;
+  width: 100%;
+  float: left;
+  padding: 15px;
+  box-sizing: border-box;
+  background-color: #e5e5e5;
+}
+
+div.node-smart-search-content fieldset.group-smart-search-left {
+  margin-right: 1.89189%;
+  padding: 20px 0;
+  width: 24.05405%;
+  float: left;
+}
+
+div.node-smart-search-content fieldset.group-smart-search-right {
+  margin-right: 0;
+  padding: 20px 0;
+  width: 61.08108%;
+  float: left;
+}
+
+div.node-smart-search-content.full h1 {
+  float: right;
+  font-family: FaktPro-SemiBold,sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  margin-bottom: 0;
+  width: 74.05%;
+  margin-top: 30px;
+}
+
+div.node-smart-search-content.link-only h1 {
+  display: none;
+}
