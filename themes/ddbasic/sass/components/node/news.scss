@@ -492,7 +492,7 @@
   &.alternative-layout-full {
     .ding-news-right {
       float: right;
-      margin-right: 8%;
+      margin-right: getColumn(1);
 
       // Tablet
       @include media($tablet) {
