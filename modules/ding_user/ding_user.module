@@ -268,7 +268,7 @@ function ding_user_entity_info_alter(&$entity_info) {
  */
 function ding_user_deliver_html_page($page_callback_result) {
   if ($page_callback_result == MENU_ACCESS_DENIED) {
-    drupal_deliver_page(MENU_NOT_FOUND);
+    drupal_goto('<front>');
   }
   else {
     drupal_deliver_html_page($page_callback_result);
