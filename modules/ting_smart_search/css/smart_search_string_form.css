@@ -13,17 +13,17 @@
 
 .content-wrapper .pane-smart-search-form input[type="text"],
 .content-wrapper .pane-smart-search-form .select-wrapper {
-     font-family: FaktPro-Normal,sans-serif;
-     font-size: 14px;
-     line-height: 20px;
-     font-weight: 400;
-     width: 100%;
-     height: 23px;
-     padding: 5px;
-     border-radius: 0px;
-     line-height: 1.1em;
-     background-color: #fff;
- }
+  font-family: FaktPro-Normal,sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  width: 100%;
+  height: 23px;
+  padding: 5px;
+  border-radius: 0px;
+  line-height: 1.1em;
+  background-color: #fff;
+}
 
 .content-wrapper .pane-smart-search-form .select-wrapper {
   padding: 0px;
@@ -34,53 +34,53 @@
 }
 
 .content-wrapper .pane-smart-search-form .select-wrapper::before,
-.content-wrapper .pane-smart-search-form .select-wrapper::after  {
-    content: '';
-    display: none;
-    background-color: #e5e5e5;
-    background-repeat: no-repeat;
-    background-position: right 4px center;
-    width: 54px;
-    height: 54px;
-    position: absolute;
-    right: 0;
-    top: 0;
+.content-wrapper .pane-smart-search-form .select-wrapper::after {
+  content: '';
+  display: none;
+  background-color: #e5e5e5;
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  width: 54px;
+  height: 54px;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .content-wrapper .pane-smart-search-form select {
-    height: 23px;
+  height: 23px;
 }
 
 .content-wrapper .pane-smart-search-form .form-actions {
-    clear: left;
+  clear: left;
 }
 .content-wrapper .pane-smart-search-form .form-actions input.form-submit,
 .content-wrapper .pane-smart-search-form .field-add-more-submit,
 .content-wrapper .pane-smart-search-form input.form-submit {
-    cursor: pointer;
-    height: 30px;
-    padding: 0px 17px;
-    margin-bottom: 0em;
-    margin-right: 10px;
-    float: left;
-    color: #5a5a5a;
-    text-align: center;
-    font-weight: normal;
-    font-size: 1.077em;
-    font-family: "Lucida Grande", Verdana, sans-serif;
-    border: 1px solid #e4e4e4 !important;
-        border-bottom-width: 1px !important;
-        border-bottom-style: solid !important;
-        border-right-color: rgb(228, 228, 228) !important;
-        border-bottom-color: rgb(228, 228, 228) !important;
-        border-left-color: rgb(228, 228, 228) !important;
-    border-bottom: 1px solid #b4b4b4 !important;
-    border-left-color: #d2d2d2 !important;
-    border-right-color: #d2d2d2 !important;
-    background: url(images/buttons.png) 0 0 repeat-x;
-    -moz-border-radius: 5px !important;
-    -webkit-border-radius: 5px !important;
-    border-radius: 5px !important;
+  cursor: pointer;
+  height: 30px;
+  padding: 0px 17px;
+  margin-bottom: 0em;
+  margin-right: 10px;
+  float: left;
+  color: #5a5a5a;
+  text-align: center;
+  font-weight: normal;
+  font-size: 1.077em;
+  font-family: "Lucida Grande", Verdana, sans-serif;
+  border: 1px solid #e4e4e4 !important;
+  border-bottom-width: 1px !important;
+  border-bottom-style: solid !important;
+  border-right-color: rgb(228, 228, 228) !important;
+  border-bottom-color: rgb(228, 228, 228) !important;
+  border-left-color: rgb(228, 228, 228) !important;
+  border-bottom: 1px solid #b4b4b4 !important;
+  border-left-color: #d2d2d2 !important;
+  border-right-color: #d2d2d2 !important;
+  background: url(images/buttons.png) 0 0 repeat-x;
+  -moz-border-radius: 5px !important;
+  -webkit-border-radius: 5px !important;
+  border-radius: 5px !important;
 }
 
 .content-wrapper .pane-smart-search-form .form-actions input.form-submit {
