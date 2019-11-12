@@ -16,6 +16,9 @@ $plugin = array(
   'required context' => new ctools_context_required(t('Keywords'), 'string'),
 );
 
+/*
+ * Implements access callback
+ */
 function ting_smart_search_form_content_type_access() {
   $return = FALSE;
   global $user;
@@ -30,7 +33,7 @@ function ting_smart_search_form_content_type_access() {
  * Render the smart search form block.
  */
 function ting_smart_search_form_content_type_render($subtype, $conf, $panel_args, $context) {
-  // make search results sortable
+  // Make search results sortable
   drupal_add_js('https://code.jquery.com/ui/1.12.1/jquery-ui.js');
   drupal_add_js(drupal_get_path('module', 'ting_smart_search') .'/js/smart_search_sortable.js', 'file');
   drupal_add_js(drupal_get_path('module', 'ting_smart_search') .'/js/smart_search_sortable_clear.js', 'file');
@@ -51,7 +54,7 @@ function ting_smart_search_form_content_type_render($subtype, $conf, $panel_args
     $block->content = eck__entity__edit($entity_type_name, $entity_bundle_name, $entity_id);
   } else {
       $block->content = eck__entity__add($entity_type_name, $entity_bundle_name);
-    }
+  }
 
   return $block;
 

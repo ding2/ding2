@@ -16,6 +16,9 @@ $plugin = array(
   'required context' => new ctools_context_required(t('Keywords'), 'string'),
 );
 
+/*
+ * Implements access callback
+ */
 function ting_smart_search_content_type_access() {
   $return = FALSE;
   global $user;

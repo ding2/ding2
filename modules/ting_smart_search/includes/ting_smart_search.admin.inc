@@ -277,7 +277,6 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
             // Get to each field_collection and assign values
             foreach($field_custom_boost_values as $custom_boost_value) {
               // Create the collection entity and set it's "host".
-
               $collection = entity_create('field_collection_item', array('field_name' => 'field_custom_boost_values'));
               $collection->setHostEntity('ting_type', $raw_item[$string_items_nids[0]]);
 
