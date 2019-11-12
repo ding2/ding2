@@ -204,7 +204,7 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
 
   $json_array = json_decode($json, true);
   if (is_null($json_array)) {
-      // json decode failed. Error handling here
+      // Json decode failed. Error handling here
       return t('failed to load file');
   } else {
      $jsonIterator = new RecursiveArrayIterator($json_array);
@@ -226,7 +226,7 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
       // Define vars for imported values
       $title = $ssrecord['title'];
 
-      // todo: check for 'und' og values OG lav generisk gennemløb af keys med tilhørende values
+      // TODO: check for 'und' og values OG lav generisk gennemløb af keys med tilhørende values
       if (!empty($ssrecord['field_alternate_search_string'])) {
         $field_alternate_search_string = $ssrecord['field_alternate_search_string']['und'][0]['value'];
       }
@@ -243,7 +243,7 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
               drupal_set_message('Key fields are missing from array '.$ssrecord['id'].' Check the file and try again');
       } else {
 
-        // find the matching entity and assign the values from import
+        // Find the matching entity and assign the values from import
         $ssquery = new EntityFieldQuery();
 
         $ssquery->entityCondition('entity_type', 'ting_type')
@@ -258,24 +258,23 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
           $string_item = entity_metadata_wrapper('ting_type', $string_items_nids[0]);
 
           if ($string_item->field_sss_import_update->value() == 'open') {
-            //update alternate search string from import
+            // Update alternate search string from import
             $string_item->field_alternate_search_string->set($field_alternate_search_string);
 
-            //empty boost materials before updating
+            // Empty boost materials before updating
             $string_item->field_sss_boost_materials->set(NULL);
 
-            //update boost materials from import
+            // Update boost materials from import
             if (is_array($field_sss_boost_materials)) {
               foreach ($field_sss_boost_materials as $boost_material) {
                 $string_item->field_sss_boost_materials[] = $boost_material['value'];
               }
             }
 
-            //empty field_collection custom boost values before updating
+            // Empty field_collection custom boost values before updating
             $string_item->field_custom_boost_values->set(NULL);
 
-            //get to each field_collection and assign values
-
+            // Get to each field_collection and assign values
             foreach($field_custom_boost_values as $custom_boost_value) {
               // Create the collection entity and set it's "host".
 
@@ -292,17 +291,17 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
               $cwrapper->save();
             }
 
-            //update field_status from import
+            // Update field_status from import
             $string_item->field_status->set($field_status);
 
-            // save
+            // Save
             $string_item->save(true);
 
           }
 
         } else {
 
-              // create a new node and assign the data
+              // Create a new node and assign the data
               $values = array(
                      'type' => 'smart_search_string',
                      'uid' => 1,
@@ -312,24 +311,22 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
               $string_item = entity_metadata_wrapper('ting_type', $raw_entity);
               $string_item->title->set($title);
 
-              //update field values from import
+              // Update field values from import
               $string_item->field_alternate_search_string->set($field_alternate_search_string);
 
-              //update boost materials from import
+              // Update boost materials from import
               if (is_array($field_sss_boost_materials)) {
                 foreach ($field_sss_boost_materials as $boost_material) {
                   $string_item->field_sss_boost_materials[] = $boost_material['value'];
                 }
               }
 
-              //empty field_collection custom boost values before updating
+              // Empty field_collection custom boost values before updating
               $string_item->field_custom_boost_values->set(NULL);
 
-              //get to each field_collection and assign values
-
+              // Get to each field_collection and assign values
               foreach($field_custom_boost_values as $custom_boost_value) {
                 // Create the collection entity and set it's "host".
-
                 $collection = entity_create('field_collection_item', array('field_name' => 'field_custom_boost_values'));
                 $collection->setHostEntity('ting_type', $raw_entity);
 
@@ -341,15 +338,14 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
                 $cwrapper->field_field_boost_value->set($custom_boost_value['field_field_boost_value']['und'][0]['value']);
                 $cwrapper->field_field_boost_weight->set($custom_boost_value['field_field_boost_weight']['und'][0]['value']);
 
-
                 $cwrapper->save();
-                //entity_save('field_collection_item', $cwrapper);
+                // Entity_save('field_collection_item', $cwrapper);
               }
 
-              //update field_status from import
+              // Update field_status from import
               $string_item->field_status->set($field_status);
 
-              // save
+              // Save
               $string_item->save(true);
 
         }
