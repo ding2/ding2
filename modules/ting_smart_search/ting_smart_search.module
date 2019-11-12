@@ -82,10 +82,10 @@ function ting_smart_search_cron() {
 }
 
 /**
- *  For use in the submit function of form
- *  cache_clear_all(':'.current_path(), 'cache_ting', TRUE);
- *   drupal_set_message('Cache for '.'*'.current_path().' this record cleared.');
+ * For use in the submit function of form
  *
+ * cache_clear_all(':'.current_path(), 'cache_ting', TRUE);
+ * drupal_set_message('Cache for '.'*'.current_path().' this record cleared.');
  */
 function ting_smart_search_opensearch_cache_key(&$cid) {
   // Determine context.
@@ -114,13 +114,12 @@ function ting_smart_search_opensearch_pre_execute($request) {
       // Always use the search well profile on search requests if set.
       // Otherwise this profile wants to use the default from ting module.
       // In case you need to add additional parameters to request.
-
       $smart_search_check_sort = '';
       $smart_search_check_boosts = array();
       $smart_search_check_object_boosts = false;
       $smart_search_use_auto = true;
 
-      // store the userDefinedBoost if any
+      // Store the userDefinedBoost if any
       $smart_search_userdefined_boosts = $request->userDefinedBoost;
       if (substr($request->getQuery(), 0, 1) === "(") {
         // Load the entity as object with entity_metadata_wrapper
@@ -290,7 +289,7 @@ function ting_smart_search_check_object($query) {
 /**
  * Check if query has boosts
  *
- * @param string $query
+ * @param string $wrapper
  *   The Ting query.
  *
  * @return array
@@ -323,10 +322,10 @@ function ting_smart_search_check_boosts($wrapper) {
       }
     }
 
-    //extract custom boosts from search string
+    // Extract custom boosts from search string
     $custom_boost_materials = $wrapper->field_custom_boost_values->value();
 
-    //get to each fieldcollection
+    // Get to each fieldcollection
     foreach ($custom_boost_materials as $cb_material) {
       $cb_wrapper = entity_metadata_wrapper('field_collection_item', $cb_material);
       $boosts[] = array(
@@ -344,6 +343,8 @@ function ting_smart_search_check_boosts($wrapper) {
  *
  * @param $id
  *    The id representing the record we want to load.
+ * @param $reset
+ *    The reset flag
  */
 function ting_smart_search_load($id, $reset = FALSE) {
   return ting_smart_search_load_multiple(array($id), array(), $reset);
@@ -363,7 +364,7 @@ function ting_smart_search_form_alter(&$form, &$form_state, $form_id) {
   // Check when the right form is passed
   if ($form_id == 'eck__entity__form_edit_ting_type_smart_search_string' || $form_id == 'eck__entity__form_add_ting_type_smart_search_string') {
 
-    // hide url redirect on this entity
+    // Hide url redirect on this entity
     $form['redirect']['#access'] = FALSE;
     $form['field_sss_hits_per_month']['und']['0']['value']['#attributes']['disabled'] = TRUE;
     $form['field_sss_hits_per_year']['und']['0']['value']['#attributes']['disabled'] = TRUE;
@@ -415,7 +416,7 @@ function ting_smart_search_form_alter(&$form, &$form_state, $form_id) {
         '#submit' => array('smart_search_string_to_list'),
     );
 
-    // form callback functions
+    // Form callback functions
     $form['#pre_render'][] = 'smart_search_string_form_pre_render';
     $form['#submit'][] = 'smart_search_string_form_submit';
   }
@@ -427,11 +428,12 @@ function ting_smart_search_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Pre render callback to smartstring add/edit form
- * use   $form['#pre_render'][] = 'smart_search_string_form_pre_render'; in form
+ *
+ * Use   $form['#pre_render'][] = 'smart_search_string_form_pre_render'; in form
  * Add magic to the form.
  */
 function smart_search_string_form_pre_render($form) {
-  //move title and submit inside fieldset
+  // Move title and submit inside fieldset
   $form['group_elements']['title'] = $form['title'];
   unset($form['title']);
   $form['group_elements']['actions'] = $form['actions'];
@@ -474,7 +476,7 @@ function smart_search_string_views_pre_render(&$view) {
 
     }
   }
-  // other views might go here
+  // Other views might go here
 }
 
 /**
@@ -621,12 +623,12 @@ function ting_smart_search_search_stats_importer($search_data) {
       $hits_year = $value['long_period'];
       $hits_month = $value['short_period'];
 
-      // fail if key fields are not present
+      // Fail if key fields are not present
       if (empty($title)) {
         drupal_set_message('Key fields are missing from array ' . $i . '. Check the file and try again');
       } else {
         $normalized_string = mb_convert_encoding($title, 'UTF-8', 'ISO-8859-15');
-        // find the matching entity and assign the stats
+        // Find the matching entity and assign the stats
         $ssquery = new EntityFieldQuery();
 
         $ssquery->entityCondition('entity_type', 'ting_type')
@@ -640,10 +642,10 @@ function ting_smart_search_search_stats_importer($search_data) {
           $string_item = entity_metadata_wrapper('ting_type', $string_items_nids[0]);
           $string_item->field_sss_hits_per_year->set($hits_year);
           $string_item->field_sss_hits_per_month->set($hits_month);
-          // save
+          // Save
           $string_item->save();
         } else {
-          // create a new node and assign the data
+          // Create a new node and assign the data
           $values = array(
               'type' => 'smart_search_string',
               'uid' => 1,
@@ -655,7 +657,7 @@ function ting_smart_search_search_stats_importer($search_data) {
           $new_string_item->field_sss_hits_per_year->set($hits_year);
           $new_string_item->field_sss_hits_per_month->set($hits_month);
 
-          // save
+          // Save
           $new_string_item->save();
         }
       }
