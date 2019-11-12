@@ -84,8 +84,11 @@ function ting_smart_search_cron() {
 /**
  * For use in the submit function of form
  *
- * cache_clear_all(':'.current_path(), 'cache_ting', TRUE);
- * drupal_set_message('Cache for '.'*'.current_path().' this record cleared.');
+ * Cache_clear_all(':'.current_path(), 'cache_ting', TRUE);
+ * Drupal_set_message('Cache for '.'*'.current_path().' this record cleared.');
+ *
+ * @param string $cid
+ *    The cache id
  */
 function ting_smart_search_opensearch_cache_key(&$cid) {
   // Determine context.
@@ -341,10 +344,10 @@ function ting_smart_search_check_boosts($wrapper) {
 /**
  * Load a single record.
  *
- * @param $id
- *    The id representing the record we want to load.
- * @param $reset
- *    The reset flag
+ * @param string $id
+ *   The id representing the record we want to load.
+ * @param bool $reset
+ *   The reset flag
  */
 function ting_smart_search_load($id, $reset = FALSE) {
   return ting_smart_search_load_multiple(array($id), array(), $reset);
