@@ -187,12 +187,15 @@
       @include media($mobile) {
         @include font('base');
         position: static;
+        overflow: hidden;
+        padding: 20px;
+        box-sizing: border-box;
         background-image: none;
-        color: $color-standard-text;
+        color: $white;
         h3 {
           a {
-            padding: 14px 0 0;
-            color: $charcoal;
+            padding: 0;
+            color: $white;
           }
         }
         p {
@@ -203,23 +206,18 @@
 
     //No-overlay
     .no-overlay & {
-      .image {
-        margin-bottom: 14px;
-      }
       .info {
         position: static;
         width: 100%;
         float: left;
         background-image: none;
-        color: $color-standard-text;
-
-        @include media($mobile) {
-          padding-bottom: 0;
-        }
+        color: $white;
+        padding: 20px;
+        box-sizing: border-box;
 
         h3 {
           a {
-            color: $color-standard-text;
+            color: $white;
             padding: 0;
           }
         }
