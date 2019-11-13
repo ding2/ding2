@@ -5,12 +5,5 @@
  * Ding SEO module file.
  */
 
- /* */
-//include_once 'ding_seo.features.inc';
-
-/* */
+// includes custom ding_seo tokens
 include_once 'ding_seo.tokens.inc';
-
-/* */
-
-

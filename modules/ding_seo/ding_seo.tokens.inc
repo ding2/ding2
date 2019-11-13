@@ -1,17 +1,28 @@
 <?php
 
+/**
+ * Implements hook_token_info().
+ * 
+ * Custom tokens for JSON LD. 
+ * A new token type 'Ding Seo' is added to give easier access to the tokens from the UI.  
+ * Tokens is defined with this hook, content is added later with hook_tokens()
+ * 
+ */
+
 function ding_seo_token_info()
 {
     $type = [
         'name' => t('Ding Seo'),
         'description' => t('Tokens for structured data as JSON LD.'),
     ];
+
+    // Location tokens
     $node['location_name'] = [
-        'name' => t("location_name"),
-        'description' => t('location_name'),
+        'name' => t("Location Name"),
+        'description' => t('The location is the '),
     ];
     $node['location_url'] = [
-        'name' => t("location_url"),
+        'name' => t("Location Url"),
         'description' => t('location_url'),
     ];
     $node['postalCode'] = [
@@ -42,18 +53,8 @@ function ding_seo_token_info()
         'name' => t("latitude"),
         'description' => t('latitude'),
     ];
-    $node['image_url'] = [
-        'name' => t("image_url"),
-        'description' => t('image_url'),
-    ];
-    $node['image_width'] = [
-        'name' => t("image_width"),
-        'description' => t('image_width'),
-    ];
-    $node['image_height'] = [
-        'name' => t("image_width_height"),
-        'description' => t('image_width_height'),
-    ];
+  
+    // Logo dimensions tokens
     $node['logo_width'] = [
         'name' => t("logo_width"),
         'description' => t('logo_width'),
@@ -62,36 +63,46 @@ function ding_seo_token_info()
         'name' => t("logo_height"),
         'description' => t('logo_height'),
     ];
+
+    // Event data formatting
     $node['event_startdate'] = [
-        'name' => t("event_startdate"),
-        'description' => t('event_startdate'),
+        'name' => t("Event Startdate"),
+        'description' => t('Event enddate in YYYY-MM-DD HH:MM::SS format'),
     ];
     $node['event_enddate'] = [
-        'name' => t("event_enddate"),
-        'description' => t('event_enddate'),
+        'name' => t("Event Enddate"),
+        'description' => t('Event enddate in YYYY-MM-DD HH:MM::SS format'),
     ];
     $node['event_free'] = [
-        'name' => t("event_free"),
-        'description' => t('event_free'),
+        'name' => t("Event Free Boolean"),
+        'description' => t('Boolean of whether the event is free or not '),
     ];
+
+    // Language
     $node['language'] = [
         'name' => t("language"),
         'description' => t('language'),
     ];
+
+    // Returns the new token type as well as the tokens
     return [
         'types' => ['dingseotoken' => $type],
         'tokens' => ['dingseotoken' => $node],
     ];
 }
 
+/**
+ * Implements hook_tokens().
+ * 
+ * Add content to the tokens.
+ * 
+ */
+
 function ding_seo_tokens($type, $tokens, array $data, array $options)
 {
     $replacements = [];
 
     if ($type == 'dingseotoken' && !empty($data['node'])) {
-
-        // get title image
-        $image = field_get_items('node', $data['node'], 'field_ding_event_title_image');
 
         // get library data entity referenced from events
         if ($data["node"]->type == "ding_event") {
@@ -108,7 +119,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options)
         foreach ($tokens as $name => $original) {
             switch ($name) {
 
-                // location information
+                // location tokens
                 case 'postalCode':
                     if ($data["node"]->type == "ding_library") {
                         $replacements[$original] = $data["node"]->field_ding_library_addresse["und"][0]["postal_code"];
@@ -141,11 +152,11 @@ function ding_seo_tokens($type, $tokens, array $data, array $options)
 
                 case 'addressRegion':
                     if ($data["node"]->type == "ding_library") {
-                        $replacements[$original] = $data["node"]->field_ding_library_addresse["und"][0]["postal_code"];
+                        $replacements[$original] = $data["node"]->field_ding_library_addresse["und"][0]["region"];
                     } else if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
-                        $replacements[$original] = "LIBRARY";
+                        $replacements[$original] = $library_data->field_ding_library_addresse["und"][0]["region"];
                     } else {
-                        $replacements[$original] = "region";
+                        $replacements[$original] = $data['node']->field_ding_event_location['und'][0]['region'];
                     }
                     break;
 
@@ -188,29 +199,12 @@ function ding_seo_tokens($type, $tokens, array $data, array $options)
                     break;
 
                 case 'location_url':
-                    if (empty($data["node"]->field_ding_event_location["und"][0]["name_line"])) {
-                        $replacements[$original] = "LIBRARY";
+                    if (!empty($library_data)) {
+                        //echo var_dump($library_data);
+                        //exit(1);
+                        $replacements[$original] = $_SERVER['REQUEST_SCHEME'] . '://'.$_SERVER['HTTP_HOST'] . "/node/" . $library_data->nid;
                     } else {
-                        $replacements[$original] = "lat";
-                    }
-                    break;
-
-                // images dimensions
-                case 'image_url':
-                    $replacements[$original] = drupal_realpath($data["node"]->field_ding_event_list_image["und"][0]["uri"]);
-                    break;
-                case 'image_width':
-                    if ($data["node"]->type == "ding_news") {
-                        $replacements[$original] = $data["node"]->field_ding_news_list_image["und"][0]["width"];
-                    } else {
-                        $replacements[$original] = $data["node"]->field_ding_event_list_image["und"][0]["width"];
-                    }
-                    break;
-                case 'image_height':
-                    if ($data["node"]->type == "ding_news") {
-                        $replacements[$original] = $data["node"]->field_ding_news_list_image["und"][0]["height"];
-                    } else {
-                        $replacements[$original] = $data["node"]->field_ding_event_list_image["und"][0]["height"];
+                        $replacements[$original] = "";
                     }
                     break;
 

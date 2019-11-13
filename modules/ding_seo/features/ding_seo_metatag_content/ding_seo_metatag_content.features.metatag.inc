@@ -7,7 +7,7 @@
 /**
  * Implements hook_metatag_export_default().
  */
-function ding_seo_metatag_metatag_export_default() {
+function ding_seo_metatag_content_metatag_export_default() {
   $config = array();
 
   // Exported Metatag config instance: node.
@@ -45,7 +45,7 @@ function ding_seo_metatag_metatag_export_default() {
         'value' => '[node:title]',
       ),
       'schema_event.image' => array(
-        'value' => 'a:5:{s:5:"@type";s:11:"ImageObject";s:20:"representativeOfPage";s:4:"True";s:3:"url";s:24:"[dingseotoken:image_url]";s:5:"width";s:26:"[dingseotoken:image_width]";s:6:"height";s:27:"[dingseotoken:image_height]";}',
+        'value' => 'a:5:{s:5:"@type";s:11:"ImageObject";s:20:"representativeOfPage";s:4:"True";s:3:"url";s:61:"[node:field_ding_event_title_image:ding_secondary_large:path]";s:5:"width";s:62:"[node:field_ding_event_title_image:ding_secondary_large:width]";s:6:"height";s:63:"[node:field_ding_event_title_image:ding_secondary_large:height]";}',
       ),
       'schema_event.description' => array(
         'value' => '[node:field_ding_event_lead]',
@@ -60,7 +60,7 @@ function ding_seo_metatag_metatag_export_default() {
         'value' => '[dingseotoken:event_enddate]',
       ),
       'schema_event.location' => array(
-        'value' => 'a:6:{s:5:"@type";s:5:"Place";s:4:"name";s:28:"[dingseotoken:location_name]";s:3:"url";s:27:"[dingseotoken:location_url]";s:7:"address";a:6:{s:5:"@type";s:13:"PostalAddress";s:13:"streetAddress";s:28:"[dingseotoken:streetAddress]";s:15:"addressLocality";s:30:"[dingseotoken:addressLocality]";s:13:"addressRegion";s:28:"[dingseotoken:addressRegion]";s:10:"postalCode";s:25:"[dingseotoken:postalCode]";s:14:"addressCountry";s:29:"[dingseotoken:addressCountry]";}s:3:"geo";a:3:{s:5:"@type";s:14:"GeoCoordinates";s:8:"latitude";s:23:"[dingseotoken:latitude]";s:9:"longitude";s:24:"[dingseotoken:longitude]";}s:7:"country";a:2:{s:5:"@type";s:7:"Country";s:4:"name";s:29:"[dingseotoken:addressCountry]";}}',
+        'value' => 'a:5:{s:5:"@type";s:5:"Place";s:4:"name";s:28:"[dingseotoken:location_name]";s:3:"url";s:27:"[dingseotoken:location_url]";s:7:"address";a:6:{s:5:"@type";s:13:"PostalAddress";s:13:"streetAddress";s:28:"[dingseotoken:streetAddress]";s:15:"addressLocality";s:30:"[dingseotoken:addressLocality]";s:13:"addressRegion";s:28:"[dingseotoken:addressRegion]";s:10:"postalCode";s:25:"[dingseotoken:postalCode]";s:14:"addressCountry";s:29:"[dingseotoken:addressCountry]";}s:3:"geo";a:3:{s:5:"@type";s:14:"GeoCoordinates";s:8:"latitude";s:23:"[dingseotoken:latitude]";s:9:"longitude";s:24:"[dingseotoken:longitude]";}}',
       ),
       'schema_event.url' => array(
         'value' => '[node:url]',
@@ -97,11 +97,8 @@ function ding_seo_metatag_metatag_export_default() {
       'schema_organization.description' => array(
         'value' => '[node:field_ding_library_lead]',
       ),
-      'schema_organization.acceptsReservations' => array(
-        'value' => 'False',
-      ),
       'schema_organization.image' => array(
-        'value' => 'a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:24:"[dingseotoken:image_url]";s:5:"width";s:25:"[dingseotoken:logo_width]";s:6:"height";s:26:"[dingseotoken:logo_height]";}',
+        'value' => 'a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:61:"[node:field_ding_library_title_image:ding_primary_large:path]";s:5:"width";s:62:"[node:field_ding_library_title_image:ding_primary_large:width]";s:6:"height";s:63:"[node:field_ding_library_title_image:ding_primary_large:height]";}',
       ),
       'schema_organization.logo' => array(
         'value' => 'a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:49:"[site:url]profiles/ding2/themes/ddbasic/logo.png]";s:5:"width";s:25:"[dingseotoken:logo_width]";s:6:"height";s:26:"[dingseotoken:logo_height]";}',
@@ -139,7 +136,7 @@ function ding_seo_metatag_metatag_export_default() {
         'value' => '[node:changed:short]',
       ),
       'schema_article.image' => array(
-        'value' => 'a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:34:"[node:field_ding_news_title_image]";s:5:"width";s:26:"[dingseotoken:image_width]";s:6:"height";s:27:"[dingseotoken:image_height]";}',
+        'value' => 'a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:60:"[node:field_ding_news_title_image:ding_secondary_large:path]";s:5:"width";s:61:"[node:field_ding_news_title_image:ding_secondary_large:width]";s:6:"height";s:62:"[node:field_ding_news_title_image:ding_secondary_large:height]";}',
       ),
       'schema_article.mainEntityOfPage' => array(
         'value' => '[current-page:url]',
