@@ -2,7 +2,6 @@ name = Smart search string
 description = Entity type til håndtering af Smart Search Strings
 core = 7.x
 package = Smartsearch
-version = 7.x-1.0-beta4
 dependencies[] = cs_adaptive_image
 dependencies[] = ctools
 dependencies[] = date
