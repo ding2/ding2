@@ -194,6 +194,10 @@ function ding_event_install_menu_position($op = 'install') {
  */
 function ding_event_views_pre_execute(&$view) {
   if ($view->name == 'ding_event' && in_array($view->current_display, array('ding_event_list'))) {
+    // Skip for term_view page. The BEF filter is not used here.
+    if ($view->args) {
+      return;
+    }
     $view->build_info['query']->groupBy('node.nid');
     $view->build_info['count_query']->groupBy('node.nid');
   }
