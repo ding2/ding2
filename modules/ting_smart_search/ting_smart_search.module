@@ -12,12 +12,12 @@ function ting_smart_search_menu() {
   $items = array();
 
   $items['admin/config/ding/ting_smart_search'] = array(
-      'title' => 'Ting smart search',
-      'description' => 'Manage smart search module',
-      'page callback' => 'ting_smart_search_admin_page',
-      'page arguments' => array(),
-      'access arguments' => array('configure smart search'),
-      'file' => 'includes/ting_smart_search.admin.inc',
+    'title' => 'Ting smart search',
+    'description' => 'Manage smart search module',
+    'page callback' => 'ting_smart_search_admin_page',
+    'page arguments' => array(),
+    'access arguments' => array('configure smart search'),
+    'file' => 'includes/ting_smart_search.admin.inc',
   );
   return $items;
 }
@@ -27,9 +27,9 @@ function ting_smart_search_menu() {
  */
 function ting_smart_search_permission() {
   return array(
-      'configure smart search' => array(
-          'title' => t('Configure smart search'),
-          'description' => t('Allow role to configure smart search.'),
+    'configure smart search' => array(
+        'title' => t('Configure smart search'),
+        'description' => t('Allow role to configure smart search.'),
       ),
   );
 }
@@ -60,7 +60,8 @@ function ting_smart_search_ctools_plugin_api($module, $api) {
 
 /**
  * Implements hook_cron().
- * Gets update off auto data every day and update of search data every week
+ *
+ * Gets update off auto data every day and update of search data every week.
  */
 function ting_smart_search_cron() {
   watchdog('Smart Search', 'imported autodata time', array(), 'WATCHDOG_ERROR');
@@ -106,26 +107,22 @@ function ting_smart_search_opensearch_cache_key(&$cid) {
  * @param object $request
  *   The Ting request.
  *
- * @return NULL
- *
+ * @return null
+ *   Returns nothing.
  */
 function ting_smart_search_opensearch_pre_execute($request) {
 
-// Alter the request based on the profile settings and request class.
+// Alter the request based on the request class.
   switch (get_class($request)) {
     case 'TingClientSearchRequest':
-      // Always use the search well profile on search requests if set.
-      // Otherwise this profile wants to use the default from ting module.
-      // In case you need to add additional parameters to request.
       $smart_search_check_sort = '';
       $smart_search_check_boosts = array();
-      $smart_search_check_object_boosts = false;
       $smart_search_use_auto = true;
 
-      // Store the userDefinedBoost if any
+      // Store the userDefinedBoost if any.
       $smart_search_userdefined_boosts = $request->userDefinedBoost;
       if (substr($request->getQuery(), 0, 1) === "(") {
-        // Load the entity as object with entity_metadata_wrapper
+        // Load the entity as object with entity_metadata_wrapper.
         $smart_search_object = ting_smart_search_check_object($request->getQuery());
         if (!empty((array) $smart_search_object)) {
           $status = $smart_search_object->field_status->value();
@@ -151,18 +148,18 @@ function ting_smart_search_opensearch_pre_execute($request) {
               $smart_search_check_replaced = $cqlDoctor->string_to_cql();
             }
 
-            // Check for sorting
+            // Check for sorting.
             $smart_search_request_sort = $request->getSort();
             $params = $_POST;
-            $param_sort = NULL;
 
             if ($smart_search_request_sort == 'rank_frequency') {
 
               if (array_key_exists('sort', $params)) {
                 // Do nothing here.
-              } else {
-                // Override sort when no sort has been specified
-                //ting_smart_search_check_sort() - now obsolete.
+              }
+              else {
+                // Override sort when no sort has been specified.
+                // ting_smart_search_check_sort() - now obsolete.
                 $smart_search_check_sort = $smart_search_object->field_sss_sort->value();
 
                 if (!empty($smart_search_check_sort)) {
@@ -175,8 +172,9 @@ function ting_smart_search_opensearch_pre_execute($request) {
 
             if ($smart_search_check_replaced == '') {
               $query = $request->getQuery();
-              //Probably nothing here.
-            } else {
+              // Probably nothing here.
+            }
+            else {
               $query = $smart_search_check_replaced;
             }
 
@@ -184,9 +182,9 @@ function ting_smart_search_opensearch_pre_execute($request) {
               $uboosts = $smart_search_userdefined_boosts;
               foreach ($smart_search_check_boosts as $boost_field) {
                 $uboosts[] = array(
-                    'fieldName' => $boost_field['field_name'],
-                    'fieldValue' => $boost_field['field_value'],
-                    'weight' => $boost_field['weight'],
+                  'fieldName' => $boost_field['field_name'],
+                  'fieldValue' => $boost_field['field_value'],
+                  'weight' => $boost_field['weight'],
                 );
               }
               $request->userDefinedBoost = $uboosts;
@@ -212,15 +210,14 @@ function ting_smart_search_opensearch_pre_execute($request) {
  * Automatically puts the most requested objects first in the search results.
  *
  * @param array $smart_search_userdefined_boosts
- *   Previously defined boosts
- * @param string $key
- *   The search key
+ *   Previously defined boosts.
+ * @param string $keys
+ *   The search key.
  *
  * @return array
  *   Array containing the boost of most requested objects
  */
-
-function ting_smart_search_auto($smart_search_userdefined_boosts, $keys) {
+function ting_smart_search_auto(array $smart_search_userdefined_boosts, $keys) {
   $data = ting_smart_search_autodata_cache();
 
   if (isset($data) && array_key_exists($keys, $data)) {
@@ -228,9 +225,9 @@ function ting_smart_search_auto($smart_search_userdefined_boosts, $keys) {
     $weight = 10000;
     foreach ($data[$keys] as $faust => $objects) {
       $smart_search_userdefined_boosts[] = array(
-          'fieldName' => 'term.default',
-          'fieldValue' => urldecode($faust),
-          'weight' => $weight,
+        'fieldName' => 'term.default',
+        'fieldValue' => urldecode($faust),
+        'weight' => $weight,
       );
       $weight = $weight - 1000;
       $i += 1;
@@ -249,7 +246,6 @@ function ting_smart_search_auto($smart_search_userdefined_boosts, $keys) {
  *   Array containing the searches as key with a array off most requested
  *   objects as value.
  */
-
 function ting_smart_search_autodata_cache() {
   if (file_exists(ting_smart_search_get_autodata_path())) {
     @include ting_smart_search_get_autodata_path();
@@ -264,10 +260,9 @@ function ting_smart_search_autodata_cache() {
  *   The Ting query.
  *
  * @return string
- *   The replaced string or empty
+ *   The replaced string or empty.
  */
 function ting_smart_search_check_object($query) {
-  $redirect = '';
   $new_string_object = new stdClass();
 
   $string = trim($query, '()');
@@ -276,8 +271,8 @@ function ting_smart_search_check_object($query) {
   $ssquery = new EntityFieldQuery();
 
   $ssquery->entityCondition('entity_type', 'ting_type')
-          ->entityCondition('bundle', 'smart_search_string')
-          ->propertyCondition('title', $string, '=');
+    ->entityCondition('bundle', 'smart_search_string')
+    ->propertyCondition('title', $string, '=');
 
   $result = $ssquery->execute();
 
@@ -290,13 +285,13 @@ function ting_smart_search_check_object($query) {
 }
 
 /**
- * Check if query has boosts
+ * Check if query has boosts.
  *
  * @param string $wrapper
  *   The Ting query.
  *
  * @return array
- *   The boost array or empty
+ *   The boost array or empty.
  */
 function ting_smart_search_check_boosts($wrapper) {
   $boosts = array();
@@ -307,34 +302,34 @@ function ting_smart_search_check_boosts($wrapper) {
   if ($entity_id) {
     $boost_materials = $wrapper->field_sss_boost_materials->value();
 
-    // We insert material twice to rule out factors applied from the well
+    // We insert material twice to rule out factors applied from the well.
     if (!empty($boost_materials)) {
       foreach ($boost_materials as $boost_material) {
         $boosts[] = array(
-                    'field_name' => 'term.default',
-                    'field_value' => urldecode($boost_material),
-                    'weight' => $weight,
+          'field_name' => 'term.default',
+          'field_value' => urldecode($boost_material),
+          'weight' => $weight,
         );
         $weight = $weight - 100;
         $boosts[] = array(
-                    'field_name' => 'term.default',
-                    'field_value' => urldecode($boost_material),
-                    'weight' => $weight,
+          'field_name' => 'term.default',
+          'field_value' => urldecode($boost_material),
+          'weight' => $weight,
         );
         $weight = $weight - 2000;
       }
     }
 
-    // Extract custom boosts from search string
+    // Extract custom boosts from search string.
     $custom_boost_materials = $wrapper->field_custom_boost_values->value();
 
-    // Get to each fieldcollection
+    // Get to each fieldcollection.
     foreach ($custom_boost_materials as $cb_material) {
       $cb_wrapper = entity_metadata_wrapper('field_collection_item', $cb_material);
       $boosts[] = array(
-                  'field_name' => $cb_wrapper->field_field_name->value(),
-                  'field_value' => $cb_wrapper->field_field_boost_value->value(),
-                  'weight' => $cb_wrapper->field_field_boost_weight->value(),
+        'field_name' => $cb_wrapper->field_field_name->value(),
+        'field_value' => $cb_wrapper->field_field_boost_value->value(),
+        'weight' => $cb_wrapper->field_field_boost_weight->value(),
       );
     }
   }
@@ -361,21 +356,22 @@ function ting_smart_search_load_multiple($ids = array(), $conditions = array(), 
 }
 
 /**
- * Implements hook_form_alter
+ * Implements hook_form_alter().
  */
 function ting_smart_search_form_alter(&$form, &$form_state, $form_id) {
-  // Check when the right form is passed
+  // Check when the right form is passed.
   if ($form_id == 'eck__entity__form_edit_ting_type_smart_search_string' || $form_id == 'eck__entity__form_add_ting_type_smart_search_string') {
 
-    // Hide url redirect on this entity
+    // Hide url redirect on this entity.
     $form['redirect']['#access'] = FALSE;
-    $form['field_sss_hits_per_month']['und']['0']['value']['#attributes']['disabled'] = TRUE;
-    $form['field_sss_hits_per_year']['und']['0']['value']['#attributes']['disabled'] = TRUE;
+    $form['field_sss_hits_per_month']['LANGUAGE_NONE']['0']['value']['#attributes']['disabled'] = TRUE;
+    $form['field_sss_hits_per_year']['LANGUAGE_NONE']['0']['value']['#attributes']['disabled'] = TRUE;
 
-    // Make the form element collapsed when smart search string not found
+    // Make the form element collapsed when smart search string not found.
     if ($form['form_id']['#value'] == 'eck__entity__form_edit_ting_type_smart_search_string') {
       $form['#groups']['group_elements']->format_settings['formatter'] = 'collapsible';
-    } else {
+    }
+    else {
       $form['title']['#default_value'] = check_plain(arg(2));
     }
     $form['title']['#title'] = t('Søgestreng');
@@ -383,43 +379,46 @@ function ting_smart_search_form_alter(&$form, &$form_state, $form_id) {
     $form['title']['#size'] = 100;
     $form['field_alternate_search_string']['#size'] = 100;
 
-    // Make the date field dynamic based on the value of the status fields
+    // Make the date field dynamic based on the value of the status fields.
     $form['field_sss_date']['#states'] = array(
-        // Only show this field when the value of status is planned.
-        'visible' => array(
-            ':input[name="field_status[und]"]' => array('value' => 'planned'),
-        ),
+      // Only show this field when the value of status is planned.
+      'visible' => array(
+          ':input[name="field_status[und]"]' => array('value' => 'planned'),
+      ),
     );
 
     if (empty($form['field_sss_sort']['und']['#default_value'])) {
       $form['#groups']['group_sss_sort_group']->format_settings['formatter'] = 'collapsed';
-      if (!empty($form['field_alternate_search_string']['und'][0]['value']['#default_value']) ||
-              !empty($form['field_content_reference']['und'][0]['target_id']['#default_value'])) {
+      if (!empty($form['field_alternate_search_string']['LANGUAGE_NONE'][0]['value']['#default_value']) ||
+              !empty($form['field_content_reference']['LANGUAGE_NONE'][0]['target_id']['#default_value'])) {
 
         $form['#groups']['group_sss_search_and_ref']->format_settings['formatter'] = 'collapsible';
-      } else {
+      }
+      else {
         $form['#groups']['group_sss_search_and_ref']->format_settings['formatter'] = 'collapsed';
       }
-      if (!empty($form['field_sss_boost_materials']['und'][0]['value']['#default_value']) ||
-              !empty($form['field_custom_boost_values']['und'][0]['field_field_boost_value']['und'][0]['value']['#default_value'])) {
+      if (!empty($form['field_sss_boost_materials']['LANGUAGE_NONE'][0]['value']['#default_value']) ||
+              !empty($form['field_custom_boost_values']['LANGUAGE_NONE'][0]['field_field_boost_value']['LANGUAGE_NONE'][0]['value']['#default_value'])) {
 
         $form['#groups']['group_sss_boost']->format_settings['formatter'] = 'collapsible';
-      } else {
+      }
+      else {
         $form['#groups']['group_sss_boost']->format_settings['formatter'] = 'collapsed';
       }
-    } else {
+    }
+    else {
       $form['#groups']['group_sss_search_and_ref']->format_settings['formatter'] = 'collapsed';
       $form['#groups']['group_sss_boost']->format_settings['formatter'] = 'collapsed';
       $form['#groups']['group_sss_sort_group']->format_settings['formatter'] = 'collapsible';
     }
 
     $form['actions']['submit_to_list'] = array(
-        '#value' => t('Gå til oversigt'),
-        '#type' => 'submit',
-        '#submit' => array('smart_search_string_to_list'),
+      '#value' => t('Gå til oversigt'),
+      '#type' => 'submit',
+      '#submit' => array('smart_search_string_to_list'),
     );
 
-    // Form callback functions
+    // Form callback functions.
     $form['#pre_render'][] = 'smart_search_string_form_pre_render';
     $form['#submit'][] = 'smart_search_string_form_submit';
   }
@@ -436,7 +435,7 @@ function ting_smart_search_form_alter(&$form, &$form_state, $form_id) {
  * Add magic to the form.
  */
 function smart_search_string_form_pre_render($form) {
-  // Move title and submit inside fieldset
+  // Move title and submit inside fieldset.
   $form['group_elements']['title'] = $form['title'];
   unset($form['title']);
   $form['group_elements']['actions'] = $form['actions'];
@@ -446,40 +445,25 @@ function smart_search_string_form_pre_render($form) {
 }
 
 /**
- * Implements hook_form_submit
+ * Implements hook_form_submit().
  */
 function smart_search_string_form_submit($form, &$form_state) {
-  // Return for to current search path
+  // Return for to current search path.
   $form_state['redirect'] = current_path();
 
   cache_clear_all(':' . current_path(), 'cache_opensearch', TRUE);
-  drupal_set_message('Cache for ' . '*' . current_path() . ' this record cleared.');
+  drupal_set_message(t('Cache for * @currentpath record cleared.', array('@currentpath' => current_path())));
 }
 
 /**
- * Redirect user to smart search list on submit
+ * Redirect user to smart search list on submit.
  *
  * @param string $form
  *   The form object.
  */
 function smart_search_string_to_list($form, &$form_state) {
-  // Return to list of search strings
+  // Return to list of search strings.
   drupal_goto('/admin/structure/entity-type/ting_type/smart_search_string/list');
-}
-
-/**
- *
- *
- * @param string $view
- *   The view of smart search content.
- */
-function smart_search_string_views_pre_render(&$view) {
-  if ($view->name == 'smart_search_content') {
-    foreach ($view->result as $r => $result) {
-
-    }
-  }
-  // Other views might go here
 }
 
 /**
@@ -487,12 +471,12 @@ function smart_search_string_views_pre_render(&$view) {
  */
 function smart_search_string_entity_info_alter(&$entity_info) {
   $entity_info['node']['view modes']['col2'] = array(
-      'label' => t('Two columns'),
-      'custom settings' => TRUE,
+    'label' => t('Two columns'),
+    'custom settings' => TRUE,
   );
   $entity_info['node']['view modes']['link-only'] = array(
-      'label' => t('Link only'),
-      'custom settings' => TRUE,
+    'label' => t('Link only'),
+    'custom settings' => TRUE,
   );
 }
 
@@ -504,15 +488,15 @@ function smart_search_string_field_info_alter(&$field_info) {
 }
 
 /**
- * Append class based on view mode
+ * Append class based on view mode.
  *
  * @param string $variables
- *   Node variables
+ *   Node variables.
  */
 function ting_smart_search_preprocess_node(&$variables) {
-  // Append class based on view mode
+  // Append class based on view mode.
   if (isset($variables['field_view_mode']) && !empty($variables['field_view_mode'])) {
-    $variables['classes_array'][] = $variables['field_view_mode']['und'][0]['value'];
+    $variables['classes_array'][] = $variables['field_view_mode']['LANGUAGE_NONE'][0]['value'];
   }
 }
 
@@ -527,8 +511,9 @@ function ting_smart_search_get_autodata_path() {
 }
 
 /**
- * Gets a file with data about the most popular objects for a given search from
- * webtrekk. Used in putting the most requested objects first in a search result.
+ * Gets a file with data about the most popular objects for a given search from webtrekk.
+ *
+ * Used in putting the most requested objects first in a search result.
  */
 function ting_smart_search_get_autodata_from_webtrekk() {
   $url = variable_get('ting_smart_search_master_server', 'https://staging.randersbib.dk/data/autodata.txt');
@@ -554,22 +539,22 @@ function ting_smart_search_get_autodata_from_webtrekk() {
       // described here: https://medium.com/@dylanwenzlau/
       // 500x-faster-caching-than-redis-memcache-apc-in-php-hhvm-dcd26e8447ad
       // Build the destination folder tree if it doesn't already exist.
-
       file_put_contents($path, '<?php $ting_smart_search_autodata = ' . $val . ';');
-    } else {
+    }
+    else {
       return FALSE;
     }
-    //LOCK_EX was used in the original solution doesn't work, maybe a windows issue
-  } catch (Exception $e) {
-    watchdog('ting_smart_search', 'Fetching smart search data failed: ' . $e->getMessage());
+    // LOCK_EX was used in the original solution doesn't work, maybe a windows issue
+  }
+  catch (Exception $e) {
+    watchdog('ting_smart_search', t('Fetching smart search data failed: @message',array('@message' => $e->getMessage())));
     return FALSE;
   }
   return TRUE;
 }
 
 /**
- * Gets a file with data about the most popular searches from webtrekk. Used in
- * the overview off searches.
+ * Gets a file with data about the most popular searches from webtrekk. Used in the view off searches.
  */
 function ting_smart_search_get_searchdata_from_webtrekk() {
   $search_data = array();
@@ -585,14 +570,15 @@ function ting_smart_search_get_searchdata_from_webtrekk() {
       $short_period = $line[2];
       $search_data[$title] = array('long_period' => $long_period, 'short_period' => $short_period);
     }
-  } catch (Exception $e) {
-    watchdog('ting_smart_search', 'Parsing of data failed: ' . $e->getMessage());
+  }
+  catch (Exception $e) {
+    watchdog('ting_smart_search', t('Parsing of data failed: @message',array('@message' => $e->getMessage())));
   }
   ting_smart_search_search_stats_importer($search_data);
 }
 
 /**
- * Gets a file with data automatic smart search from master server
+ * Gets a file with data automatic smart search from master server.
  */
 function ting_smart_search_get_data_file($url, $path) {
   $directory = dirname($path);
@@ -626,17 +612,18 @@ function ting_smart_search_search_stats_importer($search_data) {
       $hits_year = $value['long_period'];
       $hits_month = $value['short_period'];
 
-      // Fail if key fields are not present
+      // Fail if key fields are not present.
       if (empty($title)) {
-        drupal_set_message('Key fields are missing from array ' . $i . '. Check the file and try again');
-      } else {
+        drupal_set_message(t('Key fields are missing from array. Check the file and try again.'));
+      }
+      else {
         $normalized_string = mb_convert_encoding($title, 'UTF-8', 'ISO-8859-15');
-        // Find the matching entity and assign the stats
+        // Find the matching entity and assign the stats.
         $ssquery = new EntityFieldQuery();
 
         $ssquery->entityCondition('entity_type', 'ting_type')
-                ->entityCondition('bundle', 'smart_search_string')
-                ->propertyCondition('title', $normalized_string, '=');
+          ->entityCondition('bundle', 'smart_search_string')
+          ->propertyCondition('title', $normalized_string, '=');
 
         $result = $ssquery->execute();
 
@@ -645,14 +632,15 @@ function ting_smart_search_search_stats_importer($search_data) {
           $string_item = entity_metadata_wrapper('ting_type', $string_items_nids[0]);
           $string_item->field_sss_hits_per_year->set($hits_year);
           $string_item->field_sss_hits_per_month->set($hits_month);
-          // Save
+          // Save.
           $string_item->save();
-        } else {
-          // Create a new node and assign the data
+        }
+        else {
+          // Create a new node and assign the data.
           $values = array(
-              'type' => 'smart_search_string',
-              'uid' => 1,
-              'status' => 1,
+            'type' => 'smart_search_string',
+            'uid' => 1,
+            'status' => 1,
           );
           $entity = entity_create('ting_type', $values);
           $new_string_item = entity_metadata_wrapper('ting_type', $entity);
@@ -660,12 +648,13 @@ function ting_smart_search_search_stats_importer($search_data) {
           $new_string_item->field_sss_hits_per_year->set($hits_year);
           $new_string_item->field_sss_hits_per_month->set($hits_month);
 
-          // Save
+          // Save.
           $new_string_item->save();
         }
       }
     }
-  } catch (Exception $e) {
-    watchdog('ting_smart_search', 'Importing search feed data to database failed: ' . $e->getMessage());
+  }
+  catch (Exception $e) {
+    watchdog('ting_smart_search', t('Importing search feed data to database failed: @message',array('@message' => $e->getMessage())));
   }
 }
