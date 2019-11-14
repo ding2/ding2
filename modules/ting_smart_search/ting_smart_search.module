@@ -28,9 +28,9 @@ function ting_smart_search_menu() {
 function ting_smart_search_permission() {
   return array(
     'configure smart search' => array(
-        'title' => t('Configure smart search'),
-        'description' => t('Allow role to configure smart search.'),
-      ),
+    'title' => t('Configure smart search'),
+    'description' => t('Allow role to configure smart search.'),
+    ),
   );
 }
 
@@ -250,7 +250,7 @@ function ting_smart_search_autodata_cache() {
   if (file_exists(ting_smart_search_get_autodata_path())) {
     @include ting_smart_search_get_autodata_path();
   }
-  return isset($ting_smart_search_autodata) ? $ting_smart_search_autodata : NULL;
+  return NULL;
 }
 
 /**
@@ -383,11 +383,11 @@ function ting_smart_search_form_alter(&$form, &$form_state, $form_id) {
     $form['field_sss_date']['#states'] = array(
       // Only show this field when the value of status is planned.
       'visible' => array(
-          ':input[name="field_status[und]"]' => array('value' => 'planned'),
+        ':input[name="field_status[und]"]' => array('value' => 'planned'),
       ),
     );
 
-    if (empty($form['field_sss_sort']['und']['#default_value'])) {
+    if (empty($form['field_sss_sort']['LANGUAGE_NONE']['#default_value'])) {
       $form['#groups']['group_sss_sort_group']->format_settings['formatter'] = 'collapsed';
       if (!empty($form['field_alternate_search_string']['LANGUAGE_NONE'][0]['value']['#default_value']) ||
               !empty($form['field_content_reference']['LANGUAGE_NONE'][0]['target_id']['#default_value'])) {
@@ -544,10 +544,10 @@ function ting_smart_search_get_autodata_from_webtrekk() {
     else {
       return FALSE;
     }
-    // LOCK_EX was used in the original solution doesn't work, maybe a windows issue
+    // LOCK_EX was used in the original solution doesn't work, maybe a windows issue.
   }
   catch (Exception $e) {
-    watchdog('ting_smart_search', t('Fetching smart search data failed: @message',array('@message' => $e->getMessage())));
+    watchdog('ting_smart_search', 'Fetching smart search data failed');
     return FALSE;
   }
   return TRUE;
@@ -596,8 +596,9 @@ function ting_smart_search_get_data_file($url, $path) {
     }
 
     file_put_contents($path, $data);
-  } catch (Exception $e) {
-    watchdog('ting_smart_search', 'Fetching smart search data failed: ' . $e->getMessage());
+  }
+  catch (Exception $e) {
+    watchdog('ting_smart_search', 'Fetching smart search data failed');
     return FALSE;
   }
   return TRUE;
@@ -655,6 +656,6 @@ function ting_smart_search_search_stats_importer($search_data) {
     }
   }
   catch (Exception $e) {
-    watchdog('ting_smart_search', t('Importing search feed data to database failed: @message',array('@message' => $e->getMessage())));
+    watchdog('ting_smart_search', 'Importing search feed data to database failed');
   }
 }

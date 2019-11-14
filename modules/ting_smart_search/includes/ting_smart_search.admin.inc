@@ -202,7 +202,7 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
 
   if ($json === FALSE) {
     drupal_set_message(t('Failed to load local file. Please check that filename and path are correct: @importfile', array(
-      '@importfile' => variable_get('ting_smart_search_import_file_name', 'smart-search-records.csv')
+      '@importfile' => variable_get('ting_smart_search_import_file_name', 'smart-search-records.csv'),
     )), 'warning');
   }
 
@@ -246,7 +246,7 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
       }
       if (empty($title)) {
               drupal_set_message(t('Key fields are missing from array @ssrecordid. Check the file and try again.', array(
-                '@ssrecordid' => $ssrecord['id']
+                '@ssrecordid' => $ssrecord['id'],
               )));
       }
       else {
