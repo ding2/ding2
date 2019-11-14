@@ -28,8 +28,8 @@ function ting_smart_search_menu() {
 function ting_smart_search_permission() {
   return array(
     'configure smart search' => array(
-    'title' => t('Configure smart search'),
-    'description' => t('Allow role to configure smart search.'),
+      'title' => t('Configure smart search'),
+      'description' => t('Allow role to configure smart search.'),
     ),
   );
 }
@@ -572,7 +572,7 @@ function ting_smart_search_get_searchdata_from_webtrekk() {
     }
   }
   catch (Exception $e) {
-    watchdog('ting_smart_search', t('Parsing of data failed: @message',array('@message' => $e->getMessage())));
+    watchdog('ting_smart_search', 'Parsing of data failed');
   }
   ting_smart_search_search_stats_importer($search_data);
 }
