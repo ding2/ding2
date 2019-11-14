@@ -11,10 +11,6 @@ setup-modules:
 	$(DRUSH) en -y connie
 	$(DRUSH) dis -y fbs
 
-	# Enable mocking openlist provider.
-	# Currently disabled as the API has changed and Connie haven't been updated.
-	# $(DRUSH) en -y connie_openlist
-
 setup-config:
 	# Configure ting.module
 	$(DRUSH) vset -y ting_agency 100200
