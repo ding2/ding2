@@ -191,14 +191,14 @@
         @include font('base');
         position: static;
         overflow: hidden;
-        padding: 20px;
+        padding: 20px 0;
         box-sizing: border-box;
         background-image: none;
-        color: $white;
+        color: $color-standard-text;
         h3 {
           a {
             padding: 0;
-            color: $white;
+            color: $color-standard-text;
           }
         }
         p {
@@ -214,13 +214,13 @@
         width: 100%;
         float: left;
         background-image: none;
-        color: $white;
-        padding: 20px;
+        color: $color-standard-text;
+        padding: 20px 0;
         box-sizing: border-box;
 
         h3 {
           a {
-            color: $white;
+            color: $color-standard-text;
             padding: 0;
           }
         }
