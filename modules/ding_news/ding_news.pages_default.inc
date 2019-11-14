@@ -736,6 +736,31 @@ taxonomy/term/%term:tid',
     $pane->uuid = '26d16112-d9b0-4d46-8192-b301259f9e3c';
     $display->content['new-26d16112-d9b0-4d46-8192-b301259f9e3c'] = $pane;
     $display->panels['main_content'][0] = 'new-26d16112-d9b0-4d46-8192-b301259f9e3c';
+    $pane = new stdClass();
+    $pane->pid = 'new-e1d496c2-f35c-4e13-b043-646e7146b9a1';
+    $pane->panel = 'main_content';
+    $pane->type = 'entity_field_extra';
+    $pane->subtype = 'taxonomy_term:description';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_mode' => 'full',
+      'context' => 'argument_term_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'e1d496c2-f35c-4e13-b043-646e7146b9a1';
+    $display->content['new-e1d496c2-f35c-4e13-b043-646e7146b9a1'] = $pane;
+    $display->panels['main_content'][1] = 'new-e1d496c2-f35c-4e13-b043-646e7146b9a1';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-26d16112-d9b0-4d46-8192-b301259f9e3c';
   $handler->conf['display'] = $display;
