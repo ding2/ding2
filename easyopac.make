@@ -432,6 +432,13 @@ projects[ting_proposed_searches][download][url]    = "git@github.com:easySuite/t
 ;projects[ting_proposed_searches][download][tag]    = ""
 projects[ting_proposed_searches][download][branch] = "development"
 
+projects[ting_recommender][type]              = "module"
+projects[ting_recommender][subdir]            = ""
+projects[ting_recommender][download][type]    = "git"
+projects[ting_recommender][download][url]     = "git@github.com:easySuite/ting_recommender.git"
+;projects[ting_recommender][download][tag]     = ""
+projects[ting_recommender][download][branch]  = "development"
+
 projects[ting_reference_advanced][type]              = "module"
 projects[ting_reference_advanced][subdir]            = ""
 projects[ting_reference_advanced][download][type]    = "git"

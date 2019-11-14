@@ -836,3 +836,10 @@ function ding2_update_7072() {
 function ding2_update_7073() {
   ding2_translation_update();
 }
+
+/**
+ * Enable Ting Recommender.
+ */
+function ding2_update_7074() {
+  module_enable(['ting_recommender']);
+}
