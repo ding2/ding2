@@ -1,9 +1,8 @@
 <?php
 
 /**
+ * @file
  * A script to parse the raw autodata files from Webtrekk via KPI index.
- *
- *
  */
 
 $file_year = 'autodatayear.csv';

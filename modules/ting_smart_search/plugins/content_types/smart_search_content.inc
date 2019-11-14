@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Panels pane to display the smart search form
@@ -16,7 +17,7 @@ $plugin = array(
   'required context' => new ctools_context_required(t('Keywords'), 'string'),
 );
 
-/*
+/**
  * Implements access callback
  */
 function ting_smart_search_content_type_access() {
@@ -38,8 +39,6 @@ function ting_smart_search_content_type_render($subtype, $conf, $panel_args, $co
 
   $search_string = $context->data;
 
-  $entity_type_name = 'ting_type';
-  $entity_bundle_name = 'smart_search_string';
   module_load_include('inc', 'eck', 'eck.entity');
   // Create the block class.
   $block = new stdClass();
@@ -59,12 +58,14 @@ function ting_smart_search_content_type_render($subtype, $conf, $panel_args, $co
     if (isset($referenced)) {
       $ref_node = entity_metadata_wrapper('node', $referenced->nid);
       $view_mode = $ref_node->field_view_mode->value();
-      $node_view = node_view($referenced, $view_mode, $langcode = NULL);
+      $node_view = node_view($referenced, $view_mode);
       $block->content = drupal_render($node_view);
-    } else {
+    }
+    else {
       $block->content = '';
     }
-  } else {
+  }
+  else {
     $block->content = '';
   }
 

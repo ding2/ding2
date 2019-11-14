@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Handles installation/un-installation of smart search terms by the module.
@@ -14,4 +15,4 @@
  function ting_smart_search_install() {
    // Load the initial data from webtrekk.
    ting_smart_search_get_autodata_from_webtrekk();
-}
+ }

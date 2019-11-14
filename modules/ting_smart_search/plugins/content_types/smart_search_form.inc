@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Panels pane to display the smart search form
@@ -16,7 +17,7 @@ $plugin = array(
   'required context' => new ctools_context_required(t('Keywords'), 'string'),
 );
 
-/*
+/**
  * Implements access callback
  */
 function ting_smart_search_form_content_type_access() {
@@ -33,13 +34,12 @@ function ting_smart_search_form_content_type_access() {
  * Render the smart search form block.
  */
 function ting_smart_search_form_content_type_render($subtype, $conf, $panel_args, $context) {
-  // Make search results sortable
+  // Make search results sortable.
   drupal_add_js('https://code.jquery.com/ui/1.12.1/jquery-ui.js');
-  drupal_add_js(drupal_get_path('module', 'ting_smart_search') .'/js/smart_search_sortable.js', 'file');
-  drupal_add_js(drupal_get_path('module', 'ting_smart_search') .'/js/smart_search_sortable_clear.js', 'file');
+  drupal_add_js(drupal_get_path('module', 'ting_smart_search') . '/js/smart_search_sortable.js', 'file');
+  drupal_add_js(drupal_get_path('module', 'ting_smart_search') . '/js/smart_search_sortable_clear.js', 'file');
 
-  // Create a form with options for the editors
-  $form_state = array();
+  // Create a form with options for the editors.
   $search_string = $context->data;
 
   $entity_type_name = 'ting_type';
@@ -50,9 +50,10 @@ function ting_smart_search_form_content_type_render($subtype, $conf, $panel_args
 
   $entity_id = db_query('SELECT id FROM {eck_ting_type} WHERE title = :myredirect', array(':myredirect' => $search_string))->fetchField();
 
-  if($entity_id) {
+  if ($entity_id) {
     $block->content = eck__entity__edit($entity_type_name, $entity_bundle_name, $entity_id);
-  } else {
+  }
+  else {
       $block->content = eck__entity__add($entity_type_name, $entity_bundle_name);
   }
 

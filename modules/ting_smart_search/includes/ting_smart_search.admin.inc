@@ -44,7 +44,8 @@ function ting_smart_search_admin_form($form, &$form_state) {
     '#required' => FALSE,
     '#states' => array(
       'visible' => array(
-        ':input[name="ting_smart_search_automatic_active"]' => array('checked' => TRUE)),
+        ':input[name="ting_smart_search_automatic_active"]' => array('checked' => TRUE)
+      ),
     ),
     '#description' => t('The path to auto data file.'),
   );
@@ -200,7 +201,8 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
   $json = @file_get_contents($file->uri);
 
   if ($json === FALSE) {
-    drupal_set_message(t('Failed to load local file. Please check that filename and path are correct: ') . variable_get('ting_smart_search_import_file_name', 'smart-search-records.csv'), 'warning');
+    drupal_set_message(t('Failed to load local file. Please check that filename and path are correct: @importfile', array(
+      '@importfile' => variable_get('ting_smart_search_import_file_name', 'smart-search-records.csv'))), 'warning');
   }
 
   $json_array = json_decode($json, true);
@@ -242,7 +244,8 @@ function ting_smart_search_import_form_submit($form, &$form_state) {
         $field_status = $ssrecord['field_status']['LANGUAGE_NONE'][0]['value'];
       }
       if (empty($title)) {
-              drupal_set_message(t('Key fields are missing from array ') . $ssrecord['id'] . t(' Check the file and try again'));
+              drupal_set_message(t('Key fields are missing from array @ssrecordid. Check the file and try again.', array(
+                '@ssrecordid' => $ssrecord['id'])));
       }
       else {
         // Find the matching entity and assign the values from import.

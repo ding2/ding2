@@ -1,9 +1,8 @@
 <?php
 
 /**
+ * @file
  * A script to parse the raw search files from Webtrekk via KPI index.
- *
- *
  */
 
 try {
@@ -50,6 +49,7 @@ ting_smart_search_write_to_feedlog("Memory used: " . memory_get_peak_usage());
 function ting_smart_search_write_to_feedlog($entry) {
   file_put_contents("./feedlog.txt", print_r($entry . "\n", TRUE), FILE_APPEND);
 }
+
 /**
  * Check if smart search record is within active year.
  */
