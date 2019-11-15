@@ -44,7 +44,7 @@ function bpi_syndicate_images($type = 'ajax') {
  *
  * @ingroup forms
  */
-function bpi_assets_form($form, $form_state, $assets = array()) {
+function bpi_assets_form(array $form, array $form_state, $assets = array()) {
   if (!empty($assets)) {
     $form['bpi_assets'] = array(
       '#type' => 'fieldset',
@@ -86,7 +86,7 @@ function bpi_assets_form($form, $form_state, $assets = array()) {
  *
  * @ingroup forms
  */
-function bpi_assets_form_submit($form, &$form_state) {
+function bpi_assets_form_submit(array $form, array &$form_state) {
   $bpi_assets = $_SESSION['bpi']['assets'];
 
   $assets = array();
@@ -144,7 +144,7 @@ function bpi_assets_form_submit($form, &$form_state) {
  *
  * @ingroup forms
  */
-function bpi_asset_action_ajax_callback($form, &$form_state) {
+function bpi_asset_action_ajax_callback(array $form, array &$form_state) {
   ctools_include('ajax');
 
   $commands = array();
@@ -168,7 +168,7 @@ function bpi_asset_action_ajax_callback($form, &$form_state) {
  *
  * @ingroup forms
  */
-function bpi_asset_cancel_ajax_callback($form, &$form_state) {
+function bpi_asset_cancel_ajax_callback(array $form, array &$form_state) {
   $commands = array();
 
   $commands[] = ajax_command_ding_popup_close(
@@ -207,7 +207,7 @@ function bpi_fetch_image($filename, $image_url) {
   if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
     watchdog(
       'bpi',
-      t('Failed to create directory: %directory'),
+      'Failed to create directory: %directory',
       array('%directory' => $directory),
       WATCHDOG_ERROR
     );
