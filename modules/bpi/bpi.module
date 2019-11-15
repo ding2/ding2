@@ -360,6 +360,9 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       drupal_add_js(drupal_get_path('module', 'bpi') . '/js/bpi.scripts.js', 'file');
       drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup.js', 'file');
       drupal_add_css(drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css', 'file');
+      ctools_include('modal');
+      ctools_modal_add_js();
+
       $_SESSION['bpi']['assets'] = $bpi_assets;
     }
     elseif ($syndicated_images === FALSE) {
@@ -486,7 +489,8 @@ function bpi_place_images(array &$form, $current_language, array $syndicated_ima
       foreach ($image_field_names as $image_field_name) {
         if (bpi_is_bpi_image_field($image_field_name, $node, $image_type)) {
           $field = &$form[$image_field_name][$current_language];
-          $cardinality = isset($field['#cardinality']) ? $field['#cardinality'] : 1;
+          $field_info = field_info_field($field['#field_name']);
+          $cardinality = $field_info['cardinality'];
           // The cardinality of a field with an unlimited number of values is -1.
           if ($cardinality < 0) {
             $cardinality = PHP_INT_MAX;
@@ -494,7 +498,10 @@ function bpi_place_images(array &$form, $current_language, array $syndicated_ima
           $number_of_images_to_place = min(count($images), $cardinality);
           for ($i = 0; $i < $number_of_images_to_place; $i++) {
             if (is_object($images[$i]['@managed_file'])) {
-              $field[$i]['#default_value'] = array('fid' => $images[$i]['@managed_file']->fid);
+              // A totally hacky way of building media field default items.
+              $element_build = $field[0];
+              $element_build['#default_value'] = array('fid' => $images[$i]['@managed_file']->fid);
+              $field[$i] = $element_build;
             }
           }
         }
@@ -547,8 +554,8 @@ function bpi_place_inline_images($field_name, $content, $current_language, array
           ),
           'type' => 'media',
           'attributes' => array(
-            'width' => $image['width'],
-            'height' => $image['height'],
+            'width' => $file->metadata->width,
+            'height' => $file->metadata->height,
             'alt' => isset($image['alt']) ? $image['alt'] : $image['name'],
             'title' => isset($image['title']) ? $image['title'] : $image['name'],
             'class' => 'media-element file-default',
