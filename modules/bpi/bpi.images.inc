@@ -22,9 +22,7 @@ function bpi_syndicate_images($type = 'ajax') {
 
   $form = drupal_get_form('bpi_assets_form', $assets);
   $commands = array();
-
   ctools_include('modal');
-  ctools_modal_add_js();
   $commands[] = ctools_modal_command_display(t('Syndicate images'), drupal_render($form));
 
   return array('#type' => 'ajax', '#commands' => $commands);
@@ -46,7 +44,7 @@ function bpi_syndicate_images($type = 'ajax') {
  *
  * @ingroup forms
  */
-function bpi_assets_form($form, $form_state, $assets = array()) {
+function bpi_assets_form(array $form, array $form_state, $assets = array()) {
   if (!empty($assets)) {
     $form['bpi_assets'] = array(
       '#type' => 'fieldset',
@@ -58,7 +56,7 @@ function bpi_assets_form($form, $form_state, $assets = array()) {
         $form['bpi_assets']['asset::' . $type . '::' . $index] = array(
           '#type' => 'checkbox',
           '#default_value' => 1,
-          '#prefix' => '<div class="bpi-syndicate-asset"><img src="' . $asset['path'] . '" width="100" height="100" />' . '<br/> (' . bpi_get_image_display_name($asset['type']) . ')',
+          '#prefix' => '<div class="bpi-syndicate-asset"><img src="' . $asset['path'] . '" width="100" height="100" />' . '<br/> (' . bpi_get_image_display_name($type) . ')',
           '#suffix' => '</div>',
         );
       }
@@ -88,7 +86,7 @@ function bpi_assets_form($form, $form_state, $assets = array()) {
  *
  * @ingroup forms
  */
-function bpi_assets_form_submit($form, &$form_state) {
+function bpi_assets_form_submit(array $form, array &$form_state) {
   $bpi_assets = $_SESSION['bpi']['assets'];
 
   $assets = array();
@@ -110,17 +108,14 @@ function bpi_assets_form_submit($form, &$form_state) {
   $syndicated_images = array();
   $status = TRUE;
   foreach ($assets as $asset) {
-    $filename = $asset['type'] . '/' . uniqid() . '.' . $asset['extension'];
+    $filename = basename($asset['path']);
     $managed_file = bpi_fetch_image('public://bpi/' . $filename, $asset['path']);
 
     if (!is_object($managed_file)) {
       $status = FALSE;
     }
     else {
-      if (!isset($syndicated_images[$asset['type']])) {
-        $syndicated_images[$asset['type']] = array();
-      }
-      $syndicated_images[$asset['type']][] = $asset + array('@managed_file' => $managed_file);
+      $syndicated_images[$asset['name']][] = $asset + array('@managed_file' => $managed_file);
     }
   }
 
@@ -149,7 +144,7 @@ function bpi_assets_form_submit($form, &$form_state) {
  *
  * @ingroup forms
  */
-function bpi_asset_action_ajax_callback($form, &$form_state) {
+function bpi_asset_action_ajax_callback(array $form, array &$form_state) {
   ctools_include('ajax');
 
   $commands = array();
@@ -173,7 +168,7 @@ function bpi_asset_action_ajax_callback($form, &$form_state) {
  *
  * @ingroup forms
  */
-function bpi_asset_cancel_ajax_callback($form, &$form_state) {
+function bpi_asset_cancel_ajax_callback(array $form, array &$form_state) {
   $commands = array();
 
   $commands[] = ajax_command_ding_popup_close(
@@ -212,7 +207,7 @@ function bpi_fetch_image($filename, $image_url) {
   if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
     watchdog(
       'bpi',
-      t('Failed to create directory: %directory'),
+      'Failed to create directory: %directory',
       array('%directory' => $directory),
       WATCHDOG_ERROR
     );
@@ -284,7 +279,7 @@ function bpi_clear_syndicated_images() {
  */
 function bpi_get_image_display_name($image_type) {
   $types = array(
-    'body' => t('Inline image'),
+    'embedded' => t('Inline image'),
     'list_image' => t('List image'),
     'title_image' => t('Title image'),
   );
