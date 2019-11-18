@@ -113,6 +113,10 @@ function ding_sections_form_taxonomy_form_term_alter(&$form, &$form_state) {
  * Implements hook_preprocess().
  */
 function ding_sections_preprocess(&$variables, $hook) {
+  if (!variable_get('ding_sections_preprocess_enabled', FALSE)) {
+    return;
+  }
+
   // Process nodes with sections.
   if ($hook == 'node') {
     if (!empty($variables['field_ding_section'])) {
@@ -147,7 +151,13 @@ function ding_sections_preprocess(&$variables, $hook) {
     $widget_unique = '';
     if (!empty($variables['conf']) && !empty($variables['conf']['classes'])) {
       $classes = explode(' ', $variables['conf']['classes']);
-      $widget_unique = !empty($classes[3]) ? $classes[3] : '';
+      $widget_unique = !empty($classes[2]) ? $classes[2] : '';
+    }
+
+    // This scenario normally should not happen.
+    // But, at least, it won't break JS part if it still occurs.
+    if (empty($widget_unique)) {
+      return;
     }
 
     $items = [];
