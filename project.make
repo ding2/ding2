@@ -154,7 +154,7 @@ projects[geophp][subdir] = "contrib"
 projects[geophp][version] = "1.7"
 
 projects[globalredirect][subdir] = "contrib"
-projects[globalredirect][version] = "1.5"
+projects[globalredirect][version] = "1.6"
 projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_view_node-1399506-2.patch"
 
 projects[google_analytics][subdir] = "contrib"
