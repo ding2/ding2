@@ -111,12 +111,6 @@ projects[features_extra][version] = "1.0-beta1"
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta4"
 
-projects[feeds_ex][subdir] = "contrib"
-projects[feeds_ex][version] = "1.0-beta2"
-
-projects[feeds_xpathparser][subdir] = "contrib"
-projects[feeds_xpathparser][version] = "1.1"
-
 projects[fences][type] = "module"
 projects[fences][subdir] = "contrib"
 projects[fences][version] = "1.0"
@@ -267,9 +261,6 @@ projects[message][version] = "1.12"
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.21"
 
-projects[mimemail][subdir] = "contrib"
-projects[mimemail][version] = "1.1"
-
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
 
@@ -323,10 +314,6 @@ projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-
 
 projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
-
-projects[quiz][subdir] = "contrib"
-projects[quiz][version] = "5.0-rc4"
-projects[quiz][patch][] = "https://www.drupal.org/files/issues/2018-06-20/quiz-question_pdo_exception_v50-2980495-3-D7.patch"
 
 projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
@@ -403,9 +390,6 @@ projects[search_api_multi][patch][] = "https://www.drupal.org/files/issues/25809
 projects[search_api_db][subdir] = "contrib"
 projects[search_api_db][version] = "1.5"
 
-projects[search_api_autocomplete][subdir] = "contrib"
-projects[search_api_autocomplete][version] = "1.5"
-
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
 
@@ -420,10 +404,6 @@ projects[tipsy][version] = "1.0-rc1"
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
-
-; Required to run FeedsEx test. Those are failing CircleCI build.
-projects[tunit][subdir] = "contrib"
-projects[tunit][version] = "1.x-dev"
 
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
@@ -453,9 +433,6 @@ projects[views][version] = "3.23"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
-
-projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.1"
 
 projects[views_responsive_grid][subdir] = "contrib"
 projects[views_responsive_grid][version] = "1.3"
@@ -508,24 +485,6 @@ projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
-
-projects[mkdru][subdir] = "contrib"
-projects[mkdru][version] = "1.9"
-
-projects[mkdru_ding][type] = "module"
-projects[mkdru_ding][download][type] = "git"
-projects[mkdru_ding][download][url] = "https://github.com/easySuite/mkdru_ding.git"
-projects[mkdru_ding][download][branch] = "develop"
-
-projects[ding_mkws][type] = "module"
-projects[ding_mkws][download][type] = "git"
-projects[ding_mkws][download][url] = "https://github.com/easySuite/ding_mkws.git"
-projects[ding_mkws][download][branch] = "development"
-
-projects[ding_spt_statistics][type] = "module"
-projects[ding_spt_statistics][download][type] = "git"
-projects[ding_spt_statistics][download][url] = "https://github.com/easySuite/ding_spt_statistics.git"
-projects[ding_spt_statistics][download][branch] = "development"
 
 ; Libraries
 ; For ding_libs.
@@ -586,12 +545,6 @@ libraries[phly-http][download][type] = "git"
 libraries[phly-http][download][url] = "https://github.com/phly/http"
 libraries[phly-http][download][tag] = "0.14.1"
 libraries[phly-http][destination] = "libraries"
-
-libraries[notify][download][type] = "git"
-libraries[notify][download][url] = "git@github.com:notifyjs/notifyjs.git"
-libraries[notify][download][branch] = "master"
-libraries[notify][directory_name] = "notify"
-libraries[notify][destination] = "libraries"
 
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
@@ -667,59 +620,22 @@ libraries[smart-app-banner][download][url] = https://github.com/kudago/smart-app
 libraries[smart-app-banner][directory_name] = "smart-app-banner"
 libraries[smart-app-banner][destination] = "libraries"
 
-libraries[pz2][download][type] = "get"
-libraries[pz2][download][url] = http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz
-libraries[pz2][directory_name] = "pz2"
-libraries[pz2][destination] = "libraries"
-
-libraries[jsrender][download][type] = "get"
-libraries[jsrender][download][url] = https://github.com/BorisMoore/jsrender/archive/master.zip
-libraries[jsrender][directory_name] = "jsrender"
-libraries[jsrender][destination] = "libraries"
-
-; easyDDB contribution modules
-projects[extlink][version]                  = "1.18"
-projects[extlink][subdir]                   = "contrib"
-
+; easyOPAC contribution modules
 projects[ckeditor_link][subdir]             = "contrib"
 projects[ckeditor_link][version]            = "2.4"
 
 projects[css_editor][subdir]                = "contrib"
 projects[css_editor][version]               = "1.0"
 
-projects[opengraph_meta][version]           = "1.3"
-projects[opengraph_meta][subdir]            = "contrib"
+projects[ding_mkws][type]                   = "module"
+projects[ding_mkws][download][type]         = "git"
+projects[ding_mkws][download][url]          = "https://github.com/easySuite/ding_mkws.git"
+projects[ding_mkws][download][branch]       = "development"
 
-projects[features_override][version]        = "2.0-rc1"
-projects[features_override][subdir]         = "contrib"
-
-projects[field_reference_delete][version]   = "1.0-beta1"
-projects[field_reference_delete][subdir]    = "contrib"
-
-projects[memcache_storage][version]         = "1.4"
-projects[memcache_storage][subdir]          = "contrib"
-
-projects[search404][version]                = "1.3"
-projects[search404][subdir]                 = "contrib"
-
-projects[xmlsitemap][version]               = "2.0"
-projects[xmlsitemap][subdir]                = "contrib"
-
-projects[references][version]               = "2.1"
-projects[references][subdir]                = "contrib"
-
-projects[taxonomy_menu][version]            = "1.4"
-projects[taxonomy_menu][subdir]             = "contrib"
-projects[taxonomy_menu][patch][]            = "http://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
-
-projects[linkchecker][version]              = "1.2"
-projects[linkchecker][subdir]               = "contrib"
-
-projects[httprl][version]                   = "1.14"
-projects[httprl][subdir]                    = "contrib"
-
-projects[imagemagick][subdir]               = "contrib"
-projects[imagemagick][version]              = "1.0"
+projects[ding_spt_statistics][type]             = "module"
+projects[ding_spt_statistics][download][type]   = "git"
+projects[ding_spt_statistics][download][url]    = "https://github.com/easySuite/ding_spt_statistics.git"
+projects[ding_spt_statistics][download][branch] = "development"
 
 projects[domain][subdir]                    = "contrib"
 projects[domain][version]                   = "3.12"
@@ -738,3 +654,88 @@ projects[domain_variable][version]          = "1.1"
 
 projects[domain_views][subdir]              = "contrib"
 projects[domain_views][version]             = "1.5"
+
+projects[extlink][version]                  = "1.18"
+projects[extlink][subdir]                   = "contrib"
+
+projects[features_override][version]        = "2.0-rc1"
+projects[features_override][subdir]         = "contrib"
+
+projects[feeds_ex][subdir]                  = "contrib"
+projects[feeds_ex][version]                 = "1.0-beta2"
+
+projects[feeds_xpathparser][subdir]         = "contrib"
+projects[feeds_xpathparser][version]        = "1.1"
+
+projects[field_reference_delete][version]   = "1.0-beta1"
+projects[field_reference_delete][subdir]    = "contrib"
+
+projects[httprl][version]                   = "1.14"
+projects[httprl][subdir]                    = "contrib"
+
+projects[imagemagick][subdir]               = "contrib"
+projects[imagemagick][version]              = "1.0"
+
+projects[linkchecker][version]              = "1.2"
+projects[linkchecker][subdir]               = "contrib"
+
+projects[memcache_storage][version]         = "1.4"
+projects[memcache_storage][subdir]          = "contrib"
+
+projects[mimemail][subdir]                  = "contrib"
+projects[mimemail][version]                 = "1.1"
+
+projects[mkdru][subdir]                     = "contrib"
+projects[mkdru][version]                    = "1.9"
+
+projects[mkdru_ding][type]                  = "module"
+projects[mkdru_ding][download][type]        = "git"
+projects[mkdru_ding][download][url]         = "https://github.com/easySuite/mkdru_ding.git"
+projects[mkdru_ding][download][branch]      = "develop"
+
+projects[opengraph_meta][version]           = "1.3"
+projects[opengraph_meta][subdir]            = "contrib"
+
+libraries[notify][download][type]           = "git"
+libraries[notify][download][url]            = "git@github.com:notifyjs/notifyjs.git"
+libraries[notify][download][branch]         = "master"
+libraries[notify][directory_name]           = "notify"
+libraries[notify][destination]              = "libraries"
+
+projects[quiz][subdir]                      = "contrib"
+projects[quiz][version]                     = "5.0-rc4"
+projects[quiz][patch][]                     = "https://www.drupal.org/files/issues/2018-06-20/quiz-question_pdo_exception_v50-2980495-3-D7.patch"
+
+projects[references][version]               = "2.1"
+projects[references][subdir]                = "contrib"
+
+projects[search404][version]                = "1.3"
+projects[search404][subdir]                 = "contrib"
+
+projects[search_api_autocomplete][subdir] = "contrib"
+projects[search_api_autocomplete][version] = "1.5"
+
+projects[taxonomy_menu][version]            = "1.4"
+projects[taxonomy_menu][subdir]             = "contrib"
+projects[taxonomy_menu][patch][]            = "http://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
+
+; Required to run FeedsEx test. Those are failing CircleCI build.
+projects[tunit][subdir]                     = "contrib"
+projects[tunit][version]                    = "1.x-dev"
+
+projects[views_data_export][subdir]         = "contrib"
+projects[views_data_export][version]        = "3.1"
+
+projects[xmlsitemap][version]               = "2.0"
+projects[xmlsitemap][subdir]                = "contrib"
+
+libraries[pz2][download][type]              = "get"
+libraries[pz2][download][url]               = http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz
+libraries[pz2][directory_name]              = "pz2"
+libraries[pz2][destination]                 = "libraries"
+
+libraries[jsrender][download][type]         = "get"
+libraries[jsrender][download][url]          = https://github.com/BorisMoore/jsrender/archive/master.zip
+libraries[jsrender][directory_name]         = "jsrender"
+libraries[jsrender][destination]            = "libraries"
+
