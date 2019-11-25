@@ -416,6 +416,9 @@ projects[uuid][download][type] = "git"
 projects[uuid][download][url] = "http://git.drupal.org/project/uuid.git"
 projects[uuid][download][revision] = "3f4d9fb"
 
+projects[uuid_features][subdir] = "contrib"
+projects[uuid_features][version] = "1.0-alpha4"
+
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
 
