@@ -112,6 +112,9 @@ projects[features][version] = "2.10"
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
 
+projects[features_override][subdir] = "contrib"
+projects[features_override][version] = "2.0-rc1"
+
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-alpha8"
 
