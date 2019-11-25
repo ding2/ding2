@@ -67,18 +67,16 @@
   .carousel-select {
     display: none;
     width: 100%;
-    padding-right: 160px;
     float: left;
-    margin-top: -54px;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 20px;
+    height: auto;
 
     // Tablet
     @include media($tablet) {
       display: block;
-    }
-
-    // Mobile
-    @include media($mobile) {
-      padding-right: 0;
     }
   }
 }

@@ -975,7 +975,7 @@ function ddbasic_process_ting_object(&$vars) {
           }
 
           // Truncate default title.
-          $vars['static_title'] = '<div class="field-name-ting-title"><h2>' . add_ellipsis($vars['elements']['group_text']['group_inner']['ting_title'][0]['#markup'], 40) . '</h2></div>';
+          $vars['static_title'] = '<div class="field-name-ting-title"><h3>' . add_ellipsis($vars['elements']['group_text']['group_inner']['ting_title'][0]['#markup'], 40) . '</h3></div>';
 
           // Truncate abstract.
           $vars['content']['group_text']['ting_abstract'][0]['#markup'] = add_ellipsis($vars['content']['group_text']['ting_abstract'][0]['#markup'], 330);
@@ -986,7 +986,7 @@ function ddbasic_process_ting_object(&$vars) {
           }
 
           break;
-        
+
           // Check if teaser has rating function and remove abstract.
           if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
             unset($vars['content']['group_text']['ting_abstract']);

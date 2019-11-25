@@ -151,7 +151,11 @@ function ding_ddbasic_opening_hours_get_category_name($category_tid) {
 }
 
 /**
- * Get weight of an opening hours category tid.
+ * Get unique weight of an opening hours category tid.
+ *
+ * Unlike Drupal weights were multiple values can have the same weight this
+ * function will return a unique weight for each category. This makes weights
+ * suitable for array keys etc.
  */
 function ding_ddbasic_opening_hours_get_category_weight($category_tid) {
   $weight = &drupal_static(__FUNCTION__, array());
@@ -162,7 +166,15 @@ function ding_ddbasic_opening_hours_get_category_weight($category_tid) {
     }
     else {
       $term = taxonomy_term_load($category_tid);
-      $weight[$category_tid] = $term->weight;
+      $term_weight = (int) $term->weight;
+      // To ensure that we do not return an already used weight we bump this
+      // weight by one until we hit a free value. Any subsequent term which
+      // already have this weight assigned will also get a new weight but
+      // should appear in the same order as before.
+      while (array_search($term_weight, $weight) !== FALSE) {
+        $term_weight++;
+      }
+      $weight[$category_tid] = $term_weight;
     }
   }
   return $weight[$category_tid];
