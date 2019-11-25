@@ -135,13 +135,16 @@
     position: relative;
     padding: 0;
     .info {
+      @include linear-gradient(
+          transparent 0%,
+          $charcoal-opacity-dark 100%
+      );
       @include font('display-small');
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
       color: $white;
-      background: $charcoal-opacity-dark;
       padding-bottom: 25px;
       h3 {
         @include font('display');
@@ -187,12 +190,15 @@
       @include media($mobile) {
         @include font('base');
         position: static;
+        overflow: hidden;
+        padding: 20px 0;
+        box-sizing: border-box;
         background-image: none;
         color: $color-standard-text;
         h3 {
           a {
-            padding: 14px 0 0;
-            color: $charcoal;
+            padding: 0;
+            color: $color-standard-text;
           }
         }
         p {
@@ -203,19 +209,14 @@
 
     //No-overlay
     .no-overlay & {
-      .image {
-        margin-bottom: 14px;
-      }
       .info {
         position: static;
         width: 100%;
         float: left;
         background-image: none;
         color: $color-standard-text;
-
-        @include media($mobile) {
-          padding-bottom: 0;
-        }
+        padding: 20px 0;
+        box-sizing: border-box;
 
         h3 {
           a {

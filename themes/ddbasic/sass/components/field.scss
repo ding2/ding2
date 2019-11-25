@@ -155,7 +155,7 @@
 
   // When placed in group-right in node ding news
   .group-right & {
-    @include span-columns(7 of 5);
+    @include span-columns(6 of 5);
 
     // Tablet
     @include media($tablet) {
