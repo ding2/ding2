@@ -1542,7 +1542,7 @@ function _ding_nodelist_get_event_date($date) {
 
   $now = new DateObject();
   $now = $now->getTimestamp();
-  if ($start <= $now && $now <= $end) {
+  if ($start->getTimestamp() <= $now && $now <= $end->getTimestamp()) {
     $result = $now;
   }
 
