@@ -436,7 +436,7 @@ projects[ting_recommender][type]              = "module"
 projects[ting_recommender][subdir]            = ""
 projects[ting_recommender][download][type]    = "git"
 projects[ting_recommender][download][url]     = "git@github.com:easySuite/ting_recommender.git"
-projects[ting_recommender][download][tag]     = ""7.x-5.0.0"
+projects[ting_recommender][download][tag]     = "7.x-5.0.0"
 ;projects[ting_recommender][download][branch]  = "development"
 
 projects[ting_reference_advanced][type]              = "module"
