@@ -14,7 +14,7 @@ define('DING_REGISTRATION_SUCCESS_URL', 'registration/success');
 function ding_registration_menu() {
   $items = array();
 
-  $items['admin/config/ding/auth/registration'] = array(
+  $items['admin/config/ding/adgangsplatformen/registration'] = array(
     'title' => 'Registration',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_registration_admin_settings_form'),
