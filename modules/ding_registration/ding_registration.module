@@ -264,10 +264,10 @@ function ding_registration_is_registration_request() {
  * Used to keep information obtained from Single Sign On (SSO) between redirects
  * from consumer end-point to registrations URL.
  *
- * @param array $user_info
- *   Information about the user.
+ * @param array|null $user_info
+ *   Information about the user. Use NULL to unset.
  */
-function ding_registration_set_user_information(array $user_info) {
+function ding_registration_set_user_information($user_info) {
   $_SESSION['ding_registration_user_information'] = is_null($user_info) ? NULL : serialize($user_info);
 }
 
