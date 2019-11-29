@@ -928,3 +928,12 @@ function ding2_update_7079() {
   variable_set('ding_react_material_list_url', 'https://prod.materiallist.dandigbib.org');
   variable_set('ding_react_follow_searches_url','https://prod.followsearches.dandigbib.org' );
 }
+
+/**
+ * Enable user registration module for sites using Adgangsplatformen.
+ */
+function ding2_update_7080() {
+  if (module_exists('ding_adgangsplatformen')) {
+    module_enable(array('ding_registration'));
+  }
+}
