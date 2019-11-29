@@ -120,7 +120,7 @@ function ding_registration_information() {
         ),
         'query' => array(
           'destination' => DING_REGISTRATION_ACCEPTANCE_URL,
-          'idp' => 'nemid',
+          'idp' => 'nemlogin',
         ),
         'html' => TRUE,
       ),
