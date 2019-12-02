@@ -434,6 +434,11 @@ function ding_serendipity_user_audience($account = NULL) {
     }
   }
 
+  // Temporary fix until the problems is solved within the fbs module.
+  // https://github.com/ding2/ding2/pull/1384/files#r352625895
+  // https://github.com/easySuite/ding2/blob/7.x-5.0.1/modules/ting/src/Search/TingSearchRequest.php#L416
+  $ids = array_filter($ids);
+
   $query = ting_start_query()->withMaterialFilter($ids);
 
   // Skip audience for low or missing loan counts.
