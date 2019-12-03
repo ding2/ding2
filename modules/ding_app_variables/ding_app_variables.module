@@ -28,9 +28,7 @@ function ding_app_variables_menu() {
  *   List of all variables to the output.
  */
 function ding_app_variables_display() {
-  $carousel_configs[] = _ding_app_variables_get_carousel_configs();
-
-  $variables = array(
+  $variables = [
     'opensearch_search_profile',
     'ting_search_results_per_page',
     'opensearch_url',
@@ -39,16 +37,18 @@ function ding_app_variables_display() {
     'opensearch_ranking_fields',
     'opensearch_boost_fields',
     'ting_agency',
-  );
-  $variables_configs = array();
+  ];
+  $variables_configs = [];
   foreach ($variables as $variable) {
     $variables_configs[$variable] = variable_get($variable, '');
   }
-
-  return array(
+  $carousels = _ding_app_variables_get_carousel_configs();
+  return [
     'variables' => $variables_configs,
-    'carousels' => $carousel_configs,
-  );
+    'carousels' => [
+      $carousels
+    ],
+  ];
 }
 
 /**
@@ -61,17 +61,21 @@ function ding_app_variables_display() {
  *   List of carousels pane configurations.
  */
 function _ding_app_variables_get_carousel_configs() {
-  $carousels = array();
+  $carousels = [];
   $query = db_select('panels_pane', 'pp');
   $query->join('page_manager_handlers', 'pmh', 'pp.did = pmh.did');
-  $panes = $query->fields('pp', ['configuration'])
+  $panes = $query->fields('pp', ['configuration', 'pid'])
     ->fields('pmh', ['name'])
     ->condition('pp.type', 'carousel')
     ->condition('pp.subtype', 'carousel')
     ->condition('pp.shown', 1)
     ->execute();
   foreach ($panes as $pane) {
-    $carousels[$pane->name] = unserialize($pane->configuration);
+    $name = "{$pane->name}-{$pane->pid}";
+    if (strpos($pane->name, 'frontpage') !== FALSE) {
+      $name = 'carousel';
+    }
+    $carousels[][$name] = unserialize($pane->configuration);
   }
 
   return $carousels;
