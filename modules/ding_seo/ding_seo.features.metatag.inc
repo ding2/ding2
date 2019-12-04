@@ -40,7 +40,7 @@ function ding_seo_metatag_export_default() {
         'value' => '[ting_object:ding_seo_work_url]',
       ),
       'schema_book.workExample' => array(
-        'value' => 'a:7:{s:5:"@type";s:4:"Book";s:3:"@id";s:27:"[current-page:url:absolute]";s:3:"url";s:27:"[current-page:url:absolute]";s:13:"datePublished";s:18:"[ting_object:year]";s:4:"isbn";s:18:"[ting_object:isbn]";s:11:"bookEdition";s:21:"[ting_object:version]";s:10:"bookFormat";s:34:"[ting_object:ding_seo_book_format]";}',
+        'value' => 'a:9:{s:5:"pivot";s:1:"1";s:5:"@type";s:4:"Book";s:3:"@id";s:70:"[ting_object:ding_seo_ting_object_collection_objects:ting_object_url],";s:4:"name";s:60:"[ting_object:ding_seo_ting_object_collection_objects:title],";s:3:"url";s:70:"[ting_object:ding_seo_ting_object_collection_objects:ting_object_url],";s:13:"datePublished";s:69:"[ting_object:ding_seo_ting_object_collection_objects:date_published],";s:4:"isbn";s:59:"[ting_object:ding_seo_ting_object_collection_objects:isbn],";s:11:"bookEdition";s:62:"[ting_object:ding_seo_ting_object_collection_objects:version],";s:10:"bookFormat";s:66:"[ting_object:ding_seo_ting_object_collection_objects:book_format],";}',
       ),
     ),
   );
