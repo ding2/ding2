@@ -32,6 +32,20 @@ function ding_page_build() {
 }
 
 /**
+ * Implements hook_ding_provider().
+ */
+function ding_adgangsplatformen_ding_provider() {
+  return [
+    'title' => 'Openplatform token provider',
+    'provides' => [
+      'openplatform_token' => [
+        'prefix' => 'openplatform_token',
+      ],
+    ],
+  ];
+}
+
+/**
  * Implements hook_menu().
  */
 function ding_adgangsplatformen_menu() {
@@ -130,6 +144,29 @@ function ding_adgangsplatformen_ajax_login_command($path) {
 }
 
 /**
+ * Provider function.
+ */
+function ding_adgangsplatformen_openplatform_token_get() {
+  $token = variable_get('ding_adgangsplatformen_openplatform_token_debug_override', NULL);
+
+  if (!$token && isset($_SESSION['ding_adgangsplatformen_openplatform_token_get'])) {
+    $token = $_SESSION['ding_adgangsplatformen_openplatform_token_get'];
+  }
+
+  return $token;
+}
+
+/**
+ * Set token for ding_adgangsplatformen_openplatform_token_get.
+ *
+ * @param string $token
+ *   Token to save.
+ */
+function ding_adgangsplatformen_openplatform_token_set($token) {
+  $_SESSION['ding_adgangsplatformen_openplatform_token_get'] = $token;
+}
+
+/**
  * Get the authentication configuration.
  *
  * @return array
@@ -138,9 +175,13 @@ function ding_adgangsplatformen_ajax_login_command($path) {
  */
 function ding_adgangsplatformen_get_configuration() {
   global $base_url;
-  $config = variable_get('ding_adgangsplatformen_settings', array(
+  $defaults = [
     'clientId' => '',
     'clientSecret' => '',
+    'auth_client' => [
+      'authClientId' => '',
+      'authClientSecret' => '',
+    ],
     'redirectUri' => $base_url . '/' . DING_ADGANGSPLATFORMEN_REDIRECT_URL,
     'urlAuthorize' => 'https://login.bib.dk/oauth/authorize',
     'urlAccessToken' => 'https://login.bib.dk/oauth/token/',
@@ -149,7 +190,9 @@ function ding_adgangsplatformen_get_configuration() {
     'singleLogout' => TRUE,
     'automaticallyAgency' => TRUE,
     'singleLogoutOrigin' => 'https://login.bib.dk/',
-  ));
+  ];
+
+  $config = variable_get('ding_adgangsplatformen_settings', $defaults);
 
   // All-ways set redirect url (editing not allowed) in admin.
   $config['redirectUri'] = $base_url . '/' . DING_ADGANGSPLATFORMEN_REDIRECT_URL;
@@ -173,7 +216,7 @@ function ding_adgangsplatformen_get_configuration() {
 function ding_adgangsplatformen_generate_login_url($destination = '') {
   $configuration = ding_adgangsplatformen_get_configuration();
 
-  $provider = ding_adgangsplatformen_get_provider();
+  $provider = ding_adgangsplatformen_get_provider(TRUE);
   $authorization_url = $provider->getAuthorizationUrl();
 
   // Get the state generated for you and store it to the session.
@@ -229,6 +272,9 @@ function ding_adgangsplatformen_logout($regen_session = FALSE) {
   $singleLogout = $config['singleLogout'] ? 'true' : 'false';
   $token = $_SESSION['oauth2token'];
 
+  // Remove token.
+  ding_adgangsplatformen_openplatform_token_set(NULL);
+
   // Generate logout request for the authorization service and send the request.
   $logout_url = url(
     $config['urlLogout'],
@@ -276,6 +322,9 @@ function ding_adgangsplatformen_logout_iframe() {
     // We do not call user_logout_current_user() directly as this would cause
     // ding_adgangsplatformen_logout() to redirect back to Adgangsplatformen.
     session_destroy();
+
+    // Remove token.
+    ding_adgangsplatformen_openplatform_token_set(NULL);
   }
 
   // Logout requests must never be cached. A cached response would cause
@@ -322,7 +371,7 @@ function ding_adgangsplatformen_callback() {
   else {
     try {
       // Try to get an access token using the authorization code grant.
-      $provider = ding_adgangsplatformen_get_provider();
+      $provider = ding_adgangsplatformen_get_provider(TRUE);
       $access_token = $provider->getAccessToken('authorization_code', ['code' => $_GET['code']]);
 
       // Store access token for later usage.
@@ -334,6 +383,25 @@ function ding_adgangsplatformen_callback() {
       $response = $provider->getResponse($request);
       $user_info = $response->getBody()->getContents();
       $user_info = drupal_json_decode($user_info);
+
+      if (ding_adgangsplatformen_has_token_client()) {
+        if (!empty($user_info['attributes']['userId']) && !empty($user_info['attributes']['pincode'])) {
+          // Get a token with less privileges by logging in with name and pin on
+          // another client.
+          $token_provider = ding_adgangsplatformen_get_provider();
+          $auth = [
+            'username' => $user_info['attributes']['userId'],
+            'password' => $user_info['attributes']['pincode'],
+          ];
+          $token_access_token = $token_provider->getAccessToken('password', $auth);
+
+          ding_adgangsplatformen_openplatform_token_set($token_access_token->getToken());
+        }
+        else {
+          watchdog('ding_adgangsplatformen', "Cannot get authentication token, missing userId and/or pincode", NULL, WATCHDOG_WARNING);
+          ding_adgangsplatformen_openplatform_token_set(NULL);
+        }
+      }
 
       //
       // HACK: this invalidates the access token and should be removed later on.
@@ -391,15 +459,40 @@ function ding_adgangsplatformen_callback() {
 /**
  * Get oAuth2 provider.
  *
+ * @param bool $auth
+ *   Whether to get the auth client with elevated permissions.
+ *
  * @return \League\OAuth2\Client\Provider\GenericProvider
  *   Provider with basic configuration.
  *
  * @throws Exception
  *   If required libraries are not loaded.
  */
-function ding_adgangsplatformen_get_provider() {
+function ding_adgangsplatformen_get_provider($auth = FALSE) {
   $configuration = ding_adgangsplatformen_get_configuration();
+
+  $clientId = variable_get('ding_adgangsplatformen_auth_client_id', NULL);
+  $clientSecret = variable_get('ding_adgangsplatformen_auth_client_secret', NULL);
+
+  if ($auth && $clientId && $clientSecret) {
+    $configuration['clientId'] = $$clientId;
+    $configuration['clientSecret'] = $$clientSecret;
+  }
+
   return new GenericProvider($configuration);
+}
+
+/**
+ * Whether we have a less privileged clientId for fetching token.
+ *
+ * @return bool
+ *   Do we have clientId?
+ */
+function ding_adgangsplatformen_has_token_client() {
+  $clientId = variable_get('ding_adgangsplatformen_auth_client_id', NULL);
+  $clientSecret = variable_get('ding_adgangsplatformen_auth_client_secret', NULL);
+
+  return $clientId && $clientSecret;
 }
 
 /**
