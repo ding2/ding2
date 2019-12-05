@@ -550,14 +550,14 @@ function _ding_adgangsplatformen_provider_login(array $user_info) {
       // adgangsplatformen. But pre-authenticate can't use the card no. so
       // fallback to CPR if it's given.
       //
-      'name' => is_null($user_info['attributes']['cpr']) ? $user_info['attributes']['userId'] : $user_info['attributes']['cpr'],
+      'name' => empty($user_info['attributes']['cpr']) ? $user_info['attributes']['userId'] : $user_info['attributes']['cpr'],
       //
       // HACK: The pincode used here should be removed later on. This only
       // exists to get around pre-authentication issues currently in FBS.
       //
       'pass' => isset($user_info['attributes']['pincode']) ? $user_info['attributes']['pincode'] : '',
       'extra' => $user_info,
-      'single_sign_on' => !is_null($user_info['attributes']['cpr']),
+      'single_sign_on' => !empty($user_info['attributes']['cpr']),
     ));
 
     if ($account !== FALSE) {
