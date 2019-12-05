@@ -913,3 +913,10 @@ function ding2_update_7077() {
     db_drop_table($table);
   }
 }
+
+/**
+ * Enable ding_react.
+ */
+function ding2_update_7078() {
+  module_enable(['ding_react']);
+}

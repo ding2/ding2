@@ -29,6 +29,7 @@
   stylesheets[all][] = sass_css/components/messages.css
   stylesheets[all][] = sass_css/components/webform.css
   stylesheets[all][] = sass_css/components/ding-carousel.css
+  stylesheets[all][] = sass_css/components/ding-react.css
   stylesheets[all][] = sass_css/components/ding-tabroll.css
   stylesheets[all][] = sass_css/components/user.css
   stylesheets[all][] = sass_css/components/modal-content.css

@@ -1,0 +1,43 @@
+// ding_react element styling.
+
+@import '../base.scss';
+
+.has-add-to-searchlist .form-item-search-block-form {
+  position: relative;
+
+  // Leaving space for the star on the search input element.
+  > .form-text {
+    padding-right: 40px;
+    box-sizing: border-box;
+  }
+
+  .ddb-btn {
+    position: absolute;
+    background: transparent;
+    top: 50%;
+    right: 0;
+    width: 40px;
+    margin: 0;
+    padding: 0;
+    transform: translateY(-50%);
+    text-align: center;
+
+    cursor: pointer;
+    font-size: 0;
+
+    &::after {
+      color: $color-standard-text;
+      @extend %icon-star-outline;
+      @extend %icomoon-base;
+
+      font-size: 25px;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      &::after {
+        @extend %icon-star;
+      }
+    }
+  }
+}

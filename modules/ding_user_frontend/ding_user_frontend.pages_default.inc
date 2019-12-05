@@ -518,6 +518,158 @@ function ding_user_frontend_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
+  $page->name = 'user_checklist';
+  $page->task = 'page';
+  $page->admin_title = 'User checklist';
+  $page->admin_description = '';
+  $page->path = 'user/%user/checklist';
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'My checklist',
+    'name' => 'navigation',
+    'weight' => '6',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'user' => array(
+      'id' => 1,
+      'identifier' => 'User: ID',
+      'name' => 'entity_id:user',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_user_checklist__panel_context_a822c330-2715-4325-b2b0-6c8012f3c3bf';
+  $handler->task = 'page';
+  $handler->subtask = 'user_checklist';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => '',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => '',
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'afc7c078-151d-40f8-b503-1ca8abb56201';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'path' => '',
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $display->content['new-2567061b-6c7f-4208-9f1e-81cecd5840ff'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $pane = new stdClass();
+    $pane->pid = 'new-66777ca4-0106-48a8-90b3-a08d14fb7c04';
+    $pane->panel = 'main_content';
+    $pane->type = 'checklist';
+    $pane->subtype = 'checklist';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '66777ca4-0106-48a8-90b3-a08d14fb7c04';
+    $display->content['new-66777ca4-0106-48a8-90b3-a08d14fb7c04'] = $pane;
+    $display->panels['main_content'][0] = 'new-66777ca4-0106-48a8-90b3-a08d14fb7c04';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-66777ca4-0106-48a8-90b3-a08d14fb7c04';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['user_checklist'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
   $page->name = 'user_debts';
   $page->task = 'page';
   $page->admin_title = 'User debts';
@@ -729,6 +881,158 @@ function ding_user_frontend_default_page_manager_pages() {
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['user_debts'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'user_followed_searches';
+  $page->task = 'page';
+  $page->admin_title = 'User followed searches';
+  $page->admin_description = '';
+  $page->path = 'user/%user/followed-searches';
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'compare_users',
+        'settings' => array(
+          'equality' => '1',
+        ),
+        'context' => array(
+          0 => 'argument_entity_id:user_1',
+          1 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
+  $page->menu = array(
+    'type' => 'tab',
+    'title' => 'My followed searches',
+    'name' => 'navigation',
+    'weight' => '6',
+    'parent' => array(
+      'type' => 'none',
+      'title' => '',
+      'name' => 'navigation',
+      'weight' => '0',
+    ),
+  );
+  $page->arguments = array(
+    'user' => array(
+      'id' => 1,
+      'identifier' => 'User: ID',
+      'name' => 'entity_id:user',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_user_followed_searches__panel_context_4d18da20-ecc4-481d-b12f-b399e229d7a1';
+  $handler->task = 'page';
+  $handler->subtask = 'user_followed_searches';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => '',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => '',
+        ),
+      ),
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'afc7c078-151d-40f8-b503-1ca8abb56201';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'path' => '',
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $display->content['new-2567061b-6c7f-4208-9f1e-81cecd5840ff'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
+    $pane = new stdClass();
+    $pane->pid = 'new-61dce110-6adc-41ca-91d4-80cb8e84a680';
+    $pane->panel = 'main_content';
+    $pane->type = 'followed_searches';
+    $pane->subtype = 'followed_searches';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '61dce110-6adc-41ca-91d4-80cb8e84a680';
+    $display->content['new-61dce110-6adc-41ca-91d4-80cb8e84a680'] = $pane;
+    $display->panels['main_content'][0] = 'new-61dce110-6adc-41ca-91d4-80cb8e84a680';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['user_followed_searches'] = $page;
 
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
@@ -1078,139 +1382,6 @@ function ding_user_frontend_default_page_manager_pages() {
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['user_loans_overdue'] = $page;
-
-  $page = new stdClass();
-  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
-  $page->api_version = 1;
-  $page->name = 'user_my_library';
-  $page->task = 'page';
-  $page->admin_title = 'User my library';
-  $page->admin_description = '';
-  $page->path = 'user/%user/my-library';
-  $page->access = array(
-    'plugins' => array(
-      0 => array(
-        'name' => 'compare_users',
-        'settings' => array(
-          'equality' => '1',
-        ),
-        'context' => array(
-          0 => 'argument_entity_id:user_1',
-          1 => 'logged-in-user',
-        ),
-        'not' => FALSE,
-      ),
-    ),
-    'logic' => 'and',
-  );
-  $page->menu = array(
-    'type' => 'tab',
-    'title' => 'Mit personlige bibliotek',
-    'name' => 'navigation',
-    'weight' => '6',
-    'parent' => array(
-      'type' => 'none',
-      'title' => '',
-      'name' => 'navigation',
-      'weight' => '0',
-    ),
-  );
-  $page->arguments = array(
-    'user' => array(
-      'id' => 1,
-      'identifier' => 'User: ID',
-      'name' => 'entity_id:user',
-      'settings' => array(),
-    ),
-  );
-  $page->conf = array(
-    'admin_paths' => FALSE,
-  );
-  $page->default_handlers = array();
-  $handler = new stdClass();
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
-  $handler->name = 'page_user_my_library__panel';
-  $handler->task = 'page';
-  $handler->subtask = 'user_my_library';
-  $handler->handler = 'panel_context';
-  $handler->weight = 0;
-  $handler->conf = array(
-    'title' => 'Panel',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'body_classes_to_remove' => '',
-    'body_classes_to_add' => '',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'name' => 'panel',
-    'metatag_panels' => array(
-      'enabled' => 1,
-      'metatags' => array(
-        'title' => array(
-          'value' => 'My personal library | [current-page:pager][site:name]',
-        ),
-      ),
-    ),
-  );
-  $display = new panels_display();
-  $display->layout = '25_50_25';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'left_sidebar' => NULL,
-      'main_content' => NULL,
-      'right_sidebar' => NULL,
-      'attachment_4_1' => NULL,
-      'attachment_4_2' => NULL,
-      'attachment_4_3' => NULL,
-      'attachment_4_4' => NULL,
-      'attachment_3_1' => NULL,
-      'attachment_3_2' => NULL,
-      'attachment_3_3' => NULL,
-      'attachment_2_1' => NULL,
-      'attachment_2_2' => NULL,
-      'attachment_1_1' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = '';
-  $display->uuid = 'afc7c078-151d-40f8-b503-1ca8abb56201';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass();
-    $pane->pid = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
-    $pane->panel = 'left_sidebar';
-    $pane->type = 'user_menu';
-    $pane->subtype = 'user_menu';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'path' => '',
-      'context' => 'argument_entity_id:user_1',
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '2567061b-6c7f-4208-9f1e-81cecd5840ff';
-    $display->content['new-2567061b-6c7f-4208-9f1e-81cecd5840ff'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $pages['user_my_library'] = $page;
 
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
