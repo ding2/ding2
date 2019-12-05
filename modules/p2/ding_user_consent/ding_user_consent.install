@@ -17,7 +17,7 @@ function ding_user_consent_uninstall() {
     }
   }
 
-  variable_get('user_consent_activate');
+  variable_del('user_consent_activate');
   db_delete('variable')
     ->condition('name', 'ding_user_consent_%', 'like')
     ->execute();
