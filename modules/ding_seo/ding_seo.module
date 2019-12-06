@@ -6,6 +6,43 @@
  */
 
 /**
+ * Implements hook_metatag_metatags_view_alter().
+ */
+function ding_seo_metatag_metatags_view_alter(&$output, $instance, $options) {
+  foreach ($output as $metatag => $metatag_output) {
+    if (!empty($output[$metatag]['#attached']['drupal_add_html_head'][0][0]['#attributes']['schema_metatag'])) {
+      $content = &$output[$metatag]['#attached']['drupal_add_html_head'][0][0]['#attributes']['content'];
+      if (is_array($content)) {
+        $content = ding_seo_filter_pivoted_values_recursive($content);
+      }
+    }
+  }
+}
+
+/**
+ * Filter out pivot values marked as empty by ding_seo.
+ *
+ * @param $values
+ *   Array of pivoted values from shema_metatag module, which may contain values
+ *   marked as empty by ding_seo.
+ *
+ * @return array
+ *   The filtered array.
+ */
+function ding_seo_filter_pivoted_values_recursive($values) {
+  if (!is_array($values)) {
+    return $values;
+  }
+  $values = array_map(function($value) {
+    return ding_seo_filter_pivoted_values_recursive($value);
+  }, $values);
+  return array_filter($values, function($value) {
+    // Negate the empty value to remove it.
+    return $value !== 'N/A';
+  });
+}
+
+/**
  * Implements hook_metatag_get_entity_metatags_instance_alter().
  *
  * Note: appearently this hook has to reside in module file and can not be in
