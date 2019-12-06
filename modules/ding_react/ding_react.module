@@ -30,6 +30,17 @@ function ding_react_libraries_info() {
 }
 
 /**
+ * Implements hook_ding_provider_user().
+ */
+function ding_react_ding_provider_user() {
+  return array(
+    'openplatform_token' => array(
+      'required' => TRUE,
+    ),
+  );
+}
+
+/**
  * Implements hook_ding_entity_buttons().
  */
 function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', $widget = 'default') {
@@ -55,6 +66,17 @@ function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', 
 function ding_react_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' || $module == 'panels') {
     return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function ding_react_user_login(&$edit, $account) {
+  $token = ding_provider_invoke('openplatform_token', 'get');
+
+  if ($token) {
+    drupal_add_js('window.localStorage.setItem("ddb-token", "' . $token . '")', 'inline');
   }
 }
 
