@@ -66,16 +66,6 @@
 
   stylesheets[all][] = sass_css/layout/panel.css
 
-  stylesheets[all][] = sass_css/p2/p2-ding-interaction.css
-  stylesheets[all][] = sass_css/p2/p2-class.css
-  stylesheets[all][] = sass_css/p2/p2-class-panel.css
-  stylesheets[all][] = sass_css/p2/p2-entity-buttons.css
-  stylesheets[all][] = sass_css/p2/p2-list.css
-  stylesheets[all][] = sass_css/p2/p2-rating.css
-  stylesheets[all][] = sass_css/p2/p2-view.css
-  stylesheets[all][] = sass_css/p2/p2-serendipity.css
-  stylesheets[all][] = sass_css/p2/p2-user-consent.css
-
   stylesheets[all][] = sass_css/add-ons/factbox.css
   stylesheets[all][] = sass_css/add-ons/frontpage-header.css
   stylesheets[all][] = sass_css/add-ons/genre-list.css
@@ -105,10 +95,6 @@
   scripts[] = scripts/ting-object/ting-object.js
 
   scripts[] = scripts/view.js
-
-  scripts[] = scripts/p2/p2-notification.js
-  scripts[] = scripts/p2/p2-lists.js
-
 
 ;----------// Regions
   regions[header]            = Header

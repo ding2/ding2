@@ -31,10 +31,6 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
   /* No results behavior: Global: Text area */
@@ -682,13 +678,6 @@ function ding_staff_views_default_views() {
       'override_label' => 1,
       'label' => 'Edit user roles',
     ),
-    'action::views_bulk_operations_user_roles_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 1,
-      'label' => 'Change user roles',
-    ),
     'action::views_bulk_operations_modify_action' => array(
       'selected' => 1,
       'postpone_processing' => 0,
@@ -707,15 +696,6 @@ function ding_staff_views_default_views() {
         ),
       ),
     ),
-    'action::views_bulk_operations_argument_selector_action' => array(
-      'selected' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-      'settings' => array(
-        'url' => '',
-      ),
-    ),
     'action::system_send_email_action' => array(
       'selected' => 1,
       'postpone_processing' => 0,
@@ -725,27 +705,6 @@ function ding_staff_views_default_views() {
     ),
     'action::views_bulk_operations_delete_item' => array(
       'selected' => 1,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::flag_user_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::views_bulk_operations_script_action' => array(
-      'selected' => 0,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::pathauto_user_update_action' => array(
-      'selected' => 0,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
@@ -794,7 +753,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_surname']['field'] = 'field_ding_staff_surname';
   $handler->display->display_options['fields']['field_ding_staff_surname']['relationship'] = 'profile';
   $handler->display->display_options['fields']['field_ding_staff_surname']['label'] = 'Surname (Staff)';
-  /* Field: User: Active */
+  /* Field: User: Active status */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'users';
   $handler->display->display_options['fields']['status']['field'] = 'status';
@@ -812,12 +771,12 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['access']['table'] = 'users';
   $handler->display->display_options['fields']['access']['field'] = 'access';
   $handler->display->display_options['fields']['access']['date_format'] = 'raw time ago';
-  /* Field: User: Edit link */
+  /* Field: User: Link to edit user */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'users';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['label'] = 'Handlinger';
-  /* Field: User: Cancel link */
+  /* Field: User: Link to cancel user */
   $handler->display->display_options['fields']['cancel_node']['id'] = 'cancel_node';
   $handler->display->display_options['fields']['cancel_node']['table'] = 'users';
   $handler->display->display_options['fields']['cancel_node']['field'] = 'cancel_node';
@@ -879,7 +838,7 @@ function ding_staff_views_default_views() {
     3 => 0,
     8 => 0,
   );
-  /* Filter criterion: User: Active */
+  /* Filter criterion: User: Active status */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'users';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -1025,7 +984,7 @@ function ding_staff_views_default_views() {
     3 => 0,
     8 => 0,
   );
-  /* Filter criterion: User: Active */
+  /* Filter criterion: User: Active status */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'users';
   $handler->display->display_options['filters']['status']['field'] = 'status';

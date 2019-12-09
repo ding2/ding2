@@ -1206,28 +1206,6 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->uuid = '2567061b-6c7f-4208-9f1e-81cecd5840ff';
     $display->content['new-2567061b-6c7f-4208-9f1e-81cecd5840ff'] = $pane;
     $display->panels['left_sidebar'][0] = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
-    $pane = new stdClass();
-    $pane->pid = 'new-5d084033-4aa3-42e4-9303-c5fdde6d7d29';
-    $pane->panel = 'main_content';
-    $pane->type = 'lists';
-    $pane->subtype = 'lists';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'pane-user-overview-and-lists',
-    );
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '5d084033-4aa3-42e4-9303-c5fdde6d7d29';
-    $display->content['new-5d084033-4aa3-42e4-9303-c5fdde6d7d29'] = $pane;
-    $display->panels['main_content'][0] = 'new-5d084033-4aa3-42e4-9303-c5fdde6d7d29';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-2567061b-6c7f-4208-9f1e-81cecd5840ff';
   $handler->conf['display'] = $display;

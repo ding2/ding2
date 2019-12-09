@@ -843,3 +843,73 @@ function ding2_update_7073() {
 function ding2_update_7074() {
   ding2_translation_update();
 }
+
+/**
+ * Remove P2.
+ */
+function ding2_update_7075() {
+  // Remove the ding_entity_rating_action field.
+  field_delete_field('ding_entity_rating_action');
+  field_purge_batch(1);
+
+  // Only a subset of these should be enabled, but we try to disable and
+  // uninstall all just in case someone runs with an uncommon configuration.
+  $modules = [
+    'ding_interaction_manual',
+    'ding_notifications',
+    'ding_serendipity_ting_entity',
+    'ding_listrescue',
+    'ding_list',
+    'ding_p2_installer',
+    'ding_serendipity_lists',
+    'ding_serendipity_site',
+    'ding_entity_rating_loan_history',
+    'ting_openlist',
+    'ding_sharer',
+    'ding_message',
+    'ding_message_p2_installer',
+    'ding_serendipity',
+    'ding_user_consent',
+    'ding_serendipity_fallback',
+    'ding_serendipity_taxonomy_term',
+    'ding_entity_rating',
+    'ding_interaction',
+    'eck',
+    'message',
+    'similarterms',
+    'simplevar',
+  ];
+
+  module_disable($modules);
+  drupal_uninstall_modules($modules);
+}
+
+/**
+ * Revert modules to remove traces of p2.
+ */
+function ding2_update_7076() {
+  // Need to revert variables for these modules to get rid of the
+  // ding_serendipity_info extra field.
+  $modules = [
+    'ding_campaign_plus' => ['variable'],
+    'ding_paragraphs' => ['variable'],
+    'ding_page' => ['variable'],
+    'ding_event' => ['variable'],
+    'ding_library' => ['variable'],
+    'ding_groups' => ['variable'],
+    'ding_eresource' => ['variable'],
+    'ding_news' => ['variable'],
+  ];
+  features_revert($modules);
+}
+
+/**
+ * Remove old eck tables.
+ */
+function ding2_update_7077() {
+  // Eck doesn't drop it's dynamically created tables, so we'll do it here,
+  // just in case.
+  foreach (db_query('SHOW TABLES LIKE :pattern', [':pattern' => 'eck_%'])->fetchCol() as $table) {
+    db_drop_table($table);
+  }
+}
