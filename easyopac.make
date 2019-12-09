@@ -268,7 +268,7 @@ projects[easyddb_ee_import][type]             = "module"
 projects[easyddb_ee_import][subdir]           = ""
 projects[easyddb_ee_import][download][type]   = "git"
 projects[easyddb_ee_import][download][url]    = "git@github.com:easySuite/easyddb_ee_import.git"
-projects[easyddb_ee_import][download][tag]    = "7.x-5.0.0"
+projects[easyddb_ee_import][download][tag]    = "7.x-5.0.1"
 ;projects[easyddb_ee_import][download][branch] = "development"
 
 projects[easyddb_dams][type]             = "module"
