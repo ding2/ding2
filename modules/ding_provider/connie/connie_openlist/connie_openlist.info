@@ -1,6 +1,0 @@
-name = Connie Openlist
-description = An example openlist provider module for reference and testing. Not for production use.
-package = Providers
-version = 0.1
-core = 7.x
-dependencies[] = ding_provider

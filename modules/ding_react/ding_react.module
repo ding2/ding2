@@ -1,0 +1,154 @@
+<?php
+
+/**
+ * @file
+ * Ding React apps.
+ */
+
+/**
+ * Implements hook_libraries_info().
+ *
+ * For defining external libraries.
+ */
+function ding_react_libraries_info() {
+  return [
+    'ddb-react' => [
+      'name' => 'DDB React',
+      'vendor url' => 'https://github.com/reload/ddb-react',
+      'download url' => 'https://github.com/reload/ddb-react/releases/download/latest/dist.zip',
+      'version' => '1.0.0',
+      'files' => [
+        'js' => [
+          'runtime.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
+          'bundle.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
+          'mount.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
+        ],
+        'css' => ['components.css'],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', $widget = 'default') {
+  if ($type == 'ding_entity') {
+    $return = [];
+
+    $data = [
+      'id' => $entity->ding_entity_id,
+      'text' => t('Tilføj til huskeliste'),
+    ];
+
+    $return[] = [
+      '#markup' => ddb_react_app('add-to-checklist', $data),
+    ];
+
+    return $return;
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_react_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' || $module == 'panels') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_react_form_search_block_form_alter(&$form, $form_state) {
+  // Check if function exists so we don't need to have a hard dependency on
+  // ting_search and opensearch.
+  if (!function_exists('ting_search_current_results') && module_exists('opensearch')) {
+    return;
+  }
+
+  $result = ting_search_current_results();
+
+  if (!$result) {
+    return;
+  }
+
+  $searchRequest = $result->getSearchRequest();
+
+  // This form alter get called a lot, and most of the time the result doesn't
+  // have a searchRequest. Luckily it seems to have in the exact case where we
+  // want to add the button.
+  if (!$searchRequest) {
+    return;
+  }
+
+  $fullTextQuery = $searchRequest->getFullTextQuery();
+  $title = $fullTextQuery;
+
+  // In order to get the correct CQL query, it needs to be run through
+  // TingSearchCqlDoctor.
+  $cqlDoctor = new TingSearchCqlDoctor($fullTextQuery);
+  $fullTextQuery = $cqlDoctor->string_to_cql();
+
+  $data = [
+    'text' => t('Add to followed searches'),
+    'label' => t('Title for saved search'),
+    'defaultTitle' => $title,
+    'searchQuery' => $fullTextQuery,
+    'addButtonLabel' => t('Add'),
+  ];
+
+  $add_search_button = ddb_react_app('add-to-searchlist', $data);
+
+  $form['search_block_form']['#field_suffix'] = $add_search_button;
+  $form['#attributes']['class'][] = 'has-add-to-searchlist';
+}
+
+/**
+ * Return markup for an app.
+ *
+ * @param string $name
+ *   Name of the app.
+ * @param array $data
+ *   Data for the app.
+ *
+ * @return array
+ *   The app build.
+ */
+function ddb_react_app($name, array $data = []) {
+  $attachments = [
+    'libraries_load' => [
+      ['ddb-react'],
+    ],
+    'js' => [
+      libraries_get_path('ddb-react') . '/' . $name . '.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
+      drupal_get_path('module', 'ding_react') . '/js/ding-react.js', ['scope' => 'footer'],
+    ],
+  ];
+
+  if (file_exists(libraries_get_path('ddb-react') . '/' . $name . '.css')) {
+    $attachments['css'] = [
+      libraries_get_path('ddb-react') . '/' . $name . '.css',
+    ];
+  }
+
+  $attributes = [];
+
+  $attributes['data-ddb-app'] = $name;
+
+  foreach ($data as $name => $value) {
+    $attributes['data-' . $name] = $value;
+  }
+
+  $build = [
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#attributes' => $attributes,
+    // Supply an empty string so we don't create a self closing element.
+    '#value' => '',
+    '#attached' => $attachments,
+  ];
+
+  return $build;
+}

@@ -40,7 +40,6 @@ dependencies[] = ding_frontpage
 dependencies[] = ding_session_cache
 dependencies[] = ding_staff
 dependencies[] = bpi
-dependencies[] = ding_p2_installer
 dependencies[] = ding_ddbasic
 dependencies[] = ding_ddbasic_opening_hours
 dependencies[] = ding_social_links

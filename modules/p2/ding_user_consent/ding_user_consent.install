@@ -6,6 +6,24 @@
  */
 
 /**
+ * Implements hook_uninstall().
+ */
+function ding_user_consent_uninstall() {
+  $url = variable_get('ding_user_consent_loan_history_store_description_link', '');
+  if ($url) {
+    list(, $nid) = explode('/', $url);
+    if ($nid) {
+      node_delete($nid);
+    }
+  }
+
+  variable_del('user_consent_activate');
+  db_delete('variable')
+    ->condition('name', 'ding_user_consent_%', 'like')
+    ->execute();
+}
+
+/**
  * Delete user consent node and ding_user_consent_loan_history_store_description_link variable
  */
 function ding_user_consent_update_7001() {
