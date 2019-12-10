@@ -767,7 +767,7 @@ function _ding_nodelist_plugin_content_section(&$form, &$form_state, $node_type,
 
     // Set default field value.
     $first_field = array_shift(array_keys($allowed_fields));
-    $filter = $field_settings[$first_field];
+    $filter = $field_settings[$first_field] ?? [];
 
     $form['ding_nodelist_wrapper']['nodelist_content']['nodelist_content_wrapper']['ding_nodelist_dynamic']['taxonomy_filters'][$key]
       = _ding_nodelist_taxonomy_filter($allowed_fields, $filter, $key);

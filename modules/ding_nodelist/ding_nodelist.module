@@ -1862,6 +1862,14 @@ function ding_nodelist_preprocess(&$variables, $hook) {
         $items[$key]->lead = $lead;
 
         $image_field = 'field_' . $item->type . '_list_image';
+        if ($item->type == 'blog') {
+          $image_field = 'field_ding_blog_list_image';
+
+          $items[$key]->date = date('d.m.y', $item->created);
+          if ($item->created < $item->changed) {
+            $items[$key]->date = date('d.m.y', $item->changed);
+          }
+        }
         $image = _ding_nodelist_get_dams_image_info($item, $image_field);
         $img_url = FALSE;
         if (!empty($image['path'])) {
