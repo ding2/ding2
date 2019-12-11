@@ -7,6 +7,20 @@
 
 /**
  * Implements hook_metatag_metatags_view_alter().
+ *
+ * Schema metatag uses commas as delimiter for multiple values. This poses a
+ * problem if one of our token values contains a comma. This is a known problem
+ * with a proposed solution, but there's no patch for the Drupal 7 version.
+ * There's also the issue with empty values which does not play nicely with the
+ * pivot operation performed by schema metatag. For this issue there is a Drupal
+ * 7 patch, but since we need to handle the comma issue anyway, we chose to
+ * handle both in our alter and avoid the patch. An alternative solution would
+ * be to submit our own Drupal 7 patch to the commma-issue.
+ *
+ * Comma issue: https://www.drupal.org/project/schema_metatag/issues/2988052
+ * Empty values issue: https://www.drupal.org/project/metatag/issues/3067803
+ *
+ *
  */
 function ding_seo_metatag_metatags_view_alter(&$output, $instance, $options) {
   foreach ($output as $metatag => $metatag_output) {
