@@ -33,11 +33,9 @@ function ding_react_libraries_info() {
  * Implements hook_ding_provider_user().
  */
 function ding_react_ding_provider_user() {
-  return array(
-    'openplatform_token' => array(
-      'required' => TRUE,
-    ),
-  );
+  return [
+    'openplatform_token' => []
+  ];
 }
 
 /**
@@ -73,10 +71,14 @@ function ding_react_ctools_plugin_directory($module, $plugin) {
  * Implements hook_user_login().
  */
 function ding_react_user_login(&$edit, $account) {
-  $token = ding_provider_invoke('openplatform_token', 'get');
+  try {
+    $token = ding_provider_invoke('openplatform_token', 'get');
 
-  if ($token) {
-    drupal_add_js('window.localStorage.setItem("ddb-token", "' . $token . '")', 'inline');
+    if ($token) {
+      drupal_add_js('window.localStorage.setItem("ddb-token", "' . $token . '")', 'inline');
+    }
+  } catch (DingProviderNoProvider $e) {
+    watchdog('ding_react', 'Unable to retrieve OpenPlatform token.', WATCHDOG_WARNING);
   }
 }
 
