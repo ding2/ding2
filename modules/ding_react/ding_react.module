@@ -41,9 +41,7 @@ function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', 
       'text' => t('Tilføj til huskeliste'),
     ];
 
-    $return[] = [
-      '#markup' => ddb_react_app('add-to-checklist', $data),
-    ];
+    $return[] = ddb_react_app('add-to-checklist', $data);
 
     return $return;
   }
@@ -101,7 +99,7 @@ function ding_react_form_search_block_form_alter(&$form, $form_state) {
 
   $add_search_button = ddb_react_app('add-to-searchlist', $data);
 
-  $form['search_block_form']['#field_suffix'] = $add_search_button;
+  $form['search_block_form']['#field_suffix'] = drupal_render($add_search_button);
   $form['#attributes']['class'][] = 'has-add-to-searchlist';
 }
 
