@@ -28,7 +28,7 @@
     detach: function(context) {
       var element = getElement(context);
       if (element) {
-        window.unmountDdbApps(element);
+        window.unMountDdbApps(element);
       }
     }
   };
