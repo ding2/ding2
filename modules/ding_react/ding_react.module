@@ -121,7 +121,7 @@ function ddb_react_app($name, array $data = []) {
     ],
     'js' => [
       libraries_get_path('ddb-react') . '/' . $name . '.js' => ['scope' => 'footer', 'group' => JS_LIBRARY],
-      drupal_get_path('module', 'ding_react') . '/js/ding-react.js', ['scope' => 'footer'],
+      drupal_get_path('module', 'ding_react') . '/js/ding-react.js' => ['scope' => 'footer'],
     ],
   ];
 
