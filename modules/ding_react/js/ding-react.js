@@ -22,13 +22,13 @@
       // Ensure that we have a DOM element.
       var element = getElement(context);
       if (element) {
-        window.mountDdbApps(element);
+        window.ddbReact.mount(element);
       }
     },
     detach: function(context) {
       var element = getElement(context);
       if (element) {
-        window.unMountDdbApps(element);
+        window.ddbReact.unmount(element);
       }
     }
   };
