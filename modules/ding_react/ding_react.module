@@ -48,7 +48,7 @@ function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', 
     $data = [
       'id' => $entity->ding_entity_id,
       'text' => t('Tilføj til huskeliste'),
-      'loginUrl' => ding_react_login_url(),
+      'login-url' => ding_react_login_url(),
     ];
 
     $return[] = ding_react_app('add-to-checklist', $data);
@@ -121,10 +121,10 @@ function ding_react_form_search_block_form_alter(&$form, $form_state) {
   $data = [
     'text' => t('Add to followed searches'),
     'label' => t('Title for saved search'),
-    'defaultTitle' => $title,
-    'searchQuery' => $fullTextQuery,
-    'addButtonLabel' => t('Add'),
-    'loginUrl' => ding_react_login_url(),
+    'default-title' => $title,
+    'search-query' => $fullTextQuery,
+    'add-button-label' => t('Add'),
+    'login-url' => ding_react_login_url(),
   ];
 
   $add_search_button = ding_react_app('add-to-searchlist', $data);
