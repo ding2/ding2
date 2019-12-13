@@ -111,6 +111,8 @@ hooks:
     set -e
     cd public
     drush -y updatedb
+    drush css-generate
+    drush cc all
 
   # The configuration of scheduled execution.
 crons:
