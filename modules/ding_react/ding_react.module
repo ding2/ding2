@@ -48,6 +48,7 @@ function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', 
     $data = [
       'id' => $entity->ding_entity_id,
       'text' => t('Tilføj til huskeliste'),
+      'loginUrl' => ding_react_login_url(),
     ];
 
     $return[] = ding_react_app('add-to-checklist', $data);
@@ -69,6 +70,7 @@ function ding_react_ctools_plugin_directory($module, $plugin) {
  * Implements hook_page_build().
  */
 function ding_react_page_build() {
+  $token = FALSE;
   try {
     $token = ding_provider_invoke('openplatform_token', 'get');
 
@@ -78,6 +80,9 @@ function ding_react_page_build() {
   } catch (DingProviderNoProvider $e) {
     watchdog('ding_react', 'Unable to retrieve OpenPlatform token.', WATCHDOG_WARNING);
   }
+
+  $authenticated = ($token) ? 'true' : 'false';
+  drupal_add_js("window.ddbReact = { 'userAuthenticated': ${authenticated} }", 'inline');
 }
 
 /**
@@ -119,6 +124,7 @@ function ding_react_form_search_block_form_alter(&$form, $form_state) {
     'defaultTitle' => $title,
     'searchQuery' => $fullTextQuery,
     'addButtonLabel' => t('Add'),
+    'loginUrl' => ding_react_login_url(),
   ];
 
   $add_search_button = ding_react_app('add-to-searchlist', $data);
@@ -174,4 +180,18 @@ function ding_react_app($name, array $data = []) {
   ];
 
   return $build;
+}
+
+/**
+ * Generate a login url which can be used as a prop for React apps.
+ *
+ * @return string
+ *   Login url.
+ */
+function ding_react_login_url() {
+  return ding_provider_invoke(
+    'openplatform_token',
+    'login_url',
+    ['query' => ['destination' => current_path()]]
+  );
 }

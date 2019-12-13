@@ -157,6 +157,13 @@ function ding_adgangsplatformen_openplatform_token_get() {
 }
 
 /**
+ * Provider function.
+ */
+function ding_adgangsplatformen_openplatform_token_login_url($options = []) {
+  return url(DING_ADGANGSPLATFORMEN_LOGIN_URL, $options);
+}
+
+/**
  * Set token for ding_adgangsplatformen_openplatform_token_get.
  *
  * @param string $token
