@@ -66,9 +66,9 @@ function ding_react_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implements hook_user_login().
+ * Implements hook_page_build().
  */
-function ding_react_user_login(&$edit, $account) {
+function ding_react_page_build() {
   try {
     $token = ding_provider_invoke('openplatform_token', 'get');
 
