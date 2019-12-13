@@ -20,7 +20,7 @@ function ding_react_followed_searches_content_type_render($subtype, $conf, $pane
 
   $block->title = t('My followed searches');
 
-  $block->content = ddb_react_app('searchlist');
+  $block->content = ding_react_app('searchlist');
 
   return $block;
 }

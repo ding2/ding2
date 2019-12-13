@@ -20,7 +20,7 @@ function ding_react_checklist_content_type_render($subtype, $conf, $panel_args, 
 
   $block->title = t('My checklist');
 
-  $block->content = ddb_react_app('checklist');
+  $block->content = ding_react_app('checklist');
 
   return $block;
 }
