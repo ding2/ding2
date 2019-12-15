@@ -20,7 +20,15 @@ function ding_react_checklist_content_type_render($subtype, $conf, $panel_args, 
 
   $block->title = t('My checklist');
 
-  $block->content = ding_react_app('checklist');
+  $data = [
+    // We cannot use url() here as it will encode the colon in the placeholder.
+    'material-url' => '/ting/object/:pid',
+    'author-url' => '/search/ting/phrase.creator=":author"',
+    'remove-button-text' => t('Remove from list'),
+    'empty-list-text' => t('List is empty.'),
+    'error-text' => t('An error occurred while trying to fetch list.')
+  ];
+  $block->content = ding_react_app('checklist', $data);
 
   return $block;
 }
