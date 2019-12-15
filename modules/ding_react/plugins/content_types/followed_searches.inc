@@ -20,7 +20,18 @@ function ding_react_followed_searches_content_type_render($subtype, $conf, $pane
 
   $block->title = t('My followed searches');
 
-  $block->content = ding_react_app('searchlist');
+  $data = [
+    'search-url' => '/search/ting/:query',
+    'material-url' => '/ting/object/:pid',
+    'author-url' => '/search/ting/phrase.creator=":author"',
+    'new-button-text' => t('See new materials'),
+    'remove-button-text' => t('Remove search'),
+    'new-window-text' => t('Opens in a new window'),
+    'status-text' => t(':hit_count new materials since'),
+    'go-to-search-text' => t('Show search result'),
+  ];
+
+  $block->content = ding_react_app('searchlist', $data);
 
   return $block;
 }

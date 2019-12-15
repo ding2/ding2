@@ -47,7 +47,9 @@ function ding_react_ding_entity_buttons($type, $entity, $view_mode = 'default', 
 
     $data = [
       'id' => $entity->ding_entity_id,
-      'text' => t('Tilføj til huskeliste'),
+      'text' => t('Add to checklist'),
+      'error-text' => t('An error occurred'),
+      'success-text' => t('Added to checklist'),
       'login-url' => ding_react_login_url(),
     ];
 
@@ -89,6 +91,8 @@ function ding_react_page_build() {
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_react_form_search_block_form_alter(&$form, $form_state) {
+  global $user;
+
   // Check if function exists so we don't need to have a hard dependency on
   // ting_search and opensearch.
   if (!function_exists('ting_search_current_results') && module_exists('opensearch')) {
@@ -119,12 +123,19 @@ function ding_react_form_search_block_form_alter(&$form, $form_state) {
   $fullTextQuery = $cqlDoctor->string_to_cql();
 
   $data = [
-    'text' => t('Add to followed searches'),
-    'label' => t('Title for saved search'),
     'default-title' => $title,
     'search-query' => $fullTextQuery,
-    'add-button-label' => t('Add'),
     'login-url' => ding_react_login_url(),
+    'button-text' => t('Add to followed searches'),
+    'label' => t('Title for followed search'),
+    'add-button-text' => t('Add'),
+    'error-text' => t('An error occurred'),
+    'success-text' => t('Added to your followed searches.'),
+    'success-link-url' => url("user/{$user->uid}/followed-searches"),
+    'success-link-text' => t('See your followed searches.'),
+    'error-required-message' => t('Title is required.'),
+    'error-max-length-message' => t('Title must not be longer than 256 characters.'),
+    'help-text' => t('To follow your search query you must provide a title.'),
   ];
 
   $add_search_button = ding_react_app('add-to-searchlist', $data);
