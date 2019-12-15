@@ -202,8 +202,7 @@ function ding_seo_tokens($type, $tokens, array $data, array $options) {
  */
 function _ding_seo_generate_collection_objects_value($callback, $objects) {
   return implode(', ', array_map(function($object) use ($callback) {
-    // Wrap the callback in our own to be able to do some basic checking and
-    // normalizing in a central place.
+    // Let the token callback do its thing.
     $value = $callback($object);
 
     // Handle array values.
@@ -211,16 +210,13 @@ function _ding_seo_generate_collection_objects_value($callback, $objects) {
       $value = reset($value);
     }
 
-    // Because we rely on the the pivot setting in Schema metatag module, we
-    // can't allow commas in the value since that is used as separator. For now
-    // we just remove it.
-    $value = str_replace(',', '', $value);
-    // We can not allow empty values or else values will be mixed because of the
-    // way the pivot setting works. Need to find a way to remove these entries
-    // from the final JSON-LD.
-    // See: https://www.drupal.org/docs/8/modules/schemaorg-metatag/pivot
+    // Handle empty values and commas. See comment at metatag_views_alter
+    // implementation for more info on why we do this.
     if (empty($value)) {
-      $value = 'N/A';
+      $value = DING_SEO_EMPTY_PIVOT_VALUE;
+    }
+    else {
+      $value = str_replace(',', DING_SEO_COMMA_PIVOT_VALUE, $value);
     }
 
     return $value;

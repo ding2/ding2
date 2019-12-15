@@ -5,6 +5,9 @@
  * Ding SEO module file.
  */
 
+ define('DING_SEO_EMPTY_PIVOT_VALUE', '|EMPTY|');
+ define('DING_SEO_COMMA_PIVOT_VALUE', '|COMMA|');
+
 /**
  * Implements hook_metatag_metatags_view_alter().
  *
@@ -19,41 +22,50 @@
  *
  * Comma issue: https://www.drupal.org/project/schema_metatag/issues/2988052
  * Empty values issue: https://www.drupal.org/project/metatag/issues/3067803
- *
- *
  */
 function ding_seo_metatag_metatags_view_alter(&$output, $instance, $options) {
   foreach ($output as $metatag => $metatag_output) {
     if (!empty($output[$metatag]['#attached']['drupal_add_html_head'][0][0]['#attributes']['schema_metatag'])) {
       $content = &$output[$metatag]['#attached']['drupal_add_html_head'][0][0]['#attributes']['content'];
       if (is_array($content)) {
-        $content = ding_seo_filter_pivoted_values_recursive($content);
+        $content = ding_seo_format_pivoted_values_recursive($content);
       }
     }
   }
 }
 
 /**
- * Filter out pivot values marked as empty by ding_seo.
+ * Format pivoted values recursively.
  *
  * @param $values
- *   Array of pivoted values from shema_metatag module, which may contain values
- *   marked as empty by ding_seo.
+ *   Array of pivoted values from shema_metatag module.
  *
  * @return array
  *   The filtered array.
  */
-function ding_seo_filter_pivoted_values_recursive($values) {
+function ding_seo_format_pivoted_values_recursive($values) {
+  // Termination.
   if (!is_array($values)) {
     return $values;
   }
+  // Recursive step.
   $values = array_map(function($value) {
-    return ding_seo_filter_pivoted_values_recursive($value);
+    return ding_seo_format_pivoted_values_recursive($value);
   }, $values);
-  return array_filter($values, function($value) {
-    // Negate the empty value to remove it.
-    return $value !== 'N/A';
-  });
+
+  $values = array_map(function($value) {
+    // Mark empty values so they get filtered out below.
+    if ($value === DING_SEO_EMPTY_PIVOT_VALUE) {
+      return FALSE;
+    }
+    // Replace commas if single value string.
+    if (is_string($value)) {
+      $value = str_replace(DING_SEO_COMMA_PIVOT_VALUE, ',', $value);
+    }
+    return $value;
+  }, $values);
+  // Filter out the empty values.
+  return array_filter($values);
 }
 
 /**
